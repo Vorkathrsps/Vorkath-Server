@@ -43,11 +43,11 @@ public final class SessionHandler extends ChannelInboundHandlerAdapter {
         Player player = session.getPlayer();
 
         if (player == null) {
-            //logger.error("channelInactive not possible: "+player);
+            logger.error("channelInactive not possible: "+player);
             return;
         }
         if (player.getUsername() == null || player.getUsername().length() == 0) {
-            //logger.error("channelInactive wtf: "+player);
+            logger.error("channelInactive wtf: "+player);
             return;
         }
         //logger.trace("channelInactive for Player {} state:{}", player, player.getSession().getState());
@@ -70,22 +70,22 @@ public final class SessionHandler extends ChannelInboundHandlerAdapter {
             }
 
             if (throwable instanceof SocketException && throwable.getStackTrace().length > 0 && throwable.getStackTrace()[0].getMethodName().equals("throwConnectionReset")) {
-                //logger.error("connection reset: "+throwable+" : "+session);
+                logger.error("connection reset: "+throwable+" : "+session);
                 return; // dc
             }
             if (throwable instanceof IOException && throwable.getStackTrace().length > 0 && throwable.getStackTrace()[0].getMethodName().equals("writev0")) {
-                //logger.error("connection aborted: "+throwable+" : "+session);
+                logger.error("connection aborted: "+throwable+" : "+session);
                 return; // dc
             }
             if (throwable instanceof ReadTimeoutException) {
-                //logger.info("Channel disconnected due to read timeout (30s): {}.", ctx.channel());
+                logger.info("Channel disconnected due to read timeout (30s): {}.", ctx.channel());
                 ctx.channel().close();
             }
             else {
-                //logger.error("An exception has been caused in the pipeline: {} {}", session, throwable);
+                logger.error("An exception has been caused in the pipeline: {} {}", session, throwable);
             }
         } catch (Exception e) {
-            //logger.error("Uncaught server exception!", e);
+            logger.error("Uncaught server exception!", e);
         }
 
         // dont close on exception, continue

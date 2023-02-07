@@ -169,8 +169,8 @@ public class DefinitionRepository {
             return (T) new EnumDefinition(id, store.getIndex(2).getContainer(8).getFileData(id, true, true));
         } else if (type == AnimationDefinition.class) {
             return (T) new AnimationDefinition(id, store.getIndex(2).getContainer(12).getFileData(id, true, true));
-       // } else if (type == NpcDefinition.class) {
-        //    return (T) new NpcDefinition(id, store.getIndex(2).getContainer(9).getFileData(id, true, true));
+        } else if (type == NpcDefinition.class) {
+            return (T) new NpcDefinition(id, store.getIndex(2).getContainer(9).getFileData(id, true, true));
         }
         else if (type == ObjectDefinition.class) {
             return (T) new ObjectDefinition(id, store.getIndex(2).getContainer(6).getFileData(id, true, true));

@@ -872,31 +872,31 @@ public class NpcDefinition implements Definition {
 
             altForms[length + 1] = var;
         }   else if (opcode == 249)
-        {
-            length = stream.readUByte();
-
-            params = new HashMap<>(length);
-
-            for (int i = 0; i < length; i++)
             {
-                boolean isString = stream.readUByte() == 1;
-                int key = stream.read24BitInt();
-                Object value;
+                length = stream.readUByte();
 
-                if (isString)
+                params = new HashMap<>(length);
+
+                for (int i = 0; i < length; i++)
                 {
-                    value = stream.readString();
-                }
+                    boolean isString = stream.readUByte() == 1;
+                    int key = stream.read24BitInt();
+                    Object value;
 
-                else
-                {
-                    value = stream.readInt();
-                }
+                    if (isString)
+                    {
+                        value = stream.readString();
+                    }
 
-                params.put(key, value);
+                    else
+                    {
+                        value = stream.readInt();
+                    }
+
+                    params.put(key, value);
+                }
             }
         }
-    }
 
     public static int method32(int var0) {
         --var0;

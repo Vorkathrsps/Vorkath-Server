@@ -1,0 +1,56 @@
+{
+  "npcs": [ 10938 ],
+
+"guaranteed": [
+{ "id": 13307, "min": 50000, "max": 100000 }, //BLOOD MONEY
+  { "id": 27604, "min": 1, "max": 2 } //Wilderness Casket
+],
+"tables": [
+{
+"name": "Weapons/Armour",
+"points": 5,
+"items": [
+{ "id": 12877, "min": 1, "max": 1, "points": 60 }, //dharok set
+{ "id": 12881, "min": 1, "max": 1, "points": 60 }, //ahrim set
+{ "id": 12883, "min": 1, "max": 1, "points": 60 }, //karil set
+{ "id": 12873, "min": 5, "max": 5, "points": 60 }, //guthan set
+  { "id": 4151, "min": 1, "max": 1, "points": 60 }, //whip
+  { "id": 6585, "min": 1, "max": 1, "points": 60 }, //fury
+  { "id": 6737, "min": 1, "max": 1, "points": 60 }, //berserker ring
+  { "id": 6733, "min": 1, "max": 1, "points": 60 }, //Archers ring
+  { "id": 6731, "min": 1, "max": 1, "points": 60 }, //seers ring
+  { "id": 26770, "min": 1, "max": 1, "points": 60 }, //berserker i
+  { "id": 26768, "min": 1, "max": 1, "points": 60 }, //archers ring i
+  { "id": 26767, "min": 1, "max": 1, "points": 60 }, //seers i
+  { "id": 11926, "min": 1, "max": 1, "points": 40 }, //odium ward
+  { "id": 11924, "min": 1, "max": 1, "points": 40 }, //malediction ward
+  { "id": 22296, "min": 1, "max": 1, "points": 40 }, //Staff Of Light
+  { "id": 23613, "min": 1, "max": 1, "points": 40 }, //staff of the dead
+  { "id": 6889, "min": 1, "max": 1, "points": 40 }, //mages' book
+  { "id": 6920, "min": 1, "max": 1, "points": 40 }, //infinity boots
+  { "id": 21902, "min": 1, "max": 1, "points": 40 }, //dragon crossbow
+  { "id": 11785, "min": 1, "max": 1, "points": 20 }, //armadyl crossbow
+  { "id": 13235, "min": 1, "max": 1, "points": 20 }, //eternal boots
+  { "id": 13237, "min": 1, "max": 1, "points": 20 }, //pegasian
+  { "id": 13239, "min": 1, "max": 1, "points": 20 }, //primordial boots
+  { "id": 25975, "min": 1, "max": 1, "points": 20 }, //lightbearer
+  { "id": 21047, "min": 1, "max": 1, "points": 5 }, //torn prayer scroll
+  { "id": 21034, "min": 1, "max": 1, "points": 5 }, //dex scroll
+  { "id": 21079, "min": 1, "max": 1, "points": 5 }, //arcane scroll
+  { "id": 13652, "min": 1, "max": 1, "points": 5 }, //dragon claws
+  { "id": 11802, "min": 1, "max": 1, "points": 5 }, //armadyl godsword
+  { "id": 22625, "min": 1, "max": 1, "points": 3 }, //statius helm
+  { "id": 22628, "min": 1, "max": 1, "points": 3 }, //statius platebody
+  { "id": 22631, "min": 1, "max": 1, "points": 3 }, //statius platelegs
+  { "id": 23620, "min": 1, "max": 1, "points": 3 }, //statius warhammer
+  { "id": 22638, "min": 1, "max": 1, "points": 3 }, //morrigan coif
+  { "id": 22641, "min": 1, "max": 1, "points": 3 }, //morrigan plate
+  { "id": 22644, "min": 1, "max": 1, "points": 3 }, //morrigan legs
+  { "id": 22616, "min": 1, "max": 1, "points": 3 }, //vesta plate
+  { "id": 22619, "min": 1, "max": 1, "points": 3 }, //vesta legs
+  { "id": 24617, "min": 1, "max": 1, "points": 3 }, //blighted vesta longsword
+  { "id": 27690, "min": 1, "max": 1, "points": 1 } //voidwaker
+]
+}
+]
+}

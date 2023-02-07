@@ -1,0 +1,31 @@
+{
+  "npcs": [ 7144, 7145, 7146, 7147, 7148, 7149, 7152 ],
+  "guaranteed": [
+    { "id": 592, "min": 1, "max": 1 }, //Ashes
+    { "id": 13307, "min": 250, "max": 15300 }   //blood money
+  ],
+  "PVPWorld": true,
+  "tables": [
+    {
+      "name": "Unique",
+      "points": 1,
+      "items": [
+        { "id": 13307, "min": 300, "max": 650, "points": 8 }, //Blood money
+        { "id": 12914, "min": 2, "max": 10, "points": 8 }, //Antidote++(4) (noted)
+        { "id": 23686, "min": 5, "max": 10, "points": 8 }, //Divine Super combat potion(4) (noted)
+        { "id": 19484, "min": 5, "max": 10, "points": 3}, //Dragon javelins
+        { "id": 19478, "min": 1, "max": 1, "points": 1 }, //Light ballista
+        { "id": 19481, "min": 1, "max": 1, "points": 1 }, //Heavy ballista
+        { "id": 19547, "min": 1, "max": 1, "points": 1 }, //Necklace of anguish
+        { "id": 19544, "min": 1, "max": 1, "points": 1 }, //Tormented bracelet
+        { "id": 19550, "min": 1, "max": 1, "points": 1 }, //Ring of suffering
+        { "id": 19553, "min": 1, "max": 1, "points": 1 } //Amulet of torture
+      ]
+    },
+    {
+      "name": "Empty",
+      "points": 5,
+      "items": [ ]
+    }
+  ]
+}

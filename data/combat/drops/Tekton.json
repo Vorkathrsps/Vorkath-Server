@@ -1,0 +1,45 @@
+{
+  "npcs": [ 7540, 7541, 7542 ],
+  "petItem": 22378,
+  "petRarity": 1000,
+  "tables": [
+    {
+      "name": "Unique",
+      "points": 3,
+      "items": [
+        { "id": 985, "min": 1, "max": 1, "points": 100 }, //Tooth half of a key
+        { "id": 987, "min": 1, "max": 1, "points": 100 }, //Loop half of a key
+        { "id": 989, "min": 1, "max": 1, "points": 95 }, //Crystal key
+        { "id": 11133, "min": 1, "max": 1, "points": 95 }, //Regen bracelet
+        { "id": 6731, "min": 1, "max": 1, "points": 95 }, //Seers ring
+        { "id": 6733, "min": 1, "max": 1, "points": 95 }, //Archers ring
+        { "id": 6735, "min": 1, "max": 1, "points": 95 }, //Warriors ring
+        { "id": 6737, "min": 1, "max": 1, "points": 90 }, //Berserker ring
+        { "id": 12601, "min": 1, "max": 1, "points": 90 }, //Ring of the gods
+        { "id": 12603, "min": 1, "max": 1, "points": 90 }, //Tyrannical ring
+        { "id": 12605, "min": 1, "max": 1, "points": 90 }, //Treasonous ring
+        { "id": 20849, "min": 10, "max": 30, "points": 95 }, //Dragon thrownaxe
+        { "id": 22804, "min": 10, "max": 30, "points": 95 }, //Dragon knife
+        { "id": 22806, "min": 10, "max": 30, "points": 95 }, //Dragon knife p
+        { "id": 22808, "min": 10, "max": 30, "points": 95 }, //Dragon knife p+
+        { "id": 22810, "min": 10, "max": 30, "points": 95 }, //Dragon knife p++
+        { "id": 19484, "min": 10, "max": 30, "points": 95 }, //Dragon javelin
+        { "id": 19490, "min": 10, "max": 30, "points": 95 }, //Dragon javelin p++
+        { "id": 21009, "min": 1, "max": 1, "points": 80 }, //Dragon sword
+        { "id": 21028, "min": 1, "max": 1, "points": 80 }, //Dragon harpoon
+        { "id": 21015, "min": 1, "max": 1, "points": 45 }, //Dinhs bulwark
+        { "id": 22324, "min": 1, "max": 1, "points": 35 }, //Ghrazi rapier
+        { "id": 21006, "min": 1, "max": 1, "points": 40 }, //Kodai wand
+        { "id": 21003, "min": 1, "max": 1, "points": 40 }, //Elder maul
+        { "id": 21018, "min": 1, "max": 1, "points": 25 }, //Ancestral hat
+        { "id": 21021, "min": 1, "max": 1, "points": 25 }, //Ancestral robe top
+        { "id": 21024, "min": 1, "max": 1, "points": 25 } //Ancestral robe bottom
+      ]
+    },
+    {
+      "name": "Empty",
+      "points": 1,
+      "items": []
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "npcs": [ 1677 ],
+  "guaranteed": [
+    { "id": 592, "min": 1, "max": 1, "points": 1 },
+    { "id": 13307, "min": 1000, "max": 25000 }   //Blood money
+  ],
+  "tables": [
+    {
+      "name": "Unique",
+      "points": 1,
+      "items": [
+        { "id": 4753, "min": 1, "max": 1, "points": 5 },
+        { "id": 4757, "min": 1, "max": 1, "points": 5 },
+        { "id": 4759, "min": 1, "max": 1, "points": 5 },
+        { "id": 4755, "min": 1, "max": 1, "points": 5 },
+        { "id": 12851, "min": 1, "max": 1, "points": 1 }
+      ]
+    },
+    {
+      "name": "Empty",
+      "points": 9,
+      "items": [
+      ]
+    }
+  ]
+}

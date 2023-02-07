@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" target="SYSTEM_OUT">
+    <CustomLevels>
+        <CustomLevel name="COMMAND" intLevel="700"/>
+        <CustomLevel name="TRADE" intLevel="700"/>
+        <CustomLevel name="STAKE" intLevel="700"/>
+        <CustomLevel name="LOGIN" intLevel="700"/>
+        <CustomLevel name="LOGOUT" intLevel="700"/>
+        <CustomLevel name="NPC_DROPS" intLevel="700"/>
+        <CustomLevel name="PLAYER_DROPS" intLevel="700"/>
+        <CustomLevel name="PICKUPS" intLevel="700"/>
+        <CustomLevel name="DISPENSER" intLevel="700"/>
+        <CustomLevel name="SHOPS" intLevel="700"/>
+        <CustomLevel name="PLAYER_DEATHS" intLevel="700"/>
+        <CustomLevel name="TRADING_POST" intLevel="700"/>
+        <CustomLevel name="PRESET" intLevel="700"/>
+        <CustomLevel name="NIFFLER" intLevel="700"/>
+        <CustomLevel name="LOOTING_BAG" intLevel="700"/>
+        <CustomLevel name="STARTER_BOX" intLevel="700"/>
+        <CustomLevel name="CLAN_BOX" intLevel="700"/>
+        <CustomLevel name="GAMBLE" intLevel="700"/>
+        <CustomLevel name="FPK_MERK" intLevel="700"/>
+    </CustomLevels>
+    <Appenders>
+        <Console name="outconsole" target="SYSTEM_OUT">
+            <LevelRangeFilter minLevel="INFO" maxLevel="ALL" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%highlight{[%d{dd MMM yyyy, h:mm:ss a}] [%t] [%logger{1}] [%level] %msg%n}{FATAL=bright red, ERROR=red, WARN=yellow, INFO=normal, DEBUG=normal, TRACE=normal}"/>
+        </Console>
+        <Console name="errconsole" target="SYSTEM_ERR">
+            <LevelRangeFilter minLevel="FATAL" maxLevel="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%highlight{[%d{dd MMM yyyy, h:mm:ss a}] [%t] [%logger{1}] [%level] %msg%n}{FATAL=bright red, ERROR=red, WARN=yellow, INFO=normal, DEBUG=normal, TRACE=normal}"/>
+        </Console>
+        <RollingRandomAccessFile  name="errfile" fileName="./data/logs/err.txt" immediateFlush="true" filePattern="./data/logs/err-%d{MM-dd-yyyy-HH-mm-ss}.txt">
+            <LevelRangeFilter minLevel="FATAL" maxLevel="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] [%logger{1}] [%level] %msg%n"/>
+            <policies>
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </policies>
+        </RollingRandomAccessFile >
+        <RollingRandomAccessFile  name="outfile" fileName="./data/logs/out.txt" immediateFlush="true" filePattern="./data/logs/out-%d{MM-dd-yyyy-HH-mm-ss}.txt">
+            <LevelRangeFilter minLevel="WARN" maxLevel="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] [%logger{1}] [%level] %msg%n"/>
+            <policies>
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </policies>
+        </RollingRandomAccessFile >
+        <RollingRandomAccessFile  name="tracefile" fileName="./data/logs/traces.txt" immediateFlush="true" filePattern="./data/logs/traces-%d{MM-dd-yyyy-HH-mm-ss}.txt">
+            <LevelRangeFilter minLevel="INFO" maxLevel="ALL" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] [%logger{1}] [%level] %msg%n"/>
+            <policies>
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </policies>
+        </RollingRandomAccessFile >
+        <RandomAccessFile name="commandfile" fileName="./data/logs/command_logs.txt">
+            <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] %msg%n"/>
+        </RandomAccessFile>
+        <RandomAccessFile name="tradefile" fileName="./data/logs/trade_logs.txt">
+            <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] %msg%n"/>
+        </RandomAccessFile>
+        <RandomAccessFile name="stakefile" fileName="./data/logs/stake_logs.txt">
+            <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] %msg%n"/>
+        </RandomAccessFile>
+        <RandomAccessFile name="loginfile" fileName="./data/logs/login_logs.txt">
+            <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] %msg%n"/>
+        </RandomAccessFile>
+        <RandomAccessFile name="logoutfile" fileName="./data/logs/logout_logs.txt">
+            <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] %msg%n"/>
+        </RandomAccessFile>
+        <RandomAccessFile name="npcdropfile" fileName="./data/logs/npc_drop_logs.txt">
+            <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] %msg%n"/>
+        </RandomAccessFile>
+        <RandomAccessFile name="playerdropfile" fileName="./data/logs/player_drop_logs.txt">
+            <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] %msg%n"/>
+        </RandomAccessFile>
+        <RandomAccessFile name="pickupfile" fileName="./data/logs/pickup_logs.txt">
+            <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] %msg%n"/>
+        </RandomAccessFile>
+        <RandomAccessFile name="dispenserfile" fileName="./data/logs/dispenser_logs.txt">
+            <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] %msg%n"/>
+        </RandomAccessFile>
+        <RandomAccessFile name="shopsfile" fileName="./data/logs/shops_logs.txt">
+            <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] %msg%n"/>
+        </RandomAccessFile>
+        <RandomAccessFile name="playerdeathsfile" fileName="./data/logs/player_deaths_logs.txt">
+            <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] %msg%n"/>
+        </RandomAccessFile>
+        <RandomAccessFile name="tradingpostfile" fileName="./data/logs/trading_post_logs.txt">
+            <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] %msg%n"/>
+        </RandomAccessFile>
+        <RandomAccessFile name="presetfile" fileName="./data/logs/preset_logs.txt">
+            <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] %msg%n"/>
+        </RandomAccessFile>
+        <RandomAccessFile name="nifflerfile" fileName="./data/logs/niffler_logs.txt">
+            <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] %msg%n"/>
+        </RandomAccessFile>
+        <RandomAccessFile name="lootingbagfile" fileName="./data/logs/looting_bag_logs.txt">
+            <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] %msg%n"/>
+        </RandomAccessFile>
+        <RandomAccessFile name="starterboxfile" fileName="./data/logs/starter_box_logs.txt">
+            <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] %msg%n"/>
+        </RandomAccessFile>
+        <RandomAccessFile name="clanboxfile" fileName="./data/logs/clan_box_logs.txt">
+            <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] %msg%n"/>
+        </RandomAccessFile>
+        <RandomAccessFile name="gamblefile" fileName="./data/logs/gamble_logs.txt">
+            <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] %msg%n"/>
+        </RandomAccessFile>
+        <RandomAccessFile name="fpkmerkfile" fileName="./data/logs/fpk_merk_logs.txt">
+            <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] %msg%n"/>
+        </RandomAccessFile>
+    </Appenders>
+    <Loggers>
+        <Root level="TRACE">
+            <AppenderRef ref="outconsole"/>
+            <AppenderRef ref="errconsole"/>
+            <AppenderRef ref="outfile"/>
+            <AppenderRef ref="errfile"/>
+            <AppenderRef ref="tracefile"/>
+        </Root>
+        <logger name="com.aelous.model.entity.player.Player" level="ERROR" additivity="false">
+        </logger>
+        <logger name="com.aelous.game.LoginService" level="WARN" additivity="false">
+        </logger>
+        <logger name="com.aelous.game.LoginService" level="ERROR" additivity="false">
+        </logger>
+        <logger name="com.aelous.game.LogoutService" level="ERROR" additivity="false">
+        </logger>
+        <logger name="io.netty" level="ERROR" additivity="false">
+        </logger>
+        <logger name="CommandLogs" level="COMMAND">
+            <AppenderRef ref="commandfile"/>
+        </logger>
+        <logger name="TradeLogs" level="TRADE">
+            <AppenderRef ref="tradefile"/>
+        </logger>
+        <logger name="StakeLogs" level="STAKE">
+            <AppenderRef ref="stakefile"/>
+        </logger>
+        <logger name="NpcDropLogs" level="NPC_DROPS">
+            <AppenderRef ref="npcdropfile"/>
+        </logger>
+        <logger name="PlayerDropLogs" level="PLAYER_DROPS">
+            <AppenderRef ref="playerdropfile"/>
+        </logger>
+        <logger name="PickupLogs" level="PICKUPS">
+            <AppenderRef ref="pickupfile"/>
+        </logger>
+        <logger name="LoginLogs" level="LOGIN">
+            <AppenderRef ref="loginfile"/>
+        </logger>
+        <logger name="LogoutLogs" level="LOGOUT">
+            <AppenderRef ref="logoutfile"/>
+        </logger>
+        <logger name="DispenserLogs" level="DISPENSER">
+            <AppenderRef ref="dispenserfile"/>
+        </logger>
+        <logger name="ShopsLogs" level="SHOPS">
+            <AppenderRef ref="shopsfile"/>
+        </logger>
+        <logger name="PlayerDeathsLogs" level="PLAYER_DEATHS">
+            <AppenderRef ref="playerdeathsfile"/>
+        </logger>
+        <logger name="TradingPostLogs" level="TRADING_POST">
+            <AppenderRef ref="tradingpostfile"/>
+        </logger>
+        <logger name="PresetLogs" level="PRESET">
+            <AppenderRef ref="presetfile"/>
+        </logger>
+        <logger name="NifflerLogs" level="NIFFLER">
+            <AppenderRef ref="nifflerfile"/>
+        </logger>
+        <logger name="LootingBagLogs" level="LOOTING_BAG">
+            <AppenderRef ref="lootingbagfile"/>
+        </logger>
+        <logger name="StarterBoxLogs" level="STARTER_BOX">
+            <AppenderRef ref="starterboxfile"/>
+        </logger>
+        <logger name="ClanBoxLogs" level="CLAN_BOX">
+            <AppenderRef ref="clanboxfile"/>
+        </logger>
+        <logger name="GambleLogs" level="GAMBLE">
+            <AppenderRef ref="gamblefile"/>
+        </logger>
+        <logger name="FpkMerkLogs" level="FPK_MERK">
+            <AppenderRef ref="fpkmerkfile"/>
+        </logger>
+    </Loggers>
+</Configuration>

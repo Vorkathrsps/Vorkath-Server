@@ -1,0 +1,726 @@
+[
+  {
+    "ids": [
+      6593
+    ],
+    "maxhit": 23,
+    "attackspeed": 4,
+    "deathlen": 5,
+    "aggressive": true,
+    "slayerlvl": 1,
+    "slayerxp": 248,
+    "aggroradius": 2,
+    "stats": {
+      "attack": 240,
+      "strength": 220,
+      "defence": 220,
+      "hitpoints": 230
+    },
+    "bonuses": {
+      "stabdefence": 70,
+      "slashdefence": 90,
+      "crushdefence": 90,
+      "rangeddefence": 70,
+      "magicdefence": 80
+    },
+    "animations": {
+      "attack": 80,
+      "block": 89,
+      "death": 92
+    },
+    "sounds": {
+      "attack": [
+        408
+      ],
+      "block": [
+        410
+      ],
+      "death": [
+        409
+      ]
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.dragons.BasicDragon"
+    }
+  },
+  {
+    "ids": [
+      2844
+    ],
+    "maxhit": 7,
+    "attackspeed": 4,
+    "deathlen": 5,
+    "aggressive": true,
+    "slayerlvl": 1,
+    "slayerxp": 48,
+    "stats": {
+      "attack": 38,
+      "strength": 38,
+      "defence": 29,
+      "hitpoints": 45
+    },
+    "bonuses": {
+      "stabdefence": 10,
+      "slashdefence": 5,
+      "crushdefence": 15,
+      "rangeddefence": 5,
+      "magicdefence": 10
+    },
+    "animations": {
+      "attack": 185,
+      "block": 186,
+      "death": 188
+    }
+  },
+  {
+    "ids": [
+      260,
+      261,
+      262,
+      263,
+      264
+    ],
+    "maxhit": 8,
+    "attackspeed": 4,
+    "deathlen": 5,
+    "aggroradius": 5,
+    "aggressive": true,
+    "slayerlvl": 1,
+    "slayerxp": 75,
+    "stats": {
+      "attack": 68,
+      "strength": 68,
+      "defence": 68,
+      "magic": 68,
+      "hitpoints": 75
+    },
+    "bonuses": {
+      "stabdefence": 20,
+      "slashdefence": 40,
+      "crushdefence": 40,
+      "magicdefence": 30,
+      "rangeddefence": 20
+    },
+    "animations": {
+      "attack": 80,
+      "block": 89,
+      "death": 92
+    },
+    "sounds": {
+      "attack": [
+        408
+      ],
+      "block": [
+        410
+      ],
+      "death": [
+        409
+      ]
+    }
+  },
+  {
+    "ids": [
+      247,
+      248,
+      249,
+      250,
+      251
+    ],
+    "maxhit": 8,
+    "attackspeed": 4,
+    "deathlen": 5,
+    "aggroradius": 5,
+    "aggressive": true,
+    "slayerlvl": 1,
+    "slayerxp": 75,
+    "stats": {
+      "attack": 68,
+      "strength": 68,
+      "defence": 68,
+      "magic": 68,
+      "hitpoints": 75
+    },
+    "bonuses": {
+      "stabdefence": 20,
+      "slashdefence": 40,
+      "crushdefence": 40,
+      "magicdefence": 30,
+      "rangeddefence": 20
+    },
+    "animations": {
+      "attack": 80,
+      "block": 89,
+      "death": 92
+    },
+    "sounds": {
+      "attack": [
+        408
+      ],
+      "block": [
+        410
+      ],
+      "death": [
+        409
+      ]
+    }
+  },
+  {
+    "ids": [
+      6604
+    ],
+    "maxhit": 7,
+    "attackspeed": 6,
+    "deathlen": 3,
+    "aggressive": true,
+    "stats": {
+      "attack": 55,
+      "strength": 60,
+      "defence": 50,
+      "magic": 68,
+      "hitpoints": 130
+    },
+    "bonuses": {
+    },
+    "animations": {
+      "attack": 304,
+      "block": 305,
+      "death": 307
+    }
+  },
+  {
+    "ids": [
+      45,
+      46,
+      47,
+      48,
+      59,
+      60,
+      61,
+      62,
+      63,
+      6596,
+      6597,
+      6598
+    ],
+    "maxhit": 2,
+    "attackspeed": 6,
+    "deathlen": 3,
+    "aggressive": true,
+    "stats": {
+      "attack": 13,
+      "strength": 13,
+      "defence": 18,
+      "hitpoints": 24
+    },
+    "bonuses": {
+    },
+    "animations": {
+      "attack": 5578,
+      "block": 5579,
+      "death": 5580
+    },
+    "sounds": {
+      "attack": [
+        931
+      ],
+      "block": [
+        923
+      ],
+      "death": [
+        922
+      ]
+    }
+  },
+  {
+    "ids": [
+      3021
+    ],
+    "maxhit": 3,
+    "attackspeed": 6,
+    "deathlen": 3,
+    "aggressive": true,
+    "stats": {
+      "attack": 30,
+      "strength": 25,
+      "defence": 30,
+      "hitpoints": 35
+    },
+    "bonuses": {
+    },
+    "animations": {
+      "attack": 5319,
+      "block": 5320,
+      "death": 5321
+    },
+    "sounds": {
+      "attack": [
+        537
+      ],
+      "block": [
+        539
+      ],
+      "death": [
+        538
+      ]
+    },
+    "scripts": {
+      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+    }
+  },
+  {
+    "ids": [
+      2870
+    ],
+    "maxhit": 6,
+    "aggroradius": 4,
+    "stats": {
+      "attack": 0,
+      "strength": 0,
+      "defence": 3,
+      "hitpoints": 12
+    },
+    "bonuses": {
+      "attack": 0,
+      "strength": 0,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": -25,
+      "magicdefence": 10
+    },
+    "animations": {
+      "attack": 1162,
+      "block": 424,
+      "death": 836
+    },
+    "sounds": {
+      "attack": [
+        511
+      ],
+      "block": [
+        513
+      ],
+      "death": [
+        512
+      ]
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.DarkWizard"
+    }
+  },
+  {
+    "ids": [
+      2868
+    ],
+    "maxhit": 6,
+    "aggroradius": 4,
+    "stats": {
+      "attack": 0,
+      "strength": 0,
+      "defence": 8,
+      "hitpoints": 24
+    },
+    "bonuses": {
+      "attack": 0,
+      "strength": 0,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": -25,
+      "magicdefence": 10
+    },
+    "animations": {
+      "attack": 1162,
+      "block": 424,
+      "death": 836
+    },
+    "sounds": {
+      "attack": [
+        511
+      ],
+      "block": [
+        513
+      ],
+      "death": [
+        512
+      ]
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.DarkWizard"
+    }
+  },
+  {
+    "ids": [
+      6607
+    ],
+    "maxhit": 17,
+    "aggroradius": 2,
+    "aggressive": true,
+    "unstacked": true,
+    "stats": {
+      "attack": 98,
+      "strength": 65,
+      "defence": 98,
+      "hitpoints": 150,
+      "magic": 110
+    },
+    "animations": {
+      "attack": 1162,
+      "block": 424,
+      "death": 836
+    },
+    "sounds": {
+      "attack": [
+        511
+      ],
+      "block": [
+        513
+      ],
+      "death": [
+        512
+      ]
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.ElderChaosDruid"
+    }
+  },
+  {
+    "ids": [
+      6593
+    ],
+    "maxhit": 23,
+    "attackspeed": 4,
+    "deathlen": 5,
+    "aggressive": true,
+    "slayerlvl": 1,
+    "slayerxp": 248,
+    "aggroradius": 2,
+    "stats": {
+      "attack": 240,
+      "strength": 220,
+      "defence": 220,
+      "hitpoints": 230
+    },
+    "bonuses": {
+      "stabdefence": 70,
+      "slashdefence": 90,
+      "crushdefence": 90,
+      "rangeddefence": 70,
+      "magicdefence": 80
+    },
+    "animations": {
+      "attack": 80,
+      "block": 89,
+      "death": 92
+    },
+    "sounds": {
+      "attack": [
+        408
+      ],
+      "block": [
+        410
+      ],
+      "death": [
+        409
+      ]
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.dragons.BasicDragon"
+    }
+  },
+  {
+    "ids": [
+      2844
+    ],
+    "maxhit": 7,
+    "attackspeed": 4,
+    "deathlen": 5,
+    "aggressive": true,
+    "slayerlvl": 1,
+    "slayerxp": 48,
+    "stats": {
+      "attack": 38,
+      "strength": 38,
+      "defence": 29,
+      "hitpoints": 45
+    },
+    "bonuses": {
+      "stabdefence": 10,
+      "slashdefence": 5,
+      "crushdefence": 15,
+      "rangeddefence": 5,
+      "magicdefence": 10
+    },
+    "animations": {
+      "attack": 185,
+      "block": 186,
+      "death": 188
+    }
+  },
+  {
+    "ids": [
+      260,
+      261,
+      262,
+      263,
+      264
+    ],
+    "maxhit": 8,
+    "attackspeed": 4,
+    "deathlen": 5,
+    "aggroradius": 5,
+    "aggressive": true,
+    "slayerlvl": 1,
+    "slayerxp": 75,
+    "stats": {
+      "attack": 68,
+      "strength": 68,
+      "defence": 68,
+      "magic": 68,
+      "hitpoints": 75
+    },
+    "bonuses": {
+      "stabdefence": 20,
+      "slashdefence": 40,
+      "crushdefence": 40,
+      "magicdefence": 30,
+      "rangeddefence": 20
+    },
+    "animations": {
+      "attack": 80,
+      "block": 89,
+      "death": 92
+    },
+    "sounds": {
+      "attack": [
+        408
+      ],
+      "block": [
+        410
+      ],
+      "death": [
+        409
+      ]
+    }
+  },
+  {
+    "ids": [
+      6604
+    ],
+    "maxhit": 7,
+    "attackspeed": 6,
+    "deathlen": 3,
+    "aggressive": true,
+    "stats": {
+      "attack": 55,
+      "strength": 60,
+      "defence": 50,
+      "magic": 68,
+      "hitpoints": 130
+    },
+    "bonuses": {
+    },
+    "animations": {
+      "attack": 304,
+      "block": 305,
+      "death": 307
+    }
+  },
+  {
+    "ids": [
+      45,
+      46,
+      47,
+      48,
+      59,
+      60,
+      61,
+      62,
+      63,
+      6596,
+      6597,
+      6598
+    ],
+    "maxhit": 2,
+    "attackspeed": 6,
+    "deathlen": 3,
+    "aggressive": true,
+    "stats": {
+      "attack": 13,
+      "strength": 13,
+      "defence": 18,
+      "hitpoints": 24
+    },
+    "bonuses": {
+    },
+    "animations": {
+      "attack": 5578,
+      "block": 5579,
+      "death": 5580
+    },
+    "sounds": {
+      "attack": [
+        931
+      ],
+      "block": [
+        923
+      ],
+      "death": [
+        922
+      ]
+    }
+  },
+  {
+    "ids": [
+      3021
+    ],
+    "maxhit": 3,
+    "attackspeed": 6,
+    "deathlen": 3,
+    "aggressive": true,
+    "stats": {
+      "attack": 30,
+      "strength": 25,
+      "defence": 30,
+      "hitpoints": 35
+    },
+    "bonuses": {
+    },
+    "animations": {
+      "attack": 5319,
+      "block": 5320,
+      "death": 5321
+    },
+    "sounds": {
+      "attack": [
+        537
+      ],
+      "block": [
+        539
+      ],
+      "death": [
+        538
+      ]
+    },
+    "scripts": {
+      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+    }
+  },
+  {
+    "ids": [
+      2870
+    ],
+    "maxhit": 6,
+    "aggroradius": 4,
+    "stats": {
+      "attack": 0,
+      "strength": 0,
+      "defence": 3,
+      "hitpoints": 12
+    },
+    "bonuses": {
+      "attack": 0,
+      "strength": 0,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": -25,
+      "magicdefence": 10
+    },
+    "animations": {
+      "attack": 1162,
+      "block": 424,
+      "death": 836
+    },
+    "sounds": {
+      "attack": [
+        511
+      ],
+      "block": [
+        513
+      ],
+      "death": [
+        512
+      ]
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.DarkWizard"
+    }
+  },
+  {
+    "ids": [
+      2868
+    ],
+    "maxhit": 6,
+    "aggroradius": 4,
+    "stats": {
+      "attack": 0,
+      "strength": 0,
+      "defence": 8,
+      "hitpoints": 24
+    },
+    "bonuses": {
+      "attack": 0,
+      "strength": 0,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": -25,
+      "magicdefence": 10
+    },
+    "animations": {
+      "attack": 1162,
+      "block": 424,
+      "death": 836
+    },
+    "sounds": {
+      "attack": [
+        511
+      ],
+      "block": [
+        513
+      ],
+      "death": [
+        512
+      ]
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.DarkWizard"
+    }
+  },
+  {
+    "ids": [
+      6607
+    ],
+    "maxhit": 17,
+    "aggroradius": 2,
+    "aggressive": true,
+    "unstacked": true,
+    "stats": {
+      "attack": 98,
+      "strength": 65,
+      "defence": 98,
+      "hitpoints": 150,
+      "magic": 110
+    },
+    "animations": {
+      "attack": 1162,
+      "block": 424,
+      "death": 836
+    },
+    "sounds": {
+      "attack": [
+        511
+      ],
+      "block": [
+        513
+      ],
+      "death": [
+        512
+      ]
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.ElderChaosDruid"
+    }
+  }
+]

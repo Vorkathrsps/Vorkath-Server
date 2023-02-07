@@ -1,0 +1,48 @@
+{
+  "npcs": [ 16000, 16001, 16002, 16003, 16004 ],
+  "guaranteed": [
+    { "id": 21820, "min": 15, "max": 35 },   //Revenant ether
+    { "id": 13307, "min": 500, "max": 50000 }   //blood money
+  ],
+  "tables": [
+    {
+      "name": "Unique",
+      "points": 1,
+      "items": [
+        { "id": 24989, "min": 1, "max": 1, "points": 28 },   //Ancient emblem
+        { "id": 24990, "min": 1, "max": 1, "points": 20 },   //Ancient totem
+        { "id": 24991, "min": 1, "max": 1, "points": 13 },   //Ancient statuette
+        { "id": 24992, "min": 1, "max": 1, "points": 9 },   //Ancient medallion
+        { "id": 24993, "min": 1, "max": 1, "points": 7 },   //Ancient effigy
+        { "id": 24994, "min": 1, "max": 1, "points": 5 },   //Ancient relic
+        { "id": 22557, "min": 1, "max": 1, "points": 4 },  //Amulet of avarice
+        { "id": 22545, "min": 1, "max": 1, "points": 4 }, //Viggora's chainmace
+        { "id": 22550, "min": 1, "max": 1, "points": 4 }, //Craw's bow
+        { "id": 22555, "min": 1, "max": 1, "points": 4 }, //Thammaron's sceptre
+        { "id": 22647, "min": 1, "max": 1, "points": 2 }, //Zuriel's staff
+        { "id": 22650, "min": 1, "max": 1, "points": 2 }, //Zuriel's hood
+        { "id": 22653, "min": 1, "max": 1, "points": 2 }, //Zuriel's robe top
+        { "id": 22656, "min": 1, "max": 1, "points": 2 }, //Zuriel's robe bottom
+        { "id": 22638, "min": 1, "max": 1, "points": 2 }, //Morrigan's coif
+        { "id": 22641, "min": 1, "max": 1, "points": 2 }, //Morrigan's leather body
+        { "id": 22644, "min": 1, "max": 1, "points": 2 }, //Morrigan's leather chaps
+        { "id": 22622, "min": 1, "max": 1, "points": 2 }, //SWH
+        { "id": 22625, "min": 1, "max": 1, "points": 2 }, //Statius's Helm
+        { "id": 22628, "min": 1, "max": 1, "points": 2 }, //Statius's platebody
+        { "id": 22631, "min": 1, "max": 1, "points": 2 }, //Statius's platelegs
+        { "id": 22616, "min": 1, "max": 1, "points": 2 }, //Vesta's Chainbody
+        { "id": 22619, "min": 1, "max": 1, "points": 2 }, //Vesta's Chainskirt
+        { "id": 22613, "min": 1, "max": 1, "points": 2 }, //VLS
+        { "id": 22610, "min": 1, "max": 1, "points": 2 }, //Vesta Spear
+        { "id": 24995, "min": 1, "max": 1, "points": 1 }, //Ancient vesta's longsword
+        { "id": 24996, "min": 1, "max": 1, "points": 1 } //Ancient statius's warhammer
+      ]
+    },
+    {
+      "name": "Empty",
+      "points": 35,
+      "items": [
+      ]
+    }
+  ]
+}

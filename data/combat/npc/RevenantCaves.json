@@ -1,0 +1,768 @@
+[
+  {
+    // Hellhound (revenant cave)
+    "ids": [
+      7877
+    ],
+    "maxhit": 13,
+    "slayerxp": 116,
+    "aggressive": true,
+    "slayerlvl": 1,
+    "stats": {
+      "attack": 105,
+      "strength": 120,
+      "defence": 102,
+      "magic": 1,
+      "ranged": 1,
+      "hitpoints": 150
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 6562,
+      "block": 6566,
+      "death": 6576
+    },
+    "sounds": {
+      "attack": [
+        3717
+      ],
+      "block": [
+        3719
+      ],
+      "death": [
+        3718
+      ]
+    }
+  },
+  {
+    // Green dragon (revenant)
+    "ids": [
+      7868,
+      7869,
+      7870
+    ],
+    "maxhit": 8,
+    "attackspeed": 4,
+    "deathlen": 5,
+    "aggressive": true,
+    "slayerlvl": 1,
+    "slayerxp": 75,
+    "stats": {
+      "attack": 68,
+      "strength": 75,
+      "defence": 68,
+      "magic": 75,
+      "hitpoints": 100
+    },
+    "bonuses": {
+      "stabdefence": 20,
+      "slashdefence": 40,
+      "crushdefence": 40,
+      "magicdefence": 30,
+      "rangeddefence": 20
+    },
+    "animations": {
+      "attack": 80,
+      "block": 89,
+      "death": 92
+    },
+    "sounds": {
+      "attack": [
+        408
+      ],
+      "block": [
+        410
+      ],
+      "death": [
+        409
+      ]
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.dragons.BasicDragon"
+    }
+  },
+  {
+    // Lesser Demon (revenant caves)
+    "ids": [
+      7865,
+      7866,
+      7867
+    ],
+    "maxhit": 8,
+    "slayerxp": 79,
+    "aggressive": true,
+    "slayerlvl": 1,
+    "stats": {
+      "attack": 68,
+      "strength": 85,
+      "defence": 71,
+      "magic": 1,
+      "ranged": 1,
+      "hitpoints": 110
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": -10
+    },
+    "animations": {
+      "attack": 64,
+      "block": 65,
+      "death": 67
+    },
+    "sounds": {
+      "attack": [
+        400
+      ],
+      "block": [
+        404
+      ],
+      "death": [
+        403
+      ]
+    }
+  },
+  {
+    // Greater Demon (revenant caves)
+    "ids": [
+      7871,
+      7872,
+      7873
+    ],
+    "maxhit": 9,
+    "slayerxp": 87,
+    "slayerlvl": 1,
+    "attackspeed": 4,
+    "aggressive": true,
+    "deathlen": 2,
+    "stats": {
+      "hitpoints": 120,
+      "attack": 76,
+      "defence": 81,
+      "strength": 90,
+      "magic": 1
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "magicdefence": -10,
+      "rangeddefence": 0
+    },
+    "animations": {
+      "attack": 64,
+      "block": 65,
+      "death": 67
+    },
+    "sounds": {
+      "attack": [
+        400
+      ],
+      "block": [
+        404
+      ],
+      "death": [
+        403
+      ]
+    }
+  },
+  {
+    // Ice Giant (revenant caves)
+    "ids": [
+      7878,
+      7879,
+      7880
+    ],
+    "maxhit": 4,
+    "slayerxp": 70,
+    "slayerlvl": 1,
+    "attackspeed": 5,
+    "stats": {
+      "attack": 40,
+      "strength": 60,
+      "defence": 40,
+      "hitpoints": 100
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 3,
+      "crushdefence": 2,
+      "rangeddefence": 0,
+      "magicdefence": 0,
+      "attack": 29,
+      "strength": 31
+    },
+    "animations": {
+      "attack": 4672,
+      "block": 4671,
+      "death": 4673
+    },
+    "sounds": {
+      "attack": [
+        449
+      ],
+      "block": [
+        451
+      ],
+      "death": [
+        450
+      ]
+    }
+  },
+  {
+    // Black Demon
+    "ids": [
+      7874,
+      7875,
+      7876
+    ],
+    "maxhit": 17,
+    "slayerxp": 157,
+    "aggressive": true,
+    "slayerlvl": 1,
+    "stats": {
+      "attack": 145,
+      "strength": 165,
+      "defence": 152,
+      "magic": 1,
+      "ranged": 1,
+      "hitpoints": 200
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": -10
+    },
+    "animations": {
+      "attack": 64,
+      "block": 65,
+      "death": 67
+    },
+    "sounds": {
+      "attack": [
+        400
+      ],
+      "block": [
+        404
+      ],
+      "death": [
+        403
+      ]
+    }
+  },
+  {
+    // Ankous
+    "ids": [
+      7864
+    ],
+    "maxhit": 10,
+    "slayerxp": 65,
+    "slayerlvl": 1,
+    "attackspeed": 4,
+    "aggressive": true,
+    "deathlen": 2,
+    "stats": {
+      "hitpoints": 100,
+      "attack": 75,
+      "defence": 80,
+      "strength": 90
+    },
+    "bonuses": {
+    },
+    "animations": {
+      "attack": 422,
+      "block": 424,
+      "death": 2304
+    }
+  },
+  {
+    // Black Dragon
+    "ids": [
+      7861,
+      7862,
+      7863
+    ],
+    "maxhit": 22,
+    "slayerxp": 199,
+    "aggressive": true,
+    "slayerlvl": 1,
+    "stats": {
+      "attack": 200,
+      "strength": 215,
+      "defence": 200,
+      "magic": 150,
+      "ranged": 1,
+      "hitpoints": 250
+    },
+    "bonuses": {
+      "stabdefence": 50,
+      "slashdefence": 70,
+      "crushdefence": 70,
+      "rangeddefence": 50,
+      "magicdefence": 60
+    },
+    "animations": {
+      "attack": 80,
+      "block": 89,
+      "death": 92
+    },
+    "sounds": {
+      "attack": [
+        408
+      ],
+      "block": [
+        410
+      ],
+      "death": [
+        409
+      ]
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.dragons.BasicDragon"
+    }
+  },
+  {
+    // Revenant Imp
+    "ids": [
+      7881
+    ],
+    "maxhit": 2,
+    "slayerxp": 10,
+    "aggressive": true,
+    "aggroradius": 3,
+    "slayerlvl": 1,
+    "attackspeed": 5,
+    "stats": {
+      "attack": 5,
+      "strength": 5,
+      "defence": 4,
+      "magic": 9,
+      "ranged": 5,
+      "hitpoints": 10
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 5,
+      "magic": 5
+    },
+    "animations": {
+      "attack": 169,
+      "block": 170,
+      "death": 172
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
+      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+    }
+  },
+  {
+    // Revenant Pyrefiend
+    "ids": [
+      7932
+    ],
+    "maxhit": 8,
+    "slayerxp": 48,
+    "aggressive": true,
+    "aggroradius": 3,
+    "slayerlvl": 1,
+    "attackspeed": 5,
+    "stats": {
+      "attack": 60,
+      "strength": 40,
+      "defence": 33,
+      "magic": 67,
+      "ranged": 40,
+      "hitpoints": 48
+    },
+    "bonuses": {
+      "stabdefence": 45,
+      "slashdefence": 40,
+      "crushdefence": 50,
+      "rangeddefence": 10,
+      "magicdefence": 15,
+      "magic": 0
+    },
+    "animations": {
+      "attack": 1582,
+      "block": 1581,
+      "death": 1580
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
+      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+    }
+  },
+  {
+    // Revenant Dragon
+    "ids": [
+      7940, 16003
+    ],
+    "maxhit": 30,
+    "slayerxp": 140,
+    "aggressive": true,
+    "aggroradius": 3,
+    "slayerlvl": 1,
+    "attackspeed": 5,
+    "stats": {
+      "attack": 106,
+      "strength": 126,
+      "defence": 87,
+      "magic": 150,
+      "ranged": 151,
+      "hitpoints": 140
+    },
+    "bonuses": {
+      "stabdefence": 201,
+      "slashdefence": 206,
+      "crushdefence": 188,
+      "rangeddefence": 197,
+      "magicdefence": 101,
+      "magic": 61,
+      "attack": 72,
+      "ranged": 60,
+      "strength": 78
+    },
+    "animations": {
+      "attack": 80,
+      "block": 89,
+      "death": 92
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
+      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+    }
+  },
+  {
+    // Revenant Demon
+    "ids": [
+      7936
+    ],
+    "maxhit": 18,
+    "slayerxp": 80,
+    "aggressive": true,
+    "aggroradius": 3,
+    "slayerlvl": 1,
+    "attackspeed": 5,
+    "stats": {
+      "attack": 83,
+      "strength": 76,
+      "defence": 80,
+      "magic": 120,
+      "ranged": 80,
+      "hitpoints": 80
+    },
+    "bonuses": {
+      "stabdefence": 124,
+      "slashdefence": 118,
+      "crushdefence": 130,
+      "rangeddefence": 90,
+      "magicdefence": 85,
+      "magic": 50,
+      "attack": 30,
+      "ranged": 40,
+      "strength": 50
+    },
+    "animations": {
+      "attack": 64,
+      "block": 65,
+      "death": 67
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
+      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+    }
+  },
+  {
+    // Revenant Hellhound
+    "ids": [
+      7935
+    ],
+    "maxhit": 14,
+    "slayerxp": 70,
+    "aggressive": true,
+    "aggroradius": 3,
+    "slayerlvl": 1,
+    "attackspeed": 5,
+    "stats": {
+      "attack": 76,
+      "strength": 80,
+      "defence": 80,
+      "magic": 104,
+      "ranged": 80,
+      "hitpoints": 70
+    },
+    "bonuses": {
+      "stabdefence": 138,
+      "slashdefence": 140,
+      "crushdefence": 142,
+      "rangeddefence": 140,
+      "magicdefence": 62,
+      "magic": 30,
+      "attack": 38,
+      "ranged": 0,
+      "strength": 40
+    },
+    "animations": {
+      "attack": 6581,
+      "block": 6578,
+      "death": 6576
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
+      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+    }
+  },
+  {
+    // Revenant Knight
+    "ids": [
+      7939, 16004
+    ],
+    "maxhit": 27,
+    "slayerxp": 143,
+    "aggressive": true,
+    "aggroradius": 3,
+    "slayerlvl": 1,
+    "attackspeed": 5,
+    "stats": {
+      "attack": 100,
+      "strength": 119,
+      "defence": 80,
+      "magic": 146,
+      "ranged": 146,
+      "hitpoints": 143
+    },
+    "bonuses": {
+      "stabdefence": 195,
+      "slashdefence": 200,
+      "crushdefence": 180,
+      "rangeddefence": 190,
+      "magicdefence": 95,
+      "magic": 55,
+      "attack": 69,
+      "ranged": 55,
+      "strength": 71
+    },
+    "animations": {
+      "attack": 6600,
+      "block": 388,
+      "death": 836
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
+      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+    }
+  },
+  {
+    // Revenant Ork
+    "ids": [
+      7937, 16001
+    ],
+    "maxhit": 20,
+    "slayerxp": 105,
+    "aggressive": true,
+    "aggroradius": 3,
+    "slayerlvl": 1,
+    "attackspeed": 5,
+    "stats": {
+      "attack": 99,
+      "strength": 100,
+      "defence": 60,
+      "magic": 110,
+      "ranged": 130,
+      "hitpoints": 105
+    },
+    "bonuses": {
+      "stabdefence": 148,
+      "slashdefence": 150,
+      "crushdefence": 146,
+      "rangeddefence": 148,
+      "magicdefence": 50,
+      "magic": 0,
+      "attack": 60,
+      "ranged": 50,
+      "strength": 55
+    },
+    "animations": {
+      "attack": 4320,
+      "block": 4322,
+      "death": 4321
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
+      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+    }
+  },
+  {
+    // Revenant Dark Beast
+    "ids": [
+      7938, 16000
+    ],
+    "maxhit": 23,
+    "slayerxp": 140,
+    "aggressive": true,
+    "aggroradius": 3,
+    "slayerlvl": 1,
+    "attackspeed": 5,
+    "stats": {
+      "attack": 93,
+      "strength": 110,
+      "defence": 80,
+      "magic": 130,
+      "ranged": 135,
+      "hitpoints": 140
+    },
+    "bonuses": {
+      "stabdefence": 153,
+      "slashdefence": 152,
+      "crushdefence": 155,
+      "rangeddefence": 158,
+      "magicdefence": 70,
+      "magic": 0,
+      "attack": 65,
+      "ranged": 45,
+      "strength": 60
+    },
+    "animations": {
+      "attack": 2731,
+      "block": 2732,
+      "death": 2733
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
+      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+    }
+  },
+  {
+    // Revenant Cyclops
+    "ids": [
+      7934, 16002
+    ],
+    "maxhit": 16,
+    "slayerxp": 44,
+    "aggressive": true,
+    "aggroradius": 3,
+    "slayerlvl": 1,
+    "attackspeed": 5,
+    "stats": {
+      "attack": 60,
+      "strength": 73,
+      "defence": 49,
+      "magic": 65,
+      "ranged": 70,
+      "hitpoints": 44
+    },
+    "bonuses": {
+      "stabdefence": 140,
+      "slashdefence": 130,
+      "crushdefence": 135,
+      "rangeddefence": 135,
+      "magicdefence": 10,
+      "magic": 0,
+      "attack": 0,
+      "ranged": 0,
+      "strength": 0
+    },
+    "animations": {
+      "attack": 4652,
+      "block": 4651,
+      "death": 4653
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
+      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+    }
+  },
+  {
+    // Revenant Goblin
+    "ids": [
+      7931
+    ],
+    "maxhit": 3,
+    "slayerxp": 14,
+    "aggressive": true,
+    "aggroradius": 3,
+    "slayerlvl": 1,
+    "attackspeed": 5,
+    "stats": {
+      "attack": 13,
+      "strength": 14,
+      "defence": 14,
+      "magic": 12,
+      "ranged": 15,
+      "hitpoints": 14
+    },
+    "bonuses": {
+      "stabdefence": 25,
+      "slashdefence": 28,
+      "crushdefence": 31,
+      "rangeddefence": 31,
+      "magicdefence": 1,
+      "magic": 37,
+      "attack": 6,
+      "ranged": 21,
+      "strength": 8
+    },
+    "animations": {
+      "attack": 6184,
+      "block": 6183,
+      "death": 6182
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
+      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+    }
+  },
+  {
+    // Revenant Hobgoblin
+    "ids": [
+      7933
+    ],
+    "maxhit": 3,
+    "slayerxp": 72,
+    "aggressive": true,
+    "aggroradius": 3,
+    "slayerlvl": 1,
+    "attackspeed": 5,
+    "stats": {
+      "attack": 50,
+      "strength": 50,
+      "defence": 41,
+      "magic": 55,
+      "ranged": 60,
+      "hitpoints": 72
+    },
+    "bonuses": {
+      "stabdefence": 65,
+      "slashdefence": 60,
+      "crushdefence": 68,
+      "rangeddefence": 50,
+      "magicdefence": 30,
+      "magic": 5,
+      "attack": 20,
+      "ranged": 25,
+      "strength": 24
+    },
+    "animations": {
+      "attack": 164,
+      "block": 165,
+      "death": 167
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
+      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+    }
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "id": 3194,
+    "x": 3042,
+    "y": 4972,
+    "walkRange": 0,
+    "z": 1
+  },
+  // Emerald Benedict
+  {
+    "id": 3193,
+    "x": 3047,
+    "y": 4975,
+    "walkRange": 5,
+    "z": 1
+  },
+  // Martin Thwait
+  {
+    "id": 3189,
+    "x": 3049,
+    "y": 4977,
+    "walkRange": 5,
+    "z": 1
+  },
+  // Brian O'Richard
+  {
+    "id": 5919,
+    "x": 3050,
+    "y": 4962,
+    "walkRange": 1,
+    "z": 1
+  },
+  // Grace
+  {
+    "id": 5920,
+    "x": 3051,
+    "y": 4963,
+    "walkRange": 0,
+    "z": 1
+  }
+  // Mark
+]

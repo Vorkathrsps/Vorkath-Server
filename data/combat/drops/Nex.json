@@ -1,0 +1,48 @@
+{
+  "npcs": [ 11278, 11279, 11280, 11281, 11282 ],
+  "guaranteed": [
+    { "id": 13307, "min": 250000, "max": 300000 }   //blood money
+  ],
+  "tables": [
+    {
+      "name": "Armour & Weapons",
+      "points": 200,
+      "items": [
+        { "id": 1128, "min": 10, "max": 20, "points": 500 }, //Rune platebody (noted)
+        { "id": 1290, "min": 10, "max": 20, "points": 500 }, //Rune sword (noted)
+        { "id": 1164, "min": 10, "max": 20, "points": 500 }, //Rune full helm (noted)
+        { "id": 1202, "min": 10, "max": 20, "points": 500 }, //Rune kiteshield (noted)
+        { "id": 1392, "min": 10, "max": 20, "points": 500 }, //Battlestaff (noted)
+        { "id": 1398, "min": 10, "max": 20, "points": 500 }, //Air battlestaff (noted)
+        { "id": 1406, "min": 10, "max": 20, "points": 500 }, //Mystic air staff (noted)
+        { "id": 3056, "min": 10, "max": 20, "points": 500 }, //Mystic lava staff (noted)
+        { "id": 5953, "min": 2, "max": 20, "points": 500 }, //Antidote++(4) (noted)
+        { "id": 392, "min": 50, "max": 100, "points": 500 }, //MANTA
+        { "id": 12626, "min": 10, "max": 20, "points": 500 } //Stamina potion(noted)
+      ]
+    },
+    {
+      "name": "Mystery Boxes",
+      "points": 5,
+      "items": [
+        { "id": 16451, "min": 1, "max": 1, "points": 1 },
+        { "id": 16452, "min": 1, "max": 1, "points": 1 },
+        { "id": 16454, "min": 1, "max": 1, "points": 1 },
+        { "id": 30185, "min": 1, "max": 1, "points": 1 }
+      ]
+    },
+    {
+      "name": "Unique",
+      "points": 2,
+      "items": [
+
+        { "id": 26386, "min": 1, "max": 1, "points": 2 }, //Torva Platelegs
+        { "id": 26384, "min": 1, "max": 1, "points": 2 }, //Torva Platebody
+        { "id": 26382, "min": 1, "max": 1, "points": 2 }, //Torva Full Helm
+        { "id": 26374, "min": 1, "max": 1, "points": 2 }, //Zaryte Crossbow
+        { "id": 26235, "min": 1, "max": 1, "points": 2 }, //Zaryte Vambs
+        { "id": 26233, "min": 1, "max": 1, "points": 2 } //Ancient Godsword
+      ]
+    }
+  ]
+}

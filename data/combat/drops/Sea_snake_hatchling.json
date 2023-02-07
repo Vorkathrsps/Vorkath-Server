@@ -1,0 +1,33 @@
+{
+  "npcs": [ 1098 ],
+
+  "tables": [
+    {
+      "name": "Always Drops ",
+      "points": 1,
+      "items": [
+        { "id": 526, "min": 1, "max": 1, "points": 1 } //Bones
+      ]
+    },
+    {
+      "name": "Other ",
+      "points": 1,
+      "items": [
+
+        { "id": 313, "min": 50, "max": 50, "points": 12 }, //Fishing bait
+        { "id": 363, "min": 2, "max": 2, "points": 12 }, //Raw bass
+        { "id": 377, "min": 1, "max": 1, "points": 12 }, //Raw lobster
+        { "id": 401, "min": 5, "max": 5, "points": 12 }, //Seaweed
+        { "id": 403, "min": 5, "max": 5, "points": 6 }, //Edible seaweed
+        { "id": 823, "min": 2, "max": 2, "points": 6 }, //Adamant dart tip
+        { "id": 4160, "min": 4, "max": 4, "points": 6 }, //Broad arrows
+        { "id": 4695, "min": 1, "max": 1, "points": 6 }, //Mist rune
+        { "id": 46, "min": 3, "max": 3, "points": 6 }, //Pearl bolt tips
+        { "id": 411, "min": 2, "max": 2, "points": 6 }, //Oyster pearl
+        { "id": 413, "min": 1, "max": 1, "points": 3 }, //Oyster pearls
+        { "id": 571, "min": 1, "max": 1, "points": 3 }, //Water orb
+        { "id": 405, "min": 1, "max": 1, "points": 3 } //Casket
+      ]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+[
+  {
+	// Tortured gorilla lv. 141
+	"ids": [
+	  7150,
+	  7151,
+	  7153
+	],
+	"maxhit": 13,
+	"attackspeed": 5,
+	"aggressive": true,
+	"stats": {
+	  "attack": 105,
+	  "strength": 95,
+	  "defence": 95,
+	  "ranged": 95,
+	  "magic": 95,
+	  "hitpoints": 210
+	},
+	"bonuses": {
+	  "attack": 22,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 25
+	},
+	"animations": {
+	  "attack": 7240,
+	  "block": 7236,
+	  "death": 7237
+	},
+	"sounds": {
+	  "attack": [
+		498
+	  ],
+	  "block": [
+		500
+	  ],
+	  "death": [
+		499
+	  ]
+	},
+	"scripts": {
+	  //"combat": "nl.bartpelle.veteres.content.npcs.misc.TorturedGorilla.script"
+	}
+  }
+]

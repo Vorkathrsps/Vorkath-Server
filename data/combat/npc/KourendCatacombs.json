@@ -1,0 +1,142 @@
+[
+  {
+	// Ghosts
+	"ids": [
+	  7263,
+	  7264
+	],
+	"maxhit": 2,
+	"attackspeed": 4,
+	"aggressive": false,
+	"stats": {
+	  "attack": 13,
+	  "strength": 13,
+	  "defence": 18,
+	  "hitpoints": 25
+	},
+	"bonuses": {
+	  "stabdefence": 5,
+	  "slashdefence": 5,
+	  "crushdefence": 5,
+	  "magicdefence": -5,
+	  "rangeddefence": 5
+	},
+	"animations": {
+	  "attack": 5532,
+	  "block": 5533,
+	  "death": 5534
+	},
+	"sounds": {
+	  "attack": [
+		436
+	  ],
+	  "block": [
+		439
+	  ],
+	  "death": [
+		438
+	  ]
+	}
+  },
+  {
+	// Cyclopses
+	"ids": [
+	  7271
+	],
+	"maxhit": 2,
+	"attackspeed": 6,
+	"aggressive": false,
+	"stats": {
+	  "attack": 47,
+	  "strength": 50,
+	  "defence": 26,
+	  "hitpoints": 75
+	},
+	"bonuses": {
+	},
+	"animations": {
+	  "attack": 4652,
+	  "block": 4651,
+	  "death": 4653
+	}
+  },
+  {
+	// Cyclopses
+	"ids": [
+	  7270
+	],
+	"maxhit": 7,
+	"attackspeed": 4,
+	"aggressive": false,
+	"stats": {
+	  "attack": 65,
+	  "strength": 65,
+	  "defence": 35,
+	  "hitpoints": 100
+	},
+	"bonuses": {
+	},
+	"animations": {
+	  "attack": 4652,
+	  "block": 4651,
+	  "death": 4653
+	}
+  },
+	{
+		// Skeleton
+		"ids": [
+			7265
+		],
+		"maxhit": 7,
+		"attackspeed": 4,
+		"aggressive": false,
+		"stats": {
+			"attack": 20,
+			"strength": 25,
+			"defence": 35,
+			"hitpoints": 50
+		},
+		"bonuses": {
+		},
+		"animations": {
+			"attack": 5489,
+			"block": 5487,
+			"death": 5491
+		}
+		},
+//penis
+  {
+	// Moss giant
+	"ids": [
+		2090, 2091, 2092, 2093, 3851, 3852, 7262, 8736, 7265
+	],
+	"maxhit": 6,
+	"attackspeed": 6,
+	"aggressive": false,
+	"stats": {
+	  "attack": 30,
+	  "strength": 30,
+	  "defence": 30,
+	  "hitpoints": 60
+	},
+	"bonuses": {
+	  "attack": 33
+	},
+	"animations": {
+	  "attack": 4658,
+	  "block": 4657,
+	  "death": 4659
+	},
+	"sounds": {
+	  "attack": [
+		449
+	  ],
+	  "block": [
+		451
+	  ],
+	  "death": [
+		450
+	  ]
+	}
+  }
+]

@@ -1,0 +1,38 @@
+{
+  "npcs": [ 5665, 5666, 5667, 5668, 5669, 5670, 5671, 5672, 5673, 5674, 5675, 5676, 5677, 5678, 5679, 5680, 5681, 5682, 5683, 5684, 5685, 5686, 5687, 5688 ],
+  "tables": [
+    {
+      "name": "Always Drops",
+      "points": 1,
+      "items": [
+        { "id": 526, "min": 1, "max": 1, "points": 1 }, //Bones
+        { "id": 960, "min": 1, "max": 1, "points": 1 } //Plank
+      ]
+    },
+    {
+      "name": "Lumberjack clothing",
+      "points": 1,
+      "items": [
+        { "id": 10933, "min": 1, "max": 1, "points": 1 }, //Lumberjack boots
+        { "id": 10941, "min": 1, "max": 1, "points": 1 }, //Lumberjack hat
+        { "id": 10940, "min": 1, "max": 1, "points": 1 }, //Lumberjack legs
+        { "id": 10939, "min": 1, "max": 1, "points": 1 } //Lumberjack top
+      ]
+    },
+    {
+      "name": "Other",
+      "points": 1,
+      "items": [
+        { "id": 7666, "min": 1, "max": 1, "points": 6 }, //Guthix balance(1)
+        { "id": 3363, "min": 1, "max": 1, "points": 3 }, //Thin snail
+        { "id": 3365, "min": 1, "max": 1, "points": 3 }, //Lean snail
+        { "id": 3367, "min": 3, "max": 3, "points": 3 }, //Fat snail
+        { "id": 884, "min": 5, "max": 5, "points": 3 }, //Iron arrow
+        { "id": 886, "min": 5, "max": 5, "points": 3 }, //Steel arrow
+        { "id": 1139, "min": 1, "max": 1, "points": 3 }, //Bronze med helm
+        { "id": 1291, "min": 1, "max": 1, "points": 3 }, //Bronze longsword
+        { "id": 558, "min": 5, "max": 5, "points": 1 } //Mind rune
+      ]
+    }
+  ]
+}

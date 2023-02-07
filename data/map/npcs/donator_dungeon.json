@@ -1,0 +1,218 @@
+[
+  {
+    "name": "revenant imp",
+    "id": 7881,
+    "x": 2335,
+    "y": 9804,
+    "z": 0,
+    "direction": "E",
+    "walkRange": 5
+  },
+  {
+    "name": "revenant pyrefiend",
+    "id": 7932,
+    "x": 2329,
+    "y": 9804,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "revenant imp",
+    "id": 7881,
+    "x": 2327,
+    "y": 9811,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "revenant dragon",
+    "id": 7940,
+    "x": 2337,
+    "y": 9810,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "revenant goblin",
+    "id": 7931,
+    "x": 2333,
+    "y": 9809,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "revenant dark beast",
+    "id": 7938,
+    "x": 2342,
+    "y": 9804,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "callisto",
+    "id": 6609,
+    "x": 2313,
+    "y": 9835,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "grizzly bear",
+    "id": 2838,
+    "x": 2314,
+    "y": 9828,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "grizzly bear",
+    "id": 2838,
+    "x": 2320,
+    "y": 9825,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "grizzly bear",
+    "id": 2838,
+    "x": 2324,
+    "y": 9828,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "grizzly bear",
+    "id": 2838,
+    "x": 2324,
+    "y": 9834,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "grizzly bear",
+    "id": 2838,
+    "x": 2321,
+    "y": 9840,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "deadly red spider",
+    "id": 3021,
+    "x": 2352,
+    "y": 9815,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "deadly red spider",
+    "id": 3021,
+    "x": 2357,
+    "y": 9813,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "deadly red spider",
+    "id": 3021,
+    "x": 2361,
+    "y": 9815,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "deadly red spider",
+    "id": 3021,
+    "x": 2350,
+    "y": 9822,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "deadly red spider",
+    "id": 3021,
+    "x": 2352,
+    "y": 9828,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "deadly red spider",
+    "id": 3021,
+    "x": 2358,
+    "y": 9831,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "venenatis",
+    "id": 6610,
+    "x": 2357,
+    "y": 9823,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "revenant demon",
+    "id": 7936,
+    "x": 2323,
+    "y": 9815,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "revenant hellhound",
+    "id": 7935,
+    "x": 2342,
+    "y": 9811,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "revenant knight",
+    "id": 7939,
+    "x": 2330,
+    "y": 9824,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "revenant ork",
+    "id": 7937,
+    "x": 2337,
+    "y": 9828,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "revenant dark beast",
+    "id": 7938,
+    "x": 2343,
+    "y": 9827,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  }
+]

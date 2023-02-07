@@ -1,0 +1,39 @@
+{
+  "npcs": [
+    1610,
+    1611,
+    1612
+  ],
+  "guaranteed": [
+    {
+      "id": 526,
+      "min": 1,
+      "max": 1
+    }
+    //Bones
+  ],
+  "tables": [
+    {
+      "name": "Unique",
+      "points": 1,
+      "items": [
+        { "id": 6916, "min": 1, "max": 1, "points": 12 }, //infinity top
+        { "id": 6920, "min": 1, "max": 1, "points": 12 }, //infinity bottoms
+        { "id": 6918, "min": 1, "max": 1, "points": 35 }, //infinity hat
+        { "id": 6920, "min": 1, "max": 1, "points": 8 }, //infinity boots
+        { "id": 6922, "min": 1, "max": 1, "points": 35 }, //infinity gloves
+        { "id": 6914, "min": 1, "max": 1, "points": 7 }, //Master wand
+        { "id": 6889, "min": 1, "max": 1, "points": 7 }, //Mages book
+        { "id": 6731, "min": 1, "max": 1, "points": 5 }, //seers ring
+        { "id": 21791, "min": 1, "max": 1, "points": 2 }, //Imbued sara cape
+        { "id": 21793, "min": 1, "max": 1, "points": 2 }, //Imbued Guthix cape
+        { "id": 21795, "min": 1, "max": 1, "points": 2 } //Imbued zamorak cape
+      ]
+    },
+    {
+      "name": "Other",
+      "points": 4,
+      "items": []
+    }
+  ]
+}

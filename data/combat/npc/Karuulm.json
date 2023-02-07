@@ -1,0 +1,104 @@
+[
+  {
+    // Wyrm
+    "ids": [
+      8610, 8611
+    ],
+    "slayerxp": 133,
+    "slayerlvl": 62,
+    "maxhit": 13,
+    "attackspeed": 4,
+    "deathlen": 3,
+    "stats": {
+      "attack": 85,
+      "strength": 60,
+      "magic": 80,
+      "ranged": 80,
+      "defence": 80,
+      "hitpoints": 130
+    },
+    "bonuses": {
+      "stabdefence": 20,
+      "slashdefence": 20,
+      "crushdefence": 20,
+      "rangeddefence": 20,
+      "magicdefence": 50
+    },
+    "animations": {
+      "attack": 8270,
+      "block": -1,
+      "death": 8272
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.karuulm.WyrmCombatScript"
+    }
+  },
+  {
+    // Drake
+    "ids": [
+      8612, 8613
+    ],
+    "slayerxp": 268,
+    "slayerlvl": 84,
+    "maxhit": 15,
+    "attackspeed": 4,
+    "deathlen": 3,
+    "stats": {
+      "attack": 140,
+      "strength": 118,
+      "magic": 112,
+      "ranged": 140,
+      "defence": 120,
+      "hitpoints": 250
+    },
+    "bonuses": {
+      "stabdefence": 60,
+      "slashdefence": 60,
+      "crushdefence": 60,
+      "rangeddefence": 100,
+      "magicdefence": 20
+    },
+    "animations": {
+      "attack": 8275,
+      "block": -1,
+      "death": 8278
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.karuulm.DrakeCombatScript"
+    }
+  },
+  {
+    // Hydra
+    "ids": [
+      8609
+    ],
+    "slayerxp": 330,
+    "slayerlvl": 95,
+    "maxhit": 22,
+    "attackspeed": 6,
+    "deathlen": 4,
+    "stats": {
+      "attack": 1,
+      "strength": 1,
+      "magic": 210,
+      "ranged": 210,
+      "defence": 100,
+      "hitpoints": 300
+    },
+    "bonuses": {
+      "stabdefence": 160,
+      "slashdefence": 160,
+      "crushdefence": 160,
+      "rangeddefence": 0,
+      "magicdefence": 160
+    },
+    "animations": {
+      "attack": 8263,
+      "block": -1,
+      "death": 8264
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.karuulm.HydraCombatScript"
+    }
+  }
+]

@@ -1,0 +1,226 @@
+[
+  {
+	// Animated Bronze Armour
+	"ids": [
+	  2450
+	],
+	"maxhit": 3,
+	"attackspeed": 4,
+	"deathlen": 2,
+	"stats": {
+	  "attack": 2,
+	  "strength": 2,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 2,
+	  "hitpoints": 10
+	},
+	"bonuses": {
+	  "stabdefence": 5,
+	  "slashdefence": 5,
+	  "crushdefence": 5,
+	  "rangeddefence": 5,
+	  "magicdefence": 5
+	},
+	"animations": {
+	  "attack": 386,
+	  "block": 388,
+	  "death": 4167
+	},
+	"scripts": {
+	  "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.AnimatedArmourDrops"
+	}
+  },
+  {
+	// Animated Iron Armour
+	"ids": [
+	  2451
+	],
+	"maxhit": 3,
+	"deathlen": 2,
+	"attackspeed": 4,
+	"stats": {
+	  "attack": 20,
+	  "strength": 20,
+	  "defence": 20,
+	  "hitpoints": 20
+	},
+	"bonuses": {
+	  "attack": 4,
+	  "strength": 5,
+	  "stabdefence": 50,
+	  "slashdefence": 25,
+	  "crushdefence": 19,
+	  "magicdefence": 400,
+	  "rangeddefence": 400
+	},
+	"animations": {
+	  "attack": 386,
+	  "block": 388,
+	  "death": 4167
+	},
+	"scripts": {
+	  "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.AnimatedArmourDrops"
+	}
+  },
+  {
+	// Animated Steel Armour
+	"ids": [
+	  2452
+	],
+	"maxhit": 5,
+	"deathlen": 2,
+	"attackspeed": 4,
+	"stats": {
+	  "attack": 40,
+	  "strength": 40,
+	  "defence": 40,
+	  "hitpoints": 40
+	},
+	"bonuses": {
+	  "attack": 4,
+	  "strength": 5,
+	  "stabdefence": 50,
+	  "slashdefence": 25,
+	  "crushdefence": 19,
+	  "magicdefence": 400,
+	  "rangeddefence": 400
+	},
+	"animations": {
+	  "attack": 386,
+	  "block": 388,
+	  "death": 4167
+	},
+	"scripts": {
+	  "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.AnimatedArmourDrops"
+	}
+  },
+  {
+	// Animated Black Armour
+	"ids": [
+	  2453
+	],
+	"maxhit": 7,
+	"deathlen": 2,
+	"attackspeed": 4,
+	"stats": {
+	  "attack": 60,
+	  "strength": 60,
+	  "defence": 60,
+	  "hitpoints": 60
+	},
+	"bonuses": {
+	  "attack": 4,
+	  "strength": 5,
+	  "stabdefence": 50,
+	  "slashdefence": 25,
+	  "crushdefence": 19,
+	  "magicdefence": 400,
+	  "rangeddefence": 400
+	},
+	"animations": {
+	  "attack": 386,
+	  "block": 388,
+	  "death": 4167
+	},
+	"scripts": {
+	  "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.AnimatedArmourDrops"
+	}
+  },
+  {
+	// Animated Mithril Armour
+	"ids": [
+	  2454
+	],
+	"maxhit": 10,
+	"deathlen": 2,
+	"attackspeed": 4,
+	"stats": {
+	  "attack": 80,
+	  "strength": 80,
+	  "defence": 80,
+	  "hitpoints": 80
+	},
+	"bonuses": {
+	  "attack": 4,
+	  "strength": 5,
+	  "stabdefence": 50,
+	  "slashdefence": 25,
+	  "crushdefence": 19,
+	  "magicdefence": 400,
+	  "rangeddefence": 400
+	},
+	"animations": {
+	  "attack": 386,
+	  "block": 388,
+	  "death": 4167
+	},
+	"scripts": {
+	  "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.AnimatedArmourDrops"
+	}
+  },
+  {
+	// Animated Adamant Armour
+	"ids": [
+	  2455
+	],
+	"maxhit": 12,
+	"deathlen": 2,
+	"attackspeed": 4,
+	"stats": {
+	  "attack": 99,
+	  "strength": 99,
+	  "defence": 99,
+	  "hitpoints": 100
+	},
+	"bonuses": {
+	  "attack": 4,
+	  "strength": 5,
+	  "stabdefence": 50,
+	  "slashdefence": 25,
+	  "crushdefence": 19,
+	  "magicdefence": 400,
+	  "rangeddefence": 400
+	},
+	"animations": {
+	  "attack": 406,
+	  "block": 410,
+	  "death": 4167
+	},
+	"scripts": {
+	  "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.AnimatedArmourDrops"
+	}
+  },
+  {
+	// Animated Rune Armour
+	"ids": [
+	  2456
+	],
+	"maxhit": 14,
+	"deathlen": 2,
+	"attackspeed": 4,
+	"stats": {
+	  "attack": 120,
+	  "strength": 120,
+	  "defence": 120,
+	  "hitpoints": 120
+	},
+	"bonuses": {
+	  "attack": 4,
+	  "strength": 5,
+	  "stabdefence": 50,
+	  "slashdefence": 25,
+	  "crushdefence": 19,
+	  "magicdefence": 400,
+	  "rangeddefence": 400
+	},
+	"animations": {
+	  "attack": 386,
+	  "block": 388,
+	  "death": 4167
+	},
+	"scripts": {
+	  "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.AnimatedArmourDrops"
+	}
+  }
+]

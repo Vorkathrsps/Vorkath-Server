@@ -1,0 +1,37 @@
+{
+  "npcs": [ 3160, 2211, 2242, 3167 ],
+  "tables": [
+    {
+      "name": "Runes and Ammunition",
+      "points": 1,
+      "items": [
+        { "id": 5619, "min": 1, "max": 1, "points": 6 }, //Mithril arrow(p+)
+        { "id": 886, "min": 1, "max": 12, "points": 6 }, //Steel arrow
+        { "id": 884, "min": 1, "max": 24, "points": 6 }, //Iron arrow
+        { "id": 882, "min": 1, "max": 58, "points": 6 }, //Bronze arrow
+        { "id": 5616, "min": 1, "max": 1, "points": 3 }, //Bronze arrow(p+)
+        { "id": 559, "min": 1, "max": 12, "points": 3 }, //Body rune
+        { "id": 892, "min": 1, "max": 5, "points": 3 }, //Rune arrow
+        { "id": 890, "min": 3, "max": 3, "points": 1 }, //Adamant arrow
+        { "id": 5626, "min": 1, "max": 15, "points": 1 }, //Adamant arrow(p++)
+        { "id": 2538, "min": 3, "max": 4, "points": 1 } //Adamant fire arrows
+      ]
+    },
+    {
+      "name": "Other",
+      "points": 1,
+      "items": [
+        { "id": 53, "min": 12, "max": 12, "points": 6 }, //Headless arrow
+        { "id": 40, "min": 5, "max": 5, "points": 6 }, //Iron arrowtips
+        { "id": 43, "min": 1, "max": 13, "points": 6 }, //Adamant arrowtips
+        { "id": 1777, "min": 7, "max": 7, "points": 6 }, //Bow string
+        { "id": 687, "min": 1, "max": 1, "points": 3 }, //Broken arrow
+        { "id": 56, "min": 1, "max": 12, "points": 3 }, //Oak longbow (u)
+        { "id": 843, "min": 1, "max": 1, "points": 3 }, //Oak shortbow
+        { "id": 9179, "min": 1, "max": 1, "points": 3 }, //Steel crossbow
+        { "id": 851, "min": 1, "max": 1, "points": 3 }, //Maple longbow
+        { "id": 861, "min": 1, "max": 2, "points": 3 } //Magic shortbow
+      ]
+    }
+  ]
+}

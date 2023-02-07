@@ -1,0 +1,219 @@
+[
+  {
+    "id": 2834,
+    "x": 2591,
+    "y": 3473,
+    "walkRange": 6
+  },
+  // Giant bat
+  {
+    "id": 5197,
+    "x": 2566,
+    "y": 3446,
+    "walkRange": 5
+  },
+  // Goblin
+  {
+    "id": 5199,
+    "x": 2568,
+    "y": 3449,
+    "walkRange": 9
+  },
+  // Goblin
+  {
+    "id": 2854,
+    "x": 2603,
+    "y": 3475,
+    "walkRange": 1
+  },
+  // Rat
+  {
+    "id": 1839,
+    "x": 2597,
+    "y": 3468,
+    "walkRange": 0
+  },
+  // Duck
+  {
+    "id": 2002,
+    "x": 2590,
+    "y": 3459,
+    "walkRange": 5
+  },
+  // Ducklings
+  {
+    "id": 1839,
+    "x": 2595,
+    "y": 3465,
+    "walkRange": 2
+  },
+  // Duck
+  {
+    "id": 1839,
+    "x": 2589,
+    "y": 3460,
+    "walkRange": 5
+  },
+  // Duck
+  {
+    "id": 5188,
+    "x": 2555,
+    "y": 3467,
+    "walkRange": 5
+  },
+  // Guard
+  {
+    "id": 1839,
+    "x": 2592,
+    "y": 3462,
+    "walkRange": 3
+  },
+  // Duck
+  {
+    "id": 5189,
+    "x": 2554,
+    "y": 3478,
+    "walkRange": 2
+  },
+  // Guard
+  {
+    "id": 1838,
+    "x": 2588,
+    "y": 3460,
+    "walkRange": 0
+  },
+  // Duck
+  {
+    "id": 1839,
+    "x": 2589,
+    "y": 3455,
+    "walkRange": 0
+  },
+  // Duck
+  {
+    "id": 1839,
+    "x": 2595,
+    "y": 3465,
+    "walkRange": 1
+  },
+  // Duck
+  {
+    "id": 1839,
+    "x": 2587,
+    "y": 3458,
+    "walkRange": 3
+  },
+  // Duck
+  {
+    "id": 1839,
+    "x": 2589,
+    "y": 3443,
+    "walkRange": 0
+  },
+  // Duck
+  {
+    "id": 1839,
+    "x": 2588,
+    "y": 3450,
+    "walkRange": 0
+  },
+  // Duck
+  {
+    "id": 5187,
+    "x": 2558,
+    "y": 3454,
+    "walkRange": 0
+  },
+  // Guard
+  {
+    "id": 5192,
+    "x": 2558,
+    "y": 3452,
+    "walkRange": 0
+  },
+  // Goblin
+  {
+    "id": 5191,
+    "x": 2567,
+    "y": 3460,
+    "walkRange": 2
+  },
+  // Captain Lawgof
+  {
+    "id": 2834,
+    "x": 2568,
+    "y": 3481,
+    "walkRange": 5
+  },
+  // Giant bat
+  {
+    "id": 5186,
+    "x": 2575,
+    "y": 3454,
+    "walkRange": 3
+  },
+  // Guard
+  {
+    "id": 5206,
+    "x": 2576,
+    "y": 3451,
+    "walkRange": 0
+  },
+  // Goblin
+  {
+    "id": 2834,
+    "x": 2569,
+    "y": 3472,
+    "walkRange": 6
+  },
+  // Giant bat
+  {
+    "id": 234,
+    "x": 2561,
+    "y": 3444,
+    "walkRange": 1
+  },
+  // Butterfly
+  {
+    "id": 3364,
+    "x": 2575,
+    "y": 3486,
+    "walkRange": 2
+  },
+  // Stankers
+  {
+    "id": 5195,
+    "x": 2557,
+    "y": 3456,
+    "walkRange": 4
+  },
+  // Goblin
+  {
+    "id": 2834,
+    "x": 2579,
+    "y": 3476,
+    "walkRange": 7
+  },
+  // Giant bat
+  {
+    "id": 2834,
+    "x": 2586,
+    "y": 3473,
+    "walkRange": 8
+  },
+  // Giant bat
+  {
+    "id": 2834,
+    "x": 2589,
+    "y": 3478,
+    "walkRange": 5
+  },
+  // Giant bat
+  {
+    "id": 2834,
+    "x": 2591,
+    "y": 3485,
+    "walkRange": 4
+  }
+  // Giant bat
+]

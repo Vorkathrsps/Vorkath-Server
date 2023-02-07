@@ -1,0 +1,11 @@
+{
+  "npcs": [ 15020 ],
+  "petItem": 16172,
+  "petRarity": 1000,
+  "guaranteed": [
+    { "id": 532, "min": 1, "max": 1 }, //Big bones
+    { "id": 6685, "min": 1, "max": 7 }   //BREW
+    ],
+  "tables": [
+  ]
+}

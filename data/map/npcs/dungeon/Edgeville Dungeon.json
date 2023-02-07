@@ -1,0 +1,139 @@
+[
+{ "id": 42, "x": 3140, "y": 9887, "z": 0, "walkRange": 11 }, // levelombie
+  { "id": 42, "x": 3149, "y": 9889, "z": 0, "walkRange": 13 }, // levelombie
+  { "id": 42, "x": 3147, "y": 9904, "z": 0, "walkRange": 6 }, // levelombie
+  { "id": 42, "x": 3145, "y": 9907, "z": 0, "walkRange": 13 }, // levelombie
+  { "id": 43, "x": 3142, "y": 9891, "z": 0, "walkRange": 10 }, // levelombie
+  { "id": 43, "x": 3147, "y": 9904, "z": 0, "walkRange": 10 }, // levelombie
+  { "id": 43, "x": 3148, "y": 9888, "z": 0, "walkRange": 8 }, // levelombie
+  { "id": 44, "x": 3148, "y": 9907, "z": 0, "walkRange": 9 }, // levelombie
+  { "id": 44, "x": 3147, "y": 9887, "z": 0, "walkRange": 13 }, // levelombie
+  { "id": 44, "x": 3146, "y": 9886, "z": 0, "walkRange": 11 }, // levelombie
+  { "id": 55, "x": 3122, "y": 9864, "z": 0, "walkRange": 7 }, // levelombie
+  { "id": 56, "x": 3117, "y": 9865, "z": 0, "walkRange": 12 }, // levelombie
+  { "id": 57, "x": 3134, "y": 9870, "z": 0, "walkRange": 1 }, // levelombie
+  { "id": 58, "x": 3128, "y": 9862, "z": 0, "walkRange": 7 }, // levelombie
+  { "id": 70, "x": 3131, "y": 9906, "z": 0, "walkRange": 4 }, // Skeleton
+  { "id": 71, "x": 3114, "y": 9911, "z": 0, "walkRange": 4, "direction": "W" }, // Skeleton
+  { "id": 71, "x": 3129, "y": 9908, "z": 0, "walkRange": 11 }, // Skeleton
+  { "id": 72, "x": 3126, "y": 9906, "z": 0, "walkRange": 6 }, // Skeleton
+  { "id": 73, "x": 3137, "y": 9874, "z": 0, "walkRange": 10 }, // Skeleton
+  { "id": 73, "x": 3132, "y": 9913, "z": 0, "walkRange": 7 }, // Skeleton
+  { "id": 74, "x": 3096, "y": 9899, "z": 0, "walkRange": 3 }, // Skeleton
+  { "id": 74, "x": 3096, "y": 9910, "z": 0, "walkRange": 2 }, // Skeleton
+  { "id": 75, "x": 3095, "y": 9894, "z": 0, "walkRange": 4 }, // Skeleton
+  { "id": 75, "x": 3097, "y": 9915, "z": 0, "walkRange": 3 }, // Skeleton
+  { "id": 76, "x": 3095, "y": 9888, "z": 0, "walkRange": 3 }, // Skeleton
+  { "id": 76, "x": 3098, "y": 9907, "z": 0, "walkRange": 1 }, // Skeleton
+  { "id": 77, "x": 3132, "y": 9873, "z": 0, "walkRange": 9 }, // Skeleton
+  { "id": 77, "x": 3120, "y": 9909, "z": 0, "walkRange": 10 }, // Skeleton
+  { "id": 77, "x": 3134, "y": 9909, "z": 0, "walkRange": 13 }, // Skeleton
+  { "id": 78, "x": 3138, "y": 9873, "z": 0, "walkRange": 13 }, // Skeleton
+  { "id": 79, "x": 3147, "y": 9870, "z": 0, "walkRange": 4 }, // Skeleton
+  { "id": 80, "x": 3143, "y": 9872, "z": 0, "walkRange": 13 }, // Skeleton
+  { "id": 81, "x": 3148, "y": 9870, "z": 0, "walkRange": 5 }, // Skeleton
+  { "id": 82, "x": 3100, "y": 9956, "z": 0, "walkRange": 12 }, // Skeleton
+  { "id": 82, "x": 3106, "y": 9942, "z": 0, "walkRange": 5 }, // Skeleton
+  { "id": 82, "x": 3101, "y": 9955, "z": 0, "walkRange": 8 }, // Skeleton
+  { "id": 82, "x": 3106, "y": 9951, "z": 0, "walkRange": 9 }, // Skeleton
+  { "id": 82, "x": 3108, "y": 9952, "z": 0, "walkRange": 11 }, // Skeleton
+  { "id": 82, "x": 3108, "y": 9952, "z": 0, "walkRange": 9 }, // Skeleton
+  { "id": 82, "x": 3110, "y": 9956, "z": 0, "walkRange": 5 }, // Skeleton
+  { "id": 403, "x": 3146, "y": 9913, "z": 0, "walkRange": 5 }, // Vannaka
+  { "id": 520, "x": 3107, "y": 9944, "z": 0, "walkRange": 9 }, // Chaos druid
+  { "id": 520, "x": 3104, "y": 9938, "z": 0, "walkRange": 4 }, // Chaos druid
+  { "id": 520, "x": 3105, "y": 9942, "z": 0, "walkRange": 3 }, // Chaos druid
+  { "id": 520, "x": 3107, "y": 9944, "z": 0, "walkRange": 5 }, // Chaos druid
+  { "id": 520, "x": 3108, "y": 9929, "z": 0, "walkRange": 2 }, // Chaos druid
+  { "id": 520, "x": 3110, "y": 9938, "z": 0, "walkRange": 5 }, // Chaos druid
+  { "id": 520, "x": 3111, "y": 9936, "z": 0, "walkRange": 4 }, // Chaos druid
+  { "id": 520, "x": 3110, "y": 9936, "z": 0, "walkRange": 10 }, // Chaos druid
+  { "id": 520, "x": 3112, "y": 9932, "z": 0, "walkRange": 10 }, // Chaos druid
+  { "id": 520, "x": 3116, "y": 9926, "z": 0, "walkRange": 7 }, // Chaos druid
+  { "id": 520, "x": 3112, "y": 9933, "z": 0, "walkRange": 3 }, // Chaos druid
+  { "id": 525, "x": 3122, "y": 9929, "z": 0, "walkRange": 4 }, // Thug
+  { "id": 525, "x": 3126, "y": 9927, "z": 0, "walkRange": 7 }, // Thug
+  { "id": 525, "x": 3126, "y": 9931, "z": 0, "walkRange": 3 }, // Thug
+  { "id": 525, "x": 3130, "y": 9931, "z": 0, "walkRange": 6 }, // Thug
+  { "id": 525, "x": 3131, "y": 9934, "z": 0, "walkRange": 8 }, // Thug
+  { "id": 525, "x": 3131, "y": 9921, "z": 0, "walkRange": 6 }, // Thug
+  { "id": 525, "x": 3131, "y": 9926, "z": 0, "walkRange": 4 }, // Thug
+  { "id": 525, "x": 3132, "y": 9928, "z": 0, "walkRange": 5 }, // Thug
+  { "id": 525, "x": 3131, "y": 9934, "z": 0, "walkRange": 9 }, // Thug
+  { "id": 2049, "x": 3082, "y": 9954, "z": 0, "walkRange": 3 }, // Black demon
+  { "id": 2050, "x": 3093, "y": 9955, "z": 0, "walkRange": 9 }, // Black demon
+  { "id": 2052, "x": 3089, "y": 9958, "z": 0, "walkRange": 6 }, // Black demon
+  { "id": 2090, "x": 3156, "y": 9906, "z": 0, "walkRange": 2 }, // Moss giant
+  { "id": 2090, "x": 3158, "y": 9900, "z": 0, "walkRange": 2 }, // Moss giant
+  { "id": 2090, "x": 3163, "y": 9877, "z": 0, "walkRange": 2 }, // Moss giant
+  { "id": 2091, "x": 3158, "y": 9895, "z": 0, "walkRange": 2 }, // Moss giant
+  { "id": 2091, "x": 3157, "y": 9905, "z": 0, "walkRange": 4 }, // Moss giant
+  { "id": 2091, "x": 3164, "y": 9880, "z": 0 }, // Moss giant
+  { "id": 2092, "x": 3156, "y": 9902, "z": 0, "walkRange": 4 }, // Moss giant
+  { "id": 2092, "x": 3168, "y": 9880, "z": 0, "direction": "E" }, // Moss giant
+  { "id": 2093, "x": 3158, "y": 9898, "z": 0, "walkRange": 2 }, // Moss giant
+  { "id": 2093, "x": 3166, "y": 9883, "z": 0, "walkRange": 3 }, // Moss giant
+  { "id": 2098, "x": 3117, "y": 9852, "z": 0, "direction": "N" }, // Hill Giant
+  { "id": 2840, "x": 3120, "y": 9977, "z": 0, "walkRange": 4 }, // Earth warrior
+  { "id": 2840, "x": 3123, "y": 9974, "z": 0, "walkRange": 6 }, // Earth warrior
+  { "id": 2840, "x": 3116, "y": 9991, "z": 0, "walkRange": 3 }, // Earth warrior
+  { "id": 2840, "x": 3118, "y": 9990, "z": 0, "walkRange": 5 }, // Earth warrior
+  { "id": 2840, "x": 3118, "y": 9992, "z": 0, "direction": "E" }, // Earth warrior
+  { "id": 2840, "x": 3122, "y": 9993, "z": 0, "walkRange": 4 }, // Earth warrior
+  { "id": 2840, "x": 3122, "y": 9988, "z": 0, "walkRange": 9 }, // Earth warrior
+  { "id": 2840, "x": 3125, "y": 9991, "z": 0, "walkRange": 4 }, // Earth warrior
+  { "id": 2840, "x": 3123, "y": 9994, "z": 0, "walkRange": 4 }, // Earth warrior
+  { "id": 2840, "x": 3120, "y": 9973, "z": 0, "walkRange": 8 }, // Earth warrior
+  { "id": 2840, "x": 3120, "y": 9973, "z": 0, "walkRange": 3 }, // Earth warrior
+  { "id": 2854, "x": 3118, "y": 9887, "z": 0, "walkRange": 9 }, // Rat
+  { "id": 2854, "x": 3120, "y": 9883, "z": 0, "walkRange": 8 }, // Rat
+  { "id": 2856, "x": 3090, "y": 9895, "z": 0, "walkRange": 3 }, // Giant rat
+  { "id": 2856, "x": 3101, "y": 9881, "z": 0, "walkRange": 10 }, // Giant rat
+  { "id": 2856, "x": 3119, "y": 9889, "z": 0, "walkRange": 4 }, // Giant rat
+  { "id": 2863, "x": 3089, "y": 9897, "z": 0, "walkRange": 3 }, // Giant rat
+  { "id": 2863, "x": 3121, "y": 9891, "z": 0, "walkRange": 4 }, // Giant rat
+  { "id": 2864, "x": 3117, "y": 9889, "z": 0, "walkRange": 5 }, // Giant rat
+  { "id": 3017, "x": 3098, "y": 9878, "z": 0, "walkRange": 11 }, // Giant spider
+  { "id": 3017, "x": 3097, "y": 9874, "z": 0, "walkRange": 6 }, // Giant spider
+  { "id": 3021, "x": 3122, "y": 9951, "z": 0, "walkRange": 9 }, // Deadlz red spider
+  { "id": 3021, "x": 3120, "y": 9956, "z": 0, "walkRange": 8 }, // Deadlz red spider
+  { "id": 3021, "x": 3123, "y": 9951, "z": 0, "walkRange": 19 }, // Deadlz red spider
+  { "id": 3021, "x": 3122, "y": 9958, "z": 0, "walkRange": 13 }, // Deadlz red spider
+  { "id": 3021, "x": 3127, "y": 9947, "z": 0, "walkRange": 9 }, // Deadlz red spider
+  { "id": 3021, "x": 3124, "y": 9956, "z": 0, "walkRange": 10 }, // Deadlz red spider
+  { "id": 3021, "x": 3125, "y": 9951, "z": 0, "walkRange": 8 }, // Deadlz red spider
+  { "id": 3021, "x": 3175, "y": 9882, "z": 0, "walkRange": 2 }, // Deadlz red spider
+  { "id": 3021, "x": 3173, "y": 9892, "z": 0, "walkRange": 8 }, // Deadlz red spider
+  { "id": 3021, "x": 3177, "y": 9880, "z": 0, "walkRange": 3 }, // Deadlz red spider
+  { "id": 3021, "x": 3177, "y": 9886, "z": 0, "walkRange": 6 }, // Deadlz red spider
+  { "id": 3021, "x": 3178, "y": 9880, "z": 0, "walkRange": 4 }, // Deadlz red spider
+  { "id": 3021, "x": 3173, "y": 9885, "z": 0, "walkRange": 2 }, // Deadlz red spider
+  { "id": 3021, "x": 3178, "y": 9887, "z": 0, "walkRange": 12 }, // Deadlz red spider
+  { "id": 3021, "x": 3179, "y": 9887, "z": 0, "walkRange": 8 }, // Deadlz red spider
+  { "id": 3021, "x": 3180, "y": 9893, "z": 0, "walkRange": 5 }, // Deadlz red spider
+  { "id": 3021, "x": 3118, "y": 9953, "z": 0, "walkRange": 13 }, // Deadlz red spider
+  { "id": 3021, "x": 3117, "y": 9954, "z": 0, "walkRange": 12 }, // Deadlz red spider
+  { "id": 3023, "x": 3084, "y": 9938, "z": 0, "walkRange": 5 }, // Poison spider
+  { "id": 3023, "x": 3088, "y": 9946, "z": 0, "walkRange": 11 }, // Poison spider
+  { "id": 3023, "x": 3085, "y": 9939, "z": 0, "walkRange": 11 }, // Poison spider
+  { "id": 3049, "x": 3122, "y": 9872, "z": 0, "walkRange": 14 }, // Hobgoblin
+  { "id": 3049, "x": 3126, "y": 9868, "z": 0, "walkRange": 16 }, // Hobgoblin
+  { "id": 3050, "x": 3117, "y": 9871, "z": 0, "walkRange": 6 }, // Hobgoblin
+  { "id": 3050, "x": 3123, "y": 9879, "z": 0, "walkRange": 4 }, // Hobgoblin
+  { "id": 3050, "x": 3128, "y": 9875, "z": 0, "walkRange": 5 }, // Hobgoblin
+  { "id": 4806, "x": 3083, "y": 9893, "z": 0, "direction": "E" }, // Evil Dave
+  { "id": 4809, "x": 3082, "y": 9881, "z": 0, "walkRange": 1, "direction": "S" }, // Hell-Rat
+  { "id": 4809, "x": 3084, "y": 9879, "z": 0, "direction": "S" }, // Hell-Rat
+  { "id": 4809, "x": 3083, "y": 9886, "z": 0, "walkRange": 6 }, // Hell-Rat
+  { "id": 4809, "x": 3082, "y": 9883, "z": 0, "walkRange": 3 }, // Hell-Rat
+  { "id": 4809, "x": 3080, "y": 9880, "z": 0, "direction": "W" }, // Hell-Rat
+  { "id": 4809, "x": 3084, "y": 9885, "z": 0, "walkRange": 8 }, // Hell-Rat
+  { "id": 4809, "x": 3080, "y": 9886, "z": 0, "direction": "SE" }, // Hell-Rat
+  { "id": 4809, "x": 3081, "y": 9889, "z": 0, "walkRange": 3 }, // Hell-Rat
+  { "id": 4809, "x": 3082, "y": 9885, "z": 0, "walkRange": 2 }, // Hell-Rat
+  { "id": 4809, "x": 3083, "y": 9883, "z": 0, "walkRange": 6 }, // Hell-Rat
+  { "id": 4809, "x": 3083, "y": 9887, "z": 0, "walkRange": 3 }, // Hell-Rat
+  { "id": 4809, "x": 3083, "y": 9888, "z": 0, "walkRange": 4 }, // Hell-Rat
+  { "id": 4987, "x": 3087, "y": 9939, "z": 0, "walkRange": 8 }, // Chronolevelon
+  { "id": 6793, "x": 3081, "y": 9875, "z": 0, "direction": "N" }, // Hell-Rat Behemoth
+]

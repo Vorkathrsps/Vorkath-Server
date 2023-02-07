@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Main-Class: com.aelous.GameServer
+Class-Path: bzip2.jar xnio-api.jar xnio-nio.jar java-json.jar ant-1.10.1
+ .jar gson-2.8.6.jar jbcrypt-2y.jar kryo-4.0.0.jar annotations.jar jedis
+ -2.9.0.jar jsoup-1.8.3.jar c3p0-0.9.5.2.jar config-1.4.0.jar dawnguard-
+ 2.2.jar commons-io-2.6.jar fastutil-8.3.1.jar guava-28.2-jre.jar Hikari
+ CP-3.4.2.jar disruptor-3.4.2.jar httpcore-4.4.10.jar json-simple-1.1.ja
+ r xpp3_min-1.1.4c.jar commons-text-1.8.jar httpclient-4.5.6.jar log4j-a
+ pi-2.13.0.jar slf4j-nop-1.7.28.jar unsafe-mock-8.92.jar commons-lang3-3
+ .9.jar log4j-core-2.13.0.jar postgresql-42.2.2.jar quasar-core-0.8.0.ja
+ r reflections-0.9.11.jar antlr-runtime-3.5.2.jar commons-pool2-2.6.0.ja
+ r failureaccess-1.0.1.jar javassist-3.12.1.GA.jar junit-jupiter-5.5.2.j
+ ar mixpanel-java-1.4.4.jar kotlin-stdlib-1.2.41.jar apiguardian-api-1.1
+ .0.jar commons-compress-1.20.jar netty-all-4.1.45.Final.jar reactive-st
+ reams-1.0.2.jar junit-jupiter-api-5.5.2.jar aws-java-sdk-ses-1.11.170.j
+ ar jboss-logging-3.3.2.Final.jar netty-buffer-4.1.45.Final.jar netty-co
+ mmon-4.1.45.Final.jar undertow-core-2.0.16.Final.jar kotlin-gradle-plug
+ in-1.2.41.jar mysql-connector-java-8.0.19.jar junit-platform-commons-1.
+ 5.2.jar netty-transport-4.1.45.Final.jar JDA-4.0.0_39-withDependencies.
+ jar junit-platform-launcher-1.5.2.jar quasar-reactive-streams-0.8.0.jar
+  kotlin-gradle-plugin-1.2.41-javadoc.jar kotlin-gradle-plugin-1.2.41-so
+ urces.jar
+

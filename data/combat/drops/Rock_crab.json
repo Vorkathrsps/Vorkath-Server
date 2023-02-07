@@ -1,0 +1,57 @@
+{
+  "npcs": [ 100, 102 ],
+  "tables": [
+    {
+      "name": "Weapons and armour",
+      "points": 1,
+      "items": [
+        { "id": 1265, "min": 1, "max": 1, "points": 6 }, //Bronze pickaxe
+        { "id": 1267, "min": 1, "max": 1, "points": 3 }, //Iron pickaxe
+        { "id": 1351, "min": 1, "max": 1, "points": 1 }, //Bronze axe
+        { "id": 1381, "min": 1, "max": 1, "points": 1 }, //Staff of air
+        { "id": 1383, "min": 1, "max": 1, "points": 1 }, //Staff of water
+        { "id": 1385, "min": 1, "max": 1, "points": 1 }, //Staff of earth
+        { "id": 1387, "min": 1, "max": 1, "points": 1 }, //Staff of fire
+        { "id": 3105, "min": 1, "max": 1, "points": 1 } //Climbing boots
+      ]
+    },
+    {
+      "name": "Runes and talisman",
+      "points": 1,
+      "items": [
+        { "id": 554, "min": 7, "max": 7, "points": 6 }, //Fire rune
+        { "id": 561, "min": 4, "max": 4, "points": 3 }, //Nature rune
+        { "id": 562, "min": 1, "max": 1, "points": 1 } //Chaos rune
+      ]
+    },
+    {
+      "name": "Others",
+      "points": 1,
+      "items": [
+        { "id": 407, "min": 1, "max": 2, "points": 12 }, //Oyster
+        { "id": 401, "min": 1, "max": 5, "points": 12 }, //Seaweed
+        { "id": 411, "min": 1, "max": 1, "points": 12 }, //Oyster pearl
+        { "id": 409, "min": 1, "max": 1, "points": 12 }, //Empty oyster
+        { "id": 1969, "min": 1, "max": 1, "points": 12 }, //Spinach roll
+        { "id": 946, "min": 1, "max": 1, "points": 9 }, //Knife
+        { "id": 45, "min": 5, "max": 5, "points": 9 }, //Opal bolt tips
+        { "id": 440, "min": 1, "max": 1, "points": 9 }, //Iron ore
+        { "id": 453, "min": 2, "max": 2, "points": 9 }, //Coal
+        { "id": 436, "min": 3, "max": 3, "points": 9 }, //Copper ore
+        { "id": 438, "min": 3, "max": 3, "points": 9 }, //Tin ore
+        { "id": 313, "min": 1, "max": 10, "points": 6 }, //Fishing bait
+        { "id": 403, "min": 2, "max": 2, "points": 6 }, //Edible seaweed
+        { "id": 9187, "min": 1, "max": 1, "points": 6 }, //Jade bolt tips
+        { "id": 225, "min": 1, "max": 1, "points": 6 }, //Limpwurt root
+        { "id": 207, "min": 1, "max": 1, "points": 6 }, //Grimy ranarr weed
+        { "id": 211, "min": 1, "max": 1, "points": 6 }, //Grimy avantoe
+        { "id": 5293, "min": 1, "max": 1, "points": 3 }, //Tarromin seed
+        { "id": 5295, "min": 1, "max": 1, "points": 3 }, //Ranarr seed
+        { "id": 405, "min": 1, "max": 1, "points": 1 }, //Casket
+        { "id": 3840, "min": 1, "max": 1, "points": 1 }, //Holy book
+        { "id": 12608, "min": 1, "max": 1, "points": 1 }, //Book of war
+        { "id": 12610, "min": 1, "max": 1, "points": 1 } //Book of law
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "npcs": [ 319 ],
+  "guaranteed": [
+    { "id": 13307, "min": 250, "max": 55300 }   //blood money
+  ],
+  "petItem": 12816,
+  "petRarity": 1000,
+  "tables": [
+    {
+      "name": "Unique",
+      "points": 1,
+      "items": [
+        { "id": 23686, "min": 2, "max": 10, "points": 80 }, //Divine super combat potion(4) (noted)
+        { "id": 12914, "min": 5, "max": 10, "points": 80 }, //Anti-venom+(4) (noted)
+        { "id": 21979, "min": 2, "max": 10, "points": 80 }, //Super antifire potion(4) (noted)
+        { "id": 6586, "min": 1, "max": 5, "points": 70 }, //Fury
+        { "id": 12833, "min": 1, "max": 1, "points": 40 }, //Holy elixir
+        { "id": 12831, "min": 1, "max": 1, "points": 18 }, //Blessed Spirit shield
+        { "id": 12821, "min": 1, "max": 1, "points": 3 }, //Spectral
+        { "id": 12825, "min": 1, "max": 1, "points": 2 }, //Arcane
+        { "id": 12817, "min": 1, "max": 1, "points": 1 } //Ely
+      ]
+    },
+    {
+      "name": "Other",
+      "points": 3,
+      "items": []
+    }
+  ]
+}

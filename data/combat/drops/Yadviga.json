@@ -1,0 +1,45 @@
+{
+  "npcs": [ 5816 ],
+  "guaranteed": [
+    { "id": 526, "min": 1, "max": 1, "points": 1 }, //Bones
+    { "id": 10818, "min": 1, "max": 1, "points": 1 }, //Yak-hide
+    { "id": 10814, "min": 1, "max": 1, "points": 1 }, //Hair
+    { "id": 10816, "min": 1, "max": 1, "points": 1 } //Raw yak meat
+  ],
+  "tables": [
+    {
+      "name": "Runes",
+      "points": 12,
+      "items": [
+      ]
+    },
+    {
+      "name": "Weapons/Armour",
+      "points": 1,
+      "items": [
+        { "id": 1327, "min": 1, "max": 1, "points": 6 }, //Black scimitar
+        { "id": 1329, "min": 1, "max": 1, "points": 6 }, //Mithril scimitar
+        { "id": 1331, "min": 1, "max": 1, "points": 4 }, //Adamant scimitar
+        { "id": 1333, "min": 1, "max": 1, "points": 3 } //Rune scimitar
+      ]
+    },
+    {
+      "name": "Seeds",
+      "points": 8,
+      "items": [
+      ]
+    },
+    {
+      "name": "Other",
+      "points": 4,
+      "items": [
+      ]
+    },
+    {
+      "name": "Unique",
+      "points": 1,
+      "items": [
+      ]
+    }
+  ]
+}

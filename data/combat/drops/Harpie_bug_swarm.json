@@ -1,0 +1,38 @@
+{
+  "npcs": [ 464 ],
+
+  "tables": [
+    {
+      "name": "Weapons/Armour",
+      "points": 1,
+      "items": [
+        { "id": 1387, "min": 1, "max": 1, "points": 9 }, //Staff of fire
+        { "id": 1353, "min": 1, "max": 1, "points": 9 }, //Steel axe
+        { "id": 1157, "min": 1, "max": 1, "points": 6 }, //Steel full helm
+        { "id": 4123, "min": 1, "max": 1, "points": 6 }, //Steel boots
+        { "id": 1145, "min": 1, "max": 1, "points": 3 }, //Adamant med helm
+        { "id": 1109, "min": 1, "max": 1, "points": 1 } //Mithril chainbody
+      ]
+    },
+    {
+      "name": "Runes",
+      "points": 1,
+      "items": [
+        { "id": 554, "min": 30, "max": 30, "points": 3 }, //Fire rune
+        { "id": 554, "min": 60, "max": 60, "points": 3 }, //Fire rune
+        { "id": 554, "min": 120, "max": 120, "points": 3 }, //Fire rune
+        { "id": 562, "min": 15, "max": 15, "points": 3 }, //Chaos rune
+        { "id": 560, "min": 3, "max": 3, "points": 1 } //Death rune
+      ]
+    },
+    {
+      "name": "Other",
+      "points": 1,
+      "items": [
+
+        { "id": 444, "min": 1, "max": 1, "points": 1 }, //Gold ore
+        { "id": 1993, "min": 1, "max": 1, "points": 1 } //Jug of wine
+      ]
+    }
+  ]
+}

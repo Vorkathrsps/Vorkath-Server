@@ -1,0 +1,55 @@
+{
+  "npcs": [ 7939, 7940, 7938 ],
+  "guaranteed": [
+    { "id": 21820, "min": 5, "max": 50 },   //Revenant ether
+    { "id": 13307, "min": 5, "max": 5910 }   //blood money
+  ],
+  "tables": [
+    {
+      "name": "Unique",
+      "points": 7,
+      "items": [
+        { "id": 5953, "min": 2, "max": 75, "points": 450 }, //Antidote++(4) (noted)
+        { "id": 392, "min": 2, "max": 15, "points": 450 }, //MANTA
+        { "id": 12626, "min": 1, "max": 25, "points": 450 }, //Stamina potion(noted)
+        { "id": 20849, "min": 1, "max": 10, "points": 375 }, //Dragon thrownaxe
+        { "id": 24225, "min": 1, "max": 1, "points": 70 }, //Granite maul
+        { "id": 21816, "min": 1, "max": 1, "points": 375 }, //Bracelet of ethereum
+        { "id": 11840, "min": 1, "max": 1, "points": 70 }, //Dragon boots
+        { "id": 6585, "min": 1, "max": 1, "points": 30 }, //Amulet of fury
+        { "id": 11235, "min": 1, "max": 1, "points": 200 }, //Dark bow
+        { "id": 11941, "min": 1, "max": 1, "points": 375 },   //Looting bag
+        { "id": 21807, "min": 1, "max": 1, "points": 30 },   //Ancient emblem
+        { "id": 21810, "min": 1, "max": 1, "points": 15 },   //Ancient totem
+        { "id": 21813, "min": 1, "max": 1, "points": 10 },   //Ancient statuette
+        { "id": 22299, "min": 1, "max": 1, "points": 7 },   //Ancient medallion
+        { "id": 22302, "min": 1, "max": 1, "points": 8 },   //Ancient effigy
+        { "id": 22305, "min": 1, "max": 1, "points": 4 },   //Ancient relic
+        { "id": 22557, "min": 1, "max": 1, "points": 3 },  //Amulet of avarice
+        { "id": 22545, "min": 1, "max": 1, "points": 3 }, //Viggora's chainmace
+        { "id": 22550, "min": 1, "max": 1, "points": 3 }, //Craw's bow
+        { "id": 22555, "min": 1, "max": 1, "points": 3 }, //Thammaron's sceptre
+        { "id": 22647, "min": 1, "max": 1, "points": 2 }, //Zuriel's staff
+        { "id": 22650, "min": 1, "max": 1, "points": 2 }, //Zuriel's hood
+        { "id": 22653, "min": 1, "max": 1, "points": 2 }, //Zuriel's robe top
+        { "id": 22656, "min": 1, "max": 1, "points": 2 }, //Zuriel's robe bottom
+        { "id": 22638, "min": 1, "max": 1, "points": 2 }, //Morrigan's coif
+        { "id": 22641, "min": 1, "max": 1, "points": 2 }, //Morrigan's leather body
+        { "id": 22644, "min": 1, "max": 1, "points": 2 }, //Morrigan's leather chaps
+        { "id": 22622, "min": 1, "max": 1, "points": 2 }, //SWH
+        { "id": 22625, "min": 1, "max": 1, "points": 2 }, //Statius's Helm
+        { "id": 22628, "min": 1, "max": 1, "points": 2 }, //Statius's platebody
+        { "id": 22631, "min": 1, "max": 1, "points": 2 }, //Statius's platelegs
+        { "id": 22616, "min": 1, "max": 1, "points": 2 }, //Vesta's Chainbody
+        { "id": 22619, "min": 1, "max": 1, "points": 2 }, //ZVesta's Chainskirt
+        { "id": 22613, "min": 1, "max": 1, "points": 2 }, //VLS
+        { "id": 22610, "min": 1, "max": 1, "points": 2 } //Vesta Spear
+      ]
+    },
+    {
+      "name": "Empty",
+      "points": 9,
+      "items": []
+    }
+  ]
+}

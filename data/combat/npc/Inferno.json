@@ -1,0 +1,508 @@
+[
+  {
+	// Jal-Nib
+	"ids": [
+	  7691
+	],
+	"maxhit": 2,
+	"unstacked": false, // BTW nigglers are only NPC which does not stack aka get stuck behind other Npcs in Inferno
+	"retaliates": false, // Always goes towards pillars, if pillars are dead, we die too.
+	"attackspeed": 4,
+	"deathlen": 3,
+	"stats": {
+	  "attack": 1,
+	  "strength": 1,
+	  "magic": 15,
+	  "ranged": 1,
+	  "defence": 15,
+	  "hitpoints": 15
+	},
+	"bonuses": {
+	  "stabdefence": -20,
+	  "slashdefence": -20,
+	  "crushdefence": -20,
+	  "rangeddefence": -20,
+	  "magicdefence": -20
+	},
+	"animations": {
+	  "attack": 7574,
+	  "block": 7575,
+	  "death": 7576
+	},
+	"scripts": {
+	  //"combat": "nl.bartpelle.veteres.content.npcs.inferno.JalNib.script"
+	}
+  },
+  {
+	// Jal-MejRah
+	"ids": [
+	  7692
+	],
+	"maxhit": 19,
+	"attackspeed": 3,
+	"deathlen": 3,
+	"unstacked": true,
+	"stats": {
+	  "attack": 1,
+	  "strength": 1,
+	  "magic": 120,
+	  "ranged": 120,
+	  "defence": 55,
+	  "hitpoints": 25
+	},
+	"bonuses": {
+	  "stabdefence": 30,
+	  "slashdefence": 30,
+	  "crushdefence": 30,
+	  "magicdefence": -20,
+	  "rangeddefence": 45
+	},
+	"animations": {
+	  "attack": 7578,
+	  "block": 7579,
+	  "death": 7580
+	},
+	"scripts": {
+	  //"combat": "nl.bartpelle.veteres.content.npcs.inferno.JalMejRah.script"
+	}
+  },
+  {
+	// Jal-Ak
+	"ids": [
+	  7693
+	],
+	"maxhit": 29,
+	"attackspeed": 6,
+	"deathlen": 3,
+	"unstacked": true,
+	"stats": {
+	  "attack": 160,
+	  "strength": 160,
+	  "magic": 160,
+	  "ranged": 160,
+	  "defence": 95,
+	  "hitpoints": 40
+	},
+	"bonuses": {
+	  "stabdefence": 45,
+	  "slashdefence": 45,
+	  "crushdefence": 45,
+	  "magicdefence": 45,
+	  "rangeddefence": 45
+	},
+	"animations": {
+	  "attack": 7587,
+	  "block": 7585,
+	  "death": 7584
+	},
+	"scripts": {
+	  //"combat": "nl.bartpelle.veteres.content.npcs.inferno.JalAk.script"
+	}
+  },
+  {
+	// Jal-AkRek-Xil
+	"ids": [
+	  7695
+	],
+	"maxhit": 18,
+	"attackspeed": 6,
+	"deathlen": 3,
+	"unstacked": true,
+	"stats": {
+	  "attack": 1,
+	  "strength": 1,
+	  "magic": 1,
+	  "ranged": 120,
+	  "defence": 95,
+	  "hitpoints": 15
+	},
+	"bonuses": {
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "magicdefence": 0,
+	  "rangeddefence": 0
+	},
+	"animations": {
+	  "attack": 7587,
+	  "block": 7585,
+	  "death": 7584
+	},
+	"scripts": {
+	  //"combat": "nl.bartpelle.veteres.content.npcs.inferno.JalAkRekXil.script"
+	}
+  },
+  {
+	// Jal-AkRek-Mej
+	"ids": [
+	  7694
+	],
+	"maxhit": 18,
+	"attackspeed": 6,
+	"deathlen": 3,
+	"unstacked": true,
+	"stats": {
+	  "attack": 1,
+	  "strength": 1,
+	  "magic": 120,
+	  "ranged": 1,
+	  "defence": 95,
+	  "hitpoints": 15
+	},
+	"bonuses": {
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "magicdefence": 0,
+	  "rangeddefence": 0
+	},
+	"animations": {
+	  "attack": 7587,
+	  "block": 7585,
+	  "death": 7584
+	},
+	"scripts": {
+	  //"combat": "nl.bartpelle.veteres.content.npcs.inferno.JalAkRekMej.script"
+	}
+  },
+  {
+	//healers
+	"ids": [
+	  7708
+	],
+	"maxhit": 10,
+	"attackspeed": 4,
+	"deathlen": 3,
+	"unstacked": false,
+	"retaliates": false,
+	"stats": {
+	  "attack": 1,
+	  "strength": 1,
+	  "magic": 1,
+	  "ranged": 1,
+	  "defence": 100,
+	  "hitpoints": 80
+	},
+	"bonuses": {
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "magicdefence": 0,
+	  "rangeddefence": 0
+	},
+	"animations": {
+	  "attack": 2868,
+	  "block": 2869,
+	  "death": 2866
+	},
+	"scripts": {
+	  //"combat": "nl.bartpelle.veteres.content.npcs.inferno.JalMejJakCombat.script"
+	}
+  },
+  {
+	// Jal-AkRek-Ket
+	"ids": [
+	  7696
+	],
+	"maxhit": 18,
+	"attackspeed": 6,
+	"deathlen": 3,
+	"unstacked": true,
+	"stats": {
+	  "attack": 120,
+	  "strength": 120,
+	  "magic": 1,
+	  "ranged": 1,
+	  "defence": 95,
+	  "hitpoints": 15
+	},
+	"bonuses": {
+	  "stabdefence": 25,
+	  "slashdefence": 25,
+	  "crushdefence": 25,
+	  "magicdefence": 0,
+	  "rangeddefence": 0
+	},
+	"animations": {
+	  "attack": 7587,
+	  "block": 7585,
+	  "death": 7584
+	},
+	"scripts": {
+	  //"combat": "nl.bartpelle.veteres.content.npcs.inferno.JalAkRekKet.script"
+	}
+  },
+  {
+	// Jal-ImKot
+	"ids": [
+	  7697
+	],
+	"maxhit": 49,
+	"attackspeed": 6,
+	"deathlen": 3,
+	"unstacked": true,
+	"stats": {
+	  "attack": 210,
+	  "strength": 210,
+	  "magic": 120,
+	  "ranged": 220,
+	  "defence": 120,
+	  "hitpoints": 75
+	},
+	"bonuses": {
+	  "stabdefence": 65,
+	  "slashdefence": 65,
+	  "crushdefence": 65,
+	  "magicdefence": 30,
+	  "rangeddefence": 50
+	},
+	"animations": {
+	  "attack": 7597,
+	  "block": 7598,
+	  "death": 7599
+	},
+	"scripts": {
+	  //"combat": "nl.bartpelle.veteres.content.npcs.inferno.JalImKot.script"
+	}
+  },
+  {
+	// pillar
+	"ids": [
+	  7709,
+	  7710
+	],
+	"maxhit": 0,
+	"attackspeed": 6,
+	"deathlen": 3,
+	"unstacked": true,
+	"retaliates": false,
+	"stats": {
+	  "attack": 0,
+	  "strength": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 0,
+	  "hitpoints": 250
+	},
+	"bonuses": {
+	  "magic": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 7597,
+	  "block": 7598,
+	  "death": 7561
+	}
+  },
+  {
+	// shield
+	"ids": [
+	  7707
+	],
+	"maxhit": 0,
+	"attackspeed": 6,
+	"deathlen": 3,
+	"stats": {
+	  "attack": 0,
+	  "strength": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 0,
+	  "hitpoints": 600
+	},
+	"bonuses": {
+	  "magic": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "death": 7561
+	}
+  },
+  {
+	// TzKal-Zuk
+	"ids": [
+	  7706
+	],
+	"maxhit": 251,
+	"attackspeed": 6,
+	"deathlen": 6,
+	"unstacked": true,
+	"retaliates": false,
+	"slayerxp": 0,
+	"slayerlvl": 1,
+	"stats": {
+	  "attack": 350,
+	  "strength": 600,
+	  "magic": 150,
+	  "ranged": 400,
+	  "defence": 260,
+	  "hitpoints": 1200
+	},
+	"bonuses": {
+	  "magic": 550,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 100,
+	  "magicdefence": 350
+	},
+	"animations": {
+	  "attack": 7566,
+	  "block": 7565,
+	  "death": 7562
+	},
+	"scripts": {
+	  //"combat": "nl.bartpelle.veteres.content.npcs.inferno.TzKalZuk.script"
+	}
+  },
+  {
+	// Jal-Xil
+	"ids": [
+	  7698
+	],
+	"maxhit": 46,
+	"attackspeed": 6,
+	"deathlen": 5,
+	"unstacked": true,
+	"slayerxp": 0,
+	"slayerlvl": 1,
+	"stats": {
+	  "attack": 140,
+	  "strength": 180,
+	  "magic": 90,
+	  "ranged": 250,
+	  "defence": 60,
+	  "hitpoints": 130
+	},
+	"bonuses": {
+	  "magic": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 7605,
+	  "block": 7607,
+	  "death": 7606
+	},
+	"scripts": {
+	  //"combat": "nl.bartpelle.veteres.content.npcs.inferno.JalXil.script"
+	}
+  },
+  {
+	// JalTok-Jad
+	"ids": [
+	  7700
+	],
+	"maxhit": 113,
+	"attackspeed": 8,
+	"deathlen": 6,
+	"unstacked": true,
+	"slayerxp": 0,
+	"slayerlvl": 1,
+	"stats": {
+	  "attack": 750,
+	  "strength": 1020,
+	  "magic": 510,
+	  "ranged": 1020,
+	  "defence": 480,
+	  "hitpoints": 350
+	},
+	"bonuses": {
+	  "magic": 100,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 7592,
+	  "block": 7591,
+	  "death": 7594
+	},
+	"scripts": {
+	  //"combat": "nl.bartpelle.veteres.content.npcs.inferno.JalTokJad.script"
+	}
+  },
+  {
+	// Jal-Zek
+	"ids": [
+	  7699
+	],
+	"maxhit": 70,
+	"attackspeed": 6,
+	"deathlen": 3,
+	"unstacked": true,
+	"slayerxp": 0,
+	"slayerlvl": 1,
+	"stats": {
+	  "attack": 370,
+	  "strength": 510,
+	  "magic": 300,
+	  "ranged": 510,
+	  "defence": 260,
+	  "hitpoints": 220
+	},
+	"bonuses": {
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 7612,
+	  "block": -1,
+	  "death": 7613
+	},
+	"scripts": {
+	  //"combat": "nl.bartpelle.veteres.content.npcs.inferno.JalZek.script"
+	}
+  },
+  {
+	// Yt-HurKot
+	"ids": [
+	  7705
+	],
+	"maxhit": 18,
+	"attackspeed": 6,
+	"deathlen": 3,
+	"unstacked": true,
+	"slayerxp": 0,
+	"slayerlvl": 1,
+	"stats": {
+	  "attack": 140,
+	  "strength": 100,
+	  "magic": 120,
+	  "ranged": 120,
+	  "defence": 60,
+	  "hitpoints": 90
+	},
+	"bonuses": {
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 2637,
+	  "block": 2635,
+	  "death": 2638
+	},
+	"scripts": {
+	  //"combat": "nl.bartpelle.veteres.content.npcs.fightcaves.YtHurkotCombat.script"
+	}
+  }
+]

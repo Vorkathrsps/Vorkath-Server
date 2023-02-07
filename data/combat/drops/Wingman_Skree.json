@@ -1,0 +1,49 @@
+{
+  "npcs": [ 3163 ],
+  "tables": [
+    {
+      "name": "Armour",
+      "points": 1,
+      "items": [
+        { "id": 11826, "min": 1, "max": 1, "points": 1 }, //Armadyl helmet
+        { "id": 11828, "min": 1, "max": 1, "points": 1 }, //Armadyl chestplate
+        { "id": 11830, "min": 1, "max": 1, "points": 1 } //Armadyl chainskirt
+      ]
+    },
+    {
+      "name": "Ammunition",
+      "points": 1000,
+      "items": [
+        { "id": 886, "min": 95, "max": 100, "points": 20 }, //Steel arrow
+        { "id": 4697, "min": 15, "max": 25, "points": 1 } //Smoke rune
+      ]
+    },
+    {
+      "name": "Food",
+      "points": 1000,
+      "items": [
+        { "id": 391, "min": 2, "max": 2, "points": 1 }, //Manta ray
+        { "id": 7058, "min": 3, "max": 3, "points": 1 } //Mushroom potato
+      ]
+    },
+    {
+      "name": "Godsword shards",
+      "points": 15,
+      "items": [
+        { "id": 11818, "min": 1, "max": 1, "points": 1 }, //Godsword shard 1
+        { "id": 11820, "min": 1, "max": 1, "points": 1 }, //Godsword shard 2
+        { "id": 11822, "min": 1, "max": 1, "points": 1 } //Godsword shard 3
+      ]
+    },
+    {
+      "name": "Other",
+      "points": 1000,
+      "items": [
+        { "id": 808, "min": 95, "max": 100, "points": 20 }, //Steel dart
+
+        { "id": 6693, "min": 2, "max": 2, "points": 10 }, //Crushed nest
+        { "id": 213, "min": 1, "max": 1, "points": 10 } //Grimy kwuarm
+      ]
+    }
+  ]
+}

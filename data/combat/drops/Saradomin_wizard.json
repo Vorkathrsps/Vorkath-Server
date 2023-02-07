@@ -1,0 +1,51 @@
+{
+  "npcs": [ 2955 ],
+  "guaranteed": [
+    { "id": 526, "min": 1, "max": 1 } //Bones
+  ],
+  "tables": [
+    {
+      "name": "Weapons and armour",
+      "points": 1,
+      "items": [
+        { "id": 1397, "min": 1, "max": 1, "points": 1 }, //Air battlestaff
+        { "id": 1395, "min": 1, "max": 1, "points": 1 }, //Water battlestaff
+        { "id": 1399, "min": 1, "max": 1, "points": 1 }, //Earth battlestaff
+        { "id": 1393, "min": 1, "max": 1, "points": 1 } //Fire battlestaff
+      ]
+    },
+    {
+      "name": "Runes",
+      "points": 1,
+      "items": [
+        { "id": 556, "min": 189, "max": 189, "points": 1 }, //Air rune
+        { "id": 556, "min": 196, "max": 196, "points": 1 }, //Air rune
+        { "id": 555, "min": 42, "max": 42, "points": 1 }, //Water rune
+        { "id": 555, "min": 126, "max": 126, "points": 1 }, //Water rune
+        { "id": 555, "min": 145, "max": 145, "points": 1 }, //Water rune
+        { "id": 555, "min": 146, "max": 146, "points": 1 }, //Water rune
+        { "id": 557, "min": 79, "max": 79, "points": 1 }, //Earth rune
+        { "id": 557, "min": 86, "max": 86, "points": 1 }, //Earth rune
+        { "id": 557, "min": 107, "max": 107, "points": 1 }, //Earth rune
+        { "id": 554, "min": 51, "max": 51, "points": 1 }, //Fire rune
+        { "id": 554, "min": 180, "max": 180, "points": 1 }, //Fire rune
+        { "id": 554, "min": 188, "max": 188, "points": 1 }, //Fire rune
+        { "id": 564, "min": 25, "max": 25, "points": 1 }, //Cosmic rune
+        { "id": 561, "min": 28, "max": 28, "points": 1 }, //Nature rune
+        { "id": 561, "min": 30, "max": 30, "points": 1 }, //Nature rune
+        { "id": 563, "min": 9, "max": 9, "points": 1 }, //Law rune
+        { "id": 563, "min": 10, "max": 10, "points": 1 }, //Law rune
+        { "id": 560, "min": 45, "max": 45, "points": 1 }, //Death rune
+        { "id": 565, "min": 8, "max": 8, "points": 1 }, //Blood rune
+        { "id": 565, "min": 40, "max": 40, "points": 1 } //Blood rune
+      ]
+    },
+    {
+      "name": "Other",
+      "points": 1,
+      "items": [
+
+      ]
+    }
+  ]
+}

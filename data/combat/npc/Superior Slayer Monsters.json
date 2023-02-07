@@ -1,0 +1,416 @@
+[
+  {
+    // Superior abyssal demon
+    "ids": [
+      7410
+    ],
+    "maxhit": 27,
+    "slayerxp": 4200,
+    "slayerlvl": 85,
+    "droprolls": 3,
+    "stats": {
+      "attack": 300,
+      "strength": 260,
+      "defence": 240,
+      "hitpoints": 400
+    },
+    "bonuses": {
+      "attack": 0,
+      "strength": 0,
+      "stabdefence": 50,
+      "slashdefence": 50,
+      "crushdefence": 50,
+      "rangeddefence": 50,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 1537,
+      "block": 2309,
+      "death": 1538
+    }
+  },
+  {
+    // Cave abomination
+    "ids": [
+      7401
+    ],
+    "maxhit": 24,
+    "slayerxp": 1300,
+    "slayerlvl": 58,
+    "deathlen": 2,
+    "droprolls": 3,
+    "stats": {
+      "attack": 180,
+      "strength": 177,
+      "defence": 162,
+      "magic": 120,
+      "hitpoints": 130
+    },
+    "bonuses": {
+      "stabdefence": 70,
+      "slashdefence": 70,
+      "crushdefence": 80,
+      "rangeddefence": 60,
+      "magicdefence": 60
+    },
+    "animations": {
+      "attack": 4234,
+      "block": 4235,
+      "death": 4233
+    }
+  },
+  {
+    // Insatiable bloodveld
+    "ids": [
+      7397
+    ],
+    "maxhit": 15,
+    "attackspeed": 4,
+    "aggressive": false,
+    "droprolls": 3,
+    "slayerlvl": 50,
+    "slayerxp": 2900,
+    "stats": {
+      "attack": 190,
+      "strength": 145,
+      "defence": 85,
+      "hitpoints": 380
+    },
+    "bonuses": {
+    },
+    "animations": {
+      "attack": 1552,
+      "block": 1550,
+      "death": 1553
+    }
+  },
+  {
+    // Choke devil
+    "ids": [
+      7404
+    ],
+    "maxhit": 24,
+    "slayerxp": 3000,
+    "droprolls": 3,
+    "slayerlvl": 65,
+    "stats": {
+      "attack": 260,
+      "strength": 230,
+      "hitpoints": 300,
+      "defence": 120
+    },
+    "bonuses": {
+    },
+    "animations": {
+      "attack": 1557,
+      "block": 1555,
+      "death": 1558
+    }
+  },
+  {
+    // Chasm crawlers
+    "ids": [
+      7389
+    ],
+    "maxhit": 12,
+    "attackspeed": 4,
+    "droprolls": 3,
+    "slayerxp": 600,
+    "slayerlvl": 10,
+    "deathlen": 3,
+    "poison": 8,
+    "poisonchance": 100,
+    "stats": {
+      "attack": 32,
+      "strength": 38,
+      "defence": 38,
+      "hitpoints": 60
+    },
+    "bonuses": {
+      "stabdefence": 20,
+      "slashdefence": 20,
+      "crushdefence": 15,
+      "rangeddefence": 20,
+      "magicdefence": 15
+    },
+    "animations": {
+      "attack": 227,
+      "death": 228,
+      "block": 1504
+    }
+  },
+  {
+    // Crushing hand
+    "ids": [
+      7388
+    ],
+    "maxhit": 12,
+    "attackspeed": 4,
+    "slayerxp": 550,
+    "droprolls": 3,
+    "slayerlvl": 5,
+    "stats": {
+      "attack": 31,
+      "strength": 27,
+      "defence": 27,
+      "hitpoints": 55
+    },
+    "bonuses": {
+      // None
+    },
+    "animations": {
+      "death": 1590,
+      "block": 1591,
+      "attack": 1592
+    }
+  },
+  {
+    // Giant rockslug
+    "ids": [
+      7392
+    ],
+    "maxhit": 4,
+    "attackspeed": 4,
+    "slayerxp": 770,
+    "droprolls": 3,
+    "slayerlvl": 20,
+    "stats": {
+      "attack": 27,
+      "strength": 27,
+      "defence": 27,
+      "hitpoints": 77
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0
+    },
+    "animations": {
+      "attack": 1567,
+      "death": 1568,
+      "block": 1565
+    }
+  },
+  {
+    // Marble gargoyle
+    "ids": [
+      7407, 7408
+    ],
+    "maxhit": 38,
+	"aggressive": false,
+    "slayerxp": 2768,
+    "slayerlvl": 75,
+    "attackspeed": 4,
+    "droprolls": 3,
+    "stats": {
+      "attack": 230,
+      "strength": 250,
+      "ranged": 220,
+      "magic": 1,
+      "defence": 190,
+      "hitpoints": 270
+    },
+    "bonuses": {
+		"stabdefence": 50,
+		"slashdefence": 50,
+		"crushdefence": 0,
+		"magicdefence": 50,
+		"rangeddefence": 50
+    },
+    "animations": {
+      "attack": 7811,
+      "block": 7814,
+      "death": 7815
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.superiors.MarbleGargoyle"
+    }
+  },
+  {
+    // Night Beast
+    "ids": [
+      7409
+    ],
+    "maxhit": 27,
+    "slayerxp": 5500,
+    "slayerlvl": 90,
+    "droprolls": 3,
+    "attackspeed": 4,
+    "stats": {
+      "hitpoints": 220,
+      "attack": 270,
+      "defence": 220,
+      "strength": 290,
+      "magic": 300
+    },
+    "bonuses": {
+      "stabdefence": 75,
+      "slashdefence": 80,
+      "crushdefence": 200,
+      "magicdefence": 190,
+      "rangeddefence": 200
+    },
+    "animations": {
+      "attack": 2731,
+      "block": 2732,
+      "death": 2733
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.superiors.NightBeast"
+    }
+  },
+  {
+    // Nechryarch
+    "ids": [
+      7411
+    ],
+    "maxhit": 21,
+    "slayerxp": 3100,
+    "slayerlvl": 80,
+    "attackspeed": 4,
+    "droprolls": 3,
+    "deathlen": 2,
+    "stats": {
+      "hitpoints": 310,
+      "attack": 197,
+      "defence": 197,
+      "strength": 205
+    },
+    "bonuses": {
+      "stabdefence": 60,
+      "slashdefence": 60,
+      "crushdefence": 60,
+      "magicdefence": 0,
+      "rangeddefence": 60
+    },
+    "animations": {
+      "attack": 4672,
+      "block": 4671,
+      "death": 4673
+    }
+  },
+  {
+    // Nuclear Smoke Devil
+    "ids": [
+      7406
+    ],
+    "maxhit": 30,
+    "slayerxp": 2400,
+    "slayerlvl": 93,
+    "attackspeed": 4,
+    "droprolls": 3,
+    "stats": {
+      "attack": 210,
+      "strength": 210,
+      "ranged": 275,
+      "magic": 1,
+      "defence": 325,
+      "hitpoints": 240
+    },
+    "bonuses": {
+      "rangeddefence": 84,
+      "magicdefence": 800
+    },
+    "animations": {
+      "attack": 3847,
+      "block": 3848,
+      "death": 3849
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.SmokeDevil"
+    }
+  },
+  {
+    // Abhorrent spectre
+    "ids": [
+      7402
+    ],
+    "maxhit": 18,
+    "slayerxp": 2500,
+    "slayerlvl": 60,
+    "attackspeed": 4,
+    "deathlen": 2,
+    "droprolls": 3,
+    "stats": {
+      "hitpoints": 275,
+      "attack": 1,
+      "defence": 140,
+      "strength": 1,
+      "magic": 175
+    },
+    "bonuses": {
+      "stabdefence": 50,
+      "slashdefence": 50,
+      "crushdefence": 50,
+      "magicdefence": 0,
+      "rangeddefence": 85
+    },
+    "animations": {
+      "attack": 1507,
+      "block": 1509,
+      "death": 1508
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.AberrantSpectre"
+    }
+  },
+  {
+    // Flaming pyrelord
+    "ids": [
+      7394
+    ],
+    "maxhit": 15,
+    "attackspeed": 4,
+    "slayerxp": 1250,
+    "slayerlvl": 30,
+    "droprolls": 3,
+    "stats": {
+      "attack": 82,
+      "strength": 90,
+      "defence": 92,
+      "hitpoints": 120
+    },
+    "bonuses": {
+      "stabdefence": 40,
+      "slashdefence": 40,
+      "crushdefence": 40,
+      "rangeddefence": 40,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 1582,
+      "death": 1580,
+      "block": 1581
+    }
+  },
+  {
+    // Vitreous jelly
+    "ids": [
+      7399
+    ],
+    "maxhit": 17,
+    "attackspeed": 4,
+    "slayerxp": 1900,
+    "slayerlvl": 52,
+    "droprolls": 3,
+    "stats": {
+      "attack": 145,
+      "strength": 145,
+      "defence": 220,
+      "hitpoints": 190
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 1586,
+      "death": 1587,
+      "block": 1585
+    }
+  }
+]

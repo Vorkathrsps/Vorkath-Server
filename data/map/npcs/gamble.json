@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Grand Exchange Clerk",
+    "id": 2148,
+    "x": 3046,
+    "y": 3384,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 0
+  },
+  {
+    "name": "Banker",
+    "id": 3888,
+    "x": 3045,
+    "y": 3384,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 0
+  }
+]

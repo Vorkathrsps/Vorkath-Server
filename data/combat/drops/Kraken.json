@@ -1,0 +1,35 @@
+{
+  "npcs": [ 494 ],
+  "petItem": 12655,
+  "petRarity": 1000,
+  "guaranteed": [
+    { "id": 13307, "min": 200, "max": 250 } //Blood money
+  ],
+  "tables": [
+    {
+      "name": "Unique",
+      "points": 1,
+      "items": [
+        { "id": 13442, "min": 10, "max": 30, "points": 55 }, //Anglerfish (noted)
+        { "id": 23686, "min": 2, "max": 10, "points": 50 }, //Divine super combat potion(4) (noted)
+        { "id": 12914, "min": 5, "max": 10, "points": 45 }, //Anti-venom+(4) (noted)
+        { "id": 21979, "min": 2, "max": 10, "points": 45 }, //Super antifire potion(4) (noted)
+        { "id": 11840, "min": 1, "max": 1, "points": 35 }, //Dragon boots
+        { "id": 6585, "min": 1, "max": 1, "points": 35 }, //Amulet of fury
+        { "id": 12881, "min": 1, "max": 1, "points": 30 }, //Ahrims set
+        { "id": 12006, "min": 1, "max": 1, "points": 25 }, //Tent whip
+        { "id": 22296, "min": 1, "max": 1, "points": 20 }, //Staff of light
+        { "id": 22002, "min": 1, "max": 1, "points": 8 }, //Wyvern ward
+        { "id": 21633, "min": 1, "max": 1, "points": 8 }, //Ancient wyvern shield
+        { "id": 12007, "min": 1, "max": 1, "points": 5 }, //Jar of dirt
+        { "id": 11907, "min": 1, "max": 1, "points": 4 }, //Trident of the seas
+        { "id": 12899, "min": 1, "max": 1, "points": 3 } //Toxic trident
+      ]
+    },
+    {
+      "name": "Other",
+      "points": 4,
+      "items": []
+    }
+  ]
+}

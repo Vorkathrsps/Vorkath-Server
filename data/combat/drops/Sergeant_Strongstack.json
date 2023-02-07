@@ -1,0 +1,47 @@
+{
+  "npcs": [ 2216 ],
+  "guaranteed": [
+    { "id": 526, "min": 1, "max": 1 } //Bones
+  ],
+  "tables": [
+    {
+      "name": "Armour/Weapons",
+      "points": 25,
+      "items": [
+        { "id": 11832, "min": 1, "max": 1, "points": 10 }, //Bandos chestplate
+        { "id": 11834, "min": 1, "max": 1, "points": 10 }, //Bandos tassets
+        { "id": 11836, "min": 1, "max": 1, "points": 10 } //Bandos boots
+      ]
+    },
+    {
+      "name": "Godsword shards",
+      "points": 45,
+      "items": [
+        { "id": 11818, "min": 1, "max": 1, "points": 1 }, //Godsword shard 1
+        { "id": 11820, "min": 1, "max": 1, "points": 1 }, //Godsword shard 2
+        { "id": 11822, "min": 1, "max": 1, "points": 1 } //Godsword shard 3
+      ]
+    },
+    {
+      "name": "Runes/Arrows",
+      "points": 2000,
+      "items": [
+        { "id": 808, "min": 95, "max": 100, "points": 7 }, //Steel dart
+        { "id": 564, "min": 25, "max": 30, "points": 6 }, //Cosmic rune
+        { "id": 561, "min": 19, "max": 28, "points": 3 }, //Nature rune
+        { "id": 886, "min": 95, "max": 100, "points": 1 } //Steel arrow
+      ]
+    },
+    {
+      "name": "Other",
+      "points": 2000,
+      "items": [
+
+        { "id": 9741, "min": 1, "max": 1, "points": 6 }, //Combat potion(3)
+        { "id": 1025, "min": 1, "max": 1, "points": 6 }, //Right eye patch
+        { "id": 385, "min": 2, "max": 2, "points": 3 }, //Shark
+        { "id": 7054, "min": 3, "max": 3, "points": 3 } //Chilli potato
+      ]
+    }
+  ]
+}

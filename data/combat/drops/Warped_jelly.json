@@ -1,0 +1,36 @@
+{
+  "npcs": [ 7277 ],
+  "tables": [
+    {
+      "name": "Weapons/Armour",
+      "points": 1,
+      "items": [
+        { "id": 1353, "min": 1, "max": 1, "points": 10 }, //Steel axe
+        { "id": 1313, "min": 1, "max": 1, "points": 10 }, //Black 2h sword
+        { "id": 1371, "min": 1, "max": 1, "points": 10 }, //Adamant battleaxe
+        { "id": 1357, "min": 1, "max": 1, "points": 3 }, //Adamant axe
+        { "id": 4127, "min": 1, "max": 1, "points": 3 }, //Mithril boots
+        { "id": 1119, "min": 1, "max": 1, "points": 3 }, //Steel platebody
+        { "id": 1201, "min": 1, "max": 1, "points": 1 }, //Rune kiteshield
+        { "id": 1163, "min": 1, "max": 1, "points": 1 } //Rune full helm
+      ]
+    },
+    {
+      "name": "Other",
+      "points": 1,
+      "items": [
+
+        { "id": 562, "min": 45, "max": 45, "points": 10 }, //Chaos rune
+        { "id": 560, "min": 15, "max": 15, "points": 10 }, //Death rune
+        { "id": 379, "min": 2, "max": 2, "points": 10 }, //Lobster
+        { "id": 2357, "min": 1, "max": 1, "points": 10 }, //Gold bar
+        { "id": 1734, "min": 10, "max": 10, "points": 1 }, //Thread
+        { "id": 4109, "min": 10, "max": 10, "points": 2 },//Mystic hat light
+        { "id": 4111, "min": 10, "max": 10, "points": 1 },//Mystic robe top light
+        { "id": 4113, "min": 10, "max": 10, "points": 1 },//Mystic robe bottom light
+        { "id": 4115, "min": 10, "max": 10, "points": 3 },//Mystic gloves light
+        { "id": 4117, "min": 10, "max": 10, "points": 3 }//Mystic boots light
+      ]
+    }
+  ]
+}

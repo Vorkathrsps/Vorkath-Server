@@ -1,0 +1,204 @@
+[
+  {
+    //Verzik Vitur Phase 2
+    "ids": [
+      8372
+    ],
+    "maxhit": 50,
+    "deathlen": 2,
+    "aggressive": true,
+    "stats": {
+      "attack": 400,
+      "strength": 400,
+      "magic": 400,
+      "ranged": 400,
+      "defence": 200,
+      "hitpoints": 3250
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 80,
+      "magic": 80,
+      "stabdefence": 100,
+      "slashdefence": 60,
+      "crushdefence": 100,
+      "rangeddefence": 70,
+      "magicdefence": 250
+    },
+    "animations": {
+      "attack": 8114,
+      "block": -1,
+      "death": 4167
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.theatre.VerzikCombatScript"
+    }
+  },
+  {
+    //Nylocas Ischyros
+    "ids": [
+      8345
+    ],
+    "maxhit": 17,
+    "deathlen": 2,
+    "aggressive": true,
+    "stats": {
+      "attack": 200,
+      "strength": 160,
+      "magic": 1,
+      "ranged": 200,
+      "defence": 1,
+      "hitpoints": 11
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 0,
+      "magic": 1073,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": -15,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 7990,
+      "block": -1,
+      "death": 7991
+    },
+    "scripts": {
+    }
+  },
+  {
+    //Nylocas toxobolos
+    "ids": [
+      8352
+    ],
+    "maxhit": 17,
+    "deathlen": 2,
+    "aggressive": true,
+    "stats": {
+      "attack": 200,
+      "strength": 160,
+      "magic": 1,
+      "ranged": 200,
+      "defence": 1,
+      "hitpoints": 11
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 0,
+      "magic": 1073,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": -15,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 7990,
+      "block": -1,
+      "death": 7991
+    },
+    "scripts": {
+
+    }
+  },
+  {
+    //Nylocas hagios
+    "ids": [
+      8347
+    ],
+    "maxhit": 17,
+    "deathlen": 2,
+    "aggressive": true,
+    "stats": {
+      "attack": 200,
+      "strength": 160,
+      "magic": 1,
+      "ranged": 200,
+      "defence": 1,
+      "hitpoints": 11
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 0,
+      "magic": 1073,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": -15,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 7990,
+      "block": -1,
+      "death": 7991
+    },
+    "scripts": {
+
+    }
+  },
+  {
+    // Hellhound (revenant cave)
+    "ids": [
+      10862
+    ],
+    "maxhit": 11,
+    "aggressive": false,
+    "stats": {
+      "attack": 100,
+      "strength": 100,
+      "defence": 100,
+      "magic": 100,
+      "ranged": 100,
+      "hitpoints": 200
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 386,
+      "block": 388,
+      "death": 7991
+    }
+  },
+  {
+    //Nylocas matomenos
+    "ids": [
+      8384
+    ],
+    "maxhit": 11,
+    "deathlen": 2,
+    "aggressive": false,
+    "stats": {
+      "attack": 1,
+      "strength": 1,
+      "magic": 50,
+      "ranged": 1,
+      "defence": 50,
+      "hitpoints": 180
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 0,
+      "magic": 0,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 7990,
+      "block": -1,
+      "death": 7991
+    },
+    "scripts": {
+
+    }
+  }
+]

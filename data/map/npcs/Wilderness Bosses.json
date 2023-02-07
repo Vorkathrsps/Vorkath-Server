@@ -1,0 +1,45 @@
+[
+  {
+    "id": 6611,
+    "x": 3231,
+    "y": 3807,
+    "walkRange": 5,
+    "direction": "NE"
+  }, //vetion
+  {
+    "id": 6609,
+    "x": 3291,
+    "y": 3847,
+    "walkRange": 8,
+    "direction": "NE"
+  },  // Callisto
+  {
+    "id": 6610,
+    "x": 3335,
+    "y": 3743,
+    "walkRange": 8
+  },
+  // Venenatis
+  {
+    "id": 6619,
+    "x": 2980,
+    "y": 3847,
+    "walkRange": 8
+  },
+  // Chaos Fanatic
+  {
+    "id": 6618,
+    "x": 2977,
+    "y": 3702,
+    "walkRange": 8
+  },
+  // Crazy archeologist
+  {
+    "id": 2054,
+    "x": 3253,
+    "y": 3925,
+    "walkRange": 23
+  }
+  // Chaos Elemental
+]
+

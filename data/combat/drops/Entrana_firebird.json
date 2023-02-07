@@ -1,0 +1,13 @@
+{
+  "npcs": [ 4927 ],
+  "tables": [
+    {
+      "name": "Drops",
+      "points": 1,
+      "items": [
+        { "id": 526, "min": 1, "max": 1, "points": 1 }, //Bones
+        { "id": 1583, "min": 1, "max": 1, "points": 1 } //Fire feather
+      ]
+    }
+  ]
+}

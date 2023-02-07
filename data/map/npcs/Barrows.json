@@ -1,0 +1,272 @@
+[
+  {
+    "id": 1673,
+    "x": 3573,
+    "y": 3300,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "dharok the wretched"
+  },
+  {
+    "id": 1673,
+    "x": 3578,
+    "y": 3300,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "dharok the wretched"
+  },
+  {
+    "id": 1673,
+    "x": 3578,
+    "y": 3296,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "dharok the wretched"
+  },
+  {
+    "id": 1673,
+    "x": 3573,
+    "y": 3295,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "dharok the wretched"
+  },
+  {
+    "id": 1673,
+    "x": 3575,
+    "y": 3298,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "dharok the wretched"
+  },
+  {
+    "id": 1672,
+    "x": 3562,
+    "y": 3286,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "ahrim the blighted"
+  },
+  {
+    "id": 1672,
+    "x": 3562,
+    "y": 3292,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "ahrim the blighted"
+  },
+  {
+    "id": 1672,
+    "x": 3567,
+    "y": 3292,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "ahrim the blighted"
+  },
+  {
+    "id": 1672,
+    "x": 3567,
+    "y": 3286,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "ahrim the blighted"
+  },
+  {
+    "id": 1672,
+    "x": 3565,
+    "y": 3288,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "ahrim the blighted"
+  },
+  {
+    "id": 1674,
+    "x": 3577,
+    "y": 3282,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "guthan the infested"
+  },
+  {
+    "id": 1674,
+    "x": 3579,
+    "y": 3285,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "guthan the infested"
+  },
+  {
+    "id": 1674,
+    "x": 3575,
+    "y": 3285,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "guthan the infested"
+  },
+  {
+    "id": 1674,
+    "x": 3575,
+    "y": 3280,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "guthan the infested"
+  },
+  {
+    "id": 1674,
+    "x": 3579,
+    "y": 3280,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "guthan the infested"
+  },
+  {
+    "id": 1675,
+    "x": 3565,
+    "y": 3275,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "karil the tainted"
+  },
+  {
+    "id": 1675,
+    "x": 3563,
+    "y": 3272,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "karil the tainted"
+  },
+  {
+    "id": 1675,
+    "x": 3562,
+    "y": 3277,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "karil the tainted"
+  },
+  {
+    "id": 1675,
+    "x": 3567,
+    "y": 3278,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "karil the tainted"
+  },
+  {
+    "id": 1675,
+    "x": 3567,
+    "y": 3273,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "karil the tainted"
+  },
+  {
+    "id": 1676,
+    "x": 3553,
+    "y": 3282,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "torag the corrupted"
+  },
+  {
+    "id": 1676,
+    "x": 3555,
+    "y": 3284,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "torag the corrupted"
+  },
+  {
+    "id": 1676,
+    "x": 3555,
+    "y": 3280,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "torag the corrupted"
+  },
+  {
+    "id": 1676,
+    "x": 3551,
+    "y": 3280,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "torag the corrupted"
+  },
+  {
+    "id": 1676,
+    "x": 3551,
+    "y": 3284,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "torag the corrupted"
+  },
+  {
+    "id": 1676,
+    "x": 3557,
+    "y": 3297,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "verac the defiled"
+  },
+  {
+    "id": 1676,
+    "x": 3554,
+    "y": 3295,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "verac the defiled"
+  },
+  {
+    "id": 1676,
+    "x": 3554,
+    "y": 3298,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "verac the defiled"
+  },
+  {
+    "id": 1676,
+    "x": 3559,
+    "y": 3294,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "verac the defiled"
+  },
+  {
+    "id": 1676,
+    "x": 3559,
+    "y": 3298,
+    "z": 0,
+    "radius": 0,
+    "direction": "S",
+    "desc": "verac the defiled"
+  }
+]

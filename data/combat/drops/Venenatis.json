@@ -1,0 +1,32 @@
+{
+  "npcs": [ 6504, 6610 ],
+  "petItem": 13177,
+  "petRarity": 1000,
+  "guaranteed": [
+    { "id": 526, "min": 1, "max": 1, "points": 1 }, //Bones
+    { "id": 13307, "min": 200, "max": 250 } //Blood money
+    ],
+  "tables": [
+    {
+      "name": "Unique",
+      "points": 1,
+      "items": [
+        { "id": 12914, "min": 5, "max": 10, "points": 45 }, //Anti-venom+(4) (noted)
+        { "id": 21979, "min": 2, "max": 10, "points": 45 }, //Super antifire potion(4) (noted)
+        { "id": 11840, "min": 1, "max": 1, "points": 35 }, //Dragon boots
+        { "id": 6585, "min": 1, "max": 1, "points": 35 }, //Amulet of fury
+        { "id": 12877, "min": 1, "max": 1, "points": 30 }, //DH set
+        { "id": 12002, "min": 1, "max": 1, "points": 30 }, //Occult
+        { "id": 11920, "min": 1, "max": 1, "points": 25 }, //Dragon pickaxe
+        { "id": 12605, "min": 1, "max": 1, "points": 27 }, //Treasonous ring
+        { "id": 12806, "min": 1, "max": 1, "points": 27 }, //Malediction ward
+        { "id": 2944, "min": 1, "max": 1, "points": 2 } //Key of drops
+      ]
+    },
+    {
+      "name": "Other",
+      "points": 4,
+      "items": []
+    }
+  ]
+}

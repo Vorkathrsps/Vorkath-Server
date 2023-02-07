@@ -1,0 +1,325 @@
+[
+  {
+	// Tz-Kih
+	"ids": [
+	  3116
+	],
+	"maxhit": 4,
+	"attackspeed": 6,
+	"deathlen": 3,
+	"unstacked": true,
+	"slayerxp": 10,
+	"slayerlvl": 1,
+	"stats": {
+	  "attack": 20,
+	  "magic": 30,
+	  "ranged": 15,
+	  "strength": 30,
+	  "hitpoints": 10
+	},
+	"bonuses": {
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 2621,
+	  "block": 2622,
+	  "death": 2620
+	},
+	"sounds": {
+	  "attack": [
+		291
+	  ],
+	  "block": [
+		296
+	  ],
+	  "death": [
+		295
+	  ]
+	},
+	"scripts": {
+	  //"combat": "nl.bartpelle.veteres.content.npcs.fightcaves.TzKih.script"
+	}
+  },
+  {
+	// Tz-Kek
+	"ids": [
+	  3118, 3119
+	],
+	"maxhit": 7,
+	"attackspeed": 6,
+	"deathlen": 3,
+	"unstacked": true,
+	"slayerxp": 20,
+	"slayerlvl": 1,
+	"stats": {
+	  "attack": 40,
+	  "strength": 60,
+	  "magic": 60,
+	  "ranged": 30,
+	  "defence": 30,
+	  "hitpoints": 20
+	},
+	"bonuses": {
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 2625,
+	  "block": 2626,
+	  "death": 2627
+	},
+	"sounds": {
+	  "attack": [
+		595
+	  ],
+	  "block": [
+		597
+	  ],
+	  "death": [
+		596
+	  ]
+	},
+	"scripts": {
+	  //"combat": "nl.bartpelle.veteres.content.npcs.fightcaves.TzKek.script"
+	}
+  },
+  {
+	// Tz-Kek Baby
+	"ids": [
+	  3120
+	],
+	"maxhit": 7,
+	"attackspeed": 6,
+	"unstacked": true,
+	"slayerxp": 20,
+	"slayerlvl": 1,
+	"stats": {
+	  "attack": 40,
+	  "strength": 60,
+	  "magic": 60,
+	  "ranged": 30,
+	  "defence": 30,
+	  "hitpoints": 10
+	},
+	"bonuses": {
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 2625,
+	  "block": 2626,
+	  "death": 2627
+	},
+	"sounds": {
+	  "attack": [
+		595
+	  ],
+	  "block": [
+		597
+	  ],
+	  "death": [
+		596
+	  ]
+	},
+	"scripts": {
+	  //"combat": "nl.bartpelle.veteres.content.npcs.fightcaves.TzKek.script"
+	}
+  },
+  {
+	// Tok-Xil
+	"ids": [
+	  3121
+	],
+	"maxhit": 14,
+	"attackspeed": 6,
+	"deathlen": 3,
+	"slayerxp": 40,
+	"slayerlvl": 1,
+	"stats": {
+	  "attack": 80,
+	  "strength": 120,
+	  "magic": 60,
+	  "ranged": 120,
+	  "defence": 60,
+	  "hitpoints": 40
+	},
+	"bonuses": {
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 2628,
+	  "block": 2629,
+	  "death": 2630
+	},
+	"sounds": {
+	  "attack": [
+		601
+	  ],
+	  "block": [
+		600
+	  ],
+	  "death": [
+		599
+	  ]
+	},
+	"scripts": {
+	  //"combat": "nl.bartpelle.veteres.content.npcs.fightcaves.TokXil.script"
+	}
+  },
+  {
+	// Tok-Zet
+	"ids": [
+	  3125, 3126
+	],
+	"maxhit": 49,
+	"attackspeed": 6,
+	"deathlen": 3,
+	"unstacked": true,
+	"slayerxp": 160,
+	"slayerlvl": 1,
+	"stats": {
+	  "attack": 320,
+	  "strength": 480,
+	  "magic": 240,
+	  "ranged": 480,
+	  "defence": 240,
+	  "hitpoints": 160
+	},
+	"bonuses": {
+	  "magic": 60,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 2644,
+	  "block": 2645,
+	  "death": 2646
+	},
+	"scripts": {
+	  //"combat": "nl.bartpelle.veteres.content.npcs.fightcaves.KetZek.script"
+	}
+  },
+  {
+	// Yt Mejkot
+	"ids": [
+	  3123, 3124
+	],
+	"maxhit": 25,
+	"attackspeed": 6,
+	"deathlen": 3,
+	"unstacked": true,
+	"slayerxp": 80,
+	"slayerlvl": 1,
+	"stats": {
+	  "attack": 160,
+	  "strength": 240,
+	  "magic": 120,
+	  "ranged": 120,
+	  "defence": 120,
+	  "hitpoints": 80
+	},
+	"bonuses": {
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 2637,
+	  "block": 2635,
+	  "death": 2638
+	},
+	"scripts": {
+	  //"combat": "nl.bartpelle.veteres.content.npcs.fightcaves.YtMejkot.script"
+	}
+  },
+  {
+	// Tztok Jad
+	"ids": [
+	  3127
+	],
+	"maxhit": 49,
+	"attackspeed": 6,
+	"deathlen": 3,
+	"unstacked": true,
+	"slayerxp": 1008,
+	"slayerlvl": 1,
+	"stats": {
+	  "attack": 640,
+	  "strength": 960,
+	  "magic": 240,
+	  "ranged": 960,
+	  "defence": 480,
+	  "hitpoints": 250
+	},
+	"bonuses": {
+	  "magic": 60,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 2655,
+	  "block": 2653,
+	  "death": 2654
+	},
+	"scripts": {
+	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.fightcaves.TztokJadCombatScript"
+	}
+  },
+  {
+	// Yt Hurkot
+	"ids": [
+	  3128
+	],
+	"maxhit": 14,
+	"attackspeed": 6,
+	"deathlen": 3,
+	"unstacked": false,
+	"slayerxp": 60,
+	"slayerlvl": 1,
+	"stats": {
+	  "attack": 140,
+	  "strength": 100,
+	  "magic": 120,
+	  "ranged": 120,
+	  "defence": 60,
+	  "hitpoints": 60
+	},
+	"bonuses": {
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 2637,
+	  "block": 2635,
+	  "death": 2638
+	},
+	"scripts": {
+	  //"combat": "nl.bartpelle.veteres.content.npcs.fightcaves.YtHurkotCombat.script"
+	}
+  }
+]

@@ -1,0 +1,83 @@
+[
+  {
+    "name": "Ancient Wyvern",
+    "id": 7795,
+    "x": 3613,
+    "y": 10282,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "Ancient Wyvern",
+    "id": 7795,
+    "x": 3611,
+    "y": 10275,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "Ancient Wyvern",
+    "id": 7795,
+    "x": 3603,
+    "y": 10272,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "Ancient Wyvern",
+    "id": 7795,
+    "x": 3625,
+    "y": 10289,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "Ancient Wyvern",
+    "id": 7795,
+    "x": 3634,
+    "y": 10278,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "Ancient Wyvern",
+    "id": 7795,
+    "x": 3613,
+    "y": 10282,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "Ancient Wyvern",
+    "id": 7795,
+    "x": 3613,
+    "y": 10282,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "Ancient Wyvern",
+    "id": 7795,
+    "x": 3597,
+    "y": 10251,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  },
+  {
+    "name": "Ancient Wyvern",
+    "id": 7795,
+    "x": 3613,
+    "y": 10251,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 5
+  }
+]

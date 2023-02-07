@@ -1,0 +1,24 @@
+{
+  "npcs": [ 6618 ],
+  "guaranteed": [
+    { "id": 526, "min": 1, "max": 1, "points": 1 }, //Bones
+    { "id": 13307, "min": 250, "max": 25300 }   //blood money
+  ],
+  "PVPWorld": true,
+  "tables": [
+    {
+      "name": "Unique",
+      "points": 1,
+      "items": [
+        { "id": 11929, "min": 1, "max": 1, "points": 3 }, //Odium shard 2
+        { "id": 11932, "min": 1, "max": 1, "points": 3 }, //Malediction shard 2
+        { "id": 11990, "min": 1, "max": 1, "points": 3 } //Fedora
+      ]
+    },
+    {
+      "name": "Empty",
+      "points": 35,
+      "items": []
+    }
+  ]
+}

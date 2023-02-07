@@ -1,0 +1,30 @@
+{
+  "npcs": [ 6607 ],
+  "guaranteed": [
+    { "id": 526, "min": 1, "max": 1 }//Bones
+  ],
+  "tables": [
+    {
+      "name": "Weapons/Armour",
+      "points": 1,
+      "items": [
+
+        { "id": 11937, "min": 5, "max": 10, "points": 4 }, //Dark crab
+        { "id": 10926, "min": 2, "max": 10, "points": 4 }, //Sanfew serum(4)
+        { "id": 5953, "min": 2, "max": 10, "points": 4 }, //Antidote++(4) (noted)
+        { "id": 12696, "min": 2, "max": 10, "points": 4 }, //Super combat potion(4) (noted)
+        { "id": 1035, "min": 1, "max": 1, "points": 3 }, //Zamorak robe (top)
+        { "id": 1033, "min": 1, "max": 1, "points": 3 }, //Zamorak robe (bottom)
+        { "id": 20595, "min": 1, "max": 1, "points": 1 }, //Elder chaos hood
+        { "id": 20517, "min": 1, "max": 1, "points": 1 }, //Elder chaos top
+        { "id": 20520, "min": 1, "max": 1, "points": 1 } //Elder chaos robe
+      ]
+    },
+    {
+      "name": "Empty",
+      "points": 4,
+      "items": [
+      ]
+    }
+  ]
+}

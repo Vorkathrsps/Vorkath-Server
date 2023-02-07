@@ -1,0 +1,26 @@
+{
+  "npcs": [ 16011 ],
+  "petItem": 27003,
+  "petRarity": 2500,
+  "guaranteed": [
+    { "id": 532, "min": 1, "max": 1 }, //Big bones
+    { "id": 13307, "min": 85000, "max": 125000 }   //blood money
+  ],
+  "tables": [
+    {
+      "name": "Unique",
+      "points": 1,
+      "items": [
+        { "id": 22517, "min": 15, "max": 50, "points": 10 }, //saeldor shards
+        { "id": 24583, "min": 1, "max": 1, "points": 7 }, //emblem tier 10
+        { "id": 2944, "min": 1, "max": 1, "points": 6 }
+      ]
+    },
+    {
+      "name": "Empty",
+      "points": 11,
+      "items": [
+      ]
+    }
+  ]
+}

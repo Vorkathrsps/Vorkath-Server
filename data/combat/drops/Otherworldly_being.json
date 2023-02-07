@@ -1,0 +1,55 @@
+{
+  "npcs": [ 2843 ],
+  "tables": [
+    {
+      "name": "Weapons",
+      "points": 1,
+      "items": [
+        { "id": 1428, "min": 1, "max": 1, "points": 6 }, //Mithril mace
+        { "id": 1391, "min": 1, "max": 1, "points": 6 }, //Battlestaff
+        { "id": 888, "min": 15, "max": 15, "points": 3 }, //Mithril arrow
+        { "id": 1432, "min": 1, "max": 1, "points": 1 } //Rune mace
+      ]
+    },
+    {
+      "name": "Runes",
+      "points": 1,
+      "items": [
+        { "id": 562, "min": 4, "max": 4, "points": 6 }, //Chaos rune
+        { "id": 564, "min": 2, "max": 2, "points": 6 }, //Cosmic rune
+        { "id": 563, "min": 2, "max": 2, "points": 3 }, //Law rune
+        { "id": 560, "min": 2, "max": 2, "points": 3 }, //Death rune
+        { "id": 561, "min": 5, "max": 5, "points": 3 }, //Nature rune
+        { "id": 561, "min": 10, "max": 10, "points": 1 }, //Nature rune
+        { "id": 565, "min": 2, "max": 2, "points": 1 } //Blood rune
+      ]
+    },
+    {
+      "name": "Herbs",
+      "points": 1,
+      "items": [
+        { "id": 199, "min": 1, "max": 1, "points": 9 }, //Grimy guam leaf
+        { "id": 201, "min": 1, "max": 1, "points": 9 }, //Grimy marrentill
+        { "id": 203, "min": 1, "max": 1, "points": 6 }, //Grimy tarromin
+        { "id": 205, "min": 1, "max": 1, "points": 6 }, //Grimy harralander
+        { "id": 209, "min": 1, "max": 1, "points": 6 }, //Grimy irit leaf
+        { "id": 211, "min": 1, "max": 1, "points": 3 }, //Grimy avantoe
+        { "id": 213, "min": 1, "max": 1, "points": 3 }, //Grimy kwuarm
+        { "id": 207, "min": 1, "max": 1, "points": 3 }, //Grimy ranarr weed
+        { "id": 2485, "min": 1, "max": 1, "points": 1 }, //Grimy lantadyme
+        { "id": 217, "min": 1, "max": 1, "points": 1 }, //Grimy dwarf weed
+        { "id": 215, "min": 1, "max": 1, "points": 1 } //Grimy cadantine
+      ]
+    },
+    {
+      "name": "Other",
+      "points": 1,
+      "items": [
+
+        { "id": 2357, "min": 1, "max": 1, "points": 3 }, //Gold bar
+        { "id": 355, "min": 1, "max": 1, "points": 1 }, //Mackerel
+        { "id": 1641, "min": 1, "max": 1, "points": 1 } //Ruby ring
+      ]
+    }
+  ]
+}

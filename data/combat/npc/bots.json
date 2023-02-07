@@ -1,0 +1,322 @@
+[
+  //Pure bot
+  {
+    "ids": [
+      13000
+    ],
+    "maxhit": 30,
+    "attackspeed": 4,
+    "aggroradius": 5,
+    "aggressive": false,
+    "respawntime": 10,
+    "stats": {
+      "attack": 60,
+      "strength": 1,
+      "magic": 1,
+      "ranged": 1,
+      "defence": 1,
+      "hitpoints": 85
+    },
+    "bonuses": {
+      "ranged": 0,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 390,
+      "block": 388,
+      "death": 836
+    }
+  },
+  //Pure bot
+  {
+    "ids": [
+      13001
+    ],
+    "maxhit": 30,
+    "attackspeed": 4,
+    "aggroradius": 5,
+    "respawntime": 10,
+    "aggressive": false,
+    "stats": {
+      "attack": 60,
+      "strength": 1,
+      "magic": 1,
+      "ranged": 1,
+      "defence": 1,
+      "hitpoints": 85
+    },
+    "bonuses": {
+      "ranged": 0,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 390,
+      "block": 388,
+      "death": 836
+    }
+  },
+  //F2p bot
+  {
+    "ids": [
+      13002
+    ],
+    "maxhit": 22,
+    "attackspeed": 4,
+    "aggroradius": 5,
+    "aggressive": false,
+    "respawntime": 10,
+    "stats": {
+      "attack": 40,
+      "strength": 99,
+      "magic": 1,
+      "ranged": 99,
+      "defence": 1,
+      "hitpoints": 75
+    },
+    "bonuses": {
+      "ranged": 0,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 390,
+      "block": 388,
+      "death": 836
+    }
+  },
+  //F2p bot
+  {
+    "ids": [
+      13002
+    ],
+    "maxhit": 22,
+    "attackspeed": 4,
+    "aggroradius": 5,
+    "aggressive": false,
+    "respawntime": 10,
+    "stats": {
+      "attack": 40,
+      "strength": 99,
+      "magic": 1,
+      "ranged": 99,
+      "defence": 1,
+      "hitpoints": 75
+    },
+    "bonuses": {
+      "ranged": 0,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 390,
+      "block": 388,
+      "death": 836
+    }
+  },
+  //F2p bot
+  {
+    "ids": [
+      13003
+    ],
+    "maxhit": 22,
+    "attackspeed": 4,
+    "aggroradius": 5,
+    "aggressive": false,
+    "respawntime": 10,
+    "stats": {
+      "attack": 40,
+      "strength": 99,
+      "magic": 1,
+      "ranged": 99,
+      "defence": 1,
+      "hitpoints": 75
+    },
+    "bonuses": {
+      "ranged": 0,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 390,
+      "block": 388,
+      "death": 836
+    }
+  },
+  //Maxed bot
+  {
+    "ids": [
+      13004
+    ],
+    "maxhit": 39,
+    "attackspeed": 4,
+    "aggroradius": 5,
+    "aggressive": false,
+    "respawntime": 10,
+    "stats": {
+      "attack": 99,
+      "strength": 99,
+      "magic": 99,
+      "ranged": 99,
+      "defence": 99,
+      "hitpoints": 99
+    },
+    "bonuses": {
+      "ranged": 92,
+      "stabdefence": 92,
+      "slashdefence": 92,
+      "crushdefence": 92,
+      "rangeddefence": 92,
+      "magicdefence": 92
+    },
+    "animations": {
+      "attack": 1658,
+      "block": 4177,
+      "death": 836
+    }
+  },
+  //Maxed bot
+  {
+    "ids": [
+      13005
+    ],
+    "maxhit": 39,
+    "attackspeed": 4,
+    "aggroradius": 5,
+    "aggressive": false,
+    "respawntime": 10,
+    "stats": {
+      "attack": 99,
+      "strength": 99,
+      "magic": 99,
+      "ranged": 99,
+      "defence": 99,
+      "hitpoints": 99
+    },
+    "bonuses": {
+      "ranged": 92,
+      "stabdefence": 92,
+      "slashdefence": 92,
+      "crushdefence": 92,
+      "rangeddefence": 92,
+      "magicdefence": 92
+    },
+    "animations": {
+      "attack": 1658,
+      "block": 4177,
+      "death": 836
+    }
+  },
+  //Archer bot
+  {
+    "ids": [
+      13006
+    ],
+    "maxhit": 22,
+    "attackspeed": 4,
+    "aggroradius": 5,
+    "aggressive": false,
+    "respawntime": 10,
+    "stats": {
+      "attack": 1,
+      "strength": 1,
+      "magic": 99,
+      "ranged": 99,
+      "defence": 1,
+      "hitpoints": 90
+    },
+    "bonuses": {
+      "ranged": 30,
+      "stabdefence": 30,
+      "slashdefence": 30,
+      "crushdefence": 30,
+      "rangeddefence": 30,
+      "magicdefence": 30
+    },
+    "animations": {
+      "attack": 7218,
+      "block": 7219,
+      "death": 836
+    }
+  },
+  //Pure Archer bot
+  {
+    "ids": [
+      13008
+    ],
+    "maxhit": 45,
+    "attackspeed": 4,
+    "aggroradius": 5,
+    "aggressive": false,
+    "respawntime": 10,
+    "stats": {
+      "attack": 1,
+      "strength": 99,
+      "magic": 1,
+      "ranged": 99,
+      "defence": 1,
+      "hitpoints": 85
+    },
+    "bonuses": {
+      "ranged": 0,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 7218,
+      "block": 7219,
+      "death": 836
+    }
+  },
+  //Pure Archer bot
+  {
+    "ids": [
+      13009
+    ],
+    "maxhit": 45,
+    "attackspeed": 4,
+    "aggroradius": 5,
+    "aggressive": false,
+    "respawntime": 10,
+    "stats": {
+      "attack": 1,
+      "strength": 99,
+      "magic": 1,
+      "ranged": 99,
+      "defence": 1,
+      "hitpoints": 85
+    },
+    "bonuses": {
+      "ranged": 0,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 7218,
+      "block": 7219,
+      "death": 836
+    }
+  }
+]

@@ -1,0 +1,39 @@
+{
+  "npcs": [ 7286 ],
+  "petItem": 21273,
+  "petRarity": 1000,
+  "guaranteed": [
+    { "id": 592, "min": 1, "max": 1 }, //Ashes
+    { "id": 13307, "min": 50000, "max": 150000 }   //blood money
+  ],
+  "tables": [
+    {
+      "name": "Drop table",
+      "points": 1,
+      "items": [
+        { "id": 4733, "min": 1, "max": 2, "points": 50 },//karil
+        { "id": 4737, "min": 1, "max": 2, "points": 50 },//karil
+        { "id": 4739, "min": 1, "max": 2, "points": 50 },//karil
+        { "id": 4735, "min": 1, "max": 2, "points": 50 },//karil
+        { "id": 4709, "min": 1, "max": 2, "points": 50 },//ahrim
+        { "id": 4713, "min": 1, "max": 2, "points": 50 },//ahrim
+        { "id": 4715, "min": 1, "max": 2, "points": 50 },//ahrim
+        { "id": 4711, "min": 1, "max": 2, "points": 50 },//ahrim
+        { "id": 4717, "min": 1, "max": 2, "points": 50 },// dharok
+        { "id": 4721, "min": 1, "max": 2, "points": 50 },// dharok
+        { "id": 4723, "min": 1, "max": 2, "points": 50 },// dharok
+        { "id": 4719, "min": 1, "max": 2, "points": 50 }, // dharok
+        { "id": 6586, "min": 5, "max": 10, "points": 50 }, //Amulet of fury
+        { "id": 11841, "min": 5, "max": 10, "points": 50 }, //Dragon boots
+        { "id": 13652, "min": 1, "max": 1, "points": 10 }, //Dragon claws
+        { "id": 11802, "min": 1, "max": 1, "points": 10 }, //Armadyl godsword
+        { "id": 21034, "min": 1, "max": 1, "points": 5 }, //dex
+        { "id": 21079, "min": 1, "max": 1, "points": 5 }, //arcane
+        { "id": 24422, "min": 1, "max": 1, "points": 5 }, //nightmare staff
+        { "id": 24514, "min": 1, "max": 1, "points": 4 }, //volatile
+        { "id": 24511, "min": 1, "max": 1, "points": 4 }, //harmonised
+        { "id": 24517, "min": 1, "max": 1, "points": 4 } //harmonised
+      ]
+    }
+  ]
+}

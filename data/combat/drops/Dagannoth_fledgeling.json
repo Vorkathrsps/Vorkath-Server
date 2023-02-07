@@ -1,0 +1,12 @@
+{
+  "npcs": [ 2264 ],
+  "tables": [
+    {
+      "name": "Always Drop",
+      "points": 1,
+      "items": [
+        { "id": 526, "min": 1, "max": 1, "points": 1 } //Bones
+      ]
+    }
+  ]
+}

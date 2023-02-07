@@ -1,0 +1,52 @@
+{
+  "npcs": [ 7276 ],
+  "guaranteed": [
+    { "id": 526, "min": 1, "max": 1 } //Bones
+  ],
+  "tables": [
+    {
+      "name": "Weapons/Armour",
+      "points": 1,
+      "items": [
+        { "id": 1151, "min": 1, "max": 1, "points": 12 }, //Black med helm
+        { "id": 1355, "min": 1, "max": 1, "points": 9 }, //Mithril axe
+        { "id": 1369, "min": 1, "max": 1, "points": 9 }, //Mithril battleaxe
+        { "id": 1121, "min": 1, "max": 1, "points": 9 }, //Mithril platebody
+        { "id": 867, "min": 2, "max": 2, "points": 6 }, //Adamant knife
+        { "id": 1111, "min": 1, "max": 1, "points": 6 }, //Adamant chainbody
+        { "id": 1159, "min": 1, "max": 1, "points": 6 }, //Mithril full helm
+        { "id": 1301, "min": 1, "max": 1, "points": 6 }, //Adamant longsword
+        { "id": 1331, "min": 1, "max": 1, "points": 3 }, //Adamant scimitar
+        { "id": 4125, "min": 1, "max": 1, "points": 3 }, //Black boots
+        { "id": 1147, "min": 1, "max": 1, "points": 3 }, //Rune med helm
+        { "id": 1213, "min": 1, "max": 1, "points": 1 }, //Rune dagger
+        { "id": 1373, "min": 1, "max": 1, "points": 1 } //Rune battleaxe
+      ]
+    },
+    {
+      "name": "Runes",
+      "points": 1,
+      "items": [
+        { "id": 556, "min": 105, "max": 105, "points": 6 }, //Air rune
+        { "id": 554, "min": 75, "max": 75, "points": 3 }, //Fire rune
+        { "id": 565, "min": 7, "max": 7, "points": 3 }, //Blood rune
+        { "id": 565, "min": 30, "max": 30, "points": 3 }, //Blood rune
+        { "id": 566, "min": 4, "max": 4, "points": 1 } //Soul rune
+      ]
+    },
+    {
+      "name": "Other",
+      "points": 1,
+      "items": [
+
+
+        { "id": 1777, "min": 1, "max": 1, "points": 9 }, //Bow string
+        { "id": 444, "min": 1, "max": 1, "points": 6 }, //Gold ore
+        { "id": 2327, "min": 1, "max": 1, "points": 6 }, //Meat pie
+        { "id": 2359, "min": 1, "max": 1, "points": 6 }, //Mithril bar
+        { "id": 1698, "min": 1, "max": 1, "points": 6 }, //Ruby amulet
+        { "id": 13496, "min": 1, "max": 1, "points": 3 } //Ensouled bloodveld head
+      ]
+    }
+  ]
+}

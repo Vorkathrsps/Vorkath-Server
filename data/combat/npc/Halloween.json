@@ -1,0 +1,59 @@
+[
+  {
+    "ids": [
+      1066
+    ],
+    "maxhit": 10,
+    "aggressive": false,
+    "attackspeed": 4,
+    "deathlen": 3,
+    "stats": {
+      "attack": 100,
+      "strength": 100,
+      "magic": 100,
+      "ranged": 100,
+      "defence": 100,
+      "hitpoints": 100
+    },
+    "bonuses": {
+      "stabdefence": 300,
+      "slashdefence": 300,
+      "crushdefence": 300,
+      "rangeddefence": 300,
+      "magicdefence": 300
+    }
+  },
+  {
+    "ids": [
+      15021
+    ],
+    "maxhit": 35,
+    "attackspeed": 6,
+    "aggressive": true,
+    "stats": {
+      "attack": 320,
+      "strength": 220,
+      "defence": 150,
+      "magic": 268,
+      "ranged": 268,
+      "hitpoints": 4000
+    },
+    "bonuses": {
+      "attack": 320,
+      "strength": 200,
+      "stabdefence": 200,
+      "slashdefence": 200,
+      "crushdefence": 200,
+      "rangeddefence": 200,
+      "magicdefence": 200
+    },
+    "animations": {
+      "attack": 8056,
+      "block": 435,
+      "death": 836
+    },
+    "scripts": {
+      "combat": "com.aelous.model.content.seasonal_events.halloween.boss.GrimCombatScript"
+    }
+  }
+]

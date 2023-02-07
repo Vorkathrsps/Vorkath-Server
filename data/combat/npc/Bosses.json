@@ -1,0 +1,1299 @@
+[
+  {
+    // Kalphite Queen (Stage 1)
+    "ids": [
+      6500
+    ],
+    "maxhit": 31,
+    "attackspeed": 4,
+    "aggroradius": 5,
+    "aggressive": true,
+    "boss": true,
+    "slayerxp": 535,
+    "slayerlvl": 1,
+    "deathlen": 4,
+    "stats": {
+      //in the npc death class
+      "attack": 300,
+      "strength": 300,
+      "magic": 150,
+      "ranged": 1,
+      "defence": 300,
+      "hitpoints": 255
+    },
+    "bonuses": {
+      "ranged": 100,
+      "stabdefence": 50,
+      "slashdefence": 50,
+      "crushdefence": 10,
+      "rangeddefence": 100,
+      "magicdefence": 100
+    },
+    "animations": {
+      "attack": 6241,
+      "block": -1,
+      "death": 6242
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.kalphite.KalphiteQueenFirstForm",
+      "death": "nl.bartpelle.veteres.content.npcs.bosses.kalphite.KalphiteQueenFirstForm.death"
+    }
+  },
+  {
+    // Kalphite Queen (Stage 2)
+    "ids": [
+      6501
+    ],
+    "maxhit": 31,
+    "attackspeed": 6,
+    "aggroradius": 10,
+    "aggressive": true,
+    "boss": true,
+    "slayerxp": 535,
+    "slayerlvl": 1,
+    "stats": {
+      "attack": 330,
+      "strength": 330,
+      "magic": 180,
+      "ranged": 1,
+      "defence": 300,
+      "hitpoints": 255
+    },
+    "bonuses": {
+      "ranged": 100,
+      "stabdefence": 100,
+      "slashdefence": 100,
+      "crushdefence": 20,
+      "rangeddefence": 25,
+      "magicdefence": 25
+    },
+    "animations": {
+      "attack": 6235,
+      "block": -1,
+      "death": 6233
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.kalphite.KalphiteQueenSecondForm",
+      "death": "nl.bartpelle.veteres.content.npcs.bosses.kalphite.KalphiteQueenSecondForm.death"
+    }
+  },
+  {
+    // Fragment of seren
+    "ids": [
+      8917
+    ],
+    "maxhit": 50,
+    "attackspeed": 7,
+    "aggroradius": 75,
+    "respawntime": 50,
+    "deathlen": 2,
+    "aggressive": true,
+    "stats": {
+      "attack": 242,
+      "strength": 288,
+      "magic": 800,
+      "ranged": 235,
+      "defence": 102,
+      "hitpoints": 10000
+    },
+    "bonuses": {
+      "attack": 236,
+      "strength": 44,
+      "stabdefence": 320,
+      "slashdefence": 220,
+      "crushdefence": 40,
+      "rangeddefence": 40,
+      "magicdefence": 150
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": 8384
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.seren.FragmentOfSeren"
+    }
+  },
+  {
+    // The Mimic
+    "ids": [
+      8633
+    ],
+    "maxhit": 23,
+    "attackspeed": 3,
+    "aggroradius": 5,
+    "aggressive": true,
+    "boss": true,
+    "slayerxp": 750,
+    "slayerlvl": 1,
+    "stats": {
+      "attack": 185,
+      "strength": 120,
+      "magic": 60,
+      "ranged": 1,
+      "defence": 120,
+      "hitpoints": 230
+    },
+    "bonuses": {
+      "ranged": 0,
+      "stabdefence": 160,
+      "slashdefence": 165,
+      "crushdefence": 160,
+      "rangeddefence": 145,
+      "magicdefence": 30
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": 8310
+    },
+    "scripts": {
+      //"combat": ""
+    }
+  },
+  {
+    // Cerberus
+    "ids": [
+      5862,
+      5863,
+      5866
+    ],
+    "maxhit": 23,
+    "slayerlvl": 91,
+    "slayerxp": 690,
+    "attackspeed": 6,
+    "deathlen": 5,
+    "aggroradius": 7,
+    "aggressive": true,
+    "boss": true,
+    "stats": {
+      "attack": 220,
+      "strength": 220,
+      "magic": 220,
+      "ranged": 220,
+      "defence": 100,
+      "hitpoints": 600
+    },
+    "bonuses": {
+      "attack": 50,
+      "magic": 50,
+      "ranged": 50,
+      "strength": 0,
+      "stabdefence": 50,
+      "slashdefence": 100,
+      "crushdefence": 25,
+      "rangeddefence": 100,
+      "magicdefence": 100
+    },
+    "animations": {
+      "attack": 4491,
+      "block": 4489,
+      "death": 4495
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.cerberus.Cerberus"
+    }
+  },
+  {
+    // Kerberos
+    "ids": [
+      16008
+    ],
+    "maxhit": 46,
+    "slayerlvl": 91,
+    "slayerxp": 1200,
+    "attackspeed": 6,
+    "deathlen": 5,
+    "aggroradius": 7,
+    "aggressive": false,
+    "boss": true,
+    "stats": {
+      "attack": 320,
+      "strength": 320,
+      "magic": 320,
+      "ranged": 320,
+      "defence": 200,
+      "hitpoints": 1200
+    },
+    "bonuses": {
+      "attack": 50,
+      "magic": 50,
+      "ranged": 50,
+      "strength": 0,
+      "stabdefence": 50,
+      "slashdefence": 100,
+      "crushdefence": 25,
+      "rangeddefence": 100,
+      "magicdefence": 100
+    },
+    "animations": {
+      "attack": 4491,
+      "block": 4489,
+      "death": 4495
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.superiorbosses.Kerberos"
+    }
+  },
+  //Zamorak God Wars
+  {
+    //Tstanon Karlak
+    "ids": [
+      3130
+    ],
+    "maxhit": 15,
+    "attackspeed": 5,
+    "aggroradius": 50,
+    "aggressive": true,
+    "retaliates": false,
+    "slayerxp": 142,
+    "slayerlvl": 1,
+    "stats": {
+      "attack": 124,
+      "strength": 118,
+      "magic": 125,
+      "ranged": 50,
+      "defence": 50,
+      "hitpoints": 142
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": -5
+    },
+    "animations": {
+      "attack": 64,
+      "block": 65,
+      "death": 68
+    },
+    "scripts": {
+      //"droptable": "droptables.GWDZamorakMinion"
+    }
+  },
+  {
+    //Zakl'n Gritch
+    "ids": [
+      3131
+    ],
+    "maxhit": 21,
+    "attackspeed": 5,
+    "aggroradius": 50,
+    "aggressive": true,
+    "retaliates": false,
+    "slayerxp": 150,
+    "slayerlvl": 1,
+    "stats": {
+      "attack": 83,
+      "strength": 76,
+      "magic": 50,
+      "ranged": 150,
+      "defence": 127,
+      "hitpoints": 142
+    },
+    "bonuses": {
+      "ranged": 20,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": -5
+    },
+    "animations": {
+      "attack": 64,
+      "block": 65,
+      "death": 68
+    },
+    "scripts": {
+      //"droptable": "droptables.GWDZamorakMinion",
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.Zakln"
+    }
+  },
+  {
+    //Balfrug Kreeyath
+    "ids": [
+      3132
+    ],
+    "maxhit": 16,
+    "attackspeed": 5,
+    "aggroradius": 50,
+    "aggressive": true,
+    "retaliates": false,
+    "slayerxp": 161,
+    "slayerlvl": 1,
+    "stats": {
+      "attack": 115,
+      "strength": 60,
+      "magic": 150,
+      "ranged": 1,
+      "defence": 153,
+      "hitpoints": 161
+    },
+    "bonuses": {
+      "magic": 10,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": -5
+    },
+    "animations": {
+      "attack": 64,
+      "block": 65,
+      "death": 67
+    },
+    "scripts": {
+      //"droptable": "droptables.GWDZamorakMinion",
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.Balfrug"
+    }
+  },
+  {
+    //K'ril Tsutsaroth
+    "ids": [
+      3129
+    ],
+    "maxhit": 47,
+    "attackspeed": 6,
+    "aggroradius": 50,
+    "aggressive": true,
+    "retaliates": false,
+    "boss": true,
+    "slayerxp": 350.0,
+    "slayerlvl": 1,
+    "stats": {
+      "attack": 340,
+      "strength": 300,
+      "magic": 200,
+      "ranged": 1,
+      "defence": 270,
+      "hitpoints": 255
+    },
+    "bonuses": {
+      "attack": 160,
+      "strength": 31,
+      "stabdefence": 80,
+      "slashdefence": 80,
+      "crushdefence": 80,
+      "rangeddefence": 80,
+      "magicdefence": 130
+    },
+    "animations": {
+      "attack": 6948,
+      "block": 6947,
+      "death": 6949
+    },
+    "scripts": {
+      //"droptable": "droptables.GWDZamorakMinion",
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.Kril"
+    }
+  },
+  {
+    //Corporeal beast
+    "ids": [
+      319
+    ],
+    "maxhit": 51,
+    "attackspeed": 6,
+    "aggroradius": 10,
+    "aggressive": true,
+    "boss": true,
+    "stats": {
+      "attack": 320,
+      "strength": 320,
+      "magic": 350,
+      "ranged": 150,
+      "defence": 310,
+      "hitpoints": 2000
+    },
+    "bonuses": {
+      "attack": 50,
+      "strength": 31,
+      "stabdefence": 25,
+      "slashdefence": 200,
+      "crushdefence": 100,
+      "rangeddefence": 230,
+      "magicdefence": 150
+    },
+    "animations": {
+      "attack": 1683,
+      "block": 1677,
+      "death": 1676
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.CorporealBeast"
+    }
+  },
+  {
+    // King black dragon (KBD)
+    "ids": [
+      239,
+      16006
+    ],
+    "maxhit": 25,
+    "attackspeed": 4,
+    "aggroradius": 16,
+    "slayerxp": 258,
+    "slayerlvl": 1,
+    "aggressive": true,
+    "boss": true,
+    "stats": {
+      "attack": 240,
+      "strength": 240,
+      "magic": 240,
+      "ranged": 1,
+      "defence": 240,
+      "hitpoints": 240
+    },
+    "bonuses": {
+      "stabdefence": 70,
+      "slashdefence": 90,
+      "crushdefence": 90,
+      "rangeddefence": 70,
+      "magicdefence": 80
+    },
+    "animations": {
+      "attack": 80,
+      "block": 89,
+      "death": 92
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.dragons.KingBlackDragon",
+      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+    }
+  },
+  {
+    // Dagannoth rex
+    "ids": [
+      2267
+    ],
+    "maxhit": 26,
+    "slayerxp": 331,
+    "slayerlvl": 1,
+    "attackspeed": 4,
+    "aggroradius": 6,
+    "aggressive": true,
+    "boss": true,
+    "stats": {
+      "attack": 255,
+      "strength": 255,
+      "defence": 255,
+      "hitpoints": 255
+    },
+    "bonuses": {
+      "stabdefence": 255,
+      "slashdefence": 255,
+      "crushdefence": 255,
+      "rangeddefence": 255,
+      "magicdefence": 10
+    },
+    "animations": {
+      "attack": 2851,
+      "block": 2852,
+      "death": 2856
+    }
+  },
+  {
+    // Dagannoth supreme
+    "ids": [
+      2265
+    ],
+    "maxhit": 30,
+    "slayerxp": 255,
+    "slayerlvl": 1,
+    "attackspeed": 4,
+    "aggroradius": 9,
+    "aggressive": true,
+    "boss": true,
+    "stats": {
+      "attack": 255,
+      "strength": 255,
+      "ranged": 255,
+      "magic": 255,
+      "defence": 128,
+      "hitpoints": 255
+    },
+    "bonuses": {
+      "stabdefence": 10,
+      "slashdefence": 10,
+      "crushdefence": 10,
+      "rangeddefence": 255,
+      "magicdefence": 255
+    },
+    "animations": {
+      "attack": 2855,
+      "block": 2852,
+      "death": 2856
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.DagannothSupreme"
+    }
+  },
+  {
+    // Dagannoth prime
+    "ids": [
+      2266
+    ],
+    "maxhit": 56,
+    "slayerxp": 331,
+    "slayerlvl": 1,
+    "attackspeed": 4,
+    "aggroradius": 9,
+    "aggressive": true,
+    "boss": true,
+    "stats": {
+      "attack": 255,
+      "strength": 255,
+      "ranged": 1,
+      "magic": 255,
+      "defence": 255,
+      "hitpoints": 255
+    },
+    "bonuses": {
+      "stabdefence": 255,
+      "slashdefence": 255,
+      "crushdefence": 255,
+      "rangeddefence": 10,
+      "magicdefence": 255
+    },
+    "animations": {
+      "attack": 2854,
+      "block": 2852,
+      "death": 2856
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.DagannothPrime"
+    }
+  },
+  {
+    // Dagannoth spinolyp
+    "ids": [
+      5947
+    ],
+    "maxhit": 11,
+    "attackspeed": 4,
+    "aggroradius": 8,
+    "aggressive": true,
+    "stats": {
+      "attack": 10,
+      "strength": 10,
+      "ranged": 2,
+      "magic": 1,
+      "defence": 10,
+      "hitpoints": 100
+    },
+    "bonuses": {
+      "stabdefence": 100,
+      "slashdefence": 100,
+      "crushdefence": 100,
+      "rangeddefence": 50,
+      "magicdefence": 50
+    },
+    "animations": {
+      "attack": 2868,
+      "block": 2869,
+      "death": 2865
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.Spinolyp"
+    }
+  },
+  {
+    // General graardor
+    "ids": [
+      2215
+    ],
+    "maxhit": 60,
+    "attackspeed": 6,
+    "aggroradius": 50,
+    "aggressive": true,
+    "retaliates": false,
+    "boss": true,
+    "stats": {
+      "attack": 280,
+      "strength": 350,
+      "ranged": 350,
+      "magic": 280,
+      "defence": 250,
+      "hitpoints": 255
+    },
+    "bonuses": {
+      "stabdefence": 90,
+      "slashdefence": 90,
+      "crushdefence": 90,
+      "rangeddefence": 90,
+      "magicdefence": 65,
+      "ranged": 100
+    },
+    "animations": {
+      "attack": 7018,
+      "block": 7019,
+      "death": 7020
+    },
+    "scripts": {
+      //"droptable": "droptables.GWDBandosMinion",
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.bandos.Graardor"
+    }
+  },
+  {
+    // Strongstack
+    "ids": [
+      2216
+    ],
+    "maxhit": 15,
+    "attackspeed": 5,
+    "aggroradius": 50,
+    "aggressive": true,
+    "retaliates": false,
+    "stats": {
+      "attack": 124,
+      "strength": 118,
+      "ranged": 50,
+      "magic": 50,
+      "defence": 125,
+      "hitpoints": 128
+    },
+    "animations": {
+      "attack": 6154,
+      "block": 6155,
+      "death": 6156
+    },
+    "scripts": {
+      //"droptable": "droptables.GWDBandosMinion"
+    }
+  },
+  {
+    // Steelwill
+    "ids": [
+      2217
+    ],
+    "maxhit": 16,
+    "attackspeed": 5,
+    "aggroradius": 50,
+    "aggressive": true,
+    "retaliates": false,
+    "stats": {
+      "attack": 80,
+      "strength": 50,
+      "ranged": 1,
+      "magic": 150,
+      "defence": 150,
+      "hitpoints": 128
+    },
+    "bonuses": {
+    },
+    "animations": {
+      "attack": 6154,
+      "block": 6155,
+      "death": 6156
+    },
+    "scripts": {
+      //"droptable": "droptables.GWDBandosMinion",
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.bandos.Steelwill"
+    }
+  },
+  {
+    // Grimspike
+    "ids": [
+      2218
+    ],
+    "maxhit": 21,
+    "attackspeed": 5,
+    "aggroradius": 50,
+    "aggressive": true,
+    "retaliates": false,
+    "stats": {
+      "attack": 80,
+      "strength": 80,
+      "ranged": 150,
+      "magic": 50,
+      "defence": 132,
+      "hitpoints": 146
+    },
+    "animations": {
+      "attack": 6154,
+      "block": 6155,
+      "death": 6156
+    },
+    "scripts": {
+      //"droptable": "droptables.GWDBandosMinion",
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.bandos.Grimspike"
+    }
+  },
+  {
+    // Thermonuclear Smoke Devil
+    "ids": [
+      499
+    ],
+    "maxhit": 8,
+    "slayerxp": 240,
+    "slayerlvl": 93,
+    "attackspeed": 4,
+    "boss": true,
+    "stats": {
+      "attack": 230,
+      "strength": 220,
+      "ranged": 310,
+      "magic": 1,
+      "defence": 360,
+      "hitpoints": 240
+    },
+    "bonuses": {
+      "stabdefence": 11,
+      "slashdefence": 4,
+      "crushdefence": 8,
+      "rangeddefence": 900,
+      "magicdefence": 800
+    },
+    "animations": {
+      "attack": 3847,
+      "block": 3848,
+      "death": 3849
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.ThermonuclearSmokeDevil"
+    }
+  },
+  {
+    // Zulrah (Green ranged form)
+    "ids": [
+      2042
+    ],
+    "maxhit": 41,
+    "attackspeed": 3,
+    "aggroradius": 10,
+    "aggressive": true,
+    "retaliates": false,
+    "boss": true,
+    "stats": {
+      "attack": 1,
+      "strength": 1,
+      "ranged": 300,
+      "magic": 300,
+      "defence": 200,
+      "hitpoints": 500
+    },
+    "bonuses": {
+      "magic": 50,
+      "ranged": 50,
+      "rangeddefence": 50,
+      "magicdefence": -45
+    },
+    "animations": {
+      "attack": 5069,
+      "block": -1,
+      "death": 5072
+    },
+    "scripts": {
+      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.ZulrahDeath"
+    }
+  },
+  {
+    // Zulrah (Crimson melee form)
+    "ids": [
+      2043
+    ],
+    "maxhit": 41,
+    "attackspeed": 3,
+    "aggroradius": 10,
+    "aggressive": true,
+    "boss": true,
+    "retaliates": false,
+    "stats": {
+      "attack": 1,
+      "strength": 1,
+      "ranged": 300,
+      "magic": 300,
+      "defence": 200,
+      "hitpoints": 500
+    },
+    "bonuses": {
+      "magic": 50,
+      "ranged": 50,
+      "rangeddefence": 300,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 5069,
+      "block": -1,
+      "death": 5072
+    },
+    "scripts": {
+      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.ZulrahDeath"
+    }
+  },
+  {
+    // Zulrah (Blue mage form)
+    "ids": [
+      2044
+    ],
+    "maxhit": 41,
+    "attackspeed": 3,
+    "aggroradius": 10,
+    "aggressive": true,
+    "retaliates": false,
+    "boss": true,
+    "stats": {
+      "attack": 1,
+      "strength": 1,
+      "ranged": 300,
+      "magic": 300,
+      "defence": 200,
+      "hitpoints": 500
+    },
+    "bonuses": {
+      "magic": 50,
+      "ranged": 50,
+      "rangeddefence": -30,
+      "magicdefence": 300
+    },
+    "animations": {
+      "attack": 5069,
+      "block": -1,
+      "death": 5072
+    },
+    "scripts": {
+      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.ZulrahDeath"
+    }
+  },
+  {
+    // Snakeling
+    "ids": [
+      2045,
+      2046
+    ],
+    "maxhit": 15,
+    "attackspeed": 4,
+    "aggroradius": 25,
+    "aggressive": true,
+    "stats": {
+      "attack": 140,
+      "strength": 138,
+      "ranged": 1,
+      "magic": 1,
+      "defence": 1,
+      "hitpoints": 1
+    },
+    "bonuses": {
+      "attack": 120,
+      "stabdefence": -40,
+      "slashdefence": -40,
+      "crushdefence": -40,
+      "magicdefence": -40,
+      "rangeddefence": -40
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": 2408
+    }
+  },
+  {
+    // Lizard Shaman
+    "ids": [
+      6766,
+      6767,
+      7573,
+      7574,
+      7744,
+      7745
+    ],
+    "maxhit": 31,
+    "attackspeed": 6,
+    "aggroradius": 10,
+    "aggressive": false,
+    "boss": true,
+    "stats": {
+      "attack": 120,
+      "strength": 120,
+      "ranged": 120,
+      "magic": 130,
+      "defence": 140,
+      "hitpoints": 150
+    },
+    "bonuses": {
+      "ranged": 38,
+      "strength": 38,
+      "attack": 40,
+      "stabdefence": -10,
+      "slashdefence": 40,
+      "crushdefence": 30,
+      "magicdefence": 50
+    },
+    "animations": {
+      "attack": 7192,
+      "block": 7194,
+      "death": 7196
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.LizardShaman"
+    }
+  },
+  {
+    // Lizard Shaman spawn
+    "ids": [
+      6768
+    ],
+    "maxhit": 0,
+    "attackspeed": 6,
+    "aggroradius": 10,
+    "aggressive": false,
+    "boss": false,
+    "stats": {
+      "attack": 0,
+      "strength": 0,
+      "ranged": 0,
+      "magic": 0,
+      "defence": 0,
+      "hitpoints": 0
+    },
+    "bonuses": {
+      "ranged": 0,
+      "strength": 0,
+      "attack": 0,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "magicdefence": 0
+    }
+  },
+  {
+    // Demonic Gorilla
+    "ids": [
+      7144,
+      7145,
+      7146
+    ],
+    "maxhit": 31,
+    "slayerxp": 408.5,
+    "slayerlvl": 1,
+    "attackspeed": 5,
+    "aggroradius": 4,
+    "aggressive": true,
+    "stats": {
+      "attack": 205,
+      "strength": 195,
+      "ranged": 195,
+      "magic": 195,
+      "defence": 200,
+      "hitpoints": 380
+    },
+    "bonuses": {
+      "ranged": 43,
+      "strength": 29,
+      "attack": 43,
+      "stabdefence": 50,
+      "slashdefence": 50,
+      "crushdefence": 50,
+      "rangeddefence": 50,
+      "magicdefence": 50
+    },
+    "animations": {
+      "attack": 7226,
+      "block": 7224,
+      "death": 7229
+    }
+  },
+  {
+    // Vorkath zombified spawn
+    "ids": [
+      8063
+    ],
+    "maxhit": 0,
+    "attackspeed": 4,
+    "aggroradius": 20,
+    "aggressive": true,
+    "stats": {
+      "attack": 0,
+      "strength": 0,
+      "ranged": 0,
+      "magic": 0,
+      "defence": 0,
+      "hitpoints": 38
+    },
+    "bonuses": {
+      "ranged": 0,
+      "strength": 0,
+      "attack": 0,
+      "magic": 0,
+      "stabdefence": 3,
+      "slashdefence": 3,
+      "crushdefence": 3,
+      "rangeddefence": 3,
+      "magicdefence": -100
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": -1
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.vorkath.ZombifiedSpawn"
+    }
+  },
+  {
+    // Vorkath
+    "ids": [
+      8061
+    ],
+    "maxhit": 32,
+    "slayerxp": 1000,
+    "slayerlvl": 1,
+    "attackspeed": 5,
+    "aggroradius": 10,
+    "aggressive": true,
+    "stats": {
+      "attack": 560,
+      "strength": 308,
+      "ranged": 308,
+      "magic": 150,
+      "defence": 214,
+      "hitpoints": 750
+    },
+    "bonuses": {
+      "ranged": 78,
+      "strength": 1,
+      "attack": 16,
+      "magic": 150,
+      "stabdefence": 62,
+      "slashdefence": 108,
+      "crushdefence": 108,
+      "rangeddefence": 72,
+      "magicdefence": 240
+    },
+    "animations": {
+      "attack": 7951,
+      "block": -1,
+      "death": 7949
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.vorkath.Vorkath"
+    }
+  },
+  {
+    "ids": [
+      8615,
+      8616,
+      8617,
+      8618,
+      8619,
+      8620,
+      8621,
+      8622
+    ],
+    "maxhit": 17,
+    "slayerlvl": 95,
+    "slayerxp": 1320,
+    "attackspeed": 6,
+    "aggroradius": 15,
+    "aggressive": true,
+    "boss": true,
+    "stats": {
+      "attack": 100,
+      "strength": 100,
+      "magic": 260,
+      "ranged": 260,
+      "defence": 100,
+      "hitpoints": 1100
+    },
+    "bonuses": {
+      "magic": 45,
+      "ranged": 45,
+      "stabdefence": 75,
+      "slashdefence": 150,
+      "crushdefence": 150,
+      "rangeddefence": 150,
+      "magicdefence": 45
+    },
+    "animations": {
+      "attack": 8234,
+      "block": -1,
+      "death": 8262
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.hydra.AlchemicalHydraAttackScript"
+    }
+  },
+  {
+    // Giant mole
+    "ids": [
+      5779
+    ],
+    "maxhit": 21,
+    "slayerxp": 215,
+    "slayerlvl": 1,
+    "attackspeed": 4,
+    "aggroradius": 7,
+    "respawntime": 15,
+    "aggressive": true,
+    "stats": {
+      "attack": 200,
+      "strength": 200,
+      "ranged": 1,
+      "magic": 200,
+      "defence": 200,
+      "hitpoints": 200
+    },
+    "bonuses": {
+      "stabdefence": 60,
+      "slashdefence": 80,
+      "crushdefence": 100,
+      "rangeddefence": 60,
+      "magicdefence": 80
+    },
+    "animations": {
+      "attack": 3312,
+      "block": 3311,
+      "death": 3310
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.GiantMole"
+    }
+  },
+  {
+    // Corrupted Nechryarch
+    "ids": [
+      15001
+    ],
+    "maxhit": 27,
+    "attackspeed": 4,
+    "aggroradius": 0,
+    "respawntime": 50,
+    "deathlen": 2,
+    "aggressive": false,
+    "stats": {
+      "attack": 310,
+      "strength": 260,
+      "magic": 150,
+      "ranged": 1,
+      "defence": 140,
+      "hitpoints": 1200
+    },
+    "bonuses": {
+      "attack": 100,
+      "strength": 50,
+      "stabdefence": 150,
+      "slashdefence": 150,
+      "crushdefence": 50,
+      "rangeddefence": 150,
+      "magicdefence": 50
+    },
+    "animations": {
+      "attack": 6368,
+      "block": 6370,
+      "death": 6369
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.CorruptedNechryarch"
+    }
+  },
+  {
+    // The nightmare
+    "ids": [
+      9430
+    ],
+    "maxhit": 33,
+    "attackspeed": 6,
+    "aggroradius": 0,
+    "respawntime": 50,
+    "deathlen": 2,
+    "aggressive": false,
+    "stats": {
+      "attack": 150,
+      "strength": 150,
+      "magic": 150,
+      "ranged": 150,
+      "defence": 150,
+      "hitpoints": 2400
+    },
+    "bonuses": {
+      "attack": 420,
+      "strength": 128,
+      "stabdefence": 120,
+      "slashdefence": 180,
+      "crushdefence": 40,
+      "rangeddefence": 600,
+      "magicdefence": 600
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": 8612
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.TheNightmare"
+    }
+  },
+  {
+    // Corrupted Hunllef
+    "ids": [
+      9035,
+      9036,
+      9037
+    ],
+    "maxhit": 35,
+    "attackspeed": 5,
+    "aggroradius": 0,
+    "respawntime": 50,
+    "deathlen": 2,
+    "aggressive": false,
+    "stats": {
+      "attack": 240,
+      "strength": 240,
+      "magic": 240,
+      "ranged": 240,
+      "defence": 240,
+      "hitpoints": 1000
+    },
+    "bonuses": {
+      "attack": 420,
+      "strength": 112,
+      "stabdefence": 20,
+      "slashdefence": 20,
+      "crushdefence": 20,
+      "rangeddefence": 20,
+      "magicdefence": 20
+    },
+    "animations": {
+      "attack": 8419,
+      "block": -1,
+      "death": 8421
+    }
+  },
+  {
+    // Judge Of Yama World Boss
+    "ids": [
+      10938
+    ],
+    "maxhit": 50,
+    "attackspeed": 5,
+    "aggroradius": 10,
+    "deathlen": 2,
+    "aggressive": true,
+    "stats": {
+      "attack": 186,
+      "strength": 112,
+      "magic": 84,
+      "ranged": 0,
+      "defence": 84,
+      "hitpoints": 2500
+    },
+    "bonuses": {
+      "attack": 420,
+      "strength": 112,
+      "stabdefence": 40,
+      "slashdefence": 40,
+      "crushdefence": 40,
+      "rangeddefence": 600,
+      "magicdefence": 600
+    },
+    "animations": {
+      "attack": 9043,
+      "block": 7077,
+      "death": 9042
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.judgeofyama.Judge"
+    }
+  }
+]

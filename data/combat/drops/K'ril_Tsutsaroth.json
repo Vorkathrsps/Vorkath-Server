@@ -1,0 +1,32 @@
+{
+  "npcs": [ 3129, 6495 ],
+  "petItem": 12652,
+  "petRarity": 1000,
+  "guaranteed": [
+    { "id": 13307, "min": 250, "max": 25300 }   //blood money
+  ],
+  "tables": [
+    {
+      "name": "Extra Blood Money",
+      "points": 4,
+      "items": [
+        { "id": 13307, "min": 150, "max": 300, "points": 1 }
+      ]
+    },
+    {
+      "name": "Unique",
+      "points": 1,
+      "items": [
+        { "id": 11824, "min": 1, "max": 1, "points": 10 },
+        { "id": 11808, "min": 1, "max": 1, "points": 6 },
+        { "id": 11791, "min": 1, "max": 1, "points": 6 }
+
+      ]
+    },
+    {
+      "name": "Other",
+      "points": 20,
+      "items": []
+    }
+  ]
+}

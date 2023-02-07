@@ -1,0 +1,1245 @@
+[
+  {
+    "id": 330,
+    "x": 1752,
+    "y": 3772,
+    "walkRange": 4
+  },
+  // Swarm
+  {
+    "id": 6983,
+    "x": 1785,
+    "y": 3720,
+    "walkRange": 4
+  },
+  // Poor looking man
+  {
+    "id": 330,
+    "x": 1786,
+    "y": 3714,
+    "walkRange": 15
+  },
+  // Swarm
+  {
+    "id": 2854,
+    "x": 1785,
+    "y": 3748,
+    "walkRange": 10
+  },
+  // Rat
+  {
+    "id": 330,
+    "x": 1788,
+    "y": 3756,
+    "walkRange": 2
+  },
+  // Swarm
+  {
+    "id": 2854,
+    "x": 1789,
+    "y": 3715,
+    "walkRange": 7
+  },
+  // Rat
+  {
+    "id": 330,
+    "x": 1791,
+    "y": 3727,
+    "walkRange": 10
+  },
+  // Swarm
+  {
+    "id": 6985,
+    "x": 1787,
+    "y": 3721,
+    "walkRange": 5
+  },
+  // Poor looking woman
+  {
+    "id": 6973,
+    "x": 1754,
+    "y": 3763,
+    "walkRange": 3
+  },
+  // Patrolman
+  {
+    "id": 330,
+    "x": 1749,
+    "y": 3755,
+    "walkRange": 1
+  },
+  // Swarm
+  {
+    "id": 6987,
+    "x": 1752,
+    "y": 3749,
+    "walkRange": 4
+  },
+  // Man
+  {
+    "id": 2855,
+    "x": 1749,
+    "y": 3757,
+    "walkRange": 1
+  },
+  // Rat
+  {
+    "id": 6988,
+    "x": 1753,
+    "y": 3748,
+    "walkRange": 4
+  },
+  // Man
+  {
+    "id": 6992,
+    "x": 1756,
+    "y": 3750,
+    "walkRange": 3
+  },
+  // Woman
+  {
+    "id": 6974,
+    "x": 1760,
+    "y": 3755,
+    "walkRange": 1
+  },
+  // Patrolman
+  {
+    "id": 330,
+    "x": 1764,
+    "y": 3734,
+    "walkRange": 1
+  },
+  // Swarm
+  {
+    "id": 6975,
+    "x": 1769,
+    "y": 3751,
+    "walkRange": 5
+  },
+  // Patrolman
+  {
+    "id": 6994,
+    "x": 1763,
+    "y": 3755,
+    "walkRange": 3
+  },
+  // Pirate
+  {
+    "id": 330,
+    "x": 1771,
+    "y": 3755,
+    "walkRange": 7
+  },
+  // Swarm
+  {
+    "id": 6995,
+    "x": 1766,
+    "y": 3732,
+    "walkRange": 1
+  },
+  // Pirate
+  {
+    "id": 6977,
+    "x": 1767,
+    "y": 3773,
+    "walkRange": 1
+  },
+  // Patrolman
+  {
+    "id": 6976,
+    "x": 1766,
+    "y": 3765,
+    "walkRange": 7
+  },
+  // Patrolwoman
+  {
+    "id": 2854,
+    "x": 1775,
+    "y": 3733,
+    "walkRange": 1
+  },
+  // Rat
+  {
+    "id": 6995,
+    "x": 1773,
+    "y": 3755,
+    "walkRange": 2
+  },
+  // Pirate
+  {
+    "id": 6996,
+    "x": 1774,
+    "y": 3742,
+    "walkRange": 6
+  },
+  // Mugger
+  {
+    "id": 6980,
+    "x": 1777,
+    "y": 3746,
+    "walkRange": 0
+  },
+  // Patrolman
+  {
+    "id": 6978,
+    "x": 1774,
+    "y": 3735,
+    "walkRange": 3
+  },
+  // Patrolwoman
+  {
+    "id": 6980,
+    "x": 1780,
+    "y": 3731,
+    "walkRange": 0
+  },
+  // Patrolman
+  {
+    "id": 6987,
+    "x": 1792,
+    "y": 3729,
+    "walkRange": 5
+  },
+  // Man
+  {
+    "id": 6989,
+    "x": 1792,
+    "y": 3746,
+    "walkRange": 5
+  },
+  // Man
+  {
+    "id": 3019,
+    "x": 1792,
+    "y": 3755,
+    "walkRange": 4
+  },
+  // Spider
+  {
+    "id": 6993,
+    "x": 1793,
+    "y": 3748,
+    "walkRange": 5
+  },
+  // Pirate
+  {
+    "id": 6991,
+    "x": 1800,
+    "y": 3718,
+    "walkRange": 4
+  },
+  // Woman
+  {
+    "id": 6994,
+    "x": 1800,
+    "y": 3728,
+    "walkRange": 4
+  },
+  // Pirate
+  {
+    "id": 6987,
+    "x": 1802,
+    "y": 3753,
+    "walkRange": 4
+  },
+  // Man
+  {
+    "id": 2855,
+    "x": 1804,
+    "y": 3738,
+    "walkRange": 3
+  },
+  // Rat
+  {
+    "id": 2854,
+    "x": 1800,
+    "y": 3745,
+    "walkRange": 11
+  },
+  // Rat
+  {
+    "id": 2854,
+    "x": 1806,
+    "y": 3749,
+    "walkRange": 14
+  },
+  // Rat
+  {
+    "id": 6986,
+    "x": 1806,
+    "y": 3723,
+    "walkRange": 0
+  },
+  // Leenz
+  {
+    "id": 2854,
+    "x": 1806,
+    "y": 3747,
+    "walkRange": 10
+  },
+  // Rat
+  {
+    "id": 6995,
+    "x": 1811,
+    "y": 3748,
+    "walkRange": 5
+  },
+  // Pirate
+  {
+    "id": 2855,
+    "x": 1812,
+    "y": 3756,
+    "walkRange": 1
+  },
+  // Rat
+  {
+    "id": 2854,
+    "x": 1807,
+    "y": 3744,
+    "walkRange": 7
+  },
+  // Rat
+  {
+    "id": 2855,
+    "x": 1812,
+    "y": 3756,
+    "walkRange": 1
+  },
+  // Rat
+  {
+    "id": 2855,
+    "x": 1812,
+    "y": 3756,
+    "walkRange": 1
+  },
+  // Rat
+  {
+    "id": 330,
+    "x": 1816,
+    "y": 3746,
+    "walkRange": 13
+  },
+  // Swarm
+  {
+    "id": 330,
+    "x": 1806,
+    "y": 3767,
+    "walkRange": 0
+  },
+  // Swarm
+  {
+    "id": 6968,
+    "x": 1808,
+    "y": 3715,
+    "walkRange": 4
+  },
+  // Dock worker
+  {
+    "id": 2854,
+    "x": 1813,
+    "y": 3722,
+    "walkRange": 4
+  },
+  // Rat
+  {
+    "id": 6967,
+    "x": 1817,
+    "y": 3725,
+    "walkRange": 0
+  },
+  // Dock worker
+  {
+    "id": 3019,
+    "x": 1815,
+    "y": 3749,
+    "walkRange": 6
+  },
+  // Spider
+  {
+    "id": 6966,
+    "x": 1821,
+    "y": 3739,
+    "walkRange": 2
+  },
+  // Dockmaster
+  {
+    "id": 6969,
+    "x": 1796,
+    "y": 3792,
+    "walkRange": 0
+  },
+  // Banker
+  {
+    "id": 330,
+    "x": 1825,
+    "y": 3722,
+    "walkRange": 2
+  },
+  // Swarm
+  {
+    "id": 6970,
+    "x": 1800,
+    "y": 3792,
+    "walkRange": 0
+  },
+  // Banker
+  {
+    "id": 6994,
+    "x": 1825,
+    "y": 3714,
+    "walkRange": 4
+  },
+  // Pirate
+  {
+    "id": 6969,
+    "x": 1804,
+    "y": 3792,
+    "walkRange": 0
+  },
+  // Banker
+  {
+    "id": 6968,
+    "x": 1826,
+    "y": 3750,
+    "walkRange": 5
+  },
+  // Dock worker
+  {
+    "id": 6970,
+    "x": 1808,
+    "y": 3792,
+    "walkRange": 0
+  },
+  // Banker
+  {
+    "id": 6963,
+    "x": 1830,
+    "y": 3719,
+    "walkRange": 2
+  },
+  // Frankie
+  {
+    "id": 3288,
+    "x": 1834,
+    "y": 3674,
+    "walkRange": 2
+  },
+  // Hobgoblin
+  {
+    "id": 3287,
+    "x": 1836,
+    "y": 3674,
+    "walkRange": 0
+  },
+  // Hobgoblin
+  {
+    "id": 6967,
+    "x": 1831,
+    "y": 3736,
+    "walkRange": 0
+  },
+  // Dock worker
+  {
+    "id": 6967,
+    "x": 1830,
+    "y": 3756,
+    "walkRange": 0
+  },
+  // Dock worker
+  {
+    "id": 2854,
+    "x": 1836,
+    "y": 3749,
+    "walkRange": 6
+  },
+  // Rat
+  {
+    "id": 6996,
+    "x": 1836,
+    "y": 3728,
+    "walkRange": 7
+  },
+  // Mugger
+  {
+    "id": 3288,
+    "x": 1833,
+    "y": 3674,
+    "walkRange": 0
+  },
+  // Hobgoblin
+  {
+    "id": 2855,
+    "x": 1838,
+    "y": 3742,
+    "walkRange": 2
+  },
+  // Rat
+  {
+    "id": 6993,
+    "x": 1840,
+    "y": 3740,
+    "walkRange": 4
+  },
+  // Pirate
+  {
+    "id": 6994,
+    "x": 1840,
+    "y": 3753,
+    "walkRange": 3
+  },
+  // Pirate
+  {
+    "id": 3019,
+    "x": 1840,
+    "y": 3750,
+    "walkRange": 5
+  },
+  // Spider
+  {
+    "id": 7008,
+    "x": 1793,
+    "y": 3689,
+    "walkRange": 2
+  },
+  // Simon
+  {
+    "id": 6987,
+    "x": 1794,
+    "y": 3689,
+    "walkRange": 4
+  },
+  // Man
+  {
+    "id": 6993,
+    "x": 1845,
+    "y": 3739,
+    "walkRange": 1
+  },
+  // Pirate
+  {
+    "id": 6989,
+    "x": 1845,
+    "y": 3756,
+    "walkRange": 1
+  },
+  // Man
+  {
+    "id": 7001,
+    "x": 1799,
+    "y": 3689,
+    "walkRange": 4
+  },
+  // Port worker
+  {
+    "id": 2854,
+    "x": 1841,
+    "y": 3734,
+    "walkRange": 6
+  },
+  // Rat
+  {
+    "id": 7007,
+    "x": 1801,
+    "y": 3689,
+    "walkRange": 3
+  },
+  // Melvin
+  {
+    "id": 6764,
+    "x": 1846,
+    "y": 3753,
+    "walkRange": 2
+  },
+  // Captain Khaled
+  {
+    "id": 3019,
+    "x": 1805,
+    "y": 3685,
+    "walkRange": 5
+  },
+  // Spider
+  {
+    "id": 6968,
+    "x": 1846,
+    "y": 3723,
+    "walkRange": 3
+  },
+  // Dock worker
+  {
+    "id": 3019,
+    "x": 1806,
+    "y": 3702,
+    "walkRange": 5
+  },
+  // Spider
+  {
+    "id": 6994,
+    "x": 1806,
+    "y": 3674,
+    "walkRange": 0
+  },
+  // Pirate
+  {
+    "id": 3019,
+    "x": 1848,
+    "y": 3748,
+    "walkRange": 7
+  },
+  // Spider
+  {
+    "id": 6988,
+    "x": 1846,
+    "y": 3742,
+    "walkRange": 2
+  },
+  // Man
+  {
+    "id": 6994,
+    "x": 1806,
+    "y": 3682,
+    "walkRange": 3
+  },
+  // Pirate
+  {
+    "id": 1339,
+    "x": 1804,
+    "y": 3690,
+    "walkRange": 4
+  },
+  // Seagull
+  {
+    "id": 1338,
+    "x": 1805,
+    "y": 3690,
+    "walkRange": 4
+  },
+  // Seagull
+  {
+    "id": 6995,
+    "x": 1804,
+    "y": 3693,
+    "walkRange": 5
+  },
+  // Pirate
+  {
+    "id": 1338,
+    "x": 1806,
+    "y": 3706,
+    "walkRange": 3
+  },
+  // Seagull
+  {
+    "id": 6988,
+    "x": 1806,
+    "y": 3710,
+    "walkRange": 4
+  },
+  // Man
+  {
+    "id": 1338,
+    "x": 1806,
+    "y": 3690,
+    "walkRange": 4
+  },
+  // Seagull
+  {
+    "id": 7009,
+    "x": 1806,
+    "y": 3696,
+    "walkRange": 2
+  },
+  // Andrea
+  {
+    "id": 1338,
+    "x": 1806,
+    "y": 3705,
+    "walkRange": 3
+  },
+  // Seagull
+  {
+    "id": 6999,
+    "x": 1806,
+    "y": 3709,
+    "walkRange": 3
+  },
+  // Port Official
+  {
+    "id": 1338,
+    "x": 1807,
+    "y": 3689,
+    "walkRange": 4
+  },
+  // Seagull
+  {
+    "id": 3019,
+    "x": 1807,
+    "y": 3697,
+    "walkRange": 6
+  },
+  // Spider
+  {
+    "id": 7006,
+    "x": 1810,
+    "y": 3689,
+    "walkRange": 3
+  },
+  // Darren
+  {
+    "id": 7002,
+    "x": 1816,
+    "y": 3689,
+    "walkRange": 4
+  },
+  // Mark
+  {
+    "id": 7003,
+    "x": 1817,
+    "y": 3689,
+    "walkRange": 4
+  },
+  // Cheryl
+  {
+    "id": 7004,
+    "x": 1821,
+    "y": 3690,
+    "walkRange": 0
+  },
+  // Charles
+  {
+    "id": 3019,
+    "x": 1823,
+    "y": 3689,
+    "walkRange": 4
+  },
+  // Spider
+  {
+    "id": 2147,
+    "x": 1824,
+    "y": 3690,
+    "walkRange": 1
+  },
+  // Veos
+  {
+    "id": 6992,
+    "x": 1835,
+    "y": 3689,
+    "walkRange": 5
+  },
+  // Woman
+  {
+    "id": 1338,
+    "x": 1835,
+    "y": 3689,
+    "walkRange": 3
+  },
+  // Seagull
+  {
+    "id": 7005,
+    "x": 1840,
+    "y": 3688,
+    "walkRange": 0
+  },
+  // Sarah
+  {
+    "id": 6988,
+    "x": 1841,
+    "y": 3689,
+    "walkRange": 4
+  },
+  // Man
+  {
+    "id": 7010,
+    "x": 1841,
+    "y": 3690,
+    "walkRange": 3
+  },
+  // Elizabeth
+  {
+    "id": 3019,
+    "x": 1846,
+    "y": 3689,
+    "walkRange": 6
+  },
+  // Spider
+  {
+    "id": 6992,
+    "x": 1846,
+    "y": 3689,
+    "walkRange": 5
+  },
+  // Woman
+  {
+    "id": 6991,
+    "x": 1849,
+    "y": 3689,
+    "walkRange": 4
+  },
+  // Woman
+  {
+    "id": 1338,
+    "x": 1852,
+    "y": 3689,
+    "walkRange": 3
+  },
+  // Seagull
+  {
+    "id": 3019,
+    "x": 1856,
+    "y": 3689,
+    "walkRange": 5
+  },
+  // Spider
+  {
+    "id": 3019,
+    "x": 1762,
+    "y": 3702,
+    "walkRange": 1
+  },
+  // Spider
+  {
+    "id": 5007,
+    "x": 1769,
+    "y": 3705,
+    "walkRange": 3
+  },
+  // Imp
+  {
+    "id": 2876,
+    "x": 1774,
+    "y": 3693,
+    "walkRange": 6
+  },
+  // Highwayman
+  {
+    "id": 2854,
+    "x": 1778,
+    "y": 3712,
+    "walkRange": 9
+  },
+  // Rat
+  {
+    "id": 7016,
+    "x": 1779,
+    "y": 3711,
+    "walkRange": 3
+  },
+  // Kourend guard
+  {
+    "id": 7012,
+    "x": 1778,
+    "y": 3688,
+    "walkRange": 6
+  },
+  // Ross and Ben
+  {
+    "id": 7014,
+    "x": 1783,
+    "y": 3694,
+    "walkRange": 4
+  },
+  // Alexander
+  {
+    "id": 7016,
+    "x": 1784,
+    "y": 3710,
+    "walkRange": 6
+  },
+  // Kourend guard
+  {
+    "id": 7016,
+    "x": 1785,
+    "y": 3706,
+    "walkRange": 6
+  },
+  // Kourend guard
+  {
+    "id": 7013,
+    "x": 1787,
+    "y": 3690,
+    "walkRange": 3
+  },
+  // Dobwinkle
+  {
+    "id": 7017,
+    "x": 1786,
+    "y": 3713,
+    "walkRange": 4
+  },
+  // Kourend head guard
+  {
+    "id": 7016,
+    "x": 1791,
+    "y": 3707,
+    "walkRange": 5
+  },
+  // Kourend guard
+  {
+    "id": 7011,
+    "x": 1789,
+    "y": 3689,
+    "walkRange": 3
+  },
+  // Lorraine
+  {
+    "id": 3019,
+    "x": 1856,
+    "y": 3689,
+    "walkRange": 4
+  },
+  // Spider
+  {
+    "id": 7001,
+    "x": 1860,
+    "y": 3689,
+    "walkRange": 4
+  },
+  // Port worker
+  {
+    "id": 1338,
+    "x": 1861,
+    "y": 3689,
+    "walkRange": 4
+  },
+  // Seagull
+  {
+    "id": 6997,
+    "x": 1867,
+    "y": 3689,
+    "walkRange": 3
+  },
+  // Dark wizard
+  {
+    "id": 3019,
+    "x": 1867,
+    "y": 3689,
+    "walkRange": 5
+  },
+  // Spider
+  {
+    "id": 3019,
+    "x": 1875,
+    "y": 3667,
+    "walkRange": 1
+  },
+  // Spider
+  {
+    "id": 7000,
+    "x": 1874,
+    "y": 3690,
+    "walkRange": 2
+  },
+  // Captain Janaway
+  {
+    "id": 1338,
+    "x": 1876,
+    "y": 3664,
+    "walkRange": 1
+  },
+  // Seagull
+  {
+    "id": 7001,
+    "x": 1875,
+    "y": 3663,
+    "walkRange": 1
+  },
+  // Port worker
+  {
+    "id": 1339,
+    "x": 1875,
+    "y": 3664,
+    "walkRange": 1
+  },
+  // Seagull
+  {
+    "id": 1338,
+    "x": 1875,
+    "y": 3667,
+    "walkRange": 2
+  },
+  // Seagull
+  {
+    "id": 1338,
+    "x": 1877,
+    "y": 3664,
+    "walkRange": 1
+  },
+  // Seagull
+  {
+    "id": 3019,
+    "x": 1875,
+    "y": 3679,
+    "walkRange": 5
+  },
+  // Spider
+  {
+    "id": 3019,
+    "x": 1880,
+    "y": 3689,
+    "walkRange": 4
+  },
+  // Spider
+  {
+    "id": 7001,
+    "x": 1889,
+    "y": 3689,
+    "walkRange": 5
+  },
+  // Port worker
+  {
+    "id": 6991,
+    "x": 1896,
+    "y": 3689,
+    "walkRange": 4
+  },
+  // Woman
+  {
+    "id": 3019,
+    "x": 1901,
+    "y": 3688,
+    "walkRange": 2
+  },
+  // Spider
+  {
+    "id": 1338,
+    "x": 1900,
+    "y": 3688,
+    "walkRange": 3
+  },
+  // Seagull
+  {
+    "id": 6998,
+    "x": 1898,
+    "y": 3688,
+    "walkRange": 2
+  },
+  // Pirate
+  {
+    "id": 6996,
+    "x": 1900,
+    "y": 3672,
+    "walkRange": 0
+  },
+  // Mugger
+  {
+    "id": 2854,
+    "x": 1745,
+    "y": 3785,
+    "walkRange": 4
+  },
+  // Rat
+  {
+    "id": 7001,
+    "x": 1901,
+    "y": 3679,
+    "walkRange": 5
+  },
+  // Port worker
+  {
+    "id": 2855,
+    "x": 1750,
+    "y": 3804,
+    "walkRange": 1
+  },
+  // Rat
+  {
+    "id": 6989,
+    "x": 1901,
+    "y": 3685,
+    "walkRange": 1
+  },
+  // Man
+  {
+    "id": 330,
+    "x": 1751,
+    "y": 3794,
+    "walkRange": 6
+  },
+  // Swarm
+  {
+    "id": 1339,
+    "x": 1899,
+    "y": 3689,
+    "walkRange": 2
+  },
+  // Seagull
+  {
+    "id": 6984,
+    "x": 1754,
+    "y": 3780,
+    "walkRange": 1
+  },
+  // Poor looking woman
+  {
+    "id": 3019,
+    "x": 1901,
+    "y": 3679,
+    "walkRange": 2
+  },
+  // Spider
+  {
+    "id": 2854,
+    "x": 1758,
+    "y": 3790,
+    "walkRange": 11
+  },
+  // Rat
+  {
+    "id": 2855,
+    "x": 1755,
+    "y": 3780,
+    "walkRange": 1
+  },
+  // Rat
+  {
+    "id": 6983,
+    "x": 1760,
+    "y": 3801,
+    "walkRange": 2
+  },
+  // Poor looking man
+  {
+    "id": 330,
+    "x": 1757,
+    "y": 3792,
+    "walkRange": 8
+  },
+  // Swarm
+  {
+    "id": 2854,
+    "x": 1768,
+    "y": 3780,
+    "walkRange": 1
+  },
+  // Rat
+  {
+    "id": 2854,
+    "x": 1777,
+    "y": 3790,
+    "walkRange": 13
+  },
+  // Rat
+  {
+    "id": 330,
+    "x": 1783,
+    "y": 3779,
+    "walkRange": 1
+  },
+  // Swarm
+  {
+    "id": 2855,
+    "x": 1784,
+    "y": 3775,
+    "walkRange": 0
+  },
+  // Rat
+  
+  {
+    "id": 6767,
+    "x": 1436,
+    "y": 3713,
+    "walkRange": 8
+  },
+  // Shaman
+  {
+    "id": 6767,
+    "x": 1424,
+    "y": 3717,
+    "walkRange": 8
+  },
+  // Shaman
+  {
+    "id": 6767,
+    "x": 1424,
+    "y": 3702,
+    "walkRange": 8
+  },
+  // Shaman
+  
+  {
+    "id": 6915,
+    "x": 1442,
+    "y": 3697,
+    "walkRange": 15
+  },
+  // Lizardman
+  {
+    "id": 6915,
+    "x": 1442,
+    "y": 3711,
+    "walkRange": 15
+  },
+  // Lizardman
+  {
+    "id": 6915,
+    "x": 1437,
+    "y": 3712,
+    "walkRange": 15
+  },
+  // Lizardman
+  {
+    "id": 6915,
+    "x": 1423,
+    "y": 3707,
+    "walkRange": 15
+  },
+  // Lizardman
+  {
+    "id": 6915,
+    "x": 1433,
+    "y": 3717,
+    "walkRange": 15
+  },
+  // Lizardman
+  
+  {
+    "id": 6916,
+    "x": 1430,
+    "y": 3703,
+    "walkRange": 15
+  },
+  // Lizardman
+  {
+    "id": 6916,
+    "x": 1445,
+    "y": 3701,
+    "walkRange": 15
+  },
+  // Lizardman
+  {
+    "id": 6916,
+    "x": 1422,
+    "y": 3722,
+    "walkRange": 15
+  },
+  // Lizardman
+  {
+    "id": 6916,
+    "x": 1427,
+    "y": 3701,
+    "walkRange": 15
+  },
+  // Lizardman
+  
+  {
+    "id": 6918,
+    "x": 1442,
+    "y": 3704,
+    "walkRange": 15
+  },
+  // Lizardman
+  {
+    "id": 6918,
+    "x": 1437,
+    "y": 3719,
+    "walkRange": 15
+  },
+  // Lizardman
+  {
+    "id": 6918,
+    "x": 1437,
+    "y": 3719,
+    "walkRange": 15
+  }
+  // Lizardman
+]

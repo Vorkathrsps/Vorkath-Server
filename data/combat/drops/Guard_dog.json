@@ -1,0 +1,13 @@
+{
+  "npcs": [ 114, 131, 7209 ],
+  "tables": [
+    {
+      "name": "Drops",
+      "points": 1,
+      "items": [
+        { "id": 526, "min": 1, "max": 1, "points": 1 }, //Bones
+        { "id": 13469, "min": 1, "max": 1, "points": 1 } //Ensouled dog head
+      ]
+    }
+  ]
+}

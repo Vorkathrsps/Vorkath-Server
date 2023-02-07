@@ -1,0 +1,100 @@
+[
+  {
+    "id": 292,
+    "x": 2865,
+    "y": 9877,
+    "walkRange": 6
+  },
+  // Dwarf
+  {
+    "id": 292,
+    "x": 2860,
+    "y": 9879,
+    "walkRange": 10
+  },
+  // Dwarf
+  {
+    "id": 292,
+    "x": 2864,
+    "y": 9877,
+    "walkRange": 7
+  },
+  // Dwarf
+  {
+    "id": 292,
+    "x": 2866,
+    "y": 9877,
+    "walkRange": 8
+  },
+  // Dwarf
+  {
+    "id": 4895,
+    "x": 2864,
+    "y": 9875,
+    "walkRange": 5
+  },
+  // Khorvak, a dwarven engineer
+  {
+    "id": 2784,
+    "x": 2865,
+    "y": 9871,
+    "direction": "N"
+  },
+  // Holoy
+  {
+    "id": 6254,
+    "x": 2865,
+    "y": 9876,
+    "walkRange": 1
+  },
+  // null
+  {
+    "id": 6255,
+    "x": 2865,
+    "y": 9876,
+    "walkRange": 1
+  },
+  // Rohak
+  {
+    "id": 292,
+    "x": 2867,
+    "y": 9877,
+    "walkRange": 11
+  },
+  // Dwarf
+  {
+    "id": 292,
+    "x": 2863,
+    "y": 9877,
+    "walkRange": 8
+  },
+  // Dwarf
+  {
+    "id": 2569,
+    "x": 2865,
+    "y": 9875,
+    "walkRange": 6
+  },
+  // Captain Ninto
+  {
+    "id": 292,
+    "x": 2867,
+    "y": 9876,
+    "walkRange": 10
+  },
+  // Dwarf
+  {
+    "id": 292,
+    "x": 2865,
+    "y": 9877,
+    "walkRange": 6
+  },
+  // Dwarf
+  {
+    "id": 2390,
+    "x": 2874,
+    "y": 9872,
+    "walkRange": 2
+  }
+  // Cart conductor
+]

@@ -1,0 +1,61 @@
+[
+{ "id": 6, "x": 2452, "y": 9792, "z": 0, "walkRange": 3 }, // Aberrant spectre
+  { "id": 6, "x": 2446, "y": 9781, "z": 0, "walkRange": 1, "direction": "E" }, // Aberrant spectre
+  { "id": 6, "x": 2459, "y": 9791, "z": 0, "walkRange": 3 }, // Aberrant spectre
+  { "id": 6, "x": 2443, "y": 9780, "z": 0, "walkRange": 9 }, // Aberrant spectre
+  { "id": 6, "x": 2460, "y": 9776, "z": 0, "walkRange": 5 }, // Aberrant spectre
+  { "id": 6, "x": 2469, "y": 9783, "z": 0, "walkRange": 4 }, // Aberrant spectre
+  { "id": 6, "x": 2471, "y": 9779, "z": 0, "walkRange": 6 }, // Aberrant spectre
+  { "id": 7, "x": 2441, "y": 9774, "z": 0, "walkRange": 1 }, // Aberrant spectre
+  { "id": 7, "x": 2444, "y": 9782, "z": 0, "walkRange": 8 }, // Aberrant spectre
+  { "id": 7, "x": 2454, "y": 9790, "z": 0 }, // Aberrant spectre
+  { "id": 7, "x": 2465, "y": 9784, "z": 0 }, // Aberrant spectre
+  { "id": 7, "x": 2462, "y": 9773, "z": 0, "direction": "E" }, // Aberrant spectre
+  { "id": 7, "x": 2466, "y": 9777, "z": 0, "walkRange": 3 }, // Aberrant spectre
+  { "id": 105, "x": 2432, "y": 9771, "z": 0, "walkRange": 3 }, // Hellhound
+  { "id": 105, "x": 2432, "y": 9781, "z": 0, "walkRange": 4 }, // Hellhound
+  { "id": 105, "x": 2410, "y": 9801, "z": 0, "walkRange": 6 }, // Hellhound
+  { "id": 105, "x": 2412, "y": 9797, "z": 0, "walkRange": 8 }, // Hellhound
+  { "id": 105, "x": 2417, "y": 9796, "z": 0, "walkRange": 7 }, // Hellhound
+  { "id": 105, "x": 2410, "y": 9785, "z": 0, "walkRange": 3 }, // Hellhound
+  { "id": 105, "x": 2411, "y": 9785, "z": 0, "walkRange": 7 }, // Hellhound
+  { "id": 105, "x": 2414, "y": 9786, "z": 0, "walkRange": 3 }, // Hellhound
+  { "id": 105, "x": 2428, "y": 9776, "z": 0, "walkRange": 4 }, // Hellhound
+  { "id": 105, "x": 2425, "y": 9782, "z": 0, "walkRange": 6 }, // Hellhound
+  { "id": 105, "x": 2427, "y": 9771, "z": 0, "walkRange": 4 }, // Hellhound
+  { "id": 105, "x": 2431, "y": 9785, "z": 0, "walkRange": 1 }, // Hellhound
+  { "id": 105, "x": 2431, "y": 9772, "z": 0, "walkRange": 4 }, // Hellhound
+  { "id": 486, "x": 2434, "y": 9816, "z": 0, "walkRange": 6 }, // Bloodveld
+  { "id": 486, "x": 2435, "y": 9824, "z": 0, "walkRange": 9 }, // Bloodveld
+  { "id": 486, "x": 2447, "y": 9824, "z": 0, "walkRange": 1 }, // Bloodveld
+  { "id": 486, "x": 2447, "y": 9820, "z": 0, "direction": "W" }, // Bloodveld
+  { "id": 486, "x": 2467, "y": 9828, "z": 0, "walkRange": 6 }, // Bloodveld
+  { "id": 486, "x": 2467, "y": 9835, "z": 0, "walkRange": 2 }, // Bloodveld
+  { "id": 486, "x": 2485, "y": 9821, "z": 0, "walkRange": 6 }, // Bloodveld
+  { "id": 486, "x": 2487, "y": 9817, "z": 0, "walkRange": 5 }, // Bloodveld
+  { "id": 487, "x": 2439, "y": 9820, "z": 0, "walkRange": 7 }, // Bloodveld
+  { "id": 487, "x": 2445, "y": 9819, "z": 0, "direction": "S" }, // Bloodveld
+  { "id": 487, "x": 2472, "y": 9831, "z": 0, "walkRange": 3 }, // Bloodveld
+  { "id": 487, "x": 2489, "y": 9827, "z": 0, "walkRange": 8 }, // Bloodveld
+  { "id": 2081, "x": 2392, "y": 9784, "z": 0, "walkRange": 5 }, // Fire giant
+  { "id": 2081, "x": 2396, "y": 9770, "z": 0, "walkRange": 4 }, // Fire giant
+  { "id": 2081, "x": 2400, "y": 9777, "z": 0, "walkRange": 5 }, // Fire giant
+  { "id": 2081, "x": 2411, "y": 9776, "z": 0, "walkRange": 4 }, // Fire giant
+  { "id": 2082, "x": 2391, "y": 9780, "z": 0, "walkRange": 2 }, // Fire giant
+  { "id": 2082, "x": 2400, "y": 9770, "z": 0, "walkRange": 8 }, // Fire giant
+  { "id": 2082, "x": 2400, "y": 9781, "z": 0, "walkRange": 4 }, // Fire giant
+  { "id": 2082, "x": 2414, "y": 9774, "z": 0, "walkRange": 4 }, // Fire giant
+  { "id": 2083, "x": 2393, "y": 9777, "z": 0, "walkRange": 4 }, // Fire giant
+  { "id": 2083, "x": 2401, "y": 9782, "z": 0, "walkRange": 4 }, // Fire giant
+  { "id": 2083, "x": 2404, "y": 9770, "z": 0, "walkRange": 3 }, // Fire giant
+  { "id": 2083, "x": 2414, "y": 9772, "z": 0, "walkRange": 4 }, // Fire giant
+  { "id": 2517, "x": 2473, "y": 9797, "z": 0, "walkRange": 7 }, // Ankou
+  { "id": 2517, "x": 2477, "y": 9805, "z": 0, "walkRange": 7 }, // Ankou
+  { "id": 2517, "x": 2481, "y": 9799, "z": 0, "walkRange": 5 }, // Ankou
+  { "id": 2518, "x": 2471, "y": 9804, "z": 0, "walkRange": 3 }, // Ankou
+  { "id": 2518, "x": 2473, "y": 9799, "z": 0, "walkRange": 7 }, // Ankou
+  { "id": 2518, "x": 2484, "y": 9799, "z": 0, "walkRange": 2 }, // Ankou
+  { "id": 2519, "x": 2469, "y": 9801, "z": 0, "walkRange": 5 }, // Ankou
+  { "id": 2519, "x": 2474, "y": 9807, "z": 0, "walkRange": 9 }, // Ankou
+  { "id": 4913, "x": 2409, "y": 9815, "z": 0, "walkRange": 5 }, // Brimstail
+]

@@ -1,0 +1,29 @@
+{
+  "npcs": [ 7632 ],
+  "petItem": 30228,
+  "petRarity": 2000,
+  "guaranteed": [
+  ],
+  "tables": [
+    {
+      "name": "Drops",
+      "points": 1,
+      "items": [
+      ]
+    },
+    {
+      "name": "Empty",
+      "points": 0,
+      "items": [
+      ]
+    },
+    {
+      "name": "Empty",
+      "points": 0,
+      "items": [
+      ]
+    }
+  ]
+}
+
+

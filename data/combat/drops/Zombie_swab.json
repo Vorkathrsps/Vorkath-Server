@@ -1,0 +1,55 @@
+{
+  "npcs": [ 3359 ],
+  "petItem": 6722,
+  "petRarity": 1000,
+  "tables": [
+    {
+      "name": "Unique",
+      "points": 3,
+      "items": [
+        { "id": 985, "min": 1, "max": 1, "points": 100 }, //Tooth half of a key
+        { "id": 987, "min": 1, "max": 1, "points": 100 }, //Loop half of a key
+        { "id": 989, "min": 1, "max": 1, "points": 95 }, //Crystal key
+        { "id": 11133, "min": 1, "max": 1, "points": 95 }, //Regen bracelet
+        { "id": 6731, "min": 1, "max": 1, "points": 95 }, //Seers ring
+        { "id": 6733, "min": 1, "max": 1, "points": 95 }, //Archers ring
+        { "id": 6735, "min": 1, "max": 1, "points": 95 }, //Warriors ring
+        { "id": 6737, "min": 1, "max": 1, "points": 90 }, //Berserker ring
+        { "id": 12601, "min": 1, "max": 1, "points": 90 }, //Ring of the gods
+        { "id": 12603, "min": 1, "max": 1, "points": 90 }, //Tyrannical ring
+        { "id": 12605, "min": 1, "max": 1, "points": 90 }, //Treasonous ring
+        { "id": 20849, "min": 10, "max": 30, "points": 95 }, //Dragon thrownaxe
+        { "id": 22804, "min": 10, "max": 30, "points": 95 }, //Dragon knife
+        { "id": 22806, "min": 10, "max": 30, "points": 95 }, //Dragon knife p
+        { "id": 22808, "min": 10, "max": 30, "points": 95 }, //Dragon knife p+
+        { "id": 22810, "min": 10, "max": 30, "points": 95 }, //Dragon knife p++
+        { "id": 19484, "min": 10, "max": 30, "points": 95 }, //Dragon javelin
+        { "id": 19490, "min": 10, "max": 30, "points": 95 }, //Dragon javelin p++
+        { "id": 22634, "min": 100, "max": 500, "points": 65 }, //Morrigan's thrownaxe
+        { "id": 22636, "min": 100, "max": 500, "points": 65 }, //Morrigan's javelin
+        { "id": 11785, "min": 1, "max": 1, "points": 20 }, //Armadyl crossbow
+        { "id": 11802, "min": 1, "max": 1, "points": 17 }, //Armadyl godsword
+        { "id": 13652, "min": 1, "max": 1, "points": 12 }, //Dragon claws
+        { "id": 22638, "min": 1, "max": 1, "points": 10 }, //Morrigan's coif
+        { "id": 22641, "min": 1, "max": 1, "points": 10 }, //Morrigan's leather body
+        { "id": 22644, "min": 1, "max": 1, "points": 10 }, //Morrigan's leather chaps
+        { "id": 22647, "min": 1, "max": 1, "points": 10 }, //Zuriel's staff
+        { "id": 22650, "min": 1, "max": 1, "points": 10 }, //Zuriel's hood
+        { "id": 22653, "min": 1, "max": 1, "points": 10 }, //Zuriel's robe top
+        { "id": 22656, "min": 1, "max": 1, "points": 10 }, //Zuriel's robe legs
+        { "id": 22622, "min": 1, "max": 1, "points": 10 }, //Statius's warhammer
+        { "id": 22625, "min": 1, "max": 1, "points": 10 }, //Statius's fullhelm
+        { "id": 22628, "min": 1, "max": 1, "points": 10 }, //Statius's platebody
+        { "id": 22631, "min": 1, "max": 1, "points": 10 }, //Statius's platelegs
+        { "id": 22613, "min": 1, "max": 1, "points": 10 }, //Vesta's longsword
+        { "id": 22616, "min": 1, "max": 1, "points": 10 }, //Vesta's chainbody
+        { "id": 22619, "min": 1, "max": 1, "points": 10 } //Vesta's plateskirt
+      ]
+    },
+    {
+      "name": "Empty",
+      "points": 0,
+      "items": []
+    }
+  ]
+}

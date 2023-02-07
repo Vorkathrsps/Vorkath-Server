@@ -1,0 +1,1411 @@
+[
+  {
+	// Void knight (easy)
+	"ids": [
+	  2950
+	],
+	"maxhit": 0,
+	"attackspeed": 0,
+	"aggressive": false,
+	"stats": {
+	  "attack": 0,
+	  "strength": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 25,
+	  "hitpoints": 200
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 5,
+	  "slashdefence": 5,
+	  "crushdefence": 5,
+	  "rangeddefence": 5,
+	  "magicdefence": 5
+	},
+	"animations": {
+	  "attack": -1,
+	  "block": -1,
+	  "death": -1
+	}
+  },
+  {
+	// Void knight (intermediate)
+	"ids": [
+	  2951
+	],
+	"maxhit": 0,
+	"attackspeed": 0,
+	"aggressive": false,
+	"stats": {
+	  "attack": 0,
+	  "strength": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 75,
+	  "hitpoints": 200
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 15,
+	  "slashdefence": 15,
+	  "crushdefence": 15,
+	  "rangeddefence": 15,
+	  "magicdefence": 15
+	},
+	"animations": {
+	  "attack": -1,
+	  "block": -1,
+	  "death": -1
+	}
+  },
+  {
+	// Void knight (veteran)
+	"ids": [
+	  2952
+	],
+	"maxhit": 0,
+	"attackspeed": 0,
+	"aggressive": false,
+	"stats": {
+	  "attack": 0,
+	  "strength": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 125,
+	  "hitpoints": 200
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 25,
+	  "slashdefence": 25,
+	  "crushdefence": 25,
+	  "rangeddefence": 25,
+	  "magicdefence": 25
+	},
+	"animations": {
+	  "attack": -1,
+	  "block": -1,
+	  "death": -1
+	}
+  },
+  {
+	// Portals
+	"ids": [
+	  1747,
+	  1748,
+	  1749,
+	  1750
+	],
+	"maxhit": 0,
+	"attackspeed": 0,
+	"aggressive": false,
+	"stats": {
+	  "attack": 0,
+	  "strength": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 0,
+	  "hitpoints": 250
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": -1,
+	  "block": -1,
+	  "death": -1
+	}
+  },
+  {
+	// Portals
+	"ids": [
+	  1743,
+	  1744,
+	  1745,
+	  1746
+	],
+	"maxhit": 0,
+	"attackspeed": 0,
+	"aggressive": false,
+	"stats": {
+	  "attack": 0,
+	  "strength": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 0,
+	  "hitpoints": 0
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": -1,
+	  "block": -1,
+	  "death": -1
+	},
+	"scripts": {
+	  "death": "nl.bartpelle.veteres.content.npcs.pestcontrol.Portal.deathScript"
+	}
+  },
+  {
+	// Brawler Level 51
+	"ids": [
+	  1734
+	],
+	"maxhit": 7,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 50,
+	  "strength": 50,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 50,
+	  "hitpoints": 53
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3897,
+	  "block": 3895,
+	  "death": 3894
+	}
+  },
+  {
+	// Brawler Level 76
+	"ids": [
+	  1735
+	],
+	"maxhit": 9,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 70,
+	  "strength": 70,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 70,
+	  "hitpoints": 83
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3897,
+	  "block": 3895,
+	  "death": 3894
+	}
+  },
+  {
+	// Brawler Level 89
+	"ids": [
+	  1736
+	],
+	"maxhit": 10,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 90,
+	  "strength": 90,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 90,
+	  "hitpoints": 97
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3897,
+	  "block": 3895,
+	  "death": 3894
+	}
+  },
+  {
+	// Brawler Level 101
+	"ids": [
+	  1737
+	],
+	"maxhit": 12,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 90,
+	  "strength": 90,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 90,
+	  "hitpoints": 113
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3897,
+	  "block": 3895,
+	  "death": 3894
+	}
+  },
+  {
+	// Brawler Level 129
+	"ids": [
+	  1738
+	],
+	"maxhit": 14,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 90,
+	  "strength": 90,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 90,
+	  "hitpoints": 143
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3897,
+	  "block": 3895,
+	  "death": 3894
+	}
+  },
+  {
+	// Defiler level 33
+	"ids": [
+	  1724,
+	  1725
+	],
+	"maxhit": 6,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 30,
+	  "strength": 30,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 30,
+	  "hitpoints": 27
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3920,
+	  "block": 3921,
+	  "death": 3922
+	},
+	"scripts": {
+	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.pestcontrol.Defiler"
+	}
+  },
+  {
+	// Defiler level 50
+	"ids": [
+	  1726,
+	  1727
+	],
+	"maxhit": 8,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 50,
+	  "strength": 50,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 50,
+	  "hitpoints": 45
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3920,
+	  "block": 3921,
+	  "death": 3922
+	},
+	"scripts": {
+	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.pestcontrol.Defiler"
+	}
+  },
+  {
+	// Defiler level 66, 67
+	"ids": [
+	  1728,
+	  1729
+	],
+	"maxhit": 9,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 60,
+	  "strength": 60,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 60,
+	  "hitpoints": 62
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3920,
+	  "block": 3921,
+	  "death": 3922
+	},
+	"scripts": {
+	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.pestcontrol.Defiler"
+	}
+  },
+  {
+	// Defiler level 80
+	"ids": [
+	  1730,
+	  1731
+	],
+	"maxhit": 11,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 80,
+	  "strength": 80,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 80,
+	  "hitpoints": 78
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3920,
+	  "block": 3921,
+	  "death": 3922
+	},
+	"scripts": {
+	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.pestcontrol.Defiler"
+	}
+  },
+  {
+	// Defiler level 66, 67
+	"ids": [
+	  1732,
+	  1733
+	],
+	"maxhit": 13,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 90,
+	  "strength": 90,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 90,
+	  "hitpoints": 97
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3920,
+	  "block": 3921,
+	  "death": 3922
+	},
+	"scripts": {
+	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.pestcontrol.Defiler"
+	}
+  },
+  {
+	// Ravager level 36
+	"ids": [
+	  1704
+	],
+	"maxhit": 7,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 30,
+	  "strength": 30,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 30,
+	  "hitpoints": 23
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3915,
+	  "block": 3916,
+	  "death": 3917
+	}
+  },
+  {
+	// Ravager level 53
+	"ids": [
+	  1705
+	],
+	"maxhit": 9,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 50,
+	  "strength": 50,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 50,
+	  "hitpoints": 38
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3915,
+	  "block": 3916,
+	  "death": 3917
+	}
+  },
+  {
+	// Ravager level 71
+	"ids": [
+	  1706
+	],
+	"maxhit": 12,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 70,
+	  "strength": 70,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 70,
+	  "hitpoints": 53
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3915,
+	  "block": 3916,
+	  "death": 3917
+	}
+  },
+  {
+	// Ravager level 89
+	"ids": [
+	  1707
+	],
+	"maxhit": 14,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 80,
+	  "strength": 80,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 80,
+	  "hitpoints": 68
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3915,
+	  "block": 3916,
+	  "death": 3917
+	}
+  },
+  {
+	// Ravager level 106
+	"ids": [
+	  1708
+	],
+	"maxhit": 17,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 100,
+	  "strength": 100,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 100,
+	  "hitpoints": 83
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3915,
+	  "block": 3916,
+	  "death": 3917
+	}
+  },
+  {
+	// Shifter level 38
+	"ids": [
+	  1694,
+	  1695
+	],
+	"maxhit": 5,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 30,
+	  "strength": 30,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 30,
+	  "hitpoints": 23
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3901,
+	  "block": 3902,
+	  "death": 3903
+	}
+  },
+  {
+	// Shifter level 67
+	"ids": [
+	  1696,
+	  1697
+	],
+	"maxhit": 6,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 50,
+	  "strength": 50,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 50,
+	  "hitpoints": 38
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3901,
+	  "block": 3902,
+	  "death": 3903
+	}
+  },
+  {
+	// Shifter level 76
+	"ids": [
+	  1698,
+	  1699
+	],
+	"maxhit": 8,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 70,
+	  "strength": 70,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 70,
+	  "hitpoints": 53
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3901,
+	  "block": 3902,
+	  "death": 3903
+	}
+  },
+  {
+	// Shifter level 90
+	"ids": [
+	  1700,
+	  1701
+	],
+	"maxhit": 8,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 90,
+	  "strength": 90,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 90,
+	  "hitpoints": 68
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3901,
+	  "block": 3902,
+	  "death": 3903
+	}
+  },
+  {
+	// Shifter level 104
+	"ids": [
+	  1702,
+	  1703
+	],
+	"maxhit": 9,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 100,
+	  "strength": 100,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 100,
+	  "hitpoints": 83
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3901,
+	  "block": 3902,
+	  "death": 3903
+	}
+  },
+  {
+	// Spinner level 36
+	"ids": [
+	  1709
+	],
+	"maxhit": 5,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 30,
+	  "strength": 30,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 30,
+	  "hitpoints": 33
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3908,
+	  "block": 3909,
+	  "death": 3910
+	}
+  },
+  {
+	// Spinner level 55
+	"ids": [
+	  1710
+	],
+	"maxhit": 6,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 50,
+	  "strength": 50,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 50,
+	  "hitpoints": 53
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3908,
+	  "block": 3909,
+	  "death": 3910
+	}
+  },
+  {
+	// Spinner level 74
+	"ids": [
+	  1711
+	],
+	"maxhit": 8,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 70,
+	  "strength": 70,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 70,
+	  "hitpoints": 73
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3908,
+	  "block": 3909,
+	  "death": 3910
+	}
+  },
+  {
+	// Spinner level 88
+	"ids": [
+	  1712
+	],
+	"maxhit": 9,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 80,
+	  "strength": 80,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 80,
+	  "hitpoints": 87
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3908,
+	  "block": 3909,
+	  "death": 3910
+	}
+  },
+  {
+	// Spinner level 92
+	"ids": [
+	  1713
+	],
+	"maxhit": 9,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 90,
+	  "strength": 90,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 90,
+	  "hitpoints": 101
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3908,
+	  "block": 3909,
+	  "death": 3910
+	}
+  },
+  {
+	// Splatter level 22
+	"ids": [
+	  1689
+	],
+	"maxhit": 3,
+	"attackspeed": 6,
+	"aggressive": false,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 20,
+	  "strength": 20,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 20,
+	  "hitpoints": 13
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3891,
+	  "block": 3890,
+	  "death": -1
+	}
+  },
+  {
+	// Splatter level 33
+	"ids": [
+	  1690
+	],
+	"maxhit": 3,
+	"attackspeed": 6,
+	"aggressive": false,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 30,
+	  "strength": 30,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 30,
+	  "hitpoints": 23
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3891,
+	  "block": 3890,
+	  "death": -1
+	}
+  },
+  {
+	// Splatter level 44
+	"ids": [
+	  1691
+	],
+	"maxhit": 4,
+	"attackspeed": 6,
+	"aggressive": false,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 40,
+	  "strength": 40,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 40,
+	  "hitpoints": 33
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3891,
+	  "block": 3890,
+	  "death": -1
+	}
+  },
+  {
+	// Splatter level 54
+	"ids": [
+	  1692
+	],
+	"maxhit": 4,
+	"attackspeed": 6,
+	"aggressive": false,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 50,
+	  "strength": 50,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 50,
+	  "hitpoints": 43
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3891,
+	  "block": 3890,
+	  "death": -1
+	}
+  },
+  {
+	// Splatter level 65
+	"ids": [
+	  1693
+	],
+	"maxhit": 5,
+	"attackspeed": 6,
+	"aggressive": false,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 60,
+	  "strength": 60,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 60,
+	  "hitpoints": 53
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3891,
+	  "block": 3890,
+	  "death": -1
+	}
+  },
+  {
+	// Torcher level 33
+	"ids": [
+	  1714,
+	  1715
+	],
+	"maxhit": 6,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 30,
+	  "strength": 30,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 30,
+	  "hitpoints": 18
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3882,
+	  "block": 3880,
+	  "death": 3881
+	},
+	"scripts": {
+	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.pestcontrol.Torcher"
+	}
+  },
+  {
+	// Torcher level 49
+	"ids": [
+	  1716,
+	  1717
+	],
+	"maxhit": 8,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 40,
+	  "strength": 40,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 40,
+	  "hitpoints": 30
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3882,
+	  "block": 3880,
+	  "death": 3881
+	},
+	"scripts": {
+	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.pestcontrol.Torcher"
+	}
+  },
+  {
+	// Torcher level 66
+	"ids": [
+	  1718,
+	  1719
+	],
+	"maxhit": 9,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 60,
+	  "strength": 60,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 60,
+	  "hitpoints": 45
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3882,
+	  "block": 3880,
+	  "death": 3881
+	},
+	"scripts": {
+	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.pestcontrol.Torcher"
+	}
+  },
+  {
+	// Torcher level 79
+	"ids": [
+	  1720,
+	  1721
+	],
+	"maxhit": 11,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 70,
+	  "strength": 70,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 70,
+	  "hitpoints": 57
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3882,
+	  "block": 3880,
+	  "death": 3881
+	},
+	"scripts": {
+	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.pestcontrol.Torcher"
+	}
+  },
+  {
+	// Torcher level 92
+	"ids": [
+	  1722,
+	  1723
+	],
+	"maxhit": 12,
+	"attackspeed": 6,
+	"aggressive": true,
+	"aggroradius": 8,
+	"stats": {
+	  "attack": 90,
+	  "strength": 90,
+	  "magic": 0,
+	  "ranged": 0,
+	  "defence": 90,
+	  "hitpoints": 71
+	},
+	"bonuses": {
+	  "attack": 0,
+	  "magic": 0,
+	  "ranged": 0,
+	  "strength": 0,
+	  "stabdefence": 0,
+	  "slashdefence": 0,
+	  "crushdefence": 0,
+	  "rangeddefence": 0,
+	  "magicdefence": 0
+	},
+	"animations": {
+	  "attack": 3882,
+	  "block": 3880,
+	  "death": 3881
+	},
+	"scripts": {
+	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.pestcontrol.Torcher"
+	}
+  }
+]

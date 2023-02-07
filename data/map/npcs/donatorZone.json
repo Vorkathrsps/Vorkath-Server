@@ -1,0 +1,83 @@
+[
+  {
+    "name": "krystilia",
+    "id": 7663,
+    "x": 2454,
+    "y": 2851,
+    "z": 0,
+    "direction": "E",
+    "walkRange": 0
+  },
+  {
+    "name": "probita",
+    "id": 5906,
+    "x": 2453,
+    "y": 2850,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 0
+  },
+  {
+    "name": "emblem trader",
+    "id": 308,
+    "x": 2453,
+    "y": 2844,
+    "z": 0,
+    "direction": "N",
+    "walkRange": 0
+  },
+  {
+    "name": "undead combat dummy",
+    "id": 7413,
+    "x": 2456,
+    "y": 2845,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 0
+  },
+  {
+    "name": "Combat dummy",
+    "id": 2668,
+    "x": 2457,
+    "y": 2845,
+    "z": 0,
+    "direction": "S",
+    "walkRange": 0
+  },
+  {
+    "name": "Grand Exchange Clerk",
+    "id": 2148,
+    "x": 2454,
+    "y": 2843,
+    "z": 0,
+    "direction": "E",
+    "walkRange": 0
+  },
+  {
+    "name": "Credit Manager",
+    "id": 2108,
+    "x":2460 ,
+    "y": 2855,
+    "z": 0,
+    "direction": "W",
+    "walkRange": 0
+  },
+  {
+    "name": "Vote Manager",
+    "id": 1815,
+    "x": 2454,
+    "y": 2855,
+    "z": 0,
+    "direction": "E",
+    "walkRange": 0
+  },
+  {
+    "name": "Surok Magis",
+    "id": 4159,
+    "x": 2455,
+    "y": 2847,
+    "z": 0,
+    "direction": "W",
+    "walkRange": 0
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "npcs": [ 2054, 6505 ],
+  "petItem": 11995,
+  "petRarity": 1000,
+  "guaranteed": [
+    { "id": 13307, "min": 250, "max": 35300 }   //blood money
+  ],
+    "tables": [
+      {
+        "name": "Unique",
+        "points": 1,
+        "items": [
+          { "id": 23686, "min": 2, "max": 10, "points": 50 }, //Divine super combat potion(4) (noted)
+          { "id": 12914, "min": 5, "max": 10, "points": 45 }, //Anti-venom+(4) (noted)
+          { "id": 21979, "min": 2, "max": 10, "points": 45 }, //Super antifire potion(4) (noted)
+          { "id": 11840, "min": 1, "max": 1, "points": 35 }, //Dragon boots
+          { "id": 6585, "min": 1, "max": 1, "points": 35 }, //Amulet of fury
+          { "id": 12877, "min": 1, "max": 1, "points": 30 }, //DH set
+          { "id": 7158, "min": 1, "max": 1, "points": 3 }, //Dragon 2h sword
+          { "id": 11920, "min": 1, "max": 1, "points": 3 }, //Dragon pickaxe
+          { "id": 2944, "min": 1, "max": 1, "points": 2 }, //Key of drops
+          { "id": 12081, "min": 1, "max": 1, "points": 1 } //Elemental bow
+        ]
+      },
+      {
+        "name": "Other",
+        "points": 4,
+        "items": []
+      }
+  ]
+}

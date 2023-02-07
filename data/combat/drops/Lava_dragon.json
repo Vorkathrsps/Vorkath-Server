@@ -1,0 +1,29 @@
+{
+  "npcs": [ 6593 ],
+  "guaranteed": [
+    { "id": 11943, "min": 1, "max": 1 }, //Lava dragon bones
+    { "id": 1747, "min": 1, "max": 1 }, //Black dragonhide
+    { "id": 11992, "min": 1, "max": 1 } //Lava scale
+  ],
+  "tables": [
+    {
+      "name": "Unique",
+      "points": 1,
+      "items": [
+        { "id": 13442, "min": 10, "max": 30, "points": 55 }, //Anglerfish (noted)
+        { "id": 23686, "min": 2, "max": 10, "points": 50 }, //Divine super combat potion(4) (noted)
+        { "id": 12914, "min": 5, "max": 10, "points": 45 }, //Anti-venom+(4) (noted)
+        { "id": 21979, "min": 2, "max": 10, "points": 45 }, //Super antifire potion(4) (noted)
+        { "id": 11840, "min": 1, "max": 1, "points": 35 }, //Dragon boots
+        { "id": 6585, "min": 1, "max": 1, "points": 35 }, //Amulet of fury
+        { "id": 11283, "min": 1, "max": 1, "points": 15 }, //DFS
+        { "id": 2944, "min": 1, "max": 1, "points": 1 } //Key of drops
+      ]
+    },
+    {
+      "name": "Other",
+      "points": 4,
+      "items": []
+    }
+  ]
+}

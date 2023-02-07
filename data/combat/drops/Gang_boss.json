@@ -1,0 +1,50 @@
+{
+  "npcs": [ 6902, 6903 ],
+  "guaranteed": [
+    { "id": 526, "min": 1, "max": 1 } //Bones
+  ],
+
+  "tables": [
+    {
+      "name": "Weapons & Armour",
+      "points": 1,
+      "items": [
+        { "id": 1151, "min": 1, "max": 1, "points": 3 }, //Black med helm
+        { "id": 1107, "min": 1, "max": 1, "points": 3 }, //Black chainbody
+        { "id": 1089, "min": 1, "max": 1, "points": 3 }, //Black plateskirt
+        { "id": 1327, "min": 1, "max": 1, "points": 3 }, //Black scimitar
+        { "id": 1333, "min": 1, "max": 1, "points": 1 } //Rune scimitar
+      ]
+    },
+    {
+      "name": "Runes & Ammunition",
+      "points": 1,
+      "items": [
+        { "id": 564, "min": 30, "max": 60, "points": 1 } //Cosmic rune
+      ]
+    },
+    {
+      "name": "Herbs",
+      "points": 1,
+      "items": [
+        { "id": 215, "min": 1, "max": 1, "points": 3 }, //Grimy cadantine
+        { "id": 213, "min": 1, "max": 1, "points": 3 }, //Grimy kwuarm
+        { "id": 217, "min": 1, "max": 1, "points": 1 }, //Grimy dwarf weed
+        { "id": 207, "min": 1, "max": 1, "points": 1 } //Grimy ranarr weed
+      ]
+    },
+    {
+      "name": "Others",
+      "points": 1,
+      "items": [
+
+        { "id": 8779, "min": 10, "max": 20, "points": 9 }, //Oak plank (noted)
+        { "id": 8781, "min": 5, "max": 10, "points": 9 }, //Teak plank (noted)
+        { "id": 8783, "min": 4, "max": 8, "points": 6 }, //Mahogany plank (noted)
+        { "id": 6033, "min": 60, "max": 80, "points": 6 }, //Compost (noted)
+        { "id": 2358, "min": 8, "max": 16, "points": 3 }, //Gold bar (noted)
+        { "id": 13395, "min": 1, "max": 1, "points": 1 } //Intelligence
+      ]
+    }
+  ]
+}

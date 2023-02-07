@@ -1,0 +1,35 @@
+{
+  "npcs": [ 9035, 9036, 9037 ],
+  "guaranteed": [
+    { "id": 13307, "min": 85000, "max": 125000 }   //blood money
+  ],
+  "petItem": 23757,
+  "petRarity": 1000,
+  "tables": [
+    {
+      "name": "Unique",
+      "points": 1,
+      "items": [
+        {"id": 30125, "min": 1, "max": 1, "points": 100 }, //corrupt totem
+        {"id": 989, "min": 1, "max": 1, "points": 45 }, //crystal key
+        {"id": 21902, "min": 1, "max": 1, "points": 38 }, //dragon crossbow
+        {"id": 11804, "min": 1, "max": 1, "points": 35 }, //Bandos godsword
+        {"id": 11806, "min": 1, "max": 1, "points": 35 }, //Saradomin godsword
+        {"id": 11808, "min": 1, "max": 1, "points": 35 }, //Zamorak godsword
+        {"id": 20370, "min": 1, "max": 1, "points": 6 },//bandos godsword (or)
+        {"id": 20372, "min": 1, "max": 1, "points": 6 },//saradomin godsword (or)
+        {"id": 20374, "min": 1, "max": 1, "points": 6 },//zamorak godsword (or)
+        {"id": 2944, "min": 1, "max": 1, "points": 4 },//key of drops
+        {"id": 23971, "min": 1, "max": 1, "points": 3 },//crystal helm
+        {"id": 23975, "min": 1, "max": 1, "points": 3 },//crystal body
+        {"id": 23979, "min": 1, "max": 1, "points": 3 },//crystal legs
+        {"id": 8788, "min": 1, "max": 1, "points": 1 }//corrupting stone
+      ]
+    },
+    {
+      "name": "Other",
+      "points": 3,
+      "items": []
+    }
+  ]
+}

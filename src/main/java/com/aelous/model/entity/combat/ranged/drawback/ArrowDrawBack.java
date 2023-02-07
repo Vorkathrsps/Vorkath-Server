@@ -1,0 +1,85 @@
+package com.aelous.model.entity.combat.ranged.drawback;
+
+public enum ArrowDrawBack {
+
+    /**
+     * Arrow DrawBacks & Projectiles
+     */
+    BRONZE_ARROW(882, -1, 19, 10, 45, 36, 41),
+    IRON_ARROW(884, -1, 18, 9, 45, 36, 41),
+    STEEL_ARROW(886, -1, 20, 11, 45, 36, 41),
+    MITHRIL_ARROW(888, -1, 21, 12, 45, 36, 41),
+    ADAMANT_ARROW(890, -1, 22, 13, 45, 36, 41),
+    RUNITE_ARROW(892, -1, 24, 15, 45, 36, 41),
+    AMETHYST_ARROW(21326, -1, 1385, 1384, 45, 36, 41),
+    DRAGON_ARROW(11212, -1, 1116, 1120, 45, 36, 41),
+    DRAGON_ARROW_20389(20389, -1, 1116, 1120, 45, 36, 41),
+    DRAGON_ARROW_P(11227, -1, 1116, 1120, 45, 36, 41),
+    DRAGON_ARROW_P_PLUS(11228, -1, 1116, 1120, 45, 36, 41),
+    DRAGON_ARROW_P_PLUS_PLUS(11229, -1, 1116, 1120, 45, 36, 41),
+    FIRE_ARROW(4160, -1, 20, 11, 45, 36, 41),
+    ICE_ARROW(78, -1, 1116, 1120, 45, 36, 41),
+
+    /**
+     * Javelin Drawsbacks & End Gfx
+     */
+    BRONZE_JAV(825, -1, 344, 200, 45, 36, 41),
+    IRON_JAV(826, -1, 344, 201, 45, 36, 41),
+    STEEL_JAV(827, -1, 344, 202, 45, 36, 41),
+    MITHRIL_JAV(828, -1, 344, 203, 45, 36, 41),
+    ADDY_JAV(829, -1, 344, 204, 45, 36, 41),
+    RUNE_JAV(830, -1, 344, 205, 45, 36, 41),
+    AMETHYST_JAV(21318, -1, 344, 1386, 45, 36, 41),
+    DRAGON_JAV(19484, -1, 344, 1301, 45, 36, 41),
+
+    /**
+     * Special Ranged Weapons
+     */
+    BOW_OF_FAERDHENIN(-1, 25865, 1888, 1887, 40, 36, 41),
+    BOW_OF_FAERDHENIN_HEFIN(-1, 25867, 1923, 1922, 40, 36, 41),
+    BOW_OF_FAERDHENIN_ITHELL(-1, 25884, 1925, 1924, 40, 36, 41),
+    BOW_OF_FAERDHENIN_IOWERTH(-1, 25886, 1927, 1926, 40, 36, 41),
+    BOW_OF_FAERDHENIN_TRAHEAERN(-1, 25888, 1929, 1928, 40, 36, 41),
+    BOW_OF_FAERDHENIN_CADARN(-1, 25890, 1931, 1930, 40, 36, 41),
+    BOW_OF_FAERDHENIN_CRWYS(-1, 25892, 1933, 1934, 40, 36, 41),
+    BOW_OF_FAERDHENIN_AMLODD(-1, 25896, 1935, 1934, 40, 36, 41),
+    CRAWS_BOW(-1, 22550, 1611, 1574, 45, 36, 41),
+    WEB_WEAVER_BOW(-1, 27655, 1611, 1574, 45, 36, 41);
+
+    public final int weaponID;
+    public final int gfx;
+    public final int projectile;
+    public final int startHeight;
+    public final int endHeight;
+    public final int startSpeed;
+
+    public final int arrowID;
+
+    ArrowDrawBack(int arrowID, int weaponID, int gfx, int projectile, int startHeight, int endHeight, int startspeed) {
+        this.arrowID = arrowID;
+        this.weaponID = weaponID;
+        this.gfx = gfx;
+        this.projectile = projectile;
+        this.startHeight = startHeight;
+        this.endHeight = endHeight;
+        this.startSpeed = startspeed;
+    }
+
+    public static ArrowDrawBack find(int weaponID, int arrowID) {
+        if (weaponID != -1) {
+            for (ArrowDrawBack arrowDrawBack : ArrowDrawBack.values()) {
+                if (arrowDrawBack.weaponID == weaponID) {
+                    return arrowDrawBack;
+                }
+            }
+            if (arrowID != -1) {
+                for (ArrowDrawBack arrowDrawback : ArrowDrawBack.values()) {
+                    if (arrowDrawback.arrowID == arrowID) {
+                        return arrowDrawback;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+}

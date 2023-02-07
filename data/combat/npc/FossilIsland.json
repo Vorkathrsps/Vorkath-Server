@@ -1,0 +1,38 @@
+[
+  {
+	// Ancient wyvern
+	"ids": [
+	  7795
+	],
+	"maxhit": 16,
+	"attackspeed": 5,
+	"deathlen": 3,
+	"slayerlvl": 1,
+	"slayerxp": 315,
+	"unstacked": true,
+	"aggressive": true,
+	"stats": {
+	  "attack": 150,
+	  "magic": 90,
+	  "ranged": 90,
+	  "strength": 150,
+	  "defence": 220,
+	  "hitpoints": 300
+	},
+	"bonuses": {
+	  "stabdefence": 70,
+	  "slashdefence": 70,
+	  "crushdefence": 70,
+	  "rangeddefence": 120,
+	  "magicdefence": 170
+	},
+	"animations": {
+	  "attack": 7654,
+	  "block": 7659,
+	  "death": 7652
+	},
+	"scripts": {
+	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.fossilisland.AncientWyvern"
+	}
+  }
+]

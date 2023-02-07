@@ -1,0 +1,188 @@
+[
+  {
+    // Verac
+    "ids": [
+      1677
+    ],
+    "maxhit": 25,
+    "attackspeed": 5,
+    "deathlen": 3,
+    "stats": {
+      "attack": 100,
+      "strength": 100,
+      "defence": 100,
+      "hitpoints": 100
+    },
+    "bonuses": {
+      "attack": 68,
+      "stabdefence": 227,
+      "slashdefence": 230,
+      "crushdefence": 221,
+      "rangeddefence": 225,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 2062,
+      "block": 2063,
+      "death": 4167
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.barrows.Verac"
+    }
+  },
+  {
+    // Torag
+    "ids": [
+      1676
+    ],
+    "maxhit": 23,
+    "attackspeed": 5,
+    "deathlen": 3,
+    "stats": {
+      "attack": 100,
+      "strength": 100,
+      "defence": 100,
+      "hitpoints": 100
+    },
+    "bonuses": {
+      "attack": 68,
+      "stabdefence": 221,
+      "slashdefence": 235,
+      "crushdefence": 222,
+      "rangeddefence": 221,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 2068,
+      "block": 2063,
+      "death": 4167
+    }
+  },
+  {
+    // Guthan
+    "ids": [
+      1674
+    ],
+    "maxhit": 24,
+    "attackspeed": 5,
+    "deathlen": 3,
+    "stats": {
+      "attack": 100,
+      "strength": 100,
+      "defence": 100,
+      "hitpoints": 100
+    },
+    "bonuses": {
+      "attack": 75,
+      "stabdefence": 259,
+      "slashdefence": 257,
+      "crushdefence": 241,
+      "rangeddefence": 250,
+      "magicdefence": -11
+    },
+    "animations": {
+      "attack": 2080,
+      "block": 2079,
+      "death": 4167
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.barrows.Guthan"
+    }
+  },
+  {
+    // Dharok
+    "ids": [
+      1673
+    ],
+    "maxhit": 32,
+    "attackspeed": 6,
+    "deathlen": 3,
+    "stats": {
+      "attack": 100,
+      "strength": 100,
+      "defence": 100,
+      "hitpoints": 100
+    },
+    "bonuses": {
+      "attack": 103,
+      "stabdefence": 252,
+      "slashdefence": 250,
+      "crushdefence": 244,
+      "rangeddefence": 249,
+      "magicdefence": -11
+    },
+    "animations": {
+      "attack": 2067,
+      "block": 2079,
+      "death": 4167
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.barrows.Dharok"
+    }
+  },
+  {
+    // Karil
+    "ids": [
+      1675
+    ],
+    "maxhit": 20,
+    "attackspeed": 5,
+    "deathlen": 3,
+    "stats": {
+      "ranged": 100,
+      "defence": 100,
+      "hitpoints": 100
+    },
+    "bonuses": {
+      "attack": 134,
+      "ranged": 134,
+      "stabdefence": 79,
+      "slashdefence": 71,
+      "crushdefence": 90,
+      "rangeddefence": 100,
+      "magicdefence": 106
+    },
+    "animations": {
+      "attack": 2075,
+      "block": -1,
+      // TODO find this lo
+      "death": 4167
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.barrows.Karils"
+    }
+  },
+  {
+    // Ahrim
+    "ids": [
+      1672
+    ],
+    "maxhit": 20,
+    "attackspeed": 5,
+    "deathlen": 3,
+    "stats": {
+      "magic": 200,
+      "defence": 100,
+      "hitpoints": 100
+    },
+    "bonuses": {
+      "attack": 134,
+      "ranged": 134,
+      "magic": 100,
+      "stabdefence": 79,
+      "slashdefence": 71,
+      "crushdefence": 90,
+      "rangeddefence": 100,
+      "magicdefence": 106
+    },
+    "animations": {
+      "attack": 727,
+      "block": -1,
+      // TODO find this lo
+      "death": 4167
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.barrows.Ahrims"
+    }
+  }
+]

@@ -1,0 +1,73 @@
+{
+  "npcs": [ 7275 ],
+  "guaranteed": [
+    { "id": 536, "min": 1, "max": 1 }, //Dragon bones
+    { "id": 1747, "min": 2, "max": 2 } //Black dragonhide
+  ],
+  "tables": [
+    {
+      "name": "Weapons",
+      "points": 12,
+      "items": [
+        { "id": 11377, "min": 1, "max": 1, "points": 6 }, //Rune hasta
+        { "id": 1247, "min": 1, "max": 1, "points": 6 }, //Rune spear
+        { "id": 1303, "min": 1, "max": 1, "points": 3 }, //Rune longsword
+        { "id": 1289, "min": 1, "max": 1, "points": 3 }, //Rune sword
+        { "id": 1215, "min": 1, "max": 1, "points": 3 }, //Dragon dagger
+        { "id": 1305, "min": 1, "max": 1, "points": 1 } //Dragon longsword
+      ]
+    },
+    {
+      "name": "Armour",
+      "points": 12,
+      "items": [
+        { "id": 1079, "min": 1, "max": 1, "points": 6 }, //Rune platelegs
+        { "id": 1163, "min": 2, "max": 2, "points": 6 }, //Rune full helm
+        { "id": 1127, "min": 1, "max": 1, "points": 6 }, //Rune platebody
+        { "id": 2503, "min": 1, "max": 1, "points": 3 }, //Black d'hide body
+        { "id": 2491, "min": 1, "max": 1, "points": 1 }, //Black d'hide vamb
+        { "id": 1149, "min": 1, "max": 1, "points": 1 } //Dragon med helm
+      ]
+    },
+    {
+      "name": "Runes and Ammunition",
+      "points": 12,
+      "items": [
+        { "id": 830, "min": 50, "max": 50, "points": 3 }, //Rune javelin
+        { "id": 811, "min": 20, "max": 20, "points": 3 }, //Rune dart
+        { "id": 563, "min": 75, "max": 75, "points": 3 }, //Law rune
+        { "id": 560, "min": 75, "max": 75, "points": 3 }, //Death rune
+        { "id": 565, "min": 50, "max": 50, "points": 3 }, //Blood rune
+        { "id": 566, "min": 50, "max": 50, "points": 3 }, //Soul rune
+        { "id": 892, "min": 75, "max": 75, "points": 3 }, //Rune arrow
+        { "id": 868, "min": 25, "max": 25, "points": 1 }, //Rune knife
+        { "id": 805, "min": 30, "max": 30, "points": 1 } //Rune thrownaxe
+      ]
+    },
+    {
+      "name": "Materials and Consumables",
+      "points": 12,
+      "items": [
+        { "id": 13441, "min": 2, "max": 2, "points": 10 }, //Anglerfish
+        { "id": 11993, "min": 5, "max": 5, "points": 10 }, //Lava scale (noted)
+        { "id": 11237, "min": 40, "max": 40, "points": 10 }, //Dragon arrowtips
+        { "id": 11232, "min": 40, "max": 40, "points": 10 }, //Dragon dart tip
+        { "id": 19582, "min": 40, "max": 40, "points": 1 }, //Dragon javelin heads
+        { "id": 452, "min": 3, "max": 3, "points": 1 } //Runite ore (noted)
+      ]
+    },
+    {
+      "name": "Other",
+      "points": 1,
+      "items": [
+        { "id": 13511, "min": 1, "max": 1, "points": 10 }, //Ensouled dragon head
+        { "id": 4587, "min": 1, "max": 1, "points": 4 }, //Dragon scimitar
+        { "id": 5698, "min": 1, "max": 1, "points": 4 }, //Dragon dagger (p++)
+        { "id": 1215, "min": 1, "max": 1, "points": 4 }, //Dragon dagger
+        { "id": 1434, "min": 1, "max": 1, "points": 4 }, //Dragon mace
+        { "id": 1377, "min": 1, "max": 1, "points": 4 }, //Dragon battleaxe
+        { "id": 12954, "min": 1, "max": 1, "points": 4 } //Dragon defender
+      ]
+    }
+  ]
+}

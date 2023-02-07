@@ -1,0 +1,18 @@
+{
+  "npcs": [ 787, 788, 789, 790, 791, 792, 793 ],
+  "guaranteed": [
+    { "id": 532, "min": 1, "max": 1 }, //Big bones
+    { "id": 9080, "min": 1, "max": 1 } //Suqah hide
+  ],
+  "tables": [
+    {
+      "name": "Other drops",
+      "points": 1,
+      "items": [
+        { "id": 9079, "min": 1, "max": 1, "points": 1 }, //Suqah tooth
+        { "id": 199, "min": 1, "max": 1, "points": 20 }, //Grimy guam leaf
+        { "id": 201, "min": 1, "max": 1, "points": 20 } //Grimy marrentill
+      ]
+    }
+  ]
+}

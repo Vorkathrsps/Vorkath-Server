@@ -1,0 +1,30 @@
+{
+  "npcs": [ 16009 ],
+  "guaranteed": [
+    { "id": 13307, "min": 85000, "max": 125000 } //Blood money
+  ],
+  "petItem": 27001,
+  "petRarity": 2500,
+  "tables": [
+    {
+      "name": "Unique",
+      "points": 1,
+      "items": [
+        { "id": 16451, "min": 1, "max": 1, "points": 20 }, //weapon mystery box
+        { "id": 16452, "min": 1, "max": 1, "points": 15 }, //armour mysterybox
+        { "id": 30185, "min": 1, "max": 1, "points": 10 }, //donator mystery box
+        { "id": 22517, "min": 15, "max": 50, "points": 15 }, //saeldor shards
+        { "id": 2944, "min": 1, "max": 1, "points": 6 }, //key of drops
+        { "id": 16454, "min": 1, "max": 1, "points": 5 }, //legendary mystery box
+        { "id": 24583, "min": 1, "max": 1, "points": 5 }, //emblem tier 10
+        { "id": 16458, "min": 1, "max": 1, "points": 1 } //epic pet mystery box
+      ]
+    },
+    {
+      "name": "Empty",
+      "points": 9,
+      "items": [
+      ]
+    }
+  ]
+}

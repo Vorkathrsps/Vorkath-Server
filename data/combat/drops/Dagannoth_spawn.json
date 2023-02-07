@@ -1,0 +1,25 @@
+{
+  "npcs": [ 3184 ],
+  "tables": [
+    {
+      "name": "Always Drops",
+      "points": 1,
+      "items": [
+        { "id": 526, "min": 1, "max": 1, "points": 1 } //Bones
+      ]
+    },
+    {
+      "name": "Other",
+      "points": 1,
+      "items": [
+
+        { "id": 314, "min": 2, "max": 2, "points": 6 }, //Feather
+        { "id": 359, "min": 1, "max": 1, "points": 6 }, //Raw tuna
+        { "id": 327, "min": 1, "max": 1, "points": 3 }, //Raw sardine
+        { "id": 555, "min": 3, "max": 3, "points": 3 }, //Water rune
+        { "id": 407, "min": 1, "max": 1, "points": 3 }, //Oyster
+        { "id": 411, "min": 1, "max": 1, "points": 1 } //Oyster pearl
+      ]
+    }
+  ]
+}

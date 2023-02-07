@@ -1,0 +1,637 @@
+[
+    {
+      "ids": [
+        6611,
+        6612
+      ],
+      "aggressive": true,
+      "boss": true,
+      "maxhit": 45,
+      "attackspeed": 4,
+      "slayerlvl": 1,
+      "slayerxp": 312,
+      "respawntime": 50,
+      "stats": {
+        "attack": 430,
+        "strength": 430,
+        "defence": 100,
+        "hitpoints": 255,
+        "magic": 300
+      },
+      "bonuses": {
+        "attack": 0,
+        "strength": 0,
+        "stabdefence": 150,
+        "slashdefence": 150,
+        "crushdefence": -10,
+        "rangeddefence": 150,
+        "magicdefence": 250
+      },
+      "animations": {
+        "attack": 5507,
+        "block": 5508,
+        "death": 5509
+      },
+      "scripts": {
+        "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion",
+        "death": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.vetion.Vetion.death",
+        "hit": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.vetion.Vetion.hit"
+      }
+    },
+    {
+      "ids": [
+        6613
+      ],
+      "aggressive": true,
+      "maxhit": 12,
+      "attackspeed": 4,
+      "stats": {
+        "attack": 70,
+        "strength": 110,
+        "defence": 100,
+        "hitpoints": 100
+      },
+      "bonuses": {
+        "attack": 0,
+        "strength": 0,
+        "stabdefence": 0,
+        "slashdefence": 0,
+        "crushdefence": 0,
+        "rangeddefence": 0,
+        "magicdefence": 0
+      },
+      "animations": {
+        "attack": 6581,
+        "block": 6578,
+        "death": 6576
+      },
+      "scripts": {
+        "death": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.vetion.VetionMinion.death"
+      }
+    },
+    {
+    "ids": [
+      11113
+    ],
+    "maxhit": 29,
+    "slayerxp": 500,
+    "attackspeed": 4,
+    "deathlen": 2,
+    "aggressive": true,
+    "stats": {
+      "attack": 330,
+      "strength": 210,
+      "defence": 150,
+      "magic": 250,
+      "ranged": 0,
+      "hitpoints": 1000
+    },
+    "bonuses": {
+      "attack": 0,
+      "strength": 0,
+      "stabdefence": 50,
+      "slashdefence": 150,
+      "crushdefence": 150,
+      "rangeddefence": 100,
+      "magicdefence": 100
+    },
+    "animations": {
+      "attack": 80,
+      "block": -1,
+      "death": 92
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.custom.BrutalLavaDragon"
+    }
+  },
+  {
+    "ids": [
+      7817
+    ],
+    "maxhit": 21,
+    "attackspeed": 4,
+    "deathlen": 5,
+    "aggressive": true,
+    "aggroradius": 10,
+    "retaliates": true,
+    "boss": true,
+    "slayerxp": 100,
+    "slayerlvl": 50,
+    "stats": {
+      "attack": 550,
+      "strength": 400,
+      "defence": 200,
+      "magic": 112,
+      "hitpoints": 256
+    },
+    "bonuses": {
+      "stabdefence": 200,
+      "slashdefence": 200,
+      "crushdefence": 200,
+      "magicdefence": 75,
+      "rangeddefence": 75
+    },
+    "animations": {
+      "attack": 7678,
+      "block": 7676,
+      "death": 7679
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.LavaBeast"
+    }
+  },
+  {
+    "ids": [
+      6118
+    ],
+    "maxhit": 40,
+    "attackspeed": 4,
+    "deathlen": 5,
+    "aggroradius": 5,
+    "aggressive": true,
+    "slayerlvl": 75,
+    "slayerxp": 100,
+    "stats": {
+      "attack": 550,
+      "strength": 400,
+      "defence": 100,
+      "magic": 112,
+      "hitpoints": 500
+    },
+    "bonuses": {
+      "stabdefence": 100,
+      "slashdefence": 200,
+      "crushdefence": 100,
+      "magicdefence": 250,
+      "rangeddefence": 120
+    },
+    "animations": {
+      "attack": 80,
+      "block": 89,
+      "death": 92
+    },
+    "sounds": {
+      "attack": [
+        408
+      ],
+      "block": [
+        410
+      ],
+      "death": [
+        409
+      ]
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.dragons.KingBlackDragon"
+    }
+  },
+  {
+    "ids": [
+      15031
+    ],
+    "maxhit": 32,
+    "attackspeed": 6,
+    "aggressive": false,
+    "retaliates": true,
+    "boss": true,
+    "slayerxp": 350.0,
+    "slayerlvl": 1,
+    "stats": {
+      "attack": 300,
+      "strength": 260,
+      "magic": 150,
+      "ranged": 1,
+      "defence": 200,
+      "hitpoints": 215
+    },
+    "bonuses": {
+      "attack": 150,
+      "strength": 27,
+      "stabdefence": 5000,
+      "slashdefence": 5000,
+      "crushdefence": 5000,
+      "rangeddefence": 65,
+      "magicdefence": 100
+    },
+    "animations": {
+      "attack": 6948,
+      "block": 6947,
+      "death": 6949
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.Kril"
+    }
+  },
+  {
+    "ids": [
+      6609
+    ],
+    "aggressive": true,
+    "boss": true,
+    "maxhit": 38,
+    "slayerlvl": 1,
+    "slayerxp": 312,
+    "respawntime": 50,
+    "stats": {
+      "attack": 350,
+      "strength": 370,
+      "defence": 100,
+      "hitpoints": 255
+    },
+    "bonuses": {
+      "attack": 0,
+      "strength": 0,
+      "stabdefence": 175,
+      "slashdefence": 175,
+      "crushdefence": 175,
+      "rangeddefence": 175,
+      "magicdefence": 900
+    },
+    "animations": {
+      "attack": 4925,
+      "block": 4927,
+      "death": 4929
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.Callisto",
+      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+    }
+  },
+  {
+    "ids": [
+      16011
+    ],
+    "aggressive": true,
+    "boss": true,
+    "maxhit": 58,
+    "slayerlvl": 1,
+    "slayerxp": 624,
+    "respawntime": 50,
+    "stats": {
+      "attack": 550,
+      "strength": 570,
+      "defence": 200,
+      "hitpoints": 510
+    },
+    "bonuses": {
+      "attack": 0,
+      "strength": 0,
+      "stabdefence": 175,
+      "slashdefence": 175,
+      "crushdefence": 175,
+      "rangeddefence": 175,
+      "magicdefence": 900
+    },
+    "animations": {
+      "attack": 4925,
+      "block": 4927,
+      "death": 4929
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.superiorbosses.Artio",
+      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+    }
+  },
+  {
+    "ids": [
+      6610
+    ],
+    "aggressive": true,
+    "boss": true,
+    "maxhit": 50,
+    "slayerlvl": 1,
+    "slayerxp": 388,
+    "aggroradius": 4,
+    "respawntime": 50,
+    "stats": {
+      "attack": 400,
+      "magic": 400,
+      "strength": 380,
+      "defence": 100,
+      "hitpoints": 255
+    },
+    "bonuses": {
+      "attack": 0,
+      "strength": 0,
+      "stabdefence": 260,
+      "slashdefence": 260,
+      "crushdefence": 260,
+      "rangeddefence": 260,
+      "magicdefence": 850
+    },
+    "animations": {
+      "attack": 5319,
+      "block": 5320,
+      "death": 5321
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.Venenatis",
+      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+    }
+  },
+  {
+    "ids": [
+      16010
+    ],
+    "aggressive": false,
+    "boss": true,
+    "maxhit": 50,
+    "slayerlvl": 1,
+    "slayerxp": 786,
+    "aggroradius": 4,
+    "respawntime": 50,
+    "stats": {
+      "attack": 600,
+      "magic": 180,
+      "strength": 580,
+      "defence": 200,
+      "hitpoints": 510,
+      "ranged": 180
+    },
+    "bonuses": {
+      "attack": 0,
+      "strength": 0,
+      "stabdefence": 260,
+      "slashdefence": 260,
+      "crushdefence": 260,
+      "rangeddefence": 260,
+      "magicdefence": 850
+    },
+    "animations": {
+      "attack": 5319,
+      "block": 5320,
+      "death": 5321
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.superiorbosses.Arachne",
+      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+    }
+  },
+  {
+    "ids": [
+      6619
+    ],
+    "aggressive": true,
+    "boss": true,
+    "aggroradius": 4,
+    "maxhit": 31,
+    "slayerlvl": 1,
+    "slayerxp": 253,
+    "respawntime": 50,
+    "stats": {
+      "attack": 1,
+      "magic": 200,
+      "strength": 1,
+      "defence": 220,
+      "hitpoints": 225
+    },
+    "bonuses": {
+      "attack": 0,
+      "strength": 0,
+      "stabdefence": 260,
+      "slashdefence": 260,
+      "crushdefence": 250,
+      "rangeddefence": 80,
+      "magicdefence": 280
+    },
+    "animations": {
+      "block": 425,
+      "death": 2304
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.ChaosFanatic"
+    }
+  },
+  {
+    "ids": [
+      7806
+    ],
+    "aggressive": true,
+    "boss": true,
+    "aggroradius": 4,
+    "maxhit": 23,
+    "slayerxp": 235,
+    "slayerlvl": 1,
+    "respawntime": 50,
+    "stats": {
+      "attack": 200,
+      "magic": 50,
+      "strength": 100,
+      "defence": 100,
+      "hitpoints": 324,
+      "ranged": 200
+    },
+    "bonuses": {
+      "attack": 250,
+      "strength": 75,
+      "stabdefence": 5,
+      "slashdefence": 5,
+      "crushdefence": 30,
+      "rangeddefence": 300,
+      "magicdefence": 300,
+      "ranged": 100
+    },
+    "animations": {
+      "attack": 423,
+      "block": 425,
+      "death": 2304
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.DerangedArchaeologist"
+    }
+  },
+  {
+    "ids": [
+      6618
+    ],
+    "aggressive": true,
+    "boss": true,
+    "aggroradius": 4,
+    "maxhit": 15,
+    "slayerxp": 235,
+    "slayerlvl": 1,
+    "respawntime": 50,
+    "stats": {
+      "attack": 160,
+      "magic": 1,
+      "strength": 90,
+      "defence": 100,
+      "hitpoints": 225,
+      "ranged": 180
+    },
+    "bonuses": {
+      "attack": 250,
+      "strength": 25,
+      "stabdefence": 5,
+      "slashdefence": 5,
+      "crushdefence": 30,
+      "rangeddefence": 250,
+      "magicdefence": 250,
+      "ranged": 75
+    },
+    "animations": {
+      "attack": 423,
+      "block": 425,
+      "death": 2304
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.CrazyArchaeologist"
+    }
+  },
+  {
+    "ids": [
+      6615
+    ],
+    "aggressive": true,
+    "boss": true,
+    "aggroradius": 10,
+    "maxhit": 32,
+    "slayerxp": 260,
+    "slayerlvl": 1,
+    "respawntime": 50,
+    "stats": {
+      "attack": 250,
+      "strength": 250,
+      "defence": 180,
+      "hitpoints": 300
+    },
+    "bonuses": {
+      "attack": 0,
+      "strength": 0,
+      "stabdefence": 246,
+      "slashdefence": 284,
+      "crushdefence": 284,
+      "rangeddefence": 284,
+      "magicdefence": 44
+    },
+    "animations": {
+      "attack": 6254,
+      "block": 6255,
+      "death": 6256
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.Scorpia",
+      "death": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.Scorpia.deathScript"
+    }
+  },
+  {
+    "ids": [
+      16009
+    ],
+    "aggressive": true,
+    "boss": true,
+    "aggroradius": 10,
+    "maxhit": 32,
+    "slayerxp": 520,
+    "slayerlvl": 1,
+    "respawntime": 50,
+    "stats": {
+      "attack": 500,
+      "strength": 300,
+      "defence": 360,
+      "hitpoints": 400
+    },
+    "bonuses": {
+      "attack": 0,
+      "strength": 0,
+      "stabdefence": 246,
+      "slashdefence": 284,
+      "crushdefence": 284,
+      "rangeddefence": 284,
+      "magicdefence": 44
+    },
+    "animations": {
+      "attack": 6254,
+      "block": 6255,
+      "death": 6256
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.superiorbosses.Skorpios"
+    }
+  },
+  {
+    "ids": [
+      6617
+    ],
+    "retaliates": true,
+    "aggressive": false,
+    "aggroradius": 10,
+    "maxhit": 4,
+    "stats": {
+      "magic": 30,
+      "ranged": 30,
+      "defence": 60,
+      "hitpoints": 70
+    },
+    "animations": {
+      "attack": 6254,
+      "block": 6255,
+      "death": 6256
+    },
+    "scripts": {
+    }
+  },
+  {
+    "ids": [
+      6616
+    ],
+    "aggressive": true,
+    "aggroradius": 50,
+    "maxhit": 7,
+    "poison": 6,
+    "poisonchance": 25,
+    "stats": {
+      "ranged": 130,
+      "defence": 1,
+      "hitpoints": 2
+    },
+    "bonuses": {
+      "ranged": 900
+    },
+    "animations": {
+      "attack": 6254,
+      "block": 6255,
+      "death": 6256
+    },
+    "scripts": {
+      "aggression": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.ScorpiaOffspringAgro"
+    }
+  },
+  {
+    "ids": [
+      2054, 16007
+    ],
+    "aggressive": true,
+    "boss": true,
+    "aggroradius": 15,
+    "maxhit": 28,
+    "slayerxp": 250,
+    "slayerlvl": 1,
+    "respawntime": 50,
+    "stats": {
+      "attack": 270,
+      "magic": 270,
+      "strength": 270,
+      "defence": 270,
+      "hitpoints": 250,
+      "ranged": 270
+    },
+    "bonuses": {
+      "stabdefence": 70,
+      "slashdefence": 70,
+      "crushdefence": 70,
+      "rangeddefence": 70,
+      "magicdefence": 70,
+      "ranged": 70
+    },
+    "animations": {
+      "attack": 3146,
+      "block": 3145,
+      "death": 3147
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.ChaosElemental",
+      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+    }
+  }
+]

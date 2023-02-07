@@ -1,0 +1,37 @@
+{
+  "npcs": [ 9430 ],
+  "petItem": 24491,
+  "petRarity": 2500,
+  "guaranteed": [
+    { "id": 13307, "min": 500, "max": 5500 } //Blood money
+  ],
+  "tables": [
+    {
+      "name": "Uniques",
+      "points": 1,
+      "items": [
+        { "id": 989, "min": 1, "max": 1, "points": 50 }, //Crystal key
+        { "id": 13263, "min": 1, "max": 1, "points": 25 }, //Abyssal bludgeon
+        { "id": 11802, "min": 1, "max": 1, "points": 21 }, //Armadyl godsword
+        { "id": 13652, "min": 1, "max": 1, "points": 18 }, //Dragon claws
+        { "id": 13576, "min": 1, "max": 1, "points": 15 }, //Dragon warhammer
+        { "id": 2944, "min": 1, "max": 1, "points": 10 }, //Key of drops
+        { "id": 24417, "min": 1, "max": 1, "points": 4 }, //Inquisitor's mace
+        { "id": 24419, "min": 1, "max": 1, "points": 4 }, //Inquisitor's great helm
+        { "id": 24420, "min": 1, "max": 1, "points": 4 }, //Inquisitor's hauberk
+        { "id": 24421, "min": 1, "max": 1, "points": 4 }, //Inquisitor's plateskirt
+        { "id": 24422, "min": 1, "max": 1, "points": 3 }, //Nightmare staff
+        { "id": 24511, "min": 1, "max": 1, "points": 3 }, //Harmonised orb
+        { "id": 24514, "min": 1, "max": 1, "points": 3 }, //Volatile orb
+        { "id": 24517, "min": 1, "max": 1, "points": 3 }, //Eldritch orb
+        { "id": 28005, "min": 1, "max": 1, "points": 2 }, //Shadow inquisitor ornament kit
+        { "id": 28006, "min": 1, "max": 1, "points": 2 } //Inquisitor's mace ornament kit
+      ]
+    },
+    {
+      "name": "Empty",
+      "points": 10,
+      "items": []
+    }
+  ]
+}

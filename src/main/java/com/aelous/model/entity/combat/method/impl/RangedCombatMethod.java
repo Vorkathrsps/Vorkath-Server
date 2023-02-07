@@ -125,13 +125,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                 Projectile projectile = new Projectile(attacker, target, graphic, startSpeed, (int) delay, startHeight, endHeight, 0, target.getSize());
                 player.executeProjectile(projectile);
 
-<<<<<<< HEAD
                 Hit hit = target.hit(attacker, CombatFactory.calcDamageFromType(attacker, target, CombatType.RANGED), (int) delay, CombatType.RANGED).checkAccuracy().postDamage(this::handleAfterHit);
-=======
-              //  if (attacker.getCombat().getRangedWeapon() == RangedWeapon.DARK_BOW) {
-                //    target.hit(attacker, CombatFactory.calcDamageFromType(attacker, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
-
->>>>>>> 4eb5a061 (origin: 210 start)
 
                 hit.submit();
             }

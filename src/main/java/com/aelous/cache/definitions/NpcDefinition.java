@@ -709,7 +709,6 @@ public class NpcDefinition implements Definition {
         }
     }
 
-<<<<<<< HEAD
     private void decode(RSBuffer stream, int opcode) {
         int length;
         int index;
@@ -850,180 +849,54 @@ public class NpcDefinition implements Definition {
             if (varbit == 65535) {
                 varbit = -1;
             }
-=======
-    private void decode(RSBuffer buffer, int opcode) {
-            if (opcode == 1) {
-                int len = buffer.readUByte();
-                models = new int[len];
-                for (int i = 0; i < len; i++) {
-                    models[i] = buffer.readUShort();
-                }
-            } else if (opcode == 2) {
-                name = buffer.readString();
-            } else if (opcode == 12) {
-                size = buffer.readUByte();
-            } else if (opcode == 13) {
-                idleAnimation = buffer.readUShort();
-            } else if (opcode == 14) {
-                walkAnimation = buffer.readUShort();
-            } else if (opcode == 15) {
-                render3 = buffer.readUShort();
-            } else if (opcode == 16) {
-                render4 = buffer.readUShort();
-            } else if (opcode == 17) {
-                walkAnimation = buffer.readUShort();
-                render5 = buffer.readUShort();
-                render6 = buffer.readUShort();
-                render7 = buffer.readUShort();
 
-                if (walkAnimation == 65535) {
-                    walkAnimation = -1;
-                }
+            varp = stream.readUShort();
+            if (varp == 65535) {
+                varp = -1;
+            }
 
-                if (render5 == 65535) {
-                    render5 = -1;
-                }
->>>>>>> 4eb5a061 (origin: 210 start)
+            int var = stream.readUShort();
+            if (var == 0xFFFF) {
+                var = -1;
+            }
 
-                if (render6 == 65535) {
-                    render6 = -1;
-                }
+            length = stream.readUByte();
+            altForms = new int[length + 2];
 
-                if (render7 == 65535) {
-                    render7 = -1;
+            for (index = 0; index <= length; ++index) {
+                altForms[index] = stream.readUShort();
+                if (altForms[index] == '\uffff') {
+                    altForms[index] = -1;
                 }
-            } else if (opcode == 18) {
-                category = buffer.readUShort();
-            } else if (opcode >= 30 && opcode < 35) {
-                if (options == null) {
-                    options = new String[5];
-                }
+            }
 
-                options[opcode - 30] = buffer.readString();
-
-                if (options[opcode - 30].equalsIgnoreCase("Hidden")) {
-                    options[opcode - 30] = null;
-                }
-            } else if (opcode == 40) {
-                int len = buffer.readUByte();
-                recol_s = new short[len];
-                recol_d = new short[len];
-                for (int i = 0; i < len; i++) {
-                    recol_s[i] = (short) buffer.readUShort();
-                    recol_d[i] = (short) buffer.readUShort();
-                }
-
-<<<<<<< HEAD
             altForms[length + 1] = var;
         }   else if (opcode == 249)
+        {
+            length = stream.readUByte();
+
+            params = new HashMap<>(length);
+
+            for (int i = 0; i < length; i++)
             {
-                length = stream.readUByte();
+                boolean isString = stream.readUByte() == 1;
+                int key = stream.read24BitInt();
+                Object value;
 
-                params = new HashMap<>(length);
-
-                for (int i = 0; i < length; i++)
+                if (isString)
                 {
-                    boolean isString = stream.readUByte() == 1;
-                    int key = stream.read24BitInt();
-                    Object value;
-
-                    if (isString)
-                    {
-                        value = stream.readString();
-                    }
-
-                    else
-                    {
-                        value = stream.readInt();
-                    }
-
-                    params.put(key, value);
-=======
-            } else if (opcode == 41) {
-                int length = buffer.readUByte();
-                retex_s = new short[length];
-                retex_d = new short[length];
-                for (int index = 0; index < length; index++) {
-                    retex_s[index] = (short) buffer.readUShort();
-                    retex_d[index] = (short) buffer.readUShort();
-                }
-            } else if (opcode == 60) {
-                int len = buffer.readUByte();
-                anIntArray2224 = new int[len];
-                for (int i = 0; i < len; i++) {
-                    anIntArray2224[i] = buffer.readUShort();
-                }
-            } else if (opcode == 93) {
-                mapdot = false;
-            } else if (opcode == 95)
-                combatlevel = buffer.readUShort();
-            else if (opcode == 97)
-                width = buffer.readUShort();
-            else if (opcode == 98)
-                height = buffer.readUShort();
-            else if (opcode == 99)
-                render = true;
-            else if (opcode == 100)
-                anInt2242 = buffer.readByte();
-            else if (opcode == 101)
-                contrast = buffer.readByte();
-            else if (opcode == 102) {
-                headIcon = buffer.readUShort();
-            } else if (opcode == 103)
-                turnValue = buffer.readUShort();
-            else if (opcode == 106 || opcode == 118) {
-                varbit = buffer.readUShort();
-
-                if (varbit == 65535) {
-                    varbit = -1;
+                    value = stream.readString();
                 }
 
-                varp = buffer.readUShort();
-
-                if (varp == 65535) {
-                    varp = -1;
+                else
+                {
+                    value = stream.readInt();
                 }
 
-                int value = -1;
-
-                if (opcode == 118) {
-                    value = buffer.readUShort();
-                }
-
-                int len = buffer.readUByte();
-                altForms = new int[len + 2];
-                for (int i = 0; i <= len; i++) {
-                    altForms[i] = buffer.readUShort();
-                    if (altForms[i] == 65535) {
-                        altForms[i] = -1;
-                    }
->>>>>>> 4eb5a061 (origin: 210 start)
-                }
-                altForms[len + 1] = value;
-            } else if (opcode == 109) {
-                rotationFlag = false;
-            } else if (opcode == 111) {
-                isFollower = true;
-            } else if (opcode == 107) {
-                isClickable = false;
-            } else if (opcode == 114) {
-                runAnimation = buffer.readUShort();
-            } else if (opcode == 115) {
-                runAnimation = buffer.readUShort();
-                runRotate180Animation = buffer.readUShort();
-                runRotateLeftAnimation = buffer.readUShort();
-                runRotateRightAnimation = buffer.readUShort();
-            } else if (opcode == 116) {
-                crawlAnimation = buffer.readUShort();
-            } else if (opcode == 117) {
-                crawlAnimation = buffer.readUShort();
-                crawlRotate180Animation = buffer.readUShort();
-                crawlRotateLeftAnimation = buffer.readUShort();
-                crawlRotateRightAnimation = buffer.readUShort();
-            } else if (opcode == 249) {
-                buffer.skip(0);
+                params.put(key, value);
             }
         }
+    }
 
     public static int method32(int var0) {
         --var0;
@@ -1041,7 +914,6 @@ public class NpcDefinition implements Definition {
 
     public int[] headIconArchiveIds;
     public short[] headIconSpriteIndex;
-<<<<<<< HEAD
     public int runrender5 = -1;
     public int runrender6 = -1;
     public int runrender7 = -1;
@@ -1052,16 +924,6 @@ public class NpcDefinition implements Definition {
     public int crawlrender7 = -1;
 
     public boolean isInteractable = true;
-=======
-    public int runRotate180Animation = -1;
-    public int runRotateLeftAnimation = -1;
-    public int runRotateRightAnimation = -1;
-    public int crawlAnimation = -1;
-    public int crawlRotate180Animation = -1;
-    public int runAnimation = -1;
-    public int crawlRotateLeftAnimation = -1;
-    public int crawlRotateRightAnimation = -1;
->>>>>>> 4eb5a061 (origin: 210 start)
 
     public boolean ignoreOccupiedTiles;
     public boolean flightClipping, swimClipping;

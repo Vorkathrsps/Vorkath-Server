@@ -26,11 +26,8 @@ public class ItemDefinition implements Definition {
     public int resizey;
     public int xan2d;
 
-<<<<<<< HEAD
     public String unknown1;
 
-=======
->>>>>>> 4eb5a061 (origin: 210 start)
     public int wearPos1;
     public int wearPos2;
 
@@ -482,7 +479,6 @@ public class ItemDefinition implements Definition {
         }
     }
 
-<<<<<<< HEAD
     private void decodeValues(RSBuffer stream, int opcode)
     {
         if (opcode == 1)
@@ -734,142 +730,6 @@ public class ItemDefinition implements Definition {
             }
         }
     }
-=======
-    private void decodeValues(RSBuffer buffer, int opcode) {
-            if (opcode == 1)
-                inventoryModel = buffer.readUShort();
-            else if (opcode == 2)
-                name = buffer.readString();
-            else if (opcode == 4)
-                zoom2d = buffer.readUShort();
-            else if (opcode == 5)
-                xan2d = buffer.readUShort();
-            else if (opcode == 6)
-                yan2d = buffer.readUShort();
-            else if (opcode == 7) {
-                xof2d = buffer.readUShort();
-                if (xof2d > 32767)
-                    xof2d -= 0x10000;
-            } else if (opcode == 8) {
-                yof2d = buffer.readUShort();
-                if (yof2d > 32767)
-                    yof2d -= 0x10000;
-            } else if (opcode == 11)
-                stackable = 1;
-            else if (opcode == 12)
-                cost = buffer.readInt();
-            else if (opcode == 13)
-                wearPos1 = buffer.readUByte();
-            else if (opcode == 14)
-                wearPos2 = buffer.readUByte();
-            else if (opcode == 16)
-                members = true;
-            else if (opcode == 23) {
-                maleModel0 = buffer.readUShort();
-                maleOffset = buffer.readByte();
-            } else if (opcode == 24)
-                maleModel1 = buffer.readUShort();
-            else if (opcode == 25) {
-                femaleModel0 = buffer.readUShort();
-                femaleOffset = buffer.readByte();
-            } else if (opcode == 27) {
-                wearPos3 = buffer.readUByte();
-            } else if (opcode == 26)
-                femaleModel1 = buffer.readUShort();
-            else if (opcode >= 30 && opcode < 35) {
-                if (options == null)
-                    options = new String[5];
-                options[opcode - 30] = buffer.readString();
-                if (options[opcode - 30].equalsIgnoreCase("hidden"))
-                    options[opcode - 30] = null;
-            } else if (opcode >= 35 && opcode < 40) {
-                if (ioptions == null)
-                    ioptions = new String[5];
-                ioptions[opcode - 35] = buffer.readString();
-            } else if (opcode == 40) {
-                int length = buffer.readUByte();
-                recol_s = new short[length];
-                recol_d = new short[length];
-                for (int index = 0; index < length; index++) {
-                    recol_s[index] = (short) buffer.readUShort();
-                    recol_d[index] = (short) buffer.readUShort();
-                }
-            } else if (opcode == 41) {
-                int length = buffer.readUByte();
-                retex_s = new short[length];
-                retex_d = new short[length];
-                for (int index = 0; index < length; index++) {
-                    retex_s[index] = (short) buffer.readUShort();
-                    retex_d[index] = (short) buffer.readUShort();
-                }
-            } else if (opcode == 42) {
-                shiftClickDropType = buffer.readUByte();
-            } else if (opcode == 65) {
-                grandexchange = true;
-            } else if (opcode == 75)
-                weight = buffer.readUShort();
-            else if (opcode == 78)
-                maleModel2 = buffer.readUShort();
-            else if (opcode == 79)
-                femaleModel2 = buffer.readUShort();
-            else if (opcode == 90)
-                manhead = buffer.readUShort();
-            else if (opcode == 91)
-                womanhead = buffer.readUShort();
-            else if (opcode == 92)
-                manhead2 = buffer.readUShort();
-            else if (opcode == 93)
-                womanhead2 = buffer.readUShort();
-            else if (opcode == 94)
-                category = buffer.readUShort();
-            else if (opcode == 95)
-                zan2d = buffer.readUShort();
-            else if (opcode == 97)
-                notelink = buffer.readUShort();
-            else if (opcode == 98)
-                noteModel = buffer.readUShort();
-            else if (opcode == 110)
-                resizex = buffer.readUShort();
-            else if (opcode == 111)
-                resizey = buffer.readUShort();
-            else if (opcode == 112)
-                resizez = buffer.readUShort();
-            else if (opcode == 113)
-                ambient = buffer.readByte();
-            else if (opcode == 114)
-                contrast = buffer.readByte() * 5;
-            else if (opcode >= 100 && opcode < 110) {
-                if (countobj == null) {
-                    countobj = new int[10];
-                    countco = new int[10];
-                }
-                countobj[opcode - 100] = buffer.readUShort();
-                countco[opcode - 100] = buffer.readUShort();
-            } else if (opcode == 115)
-                team = buffer.readUByte();
-            else if (opcode == 139)
-                op139 = buffer.readUShort();
-            else if (opcode == 140)
-                op140 = buffer.readUShort();
-            else if (opcode == 148)
-                placeheld = buffer.readUShort();
-            else if (opcode == 149) {
-                pheld14401 = buffer.readUShort();
-            } else if (opcode == 249) {
-                int length = buffer.readUByte();
-                int index;
-                if (clientScriptData == null) {
-                    index = method32(length);
-                    clientScriptData = new HashMap<>(index);
-                }
-                for (index = 0; index < length; index++) {
-                    boolean stringData = buffer.readUByte() == 1;
-                    int key = buffer.readTriByte();
-                    clientScriptData.put(key, stringData ? buffer.readString() : buffer.readInt());
-                }
-            }
-        }
->>>>>>> 4eb5a061 (origin: 210 start)
 
     void postDecode(int id) {
         if (id == 6808) {

@@ -403,7 +403,10 @@ public class NexCombat extends CommonCombatMethod {
                         int diffX = center.x - p.getAbsX();
                         int diffY = center.y - p.getAbsY();
                         //TaskManager.submit(new ForceMovement(p.getAsPlayer(), 3, new ForceMovement(p.tile().clone(), new Tile(diffX, diffY), 10, 60, idx == 3 ? 3 : idx == 2 ? 2 : idx == 1 ? 1 : 0)));
-                        p.unlock();
+                        final ForceMovement fm = new ForceMovement(new Tile(diffX, diffY), new Tile(diffX, diffY), 10, 60, idx == 3 ? 3 : idx == 2 ? 2 : idx == 1 ? 1 : 0, 0);
+                        nex.getUpdateFlag().flag(Flag.FORCED_MOVEMENT);
+                        nex.setForceMovement(fm);
+                        nex.unlock();
                     });
                 }
             }

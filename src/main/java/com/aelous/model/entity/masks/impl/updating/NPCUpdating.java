@@ -204,7 +204,7 @@ public class NPCUpdating {
             writeLuminanceOverlay(block, npc);
         }
        if (flag.flagged(Flag.FORCED_MOVEMENT) && npc.getForceMovement() != null) {
-           updateForcedMovement(player, npc, block);
+           updateForcedMovement(block, npc, player);
         }
         if (flag.flagged(Flag.TRANSFORM)) {
             block.putShort(npc.transmog() <= 0 ? npc.id() : npc.transmog(), ValueType.A, ByteOrder.LITTLE);
@@ -216,8 +216,8 @@ public class NPCUpdating {
             final Tile position = npc.getFaceTile();
             int x = position == null ? 0 : position.getX();
             int y = position == null ? 0 : position.getY();
-            block.putShort(x * 2 + 1, ByteOrder.LITTLE);
-            block.putShort(y * 2 + 1, ByteOrder.LITTLE);
+            block.putShort(x, ByteOrder.LITTLE);
+            block.putShort(y, ByteOrder.LITTLE);
         }
     }
 
@@ -226,7 +226,7 @@ public class NPCUpdating {
      * @param builder    The packet builder to write information on.
      * @return            The NpcUpdating instance.
      */
-    private static void updateForcedMovement(Player player, NPC npc, PacketBuilder builder) {
+    private static void updateForcedMovement(PacketBuilder builder, NPC npc, Player player) {
         int startX = npc.getForceMovement().getStart().getLocalX(player.getLastKnownRegion());
         int startY = npc.getForceMovement().getStart().getLocalY(player.getLastKnownRegion());
         int endX = npc.getForceMovement().getEnd().getX();
@@ -238,6 +238,7 @@ public class NPCUpdating {
         builder.put(startY + endY, ValueType.S);
         builder.putShort(npc.getForceMovement().getSpeed(), ValueType.A, ByteOrder.LITTLE);
         builder.putShort(npc.getForceMovement().getReverseSpeed(), ValueType.A, ByteOrder.BIG);
+        builder.putShort(npc.getForceMovement().getAnimation(), ValueType.A, ByteOrder.LITTLE);
         builder.put(npc.getForceMovement().getDirection(), ValueType.S);
     }
 

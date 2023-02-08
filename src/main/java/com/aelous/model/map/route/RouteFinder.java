@@ -288,8 +288,7 @@ public class RouteFinder {
                 successAction.run();
                 return;
             }
-            if (gameObject.skipReachCheck != null && gameObject.skipReachCheck.test(entity.tile())
-                || isInstantTriggerRemoteObj) {
+            if (gameObject.skipReachCheck != null && gameObject.skipReachCheck.test(entity.tile()) || isInstantTriggerRemoteObj) {
                 successAction.run();
                 return;
             }

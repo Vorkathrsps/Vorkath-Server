@@ -72,5 +72,4 @@ public class MagicOnPlayerPacketListener implements PacketListener {
             }
         }
     }
-
 }

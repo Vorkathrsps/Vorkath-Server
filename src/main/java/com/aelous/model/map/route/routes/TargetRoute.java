@@ -156,16 +156,7 @@ public class TargetRoute {
         if (entity.tile().equals(3018, 3961, 2)) {
             withinDistance = true;
         }
-
-        /*Entity target = entity.getCombat().getTarget();
-        if (target != null && target.tile().equals(3130, 3828, 0)) {
-            withinDistance = true;
-        }
-
-        if (target != null && target.tile().equals(3169, 3669, 0)) {
-            withinDistance = true;
-        }*/
-
+        
         if (finishAction != null) {
             /** Interactions */
             //entity.resetFaceTile();

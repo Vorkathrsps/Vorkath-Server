@@ -285,7 +285,6 @@ public class RouteFinder {
         final boolean isInstantTriggerRemoteObj =
             isRemoteObject(gameObject);
         if (route.finished(entity.getCentrePosition())) {
-            System.out.println("route finished");
             entity.faceObj(gameObject);
             if (route.reachable) {
                 successAction.run();

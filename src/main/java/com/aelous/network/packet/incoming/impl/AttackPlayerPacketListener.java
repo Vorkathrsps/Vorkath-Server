@@ -52,7 +52,7 @@ public class AttackPlayerPacketListener implements PacketListener {
 
         player.putAttrib(AttributeKey.INTERACTION_OPTION, 2);
         player.putAttrib(AttributeKey.TARGET, new WeakReference<Entity>(attacked));
-        player.setPositionToFace(player.getCentrePosition());
+        player.setPositionToFace(player.tile());
         player.getCombat().setCastSpell(null);
         player.getCombat().attack(attacked);
     }

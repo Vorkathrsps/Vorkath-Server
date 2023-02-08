@@ -1336,7 +1336,6 @@ public class MagicClickSpells {
                     if (!player.locked()) {
                         if (!player.getTimers().has(TimerKey.VENGEANCE_COOLDOWN)) {
                             player.getMovementQueue().reset();
-                            player.getCombat().reset();
                             player.getTimers().register(TimerKey.VENGEANCE_COOLDOWN, 50);
                             player.putAttrib(AttributeKey.VENGEANCE_ACTIVE, true);
                             itemsRequired(player).forEach(player.inventory()::remove);

@@ -739,7 +739,13 @@ public class ItemDefinition implements Definition {
     }
 
     public int highAlchValue() {
-        return (int) (cost * 0.65);
+        if (cost <= 0)
+            return 0;
+        return cost *= 0.65;
+    }
+
+    public int getKeptOnDeathValue() {
+        return cost;
     }
 
     public static int method32(int var0) {

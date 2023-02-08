@@ -122,10 +122,10 @@ public class RangedCombatMethod extends CommonCombatMethod {
             }
 
             if (graphic != -1) {
-                Projectile projectile = new Projectile(attacker, target, graphic, startSpeed, (int) delay, startHeight, endHeight, 0, target.getSize());
+                Projectile projectile = new Projectile(attacker, target, graphic, startSpeed, delay, startHeight, endHeight, 0, target.getSize());
                 player.executeProjectile(projectile);
 
-                Hit hit = target.hit(attacker, CombatFactory.calcDamageFromType(attacker, target, CombatType.RANGED), (int) delay, CombatType.RANGED).checkAccuracy().postDamage(this::handleAfterHit);
+                Hit hit = target.hit(attacker, CombatFactory.calcDamageFromType(attacker, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().postDamage(this::handleAfterHit);
 
                 hit.submit();
             }

@@ -402,7 +402,7 @@ public class NexCombat extends CommonCombatMethod {
                         p.stun(2, true);
                         int diffX = center.x - p.getAbsX();
                         int diffY = center.y - p.getAbsY();
-                        TaskManager.submit(new ForceMovementTask(p.getAsPlayer(), 3, new ForceMovement(p.tile().clone(), new Tile(diffX, diffY), 10, 60, idx == 3 ? 3 : idx == 2 ? 2 : idx == 1 ? 1 : 0)));
+                        //TaskManager.submit(new ForceMovement(p.getAsPlayer(), 3, new ForceMovement(p.tile().clone(), new Tile(diffX, diffY), 10, 60, idx == 3 ? 3 : idx == 2 ? 2 : idx == 1 ? 1 : 0)));
                         p.unlock();
                     });
                 }
@@ -457,7 +457,7 @@ public class NexCombat extends CommonCombatMethod {
                 p.stun(2, true);
                 int diffX = finalEndX - p.getAbsX();
                 int diffY = finalEndY - p.getAbsY();
-                TaskManager.submit(new ForceMovementTask(p, 3, new ForceMovement(p.tile().clone(), new Tile(diffX, diffY), 10, 60, dir.toInteger())));
+                //TaskManager.submit(new ForceMovementTask(p, 3, new ForceMovement(p.tile().clone(), new Tile(diffX, diffY), 10, 60, dir.toInteger())));
                 p.unlock();
             });
         }

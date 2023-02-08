@@ -171,11 +171,11 @@ public class NPCUpdating {
         if (flag.flagged(Flag.FORCED_CHAT) && npc.getForcedChat() != null) {
             mask |= 0x1;
         }
-        // if (flag.flagged(Flag.FORCED_MOVEMENT) && npc.getForceMovement() != null) {
-        //    mask |= 0x40;
-        // }
         if (flag.flagged(Flag.LUMINANCE)) {
             mask |= 0x40;
+        }
+        if (flag.flagged(Flag.FORCED_MOVEMENT) && npc.getForceMovement() != null) {
+           mask |= 0x1000;
         }
         if (flag.flagged(Flag.TRANSFORM)) {
             mask |= 0x2;
@@ -203,8 +203,8 @@ public class NPCUpdating {
         if (flag.flagged(Flag.LUMINANCE)) {
             writeLuminanceOverlay(block, npc);
         }
-        if (flag.flagged(Flag.FORCED_MOVEMENT) && npc.getForceMovement() != null) {
-            updateForcedMovement(player, npc, block);
+       if (flag.flagged(Flag.FORCED_MOVEMENT) && npc.getForceMovement() != null) {
+           updateForcedMovement(player, npc, block);
         }
         if (flag.flagged(Flag.TRANSFORM)) {
             block.putShort(npc.transmog() <= 0 ? npc.id() : npc.transmog(), ValueType.A, ByteOrder.LITTLE);

@@ -321,6 +321,9 @@ public class PlayerUpdating {
 
         final UpdateFlag flag = target.getUpdateFlag();
         int mask = 0;
+        if (flag.flagged(Flag.FORCED_MOVEMENT) && target.getForceMovement() != null) {
+            mask |= 0x400;
+        }
         if (flag.flagged(Flag.GRAPHIC) && target.graphic() != null) {
             mask |= 0x100;
         }
@@ -347,9 +350,6 @@ public class PlayerUpdating {
         }
         if (flag.flagged(Flag.LUMINANCE)) { //used for new updating mask
             mask |= 0x200;
-        }
-        if (flag.flagged(Flag.FORCED_MOVEMENT) && target.getForceMovement() != null) {
-            mask |= 0x400;
         }
         if (mask >= 0x100) {
             mask |= 0x40;

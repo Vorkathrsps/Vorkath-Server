@@ -20,23 +20,25 @@ public class DragonKnife extends CommonCombatMethod {
     @Override
     public void prepareAttack(Entity entity, Entity target) {
         final Player player = entity.getAsPlayer();
-        int delay = (int) (Math.floor(3 + entity.tile().distance(target.tile()) / 6D));
+        int delay = (int) (2 + Math.floor(3 + entity.tile().distance(target.tile()) / 6D));
 
         boolean poisonKnive = player.getEquipment().containsAny(22806, 22808, 22810);
+
         player.animate(poisonKnive ? 8292 : 8291);
 
         // Get proper projectile id
         int projectileId = poisonKnive ? 1629 : 699;
 
         // Send projectiles
-        Projectile projectile = new Projectile((Entity) player, target, projectileId, 41, delay, 41, 36, 0);
+        Projectile projectile = new Projectile(player, target, projectileId, 41, delay, 41, 36, 0);
+
         entity.executeProjectile(projectile);
 
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
 
         hit.submit();
 
-        Hit hi2 = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), target.isNpc() ? 1 : delay, CombatType.RANGED).checkAccuracy();
+        Hit hi2 = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay + 1, CombatType.RANGED).checkAccuracy();
 
         hi2.submit();
 

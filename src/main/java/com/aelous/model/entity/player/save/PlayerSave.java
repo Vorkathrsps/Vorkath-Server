@@ -1385,7 +1385,7 @@ public class PlayerSave {
             fightType = player.getCombat().getFightType().name();
             fightTypeVarp = player.getCombat().getFightType().getParentId();
             fightTypeVarpState = player.getCombat().getFightType().getChildId();
-            autoRetaliate = player.getCombat().autoRetaliate();
+            autoRetaliate = player.getCombat().hasAutoReliateToggled();
             previousSpellbook = player.getPreviousSpellbook();
             venomTicks = Player.getAttribIntOr(player, VENOM_TICKS, 0);
             poisonTicks = Player.getAttribIntOr(player, POISON_TICKS, 0);

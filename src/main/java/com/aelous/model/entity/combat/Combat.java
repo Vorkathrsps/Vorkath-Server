@@ -33,7 +33,6 @@ import com.aelous.utility.timers.TimerKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.swing.*;
 import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.Map.Entry;
@@ -661,12 +660,15 @@ public class Combat {
         this.fightType = fightType;
     }
 
-    public boolean autoRetaliate() {
+    public boolean hasAutoReliateToggled() {
         return autoRetaliate;
     }
 
     public void setAutoRetaliate(boolean autoRetaliate) {
         this.autoRetaliate = autoRetaliate;
+        if (mob instanceof Player) {
+            mob.getAsPlayer().getPacketSender().sendConfig(172, autoRetaliate ? 1 : 0);
+        }
     }
 
     private void checkGraniteMaul() {

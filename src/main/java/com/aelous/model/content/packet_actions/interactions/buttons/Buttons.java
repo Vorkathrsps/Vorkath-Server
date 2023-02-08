@@ -285,9 +285,7 @@ public class Buttons {
             case TOGGLE_AUTO_RETALIATE:
             case TOGGLE_AUTO_RETALIATE_2:
             case TOGGLE_AUTO_RETALIATE_3:
-                player.getCombat().setAutoRetaliate(!player.getCombat().autoRetaliate());
-                player.getPacketSender().sendConfig(172, player.getCombat().autoRetaliate() ? 1 : 0);
-                //System.out.println("hmm auto ret button "+player.getCombat().autoRetaliate());
+                player.getCombat().setAutoRetaliate(!player.getCombat().hasAutoReliateToggled());
                 break;
 
             case DESTROY_ITEM:

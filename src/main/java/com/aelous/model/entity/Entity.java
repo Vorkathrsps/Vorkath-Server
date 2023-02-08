@@ -1020,18 +1020,16 @@ public abstract class Entity {
 
     public void autoRetaliate(Entity attacker) {
         boolean sameAttacker = attacker == this;
-        //if (isNpc() && getAsNpc().id() == SKOTIZO)
-        //    System.out.println("retal skot");
-        if (dead() || hp() < 1 || (isPlayer() && !getCombat().autoRetaliate()) || noRetaliation || locked() || stunned() || sameAttacker) {
-            Debugs.CMB.debug(attacker, "auto ret: dead: " + dead() + " hp: " + hp() + " autoret: " + getCombat().autoRetaliate() + " noRetaliation: " + noRetaliation + " locked: " + locked() + " stunned: " + stunned() + " sameAttacker: " + sameAttacker, this, true);
-            //System.out.println("dead: "+dead()+" hp: "+hp()+" autoret: "+getCombat().autoRetaliate()+" noRetaliation: "+noRetaliation+" locked: "+locked()+" stunned: "+stunned()+" sameAttacker: "+sameAttacker);
+
+        if (dead() || hp() < 1 || (isPlayer() && !getCombat().hasAutoReliateToggled()) || noRetaliation || locked() || stunned() || sameAttacker) {
+            Debugs.CMB.debug(attacker, "auto ret: dead: " + dead() + " hp: " + hp() + " autoret: " + getCombat().hasAutoReliateToggled() + " noRetaliation: " + noRetaliation + " locked: " + locked() + " stunned: " + stunned() + " sameAttacker: " + sameAttacker, this, true);
             return;
         }
 
         // As soon as the hit on us appears, we'll turn around and face the attacker.
         setEntityInteraction(attacker);
 
-        runFn(2, () -> {
+        startEvent(2, () -> {
             // Override logic
             getCombat().setTarget(attacker);
             // this mob needs to hit the attacker, not vice versa

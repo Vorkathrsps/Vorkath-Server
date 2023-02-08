@@ -26,7 +26,7 @@ public class ForceMovement {
         this.setSpeed((short)speed);
         this.setReverseSpeed((short)reverseSpeed);
         this.setDirection((byte)direction);
-        this.setAnimation(animation);
+        this.setAnimation((short)animation);
     }
 
     public ForceMovement(Tile start, Tile end, int speed, int reverseSpeed, FaceDirection direction) {

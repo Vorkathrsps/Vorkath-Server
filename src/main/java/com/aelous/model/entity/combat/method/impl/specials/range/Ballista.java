@@ -21,19 +21,23 @@ public class Ballista extends CommonCombatMethod {
     @Override
     public void prepareAttack(Entity entity, Entity target) {
         final Player player = entity.getAsPlayer();
+        int delay = (int) (Math.floor(3 + entity.tile().distance(target.tile()) / 6D));
+        double distance = entity.tile().getChevDistance(target.tile());
 
         player.animate(ANIMATION);
 
-        target.performGraphic(GRAPHIC);
+        Projectile projectile = new Projectile(player, target, 1301, 41, delay, 45, 36, 0);
+        
+        player.executeProjectile(projectile);
 
-        // Fire projectile
-        new Projectile(player, target, 1301, 70, 30, 43, 31, 0).sendProjectile();
-
-        // Decrement ammo by 1
         CombatFactory.decrementAmmo(player);
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED),2, CombatType.RANGED).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
+
         hit.submit();
+
+        target.performGraphic(new Graphic(344, GraphicHeight.HIGH, (int) (41 + 11 + (5 * distance))));
+
         CombatSpecial.drain(entity, CombatSpecial.BALLISTA.getDrainAmount());
     }
 

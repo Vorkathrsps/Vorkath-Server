@@ -156,7 +156,7 @@ public class TargetRoute {
         if (entity.tile().equals(3018, 3961, 2)) {
             withinDistance = true;
         }
-        
+
         if (finishAction != null) {
             /** Interactions */
             //entity.resetFaceTile();

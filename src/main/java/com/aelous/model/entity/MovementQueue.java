@@ -702,6 +702,7 @@ public final class MovementQueue {
 
     private boolean validateStep(Step next) {
         if (followingTask != null && next.equals(followingTask.getFollow().tile())) {
+            System.out.println("called");
             return false;
         }
         // Make sure movement isn't restricted..

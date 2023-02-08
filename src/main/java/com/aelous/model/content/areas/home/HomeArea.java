@@ -56,7 +56,6 @@ public class HomeArea extends PacketInteraction {
                 return true;
             }
             if(object.getId() == 31675) {
-                player.faceObj(object);
                 player.getSlayerKey().open();
                 return true;
             }

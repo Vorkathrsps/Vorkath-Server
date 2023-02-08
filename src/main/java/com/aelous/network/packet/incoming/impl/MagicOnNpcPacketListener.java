@@ -54,8 +54,6 @@ public class MagicOnNpcPacketListener implements PacketListener {
             player.message("Unable to find npc.");
         } else {
             if (!player.locked() && !player.dead()) {
-                player.stopActions(false);
-                player.setPositionToFace(other.tile());
                 if (!other.dead()) {
                     player.putAttrib(AttributeKey.TARGET, new WeakReference<Entity>(other));
                     player.putAttrib(AttributeKey.INTERACTION_OPTION, 2);
@@ -83,9 +81,6 @@ public class MagicOnNpcPacketListener implements PacketListener {
                         player.getMovementQueue().clear();
                         return;
                     }
-                    other.getMovementQueue().setBlockMovement(true);
-                    player.setPositionToFace(other.tile());
-
                     //These always overwrite it I tried so many things
                     player.getCombat().setCastSpell(spellSelected);
                     player.getCombat().attack(other);

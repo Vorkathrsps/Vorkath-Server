@@ -64,7 +64,7 @@ public class MagicOnObjectPacketListener implements PacketListener {
         player.putAttrib(AttributeKey.INTERACTION_OBJECT, gameObject);
 
         //Do actions...
-        player.faceObj(gameObject);
+        player.setPositionToFace(gameObject.tile().getX(), gameObject.tile().getY());
 
         if(MagicClickSpells.handleSpellOnObject(player, gameObject, tile, spell_id)) {
             return;

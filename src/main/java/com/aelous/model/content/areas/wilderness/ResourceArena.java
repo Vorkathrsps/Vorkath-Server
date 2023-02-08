@@ -150,7 +150,6 @@ public class ResourceArena extends PacketInteraction {
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         if(obj.getId() == GATE_26760) {
             if (option == 1) {
-                player.faceObj(obj);
                 String name = GameServer.properties().pvpMode ? "BM" : "coins";
                 int itemId = GameServer.properties().pvpMode ? BLOOD_MONEY : COINS_995;
                 int amount = GameServer.properties().pvpMode ? 100 : 7500;
@@ -237,7 +236,6 @@ public class ResourceArena extends PacketInteraction {
                     });
                 }
             } else if(option == 2) {
-                player.faceObj(obj);
                 if (player.tile().y == 3945 && player.tile().y > obj.tile().y) {
 
                     int count = 0;

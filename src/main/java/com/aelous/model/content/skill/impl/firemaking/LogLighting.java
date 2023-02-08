@@ -249,7 +249,6 @@ public class LogLighting {
         player.runUninterruptable(1, () -> {
 
             player.unlock();
-            player.faceObj(fire);
 
             if(log == LightableLog.MAGIC) {
                 player.getTaskMasterManager().increase(Tasks.BURN_MAGIC_LOGS);

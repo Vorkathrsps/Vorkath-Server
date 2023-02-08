@@ -42,7 +42,7 @@ public class MagicOnPlayerPacketListener implements PacketListener {
             player.stopActions(false);
 
             if (!player.locked() && !player.dead()) {
-                player.setPositionToFace(other.tile());
+                player.setPositionToFace(other.tile().getX(), other.tile().getY());
                 if (!other.dead()) {
                     player.putAttrib(AttributeKey.TARGET, new WeakReference<Entity>(other));
                     player.putAttrib(AttributeKey.INTERACTION_OPTION, 1);

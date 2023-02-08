@@ -144,7 +144,7 @@ public class RouteFinder {
                 1,
                 t -> { // problem is this isnt a chain, oops
                     if (!entity.getMovement().isAtDestination()
-                        || !route.finished(entity.getCentrePosition())) return;
+                        || !route.finished(entity.tile())) return;
                     if (route.reachable) {
                         successConsumer.accept(0);
                         t.stop();
@@ -168,7 +168,6 @@ public class RouteFinder {
                         }
                     }
                     // didnt return succesfully above, continue to failure
-                    entity.setPositionToFace(groundItem.getTile().x, groundItem.getTile().y);
                     if (entity.isPlayer()) entity.getAsPlayer().getMovement().outOfReach();
                     t.stop();
                 });
@@ -282,10 +281,9 @@ public class RouteFinder {
             route = routeAbsolute(gameObject.walkTo.getX(), gameObject.walkTo.getY());
         else route = routeObject(gameObject);
         /** No event required, already at destination. */
-        final boolean isInstantTriggerRemoteObj =
-            isRemoteObject(gameObject);
-        if (route.finished(entity.getCentrePosition())) {
-            entity.faceObj(gameObject);
+        final boolean isInstantTriggerRemoteObj = isRemoteObject(gameObject);
+        if (route.finished(entity.tile())) {
+            entity.setPositionToFace(gameObject.tile().getX(), gameObject.tile().getY());
             if (route.reachable) {
                 successAction.run();
                 return;
@@ -306,21 +304,19 @@ public class RouteFinder {
                 event -> {
                     if (!entity.getMovement().isAtDestination()) {
                         if (gameObject.getId() != id || gameObject.tile() == null) {
-                            entity.faceObj(gameObject);
                             entity.getMovement().reset();
                             event.stop();
                             return;
                         }
                         return;
                     }
-                    entity.faceObj(gameObject);
                     if (gameObject.getId() != id || gameObject.tile() == null) {
                         /* obj was changed or removed */
                         event.stop();
                         return;
                     }
                     if (route.reachable) {
-                        if (route.finished(entity.getCentrePosition())) {
+                        if (route.finished(entity.tile())) {
                             successAction.run();
                             event.stop();
                             return;

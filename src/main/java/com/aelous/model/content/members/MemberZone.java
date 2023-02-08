@@ -251,7 +251,6 @@ public class MemberZone extends PacketInteraction {
                         if (player.skills().level(Skills.AGILITY) < 91) {
                             player.message("You need an agility level of at least 91 to jump this pillar.");
                         } else {
-                            player.faceObj(obj);
                             if (player.tile().equals(2356, 9839)) {
                                 Chain.bound(null).runFn(1, () -> {
                                     player.animate(741, 15);

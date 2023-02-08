@@ -29,14 +29,12 @@ public class RaidPartyActions extends PacketInteraction {
     public boolean handleObjectInteraction(Player player, GameObject object, int option) {
         if (option == 1) {
             if (object.getId() == RECRUITING_BOARD) {
-                player.faceObj(object);
                 player.getDialogueManager().start(new PartyDialogue());
                 return true;
             }
         }
         if (option == 1) {
             if (object.getId() == 29777) {
-                player.faceObj(object);
                 player.getDialogueManager().start(new PartyDialogue());
                 return true;
             }

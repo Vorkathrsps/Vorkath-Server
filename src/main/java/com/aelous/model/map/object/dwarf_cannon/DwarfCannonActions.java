@@ -60,7 +60,6 @@ public class DwarfCannonActions extends PacketInteraction {
 
                                         // wheres spawn obj
                                         World.getWorld().registerOwnedObject(cannon);
-                                        player.faceObj(cannon);
 
                                         cannon.getDecayTimer().start();
 
@@ -82,7 +81,6 @@ public class DwarfCannonActions extends PacketInteraction {
                                                     .runFn(
                                                             index * 2,
                                                             () -> {
-                                                                player.faceObj(cannon);
                                                                 player.animate(SETUP_ANIM);
                                                                 cannon.incrementSetupStage();
                                                                 Item cannonPart =

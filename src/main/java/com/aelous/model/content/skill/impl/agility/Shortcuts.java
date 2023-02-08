@@ -30,7 +30,6 @@ public class Shortcuts extends PacketInteraction {
 
             if (player.tile().equals(3091, 3882)) {
                 player.lockDelayDamage();
-                player.faceObj(obj);
 
                 Chain.bound(player).name("Shortcut3Task").runFn(2, () -> {
                     player.animate(741);
@@ -45,7 +44,6 @@ public class Shortcuts extends PacketInteraction {
                     return true;
                 }
                 player.lockDelayDamage();
-                player.faceObj(obj);
                 Chain.bound(player).name("Shortcut4Task").runFn(2, () -> {
                     player.animate(741);
                     TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(-1, +1), 5, 35, 4, 741)));
@@ -234,7 +232,6 @@ public class Shortcuts extends PacketInteraction {
             player.getMovementQueue().walkTo(obj.tile().transform(-1, 0, 0));
             player.waitForTile(obj.tile().transform(-1, 0, 0), () -> {
                 player.lockDelayDamage();
-                player.faceObj(obj);
                 player.animate(2589, 0);
                 TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(1, 0), 0, 50, 2, 2589)));
             }).then(2, () -> {
@@ -253,7 +250,6 @@ public class Shortcuts extends PacketInteraction {
             player.getMovementQueue().walkTo(obj.tile().transform(1, 0, 0));
             player.waitForTile(obj.tile().transform(1, 0, 0), () -> {
                 player.lockDelayDamage();
-                player.faceObj(obj);
                 player.animate(2589, 0);
                 TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(-1, 0), 0, 50, FaceDirection.WEST)));
             }).then(2, () -> {

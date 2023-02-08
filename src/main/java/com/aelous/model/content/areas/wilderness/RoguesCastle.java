@@ -26,14 +26,12 @@ public class RoguesCastle extends PacketInteraction {
 
             if (option == 1) {
                 //Handle the first chest option: "Open".
-                player.faceObj(obj);
                 player.animate(537);
                 generateHit(player);
                 player.message("You have activated a trap on the chest.");
             } else if (option == 2) {
                 //Handle the second chest option: "Search for traps".
                 if (player.skills().level(Skills.THIEVING) < 84) {
-                    player.faceObj(obj);
                     player.message("You need a Thieving level of 84 to successfully loot this chest.");
                 } else {
                     // Else we must be high enough thieving to crack the chest!

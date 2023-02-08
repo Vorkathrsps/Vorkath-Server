@@ -18,7 +18,6 @@ public class MageArenaLever extends PacketInteraction {
         if (option == 1) {
             //Into the arena
             if (obj.getId() == 9706) {
-                player.faceObj(obj);
                 //Check to see if the player is teleblocked
                 if (player.getTimers().has(TimerKey.TELEBLOCK) || player.getTimers().has(TimerKey.SPECIAL_TELEBLOCK)) {
                     player.teleblockMessage();
@@ -51,7 +50,6 @@ public class MageArenaLever extends PacketInteraction {
                 //Check to see if the player is teleblocked
                 if (!player.getTimers().has(TimerKey.TELEBLOCK) || !player.getTimers().has(TimerKey.SPECIAL_TELEBLOCK)) {
                     player.lockDelayDamage();
-                    player.faceObj(obj);
                     Chain.bound(null).runFn(1, () -> {
                         player.animate(2710);
                         player.message("You pull the lever...");

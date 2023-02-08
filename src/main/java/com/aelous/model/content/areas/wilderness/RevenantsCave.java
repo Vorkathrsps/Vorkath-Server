@@ -32,7 +32,6 @@ public class RevenantsCave extends PacketInteraction {
             // Northern cave entrance
             switch (obj.getId()) {
                 case CAVERN_31555 -> {
-                    player.faceObj(obj);
                     player.getDialogueManager().start(new Dialogue() {
                         @Override
                         protected void start(Object... parameters) {

@@ -110,10 +110,6 @@ public class Cerberus extends CommonCombatMethod {
         NPC archer = new NPC(5867, new Tile(1240, 1256, 0));
         NPC magician = new NPC(5868, new Tile(1241, 1256, 0));
 
-        magician.getUpdateFlag().flag(Flag.FACE_TILE);
-        archer.getUpdateFlag().flag(Flag.FACE_TILE);
-        magician.getUpdateFlag().flag(Flag.FACE_TILE);
-
         if (!target.tile().inArea(area)) {
             World.getWorld().unregisterNpc(melee);
             World.getWorld().unregisterNpc(archer);

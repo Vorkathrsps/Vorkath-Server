@@ -1441,7 +1441,6 @@ public class MagicClickSpells {
         }
 
         spell.deleteRequiredRunes(player, new HashMap<>());
-        player.setPositionToFace(attacked.tile());
         spell.startCast(player, attacked);
     }
 

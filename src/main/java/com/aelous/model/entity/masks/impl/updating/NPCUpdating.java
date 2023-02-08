@@ -216,8 +216,8 @@ public class NPCUpdating {
             final Tile position = npc.getFaceTile();
             int x = position == null ? 0 : position.getX();
             int y = position == null ? 0 : position.getY();
-            block.putShort(x, ByteOrder.LITTLE);
-            block.putShort(y, ByteOrder.LITTLE);
+            block.putShort(x * 2 + 1, ByteOrder.LITTLE);
+            block.putShort(y * 2 + 1, ByteOrder.LITTLE);
         }
     }
 

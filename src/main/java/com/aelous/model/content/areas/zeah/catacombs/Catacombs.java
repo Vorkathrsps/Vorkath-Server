@@ -76,7 +76,6 @@ public class Catacombs extends PacketInteraction {
                 if (player.tile().equals(1613, 10069)) {
                     Chain.bound(player).name("Shortcut1Task").runFn(2, () -> {
                         player.lock();
-                        player.faceObj(obj);
                         player.animate(741);
                     }).then(1, () -> player.teleport(player.tile().x, player.tile().y - 1)).then(1, () -> player.animate(741)).then(1, () -> player.teleport(player.tile().x, player.tile().y - 1)).then(1, () -> player.animate(741)).then(1, () -> player.teleport(player.tile().x, player.tile().y - 1)).then(1, () -> {
                         player.setPositionToFace(1612, 10066);
@@ -97,7 +96,6 @@ public class Catacombs extends PacketInteraction {
                 } else if (player.tile().equals(1610, 10062)) {
                     Chain.bound(player).name("Shortcut2Task").runFn(2, () -> {
                         player.lock();
-                        player.faceObj(obj);
                         player.animate(741);
                     }).then(1, () -> player.teleport(player.tile().x, player.tile().y + 1)).then(1, () -> player.animate(741)).then(1, () -> player.teleport(player.tile().x, player.tile().y + 1)).then(1, () -> {
                         player.setPositionToFace(new Tile(1611, 10064));
@@ -147,7 +145,6 @@ public class Catacombs extends PacketInteraction {
             return;
         player.lock();
         Chain.bound(null).runFn(1, () -> {
-            player.faceObj(crack);
             player.animate(746);
         }).then(1, () -> {
             player.teleport(destination);

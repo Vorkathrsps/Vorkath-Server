@@ -477,14 +477,8 @@ public abstract class Entity {
     }
 
     public Entity setPositionToFace(Tile tile) {
-        if (isNpc() && (getAsNpc().isCombatDummy())) {
-            return this;
-        }
-
         this.faceTile = tile;
-
-        if (tile != null)
-            this.getUpdateFlag().flag(Flag.FACE_TILE);
+        this.getUpdateFlag().flag(Flag.FACE_TILE);
         return this;
     }
 
@@ -528,19 +522,14 @@ public abstract class Entity {
      * Face coordinates, but take into consideration the center of a large than 1x1 object
      */
     public void faceObj(GameObject obj) {
-        this.faceTile = obj.tile;
-
-        int x = this.getAsPlayer().isPlayer() ? this.getFaceTile().getX() : obj.getX();
-        int y = this.getAsPlayer().isPlayer() ? this.getFaceTile().getY() : obj.getY();
+        int x = this.getAsPlayer().isPlayer() ? this.tile().getX() : obj.getX();
+        int y = this.getAsPlayer().isPlayer() ? this.tile().getY() : obj.getY();
         final int sizeX = obj.definition().sizeX;
         final int sizeY = obj.definition().sizeY;
         boolean inversed = (obj.getRotation() & 0x1) != 0;
         int faceCoordX = x * 2 + (inversed ? sizeY : sizeX);
         int faceCoordY = y * 2 + (inversed ? sizeX : sizeY);
-
-        faceTile = new Tile(faceCoordX, faceCoordY);
-
-        setPositionToFace(faceTile);
+        setPositionToFace(new Tile(faceCoordX, faceCoordY));
     }
 
     public UpdateFlag getUpdateFlag() {

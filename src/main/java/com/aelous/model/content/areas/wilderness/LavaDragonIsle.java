@@ -37,7 +37,6 @@ public class LavaDragonIsle extends PacketInteraction {
             player.message("You need a Agility level of 74 to use this shortcut.");
             return true;
         }
-        player.faceObj(obj);
 
         if(player.tile().y == 3807) {
             Chain.bound(player).name("LavaDragonIsle1Task").runFn(2, () -> {

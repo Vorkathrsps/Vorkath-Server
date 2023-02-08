@@ -52,7 +52,6 @@ public class EscapeKey extends PacketInteraction {
         //Only perform actions if the object is a escape key chest and the option is 1.
         if (option == 1 && object.getId() == 36087 || object.getId() == REWARD_CHEST_36087) {
             //Do stuff here
-            player.faceObj(object);
 
             if (!player.inventory().contains(ESCAPE_KEY)) {
                 player.message("You need an escape key to open this chest.");

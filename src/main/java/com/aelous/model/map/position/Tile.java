@@ -196,12 +196,6 @@ public class Tile implements Cloneable {
      *         if not.
      */
     public int distance(Tile other) {
-       /* int deltaX = other.x - x, deltaY = other.y - y;
-        double dis = Math.sqrt(Math.pow(deltaX, 2D) + Math.pow(deltaY, 2D));
-        if (dis > 1.0 && dis < 2)
-            return 2;
-        return (int) dis;*/
-
         int deltaX = x - other.x;
         int deltaY = y - other.y;
         return (int) Math.ceil(Math.sqrt(deltaX * deltaX + deltaY * deltaY));

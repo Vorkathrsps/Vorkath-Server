@@ -56,7 +56,6 @@ public class Stalls extends PacketInteraction {
     }
 
     private void attempt(Player player, Stall stall, GameObject object, int replacementID) {
-        player.faceObj(object);
         if (!player.skills().check(Skills.THIEVING, stall.levelReq, "steal from the " + stall.name))
             return;
 

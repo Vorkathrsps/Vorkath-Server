@@ -20,7 +20,6 @@ public class Webs extends PacketInteraction {
                 String wepName = weapon == -1 ? "" : new Item(weapon).name().toLowerCase();
                 boolean hasSharpEdge = wepName.contains("scythe") || wepName.contains("sword") || wepName.contains("dagger") || wepName.contains("axe") || wepName.contains("whip") || wepName.contains("scimitar") || wepName.contains("of light") || wepName.contains("dead") || wepName.contains("tent") || wepName.contains("claw") || wepName.contains("blade of saeldor");
 
-                player.faceObj(obj);
                 int KNIFE = 946;
                 if (player.inventory().contains(KNIFE)) {
                     player.animate(911);

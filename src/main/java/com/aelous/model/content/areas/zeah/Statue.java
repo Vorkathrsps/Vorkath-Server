@@ -27,7 +27,6 @@ public class Statue extends PacketInteraction {
     }
 
     private void readStatue(Player player, GameObject obj) {
-        player.faceObj(obj);
         player.animate(2171);
         TaskManager.submit(new TickAndStop(1) {
             @Override
@@ -38,7 +37,6 @@ public class Statue extends PacketInteraction {
     }
 
     private void investigateState(Player player, GameObject obj) {
-        player.faceObj(obj);
         player.message("You investigate what looks like hinges on the plaque and find it opens.");
         player.animate(827);
         TaskManager.submit(new TickAndStop(1) {

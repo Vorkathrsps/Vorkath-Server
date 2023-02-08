@@ -379,7 +379,7 @@ public class PlayerUpdating {
             target.looks().update(builder, target);
         }
         if (flag.flagged(Flag.FACE_TILE)) {
-            updateFacingPosition(builder, target);
+            updateFacingPosition(builder, target.getFaceTile().getX(), target.getFaceTile().getY());
         }
         if (flag.flagged(Flag.FIRST_SPLAT)) {
             writehit1(builder, target);
@@ -525,12 +525,9 @@ public class PlayerUpdating {
      * @param target    The player to update face position for.
      * @return            The PlayerUpdating instance.
      */
-    private static void updateFacingPosition(PacketBuilder builder, Player target) {
-        final Tile position = target.getFaceTile();
-        int x = position == null ? 0 : position.getX();
-        int y = position == null ? 0 : position.getY();
-        builder.putShort(x, ValueType.A, ByteOrder.LITTLE);
-        builder.putShort(y, ByteOrder.LITTLE);
+    private static void updateFacingPosition(PacketBuilder builder, int x, int y) {
+        builder.putShort(x * 2 + 1, ValueType.A, ByteOrder.LITTLE);
+        builder.putShort(y * 2 + 1, ByteOrder.LITTLE);
         System.out.println("x: " + x + " Y: " + y);
     }
 
@@ -545,7 +542,7 @@ public class PlayerUpdating {
         if (entity != null) {
             int index = entity.getIndex();
             if (entity instanceof Player)
-                index += + 32768;
+                index += 32768;
             builder.putShort(index, ByteOrder.LITTLE);
         } else {
             builder.putShort(-1, ByteOrder.LITTLE);

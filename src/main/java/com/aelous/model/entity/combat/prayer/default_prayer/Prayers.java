@@ -16,8 +16,10 @@ import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.utility.Utils;
 import com.aelous.utility.timers.TimerKey;
 import org.jetbrains.annotations.Nullable;
+import org.joda.time.DateTime;
 
 import javax.xml.datatype.Duration;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -357,68 +359,70 @@ public class Prayers {
     }
 
     public static double compute(Player player) {
-        double rate = 0.0;
+        double rate = 0;
 
-        if (usingPrayer(player, THICK_SKIN))
+        if (usingPrayer(player,THICK_SKIN))
             //12 seconds level 1
             //1188 seconds level 99
-            rate += 12;
-        if (usingPrayer(player, BURST_OF_STRENGTH))
-            rate += 12;
-        if (usingPrayer(player, CLARITY_OF_THOUGHT))
-            rate += 12;
-        if (usingPrayer(player, SHARP_EYE))
-            rate += 12;
-        if (usingPrayer(player, MYSTIC_WILL))
-            rate += 12;
-        if (usingPrayer(player, ROCK_SKIN))
-            rate += 6;
-        if (usingPrayer(player, SUPERHUMAN_STRENGTH))
-            rate += 6;
-        if (usingPrayer(player, IMPROVED_REFLEXES))
-            rate += 6;
-        if (usingPrayer(player, RAPID_RESTORE))
-            rate += 36;
-        if (usingPrayer(player, RAPID_HEAL))
-            rate += 18;
-        if (usingPrayer(player, PROTECT_ITEM))
-            rate += 18;
-        if (usingPrayer(player, HAWK_EYE))
-            rate += 6;
-        if (usingPrayer(player, MYSTIC_LORE))
-            rate += 6;
-        if (usingPrayer(player, STEEL_SKIN))
-            rate += 3;
-        if (usingPrayer(player, ULTIMATE_STRENGTH))
-            rate += 3;
-        if (usingPrayer(player, INCREDIBLE_REFLEXES))
-            rate += 3;
-        if (usingPrayer(player, PROTECT_FROM_MELEE))
-            rate += 3;
-        if (usingPrayer(player, PROTECT_FROM_MAGIC))
-            rate += 3;
-        if (usingPrayer(player, PROTECT_FROM_MISSILES))
-            rate += 3;
-        if (usingPrayer(player, EAGLE_EYE))
-            rate += 3;
-        if (usingPrayer(player, MYSTIC_MIGHT))
-            rate += 3;
-        if (usingPrayer(player, RETRIBUTION))
-            rate += 12;
-        if (usingPrayer(player, REDEMPTION))
-            rate += 6;
-        if (usingPrayer(player, SMITE))
-            rate += 2;
-        if (usingPrayer(player, PRESERVE))
-            rate += 18;
-        if (usingPrayer(player, CHIVALRY))
-            rate += 1.5;
-        if (usingPrayer(player, PIETY))
-            rate += 1.5;
-        if (usingPrayer(player, RIGOUR))
-            rate += 1.5;
-        if (usingPrayer(player, AUGURY))
-            rate += 1.5;
+            rate += 0.083;
+        if (usingPrayer(player,BURST_OF_STRENGTH))
+            rate += 0.083;
+        if (usingPrayer(player,CLARITY_OF_THOUGHT))
+            rate += 0.083;
+        if (usingPrayer(player,SHARP_EYE))
+            rate += 0.083;
+        if (usingPrayer(player,MYSTIC_WILL))
+            rate += 0.083;
+        if (usingPrayer(player,ROCK_SKIN))
+            rate += 0.17;
+        if (usingPrayer(player,SUPERHUMAN_STRENGTH))
+            rate += 0.17;
+        if (usingPrayer(player,IMPROVED_REFLEXES))
+            rate += 0.17;
+        if (usingPrayer(player,RAPID_RESTORE))
+            rate += 0.04;
+        if (usingPrayer(player,RAPID_HEAL))
+            rate += 0.06;
+        if (usingPrayer(player,PROTECT_ITEM))
+            rate += 0.06;
+        if (usingPrayer(player,HAWK_EYE))
+            rate += 0.17;
+        if (usingPrayer(player,MYSTIC_LORE))
+            rate += 0.17;
+        if (usingPrayer(player,STEEL_SKIN))
+            rate += 0.33;
+        if (usingPrayer(player,ULTIMATE_STRENGTH))
+            rate += 0.33;
+        if (usingPrayer(player,INCREDIBLE_REFLEXES))
+            rate += 0.33;
+        if (usingPrayer(player,PROTECT_FROM_MELEE))
+            rate += 0.33;
+        if (usingPrayer(player,PROTECT_FROM_MAGIC))
+            rate += 0.33;
+        if (usingPrayer(player,PROTECT_FROM_MISSILES))
+            rate += 0.33;
+        if (usingPrayer(player,EAGLE_EYE))
+            rate += 0.33;
+        if (usingPrayer(player,MYSTIC_MIGHT))
+            rate += 0.33;
+        if (usingPrayer(player,RETRIBUTION))
+            rate += 0.08;
+        if (usingPrayer(player,REDEMPTION))
+            rate += 0.17;
+        if (usingPrayer(player,SMITE))
+            rate += 0.56;
+        if (usingPrayer(player,PRESERVE))
+            rate += 0.06;
+        if (usingPrayer(player,CHIVALRY))
+            rate += 0.56;
+        if (usingPrayer(player,PIETY))
+            rate += 0.67;
+        if (usingPrayer(player,RIGOUR))
+            rate += 0.67;
+        if (usingPrayer(player,AUGURY))
+            rate += 0.67;
+
+        //System.out.println("rate: "+rate);
         return rate;
     }
 
@@ -435,24 +439,27 @@ public class Prayers {
             // Dont drain if dead, or no prayers on.
             if (player.dead() || hasNoPrayerOn(player) ||
                 World.getWorld().cycleCount() <= player.<Integer>getAttribOr(AttributeKey.PRAYER_ON_TICK, 0)) {
-                player.putAttrib(AttributeKey.PRAYERINCREMENT, 0); // reset
+                player.putAttrib(AttributeKey.PRAYERINCREMENT, 0D); // reset
                 return;
             }
             //player.message(String.format("on:%s now:%s drain:%s", player.<Integer>getAttrib(AttributeKey.PRAYER_ON_TICK), World.getWorld().getElapsedTicks(), player.<Integer>getAttrib(AttributeKey.PRAYERINCREMENT)));
-            int drain = (int) compute(player);
+            int pray = EquipmentInfo.prayerBonuses(player);
+            double drain = compute(player);
             if (drain > 0) {
-                int drainResistance = EquipmentInfo.prayerBonuses(player);
                 //player.debugMessage(String.format("drain: %f  bonus:%d  saved:%f", drain, pray, pray < 1 ? 0.0 : (drain / (1 + (0.0333 * pray)))));
-                drainResistance = (2 * (drainResistance + 60));
-                drain = (int) (1.6 * (drainResistance / drain));
-                int seconds = (int) Utils.ticksToSeconds(drain);
+                drain = (0.6 * (pray / drain));
+                if (pray > 0) {
+                    drain = (2 + (pray * 0.6)) / drain;
+                }
+                //player.debugMessage(String.format("drain: %f  bonus:%d  saved:%f", drain, pray, pray < 1 ? 0.0 : (drain / (1 + (0.0333 * pray)))));
 
                 if (player.skills().level(Skills.PRAYER) > 0) {
                     boolean inf_pray = player.getAttribOr(AttributeKey.INF_PRAY, false);
                     if (!inf_pray) {
                         double totalDrains = player.getAttribOr(AttributeKey.PRAYERINCREMENT, 0.0D);
+                        player.putAttrib(AttributeKey.PRAYERINCREMENT, totalDrains + drain);
                         if (totalDrains > 1.0) {
-                            player.putAttrib(AttributeKey.PRAYERINCREMENT, totalDrains + seconds);
+                            player.putAttrib(AttributeKey.PRAYERINCREMENT, totalDrains - 1);
                             player.skills().setLevel(Skills.PRAYER, Math.max(0, player.skills().level(Skills.PRAYER) - 1));
 
                         }
@@ -461,7 +468,6 @@ public class Prayers {
 
                 if (player.skills().level(Skills.PRAYER) < 1) {
                     // Cant get smited when dead dead, you must be smited before like RS.
-                    player.playSound(437);
                     closeAllPrayers(player);
                     player.message("You have run out of prayer points, you must recharge at an altar.");
                 }

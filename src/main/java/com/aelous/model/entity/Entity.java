@@ -1621,21 +1621,27 @@ public abstract class Entity {
             return;
         }
 
-        if (target.getMovementQueue().isMoving() && !frozen())
-            target.getMovementQueue().forceMove(target.getMovementQueue().lastStep());
-
-        target.stopActions(true);
-
-        putAttrib(AttributeKey.FROZEN_BY, target);
-        timers.register(TimerKey.FROZEN, time);
-        timers.extendOrRegister(TimerKey.REFREEZE, time);
-
-        if (isPlayer()) {
-            this.getAsPlayer().getPacketSender().sendEffectTimer((int) Math.round(time * 0.6), EffectTimer.FREEZE).sendMessage("You have been frozen!");
+        if (target.getTimers().left(TimerKey.FROZEN) <= 0) {
+            target.getTimers().cancel(TimerKey.FROZEN);
+            target.getTimers().extendOrRegister(TimerKey.REFREEZE, time);
         }
 
-        if (!locked()) { // Maybe we're force moving via agility
-            movementQueue.clear();
+        if (target.getTimers().left(TimerKey.FROZEN) <= 0 && target.getTimers().left(TimerKey.REFREEZE) == 0) {
+            putAttrib(AttributeKey.FROZEN_BY, target);
+            target.getTimers().register(TimerKey.FROZEN, time);
+            if (target.getMovementQueue().isMoving()) {
+                target.getMovementQueue().forceMove(target.getMovementQueue().lastStep());
+            }
+            target.stopActions(true);
+
+
+            if (isPlayer()) {
+                this.getAsPlayer().getPacketSender().sendEffectTimer((int) Math.round(time * 0.6), EffectTimer.FREEZE).sendMessage("You have been frozen!");
+            }
+
+            if (!locked()) { // Maybe we're force moving via agility
+                movementQueue.clear();
+            }
         }
     }
 

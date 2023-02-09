@@ -126,7 +126,7 @@ public class Combat {
                 return MagicMaxHit.maxHit(player, false);
             }
         }
-        return MagicMaxHit.maxHit(player,true);
+        return MagicMaxHit.maxHit(player, true);
     }
 
     public int maximumMeleeHit() {
@@ -136,10 +136,10 @@ public class Combat {
         }
         //PvP max hit
         if (mob.isPlayer() && target != null && target.isNpc() && target.getAsNpc().id() == UNDEAD_COMBAT_DUMMY) {
-            return MeleeMaxHit.maxHit(mob.getAsPlayer(),false);
+            return MeleeMaxHit.maxHit(mob.getAsPlayer(), false);
         }
         //PvM max hit
-        return MeleeMaxHit.maxHit(mob.getAsPlayer(),true);
+        return MeleeMaxHit.maxHit(mob.getAsPlayer(), true);
     }
 
     /**
@@ -214,7 +214,7 @@ public class Combat {
 
             if (!player.getInterfaceManager().isMainClear()) {
                 boolean ignore = player.getInterfaceManager().isInterfaceOpen(DAILY_TASK_MANAGER_INTERFACE) || player.getInterfaceManager().isInterfaceOpen(29050) || player.getInterfaceManager().isInterfaceOpen(55140);
-                if(!ignore) {
+                if (!ignore) {
                     //player.debugMessage("walkable interface is: " + player.getInterfaceManager().getWalkable());
                     player.getInterfaceManager().close(false);
                 }
@@ -255,6 +255,59 @@ public class Combat {
         }
     }
 
+    public boolean beforePerformAttack() {
+        if (target == null) {
+            return false;
+        }
+        /**
+         * Set our common combat method
+         */
+        method = CombatFactory.getMethod(mob);
+        if (method instanceof CommonCombatMethod) {
+            ((CommonCombatMethod) method).set(mob, target);
+        }
+        /**
+         * Are we within distance?
+         */
+        if (mob.isPlayer() && mob.getRouteFinder() != null && mob.getRouteFinder().targetRoute != null && !mob.getRouteFinder().targetRoute.withinDistance) {
+            mob.getCombat().reset();
+            return false;
+        }
+        /**
+         * Pre-Combat Checks
+         */
+        if (!CombatFactory.validTarget(mob, target)) {
+            mob.getCombat().reset();
+            return false;
+        }
+        if (!CombatFactory.canReach(mob, method, target)) {
+            return false;
+        }
+        if (!CombatFactory.canAttack(mob, method, target)) {
+            mob.getCombat().reset();
+            return false;
+        }
+        /**
+         * Can We Attack Or NULL?
+         */
+        if (mob.isPlayer()) {
+            if (method instanceof CommonCombatMethod) {
+                CommonCombatMethod commonCombatMethod = (CommonCombatMethod) method;
+                if (!commonCombatMethod.canAttackStyle(mob, target, commonCombatMethod.styleOf())) {
+                    return false;
+                }
+            }
+        }
+        /**
+         * Set the facing position
+         */
+        mob.setPositionToFace(target.tile().getX(), target.tile().getY());
+        if (mob.getInteractingEntity() != target) {
+            mob.setEntityInteraction(target);
+        }
+        return true;
+    }
+
     /**
      * Attempts to attack the target.
      */
@@ -279,119 +332,49 @@ public class Combat {
      */
     private void performNewAttack0() {
         if (target == null) {
-            //System.out.println("no targ");
             return;
         }
 
-        // Fetch the combat method the mob will be attacking with
-        method = CombatFactory.getMethod(mob);
-
-        if (method instanceof CommonCombatMethod) {
-            ((CommonCombatMethod) method).set(mob, target);
+        if (!beforePerformAttack()) {
+            return;
         }
 
         updateLastTarget(target);
 
-        // runite: player reach checks are done before hand, so we can nicely just check targetRoute.withinDistance
-        if (mob.isPlayer() && mob.getRouteFinder() != null && mob.getRouteFinder().targetRoute != null && !mob.getRouteFinder().targetRoute.withinDistance) {
-            //System.out.println("can't find PATH..?");
-            return;
-        }
-
-        // runite npc reached check delegated to factory.canReach > CommonCombatMethod.inAttackRange
-        if (mob.isPlayer()) {
-            Debugs.CMB.debug(mob, "mtd " + method + " vs " + target);
-        }
-
-        if (!CombatFactory.canReach(mob, method, target)) {
-            //System.out.println("cant reach?");
-            return;
-        }
-
-        if (target.isPlayer()) {
-            Player player = target.getAsPlayer();
-
-            if (!player.getInterfaceManager().isMainClear()) {
-                boolean ignore = player.getInterfaceManager().isInterfaceOpen(DAILY_TASK_MANAGER_INTERFACE) || player.getInterfaceManager().isInterfaceOpen(29050) || player.getInterfaceManager().isInterfaceOpen(55140);
-                if (!ignore) {
-                    //player.debugMessage("walkable interface is: " + player.getInterfaceManager().getWalkable());
-                    player.getInterfaceManager().close(false);
-                }
-            }
-        }
-
-        //TODO mage arena coordinates
-        //if (mob.getAsPlayer().getCombat().combatType() == CombatType.MAGIC && mob.getAsPlayer().tile().inArea(WildernessArea.inside_pirates_hideout()))
-        //player.message("You can only use magic inside the arena!");
-        //reset();
-        //return;
-
-
-        // Check if the mob can perform the attack
-        if (!CombatFactory.canAttack(mob, method, target)) {
-            mob.getCombat().reset();//We can't attack our target, reset combat
-            //System.out.println("cannot attack target..?");
-            return;
-        }
-
-        if (mob.isPlayer()) {
-            if (method instanceof CommonCombatMethod) { // should be the base class of all scripts now
-                CommonCombatMethod commonCombatMethod = (CommonCombatMethod) method;
-                if (!commonCombatMethod.canAttackStyle(mob, target, commonCombatMethod.styleOf())) {
-                    return;
-                }
-            }
-        }
-
         int combatAttackTicksRemaining = mob.getTimers().left(TimerKey.COMBAT_ATTACK);
-
-        boolean graniteMaulSpecial = (method instanceof GraniteMaul);
-
-        // gmaul triggers when you've hit someone in the last 2 ticks.
-        if (graniteMaulSpecial && specialGraniteMaul()) {
-            return;
-        }
-
-        // temp fix due to a rogue prepareAttack seemingly setting target to null
-        final Entity targ = target;
-
-        // Make sure attack timer is <= 0
         if (combatAttackTicksRemaining <= 0) {
-
-            if (mob.getInteractingEntity() != targ) {
-                mob.setEntityInteraction(targ);
-            }
-
-            //face the target before we "prepareattack"
-            mob.setPositionToFace(targ.tile().getX(), targ.tile().getY());
-
-            // Perform the abstract method "prepareAttack" before adding the hit for the target
-            method.prepareAttack(mob, targ);
-
-            //Check for skulling context.
-            if (mob.isPlayer() && targ.isPlayer()) { // Check if the player should be skulled for making this attack..
-                Player player = mob.getAsPlayer();
-                Player target = targ.getAsPlayer();
-
-                if (WildernessArea.inWild(player)) {
-                    Skulling.skull(player, target, SkullType.WHITE_SKULL);
+            if (mob.isPlayer() && target.isPlayer()) { // Check if the player should be skulled for making this attack..
+                if (WildernessArea.inWild((Player) mob)) {
+                    Skulling.skull((Player) mob, target, SkullType.WHITE_SKULL);
                 }
             }
+            boolean graniteMaulSpecial = (method instanceof GraniteMaul);
+            final int attackSpeed = method.getAttackSpeed(mob);
+            if (graniteMaulSpecial && specialGraniteMaul()) {
+                return;
+            }
+            if (!graniteMaulSpecial) {
+                mob.getTimers().register(TimerKey.COMBAT_ATTACK, attackSpeed);
+            }
 
-            // Flag the targ as under attack at this moment to factor in delayed combat styles.
-            targ.putAttrib(AttributeKey.LAST_DAMAGER, mob);
-            targ.putAttrib(AttributeKey.LAST_WAS_ATTACKED_TIME, System.currentTimeMillis());
-            targ.getTimers().register(TimerKey.COMBAT_LOGOUT, 16);
+            method.prepareAttack(mob, target);
+
+            mob.putAttrib(AttributeKey.LAST_DAMAGER, target);
+            mob.putAttrib(AttributeKey.LAST_WAS_ATTACKED_TIME, System.currentTimeMillis());
+            mob.getTimers().register(TimerKey.COMBAT_LOGOUT, 16);
             mob.putAttrib(AttributeKey.LAST_ATTACK_TIME, System.currentTimeMillis());
-            mob.putAttrib(AttributeKey.LAST_TARGET, targ);
+            mob.putAttrib(AttributeKey.LAST_TARGET, target);
             mob.getTimers().register(TimerKey.COMBAT_LOGOUT, 16);
 
-            final int attackSpeed = method.getAttackSpeed(mob);
+            if (target.isPlayer()) {
+                Player player = target.getAsPlayer();
 
-            // Reset attack timer
-            if (!graniteMaulSpecial) {
-                //System.out.println("set timer");
-                mob.getTimers().register(TimerKey.COMBAT_ATTACK, attackSpeed);
+                if (!player.getInterfaceManager().isMainClear()) {
+                    boolean ignore = player.getInterfaceManager().isInterfaceOpen(DAILY_TASK_MANAGER_INTERFACE) || player.getInterfaceManager().isInterfaceOpen(29050) || player.getInterfaceManager().isInterfaceOpen(55140);
+                    if (!ignore) {
+                        player.getInterfaceManager().close(false);
+                    }
+                }
             }
 
             // combat is complete, clear the cast spell. this stops the spell from repeating.
@@ -435,7 +418,7 @@ public class Combat {
 
     public double magicSpellDelay(Entity target) {
         int delay = (int) (1D + Math.floor(1 + target.tile().getChevDistance(target.tile()) / 3D));
-        delay = (int) Math.min(Math.max(1.0 , delay), 5.0);
+        delay = (int) Math.min(Math.max(1.0, delay), 5.0);
         return delay;
     }
 

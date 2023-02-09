@@ -538,7 +538,7 @@ public class CombatFactory {
 
         if (attacker.isNpc()) {
             if (attacker.getCombat().getTarget() == null) {
-                if (!attacker.getCentrePosition().isWithinDistance(target.getCentrePosition())) {
+                if (!attacker.tile().isWithinDistance(target.tile())) {
                     return false;
                 }
             }
@@ -546,7 +546,7 @@ public class CombatFactory {
                 CommonCombatMethod commonCombatMethod = (CommonCombatMethod) method;
                 commonCombatMethod.set(attacker, target);
                 if (attacker.isNpc() && !commonCombatMethod.inAttackRange()) {
-                    DumbRoute.route(attacker, attacker.getX(), attacker.getY());
+                    DumbRoute.route(attacker, attacker.tile().getX(), attacker.tile().getY());
                     return false;
                 }
             } else {
@@ -644,13 +644,6 @@ public class CombatFactory {
             if (npc.hidden() || (entity.isPlayer() && npc.id() == 7707) || npc.locked() && npc.id() != 5886 && npc.id() != 2668) {
                 Debugs.CMB.debug(entity, "cant attack idk what this is hidden" + npc.hidden(), other, true);
                 return false;
-            }
-
-            if (npc.id() == KILLER) {
-                if (!player.getEquipment().hasAt(EquipSlot.WEAPON, KILLERS_KNIFE_21059)) {
-                    player.message(Color.RED.wrap("You can only kill these killers with a Killer's knife."));
-                    return false;
-                }
             }
 
             if (entity.isPlayer() && other.isNpc()) {

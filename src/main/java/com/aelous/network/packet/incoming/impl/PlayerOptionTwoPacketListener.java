@@ -35,7 +35,7 @@ public class PlayerOptionTwoPacketListener implements PacketListener {//not used
             player.setEntityInteraction(other);
             player.putAttrib(AttributeKey.TARGET, new WeakReference<Entity>(other));
             player.putAttrib(AttributeKey.INTERACTION_OPTION, 2);
-            player.setPositionToFace(other.tile());
+            player.setPositionToFace(other.tile().getX(), other.tile().getY());
             player.setEntityInteraction(null);
             if (player.getMovementQueue().isFollowing(other)) {
                 player.getMovementQueue().resetFollowing();

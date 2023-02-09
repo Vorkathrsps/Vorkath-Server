@@ -37,7 +37,7 @@ public class PlayerOptionOnePacketListener implements PacketListener {
             player.putAttrib(AttributeKey.TARGET, new WeakReference<Entity>(other));
             TargetRoute.set(player, other, () -> {
                 player.runFn(1, () -> {
-                    player.setPositionToFace(other.tile());
+                    player.setPositionToFace(other.tile().getX(), other.tile().getY());
                     player.setEntityInteraction(null);
                 });
                 if (player.getMovementQueue().isFollowing(other)) {

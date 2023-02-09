@@ -59,7 +59,7 @@ public class GambleRequestAccept implements PacketListener {
             player.stopActions(false);
             TargetRoute.set(player, other, () -> {
                 player.runFn(1, () -> {
-                    player.setPositionToFace(other.tile());
+                    player.setPositionToFace(other.tile().getX(), other.tile().getY());
                     player.setEntityInteraction(null);
                 });
                 if (player.getMovementQueue().isFollowing(other)) {

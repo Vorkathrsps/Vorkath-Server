@@ -159,7 +159,6 @@ public class TargetRoute {
 
         if (finishAction != null) {
             /** Interactions */
-            //entity.resetFaceTile();
             if (abs)
                 withinDistance = route.finished(entity.tile());
             if (withinDistance || (target.isNpc() && target.getAsNpc().skipReachCheck != null && target.getAsNpc().skipReachCheck.test(entity.tile())))

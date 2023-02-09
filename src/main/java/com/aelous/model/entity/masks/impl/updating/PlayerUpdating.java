@@ -528,7 +528,6 @@ public class PlayerUpdating {
     private static void updateFacingPosition(PacketBuilder builder, int x, int y) {
         builder.putShort(x * 2 + 1, ValueType.A, ByteOrder.LITTLE);
         builder.putShort(y * 2 + 1, ByteOrder.LITTLE);
-        System.out.println("x: " + x + " Y: " + y);
     }
 
     /**

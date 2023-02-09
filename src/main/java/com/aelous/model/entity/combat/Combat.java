@@ -210,7 +210,7 @@ public class Combat {
             player.getInterfaceManager().closeDialogue();
             player.getRunePouch().close();
             player.action.clearNonWalkableActions();
-            player.setPositionToFace(target.tile().getX(), target.tile().getY());
+            //player.setPositionToFace(target.tile().getX(), target.tile().getY());
 
             if (!player.getInterfaceManager().isMainClear()) {
                 boolean ignore = player.getInterfaceManager().isInterfaceOpen(DAILY_TASK_MANAGER_INTERFACE) || player.getInterfaceManager().isInterfaceOpen(29050) || player.getInterfaceManager().isInterfaceOpen(55140);
@@ -222,7 +222,7 @@ public class Combat {
         }
 
         //Set new target
-        setTarget(target);
+        setTarget(target); //settarg
 
         // Set facing
         if (mob.getInteractingEntity() != target) {
@@ -232,6 +232,7 @@ public class Combat {
         if (mob.isPlayer()) {
             mob.getMovementQueue().clear();
         }
+
         Debugs.CMB.debug(mob, "Attack", target, true);
     }
 
@@ -359,7 +360,7 @@ public class Combat {
         // Make sure attack timer is <= 0
         if (combatAttackTicksRemaining <= 0) {
 
-            mob.setPositionToFace(targ.tile().getX(), targ.tile().getY());
+            //mob.setPositionToFace(targ.tile().getX(), targ.tile().getY());
             if (mob.getInteractingEntity() != targ) {
                 mob.setEntityInteraction(targ);
             }

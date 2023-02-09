@@ -7,6 +7,7 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
+import com.aelous.utility.timers.TimerKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -102,7 +103,10 @@ public class HitQueue {
     private boolean shouldShowSplat(Hit hit) {
         boolean magic_splash = hit.getCombatType() == CombatType.MAGIC && !hit.isAccurate() && !hit.forceShowSplashWhenMissMagic;
         // only hide 0 magic dmg hitplat in PVP, example npcs can splash and it will show a 0 hitsplat (like kraken)
-        return !(magic_splash && hit.getAttacker().isPlayer());
+        if (hit.isAccurate() && hit.getDamage() == 0 && !hit.getTarget().frozen() && !hit.getTarget().getTimers().has(TimerKey.REFREEZE)) {
+            return true;
+        }
+            return !(magic_splash && hit.getAttacker().isPlayer());
     }
 
     /**

@@ -365,7 +365,7 @@ public enum CombatSpecial {
                 queueGraniteMaulSpecial(player);
             } else if (spec == CombatSpecial.DRAGON_THROWNAXE) {
 
-                int specPercentage = (int) (player.getSpecialAttackPercentage());
+                int specPercentage = player.getSpecialAttackPercentage();
 
                 //Make sure the player has enough special attack
                 if (specPercentage < player.getCombatSpecial().getDrainAmount()) {

@@ -10,6 +10,7 @@ import com.aelous.model.entity.player.InfectionType;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.PlayerInteractingOption;
 import com.aelous.model.items.Item;
+import com.aelous.model.items.container.ItemContainer;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
@@ -86,6 +87,14 @@ public final class PacketSender {
         out.putShort(delay * 600);//done via ticks
         out.putShort(0);
         player.getSession().write(out);
+        return this;
+    }
+
+    public PacketSender sendEquipItem(int itemId, int slot, int interfaceId) {
+        PacketBuilder out = new PacketBuilder(41);
+        out.putShort(itemId);
+        out.putShort(slot, ValueType.A);
+        out.putShort(interfaceId, ValueType.A);
         return this;
     }
 

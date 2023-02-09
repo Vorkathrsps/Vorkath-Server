@@ -40,7 +40,6 @@ public class MagicOnPlayerPacketListener implements PacketListener {
             player.message("Unable to find player.");
         } else {
             player.stopActions(false);
-
             if (!player.locked() && !player.dead()) {
                 player.setPositionToFace(other.tile().getX(), other.tile().getY());
                 if (!other.dead()) {

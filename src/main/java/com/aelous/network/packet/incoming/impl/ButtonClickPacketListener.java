@@ -83,6 +83,10 @@ public class ButtonClickPacketListener implements PacketListener {
             return;
         }
 
+        if (button == 454 || button == 632) {
+            return;
+        }
+
         if (button == DUEL_LOAD_PREVIOUS_SETTINGS) {
             if (!GameServer.properties().enableLoadLastDuelPreset) {
                 player.message("That feature is currently disabled.");

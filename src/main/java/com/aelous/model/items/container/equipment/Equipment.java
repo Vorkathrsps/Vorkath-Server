@@ -2,9 +2,11 @@ package com.aelous.model.items.container.equipment;
 
 import com.aelous.cache.definitions.ItemDefinition;
 import com.aelous.model.content.areas.edgevile.Mac;
+import com.aelous.model.content.consumables.FoodConsumable;
 import com.aelous.model.content.duel.DuelRule;
 import com.aelous.model.content.items.equipment.max_cape.MaxCape;
 import com.aelous.model.content.skill.impl.slayer.Slayer;
+import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.IronMode;
@@ -345,13 +347,6 @@ public final class Equipment extends ItemContainer {
         return equip(index);
     }
 
-    public void process() {
-        /** Every 1 Game Tick **/
-        player.getUpdateFlag().flag(Flag.APPEARANCE);
-        player.getEquipment().refresh();
-        player.getInventory().refresh();
-    }
-
     public boolean equip(int inventoryIndex) {
         if (inventoryIndex == -1)
             return false;
@@ -380,6 +375,8 @@ public final class Equipment extends ItemContainer {
             player.message("You're currently stunned and cannot equip any armoury.");
             return false;
         }
+
+
 
         //Handle duel arena settings..
         if (player.getDueling().inDuel()) {
@@ -468,7 +465,7 @@ public final class Equipment extends ItemContainer {
             return false;
 
         if (equip.getId() == ANCIENT_WYVERN_SHIELD) {
-            player.animate(3996);
+            player.animate(new Animation(3996));
             player.performGraphic(new Graphic(1395, GraphicHeight.HIGH));
         }
 
@@ -555,6 +552,9 @@ public final class Equipment extends ItemContainer {
             appearanceForIndex(slot);
             inventory.add(newItem, inventoryIndex, true);
         }
+
+        player.getPacketSender().sendEquipItem(id, equipmentSlot, inventoryIndex);
+
         return true;
     }
 

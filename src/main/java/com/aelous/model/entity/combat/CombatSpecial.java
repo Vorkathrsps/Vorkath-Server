@@ -350,7 +350,7 @@ public enum CombatSpecial {
             if (spec == CombatSpecial.GRANITE_MAUL) {
 
 
-                int specPercentage = (int) (player.getSpecialAttackPercentage());
+                int specPercentage = player.getSpecialAttackPercentage();
 
                 //Make sure the player has enough special attack
                 if (specPercentage < player.getCombatSpecial().getDrainAmount()) {

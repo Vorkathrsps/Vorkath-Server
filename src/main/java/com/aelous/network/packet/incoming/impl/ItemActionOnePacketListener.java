@@ -33,8 +33,6 @@ public class ItemActionOnePacketListener implements PacketListener {
 
         if (item != null && item.getId() == id) {
 
-            ItemActionOne.click(player, item);
-
             if(item.getId() == ROTTEN_POTATO) {
                 RottenPotato.onItemOption1(player);
                 return;
@@ -65,6 +63,7 @@ public class ItemActionOnePacketListener implements PacketListener {
                 player.putAttrib(AttributeKey.ITEM_SLOT, slot);
                 player.putAttrib(AttributeKey.FROM_ITEM, player.inventory().get(slot));
                 player.putAttrib(AttributeKey.ITEM_ID, item.getId());
+                ItemActionOne.click(player, item);
             }
         }
     }

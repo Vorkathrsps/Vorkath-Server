@@ -222,7 +222,7 @@ public class Combat {
         }
 
         //Set new target
-        setTarget(target); //settarg
+        setTarget(target);
 
         // Set facing
         if (mob.getInteractingEntity() != target) {
@@ -232,7 +232,6 @@ public class Combat {
         if (mob.isPlayer()) {
             mob.getMovementQueue().clear();
         }
-
         Debugs.CMB.debug(mob, "Attack", target, true);
     }
 
@@ -297,6 +296,7 @@ public class Combat {
         // runite: player reach checks are done before hand, so we can nicely just check targetRoute.withinDistance
         if (mob.isPlayer() && mob.getRouteFinder() != null && mob.getRouteFinder().targetRoute != null && !mob.getRouteFinder().targetRoute.withinDistance) {
             //System.out.println("can't find PATH..?");
+            mob.resetFaceTile();
             return;
         }
 
@@ -357,10 +357,11 @@ public class Combat {
         // temp fix due to a rogue prepareAttack seemingly setting target to null
         final Entity targ = target;
 
+        mob.setPositionToFace(targ.tile().getX(), targ.tile().getY());
+
         // Make sure attack timer is <= 0
         if (combatAttackTicksRemaining <= 0) {
 
-            //mob.setPositionToFace(targ.tile().getX(), targ.tile().getY());
             if (mob.getInteractingEntity() != targ) {
                 mob.setEntityInteraction(targ);
             }

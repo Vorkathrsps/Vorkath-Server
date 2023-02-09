@@ -390,7 +390,7 @@ public class CombatFactory {
                 //System.err.println("Damage Before=" + damage);
 
                 if (isProtecting) {
-                    damage *= 0.6;
+                    damage *= 0.4;
                 }
                 //System.err.println("Damage After=" + damage);
             }

@@ -210,8 +210,6 @@ public class Combat {
             player.getInterfaceManager().closeDialogue();
             player.getRunePouch().close();
             player.action.clearNonWalkableActions();
-            //player.setPositionToFace(target.tile().getX(), target.tile().getY());
-
             if (!player.getInterfaceManager().isMainClear()) {
                 boolean ignore = player.getInterfaceManager().isInterfaceOpen(DAILY_TASK_MANAGER_INTERFACE) || player.getInterfaceManager().isInterfaceOpen(29050) || player.getInterfaceManager().isInterfaceOpen(55140);
                 if (!ignore) {

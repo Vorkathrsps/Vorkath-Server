@@ -2131,6 +2131,9 @@ public class Player extends Entity {
     private CombatSpecial combatSpecial;
 
     public double getEnergyDeprecation() {
+        if (this.getPlayerRights().isOwner(this)) {
+            return 0;
+        }
         double weight = Math.max(0, Math.min(54, getWeight())); // Capped at 54kg - where stamina affect no longer works.. for a QoL. Stamina always helpful!
         return (0.67) + weight / 100.0;
     }

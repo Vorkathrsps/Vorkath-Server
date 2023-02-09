@@ -3,6 +3,7 @@ package com.aelous.model.content.consumables;
 import com.aelous.model.content.duel.DuelRule;
 import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
@@ -121,8 +122,8 @@ public class FoodConsumable {
     }
 
     public static boolean onItemOption1(Player player, Item item) {
-        for(Food food : Food.values()) {
-            if(food.itemId == item.getId()) {
+        for (Food food : Food.values()) {
+            if (food.itemId == item.getId()) {
                 eat(player, food);
                 return true;
             }
@@ -143,12 +144,12 @@ public class FoodConsumable {
         // Check timers and other things. Also karambwan.
         if (food == Food.KARAMBWAN) {
             if (player.getTimers().has(TimerKey.KARAMBWAN) || player.dead() || player.hp() < 1) {
-                player.debugMessage("Your Karambwan timer is still active, "+player.getTimers().asSeconds(TimerKey.KARAMBWAN)+" remaining.");
+                player.debugMessage("Your Karambwan timer is still active, " + player.getTimers().asSeconds(TimerKey.KARAMBWAN) + " remaining.");
                 return;
             }
         } else {
             if (player.getTimers().has(TimerKey.FOOD) || player.dead() || player.hp() < 1) {
-                player.debugMessage("Your food timer is still active, "+player.getTimers().asSeconds(TimerKey.FOOD)+" remaining.");
+                player.debugMessage("Your food timer is still active, " + player.getTimers().asSeconds(TimerKey.FOOD) + " remaining.");
                 return;
             }
         }
@@ -206,7 +207,7 @@ public class FoodConsumable {
         int increase = player.getEquipment().hpIncrease();
         boolean inWilderness = WildernessArea.inWild(player);
         if (food == Food.ANGLERFISH) {
-            if (inWilderness) {
+            if (inWilderness && CombatFactory.inCombat(player)) {
                 player.heal(food.heal, 0);
             } else {
                 player.heal(food.heal, increase > 0 ? increase : 22);
@@ -227,11 +228,11 @@ public class FoodConsumable {
 
         if (!food.effect) {
             if (fullpizza) {
-                player.message("You eat half of the "+name+".");
+                player.message("You eat half of the " + name + ".");
             } else if (halfpizza) {
-                player.message("You eat the remaining "+name+".");
+                player.message("You eat the remaining " + name + ".");
             } else {
-                player.message("You eat the "+name+".");
+                player.message("You eat the " + name + ".");
             }
 
             if (healed)

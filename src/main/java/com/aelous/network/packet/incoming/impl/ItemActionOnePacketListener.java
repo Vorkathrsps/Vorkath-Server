@@ -20,7 +20,7 @@ public class ItemActionOnePacketListener implements PacketListener {
 
     @Override
     public void handleMessage(Player player, Packet packet) {
-        final int interfaceId = packet.readShort();//updated
+        final int interfaceId = packet.readShort();
         final int id = packet.readShort();
         final int slot = packet.readShort();
 
@@ -33,25 +33,23 @@ public class ItemActionOnePacketListener implements PacketListener {
 
         if (item != null && item.getId() == id) {
 
+            ItemActionOne.click(player, item);
+
             if(item.getId() == ROTTEN_POTATO) {
                 RottenPotato.onItemOption1(player);
-                //System.out.println("Block because of Rotten Potato.");
                 return;
             }
 
             if (player.locked() || player.dead()) {
-                //System.out.println("Player locked or dead.");
                 return;
             }
 
             if (player.busy()) {
-                //System.out.println("Player is busy.");
                 return;
             }
 
             if (!player.getBankPin().hasEnteredPin() && GameServer.properties().requireBankPinOnLogin) {
                 player.getBankPin().openIfNot();
-                //System.out.println("Bank pin.");
                 return;
             }
 
@@ -67,8 +65,6 @@ public class ItemActionOnePacketListener implements PacketListener {
                 player.putAttrib(AttributeKey.ITEM_SLOT, slot);
                 player.putAttrib(AttributeKey.FROM_ITEM, player.inventory().get(slot));
                 player.putAttrib(AttributeKey.ITEM_ID, item.getId());
-
-                ItemActionOne.click(player, item);
             }
         }
     }

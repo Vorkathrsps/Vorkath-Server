@@ -1128,24 +1128,6 @@ public class CombatFactory {
             }
         }
 
-        /*if (attacker instanceof Player && target instanceof Player) {
-
-            Player player = (Player) attacker;
-
-            Player other = (Player) target;
-
-            int playerIndex = player.pidOrderIndex;
-            int otherIndex = other.pidOrderIndex;
-
-            List<Boolean> conditions = Arrays.asList(
-                player.getController() != null && player.getController() instanceof DuelArenaArea);
-
-            if (playerIndex < otherIndex && conditions.stream().anyMatch(d -> d.equals(Boolean.FALSE))) {
-                System.err.println("Player=" + player.getUsername() + " has PID advantage over Target=" + other.getUsername());
-                //hit.setPidAdvantage(delay);
-            }
-        }*/
-
         if (attacker.isPlayer() && !hit.reflected && hit.getCombatType() != null) {
             if (attacker instanceof Player) {
                 Player playerAttacker = (Player) attacker;
@@ -1154,8 +1136,6 @@ public class CombatFactory {
                     // while damage can appear visually higher than opponents HP, you cannot get that EXP (stops boosters)
                     addCombatXp(playerAttacker, target, Math.min(hit.getDamage(), target.hp()), hit.getCombatType(), playerAttacker.getCombat().getFightType().getStyle());
                 }
-
-                // playerAttacker.getPacketSender().sendHitPredictor(hit.getDamage());
             }
         }
 

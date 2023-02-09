@@ -279,7 +279,6 @@ public class Combat {
      */
     private void performNewAttack0() {
         if (target == null) {
-            //if (mob.isNpc() && mob.getAsNpc().id() == SKOTIZO)
             //System.out.println("no targ");
             return;
         }
@@ -356,14 +355,15 @@ public class Combat {
         // temp fix due to a rogue prepareAttack seemingly setting target to null
         final Entity targ = target;
 
-        mob.setPositionToFace(targ.tile().getX(), targ.tile().getY());
-
         // Make sure attack timer is <= 0
         if (combatAttackTicksRemaining <= 0) {
 
             if (mob.getInteractingEntity() != targ) {
                 mob.setEntityInteraction(targ);
             }
+
+            //face the target before we "prepareattack"
+            mob.setPositionToFace(targ.tile().getX(), targ.tile().getY());
 
             // Perform the abstract method "prepareAttack" before adding the hit for the target
             method.prepareAttack(mob, targ);

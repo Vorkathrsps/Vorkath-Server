@@ -270,7 +270,6 @@ public class Combat {
          * Are we within distance?
          */
         if (mob.isPlayer() && mob.getRouteFinder() != null && mob.getRouteFinder().targetRoute != null && !mob.getRouteFinder().targetRoute.withinDistance) {
-            mob.getCombat().reset();
             return false;
         }
         /**
@@ -284,6 +283,17 @@ public class Combat {
         }
         if (!CombatFactory.canAttack(mob, method, target)) {
             return false;
+        }
+        /**
+         * Can WE attack with our current?
+         */
+        if (mob.isPlayer()) {
+            if (method instanceof CommonCombatMethod) {
+                CommonCombatMethod commonCombatMethod = (CommonCombatMethod) method;
+                if (!commonCombatMethod.canAttackStyle(mob, target, commonCombatMethod.styleOf())) {
+                    return false;
+                }
+            }
         }
         /**
          * Set the facing position
@@ -328,6 +338,7 @@ public class Combat {
         updateLastTarget(target);
 
         final int attackSpeed = method.getAttackSpeed(mob);
+
         boolean graniteMaulSpecial = (method instanceof GraniteMaul);
         if (graniteMaulSpecial && specialGraniteMaul()) {
             return;
@@ -338,24 +349,16 @@ public class Combat {
         int combatAttackTicksRemaining = mob.getTimers().left(TimerKey.COMBAT_ATTACK);
 
         if (combatAttackTicksRemaining <= 0) {
-            method.prepareAttack(mob, target);
             if (mob.getInteractingEntity() != target) {
                 mob.setEntityInteraction(target);
             }
+            method.prepareAttack(mob, target);
             if (mob.isPlayer() && target.isPlayer()) {
                 if (WildernessArea.inWild((Player) mob)) {
                     Player player = mob.getAsPlayer();
                     Player target = targ.getAsPlayer();
 
                     Skulling.skull(player, target, SkullType.WHITE_SKULL);
-                }
-            }
-            if (mob.isPlayer()) {
-                if (method instanceof CommonCombatMethod) {
-                    CommonCombatMethod commonCombatMethod = (CommonCombatMethod) method;
-                    if (!commonCombatMethod.canAttackStyle(mob, target, commonCombatMethod.styleOf())) {
-                        return;
-                    }
                 }
             }
             mob.putAttrib(AttributeKey.LAST_DAMAGER, target);

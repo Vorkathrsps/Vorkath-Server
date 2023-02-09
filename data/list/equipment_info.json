@@ -12346,7 +12346,7 @@
   },
   "25865": {
     "slot": 3,
-    "type": 0,
+    "type": 5,
     "showBeard": false
   },
   "25871": {
@@ -18265,7 +18265,7 @@
   },
   "27655": { //webweaver bow
     "slot": 3,
-    "type": 0,
+    "type": 5,
     "showBeard": false
   },
   "27679": { //accursed sceptre

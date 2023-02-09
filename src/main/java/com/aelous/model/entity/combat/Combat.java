@@ -296,7 +296,6 @@ public class Combat {
         // runite: player reach checks are done before hand, so we can nicely just check targetRoute.withinDistance
         if (mob.isPlayer() && mob.getRouteFinder() != null && mob.getRouteFinder().targetRoute != null && !mob.getRouteFinder().targetRoute.withinDistance) {
             //System.out.println("can't find PATH..?");
-            mob.resetFaceTile();
             return;
         }
 

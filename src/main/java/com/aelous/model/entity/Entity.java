@@ -1621,7 +1621,7 @@ public abstract class Entity {
             return;
         }
 
-        if (target.getMovementQueue().isMoving())
+        if (target.getMovementQueue().isMoving() && !frozen())
             target.getMovementQueue().forceMove(target.getMovementQueue().lastStep());
 
         target.stopActions(true);

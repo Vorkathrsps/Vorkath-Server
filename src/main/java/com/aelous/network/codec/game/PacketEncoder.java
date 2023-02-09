@@ -31,7 +31,7 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
 
     @Override
     protected void encode(ChannelHandlerContext ctx, Packet packet, ByteBuf out)
-            throws Exception {
+        throws Exception {
 
         final int opcode = (packet.getOpcode() + rand.nextInt()) & 0xFF;
         PacketType type = packet.getType();

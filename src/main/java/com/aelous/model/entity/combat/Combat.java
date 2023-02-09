@@ -339,21 +339,15 @@ public class Combat {
 
         if (combatAttackTicksRemaining <= 0) {
             method.prepareAttack(mob, target);
-            if (target.isPlayer()) {
-                Player player = target.getAsPlayer();
-                if (!player.getInterfaceManager().isMainClear()) {
-                    boolean ignore = player.getInterfaceManager().isInterfaceOpen(DAILY_TASK_MANAGER_INTERFACE) || player.getInterfaceManager().isInterfaceOpen(29050) || player.getInterfaceManager().isInterfaceOpen(55140);
-                    if (!ignore) {
-                        player.getInterfaceManager().close(false);
-                    }
-                }
-            }
             if (mob.getInteractingEntity() != target) {
                 mob.setEntityInteraction(target);
             }
             if (mob.isPlayer() && target.isPlayer()) {
                 if (WildernessArea.inWild((Player) mob)) {
-                    Skulling.skull((Player) mob, target, SkullType.WHITE_SKULL);
+                    Player player = mob.getAsPlayer();
+                    Player target = targ.getAsPlayer();
+
+                    Skulling.skull(player, target, SkullType.WHITE_SKULL);
                 }
             }
             if (mob.isPlayer()) {
@@ -370,6 +364,15 @@ public class Combat {
             mob.putAttrib(AttributeKey.LAST_ATTACK_TIME, System.currentTimeMillis());
             mob.putAttrib(AttributeKey.LAST_TARGET, target);
             mob.getTimers().register(TimerKey.COMBAT_LOGOUT, 16);
+            if (target.isPlayer()) {
+                Player player = target.getAsPlayer();
+                if (!player.getInterfaceManager().isMainClear()) {
+                    boolean ignore = player.getInterfaceManager().isInterfaceOpen(DAILY_TASK_MANAGER_INTERFACE) || player.getInterfaceManager().isInterfaceOpen(29050) || player.getInterfaceManager().isInterfaceOpen(55140);
+                    if (!ignore) {
+                        player.getInterfaceManager().close(false);
+                    }
+                }
+            }
             if (!graniteMaulSpecial) {
                 mob.getTimers().register(TimerKey.COMBAT_ATTACK, attackSpeed);
             }

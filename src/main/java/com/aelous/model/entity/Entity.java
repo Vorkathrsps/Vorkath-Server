@@ -479,7 +479,7 @@ public abstract class Entity {
     public Entity setPositionToFace(Tile tile) {
         this.faceTile = tile;
         if (tile != null)
-        this.getUpdateFlag().flag(Flag.FACE_TILE);
+            this.getUpdateFlag().flag(Flag.FACE_TILE);
         return this;
     }
 
@@ -1621,11 +1621,14 @@ public abstract class Entity {
             return;
         }
 
-        putAttrib(AttributeKey.FROZEN_BY, target);
-        timers.register(TimerKey.FROZEN, time);
-        timers.register(TimerKey.REFREEZE, time + 3);
+        if (target.getMovementQueue().isMoving())
+            target.getMovementQueue().forceMove(target.getMovementQueue().lastStep());
 
         target.stopActions(true);
+
+        putAttrib(AttributeKey.FROZEN_BY, target);
+        timers.register(TimerKey.FROZEN, time);
+        timers.extendOrRegister(TimerKey.REFREEZE, time);
 
         if (isPlayer()) {
             this.getAsPlayer().getPacketSender().sendEffectTimer((int) Math.round(time * 0.6), EffectTimer.FREEZE).sendMessage("You have been frozen!");

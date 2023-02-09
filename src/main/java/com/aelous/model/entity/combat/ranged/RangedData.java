@@ -16,6 +16,7 @@ import com.aelous.model.items.container.equipment.Equipment;
 import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.Utils;
 
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,19 +35,7 @@ public class RangedData {
 
 //TODO change random ids with identifiers
 
-    private static double boltSpecialChance(MemberRights memberRights, boolean always_spec) {
-        double percentage = .10; //TODO maybe fix
-        switch (memberRights) {
-            case RUBY_MEMBER -> percentage = 1;
-            case SAPPHIRE_MEMBER -> percentage = 2;
-            case EMERALD_MEMBER -> percentage = 3;
-            case DIAMOND_MEMBER -> percentage = 4;
-            case DRAGONSTONE_MEMBER -> percentage = 5;
-            case ONYX_MEMBER -> percentage = 6;
-            case ZENYTE_MEMBER -> percentage = 7;
-        }
-        return always_spec ? 100 : (int) percentage;
-    }
+    static SecureRandom srand = new SecureRandom();
 
     public static boolean zaryteCrossBowEvoke(Player p) {
         return p.getEquipment().contains(ItemIdentifiers.ZARYTE_CROSSBOW) && p.isSpecialActivated() && p.getCombatSpecial() == CombatSpecial.ZARYTE_CROSSBOW;
@@ -81,11 +70,11 @@ public class RangedData {
             }
 
         Item ammo = p.getEquipment().get(EquipSlot.AMMO);
+            boolean always_spec = true;
         if(ammo != null) {
             switch (ammo.getId()) {
                 case OPAL_BOLTS_E, OPAL_DRAGON_BOLTS_E -> {
-                    boolean lucky_lightning = Utils.securedRandomChance(boltSpecialChance(p.getMemberRights(), always_fire_special));
-                    if (lucky_lightning) {
+                    if (srand.nextDouble() < 0.10) {
                         double zbow = .10;
                         int current_range_level = p.skills().level(Skills.RANGED);
                         target.performGraphic(new Graphic(749, GraphicHeight.LOW, 55 + 5));
@@ -97,8 +86,7 @@ public class RangedData {
                     }
                 }
                 case JADE_BOLTS_E, JADE_DRAGON_BOLTS_E -> {
-                    boolean earths_fury = Utils.securedRandomChance(boltSpecialChance(p.getMemberRights(), always_fire_special));
-                    if (earths_fury) {
+                    if (srand.nextDouble() < 0.10) {
                         boltSpecialMultiplier = 1.18; // Deals 18% extra damage.
                         damage *= boltSpecialMultiplier;
                         target.performGraphic(new Graphic(756, GraphicHeight.HIGH, 55 + 5));
@@ -119,8 +107,7 @@ public class RangedData {
                     }
                 }
                 case TOPAZ_BOLTS_E, TOPAZ_DRAGON_BOLTS_E -> {
-                    boolean down_to_earth = Utils.securedRandomChance(boltSpecialChance(p.getMemberRights(), always_fire_special));
-                    if (down_to_earth && target.isPlayer()) {
+                    if (srand.nextDouble() < 0.10 && target.isPlayer()) {
                         Player t = target.getAsPlayer();
                         t.performGraphic(new Graphic(757, GraphicHeight.HIGH, 55 + 5));
                         t.skills().alterSkill(Skills.MAGIC, t.skills().level(Skills.MAGIC) - 1);
@@ -128,8 +115,7 @@ public class RangedData {
                     }
                 }
                 case SAPPHIRE_BOLTS_E, SAPPHIRE_DRAGON_BOLTS_E -> {
-                    boolean clear_mind = Utils.securedRandomChance(boltSpecialChance(p.getMemberRights(), always_fire_special));
-                    if (clear_mind && target.isPlayer()) {
+                    if (srand.nextDouble() < 0.10) {
                         Player t = target.getAsPlayer();
                         t.performGraphic(new Graphic(751, GraphicHeight.LOW, 55 + 5));
                         t.skills().alterSkill(Skills.PRAYER, -20);
@@ -140,15 +126,13 @@ public class RangedData {
                     }
                 }
                 case EMERALD_BOLTS_E, EMERALD_DRAGON_BOLTS_E -> {
-                    boolean magical_poison = Utils.securedRandomChance(boltSpecialChance(p.getMemberRights(), always_fire_special));
-                    if (magical_poison) {
+                    if (srand.nextDouble() < 0.10) {
                         target.performGraphic(new Graphic(752, GraphicHeight.HIGH, 55 + 5));
                         target.poison(5);
                     }
                 }
                 case RUBY_BOLTS_E, RUBY_DRAGON_BOLTS_E -> {
-                    boolean blood_forfeit = Utils.securedRandomChance(boltSpecialChance(p.getMemberRights(), always_fire_special));
-                    if (blood_forfeit) {
+                    if (srand.nextDouble() < 0.10) {
                         int cap = 100;
 
                         double zbow = .10;
@@ -170,8 +154,7 @@ public class RangedData {
                     }
                 }
                 case DIAMOND_BOLTS_E, DIAMOND_DRAGON_BOLTS_E -> {
-                    boolean armour_piercing = Utils.securedRandomChance(boltSpecialChance(p.getMemberRights(), always_fire_special));
-                    if (armour_piercing) {
+                    if (srand.nextDouble() < 0.10) {
                         double zbow = .10;
                         p.putAttrib(AttributeKey.ARMOUR_PIERCING, true);
                         target.performGraphic(new Graphic(758, GraphicHeight.HIGH));
@@ -183,9 +166,8 @@ public class RangedData {
                     }
                 }
                 case DRAGONSTONE_BOLTS_E, DRAGONSTONE_DRAGON_BOLTS_E -> {
-                    boolean dragons_breath = Utils.securedRandomChance(boltSpecialChance(p.getMemberRights(), always_fire_special));
                     boolean can_perform_dragons_breath = true;
-                    if (dragons_breath) {
+                    if (srand.nextDouble() < 0.10) {
                         if (target.isPlayer()) {
                             Player t = target.getAsPlayer();
                             boolean potionEffect = (int) t.getAttribOr(AttributeKey.ANTIFIRE_POTION, 0) > 0;
@@ -194,7 +176,7 @@ public class RangedData {
 
                         double zbow = .10;
 
-                        if (can_perform_dragons_breath) {
+                        if (srand.nextDouble() < 0.10) {
                             target.performGraphic(new Graphic(756, GraphicHeight.HIGH, 55 + 5));
                             int current_range_level = p.skills().level(Skills.RANGED);
                             boltSpecialMultiplier = (current_range_level * 0.20); // 20 % extra damage
@@ -206,8 +188,7 @@ public class RangedData {
                     }
                 }
                 case ONYX_BOLTS_E, ONYX_DRAGON_BOLTS_E -> {
-                    boolean life_leech = Utils.securedRandomChance(boltSpecialChance(p.getMemberRights(), always_fire_special));
-                    if (life_leech) {
+                    if (srand.nextDouble() < 0.10) {
                         target.performGraphic(new Graphic(753, GraphicHeight.LOW, 55 + 5));
                         boltSpecialMultiplier = 1.20; //20% extra damage
                         damage *= boltSpecialMultiplier;

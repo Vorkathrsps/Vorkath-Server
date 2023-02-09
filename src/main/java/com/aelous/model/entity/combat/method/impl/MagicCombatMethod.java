@@ -92,7 +92,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
                 }
 
                 spell.finishCast(attacker, target, accurate, damage);
-
+                entity.getMovementQueue().forceMove(entity.getMovementQueue().lastStep());
             }
         }
 

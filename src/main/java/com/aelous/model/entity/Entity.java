@@ -1617,25 +1617,22 @@ public abstract class Entity {
     }
 
     public void freeze(int time, Entity target) {
-        if (timers.has(TimerKey.REFREEZE)) {
+        if (target.getTimers().has(TimerKey.REFREEZE)) {
             return;
         }
 
-        if (target != null) {
+        putAttrib(AttributeKey.FROZEN_BY, target);
+        timers.register(TimerKey.FROZEN, time);
+        timers.register(TimerKey.REFREEZE, time + 3);
 
-            putAttrib(AttributeKey.FROZEN_BY, target);
-            timers.register(TimerKey.FROZEN, time);
-            timers.register(TimerKey.REFREEZE, time + 3);
+        target.stopActions(true);
 
-            target.stopActions(true);
+        if (isPlayer()) {
+            this.getAsPlayer().getPacketSender().sendEffectTimer((int) Math.round(time * 0.6), EffectTimer.FREEZE).sendMessage("You have been frozen!");
+        }
 
-            if (isPlayer()) {
-                this.getAsPlayer().getPacketSender().sendEffectTimer((int) Math.round(time * 0.6), EffectTimer.FREEZE).sendMessage("You have been frozen!");
-            }
-
-            if (!locked()) { // Maybe we're force moving via agility
-                movementQueue.clear();
-            }
+        if (!locked()) { // Maybe we're force moving via agility
+            movementQueue.clear();
         }
     }
 

@@ -277,34 +277,18 @@ public class Combat {
          * Pre-Combat Checks
          */
         if (!CombatFactory.validTarget(mob, target)) {
-            mob.getCombat().reset();
             return false;
         }
         if (!CombatFactory.canReach(mob, method, target)) {
             return false;
         }
         if (!CombatFactory.canAttack(mob, method, target)) {
-            mob.getCombat().reset();
             return false;
-        }
-        /**
-         * Can We Attack Or NULL?
-         */
-        if (mob.isPlayer()) {
-            if (method instanceof CommonCombatMethod) {
-                CommonCombatMethod commonCombatMethod = (CommonCombatMethod) method;
-                if (!commonCombatMethod.canAttackStyle(mob, target, commonCombatMethod.styleOf())) {
-                    return false;
-                }
-            }
         }
         /**
          * Set the facing position
          */
         mob.setPositionToFace(target.tile().getX(), target.tile().getY());
-        if (mob.getInteractingEntity() != target) {
-            mob.setEntityInteraction(target);
-        }
         return true;
     }
 
@@ -339,36 +323,24 @@ public class Combat {
             return;
         }
 
+        method = CombatFactory.getMethod(mob);
+
         updateLastTarget(target);
 
+        final int attackSpeed = method.getAttackSpeed(mob);
+        boolean graniteMaulSpecial = (method instanceof GraniteMaul);
+        if (graniteMaulSpecial && specialGraniteMaul()) {
+            return;
+        }
+
+        final Entity targ = target;
+
         int combatAttackTicksRemaining = mob.getTimers().left(TimerKey.COMBAT_ATTACK);
+
         if (combatAttackTicksRemaining <= 0) {
-            if (mob.isPlayer() && target.isPlayer()) { // Check if the player should be skulled for making this attack..
-                if (WildernessArea.inWild((Player) mob)) {
-                    Skulling.skull((Player) mob, target, SkullType.WHITE_SKULL);
-                }
-            }
-            boolean graniteMaulSpecial = (method instanceof GraniteMaul);
-            final int attackSpeed = method.getAttackSpeed(mob);
-            if (graniteMaulSpecial && specialGraniteMaul()) {
-                return;
-            }
-            if (!graniteMaulSpecial) {
-                mob.getTimers().register(TimerKey.COMBAT_ATTACK, attackSpeed);
-            }
-
             method.prepareAttack(mob, target);
-
-            mob.putAttrib(AttributeKey.LAST_DAMAGER, target);
-            mob.putAttrib(AttributeKey.LAST_WAS_ATTACKED_TIME, System.currentTimeMillis());
-            mob.getTimers().register(TimerKey.COMBAT_LOGOUT, 16);
-            mob.putAttrib(AttributeKey.LAST_ATTACK_TIME, System.currentTimeMillis());
-            mob.putAttrib(AttributeKey.LAST_TARGET, target);
-            mob.getTimers().register(TimerKey.COMBAT_LOGOUT, 16);
-
             if (target.isPlayer()) {
                 Player player = target.getAsPlayer();
-
                 if (!player.getInterfaceManager().isMainClear()) {
                     boolean ignore = player.getInterfaceManager().isInterfaceOpen(DAILY_TASK_MANAGER_INTERFACE) || player.getInterfaceManager().isInterfaceOpen(29050) || player.getInterfaceManager().isInterfaceOpen(55140);
                     if (!ignore) {
@@ -376,9 +348,31 @@ public class Combat {
                     }
                 }
             }
-
-            // combat is complete, clear the cast spell. this stops the spell from repeating.
-            // do NOT clear spell before attackSpeed is set, otherwise it'll forget the magic.
+            if (mob.getInteractingEntity() != target) {
+                mob.setEntityInteraction(target);
+            }
+            if (mob.isPlayer() && target.isPlayer()) {
+                if (WildernessArea.inWild((Player) mob)) {
+                    Skulling.skull((Player) mob, target, SkullType.WHITE_SKULL);
+                }
+            }
+            if (mob.isPlayer()) {
+                if (method instanceof CommonCombatMethod) {
+                    CommonCombatMethod commonCombatMethod = (CommonCombatMethod) method;
+                    if (!commonCombatMethod.canAttackStyle(mob, target, commonCombatMethod.styleOf())) {
+                        return;
+                    }
+                }
+            }
+            mob.putAttrib(AttributeKey.LAST_DAMAGER, target);
+            mob.putAttrib(AttributeKey.LAST_WAS_ATTACKED_TIME, System.currentTimeMillis());
+            mob.getTimers().register(TimerKey.COMBAT_LOGOUT, 16);
+            mob.putAttrib(AttributeKey.LAST_ATTACK_TIME, System.currentTimeMillis());
+            mob.putAttrib(AttributeKey.LAST_TARGET, target);
+            mob.getTimers().register(TimerKey.COMBAT_LOGOUT, 16);
+            if (!graniteMaulSpecial) {
+                mob.getTimers().register(TimerKey.COMBAT_ATTACK, attackSpeed);
+            }
             if (mob.isPlayer() && method == CombatFactory.MAGIC_COMBAT) {
                 if (method instanceof CommonCombatMethod) {
                     CommonCombatMethod o = (CommonCombatMethod) method;

@@ -478,9 +478,11 @@ public abstract class Entity {
 
     public Entity setPositionToFace(Tile tile) {
         this.faceTile = tile;
+        if (tile != null)
         this.getUpdateFlag().flag(Flag.FACE_TILE);
         return this;
     }
+
 
     public Entity setPositionToFace(int x, int y) {
         setPositionToFace(new Tile(x, y));

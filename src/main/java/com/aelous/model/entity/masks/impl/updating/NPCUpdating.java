@@ -212,7 +212,7 @@ public class NPCUpdating {
                 block.put(npc.getPKBotHeadIcon());
             }
         }
-        if (flag.flagged(Flag.FACE_TILE) && npc.getFaceTile() != null) {
+        if (flag.flagged(Flag.FACE_TILE)) {
             final Tile position = npc.getFaceTile();
             int x = position == null ? 0 : position.getX();
             int y = position == null ? 0 : position.getY();

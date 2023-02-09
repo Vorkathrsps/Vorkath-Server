@@ -554,7 +554,6 @@ public final class Equipment extends ItemContainer {
         }
 
         player.getPacketSender().sendEquipItem(id, equipmentSlot, inventoryIndex);
-
         return true;
     }
 
@@ -629,6 +628,7 @@ public final class Equipment extends ItemContainer {
             CombatSpecial.updateBar(player);
             player.setSpecialActivated(false);
 
+        player.getPacketSender().sendItemContainerOption1(equipmentIndex, preferredIndex, newid);
         return true;
     }
 

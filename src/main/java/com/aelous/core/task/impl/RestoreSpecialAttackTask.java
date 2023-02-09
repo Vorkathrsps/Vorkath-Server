@@ -67,8 +67,4 @@ public class RestoreSpecialAttackTask extends Task {
 
         CombatSpecial.updateBar((Player) entity);
     }
-
-    private boolean equippedLightBearer() {
-        return entity.getAsPlayer().getEquipment().equip(ItemIdentifiers.LIGHTBEARER);
-    }
 }

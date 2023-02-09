@@ -64,6 +64,7 @@ public class ItemActionTwoPacketListener implements PacketListener {
 
             if (interfaceId == InterfaceConstants.INVENTORY_INTERFACE) {
                 ItemActionTwo.click(player, used);
+                player.getInventory().refresh();
             }
         }
     }

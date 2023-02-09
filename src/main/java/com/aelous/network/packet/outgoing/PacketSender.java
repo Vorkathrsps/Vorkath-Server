@@ -98,6 +98,13 @@ public final class PacketSender {
         return this;
     }
 
+    public void sendItemContainerOption1(int interfaceId, int slot, int itemId) {
+        PacketBuilder out = new PacketBuilder(145);
+        out.putInt(interfaceId);
+        out.putShort(slot, ValueType.A);
+        out.putShort(itemId, ValueType.A);
+    }
+
     /**
      * Global sounds??
      **/

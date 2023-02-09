@@ -1,8 +1,10 @@
 package com.aelous.network.packet.incoming.impl;
 
 import com.aelous.GameServer;
+import com.aelous.model.World;
 import com.aelous.model.content.packet_actions.interactions.container.FirstContainerAction;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.network.packet.Packet;
 import com.aelous.network.packet.PacketListener;
 
@@ -37,5 +39,6 @@ public class FirstItemContainerActionPacketListener implements PacketListener {
         }
 
         FirstContainerAction.firstAction(player, interfaceId, slot, id);
+        player.getInventory().refresh();
     }
 }

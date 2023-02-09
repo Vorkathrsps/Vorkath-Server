@@ -55,5 +55,6 @@ public class AttackPlayerPacketListener implements PacketListener {
         player.setPositionToFace(player.tile().getX(), player.tile().getY());
         player.getCombat().setCastSpell(null);
         player.getCombat().attack(attacked);
+
     }
 }

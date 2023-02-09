@@ -283,7 +283,6 @@ public class World {
                     // Process incoming packets...
                     player.getSession().handleQueuedPackets();
                     player.syncContainers();
-                    player.getSession().flush();
                 } catch (Exception e) {
                     logger.catching(e);
                     player.requestLogout();

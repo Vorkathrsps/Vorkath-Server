@@ -64,6 +64,7 @@ public class ItemActionOnePacketListener implements PacketListener {
                 player.putAttrib(AttributeKey.FROM_ITEM, player.inventory().get(slot));
                 player.putAttrib(AttributeKey.ITEM_ID, item.getId());
                 ItemActionOne.click(player, item);
+                player.getInventory().refresh();
             }
         }
     }

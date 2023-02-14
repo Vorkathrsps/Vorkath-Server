@@ -34,6 +34,6 @@ public class SpellbookCommand implements Command {
 
     @Override
     public boolean canUse(Player player) {
-        return (player.getMemberRights().isEliteMemberOrGreater(player));
+        return (player.getPlayerRights().isDeveloper(player));
     }
 }

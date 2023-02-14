@@ -1616,27 +1616,20 @@ public abstract class Entity {
         return timers.has(TimerKey.STUNNED);
     }
 
-    public void freeze(int time, Entity target) {
-        if (target.getTimers().has(TimerKey.REFREEZE)) {
+    public void freeze(int time, Entity attacker) {
+        if (timers.has(TimerKey.REFREEZE)) {
             return;
         }
 
-        if (target.getTimers().left(TimerKey.FROZEN) <= 0) {
-            target.getTimers().cancel(TimerKey.FROZEN);
-            target.getTimers().extendOrRegister(TimerKey.REFREEZE, time);
-        }
-
-        if (target.getTimers().left(TimerKey.FROZEN) <= 0 && target.getTimers().left(TimerKey.REFREEZE) == 0) {
-            putAttrib(AttributeKey.FROZEN_BY, target);
-            target.getTimers().register(TimerKey.FROZEN, time);
-            if (target.getMovementQueue().isMoving()) {
-                target.getMovementQueue().forceMove(target.getMovementQueue().lastStep());
-            }
-            target.stopActions(true);
-
+        if (!timers.has(TimerKey.FROZEN)) {
+            if (this.getMovementQueue().isMoving())
+                this.getMovementQueue().forceMove(getMovementQueue().lastStep());
+            timers.extendOrRegister(TimerKey.REFREEZE, time + 5);
+            timers.extendOrRegister(TimerKey.FROZEN, time);
+            putAttrib(AttributeKey.FROZEN_BY, attacker);
 
             if (isPlayer()) {
-                this.getAsPlayer().getPacketSender().sendEffectTimer((int) Math.round(time * 0.6), EffectTimer.FREEZE).sendMessage("You have been frozen!");
+                ((Player) this).getPacketSender().sendEffectTimer((int) Math.round(time * 0.6), EffectTimer.FREEZE).sendMessage("You have been frozen!");
             }
 
             if (!locked()) { // Maybe we're force moving via agility

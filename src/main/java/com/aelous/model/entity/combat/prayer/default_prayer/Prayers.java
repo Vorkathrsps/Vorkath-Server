@@ -362,8 +362,6 @@ public class Prayers {
         double rate = 0;
 
         if (usingPrayer(player,THICK_SKIN))
-            //12 seconds level 1
-            //1188 seconds level 99
             rate += 0.083;
         if (usingPrayer(player,BURST_OF_STRENGTH))
             rate += 0.083;
@@ -374,23 +372,23 @@ public class Prayers {
         if (usingPrayer(player,MYSTIC_WILL))
             rate += 0.083;
         if (usingPrayer(player,ROCK_SKIN))
-            rate += 0.17;
+            rate += 0.086;
         if (usingPrayer(player,SUPERHUMAN_STRENGTH))
-            rate += 0.17;
+            rate += 0.086;
         if (usingPrayer(player,IMPROVED_REFLEXES))
-            rate += 0.17;
+            rate += 0.086;
         if (usingPrayer(player,RAPID_RESTORE))
-            rate += 0.04;
+            rate += 0.081;
         if (usingPrayer(player,RAPID_HEAL))
-            rate += 0.06;
+            rate += 0.082;
         if (usingPrayer(player,PROTECT_ITEM))
-            rate += 0.06;
+            rate += 0.082;
         if (usingPrayer(player,HAWK_EYE))
-            rate += 0.17;
+            rate += 0.086;
         if (usingPrayer(player,MYSTIC_LORE))
-            rate += 0.17;
+            rate += 0.086;
         if (usingPrayer(player,STEEL_SKIN))
-            rate += 0.33;
+            rate += 0.0912;
         if (usingPrayer(player,ULTIMATE_STRENGTH))
             rate += 0.33;
         if (usingPrayer(player,INCREDIBLE_REFLEXES))
@@ -406,21 +404,21 @@ public class Prayers {
         if (usingPrayer(player,MYSTIC_MIGHT))
             rate += 0.33;
         if (usingPrayer(player,RETRIBUTION))
-            rate += 0.08;
+            rate += 0.083;
         if (usingPrayer(player,REDEMPTION))
-            rate += 0.17;
+            rate += 0.086;
         if (usingPrayer(player,SMITE))
             rate += 0.56;
         if (usingPrayer(player,PRESERVE))
-            rate += 0.06;
+            rate += 0.082;
         if (usingPrayer(player,CHIVALRY))
-            rate += 0.56;
+            rate += 0.50;
         if (usingPrayer(player,PIETY))
-            rate += 0.67;
+            rate += 0.50;
         if (usingPrayer(player,RIGOUR))
-            rate += 0.67;
+            rate += 0.50;
         if (usingPrayer(player,AUGURY))
-            rate += 0.67;
+            rate += 0.50;
 
         //System.out.println("rate: "+rate);
         return rate;

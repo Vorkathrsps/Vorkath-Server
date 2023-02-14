@@ -77,6 +77,7 @@ public abstract class CommonCombatMethod implements CombatMethod {
      * player only
      */
     public void postAttack() {
+        entity.getCombat().setCastSpell(null);
     }
 
     public void onHit(Entity entity, Entity target, Hit hit) {

@@ -39,7 +39,7 @@ public abstract class CombatSpell extends Spell {
     public void startCast(Entity cast, Entity castOn) {
         // On 07, the player gets unfrozen when the freezer is at least X tiles away
 
-        int delay = (int) (1D + Math.floor(1 + cast.tile().getChevDistance(castOn.tile()) / 3D));
+        int delay = (int) (1 + Math.floor(1 + cast.tile().getChevDistance(castOn.tile()) / 3D));
         delay = (int) Math.min(Math.max(1.0 , delay), 5.0);
 
         int castAnimation = -1;
@@ -333,11 +333,9 @@ public abstract class CombatSpell extends Spell {
         Optional<Projectile> optP = executeProjectile(cast, castOn, cast.tile().getChevDistance(castOn.tile()));
         if (optP.isPresent()) {
             Projectile p = optP.get();
-            //delay = p.getHitDelay(cast.tile().getChevDistance(castOn.tile()));
             p.sendProjectile();
         }
 
-        //Hit hit = castOn.hit(cast, CombatFactory.calcDamageFromType(cast, castOn, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().spell(spell).postDamage(((MagicCombatMethod) CombatFactory.MAGIC_COMBAT)::handleAfterHit);
         Hit hit = castOn.hit(cast, CombatFactory.calcDamageFromType(cast, castOn, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
 
         if (spell instanceof CombatEffectSpell) {

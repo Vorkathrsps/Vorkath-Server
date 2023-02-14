@@ -639,6 +639,7 @@ public final class Equipment extends ItemContainer {
 
         player.getCombat().setRangedWeapon(null);
         Autocasting.setAutocast(player, null);
+        player.getCombat().setCastSpell(null);
         player.getTimers().cancel(TimerKey.SOTD_DAMAGE_REDUCTION);
         player.setSpecialActivated(false);
         player.putAttrib(AttributeKey.GRANITE_MAUL_SPECIALS, 0);

@@ -40,7 +40,7 @@ public abstract class CombatEffectSpell extends CombatSpell {
             return;
         }
 
-        int delay = (int) (1D + Math.floor(1 + cast.tile().getChevDistance(castOn.tile()) / 3D));
+        int delay = (int) (1D + Math.floor(1 + cast.tile().getManHattanDist(cast.tile(), castOn.tile()) / 3D));
         delay = (int) Math.min(Math.max(1.0 , delay), 5.0);
 
         int[] AUTOCAST_RESET_STAFFS = {ItemIdentifiers.STAFF_OF_THE_DEAD, ItemIdentifiers.STAFF_OF_LIGHT, ItemIdentifiers.TOXIC_STAFF_OF_THE_DEAD, ItemIdentifiers.TOXIC_STAFF_UNCHARGED,
@@ -51,7 +51,7 @@ public abstract class CombatEffectSpell extends CombatSpell {
                 if (cast.getCombat().getAutoCastSpell() != null) {
                     Autocasting.setAutocast((Player) cast, null);
                     cast.getAsPlayer().getPacketSender().sendAutocastId(-1).sendConfig(108, 0).setDefensiveAutocastState(0);
-                    cast.getAsPlayer().stopActions(true);
+                    cast.getAsPlayer().stopActions(false);
                 }
         }
 

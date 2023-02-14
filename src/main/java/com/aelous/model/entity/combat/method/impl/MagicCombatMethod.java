@@ -35,7 +35,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
 
         if (target != null && !target.dead() && !entity.dead()) {
 
-            int delay = (int) (1 + Math.floor(1 + entity.tile().getManHattanDist(entity.tile(), target.tile()) / 3D));
+            int delay = (int) Math.floor(2 + entity.tile().getManHattanDist(entity.tile(), target.tile()) / 3D);
             delay = (int) Math.min(Math.max(1.0 , delay), 5.0);
 
             // delete runes here using the canCast method. doesnt check canCast, that is already done before.

@@ -37,7 +37,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
 
             WeaponType weaponType = player.getCombat().getWeaponType();
             RangedData.RangedWeaponType weaponTypeSpecial = player.getCombat().getRangedWeapon().getType();
-            int delay = (int) (Math.floor(3 + attacker.tile().distance(target.tile()) / 6D));
+            int delay = (int) (Math.floor(3 + attacker.tile().getManHattanDist(attacker.tile(), target.tile()) / 6D));
             double distance = attacker.tile().getChevDistance(target.tile());
             int endHeight = 0;
             int startHeight = 0;

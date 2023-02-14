@@ -232,7 +232,7 @@ public class Death {
         }
 
         player.getCombat().clearDamagers(); //Clear damagers
-        player.setPositionToFace(null); // Reset entity facing
+        player.setEntityInteraction(null); // Reset entity facing
         Prayers.closeAllPrayers(player); //Disable all prayers
         player.getPacketSender().sendInteractionOption("null", 2, false); //Remove the player attack option
         player.setRunningEnergy(100.0, true); //Set the players run energy to 100

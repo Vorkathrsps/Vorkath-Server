@@ -133,7 +133,7 @@ public class SeersRooftop extends PacketInteraction {
         // Final gap jump down
         if(obj.getId() == EDGE_14931) {
             player.lock();
-            player.setPositionToFace(2703, 3461);
+            player.setPositionToFace(obj.tile());
             Chain.bound(player).name("SeersRooftopGapJump3Task").runFn(1, () -> {
                 player.animate(2462, 15);
             }).then(1, () -> {

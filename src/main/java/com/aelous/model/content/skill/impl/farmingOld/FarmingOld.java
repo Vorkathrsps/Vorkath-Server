@@ -135,7 +135,7 @@ public class FarmingOld {
                         return true;
                     }
                     int time = (int) Math.round(player.getFarmingTime(id) * .6);
-                    player.setPositionToFace(x, y);
+                    //player.setPositionToFace(gm);
                     player.animate(Constants.WATERING_CAN_ANIM);
                     player.setFarmingState(id, State.GROWTH.getId());
                     player.inventory().replace(itemId, itemId == 5333 ? 5331 : itemId - 1, true);

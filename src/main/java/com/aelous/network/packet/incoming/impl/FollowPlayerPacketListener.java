@@ -54,8 +54,6 @@ public class FollowPlayerPacketListener implements PacketListener {
             }
 
             if (!player.dead()) {
-                player.setPositionToFace(other.tile().getX(), other.tile().getY());
-
                 if (!other.dead()) {
                     player.putAttrib(AttributeKey.TARGET, new WeakReference<Entity>(other));
                     player.putAttrib(AttributeKey.INTERACTION_OPTION, 3);

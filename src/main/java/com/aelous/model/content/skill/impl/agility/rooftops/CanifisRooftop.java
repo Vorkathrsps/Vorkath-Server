@@ -114,7 +114,7 @@ public class CanifisRooftop extends PacketInteraction {
             player.smartPathTo(startPos);
             player.waitForTile(startPos, player::lockNoDamage)
                 .name("CanifisRooftopGap5Task").then(1, () -> {
-                player.setPositionToFace(3489, 3476);
+                player.setPositionToFace(obj.tile());
                 player.animate(1995);
             }).then(1, () -> player.teleport(3485, 3481, 3)).then(1, () -> {
                 player.animate(7132);

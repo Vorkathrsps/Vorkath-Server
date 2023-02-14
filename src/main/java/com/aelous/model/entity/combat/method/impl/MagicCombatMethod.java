@@ -35,7 +35,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
 
         if (target != null && !target.dead() && !entity.dead()) {
 
-            int delay = (int) (1 + Math.floor(1 + entity.tile().getChevDistance(target.tile()) / 3D));
+            int delay = (int) (1 + Math.floor(1 + entity.tile().getManHattanDist(entity.tile(), target.tile()) / 3D));
             delay = (int) Math.min(Math.max(1.0 , delay), 5.0);
 
             // delete runes here using the canCast method. doesnt check canCast, that is already done before.
@@ -102,6 +102,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
         if (entity.getCombat().getAutoCastSpell() == null && !spellWeapon) {
             entity.getCombat().reset();// combat is stopped for magic when not autocasting. spell on entity is a 1-time attack.
         }
+        entity.setEntityInteraction(target);
         entity.getCombat().setCastSpell(null);
     }
 }

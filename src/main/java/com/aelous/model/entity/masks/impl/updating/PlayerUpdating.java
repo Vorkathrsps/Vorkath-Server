@@ -526,8 +526,8 @@ public class PlayerUpdating {
      * @return            The PlayerUpdating instance.
      */
     private static void updateFacingPosition(PacketBuilder builder, int x, int y) {
-        builder.putShort(x * 2 + 1, ValueType.A, ByteOrder.LITTLE);
-        builder.putShort(y * 2 + 1, ByteOrder.LITTLE);
+        builder.putShort(x, ValueType.A, ByteOrder.LITTLE);
+        builder.putShort(y, ByteOrder.LITTLE);
     }
 
     /**

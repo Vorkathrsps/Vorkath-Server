@@ -145,7 +145,7 @@ public class BrimhavenDungeon extends PacketInteraction {
                                 protected void execute() {
                                     ticks++;
                                     if (ticks == 1) {
-                                        player.setPositionToFace(player.getX() + 1, player.getY());
+                                        player.setPositionToFace(obj.tile());
                                         player.animate(769);
                                     } else if (ticks == 3) {
                                         player.teleport(2684, 9548, 0);
@@ -181,7 +181,7 @@ public class BrimhavenDungeon extends PacketInteraction {
                                 protected void execute() {
                                     ticks++;
                                     if (ticks == 1) {
-                                        player.setPositionToFace(player.getX() - 1, player.getY());
+                                        player.setPositionToFace(obj.tile());
                                         player.animate(769);
                                     } else if (ticks == 3) {
                                         player.teleport(2688, 9547, 0);
@@ -217,7 +217,7 @@ public class BrimhavenDungeon extends PacketInteraction {
                                 protected void execute() {
                                     ticks++;
                                     if (ticks == 1) {
-                                        player.setPositionToFace(player.getX(), player.getY() - 1);
+                                        player.setPositionToFace(obj.tile());
                                         player.animate(769);
                                     } else if (ticks == 3) {
                                         player.teleport(2695, 9531, 0);
@@ -254,7 +254,7 @@ public class BrimhavenDungeon extends PacketInteraction {
                                 protected void execute() {
                                     ticks++;
                                     if (ticks == 1) {
-                                        player.setPositionToFace(player.getX(), player.getY() + 1);
+                                        player.setPositionToFace(obj.tile());
                                         player.animate(769);
                                     } else if (ticks == 3) {
                                         player.teleport(2696, 9527, 0);
@@ -357,7 +357,7 @@ public class BrimhavenDungeon extends PacketInteraction {
                         protected void execute() {
                             ticks++;
                             if (ticks == 1) {
-                                player.setPositionToFace(player.tile().x, player.tile().y - 1);
+                                player.setPositionToFace(obj.tile());
                             } else if (ticks == 2) {
                                 player.animate(769);
                             } else if (ticks == 3) {
@@ -367,7 +367,7 @@ public class BrimhavenDungeon extends PacketInteraction {
                             } else if (ticks == 6) {
                                 player.teleport(2649, 9560, 0);
                             } else if (ticks == 8) {
-                                player.setPositionToFace(player.tile().x - 1, player.tile().y);
+                                player.setPositionToFace(obj.tile());
                             } else if (ticks == 9) {
                                 player.animate(769);
                             } else if (ticks == 10) {
@@ -377,7 +377,7 @@ public class BrimhavenDungeon extends PacketInteraction {
                             } else if (ticks == 13) {
                                 player.teleport(2647, 9560, 0);
                             } else if (ticks == 15) {
-                                player.setPositionToFace(player.tile().x, player.tile().y - 1);
+                                player.setPositionToFace(obj.tile());
                             } else if (ticks == 16) {
                                 player.animate(769);
                             } else if (ticks == 17) {
@@ -408,7 +408,7 @@ public class BrimhavenDungeon extends PacketInteraction {
                         protected void execute() {
                             ticks++;
                             if (ticks == 1) {
-                                player.setPositionToFace(player.tile().x, player.tile().y + 1);
+                                player.setPositionToFace(obj.tile());
                             } else if (ticks == 2) {
                                 player.animate(769);
                             } else if (ticks == 3) {
@@ -422,7 +422,7 @@ public class BrimhavenDungeon extends PacketInteraction {
                             } else if (ticks == 9) {
                                 player.teleport(2647, 9560, 0);
                             } else if (ticks == 11) {
-                                player.setPositionToFace(player.tile().x + 1, player.tile().y);
+                                player.setPositionToFace(obj.tile());
                             } else if (ticks == 12) {
                                 player.animate(769);
                             } else if (ticks == 13) {
@@ -432,7 +432,7 @@ public class BrimhavenDungeon extends PacketInteraction {
                             } else if (ticks == 16) {
                                 player.teleport(2649, 9560, 0);
                             } else if (ticks == 18) {
-                                player.setPositionToFace(player.tile().x, player.tile().y + 1);
+                                player.setPositionToFace(obj.tile());
                             } else if (ticks == 19) {
                                 player.animate(769);
                             } else if (ticks == 20) {

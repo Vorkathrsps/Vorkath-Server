@@ -35,8 +35,6 @@ public class PlayerOptionThreePacketListener implements PacketListener {
             }
 
             if (!player.locked() && !player.dead()) {
-                player.setPositionToFace(other.tile().getX(), other.tile().getY());
-
                 if (!other.dead()) {
                     player.putAttrib(AttributeKey.TARGET, new WeakReference<Entity>(other));
                     player.putAttrib(AttributeKey.INTERACTION_OPTION, 3);
@@ -44,7 +42,6 @@ public class PlayerOptionThreePacketListener implements PacketListener {
 
                     TargetRoute.set(player, other, () -> {
                         player.runFn(1, () -> {
-                            player.setPositionToFace(other.tile().getX(), other.tile().getY());
                             player.setEntityInteraction(null);
                         });
                         if (player.getMovementQueue().isFollowing(other)) {

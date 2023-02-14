@@ -78,16 +78,16 @@ public class Catacombs extends PacketInteraction {
                         player.lock();
                         player.animate(741);
                     }).then(1, () -> player.teleport(player.tile().x, player.tile().y - 1)).then(1, () -> player.animate(741)).then(1, () -> player.teleport(player.tile().x, player.tile().y - 1)).then(1, () -> player.animate(741)).then(1, () -> player.teleport(player.tile().x, player.tile().y - 1)).then(1, () -> {
-                        player.setPositionToFace(1612, 10066);
+                        player.setPositionToFace(obj.tile());
                         player.animate(741);
                     }).then(1, () -> player.teleport(player.tile().x - 1, player.tile().y)).then(1, () -> player.animate(741)).then(1, () -> player.teleport(player.tile().x - 1, player.tile().y)).then(1, () -> {
-                        player.setPositionToFace(1611, 10065);
+                        player.setPositionToFace(obj.tile());
                         player.animate(741);
                     }).then(1, () -> player.teleport(player.tile().x, player.tile().y - 1)).then(1, () -> player.animate(741)).then(1, () -> player.teleport(player.tile().x, player.tile().y - 1)).then(1, () -> {
-                        player.setPositionToFace(1610, 10064);
+                        player.setPositionToFace(obj.tile());
                         player.animate(741);
                     }).then(1, () -> player.teleport(player.tile().x - 1, player.tile().y)).then(1, () -> {
-                        player.setPositionToFace(1610, 10063);
+                        player.setPositionToFace(obj.tile());
                         player.animate(741);
                     }).then(1, () -> player.teleport(player.tile().x, player.tile().y - 1)).then(1, () -> player.animate(741)).then(1, () -> {
                         player.teleport(player.tile().x, player.tile().y - 2);

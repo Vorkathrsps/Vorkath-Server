@@ -82,6 +82,7 @@ public class MagicOnNpcPacketListener implements PacketListener {
                         return;
                     }
                     //These always overwrite it I tried so many things
+                    player.setEntityInteraction(other);
                     player.getCombat().setCastSpell(spellSelected);
                     player.getCombat().attack(other);
                     other.getMovementQueue().setBlockMovement(false);

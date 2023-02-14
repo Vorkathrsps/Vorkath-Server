@@ -233,7 +233,7 @@ public class Edgeville extends PacketInteraction {
             }
 
             if (obj.getId() == LEVER_26761) {
-                player.setPositionToFace(obj.tile().getX(), obj.tile().getY());
+                player.setPositionToFace(obj.tile());
 
                 //Check to see if the player is teleblocked
                 if (player.getTimers().has(TimerKey.TELEBLOCK) || player.getTimers().has(TimerKey.SPECIAL_TELEBLOCK)) {

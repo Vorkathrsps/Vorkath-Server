@@ -213,6 +213,13 @@ public class Tile implements Cloneable {
         return Math.max(Math.abs(other.getX() - getX()), Math.abs(other.getY() - getY()));
     }
 
+    public int getManHattanDist(Tile pos, Tile other) {
+        return getManhattanDistance(pos.getX(), pos.getY(), other.getX(), other.getY());
+    }
+    public int getManHattanDist(int x, int y, int x2, int y2) {
+        return Math.abs(x - x2) + Math.abs(y - y2);
+    }
+
     /**
      * Checks if this location is within range of another.
      * @param other The other location.

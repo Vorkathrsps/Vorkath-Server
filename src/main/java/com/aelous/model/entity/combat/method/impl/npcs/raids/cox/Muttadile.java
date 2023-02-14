@@ -41,7 +41,6 @@ public class Muttadile extends CommonCombatMethod {
         triedHealCount++;
         npc.startEvent(0, () -> {
             npc.lock();
-            npc.resetFaceTile();
             if ((hpPercentage < 40 || npc.<Boolean>getAttribOr(MUTTADILE_EATING_STATE, false)) && npc.<Integer>getAttribOr(MUTTADILE_HEAL_COUNT, 0) < 3) {
                 if (npc.tile().isWithinDistance(meatTree.tile(), 2)) {
                     npc.setEntityInteraction(null);

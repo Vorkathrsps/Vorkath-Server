@@ -296,7 +296,9 @@ public class Combat {
         /**
          * Set the facing position
          */
-        mob.setPositionToFace(target.tile().getX(), target.tile().getY());
+        if (mob.getInteractingEntity() != target) {
+            mob.setEntityInteraction(target);
+        }
         return true;
     }
 
@@ -347,9 +349,6 @@ public class Combat {
         int combatAttackTicksRemaining = mob.getTimers().left(TimerKey.COMBAT_ATTACK);
 
         if (combatAttackTicksRemaining <= 0) {
-            if (mob.getInteractingEntity() != target) {
-                mob.setEntityInteraction(target);
-            }
             method.prepareAttack(mob, target);
             if (mob.isPlayer() && target.isPlayer()) {
                 if (WildernessArea.inWild((Player) mob)) {
@@ -520,7 +519,8 @@ public class Combat {
         var target = ref.get();
 
         if (target != null)
-            mob.setPositionToFace(target.tile().getX(), target.tile().getY());
+            //mob.setPositionToFace(target.tile().getX(), target.tile().getY());
+            mob.setEntityInteraction(target);
 
         // If these conditions fail, we can't attack
         if (target != null && !target.dead() && !mob.dead() && !target.finished()) {

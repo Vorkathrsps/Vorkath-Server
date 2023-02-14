@@ -41,7 +41,6 @@ public class MagicOnPlayerPacketListener implements PacketListener {
         } else {
             player.stopActions(false);
             if (!player.locked() && !player.dead()) {
-                player.setPositionToFace(other.tile().getX(), other.tile().getY());
                 if (!other.dead()) {
                     player.putAttrib(AttributeKey.TARGET, new WeakReference<Entity>(other));
                     player.putAttrib(AttributeKey.INTERACTION_OPTION, 1);
@@ -64,7 +63,7 @@ public class MagicOnPlayerPacketListener implements PacketListener {
                         }
                         return;
                     }
-
+                    player.setEntityInteraction(other);
                     player.getCombat().setCastSpell(spell);
                     player.getCombat().attack(other);
                 }

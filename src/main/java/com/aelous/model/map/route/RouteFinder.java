@@ -157,7 +157,7 @@ public class RouteFinder {
                     if (mask != 0) {
                         Tile tile = new Tile(pos.getX(), pos.getY(), pos.getZ());
                         if (tile.allowEntrance(mask)) {
-                            entity.setPositionToFace(groundItem.getTile().x, groundItem.getTile().y);
+                            entity.setPositionToFace(groundItem.getTile());
                             entity.runFn(
                                 1,
                                 () -> {
@@ -283,7 +283,7 @@ public class RouteFinder {
         /** No event required, already at destination. */
         final boolean isInstantTriggerRemoteObj = isRemoteObject(gameObject);
         if (route.finished(entity.tile())) {
-            entity.setPositionToFace(gameObject.tile().getX(), gameObject.tile().getY());
+            entity.setPositionToFace(gameObject.tile());
             if (route.reachable) {
                 successAction.run();
                 return;

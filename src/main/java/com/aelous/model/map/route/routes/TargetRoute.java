@@ -79,6 +79,9 @@ public class TargetRoute {
                         target.getAsNpc().walkTo.getY());
             return;
         }
+        if (entity.getInteractingEntity() != target) {
+            entity.setEntityInteraction(target);
+        }
         abs = false;
         route = entity.getRouteFinder().routeEntity(target);
         withinDistance = false;

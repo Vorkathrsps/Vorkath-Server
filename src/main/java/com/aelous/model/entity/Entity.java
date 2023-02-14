@@ -460,32 +460,9 @@ public abstract class Entity {
         return faceTile;
     }
 
-    /**
-     * Checks if this entity is facing a location.
-     *
-     * @return The entity face flag.
-     */
-    public boolean isFacing() {
-        return faceTile != null;
-    }
-
-    /**
-     * Resets the facing location.
-     */
-    public void resetFaceTile() {
-        this.faceTile = null;
-    }
-
     public Entity setPositionToFace(Tile tile) {
+        this.getUpdateFlag().flag(Flag.FACE_TILE);
         this.faceTile = tile;
-        if (tile != null)
-            this.getUpdateFlag().flag(Flag.FACE_TILE);
-        return this;
-    }
-
-
-    public Entity setPositionToFace(int x, int y) {
-        setPositionToFace(new Tile(x, y));
         return this;
     }
 
@@ -520,20 +497,6 @@ public abstract class Entity {
         return projectile.getHitDelay(distance);
     }
 
-    /**
-     * Face coordinates, but take into consideration the center of a large than 1x1 object
-     */
-    public void faceObj(GameObject obj) {
-        int x = this.getAsPlayer().isPlayer() ? this.tile().getX() : obj.getX();
-        int y = this.getAsPlayer().isPlayer() ? this.tile().getY() : obj.getY();
-        final int sizeX = obj.definition().sizeX;
-        final int sizeY = obj.definition().sizeY;
-        boolean inversed = (obj.getRotation() & 0x1) != 0;
-        int faceCoordX = x * 2 + (inversed ? sizeY : sizeX);
-        int faceCoordY = y * 2 + (inversed ? sizeX : sizeY);
-        setPositionToFace(new Tile(faceCoordX, faceCoordY));
-    }
-
     public UpdateFlag getUpdateFlag() {
         return updateFlag;
     }
@@ -563,42 +526,9 @@ public abstract class Entity {
         return prayerActive;
     }
 
-    public Entity setPrayerActive(boolean[] prayerActive) {
-        this.prayerActive = prayerActive;
-        return this;
-    }
-
     public Entity setPrayerActive(int id, boolean prayerActive) {
         this.prayerActive[id] = prayerActive;
         return this;
-    }
-
-    public Hit decrementHealthNew(Hit hit) {
-        if (dead() || hit.splatType == SplatType.NPC_HEALING_HITSPLAT) {
-            return null;
-        }
-        if (hp() <= 0)
-            return hit;
-        if (hit.getDamage() > hp())
-            hit.setDamage(hp());
-        if (hit.getDamage() < 0)
-            hit.setDamage(0);
-        int outcome = hp() - hit.getDamage();
-        if (outcome < 0)
-            outcome = 0;
-        setHitpoints(outcome);
-
-        if (isNpc() && hp() <= 0) {
-            if (getAsNpc().getCombatMethod() != null && getAsNpc().getCombatMethod().customOnDeath(hit)) {
-                return null;
-            }
-        }
-
-        if (hp() < 1 && !locked()) {
-            die();
-        }
-
-        return hit;
     }
 
     public void decrementHealth(Hit hit) {
@@ -1744,26 +1674,21 @@ public abstract class Entity {
         resetMovementQueue = false;
         forcedChat = null;
         interactingEntity = null;
-        faceTile = null;
+        //faceTile = null;
         animation = null;
         graphic = null;
         splats.clear();
     }
 
     public Entity forceChat(String message) {
-        setForcedChat(message);
         getUpdateFlag().flag(Flag.FORCED_CHAT);
+        setForcedChat(message);
         return this;
     }
-
-    public Entity lastFaceEntity;
 
     public Entity setEntityInteraction(Entity entity) {
         getUpdateFlag().flag(Flag.ENTITY_INTERACTION);
         this.interactingEntity = entity;
-        if (lastFaceEntity == entity) // stop spamming the same thing
-            return this;
-        lastFaceEntity = entity;
         return this;
     }
 
@@ -1833,7 +1758,6 @@ public abstract class Entity {
     private Graphic graphic;
     private Tinting tinting;
     private Entity interactingEntity;
-    public Tile singlePlayerTileFacing;
     private boolean resetMovementQueue;
     private boolean needsPlacement;
     private int specialAttackPercentage = 100;

@@ -35,6 +35,7 @@ public class AttackPlayerPacketListener implements PacketListener {
         }
 
         player.stopActions(false);
+
         int index = packet.readLEShort();
         if (index > World.getWorld().getPlayers().capacity() || index < 0)
             return;
@@ -52,6 +53,7 @@ public class AttackPlayerPacketListener implements PacketListener {
 
         player.putAttrib(AttributeKey.INTERACTION_OPTION, 2);
         player.putAttrib(AttributeKey.TARGET, new WeakReference<Entity>(attacked));
+        player.setEntityInteraction(attacked);
         player.getCombat().setCastSpell(null);
         player.getCombat().attack(attacked);
 

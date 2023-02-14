@@ -68,7 +68,7 @@ public class ItemOnObjectPacketListener implements PacketListener {
 
 
             //Handle actions...
-            player.setPositionToFace(gameObject.tile().getX(), gameObject.tile().getY());// Always face what you interacted with.
+            player.setPositionToFace(gameObject.tile());// Always face what you interacted with.
 
             // Cannot interact with objects when speared. #OSSRV-100
             if (player.stunned()) {

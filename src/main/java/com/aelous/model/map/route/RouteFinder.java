@@ -283,7 +283,7 @@ public class RouteFinder {
         /** No event required, already at destination. */
         final boolean isInstantTriggerRemoteObj = isRemoteObject(gameObject);
         if (route.finished(entity.tile())) {
-            entity.setPositionToFace(gameObject.tile());
+            //entity.setPositionToFace(gameObject.tile());
             if (route.reachable) {
                 successAction.run();
                 return;

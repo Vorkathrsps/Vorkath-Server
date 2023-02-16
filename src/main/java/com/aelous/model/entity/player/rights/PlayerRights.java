@@ -70,10 +70,6 @@ public enum PlayerRights {
         return player.getPlayerRights().ordinal() >= ADMINISTRATOR.ordinal() || isOwner(player);
     }
 
-    public boolean isCommunityManager(Player player) {
-        return player.getPlayerRights().ordinal() >= COMMUNITY_MANAGER.ordinal() || isOwner(player);
-    }
-
     public boolean isDeveloper(Player player) {
         return player.getPlayerRights().ordinal() >= DEVELOPER.ordinal() || isOwner(player);
     }

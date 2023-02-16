@@ -93,7 +93,7 @@ public class AccountSelection extends PacketInteraction {
                 }
                 return true;
             }
-        }//ok task 7 done, what you wanna do with  ~change currency to coins?
+        }
         if(button == 42419) {
             if(player.getTimers().has(TimerKey.CLICK_DELAY)) {
                 return true;

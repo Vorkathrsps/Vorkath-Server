@@ -21,6 +21,7 @@ import com.aelous.model.content.skill.impl.hunter.Impling;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatSpecial;
 import com.aelous.model.entity.combat.Venom;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;

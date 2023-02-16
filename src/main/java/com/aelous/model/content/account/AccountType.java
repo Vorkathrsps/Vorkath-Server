@@ -28,7 +28,7 @@ public enum AccountType {
      * @return The spriteId
      */
     public int getSpriteId() {
-        return 42402 + (ordinal() * 1);
+        return 42402 + (ordinal());
     }
 
     /**

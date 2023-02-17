@@ -16,6 +16,7 @@ public class UrsineMace extends CommonCombatMethod {
     @Override
     public void prepareAttack(Entity entity, Entity target) {
         entity.animate(9963);
+        entity.performGraphic(new Graphic(2341, GraphicHeight.HIGH, 0));
         entity.performGraphic(new Graphic(2342, GraphicHeight.HIGH, 0));
 
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),2, CombatType.MELEE).checkAccuracy();

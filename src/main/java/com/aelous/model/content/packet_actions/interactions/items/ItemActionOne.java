@@ -18,6 +18,9 @@ import com.aelous.model.content.skill.impl.woodcutting.BirdNest;
 import com.aelous.model.content.treasure.TreasureRewardCaskets;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.content.bountyhunter.dialogue.TeleportToTargetScrollD;
+import com.aelous.model.entity.masks.impl.animations.Animation;
+import com.aelous.model.entity.masks.impl.graphics.Graphic;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.QuestTab;
@@ -136,8 +139,8 @@ public class ItemActionOne {
                 }
                 player.getTimers().register(TimerKey.VENGEANCE_COOLDOWN, 50);
                 player.putAttrib(AttributeKey.VENGEANCE_ACTIVE, true);
-                player.animate(8316);
-                player.graphic(726);
+                player.animate(new Animation(8316));
+                player.performGraphic(new Graphic(726, GraphicHeight.HIGH, 0));
                 player.getPacketSender().sendEffectTimer(30, EffectTimer.VENGEANCE).sendMessage("You now have Vengeance's effect.");
             } else {
                 player.message("You can only cast vengeance spells every 30 seconds.");
@@ -163,7 +166,7 @@ public class ItemActionOne {
         }
         if (id == RUNE_POUCH) {
             player.getRunePouch().open(RUNE_POUCH);
-            player.putAttrib(VIEWING_RUNE_POUCH_I,false);
+            player.putAttrib(VIEWING_RUNE_POUCH_I, false);
             return;
         }
 

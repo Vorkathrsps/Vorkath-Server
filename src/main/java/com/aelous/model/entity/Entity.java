@@ -1418,10 +1418,8 @@ public abstract class Entity {
     }
 
     public Entity setForceMovement(ForceMovement forceMovement) {
+        getUpdateFlag().flag(Flag.FORCED_MOVEMENT);
         this.forceMovement = forceMovement;
-        if (this.forceMovement != null) {
-            getUpdateFlag().flag(Flag.FORCED_MOVEMENT);
-        }
         return this;
     }
 
@@ -1550,21 +1548,21 @@ public abstract class Entity {
         if (timers.has(TimerKey.REFREEZE)) {
             return;
         }
+        if (timers.has(TimerKey.FROZEN)) {
+            return;
+        }
+        if (this.getMovementQueue().isMoving())
+            this.getMovementQueue().forceMove(getMovementQueue().lastStep());
+        timers.extendOrRegister(TimerKey.FROZEN, time);
+        timers.extendOrRegister(TimerKey.REFREEZE, time + 3);
+        putAttrib(AttributeKey.FROZEN_BY, attacker);
 
-        if (!timers.has(TimerKey.FROZEN)) {
-            if (this.getMovementQueue().isMoving())
-                this.getMovementQueue().forceMove(getMovementQueue().lastStep());
-            timers.extendOrRegister(TimerKey.REFREEZE, time + 5);
-            timers.extendOrRegister(TimerKey.FROZEN, time);
-            putAttrib(AttributeKey.FROZEN_BY, attacker);
+        if (isPlayer()) {
+            ((Player) this).getPacketSender().sendEffectTimer((int) Math.round(time * 0.6), EffectTimer.FREEZE).sendMessage("You have been frozen!");
+        }
 
-            if (isPlayer()) {
-                ((Player) this).getPacketSender().sendEffectTimer((int) Math.round(time * 0.6), EffectTimer.FREEZE).sendMessage("You have been frozen!");
-            }
-
-            if (!locked()) { // Maybe we're force moving via agility
-                movementQueue.clear();
-            }
+        if (!locked()) { // Maybe we're force moving via agility
+            movementQueue.clear();
         }
     }
 

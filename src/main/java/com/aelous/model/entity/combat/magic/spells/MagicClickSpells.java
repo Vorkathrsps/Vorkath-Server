@@ -1,5 +1,7 @@
 package com.aelous.model.entity.combat.magic.spells;
 
+import com.aelous.model.entity.masks.impl.animations.Animation;
+import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -1339,8 +1341,8 @@ public class MagicClickSpells {
                             player.getTimers().register(TimerKey.VENGEANCE_COOLDOWN, 50);
                             player.putAttrib(AttributeKey.VENGEANCE_ACTIVE, true);
                             itemsRequired(player).forEach(player.inventory()::remove);
-                            player.animate(8316);
-                            player.graphic(726, GraphicHeight.HIGH, 0);
+                            player.animate(new Animation(8316));
+                            player.performGraphic(new Graphic(726, GraphicHeight.HIGH, 0));
                             player.sendSound(2907, 0);
                             player.skills().addXp(Skills.MAGIC, 112);
                             player.getPacketSender().sendEffectTimer(30, EffectTimer.VENGEANCE).sendMessage("You now have Vengeance's effect.");

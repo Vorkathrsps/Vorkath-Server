@@ -65,7 +65,7 @@ public class MeleeMaxHit {
 
         if (CombatFactory.fullDharoks(player)) {
             double lostHp = player.maxHp() - player.hp();
-            maxHit *= (1 + (lostHp /100 * player.maxHp() / 100));
+            maxHit *= (1 + ((lostHp /100) * (player.maxHp() / 100)));
         }
 
         List<Integer> increaseMaxHitbyOne = new ArrayList<>(List.of(GRANITE_MAUL_12848, ARMADYL_GODSWORD_OR, BANDOS_GODSWORD_OR, SARADOMIN_GODSWORD_OR, ZAMORAK_GODSWORD_OR));

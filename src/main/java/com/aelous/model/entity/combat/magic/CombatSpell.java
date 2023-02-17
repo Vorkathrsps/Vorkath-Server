@@ -37,9 +37,8 @@ public abstract class CombatSpell extends Spell {
 
     @Override
     public void startCast(Entity cast, Entity castOn) {
-        // On 07, the player gets unfrozen when the freezer is at least X tiles away
-
-        int delay = (int) (1 + Math.floor(1 + cast.tile().getChevDistance(castOn.tile()) / 3D));
+        //int delay = (int) Math.floor(1 + (1 + cast.tile().getManHattanDist(cast.tile(), castOn.tile()) / 3D));
+        double delay = (1 + Math.floor((1 + cast.tile().getManHattanDist(cast.tile(), castOn.tile()) / 3D)));
         delay = (int) Math.min(Math.max(1.0, delay), 5.0);
 
         int castAnimation = -1;
@@ -89,7 +88,7 @@ public abstract class CombatSpell extends Spell {
                             return;
                         }
 
-                        castOn.graphic(104, GraphicHeight.HIGH, delay * 30);//a tick in graphic format/maths is 30.
+                        castOn.graphic(104, GraphicHeight.HIGH, (int) (delay * 30));//a tick in graphic format/maths is 30.
 
                         if (isNpc) {
                             int decrease = (int) (0.05 * level);
@@ -128,7 +127,7 @@ public abstract class CombatSpell extends Spell {
                             return;
                         }
 
-                        castOn.graphic(107, GraphicHeight.HIGH, delay * 30);//a tick in graphic format/maths is 30.
+                        castOn.graphic(107, GraphicHeight.HIGH, (int) (delay * 30));//a tick in graphic format/maths is 30.
 
                         if (isNpc) {
                             int decrease = (int) (0.05 * level);
@@ -167,7 +166,7 @@ public abstract class CombatSpell extends Spell {
                             return;
                         }
 
-                        castOn.graphic(110, GraphicHeight.HIGH, delay * 30);//a tick in graphic format/maths is 30.
+                        castOn.graphic(110, GraphicHeight.HIGH, (int) (delay * 30));//a tick in graphic format/maths is 30.
 
                         if (isNpc) {
                             int decrease = (int) (0.05 * level);
@@ -206,7 +205,7 @@ public abstract class CombatSpell extends Spell {
                             return;
                         }
 
-                        castOn.graphic(169, GraphicHeight.LOW, delay * 30);//a tick in graphic format/maths is 30.
+                        castOn.graphic(169, GraphicHeight.LOW, (int) (delay * 30));//a tick in graphic format/maths is 30.
 
                         if (isNpc) {
                             int decrease = (int) (0.10 * level);
@@ -245,7 +244,7 @@ public abstract class CombatSpell extends Spell {
                             return;
                         }
 
-                        castOn.graphic(172, GraphicHeight.LOW, delay * 30);//a tick in graphic format/maths is 30.
+                        castOn.graphic(172, GraphicHeight.LOW, (int) (delay * 30));//a tick in graphic format/maths is 30.
 
                         if (isNpc) {
                             int decrease = (int) (0.10 * level);
@@ -284,7 +283,7 @@ public abstract class CombatSpell extends Spell {
                             return;
                         }
 
-                        castOn.graphic(107, GraphicHeight.LOW, delay * 30);//a tick in graphic format/maths is 30.
+                        castOn.graphic(107, GraphicHeight.LOW, (int) (delay * 30));//a tick in graphic format/maths is 30.
 
                         if (isNpc) {
                             int decrease = (int) (0.10 * level);
@@ -336,7 +335,7 @@ public abstract class CombatSpell extends Spell {
             p.sendProjectile();
         }
 
-        Hit hit = castOn.hit(cast, CombatFactory.calcDamageFromType(cast, castOn, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        Hit hit = castOn.hit(cast, CombatFactory.calcDamageFromType(cast, castOn, CombatType.MAGIC), (int) delay, CombatType.MAGIC).checkAccuracy();
 
         if (spell instanceof CombatEffectSpell) {
             if (hit.isAccurate()) {

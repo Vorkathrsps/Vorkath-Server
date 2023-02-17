@@ -404,17 +404,15 @@ public class NexCombat extends CommonCombatMethod {
                         int diffY = center.y - p.getAbsY();
                         //TaskManager.submit(new ForceMovement(p.getAsPlayer(), 3, new ForceMovement(p.tile().clone(), new Tile(diffX, diffY), 10, 60, idx == 3 ? 3 : idx == 2 ? 2 : idx == 1 ? 1 : 0)));
                         final ForceMovement fm = new ForceMovement(selectedTile, new Tile(diffX, diffY), 10, 60, idx == 3 ? 3 : idx == 2 ? 2 : idx == 1 ? 1 : 0, 0);
-                        nex.getUpdateFlag().flag(Flag.FORCED_MOVEMENT);
-                        nex.setForceMovement(fm);
-                        nex.unlock();
+                        p.setForceMovement(fm);
+                        p.unlock();
                     });
                 }
             }
             nex.animate(SMOKE_BULLET_ATTACK_ANIM);
             Tile dif = new Tile(center.x - selectedTile.x, center.y - selectedTile.y);
             final ForceMovement fm = new ForceMovement(selectedTile, dif, 50, 80, 3);
-            nex.setForceMovement(fm);
-            nex.getUpdateFlag().flag(Flag.FORCED_MOVEMENT);
+            entity.setForceMovement(fm);
             Chain.bound(null).then(3, () -> nex.teleport(center)); //Update nex on map
         }).then(8, () -> {
             nex.getCombat().setTarget(Utils.randomElement(getPossibleTargets(nex)));

@@ -113,21 +113,7 @@ public class NPCDeath {
             // Player that did the most damage.
             Player killer = killer_id.orElse(null);
 
-            Chain.bound(null).runFn(1, () -> {
-                // 1t later facing is reset. Stops npcs looking odd when they reset facing their target the tick they die.
-                npc.setPositionToFace(null);
-            });
-
             if (killer != null) {
-                respawnTimer -= switch (killer.getMemberRights()) {
-                    case NONE -> 0;
-                    case RUBY_MEMBER -> Utils.secondsToTicks(2);
-                    case SAPPHIRE_MEMBER -> Utils.secondsToTicks(4);
-                    case EMERALD_MEMBER -> Utils.secondsToTicks(6);
-                    case DIAMOND_MEMBER -> Utils.secondsToTicks(8);
-                    case DRAGONSTONE_MEMBER, ONYX_MEMBER, ZENYTE_MEMBER -> Utils.secondsToTicks(10);
-                };
-
                 var biggest_and_baddest_perk = killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.BIGGEST_AND_BADDEST) && Slayer.creatureMatches(killer, npc.id());
                 var ancientRevSpawnRoll = 25;
                 var superiorSpawnRoll = biggest_and_baddest_perk ? 4 : 6;

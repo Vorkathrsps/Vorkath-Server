@@ -475,10 +475,9 @@ public abstract class Entity {
         if (source == null || target == null) {
             return 0;
         }
-        Tile delta = projectile.getTarget().getDelta(source);
+        Tile delta = projectile.getTarget().getDelta(source, target);
 
-        int distance = Tile.getManhattanDistance(source, target);
-        int duration = projectile.getDuration(distance);
+        int distance = this.tile().getChevDistance(target);
 
         if (distance <= 60) {
             int creatorSize = projectile.getCreatorSize() == -1 ? getSize() : projectile.getCreatorSize();
@@ -490,7 +489,7 @@ public abstract class Entity {
 
                 if (source.isViewableFrom(player.getCentrePosition())) {
                     player.getPacketSender()
-                        .sendProjectile(source, delta, projectile.getSlope(), duration, projectile.getProjectileID(), projectile.getStartHeight(), projectile.getEndHeight(), projectile.getLockon(), projectile.getDelay(), creatorSize, projectile.getStartDistanceOffset());
+                        .sendProjectile(source, delta, projectile.getSlope(), projectile.getSpeed(), projectile.getProjectileID(), projectile.getStartHeight(), projectile.getEndHeight(), projectile.getLockon(), projectile.getDelay(), creatorSize, projectile.getStartDistanceOffset());
                 }
             }
         }

@@ -132,12 +132,12 @@ public class ObjectInteractionHandler implements PacketListener {
             return;
         }
 
-        /** Controller **/
-        if (player.getController() != null && player.getController().handleObjectClick(player, object, option))
-            return;
-
         /** Override handler **/
         if (PacketInteractionManager.checkObjectInteraction(player, object, option))
+            return;
+
+        /** Controller **/
+        if (player.getController() != null && player.getController().handleObjectClick(player, object, option))
             return;
 
         /** Object name **/

@@ -1,5 +1,6 @@
 package com.aelous.model.map.position.areas;
 
+import com.aelous.model.content.minigames.tournaments.TournamentController;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Area;

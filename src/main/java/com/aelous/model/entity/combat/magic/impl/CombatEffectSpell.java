@@ -40,8 +40,7 @@ public abstract class CombatEffectSpell extends CombatSpell {
             return;
         }
 
-        int delay = (int) (1D + Math.floor(1 + cast.tile().getManHattanDist(cast.tile(), castOn.tile()) / 3D));
-        delay = (int) Math.min(Math.max(1.0 , delay), 5.0);
+        int delay = (int) (2 + (Math.floor((1 + cast.tile().getManHattanDist(cast.tile(), castOn.tile())) / 3D)));
 
         int[] AUTOCAST_RESET_STAFFS = {ItemIdentifiers.STAFF_OF_THE_DEAD, ItemIdentifiers.STAFF_OF_LIGHT, ItemIdentifiers.TOXIC_STAFF_OF_THE_DEAD, ItemIdentifiers.TOXIC_STAFF_UNCHARGED,
         ItemIdentifiers.VOLATILE_NIGHTMARE_STAFF, ItemIdentifiers.ELDRITCH_NIGHTMARE_STAFF, ItemIdentifiers.NIGHTMARE_STAFF, ItemIdentifiers.UNCHARGED_TOXIC_TRIDENT, ItemIdentifiers.UNCHARGED_TOXIC_TRIDENT_E, ItemIdentifiers.TRIDENT_OF_THE_SEAS, ItemIdentifiers.TRIDENT_OF_THE_SWAMP

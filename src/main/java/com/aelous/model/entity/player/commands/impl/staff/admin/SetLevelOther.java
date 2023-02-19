@@ -96,7 +96,7 @@ public class SetLevelOther implements Command {
         public void execute(Player player, String command, String[] parts) {
             int delay = 51;
             int delayMod = -60;// because server is old-fashion has manual server 2 tick delay
-            new Projectile(player.tile(), new Tile(player.getX(), player.getY()+2), -1, 1465, 12 * 5, 10, 43, 35, 0, 16, 64).sendProjectile();
+            //new Projectile(player.tile(), new Tile(player.getX(), player.getY()+2), -1, 1465, 12 * 5, 10, 43, 35, 0, 16, 64).sendProjectile();
         }
 
         /**

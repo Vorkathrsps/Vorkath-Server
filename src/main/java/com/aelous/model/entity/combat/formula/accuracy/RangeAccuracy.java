@@ -33,7 +33,7 @@ public class RangeAccuracy {
         double attackBonus = getAttackRoll(attacker, style);
         double defenceBonus = getDefenceRoll(defender, style);
         double successfulRoll;
-        double selectedChance = new SecureRandom().nextDouble();
+        double selectedChance = srand.nextDouble();
 
         if (attackBonus > defenceBonus)
             successfulRoll = 1D - (defenceBonus + 2D) / (2D * (attackBonus + 1D));

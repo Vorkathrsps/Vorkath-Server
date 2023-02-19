@@ -297,7 +297,7 @@ public enum HydraAttacks {
         var dir = Direction.of(target.tile().x - center.x, target.tile().y - center.y);
         var from = center.transform(dir.x * 2, dir.y * 2);
         var speed = Utils.getSpeedModifier(from, target.tile());
-        hydra.executeProjectile(new Projectile(hydra, target, projectile, delay, speed, 55, 25, 0, hydra.getSize()));
+       // hydra.executeProjectile(new Projectile(hydra, target, projectile, delay, speed, 55, 25, 0, hydra.getSize()));
     }
 
     /**
@@ -307,14 +307,14 @@ public enum HydraAttacks {
         var center = Utils.getCenterLocation(hydra);
         var dir = Direction.of(tile.x - center.x, tile.y - center.y);
         var from = center.transform(dir.x * 2, dir.y * 2);
-        new Projectile(from, tile, hydra.getProjectileLockonIndex(), projectile, projectileSpeed, delay, startHeight, endHeight, 0, angle, stepness).sendProjectile();
+       // new Projectile(from, tile, hydra.getProjectileLockonIndex(), projectile, projectileSpeed, delay, startHeight, endHeight, 0, angle, stepness).sendProjectile();
     }
 
     /**
      * Fires a projectile from a tile to another.
      */
     void fireProjectileToLocation(Tile from, Tile to, int projectile, int delay, int projectileSpeed, int angle, int stepness, int startHeight, int endHeight) {
-        new Projectile(from, to, 0, projectile, projectileSpeed, delay, startHeight, endHeight, 0, angle, stepness).sendProjectile();
+       // new Projectile(from, to, 0, projectile, projectileSpeed, delay, startHeight, endHeight, 0, angle, stepness).sendProjectile();
     }
 
     /**

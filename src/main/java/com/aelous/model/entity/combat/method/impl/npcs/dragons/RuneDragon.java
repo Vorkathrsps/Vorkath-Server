@@ -80,7 +80,7 @@ public class RuneDragon extends CommonCombatMethod {
                 this.sparkAttack = false;
             });
 
-            new Projectile(npc.tile(), pos, 0, 1488, 160, 40,10, 0, 0, 16, 192).sendProjectile();
+            //new Projectile(npc.tile(), pos, 0, 1488, 160, 40,10, 0, 0, 16, 192).sendProjectile();
         }
     }
 

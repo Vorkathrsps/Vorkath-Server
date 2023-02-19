@@ -5,13 +5,24 @@ import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.magic.CombatSpell;
+import com.aelous.model.entity.combat.magic.data.AncientSpells;
+import com.aelous.model.entity.combat.magic.data.ModernSpells;
+import com.aelous.model.entity.combat.magic.data.SpellType;
+import com.aelous.model.entity.combat.magic.impl.CombatEffectSpell;
+import com.aelous.model.entity.combat.magic.impl.CombatNormalSpell;
 import com.aelous.model.entity.combat.magic.spells.CombatSpells;
 import com.aelous.model.entity.masks.Projectile;
+import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
+import com.aelous.model.entity.masks.impl.graphics.Priority;
 import com.aelous.model.entity.player.EquipSlot;
+import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
 import com.aelous.utility.timers.TimerKey;
+
+import java.util.Arrays;
+import java.util.Optional;
 
 import static com.aelous.utility.ItemIdentifiers.*;
 
@@ -22,31 +33,83 @@ import static com.aelous.utility.ItemIdentifiers.*;
  */
 public class MagicCombatMethod extends CommonCombatMethod {
 
-    public static final Graphic SPLASH_GRAPHIC = new Graphic(85, GraphicHeight.MIDDLE);
-
     @Override
     public void prepareAttack(Entity entity, Entity target) {
         CombatSpell spell = entity.getCombat().getCastSpell() != null ? entity.getCombat().getCastSpell() : entity.getCombat().getAutoCastSpell();
 
-        if (spell == null) {
-            entity.message("What spell is that?");
-            return;
-        }
+        int projectile = 0, castAnimation = 0, startSpeed = 0, startHeight = 0, endHeight = 0, startGraphic = 0, endGraphic = 0, stepMultiplier = 0, duration = 0;
+        int distance = entity.tile().getChevDistance(target.tile());
 
-        if (target != null && !target.dead() && !entity.dead()) {
+        var spellID = entity.getCombat().getCastSpell().spellId();
+        GraphicHeight startGraphicHeight = GraphicHeight.HIGH;
+        GraphicHeight endGraphicHeight = GraphicHeight.HIGH;
+        ModernSpells findProjectileDataModern = ModernSpells.findSpellProjectileData(spellID);
+        AncientSpells findProjectileDataAncients = AncientSpells.findSpellProjectileData(spellID, startGraphicHeight, endGraphicHeight);
 
-            int delay = (int) Math.floor(2 + entity.tile().getManHattanDist(entity.tile(), target.tile()) / 3D);
-            delay = (int) Math.min(Math.max(1.0 , delay), 5.0);
+        if (!target.dead() && !entity.dead()) {
+            if (spell != null) {
+                if (spell.canCast(entity.getAsPlayer(), target, true)) {
+                    if (entity.getAsPlayer().getSpellbook() == MagicSpellbook.NORMAL) {
+                        if (findProjectileDataModern != null) {
+                            switch (spell.spellId()) {
+                                case 1152, 1154, 1156, 1158, 1160, 1163, 1169, 1172, 1175,
+                                    1181, 1166, 1177, 1190, 1191, 1192, 1183, 1185, 1188,
+                                    1189, 22644, 22658, 22628, 22608, 12445 -> {
+                                    projectile = findProjectileDataModern.projectile;
+                                    startGraphic = findProjectileDataModern.startGraphic;
+                                    castAnimation = findProjectileDataModern.castAnimation;
+                                    startSpeed = findProjectileDataModern.startSpeed;
+                                    startHeight = findProjectileDataModern.startHeight;
+                                    endHeight = findProjectileDataModern.endHeight;
+                                    endGraphic = findProjectileDataModern.endGraphic;
+                                    stepMultiplier = findProjectileDataModern.stepMultiplier;
+                                    duration = startSpeed + 5 + (stepMultiplier * distance);
+                                }
+                            }
+                        }
+                    }
+                }
+                if (entity.getAsPlayer().getSpellbook() == MagicSpellbook.ANCIENT) {
+                    if (findProjectileDataAncients != null) {
+                        switch (spell.spellId()) {
+                            case 12939, 12987, 12901, 12861, 12963, 13011,
+                                12919, 12881, 12951, 12999, 12911, 12871,
+                                12975, 13023, 12929, 12891 -> {
+                                projectile = findProjectileDataAncients.projectile;
+                                startGraphic = findProjectileDataAncients.startGraphic;
+                                castAnimation = findProjectileDataAncients.castAnimation;
+                                startSpeed = findProjectileDataAncients.startSpeed;
+                                startHeight = findProjectileDataAncients.startHeight;
+                                endHeight = findProjectileDataAncients.endHeight;
+                                endGraphic = findProjectileDataAncients.endGraphic;
+                                stepMultiplier = findProjectileDataAncients.stepMultiplier;
+                                duration = ((startSpeed + 5) + (distance * stepMultiplier));
+                                startGraphicHeight = findProjectileDataAncients.startGraphicheight;
+                                endGraphicHeight = findProjectileDataAncients.endGraphicHeight;
+                            }
+                        }
+                    }
+                }
+                spell.startCast(entity, target);
+            }
 
-            // delete runes here using the canCast method. doesnt check canCast, that is already done before.
-            spell.canCast(entity.getAsPlayer(), target, true);
-            spell.startCast(entity, target);
+            entity.animate(new Animation(castAnimation));
 
-            //Hit hit = target.hit(target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().spell(spell).postDamage(((MagicCombatMethod) CombatFactory.MAGIC_COMBAT)::handleAfterHit);
+            entity.performGraphic(new Graphic(startGraphic, startGraphicHeight, 0));
 
-            Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().spell(spell).postDamage(((MagicCombatMethod) CombatFactory.MAGIC_COMBAT)::handleAfterHit);
+            Projectile p = new Projectile(entity, target, projectile, startSpeed, duration, startHeight, endHeight, 0, target.getSize(), stepMultiplier);
+
+            final int delay = entity.executeProjectile(p);
+
+            Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
 
             hit.submit();
+
+            if (hit.isAccurate()) {
+                target.performGraphic(new Graphic(endGraphic, endGraphicHeight, p.getSpeed(), Priority.HIGH));
+            } else {
+                target.performGraphic(new Graphic(85, GraphicHeight.LOW, p.getSpeed(), Priority.HIGH));
+            }
         }
     }
 
@@ -63,44 +126,19 @@ public class MagicCombatMethod extends CommonCombatMethod {
     public int getAttackDistance(Entity entity) {
         if (entity.isPlayer()) {
             Player player = (Player) entity;
-            //Trident of the seas and Trident of the swamp have a default range of 8, but also allow longrange attack style.
             if (player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS) || player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SWAMP) || player.getEquipment().hasAt(EquipSlot.WEAPON, SANGUINESTI_STAFF)) {
                 return 8;
             }
         }
-        //All combat magic spells have an attack range of 10 regardless of the level of the spell of which to cast it.
         return 10;
     }
-
-    public void handleAfterHit(Hit hit) {
-        Entity attacker = hit.getAttacker();
-        Entity target = hit.getTarget();
-        boolean accurate = hit.isAccurate();
-        int damage = hit.getDamage();
-
-        if (attacker.dead() || target.dead()) {
-            return;
-        }
-
-        CombatSpell spell = hit.spell;
-
-        if (spell != null) {
-                if (accurate) {
-                    spell.endGraphic().ifPresent(target::performGraphic);
-                } else {
-                    target.performGraphic(SPLASH_GRAPHIC);
-                }
-
-                spell.finishCast(attacker, target, accurate, damage);
-            }
-        }
 
     @Override
     public void postAttack() {
         boolean spellWeapon = entity.getCombat().getCastSpell() == CombatSpells.ELDRITCH_NIGHTMARE_STAFF.getSpell() || entity.getCombat().getCastSpell() == CombatSpells.VOLATILE_NIGHTMARE_STAFF.getSpell();
 
         if (entity.getCombat().getAutoCastSpell() == null && !spellWeapon) {
-            entity.getCombat().reset();// combat is stopped for magic when not autocasting. spell on entity is a 1-time attack.
+            entity.getCombat().reset();
         }
         entity.setEntityInteraction(target);
         entity.getCombat().setCastSpell(null);

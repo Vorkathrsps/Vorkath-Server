@@ -57,7 +57,7 @@ public class DrakeCombatScript extends CommonCombatMethod {
     private void volcanicBreath(NPC drake, Entity target) {
         drake.animate(8276);
         final var tile = target.tile().copy();
-        new Projectile(drake.getCentrePosition(), tile, 1,1637,125, 40, 25, 0,0,16,96).sendProjectile();
+       // new Projectile(drake.getCentrePosition(), tile, 1,1637,125, 40, 25, 0,0,16,96).sendProjectile();
         Chain.bound(null).runFn(5, () -> {
             World.getWorld().tileGraphic(1638, tile, 0, 0);
             if (target.tile().equals(tile)) {

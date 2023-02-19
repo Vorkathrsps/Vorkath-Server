@@ -1,5 +1,7 @@
 package com.aelous.model.entity.masks.impl.graphics;
 
+import java.util.Optional;
+
 /**
  * Created by Bart on 10/28/2015.
  */
@@ -38,6 +40,7 @@ public class Graphic {
         this.delay = delay;
         this.priority = Priority.LOW;
     }
+
     public int id() {
         return id;
     }

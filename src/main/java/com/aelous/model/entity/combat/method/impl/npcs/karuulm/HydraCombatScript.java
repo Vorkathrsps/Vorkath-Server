@@ -60,7 +60,7 @@ public class HydraCombatScript extends CommonCombatMethod {
         var duration = entity.tile().distance(target.tile());
 
         int speed = tileDist + delay + duration * 5;
-        hydra.executeProjectile(new Projectile(hydra, target, hydra.currentAttack == HydraAttacks.MAGIC ? 1663 : 1662, 30, speed ,35 ,0,0, hydra.getSize()));
+       // hydra.executeProjectile(new Projectile(hydra, target, hydra.currentAttack == HydraAttacks.MAGIC ? 1663 : 1662, 30, speed ,35 ,0,0, hydra.getSize()));
 
         Chain.bound(null).runFn(delay, () -> target.hit(hydra, CombatFactory.calcDamageFromType(
             hydra, target, hydra.currentAttack ==
@@ -81,7 +81,7 @@ public class HydraCombatScript extends CommonCombatMethod {
         for (int i = 0; i < 2; i++)
             targets.add(Utils.randomElement(positions));
         targets.forEach(pos -> hydra.runFn(1, () -> {
-            hydra.executeProjectile(new Projectile(hydra, target, 1, 1644, 54, 25, 35, 0, hydra.getSize()));
+       //     hydra.executeProjectile(new Projectile(hydra, target, 1, 1644, 54, 25, 35, 0, hydra.getSize()));
             Direction dir = Direction.getDirection(Utils.getClosestTile(hydra, pos), pos);
 
             World.getWorld().tileGraphic(1645, new Tile(pos.getX(), pos.getY()), pos.getZ(),40);
@@ -117,7 +117,7 @@ public class HydraCombatScript extends CommonCombatMethod {
         var center = Utils.getCenterLocation(hydra);
         var dir = Direction.of(tile.x - center.x, tile.y - center.y);
         var from = center.transform(dir.x * 2, dir.y * 2);
-        new Projectile(from, tile, 1, 1644, 90, 50, 55, 0, 0, 0, 5).sendProjectile();
+       // new Projectile(from, tile, 1, 1644, 90, 50, 55, 0, 0, 0, 5).sendProjectile();
     }
 
     /**

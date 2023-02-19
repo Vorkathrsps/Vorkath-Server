@@ -240,7 +240,7 @@ public class DwarfCannon extends OwnedObject {
             cannonDirection = cannonDirection.next();
         }
 
-        target.ifPresent(
+       /* target.ifPresent(
                 npc -> {
                     Player owner = getOwnerOpt().get();
                     Projectile cannonBall =
@@ -266,7 +266,7 @@ public class DwarfCannon extends OwnedObject {
                         owner.message("Your cannon is out of ammo!");
                         setStage(CannonStage.FURNACE, true);
                     }
-                });
+                });*/
     }
 
     public void checkDecayTimer() {

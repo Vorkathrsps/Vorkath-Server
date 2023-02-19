@@ -70,7 +70,7 @@ public class LizardShaman extends CommonCombatMethod {
         var delay = Math.max(1, (50 + (tileDist * 12)) / 30);
 
         npc.animate(7193);
-        new Projectile(npc, target, 1291, 12 * tileDist, 120, 120, 43, 0, 5).sendProjectile();
+        //new Projectile(npc, target, 1291, 12 * tileDist, 120, 120, 43, 0, 5).sendProjectile();
         target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
         npc.getTimers().register(TimerKey.COMBAT_ATTACK, npc.combatInfo().attackspeed);
     }
@@ -100,10 +100,10 @@ public class LizardShaman extends CommonCombatMethod {
         var green_acidic_orb_distance = entity.tile().getChevDistance(target.tile());
         var green_acidic_orb_delay = Math.max(2, (900 + green_acidic_orb_distance * 12) / 15);
         var green_acidic_orb_hit_delay = Math.max(1, (30 + green_acidic_orb_distance * 12) / 18);
-        final int delay = npc.executeProjectile(new Projectile(npc, target, 1293, green_acidic_orb_delay, 0, 90, 0, 0, 5));
+        //final int delay = npc.executeProjectile(new Projectile(npc, target, 1293, green_acidic_orb_delay, 0, 90, 0, 0, 5));
 
         npc.animate(7193);
-        World.getWorld().tileGraphic(1294, green_acidic_orb, GraphicHeight.LOW.ordinal(), delay);
+        //World.getWorld().tileGraphic(1294, green_acidic_orb, GraphicHeight.LOW.ordinal(), delay);
 
         Chain.bound(entity).runFn(4, () -> {
                     if (target.tile().inSqRadius(green_acidic_orb, 1)) {

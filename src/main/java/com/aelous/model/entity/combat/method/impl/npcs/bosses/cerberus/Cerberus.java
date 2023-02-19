@@ -42,7 +42,8 @@ public class Cerberus extends CommonCombatMethod {
         }
         var tileDist = entity.tile().distance(target.tile());
         var delay = (1D + (Math.floor(1 + tileDist) / 6D));
-        int duration = entity.executeProjectile(new Projectile(entity, target, 1245, 50, tileDist, 43, 31, 0, 5));
+        //int duration = entity.executeProjectile(new Projectile(entity, target, 1245, 50, tileDist, 43, 31, 0, 5));
+        int duration = 0;
         entity.animate(4492);
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), duration + 1, CombatType.RANGED).checkAccuracy().submit();
         target.performGraphic(new Graphic(1244, GraphicHeight.HIGH, duration + 75));
@@ -55,7 +56,8 @@ public class Cerberus extends CommonCombatMethod {
         }
         int tileDist = entity.tile().distance(target.tile());
         int delay = (int) entity.getCombat().magicSpellDelay(target);
-        int duration = entity.executeProjectile(new Projectile(entity, target, 1242, 50, tileDist, 43, 31, 0, 5));
+        //int duration = entity.executeProjectile(new Projectile(entity, target, 1242, 50, tileDist, 43, 31, 0, 5));
+        int duration = 0;
         entity.animate(4492);
 
         int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC);
@@ -137,7 +139,7 @@ public class Cerberus extends CommonCombatMethod {
             melee.animate(1); //TODO
         },2, () -> {
             World.getWorld().getPlayers().forEach(p -> {
-                melee.executeProjectile(new Projectile(melee, target, 1248, 50, tileDist, 43, 31, 0, target.getSize()));
+                //melee.executeProjectile(new Projectile(melee, target, 1248, 50, tileDist, 43, 31, 0, target.getSize()));
                 if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MELEE)) {
                     p.hit(melee, 30);
                 }
@@ -154,7 +156,7 @@ public class Cerberus extends CommonCombatMethod {
             archer.animate(1); //TODO
         },2, () -> {
             World.getWorld().getPlayers().forEach(p -> {
-                archer.executeProjectile(new Projectile(archer, target, 1248, 50, tileDist, 43, 31, 0, target.getSize()));
+                //archer.executeProjectile(new Projectile(archer, target, 1248, 50, tileDist, 43, 31, 0, target.getSize()));
                 if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MISSILES)) {
                     p.hit(archer, 30);
                 }
@@ -203,7 +205,7 @@ public class Cerberus extends CommonCombatMethod {
             new Tile(entity.getAbsX() + Utils.random(-1, entity.getSize() - 2), entity.getAbsY() + Utils.random(-4, entity.getSize() + 4), entity.getZ()),
             new Tile(entity.getAbsX() + Utils.random(-1, entity.getSize() - 2), entity.getAbsY() + Utils.random(-4, entity.getSize() + 4), entity.getZ())};
         for (Tile pos : positions) {
-            entity.executeProjectile(new Projectile(entity, target, 1247,25,86,65,0,0,entity.getSize()));
+            //entity.executeProjectile(new Projectile(entity, target, 1247,25,86,65,0,0,entity.getSize()));
             entity.runFn(1, () -> {
                 World.getWorld().tileGraphic(1246, new Tile(pos.getX(), pos.getY(), pos.getZ()), 0, 0);
                 World.getWorld().tileGraphic(1246, new Tile(pos.getX()-1, pos.getY() - 1, pos.getZ()), 0, 0);

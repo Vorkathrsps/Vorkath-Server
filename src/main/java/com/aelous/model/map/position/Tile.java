@@ -118,8 +118,12 @@ public class Tile implements Cloneable {
         return this;
     }
 
-    public Tile getDelta(Tile position) {
-        return new Tile(x - position.x, y - position.y);
+    //public Tile getDelta(Tile position) {
+       // return new Tile(x - position.x, y - position.y);
+   // }
+
+    public Tile getDelta(Tile location, Tile other) {
+        return new Tile(other.x - location.x, other.y - location.y, other.getZ() - location.getZ());
     }
 
     public int getZ() {

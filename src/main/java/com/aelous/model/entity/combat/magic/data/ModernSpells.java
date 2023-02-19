@@ -2,31 +2,65 @@ package com.aelous.model.entity.combat.magic.data;
 
 public enum ModernSpells {
 
-    WIND_STRIKE(1152, 1, 2, 91, 1162, 51,43,31, 92);
+    WIND_STRIKE(1152, 91, 51, 43, 31, 90, 92, 10, 1162),
+    WATER_STRIKE(1154, 94, 51, 43, 31, 93, 95, 10, 1162),
+    EARTH_STRIKE(1156, 97, 51, 43, 31, 96, 98, 10, 1162),
+    FIRE_STRIKE(1158, 100, 51, 43, 31, 99, 101, 10, 1162),
+    WIND_BOLT(1160, 118, 51, 43, 31, 117, 119, 10, 1162),
+    WATER_BOLT(1163, 121, 51, 43, 31, 120, 122, 10, 1162),
+    EARTH_BOLT(1166, 124, 51, 43, 31, 123, 125, 10, 1162),
+    FIRE_BOLT(1169, 127, 51, 43, 31, 126, 128, 10, 1162),
+    WIND_BLAST(1172, 133, 51, 43, 31, 132, 134, 10, 1162),
+    WATER_BLAST(1175, 136, 51, 43, 31, 135, 137, 10, 1162),
+    EARTH_BLAST(1177, 139, 51, 43, 31, 138, 140, 10, 1162),
+    FIRE_BLAST(1181, 130, 51, 43, 31, 129, 131, 10, 1162),
+    SARADOMIN_STRIKE(1190, -1, 51, 43, 31, -1, 76, 10, 811),
+    CLAWS_OF_GUTHIX(1191, -1, 51, 43, 31, -1, 77, 10, 811),
+    FLAMES_OF_ZAMORAK(1192, -1, 51, 43, 31, -1, 78, 10, 811),
+    WIND_WAVE(1183, 159, 51, 43, 31, 158, 160, 10, 1167),
+    WATER_WAVE(1185, 162, 51, 43, 31, 161, 163, 10, 1167),
+    EARTH_WAVE(1188, 165, 51, 43, 31, 164, 166, 10, 1167),
+    FIRE_WAVE(1189, 156, 51, 43, 31, 155, 157, 10, 1167),
+    AIR_SURGE(22644, 1456, 51, 43, 31, 1455, 1457, 10, 7855),
+    WATER_SURGE(22658, 1459, 51, 43, 31, 1458, 1460, 10, 7855),
+    EARTH_SURGE(22628, 1462, 51, 43, 31, 1461, 1463, 10, 7855),
+    FIRE_SURGE(22608, 1465, 51, 43, 31, 1464, 1466, 10, 7855),
+    TELEBLOCK(12445, 1299,51, 41, 31, -1, 345, 10, 1820);
 
-    public final int spellID, levelReq, baseMaxHit, projectile, castAnimation, startSpeed, startHeight, endHeight, endGraphic;
+    public int spellID, projectile, castAnimation, startSpeed, startHeight, endHeight, startGraphic, endGraphic, stepMultiplier;
 
-    ModernSpells(int spellID, int levelReq, int baseMaxHit, int projectile, int castAnimation, int startSpeed, int startHeight, int endHeight, int endGraphic) {
+    ModernSpells(int spellID, int projectile, int startSpeed, int startHeight, int endHeight, int startGraphic, int endGraphic, int stepMultiplier, int castAnimation) {
         this.spellID = spellID;
-        this.levelReq = levelReq;
-        this.baseMaxHit = baseMaxHit;
         this.projectile = projectile;
-        this.castAnimation = castAnimation;
         this.startSpeed = startSpeed;
         this.startHeight = startHeight;
         this.endHeight = endHeight;
+        this.startGraphic = startGraphic;
         this.endGraphic = endGraphic;
+        this.stepMultiplier = stepMultiplier;
+        this.castAnimation = castAnimation;
     }
 
-    public static ModernSpells find(int spellID) {
+    public int getProjectile() {
+        return projectile;
+    }
+
+    public int getStartHeight() {
+        return startHeight;
+    }
+
+    public int getEndHeight() {
+        return endHeight;
+    }
+
+    public static ModernSpells findSpellProjectileData(int spellID) {
         if (spellID != -1) {
-            for (ModernSpells moderns: ModernSpells.values()) {
-                if (moderns.spellID == spellID) {
-                    return moderns;
+            for (ModernSpells spell : ModernSpells.values()) {
+                if (spell.spellID == spellID) {
+                    return spell;
                 }
             }
         }
         return null;
     }
-
 }

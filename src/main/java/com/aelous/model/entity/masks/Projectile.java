@@ -70,9 +70,11 @@ public final class Projectile {
      */
     private final int radius;
 
+    private final int stepMultiplier;
+
     public Projectile(Tile start, Tile end, int lockon,
                       int projectileId, int speed, int delay, int startHeight, int endHeight,
-                      int curve, int creatorSize, int startDistanceOffset) {
+                      int curve, int creatorSize, int startDistanceOffset, int stepMultiplier) {
         this.start = start;
         this.target = end;
         this.offset = new Tile((end.getX() - start.getX()),
@@ -88,99 +90,25 @@ public final class Projectile {
         this.slope = curve;
         this.angle = getAngle();
         this.radius = getRadius();
+        this.stepMultiplier = stepMultiplier;
     }
     public Projectile(Tile start, Tile end, int lockon,
                       int projectileId, int speed, int delay, int startHeight, int endHeight,
                       int curve) {
-        this(start, end, lockon, projectileId, speed, delay, startHeight, endHeight, curve, 1, 0);
+        this(start, end, lockon, projectileId, speed, delay, startHeight, endHeight, curve, 1, 0, 0);
     }
 
-    /**
-     * Grabbing Client speed
-     *
-     * @return
-     */
+    //public Projectile(Entity source, Entity victim, int projectileId, int delay, int speed, int startHeight, int endHeight, int angle, int slope, int radius) {
 
-    public int getClientTicks() {
-        return speed;
-    }
-
-    /**
-     * Create a new {@link Projectile}.
-     *
-     * @param source       the entity that is firing this projectile.
-     * @param victim       the victim that this projectile is being fired at.
-     * @param projectileId the id of the projectile.
-     * @param speed        the speed of the projectile. ANYTHING UNDER 40 MIGHT BE TOO FAST TO SEE ON SCREEN
-     * @param delay        the delay of the projectile.
-     * @param startHeight  the starting height of the projectile.
-     * @param endHeight    the ending height of the projectile.
-     * @param angle        the curve angle of the projectile.
-     * @param slope        the slope of the projectile.
-     * @param radius       The radius that the projectile is launched from.
-     */
-    public Projectile(Entity source, Entity victim, int projectileId, int delay, int speed, int startHeight, int endHeight, int angle, int slope, int radius) {
-
-        this(new Tile(source.getX(), source.getY()), new Tile(victim.getX(), victim.getY()), victim.getProjectileLockonIndex(), projectileId, speed, delay, startHeight, endHeight, angle, slope, radius);
-    }
+       // this(new Tile(source.getX(), source.getY()), new Tile(victim.getX(), victim.getY()), victim.getProjectileLockonIndex(), projectileId, speed, delay, startHeight, endHeight, angle, slope, radius, 0);
+  //  }
 
     public Projectile(Entity source, Entity victim, int projectileId,
-                      int delay, int speed, int startHeight, int endHeight, int curve, int creatorSize) {
+                      int delay, int speed, int startHeight, int endHeight, int curve, int creatorSize, int stepMultiplier) {
         this(source.getCentrePosition(), victim.getCentrePosition(),
             (victim.isPlayer() ? -victim.getIndex() - 1
                 : victim.getIndex() + 1), projectileId, speed, delay,
-            startHeight, endHeight, curve, creatorSize, 64);
-    }
-
-    public Projectile(Entity source, Entity victim, int projectileId, int delay, int speed, int startHeight, int endHeight, int angle, int slope, int radius, boolean movingTarget) {
-        // interesting thing about projectile packet, if we're using the client's PLAYER index array, the id is short.MAX_VAL + id (32k + 2048 max players)
-        // otherwise for npcs its just id (range 0-short.max)
-        this(movingTarget ? source.getCentrePosition() : new Tile(source.getX(), source.getY()), movingTarget ? victim.getCentrePosition() : new Tile(source.getX(), source.getY()), victim.getProjectileLockonIndex(), projectileId, speed, delay, startHeight, endHeight, angle, slope, radius);
-
-
-    }
-
-    public void setSpeedRange(Entity attacker, Entity victim, boolean second) {
-        this.start = attacker.tile();
-        this.target = victim.tile();
-        int gfxDelay;
-        if (attacker.tile().isWithinDistance(victim.tile(), 1)) {
-            speed = 50;
-        } else if (attacker.tile().isWithinDistance(victim.tile(), 3)) {
-            speed = 50;
-        } else if (attacker.tile().isWithinDistance(victim.tile(), 8)) {
-            speed = 60;
-        } else {
-            speed = 65;
-        }
-        if (second) {
-            speed += 15;
-        }
-        gfxDelay = speed + 20;
-        delay = (gfxDelay / 20) - 2;
-    }
-
-    /**
-     * Misc
-     */
-
-    public static Projectile[] arrow(Entity attacker, Entity target, int gfxId) {
-        return new Projectile[]{
-            new Projectile(attacker, target, gfxId, 41, 51, 40, 36, 5, 15, 11),
-            new Projectile(attacker, target, gfxId, 41, 51, 40, 36, 5, 5, 11),    //dark bow arrow 1
-            new Projectile(attacker, target, gfxId, 41, 65, 40, 36, 10, 25, 11),  //dark bow arrow 2
-        };
-    }
-
-    public static Projectile thrown(Entity attacker, Entity target, int gfxId, int idk) {
-        return new Projectile(attacker, target, gfxId, 32, 37, 40, 36, 5, 15, idk);
-    }
-
-    public static Projectile[] javelin(Entity attacker, Entity target, int gfxId) {
-        return new Projectile[]{
-            new Projectile(attacker, target, gfxId, 42, 50, 38, 36, 2, 1, 120), //regular
-            new Projectile(attacker, target, gfxId, 49, 52, 38, 36, 3, 1, 120), //special
-        };
+            startHeight, endHeight, curve, creatorSize, 64, stepMultiplier);
     }
 
     /**
@@ -199,11 +127,11 @@ public final class Projectile {
         this(source.getCentrePosition(), victim.getCentrePosition(),
             (victim.isPlayer() ? -victim.getIndex() - 1
                 : victim.getIndex() + 1), projectileId, speed, delay,
-            startHeight, endHeight, curve, source.getSize(), 0);
+            startHeight, endHeight, curve, source.getSize(), 0, 0);
     }
 
     public Projectile(Entity source, Entity victim, int projectileId, int delay, int speed, int startHeight, int endHeight, int angle, boolean forNpc) {
-        this(source.getCentrePosition(), victim.getCentrePosition(), victim.getProjectileLockonIndex(), projectileId, speed, delay, startHeight, endHeight, angle, 16, 64);
+        this(source.getCentrePosition(), victim.getCentrePosition(), victim.getProjectileLockonIndex(), projectileId, speed, delay, startHeight, endHeight, angle, 16, 64, 0);
     }
 
     /**
@@ -335,13 +263,14 @@ public final class Projectile {
 
     public int getDuration(int distance) {
         if (distance > 0) {
-            return delay + speed + distance * 5;
+            return this.delay + (distance * this.stepMultiplier);
         }
         return 0;
     }
 
     public int getHitDelay(int distance) {
-        return (int) Math.floor((getDuration(distance) * 0.02857D));
+        //return (int) Math.floor(getDuration(distance) * 0.02857D);
+        return (int) Math.floor(getDuration(distance) / 30D) + 1;
     }
 
     public Tile getTarget() {

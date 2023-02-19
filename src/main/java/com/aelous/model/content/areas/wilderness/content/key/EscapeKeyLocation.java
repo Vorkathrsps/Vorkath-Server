@@ -18,7 +18,7 @@ public enum EscapeKeyLocation {
     private static final EscapeKeyLocation[] VALUES = values();
 
     public static EscapeKeyLocation findRandom() {
-        return VALUES[Utils.RANDOM_GEN.get().nextInt(VALUES.length)];
+        return VALUES[Utils.RANDOM_GEN.nextInt(VALUES.length)];
     }
 
     private final Tile tile;

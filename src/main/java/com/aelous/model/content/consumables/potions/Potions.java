@@ -170,18 +170,6 @@ public class Potions {
             }
         }
 
-/*        if (potion == Potion.RECOVER_SPECIAL && (WildernessArea.inWild(player)))) {
-            player.message("You cannot drink this potion here.");
-            return;
-        }
-
-        Long time = player.<Long>getAttribOr(AttributeKey.LAST_RECOVER_SPECIAL_POTION, 0L);
-
-        if (potion == Potion.RECOVER_SPECIAL && time != null && System.currentTimeMillis() - time < 30000) {
-            player.message("You may only use this pot every 30 seconds.");
-            return;
-        }*/
-
         if(potion == Potion.DIVINE_SUPER_COMBAT_POTION || potion == Potion.DIVINE_BASTION_POTION || potion == Potion.DIVINE_RANGING_POTION
             || potion == Potion.DIVINE_BATTLEMAGE_POTION || potion == Potion.DIVINE_SUPER_ATTACK_POTION || potion == Potion.DIVINE_SUPER_DEFENCE_POTION ||
             potion == Potion.DIVINE_SUPER_STRENGTH_POTION || potion == Potion.DIVINE_MAGIC_POTION) {

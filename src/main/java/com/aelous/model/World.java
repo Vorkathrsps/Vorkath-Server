@@ -835,7 +835,7 @@ public class World {
         int[][] clip = clipSquare(base.transform(-radius, -radius, 0), radius * 2 + 1);
 
         for (int i = 0; i < 100; i++) {
-            int x = Utils.RANDOM_GEN.get().nextInt(radius * 2 + 1), z = Utils.RANDOM_GEN.get().nextInt(radius * 2 + 1);
+            int x = Utils.RANDOM_GEN.nextInt(radius * 2 + 1), z = Utils.RANDOM_GEN.nextInt(radius * 2 + 1);
             if (clip[x][z] == 0) {
                 return base.transform(x - radius, z - radius, 0);
             }

@@ -33,21 +33,6 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1162));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return  modern(cast, castOn, dist, 91);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(92, GraphicHeight.HIGH));
-        }
-
-        @Override
         public MagicSpellbook spellbook() {
             return MagicSpellbook.NORMAL;
         }
@@ -55,11 +40,6 @@ CombatSpells {
         @Override
         public int baseMaxHit() {
             return 2;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(90, GraphicHeight.HIGH));
         }
 
         @Override
@@ -112,26 +92,6 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(716));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn) {
-            return Optional.empty();
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.empty();
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
-        }
-
-        @Override
         public int baseExperience() {
             return 13;
         }
@@ -167,30 +127,9 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1162));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 94);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(95, GraphicHeight.HIGH));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 4;
         }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(93, GraphicHeight.HIGH));
-        }
-
         @Override
         public int baseExperience() {
             return 7;
@@ -232,29 +171,10 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1162));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 97);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(98, GraphicHeight.HIGH));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 6;
         }
 
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(96, GraphicHeight.HIGH));
-        }
 
         @Override
         public int baseExperience() {
@@ -297,16 +217,6 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(716));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn) {
-            return Optional.empty();
-        }
-
-        @Override
         public int spellRadius() {
             return 0;
         }
@@ -319,16 +229,6 @@ CombatSpells {
         @Override
         public void spellEffect(Entity cast, Entity castOn, Hit hit) {
 
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.empty();
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -367,28 +267,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1162));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 100);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(101, GraphicHeight.HIGH));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 8;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(99, GraphicHeight.HIGH));
         }
 
         @Override
@@ -438,28 +318,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1162));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 118);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(119, GraphicHeight.HIGH));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 9;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(117, GraphicHeight.HIGH));
         }
 
         @Override
@@ -502,16 +362,6 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(710));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn) {
-            return Optional.empty();
-        }
-
-        @Override
         public int spellRadius() {
             return 0;
         }
@@ -523,16 +373,6 @@ CombatSpells {
 
         @Override
         public void spellEffect(Entity cast, Entity castOn, Hit hit) {
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.empty();
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -571,18 +411,6 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(710));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            var tileDist = cast.tile().distance(castOn.tile());
-            var delay = (1D + (Math.floor(1 + tileDist) / 6D));
-            return bind(cast, castOn, dist, 178);
-        }
-
-        @Override
         public int spellRadius() {
             return 0;
         }
@@ -607,16 +435,6 @@ CombatSpells {
                     count += 0.6;
                 castOn.freeze((int) (8 + count), cast);
             }
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(181, GraphicHeight.HIGH));
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(177, GraphicHeight.HIGH));
         }
 
         @Override
@@ -659,28 +477,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1162));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 121);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(122, GraphicHeight.HIGH));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 10;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(120, GraphicHeight.HIGH));
         }
 
         @Override
@@ -724,28 +522,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1162));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 124);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(125, GraphicHeight.HIGH));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 11;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(123, GraphicHeight.HIGH));
         }
 
         @Override
@@ -789,28 +567,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1162));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 127);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(128, GraphicHeight.HIGH));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 12;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(126, GraphicHeight.HIGH));
         }
 
         @Override
@@ -860,28 +618,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(724));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 146);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(147));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 15;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(145, GraphicHeight.HIGH));
         }
 
         @Override
@@ -925,28 +663,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1162));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 133);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(134, GraphicHeight.HIGH));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 13;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(132, GraphicHeight.HIGH));
         }
 
         @Override
@@ -989,28 +707,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1162));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 136);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(137, GraphicHeight.HIGH));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 14;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(135, GraphicHeight.HIGH));
         }
 
         @Override
@@ -1054,28 +752,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(708));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 88);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(89));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 25;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(87, GraphicHeight.HIGH));
         }
 
         @Override
@@ -1125,16 +803,6 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(710));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return bind(cast, castOn, dist, 178);
-        }
-
-        @Override
         public int spellRadius() {
             return 0;
         }
@@ -1159,16 +827,6 @@ CombatSpells {
                     count += 0.6;
                 castOn.freeze((int) (16 + count), cast);
             }
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(180, GraphicHeight.HIGH));
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(177, GraphicHeight.HIGH));
         }
 
         @Override
@@ -1211,28 +869,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1576));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 328);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(329));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 19;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(327, GraphicHeight.HIGH));
         }
 
         @Override
@@ -1279,28 +917,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1162));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 139);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(140, GraphicHeight.HIGH));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 15;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(138, GraphicHeight.HIGH));
         }
 
         @Override
@@ -1344,28 +962,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1162));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 130);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(131, GraphicHeight.HIGH));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 16;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(129, GraphicHeight.HIGH));
         }
 
         @Override
@@ -1413,28 +1011,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(811));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn) {
-            return Optional.empty();
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(76));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 20;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -1482,28 +1060,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(811));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn) {
-            return Optional.empty();
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(77));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 20;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -1551,28 +1109,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(811));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn) {
-            return Optional.empty();
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(78));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 20;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -1624,28 +1162,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1167));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 159);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(160, GraphicHeight.HIGH));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 17;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(158, GraphicHeight.HIGH));
         }
 
         @Override
@@ -1688,28 +1206,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1167));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 162);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(163, GraphicHeight.HIGH));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 18;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(161, GraphicHeight.HIGH));
         }
 
         @Override
@@ -1753,16 +1251,6 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(729));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn) {
-            return Optional.empty();
-        }
-
-        @Override
         public int spellRadius() {
             return 0;
         }
@@ -1776,17 +1264,6 @@ CombatSpells {
         public void spellEffect(Entity cast, Entity castOn, Hit hit) {
             // Dealth elsewhere
         }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.empty();
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
-        }
-
         @Override
         public int baseExperience() {
             return 76;
@@ -1823,28 +1300,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1167));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 165);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(166, GraphicHeight.HIGH));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 19;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(164, GraphicHeight.HIGH));
         }
 
         @Override
@@ -1888,16 +1345,6 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(729));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn) {
-            return Optional.empty();
-        }
-
-        @Override
         public int spellRadius() {
             return 0;
         }
@@ -1909,16 +1356,6 @@ CombatSpells {
 
         @Override
         public void spellEffect(Entity cast, Entity castOn, Hit hit) {
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.empty();
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -1957,28 +1394,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1167));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 156);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(157, GraphicHeight.HIGH));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 20;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(155,GraphicHeight.HIGH));
         }
 
         @Override
@@ -2026,16 +1443,6 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(710));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return bind(cast, castOn, dist, 178);
-        }
-
-        @Override
         public int spellRadius() {
             return 0;
         }
@@ -2060,16 +1467,6 @@ CombatSpells {
                     count += 0.6D;
                 castOn.freeze((int) (25 + count), cast); // 15 second freeze timer
             }
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(179, GraphicHeight.HIGH));
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(177, GraphicHeight.HIGH));
         }
 
         @Override
@@ -2112,16 +1509,6 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(729));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn) {
-            return Optional.empty();
-        }
-
-        @Override
         public int spellRadius() {
             return 0;
         }
@@ -2149,16 +1536,6 @@ CombatSpells {
                 player.skills().update(Skills.ATTACK);
                 player.message("You feel slightly weakened.");
             }
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.empty();
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -2197,16 +1574,6 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1819));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn) {
-            return Optional.empty();
-        }
-
-        @Override
         public boolean canCast(Player player, Entity target, boolean delete) {
             if (target.getTimers().has(TimerKey.TELEBLOCK) || target.getTimers().has(TimerKey.SPECIAL_TELEBLOCK) || target.getTimers().has(TimerKey.TELEBLOCK_IMMUNITY)) {
                 player.message("That player is already being affected by this spell.");
@@ -2230,16 +1597,6 @@ CombatSpells {
         @Override
         public int baseMaxHit() {
             return -1;
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.empty();
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -2282,28 +1639,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(7855));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 1456);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(1457, GraphicHeight.HIGH));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 21;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(1455, GraphicHeight.HIGH));
         }
 
         @Override
@@ -2346,28 +1683,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(7855));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 1459);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(1460, GraphicHeight.HIGH));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 22;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(1458, GraphicHeight.HIGH));
         }
 
         @Override
@@ -2411,28 +1728,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(7855));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 1462);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(1463, GraphicHeight.HIGH));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 23;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(1461, GraphicHeight.HIGH));
         }
 
         @Override
@@ -2476,28 +1773,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(7855));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 1465);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(1466, GraphicHeight.HIGH));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 24;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(1464, GraphicHeight.HIGH));
         }
 
         @Override
@@ -2557,28 +1834,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1978));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return ancient(cast, castOn, dist, 384);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(385));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 13;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -2640,30 +1897,9 @@ CombatSpells {
         public int spellRadius() {
             return 0;
         }
-
-        @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1978));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return ancient(cast, castOn, dist, 378);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(379));
-        }
-
         @Override
         public int baseMaxHit() {
             return 14;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -2727,28 +1963,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1978));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return ancient(cast, castOn, dist, 372);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(373));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 15;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -2797,28 +2013,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1978));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return ancient(cast, castOn, dist, 360);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(361));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 18;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -2873,28 +2069,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1979));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return ancient(cast, castOn, dist, 380);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(389));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 13;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -2962,28 +2138,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1979));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return ancient(cast, castOn, dist, 380);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(382));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 18;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -3047,28 +2203,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1979));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return ancient(cast, castOn, dist, 374);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(376));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 21;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -3117,28 +2253,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1979));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return ancient(cast, castOn, dist, 362);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(363));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 22;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -3193,28 +2309,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1978));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return ancient(cast, castOn, dist, 386);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(387));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 23;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -3282,28 +2378,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1978));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return ancient(cast, castOn, dist, 380);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(381));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 24;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -3367,28 +2443,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1978));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return ancient(cast, castOn, dist, 374);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(375));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 25;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -3436,28 +2492,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1978));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return ancient(cast, castOn, dist, 366);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(367));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 26;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(366, GraphicHeight.HIGH));
         }
 
         @Override
@@ -3512,28 +2548,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1979));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return ancient(cast, castOn, dist, 390);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(391));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 27;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -3601,28 +2617,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1979));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn) {
-            return Optional.empty();
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(383));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 28;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -3686,28 +2682,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1979));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn) {
-            return Optional.empty();
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(377, GraphicHeight.HIGH));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 29;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -3756,28 +2732,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1979));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return Optional.empty();
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(369));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 30;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override
@@ -3820,28 +2776,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1167));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, (9 * dist), 1252);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(1253, GraphicHeight.HIGH));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 28;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(1251, GraphicHeight.HIGH));
         }
 
         @Override
@@ -3881,28 +2817,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1167));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 1040);
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(1042));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 33;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(665, GraphicHeight.HIGH));
         }
 
         @Override
@@ -3942,28 +2858,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(1167));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn, int dist) {
-            return modern(cast, castOn, dist, 1539); //9 *
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(1541, GraphicHeight.HIGH));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 34;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(1540, GraphicHeight.HIGH));
         }
 
         @Override
@@ -4003,28 +2899,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.of(new Animation(8532));
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn) {
-            return Optional.empty();
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.of(new Graphic(1759, GraphicHeight.LOW));
-        }
-
-        @Override
         public int baseMaxHit() {
             return 0;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.of(new Graphic(1760, GraphicHeight.LOW));
         }
 
         @Override
@@ -4064,28 +2940,8 @@ CombatSpells {
         }
 
         @Override
-        public Optional<Animation> castAnimation() {
-            return Optional.empty();
-        }
-
-        @Override
-        public Optional<Projectile> executeProjectile(Entity cast, Entity castOn) {
-            return Optional.empty();
-        }
-
-        @Override
-        public Optional<Graphic> endGraphic() {
-            return Optional.empty();
-        }
-
-        @Override
         public int baseMaxHit() {
             return 50;
-        }
-
-        @Override
-        public Optional<Graphic> startGraphic() {
-            return Optional.empty();
         }
 
         @Override

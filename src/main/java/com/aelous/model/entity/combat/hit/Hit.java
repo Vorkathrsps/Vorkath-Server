@@ -43,10 +43,6 @@ public class Hit {
         return this;
     }
 
-    public void setDelay(int delay) {
-        this.delay = delay;
-    }
-
     /**
      * The attacker instance.
      */
@@ -101,6 +97,28 @@ public class Hit {
     }
 
     /**
+     * Adjusts the hit delay with the characters update index (PID).
+     */
+    private void adjustDelay() {
+
+        if (attacker.isNpc() || target.isNpc() || attacker.pidOrderIndex == -1) {
+            return;
+        }
+
+       // if (damageType == DamageType.DWARF_MULTICANNON || damageType == DamageType.VENOM || damageType == DamageType.POISON) {
+        //    return;
+       // }
+
+        if (attacker.pidOrderIndex <= target.pidOrderIndex) {
+            delay -= 1;
+        }
+
+        if (delay < 1 && combatType != CombatType.MELEE) {
+            delay = 1;
+        }
+    }
+
+    /**
      * Constructs a QueueableHit with a total of {hitCountToGenerate} hits.
      **/
     public Hit(Entity attacker, Entity target, CombatMethod method, boolean checkAccuracy, int delay, int damage) {
@@ -114,6 +132,7 @@ public class Hit {
         this.damage = damage;
         applyAccuracyToMiss();
         this.delay = delay;
+        this.adjustDelay();
         this.splatType = damage < 1 ? SplatType.BLOCK_HITSPLAT : SplatType.HITSPLAT;
         }
 

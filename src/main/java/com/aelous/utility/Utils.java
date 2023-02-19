@@ -467,7 +467,7 @@ public class Utils {
         return srand.nextDouble() < chance;
     }
     public static boolean percentageChance(int chance) {
-        return RANDOM_GEN.get().nextInt(100) < chance;
+        return RANDOM_GEN.nextInt(100) < chance;
     }
 
     public static String pluralOrNot(String word, int count) {
@@ -665,7 +665,9 @@ public class Utils {
     /**
      * Random instance, used to generate pseudo-random primitive types.
      */
-    public static final RandomGen RANDOM_GEN = new RandomGen();
+    public static final SecureRandom RANDOM_GEN = new SecureRandom();
+
+    public static final RandomGen RANDOM_GEN2 = new RandomGen();
 
     /**
      * The random instance.
@@ -684,11 +686,11 @@ public class Utils {
      * @return int random number
      */
     public static int getRandom(int length) {
-        return RANDOM_GEN.get().nextInt(length);
+        return RANDOM_GEN.nextInt(length);
     }
 
     public static double getRandomDouble(double length) {
-        return RANDOM_GEN.get().nextDouble(length);
+        return RANDOM_GEN.nextDouble();
     }
 
     /**
@@ -699,19 +701,19 @@ public class Utils {
      * @return double random number
      */
     public static double getRandomDouble() {
-        return RANDOM_GEN.get().nextDouble();
+        return RANDOM_GEN.nextDouble();
     }
 
     public static int getRandomInt() {
-        return RANDOM_GEN.get().nextInt();
+        return RANDOM_GEN.nextInt();
     }
 
     public static int inclusive(int min, int max) {
-        return RANDOM_GEN.inclusive(min, max);
+        return RANDOM_GEN2.inclusive(min, max);
     }
 
     public static int randomInclusive(int min, int max) {
-        return Math.min(min, max) + RANDOM_GEN.get().nextInt(Math.max(min, max) - Math.min(min, max) + 1);
+        return Math.min(min, max) + RANDOM_GEN.nextInt(Math.max(min, max) - Math.min(min, max) + 1);
     }
 
     /**
@@ -721,7 +723,7 @@ public class Utils {
      * @return the element chosen.
      */
     public static <T> T randomElement(Collection<T> collection) {
-        return new ArrayList<T>(collection).get((int) (RANDOM_GEN.get().nextDouble() * collection.size()));
+        return new ArrayList<T>(collection).get((int) (RANDOM_GEN.nextDouble() * collection.size()));
     }
 
     /**
@@ -734,7 +736,7 @@ public class Utils {
         if (list == null || list.size() == 0) {
             return null;
         }
-        return list.get((int) (RANDOM_GEN.get().nextDouble() * list.size()));
+        return list.get((int) (RANDOM_GEN.nextDouble() * list.size()));
     }
 
     /**
@@ -744,7 +746,7 @@ public class Utils {
      * @return the element chosen.
      */
     public static <T> T randomElement(T[] array) {
-        return array[(int) (RANDOM_GEN.get().nextDouble() * array.length)];
+        return array[(int) (RANDOM_GEN.nextDouble() * array.length)];
     }
 
     /**
@@ -754,7 +756,7 @@ public class Utils {
      * @return the element chosen.
      */
     public static int randomElement(int[] array) {
-        return array[(int) (RANDOM_GEN.get().nextDouble() * array.length)];
+        return array[(int) (RANDOM_GEN.nextDouble() * array.length)];
     }
 
     public static void compareItemArrays(int[] oldItemsArray, int[] newItemsArray) {
@@ -1754,7 +1756,7 @@ public class Utils {
     public static final int random(int maxValue) {
         if (maxValue == 0)
             return 0;
-        return RANDOM_GEN.get().nextInt(maxValue);
+        return RANDOM_GEN.nextInt(maxValue);
     }
 
     public static int rand(int range) {
@@ -1762,7 +1764,7 @@ public class Utils {
     }
 
     public static boolean roll(int chance) {
-        return RANDOM_GEN.get().nextInt(chance) == 0;
+        return RANDOM_GEN.nextInt(chance) == 0;
     }
 
     /**

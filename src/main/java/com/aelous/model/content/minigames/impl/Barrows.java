@@ -107,7 +107,7 @@ public class Barrows extends PacketInteraction {
                 }
 
                 if (broId != 0) {
-                    var tile = new Tile(3548 + Utils.RANDOM_GEN.get().nextInt(6), 9691 + Utils.RANDOM_GEN.get().nextInt(1), player.tile().level);
+                    var tile = new Tile(3548 + Utils.RANDOM_GEN.nextInt(6), 9691 + Utils.RANDOM_GEN.nextInt(1), player.tile().level);
                     var npc = new NPC(broId, tile);
 
                     World.getWorld().registerNpc(npc);
@@ -191,7 +191,7 @@ public class Barrows extends PacketInteraction {
                     } else {
                         switch (coffinId) {
                             case 20720 -> {
-                                tile = new Tile(3552 + Utils.RANDOM_GEN.get().nextInt(4), 9716, player.tile().level);
+                                tile = new Tile(3552 + Utils.RANDOM_GEN.nextInt(4), 9716, player.tile().level);
                                 broId = DHAROK_THE_WRETCHED;
                                 var dharokKc = player.<Integer>getAttribOr(DHAROK, 0);
                                 if (dharokKc == 1) {
@@ -200,7 +200,7 @@ public class Barrows extends PacketInteraction {
                                 }
                             }
                             case 20770 -> {
-                                tile = new Tile(3552 + Utils.RANDOM_GEN.get().nextInt(6), 9701, player.tile().level);
+                                tile = new Tile(3552 + Utils.RANDOM_GEN.nextInt(6), 9701, player.tile().level);
                                 broId = AHRIM_THE_BLIGHTED;
                                 var ahrimKc = player.<Integer>getAttribOr(AHRIM, 0);
                                 if (ahrimKc == 1) {
@@ -209,7 +209,7 @@ public class Barrows extends PacketInteraction {
                                 }
                             }
                             case 20772 -> {
-                                tile = new Tile(3576, 9708 - Utils.RANDOM_GEN.get().nextInt(4),
+                                tile = new Tile(3576, 9708 - Utils.RANDOM_GEN.nextInt(4),
                                     player.tile().level);
                                 broId = VERAC_THE_DEFILED;
                                 var veracKc = player.<Integer>getAttribOr(VERAC, 0);
@@ -220,7 +220,7 @@ public class Barrows extends PacketInteraction {
                             }
                             case 20721 -> {
                                 System.out.println("euhm");
-                                tile = new Tile(3567 + Utils.RANDOM_GEN.get().nextInt(5), 9684,
+                                tile = new Tile(3567 + Utils.RANDOM_GEN.nextInt(5), 9684,
                                     player.tile().level);
                                 broId = TORAG_THE_CORRUPTED;
 
@@ -231,7 +231,7 @@ public class Barrows extends PacketInteraction {
                                 }
                             }
                             case 20771 -> {
-                                tile = new Tile(3548, 9681 + Utils.RANDOM_GEN.get().nextInt(5), player.tile().level);
+                                tile = new Tile(3548, 9681 + Utils.RANDOM_GEN.nextInt(5), player.tile().level);
                                 broId = KARIL_THE_TAINTED;
                                 var karilKc = player.<Integer>getAttribOr(KARIL, 0);
                                 if (karilKc == 1) {
@@ -240,7 +240,7 @@ public class Barrows extends PacketInteraction {
                                 }
                             }
                             case 20722 -> {
-                                tile = new Tile(3536, 9701 + Utils.RANDOM_GEN.get().nextInt(5), player.tile().level);
+                                tile = new Tile(3536, 9701 + Utils.RANDOM_GEN.nextInt(5), player.tile().level);
                                 broId = GUTHAN_THE_INFESTED;
 
                                 var guthanKc = player.<Integer>getAttribOr(GUTHAN, 0);
@@ -279,7 +279,7 @@ public class Barrows extends PacketInteraction {
         var totalLoot = new ItemContainer(10, ItemContainer.StackPolicy.ALWAYS);
 
         for (int i = 1; i < 3; i++) {
-            var rand = Utils.RANDOM_GEN.get();
+            var rand = Utils.RANDOM_GEN;
             var idx = rand.nextInt(lootItemIds.size());
             //var multiplier = lootItemAmts.get(idx) > 600 ? 2 : 1;
 
@@ -326,7 +326,7 @@ public class Barrows extends PacketInteraction {
      * Select a random coffin ID to be the enterance to the chest.
      */
     private static int setChest() {
-        return possibles.get(Utils.RANDOM_GEN.get().nextInt(6));
+        return possibles.get(Utils.RANDOM_GEN.nextInt(6));
     }
 
     // Register stairways to heaven.

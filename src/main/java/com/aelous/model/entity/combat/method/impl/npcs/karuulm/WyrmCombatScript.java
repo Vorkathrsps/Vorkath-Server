@@ -35,7 +35,7 @@ public class WyrmCombatScript extends CommonCombatMethod {
 
     private void magicAttack(Entity entity, Entity target) {
         entity.animate(8271);
-        new Projectile(entity.getCentrePosition(), target.tile(),1,1634, 125,30,36, 31,0,10,10).sendProjectile();
+        //new Projectile(entity.getCentrePosition(), target.tile(),1,1634, 125,30,36, 31,0,10,10).sendProjectile();
 
         int delay = entity.getProjectileHitDelay(target);
         int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC);

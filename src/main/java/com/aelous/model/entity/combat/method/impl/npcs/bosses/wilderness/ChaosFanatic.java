@@ -95,9 +95,9 @@ public class ChaosFanatic extends CommonCombatMethod {
         var explosive_three_delay = Math.max(1, (20 + explosive_three_distance * 12) / 30);
 
         //Send the projectiles
-        new Projectile(npc.tile(), explosive_one, 0, 551, 24 * explosive_one_distance, explosive_one_delay, 50, 0, 0, 35, 10).sendProjectile();
-        new Projectile(npc.tile(), explosive_two, 0, 551, 24 * explosive_two_distance, explosive_two_delay, 50, 0, 0, 35, 10).sendProjectile();
-        new Projectile(npc.tile(), explosive_three, 0, 551, 24 * explosive_three_distance, explosive_three_delay, 50, 0, 0, 35, 10).sendProjectile();
+        //new Projectile(npc.tile(), explosive_one, 0, 551, 24 * explosive_one_distance, explosive_one_delay, 50, 0, 0, 35, 10).sendProjectile();
+        //new Projectile(npc.tile(), explosive_two, 0, 551, 24 * explosive_two_distance, explosive_two_delay, 50, 0, 0, 35, 10).sendProjectile();
+        //new Projectile(npc.tile(), explosive_three, 0, 551, 24 * explosive_three_distance, explosive_three_delay, 50, 0, 0, 35, 10).sendProjectile();
 
         //Send the tile graphic
         World.getWorld().tileGraphic(157, explosive_one, 1, 24 * explosive_one_distance);

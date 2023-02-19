@@ -20,6 +20,7 @@ import com.aelous.utility.ItemIdentifiers;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 import static com.aelous.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
 import static com.aelous.model.entity.combat.CombatType.RANGED;
@@ -157,7 +158,7 @@ public class RangeAccuracyNpc {
         Player player = (Player) attacker;
         final Item weapon = player.getEquipment().get(EquipSlot.WEAPON);
             if (weapon != null) {
-                if (Arrays.asList(TWISTED_BOW).stream().anyMatch(w -> w.intValue() == weapon.getId())) {
+                if (Stream.of(TWISTED_BOW).anyMatch(w -> w == weapon.getId())) {
 
                     double magicLevel = 0;
 

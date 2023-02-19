@@ -4,6 +4,7 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.formula.maxhit.MagicMaxHit;
 import com.aelous.model.entity.combat.formula.maxhit.MeleeMaxHit;
 import com.aelous.model.entity.combat.formula.maxhit.RangeMaxHit;
+import com.aelous.model.entity.combat.magic.data.ModernSpells;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.network.packet.incoming.impl.MagicOnPlayerPacketListener;
 import com.google.common.base.Stopwatch;
@@ -92,6 +93,8 @@ public class Combat {
     private boolean autoRetaliate;
     // Magic data
     private CombatSpell castSpell;
+
+    private ModernSpells spellID;
     private CombatSpell autoCastSpell;
 
     public Combat(Entity mob) {
@@ -600,9 +603,6 @@ public class Combat {
         return castSpell;
     }
 
-    /**
-     * the next spell to cast example from {@link MagicOnPlayerPacketListener}
-     */
     public void setCastSpell(CombatSpell castSpell) {
         this.castSpell = castSpell;
     }

@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 public enum MagicSpellbook {
 
     NORMAL(938),
+
     ANCIENT(838),
     LUNAR(29999);
 

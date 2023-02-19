@@ -117,7 +117,7 @@ public class VasaNistirio extends CommonCombatMethod {
         final var tile = target.tile().copy();
         final var distance = target.tile().getChevDistance(entity.tile());
         Projectile projectile = new Projectile(entity.tile().transform(1, 1, 0), tile, 1, 1329, 75, 25, 90, 0, 16);
-        int delay = projectile.getHitDelay(distance);
+        int delay = (int) projectile.getHitDelay(distance);
         World.getWorld().tileGraphic(1330, tile, 0, delay);
         entity.startEvent(2, () -> {
             if (entity.getCentrePosition().isWithinDistance(target.getCentrePosition(), 1)) {

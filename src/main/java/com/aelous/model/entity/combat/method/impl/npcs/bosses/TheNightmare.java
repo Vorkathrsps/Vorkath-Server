@@ -187,7 +187,7 @@ public class TheNightmare extends CommonCombatMethod {
                 Chain.bound(null).runFn(3, () -> {
                     p.runOnceTask(5, r -> {
                         final var tile = p.tile().copy();
-                        new Projectile(entity.getCentrePosition(), tile, 1, 1637, 125, 40, 100, 0, 0, 16, 96).sendProjectile();
+                        //new Projectile(entity.getCentrePosition(), tile, 1, 1637, 125, 40, 100, 0, 0, 16, 96).sendProjectile();
                         World.getWorld().tileGraphic(1638, tile, 0, 0);
                         if (p.tile().equals(tile)) {
                             for (int hits = 0; hits < 4; hits++) {

@@ -28,7 +28,7 @@ public class Rewards {
         }
 
         for (int index = 0; index < rewards; index++) {
-            double roll = Utils.RANDOM_GEN.get().nextDouble() * 100.0;
+            double roll = Utils.RANDOM_GEN.nextDouble() * 100.0;
             List<StandardTable> possibles = Arrays.stream(StandardTable.values()).filter(r -> roll <= r.probability).collect(Collectors.toList());
 
             StandardTable reward = Utils.randomElement(possibles);
@@ -38,7 +38,7 @@ public class Rewards {
 
         //7 if lucky and got a rare
         if (World.getWorld().rollDie(2, 1)) {
-            double roll = Utils.RANDOM_GEN.get().nextDouble() * 100.0;
+            double roll = Utils.RANDOM_GEN.nextDouble() * 100.0;
             List<RareTable> possibles = Arrays.stream(RareTable.values()).filter(r -> roll <= r.probability).collect(Collectors.toList());
             RareTable reward = Utils.randomElement(possibles);
             if (reward != null) {

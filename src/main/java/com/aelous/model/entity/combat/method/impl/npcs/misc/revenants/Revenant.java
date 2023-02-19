@@ -63,8 +63,8 @@ public class Revenant extends CommonCombatMethod {
         int delay = (int) (1 + Math.floor(3 + tileDist) / 6D);
 
         npc.animate(npc.attackAnimation());
-        int hitdelay = npc.executeProjectile(new Projectile(npc, target, 206, delay, tileDist, 30,31,0,1));
-        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), hitdelay + 1, CombatType.RANGED).checkAccuracy().submit();
+        //int hitdelay = npc.executeProjectile(new Projectile(npc, target, 206, delay, tileDist, 30,31,0,1));
+      //  target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), hitdelay + 1, CombatType.RANGED).checkAccuracy().submit();
     }
 
     private void magicAttack(NPC npc, Entity target) {
@@ -73,10 +73,10 @@ public class Revenant extends CommonCombatMethod {
         delay = (int) Math.min(Math.max(1.0 , delay), 5.0);
 
         npc.animate(npc.attackAnimation());
-        int hitdelay = npc.executeProjectile(new Projectile(npc, target, 1415, delay, tileDist, 30,31,0,1));
+       // int hitdelay = npc.executeProjectile(new Projectile(npc, target, 1415, delay, tileDist, 30,31,0,1));
         int damage = CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC);
-        target.hit(npc, damage, hitdelay + 1, CombatType.MAGIC).checkAccuracy().submit();
-        target.performGraphic(damage > 0 ? new Graphic(1454, GraphicHeight.HIGH, hitdelay + 1) : new Graphic(85, GraphicHeight.HIGH, hitdelay * 5));
+       // target.hit(npc, damage, hitdelay + 1, CombatType.MAGIC).checkAccuracy().submit();
+      //  target.performGraphic(damage > 0 ? new Graphic(1454, GraphicHeight.HIGH, hitdelay + 1) : new Graphic(85, GraphicHeight.HIGH, hitdelay * 5));
         npc.freeze(8, target);
     }
 }

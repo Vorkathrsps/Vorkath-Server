@@ -45,7 +45,7 @@ public class AccuracyFormula {
         double attackBonus = getEffectiveAttackBonus(attacker, defender, style);
         double defenceBonus = getEffectiveDefense(attacker, defender, style);
         double successfulRoll;
-        double selectedChance = new SecureRandom().nextDouble();
+        double selectedChance = srand.nextDouble();
 
         if (attackBonus > defenceBonus)
             successfulRoll = 1D - (defenceBonus + 2D) / (2D * (attackBonus + 1D));

@@ -9,6 +9,8 @@ import com.aelous.model.entity.combat.ranged.RangedData.RangedWeapon;
 import com.aelous.model.entity.combat.ranged.drawback.*;
 import com.aelous.model.entity.combat.weapon.WeaponType;
 import com.aelous.model.entity.masks.Projectile;
+import com.aelous.model.entity.masks.impl.animations.Animation;
+import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
@@ -23,7 +25,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
     @Override
     public void prepareAttack(Entity attacker, Entity target) {
         //TODO sound here
-        attacker.animate(attacker.attackAnimation());
+        attacker.animate(new Animation(attacker.attackAnimation()));
 
         if (attacker.isNpc()) {
             new Projectile(attacker, target, attacker.getAsNpc().combatInfo().projectile, 41, 60, 40, 36, 15).sendProjectile();
@@ -37,8 +39,9 @@ public class RangedCombatMethod extends CommonCombatMethod {
 
             WeaponType weaponType = player.getCombat().getWeaponType();
             RangedData.RangedWeaponType weaponTypeSpecial = player.getCombat().getRangedWeapon().getType();
-            int delay = (int) (Math.floor(3 + attacker.tile().getManHattanDist(attacker.tile(), target.tile()) / 6D));
-            double distance = attacker.tile().getChevDistance(target.tile());
+            int duration = 0;
+            int stepMultiplier = 0;
+            int distance = attacker.tile().getChevDistance(target.tile());
             int endHeight = 0;
             int startHeight = 0;
             int startSpeed = 0;
@@ -55,29 +58,35 @@ public class RangedCombatMethod extends CommonCombatMethod {
             switch (weaponType) {
                 case BOW -> {
                     if (drawbackBow != null) {
-                        player.graphic(drawbackBow.gfx, GraphicHeight.HIGH, 0);
+                        attacker.performGraphic(new Graphic(drawbackBow.gfx, GraphicHeight.HIGH, 0));
                         graphic = drawbackBow.projectile;
                         startSpeed = drawbackBow.startSpeed;
                         startHeight = drawbackBow.startHeight;
                         endHeight = drawbackBow.endHeight;
+                        stepMultiplier = drawbackBow.stepMultiplier;
+                        duration = startSpeed + (stepMultiplier * distance);
                     }
                 }
                 case THROWN -> {
                     if (drawBackKnife != null) {
-                        player.graphic(drawBackKnife.gfx, GraphicHeight.HIGH, 0);
+                        target.performGraphic(new Graphic(drawBackKnife.gfx, GraphicHeight.HIGH, 0));
                         graphic = drawBackKnife.projectile;
                         startSpeed = drawBackKnife.startSpeed;
                         startHeight = drawBackKnife.startHeight;
                         endHeight = drawBackKnife.endHeight;
+                        stepMultiplier = drawBackKnife.stepMultiplier;
+                        duration = (startSpeed + 11) + (stepMultiplier * distance);
                     }
                 }
                 case CROSSBOW -> {
                     if (boltDrawBack != null) {
+                        attacker.performGraphic(new Graphic(boltDrawBack.gfx, GraphicHeight.HIGH, 0));
                         graphic = boltDrawBack.projectile;
                         startSpeed = boltDrawBack.startSpeed;
                         startHeight = boltDrawBack.startHeight;
                         endHeight = boltDrawBack.endHeight;
-                        player.graphic(boltDrawBack.gfx, GraphicHeight.HIGH, 0);
+                        stepMultiplier = boltDrawBack.stepMultiplier;
+                        duration = (startSpeed + 11) + (stepMultiplier * distance);
                     }
                 }
                 case CHINCHOMPA -> {
@@ -86,7 +95,8 @@ public class RangedCombatMethod extends CommonCombatMethod {
                         startSpeed = chinChompaDrawBack.startSpeed;
                         startHeight = chinChompaDrawBack.startHeight;
                         endHeight = chinChompaDrawBack.endHeight;
-                        target.graphic(chinChompaDrawBack.gfx, GraphicHeight.HIGH, (int) (startSpeed + 11 + (5 * distance)));
+                        stepMultiplier = chinChompaDrawBack.stepMultiplier;
+                        duration = (startSpeed + 11) + (stepMultiplier * distance);
                     }
                 }
             }
@@ -98,36 +108,53 @@ public class RangedCombatMethod extends CommonCombatMethod {
                         startSpeed = drawbackBow.startSpeed;
                         startHeight = drawbackBow.startHeight;
                         endHeight = drawbackBow.endHeight;
-                        target.graphic(drawbackBow.gfx, GraphicHeight.HIGH, (int) (startSpeed + 11 + (5 * distance)));
+                        stepMultiplier = drawbackBow.stepMultiplier;
+                        duration = (startSpeed + 11) + (stepMultiplier * distance);
                     }
                 }
                 case THROWING_AXES -> {
                     if (thrownDrawBack != null) {
-                        player.graphic(thrownDrawBack.gfx, GraphicHeight.HIGH, 0);
                         graphic = thrownDrawBack.projectile;
                         startSpeed = thrownDrawBack.startSpeed;
                         startHeight = thrownDrawBack.startHeight;
                         endHeight = thrownDrawBack.endHeight;
+                        stepMultiplier = thrownDrawBack.stepMultiplier;
+                        duration = (startSpeed + 11) + (stepMultiplier * distance);
                     }
                 }
                 case DARTS -> {
                     if (drawbackDart != null) {
-                        player.graphic(drawbackDart.gfx, GraphicHeight.HIGH, 0);
                         graphic = drawbackDart.projectile;
                         startSpeed = drawbackDart.startSpeed;
                         startHeight = drawbackDart.startHeight;
                         endHeight = drawbackDart.endHeight;
+                        stepMultiplier = drawbackDart.stepMultiplier;
+                        duration = (startSpeed + 11) + (stepMultiplier * distance);
                     }
                 }
             }
 
+            Projectile projectile = new Projectile(attacker, target, graphic, startSpeed, duration, startHeight, endHeight, 0, target.getSize(), stepMultiplier);
+
+            final int hitDelay = attacker.executeProjectile(projectile);
+
+            Hit hit = Hit.builder(attacker, target, CombatFactory.calcDamageFromType(attacker, target, CombatType.RANGED), hitDelay, CombatType.RANGED).checkAccuracy();
+
+            hit.submit();
+
             if (graphic != -1) {
-                Projectile projectile = new Projectile(attacker, target, graphic, startSpeed, delay, startHeight, endHeight, 0, target.getSize());
-                player.executeProjectile(projectile);
 
-                Hit hit = target.hit(attacker, CombatFactory.calcDamageFromType(attacker, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().postDamage(this::handleAfterHit);
+                if (weaponType == WeaponType.CHINCHOMPA) {
+                    if (chinChompaDrawBack != null) {
+                        target.performGraphic(new Graphic(chinChompaDrawBack.gfx, GraphicHeight.HIGH, projectile.getSpeed()));
+                    }
+                }
 
-                hit.submit();
+                if (weaponTypeSpecial == RangedData.RangedWeaponType.BALLISTA) {
+                    if (drawbackBow != null) {
+                        target.performGraphic(new Graphic(drawbackBow.gfx, GraphicHeight.HIGH, projectile.getSpeed()));
+                    }
+                }
             }
         }
     }
@@ -150,18 +177,5 @@ public class RangedCombatMethod extends CommonCombatMethod {
             return weapon.getType().getDefaultDistance();
         }
         return 6;
-    }
-
-    public void handleAfterHit(Hit hit) {
-        if (hit.getAttacker() == null) {
-            return;
-        }
-
-        final RangedWeapon rangedWeapon = hit.getAttacker().getCombat().getRangedWeapon();
-
-        if (rangedWeapon == null) {
-            return;
-        }
-
     }
 }

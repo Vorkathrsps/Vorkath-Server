@@ -15,6 +15,7 @@ import com.aelous.model.content.skill.impl.hunter.trap.impl.Birds;
 import com.aelous.model.content.skill.impl.hunter.trap.impl.Chinchompas;
 import com.aelous.model.content.skill.impl.slayer.content.ImbuedHeart;
 import com.aelous.model.content.skill.impl.woodcutting.BirdNest;
+import com.aelous.model.content.treasure.pvpcache.FrozenCache;
 import com.aelous.model.content.treasure.TreasureRewardCaskets;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.content.bountyhunter.dialogue.TeleportToTargetScrollD;
@@ -45,6 +46,10 @@ public class ItemActionOne {
             return;
         }
         if (TreasureRewardCaskets.openCasket(player, item)) {
+            return;
+        }
+
+        if (FrozenCache.openCasket(player, item)) {
             return;
         }
 

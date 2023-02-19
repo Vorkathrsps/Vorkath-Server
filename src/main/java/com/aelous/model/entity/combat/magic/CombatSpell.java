@@ -46,23 +46,6 @@ public abstract class CombatSpell extends Spell {
     @Override
     public void startCast(Entity cast, Entity castOn) {
         CombatSpell spell = cast.getCombat().getCastSpell() != null ? cast.getCombat().getCastSpell() : cast.getCombat().getAutoCastSpell();
-
-        int projectile = 0, castAnimation = 0, startSpeed = 0, startHeight = 0, endHeight = 0, startGraphic = 0, endGraphic = 0, stepMultiplier = 0, duration = 0;
-        int distance = cast.tile().getManHattanDist(cast.tile(), castOn.tile());
-        var spellID = cast.getCombat().getCastSpell().spellId();
-
-        GraphicHeight graphicHeight = GraphicHeight.HIGH;
-        ModernSpells findProjectileData = ModernSpells.findSpellProjectileData(spellID);
-        Optional<MagicSpellbook> spellbook = Arrays.stream(MagicSpellbook.values()).findFirst();
-        AncientSpells findProjectileDataAncients = AncientSpells.findSpellProjectileData(spellID, graphicHeight, graphicHeight);
-
-        cast.animate(new Animation(castAnimation));
-        cast.performGraphic(new Graphic(startGraphic, GraphicHeight.HIGH, 0));
-
-        Projectile p = new Projectile(cast, castOn, projectile, startSpeed, duration, startHeight, endHeight, 0, castOn.getSize(), stepMultiplier);
-
-        castOn.performGraphic(new Graphic(endGraphic, GraphicHeight.HIGH, p.getSpeed()));
-
     }
 
 

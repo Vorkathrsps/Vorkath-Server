@@ -40,57 +40,55 @@ public class MagicCombatMethod extends CommonCombatMethod {
         int projectile = 0, castAnimation = 0, startSpeed = 0, startHeight = 0, endHeight = 0, startGraphic = 0, endGraphic = 0, stepMultiplier = 0, duration = 0;
         int distance = entity.tile().getChevDistance(target.tile());
 
-        var spellID = entity.getCombat().getCastSpell().spellId();
+        var spellID = spell.spellId();
+
         GraphicHeight startGraphicHeight = GraphicHeight.HIGH;
         GraphicHeight endGraphicHeight = GraphicHeight.HIGH;
-        ModernSpells findProjectileDataModern = ModernSpells.findSpellProjectileData(spellID);
+        ModernSpells findProjectileDataModern = ModernSpells.findSpellProjectileData(spellID, endGraphicHeight);
         AncientSpells findProjectileDataAncients = AncientSpells.findSpellProjectileData(spellID, startGraphicHeight, endGraphicHeight);
 
         if (!target.dead() && !entity.dead()) {
-            if (spell != null) {
-                if (spell.canCast(entity.getAsPlayer(), target, true)) {
-                    if (entity.getAsPlayer().getSpellbook() == MagicSpellbook.NORMAL) {
-                        if (findProjectileDataModern != null) {
-                            switch (spell.spellId()) {
-                                case 1152, 1154, 1156, 1158, 1160, 1163, 1169, 1172, 1175,
-                                    1181, 1166, 1177, 1190, 1191, 1192, 1183, 1185, 1188,
-                                    1189, 22644, 22658, 22628, 22608, 12445 -> {
-                                    projectile = findProjectileDataModern.projectile;
-                                    startGraphic = findProjectileDataModern.startGraphic;
-                                    castAnimation = findProjectileDataModern.castAnimation;
-                                    startSpeed = findProjectileDataModern.startSpeed;
-                                    startHeight = findProjectileDataModern.startHeight;
-                                    endHeight = findProjectileDataModern.endHeight;
-                                    endGraphic = findProjectileDataModern.endGraphic;
-                                    stepMultiplier = findProjectileDataModern.stepMultiplier;
-                                    duration = startSpeed + 5 + (stepMultiplier * distance);
-                                }
-                            }
-                        }
-                    }
-                }
-                if (entity.getAsPlayer().getSpellbook() == MagicSpellbook.ANCIENT) {
-                    if (findProjectileDataAncients != null) {
+            if (spell.canCast(entity.getAsPlayer(), target, true)) {
+                if (entity.getAsPlayer().getSpellbook() == MagicSpellbook.NORMAL) {
+                    if (findProjectileDataModern != null) {
                         switch (spell.spellId()) {
-                            case 12939, 12987, 12901, 12861, 12963, 13011,
-                                12919, 12881, 12951, 12999, 12911, 12871,
-                                12975, 13023, 12929, 12891 -> {
-                                projectile = findProjectileDataAncients.projectile;
-                                startGraphic = findProjectileDataAncients.startGraphic;
-                                castAnimation = findProjectileDataAncients.castAnimation;
-                                startSpeed = findProjectileDataAncients.startSpeed;
-                                startHeight = findProjectileDataAncients.startHeight;
-                                endHeight = findProjectileDataAncients.endHeight;
-                                endGraphic = findProjectileDataAncients.endGraphic;
-                                stepMultiplier = findProjectileDataAncients.stepMultiplier;
-                                duration = ((startSpeed + 5) + (distance * stepMultiplier));
-                                startGraphicHeight = findProjectileDataAncients.startGraphicheight;
-                                endGraphicHeight = findProjectileDataAncients.endGraphicHeight;
+                            case 1152, 1154, 1156, 1158, 1160, 1163, 1169, 1172, 1175,
+                                1181, 1166, 1177, 1190, 1191, 1192, 1183, 1185, 1188,
+                                1189, 22644, 22658, 22628, 22608, 12445 -> {
+                                projectile = findProjectileDataModern.projectile;
+                                startGraphic = findProjectileDataModern.startGraphic;
+                                castAnimation = findProjectileDataModern.castAnimation;
+                                startSpeed = findProjectileDataModern.startSpeed;
+                                startHeight = findProjectileDataModern.startHeight;
+                                endHeight = findProjectileDataModern.endHeight;
+                                endGraphic = findProjectileDataModern.endGraphic;
+                                stepMultiplier = findProjectileDataModern.stepMultiplier;
+                                duration = startSpeed + -5 + (stepMultiplier * distance);
                             }
                         }
                     }
                 }
-                spell.startCast(entity, target);
+            }
+            if (entity.getAsPlayer().getSpellbook() == MagicSpellbook.ANCIENT) {
+                if (findProjectileDataAncients != null) {
+                    switch (spell.spellId()) {
+                        case 12939, 12987, 12901, 12861, 12963, 13011,
+                            12919, 12881, 12951, 12999, 12911, 12871,
+                            12975, 13023, 12929, 12891 -> {
+                            projectile = findProjectileDataAncients.projectile;
+                            startGraphic = findProjectileDataAncients.startGraphic;
+                            castAnimation = findProjectileDataAncients.castAnimation;
+                            startSpeed = findProjectileDataAncients.startSpeed;
+                            startHeight = findProjectileDataAncients.startHeight;
+                            endHeight = findProjectileDataAncients.endHeight;
+                            endGraphic = findProjectileDataAncients.endGraphic;
+                            stepMultiplier = findProjectileDataAncients.stepMultiplier;
+                            duration = (startSpeed + -5 + (distance * stepMultiplier));
+                            startGraphicHeight = findProjectileDataAncients.startGraphicheight;
+                            endGraphicHeight = findProjectileDataAncients.endGraphicHeight;
+                        }
+                    }
+                }
             }
 
             entity.animate(new Animation(castAnimation));
@@ -110,6 +108,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
             } else {
                 target.performGraphic(new Graphic(85, GraphicHeight.LOW, p.getSpeed(), Priority.HIGH));
             }
+            spell.finishCast(entity, target, hit.isAccurate(), hit.getDamage());
         }
     }
 

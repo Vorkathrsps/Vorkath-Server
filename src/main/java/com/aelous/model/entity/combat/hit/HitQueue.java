@@ -103,7 +103,7 @@ public class HitQueue {
     private boolean shouldShowSplat(Hit hit) {
         boolean magic_splash = hit.getCombatType() == CombatType.MAGIC && !hit.isAccurate() && !hit.forceShowSplashWhenMissMagic;
         // only hide 0 magic dmg hitplat in PVP, example npcs can splash and it will show a 0 hitsplat (like kraken)
-        if (hit.isAccurate() && hit.getDamage() == 0 && !hit.getTarget().frozen() && !hit.getTarget().getTimers().has(TimerKey.REFREEZE)) {
+        if (hit.isAccurate() && hit.getDamage() == 0 && !hit.getTarget().frozen()) {
             return true;
         }
             return !(magic_splash && hit.getAttacker().isPlayer());

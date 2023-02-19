@@ -269,7 +269,6 @@ public final class Projectile {
     }
 
     public int getHitDelay(int distance) {
-        //return (int) Math.floor(getDuration(distance) * 0.02857D);
         return (int) Math.floor(getDuration(distance) / 30D) + 1;
     }
 

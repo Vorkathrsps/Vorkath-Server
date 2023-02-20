@@ -28,7 +28,7 @@ public enum ModernSpells {
     EARTH_SURGE(22628, 1462, 51, 43, 31, 1461, 1463, 10, 7855,  GraphicHeight.HIGH),
     FIRE_SURGE(22608, 1465, 51, 43, 31, 1464, 1466, 10, 7855,  GraphicHeight.HIGH),
     TELEBLOCK(12445, 1299,75, 43, 31, -1, 345, 10, 1820, GraphicHeight.LOW),
-    TUMMEKENS_SHADOW(6, 2126, 51, 63, 31, 2125, 2127, 10, 9493,  GraphicHeight.MIDDLE);
+    TUMMEKENS_SHADOW(6, 2126, 51, 63, 31, 2125, 2127, 10, 9493,  GraphicHeight.HIGH);
 
     public int spellID, projectile, castAnimation, startSpeed, startHeight, endHeight, startGraphic, endGraphic, stepMultiplier;
 
@@ -50,16 +50,6 @@ public enum ModernSpells {
     String name;
     int levelReq, maxHit, baseExp, radius;
     int[] itemsRequiredToCast;
-
-    ModernSpells(String name, int spellID, int levelReq, int maxHit, int baseExp, int radius, int[] itemsRequiredToCast) {
-        this.name = name;
-        this.spellID = spellID;
-        this.levelReq = levelReq;
-        this.maxHit = maxHit;
-        this.baseExp = baseExp;
-        this.radius = radius;
-        this.itemsRequiredToCast = itemsRequiredToCast;
-    }
 
     public int getProjectile() {
         return projectile;

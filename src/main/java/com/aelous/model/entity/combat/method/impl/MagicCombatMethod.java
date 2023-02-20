@@ -41,6 +41,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
 
     private static final String MODERN = "./data/combat/magic/modern.toml";
     private static final String ANCIENTS = "./data/combat/magic/ancients.toml";
+
     @Override
     public void prepareAttack(Entity entity, Entity target) {
         try {
@@ -76,9 +77,9 @@ public class MagicCombatMethod extends CommonCombatMethod {
             if (!target.dead() && !entity.dead()) {
                 if (spell.canCast(entity.getAsPlayer(), target, true)) {
                     if (entity.getAsPlayer().getSpellbook() == MagicSpellbook.NORMAL) {
-                        if (findProjectileDataModern != null) {
-                            dataStore.forEach(key -> {
-                                if (spellIdentificationsModern.stream().findAny().isPresent()) {
+                        if (spellIdentificationsModern.stream().findAny().isPresent()) {
+                            if (findProjectileDataModern != null) {
+                                dataStore.forEach(key -> {
                                     projectile.set(findProjectileDataModern.projectile);
                                     startGraphic.set(findProjectileDataModern.startGraphic);
                                     castAnimation.set(findProjectileDataModern.castAnimation);
@@ -89,15 +90,13 @@ public class MagicCombatMethod extends CommonCombatMethod {
                                     stepMultiplier.set(findProjectileDataModern.stepMultiplier);
                                     duration.set(startSpeed.get() + -5 + (stepMultiplier.get() * distance));
                                     endGraphicHeight[0] = findProjectileDataModern.endGraphicHeight;
-                                }
-                            });
+                                });
+                            }
                         }
-                    }
-                    if (entity.getAsPlayer().getSpellbook() == MagicSpellbook.ANCIENT) {
-                        if (spellIdentificationsAncients.stream().findAny().isPresent()) {
-                            if (findProjectileDataAncients != null) {
-                                dataStore.forEach(key -> {
-                                    if (spellIdentificationsModern.stream().findAny().isPresent()) {
+                        if (entity.getAsPlayer().getSpellbook() == MagicSpellbook.ANCIENT) {
+                            if (spellIdentificationsAncients.stream().findAny().isPresent()) {
+                                if (findProjectileDataAncients != null) {
+                                    dataStore.forEach(key -> {
                                         projectile.set(findProjectileDataAncients.projectile);
                                         startGraphic.set(findProjectileDataAncients.startGraphic);
                                         castAnimation.set(findProjectileDataAncients.castAnimation);
@@ -108,8 +107,8 @@ public class MagicCombatMethod extends CommonCombatMethod {
                                         stepMultiplier.set(findProjectileDataAncients.stepMultiplier);
                                         duration.set(startSpeed.get() + -5 + (stepMultiplier.get() * distance));
                                         endGraphicHeight[0] = findProjectileDataAncients.endGraphicHeight;
-                                    }
-                                });
+                                    });
+                                }
                             }
                         }
                     }

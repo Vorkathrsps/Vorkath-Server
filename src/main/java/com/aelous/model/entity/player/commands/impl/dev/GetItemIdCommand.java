@@ -8,6 +8,9 @@ import com.aelous.model.entity.player.commands.Command;
 import com.aelous.model.items.Item;
 import com.aelous.utility.Color;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 /**
  * This command is used to send a list of items and their id's to the player based on the search term.
  * @author Bananastreet
@@ -38,11 +41,11 @@ public class GetItemIdCommand implements Command {
             Item item = new Item(j);
             if (item.name() != null && !item.name().equalsIgnoreCase("null")) {
                 if (item.name().replace("_", " ").toLowerCase().contains(itemName)) {
-                    player.message("<col="+Color.MEDRED.getColorValue()+">" + item.name().replace("_", " ") + " - " + item.getId());
-                    results++;
+                        player.message("<col=" + Color.MEDRED.getColorValue() + ">" + item.name().replace("_", " ") + " - " + item.getId());
+                        results++;
+                    }
                 }
             }
-        }
         player.message(results + " results found...");
     }
 
@@ -54,6 +57,6 @@ public class GetItemIdCommand implements Command {
         if(GameServer.properties().test) {
             return true;
         }
-        return (player.getPlayerRights().isAdministrator(player) || player.getUsername().equalsIgnoreCase("wclord999"));
+        return (player.getPlayerRights().isAdministrator(player));
     }
 }

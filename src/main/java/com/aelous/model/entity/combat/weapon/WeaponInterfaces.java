@@ -8,6 +8,7 @@ import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
+import com.aelous.utility.ItemIdentifiers;
 
 /**
  * A static utility class that displays holds and displays data for weapon
@@ -90,6 +91,7 @@ public class WeaponInterfaces {
     }
 
     public static boolean changeCombatSettings(Player player, int button) {
+        Item staff = player.getEquipment().get(EquipSlot.WEAPON);
         switch (button) {
             // shortbow & longbow
             case 1772 -> {
@@ -301,6 +303,9 @@ public class WeaponInterfaces {
             }
 
             case 336 -> {
+                if (Autocasting.SPECIAL_AUTOCAST_STAFFS.contains(staff.getId())) {
+                    return false;
+                }
                 if (player.getAttribOr(AttributeKey.AUTOCAST_SELECTED, false) != null) {
                     Autocasting.setAutocast(player, null);
                 }
@@ -308,6 +313,9 @@ public class WeaponInterfaces {
                 return true;
             }
             case 335 -> {
+                if (Autocasting.SPECIAL_AUTOCAST_STAFFS.contains(staff.getId())) {
+                    return false;
+                }
                 if (player.getAttribOr(AttributeKey.AUTOCAST_SELECTED, false) != null) {
                     Autocasting.setAutocast(player, null);
                 }
@@ -316,6 +324,9 @@ public class WeaponInterfaces {
             }
 
             case 334 -> {
+                if (Autocasting.SPECIAL_AUTOCAST_STAFFS.contains(staff.getId())) {
+                    return false;
+                }
                 if (player.getAttribOr(AttributeKey.AUTOCAST_SELECTED, false) != null) {
                     Autocasting.setAutocast(player, null);
                 }

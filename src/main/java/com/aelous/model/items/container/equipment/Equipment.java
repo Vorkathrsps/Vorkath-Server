@@ -651,6 +651,8 @@ public final class Equipment extends ItemContainer {
             Autocasting.setAutocast(player, CombatSpells.TRIDENT_OF_THE_SWAMP.getSpell());
         } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, SANGUINESTI_STAFF)) {
             Autocasting.setAutocast(player, CombatSpells.SANGUINESTI_STAFF.getSpell());
+        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
+                Autocasting.setAutocast(player, CombatSpells.TUMEKENS_SHADOW.getSpell());
         } else {
             if(player.getCombat().getAutoCastSpell() != null) {
                 Autocasting.setAutocast(player, null);

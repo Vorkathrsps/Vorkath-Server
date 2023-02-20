@@ -39,7 +39,7 @@ public class MagicOnPlayerPacketListener implements PacketListener {
         if (other == null) {
             player.message("Unable to find player.");
         } else {
-            player.stopActions(false);
+            //player.stopActions(false);
             if (!player.locked() && !player.dead()) {
                 if (!other.dead()) {
                     player.putAttrib(AttributeKey.TARGET, new WeakReference<Entity>(other));
@@ -55,7 +55,7 @@ public class MagicOnPlayerPacketListener implements PacketListener {
                     CombatSpell spell = CombatSpells.getCombatSpell(spellId);
 
                     if (spell == null) {
-                        player.getMovementQueue().reset();
+                        //player.getMovementQueue().reset();
                         Spell clickSpell = MagicClickSpells.getMagicSpell(spellId);
 
                         if (clickSpell != null) {

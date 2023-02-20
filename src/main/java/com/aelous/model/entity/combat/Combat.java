@@ -55,6 +55,7 @@ public class Combat {
         CombatSpells.TRIDENT_OF_THE_SEAS.getSpell(),
         CombatSpells.TRIDENT_OF_THE_SWAMP.getSpell(),
         CombatSpells.SANGUINESTI_STAFF.getSpell(),
+        CombatSpells.TUMEKENS_SHADOW.getSpell(),
     };
 
     // The user's damage map

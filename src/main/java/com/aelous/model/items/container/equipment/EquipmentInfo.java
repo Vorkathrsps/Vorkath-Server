@@ -99,6 +99,7 @@ public class EquipmentInfo {
                         // these don't fucking factor ammo
                         continue;
                     }
+
                     Bonuses equip = info.bonuses(equipped.getId());
 
                     bonuses.stab += equip.stab;
@@ -117,6 +118,9 @@ public class EquipmentInfo {
                     bonuses.rangestr += equip.rangestr;
                     bonuses.magestr += equip.magestr;
                     bonuses.pray += equip.pray;
+                    if (player.getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
+                        bonuses.magestr += Math.min(equip.magestr * 3, equip.magestr * equip.magestr);
+                    }
                 }
             }
         } else {

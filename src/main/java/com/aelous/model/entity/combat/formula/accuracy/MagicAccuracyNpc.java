@@ -75,6 +75,9 @@ public class MagicAccuracyNpc {
                 if (FormulaUtils.voidMagic((Player) attacker)) {
                     bonus *= 1.45D; //45%
                 }
+                if (((Player) attacker).getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
+                    bonus *= 3;
+                }
                 if (FormulaUtils.isUndead(attacker.getCombat().getTarget())) { //UNDEAD BONUSES
                     if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI_25278)) {
                         bonus *= 1.20D;

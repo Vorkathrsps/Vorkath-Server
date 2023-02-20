@@ -1563,6 +1563,8 @@ public class Player extends Entity {
                 getCombat().setAutoCastSpell(CombatSpells.TRIDENT_OF_THE_SEAS.getSpell());
             } else if (getEquipment().hasAt(EquipSlot.WEAPON, SANGUINESTI_STAFF)) {
                 getCombat().setAutoCastSpell(CombatSpells.SANGUINESTI_STAFF.getSpell());
+            } else if (getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
+                getCombat().setAutoCastSpell((CombatSpells.TUMEKENS_SHADOW.getSpell()));
             }
 
             boolean newAccount = this.getAttribOr(NEW_ACCOUNT, false);
@@ -3201,6 +3203,8 @@ public class Player extends Entity {
                         World.getWorld().sendWorldMessage("<col=6a1a18><img=1100>The world boss will spawn in 5 minutes, gear up!");
                     }
                 }
+
+                this.syncContainers();
 
                 if (minutesTillWildyKey == 5) {
                     if (!EscapeKeyPlugin.ANNOUNCE_5_MIN_TIMER) {

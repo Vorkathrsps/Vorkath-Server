@@ -297,7 +297,7 @@ public class World {
                 try {
                     player.processed = true;
                     player.sequence();
-                    player.syncContainers();
+                    //player.syncContainers();
                 } catch (Exception e) {
                     logger.catching(e);
                     player.requestLogout();

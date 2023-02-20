@@ -49,9 +49,19 @@ public class MagicCombatMethod extends CommonCombatMethod {
             Toml parseMagicDataModerns = new Toml().read(dataStreamModern);
             InputStream dataStreamAncients = new FileInputStream(ANCIENTS);
             Toml parseMagicDataAncients = new Toml().read(dataStreamAncients);
+            List<Integer> spellIdentificationsModern = parseMagicDataModerns.getList("spellid");
+            List<Integer> spellIdentificationsAncients = parseMagicDataAncients.getList("spellid");
             CombatSpell spell = entity.getCombat().getCastSpell() != null ? entity.getCombat().getCastSpell() : entity.getCombat().getAutoCastSpell();
-            int distance = entity.tile().getChevDistance(target.tile());
+            IntStream dataStore = Arrays.stream(new int[]{Integer.parseInt(String.valueOf(spell.spellId()))});
 
+            boolean canCast = spell.canCast(entity.getAsPlayer(), target, true);
+            boolean modernSpellbook = entity.getAsPlayer().getSpellbook() == MagicSpellbook.NORMAL;
+            boolean ancientSpellbook = entity.getAsPlayer().getSpellbook() == MagicSpellbook.ANCIENT;
+            boolean validateModernSpellData = spellIdentificationsModern.stream().findAny().isPresent();
+            boolean validateAncientSpellData = spellIdentificationsAncients.stream().findAny().isPresent();
+            var spellID = spell.spellId();
+
+            int distance = entity.tile().getChevDistance(target.tile());
             AtomicInteger projectile = new AtomicInteger();
             AtomicInteger castAnimation = new AtomicInteger();
             AtomicInteger startSpeed = new AtomicInteger();
@@ -62,22 +72,15 @@ public class MagicCombatMethod extends CommonCombatMethod {
             AtomicInteger stepMultiplier = new AtomicInteger();
             AtomicInteger duration = new AtomicInteger();
 
-            var spellID = spell.spellId();
-
-            IntStream dataStore = Arrays.stream(new int[]{Integer.parseInt(String.valueOf(spell.spellId()))});
-
-            List<Integer> spellIdentificationsModern = parseMagicDataModerns.getList("spellid");
-            List<Integer> spellIdentificationsAncients = parseMagicDataAncients.getList("spellid");
-
             GraphicHeight startGraphicHeight = GraphicHeight.HIGH;
             final GraphicHeight[] endGraphicHeight = {GraphicHeight.HIGH};
             ModernSpells findProjectileDataModern = ModernSpells.findSpellProjectileData(spellID, endGraphicHeight[0]);
             AncientSpells findProjectileDataAncients = AncientSpells.findSpellProjectileData(spellID, startGraphicHeight, endGraphicHeight[0]);
 
             if (!target.dead() && !entity.dead()) {
-                if (spell.canCast(entity.getAsPlayer(), target, true)) {
-                    if (entity.getAsPlayer().getSpellbook() == MagicSpellbook.NORMAL) {
-                        if (spellIdentificationsModern.stream().findAny().isPresent()) {
+                if (canCast) {
+                    if (modernSpellbook) {
+                        if (validateModernSpellData) {
                             if (findProjectileDataModern != null) {
                                 dataStore.forEach(key -> {
                                     projectile.set(findProjectileDataModern.projectile);
@@ -93,8 +96,8 @@ public class MagicCombatMethod extends CommonCombatMethod {
                                 });
                             }
                         }
-                        if (entity.getAsPlayer().getSpellbook() == MagicSpellbook.ANCIENT) {
-                            if (spellIdentificationsAncients.stream().findAny().isPresent()) {
+                        if (ancientSpellbook) {
+                            if (validateAncientSpellData) {
                                 if (findProjectileDataAncients != null) {
                                     dataStore.forEach(key -> {
                                         projectile.set(findProjectileDataAncients.projectile);

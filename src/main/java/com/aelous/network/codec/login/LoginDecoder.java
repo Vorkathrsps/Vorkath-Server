@@ -1,8 +1,8 @@
 package com.aelous.network.codec.login;
 
+import com.aelous.network.NetworkUtils;
 import com.aelous.network.codec.ByteBufUtils;
 import com.aelous.network.security.HostBlacklist;
-import com.aelous.network.NetworkUtils;
 import com.aelous.network.security.IsaacRandom;
 import com.aelous.utility.Utils;
 import io.netty.buffer.ByteBuf;
@@ -19,8 +19,6 @@ import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
 
-import static org.apache.logging.log4j.util.Unbox.box;
-
 /**
  * Attempts to decode a player's login request.
  *
@@ -34,7 +32,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
      * Generates random numbers via secure cryptography. Generates the session key
      * for packet encryption.
      */
-    private static final Random random = new SecureRandom();
+    private static final ThreadLocal<Random> secureRandom = ThreadLocal.withInitial(SecureRandom::new);
 
     /**
      * The size of the encrypted data.
@@ -82,11 +80,11 @@ public final class LoginDecoder extends ByteToMessageDecoder {
         }
 
         // Send information to the client
-        ByteBuf buf = Unpooled.buffer(Byte.BYTES + Long.BYTES);
+        ByteBuf buf = ctx.alloc().buffer(Byte.BYTES + Long.BYTES);
         buf.writeByte(0); // 0 = continue login
-        buf.writeLong(random.nextLong()); // This long will be used for
+        buf.writeLong(secureRandom.get().nextLong()); // This long will be used for
         // encryption later on
-        ctx.writeAndFlush(buf);
+        ctx.writeAndFlush(buf, ctx.voidPromise());
 
         state = LoginDecoderState.LOGIN_TYPE_AND_SIZE;
     }

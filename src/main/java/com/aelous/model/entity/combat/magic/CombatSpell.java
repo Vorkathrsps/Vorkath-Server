@@ -45,7 +45,6 @@ public abstract class CombatSpell extends Spell {
 
     @Override
     public void startCast(Entity cast, Entity castOn) {
-        CombatSpell spell = cast.getCombat().getCastSpell() != null ? cast.getCombat().getCastSpell() : cast.getCombat().getAutoCastSpell();
     }
 
 

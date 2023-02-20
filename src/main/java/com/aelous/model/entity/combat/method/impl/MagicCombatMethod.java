@@ -16,16 +16,10 @@ import com.aelous.model.entity.masks.impl.graphics.Priority;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
-import com.aelous.utility.Words;
-import com.fasterxml.jackson.databind.deser.std.StringArrayDeserializer;
 import com.moandjiezana.toml.Toml;
-import it.unimi.dsi.fastutil.booleans.BooleanArrays;
-import lombok.Value;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
@@ -41,13 +35,12 @@ public class MagicCombatMethod extends CommonCombatMethod {
 
     private static final String MODERN = "./data/combat/magic/modern.toml";
     private static final String ANCIENTS = "./data/combat/magic/ancients.toml";
-
     @Override
     public void prepareAttack(Entity entity, Entity target) {
         try {
             InputStream dataStreamModern = new FileInputStream(MODERN);
-            Toml parseMagicDataModerns = new Toml().read(dataStreamModern);
             InputStream dataStreamAncients = new FileInputStream(ANCIENTS);
+            Toml parseMagicDataModerns = new Toml().read(dataStreamModern);
             Toml parseMagicDataAncients = new Toml().read(dataStreamAncients);
             List<Integer> spellIdentificationsModern = parseMagicDataModerns.getList("spellid");
             List<Integer> spellIdentificationsAncients = parseMagicDataAncients.getList("spellid");
@@ -60,17 +53,19 @@ public class MagicCombatMethod extends CommonCombatMethod {
             boolean validateModernSpellData = spellIdentificationsModern.stream().findAny().isPresent();
             boolean validateAncientSpellData = spellIdentificationsAncients.stream().findAny().isPresent();
             var spellID = spell.spellId();
+            var projectileObject = new Object() {
+                int projectile;
+                int startgraphic;
+                int castAnimation;
+                int startSpeed;
+                int startHeight;
+                int endHeight;
+                int endGraphic;
+                int stepMultiplier;
+                int duration;
+            };
 
             int distance = entity.tile().getChevDistance(target.tile());
-            AtomicInteger projectile = new AtomicInteger();
-            AtomicInteger castAnimation = new AtomicInteger();
-            AtomicInteger startSpeed = new AtomicInteger();
-            AtomicInteger startHeight = new AtomicInteger();
-            AtomicInteger endHeight = new AtomicInteger();
-            AtomicInteger startGraphic = new AtomicInteger();
-            AtomicInteger endGraphic = new AtomicInteger();
-            AtomicInteger stepMultiplier = new AtomicInteger();
-            AtomicInteger duration = new AtomicInteger();
 
             GraphicHeight startGraphicHeight = GraphicHeight.HIGH;
             final GraphicHeight[] endGraphicHeight = {GraphicHeight.HIGH};
@@ -83,15 +78,15 @@ public class MagicCombatMethod extends CommonCombatMethod {
                         if (validateModernSpellData) {
                             if (findProjectileDataModern != null) {
                                 dataStore.forEach(key -> {
-                                    projectile.set(findProjectileDataModern.projectile);
-                                    startGraphic.set(findProjectileDataModern.startGraphic);
-                                    castAnimation.set(findProjectileDataModern.castAnimation);
-                                    startSpeed.set(findProjectileDataModern.startSpeed);
-                                    startHeight.set(findProjectileDataModern.startHeight);
-                                    endHeight.set(findProjectileDataModern.endHeight);
-                                    endGraphic.set(findProjectileDataModern.endGraphic);
-                                    stepMultiplier.set(findProjectileDataModern.stepMultiplier);
-                                    duration.set(startSpeed.get() + -5 + (stepMultiplier.get() * distance));
+                                    projectileObject.projectile = (findProjectileDataModern.projectile);
+                                    projectileObject.startgraphic = (findProjectileDataModern.startGraphic);
+                                    projectileObject.castAnimation = (findProjectileDataModern.castAnimation);
+                                    projectileObject.startSpeed = (findProjectileDataModern.startSpeed);
+                                    projectileObject.startHeight = (findProjectileDataModern.startHeight);
+                                    projectileObject.endHeight = (findProjectileDataModern.endHeight);
+                                    projectileObject.endGraphic = (findProjectileDataModern.endGraphic);
+                                    projectileObject.stepMultiplier = (findProjectileDataModern.stepMultiplier);
+                                    projectileObject.duration = (projectileObject.startSpeed + -5 + (projectileObject.stepMultiplier * distance));
                                     endGraphicHeight[0] = findProjectileDataModern.endGraphicHeight;
                                 });
                             }
@@ -100,15 +95,15 @@ public class MagicCombatMethod extends CommonCombatMethod {
                             if (validateAncientSpellData) {
                                 if (findProjectileDataAncients != null) {
                                     dataStore.forEach(key -> {
-                                        projectile.set(findProjectileDataAncients.projectile);
-                                        startGraphic.set(findProjectileDataAncients.startGraphic);
-                                        castAnimation.set(findProjectileDataAncients.castAnimation);
-                                        startSpeed.set(findProjectileDataAncients.startSpeed);
-                                        startHeight.set(findProjectileDataAncients.startHeight);
-                                        endHeight.set(findProjectileDataAncients.endHeight);
-                                        endGraphic.set(findProjectileDataAncients.endGraphic);
-                                        stepMultiplier.set(findProjectileDataAncients.stepMultiplier);
-                                        duration.set(startSpeed.get() + -5 + (stepMultiplier.get() * distance));
+                                        projectileObject.projectile = (findProjectileDataAncients.projectile);
+                                        projectileObject.startgraphic = (findProjectileDataAncients.startGraphic);
+                                        projectileObject.castAnimation = (findProjectileDataAncients.castAnimation);
+                                        projectileObject.startSpeed = (findProjectileDataAncients.startSpeed);
+                                        projectileObject.startHeight = (findProjectileDataAncients.startHeight);
+                                        projectileObject.endHeight = (findProjectileDataAncients.endHeight);
+                                        projectileObject.endGraphic = (findProjectileDataAncients.endGraphic);
+                                        projectileObject.stepMultiplier = (findProjectileDataAncients.stepMultiplier);
+                                        projectileObject.duration = (projectileObject.startSpeed + -5 + (projectileObject.stepMultiplier * distance));
                                         endGraphicHeight[0] = findProjectileDataAncients.endGraphicHeight;
                                     });
                                 }
@@ -118,11 +113,11 @@ public class MagicCombatMethod extends CommonCombatMethod {
                 }
             }
 
-            entity.animate(new Animation(castAnimation.get()));
+            entity.animate(new Animation(projectileObject.castAnimation));
 
-            entity.performGraphic(new Graphic(startGraphic.get(), startGraphicHeight, 0));
+            entity.performGraphic(new Graphic(projectileObject.startgraphic, startGraphicHeight, 0));
 
-            Projectile p = new Projectile(entity, target, projectile.get(), startSpeed.get(), duration.get(), startHeight.get(), endHeight.get(), 0, target.getSize(), stepMultiplier.get());
+            Projectile p = new Projectile(entity, target, projectileObject.projectile, projectileObject.startSpeed, projectileObject.duration, projectileObject.startHeight, projectileObject.endHeight, 0, target.getSize(), projectileObject.stepMultiplier);
 
             final int delay = entity.executeProjectile(p);
 
@@ -131,7 +126,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
             hit.submit();
 
             if (hit.isAccurate()) {
-                target.performGraphic(new Graphic(endGraphic.get(), endGraphicHeight[0], p.getSpeed(), Priority.HIGH));
+                target.performGraphic(new Graphic(projectileObject.endGraphic, endGraphicHeight[0], p.getSpeed(), Priority.HIGH));
             } else {
                 target.performGraphic(new Graphic(85, GraphicHeight.LOW, p.getSpeed(), Priority.HIGH));
             }

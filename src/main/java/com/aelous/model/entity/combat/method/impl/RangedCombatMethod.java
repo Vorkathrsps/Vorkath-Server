@@ -64,7 +64,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                         startHeight = drawbackBow.startHeight;
                         endHeight = drawbackBow.endHeight;
                         stepMultiplier = drawbackBow.stepMultiplier;
-                        duration = startSpeed + (stepMultiplier * distance);
+                        duration = startSpeed + 11 + (stepMultiplier * distance);
                     }
                 }
                 case THROWN -> {
@@ -75,7 +75,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                         startHeight = drawBackKnife.startHeight;
                         endHeight = drawBackKnife.endHeight;
                         stepMultiplier = drawBackKnife.stepMultiplier;
-                        duration = (startSpeed + 11) + (stepMultiplier * distance);
+                        duration = startSpeed + 11 + (stepMultiplier * distance);
                     }
                 }
                 case CROSSBOW -> {
@@ -86,7 +86,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                         startHeight = boltDrawBack.startHeight;
                         endHeight = boltDrawBack.endHeight;
                         stepMultiplier = boltDrawBack.stepMultiplier;
-                        duration = (startSpeed + 11) + (stepMultiplier * distance);
+                        duration = startSpeed + 11 + (stepMultiplier * distance);
                     }
                 }
                 case CHINCHOMPA -> {
@@ -96,7 +96,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                         startHeight = chinChompaDrawBack.startHeight;
                         endHeight = chinChompaDrawBack.endHeight;
                         stepMultiplier = chinChompaDrawBack.stepMultiplier;
-                        duration = (startSpeed + 11) + (stepMultiplier * distance);
+                        duration = startSpeed + 11 + (stepMultiplier * distance);
                     }
                 }
             }
@@ -109,7 +109,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                         startHeight = drawbackBow.startHeight;
                         endHeight = drawbackBow.endHeight;
                         stepMultiplier = drawbackBow.stepMultiplier;
-                        duration = (startSpeed + 11) + (stepMultiplier * distance);
+                        duration = startSpeed + 11 + (stepMultiplier * distance);
                     }
                 }
                 case THROWING_AXES -> {
@@ -119,7 +119,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                         startHeight = thrownDrawBack.startHeight;
                         endHeight = thrownDrawBack.endHeight;
                         stepMultiplier = thrownDrawBack.stepMultiplier;
-                        duration = (startSpeed + 11) + (stepMultiplier * distance);
+                        duration = startSpeed + 11 + (stepMultiplier * distance);
                     }
                 }
                 case DARTS -> {
@@ -129,7 +129,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                         startHeight = drawbackDart.startHeight;
                         endHeight = drawbackDart.endHeight;
                         stepMultiplier = drawbackDart.stepMultiplier;
-                        duration = (startSpeed + 11) + (stepMultiplier * distance);
+                        duration = startSpeed + 11 + (stepMultiplier * distance);
                     }
                 }
             }

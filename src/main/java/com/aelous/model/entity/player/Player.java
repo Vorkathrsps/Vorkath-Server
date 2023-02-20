@@ -1410,6 +1410,8 @@ public class Player extends Entity {
             this.getPet().pickup(true);
         }
 
+        this.getCombat().setAutoCastSpell(null);
+
         // Update session state
         getSession().setState(SessionState.LOGGING_OUT);
 

@@ -7,9 +7,6 @@ import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.magic.data.AncientSpells;
 import com.aelous.model.entity.combat.magic.data.ModernSpells;
-import com.aelous.model.entity.combat.magic.data.SpellType;
-import com.aelous.model.entity.combat.magic.impl.CombatEffectSpell;
-import com.aelous.model.entity.combat.magic.impl.CombatNormalSpell;
 import com.aelous.model.entity.combat.magic.spells.CombatSpells;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.animations.Animation;
@@ -19,10 +16,18 @@ import com.aelous.model.entity.masks.impl.graphics.Priority;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
-import com.aelous.utility.timers.TimerKey;
+import com.aelous.utility.Words;
+import com.fasterxml.jackson.databind.deser.std.StringArrayDeserializer;
+import com.moandjiezana.toml.Toml;
+import it.unimi.dsi.fastutil.booleans.BooleanArrays;
+import lombok.Value;
 
+import java.io.*;
 import java.util.Arrays;
-import java.util.Optional;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 
 import static com.aelous.utility.ItemIdentifiers.*;
 
@@ -33,69 +38,89 @@ import static com.aelous.utility.ItemIdentifiers.*;
  */
 public class MagicCombatMethod extends CommonCombatMethod {
 
+
+    private static final String MODERN = "./data/combat/magic/modern.toml";
+    private static final String ANCIENTS = "./data/combat/magic/ancients.toml";
     @Override
     public void prepareAttack(Entity entity, Entity target) {
-        CombatSpell spell = entity.getCombat().getCastSpell() != null ? entity.getCombat().getCastSpell() : entity.getCombat().getAutoCastSpell();
+        try {
+            InputStream dataStreamModern = new FileInputStream(MODERN);
+            Toml parseMagicDataModerns = new Toml().read(dataStreamModern);
+            InputStream dataStreamAncients = new FileInputStream(ANCIENTS);
+            Toml parseMagicDataAncients = new Toml().read(dataStreamAncients);
+            CombatSpell spell = entity.getCombat().getCastSpell() != null ? entity.getCombat().getCastSpell() : entity.getCombat().getAutoCastSpell();
+            int distance = entity.tile().getChevDistance(target.tile());
 
-        int projectile = 0, castAnimation = 0, startSpeed = 0, startHeight = 0, endHeight = 0, startGraphic = 0, endGraphic = 0, stepMultiplier = 0, duration = 0;
-        int distance = entity.tile().getChevDistance(target.tile());
+            AtomicInteger projectile = new AtomicInteger();
+            AtomicInteger castAnimation = new AtomicInteger();
+            AtomicInteger startSpeed = new AtomicInteger();
+            AtomicInteger startHeight = new AtomicInteger();
+            AtomicInteger endHeight = new AtomicInteger();
+            AtomicInteger startGraphic = new AtomicInteger();
+            AtomicInteger endGraphic = new AtomicInteger();
+            AtomicInteger stepMultiplier = new AtomicInteger();
+            AtomicInteger duration = new AtomicInteger();
 
-        var spellID = spell.spellId();
+            var spellID = spell.spellId();
 
-        GraphicHeight startGraphicHeight = GraphicHeight.HIGH;
-        GraphicHeight endGraphicHeight = GraphicHeight.HIGH;
-        ModernSpells findProjectileDataModern = ModernSpells.findSpellProjectileData(spellID, endGraphicHeight);
-        AncientSpells findProjectileDataAncients = AncientSpells.findSpellProjectileData(spellID, startGraphicHeight, endGraphicHeight);
+            IntStream dataStore = Arrays.stream(new int[]{Integer.parseInt(String.valueOf(spell.spellId()))});
 
-        if (!target.dead() && !entity.dead()) {
-            if (spell.canCast(entity.getAsPlayer(), target, true)) {
-                if (entity.getAsPlayer().getSpellbook() == MagicSpellbook.NORMAL) {
-                    if (findProjectileDataModern != null) {
-                        switch (spell.spellId()) {
-                            case 1152, 1154, 1156, 1158, 1160, 1163, 1169, 1172, 1175,
-                                1181, 1166, 1177, 1190, 1191, 1192, 1183, 1185, 1188,
-                                1189, 22644, 22658, 22628, 22608, 12445 -> {
-                                projectile = findProjectileDataModern.projectile;
-                                startGraphic = findProjectileDataModern.startGraphic;
-                                castAnimation = findProjectileDataModern.castAnimation;
-                                startSpeed = findProjectileDataModern.startSpeed;
-                                startHeight = findProjectileDataModern.startHeight;
-                                endHeight = findProjectileDataModern.endHeight;
-                                endGraphic = findProjectileDataModern.endGraphic;
-                                stepMultiplier = findProjectileDataModern.stepMultiplier;
-                                duration = startSpeed + -5 + (stepMultiplier * distance);
+            List<Integer> spellIdentificationsModern = parseMagicDataModerns.getList("spellid");
+            List<Integer> spellIdentificationsAncients = parseMagicDataAncients.getList("spellid");
+
+            GraphicHeight startGraphicHeight = GraphicHeight.HIGH;
+            final GraphicHeight[] endGraphicHeight = {GraphicHeight.HIGH};
+            ModernSpells findProjectileDataModern = ModernSpells.findSpellProjectileData(spellID, endGraphicHeight[0]);
+            AncientSpells findProjectileDataAncients = AncientSpells.findSpellProjectileData(spellID, startGraphicHeight, endGraphicHeight[0]);
+
+            if (!target.dead() && !entity.dead()) {
+                if (spell.canCast(entity.getAsPlayer(), target, true)) {
+                    if (entity.getAsPlayer().getSpellbook() == MagicSpellbook.NORMAL) {
+                        if (findProjectileDataModern != null) {
+                            dataStore.forEach(key -> {
+                                if (spellIdentificationsModern.stream().findAny().isPresent()) {
+                                    projectile.set(findProjectileDataModern.projectile);
+                                    startGraphic.set(findProjectileDataModern.startGraphic);
+                                    castAnimation.set(findProjectileDataModern.castAnimation);
+                                    startSpeed.set(findProjectileDataModern.startSpeed);
+                                    startHeight.set(findProjectileDataModern.startHeight);
+                                    endHeight.set(findProjectileDataModern.endHeight);
+                                    endGraphic.set(findProjectileDataModern.endGraphic);
+                                    stepMultiplier.set(findProjectileDataModern.stepMultiplier);
+                                    duration.set(startSpeed.get() + -5 + (stepMultiplier.get() * distance));
+                                    endGraphicHeight[0] = findProjectileDataModern.endGraphicHeight;
+                                }
+                            });
+                        }
+                    }
+                    if (entity.getAsPlayer().getSpellbook() == MagicSpellbook.ANCIENT) {
+                        if (spellIdentificationsAncients.stream().findAny().isPresent()) {
+                            if (findProjectileDataAncients != null) {
+                                dataStore.forEach(key -> {
+                                    if (spellIdentificationsModern.stream().findAny().isPresent()) {
+                                        projectile.set(findProjectileDataAncients.projectile);
+                                        startGraphic.set(findProjectileDataAncients.startGraphic);
+                                        castAnimation.set(findProjectileDataAncients.castAnimation);
+                                        startSpeed.set(findProjectileDataAncients.startSpeed);
+                                        startHeight.set(findProjectileDataAncients.startHeight);
+                                        endHeight.set(findProjectileDataAncients.endHeight);
+                                        endGraphic.set(findProjectileDataAncients.endGraphic);
+                                        stepMultiplier.set(findProjectileDataAncients.stepMultiplier);
+                                        duration.set(startSpeed.get() + -5 + (stepMultiplier.get() * distance));
+                                        endGraphicHeight[0] = findProjectileDataAncients.endGraphicHeight;
+                                    }
+                                });
                             }
                         }
                     }
                 }
             }
-            if (entity.getAsPlayer().getSpellbook() == MagicSpellbook.ANCIENT) {
-                if (findProjectileDataAncients != null) {
-                    switch (spell.spellId()) {
-                        case 12939, 12987, 12901, 12861, 12963, 13011,
-                            12919, 12881, 12951, 12999, 12911, 12871,
-                            12975, 13023, 12929, 12891 -> {
-                            projectile = findProjectileDataAncients.projectile;
-                            startGraphic = findProjectileDataAncients.startGraphic;
-                            castAnimation = findProjectileDataAncients.castAnimation;
-                            startSpeed = findProjectileDataAncients.startSpeed;
-                            startHeight = findProjectileDataAncients.startHeight;
-                            endHeight = findProjectileDataAncients.endHeight;
-                            endGraphic = findProjectileDataAncients.endGraphic;
-                            stepMultiplier = findProjectileDataAncients.stepMultiplier;
-                            duration = (startSpeed + -5 + (distance * stepMultiplier));
-                            startGraphicHeight = findProjectileDataAncients.startGraphicheight;
-                            endGraphicHeight = findProjectileDataAncients.endGraphicHeight;
-                        }
-                    }
-                }
-            }
 
-            entity.animate(new Animation(castAnimation));
+            entity.animate(new Animation(castAnimation.get()));
 
-            entity.performGraphic(new Graphic(startGraphic, startGraphicHeight, 0));
+            entity.performGraphic(new Graphic(startGraphic.get(), startGraphicHeight, 0));
 
-            Projectile p = new Projectile(entity, target, projectile, startSpeed, duration, startHeight, endHeight, 0, target.getSize(), stepMultiplier);
+            Projectile p = new Projectile(entity, target, projectile.get(), startSpeed.get(), duration.get(), startHeight.get(), endHeight.get(), 0, target.getSize(), stepMultiplier.get());
 
             final int delay = entity.executeProjectile(p);
 
@@ -104,11 +129,13 @@ public class MagicCombatMethod extends CommonCombatMethod {
             hit.submit();
 
             if (hit.isAccurate()) {
-                target.performGraphic(new Graphic(endGraphic, endGraphicHeight, p.getSpeed(), Priority.HIGH));
+                target.performGraphic(new Graphic(endGraphic.get(), endGraphicHeight[0], p.getSpeed(), Priority.HIGH));
             } else {
                 target.performGraphic(new Graphic(85, GraphicHeight.LOW, p.getSpeed(), Priority.HIGH));
             }
             spell.finishCast(entity, target, hit.isAccurate(), hit.getDamage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

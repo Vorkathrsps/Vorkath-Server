@@ -37,9 +37,7 @@ public class WildernessArea extends Controller {
     }
 
     public static boolean inWild(Player player) {
-        boolean inWild = inWilderness(player.tile());
-        player.varps().varbit(Varbit.IN_WILDERNESS, inWild ? 1 : 0);
-        return inWild;
+        return inWilderness(player.tile());
     }
 
     public static int wildernessLevel(Tile tile) {
@@ -155,10 +153,11 @@ public class WildernessArea extends Controller {
             BountyHunter.PLAYERS_IN_WILD.add(player);
             player.getPacketSender().sendString(PLAYERS_PKING.childId, QuestTab.InfoTab.INFO_TAB.get(PLAYERS_PKING.childId).fetchLineData(player));
         }
-        player.varps().varbit(Varbit.IN_WILDERNESS, 1);
+        player.varps().varbit(5963, 1);
         player.getCombat().getDamageMap().clear();
         player.getRisk().update();
         refreshInterface(player, true);
+        System.out.println(player.varps().varbit(Varbit.IN_WILDERNESS));
     }
 
     @Override
@@ -167,7 +166,7 @@ public class WildernessArea extends Controller {
         if (!Skulling.skulled(player)) {
             player.clearAttrib(AttributeKey.SKULL_ENTRIES_TRACKER);
         }
-        player.varps().varbit(Varbit.IN_WILDERNESS, 0);
+        player.varps().varbit(5963, 0);
         player.getInterfaceManager().removeOverlay();
         player.getPacketSender().sendInteractionOption("null", 2, true);
         BountyHunter.PLAYERS_IN_WILD.remove(player);

@@ -6,6 +6,7 @@ import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.magic.impl.CombatEffectSpell;
 import com.aelous.model.entity.combat.magic.impl.CombatNormalSpell;
+import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
@@ -15,6 +16,7 @@ import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
+import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.timers.TimerKey;
 
 import java.util.Arrays;

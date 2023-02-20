@@ -31,7 +31,7 @@ public enum ModernSpells {
 
     public int spellID, projectile, castAnimation, startSpeed, startHeight, endHeight, startGraphic, endGraphic, stepMultiplier;
 
-    GraphicHeight endGraphicHeight;
+    public GraphicHeight endGraphicHeight;
 
     ModernSpells(int spellID, int projectile, int startSpeed, int startHeight, int endHeight, int startGraphic, int endGraphic, int stepMultiplier, int castAnimation, GraphicHeight endGraphicHeight) {
         this.spellID = spellID;

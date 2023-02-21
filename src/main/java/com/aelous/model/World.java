@@ -394,10 +394,7 @@ public class World {
                 }
             }
         });
-    }, games = () -> {
-
-        MinigameManager.onTick();
-    };
+    }, games = MinigameManager::onTick;
 
     /**
      * Processes the world.

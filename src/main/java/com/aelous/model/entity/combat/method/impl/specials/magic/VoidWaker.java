@@ -5,6 +5,7 @@ import com.aelous.model.entity.combat.CombatSpecial;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
+import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
@@ -25,13 +26,18 @@ public class VoidWaker extends CommonCombatMethod {
 
         entity.animate(new Animation(1378));
 
-        Hit hit = target.hit(entity, (int) Math.floor(hitLogic),0, CombatType.MAGIC);
+        Hit hit = target.hit(entity, (int) Math.floor(hitLogic), 0, CombatType.MAGIC);
         hit.setAccurate(true);
-        hit.submit();
+        if (Prayers.usingPrayer(entity, Prayers.PROTECT_FROM_MAGIC)) {
+            int damage = hit.getDamage() / 2;
+            hit.setDamage(damage);
+        } else {
+            hit.submit();
 
-        target.performGraphic(new Graphic(2363, GraphicHeight.LOW, 1));
+            target.performGraphic(new Graphic(2363, GraphicHeight.LOW, 1));
 
-        CombatSpecial.drain(entity, CombatSpecial.VOIDWAKER.getDrainAmount());
+            CombatSpecial.drain(entity, CombatSpecial.VOIDWAKER.getDrainAmount());
+        }
     }
 
     @Override

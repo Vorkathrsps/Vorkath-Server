@@ -6,6 +6,7 @@ import com.aelous.model.content.consumables.FoodConsumable;
 import com.aelous.model.content.duel.DuelRule;
 import com.aelous.model.content.items.equipment.max_cape.MaxCape;
 import com.aelous.model.content.skill.impl.slayer.Slayer;
+import com.aelous.model.entity.combat.magic.data.AutoCastWeaponSpells;
 import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.player.EquipSlot;
@@ -38,6 +39,7 @@ import com.aelous.utility.timers.TimerKey;
 import com.google.common.collect.ImmutableSet;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import static com.aelous.utility.ItemIdentifiers.*;
 
@@ -234,7 +236,7 @@ public final class Equipment extends ItemContainer {
         return false;
     }
 
-    private final int[] SLAYER_HELMETS = new int[] {SLAYER_HELMET, SLAYER_HELMET_I, RED_SLAYER_HELMET, GREEN_SLAYER_HELMET, BLACK_SLAYER_HELMET, PURPLE_SLAYER_HELMET, PURPLE_SLAYER_HELMET_I, TURQUOISE_SLAYER_HELMET};
+    private final int[] SLAYER_HELMETS = new int[]{SLAYER_HELMET, SLAYER_HELMET_I, RED_SLAYER_HELMET, GREEN_SLAYER_HELMET, BLACK_SLAYER_HELMET, PURPLE_SLAYER_HELMET, PURPLE_SLAYER_HELMET_I, TURQUOISE_SLAYER_HELMET};
 
     public boolean wearingSlayerHelm() {
         for (int slayerHelm : SLAYER_HELMETS) {
@@ -272,7 +274,7 @@ public final class Equipment extends ItemContainer {
     }
 
     public void replaceEquipment(int removed, int replaced, int slot, boolean refresh) {
-        remove(new Item(removed), slot,true);
+        remove(new Item(removed), slot, true);
 
         manualWear(new Item(replaced, 1), true);
         if (refresh)
@@ -371,11 +373,10 @@ public final class Equipment extends ItemContainer {
 
         int id = equip.getId();
 
-        if(player.stunned()) {
+        if (player.stunned()) {
             player.message("You're currently stunned and cannot equip any armoury.");
             return false;
         }
-
 
 
         //Handle duel arena settings..
@@ -394,8 +395,8 @@ public final class Equipment extends ItemContainer {
             if (equipmentSlot == EquipSlot.WEAPON || equip.isTwoHanded()) {
                 boolean isDDSOrWhip = equip.name().toLowerCase().contains("dragon dagger") || equip.name().toLowerCase().contains("abyssal whip");
                 boolean isWhip = equip.name().toLowerCase().contains("abyssal whip");
-                var whipAndDDS = player.<Boolean>getAttribOr(AttributeKey.WHIP_AND_DDS,false);
-                var whipOnly = player.<Boolean>getAttribOr(AttributeKey.WHIP_ONLY,false);
+                var whipAndDDS = player.<Boolean>getAttribOr(AttributeKey.WHIP_AND_DDS, false);
+                var whipOnly = player.<Boolean>getAttribOr(AttributeKey.WHIP_ONLY, false);
                 if (player.getDueling().getRules()[DuelRule.LOCK_WEAPON.ordinal()] && !(whipAndDDS && isDDSOrWhip) && !(whipOnly && isWhip)) {
                     DialogueManager.sendStatement(player, "Weapons have been locked in this duel!");
                     return false;
@@ -423,37 +424,37 @@ public final class Equipment extends ItemContainer {
         }
 
         //For dark lord accounts check if we unlocked this item
-        if(player.mode().isDarklord()) {
-            if(player.getCollectionLog().unlocked(equip.getId()) == 1) {
+        if (player.mode().isDarklord()) {
+            if (player.getCollectionLog().unlocked(equip.getId()) == 1) {
                 player.message(Color.RED.wrap("You have not unlocked this item yet."));
                 return false;
             }
         }
 
-        if(equip.getId() == HARDCORE_IRONMAN_HELM || equip.getId() == HARDCORE_IRONMAN_PLATEBODY || equip.getId() == HARDCORE_IRONMAN_PLATELEGS) {
-            if(player.ironMode() != IronMode.HARDCORE) {
+        if (equip.getId() == HARDCORE_IRONMAN_HELM || equip.getId() == HARDCORE_IRONMAN_PLATEBODY || equip.getId() == HARDCORE_IRONMAN_PLATELEGS) {
+            if (player.ironMode() != IronMode.HARDCORE) {
                 player.message("<col=FF0000>You cannot wear this equipment as you are no longer a hardcore ironman.");
                 return false;
             }
         }
 
-        if(equip.getId() == IRONMAN_HELM || equip.getId() == IRONMAN_PLATEBODY || equip.getId() == IRONMAN_PLATELEGS) {
-            if(player.ironMode() != IronMode.REGULAR) {
+        if (equip.getId() == IRONMAN_HELM || equip.getId() == IRONMAN_PLATEBODY || equip.getId() == IRONMAN_PLATELEGS) {
+            if (player.ironMode() != IronMode.REGULAR) {
                 player.message("<col=FF0000>You cannot wear this equipment as you are no longer a ironman.");
                 return false;
             }
         }
 
-        if(equip.getId() == ACHIEVEMENT_DIARY_CAPE_T || equip.getId() == ACHIEVEMENT_DIARY_CAPE || equip.getId() == ACHIEVEMENT_DIARY_HOOD) {
+        if (equip.getId() == ACHIEVEMENT_DIARY_CAPE_T || equip.getId() == ACHIEVEMENT_DIARY_CAPE || equip.getId() == ACHIEVEMENT_DIARY_HOOD) {
             boolean completedAllAchievements = player.completedAllAchievements();
-            if(!completedAllAchievements) {
+            if (!completedAllAchievements) {
                 player.message("<col=FF0000>You have not completed all the achievements yet.");
                 return false;
             }
         }
 
         if (MAX_CAPES.contains(equip.getId()) || MAX_HOODES.contains(equip.getId())) {
-            if(!MaxCape.hasTotalLevel(player)) {
+            if (!MaxCape.hasTotalLevel(player)) {
                 player.message("You need a Total Level of " + Mac.TOTAL_LEVEL_FOR_MAXED + " to wear this cape or hood.");
                 return false;
             }
@@ -473,9 +474,9 @@ public final class Equipment extends ItemContainer {
             Skulling.assignSkullState(player, SkullType.WHITE_SKULL);
         }
 
-        if(equipmentSlot == EquipSlot.RING && id == ItemIdentifiers.RING_OF_RECOIL) {
+        if (equipmentSlot == EquipSlot.RING && id == ItemIdentifiers.RING_OF_RECOIL) {
             int charges = player.getAttribOr(AttributeKey.RING_OF_RECOIL_CHARGES, 40);
-            if(charges <= 0) {
+            if (charges <= 0) {
                 player.putAttrib(AttributeKey.RING_OF_RECOIL_CHARGES, 40);
             }
         }
@@ -529,11 +530,12 @@ public final class Equipment extends ItemContainer {
         player.setSpecialActivated(false);
         CombatSpecial.updateBar(player);
 
+
         //Update weapon interface
         WeaponInterfaces.updateWeaponInterface(player);
 
         boolean unarmed = player.getEquipment().hasWeapon();
-        if(equipmentSlot == EquipSlot.SHIELD && unarmed) { // Player isn't wielding a weapon, reset weapon too.
+        if (equipmentSlot == EquipSlot.SHIELD && unarmed) { // Player isn't wielding a weapon, reset weapon too.
             resetWeapon();
         } else if (equipmentSlot == EquipSlot.WEAPON) {
             resetWeapon();
@@ -589,7 +591,7 @@ public final class Equipment extends ItemContainer {
 
         if (equipmentIndex == EquipSlot.WEAPON || unequip.isTwoHanded()) {
             if (player.getDueling().getRules()[DuelRule.LOCK_WEAPON.ordinal()]) {
-                DialogueManager.sendStatement(player,"Weapons have been locked in this duel!");
+                DialogueManager.sendStatement(player, "Weapons have been locked in this duel!");
                 return false;
             }
         }
@@ -616,17 +618,17 @@ public final class Equipment extends ItemContainer {
             player.getInterfaceManager().close(false);
         }
 
-            player.getCombat().setCastSpell(null);
+        player.getCombat().setCastSpell(null);
 
-            //Always reset ranged weapon when unequipping weapon
-            if (player.getCombat().getRangedWeapon() != null) {
-                player.getCombat().setRangedWeapon(null);
-            }
+        //Always reset ranged weapon when unequipping weapon
+        if (player.getCombat().getRangedWeapon() != null) {
+            player.getCombat().setRangedWeapon(null);
+        }
 
-            WeaponInterfaces.updateWeaponInterface(player);
+        WeaponInterfaces.updateWeaponInterface(player);
 
-            CombatSpecial.updateBar(player);
-            player.setSpecialActivated(false);
+        CombatSpecial.updateBar(player);
+        player.setSpecialActivated(false);
 
         player.getPacketSender().sendItemContainerOption1(equipmentIndex, preferredIndex, newid);
         return true;
@@ -644,17 +646,20 @@ public final class Equipment extends ItemContainer {
         player.setSpecialActivated(false);
         player.putAttrib(AttributeKey.GRANITE_MAUL_SPECIALS, 0);
         CombatSpecial.updateBar(player);
+        WeaponInterfaces.updateWeaponInterface(player);
 
         if (player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS) || player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS_FULL)) {
             Autocasting.setAutocast(player, CombatSpells.TRIDENT_OF_THE_SEAS.getSpell());
-        } else if(player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SWAMP)) {
+        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SWAMP)) {
             Autocasting.setAutocast(player, CombatSpells.TRIDENT_OF_THE_SWAMP.getSpell());
         } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, SANGUINESTI_STAFF)) {
             Autocasting.setAutocast(player, CombatSpells.SANGUINESTI_STAFF.getSpell());
         } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
-                Autocasting.setAutocast(player, CombatSpells.TUMEKENS_SHADOW.getSpell());
+            Autocasting.setAutocast(player, CombatSpells.TUMEKENS_SHADOW.getSpell());
+        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, ACCURSED_SCEPTRE_A)) {
+                player.getCombat().setAutoCastSpell(CombatSpells.ACCURSED_SCEPTRE.getSpell());
         } else {
-            if(player.getCombat().getAutoCastSpell() != null) {
+            if (player.getCombat().getAutoCastSpell() != null) {
                 Autocasting.setAutocast(player, null);
                 player.getPacketSender().sendMessage("Autocast spell cleared.");
             }
@@ -667,7 +672,10 @@ public final class Equipment extends ItemContainer {
      */
     private void appearanceForIndex(int equipmentIndex) {
         if (!NO_APPEARANCE.contains(equipmentIndex)) {
-          player.getUpdateFlag().flag(Flag.APPEARANCE);
+            player.getUpdateFlag().flag(Flag.APPEARANCE);
+        }
+        if (dirty) {
+            player.setQueuedAppearanceUpdate(true);
         }
     }
 
@@ -793,7 +801,7 @@ public final class Equipment extends ItemContainer {
     public static boolean venomHelm(Entity entity) {
         Player player = (Player) entity;
         Item helm = player.getEquipment().get(EquipSlot.HEAD);
-        if(helm == null) return false;
+        if (helm == null) return false;
         return helm.getId() == 12931 || helm.getId() == 13197 || helm.getId() == 13199;
     }
 

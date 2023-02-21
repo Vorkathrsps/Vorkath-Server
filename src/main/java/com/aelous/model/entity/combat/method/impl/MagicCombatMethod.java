@@ -8,6 +8,7 @@ import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.magic.data.AncientSpells;
 import com.aelous.model.entity.combat.magic.data.AutoCastWeaponSpells;
 import com.aelous.model.entity.combat.magic.data.ModernSpells;
+import com.aelous.model.entity.combat.magic.impl.CombatEffectSpell;
 import com.aelous.model.entity.combat.magic.spells.CombatSpells;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.animations.Animation;
@@ -104,59 +105,66 @@ public class MagicCombatMethod extends CommonCombatMethod {
                     }
                 }
 
+                    entity.animate(new Animation(projectileObject.castAnimation));
 
-                entity.animate(new Animation(projectileObject.castAnimation));
+                    entity.performGraphic(new Graphic(projectileObject.startgraphic, startGraphicHeight, 0));
 
-                entity.performGraphic(new Graphic(projectileObject.startgraphic, startGraphicHeight, 0));
+                    Projectile p = new Projectile(entity, target, projectileObject.projectile, projectileObject.startSpeed, projectileObject.duration, projectileObject.startHeight, projectileObject.endHeight, 0, target.getSize(), projectileObject.stepMultiplier);
 
-                Projectile p = new Projectile(entity, target, projectileObject.projectile, projectileObject.startSpeed, projectileObject.duration, projectileObject.startHeight, projectileObject.endHeight, 0, target.getSize(), projectileObject.stepMultiplier);
+                    final int delay = entity.executeProjectile(p);
 
-                final int delay = entity.executeProjectile(p);
+                    Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
 
-                Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+                    hit.submit();
 
-                hit.submit();
-
-                if (hit.isAccurate()) {
-                    target.performGraphic(new Graphic(projectileObject.endGraphic, endGraphicHeight, p.getSpeed()));
-                } else {
-                    target.performGraphic(new Graphic(85, GraphicHeight.LOW, p.getSpeed(), Priority.HIGH));
+                if (spell instanceof CombatEffectSpell) {
+                    if (hit.isAccurate()) {
+                        CombatEffectSpell combatEffectSpell = (CombatEffectSpell) spell;
+                        combatEffectSpell.whenSpellCast(entity, target);
+                        combatEffectSpell.spellEffect(entity, target, hit);
+                    }
                 }
-                spell.finishCast(entity, target, hit.isAccurate(), hit.getDamage());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
-    @Override
-    public int getAttackSpeed(Entity entity) {
-        CombatSpell spell = entity.getCombat().getCastSpell() != null ? entity.getCombat().getCastSpell() : entity.getCombat().getAutoCastSpell();
-        if (spell != null) {
-            return spell.getAttackSpeed(entity);
-        }
-        return entity.getBaseAttackSpeed();
-    }
-
-    @Override
-    public int getAttackDistance(Entity entity) {
-        if (entity.isPlayer()) {
-            Player player = (Player) entity;
-            if (player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS) || player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SWAMP) || player.getEquipment().hasAt(EquipSlot.WEAPON, SANGUINESTI_STAFF)) {
-                return 8;
+                    if (hit.isAccurate()) {
+                        target.performGraphic(new Graphic(projectileObject.endGraphic, endGraphicHeight, p.getSpeed()));
+                    } else {
+                        target.performGraphic(new Graphic(85, GraphicHeight.LOW, p.getSpeed(), Priority.HIGH));
+                    }
+                    spell.finishCast(entity, target, hit.isAccurate(), hit.getDamage());
+                }
+            } catch(Exception e){
+                e.printStackTrace();
             }
         }
-        return 10;
-    }
 
-    @Override
-    public void postAttack() {
-        boolean spellWeapon = entity.getCombat().getCastSpell() == CombatSpells.ELDRITCH_NIGHTMARE_STAFF.getSpell() || entity.getCombat().getCastSpell() == CombatSpells.VOLATILE_NIGHTMARE_STAFF.getSpell();
-
-        if (entity.getCombat().getAutoCastSpell() == null && !spellWeapon) {
-            entity.getCombat().reset();
+        @Override
+        public int getAttackSpeed (Entity entity){
+            CombatSpell spell = entity.getCombat().getCastSpell() != null ? entity.getCombat().getCastSpell() : entity.getCombat().getAutoCastSpell();
+            if (spell != null) {
+                return spell.getAttackSpeed(entity);
+            }
+            return entity.getBaseAttackSpeed();
         }
-        entity.setEntityInteraction(target);
-        entity.getCombat().setCastSpell(null);
+
+        @Override
+        public int getAttackDistance (Entity entity){
+            if (entity.isPlayer()) {
+                Player player = (Player) entity;
+                if (player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS) || player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SWAMP) || player.getEquipment().hasAt(EquipSlot.WEAPON, SANGUINESTI_STAFF)) {
+                    return 8;
+                }
+            }
+            return 10;
+        }
+
+        @Override
+        public void postAttack () {
+            boolean spellWeapon = entity.getCombat().getCastSpell() == CombatSpells.ELDRITCH_NIGHTMARE_STAFF.getSpell() || entity.getCombat().getCastSpell() == CombatSpells.VOLATILE_NIGHTMARE_STAFF.getSpell();
+
+            if (entity.getCombat().getAutoCastSpell() == null && !spellWeapon) {
+                entity.getCombat().reset();
+            }
+            entity.setEntityInteraction(target);
+            entity.getCombat().setCastSpell(null);
+        }
     }
-}

@@ -225,7 +225,6 @@ public class Buttons {
                         }
                         if (staff != null && ANCIENT_SPELL_AUTOCAST_STAFFS.contains(staff.getId()) && !full_ahrim_effect) {
                             if (player.getSpellbook() == MagicSpellbook.ANCIENT) {
-                                //It can autocast offensive standard spells, but cannot autocast Ancient Magicks unlike its other variants.
                                 if (player.getEquipment().getWeapon().getId() != HARMONISED_NIGHTMARE_STAFF) {
                                     player.getInterfaceManager().setSidebar(0, 1689);
                                 } else {
@@ -263,6 +262,7 @@ public class Buttons {
                             }
                             if (staff != null && Autocasting.SPECIAL_AUTOCAST_STAFFS.contains(staff.getId()) && onNormals || onAncients) {
                                 player.message("You can't autocast regular offensive spells with this staff.");
+                                player.getPacketSender().setDefensiveAutocastState(0);
                                 return;
                             }
                             if (player.getEquipment().get(3) != null && player.getEquipment().containsAny(ANCIENT_STAFF, MASTER_WAND, STAFF_OF_THE_DEAD, TOXIC_STAFF_UNCHARGED, TOXIC_STAFF_OF_THE_DEAD, KODAI_WAND)) {

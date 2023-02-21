@@ -44,7 +44,7 @@ public class MagicMaxHit {
                 int spell_maxhit = spell.baseMaxHit();
 
                 //• Slayer dart
-                if (spell_name.equals("Magic Dart")) {
+                if (spell_name.equals("Magic Dart") || player.getEquipment().hasAt(EquipSlot.WEAPON, ACCURSED_SCEPTRE_A)) {
                     spell_maxhit = (int) (10 + Math.floor(level / 10D));
                 }
 

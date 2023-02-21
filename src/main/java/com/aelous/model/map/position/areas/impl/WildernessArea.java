@@ -153,7 +153,6 @@ public class WildernessArea extends Controller {
             BountyHunter.PLAYERS_IN_WILD.add(player);
             player.getPacketSender().sendString(PLAYERS_PKING.childId, QuestTab.InfoTab.INFO_TAB.get(PLAYERS_PKING.childId).fetchLineData(player));
         }
-        player.varps().varbit(5963, 1);
         player.getCombat().getDamageMap().clear();
         player.getRisk().update();
         refreshInterface(player, true);
@@ -166,7 +165,6 @@ public class WildernessArea extends Controller {
         if (!Skulling.skulled(player)) {
             player.clearAttrib(AttributeKey.SKULL_ENTRIES_TRACKER);
         }
-        player.varps().varbit(5963, 0);
         player.getInterfaceManager().removeOverlay();
         player.getPacketSender().sendInteractionOption("null", 2, true);
         BountyHunter.PLAYERS_IN_WILD.remove(player);

@@ -98,7 +98,7 @@ public class MagicAccuracyNpc {
                         if (((Player) attacker).getEquipment().contains(ItemIdentifiers.OCCULT_NECKLACE_OR)) {
                             bonus *= 1.05D;
                         }
-                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.THAMMARONS_SCEPTRE)) {
+                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.THAMMARONS_SCEPTRE) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.ACCURSED_SCEPTRE_A) ) {
                             bonus *= 1.50D;
                         }
                     }

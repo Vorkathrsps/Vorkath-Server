@@ -67,8 +67,10 @@ public class Autocasting {
         ANCIENT_STAFF, NIGHTMARE_STAFF, VOLATILE_NIGHTMARE_STAFF, ELDRITCH_NIGHTMARE_STAFF, TOXIC_STAFF_OF_THE_DEAD, STAFF_OF_THE_DEAD, STAFF_OF_LIGHT);
 
     public static final Set<Integer> SPECIAL_AUTOCAST_STAFFS = Set.of(TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP,
-        SANGUINESTI_STAFF, HOLY_SANGUINESTI_STAFF, TUMEKENS_SHADOW);
+        SANGUINESTI_STAFF, HOLY_SANGUINESTI_STAFF, TUMEKENS_SHADOW, ACCURSED_SCEPTRE_A);
+
     //TODO add checks if wearing when changing spellbooks etc, this seriously bugs shit out
+
     public static boolean toggleAutocast(final Player player, int actionButtonId) {
         final CombatSpell cbSpell = CombatSpells.getCombatSpell(actionButtonId);
 
@@ -105,27 +107,6 @@ public class Autocasting {
             return true;
         }
         return false;
-    }
-
-    public static void setAutocast2(Player player, CombatSpell spell) {
-        if (spell == null) {
-            player.putAttrib(AttributeKey.AUTOCAST_SELECTED, false);
-            player.getPacketSender().sendAutocastId(-1).sendConfig(108, 0).setDefensiveAutocastState(0);
-            //System.out.println("no spell");
-            //Use this code for testing when we don't know where the autocast spell is being set to null from -Ken
-            //throw new RuntimeException("no spell");
-        } else {
-            if (player.<Boolean>getAttribOr(AttributeKey.DEFENSIVE_AUTOCAST, false)) {
-                player.getPacketSender().sendAutocastId(spell.spellId()).sendConfig(108, 0).setDefensiveAutocastState(1);
-            } else {
-                player.getPacketSender().sendAutocastId(spell.spellId()).sendConfig(108, 1).setDefensiveAutocastState(0);
-            }
-            //System.out.println("setting spell");
-            player.putAttrib(AttributeKey.AUTOCAST_SELECTED, true);
-        }
-        player.getCombat().setAutoCastSpell(spell);
-        BonusesInterface.sendBonuses(player);
-        updateConfigsOnAutocast(player, spell != null);
     }
 
     public static void setAutocast(Player player, CombatSpell spell) {

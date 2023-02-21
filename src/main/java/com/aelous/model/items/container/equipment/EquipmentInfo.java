@@ -11,6 +11,7 @@ import com.aelous.model.entity.npc.NPCCombatInfo;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
+import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.JGson;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -118,7 +119,7 @@ public class EquipmentInfo {
                     bonuses.rangestr += equip.rangestr;
                     bonuses.magestr += equip.magestr;
                     bonuses.pray += equip.pray;
-                    if (player.getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
+                    if (player.getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW) && !WildernessArea.inWild(player)) {
                         bonuses.magestr += Math.min(equip.magestr * 3, equip.magestr * equip.magestr);
                     }
                 }
@@ -405,6 +406,7 @@ public class EquipmentInfo {
         if (weapon != 0) {
             switch (weapon) {
                 case IVANDIS_FLAIL:
+                case BLISTERWOOD_FLAIL:
                     return 8010;
                 case DRAGON_CLAWS:
                     return style == 2 ? 1067 : 393;

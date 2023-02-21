@@ -4,6 +4,7 @@ import com.aelous.GameServer;
 import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.player.Player;
 import com.aelous.network.packet.Packet;
 import com.aelous.network.packet.PacketListener;
@@ -48,6 +49,10 @@ public class AttackPlayerPacketListener implements PacketListener {
 
         if (attacked == null || attacked.dead() || attacked.equals(player)) {
             player.getMovementQueue().clear();
+            return;
+        }
+
+        if (!attacked.dead() && !player.dead() && CombatFactory.inCombat(player) && player != player.getCombat().getTarget() && player.getHitDamage().getDamageSource() != attacked.getHitDamage().getDamageSource()) {
             return;
         }
 

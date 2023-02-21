@@ -1564,7 +1564,9 @@ public class Player extends Entity {
             } else if (getEquipment().hasAt(EquipSlot.WEAPON, SANGUINESTI_STAFF)) {
                 getCombat().setAutoCastSpell(CombatSpells.SANGUINESTI_STAFF.getSpell());
             } else if (getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
-                getCombat().setAutoCastSpell((CombatSpells.TUMEKENS_SHADOW.getSpell()));
+                getCombat().setAutoCastSpell(CombatSpells.TUMEKENS_SHADOW.getSpell());
+            } else if (getEquipment().hasAt(EquipSlot.WEAPON, ACCURSED_SCEPTRE_A)) {
+                getCombat().setAutoCastSpell(CombatSpells.ACCURSED_SCEPTRE.getSpell());
             }
 
             boolean newAccount = this.getAttribOr(NEW_ACCOUNT, false);
@@ -3088,8 +3090,6 @@ public class Player extends Entity {
         try {
             Arrays.fill(section, false);
 
-            //this.getEquipment().process();
-
             Runnable total = () -> {
                 time(t -> {
                     perf.logout += t.toNanos();
@@ -3185,7 +3185,6 @@ public class Player extends Entity {
 
             LocalDateTime now = LocalDateTime.now();
             long minutesTillWildyBoss = now.until(WildernessBossEvent.getINSTANCE().next, ChronoUnit.MINUTES);
-            long minutesTillWildyKey = now.until(EscapeKeyPlugin.next, ChronoUnit.MINUTES);
 
             // Refresh the quest tab every minute (every 100 ticks)
             if (GameServer.properties().autoRefreshQuestTab && getPlayerQuestTabCycleCount() == GameServer.properties().refreshQuestTabCycles) {
@@ -3204,16 +3203,8 @@ public class Player extends Entity {
                     }
                 }
 
+                //this.getSession().handleQueuedPackets();
                 this.syncContainers();
-
-                if (minutesTillWildyKey == 5) {
-                    if (!EscapeKeyPlugin.ANNOUNCE_5_MIN_TIMER) {
-                        EscapeKeyPlugin.ANNOUNCE_5_MIN_TIMER = true;
-                        World.getWorld().sendWorldMessage("<col=800000><img=936>The wilderness key will spawn in 5 minutes, gear up!");
-                    }
-                }
-
-                this.getPacketSender().sendString(QuestTab.InfoTab.WILDERNESS_KEY.childId, QuestTab.InfoTab.INFO_TAB.get(QuestTab.InfoTab.WILDERNESS_KEY.childId).fetchLineData(this));
             }
         }, timers = () -> {
         getTimers().cycle(this);

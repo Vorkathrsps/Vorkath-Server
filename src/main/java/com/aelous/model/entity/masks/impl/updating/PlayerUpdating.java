@@ -541,7 +541,7 @@ public class PlayerUpdating {
         if (entity != null) {
             int index = entity.getIndex();
             if (entity instanceof Player)
-                index += 32768;
+                index += -32768;
             builder.putShort(index, ByteOrder.LITTLE);
         } else {
             builder.putShort(-1, ByteOrder.LITTLE);

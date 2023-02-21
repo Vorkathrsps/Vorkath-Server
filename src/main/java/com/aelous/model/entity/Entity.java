@@ -1550,17 +1550,16 @@ public abstract class Entity {
         if (timers.has(TimerKey.FROZEN)) {
             return;
         }
-        if (this.getMovementQueue().isMoving())
-            this.getMovementQueue().forceMove(getMovementQueue().lastStep());
+
+        putAttrib(AttributeKey.FROZEN_BY, attacker);
         timers.extendOrRegister(TimerKey.FROZEN, time);
         timers.extendOrRegister(TimerKey.REFREEZE, time + 3);
-        putAttrib(AttributeKey.FROZEN_BY, attacker);
 
         if (isPlayer()) {
             ((Player) this).getPacketSender().sendEffectTimer((int) Math.round(time * 0.6), EffectTimer.FREEZE).sendMessage("You have been frozen!");
         }
 
-        if (!locked()) { // Maybe we're force moving via agility
+        if (!locked()) {
             movementQueue.clear();
         }
     }

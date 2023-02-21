@@ -13,6 +13,7 @@ import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
 
 import java.security.SecureRandom;
+import java.text.DecimalFormat;
 
 import static com.aelous.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.*;
@@ -37,11 +38,11 @@ public class MagicAccuracy {
         double selectedChance = srand.nextDouble();
 
         if (attackBonus > defenceBonus)
-            successfulRoll = 1D - (defenceBonus + 2D) / (2D * (attackBonus + 1D));
+            successfulRoll = (1D - ((defenceBonus + 2D) / (2D * (attackBonus + 1D))));
         else
-            successfulRoll = attackBonus / (2D * (defenceBonus + 1D));
+            successfulRoll = (attackBonus / (2D * (defenceBonus + 1D)));
 
-            //System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
+            System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
         return successfulRoll > selectedChance;
     }
@@ -115,7 +116,7 @@ public class MagicAccuracy {
     }
 
     public static double getPrayerBonus(Entity attacker, CombatType style) {
-        double prayerBonus = 1D;
+        double prayerBonus = 1;
         if (style == CombatType.MAGIC) {
             if (Prayers.usingPrayer(attacker, MYSTIC_WILL))
                 prayerBonus *= 1.05D; // 5% magic level boost
@@ -130,7 +131,7 @@ public class MagicAccuracy {
     }
 
     public static double getPrayerBonusDefender(Entity defender) {
-        double prayerBonus = 1D;
+        double prayerBonus = 1;
             if (Prayers.usingPrayer(defender, AUGURY))
                 prayerBonus *= 1.25D; //
         return prayerBonus;

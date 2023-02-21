@@ -115,6 +115,10 @@ public enum FightType {
     MEDIUM_FUSE(43, 1, FightStyle.AGGRESSIVE, AttackType.THROWN),
     LONG_FUSE(43, 2, FightStyle.DEFENSIVE, AttackType.THROWN),
 
+    POWERED_STAFF_ACCURATE_1(43, 0, FightStyle.ACCURATE, AttackType.UNDEFINED_MAGIC),
+    POWERED_STAFF_ACCURATE_2(43, 1, FightStyle.ACCURATE, AttackType.UNDEFINED_MAGIC),
+    POWERED_STAFF_LONGRANGE(43, 2, FightStyle.DEFENSIVE, AttackType.UNDEFINED_MAGIC)
+
     ;
 
     /** The parent config id. */

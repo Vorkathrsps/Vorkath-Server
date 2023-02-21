@@ -15,6 +15,7 @@ import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.utility.ItemIdentifiers;
 
 import java.security.SecureRandom;
+import java.text.DecimalFormat;
 
 import static com.aelous.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
 import static com.aelous.model.entity.combat.CombatType.RANGED;
@@ -36,11 +37,11 @@ public class RangeAccuracy {
         double selectedChance = srand.nextDouble();
 
         if (attackBonus > defenceBonus)
-            successfulRoll = 1D - (defenceBonus + 2D) / (2D * (attackBonus + 1D));
+            successfulRoll = (1D - ((defenceBonus + 2D) / (2D * (attackBonus + 1D))));
         else
-            successfulRoll = attackBonus / (2D * (defenceBonus + 1D));
+            successfulRoll = (attackBonus / (2D * (defenceBonus + 1D)));
 
-        //System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
+        System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
         return successfulRoll > selectedChance;
     }

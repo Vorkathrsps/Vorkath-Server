@@ -37,6 +37,7 @@ public enum WeaponType {
     WHIP(12290, 12293, new FightType[]{FightType.WHIP_FLICK, FightType.WHIP_LASH, FightType.WHIP_DEFLECT}, 12323, 12335),
     DINHS_BULWARK(11799, 428, new FightType[]{FightType.DINHS_PUMMEL, FightType.DINHS_BLOCK}, 7474, 7486),
     GHRAZI_RAPIER(2276, 2279, new FightType[]{FightType.RAPIER_STAB, FightType.RAPIER_LUNGE, FightType.RAPIER_SLASH, FightType.RAPIER_BLOCK}, 7574, 7586),
+    POWERED_STAFF(8467, 4449, new FightType[]{FightType.POWERED_STAFF_ACCURATE_1, FightType.POWERED_STAFF_ACCURATE_2, FightType.POWERED_STAFF_LONGRANGE}),
     MJOLNIR(-1, -1, new FightType[]{});//TODO
 
     /**

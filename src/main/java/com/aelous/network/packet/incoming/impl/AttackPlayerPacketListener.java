@@ -52,7 +52,7 @@ public class AttackPlayerPacketListener implements PacketListener {
             return;
         }
 
-        if (!attacked.dead() && !player.dead() && CombatFactory.inCombat(player) && player != player.getCombat().getTarget() && player.getHitDamage().getDamageSource() != attacked.getHitDamage().getDamageSource()) {
+        if (!attacked.dead() && !player.dead() && CombatFactory.inCombat(player) && player.getCombat().getTarget() != player.getCombat().getTarget()) {
             return;
         }
 

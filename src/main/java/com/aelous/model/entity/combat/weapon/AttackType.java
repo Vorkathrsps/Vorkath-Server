@@ -20,6 +20,8 @@ public enum AttackType {
     EARTH,
     FIRE,
 
+    UNDEFINED_MAGIC,
+
     DRAGON_FIRE,
     NONE
 }

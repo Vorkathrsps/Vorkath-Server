@@ -22,7 +22,6 @@ import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.AUGUR
 /**
  * @Author Origin
  */
-
 public class MagicAccuracy {
 
     public static final SecureRandom srand = new SecureRandom();

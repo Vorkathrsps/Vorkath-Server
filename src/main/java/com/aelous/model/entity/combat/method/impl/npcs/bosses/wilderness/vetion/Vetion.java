@@ -7,6 +7,7 @@ import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
+import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Utils;
@@ -20,7 +21,7 @@ public class Vetion extends CommonCombatMethod {
 
     @Override
     public void prepareAttack(Entity entity, Entity target) {
-        if (entity.hp() <= 125 && !entity.hasAttrib(AttributeKey.VETION_HELLHOUND_SPAWNED)) {
+        /*if (entity.hp() <= 125 && !entity.hasAttrib(AttributeKey.VETION_HELLHOUND_SPAWNED)) {
             spawnHellhounds((NPC) entity, target);
         }
 
@@ -36,7 +37,9 @@ public class Vetion extends CommonCombatMethod {
             target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
         } else {
             doMagic();
-        }
+        }*/
+
+        entity.animate(new Animation(9982));
     }
 
     @Override

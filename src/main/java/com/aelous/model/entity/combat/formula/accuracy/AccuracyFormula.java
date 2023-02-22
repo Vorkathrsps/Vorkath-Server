@@ -31,7 +31,9 @@ import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.*;
 import static com.aelous.utility.ItemIdentifiers.*;
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.CORPOREAL_BEAST;
 
-
+/**
+ * @Author Origin
+ */
 public class AccuracyFormula {
 
     public static final SecureRandom srand = new SecureRandom();

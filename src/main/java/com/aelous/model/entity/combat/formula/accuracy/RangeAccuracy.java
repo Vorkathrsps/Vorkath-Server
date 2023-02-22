@@ -22,6 +22,9 @@ import static com.aelous.model.entity.combat.CombatType.RANGED;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.*;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.EAGLE_EYE;
 
+/**
+ * @Author Origin
+ */
 public class RangeAccuracy {
 
     public static final SecureRandom srand = new SecureRandom();

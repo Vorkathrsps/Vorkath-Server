@@ -1,0 +1,37 @@
+[
+  {
+    //Calvarion
+    "ids": [
+      11993
+    ],
+    "maxhit": 17,
+    "deathlen": 2,
+    "aggressive": true,
+    "stats": {
+      "attack": 200,
+      "strength": 160,
+      "magic": 1,
+      "ranged": 200,
+      "defence": 1,
+      "hitpoints": 11
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 0,
+      "magic": 1073,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": -15,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 7990,
+      "block": -1,
+      "death": 7991
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion"
+    }
+  }
+]

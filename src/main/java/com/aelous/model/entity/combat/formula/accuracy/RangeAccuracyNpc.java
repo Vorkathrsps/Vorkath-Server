@@ -28,6 +28,9 @@ import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.*;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.EAGLE_EYE;
 import static com.aelous.utility.ItemIdentifiers.TWISTED_BOW;
 
+/**
+ * @Author Origin
+ */
 public class RangeAccuracyNpc {
 
     public static final SecureRandom srand = new SecureRandom();
@@ -40,7 +43,7 @@ public class RangeAccuracyNpc {
         double attackBonus = getAttackRoll(attacker, defender, style);
         double defenceBonus = getDefenceRoll(defender, style);
         double successfulRoll;
-        double selectedChance = new SecureRandom().nextDouble();
+        double selectedChance = srand.nextDouble();
 
         if (attackBonus > defenceBonus)
             successfulRoll = 1D - (defenceBonus + 2D) / (2D * (attackBonus + 1D));

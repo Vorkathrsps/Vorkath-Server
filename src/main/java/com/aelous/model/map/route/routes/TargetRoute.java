@@ -35,8 +35,6 @@ public class TargetRoute {
         TargetRoute r = entity.getRouteFinder().targetRoute;
         if (r != null && r.target != null) {
             r.beforeMovement0(entity);
-            //System.err.println("before movement.. 1");
-            //System.err.println("Using method from location= " + new Throwable().getStackTrace()[1].toString());
         }
     }
 

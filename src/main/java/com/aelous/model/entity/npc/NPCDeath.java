@@ -118,9 +118,6 @@ public class NPCDeath {
                 var ancientRevSpawnRoll = 25;
                 var superiorSpawnRoll = biggest_and_baddest_perk ? 4 : 6;
 
-                var reduction = ancientRevSpawnRoll * killer.memberAncientRevBonus() / 100;
-                ancientRevSpawnRoll -= reduction;
-
                 var legendaryInsideCave = killer.tile().memberCave() && killer.getMemberRights().isLegendaryMemberOrGreater(killer);
                 var VIPInsideCave = killer.tile().memberCave() && killer.getMemberRights().isLegendaryMemberOrGreater(killer);
                 var SponsorInsideCave = killer.tile().memberCave() && killer.getMemberRights().isLegendaryMemberOrGreater(killer);
@@ -262,21 +259,6 @@ public class NPCDeath {
                         npc.respawns(false);//Chaos elemental can no longer spawn his ancient version spawns.
                         var ancientChaosEle = new NPC(ANCIENT_CHAOS_ELEMENTAL, npc.spawnTile()).respawns(false);
                         World.getWorld().getNpcs().add(ancientChaosEle);
-                    }
-                }
-
-                if (npc.id() == ANCIENT_CHAOS_ELEMENTAL) {
-                    killer.getTaskMasterManager().increase(Tasks.CHAOS_ELEMENTAL);
-                    AchievementsManager.activate(killer, Achievements.ULTIMATE_CHAOS_I, 1);
-                    AchievementsManager.activate(killer, Achievements.ULTIMATE_CHAOS_II, 1);
-                    AchievementsManager.activate(killer, Achievements.ULTIMATE_CHAOS_III, 1);
-                    DailyTaskManager.increase(DailyTasks.WILDERNESS_BOSS, killer);
-
-                    if(!npc.ancientSpawn()) {
-                        Chain.bound(null).runFn(30, () -> {
-                            var chaosElemental = new NPC(CHAOS_ELEMENTAL, npc.spawnTile());
-                            World.getWorld().getNpcs().add(chaosElemental);
-                        });
                     }
                 }
 
@@ -426,113 +408,12 @@ public class NPCDeath {
                         }
                     }
 
-                    case ARACHNE -> Chain.bound(null).runFn(30, () -> {
-                        var venenatis = new NPC(VENENATIS_6610, npc.spawnTile());
-                        World.getWorld().getNpcs().add(venenatis);
-                    });
-
                     case CALLISTO_6609 -> {
                         killer.getTaskMasterManager().increase(Tasks.CALLISTO);
                         AchievementsManager.activate(killer, Achievements.BEAR_GRYLLS_I, 1);
                         AchievementsManager.activate(killer, Achievements.BEAR_GRYLLS_II, 1);
                         AchievementsManager.activate(killer, Achievements.BEAR_GRYLLS_III, 1);
                         DailyTaskManager.increase(DailyTasks.WILDERNESS_BOSS, killer);
-
-                        if (World.getWorld().rollDie(superiorSpawnRoll, 1)) {
-                            npc.respawns(false);//Callisto can no longer spawn his superior spawns in 1 minute.
-                            var artio = new NPC(ARTIO, npc.spawnTile()).respawns(false);
-                            World.getWorld().getNpcs().add(artio);
-                        }
-                    }
-
-                    case ARTIO -> Chain.bound(null).runFn(30, () -> {
-                        var callisto = new NPC(CALLISTO_6609, npc.spawnTile());
-                        World.getWorld().getNpcs().add(callisto);
-                    });
-
-                    case REVENANT_DARK_BEAST -> {
-                        if (World.getWorld().rollDie(ancientRevSpawnRoll, 1)) {
-                            npc.respawns(false);//Rev dark beast can no longer spawn when we spawn his ancient version
-                            var ancientDarkbeast = new NPC(ANCIENT_REVENANT_DARK_BEAST, npc.spawnTile()).respawns(false);
-                            World.getWorld().getNpcs().add(ancientDarkbeast);
-                        }
-                    }
-
-                    case ANCIENT_REVENANT_DARK_BEAST -> {
-                        if(!npc.ancientSpawn()) {
-                            Chain.bound(null).runFn(30, () -> {
-                                var revDarkBeast = new NPC(REVENANT_DARK_BEAST, npc.spawnTile());
-                                World.getWorld().getNpcs().add(revDarkBeast);
-                            });
-                        }
-                    }
-
-                    case REVENANT_ORK -> {
-                        if (World.getWorld().rollDie(ancientRevSpawnRoll, 1)) {
-                            npc.respawns(false);//Rev ork can no longer spawn when we spawn his ancient version
-                            var ancientOrk = new NPC(ANCIENT_REVENANT_ORK, npc.spawnTile()).respawns(false);
-                            World.getWorld().getNpcs().add(ancientOrk);
-                        }
-                    }
-
-                    case ANCIENT_REVENANT_ORK -> {
-                        if(!npc.ancientSpawn()) {
-                            Chain.bound(null).runFn(30, () -> {
-                                var revenantOrk = new NPC(REVENANT_ORK, npc.spawnTile());
-                                World.getWorld().getNpcs().add(revenantOrk);
-                            });
-                        }
-                    }
-
-                    case REVENANT_CYCLOPS -> {
-                        if (World.getWorld().rollDie(ancientRevSpawnRoll, 1)) {
-                            npc.respawns(false);//Rev cyclops can no longer spawn when we spawn his ancient version
-                            var ancientCyclops = new NPC(ANCIENT_REVENANT_CYCLOPS, npc.spawnTile()).respawns(false);
-                            World.getWorld().getNpcs().add(ancientCyclops);
-                        }
-                    }
-
-                    case ANCIENT_REVENANT_CYCLOPS -> {
-                        if(!npc.ancientSpawn()) {
-                            Chain.bound(null).runFn(30, () -> {
-                                var revCyclops = new NPC(REVENANT_CYCLOPS, npc.spawnTile());
-                                World.getWorld().getNpcs().add(revCyclops);
-                            });
-                        }
-                    }
-
-                    case REVENANT_DRAGON -> {
-                        if (World.getWorld().rollDie(ancientRevSpawnRoll, 1)) {
-                            npc.respawns(false);//Rev dragon can no longer spawn when we spawn his ancient version
-                            var ancientDragon = new NPC(ANCIENT_REVENANT_DRAGON, npc.spawnTile()).respawns(false);
-                            World.getWorld().getNpcs().add(ancientDragon);
-                        }
-                    }
-
-                    case ANCIENT_REVENANT_DRAGON -> {
-                        if(!npc.ancientSpawn()) {
-                            Chain.bound(null).runFn(30, () -> {
-                                var revDragon = new NPC(REVENANT_DRAGON, npc.spawnTile());
-                                World.getWorld().getNpcs().add(revDragon);
-                            });
-                        }
-                    }
-
-                    case REVENANT_KNIGHT -> {
-                        if (World.getWorld().rollDie(ancientRevSpawnRoll, 1)) {
-                            npc.respawns(false);//Rev knight can no longer spawn when we spawn his ancient version
-                            var ancientKnight = new NPC(ANCIENT_REVENANT_KNIGHT, npc.spawnTile()).respawns(false);
-                            World.getWorld().getNpcs().add(ancientKnight);
-                        }
-                    }
-
-                    case ANCIENT_REVENANT_KNIGHT -> {
-                        if(!npc.ancientSpawn()) {
-                            Chain.bound(null).runFn(30, () -> {
-                                var revKnight = new NPC(REVENANT_KNIGHT, npc.spawnTile());
-                                World.getWorld().getNpcs().add(revKnight);
-                            });
-                        }
                     }
 
                     case ZULRAH, ZULRAH_2043, ZULRAH_2044 -> {
@@ -670,14 +551,6 @@ public class NPCDeath {
                     if (WildernessBossEvent.getINSTANCE().getActiveNpc().isPresent() &&
                         npc == WildernessBossEvent.getINSTANCE().getActiveNpc().get()) {
                         WildernessBossEvent.getINSTANCE().bossDeath(npc);
-                    }
-
-                    if(npc.id() == THE_NIGHTMARE_9430) {
-                        nightmareDrops(npc);
-                    }
-
-                    if(npc.id() == FRAGMENT_OF_SEREN) {
-                        serenDrops(npc);
                     }
 
                     killer.getBossTimers().submit(npc.def().name, (int) killer.getCombat().getFightTimer().elapsed(TimeUnit.SECONDS), killer);

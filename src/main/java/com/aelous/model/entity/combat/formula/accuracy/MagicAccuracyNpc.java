@@ -41,7 +41,7 @@ public class MagicAccuracyNpc {
         else
             successfulRoll = attackBonus / (2D * (defenceBonus + 1D));
 
-        //System.out.println("NPCStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + successfulRoll + " rolledChance=" + selectedChance + " sucessful=" + (successfulRoll > selectedChance));
+        System.out.println("NPCStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + successfulRoll + " rolledChance=" + selectedChance + " sucessful=" + (successfulRoll > selectedChance));
 
         return successfulRoll > selectedChance;
     }

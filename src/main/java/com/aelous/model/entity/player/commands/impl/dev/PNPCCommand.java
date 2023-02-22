@@ -5,6 +5,8 @@ import com.aelous.model.World;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.commands.Command;
 
+import java.util.Arrays;
+
 public class PNPCCommand implements Command {
 
     @Override
@@ -17,7 +19,7 @@ public class PNPCCommand implements Command {
             return;
         }
         player.looks().transmog(id);
-        //player.looks().renderData(World.getWorld().definitions().get(NpcDefinition.class, id).renderpairs());
+        player.looks().renderData(new int[]{World.getWorld().definitions().get(NpcDefinition.class, id).idleAnimation});
         player.message("You transmog into the "+World.getWorld().definitions().get(NpcDefinition.class, id).name+ ".");
     }
 

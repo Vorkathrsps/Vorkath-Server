@@ -463,7 +463,6 @@ public class PlayerUpdating {
     private static void updateGraphics(PacketBuilder builder, Player target) {
         builder.putShort(target.graphic().id(), ByteOrder.LITTLE);
         builder.putInt(((target.graphic().getHeight().ordinal() * 50) << 16) + (target.graphic().delay() & 0xffff));
-        //System.out.println("gfx id: " + target.getGraphic().getId() + " vs height: "+target.getGraphic().getHeight()+" vs delay: "+target.getGraphic().getDelay());
     }
 
     /**

@@ -154,11 +154,13 @@ public class AnimationDefinition implements Definition {
         else if (opcode == 15)
         {
             var3 = stream.readUShort();
+            animMayaFrameSounds = new HashMap<>();
 
             for (var4 = 0; var4 < var3; ++var4)
             {
                 int var5 = stream.readUShort();
                 int var6 = stream.read24BitInt();
+                animMayaFrameSounds.put(var5, var6);
             }
         }
         else if (opcode == 16)

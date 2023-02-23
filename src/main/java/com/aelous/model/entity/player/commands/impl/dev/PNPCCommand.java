@@ -19,7 +19,6 @@ public class PNPCCommand implements Command {
             return;
         }
         player.looks().transmog(id);
-        player.looks().renderData(new int[]{World.getWorld().definitions().get(NpcDefinition.class, id).idleAnimation});
         player.message("You transmog into the "+World.getWorld().definitions().get(NpcDefinition.class, id).name+ ".");
     }
 

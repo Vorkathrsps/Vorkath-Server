@@ -5,10 +5,14 @@ import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.animations.Animation;
+import com.aelous.model.entity.masks.impl.graphics.Graphic;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
+import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
@@ -39,7 +43,12 @@ public class Vetion extends CommonCombatMethod {
             doMagic();
         }*/
 
-        entity.animate(new Animation(9982));
+        var roll = World.getWorld().random(8);
+
+        switch (roll) {
+            case 0, 1 -> doMagicSwordRaise();
+            case 2, 3 -> doMagicSwordSlash();
+        }
     }
 
     @Override
@@ -52,33 +61,61 @@ public class Vetion extends CommonCombatMethod {
         return 6;
     }
 
-    private void doMagic() {
-        entity.animate(entity.attackAnimation());
-        Tile lightning_one = target.tile();
+    private void doMagicSwordRaise() {
+        int startSpeed = 51, stepMultiplier = 10, tileDist = entity.tile().distance(target.tile());
+        Tile lightning_one = target.tile().transform(0, 1);
         Tile lightning_two = lightning_one.transform(1, 0);
         Tile lightning_three = lightning_one.transform(1, 1);
-        int tileDist = entity.tile().distance(target.tile());
-        int delay = Math.max(1, (30 + tileDist * 12) / 30);
-
-        Chain.bound(null).runFn(2, () -> {
-            new Projectile(new Tile(entity.tile().x + -1, entity.tile().y + 1), lightning_one, 0, 280, 10 * tileDist, delay, 70, 45, 0).sendProjectile();
-            new Projectile(new Tile(entity.tile().x + -1, entity.tile().y + 1), lightning_two, 0, 280, 10 * tileDist, delay, 70, 45, 0).sendProjectile();
-            new Projectile(new Tile(entity.tile().x + -1, entity.tile().y + 1), lightning_three, 0, 280, 10 * tileDist, delay, 70, 45, 0).sendProjectile();
-
-            World.getWorld().tileGraphic(281, lightning_one,0, 10 * tileDist);
-            World.getWorld().tileGraphic(281, lightning_one, 0, 10 * tileDist);
-            World.getWorld().tileGraphic(281, lightning_two, 0, 10 * tileDist);
-            World.getWorld().tileGraphic(281, lightning_three, 0, 10 * tileDist);
-        }).then(3, () -> {
-            if (target.tile() == (lightning_one) || target.tile() == (lightning_one.transform(1, 0)) || target.tile() == (lightning_one.transform(1, 1))) {
-                target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), CombatType.MAGIC).checkAccuracy().submit();
+        entity.animate(9969, 0);
+        Chain.bound(entity).runFn(1, () -> {
+            entity.performGraphic(new Graphic(2344, GraphicHeight.MIDDLE, 0));
+        }).then(2, () -> {
+            if (target != null && target.isPlayer() && !target.dead() && entity.isRegistered() && !entity.dead()) {
+                int duration = (startSpeed + -5 + (stepMultiplier * tileDist));
+                World.getWorld().tileGraphic(2346, lightning_one, 0, duration);
+                World.getWorld().tileGraphic(2346, lightning_one, 0, duration);
+                World.getWorld().tileGraphic(2346, lightning_two, 0, duration);
+                World.getWorld().tileGraphic(2346, lightning_three, 0, duration);
+                if (target.tile().equals(lightning_one) || target.tile().equals(lightning_two) || target.tile().equals(lightning_three)) {
+                    Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), duration, CombatType.MAGIC).checkAccuracy();
+                    hit.submit();
+                } else if (target.tile().isWithinDistance(lightning_one, 1)) {
+                    Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), duration, CombatType.MAGIC).checkAccuracy();
+                    hit.submit();
+                    hit.setDamage(hit.getDamage() / 2);
+                }
             }
         });
-        entity.getCombat().delayAttack(6);
+    }
+
+    private void doMagicSwordSlash() {
+        int startSpeed = 51, stepMultiplier = 10, tileDist = entity.tile().distance(target.tile());
+        Tile lightning_one = target.tile().transform(0, 1);
+        Tile lightning_two = lightning_one.transform(1, 0);
+        Tile lightning_three = lightning_one.transform(1, 1);
+        entity.animate(9972);
+        Chain.bound(entity).runFn(1, () -> {
+            entity.performGraphic(new Graphic(2344, GraphicHeight.MIDDLE, 0));
+        }).then(0, () -> {
+            if (target != null && target.isPlayer() && !target.dead() && entity.isRegistered() && !entity.dead()) {
+                int duration = (startSpeed + -10 + (stepMultiplier * tileDist));
+                World.getWorld().tileGraphic(2346, lightning_one, 0, duration);
+                World.getWorld().tileGraphic(2346, lightning_one, 0, duration);
+                World.getWorld().tileGraphic(2346, lightning_two, 0, duration);
+                World.getWorld().tileGraphic(2346, lightning_three, 0, duration);
+                if (target.tile().equals(lightning_one) || target.tile().equals(lightning_two) || target.tile().equals(lightning_three)) {
+                    Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), duration, CombatType.MAGIC).checkAccuracy();
+                    hit.submit();
+                } else if (target.tile().isWithinDistance(lightning_one, 1)) {
+                    Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), duration, CombatType.MAGIC).checkAccuracy();
+                    hit.submit();
+                    hit.setDamage(hit.getDamage() / 2);
+                }
+            }
+        });
     }
 
     private void spawnHellhounds(NPC vetion, Entity target) {
-        vetion.forceChat("Kill my pets!");
         List<NPC> minions = new ArrayList<>();
         for (int index = 0; index < 2; index++) {
             VetionMinion minion = new VetionMinion(vetion, target);

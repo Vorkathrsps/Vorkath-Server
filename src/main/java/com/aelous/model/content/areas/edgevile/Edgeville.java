@@ -51,10 +51,6 @@ public class Edgeville extends PacketInteraction {
     @Override
     public boolean handleNpcInteraction(Player player, NPC npc, int option) {
         if (option == 1) {
-            if(npc.id() == SHOP_CONSUMABLES) {
-                World.getWorld().shop(13).open(player);
-                return true;
-            }
             if(npc.id() == ARMOUR_SALESMAN) {
                 player.shopReference = ShopReference.GEAR;
                 player.getPacketSender().sendConfig(1126, 1);

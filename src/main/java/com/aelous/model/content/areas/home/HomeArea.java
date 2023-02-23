@@ -93,10 +93,6 @@ public class HomeArea extends PacketInteraction {
                 TradingPost.open(player);
                 return true;
             }
-            if(npc.id() == TRAIBORN) {
-                World.getWorld().shop(30).open(player);
-                return true;
-            }
             if(npc.id() == GUNNJORN) {
                 World.getWorld().shop(33).open(player);
                 return true;
@@ -113,10 +109,6 @@ public class HomeArea extends PacketInteraction {
         if(option == 2) {
             if(npc.id() == GERRANT_2891) {
                 World.getWorld().shop(46).open(player);
-                return true;
-            }
-            if(npc.id() == TRAIBORN) {
-                World.getWorld().shop(29).open(player);
                 return true;
             }
             if(npc.id() == GUNNJORN) {
@@ -137,10 +129,6 @@ public class HomeArea extends PacketInteraction {
             }
         }
         if(option == 3) {
-            if(npc.id() == TRAIBORN) {
-                World.getWorld().shop(31).open(player);
-                return true;
-            }
             if(npc.id() == GUNNJORN) {
                 World.getWorld().shop(34).open(player);
                 return true;

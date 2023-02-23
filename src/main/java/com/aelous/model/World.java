@@ -2,6 +2,7 @@ package com.aelous.model;
 
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.core.TimesCycle;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.items.Item;
 import com.aelous.network.codec.login.LoginService;

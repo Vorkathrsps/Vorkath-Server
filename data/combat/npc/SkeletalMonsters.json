@@ -5,30 +5,55 @@
       11993
     ],
     "maxhit": 17,
-    "deathlen": 2,
+    "deathlen": 4,
     "aggressive": true,
     "stats": {
-      "attack": 200,
-      "strength": 160,
-      "magic": 1,
-      "ranged": 200,
-      "defence": 1,
-      "hitpoints": 11
+      "attack": 250,
+      "strength": 250,
+      "magic": 178,
+      "ranged": 1,
+      "defence": 225,
+      "hitpoints": 150
     },
     "bonuses": {
-      "attack": 0,
-      "ranged": 0,
-      "magic": 1073,
-      "stabdefence": 0,
-      "slashdefence": 0,
-      "crushdefence": 0,
-      "rangeddefence": -15,
-      "magicdefence": 0
+      "stabdefence": 130,
+      "slashdefence": 128,
+      "crushdefence": -10,
+      "rangeddefence": 198,
+      "magicdefence": 211
     },
     "animations": {
-      "attack": 7990,
-      "block": -1,
-      "death": 7991
+      "death": 9980
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion"
+    }
+  },
+  {
+    //Calvarion
+    "ids": [
+      11994
+    ],
+    "maxhit": 17,
+    "deathlen": 4,
+    "aggressive": true,
+    "stats": {
+      "attack": 350,
+      "strength": 350,
+      "magic": 278,
+      "ranged": 1,
+      "defence": 325,
+      "hitpoints": 250
+    },
+    "bonuses": {
+      "stabdefence": 30,
+      "slashdefence": 28,
+      "crushdefence": -10,
+      "rangeddefence": 98,
+      "magicdefence": 111
+    },
+    "animations": {
+      "death": 9980
     },
     "scripts": {
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion"

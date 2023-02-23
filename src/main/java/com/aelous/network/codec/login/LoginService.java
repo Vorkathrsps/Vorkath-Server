@@ -75,9 +75,8 @@ public class LoginService implements Service {
         stopwatch = Stopwatch.createUnstarted();
         stopwatch.start();
         try {
-            boolean b = PlayerSave.save(request);
             // logger.trace("save to disk complete for {} : {}", b, request);
-            return b;
+            return PlayerSave.save(request);
         } catch (Throwable t) {
             // If we don't catch any possible errors, thread could die silently.
             logger.error(

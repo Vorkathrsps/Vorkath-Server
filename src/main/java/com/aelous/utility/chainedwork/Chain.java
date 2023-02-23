@@ -223,7 +223,6 @@ public class Chain<T> {
         this.work = work;
         startChainExecution();
         return this;
-
     }
 
     // this is private on purpose, internal class use only

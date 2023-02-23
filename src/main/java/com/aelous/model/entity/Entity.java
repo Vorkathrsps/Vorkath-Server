@@ -1782,15 +1782,11 @@ public abstract class Entity {
     }
 
     public void startEvent(int delayTicks, Runnable run) {
-        Chain.bound(null).runFn(delayTicks, () -> {
-            run.run();
-        });
+        Chain.bound(null).runFn(delayTicks, run);
     }
 
     public void startEvent(int delayTicks, Runnable run, int tickDelay, Runnable afterDelay) {
-        Chain.bound(null).runFn(delayTicks, () -> {
-            run.run();
-        }).then(tickDelay, afterDelay);
+        Chain.bound(null).runFn(delayTicks, run).then(tickDelay, afterDelay);
     }
 
 

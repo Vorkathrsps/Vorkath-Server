@@ -45,10 +45,10 @@ public class Vetion extends CommonCombatMethod {
 
         var roll = World.getWorld().random(8);
 
-        switch (roll) {
-            case 0, 1 -> doMagicSwordRaise();
-            case 2, 3 -> doMagicSwordSlash();
-        }
+       // switch (roll) {
+        //    case 0, 1 -> doMagicSwordRaise();
+        //    case 2, 3 -> doMagicSwordSlash();
+       // }
     }
 
     @Override

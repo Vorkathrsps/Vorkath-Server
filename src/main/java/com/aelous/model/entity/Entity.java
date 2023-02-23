@@ -1708,6 +1708,17 @@ public abstract class Entity {
         performGraphic(new Graphic(id, height, delay));
     }
 
+    public void animate(Animation animation) {
+        if (this.animation != null && animation != null) {
+            if (this.animation.getPriority().ordinal() > animation.getPriority().ordinal()) {
+                return;
+            }
+        }
+
+        this.animation = animation;
+        getUpdateFlag().flag(Flag.ANIMATION);
+    }
+
     public void setTinting(Tinting tinting, Entity player) {
         this.tinting = tinting;
         player.tinting();

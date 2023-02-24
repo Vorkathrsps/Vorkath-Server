@@ -40,9 +40,9 @@ public class RangeAccuracy {
         double selectedChance = srand.nextDouble();
 
         if (attackBonus > defenceBonus)
-            successfulRoll = (1D - ((defenceBonus + 2D) / (2D * (attackBonus + 1D))));
+            successfulRoll = 1D - ((defenceBonus + 2D) / (2D * Math.floor(attackBonus + 1D)));
         else
-            successfulRoll = (attackBonus / (2D * (defenceBonus + 1D)));
+            successfulRoll = (attackBonus / (2D * Math.floor(defenceBonus + 1D)));
 
         System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
@@ -72,7 +72,7 @@ public class RangeAccuracy {
 
     public static double getEffectiveDefence(Entity defender) {
         FightStyle fightStyle = defender.getCombat().getFightType().getStyle();
-        double effectiveLevel = Math.floor(getRangeLevel(defender) * getPrayerDefenseBonus(defender));
+        double effectiveLevel = Math.ceil(getRangeLevel(defender) * getPrayerDefenseBonus(defender));
 
         switch (fightStyle) {
             case DEFENSIVE:
@@ -92,7 +92,7 @@ public class RangeAccuracy {
         var task_id = attacker.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
         var task = SlayerCreature.lookup(task_id);
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
-        double effectiveLevel = Math.floor(getRangeLevel(attacker)) * getPrayerAttackBonus(attacker);
+        double effectiveLevel = Math.ceil(getRangeLevel(attacker) * getPrayerAttackBonus(attacker));
 
         if (fightStyle == FightStyle.ACCURATE) {
             effectiveLevel += 3.0D;
@@ -158,9 +158,7 @@ public class RangeAccuracy {
 
         double equipmentRangeBonus = getGearAttackBonus(attacker, style);
 
-        double maxRoll = effectiveRangeLevel * (equipmentRangeBonus + 64D);
-
-        return (int) (maxRoll);
+        return effectiveRangeLevel * Math.floor(equipmentRangeBonus + 64D);
     }
 
     public static double getDefenceRoll(Entity defender, CombatType style) {
@@ -168,9 +166,6 @@ public class RangeAccuracy {
 
         int equipmentRangeBonus = getGearDefenceBonus(defender, style);
 
-        double maxRoll = effectiveDefenceLevel * (equipmentRangeBonus + 64D);
-
-        return (int) maxRoll;
+        return effectiveDefenceLevel * Math.floor(equipmentRangeBonus + 64D);
     }
-
 }

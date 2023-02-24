@@ -83,6 +83,14 @@ public class FormulaUtils {
         return ((player.getEquipment().hasAt(EquipSlot.WEAPON, VIGGORAS_CHAINMACE) && WildernessArea.inWild(player)));
     }
 
+    public static boolean wearingFullInquisitors(Player player) {
+        return player.getEquipment().containsAll(INQUISITORS_GREAT_HELM, INQUISITORS_HAUBERK, INQUISITORS_PLATESKIRT);
+    }
+
+    public static boolean wearingInquisitorsPiece(Player player) {
+        return player.getEquipment().containsAny(INQUISITORS_GREAT_HELM, INQUISITORS_HAUBERK, INQUISITORS_PLATESKIRT);
+    }
+
     public static boolean hasThammaronSceptre(Player player) {
         ItemContainer eq = player.getEquipment();
         return (eq.hasAt(EquipSlot.WEAPON, 22555) && (WildernessArea.inWild(player)));

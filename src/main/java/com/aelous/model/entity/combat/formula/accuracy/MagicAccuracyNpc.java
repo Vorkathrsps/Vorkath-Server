@@ -37,9 +37,9 @@ public class MagicAccuracyNpc {
         double selectedChance = srand.nextDouble();
 
         if (attackBonus > defenceBonus)
-            successfulRoll = 1D - (defenceBonus + 2D) / (2D * (attackBonus + 1D));
+            successfulRoll = 1D - ((defenceBonus + 2D) / (2D * Math.floor(attackBonus + 1D)));
         else
-            successfulRoll = attackBonus / (2D * (defenceBonus + 1D));
+            successfulRoll = (attackBonus / (2D * Math.floor(defenceBonus + 1D)));
 
         System.out.println("NPCStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + successfulRoll + " rolledChance=" + selectedChance + " sucessful=" + (successfulRoll > selectedChance));
 
@@ -143,7 +143,7 @@ public class MagicAccuracyNpc {
     }
 
     public static double getDefenceRoll(Entity defender, CombatType style) {
-        return getEffectiveLevelDefender(defender) * (getMagicDefenceLevelNpc(defender, style));
+        return getEffectiveLevelDefender(defender) * Math.floor(getMagicDefenceLevelNpc(defender, style));
     }
 
     public static int getMagicLevel(Entity attacker) {
@@ -151,11 +151,11 @@ public class MagicAccuracyNpc {
     }
 
     public static int getEffectiveLevelAttacker(Entity attacker, CombatType style) {
-        return (int) (getMagicLevel(attacker) * getPrayerBonus(attacker, style) + 9);
+        return (int) Math.ceil(getMagicLevel(attacker) * getPrayerBonus(attacker, style) + 9);
     }
 
     public static double getAttackRoll(Entity attacker, CombatType style) {
-        return getEffectiveLevelAttacker(attacker, style) * (getEquipmentBonus(attacker, style)) + 64D;
+        return getEffectiveLevelAttacker(attacker, style) * Math.floor(getEquipmentBonus(attacker, style) + 64D);
     }
 
 }

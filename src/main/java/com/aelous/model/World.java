@@ -298,7 +298,6 @@ public class World {
                 try {
                     player.processed = true;
                     player.sequence();
-                    //player.syncContainers();
                 } catch (Exception e) {
                     logger.catching(e);
                     player.requestLogout();
@@ -312,7 +311,7 @@ public class World {
             public void execute(int index) {
                 NPC npc = npcs.get(index);
                 if (RegionManager.getRegion(npc.getX(), npc.getY()) == null) {
-                    //System.err.println("region "+npc.getPosition().region()+" missing @ "+npc.getPosition());
+                    //System.err.println("region "+npc.getCentrePosition().region()+" missing @ "+npc.getCentrePosition());
                     return;
                 }
                 try {

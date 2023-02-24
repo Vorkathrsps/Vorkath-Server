@@ -119,9 +119,6 @@ public class EquipmentInfo {
                     bonuses.rangestr += equip.rangestr;
                     bonuses.magestr += equip.magestr;
                     bonuses.pray += equip.pray;
-                    if (player.getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW) && !WildernessArea.inWild(player)) {
-                        bonuses.magestr += Math.min(equip.magestr * 3, equip.magestr * equip.magestr);
-                    }
                 }
             }
         } else {

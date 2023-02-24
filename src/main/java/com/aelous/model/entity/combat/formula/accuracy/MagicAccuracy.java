@@ -11,10 +11,14 @@ import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
+import com.aelous.model.map.position.areas.impl.WildernessArea;
+import com.aelous.utility.ItemIdentifiers;
+import org.jetbrains.kotlin.ir.expressions.IrStatementOrigin;
 
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
 
+import static com.aelous.model.entity.attributes.AttributeKey.IGNORE_FREEZE_MOVE;
 import static com.aelous.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.*;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.AUGURY;
@@ -37,9 +41,9 @@ public class MagicAccuracy {
         double selectedChance = srand.nextDouble();
 
         if (attackBonus > defenceBonus)
-            successfulRoll = (1D - ((defenceBonus + 2D) / (2D * (attackBonus + 1D))));
+            successfulRoll = 1D - ((defenceBonus + 2D) / (2D * Math.floor(attackBonus + 1D)));
         else
-            successfulRoll = (attackBonus / (2D * (defenceBonus + 1D)));
+            successfulRoll = (attackBonus / (2D * Math.floor(defenceBonus + 1D)));
 
             System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
@@ -65,7 +69,7 @@ public class MagicAccuracy {
     }
 
     public static double getDefenceLevelDefender(Entity defender, FightStyle style) {
-        double effectiveLevel = Math.floor(defender.skills().level(Skills.DEFENCE) * getPrayerBonusDefender(defender));
+        double effectiveLevel = Math.ceil(defender.skills().level(Skills.DEFENCE) * getPrayerBonusDefender(defender));
         switch (style) {
             case DEFENSIVE -> {
                 effectiveLevel += 3.0D;
@@ -75,7 +79,7 @@ public class MagicAccuracy {
             }
         }
         effectiveLevel += 8.0D;
-        return effectiveLevel;
+        return Math.floor(effectiveLevel);
     }
 
     public static double getDefenceRoll(Entity defender, CombatType style) {
@@ -83,19 +87,16 @@ public class MagicAccuracy {
         double effectiveDefenceLevel = getDefenceLevelDefender(defender, fightStyle);
 
         effectiveDefenceLevel *= 0.3D;
-        effectiveDefenceLevel = Math.floor(effectiveDefenceLevel);
 
         double magicLevel = getMagicLevelDefender(defender);
         magicLevel *= getPrayerBonusDefender(defender);
-        magicLevel = Math.floor(magicLevel);
 
         magicLevel *= 0.7D;
-        magicLevel = Math.floor(magicLevel);
 
-        double effectivemagicLevel = Math.floor(effectiveDefenceLevel + magicLevel + 8D);
-        double equipmentDefenceBonus = Math.floor(getEquipmentBonusDefender(defender, style));
+        double effectivemagicLevel = ((effectiveDefenceLevel + magicLevel) + 8D);
+        double equipmentDefenceBonus = getEquipmentBonusDefender(defender, style);
 
-        return effectivemagicLevel * (equipmentDefenceBonus + 64D);
+        return Math.floor(effectivemagicLevel * Math.floor(equipmentDefenceBonus + 64D));
     }
 
     public static int getMagicLevelAttacker(Entity attacker) {
@@ -140,14 +141,11 @@ public class MagicAccuracy {
         var task_id = attacker.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
         var task = SlayerCreature.lookup(task_id);
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
-        double effectiveLevel = Math.floor(getMagicLevelAttacker(attacker) * getPrayerBonus(attacker, style));
+        EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
+        double effectiveLevel = Math.ceil(getMagicLevelAttacker(attacker) * getPrayerBonus(attacker, style));
         switch (fightStyle) {
-            case ACCURATE -> {
-                effectiveLevel += 3.0D;
-            }
-            case CONTROLLED -> {
-                effectiveLevel += 1.0D;
-            }
+            case ACCURATE -> effectiveLevel += 3.0D;
+            case CONTROLLED -> effectiveLevel += 1.0D;
         }
 
         effectiveLevel += 8.0;
@@ -157,6 +155,10 @@ public class MagicAccuracy {
                 if (FormulaUtils.voidMagic((Player) attacker)) {
                 effectiveLevel *= 1.45D; //45%
                 }
+            }
+
+            if (!WildernessArea.inWild((Player) attacker) && ((Player) attacker).getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
+                attackerBonus.magestr += Math.min(attackerBonus.magestr * 3, attackerBonus.magestr * attackerBonus.magestr);
             }
         }
 
@@ -168,9 +170,9 @@ public class MagicAccuracy {
 
         double equipmentAttackBonus = getEquipmentBonusAttacker(attacker, style);
 
-        double maxRoll = effectiveMagicLevel * (equipmentAttackBonus + 64D);
+        double maxRoll = effectiveMagicLevel * Math.floor(equipmentAttackBonus + 64D);
 
-        return (int) maxRoll;
+        return Math.round(maxRoll);
     }
 
 }

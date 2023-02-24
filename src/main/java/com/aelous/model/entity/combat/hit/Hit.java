@@ -5,11 +5,7 @@ import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
-import com.aelous.model.entity.combat.formula.accuracy.AccuracyFormula;
-import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
-import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracyNpc;
-import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracy;
-import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracyNpc;
+import com.aelous.model.entity.combat.formula.accuracy.*;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.method.CombatMethod;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
@@ -246,8 +242,13 @@ public class Hit {
                         success = RangeAccuracyNpc.doesHit(attacker, target, combatType);
                     }
                 }
-                case MELEE -> success = AccuracyFormula.doesHit(attacker, target, combatType);
-
+                case MELEE -> {
+                    if (target.isPlayer())
+                        success = MeleeAccuracy.doesHit(attacker, target, combatType);
+                    else {
+                        success = MeleeAccuracy.doesHit(attacker, target, combatType);
+                    }
+                }
                 default -> AccuracyFormula.doesHit(attacker, target, combatType);
             }
         }

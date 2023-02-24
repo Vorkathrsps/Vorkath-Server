@@ -100,9 +100,10 @@ public class RangeMaxHit {
             if (((NPC) target).combatInfo() != null && ((NPC) target).combatInfo().stats != null)
                 magicLevel = ((NPC) target).combatInfo().stats.magic;
 
-            double damage = 265D + ((3 * magicLevel - 14D) / 100D) - (Math.pow(3 * magicLevel / 10.0 - 140.0, 2) / 100D);
-            damage = Math.min(265D, damage);
+            double damage = (250D + ((((10 * 3) * magicLevel) / 10D) - 14) / 100D) - (((((3 * magicLevel) /10D) - 140) / 100D) * 2);
+            damage = Math.min(250D, damage);
             otherBonus *= Math.min(2D, 1D + damage);
+            System.out.println(damage);
         }
 
         if (player.getEquipment().hasAt(EquipSlot.HEAD, CRYSTAL_HELM)) {

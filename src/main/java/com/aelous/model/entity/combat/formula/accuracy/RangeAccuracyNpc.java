@@ -7,6 +7,7 @@ import com.aelous.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.formula.FormulaUtils;
+import com.aelous.model.entity.combat.formula.maxhit.RangeMaxHit;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.combat.weapon.FightStyle;
 import com.aelous.model.entity.npc.NPC;
@@ -19,6 +20,7 @@ import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.ItemIdentifiers;
 
 import java.security.SecureRandom;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
@@ -44,13 +46,16 @@ public class RangeAccuracyNpc {
         double defenceBonus = getDefenceRoll(defender, style);
         double successfulRoll;
         double selectedChance = srand.nextDouble();
-
+        double maxDamage = RangeMaxHit.maxHit(attacker.getAsPlayer(), defender, false, false);
+        double dps = ((maxDamage * selectedChance) / 2);
         if (attackBonus > defenceBonus)
-            successfulRoll = 1D - (defenceBonus + 2D) / (2D * (attackBonus + 1D));
+            successfulRoll = 1D - ((defenceBonus + 2D) / (2D * Math.floor(attackBonus + 1D)));
         else
-            successfulRoll = attackBonus / (2D * (defenceBonus + 1D));
+            successfulRoll = (attackBonus / (2D * Math.floor(defenceBonus + 1D)));
 
-        //System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
+        System.out.println("chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance));
+
+        System.out.println("DPS: " + new DecimalFormat("0.000").format(dps));
 
         return successfulRoll > selectedChance;
     }
@@ -76,7 +81,7 @@ public class RangeAccuracyNpc {
         var task_id = attacker.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
         var task = SlayerCreature.lookup(task_id);
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
-        double effectiveLevel = Math.floor(getRangeLevel(attacker)) * getPrayerAttackBonus(attacker);
+        double effectiveLevel = Math.ceil(getRangeLevel(attacker) * getPrayerAttackBonus(attacker));
 
         switch (fightStyle) {
             case ACCURATE:
@@ -190,7 +195,9 @@ public class RangeAccuracyNpc {
         if (style == RANGED) {
             bonus = attackerBonus.range;
         }
-        bonus += twistedBowBonus(attacker, defender);
+        if (attacker.getAsPlayer().getEquipment().contains(TWISTED_BOW)) {
+            bonus *= twistedBowBonus(attacker, defender);
+        }
         return bonus;
     }
 
@@ -210,9 +217,7 @@ public class RangeAccuracyNpc {
 
         double equipmentRangeBonus = getGearAttackBonus(attacker, defender, style);
 
-        double maxRoll = effectiveRangeLevel * (equipmentRangeBonus);
-
-        return (int) (maxRoll);
+        return Math.ceil(effectiveRangeLevel * Math.floor(equipmentRangeBonus + 64));
     }
 
     public static double getDefenceRoll(Entity defender, CombatType style) {
@@ -220,9 +225,7 @@ public class RangeAccuracyNpc {
 
         int equipmentRangeBonus = getRangeDefenceLevelNpc(defender, style);
 
-        double maxRoll = effectiveDefenceLevel * (equipmentRangeBonus);
-
-        return (int) maxRoll;
+        return Math.floor(effectiveDefenceLevel + 9) * Math.floor(equipmentRangeBonus + 64);
     }
 
 }

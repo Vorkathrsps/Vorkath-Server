@@ -2,6 +2,7 @@ package com.aelous.model.content.items.tools;
 
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
+import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.utility.ItemIdentifiers;
 
 import java.util.Arrays;
@@ -120,8 +121,6 @@ public class ItemPacks {
             if (!player.inventory().contains(itemSet.get().getSetId())) {
                 return false;
             }
-
-            //Player has a item set continue
             player.inventory().remove(new Item(itemSet.get().getSetId()), true);
             player.inventory().addOrBank(itemSet.get().getItems());
             return true;

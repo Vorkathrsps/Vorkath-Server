@@ -9,7 +9,6 @@ import com.aelous.model.content.raids.RaidStage;
 import com.aelous.model.content.raids.party.RaidsParty;
 import com.aelous.model.content.security.AccountPin;
 import com.aelous.model.entity.attributes.AttributeKey;
-import com.aelous.model.entity.combat.magic.autocasting.Autocasting;
 import com.aelous.model.entity.masks.Appearance;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
@@ -137,7 +136,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import static com.aelous.model.content.areas.wilderness.content.EloRating.DEFAULT_ELO_RATING;
 import static com.aelous.model.content.daily_tasks.DailyTaskUtility.DAILY_TASK_MANAGER_INTERFACE;
@@ -3112,10 +3110,6 @@ public class Player extends Entity {
                     World.getWorld().benchmark.allPlayers.tasks += t.toNanos();
                 }, tasks);
                 time(t -> {
-                    perf.bmove += t.toNanos();
-                    World.getWorld().benchmark.allPlayers.bmove += t.toNanos();
-                }, beforemove);
-                time(t -> {
                     perf.move += t.toNanos();
                     World.getWorld().benchmark.allPlayers.move += t.toNanos();
                 }, movement);
@@ -3158,6 +3152,10 @@ public class Player extends Entity {
 
     Runnable logR = this::fireLogout,
         qtStuff = () -> {
+
+            this.getSession().handleQueuedPackets();
+            this.syncContainers();
+
             setPlayerQuestTabCycleCount(getPlayerQuestTabCycleCount() + 1);
             //Update the players online regardless of the cycle count, this is the most important number, otherwise players might see "0" if they log in too soon. Can always remove this later.
             GlobalStrings.PLAYERS_ONLINE.send(this, World.getWorld().getPlayers().size());
@@ -3202,9 +3200,6 @@ public class Player extends Entity {
                         World.getWorld().sendWorldMessage("<col=6a1a18><img=1100>The world boss will spawn in 5 minutes, gear up!");
                     }
                 }
-
-                //this.getSession().handleQueuedPackets();
-                this.syncContainers();
             }
         }, timers = () -> {
         getTimers().cycle(this);
@@ -3212,10 +3207,9 @@ public class Player extends Entity {
         action.sequence();
     }, tasks = () -> {
         TaskManager.sequenceForMob(this);
-    }, beforemove = () -> {
+    },  movement = () -> {
         getCombat().preAttack();
         TargetRoute.beforeMovement(this);
-    }, movement = () -> {
         getMovementQueue().process(); // must be between before+after movement
         TargetRoute.afterMovement(this); // must be afterMove
     }, regions = () -> {
@@ -3240,9 +3234,8 @@ public class Player extends Entity {
         putAttrib(AttributeKey.LAST_REGION, tile.region());
         putAttrib(AttributeKey.LAST_CHUNK, tile.chunk());
     }, cbBountyFlush = () -> {
-        getCombat().process();
 
-        //Section 8 Process Bounty Hunter
+        //nwSection 8 Process Bounty Hunter
         section[9] = true;
         BountyHunter.sequence(this);
 
@@ -3265,6 +3258,8 @@ public class Player extends Entity {
             packetSender.sendString(4536, "Kill Count: " + getAttribOr(BARROWS_MONSTER_KC, 0));
         }
     }, end = () -> {
+
+        getCombat().process();
 
         if (hp() < 1 && System.currentTimeMillis() - lockTime > 30_000) {
             logger.error("player has been locked for 30s while 0hp.. how tf did that happen");
@@ -3302,10 +3297,6 @@ public class Player extends Entity {
                 decreaseStats.start((Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60));
             }
         }
-
-        //Section 15 process farming
-        section[15] = true;
-        farmingOld.farmingProcess();
     };
 
     private void replaceItems() {

@@ -38,5 +38,7 @@ public class TextClickPacketListener implements PacketListener {
         if (PacketInteractionManager.checkButtonInteraction(player, textFrame)) {
             return;
         }
+
+        return;
     }
 }

@@ -57,15 +57,14 @@ public class SecondGroundItemOptionPacketListener implements PacketListener {
 
             player.getRouteFinder().routeGroundItem(item.get(), distance -> {
                 //Make sure distance isn't way off..
+                player.getCombat().reset();
+
                 if (Math.abs(player.tile().getX() - x) > 25 || Math.abs(player.tile().getY() - y) > 25) {
                     player.getMovementQueue().clear();
                     return;
                 }
 
-                if (item.isPresent()) {
-                    //Handle it..
-                    LogLighting.onGroundItemOption2(player, item.get().getItem());
-                }
+                item.ifPresent(groundItem -> LogLighting.onGroundItemOption2(player, groundItem.getItem()));
             });
         }
     }

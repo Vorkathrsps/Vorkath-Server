@@ -40,9 +40,9 @@ public class RangeAccuracy {
         double selectedChance = srand.nextDouble();
 
         if (attackBonus > defenceBonus)
-            successfulRoll = 1D - ((defenceBonus + 2D) / (2D * Math.floor(attackBonus + 1D)));
+            successfulRoll = 1D - (Math.floor(defenceBonus + 2D)) / (2D * (Math.floor(attackBonus + 1D)));
         else
-            successfulRoll = (attackBonus / (2D * Math.floor(defenceBonus + 1D)));
+            successfulRoll = attackBonus / (2D * (Math.floor(defenceBonus + 1D)));
 
         System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
@@ -93,6 +93,8 @@ public class RangeAccuracy {
         var task = SlayerCreature.lookup(task_id);
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
         double effectiveLevel = Math.ceil(getRangeLevel(attacker) * getPrayerAttackBonus(attacker));
+        double specialMultiplier = attacker.getAsPlayer().getCombatSpecial() == null ? 0 : attacker.getAsPlayer().getCombatSpecial().getAccuracyMultiplier();
+
 
         if (fightStyle == FightStyle.ACCURATE) {
             effectiveLevel += 3.0D;
@@ -117,6 +119,9 @@ public class RangeAccuracy {
                         effectiveLevel *= 1.10D;
                     }
                 }
+            }
+            if (attacker.getAsPlayer().isSpecialActivated()) {
+                effectiveLevel *= effectiveLevel * specialMultiplier;
             }
         }
 

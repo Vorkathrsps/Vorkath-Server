@@ -34,7 +34,7 @@ public class VoidWaker extends CommonCombatMethod {
         } else {
             hit.submit();
 
-            target.performGraphic(new Graphic(2363, GraphicHeight.LOW, 1));
+            target.performGraphic(new Graphic(2363, GraphicHeight.LOW, 0));
 
             CombatSpecial.drain(entity, CombatSpecial.VOIDWAKER.getDrainAmount());
         }

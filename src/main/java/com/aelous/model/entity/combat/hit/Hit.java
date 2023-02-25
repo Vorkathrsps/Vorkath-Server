@@ -86,6 +86,7 @@ public class Hit {
 
     /**
      * Damage Src Finder
+     *
      * @return
      */
     public Entity getDamageSource() {
@@ -101,9 +102,9 @@ public class Hit {
             return;
         }
 
-       // if (damageType == DamageType.DWARF_MULTICANNON || damageType == DamageType.VENOM || damageType == DamageType.POISON) {
+        // if (damageType == DamageType.DWARF_MULTICANNON || damageType == DamageType.VENOM || damageType == DamageType.POISON) {
         //    return;
-       // }
+        // }
 
         if (attacker.pidOrderIndex <= target.pidOrderIndex) {
             delay -= 1;
@@ -130,7 +131,7 @@ public class Hit {
         this.delay = delay;
         this.adjustDelay();
         this.splatType = damage < 1 ? SplatType.BLOCK_HITSPLAT : SplatType.HITSPLAT;
-        }
+    }
 
     public Hit builder(Entity attacker, Entity target, int damage, int delay) {
         return builder(attacker, target, damage, delay, this.combatType);
@@ -229,18 +230,10 @@ public class Hit {
         if (combatType != null) {
             switch (combatType) {
                 case MAGIC -> {
-                    if (target.isPlayer())
-                        success = MagicAccuracy.doesHit(attacker, target, combatType);
-                    else {
-                        success = MagicAccuracyNpc.doesHit(attacker, target, combatType);
-                    }
+                    success = target.isPlayer() ? MagicAccuracy.doesHit(attacker, target, combatType) : MagicAccuracyNpc.doesHit(attacker, target, combatType);
                 }
                 case RANGED -> {
-                    if (target.isPlayer())
-                        success = RangeAccuracy.doesHit(attacker, target, combatType);
-                    else {
-                        success = RangeAccuracyNpc.doesHit(attacker, target, combatType);
-                    }
+                    success = target.isPlayer() ? RangeAccuracy.doesHit(attacker, target, combatType) : RangeAccuracyNpc.doesHit(attacker, target, combatType);
                 }
                 case MELEE -> {
                     if (target.isPlayer())
@@ -299,9 +292,9 @@ public class Hit {
 
     public void submit() {
         if (target != null && !invalid()) {
-                CombatFactory.addPendingHit(this);
-            }
+            CombatFactory.addPendingHit(this);
         }
+    }
 
     @Override
     public String toString() {

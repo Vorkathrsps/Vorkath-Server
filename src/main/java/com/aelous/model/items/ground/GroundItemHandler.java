@@ -274,7 +274,6 @@ public final class GroundItemHandler {
     public static void pickup(Player player, int id, Tile tile) {
         Optional<GroundItem> optionalGroundItem = getGroundItem(id, tile, player);
         if (optionalGroundItem.isPresent()) {
-            player.setPositionToFace(tile);
 
             player.action.clearNonWalkableActions();
 

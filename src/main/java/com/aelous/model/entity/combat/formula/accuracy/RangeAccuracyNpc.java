@@ -48,10 +48,11 @@ public class RangeAccuracyNpc {
         double selectedChance = srand.nextDouble();
         double maxDamage = RangeMaxHit.maxHit(attacker.getAsPlayer(), defender, false, false);
         double dps = ((maxDamage * selectedChance) / 2);
+
         if (attackBonus > defenceBonus)
-            successfulRoll = 1D - ((defenceBonus + 2D) / (2D * Math.floor(attackBonus + 1D)));
+            successfulRoll = 1D - (Math.floor(defenceBonus + 2D)) / (2D * (Math.floor(attackBonus + 1D)));
         else
-            successfulRoll = (attackBonus / (2D * Math.floor(defenceBonus + 1D)));
+            successfulRoll = attackBonus / (2D * (Math.floor(defenceBonus + 1D)));
 
         System.out.println("chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance));
 

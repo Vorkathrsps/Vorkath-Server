@@ -41,9 +41,9 @@ public class MagicAccuracy {
         double selectedChance = srand.nextDouble();
 
         if (attackBonus > defenceBonus)
-            successfulRoll = 1D - ((defenceBonus + 2D) / (2D * Math.floor(attackBonus + 1D)));
+            successfulRoll = 1D - (Math.floor(defenceBonus + 2D)) / (2D * (Math.floor(attackBonus + 1D)));
         else
-            successfulRoll = (attackBonus / (2D * Math.floor(defenceBonus + 1D)));
+            successfulRoll = attackBonus / (2D * (Math.floor(defenceBonus + 1D)));
 
             System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
@@ -93,10 +93,10 @@ public class MagicAccuracy {
 
         magicLevel *= 0.7D;
 
-        double effectivemagicLevel = ((effectiveDefenceLevel + magicLevel) + 8D);
+        double effectivemagicLevel = Math.ceil(effectiveDefenceLevel + magicLevel) + 8D;
         double equipmentDefenceBonus = getEquipmentBonusDefender(defender, style);
 
-        return Math.floor(effectivemagicLevel * Math.floor(equipmentDefenceBonus + 64D));
+        return effectivemagicLevel * Math.floor(equipmentDefenceBonus + 64D);
     }
 
     public static int getMagicLevelAttacker(Entity attacker) {

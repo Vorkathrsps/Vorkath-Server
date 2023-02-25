@@ -100,7 +100,6 @@ public class PacketInteractionManager {
     public static boolean checkItemInteraction(Player player, Item item, int option) {
         for (PacketInteraction interaction : interactions) {
             if (interaction.handleItemInteraction(player, item, option)) {
-                //System.out.println("checkItemInteraction prints "+interaction.getClass().getSimpleName());
                 return true;
             }
         }

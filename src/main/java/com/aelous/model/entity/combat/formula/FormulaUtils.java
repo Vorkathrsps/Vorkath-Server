@@ -91,6 +91,10 @@ public class FormulaUtils {
         return player.getEquipment().containsAny(INQUISITORS_GREAT_HELM, INQUISITORS_HAUBERK, INQUISITORS_PLATESKIRT);
     }
 
+    public static boolean fullDharok(Player player) {
+        return player.getEquipment().containsAll(DHAROKS_HELM, DHAROKS_GREATAXE, DHAROKS_PLATELEGS, DHAROKS_PLATEBODY);
+    }
+
     public static boolean hasThammaronSceptre(Player player) {
         ItemContainer eq = player.getEquipment();
         return (eq.hasAt(EquipSlot.WEAPON, 22555) && (WildernessArea.inWild(player)));

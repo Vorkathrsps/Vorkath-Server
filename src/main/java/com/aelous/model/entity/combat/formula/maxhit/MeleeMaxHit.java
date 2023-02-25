@@ -50,31 +50,8 @@ public class MeleeMaxHit {
 
         int maxHit = (int) Math.floor(getBaseDamage(player) * slayerPerkBonus(player));
 
-        /**
-         * special bonus
-         *
-         */
-
         if (player.isSpecialActivated()) {
             maxHit = (int) (maxHit * specialMultiplier);
-        }
-
-        /**
-         * Random Stuff
-         */
-
-        if (CombatFactory.fullDharoks(player)) {
-            double lostHp = player.maxHp() - player.hp();
-            maxHit *= (1 + ((lostHp /100) * (player.maxHp() / 100)));
-        }
-
-        List<Integer> increaseMaxHitbyOne = new ArrayList<>(List.of(GRANITE_MAUL_12848, ARMADYL_GODSWORD_OR, BANDOS_GODSWORD_OR, SARADOMIN_GODSWORD_OR, ZAMORAK_GODSWORD_OR));
-        if (increaseMaxHitbyOne.stream().anyMatch(w -> player.getEquipment().hasAt(EquipSlot.WEAPON, w))) {
-            maxHit += 1;
-        }
-
-        if(player.getEquipment().hasAt(EquipSlot.AMULET, AMULET_OF_TORTURE_OR) || player.getEquipment().hasAt(EquipSlot.AMULET, AMULET_OF_FURY_OR) || player.getEquipment().hasAt(EquipSlot.AMULET, BERSERKER_NECKLACE_OR)) {
-            maxHit += 1;
         }
 
         return (int) Math.floor(maxHit);
@@ -158,6 +135,13 @@ public class MeleeMaxHit {
             otherBonus *= 1.10;
         }
 
+        if (FormulaUtils.fullDharok(player)) {
+            int hitpoints = player.hp();
+            double max = player.maxHp();
+            double mult = Math.max(0, ((max - (double) hitpoints) / max) * 100D) + 100D;
+            otherBonus *= (mult / 100);
+        }
+
         var wearingAnyBlackMask = FormulaUtils.wearingBlackMask(player) || FormulaUtils.wearingBlackMaskImbued(player) || player.getEquipment().wearingSlayerHelm();
 
         if(wearingAnyBlackMask && target != null && target.isNpc() && includeNpcMax) {
@@ -168,36 +152,6 @@ public class MeleeMaxHit {
 
             if(Slayer.creatureMatches(player, npc.id())) {
                 otherBonus *= 1.1667;
-            }
-        }
-
-        if(player.getEquipment().hasAt(EquipSlot.AMULET, SALVE_AMULET) && !wearingAnyBlackMask && target != null && includeNpcMax) {
-            if(target.isNpc() && target.getAsNpc().id() == NpcIdentifiers.COMBAT_DUMMY) {
-                otherBonus *= 1.16;
-            }
-
-            if(FormulaUtils.isUndead(target)) {
-                otherBonus *= 1.16;
-            }
-        }
-
-        if(player.getEquipment().hasAt(EquipSlot.AMULET, SALVE_AMULETI) && !wearingAnyBlackMask && target != null && includeNpcMax) {
-            if(target.isNpc() && target.getAsNpc().id() == NpcIdentifiers.COMBAT_DUMMY) {
-                otherBonus *= 1.20;
-            }
-
-            if(FormulaUtils.isUndead(target)) {
-                otherBonus *= 1.20;
-            }
-        }
-
-        if(player.getEquipment().hasAt(EquipSlot.AMULET, SALVE_AMULET_E) && !wearingAnyBlackMask && target != null && includeNpcMax) {
-            if(target.isNpc() && target.getAsNpc().id() == NpcIdentifiers.COMBAT_DUMMY) {
-                otherBonus *= 1.20;
-            }
-
-            if(FormulaUtils.isUndead(target)) {
-                otherBonus *= 1.20;
             }
         }
 

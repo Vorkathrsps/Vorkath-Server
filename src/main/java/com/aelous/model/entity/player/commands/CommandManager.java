@@ -251,6 +251,7 @@ public class CommandManager {
         commands.put("click", new ClickLinkCommand());
         commands.put("test", new TestCommand());
         commands.put("nex", new NexCommand());
+        commands.put("sethp", new SetHitPointsCommand());
 
         commands.put("noclip", new NoclipCommandCommand());
         commands.put("tasknames", new TaskNamesCommand());

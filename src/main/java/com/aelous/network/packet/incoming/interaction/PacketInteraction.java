@@ -144,5 +144,4 @@ public abstract class PacketInteraction {
     public boolean handleItemContainerActionInteraction(Player player, Item item, int slot, int interfaceId, int type) {
         return false;
     }
-
 }

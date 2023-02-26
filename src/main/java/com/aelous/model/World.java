@@ -279,7 +279,10 @@ public class World {
         executor.sync(new GameSyncTask(NodeType.PLAYER, false, playerRenderOrder) {
             @Override
             public void execute(int index) {
-                Player player = players.get(index);
+                Player player;
+                synchronized (players) {
+                    player = players.get(index);
+                }
                 try {
                     // Process incoming packets...
                     player.getSession().handleQueuedPackets();
@@ -294,7 +297,10 @@ public class World {
         executor.sync(new GameSyncTask(NodeType.PLAYER, false, playerRenderOrder) {
             @Override
             public void execute(int index) {
-                Player player = players.get(index);
+                Player player;
+                synchronized (players) {
+                    player = players.get(index);
+                }
                 try {
                     player.processed = true;
                     player.sequence();
@@ -309,7 +315,10 @@ public class World {
         executor.sync(new GameSyncTask(NodeType.NPC, false, npcRenderOrder) {
             @Override
             public void execute(int index) {
-                NPC npc = npcs.get(index);
+                NPC npc;
+                synchronized (npcs) {
+                    npc = npcs.get(index);
+                }
                 if (RegionManager.getRegion(npc.getX(), npc.getY()) == null) {
                     //System.err.println("region "+npc.getCentrePosition().region()+" missing @ "+npc.getCentrePosition());
                     return;
@@ -323,7 +332,9 @@ public class World {
                 } catch (Exception e) {
                     logger.error("Error processing logic for NPC: {}. cb={}", npc, npc.getCombat());
                     logger.catching(e);
-                    World.getWorld().getNpcs().remove(npc);
+                    synchronized (npcs) {
+                        npcs.remove(npc);
+                    }
                 }
             }
         });
@@ -331,7 +342,10 @@ public class World {
         executor.sync(new GameSyncTask(NodeType.PLAYER, playerRenderOrder) {
             @Override
             public void execute(int index) {
-                Player player = players.get(index);
+                Player player;
+                synchronized (players) {
+                    player = players.get(index);
+                }
                 try {
                     PlayerUpdating.update(player);
                     NPCUpdating.update(player);
@@ -348,7 +362,10 @@ public class World {
         executor.sync(new GameSyncTask(NodeType.PLAYER, false, playerRenderOrder) {
             @Override
             public void execute(int index) {
-                Player player = players.get(index);
+                Player player;
+                synchronized (players) {
+                    player = players.get(index);
+                }
                 try {
                     player.resetUpdating();
                     player.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
@@ -366,7 +383,10 @@ public class World {
         executor.sync(new GameSyncTask(NodeType.NPC, false, npcRenderOrder) {
             @Override
             public void execute(int index) {
-                NPC npc = npcs.get(index);
+                NPC npc;
+                synchronized (npcs) {
+                    npc = npcs.get(index);
+                }
                 try {
                     npc.resetUpdating();
                     npc.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
@@ -378,7 +398,7 @@ public class World {
                 }
             }
         });
-    }, games = MinigameManager::onTick;
+}, games = MinigameManager::onTick;
 
     /**
      * Processes the world.
@@ -394,8 +414,6 @@ public class World {
 
         //Handle synchronization tasks.
         if (GameServer.properties().enablePidShuffling && (lastPidUpdateTick == 0 || elapsedTicks - lastPidUpdateTick >= GameServer.properties().pidIntervalTicks)) {
-            //logger.info("Shuffling PID");
-            //Misc.sendDiscordInfoLog("Shuffling PID");
             lastPidUpdateTick = elapsedTicks;
             players.shuffleRenderOrder();
         }

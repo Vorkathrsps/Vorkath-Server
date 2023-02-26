@@ -333,21 +333,16 @@ public final class GameEngine implements Runnable {
         }
     }
 
-    /** Run all pending tasks from other threads. */
-    private final Object syncTasksLock = new Object();
-
     private void runPendingTasks() {
-        synchronized (syncTasksLock) {
-            for (;;) {
-                Runnable pending = syncTasks.poll();
-                if (pending == null) {
-                    break;
-                }
-                try {
-                    pending.run();
-                } catch (Exception e) {
-                    logger.catching(e);
-                }
+        while (!syncTasks.isEmpty()) {
+            Runnable pending = syncTasks.poll();
+            if (pending == null) {
+                break;
+            }
+            try {
+                pending.run();
+            } catch (Exception e) {
+                logger.catching(e);
             }
         }
     }

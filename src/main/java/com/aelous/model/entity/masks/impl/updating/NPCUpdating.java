@@ -78,7 +78,7 @@ public class NPCUpdating {
         } else {
             packet.initializeAccess(AccessType.BYTE);
         }
-        player.getSession().writeAndFlush(packet);
+        player.getSession().write(packet);
     }
 
 

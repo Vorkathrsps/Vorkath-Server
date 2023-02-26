@@ -57,7 +57,7 @@ public class MagicAccuracy {
         int bonus = 0;
         if (style == CombatType.MAGIC) {
             if (!WildernessArea.inWild((Player) attacker) && ((Player) attacker).getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
-                attackerBonus.mage += Math.min(attackerBonus.mage * 3, attackerBonus.mage * attackerBonus.mage);
+                bonus = attackerBonus.mage += Math.min(attackerBonus.mage * 3, attackerBonus.mage * attackerBonus.mage);
             } else {
                 bonus = attackerBonus.mage;
             }

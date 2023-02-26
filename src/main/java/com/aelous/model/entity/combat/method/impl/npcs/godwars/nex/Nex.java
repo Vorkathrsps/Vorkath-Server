@@ -87,7 +87,6 @@ public class Nex extends NPC {
         if (dead() || doingSiphon || cantInteract()) {
             return;
         }
-        super.sequence();
     }
 
     public ArrayList<Entity> calculatePossibleTargets(Tile current, Tile position, boolean northSouth) {

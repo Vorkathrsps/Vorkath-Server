@@ -29,20 +29,6 @@ public class VerzikVitur extends NPC {
      */
     public Tile baseLocation;
 
-    @Override
-    public void sequence() {
-        super.sequence();
-
-        if (locked()) {
-            return;
-        }
-
-        if (dead()) {
-            return;
-        }
-
-    }
-
 
     public VerzikPhase currentPhase = VerzikPhase.P0;
     private void changePhase() {

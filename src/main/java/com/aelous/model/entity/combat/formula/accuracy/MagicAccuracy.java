@@ -56,7 +56,11 @@ public class MagicAccuracy {
         EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
         int bonus = 0;
         if (style == CombatType.MAGIC) {
-            bonus = attackerBonus.mage;
+            if (!WildernessArea.inWild((Player) attacker) && ((Player) attacker).getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
+                attackerBonus.mage += Math.min(attackerBonus.mage * 3, attackerBonus.mage * attackerBonus.mage);
+            } else {
+                bonus = attackerBonus.mage;
+            }
         }
         return bonus;
     }
@@ -71,7 +75,7 @@ public class MagicAccuracy {
     }
 
     public static int getDefenceLevelDefender(Entity defender, FightStyle style) {
-        double effectiveLevel = Math.ceil(defender.skills().level(Skills.DEFENCE) * getPrayerBonusDefender(defender));
+        double effectiveLevel = Math.floor(defender.skills().level(Skills.DEFENCE) * getPrayerBonusDefender(defender));
         switch (style) {
             case DEFENSIVE -> {
                 effectiveLevel += 3.0;
@@ -148,10 +152,6 @@ public class MagicAccuracy {
                 if (attacker.getAsPlayer().getSpellbook().equals(MagicSpellbook.ANCIENT) && FormulaUtils.hasZurielStaff((Player) attacker)) {
                     effectiveLevel = (int) Math.floor(effectiveLevel * 1.10);
                 }
-            }
-
-            if (!WildernessArea.inWild((Player) attacker) && ((Player) attacker).getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
-                attackerBonus.magestr += Math.min(attackerBonus.magestr * 3, attackerBonus.magestr * attackerBonus.magestr);
             }
         }
 

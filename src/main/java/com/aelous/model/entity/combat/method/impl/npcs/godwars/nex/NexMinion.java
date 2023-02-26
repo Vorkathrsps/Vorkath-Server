@@ -29,7 +29,6 @@ public class NexMinion extends NPC {
     public void sequence() {
         if (dead() || !hasNoBarrier)
             return;
-        super.sequence();
         Entity target = null;
         if(getCombatMethod() != null) {
             if (getCombatMethod() instanceof CommonCombatMethod) {

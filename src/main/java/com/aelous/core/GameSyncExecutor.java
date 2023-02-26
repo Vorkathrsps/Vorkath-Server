@@ -49,35 +49,30 @@ public final class GameSyncExecutor {
      *            the synchronization task to execute.
      */
     public void sync(GameSyncTask syncTask) {
-        List<Integer> indices = Collections.synchronizedList(syncTask.getIndices());
         if (service == null || phaser == null || !syncTask.isConcurrent()) {
-            for (int index : indices) {
-                if (syncTask.checkIndex(index)) {
-                    syncTask.execute(index);
-                }
+            for (int index : syncTask.getIndices()) {
+
+                if (!syncTask.checkIndex(index))
+                    continue;
+                syncTask.execute(index);
             }
             return;
         }
 
-        phaser.bulkRegister(indices.size());
-        ExecutorService threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        synchronized (phaser) {
-            for (int index : indices) {
-                if (syncTask.checkIndex(index)) {
-                    threadPool.execute(() -> {
-                        try {
-                            syncTask.execute(index);
-                        } finally {
-                            phaser.arriveAndDeregister();
-                        }
-                    });
-                } else {
+        phaser.bulkRegister(syncTask.getIndices().size());
+        for (int index : syncTask.getIndices()) {
+            if (!syncTask.checkIndex(index))
+                continue;
+            final int finalIndex = index;
+            service.execute(() -> {
+                try {
+                    syncTask.execute(finalIndex);
+                } finally {
                     phaser.arriveAndDeregister();
                 }
-            }
+            });
         }
         phaser.arriveAndAwaitAdvance();
-        threadPool.shutdown();
     }
 
 

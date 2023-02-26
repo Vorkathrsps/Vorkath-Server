@@ -33,7 +33,8 @@ public class PlayerUpdating {
 
     /**
      * Loops through the associated player's {@code localPlayer} list and updates them.
-     * @return    The PlayerUpdating instance.
+     *
+     * @return The PlayerUpdating instance.
      */
 
     public static void update(final Player player) {
@@ -41,22 +42,20 @@ public class PlayerUpdating {
         PacketBuilder update = new PacketBuilder();
         PacketBuilder packet = new PacketBuilder(81, PacketType.VARIABLE_SHORT);
         packet.initializeAccess(AccessType.BIT);
-        synchronized (player) {
-            updateMovement(player, packet);
-            appendUpdates(player, update, player, false, true);
-            packet.putBits(8, player.getLocalPlayers().size());
-            for (Iterator<Player> playerIterator = player.getLocalPlayers().iterator(); playerIterator.hasNext();) {
-                Player otherPlayer = playerIterator.next();
-                if (otherPlayer.getIndex() != -1 && World.getWorld().getPlayers().get(otherPlayer.getIndex()) != null && !otherPlayer.looks().hidden() && otherPlayer.tile().isWithinDistance(player.tile()) && !otherPlayer.isNeedsPlacement() && canSee(player, otherPlayer)) {
-                    updateOtherPlayerMovement(packet, otherPlayer);
-                    if (otherPlayer.getUpdateFlag().isUpdateRequired()) {
-                        appendUpdates(player, update, otherPlayer, false, false);
-                    }
-                } else {
-                    playerIterator.remove();
-                    packet.putBits(1, 1);
-                    packet.putBits(2, 3);
+        updateMovement(player, packet);
+        appendUpdates(player, update, player, false, true);
+        packet.putBits(8, player.getLocalPlayers().size());
+        for (Iterator<Player> playerIterator = player.getLocalPlayers().iterator(); playerIterator.hasNext(); ) {
+            Player otherPlayer = playerIterator.next();
+            if (otherPlayer.getIndex() != -1 && World.getWorld().getPlayers().get(otherPlayer.getIndex()) != null && !otherPlayer.looks().hidden() && otherPlayer.tile().isWithinDistance(player.tile()) && !otherPlayer.isNeedsPlacement() && canSee(player, otherPlayer)) {
+                updateOtherPlayerMovement(packet, otherPlayer);
+                if (otherPlayer.getUpdateFlag().isUpdateRequired()) {
+                    appendUpdates(player, update, otherPlayer, false, false);
                 }
+            } else {
+                playerIterator.remove();
+                packet.putBits(1, 1);
+                packet.putBits(2, 3);
             }
         }
         int playersAdded = 0;
@@ -66,9 +65,7 @@ public class PlayerUpdating {
             if (otherPlayer == null || otherPlayer == player || player.getLocalPlayers().contains(otherPlayer) || !otherPlayer.tile().isWithinDistance(player.tile()) || otherPlayer.looks().hidden() || !canSee(player, otherPlayer)) {
                 continue;
             }
-            synchronized (player) {
-                player.getLocalPlayers().add(otherPlayer);
-            }
+            player.getLocalPlayers().add(otherPlayer);
             addPlayer(player, otherPlayer, packet);
             appendUpdates(player, update, otherPlayer, true, false);
             playersAdded++;
@@ -92,9 +89,10 @@ public class PlayerUpdating {
 
     /**
      * Adds a new player to the associated player's client.
-     * @param target    The player to add to the other player's client.
-     * @param builder    The packet builder to write information on.
-     * @return            The PlayerUpdating instance.
+     *
+     * @param target  The player to add to the other player's client.
+     * @param builder The packet builder to write information on.
+     * @return The PlayerUpdating instance.
      */
     private static void addPlayer(Player player, Player target, PacketBuilder builder) {
         builder.putBits(11, target.getIndex());
@@ -108,8 +106,9 @@ public class PlayerUpdating {
 
     /**
      * Updates the associated player's movement queue.
-     * @param builder    The packet builder to write information on.
-     * @return            The PlayerUpdating instance.
+     *
+     * @param builder The packet builder to write information on.
+     * @return The PlayerUpdating instance.
      */
     private static void updateMovement(Player player, PacketBuilder builder) {
         /*
@@ -227,9 +226,10 @@ public class PlayerUpdating {
 
     /**
      * Updates another player's movement queue.
-     * @param builder            The packet builder to write information on.
-     * @param target            The player to update movement for.
-     * @return                    The PlayerUpdating instance.
+     *
+     * @param builder The packet builder to write information on.
+     * @param target  The player to update movement for.
+     * @return The PlayerUpdating instance.
      */
     private static void updateOtherPlayerMovement(PacketBuilder builder, Player target) {
 
@@ -307,11 +307,12 @@ public class PlayerUpdating {
 
     /**
      * Appends a player's update mask blocks.
-     * @param builder                The packet builder to write information on.
-     * @param target                The player to update masks for.
-     * @param updateAppearance        Update the player's appearance without the flag being set?
-     * @param noChat                Do not allow player to chat?
-     * @return                        The PlayerUpdating instance.
+     *
+     * @param builder          The packet builder to write information on.
+     * @param target           The player to update masks for.
+     * @param updateAppearance Update the player's appearance without the flag being set?
+     * @param noChat           Do not allow player to chat?
+     * @return The PlayerUpdating instance.
      */
     private static void appendUpdates(Player player, PacketBuilder builder, Player target, boolean updateAppearance, boolean noChat) {
         if (!target.getUpdateFlag().isUpdateRequired() && !updateAppearance)
@@ -397,9 +398,10 @@ public class PlayerUpdating {
 
     /**
      * This update block is used to update player chat.
-     * @param builder    The packet builder to write information on.
-     * @param target    The player to update chat for.
-     * @return            The PlayerUpdating instance.
+     *
+     * @param builder The packet builder to write information on.
+     * @param target  The player to update chat for.
+     * @return The PlayerUpdating instance.
      */
     private static void updateChat(PacketBuilder builder, Player target) {
         ChatMessage message = target.getCurrentChatMessage();
@@ -415,9 +417,10 @@ public class PlayerUpdating {
 
     /**
      * This update block is used to update forced player chat.
-     * @param builder    The packet builder to write information on.
-     * @param target    The player to update forced chat for.
-     * @return            The PlayerUpdating instance.
+     *
+     * @param builder The packet builder to write information on.
+     * @param target  The player to update forced chat for.
+     * @return The PlayerUpdating instance.
      */
     private static void updateForcedChat(PacketBuilder builder, Player target) {
         builder.putString(target.getForcedChat());
@@ -425,9 +428,10 @@ public class PlayerUpdating {
 
     /**
      * This update block is used to update forced player movement.
-     * @param builder    The packet builder to write information on.
-     * @param target    The player to update forced movement for.
-     * @return            The PlayerUpdating instance.
+     *
+     * @param builder The packet builder to write information on.
+     * @param target  The player to update forced movement for.
+     * @return The PlayerUpdating instance.
      */
     private static void updateForcedMovement(Player player, PacketBuilder builder, Player target) {
         int startX = target.getForceMovement().getStart().getLocalX(player.getLastKnownRegion());
@@ -447,9 +451,10 @@ public class PlayerUpdating {
 
     /**
      * This update block is used to update a player's animation.
-     * @param builder    The packet builder to write information on.
-     * @param target    The player to update animations for.
-     * @return            The PlayerUpdating instance.
+     *
+     * @param builder The packet builder to write information on.
+     * @param target  The player to update animations for.
+     * @return The PlayerUpdating instance.
      */
     private static void updateAnimation(PacketBuilder builder, Player target) {
         builder.putShort(target.getAnimation().getId(), ByteOrder.LITTLE);
@@ -472,19 +477,19 @@ public class PlayerUpdating {
      * This update block is used to update a player's single hit.
      * @param builder    The packet builder used to write information on.
      * @param target    The player to update the single hit for.
-     * @return            The PlayerUpdating instance.
+     * @return The PlayerUpdating instance.
      */
 
     /**
      * // Tinted hitsplat
-     *             boolean tinted = true;
-     *             if (hit.getSource() != null && hit.getSource().equals(player)) {
-     *                 tinted = false;
-     *             }
-     *             if (hit.getTarget() != null && hit.getTarget().equals(player)) {
-     *                 tinted = false;
-     *             }
-     *             packet.put((tinted ? 1 : 0));
+     * boolean tinted = true;
+     * if (hit.getSource() != null && hit.getSource().equals(player)) {
+     * tinted = false;
+     * }
+     * if (hit.getTarget() != null && hit.getTarget().equals(player)) {
+     * tinted = false;
+     * }
+     * packet.put((tinted ? 1 : 0));
      */
     private static void writehit1(PacketBuilder builder, Player target) {
         builder.put(Math.min(target.splats.size(), 4)); // count
@@ -499,9 +504,10 @@ public class PlayerUpdating {
 
     /**
      * This update block is used to update a player's double hit.
-     * @param builder    The packet builder used to write information on.
-     * @param target    The player to update the double hit for.
-     * @return            The PlayerUpdating instance.
+     *
+     * @param builder The packet builder used to write information on.
+     * @param target  The player to update the double hit for.
+     * @return The PlayerUpdating instance.
      */
     private static void writeLuminanceOverlay(PacketBuilder builder, Player target) {
         builder.putShort(target.tinting().delay());
@@ -514,9 +520,10 @@ public class PlayerUpdating {
 
     /**
      * This update block is used to update a player's face position.
-     * @param builder    The packet builder to write information on.
-     * @param target    The player to update face position for.
-     * @return            The PlayerUpdating instance.
+     *
+     * @param builder The packet builder to write information on.
+     * @param target  The player to update face position for.
+     * @return The PlayerUpdating instance.
      */
     private static void updateFacingPosition(PacketBuilder builder, int x, int y) {
         builder.putShort(x, ValueType.A, ByteOrder.LITTLE);
@@ -525,9 +532,10 @@ public class PlayerUpdating {
 
     /**
      * This update block is used to update a player's entity interaction.
-     * @param builder    The packet builder to write information on.
-     * @param target    The player to update entity interaction for.
-     * @return            The PlayerUpdating instance.
+     *
+     * @param builder The packet builder to write information on.
+     * @param target  The player to update entity interaction for.
+     * @return The PlayerUpdating instance.
      */
     private static void updateEntityInteraction(PacketBuilder builder, Player target) {
         Entity entity = target.getInteractingEntity();

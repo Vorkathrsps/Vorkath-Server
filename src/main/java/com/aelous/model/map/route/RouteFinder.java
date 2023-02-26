@@ -67,6 +67,16 @@ public class RouteFinder {
     /**
      * Moves entity according to given route.
      */
+
+    /***
+     *
+     * PERFORMANCE ISSUE LIES HERE IN THE ROUTE METHOD FOR NPCS THEY SHOULD BE USING DUMBROUTE NOT SMART
+     *
+     *
+     * @param route
+     * @param message
+     * @param ignoreFreeze
+     */
     public void route(RouteType route, boolean message, boolean ignoreFreeze) {
         Tile position = entity.tile();
         int baseX = (position.getFirstChunkX() - 6) * 8;

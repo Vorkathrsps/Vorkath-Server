@@ -566,7 +566,6 @@ public final class MovementQueue {
 
         //traditionalProcess();
     }
-
     private void traditionalProcess() {
         final Tile beforeWalk = entity.tile();
         /*

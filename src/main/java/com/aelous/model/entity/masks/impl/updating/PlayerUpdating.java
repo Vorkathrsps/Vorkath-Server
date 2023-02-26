@@ -462,7 +462,7 @@ public class PlayerUpdating {
      */
     private static void updateGraphics(PacketBuilder builder, Player target) {
         builder.putShort(target.graphic().id(), ByteOrder.LITTLE);
-        builder.putInt(((target.graphic().getHeight().ordinal() * 50) << 16) + (target.graphic().delay() & 0xffff));
+        builder.putInt(((target.graphic().getHeight().ordinal() * 50) << 16 & 0xFFFF0000) + (target.graphic().delay() & 0x0000FFFF));
     }
 
     /**
@@ -508,15 +508,6 @@ public class PlayerUpdating {
         builder.put(target.tinting().luminance());
         builder.put(target.tinting().opacity());
     }
-
-    /**
-     *         buffer.writeShortLE(tinting.delay)
-     *         buffer.writeShortAddLE(tinting.duration + tinting.delay)
-     *         buffer.writeByte(tinting.hue)
-     *         buffer.writeByteAdd(tinting.saturation)
-     *         buffer.writeByte(tinting.luminance)
-     *         buffer.writeByteSub(tinting.opacity)
-     */
 
     /**
      * This update block is used to update a player's face position.

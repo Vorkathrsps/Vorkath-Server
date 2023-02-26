@@ -231,7 +231,8 @@ public class Appearance {
 
         int[] renderpair = renderpairOverride != null ? renderpairOverride : World.getWorld().equipmentInfo().renderPair(weapon);
         // Stand, walk sideways, walk, turn 180, turn 90 cw, turn 90 ccw, run
-        for (int renderAnim : renderpair)
+        for (int
+            renderAnim : renderpair)
             packetBuilder.putShort(renderAnim); // Renderanim
         //System.out.printf("%s %s %s %s%n", weapon, Arrays.toString(renderpair), target.getEquipment().get(EquipSlot.WEAPON), target.getEquipment().hasAt(EquipSlot.WEAPON));
 

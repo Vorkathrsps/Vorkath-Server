@@ -29,8 +29,7 @@ public class VoidWaker extends CommonCombatMethod {
         Hit hit = target.hit(entity, (int) Math.floor(hitLogic), 0, CombatType.MAGIC);
         hit.setAccurate(true);
         if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {
-            int damage = hit.getDamage() / 2;
-            hit.setDamage(damage);
+            hit.setDamage(hit.getDamage() / 2);
         } else {
             hit.submit();
 

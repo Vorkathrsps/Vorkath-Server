@@ -100,7 +100,9 @@ public class RangeMaxHit {
             if (((NPC) target).combatInfo() != null && ((NPC) target).combatInfo().stats != null)
                 magicLevel = ((NPC) target).combatInfo().stats.magic;
 
-            double damage = (250D + ((((10 * 3) * magicLevel) / 10D) - 14) / 100D) - (((((3 * magicLevel) /10D) - 140) / 100D) * 2);
+            //double damage = (250D + ((((10 * 3) * magicLevel) / 10D) - 14) / 100D) - (((((3 * magicLevel) /10D) - 140) / 100D) * 2);
+            double damage = 250D + (((10*3*magicLevel) / 10D) - 14) - ((Math.floor((3 * magicLevel / 10D) - 140)) * 2);
+            damage /= 100;
             damage = Math.min(250D, damage);
             otherBonus *= Math.min(2D, 1D + damage);
             System.out.println(damage);
@@ -119,12 +121,10 @@ public class RangeMaxHit {
         }
 
         if ((player.getEquipment().hasAt(EquipSlot.WEAPON, DRAGON_HUNTER_CROSSBOW) && target != null && includeNpcMax)) {
-            if (target.isNpc() && target.getAsNpc().id() == NpcIdentifiers.COMBAT_DUMMY) {
+            if (target.isNpc() && target.getAsNpc().id() == NpcIdentifiers.COMBAT_DUMMY || FormulaUtils.isDragon(target)) {
                 otherBonus *= 1.25;
-            }
-
-            if (FormulaUtils.isDragon(target)) {
-                otherBonus *= 1.25;
+            } else {
+                otherBonus *= 1.30;
             }
         }
 

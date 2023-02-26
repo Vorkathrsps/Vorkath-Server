@@ -96,9 +96,6 @@ public class AccuracyFormula {
 
             AttackType attackType = player.getCombat().getFightType().getAttackType();
 
-            if (style.equals(MELEE) && (FormulaUtils.voidMelee(player)))
-                bonus = 1.10D;
-
             if (other.isNpc()) {
                 NPC npc = (NPC) other;
 

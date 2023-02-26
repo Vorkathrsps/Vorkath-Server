@@ -114,14 +114,30 @@ public class FormulaUtils {
         return player.getEquipment().hasAt(EquipSlot.AMULET, BERSERKER_NECKLACE) || player.getEquipment().hasAt(EquipSlot.AMULET, BERSERKER_NECKLACE_OR);
     }
 
+    public static boolean hasArchLight(Player player) {
+        return player.getEquipment().contains(ARCLIGHT);
+    }
+
+    public static boolean hasAncientSceptre(Player player) {
+        return player.getEquipment().contains(ANCIENT_SCEPTRE);
+    }
+
+    public static boolean hasOsmumtensFang(Player player) {
+        return player.getEquipment().containsAny(OSMUMTENS_FANG, OSMUMTENS_FANG_OR);
+    }
+
+    public static boolean hasZurielStaff(Player player) {
+        return player.getEquipment().contains(ZURIELS_STAFF);
+    }
+
+    public static boolean hasDragonHunterLance(Player player) {
+        return player.getEquipment().contains(ARCLIGHT);
+    }
+
     public static boolean hasObbyWeapon(Player player) {
         ItemContainer eq = player.getEquipment();
         int[] weaponry = new int[]{6528, 6523, 6525};
         return ((eq.hasAt(EquipSlot.WEAPON, weaponry[0]) || (eq.hasAt(EquipSlot.WEAPON, weaponry[1]) || (eq.hasAt(EquipSlot.WEAPON, weaponry[2])))));
-    }
-
-    public static boolean voidBase(Player player) {
-        return ((player.getEquipment().hasAt(EquipSlot.BODY, 8839) && player.getEquipment().hasAt(EquipSlot.LEGS, 8840)) || (player.getEquipment().hasAt(EquipSlot.BODY, 13072) && player.getEquipment().hasAt(EquipSlot.LEGS, 13073))) && player.getEquipment().hasAt(EquipSlot.HANDS, 8842);
     }
 
     public static boolean regularVoidEquipmentBaseMagic(Player player) {
@@ -151,24 +167,6 @@ public class FormulaUtils {
     }
     public static boolean eliteTrimmedVoidEquipmentBaseRanged(Player player) {
         return player.getEquipment().containsAll(ELITE_VOID_TOP_LOR, ELITE_VOID_ROBE_LOR, VOID_KNIGHT_GLOVES_LOR, VOID_RANGER_HELM_LOR);
-    }
-
-
-
-    public static boolean voidRanger(Player player) {
-        return player.getEquipment().hasAt(EquipSlot.HEAD, 11664) && voidBase(player);
-    }
-
-    public static boolean voidMelee(Player player) {
-        return player.getEquipment().hasAt(EquipSlot.HEAD, 11665) && voidBase(player);
-    }
-
-    public static boolean voidMagic(Player player) {
-        return player.getEquipment().hasAt(EquipSlot.HEAD, 11663) && voidBase(player);
-    }
-
-    public static boolean wearingEliteVoid(Player p) {
-        return (p.getEquipment().contains(11665) || p.getEquipment().contains(11664) || p.getEquipment().contains(11663)) && p.getEquipment().hasAt(EquipSlot.BODY, 13072) && p.getEquipment().hasAt(EquipSlot.LEGS, 13073) && p.getEquipment().hasAt(EquipSlot.HANDS, 8842);
     }
 
     private static final int[] BLACK_MASK = new int[] {BLACK_MASK_1, BLACK_MASK_2, BLACK_MASK_3, BLACK_MASK_4, BLACK_MASK_5, BLACK_MASK_6, BLACK_MASK_7, BLACK_MASK_8, BLACK_MASK_9, BLACK_MASK_10};

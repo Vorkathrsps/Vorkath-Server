@@ -28,6 +28,7 @@ import static com.aelous.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
 import static com.aelous.model.entity.combat.CombatType.RANGED;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.*;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.EAGLE_EYE;
+import static com.aelous.utility.ItemIdentifiers.DRAGON_HUNTER_CROSSBOW;
 import static com.aelous.utility.ItemIdentifiers.TWISTED_BOW;
 
 /**
@@ -183,7 +184,8 @@ public class RangeAccuracyNpc {
                             magicLevel = defender.getAsPlayer().skills().getMaxLevel(Skills.MAGIC);
                         }
 
-                        bonus += 140 + ((3 * magicLevel - 10) / 100) - (((3 * magicLevel / 10) - 100)) * ((3 * magicLevel / 10) - 100) / 100;
+                        bonus += 140 + (((10*3*magicLevel) / 10) - 10) - ((Math.floor(3 * magicLevel / 10 - 100)) * 2);
+                        //bonus += 140 + ((3 * magicLevel - 10) / 100) - (((3 * magicLevel / 10) - 100)) * ((3 * magicLevel / 10) - 100) / 100;
                         bonus /= 100;
                         if (bonus > 2.4D)
                             bonus = (int) 2.4;
@@ -201,6 +203,15 @@ public class RangeAccuracyNpc {
         }
         if (attacker.getAsPlayer().getEquipment().contains(TWISTED_BOW)) {
             bonus *= twistedBowBonus(attacker, defender);
+        }
+        if (attacker.isPlayer()) {
+            if (attacker.getAsPlayer().getEquipment().contains(DRAGON_HUNTER_CROSSBOW)) {
+                if (defender instanceof NPC && FormulaUtils.isDragon(defender)) {
+                    bonus *= 1.25;
+                } else {
+                    bonus *= 1.30;
+                }
+            }
         }
         return bonus;
     }

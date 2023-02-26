@@ -93,7 +93,7 @@ public class RangeAccuracy {
         var task = SlayerCreature.lookup(task_id);
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
         double effectiveLevel = Math.ceil(getRangeLevel(attacker) * getPrayerAttackBonus(attacker));
-        double specialMultiplier = attacker.getAsPlayer().getCombatSpecial() == null ? 0 : attacker.getAsPlayer().getCombatSpecial().getAccuracyMultiplier();
+        double specialMultiplier = attacker.getAsPlayer().getCombatSpecial() == null ? 1 : attacker.getAsPlayer().getCombatSpecial().getAccuracyMultiplier();
 
 
         if (fightStyle == FightStyle.ACCURATE) {
@@ -104,10 +104,6 @@ public class RangeAccuracy {
 
         if(attacker.isPlayer()) { //additional bonuses here
             if (style.equals(RANGED)) {
-                if ((FormulaUtils.voidRanger((Player) attacker))) {
-                    effectiveLevel *= 1.10D;
-                    effectiveLevel = Math.floor(effectiveLevel);
-                }
                 if (((Player) attacker).getEquipment().contains(ItemIdentifiers.BOW_OF_FAERDHINEN)) {
                     if (((Player) attacker).getEquipment().contains(ItemIdentifiers.CRYSTAL_HELM)) {
                         effectiveLevel *= 1.05D;
@@ -128,9 +124,10 @@ public class RangeAccuracy {
                     effectiveLevel *= 1.125;
                 }
 
-            }
-            if (attacker.getAsPlayer().isSpecialActivated()) {
-                effectiveLevel *= effectiveLevel * specialMultiplier;
+                if (attacker.isPlayer() && attacker.getAsPlayer().isSpecialActivated()) {
+                    effectiveLevel = effectiveLevel * specialMultiplier;
+                }
+
             }
         }
 

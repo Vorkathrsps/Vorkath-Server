@@ -2,6 +2,7 @@ package com.aelous.model.entity.combat.magic.spells;
 
 import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.magic.impl.CombatEffectSpell;
@@ -17,8 +18,10 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
+import com.aelous.utility.Utils;
 import com.aelous.utility.timers.TimerKey;
 
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -132,6 +135,7 @@ CombatSpells {
         public int baseMaxHit() {
             return 4;
         }
+
         @Override
         public int baseExperience() {
             return 7;
@@ -1266,6 +1270,7 @@ CombatSpells {
         public void spellEffect(Entity cast, Entity castOn, Hit hit) {
             // Dealth elsewhere
         }
+
         @Override
         public int baseExperience() {
             return 76;
@@ -1899,6 +1904,7 @@ CombatSpells {
         public int spellRadius() {
             return 0;
         }
+
         @Override
         public int baseMaxHit() {
             return 14;
@@ -2853,7 +2859,7 @@ CombatSpells {
             return MagicSpellbook.NORMAL;
         }
     }),
-    SANGUINESTI_STAFF(new CombatNormalSpell() {
+    SANGUINESTI_STAFF(new CombatEffectSpell() {
         @Override
         public String name() {
             return "Sanguinesti spell";
@@ -2872,6 +2878,20 @@ CombatSpells {
         @Override
         public List<Item> equipmentRequired(Player player) {
             return List.of();
+        }
+
+        @Override
+        public void spellEffect(Entity cast, Entity castOn, Hit hit) {
+            if (Utils.securedRandomChance(67.0 / 100)) { //0.67
+                if (hit.isAccurate()) {
+                    cast.heal(hit.getDamage() / 2);
+                }
+            }
+        }
+
+        @Override
+        public int spellRadius() {
+            return 0;
         }
 
         @Override
@@ -3067,8 +3087,7 @@ CombatSpells {
     /**
      * Creates a new {@link CombatSpells}.
      *
-     * @param spell
-     *            the spell attached to this element.
+     * @param spell the spell attached to this element.
      */
     CombatSpells(CombatSpell spell) {
         this.spell = spell;
@@ -3086,8 +3105,7 @@ CombatSpells {
     /**
      * Gets the spell with a {@link CombatSpell#spellId()} of {@code id}.
      *
-     * @param id
-     *            the identification of the combat spell.
+     * @param id the identification of the combat spell.
      * @return the combat spell with that identification.
      */
     public static Optional<CombatSpells> getCombatSpells(int id) {

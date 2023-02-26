@@ -149,7 +149,7 @@ public abstract class Spell {
                 if (player.getEquipment().hasAt(EquipSlot.WEAPON, STAFF_OF_THE_DEAD) || player.getEquipment().hasAt(EquipSlot.WEAPON, TOXIC_STAFF_OF_THE_DEAD) || player.getEquipment().hasAt(EquipSlot.WEAPON, STAFF_OF_LIGHT)) {
                     SecureRandom random = new SecureRandom();
                     double randomchance = random.nextDouble();
-                    if (randomchance <= 0.142D) {
+                    if (randomchance <= 0.125D) {
                         player.message("Your staff negated your runes for this cast.");
                         delete = false;
                     }

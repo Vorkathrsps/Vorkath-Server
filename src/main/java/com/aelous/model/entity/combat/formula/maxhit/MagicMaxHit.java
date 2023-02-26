@@ -8,6 +8,7 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.player.EquipSlot;
+import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
@@ -112,6 +113,10 @@ public class MagicMaxHit {
                 // #Custom Armour effects
                 if (player.getEquipment().hasAt(EquipSlot.AMULET, OCCULT_NECKLACE_OR) || player.getEquipment().hasAt(EquipSlot.HANDS, TORMENTED_BRACELET_OR)) {
                     maxHit += 1;
+                }
+
+                if (player.getSpellbook().equals(MagicSpellbook.ANCIENT) && FormulaUtils.hasAncientSceptre(player)) {
+                    maxHit *= 1.10D;
                 }
 
                 if (spell_name.equals("Sanguinesti spell")) {

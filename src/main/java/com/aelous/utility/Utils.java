@@ -464,7 +464,7 @@ public class Utils {
 
     public static boolean securedRandomChance(double chance) {
         SecureRandom srand = new SecureRandom();
-        return srand.nextDouble() < chance;
+        return srand.nextDouble() <= chance;
     }
     public static boolean percentageChance(int chance) {
         return RANDOM_GEN.nextInt(100) < chance;

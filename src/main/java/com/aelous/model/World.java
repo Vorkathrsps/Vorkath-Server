@@ -275,6 +275,21 @@ public class World {
                 logger.catching(t);
             }
         }
+    }, packets = () -> {
+        executor.sync(new GameSyncTask(NodeType.PLAYER, false, playerRenderOrder) {
+            @Override
+            public void execute(int index) {
+                Player player = players.get(index);
+                try {
+                    // Process incoming packets...
+                    player.getSession().handleQueuedPackets();
+                    //player.syncContainers();
+                } catch (Exception e) {
+                    logger.catching(e);
+                    player.requestLogout();
+                }
+            }
+        });
     }, playerProcess = () -> {
         executor.sync(new GameSyncTask(NodeType.PLAYER, false, playerRenderOrder) {
             @Override
@@ -317,6 +332,21 @@ public class World {
             @Override
             public void execute(int index) {
                 Player player = players.get(index);
+
+                if (World.SYNCMODE1) {
+                    synchronized (player) {
+                        try {
+                            PlayerUpdating.update(player);
+                            NPCUpdating.update(player);
+                            if (GameServer.broadcast != null) {
+                                player.getPacketSender().sendBroadcast(GameServer.broadcast);
+                            }
+                        } catch (Exception e) {
+                            logger.catching(e);
+                            player.requestLogout();
+                        }
+                    }
+                } else {
                     try {
                         PlayerUpdating.update(player);
                         NPCUpdating.update(player);
@@ -328,6 +358,7 @@ public class World {
                         player.requestLogout();
                     }
                 }
+            }
         });
     }, flush = () -> {
         executor.sync(new GameSyncTask(NodeType.PLAYER, false, playerRenderOrder) {
@@ -389,6 +420,7 @@ public class World {
         npcRenderOrder = npcs.getRenderOrder();
 
         Entity.time(t -> GameEngine.profile.wp.player_process += t.toMillis(), () -> {
+            Entity.time(t -> benchmark.packets += t.toNanos(), packets);
             Entity.time(t -> benchmark.players += t.toNanos(), playerProcess);
         });
 

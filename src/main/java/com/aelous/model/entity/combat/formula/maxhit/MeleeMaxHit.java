@@ -41,7 +41,7 @@ public class MeleeMaxHit {
 
     public static int maxHit(Player player, boolean includeNpcMax) {
 
-        double specialMultiplier = player.getCombatSpecial() == null ? 0 : player.getCombatSpecial().getSpecialMultiplier();
+        double specialMultiplier = player.getCombatSpecial() == null ? 1 : player.getCombatSpecial().getSpecialMultiplier();
 
         /**
          * Max Hit
@@ -222,7 +222,7 @@ public class MeleeMaxHit {
         }
 
         if(player.getEquipment().hasAt(EquipSlot.WEAPON, DRAGON_HUNTER_LANCE) && target != null && includeNpcMax) {
-            if(target.isNpc() && target.getAsNpc().id() == NpcIdentifiers.COMBAT_DUMMY) {
+            if(target.isNpc() && target.getAsNpc().id() == NpcIdentifiers.COMBAT_DUMMY || FormulaUtils.isDragon(target)) {
                 otherBonus *= 1.20;
             }
 

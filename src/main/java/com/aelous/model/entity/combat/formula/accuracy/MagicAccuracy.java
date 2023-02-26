@@ -8,6 +8,7 @@ import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.combat.weapon.FightStyle;
 import com.aelous.model.entity.npc.NPC;
+import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
@@ -153,11 +154,15 @@ public class MagicAccuracy {
         if (attacker.isPlayer()) {
             if (style.equals(CombatType.MAGIC)) {
                 if (FormulaUtils.regularVoidEquipmentBaseMagic((Player) attacker)) {
-                    effectiveLevel *= 1.45;
+                    effectiveLevel *= 1.45D;
                 }
 
                 if (FormulaUtils.eliteVoidEquipmentBaseMagic((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMagic((Player) attacker)) {
-                    effectiveLevel *= 1.70;
+                    effectiveLevel *= 1.70D;
+                }
+
+                if (attacker.getAsPlayer().getSpellbook().equals(MagicSpellbook.ANCIENT) && FormulaUtils.hasZurielStaff((Player) attacker)) {
+                    effectiveLevel *= 1.10D;
                 }
             }
 

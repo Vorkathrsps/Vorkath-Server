@@ -230,19 +230,16 @@ public class Hit {
         if (combatType != null) {
             switch (combatType) {
                 case MAGIC -> {
-                    success = target.isPlayer() ? MagicAccuracy.doesHit(attacker, target, combatType) : MagicAccuracyNpc.doesHit(attacker, target, combatType);
+                    success = attacker.isPlayer() && target.isPlayer() ? MagicAccuracy.doesHit(attacker, target, combatType) : attacker.isPlayer() && target.isNpc() && MagicAccuracyNpc.doesHit(attacker, target, combatType);
                 }
                 case RANGED -> {
-                    success = target.isPlayer() ? RangeAccuracy.doesHit(attacker, target, combatType) : RangeAccuracyNpc.doesHit(attacker, target, combatType);
+                    success = attacker.isPlayer() && target.isPlayer() ? RangeAccuracy.doesHit(attacker, target, combatType) : attacker.isPlayer() && target.isNpc() && RangeAccuracyNpc.doesHit(attacker, target, combatType);
                 }
                 case MELEE -> {
-                    if (target.isPlayer())
-                        success = MeleeAccuracy.doesHit(attacker, target, combatType);
-                    else {
+                    if (attacker.isPlayer() && target.isPlayer()) {
                         success = MeleeAccuracy.doesHit(attacker, target, combatType);
                     }
                 }
-                default -> AccuracyFormula.doesHit(attacker, target, combatType);
             }
         }
 

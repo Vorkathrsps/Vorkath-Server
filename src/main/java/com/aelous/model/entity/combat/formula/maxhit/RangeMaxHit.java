@@ -72,12 +72,12 @@ public class RangeMaxHit {
 
         Entity target = player.getCombat().getTarget();
 
-        if (FormulaUtils.voidRanger(player)) {
+        if (FormulaUtils.regularVoidEquipmentBaseRanged(player)) {
             otherBonus *= 1.10;
         }
 
         // Elite Void effect adds extra 2.5%.
-        if (FormulaUtils.wearingEliteVoid(player)) {
+        if (FormulaUtils.eliteVoidEquipmentRanged(player) || FormulaUtils.eliteTrimmedVoidEquipmentBaseRanged(player)) {
             otherBonus *= 1.125;
         }
 

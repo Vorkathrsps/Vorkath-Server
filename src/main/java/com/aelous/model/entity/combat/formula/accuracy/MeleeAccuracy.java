@@ -126,6 +126,14 @@ public class MeleeAccuracy {
                 effectiveLevel *= effectiveLevel * specialMultiplier;
             }
 
+            if (FormulaUtils.regularVoidEquipmentBaseMelee((Player) attacker)) {
+                effectiveLevel *= 1.10;
+            }
+
+            if (FormulaUtils.eliteVoidEquipmentMelee((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMelee((Player) attacker)) {
+                effectiveLevel *= 1.125;
+            }
+
             if (style.equals(MELEE) && (FormulaUtils.voidMelee((Player) attacker)))
                 effectiveLevel *= 1.10D;
 

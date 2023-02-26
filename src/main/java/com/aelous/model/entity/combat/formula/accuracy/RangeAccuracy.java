@@ -119,6 +119,15 @@ public class RangeAccuracy {
                         effectiveLevel *= 1.10D;
                     }
                 }
+
+                if (FormulaUtils.regularVoidEquipmentBaseRanged((Player) attacker)) {
+                    effectiveLevel *= 1.10;
+                }
+
+                if (FormulaUtils.eliteVoidEquipmentRanged((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseRanged((Player) attacker)) {
+                    effectiveLevel *= 1.125;
+                }
+
             }
             if (attacker.getAsPlayer().isSpecialActivated()) {
                 effectiveLevel *= effectiveLevel * specialMultiplier;

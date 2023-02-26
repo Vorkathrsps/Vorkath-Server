@@ -72,8 +72,12 @@ public class MagicAccuracyNpc {
 
         if (attacker.isPlayer()) {
             if (style.equals(CombatType.MAGIC)) {
-                if (FormulaUtils.voidMagic((Player) attacker)) {
-                    bonus *= 1.45D; //45%
+                if (FormulaUtils.regularVoidEquipmentBaseMagic((Player) attacker)) {
+                    bonus *= 1.45;
+                }
+
+                if (FormulaUtils.eliteVoidEquipmentBaseMagic((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMagic((Player) attacker)) {
+                    bonus *= 1.70;
                 }
                 if (((Player) attacker).getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
                     bonus *= 3;

@@ -72,10 +72,6 @@ public class EquipPacketListener implements PacketListener {
                 //Stop skilling..
                 player.skills().stopSkillable();
 
-                if(PacketInteractionManager.onEquipItem(player, item)) {
-                    return;
-                }
-
                 EquipmentInfo info = World.getWorld().equipmentInfo();
                 if(info != null) {
                     player.getEquipment().equip(slot);

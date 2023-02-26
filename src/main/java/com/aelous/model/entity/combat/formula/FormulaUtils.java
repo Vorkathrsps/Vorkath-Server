@@ -3,6 +3,7 @@ package com.aelous.model.entity.combat.formula;
 import com.aelous.cache.definitions.NpcDefinition;
 import com.aelous.model.entity.Entity;
 
+import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
@@ -122,6 +123,37 @@ public class FormulaUtils {
     public static boolean voidBase(Player player) {
         return ((player.getEquipment().hasAt(EquipSlot.BODY, 8839) && player.getEquipment().hasAt(EquipSlot.LEGS, 8840)) || (player.getEquipment().hasAt(EquipSlot.BODY, 13072) && player.getEquipment().hasAt(EquipSlot.LEGS, 13073))) && player.getEquipment().hasAt(EquipSlot.HANDS, 8842);
     }
+
+    public static boolean regularVoidEquipmentBaseMagic(Player player) {
+        return player.getEquipment().containsAll(VOID_KNIGHT_GLOVES, VOID_KNIGHT_ROBE, VOID_KNIGHT_TOP, VOID_MAGE_HELM);
+    }
+    public static boolean regularVoidEquipmentBaseMelee(Player player) {
+        return player.getEquipment().containsAll(VOID_KNIGHT_GLOVES, VOID_KNIGHT_ROBE, VOID_KNIGHT_TOP, VOID_MELEE_HELM);
+    }    public static boolean regularVoidEquipmentBaseRanged(Player player) {
+        return player.getEquipment().containsAll(VOID_KNIGHT_GLOVES, VOID_KNIGHT_ROBE, VOID_KNIGHT_TOP, VOID_RANGER_HELM);
+    }
+
+    public static boolean eliteVoidEquipmentBaseMagic(Player player) {
+        return player.getEquipment().containsAll(ELITE_VOID_TOP, ELITE_VOID_ROBE, VOID_KNIGHT_GLOVES, VOID_MAGE_HELM);
+    }
+
+    public static boolean eliteVoidEquipmentMelee(Player player) {
+        return player.getEquipment().containsAll(ELITE_VOID_TOP, ELITE_VOID_ROBE, VOID_KNIGHT_GLOVES, VOID_MELEE_HELM);
+    }
+    public static boolean eliteVoidEquipmentRanged(Player player) {
+        return player.getEquipment().containsAll(ELITE_VOID_TOP, ELITE_VOID_ROBE, VOID_KNIGHT_GLOVES, VOID_RANGER_HELM);
+    }
+    public static boolean eliteTrimmedVoidEquipmentBaseMagic(Player player) {
+        return player.getEquipment().containsAll(ELITE_VOID_TOP_LOR, ELITE_VOID_ROBE_LOR, VOID_KNIGHT_GLOVES_LOR, VOID_MAGE_HELM_LOR);
+    }
+    public static boolean eliteTrimmedVoidEquipmentBaseMelee(Player player) {
+        return player.getEquipment().containsAll(ELITE_VOID_TOP_LOR, ELITE_VOID_ROBE_LOR, VOID_KNIGHT_GLOVES_LOR, VOID_MELEE_HELM_LOR);
+    }
+    public static boolean eliteTrimmedVoidEquipmentBaseRanged(Player player) {
+        return player.getEquipment().containsAll(ELITE_VOID_TOP_LOR, ELITE_VOID_ROBE_LOR, VOID_KNIGHT_GLOVES_LOR, VOID_RANGER_HELM_LOR);
+    }
+
+
 
     public static boolean voidRanger(Player player) {
         return player.getEquipment().hasAt(EquipSlot.HEAD, 11664) && voidBase(player);

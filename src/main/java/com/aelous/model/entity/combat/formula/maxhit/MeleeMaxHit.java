@@ -131,8 +131,12 @@ public class MeleeMaxHit {
          * Other bonuses
          *
          */
-        if (FormulaUtils.voidMelee(player) || FormulaUtils.wearingEliteVoid(player)) {
+        if (FormulaUtils.regularVoidEquipmentBaseMelee(player)) {
             otherBonus *= 1.10;
+        }
+
+        if (FormulaUtils.eliteVoidEquipmentMelee(player) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMelee(player)) {
+            otherBonus *= 1.125;
         }
 
         if (FormulaUtils.fullDharok(player)) {

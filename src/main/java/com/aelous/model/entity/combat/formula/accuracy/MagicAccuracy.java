@@ -152,8 +152,12 @@ public class MagicAccuracy {
 
         if (attacker.isPlayer()) {
             if (style.equals(CombatType.MAGIC)) {
-                if (FormulaUtils.voidMagic((Player) attacker)) {
-                effectiveLevel *= 1.45D; //45%
+                if (FormulaUtils.regularVoidEquipmentBaseMagic((Player) attacker)) {
+                    effectiveLevel *= 1.45;
+                }
+
+                if (FormulaUtils.eliteVoidEquipmentBaseMagic((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMagic((Player) attacker)) {
+                    effectiveLevel *= 1.70;
                 }
             }
 

@@ -94,9 +94,12 @@ public class RangeAccuracyNpc {
 
         if(attacker.isPlayer()) {
             if (style.equals(RANGED)) {
-                if (FormulaUtils.voidRanger((Player) attacker)) {
-                    effectiveLevel *= 1.10D;
-                    effectiveLevel = Math.floor(effectiveLevel);
+                if (FormulaUtils.regularVoidEquipmentBaseRanged((Player) attacker)) {
+                    effectiveLevel *= 1.10;
+                }
+
+                if (FormulaUtils.eliteVoidEquipmentRanged((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseRanged((Player) attacker)) {
+                    effectiveLevel *= 1.125;
                 }
             }
             if (FormulaUtils.isUndead(attacker)) { //UNDEAD BONUSES

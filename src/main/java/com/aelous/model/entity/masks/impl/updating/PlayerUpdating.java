@@ -37,42 +37,42 @@ public class PlayerUpdating {
      */
 
     public static void update(final Player player) {
-        //System.out.println(player.getDisplayName()+" last gpi "+(System.currentTimeMillis()-player.lastGpi));
         player.lastGpi = System.currentTimeMillis();
         PacketBuilder update = new PacketBuilder();
         PacketBuilder packet = new PacketBuilder(81, PacketType.VARIABLE_SHORT);
         packet.initializeAccess(AccessType.BIT);
-        updateMovement(player, packet);
-        appendUpdates(player, update, player, false, true);
-        packet.putBits(8, player.getLocalPlayers().size());
-        for (Iterator<Player> playerIterator = player.getLocalPlayers().iterator(); playerIterator.hasNext();) {
-            Player otherPlayer = playerIterator.next();
-            if (otherPlayer.getIndex() != -1 && World.getWorld().getPlayers().get(otherPlayer.getIndex()) != null && !otherPlayer.looks().hidden() && otherPlayer.tile().isWithinDistance(player.tile()) && !otherPlayer.isNeedsPlacement() && canSee(player, otherPlayer)) {
-                //System.out.println(otherPlayer.getUsername()+" is visible: "+otherPlayer.isVisible());
-                updateOtherPlayerMovement(packet, otherPlayer);
-                if (otherPlayer.getUpdateFlag().isUpdateRequired()) {
-                    appendUpdates(player, update, otherPlayer, false, false);
+        synchronized (player) {
+            updateMovement(player, packet);
+            appendUpdates(player, update, player, false, true);
+            packet.putBits(8, player.getLocalPlayers().size());
+            for (Iterator<Player> playerIterator = player.getLocalPlayers().iterator(); playerIterator.hasNext();) {
+                Player otherPlayer = playerIterator.next();
+                if (otherPlayer.getIndex() != -1 && World.getWorld().getPlayers().get(otherPlayer.getIndex()) != null && !otherPlayer.looks().hidden() && otherPlayer.tile().isWithinDistance(player.tile()) && !otherPlayer.isNeedsPlacement() && canSee(player, otherPlayer)) {
+                    updateOtherPlayerMovement(packet, otherPlayer);
+                    if (otherPlayer.getUpdateFlag().isUpdateRequired()) {
+                        appendUpdates(player, update, otherPlayer, false, false);
+                    }
+                } else {
+                    playerIterator.remove();
+                    packet.putBits(1, 1);
+                    packet.putBits(2, 3);
                 }
-            } else {
-                playerIterator.remove();
-                packet.putBits(1, 1);
-                packet.putBits(2, 3);
             }
         }
         int playersAdded = 0;
-
         for (Player otherPlayer : World.getWorld().getPlayers()) {
             if (player.getLocalPlayers().size() >= 79 || playersAdded > MAX_NEW_PLAYERS_PER_CYCLE)
                 break;
             if (otherPlayer == null || otherPlayer == player || player.getLocalPlayers().contains(otherPlayer) || !otherPlayer.tile().isWithinDistance(player.tile()) || otherPlayer.looks().hidden() || !canSee(player, otherPlayer)) {
                 continue;
             }
-            player.getLocalPlayers().add(otherPlayer);
+            synchronized (player) {
+                player.getLocalPlayers().add(otherPlayer);
+            }
             addPlayer(player, otherPlayer, packet);
             appendUpdates(player, update, otherPlayer, true, false);
             playersAdded++;
         }
-
         if (update.buffer().writerIndex() > 0) {
             packet.putBits(11, 2047);
             packet.initializeAccess(AccessType.BYTE);
@@ -80,8 +80,11 @@ public class PlayerUpdating {
         } else {
             packet.initializeAccess(AccessType.BYTE);
         }
-        player.getSession().writeAndFlush(packet);
+        synchronized (player.getSession()) {
+            player.getSession().writeAndFlush(packet);
+        }
     }
+
 
     private static boolean canSee(Player player, Player otherPlayer) {
         return true;

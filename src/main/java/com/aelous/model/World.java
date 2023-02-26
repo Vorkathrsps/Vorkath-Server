@@ -332,31 +332,15 @@ public class World {
             @Override
             public void execute(int index) {
                 Player player = players.get(index);
-
-                if (World.SYNCMODE1) {
-                    synchronized (player) {
-                        try {
-                            PlayerUpdating.update(player);
-                            NPCUpdating.update(player);
-                            if (GameServer.broadcast != null) {
-                                player.getPacketSender().sendBroadcast(GameServer.broadcast);
-                            }
-                        } catch (Exception e) {
-                            logger.catching(e);
-                            player.requestLogout();
-                        }
+                try {
+                    PlayerUpdating.update(player);
+                    NPCUpdating.update(player);
+                    if (GameServer.broadcast != null) {
+                        player.getPacketSender().sendBroadcast(GameServer.broadcast);
                     }
-                } else {
-                    try {
-                        PlayerUpdating.update(player);
-                        NPCUpdating.update(player);
-                        if (GameServer.broadcast != null) {
-                            player.getPacketSender().sendBroadcast(GameServer.broadcast);
-                        }
-                    } catch (Exception e) {
-                        logger.catching(e);
-                        player.requestLogout();
-                    }
+                } catch (Exception e) {
+                    logger.catching(e);
+                    player.requestLogout();
                 }
             }
         });
@@ -522,7 +506,7 @@ public class World {
     public NPC findNPC(int id) {
         Optional<NPC> toGet = npcs.stream().filter(n -> n != null).filter(n -> n.getId() == id).findFirst();
         if (!toGet.isPresent()) {
-            System.err.println("couldn't find any npc for id="+id);
+            System.err.println("couldn't find any npc for id=" + id);
             return null;
         }
         return toGet.get();
@@ -884,9 +868,9 @@ public class World {
 
     public void tileGraphic(int id, Tile tile, int height, int delay) {
         players.forEach(p -> {
-           // if (p.activeArea().contains(tile)) {
-                p.getPacketSender().sendTileGraphic(id, tile, height, delay);
-          //  }
+            // if (p.activeArea().contains(tile)) {
+            p.getPacketSender().sendTileGraphic(id, tile, height, delay);
+            //  }
         });
     }
 

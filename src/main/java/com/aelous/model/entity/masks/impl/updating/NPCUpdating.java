@@ -15,6 +15,8 @@ import com.aelous.network.packet.PacketType;
 import com.aelous.network.packet.ValueType;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Represents a player's npc updating task, which loops through all local
@@ -33,34 +35,39 @@ public class NPCUpdating {
         PacketBuilder update = new PacketBuilder();
         PacketBuilder packet = new PacketBuilder(65, PacketType.VARIABLE_SHORT);
         packet.initializeAccess(AccessType.BIT);
-        packet.putBits(8, player.getLocalNpcs().size());
-        for (Iterator<NPC> npcIterator = player.getLocalNpcs().iterator(); npcIterator.hasNext();) {
-            NPC npc = npcIterator.next();
-
-            if (npc.getIndex() != -1 && World.getWorld().getNpcs().get(npc.getIndex()) != null && !npc.hidden() && player.tile().isWithinDistance(npc.tile()) && !npc.isNeedsPlacement()) {
-                updateMovement(npc, packet);
-                npc.inViewport(true); // Mark as in viewport
-                if (npc.getUpdateFlag().isUpdateRequired()) {
-                    appendUpdates(npc, update);
+        List<NPC> localNpcs = player.getLocalNpcs();
+        Tile playerTile = player.tile();
+        synchronized (localNpcs) {
+            packet.putBits(8, localNpcs.size());
+            Iterator<NPC> npcIterator = localNpcs.iterator();
+            while (npcIterator.hasNext()) {
+                NPC npc = npcIterator.next();
+                if (npc.getIndex() != -1 && World.getWorld().getNpcs().contains(npc) && !npc.hidden() && playerTile.isWithinDistance(npc.tile()) && !npc.isNeedsPlacement()) {
+                    updateMovement(npc, packet);
+                    npc.inViewport(true); // Mark as in viewport
+                    if (npc.getUpdateFlag().isUpdateRequired()) {
+                        appendUpdates(npc, update);
+                    }
+                } else {
+                    npcIterator.remove();
+                    packet.putBits(1, 1);
+                    packet.putBits(2, 3);
                 }
-            } else {
-                npcIterator.remove();
-                packet.putBits(1, 1);
-                packet.putBits(2, 3);
             }
-        }
-        for (NPC npc : World.getWorld().getNpcs()) {
-            if (player.getLocalNpcs().size() >= 79) //Originally 255
-                break;
-            if (npc == null || player.getLocalNpcs().contains(npc) || npc.hidden() || npc.isNeedsPlacement())
-                continue;
-            if (npc.tile().isWithinDistance(player.tile())) {
-                player.getLocalNpcs().add(npc);
-                addNPC(player, npc, packet);
-                npc.inViewport(true); // Mark as in viewport
-                //System.out.println(npc.getName()+" in viewport: "+npc.inViewport());
-                if (npc.getUpdateFlag().isUpdateRequired()) {
-                    appendUpdates(npc, update);
+            int localNpcCount = localNpcs.size();
+            for (NPC npc : World.getWorld().getNpcs()) {
+                if (localNpcCount >= 79) // Originally 255
+                    break;
+                if (npc == null || localNpcs.contains(npc) || npc.hidden() || npc.isNeedsPlacement())
+                    continue;
+                if (npc.tile().isWithinDistance(playerTile)) {
+                    localNpcs.add(npc);
+                    addNPC(player, npc, packet);
+                    npc.inViewport(true); // Mark as in viewport
+                    if (npc.getUpdateFlag().isUpdateRequired()) {
+                        appendUpdates(npc, update);
+                    }
+                    localNpcCount++;
                 }
             }
         }
@@ -74,6 +81,8 @@ public class NPCUpdating {
         player.getSession().writeAndFlush(packet);
     }
 
+
+
     /**
      * Adds an npc to the associated player's client.
      * @param npc        The npc to add.
@@ -81,9 +90,11 @@ public class NPCUpdating {
      * @return            The NPCUpdating instance.
      */
     private static void addNPC(Player player, NPC npc, PacketBuilder builder) {
+        int yOffset = npc.tile().getY() - player.tile().getY();
+        int xOffset = npc.tile().getX() - player.tile().getX();
         builder.putBits(14, npc.getIndex());
-        builder.putBits(5, npc.tile().getY()-player.tile().getY());
-        builder.putBits(5, npc.tile().getX()-player.tile().getX());
+        builder.putBits(5, yOffset);
+        builder.putBits(5, xOffset);
         builder.putBits(1, 0);
         builder.putBits(14, npc.id());
         builder.putBits(1, npc.getUpdateFlag().isUpdateRequired() ? 1 : 0);

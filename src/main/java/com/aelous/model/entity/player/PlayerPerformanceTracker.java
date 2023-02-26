@@ -47,6 +47,10 @@ public class PlayerPerformanceTracker {
         return "nil";
     }
 
+    public void pulse() {
+        logout = qtStuffs =  timers =  actions = tasks =  walkto =  bmove = move = regions =  controllers = cbBountyFlush =  prayers =  end = total = 0;
+    }
+
     public void reset() {
         logout = qtStuffs = timers = actions = tasks = walkto = bmove = move = regions = controllers = cbBountyFlush
             = end = total = 0;

@@ -3203,7 +3203,7 @@ public class Player extends Entity {
                     }
                 }
 
-                this.syncContainers();
+                //this.syncContainers();
             }
         }, timers = () -> {
         getTimers().cycle(this);

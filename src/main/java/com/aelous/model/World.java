@@ -283,7 +283,7 @@ public class World {
                 try {
                     // Process incoming packets...
                     player.getSession().handleQueuedPackets();
-                    //player.syncContainers();
+                    player.syncContainers();
                 } catch (Exception e) {
                     logger.catching(e);
                     player.requestLogout();
@@ -370,7 +370,7 @@ public class World {
                     player.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
                     player.setCachedUpdateBlock(null);
                     player.getSession().flush();
-                    player.perf.reset();
+                    player.perf.pulse();
                     player.processed = false;
                 } catch (Exception e) {
                     logger.catching(e);

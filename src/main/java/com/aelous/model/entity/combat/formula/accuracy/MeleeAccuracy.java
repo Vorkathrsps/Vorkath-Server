@@ -56,7 +56,7 @@ public class MeleeAccuracy {
         double attackBonus = getAttackRoll(attacker, defender, style);
         double defenceBonus = getDefenceRoll(defender, style);
         double successfulRoll;
-        double selectedChance = srand.nextDouble();
+        double selectedChance = srand.nextInt(10000) / 10000.0;
 
         if (attackBonus > defenceBonus)
             successfulRoll = 1 - (defenceBonus + 2) / (2 * (attackBonus + 1));

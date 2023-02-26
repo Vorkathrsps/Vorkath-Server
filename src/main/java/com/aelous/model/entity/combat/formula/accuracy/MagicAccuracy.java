@@ -35,18 +35,19 @@ public class MagicAccuracy {
         return successful(attacker, defender, style);
     }
 
+
     public static boolean successful(Entity attacker, Entity defender, CombatType style) {
-        double attackBonus = getAttackRoll(attacker,  style);
+        double attackBonus = getAttackRoll(attacker, style);
         double defenceBonus = getDefenceRoll(defender, style);
         double successfulRoll;
-        double selectedChance = srand.nextDouble();
+        double selectedChance = srand.nextInt(10000) / 10000.0;
 
         if (attackBonus > defenceBonus)
             successfulRoll = 1D - (Math.floor(defenceBonus + 2D)) / (2D * (Math.floor(attackBonus + 1D)));
         else
             successfulRoll = attackBonus / (2D * (Math.floor(defenceBonus + 1D)));
 
-            System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
+        System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
         return successfulRoll > selectedChance;
     }
@@ -81,23 +82,6 @@ public class MagicAccuracy {
         }
         effectiveLevel += 8.0D;
         return Math.floor(effectiveLevel);
-    }
-
-    public static double getDefenceRoll(Entity defender, CombatType style) {
-        FightStyle fightStyle = defender.getCombat().getFightType().getStyle();
-        double effectiveDefenceLevel = getDefenceLevelDefender(defender, fightStyle);
-
-        effectiveDefenceLevel *= 0.3D;
-
-        double magicLevel = getMagicLevelDefender(defender);
-        magicLevel *= getPrayerBonusDefender(defender);
-
-        magicLevel *= 0.7D;
-
-        double effectivemagicLevel = Math.ceil(effectiveDefenceLevel + magicLevel) + 8D;
-        double equipmentDefenceBonus = getEquipmentBonusDefender(defender, style);
-
-        return effectivemagicLevel * Math.floor(equipmentDefenceBonus + 64D);
     }
 
     public static int getMagicLevelAttacker(Entity attacker) {
@@ -174,14 +158,22 @@ public class MagicAccuracy {
         return Math.floor(effectiveLevel);
     }
 
-    public static double getAttackRoll(Entity attacker, CombatType style) {
+    public static int getAttackRoll(Entity attacker, CombatType style) {
         double effectiveMagicLevel = getEffectiveLevelAttacker(attacker, style);
-
         double equipmentAttackBonus = getEquipmentBonusAttacker(attacker, style);
+        double maxRoll = effectiveMagicLevel * (equipmentAttackBonus + 64);
+        return (int) Math.round(maxRoll);
+    }
 
-        double maxRoll = effectiveMagicLevel * Math.floor(equipmentAttackBonus + 64D);
+    public static double getDefenceRoll(Entity defender, CombatType style) {
+        double magicLevel = getMagicLevelDefender(defender);
+        double magicDefence = getDefenceLevelDefender(defender, FightStyle.DEFENSIVE);
 
-        return Math.round(maxRoll);
+        double effectiveLevel = Math.floor(magicDefence * getPrayerBonusDefender(defender) * 0.7 + magicLevel) + 8.0D;
+
+        double equipmentDefenceBonus = getEquipmentBonusDefender(defender, style);
+
+        return effectiveLevel * Math.floor(equipmentDefenceBonus + 64D);
     }
 
 }

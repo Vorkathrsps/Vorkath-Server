@@ -37,8 +37,8 @@ public class MagicAccuracy {
 
 
     public static boolean successful(Entity attacker, Entity defender, CombatType style) {
-        double attackBonus = getAttackRoll(attacker, style);
-        double defenceBonus = getDefenceRoll(defender, style);
+        int attackBonus = (int) Math.floor(getAttackRoll(attacker, style));
+        int defenceBonus = (int) Math.floor(getDefenceRoll(defender, style));
         double successfulRoll;
         double selectedChance = srand.nextInt(10000) / 10000.0;
 
@@ -70,18 +70,18 @@ public class MagicAccuracy {
         return bonus;
     }
 
-    public static double getDefenceLevelDefender(Entity defender, FightStyle style) {
+    public static int getDefenceLevelDefender(Entity defender, FightStyle style) {
         double effectiveLevel = Math.ceil(defender.skills().level(Skills.DEFENCE) * getPrayerBonusDefender(defender));
         switch (style) {
             case DEFENSIVE -> {
-                effectiveLevel += 3.0D;
+                effectiveLevel += 3.0;
             }
             case CONTROLLED -> {
-                effectiveLevel += 1.0D;
+                effectiveLevel += 1.0;
             }
         }
-        effectiveLevel += 8.0D;
-        return Math.floor(effectiveLevel);
+        effectiveLevel += 8.0;
+        return (int) Math.floor(effectiveLevel);
     }
 
     public static int getMagicLevelAttacker(Entity attacker) {
@@ -122,15 +122,15 @@ public class MagicAccuracy {
         return prayerBonus;
     }
 
-    public static double getEffectiveLevelAttacker(Entity attacker, CombatType style) {
+    public static int getEffectiveLevelAttacker(Entity attacker, CombatType style) {
         var task_id = attacker.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
         var task = SlayerCreature.lookup(task_id);
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
         EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
-        double effectiveLevel = Math.ceil(getMagicLevelAttacker(attacker) * getPrayerBonus(attacker, style));
+        int effectiveLevel = (int) Math.floor(getMagicLevelAttacker(attacker) * getPrayerBonus(attacker, style));
         switch (fightStyle) {
-            case ACCURATE -> effectiveLevel += 3.0D;
-            case CONTROLLED -> effectiveLevel += 1.0D;
+            case ACCURATE -> effectiveLevel += 3.0;
+            case CONTROLLED -> effectiveLevel += 1.0;
         }
 
         effectiveLevel += 8.0;
@@ -138,15 +138,15 @@ public class MagicAccuracy {
         if (attacker.isPlayer()) {
             if (style.equals(CombatType.MAGIC)) {
                 if (FormulaUtils.regularVoidEquipmentBaseMagic((Player) attacker)) {
-                    effectiveLevel *= 1.45D;
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.45D);
                 }
 
                 if (FormulaUtils.eliteVoidEquipmentBaseMagic((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMagic((Player) attacker)) {
-                    effectiveLevel *= 1.70D;
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.70);
                 }
 
                 if (attacker.getAsPlayer().getSpellbook().equals(MagicSpellbook.ANCIENT) && FormulaUtils.hasZurielStaff((Player) attacker)) {
-                    effectiveLevel *= 1.10D;
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.10);
                 }
             }
 
@@ -155,25 +155,24 @@ public class MagicAccuracy {
             }
         }
 
-        return Math.floor(effectiveLevel);
+        return (int) Math.floor(effectiveLevel);
     }
 
     public static int getAttackRoll(Entity attacker, CombatType style) {
-        double effectiveMagicLevel = getEffectiveLevelAttacker(attacker, style);
-        double equipmentAttackBonus = getEquipmentBonusAttacker(attacker, style);
-        double maxRoll = effectiveMagicLevel * (equipmentAttackBonus + 64);
-        return (int) Math.round(maxRoll);
+        int effectiveMagicLevel = (int) Math.floor(getEffectiveLevelAttacker(attacker, style));
+        int equipmentAttackBonus = (int) Math.floor(getEquipmentBonusAttacker(attacker, style));
+        return (int) Math.floor(effectiveMagicLevel * (equipmentAttackBonus + 64));
     }
 
     public static double getDefenceRoll(Entity defender, CombatType style) {
-        double magicLevel = getMagicLevelDefender(defender);
-        double magicDefence = getDefenceLevelDefender(defender, FightStyle.DEFENSIVE);
+        int magicLevel = (int) Math.floor(getMagicLevelDefender(defender));
+        int magicDefence = (int) Math.floor(getDefenceLevelDefender(defender, FightStyle.DEFENSIVE));
 
-        double effectiveLevel = Math.floor(magicDefence * getPrayerBonusDefender(defender) * 0.7 + magicLevel) + 8.0D;
+        int effectiveLevel = (int) Math.floor(((magicDefence * getPrayerBonusDefender(defender) * 0.7) + magicLevel) + 8);
 
-        double equipmentDefenceBonus = getEquipmentBonusDefender(defender, style);
+        int equipmentDefenceBonus = (int) Math.floor(getEquipmentBonusDefender(defender, style));
 
-        return effectiveLevel * Math.floor(equipmentDefenceBonus + 64D);
+        return (int) Math.floor(effectiveLevel * (equipmentDefenceBonus + 64));
     }
 
 }

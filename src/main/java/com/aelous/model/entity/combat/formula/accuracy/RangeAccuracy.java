@@ -34,21 +34,20 @@ public class RangeAccuracy {
     }
 
     public static boolean successful(Entity attacker, Entity defender, CombatType style) {
-        double attackBonus = getAttackRoll(attacker, style);
-        double defenceBonus = getDefenceRoll(defender, style);
+        int attackBonus = (int) Math.floor(getAttackRoll(attacker, style));
+        int defenceBonus = (int) Math.floor(getDefenceRoll(defender, style));
         double successfulRoll;
-        double selectedChance = srand.nextDouble();
+        double selectedChance = srand.nextInt(10000) / 10000.0;
 
         if (attackBonus > defenceBonus)
-            successfulRoll = 1D - (Math.floor(defenceBonus + 2D)) / (2D * (Math.floor(attackBonus + 1D)));
+            successfulRoll = 1 - (defenceBonus + 2D) / (2D * (attackBonus + 1D));
         else
-            successfulRoll = attackBonus / (2D * (Math.floor(defenceBonus + 1D)));
+            successfulRoll = attackBonus / (2D * (defenceBonus + 1D));
 
         System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
         return successfulRoll > selectedChance;
     }
-
     public static double getPrayerAttackBonus(Entity attacker) {
         double prayerBonus = 1D;
         if (Prayers.usingPrayer(attacker, SHARP_EYE))
@@ -70,34 +69,34 @@ public class RangeAccuracy {
         return prayerBonus;
     }
 
-    public static double getEffectiveDefence(Entity defender) {
+    public static int getEffectiveDefence(Entity defender) {
         FightStyle fightStyle = defender.getCombat().getFightType().getStyle();
-        double effectiveLevel = Math.ceil(getRangeLevel(defender) * getPrayerDefenseBonus(defender));
+        int effectiveLevel = (int) Math.floor(getRangeLevel(defender) * getPrayerDefenseBonus(defender));
 
         switch (fightStyle) {
             case DEFENSIVE:
-                effectiveLevel += 3.0D;
+                effectiveLevel += 3;
                 break;
             case CONTROLLED:
-                effectiveLevel += 1.0D;
+                effectiveLevel += 1;
                 break;
         }
 
         effectiveLevel += 8;
 
-        return Math.floor(effectiveLevel);
+        return (int) Math.floor(effectiveLevel);
     }
 
-    public static double getEffectiveRanged(Entity attacker, CombatType style) {
+    public static int getEffectiveRanged(Entity attacker, CombatType style) {
         var task_id = attacker.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
         var task = SlayerCreature.lookup(task_id);
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
-        double effectiveLevel = Math.ceil(getRangeLevel(attacker) * getPrayerAttackBonus(attacker));
+        int effectiveLevel = (int) Math.floor(getRangeLevel(attacker) * getPrayerAttackBonus(attacker));
         double specialMultiplier = attacker.getAsPlayer().getCombatSpecial() == null ? 1 : attacker.getAsPlayer().getCombatSpecial().getAccuracyMultiplier();
 
 
         if (fightStyle == FightStyle.ACCURATE) {
-            effectiveLevel += 3.0D;
+            effectiveLevel += 3;
         }
 
         effectiveLevel += 8;
@@ -106,32 +105,32 @@ public class RangeAccuracy {
             if (style.equals(RANGED)) {
                 if (((Player) attacker).getEquipment().contains(ItemIdentifiers.BOW_OF_FAERDHINEN)) {
                     if (((Player) attacker).getEquipment().contains(ItemIdentifiers.CRYSTAL_HELM)) {
-                        effectiveLevel *= 1.05D;
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.05);
                     }
                     if (((Player) attacker).getEquipment().contains(ItemIdentifiers.CRYSTAL_BODY)) {
-                        effectiveLevel *= 1.15D;
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.15);
                     }
                     if (((Player) attacker).getEquipment().contains(ItemIdentifiers.CRYSTAL_LEGS)) {
-                        effectiveLevel *= 1.10D;
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.10);
                     }
                 }
 
                 if (FormulaUtils.regularVoidEquipmentBaseRanged((Player) attacker)) {
-                    effectiveLevel *= 1.10;
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.10);
                 }
 
                 if (FormulaUtils.eliteVoidEquipmentRanged((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseRanged((Player) attacker)) {
-                    effectiveLevel *= 1.125;
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.125);
                 }
 
                 if (attacker.isPlayer() && attacker.getAsPlayer().isSpecialActivated()) {
-                    effectiveLevel = effectiveLevel * specialMultiplier;
+                    effectiveLevel = (int) Math.floor(effectiveLevel * specialMultiplier);
                 }
 
             }
         }
 
-        return Math.floor(effectiveLevel);
+        return (int) Math.floor(effectiveLevel);
     }
 
     public static int getRangeLevel(Entity attacker) {
@@ -164,19 +163,15 @@ public class RangeAccuracy {
         return bonus;
     }
 
-    public static double getAttackRoll(Entity attacker, CombatType style) {
-        double effectiveRangeLevel = getEffectiveRanged(attacker, style);
-
-        double equipmentRangeBonus = getGearAttackBonus(attacker, style);
-
-        return effectiveRangeLevel * Math.floor(equipmentRangeBonus + 64D);
+    public static int getAttackRoll(Entity attacker, CombatType style) {
+        int effectiveRangeLevel = (int) Math.floor(getEffectiveRanged(attacker, style));
+        int equipmentRangeBonus = (int) Math.floor(getGearAttackBonus(attacker, style));
+        return (int) Math.floor(effectiveRangeLevel * equipmentRangeBonus + 64);
     }
 
-    public static double getDefenceRoll(Entity defender, CombatType style) {
-        double effectiveDefenceLevel = getEffectiveDefence(defender);
-
-        int equipmentRangeBonus = getGearDefenceBonus(defender, style);
-
-        return effectiveDefenceLevel * Math.floor(equipmentRangeBonus + 64D);
+    public static int getDefenceRoll(Entity defender, CombatType style) {
+        int effectiveDefenceLevel = (int) Math.floor(getEffectiveDefence(defender));
+        int equipmentRangeBonus = (int) Math.floor(getGearDefenceBonus(defender, style));
+        return (int) Math.floor(effectiveDefenceLevel * equipmentRangeBonus + 64);
     }
 }

@@ -199,15 +199,26 @@ public class TargetRoute {
     }
 
 
-    public static boolean inRange(int absX, int absY, int size, int targetX, int targetY, int targetSize, int distance) {
-        int maxX = Math.max(absX, targetX);
-        int maxY = Math.max(absY, targetY);
-        int minX = Math.min(absX + size - 1, targetX + targetSize - 1);
-        int minY = Math.min(absY + size - 1, targetY + targetSize - 1);
-
-        int deltaX = maxX - minX;
-        int deltaY = maxY - minY;
-
-        return deltaX <= distance && deltaY <= distance;
+    public static boolean inRange(
+        int absX, int absY, int size, int targetX, int targetY, int targetSize, int distance) {
+        int closestX, closestY;
+        if (absX < targetX) {
+            closestX = targetX;
+        } else if (absX > targetX + targetSize - 1) {
+            closestX = targetX + targetSize - 1;
+        } else {
+            closestX = absX;
+        }
+        if (absY < targetY) {
+            closestY = targetY;
+        } else if (absY > targetY + targetSize - 1) {
+            closestY = targetY + targetSize - 1;
+        } else {
+            closestY = absY;
+        }
+        int deltaX = absX - closestX;
+        int deltaY = absY - closestY;
+        int maxDistance = size + targetSize + distance - 2;
+        return (deltaX * deltaX + deltaY * deltaY) <= (maxDistance * maxDistance);
     }
 }

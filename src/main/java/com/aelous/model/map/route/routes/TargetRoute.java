@@ -181,23 +181,14 @@ public class TargetRoute {
     /**
      * Misc checks
      */
-    protected static boolean inTarget(int absX, int absY, int size, int targetX, int targetY, int targetSize) {
-        // check if object is outside the target area
-        if (absX + size - 1 < targetX || absY + size - 1 < targetY || absX > targetX + targetSize - 1 || absY > targetY + targetSize - 1) {
-            return false;
-        }
-
-        // check if object is completely within the target area
-        if (absX >= targetX && absY >= targetY && absX + size - 1 <= targetX + targetSize - 1 && absY + size - 1 <= targetY + targetSize - 1) {
-            return true;
-        }
-
-        // check if object is partially within the target area
-        int overlapX = Math.min(absX + size - 1, targetX + targetSize - 1) - Math.max(absX, targetX) + 1;
-        int overlapY = Math.min(absY + size - 1, targetY + targetSize - 1) - Math.max(absY, targetY) + 1;
-        return overlapX > 0 && overlapY > 0;
+    protected static boolean inTarget(
+        int absX, int absY, int size, int targetX, int targetY, int targetSize) {
+        int minX = Math.min(absX, targetX);
+        int maxX = Math.max(absX + size - 1, targetX + targetSize - 1);
+        int minY = Math.min(absY, targetY);
+        int maxY = Math.max(absY + size - 1, targetY + targetSize - 1);
+        return (maxX - minX) <= (size + targetSize) && (maxY - minY) <= (size + targetSize);
     }
-
 
     public static boolean inRange(
         int absX, int absY, int size, int targetX, int targetY, int targetSize, int distance) {

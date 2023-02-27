@@ -163,14 +163,14 @@ public class MeleeAccuracy {
 
             if (FormulaUtils.isDragon(npc)) {
                 if (FormulaUtils.hasDragonHunterLance((Player) attacker)) {
-                    effectiveLevel *= 1.20D;
+                    effectiveLevel *= 1.20;
                     effectiveLevel = (int) Math.floor(effectiveLevel);
                 }
             }
 
             if (FormulaUtils.hasArchLight((Player) attacker)) {
                 if (npc.def() != null && npc.def().name != null && FormulaUtils.isDemon(npc)) {
-                    effectiveLevel *= 1.7D;
+                    effectiveLevel *= 1.7;
                     effectiveLevel = (int) Math.floor(effectiveLevel);
                 }
             }

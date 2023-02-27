@@ -29,7 +29,6 @@ import com.aelous.model.entity.combat.method.impl.npcs.karuulm.Hydra;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.masks.Flag;
-import com.aelous.model.entity.npc.NPCMovementCoordinator.CoordinateState;
 import com.aelous.model.entity.npc.bots.NPCBotHandler;
 import com.aelous.model.entity.npc.impl.MaxHitDummyNpc;
 import com.aelous.model.entity.npc.impl.UndeadMaxHitDummy;
@@ -400,11 +399,6 @@ public class NPC extends Entity {
         this.poisonImmune = poisonImmune;
     }
 
-    /**
-     * The npc's movement coordinator.
-     * Handles random walking.
-     */
-    private final NPCMovementCoordinator movementCoordinator = new NPCMovementCoordinator(this);
 
     /**
      * The npc's combat method, used
@@ -455,7 +449,6 @@ public class NPC extends Entity {
         getMovementQueue().process();
         if (id == 8063)
             TargetRoute.afterMovement(this);
-        movementCoordinator.process();
         //Process the bot handler!
         if (getBotHandler() != null) {
             getBotHandler().process();
@@ -501,8 +494,6 @@ public class NPC extends Entity {
                     if (id == 8063)
                         TargetRoute.afterMovement(this);
                 }, d -> NpcPerformance.cumeNpcB += d.toNanos());
-
-                accumulateRuntimeTo(movementCoordinator::process, d -> NpcPerformance.cumeNpcC += d.toNanos());
 
                 //Handle combat
                 accumulateRuntimeTo(() -> {
@@ -664,9 +655,6 @@ public class NPC extends Entity {
         this.getUpdateFlag().flag(Flag.ENTITY_INTERACTION);
     }
 
-    public NPCMovementCoordinator getMovementCoordinator() {
-        return movementCoordinator;
-    }
 
     /**
      * The npc's head icon.
@@ -792,7 +780,7 @@ public class NPC extends Entity {
 
     @Override
     public String toString() {
-        return MessageFormat.format("NPC'{'name={0},spawnStack=''{1}'', id={2}, spawnTile={3}, walkRadius={4}, spawnDirection={5}, inViewport={6}, def={7}, hp={8}, combatInfo={9}, hidden={10}, respawns={11}, venomImmune={12}, poisonImmune={13}, spawnArea={14}, movementCoordinator={15}, combatMethod={16}, immunity={17}, transmog={18} lock: {19} idx:{20} '}'", getMobName(), spawnStack, id, spawnTile, walkRadius, spawnDirection, inViewport, def == null ? "?" : "def", hp, combatInfo == null ? "?" : "ci", hidden, respawns, venomImmune, poisonImmune, spawnArea, movementCoordinator == null ? "?" : "mc", combatMethod, immunity, transmog, lockState(), getIndex());
+        return MessageFormat.format("NPC'{'name={0},spawnStack=''{1}'', id={2}, spawnTile={3}, walkRadius={4}, spawnDirection={5}, inViewport={6}, def={7}, hp={8}, combatInfo={9}, hidden={10}, respawns={11}, venomImmune={12}, poisonImmune={13}, spawnArea={14}, movementCoordinator={15}, combatMethod={16}, immunity={17}, transmog={18} lock: {19} idx:{20} '}'", getMobName(), spawnStack, id, spawnTile, walkRadius, spawnDirection, inViewport, def == null ? "?" : "def", hp, combatInfo == null ? "?" : "ci", hidden, respawns, venomImmune, poisonImmune, spawnArea, combatMethod, immunity, transmog, lockState(), getIndex());
     }
 
     @Override
@@ -929,10 +917,6 @@ public class NPC extends Entity {
         }
         if (def != null && combatInfo != null && !combatInfo.retaliates) {
             //System.out.println("STOP AUTORETALIATE");
-            return;
-        }
-        if (movementCoordinator.getCoordinateState() == CoordinateState.RETREATING) {
-            // dont fight back until we're back at spawn location.
             return;
         }
         super.autoRetaliate(attacker);

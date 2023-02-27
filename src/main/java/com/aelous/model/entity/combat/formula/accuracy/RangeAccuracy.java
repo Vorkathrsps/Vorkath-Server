@@ -130,7 +130,7 @@ public class RangeAccuracy {
             }
         }
 
-        return (int) Math.floor(effectiveLevel);
+        return effectiveLevel;
     }
 
     public static int getRangeLevel(Entity attacker) {

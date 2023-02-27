@@ -77,9 +77,7 @@ public class PlayerUpdating {
         } else {
             packet.initializeAccess(AccessType.BYTE);
         }
-        synchronized (player.getSession()) {
-            player.getSession().write(packet);
-        }
+        player.getSession().write(packet);
     }
 
 

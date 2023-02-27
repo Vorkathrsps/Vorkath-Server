@@ -189,33 +189,30 @@ public class GameServer {
             Bootstrap bootstrap = new Bootstrap(GameServer.properties().gamePort);
             bootstrap.bind();
             initializeDatabase();
-            Runtime.getRuntime().addShutdownHook(new Thread() {
-                @Override
-                public void run() {
-                    System.out.println("Official Java Shutdownhook: triggered. Players in world: "+World.getWorld().getPlayers().size());
-                    // This is the FINAL THREAD active when application shuts down.
-                    // you CANNOT USE old threads (like ExecutorServices) or the TaskManager system.
-                    // here you should directly run code that runs on this single thread. Emergencies only.
-                    // P.S log4j wont print to console from here on out.
-                    for (Player player : World.getWorld().getPlayers()) {
-                        if (player == null || !player.isRegistered())
-                            continue;
-                        // program quit but there are still active players.
-                        // A save request never got triggered or program got terminated ungraciously.
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                System.out.println("Official Java Shutdownhook: triggered. Players in world: "+World.getWorld().getPlayers().size());
+                // This is the FINAL THREAD active when application shuts down.
+                // you CANNOT USE old threads (like ExecutorServices) or the TaskManager system.
+                // here you should directly run code that runs on this single thread. Emergencies only.
+                // P.S log4j wont print to console from here on out.
+                for (Player player : World.getWorld().getPlayers()) {
+                    if (player == null || !player.isRegistered())
+                        continue;
+                    // program quit but there are still active players.
+                    // A save request never got triggered or program got terminated ungraciously.
 
-                        player.requestLogout();
+                    player.requestLogout();
 
-                        // DIRECT SAVE, assuming the lowPrio executor has stopped/wont run any more save reqs
-                        try {
-                            new PlayerSave.SaveDetails(player).parseDetails();
-                            System.out.printf("DIRECT SAVE: %s%n", player);
-                        } catch (Exception e) {
-                            System.out.println("EMERGENCY SAVE FAIL Player "+player+" ex: "+e);
-                            e.printStackTrace();
-                        }
+                    // DIRECT SAVE, assuming the lowPrio executor has stopped/wont run any more save reqs
+                    try {
+                        new PlayerSave.SaveDetails(player).parseDetails();
+                        System.out.printf("DIRECT SAVE: %s%n", player);
+                    } catch (Exception e) {
+                        System.out.println("EMERGENCY SAVE FAIL Player "+player+" ex: "+e);
+                        e.printStackTrace();
                     }
                 }
-            });
+            }));
             boundTime = System.currentTimeMillis();
             logger.info("Loaded "+GameConstants.SERVER_NAME+ " " + ((GameServer.properties().pvpMode) ? "in PVP mode " : "in economy mode ") + "on port " + GameServer.properties().gamePort + " version v" + GameServer.properties().gameVersion + ".");
             logger.info("The Bootstrap has been bound, "+GameConstants.SERVER_NAME+ " is now online (it took {}ms).", boundTime - startTime);

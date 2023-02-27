@@ -19,7 +19,6 @@ import org.jetbrains.kotlin.ir.expressions.IrStatementOrigin;
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
 
-import static com.aelous.model.entity.attributes.AttributeKey.IGNORE_FREEZE_MOVE;
 import static com.aelous.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.*;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.AUGURY;
@@ -155,7 +154,7 @@ public class MagicAccuracy {
             }
         }
 
-        return (int) Math.floor(effectiveLevel);
+        return effectiveLevel;
     }
 
     public static int getAttackRoll(Entity attacker, CombatType style) {

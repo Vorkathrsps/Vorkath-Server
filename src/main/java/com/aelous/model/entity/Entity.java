@@ -1670,7 +1670,6 @@ public abstract class Entity {
         resetMovementQueue = false;
         forcedChat = null;
         interactingEntity = null;
-        //faceTile = null;
         animation = null;
         graphic = null;
         splats.clear();

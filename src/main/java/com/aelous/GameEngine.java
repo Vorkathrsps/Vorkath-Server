@@ -323,7 +323,6 @@ public final class GameEngine implements Runnable {
         if (autoEnableTimerDebug && profile.total > 400 && !NpcPerformance.DETAL_LOG_ENABLED) {
             NpcPerformance.DETAL_LOG_ENABLED = true;
             NpcPerformance.PERF_CHECK_MODE_ENABLED = true;
-            // NPCMovementCoordinator.RANDOM_WALK_ENABLED = false;
             lastAutoEnableDebugTriggered = System.currentTimeMillis();
         }
         if (profile.total > 600) {

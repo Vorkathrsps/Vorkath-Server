@@ -146,7 +146,6 @@ public class NPCInteractionHandler implements PacketListener {
             }
             player.setInteractingNpcId(npc.id());
             handleInteraction(player, npc, finalOption);
-            player.setPositionToFace(npc.tile());
             npc.getMovementQueue().setBlockMovement(false);
         });
     }

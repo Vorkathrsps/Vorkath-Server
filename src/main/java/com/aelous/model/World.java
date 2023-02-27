@@ -305,7 +305,6 @@ public class World {
             }
         });
     }, npcProcess = () -> {
-        NpcPerformance.resetWorldTime();
         executor.sync(new GameSyncTask(NodeType.NPC, false, npcRenderOrder) {
             @Override
             public void execute(int index) {
@@ -319,6 +318,7 @@ public class World {
                         npc.processed = true;
                         npc.sequence();
                         npc.inViewport(false); //Assume viewport is false, we set it in NPC Updating below.
+                        NpcPerformance.resetWorldTime();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -181,38 +181,33 @@ public class TargetRoute {
     /**
      * Misc checks
      */
-    protected static boolean inTarget(
-        int absX, int absY, int size, int targetX, int targetY, int targetSize) {
-        if (absX > (targetX + (targetSize - 1)) || absY > (targetY + (targetSize - 1)))
+    protected static boolean inTarget(int absX, int absY, int size, int targetX, int targetY, int targetSize) {
+        // check if object is outside the target area
+        if (absX + size - 1 < targetX || absY + size - 1 < targetY || absX > targetX + targetSize - 1 || absY > targetY + targetSize - 1) {
             return false;
-        if (targetX > (absX + (size - 1)) || targetY > (absY + (size - 1))) return false;
-        return true;
+        }
+
+        // check if object is completely within the target area
+        if (absX >= targetX && absY >= targetY && absX + size - 1 <= targetX + targetSize - 1 && absY + size - 1 <= targetY + targetSize - 1) {
+            return true;
+        }
+
+        // check if object is partially within the target area
+        int overlapX = Math.min(absX + size - 1, targetX + targetSize - 1) - Math.max(absX, targetX) + 1;
+        int overlapY = Math.min(absY + size - 1, targetY + targetSize - 1) - Math.max(absY, targetY) + 1;
+        return overlapX > 0 && overlapY > 0;
     }
 
-    public static boolean inRange(
-        int absX, int absY, int size, int targetX, int targetY, int targetSize, int distance) {
-        if (absX < targetX) {
-            /** West of target */
-            int closestX = absX + (size - 1);
-            int diffX = targetX - closestX;
-            if (diffX > distance) return false;
-        } else if (absX > targetX) {
-            /** East of target */
-            int closestTargetX = targetX + (targetSize - 1);
-            int diffX = absX - closestTargetX;
-            if (diffX > distance) return false;
-        }
-        if (absY < targetY) {
-            /** South of target */
-            int closestY = absY + (size - 1);
-            int diffY = targetY - closestY;
-            if (diffY > distance) return false;
-        } else if (absY > targetY) {
-            /** North of target */
-            int closestTargetY = targetY + (targetSize - 1);
-            int diffY = absY - closestTargetY;
-            if (diffY > distance) return false;
-        }
-        return true;
+
+    public static boolean inRange(int absX, int absY, int size, int targetX, int targetY, int targetSize, int distance) {
+        int maxX = Math.max(absX, targetX);
+        int maxY = Math.max(absY, targetY);
+        int minX = Math.min(absX + size - 1, targetX + targetSize - 1);
+        int minY = Math.min(absY + size - 1, targetY + targetSize - 1);
+
+        int deltaX = maxX - minX;
+        int deltaY = maxY - minY;
+
+        return deltaX <= distance && deltaY <= distance;
     }
 }

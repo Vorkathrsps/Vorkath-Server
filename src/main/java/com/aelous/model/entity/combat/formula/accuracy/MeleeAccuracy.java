@@ -98,7 +98,7 @@ public class MeleeAccuracy {
 
         effectiveLevel += 8;
 
-        return (int) Math.floor(effectiveLevel);
+        return effectiveLevel;
     }
 
     public static int getEffectiveMelee(Entity attacker, Entity defender, CombatType style) {
@@ -144,7 +144,7 @@ public class MeleeAccuracy {
                 double inquisitorsBonus = 0;
                 if (FormulaUtils.wearingInquisitorsPiece(attacker.getAsPlayer())) {
                     inquisitorsBonus *= 1.0025;
-                    effectiveLevel = (int) Math.floor(inquisitorsBonus);
+                    effectiveLevel = (int) Math.floor(effectiveLevel * inquisitorsBonus);
                 }
                 if (FormulaUtils.wearingFullInquisitors(attacker.getAsPlayer())) {
                     effectiveLevel = (int) Math.floor(effectiveLevel * (inquisitorsBonus + 1));
@@ -176,15 +176,16 @@ public class MeleeAccuracy {
             }
         }
 
-        return (int) Math.floor(effectiveLevel);
+        return effectiveLevel;
     }
 
     public static int getAttackLevel(Entity attacker) {
         int attackLevel = 1;
         if (attacker instanceof NPC) {
             NPC npc = ((NPC) attacker);
-            if (npc.combatInfo() != null && npc.combatInfo().stats != null)
+            if (npc.combatInfo() != null && npc.combatInfo().stats != null) {
                 attackLevel = npc.combatInfo().stats.attack;
+            }
         } else {
             attackLevel = attacker.skills().level(Skills.ATTACK);
         }
@@ -195,8 +196,9 @@ public class MeleeAccuracy {
         int defenceLevel = 1;
         if (defender instanceof NPC) {
             NPC npc = ((NPC) defender);
-            if (npc.combatInfo() != null && npc.combatInfo().stats != null)
+            if (npc.combatInfo() != null && npc.combatInfo().stats != null) {
                 defenceLevel = npc.combatInfo().stats.defence;
+            }
         } else {
             defenceLevel = defender.skills().level(Skills.DEFENCE);
         }
@@ -234,17 +236,17 @@ public class MeleeAccuracy {
     }
 
     public static int getAttackRoll(Entity attacker, Entity defender, CombatType style) {
-        int effectiveLevel = (int) Math.floor(getEffectiveMelee(attacker, defender, style));
+        int effectiveLevel = getEffectiveMelee(attacker, defender, style);
 
-        int effectiveBonus = (int) Math.floor(getGearAttackBonus(attacker, style));
+        int effectiveBonus = getGearAttackBonus(attacker, style);
 
         return (int) Math.floor(effectiveLevel * (effectiveBonus + 64));
     }
 
     public static int getDefenceRoll(Entity defender, CombatType style) {
-        int effectiveDefenceLevel = (int) Math.floor(getEffectiveDefence(defender));
+        int effectiveDefenceLevel = getEffectiveDefence(defender);
 
-        int effectiveBonus = (int) Math.floor(getGearDefenceBonus(defender, style));
+        int effectiveBonus = getGearDefenceBonus(defender, style);
 
         return (int) Math.floor(effectiveDefenceLevel * (effectiveBonus + 64));
     }

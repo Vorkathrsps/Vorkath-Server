@@ -1,6 +1,7 @@
 package com.aelous.model.map.route.routes;
 
 import com.aelous.model.entity.Entity;
+import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.route.RouteType;
 
 // I'm not 100% sure I like this class...
@@ -153,30 +154,31 @@ public class TargetRoute {
     }
 
     private void afterMovement0(Entity entity) {
+        Tile entityTile = entity.tile();
+        boolean isPlayer = entity.isPlayer();
+
         // Specific tile upstairs at the pirate boat, you can attack from here.
-        if (entity.tile().equals(3018, 3961, 2)) {
+        if (entityTile.equals(3018, 3961, 2)) {
             withinDistance = true;
         }
 
         if (finishAction != null) {
             /** Interactions */
-            if (abs)
-                withinDistance = route.finished(entity.tile());
-            if (withinDistance || (target.isNpc() && target.getAsNpc().skipReachCheck != null && target.getAsNpc().skipReachCheck.test(entity.tile())))
+            if (abs && route.finished(entityTile) || withinDistance || target.isNpc() && target.getAsNpc().skipReachCheck != null && target.getAsNpc().skipReachCheck.test(entityTile)) {
                 finishAction.run();
-            else if (entity.isPlayer()) {
+                reset();
+            } else if (isPlayer) {
                 entity.getAsPlayer().getMovement().outOfReach();
             }
-            reset();
         } else if (!withinDistance) {
             /** Combat */
-            if (entity.isPlayer()) {
+            if (isPlayer) {
                 entity.getAsPlayer().getMovement().outOfReach();
             }
-            entity.getCombat().reset(); // Out of distance reset combat
             reset();
         }
     }
+
 
     /**
      * Misc checks

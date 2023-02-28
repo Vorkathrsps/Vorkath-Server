@@ -1,7 +1,6 @@
 package com.aelous.model.map.route.routes;
 
 import com.aelous.model.entity.Entity;
-import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.route.RouteType;
 
 // I'm not 100% sure I like this class...
@@ -154,64 +153,66 @@ public class TargetRoute {
     }
 
     private void afterMovement0(Entity entity) {
-        Tile entityTile = entity.tile();
-        boolean isPlayer = entity.isPlayer();
-
         // Specific tile upstairs at the pirate boat, you can attack from here.
-        if (entityTile.equals(3018, 3961, 2)) {
+        if (entity.tile().equals(3018, 3961, 2)) {
             withinDistance = true;
         }
 
         if (finishAction != null) {
             /** Interactions */
-            if (abs && route.finished(entityTile) || withinDistance || target.isNpc() && target.getAsNpc().skipReachCheck != null && target.getAsNpc().skipReachCheck.test(entityTile)) {
+            if (abs)
+                withinDistance = route.finished(entity.tile());
+            if (withinDistance || (target.isNpc() && target.getAsNpc().skipReachCheck != null && target.getAsNpc().skipReachCheck.test(entity.tile())))
                 finishAction.run();
-                reset();
-            } else if (isPlayer) {
-                entity.getAsPlayer().getMovement().outOfReach();
-            }
-        } else if (!withinDistance) {
-            /** Combat */
-            if (isPlayer) {
+            else if (entity.isPlayer()) {
                 entity.getAsPlayer().getMovement().outOfReach();
             }
             reset();
+        } else if (!withinDistance) {
+            /** Combat */
+            if (entity.isPlayer()) {
+                entity.getAsPlayer().getMovement().outOfReach();
+            }
+            entity.getCombat().reset(); // Out of distance reset combat
+            reset();
         }
     }
-
 
     /**
      * Misc checks
      */
     protected static boolean inTarget(
         int absX, int absY, int size, int targetX, int targetY, int targetSize) {
-        int minX = Math.min(absX, targetX);
-        int maxX = Math.max(absX + size - 1, targetX + targetSize - 1);
-        int minY = Math.min(absY, targetY);
-        int maxY = Math.max(absY + size - 1, targetY + targetSize - 1);
-        return (maxX - minX) <= (size + targetSize) && (maxY - minY) <= (size + targetSize);
+        if (absX > (targetX + (targetSize - 1)) || absY > (targetY + (targetSize - 1)))
+            return false;
+        if (targetX > (absX + (size - 1)) || targetY > (absY + (size - 1))) return false;
+        return true;
     }
 
     public static boolean inRange(
         int absX, int absY, int size, int targetX, int targetY, int targetSize, int distance) {
-        int closestX, closestY;
         if (absX < targetX) {
-            closestX = targetX;
-        } else if (absX > targetX + targetSize - 1) {
-            closestX = targetX + targetSize - 1;
-        } else {
-            closestX = absX;
+            /** West of target */
+            int closestX = absX + (size - 1);
+            int diffX = targetX - closestX;
+            if (diffX > distance) return false;
+        } else if (absX > targetX) {
+            /** East of target */
+            int closestTargetX = targetX + (targetSize - 1);
+            int diffX = absX - closestTargetX;
+            if (diffX > distance) return false;
         }
         if (absY < targetY) {
-            closestY = targetY;
-        } else if (absY > targetY + targetSize - 1) {
-            closestY = targetY + targetSize - 1;
-        } else {
-            closestY = absY;
+            /** South of target */
+            int closestY = absY + (size - 1);
+            int diffY = targetY - closestY;
+            if (diffY > distance) return false;
+        } else if (absY > targetY) {
+            /** North of target */
+            int closestTargetY = targetY + (targetSize - 1);
+            int diffY = absY - closestTargetY;
+            if (diffY > distance) return false;
         }
-        int deltaX = absX - closestX;
-        int deltaY = absY - closestY;
-        int maxDistance = size + targetSize + distance - 2;
-        return (deltaX * deltaX + deltaY * deltaY) <= (maxDistance * maxDistance);
+        return true;
     }
 }

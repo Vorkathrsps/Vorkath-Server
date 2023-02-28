@@ -31,10 +31,10 @@ public class MagicAccuracyNpc {
     }
 
     public static boolean successful(Entity attacker, Entity defender, CombatType style) {
-        double attackBonus = getAttackRoll(attacker, style);
-        double defenceBonus = getDefenceRoll(defender, style);
+        int attackBonus = (int) Math.floor(getAttackRoll(attacker, style));
+        int defenceBonus = (int) Math.floor(getDefenceRoll(defender, style));
         double successfulRoll;
-        double selectedChance = srand.nextDouble();
+        double selectedChance = srand.nextInt(10000) / 10000.0;
 
         if (attackBonus > defenceBonus)
             successfulRoll = 1D - (Math.floor(defenceBonus + 2D)) / (2D * (Math.floor(attackBonus + 1D)));
@@ -73,59 +73,59 @@ public class MagicAccuracyNpc {
         if (attacker.isPlayer()) {
             if (style.equals(CombatType.MAGIC)) {
                 if (FormulaUtils.regularVoidEquipmentBaseMagic((Player) attacker)) {
-                    bonus *= 1.45;
+                    bonus = (int) Math.floor(bonus * 1.45);
                 }
 
                 if (FormulaUtils.eliteVoidEquipmentBaseMagic((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMagic((Player) attacker)) {
-                    bonus *= 1.70;
+                    bonus = (int) Math.floor(bonus * 1.70);
                 }
                 if (((Player) attacker).getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
-                    bonus *= 3;
+                    bonus = (int) Math.floor(bonus * 3);
                 }
                 if (FormulaUtils.isUndead(attacker.getCombat().getTarget())) { //UNDEAD BONUSES
                     if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI_25278)) {
-                        bonus *= 1.20D;
+                        bonus = (int) Math.floor(bonus * 1.20D);
                     }
                     if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
-                        bonus *= 1.10D;
+                        bonus = (int) Math.floor(bonus * 1.10D);
                     }
                     if (attacker.getCombat().getTarget().isNpc()) {
                         if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SLAYER_HELMET)) {
-                            bonus *= 1.05D;
+                            bonus = (int) Math.floor(bonus * 1.05D);
                         }
                         if (((Player) attacker).getEquipment().contains(ItemIdentifiers.BLACK_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.GREEN_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.HYDRA_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.PURPLE_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.RED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TURQUOISE_SLAYER_HELMET)) {
-                            bonus *= 1.10D;
+                            bonus = (int) Math.floor(bonus * 1.10D);
                         }
                         if (((Player) attacker).getEquipment().contains(ItemIdentifiers.TWISTED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TZKAL_SLAYER_HELMET)) {
-                            bonus *= 1.15D;
+                            bonus = (int) Math.floor(bonus * 1.15D);
                         }
                         if (((Player) attacker).getEquipment().contains(ItemIdentifiers.OCCULT_NECKLACE_OR)) {
-                            bonus *= 1.05D;
+                            bonus = (int) Math.floor(bonus * 1.05D);
                         }
-                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.THAMMARONS_SCEPTRE) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.ACCURSED_SCEPTRE_A) ) {
-                            bonus *= 1.50D;
+                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.THAMMARONS_SCEPTRE) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.ACCURSED_SCEPTRE_A)) {
+                            bonus = (int) Math.floor(bonus * 1.50D);
                         }
                     }
                 }
                 if (task != null && Slayer.creatureMatches((Player) attacker, attacker.getAsNpc().id())) {
                     //might cause null pointer
                     if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SLAYER_HELMET)) {
-                        bonus *= 1.15D;
+                        bonus = (int) Math.floor(bonus * 1.15D);
                     }
                     if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SLAYER_HELMET_I)) {
-                        bonus *= 1.18D;
+                        bonus = (int) Math.floor(bonus * 1.18D);
                     }
                     if (((Player) attacker).getEquipment().contains(ItemIdentifiers.BLACK_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.GREEN_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.HYDRA_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.PURPLE_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.RED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TURQUOISE_SLAYER_HELMET)) {
-                        bonus *= 1.20D;
+                        bonus = (int) Math.floor(bonus * 1.20D);
                     }
                     if (((Player) attacker).getEquipment().contains(ItemIdentifiers.TWISTED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TZKAL_SLAYER_HELMET)) {
-                        bonus *= 1.25D;
+                        bonus = (int) Math.floor(bonus * 1.25D);
                     }
                 }
             }
         }
-            return bonus;
-        }
+        return bonus;
+    }
 
     public static int getMagicLevelNpc(Entity defender) {
         return defender.getAsNpc().combatInfo().stats.magic;
@@ -134,20 +134,20 @@ public class MagicAccuracyNpc {
     public static int getMagicDefenceLevelNpc(Entity defender, CombatType style) {
         EquipmentInfo.Bonuses defenderBonus = EquipmentInfo.totalBonuses(defender, World.getWorld().equipmentInfo());
         int bonus = 0;
-        if(defender instanceof NPC) {
+        if (defender instanceof NPC) {
             if (style == CombatType.MAGIC) {
                 bonus = defenderBonus.magedef;
             }
         }
-        return bonus + 64;
+        return (int) Math.floor(bonus + 64);
     }
 
-    public static double getEffectiveLevelDefender(Entity defender) {
-        return getMagicLevelNpc(defender) + 9D;
+    public static int getEffectiveLevelDefender(Entity defender) {
+        return (int) Math.floor(getMagicLevelNpc(defender) + 9D);
     }
 
-    public static double getDefenceRoll(Entity defender, CombatType style) {
-        return getEffectiveLevelDefender(defender) * Math.floor(getMagicDefenceLevelNpc(defender, style));
+    public static int getDefenceRoll(Entity defender, CombatType style) {
+        return (int) Math.floor(getEffectiveLevelDefender(defender) * Math.floor(getMagicDefenceLevelNpc(defender, style)));
     }
 
     public static int getMagicLevel(Entity attacker) {
@@ -155,11 +155,11 @@ public class MagicAccuracyNpc {
     }
 
     public static int getEffectiveLevelAttacker(Entity attacker, CombatType style) {
-        return (int) Math.ceil(getMagicLevel(attacker) * getPrayerBonus(attacker, style) + 9);
+        return (int) Math.floor(getMagicLevel(attacker) * (getPrayerBonus(attacker, style) + 9));
     }
 
-    public static double getAttackRoll(Entity attacker, CombatType style) {
-        return getEffectiveLevelAttacker(attacker, style) * Math.floor(getEquipmentBonus(attacker, style) + 64D);
+    public static int getAttackRoll(Entity attacker, CombatType style) {
+        return (int) Math.floor(getEffectiveLevelAttacker(attacker, style) * (Math.floor(getEquipmentBonus(attacker, style) + 64D)));
     }
 
 }

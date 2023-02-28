@@ -89,7 +89,7 @@ public class MeleeAccuracy {
 
     public static int getEffectiveDefence(Entity defender) {
         FightStyle fightStyle = defender.getCombat().getFightType().getStyle();
-        int effectiveLevel = (int) Math.floor(getDefenceLevel(defender) * getPrayerDefenseBonus(defender));
+        int effectiveLevel = defender instanceof NPC ? ((NPC) defender).combatInfo().stats.defence : (int) Math.floor(getDefenceLevel(defender) * getPrayerDefenseBonus(defender));
 
         switch (fightStyle) {
             case DEFENSIVE -> effectiveLevel += 3;
@@ -108,7 +108,7 @@ public class MeleeAccuracy {
         final Item weapon = attacker.getAsPlayer().getEquipment().get(EquipSlot.WEAPON);
         AttackType attackType = attacker.getCombat().getFightType().getAttackType();
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
-        int effectiveLevel = (int) Math.floor(getAttackLevel(attacker) * getPrayerAttackBonus(attacker, style));
+        int effectiveLevel = attacker instanceof NPC ? ((NPC) attacker).combatInfo().stats.attack : (int) Math.floor(getAttackLevel(attacker) * getPrayerAttackBonus(attacker, style));
         double specialMultiplier = attacker.getAsPlayer().getCombatSpecial() == null ? 1 : attacker.getAsPlayer().getCombatSpecial().getAccuracyMultiplier();
 
         switch (fightStyle) {
@@ -118,7 +118,7 @@ public class MeleeAccuracy {
 
         effectiveLevel += 8;
 
-        if (attacker.isPlayer()) {
+        if (attacker instanceof Player) {
             if (attacker.getAsPlayer().isSpecialActivated()) {
                 effectiveLevel = (int) Math.floor(effectiveLevel * specialMultiplier);
             }

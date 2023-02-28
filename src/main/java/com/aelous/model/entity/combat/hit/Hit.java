@@ -230,10 +230,10 @@ public class Hit {
         if (combatType != null) {
             switch (combatType) {
                 case MAGIC -> {
-                    success = attacker.isPlayer() ? MagicAccuracy.doesHit(attacker, target, combatType) : attacker.isNpc() ?  MagicAccuracyNpc.doesHit(attacker, target, combatType) : MagicAccuracy.doesHit(attacker, target, combatType);
+                    success = target.isPlayer() ? MagicAccuracy.doesHit(attacker, target, combatType) : target.isNpc() ?  MagicAccuracyNpc.doesHit(attacker, target, combatType) : MagicAccuracy.doesHit(attacker, target, combatType);
                 }
                 case RANGED -> {
-                    success = attacker.isPlayer() ? RangeAccuracy.doesHit(attacker, target, combatType) : attacker.isNpc() ? RangeAccuracyNpc.doesHit(attacker, target, combatType) : RangeAccuracy.doesHit(attacker, target, combatType);
+                    success = target.isPlayer() ? RangeAccuracy.doesHit(attacker, target, combatType) : target.isNpc() ? RangeAccuracyNpc.doesHit(attacker, target, combatType) : RangeAccuracy.doesHit(attacker, target, combatType);
                 }
                 case MELEE -> {
                     if (attacker.isPlayer() && target.isPlayer()) {

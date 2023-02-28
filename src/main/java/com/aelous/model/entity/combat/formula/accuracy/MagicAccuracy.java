@@ -55,8 +55,10 @@ public class MagicAccuracy {
         EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
         int bonus = 0;
         if (style == CombatType.MAGIC) {
-            if (!WildernessArea.inWild((Player) attacker) && ((Player) attacker).getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
-                bonus = attackerBonus.mage += Math.min(attackerBonus.mage * 3, attackerBonus.mage * attackerBonus.mage);
+            if (attacker instanceof Player) {
+                if (!WildernessArea.inWild((Player) attacker) && ((Player) attacker).getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
+                    bonus = attackerBonus.mage += Math.min(attackerBonus.mage * 3, attackerBonus.mage * attackerBonus.mage);
+                }
             } else {
                 bonus = attackerBonus.mage;
             }
@@ -93,9 +95,9 @@ public class MagicAccuracy {
             NPC npc = ((NPC) attacker);
             if (npc.combatInfo() != null && npc.combatInfo().stats != null)
                 magicLevel = npc.combatInfo().stats.magic;
-            } else {
-                magicLevel = attacker.skills().level(Skills.MAGIC);
-            }
+        } else {
+            magicLevel = attacker.skills().level(Skills.MAGIC);
+        }
         return magicLevel;
     }
 
@@ -124,8 +126,8 @@ public class MagicAccuracy {
 
     public static double getPrayerBonusDefender(Entity defender) {
         double prayerBonus = 1;
-            if (Prayers.usingPrayer(defender, AUGURY))
-                prayerBonus *= 1.25D; //
+        if (Prayers.usingPrayer(defender, AUGURY))
+            prayerBonus *= 1.25D; //
         return prayerBonus;
     }
 

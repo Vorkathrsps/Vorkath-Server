@@ -770,6 +770,14 @@ public class Tile implements Cloneable {
         return y - 8 * (firstChunkY - 6);
     }
 
+    public int getBaseX() {
+        return (this.getFirstChunkX() - 6) * 8;
+    }
+
+    public int getBaseY() {
+        return (this.getFirstChunkY() - 6) * 8;
+    }
+
     public boolean allowEntrance(int mask) {
         return (RegionManager.getClipping(x, y, getLevel()) & mask) == 0;
     }

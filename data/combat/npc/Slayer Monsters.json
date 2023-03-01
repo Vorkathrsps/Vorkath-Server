@@ -2295,7 +2295,7 @@
       ]
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDZamorakMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDZamorakMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
     }
   },
@@ -2510,7 +2510,7 @@
       "death": 836
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDZamorakMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDZamorakMinion",
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.SpiritualMage",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
     }
@@ -3157,7 +3157,7 @@
     },
     "scripts": {
       "hit": "com.aelous.model.entity.combat.method.impl.npcs.slayer.CaveKrakens.onhit",
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.CaveKrakenDeath",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.CaveKrakenDeath",
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.CaveKraken"
     }
   },
@@ -3214,7 +3214,7 @@
       "death": 3620
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.EnormousTentacleDeath",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.EnormousTentacleDeath",
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.kraken.EnormousTentacle",
       "death": "com.aelous.model.entity.combat.method.impl.npcs.slayer.EnormousTentacle.death"
     }
@@ -3245,7 +3245,7 @@
       "death": 3993
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.KrakenBossDrops",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.KrakenBossDrops",
       "death": "nl.bartpelle.veteres.content.npcs.bosses.KrakenBoss.death",
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.kraken.Kraken"
     }
@@ -3275,7 +3275,7 @@
       "death": -1
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.KrakenBossDrops",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.KrakenBossDrops",
       "hit": "nl.bartpelle.veteres.content.npcs.bosses.KrakenBoss.hit"
     }
   },
@@ -3379,7 +3379,7 @@
       "death": 836
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDSaradominMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDSaradominMinion",
       //"combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.SpiritualRanger",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.saradomin.SaradominAgro"
     }
@@ -3409,7 +3409,7 @@
       "death": 4321
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDBandosMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDBandosMinion",
       //"combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.SpiritualRanger",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
     }
@@ -3439,7 +3439,7 @@
       "death": 836
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDZamorakMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDZamorakMinion",
       //"combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.SpiritualRanger",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
     }
@@ -3486,7 +3486,7 @@
       "death": 6959
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDArmadylMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDArmadylMinion",
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.armadyl.Aviansie",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.armadyl.ArmadylAgro"
     }

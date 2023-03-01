@@ -1937,7 +1937,7 @@
       "death": 156
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.RuniteGolem"
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.RuniteGolem"
     }
   },
   {
@@ -2199,7 +2199,7 @@
       "death": 4653
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.WarriorsGuildCyclops"
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.WarriorsGuildCyclops"
     }
   },
   {
@@ -2224,7 +2224,7 @@
       "death": 4653
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.WarriorsGuildCyclops"
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.WarriorsGuildCyclops"
     }
   },
   {

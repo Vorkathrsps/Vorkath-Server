@@ -785,7 +785,7 @@
       "death": 5072
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.ZulrahDeath"
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.ZulrahDeath"
     }
   },
   {
@@ -819,7 +819,7 @@
       "death": 5072
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.ZulrahDeath"
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.ZulrahDeath"
     }
   },
   {
@@ -853,7 +853,7 @@
       "death": 5072
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.ZulrahDeath"
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.ZulrahDeath"
     }
   },
   {

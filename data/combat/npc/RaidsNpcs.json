@@ -35,8 +35,8 @@
     },
     "scripts": {
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.Vanguard",
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.raids.VanguardDroptable",
-      "aggression": "com.aelous.model.entity.mob.npc.aggressive.RaidsAgro"
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.raids.VanguardDroptable",
+      "aggression": "com.aelous.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -75,8 +75,8 @@
     },
     "scripts": {
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.Vanguard",
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.raids.VanguardDroptable",
-      "aggression": "com.aelous.model.entity.mob.npc.aggressive.RaidsAgro"
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.raids.VanguardDroptable",
+      "aggression": "com.aelous.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -115,8 +115,8 @@
     },
     "scripts": {
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.Vanguard",
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.raids.VanguardDroptable",
-      "aggression": "com.aelous.model.entity.mob.npc.aggressive.RaidsAgro"
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.raids.VanguardDroptable",
+      "aggression": "com.aelous.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -155,7 +155,7 @@
     },
     "scripts": {
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.MuttadileInTheWater",
-      "aggression": "com.aelous.model.entity.mob.npc.aggressive.RaidsAgro"
+      "aggression": "com.aelous.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -194,8 +194,8 @@
     },
     "scripts": {
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.Muttadile",
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.raids.BabyMuttadileDroptable",
-      "aggression": "com.aelous.model.entity.mob.npc.aggressive.RaidsAgro"
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.raids.BabyMuttadileDroptable",
+      "aggression": "com.aelous.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -234,8 +234,8 @@
     },
     "scripts": {
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.Muttadile",
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.raids.MommaMuttadileDroptable",
-      "aggression": "com.aelous.model.entity.mob.npc.aggressive.RaidsAgro"
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.raids.MommaMuttadileDroptable",
+      "aggression": "com.aelous.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -273,9 +273,9 @@
       "death": 7415
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.VasaNistirio",
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.raids.VasaNistirioDroptable",
-      "aggression": "com.aelous.model.entity.mob.npc.aggressive.RaidsAgro"
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.vasa.Vistirio",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.raids.VasaNistirioDroptable",
+      "aggression": "com.aelous.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -314,7 +314,7 @@
     },
 	"scripts": {
 	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.Tekton",
-      "aggression": "com.aelous.model.entity.mob.npc.aggressive.RaidsAgro"
+      "aggression": "com.aelous.model.entity.npc.aggressive.RaidsAgro"
 	}
   },
   {
@@ -353,8 +353,8 @@
     },
     "scripts": {
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.Tekton",
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.raids.TektonDroptable",
-      "aggression": "com.aelous.model.entity.mob.npc.aggressive.RaidsAgro"
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.raids.TektonDroptable",
+      "aggression": "com.aelous.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -393,8 +393,8 @@
     },
     "scripts": {
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.Vespula",
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.raids.VespulaDroptable",
-      "aggression": "com.aelous.model.entity.mob.npc.aggressive.RaidsAgro"
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.raids.VespulaDroptable",
+      "aggression": "com.aelous.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -433,8 +433,8 @@
     },
     "scripts": {
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.Vespula",
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.raids.VespulaDroptable",
-      "aggression": "com.aelous.model.entity.mob.npc.aggressive.RaidsAgro"
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.raids.VespulaDroptable",
+      "aggression": "com.aelous.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {

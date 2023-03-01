@@ -35,7 +35,7 @@
       "death": 9184
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDNex",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDNex",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.NexAgro",
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.NexCombat"
     }
@@ -242,7 +242,7 @@
       "death": 836
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDZamorakMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDZamorakMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
     }
   },
@@ -270,7 +270,7 @@
       "death": 4321
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDBandosMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDBandosMinion",
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.SpiritualMage",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
     }
@@ -297,7 +297,7 @@
       "death": 4321
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDBandosMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDBandosMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
     }
   },
@@ -324,7 +324,7 @@
       "death": 4653
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDBandosMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDBandosMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
     }
   },
@@ -359,7 +359,7 @@
       "death": 4321
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDBandosMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDBandosMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
     }
   },
@@ -391,7 +391,7 @@
       "death": 2938
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDBandosMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDBandosMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
     }
   },
@@ -419,7 +419,7 @@
       "death": 6576
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDZamorakMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDZamorakMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
     }
   },
@@ -445,7 +445,7 @@
       "death": 4302
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDZamorakMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDZamorakMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
     }
   },
@@ -477,7 +477,7 @@
       "death": 1553
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDZamorakMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDZamorakMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
     }
   },
@@ -518,7 +518,7 @@
       ]
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDZamorakMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDZamorakMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
     }
   },
@@ -548,7 +548,7 @@
       "death": 6537
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDZamorakMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDZamorakMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
     }
   },
@@ -577,7 +577,7 @@
       "death": 836
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDZamorakMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDZamorakMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
     }
   },
@@ -612,7 +612,7 @@
       "death": 1580
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDZamorakMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDZamorakMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
     }
   },
@@ -646,7 +646,7 @@
       "death": 1580
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDZamorakMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDZamorakMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
     }
   },
@@ -680,7 +680,7 @@
       "death": 6182
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDBandosMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDBandosMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
     }
   },
@@ -715,7 +715,7 @@
       "death": 6182
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDBandosMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDBandosMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
     }
   },
@@ -749,7 +749,7 @@
       "death": 6190
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDBandosMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDBandosMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
     }
   },
@@ -783,7 +783,7 @@
       "death": 361
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDBandosMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDBandosMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
     }
   },
@@ -815,7 +815,7 @@
       "death": 167
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDBandosMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDBandosMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
     }
   },
@@ -845,7 +845,7 @@
       "death": 167
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDBandosMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDBandosMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
     }
   },
@@ -879,7 +879,7 @@
       "death": 6377
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDSaradominMinion"
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDSaradominMinion"
     }
   },
   {
@@ -913,7 +913,7 @@
       "death": 7028
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDSaradominMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDSaradominMinion",
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.saradomin.Bree"
     }
   },
@@ -948,7 +948,7 @@
       "death": 7034
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDSaradominMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDSaradominMinion",
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.saradomin.Growler"
     }
   },
@@ -986,7 +986,7 @@
       "death": 6968
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDSaradominMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDSaradominMinion",
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.saradomin.Zilyana"
     }
   },
@@ -1019,7 +1019,7 @@
       "death": 836
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDSaradominMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDSaradominMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.saradomin.SaradominAgro"
     }
   },
@@ -1052,7 +1052,7 @@
       "death": 836
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDSaradominMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDSaradominMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.saradomin.SaradominAgro"
     }
   },
@@ -1085,7 +1085,7 @@
       "death": 836
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDSaradominMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDSaradominMinion",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.saradomin.SaradominAgro"
     }
   },
@@ -1118,7 +1118,7 @@
       "death": 836
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDSaradominMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDSaradominMinion",
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.SpiritualMage",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.saradomin.SaradominAgro"
     }
@@ -1150,7 +1150,7 @@
       "death": 836
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDSaradominMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDSaradominMinion",
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.SpiritualMage",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.saradomin.SaradominAgro"
     }
@@ -1181,7 +1181,7 @@
       "death": 6959
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDArmadylMinion"
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDArmadylMinion"
     }
   },
   {
@@ -1210,7 +1210,7 @@
       "death": 6959
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDArmadylMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDArmadylMinion",
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.armadyl.WingmanSkree"
     }
   },
@@ -1240,7 +1240,7 @@
       "death": 6959
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDArmadylMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDArmadylMinion",
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.armadyl.FlockleaderGeerin"
     }
   },
@@ -1277,7 +1277,7 @@
       "death": 6979
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.mob.npc.droptables.impl.GWDArmadylMinion",
+      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDArmadylMinion",
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.armadyl.KreeArra"
     }
   }

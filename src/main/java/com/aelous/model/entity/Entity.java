@@ -32,6 +32,7 @@ import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.masks.ForceMovement;
 import com.aelous.model.entity.player.InfectionType;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.entity.player.PlayerMovement;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.container.equipment.Equipment;
 import com.aelous.model.map.object.GameObject;
@@ -40,7 +41,6 @@ import com.aelous.model.map.position.Boundary;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.position.areas.Controller;
 import com.aelous.model.map.route.RouteFinder;
-import com.aelous.model.map.route.StepType;
 import com.aelous.model.map.route.routes.TargetRoute;
 import com.aelous.utility.Debugs;
 import com.aelous.utility.chainedwork.Chain;
@@ -500,9 +500,7 @@ public abstract class Entity {
         return updateFlag;
     }
 
-    public MovementQueue getMovementQueue() {
-        return movementQueue;
-    }
+    public abstract MovementQueue getMovementQueue();
 
     public Combat getCombat() {
         return combat;
@@ -1063,14 +1061,6 @@ public abstract class Entity {
         return canWalkNPC(toX, toY, false);
     }
 
-
-    private MovementQueue.Step getPreviewNextWalkStep() {
-        MovementQueue.Step step = movementQueue.steps.poll();
-        if (step == null)
-            return null;
-        return step;
-    }
-
     public boolean canWalkNPC(int toX, int toY, boolean checkUnder) {
         if (this.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) != 1 /*|| (!checkUnder && !canWalkNPC(getX(), getY(), true))*/)
             return true;
@@ -1120,12 +1110,8 @@ public abstract class Entity {
         return false;
     }
 
-    public boolean hasWalkSteps() {
-        return movementQueue.steps.size() > 1;
-    }
-
     public void resetWalkSteps() {
-        movementQueue.clear();
+        getMovementQueue().clear();
     }
 
     public Tile getPreviousTile() {
@@ -1281,7 +1267,7 @@ public abstract class Entity {
     }
 
     /**
-     * shortcut to {@link Chain#waitUntil(Tile, Runnable)}
+     * shortcut to {@link Chain#waitUntil(int, BooleanSupplier, Runnable)}
      */
     public Chain<Entity> waitUntil(int tickBetweenLoop, BooleanSupplier condition, Runnable work) {
         return Chain.bound(this).waitUntil(tickBetweenLoop, condition, work);
@@ -1309,7 +1295,6 @@ public abstract class Entity {
      * player.smartPathTo(startPos, obj.getSize());} doesn't work or walk exactly where you expect it too, its probably beacuse its a 1999 pathfinder.
      * <br> use {@code player.doPath(new DefaultPathFinder(), tile)} instead
      *
-     * @param object
      * @return
      */
     public void smartPathTo(Tile targetPos) {
@@ -1326,11 +1311,11 @@ public abstract class Entity {
         return routeFinder;
     }
 
-    public void step(int diffX, int diffY, StepType stepType) {
+    public void step(int diffX, int diffY, MovementQueue.StepType stepType) {
         stepAbs(getAbsX() + diffX, getAbsY() + diffY, stepType);
     }
 
-    public void stepAbs(int absX, int absY, StepType stepType) {
+    public void stepAbs(int absX, int absY, MovementQueue.StepType stepType) {
         /* forces a step without route finding */
         MovementQueue movement = getMovement();
         movement.readOffset = 0;
@@ -1344,7 +1329,7 @@ public abstract class Entity {
         MovementQueue movement = getMovement();
         movement.readOffset = 0;
         movement.writeOffset = 0;
-        movement.stepType = StepType.NORMAL;
+        movement.stepType = MovementQueue.StepType.REGULAR;
     }
 
     public boolean addStep(int absX, int absY) {
@@ -1362,7 +1347,7 @@ public abstract class Entity {
     }
 
     public boolean isMovementBlocked(boolean message, boolean ignoreFreeze) {
-        return !movementQueue.canMove(message);
+        return !getMovementQueue().canMove(message);
     }
 
     public int getAbsX() {
@@ -1563,7 +1548,7 @@ public abstract class Entity {
         }
 
         if (!locked()) {
-            movementQueue.clear();
+            getMovementQueue().clear();
         }
     }
 
@@ -1576,7 +1561,7 @@ public abstract class Entity {
         this.getMovementQueue().resetFollowing();
         // Graphics and animations are not reset when you walk.
         if (cancelMoving)
-            movementQueue.clear();
+            getMovementQueue().clear();
         action.clearNonWalkableActions();
         interruptChains();
         TargetRoute.reset(this);
@@ -1642,7 +1627,7 @@ public abstract class Entity {
         //getAsPlayer().isNullifyDamageLock(); //we nullfiy the damage taken when teleporting
 
         if (isPlayer()) {
-            getMovementQueue().handleRegionChange();
+            getAsPlayer().getAsPlayer().getMovementQueue().handleRegionChange();
         }
         getMovementQueue().clear();
 
@@ -1651,7 +1636,7 @@ public abstract class Entity {
     }
 
     public MovementQueue getMovement() {
-        return movementQueue;
+        return getMovementQueue();
     }
 
     public void teleport(int x, int y) {
@@ -1746,7 +1731,6 @@ public abstract class Entity {
      * Fields
      */
     private final Combat combat = new Combat(this);
-    private final MovementQueue movementQueue = new MovementQueue(this);
     private String forcedChat;
     private boolean fixingDiagonal = false;
     private boolean repositioning = false;

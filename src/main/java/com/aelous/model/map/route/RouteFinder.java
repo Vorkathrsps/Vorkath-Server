@@ -100,7 +100,7 @@ public class RouteFinder {
                 true,
                 movement.getStepsX(),
                 movement.getStepsY());
-        movement.stepType = StepType.NORMAL;
+        movement.stepType = MovementQueue.StepType.REGULAR;
         if (movement.writeOffset == -1) {
             route.finishX = -1;
             route.finishY = -1;
@@ -391,8 +391,8 @@ public class RouteFinder {
             entity.getMovement().reset();
             return false;
         }
-        if (entity.getMovement().stepType == StepType.NORMAL) {
-            if (!entity.getMovement().canMove(entity.getMovement().movementPacketThisCycle()))
+        if (entity.getMovement().stepType == MovementQueue.StepType.REGULAR) {
+            if (!entity.getMovement().canMove(!entity.isNpc() && entity.getAsPlayer().getMovementQueue().movementPacketThisCycle()))
                 return false;
             if (entity.isNpc()
                 && !entity.getAsNpc().def().ignoreOccupiedTiles

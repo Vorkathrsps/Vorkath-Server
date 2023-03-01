@@ -3,12 +3,12 @@ package com.aelous.model.map.route.routes;
 import static com.aelous.model.map.route.RouteFinder.*;
 
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.route.ClipUtils;
 import com.aelous.model.map.route.Direction;
 import com.aelous.model.map.route.RouteFinder;
 import com.aelous.model.map.route.RouteMisc;
-import com.aelous.model.map.route.StepType;
 
 public class DumbRoute {
 
@@ -43,7 +43,7 @@ public class DumbRoute {
                         entity.getSize(),
                         destX,
                         destY);
-        if (stepDir != null) entity.step(stepDir.deltaX, stepDir.deltaY, StepType.NORMAL);
+        if (stepDir != null) entity.step(stepDir.deltaX, stepDir.deltaY, MovementQueue.StepType.REGULAR);
     }
 
     public static void step(Entity entity, Entity target, int distance) {
@@ -151,7 +151,7 @@ public class DumbRoute {
         return null;
     }
 
-    private static Direction getStepDirection(
+    public static Direction getStepDirection(
             ClipUtils clipping, int x, int y, int z, int size, int destX, int destY) {
 
         boolean west = false, east = false;

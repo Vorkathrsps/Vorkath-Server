@@ -2584,6 +2584,12 @@ public class Player extends Entity {
         getPacketSender().sendMessage(message);
     }
 
+    private final PlayerMovement movementQueue = new PlayerMovement(this);
+    @Override
+    public PlayerMovement getMovementQueue() {
+        return movementQueue;
+    }
+
     public void sendScroll(String title, String... lines) {
 
         for (int counter = 21408; counter < 21609; counter++) {
@@ -2783,7 +2789,7 @@ public class Player extends Entity {
 
     @Override
     public void autoRetaliate(Entity attacker) {
-        if (dead() || hp() < 1 || !getMovementQueue().empty()) {
+        if (dead() || hp() < 1 /*|| !getMovementQueue().empty()*/) { // TODO
             return;
         }
         super.autoRetaliate(attacker);

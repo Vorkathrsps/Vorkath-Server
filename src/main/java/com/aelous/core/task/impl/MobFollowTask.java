@@ -77,7 +77,7 @@ public class MobFollowTask extends Task {
 
         Debugs.CB_FOLO.debug(entity, "goal dist " + entity.tile().distance(following.tile()) + " " + combatFollow, following, false);
 
-        if (!combatFollow && following.boundaryBounds().inside(entity.tile(), entity.getSize()) && (!following.getMovementQueue().isMoving() && !following.hasWalkSteps()) && !following.getPreviousTile().equals(entity.tile())) {
+        if (!combatFollow && following.boundaryBounds().inside(entity.tile(), entity.getSize()) && (!following.getMovementQueue().isMoving() && !following.getMovement().isMoving()) && !following.getPreviousTile().equals(entity.tile())) {
             final Tile walkable = RouteFinder.findWalkable(following.tile());
             entity.getRouteFinder().routeAbsolute(walkable.x, walkable.y);
             return;

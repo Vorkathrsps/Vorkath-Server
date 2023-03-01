@@ -28,6 +28,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class NPCUpdating {
 
     /**
+     * The maximum number of npcs to load per cycle. This prevents the update packet from becoming too large (the
+     * client uses a 5000 byte buffer) and also stops old spec PCs from crashing when they login or teleport.
+     */
+    private static final int NEW_NPCS_PER_CYCLE = 20;
+
+    /**
      * Handles the actual npc updating for the associated player.
      *
      * @return The NPCUpdating instance.
@@ -55,12 +61,17 @@ public class NPCUpdating {
             }
         }
         int localNpcCount = localNpcs.size();
+        int added = 0;
         for (NPC npc : World.getWorld().getNpcs()) {
-            if (localNpcCount >= 79) // Originally 255
+            if (localNpcCount >= 255) // Originally 255
                 break;
+            if (added >= NEW_NPCS_PER_CYCLE) {
+                break;
+            }
             if (npc == null || localNpcs.contains(npc) || npc.hidden() || npc.isNeedsPlacement())
                 continue;
             if (npc.tile().isWithinDistance(playerTile)) {
+                added++;
                 localNpcs.add(npc);
                 addNPC(player, npc, packet);
                 npc.inViewport(true); // Mark as in viewport

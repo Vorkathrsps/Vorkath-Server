@@ -1,8 +1,10 @@
 package com.aelous.model.entity.npc;
 
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.combat.method.impl.npcs.bosses.corruptedhunleff.CorruptedHunleff;
 import com.aelous.model.entity.combat.method.impl.npcs.karuulm.Wyrm;
+import com.aelous.model.entity.player.PlayerMovement;
 import com.google.common.base.Stopwatch;
 import com.aelous.GameServer;
 import com.aelous.cache.definitions.NpcDefinition;
@@ -44,6 +46,7 @@ import com.aelous.utility.NpcPerformance;
 import com.aelous.utility.SecondsTimer;
 import com.aelous.utility.Utils;
 import com.aelous.utility.timers.TimerKey;
+import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -132,6 +135,7 @@ public class NPC extends Entity {
     private boolean respawns = true;
     private boolean venomImmune;
     private boolean poisonImmune;
+    @Getter
     private Area spawnArea;
     private int transmog = -1;
 
@@ -438,16 +442,18 @@ public class NPC extends Entity {
 
     }
 
+    public boolean useSmartPath;
+
     private void sequenceNormal() {
         action.sequence();
         TaskManager.sequenceForMob(this);
         getTimers().cycle(this);
         findAgroTarget();
         getCombat().processRoute();
-        if (id == 8063)
+        if (useSmartPath)
             TargetRoute.beforeMovement(this);
         getMovementQueue().process();
-        if (id == 8063)
+        if (useSmartPath)
             TargetRoute.afterMovement(this);
         //Process the bot handler!
         if (getBotHandler() != null) {
@@ -866,6 +872,12 @@ public class NPC extends Entity {
     @Override
     public boolean dead() {
         return hp == 0;
+    }
+
+    private final NpcMovement movementQueue = new NpcMovement(this);
+    @Override
+    public NpcMovement getMovementQueue() {
+        return movementQueue;
     }
 
     @Override

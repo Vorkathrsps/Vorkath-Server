@@ -125,6 +125,9 @@ public class NPCInteractionHandler implements PacketListener {
             return;
         }
 
+        if (player.getCombat().inCombat()) {
+            player.getCombat().reset();
+        }
 
         player.setPositionToFace(npc.tile());
         player.debugMessage("NPCDebug=" + option + " Id=" + npc.id() + " name=" + npc.getMobName() + " Pos=" + npc.tile().toString());

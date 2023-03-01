@@ -28,9 +28,7 @@ public class ItemOnNpcPacketListener implements PacketListener {
         final int itemId = packet.readShortA();
         final int npcIdx = packet.readShortA();
         final int itemSlot = packet.readLEShort();
-        final int unknown = packet.readShortA();//interfaceitemSelectionTypeIn
-
-        System.err.println("Unknown value from item on npc="+unknown);
+        final int fromInterfaceId = packet.readShortA();//interfaceitemSelectionTypeIn
 
 
         NPC npc = World.getWorld().getNpcs().get(npcIdx);

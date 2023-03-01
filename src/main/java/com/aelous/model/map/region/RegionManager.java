@@ -76,13 +76,10 @@ public class RegionManager {
     public static Region getRegion(int regionId) {
         Region region = regions.get(regionId);
         if (region == null) {
-            /*try {
-                throw new RuntimeException("track me");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }*/
-            //Thread.dumpStack();
-            //System.err.println("missing region "+regionId);
+            region = new Region(regionId, -1, -1);
+            logger.debug("Region not found in 317 dump {}", regionId );
+            regions.put(regionId, region);
+            // do NOT put loadMapFIles here - will cause loop
         }
         return region;
     }
@@ -587,9 +584,15 @@ public class RegionManager {
                 // log when game is running
                 //logger.trace("clipmap region {} at {} loaded in {} ns", regionId, Tile.regionToTile(regionId), stopwatch.elapsed().toNanos());
           //  }
-
         } catch (Exception e) {
-            logger.catching(e);
+            throw new MapDecodeEx("map decode", e);
+        }
+    }
+
+    public static final class MapDecodeEx extends RuntimeException {
+
+        public MapDecodeEx(String mapDecode, Exception e) {
+            super(mapDecode, e);
         }
     }
 }

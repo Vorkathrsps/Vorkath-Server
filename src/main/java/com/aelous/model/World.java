@@ -309,9 +309,20 @@ public class World {
             @Override
             public void execute(int index) {
                 NPC npc = npcs.get(index);
-                if (RegionManager.getRegion(npc.getX(), npc.getY()) == null) {
-                    //System.err.println("region "+npc.getCentrePosition().region()+" missing @ "+npc.getCentrePosition());
-                    return;
+                try {
+                    if (RegionManager.getRegion(npc.getX(), npc.getY()) == null) {
+                        //System.err.println("region "+npc.getCentrePosition().region()+" missing @ "+npc.getCentrePosition());
+                        logger.error("despawn npc due to missing map {}", npc);
+                        synchronized (npcs) {
+                            npcs.remove(npc);
+                        }
+                        return;
+                    }
+                } catch (Exception e) {
+                    logger.error("despawn npc due to missing map {}", npc);
+                    synchronized (npcs) {
+                        npcs.remove(npc);
+                    }
                 }
                 try {
                     if (npc != null && !npc.hidden()) {

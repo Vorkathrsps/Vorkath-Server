@@ -236,7 +236,9 @@ public class Hit {
                     success = target.isPlayer() ? RangeAccuracy.doesHit(attacker, target, combatType) : target.isNpc() ? RangeAccuracyNpc.doesHit(attacker, target, combatType) : RangeAccuracy.doesHit(attacker, target, combatType);
                 }
                 case MELEE -> {
-                    success = MeleeAccuracy.doesHit(attacker, target, combatType);
+                    if (attacker.isPlayer() && target.isPlayer()) {
+                        success = MeleeAccuracy.doesHit(attacker, target, combatType);
+                    }
                 }
             }
         }

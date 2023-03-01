@@ -82,6 +82,7 @@ public class NexCombat extends CommonCombatMethod {
             NPC npc = entity.getAsNpc();
             final Nex nex = (Nex) npc;
             attackCount += 1;
+            nex.useSmartPath = true;
             if (nex.getAttacksStage() == 0) {
                 if (nex.getLastVirus() < Utils.currentTimeMillis() && attackCount == 1) {
                     virusAttack(nex, target);
@@ -531,7 +532,7 @@ public class NexCombat extends CommonCombatMethod {
 
     @Override
     public int getAttackDistance(Entity entity) {
-        return 20;
+        return 8;
     }
 
     @Override

@@ -67,7 +67,7 @@ public class NexCombat extends CommonCombatMethod {
 
     private static final int[] DRAIN = { Skills.ATTACK, Skills.STRENGTH, Skills.DEFENCE};
 
-    static GameObject redBarrier = new GameObject(42941, ancientBarrierPurple.get().tile(), ancientBarrierPurple.get().getType(), ancientBarrierPurple.get().getRotation());
+    static GameObject redBarrier;// = new GameObject(42941, ancientBarrierPurple.get().tile(), ancientBarrierPurple.get().getType(), ancientBarrierPurple.get().getRotation());
 
     public static final Area NEX_AREA = new Area(2910, 5189, 2939, 5217);
 

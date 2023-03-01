@@ -104,7 +104,10 @@ public class NPC extends Entity {
     }
 
     public boolean isRandomWalkAllowed() {
-        return spawnArea != null && !hidden() && getMovement().isAtDestination() && !locked() && !isMovementBlocked(false, false);
+        return spawnArea != null && !hidden() && getMovement().isAtDestination()
+                && closePlayers(15).length > 0
+                && !locked()
+                && !isMovementBlocked(false, false);
     }
 
     public boolean isWorldBoss() {

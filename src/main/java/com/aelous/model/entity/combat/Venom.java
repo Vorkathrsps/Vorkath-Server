@@ -80,9 +80,8 @@ public class Venom {
         cure(type, e, true);
     }
 
-    public static void cure(int type, Entity e, boolean msg) {
-        int venomVal = e.getAttribOr(AttributeKey.VENOM_TICKS, 0);
-        Player player = (Player) e;
+    public static void cure(int type, Entity player, boolean msg) {
+        int venomVal = player.getAttribOr(AttributeKey.VENOM_TICKS, 0);
         if (type == 1) { // normal poison cure.
             if (venomVal > 0 && msg) {
                 player.message("<col=145A32>The potion cures the venom, however you are still poisoned.");

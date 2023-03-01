@@ -164,10 +164,6 @@ public class GameServer {
      */
     public static void main(String[] args) {
         try {
-            if (properties().redirectOutStream) {
-                System.setOut(new StackLogger(System.out, "out.txt", "out"));
-                System.setErr(new StackLogger(System.err, "err.txt", "err"));
-            }
             //This is the time we start loading the server. We have a separate variable for after we have bound the server.
             startTime = System.currentTimeMillis();
             File store = new File(properties().fileStore);

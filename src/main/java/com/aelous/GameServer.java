@@ -8,7 +8,6 @@ import com.aelous.model.World;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.save.PlayerSave;
 import com.aelous.services.discord.DiscordBot;
-import com.aelous.utility.StackLogger;
 import com.aelous.utility.test.generic.PlayerProfileVerf;
 import com.aelous.utility.DiscordWebhook;
 import com.aelous.utility.flood.Flooder;

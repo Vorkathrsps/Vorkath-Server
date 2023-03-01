@@ -1,6 +1,5 @@
 package com.aelous.utility.test.unit;
 
-import com.aelous.utility.StackLogger;
 import com.aelous.cache.definitions.ItemDefinition;
 import com.aelous.GameBuilder;
 import com.aelous.model.World;
@@ -27,7 +26,6 @@ public class ItemBloodMoneyValueTest {
 
     @Test
     void shopItems() {
-        StackLogger.enableStackLogger();
         List<Item> items = new ArrayList<>();
         List<Item> itemsMissingValues = new ArrayList<>();
         boolean missingValues = false;
@@ -79,7 +77,6 @@ public class ItemBloodMoneyValueTest {
     }
     @Test
     void pvpTradableItems() {
-        StackLogger.enableStackLogger();
         List<Item> itemsMissingValues = new ArrayList<>();
         boolean missingValues = false;
         for (Integer item : Item.TRADABLES) {
@@ -102,7 +99,6 @@ public class ItemBloodMoneyValueTest {
     }
     @Test
     void npcDropItems() {
-        StackLogger.enableStackLogger();
         List<Item> itemsMissingValues = new ArrayList<>();
         HashMap<Integer, Integer> nonStandardNotedIds = new HashMap<>();
         HashMap<Integer, Integer> npcDrops = new HashMap<>();
@@ -154,7 +150,6 @@ public class ItemBloodMoneyValueTest {
     }
     @Test
     void notedValuesTest() {
-        StackLogger.enableStackLogger();
         boolean notedValuesCorrect = true;
         List<Item> itemsIncorrectValues = new ArrayList<>();
         World world = new World();

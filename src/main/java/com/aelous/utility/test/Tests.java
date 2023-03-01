@@ -1,11 +1,9 @@
 package com.aelous.utility.test;
 
-import com.aelous.utility.StackLogger;
 import com.aelous.utility.test.generic.*;
 
 public class Tests {
     public static void main(String[] args) {
-        StackLogger.enableStackLogger();
         System.out.println("Running TimeZoneTest");
         TimeZoneTest.main(args);
         //System.out.println("Running ListVersusHashSetTest");

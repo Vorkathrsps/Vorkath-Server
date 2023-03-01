@@ -1,6 +1,5 @@
 package com.aelous.utility.test.generic;
 
-import com.aelous.utility.StackLogger;
 import com.aelous.utility.Utils;
 /*
  * In this class, we can test all kinds of random number generation,
@@ -8,7 +7,6 @@ import com.aelous.utility.Utils;
  */
 public class RandomNumberTest {
     public static void main(String[] args) {
-        StackLogger.enableStackLogger();
         System.out.println("Running RandomNumberTest.");
         int[] randoms = Utils.uniqueRandoms(1, 10, 10);
         for (int random : randoms) {

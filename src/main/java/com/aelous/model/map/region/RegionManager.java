@@ -493,10 +493,14 @@ public class RegionManager {
             r.setLoaded(true);
 
             Stopwatch stopwatch = Stopwatch.createStarted();
+            byte[] oFileData = null;
+            byte[] gFileData = null;
             // Attempt to create streams..
-            byte[] oFileData = CompressionUtil.gunzip(
+            if (r.getObjectFile() != -1)
+                oFileData = CompressionUtil.gunzip(
                 FileUtil.readFile(GameServer.properties().clippingDirectory + "maps/" + r.getObjectFile() + ".gz"));
-            byte[] gFileData = CompressionUtil.gunzip(
+            if (r.getTerrainFile() != -1)
+                gFileData = CompressionUtil.gunzip(
                 FileUtil.readFile(GameServer.properties().clippingDirectory + "maps/" + r.getTerrainFile() + ".gz"));
 
             // Don't allow ground file to be invalid..

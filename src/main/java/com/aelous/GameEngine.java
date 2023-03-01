@@ -11,10 +11,13 @@ import com.aelous.model.World;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.utility.NpcPerformance;
+import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+
+import java.util.Deque;
 import java.util.Queue;
 import java.util.concurrent.*;
 import org.apache.logging.log4j.LogManager;
@@ -198,6 +201,7 @@ public final class GameEngine implements Runnable {
     }
 
     public static TimesCycle profile;
+    public Deque<Long> recentTicks = Queues.newArrayDeque();
 
     @Override
     public void run() {
@@ -227,9 +231,14 @@ public final class GameEngine implements Runnable {
             long totalGround = System.currentTimeMillis() - startGround;
             successfulGroundItem = true;
 
+            var pastTime = (System.currentTimeMillis() - start);
             String osName = System.getProperty("os.name");
             String osNameMatch = osName.toLowerCase();
-            profile.total = (System.currentTimeMillis() - start);
+            profile.total = pastTime;
+            recentTicks.add(pastTime);
+            if (recentTicks.size() > 10)
+                recentTicks.removeFirst();
+            logger.info("average-cycle-last-10-ticks: " + (recentTicks.stream().mapToLong(l ->l).sum() / 10L) + "ms");
 
             lagChecks(uptime, totalPending, totalGround, osNameMatch);
 

@@ -267,7 +267,6 @@ public class NPCInteractionHandler implements PacketListener {
         }
         if (option == 4) {
 
-            return;
         }
     }
 

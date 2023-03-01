@@ -281,9 +281,6 @@ public class Combat {
         if (!CombatFactory.validTarget(mob, target)) {
             return false;
         }
-        if (!CombatFactory.canReach(mob, method, target)) {
-            return false;
-        }
         if (!CombatFactory.canAttack(mob, method, target)) {
             return false;
         }

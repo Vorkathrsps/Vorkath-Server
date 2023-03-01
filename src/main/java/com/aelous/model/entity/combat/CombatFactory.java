@@ -550,7 +550,8 @@ public class CombatFactory {
                     return false;
                 }
             } else {
-                return DumbRoute.withinDistance(attacker, target, method.getAttackDistance(attacker));
+                DumbRoute.withinDistance(attacker, target, method.getAttackDistance(attacker));
+                return true;
             }
         }
         return true;

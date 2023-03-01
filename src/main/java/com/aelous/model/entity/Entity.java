@@ -1349,7 +1349,10 @@ public abstract class Entity {
 
     public boolean addStep(int absX, int absY) {
         MovementQueue movement = getMovement();
-        if (movement.writeOffset < 50) {
+        if (movement.writeOffset > 25)
+            movement.writeOffset = 25;
+            movement.writeOffset--;
+        if (movement.writeOffset < 25) {
             movement.getStepsX()[movement.writeOffset] = absX;
             movement.getStepsY()[movement.writeOffset] = absY;
             movement.writeOffset++;

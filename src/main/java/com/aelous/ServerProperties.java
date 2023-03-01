@@ -103,7 +103,7 @@ public final class ServerProperties {
 
     private ServerProperties(boolean sqlOn, boolean discordLoggingOn) {
         // Default property values. If the server properties file exists, these will be ignored.
-        gameVersion = "2";
+        gameVersion = "3";
         definitionsDirectory = "./data/def/";
         dumpDefinitionsDirectory = "./data/dump/";
         clippingDirectory = "./data/map/clipping/";

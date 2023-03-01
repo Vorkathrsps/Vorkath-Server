@@ -152,16 +152,16 @@ public class MeleeAccuracy {
             }
         }
 
-        if (defender.isNpc()) {
-            NPC npc = (NPC) defender;
+        //if (defender.isNpc()) {
+          //  NPC npc = (NPC) defender;
 
-            if (npc.id() == CORPOREAL_BEAST) {
-                if (weapon != null && getEquipment.corpbeastArmour(weapon) && attackType != null && attackType.equals(AttackType.STAB)) {
-                    effectiveLevel -= 1.5;
-                }
-            }
+          //  if (npc.id() == CORPOREAL_BEAST) {
+           //     if (weapon != null && getEquipment.corpbeastArmour(weapon) && attackType != null && attackType.equals(AttackType.STAB)) {
+           //         effectiveLevel -= 1.5;
+           //     }
+          //  }
 
-            if (FormulaUtils.isDragon(npc)) {
+          /*  if (FormulaUtils.isDragon(npc)) {
                 if (FormulaUtils.hasDragonHunterLance((Player) attacker)) {
                     effectiveLevel *= 1.20;
                     effectiveLevel = (int) Math.floor(effectiveLevel);
@@ -173,8 +173,8 @@ public class MeleeAccuracy {
                     effectiveLevel *= 1.7;
                     effectiveLevel = (int) Math.floor(effectiveLevel);
                 }
-            }
-        }
+            }*/
+       // }
 
         return effectiveLevel;
     }

@@ -107,12 +107,12 @@ public class MobFollowTask extends Task {
         }
     }
 
-    public MobFollowTask setFollowing(Entity following) {
-        this.following = following;
-        return this;
-    }
+        public MobFollowTask setFollowing (Entity following){
+            this.following = following;
+            return this;
+        }
 
-    public Entity getFollow() {
-        return following;
+        public Entity getFollow () {
+            return following;
+        }
     }
-}

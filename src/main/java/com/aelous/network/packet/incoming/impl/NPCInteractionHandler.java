@@ -129,7 +129,6 @@ public class NPCInteractionHandler implements PacketListener {
             player.getCombat().reset();
         }
 
-        player.setPositionToFace(npc.tile());
         player.debugMessage("NPCDebug=" + option + " Id=" + npc.id() + " name=" + npc.getMobName() + " Pos=" + npc.tile().toString());
         player.putAttrib(AttributeKey.TARGET, new WeakReference<Entity>(npc));
         player.putAttrib(AttributeKey.INTERACTION_OPTION, option);
@@ -147,6 +146,7 @@ public class NPCInteractionHandler implements PacketListener {
                 bankerAction.run();
                 return;
             }
+            npc.setPositionToFace(player.tile());
             player.setInteractingNpcId(npc.id());
             handleInteraction(player, npc, finalOption);
             npc.getMovementQueue().setBlockMovement(false);

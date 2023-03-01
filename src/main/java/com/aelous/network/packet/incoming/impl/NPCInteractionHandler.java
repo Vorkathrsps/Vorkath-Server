@@ -60,7 +60,7 @@ public class NPCInteractionHandler implements PacketListener {
         int index = -1, option = -1;
 
         if (opcode == ATTACK_OPTION) {
-            index = packet.readShortA();
+            index = packet.readUnsignedShortA();
             option = 0;
         }
         if (opcode == OPTION_1 || opcode == OPTION_4) {

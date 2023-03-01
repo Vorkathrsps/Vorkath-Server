@@ -61,8 +61,10 @@ public class DumbRoute {
     }
 
     public static boolean withinDistance(Entity entity, Entity target, int distance) {
-        if (entity.getRouteFinder() == null || entity.getRouteFinder().routeEntity == null)
+        if (entity.getRouteFinder() == null || entity.getRouteFinder().routeEntity == null) {
+            // fallback when no PF set
             DumbRoute.step(entity, target, distance);
+        }
         Tile source = entity.tile();
         if (entity.getSize() > 1) {
             source =

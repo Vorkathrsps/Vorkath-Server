@@ -45,7 +45,7 @@ public class ScorpiaGuardian {
                     stop();
                     return;
                 }
-
+                // manually follow the boss, it's not our combat target.
                 DumbRoute.step(minion, scorpia, 1);
             }
         });

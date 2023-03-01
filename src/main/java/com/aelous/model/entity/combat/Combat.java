@@ -721,7 +721,7 @@ public class Combat {
                 commonCombatMethod.set(mob, target);
                 commonCombatMethod.doFollowLogic();
             } else {
-                // the normal code for all mobs.
+                // the normal code for all mobs who dont have CommonCombat as their script
                 DumbRoute.step(mob, target, method.getAttackDistance(mob));
             }
         }

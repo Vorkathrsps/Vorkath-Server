@@ -10,7 +10,6 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
-import com.aelous.model.map.route.StepType;
 import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.utility.chainedwork.Chain;
 
@@ -63,7 +62,7 @@ public class FaladorRooftop extends PacketInteraction {
             Chain.bound(player).name("FaladorTightrope1Task").runFn(1, () -> {
                 player.looks().render(763, 762, 762, 762, 762, 762, -1);
                 player.agilityWalk(false);
-                player.stepAbs(3047, 3343, StepType.FORCE_WALK);
+                player.stepAbs(3047, 3343, MovementQueue.StepType.FORCED_WALK);
             }).waitForTile(new Tile(3047, 3343), () -> {
                 player.agilityWalk(true);
                 player.looks().resetRender();

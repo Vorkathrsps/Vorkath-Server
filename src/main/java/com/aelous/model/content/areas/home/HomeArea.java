@@ -2,6 +2,7 @@ package com.aelous.model.content.areas.home;
 
 import com.aelous.model.content.packet_actions.interactions.objects.Ladders;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
+import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.items.tradingpost.TradingPost;
 import com.aelous.model.World;
 import com.aelous.model.entity.npc.NPC;
@@ -9,7 +10,6 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
-import com.aelous.model.map.route.StepType;
 import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.utility.chainedwork.Chain;
 
@@ -33,7 +33,7 @@ public class HomeArea extends PacketInteraction {
                     Chain.bound(player).name("FaladorTightrope1Task").runFn(1, () -> {
                         player.looks().render(763, 762, 762, 762, 762, 762, -1);
                         player.agilityWalk(false);
-                        player.stepAbs(2053, 3621, StepType.FORCE_WALK);
+                        player.stepAbs(2053, 3621, MovementQueue.StepType.FORCED_WALK);
                     }).waitForTile(new Tile(2053, 3621), () -> {
                         player.agilityWalk(true);
                         player.looks().resetRender();
@@ -46,7 +46,7 @@ public class HomeArea extends PacketInteraction {
                 Chain.bound(player).name("FaladorTightrope1Task").runFn(1, () -> {
                     player.looks().render(763, 762, 762, 762, 762, 762, -1);
                     player.agilityWalk(false);
-                    player.stepAbs(2037, 3621, StepType.FORCE_WALK);
+                    player.stepAbs(2037, 3621, MovementQueue.StepType.FORCED_WALK);
                 }).waitForTile(new Tile(2037, 3621), () -> {
                     player.agilityWalk(true);
                     player.looks().resetRender();

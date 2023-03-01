@@ -3,6 +3,7 @@ package com.aelous.model.content.areas.dungeons.brimhaven;
 import com.aelous.model.content.skill.impl.woodcutting.Woodcutting;
 import com.aelous.core.task.Task;
 import com.aelous.core.task.TaskManager;
+import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.inter.dialogue.Dialogue;
 import com.aelous.model.inter.dialogue.DialogueType;
 import com.aelous.model.entity.player.Player;
@@ -10,7 +11,6 @@ import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
-import com.aelous.model.map.route.StepType;
 import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.utility.chainedwork.Chain;
 
@@ -70,7 +70,7 @@ public class BrimhavenDungeon extends PacketInteraction {
                 }
 
                 player.animate(-1);
-                player.stepAbs(targetX, targetY, StepType.FORCE_WALK);
+                player.stepAbs(targetX, targetY, MovementQueue.StepType.FORCED_WALK);
                 player.waitForTile(new Tile(targetX, targetY), player::unlock);
             });
         });

@@ -9,7 +9,6 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
-import com.aelous.model.map.route.StepType;
 import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.utility.Color;
 import com.aelous.utility.Utils;
@@ -42,7 +41,7 @@ public class RiskFightArea extends PacketInteraction {
                 default: break;
             }
             player.lock();
-            player.stepAbs(x, y, StepType.FORCE_WALK);
+            player.stepAbs(x, y, MovementQueue.StepType.FORCED_WALK);
             final int finalY = y;
             player.waitForTile(new Tile(x, finalY), player::unlock);
         });

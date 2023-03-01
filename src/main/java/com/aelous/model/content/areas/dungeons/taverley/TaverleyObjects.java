@@ -2,12 +2,12 @@ package com.aelous.model.content.areas.dungeons.taverley;
 
 import com.aelous.core.task.TaskManager;
 import com.aelous.core.task.impl.ForceMovementTask;
+import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.masks.ForceMovement;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
-import com.aelous.model.map.route.StepType;
 import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.utility.chainedwork.Chain;
 
@@ -45,9 +45,9 @@ public class TaverleyObjects extends PacketInteraction {
                 player.lockDelayDamage();
                 player.looks().render(1237, 1237, 1237, 1237, 1237, 1237, -1);
                 if (obj.tile().x == player.getAbsX() && obj.tile().y == player.getAbsY())
-                    player.step(1, 0, StepType.FORCE_WALK);
+                    player.step(1, 0, MovementQueue.StepType.FORCED_WALK);
                 else
-                    player.step(-1, 0, StepType.FORCE_WALK);
+                    player.step(-1, 0, MovementQueue.StepType.FORCED_WALK);
                 Chain.bound(null).runFn(1, () -> {
                     player.looks().resetRender();
                     player.unlock();

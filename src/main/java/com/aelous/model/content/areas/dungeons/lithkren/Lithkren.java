@@ -1,11 +1,11 @@
 package com.aelous.model.content.areas.dungeons.lithkren;
 
+import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.inter.dialogue.DialogueManager;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
-import com.aelous.model.map.route.StepType;
 import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.cache.definitions.identifiers.NumberUtils;
 
@@ -77,7 +77,7 @@ public class Lithkren extends PacketInteraction {
                     default: break;
                 }
                 player.lock();
-                player.stepAbs(x, y, StepType.FORCE_WALK);
+                player.stepAbs(x, y, MovementQueue.StepType.FORCED_WALK);
                 final int finalX = x;
                 final int finalY = y;
                 player.waitForTile(new Tile(finalX, finalY), player::unlock);

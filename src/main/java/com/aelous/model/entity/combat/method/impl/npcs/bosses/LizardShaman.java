@@ -5,6 +5,7 @@ import com.aelous.model.content.mechanics.Poison;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
@@ -50,7 +51,7 @@ public class LizardShaman extends CommonCombatMethod {
         }).then(2, () -> {
             spawn.getMovementQueue().clear();
             spawn.hidden(true);
-            World.getWorld().tileGraphic(1295, spawn.tile(), 1, 0);
+            World.getWorld().tileGraphic(1295, spawn.tile(), 1, 30);
 
             World.getWorld().getPlayers().forEach(p -> {
                 if (p.tile().inSqRadius(spawn.tile(), 1))
@@ -67,11 +68,12 @@ public class LizardShaman extends CommonCombatMethod {
 
     private void primate_ranged_attack(NPC npc, Entity target) {
         int tileDist = npc.tile().transform(1, 1, 0).distance(target.tile());
-        var delay = Math.max(1, (50 + (tileDist * 12)) / 30);
-
+        int duration = (41 + -5 + (5 * tileDist));
         npc.animate(7193);
-        //new Projectile(npc, target, 1291, 12 * tileDist, 120, 120, 43, 0, 5).sendProjectile();
-        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+        Projectile p1 = new Projectile(entity, target, 1291, 41, duration, 80, 36, 0, target.getSize(), 5);
+        final int delay = entity.executeProjectile(p1);
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
+        hit.submit();
         npc.getTimers().register(TimerKey.COMBAT_ATTACK, npc.combatInfo().attackspeed);
     }
 
@@ -95,30 +97,31 @@ public class LizardShaman extends CommonCombatMethod {
     }
 
     private void green_acidic_attack(NPC npc, Entity target) {
-        SecureRandom secureRandom = new SecureRandom();
         var green_acidic_orb = new Tile(target.tile().x, target.tile().y);
-        var green_acidic_orb_distance = entity.tile().getChevDistance(target.tile());
-        var green_acidic_orb_delay = Math.max(2, (900 + green_acidic_orb_distance * 12) / 15);
-        var green_acidic_orb_hit_delay = Math.max(1, (30 + green_acidic_orb_distance * 12) / 18);
-        //final int delay = npc.executeProjectile(new Projectile(npc, target, 1293, green_acidic_orb_delay, 0, 90, 0, 0, 5));
+        var tileDist = npc.tile().distance(target.tile());
+        int duration = (64 + 11 + (10 * tileDist));
 
         npc.animate(7193);
-        //World.getWorld().tileGraphic(1294, green_acidic_orb, GraphicHeight.LOW.ordinal(), delay);
+        Projectile p1 = new Projectile(entity, target, 1293, 51, duration, 43, 0, 0, target.getSize(), 10);
+        final int delay1 = entity.executeProjectile(p1);
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay1, CombatType.MAGIC).checkAccuracy();
+        hit.submit();
 
         Chain.bound(entity).runFn(4, () -> {
-                    if (target.tile().inSqRadius(green_acidic_orb, 1)) {
-                        target.hit(npc, secureRandom.nextInt(30), CombatType.RANGED).submit();
-                        if (!Poison.poisoned(target)) {
-                            if (!CombatFactory.fullShayzien(target)) {
-                                if (secureRandom.nextDouble() <= 0.50) {
-                                    target.poison(10);
-                                }
-                            }
+            if (target.tile().inSqRadius(green_acidic_orb, 1)) {
+                target.hit(npc, Utils.random(30), CombatType.RANGED).submit();
+                if (!Poison.poisoned(target)) {
+                    if (!CombatFactory.fullShayzien(target)) {
+                        if (Utils.securedRandomChance(0.50)) {
+                            target.poison(10);
                         }
                     }
+                }
+            }
         });
-            npc.getTimers().register(TimerKey.COMBAT_ATTACK, npc.combatInfo().attackspeed);
-        }
+        npc.getTimers().register(TimerKey.COMBAT_ATTACK, npc.combatInfo().attackspeed);
+        World.getWorld().tileGraphic(1294, green_acidic_orb, GraphicHeight.LOW.ordinal(), p1.getSpeed());
+    }
 
     @Override
     public int getAttackSpeed(Entity entity) {

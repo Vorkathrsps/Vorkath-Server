@@ -40,9 +40,9 @@ public class RangeAccuracy {
         double selectedChance = srand.nextInt(10000) / 10000.0;
 
         if (attackBonus > defenceBonus)
-            successfulRoll = 1 - (defenceBonus + 2D) / (2D * (attackBonus + 1D));
+            successfulRoll = 1D - (Math.floor(defenceBonus + 2D)) / (2D * (Math.floor(attackBonus + 1D)));
         else
-            successfulRoll = attackBonus / (2D * (defenceBonus + 1D));
+            successfulRoll = attackBonus / (2D * (Math.floor(defenceBonus + 1D)));
 
         System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 

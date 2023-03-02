@@ -139,15 +139,15 @@ public class MagicAccuracyNpc {
                 bonus = defenderBonus.magedef;
             }
         }
-        return (int) Math.floor(bonus + 64);
+        return bonus;
     }
 
     public static int getEffectiveLevelDefender(Entity defender) {
-        return (int) Math.floor(getMagicLevelNpc(defender) + 9D);
+        return (int) Math.floor(getMagicLevelNpc(defender) + 9);
     }
 
     public static int getDefenceRoll(Entity defender, CombatType style) {
-        return (int) Math.floor(getEffectiveLevelDefender(defender) * Math.floor(getMagicDefenceLevelNpc(defender, style)));
+        return (int) Math.floor(getEffectiveLevelDefender(defender) * (getMagicDefenceLevelNpc(defender, style) + 64D));
     }
 
     public static int getMagicLevel(Entity attacker) {
@@ -159,7 +159,6 @@ public class MagicAccuracyNpc {
     }
 
     public static int getAttackRoll(Entity attacker, CombatType style) {
-        return (int) Math.floor(getEffectiveLevelAttacker(attacker, style) * (Math.floor(getEquipmentBonus(attacker, style) + 64D)));
+        return (int) Math.floor(getEffectiveLevelAttacker(attacker, style) * (getEquipmentBonus(attacker, style) + 64D));
     }
-
 }

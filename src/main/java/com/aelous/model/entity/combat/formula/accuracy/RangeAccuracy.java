@@ -88,7 +88,14 @@ public class RangeAccuracy {
         var task = SlayerCreature.lookup(task_id);
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
         int effectiveLevel = (int) Math.floor(getRangeLevel(attacker) * getPrayerAttackBonus(attacker));
-        double specialMultiplier = attacker.getAsPlayer().getCombatSpecial() == null ? 1 : attacker.getAsPlayer().getCombatSpecial().getAccuracyMultiplier();
+        double specialMultiplier = 1;
+
+        if (attacker.isPlayer()) {
+            Player player = attacker.getAsPlayer();
+            if (player.getCombatSpecial() != null) {
+                specialMultiplier = player.getCombatSpecial().getAccuracyMultiplier();
+            }
+        }
 
 
         if (fightStyle == FightStyle.ACCURATE) {

@@ -60,15 +60,6 @@ public class RangedData {
             }
         }
 
-        /**
-         * Zaryte crossbow special effect
-         */
-            if (zaryteCrossBowEvoke(p)) {
-                if (damage > 0) {
-                    always_fire_special = true;
-                }
-            }
-
         Item ammo = p.getEquipment().get(EquipSlot.AMMO);
             boolean always_spec = true;
         if(ammo != null) {

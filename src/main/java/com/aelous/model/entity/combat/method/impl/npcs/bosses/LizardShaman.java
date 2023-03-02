@@ -99,7 +99,7 @@ public class LizardShaman extends CommonCombatMethod {
     private void green_acidic_attack(NPC npc, Entity target) {
         var green_acidic_orb = new Tile(target.tile().x, target.tile().y);
         var tileDist = npc.tile().distance(target.tile());
-        int duration = (64 + 11 + (10 * tileDist));
+        int duration = (51 + 11 + (10 * tileDist));
 
         npc.animate(7193);
         Projectile p1 = new Projectile(entity, target, 1293, 51, duration, 43, 0, 0, target.getSize(), 10);

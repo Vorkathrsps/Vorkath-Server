@@ -106,7 +106,7 @@ public class MagicAccuracy {
     }
 
     public static double getPrayerBonus(Entity attacker, CombatType style) {
-        double prayerBonus = 1;
+        double prayerBonus = 1D;
         if (style == CombatType.MAGIC) {
             if (Prayers.usingPrayer(attacker, MYSTIC_WILL))
                 prayerBonus *= 1.05D; // 5% magic level boost

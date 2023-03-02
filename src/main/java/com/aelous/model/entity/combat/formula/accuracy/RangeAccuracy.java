@@ -74,17 +74,13 @@ public class RangeAccuracy {
         int effectiveLevel = (int) Math.floor(getRangeLevel(defender) * getPrayerDefenseBonus(defender));
 
         switch (fightStyle) {
-            case DEFENSIVE:
-                effectiveLevel += 3;
-                break;
-            case CONTROLLED:
-                effectiveLevel += 1;
-                break;
+            case DEFENSIVE -> effectiveLevel = (int) Math.floor(effectiveLevel + 3);
+            case CONTROLLED -> effectiveLevel = (int) Math.floor(effectiveLevel + 1);
         }
 
-        effectiveLevel += 8;
+        effectiveLevel = (int) Math.floor(effectiveLevel + 8);
 
-        return (int) Math.floor(effectiveLevel);
+        return effectiveLevel;
     }
 
     public static int getEffectiveRanged(Entity attacker, CombatType style) {
@@ -96,31 +92,31 @@ public class RangeAccuracy {
 
 
         if (fightStyle == FightStyle.ACCURATE) {
-            effectiveLevel += 3;
+            effectiveLevel = (int) Math.floor(effectiveLevel + 3);
         }
 
-        effectiveLevel += 8;
+        effectiveLevel = (int) Math.floor(effectiveLevel + 8);
 
         if(attacker.isPlayer()) { //additional bonuses here
             if (style.equals(RANGED)) {
                 if (((Player) attacker).getEquipment().contains(ItemIdentifiers.BOW_OF_FAERDHINEN)) {
                     if (((Player) attacker).getEquipment().contains(ItemIdentifiers.CRYSTAL_HELM)) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.05);
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.05D);
                     }
                     if (((Player) attacker).getEquipment().contains(ItemIdentifiers.CRYSTAL_BODY)) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.15);
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.15D);
                     }
                     if (((Player) attacker).getEquipment().contains(ItemIdentifiers.CRYSTAL_LEGS)) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.10);
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.10D);
                     }
                 }
 
                 if (FormulaUtils.regularVoidEquipmentBaseRanged((Player) attacker)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.10);
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.10D);
                 }
 
                 if (FormulaUtils.eliteVoidEquipmentRanged((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseRanged((Player) attacker)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.125);
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.125D);
                 }
 
                 if (attacker.isPlayer() && attacker.getAsPlayer().isSpecialActivated()) {
@@ -165,13 +161,13 @@ public class RangeAccuracy {
 
     public static int getAttackRoll(Entity attacker, CombatType style) {
         int effectiveRangeLevel = (int) Math.floor(getEffectiveRanged(attacker, style));
-        int equipmentRangeBonus = (int) Math.floor(getGearAttackBonus(attacker, style));
-        return (int) Math.floor(effectiveRangeLevel * equipmentRangeBonus + 64);
+        int equipmentRangeBonus = getGearAttackBonus(attacker, style);
+        return (int) Math.floor(effectiveRangeLevel * (equipmentRangeBonus + 64D));
     }
 
     public static int getDefenceRoll(Entity defender, CombatType style) {
         int effectiveDefenceLevel = (int) Math.floor(getEffectiveDefence(defender));
-        int equipmentRangeBonus = (int) Math.floor(getGearDefenceBonus(defender, style));
-        return (int) Math.floor(effectiveDefenceLevel * equipmentRangeBonus + 64);
+        int equipmentRangeBonus = getGearDefenceBonus(defender, style);
+        return (int) Math.floor(effectiveDefenceLevel * (equipmentRangeBonus + 64D));
     }
 }

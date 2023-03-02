@@ -1,6 +1,7 @@
 package com.aelous.model.entity.combat.hit;
 
 import com.aelous.cache.definitions.NpcDefinition;
+import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
@@ -9,10 +10,13 @@ import com.aelous.model.entity.combat.formula.accuracy.*;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.method.CombatMethod;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
+import com.aelous.model.entity.combat.weapon.AttackType;
+import com.aelous.model.entity.combat.weapon.FightType;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.PlayerStatus;
+import com.aelous.utility.ItemIdentifiers;
 
 import java.security.SecureRandom;
 import java.util.function.Consumer;
@@ -230,7 +234,7 @@ public class Hit {
         if (combatType != null) {
             switch (combatType) {
                 case MAGIC -> {
-                    success = target.isPlayer() ? MagicAccuracy.doesHit(attacker, target, combatType) : target.isNpc() ?  MagicAccuracyNpc.doesHit(attacker, target, combatType) : MagicAccuracy.doesHit(attacker, target, combatType);
+                    success = target.isPlayer() ? MagicAccuracy.doesHit(attacker, target, combatType) : target.isNpc() ? MagicAccuracyNpc.doesHit(attacker, target, combatType) : MagicAccuracy.doesHit(attacker, target, combatType);
                 }
                 case RANGED -> {
                     success = target.isPlayer() ? RangeAccuracy.doesHit(attacker, target, combatType) : target.isNpc() ? RangeAccuracyNpc.doesHit(attacker, target, combatType) : RangeAccuracy.doesHit(attacker, target, combatType);
@@ -256,30 +260,36 @@ public class Hit {
             accurate = true;
 
         if (!accurate) {
-            //The hit wasn't accurate. Blocked by defence. Don't do any damage.
             damage = 0;
         } else {
-            //The hit was accurate. Getting random damage..
             if (oneHitActive) {
                 damage = target.hp();
             } else if (alwaysHitActive) {
                 damage = alwaysHitDamage;
             } else {
-                //When Nex uses turmoil his hits are boosted by 10%
-                //Yup lol ur server isnt even properly configured and shit welp have fun XD
                 if (attacker instanceof NPC) {
                     NpcDefinition def = attacker.getAsNpc().def();
                     String name = def.name;
                     if (attacker.isNpc() && name != null && name.equalsIgnoreCase("Nex") && attacker.<Boolean>getAttribOr(AttributeKey.TURMOIL_ACTIVE, false)) {
                         this.damage *= 1.10;
                     }
+                    if (attacker.isPlayer() && target.getAsNpc().id() == (NpcIdentifiers.CORPOREAL_BEAST)) {
+                        if (!attacker.getAsPlayer().getCombat().combatType().equals(CombatType.MAGIC)) {
+                            if (!attacker.getCombat().getFightType().getAttackType().equals(AttackType.STAB) &&
+                                !attacker.getAsPlayer().getEquipment().containsAny(
+                                    ItemIdentifiers.VESTAS_SPEAR, ItemIdentifiers.LEAFBLADED_SPEAR,
+                                    ItemIdentifiers.GUTHANS_WARSPEAR, ItemIdentifiers.ZAMORAKIAN_SPEAR,
+                                    ItemIdentifiers.ZAMORAKIAN_HASTA, ItemIdentifiers.OSMUMTENS_FANG,
+                                    ItemIdentifiers.OSMUMTENS_FANG_OR, ItemIdentifiers.CRYSTAL_HALBERD,
+                                    ItemIdentifiers.CRYSTAL_HALBERD_FULL, ItemIdentifiers.NEW_CRYSTAL_HALBERD_FULL, ItemIdentifiers.DRAGON_HALBERD)) {
+                                this.damage = (int) Math.floor(this.damage * 0.5);
+                            }
+                        }
+                    }
                 }
-                // use existing damage
                 damage = this.damage;
             }
         }
-
-        //Update total damage
         this.damage = damage;
     }
 

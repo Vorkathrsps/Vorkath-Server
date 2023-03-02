@@ -194,6 +194,12 @@ public class IncomingHandler {
         PACKETS[142] = new InputFieldPacketListener();
 
         PACKETS[127] = new GambleRequestAccept();
+        PACKETS[125] = new PacketListener() {
+            @Override
+            public void handleMessage(Player player, Packet packet) throws Exception {
+                System.out.println("hello "+packet.readUnsignedShort());
+            }
+        };
 
         PACKETS[160] = new PacketListener() {
             private final Logger logger = LogManager.getLogger(PacketListener.class);
@@ -215,7 +221,7 @@ public class IncomingHandler {
         };
 
         PACKET_NAMES[3] = "KeystrokeListner";
-        PACKET_NAMES[187] = "SPAWN_TAB_ACTION_OPCODE";
+       // PACKET_NAMES[187] = "SPAWN_TAB_ACTION_OPCODE";
         PACKET_NAMES[35] = "MAGIC_ON_OBJECT";
         PACKET_NAMES[127] = "GAMBLE_REQUEST_ACCEPT";
         PACKET_NAMES[177] = "WIDGET_SLOT_CHANGE";
@@ -415,7 +421,7 @@ public class IncomingHandler {
         PACKET_SIZES[122] = 6;
         PACKET_SIZES[123] = -3;
         PACKET_SIZES[124] = -3;
-        PACKET_SIZES[125] = -3;
+        PACKET_SIZES[125] = 2;
         PACKET_SIZES[126] = -1;
         PACKET_SIZES[128] = 2;
         PACKET_SIZES[129] = 8;
@@ -476,7 +482,7 @@ public class IncomingHandler {
         PACKET_SIZES[184] = 4;
         PACKET_SIZES[185] = 4;
         PACKET_SIZES[186] = 5;
-        PACKET_SIZES[187] = 6;
+        PACKET_SIZES[187] = -3;
         PACKET_SIZES[188] = -1;
         PACKET_SIZES[189] = 1;
         PACKET_SIZES[190] = -3;
@@ -544,7 +550,6 @@ public class IncomingHandler {
         PACKET_SIZES[OBJECT_SECOND_CLICK_OPCODE] = 8;
         PACKET_SIZES[253] = 6;
         PACKET_SIZES[254] = -3;
-        PACKET_SIZES[255] = -3;
         // Exceeds array no idea why its set to [257] PACKET_SIZES[256] = -3;
     }
 

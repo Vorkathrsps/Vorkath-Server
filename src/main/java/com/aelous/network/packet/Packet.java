@@ -77,6 +77,10 @@ public class Packet {
         return buffer.readableBytes();
     }
 
+    public int getActSize() {
+        return buffer.readByte();
+    }
+
     public int getLength() {
         return buffer.capacity();
     }
@@ -220,7 +224,7 @@ public class Packet {
      */
     public short readLEShort() {
         int value = (readByte() & 0xFF) | (readByte() & 0xFF) << 8;
-        return (short) (value > 32767 ? value - 0x10000 : value);
+        return (short) (value > 32767 ? value - 65536 : value);
     }
 
     /**

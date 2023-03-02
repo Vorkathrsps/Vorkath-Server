@@ -10,8 +10,7 @@ import com.aelous.utility.Color;
 public class InputFieldPacketListener implements PacketListener {
 
     @Override
-    public void handleMessage(Player player, Packet packet) {
-        final int textLength = packet.readByte();
+    public void handleMessage(Player player, Packet packet) { // first byte is varsize -1 shouldnt get read here
         final int component = packet.readInt();
         final String context = packet.readString();
 

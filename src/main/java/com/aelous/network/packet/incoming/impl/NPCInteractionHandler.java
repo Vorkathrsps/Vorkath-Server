@@ -194,22 +194,38 @@ public class NPCInteractionHandler implements PacketListener {
                     } else {
                         player.message("You haven't completed all of the achievements yet.");
                     }
-                    //World.getWorld().shop(41).open(player);
+                    return;
                 }
 
-                case SUROK_MAGIS -> TeleportInterface.teleportRecent(player);
+                case SUROK_MAGIS -> {
+                    TeleportInterface.teleportRecent(player);
+                    return;
+                }
 
-                case GUNDAI -> player.getBank().open();
+                case GUNDAI -> {
+                    player.getBank().open();
+                    return;
+                }
 
-                case MAKEOVER_MAGE_1307 -> player.getInterfaceManager().open(61380);
+                case MAKEOVER_MAGE_1307 -> {
+                    player.getInterfaceManager().open(61380);
+                    return;
+                }
 
 
-                case BOB_BARTER_HERBS -> player.getDialogueManager().start(new BobBarter());
+                case BOB_BARTER_HERBS -> {
+                    player.getDialogueManager().start(new BobBarter());
+                    return;
+                }
                 case THE_COLLECTOR -> {
                     npc.setPositionToFace(player.tile());
                     player.inventory().addOrDrop(new Item(ItemIdentifiers.COLLECTION_LOG, 1));
+                    return;
                 }
-                case FORESTER_7238 -> player.getDialogueManager().start(new ForesterD());
+                case FORESTER_7238 -> {
+                    player.getDialogueManager().start(new ForesterD());
+                    return;
+                }
                 case SURGEON_GENERAL_TAFANI -> {
                     npc.setPositionToFace(player.tile());
                     player.performGraphic(new Graphic(683));
@@ -232,44 +248,41 @@ public class NPCInteractionHandler implements PacketListener {
                             player.message("<col=" + Color.HOTPINK.getColorValue() + ">You have restored your special attack.");
                         }
                     }
+                    return;
                 }
                 case SHOP_KEEPER, SHOP_ASSISTANT_2818 -> {
                     npc.setPositionToFace(player.tile());
                     World.getWorld().shop(1).open(player);
+                    return;
                 }
             }
-            return;
         }
 
         if (option == 3) {
 
-            if (npc.id() == BOB_BARTER_HERBS) {
-                player.getDialogueManager().start(new BobBarter());
-                return;
-            }
-
-            if (npc.id() == TWIGGY_OKORN) {
-                if (AchievementsManager.isCompleted(player, Achievements.COMPLETIONIST)) {
-                    if (player.inventory().getFreeSlots() < 2) {
-                        player.inventory().add(new Item(ItemIdentifiers.ACHIEVEMENT_DIARY_CAPE, 1));
-                        player.inventory().add(new Item(ItemIdentifiers.ACHIEVEMENT_DIARY_HOOD, 1));
-                    } else {
-                        player.message("You need at least 2 free slots.");
-                    }
-                } else {
-                    player.message("You haven't completed all of the achievements yet.");
+            switch (npc.id()) {
+                case BOB_BARTER_HERBS -> {
+                    player.getDialogueManager().start(new BobBarter());
+                    return;
                 }
-                return;
+                case TWIGGY_OKORN -> {
+                    if (AchievementsManager.isCompleted(player, Achievements.COMPLETIONIST)) {
+                        if (player.inventory().getFreeSlots() < 2) {
+                            player.inventory().add(new Item(ItemIdentifiers.ACHIEVEMENT_DIARY_CAPE, 1));
+                            player.inventory().add(new Item(ItemIdentifiers.ACHIEVEMENT_DIARY_HOOD, 1));
+                        } else {
+                            player.message("You need at least 2 free slots.");
+                        }
+                    } else {
+                        player.message("You haven't completed all of the achievements yet.");
+                    }
+                    return;
+                }
+                case GUNDAI -> {
+                    TradingPost.open(player);
+                    return;
+                }
             }
-
-            if (npc.id() == GUNDAI) {
-                TradingPost.open(player);
-                return;
-            }
-            return;
-        }
-        if (option == 4) {
-
         }
     }
 
@@ -301,74 +314,45 @@ public class NPCInteractionHandler implements PacketListener {
         }
 
         switch (npc.id()) {
-
-            case BOB_BARTER_HERBS:
-                player.getDialogueManager().start(new BobBarter());
-                break;
-
-            case MURFET:
-                player.getDialogueManager().start(new MurfetD());
-                break;
-
-            case GUILDMASTER_LARS:
-                player.getDialogueManager().start(new LarsD());
-                break;
-
-            case KAI:
-                player.getDialogueManager().start(new KaiD());
-                break;
-
-            case BERRY_7235:
-                player.getDialogueManager().start(new BerryD());
-                break;
-
-            case THE_COLLECTOR:
+            case BOB_BARTER_HERBS -> player.getDialogueManager().start(new BobBarter());
+            case MURFET -> player.getDialogueManager().start(new MurfetD());
+            case GUILDMASTER_LARS -> player.getDialogueManager().start(new LarsD());
+            case KAI -> player.getDialogueManager().start(new KaiD());
+            case BERRY_7235 -> player.getDialogueManager().start(new BerryD());
+            case THE_COLLECTOR -> {
                 npc.setPositionToFace(player.tile());
                 player.inventory().addOrDrop(new Item(ItemIdentifiers.COLLECTION_LOG, 1));
-                break;
-            case TWIGGY_OKORN:
+            }
+            case TWIGGY_OKORN -> {
                 npc.setPositionToFace(player.tile());
                 player.getDialogueManager().start(new TwiggyOKorn());
-                break;
-
-            case SUROK_MAGIS:
+            }
+            case SUROK_MAGIS -> {
                 npc.setPositionToFace(player.tile());
                 TeleportInterface.open(player);
-                break;
-
-            case SHOP_KEEPER:
-            case SHOP_ASSISTANT_2818:
+            }
+            case SHOP_KEEPER, SHOP_ASSISTANT_2818 -> {
                 npc.setPositionToFace(player.tile());
                 player.getDialogueManager().start(new GeneralStoreDialogue());
-                break;
-
-            case MAKEOVER_MAGE:
-            case MAKEOVER_MAGE_1307:
+            }
+            case MAKEOVER_MAGE, MAKEOVER_MAGE_1307 -> {
                 npc.setPositionToFace(player.tile());
                 player.getInterfaceManager().close();
                 player.getInterfaceManager().open(3559);
-                break;
-
-            case SURGEON_GENERAL_TAFANI:
+            }
+            case SURGEON_GENERAL_TAFANI -> {
                 npc.setPositionToFace(player.tile());
                 player.getDialogueManager().start(new SurgeonGeneralTafaniDialogue());
-                break;
-
-            case MANDRITH:
+            }
+            case MANDRITH -> {
                 if (npc.tile().equals(3183, 3945, 0)) {
                     player.getDialogueManager().start(new MandrithDialogue());
                     return;
                 }
                 npc.setPositionToFace(player.tile());
-                break;
-
-            case PILES:
-                player.getDialogueManager().start(new PilesDialogue());
-                break;
-
-            default:
-                player.message("Nothing interesting happens.");
-                break;
+            }
+            case PILES -> player.getDialogueManager().start(new PilesDialogue());
+            default -> player.message("Nothing interesting happens.");
         }
     }
 }

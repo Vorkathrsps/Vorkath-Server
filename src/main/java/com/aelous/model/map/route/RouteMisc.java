@@ -24,18 +24,11 @@ public class RouteMisc {
     }
 
     public static int getClosestX(Entity src, Tile target) {
-        int srcX = src.getAbsX();
-        int srcSize = src.getSize();
-        int targetX = target.getX();
-
-        if (srcSize == 1) {
-            return srcX;
-        } else {
-            int maxRangeX = srcX + srcSize - 1;
-            if (targetX < srcX) {
-                return srcX;
-            } else return Math.min(targetX, maxRangeX);
-        }
+        if (src.getSize() == 1) return src.getAbsX();
+        if (target.getX() < src.getAbsX()) return src.getAbsX();
+        else if (target.getX() >= src.getAbsX()
+            && target.getX() <= src.getAbsX() + src.getSize() - 1) return target.getX();
+        else return src.getAbsX() + src.getSize() - 1;
     }
 
 
@@ -44,18 +37,11 @@ public class RouteMisc {
     }
 
     public static int getClosestY(Entity src, Tile target) {
-        int srcAbsY = src.getAbsY();
-        int srcSize = src.getSize();
-        int targetY = target.getY();
-
-        if (srcSize == 1) {
-            return srcAbsY;
-        } else {
-            int maxRangeX = srcAbsY + srcSize - 1;
-            if (targetY < srcAbsY) {
-                return srcAbsY;
-            } else return Math.min(targetY, maxRangeX);
-        }
+        if (src.getSize() == 1) return src.getAbsY();
+        if (target.getY() < src.getAbsY()) return src.getAbsY();
+        else if (target.getY() >= src.getAbsY()
+            && target.getY() <= src.getAbsY() + src.getSize() - 1) return target.getY();
+        else return src.getAbsY() + src.getSize() - 1;
     }
 
     public static Tile getClosestPosition(Entity src, Entity target) {

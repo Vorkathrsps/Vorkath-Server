@@ -39,6 +39,9 @@ public final class PacketSender {
     private static final Logger logger = LogManager.getLogger(PacketSender.class);
 
     public PacketSender sendEntityFeed(String opponent, int HP, int maxHP) {
+        // so its literally gonna be going thru, checking anything > 0 is fixed,
+        // anything -1 should be variable,
+        // -2 will be var short
         PacketBuilder out = new PacketBuilder(175, PacketType.VARIABLE);
         out.putString(opponent == null ? "null" : opponent).putShort(HP).putShort(maxHP);
         player.getSession().write(out);
@@ -90,21 +93,6 @@ public final class PacketSender {
         return this;
     }
 
-    public PacketSender sendEquipItem(int itemId, int slot, int interfaceId) {
-        PacketBuilder out = new PacketBuilder(41);
-        out.putShort(itemId);
-        out.putShort(slot, ValueType.A);
-        out.putShort(interfaceId, ValueType.A);
-        return this;
-    }
-
-    public void sendItemContainerOption1(int interfaceId, int slot, int itemId) {
-        PacketBuilder out = new PacketBuilder(145);
-        out.putInt(interfaceId);
-        out.putShort(slot, ValueType.A);
-        out.putShort(itemId, ValueType.A);
-    }
-
     /**
      * Global sounds??
      **/
@@ -119,31 +107,15 @@ public final class PacketSender {
 
     public PacketSender setWidgetActive(int child, boolean active) {
         PacketBuilder out = new PacketBuilder(143);
-        out.put(active ? 1 : 0);
-        out.putShort(child);
+        out.put(active ? 1 : 0); // fyi im counting the bytes , put=1 byte
+        out.putShort(child); // short= 2 bytes u following? just adding and should
+        // match the total on the right
+        //always had ynneh do packets bcuz i suck at keeping count hahaha all good bro
         //System.out.println("Widget active: "+active+" child: "+child);
         player.getSession().write(out);
         return this;
     }
 
-    public PacketSender clearClickedText() {
-        PacketBuilder out = new PacketBuilder(238);
-        player.getSession().write(out);
-        return this;
-    }
-
-    public PacketSender sendTeleportData(int length, boolean recent, int[] sprites, String[] names) {
-
-        /*PacketBuilder out = new PacketBuilder(192, PacketType.VARIABLE_SHORT);
-        out.putShort(length);
-        out.put(recent ? 1 : 0);
-        for (int i = 0; i < length; i++) {
-            out.putShort(sprites[i]);
-            out.putString(names[i]);
-        }
-        player.getSession().write(out);*/
-        return this;
-    }
 
     public PacketSender setClickedText(int interfaceId, boolean state) {
         PacketBuilder out = new PacketBuilder(239);
@@ -156,6 +128,8 @@ public final class PacketSender {
     public PacketSender updateWidgetTooltipText(int id, String text) {
         PacketBuilder out = new PacketBuilder(207, PacketType.VARIABLE);
         out.putShort(id);
+        // so -1 here variable means its not fixed/exact, because strings can be "a" 1
+        // or aksldjfalkjsdfkljasdfjasjfkalsjdfajsd which is a lot more than 1
         out.putString(text);
         player.getSession().write(out);
         return this;
@@ -209,19 +183,24 @@ public final class PacketSender {
 
     public PacketSender addTPHistory(TeleportData data, boolean favorite) {
         PacketBuilder out = new PacketBuilder(66, PacketType.VARIABLE_SHORT);
-        out.put(favorite ? 1 : 0).put(0).putShort(data.spriteID).putString(data.teleportName);
+        out.put(favorite ? 1 : 0)
+            .put(0)
+            .putShort(data.spriteID)
+            .putString(data.teleportName);
         player.getSession().write(out);
         return this;
     }
 
     public PacketSender resetRecentTeleports() {
-        PacketBuilder out = new PacketBuilder(66, PacketType.VARIABLE_SHORT).put(0).put(1).putShort(0).putString("N/A");
+        PacketBuilder out = new PacketBuilder(66, PacketType.VARIABLE_SHORT)
+            .put(0).put(1).putShort(0).putString("N/A");
         player.getSession().write(out);
         return this;
     }
 
     public PacketSender removeFavorite(TeleportData data) {
-        PacketBuilder out = new PacketBuilder(66, PacketType.VARIABLE_SHORT).put(1).put(1).putShort(data.spriteID).putString(data.teleportName);
+        PacketBuilder out = new PacketBuilder(66, PacketType.VARIABLE_SHORT)
+            .put(1).put(1).putShort(data.spriteID).putString(data.teleportName);
         player.getSession().write(out);
         return this;
     }
@@ -448,13 +427,6 @@ public final class PacketSender {
         return this;
     }
 
-    public PacketSender sendTotalExp(long exp) {
-        PacketBuilder out = new PacketBuilder(108);
-        out.putLong(exp);
-        player.getSession().write(out);
-        return this;
-    }
-
     /**
      * Sends the state in which the player has their chat options, such as public, private, friends only.
      *
@@ -623,6 +595,7 @@ public final class PacketSender {
         return this;
     }
 
+    // kinda lazy place to put it
     public PacketSender sendTabs() {
         for (int i = 0; i < GameConstants.SIDEBAR_INTERFACE.length; i++) {
             int tab = GameConstants.SIDEBAR_INTERFACE[i][0];
@@ -873,7 +846,7 @@ public final class PacketSender {
         player.getSession().write(out);
     }
 
-    public PacketSender sendString(int id, String string) {
+    public PacketSender sendString(int id, String string) { //i dont use that client.java its a deob that patrick had in the valinor clietn at one point kk what one
         PacketBuilder out = new PacketBuilder(126, PacketType.VARIABLE_SHORT);
         out.putString(string);
         out.putInt(id);
@@ -1167,7 +1140,7 @@ public final class PacketSender {
      * @param childId        The childId of the interface.
      * @param scrollPosition The value of the scroll position.
      */
-    public PacketSender setScrollPosition(final int childId, final int scrollPosition, final int scrollMax) {
+    public PacketSender setScrollPosition(final int childId, final int scrollPosition, final int scrollMax) { // ok wew s2c verified .. guess what now yep the other damn side
         PacketBuilder out = new PacketBuilder(79);
         out.putShort(childId);
         out.putShort(scrollPosition);

@@ -269,7 +269,7 @@ public final class Projectile {
     }
 
     public int getHitDelay(int distance) {
-        return (int) Math.floor(getDuration(distance) / 30D) + 1;
+        return (int) Math.floor((getDuration(distance) / 30D) + 1);
     }
 
     public Tile getTarget() {

@@ -56,7 +56,6 @@ public class ButtonClickPacketListener implements PacketListener {
     public void handleMessage(Player player, Packet packet) {
         final int button = packet.readInt();
         parseButtonPacket(player, button);
-        System.out.println("buttonId=" + button);
     }
 
     public void parseButtonPacket(Player player, int button) {
@@ -92,7 +91,7 @@ public class ButtonClickPacketListener implements PacketListener {
         }
 
         if (button == FIRST_DIALOGUE_OPTION_OF_FIVE || button == FIRST_DIALOGUE_OPTION_OF_FOUR
-                || button == FIRST_DIALOGUE_OPTION_OF_THREE || button == FIRST_DIALOGUE_OPTION_OF_TWO) {
+            || button == FIRST_DIALOGUE_OPTION_OF_THREE || button == FIRST_DIALOGUE_OPTION_OF_TWO) {
             if (player.getDialogueManager().isActive()) {
                 if (player.getDialogueManager().select(1)) {
                     return;
@@ -101,7 +100,7 @@ public class ButtonClickPacketListener implements PacketListener {
         }
 
         if (button == SECOND_DIALOGUE_OPTION_OF_FIVE || button == SECOND_DIALOGUE_OPTION_OF_FOUR
-                || button == SECOND_DIALOGUE_OPTION_OF_THREE || button == SECOND_DIALOGUE_OPTION_OF_TWO) {
+            || button == SECOND_DIALOGUE_OPTION_OF_THREE || button == SECOND_DIALOGUE_OPTION_OF_TWO) {
             if (player.getDialogueManager().isActive()) {
                 if (player.getDialogueManager().select(2)) {
                     return;
@@ -110,7 +109,7 @@ public class ButtonClickPacketListener implements PacketListener {
         }
 
         if (button == THIRD_DIALOGUE_OPTION_OF_FIVE || button == THIRD_DIALOGUE_OPTION_OF_FOUR
-                || button == THIRD_DIALOGUE_OPTION_OF_THREE) {
+            || button == THIRD_DIALOGUE_OPTION_OF_THREE) {
             if (player.getDialogueManager().isActive()) {
                 if (player.getDialogueManager().select(3)) {
                     return;
@@ -139,6 +138,54 @@ public class ButtonClickPacketListener implements PacketListener {
             if (GameServer.properties().pvpMode) {
                 //Tutorial.start(player);
                 AccountSelection.open(player);
+            }
+            return;
+        }
+
+        if(player.locked()) {
+            // unique case: since prayers always 'activate' when clicked client side, we'll try to just wait until
+            // we unlock and trigger the button so the client stays in sync.
+            DefaultPrayerData defaultPrayerData = DefaultPrayerData.getActionButton().get(button);
+            if (defaultPrayerData != null) {
+
+                // store btn
+                HashSet<Integer> clicks = player.<HashSet<Integer>>getAttribOr(AttributeKey.PRAYER_DELAYED_ACTIVATION_CLICKS, new HashSet<Integer>());
+                clicks.add(button); // one task but you can spam different prayers. queue them all up until task is over.
+                player.putAttrib(AttributeKey.PRAYER_DELAYED_ACTIVATION_CLICKS, clicks);
+
+                // fetch task
+                Task task = player.<Task>getAttribOr(AttributeKey.PRAYER_DELAYED_ACTIVATION_TASK, null);
+                if (task == null) {
+
+                    // build task logic
+                    task = Task.repeatingTask(t -> {
+
+                        // this is a long ass pause homie
+                        if (t.tick > 10) {
+                            t.stop();
+                            player.clearAttrib(AttributeKey.PRAYER_DELAYED_ACTIVATION_TASK);
+                            for (Integer click : clicks) {
+                                DefaultPrayerData p1 = DefaultPrayerData.getActionButton().get(click);
+                                if (p1 != null) // resync previous state
+                                    player.getPacketSender().sendConfig(p1.getConfigId(), player.getPrayerActive()[p1.ordinal()] ? 1 : 0);
+                            }
+                            clicks.clear();
+                            return;
+                        }
+
+                        // tele has finished or w.e was locking us
+                        if (!player.locked()) {
+                            t.stop();
+                            player.clearAttrib(AttributeKey.PRAYER_DELAYED_ACTIVATION_TASK);
+                            // now trigger we are unlocked
+                            for (Integer click : clicks) {
+                                parseButtonPacket(player, click);
+                            }
+                            clicks.clear();
+                        }
+                    });
+                    player.putAttrib(AttributeKey.PRAYER_DELAYED_ACTIVATION_TASK, task);
+                }
             }
             return;
         }

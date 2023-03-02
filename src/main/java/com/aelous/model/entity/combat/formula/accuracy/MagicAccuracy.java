@@ -58,9 +58,9 @@ public class MagicAccuracy {
             if (attacker instanceof Player) {
                 if (!WildernessArea.inWild((Player) attacker) && ((Player) attacker).getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
                     bonus = attackerBonus.mage += Math.min(attackerBonus.mage * 3, attackerBonus.mage * attackerBonus.mage);
+                } else {
+                    bonus = attackerBonus.mage;
                 }
-            } else {
-                bonus = attackerBonus.mage;
             }
         }
         return bonus;
@@ -76,17 +76,13 @@ public class MagicAccuracy {
     }
 
     public static int getDefenceLevelDefender(Entity defender, FightStyle style) {
-        double effectiveLevel = defender instanceof NPC ? ((NPC) defender).combatInfo().stats.defence : Math.floor(defender.skills().level(Skills.DEFENCE) * getPrayerBonusDefender(defender));
+        int effectiveLevel = defender instanceof NPC ? ((NPC) defender).combatInfo().stats.defence : (int) Math.floor(defender.skills().level(Skills.DEFENCE) * getPrayerBonusDefender(defender));
         switch (style) {
-            case DEFENSIVE -> {
-                effectiveLevel += 3.0;
-            }
-            case CONTROLLED -> {
-                effectiveLevel += 1.0;
-            }
+            case DEFENSIVE -> effectiveLevel = (int) Math.floor(effectiveLevel + 3);
+            case CONTROLLED -> effectiveLevel = (int) Math.floor(effectiveLevel + 1);
         }
-        effectiveLevel += 8.0;
-        return (int) Math.floor(effectiveLevel);
+        effectiveLevel = (int) Math.floor(effectiveLevel + 8);
+        return effectiveLevel;
     }
 
     public static int getMagicLevelAttacker(Entity attacker) {
@@ -138,11 +134,11 @@ public class MagicAccuracy {
         EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
         int effectiveLevel = (int) Math.floor(getMagicLevelAttacker(attacker) * getPrayerBonus(attacker, style));
         switch (fightStyle) {
-            case ACCURATE -> effectiveLevel += 3.0;
-            case CONTROLLED -> effectiveLevel += 1.0;
+            case ACCURATE -> effectiveLevel += 3;
+            case CONTROLLED -> effectiveLevel += 1;
         }
 
-        effectiveLevel += 8.0;
+        effectiveLevel += 8.0D;
 
         if (attacker.isPlayer()) {
             if (style.equals(CombatType.MAGIC)) {
@@ -165,19 +161,16 @@ public class MagicAccuracy {
 
     public static int getAttackRoll(Entity attacker, CombatType style) {
         int effectiveMagicLevel = (int) Math.floor(getEffectiveLevelAttacker(attacker, style));
-        int equipmentAttackBonus = (int) Math.floor(getEquipmentBonusAttacker(attacker, style));
-        return (int) Math.floor(effectiveMagicLevel * (equipmentAttackBonus + 64));
+        int equipmentAttackBonus = getEquipmentBonusAttacker(attacker, style);
+        return (int) Math.floor(effectiveMagicLevel * (equipmentAttackBonus + 64D));
     }
 
-    public static double getDefenceRoll(Entity defender, CombatType style) {
-        int magicLevel = (int) Math.floor(getMagicLevelDefender(defender));
-        int magicDefence = (int) Math.floor(getDefenceLevelDefender(defender, FightStyle.DEFENSIVE));
 
-        int effectiveLevel = (int) Math.floor(((magicDefence * getPrayerBonusDefender(defender) * 0.7) + magicLevel) + 8);
-
-        int equipmentDefenceBonus = (int) Math.floor(getEquipmentBonusDefender(defender, style));
-
-        return (int) Math.floor(effectiveLevel * (equipmentDefenceBonus + 64));
+    public static int getDefenceRoll(Entity defender, CombatType style) {
+        int magicLevel = getMagicLevelDefender(defender);
+        int magicDefence = getDefenceLevelDefender(defender, FightStyle.DEFENSIVE);
+        int effectiveLevel = (int) Math.floor((((magicDefence * getPrayerBonusDefender(defender) * 0.3) * 0.7) + magicLevel));
+        int equipmentDefenceBonus = getEquipmentBonusDefender(defender, style);
+        return (int) Math.floor(effectiveLevel * (equipmentDefenceBonus + 64D));
     }
-
 }

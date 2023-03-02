@@ -13,6 +13,7 @@ public class MaxHitDummyNpc extends NPC {
 
     public MaxHitDummyNpc(int id, Tile tile) {
         super(NpcIdentifiers.COMBAT_DUMMY, tile);
+        noRetaliation = true;
     }
 
     @Override

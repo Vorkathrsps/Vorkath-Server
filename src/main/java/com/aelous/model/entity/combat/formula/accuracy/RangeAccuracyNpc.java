@@ -53,7 +53,7 @@ public class RangeAccuracyNpc {
         else
             successfulRoll = attackBonus / (2D * (Math.floor(defenceBonus + 1D)));
 
-        System.out.println("chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance));
+        System.out.println("chanceOfSucessNPC=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance));
 
         return successfulRoll > selectedChance;
     }
@@ -92,53 +92,53 @@ public class RangeAccuracyNpc {
         if(attacker.isPlayer()) {
             if (style.equals(RANGED)) {
                 if (FormulaUtils.regularVoidEquipmentBaseRanged((Player) attacker)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.10D);
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.1);
                 }
 
                 if (FormulaUtils.eliteVoidEquipmentRanged((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseRanged((Player) attacker)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.125D);
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.125);
                 }
             }
             if (FormulaUtils.isUndead(attacker)) { //UNDEAD BONUSES
                 if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI_25278)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.20D);
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.2);
                 }
                 if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.10D);
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.1);
                 }
             }//END OF UNDEAD
             if (WildernessArea.inWilderness(attacker.tile())) {
                 if (((Player) attacker).getEquipment().contains(ItemIdentifiers.CRAWS_BOW)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.50D);
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.5);
                 }
             }//END OF WILDERNESS BUFFS
             if (attacker.isNpc()) {
                 if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SLAYER_HELMET)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel *1.05D);
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.05);
                 }
                 if (((Player) attacker).getEquipment().contains(ItemIdentifiers.BLACK_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.GREEN_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.HYDRA_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.PURPLE_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.RED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TURQUOISE_SLAYER_HELMET)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.10D);
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.1);
                 }
                 if (((Player) attacker).getEquipment().contains(ItemIdentifiers.TWISTED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TZKAL_SLAYER_HELMET)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.15D);
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.15);
                 }
                 if (((Player) attacker).getEquipment().contains(ItemIdentifiers.NECKLACE_OF_ANGUISH_OR)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.05D);
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.05);
                 }
             }//CUSTOM WILDERNESS SLAYER BUFFS
             if (task != null && Slayer.creatureMatches((Player) attacker, attacker.getAsNpc().id())) {
                 //might cause null pointer
                 if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SLAYER_HELMET)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.15D);
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.15);
                 }
                 if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SLAYER_HELMET_I)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.18D);
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.18);
                 }
                 if (((Player) attacker).getEquipment().contains(ItemIdentifiers.BLACK_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.GREEN_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.HYDRA_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.PURPLE_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.RED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TURQUOISE_SLAYER_HELMET)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.20D);
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.20);
                 }
                 if (((Player) attacker).getEquipment().contains(ItemIdentifiers.TWISTED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TZKAL_SLAYER_HELMET)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.25D);
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.25);
                 }
             }
         }
@@ -156,9 +156,9 @@ public class RangeAccuracyNpc {
             NPC npc = ((NPC) attacker);
             if (npc.combatInfo() != null && npc.combatInfo().stats != null) {
                 rangeLevel = npc.combatInfo().stats.ranged;
-            } else {
-                rangeLevel = attacker.skills().level(Skills.RANGED);
             }
+        } else {
+            rangeLevel = attacker.skills().level(Skills.RANGED);
         }
         return rangeLevel;
     }
@@ -170,7 +170,7 @@ public class RangeAccuracyNpc {
         if (weapon != null) {
             if (Stream.of(TWISTED_BOW).anyMatch(w -> w == weapon.getId())) {
 
-                double magicLevel = 0;
+                double magicLevel = 1;
 
                 if (attacker.isPlayer()) {
                     if (defender instanceof NPC) {
@@ -183,19 +183,19 @@ public class RangeAccuracyNpc {
 
                     bonus += 140 + (((10*3*magicLevel) / 10) - 10) - ((Math.floor(3 * magicLevel / 10 - 100)) * 2);
                     //bonus += 140 + ((3 * magicLevel - 10) / 100) - (((3 * magicLevel / 10) - 100)) * ((3 * magicLevel / 10) - 100) / 100;
-                    bonus /= 100;
+                    bonus = Math.floor(bonus / 100);
                     if (bonus > 2.4D)
                         bonus = (int) 2.4;
                 }
             }
         }
-        return bonus;
+        return Math.floor(bonus);
     }
 
 
     public static int getGearAttackBonus(Entity attacker, Entity defender, CombatType style) {
         EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
-        int bonus = 0;
+        int bonus = 1;
         if (style == RANGED) {
             bonus = (bonus + attackerBonus.range);
         }
@@ -216,10 +216,10 @@ public class RangeAccuracyNpc {
 
     public static int getRangeDefenceLevelNpc(Entity defender, CombatType style) {
         EquipmentInfo.Bonuses defenderBonus = EquipmentInfo.totalBonuses(defender, World.getWorld().equipmentInfo());
-        int bonus = 0;
+        int bonus = 1;
         if(defender instanceof NPC) {
             if (style == CombatType.RANGED) {
-                bonus = defenderBonus.rangedef;
+                bonus = (bonus + defenderBonus.rangedef);
             }
         }
         return bonus;
@@ -238,7 +238,7 @@ public class RangeAccuracyNpc {
 
         int equipmentRangeBonus = getRangeDefenceLevelNpc(defender, style);
 
-        return (int) Math.floor((effectiveDefenceLevel + 9) * (equipmentRangeBonus + 64D));
+        return (int) Math.floor(effectiveDefenceLevel * (equipmentRangeBonus + 64D));
     }
 
 }

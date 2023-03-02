@@ -1558,7 +1558,8 @@ public abstract class Entity {
         }
 
         this.setEntityInteraction(null);
-        this.getMovementQueue().resetFollowing();
+        if (isPlayer())
+            getAsPlayer().getMovementQueue().resetFollowing();
         // Graphics and animations are not reset when you walk.
         if (cancelMoving)
             getMovementQueue().clear();

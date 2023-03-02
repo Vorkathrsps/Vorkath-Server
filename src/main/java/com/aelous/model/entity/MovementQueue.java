@@ -2,7 +2,6 @@ package com.aelous.model.entity;
 
 import com.aelous.core.task.Task;
 import com.aelous.core.task.TaskManager;
-import com.aelous.core.task.impl.MobFollowTask;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.npc.NPC;
@@ -37,12 +36,6 @@ public class MovementQueue {
      * The mob whose walking queue this is.
      */
     private final Entity entity;
-
-    /**
-     * The {@link Task} which handles following.
-     */
-    private MobFollowTask followingTask;
-
     private boolean blockMovement = false;
 
     /**
@@ -266,55 +259,6 @@ public class MovementQueue {
         Debugs.WALK.debug(entity, "walk reset");
         reset(); // runite reset
         return this;
-    }
-
-    /**
-     * Starts a new {@link MobFollowTask} which starts
-     * following the given
-     * @param follow
-     */
-    public void follow(Entity follow) {
-        if (follow == null) {
-            //System.out.println("follow is null, reset.");
-            resetFollowing();
-            return;
-        }
-
-        if (!canMove()) {
-            return;
-        }
-
-        if (followingTask == null || !followingTask.isRunning()) {
-            TaskManager.submit((followingTask = new MobFollowTask(entity, follow)));
-            //System.out.println("Start follow task.");
-        } else {
-            followingTask.setFollowing(follow);
-        }
-    }
-
-    /**
-     * Checks if we're currently following the given {@link Entity}.
-     * @param entity
-     * @return
-     */
-    public boolean isFollowing(Entity entity) {
-        if (!canMove()) {
-            return false;
-        }
-        if (followingTask != null) {
-            return followingTask.getFollow().equals(entity);
-        }
-        return false;
-    }
-
-    /**
-     * Stops any following which might be active.
-     */
-    public void resetFollowing() {
-        if (followingTask != null) {
-            followingTask.stop();
-        }
-        followingTask = null;
     }
 
     public void setRunning(boolean run) {

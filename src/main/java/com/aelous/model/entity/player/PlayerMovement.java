@@ -8,6 +8,7 @@ import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.region.RegionManager;
 import com.aelous.model.map.route.RouteFinder;
+import lombok.Setter;
 
 import java.util.Deque;
 import java.util.Optional;
@@ -26,6 +27,8 @@ public class PlayerMovement extends MovementQueue {
         super(entity);
         this.player = entity.getAsPlayer();
     }
+    @Setter
+    private Entity following;
 
     /**
      * Processes the movement queue.
@@ -40,9 +43,9 @@ public class PlayerMovement extends MovementQueue {
         player.setRunningDirection(Direction.NONE);
 
         // TODO duplicate from runite
-       /* if (following != null) {
+        if (following != null) {
             if (!following.isRegistered() || !following.tile().isWithinDistance(player.tile())) {
-                player.resetFaceTile();
+                player.setPositionToFace(null);
                 following = null;
             } else {
                 int destX, destY;
@@ -62,7 +65,7 @@ public class PlayerMovement extends MovementQueue {
                 }
                 player.smartPathTo(new Tile(destX, destY)); // supports running
             }
-        }*/
+        }
         //System.out.println(Arrays.toString(stepsX).substring(0, 30)+", "+Arrays.toString(stepsY).substring(0, 30));
         if (!step(player)) {
             player.updateRunEnergy();
@@ -107,6 +110,19 @@ public class PlayerMovement extends MovementQueue {
         if (isMoving) {
             player.clearAttrib(MOVEMENT_PACKET_STEPS);
         }
+    }
+
+    /**
+     * Checks if we're currently following the given {@link Entity}.
+     * @param entity
+     * @return
+     */
+    public boolean isFollowing(Entity entity) {
+        return following != null;
+    }
+
+    public void resetFollowing() {
+        following = null;
     }
 
     public boolean movementPacketThisCycle() {

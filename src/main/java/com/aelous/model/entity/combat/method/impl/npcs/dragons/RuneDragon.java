@@ -1,6 +1,7 @@
 package com.aelous.model.entity.combat.method.impl.npcs.dragons;
 
 import com.aelous.model.World;
+import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatConstants;
@@ -66,7 +67,7 @@ public class RuneDragon extends CommonCombatMethod {
             Chain.bound(null).runFn(5, () -> {
                 for (int j = 0; j < 5; j++) {
                     World.getWorld().registerNpc(spark);
-                    spark.getMovementQueue().follow(target);
+                    spark.step(World.getWorld().random(-1, 1), World.getWorld().random(-1, 1), MovementQueue.StepType.FORCED_WALK);
 
                     if (target.tile().isWithinDistance(spark.tile(), 1)) {
                         int maxDamage = 8;

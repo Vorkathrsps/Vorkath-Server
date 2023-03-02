@@ -3,6 +3,8 @@ package com.aelous.model.entity.npc.pets;
 import com.aelous.model.World;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.map.route.routes.DumbRoute;
+import com.aelous.utility.chainedwork.Chain;
 import org.apache.commons.compress.utils.Lists;
 
 import java.util.List;
@@ -91,8 +93,35 @@ public class Pet {
             System.err.println("owner doesn't have a pet..");
             return;
         }
-        currentPet.getMovement().follow(owner);
+        var player = owner;
+        var npc = currentPet;
+        Chain.bound(null).name("petFollowTask").repeatingTask(1, t -> {
+            if (player.isRegistered() && npc.isRegistered()) {
+                if (player.dead() ) {
+                    return;
+                }
+                if (!npc.tile().isWithinDistance(player.tile(), 8)) {
+                    npc.teleport(player.getAbsX(), player.getAbsY(), player.getZ());
+                    return;
+                }
+                npc.faceEntity(player);
 
+                // path to the previous tick target
+                int[] thisTickTarget = {-1, -1};
+
+                DumbRoute.step(npc, player, 1);
+
+                thisTickTarget[0] = npc.getRouteFinder().routeEntity.finishX;
+                thisTickTarget[1] = npc.getRouteFinder().routeEntity.finishY;
+                npc.getMovement().reset();
+
+                // execute later route
+                DumbRoute.step(npc, thisTickTarget[0], thisTickTarget[1]);
+            } else {
+                npc.remove();
+                t.stop();
+            }
+        });
     }
 
     public void pickup(boolean logout) {

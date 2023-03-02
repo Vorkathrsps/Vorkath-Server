@@ -11,8 +11,9 @@ public class SpawnNPCCommand implements Command {
     public void execute(Player player, String command, String[] parts) {
         boolean massSpawn = false;
         int amt = parts.length > 3 ? Integer.parseInt(parts[3]) : 1;
+        boolean respawn = (parts.length > 4 ? Integer.parseInt(parts[4]) : 0) == 1;
         for (int i = 0; i < amt; i++) {
-            NPC npc = NPC.of(Integer.parseInt(parts[1]), player.tile()).respawns(false);
+            NPC npc = NPC.of(Integer.parseInt(parts[1]), player.tile()).respawns(respawn);
             World.getWorld().registerNpc(npc);
             if (parts.length > 2) {
                 npc.setHitpoints(Integer.parseInt(parts[2]));

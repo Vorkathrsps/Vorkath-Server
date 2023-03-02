@@ -429,7 +429,8 @@ public class Combat {
         target = null;
         lastTarget = null;
         mob.clearAttrib(AttributeKey.TARGET);
-        mob.getMovementQueue().resetFollowing();
+        if (mob.isPlayer())
+            mob.getAsPlayer().getMovementQueue().resetFollowing();
         mob.setEntityInteraction(null);
         TargetRoute.reset(mob);
     }

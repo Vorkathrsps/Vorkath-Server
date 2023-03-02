@@ -81,7 +81,7 @@ public class NPCInteractionHandler implements PacketListener {
         if (option == -1)
             return;
 
-        if (index < 0 || index > World.getWorld().getNpcs().size())
+        if (index < 0)
             return;
 
         NPC npc = World.getWorld().getNpcs().get(index);

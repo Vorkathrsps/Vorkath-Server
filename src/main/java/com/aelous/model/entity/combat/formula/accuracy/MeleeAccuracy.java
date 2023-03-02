@@ -211,11 +211,11 @@ public class MeleeAccuracy {
         int bonus = 1;
         if (style == MELEE) {
             if (type == AttackType.STAB)
-                bonus = defenderBonus.stabdef;
+                bonus =  (bonus + defenderBonus.stabdef);
             else if (type == AttackType.CRUSH)
-                bonus = defenderBonus.crushdef;
+                bonus =  (bonus + defenderBonus.crushdef);
             else if (type == AttackType.SLASH)
-                bonus = defenderBonus.slashdef;
+                bonus = (bonus + defenderBonus.slashdef);
         }
         return bonus;
     }

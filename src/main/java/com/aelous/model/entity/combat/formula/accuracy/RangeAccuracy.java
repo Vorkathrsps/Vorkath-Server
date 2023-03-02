@@ -97,7 +97,6 @@ public class RangeAccuracy {
             }
         }
 
-
         if (fightStyle == FightStyle.ACCURATE) {
             effectiveLevel = (int) Math.floor(effectiveLevel + 3);
         }

@@ -87,7 +87,7 @@ public class RangeAccuracyNpc {
                 break;
         }
 
-        effectiveLevel = (int) Math.floor(effectiveLevel + 8);
+        effectiveLevel = (int) Math.floor(effectiveLevel + 9);
 
         if(attacker.isPlayer()) {
             if (style.equals(RANGED)) {
@@ -147,7 +147,7 @@ public class RangeAccuracyNpc {
     }
 
     public static double getEffectiveLevelDefender(Entity defender) {
-        return getDefenceNpc(defender) + 9;
+        return Math.floor(getDefenceNpc(defender) + 9);
     }
 
     public static int getRangeLevel(Entity attacker) {
@@ -163,33 +163,35 @@ public class RangeAccuracyNpc {
         return rangeLevel;
     }
 
-    public static int twistedBowBonus(Entity attacker, Entity defender) {
-        int bonus = 0;
+    public static double twistedBowBonus(Entity attacker, Entity defender) {
+        double bonus = 1;
         Player player = (Player) attacker;
         final Item weapon = player.getEquipment().get(EquipSlot.WEAPON);
-            if (weapon != null) {
-                if (Stream.of(TWISTED_BOW).anyMatch(w -> w == weapon.getId())) {
+        if (weapon != null) {
+            if (Stream.of(TWISTED_BOW).anyMatch(w -> w == weapon.getId())) {
 
-                    int magicLevel = 0;
+                double magicLevel = 0;
 
-                    if (attacker.isPlayer()) {
-                        if (defender instanceof NPC) {
-                            NPC n = (NPC) defender;
-                            if (n.combatInfo() != null && n.combatInfo().stats != null)
-                                magicLevel = n.combatInfo().stats.magic > 350 && player.raidsParty != null ? 350 : (int) (n.combatInfo().stats.magic > 250D ? 250D : n.combatInfo().stats.magic);
-                        } else {
-                            magicLevel = defender.getAsPlayer().skills().getMaxLevel(Skills.MAGIC);
-                        }
-
-                        bonus += 140 + (((10*3*magicLevel) / 10) - 10) - ((Math.floor(3 * magicLevel / 10D - 100)) * 2);
-                        bonus /= 100;
-                        if (bonus > 2.4D)
-                            bonus = (int) 2.4;
+                if (attacker.isPlayer()) {
+                    if (defender instanceof NPC) {
+                        NPC n = (NPC) defender;
+                        if (n.combatInfo() != null && n.combatInfo().stats != null)
+                            magicLevel = n.combatInfo().stats.magic > 350 && player.raidsParty != null ? 350 : n.combatInfo().stats.magic > 250D ? 250D : n.combatInfo().stats.magic;
+                    } else {
+                        magicLevel = defender.getAsPlayer().skills().getMaxLevel(Skills.MAGIC);
                     }
+
+                    bonus += 140 + (((10*3*magicLevel) / 10) - 10) - ((Math.floor(3 * magicLevel / 10 - 100)) * 2);
+                    //bonus += 140 + ((3 * magicLevel - 10) / 100) - (((3 * magicLevel / 10) - 100)) * ((3 * magicLevel / 10) - 100) / 100;
+                    bonus /= 100;
+                    if (bonus > 2.4D)
+                        bonus = (int) 2.4;
                 }
             }
-            return (int) Math.floor(bonus);
         }
+        return bonus;
+    }
+
 
     public static int getGearAttackBonus(Entity attacker, Entity defender, CombatType style) {
         EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
@@ -198,7 +200,7 @@ public class RangeAccuracyNpc {
             bonus = (bonus + attackerBonus.range);
         }
         if (attacker.getAsPlayer().getEquipment().contains(TWISTED_BOW)) {
-            bonus *= twistedBowBonus(attacker, defender);
+            bonus = (int) Math.floor(bonus * twistedBowBonus(attacker, defender));
         }
         if (attacker.isPlayer()) {
             if (attacker.getAsPlayer().getEquipment().contains(DRAGON_HUNTER_CROSSBOW)) {

@@ -37,6 +37,7 @@ public class RottenPotato extends PacketInteraction {
             if (target.isPlayer()) {
                 player.debugMessage(String.format("Distance to %s (%d) : %d. ", (target.getAsPlayer()).getUsername(), target.getIndex(), player.tile().distance(target.tile())));
             } else {
+                player.getPacketSender().sendPositionalHint(target.tile(), 2);
                 Debugs.CMB.debug(player, String.format("on %s %s", target, target.tile()), target, true);
                 //System.out.println(String.format("on %s %s", target, target.tile()));
                 player.getMovementQueue().clear();

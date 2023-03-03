@@ -216,7 +216,7 @@ public class World {
         }
 
         public String breakdown() {
-            if (!TimesCycle.BENCHMARKING_ENABLED) return "-";
+            if (!TimesCycle.BENCHMARKING_ENABLED) return "N/A";
             StringBuilder sb2 = new StringBuilder();
             if ((int) (1. * skulls / 1_000_000.) > 0)
                 sb2.append(String.format("skulls:%s ms, ", df.format(1. * skulls / 1_000_000.)));
@@ -243,7 +243,7 @@ public class World {
 
             if (sb2.toString().length() > 0)
                 return sb2 + allPlayers.breakdown();
-            return "nil";
+            return "World:N/A";
         }
     }
 

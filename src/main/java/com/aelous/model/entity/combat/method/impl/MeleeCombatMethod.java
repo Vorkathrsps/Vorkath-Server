@@ -72,6 +72,10 @@ public class MeleeCombatMethod extends CommonCombatMethod {
                 return;
             }
         }
+        if (entity.isNpc()) {
+            if (!withinDistance(1))
+                return;
+        }
 
         final Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy();
         hit.submit();

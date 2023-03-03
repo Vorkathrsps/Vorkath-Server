@@ -23,29 +23,44 @@
     </CustomLevels>
     <Appenders>
         <Console name="outconsole" target="SYSTEM_OUT">
-            <LevelRangeFilter minLevel="INFO" maxLevel="ALL" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Filters>
+                <MarkerFilter marker="perf" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <LevelRangeFilter minLevel="INFO" maxLevel="ALL" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
             <PatternLayout pattern="%highlight{[%d{dd MMM yyyy, h:mm:ss a}] [%t] [%logger{1}] [%level] %msg%n}{FATAL=bright red, ERROR=red, WARN=yellow, INFO=normal, DEBUG=normal, TRACE=normal}"/>
         </Console>
         <Console name="errconsole" target="SYSTEM_ERR">
-            <LevelRangeFilter minLevel="FATAL" maxLevel="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Filters>
+                <MarkerFilter marker="perf" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <LevelRangeFilter minLevel="FATAL" maxLevel="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
             <PatternLayout pattern="%highlight{[%d{dd MMM yyyy, h:mm:ss a}] [%t] [%logger{1}] [%level] %msg%n}{FATAL=bright red, ERROR=red, WARN=yellow, INFO=normal, DEBUG=normal, TRACE=normal}"/>
         </Console>
         <RollingRandomAccessFile  name="errfile" fileName="./data/logs/err.txt" immediateFlush="true" filePattern="./data/logs/err-%d{MM-dd-yyyy-HH-mm-ss}.txt">
-            <LevelRangeFilter minLevel="FATAL" maxLevel="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Filters>
+                <MarkerFilter marker="perf" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <LevelRangeFilter minLevel="FATAL" maxLevel="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
             <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] [%logger{1}] [%level] %msg%n"/>
             <policies>
                 <SizeBasedTriggeringPolicy size="10 MB" />
             </policies>
         </RollingRandomAccessFile >
         <RollingRandomAccessFile  name="outfile" fileName="./data/logs/out.txt" immediateFlush="true" filePattern="./data/logs/out-%d{MM-dd-yyyy-HH-mm-ss}.txt">
-            <LevelRangeFilter minLevel="WARN" maxLevel="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Filters>
+                <MarkerFilter marker="perf" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <LevelRangeFilter minLevel="WARN" maxLevel="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
             <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] [%logger{1}] [%level] %msg%n"/>
             <policies>
                 <SizeBasedTriggeringPolicy size="10 MB" />
             </policies>
         </RollingRandomAccessFile >
         <RollingRandomAccessFile  name="tracefile" fileName="./data/logs/traces.txt" immediateFlush="true" filePattern="./data/logs/traces-%d{MM-dd-yyyy-HH-mm-ss}.txt">
-            <LevelRangeFilter minLevel="INFO" maxLevel="ALL" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Filters>
+                <MarkerFilter marker="perf" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <LevelRangeFilter minLevel="INFO" maxLevel="ALL" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
             <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] [%logger{1}] [%level] %msg%n"/>
             <policies>
                 <SizeBasedTriggeringPolicy size="10 MB" />
@@ -108,6 +123,17 @@
         <RandomAccessFile name="fpkmerkfile" fileName="./data/logs/fpk_merk_logs.txt">
             <PatternLayout pattern="[%d{dd MMM yyyy, h:mm:ss a}] [%t] %msg%n"/>
         </RandomAccessFile>
+        <RollingRandomAccessFile  name="performancefile" fileName="./data/logs/performance.txt" immediateFlush="true" filePattern="./data/logs/performance-%i.txt">
+            <Filters>
+                <MarkerFilter marker="perf" onMatch="ACCEPT" onMismatch="DENY"/>
+                <LevelRangeFilter minLevel="INFO" maxLevel="ALL" onMatch="DENY" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="%d{dd MMM yyyy, h:mm:ss a} %msg%n"/>
+            <policies>
+                <SizeBasedTriggeringPolicy size="20 MB" />
+                <OnStartupTriggeringPolicy />
+            </policies>
+        </RollingRandomAccessFile >
     </Appenders>
     <Loggers>
         <Root level="TRACE">
@@ -183,6 +209,13 @@
         </logger>
         <logger name="FpkMerkLogs" level="FPK_MERK">
             <AppenderRef ref="fpkmerkfile"/>
+        </logger>
+
+        <logger name="com.aelous.GameEngine" level="trace" additivity="false">
+            <AppenderRef ref="outconsole"/>
+            <AppenderRef ref="outfile"/>
+            <AppenderRef ref="tracefile"/>
+            <AppenderRef ref="performancefile"/>
         </logger>
     </Loggers>
 </Configuration>

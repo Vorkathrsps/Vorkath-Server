@@ -35,7 +35,7 @@ public class TimesCycle {
 
     public String COMPUTED_MSG = "";
     public static int lastComputedMsgTick = -1;
-    public static boolean APPEND_WORLDINFO = false;
+    public static boolean APPEND_WORLDINFO = true;
     public static boolean BENCHMARKING_ENABLED = true;
 
     public void computeAnd(Consumer<TimesCycle> c) {
@@ -75,7 +75,7 @@ public class TimesCycle {
             sb.append("npcs: "+ sb2);
 
         if (APPEND_WORLDINFO)
-            sb.append(". World: "+World.getWorld().benchmark.toString());
+            sb.append(World.getWorld().benchmark.breakdown());
 
         final String message = sb.toString();
         COMPUTED_MSG = message;

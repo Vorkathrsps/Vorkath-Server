@@ -22,6 +22,8 @@ import java.util.Queue;
 import java.util.concurrent.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 
 /**
  * A model that handles game thread initialization and processing. All game related code is ran on
@@ -42,6 +44,7 @@ public final class GameEngine implements Runnable {
     public static final int IGNORE_LAG_TIME =
             GameServer.properties().ignoreGameLagDetectionMilliseconds;
     private static final Logger logger = LogManager.getLogger(GameEngine.class);
+    private static final Marker markPerf = MarkerManager.getMarker("perf");
 
     /** ticks between printing debug info */
     private static int infoTickCountdown = 0;
@@ -240,6 +243,7 @@ public final class GameEngine implements Runnable {
                 recentTicks.removeFirst();
             logger.info("average-cycle-last-10-ticks: " + (recentTicks.stream().mapToLong(l ->l).sum() / 10L) + "ms");
 
+            profile.computeAnd(c -> logger.trace(markPerf, c.COMPUTED_MSG));
             lagChecks(uptime, totalPending, totalGround, osNameMatch);
 
             World.getWorld().benchmark.reset();

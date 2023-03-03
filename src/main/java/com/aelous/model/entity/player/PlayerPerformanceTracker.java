@@ -14,7 +14,7 @@ public class PlayerPerformanceTracker {
     static final DecimalFormat df = new DecimalFormat("#.##");
 
     public String breakdown() {
-        if (!TimesCycle.BENCHMARKING_ENABLED) return "-";
+        if (!TimesCycle.BENCHMARKING_ENABLED) return "N/A";
         StringBuilder sb2 = new StringBuilder();
         if ((int)(1. * logout / 1_000_000.) > 0)
             sb2.append(String.format("logout:%s ms, ", df.format(1. * logout / 1_000_000.)));
@@ -44,7 +44,7 @@ public class PlayerPerformanceTracker {
             sb2.append(String.format("total:%s ms, ",df.format(1. * total / 1_000_000.)));
         if (sb2.toString().length() > 0)
             return sb2.toString();
-        return "nil";
+        return "N/A";
     }
 
     public void pulse() {

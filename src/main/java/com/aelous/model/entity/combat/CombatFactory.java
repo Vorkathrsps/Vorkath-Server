@@ -17,6 +17,7 @@ import com.aelous.model.content.teleport.Teleports;
 import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.hit.Splat;
 import com.aelous.model.entity.combat.hit.SplatType;
@@ -361,11 +362,12 @@ public class CombatFactory {
                 }
             }
 
-            Item weapon = player.getEquipment().get(EquipSlot.WEAPON);
-            AttackType attackType = player.getCombat().getFightType().getAttackType();
-            if (npc.id() == CORPOREAL_BEAST) {
-                if (weapon != null && player.getEquipment().corpbeastArmour(weapon) && attackType != null && attackType.equals(AttackType.STAB)) {
-                    damage *= 0.5d;
+            if (attacker.isPlayer() && target.getAsNpc().id() == (NpcIdentifiers.CORPOREAL_BEAST)) {
+                if (!attacker.getAsPlayer().getCombat().combatType().equals(CombatType.MAGIC)) {
+                    if (!attacker.getCombat().getFightType().getAttackType().equals(AttackType.STAB) &&
+                        !FormulaUtils.wearingSpearsOrHalberds(player)) {
+                        damage = (int) Math.floor(damage * 0.5D);
+                    }
                 }
             }
         }
@@ -375,9 +377,6 @@ public class CombatFactory {
             if (target.isPlayer() && attacker.isPlayer()) {
                 Player targ = target.getAsPlayer();
                 boolean isProtecting = false;
-                /**
-                 * Work around for what you wanted
-                 */
                 if (type == CombatType.MELEE && targ.lastActiveOverhead == PROTECT_FROM_MELEE) {
                     isProtecting = true;
                 } else if (type == CombatType.RANGED && targ.lastActiveOverhead == PROTECT_FROM_MISSILES) {
@@ -390,20 +389,18 @@ public class CombatFactory {
                 //System.err.println("Damage Before=" + damage);
 
                 if (isProtecting) {
-                    damage *= 0.4;
+                    damage = (int) Math.floor(damage * 0.4);
                 }
                 //System.err.println("Damage After=" + damage);
             }
         }
 
-        // Passive effect of the Elysian spirit shield
-        SecureRandom random = new SecureRandom();
         if (target instanceof Player) {
-                Item shield = target.getAsPlayer().getEquipment().get(EquipSlot.SHIELD);
-                if (shield != null && shield.getId() == 12817) {
-                    if (target.isPlayer() && random.nextDouble() < 0.7D) {
-                        damage *= CombatConstants.ELYSIAN_DAMAGE_REDUCTION;
-                        target.performGraphic(new Graphic(321, GraphicHeight.MIDDLE)); // Elysian spirit shield effect gfx
+            Item shield = target.getAsPlayer().getEquipment().get(EquipSlot.SHIELD);
+            if (shield != null && shield.getId() == 12817) {
+                if (target.isPlayer() && Utils.securedRandomChance(0.7D)) {
+                    damage = (int) Math.floor(damage * CombatConstants.ELYSIAN_DAMAGE_REDUCTION);
+                    target.performGraphic(new Graphic(321, GraphicHeight.MIDDLE)); // Elysian spirit shield effect gfx
                 }
             }
 
@@ -422,7 +419,7 @@ public class CombatFactory {
             //If we have used the SOTD special attack, reduce incoming melee damage by 50%.
             if (target.isPlayer()) {
                 if (target.getTimers().has(TimerKey.SOTD_DAMAGE_REDUCTION) && target.getAsPlayer().getEquipment().containsAny(STAFF_OF_THE_DEAD, TOXIC_STAFF_OF_THE_DEAD, TOXIC_STAFF_UNCHARGED, STAFF_OF_LIGHT) && type == CombatType.MELEE) {
-                    damage *= CombatConstants.TSTOD_DAMAGE_REDUCTION;
+                    damage = (int) Math.floor(damage * CombatConstants.TSTOD_DAMAGE_REDUCTION);
                 }
             }
 
@@ -438,7 +435,7 @@ public class CombatFactory {
             if (target.isPlayer()) {
                 if (shield != null && shield.getId() == 21015 && target.getAsPlayer().getCombat().getFightType().getChildId() == 2) {
                     damage -= damage / 5;
-                    damage *= CombatConstants.DINHS_BULWARK_REDUCTION;
+                    damage = (int) Math.floor(damage * CombatConstants.DINHS_BULWARK_REDUCTION);
                 }
             }
 
@@ -1239,19 +1236,19 @@ public class CombatFactory {
         if (hit.postDamage != null)
             hit.postDamage.accept(hit);
 
-            if (attacker.isPlayer()) {
-                Player player = (Player) attacker;
-                SecureRandom random = new SecureRandom();
-                    if (hit.isAccurate()) {
-                        if (player.getEquipment().hasAt(EquipSlot.AMULET, AMULET_OF_BLOOD_FURY)) {
-                            if (random.nextDouble() < 0.20D) {
-                                int healAmount = damage * 30 / 100;
-                                player.heal(healAmount);
-                                player.graphic(1542);
-                            }
-                        }
+        if (attacker.isPlayer()) {
+            Player player = (Player) attacker;
+            SecureRandom random = new SecureRandom();
+            if (hit.isAccurate()) {
+                if (player.getEquipment().hasAt(EquipSlot.AMULET, AMULET_OF_BLOOD_FURY)) {
+                    if (random.nextDouble() < 0.20D) {
+                        int healAmount = damage * 30 / 100;
+                        player.heal(healAmount);
+                        player.graphic(1542);
                     }
                 }
+            }
+        }
 
         // Check for poisonous weapons..
         // And do other effects, such as barrows effects..
@@ -1746,8 +1743,8 @@ public class CombatFactory {
         entity.getTimers().cancel(TimerKey.REFREEZE);
 
         if (entity.isPlayer()) {
-                Player player = entity.getAsPlayer();
-                player.getPacketSender().sendEffectTimer(0, EffectTimer.FREEZE);
+            Player player = entity.getAsPlayer();
+            player.getPacketSender().sendEffectTimer(0, EffectTimer.FREEZE);
         }
     }
 

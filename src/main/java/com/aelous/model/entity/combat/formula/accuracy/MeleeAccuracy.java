@@ -71,7 +71,6 @@ public class MeleeAccuracy {
 
     private static double getPrayerAttackBonus(Entity attacker, CombatType style) {
         double prayerBonus = 1D;
-        if (style == MELEE) {
             if (Prayers.usingPrayer(attacker, CLARITY_OF_THOUGHT))
                 prayerBonus *= 1.05D; // 5% attack level boost
             else if (Prayers.usingPrayer(attacker, IMPROVED_REFLEXES))
@@ -82,7 +81,6 @@ public class MeleeAccuracy {
                 prayerBonus *= 1.15D; // 15% attack level boost
             else if (Prayers.usingPrayer(attacker, PIETY))
                 prayerBonus *= 1.20D; // 20% attack level boost
-        }
         return prayerBonus;
     }
 
@@ -108,7 +106,7 @@ public class MeleeAccuracy {
         final Item weapon = attacker.getAsPlayer().getEquipment().get(EquipSlot.WEAPON);
         AttackType attackType = attacker.getCombat().getFightType().getAttackType();
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
-        int effectiveLevel = attacker instanceof NPC ? ((NPC) attacker).combatInfo().stats.attack : (int) Math.floor(getAttackLevel(attacker) * getPrayerAttackBonus(attacker, style));
+        int effectiveLevel = (int) Math.floor(getAttackLevel(attacker) * getPrayerAttackBonus(attacker, style));
         double specialMultiplier = attacker.getAsPlayer().getCombatSpecial() == null ? 1 : attacker.getAsPlayer().getCombatSpecial().getAccuracyMultiplier();
 
         switch (fightStyle) {
@@ -185,9 +183,9 @@ public class MeleeAccuracy {
             NPC npc = ((NPC) attacker);
             if (npc.combatInfo() != null && npc.combatInfo().stats != null) {
                 attackLevel = npc.combatInfo().stats.attack;
-            } else {
-                attackLevel = attacker.skills().level(Skills.ATTACK);
             }
+        } else {
+            attackLevel = attacker.skills().level(Skills.ATTACK);
         }
         return attackLevel;
     }
@@ -198,9 +196,9 @@ public class MeleeAccuracy {
             NPC npc = ((NPC) defender);
             if (npc.combatInfo() != null && npc.combatInfo().stats != null) {
                 defenceLevel = npc.combatInfo().stats.defence;
-            } else {
-                defenceLevel = defender.skills().level(Skills.DEFENCE);
             }
+        } else {
+            defenceLevel = defender.skills().level(Skills.DEFENCE);
         }
         return defenceLevel;
     }
@@ -224,15 +222,12 @@ public class MeleeAccuracy {
         final AttackType type = attacker.getCombat().getFightType().getAttackType();
         EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
         int bonus = 0;
-        if (style == MELEE) {
             if (type == AttackType.STAB)
                 bonus = (bonus + attackerBonus.stab);
             else if (type == AttackType.CRUSH)
                 bonus = (bonus + attackerBonus.crush);
             else if (type == AttackType.SLASH)
                 bonus = (bonus + attackerBonus.slash);
-        }
-        System.out.println(bonus);
         return bonus;
     }
 

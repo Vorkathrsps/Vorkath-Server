@@ -92,6 +92,14 @@ public class FormulaUtils {
         return player.getEquipment().containsAny(INQUISITORS_GREAT_HELM, INQUISITORS_HAUBERK, INQUISITORS_PLATESKIRT);
     }
 
+    public static boolean wearingSpearsOrHalberds(Player player) {
+        return player.getEquipment().containsAny(ItemIdentifiers.VESTAS_SPEAR, ItemIdentifiers.LEAFBLADED_SPEAR,
+            ItemIdentifiers.GUTHANS_WARSPEAR, ItemIdentifiers.ZAMORAKIAN_SPEAR,
+            ItemIdentifiers.ZAMORAKIAN_HASTA, ItemIdentifiers.OSMUMTENS_FANG,
+            ItemIdentifiers.OSMUMTENS_FANG_OR, ItemIdentifiers.CRYSTAL_HALBERD,
+            ItemIdentifiers.CRYSTAL_HALBERD_FULL, ItemIdentifiers.NEW_CRYSTAL_HALBERD_FULL, ItemIdentifiers.DRAGON_HALBERD);
+    }
+
     public static boolean fullDharok(Player player) {
         return player.getEquipment().containsAll(DHAROKS_HELM, DHAROKS_GREATAXE, DHAROKS_PLATELEGS, DHAROKS_PLATEBODY);
     }

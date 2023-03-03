@@ -33,9 +33,10 @@ import static com.aelous.utility.ItemIdentifiers.*;
  */
 public class RangedData {
 
-//TODO change random ids with identifiers
-
-    static SecureRandom srand = new SecureRandom();
+    private static int boltSpecialChance(boolean always_spec) {
+        int percentage = 10;
+        return always_spec ? 100 : percentage;
+    }
 
     public static boolean zaryteCrossBowEvoke(Player p) {
         return p.getEquipment().contains(ItemIdentifiers.ZARYTE_CROSSBOW) && p.isSpecialActivated() && p.getCombatSpecial() == CombatSpecial.ZARYTE_CROSSBOW;
@@ -51,37 +52,40 @@ public class RangedData {
 
         double boltSpecialMultiplier;
 
-        boolean always_fire_special = false;
-
-        if(target instanceof NPC) {
+        boolean always_spec = false;
+        if (target instanceof NPC) {
             NPC npc = (NPC) target;
             if (npc.isCombatDummy()) {
-                always_fire_special = true;
+                always_spec = true;
             }
         }
 
+        if (zaryteCrossBowEvoke(p)) {
+            always_spec = true;
+        }
+
         Item ammo = p.getEquipment().get(EquipSlot.AMMO);
-            boolean always_spec = true;
-        if(ammo != null) {
+
+        if (ammo != null) {
             switch (ammo.getId()) {
                 case OPAL_BOLTS_E, OPAL_DRAGON_BOLTS_E -> {
-                    if (srand.nextDouble() < 0.10) {
+                    if (Utils.percentageChance(boltSpecialChance(always_spec))) {
                         double zbow = .10;
                         int current_range_level = p.skills().level(Skills.RANGED);
                         target.performGraphic(new Graphic(749, GraphicHeight.LOW, 55 + 5));
                         boltSpecialMultiplier = (current_range_level * 0.10); // Can max deal 25% extra damage.
                         damage += boltSpecialMultiplier;
-                        if(zaryteCrossBowEvoke(p)) {
+                        if (zaryteCrossBowEvoke(p)) {
                             damage += boltSpecialMultiplier * zbow;
                         }
                     }
                 }
                 case JADE_BOLTS_E, JADE_DRAGON_BOLTS_E -> {
-                    if (srand.nextDouble() < 0.10) {
+                    if (Utils.percentageChance(boltSpecialChance(always_spec))) {
                         boltSpecialMultiplier = 1.18; // Deals 18% extra damage.
                         damage *= boltSpecialMultiplier;
                         target.performGraphic(new Graphic(756, GraphicHeight.HIGH, 55 + 5));
-                        if(target.isNpc()) {
+                        if (target.isNpc()) {
                             NPC npc = (NPC) target;
                             if (!npc.isCombatDummy())
                                 target.stun(10);
@@ -89,16 +93,18 @@ public class RangedData {
                     }
                 }
                 case PEARL_BOLTS_E, PEARL_DRAGON_BOLTS_E -> {
-                    target.performGraphic(new Graphic(750, GraphicHeight.LOW, 55 + 5));
-                    double zbow = .10;
-                    boltSpecialMultiplier = 1.1;
-                    damage *= boltSpecialMultiplier;
-                    if(zaryteCrossBowEvoke(p)) {
-                        damage += boltSpecialMultiplier * zbow;
+                    if (Utils.percentageChance(boltSpecialChance(always_spec))) {
+                        target.performGraphic(new Graphic(750, GraphicHeight.LOW, 55 + 5));
+                        double zbow = .10;
+                        boltSpecialMultiplier = 1.1;
+                        damage *= boltSpecialMultiplier;
+                        if (zaryteCrossBowEvoke(p)) {
+                            damage += boltSpecialMultiplier * zbow;
+                        }
                     }
                 }
                 case TOPAZ_BOLTS_E, TOPAZ_DRAGON_BOLTS_E -> {
-                    if (srand.nextDouble() < 0.10 && target.isPlayer()) {
+                    if (Utils.percentageChance(boltSpecialChance(always_spec)) && target.isPlayer()) {
                         Player t = target.getAsPlayer();
                         t.performGraphic(new Graphic(757, GraphicHeight.HIGH, 55 + 5));
                         t.skills().alterSkill(Skills.MAGIC, t.skills().level(Skills.MAGIC) - 1);
@@ -106,7 +112,7 @@ public class RangedData {
                     }
                 }
                 case SAPPHIRE_BOLTS_E, SAPPHIRE_DRAGON_BOLTS_E -> {
-                    if (srand.nextDouble() < 0.10) {
+                    if (Utils.percentageChance(boltSpecialChance(always_spec))) {
                         Player t = target.getAsPlayer();
                         t.performGraphic(new Graphic(751, GraphicHeight.LOW, 55 + 5));
                         t.skills().alterSkill(Skills.PRAYER, -20);
@@ -117,13 +123,13 @@ public class RangedData {
                     }
                 }
                 case EMERALD_BOLTS_E, EMERALD_DRAGON_BOLTS_E -> {
-                    if (srand.nextDouble() < 0.10) {
+                    if (Utils.percentageChance(boltSpecialChance(always_spec))) {
                         target.performGraphic(new Graphic(752, GraphicHeight.HIGH, 55 + 5));
                         target.poison(5);
                     }
                 }
                 case RUBY_BOLTS_E, RUBY_DRAGON_BOLTS_E -> {
-                    if (srand.nextDouble() < 0.10) {
+                    if (Utils.percentageChance(boltSpecialChance(always_spec))) {
                         int cap = 100;
 
                         double zbow = .10;
@@ -137,28 +143,30 @@ public class RangedData {
                             if (damage > cap)
                                 damage = cap;
 
-                            p.hit(p, selfDamage, 0, null).setIsReflected().submit();
-                            if(zaryteCrossBowEvoke(p)) {
+                            if (!target.getAsNpc().isCombatDummy()) {
+                                p.hit(p, selfDamage, 0, null).setIsReflected().submit();
+                            }
+                            if (zaryteCrossBowEvoke(p)) {
                                 damage += targetHP * 0.2 * zbow;
                             }
                         }
                     }
                 }
                 case DIAMOND_BOLTS_E, DIAMOND_DRAGON_BOLTS_E -> {
-                    if (srand.nextDouble() < 0.10) {
+                    if (Utils.percentageChance(boltSpecialChance(always_spec))) {
                         double zbow = .10;
                         p.putAttrib(AttributeKey.ARMOUR_PIERCING, true);
                         target.performGraphic(new Graphic(758, GraphicHeight.HIGH));
                         boltSpecialMultiplier = 1.15; // Deals 15% extra damage.
                         damage *= boltSpecialMultiplier;
-                        if(zaryteCrossBowEvoke(p)) {
+                        if (zaryteCrossBowEvoke(p)) {
                             damage += boltSpecialMultiplier * zbow;
                         }
                     }
                 }
                 case DRAGONSTONE_BOLTS_E, DRAGONSTONE_DRAGON_BOLTS_E -> {
                     boolean can_perform_dragons_breath = true;
-                    if (srand.nextDouble() < 0.10) {
+                    if (Utils.percentageChance(boltSpecialChance(always_spec))) {
                         if (target.isPlayer()) {
                             Player t = target.getAsPlayer();
                             boolean potionEffect = (int) t.getAttribOr(AttributeKey.ANTIFIRE_POTION, 0) > 0;
@@ -167,19 +175,19 @@ public class RangedData {
 
                         double zbow = .10;
 
-                        if (srand.nextDouble() < 0.10) {
+                        if (Utils.percentageChance(boltSpecialChance(always_spec))) {
                             target.performGraphic(new Graphic(756, GraphicHeight.HIGH, 55 + 5));
                             int current_range_level = p.skills().level(Skills.RANGED);
                             boltSpecialMultiplier = (current_range_level * 0.20); // 20 % extra damage
                             damage += boltSpecialMultiplier;
-                            if(zaryteCrossBowEvoke(p)) {
+                            if (zaryteCrossBowEvoke(p)) {
                                 damage += boltSpecialMultiplier * zbow;
                             }
                         }
                     }
                 }
                 case ONYX_BOLTS_E, ONYX_DRAGON_BOLTS_E -> {
-                    if (srand.nextDouble() < 0.10) {
+                    if (Utils.percentageChance(boltSpecialChance(always_spec))) {
                         target.performGraphic(new Graphic(753, GraphicHeight.LOW, 55 + 5));
                         boltSpecialMultiplier = 1.20; //20% extra damage
                         damage *= boltSpecialMultiplier;
@@ -212,7 +220,7 @@ public class RangedData {
         YEW_SHORTBOW(new int[]{ItemIdentifiers.YEW_SHORTBOW}, RangedWeaponType.SHORTBOW, true),
         MAGIC_LONGBOW(new int[]{ItemIdentifiers.MAGIC_LONGBOW}, RangedWeaponType.LONGBOW, true),
         MAGIC_SHORTBOW(new int[]{ItemIdentifiers.MAGIC_SHORTBOW, ItemIdentifiers.MAGIC_SHORTBOW_I}, RangedWeaponType.SHORTBOW, true),
-        _3RD_AGE_BOW(new int[] {ItemIdentifiers._3RD_AGE_BOW}, RangedWeaponType.SHORTBOW, true),
+        _3RD_AGE_BOW(new int[]{ItemIdentifiers._3RD_AGE_BOW}, RangedWeaponType.SHORTBOW, true),
         DARK_BOW(new int[]{ItemIdentifiers.DARK_BOW}, RangedWeaponType.LONGBOW, true),
         TWISTED_BOW(new int[]{ItemIdentifiers.TWISTED_BOW}, RangedWeaponType.TWISTED_BOW, true),
         BRONZE_CROSSBOW(new int[]{ItemIdentifiers.BRONZE_CROSSBOW}, RangedWeaponType.CROSSBOWS, true),
@@ -224,10 +232,10 @@ public class RangedData {
         ARMADYL_CROSSBOW(new int[]{ItemIdentifiers.ARMADYL_CROSSBOW}, RangedWeaponType.ARMADYL_CROSSBOW, true),
         ZARYTE_CROSSBOW(new int[]{ItemIdentifiers.ZARYTE_CROSSBOW}, RangedWeaponType.ZARYTE_CROSSBOW, true),
 
-        DRAGON_CROSSBOW(new int[] {ItemIdentifiers.DRAGON_CROSSBOW}, RangedWeaponType.CROSSBOWS, true),
-        DRAGON_HUNTER_CROSSBOW(new int[] {ItemIdentifiers.DRAGON_HUNTER_CROSSBOW}, RangedWeaponType.CROSSBOWS, true),
+        DRAGON_CROSSBOW(new int[]{ItemIdentifiers.DRAGON_CROSSBOW}, RangedWeaponType.CROSSBOWS, true),
+        DRAGON_HUNTER_CROSSBOW(new int[]{ItemIdentifiers.DRAGON_HUNTER_CROSSBOW}, RangedWeaponType.CROSSBOWS, true),
 
-        HUNTERS_CROSSBOW(new int[] {ItemIdentifiers.HUNTERS_CROSSBOW}, RangedWeaponType.CROSSBOWS, true),
+        HUNTERS_CROSSBOW(new int[]{ItemIdentifiers.HUNTERS_CROSSBOW}, RangedWeaponType.CROSSBOWS, true),
         KARILS_CROSSBOW(new int[]{ItemIdentifiers.KARILS_CROSSBOW}, RangedWeaponType.KARILS_CROSSBOW, true),
 
         BRONZE_DART(new int[]{ItemIdentifiers.BRONZE_DART}, RangedWeaponType.DARTS, false),
@@ -262,7 +270,7 @@ public class RangedData {
         BALLISTA(new int[]{LIGHT_BALLISTA, HEAVY_BALLISTA}, RangedWeaponType.BALLISTA, true),
 
         TOXIC_BLOWPIPE(new int[]{ItemIdentifiers.TOXIC_BLOWPIPE}, RangedWeaponType.TOXIC_BLOWPIPE, false),
-        
+
         CRAWS_BOW(new int[]{ItemIdentifiers.CRAWS_BOW_U, ItemIdentifiers.CRAWS_BOW}, RangedWeaponType.CRAWS_BOW, false),
 
         BOW_OF_FAERDHINEN(new int[]{ItemIdentifiers.BOW_OF_FAERDHINEN}, RangedWeaponType.SHORTBOW, false),
@@ -295,7 +303,7 @@ public class RangedData {
 
         public static RangedWeapon getFor(Player player) {
             Item weapon = player.getEquipment().get(EquipSlot.WEAPON);
-            if(weapon == null) {
+            if (weapon == null) {
                 player.message("This weapon isn't recognized as ranged weapon. Maybe I should report this.");
                 return null;
             }
@@ -328,7 +336,7 @@ public class RangedData {
         ZARYTE_CROSSBOW(8, 10, FightType.BOLT_LONGRANGE, true),
         ZARYTE_I(8, 10, FightType.BOLT_LONGRANGE, true),
         KARILS_CROSSBOW(8, 10, FightType.BOLT_LONGRANGE, true),
-        SEERCULL_BOW(8,10, FightType.ARROW_LONGRANGE, false),
+        SEERCULL_BOW(8, 10, FightType.ARROW_LONGRANGE, false),
         BALLISTA(9, 10, FightType.ARROW_LONGRANGE, true),
         CHINCHOMPA(9, 10, FightType.THROWING_LONGRANGE, false),
         _3_AGE_BOW(9, 10, FightType.ARROW_LONGRANGE, false),
@@ -341,11 +349,7 @@ public class RangedData {
 
         VENATOR_BOW(6, 6, FightType.ARROW_RAPID, true),
 
-        WEBWEAVER_BOW(9, 9, FightType.ARROW_RAPID, false),
-
-        //Custom not in OSRS
-        ZARYTE_BOW(10, 10, FightType.ARROW_LONGRANGE, false),
-        HAND_CANNON(9, 9, FightType.ARROW_ACCURATE, true);
+        WEBWEAVER_BOW(9, 9, FightType.ARROW_RAPID, false);
 
         private final FightType longRangeFightType;
         private final int defaultDistance;
@@ -362,7 +366,7 @@ public class RangedData {
         public int getDefaultDistance() {
             return defaultDistance;
         }
-        
+
         public int getLongRangeDistance() {
             return longRangeDistance;
         }

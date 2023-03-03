@@ -868,12 +868,12 @@ public class World {
 
     public int clipAt(Tile tile) {
         Region active = RegionManager.getRegion(tile.region());
-        return active == null ? 0 : active.clips == null ? 0 : active.clips[tile.level % 4] == null ? 0 : active.clips[tile.level % 4][tile.x & 63][tile.y & 63];
+        return active.clips == null ? 0 : active.clips[tile.level % 4] == null ? 0 : active.clips[tile.level % 4][tile.x & 63][tile.y & 63];
     }
 
     public int floorAt(Tile tile) {
         Region active = RegionManager.getRegion(tile.region());
-        return active == null ? 0 : active.heightMap[tile.level % 4][tile.x & 63][tile.y & 63];
+        return active.heightMap[tile.level % 4][tile.x & 63][tile.y & 63];
     }
 
     public void tileGraphic(int id, Tile tile, int height, int delay) {

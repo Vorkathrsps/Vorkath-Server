@@ -273,19 +273,6 @@ public class Hit {
                     if (attacker.isNpc() && name != null && name.equalsIgnoreCase("Nex") && attacker.<Boolean>getAttribOr(AttributeKey.TURMOIL_ACTIVE, false)) {
                         this.damage *= 1.10;
                     }
-                    if (attacker.isPlayer() && target.getAsNpc().id() == (NpcIdentifiers.CORPOREAL_BEAST)) {
-                        if (!attacker.getAsPlayer().getCombat().combatType().equals(CombatType.MAGIC)) {
-                            if (!attacker.getCombat().getFightType().getAttackType().equals(AttackType.STAB) &&
-                                !attacker.getAsPlayer().getEquipment().containsAny(
-                                    ItemIdentifiers.VESTAS_SPEAR, ItemIdentifiers.LEAFBLADED_SPEAR,
-                                    ItemIdentifiers.GUTHANS_WARSPEAR, ItemIdentifiers.ZAMORAKIAN_SPEAR,
-                                    ItemIdentifiers.ZAMORAKIAN_HASTA, ItemIdentifiers.OSMUMTENS_FANG,
-                                    ItemIdentifiers.OSMUMTENS_FANG_OR, ItemIdentifiers.CRYSTAL_HALBERD,
-                                    ItemIdentifiers.CRYSTAL_HALBERD_FULL, ItemIdentifiers.NEW_CRYSTAL_HALBERD_FULL, ItemIdentifiers.DRAGON_HALBERD)) {
-                                this.damage = (int) Math.floor(this.damage * 0.5);
-                            }
-                        }
-                    }
                 }
                 damage = this.damage;
             }

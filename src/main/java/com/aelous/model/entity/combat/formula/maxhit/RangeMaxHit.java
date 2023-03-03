@@ -105,7 +105,6 @@ public class RangeMaxHit {
             damage /= 100;
             damage = Math.min(250D, damage);
             otherBonus *= Math.min(2D, 1D + damage);
-            System.out.println(damage);
         }
 
         if (player.getEquipment().hasAt(EquipSlot.HEAD, CRYSTAL_HELM)) {

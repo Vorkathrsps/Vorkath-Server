@@ -35,8 +35,8 @@ public class TimesCycle {
 
     public String COMPUTED_MSG = "";
     public static int lastComputedMsgTick = -1;
-    public static boolean APPEND_WORLDINFO = true;
-    public static boolean BENCHMARKING_ENABLED = true;
+    public static boolean APPEND_WORLDINFO = false;
+    public static boolean BENCHMARKING_ENABLED = false;
 
     public void computeAnd(Consumer<TimesCycle> c) {
         if (!BENCHMARKING_ENABLED) return;

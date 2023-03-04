@@ -349,6 +349,35 @@ public abstract class Entity {
     }
 
     public Player[] closePlayers(int maxCapacity, int span) {
+        List<Player> playersWithinRange = new ArrayList<>();
+        Tile centerTile = tile();
+        int maxDistanceSq = span * span;
+
+        for (Player p : World.getWorld().getPlayers()) {
+            if (p == null || p == this || p.looks().hidden() || p.finished()) {
+                continue;
+            }
+
+            if (p.tile().level != centerTile.level) {
+                continue;
+            }
+
+            int distanceSq = centerTile.distance(p.tile());
+            if (distanceSq > maxDistanceSq) {
+                continue;
+            }
+
+            playersWithinRange.add(p);
+            if (playersWithinRange.size() == maxCapacity) {
+                break;
+            }
+        }
+
+        return playersWithinRange.toArray(new Player[0]);
+    }
+
+
+   /* public Player[] closePlayers(int maxCapacity, int span) {
         Player[] targs = new Player[maxCapacity];
         int caret = 0;
         for (int idx = 0; idx < 2048; idx++) {
@@ -360,7 +389,7 @@ public abstract class Entity {
 			/*if(!((Player)this).sync().hasInView(p.index())){
 				continue;
 			}*/
-            if (p.tile().inSqRadius(tile, span)) {
+        /*    if (p.tile().inSqRadius(tile, span)) {
                 targs[caret++] = p;
             }
             if (caret >= targs.length) {
@@ -370,7 +399,7 @@ public abstract class Entity {
         Player[] set = new Player[caret];
         System.arraycopy(targs, 0, set, 0, caret);
         return set;
-    }
+    }*/
 
     public NPC[] closeNpcs(int span) {
         return closeNpcs(254, span);

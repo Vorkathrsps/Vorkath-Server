@@ -50,7 +50,7 @@ public class Whitelist {
 
     public static void remove(String uid) {
         try {
-            long id = Long.valueOf(uid.replaceAll("<@!", "").replaceAll(">", ""));
+            long id = Long.parseLong(uid.replaceAll("<@!", "").replaceAll(">", ""));
             boolean isAdmin = administrators.stream().anyMatch(n -> n == id);
             boolean isMod = moderators.stream().anyMatch(n -> n == id);
             if (isAdmin || isMod) {
@@ -85,7 +85,7 @@ public class Whitelist {
         sb.append("Administrators:");
         sb.append("\n");
         for (Long a : administrators) {
-            sb.append("<@!"+a+">\n");
+            sb.append("<@!").append(a).append(">\n");
         }
         sb.append("\n\n");
         boolean hasMods = moderators.size() > 0;
@@ -93,7 +93,7 @@ public class Whitelist {
         sb.append("\n");
         if (hasMods) {
             for (Long a : moderators) {
-                sb.append("<@!" + a + ">\n");
+                sb.append("<@!").append(a).append(">\n");
             }
         } else
             sb.append("N/A");

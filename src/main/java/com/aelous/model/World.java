@@ -290,6 +290,26 @@ public class World {
                 }
             }
         });
+    }, npcProcess = () -> {
+        NpcPerformance.resetWorldTime();
+        executor.sync(new GameSyncTask(NodeType.NPC, false, npcRenderOrder) {
+            @Override
+            public void execute(int index) {
+                NPC npc = npcs.get(index);
+                try {
+                    if (npc != null && !npc.hidden()) {
+                        npc.processed = true;
+                        npc.sequence();
+                        npc.inViewport(false); //Assume viewport is false, we set it in NPC Updating below.
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    synchronized (npcs) {
+                        npcs.remove(npc);
+                    }
+                }
+            }
+        });
     }, playerProcess = () -> {
         executor.sync(new GameSyncTask(NodeType.PLAYER, false, playerRenderOrder) {
             @Override
@@ -301,41 +321,6 @@ public class World {
                 } catch (Exception e) {
                     e.printStackTrace();
                     player.requestLogout();
-                }
-            }
-        });
-    }, npcProcess = () -> {
-        executor.sync(new GameSyncTask(NodeType.NPC, false, npcRenderOrder) {
-            @Override
-            public void execute(int index) {
-                NPC npc = npcs.get(index);
-                try {
-                    if (RegionManager.getRegion(npc.getX(), npc.getY()) == null) {
-                        //System.err.println("region "+npc.getCentrePosition().region()+" missing @ "+npc.getCentrePosition());
-                        logger.error("despawn npc due to missing map {}", npc);
-                        synchronized (npcs) {
-                            npcs.remove(npc);
-                        }
-                        return;
-                    }
-                } catch (Exception e) {
-                    logger.error("despawn npc due to missing map {}", npc);
-                    synchronized (npcs) {
-                        npcs.remove(npc);
-                    }
-                }
-                try {
-                    if (npc != null && !npc.hidden()) {
-                        npc.processed = true;
-                        npc.sequence();
-                        npc.inViewport(false); //Assume viewport is false, we set it in NPC Updating below.
-                        NpcPerformance.resetWorldTime();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    synchronized (npcs) {
-                        npcs.remove(npc);
-                    }
                 }
             }
         });
@@ -356,6 +341,22 @@ public class World {
                 }
             }
         });
+    }, reset = () -> {
+        executor.sync(new GameSyncTask(NodeType.NPC, false, npcRenderOrder) {
+            @Override
+            public void execute(int index) {
+                NPC npc = npcs.get(index);
+                try {
+                    npc.resetUpdating();
+                    npc.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
+                    npc.performance.reset();
+                    npc.processed = false;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    World.getWorld().getNpcs().remove(npc);
+                }
+            }
+        });
     }, flush = () -> {
         executor.sync(new GameSyncTask(NodeType.PLAYER, false, playerRenderOrder) {
             @Override
@@ -371,22 +372,6 @@ public class World {
                 } catch (Exception e) {
                     e.printStackTrace();
                     player.requestLogout();
-                }
-            }
-        });
-    }, reset = () -> {
-        executor.sync(new GameSyncTask(NodeType.NPC, false, npcRenderOrder) {
-            @Override
-            public void execute(int index) {
-                NPC npc = npcs.get(index);
-                try {
-                    npc.resetUpdating();
-                    npc.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
-                    npc.performance.reset();
-                    npc.processed = false;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    World.getWorld().getNpcs().remove(npc);
                 }
             }
         });
@@ -410,8 +395,8 @@ public class World {
             players.shuffleRenderOrder();
         }
 
-        playerRenderOrder = players.getRenderOrder();
         npcRenderOrder = npcs.getRenderOrder();
+        playerRenderOrder = players.getRenderOrder();
 
         Entity.time(t -> GameEngine.profile.wp.player_process += t.toMillis(), () -> {
             Entity.time(t -> benchmark.packets += t.toNanos(), packets);

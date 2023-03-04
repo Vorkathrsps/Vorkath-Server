@@ -39,10 +39,14 @@ public class DragonClaws extends CommonCombatMethod {
             fourth = Utils.random(maxHit, (int) (maxHit * 1.5));
         }
 
-        target.hit(entity, first, 0, CombatType.MELEE).checkAccuracy().submit();
-        target.hit(entity, second, 0, CombatType.MELEE).checkAccuracy().submit();
-        target.hit(entity, third, 0, CombatType.MELEE).checkAccuracy().submit();
-        target.hit(entity, fourth, 0, CombatType.MELEE).checkAccuracy().submit();
+        Hit hit1 = target.hit(entity, first, 1, CombatType.MELEE).checkAccuracy();
+        hit1.submit();
+        Hit hit2 = target.hit(entity, second, 1, CombatType.MELEE).checkAccuracy();
+        hit2.submit();
+        Hit hit3 = target.hit(entity, third, 2, CombatType.MELEE).checkAccuracy();
+        hit3.submit();
+        Hit hit4 = target.hit(entity, fourth, 2, CombatType.MELEE).checkAccuracy();
+        hit4.submit();
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_CLAWS.getDrainAmount());
     }
 

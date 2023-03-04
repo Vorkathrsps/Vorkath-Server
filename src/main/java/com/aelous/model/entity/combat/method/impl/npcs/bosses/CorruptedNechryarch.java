@@ -35,8 +35,6 @@ public class CorruptedNechryarch extends CommonCombatMethod {
         boolean close = target.tile().isWithinDistance(entity.tile(),2);
         if (close && World.getWorld().rollDie(3))
             melee_attack(entity, target);
-        else
-            magic_attack(entity, target);
     }
 
     @Override
@@ -98,7 +96,7 @@ public class CorruptedNechryarch extends CommonCombatMethod {
         });
     }
 
-    private void magic_attack(Entity entity, Entity target) {
+  /*  private void magic_attack(Entity entity, Entity target) {
         entity.animate(7550); // there
         Arrays.stream(entity.closePlayers(16, 16)).forEach(p -> {
             if (p != null && ProjectileRoute.allow(entity, p)) {
@@ -117,5 +115,5 @@ public class CorruptedNechryarch extends CommonCombatMethod {
                 }
             }
         });
-    }
+    }*/
 }

@@ -224,8 +224,10 @@ public class TradingPost {
                 Type type = new TypeToken<List<TradingPostListing>>() {
                 }.getType();
                 List<TradingPostListing> sales = new Gson().fromJson(new FileReader("./data/saves/tradingpost/recentTransactions.json"), type);
-                recentTransactions.addAll(sales);
-                //System.out.println("recent sales info = " + recentTransactions.size());
+                if (sales != null) {
+                    recentTransactions.addAll(sales);
+                    //System.out.println("recent sales info = " + recentTransactions.size());
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

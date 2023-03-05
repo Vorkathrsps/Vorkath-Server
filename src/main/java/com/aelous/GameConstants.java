@@ -47,7 +47,7 @@ public class GameConstants {
 
     public static String CURRENCY_STRING = GameServer.properties().pvpMode ? "BM" : "coins";
 
-    public static final String SERVER_NAME = "Aelous";
+    public static final String SERVER_NAME = "Zaryte";
 
     public static final int[] DONATOR_ITEMS = {DARK_CRAB, DARK_CRAB + 1, ItemIdentifiers.ANGLERFISH, ItemIdentifiers.ANGLERFISH + 1, ItemIdentifiers.SUPER_COMBAT_POTION1, ItemIdentifiers.SUPER_COMBAT_POTION2, ItemIdentifiers.SUPER_COMBAT_POTION3, ItemIdentifiers.SUPER_COMBAT_POTION4, ItemIdentifiers.SUPER_COMBAT_POTION1 + 1, ItemIdentifiers.SUPER_COMBAT_POTION2 + 1, ItemIdentifiers.SUPER_COMBAT_POTION3 + 1, ItemIdentifiers.SUPER_COMBAT_POTION4 + 1};
 

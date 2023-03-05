@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run Server" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="com.aelous.GameServer" />
+    <module name="Aelous" />
+    <option name="VM_PARAMETERS" value="-Xmx4g -Xms4g" />
+    <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="com.aelous.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

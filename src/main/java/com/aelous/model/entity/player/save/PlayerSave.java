@@ -57,7 +57,15 @@ public class PlayerSave {
 
     static final Map<Type, InstanceCreator<?>> instanceCreators = Collections.<Type, InstanceCreator<?>>emptyMap();
 
-    public static final Gson SERIALIZE = new GsonBuilder().setDateFormat("MMM d, yyyy, HH:mm:ss a").setPrettyPrinting().registerTypeAdapterFactory(new MapTypeAdapterFactoryNulls(new ConstructorConstructor(instanceCreators), false)).disableHtmlEscaping().create();
+    public static final Gson SERIALIZE = new GsonBuilder()
+        .setDateFormat("MMM d, yyyy, HH:mm:ss a")
+        .setPrettyPrinting()
+        .registerTypeAdapterFactory(
+            new MapTypeAdapterFactoryNulls(
+                new ConstructorConstructor(instanceCreators), false)
+        )
+        .disableHtmlEscaping()
+        .create();
 
     /**
      * Loads all the details of the {@code player}.

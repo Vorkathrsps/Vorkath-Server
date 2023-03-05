@@ -12,8 +12,8 @@ import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
 import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.utility.Utils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 
@@ -23,7 +23,7 @@ import java.util.HashMap;
  */
 public class Fletching extends PacketInteraction {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LoggerFactory.getLogger(Fletching.class);
 
     private final static HashMap<Integer, Fletchable> FLETCHABLES = new HashMap<>();
 

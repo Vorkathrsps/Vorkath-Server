@@ -45,7 +45,6 @@ import com.aelous.model.map.region.Flags;
 import com.aelous.model.map.region.Region;
 import com.aelous.model.map.region.RegionManager;
 import com.aelous.utility.*;
-import kotlin.ranges.IntRange;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -901,10 +900,6 @@ public class World {
 
     public int random(int[] i) {
         return i[random.nextInt(i.length)];
-    }
-
-    public int random(IntRange range) {
-        return random.nextInt(range.getEndInclusive() - range.getStart() + 1) + range.getStart();
     }
 
     public boolean rollDie(int dieSides, int chance) {

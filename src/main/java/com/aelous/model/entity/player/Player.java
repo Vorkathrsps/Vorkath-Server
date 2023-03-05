@@ -1197,8 +1197,6 @@ public class Player extends Entity {
             speed--;
         }
 
-        System.out.println(speed);
-
         return speed;
     }
 

@@ -1,16 +1,16 @@
 package com.aelous.model.content.areas.wilderness.content.activity;
 
-import com.aelous.GameServer;
 import com.aelous.GameEngine;
+import com.aelous.GameServer;
+import com.aelous.core.task.Task;
+import com.aelous.core.task.TaskManager;
+import com.aelous.model.World;
 import com.aelous.model.content.areas.wilderness.content.activity.impl.EdgevileActivity;
 import com.aelous.model.content.areas.wilderness.content.activity.impl.MysteriousActivity;
 import com.aelous.model.content.areas.wilderness.content.activity.impl.PureActivity;
 import com.aelous.model.content.areas.wilderness.content.activity.impl.ZerkerActivity;
-import com.aelous.core.task.Task;
-import com.aelous.core.task.TaskManager;
-import com.aelous.model.World;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,7 +26,7 @@ public class WildernessActivityManager {
     /**
      * The logger for this class
      */
-    private static final Logger logger = LogManager.getLogger(WildernessActivityManager.class);
+    private static final Logger logger = LoggerFactory.getLogger(WildernessActivityManager.class);
 
     public static class WildernessActivityManagerTask extends Task {
 
@@ -94,7 +94,7 @@ public class WildernessActivityManager {
 
             }
         } catch (Throwable t) {
-            logger.catching(t);
+            logger.error("", t);
         }
     }
 
@@ -163,7 +163,7 @@ public class WildernessActivityManager {
         try {
             return currentActivity.description();
         } catch (Throwable t) {
-            logger.catching(t);
+            logger.error("", t);
             return null;
         }
     }

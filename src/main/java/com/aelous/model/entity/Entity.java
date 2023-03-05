@@ -338,47 +338,16 @@ public abstract class Entity {
     }
 
     public Player[] closePlayers(int maxCapacity, int span) {
-        List<Player> playersWithinRange = new ArrayList<>();
-        Tile centerTile = tile();
-        int maxDistanceSq = span * span;
-
-        for (Player p : World.getWorld().getPlayers()) {
-            if (p == null || p == this || p.looks().hidden() || p.finished()) {
-                continue;
-            }
-
-            if (p.tile().level != centerTile.level) {
-                continue;
-            }
-
-            int distanceSq = centerTile.distance(p.tile());
-            if (distanceSq > maxDistanceSq) {
-                continue;
-            }
-
-            playersWithinRange.add(p);
-            if (playersWithinRange.size() == maxCapacity) {
-                break;
-            }
-        }
-
-        return playersWithinRange.toArray(new Player[0]);
-    }
-
-
-   /* public Player[] closePlayers(int maxCapacity, int span) {
         Player[] targs = new Player[maxCapacity];
         int caret = 0;
         for (int idx = 0; idx < 2048; idx++) {
             Player p = World.getWorld().getPlayers().get(idx);
-            if (p == null || p == this || tile().distance(p.tile()) > 14 || p.tile().level != tile().level || p.looks().hidden() || p.finished()) {
+            if (p == null || p == this || p.tile().level != tile().level || p.looks().hidden() || p.finished()) {
                 continue;
             }
-            //already looping 2048 times this will be far too expensive!
-			/*if(!((Player)this).sync().hasInView(p.index())){
-				continue;
-			}*/
-        /*    if (p.tile().inSqRadius(tile, span)) {
+            if (tile().distance(p.tile()) > span)
+                continue;
+            if (p.tile().inSqRadius(tile, span)) {
                 targs[caret++] = p;
             }
             if (caret >= targs.length) {
@@ -388,7 +357,7 @@ public abstract class Entity {
         Player[] set = new Player[caret];
         System.arraycopy(targs, 0, set, 0, caret);
         return set;
-    }*/
+    }
 
     public NPC[] closeNpcs(int span) {
         return closeNpcs(254, span);
@@ -400,9 +369,11 @@ public abstract class Entity {
         int caret = 0;
         for (int idx = 0; idx < World.getWorld().getNpcs().size(); idx++) {
             NPC npc = World.getWorld().getNpcs().get(idx);
-            if (npc == null || npc == this || tile().distance(npc.tile()) > 14 || npc.tile().level != tile().level || npc.finished()) {
+            if (npc == null || npc == this || npc.tile().level != tile().level || npc.finished()) {
                 continue;
             }
+            if (tile().distance(npc.tile()) > span)
+                continue;
             if (npc.tile().inSqRadius(tile, span)) {
                 targs[caret++] = npc;
             }

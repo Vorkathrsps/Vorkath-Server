@@ -40,8 +40,8 @@ public class PlayerPerformanceTracker {
             sb2.append(String.format("cbBountyFlush:%s ms, ",df.format(1. * cbBountyFlush / 1_000_000.)));
         if ((int)(1. * end / 1_000_000.) > 0)
             sb2.append(String.format("end:%s ms, ",df.format(1. * end / 1_000_000.)));
-        if ((int)(1. * total / 1_000_000.) > 0)
-            sb2.append(String.format("total:%s ms, ",df.format(1. * total / 1_000_000.)));
+       // if ((int)(1. * total / 1_000_000.) > 0) // confusing sum, just have breakdown only
+       //     sb2.append(String.format("player total:%s ms, ",df.format(1. * total / 1_000_000.)));
         if (sb2.toString().length() > 0)
             return sb2.toString();
         return "N/A";

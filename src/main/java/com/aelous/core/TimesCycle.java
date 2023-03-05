@@ -54,12 +54,15 @@ public class TimesCycle {
         sb.append(String.format("%sms cycle. Average: %sms. players: %s, npcs: %s, tasks: %s, objects: %s, Memory usage: %sMB/%sMB. ",
             box(total), box(Math.max(1, GameEngine.totalCycleTime) / Math.max(1, GameEngine.gameTicksIncrementor)), Unbox.box(World.getWorld().getPlayers().size()), box(World.getWorld().getNpcs().size()), box(TaskManager.getTaskAmount()), box(World.getWorld().getSpawnedObjs().size()), box((totalMem - freeMem) / 1024 / 1024), box(totalMem / 1024 / 1024)
         ));
-        sb.append("[");
-        if (login > 0) sb.append("login:"+login+" ");
-        if (objs > 0) sb.append("objs:"+objs+" ");
-        if (tasks > 0) sb.append("tasks:"+tasks+" ");
-        if (gitems > 0) sb.append("gitems:"+ gitems +" ");
-        sb.append("]");
+
+        var sb3 = new StringBuilder();
+        if (login > 0) sb3.append("login:"+login+" ");
+        if (objs > 0) sb3.append("objs:"+objs+" ");
+        if (tasks > 0) sb3.append("tasks:"+tasks+" ");
+        if (gitems > 0) sb3.append("gitems:"+ gitems +" ");
+        if (sb3.length() > 0)
+            sb.append("["+sb3+"] ");
+
         sb.append(String.format("[npc process:%s, player process:%s, gpi:%s][cycle #%s] ", box(wp.npc_process), box(wp.player_process), box(wp.player_npc_updating), box(GameEngine.gameTicksIncrementor)));
 
         StringBuilder sb2 = new StringBuilder();
@@ -71,8 +74,8 @@ public class TimesCycle {
         if ((int)(1. * NpcPerformance.F / 1_000_000.) > 0) sb2.append(String.format("tasks:%s ms, ", (int)(1. * NpcPerformance.F / 1_000_000.)));
         if ((int)(1. * NpcPerformance.G / 1_000_000.) > 0) sb2.append(String.format("timers:%s ms, ", (int)(1. * NpcPerformance.G / 1_000_000.)));
         if ((int)(1. * NpcPerformance.H / 1_000_000.) > 0) sb2.append(String.format("agro+retreat:%s ms, ", (int)(1. * NpcPerformance.H / 1_000_000.)));
-        if (sb2.toString().length() > 0)
-            sb.append("npcs: "+ sb2);
+        if (sb2.length() > 0)
+            sb.append("[npc sections: "+ sb2+"] ");
 
         if (APPEND_WORLDINFO)
             sb.append(World.getWorld().benchmark.breakdown());

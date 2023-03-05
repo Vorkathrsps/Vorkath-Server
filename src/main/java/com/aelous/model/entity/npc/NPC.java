@@ -102,7 +102,9 @@ public class NPC extends Entity {
     }
 
     public boolean isRandomWalkAllowed() {
-        return spawnArea != null && !hidden() && getMovement().isAtDestination()
+        return spawnArea != null
+            && !hidden()
+            && getMovement().isAtDestination()
                 && !locked()
                 && !isMovementBlocked(false, false);
     }
@@ -596,14 +598,16 @@ public class NPC extends Entity {
                 CombatMethod finalMethod = method;
                 final int ceil = def.combatlevel * 2;
                 final boolean override = combatInfo != null && combatInfo.scripts != null && combatInfo.scripts.agro_ != null;
+                var bounds = boundaryBounds(combatInfo != null ? combatInfo.aggroradius : 1);
+                var range = (combatInfo != null ? combatInfo.aggroradius : 1);
 
                 //Highly optimized code
                 Stream<Player> playerStream = World.getWorld().getPlayers()
                     .stream()
                     .filter(Objects::nonNull)
-                    .filter(p -> p.tile().distance(tile) <= (combatInfo != null ? combatInfo.aggroradius : 1))
-                    .filter(p -> boundaryBounds(combatInfo != null ? combatInfo.aggroradius : 1).inside(p.tile()))
-                    .filter(p -> !p.looks().hidden());
+                    .filter(p -> !p.looks().hidden())
+                    .filter(p -> p.tile().distance(tile) <= range)
+                    .filter(p -> bounds.inside(p.tile()));
                 // apply overrides
                 if (override) {
                     playerStream = playerStream.filter(p -> combatInfo.scripts.agro_.shouldAgro(this, p));
@@ -624,15 +628,14 @@ public class NPC extends Entity {
                     if (lastTime > 5000L || lastAttacker == this ||
                         (lastAttacker != null && (lastAttacker.dead() || lastAttacker.finished()))
                         || p.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) == 1) {
-                        if (def.roomBoss || CombatFactory.canReach(this, CombatFactory.RANGED_COMBAT, p)) {
-                            if (CombatFactory.canAttack(this, finalMethod, p)) {
-                                getCombat().attack(p);
-                                //String ss = this.def.getName()+" v "+p.getUsername()+" : "+ CombatFactory.canAttack(this, method, p);
-                                //System.out.println(ss);
-                                //this.forceChat(ss);
-                                break;
-                            }
+                        if (CombatFactory.canAttack(this, finalMethod, p)) {
+                            getCombat().attack(p);
+                            //String ss = this.def.getName()+" v "+p.getUsername()+" : "+ CombatFactory.canAttack(this, method, p);
+                            //System.out.println(ss);
+                            //this.forceChat(ss);
+                            break;
                         }
+
                     }
                 }
             }

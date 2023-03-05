@@ -243,7 +243,8 @@ public final class GameEngine implements Runnable {
                 recentTicks.removeFirst();
             logger.info("average-cycle-last-10-ticks: " + (recentTicks.stream().mapToLong(l ->l).sum() / 10L) + "ms");
 
-            profile.computeAnd(c -> logger.trace(markPerf, c.COMPUTED_MSG));
+            if (profile.total > 50)
+                profile.computeAnd(c -> logger.trace(markPerf, c.COMPUTED_MSG));
             lagChecks(uptime, totalPending, totalGround, osNameMatch);
 
             World.getWorld().benchmark.reset();

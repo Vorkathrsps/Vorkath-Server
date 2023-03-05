@@ -1323,7 +1323,6 @@ public abstract class Entity {
      * When handling objects (doing custom walkto logic) if {@code
      * player.smartPathTo(startPos, obj.getSize());} doesn't work or walk exactly where you expect it too, its probably beacuse its a 1999 pathfinder.
      * <br> use {@code player.doPath(new DefaultPathFinder(), tile)} instead
-     *
      * @return
      */
     public void smartPathTo(Tile targetPos) {

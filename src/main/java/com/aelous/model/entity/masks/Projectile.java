@@ -159,10 +159,6 @@ public final class Projectile {
         }
     }
 
-    public int clientDelay() {
-        return delay + speed;
-    }
-
     /**
      * Gets the starting position of the projectile.
      *

@@ -32,14 +32,14 @@ public class MagicAccuracyNpc {
 
     public static boolean successful(Entity attacker, Entity defender, CombatType style) {
         int attackBonus = (int) Math.floor(getAttackRoll(attacker, style));
-        int defenceBonus = (int) Math.floor(getDefenceRoll(defender, style));
+        int defenceBonus = (int) Math.floor(getDefenceRoll(defender));
         double successfulRoll;
         double selectedChance = srand.nextInt(10000) / 10000.0;
 
         if (attackBonus > defenceBonus)
-            successfulRoll = 1D - (Math.floor(defenceBonus + 2D)) / (2D * (Math.floor(attackBonus + 1D)));
+            successfulRoll = 1 - (Math.floor(defenceBonus + 2D)) / (2 * (Math.floor(attackBonus + 1D)));
         else
-            successfulRoll = attackBonus / (2D * (Math.floor(defenceBonus + 1D)));
+            successfulRoll = attackBonus / (2 * (Math.floor(defenceBonus + 1D)));
 
         System.out.println("NPCStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + successfulRoll + " rolledChance=" + selectedChance + " sucessful=" + (successfulRoll > selectedChance));
 
@@ -73,11 +73,11 @@ public class MagicAccuracyNpc {
         if (attacker.isPlayer()) {
             if (style.equals(CombatType.MAGIC)) {
                 if (FormulaUtils.regularVoidEquipmentBaseMagic((Player) attacker)) {
-                    bonus = (int) Math.floor(bonus * 1.45);
+                    bonus = (int) Math.floor(bonus * 1.45D);
                 }
 
                 if (FormulaUtils.eliteVoidEquipmentBaseMagic((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMagic((Player) attacker)) {
-                    bonus = (int) Math.floor(bonus * 1.70);
+                    bonus = (int) Math.floor(bonus * 1.70D);
                 }
                 if (((Player) attacker).getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
                     bonus = (int) Math.floor(bonus * 3);
@@ -131,13 +131,11 @@ public class MagicAccuracyNpc {
         return defender.getAsNpc().combatInfo().stats.magic;
     }
 
-    public static int getMagicDefenceLevelNpc(Entity defender, CombatType style) {
+    public static int getMagicDefenceLevelNpc(Entity defender) {
         EquipmentInfo.Bonuses defenderBonus = EquipmentInfo.totalBonuses(defender, World.getWorld().equipmentInfo());
         int bonus = 0;
         if (defender instanceof NPC) {
-            if (style == CombatType.MAGIC) {
-                bonus = defenderBonus.magedef;
-            }
+            bonus = defenderBonus.magedef;
         }
         return bonus;
     }
@@ -146,8 +144,8 @@ public class MagicAccuracyNpc {
         return (int) Math.floor(getMagicLevelNpc(defender) + 9);
     }
 
-    public static int getDefenceRoll(Entity defender, CombatType style) {
-        return (int) Math.floor(getEffectiveLevelDefender(defender) * (getMagicDefenceLevelNpc(defender, style) + 64D));
+    public static int getDefenceRoll(Entity defender) {
+        return (int) Math.floor(getEffectiveLevelDefender(defender) * (getMagicDefenceLevelNpc(defender) + 64));
     }
 
     public static int getMagicLevel(Entity attacker) {
@@ -155,10 +153,10 @@ public class MagicAccuracyNpc {
     }
 
     public static int getEffectiveLevelAttacker(Entity attacker, CombatType style) {
-        return (int) Math.floor(getMagicLevel(attacker) * (getPrayerBonus(attacker, style) + 9));
+        return (int) Math.floor(getMagicLevel(attacker) * getPrayerBonus(attacker, style));
     }
 
     public static int getAttackRoll(Entity attacker, CombatType style) {
-        return (int) Math.floor(getEffectiveLevelAttacker(attacker, style) * (getEquipmentBonus(attacker, style) + 64D));
+        return (int) Math.floor(getEffectiveLevelAttacker(attacker, style) * (getEquipmentBonus(attacker, style) + 64));
     }
 }

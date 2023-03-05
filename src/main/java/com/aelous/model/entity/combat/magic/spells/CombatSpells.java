@@ -1675,7 +1675,7 @@ CombatSpells {
 
         @Override
         public int spellId() {
-            return 22644;
+            return 22708;
         }
 
         @Override

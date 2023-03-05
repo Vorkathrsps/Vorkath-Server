@@ -40,9 +40,9 @@ public class RangeAccuracy {
         double selectedChance = srand.nextInt(10000) / 10000.0;
 
         if (attackBonus > defenceBonus)
-            successfulRoll = 1D - (Math.floor(defenceBonus + 2D)) / (2D * (Math.floor(attackBonus + 1D)));
+            successfulRoll = 1 - (Math.floor(defenceBonus + 2D)) / (2 * (Math.floor(attackBonus + 1D)));
         else
-            successfulRoll = attackBonus / (2D * (Math.floor(defenceBonus + 1D)));
+            successfulRoll = attackBonus / (2 * (Math.floor(defenceBonus + 1D)));
 
         System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
@@ -168,12 +168,12 @@ public class RangeAccuracy {
     public static int getAttackRoll(Entity attacker, CombatType style) {
         int effectiveRangeLevel = (int) Math.floor(getEffectiveRanged(attacker, style));
         int equipmentRangeBonus = getGearAttackBonus(attacker, style);
-        return (int) Math.floor(effectiveRangeLevel * (equipmentRangeBonus + 64D));
+        return (int) Math.floor(effectiveRangeLevel * (equipmentRangeBonus + 64));
     }
 
     public static int getDefenceRoll(Entity defender, CombatType style) {
         int effectiveDefenceLevel = (int) Math.floor(getEffectiveDefence(defender));
         int equipmentRangeBonus = getGearDefenceBonus(defender, style);
-        return (int) Math.floor(effectiveDefenceLevel * (equipmentRangeBonus + 64D));
+        return (int) Math.floor(effectiveDefenceLevel * (equipmentRangeBonus + 64));
     }
 }

@@ -23,7 +23,7 @@ public enum ModernSpells {
     WATER_WAVE(1185, 162, 51, 43, 31, 161, 163, 10, 1167,  GraphicHeight.HIGH),
     EARTH_WAVE(1188, 165, 51, 43, 31, 164, 166, 10, 1167,  GraphicHeight.HIGH),
     FIRE_WAVE(1189, 156, 51, 43, 31, 155, 157, 10, 1167,  GraphicHeight.HIGH),
-    AIR_SURGE(22644, 1456, 51, 43, 31, 1455, 1457, 10, 7855,  GraphicHeight.HIGH),
+    AIR_SURGE(22708, 1456, 51, 43, 31, 1455, 1457, 10, 7855,  GraphicHeight.HIGH),
     WATER_SURGE(22658, 1459, 51, 43, 31, 1458, 1460, 10, 7855,  GraphicHeight.HIGH),
     EARTH_SURGE(22628, 1462, 51, 43, 31, 1461, 1463, 10, 7855,  GraphicHeight.HIGH),
     FIRE_SURGE(22608, 1465, 51, 43, 31, 1464, 1466, 10, 7855,  GraphicHeight.HIGH),

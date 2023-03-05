@@ -20,7 +20,6 @@ import com.aelous.utility.ItemIdentifiers;
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
 
-import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.CORPOREAL_BEAST;
 import static com.aelous.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
 import static com.aelous.model.entity.combat.CombatType.MELEE;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.*;
@@ -44,9 +43,9 @@ public class MeleeAccuracy {
         double selectedChance = srand.nextInt(10000) / 10000.0;
 
         if (attackBonus > defenceBonus)
-            successfulRoll = 1D - (Math.floor(defenceBonus + 2D)) / (2D * (Math.floor(attackBonus + 1D)));
+            successfulRoll = 1 - (Math.floor(defenceBonus + 2D)) / (2 * (Math.floor(attackBonus + 1D)));
         else
-            successfulRoll = attackBonus / (2D * (Math.floor(defenceBonus + 1D)));
+            successfulRoll = attackBonus / (2 * (Math.floor(defenceBonus + 1D)));
 
 
         System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
@@ -118,7 +117,8 @@ public class MeleeAccuracy {
 
         if (attacker instanceof Player) {
             if (attacker.getAsPlayer().isSpecialActivated()) {
-                effectiveLevel = (int) Math.floor(effectiveLevel * specialMultiplier);
+                effectiveLevel *= specialMultiplier;
+                System.out.println(effectiveLevel);
             }
             if (FormulaUtils.regularVoidEquipmentBaseMelee((Player) attacker)) {
                 effectiveLevel = (int) Math.floor(effectiveLevel * 1.1D);
@@ -218,7 +218,7 @@ public class MeleeAccuracy {
         return bonus;
     }
 
-    private static int getGearAttackBonus(Entity attacker, CombatType style) {
+    private static int getGearAttackBonus(Entity attacker) {
         final AttackType type = attacker.getCombat().getFightType().getAttackType();
         EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
         int bonus = 0;
@@ -234,9 +234,9 @@ public class MeleeAccuracy {
     public static int getAttackRoll(Entity attacker, Entity defender, CombatType style) {
         int effectiveLevel = (int) Math.floor(getEffectiveMelee(attacker, defender, style));
 
-        int effectiveBonus = getGearAttackBonus(attacker, style);
+        int effectiveBonus = getGearAttackBonus(attacker);
 
-        return (int) Math.floor(effectiveLevel * (effectiveBonus + 64D));
+        return (int) Math.floor(effectiveLevel * (effectiveBonus + 64));
     }
 
     public static int getDefenceRoll(Entity defender, CombatType style) {
@@ -244,6 +244,6 @@ public class MeleeAccuracy {
 
         int effectiveBonus = getGearDefenceBonus(defender, style);
 
-        return (int) Math.floor(effectiveDefenceLevel * (effectiveBonus + 64D));
+        return (int) Math.floor(effectiveDefenceLevel * (effectiveBonus + 64));
     }
 }

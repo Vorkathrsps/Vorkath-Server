@@ -42,9 +42,9 @@ public class MagicAccuracy {
         double selectedChance = srand.nextInt(10000) / 10000.0;
 
         if (attackBonus > defenceBonus)
-            successfulRoll = 1D - (Math.floor(defenceBonus + 2D)) / (2D * (Math.floor(attackBonus + 1D)));
+            successfulRoll = 1 - (Math.floor(defenceBonus + 2D)) / (2 * (Math.floor(attackBonus + 1D)));
         else
-            successfulRoll = attackBonus / (2D * (Math.floor(defenceBonus + 1D)));
+            successfulRoll = attackBonus / (2 * (Math.floor(defenceBonus + 1D)));
 
         System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
@@ -121,7 +121,7 @@ public class MagicAccuracy {
     }
 
     public static double getPrayerBonusDefender(Entity defender) {
-        double prayerBonus = 1;
+        double prayerBonus = 1D;
         if (Prayers.usingPrayer(defender, AUGURY))
             prayerBonus *= 1.25D; //
         return prayerBonus;
@@ -162,15 +162,15 @@ public class MagicAccuracy {
     public static int getAttackRoll(Entity attacker, CombatType style) {
         int effectiveMagicLevel = (int) Math.floor(getEffectiveLevelAttacker(attacker, style));
         int equipmentAttackBonus = getEquipmentBonusAttacker(attacker, style);
-        return (int) Math.floor(effectiveMagicLevel * (equipmentAttackBonus + 64D));
+        return (int) Math.floor(effectiveMagicLevel * (equipmentAttackBonus + 64));
     }
 
 
     public static int getDefenceRoll(Entity defender, CombatType style) {
         int magicLevel = getMagicLevelDefender(defender);
         int magicDefence = getDefenceLevelDefender(defender, FightStyle.DEFENSIVE);
-        int effectiveLevel = (int) Math.floor((((magicDefence * getPrayerBonusDefender(defender) * 0.3) * 0.7) + magicLevel));
+        int effectiveLevel = (int) Math.floor(((magicDefence * getPrayerBonusDefender(defender) * 1.3D) * 0.7D) + magicLevel);
         int equipmentDefenceBonus = getEquipmentBonusDefender(defender, style);
-        return (int) Math.floor(effectiveLevel * (equipmentDefenceBonus + 64D));
+        return (int) Math.floor(effectiveLevel * (equipmentDefenceBonus + 64));
     }
 }

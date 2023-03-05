@@ -30,7 +30,6 @@ public class Fortifcation extends SigilHandler {
                 playerBonuses.crush += boost;
                 playerBonuses.mage += boost;
                 playerBonuses.range += boost;
-                System.out.println(playerBonuses.range);
             }).then(40, () -> {
                 player.message("<col=804080>Your sigil has depleted...");
                 player.clearAttrib(AttributeKey.SIGIL_OF_FORTIFICATION);

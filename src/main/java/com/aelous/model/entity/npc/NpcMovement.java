@@ -45,6 +45,8 @@ public class NpcMovement extends MovementQueue {
             return;
         if(!World.getWorld().rollDie(4, 1))
             return;
+        if (npc.closePlayers(15).length == 0)
+            return;
         Combat combat = npc.getCombat();
         if(combat != null && (npc.dead() || combat.getTarget() != null))
             return;

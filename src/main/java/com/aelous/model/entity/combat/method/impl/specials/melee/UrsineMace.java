@@ -10,7 +10,6 @@ import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.utility.chainedwork.Chain;
-import com.google.common.graph.Graph;
 
 public class UrsineMace extends CommonCombatMethod {
     @Override

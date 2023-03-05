@@ -9,6 +9,10 @@ public enum AttributeKey {
 
     SIGIL_OF_THE_FERAL_FIGHTER,
 
+    FERAL_FIGHTER,
+
+    HIT_COUNT_FERAL_FIGHTER,
+
     MAXHIT_OVERRIDE,
 
     TURMOIL_ACTIVE,

@@ -11,8 +11,6 @@ import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 
-import java.security.SecureRandom;
-
 public class LavaBeast extends CommonCombatMethod {
 
         @Override

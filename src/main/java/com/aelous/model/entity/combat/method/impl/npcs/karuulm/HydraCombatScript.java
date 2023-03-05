@@ -8,7 +8,6 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.method.impl.npcs.hydra.HydraAttacks;
-import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.map.position.Area;

@@ -32,10 +32,8 @@ import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.masks.ForceMovement;
 import com.aelous.model.entity.player.InfectionType;
 import com.aelous.model.entity.player.Player;
-import com.aelous.model.entity.player.PlayerMovement;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.container.equipment.Equipment;
-import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Boundary;
 import com.aelous.model.map.position.Tile;
@@ -307,8 +305,7 @@ public abstract class Entity {
         return task;
     }
 
-    Hit hits;
-    Hit target;
+    public Hit hits;
 
     public Splat getSplat() {
         return splat;
@@ -316,14 +313,6 @@ public abstract class Entity {
 
     public void setSplat(Splat hit) {
         this.splat = hit;
-    }
-
-    public Hit getHitDamage() {
-        return hits;
-    }
-
-    public void setPendingDamage(Hit hit) {
-        this.hits = hit;
     }
 
     /**

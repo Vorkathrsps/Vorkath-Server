@@ -6,16 +6,13 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
-import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
-import com.aelous.model.map.route.routes.ProjectileRoute;
 import com.aelous.utility.TickDelay;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

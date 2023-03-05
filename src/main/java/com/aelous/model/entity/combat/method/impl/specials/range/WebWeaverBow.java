@@ -1,7 +1,6 @@
 package com.aelous.model.entity.combat.method.impl.specials.range;
 
 import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatSpecial;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;

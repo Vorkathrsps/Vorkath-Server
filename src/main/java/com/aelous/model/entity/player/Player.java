@@ -9,7 +9,6 @@ import com.aelous.model.content.raids.RaidStage;
 import com.aelous.model.content.raids.party.RaidsParty;
 import com.aelous.model.content.security.AccountPin;
 import com.aelous.model.entity.attributes.AttributeKey;
-import com.aelous.model.entity.combat.magic.autocasting.Autocasting;
 import com.aelous.model.entity.masks.Appearance;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
@@ -137,7 +136,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import static com.aelous.model.content.areas.wilderness.content.EloRating.DEFAULT_ELO_RATING;
 import static com.aelous.model.content.daily_tasks.DailyTaskUtility.DAILY_TASK_MANAGER_INTERFACE;
@@ -1198,6 +1196,8 @@ public class Player extends Entity {
         if (getCombat().getFightType().toString().toLowerCase().contains("rapid")) {
             speed--;
         }
+
+        System.out.println(speed);
 
         return speed;
     }

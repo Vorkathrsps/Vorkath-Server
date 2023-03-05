@@ -6,7 +6,6 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.magic.data.AncientSpells;
-import com.aelous.model.entity.combat.magic.data.AutoCastWeaponSpells;
 import com.aelous.model.entity.combat.magic.data.ModernSpells;
 import com.aelous.model.entity.combat.magic.impl.CombatEffectSpell;
 import com.aelous.model.entity.combat.magic.spells.CombatSpells;
@@ -18,13 +17,9 @@ import com.aelous.model.entity.masks.impl.graphics.Priority;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
-import com.moandjiezana.toml.Toml;
 
-import java.io.*;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import static com.aelous.utility.ItemIdentifiers.*;
 

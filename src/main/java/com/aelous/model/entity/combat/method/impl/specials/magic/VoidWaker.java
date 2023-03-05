@@ -9,10 +9,8 @@ import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
-import com.aelous.utility.Utils;
 
 import java.security.SecureRandom;
-import java.util.Comparator;
 
 public class VoidWaker extends CommonCombatMethod {
 

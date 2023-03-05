@@ -164,6 +164,11 @@ public class ItemActionOne {
             return;
         }
 
+        if (SigilHandler.isSigil(item.getId())) {
+            SigilHandler.handle(player, item.getId(), true, false);
+            return;
+        }
+
         /* Looting bag. */
         if (id == 11941 || id == 22586) {
             player.getLootingBag().openAndCloseBag(id);
@@ -172,11 +177,6 @@ public class ItemActionOne {
         if (id == RUNE_POUCH) {
             player.getRunePouch().open(RUNE_POUCH);
             player.putAttrib(VIEWING_RUNE_POUCH_I, false);
-            return;
-        }
-
-        if (SigilHandler.isSigil(item.getId())) {
-            SigilHandler.handle(player, item.getId(), true, false);
             return;
         }
     }

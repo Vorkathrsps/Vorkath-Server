@@ -10,7 +10,8 @@ import com.aelous.model.content.mechanics.MultiwayCombat;
 import com.aelous.model.content.members.MemberZone;
 import com.aelous.model.content.raids.party.Party;
 import com.aelous.model.content.sigils.SigilHandler;
-import com.aelous.model.content.sigils.data.Fortifcation;
+import com.aelous.model.content.sigils.data.tier1.FeralFighter;
+import com.aelous.model.content.sigils.data.tier1.Fortifcation;
 import com.aelous.model.content.skill.impl.slayer.SlayerConstants;
 import com.aelous.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.aelous.model.content.teleport.Teleports;
@@ -78,9 +79,8 @@ import java.lang.ref.WeakReference;
 import java.security.SecureRandom;
 import java.util.*;
 
+import static com.aelous.model.entity.attributes.AttributeKey.*;
 import static com.aelous.model.inter.InterfaceConstants.BARROWS_REWARD_WIDGET;
-import static com.aelous.model.entity.attributes.AttributeKey.MAXHIT_OVERRIDE;
-import static com.aelous.model.entity.attributes.AttributeKey.STARTER_WEAPON_DAMAGE;
 import static com.aelous.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss.KRAKEN_WHIRLPOOL;
 import static com.aelous.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss.TENTACLE_WHIRLPOOL;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.*;
@@ -425,8 +425,7 @@ public class CombatFactory {
 
             if (attacker instanceof Player) {
                 if (target.isNpc()) {
-                    if (SigilHandler.isActive(attacker.getAsPlayer(), Fortifcation.INSTANCE)) {
-                        SigilHandler.handle(attacker.getAsPlayer(), SIGIL_OF_FORTIFICATION, true, false);
+                    if (SigilHandler.isActive(attacker.getAsPlayer(), FeralFighter.INSTANCE)) {
                     }
                 }
             }

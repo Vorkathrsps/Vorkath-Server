@@ -1,13 +1,13 @@
-package com.aelous.model.content.sigils.data;
+package com.aelous.model.content.sigils.data.tier1;
 
 import com.aelous.model.content.sigils.SigilHandler;
 import com.aelous.model.content.sigils.SigilType;
 import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
-import com.aelous.utility.chainedwork.Chain;
 
 /**
  * @Author Origin
@@ -19,8 +19,7 @@ public class Fortifcation extends SigilHandler {
     public static final Fortifcation INSTANCE = new Fortifcation();
 
     @Override
-    public void handleActvation(Player player, int itemID) {
-        SigilHandler info = getSigil(itemID);
+    public void handleActvation(Player player, Entity target, Hit hit, int itemID) {
         int boost = 12;
         player.putAttrib(AttributeKey.SIGIL_OF_FORTIFICATION, true);
         player.message("<col=804080>You feel a surge of power draining from your sigil...");
@@ -43,7 +42,17 @@ public class Fortifcation extends SigilHandler {
     }
 
     @Override
+    public boolean effectHandlerCheck(Player player) {
+        return false;
+    }
+
+    @Override
     public SigilType getSigilType() {
         return SigilType.COMBAT;
+    }
+
+    @Override
+    public void defaultAttribute(Player player) {
+        player.clearAttrib(AttributeKey.SIGIL_OF_FORTIFICATION);
     }
 }

@@ -1,8 +1,6 @@
 package com.aelous.model.entity.combat.method.impl.npcs.godwars.nex;
 
 import com.aelous.cache.definitions.NpcDefinition;
-import com.aelous.core.task.TaskManager;
-import com.aelous.core.task.impl.ForceMovementTask;
 import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
@@ -15,7 +13,6 @@ import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.Direction;
-import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.npc.NPCCombatInfo;

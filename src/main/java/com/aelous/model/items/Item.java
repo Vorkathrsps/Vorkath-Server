@@ -116,6 +116,10 @@ public class Item implements Cloneable {
         return id;
     }
 
+    public int[] getSigilItemID() {
+        return new int[]{26006, 26005, 26078, 26077, 26075, 26074};
+    }
+
     /**
      * Gets the amount of the item.
      */

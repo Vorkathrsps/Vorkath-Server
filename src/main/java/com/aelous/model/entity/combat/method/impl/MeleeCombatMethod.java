@@ -10,7 +10,6 @@ import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
-import com.aelous.utility.Utils;
 
 import static com.aelous.utility.ItemIdentifiers.SCYTHE_OF_VITUR;
 

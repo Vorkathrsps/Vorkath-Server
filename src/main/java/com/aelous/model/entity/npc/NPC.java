@@ -1,10 +1,8 @@
 package com.aelous.model.entity.npc;
 
 import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.combat.method.impl.npcs.bosses.corruptedhunleff.CorruptedHunleff;
 import com.aelous.model.entity.combat.method.impl.npcs.karuulm.Wyrm;
-import com.aelous.model.entity.player.PlayerMovement;
 import com.google.common.base.Stopwatch;
 import com.aelous.GameServer;
 import com.aelous.cache.definitions.NpcDefinition;

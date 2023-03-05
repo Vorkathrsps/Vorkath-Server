@@ -184,6 +184,10 @@ public class FormulaUtils {
         return Arrays.stream(BLACK_MASK).anyMatch(mask -> player.getEquipment().hasAt(EquipSlot.HEAD, mask));
     }
 
+    public static boolean sigilList(Player player) {
+        return player.getInventory().containsAny(SIGIL_OF_FORTIFICATION);
+    }
+
     public static boolean wearingBlackMaskImbued(Player player) {
         return Arrays.stream(BLACK_MASK_IMBUED).anyMatch(mask -> player.getEquipment().hasAt(EquipSlot.HEAD, mask));
     }

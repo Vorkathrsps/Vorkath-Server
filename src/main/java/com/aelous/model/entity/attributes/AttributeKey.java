@@ -5,6 +5,10 @@ package com.aelous.model.entity.attributes;
  */
 public enum AttributeKey {
 
+    MENACING_CURSE,
+
+    SIGIL_OF_THE_FERAL_FIGHTER,
+
     MAXHIT_OVERRIDE,
 
     TURMOIL_ACTIVE,
@@ -115,6 +119,8 @@ public enum AttributeKey {
     SEREN_LOG_CLAIMED,
     BARRELCHEST_LOG_CLAIMED,
     SIGIL_OF_FORTIFICATION,
+
+    SIGIL_OF_MENACING_MAGE,
     BRUTAL_LAVA_DRAGON_LOG_CLAIMED,
     CALLISTO_LOG_CLAIMED,
     CERBERUS_LOG_CLAIMED,

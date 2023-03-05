@@ -800,7 +800,7 @@ public final class Equipment extends ItemContainer {
         Player player = (Player) entity;
         Item helm = player.getEquipment().get(EquipSlot.HEAD);
         if (helm == null) return false;
-        return helm.getId() == 12931 || helm.getId() == 13197 || helm.getId() == 13199;
+        return player.getEquipment().containsAny(SERPENTINE_HELM, MAGMA_HELM, TANZANITE_HELM);
     }
 
     @Override
@@ -831,7 +831,7 @@ public final class Equipment extends ItemContainer {
             throw new IllegalStateException(EXCEPTION_MESSAGE);
         }
 
-        @Override
+       /* @Override
         public void itemUpdated(ItemContainer container, Optional<Item> oldItem, Optional<Item> newItem, int index, boolean refresh) {
             if (oldItem.equals(newItem))
                 return;
@@ -839,12 +839,12 @@ public final class Equipment extends ItemContainer {
             if (refresh) {
                 sendItemsToWidget(container);
             }
-        }
+        }*/
 
-        @Override
+        /*@Override
         public void bulkItemsUpdated(ItemContainer container) {
             sendItemsToWidget(container);
-        }
+        }*/
     }
 
 }

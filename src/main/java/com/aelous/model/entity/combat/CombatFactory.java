@@ -426,7 +426,7 @@ public class CombatFactory {
             if (attacker instanceof Player) {
                 if (target.isNpc()) {
                     if (SigilHandler.isActive(attacker.getAsPlayer(), Fortifcation.INSTANCE)) {
-
+                        SigilHandler.handle(attacker.getAsPlayer(), SIGIL_OF_FORTIFICATION, true, false);
                     }
                 }
             }

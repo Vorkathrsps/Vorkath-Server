@@ -1,6 +1,7 @@
 package com.aelous.model.content.sigils;
 
 import com.aelous.model.content.sigils.data.Fortifcation;
+import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.animations.Priority;
@@ -15,13 +16,14 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * @author Ynneh
+ * @author Origin
+ * @SubAuthor Ynneh
  */
 public abstract class SigilHandler {
 
     private static List<SigilHandler> sigil_list = Lists.newArrayList();
 
-    public abstract void handleActvation(Player player);
+    public abstract void handleActvation(Player player, int itemID);
 
     public abstract int getUntunedId();
 
@@ -32,46 +34,57 @@ public abstract class SigilHandler {
     private static final int MAXIMUM_ACTIVE_SIGILS = 3;
 
     public static void handle(Player player, int itemId, boolean activate, boolean unattune) {
-
         SigilHandler info = getSigil(itemId);
-
+        /**
+         * Make Sure The Sigil Is Not Null
+         */
         if (info == null) {
-            /**
-             * No sigil found..
-             */
             return;
         }
-
+        /**
+         * Make Sure We Cannot Activate More Than One Of The Same Sigil
+         */
+        if (player.getActiveSigils().contains(info)) {
+            player.getPacketSender().sendMessage("You cannot activate more than one of the same sigil.");
+            return;
+        }
+        /**
+         * The Maximum Amount Of Sigils Allowed To Be Activated
+         */
+        if (player.getActiveSigils().size() >= MAXIMUM_ACTIVE_SIGILS) {
+            player.getPacketSender().sendMessage("You can only have 3 sigils active at once.");
+            return;
+        }
+        /**
+         * Activate The SigilHandler
+         */
         if (activate) {
-            if (player.getActiveSigils().size() >= MAXIMUM_ACTIVE_SIGILS) {
-                player.getPacketSender().sendMessage("You can only have 3 sigils active at once.");
-                return;
+            addSigilData(info, player);
+            if (!procCheck(player)) {
+                info.handleActvation(player, info.getUntunedId());
             }
-            if (player.getActiveSigils().contains(info)) {
-                player.getPacketSender().sendMessage("You already have a sigil like this activated.");
-                return;
-            }
-            player.inventory().remove(info.getUntunedId());
-            player.inventory().add(info.getTunedId(), 1);
-            player.putAttrib(AttributeKey.ATTUNED, true);//TODO
-            player.activeSigils.add(info);
             Chain.bound(null).runFn(0, () -> {
                 player.performGraphic(new Graphic(info.getSigilType() == SigilType.COMBAT ? 1993 : 1992, GraphicHeight.LOW, 0));
                 player.animate(new Animation(info.getSigilType() == SigilType.COMBAT ? 9158 : 9159, Priority.HIGH));
             });
-            if(!procCheck(player)) {
-                info.handleActvation(player);
-            }
-        } else {
-           /*if (!player.getActiveSigils().contains(info)) {
-                player.getPacketSender().sendMessage("Error.. cannot unattune what you don't have activated.");
-                return;
-            }*/
-            player.inventory().remove(info.getTunedId());
-            player.inventory().add(info.getUntunedId(), 1);
-            player.activeSigils.remove(info);
-            player.clearAttrib(AttributeKey.ATTUNED);
+        } else if (unattune) {
+            info.clearSigilData(info, info.getUntunedId(), player);
         }
+    }
+
+    public static void addSigilData(SigilHandler info, Player player) {
+        player.inventory().remove(info.getUntunedId());
+        player.inventory().add(info.getTunedId(), 1);
+        player.putAttrib(AttributeKey.ATTUNED, true);
+        player.activeSigils.add(info);
+    }
+
+    public void clearSigilData(SigilHandler info, int itemID, Player player) {
+        player.activeSigils.remove(info);
+        player.getInventory().remove(getTunedId());
+        player.getInventory().add(itemID, 1);
+        player.clearAttrib(AttributeKey.ATTUNED);
+        player.message("<col=804080>Your sigil has depleted...");
     }
 
     public static boolean procCheck(Player player) {
@@ -93,12 +106,11 @@ public abstract class SigilHandler {
     }
 
     public static boolean isSigil(int itemId) {
-        System.out.println("sigil " + itemId);
         return sigil_list.stream().filter(Objects::nonNull).anyMatch(s -> s.getUntunedId() == itemId) || sigil_list.stream().filter(Objects::nonNull).anyMatch(s -> s.getTunedId() == itemId);
     }
 
     static {
-       sigil_list.add(new Fortifcation());
+        sigil_list.add(new Fortifcation());
     }
 
 }

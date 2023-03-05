@@ -2,7 +2,6 @@ package com.aelous.model;
 
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.core.TimesCycle;
-import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.items.Item;
 import com.aelous.network.codec.login.LoginService;
@@ -198,13 +197,13 @@ public class World {
 
     public static class WorldPerfTracker {
         public long skulls, tasks, login, logout, objects, packets, players,
-            npcs, gpi, flush, reset, games;
+            allNpcsProcess, gpi, flush, reset, games;
 
         // track totals for all 2048 players this cycle
         public PlayerPerformanceTracker allPlayers = new PlayerPerformanceTracker();
 
         public void reset() {
-            skulls = tasks = login = logout = objects = packets = players = npcs =
+            skulls = tasks = login = logout = objects = packets = players = allNpcsProcess =
                 gpi = flush = reset = games = 0;
         }
 
@@ -228,10 +227,10 @@ public class World {
                 sb2.append(String.format("objects:%s ms, ", df.format(1. * objects / 1_000_000.)));
             if ((int) (1. * packets / 1_000_000.) > 0)
                 sb2.append(String.format("packets:%s ms, ", df.format(1. * packets / 1_000_000.)));
-            if ((int) (1. * players / 1_000_000.) > 0)
-                sb2.append(String.format("players:%s ms, ", df.format(1. * players / 1_000_000.)));
-            if ((int) (1. * npcs / 1_000_000.) > 0)
-                sb2.append(String.format("npcs:%s ms, ", df.format(1. * npcs / 1_000_000.)));
+           // if ((int) (1. * players / 1_000_000.) > 0) // already printed
+           //     sb2.append(String.format("players.process:%s ms, ", df.format(1. * players / 1_000_000.)));
+           // if ((int) (1. * allNpcsProcess / 1_000_000.) > 0) // already printed
+             //   sb2.append(String.format("npcs.process:%s ms, ", df.format(1. * allNpcsProcess / 1_000_000.)));
             if ((int) (1. * gpi / 1_000_000.) > 0)
                 sb2.append(String.format("gpi:%s ms, ", df.format(1. * gpi / 1_000_000.)));
             if ((int) (1. * flush / 1_000_000.) > 0)
@@ -404,7 +403,7 @@ public class World {
         });
 
         Entity.time(t -> {
-            benchmark.npcs += t.toNanos();
+            benchmark.allNpcsProcess += t.toNanos();
             GameEngine.profile.wp.npc_process = t.toMillis();
         }, npcProcess);
 

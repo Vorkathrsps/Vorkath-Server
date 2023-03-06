@@ -2,7 +2,7 @@
   <configuration default="false" name="Run Server" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="com.aelous.GameServer" />
     <module name="Aelous" />
-    <option name="VM_PARAMETERS" value="-Xmx4g -Xms4g" />
+    <option name="VM_PARAMETERS" value="-Xmx4g -Xms4g --add-opens java.base/jdk.internal.misc=ALL-UNNAMED --add-opens java.base/java.time=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED" />
     <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
     <extension name="coverage">
       <pattern>

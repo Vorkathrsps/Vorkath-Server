@@ -69,61 +69,6 @@ public class MagicAccuracyNpc {
         if (style == CombatType.MAGIC) {
             bonus = attackerBonus.mage;
         }
-
-        if (attacker.isPlayer()) {
-            if (style.equals(CombatType.MAGIC)) {
-                if (FormulaUtils.regularVoidEquipmentBaseMagic((Player) attacker)) {
-                    bonus = (int) Math.floor(bonus * 1.45D);
-                }
-
-                if (FormulaUtils.eliteVoidEquipmentBaseMagic((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMagic((Player) attacker)) {
-                    bonus = (int) Math.floor(bonus * 1.70D);
-                }
-                if (((Player) attacker).getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
-                    bonus = (int) Math.floor(bonus * 3);
-                }
-                if (FormulaUtils.isUndead(attacker.getCombat().getTarget())) { //UNDEAD BONUSES
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI_25278)) {
-                        bonus = (int) Math.floor(bonus * 1.20D);
-                    }
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
-                        bonus = (int) Math.floor(bonus * 1.10D);
-                    }
-                    if (attacker.getCombat().getTarget().isNpc()) {
-                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SLAYER_HELMET)) {
-                            bonus = (int) Math.floor(bonus * 1.05D);
-                        }
-                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.BLACK_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.GREEN_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.HYDRA_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.PURPLE_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.RED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TURQUOISE_SLAYER_HELMET)) {
-                            bonus = (int) Math.floor(bonus * 1.10D);
-                        }
-                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.TWISTED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TZKAL_SLAYER_HELMET)) {
-                            bonus = (int) Math.floor(bonus * 1.15D);
-                        }
-                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.OCCULT_NECKLACE_OR)) {
-                            bonus = (int) Math.floor(bonus * 1.05D);
-                        }
-                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.THAMMARONS_SCEPTRE) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.ACCURSED_SCEPTRE_A)) {
-                            bonus = (int) Math.floor(bonus * 1.50D);
-                        }
-                    }
-                }
-                if (task != null && Slayer.creatureMatches((Player) attacker, attacker.getAsNpc().id())) {
-                    //might cause null pointer
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SLAYER_HELMET)) {
-                        bonus = (int) Math.floor(bonus * 1.15D);
-                    }
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SLAYER_HELMET_I)) {
-                        bonus = (int) Math.floor(bonus * 1.18D);
-                    }
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.BLACK_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.GREEN_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.HYDRA_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.PURPLE_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.RED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TURQUOISE_SLAYER_HELMET)) {
-                        bonus = (int) Math.floor(bonus * 1.20D);
-                    }
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.TWISTED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TZKAL_SLAYER_HELMET)) {
-                        bonus = (int) Math.floor(bonus * 1.25D);
-                    }
-                }
-            }
-        }
         return bonus;
     }
 

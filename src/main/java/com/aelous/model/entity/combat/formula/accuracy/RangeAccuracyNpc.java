@@ -199,8 +199,10 @@ public class RangeAccuracyNpc {
         if (style == RANGED) {
             bonus = (bonus + attackerBonus.range);
         }
-        if (attacker.getAsPlayer().getEquipment().contains(TWISTED_BOW)) {
-            bonus = (int) Math.floor(bonus * twistedBowBonus(attacker, defender));
+        if (attacker instanceof Player) {
+            if (attacker.getAsPlayer().getEquipment().contains(TWISTED_BOW)) {
+                bonus = (int) Math.floor(bonus * twistedBowBonus(attacker, defender));
+            }
         }
         if (attacker.isPlayer()) {
             if (attacker.getAsPlayer().getEquipment().contains(DRAGON_HUNTER_CROSSBOW)) {

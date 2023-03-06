@@ -9,6 +9,7 @@ import com.aelous.model.entity.combat.ranged.RangedData;
 import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
+import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 
 import java.security.SecureRandom;
@@ -27,7 +28,7 @@ public class WebWeaverBow extends CommonCombatMethod {
 
         double hitLogic = (entity.getCombat().maximumRangedHit(ignoreArrows) * secure);
 
-        boolean chanceToPoison = secureRandom.nextDouble() < .35;
+        boolean chanceToPoison = Utils.securedRandomChance(0.35D);
 
         entity.animate(new Animation(9964));
         entity.performGraphic(new Graphic(2354, GraphicHeight.HIGH, 0));

@@ -14,6 +14,7 @@ import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
 import com.aelous.utility.Debugs;
 import com.aelous.utility.ItemIdentifiers;
+import com.aelous.utility.Utils;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
@@ -147,9 +148,7 @@ public abstract class Spell {
 
                 //Check staff of the dead and don't delete runes at a rate of 1/8
                 if (player.getEquipment().hasAt(EquipSlot.WEAPON, STAFF_OF_THE_DEAD) || player.getEquipment().hasAt(EquipSlot.WEAPON, TOXIC_STAFF_OF_THE_DEAD) || player.getEquipment().hasAt(EquipSlot.WEAPON, STAFF_OF_LIGHT)) {
-                    SecureRandom random = new SecureRandom();
-                    double randomchance = random.nextDouble();
-                    if (randomchance <= 0.125D) {
+                    if (Utils.securedRandomChance(0.125D)) {
                         player.message("Your staff negated your runes for this cast.");
                         delete = false;
                     }

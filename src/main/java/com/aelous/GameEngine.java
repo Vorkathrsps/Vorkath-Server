@@ -241,7 +241,7 @@ public final class GameEngine implements Runnable {
             recentTicks.add(pastTime);
             if (recentTicks.size() > 10)
                 recentTicks.removeFirst();
-            logger.info("average-cycle-last-10-ticks: " + (recentTicks.stream().mapToLong(l ->l).sum() / 10L) + "ms");
+            //logger.info("average-cycle-last-10-ticks: " + (recentTicks.stream().mapToLong(l ->l).sum() / 10L) + "ms");
 
             if (profile.total > 50)
                 profile.computeAnd(c -> logger.trace(markPerf, c.COMPUTED_MSG));

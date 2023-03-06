@@ -234,23 +234,23 @@ public class Hit {
         if (combatType != null) {
             switch (combatType) {
                 case MAGIC -> {
-                    if (attacker.isNpc() && target.isPlayer()) {
-                        success = MagicAccuracyNpc.doesHit(attacker, target, combatType);
-                    } else if (attacker.isPlayer() && target.isPlayer() || target.isNpc()) {
+                    //if (attacker.isNpc() && target.isPlayer()) {
+                        //success = MagicAccuracyNpc.doesHit(attacker, target, combatType);
+                   // } else if (attacker.isPlayer() && target.isPlayer() || target.isNpc()) {
                         success = MagicAccuracy.doesHit(attacker, target, combatType);
-                    }
+                   // }
                 }
                 case RANGED -> {
-                    if (attacker.isNpc() && target.isPlayer()) {
-                        success = RangeAccuracyNpc.doesHit(attacker, target, combatType);
-                    } else if (attacker.isPlayer() && target.isPlayer() || target.isNpc()) {
+                   // if (attacker.isNpc() && target.isPlayer()) {
+                        //success = RangeAccuracyNpc.doesHit(attacker, target, combatType);
+                  //  } else if (attacker.isPlayer() && target.isPlayer() || target.isNpc()) {
                         success = RangeAccuracy.doesHit(attacker, target, combatType);
-                    }
+                   // }
                 }
                 case MELEE -> {
-                    if (attacker.isPlayer() && target.isPlayer()) {
+                  //  if (attacker.isPlayer() && target.isPlayer()) {
                         success = MeleeAccuracy.doesHit(attacker, target, combatType);
-                    }
+                  //  }
                 }
             }
         }

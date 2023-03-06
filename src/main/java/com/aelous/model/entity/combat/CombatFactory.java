@@ -73,10 +73,9 @@ import com.aelous.utility.*;
 import com.aelous.utility.timers.TimerKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.lang.ref.WeakReference;
-import java.security.SecureRandom;
 import java.util.*;
 
 import static com.aelous.model.entity.attributes.AttributeKey.*;
@@ -982,7 +981,7 @@ public class CombatFactory {
             System.out.println(GameEngine.gameTicksIncrementor + ": " + attacker.getMobName() + " v " + vicname + ": " + s);
         }
         if (attacker != null) {
-            if (attacker.getLocalPlayers().stream().filter(p -> p.tile().distance(attacker.tile()) < 10).findAny().isPresent()) {
+            if (attacker.getLocalPlayers().stream().anyMatch(p -> p.tile().distance(attacker.tile()) < 10)) {
                 logger.info(GameEngine.gameTicksIncrementor + ": " + attacker.getMobName() + " v " + vicname + ": " + s);
             }
         } else {
@@ -1237,10 +1236,9 @@ public class CombatFactory {
 
         if (attacker.isPlayer()) {
             Player player = (Player) attacker;
-            SecureRandom random = new SecureRandom();
-            if (hit.isAccurate()) {
+            if (hit.isAccurate() && combatType == CombatType.MELEE) {
                 if (player.getEquipment().hasAt(EquipSlot.AMULET, AMULET_OF_BLOOD_FURY)) {
-                    if (random.nextDouble() < 0.20D) {
+                    if (Utils.securedRandomChance(0.20D)) {
                         int healAmount = damage * 30 / 100;
                         player.heal(healAmount);
                         player.graphic(1542);

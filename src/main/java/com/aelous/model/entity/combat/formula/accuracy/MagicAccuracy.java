@@ -1,6 +1,7 @@
 package com.aelous.model.entity.combat.formula.accuracy;
 
 import com.aelous.model.World;
+import com.aelous.model.content.skill.impl.slayer.Slayer;
 import com.aelous.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatType;
@@ -38,12 +39,12 @@ public class MagicAccuracy {
         int attackBonus = (int) Math.floor(getAttackRoll(attacker, style));
         int defenceBonus = (int) Math.floor(getDefenceRoll(defender, style));
         double successfulRoll;
-        double selectedChance = srand.nextInt(10000) / 10000.0;
+        double selectedChance = srand.nextDouble();//srand.nextInt(10000) / 10000.0;
 
         if (attackBonus > defenceBonus)
-            successfulRoll = 1 - (Math.floor(defenceBonus + 2D)) / (2 * (Math.floor(attackBonus + 1D)));
+            successfulRoll = 1D - (Math.floor(defenceBonus + 2D)) / (2D * (Math.floor(attackBonus + 1D)));
         else
-            successfulRoll = attackBonus / (2 * (Math.floor(defenceBonus + 1D)));
+            successfulRoll = attackBonus / (2D * (Math.floor(defenceBonus + 1D)));
 
         System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
@@ -152,6 +153,48 @@ public class MagicAccuracy {
                 if (attacker.getAsPlayer().getSpellbook().equals(MagicSpellbook.ANCIENT) && FormulaUtils.hasZurielStaff((Player) attacker)) {
                     effectiveLevel = (int) Math.floor(effectiveLevel * 1.10);
                 }
+                if (((Player) attacker).getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 3);
+                }
+                if (FormulaUtils.isUndead(attacker.getCombat().getTarget())) { //UNDEAD BONUSES
+                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI_25278)) {
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.20D);
+                    }
+                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.10D);
+                    }
+                    if (attacker.getCombat().getTarget().isNpc()) {
+                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SLAYER_HELMET)) {
+                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.05D);
+                        }
+                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.BLACK_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.GREEN_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.HYDRA_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.PURPLE_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.RED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TURQUOISE_SLAYER_HELMET)) {
+                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.10D);
+                        }
+                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.TWISTED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TZKAL_SLAYER_HELMET)) {
+                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.15D);
+                        }
+                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.OCCULT_NECKLACE_OR)) {
+                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.05D);
+                        }
+                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.THAMMARONS_SCEPTRE) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.ACCURSED_SCEPTRE_A)) {
+                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.50D);
+                        }
+                    }
+                }
+                if (task != null && Slayer.creatureMatches((Player) attacker, attacker.getAsNpc().id())) {
+                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SLAYER_HELMET)) {
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.15D);
+                    }
+                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SLAYER_HELMET_I)) {
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.18D);
+                    }
+                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.BLACK_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.GREEN_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.HYDRA_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.PURPLE_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.RED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TURQUOISE_SLAYER_HELMET)) {
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.20D);
+                    }
+                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.TWISTED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TZKAL_SLAYER_HELMET)) {
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.25D);
+                    }
+                }
             }
         }
 
@@ -161,6 +204,7 @@ public class MagicAccuracy {
     public static int getAttackRoll(Entity attacker, CombatType style) {
         int effectiveMagicLevel = (int) Math.floor(getEffectiveLevelAttacker(attacker, style));
         int equipmentAttackBonus = getEquipmentBonusAttacker(attacker, style);
+        System.out.println("effective Magic Attack: "+effectiveMagicLevel);
         return (int) Math.floor(effectiveMagicLevel * (equipmentAttackBonus + 64));
     }
 
@@ -168,7 +212,8 @@ public class MagicAccuracy {
     public static int getDefenceRoll(Entity defender, CombatType style) {
         int magicLevel = getMagicLevelDefender(defender);
         int magicDefence = getDefenceLevelDefender(defender, FightStyle.DEFENSIVE);
-        int effectiveLevel = (int) Math.floor(((magicDefence * getPrayerBonusDefender(defender) * 1.3D) * 0.7D) + magicLevel);
+        int effectiveLevel = (int) Math.floor(((magicDefence * getPrayerBonusDefender(defender) * 0.3D) * 0.7D) + magicLevel);
+        System.out.println("effective Magic Defence: "+effectiveLevel);
         int equipmentDefenceBonus = getEquipmentBonusDefender(defender, style);
         return (int) Math.floor(effectiveLevel * (equipmentDefenceBonus + 64));
     }

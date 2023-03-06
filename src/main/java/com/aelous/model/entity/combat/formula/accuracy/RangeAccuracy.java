@@ -21,6 +21,7 @@ import static com.aelous.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
 import static com.aelous.model.entity.combat.CombatType.RANGED;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.*;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.EAGLE_EYE;
+import static com.aelous.utility.ItemIdentifiers.DRAGON_HUNTER_CROSSBOW;
 
 /**
  * @Author Origin
@@ -34,15 +35,15 @@ public class RangeAccuracy {
     }
 
     public static boolean successful(Entity attacker, Entity defender, CombatType style) {
-        int attackBonus = (int) Math.floor(getAttackRoll(attacker, style));
+        int attackBonus = (int) Math.floor(getAttackRoll(attacker, defender, style));
         int defenceBonus = (int) Math.floor(getDefenceRoll(defender, style));
         double successfulRoll;
-        double selectedChance = srand.nextInt(10000) / 10000.0;
+        double selectedChance = srand.nextDouble();//srand.nextInt(10000) / 10000.0;
 
         if (attackBonus > defenceBonus)
-            successfulRoll = 1 - (Math.floor(defenceBonus + 2D)) / (2 * (Math.floor(attackBonus + 1D)));
+            successfulRoll = 1D - (Math.floor(defenceBonus + 2D)) / (2D * (Math.floor(attackBonus + 1D)));
         else
-            successfulRoll = attackBonus / (2 * (Math.floor(defenceBonus + 1D)));
+            successfulRoll = attackBonus / (2D * (Math.floor(defenceBonus + 1D)));
 
         System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
@@ -83,7 +84,7 @@ public class RangeAccuracy {
         return effectiveLevel;
     }
 
-    public static int getEffectiveRanged(Entity attacker, CombatType style) {
+    public static int getEffectiveRanged(Entity attacker, Entity defender, CombatType style) {
         var task_id = attacker.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
         var task = SlayerCreature.lookup(task_id);
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
@@ -116,7 +117,13 @@ public class RangeAccuracy {
                         effectiveLevel = (int) Math.floor(effectiveLevel * 1.10D);
                     }
                 }
-
+                if (attacker.getAsPlayer().getEquipment().contains(DRAGON_HUNTER_CROSSBOW)) {
+                    if (defender instanceof NPC && FormulaUtils.isDragon(defender)) {
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.25D);
+                    } else {
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.30D);
+                    }
+                }
                 if (FormulaUtils.regularVoidEquipmentBaseRanged((Player) attacker)) {
                     effectiveLevel = (int) Math.floor(effectiveLevel * 1.10D);
                 }
@@ -165,8 +172,8 @@ public class RangeAccuracy {
         return bonus;
     }
 
-    public static int getAttackRoll(Entity attacker, CombatType style) {
-        int effectiveRangeLevel = (int) Math.floor(getEffectiveRanged(attacker, style));
+    public static int getAttackRoll(Entity attacker, Entity defender, CombatType style) {
+        int effectiveRangeLevel = (int) Math.floor(getEffectiveRanged(attacker, defender, style));
         int equipmentRangeBonus = getGearAttackBonus(attacker, style);
         return (int) Math.floor(effectiveRangeLevel * (equipmentRangeBonus + 64));
     }

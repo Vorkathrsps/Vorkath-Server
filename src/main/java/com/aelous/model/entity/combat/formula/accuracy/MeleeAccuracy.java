@@ -37,15 +37,15 @@ public class MeleeAccuracy {
     }
 
     public static boolean successful(Entity attacker, Entity defender, CombatType style) {
-        int attackBonus = (int) Math.floor(getAttackRoll(attacker, defender, style));
+        int attackBonus = (int) Math.floor(getAttackRoll(attacker, style));
         int defenceBonus = (int) Math.floor(getDefenceRoll(defender, style));
         double successfulRoll;
-        double selectedChance = srand.nextInt(10000) / 10000.0;
+        double selectedChance = srand.nextDouble();//srand.nextInt(10000) / 10000.0;
 
         if (attackBonus > defenceBonus)
-            successfulRoll = 1 - (Math.floor(defenceBonus + 2D)) / (2 * (Math.floor(attackBonus + 1D)));
+            successfulRoll = 1D - (Math.floor(defenceBonus + 2D)) / (2D * (Math.floor(attackBonus + 1D)));
         else
-            successfulRoll = attackBonus / (2 * (Math.floor(defenceBonus + 1D)));
+            successfulRoll = attackBonus / (2D * (Math.floor(defenceBonus + 1D)));
 
 
         System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
@@ -98,15 +98,13 @@ public class MeleeAccuracy {
         return effectiveLevel;
     }
 
-    public static int getEffectiveMelee(Entity attacker, Entity defender, CombatType style) {
+    public static int getEffectiveMelee(Entity attacker, CombatType style) {
         var task_id = attacker.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
         var task = SlayerCreature.lookup(task_id);
-        var getEquipment = attacker.getAsPlayer().getEquipment();
-        final Item weapon = attacker.getAsPlayer().getEquipment().get(EquipSlot.WEAPON);
-        AttackType attackType = attacker.getCombat().getFightType().getAttackType();
+        final Item weapon = attacker.isPlayer() ? attacker.getAsPlayer().getEquipment().get(EquipSlot.WEAPON) : null;
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
         int effectiveLevel = (int) Math.floor(getAttackLevel(attacker) * getPrayerAttackBonus(attacker, style));
-        double specialMultiplier = attacker.getAsPlayer().getCombatSpecial() == null ? 1 : attacker.getAsPlayer().getCombatSpecial().getAccuracyMultiplier();
+        double specialMultiplier = attacker.isPlayer() ? attacker.getAsPlayer().getCombatSpecial().getAccuracyMultiplier() : 1;
 
         switch (fightStyle) {
             case ACCURATE -> effectiveLevel = (int) Math.floor(effectiveLevel + 3);
@@ -115,29 +113,29 @@ public class MeleeAccuracy {
 
         effectiveLevel = (int) Math.floor(effectiveLevel + 8);
 
-        if (attacker instanceof Player) {
-            if (attacker.getAsPlayer().isSpecialActivated()) {
-                effectiveLevel *= specialMultiplier;
-                System.out.println(effectiveLevel);
-            }
-            if (FormulaUtils.regularVoidEquipmentBaseMelee((Player) attacker)) {
-                effectiveLevel = (int) Math.floor(effectiveLevel * 1.1D);
-            }
-            if (FormulaUtils.eliteVoidEquipmentMelee((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMelee((Player) attacker)) {
-                effectiveLevel = (int) Math.floor(effectiveLevel * 1.125D);
-            }
-            if (getEquipment.contains(ItemIdentifiers.SALVE_AMULET)) {
-                effectiveLevel = (int) Math.floor(effectiveLevel * 1.15D);
-            }
-            if (getEquipment.contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getAsPlayer().getEquipment().contains(SALVE_AMULET_E) || attacker.getAsPlayer().getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
-                effectiveLevel = (int) Math.floor(effectiveLevel * 1.2D);
-            }
-            if (weapon != null && FormulaUtils.hasViggorasChainMace(attacker.getAsPlayer())) {
-                effectiveLevel = (int) Math.floor(effectiveLevel * 1.5D);
-            }
-            if (FormulaUtils.obbyArmour(attacker.getAsPlayer()) && FormulaUtils.hasObbyWeapon(attacker.getAsPlayer())) {
-                effectiveLevel = (int) Math.floor(effectiveLevel * 1.1D);
-            }
+        if (attacker.isPlayer()) {
+            if (style.equals(MELEE)) {
+                if (attacker.getAsPlayer().isSpecialActivated()) {
+                    effectiveLevel = (int) (effectiveLevel * specialMultiplier);
+                }
+                if (FormulaUtils.regularVoidEquipmentBaseMelee((Player) attacker)) {
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.1D);
+                }
+                if (FormulaUtils.eliteVoidEquipmentMelee((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMelee((Player) attacker)) {
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.125D);
+                }
+                if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.15D);
+                }
+                if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getAsPlayer().getEquipment().contains(SALVE_AMULET_E) || attacker.getAsPlayer().getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.2D);
+                }
+                if (weapon != null && FormulaUtils.hasViggorasChainMace(attacker.getAsPlayer())) {
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.5D);
+                }
+                if (FormulaUtils.obbyArmour(attacker.getAsPlayer()) && FormulaUtils.hasObbyWeapon(attacker.getAsPlayer())) {
+                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.1D);
+                }
             /*if (attacker.getAsPlayer().getCombat().getFightType().getAttackType() == AttackType.CRUSH) {
                 double inquisitorsBonus = 0;
                 if (FormulaUtils.wearingInquisitorsPiece(attacker.getAsPlayer())) {
@@ -148,6 +146,7 @@ public class MeleeAccuracy {
                     effectiveLevel = (int) Math.floor(effectiveLevel * (inquisitorsBonus + 1));
                 }
             }*/
+            }
         }
 
         //if (defender.isNpc()) {
@@ -231,8 +230,8 @@ public class MeleeAccuracy {
         return bonus;
     }
 
-    public static int getAttackRoll(Entity attacker, Entity defender, CombatType style) {
-        int effectiveLevel = (int) Math.floor(getEffectiveMelee(attacker, defender, style));
+    public static int getAttackRoll(Entity attacker, CombatType style) {
+        int effectiveLevel = (int) Math.floor(getEffectiveMelee(attacker, style));
 
         int effectiveBonus = getGearAttackBonus(attacker);
 
@@ -243,6 +242,8 @@ public class MeleeAccuracy {
         int effectiveDefenceLevel = (int) Math.floor(getEffectiveDefence(defender));
 
         int effectiveBonus = getGearDefenceBonus(defender, style);
+
+        System.out.println("effective defence melee:  "+(int) Math.floor(effectiveDefenceLevel * (effectiveBonus + 64)));
 
         return (int) Math.floor(effectiveDefenceLevel * (effectiveBonus + 64));
     }

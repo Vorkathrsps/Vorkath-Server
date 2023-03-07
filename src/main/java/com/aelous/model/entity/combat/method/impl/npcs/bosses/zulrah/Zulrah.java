@@ -54,7 +54,7 @@ public class Zulrah {
                 return true;
             }
             Tuple<Integer, Player> player = npc.getAttribOr(AttributeKey.OWNING_PLAYER, new Tuple<>(-1, null));
-            if(player.second() != null && (player.second().tile().getChevDistance(npc.tile()) > 20 || !player.second().isRegistered())) {
+            if (player.second() != null && (player.second().tile().getChevDistance(npc.tile()) > 20 || !player.second().isRegistered())) {
                 return true;
             }
         }
@@ -82,6 +82,7 @@ public class Zulrah {
                             boolean init = true;
                             ZulrahPattern rot = ZulrahPattern.PATTERN_1; // randomize when you add new ones
                             int cooldown = 1;
+
                             @Override
                             protected void execute() {
                                 if (instanceFinished(npc)) {
@@ -242,7 +243,7 @@ public class Zulrah {
             target.stopActions(false);
             npc.getCombat().reset();
             npc.animate(5072);
-            npc.setPositionToFace(null);
+            //npc.setPositionToFace(null);
             npc.lockDelayDamage();
             runFn(npc, 2, () -> {
                 npc.unlock();
@@ -251,13 +252,11 @@ public class Zulrah {
     }
 
     private static void doMagicAttack(NPC npc, Entity target) {
-        //npc.forceChat("magic attack");
         npc.animate(5069);
-        int dist = npc.tile().transform(2, 2, 0).getChevDistance(target.tile());
-        //ProjectileTest projectile = ProjectileTest.create(npc.tile(), target.tile(), target, 1046, 20, 15 + (10 * dist), 16, 65, 20);
-        //projectile.setMagicSpeed(npc, target);
-        //projectile.sendProjectile();
-        int delay = Math.max(1, (20 + dist * 12) / 30);
+        var tileDist = npc.tile().distance(target.tile());
+        int duration = (51 + -5 + (10 * tileDist));
+        Projectile p = new Projectile(npc, target, 1046, 51, duration, 65, 31, 0, target.getSize(), 10);
+        final int delay = npc.executeProjectile(p);
         target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
         target.venom(npc);
     }
@@ -265,16 +264,17 @@ public class Zulrah {
     private static void doRangedAttack(NPC npc, Entity target) {
         //npc.forceChat("range attack");
         npc.animate(5069);
-        int dist = npc.tile().transform(2, 2, 0).getChevDistance(target.tile());
-        new Projectile(npc, target,1044,20, 15 + (10 * dist),65, 20, 10, true).sendProjectile();
-        int delay = Math.max(1, (20 + dist * 12) / 30);
+        var tileDist = npc.tile().distance(target.tile());
+        int duration = (41 + 11 + (5 * tileDist));
+        Projectile p = new Projectile(npc, target, 1044, 41, duration, 65, 31, 0, target.getSize(), 5);
+        final int delay = npc.executeProjectile(p);
         int max = npc.combatInfo().maxhit;
         target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
         target.venom(npc);
     }
 
     private static void doMeleePhase(NPC npc, Entity target) {
-        npc.setPositionToFace(null);
+        //npc.setPositionToFace(null);
         runFn(npc, 1, () -> _doMeleePhaseInner(npc, target));
         runFn(npc, 10, () -> _doMeleePhaseInner(npc, target));
     }
@@ -303,7 +303,10 @@ public class Zulrah {
      * kill off alive snakelins on boss death
      */
     public static void death(Player killer, NPC npc) {
-        if (!Stream.of(NpcIdentifiers.ZULRAH, NpcIdentifiers.ZULRAH_2043, NpcIdentifiers.ZULRAH_2044).anyMatch(i->i==npc.id())) {
+        if (!Stream.of(NpcIdentifiers.ZULRAH, NpcIdentifiers.ZULRAH_2043, NpcIdentifiers.ZULRAH_2044).anyMatch(i -> i == npc.id())) {
+            return;
+        }
+        if (killer == null) {
             return;
         }
         killer.getLocalNpcs().forEach(n -> {
@@ -355,9 +358,6 @@ public class Zulrah {
     private static void fillToxicFumes(NPC npc, Entity target) {
         Tile spawnTile = npc.spawnTile();
 
-        // Fix facing first
-        npc.setPositionToFace(null);
-
         Chain.bound(null).cancelWhen(() -> instanceFinished(npc)).runFn(1, () -> {
             npc.animate(5069);
             npc.setPositionToFace(spawnTile.transform(4, -4));
@@ -389,7 +389,7 @@ public class Zulrah {
         Tile spawnTile = npc.spawnTile();
 
         // Fix facing first
-        npc.setPositionToFace(null);
+       // npc.setPositionToFace(null);
         runFn(npc, 1, () -> {
             // Snakelings
             npc.animate(5069);
@@ -435,7 +435,7 @@ public class Zulrah {
         Tile spawnTile = npc.spawnTile();
 
         // Fix facing first
-        npc.setPositionToFace(null);
+        //npc.setPositionToFace(null);
         runFn(npc, 1, () -> {
             // Fumes
             npc.animate(5069);
@@ -491,7 +491,7 @@ public class Zulrah {
         Tile spawnTile = npc.spawnTile();
 
         // Fix facing first
-        npc.setPositionToFace(null);
+        //npc.setPositionToFace(null);
         runFn(npc, 1, () -> {
             // Snakelings
             npc.animate(5069);
@@ -534,8 +534,10 @@ public class Zulrah {
         GameObject obj = new GameObject(11700, tile, 10, 0);
         Area area = tile.transform(1, 1).area(1); // Center, 3x3
 
-        // Do a nice graphic.
-        new Projectile(npc.tile().transform(2, 2, 0), tile.transform(1, 1),0,1045, 12 + (10 * 6),20, 65, 0, 10).sendProjectile();
+        var tileDist = npc.tile().distance(obj.tile());
+        int duration = (41 + 11 + (5 * tileDist));
+
+        new Projectile(npc.tile().transform(2, 2, 0), tile.transform(1, 1), 1045, 41, duration, 65, 0, 0, 0, 5).sendProjectile();
 
         TaskManager.submit(new TickAndStop(delay) {
             @Override
@@ -543,6 +545,7 @@ public class Zulrah {
                 ObjectManager.addObj(obj);
                 TaskManager.submit(new Task() {
                     int internalCounter = 30;
+
                     @Override
                     protected void execute() {
                         if (instanceFinished(npc)) {
@@ -551,7 +554,7 @@ public class Zulrah {
                             return;
                         }
                         if (internalCounter-- > 0) {
-                            if (area.contains(target,true)) {
+                            if (area.contains(target, true)) {
                                 // just standing here causes damage, not only when venom ticker is applied
                                 target.hit(npc, 1 + Utils.getRandom(3), SplatType.VENOM_HITSPLAT);
                                 target.venom(npc); // apply venom
@@ -567,7 +570,7 @@ public class Zulrah {
     }
 
     private static void createSnakeling(NPC npc, Tile tile, int delay, Entity target) {
-        new Projectile(npc.tile().transform(2, 2, 0), tile,0,1047, 12 + (16 * 6),20, 65, 0, 10).sendProjectile();
+        new Projectile(npc.tile().transform(2, 2, 0), tile, 0, 1047, 12 + (16 * 6), 20, 65, 0, 10).sendProjectile();
 
         TaskManager.submit(new TickAndStop(delay) {
             @Override

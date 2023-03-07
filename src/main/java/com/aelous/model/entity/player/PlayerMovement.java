@@ -45,7 +45,7 @@ public class PlayerMovement extends MovementQueue {
         // TODO duplicate from runite
         if (following != null) {
             if (!following.isRegistered() || !following.tile().isWithinDistance(player.tile())) {
-                player.setPositionToFace(null);
+                //player.setPositionToFace(null);
                 following = null;
             } else {
                 int destX, destY;

@@ -2,6 +2,7 @@ package com.aelous.model.entity.masks;
 
 import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
 
@@ -111,6 +112,13 @@ public final class Projectile {
             startHeight, endHeight, curve, creatorSize, 64, stepMultiplier);
     }
 
+    public Projectile(Tile source, Tile victim, int projectileId,
+                      int delay, int speed, int startHeight, int endHeight, int curve, int creatorSize, int stepMultiplier) {
+        this(source, victim,
+            0, projectileId, speed, delay,
+            startHeight, endHeight, curve, 1, 64, stepMultiplier);
+    }
+
     /**
      *
      * @param source
@@ -132,6 +140,10 @@ public final class Projectile {
 
     public Projectile(Entity source, Entity victim, int projectileId, int delay, int speed, int startHeight, int endHeight, int angle, boolean forNpc) {
         this(source.getCentrePosition(), victim.getCentrePosition(), victim.getProjectileLockonIndex(), projectileId, speed, delay, startHeight, endHeight, angle, 16, 64, 0);
+    }
+
+    public Projectile(Tile npc, Tile transform, int lockon, int projectileId, int speed, int delay, int duration, int startHeight, int endHeight, int curve, int stepMultiplier) {
+        this(npc, transform, lockon, projectileId, speed, delay, startHeight, endHeight, curve, 1, 0, stepMultiplier);
     }
 
     /**

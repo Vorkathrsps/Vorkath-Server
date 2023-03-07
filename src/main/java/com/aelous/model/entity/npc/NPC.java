@@ -278,6 +278,7 @@ public class NPC extends Entity {
     }
 
     public int transmog() {
+        this.getUpdateFlag().flag(Flag.TRANSFORM);
         return transmog;
     }
 

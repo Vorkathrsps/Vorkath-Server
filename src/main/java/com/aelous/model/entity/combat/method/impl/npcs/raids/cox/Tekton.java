@@ -37,7 +37,7 @@ public class Tekton extends CommonCombatMethod {
                     target.message("The " + entity.getMobName() + " has skulled you, be careful!");
                 }
 
-                entity.setPositionToFace(null); // Stop facing the target
+                //entity.setPositionToFace(null); // Stop facing the target
                 World.getWorld().getPlayers().forEach(p -> {
                     if (p != null && target.tile().inSqRadius(p.tile(), 12)) {
                         p.hit(entity, CombatFactory.calcDamageFromType(entity, p, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy().submit();

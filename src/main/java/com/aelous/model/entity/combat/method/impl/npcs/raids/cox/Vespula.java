@@ -43,7 +43,7 @@ public class Vespula extends CommonCombatMethod {
             var tileDist = npc.tile().transform(1, 1, 0).distance(target.tile());
             var delay = Math.max(1, (50 + (tileDist * 12)) / 30);
 
-            npc.setPositionToFace(null); // Stop facing the target
+           // npc.setPositionToFace(null); // Stop facing the target
             //Target all raids party members
             if (player.raidsParty != null) {
                 for (Player p : player.raidsParty.getMembers()) {

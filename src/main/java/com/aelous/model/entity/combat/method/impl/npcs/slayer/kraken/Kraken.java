@@ -6,14 +6,24 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 
 public class Kraken extends CommonCombatMethod {
 
     @Override
     public void prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
-        new Projectile(entity, target, 156, 32, 65, 30, 30, 0).sendProjectile();
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 1, CombatType.MAGIC).checkAccuracy().postDamage(this::handleAfterHit).submit();
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (51 + -5 + (10 * tileDist));
+        Projectile p = new Projectile(entity, target, 156, 51, duration, 43, 31, 0, target.getSize(), 10);
+        final int delay = entity.executeProjectile(p);
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        hit.submit();
+        if (hit.isAccurate()) {
+            target.graphic(157, GraphicHeight.MIDDLE, p.getSpeed());
+        } else {
+            target.graphic(85, GraphicHeight.LOW, p.getSpeed());
+        }
     }
 
     @Override
@@ -24,10 +34,5 @@ public class Kraken extends CommonCombatMethod {
     @Override
     public int getAttackDistance(Entity entity) {
         return 8;
-    }
-
-    public void handleAfterHit(Hit hit) {
-        //End gfx when target was hit or splash
-        hit.getTarget().graphic(hit.getDamage() > 0 ? 157 : 85);
     }
 }

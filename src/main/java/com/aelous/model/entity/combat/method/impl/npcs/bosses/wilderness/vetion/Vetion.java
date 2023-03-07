@@ -1,11 +1,15 @@
 package com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion;
 
+import com.aelous.core.task.Task;
+import com.aelous.core.task.TaskManager;
+import com.aelous.core.task.impl.TickAndStop;
 import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
+import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.animations.Animation;
@@ -13,6 +17,9 @@ import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.map.object.GameObject;
+import com.aelous.model.map.object.ObjectManager;
+import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
@@ -43,12 +50,74 @@ public class Vetion extends CommonCombatMethod {
             doMagic();
         }*/
 
-        var roll = World.getWorld().random(8);
 
-       switch (roll) {
-           case 0, 1 -> doMagicSwordRaise();
-            case 2, 3 -> doMagicSwordSlash();
-        }
+        fillToxicFumes((NPC) entity, target);
+
+
+    }
+
+    private static void fillToxicFumes(NPC npc, Entity target) {
+        Tile spawnTile = npc.spawnTile();
+
+        Chain.bound(null).runFn(1, () -> {
+            npc.animate(5069);
+            npc.setPositionToFace(spawnTile.transform(4, -4));
+            spitFume(npc, spawnTile.transform(2, -4), target, 3);
+            spitFume(npc, spawnTile.transform(5, -4), target, 3);
+        }).then(3, () -> {
+            // South-west
+            npc.animate(5069);
+            npc.setPositionToFace(spawnTile.transform(-2, -4));
+            spitFume(npc, spawnTile.transform(-1, -4), target, 3);
+            spitFume(npc, spawnTile.transform(-4, -3), target, 3);
+        }).then(3, () -> {
+            // East
+            npc.animate(5069);
+            npc.setPositionToFace(spawnTile.transform(6, 2));
+            spitFume(npc, spawnTile.transform(6, -1), target, 3);
+            spitFume(npc, spawnTile.transform(6, 2), target, 3);
+        }).then(3, () -> {
+            // West
+            npc.animate(5069);
+            npc.setPositionToFace(spawnTile.transform(-4, 2));
+            spitFume(npc, spawnTile.transform(-4, 3), target, 3);
+            spitFume(npc, spawnTile.transform(-4, 0), target, 3);
+        });
+
+    }
+
+    private static void spitFume(NPC npc, Tile tile, Entity target, int delay) {
+        GameObject obj = new GameObject(11700, tile, 10, 0);
+        Area area = tile.transform(1, 1).area(1); // Center, 3x3
+
+        var tileDist = npc.tile().distance(obj.tile());
+        int duration = (41 + 11 + (5 * tileDist));
+
+        new Projectile(npc.tile(), tile, 1045, 41, duration, 65, 0, 0, 0, 5).sendProjectile();
+
+        TaskManager.submit(new TickAndStop(delay) {
+            @Override
+            public void executeAndStop() {
+                ObjectManager.addObj(obj);
+                TaskManager.submit(new Task() {
+                    int internalCounter = 30;
+
+                    @Override
+                    protected void execute() {
+                        if (internalCounter-- > 0) {
+                            if (area.contains(target, true)) {
+                                // just standing here causes damage, not only when venom ticker is applied
+                                target.hit(npc, 1 + Utils.getRandom(3), SplatType.VENOM_HITSPLAT);
+                                target.venom(npc); // apply venom
+                            }
+                        } else {
+                            ObjectManager.removeObj(obj);
+                            stop();
+                        }
+                    }
+                });
+            }
+        });
     }
 
     @Override

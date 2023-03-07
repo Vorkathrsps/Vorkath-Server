@@ -46,9 +46,9 @@ import com.aelous.utility.timers.TimerKey;
 import com.aelous.utility.timers.TimerRepository;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Stopwatch;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.time.Duration;
 import java.util.*;
 import java.util.function.BooleanSupplier;
@@ -837,7 +837,7 @@ public abstract class Entity {
      * @since 06/06/2020
      */
     @SuppressWarnings("unchecked")
-    public static <T> T getAttribTypeOr(@Nonnull Entity player, @Nonnull AttributeKey key, @Nullable Object defaultValue, @Nonnull Class<T> type, @Nonnull Supplier<T> supplier) {
+    public static <T> T getAttribTypeOr(@NotNull Entity player, @NotNull AttributeKey key, @Nullable Object defaultValue, @NotNull Class<T> type, @NotNull Supplier<T> supplier) {
         Preconditions.checkArgument(Arrays.stream(DISALLOWED).noneMatch(p -> type == p), "You cannot use type %s", type.getName());
         if (!player.hasAttrib(key)) {
             if (defaultValue == null && !type.isPrimitive() || defaultValue != null && defaultValue.getClass() == type) {

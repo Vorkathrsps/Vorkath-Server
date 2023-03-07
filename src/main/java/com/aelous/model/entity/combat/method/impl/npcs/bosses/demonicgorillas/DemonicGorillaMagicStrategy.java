@@ -15,10 +15,11 @@ public class DemonicGorillaMagicStrategy extends CommonCombatMethod {
     @Override
     public void prepareAttack(Entity entity, Entity target) {
         //mob.forceChat("MAGIC!");
-        var tileDist = entity.tile().transform(1, 1, 0).distance(target.tile());
-        var delay = Math.max(1, (50 + (tileDist * 12)) / 30);
-        Projectile projectile = new Projectile(entity, target, 1304, 40,25 * tileDist, 10, 10, 0);
-        projectile.sendProjectile();
+        entity.animate(7238);
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (51 + -5 + (10 * tileDist));
+        Projectile p = new Projectile(entity, target, 1304, 51, duration, 43, 31, 0, target.getSize(), 10);
+        final int delay = entity.executeProjectile(p);
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().postDamage(h -> ((DemonicGorilla)entity).getCombatAI().handleAfterHit(h)).submit();
     }
 

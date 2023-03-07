@@ -43,7 +43,7 @@ public class MeleeAccuracy {
         double selectedChance = srand.nextDouble();//srand.nextInt(10000) / 10000.0;
 
         if (attackBonus > defenceBonus)
-            successfulRoll = 1D - (Math.floor(defenceBonus + 2D)) / (2D * (Math.floor(attackBonus + 1D)));
+            successfulRoll = 1D - (Math.floor(defenceBonus + 2D)) / (2D * (attackBonus + 1D));
         else
             successfulRoll = attackBonus / (2D * (Math.floor(defenceBonus + 1D)));
 
@@ -70,16 +70,16 @@ public class MeleeAccuracy {
 
     private static double getPrayerAttackBonus(Entity attacker, CombatType style) {
         double prayerBonus = 1D;
-            if (Prayers.usingPrayer(attacker, CLARITY_OF_THOUGHT))
-                prayerBonus *= 1.05D; // 5% attack level boost
-            else if (Prayers.usingPrayer(attacker, IMPROVED_REFLEXES))
-                prayerBonus *= 1.10D; // 10% attack level boost
-            else if (Prayers.usingPrayer(attacker, INCREDIBLE_REFLEXES))
-                prayerBonus *= 1.15D; // 15% attack level boost
-            else if (Prayers.usingPrayer(attacker, CHIVALRY))
-                prayerBonus *= 1.15D; // 15% attack level boost
-            else if (Prayers.usingPrayer(attacker, PIETY))
-                prayerBonus *= 1.20D; // 20% attack level boost
+        if (Prayers.usingPrayer(attacker, CLARITY_OF_THOUGHT))
+            prayerBonus *= 1.05D; // 5% attack level boost
+        else if (Prayers.usingPrayer(attacker, IMPROVED_REFLEXES))
+            prayerBonus *= 1.10D; // 10% attack level boost
+        else if (Prayers.usingPrayer(attacker, INCREDIBLE_REFLEXES))
+            prayerBonus *= 1.15D; // 15% attack level boost
+        else if (Prayers.usingPrayer(attacker, CHIVALRY))
+            prayerBonus *= 1.15D; // 15% attack level boost
+        else if (Prayers.usingPrayer(attacker, PIETY))
+            prayerBonus *= 1.20D; // 20% attack level boost
         return prayerBonus;
     }
 
@@ -190,30 +190,19 @@ public class MeleeAccuracy {
     }
 
     public static int getDefenceLevel(Entity defender) {
-        int defenceLevel = 1;
-        if (defender instanceof NPC) {
-            NPC npc = ((NPC) defender);
-            if (npc.combatInfo() != null && npc.combatInfo().stats != null) {
-                defenceLevel = npc.combatInfo().stats.defence;
-            }
-        } else {
-            defenceLevel = defender.skills().level(Skills.DEFENCE);
-        }
-        return defenceLevel;
+        return defender instanceof NPC && defender.getAsNpc().combatInfo() != null ? defender.getAsNpc().combatInfo().stats.defence : defender.skills().level(Skills.DEFENCE);
     }
 
     private static int getGearDefenceBonus(Entity defender, CombatType style) {
         EquipmentInfo.Bonuses defenderBonus = EquipmentInfo.totalBonuses(defender, World.getWorld().equipmentInfo());
         final AttackType type = defender instanceof NPC ? AttackType.SLASH : defender.getCombat().getFightType().getAttackType();
         int bonus = 1;
-        if (style == MELEE) {
-            if (type == AttackType.STAB)
-                bonus =  (bonus + defenderBonus.stabdef);
-            else if (type == AttackType.CRUSH)
-                bonus =  (bonus + defenderBonus.crushdef);
-            else if (type == AttackType.SLASH)
-                bonus = (bonus + defenderBonus.slashdef);
-        }
+        if (type == AttackType.STAB)
+            bonus = (bonus + defenderBonus.stabdef);
+        else if (type == AttackType.CRUSH)
+            bonus = (bonus + defenderBonus.crushdef);
+        else if (type == AttackType.SLASH)
+            bonus = (bonus + defenderBonus.slashdef);
         return bonus;
     }
 
@@ -221,30 +210,24 @@ public class MeleeAccuracy {
         final AttackType type = attacker.getCombat().getFightType().getAttackType();
         EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
         int bonus = 0;
-            if (type == AttackType.STAB)
-                bonus = (bonus + attackerBonus.stab);
-            else if (type == AttackType.CRUSH)
-                bonus = (bonus + attackerBonus.crush);
-            else if (type == AttackType.SLASH)
-                bonus = (bonus + attackerBonus.slash);
+        if (type == AttackType.STAB)
+            bonus = (bonus + attackerBonus.stab);
+        else if (type == AttackType.CRUSH)
+            bonus = (bonus + attackerBonus.crush);
+        else if (type == AttackType.SLASH)
+            bonus = (bonus + attackerBonus.slash);
         return bonus;
     }
 
     public static int getAttackRoll(Entity attacker, CombatType style) {
         int effectiveLevel = (int) Math.floor(getEffectiveMelee(attacker, style));
-
         int effectiveBonus = getGearAttackBonus(attacker);
-
         return (int) Math.floor(effectiveLevel * (effectiveBonus + 64));
     }
 
     public static int getDefenceRoll(Entity defender, CombatType style) {
         int effectiveDefenceLevel = (int) Math.floor(getEffectiveDefence(defender));
-
         int effectiveBonus = getGearDefenceBonus(defender, style);
-
-        System.out.println("effective defence melee:  "+(int) Math.floor(effectiveDefenceLevel * (effectiveBonus + 64)));
-
         return (int) Math.floor(effectiveDefenceLevel * (effectiveBonus + 64));
     }
 }

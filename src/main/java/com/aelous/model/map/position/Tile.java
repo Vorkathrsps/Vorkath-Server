@@ -507,6 +507,7 @@ public class Tile implements Cloneable {
         return new Tile(x + dx, y + dy, level + dz);
     }
 
+
     public Tile transform(int dx, int dy) {
         return new Tile(x + dx, y + dy, level);
     }

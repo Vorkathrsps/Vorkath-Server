@@ -163,6 +163,19 @@ public final class Projectile {
         }
     }
 
+    public void sendProjectile(Tile x, Tile y, Tile x2, Tile y2) {
+        for (Player player : World.getWorld().getPlayers()) {
+
+            if (player == null) {
+                continue;
+            }
+
+            player.getPacketSender().sendProjectile(start, offset, 0,
+                speed, projectileId, startHeight, endHeight, lockon, delay,
+                creatorSize, startDistanceOffset);
+        }
+    }
+
     public void sendFor(Player player) {
         if (start.isViewableFrom(player.tile())) {
             player.getPacketSender().sendProjectile(start, offset, 0,

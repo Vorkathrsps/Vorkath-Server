@@ -39,10 +39,10 @@ public class MagicAccuracy {
         int attackBonus = (int) Math.floor(getAttackRoll(attacker, style));
         int defenceBonus = (int) Math.floor(getDefenceRoll(defender, style));
         double successfulRoll;
-        double selectedChance = srand.nextDouble();//srand.nextInt(10000) / 10000.0;
+        double selectedChance = srand.nextDouble();
 
         if (attackBonus > defenceBonus)
-            successfulRoll = 1D - (Math.floor(defenceBonus + 2D)) / (2D * (Math.floor(attackBonus + 1D)));
+            successfulRoll = 1D - (Math.floor(defenceBonus + 2D)) / (2D * (attackBonus + 1D));
         else
             successfulRoll = attackBonus / (2D * (Math.floor(defenceBonus + 1D)));
 
@@ -54,25 +54,21 @@ public class MagicAccuracy {
     public static int getEquipmentBonusAttacker(Entity attacker, CombatType style) {
         EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
         int bonus = 0;
-        if (style == CombatType.MAGIC) {
-            if (attacker instanceof Player) {
-                if (!WildernessArea.inWild((Player) attacker) && ((Player) attacker).getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
-                    bonus = attackerBonus.mage += Math.min(attackerBonus.mage * 3, attackerBonus.mage * attackerBonus.mage);
-                } else {
-                    bonus = attackerBonus.mage;
-                }
+        if (attacker instanceof Player) {
+            if (!WildernessArea.inWild((Player) attacker) && ((Player) attacker).getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
+                bonus = attackerBonus.mage += Math.min(attackerBonus.mage * 3, attackerBonus.mage * attackerBonus.mage);
+            } else {
+                bonus = attackerBonus.mage;
             }
+        } else if (attacker instanceof NPC) {
+            bonus = attacker.getAsNpc().combatInfo().bonuses.magic;
         }
         return bonus;
     }
 
     public static int getEquipmentBonusDefender(Entity defender, CombatType style) {
         EquipmentInfo.Bonuses defenderBonus = EquipmentInfo.totalBonuses(defender, World.getWorld().equipmentInfo());
-        int bonus = 0;
-        if (style == CombatType.MAGIC) {
-            bonus = defenderBonus.magedef;
-        }
-        return bonus;
+        return defender instanceof NPC ? defender.getAsNpc().combatInfo().bonuses.magicdefence : defenderBonus.magedef;
     }
 
     public static int getDefenceLevelDefender(Entity defender, FightStyle style) {
@@ -86,23 +82,11 @@ public class MagicAccuracy {
     }
 
     public static int getMagicLevelAttacker(Entity attacker) {
-        int magicLevel = 1;
-        if (attacker instanceof NPC) {
-            NPC npc = ((NPC) attacker);
-            if (npc.combatInfo() != null && npc.combatInfo().stats != null)
-                magicLevel = npc.combatInfo().stats.magic;
-        } else {
-            magicLevel = attacker.skills().level(Skills.MAGIC);
-        }
-        return magicLevel;
+        return attacker instanceof NPC && attacker.getAsNpc().combatInfo() != null ? attacker.getAsNpc().combatInfo().stats.magic : attacker.skills().level(Skills.MAGIC);
     }
 
     public static int getMagicLevelDefender(Entity defender) {
-        if (defender instanceof NPC) {
-            return ((NPC) defender).combatInfo().stats.magic;
-        } else {
-            return defender.skills().level(Skills.MAGIC);
-        }
+        return defender instanceof NPC ? defender.getAsNpc().combatInfo().stats.magic : defender.skills().level(Skills.MAGIC);
     }
 
     public static double getPrayerBonus(Entity attacker, CombatType style) {
@@ -204,7 +188,6 @@ public class MagicAccuracy {
     public static int getAttackRoll(Entity attacker, CombatType style) {
         int effectiveMagicLevel = (int) Math.floor(getEffectiveLevelAttacker(attacker, style));
         int equipmentAttackBonus = getEquipmentBonusAttacker(attacker, style);
-        System.out.println("effective Magic Attack: "+effectiveMagicLevel);
         return (int) Math.floor(effectiveMagicLevel * (equipmentAttackBonus + 64));
     }
 
@@ -213,7 +196,6 @@ public class MagicAccuracy {
         int magicLevel = getMagicLevelDefender(defender);
         int magicDefence = getDefenceLevelDefender(defender, FightStyle.DEFENSIVE);
         int effectiveLevel = (int) Math.floor(((magicDefence * getPrayerBonusDefender(defender) * 0.3D) * 0.7D) + magicLevel);
-        System.out.println("effective Magic Defence: "+effectiveLevel);
         int equipmentDefenceBonus = getEquipmentBonusDefender(defender, style);
         return (int) Math.floor(effectiveLevel * (equipmentDefenceBonus + 64));
     }

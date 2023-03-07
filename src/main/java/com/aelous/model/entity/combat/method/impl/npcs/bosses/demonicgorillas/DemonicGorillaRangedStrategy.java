@@ -14,12 +14,11 @@ public class DemonicGorillaRangedStrategy extends CommonCombatMethod {
 
     @Override
     public void prepareAttack(Entity entity, Entity target) {
-        //mob.forceChat("RANGED!");
         entity.animate(7227);
-        var tileDist = entity.tile().transform(1, 1, 0).distance(target.tile());
-        var delay = Math.max(1, (50 + (tileDist * 12)) / 30);
-        Projectile projectile = new Projectile(entity, target, 1302, 35, 25 * tileDist, 45, 30, 0);
-        projectile.sendProjectile();
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (41 + 11 + (5 * tileDist));
+        Projectile p = new Projectile(entity, target, 1302, 41, duration, 45, 31, 0, target.getSize(), 5);
+        final int delay = entity.executeProjectile(p);
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().postDamage(h -> ((DemonicGorilla)entity).getCombatAI().handleAfterHit(h)).submit();
     }
 

@@ -5,15 +5,19 @@ import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 
 public class ThermonuclearSmokeDevil extends CommonCombatMethod {
 
     @Override
     public void prepareAttack(Entity entity, Entity target) {
-        int tileDist = entity.tile().transform(1, 1).distance(target.tile());
-        new Projectile(entity, target, 644, 20, 12 * tileDist, 30, 30, 0).sendProjectile();
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), 2, CombatType.RANGED).checkAccuracy().submit();
-        target.graphic(643);
+        entity.animate(3847);
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (41 + 11 + (5 * tileDist));
+        Projectile p = new Projectile(entity, target, 644, 41, duration, 43, 31, 0, target.getSize(), 5);
+        final int delay = entity.executeProjectile(p);
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+        target.graphic(643, GraphicHeight.LOW, p.getSpeed());
     }
 
     @Override

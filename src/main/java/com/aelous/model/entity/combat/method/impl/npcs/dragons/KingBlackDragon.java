@@ -5,6 +5,7 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatConstants;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Projectile;
@@ -59,15 +60,10 @@ public class KingBlackDragon extends CommonCombatMethod {
 
     private void fire(Entity entity, Entity target, FireType fireType, int minMaxDamage) {
         entity.animate(81);
-        switch (fireType) {
-            case FIRE -> new Projectile(entity, target, 393, 51, entity.projectileSpeed(target), 43, 31, 0, 15, 250).sendProjectile();
-            case POISON -> new Projectile(entity, target, 394, 51, entity.projectileSpeed(target), 43, 31, 0, 15, 250).sendProjectile();
-            case SHOCK -> new Projectile(entity, target, 395, 51, entity.projectileSpeed(target), 43, 31, 0, 15, 250).sendProjectile();
-            case FREEZE -> new Projectile(entity, target, 396, 51, entity.projectileSpeed(target), 43, 31, 0, 15, 250).sendProjectile();
-        }
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (41 + 11 + (5 * tileDist));
 
-        if(target instanceof Player) {
-            Player player = (Player) target;
+        if (target instanceof Player player) {
             double max = Math.max(65, minMaxDamage);
             int antifire_charges = player.getAttribOr(AttributeKey.ANTIFIRE_POTION, 0);
             boolean hasShield = CombatConstants.hasAntiFireShield(player);
@@ -103,9 +99,31 @@ public class KingBlackDragon extends CommonCombatMethod {
             }
 
             int hit = Utils.random((int) max);
-            player.hit(entity, hit, 2, CombatType.MAGIC).submit();
             if (max == 65 && hit > 0) {
                 player.message("You are badly burned by the dragon fire!");
+            }
+            switch (fireType) {
+                case FIRE -> {
+                    Projectile p1 = new Projectile(entity, target, 393, 51, duration, 43, 31, 0, target.getSize(), 5);
+                    final int delay = entity.executeProjectile(p1);
+                    target.hit(entity, hit, delay, CombatType.MAGIC).submit();
+                }
+
+                case POISON -> {
+                    Projectile p2 = new Projectile(entity, target, 394, 51, duration, 43, 31, 0, target.getSize(), 5);
+                    final int delay = entity.executeProjectile(p2);
+                    target.hit(entity, hit, delay, CombatType.MAGIC).submit();
+                }
+                case SHOCK -> {
+                    Projectile p3 = new Projectile(entity, target, 395, 51, duration, 43, 31, 0, target.getSize(), 5);
+                    final int delay = entity.executeProjectile(p3);
+                    target.hit(entity, hit, delay, CombatType.MAGIC).submit();
+                }
+                case FREEZE -> {
+                    Projectile p4 = new Projectile(entity, target, 396, 51, duration, 43, 31, 0, target.getSize(), 5);
+                    final int delay = entity.executeProjectile(p4);
+                    target.hit(entity, hit, delay, CombatType.MAGIC).submit();
+                }
             }
         }
     }

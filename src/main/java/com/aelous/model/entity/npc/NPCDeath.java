@@ -566,7 +566,6 @@ public class NPCDeath {
                         Tile tile = jad ? new Tile(2438, 5169, 0) : dropUnderPlayer ? killer.tile() : npc.tile();
 
                         table.rollForLarransKey(npc, killer);
-                        table.rollForSigil(killer);
 
                         if (!customDrops.contains(npc.id())) {
                             table.getGuaranteedDrops().forEach(tableItem -> {

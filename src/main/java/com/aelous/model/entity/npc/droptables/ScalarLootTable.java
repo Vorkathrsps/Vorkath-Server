@@ -194,8 +194,10 @@ public class ScalarLootTable {
         // Ingest rare knowledge
         if (tables != null) {
             for (ScalarLootTable table : tables) {
-                if (table.rareaffected)
+                if (table.rareaffected) {
                     rareaffected = true;
+                    break;
+                }
             }
         }
     }
@@ -277,7 +279,6 @@ public class ScalarLootTable {
             ScalarLootTable table = load(new String(Files.readAllBytes(file.toPath())));
             table.process();
             table.calcRare();
-            table.calcRare();
             table.tblpts = table.ptsTotal();
             table.setRoot(table);
             table.recursiveCalcChances(1, 1);
@@ -311,22 +312,6 @@ public class ScalarLootTable {
                 GroundItemHandler.createGroundItem(new GroundItem(new Item(ItemIdentifiers.LARRANS_KEY), player.tile(), player));
             }
         }
-    }
-
-    public void rollForSigil(Player player) {
-        boolean inWilderness = WildernessArea.inWild(player);
-            if (inWilderness) {
-                int roll = 500;
-                if (Utils.rollDie(roll, 1)) {
-                    player.message("you feel a strange force beneath the ground...");
-                    player.graphic(1993);
-                    GroundItemHandler.createGroundItem(new GroundItem(new Item(ItemIdentifiers.SIGIL_OF_FORTIFICATION_26006), player.tile(), player));
-                }
-            }
-        }
-
-    public static boolean hasSigil(Player player) {
-        return player.getInventory().contains(ItemIdentifiers.SIGIL_OF_FORTIFICATION) || player.getBank().contains(ItemIdentifiers.SIGIL_OF_FORTIFICATION);
     }
 
     public static void main(String[] args) throws Exception {

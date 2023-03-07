@@ -96,13 +96,8 @@ public final class Projectile {
     public Projectile(Tile start, Tile end, int lockon,
                       int projectileId, int speed, int delay, int startHeight, int endHeight,
                       int curve) {
-        this(start, end, lockon, projectileId, speed, delay, startHeight, endHeight, curve, 1, 0, 0);
+        this(start, end, lockon, projectileId, speed, delay, startHeight, endHeight, curve, 1, 64, 0);
     }
-
-    //public Projectile(Entity source, Entity victim, int projectileId, int delay, int speed, int startHeight, int endHeight, int angle, int slope, int radius) {
-
-       // this(new Tile(source.getX(), source.getY()), new Tile(victim.getX(), victim.getY()), victim.getProjectileLockonIndex(), projectileId, speed, delay, startHeight, endHeight, angle, slope, radius, 0);
-  //  }
 
     public Projectile(Entity source, Entity victim, int projectileId,
                       int delay, int speed, int startHeight, int endHeight, int curve, int creatorSize, int stepMultiplier) {
@@ -116,7 +111,7 @@ public final class Projectile {
                       int delay, int speed, int startHeight, int endHeight, int curve, int creatorSize, int stepMultiplier) {
         this(source, victim,
             0, projectileId, speed, delay,
-            startHeight, endHeight, curve, 1, 64, stepMultiplier);
+            startHeight, endHeight, curve, creatorSize, 64, stepMultiplier);
     }
 
     /**
@@ -146,10 +141,7 @@ public final class Projectile {
         this(npc, transform, lockon, projectileId, speed, delay, startHeight, endHeight, curve, 1, 0, stepMultiplier);
     }
 
-    /**
-     * Sends one projectiles using the values set when the {@link Projectile}
-     * was constructed.
-     */
+
     public void sendProjectile() {
         for (Player player : World.getWorld().getPlayers()) {
 

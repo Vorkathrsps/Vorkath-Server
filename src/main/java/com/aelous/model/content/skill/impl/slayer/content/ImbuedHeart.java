@@ -2,6 +2,7 @@ package com.aelous.model.content.skill.impl.slayer.content;
 
 import com.aelous.model.content.EffectTimer;
 import com.aelous.model.content.duel.DuelRule;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.utility.Color;
@@ -30,7 +31,7 @@ public class ImbuedHeart {
                 player.message("Stat-boosting items are disabled for this duel.");
             } else {
                 player.message("<col="+Color.RED.getColorValue()+">Your imbued heart has regained its magical power.");
-                player.graphic(1316);
+                player.graphic(1316, GraphicHeight.LOW, 30);
                 player.getTimers().register(TimerKey.IMBUED_HEART_COOLDOWN, 700);
                 int seconds = 700 / 10 * 6;//7 minutes
                 player.getPacketSender().sendEffectTimer(seconds, EffectTimer.IMBUED_HEART);

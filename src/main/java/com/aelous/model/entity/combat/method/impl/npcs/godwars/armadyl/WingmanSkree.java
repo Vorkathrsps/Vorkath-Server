@@ -12,8 +12,11 @@ public class WingmanSkree extends CommonCombatMethod {
     @Override
     public void prepareAttack(Entity entity, Entity target) {
         entity.animate(6955);
-        new Projectile(entity, target, 1201, 25, 65, 80, 25, 0).sendProjectile();
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 2, CombatType.MAGIC).checkAccuracy().submit();
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (45 + 11 + (5 * tileDist));
+        Projectile p = new Projectile(entity, target, 1199, 25, duration, 80, 25, 0, target.getSize(), 5);
+        final int delay = entity.executeProjectile(p);
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
     }
 
     @Override

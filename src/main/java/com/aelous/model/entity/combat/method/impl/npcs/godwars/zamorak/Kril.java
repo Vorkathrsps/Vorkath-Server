@@ -58,7 +58,7 @@ public class Kril extends CommonCombatMethod {
         boolean melee_dist = entity.tile().distance(target.tile()) <= 1;
 
         // Attack the player
-        if (melee_dist && Utils.rollDie(2, 1)) {
+        if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.rollDie(2, 1)) {
             entity.animate(6948);
             // If we're in melee distance it's actually classed as if the target hit us -- has an effect on auto-retal in gwd!
             if (GwdLogic.isBoss(entity.getAsNpc().id())) {
@@ -77,8 +77,12 @@ public class Kril extends CommonCombatMethod {
                 target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
             }
         } else {
-            new Projectile(entity, target, 1227, 25, 65, 1, 5, 0).sendProjectile();
-            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 2, CombatType.MAGIC).checkAccuracy().submit();
+            entity.animate(6950);
+            var tileDist = entity.tile().distance(target.tile());
+            int durationMagic = (51 + -5 + (10 * tileDist));
+            Projectile p = new Projectile(entity, target, 1227, 51, durationMagic, 1, 5, 0, target.getSize(), 5);
+            final int delay = entity.executeProjectile(p);
+            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
         }
 
         // Slight chance of poison

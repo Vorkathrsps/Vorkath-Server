@@ -12,8 +12,11 @@ public class Balfrug extends CommonCombatMethod {
     @Override
     public void prepareAttack(Entity entity, Entity target) {
         entity.animate(4630);
-        new Projectile(entity, target, 1227, 25, 65, 1, 5, 0).sendProjectile();
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 2, CombatType.MAGIC).checkAccuracy().submit();
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (25 + -5 + (10 * tileDist));
+        Projectile p = new Projectile(entity, target, 1227, 25, duration, 1, 5, 0, target.getSize(), 10);
+        final int delay = entity.executeProjectile(p);
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
     }
 
     @Override

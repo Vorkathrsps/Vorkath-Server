@@ -22,7 +22,7 @@ public class KrakenInstance {
      */
     private SingleInstancedArea instance;
 
-    private final List<NPC> npcList = new ArrayList<>();
+    public final List<NPC> npcList = new ArrayList<>();
     public boolean playerHasLeft;
 
     public KrakenInstance() {

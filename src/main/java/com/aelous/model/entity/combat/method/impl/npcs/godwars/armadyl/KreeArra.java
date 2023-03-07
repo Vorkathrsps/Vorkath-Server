@@ -37,17 +37,22 @@ public class KreeArra extends CommonCombatMethod {
         int roll = Utils.random(2);
         int melee_distance = entity.tile().distance(target.tile());
         boolean melee_range = melee_distance <= 1;
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (43 + 11 + (5 * tileDist));
+        int durationMagic = (51 + -5 + (10 * tileDist));
         if (melee_range && roll == 0) {
             entity.animate(6981);
             target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
         } else if (roll == 1) {
             entity.animate(6980);
-            new Projectile(entity, target, 1200, 45, 65, 0, 0, 0).sendProjectile();
-            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 2, CombatType.MAGIC).checkAccuracy().submit();
+            Projectile p = new Projectile(entity, target, 1200, 51, durationMagic, 0, 0, 0, target.getSize(), 5);
+            final int delay = entity.executeProjectile(p);
+            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
         } else {
             entity.animate(6980);
-            new Projectile(entity, target, 1199, 45, 65, 0, 0, 0).sendProjectile();
-            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), 2, CombatType.RANGED).checkAccuracy().submit();
+            Projectile p = new Projectile(entity, target, 1199, 43, duration, 0, 0, 0, target.getSize(), 5);
+            final int delay = entity.executeProjectile(p);
+            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
         }
     }
 

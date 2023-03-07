@@ -4,6 +4,7 @@ import com.aelous.GameServer;
 import com.aelous.model.content.areas.wilderness.content.key.EscapeKeyPlugin;
 import com.aelous.model.content.duel.Dueling;
 import com.aelous.model.content.instance.InstancedAreaManager;
+import com.aelous.model.content.instance.impl.KrakenInstance;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportData;
 import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
@@ -210,12 +211,14 @@ public class Teleports {
         if (player.locked() || player.dead() || player.hp() <= 0)
             return;
 
-        //Close all interfaces
         player.getInterfaceManager().close();
 
-        //Stop the players actions
         player.stopActions(true);
-        //trigger checks
+
+        if (player.hasAttrib(AttributeKey.MAGEBANK_MAGIC_ONLY)) {
+            player.clearAttrib(AttributeKey.MAGEBANK_MAGIC_ONLY);
+        }
+
         var instancedArea = InstancedAreaManager.getSingleton().ofZ(player.getZ());
         if (instancedArea != null)
             instancedArea.onTeleport(player, tile);

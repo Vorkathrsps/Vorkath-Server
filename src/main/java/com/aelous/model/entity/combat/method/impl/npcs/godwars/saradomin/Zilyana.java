@@ -7,6 +7,7 @@ import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.GwdLogic;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Area;
@@ -75,8 +76,8 @@ public class Zilyana extends CommonCombatMethod {
                 entity.animate(6970);
                 npc.getTimers().extendOrRegister(TimerKey.ZILY_SPEC_COOLDOWN, 7);
                 npc.getMovementQueue().clear();
-                player.graphic(1221);
-                target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 2, CombatType.MAGIC).checkAccuracy().submit();
+                player.graphic(1221, GraphicHeight.LOW, 30);
+                target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 1, CombatType.MAGIC).checkAccuracy().submit();
             }
         }
     }

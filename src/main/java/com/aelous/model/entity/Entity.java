@@ -1600,7 +1600,6 @@ public abstract class Entity {
             getAsPlayer().getInterfaceManager().close(false);
         }
 
-
         if (this.isPlayer()) {
             var instancedArea = InstancedAreaManager.getSingleton().ofZ(this.getZ());
             if (instancedArea != null)

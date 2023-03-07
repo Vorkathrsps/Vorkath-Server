@@ -544,7 +544,6 @@ public class NPC extends Entity {
             if (!(this.id() >= 3116 && this.id() <= 3128) && this.id() != 5886 && id != 239 && !def.inferno) {
 
                 if (!CombatFactory.canAttack(this, method, target) && reached) {
-                    target.message(def.name+" doesnt fucking like you hey?");
                     this.getCombat().reset();// Clear it.
                 }
             }

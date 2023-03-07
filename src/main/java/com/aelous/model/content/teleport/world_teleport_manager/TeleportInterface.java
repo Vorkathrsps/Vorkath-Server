@@ -330,10 +330,6 @@ public class TeleportInterface {
             return true;
         }
         if (chosen == GWD) {
-            if (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.GODWARS_ENTRY)) {
-                player.message("You need to unlock this teleport first.");
-                return true;
-            }
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {

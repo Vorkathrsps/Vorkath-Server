@@ -12,8 +12,11 @@ public class Bree extends CommonCombatMethod {
     @Override
     public void prepareAttack(Entity entity, Entity target) {
         entity.animate(7026);
-        new Projectile(entity, target, 1190, 45, 65, 55, 35, 0).sendProjectile();
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), 2, CombatType.RANGED).checkAccuracy().submit();
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (45 + 11 + (5 * tileDist));
+        Projectile p = new Projectile(entity, target, 1190, 41, duration, 55, 35, 0, target.getSize(), 5);
+        final int delay = entity.executeProjectile(p);
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
     }
 
     @Override

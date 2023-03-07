@@ -13,8 +13,11 @@ public class Growler extends CommonCombatMethod {
     public void prepareAttack(Entity entity, Entity target) {
         entity.animate(7037);
         entity.graphic(1182);
-        new Projectile(entity, target, 1183, 25, 65, 0, 0, 0).sendProjectile();
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 2, CombatType.MAGIC).checkAccuracy().submit();
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (25 + -5 + (10 * tileDist));
+        Projectile p = new Projectile(entity, target, 1183, 25, duration, 0, 0, 0, target.getSize(), 10);
+        final int delay = entity.executeProjectile(p);
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
     }
 
     @Override

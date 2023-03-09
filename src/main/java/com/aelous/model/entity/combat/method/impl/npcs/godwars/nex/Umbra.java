@@ -22,13 +22,13 @@ public class Umbra extends CommonCombatMethod {
             if (hit.isAccurate()) {
                 target.graphic(383);
 
-                if (target.skills().level(Skills.ATTACK) < target.skills().xpLevel(Skills.ATTACK)) {
+                if (target.getSkills().level(Skills.ATTACK) < target.getSkills().xpLevel(Skills.ATTACK)) {
                     return;
                 }
 
-                int decrease = (int) (0.15 * (target.skills().level(Skills.ATTACK)));
-                target.skills().setLevel(Skills.ATTACK, target.skills().level(Skills.ATTACK) - decrease);
-                target.skills().update(Skills.ATTACK);
+                int decrease = (int) (0.15 * (target.getSkills().level(Skills.ATTACK)));
+                target.getSkills().setLevel(Skills.ATTACK, target.getSkills().level(Skills.ATTACK) - decrease);
+                target.getSkills().update(Skills.ATTACK);
             }
         }
     }

@@ -38,7 +38,7 @@ public class Barbarian extends PacketInteraction {
     public boolean successful(Player player) {
         int req = 35;
         int endeffectiveness = 70;
-        int gap = player.skills().xpLevel(Skills.AGILITY) - req;
+        int gap = player.getSkills().xpLevel(Skills.AGILITY) - req;
         double failrate = 0.30;
         return Math.random() >= (failrate - ((failrate / (endeffectiveness - req)) * gap));
     }
@@ -50,7 +50,7 @@ public class Barbarian extends PacketInteraction {
                 player.smartPathTo(obj.tile());
                 player.waitUntil(1, () -> !player.getMovementQueue().isMoving(), () -> {
                     if (player.tile().y >= 3560) {
-                        if (player.skills().level(Skills.AGILITY) < 35) {
+                        if (player.getSkills().level(Skills.AGILITY) < 35) {
                             player.message("You need a agility level of 35 to enter this course.");
                         } else {
                             player.teleport(new Tile(2552, 3558, 0));
@@ -77,7 +77,7 @@ public class Barbarian extends PacketInteraction {
                     Chain.bound(player).name("BarbarianRopeSwing3Task").runFn(1, () -> {
                         player.getPacketSender().sendObjectAnimation(obj, 55);// make the rope go forwards while we swing
                         putStage(player, 1);
-                        player.skills().addXp(Skills.AGILITY, 22.0);
+                        player.getSkills().addXp(Skills.AGILITY, 22.0);
                         player.unlock();
                     });
                 });
@@ -100,7 +100,7 @@ public class Barbarian extends PacketInteraction {
                             player.agilityWalk(true);
                             player.looks().resetRender();
                             putStage(player, 2);
-                            player.skills().addXp(Skills.AGILITY, 13.7);
+                            player.getSkills().addXp(Skills.AGILITY, 13.7);
                             player.message("...You make it safely to the other side.");
                             player.unlock();
                         });
@@ -132,7 +132,7 @@ public class Barbarian extends PacketInteraction {
                 }
                 Ladders.ladderUp(player, player.tile().transform(-1, 0, 1), true);
                 putStage(player, 4);
-                player.skills().addXp(Skills.AGILITY, 8.2);
+                player.getSkills().addXp(Skills.AGILITY, 8.2);
                 return true;
             }
 
@@ -154,7 +154,7 @@ public class Barbarian extends PacketInteraction {
                             player.agilityWalk(true);
                             player.looks().resetRender();
                             putStage(player, 8);
-                            player.skills().addXp(Skills.AGILITY, 22.0);
+                            player.getSkills().addXp(Skills.AGILITY, 22.0);
                             player.unlock();
                         });
                     } else {
@@ -194,12 +194,12 @@ public class Barbarian extends PacketInteraction {
                         player.animate(839);
                         TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(2, 0), 0, 60, 1))); //Move
                         Chain.bound(player).name("BarbarianWallTask").runFn(1, () -> {
-                            player.skills().addXp(Skills.AGILITY, 13.7);
+                            player.getSkills().addXp(Skills.AGILITY, 13.7);
                             player.unlock();
                             int stage = player.getAttribOr(AttributeKey.BARBARIAN_COURSE_STATE, 0);
                             if (end && stage == 15) {
                                 player.putAttrib(AttributeKey.BARBARIAN_COURSE_STATE, 0);
-                                player.skills().addXp(Skills.AGILITY, 46.2);
+                                player.getSkills().addXp(Skills.AGILITY, 46.2);
 
                             }
                         });

@@ -159,7 +159,7 @@ public class Mac extends PacketInteraction {
     private boolean success(Player player) {
         var counter = 0;
         for (int skillId = 0; skillId < Skills.SKILL_COUNT - 1; skillId++) {
-            if (player.skills().xpLevel(skillId) < 99) {
+            if (player.getSkills().xpLevel(skillId) < 99) {
                 counter++;
             }
         }
@@ -172,6 +172,6 @@ public class Mac extends PacketInteraction {
     }
 
     public static int totalLevel(Player player) {
-        return player.skills().totalLevel();
+        return player.getSkills().totalLevel();
     }
 }

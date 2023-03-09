@@ -12,10 +12,7 @@ import com.aelous.utility.timers.TimerKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Queue;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
@@ -31,7 +28,7 @@ public class HitQueue {
     private static final Logger logger = LogManager.getLogger(HitQueue.class);
 
     //Our list containing all our incoming hits waiting to be processed.
-    private LinkedList<Hit> hits = new LinkedList<>();
+    private final List<Hit> hits = new ArrayList<Hit>();
 
     public void clear() {
         hits.clear();
@@ -61,25 +58,27 @@ public class HitQueue {
             return;
         }
 
-        for (Hit hit : hits) {
+        for (Hit hit : new ArrayList<>(hits)) {
             try {
-                if (hit == null || hit.getTarget() == null || hit.getAttacker() == null || hit.getTarget().isNullifyDamageLock()) {
-                    hit.toremove = true;
-                    continue;
-                }
+                if (hit != null) {
+                    if (hit.getTarget() == null || hit.getAttacker() == null || hit.getTarget().isNullifyDamageLock()) {
+                        hit.toremove = true;
+                        continue;
+                    }
 
-                if (hit.invalid()) {
-                    hit.toremove = true;
-                    continue;
-                }
+                    if (hit.invalid()) {
+                        hit.toremove = true;
+                        continue;
+                    }
 
-                if (hit.decrementAndGetDelay() <= 0) {
-                    CombatFactory.executeHit(hit);
-                    hit.toremove = true;
-                    if (shouldShowSplat(hit))
-                        hit.showSplat = true;
+                    if (hit.decrementAndGetDelay() <= 0) {
+                        CombatFactory.executeHit(hit);
+                        hit.toremove = true;
+                        if (shouldShowSplat(hit))
+                            hit.showSplat = true;
+                    }
+                    //Thread.dumpStack();
                 }
-                //Thread.dumpStack();
             } catch (RuntimeException e) {
                 hit.toremove = true;
                 logger.error(entity.getMobName() + ": RTE in hits - hopefully this stack helps pinpoint the cause: " + hit, e);

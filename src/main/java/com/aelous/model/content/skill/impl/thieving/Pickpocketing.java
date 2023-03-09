@@ -52,7 +52,7 @@ public class Pickpocketing extends PacketInteraction {
     }
 
     private void pickpocket(Player player, NPC npc, PickPocket pickpocket) {
-        if (!player.skills().check(Skills.THIEVING, pickpocket.levelReq, "pickpocket the " + pickpocket.name + "."))
+        if (!player.getSkills().check(Skills.THIEVING, pickpocket.levelReq, "pickpocket the " + pickpocket.name + "."))
             return;
         if (player.inventory().isFull()) {
             player.message("Your inventory is too full to hold any more loot.");
@@ -72,7 +72,7 @@ public class Pickpocketing extends PacketInteraction {
                     player.message("You pick the " + pickpocket.identifier + " pocket.");
 
                     player.inventory().add(pickpocket.lootTable.rollItem());
-                    player.skills().addXp(Skills.THIEVING, pickpocket.exp, true);
+                    player.getSkills().addXp(Skills.THIEVING, pickpocket.exp, true);
                 });
             } else {
                 player.runFn(1, () -> {
@@ -97,7 +97,7 @@ public class Pickpocketing extends PacketInteraction {
     private static int chance(Player player, int levelReq) {
         int slope = 2;
         int chance = 60; //Starts at a 60% chance
-        int thievingLevel = player.skills().level(Skills.THIEVING);
+        int thievingLevel = player.getSkills().level(Skills.THIEVING);
         int requiredLevel = levelReq;
 
         if (player.getEquipment().contains(GLOVES_OF_SILENCE))

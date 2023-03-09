@@ -101,7 +101,7 @@ public class MagicOnItemPacketListener implements PacketListener {
                             }
                         }
 
-                        if (player.skills().xpLevel(Skills.SMITHING) < data.get().getLevelReq()) {
+                        if (player.getSkills().xpLevel(Skills.SMITHING) < data.get().getLevelReq()) {
                             player.message("You need a smithing level of " + data.get().getLevelReq() + " to do super heat this item!");
                             return;
                         }
@@ -113,8 +113,8 @@ public class MagicOnItemPacketListener implements PacketListener {
                             player.inventory().removeAll(requiredItem.getItem());
                         }
                         player.inventory().addAll(new Item(data.get().getBar()));
-                        player.skills().addXp(Skills.MAGIC, spell.baseExperience(), true);
-                        player.skills().addXp(Skills.SMITHING, data.get().getXpReward(), true);
+                        player.getSkills().addXp(Skills.MAGIC, spell.baseExperience(), true);
+                        player.getSkills().addXp(Skills.SMITHING, data.get().getXpReward(), true);
                         player.getClickDelay().reset();
                         return;
                     case ENCHANT_SAPPHIRE:

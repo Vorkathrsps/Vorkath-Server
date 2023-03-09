@@ -75,7 +75,7 @@ public abstract class GameSyncTask {
      * @param index
      *            the mob index the synchronization is being done for.
      */
-    public abstract void execute(final int index);
+    public abstract void execute(final int index) throws Exception;
 
     /**
      * Determines if this should be executed concurrently.

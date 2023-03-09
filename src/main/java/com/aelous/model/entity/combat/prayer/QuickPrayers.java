@@ -155,7 +155,7 @@ public class QuickPrayers extends Prayers {
         switch(button) {
         case TOGGLE_QUICK_PRAYERS:
 
-            if (player.skills().level(Skills.PRAYER) <= 0) {
+            if (player.getSkills().level(Skills.PRAYER) <= 0) {
                 player.message("You don't have enough Prayer points.");
                 return true;
             }

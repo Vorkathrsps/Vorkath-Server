@@ -23,7 +23,7 @@ public class FishingGuild extends PacketInteraction {
             //System.out.println("fishing object " + obj.toString());
             if(obj.getId() == DOOR_20925) {
                 int change = player.tile().y >= 3394 ? -1 : 1;
-                if (change == 1 && player.skills().level(Skills.FISHING) < 68) {
+                if (change == 1 && player.getSkills().level(Skills.FISHING) < 68) {
                     DialogueManager.sendStatement(player,"You do not meet the level 68 Fishing requirement to enter the Guild.");
                     return false;
                 }

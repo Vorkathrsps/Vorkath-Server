@@ -30,7 +30,7 @@ public class RellekkaRooftop extends PacketInteraction {
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         // Wall climb
         if(obj.getId() == ROUGH_WALL_14946) {
-            if (player.skills().level(Skills.AGILITY) >= 80) {
+            if (player.getSkills().level(Skills.AGILITY) >= 80) {
                 player.lock();
                 player.setPositionToFace(player.tile().transform(0, -1));
                 Chain.bound(player).name("RellekkaRooftopWallClimbTask").runFn(1, () -> {
@@ -39,7 +39,7 @@ public class RellekkaRooftop extends PacketInteraction {
                 }).then(2, () -> {
                     player.teleport(2626, 3676, 3);
                     player.animate(-1);
-                    player.skills().addXp(Skills.AGILITY, 20.0);
+                    player.getSkills().addXp(Skills.AGILITY, 20.0);
                     MarksOfGrace.trySpawn(player, MARK_SPOTS, 42, 80);
                     player.unlock();
                 });
@@ -59,7 +59,7 @@ public class RellekkaRooftop extends PacketInteraction {
                     player.animate(1603);
                     TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, -4), 8, 50, Direction.SOUTH.toInteger(), 1603)));
                 }).then(2, () -> player.teleport(2622, 3668, 3)).then(1, () -> {
-                    player.skills().addXp(Skills.AGILITY, 30.0);
+                    player.getSkills().addXp(Skills.AGILITY, 30.0);
                     MarksOfGrace.trySpawn(player, MARK_SPOTS, 42, 80);
                     player.unlock();
                 });
@@ -79,7 +79,7 @@ public class RellekkaRooftop extends PacketInteraction {
             }).waitForTile(new Tile(2626, 3654), () -> {
                 player.agilityWalk(true);
                 player.looks().resetRender();
-                player.skills().addXp(Skills.AGILITY, 40.0);
+                player.getSkills().addXp(Skills.AGILITY, 40.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 42, 80);
                 player.unlock();
             });
@@ -105,7 +105,7 @@ public class RellekkaRooftop extends PacketInteraction {
                 player.getMovementQueue().interpolate(2639, 3654, MovementQueue.StepType.FORCED_WALK);
                 player.getMovementQueue().step(2639, 3653, MovementQueue.StepType.FORCED_WALK);
             }).then(6, () -> {
-                player.skills().addXp(Skills.AGILITY, 85.0);
+                player.getSkills().addXp(Skills.AGILITY, 85.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 42, 80);
                 player.agilityWalk(true);
                 player.looks().resetRender();
@@ -127,7 +127,7 @@ public class RellekkaRooftop extends PacketInteraction {
                 TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, 4), 8, 50, Direction.NORTH.toInteger(), 1603)));
             }).then(2, () -> {
                 player.teleport(2643, 3657, 3);
-                player.skills().addXp(Skills.AGILITY, 25.0);
+                player.getSkills().addXp(Skills.AGILITY, 25.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 42, 80);
                 player.unlock();
             });
@@ -150,7 +150,7 @@ public class RellekkaRooftop extends PacketInteraction {
             }).waitForTile(new Tile(2654, 3670), () -> {
                 player.agilityWalk(true);
                 player.looks().resetRender();
-                player.skills().addXp(Skills.AGILITY, 105.0);
+                player.getSkills().addXp(Skills.AGILITY, 105.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 42, 80);
                 player.unlock();
             });
@@ -168,7 +168,7 @@ public class RellekkaRooftop extends PacketInteraction {
                 player.animate(2588);
                 player.teleport(2653, 3676, 0);
             }).then(1, () -> {
-                player.skills().addXp(Skills.AGILITY, 475.0);
+                player.getSkills().addXp(Skills.AGILITY, 475.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 42, 80);
                 player.getMovementQueue().step(Direction.WEST);
 

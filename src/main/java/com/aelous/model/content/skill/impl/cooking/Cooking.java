@@ -29,7 +29,7 @@ public class Cooking extends PacketInteraction {
 
     private static int cookingChance(Player player, Cookable type) {
         int points = 60;
-        int diff = player.skills().levels()[Skills.COOKING] - type.lvl;
+        int diff = player.getSkills().levels()[Skills.COOKING] - type.lvl;
         return Math.min(100, points + diff);
     }
 
@@ -117,7 +117,7 @@ public class Cooking extends PacketInteraction {
 
                 if (food != null) {
                     //Check to see if the player has the level required to cook the food
-                    if (player.skills().levels()[Skills.COOKING] < food.lvl) {
+                    if (player.getSkills().levels()[Skills.COOKING] < food.lvl) {
                         DialogueManager.sendStatement(player, "You need a cooking level of " + food.lvl + " to cook " + food.itemname + ".");
                     } else {
                         startCooking(player, food, obj);
@@ -236,7 +236,7 @@ public class Cooking extends PacketInteraction {
                     }
 
                     player.message(msg);
-                    player.skills().addXp(Skills.COOKING, food.exp);
+                    player.getSkills().addXp(Skills.COOKING, food.exp);
                     //Caskets Money, money, money..
                     if (Utils.rollDie(20, 1)) {
                         player.inventory().addOrDrop(new Item(7956, 1));

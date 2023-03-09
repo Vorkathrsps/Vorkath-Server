@@ -23,7 +23,7 @@ public class Shortcuts extends PacketInteraction {
     @Override
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         if (obj.getId() == STEPPING_STONE_14917 && obj.tile().equals(3092, 3879)) {
-            if (player.skills().level(Skills.AGILITY) < 82) {
+            if (player.getSkills().level(Skills.AGILITY) < 82) {
                 player.message("You need a Agility level of 82 to use this shortcut.");
                 return true;
             }
@@ -39,7 +39,7 @@ public class Shortcuts extends PacketInteraction {
                     TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(+1, -1), 5, 35, 4, 741)));
                 }).waitForTile(new Tile(3093, 3879), player::unlock);
             } else if (player.tile().equals(3093, 3879)) {
-                if (player.skills().level(Skills.AGILITY) < 82) {
+                if (player.getSkills().level(Skills.AGILITY) < 82) {
                     player.message("You need a Agility level of 82 to use this shortcut.");
                     return true;
                 }
@@ -74,7 +74,7 @@ public class Shortcuts extends PacketInteraction {
 
         // Al Kharid mine shortcut exit
         if (obj.getId() == ROCKS_16550) {
-            if (player.skills().level(Skills.AGILITY) < 38) {
+            if (player.getSkills().level(Skills.AGILITY) < 38) {
                 player.message("You need an agility level of 38 to negotiate these rocks.");
             } else {
                 TaskManager.submit(new TickAndStop(1) {

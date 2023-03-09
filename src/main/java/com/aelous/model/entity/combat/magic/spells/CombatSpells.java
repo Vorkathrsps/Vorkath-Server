@@ -2,26 +2,18 @@ package com.aelous.model.entity.combat.magic.spells;
 
 import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.magic.impl.CombatEffectSpell;
 import com.aelous.model.entity.combat.magic.impl.CombatNormalSpell;
-import com.aelous.model.entity.masks.Flag;
-import com.aelous.model.entity.masks.Projectile;
-import com.aelous.model.entity.masks.impl.animations.Animation;
-import com.aelous.model.entity.masks.impl.graphics.Graphic;
-import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
-import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.Utils;
 import com.aelous.utility.timers.TimerKey;
 
-import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -1530,7 +1522,7 @@ CombatSpells {
             if (castOn.isPlayer()) {
                 Player player = (Player) castOn;
 
-                if (player.skills().level(Skills.ATTACK) < player.skills().xpLevel(Skills.ATTACK)) {
+                if (player.getSkills().level(Skills.ATTACK) < player.getSkills().xpLevel(Skills.ATTACK)) {
                     if (cast.isPlayer()) {
                         ((Player) cast).getPacketSender().sendMessage(
                             "The spell has no effect because the player is already weakened.");
@@ -1538,9 +1530,9 @@ CombatSpells {
                     return;
                 }
 
-                int decrease = (int) (0.10 * (player.skills().level(Skills.ATTACK)));
-                player.skills().setLevel(Skills.ATTACK, player.skills().level(Skills.ATTACK) - decrease);
-                player.skills().update(Skills.ATTACK);
+                int decrease = (int) (0.10 * (player.getSkills().level(Skills.ATTACK)));
+                player.getSkills().setLevel(Skills.ATTACK, player.getSkills().level(Skills.ATTACK) - decrease);
+                player.getSkills().update(Skills.ATTACK);
                 player.message("You feel slightly weakened.");
             }
         }
@@ -1890,13 +1882,13 @@ CombatSpells {
             if (castOn.isPlayer()) {
                 Player player = (Player) castOn;
 
-                if (player.skills().level(Skills.ATTACK) < player.skills().xpLevel(Skills.ATTACK)) {
+                if (player.getSkills().level(Skills.ATTACK) < player.getSkills().xpLevel(Skills.ATTACK)) {
                     return;
                 }
 
-                int decrease = (int) (0.1 * (player.skills().level(Skills.ATTACK)));
-                player.skills().setLevel(Skills.ATTACK, player.skills().level(Skills.ATTACK) - decrease);
-                player.skills().update(Skills.ATTACK);
+                int decrease = (int) (0.1 * (player.getSkills().level(Skills.ATTACK)));
+                player.getSkills().setLevel(Skills.ATTACK, player.getSkills().level(Skills.ATTACK) - decrease);
+                player.getSkills().update(Skills.ATTACK);
             }
         }
 
@@ -2130,13 +2122,13 @@ CombatSpells {
             if (castOn.isPlayer()) {
                 Player player = (Player) castOn;
 
-                if (player.skills().level(Skills.ATTACK) < player.skills().xpLevel(Skills.ATTACK)) {
+                if (player.getSkills().level(Skills.ATTACK) < player.getSkills().xpLevel(Skills.ATTACK)) {
                     return;
                 }
 
-                int decrease = (int) (0.1 * (player.skills().level(Skills.ATTACK)));
-                player.skills().setLevel(Skills.ATTACK, player.skills().level(Skills.ATTACK) - decrease);
-                player.skills().update(Skills.ATTACK);
+                int decrease = (int) (0.1 * (player.getSkills().level(Skills.ATTACK)));
+                player.getSkills().setLevel(Skills.ATTACK, player.getSkills().level(Skills.ATTACK) - decrease);
+                player.getSkills().update(Skills.ATTACK);
             }
         }
 
@@ -2370,13 +2362,13 @@ CombatSpells {
             if (castOn.isPlayer()) {
                 Player player = (Player) castOn;
 
-                if (player.skills().level(Skills.ATTACK) < player.skills().xpLevel(Skills.ATTACK)) {
+                if (player.getSkills().level(Skills.ATTACK) < player.getSkills().xpLevel(Skills.ATTACK)) {
                     return;
                 }
 
-                int decrease = (int) (0.15 * (player.skills().level(Skills.ATTACK)));
-                player.skills().setLevel(Skills.ATTACK, player.skills().level(Skills.ATTACK) - decrease);
-                player.skills().update(Skills.ATTACK);
+                int decrease = (int) (0.15 * (player.getSkills().level(Skills.ATTACK)));
+                player.getSkills().setLevel(Skills.ATTACK, player.getSkills().level(Skills.ATTACK) - decrease);
+                player.getSkills().update(Skills.ATTACK);
             }
         }
 
@@ -2609,13 +2601,13 @@ CombatSpells {
             if (castOn.isPlayer()) {
                 Player player = (Player) castOn;
 
-                if (player.skills().level(Skills.ATTACK) < player.skills().xpLevel(Skills.ATTACK)) {
+                if (player.getSkills().level(Skills.ATTACK) < player.getSkills().xpLevel(Skills.ATTACK)) {
                     return;
                 }
 
-                int decrease = (int) (0.15 * (player.skills().level(Skills.ATTACK)));
-                player.skills().setLevel(Skills.ATTACK, player.skills().level(Skills.ATTACK) - decrease);
-                player.skills().update(Skills.ATTACK);
+                int decrease = (int) (0.15 * (player.getSkills().level(Skills.ATTACK)));
+                player.getSkills().setLevel(Skills.ATTACK, player.getSkills().level(Skills.ATTACK) - decrease);
+                player.getSkills().update(Skills.ATTACK);
             }
         }
 

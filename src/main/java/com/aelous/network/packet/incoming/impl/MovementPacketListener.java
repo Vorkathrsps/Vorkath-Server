@@ -22,6 +22,7 @@ import com.aelous.network.packet.incoming.IncomingHandler;
 import com.aelous.utility.Debugs;
 import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.timers.TimerKey;
+import com.intellij.openapi.vfs.pointers.VirtualFilePointerListener;
 import io.netty.buffer.Unpooled;
 
 import java.util.ArrayDeque;
@@ -37,12 +38,12 @@ import java.util.Arrays;
 public class MovementPacketListener implements PacketListener {
 
     public static void main(String[] args) {
-        final Packet packet = new Packet(-1, Unpooled.copiedBuffer(new byte[]{(byte) 0,(byte) 28,(byte) 5,(byte) -1,(byte) -1,(byte) -128,(byte) 14,(byte) 0}));
+        final Packet packet = new Packet(-1, Unpooled.copiedBuffer(new byte[]{(byte) 0, (byte) 28, (byte) 5, (byte) -1, (byte) -1, (byte) -128, (byte) 14, (byte) 0}));
         int size = packet.getSize();
         boolean shiftTeleport = packet.readByte() == 1; //We already send shift teleport as a command, but lets read the byte anyway.
         int path1 = packet.readByte();
         int path2 = packet.readByte();
-        System.out.println("was "+ Arrays.toString(packet.getBuffer().array())+" -> size "+size+" shift tp "+shiftTeleport+" path1 "+path1+" path2 "+path2);
+        System.out.println("was " + Arrays.toString(packet.getBuffer().array()) + " -> size " + size + " shift tp " + shiftTeleport + " path1 " + path1 + " path2 " + path2);
     }
 
     @Override
@@ -55,7 +56,7 @@ public class MovementPacketListener implements PacketListener {
             return;
         }
 
-        if(player.askForAccountPin()) {
+        if (player.askForAccountPin()) {
             player.sendAccountPinMessage();
             return;
         }
@@ -69,6 +70,10 @@ public class MovementPacketListener implements PacketListener {
 
         if (freezer != null) {
             if (player.frozen() && player.tile().distance(freezer.tile()) >= 10 || !freezer.isRegistered()) {
+                CombatFactory.unfreezeWhenOutOfRange(player);
+            }
+
+            if (player.frozen() && !WildernessArea.inWilderness(player.tile()) || !WildernessArea.inWilderness(freezer.tile()) || !freezer.isRegistered()) {
                 CombatFactory.unfreezeWhenOutOfRange(player);
             }
         }
@@ -98,7 +103,7 @@ public class MovementPacketListener implements PacketListener {
         }
 
         //Haha some friends thought they were smart, wield ammy of avarice type ::unskull and go in wild.
-        if(WildernessArea.inWild(player)) {
+        if (WildernessArea.inWild(player)) {
             if (player.getEquipment().contains(ItemIdentifiers.AMULET_OF_AVARICE)) {
                 Skulling.assignSkullState(player, SkullType.WHITE_SKULL);
             }
@@ -167,7 +172,7 @@ public class MovementPacketListener implements PacketListener {
         player.smartPathTo(new Tile(end.x, end.y));
 
         // very important to put this AFTER movement.clear is called otherwise attrib is overwritten
-        player.putAttrib(AttributeKey.MOVEMENT_PACKET_STEPS, new ArrayDeque(Arrays.asList(tiles)));
+        player.putAttrib(AttributeKey.MOVEMENT_PACKET_STEPS, new ArrayDeque<>(Arrays.asList(tiles)));
 
     }
 
@@ -178,7 +183,7 @@ public class MovementPacketListener implements PacketListener {
             return false;
         }
 
-        if(player.askForAccountPin()) {
+        if (player.askForAccountPin()) {
             player.sendAccountPinMessage();
             return false;
         }
@@ -203,7 +208,7 @@ public class MovementPacketListener implements PacketListener {
         }
 
         if (player.isNeedsPlacement() || player.getMovementQueue().isMovementBlocked()) {
-            player.debugMessage("MovementPacket checkReqs needs placement and movement blocked: "+player.getMovementQueue().isMovementBlocked());
+            player.debugMessage("MovementPacket checkReqs needs placement and movement blocked: " + player.getMovementQueue().isMovementBlocked());
             return false;
         }
 

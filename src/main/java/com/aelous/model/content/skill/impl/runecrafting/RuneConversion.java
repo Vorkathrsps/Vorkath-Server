@@ -129,7 +129,7 @@ public class RuneConversion extends PacketInteraction {
     }
 
     private static void craft(Player player, Altar altar) {
-        if (player.skills().xpLevel(Skills.RUNECRAFTING) >= altar.levelReq) {
+        if (player.getSkills().xpLevel(Skills.RUNECRAFTING) >= altar.levelReq) {
             int amount = player.inventory().count(PURE_ESSENCE);
             if (!altar.pure)
                 amount += player.inventory().count(RUNE_ESSENCE);
@@ -153,7 +153,7 @@ public class RuneConversion extends PacketInteraction {
                     }
                     int multi = 1;
                     for (int i = altar.multiplier; i < altar.multiplier * 10; i += altar.multiplier) {
-                        if (player.skills().xpLevel(Skills.RUNECRAFTING) >= i)
+                        if (player.getSkills().xpLevel(Skills.RUNECRAFTING) >= i)
                             multi++;
                     }
 
@@ -162,7 +162,7 @@ public class RuneConversion extends PacketInteraction {
                     }
 
                     player.inventory().add(new Item(altar.rune, finalAmount * multi), true);
-                    player.skills().addXp(Skills.RUNECRAFTING, altar.xp * finalAmount);
+                    player.getSkills().addXp(Skills.RUNECRAFTING, altar.xp * finalAmount);
                     player.putAttrib(AttributeKey.RUNECRAFTING, false);
 
 

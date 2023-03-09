@@ -2,11 +2,9 @@ package com.aelous.model.items.container.equipment;
 
 import com.aelous.cache.definitions.ItemDefinition;
 import com.aelous.model.content.areas.edgevile.Mac;
-import com.aelous.model.content.consumables.FoodConsumable;
 import com.aelous.model.content.duel.DuelRule;
 import com.aelous.model.content.items.equipment.max_cape.MaxCape;
 import com.aelous.model.content.skill.impl.slayer.Slayer;
-import com.aelous.model.entity.combat.magic.data.AutoCastWeaponSpells;
 import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.player.EquipSlot;
@@ -39,7 +37,6 @@ import com.aelous.utility.timers.TimerKey;
 import com.google.common.collect.ImmutableSet;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 import static com.aelous.utility.ItemIdentifiers.*;
 
@@ -410,7 +407,7 @@ public final class Equipment extends ItemContainer {
         Map<Integer, Integer> reqs = World.getWorld().equipmentInfo().requirementsFor(equip.getId());
         if (reqs != null && reqs.size() > 0) {
             reqs.forEach((key, value) -> {
-                if (!needsreq[0] && player.skills().xpLevel(key) < value) {
+                if (!needsreq[0] && player.getSkills().xpLevel(key) < value) {
                     player.message("You need %s %s level of %d to equip this.", Skills.SKILL_INDEFINITES[key], Skills.SKILL_NAMES[key], value);
                     needsreq[0] = true;
                 }

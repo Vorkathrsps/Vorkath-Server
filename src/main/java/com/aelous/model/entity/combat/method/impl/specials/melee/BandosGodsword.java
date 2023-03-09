@@ -32,7 +32,7 @@ public class BandosGodsword extends CommonCombatMethod {
                 var take = deductionTotal;
 
                 // Identify the targets current level in this stat
-                var targetCurrentStat = target.isPlayer() ? target.skills().level(skills[i])
+                var targetCurrentStat = target.isPlayer() ? target.getSkills().level(skills[i])
                     :
                     new int[] {
                         target.getAsNpc().combatInfo().stats.attack,
@@ -49,7 +49,7 @@ public class BandosGodsword extends CommonCombatMethod {
 
                 // Now reduce the stat.
                 if (target.isPlayer()) {
-                    target.skills().setLevel(skills[i], target.skills().level(skills[i]) - take);
+                    target.getSkills().setLevel(skills[i], target.getSkills().level(skills[i]) - take);
                 } else {
                     switch (i) {
                         case 0 -> target.getAsNpc().combatInfo().stats.attack -= take;

@@ -195,21 +195,21 @@ public class RevenantsCave extends PacketInteraction {
                     // lazy wait until we stop moving
                     player.waitUntil(1, () -> !player.getMovementQueue().isMoving(), () -> {
                         if (obj.tile().equals(3241, 10145)) {
-                            if (player.skills().level(Skills.AGILITY) < 89) {
+                            if (player.getSkills().level(Skills.AGILITY) < 89) {
                                 player.message("You need an agility level of at least 89 to jump this pillar.");
                             } else {
                                 pillarJump(player);
                             }
                         }
                         if (obj.tile().equals(3202, 10196) || obj.tile().equals(3180, 10209) || obj.tile().equals(3200, 10136)) {
-                            if (player.skills().level(Skills.AGILITY) < 75) {
+                            if (player.getSkills().level(Skills.AGILITY) < 75) {
                                 player.message("You need an agility level of at least 75 to jump this pillar.");
                             } else {
                                 pillarJump(player);
                             }
                         }
                         if (obj.tile().equals(3220, 10086)) {
-                            if (player.skills().level(Skills.AGILITY) < 65) {
+                            if (player.getSkills().level(Skills.AGILITY) < 65) {
                                 player.message("You need an agility level of at least 65 to jump this pillar.");
                             } else {
                                 pillarJump(player);

@@ -198,8 +198,8 @@ public class PlayerKillingRewards {
     }
 
     private static void updateDailyTask(Player killer) {
-        int combatLevel = killer.skills().combatLevel();
-        int defenceLevel = killer.skills().level(Skills.DEFENCE);
+        int combatLevel = killer.getSkills().combatLevel();
+        int defenceLevel = killer.getSkills().level(Skills.DEFENCE);
         boolean edgevile = killer.tile().region() == 12343 || killer.tile().region() == 12087;
         boolean revCave = killer.tile().region() == 12701 || killer.tile().region() == 12702 || killer.tile().region() == 12703 || killer.tile().region() == 12957 || killer.tile().region() == 12958 || killer.tile().region() == 12959;
         boolean above30Wild = WildernessArea.wildernessLevel(killer.tile()) > 30;
@@ -324,8 +324,8 @@ public class PlayerKillingRewards {
             AchievementsManager.activate(killer, Achievements.EXTREME_DEEP_WILD_III, 1);
         }
 
-        int combatLevel = killer.skills().combatLevel();
-        int defenceLevel = killer.skills().level(Skills.DEFENCE);
+        int combatLevel = killer.getSkills().combatLevel();
+        int defenceLevel = killer.getSkills().level(Skills.DEFENCE);
 
         if (defenceLevel == 1 && combatLevel >= 80) {
             AchievementsManager.activate(killer, Achievements.PURE_I, 1);
@@ -382,7 +382,7 @@ public class PlayerKillingRewards {
             player.getTaskMasterManager().increase(Tasks.KILL_WEARING_FULL_OBSIDIAN);
         }
 
-        if (!player.skills().combatStatsBoosted()) {
+        if (!player.getSkills().combatStatsBoosted()) {
             player.getTaskMasterManager().increase(Tasks.KILL_WITHOUT_BOOSTED_STATS);
         }
     }

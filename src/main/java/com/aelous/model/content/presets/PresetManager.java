@@ -246,7 +246,7 @@ public class PresetManager {
             Map<Integer, Integer> reqs = World.getWorld().equipmentInfo().requirementsFor(item.getId());
             if (reqs != null && reqs.size() > 0) {
                 reqs.forEach((key, value) -> {
-                    if (!needsreq[0] && player.skills().xpLevel(key) < value) {
+                    if (!needsreq[0] && player.getSkills().xpLevel(key) < value) {
                         player.message("You need %s %s level of %d to equip this.", Skills.SKILL_INDEFINITES[key], Skills.SKILL_NAMES[key], value);
                         needsreq[0] = true;
                     }
@@ -566,8 +566,8 @@ public class PresetManager {
             IntStream.range(0, preset.getStats().length).forEach(i -> {
                 if (i < preset.getStats().length) {
                     int level = preset.getStats()[i];
-                    player.skills().setLevel(i, level);
-                    player.skills().setXp(i, Skills.levelToXp(level));
+                    player.getSkills().setLevel(i, level);
+                    player.getSkills().setXp(i, Skills.levelToXp(level));
                 }
             });
         }
@@ -586,7 +586,7 @@ public class PresetManager {
             ItemWeight.calculateWeight(player);
             player.getEquipment().refresh();
             player.inventory().refresh();
-            player.skills().update();
+            player.getSkills().update();
             player.heal();
 
             if (player.getMemberRights().isEliteMemberOrGreater(player)) {

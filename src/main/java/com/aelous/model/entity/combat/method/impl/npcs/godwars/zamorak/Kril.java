@@ -72,7 +72,7 @@ public class Kril extends CommonCombatMethod {
                 entity.forceChat("YARRRRRRR!"); // Overrides previous quote
                 target.hit(entity, hit, CombatType.MELEE).submit();
                 target.message("K'ril Tsutsaroth slams through your protection prayer, leaving you feeling drained.");
-                target.skills().alterSkill(Skills.PRAYER,-20);
+                target.getSkills().alterSkill(Skills.PRAYER,-20);
             } else {
                 target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
             }

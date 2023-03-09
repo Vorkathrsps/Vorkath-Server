@@ -19,7 +19,7 @@ public class TaverleyObjects extends PacketInteraction {
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         if (option == 1) {
             if (obj.getId() == OBSTACLE_PIPE_16509) {
-                if (!player.skills().check(Skills.AGILITY, 70, "use this shortcut"))
+                if (!player.getSkills().check(Skills.AGILITY, 70, "use this shortcut"))
                     return true;
 
                 if (obj.tile().equals(2887, 9799)) {
@@ -56,7 +56,7 @@ public class TaverleyObjects extends PacketInteraction {
             }
 
             if (obj.getId() == STRANGE_FLOOR) {
-                if (!player.skills().check(Skills.AGILITY, 80, "use this shortcut"))
+                if (!player.getSkills().check(Skills.AGILITY, 80, "use this shortcut"))
                     return true;
                 int dir = player.getAbsX() - obj.tile().x > 0 ? 3 : 2;
                 player.lock();
@@ -78,7 +78,7 @@ public class TaverleyObjects extends PacketInteraction {
             }
 
             if (obj.getId() == STEPS_30189) {
-                if (!player.skills().check(Skills.AGILITY, 80, "use this shortcut"))
+                if (!player.getSkills().check(Skills.AGILITY, 80, "use this shortcut"))
                     return true;
                 if (obj.tile().equals(2881, 9825, 0)) {
                     player.walkAndWait(new Tile(2883, 9825, 0), () -> player.teleport(2880, 9825, 1));
@@ -101,7 +101,7 @@ public class TaverleyObjects extends PacketInteraction {
             }
 
             if (obj.getId() == ROCKS) {
-                if (!player.skills().check(Skills.AGILITY, 70, "use this shortcut"))
+                if (!player.getSkills().check(Skills.AGILITY, 70, "use this shortcut"))
                     return true;
 
                 player.lock();

@@ -81,11 +81,13 @@ public class LoginWorker implements Runnable {
                 LOGIN, "First Login response code for " + player.getUsername() + " is " + response);
         if (response != LoginResponses.LOGIN_SUCCESSFUL)
             // logger.trace("Login response code for " + player.getUsername() + " is " + response);
-            if (response != LoginResponses.LOGIN_SUCCESSFUL) {
-                // Load wasn't successful, disconnect with login response.
+        {
+            // Load wasn't successful, disconnect with login response.
+            if (player.getSession().getChannel() != null) {
                 sendCodeAndClose(player.getSession().getChannel(), response);
                 return;
             }
+        }
         // Send the final login response.
         Session session = player.getSession();
         Channel channel = session.getChannel();
@@ -123,11 +125,13 @@ public class LoginWorker implements Runnable {
                                 return;
                             }
                             if (response != LoginResponses.LOGIN_SUCCESSFUL) {
-                                sendCodeAndClose(player.getSession().getChannel(), response);
-                                // logger.trace("Login response 2nd code for " +
-                                // player.getUsername() + " is " + response);
-                                // reply is sent either way above, no need here
-                                return;
+                                if (player.getSession().getChannel() != null) {
+                                    sendCodeAndClose(player.getSession().getChannel(), response);
+                                    // logger.trace("Login response 2nd code for " +
+                                    // player.getUsername() + " is " + response);
+                                    // reply is sent either way above, no need here
+                                    return;
+                                }
                             }
                             initForGame(message, channel);
                             World.getWorld().getPlayers().add(player);

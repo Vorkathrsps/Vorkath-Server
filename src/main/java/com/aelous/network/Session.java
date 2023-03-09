@@ -168,6 +168,10 @@ public class Session {
                     return;
                 }
 
+                if (GameServer.broadcast != null) {
+                    player.getPacketSender().sendBroadcast(GameServer.broadcast);
+                }
+
                 Entity.accumulateRuntimeTo(() -> {
                     try {
                         listener.handleMessage(player, packet);
@@ -175,8 +179,7 @@ public class Session {
                         logger.catching(t);
                     }
                     if (player.getCurrentTask() != null) {
-                        if (player.getCurrentTask() instanceof PlayerTask) {
-                            PlayerTask task = (PlayerTask) player.getCurrentTask();
+                        if (player.getCurrentTask() instanceof PlayerTask task) {
                             if (task.stops(listener.getClass())) {
                                 task.stop();
                             }

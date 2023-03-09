@@ -15,7 +15,7 @@ public class MasteryNonCombat extends TitleRequirement {
 
     @Override
     public boolean satisfies(Player player) {
-        return Skill.ALL.stream().filter(skill -> !skill.isCombatSkill()).map(player.skills()::getMaxLevel).anyMatch(skill -> skill >= 99);
+        return Skill.ALL.stream().filter(skill -> !skill.isCombatSkill()).map(player.getSkills()::getMaxLevel).anyMatch(skill -> skill >= 99);
     }
 
 }

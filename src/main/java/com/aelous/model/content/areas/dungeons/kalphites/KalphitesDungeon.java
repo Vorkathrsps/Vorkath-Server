@@ -27,7 +27,7 @@ public class KalphitesDungeon extends PacketInteraction {
                 return true;
             }
             if (obj.getId() == CREVICE_16465) {
-                if (!player.skills().check(Skills.AGILITY, 86, "use this shortcut")) {
+                if (!player.getSkills().check(Skills.AGILITY, 86, "use this shortcut")) {
                     return true;
                 }
                 if (player.isAt(3500, 9510)) {

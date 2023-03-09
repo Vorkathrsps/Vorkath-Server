@@ -16,8 +16,8 @@ import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.position.areas.Controller;
+import com.aelous.model.map.region.Region;
 import com.aelous.utility.CustomItemIdentifiers;
-import com.aelous.utility.Varbit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,8 +57,9 @@ public class WildernessArea extends Controller {
             return customWildernessRegions.level;
         }
 
-        if (!(tile.x > 2941 && tile.x < 3392 && tile.y > 3524 && tile.y < 3968) && !inUndergroundWilderness(tile))
+        if (!(tile.x > 2941 && tile.x < 3392 && tile.y > 3524 && tile.y < 3968) && !inUndergroundWilderness(tile)) {
             return 0;
+        }
 
         // North of black knights fortress and more - people lure here.
         if (tile.inArea(2998, 3525, 3026, 3536) || tile.inArea(3005, 3537, 3023, 3545)
@@ -73,7 +74,9 @@ public class WildernessArea extends Controller {
             return 0;
         }
 
-        //OSRS calculated by coordinates
+        if (Region.isInZone(Tile.chunkToTile(158528), Tile.chunkToTile(352676363), tile) || Region.isInZone(Tile.chunkToTile(1252160), Tile.chunkToTile((int) 3521696363L), tile)) {
+            return ((z - 3520) >> 3) + 1;
+        }
 
         return ((z - 3520) >> 3) + 1;
     }
@@ -156,7 +159,6 @@ public class WildernessArea extends Controller {
         player.getCombat().getDamageMap().clear();
         player.getRisk().update();
         refreshInterface(player, true);
-        System.out.println(player.varps().varbit(Varbit.IN_WILDERNESS));
     }
 
     @Override
@@ -220,14 +222,14 @@ public class WildernessArea extends Controller {
 
             // Is the player deep enough in the wilderness?
 
-            var oppWithinLvl = attacker.skills().combatLevel() >= CombatFactory.getLowestLevel(target, attacker) && attacker.skills().combatLevel() <= CombatFactory.getHighestLevel(target, attacker);
+            var oppWithinLvl = attacker.getSkills().combatLevel() >= CombatFactory.getLowestLevel(target, attacker) && attacker.getSkills().combatLevel() <= CombatFactory.getHighestLevel(target, attacker);
 
             if (!oppWithinLvl) {
                 attacker.message("Your level difference is too great! You need to move deeper into the Wilderness.");
                 attacker.getMovementQueue().clear();
                 return false;
             } else {
-                var withinLvl = (target.skills().combatLevel() >= CombatFactory.getLowestLevel(attacker, target) && target.skills().combatLevel() <= CombatFactory.getHighestLevel(attacker, target));
+                var withinLvl = (target.getSkills().combatLevel() >= CombatFactory.getLowestLevel(attacker, target) && target.getSkills().combatLevel() <= CombatFactory.getHighestLevel(attacker, target));
                 if (!withinLvl) {
                     attacker.message("Your level difference is too great! You need to move deeper into the Wilderness.");
                     attacker.getMovementQueue().clear();

@@ -202,7 +202,7 @@ public class GameServer {
                     try {
                         new PlayerSave.SaveDetails(player).parseDetails();
                         System.out.printf("DIRECT SAVE: %s%n", player);
-                    } catch (Exception e) {
+                    } catch (Throwable e) {
                         System.out.println("EMERGENCY SAVE FAIL Player "+player+" ex: "+e);
                         e.printStackTrace();
                     }
@@ -211,7 +211,7 @@ public class GameServer {
             boundTime = System.currentTimeMillis();
             logger.info("Loaded "+GameConstants.SERVER_NAME+ " " + ((GameServer.properties().pvpMode) ? "in PVP mode " : "in economy mode ") + "on port " + GameServer.properties().gamePort + " version v" + GameServer.properties().gameVersion + ".");
             logger.info("The Bootstrap has been bound, "+GameConstants.SERVER_NAME+ " is now online (it took {}ms).", boundTime - startTime);
-            DiscordBot.init();
+            //DiscordBot.init();
         } catch (Throwable t) {
             logger.fatal("An error occurred while loading "+GameConstants.SERVER_NAME+".", t);
             System.exit(1);

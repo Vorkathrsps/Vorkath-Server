@@ -90,7 +90,7 @@ public class ThievableChests extends PacketInteraction {
                     });
                 } else if (op == 2) {
                     // Check level requirement
-                    if (player.skills().levels()[Skills.THIEVING] < chest.level) {
+                    if (player.getSkills().levels()[Skills.THIEVING] < chest.level) {
                         player.message("You need a Thieving level of " + chest.level + " to pickpocket the chest.");
                         return true;
                     }
@@ -106,7 +106,7 @@ public class ThievableChests extends PacketInteraction {
                                 Item loot = new Item(lootval.id, Utils.random(lootval.min, lootval.max));
                                 player.inventory().addOrDrop(new Item(loot));
                                 player.message("You steal %d x %s.", loot.getAmount(), loot.unnote().name());
-                                player.skills().addXp(Skills.THIEVING, chest.xp);
+                                player.getSkills().addXp(Skills.THIEVING, chest.xp);
                                 player.unlock();
                             });
                         } else {

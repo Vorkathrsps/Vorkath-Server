@@ -27,8 +27,8 @@ public class AncientMace extends CommonCombatMethod {
         if (target.isPlayer()) {
             Player t = (Player) target;
             Player p = (Player) entity;
-            t.skills().alterSkill(Skills.PRAYER, -hit.getDamage());
-            p.skills().alterSkill(Skills.PRAYER, hit.getDamage());
+            t.getSkills().alterSkill(Skills.PRAYER, -hit.getDamage());
+            p.getSkills().alterSkill(Skills.PRAYER, hit.getDamage());
         }
         CombatSpecial.drain(entity, CombatSpecial.ANCIENT_MACE.getDrainAmount());
     }

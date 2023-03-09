@@ -156,7 +156,7 @@ public class PirateHut extends PacketInteraction {
             player.message("The door is already unlocked.");
             return;
         }
-        if (player.skills().xpLevel(Skills.THIEVING) < 39) {
+        if (player.getSkills().xpLevel(Skills.THIEVING) < 39) {
             player.message("You need a Thieving level of 39 to pick lock this door.");
             return;
         }
@@ -179,7 +179,7 @@ public class PirateHut extends PacketInteraction {
 
                     player.message("You manage to pick the lock.");
                     //Add thieving experience for a successful lockpick
-                    player.skills().addXp(Skills.THIEVING, 22.0);
+                    player.getSkills().addXp(Skills.THIEVING, 22.0);
                 });
             } else {
                 //Send the player a message

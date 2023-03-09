@@ -11,9 +11,9 @@ public class MasterCommand implements Command {
     @Override
     public void execute(Player player, String command, String[] parts) {
         for (int skill = 0; skill < Skills.SKILL_COUNT; skill++) {
-            player.skills().setXp(skill, Skills.levelToXp(99));
-            player.skills().update();
-            player.skills().recalculateCombat();
+            player.getSkills().setXp(skill, Skills.levelToXp(99));
+            player.getSkills().update();
+            player.getSkills().recalculateCombat();
         }
         // Turn off prayers
         Prayers.closeAllPrayers(player);

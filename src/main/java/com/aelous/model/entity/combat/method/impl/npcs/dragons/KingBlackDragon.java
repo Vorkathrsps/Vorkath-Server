@@ -5,7 +5,6 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatConstants;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
-import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Projectile;
@@ -42,7 +41,7 @@ public class KingBlackDragon extends CommonCombatMethod {
                 case 2 -> {
                     fire(entity, target, FireType.SHOCK, 12);
                     if (target != null && Utils.rollDie(3, 1))
-                        Arrays.stream(SHOCK_STATS).forEach(skill -> target.skills().alterSkill(skill, -2));
+                        Arrays.stream(SHOCK_STATS).forEach(skill -> target.getSkills().alterSkill(skill, -2));
                 }
                 case 3 -> {
                     fire(entity, target, FireType.POISON, 10);

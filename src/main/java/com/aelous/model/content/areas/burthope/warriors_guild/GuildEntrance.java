@@ -32,8 +32,8 @@ public class GuildEntrance extends PacketInteraction {
     private void door(Player player) {
         GameObject door = player.getAttribOr(AttributeKey.INTERACTION_OBJECT, null);
 
-        int attack_lvl = player.skills().level(Skills.ATTACK);
-        int strength_lvl = player.skills().level(Skills.STRENGTH);
+        int attack_lvl = player.getSkills().level(Skills.ATTACK);
+        int strength_lvl = player.getSkills().level(Skills.STRENGTH);
 
         if (player.tile().x >= 2877) {
             if (attack_lvl + strength_lvl < 130) {

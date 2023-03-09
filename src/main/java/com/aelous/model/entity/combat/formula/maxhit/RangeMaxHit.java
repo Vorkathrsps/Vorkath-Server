@@ -31,7 +31,7 @@ public class RangeMaxHit {
     }
 
     public static int getRangedlevel(Player player) {
-        return player.skills().level(Skills.RANGED);
+        return player.getSkills().level(Skills.RANGED);
     }
 
     public static double getEffectiveRanged(Player player) {

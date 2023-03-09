@@ -72,7 +72,7 @@ public class MagicAccuracy {
     }
 
     public static int getDefenceLevelDefender(Entity defender, FightStyle style) {
-        int effectiveLevel = defender instanceof NPC ? ((NPC) defender).combatInfo().stats.defence : (int) Math.floor(defender.skills().level(Skills.DEFENCE) * getPrayerBonusDefender(defender));
+        int effectiveLevel = defender instanceof NPC ? ((NPC) defender).combatInfo().stats.defence : (int) Math.floor(defender.getSkills().level(Skills.DEFENCE) * getPrayerBonusDefender(defender));
         switch (style) {
             case DEFENSIVE -> effectiveLevel = (int) Math.floor(effectiveLevel + 3);
             case CONTROLLED -> effectiveLevel = (int) Math.floor(effectiveLevel + 1);
@@ -82,11 +82,11 @@ public class MagicAccuracy {
     }
 
     public static int getMagicLevelAttacker(Entity attacker) {
-        return attacker instanceof NPC && attacker.getAsNpc().combatInfo() != null ? attacker.getAsNpc().combatInfo().stats.magic : attacker.skills().level(Skills.MAGIC);
+        return attacker instanceof NPC && attacker.getAsNpc().combatInfo() != null ? attacker.getAsNpc().combatInfo().stats.magic : attacker.getSkills().level(Skills.MAGIC);
     }
 
     public static int getMagicLevelDefender(Entity defender) {
-        return defender instanceof NPC ? defender.getAsNpc().combatInfo().stats.magic : defender.skills().level(Skills.MAGIC);
+        return defender instanceof NPC ? defender.getAsNpc().combatInfo().stats.magic : defender.getSkills().level(Skills.MAGIC);
     }
 
     public static double getPrayerBonus(Entity attacker, CombatType style) {

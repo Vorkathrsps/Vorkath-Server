@@ -53,8 +53,8 @@ public class PureActivity extends WildernessActivity {
 
     @Override
     public boolean canReward(Player player) {
-        int combatLevel = player.skills().combatLevel();
-        int defenceLevel = player.skills().level(Skills.DEFENCE);
+        int combatLevel = player.getSkills().combatLevel();
+        int defenceLevel = player.getSkills().level(Skills.DEFENCE);
         boolean isPure = defenceLevel == 1 && combatLevel >= 80;
         return wildernessLocation.isInArea(player) && isPure;
     }

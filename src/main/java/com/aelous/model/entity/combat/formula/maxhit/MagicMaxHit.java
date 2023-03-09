@@ -14,12 +14,6 @@ import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.timers.TimerKey;
-import com.moandjiezana.toml.Toml;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.List;
 
 import static com.aelous.utility.ItemIdentifiers.*;
 
@@ -39,7 +33,7 @@ public class MagicMaxHit {
                 boolean hasTomeOfFire = player.getEquipment().hasAt(EquipSlot.SHIELD, TOME_OF_FIRE);
                 Entity target = player.getCombat().getTarget();
                 String spell_name = spell.name();
-                int level = player.skills().level(Skills.MAGIC);
+                int level = player.getSkills().level(Skills.MAGIC);
 
                 //Find the base maximum damage a spell can deal.
                 int spell_maxhit = spell.baseMaxHit();
@@ -56,7 +50,7 @@ public class MagicMaxHit {
                 }
 
                 if (player.getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
-                    spell_maxhit += (player.skills().level(Skills.MAGIC) / 3) + 1;
+                    spell_maxhit += (player.getSkills().level(Skills.MAGIC) / 3) + 1;
                 }
 
                 //• Trident of the swamp

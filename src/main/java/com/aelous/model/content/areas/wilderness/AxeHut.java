@@ -42,7 +42,7 @@ public class AxeHut extends PacketInteraction {
             player.getMovementQueue().walkTo(new Tile(obj.tile().x, obj.tile().y));
         }
 
-        if (player.skills().level(Skills.THIEVING) < 37) {
+        if (player.getSkills().level(Skills.THIEVING) < 37) {
             player.message("You need a Thieving level of 37 to pick lock this door.");
             return;
         }
@@ -69,7 +69,7 @@ public class AxeHut extends PacketInteraction {
 
                     player.message("You manage to pick the lock.");
                     //Add thieving experience for a successful lockpick
-                    player.skills().addXp(Skills.THIEVING, 22);
+                    player.getSkills().addXp(Skills.THIEVING, 22);
                     return;
                 } else {
                     player.message("You fail to pick the lock.");
@@ -101,7 +101,7 @@ public class AxeHut extends PacketInteraction {
                     player.getMovementQueue().interpolate(player.tile().x, player.tile().transform(0, 1).y, MovementQueue.StepType.FORCED_WALK);
                     player.message("You manage to pick the lock.");
                     //Add thieving experience for a successful lockpick
-                    player.skills().addXp(Skills.THIEVING, 22);
+                    player.getSkills().addXp(Skills.THIEVING, 22);
                     return;
                 } else {
                     //Send the player a message

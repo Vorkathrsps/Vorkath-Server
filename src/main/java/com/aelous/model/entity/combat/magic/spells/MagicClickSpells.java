@@ -435,7 +435,7 @@ public class MagicClickSpells {
                     player.getTimers().register(TimerKey.CHARGE_SPELL, 200);
                     player.message("You feel charged with magic power.");
                     player.animate(811);
-                    player.skills().addXp(Skills.MAGIC,this.baseExperience());
+                    player.getSkills().addXp(Skills.MAGIC,this.baseExperience());
                     player.graphic(111, GraphicHeight.HIGH, 3);
                 }
             }
@@ -501,7 +501,7 @@ public class MagicClickSpells {
                     }
                     player.graphic(141,GraphicHeight.HIGH,0);
                     player.animate(722);
-                    player.skills().addXp(Skills.MAGIC,this.baseExperience() * index);
+                    player.getSkills().addXp(Skills.MAGIC,this.baseExperience() * index);
                     player.getClickDelay().reset();
                 }
             }
@@ -917,7 +917,7 @@ public class MagicClickSpells {
                     player.action.clearNonWalkableActions();
                     player.animate(713);
                     player.graphic(113,GraphicHeight.HIGH,15);
-                    player.skills().addXp(Skills.MAGIC, this.baseExperience());
+                    player.getSkills().addXp(Skills.MAGIC, this.baseExperience());
                     player.getClickDelay().reset();
                     player.getPacketSender().sendTab(6);
                 }
@@ -1061,7 +1061,7 @@ public class MagicClickSpells {
                     player.action.clearNonWalkableActions();
                     player.animate(713);
                     player.graphic(113,GraphicHeight.HIGH,15);
-                    player.skills().addXp(Skills.MAGIC, this.baseExperience());
+                    player.getSkills().addXp(Skills.MAGIC, this.baseExperience());
                     player.getClickDelay().reset();
                     player.getPacketSender().sendTab(6);
                 }
@@ -1128,7 +1128,7 @@ public class MagicClickSpells {
                     }
                     player.graphic(141,GraphicHeight.HIGH,0);
                     player.animate(722);
-                    player.skills().addXp(Skills.MAGIC,this.baseExperience() * index);
+                    player.getSkills().addXp(Skills.MAGIC,this.baseExperience() * index);
                     player.getClickDelay().reset();
                 }
             }
@@ -1344,7 +1344,7 @@ public class MagicClickSpells {
                             player.animate(new Animation(8316));
                             player.performGraphic(new Graphic(726, GraphicHeight.HIGH, 0));
                             player.sendSound(2907, 0);
-                            player.skills().addXp(Skills.MAGIC, 112);
+                            player.getSkills().addXp(Skills.MAGIC, 112);
                             player.getPacketSender().sendEffectTimer(30, EffectTimer.VENGEANCE).sendMessage("You now have Vengeance's effect.");
                         } else {
                             player.message("You can only cast vengeance spells every 30 seconds.");
@@ -1360,10 +1360,10 @@ public class MagicClickSpells {
                     player.message("You cannot cast vengeance during a duel!");
                     return false;
                 }
-                if (player.skills().level(Skills.DEFENCE) < 40) {
+                if (player.getSkills().level(Skills.DEFENCE) < 40) {
                     player.message("You need 40 Defence to use Vengence.");
                     return false;
-                } else if (player.skills().level(Skills.MAGIC) < 94) {
+                } else if (player.getSkills().level(Skills.MAGIC) < 94) {
                     player.message("Your Magic level is not high enough to use this spell.");
                     return false;
                 } else if (hasVengeance) {

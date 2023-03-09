@@ -283,7 +283,7 @@ public class Fletching extends PacketInteraction {
         FletchableItem item = fletchable.getFletchableItems()[index];
         player.getInterfaceManager().close();
 
-        if (player.skills().level(Skills.FLETCHING) < item.getLevel()) {
+        if (player.getSkills().level(Skills.FLETCHING) < item.getLevel()) {
             DialogueManager.sendStatement(player,"<col=369>You need a Fletching level of " + item.getLevel() + " to do that.");
             return;
         }
@@ -341,7 +341,7 @@ public class Fletching extends PacketInteraction {
                 ++iterations;
 
                 player.animate(fletchable.getAnimation());
-                player.skills().addXp(Skills.FLETCHING, item.getExperience() * item.getProduct().getAmount());
+                player.getSkills().addXp(Skills.FLETCHING, item.getExperience() * item.getProduct().getAmount());
                 player.inventory().removeAll(fletchable.getIngediants());
                 player.inventory().add(item.getProduct());
 

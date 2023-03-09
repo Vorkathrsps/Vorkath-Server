@@ -352,8 +352,8 @@ public class Trading {
                     long other_plr_value = interact.getTrading().getContainer().containerValue();
                     long difference;
                     difference = (plr_value > other_plr_value) ? plr_value - other_plr_value : other_plr_value - plr_value;
-                    tradeLogs.log(TRADE, "Player " + player.getUsername() + " (lvl " + player.skills().combatLevel() + ") and " + partner.getUsername() + " (lvl " + partner.skills().combatLevel() + ") trade value difference of " + Utils.insertCommasToNumber(String.valueOf(difference)) + " blood money.");
-                    Utils.sendDiscordInfoLog("Player " + player.getUsername() + " (lvl " + player.skills().combatLevel() + ") and " + partner.getUsername() + " (lvl " + partner.skills().combatLevel() + ") trade value difference of " + Utils.insertCommasToNumber(String.valueOf(difference)) + " blood money.", "trade");
+                    tradeLogs.log(TRADE, "Player " + player.getUsername() + " (lvl " + player.getSkills().combatLevel() + ") and " + partner.getUsername() + " (lvl " + partner.getSkills().combatLevel() + ") trade value difference of " + Utils.insertCommasToNumber(String.valueOf(difference)) + " blood money.");
+                    Utils.sendDiscordInfoLog("Player " + player.getUsername() + " (lvl " + player.getSkills().combatLevel() + ") and " + partner.getUsername() + " (lvl " + partner.getSkills().combatLevel() + ") trade value difference of " + Utils.insertCommasToNumber(String.valueOf(difference)) + " blood money.", "trade");
                     if (difference > 1_000_000) {
                         tradeLogs.warn("Player " + player.getUsername() + " has traded with Player " + partner.getUsername() + " with a value difference of greater than 1.000.000 blood money, this was possibly RWT.");
                         Utils.sendDiscordInfoLog(GameServer.properties().discordNotifyId + " Player " + player.getUsername() + " has traded with Player " + partner.getUsername() + " with a value difference of greater than 1.000.000 blood money, this was possibly RWT.", "trade");

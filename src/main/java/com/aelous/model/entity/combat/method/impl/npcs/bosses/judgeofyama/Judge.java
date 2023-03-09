@@ -85,7 +85,7 @@ public class Judge extends CommonCombatMethod {
                 }
                 target.performGraphic(new Graphic(1430, GraphicHeight.LOW, delay));
                 hit.submit();
-                entity.heal((int) (target.skills().level(Skills.HITPOINTS) * .10));
+                entity.heal((int) (target.getSkills().level(Skills.HITPOINTS) * .10));
             }
         }).then(1, entity::unlock));
     }

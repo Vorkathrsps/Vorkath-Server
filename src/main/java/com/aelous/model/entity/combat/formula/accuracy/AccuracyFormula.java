@@ -1,6 +1,5 @@
 package com.aelous.model.entity.combat.formula.accuracy;
 
-import com.aelous.model.content.skill.impl.slayer.Slayer;
 import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
 
@@ -9,7 +8,6 @@ import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.combat.weapon.AttackType;
 import com.aelous.model.entity.combat.weapon.FightStyle;
-import com.aelous.model.entity.combat.weapon.FightType;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
@@ -17,16 +15,11 @@ import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.utility.ItemIdentifiers;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.stream.IntStream;
 
 import static com.aelous.model.entity.combat.CombatType.MELEE;
-import static com.aelous.model.entity.combat.CombatType.RANGED;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.*;
 import static com.aelous.utility.ItemIdentifiers.*;
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.CORPOREAL_BEAST;
@@ -61,7 +54,7 @@ public class AccuracyFormula {
     public static double getEffectiveAttackBonus(Entity attacker, Entity defender, CombatType style) {
 
             /** X Level **/
-            int effectiveAttack = attacker.skills().level(Skills.ATTACK);
+            int effectiveAttack = attacker.getSkills().level(Skills.ATTACK);
 
             double gearBonus = gearBonus(attacker, defender, style);
 
@@ -149,7 +142,7 @@ public class AccuracyFormula {
             if (npc.combatInfo() != null && npc.combatInfo().stats != null)
                 effectiveDefence = npc.combatInfo().stats.defence;
         } else {
-            effectiveDefence = defender.getAsPlayer().skills().level(Skills.DEFENCE) + (type == MELEE ? 0 : 9D);
+            effectiveDefence = defender.getAsPlayer().getSkills().level(Skills.DEFENCE) + (type == MELEE ? 0 : 9D);
             effectiveDefence *= (1 + getPrayerDefenseBonus(defender));
         }
         return effectiveDefence * Math.floor(getDefenseBonus(defender, type) + 64D);

@@ -29,7 +29,7 @@ public class CanifisRooftop extends PacketInteraction {
     @Override
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         if (obj.getId() == TALL_TREE_14843) {
-            if (player.skills().level(Skills.AGILITY) >= 40) {
+            if (player.getSkills().level(Skills.AGILITY) >= 40) {
                 player.lockNoDamage();
                 player.getMovementQueue().interpolate(3507, 3488, MovementQueue.StepType.FORCED_WALK);
                 Chain.bound(player).name("CanifisRooftopTallTreeTask").waitForTile(new Tile(3507, 3488), () -> {
@@ -39,7 +39,7 @@ public class CanifisRooftop extends PacketInteraction {
                     player.teleport(3506, 3492, 2);
                     player.animate(-1);
                     player.unlock();
-                    player.skills().addXp(Skills.AGILITY, 10.0);
+                    player.getSkills().addXp(Skills.AGILITY, 10.0);
 
                     MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
                 });
@@ -62,7 +62,7 @@ public class CanifisRooftop extends PacketInteraction {
             }).then(2, () -> {
                 player.teleport(3503, 3504, 2);
                 player.unlock();
-                player.skills().addXp(Skills.AGILITY, 8.0);
+                player.getSkills().addXp(Skills.AGILITY, 8.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
             });
             return true;
@@ -75,7 +75,7 @@ public class CanifisRooftop extends PacketInteraction {
                 player.teleport(3492, 3504, 2);
                 player.animate(-1);
                 player.unlock();
-                player.skills().addXp(Skills.AGILITY, 8.0);
+                player.getSkills().addXp(Skills.AGILITY, 8.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
             });
             return true;
@@ -90,7 +90,7 @@ public class CanifisRooftop extends PacketInteraction {
                 player.animate(2585);
             }).then(1, () -> {
                 player.unlock();
-                player.skills().addXp(Skills.AGILITY, 10.0);
+                player.getSkills().addXp(Skills.AGILITY, 10.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
             });
             return true;
@@ -104,7 +104,7 @@ public class CanifisRooftop extends PacketInteraction {
                 player.teleport(3479, 3486, 2);
                 player.animate(2588);
                 player.unlock();
-                player.skills().addXp(Skills.AGILITY, 8.0);
+                player.getSkills().addXp(Skills.AGILITY, 8.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
             });
             return true;
@@ -122,7 +122,7 @@ public class CanifisRooftop extends PacketInteraction {
             }).then(8, () -> {
                 player.animate(2588);
                 player.unlock();
-                player.skills().addXp(Skills.AGILITY, 10.0);
+                player.getSkills().addXp(Skills.AGILITY, 10.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
             });
             return true;
@@ -134,7 +134,7 @@ public class CanifisRooftop extends PacketInteraction {
                 player.teleport(3510, 3476, 2);
                 player.animate(2588);
                 player.unlock();
-                player.skills().addXp(Skills.AGILITY, 11.0);
+                player.getSkills().addXp(Skills.AGILITY, 11.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
             });
             return true;
@@ -147,7 +147,7 @@ public class CanifisRooftop extends PacketInteraction {
                 player.teleport(3510, 3485, 0);
                 player.animate(2588);
                 player.unlock();
-                player.skills().addXp(Skills.AGILITY, 175);
+                player.getSkills().addXp(Skills.AGILITY, 175);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
 
             });

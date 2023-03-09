@@ -17,7 +17,7 @@ public class Obstacles extends PacketInteraction {
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         if(option == 1) {
             if(obj.getId() == ICE_BRIDGE) {
-                if (player.hp() < 70 || player.skills().xpLevel(Skills.HITPOINTS) < 70) {
+                if (player.hp() < 70 || player.getSkills().xpLevel(Skills.HITPOINTS) < 70) {
                     player.message("Without at least 70 Hitpoints, you would never survive the icy water."); // TODO correct message
                     return false;
                 }
@@ -49,10 +49,10 @@ public class Obstacles extends PacketInteraction {
                         player.looks().render(6993, 6993, 6993, 6993, 6993, 6993, 6993);
                     }).then(6, () -> {
                         player.teleport(2885, 5345, 2);
-                        if (player.skills().level(Skills.PRAYER) > 0) {
+                        if (player.getSkills().level(Skills.PRAYER) > 0) {
                             player.message("Dripping, you climb out of the water.");
                             player.message("The extreme evil of this area leaves your Prayer drained.");
-                            player.skills().setLevel(Skills.PRAYER, 0);
+                            player.getSkills().setLevel(Skills.PRAYER, 0);
                         } else {
                             player.message("Dripping, you climb out of the water.");
                         }

@@ -52,7 +52,7 @@ public class EquipmentMaking {
                 continue;
             }
             if (player.inventory().contains(b.getBar())) {
-                if (player.skills().levels()[Skills.SMITHING] >= b.getLevelReq()) {
+                if (player.getSkills().levels()[Skills.SMITHING] >= b.getLevelReq()) {
                     bar = Optional.of(b);
                 }
             }
@@ -65,7 +65,7 @@ public class EquipmentMaking {
                 player.getPacketSender().sendItemOnInterfaceSlot(b.getItemFrame(), b.getItemId(), b.getAmount(), b.getItemSlot());
 
                 int bars = player.inventory().count(b.getBarId());
-                int smithLevel = player.skills().levels()[Skills.SMITHING];
+                int smithLevel = player.getSkills().levels()[Skills.SMITHING];
                 boolean meetsRequirementsForOilLamp = true;
                 player.getPacketSender().sendConfig(210, bars);
                 player.getPacketSender().sendConfig(211, smithLevel);
@@ -92,7 +92,7 @@ public class EquipmentMaking {
             if (smithable.getItemId() == itemId && smithable.getItemFrame() == interfaceId
                 && smithable.getItemSlot() == slot) {
                 //Start making items..
-                player.skills().startSkillable(new ItemCreationSkillable(Arrays.asList(new RequiredItem(new Item(ItemIdentifiers.HAMMER)), new RequiredItem(new Item(smithable.getBarId(), smithable.getBarsRequired()), true)),
+                player.getSkills().startSkillable(new ItemCreationSkillable(Arrays.asList(new RequiredItem(new Item(ItemIdentifiers.HAMMER)), new RequiredItem(new Item(smithable.getBarId(), smithable.getBarsRequired()), true)),
                     new Item(smithable.getItemId(), smithable.getAmount()), amount, Optional.of(new AnimationLoop(new Animation(898), 3)), smithable.getRequiredLevel(), smithable.getExperience(), Skills.SMITHING));
                 break;
             }

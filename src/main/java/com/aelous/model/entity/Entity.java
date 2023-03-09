@@ -1118,7 +1118,7 @@ public abstract class Entity {
 
     private Skills skills;
 
-    public Skills skills() {
+    public Skills getSkills() {
         return skills;
     }
 

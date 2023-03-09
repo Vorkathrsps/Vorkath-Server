@@ -108,7 +108,7 @@ public class Stringing {
      */
     public static void craft(Player player, AmuletData amulet) {
 
-        if (player.skills().level(Skills.CRAFTING) < amulet.level) {
+        if (player.getSkills().level(Skills.CRAFTING) < amulet.level) {
             DialogueManager.sendStatement(player,"You need a crafting level of " + amulet.level + " to string this!");
             return;
         }

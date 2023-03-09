@@ -27,9 +27,9 @@ public class SetMaxSkillsCommand implements Command {
         if (plr.isPresent()) {
             //Take away one because construction is un trainable
             for (int skill = 0; skill < Skills.SKILL_COUNT - 1; skill++) {
-                plr.get().skills().setXp(skill, Skills.levelToXp(99));
-                plr.get().skills().update();
-                plr.get().skills().recalculateCombat();
+                plr.get().getSkills().setXp(skill, Skills.levelToXp(99));
+                plr.get().getSkills().update();
+                plr.get().getSkills().recalculateCombat();
                 plr.get().putAttrib(AttributeKey.COMBAT_MAXED,true);
             }
 

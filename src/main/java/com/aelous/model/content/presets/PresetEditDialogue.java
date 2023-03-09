@@ -85,7 +85,7 @@ public class PresetEditDialogue extends Dialogue {
                     //Update stats
                     int[] stats = new int[7];
                     for (int i = 0; i < stats.length; i++) {
-                        stats[i] = player.skills().xpLevel(i);
+                        stats[i] = player.getSkills().xpLevel(i);
                     }
 
                     // Update stats

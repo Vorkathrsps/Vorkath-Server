@@ -33,7 +33,7 @@ public class LavaDragonIsle extends PacketInteraction {
     }
 
     private boolean handle(Player player, GameObject obj) {
-        if(player.skills().level(Skills.AGILITY) < 74) {
+        if(player.getSkills().level(Skills.AGILITY) < 74) {
             player.message("You need a Agility level of 74 to use this shortcut.");
             return true;
         }

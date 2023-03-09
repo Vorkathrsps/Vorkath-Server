@@ -24,7 +24,7 @@ public class UrsineMace extends CommonCombatMethod {
         if (hit.isAccurate()) {
             if (target.isPlayer()) {
                 target.freeze(6, target);
-                target.skills().setLevel(Skills.AGILITY, target.skills().level(Skills.AGILITY) - 20);
+                target.getSkills().setLevel(Skills.AGILITY, target.getSkills().level(Skills.AGILITY) - 20);
                 Chain.bound(null).runFn(2, () -> {
                     for (int index = 0; index < 4; index++) {
                         Chain.bound(null).name("ursinebleed").runFn(index * 2, () -> {

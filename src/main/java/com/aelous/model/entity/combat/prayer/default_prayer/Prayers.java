@@ -13,14 +13,8 @@ import com.aelous.model.entity.player.IronMode;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
-import com.aelous.utility.Utils;
 import com.aelous.utility.timers.TimerKey;
 import org.jetbrains.annotations.Nullable;
-import org.joda.time.DateTime;
-
-import javax.xml.datatype.Duration;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 /**
  * All of the prayers that can be activated and deactivated. This currently only
@@ -112,7 +106,7 @@ public class Prayers {
         //If we're a player, make sure we can use this prayer.
         if (entity.isPlayer()) {
             Player player = entity.getAsPlayer();
-            if (player.skills().level(Skills.PRAYER) <= 0) {
+            if (player.getSkills().level(Skills.PRAYER) <= 0) {
                 player.getPacketSender().sendConfig(pd.getConfigId(), 0);
                 player.message("You do not have enough Prayer points.");
                 return;
@@ -187,7 +181,7 @@ public class Prayers {
             player.getPacketSender().sendConfig(prayer.getConfigId(), 0);
             return false;
         }
-        if (player.skills().xpLevel(Skills.PRAYER) < (prayer.getRequirement())) {
+        if (player.getSkills().xpLevel(Skills.PRAYER) < (prayer.getRequirement())) {
             if (msg) {
                 player.getPacketSender().sendConfig(prayer.getConfigId(), 0);
                 player.playSound(CANNOT_USE);
@@ -195,7 +189,7 @@ public class Prayers {
             }
             return false;
         }
-        if (prayer == DefaultPrayerData.CHIVALRY && player.skills().xpLevel(Skills.DEFENCE) < 60) {
+        if (prayer == DefaultPrayerData.CHIVALRY && player.getSkills().xpLevel(Skills.DEFENCE) < 60) {
             if (msg) {
                 player.playSound(CANNOT_USE);
                 player.getPacketSender().sendConfig(prayer.getConfigId(), 0);
@@ -203,7 +197,7 @@ public class Prayers {
             }
             return false;
         }
-        if (prayer == DefaultPrayerData.PIETY && player.skills().xpLevel(Skills.DEFENCE) < 70) {
+        if (prayer == DefaultPrayerData.PIETY && player.getSkills().xpLevel(Skills.DEFENCE) < 70) {
             if (msg) {
                 player.playSound(CANNOT_USE);
                 player.getPacketSender().sendConfig(prayer.getConfigId(), 0);
@@ -211,7 +205,7 @@ public class Prayers {
             }
             return false;
         }
-        if ((prayer == DefaultPrayerData.RIGOUR || prayer == DefaultPrayerData.AUGURY) && player.skills().xpLevel(Skills.DEFENCE) < 70) {
+        if ((prayer == DefaultPrayerData.RIGOUR || prayer == DefaultPrayerData.AUGURY) && player.getSkills().xpLevel(Skills.DEFENCE) < 70) {
             if (msg) {
                 player.playSound(CANNOT_USE);
                 player.getPacketSender().sendConfig(prayer.getConfigId(), 0);
@@ -451,20 +445,20 @@ public class Prayers {
                 }
                 //player.debugMessage(String.format("drain: %f  bonus:%d  saved:%f", drain, pray, pray < 1 ? 0.0 : (drain / (1 + (0.0333 * pray)))));
 
-                if (player.skills().level(Skills.PRAYER) > 0) {
+                if (player.getSkills().level(Skills.PRAYER) > 0) {
                     boolean inf_pray = player.getAttribOr(AttributeKey.INF_PRAY, false);
                     if (!inf_pray) {
                         double totalDrains = player.getAttribOr(AttributeKey.PRAYERINCREMENT, 0.0D);
                         player.putAttrib(AttributeKey.PRAYERINCREMENT, totalDrains + drain);
                         if (totalDrains > 1.0) {
                             player.putAttrib(AttributeKey.PRAYERINCREMENT, totalDrains - 1);
-                            player.skills().setLevel(Skills.PRAYER, Math.max(0, player.skills().level(Skills.PRAYER) - 1));
+                            player.getSkills().setLevel(Skills.PRAYER, Math.max(0, player.getSkills().level(Skills.PRAYER) - 1));
 
                         }
                     }
                 }
 
-                if (player.skills().level(Skills.PRAYER) < 1) {
+                if (player.getSkills().level(Skills.PRAYER) < 1) {
                     // Cant get smited when dead dead, you must be smited before like RS.
                     closeAllPrayers(player);
                     player.message("You have run out of prayer points, you must recharge at an altar.");

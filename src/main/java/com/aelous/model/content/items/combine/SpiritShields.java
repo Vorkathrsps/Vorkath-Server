@@ -52,7 +52,7 @@ public class SpiritShields extends PacketInteraction {
     public boolean handleItemOnObject(Player player, Item item, GameObject object) {
         if (object.definition().name.equalsIgnoreCase("anvil")) {
             if (item.getId() == ELYSIAN_SIGIL) {
-                if (player.skills().xpLevel(Skills.PRAYER) < 90 || player.skills().xpLevel(Skills.SMITHING) < 85) {
+                if (player.getSkills().xpLevel(Skills.PRAYER) < 90 || player.getSkills().xpLevel(Skills.SMITHING) < 85) {
                     player.message("You don't have the skills required to make this. You need 85 Smithing and 90 Prayer.");
                     return true;
                 }
@@ -87,7 +87,7 @@ public class SpiritShields extends PacketInteraction {
                 return true;
             }
             if (item.getId() == ARCANE_SIGIL) {
-                if (player.skills().xpLevel(Skills.PRAYER) < 90 || player.skills().xpLevel(Skills.SMITHING) < 85) {
+                if (player.getSkills().xpLevel(Skills.PRAYER) < 90 || player.getSkills().xpLevel(Skills.SMITHING) < 85) {
                     player.message("You don't have the skills required to make this. You need 85 Smithing and 90 Prayer.");
                     return true;
                 }
@@ -122,7 +122,7 @@ public class SpiritShields extends PacketInteraction {
                 return true;
             }
             if (item.getId() == SPECTRAL_SIGIL) {
-                if (player.skills().xpLevel(Skills.PRAYER) < 90 || player.skills().xpLevel(Skills.SMITHING) < 85) {
+                if (player.getSkills().xpLevel(Skills.PRAYER) < 90 || player.getSkills().xpLevel(Skills.SMITHING) < 85) {
                     player.message("You don't have the skills required to make this. You need 85 Smithing and 90 Prayer.");
                     return true;
                 }

@@ -31,7 +31,7 @@ public class Ballistae extends PacketInteraction {
     private static final int HEAVY_BALLISTA = ItemIdentifiers.HEAVY_BALLISTA;
 
     private void craft(Player player, double exp, int levelReq, Item itemOne, Item itemTwo, int result) {
-        if (player.skills().level(Skills.FLETCHING) < levelReq) {
+        if (player.getSkills().level(Skills.FLETCHING) < levelReq) {
             DialogueManager.sendStatement(player, "<col=369>You need a Fletching level of " + levelReq + " to do that.");
             return;
         }
@@ -41,7 +41,7 @@ public class Ballistae extends PacketInteraction {
             player.inventory().remove(itemTwo);
             player.inventory().add(new Item(result, 1));
             player.animate(7172);
-            player.skills().addXp(Skills.FLETCHING, exp);
+            player.getSkills().addXp(Skills.FLETCHING, exp);
         }).then(4, player::resetAnimation);
     }
 

@@ -39,7 +39,7 @@ public class VarrockRooftop extends PacketInteraction {
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         // Wall climb
         if (obj.getId() == ROUGH_WALL_14412) {
-            if (player.skills().xpLevel(Skills.AGILITY) < 30) {
+            if (player.getSkills().xpLevel(Skills.AGILITY) < 30) {
                 player.message("You need an Agility level of 30 to attempt this.");
             } else {
                 player.lock();
@@ -50,7 +50,7 @@ public class VarrockRooftop extends PacketInteraction {
                 }).then(2, () -> {
                     player.teleport(3219, 3414, 3);
                     player.animate(-1);
-                    player.skills().addXp(Skills.AGILITY, 12.0);
+                    player.getSkills().addXp(Skills.AGILITY, 12.0);
                     player.unlock();
                     MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 30);
                 });
@@ -71,7 +71,7 @@ public class VarrockRooftop extends PacketInteraction {
                 player.animate(741);
                 TaskManager.submit(new ForceMovementTask(player, 0, new ForceMovement(player.tile().clone(), new Tile(-2, 0), 15, 30, Direction.WEST.toInteger())));
             }).then(1, () -> {
-                player.skills().addXp(Skills.AGILITY, 21.0);
+                player.getSkills().addXp(Skills.AGILITY, 21.0);
                 player.unlock();
 
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 30);
@@ -90,7 +90,7 @@ public class VarrockRooftop extends PacketInteraction {
                 player.animate(2588);
             }).then(1, () -> {
                 player.animate(-1);
-                player.skills().addXp(Skills.AGILITY, 17.0);
+                player.getSkills().addXp(Skills.AGILITY, 17.0);
                 player.unlock();
 
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 30);
@@ -147,7 +147,7 @@ public class VarrockRooftop extends PacketInteraction {
                 //Delay movement by two ticks, so we can finish the lovely force movement mask.
                 Chain.bound(player).name("VarrockSwingwall3Task").runFn(2, () -> {
                     player.teleport(3192, 3406, 3);
-                    player.skills().addXp(Skills.AGILITY, 25.0);
+                    player.getSkills().addXp(Skills.AGILITY, 25.0);
                     player.unlock();
 
                     MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 30);
@@ -168,7 +168,7 @@ public class VarrockRooftop extends PacketInteraction {
                 player.animate(2585);
             }).then(1, () -> TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, -1), 17, 26, Direction.SOUTH.toInteger())))).then(1, () -> {
                 player.teleport(3193, 3398, 3);
-                player.skills().addXp(Skills.AGILITY, 9.0);
+                player.getSkills().addXp(Skills.AGILITY, 9.0);
                 player.unlock();
 
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 30);
@@ -201,7 +201,7 @@ public class VarrockRooftop extends PacketInteraction {
                 player.setPositionToFace(new Tile(3222, 3399, 3));
                 player.animate(-1);
                 player.teleport(3218, 3399, 3);
-                player.skills().addXp(Skills.AGILITY, 22.0);
+                player.getSkills().addXp(Skills.AGILITY, 22.0);
                 player.unlock();
 
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 30);
@@ -221,7 +221,7 @@ public class VarrockRooftop extends PacketInteraction {
                 player.animate(2588);
             }).then(1, () -> {
                 player.animate(-1);
-                player.skills().addXp(Skills.AGILITY, 4.0);
+                player.getSkills().addXp(Skills.AGILITY, 4.0);
                 player.unlock();
 
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 30);
@@ -242,7 +242,7 @@ public class VarrockRooftop extends PacketInteraction {
                 TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, 2), 8, 50, Direction.NORTH.toInteger())));
             }).then(1, () -> {
                 player.teleport(3236, 3410, 3);
-                player.skills().addXp(Skills.AGILITY, 3.0);
+                player.getSkills().addXp(Skills.AGILITY, 3.0);
                 player.unlock();
 
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 30);
@@ -266,7 +266,7 @@ public class VarrockRooftop extends PacketInteraction {
             }).then(1, () -> {
                 player.teleport(3236, 3417, 0);
                 player.animate(2588);
-                player.skills().addXp(Skills.AGILITY, 125.0);
+                player.getSkills().addXp(Skills.AGILITY, 125.0);
                 player.unlock();
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 30);
 

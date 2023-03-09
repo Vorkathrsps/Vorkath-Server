@@ -115,9 +115,9 @@ public class IronManTutor extends Dialogue {
 
     public static void max(Player player) {
         for (int skill = 0; skill < 7; skill++) {
-            player.skills().setXp(skill, Skills.levelToXp(99));
-            player.skills().update();
-            player.skills().recalculateCombat();
+            player.getSkills().setXp(skill, Skills.levelToXp(99));
+            player.getSkills().update();
+            player.getSkills().recalculateCombat();
         }
     }
 

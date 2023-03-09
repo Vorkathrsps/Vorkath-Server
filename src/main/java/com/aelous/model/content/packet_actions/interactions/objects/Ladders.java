@@ -112,7 +112,7 @@ public class Ladders extends PacketInteraction {
             //Climb down the ladders
             Tile tile = obj.tile();
 
-            if (player.skills().level(Skills.MINING) < 60) {
+            if (player.getSkills().level(Skills.MINING) < 60) {
                 DialogueManager.npcChat(player, Expression.HAPPY, NpcIdentifiers.GUARD_6561, "Sorry, but you need level 60 Mining to get in there.");
             } else {
                 if (tile.equals(new Tile(3019, 3340))) { // North

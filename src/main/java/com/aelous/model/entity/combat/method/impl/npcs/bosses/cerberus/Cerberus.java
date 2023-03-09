@@ -35,7 +35,7 @@ public class Cerberus extends CommonCombatMethod {
 
     private void rangedAttack() {
         //mob.forceChat("RANGE");
-        if(target.dead() || target.skills().xpLevel(Skills.HITPOINTS) <= 0) {
+        if(target.dead() || target.getSkills().xpLevel(Skills.HITPOINTS) <= 0) {
             return;
         }
         var tileDist = entity.tile().distance(target.tile());
@@ -49,7 +49,7 @@ public class Cerberus extends CommonCombatMethod {
 
     private void magicAttack() {
         //mob.forceChat("MAGIC");
-        if(target.dead() || target.skills().xpLevel(Skills.HITPOINTS) <= 0) {
+        if(target.dead() || target.getSkills().xpLevel(Skills.HITPOINTS) <= 0) {
             return;
         }
         int tileDist = entity.tile().distance(target.tile());
@@ -74,7 +74,7 @@ public class Cerberus extends CommonCombatMethod {
     }
 
     private void comboAttack() {
-        if(target.dead() || target.skills().xpLevel(Skills.HITPOINTS) <= 0) {
+        if(target.dead() || target.getSkills().xpLevel(Skills.HITPOINTS) <= 0) {
             return;
         }
         entity.animate(4490); // triple attack
@@ -142,9 +142,9 @@ public class Cerberus extends CommonCombatMethod {
                     p.hit(melee, 30);
                 }
                 if (!target.getAsPlayer().getEquipment().contains(ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD)) {
-                    p.skills().setLevel(Skills.PRAYER, Math.max(0, p.skills().level(Skills.PRAYER) - 30));
+                    p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 30));
                 } else {
-                    p.skills().setLevel(Skills.PRAYER, Math.max(0, p.skills().level(Skills.PRAYER) - 15));
+                    p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 15));
                 }
             });
         });
@@ -159,9 +159,9 @@ public class Cerberus extends CommonCombatMethod {
                     p.hit(archer, 30);
                 }
                 if (!target.getAsPlayer().getEquipment().contains(ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD)) {
-                    p.skills().setLevel(Skills.PRAYER, Math.max(0, p.skills().level(Skills.PRAYER) - 30));
+                    p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 30));
                 } else {
-                    p.skills().setLevel(Skills.PRAYER, Math.max(0, p.skills().level(Skills.PRAYER) - 15));
+                    p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 15));
                 }
             });
             });
@@ -176,9 +176,9 @@ public class Cerberus extends CommonCombatMethod {
                     p.hit(magician, 30);
                 }
                 if (!target.getAsPlayer().getEquipment().contains(ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD)) {
-                        p.skills().setLevel(Skills.PRAYER, Math.max(0, p.skills().level(Skills.PRAYER) - 30));
+                        p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 30));
                 } else {
-                        p.skills().setLevel(Skills.PRAYER, Math.max(0, p.skills().level(Skills.PRAYER) - 15));
+                        p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 15));
                 }
             });
         });
@@ -193,7 +193,7 @@ public class Cerberus extends CommonCombatMethod {
     }
 
     private void spreadLava() { //TODO lava doesnt spread across 3 tiles instead all on mob.tile()
-        if(target.dead() || target.skills().xpLevel(Skills.HITPOINTS) <= 0) {
+        if(target.dead() || target.getSkills().xpLevel(Skills.HITPOINTS) <= 0) {
             return;
         }
         spreadLavaCooldown.delay(30);

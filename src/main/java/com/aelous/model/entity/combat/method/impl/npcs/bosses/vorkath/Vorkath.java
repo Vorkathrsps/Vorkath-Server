@@ -88,49 +88,53 @@ public class Vorkath extends CommonCombatMethod {
         }
         entity.putAttrib(VORKATH_NORMAL_ATTACK_COUNT, count);
 
-        switch (attackType) {
-            case 1 -> melee();
-            case 2 -> mage();
-            case 3 -> range();
-            case 4 -> tripleOrdered();
-            case 5 -> bomb();
-            case 6 -> acidSpitball();
-            case 7 -> zombified();
-        }
+        bomb();
+
+       // switch (attackType) {
+            //case 1 -> melee();
+            //case 2 -> mage();
+            //case 3 -> range();
+            //case 4 -> tripleOrdered();
+         //   case 1 -> bomb();
+            //case 6 -> acidSpitball();
+            //case 7 -> zombified();
+      //  }
     }
 
     private void bomb() {
-        //mob.forceChat("BOMB");
         entity.animate(FIREBALL_ATTACK_ANIMATION);
         Tile targPos = target.tile().copy();
-        int dist = entity.tile().getChevDistance(targPos);
-        //new Projectile(mob.getCentrePosition(), targPos, 1, 1491, 40 + (20 * dist), 20, 30, 30, 0, 50, 25).sendProjectile();
-        new Projectile(entity, target,1491, 20,40 + (20 * dist),30, 20, 0, true).sendProjectile();
-        entity.runUninterruptable(7, () -> World.getWorld().getPlayers().forEachInArea(targPos.area(1), p -> {
-            // up to 121 if on the exact bomb tile, and up to halfed damage when next to the bomb tile.
-            p.hit(entity, p.tile().equals(targPos) ? Utils.random(121) : Utils.random(60));
-            p.graphic(1466, GraphicHeight.LOW, 0);
-        }));
-        Chain.bound(null).runFn(dist, () -> entity.setEntityInteraction(target));
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (51 + -5 + (10 * tileDist));
+        //Projectile p1 = new Projectile(entity.tile(), targPos, 1491, 51, duration, 165, 0, 0, target.getSize(), 10);
+        //new Projectile(entity.tile(), targPos, 1491, 41, duration, 165, 0, 0, 0, 5).sendProjectile();
+        new Projectile(entity.tile().transform(1, -4, 0), targPos.transform(-4, 1, 0), 0, 1491, 165, 30, 200, 0, 0).sendProjectile();
+
+        //inal int delay = entity.executeProjectile(p1);
+        entity.runUninterruptable(7, () -> World.getWorld().getPlayers().forEachInArea(targPos.area(1), p -> p.hit(entity, p.tile().equals(targPos) ? Utils.random(121) : Utils.random(60), 0)));
+        target.graphic(1466, GraphicHeight.LOW, 30);
+        Chain.bound(null).runFn(tileDist, () -> entity.setEntityInteraction(target));
     }
 
     private void range() {
-        //mob.forceChat("range");
         entity.animate(ATTACK_ANIMATION);
-        new Projectile(entity, target, 1477, BREATH_DELAY, entity.projectileSpeed(target), BREATH_START_HEIGHT, BREATH_END_HEIGHT, 1, true).sendProjectile();
-        var delay = entity.getProjectileHitDelay(target);
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (41 + 11 + (5 * tileDist));
+        Projectile p = new Projectile(entity, target, 1477, 41, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 0, target.getSize(), 5);
+        final int delay = entity.executeProjectile(p);
         target.hit(entity, Utils.random(32), delay, CombatType.RANGED).checkAccuracy().submit();
-        target.delayedGraphics(RANGED_END_GRAPHIC, delay);
+        target.graphic(1478, GraphicHeight.MIDDLE, p.getSpeed());
         Chain.bound(null).runFn(1, () -> entity.setEntityInteraction(target));
     }
 
     private void mage() {
-        //mob.forceChat("mage");
         entity.animate(ATTACK_ANIMATION);
-        new Projectile(entity, target, 1479, BREATH_DELAY, entity.projectileSpeed(target), BREATH_START_HEIGHT, BREATH_END_HEIGHT, 1, true).sendProjectile();
-        var delay = entity.getProjectileHitDelay(target);
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (51 + -5 + (10 * tileDist));
+        Projectile p = new Projectile(entity, target, 1479, 51, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 0, target.getSize(), 10);
+        final int delay = entity.executeProjectile(p);
         target.hit(entity, Utils.random(30), delay, CombatType.MAGIC).checkAccuracy().submit();
-        target.delayedGraphics(MAGIC_END_GRAPHIC, delay);
+        target.graphic(1480, GraphicHeight.MIDDLE, p.getSpeed());
         Chain.bound(null).runFn(1, () -> entity.setEntityInteraction(target));
     }
 

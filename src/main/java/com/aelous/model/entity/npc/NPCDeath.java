@@ -576,7 +576,7 @@ public class NPCDeath {
                                         if (tableItem.convert().getId() == bone) {
                                             Bone bones = Bone.get(tableItem.convert().getId());
                                             if (bones != null)
-                                                killer.skills().addXp(Skills.PRAYER, bones.xp);
+                                                killer.getSkills().addXp(Skills.PRAYER, bones.xp);
                                         }
                                     }
                                 } else {
@@ -822,7 +822,7 @@ public class NPCDeath {
 
         boolean inWilderness = WildernessArea.inWilderness(killer.tile());
         Item smallCasket = new Item(ItemIdentifiers.CASKET_7956);
-        int combat = killer.skills().combatLevel();
+        int combat = killer.getSkills().combatLevel();
         int mul;
 
         if ((killer.mode() == GameMode.TRAINED_ACCOUNT))

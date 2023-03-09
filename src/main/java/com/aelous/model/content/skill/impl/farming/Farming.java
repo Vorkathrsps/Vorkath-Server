@@ -124,9 +124,9 @@ public class Farming extends PacketInteraction {
                     if (internalTimer-- == 0) {
                         if (player.varps().farmbit(varbit) < 3) {
                             // Did we succeed?
-                            if (World.getWorld().rollDie(255, 100 + player.skills().level(Skills.FARMING))) {
+                            if (World.getWorld().rollDie(255, 100 + player.getSkills().level(Skills.FARMING))) {
                                 player.varps().farmbit(varbit, player.varps().farmbit(varbit) + 1);
-                                player.skills().addXp(Skills.FARMING, 4.0); // Yeah, you get 4 xp... #worth
+                                player.getSkills().addXp(Skills.FARMING, 4.0); // Yeah, you get 4 xp... #worth
                                 player.inventory().add(new Item(6055), true); // Free weed :)
                                 Farming.setTimer(player, varbit.timer,1000);
                                 stop();

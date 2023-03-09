@@ -34,7 +34,7 @@ public class DustDevil extends CommonCombatMethod {
         basicAttack(entity, target);
         if(Utils.rollDie(5, 1)) {
             for (int skill : DRAIN) {
-                player.skills().alterSkill(skill, -5);
+                player.getSkills().alterSkill(skill, -5);
             }
         }
     }

@@ -130,9 +130,9 @@ public class ItemActionOne {
                 player.message("You can only use the vengeance cast on the lunars spellbook.");
                 return;
             }
-            if (player.skills().level(Skills.DEFENCE) < 40) {
+            if (player.getSkills().level(Skills.DEFENCE) < 40) {
                 player.message("You need 40 Defence to use Vengence.");
-            } else if (player.skills().level(Skills.MAGIC) < 94) {
+            } else if (player.getSkills().level(Skills.MAGIC) < 94) {
                 player.message("Your Magic level is not high enough to use this spell.");
             } else if (hasVengeance) {
                 player.message("You already have Vengeance casted.");

@@ -65,7 +65,7 @@ public class WoodcuttingGuild extends PacketInteraction {
     public static Area AREA_WEST = new Area(1564, 3477, 1600, 3503);
 
     private void enterGuild(Player player) {
-        if (player.skills().xpLevel(Skills.WOODCUTTING) < 60) {
+        if (player.getSkills().xpLevel(Skills.WOODCUTTING) < 60) {
             DialogueManager.sendStatement(player, "You need a Woodcutting level of 60 to access this guild.");
         } else {
             ObjectManager.removeObj(new GameObject(GATE_28851, new Tile(1657, 3505), 0, 2));

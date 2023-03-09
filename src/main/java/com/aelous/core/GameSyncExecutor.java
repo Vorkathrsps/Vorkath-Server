@@ -48,7 +48,7 @@ public final class GameSyncExecutor {
      * @param syncTask
      *            the synchronization task to execute.
      */
-    public void sync(GameSyncTask syncTask) {
+    public void sync(GameSyncTask syncTask) throws Exception {
         if (service == null || phaser == null || !syncTask.isConcurrent()) {
             for (int index : syncTask.getIndices()) {
 
@@ -66,7 +66,11 @@ public final class GameSyncExecutor {
             final int finalIndex = index;
             service.execute(() -> {
                 try {
-                    syncTask.execute(finalIndex);
+                    try {
+                        syncTask.execute(finalIndex);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                 } finally {
                     phaser.arriveAndDeregister();
                 }

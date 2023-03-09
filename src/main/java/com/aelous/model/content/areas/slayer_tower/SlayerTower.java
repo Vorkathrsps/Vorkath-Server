@@ -90,7 +90,7 @@ public class SlayerTower extends PacketInteraction {
                             public void select(int option) {
                                 if (option == 1) {
                                     Ladders.ladderUp(player, new Tile(player.tile().x, player.tile().y, player.tile().level + 1), true);
-                                    player.skills().addXp(Skills.AGILITY, 4.0);
+                                    player.getSkills().addXp(Skills.AGILITY, 4.0);
                                     stop();
                                 } else if (option == 2) {
                                     player.message("You decide to save your nose, and self, from almost certain death.");
@@ -100,11 +100,11 @@ public class SlayerTower extends PacketInteraction {
                         });
                     } else {
                         Ladders.ladderUp(player, new Tile(player.tile().x, player.tile().y, player.tile().level + 1), true);
-                        player.skills().addXp(Skills.AGILITY, 4.0);
+                        player.getSkills().addXp(Skills.AGILITY, 4.0);
                     }
-                } else if (obj.tile().x == 3447 && obj.tile().y == 3576 && player.skills().level(Skills.AGILITY) >= 71) {
+                } else if (obj.tile().x == 3447 && obj.tile().y == 3576 && player.getSkills().level(Skills.AGILITY) >= 71) {
                     Ladders.ladderUp(player, new Tile(player.tile().x, player.tile().y, player.tile().level + 1), true);
-                    player.skills().addXp(Skills.AGILITY, 4.0);
+                    player.getSkills().addXp(Skills.AGILITY, 4.0);
                 } else {
                     player.message("You need an Agility level of 71 to negotiate this obstacle.");
                 }
@@ -114,7 +114,7 @@ public class SlayerTower extends PacketInteraction {
             if (obj.getId() == SPIKEY_CHAIN_16538) {
                 if (obj.tile().x == 3422 && obj.tile().y == 3550) {
                     Ladders.ladderDown(player, new Tile(player.tile().x, player.tile().y, player.tile().level - 1), true);
-                } else if (obj.tile().x == 3447 && obj.tile().y == 3576 && player.skills().level(Skills.AGILITY) >= 71) {
+                } else if (obj.tile().x == 3447 && obj.tile().y == 3576 && player.getSkills().level(Skills.AGILITY) >= 71) {
                     Ladders.ladderDown(player, new Tile(player.tile().x, player.tile().y, player.tile().level - 1), true);
                 } else {
                     player.message("You need an Agility level of 71 to negotiate this obstacle.");

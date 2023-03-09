@@ -133,9 +133,9 @@ public class RottenPotato extends PacketInteraction {
                             int lvl = (Integer) value;
                             lvl = Math.max(1, Math.min(99, lvl));
                             for (int i = 0; i < Skills.SKILL_COUNT; i++) {
-                                player.skills().setXp(i, Skills.levelToXp(lvl));
-                                player.skills().update();
-                                player.skills().recalculateCombat();
+                                player.getSkills().setXp(i, Skills.levelToXp(lvl));
+                                player.getSkills().update();
+                                player.getSkills().recalculateCombat();
                             }
                             return true;
                         }

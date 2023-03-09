@@ -19,7 +19,7 @@ public class EloRating {
         int currentEloRating = player.getAttribOr(AttributeKey.ELO_RATING, DEFAULT_ELO_RATING);
         int targetEloRating = target.getAttribOr(AttributeKey.ELO_RATING, DEFAULT_ELO_RATING);
         int gain;
-        if(target.skills().combatLevel() < player.skills().combatLevel() || targetEloRating < currentEloRating) {
+        if(target.getSkills().combatLevel() < player.getSkills().combatLevel() || targetEloRating < currentEloRating) {
             gain = Utils.random(10, 15);
         } else  {
             gain = Utils.random(20, 25);

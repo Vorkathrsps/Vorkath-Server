@@ -30,7 +30,7 @@ public class Toppings {
 
         //Spicy sauce
         if ((used.getId() == ItemIdentifiers.CHOPPED_GARLIC && with.getId() == ItemIdentifiers.GNOME_SPICE) || (used.getId() == ItemIdentifiers.GNOME_SPICE && with.getId() == ItemIdentifiers.CHOPPED_GARLIC)) {
-            if(player.skills().levels()[Skills.COOKING] < 9) {
+            if(player.getSkills().levels()[Skills.COOKING] < 9) {
                 player.message("You need a cooking level of at least 9.");
                 return true;
             }
@@ -38,13 +38,13 @@ public class Toppings {
             player.inventory().remove(new Item(ItemIdentifiers.CHOPPED_GARLIC));
             player.inventory().remove(new Item(ItemIdentifiers.GNOME_SPICE));
             player.inventory().add(new Item(ItemIdentifiers.SPICY_SAUCE));
-            player.skills().addXp(Skills.COOKING, 25.0);
+            player.getSkills().addXp(Skills.COOKING, 25.0);
             return true;
         }
 
         //Chili con carne
         if ((used.getId() == ItemIdentifiers.SPICY_SAUCE && with.getId() == ItemIdentifiers.COOKED_MEAT) || (used.getId() == ItemIdentifiers.COOKED_MEAT && with.getId() == ItemIdentifiers.SPICY_SAUCE)) {
-            if(player.skills().levels()[Skills.COOKING] <  9) {
+            if(player.getSkills().levels()[Skills.COOKING] <  9) {
                 player.message("You need a cooking level of at least 9.");
                 return true;
             }
@@ -52,13 +52,13 @@ public class Toppings {
             player.inventory().remove(new Item(ItemIdentifiers.SPICY_SAUCE));
             player.inventory().remove(new Item(ItemIdentifiers.COOKED_MEAT));
             player.inventory().add(new Item(ItemIdentifiers.CHILLI_CON_CARNE));
-            player.skills().addXp(Skills.COOKING, 25.0);
+            player.getSkills().addXp(Skills.COOKING, 25.0);
             return true;
         }
 
         //Egg and tomato
         if ((used.getId() == ItemIdentifiers.SCRAMBLED_EGG && with.getId() == ItemIdentifiers.TOMATO) || (used.getId() == ItemIdentifiers.TOMATO && with.getId() == ItemIdentifiers.SCRAMBLED_EGG)) {
-            if(player.skills().levels()[Skills.COOKING] <  23) {
+            if(player.getSkills().levels()[Skills.COOKING] <  23) {
                 player.message("You need a cooking level of at least 23.");
                 return true;
             }

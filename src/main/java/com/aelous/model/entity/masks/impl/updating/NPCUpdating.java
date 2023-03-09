@@ -38,47 +38,53 @@ public class NPCUpdating {
      *
      * @return The NPCUpdating instance.
      */
-    public static void update(Player player) {
+    public static synchronized void update(Player player) {
         PacketBuilder update = new PacketBuilder();
         PacketBuilder packet = new PacketBuilder(65, PacketType.VARIABLE_SHORT);
         packet.initializeAccess(AccessType.BIT);
-        List<NPC> localNpcs = player.getLocalNpcs();
-        Tile playerTile = player.tile();
-        packet.putBits(8, localNpcs.size());
-        Iterator<NPC> npcIterator = localNpcs.iterator();
-        while (npcIterator.hasNext()) {
-            NPC npc = npcIterator.next();
-            if (npc.getIndex() != -1 && World.getWorld().getNpcs().contains(npc) && !npc.hidden() && playerTile.isWithinDistance(npc.tile()) && !npc.isNeedsPlacement()) {
-                updateMovement(npc, packet);
-                npc.inViewport(true); // Mark as in viewport
-                if (npc.getUpdateFlag().isUpdateRequired()) {
-                    appendUpdates(npc, update);
+        synchronized (player.getLocalNpcs()) {
+            List<NPC> localNpcs = player.getLocalNpcs();
+            Tile playerTile = player.tile();
+            packet.putBits(8, localNpcs.size());
+            Iterator<NPC> npcIterator = localNpcs.iterator();
+            while (npcIterator.hasNext()) {
+                NPC npc = npcIterator.next();
+                if (npc.getIndex() != -1 && World.getWorld().getNpcs().contains(npc) && !npc.hidden() && playerTile.isWithinDistance(npc.tile()) && !npc.isNeedsPlacement()) {
+                    updateMovement(npc, packet);
+                    synchronized (npc) {
+                        npc.inViewport(true); // Mark as in viewport
+                        if (npc.getUpdateFlag().isUpdateRequired()) {
+                            appendUpdates(npc, update);
+                        }
+                    }
+                } else {
+                    npcIterator.remove();
+                    packet.putBits(1, 1);
+                    packet.putBits(2, 3);
                 }
-            } else {
-                npcIterator.remove();
-                packet.putBits(1, 1);
-                packet.putBits(2, 3);
             }
-        }
-        int localNpcCount = localNpcs.size();
-        int added = 0;
-        for (NPC npc : World.getWorld().getNpcs()) {
-            if (localNpcCount >= 255) // Originally 255
-                break;
-            if (added >= NEW_NPCS_PER_CYCLE) {
-                break;
-            }
-            if (npc == null || localNpcs.contains(npc) || npc.hidden() || npc.isNeedsPlacement())
-                continue;
-            if (npc.tile().isWithinDistance(playerTile)) {
-                added++;
-                localNpcs.add(npc);
-                addNPC(player, npc, packet);
-                npc.inViewport(true); // Mark as in viewport
-                if (npc.getUpdateFlag().isUpdateRequired()) {
-                    appendUpdates(npc, update);
+            int localNpcCount = localNpcs.size();
+            int added = 0;
+            for (NPC npc : World.getWorld().getNpcs()) {
+                if (localNpcCount >= 255) // Originally 255
+                    break;
+                if (added >= NEW_NPCS_PER_CYCLE) {
+                    break;
                 }
-                localNpcCount++;
+                if (npc == null || localNpcs.contains(npc) || npc.hidden() || npc.isNeedsPlacement())
+                    continue;
+                if (npc.tile().isWithinDistance(playerTile)) {
+                    added++;
+                    localNpcs.add(npc);
+                    addNPC(player, npc, packet);
+                    synchronized (npc) {
+                        npc.inViewport(true); // Mark as in viewport
+                        if (npc.getUpdateFlag().isUpdateRequired()) {
+                            appendUpdates(npc, update);
+                        }
+                    }
+                    localNpcCount++;
+                }
             }
         }
         if (update.buffer().writerIndex() > 0) {
@@ -88,8 +94,11 @@ public class NPCUpdating {
         } else {
             packet.initializeAccess(AccessType.BYTE);
         }
-        player.getSession().write(packet);
+        synchronized (player.getSession()) {
+            player.getSession().write(packet);
+        }
     }
+
 
 
     /**

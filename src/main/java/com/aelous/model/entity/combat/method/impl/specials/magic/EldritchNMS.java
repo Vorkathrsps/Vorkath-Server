@@ -39,7 +39,7 @@ public class EldritchNMS extends CommonCombatMethod {
 
         if(target.isPlayer()) {
             var drain = hit.getDamage() * 35 / 100; // smite 35% of the damage dealt
-            target.skills().alterSkill(Skills.PRAYER, -drain);
+            target.getSkills().alterSkill(Skills.PRAYER, -drain);
             entity.heal(drain);
         }
 

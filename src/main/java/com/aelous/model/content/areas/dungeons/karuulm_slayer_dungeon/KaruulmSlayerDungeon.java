@@ -103,7 +103,7 @@ public class KaruulmSlayerDungeon extends PacketInteraction {
             return true;
         }
         if (obj.getId() == MYSTERIOUS_PIPE) {
-            if (player.skills().level(Skills.AGILITY) < 88) {
+            if (player.getSkills().level(Skills.AGILITY) < 88) {
                 player.message("You need a Agility level of 88 to enter this pipe.");
                 return true;
             }

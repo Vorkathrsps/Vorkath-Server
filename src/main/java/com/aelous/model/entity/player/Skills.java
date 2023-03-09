@@ -43,7 +43,9 @@ public class Skills {
     public int[] levels = new int[SKILL_COUNT];
     private final Player player;
     private int combat;
-    private final boolean[] dirty = new boolean[SKILL_COUNT];
+
+    public boolean test;
+    public final boolean[] dirty = new boolean[SKILL_COUNT];
 
     public Skills(Player player) {
         this.player = player;
@@ -162,7 +164,7 @@ public class Skills {
             player.getPacketSender().updateSkill(skill, levels[skill], (int) xps[skill]);
         }
 
-        if (player.skills().combatLevel() >= 126 && player.mode() == GameMode.TRAINED_ACCOUNT) {
+        if (player.getSkills().combatLevel() >= 126 && player.mode() == GameMode.TRAINED_ACCOUNT) {
             player.putAttrib(AttributeKey.COMBAT_MAXED, true);
         }
 
@@ -191,7 +193,7 @@ public class Skills {
         player.getPacketSender().sendString(4017, "" + xpToLevel((int) xps[HITPOINTS])+"");
 
         if(!ignore) {
-            player.skills().updatePrayerText();
+            player.getSkills().updatePrayerText();
         }
     }
 
@@ -364,7 +366,7 @@ public class Skills {
 
             recalculateCombat();
 
-            if (player.skills().combatLevel() >= 126 && player.mode() == GameMode.TRAINED_ACCOUNT) {
+            if (player.getSkills().combatLevel() >= 126 && player.mode() == GameMode.TRAINED_ACCOUNT) {
                 player.putAttrib(AttributeKey.COMBAT_MAXED, true);
             }
 
@@ -462,7 +464,7 @@ public class Skills {
         int maxCount = 7;
         int count = 0;
         for (int index = 0; index < maxCount; index++) {
-            if (player.skills().level(index) >= 99) {
+            if (player.getSkills().level(index) >= 99) {
                 count++;
             }
         }
@@ -495,7 +497,7 @@ public class Skills {
 
     public void overloadPlusBoost(int skill) {
         int boost = 6;
-        int boostedLevel = (int) ((player.skills().xpLevel(skill) * 0.16) + boost);
+        int boostedLevel = (int) ((player.getSkills().xpLevel(skill) * 0.16) + boost);
         levels[skill] += boostedLevel;
         if (boostedLevel > 0 && levels[skill] > xpLevel(skill) + boostedLevel) { // Cap at realLvl (99) + boost (20) = 118
             levels[skill] = xpLevel(skill) + boostedLevel;
@@ -732,7 +734,7 @@ public class Skills {
                             player.message("Invalid syntax. Please enter a level in the range of 1-99.");
                             return false;
                         }
-                        player.skills().clickSkillToChangeLevel(skill.getId(), (int) level);
+                        player.getSkills().clickSkillToChangeLevel(skill.getId(), (int) level);
                         return false;
                     }
                 });
@@ -781,9 +783,9 @@ public class Skills {
         }
 
         //Set skill level
-        player.skills().setXp(skill, Skills.levelToXp(level));
-        player.skills().update();
-        player.skills().recalculateCombat();
+        player.getSkills().setXp(skill, Skills.levelToXp(level));
+        player.getSkills().update();
+        player.getSkills().recalculateCombat();
 
         if (skill == PRAYER) {
             player.getPacketSender().sendConfig(708, Prayers.canUse(player, DefaultPrayerData.PRESERVE,false) ? 1 : 0);

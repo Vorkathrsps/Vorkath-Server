@@ -24,7 +24,7 @@ public class LarransChest extends PacketInteraction {
     @Override
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         if (obj.getId() == 34832) {
-            if (player.skills().combatLevel() < 3 && !player.ironMode().ironman()) {
+            if (player.getSkills().combatLevel() < 3 && !player.ironMode().ironman()) {
                 player.message(Color.RED.wrap("You need to be at least level 126 to open this chest."));
                 return true;
             }

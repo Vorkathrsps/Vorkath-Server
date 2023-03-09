@@ -58,7 +58,7 @@ public class LogLighting {
         // Die roll  /100
         public int lightChance(Player player, boolean catching) {
             int points = 40;
-            int diff = Math.min(6, player.skills().levels()[Skills.FIREMAKING] - req); // 6 points max
+            int diff = Math.min(6, player.getSkills().levels()[Skills.FIREMAKING] - req); // 6 points max
             return Math.min(100, points + diff * (catching ? 15 : 10));
         }
 
@@ -106,7 +106,7 @@ public class LogLighting {
                     return true;
                 }
                 // Check level requirement
-                if (player.skills().levels()[Skills.FIREMAKING] < log.req) {
+                if (player.getSkills().levels()[Skills.FIREMAKING] < log.req) {
                     String itemname = logItem.definition(World.getWorld()).name.toLowerCase();
                     player.message("You need a Firemaking level of " + log.req + " to burn " + itemname + ".");
                     return true;
@@ -173,7 +173,7 @@ public class LogLighting {
                         return true;
                     }
                     // Check level requirement
-                    if (player.skills().levels()[Skills.FIREMAKING] < log.req) {
+                    if (player.getSkills().levels()[Skills.FIREMAKING] < log.req) {
                         String itemname = logItem.definition(World.getWorld()).name.toLowerCase();
                         player.message("You need a Firemaking level of " + log.req + " to burn " + itemname + ".");
                         return true;
@@ -255,7 +255,7 @@ public class LogLighting {
             }
 
             // Give us some xp now, because.. dialogue.
-            player.skills().addXp(Skills.FIREMAKING, log.xp * pyromancerOutfitBonus(player));
+            player.getSkills().addXp(Skills.FIREMAKING, log.xp * pyromancerOutfitBonus(player));
         });
     }
 
@@ -276,7 +276,7 @@ public class LogLighting {
                 return;
             }
             // Check level requirement
-            if (player.skills().levels()[Skills.FIREMAKING] < log.req) {
+            if (player.getSkills().levels()[Skills.FIREMAKING] < log.req) {
                 String itemname = spawnedItem.getItem().definition(World.getWorld()).name.toLowerCase();
                 player.message("You need a Firemaking level of " + log.req + " to burn " + itemname + ".");
                 return;
@@ -350,7 +350,7 @@ public class LogLighting {
                     return;
                 }
                 // Check level requirement
-                if (player.skills().levels()[Skills.FIREMAKING] < log.req) {
+                if (player.getSkills().levels()[Skills.FIREMAKING] < log.req) {
                     String itemname = logItem.definition(World.getWorld()).name.toLowerCase();
                     player.message("You need a Firemaking level of " + log.req + " to burn " + itemname + ".");
                     return;

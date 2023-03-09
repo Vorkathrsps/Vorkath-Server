@@ -43,7 +43,7 @@ public class GnomeStronghold extends PacketInteraction {
                     player.unlock();
                     player.message("...You make it safely to the other side.");
                     putStage(player, 1);
-                    player.skills().addXp(Skills.AGILITY, 7.5);
+                    player.getSkills().addXp(Skills.AGILITY, 7.5);
                 }));
                 return true;
             }
@@ -55,7 +55,7 @@ public class GnomeStronghold extends PacketInteraction {
                 Chain.bound(player).name("GnomeStrongholdObstacleNetTask").runFn(1, () -> player.animate(828)).then(1, () -> {
                     player.teleport(player.tile().x, 3424, 1);
                     player.unlock();
-                    player.skills().addXp(Skills.AGILITY, 7.5);
+                    player.getSkills().addXp(Skills.AGILITY, 7.5);
                 });
                 return true;
             }
@@ -68,7 +68,7 @@ public class GnomeStronghold extends PacketInteraction {
                     player.message("...To the platform above.");
                     player.teleport(2473, 3420, 2);
                     player.unlock();
-                    player.skills().addXp(Skills.AGILITY, 5.0);
+                    player.getSkills().addXp(Skills.AGILITY, 5.0);
                 });
                 return true;
             }
@@ -86,7 +86,7 @@ public class GnomeStronghold extends PacketInteraction {
                     player.looks().resetRender();
                     player.agilityWalk(true);
                     player.unlock();
-                    player.skills().addXp(Skills.AGILITY, 7.5);
+                    player.getSkills().addXp(Skills.AGILITY, 7.5);
                 }));
                 return true;
             }
@@ -100,7 +100,7 @@ public class GnomeStronghold extends PacketInteraction {
                     player.message("You land on the ground.");
                     player.unlock();
                     putStage(player, 2);
-                    player.skills().addXp(Skills.AGILITY, 5.0);
+                    player.getSkills().addXp(Skills.AGILITY, 5.0);
                 });
                 return true;
             }
@@ -119,7 +119,7 @@ public class GnomeStronghold extends PacketInteraction {
                     player.teleport(obj.tile().x, obj.tile().y + 2);
                     player.unlock();
                     putStage(player, 4);
-                    player.skills().addXp(Skills.AGILITY, 7.5);
+                    player.getSkills().addXp(Skills.AGILITY, 7.5);
                 });
                 return true;
             }
@@ -157,11 +157,11 @@ public class GnomeStronghold extends PacketInteraction {
                     if (stage == 15) {
                         player.message("You successfully completed the course.");
                         player.putAttrib(AttributeKey.GNOME_COURSE_STATE, 0);
-                        player.skills().addXp(Skills.AGILITY, 39.0);
+                        player.getSkills().addXp(Skills.AGILITY, 39.0);
 
 
                     } else {
-                        player.skills().addXp(Skills.AGILITY, 7.5);
+                        player.getSkills().addXp(Skills.AGILITY, 7.5);
                     }
                 });
                 return true;

@@ -31,7 +31,7 @@ public class RoguesCastle extends PacketInteraction {
                 player.message("You have activated a trap on the chest.");
             } else if (option == 2) {
                 //Handle the second chest option: "Search for traps".
-                if (player.skills().level(Skills.THIEVING) < 84) {
+                if (player.getSkills().level(Skills.THIEVING) < 84) {
                     player.message("You need a Thieving level of 84 to successfully loot this chest.");
                 } else {
                     // Else we must be high enough thieving to crack the chest!
@@ -40,7 +40,7 @@ public class RoguesCastle extends PacketInteraction {
                     Chain.bound(null).runFn(1, () -> {
                         player.message("You disable the trap");
                         player.animate(535);
-                        player.skills().addXp(Skills.THIEVING, 100);
+                        player.getSkills().addXp(Skills.THIEVING, 100);
                     });
 
                     // Grabs a reward from our array lists

@@ -107,12 +107,12 @@ public class Smelting extends ItemCreationSkillable {
                                      */
                                     return false;
                                 }
-                                player.skills().startSkillable(new Smelting(bar, amount));
+                                player.getSkills().startSkillable(new Smelting(bar, amount));
                                 return true;
                             }
                         });
                     } else {
-                        player.skills().startSkillable(new Smelting(bar, amount));
+                        player.getSkills().startSkillable(new Smelting(bar, amount));
                     }
                     return true;
                 }

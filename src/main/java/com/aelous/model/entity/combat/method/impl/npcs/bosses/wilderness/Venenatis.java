@@ -74,10 +74,10 @@ public class Venenatis extends CommonCombatMethod {
             var tileDist = npc.tile().transform(3, 3, 0).distance(target.tile());
             new Projectile(npc, target,171, 30,12 * tileDist,25, 25, 0, true).sendProjectile();
             var player = target.getAsPlayer();
-            var curpray = player.skills().level(Skills.PRAYER);
+            var curpray = player.getSkills().level(Skills.PRAYER);
             var add = curpray / 5 + 1;
             var drain = 10 + add; // base 10 drain + 20% of current prayer + 1. Example 50 prayer becomes 30. Best tactic to keep prayer low.
-            player.skills().alterSkill(Skills.PRAYER, (drain > curpray) ? -curpray : -drain);
+            player.getSkills().alterSkill(Skills.PRAYER, (drain > curpray) ? -curpray : -drain);
 
             if (curpray > 0) {
                 target.message("Your prayer was drained!");

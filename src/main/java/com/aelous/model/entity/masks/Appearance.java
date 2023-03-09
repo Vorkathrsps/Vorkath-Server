@@ -237,7 +237,7 @@ public class Appearance {
         //System.out.printf("%s %s %s %s%n", weapon, Arrays.toString(renderpair), target.getEquipment().get(EquipSlot.WEAPON), target.getEquipment().hasAt(EquipSlot.WEAPON));
 
         packetBuilder.putString(target.getUsername());
-        packetBuilder.put(target.skills().combatLevel());
+        packetBuilder.put(target.getSkills().combatLevel());
         packetBuilder.put(target.getPlayerRights().ordinal());
         packetBuilder.put(target.getMemberRights().ordinal());
 

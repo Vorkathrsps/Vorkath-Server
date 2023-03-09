@@ -203,7 +203,7 @@ public final class Jewellery {
 
         JewelleryData jewellery = JewelleryData.forItem(item).get();
 
-        if (player.skills().level(Skills.CRAFTING) < jewellery.level) {
+        if (player.getSkills().level(Skills.CRAFTING) < jewellery.level) {
             ItemDefinition def = World.getWorld().definitions().get(ItemDefinition.class, jewellery.product);
             String name = def.name;
             player.message("You need a crafting level of " + jewellery.level + " to craft " + Utils.getAOrAn(name) + " " + name + ".");
@@ -255,7 +255,7 @@ public final class Jewellery {
                 }
 
                 player.inventory().add(new Item(jewellery.product), -1, true);
-                player.skills().addXp(Skills.CRAFTING, jewellery.experience);
+                player.getSkills().addXp(Skills.CRAFTING, jewellery.experience);
                 player.message("You have crafted " + Utils.getAOrAn(new Item(jewellery.product).name()) + " " + new Item(jewellery.product).name() + ".");
 
                 if (++ticks == amount) {

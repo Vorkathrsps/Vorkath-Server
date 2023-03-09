@@ -1,17 +1,13 @@
 package com.aelous.model.entity.combat.formula.accuracy;
 
 import com.aelous.model.World;
-import com.aelous.model.content.skill.impl.slayer.Slayer;
 import com.aelous.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatType;
-import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.npc.NPC;
-import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
-import com.aelous.utility.ItemIdentifiers;
 
 import java.security.SecureRandom;
 
@@ -94,7 +90,7 @@ public class MagicAccuracyNpc {
     }
 
     public static int getMagicLevel(Entity attacker) {
-        return attacker.skills().level(Skills.MAGIC);
+        return attacker.getSkills().level(Skills.MAGIC);
     }
 
     public static int getEffectiveLevelAttacker(Entity attacker, CombatType style) {

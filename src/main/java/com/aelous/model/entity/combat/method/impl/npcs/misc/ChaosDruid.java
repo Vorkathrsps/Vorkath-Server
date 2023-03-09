@@ -19,7 +19,7 @@ public class ChaosDruid extends CommonCombatMethod {
                 target.message("You feel weakened.");
 
                 //Remove the players attack level by 1
-                target.skills().alterSkill(Skills.ATTACK, -1);
+                target.getSkills().alterSkill(Skills.ATTACK, -1);
                 target.graphic(181);
             }
         } else {

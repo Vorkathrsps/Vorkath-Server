@@ -149,7 +149,7 @@ public class RangeAccuracy {
             if (npc.combatInfo() != null && npc.combatInfo().stats != null)
                 rangeLevel = npc.combatInfo().stats.ranged;
         } else {
-            rangeLevel = attacker.skills().level(Skills.RANGED);
+            rangeLevel = attacker.getSkills().level(Skills.RANGED);
         }
         return rangeLevel;
     }

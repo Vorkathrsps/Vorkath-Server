@@ -38,13 +38,13 @@ public class DraynorRooftop extends PacketInteraction {
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         // Wall climb
         if(obj.getId() == ROUGH_WALL) {
-            if (player.skills().level(Skills.AGILITY) >= 10) {
+            if (player.getSkills().level(Skills.AGILITY) >= 10) {
                 player.lockNoDamage();
                 Chain.bound(player).name("DraynorWallClimbTask").runFn(1, () -> player.animate(828, 15)).then(2, () -> {
                     player.teleport(3102, 3279, 3);
                     player.animate(-1);
                     player.unlock();
-                    player.skills().addXp(Skills.AGILITY, 5.0);
+                    player.getSkills().addXp(Skills.AGILITY, 5.0);
                     MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
                 });
             } else {
@@ -67,7 +67,7 @@ public class DraynorRooftop extends PacketInteraction {
                 player.getMovementQueue().interpolate(3090, 3276);
                 Chain.bound(player).name("DraynorTightrope2Task").runFn(1, () -> {
                     player.unlock();
-                    player.skills().addXp(Skills.AGILITY, 8.0);
+                    player.getSkills().addXp(Skills.AGILITY, 8.0);
                     MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
                 });
             });
@@ -89,7 +89,7 @@ public class DraynorRooftop extends PacketInteraction {
                 player.looks().resetRender();
                 Chain.bound(player).name("DraynorTightrope4Task").runFn(1, () -> {
                     player.unlock();
-                    player.skills().addXp(Skills.AGILITY, 7.0);
+                    player.getSkills().addXp(Skills.AGILITY, 7.0);
                     MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
                 });
             });
@@ -115,7 +115,7 @@ public class DraynorRooftop extends PacketInteraction {
                 player.animate(759);
                 Chain.bound(player).name("DraynorNarrowWall2Task").runFn(1, () -> {
                     player.unlock();
-                    player.skills().addXp(Skills.AGILITY, 7.0);
+                    player.getSkills().addXp(Skills.AGILITY, 7.0);
                     MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
                 });
             });
@@ -136,7 +136,7 @@ public class DraynorRooftop extends PacketInteraction {
                 TaskManager.submit(new ForceMovementTask(player, 0, new ForceMovement(player.tile().clone(), new Tile(0, -1), 17, 26, Direction.NORTH.toInteger(), -1)));
             }).then(1, () -> {
                 player.unlock();
-                player.skills().addXp(Skills.AGILITY, 10.0);
+                player.getSkills().addXp(Skills.AGILITY, 10.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
             });
             return true;
@@ -156,7 +156,7 @@ public class DraynorRooftop extends PacketInteraction {
             }).then(1, () -> {
                 player.animate(-1);
                 player.unlock();
-                player.skills().addXp(Skills.AGILITY, 4.0);
+                player.getSkills().addXp(Skills.AGILITY, 4.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
             });
             return true;
@@ -179,7 +179,7 @@ public class DraynorRooftop extends PacketInteraction {
             }).then(1, () -> {
                 player.animate(-1);
                 player.unlock();
-                player.skills().addXp(Skills.AGILITY, 79.0);
+                player.getSkills().addXp(Skills.AGILITY, 79.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
 
             });

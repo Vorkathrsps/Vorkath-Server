@@ -26,7 +26,7 @@ public class SaradominGodsword extends CommonCombatMethod {
         // Heal the player & restore prayer and hit the enemy
         player.heal(Math.max(10, hit.getDamage() / 2)); // Min heal is 10
 
-        player.skills().alterSkill(Skills.PRAYER, Math.max(5, hit.getDamage() / 4)); // Min heal is 5 for prayer
+        player.getSkills().alterSkill(Skills.PRAYER, Math.max(5, hit.getDamage() / 4)); // Min heal is 5 for prayer
         CombatSpecial.drain(entity, CombatSpecial.SARADOMIN_GODSWORD.getDrainAmount());
     }
 

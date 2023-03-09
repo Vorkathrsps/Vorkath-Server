@@ -36,9 +36,9 @@ public class SurgeonGeneralTafaniDialogue extends Dialogue {
                 player.performGraphic(new Graphic(683));
                 player.message("<col="+ Color.BLUE.getColorValue()+">You have restored your hitpoints, run energy and prayer.");
                 player.message("<col="+ Color.HOTPINK.getColorValue()+">You've also been cured of poison and venom.");
-                player.hp(Math.max(player.skills().level(Skills.HITPOINTS), player.skills().xpLevel(Skills.HITPOINTS)), 20); //Set hitpoints to 100%
-                player.skills().replenishSkill(5, player.skills().xpLevel(5)); //Set the players prayer level to full
-                player.skills().replenishStatsToNorm();
+                player.hp(Math.max(player.getSkills().level(Skills.HITPOINTS), player.getSkills().xpLevel(Skills.HITPOINTS)), 20); //Set hitpoints to 100%
+                player.getSkills().replenishSkill(5, player.getSkills().xpLevel(5)); //Set the players prayer level to full
+                player.getSkills().replenishStatsToNorm();
                 player.setRunningEnergy(100.0, true);
                 Poison.cure(player);
                 Venom.cure(2, player, false);

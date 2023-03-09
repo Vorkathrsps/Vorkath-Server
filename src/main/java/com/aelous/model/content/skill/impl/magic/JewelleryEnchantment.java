@@ -120,7 +120,7 @@ public class JewelleryEnchantment {
         Enchant enc = Enchant.forId(itemID);
         player.animate(enc.anim);
         player.graphic(enc.gfx, GraphicHeight.HIGH,15);
-        player.skills().addXp(Skills.MAGIC,enc.exp);
+        player.getSkills().addXp(Skills.MAGIC,enc.exp);
         player.getClickDelay().reset();
         player.inventory().remove(enc.unenchanted,1);
         player.inventory().add(enc.enchanted,1);

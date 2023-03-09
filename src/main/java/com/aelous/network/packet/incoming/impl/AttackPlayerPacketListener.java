@@ -52,7 +52,7 @@ public class AttackPlayerPacketListener implements PacketListener {
             return;
         }
 
-        if (player.getCombat().getTarget() != player.getCombat().getTarget()) {
+        if (CombatFactory.inCombat(player)) {
             return;
         }
 

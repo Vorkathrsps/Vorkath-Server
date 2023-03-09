@@ -60,7 +60,7 @@ public class PresetCreateDialogue extends Dialogue {
                                     //Get stats..
                                     int[] stats = new int[7];
                                     for (int i = 0; i < stats.length; i++) {
-                                        stats[i] = player.skills().xpLevel(i);
+                                        stats[i] = player.getSkills().xpLevel(i);
                                     }
 
                                     Item[] inventory = player.inventory().copyValidItemsArray();

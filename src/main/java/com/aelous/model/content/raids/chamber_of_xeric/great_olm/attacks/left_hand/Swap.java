@@ -102,7 +102,7 @@ public class Swap {
     }
 
     public static void hitPlayerSwap(Party party, Tile firstPlayer, Tile secondPlayer, int index, boolean foundPair) {
-        if (party.getSwapPlayers().get(index).dead() || party.getSwapPlayers().get(index).skills().level(Skills.HITPOINTS) < 1) {
+        if (party.getSwapPlayers().get(index).dead() || party.getSwapPlayers().get(index).getSkills().level(Skills.HITPOINTS) < 1) {
             return;
         }
         if (foundPair) {

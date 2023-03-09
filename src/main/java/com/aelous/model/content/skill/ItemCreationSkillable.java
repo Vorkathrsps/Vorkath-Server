@@ -121,7 +121,7 @@ public class ItemCreationSkillable extends DefaultSkillable {
         }
 
         //Add exp..
-        player.skills().addXp(skill, experience);
+        player.getSkills().addXp(skill, experience);
     }
 
     @Override
@@ -132,7 +132,7 @@ public class ItemCreationSkillable extends DefaultSkillable {
         }
 
         //Check if we have required stringing level..
-        if (player.skills().levels()[skill] < requiredLevel) {
+        if (player.getSkills().levels()[skill] < requiredLevel) {
             player.message("You need a "+Skills.SKILL_NAMES[skill]+" level of at least "+ requiredLevel +" to do this.");
             return false;
         }

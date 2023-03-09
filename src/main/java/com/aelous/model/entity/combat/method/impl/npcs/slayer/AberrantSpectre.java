@@ -23,7 +23,7 @@ public class AberrantSpectre extends CommonCombatMethod {
         if(!player.getEquipment().contains(ItemIdentifiers.NOSE_PEG) && !player.getEquipment().wearingSlayerHelm()) {
             player.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC) + 3, CombatType.MAGIC).submit();
             for (int skill : DRAIN) {
-                player.skills().alterSkill(skill, -6);
+                player.getSkills().alterSkill(skill, -6);
             }
             player.message("<col=ff0000>The aberrant spectre's stench disorients you!");
             player.message("<col=ff0000>A nose peg can protect you from this attack.");

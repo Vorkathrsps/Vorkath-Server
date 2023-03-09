@@ -460,7 +460,7 @@ public class Crafting extends PacketInteraction {
 
         player.getInterfaceManager().close();
 
-        if (player.skills().level(Skills.CRAFTING) < item.getLevel()) {
+        if (player.getSkills().level(Skills.CRAFTING) < item.getLevel()) {
             DialogueManager.sendStatement(player,"<col=369>You need a Crafting level of " + item.getLevel() + " to do that.");
             return true;
         }
@@ -493,7 +493,7 @@ public class Crafting extends PacketInteraction {
             @Override
             public void execute() {
                 player.animate(craftable.getAnimation());
-                player.skills().addXp(Skills.CRAFTING, item.getExperience());
+                player.getSkills().addXp(Skills.CRAFTING, item.getExperience());
                 player.inventory().removeAll(craftable.getIngredients(index));
                 player.inventory().add(item.getProduct());
 

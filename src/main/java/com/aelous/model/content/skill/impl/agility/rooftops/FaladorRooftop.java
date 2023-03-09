@@ -40,7 +40,7 @@ public class FaladorRooftop extends PacketInteraction {
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         // Wall climb
         if (obj.getId() == ROUGH_WALL_14898) {
-            if (player.skills().xpLevel(Skills.AGILITY) < 50) {
+            if (player.getSkills().xpLevel(Skills.AGILITY) < 50) {
                 player.message("You need an Agility level of 50 to attempt this.");
                 return true;
             }
@@ -49,7 +49,7 @@ public class FaladorRooftop extends PacketInteraction {
             Chain.bound(player).name("FaladorRooftopWallclimbTask").runFn(2, () -> {
                 player.teleport(3036, 3342, 3);
                 player.animate(-1);
-                player.skills().addXp(Skills.AGILITY, 8.0);
+                player.getSkills().addXp(Skills.AGILITY, 8.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
                 player.unlock();
             });
@@ -66,7 +66,7 @@ public class FaladorRooftop extends PacketInteraction {
             }).waitForTile(new Tile(3047, 3343), () -> {
                 player.agilityWalk(true);
                 player.looks().resetRender();
-                player.skills().addXp(Skills.AGILITY, 17.0);
+                player.getSkills().addXp(Skills.AGILITY, 17.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
                 player.unlock();
             });
@@ -102,7 +102,7 @@ public class FaladorRooftop extends PacketInteraction {
                 Chain.bound(player).name("FaladorJumpposition4Task").runFn(3, () -> {
                     player.teleport(3050, 3357, 3);
 
-                    player.skills().addXp(Skills.AGILITY, 45.0);
+                    player.getSkills().addXp(Skills.AGILITY, 45.0);
                     MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 50);
                     player.unlock();
                 });
@@ -116,7 +116,7 @@ public class FaladorRooftop extends PacketInteraction {
             player.animate(741);
             TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, 3), 15, 30, Direction.EAST.toInteger())));
             Chain.bound(null).name("FaladorGapjump1Task").runFn(1, () -> {
-                player.skills().addXp(Skills.AGILITY, 20.0);
+                player.getSkills().addXp(Skills.AGILITY, 20.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
                 player.unlock();
             });
@@ -141,7 +141,7 @@ public class FaladorRooftop extends PacketInteraction {
                 player.animate(741);
                 TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(-5, 0), 15, 30, Direction.WEST.toInteger())));
             }).then(1, () -> {
-                player.skills().addXp(Skills.AGILITY, 20.0);
+                player.getSkills().addXp(Skills.AGILITY, 20.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
                 player.unlock();
             });
@@ -160,7 +160,7 @@ public class FaladorRooftop extends PacketInteraction {
             }).then(1, () -> player.looks().render(763, 762, 762, 762, 762, 762, -1)).waitForTile(new Tile(3028, 3355), () -> {
                 player.agilityWalk(true);
                 player.looks().resetRender();
-                player.skills().addXp(Skills.AGILITY, 45.0);
+                player.getSkills().addXp(Skills.AGILITY, 45.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
                 player.unlock();
             });
@@ -177,7 +177,7 @@ public class FaladorRooftop extends PacketInteraction {
             }).then(3, () -> {
                 player.getMovementQueue().step(3020, 3353, MovementQueue.StepType.FORCED_WALK);
                 player.animate(-1);
-                player.skills().addXp(Skills.AGILITY, 40.0);
+                player.getSkills().addXp(Skills.AGILITY, 40.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
                 player.unlock();
             });
@@ -191,7 +191,7 @@ public class FaladorRooftop extends PacketInteraction {
                 player.animate(1603);
                 TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, -4), 15, 30, Direction.SOUTH.toInteger())));
             }).then(1, () -> {
-                player.skills().addXp(Skills.AGILITY, 25.0);
+                player.getSkills().addXp(Skills.AGILITY, 25.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
                 player.unlock();
             });
@@ -208,7 +208,7 @@ public class FaladorRooftop extends PacketInteraction {
                 TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(-2, 0, 3), 15, 30, Direction.WEST.toInteger())));
             }).then(1, () -> {
                 player.animate(-1);
-                player.skills().addXp(Skills.AGILITY, 10.0);
+                player.getSkills().addXp(Skills.AGILITY, 10.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
                 player.unlock();
             });
@@ -223,7 +223,7 @@ public class FaladorRooftop extends PacketInteraction {
                 TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, -2), 15, 30, Direction.SOUTH.toInteger())));
             }).then(1, () -> {
                 player.animate(-1);
-                player.skills().addXp(Skills.AGILITY, 10.0);
+                player.getSkills().addXp(Skills.AGILITY, 10.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
                 player.unlock();
             });
@@ -240,7 +240,7 @@ public class FaladorRooftop extends PacketInteraction {
                 TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, -2), 15, 30, Direction.SOUTH.toInteger())));
             }).then(1, () -> {
                 player.animate(-1);
-                player.skills().addXp(Skills.AGILITY, 10.0);
+                player.getSkills().addXp(Skills.AGILITY, 10.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
                 player.unlock();
             });
@@ -257,7 +257,7 @@ public class FaladorRooftop extends PacketInteraction {
                 TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(2, 0), 15, 30, Direction.EAST.toInteger())));
             }).then(1, () -> {
                 player.animate(-1);
-                player.skills().addXp(Skills.AGILITY, 10.0);
+                player.getSkills().addXp(Skills.AGILITY, 10.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
                 player.unlock();
             });
@@ -274,7 +274,7 @@ public class FaladorRooftop extends PacketInteraction {
                 player.animate(2586, 15);
             }).then(1, () -> {
                 player.teleport(3029, 3333, 0);
-                player.skills().addXp(Skills.AGILITY, 180.0);
+                player.getSkills().addXp(Skills.AGILITY, 180.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 35, 50);
 
                 player.unlock();

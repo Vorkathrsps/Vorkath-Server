@@ -50,7 +50,7 @@ public class AlKharidCourse extends PacketInteraction {
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         // Wall climb
         if (obj.getId() == ROUGH_WALL_11633) {
-            if (player.skills().xpLevel(Skills.AGILITY) < 20) {
+            if (player.getSkills().xpLevel(Skills.AGILITY) < 20) {
                 player.message("You need an Agility level of 20 to attempt this.");
             } else {
                 player.lockNoDamage();
@@ -59,7 +59,7 @@ public class AlKharidCourse extends PacketInteraction {
                 Chain.bound(player).name("AlKharidWallClimb2Task").runFn(2, () -> player.teleport(3273, 3192, 3));
                 player.animate(-1);
                 player.unlock();
-                player.skills().addXp(Skills.AGILITY, 10.0);
+                player.getSkills().addXp(Skills.AGILITY, 10.0);
 
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 20);
             }
@@ -79,7 +79,7 @@ public class AlKharidCourse extends PacketInteraction {
                 player.looks().resetRender();
                 player.agilityWalk(true);
                 player.unlock();
-                player.skills().addXp(Skills.AGILITY, 30.0);
+                player.getSkills().addXp(Skills.AGILITY, 30.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 20);
             }));
             return true;
@@ -101,7 +101,7 @@ public class AlKharidCourse extends PacketInteraction {
                 player.animate(751);
                 TaskManager.submit(new ForceMovementTask(player, 0, new ForceMovement(player.tile().clone(), new Tile(15, 0), 60, 0, Direction.NORTH.toInteger())));
             }).then(2, () -> {
-                player.skills().addXp(Skills.AGILITY, 40.0);
+                player.getSkills().addXp(Skills.AGILITY, 40.0);
                 player.unlock();
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 20);
             });
@@ -128,7 +128,7 @@ public class AlKharidCourse extends PacketInteraction {
             }).waitForTile(new Tile(3314, 3163), () -> {
                 player.animate(-1);
                 player.getMovementQueue().step(3315, 3163, MovementQueue.StepType.FORCED_WALK);
-                player.skills().addXp(Skills.AGILITY, 40.0);
+                player.getSkills().addXp(Skills.AGILITY, 40.0);
                 player.unlock();
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 20);
             });
@@ -155,7 +155,7 @@ public class AlKharidCourse extends PacketInteraction {
             }).then(1, () -> {
                 player.animate(2588);
             }).then(1, () -> player.teleport(new Tile(3317, 3174, 2))).waitForTile(new Tile(3317, 3174, 2), () -> {//Reward exp when tile has been reached.
-                player.skills().addXp(Skills.AGILITY, 10.0);
+                player.getSkills().addXp(Skills.AGILITY, 10.0);
                 player.unlock();
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 20);
             });
@@ -169,7 +169,7 @@ public class AlKharidCourse extends PacketInteraction {
             Chain.bound(player).name("AlKharidWallClimb3Task").runFn(1, () -> player.animate(828, 15)).then(2, () -> {
                 player.teleport(3316, 3180, 3);
                 player.animate(-1);
-                player.skills().addXp(Skills.AGILITY, 5.0);
+                player.getSkills().addXp(Skills.AGILITY, 5.0);
                 player.unlock();
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 20);
             });
@@ -189,7 +189,7 @@ public class AlKharidCourse extends PacketInteraction {
                 player.agilityWalk(true);
                 player.looks().resetRender();
                 player.unlock();
-                player.skills().addXp(Skills.AGILITY, 15.0);
+                player.getSkills().addXp(Skills.AGILITY, 15.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 20);
             });
             return true;
@@ -204,7 +204,7 @@ public class AlKharidCourse extends PacketInteraction {
             }).then(1, () -> {
                 player.teleport(3299, 3194, 0);
                 player.animate(-1);
-                player.skills().addXp(Skills.AGILITY, 30.0);
+                player.getSkills().addXp(Skills.AGILITY, 30.0);
                 player.unlock();
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 20);
 

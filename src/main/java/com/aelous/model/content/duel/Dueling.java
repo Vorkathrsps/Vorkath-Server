@@ -299,7 +299,7 @@ public class Dueling {
         container.onRefresh();
         //Update strings on interface
         player.getPacketSender().
-            sendString(DUELING_WITH_FRAME, "<col=ffb000>Dueling with: <col=ffffff>" + opponent.getUsername() + "<col=ffb000>          Combat level: <col=ffffff>" + opponent.skills().combatLevel()).
+            sendString(DUELING_WITH_FRAME, "<col=ffb000>Dueling with: <col=ffffff>" + opponent.getUsername() + "<col=ffb000>          Combat level: <col=ffffff>" + opponent.getSkills().combatLevel()).
             sendString(DUEL_STATUS_FRAME_1, "").sendString(669, "Lock Weapon").sendString(8278, "Neither player is allowed to change weapon.");
 
         //Send equipment on the interface..
@@ -824,7 +824,7 @@ public class Dueling {
     // Heal up when entering / ending a stake.
     private void heal_player(Player player) {
         player.setPositionToFace(null); // Reset entity facing
-        player.skills().resetStats(); //Reset all players stats
+        player.getSkills().resetStats(); //Reset all players stats
         Poison.cure(player); //Cure the player from any poisons
         Venom.cure(2, player);
         player.getTimers().cancel(TimerKey.FROZEN); //Remove frozen timer key
@@ -875,7 +875,7 @@ public class Dueling {
         if (playerHasOverload) {
             player.clearAttrib(AttributeKey.OVERLOAD_TASK_RUNNING);
             player.getTimers().cancel(TimerKey.POTION);
-            player.skills().resetStats();
+            player.getSkills().resetStats();
             player.getPacketSender().sendEffectTimer(0, EffectTimer.OVERLOAD);
             player.message("Your overload potion effect has diminished upon entering the duel arena.");
         }
@@ -1020,8 +1020,8 @@ public class Dueling {
                 long other_plr_value = opponent.getDueling().getContainer().containerValue();
                 long difference;
                 difference = (plr_value > other_plr_value) ? plr_value - other_plr_value : other_plr_value - plr_value;
-                stakeLogs.log(STAKE, "Player " + player.getUsername() + " (lvl " + player.skills().combatLevel() + ") and " + opponent.getUsername() + " (lvl " + opponent.skills().combatLevel() + ") duel stake value difference of " + Utils.insertCommasToNumber(String.valueOf(difference)) + " " + currencyType);
-                Utils.sendDiscordInfoLog("Player " + player.getUsername() + " (lvl " + player.skills().combatLevel() + ") and " + opponent.getUsername() + " (lvl " + opponent.skills().combatLevel() + ") duel stake value difference of " + Utils.insertCommasToNumber(String.valueOf(difference)) + " " + currencyType, "stake");
+                stakeLogs.log(STAKE, "Player " + player.getUsername() + " (lvl " + player.getSkills().combatLevel() + ") and " + opponent.getUsername() + " (lvl " + opponent.getSkills().combatLevel() + ") duel stake value difference of " + Utils.insertCommasToNumber(String.valueOf(difference)) + " " + currencyType);
+                Utils.sendDiscordInfoLog("Player " + player.getUsername() + " (lvl " + player.getSkills().combatLevel() + ") and " + opponent.getUsername() + " (lvl " + opponent.getSkills().combatLevel() + ") duel stake value difference of " + Utils.insertCommasToNumber(String.valueOf(difference)) + " " + currencyType, "stake");
                 if (difference > 1_000_000) {
                     stakeLogs.warn("Player " + opponent.getUsername() + " won a stake against Player " + player.getUsername() + " with a value difference of greater than 1,000,000 " + currencyType + ", this was possibly RWT.");
                     Utils.sendDiscordInfoLog(GameServer.properties().discordNotifyId + " Player " + opponent.getUsername() + " won a stake against Player " + player.getUsername() + " with a value difference of greater than 1,000,000 " + currencyType + ", this was possibly RWT.", "stake");
@@ -1036,7 +1036,7 @@ public class Dueling {
             //Send interface data..
             opponent.getPacketSender().
                 sendString(SCOREBOARD_USERNAME_FRAME, player.getUsername()).
-                sendString(SCOREBOARD_COMBAT_LEVEL_FRAME, "" + player.skills().combatLevel()).
+                sendString(SCOREBOARD_COMBAT_LEVEL_FRAME, "" + player.getSkills().combatLevel()).
                 sendString(TOTAL_WORTH_FRAME, "<col=ffff00>Total: <col=ffb000>" + Utils.insertCommasToNumber("" + totalValue + "") + " value!");
 
             heal_player(player);

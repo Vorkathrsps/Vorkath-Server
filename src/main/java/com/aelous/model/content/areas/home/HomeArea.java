@@ -37,7 +37,7 @@ public class HomeArea extends PacketInteraction {
                     }).waitForTile(new Tile(2053, 3621), () -> {
                         player.agilityWalk(true);
                         player.looks().resetRender();
-                        player.skills().addXp(Skills.AGILITY, 17.0);
+                        player.getSkills().addXp(Skills.AGILITY, 17.0);
                         player.unlock();
                     });
                     return true;
@@ -50,7 +50,7 @@ public class HomeArea extends PacketInteraction {
                 }).waitForTile(new Tile(2037, 3621), () -> {
                     player.agilityWalk(true);
                     player.looks().resetRender();
-                    player.skills().addXp(Skills.AGILITY, 17.0);
+                    player.getSkills().addXp(Skills.AGILITY, 17.0);
                     player.unlock();
                 });
                 return true;

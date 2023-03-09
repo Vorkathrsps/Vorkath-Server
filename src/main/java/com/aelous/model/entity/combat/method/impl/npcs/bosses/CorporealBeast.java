@@ -108,17 +108,17 @@ public class CorporealBeast extends CommonCombatMethod {
         if (Utils.securedRandomChance(0.333D)) {
             int reduction = Utils.random(3);
             if (Utils.securedRandomChance(0.5D)) {
-                if (player.skills().level(Skills.MAGIC) < reduction) {
-                    target.skills().setLevel(Skills.MAGIC, 0);
+                if (player.getSkills().level(Skills.MAGIC) < reduction) {
+                    target.getSkills().setLevel(Skills.MAGIC, 0);
                 } else {
-                    player.skills().setLevel(Skills.MAGIC, player.skills().level(Skills.MAGIC) - reduction);
+                    player.getSkills().setLevel(Skills.MAGIC, player.getSkills().level(Skills.MAGIC) - reduction);
                 }
                 player.message("Your Magic has been slightly drained.");
-            } else if (player.skills().level(Skills.PRAYER) > reduction) {
-                if (player.skills().level(Skills.PRAYER) < reduction) {
-                    player.skills().setLevel(Skills.PRAYER, 0);
+            } else if (player.getSkills().level(Skills.PRAYER) > reduction) {
+                if (player.getSkills().level(Skills.PRAYER) < reduction) {
+                    player.getSkills().setLevel(Skills.PRAYER, 0);
                 } else {
-                    player.skills().setLevel(Skills.PRAYER, player.skills().level(Skills.PRAYER) - reduction);
+                    player.getSkills().setLevel(Skills.PRAYER, player.getSkills().level(Skills.PRAYER) - reduction);
                 }
                 player.message("Your Prayer has been slightly drained.");
             }

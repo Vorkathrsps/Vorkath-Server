@@ -76,7 +76,7 @@ public final class Birds extends Trap {
             throw new IllegalStateException("Invalid bird id.");
         }
         
-        if (player.skills().level(Skills.HUNTER) < data.get().requirement) {
+        if (player.getSkills().level(Skills.HUNTER) < data.get().requirement) {
             player.message("You do not have the required level to catch these.");
             setState(TrapState.FALLEN);
             return false;

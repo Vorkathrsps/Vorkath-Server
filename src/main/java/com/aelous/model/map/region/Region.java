@@ -199,6 +199,16 @@ public class Region {
         return new int[]{localX, localY};
     }
 
+    public static boolean isInZone(Tile lowerBound, Tile upperBound, Tile userLocation)
+    {
+        return userLocation.getX() >= lowerBound.getX()
+            && userLocation.getX() <= upperBound.getX()
+            && userLocation.getY() >= lowerBound.getY()
+            && userLocation.getY() <= upperBound.getY()
+            && userLocation.getLevel() >= lowerBound.getLevel()
+            && userLocation.getLevel() <= upperBound.getLevel();
+    }
+
     public boolean isLoaded() {
         return loaded;
     }

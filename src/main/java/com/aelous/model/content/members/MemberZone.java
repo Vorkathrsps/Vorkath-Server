@@ -248,7 +248,7 @@ public class MemberZone extends PacketInteraction {
                 // lazy wait until we stop moving
                 player.waitUntil(1, () -> !player.getMovementQueue().isMoving(), () -> {
                     if (obj.tile().equals(2356, 9841)) {
-                        if (player.skills().level(Skills.AGILITY) < 91) {
+                        if (player.getSkills().level(Skills.AGILITY) < 91) {
                             player.message("You need an agility level of at least 91 to jump this pillar.");
                         } else {
                             if (player.tile().equals(2356, 9839)) {

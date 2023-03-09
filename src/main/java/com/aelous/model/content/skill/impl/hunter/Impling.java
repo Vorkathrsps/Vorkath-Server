@@ -63,7 +63,7 @@ public enum Impling {
         }
 
         /* check for level req */
-        int hunterLevel = player.skills().level(Skills.HUNTER);
+        int hunterLevel = player.getSkills().level(Skills.HUNTER);
         int levelReq = barehands ? impling.bareHandLevelReq : impling.levelReq;
         if(hunterLevel < levelReq) {
             player.message("You need a Hunter level of at least " + levelReq + " to catch this impling" + (barehands ? " barehanded." : "."));
@@ -98,7 +98,7 @@ public enum Impling {
                     }
 
                     despawnImpling(npc);
-                    player.skills().addXp(Skills.HUNTER, player.tile().inArea(PURO_PURO) ? impling.puroExp : impling.worldExp,true);
+                    player.getSkills().addXp(Skills.HUNTER, player.tile().inArea(PURO_PURO) ? impling.puroExp : impling.worldExp,true);
                     var counter = player.<Integer>getAttribOr(AttributeKey.IMPLINGS_CAUGHT, 0) + 1;
                     player.putAttrib(AttributeKey.IMPLINGS_CAUGHT, counter);
                 }

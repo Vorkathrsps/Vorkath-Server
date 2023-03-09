@@ -129,10 +129,10 @@ public class IKODTest {
         p1.setLongUsername(1L);
         Player killer = new Player(new Session(null));
         killer.setLongUsername(2L);
-        p1.skills().setXp(Skills.PRAYER, 14_000_000);
-        p1.skills().setLevel(Skills.PRAYER, 99);
-        p1.skills().setXp(Skills.RANGED, 14_000_000);
-        p1.skills().setLevel(Skills.RANGED, 99);
+        p1.getSkills().setXp(Skills.PRAYER, 14_000_000);
+        p1.getSkills().setLevel(Skills.PRAYER, 99);
+        p1.getSkills().setXp(Skills.RANGED, 14_000_000);
+        p1.getSkills().setLevel(Skills.RANGED, 99);
         p1.setTile(new Tile(3092, 3530)); // wild somewhere around lvl 10
         p1.setPrayerActive(Prayers.PROTECT_ITEM, true);
         Skulling.assignSkullState(p1, SkullType.WHITE_SKULL);

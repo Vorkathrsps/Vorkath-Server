@@ -59,7 +59,7 @@ public class FollowPlayerPacketListener implements PacketListener {
                     player.putAttrib(AttributeKey.INTERACTION_OPTION, 3);
                     //Do actions...
                     player.getCombat().reset();
-                    player.skills().stopSkillable();
+                    player.getSkills().stopSkillable();
                     player.setEntityInteraction(other);
                     player.getMovementQueue().setFollowing(other);
                 }

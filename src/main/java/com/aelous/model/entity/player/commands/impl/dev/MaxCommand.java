@@ -13,11 +13,11 @@ public class MaxCommand implements Command {
     @Override
     public void execute(Player player, String command, String[] parts) {
         // Boost stats instead of having to waste time potting when testing combat functions.
-        player.skills().setLevel(Skills.ATTACK, 118);
-        player.skills().setLevel(Skills.STRENGTH, 118);
-        player.skills().setLevel(Skills.DEFENCE, 118);
-        player.skills().setLevel(Skills.RANGED, 112);
-        player.skills().setLevel(Skills.MAGIC, 104);
+        player.getSkills().setLevel(Skills.ATTACK, 118);
+        player.getSkills().setLevel(Skills.STRENGTH, 118);
+        player.getSkills().setLevel(Skills.DEFENCE, 118);
+        player.getSkills().setLevel(Skills.RANGED, 112);
+        player.getSkills().setLevel(Skills.MAGIC, 104);
     }
 
     @Override

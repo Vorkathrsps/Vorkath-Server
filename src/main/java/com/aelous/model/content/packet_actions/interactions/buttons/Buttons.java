@@ -354,7 +354,7 @@ public class Buttons {
                             return;
                         }
 
-                        if (player.skills().pressedSkill(button)) {
+                        if (player.getSkills().pressedSkill(button)) {
                             return;
                         }
                         if (QuestTab.onButton(player, button)) {

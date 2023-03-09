@@ -218,8 +218,8 @@ public class PlayerSave {
                 player.putAttrib(LEGENDARY_MEMBER_UNLOCKED, details.legendaryMemberUnlocked);
                 player.putAttrib(VIP_UNLOCKED, details.vipUnlocked);
                 player.putAttrib(SPONSOR_UNLOCKED, details.sponsorMemberUnlocked);
-                player.skills().setAllLevels(details.dynamicLevels);
-                player.skills().setAllXps(details.skillXP);
+                player.getSkills().setAllLevels(details.dynamicLevels);
+                player.getSkills().setAllXps(details.skillXP);
                 player.putAttrib(ACTIVE_PET_ITEM_ID, details.activePetItemId);
                 if (details.unlockedPets != null) {
                     player.setUnlockedPets(details.unlockedPets);
@@ -1417,8 +1417,8 @@ public class PlayerSave {
             legendaryMemberUnlocked = Player.getAttribBooleanOr(player, LEGENDARY_MEMBER_UNLOCKED, false);
             vipUnlocked = Player.getAttribBooleanOr(player, VIP_UNLOCKED, false);
             sponsorMemberUnlocked = Player.getAttribBooleanOr(player, SPONSOR_UNLOCKED, false);
-            dynamicLevels = player.skills().levels();
-            skillXP = player.skills().xp();
+            dynamicLevels = player.getSkills().levels();
+            skillXP = player.getSkills().xp();
             activePetItemId = Player.getAttribIntOr(player, ACTIVE_PET_ITEM_ID, 0);
             unlockedPets = player.getUnlockedPets();
             insuredPets = player.getInsuredPets();

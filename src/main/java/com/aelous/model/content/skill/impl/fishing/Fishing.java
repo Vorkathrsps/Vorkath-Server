@@ -57,21 +57,21 @@ public class Fishing {
     private static int catchChance(Player player, Fish type, FishingToolType fishingToolType) {
         double specialToolMod = fishingToolType != FishingToolType.NONE ? fishingToolType.boost() : 1.0;
         int points = 20;
-        int diff = player.skills().levels()[Skills.FISHING] - type.lvl;
+        int diff = player.getSkills().levels()[Skills.FISHING] - type.lvl;
         return (int) Math.min(85, (points + diff * specialToolMod));
     }
 
     public static void fish(Player player, FishSpotDef spotDef, FishSpotType selectedAction) {
 
         // Level requirement
-        if (player.skills().level(Skills.FISHING) < selectedAction.levelReq()) {
+        if (player.getSkills().level(Skills.FISHING) < selectedAction.levelReq()) {
             DialogueManager.sendStatement(player, "You need to be at least level "+selectedAction.levelReq()+" Fishing to catch these fish.");
             return;
         }
 
         //Represents a definition for the found tool being used, if any, to fish.
         Optional<FishingToolType> fishingToolDef = FishingToolType.locateItemFor(player);
-        boolean overrideTool = (fishingToolDef.isPresent() && FishingToolType.canUseOnSpot(fishingToolDef.get(), selectedAction) && player.skills().level(Skills.FISHING) >= fishingToolDef.get().levelRequired());
+        boolean overrideTool = (fishingToolDef.isPresent() && FishingToolType.canUseOnSpot(fishingToolDef.get(), selectedAction) && player.getSkills().level(Skills.FISHING) >= fishingToolDef.get().levelRequired());
 
         // Check for the basic item first
         if (!overrideTool && !player.inventory().contains(selectedAction.staticRequiredItem)) {
@@ -124,7 +124,7 @@ public class Fishing {
                     return;
                 }
 
-                Fish weCatch = selectedAction.randomFish(player.skills().level(Skills.FISHING));
+                Fish weCatch = selectedAction.randomFish(player.getSkills().level(Skills.FISHING));
 
                 if(weCatch == Fish.SHARK) {
                     player.getTaskMasterManager().increase(Tasks.CATCH_SHARKS);
@@ -143,7 +143,7 @@ public class Fishing {
                     var odds = (int) (weCatch.petChance * player.getMemberRights().petRateMultiplier());
 
                     player.inventory().add(new Item(weCatch.item), true);
-                    player.skills().addXp(Skills.FISHING, weCatch.xp);
+                    player.getSkills().addXp(Skills.FISHING, weCatch.xp);
 
                     //Finding a casket in the water! Money, money, money..
                     if (Utils.rollDie(20, 1)) {

@@ -37,8 +37,8 @@ public class SlayerMaster {
         ImmutableRangeMap.Builder<Integer, SlayerTaskDef> builder = ImmutableRangeMap.builder();
         defs.forEach(task -> {
             if (task != null && task.getCreatureUid() != last &&
-                player.skills().xpLevel(Skills.SLAYER) >= SlayerCreature.lookup(task.getCreatureUid()).req &&
-                player.skills().combatLevel() >= SlayerCreature.lookup(task.getCreatureUid()).cbreq &&
+                player.getSkills().xpLevel(Skills.SLAYER) >= SlayerCreature.lookup(task.getCreatureUid()).req &&
+                player.getSkills().combatLevel() >= SlayerCreature.lookup(task.getCreatureUid()).cbreq &&
                 !player.getSlayerRewards().isTaskBlocked(task) && player.getSlayerRewards().canAssign(task)) {
                 builder.put(Range.closedOpen(tmp[0], tmp[0] + task.getWeighing()), task);
                 tmp[0] += task.getWeighing();

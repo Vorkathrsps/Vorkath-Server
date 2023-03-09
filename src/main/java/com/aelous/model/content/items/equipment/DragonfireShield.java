@@ -83,11 +83,11 @@ public class DragonfireShield extends PacketInteraction {
         }).runFn(3, () -> {
             target.graphic(367);
             if (target instanceof NPC) {
-                attacker.skills().addXp(Skills.MAGIC, dmg * 4);
-                attacker.skills().addXp(Skills.DEFENCE, dmg * 4);
-                attacker.skills().addXp(Skills.HITPOINTS, (int) (dmg * .70));
+                attacker.getSkills().addXp(Skills.MAGIC, dmg * 4);
+                attacker.getSkills().addXp(Skills.DEFENCE, dmg * 4);
+                attacker.getSkills().addXp(Skills.HITPOINTS, (int) (dmg * .70));
             } else {
-                attacker.skills().addXp(Skills.DEFENCE, dmg * 4);
+                attacker.getSkills().addXp(Skills.DEFENCE, dmg * 4);
             }
 
             target.hit(attacker, dmg, delay);
@@ -106,11 +106,11 @@ public class DragonfireShield extends PacketInteraction {
             return !attacker.tile().isWithinDistance(target.tile()) || attacker.dead(); // cancels as expected
         }).runFn(3, () -> {
             if (target instanceof NPC) {
-                attacker.skills().addXp(Skills.MAGIC, dmg * 4);
-                attacker.skills().addXp(Skills.DEFENCE, dmg * 4);
-                attacker.skills().addXp(Skills.HITPOINTS, (int) (dmg * .70));
+                attacker.getSkills().addXp(Skills.MAGIC, dmg * 4);
+                attacker.getSkills().addXp(Skills.DEFENCE, dmg * 4);
+                attacker.getSkills().addXp(Skills.HITPOINTS, (int) (dmg * .70));
             } else {
-                attacker.skills().addXp(Skills.DEFENCE, dmg * 4);
+                attacker.getSkills().addXp(Skills.DEFENCE, dmg * 4);
             }
             target.hit(attacker, dmg);
         });

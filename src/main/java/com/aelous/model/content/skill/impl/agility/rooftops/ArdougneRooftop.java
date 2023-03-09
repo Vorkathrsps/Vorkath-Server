@@ -31,7 +31,7 @@ public class ArdougneRooftop extends PacketInteraction {
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         // Wall climb
         if(obj.getId() == WOODEN_BEAMS) {
-            if (player.skills().level(Skills.AGILITY) >= 90) {
+            if (player.getSkills().level(Skills.AGILITY) >= 90) {
                 player.lock();
                 player.setPositionToFace(player.tile().transform(0, 1));
                 Chain.bound(player).name("ArdougneWallClimbTask").runFn(1, () -> {
@@ -46,7 +46,7 @@ public class ArdougneRooftop extends PacketInteraction {
                     player.teleport(2671, 3299, 3);
                     player.animate(2588);
                 }).then(1, () -> {
-                    player.skills().addXp(Skills.AGILITY, 43.0);
+                    player.getSkills().addXp(Skills.AGILITY, 43.0);
                     MarksOfGrace.trySpawn(player, MARK_SPOTS, 35, 90);
                     player.unlock();
                 });
@@ -73,7 +73,7 @@ public class ArdougneRooftop extends PacketInteraction {
                 player.animate(2588);
                 player.teleport(2665, 3318, 3);
             }).then(1, () -> {
-                player.skills().addXp(Skills.AGILITY, 65.0);
+                player.getSkills().addXp(Skills.AGILITY, 65.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 35, 90);
                 player.unlock();
             });
@@ -90,7 +90,7 @@ public class ArdougneRooftop extends PacketInteraction {
             }).then(1, () -> player.looks().render(763, 762, 762, 762, 762, 762, -1)).waitForTile(new Tile(2656, 3318), () -> {
                 player.agilityWalk(true);
                 player.looks().resetRender();
-                player.skills().addXp(Skills.AGILITY, 50.0);
+                player.getSkills().addXp(Skills.AGILITY, 50.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 35, 90);
                 player.unlock();
             });
@@ -107,7 +107,7 @@ public class ArdougneRooftop extends PacketInteraction {
                 player.animate(2588);
                 player.teleport(2653, 3314, 3);
             }).then(1, () -> {
-                player.skills().addXp(Skills.AGILITY, 21.0);
+                player.getSkills().addXp(Skills.AGILITY, 21.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 35, 90);
                 player.unlock();
             });
@@ -124,7 +124,7 @@ public class ArdougneRooftop extends PacketInteraction {
                 player.animate(2588);
                 player.teleport(2651, 3309, 3);
             }).then(1, () -> {
-                player.skills().addXp(Skills.AGILITY, 28.0);
+                player.getSkills().addXp(Skills.AGILITY, 28.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 35, 90);
                 player.unlock();
             });
@@ -149,7 +149,7 @@ public class ArdougneRooftop extends PacketInteraction {
                 player.looks().resetRender();
                 player.animate(759);
                 player.unlock();
-                player.skills().addXp(Skills.AGILITY, 57.0);
+                player.getSkills().addXp(Skills.AGILITY, 57.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 35, 90);
             });
             return true;
@@ -183,7 +183,7 @@ public class ArdougneRooftop extends PacketInteraction {
             }).then(1, () -> {
                 player.animate(2588);
                 player.teleport(2668, 3297, 0);
-                player.skills().addXp(Skills.AGILITY, 529.0);
+                player.getSkills().addXp(Skills.AGILITY, 529.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 35, 90);
                 player.unlock();
                 player.agilityWalk(true);

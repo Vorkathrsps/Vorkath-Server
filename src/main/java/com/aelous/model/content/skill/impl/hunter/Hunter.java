@@ -41,7 +41,7 @@ public final class Hunter {
      * @return a numerical value determining the amount a player can lay.
      */
     private static int getMaximumTraps(Player player) {
-        int level = player.skills().level(Skills.HUNTER);
+        int level = player.getSkills().level(Skills.HUNTER);
         return level / 20 + 1;
     }
 
@@ -212,7 +212,7 @@ public final class Hunter {
             player.inventory().addOrDrop(new Item(7956, 1));
             player.message("You collect your prey from the trap and found a casket!");
         }
-        player.skills().addXp(Skills.HUNTER, (int) trap.experience());
+        player.getSkills().addXp(Skills.HUNTER, (int) trap.experience());
         trap.reward();
         player.animate(827);
         return true;

@@ -65,7 +65,7 @@ public enum MagicSpellbook {
             logger.error("baddie", new RuntimeException("tried to set null spellbook."));
         }
         if (book == LUNAR) {
-            if (player.skills().level(Skills.DEFENCE) < 40) {
+            if (player.getSkills().level(Skills.DEFENCE) < 40) {
                 player.message("You need at least level 40 Defence to use the Lunar spellbook.");
                 //System.out.println(player.getUsername() + " needs at least level 40 Defence to use the Lunar spellbook.");
                 return;

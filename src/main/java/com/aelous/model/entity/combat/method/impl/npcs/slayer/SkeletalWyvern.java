@@ -60,7 +60,7 @@ public class SkeletalWyvern extends CommonCombatMethod {
             maxDamage = 10;
         } else {
             for (int skill : DRAIN) {
-                target.getAsPlayer().skills().alterSkill(skill, -9);
+                target.getAsPlayer().getSkills().alterSkill(skill, -9);
             }
             target.getAsPlayer().message("The wyvern's ice breath drains your stats!");
         }

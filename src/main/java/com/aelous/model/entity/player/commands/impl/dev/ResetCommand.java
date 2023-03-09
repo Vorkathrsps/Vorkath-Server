@@ -10,8 +10,8 @@ public class ResetCommand implements Command {
     public void execute(Player player, String command, String[] parts) {
         for (int skill = 0; skill < Skills.SKILL_COUNT; skill++) {
             int level = skill == Skills.HITPOINTS ? 10 : 1;
-            player.skills().setLevel(skill, level);
-            player.skills().setXp(skill, Skills.levelToXp(level));
+            player.getSkills().setLevel(skill, level);
+            player.getSkills().setXp(skill, Skills.levelToXp(level));
         }
     }
 

@@ -44,12 +44,12 @@ public class Karils extends CommonCombatMethod {
     private void taintedShot() {
         if (target != null) {
             target.graphic(401, GraphicHeight.HIGH, 0);
-            target.skills().setLevel(Skills.AGILITY, (target.skills().level(Skills.AGILITY) - reductionFormula()));
+            target.getSkills().setLevel(Skills.AGILITY, (target.getSkills().level(Skills.AGILITY) - reductionFormula()));
         }
     }
 
     private int reductionFormula() {
-        int skill = target.skills().level(Skills.AGILITY);
+        int skill = target.getSkills().level(Skills.AGILITY);
         int reduction = skill - (skill * 20) / 100;
         return (skill - reduction);
     }

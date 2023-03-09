@@ -299,11 +299,11 @@ public enum CombatSpecial {
             var drained = 0;
             int[] array = new int[]{0, 1, 4, 6};
             for (int stat : array) {
-                drained += (int) Math.ceil(player.skills().level(stat) / 10.0);
-                player.skills().setLevel(stat, (int) (player.skills().level(stat) - Math.floor(player.skills().level(stat) / 10.0)));
+                drained += (int) Math.ceil(player.getSkills().level(stat) / 10.0);
+                player.getSkills().setLevel(stat, (int) (player.getSkills().level(stat) - Math.floor(player.getSkills().level(stat) / 10.0)));
             }
-            var boost = player.skills().level(Skills.STRENGTH) + 10 + (drained / 4); // you can only ever get to 119 lol
-            player.skills().setLevel(Skills.STRENGTH, boost >= 119 ? 120 : boost); // fuck this formula wiki must be wrong
+            var boost = player.getSkills().level(Skills.STRENGTH) + 10 + (drained / 4); // you can only ever get to 119 lol
+            player.getSkills().setLevel(Skills.STRENGTH, boost >= 119 ? 120 : boost); // fuck this formula wiki must be wrong
             player.graphic(246);
             player.animate(1056);
         }

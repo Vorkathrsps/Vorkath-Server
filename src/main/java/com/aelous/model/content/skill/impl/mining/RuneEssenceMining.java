@@ -43,7 +43,7 @@ public class RuneEssenceMining extends PacketInteraction {
     private static final int EXIT_PORTAL = 7479;
 
     private int power(Player player, Mining.Pickaxe pick) {
-        double points = ((player.skills().level(Skills.MINING) - 1) + 1 + pick.points);
+        double points = ((player.getSkills().level(Skills.MINING) - 1) + 1 + pick.points);
         return (int) Math.min(80, points);
     }
 
@@ -85,8 +85,8 @@ public class RuneEssenceMining extends PacketInteraction {
 
                     player.animate(pick.get().anim);
                     Chain.bound(player).runFn(ticks(power(player, pick.get())), () -> {
-                        player.inventory().add(new Item(player.skills().level(Skills.MINING) >= 30 ? 7936 : 1436));
-                        player.skills().addXp(Skills.MINING, 5.0);
+                        player.inventory().add(new Item(player.getSkills().level(Skills.MINING) >= 30 ? 7936 : 1436));
+                        player.getSkills().addXp(Skills.MINING, 5.0);
                     });
                 }
 

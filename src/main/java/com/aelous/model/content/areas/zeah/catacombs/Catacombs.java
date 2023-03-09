@@ -71,7 +71,7 @@ public class Catacombs extends PacketInteraction {
             }
 
             if (obj.getId() == STONE_28893) {
-                if (!player.skills().check(Skills.AGILITY, 34, "use this shortcut"))
+                if (!player.getSkills().check(Skills.AGILITY, 34, "use this shortcut"))
                     return true;
                 if (player.tile().equals(1613, 10069)) {
                     Chain.bound(player).name("Shortcut1Task").runFn(2, () -> {
@@ -141,7 +141,7 @@ public class Catacombs extends PacketInteraction {
     }
 
     private static void squeezeThroughCrack(Player player, GameObject crack, Tile destination, int levelReq) {
-        if (!player.skills().check(Skills.AGILITY, levelReq, "use this shortcut"))
+        if (!player.getSkills().check(Skills.AGILITY, levelReq, "use this shortcut"))
             return;
         player.lock();
         Chain.bound(null).runFn(1, () -> {

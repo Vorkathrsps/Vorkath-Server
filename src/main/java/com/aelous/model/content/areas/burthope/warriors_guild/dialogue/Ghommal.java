@@ -15,8 +15,8 @@ public class Ghommal extends Dialogue {
 
     @Override
     protected void start(Object... parameters) {
-        int attack_lvl = player.skills().level(Skills.ATTACK);
-        int strength_lvl = player.skills().level(Skills.STRENGTH);
+        int attack_lvl = player.getSkills().level(Skills.ATTACK);
+        int strength_lvl = player.getSkills().level(Skills.STRENGTH);
         //Does our player have the requirements to enter the guild?
         if (attack_lvl + strength_lvl < 130) {
             send(DialogueType.NPC_STATEMENT, GHOMMAL, Expression.HAPPY, "You not pass. You too weedy.");

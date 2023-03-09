@@ -10,13 +10,11 @@ import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
-import com.aelous.model.entity.player.rights.MemberRights;
 import com.aelous.model.items.Item;
 import com.aelous.model.items.container.equipment.Equipment;
 import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.Utils;
 
-import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,7 +69,7 @@ public class RangedData {
                 case OPAL_BOLTS_E, OPAL_DRAGON_BOLTS_E -> {
                     if (Utils.percentageChance(boltSpecialChance(always_spec))) {
                         double zbow = .10;
-                        int current_range_level = p.skills().level(Skills.RANGED);
+                        int current_range_level = p.getSkills().level(Skills.RANGED);
                         target.performGraphic(new Graphic(749, GraphicHeight.LOW, 55 + 5));
                         boltSpecialMultiplier = (current_range_level * 0.10); // Can max deal 25% extra damage.
                         damage += boltSpecialMultiplier;
@@ -107,7 +105,7 @@ public class RangedData {
                     if (Utils.percentageChance(boltSpecialChance(always_spec)) && target.isPlayer()) {
                         Player t = target.getAsPlayer();
                         t.performGraphic(new Graphic(757, GraphicHeight.HIGH, 55 + 5));
-                        t.skills().alterSkill(Skills.MAGIC, t.skills().level(Skills.MAGIC) - 1);
+                        t.getSkills().alterSkill(Skills.MAGIC, t.getSkills().level(Skills.MAGIC) - 1);
                         t.getPacketSender().sendMessage("Your Magic level has been reduced.");
                     }
                 }
@@ -115,10 +113,10 @@ public class RangedData {
                     if (Utils.percentageChance(boltSpecialChance(always_spec))) {
                         Player t = target.getAsPlayer();
                         t.performGraphic(new Graphic(751, GraphicHeight.LOW, 55 + 5));
-                        t.skills().alterSkill(Skills.PRAYER, -20);
+                        t.getSkills().alterSkill(Skills.PRAYER, -20);
                         t.getPacketSender().sendMessage("Your Prayer level has been leeched.");
 
-                        p.skills().alterSkill(Skills.PRAYER, +20);
+                        p.getSkills().alterSkill(Skills.PRAYER, +20);
                         p.getPacketSender().sendMessage("Your enchanted bolts leech some Prayer points from your opponent..");
                     }
                 }
@@ -136,8 +134,8 @@ public class RangedData {
 
                         target.performGraphic(new Graphic(754, GraphicHeight.LOW, 55 + 5));
 
-                        int selfDamage = (int) (p.skills().level(Skills.HITPOINTS) * 0.1);
-                        if (selfDamage < p.skills().level(Skills.HITPOINTS)) {
+                        int selfDamage = (int) (p.getSkills().level(Skills.HITPOINTS) * 0.1);
+                        if (selfDamage < p.getSkills().level(Skills.HITPOINTS)) {
                             int targetHP = target.hp();
                             damage += targetHP * 0.2;
                             if (damage > cap)
@@ -177,7 +175,7 @@ public class RangedData {
 
                         if (Utils.percentageChance(boltSpecialChance(always_spec))) {
                             target.performGraphic(new Graphic(756, GraphicHeight.HIGH, 55 + 5));
-                            int current_range_level = p.skills().level(Skills.RANGED);
+                            int current_range_level = p.getSkills().level(Skills.RANGED);
                             boltSpecialMultiplier = (current_range_level * 0.20); // 20 % extra damage
                             damage += boltSpecialMultiplier;
                             if (zaryteCrossBowEvoke(p)) {

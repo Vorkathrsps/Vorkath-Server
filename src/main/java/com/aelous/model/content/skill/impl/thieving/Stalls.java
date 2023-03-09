@@ -56,7 +56,7 @@ public class Stalls extends PacketInteraction {
     }
 
     private void attempt(Player player, Stall stall, GameObject object, int replacementID) {
-        if (!player.skills().check(Skills.THIEVING, stall.levelReq, "steal from the " + stall.name))
+        if (!player.getSkills().check(Skills.THIEVING, stall.levelReq, "steal from the " + stall.name))
             return;
 
         if (player.inventory().isFull()) {
@@ -117,7 +117,7 @@ public class Stalls extends PacketInteraction {
                 player.message("A mysterious force knocks you back.");
             }
 
-            player.skills().addXp(Skills.THIEVING, stall.experience, true);
+            player.getSkills().addXp(Skills.THIEVING, stall.experience, true);
             player.unlock();
         });
     }

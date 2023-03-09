@@ -169,7 +169,7 @@ public class FarmingOld {
                     player.message("You must use an appropriate seed on the patch at this stage.");
                     return true;
                 }
-                if (player.skills().level(Skills.FARMING) < herb.getLevelRequired()) {
+                if (player.getSkills().level(Skills.FARMING) < herb.getLevelRequired()) {
                     player.message("You need a farming level of " + herb.getLevelRequired() + " to grow " + herb.getSeedName().replaceAll(" seed", "") + ".");
                     return false;
                 }
@@ -187,7 +187,7 @@ public class FarmingOld {
                             player.setFarmingSeedId(id, herb.getSeedId());
                             player.setFarmingTime(id, hasMagicSecateurs() ? herb.getGrowthTime() / 2 : herb.getGrowthTime());
                             player.setFarmingHarvest(id, 3 + World.getWorld().random(hasMagicSecateurs() ? 7 : 4));
-                            player.skills().addXp(Skills.FARMING, exp);
+                            player.getSkills().addXp(Skills.FARMING, exp);
 
                             player.setFarmingState(id, State.GROWTH.getId());
                             player.message("You plant the herb, wait " + Math.round(player.getFarmingTime(id) * .6) + " seconds for the herb to mature.");
@@ -254,7 +254,7 @@ public class FarmingOld {
                             player.animate(Constants.PICKING_HERB_ANIM);
                             player.setFarmingHarvest(id, player.getFarmingHarvest(id) - 1);
                             player.inventory().add(herb.getGrimyId(), 1);
-                            player.skills().addXp(Skills.FARMING, (int) exp);
+                            player.getSkills().addXp(Skills.FARMING, (int) exp);
 
 
                             if (herb == FarmingHerb.Herb.TORSTOL) {
@@ -284,7 +284,7 @@ public class FarmingOld {
             player.message("You can only pick berries from this bush every 5 minutes.");
             return;
         }
-        int level = player.skills().level(Skills.FARMING);
+        int level = player.getSkills().level(Skills.FARMING);
         if (level < 70) {
             player.message("You need a farming level of 70 to get this.");
             return;
@@ -293,14 +293,14 @@ public class FarmingOld {
             player.message("You need at least " + (hasMagicSecateurs() ? 2 : 1) + " free slot " + (hasMagicSecateurs() ? "s" : "") + " to do this.");
             return;
         }
-        int maximum = player.skills().xpLevel(Skills.FARMING);
+        int maximum = player.getSkills().xpLevel(Skills.FARMING);
         if (World.getWorld().random(100) < (10 + (maximum - level))) {
             player.poison(6);
         }
         player.animate(881);
         lastPoisonBerryFarm = System.currentTimeMillis();
         player.inventory().add(new Item(6018, hasMagicSecateurs() ? 2 : 1));
-        player.skills().addXp(450, Skills.FARMING, true);
+        player.getSkills().addXp(450, Skills.FARMING, true);
     }
 
     public void farmingProcess() {

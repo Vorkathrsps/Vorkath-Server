@@ -70,7 +70,7 @@ public class Cleaning {
 
     private static void clean(Player player, Herb herb) {
         //Does the player have the required level?
-        if (player.skills().level(Skills.HERBLORE) < herb.level) {
+        if (player.getSkills().level(Skills.HERBLORE) < herb.level) {
             player.message("You need level "+herb.level+" Herblore to clean "+herb.AorAn+" "+herb.herbName+".");
             return;
         }
@@ -79,6 +79,6 @@ public class Cleaning {
         player.inventory().remove(new Item(herb.grimy), slot, true);
         player.inventory().add(new Item(herb.clean), true);
         player.message("You clean the "+herb.herbName+".");
-        player.skills().addXp(Skills.HERBLORE, herb.exp);
+        player.getSkills().addXp(Skills.HERBLORE, herb.exp);
     }
 }

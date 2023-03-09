@@ -103,13 +103,13 @@ public class Woodcutting extends PacketInteraction {
 
     public static Optional<Hatchet> findAxe(Player player) {
         if (player.getEquipment().hasWeapon()) {
-            Optional<Hatchet> result = Hatchet.VALUES.stream().filter(it -> player.getEquipment().contains(it.id) && player.skills().levels()[Skills.WOODCUTTING] >= it.level).findFirst();
+            Optional<Hatchet> result = Hatchet.VALUES.stream().filter(it -> player.getEquipment().contains(it.id) && player.getSkills().levels()[Skills.WOODCUTTING] >= it.level).findFirst();
 
             if (result.isPresent()) {
                 return result;
             }
         }
-        return Hatchet.VALUES.stream().filter(def -> player.inventory().contains(def.id) && player.skills().levels()[Skills.WOODCUTTING] >= def.level).findAny();
+        return Hatchet.VALUES.stream().filter(def -> player.inventory().contains(def.id) && player.getSkills().levels()[Skills.WOODCUTTING] >= def.level).findAny();
     }
 
     public static void cut(Player player, Tree tree, int trunkObjectId) {
@@ -122,7 +122,7 @@ public class Woodcutting extends PacketInteraction {
         }
 
         //Does our player have the required woodcutting level?
-        if (player.skills().levels()[Skills.WOODCUTTING] < tree.level) {
+        if (player.getSkills().levels()[Skills.WOODCUTTING] < tree.level) {
             player.message("You need a Woodcutting level of " + tree.level + " to chop down this tree.");
             return;
         }
@@ -148,7 +148,7 @@ public class Woodcutting extends PacketInteraction {
 
                 GameObject obj = player.getAttribOr(AttributeKey.INTERACTION_OBJECT, null);
 
-                int level = player.skills().levels()[Skills.WOODCUTTING];
+                int level = player.getSkills().levels()[Skills.WOODCUTTING];
                 if (player.tile().inArea(WoodcuttingGuild.AREA_EAST) || player.tile().inArea(WoodcuttingGuild.AREA_WEST))
                     level += 7; // +7 invisible boost in WC guild!
 
@@ -162,7 +162,7 @@ public class Woodcutting extends PacketInteraction {
                         GameObject old = new GameObject(obj.getId(), obj.tile(), obj.getType(), obj.getRotation());
                         GameObject spawned = new GameObject(trunkObjectId, obj.tile(), obj.getType(), obj.getRotation());
                         ObjectManager.replace(old, spawned, tree.respawnTime);
-                        player.skills().addXp(Skills.WOODCUTTING, tree.xp); // Xp as last, it can spawn a dialogue
+                        player.getSkills().addXp(Skills.WOODCUTTING, tree.xp); // Xp as last, it can spawn a dialogue
 
 
                         // If we're using the infernal axe, we have 1/3 odds to burn the log and get 50% FM xp.
@@ -171,7 +171,7 @@ public class Woodcutting extends PacketInteraction {
 
                             if (log != null) {
                                 player.graphic(580, GraphicHeight.MIDDLE, 0);
-                                player.skills().addXp(Skills.FIREMAKING, (log.xp * LogLighting.pyromancerOutfitBonus(player)) / 2);
+                                player.getSkills().addXp(Skills.FIREMAKING, (log.xp * LogLighting.pyromancerOutfitBonus(player)) / 2);
                             }
                         } else {
                             player.inventory().add(new Item(tree.logs));
@@ -194,7 +194,7 @@ public class Woodcutting extends PacketInteraction {
                         player.getTaskMasterManager().increase(Tasks.CUT_MAGIC_TREES);
                     }
 
-                    player.skills().addXp(Skills.WOODCUTTING, tree.xp); // Xp as last, it can spawn a dialogue
+                    player.getSkills().addXp(Skills.WOODCUTTING, tree.xp); // Xp as last, it can spawn a dialogue
 
                     // If we're using the infernal axe, we have 1/3 odds to burn the log and get 50% FM xp.
                     if (axe == Hatchet.INFERNAL && Utils.rollDie(30, 10) && tree.logs > 0) {
@@ -202,7 +202,7 @@ public class Woodcutting extends PacketInteraction {
 
                         if (log != null) {
                             player.graphic(580, GraphicHeight.MIDDLE, 0);
-                            player.skills().addXp(Skills.FIREMAKING, (log.xp * LogLighting.pyromancerOutfitBonus(player)) / 2);
+                            player.getSkills().addXp(Skills.FIREMAKING, (log.xp * LogLighting.pyromancerOutfitBonus(player)) / 2);
                         }
                     } else {
                         player.inventory().add(new Item(tree.logs));

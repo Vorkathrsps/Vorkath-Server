@@ -7,7 +7,6 @@ import com.aelous.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.formula.FormulaUtils;
-import com.aelous.model.entity.combat.formula.maxhit.RangeMaxHit;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.combat.weapon.FightStyle;
 import com.aelous.model.entity.npc.NPC;
@@ -21,7 +20,6 @@ import com.aelous.utility.ItemIdentifiers;
 
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.stream.Stream;
 
 import static com.aelous.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
@@ -158,7 +156,7 @@ public class RangeAccuracyNpc {
                 rangeLevel = npc.combatInfo().stats.ranged;
             }
         } else {
-            rangeLevel = attacker.skills().level(Skills.RANGED);
+            rangeLevel = attacker.getSkills().level(Skills.RANGED);
         }
         return rangeLevel;
     }
@@ -178,7 +176,7 @@ public class RangeAccuracyNpc {
                         if (n.combatInfo() != null && n.combatInfo().stats != null)
                             magicLevel = n.combatInfo().stats.magic > 350 && player.raidsParty != null ? 350 : n.combatInfo().stats.magic > 250D ? 250D : n.combatInfo().stats.magic;
                     } else {
-                        magicLevel = defender.getAsPlayer().skills().getMaxLevel(Skills.MAGIC);
+                        magicLevel = defender.getAsPlayer().getSkills().getMaxLevel(Skills.MAGIC);
                     }
 
                     bonus += 140 + (((10*3*magicLevel) / 10) - 10) - ((Math.floor(3 * magicLevel / 10 - 100)) * 2);

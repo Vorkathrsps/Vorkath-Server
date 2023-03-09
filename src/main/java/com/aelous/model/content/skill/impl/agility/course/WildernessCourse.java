@@ -41,7 +41,7 @@ public class WildernessCourse extends PacketInteraction {
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         if (option == 1) {
             if (obj.getId() == LOWER_GATE) {
-                if (player.skills().level(Skills.AGILITY) < 52) {
+                if (player.getSkills().level(Skills.AGILITY) < 52) {
                     player.message("You do not have the required level to enter this course.");
                     return true;
                 }
@@ -75,7 +75,7 @@ public class WildernessCourse extends PacketInteraction {
                     var stage = player.<Integer>getAttribOr(WILDY_COURSE_STATE, 0) + 1;
                     player.putAttrib(WILDY_COURSE_STATE, stage);
                     //System.out.println("stage is now: "+stage);
-                    player.skills().addXp(Skills.AGILITY, 12.5);
+                    player.getSkills().addXp(Skills.AGILITY, 12.5);
                 });
                 return true;
             }
@@ -97,7 +97,7 @@ public class WildernessCourse extends PacketInteraction {
                         var stage = player.<Integer>getAttribOr(WILDY_COURSE_STATE, 0) + 1;
                         player.putAttrib(WILDY_COURSE_STATE, stage);
                         //System.out.println("stage is now: "+stage);
-                        player.skills().addXp(Skills.AGILITY, 20.0);
+                        player.getSkills().addXp(Skills.AGILITY, 20.0);
                     }).then(2, player::unlock);
                 });
                 return true;
@@ -128,7 +128,7 @@ public class WildernessCourse extends PacketInteraction {
                         });
                     }
                     Chain.bound(player).name("WildernessCourse8Task").waitForTile(new Tile(2996, 3960), () -> {
-                        player.skills().addXp(Skills.AGILITY, 20.0);
+                        player.getSkills().addXp(Skills.AGILITY, 20.0);
                         player.unlock();
                     });
                 });
@@ -158,7 +158,7 @@ public class WildernessCourse extends PacketInteraction {
                         var stage = player.<Integer>getAttribOr(WILDY_COURSE_STATE, 0) + 1;
                         player.putAttrib(WILDY_COURSE_STATE, stage);
                         //System.out.println("stage is now: "+stage);
-                        player.skills().addXp(Skills.AGILITY, 20.0);
+                        player.getSkills().addXp(Skills.AGILITY, 20.0);
                         player.message("...You make it safely to the other side.");
                         player.agilityWalk(true);
                         player.unlock();
@@ -184,7 +184,7 @@ public class WildernessCourse extends PacketInteraction {
                         player.animate(-1);
                         var stage = player.<Integer>getAttribOr(WILDY_COURSE_STATE, 0) + 1;
                         player.putAttrib(WILDY_COURSE_STATE, stage);
-                        player.skills().addXp(Skills.AGILITY, 498.9);
+                        player.getSkills().addXp(Skills.AGILITY, 498.9);
                         //System.out.println("stage is now: "+stage);
                         if (stage == 5) {
                             player.getTaskMasterManager().increase(Tasks.WILDERNESS_COURSE);
@@ -214,7 +214,7 @@ public class WildernessCourse extends PacketInteraction {
     public static boolean successful(Player player) {
         int req = 35;
         int endeffectiveness = 70;
-        int gap = player.skills().xpLevel(Skills.AGILITY) - req;
+        int gap = player.getSkills().xpLevel(Skills.AGILITY) - req;
         double failrate = 0.30;
         return Math.random() >= (failrate - ((failrate / (endeffectiveness - req)) * gap));
     }
@@ -253,7 +253,7 @@ public class WildernessCourse extends PacketInteraction {
     }
 
     private static void lowergate(Player player, GameObject obj) {
-        if (player.skills().xpLevel(Skills.AGILITY) < 52) {
+        if (player.getSkills().xpLevel(Skills.AGILITY) < 52) {
             player.message("You need a Agility level of 52 to pass this gate.");
             return;
         }

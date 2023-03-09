@@ -614,7 +614,7 @@ public class NPC extends Entity {
                 } else {
                     if (!wilderness) {
                         // only check combatLevel if no custom script is present which will override it
-                        playerStream = playerStream.filter(p -> p.skills().combatLevel() <= ceil)
+                        playerStream = playerStream.filter(p -> p.getSkills().combatLevel() <= ceil)
                             .filter(p -> CombatFactory.bothInFixedRoom(this, p));
                     } else {
                         playerStream = playerStream.filter(p -> p.getEquipment().getId(EquipSlot.HANDS) != BRACELET_OF_ETHEREUM && (def != null && !def.name.contains("revenant")));

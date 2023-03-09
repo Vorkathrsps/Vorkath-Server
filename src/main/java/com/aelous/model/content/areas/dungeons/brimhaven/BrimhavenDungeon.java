@@ -29,7 +29,7 @@ public class BrimhavenDungeon extends PacketInteraction {
             player.message("You do not have an axe which you have the Woodcutting level to use.");
             return;
         }
-        if (player.skills().level(Skills.WOODCUTTING) < 10) {
+        if (player.getSkills().level(Skills.WOODCUTTING) < 10) {
             player.message("You need a Woodcutting level of at least 10 to chop down these vines.");
             return;
         }
@@ -135,7 +135,7 @@ public class BrimhavenDungeon extends PacketInteraction {
                     Tile startPos = new Tile(2682, 9548);
                     player.smartPathTo(startPos);
                     player.waitForTile(startPos, () -> {
-                        if (player.skills().level(Skills.AGILITY) < 83) {
+                        if (player.getSkills().level(Skills.AGILITY) < 83) {
                             agilityShortcutMessage(player, 6514, "You need a agility level of 83 to cross these stepping stones.");
                         } else {
                             TaskManager.submit(new Task("stepping_stone_task", 1) {
@@ -171,7 +171,7 @@ public class BrimhavenDungeon extends PacketInteraction {
                     Tile startPos = new Tile(2690, 9547);
                     player.smartPathTo(startPos);
                     player.waitForTile(startPos, () -> {
-                        if (player.skills().level(Skills.AGILITY) < 83) {
+                        if (player.getSkills().level(Skills.AGILITY) < 83) {
                             agilityShortcutMessage(player, 6514, "You need a agility level of 83 to cross these stepping stones.");
                         } else {
                             TaskManager.submit(new Task("stepping_stone_task", 1) {
@@ -207,7 +207,7 @@ public class BrimhavenDungeon extends PacketInteraction {
                     Tile startPos = new Tile(2695, 9533);
                     player.smartPathTo(startPos);
                     player.waitForTile(startPos, () -> {
-                        if (player.skills().level(Skills.AGILITY) < 83) {
+                        if (player.getSkills().level(Skills.AGILITY) < 83) {
                             agilityShortcutMessage(player, 6514, "You need a agility level of 83 to cross these stepping stones.");
                         } else {
                             TaskManager.submit(new Task("stepping_stone_task", 1) {
@@ -244,7 +244,7 @@ public class BrimhavenDungeon extends PacketInteraction {
                     Tile startPos = new Tile(2697, 9525);
                     player.smartPathTo(startPos);
                     player.waitForTile(startPos, () -> {
-                        if (player.skills().level(Skills.AGILITY) < 83) {
+                        if (player.getSkills().level(Skills.AGILITY) < 83) {
                             agilityShortcutMessage(player, 6514, "You need a agility level of 83 to cross these stepping stones.");
                         } else {
                             TaskManager.submit(new Task("stepping_stone_task", 1) {
@@ -304,7 +304,7 @@ public class BrimhavenDungeon extends PacketInteraction {
             }
 
             if (obj.getId() == VINE_26880) {
-                if (player.skills().level(Skills.AGILITY) < 87) {
+                if (player.getSkills().level(Skills.AGILITY) < 87) {
                     agilityShortcutMessage(player, 6517, "it's a long way up and the vine is hard to grip.", "You'll need an Agility level of 87 to climb up.");
                     return true;
                 }
@@ -313,7 +313,7 @@ public class BrimhavenDungeon extends PacketInteraction {
             }
 
             if (obj.getId() == VINE_26882) {
-                if (player.skills().level(Skills.AGILITY) < 87) {
+                if (player.getSkills().level(Skills.AGILITY) < 87) {
                     agilityShortcutMessage(player, 6517, "it's a long way up and the vine is hard to grip.", "You'll need an Agility level of 87 to climb up.");
                     return true;
                 }
@@ -331,14 +331,14 @@ public class BrimhavenDungeon extends PacketInteraction {
             }
 
             if (obj.getId() == PIPE_21728) {
-                if (!player.skills().check(Skills.AGILITY, 22, "use this shortcut"))
+                if (!player.getSkills().check(Skills.AGILITY, 22, "use this shortcut"))
                     return true;
                 player.teleport(2655, player.getAbsY() >= 9572 ? 9566 : 9573, 0);
                 return true;
             }
 
             if (obj.getId() == PIPE_21727) {
-                if (!player.skills().check(Skills.AGILITY, 34, "use this shortcut"))
+                if (!player.getSkills().check(Skills.AGILITY, 34, "use this shortcut"))
                     return true;
                 player.teleport(2698, player.getAbsY() >= 9499 ? 9492 : 9500, 0);
                 return true;
@@ -346,7 +346,7 @@ public class BrimhavenDungeon extends PacketInteraction {
 
             if (obj.getId() == STEPPING_STONE_21738) {
                 if (player.tile().x == 2649 && player.tile().y == 9562) {
-                    if (player.skills().level(Skills.AGILITY) < 12) {
+                    if (player.getSkills().level(Skills.AGILITY) < 12) {
                         agilityShortcutMessage(player, 6514, "You need a agility level of 12 to cross these stepping stones.");
                         return true;
                     }
@@ -390,7 +390,7 @@ public class BrimhavenDungeon extends PacketInteraction {
                                 player.animate(769);
                             } else if (ticks == 23) {
                                 player.teleport(2647, 9557, 0);
-                                player.skills().addXp(Skills.AGILITY, 8.0);
+                                player.getSkills().addXp(Skills.AGILITY, 8.0);
                                 stop();
                             }
                         }
@@ -441,7 +441,7 @@ public class BrimhavenDungeon extends PacketInteraction {
                                 player.animate(769);
                             } else if (ticks == 23) {
                                 player.teleport(2649, 9562, 0);
-                                player.skills().addXp(Skills.AGILITY, 7.0);
+                                player.getSkills().addXp(Skills.AGILITY, 7.0);
                                 stop();
                             }
                         }
@@ -479,14 +479,14 @@ public class BrimhavenDungeon extends PacketInteraction {
             }
 
             if (obj.getId() == LOG_BALANCE_20884) {
-                if(!player.skills().check(Skills.AGILITY, 30, "use this shortcut"))
+                if(!player.getSkills().check(Skills.AGILITY, 30, "use this shortcut"))
                     return true;
                 player.teleport(2687, 9506, 0);
                 return true;
             }
 
             if (obj.getId() == LOG_BALANCE_20882) {
-                if(!player.skills().check(Skills.AGILITY, 30, "use this shortcut"))
+                if(!player.getSkills().check(Skills.AGILITY, 30, "use this shortcut"))
                     return true;
                 player.teleport(2687, 9506, 0);
                 return true;

@@ -12,7 +12,6 @@ import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.model.items.container.looting_bag.LootingBag;
 import com.aelous.network.packet.Packet;
 import com.aelous.network.packet.PacketListener;
-import com.aelous.network.packet.incoming.interaction.PacketInteractionManager;
 import com.aelous.utility.ItemIdentifiers;
 
 /**
@@ -70,7 +69,7 @@ public class EquipPacketListener implements PacketListener {
                 player.debugMessage("Equip ItemId=" + id + " Slot=" + slot + " InterfaceId=" + interfaceId);
 
                 //Stop skilling..
-                player.skills().stopSkillable();
+                player.getSkills().stopSkillable();
 
                 EquipmentInfo info = World.getWorld().equipmentInfo();
                 if(info != null) {

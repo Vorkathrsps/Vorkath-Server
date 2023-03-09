@@ -6,10 +6,8 @@ import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.magic.spells.CombatSpells;
 import com.aelous.model.entity.combat.weapon.FightType;
 import com.aelous.model.entity.combat.weapon.WeaponInterfaces;
-import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
-import com.aelous.utility.ItemIdentifiers;
 
 import java.util.HashMap;
 import java.util.List;
@@ -78,7 +76,7 @@ public class Autocasting {
             return false;
         }
 
-        if (cbSpell.levelRequired() > player.skills().level(Skills.MAGIC)) {
+        if (cbSpell.levelRequired() > player.getSkills().level(Skills.MAGIC)) {
             player.message("You need a Magic level of at least %d to cast this spell.", cbSpell.levelRequired());
             setAutocast(player, null);
             return false;

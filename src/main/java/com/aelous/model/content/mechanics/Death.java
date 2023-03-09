@@ -66,7 +66,7 @@ public class Death {
             if (Prayers.usingPrayer(player, RETRIBUTION)) {
                 var pker = player.getCombat().getKiller(); // Person who killed the dead player. Might be a 73 AGS spec pj.
                 player.graphic(437);
-                var damage = (int) (player.skills().level(Skills.PRAYER) * 0.25);
+                var damage = (int) (player.getSkills().level(Skills.PRAYER) * 0.25);
                 if (player.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) == 1) {
                     var list = new LinkedList<Player>();
                     for (Player p : player.closePlayers(1)) {
@@ -202,7 +202,7 @@ public class Death {
         player.getCombat().setRangedWeapon(null);
 
         //Reset some values
-        player.skills().resetStats(); //Reset all players stats
+        player.getSkills().resetStats(); //Reset all players stats
         Poison.cure(player); //Cure the player from any poisons
         player.getTimers().cancel(TimerKey.FROZEN); //Remove frozen timer key
         player.getTimers().cancel(TimerKey.STUNNED); //Remove stunned timer key

@@ -227,7 +227,7 @@ public class Glass {
      * Handles crafting the glass.
      */
     public static void craft(Player player, GlassData glass, int amount) {
-        if (player.skills().level(Skills.CRAFTING) < glass.level) {
+        if (player.getSkills().level(Skills.CRAFTING) < glass.level) {
             player.message("You need a crafting level of " + glass.level + " to craft this!");
             return;
         }
@@ -291,7 +291,7 @@ public class Glass {
                 String name = def.name;
                 player.animate(moltenGlass ? 899 : 884);
                 player.inventory().add(new Item(glass.product));
-                player.skills().addXp(Skills.CRAFTING, glass.experience);
+                player.getSkills().addXp(Skills.CRAFTING, glass.experience);
                 player.message("You make " + Utils.getAOrAn(name) + " " + name + ".");
 
                 if (++ticks == amount) {

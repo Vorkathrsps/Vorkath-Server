@@ -111,7 +111,7 @@ public class PotionBrewing {
             if (pot.herb != -1) {
                 int vial = (pot == BrewablePotion.ANTIDOTE_PLUS || pot == BrewablePotion.ANTIDOTE_PP) ? COCONUT_MILK : VIAL_OF_WATER;
                 if ((use.getId() == pot.herb || with.getId() == pot.herb) && (use.getId() == vial || with.getId() == vial)) {
-                    if (player.skills().level(Skills.HERBLORE) < pot.level) {
+                    if (player.getSkills().level(Skills.HERBLORE) < pot.level) {
                         DialogueManager.sendStatement(player, "You need level " + pot.level + " Herblore to make this potion.");
                         return true;
                     }
@@ -161,7 +161,7 @@ public class PotionBrewing {
         // ALl potion in the enum above
         for (BrewablePotion pot : BrewablePotion.values()) {
             if ((use.getId() == pot.unfinished.getId() || with.getId() == pot.unfinished.getId()) && (use.getId() == pot.secondary || with.getId() == pot.secondary)) {
-                if (player.skills().level(Skills.HERBLORE) < pot.level) {
+                if (player.getSkills().level(Skills.HERBLORE) < pot.level) {
                     DialogueManager.sendStatement(player, "You need level " + pot.level + " Herblore to make this potion.");
                     return true;
                 }
@@ -233,7 +233,7 @@ public class PotionBrewing {
                     player.animate(363);
 
                     player.message("You mix the " + pot.ingredientName + " into your potion.");
-                    player.skills().addXp(Skills.HERBLORE, pot.exp);
+                    player.getSkills().addXp(Skills.HERBLORE, pot.exp);
 
                     if (++ticks == amount) {
                         stop();

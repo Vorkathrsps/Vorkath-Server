@@ -36,10 +36,10 @@ public class BrianORichard extends Dialogue {
             setPhase(1);
         } else if(isPhase(2)) {
             //Does our player have at least 50 agility?
-            if (player.skills().level(Skills.AGILITY) < 50) {
+            if (player.getSkills().level(Skills.AGILITY) < 50) {
                 send(DialogueType.NPC_STATEMENT, BRIAN_ORICHARD, Expression.ON_ONE_HAND, "Shame, I don't think I have anything for you. Train up", "your Agility skill to at least 50 and I might be able to", "help you out.");
                 setPhase(3);
-            } else if (player.skills().level(Skills.THIEVING) < 50) {
+            } else if (player.getSkills().level(Skills.THIEVING) < 50) {
                 send(DialogueType.NPC_STATEMENT, BRIAN_ORICHARD, Expression.ON_ONE_HAND, "Shame, I don't think I have anything for you. Train up", "your Thieving skill to at least 50 and I might be able to", "help you out.");
                 setPhase(3);
             } else {

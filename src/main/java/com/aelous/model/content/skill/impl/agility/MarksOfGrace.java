@@ -40,7 +40,7 @@ public class MarksOfGrace {
             case RUBY_MEMBER -> odds += 2;
         }
 
-        if (player.skills().level(Skills.AGILITY) > threshold + 20) {
+        if (player.getSkills().level(Skills.AGILITY) > threshold + 20) {
             odds = (int) Math.max(1, (odds * 0.7)); // You don't want to end up in this :)
         }
 

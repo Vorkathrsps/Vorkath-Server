@@ -207,10 +207,10 @@ public class Player extends Entity {
         graphic(436, GraphicHeight.MIDDLE, 0);
         message("<col=" + Color.BLUE.getColorValue() + ">You have restored your hitpoints, run energy and prayer.");
         message("<col=" + Color.HOTPINK.getColorValue() + ">You've also been cured of poison and venom.");
-        skills().resetStats();
+        getSkills().resetStats();
         int increase = getEquipment().hpIncrease();
-        hp(Math.max(increase > 0 ? skills().level(Skills.HITPOINTS) + increase : skills().level(Skills.HITPOINTS), skills().xpLevel(Skills.HITPOINTS)), 39); //Set hitpoints to 100%
-        skills().replenishSkill(5, skills().xpLevel(5)); //Set the players prayer level to fullputAttrib(AttributeKey.RUN_ENERGY, 100.0);
+        hp(Math.max(increase > 0 ? getSkills().level(Skills.HITPOINTS) + increase : getSkills().level(Skills.HITPOINTS), getSkills().xpLevel(Skills.HITPOINTS)), 39); //Set hitpoints to 100%
+        getSkills().replenishSkill(5, getSkills().xpLevel(5)); //Set the players prayer level to fullputAttrib(AttributeKey.RUN_ENERGY, 100.0);
         setRunningEnergy(100.0, true);
         Poison.cure(this);
         Venom.cure(2, this);
@@ -438,9 +438,9 @@ public class Player extends Entity {
     }
 
     public void healPlayer() {
-        hp(Math.max(skills().level(Skills.HITPOINTS), skills().xpLevel(Skills.HITPOINTS)), 20); //Set hitpoints to 100%
-        skills().replenishSkill(5, skills().xpLevel(5)); //Set the players prayer level to full
-        skills().replenishStatsToNorm();
+        hp(Math.max(getSkills().level(Skills.HITPOINTS), getSkills().xpLevel(Skills.HITPOINTS)), 20); //Set hitpoints to 100%
+        getSkills().replenishSkill(5, getSkills().xpLevel(5)); //Set the players prayer level to full
+        getSkills().replenishStatsToNorm();
         setRunningEnergy(100.0, true);
         Poison.cure(this);
         Venom.cure(2, this);
@@ -823,7 +823,7 @@ public class Player extends Entity {
      */
     private Skills skills;
 
-    public Skills skills() {
+    public Skills getSkills() {
         return skills;
     }
 
@@ -1266,8 +1266,7 @@ public class Player extends Entity {
     }
 
     private void postcycle_dirty() {
-        // Sync skills if dirty
-        skills.syncDirty();
+        this.syncContainers();
     }
 
     /**
@@ -1919,10 +1918,10 @@ public class Player extends Entity {
 
         //Reset skills
         for (int skill = 0; skill < Skills.SKILL_COUNT; skill++) {
-            skills().setLevel(skill, 1, true);
+            getSkills().setLevel(skill, 1, true);
             skills.setXp(skill, Skills.levelToXp(1), true);
             if (skill == Skills.HITPOINTS) {
-                skills().setLevel(Skills.HITPOINTS, 10, true);
+                getSkills().setLevel(Skills.HITPOINTS, 10, true);
                 skills.setXp(Skills.HITPOINTS, Skills.levelToXp(10), true);
             }
             skills.update(true);
@@ -2128,6 +2127,7 @@ public class Player extends Entity {
             getLootingBag().sync();
             getLootingBag().dirty = false;
         }
+        skills.syncDirty();
     }
 
     // Combat
@@ -2583,6 +2583,7 @@ public class Player extends Entity {
     }
 
     private final PlayerMovement movementQueue = new PlayerMovement(this);
+
     @Override
     public PlayerMovement getMovementQueue() {
         return movementQueue;
@@ -2835,7 +2836,7 @@ public class Player extends Entity {
         }
 
         // all your typical interrupts here
-        skills().stopSkillable();
+        getSkills().stopSkillable();
 
         getMovementQueue().resetFollowing();
     }
@@ -3104,6 +3105,10 @@ public class Player extends Entity {
                     World.getWorld().benchmark.allPlayers.qtStuffs += t.toNanos();
                 }, qtStuff);
                 time(t -> {
+                    perf.controllers += t.toNanos();
+                    World.getWorld().benchmark.allPlayers.controllers += t.toNanos();
+                }, controllers);
+                time(t -> {
                     perf.timers += t.toNanos();
                     World.getWorld().benchmark.allPlayers.timers += t.toNanos();
                 }, timers);
@@ -3116,6 +3121,10 @@ public class Player extends Entity {
                     World.getWorld().benchmark.allPlayers.tasks += t.toNanos();
                 }, tasks);
                 time(t -> {
+                    perf.regions += t.toNanos();
+                    World.getWorld().benchmark.allPlayers.regions += t.toNanos();
+                }, regions);
+                time(t -> {
                     perf.bmove += t.toNanos();
                     World.getWorld().benchmark.allPlayers.bmove += t.toNanos();
                 }, beforemove);
@@ -3123,14 +3132,6 @@ public class Player extends Entity {
                     perf.move += t.toNanos();
                     World.getWorld().benchmark.allPlayers.move += t.toNanos();
                 }, movement);
-                time(t -> {
-                    perf.regions += t.toNanos();
-                    World.getWorld().benchmark.allPlayers.regions += t.toNanos();
-                }, regions);
-                time(t -> {
-                    perf.controllers += t.toNanos();
-                    World.getWorld().benchmark.allPlayers.controllers += t.toNanos();
-                }, controllers);
                 time(t -> {
                     perf.cbBountyFlush += t.toNanos();
                     World.getWorld().benchmark.allPlayers.cbBountyFlush += t.toNanos();
@@ -3160,19 +3161,21 @@ public class Player extends Entity {
         }
     }
 
-    Runnable logR = this::fireLogout,
+    Runnable logR = () -> {
+        this.fireLogout();
+    },
         qtStuff = () -> {
-            setPlayerQuestTabCycleCount(getPlayerQuestTabCycleCount() + 1);
+            this.setPlayerQuestTabCycleCount(getPlayerQuestTabCycleCount() + 1);
             //Update the players online regardless of the cycle count, this is the most important number, otherwise players might see "0" if they log in too soon. Can always remove this later.
             GlobalStrings.PLAYERS_ONLINE.send(this, World.getWorld().getPlayers().size());
 
             var gametime = (Integer) getAttribOr(GAME_TIME, 0) + 1;
-            putAttrib(GAME_TIME, gametime);// Increment ticks we've played for
+            this.putAttrib(GAME_TIME, gametime);// Increment ticks we've played for
 
             if (interfaceManager.isInterfaceOpen(DAILY_TASK_MANAGER_INTERFACE)) {
                 var dailyTask = this.<DailyTasks>getAttribOr(DAILY_TASK_SELECTED, null);
                 if (dailyTask != null)
-                    getPacketSender().sendString(TIME_FRAME_TEXT_ID, DailyTaskManager.timeLeft(this, dailyTask));
+                    this.getPacketSender().sendString(TIME_FRAME_TEXT_ID, DailyTaskManager.timeLeft(this, dailyTask));
             }
 
             var staminaTicks = this.<Integer>getAttribOr(STAMINA_POTION_TICKS, 0);
@@ -3183,7 +3186,7 @@ public class Player extends Entity {
                     message("<col=8f4808>Your stamina potion is about to expire.");
                 } else if (staminaTicks == 0) {
                     message("<col=8f4808>Your stamina potion has expired.");
-                    packetSender.sendStamina(false).sendEffectTimer(0, EffectTimer.STAMINA);
+                    this.packetSender.sendStamina(false).sendEffectTimer(0, EffectTimer.STAMINA);
                 }
             }
 
@@ -3206,26 +3209,31 @@ public class Player extends Entity {
                         World.getWorld().sendWorldMessage("<col=6a1a18><img=1100>The world boss will spawn in 5 minutes, gear up!");
                     }
                 }
-
-                //this.syncContainers();
             }
-        }, timers = () -> {
-        getTimers().cycle(this);
+        }, controllers = () -> {
+        if (this.<Boolean>getAttribOr(AttributeKey.NEW_ACCOUNT, false) && System.currentTimeMillis() - this.<Long>getAttribOr(LOGGED_IN_AT_TIME, System.currentTimeMillis()) > 1000 * 60 * 4) {
+            this.requestLogout();
+        }
+
+        //Section 8 Process areas..
+        section[8] = true;
+        ControllerManager.process(this);
+
+        //We don't have to make a entire abstract area for just these 2 lines.
+        if (tile.region() == 14231) {
+            this.interfaceManager.sendOverlay(4535);
+            this.packetSender.sendString(4536, "Kill Count: " + getAttribOr(BARROWS_MONSTER_KC, 0));
+        }
+    }, timers = () -> {
+        this.getTimers().cycle(this);
     }, actions = () -> {
-        action.sequence();
+        this.action.sequence();
     }, tasks = () -> {
         TaskManager.sequenceForMob(this);
-    }, beforemove = () -> {
-        getCombat().preAttack();
-        TargetRoute.beforeMovement(this);
-    }, movement = () -> {
-        getMovementQueue().process(); // must be between before+after movement
-        TargetRoute.afterMovement(this); // must be afterMove
     }, regions = () -> {
 
-        int lastregion = getAttribOr(AttributeKey.LAST_REGION, -1);
-        // Chunk enter and leave triggers
-        int lastChunk = getAttribOr(AttributeKey.LAST_CHUNK, -1);
+        int lastregion = this.getAttribOr(AttributeKey.LAST_REGION, -1);
+        int lastChunk = this.getAttribOr(AttributeKey.LAST_CHUNK, -1);
 
         if (lastregion != tile.region() || lastChunk != tile.chunk()) {
             MultiwayCombat.refresh(this, lastregion, lastChunk);
@@ -3240,8 +3248,14 @@ public class Player extends Entity {
         }
 
         // Update last region and chunk ids
-        putAttrib(AttributeKey.LAST_REGION, tile.region());
-        putAttrib(AttributeKey.LAST_CHUNK, tile.chunk());
+        this.putAttrib(AttributeKey.LAST_REGION, tile.region());
+        this.putAttrib(AttributeKey.LAST_CHUNK, tile.chunk());
+    }, beforemove = () -> {
+        this.getCombat().preAttack();
+        TargetRoute.beforeMovement(this);
+    }, movement = () -> {
+        this.getMovementQueue().process(); // must be between before+after movement
+        TargetRoute.afterMovement(this); // must be afterMove
     }, cbBountyFlush = () -> {
         getCombat().process();
 
@@ -3253,62 +3267,48 @@ public class Player extends Entity {
         section[10] = true;
     }, prayers = () -> {
         Prayers.drainPrayer(this);
-    }, controllers = () -> {
-        if (this.<Boolean>getAttribOr(AttributeKey.NEW_ACCOUNT, false) && System.currentTimeMillis() - this.<Long>getAttribOr(LOGGED_IN_AT_TIME, System.currentTimeMillis()) > 1000 * 60 * 4) {
-            this.requestLogout();
-        }
-
-        //Section 8 Process areas..
-        section[8] = true;
-        ControllerManager.process(this);
-
-        //We don't have to make a entire abstract area for just these 2 lines.
-        if (tile.region() == 14231) {
-            interfaceManager.sendOverlay(4535);
-            packetSender.sendString(4536, "Kill Count: " + getAttribOr(BARROWS_MONSTER_KC, 0));
-        }
     }, end = () -> {
 
         if (hp() < 1 && System.currentTimeMillis() - lockTime > 30_000) {
             logger.error("player has been locked for 30s while 0hp.. how tf did that happen");
-            die();
+            this.die();
         }
 
         if (queuedAppearanceUpdate()) {
-            getUpdateFlag().flag(Flag.APPEARANCE);
-            setQueuedAppearanceUpdate(false);
+            this.getUpdateFlag().flag(Flag.APPEARANCE);
+            this.setQueuedAppearanceUpdate(false);
         }
 
         //Section 12 Sync containers, if dirty
         section[12] = true;
-        postcycle_dirty();
+        this.syncContainers();
 
         //Section 13 Send queued chat messages
         section[13] = true;
         if (!getChatMessageQueue().isEmpty()) {
             setCurrentChatMessage(getChatMessageQueue().poll());
-            getUpdateFlag().flag(Flag.CHAT);
+            this.getUpdateFlag().flag(Flag.CHAT);
         } else {
             setCurrentChatMessage(null);
         }
 
         //Section 14 Decrease boosted stats Increase lowered stats. Don't decrease stats whilst the divine potion effect is active.
         section[14] = true;
-        if ((!increaseStats.active() || (decreaseStats.secondsElapsed() >= (Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60))) && !divinePotionEffectActive()) {
-            skills.replenishStats();
+        if ((!this.increaseStats.active() || (this.decreaseStats.secondsElapsed() >= (Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60))) && !this.divinePotionEffectActive()) {
+            this.skills.replenishStats();
 
             // Reset timers
-            if (!increaseStats.active()) {
-                increaseStats.start(60);
+            if (!this.increaseStats.active()) {
+                this.increaseStats.start(60);
             }
-            if (decreaseStats.secondsElapsed() >= (Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60)) {
-                decreaseStats.start((Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60));
+            if (this.decreaseStats.secondsElapsed() >= (Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60)) {
+                this.decreaseStats.start((Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60));
             }
         }
 
         //Section 15 process farming
         section[15] = true;
-        farmingOld.farmingProcess();
+        this.farmingOld.farmingProcess();
     };
 
     private void replaceItems() {

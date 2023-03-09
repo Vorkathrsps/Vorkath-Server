@@ -40,10 +40,10 @@ public class SetLevelCommand implements Command {
             // Turn off prayers
             Prayers.closeAllPrayers(player);
 
-            player.skills().setXp(skill, Skills.levelToXp(Math.min(99, lvl)));
-            player.skills().update();
-            player.skills().recalculateCombat();
-            player.message("Skill <col=FF0000>" + Skills.SKILL_NAMES[skill] + "</col> set to <col=FF0000>" + player.skills().levels()[skill] + "</col>.");
+            player.getSkills().setXp(skill, Skills.levelToXp(Math.min(99, lvl)));
+            player.getSkills().update();
+            player.getSkills().recalculateCombat();
+            player.message("Skill <col=FF0000>" + Skills.SKILL_NAMES[skill] + "</col> set to <col=FF0000>" + player.getSkills().levels()[skill] + "</col>.");
         }
     }
 

@@ -60,7 +60,7 @@ public enum HerbTar {
                 String herbName = herb.name().replace("leaf", "leaves");
                 if (!player.inventory().contains(PestleAndMortar.PESTLE_AND_MORTAR)) {
                     player.message("You need a pestle and mortar to mix " + herbName.toLowerCase() + " with swamp tar.");
-                } else if (player.skills().xpLevel(Skills.HERBLORE) < tar.reqLevel) {
+                } else if (player.getSkills().xpLevel(Skills.HERBLORE) < tar.reqLevel) {
                     player.message("You need a Herblore level of " + tar.reqLevel + " to make " + herbName.split(" ")[0] + " tar.");
                 } else {
                     int count = player.inventory().count(tar.herb);
@@ -113,7 +113,7 @@ public enum HerbTar {
                 ++iterations;
 
                 player.animate(5249);
-                player.skills().addXp(Skills.HERBLORE, herbTar.exp);
+                player.getSkills().addXp(Skills.HERBLORE, herbTar.exp);
                 player.inventory().removeAll(primary, secondary);
                 player.inventory().add(new Item(herbTar.result));
 

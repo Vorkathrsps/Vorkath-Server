@@ -213,9 +213,9 @@ public class Edgeville extends PacketInteraction {
             }
 
             if (obj.getId() == CHAOS_ALTAR_411) {
-                if (player.skills().level(Skills.PRAYER) < player.skills().xpLevel(Skills.PRAYER)) {
+                if (player.getSkills().level(Skills.PRAYER) < player.getSkills().xpLevel(Skills.PRAYER)) {
                     player.animate(new Animation(645));
-                    player.skills().replenishSkill(5, player.skills().xpLevel(5));
+                    player.getSkills().replenishSkill(5, player.getSkills().xpLevel(5));
                     player.message("You recharge your Prayer points.");
                 } else {
                     player.message("You already have full prayer points.");
@@ -282,9 +282,9 @@ public class Edgeville extends PacketInteraction {
             }
 
             if (obj.getId() == ALTAR) {
-                if (player.skills().level(Skills.PRAYER) < player.skills().xpLevel(Skills.PRAYER)) {
+                if (player.getSkills().level(Skills.PRAYER) < player.getSkills().xpLevel(Skills.PRAYER)) {
                     player.animate(new Animation(645));
-                    player.skills().replenishSkill(5, player.skills().xpLevel(5));
+                    player.getSkills().replenishSkill(5, player.getSkills().xpLevel(5));
                     player.message("You recharge your Prayer points.");
                 } else {
                     player.message("You already have full prayer points.");
@@ -302,10 +302,10 @@ public class Edgeville extends PacketInteraction {
                     player.lock();
                     player.message("<col=" + Color.BLUE.getColorValue() + ">You have restored your hitpoints, run energy and prayer.");
                     player.message("<col=" + Color.HOTPINK.getColorValue() + ">You've also been cured of poison and venom.");
-                    player.skills().resetStats();
+                    player.getSkills().resetStats();
                     int increase = player.getEquipment().hpIncrease();
-                    player.hp(Math.max(increase > 0 ? player.skills().level(Skills.HITPOINTS) + increase : player.skills().level(Skills.HITPOINTS), player.skills().xpLevel(Skills.HITPOINTS)), 39); //Set hitpoints to 100%
-                    player.skills().replenishSkill(5, player.skills().xpLevel(5)); //Set the players prayer level to fullplayer.putAttrib(AttributeKey.RUN_ENERGY, 100.0);
+                    player.hp(Math.max(increase > 0 ? player.getSkills().level(Skills.HITPOINTS) + increase : player.getSkills().level(Skills.HITPOINTS), player.getSkills().xpLevel(Skills.HITPOINTS)), 39); //Set hitpoints to 100%
+                    player.getSkills().replenishSkill(5, player.getSkills().xpLevel(5)); //Set the players prayer level to fullplayer.putAttrib(AttributeKey.RUN_ENERGY, 100.0);
                     player.setRunningEnergy(100.0, true);
                     Poison.cure(player);
                     Venom.cure(2, player);

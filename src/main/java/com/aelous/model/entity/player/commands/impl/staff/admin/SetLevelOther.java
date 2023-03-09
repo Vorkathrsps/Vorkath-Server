@@ -2,11 +2,9 @@ package com.aelous.model.entity.player.commands.impl.staff.admin;
 
 import com.aelous.model.World;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
-import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.entity.player.commands.Command;
-import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Utils;
 
 import java.util.Optional;
@@ -45,10 +43,10 @@ public class SetLevelOther implements Command {
                 // Turn off prayers
                 Prayers.closeAllPrayers(plr.get());
 
-                plr.get().skills().setXp(skill_id, Skills.levelToXp(Math.min(99, lvl)));
-                plr.get().skills().update();
-                plr.get().skills().recalculateCombat();
-                player.message("<col=FF0000>" + plr.get().getUsername()+ "'s " + Skills.SKILL_NAMES[skill_id] + "</col> set to <col=FF0000>" + plr.get().skills().levels()[skill_id] + "</col>.");
+                plr.get().getSkills().setXp(skill_id, Skills.levelToXp(Math.min(99, lvl)));
+                plr.get().getSkills().update();
+                plr.get().getSkills().recalculateCombat();
+                player.message("<col=FF0000>" + plr.get().getUsername()+ "'s " + Skills.SKILL_NAMES[skill_id] + "</col> set to <col=FF0000>" + plr.get().getSkills().levels()[skill_id] + "</col>.");
             } else {
                 player.message("The player " + username + " is not online.");
             }

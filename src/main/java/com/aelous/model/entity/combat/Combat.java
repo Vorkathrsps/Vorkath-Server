@@ -106,8 +106,7 @@ public class Combat {
 
     public CombatType combatType() {
         CombatType combatType = null;
-        if (method instanceof CommonCombatMethod) {
-            CommonCombatMethod commonCombatMethod = (CommonCombatMethod) method;
+        if (method instanceof CommonCombatMethod commonCombatMethod) {
             combatType = commonCombatMethod.styleOf();
         }
         return combatType;
@@ -288,8 +287,7 @@ public class Combat {
          * Can WE attack with our current?
          */
         if (mob.isPlayer()) {
-            if (method instanceof CommonCombatMethod) {
-                CommonCombatMethod commonCombatMethod = (CommonCombatMethod) method;
+            if (method instanceof CommonCombatMethod commonCombatMethod) {
                 if (!commonCombatMethod.canAttackStyle(mob, target, commonCombatMethod.styleOf())) {
                     return false;
                 }
@@ -314,10 +312,9 @@ public class Combat {
             // log the combat state
             logger.error("performNewAttack ex on " + mob.getMobName());
             logger.error("perfNewAttack", e);
-            StringBuilder sb = new StringBuilder();
-            sb.append("combat state: ");
-            sb.append(this);
-            logger.error(sb.toString());
+            String sb = "combat state: " +
+                this;
+            logger.error(sb);
             e.printStackTrace();
             throw e; // send it up the callstack
         }
@@ -379,8 +376,7 @@ public class Combat {
                 mob.getTimers().register(TimerKey.COMBAT_ATTACK, attackSpeed);
             }
             if (mob.isPlayer() && method == CombatFactory.MAGIC_COMBAT) {
-                if (method instanceof CommonCombatMethod) {
-                    CommonCombatMethod o = (CommonCombatMethod) method;
+                if (method instanceof CommonCombatMethod o) {
                     o.postAttack();
                 }
             }

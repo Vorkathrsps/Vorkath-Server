@@ -37,9 +37,9 @@ public class ImbuedHeart {
                 player.getPacketSender().sendEffectTimer(seconds, EffectTimer.IMBUED_HEART);
 
                 // This boost will only increment.
-                int boost = 1 + (player.skills().xpLevel(Skills.MAGIC) / 10);
-                if (player.skills().levels()[Skills.MAGIC] == player.skills().xpLevel(Skills.MAGIC)) {
-                    player.skills().alterSkill(Skills.MAGIC, boost);
+                int boost = 1 + (player.getSkills().xpLevel(Skills.MAGIC) / 10);
+                if (player.getSkills().levels()[Skills.MAGIC] == player.getSkills().xpLevel(Skills.MAGIC)) {
+                    player.getSkills().alterSkill(Skills.MAGIC, boost);
                 }
             }
         }

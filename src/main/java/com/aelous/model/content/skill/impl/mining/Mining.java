@@ -103,13 +103,13 @@ public class Mining extends PacketInteraction {
 
     public static Optional<Pickaxe> findPickaxe(Player player) {
         if (player.getEquipment().hasWeapon()) {
-            Optional<Pickaxe> pickaxe = Pickaxe.VALUES.stream().filter(it -> player.getEquipment().contains(it.id) && player.skills().levels()[Skills.MINING] >= it.level).findFirst();
+            Optional<Pickaxe> pickaxe = Pickaxe.VALUES.stream().filter(it -> player.getEquipment().contains(it.id) && player.getSkills().levels()[Skills.MINING] >= it.level).findFirst();
             if (pickaxe.isPresent()) {
                 return pickaxe;
             }
 
         }
-        return Pickaxe.VALUES.stream().filter(def -> player.inventory().contains(def.id) && player.skills().levels()[Skills.MINING] >= def.level).findAny();
+        return Pickaxe.VALUES.stream().filter(def -> player.inventory().contains(def.id) && player.getSkills().levels()[Skills.MINING] >= def.level).findAny();
     }
 
     private static void interact(Player player, Rock rockType, int replId) {
@@ -149,7 +149,7 @@ public class Mining extends PacketInteraction {
             return;
         }
 
-        if (player.skills().levels()[Skills.MINING] < rock.level && (int) player.getAttribOr(AttributeKey.JAILED, 0) == 0) {
+        if (player.getSkills().levels()[Skills.MINING] < rock.level && (int) player.getAttribOr(AttributeKey.JAILED, 0) == 0) {
             DialogueManager.sendStatement(player, "You need a Mining level of " + rock.level + " to mine this rock.");
             return;
         }
@@ -174,7 +174,7 @@ public class Mining extends PacketInteraction {
                     giveGem(player);
                 }
 
-                var odds = Math.max(1, Mining.chance(player.skills().levels()[Skills.MINING], finalRock, pick.get()));
+                var odds = Math.max(1, Mining.chance(player.getSkills().levels()[Skills.MINING], finalRock, pick.get()));
 
                 //For jailing we want to boost the rates of mining otherwise some players will literally be there for days.
                 if (player.jailed()) {
@@ -218,7 +218,7 @@ public class Mining extends PacketInteraction {
                     ObjectManager.replace(original, spawned, Math.max(1, rockTime - 1));
 
                     if (!player.jailed()) {
-                        player.skills().addXp(Skills.MINING, finalRock.xp);
+                        player.getSkills().addXp(Skills.MINING, finalRock.xp);
                     }
 
                     //Caskets Money, money, money..
@@ -274,37 +274,37 @@ public class Mining extends PacketInteraction {
         switch (rock) {
             case COPPER, TIN -> {
                 player.inventory().add(new Item(2349));
-                player.skills().addXp(Skills.SMITHING, 2.5);
+                player.getSkills().addXp(Skills.SMITHING, 2.5);
                 success = true;
             }
             case IRON -> {
                 player.inventory().add(new Item(2351));
-                player.skills().addXp(Skills.SMITHING, 5.0);
+                player.getSkills().addXp(Skills.SMITHING, 5.0);
                 success = true;
             }
             case SILVER -> {
                 player.inventory().add(new Item(2355));
-                player.skills().addXp(Skills.SMITHING, 5.5);
+                player.getSkills().addXp(Skills.SMITHING, 5.5);
                 success = true;
             }
             case GOLD -> {
                 player.inventory().add(new Item(2357));
-                player.skills().addXp(Skills.SMITHING, 9.0);
+                player.getSkills().addXp(Skills.SMITHING, 9.0);
                 success = true;
             }
             case MITHRIL -> {
                 player.inventory().add(new Item(2359));
-                player.skills().addXp(Skills.SMITHING, 12.0);
+                player.getSkills().addXp(Skills.SMITHING, 12.0);
                 success = true;
             }
             case ADAMANT -> {
                 player.inventory().add(new Item(2361));
-                player.skills().addXp(Skills.SMITHING, 15.0);
+                player.getSkills().addXp(Skills.SMITHING, 15.0);
                 success = true;
             }
             case RUNE -> {
                 player.inventory().add(new Item(2363));
-                player.skills().addXp(Skills.SMITHING, 20.0);
+                player.getSkills().addXp(Skills.SMITHING, 20.0);
                 success = true;
             }
         }

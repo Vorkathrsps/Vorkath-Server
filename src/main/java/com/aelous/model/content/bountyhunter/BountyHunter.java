@@ -102,7 +102,7 @@ public class BountyHunter {
                                 continue;
                             }
 
-                            if(Math.abs(player.skills().combatLevel() - potential.skills().combatLevel()) > 5) {
+                            if(Math.abs(player.getSkills().combatLevel() - potential.getSkills().combatLevel()) > 5) {
                                 continue;
                             }
 
@@ -359,7 +359,7 @@ public class BountyHunter {
      */
     private static boolean validTargetContester(Player p) {
         //A minimum of 30 combat is now required to receive targets in the minigame.
-        if (p.skills().combatLevel() < 30) {
+        if (p.getSkills().combatLevel() < 30) {
             return false;
         }
 

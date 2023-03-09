@@ -19,7 +19,7 @@ public class GodwarsAltars extends PacketInteraction {
                     if (!player.getTimers().has(TimerKey.GODWARS_ALTAR_LOCK)) {
                         player.message("You pray to the gods...");
                         player.getTimers().addOrSet(TimerKey.GODWARS_ALTAR_LOCK, 1000);
-                        player.skills().replenishSkill(5, player.skills().xpLevel(5));
+                        player.getSkills().replenishSkill(5, player.getSkills().xpLevel(5));
                         player.animate(645);
                         player.message("...and recharged your prayer.");
                     } else {

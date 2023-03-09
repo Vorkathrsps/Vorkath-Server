@@ -29,7 +29,7 @@ public class Basilisk extends CommonCombatMethod {
         if(!player.getEquipment().contains(ItemIdentifiers.MIRROR_SHIELD)) {
             player.hit(entity, Utils.random(2, 5), CombatType.MELEE).submit();
             for (int skill : DRAIN) {
-                player.skills().alterSkill(skill, -4);
+                player.getSkills().alterSkill(skill, -4);
             }
             player.message("<col=ff0000>The basilisk's piercing gaze drains your stats!");
             player.message("<col=ff0000>A mirror shield can protect you from this attack.");

@@ -16,7 +16,6 @@ import com.aelous.utility.Debugs;
 import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.Utils;
 
-import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -44,123 +43,128 @@ public abstract class Spell {
     public boolean canCast(Player player, Entity target, boolean delete) {
         try {
             // We first check the level required.
-            if (player.skills().level(Skills.MAGIC) < levelRequired()) {
-                player.message("You need a Magic level of " + levelRequired() + " to cast this spell.");
+            boolean canCast = player.getSkills().level(Skills.MAGIC) < levelRequired();
+            if (canCast) {
+                if (player.getSkills().level(Skills.MAGIC) < levelRequired()) {
+                    player.message("You need a Magic level of " + levelRequired() + " to cast this spell.");
+                    return false;
+                }
 
-                boolean autoCastSelected = player.getAttribOr(AttributeKey.AUTOCAST_SELECTED,false);
+                boolean autoCastSelected = player.getAttribOr(AttributeKey.AUTOCAST_SELECTED, false);
                 //Reset auto casting if we were autocasting
-                if (autoCastSelected)
+                if (autoCastSelected) {
                     Autocasting.setAutocast(player, null);
-
-                if (!autoCastSelected)
+                } else {
                     player.getCombat().reset();
-                return false;
-            }
-
-            if (target != null && target.isPlayer()) {
-                if (name().equalsIgnoreCase("Ice burst") || name().equalsIgnoreCase("Ice blitz") || name().equalsIgnoreCase("Ice barrage") || name().equalsIgnoreCase("Bind") || name().equalsIgnoreCase("Snare") || name().equalsIgnoreCase("Entangle")) {
-                    if (target.stunned()) {
-                        player.message("That player is currently immune to this spell.");
-                        return false;
-                    }
-                }
-            }
-
-            CombatSpell combatSpell = player.getCombat().getCastSpell() != null ? player.getCombat().getCastSpell() : player.getCombat().getAutoCastSpell();
-            boolean ignoreBookCheck = combatSpell == CombatSpells.ELDRITCH_NIGHTMARE_STAFF.getSpell() ||
-                combatSpell == CombatSpells.VOLATILE_NIGHTMARE_STAFF.getSpell();
-
-            // Secondly we check if they have proper magic spellbook
-            // If not, reset all magic attributes such as current spell
-            // Aswell as autocast spell
-            final CombatSpell finalCombatSpell = combatSpell;
-            if (combatSpell != null && !ignoreBookCheck && Arrays.stream(player.getCombat().AUTOCAST_SPELLS).noneMatch(combatSpell1 -> combatSpell1 == finalCombatSpell)) {
-                if (!player.getSpellbook().equals(combatSpell.spellbook())) {
-                    Autocasting.setAutocast(player, null);
-                    player.getCombat().setCastSpell(null);
-                    Debugs.CMB.debug(player, "bad book", target, true);
-                    player.message("This spell belongs to a different spellbook.");
                     return false;
                 }
             }
 
-            // Then we check the items required.
-            final var itemsRequired = itemsRequired(player);
-            final var equipmentRequired = equipmentRequired(player);
-
-            if (!itemsRequired.isEmpty()) {
-                // Suppress the runes based on the staff, we then use the new array
-                // of items that don't include suppressed runes.
-                List<Item> items = PlayerMagicStaff.suppressRunes(player, itemsRequired);
-
-                Map<Integer, Integer> runeCosts = new HashMap<>();
-                items.forEach(rune -> runeCosts.put(rune.getId(), rune.getAmount()));
-                HashMap<Integer, Integer> comboRunes = new HashMap<>();
-                CombinationRunes.COMBO_RUNES.keySet().forEach(r -> {
-                    if (player.getRunePouch().containsId(r)) {
-                        comboRunes.put(r, player.getRunePouch().getRuneAmount(r));
-                    } else if (player.inventory().contains(r)) {
-                        comboRunes.put(r, player.inventory().count(r));
+                if (target != null && target.isPlayer()) {
+                    if (name().equalsIgnoreCase("Ice burst") || name().equalsIgnoreCase("Ice blitz") || name().equalsIgnoreCase("Ice barrage") || name().equalsIgnoreCase("Bind") || name().equalsIgnoreCase("Snare") || name().equalsIgnoreCase("Entangle")) {
+                        if (target.stunned()) {
+                            player.message("That player is currently immune to this spell.");
+                            return false;
+                        }
                     }
-                });
+                }
 
-                // Check combo runes
-                if (!comboRunes.isEmpty()) {
-                    comboRunes.forEach((k, v) -> {
-                        CombinationRunes.ComboRune comboRune = CombinationRunes.get(k);
-                        comboRune.elements().forEach(element -> {
-                            int remainingCost = runeCosts.getOrDefault(element, 0);
-                            if (remainingCost > 0) {
-                                runeCosts.put(element, remainingCost - 1);
-                            }
-                        });
+                CombatSpell combatSpell = player.getCombat().getCastSpell() != null ? player.getCombat().getCastSpell() : player.getCombat().getAutoCastSpell();
+                boolean ignoreBookCheck = combatSpell == CombatSpells.ELDRITCH_NIGHTMARE_STAFF.getSpell() ||
+                    combatSpell == CombatSpells.VOLATILE_NIGHTMARE_STAFF.getSpell();
+
+                // Secondly we check if they have proper magic spellbook
+                // If not, reset all magic attributes such as current spell
+                // Aswell as autocast spell
+                final CombatSpell finalCombatSpell = combatSpell;
+                if (combatSpell != null && !ignoreBookCheck && Arrays.stream(player.getCombat().AUTOCAST_SPELLS).noneMatch(combatSpell1 -> combatSpell1 == finalCombatSpell)) {
+                    if (!player.getSpellbook().equals(combatSpell.spellbook())) {
+                        Autocasting.setAutocast(player, null);
+                        player.getCombat().setCastSpell(null);
+                        Debugs.CMB.debug(player, "bad book", target, true);
+                        player.message("This spell belongs to a different spellbook.");
+                        return false;
+                    }
+                }
+
+                // Then we check the items required.
+                final var itemsRequired = itemsRequired(player);
+                final var equipmentRequired = equipmentRequired(player);
+
+                if (!itemsRequired.isEmpty()) {
+                    // Suppress the runes based on the staff, we then use the new array
+                    // of items that don't include suppressed runes.
+                    List<Item> items = PlayerMagicStaff.suppressRunes(player, itemsRequired);
+
+                    Map<Integer, Integer> runeCosts = new HashMap<>();
+                    items.forEach(rune -> runeCosts.put(rune.getId(), rune.getAmount()));
+                    HashMap<Integer, Integer> comboRunes = new HashMap<>();
+                    CombinationRunes.COMBO_RUNES.keySet().forEach(r -> {
+                        if (player.getRunePouch().containsId(r)) {
+                            comboRunes.put(r, player.getRunePouch().getRuneAmount(r));
+                        } else if (player.inventory().contains(r)) {
+                            comboRunes.put(r, player.inventory().count(r));
+                        }
                     });
-                }
 
-                //First check rune pouch
-                for (Item item : items) {
-                    final int runeId = item.getId();
-                    if (player.getRunePouch().containsId(runeId) && (player.inventory().contains(RUNE_POUCH))) {
-                        runeCosts.put(runeId, Math.max(0, runeCosts.get(runeId) - player.getRunePouch().getRuneAmount(runeId)));
-                    } else {
-                        runeCosts.put(runeId, Math.max(0, runeCosts.get(runeId) - player.inventory().count(runeId)));
+                    // Check combo runes
+                    if (!comboRunes.isEmpty()) {
+                        comboRunes.forEach((k, v) -> {
+                            CombinationRunes.ComboRune comboRune = CombinationRunes.get(k);
+                            comboRune.elements().forEach(element -> {
+                                int remainingCost = runeCosts.getOrDefault(element, 0);
+                                if (remainingCost > 0) {
+                                    runeCosts.put(element, remainingCost - 1);
+                                }
+                            });
+                        });
                     }
-                }
 
-                if (delete && player.getEquipment().contains(ItemIdentifiers.KODAI_WAND)) {
-                    delete = World.getWorld().random(100) > 15;
-                }
+                    //First check rune pouch
+                    for (Item item : items) {
+                        final int runeId = item.getId();
+                        if (player.getRunePouch().containsId(runeId) && (player.inventory().contains(RUNE_POUCH))) {
+                            runeCosts.put(runeId, Math.max(0, runeCosts.get(runeId) - player.getRunePouch().getRuneAmount(runeId)));
+                        } else {
+                            runeCosts.put(runeId, Math.max(0, runeCosts.get(runeId) - player.inventory().count(runeId)));
+                        }
+                    }
 
-                // Now check if we have all of the runes.
-                if (runeCosts.values().stream().mapToInt(cost -> cost).sum() > 0) {
-                    // We don't, so we can't cast.
-                    player.message("You do not have the required runes to cast this spell.");
-                    return false;
-                }
+                    if (delete && player.getEquipment().contains(ItemIdentifiers.KODAI_WAND)) {
+                        delete = World.getWorld().random(100) > 15;
+                    }
 
-                // Finally, we check the equipment required.
-                if (!equipmentRequired.isEmpty()) {
-                    if (!player.getEquipment().containsAny(equipmentRequired)) {
-                        player.message("You do not have the required equipment to cast this spell.");
+                    // Now check if we have all of the runes.
+                    if (runeCosts.values().stream().mapToInt(cost -> cost).sum() > 0) {
+                        // We don't, so we can't cast.
+                        player.message("You do not have the required runes to cast this spell.");
                         return false;
                     }
-                }
 
-                //Check staff of the dead and don't delete runes at a rate of 1/8
-                if (player.getEquipment().hasAt(EquipSlot.WEAPON, STAFF_OF_THE_DEAD) || player.getEquipment().hasAt(EquipSlot.WEAPON, TOXIC_STAFF_OF_THE_DEAD) || player.getEquipment().hasAt(EquipSlot.WEAPON, STAFF_OF_LIGHT)) {
-                    if (Utils.securedRandomChance(0.125D)) {
-                        player.message("Your staff negated your runes for this cast.");
-                        delete = false;
+                    // Finally, we check the equipment required.
+                    if (!equipmentRequired.isEmpty()) {
+                        if (!player.getEquipment().containsAny(equipmentRequired)) {
+                            player.message("You do not have the required equipment to cast this spell.");
+                            return false;
+                        }
+                    }
+
+                    //Check staff of the dead and don't delete runes at a rate of 1/8
+                    if (player.getEquipment().hasAt(EquipSlot.WEAPON, STAFF_OF_THE_DEAD) || player.getEquipment().hasAt(EquipSlot.WEAPON, TOXIC_STAFF_OF_THE_DEAD) || player.getEquipment().hasAt(EquipSlot.WEAPON, STAFF_OF_LIGHT)) {
+                        if (Utils.securedRandomChance(0.125D)) {
+                            player.message("Your staff negated your runes for this cast.");
+                            delete = false;
+                        }
+                    }
+
+                    // We've made it through the checks, so we have the items and can
+                    // remove them now.
+                    if (delete) {
+                        return deleteRequiredRunes(player, comboRunes);
                     }
                 }
-
-                // We've made it through the checks, so we have the items and can
-                // remove them now.
-                if (delete) {
-                    return deleteRequiredRunes(player, comboRunes);
-                }
-            }
-        } catch(Exception e) {
+        } catch (
+            Exception e) {
             e.printStackTrace();
         }
         return true;
@@ -244,7 +248,7 @@ public abstract class Spell {
                 int matches = 0;
                 if (usingRunePouch && player.getRunePouch().containsId(comboRune.id())) {
                     for (int r : comboRune.elements()) {
-                        if (runeCosts.getOrDefault(r,0) == 0)
+                        if (runeCosts.getOrDefault(r, 0) == 0)
                             continue;
                         if (items.stream().anyMatch(rune -> rune.getId() == r)) {
                             matches++;

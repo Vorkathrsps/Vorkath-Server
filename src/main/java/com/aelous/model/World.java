@@ -1,38 +1,33 @@
 package com.aelous.model;
 
-import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
-import com.aelous.core.TimesCycle;
-import com.aelous.model.entity.npc.NPC;
-import com.aelous.model.items.Item;
-import com.aelous.network.codec.login.LoginService;
-import com.google.common.collect.Maps;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParseException;
+import com.aelous.GameConstants;
+import com.aelous.GameEngine;
 import com.aelous.GameServer;
 import com.aelous.cache.definitions.DefinitionRepository;
 import com.aelous.cache.definitions.NpcDefinition;
-import com.aelous.GameConstants;
-import com.aelous.GameEngine;
+import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
+import com.aelous.core.GameSyncExecutor;
+import com.aelous.core.GameSyncTask;
+import com.aelous.core.TimesCycle;
+import com.aelous.core.task.TaskManager;
 import com.aelous.model.content.areas.burthope.warriors_guild.dialogue.Shanomi;
+import com.aelous.model.content.bountyhunter.BountyHunter;
 import com.aelous.model.content.minigames.MinigameManager;
 import com.aelous.model.content.skill.impl.fishing.Fishing;
-import com.aelous.core.task.TaskManager;
-import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.EntityList;
 import com.aelous.model.entity.NodeType;
-import com.aelous.model.content.bountyhunter.BountyHunter;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss;
 import com.aelous.model.entity.combat.skull.Skulling;
 import com.aelous.model.entity.masks.impl.updating.NPCUpdating;
 import com.aelous.model.entity.masks.impl.updating.PlayerUpdating;
-import com.aelous.model.entity.EntityList;
+import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.npc.NPCCombatInfo;
 import com.aelous.model.entity.npc.droptables.ScalarLootTable;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.PlayerPerformanceTracker;
-import com.aelous.core.GameSyncExecutor;
-import com.aelous.core.GameSyncTask;
+import com.aelous.model.items.Item;
 import com.aelous.model.items.ItemWeight;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.model.items.container.shop.Shop;
@@ -44,7 +39,12 @@ import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.region.Flags;
 import com.aelous.model.map.region.Region;
 import com.aelous.model.map.region.RegionManager;
+import com.aelous.network.codec.login.LoginService;
 import com.aelous.utility.*;
+import com.google.common.collect.Maps;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -226,10 +226,10 @@ public class World {
                 sb2.append(String.format("objects:%s ms, ", df.format(1. * objects / 1_000_000.)));
             if ((int) (1. * packets / 1_000_000.) > 0)
                 sb2.append(String.format("packets:%s ms, ", df.format(1. * packets / 1_000_000.)));
-           // if ((int) (1. * players / 1_000_000.) > 0) // already printed
-           //     sb2.append(String.format("players.process:%s ms, ", df.format(1. * players / 1_000_000.)));
-           // if ((int) (1. * allNpcsProcess / 1_000_000.) > 0) // already printed
-             //   sb2.append(String.format("npcs.process:%s ms, ", df.format(1. * allNpcsProcess / 1_000_000.)));
+            // if ((int) (1. * players / 1_000_000.) > 0) // already printed
+            //     sb2.append(String.format("players.process:%s ms, ", df.format(1. * players / 1_000_000.)));
+            // if ((int) (1. * allNpcsProcess / 1_000_000.) > 0) // already printed
+            //   sb2.append(String.format("npcs.process:%s ms, ", df.format(1. * allNpcsProcess / 1_000_000.)));
             if ((int) (1. * gpi / 1_000_000.) > 0)
                 sb2.append(String.format("gpi:%s ms, ", df.format(1. * gpi / 1_000_000.)));
             if ((int) (1. * flush / 1_000_000.) > 0)
@@ -263,8 +263,10 @@ public class World {
 
             lastMinuteScan = System.currentTimeMillis();
         }
-    }, //Process all active {@link Task}s..
-        tasks = TaskManager::sequence, objs = () -> {
+    },
+        tasks = () -> {
+            TaskManager.sequence();
+        }, objs = () -> {
 
         for (OwnedObject object : ownedObjects.values()) {
             try {
@@ -274,106 +276,111 @@ public class World {
             }
         }
     }, packets = () -> {
-        executor.sync(new GameSyncTask(NodeType.PLAYER, false, playerRenderOrder) {
-            @Override
-            public void execute(int index) {
-                Player player = players.get(index);
-                try {
-                    // Process incoming packets...
+        try {
+            executor.sync(new GameSyncTask(NodeType.PLAYER, false, playerRenderOrder) {
+                @Override
+                public void execute(int index) {
+                    Player player = players.get(index);
                     player.getSession().handleQueuedPackets();
                     player.syncContainers();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    player.requestLogout();
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }, npcProcess = () -> {
         NpcPerformance.resetWorldTime();
-        executor.sync(new GameSyncTask(NodeType.NPC, false, npcRenderOrder) {
-            @Override
-            public void execute(int index) {
-                NPC npc = npcs.get(index);
-                try {
+        try {
+            executor.sync(new GameSyncTask(NodeType.NPC, false, npcRenderOrder) {
+                @Override
+                public void execute(int index) {
+                    NPC npc = npcs.get(index);
                     if (npc != null && !npc.hidden()) {
-                        npc.processed = true;
                         npc.sequence();
-                        npc.inViewport(false); //Assume viewport is false, we set it in NPC Updating below.
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    synchronized (npcs) {
-                        npcs.remove(npc);
+                        synchronized (npcs) {//Assume viewport is false, we set it in NPC Updating below.
+                            npc.inViewport(false);
+                            npc.processed = true;
+                        }
                     }
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }, playerProcess = () -> {
-        executor.sync(new GameSyncTask(NodeType.PLAYER, false, playerRenderOrder) {
-            @Override
-            public void execute(int index) {
-                Player player = players.get(index);
-                try {
-                    player.processed = true;
+        try {
+            executor.sync(new GameSyncTask(NodeType.PLAYER, false, playerRenderOrder) {
+                @Override
+                public void execute(int index) {
+                    Player player = players.get(index);
                     player.sequence();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    player.requestLogout();
-                }
-            }
-        });
-    }, gpi = () -> {
-        executor.sync(new GameSyncTask(NodeType.PLAYER, playerRenderOrder) {
-            @Override
-            public void execute(int index) {
-                Player player = players.get(index);
-                try {
-                    PlayerUpdating.update(player);
-                    NPCUpdating.update(player);
-                    if (GameServer.broadcast != null) {
-                        player.getPacketSender().sendBroadcast(GameServer.broadcast);
+                    synchronized (players) {
+                        player.processed = true;
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    player.requestLogout();
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }, gpi = () -> {
+        try {
+            executor.sync(new GameSyncTask(NodeType.PLAYER, playerRenderOrder) {
+                @Override
+                public void execute(int index) {
+                    synchronized (players) {
+                        Player player = players.get(index);
+                        PlayerUpdating.update(player);
+                        NPCUpdating.update(player);
+                    }
+                }
+            });
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }, reset = () -> {
-        executor.sync(new GameSyncTask(NodeType.NPC, false, npcRenderOrder) {
-            @Override
-            public void execute(int index) {
-                NPC npc = npcs.get(index);
-                try {
-                    npc.resetUpdating();
-                    npc.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
-                    npc.performance.reset();
-                    npc.processed = false;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    World.getWorld().getNpcs().remove(npc);
+        try {
+            executor.sync(new GameSyncTask(NodeType.NPC, false, npcRenderOrder) {
+                @Override
+                public void execute(int index) {
+                    NPC npc = npcs.get(index);
+                    try {
+                        npc.resetUpdating();
+                        npc.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
+                        npc.performance.reset();
+                        synchronized (npcs) {
+                            npc.processed = false;
+                        }
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                        World.getWorld().getNpcs().remove(npc);
+                    }
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }, flush = () -> {
-        executor.sync(new GameSyncTask(NodeType.PLAYER, false, playerRenderOrder) {
-            @Override
-            public void execute(int index) {
-                Player player = players.get(index);
-                try {
+        try {
+            executor.sync(new GameSyncTask(NodeType.PLAYER, false, playerRenderOrder) {
+                @Override
+                public void execute(int index) {
+                    Player player = players.get(index);
                     player.resetUpdating();
                     player.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
                     player.setCachedUpdateBlock(null);
                     player.getSession().flush();
                     player.perf.pulse();
-                    player.processed = false;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    player.requestLogout();
+                    synchronized (players) {
+                        player.processed = false;
+                    }
                 }
-            }
-        });
-}, games = MinigameManager::onTick;
+            });
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }, games = () -> {
+        MinigameManager.onTick();
+    };
 
     /**
      * Processes the world.
@@ -866,6 +873,7 @@ public class World {
             //  }
         });
     }
+
     private final Random random = new SecureRandom();
 
     public Random random() {

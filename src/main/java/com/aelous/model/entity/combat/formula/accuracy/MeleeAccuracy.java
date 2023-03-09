@@ -104,7 +104,15 @@ public class MeleeAccuracy {
         final Item weapon = attacker.isPlayer() ? attacker.getAsPlayer().getEquipment().get(EquipSlot.WEAPON) : null;
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
         int effectiveLevel = (int) Math.floor(getAttackLevel(attacker) * getPrayerAttackBonus(attacker, style));
-        double specialMultiplier = attacker.isPlayer() ? attacker.getAsPlayer().getCombatSpecial().getAccuracyMultiplier() : 1;
+        double specialMultiplier = 1;
+
+        if (attacker.isPlayer()) {
+            Player player = attacker.getAsPlayer();
+            if (player.getCombatSpecial() != null) {
+                specialMultiplier = player.getCombatSpecial().getAccuracyMultiplier();
+            }
+        }
+
 
         switch (fightStyle) {
             case ACCURATE -> effectiveLevel = (int) Math.floor(effectiveLevel + 3);
@@ -184,13 +192,13 @@ public class MeleeAccuracy {
                 attackLevel = npc.combatInfo().stats.attack;
             }
         } else {
-            attackLevel = attacker.skills().level(Skills.ATTACK);
+            attackLevel = attacker.getSkills().level(Skills.ATTACK);
         }
         return attackLevel;
     }
 
     public static int getDefenceLevel(Entity defender) {
-        return defender instanceof NPC && defender.getAsNpc().combatInfo() != null ? defender.getAsNpc().combatInfo().stats.defence : defender.skills().level(Skills.DEFENCE);
+        return defender instanceof NPC && defender.getAsNpc().combatInfo() != null ? defender.getAsNpc().combatInfo().stats.defence : defender.getSkills().level(Skills.DEFENCE);
     }
 
     private static int getGearDefenceBonus(Entity defender, CombatType style) {

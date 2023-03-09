@@ -274,7 +274,7 @@ public class BoltEnchantment extends PacketInteraction {
      * Handles enchanting the bolts.
      */
     private void enchant(Player player, Bolts bolt) {
-        if (player.skills().level(Skills.MAGIC) < bolt.levelReq) {
+        if (player.getSkills().level(Skills.MAGIC) < bolt.levelReq) {
             player.message("You need a crafting level of " + bolt.levelReq + " to craft this!");
             return;
         }
@@ -313,7 +313,7 @@ public class BoltEnchantment extends PacketInteraction {
                 player.animate(4462);
                 player.graphic(759, GraphicHeight.LOW, 0);
                 player.inventory().add(new Item(enchanted_id, 10));
-                player.skills().addXp(Skills.MAGIC, bolt.exp);
+                player.getSkills().addXp(Skills.MAGIC, bolt.exp);
 
                 String name = new Item(enchanted_id).name();
                 player.message("You make " + Utils.getAOrAn(name) + " " + name + ".");

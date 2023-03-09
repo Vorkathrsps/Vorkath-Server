@@ -44,10 +44,10 @@ public class MartinThwait extends Dialogue {
         if(isPhase(1)) {
             if(option == 1) {
                 //Does our player have at least 50 agility?
-                if (player.skills().level(Skills.AGILITY) < 50) {
+                if (player.getSkills().level(Skills.AGILITY) < 50) {
                     send(DialogueType.NPC_STATEMENT,MARTIN_THWAIT, Expression.BAD, "Sorry, mate. Train up your Agility skill to at least", "50 and I might be able to help you out.");
                     setPhase(2);
-                } else if (player.skills().level(Skills.THIEVING) < 50) {
+                } else if (player.getSkills().level(Skills.THIEVING) < 50) {
                     send(DialogueType.NPC_STATEMENT,MARTIN_THWAIT, Expression.BAD, "Sorry, mate. Train up your Thieving skill to at least", "50 and I might be able to help you out.");
                     setPhase(2);
                 } else {
@@ -63,10 +63,10 @@ public class MartinThwait extends Dialogue {
         } else if(isPhase(6)) {
             if(option == 1) {
                 //Does our player have at least 50 agility?
-                if (player.skills().level(Skills.AGILITY) < 50) {
+                if (player.getSkills().level(Skills.AGILITY) < 50) {
                     send(DialogueType.NPC_STATEMENT,MARTIN_THWAIT, Expression.BAD, "Sorry, mate. Train up your Agility skill to at least", "50 and I might be able to help you out.");
                     setPhase(2);
-                } else if (player.skills().level(Skills.THIEVING) < 50) {
+                } else if (player.getSkills().level(Skills.THIEVING) < 50) {
                     send(DialogueType.NPC_STATEMENT,MARTIN_THWAIT, Expression.BAD, "Sorry, mate. Train up your Thieving skill to at least", "50 and I might be able to help you out.");
                     setPhase(2);
                 } else {

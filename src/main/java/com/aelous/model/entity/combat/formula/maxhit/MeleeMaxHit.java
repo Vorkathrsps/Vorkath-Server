@@ -6,23 +6,16 @@ import com.aelous.model.content.skill.impl.slayer.SlayerConstants;
 import com.aelous.model.World;
 
 import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.formula.FormulaUtils;
-import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.combat.weapon.AttackType;
 import com.aelous.model.entity.combat.weapon.FightStyle;
-import com.aelous.model.entity.combat.weapon.FightType;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
-import com.aelous.model.items.Item;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.aelous.utility.ItemIdentifiers.*;
 
@@ -67,7 +60,7 @@ public class MeleeMaxHit {
     }
 
     public static int getStrengthLevel(Player player) {
-        return player.skills().level(Skills.STRENGTH);
+        return player.getSkills().level(Skills.STRENGTH);
     }
 
     private static double getPrayerBonus(Player player) {

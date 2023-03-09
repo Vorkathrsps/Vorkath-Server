@@ -86,7 +86,7 @@ public class ResourceArena extends PacketInteraction {
             if (pick.isEmpty()) {
                 player.message("You do not have a pickaxe which you have the Mining level to use.");
             } else {
-                if (player.skills().level(Skills.MINING) < 85) {
+                if (player.getSkills().level(Skills.MINING) < 85) {
                     DialogueManager.sendStatement(player,"You need a Mining level of 85 to mine this rock.");
                 } else {
                     Chain.bound(null).runFn(1, () -> player.message("You swing your pick at the rock."));
@@ -99,7 +99,7 @@ public class ResourceArena extends PacketInteraction {
                             player.animate(pick.get().anim);
 
                             if (internalTimer-- == 0) {
-                                var odds = Mining.chance(player.skills().level(Skills.MINING), Mining.Rock.RUNE, pick.get());
+                                var odds = Mining.chance(player.getSkills().level(Skills.MINING), Mining.Rock.RUNE, pick.get());
                                 var roll = World.getWorld().random(100);
                                 //System.out.println("roll = "+roll);
                                 //System.out.println("odds: "+odds);
@@ -109,7 +109,7 @@ public class ResourceArena extends PacketInteraction {
                                     player.animate(-1);
 
                                     player.inventory().addOrDrop(new Item(Mining.Rock.RUNE.ore));
-                                    player.skills().addXp(Skills.MINING, Mining.Rock.RUNE.xp);
+                                    player.getSkills().addXp(Skills.MINING, Mining.Rock.RUNE.xp);
 
                                     //TODO achievement here runite golem
                                     World.getWorld().getNpcs().remove(npc);

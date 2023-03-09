@@ -31,7 +31,7 @@ public class OverloadPotion {
                 if (!player.isRegistered() || player.dead() || ticks == 0 || WildernessArea.inWild(player)|| player.getDueling().inDuel()) {
                     stop();
                     player.healPlayer();
-                    player.skills().resetStats();
+                    player.getSkills().resetStats();
                     player.clearAttrib(AttributeKey.OVERLOAD_TASK_RUNNING);
                     player.getPacketSender().sendEffectTimer(0, EffectTimer.OVERLOAD);
                     player.message("Your overload effect wears off upon entering the wilderness.");
@@ -40,11 +40,11 @@ public class OverloadPotion {
 
                 //Every 15 seconds apply effect
                 if (ticks % 25 == 0) {
-                    player.skills().overloadPlusBoost(Skills.ATTACK);
-                    player.skills().overloadPlusBoost(Skills.STRENGTH);
-                    player.skills().overloadPlusBoost(Skills.DEFENCE);
-                    player.skills().overloadPlusBoost(Skills.RANGED);
-                    player.skills().overloadPlusBoost(Skills.MAGIC);
+                    player.getSkills().overloadPlusBoost(Skills.ATTACK);
+                    player.getSkills().overloadPlusBoost(Skills.STRENGTH);
+                    player.getSkills().overloadPlusBoost(Skills.DEFENCE);
+                    player.getSkills().overloadPlusBoost(Skills.RANGED);
+                    player.getSkills().overloadPlusBoost(Skills.MAGIC);
                 }
 
                 if (--ticks > 0) {
@@ -54,7 +54,7 @@ public class OverloadPotion {
                     if (ticks == 0) {
                         stop();
                         player.healPlayer();
-                        player.skills().resetStats();
+                        player.getSkills().resetStats();
                         player.clearAttrib(AttributeKey.OVERLOAD_TASK_RUNNING);
                         player.getPacketSender().sendEffectTimer(0, EffectTimer.OVERLOAD);
                         player.message(Color.RED.tag() + "Your overload potion has expired.");

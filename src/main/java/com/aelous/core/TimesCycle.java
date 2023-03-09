@@ -36,7 +36,7 @@ public class TimesCycle {
     public String COMPUTED_MSG = "";
     public static int lastComputedMsgTick = -1;
     public static boolean APPEND_WORLDINFO = false;
-    public static boolean BENCHMARKING_ENABLED = false;
+    public static boolean BENCHMARKING_ENABLED = true;
 
     public void computeAnd(Consumer<TimesCycle> c) {
         if (!BENCHMARKING_ENABLED) return;
@@ -56,10 +56,10 @@ public class TimesCycle {
         ));
 
         var sb3 = new StringBuilder();
-        if (login > 0) sb3.append("login:"+login+" ");
-        if (objs > 0) sb3.append("objs:"+objs+" ");
-        if (tasks > 0) sb3.append("tasks:"+tasks+" ");
-        if (gitems > 0) sb3.append("gitems:"+ gitems +" ");
+        if (login > 0) sb3.append("login:").append(login).append(" ");
+        if (objs > 0) sb3.append("objs:").append(objs).append(" ");
+        if (tasks > 0) sb3.append("tasks:").append(tasks).append(" ");
+        if (gitems > 0) sb3.append("gitems:").append(gitems).append(" ");
         if (sb3.length() > 0)
             sb.append("["+sb3+"] ");
 

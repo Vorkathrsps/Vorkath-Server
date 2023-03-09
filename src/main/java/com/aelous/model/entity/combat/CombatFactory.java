@@ -11,7 +11,6 @@ import com.aelous.model.content.members.MemberZone;
 import com.aelous.model.content.raids.party.Party;
 import com.aelous.model.content.sigils.SigilHandler;
 import com.aelous.model.content.sigils.data.tier1.FeralFighter;
-import com.aelous.model.content.sigils.data.tier1.Fortifcation;
 import com.aelous.model.content.skill.impl.slayer.SlayerConstants;
 import com.aelous.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.aelous.model.content.teleport.Teleports;
@@ -440,7 +439,7 @@ public class CombatFactory {
             if (target.isPlayer()) {
                 Player player = (Player) target;
                 // Under 10% hp, hit won't kill us
-                if (player.hp() - damage > 0 && player.hp() <= player.skills().xpLevel(Skills.HITPOINTS) / 10) {
+                if (player.hp() - damage > 0 && player.hp() <= player.getSkills().xpLevel(Skills.HITPOINTS) / 10) {
                     boolean ring = player.getEquipment().contains(2570);
 
                     boolean defenceCape = (int) player.getAttribOr(AttributeKey.DEFENCE_PERK_TOGGLE, 0) == 1 && (player.getEquipment().contains(DEFENCE_CAPE));
@@ -771,7 +770,7 @@ public class CombatFactory {
             if (oppNpc.combatInfo() != null) {
                 var noRequirementNeeded = entity.getAsPlayer().getSlayerRewards().getUnlocks().containsKey(SlayerConstants.NO_SLAYER_REQ);
                 var slayerReq = Math.max(SlayerCreature.slayerReq(oppNpc.id()), oppNpc.combatInfo().slayerlvl);
-                if (!noRequirementNeeded && slayerReq > (entity.getAsPlayer()).skills().level(Skills.SLAYER)) {
+                if (!noRequirementNeeded && slayerReq > (entity.getAsPlayer()).getSkills().level(Skills.SLAYER)) {
                     entity.message("You need a slayer level of " + slayerReq + " to harm this NPC.");
                     return false;
                 }
@@ -863,15 +862,15 @@ public class CombatFactory {
             // FFA Clan wars does not make any checks for levels. Free for all :)
             if (!inArena) {
 
-                var oppWithinLvl = entity.skills().combatLevel() >= getLowestLevel(other, entity) &&
-                    entity.skills().combatLevel() <= getHighestLevel(other, entity);
+                var oppWithinLvl = entity.getSkills().combatLevel() >= getLowestLevel(other, entity) &&
+                    entity.getSkills().combatLevel() <= getHighestLevel(other, entity);
 
                 if (!oppWithinLvl) {
                     entity.message((!WildernessArea.inWilderness(entity.tile())) ? "Your level difference is too great! You need to move deeper into the Wilderness." : "Your level difference is too great.");
                     return false;
                 } else {
-                    var withinLvl = (other.skills().combatLevel() >= getLowestLevel(entity, other) &&
-                        other.skills().combatLevel() <= getHighestLevel(entity, other));
+                    var withinLvl = (other.getSkills().combatLevel() >= getLowestLevel(entity, other) &&
+                        other.getSkills().combatLevel() <= getHighestLevel(entity, other));
                     if (!withinLvl) {
                         entity.message((!WildernessArea.inWilderness(entity.tile())) ? "Your level difference is too great! You need to move deeper into the Wilderness." : "Your level difference is too great.");
                         return false;
@@ -922,8 +921,8 @@ public class CombatFactory {
                 NPC npc = (NPC) other;
                 if (npc.getBotHandler() != null) {
                     if (entity.isPlayer()) {
-                        var oppWithinLvl = entity.skills().combatLevel() >= getLowestLevel(entity, npc) &&
-                            entity.skills().combatLevel() <= getHighestLevel(entity, npc);
+                        var oppWithinLvl = entity.getSkills().combatLevel() >= getLowestLevel(entity, npc) &&
+                            entity.getSkills().combatLevel() <= getHighestLevel(entity, npc);
 
                         if (!oppWithinLvl) {
                             entity.message((!WildernessArea.inWilderness(entity.tile())) ? "Your level difference is too great! You need to move deeper into the Wilderness." : "Your level difference is too great.");
@@ -1538,26 +1537,26 @@ public class CombatFactory {
             case MELEE -> {
                 switch (mode) {
                     case ACCURATE -> {
-                        player.skills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
-                        player.skills().addXp(Skills.ATTACK, (hit * 4.0), !target.isPlayer());
+                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
+                        player.getSkills().addXp(Skills.ATTACK, (hit * 4.0), !target.isPlayer());
                     }
 
                     case AGGRESSIVE -> {
-                        player.skills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
-                        player.skills().addXp(Skills.STRENGTH, (hit * 4.0), !target.isPlayer());
+                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
+                        player.getSkills().addXp(Skills.STRENGTH, (hit * 4.0), !target.isPlayer());
                     }
 
                     case DEFENSIVE -> {
-                        player.skills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
-                        player.skills().addXp(Skills.DEFENCE, (hit * 4.0), !target.isPlayer());
+                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
+                        player.getSkills().addXp(Skills.DEFENCE, (hit * 4.0), !target.isPlayer());
                     }
 
                     case CONTROLLED -> {
                         var xp = (hit * 4.0);
-                        player.skills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
-                        player.skills().addXp(Skills.ATTACK, xp / 3.0, !target.isPlayer());
-                        player.skills().addXp(Skills.STRENGTH, xp / 3.0, !target.isPlayer());
-                        player.skills().addXp(Skills.DEFENCE, xp / 3.0, !target.isPlayer());
+                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
+                        player.getSkills().addXp(Skills.ATTACK, xp / 3.0, !target.isPlayer());
+                        player.getSkills().addXp(Skills.STRENGTH, xp / 3.0, !target.isPlayer());
+                        player.getSkills().addXp(Skills.DEFENCE, xp / 3.0, !target.isPlayer());
                     }
                 }
             }
@@ -1565,14 +1564,14 @@ public class CombatFactory {
             case RANGED -> {
                 switch (mode) {
                     case ACCURATE, AGGRESSIVE -> {
-                        player.skills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
-                        player.skills().addXp(Skills.RANGED, (hit * 4.0), !target.isPlayer());
+                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
+                        player.getSkills().addXp(Skills.RANGED, (hit * 4.0), !target.isPlayer());
                     }
 
                     case DEFENSIVE -> {
-                        player.skills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
-                        player.skills().addXp(Skills.RANGED, (hit * 2.0), !target.isPlayer());
-                        player.skills().addXp(Skills.DEFENCE, (hit * 2.0), !target.isPlayer());
+                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
+                        player.getSkills().addXp(Skills.RANGED, (hit * 2.0), !target.isPlayer());
+                        player.getSkills().addXp(Skills.DEFENCE, (hit * 2.0), !target.isPlayer());
                     }
                 }
             }
@@ -1583,17 +1582,17 @@ public class CombatFactory {
                     if (hit > 0) {
                         // Accurate? Or normal autocast? aka non defensive
                         if (!player.<Boolean>getAttribOr(AttributeKey.DEFENSIVE_AUTOCAST, false)) {
-                            player.skills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
-                            player.skills().addXp(Skills.MAGIC, (hit * 2.0 + spell.baseExperience()), !target.isPlayer());
+                            player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
+                            player.getSkills().addXp(Skills.MAGIC, (hit * 2.0 + spell.baseExperience()), !target.isPlayer());
                         } else {
                             // Defensive autocast...
-                            player.skills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
-                            player.skills().addXp(Skills.MAGIC, (hit + spell.baseExperience() + (hit / 3.0)), !target.isPlayer());
-                            player.skills().addXp(Skills.DEFENCE, hit + spell.baseExperience(), !target.isPlayer());
+                            player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
+                            player.getSkills().addXp(Skills.MAGIC, (hit + spell.baseExperience() + (hit / 3.0)), !target.isPlayer());
+                            player.getSkills().addXp(Skills.DEFENCE, hit + spell.baseExperience(), !target.isPlayer());
                         }
                     } else {
                         //Splash should only give 52 exp..
-                        player.skills().addXp(Skills.MAGIC, 1);
+                        player.getSkills().addXp(Skills.MAGIC, 1);
                     }
                 }
             }
@@ -1623,6 +1622,7 @@ public class CombatFactory {
      * @param mob The mob to check for.
      * @return true if mob is in combat, false otherwise.
      */
+    @SuppressWarnings("unchecked")
     public static boolean inCombat(Entity mob) {
         var target = ((WeakReference<Entity>) mob.getAttribOr(AttributeKey.TARGET, new WeakReference<>(null))).get();
         var lastAttacked = System.currentTimeMillis() - mob.<Long>getAttribOr(AttributeKey.LAST_WAS_ATTACKED_TIME, 0L);
@@ -1662,7 +1662,6 @@ public class CombatFactory {
         if (player == attacker) // dont recoil self-caused damage (rockcake)
             return;
 
-        //Damage has to be at least 2
         if (damage == 1) {
             return;
         }
@@ -1762,11 +1761,11 @@ public class CombatFactory {
 
             // The redemption (HEALING) prayer effect.
             if (Prayers.usingPrayer(victim, Prayers.REDEMPTION)
-                && victim.hp() <= (victim.skills().xpLevel(Skills.HITPOINTS) / 10)) {
-                int amountToHeal = (int) (victim.skills().xpLevel(Skills.PRAYER) * .25);
+                && victim.hp() <= (victim.getSkills().xpLevel(Skills.HITPOINTS) / 10)) {
+                int amountToHeal = (int) (victim.getSkills().xpLevel(Skills.PRAYER) * .25);
                 victim.performGraphic(new Graphic(436));
-                victim.skills().setLevel(Skills.PRAYER, 0);
-                victim.skills().setLevel(Skills.HITPOINTS, victim.hp() + amountToHeal);
+                victim.getSkills().setLevel(Skills.PRAYER, 0);
+                victim.getSkills().setLevel(Skills.HITPOINTS, victim.hp() + amountToHeal);
                 victim.message("You've run out of prayer points!");
                 Prayers.closeAllPrayers(victim);
                 return;
@@ -1779,7 +1778,7 @@ public class CombatFactory {
                 if (Prayers.usingPrayer(playerAttacker, Prayers.SMITE)) {
                     int removePoints = damage / 4;
 
-                    victim.skills().alterSkill(Skills.PRAYER, -removePoints);
+                    victim.getSkills().alterSkill(Skills.PRAYER, -removePoints);
 
                     int smiteDmg = (Integer) playerAttacker.getAttribOr(AttributeKey.SMITE_DAMAGE, 0) + removePoints;
                     playerAttacker.putAttrib(AttributeKey.SMITE_DAMAGE, smiteDmg);
@@ -2030,7 +2029,7 @@ public class CombatFactory {
     }
 
     public static int getLowestLevel(Entity entity, Entity target) {
-        var combat = entity.isNpc() ? entity.getAsNpc().def().combatlevel : entity.skills().combatLevel();
+        var combat = entity.isNpc() ? entity.getAsNpc().def().combatlevel : entity.getSkills().combatLevel();
         var wilderness = WildernessArea.wildernessLevel(entity.tile());
         var min = combat - wilderness;
         if (min < 3) {
@@ -2040,7 +2039,7 @@ public class CombatFactory {
     }
 
     public static int getHighestLevel(Entity entity, Entity target) {
-        var combat = entity.isNpc() ? entity.getAsNpc().def().combatlevel : entity.skills().combatLevel();
+        var combat = entity.isNpc() ? entity.getAsNpc().def().combatlevel : entity.getSkills().combatLevel();
         var wilderness = WildernessArea.wildernessLevel(entity.tile());
         var max = combat + wilderness;
         if (max > 126) {

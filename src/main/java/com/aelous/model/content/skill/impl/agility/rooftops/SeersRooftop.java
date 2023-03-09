@@ -31,7 +31,7 @@ public class SeersRooftop extends PacketInteraction {
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         // Wall climb
         if(obj.getId() == WALL_14927) {
-            if (player.skills().xpLevel(Skills.AGILITY) < 60) {
+            if (player.getSkills().xpLevel(Skills.AGILITY) < 60) {
                 player.message("You need an Agility level of 60 to attempt this.");
             } else {
                 player.lock();
@@ -42,7 +42,7 @@ public class SeersRooftop extends PacketInteraction {
                 }).then(2, () -> {
                     player.teleport(2729, 3491, 3);
                     player.animate(-1);
-                    player.skills().addXp(Skills.AGILITY, 45.0);
+                    player.getSkills().addXp(Skills.AGILITY, 45.0);
                     player.unlock();
                     player.putAttrib(AttributeKey.SEERS_ROOFTOP_COURSE_STATE,1);
                     MarksOfGrace.trySpawn(player, MARK_SPOTS, 60, 20);
@@ -65,7 +65,7 @@ public class SeersRooftop extends PacketInteraction {
                 player.teleport(2713, 3494, 2);
                 player.animate(2588);
             }).then(1, () -> {
-                player.skills().addXp(Skills.AGILITY, 20.0);
+                player.getSkills().addXp(Skills.AGILITY, 20.0);
                 player.unlock();
                 player.putAttrib(AttributeKey.SEERS_ROOFTOP_COURSE_STATE,2);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 60, 20);
@@ -85,7 +85,7 @@ public class SeersRooftop extends PacketInteraction {
             }).waitForTile(new Tile(2710, 3481), () -> {
                 player.agilityWalk(true);
                 player.looks().resetRender();
-                player.skills().addXp(Skills.AGILITY, 20.0);
+                player.getSkills().addXp(Skills.AGILITY, 20.0);
                 player.unlock();
                 player.putAttrib(AttributeKey.SEERS_ROOFTOP_COURSE_STATE,3);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 60, 20);
@@ -101,7 +101,7 @@ public class SeersRooftop extends PacketInteraction {
                 TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, -2), 17, 26, Direction.SOUTH.toInteger())));
             }).then(1, () -> {
                 player.teleport(2710, 3472, 3);
-                player.skills().addXp(Skills.AGILITY, 35.0);
+                player.getSkills().addXp(Skills.AGILITY, 35.0);
                 player.unlock();
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 60, 20);
                 player.putAttrib(AttributeKey.SEERS_ROOFTOP_COURSE_STATE,4);
@@ -121,7 +121,7 @@ public class SeersRooftop extends PacketInteraction {
                     player.teleport(2702, 3465, 2);
                 }).then(1, () -> {
                     player.animate(-1);
-                    player.skills().addXp(Skills.AGILITY, 15.0);
+                    player.getSkills().addXp(Skills.AGILITY, 15.0);
                     player.unlock();
                     player.putAttrib(AttributeKey.SEERS_ROOFTOP_COURSE_STATE,5);
                     MarksOfGrace.trySpawn(player, MARK_SPOTS, 60, 20);
@@ -145,10 +145,10 @@ public class SeersRooftop extends PacketInteraction {
                 int stage = player.getAttribOr(AttributeKey.SEERS_ROOFTOP_COURSE_STATE, 0);
                 if (stage == 5) {
                     player.putAttrib(AttributeKey.SEERS_ROOFTOP_COURSE_STATE, 0);
-                    player.skills().addXp(Skills.AGILITY, 435.0);
+                    player.getSkills().addXp(Skills.AGILITY, 435.0);
 
                 } else {
-                    player.skills().addXp(Skills.AGILITY, 15.0);
+                    player.getSkills().addXp(Skills.AGILITY, 15.0);
                 }
                 player.unlock();
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 60, 20);

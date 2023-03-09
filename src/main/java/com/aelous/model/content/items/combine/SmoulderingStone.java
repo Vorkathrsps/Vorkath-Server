@@ -71,7 +71,7 @@ public class SmoulderingStone extends PacketInteraction {
 
     private static void makePickaxe(Player player) {
         // Check requirements
-        if (player.skills().level(Skills.MINING) < 61 || player.skills().level(Skills.SMITHING) < 85) {
+        if (player.getSkills().level(Skills.MINING) < 61 || player.getSkills().level(Skills.SMITHING) < 85) {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
@@ -133,7 +133,7 @@ public class SmoulderingStone extends PacketInteraction {
 
     private static void makeAxe(Player player) {
         // Check requirements
-        if (player.skills().level(Skills.WOODCUTTING) < 61 || player.skills().level(Skills.FIREMAKING) < 85) {
+        if (player.getSkills().level(Skills.WOODCUTTING) < 61 || player.getSkills().level(Skills.FIREMAKING) < 85) {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
@@ -199,7 +199,7 @@ public class SmoulderingStone extends PacketInteraction {
         String resultName = new Item(result).name();
 
         // Check requirements
-        if (player.skills().xpLevel(Skills.RUNECRAFTING) < 60 || player.skills().xpLevel(Skills.MAGIC) < 60) {
+        if (player.getSkills().xpLevel(Skills.RUNECRAFTING) < 60 || player.getSkills().xpLevel(Skills.MAGIC) < 60) {
             player.getDialogueManager().start(new Dialogue() {
                 @Override
                 protected void start(Object... parameters) {
@@ -252,8 +252,8 @@ public class SmoulderingStone extends PacketInteraction {
                                 player.inventory().add(new Item(result), true);
                         }
 
-                        player.skills().addXp(Skills.MAGIC, 200.0);
-                        player.skills().addXp(Skills.RUNECRAFTING, 200.0);
+                        player.getSkills().addXp(Skills.MAGIC, 200.0);
+                        player.getSkills().addXp(Skills.RUNECRAFTING, 200.0);
                         stop();
                     } else if (option == 2) {
                         stop();

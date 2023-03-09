@@ -111,7 +111,7 @@ public class Spinning {
      * @param spinnable The spinnable data.
      */
     public static void click(Player player, Spinnable spinnable) {
-        if (player.skills().level(Skills.CRAFTING) < spinnable.requiredLevel) {
+        if (player.getSkills().level(Skills.CRAFTING) < spinnable.requiredLevel) {
             DialogueManager.sendStatement(player, "You need a crafting level of " + spinnable.requiredLevel + " to spin this!");
             return;
         }
@@ -179,7 +179,7 @@ public class Spinning {
                 player.animate(896);
                 player.inventory().remove(spinnable.item);
                 player.inventory().add(spinnable.outcome);
-                player.skills().addXp(Skills.CRAFTING, spinnable.experience);
+                player.getSkills().addXp(Skills.CRAFTING, spinnable.experience);
                 player.message("You spin the " + spinnable.item.name() + " into " + Utils.getAOrAn(spinnable.outcome.name()) + " " + spinnable.outcome.name() + ".");
 
                 if (++ticks == amount) {

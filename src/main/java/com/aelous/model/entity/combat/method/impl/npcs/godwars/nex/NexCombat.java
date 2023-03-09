@@ -187,7 +187,7 @@ public class NexCombat extends CommonCombatMethod {
 
             for (int skill : DRAIN) {
                 int take = 5;
-                t.skills().alterSkill(skill, -take);
+                t.getSkills().alterSkill(skill, -take);
                 nex.combatInfo().stats.attack += take;
                 nex.combatInfo().stats.strength += take;
                 nex.combatInfo().stats.defence += take;
@@ -205,7 +205,7 @@ public class NexCombat extends CommonCombatMethod {
             hit.checkAccuracy().submit();
             if(hit.isAccurate()) {
                 t.graphic(2008);
-                t.skills().alterSkill(Skills.PRAYER, -5);
+                t.getSkills().alterSkill(Skills.PRAYER, -5);
             }
         }
         nex.putAttrib(AttributeKey.MAXHIT_OVERRIDE, -1);
@@ -226,9 +226,9 @@ public class NexCombat extends CommonCombatMethod {
             if (x == player.getX() && y == player.getY()) {
                 int damage = Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MAGIC) ? 40 : BLOOD_SACRIFICE_ATTACK_MAX;
                 player.hit(nex, World.getWorld().random(1,damage));
-                int currentLevel = player.skills().level(Skills.PRAYER);
+                int currentLevel = player.getSkills().level(Skills.PRAYER);
                 int drain = currentLevel / 3;
-                player.skills().alterSkill(Skills.PRAYER, -drain);
+                player.getSkills().alterSkill(Skills.PRAYER, -drain);
                 player.message("You didn't make it far enough in time - Nex fires a punishing attack!");
 
                 //Random players will also take up to 12 damage through Protect from Magic, and their prayer is drained by 1/3rd as well.
@@ -366,7 +366,7 @@ public class NexCombat extends CommonCombatMethod {
             t.hit(nex, World.getWorld().random(1, damage), 3);
             Chain.bound(null).runFn(3, () -> {
                 t.graphic(379);
-                t.skills().alterSkill(Skills.PRAYER, -5);
+                t.getSkills().alterSkill(Skills.PRAYER, -5);
             });
         }
         nex.putAttrib(AttributeKey.MAXHIT_OVERRIDE, -1);
@@ -476,7 +476,7 @@ public class NexCombat extends CommonCombatMethod {
             if (Utils.getDistance(t.getX(), t.getY(), infected.getX(), infected.getY()) <= 1) {
                 t.forceChat("*Cough*");
                 t.hit(nex, World.getWorld().random(10));
-                t.skills().alterSkill(Skills.PRAYER, -2);
+                t.getSkills().alterSkill(Skills.PRAYER, -2);
                 hit.add(t);
                 sendVirusAttack(nex, hit, possibleTargets, infected);
             }

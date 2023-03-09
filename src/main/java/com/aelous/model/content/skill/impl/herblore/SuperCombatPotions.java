@@ -47,7 +47,7 @@ public class SuperCombatPotions {
     }
 
     private static void makePotion(Player player) {
-        if (player.skills().xpLevel(Skills.HERBLORE) < 90) {
+        if (player.getSkills().xpLevel(Skills.HERBLORE) < 90) {
             DialogueManager.sendStatement(player, "You need a Herblore level of at least 90 to make this potion.");
             return;
         }
@@ -111,7 +111,7 @@ public class SuperCombatPotions {
                 player.getTaskMasterManager().increase(Tasks.MAKE_SUPER_COMBAT_POTIONS);
 
                 player.message("You mix the torstol into your potion.");
-                player.skills().addXp(Skills.HERBLORE, 150.0);
+                player.getSkills().addXp(Skills.HERBLORE, 150.0);
 
                 if (++ticks == amount) {
                     stop();

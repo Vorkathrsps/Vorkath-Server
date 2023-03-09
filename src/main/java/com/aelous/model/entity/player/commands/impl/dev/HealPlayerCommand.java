@@ -24,9 +24,9 @@ public class HealPlayerCommand implements Command {
         if (playerToHeal.isPresent()) {
             Player p = playerToHeal.get();
             player.message("You have healed "+p.getUsername()+".");
-            p.hp(Math.max(player.skills().level(Skills.HITPOINTS), p.skills().xpLevel(Skills.HITPOINTS)), 20); //Set hitpoints to 100%
-            p.skills().replenishSkill(5, p.skills().xpLevel(5)); //Set the players prayer level to full
-            p.skills().replenishStatsToNorm();
+            p.hp(Math.max(player.getSkills().level(Skills.HITPOINTS), p.getSkills().xpLevel(Skills.HITPOINTS)), 20); //Set hitpoints to 100%
+            p.getSkills().replenishSkill(5, p.getSkills().xpLevel(5)); //Set the players prayer level to full
+            p.getSkills().replenishStatsToNorm();
             p.setRunningEnergy(100.0, true);
             Poison.cure(p);
             Venom.cure(2, p);

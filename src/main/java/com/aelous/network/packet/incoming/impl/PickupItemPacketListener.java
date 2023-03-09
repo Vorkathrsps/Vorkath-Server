@@ -101,7 +101,7 @@ public class PickupItemPacketListener implements PacketListener {
             }
 
             player.stopActions(false);
-            player.skills().stopSkillable();
+            player.getSkills().stopSkillable();
             player.getCombat().reset();
 
             player.putAttrib(AttributeKey.INTERACTED_GROUNDITEM, itemId);
@@ -111,7 +111,7 @@ public class PickupItemPacketListener implements PacketListener {
 
             if (onSpot(player, tile)) {
                 if (itemId == ESCAPE_KEY) {
-                    if (player.skills().combatLevel() < 126) {
+                    if (player.getSkills().combatLevel() < 126) {
                         player.message(Color.RED.wrap("You need to be at least level 126 to pickup this key."));
                         return;
                     }
@@ -122,7 +122,7 @@ public class PickupItemPacketListener implements PacketListener {
                     @Override
                     public void onReach() {
                         if (itemId == ESCAPE_KEY) {
-                            if (player.skills().combatLevel() < 126) {
+                            if (player.getSkills().combatLevel() < 126) {
                                 player.message(Color.RED.wrap("You need to be at least level 126 to pickup this key."));
                                 stop();
                                 return;

@@ -74,7 +74,7 @@ public class BoneBurying extends PacketInteraction {
         }
         String mes = "You bury the bones.";
 
-        player.skills().addXp(Skills.PRAYER, xp);
+        player.getSkills().addXp(Skills.PRAYER, xp);
         player.playSound(380);
         Chain.bound(player).runFn(1, () -> player.message(mes));
     }
@@ -149,13 +149,13 @@ public class BoneBurying extends PacketInteraction {
                 if (ObjectManager.objById(13213, new Tile(3095, 3506)) != null &&
                     ObjectManager.objById(13213, new Tile(3098, 3506)) != null) { // Gilded altar locations
                     player.message("The gods are very pleased with your offerings.");
-                    player.skills().addXp(Skills.PRAYER, bones.xp * 3);
+                    player.getSkills().addXp(Skills.PRAYER, bones.xp * 3);
                 } else if(obj.getId() == CHAOS_ALTAR_411 && obj.tile().equals(2947,3820,0)) {
                     player.message("The gods are pleased with your offerings.");
-                    player.skills().addXp(Skills.PRAYER, bones.xp * 3);
+                    player.getSkills().addXp(Skills.PRAYER, bones.xp * 3);
                 } else {
                     player.message("The gods are pleased with your offerings.");
-                    player.skills().addXp(Skills.PRAYER, bones.xp * 2);
+                    player.getSkills().addXp(Skills.PRAYER, bones.xp * 2);
                 }
 
                 if (++ticks == amount) {

@@ -225,7 +225,7 @@ public class Potions {
 
     public static int getBrewStat(int skill, double amount) {
         Player player = new Player();
-        return (int) (player.skills().xpLevel(skill) * amount);
+        return (int) (player.getSkills().xpLevel(skill) * amount);
     }
 
 
@@ -266,39 +266,39 @@ public class Potions {
         }
 
         if (potion.defaultalgo) {
-            double change = potion.base + (player.skills().xpLevel(potion.skill) * potion.percentage / 100.0);
-            player.skills().alterSkill(potion.skill, (int) change);
+            double change = potion.base + (player.getSkills().xpLevel(potion.skill) * potion.percentage / 100.0);
+            player.getSkills().alterSkill(potion.skill, (int) change);
         } else if (potion == Potion.SARADOMIN_BREW) {
-            double heal = (int) ((player.skills().xpLevel(Skills.HITPOINTS) * 0.15) + 2);
-            double def = (int) ((player.skills().xpLevel(Skills.DEFENCE) * 0.2) + 2);
+            double heal = (int) ((player.getSkills().xpLevel(Skills.HITPOINTS) * 0.15) + 2);
+            double def = (int) ((player.getSkills().xpLevel(Skills.DEFENCE) * 0.2) + 2);
             int increase = player.getEquipment().hpIncrease();
             player.heal((int) heal, increase > 0 ? increase : 16);
-            player.skills().alterSkill(Skills.DEFENCE, (int) def);
+            player.getSkills().alterSkill(Skills.DEFENCE, (int) def);
 
             int[] ids = new int[]{Skills.ATTACK, Skills.STRENGTH, Skills.MAGIC, Skills.RANGED};
 
             for (int i : ids) {
-                int lvl = player.skills().xpLevel(i);
-                player.skills().alterSkill(i, (int) -(lvl * 0.1) + 2);
+                int lvl = player.getSkills().xpLevel(i);
+                player.getSkills().alterSkill(i, (int) -(lvl * 0.1) + 2);
             }
         } else if (potion == Potion.ZAMORAK_BREW) {
-            double attackIncrease = (player.skills().xpLevel(Skills.ATTACK) * 0.2) + 2;
-            double strengthIncrease = (player.skills().xpLevel(Skills.STRENGTH) * 0.12) + 2;
-            double prayerIncrease = (player.skills().xpLevel(Skills.PRAYER) * 0.1);
+            double attackIncrease = (player.getSkills().xpLevel(Skills.ATTACK) * 0.2) + 2;
+            double strengthIncrease = (player.getSkills().xpLevel(Skills.STRENGTH) * 0.12) + 2;
+            double prayerIncrease = (player.getSkills().xpLevel(Skills.PRAYER) * 0.1);
 
-            double defenceDecrease = (player.skills().xpLevel(Skills.DEFENCE) * 0.1) + 2;
+            double defenceDecrease = (player.getSkills().xpLevel(Skills.DEFENCE) * 0.1) + 2;
             double hpDecrease = (player.hp() * 0.1) + 2;
 
-            player.skills().alterSkill(Skills.ATTACK, (int) attackIncrease);
-            player.skills().alterSkill(Skills.STRENGTH, (int) strengthIncrease);
-            player.skills().replenishSkill(Skills.PRAYER, (int) prayerIncrease);
-            player.skills().alterSkill(Skills.DEFENCE, (int) -defenceDecrease);
+            player.getSkills().alterSkill(Skills.ATTACK, (int) attackIncrease);
+            player.getSkills().alterSkill(Skills.STRENGTH, (int) strengthIncrease);
+            player.getSkills().replenishSkill(Skills.PRAYER, (int) prayerIncrease);
+            player.getSkills().alterSkill(Skills.DEFENCE, (int) -defenceDecrease);
             player.hit(player,(int) hpDecrease);
 
         } else if (potion == Potion.SUPER_RESTORE) {
             for (int i = 0; i < Skills.SKILL_COUNT; i++) {
                 if (i != Skills.HITPOINTS) {
-                    double current_flat = player.skills().xpLevel(i);
+                    double current_flat = player.getSkills().xpLevel(i);
                     double restorable = (int) (current_flat * 0.25 + 8);
 
                     if (i == Skills.PRAYER) {
@@ -310,35 +310,35 @@ public class Potions {
                             }
                         }
                     }
-                    player.skills().replenishSkill(i, (int) restorable);
+                    player.getSkills().replenishSkill(i, (int) restorable);
                 }
             }
         } else if (potion == Potion.RESTORE_POTION) {
             for (int i : new int[]{Skills.ATTACK, Skills.DEFENCE, Skills.STRENGTH, Skills.MAGIC, Skills.RANGED}) {
                 if (i != Skills.HITPOINTS && i != Skills.PRAYER) {
-                    double current_flat = player.skills().xpLevel(i);
+                    double current_flat = player.getSkills().xpLevel(i);
                     double restorable = (int) (current_flat * 0.30 + 10);
 
-                    player.skills().replenishSkill(i, (int) restorable);
+                    player.getSkills().replenishSkill(i, (int) restorable);
                 }
             }
         } else if (potion == Potion.SUPER_COMBAT_POTION) {
-            int curStr = player.skills().xpLevel(Skills.STRENGTH);
-            int curAtk = player.skills().xpLevel(Skills.ATTACK);
-            int curDef = player.skills().xpLevel(Skills.DEFENCE);
+            int curStr = player.getSkills().xpLevel(Skills.STRENGTH);
+            int curAtk = player.getSkills().xpLevel(Skills.ATTACK);
+            int curDef = player.getSkills().xpLevel(Skills.DEFENCE);
 
-            player.skills().alterSkill(Skills.ATTACK, (int) ((curAtk * 0.1) + 10));
-            player.skills().alterSkill(Skills.STRENGTH, (int) ((curStr * 0.1) + 10));
-            player.skills().alterSkill(Skills.DEFENCE, (int) ((curDef * 0.1) + 10));
+            player.getSkills().alterSkill(Skills.ATTACK, (int) ((curAtk * 0.1) + 10));
+            player.getSkills().alterSkill(Skills.STRENGTH, (int) ((curStr * 0.1) + 10));
+            player.getSkills().alterSkill(Skills.DEFENCE, (int) ((curDef * 0.1) + 10));
         } else if (potion == Potion.COMBAT_POTION) {
-            int curStr = player.skills().xpLevel(Skills.STRENGTH);
-            int curAtk = player.skills().xpLevel(Skills.ATTACK);
+            int curStr = player.getSkills().xpLevel(Skills.STRENGTH);
+            int curAtk = player.getSkills().xpLevel(Skills.ATTACK);
 
-            player.skills().alterSkill(Skills.ATTACK, (int) ((curAtk * 0.1) + 3));
-            player.skills().alterSkill(Skills.STRENGTH, (int) ((curStr * 0.1) + 3));
+            player.getSkills().alterSkill(Skills.ATTACK, (int) ((curAtk * 0.1) + 3));
+            player.getSkills().alterSkill(Skills.STRENGTH, (int) ((curStr * 0.1) + 3));
         } else if (potion == Potion.PRAYER_POTION) {
-            int lv = player.skills().xpLevel(Skills.PRAYER);
-            int cur = player.skills().level(Skills.PRAYER);
+            int lv = player.getSkills().xpLevel(Skills.PRAYER);
+            int cur = player.getSkills().level(Skills.PRAYER);
             int addition = 7 + lv / 4;
             var newval = cur + addition;
             if (player.inventory().contains(6714) && player.getEquipment().wearingMaxCape()) { // Max cape holy wrench effect
@@ -348,7 +348,7 @@ public class Potions {
                     newval += 2;
                 }
             }
-            player.skills().setLevel(Skills.PRAYER, Math.min(newval, lv));
+            player.getSkills().setLevel(Skills.PRAYER, Math.min(newval, lv));
         } else if (potion == Potion.ANTIPOISON) {
             if (Venom.venomed(player))
                 Venom.cure(1, player);
@@ -416,7 +416,7 @@ public class Potions {
             // Restore effect:
             for (int i = 0; i < Skills.SKILL_COUNT; i++) {
                 if (i != Skills.HITPOINTS) {
-                    int current_flat = player.skills().xpLevel(i);
+                    int current_flat = player.getSkills().xpLevel(i);
                     double restorable = (int) (current_flat * 0.25 + 8);
 
                     if (i == Skills.PRAYER) {
@@ -428,7 +428,7 @@ public class Potions {
                             }
                         }
                     }
-                    player.skills().replenishSkill(i, (int) restorable);
+                    player.getSkills().replenishSkill(i, (int) restorable);
                 }
             }
 
@@ -460,56 +460,56 @@ public class Potions {
             player.setRunningEnergy((double) player.getAttribOr(AttributeKey.RUN_ENERGY, 0.0) + 5, true);
             player.message("The tea boosts your hitpoints.");
         } else if (potion == Potion.BASTION_POTION) {
-            double rangeChange = 4 + (player.skills().xpLevel(Skills.RANGED) * 10 / 100.0);
-            player.skills().alterSkill(Skills.RANGED, (int) rangeChange);
-            double defenceChange = 5 + (player.skills().xpLevel(Skills.DEFENCE) * 15 / 100.0);
-            player.skills().alterSkill(Skills.DEFENCE, (int) defenceChange);
+            double rangeChange = 4 + (player.getSkills().xpLevel(Skills.RANGED) * 10 / 100.0);
+            player.getSkills().alterSkill(Skills.RANGED, (int) rangeChange);
+            double defenceChange = 5 + (player.getSkills().xpLevel(Skills.DEFENCE) * 15 / 100.0);
+            player.getSkills().alterSkill(Skills.DEFENCE, (int) defenceChange);
         } else if (potion == Potion.BATTLEMAGE_POTION) {
-            double magicChange = 4 + (player.skills().xpLevel(Skills.MAGIC) / 100.0);
-            player.skills().alterSkill(Skills.MAGIC, (int) magicChange);
-            double defenceChange = 5 + (player.skills().xpLevel(Skills.DEFENCE) * 15 / 100.0);
-            player.skills().alterSkill(Skills.DEFENCE, (int) defenceChange);
+            double magicChange = 4 + (player.getSkills().xpLevel(Skills.MAGIC) / 100.0);
+            player.getSkills().alterSkill(Skills.MAGIC, (int) magicChange);
+            double defenceChange = 5 + (player.getSkills().xpLevel(Skills.DEFENCE) * 15 / 100.0);
+            player.getSkills().alterSkill(Skills.DEFENCE, (int) defenceChange);
         } else if (potion == Potion.DIVINE_BASTION_POTION) {
-            double rangeChange = 4 + (player.skills().xpLevel(Skills.RANGED) * 10 / 100.0);
-            player.skills().alterSkill(Skills.RANGED, (int) rangeChange);
+            double rangeChange = 4 + (player.getSkills().xpLevel(Skills.RANGED) * 10 / 100.0);
+            player.getSkills().alterSkill(Skills.RANGED, (int) rangeChange);
 
-            double defenceChange = 5 + (player.skills().xpLevel(Skills.DEFENCE) * 15 / 100.0);
-            player.skills().alterSkill(Skills.DEFENCE, (int) defenceChange);
+            double defenceChange = 5 + (player.getSkills().xpLevel(Skills.DEFENCE) * 15 / 100.0);
+            player.getSkills().alterSkill(Skills.DEFENCE, (int) defenceChange);
             onDivinePotionEffect(player, DivinePotion.DIVINE_BASTION_POTION);
         } else if (potion == Potion.DIVINE_BATTLEMAGE_POTION) {
-            double magicChange = 4 + (player.skills().xpLevel(Skills.MAGIC) / 100.0);
-            player.skills().alterSkill(Skills.MAGIC, (int) magicChange);
+            double magicChange = 4 + (player.getSkills().xpLevel(Skills.MAGIC) / 100.0);
+            player.getSkills().alterSkill(Skills.MAGIC, (int) magicChange);
 
-            double defenceChange = 5 + (player.skills().xpLevel(Skills.DEFENCE) * 15 / 100.0);
-            player.skills().alterSkill(Skills.DEFENCE, (int) defenceChange);
+            double defenceChange = 5 + (player.getSkills().xpLevel(Skills.DEFENCE) * 15 / 100.0);
+            player.getSkills().alterSkill(Skills.DEFENCE, (int) defenceChange);
             onDivinePotionEffect(player, DivinePotion.DIVINE_BATTLEMAGE_POTION);
         } else if (potion == Potion.DIVINE_MAGIC_POTION) {
-            double magicChange = 4 + (player.skills().xpLevel(Skills.MAGIC) / 100.0);
-            player.skills().alterSkill(Skills.MAGIC, (int) magicChange);
+            double magicChange = 4 + (player.getSkills().xpLevel(Skills.MAGIC) / 100.0);
+            player.getSkills().alterSkill(Skills.MAGIC, (int) magicChange);
             onDivinePotionEffect(player, DivinePotion.DIVINE_MAGIC_POTION);
         } else if (potion == Potion.DIVINE_RANGING_POTION) {
-            double rangeChange = 4 + (player.skills().xpLevel(Skills.RANGED) * 10 / 100.0);
-            player.skills().alterSkill(Skills.RANGED, (int) rangeChange);
+            double rangeChange = 4 + (player.getSkills().xpLevel(Skills.RANGED) * 10 / 100.0);
+            player.getSkills().alterSkill(Skills.RANGED, (int) rangeChange);
             onDivinePotionEffect(player, DivinePotion.DIVINE_RANGING_POTION);
         } else if (potion == Potion.DIVINE_SUPER_ATTACK_POTION) {
-            double attackChange = 5 + (player.skills().xpLevel(Skills.ATTACK) * 15 / 100.0);
-            player.skills().alterSkill(Skills.ATTACK, (int) attackChange);
+            double attackChange = 5 + (player.getSkills().xpLevel(Skills.ATTACK) * 15 / 100.0);
+            player.getSkills().alterSkill(Skills.ATTACK, (int) attackChange);
             onDivinePotionEffect(player, DivinePotion.DIVINE_SUPER_ATTACK_POTION);
         } else if (potion == Potion.DIVINE_SUPER_COMBAT_POTION) {
-            int curStr = player.skills().xpLevel(Skills.STRENGTH);
-            int curAtk = player.skills().xpLevel(Skills.ATTACK);
-            int curDef = player.skills().xpLevel(Skills.DEFENCE);
-            player.skills().alterSkill(Skills.ATTACK, (int) ((curAtk * 0.1) + 10));
-            player.skills().alterSkill(Skills.STRENGTH, (int) ((curStr * 0.1) + 10));
-            player.skills().alterSkill(Skills.DEFENCE, (int) ((curDef * 0.1) + 10));
+            int curStr = player.getSkills().xpLevel(Skills.STRENGTH);
+            int curAtk = player.getSkills().xpLevel(Skills.ATTACK);
+            int curDef = player.getSkills().xpLevel(Skills.DEFENCE);
+            player.getSkills().alterSkill(Skills.ATTACK, (int) ((curAtk * 0.1) + 10));
+            player.getSkills().alterSkill(Skills.STRENGTH, (int) ((curStr * 0.1) + 10));
+            player.getSkills().alterSkill(Skills.DEFENCE, (int) ((curDef * 0.1) + 10));
             onDivinePotionEffect(player, DivinePotion.DIVINE_SUPER_COMBAT_POTION);
         } else if (potion == Potion.DIVINE_SUPER_DEFENCE_POTION) {
-            double defChange = 5 + (player.skills().xpLevel(Skills.DEFENCE) * 15 / 100.0);
-            player.skills().alterSkill(Skills.DEFENCE, (int) defChange);
+            double defChange = 5 + (player.getSkills().xpLevel(Skills.DEFENCE) * 15 / 100.0);
+            player.getSkills().alterSkill(Skills.DEFENCE, (int) defChange);
             onDivinePotionEffect(player, DivinePotion.DIVINE_SUPER_DEFENCE_POTION);
         } else if (potion == Potion.DIVINE_SUPER_STRENGTH_POTION) {
-            double strChange = 5 + (player.skills().xpLevel(Skills.STRENGTH) * 15 / 100.0);
-            player.skills().alterSkill(Skills.STRENGTH, (int) strChange);
+            double strChange = 5 + (player.getSkills().xpLevel(Skills.STRENGTH) * 15 / 100.0);
+            player.getSkills().alterSkill(Skills.STRENGTH, (int) strChange);
             onDivinePotionEffect(player, DivinePotion.DIVINE_SUPER_STRENGTH_POTION);
         } else if (potion == Potion.OVERLOAD_POTION) {
             Chain.bound(null).runFn(1, () -> {
@@ -523,11 +523,11 @@ public class Potions {
                     });
                 }
                 player.putAttrib(OVERLOAD_POTION, 500);
-                player.skills().overloadPlusBoost(Skills.ATTACK);
-                player.skills().overloadPlusBoost(Skills.STRENGTH);
-                player.skills().overloadPlusBoost(Skills.DEFENCE);
-                player.skills().overloadPlusBoost(Skills.RANGED);
-                player.skills().overloadPlusBoost(Skills.MAGIC);
+                player.getSkills().overloadPlusBoost(Skills.ATTACK);
+                player.getSkills().overloadPlusBoost(Skills.STRENGTH);
+                player.getSkills().overloadPlusBoost(Skills.DEFENCE);
+                player.getSkills().overloadPlusBoost(Skills.RANGED);
+                player.getSkills().overloadPlusBoost(Skills.MAGIC);
                 OverloadPotion.apply(player);
                 int timer = (int) Utils.ticksToSeconds(500);
                 player.getPacketSender().sendEffectTimer(timer, EffectTimer.OVERLOAD);

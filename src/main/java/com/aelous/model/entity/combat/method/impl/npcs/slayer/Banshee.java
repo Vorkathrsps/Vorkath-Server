@@ -25,7 +25,7 @@ public class Banshee extends CommonCombatMethod {
         if(!player.getEquipment().contains(ItemIdentifiers.EARMUFFS) && !player.getEquipment().wearingSlayerHelm()) {
             player.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE) + 6, CombatType.MELEE).submit();
             for (int skill : DRAIN) {
-                player.skills().alterSkill(skill, -5);
+                player.getSkills().alterSkill(skill, -5);
             }
             player.message("The banshee's deafening scream drains your stats!");
         } else {

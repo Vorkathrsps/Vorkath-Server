@@ -49,7 +49,7 @@ public class OrbAttack {
             for (Player member : party.getPlayersToAttack()) {
                 if (member.getRaids() != null && member.getRaids().raiding(member) && GreatOlm.insideChamber(member)) {
                     if (Prayers.usingPrayer(member, Prayers.getProtectingPrayer(randomTypes[combatMethodIndex]))) {
-                        member.skills().alterSkill(Skills.PRAYER,-member.skills().level(Skills.PRAYER) / 2);
+                        member.getSkills().alterSkill(Skills.PRAYER,-member.getSkills().level(Skills.PRAYER) / 2);
                     }
                     combatMethodIndex++;
                 }

@@ -130,9 +130,9 @@ public class AccountSelection extends PacketInteraction {
             case 3 -> {
                 //Max out combat
                 for (int skill = 0; skill < 7; skill++) {
-                    player.skills().setXp(skill, Skills.levelToXp(99));
-                    player.skills().update();
-                    player.skills().recalculateCombat();
+                    player.getSkills().setXp(skill, Skills.levelToXp(99));
+                    player.getSkills().update();
+                    player.getSkills().recalculateCombat();
                 }
             }
             case 4 -> {

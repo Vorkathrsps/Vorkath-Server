@@ -50,7 +50,7 @@ public class JugOfWine {
                 player.inventory().add(new Item(JUG_OF_WINE));
 
                 player.message("You squeeze the grapes into the jug. The wine begins to ferment.");
-                player.skills().addXp(Skills.COOKING, 200.0);
+                player.getSkills().addXp(Skills.COOKING, 200.0);
             }
 
             @Override

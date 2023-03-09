@@ -92,7 +92,7 @@ public class Horvik extends PacketInteraction {
     }
 
     private int bmPrice(Player player) {
-        double smithingLevel = player.skills().level(Skills.SMITHING);
+        double smithingLevel = player.getSkills().level(Skills.SMITHING);
         double smithingMultiplier = 1D - (smithingLevel / 200D);
         return (int) (smithingMultiplier * 25000);
     }

@@ -45,7 +45,7 @@ public class WallSafe extends PacketInteraction {
     );
 
     private void attempt(Player player, GameObject wallSafe) {
-        if (!player.skills().check(Skills.THIEVING, 50, "attempt this"))
+        if (!player.getSkills().check(Skills.THIEVING, 50, "attempt this"))
             return;
         if (player.inventory().isFull()) {
             player.message("You don't have enough inventory space to do that.");
@@ -55,7 +55,7 @@ public class WallSafe extends PacketInteraction {
             player.message("You start cracking the safe.");
             player.animate(2247);
         }).then(2, () -> {
-            double chance = 0.5 + (double) (player.skills().level(Skills.THIEVING) - 50) * 0.01;
+            double chance = 0.5 + (double) (player.getSkills().level(Skills.THIEVING) - 50) * 0.01;
             if (Utils.get() > Math.min(chance, 0.85)) {
                 player.lock();
                 player.message("You slip and trigger a trap!");
@@ -69,7 +69,7 @@ public class WallSafe extends PacketInteraction {
                 player.animate(2248);
                 Chain.bound(player).runFn(2, () -> {
                     player.message("You get some loot.");
-                    player.skills().addXp(Skills.THIEVING,70,true);
+                    player.getSkills().addXp(Skills.THIEVING,70,true);
                     player.inventory().add(getLoot(player));
                     openSafe(wallSafe);
                 });
@@ -84,7 +84,7 @@ public class WallSafe extends PacketInteraction {
     private Item getLoot(Player player) {
         Item item = table.rollItem();
         if (item.getId() == BLOOD_MONEY) {
-            item.setAmount((int) (item.getAmount() * ((1 + (player.skills().xpLevel(Skills.THIEVING) - 49) * 0.02))));
+            item.setAmount((int) (item.getAmount() * ((1 + (player.getSkills().xpLevel(Skills.THIEVING) - 49) * 0.02))));
         }
         return item;
     }

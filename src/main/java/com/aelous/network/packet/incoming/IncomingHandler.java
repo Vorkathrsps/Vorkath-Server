@@ -205,9 +205,9 @@ public class IncomingHandler {
             private final Logger logger = LogManager.getLogger(PacketListener.class);
             @Override
             public void handleMessage(Player player, Packet packet) {
-                final int textLength = packet.readByte();
-                final String text = packet.readString();
-                logger.trace("player {} report: {}", player, text);
+                final String text = packet.readString(); // this was just feedback reporting i added to client er doesnt really mean anything
+                logger.trace("player {}. Report is: '{}' ", player, text); // cant see issue at all guess we just print if its replicatable 100% of the time, is it? yeah pretty
+                //pretty sure everytime we login you can see the parse error
             }
         };
 
@@ -304,7 +304,7 @@ public class IncomingHandler {
         PACKET_SIZES[5] = -3;
         PACKET_SIZES[6] = 2;
         PACKET_SIZES[7] = -3;
-        PACKET_SIZES[8] = -3;
+        PACKET_SIZES[8] = 2;
         PACKET_SIZES[9] = -3;
         PACKET_SIZES[10] = -3;
         PACKET_SIZES[11] = 13;

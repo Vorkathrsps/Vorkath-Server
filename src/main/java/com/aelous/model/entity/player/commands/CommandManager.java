@@ -12,6 +12,7 @@ import com.aelous.model.entity.player.commands.impl.staff.server_support.StaffZo
 import com.aelous.model.entity.player.commands.impl.super_member.YellColourCommand;
 import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Utils;
+import com.aelous.utility.Varbit;
 import org.apache.logging.log4j.*;
 
 import java.util.HashMap;
@@ -299,6 +300,17 @@ public class CommandManager {
         commands.put("tint", new TintingTest());
         commands.put("tradepost", new TradingPostCommand());
         commands.put("savepost", new SaveTradingPostCommand());
+        commands.put("vp1", new Command() {
+            @Override
+            public void execute(Player player, String command, String[] parts) {
+                player.varps().varbit(Varbit.IN_WILDERNESS, 1);
+            }
+
+            @Override
+            public boolean canUse(Player player) {
+                return true;
+            }
+        });
     }
 
     public static void attempt(Player player, String command) {

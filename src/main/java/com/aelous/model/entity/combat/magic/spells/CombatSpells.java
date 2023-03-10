@@ -11,7 +11,9 @@ import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
+import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.Utils;
+import com.aelous.utility.Varbit;
 import com.aelous.utility.timers.TimerKey;
 
 import java.util.Arrays;
@@ -2025,7 +2027,8 @@ CombatSpells {
         @Override
         public List<Item> itemsRequired(Player player) {
             boolean spellSack = player.inventory().contains(BLIGHTED_ANCIENT_ICE_SACK);
-            if (spellSack) {
+            boolean onAncientsSpellbook = player.getSpellbook().equals(MagicSpellbook.ANCIENT);
+            if (spellSack && onAncientsSpellbook && player.varps().varbit(Varbit.IN_WILDERNESS) != 0) {
                 return List.of(Item.of(BLIGHTED_ANCIENT_ICE_SACK, 1));
             }
             return List.of(
@@ -2265,7 +2268,8 @@ CombatSpells {
         @Override
         public List<Item> itemsRequired(Player player) {
             boolean spellSack = player.inventory().contains(BLIGHTED_ANCIENT_ICE_SACK);
-            if (spellSack) {
+            boolean onAncientsSpellbook = player.getSpellbook().equals(MagicSpellbook.ANCIENT);
+            if (spellSack && onAncientsSpellbook && player.varps().varbit(Varbit.IN_WILDERNESS) != 0) {
                 return List.of(Item.of(BLIGHTED_ANCIENT_ICE_SACK, 1));
             }
             return List.of(
@@ -2504,7 +2508,8 @@ CombatSpells {
         @Override
         public List<Item> itemsRequired(Player player) {
             boolean spellSack = player.inventory().contains(BLIGHTED_ANCIENT_ICE_SACK);
-            if (spellSack) {
+            boolean onAncientsSpellbook = player.getSpellbook().equals(MagicSpellbook.ANCIENT);
+            if (spellSack && onAncientsSpellbook && player.varps().varbit(Varbit.IN_WILDERNESS) != 0) {
                 return List.of(Item.of(BLIGHTED_ANCIENT_ICE_SACK, 1));
             }
             return List.of(
@@ -2744,7 +2749,8 @@ CombatSpells {
         @Override
         public List<Item> itemsRequired(Player player) {
             boolean spellSack = player.inventory().contains(BLIGHTED_ANCIENT_ICE_SACK);
-            if (spellSack) {
+            boolean onAncientsSpellbook = player.getSpellbook().equals(MagicSpellbook.ANCIENT);
+            if (spellSack && onAncientsSpellbook && player.varps().varbit(Varbit.IN_WILDERNESS) != 0) {
                 return List.of(Item.of(BLIGHTED_ANCIENT_ICE_SACK, 1));
             }
             return List.of(

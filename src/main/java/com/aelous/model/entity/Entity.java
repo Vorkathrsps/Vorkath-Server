@@ -908,17 +908,6 @@ public abstract class Entity {
         return hit;
     }
 
-
-    public void delayedGraphics(int graphic, GraphicHeight height, int delay) {
-        Chain.bound(this).runFn(delay, () -> graphic(graphic, height, 0));
-        getUpdateFlag().flag(Flag.GRAPHIC);
-    }
-
-    public void delayedGraphics(Graphic graphic, int delay) {
-        Chain.bound(this).runFn(delay, () -> performGraphic(graphic));
-        getUpdateFlag().flag(Flag.GRAPHIC);
-    }
-
     protected boolean noRetaliation = false;
 
     public void noRetaliation(boolean b) {

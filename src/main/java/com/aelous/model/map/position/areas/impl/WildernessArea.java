@@ -16,8 +16,9 @@ import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.position.areas.Controller;
-import com.aelous.model.map.region.Region;
 import com.aelous.utility.CustomItemIdentifiers;
+import com.aelous.utility.Varbit;
+import com.aelous.utility.timers.TimerKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,9 +58,8 @@ public class WildernessArea extends Controller {
             return customWildernessRegions.level;
         }
 
-        if (!(tile.x > 2941 && tile.x < 3392 && tile.y > 3524 && tile.y < 3968) && !inUndergroundWilderness(tile)) {
+        if (!(tile.x > 2941 && tile.x < 3392 && tile.y > 3524 && tile.y < 3968) && !inUndergroundWilderness(tile))
             return 0;
-        }
 
         // North of black knights fortress and more - people lure here.
         if (tile.inArea(2998, 3525, 3026, 3536) || tile.inArea(3005, 3537, 3023, 3545)
@@ -74,9 +74,7 @@ public class WildernessArea extends Controller {
             return 0;
         }
 
-        if (Region.isInZone(Tile.chunkToTile(158528), Tile.chunkToTile(352676363), tile) || Region.isInZone(Tile.chunkToTile(1252160), Tile.chunkToTile((int) 3521696363L), tile)) {
-            return ((z - 3520) >> 3) + 1;
-        }
+        //OSRS calculated by coordinates
 
         return ((z - 3520) >> 3) + 1;
     }
@@ -159,6 +157,8 @@ public class WildernessArea extends Controller {
         player.getCombat().getDamageMap().clear();
         player.getRisk().update();
         refreshInterface(player, true);
+        player.varps().varbit(Varbit.IN_WILDERNESS, 1);
+        System.out.println(player.varps().varbit(Varbit.IN_WILDERNESS));
     }
 
     @Override
@@ -174,6 +174,10 @@ public class WildernessArea extends Controller {
         player.clearAttrib(AttributeKey.INWILD);
         player.clearAttrib(AttributeKey.PVP_WILDY_AGGRESSION_TRACKER);
         player.clearAttrib(AttributeKey.PLAYER_KILLS_WITHOUT_LEAVING_WILD);
+        player.varps().varbit(Varbit.IN_WILDERNESS, 0);
+        if (player.frozen()) {
+            player.getTimers().cancel(TimerKey.FROZEN);
+        }
         player.getPacketSender().sendString(PLAYERS_PKING.childId, QuestTab.InfoTab.INFO_TAB.get(PLAYERS_PKING.childId).fetchLineData(player));
 
         if (player.inventory().contains(CustomItemIdentifiers.ESCAPE_KEY)) {

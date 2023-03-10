@@ -172,8 +172,8 @@ public class Dueling {
             player.getDueling().getOpponent().message("Loaded previous duel settings!");
         }
         opponent.getDueling().setConfigValue(configValue);
-        player.getPacketSender().sendToggle(RULES_CONFIG_ID, configValue);
-        opponent.getPacketSender().sendToggle(RULES_CONFIG_ID, configValue);
+        player.getPacketSender().sendVarpIntSize(RULES_CONFIG_ID, configValue);
+        opponent.getPacketSender().sendVarpIntSize(RULES_CONFIG_ID, configValue);
     }
 
     public Dueling(Player player) {
@@ -740,8 +740,8 @@ public class Dueling {
         }
 
         opponent.getDueling().setConfigValue(configValue);
-        player.getPacketSender().sendToggle(RULES_CONFIG_ID, configValue);
-        opponent.getPacketSender().sendToggle(RULES_CONFIG_ID, configValue);
+        player.getPacketSender().sendVarpIntSize(RULES_CONFIG_ID, configValue);
+        opponent.getPacketSender().sendVarpIntSize(RULES_CONFIG_ID, configValue);
         player.putAttrib(AttributeKey.WHIP_AND_DDS, true);
         opponent.putAttrib(AttributeKey.WHIP_AND_DDS, true);
     }
@@ -764,8 +764,8 @@ public class Dueling {
         }
 
         opponent.getDueling().setConfigValue(configValue);
-        player.getPacketSender().sendToggle(RULES_CONFIG_ID, configValue);
-        opponent.getPacketSender().sendToggle(RULES_CONFIG_ID, configValue);
+        player.getPacketSender().sendVarpIntSize(RULES_CONFIG_ID, configValue);
+        opponent.getPacketSender().sendVarpIntSize(RULES_CONFIG_ID, configValue);
         player.putAttrib(AttributeKey.WHIP_ONLY, true);
         opponent.putAttrib(AttributeKey.WHIP_ONLY, true);
     }
@@ -800,8 +800,8 @@ public class Dueling {
             opponent.getDueling().getRules()[rule.ordinal()] = rules[rule.ordinal()];
 
             //Send toggles for both players.
-            player.getPacketSender().sendToggle(RULES_CONFIG_ID, configValue);
-            opponent.getPacketSender().sendToggle(RULES_CONFIG_ID, configValue);
+            player.getPacketSender().sendVarpIntSize(RULES_CONFIG_ID, configValue);
+            opponent.getPacketSender().sendVarpIntSize(RULES_CONFIG_ID, configValue);
 
             //Send modify status
             if (state == DuelState.ACCEPTED_DUEL_SCREEN) {

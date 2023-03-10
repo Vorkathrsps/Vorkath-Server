@@ -336,7 +336,7 @@ public class Packet {
     public String readString() {
         StringBuilder builder = new StringBuilder();
         byte value;
-        while (buffer.isReadable() && (value = buffer.readByte()) != 10) {
+        while (buffer.isReadable() && (value = buffer.readByte()) != 10) { // != 10 tells server string has ended
             builder.append((char) value);
         }
         return builder.toString();

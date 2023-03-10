@@ -46,7 +46,7 @@ public class Vanguard extends CommonCombatMethod {
         //First attack always targets the player
         new Projectile(entity, target, 1332, 20, 12 * tileDist, 35, 30, 0).sendProjectile();
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
-        target.delayedGraphics(305, GraphicHeight.HIGH, delay);
+       // target.delayedGraphics(305, GraphicHeight.HIGH, delay);
 
         //Handle the second projectile
         var proj_two = new Tile(target.tile().x, target.tile().y + World.getWorld().random(2));
@@ -67,7 +67,7 @@ public class Vanguard extends CommonCombatMethod {
         //First attack always targets the player
         new Projectile(entity, target, 1331, 20, 12 * tileDist, 35, 30, 0).sendProjectile();
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
-        target.delayedGraphics(659, GraphicHeight.HIGH, delay);
+      //  target.delayedGraphics(659, GraphicHeight.HIGH, delay);
 
         //Handle the second projectile
         var proj_two = new Tile(target.tile().x, target.tile().y + World.getWorld().random(2));

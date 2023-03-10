@@ -34,7 +34,6 @@ public class MagicAccuracy {
         return successful(attacker, defender, style);
     }
 
-
     public static boolean successful(Entity attacker, Entity defender, CombatType style) {
         int attackBonus = (int) Math.floor(getAttackRoll(attacker, style));
         int defenceBonus = (int) Math.floor(getDefenceRoll(defender, style));
@@ -125,7 +124,6 @@ public class MagicAccuracy {
         effectiveLevel += 8.0D;
 
         if (attacker.isPlayer()) {
-            if (style.equals(CombatType.MAGIC)) {
                 if (FormulaUtils.regularVoidEquipmentBaseMagic((Player) attacker)) {
                     effectiveLevel = (int) Math.floor(effectiveLevel * 1.45D);
                 }
@@ -180,7 +178,8 @@ public class MagicAccuracy {
                     }
                 }
             }
-        }
+
+        System.out.println("EFFECTIVE MAGIC LEVEL: " + effectiveLevel);
 
         return effectiveLevel;
     }

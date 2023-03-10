@@ -10,7 +10,6 @@ import com.aelous.model.entity.player.InfectionType;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.PlayerInteractingOption;
 import com.aelous.model.items.Item;
-import com.aelous.model.items.container.ItemContainer;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
@@ -405,9 +404,12 @@ public final class PacketSender {
      * @return The PacketSender instance.
      */
     public PacketSender sendConfig(int id, int state) {
+        if (state > Byte.MAX_VALUE) {
+            return sendVarpIntSize(id, state);
+        }
         PacketBuilder out = new PacketBuilder(36);
         out.putShort(id, ByteOrder.LITTLE);
-        out.put(state);
+        out.put(state); // value is over byte lol
         player.getSession().write(out);
         return this;
     }
@@ -419,7 +421,7 @@ public final class PacketSender {
      * @param state The state to set it to.
      * @return The PacketSender instance.
      */
-    public PacketSender sendToggle(int id, int state) {
+    public PacketSender sendVarpIntSize(int id, int state) {
         PacketBuilder out = new PacketBuilder(87);
         out.putShort(id, ByteOrder.LITTLE);
         out.putInt(state, ByteOrder.MIDDLE);

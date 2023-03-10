@@ -38,7 +38,7 @@ public class Graphic {
         this.id = id;
         this.height = height;
         this.delay = delay;
-        this.priority = Priority.LOW;
+        this.priority = priority;
     }
 
     public int id() {

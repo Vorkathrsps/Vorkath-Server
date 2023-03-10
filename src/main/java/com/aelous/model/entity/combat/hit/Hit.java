@@ -110,6 +110,7 @@ public class Hit {
         //    return;
         // }
 
+
         if (attacker.pidOrderIndex <= target.pidOrderIndex) {
             delay -= 1;
         }
@@ -125,8 +126,7 @@ public class Hit {
     public Hit(Entity attacker, Entity target, CombatMethod method, boolean checkAccuracy, int delay, int damage) {
         this.attacker = attacker;
         this.target = target;
-        if (method instanceof CommonCombatMethod) {
-            CommonCombatMethod commonCombatMethod = (CommonCombatMethod) method;
+        if (method instanceof CommonCombatMethod commonCombatMethod) {
             combatType = commonCombatMethod.styleOf();
         }
         this.checkAccuracy = checkAccuracy;

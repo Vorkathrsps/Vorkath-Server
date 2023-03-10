@@ -144,8 +144,7 @@ public class RangeAccuracy {
 
     public static int getRangeLevel(Entity attacker) {
         int rangeLevel = 1;
-        if (attacker instanceof NPC) {
-            NPC npc = ((NPC) attacker);
+        if (attacker instanceof NPC npc) {
             if (npc.combatInfo() != null && npc.combatInfo().stats != null)
                 rangeLevel = npc.combatInfo().stats.ranged;
         } else {

@@ -110,7 +110,7 @@ public class RuneDragon extends CommonCombatMethod {
         npc.animate(81);
         new Projectile(npc, target, 162, 40, npc.projectileSpeed(target), 10, 31, 0, 16, 127).sendProjectile();
         target.hit(npc, Utils.random(npc.combatInfo().maxhit), npc.getProjectileHitDelay(target), CombatType.MAGIC).checkAccuracy().submit();
-        target.delayedGraphics(new Graphic(163, GraphicHeight.HIGH), npc.getProjectileHitDelay(target));
+        //target.delayedGraphics(new Graphic(163, GraphicHeight.HIGH), npc.getProjectileHitDelay(target));
     }
 
     private void doDragonBreath(NPC npc, Entity target) {

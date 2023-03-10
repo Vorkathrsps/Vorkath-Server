@@ -472,7 +472,7 @@ public class PlayerUpdating {
      */
     private static void updateGraphics(PacketBuilder builder, Player target) {
         builder.putShort(target.graphic().id(), ByteOrder.LITTLE);
-        builder.putInt(((target.graphic().getHeight().ordinal() * 50) << 16 & 0xFFFF0000) + (target.graphic().delay()));
+        builder.putInt(((target.graphic().getHeight().ordinal() * 50) << 16) + (target.graphic().delay() & 0xffff));
     }
 
     /**

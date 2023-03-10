@@ -26,7 +26,7 @@ public class PlayerRelationPacketListener implements PacketListener {
     public void handleMessage(Player player, Packet packet) {
         try {
            // int friendsListSize = packet.readByte();//friends list size???
-            String username = packet.readString();
+            String username = packet.readString(); // must be part of readstring?
             if (player == null || player.dead()) {
                 return;
             }

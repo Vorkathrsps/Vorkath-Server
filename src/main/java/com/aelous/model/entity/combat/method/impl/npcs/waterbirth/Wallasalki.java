@@ -25,10 +25,10 @@ public class Wallasalki extends CommonCombatMethod {
         int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC);
         target.hit(entity, hit, delay, CombatType.MAGIC).checkAccuracy().submit();
 
-        if (hit > 0)
-            target.delayedGraphics(137, GraphicHeight.HIGH, 2);
-        else
-            target.delayedGraphics(85, GraphicHeight.HIGH, 2);
+       // if (hit > 0)
+           // target.delayedGraphics(137, GraphicHeight.HIGH, 2);
+       // else
+           // target.delayedGraphics(85, GraphicHeight.HIGH, 2);
     }
 
     @Override

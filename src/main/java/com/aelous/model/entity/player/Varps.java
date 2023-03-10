@@ -8,6 +8,9 @@ import com.aelous.utility.Varp;
 
 /**
  * Created by bart on 7/18/15.
+ * ok it sgot all the code needed straight from os-scape
+ * just doesnt have saving
+ * but the system is therre will work
  */
 public class Varps {
 
@@ -21,7 +24,7 @@ public class Varps {
     }
 
     private Player player;
-    private int[] varps = new int[2000];
+    private int[] varps = new int[4000]; // osrs is 4k 317 was 2k
 
     public Varps(Player player) {
         this.player = player;
@@ -57,10 +60,11 @@ public class Varps {
         VarbitDefinition def = World.getWorld().definitions().get(VarbitDefinition.class, id);
         if (def != null) {
             int area = BIT_SIZES[def.endbit - def.startbit] << def.startbit;
-            varps[def.varp] = (varps[def.varp] & ~area) | (area & (v << def.startbit));
+            varps[def.varp] = (varps[def.varp] & (~area)) | v << def.startbit & area;
+
 
             sync(def.varp);
-        }
+        } //what is the index in syncnonzero?
     }
 
     public static int updateValue(int old, int BITSIZE, int newval, int shift) {
@@ -114,7 +118,7 @@ public class Varps {
     }
 
     public void syncNonzero() {
-        for (int i = 0; i < 2000; i++) {
+        for (int i = 0; i < 4000; i++) { // what you mean 2000? magic number, theres 2k varps, or was now theres more like 4k. and its varps count not varbit (5.9k)
             if (varps[i] != 0)
                 sync(i);
         }

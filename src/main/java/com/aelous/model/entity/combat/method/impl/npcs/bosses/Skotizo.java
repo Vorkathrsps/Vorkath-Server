@@ -82,7 +82,7 @@ public class Skotizo extends CommonCombatMethod {
                 new Projectile(npc, player, 165, 20, 12 * tileDist, 80, 30, 0).sendProjectile();
 
                 target.hit(npc, CombatFactory.calcDamageFromType(npc, player, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
-                player.delayedGraphics(new Graphic(166, GraphicHeight.HIGH, 0), delay);
+               // player.delayedGraphics(new Graphic(166, GraphicHeight.HIGH, 0), delay);
             }
         });
         npc.animate(69);

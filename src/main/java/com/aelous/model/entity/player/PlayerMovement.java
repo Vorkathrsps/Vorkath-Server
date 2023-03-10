@@ -109,6 +109,8 @@ public class PlayerMovement extends MovementQueue {
         Tile.occupy(player);
         if (isMoving) {
             player.clearAttrib(MOVEMENT_PACKET_STEPS);
+            if (player.getController() != null)
+                player.getController().onMovement(player);
         }
     }
 

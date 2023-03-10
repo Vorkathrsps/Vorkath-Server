@@ -810,12 +810,12 @@ public class CombatFactory {
         var me_edgepk = GameServer.properties().edgeDitch10secondPjTimerEnabled && WildernessArea.inside_extended_pj_timer_zone(entity.tile());
         var targ_edgepk = GameServer.properties().edgeDitch10secondPjTimerEnabled && WildernessArea.inside_extended_pj_timer_zone(other.tile());
 
-        var myTimeToPj = me_edgepk ? 10_000L : 4_600L;
+        var myTimeToPj = me_edgepk ? 10_000L : 10_000L;
         var areaPjTimer = pjTimerForArena();
-        if (areaPjTimer != 4_600L)
+        if (areaPjTimer != 10_000L)
             myTimeToPj = areaPjTimer;
-        var targTimeToPj = targ_edgepk ? 10_000L : 4_600L;
-        if (areaPjTimer != 4_600L)
+        var targTimeToPj = targ_edgepk ? 10_000L : 10_000L;
+        if (areaPjTimer != 10_000L)
             targTimeToPj = areaPjTimer;
 
         if (entity.isPlayer() && other.isPlayer()) {
@@ -896,6 +896,8 @@ public class CombatFactory {
             }
         }
 
+       // if (other.getMobName().toLowerCase().equalsIgnoreCase("origin3"))
+       // System.out.println(targetLastAttacker+" vs "+ entity+" "+targetLastAttackedTime);
         if (targetLastAttackedTime < targTimeToPj && targetLastAttacker != null && targetLastAttacker != entity) {
             // Multiway check bro!
             if (other.isPlayer()) {

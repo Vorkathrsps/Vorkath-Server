@@ -47,11 +47,11 @@ public class MeleeAccuracy {
         else
             successfulRoll = attackBonus / (2D * ((defenceBonus + 1D)));
 
-        System.out.println("ATTK: " + attackBonus);
-        System.out.println("DEF: " + defenceBonus);
+       // System.out.println("ATTK: " + attackBonus);
+       // System.out.println("DEF: " + defenceBonus);
 
 
-        System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
+       // System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
         return successfulRoll > selectedChance;
     }

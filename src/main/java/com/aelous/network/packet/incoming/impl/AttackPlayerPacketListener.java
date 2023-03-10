@@ -52,10 +52,6 @@ public class AttackPlayerPacketListener implements PacketListener {
             return;
         }
 
-        if (CombatFactory.inCombat(player)) {
-            return;
-        }
-
         player.putAttrib(AttributeKey.INTERACTION_OPTION, 2);
         player.putAttrib(AttributeKey.TARGET, new WeakReference<Entity>(attacked));
         player.setEntityInteraction(attacked);

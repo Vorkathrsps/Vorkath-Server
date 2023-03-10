@@ -176,7 +176,7 @@ public class Combat {
         checkLastTarget();
         checkGraniteMaul();
         if (target != null) {
-            if (!CombatFactory.canAttack(target, method, mob))
+            if (!CombatFactory.canAttack(mob, method, target))
                 reset();
             else if (target != null && (mob.isPlayer() || (mob.isNpc() && mob.getAsNpc().id() == ZOMBIFIED_SPAWN_8063)))
                 TargetRoute.set(mob, target, method.getAttackDistance(mob));
@@ -357,11 +357,11 @@ public class Combat {
                     Skulling.skull(player, target, SkullType.WHITE_SKULL);
                 }
             }
-            mob.putAttrib(AttributeKey.LAST_DAMAGER, target);
-            mob.putAttrib(AttributeKey.LAST_WAS_ATTACKED_TIME, System.currentTimeMillis());
+            target.putAttrib(AttributeKey.LAST_DAMAGER, mob);
+            target.putAttrib(AttributeKey.LAST_WAS_ATTACKED_TIME, System.currentTimeMillis());
             mob.getTimers().register(TimerKey.COMBAT_LOGOUT, 16);
             mob.putAttrib(AttributeKey.LAST_ATTACK_TIME, System.currentTimeMillis());
-            mob.putAttrib(AttributeKey.LAST_TARGET, target);
+            mob.putAttrib(AttributeKey.LAST_TARGET, target); // my thinking was maybe thats set before canAttack but nah its fine
             mob.getTimers().register(TimerKey.COMBAT_LOGOUT, 16);
             if (target.isPlayer()) {
                 Player player = target.getAsPlayer();

@@ -33,19 +33,22 @@ public class MeleeAccuracy {
     private static final SecureRandom srand = new SecureRandom();
 
     public static boolean doesHit(Entity attacker, Entity defender, CombatType style) {
-        return successful(attacker, defender, style);//doesHit(entity, enemy, style, 1);
+        return successful(attacker, defender, style);
     }
 
     public static boolean successful(Entity attacker, Entity defender, CombatType style) {
         int attackBonus = (int) Math.floor(getAttackRoll(attacker, style));
-        int defenceBonus = (int) Math.floor(getDefenceRoll(defender, style));
+        int defenceBonus = (int) Math.floor(getDefenceRoll(defender));
         double successfulRoll;
-        double selectedChance = srand.nextDouble();//srand.nextInt(10000) / 10000.0;
+        double selectedChance = srand.nextDouble();
 
         if (attackBonus > defenceBonus)
-            successfulRoll = 1D - (Math.floor(defenceBonus + 2D)) / (2D * (attackBonus + 1D));
+            successfulRoll = 1D - ((defenceBonus + 2D) / (2D * (attackBonus + 1D)));
         else
-            successfulRoll = attackBonus / (2D * (Math.floor(defenceBonus + 1D)));
+            successfulRoll = attackBonus / (2D * ((defenceBonus + 1D)));
+
+        System.out.println("ATTK: " + attackBonus);
+        System.out.println("DEF: " + defenceBonus);
 
 
         System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
@@ -89,11 +92,11 @@ public class MeleeAccuracy {
         int effectiveLevel = defender instanceof NPC ? ((NPC) defender).combatInfo().stats.defence : (int) Math.floor(getDefenceLevel(defender) * getPrayerDefenseBonus(defender));
 
         switch (fightStyle) {
-            case DEFENSIVE -> effectiveLevel = (int) Math.floor(effectiveLevel + 3);
-            case CONTROLLED -> effectiveLevel = (int) Math.floor(effectiveLevel + 1);
+            case DEFENSIVE -> effectiveLevel = effectiveLevel + 3;
+            case CONTROLLED -> effectiveLevel = effectiveLevel + 1;
         }
 
-        effectiveLevel = (int) Math.floor(effectiveLevel + 8);
+        effectiveLevel = effectiveLevel + 8;
 
         return effectiveLevel;
     }
@@ -104,28 +107,26 @@ public class MeleeAccuracy {
         final Item weapon = attacker.isPlayer() ? attacker.getAsPlayer().getEquipment().get(EquipSlot.WEAPON) : null;
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
         int effectiveLevel = (int) Math.floor(getAttackLevel(attacker) * getPrayerAttackBonus(attacker, style));
-        double specialMultiplier = 1;
+
+        switch (fightStyle) {
+            case ACCURATE -> effectiveLevel = effectiveLevel + 3;
+            case CONTROLLED -> effectiveLevel = effectiveLevel + 1;
+        }
 
         if (attacker.isPlayer()) {
             Player player = attacker.getAsPlayer();
             if (player.getCombatSpecial() != null) {
-                specialMultiplier = player.getCombatSpecial().getAccuracyMultiplier();
+                double specialMultiplier = player.getCombatSpecial().getAccuracyMultiplier();
+                if (attacker.getAsPlayer().isSpecialActivated()) {
+                    effectiveLevel = (int) (effectiveLevel * specialMultiplier);
+                }
             }
-        }
-
-
-        switch (fightStyle) {
-            case ACCURATE -> effectiveLevel = (int) Math.floor(effectiveLevel + 3);
-            case CONTROLLED -> effectiveLevel = (int) Math.floor(effectiveLevel + 1);
         }
 
         effectiveLevel = (int) Math.floor(effectiveLevel + 8);
 
         if (attacker.isPlayer()) {
             if (style.equals(MELEE)) {
-                if (attacker.getAsPlayer().isSpecialActivated()) {
-                    effectiveLevel = (int) (effectiveLevel * specialMultiplier);
-                }
                 if (FormulaUtils.regularVoidEquipmentBaseMelee((Player) attacker)) {
                     effectiveLevel = (int) Math.floor(effectiveLevel * 1.1D);
                 }
@@ -185,23 +186,14 @@ public class MeleeAccuracy {
     }
 
     public static int getAttackLevel(Entity attacker) {
-        int attackLevel = 1;
-        if (attacker instanceof NPC) {
-            NPC npc = ((NPC) attacker);
-            if (npc.combatInfo() != null && npc.combatInfo().stats != null) {
-                attackLevel = npc.combatInfo().stats.attack;
-            }
-        } else {
-            attackLevel = attacker.getSkills().level(Skills.ATTACK);
-        }
-        return attackLevel;
+        return attacker instanceof NPC && attacker.getAsNpc().combatInfo().stats != null ? attacker.getAsNpc().combatInfo().stats.attack : attacker.getSkills().level(Skills.ATTACK);
     }
 
     public static int getDefenceLevel(Entity defender) {
-        return defender instanceof NPC && defender.getAsNpc().combatInfo() != null ? defender.getAsNpc().combatInfo().stats.defence : defender.getSkills().level(Skills.DEFENCE);
+        return defender instanceof NPC && defender.getAsNpc().combatInfo().stats != null ? defender.getAsNpc().combatInfo().stats.defence : defender.getSkills().level(Skills.DEFENCE);
     }
 
-    private static int getGearDefenceBonus(Entity defender, CombatType style) {
+    private static int getGearDefenceBonus(Entity defender) {
         EquipmentInfo.Bonuses defenderBonus = EquipmentInfo.totalBonuses(defender, World.getWorld().equipmentInfo());
         final AttackType type = defender instanceof NPC ? AttackType.SLASH : defender.getCombat().getFightType().getAttackType();
         int bonus = 1;
@@ -233,9 +225,9 @@ public class MeleeAccuracy {
         return (int) Math.floor(effectiveLevel * (effectiveBonus + 64));
     }
 
-    public static int getDefenceRoll(Entity defender, CombatType style) {
+    public static int getDefenceRoll(Entity defender) {
         int effectiveDefenceLevel = (int) Math.floor(getEffectiveDefence(defender));
-        int effectiveBonus = getGearDefenceBonus(defender, style);
+        int effectiveBonus = getGearDefenceBonus(defender);
         return (int) Math.floor(effectiveDefenceLevel * (effectiveBonus + 64));
     }
 }

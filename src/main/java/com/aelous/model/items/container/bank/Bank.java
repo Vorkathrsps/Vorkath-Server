@@ -167,7 +167,7 @@ public class Bank extends ItemContainer {
             player.message("As an Ultimate Iron Man, you cannot use the bank.");
             return;
         }
-        player.getPacketSender().sendString(InterfaceConstants.BANK_WIDGET + 5, "The Bank of Aelous");
+        player.getPacketSender().sendString(InterfaceConstants.BANK_WIDGET + 5, "The Bank of Zaryte");
         //Set search button inactive by default
         player.getPacketSender().setWidgetActive(26102, false);
         player.getPacketSender().sendString(26019, "");

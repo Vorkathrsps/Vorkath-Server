@@ -5,9 +5,12 @@ import com.aelous.model.entity.player.GameMode;
 import com.aelous.model.entity.player.IronMode;
 import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.inter.lootkeys.LootKey;
+import com.aelous.model.items.container.ItemContainer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.InstanceCreator;
+import com.google.gson.annotations.Expose;
 import com.google.gson.internal.ConstructorConstructor;
 import com.aelous.GameServer;
 import com.aelous.services.database.transactions.UpdatePasswordDatabaseTransaction;
@@ -35,6 +38,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 import static com.aelous.model.entity.attributes.AttributeKey.*;
+import static com.aelous.model.inter.lootkeys.LootKey.LOOT_KEY_CONTAINER_SIZE;
 
 /**
  * Handles saving a player's container and details into a json file.
@@ -108,6 +112,9 @@ public class PlayerSave {
      */
     public static final class SaveDetails {
 
+        @Expose
+        private final HashMap<Integer, Item[]> lootKeys;
+
         public static boolean loadDetails(Player player) throws Exception {
             final File file = new File("./data/saves/characters/" + player.getUsername() + ".json");
             if (!file.exists()) { ;
@@ -132,7 +139,7 @@ public class PlayerSave {
                 if (details.memberRights != null)
                     player.setMemberRights(MemberRights.valueOf(details.memberRights));
                 if (details.gameMode != null)
-                    player.mode(details.gameMode);
+                    player.getGameMode(details.gameMode);
                 if (details.ironMode == null) {
                     player.ironMode(IronMode.NONE);
                 } else {
@@ -188,6 +195,24 @@ public class PlayerSave {
                 if (details.previousSpellbook != null) {
                     player.setPreviousSpellbook(details.previousSpellbook);
                 }
+                if (details.lootKeys != null) {
+                    for (int i = 0; i < LootKey.infoForPlayer(player).keys.length; i++) {
+                        for (Map.Entry<Integer, Item[]> integerEntry : details.lootKeys.entrySet()) {
+                            ItemContainer ic = new ItemContainer(LOOT_KEY_CONTAINER_SIZE, ItemContainer.StackPolicy.ALWAYS);
+                            ic.addAll(integerEntry.getValue());
+                            LootKey.infoForPlayer(player).keys[integerEntry.getKey()] = new LootKey(ic, ic.containerValue());
+                            player.putAttrib(LOOT_KEYS_ACTIVE, details.lootKeys);
+                        }
+                    }
+                }
+                player.putAttrib(LOOT_KEYS_CARRIED, details.lootKeys);
+                player.putAttrib(LOOT_KEYS_LOOTED, details.lootKeys);
+                player.putAttrib(TOTAL_LOOT_KEYS_VALUE, details.lootKeys);
+                player.putAttrib(LOOT_KEYS_UNLOCKED, details.lootKeys);
+                player.putAttrib(LOOT_KEYS_ACTIVE, details.lootKeys);
+                player.putAttrib(LOOT_KEYS_DROP_CONSUMABLES, details.lootKeys);
+                player.putAttrib(SEND_VALUABLES_TO_LOOT_KEYS, details.lootKeys);
+                player.putAttrib(LOOT_KEYS_VALUABLE_ITEM_THRESHOLD, 0);
                 player.putAttrib(VENOM_TICKS, details.venomTicks);
                 player.putAttrib(POISON_TICKS, details.poisonTicks);
                 player.setSpecialAttackPercentage(details.specPercentage);
@@ -805,6 +830,15 @@ public class PlayerSave {
         private final boolean autoRetaliate;
         private final MagicSpellbook previousSpellbook;
         private final int venomTicks;
+
+        private int lootKeysCarried;
+        private int lootKeysLooted;
+        private long totalLootKeysValue;
+        private boolean lootKeysUnlocked;
+        private boolean lootKeysActive;
+        private boolean lootKeysDropConsumables;
+        private boolean sendValuablesToLootKey;
+        private int lootKeysValuableItemThreshold;
         private final int poisonTicks;
         private final int specPercentage;
         private final int recoilCharges;
@@ -1357,7 +1391,7 @@ public class PlayerSave {
             running = Player.getAttribBooleanOr(player, IS_RUNNING, false);
             playerRights = player.getPlayerRights().name();
             memberRights = player.getMemberRights().name();
-            gameMode = player.mode();
+            gameMode = player.getGameMode();
             ironMode = player.ironMode();
             darkLordLives = Player.getAttribIntOr(player, DARK_LORD_LIVES,3);
             lastIP = player.getHostAddress();
@@ -1395,6 +1429,22 @@ public class PlayerSave {
             fightTypeVarpState = player.getCombat().getFightType().getChildId();
             autoRetaliate = player.getCombat().hasAutoReliateToggled();
             previousSpellbook = player.getPreviousSpellbook();
+            lootKeys = new HashMap<>();
+            if (LootKey.infoForPlayer(player) != null) {
+                for (int i = 0; i < LootKey.infoForPlayer(player).keys.length; i++) {
+                    if (LootKey.infoForPlayer(player).keys != null && LootKey.infoForPlayer(player).keys[i] != null) {
+                        lootKeys.put(i, LootKey.infoForPlayer(player).keys[i].lootContainer.getItems());
+                    }
+                }
+            }
+            lootKeysCarried = Player.getAttribIntOr(player,LOOT_KEYS_CARRIED, 0);
+            lootKeysLooted = Player.getAttribIntOr(player,LOOT_KEYS_LOOTED, 0);
+            totalLootKeysValue = Player.getAttribLongOr(player, TOTAL_LOOT_KEYS_VALUE, 0L);
+            lootKeysUnlocked = Player.getAttribBooleanOr(player,LOOT_KEYS_UNLOCKED, false);
+            lootKeysActive = Player.getAttribBooleanOr(player,LOOT_KEYS_ACTIVE, false);
+            lootKeysDropConsumables = Player.getAttribBooleanOr(player,LOOT_KEYS_DROP_CONSUMABLES, false);
+            sendValuablesToLootKey = Player.getAttribBooleanOr(player,SEND_VALUABLES_TO_LOOT_KEYS, false);
+            lootKeysValuableItemThreshold = Player.getAttribIntOr(player,LOOT_KEYS_VALUABLE_ITEM_THRESHOLD, 0);
             venomTicks = Player.getAttribIntOr(player, VENOM_TICKS, 0);
             poisonTicks = Player.getAttribIntOr(player, POISON_TICKS, 0);
             specPercentage = player.getSpecialAttackPercentage();

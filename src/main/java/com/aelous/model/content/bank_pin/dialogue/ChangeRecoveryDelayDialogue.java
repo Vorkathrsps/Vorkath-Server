@@ -25,27 +25,19 @@ public final class ChangeRecoveryDelayDialogue extends Dialogue {
     @Override
     protected void next() {
         switch (getPhase()) {
-            case 0:
-                player.setAmountScript("Enter your new recovery delay.", new InputScript() {
-
-                    @Override
-                    public boolean handle(Object value) {
-                        int input = (Integer) value;
-                        if (input < 3) {
-                            sendInvalid("shorter than 3 days");
-                        } else if (input > 30) {
-                            sendInvalid("longer than 30 days");
-                        } else {
-                            player.getBankPin().changeRecoveryDays(input);
-                            stop();
-                        }
-                        return true;
-                    }
-                });
-                break;
-            case 1:
-                sendMainMenu();
-                break;
+            case 0 -> player.setAmountScript("Enter your new recovery delay.", value -> {
+                int input = (Integer) value;
+                if (input < 3) {
+                    sendInvalid("shorter than 3 days");
+                } else if (input > 30) {
+                    sendInvalid("longer than 30 days");
+                } else {
+                    player.getBankPin().changeRecoveryDays(input);
+                    stop();
+                }
+                return true;
+            });
+            case 1 -> sendMainMenu();
         }
     }
 

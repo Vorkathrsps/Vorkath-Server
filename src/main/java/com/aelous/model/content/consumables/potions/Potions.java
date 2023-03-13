@@ -30,7 +30,7 @@ import static com.aelous.model.entity.attributes.AttributeKey.*;
  */
 public class Potions {
 
-    private enum Potion {
+    public enum Potion {
         ATTACK_POTION(Skills.ATTACK, 3, 10, true, "attack potion", 2428, 121, 123, 125),
         SUPER_ATTACK_POTION(Skills.ATTACK, 5, 15, true, "attack potion" /* sic */, 2436, 145, 147, 149),
         STRENGTH_POTION(Skills.STRENGTH, 3, 10, true, "strength potion", 113, 115, 117, 119),
@@ -83,7 +83,7 @@ public class Potions {
         private final int percentage;
         private final boolean defaultalgo;
         private final String message;
-        private final int[] ids;
+        public final int[] ids;
 
         Potion(int skill, int base, int percentage, boolean defaultalgo, String message, int... ids) {
             this.skill = skill;

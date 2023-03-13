@@ -1,6 +1,8 @@
 package com.aelous.cache.definitions;
 
 import com.aelous.GameConstants;
+import com.aelous.model.content.consumables.FoodConsumable;
+import com.aelous.model.content.consumables.potions.Potions;
 import com.aelous.utility.loaders.BloodMoneyPrices;
 import com.aelous.model.items.Item;
 import com.aelous.network.codec.RSBuffer;
@@ -93,6 +95,7 @@ public class ItemDefinition implements Definition {
     public boolean autoKeptOnDeath;
     public BloodMoneyPrices bm;
     public boolean pvpAllowed;
+    public boolean consumable;
 
     public ItemDefinition(int id, byte[] data) {
         this.id = id;
@@ -736,6 +739,22 @@ public class ItemDefinition implements Definition {
             name = "Scroll of Imbuement";
         }
         bm = new BloodMoneyPrices();
+
+        for (FoodConsumable.Food food : FoodConsumable.Food.values()) {
+            if (food.getItemId() == id) {
+                consumable = true;
+                break;
+            }
+        }
+
+        for (Potions.Potion potion : Potions.Potion.values()) {
+            for (int potionId : potion.ids) {
+                if (potionId == id) {
+                    consumable = true;
+                    break;
+                }
+            }
+        }
     }
 
     public int highAlchValue() {

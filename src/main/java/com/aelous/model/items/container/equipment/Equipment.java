@@ -421,7 +421,7 @@ public final class Equipment extends ItemContainer {
         }
 
         //For dark lord accounts check if we unlocked this item
-        if (player.mode().isDarklord()) {
+        if (player.getGameMode().isDarklord()) {
             if (player.getCollectionLog().unlocked(equip.getId()) == 1) {
                 player.message(Color.RED.wrap("You have not unlocked this item yet."));
                 return false;
@@ -511,7 +511,7 @@ public final class Equipment extends ItemContainer {
             (equipmentSlot == EquipSlot.SHIELD && (!hasWeapon() || !hasShield() || getWeapon().isTwoHanded()))
                 || (equipmentSlot == EquipSlot.WEAPON && (!hasShield() || !hasWeapon() || getShield().isTwoHanded()));
 
-        if (secondaryItemToUnequip != null && !inventory.hasCapacityFor(secondaryItemToUnequip) && !oneForOneSwap) {
+        if (secondaryItemToUnequip != null && !inventory.hasCapacity(secondaryItemToUnequip) && !oneForOneSwap) {
             player.message("You do not have enough space in your inventory.");
             return false;
         }
@@ -828,7 +828,7 @@ public final class Equipment extends ItemContainer {
             throw new IllegalStateException(EXCEPTION_MESSAGE);
         }
 
-       /* @Override
+        @Override
         public void itemUpdated(ItemContainer container, Optional<Item> oldItem, Optional<Item> newItem, int index, boolean refresh) {
             if (oldItem.equals(newItem))
                 return;
@@ -836,12 +836,12 @@ public final class Equipment extends ItemContainer {
             if (refresh) {
                 sendItemsToWidget(container);
             }
-        }*/
+        }
 
-        /*@Override
+        @Override
         public void bulkItemsUpdated(ItemContainer container) {
             sendItemsToWidget(container);
-        }*/
+        }
     }
 
 }

@@ -86,7 +86,7 @@ public class Tutorial extends Dialogue {
             send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "I'd like to take my time and earn benefits of the <col=" + Color.BLUE.getColorValue() + ">Trained account</col>.", "I want to go straight to action with a <col=" + Color.BLUE.getColorValue() + ">PK account</col>.", "What's the difference between the two?");
             if (option == 1) {
                 accountType = GameMode.TRAINED_ACCOUNT;
-                player.mode(GameMode.TRAINED_ACCOUNT);
+                player.getGameMode(GameMode.TRAINED_ACCOUNT);
                 send(DialogueType.NPC_STATEMENT, NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.DEFAULT, "Are you sure you wish to play as a Trained Account?");
                 setPhase(5);
             } else if (option == 2) {
@@ -108,7 +108,7 @@ public class Tutorial extends Dialogue {
                     player.getUpdateFlag().flag(Flag.APPEARANCE);
                     player.putAttrib(AttributeKey.DARK_LORD_LIVES,3);
                 } else if(accountType == GameMode.TRAINED_ACCOUNT) {
-                    player.mode(GameMode.TRAINED_ACCOUNT);
+                    player.getGameMode(GameMode.TRAINED_ACCOUNT);
                 }
 
                 player.getBank().addAll(BANK_ITEMS);

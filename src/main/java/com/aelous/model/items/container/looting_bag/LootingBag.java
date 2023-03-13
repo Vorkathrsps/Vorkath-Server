@@ -408,7 +408,7 @@ public class LootingBag extends ItemContainer {
         }
 
         // Is the item trade-able?
-        if (!item.rawtradable()) {
+        if (!item.untradable()) {
             player.message("Only tradeable items can be put in the bag.");
             return false;
         }

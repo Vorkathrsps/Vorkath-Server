@@ -27,7 +27,7 @@ public class ChangeAccountTypeDialogue extends Dialogue {
             return;
         }
         setPhase(0);
-        send(DialogueType.NPC_STATEMENT, player.getInteractingNpcId(), Expression.DEFAULT, "Would you like to change your account type to", (player.mode() == GameMode.TRAINED_ACCOUNT));
+        send(DialogueType.NPC_STATEMENT, player.getInteractingNpcId(), Expression.DEFAULT, "Would you like to change your account type to", (player.getGameMode() == GameMode.TRAINED_ACCOUNT));
     }
 
     @Override
@@ -37,7 +37,7 @@ public class ChangeAccountTypeDialogue extends Dialogue {
             setPhase(1);
         }
         if (isPhase(3)) {
-            if (player.mode() == GameMode.TRAINED_ACCOUNT) {
+            if (player.getGameMode() == GameMode.TRAINED_ACCOUNT) {
                 send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes.", "No, I don't want to lose my levels!");
             } else {
                 send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "Yes.", "No thanks.");
@@ -51,7 +51,7 @@ public class ChangeAccountTypeDialogue extends Dialogue {
         if (isPhase(1)) {
             setPhase(2);
             if (option == 1) {
-                if (player.mode() == GameMode.TRAINED_ACCOUNT) {
+                if (player.getGameMode() == GameMode.TRAINED_ACCOUNT) {
                     send(DialogueType.NPC_STATEMENT, player.getInteractingNpcId(), Expression.DEFAULT, "Are you sure?", "All of your levels and", "any Hall of Fame entries you have will be reset.");
                 } else {
                     send(DialogueType.NPC_STATEMENT, player.getInteractingNpcId(), Expression.DEFAULT, "Are you sure?");
@@ -64,11 +64,11 @@ public class ChangeAccountTypeDialogue extends Dialogue {
         if (isPhase(4)) {
             if (option == 1) {
                 player.resetSkills();
-                GameMode accountType = player.mode(GameMode.TRAINED_ACCOUNT);
-                player.mode(accountType);
+                GameMode accountType = player.getGameMode(GameMode.TRAINED_ACCOUNT);
+                player.getGameMode(accountType);
                 player.ironMode(IronMode.NONE);
                 //logger.info(player.toString() + " has changed their account type to "+player.mode().toName());
-                Utils.sendDiscordInfoLog(player.toString() + " has changed their account type to "+player.mode().toName());
+                Utils.sendDiscordInfoLog(player.toString() + " has changed their account type to "+player.getGameMode().toName());
                 /*if (accountType == GameMode.INSTANT_PKER) {
                     player.getPresetManager().open();
                 }*/

@@ -1,10 +1,19 @@
 package com.aelous.model.items.container;
 
+
+import com.aelous.GameServer;
 import com.aelous.cache.definitions.ItemDefinition;
+import com.aelous.model.World;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
-import com.aelous.utility.ItemIdentifiers;
+import com.aelous.model.items.container.ItemContainerListener;
+import com.aelous.model.items.container.bank.Bank;
 import com.aelous.utility.Tuple;
+import com.google.gson.annotations.Expose;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -20,6 +29,18 @@ import static com.google.common.base.Preconditions.checkState;
  * @author lare96 <http://github.com/lare96>
  */
 public class ItemContainer implements Iterable<Item> {
+
+    private static final Logger log = LogManager.getLogger(ItemContainer.class);
+    private static final Marker marker = MarkerManager.getMarker("ItemContainer");
+
+    public String toStringDetail() {
+        return Arrays.toString(Arrays.stream(items).filter(Objects::nonNull).map(i -> {
+            if (i.unnote().getValue() == 0)
+                return i.toShortString();
+            else
+                return i.toShortString() + " (value:" + ((long)i.getAmount() * (long)i.unnote().getValue()) + (i.getAmount() > 1 ? " cost:" + i.unnote().getValue() : "") + ")";
+        }).toArray());
+    }
 
     /** An {@link Iterator} implementation for this container. */
     private static final class ItemContainerIterator implements Iterator<Item> {
@@ -100,6 +121,7 @@ public class ItemContainer implements Iterable<Item> {
     private final StackPolicy policy;
 
     /** The {@link Item}s within this container. */
+    @Expose
     private Item[] items;
 
     /** If events are currently being fired. */
@@ -161,6 +183,10 @@ public class ItemContainer implements Iterable<Item> {
         return add(item, -1, true);
     }
 
+    public Result add0(Item item) {
+        return add0(item, -1, true);
+    }
+
     /**
      * Attempts to deposit {@code item} into this container.
      * WARNING: do not use the ItemContainer add methods for depositing to the bank, use depositFromNothing.
@@ -189,6 +215,17 @@ public class ItemContainer implements Iterable<Item> {
      * Attempts to deposit {@code item} into this container.
      *
      * @param id     the id of the item.
+     * @return {@code true} the item was added, {@code false} if there was not
+     *         enough space left.
+     */
+    public boolean add(int id) {
+        return add(new Item(id, 1));
+    }
+
+    /**
+     * Attempts to deposit {@code item} into this container.
+     *
+     * @param id     the id of the item.
      * @param amount the amount of the item.
      * @return {@code true} the item was added, {@code false} if there was not
      *         enough space left.
@@ -198,10 +235,14 @@ public class ItemContainer implements Iterable<Item> {
     }
 
     public boolean add(Item item, boolean refresh, boolean stack) {
-        return add(item, -1, refresh, stack);
+        return add(item, -1, refresh, stack).success();
     }
 
     public boolean add(Item item, int preferredIndex, boolean refresh) {
+        return add(item, preferredIndex, refresh, false).success();
+    }
+
+    public Result add0(Item item, int preferredIndex, boolean refresh) {
         //System.out.println("Adding...");
         return add(item, preferredIndex, refresh, false);
     }
@@ -216,11 +257,11 @@ public class ItemContainer implements Iterable<Item> {
      * @return {@code true} if the {@code Item} was added, {@code false} if there
      *         was not enough space left.
      */
-    public boolean add(final Item item, int preferredIndex, boolean refresh, boolean stack) {
+    public Result add(final Item item, int preferredIndex, boolean refresh, boolean stack) {
         checkArgument(preferredIndex >= -1, "invalid index identifier");
         if (preferredIndex >= items.length) {
             if (getFreeSlots() == 0) {
-                return false;
+                return new Result(item.getAmount(), 0, 0);
             } else {
                 preferredIndex = nextFreeSlot();
             }
@@ -244,7 +285,7 @@ public class ItemContainer implements Iterable<Item> {
 
         if (preferredIndex == -1) { // Not enough space in container.
             fireCapacityExceededEvent();
-            return false;
+            return new Result(item.getAmount(), 0, 0);
         }
 
         if (stackable) {
@@ -255,29 +296,32 @@ public class ItemContainer implements Iterable<Item> {
 
                 long newAmount = (long) current.getAmount() + item.getAmount();
                 if (newAmount > Integer.MAX_VALUE)
-                    return false;
+                    return new Result(item.getAmount(), 0, preferredIndex);
 
                 items[preferredIndex] = current.createAndIncrement(item.getAmount());
             } else {
                 items[preferredIndex] = item;
             }
             fireItemUpdatedEvent(current, items[preferredIndex], preferredIndex, refresh);
+            return new Result(item.getAmount(), item.getAmount(), preferredIndex);
         } else {
             int remaining = remaining();
             int until = Math.min(remaining, item.getAmount());
+            List<Integer> slots = new LinkedList<>();
 
             for (int index = 0; index < until; index++) {
                 preferredIndex = (preferredIndex > capacity || preferredIndex < 0 || items[preferredIndex] == null) ? preferredIndex : nextFreeSlot();
                 if (preferredIndex == -1) {//Couldn't find an empty spot.
                     fireCapacityExceededEvent();
-                    return false;
+                    return new Result(item.getAmount(), 0, 0);
                 }
                 item.setAmount(1);
                 items[preferredIndex] = item;
+                slots.add(preferredIndex);
                 fireItemUpdatedEvent(null, item, preferredIndex++, refresh);
             }
+            return new Result(item.getAmount(), item.getAmount(), slots.stream().mapToInt(i -> i).toArray());
         }
-        return true;
     }
 
     /**
@@ -525,13 +569,12 @@ public class ItemContainer implements Iterable<Item> {
      */
     public long containerValue() {
         long value = 0;
-         for (final Item item : items) {
+        for (final Item item : items) {
             if (item == null) {
                 continue;
             }
-            final int id = item.getId();
             final int amount = item.getAmount();
-            final long price = Math.max(0, (id == ItemIdentifiers.PLATINUM_TOKEN) ? 1 : item.getValue());
+            final long price = Math.max(0, item.unnote().getValue());
             value += price * amount;
             if (value < 0) {
                 return Long.MAX_VALUE;
@@ -596,6 +639,19 @@ public class ItemContainer implements Iterable<Item> {
         }
 
         return (int) Math.min(Integer.MAX_VALUE, count);
+    }
+
+    public ArrayList<Item> collectItems(int... ids) {
+        ArrayList<Item> list = new ArrayList<>(ids.length);
+        for(Item item : items) {
+            if(item == null)
+                continue;
+            for(int id : ids) {
+                if(item.getId() == id)
+                    list.add(item);
+            }
+        }
+        return list.isEmpty() ? null : list;
     }
 
     public int count(Integer... matches) {
@@ -709,47 +765,41 @@ public class ItemContainer implements Iterable<Item> {
     }
 
     /**
-     * Computes the amount of indexes required to hold {@code items} in this
-     * container.
-     *
-     * @param forItems The items to compute the index count for.
-     * @return The index count.
+     * Basically just the space check code of #add method
      */
-    public final int computeIndexCount(Item... forItems) {
-        int indexCount = 0;
-        for (Item item : forItems) {
-            if (item == null)
-                continue;
-            boolean stackable = ((policy.equals(StackPolicy.STANDARD) && item.stackable())
-                || policy.equals(StackPolicy.ALWAYS));
+    public final boolean canFit(Item item) {
+        if (item == null)
+            return false;
+        boolean stackable = ((policy.equals(StackPolicy.STANDARD) && item.stackable())
+            || policy.equals(StackPolicy.ALWAYS));
 
-            if (stackable) {
-                int index = getSlot(item.getId());
-                if (index == -1) {
-                    indexCount++;
-                    continue;
-                }
-
-                Item existing = items[index];
-                if ((existing.getAmount() + item.getAmount()) <= 0) {
-                    indexCount++;
-                }
-            } else {
-                indexCount += item.getAmount();
+        if (stackable) {
+            int index = getSlot(item.getId());
+            if (index == -1) { // doesnt exist, all good
+                return hasFreeSlots(1);
             }
+
+            Item existing = items[index];
+            // check we won't exceed max value
+            return ((long) existing.getAmount() + (long) item.getAmount()) <= Integer.MAX_VALUE;
+        } else {
+            // can fit each of the non-stacking items
+            return hasFreeSlots(item.getAmount());
         }
-        return indexCount;
     }
 
     /**
-     * Determines if this container has the capacity for {@code item}.
+     * Determines if this container has the capacity for multiple {@code item}s. Example: adding skill cape+hood.
      *
      * @param item The {@link Item} to determine this for.
      * @return {@code true} if {@code item} can be added, {@code false} otherwise.
      */
-    public final boolean hasCapacityFor(Item... item) {
-        int indexCount = computeIndexCount(item);
-        return remaining() >= indexCount;
+    public final boolean hasCapacity(Item... item) {
+        for (Item item1 : item) {
+            if (!canFit(item1))
+                return false;
+        }
+        return true;
     }
 
     /**
@@ -763,7 +813,7 @@ public class ItemContainer implements Iterable<Item> {
     public final boolean hasCapacityAfter(Item[] add, Item... remove) {
         ItemContainer container = new ItemContainer(capacity, policy, toArray());
         container.removeAll(Arrays.copyOf(remove, remove.length));
-        return container.hasCapacityFor(add);
+        return container.hasCapacity(add);
     }
 
     /**
@@ -773,13 +823,22 @@ public class ItemContainer implements Iterable<Item> {
      * @return {@code true} if this container has {@code id}, {@code false}
      *         otherwise.
      */
-    public final boolean contains(int id) {
+    public boolean contains(int id) {
         for (Item item : items) {
             if (item != null && id == item.getId()) {
                 return true;
             }
         }
         return false;
+    }
+
+    public ItemDefinition getDef(int slot) {
+        Item item = get(slot);
+        return item == null ? null : item.definition();
+    }
+
+    public boolean hasId(int id) {
+        return findItem(id) != null;
     }
 
     /**
@@ -921,6 +980,11 @@ public class ItemContainer implements Iterable<Item> {
 
         Item itemOld = items[oldIndex];
         Item itemNew = items[newIndex];
+        if (this instanceof Bank && (itemOld == null || itemNew == null)) {
+            log.warn(marker, "swap FAIL "+oldIndex+" "+newIndex+" "+itemOld+" -> "+itemNew);
+            refresh(); // sync up the UI with rejected item placement - client might lag behind
+            return;
+        }
 
         items[oldIndex] = itemNew;
         items[newIndex] = itemOld;
@@ -1140,7 +1204,7 @@ public class ItemContainer implements Iterable<Item> {
      *
      * @return a copy of the unterlying item container.
      */
-    public final ItemContainer copy() {
+    public ItemContainer copy() {
         ItemContainer container = new ItemContainer(this.capacity, this.policy, this.toArray());
         this.listeners.forEach(container::addListener);
         return container;
@@ -1149,7 +1213,6 @@ public class ItemContainer implements Iterable<Item> {
     public Item[] getCopiedItems() {
         Item[] it = new Item[items.length];
         for (int i = 0; i < it.length; i++) {
-            //ken comment, added null check, this fixes presets sendValuableToBank method. TODO: check if getCopiedItems should ever have null items - it probably shouldn't ever have null items.
             if (items[i] == null)
                 continue;
             it[i] = items[i].copy();
@@ -1180,12 +1243,12 @@ public class ItemContainer implements Iterable<Item> {
         return array;
     }
 
-    /** Removes all of the items from this container. */
+    /** Removes all the items from this container. */
     public void clear() {
         clear(true);
     }
 
-    /** Removes all of the items from this container. */
+    /** Removes all the items from this container. */
     public final void clear(boolean refresh) {
         Arrays.fill(items, null);
         if (refresh)
@@ -1195,6 +1258,10 @@ public class ItemContainer implements Iterable<Item> {
     /** @return {@code true} if this container is empty */
     public final boolean isEmpty() {
         return size() == 0;
+    }
+
+    public boolean isNotEmpty() {
+        return !isEmpty();
     }
 
     /**
@@ -1357,6 +1424,19 @@ public class ItemContainer implements Iterable<Item> {
         return null;
     }
 
+    public ArrayList<Item> collectOneOfEach(int... ids) {
+        ArrayList<Item> list = new ArrayList<>(ids.length);
+        i: for(int id : ids) {
+            for(Item item : items) {
+                if(item != null && item.getId() == id) {
+                    list.add(item);
+                    continue i;
+                }
+            }
+        }
+        return list.size() != ids.length ? null : list;
+    }
+
     /** Sets the value for {@link #firingEvents}. */
     public void setFiringEvents(boolean firingEvents) {
         this.firingEvents = firingEvents;
@@ -1401,7 +1481,7 @@ public class ItemContainer implements Iterable<Item> {
      * @return    No free slot available.
      */
     public boolean isFull() {
-        return size() == capacity();
+        return getFreeSlots() == 0;
     }
 
     public boolean dirty;
@@ -1413,4 +1493,51 @@ public class ItemContainer implements Iterable<Item> {
     public void sync() {
 
     }
+
+    public Item findItem(int id) {
+        return findItem(id, false);
+    }
+
+    public Item findItem(int id, boolean acceptNoted) {
+        for(Item item : items) {
+            if(item != null && (item.getId() == id || (acceptNoted && World.getWorld().definitions().get(ItemDefinition.class, id).notelink != -1 && item.getId() == World.getWorld().definitions().get(ItemDefinition.class, id).notelink)))
+                return item;
+        }
+        return null;
+    }
+
+    public Item findItem(int id, boolean acceptNoted, int attributeHash) {
+        for(Item item : items) {
+            if(item != null && (item.getId() == id || (acceptNoted && World.getWorld().definitions().get(ItemDefinition.class, id).notelink != -1 && item.getId() == World.getWorld().definitions().get(ItemDefinition.class, id).notelink)))
+                return item;
+        }
+        return null;
+    }
+
+    /**
+         * from oss
+         */
+        public record Result(int requested, int completed, int... effectedSlots) {
+
+        public boolean success() {
+                return completed == requested;
+            }
+
+            public boolean failed() {
+                if (GameServer.properties().debugMode) {
+                    System.out.println(requested + "vs " + completed + "");
+                }
+                return !success();
+            }
+
+            @Override
+            public String toString() {
+                return "Result{" +
+                    "requested=" + requested +
+                    ", completed=" + completed +
+                    ", effectedSlots=" + Arrays.toString(effectedSlots) +
+                    ", success()=" + success() +
+                    '}';
+            }
+        }
 }

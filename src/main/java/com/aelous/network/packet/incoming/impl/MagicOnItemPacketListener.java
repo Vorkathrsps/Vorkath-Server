@@ -132,7 +132,7 @@ public class MagicOnItemPacketListener implements PacketListener {
                         }
                         return;
                     case LOW_ALCHEMY:
-                        if (!item.rawtradable() || item.getId() == BLOOD_MONEY || item.getId() == COINS_995) {
+                        if (!item.untradable() || item.getId() == BLOOD_MONEY || item.getId() == COINS_995) {
                             player.message("You can't alch that item.");
                             return;
                         }
@@ -162,7 +162,7 @@ public class MagicOnItemPacketListener implements PacketListener {
                             player.inventory().add(COINS_995, coinAmountToGive);
                         return;
                     case HIGH_ALCHEMY:
-                        if (!item.rawtradable() || item.getId() == BLOOD_MONEY || item.getId() == COINS_995) {
+                        if (!item.untradable() || item.getId() == BLOOD_MONEY || item.getId() == COINS_995) {
                             player.message("You can't alch that item.");
                             return;
                         }

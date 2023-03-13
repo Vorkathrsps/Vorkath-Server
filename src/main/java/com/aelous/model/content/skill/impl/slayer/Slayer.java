@@ -201,8 +201,8 @@ public class Slayer {
                         // Give points
                         var doublePointsUnlocked = killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.DOUBLE_SLAYER_POINTS);
                         var weekendBonus = World.getWorld().slayerRewardPointsMultiplier > 1;
-                        var trainedAccount = killer.mode() == GameMode.TRAINED_ACCOUNT;
-                        var darklordAccount = killer.mode() == GameMode.DARK_LORD;
+                        var trainedAccount = killer.getGameMode() == GameMode.TRAINED_ACCOUNT;
+                        var darklordAccount = killer.getGameMode() == GameMode.DARK_LORD;
                         int base = 30;
 
                         if(taskdef.bossTask) {

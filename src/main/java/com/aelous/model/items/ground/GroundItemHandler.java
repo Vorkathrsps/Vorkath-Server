@@ -128,7 +128,7 @@ public final class GroundItemHandler {
                 Item item = new Item(groundItem.getItem().getId());
 
                 //If the item is a non-tradable item continue
-                if (!item.rawtradable()) {
+                if (!item.untradable()) {
                     continue;
                 }
 
@@ -189,7 +189,7 @@ public final class GroundItemHandler {
 
             Item items = new Item(item.getItem().getId());
 
-            if (items.rawtradable() || item.getOwnerHash() == player.getLongUsername()) {
+            if (items.untradable() || item.getOwnerHash() == player.getLongUsername()) {
 
                 if (item.getState() == State.SEEN_BY_EVERYONE || item.getOwnerHash() == player.getLongUsername()) {
                     //System.out.println(String.format("spawned: %s%n", item));
@@ -293,7 +293,7 @@ public final class GroundItemHandler {
                     player.message("You're an Iron Man, so you can't take items that other players have dropped.");
                     return;
                 }
-            } else if (player.mode().isDarklord()) {
+            } else if (player.getGameMode().isDarklord()) {
                 if (different_owner && !groundItemPked) { // Owner different? It could be pked!
                     player.message("You're an Dark Lord, so you can't take items that other players have dropped.");
                     return;

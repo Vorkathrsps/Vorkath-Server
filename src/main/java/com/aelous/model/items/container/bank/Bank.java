@@ -1,6 +1,9 @@
 package com.aelous.model.items.container.bank;
 
+import com.aelous.cache.definitions.ItemDefinition;
+import com.aelous.model.World;
 import com.aelous.model.content.duel.Dueling;
+import com.aelous.model.entity.player.GameMode;
 import com.aelous.model.entity.player.InputScript;
 import com.aelous.model.inter.InterfaceConstants;
 import com.aelous.model.entity.attributes.AttributeKey;
@@ -15,6 +18,7 @@ import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.utility.Utils;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -463,53 +467,70 @@ public class Bank extends ItemContainer {
      * <p>
      *
      */
-    public int depositFromNothing(Item item) {
+    /**
+     * WARNING logic has link to {@link #remove(Item, int, boolean, boolean)} so some changes
+     * may need to be in both places
+     *
+     * @return The count of any left-overs that could not be inserted, such as left-over from a full 2.1b stack.
+     * <br> With this count, you should write some new code to deal with any remaining leftovers or bank them.
+     * <br> see {@link Dueling#onDeath()} for an example of dropping the remainder to the ground
+     * <p>
+     *
+     */
+    public Result depositFromNothing(Item item) {
+        //if (player.getGameMode(GameMode.TRAINED_ACCOUNT).isUltimateIronman()) {
+         //   return new Result(item.getAmount(), 0, 0);
+        //}
+        ItemDefinition def = World.getWorld().definitions().get(ItemDefinition.class, item.getId());
+        if(def == null) {
+            return new Result(item.getAmount(), 0, 0);
+        }
+
         setFiringEvents(false);
         item = item.copy();
         int id = item.unnote().getId();
+        int destinationSlot = nextFreeSlot();
+        int placeholderSlot = computeNextEmptyPlaceholder(id);
         if (!contains(id)) {
             if (size() + 1 > capacity()) {
-                return 0;
+                return new Result(item.getAmount(), 0, 0);
             }
 
-            int destinationSlot = nextFreeSlot();
-            int placeholderSlot = computeNextEmptyPlaceholder(id);
             if (placeHolder && placeholderSlot != -1) {
                 //System.out.println("Setting item amount to 1 for slot "+ placeholderSlot);
                 get(placeholderSlot).setAmount(1);
             } else {
                 // increase active tab size by 1
                 changeTabAmount(bankTab, 1);
-                // insert into tab 0 main first dont care about size of the tab
+                // insert into tab 0 main first don't care about size of the tab
                 add(new Item(id, item.getAmount()), destinationSlot);
 
-                int from = destinationSlot;
                 // move it from tab 0 main into the active tab you are in
                 int to = slotForTab(bankTab);
-                swap(true, from, to, false);
+                swap(true, destinationSlot, to, false);
             }
             setFiringEvents(true);
-            return item.getAmount();
+            return new Result(item.getAmount(), item.getAmount(), destinationSlot); // full amount banked
         } else {
-            Item existing = get(getSlot(id));
-            if (existing == null) return 0;
+            var slot = getSlot(id);
+            Item existing = get(slot);
+            if (existing == null) return new Result(item.getAmount(), 0, 0);
 
             if ((long) existing.getAmount() + item.getAmount() > Integer.MAX_VALUE) {
-                int delta = item.getAmount() - (Integer.MAX_VALUE - existing.getAmount());
+                var amtToBank = (Integer.MAX_VALUE - existing.getAmount());
+                int leftOverUnbanked = item.getAmount() - amtToBank;
 
                 existing.setAmount(Integer.MAX_VALUE);
 
                 //drop the rest (how many were left after as much as possible has been inserted)
-                player.inventory().addOrExecute(t -> {
-                    player.message("%s %s was dropped as you didn't have enough space in your inventory.", Utils.formatNumber(delta), t.name());
-                    GroundItemHandler.createGroundItem(new GroundItem(new Item(t.getId(), delta), player.tile(), player));
-                }, Optional.empty(), Arrays.asList(new Item(item.getId(), delta)));
-                return delta;
+                player.inventory().addOrDrop(new Item(item.getId(), leftOverUnbanked));
+                setFiringEvents(true);
+                return new Result(item.getAmount(), item.getAmount() - amtToBank, slot); // amount added
             } else {
                 existing.incrementAmountBy(item.getAmount());
+                setFiringEvents(true);
+                return new Result(item.getAmount(), item.getAmount(),0); // full amount successfully banked
             }
-            setFiringEvents(true);
-            return 0; // none left over
         }
     }
 

@@ -205,7 +205,7 @@ public class FoodConsumable {
         player.getTimers().extendOrRegister(TimerKey.COMBAT_ATTACK, 5);
 
         int increase = player.getEquipment().hpIncrease();
-        boolean inWilderness = WildernessArea.inWild(player);
+        boolean inWilderness = WildernessArea.inWilderness(player.tile());
         if (food == Food.ANGLERFISH) {
             if (inWilderness && CombatFactory.inCombat(player)) {
                 player.heal(food.heal, 0);

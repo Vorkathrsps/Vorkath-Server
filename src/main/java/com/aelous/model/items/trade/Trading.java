@@ -419,7 +419,7 @@ public class Trading {
             return;
         }
         Item tradeItem = new Item(id, amount);
-        if (!tradeItem.rawtradable()) {
+        if (!tradeItem.untradable()) {
             player.message("You cannot trade that item.");
             return;
         }

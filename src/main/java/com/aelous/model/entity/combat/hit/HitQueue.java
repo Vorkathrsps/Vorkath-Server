@@ -1,20 +1,13 @@
 package com.aelous.model.entity.combat.hit;
 
 import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.attributes.AttributeKey;
-import com.aelous.model.entity.combat.Combat;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
-import com.aelous.model.entity.masks.Flag;
-import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
-import com.aelous.utility.timers.TimerKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 /**
@@ -26,8 +19,6 @@ import java.util.stream.Collectors;
 public class HitQueue {
 
     private static final Logger logger = LogManager.getLogger(HitQueue.class);
-
-    //Our list containing all our incoming hits waiting to be processed.
     private final List<Hit> hits = new ArrayList<Hit>();
 
     public void clear() {
@@ -35,11 +26,9 @@ public class HitQueue {
     }
 
     public void process(Entity entity) {
-
         if (entity.stunned()) {
             return;
         }
-
         if (entity.dead() || (entity.locked() && !entity.isDelayDamageLocked() && !entity.isDamageOkLocked() && !entity.isLogoutOkLocked())) {
             hits.clear();
             return;
@@ -77,7 +66,6 @@ public class HitQueue {
                         if (shouldShowSplat(hit))
                             hit.showSplat = true;
                     }
-                    //Thread.dumpStack();
                 }
             } catch (RuntimeException e) {
                 hit.toremove = true;
@@ -92,9 +80,7 @@ public class HitQueue {
         for (Hit hit : toShow) {
             hit.playerSync();
         }
-
         toShow.clear();
-
     }
 
     /**

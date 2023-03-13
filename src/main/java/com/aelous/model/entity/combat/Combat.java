@@ -1,6 +1,7 @@
 package com.aelous.model.entity.combat;
 
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.combat.formula.accuracy.test.HitListener;
 import com.aelous.model.entity.combat.formula.maxhit.MagicMaxHit;
 import com.aelous.model.entity.combat.formula.maxhit.MeleeMaxHit;
 import com.aelous.model.entity.combat.formula.maxhit.RangeMaxHit;
@@ -713,8 +714,7 @@ public class Combat {
         // npcs can have overridable logic
         if (target != null && mob.isNpc()) {
             // delegate into a method you can override for npcs for special cases
-            if (method instanceof CommonCombatMethod) {
-                CommonCombatMethod commonCombatMethod = (CommonCombatMethod) method;
+            if (method instanceof CommonCombatMethod commonCombatMethod) {
                 commonCombatMethod.set(mob, target);
                 commonCombatMethod.doFollowLogic();
             } else {
@@ -750,5 +750,9 @@ public class Combat {
 
     public boolean inCombat() {
         return CombatFactory.inCombat(mob);
+    }
+
+    public void addHitListener(HitListener hitListener) {
+        hitListener.onHit(this.mob.hits);
     }
 }

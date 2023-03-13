@@ -106,11 +106,6 @@ public class Hit {
             return;
         }
 
-        // if (damageType == DamageType.DWARF_MULTICANNON || damageType == DamageType.VENOM || damageType == DamageType.POISON) {
-        //    return;
-        // }
-
-
         if (attacker.pidOrderIndex <= target.pidOrderIndex) {
             delay -= 1;
         }

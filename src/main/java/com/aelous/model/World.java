@@ -382,6 +382,10 @@ public class World {
         MinigameManager.onTick();
     };
 
+    public int getTickCount() {
+        return elapsedTicks;
+    }
+
     /**
      * Processes the world.
      */

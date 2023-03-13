@@ -88,7 +88,7 @@ public class IronManTutor extends Dialogue {
         if (isPhase(1)) {
             setPhase(2);
             if (option == 1) {
-                if (player.mode() == GameMode.TRAINED_ACCOUNT) {
+                if (player.getGameMode() == GameMode.TRAINED_ACCOUNT) {
                     send(DialogueType.NPC_STATEMENT, player.getInteractingNpcId(), Expression.DEFAULT, "Are you sure?", "All of your levels you have will be reset.");
                 } else {
                     send(DialogueType.NPC_STATEMENT, player.getInteractingNpcId(), Expression.DEFAULT, "Are you sure?");
@@ -102,8 +102,8 @@ public class IronManTutor extends Dialogue {
             if (option == 1) {
                 player.resetSkills();
                 // iron to trained
-                GameMode gameMode = (player.mode() == GameMode.TRAINED_ACCOUNT ? GameMode.TRAINED_ACCOUNT : GameMode.TRAINED_ACCOUNT);
-                player.mode(gameMode);
+                GameMode gameMode = (player.getGameMode() == GameMode.TRAINED_ACCOUNT ? GameMode.TRAINED_ACCOUNT : GameMode.TRAINED_ACCOUNT);
+                player.getGameMode(gameMode);
                 player.getPacketSender().sendString(QuestTab.InfoTab.GAME_MODE.childId, QuestTab.InfoTab.INFO_TAB.get(QuestTab.InfoTab.GAME_MODE.childId).fetchLineData(player));
                 //logger.info(player.toString() + " has changed their account type to " + gameMode.toName());
                 Utils.sendDiscordInfoLog(player.toString() + " has changed their account type to " + gameMode.toName());

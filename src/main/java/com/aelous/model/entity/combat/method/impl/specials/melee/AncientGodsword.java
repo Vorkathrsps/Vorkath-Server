@@ -21,7 +21,7 @@ public class AncientGodsword extends CommonCombatMethod {
         byte hue = 0;
         byte sat = 6;
         byte lum = 28;
-        byte opac = 112;
+        byte opac = 108;
 
         final Player player = (Player) entity;
 

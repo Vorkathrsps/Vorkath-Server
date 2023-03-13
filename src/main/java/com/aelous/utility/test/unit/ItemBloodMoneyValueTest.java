@@ -52,7 +52,7 @@ public class ItemBloodMoneyValueTest {
                 continue;
             }
             //Untradable items don't really need a value.
-            if (!item.rawtradable()) continue;
+            if (!item.untradable()) continue;
             if (BloodMoneyPrices.get(item.getId()).id() < 1 && Arrays.stream(IGNORED_ITEMS).noneMatch(itemId -> itemId == item.getId())) {
                 missingValues = true;
                 itemsMissingValues.add(item);
@@ -81,7 +81,7 @@ public class ItemBloodMoneyValueTest {
         boolean missingValues = false;
         for (Integer item : Item.TRADABLES) {
             //Untradable items don't really need a value.
-            if (!new Item(item, 1).rawtradable()) continue;
+            if (!new Item(item, 1).untradable()) continue;
             if (BloodMoneyPrices.get(item).id() < 1 && Arrays.stream(IGNORED_ITEMS).noneMatch(itemId -> itemId == item)) {
                 missingValues = true;
                 itemsMissingValues.add(new Item(item, 1));
@@ -125,7 +125,7 @@ public class ItemBloodMoneyValueTest {
         StringBuilder nonStandardNotedIdsString = new StringBuilder();
         for (Integer item : npcDrops.keySet()) {
             //Untradable items don't really need a value.
-            if (!new Item(item, 1).rawtradable()) continue;
+            if (!new Item(item, 1).untradable()) continue;
             if (BloodMoneyPrices.get(item).id() < 1 && Arrays.stream(IGNORED_ITEMS).noneMatch(itemId -> itemId == item)) {
                 missingValues = true;
                 itemsMissingValues.add(new Item(item, 1));
@@ -156,7 +156,7 @@ public class ItemBloodMoneyValueTest {
         for (int itemId = 0; itemId < world.definitions().total(ItemDefinition.class); itemId++) {
             ItemDefinition definition = world.definitions().get(ItemDefinition.class, itemId);
             if (definition == null) continue;
-            if (!new Item(itemId).rawtradable()) continue;
+            if (!new Item(itemId).untradable()) continue;
 
             if (new Item(itemId).noteable()) {
                 if (!new Item(itemId).noted()) {

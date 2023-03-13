@@ -21,6 +21,7 @@ import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.entity.player.rights.PlayerRights;
+import com.aelous.model.inter.lootkeys.LootKey;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
@@ -97,6 +98,9 @@ public class Death {
     public static void death(Player player) {
         player.lock(); //Lock the player
 
+        player.putAttrib(DEATH_TICK, World.getWorld().cycleCount());
+        player.putAttrib(DEATH_TILE, player.tile());
+
         Chain.bound(null).name("check_double_death_task").runFn(3, () -> {// Finish the proper delay after death (2 ticks)
             try {
                 Dueling.check_double_death(player); // must be checked after damage shows (because of PID you can't do it on the same cycle!)
@@ -132,7 +136,7 @@ public class Death {
             }
 
             NPC barrowsBro = player.getAttribOr(barrowsBroSpawned, null);
-            if(barrowsBro != null) {
+            if (barrowsBro != null) {
                 World.getWorld().unregisterNpc(barrowsBro);
             }
 
@@ -147,9 +151,8 @@ public class Death {
 
             player.clearAttrib(AttributeKey.LASTDEATH_VALUE);
             try {
-                if (player.getPlayerRights() == PlayerRights.PLAYER) { //TODO REMOVE THIS BEFORE LIVE SERVER
-                    ItemsOnDeath.droplootToKiller(player, killer);
-                }
+                ItemsOnDeath.droplootToKiller(player, killer);
+                mostdmg.ifPresent(value -> LootKey.handleDeath(player, value));
             } catch (Exception e) {
                 logger.error("Error dropping items and loot!", e);
             }

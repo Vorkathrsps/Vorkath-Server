@@ -2,6 +2,7 @@ package com.aelous.model.entity.masks;
 
 import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.model.entity.combat.skull.SkullType;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.GameMode;
 import com.aelous.model.entity.player.Player;
@@ -10,6 +11,8 @@ import com.aelous.network.packet.PacketBuilder;
 import com.aelous.network.packet.ValueType;
 
 import java.util.Arrays;
+
+import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_CARRIED;
 
 /**
  * @author PVE
@@ -94,6 +97,10 @@ public class Appearance {
         player.getUpdateFlag().flag(Flag.APPEARANCE);
     }
 
+    public void update() {
+        player.getUpdateFlag().flag(Flag.APPEARANCE);
+    }
+
     public void update(PacketBuilder out, Player target) {
         PacketBuilder packetBuilder = new PacketBuilder();
 
@@ -111,22 +118,17 @@ public class Appearance {
 
         //Head icon, prayers
         packetBuilder.put(target.getHeadHint());
-
         //Skull icon
-        if(target.mode() == GameMode.DARK_LORD) {
-            var lives = target.<Integer>getAttribOr(AttributeKey.DARK_LORD_LIVES,3);
-            var code = switch (lives) {
-                case 1 -> 4;
-                case 2 -> 3;
-                default -> 2;
-            };
-            System.out.println("lives: "+lives+" code: "+code);
-            packetBuilder.put(code);
-        } else {
-            packetBuilder.put(target.getSkullType().getCode());
-        }
-        //System.out.println("Sending skull icon " + target.getSkullType().getCode() + "for " + target);
-
+        var lootKeysCarried = target.<Integer>getAttribOr(LOOT_KEYS_CARRIED, 0);
+        var skullType = switch (lootKeysCarried) {
+            case 1 -> 2;
+            case 2 -> 3;
+            case 3 -> 4;
+            case 4 -> 5;
+            case 5 -> 6;
+            default -> target.getSkullType().getCode();
+        };
+        packetBuilder.put(skullType);
         //Some sort of headhint (arrow over head)
         packetBuilder.put(0);
 

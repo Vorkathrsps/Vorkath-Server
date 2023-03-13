@@ -116,7 +116,7 @@ public final class ServerProperties {
         defaultTile = new Tile(Utils.get(3089, 3092), Utils.get(3489, 3493), 0);
         duelTile = new Tile(3369, 3266);
         defaultClanChat = "";
-        queueSwitchingRefresh = true;
+        queueSwitchingRefresh = false;
         rightClickAutocast = false;
         autosaveMinutes = 15;
         afkLogoutMinutes = 30;

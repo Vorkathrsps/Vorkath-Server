@@ -72,7 +72,7 @@ public class ChaosFanatic extends CommonCombatMethod {
     private void disarm(Entity target) {
         Player player = (Player) target;
         final Item item = player.getEquipment().get(EquipSlot.WEAPON);
-        if (item != null && player.inventory().hasCapacityFor(item)) {
+        if (item != null && player.inventory().hasCapacity(item)) {
             player.getEquipment().remove(item, EquipSlot.WEAPON, true);
             player.getEquipment().unequip(EquipSlot.WEAPON);
             WeaponInterfaces.updateWeaponInterface(player);

@@ -82,7 +82,7 @@ public class ItemsOnDeath {
         var minigame_safe_death = player.getMinigame() != null && player.getMinigame().getType().equals(MinigameManager.ItemType.SAFE);
         var hunleff_area = player.tile().region() == 6810;
 
-        if (player.mode() == GameMode.DARK_LORD) {
+        if (player.getGameMode() == GameMode.DARK_LORD) {
             stripDarkLordRank(player);
         }
 
@@ -194,7 +194,7 @@ public class ItemsOnDeath {
 
         //#Update as of 16/02/2021 when smited you're actually smited the pet effect will not work!
 
-        if (player.getSkullType().equals(SkullType.RED_SKULL) || player.mode().isDarklord()) {
+        if (player.getSkullType().equals(SkullType.RED_SKULL) || player.getGameMode().isDarklord()) {
             keptItems = 0;
         }
         IKODTest.debug("keeping " + keptItems + " items");
@@ -362,7 +362,7 @@ public class ItemsOnDeath {
         player.putAttrib(AttributeKey.DARK_LORD_LIVES, lives);
         if (lives == 0) {
 
-            player.mode(GameMode.TRAINED_ACCOUNT);
+            player.getGameMode(GameMode.TRAINED_ACCOUNT);
             player.message("You have fallen as a Dark Lord', your status has been revoked.");
             World.getWorld().sendWorldMessage("<img=1081>" + Color.PURPLE.wrap(player.getUsername()) + Color.RED.wrap("has fallen as a Dark Lord!"));
         }

@@ -230,7 +230,7 @@ public class Dueling {
             return;
         }
 
-        if (t_.mode().isDarklord()) {
+        if (t_.getGameMode().isDarklord()) {
             player.message("Your partner is an Dark Lord, and cannot stake.");
             return;
         }
@@ -421,7 +421,7 @@ public class Dueling {
                 return;
             }
             Item stakeItem = new Item(id, amount);
-            if (!stakeItem.rawtradable()) {
+            if (!stakeItem.untradable()) {
                 player.message("You cannot stake that item.");
                 return;
             }

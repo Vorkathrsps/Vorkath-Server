@@ -35,15 +35,21 @@ public class MagicAccuracy {
     }
 
     public static boolean successful(Entity attacker, Entity defender, CombatType style) {
-        int attackBonus = (int) Math.floor(getAttackRoll(attacker, style));
-        int defenceBonus = (int) Math.floor(getDefenceRoll(defender, style));
+        int attackBonus = getAttackRoll(attacker, style);
+        int defenceBonus = getDefenceRoll(defender, style);
         double successfulRoll;
-        double selectedChance = srand.nextDouble();
 
-        if (attackBonus > defenceBonus)
-            successfulRoll = 1D - (Math.floor(defenceBonus + 2D)) / (2D * (attackBonus + 1D));
-        else
-            successfulRoll = attackBonus / (2D * (Math.floor(defenceBonus + 1D)));
+        byte[] seed = new byte[16];
+        new SecureRandom().nextBytes(seed);
+        SecureRandom random = new SecureRandom(seed);
+
+        if (attackBonus > defenceBonus) {
+            successfulRoll = (int) 1D - ((defenceBonus + 2D) / (2D * (attackBonus + 1D)));
+        } else {
+            successfulRoll = attackBonus / (2D * (defenceBonus + 1D));
+        }
+
+        double selectedChance = random.nextDouble();
 
         System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
@@ -114,16 +120,29 @@ public class MagicAccuracy {
         var task_id = attacker.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
         var task = SlayerCreature.lookup(task_id);
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
-        EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
         int effectiveLevel = (int) Math.floor(getMagicLevelAttacker(attacker) * getPrayerBonus(attacker, style));
+
+        if (attacker.isPlayer()) {
+            Player player = attacker.getAsPlayer();
+            if (player.getCombatSpecial() != null) {
+                double specialMultiplier = player.getCombatSpecial().getAccuracyMultiplier();
+                if (attacker.getAsPlayer().isSpecialActivated()) {
+                    effectiveLevel = (int) (effectiveLevel * specialMultiplier);
+                }
+            }
+        }
+
         switch (fightStyle) {
             case ACCURATE -> effectiveLevel += 3;
             case CONTROLLED -> effectiveLevel += 1;
         }
 
-        effectiveLevel += 8.0D;
+        effectiveLevel += 8;
+
+        effectiveLevel = (int) Math.floor(effectiveLevel);
 
         if (attacker.isPlayer()) {
+            if (style == CombatType.MAGIC) {
                 if (FormulaUtils.regularVoidEquipmentBaseMagic((Player) attacker)) {
                     effectiveLevel = (int) Math.floor(effectiveLevel * 1.45D);
                 }
@@ -178,8 +197,8 @@ public class MagicAccuracy {
                     }
                 }
             }
-
-        System.out.println("EFFECTIVE MAGIC LEVEL: " + effectiveLevel);
+            effectiveLevel = (int) Math.floor(effectiveLevel);
+        }
 
         return effectiveLevel;
     }

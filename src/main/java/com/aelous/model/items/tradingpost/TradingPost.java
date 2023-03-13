@@ -250,7 +250,7 @@ public class TradingPost {
             return;
         }
 
-        if (player.mode().isDarklord()) {
+        if (player.getGameMode().isDarklord()) {
             player.message("You are an Dark Lord, you stand alone.");
             return;
         }
@@ -726,7 +726,7 @@ public class TradingPost {
                 return false;
             }
 
-            if (!offerItem.rawtradable()) {
+            if (!offerItem.untradable()) {
                 player.message("<col=ff0000>You can't offer this item.");
                 return false;
             }
@@ -1298,8 +1298,6 @@ public class TradingPost {
 
         if (buttonId > 0)
             buttonId /= 8;
-
-        //System.out.println("buttonId = " + buttonId);
 
         player.getDialogueManager().start(new TradingPostOptions(buttonId));
     }

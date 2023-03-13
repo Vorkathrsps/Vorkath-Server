@@ -171,7 +171,7 @@ public abstract class Shop {
         if (item.getAmount() > storeItem.getAmount() && shopId != 7)
             item.setAmount(storeItem.getAmount());
 
-        if (!player.inventory().hasCapacityFor(item) && !item.noteable()) {
+        if (!player.inventory().hasCapacity(item) && !item.noteable()) {
             item.setAmount(player.inventory().remaining());
 
             if (item.getAmount() == 0) {
@@ -351,7 +351,7 @@ public abstract class Shop {
             return;
         }
 
-        if (!container.hasCapacityFor(item.unnote())) {
+        if (!container.hasCapacity(item.unnote())) {
             player.message("There is no room in this store for the item you are trying to sell!");
             return;
         }

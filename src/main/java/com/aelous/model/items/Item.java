@@ -345,6 +345,10 @@ public class Item implements Cloneable {
         return world.definitions().get(ItemDefinition.class, id);
     }
 
+    public ItemDefinition definition() {
+        return World.getWorld().definitions().get(ItemDefinition.class, id);
+    }
+
     public ItemDefinition definition(DefinitionRepository repo) {
         return repo.get(ItemDefinition.class, id);
     }
@@ -392,7 +396,7 @@ public class Item implements Cloneable {
         return def.stackable();
     }
 
-    public boolean rawtradable() {
+    public boolean untradable() {
         ItemDefinition def = definition(World.getWorld());
         return (def == null || id == ItemIdentifiers.PLATINUM_TOKEN || id == COINS_995 || def.grandexchange || def.noteModel > 0 || def.notelink > 0 || TRADABLES.contains(id));
     }
@@ -582,6 +586,14 @@ public class Item implements Cloneable {
             add(CRYSTAL_LEGS);
         }
     };
+
+    public boolean untradables() {
+        return false;
+    }
+
+    public boolean isSpawnable() {
+        return false;
+    }
 
     // These untradable items will be send to the inventory or bank on death.
     public static final int[] AUTO_KEPT_LIST = new int[]{

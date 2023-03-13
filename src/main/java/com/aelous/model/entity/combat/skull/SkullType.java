@@ -3,12 +3,17 @@ package com.aelous.model.entity.combat.skull;
 import java.util.Optional;
 
 public enum SkullType {
+
     NO_SKULL(-1),
+
     WHITE_SKULL(0),
+
     RED_SKULL(1),
-    DARK_LORD_THREE_LIVES(2),
-    DARK_LORD_TWO_LIVES(3),
-    DARK_LORD_FINAL_LIFE(4);
+    LOOT_KEY1(2),
+    LOOT_KEY2(3),
+    LOOT_KEY3(4),
+    LOOT_KEY4(5),
+    LOOT_KEY5(6);
 
     private final int cocde;
 

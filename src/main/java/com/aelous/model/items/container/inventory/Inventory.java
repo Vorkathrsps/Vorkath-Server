@@ -53,7 +53,7 @@ public final class Inventory extends ItemContainer {
         for (Item item : items) {
             if (item == null)
                 continue;
-            if (hasCapacityFor(item) && player.inventory().add(item)) {
+            if (hasCapacity(item) && player.inventory().add(item)) {
                 //player.debug("ok %s %s", item, player);
             } else {
                 action.accept(item);

@@ -203,6 +203,19 @@ public class Player extends Entity {
         this.raids = raids;
     }
 
+    /**
+     * depending on pid, two dying players, one might respawn before other's death code runs. this introduces some leway.
+     *
+     * @return
+     */
+    public boolean deadRecently() {
+        return deadRecently(10);
+    }
+
+    public boolean deadRecently(int ticks) {
+        return dead() || (World.getWorld().cycleCount() - getOrT(DEATH_TICK, World.getWorld().cycleCount() - 1000) <= ticks);
+    }
+
     public void heal() {
         graphic(436, GraphicHeight.MIDDLE, 0);
         message("<col=" + Color.BLUE.getColorValue() + ">You have restored your hitpoints, run energy and prayer.");
@@ -344,7 +357,7 @@ public class Player extends Entity {
             case ZENYTE_MEMBER -> 13;
         };
 
-        if (mode() == GameMode.TRAINED_ACCOUNT) {
+        if (getGameMode() == GameMode.TRAINED_ACCOUNT) {
             percent += 5;
         }
 
@@ -409,7 +422,7 @@ public class Player extends Entity {
         bm *= World.getWorld().bmMultiplier;
 
         //Being a trained account gives a +100 BM boost to the base value
-        if (mode() == GameMode.TRAINED_ACCOUNT)
+        if (getGameMode() == GameMode.TRAINED_ACCOUNT)
             bm += 100;
 
         //Slayer helm bonus
@@ -839,6 +852,7 @@ public class Player extends Entity {
     public Appearance looks() {
         return appearance;
     }
+
 
     private final CollectionLog collectionLog = new CollectionLog(this);
 
@@ -1488,7 +1502,7 @@ public class Player extends Entity {
             GameServer.getDatabaseService().submit(new UpdateKdrDatabaseTransaction(Double.parseDouble(getKillDeathRatio()), username));
             GameServer.getDatabaseService().submit(new UpdateTargetKillsDatabaseTransaction(getAttribOr(AttributeKey.TARGET_KILLS, 0), username));
             GameServer.getDatabaseService().submit(new UpdateKillstreakRecordDatabaseTransaction(getAttribOr(AttributeKey.KILLSTREAK_RECORD, 0), username));
-            GameServer.getDatabaseService().submit(new UpdatePlayerInfoDatabaseTransaction(getAttribOr(DATABASE_PLAYER_ID, -1), getHostAddress() == null ? "invalid" : getHostAddress(), getAttribOr(MAC_ADDRESS, "invalid"), getAttribOr(GAME_TIME, 0), mode().toName()));
+            GameServer.getDatabaseService().submit(new UpdatePlayerInfoDatabaseTransaction(getAttribOr(DATABASE_PLAYER_ID, -1), getHostAddress() == null ? "invalid" : getHostAddress(), getAttribOr(MAC_ADDRESS, "invalid"), getAttribOr(GAME_TIME, 0), getGameMode().toName()));
             GameServer.getDatabaseService().submit(new InsertPlayerIPDatabaseTransaction(this));
         }
     }
@@ -2560,11 +2574,11 @@ public class Player extends Entity {
 
     private GameMode mode = GameMode.TRAINED_ACCOUNT;
 
-    public GameMode mode() {
+    public GameMode getGameMode() {
         return mode;
     }
 
-    public GameMode mode(GameMode mode) {
+    public GameMode getGameMode(GameMode mode) {
         this.mode = mode;
         return mode;
     }

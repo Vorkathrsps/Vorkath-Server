@@ -9,6 +9,34 @@ public enum AttributeKey {
 
     SIGIL_OF_THE_FERAL_FIGHTER,
 
+    // Holds a list of max 40 items (fully stackable)
+    LOOT_KEY_INFO,
+
+    LOOT_KEYS_CARRIED("loot_keys_carried", AttribType.INTEGER),
+
+    // Withdraws the loot key items in noted form
+    LOOT_KEY_WITHDRAW_LOOT_TYPE,
+
+    LOOT_KEY_ACTIVE_VIEWED,
+
+    LOOT_KEYS_LOOTED("loot_keys_looted", AttribType.INTEGER),
+
+    TOTAL_LOOT_KEYS_VALUE("total_loot_keys_value", AttribType.LONG),
+
+    LOOT_KEYS_UNLOCKED("loot_keys_unlocked", AttribType.BOOLEAN),
+
+    LOOT_KEYS_ACTIVE("loot_keys_active", AttribType.BOOLEAN),
+
+    LOOT_KEYS_DROP_CONSUMABLES("loot_keys_drop_consumables", AttribType.BOOLEAN),
+
+    SEND_VALUABLES_TO_LOOT_KEYS("send_valuables_to_loot_key", AttribType.BOOLEAN),
+
+    LOOT_KEYS_VALUABLE_ITEM_THRESHOLD("loot_keys_valuable_item_threshold", AttribType.INTEGER),
+    LOST_ITEMS_ON_DEATH,
+    KILLERS_TILE_ON_DEATH,
+    DEATH_TILE,
+    DEATH_TICK,
+
     FERAL_FIGHTER,
 
     HIT_COUNT_FERAL_FIGHTER,

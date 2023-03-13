@@ -180,7 +180,7 @@ public class DwarfCannonActions extends PacketInteraction {
                 if (object.asOwnedObject().isOwner(player)) {
                     DwarfCannon cannon = ((DwarfCannon) object);
                     if (player.inventory().hasFreeSlots(1)
-                            || player.inventory().hasCapacityFor(new Item(CANNON_BALL))) {
+                            || player.inventory().hasCapacity(new Item(CANNON_BALL))) {
                         if (cannon.getAmmo() > 0) {
                             player.inventory().add(CANNON_BALL, cannon.getAmmo());
                             player.message(

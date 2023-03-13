@@ -35,15 +35,21 @@ public class RangeAccuracy {
     }
 
     public static boolean successful(Entity attacker, Entity defender, CombatType style) {
-        int attackBonus = (int) Math.floor(getAttackRoll(attacker, defender, style));
-        int defenceBonus = (int) Math.floor(getDefenceRoll(defender, style));
+        int attackBonus = getAttackRoll(attacker, defender, style);
+        int defenceBonus = getDefenceRoll(defender, style);
         double successfulRoll;
-        double selectedChance = srand.nextDouble();//srand.nextInt(10000) / 10000.0;
 
-        if (attackBonus > defenceBonus)
-            successfulRoll = 1D - (Math.floor(defenceBonus + 2D)) / (2D * (attackBonus + 1D));
-        else
-            successfulRoll = attackBonus / (2D * (Math.floor(defenceBonus + 1D)));
+        byte[] seed = new byte[16];
+        new SecureRandom().nextBytes(seed);
+        SecureRandom random = new SecureRandom(seed);
+
+        if (attackBonus > defenceBonus) {
+            successfulRoll = (int) 1D - ((defenceBonus + 2D) / (2D * (attackBonus + 1D)));
+        } else {
+            successfulRoll = attackBonus / (2D * (defenceBonus + 1D));
+        }
+
+        double selectedChance = random.nextDouble();
 
         System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 

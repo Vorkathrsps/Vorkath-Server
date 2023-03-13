@@ -47,7 +47,7 @@ public enum GameMode {
      * @return {@code true} if the player is of this type, otherwise {@code false}
      */
     public boolean isDarklord() {
-        return name.equals("Dark lord");
+        return name.equals("Ironman");
     }
 
     public String toName() {

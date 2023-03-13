@@ -234,10 +234,9 @@ public class CombatFactory {
         }
 
         switch (type) {
-            case MELEE:
+            case MELEE ->
                 max_damage = attacker.isNpc() ? attacker.getAsNpc().combatInfo() == null ? 0 : attacker.getAsNpc().combatInfo().maxhit : attacker.getCombat().maximumMeleeHit();
-                break;
-            case RANGED:
+            case RANGED -> {
                 if (attacker.isPlayer()) {
                     Player p = attacker.getAsPlayer();
                     RangedWeapon rangeWeapon = p.getCombat().getRangedWeapon();
@@ -248,11 +247,8 @@ public class CombatFactory {
                     //Npcs
                     max_damage = attacker.getCombat().maximumRangedHit(true);
                 }
-                break;
-
-            case MAGIC:
-                max_damage = attacker.getCombat().maximumMagicHit();
-                break;
+            }
+            case MAGIC -> max_damage = attacker.getCombat().maximumMagicHit();
         }
 
         //Ability to override max hits

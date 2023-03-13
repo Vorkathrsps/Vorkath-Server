@@ -31,7 +31,7 @@ public class ComboCommand implements Command {
             return;
         }
 
-        if (player.inventory().hasCapacityFor(new Item(COOKED_KARAMBWAN))) {
+        if (player.inventory().hasCapacity(new Item(COOKED_KARAMBWAN))) {
             player.inventory().add(new Item(COOKED_KARAMBWAN,5));
         }
         player.message("You spawn some cooked karambwans.");

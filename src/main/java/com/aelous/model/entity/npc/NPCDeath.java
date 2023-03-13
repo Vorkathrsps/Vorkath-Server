@@ -825,7 +825,7 @@ public class NPCDeath {
         int combat = killer.getSkills().combatLevel();
         int mul;
 
-        if ((killer.mode() == GameMode.TRAINED_ACCOUNT))
+        if ((killer.getGameMode() == GameMode.TRAINED_ACCOUNT))
             mul = 2;
         else mul = 1;
 
@@ -920,7 +920,7 @@ public class NPCDeath {
         boolean untrade_notifications = killer.getAttribOr(AttributeKey.UNTRADABLE_LOOT_NOTIFICATIONS, false);
         int lootDropThresholdValue = killer.getAttribOr(AttributeKey.LOOT_DROP_THRESHOLD_VALUE, 0);
         if (notifications_enabled) {
-            if (loot.rawtradable()) {
+            if (loot.untradable()) {
                 if (untrade_notifications) {
                     killer.message("Untradable drop: " + loot.getAmount() + " x <col=cc0000>" + loot.name() + "</col>.");
                 }

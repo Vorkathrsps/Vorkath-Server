@@ -253,9 +253,9 @@ public class BountyHunter {
             TopPkers.SINGLETON.increase(killer.getUsername());
 
             //Other rewards
-            if(WildernessArea.inWilderness(killer.tile())) { // Only reward if in wild
-                PlayerKillingRewards.reward(killer, killed,true);
-            }
+           // if(WildernessArea.inWilderness(killer.tile())) { // Only reward if in wild
+                //PlayerKillingRewards.reward(killer, killed,true);
+           // }
         } else {
             killer.message("You don't get any rewards for that kill.");
             //Player is probably farming kills.
@@ -279,7 +279,7 @@ public class BountyHunter {
                 int targetKills = (Integer) killer.getAttribOr(AttributeKey.TARGET_KILLS, 0) + 1;
                 killer.putAttrib(AttributeKey.TARGET_KILLS, targetKills);
 
-                boolean trainedAccount = killer.mode() == GameMode.TRAINED_ACCOUNT;
+                boolean trainedAccount = killer.getGameMode() == GameMode.TRAINED_ACCOUNT;
                 if (trainedAccount) {
                     killer.message("(" + Color.RED.tag() + "+1</col>) Extra target point received! (Trained account bonus)");
                 }

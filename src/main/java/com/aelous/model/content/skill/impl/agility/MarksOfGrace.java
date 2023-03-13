@@ -21,7 +21,7 @@ public class MarksOfGrace {
 
     public static void trySpawn(Player player, List<Tile> tiles, int rarity, int threshold) {
         // Base odds depend on the player's game mode
-        int odds = switch (player.mode()) {
+        int odds = switch (player.getGameMode()) {
             case TRAINED_ACCOUNT, DARK_LORD -> 3;
         };
 

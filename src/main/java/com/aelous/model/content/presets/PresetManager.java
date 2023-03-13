@@ -537,7 +537,7 @@ public class PresetManager {
 
         //Trained accounts; block global preset until we've reached maxed combat.
         var maxedCombat = player.<Boolean>getAttribOr(AttributeKey.COMBAT_MAXED, false);
-        if (player.mode() == GameMode.TRAINED_ACCOUNT && !maxedCombat && preset.isGlobal()) {
+        if (player.getGameMode() == GameMode.TRAINED_ACCOUNT && !maxedCombat && preset.isGlobal()) {
             player.message("You can only use presets when you've maxed out your combat stats.");
             return;
         }

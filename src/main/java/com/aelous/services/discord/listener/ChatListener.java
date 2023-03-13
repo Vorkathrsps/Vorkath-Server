@@ -105,7 +105,7 @@ public class ChatListener {
 
             switch (formattedCommand[0]) {
 
-                case "test":
+                case "test1":
                     DiscordBot.sendMessage("testing functionality", DiscordChannel.DEFAULT);
                     return;
             }

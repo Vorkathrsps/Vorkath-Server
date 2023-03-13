@@ -8708,7 +8708,7 @@ public class NpcIdentifiers {
     public static final int ZAMORAKIAN_ACOLYTE = 10379;
     public static final int ZAMORAKIAN_ACOLYTE_10380 = 10380;
     public static final int ZAMORAKIAN_ACOLYTE_10381 = 10381;
-    public static final int SKULLY = 10382;
+    public static final int SKULLY = 10382;//yeah idk works for me, u need to do all the dialogues, ye
     public static final int REFUGEE = 10383;
     public static final int REFUGEE_10384 = 10384;
     public static final int REFUGEE_10385 = 10385;

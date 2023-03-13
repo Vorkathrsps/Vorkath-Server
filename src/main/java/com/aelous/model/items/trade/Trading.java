@@ -130,13 +130,13 @@ public class Trading {
         }
 
         // Starter trade prevention
-       /* if (player.<Integer>getAttribOr(AttributeKey.GAME_TIME, 0) < 3000 && !player.getPlayerRights().isDeveloperOrGreater(player) && !otherPlayer.getPlayerRights().isDeveloperOrGreater(otherPlayer)) {
-            player.message("You are restricted from trading until 30 minutes of play time. Only " +Math.ceil((int)(3000.0 - player.<Integer>getAttribOr(AttributeKey.GAME_TIME, 0)) / 100.0)+" minutes left.");
+       /* if (player.<Long>getAttribOr(AttributeKey.GAME_TIME, 0L) < 3000 && !player.getPlayerRights().isDeveloperOrGreater(player) && !otherPlayer.getPlayerRights().isDeveloperOrGreater(otherPlayer)) {
+            player.message("You are restricted from trading until 30 minutes of play time. Only " +Math.ceil((int)(3000.0 - player.<Long>getAttribOr(AttributeKey.GAME_TIME, 0L)) / 100.0)+" minutes left.");
             return;
         }
 
-        if (otherPlayer.<Integer>getAttribOr(AttributeKey.GAME_TIME, 0) < 3000 && !otherPlayer.getPlayerRights().isDeveloperOrGreater(otherPlayer) && !player.getPlayerRights().isDeveloperOrGreater(player)) {
-            player.message("Your partner is restricted from trading until 30 minutes of play time. Only "+Math.ceil((int)(3000.0 - otherPlayer.<Integer>getAttribOr(AttributeKey.GAME_TIME, 0)) / 100.0)+" minutes left.");
+        if (otherPlayer.<Long>getAttribOr(AttributeKey.GAME_TIME, 0L) < 3000 && !otherPlayer.getPlayerRights().isDeveloperOrGreater(otherPlayer) && !player.getPlayerRights().isDeveloperOrGreater(player)) {
+            player.message("Your partner is restricted from trading until 30 minutes of play time. Only "+Math.ceil((int)(3000.0 - otherPlayer.<Long>getAttribOr(AttributeKey.GAME_TIME, 0L)) / 100.0)+" minutes left.");
             return;
         }*/
 

@@ -25,7 +25,7 @@ public class Hans extends Dialogue {
     }
 
     private String getTime() {
-        int gameTime = player.getAttribOr(AttributeKey.GAME_TIME, 0);
+        long gameTime = player.getAttribOr(AttributeKey.GAME_TIME, 0L);
         int time = (int) (gameTime * 0.6);
         int days = (time / 86400);
         int hours = (time / 3600) - (days * 24);
@@ -37,7 +37,7 @@ public class Hans extends Dialogue {
     }
 
     public static String getTimeDHS(Player player) {
-        int gameTime = player.getAttribOr(AttributeKey.GAME_TIME, 0);
+        long gameTime = player.getAttribOr(AttributeKey.GAME_TIME, 0L);
         int time = (int) (gameTime * 0.6);
         int days = (time / 86400);
         int hours = (time / 3600) - (days * 24);

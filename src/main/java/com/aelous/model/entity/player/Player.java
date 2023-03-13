@@ -1502,7 +1502,7 @@ public class Player extends Entity {
             GameServer.getDatabaseService().submit(new UpdateKdrDatabaseTransaction(Double.parseDouble(getKillDeathRatio()), username));
             GameServer.getDatabaseService().submit(new UpdateTargetKillsDatabaseTransaction(getAttribOr(AttributeKey.TARGET_KILLS, 0), username));
             GameServer.getDatabaseService().submit(new UpdateKillstreakRecordDatabaseTransaction(getAttribOr(AttributeKey.KILLSTREAK_RECORD, 0), username));
-            GameServer.getDatabaseService().submit(new UpdatePlayerInfoDatabaseTransaction(getAttribOr(DATABASE_PLAYER_ID, -1), getHostAddress() == null ? "invalid" : getHostAddress(), getAttribOr(MAC_ADDRESS, "invalid"), getAttribOr(GAME_TIME, 0), getGameMode().toName()));
+            GameServer.getDatabaseService().submit(new UpdatePlayerInfoDatabaseTransaction(getAttribOr(DATABASE_PLAYER_ID, -1), getHostAddress() == null ? "invalid" : getHostAddress(), getAttribOr(MAC_ADDRESS, "invalid"), getAttribOr(GAME_TIME, 0L), getGameMode().toName()));
             GameServer.getDatabaseService().submit(new InsertPlayerIPDatabaseTransaction(this));
         }
     }
@@ -1832,7 +1832,7 @@ public class Player extends Entity {
         setMemberRights(MemberRights.NONE);
         putAttrib(AttributeKey.NEW_ACCOUNT, true);
         setRunningEnergy(100.0, true);//Set energy to 100%
-        putAttrib(GAME_TIME, 0);
+        putAttrib(GAME_TIME, 0L);
         putAttrib(IS_RUNNING, false);
         Arrays.fill(getPresets(), null);
         //place player at edge
@@ -2621,7 +2621,7 @@ public class Player extends Entity {
 
     public void debug(String format, Object... params) {
         if (rights.isAdministrator(this)) {
-            if (getAttribOr(AttributeKey.DEBUG_MESSAGES, false)) {
+            if (getAttribOr(AttributeKey.DEBUG_MESSAGES, false)) {//debug messages are on and I know whats wrong
                 getPacketSender().sendMessage(params.length > 0 ? String.format(format, (Object[]) params) : format);
             }
         }
@@ -3183,7 +3183,7 @@ public class Player extends Entity {
             //Update the players online regardless of the cycle count, this is the most important number, otherwise players might see "0" if they log in too soon. Can always remove this later.
             GlobalStrings.PLAYERS_ONLINE.send(this, World.getWorld().getPlayers().size());
 
-            var gametime = (Integer) getAttribOr(GAME_TIME, 0) + 1;
+            var gametime = this.<Long>getAttribOr(GAME_TIME, 0L) + 1;
             this.putAttrib(GAME_TIME, gametime);// Increment ticks we've played for
 
             if (interfaceManager.isInterfaceOpen(DAILY_TASK_MANAGER_INTERFACE)) {

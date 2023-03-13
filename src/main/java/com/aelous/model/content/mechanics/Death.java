@@ -151,8 +151,11 @@ public class Death {
 
             player.clearAttrib(AttributeKey.LASTDEATH_VALUE);
             try {
-                ItemsOnDeath.droplootToKiller(player, killer);
-                mostdmg.ifPresent(value -> LootKey.handleDeath(player, value));
+                if (mostdmg.isPresent()) {
+                    LootKey.handleDeath(player, mostdmg.get());
+                } else {
+                    ItemsOnDeath.droplootToKiller(player, killer);
+                }
             } catch (Exception e) {
                 logger.error("Error dropping items and loot!", e);
             }

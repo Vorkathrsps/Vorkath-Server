@@ -112,12 +112,9 @@ public class PlayerSave {
      */
     public static final class SaveDetails {
 
-        @Expose
-        private final HashMap<Integer, Item[]> lootKeys;
-
         public static boolean loadDetails(Player player) throws Exception {
             final File file = new File("./data/saves/characters/" + player.getUsername() + ".json");
-            if (!file.exists()) { ;
+            if (!file.exists()) {
                 return false;
             }
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -201,18 +198,17 @@ public class PlayerSave {
                             ItemContainer ic = new ItemContainer(LOOT_KEY_CONTAINER_SIZE, ItemContainer.StackPolicy.ALWAYS);
                             ic.addAll(integerEntry.getValue());
                             LootKey.infoForPlayer(player).keys[integerEntry.getKey()] = new LootKey(ic, ic.containerValue());
-                            player.putAttrib(LOOT_KEYS_ACTIVE, details.lootKeys);
                         }
                     }
                 }
-                player.putAttrib(LOOT_KEYS_CARRIED, details.lootKeys);
-                player.putAttrib(LOOT_KEYS_LOOTED, details.lootKeys);
-                player.putAttrib(TOTAL_LOOT_KEYS_VALUE, details.lootKeys);
-                player.putAttrib(LOOT_KEYS_UNLOCKED, details.lootKeys);
-                player.putAttrib(LOOT_KEYS_ACTIVE, details.lootKeys);
-                player.putAttrib(LOOT_KEYS_DROP_CONSUMABLES, details.lootKeys);
-                player.putAttrib(SEND_VALUABLES_TO_LOOT_KEYS, details.lootKeys);
-                player.putAttrib(LOOT_KEYS_VALUABLE_ITEM_THRESHOLD, 0);
+                player.putAttrib(LOOT_KEYS_CARRIED, details.lootKeysCarried);
+                player.putAttrib(LOOT_KEYS_LOOTED, details.lootKeysLooted);
+                player.putAttrib(TOTAL_LOOT_KEYS_VALUE, details.totalLootKeysValue);
+                player.putAttrib(LOOT_KEYS_UNLOCKED, details.lootKeysUnlocked);
+                player.putAttrib(LOOT_KEYS_ACTIVE, details.lootKeysActive);
+                player.putAttrib(LOOT_KEYS_DROP_CONSUMABLES, details.lootKeysDropConsumables);
+                player.putAttrib(SEND_VALUABLES_TO_LOOT_KEYS, details.sendValuablesToLootKey);
+                player.putAttrib(LOOT_KEYS_VALUABLE_ITEM_THRESHOLD, details.lootKeysValuableItemThreshold);
                 player.putAttrib(VENOM_TICKS, details.venomTicks);
                 player.putAttrib(POISON_TICKS, details.poisonTicks);
                 player.setSpecialAttackPercentage(details.specPercentage);
@@ -784,7 +780,7 @@ public class PlayerSave {
         private final String title;
         private final String titleColor;
         private final Tile tile;
-        private final int gameTime;
+        private final long gameTime;
         private final double runEnergy;
         private final boolean running;
         private final String playerRights;
@@ -831,6 +827,7 @@ public class PlayerSave {
         private final MagicSpellbook previousSpellbook;
         private final int venomTicks;
 
+        private final HashMap<Integer, Item[]> lootKeys;
         private int lootKeysCarried;
         private int lootKeysLooted;
         private long totalLootKeysValue;
@@ -1386,7 +1383,7 @@ public class PlayerSave {
             title = Player.getAttribStringOr(player, TITLE, "");
             titleColor = Player.getAttribStringOr(player, TITLE_COLOR, "");
             tile = player.tile();
-            gameTime = Player.getAttribIntOr(player, GAME_TIME, 0);
+            gameTime = Player.getAttribLongOr(player, GAME_TIME, 0L);
             runEnergy = Player.getAttribDoubleOr(player, RUN_ENERGY, 0D);
             running = Player.getAttribBooleanOr(player, IS_RUNNING, false);
             playerRights = player.getPlayerRights().name();

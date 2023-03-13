@@ -67,7 +67,7 @@ public final class QuestTab {
         PLAY_TIME(12667) {
             @Override
             public String fetchLineData(Player player) {
-                return "Play Time: <col=ffffff>" + Utils.convertSecondsToShortDuration((long) player.<Integer>getAttribOr(AttributeKey.GAME_TIME, 0), false);
+                return "Play Time: <col=ffffff>" + Utils.convertSecondsToShortDuration(player.<Long>getAttribOr(AttributeKey.GAME_TIME, 0L), false);
             }
         },
 

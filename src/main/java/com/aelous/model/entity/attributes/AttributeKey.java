@@ -1215,7 +1215,7 @@ public enum AttributeKey {
     /**
      * Game time, in ticks played.
      */
-    GAME_TIME("game_time", AttribType.INTEGER),
+    GAME_TIME("game_time", AttribType.LONG),
 
     /**
      * Key to handle the players energy %.

@@ -52,6 +52,8 @@ public class MovementPacketListener implements PacketListener {
         int size = packet.getSize();
         player.afkTimer.reset();
 
+        System.out.println("Received packet");
+
         if (player.locked() || player.dead()) {
             return;
         }

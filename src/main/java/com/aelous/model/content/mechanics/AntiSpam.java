@@ -31,8 +31,8 @@ public class AntiSpam {
     /**
      * Ip mute a new player for advertising.
      */
-    public static boolean isNewPlayerSpamming(Player player, String textSent) {
-        if (player.<Integer>getAttribOr(AttributeKey.GAME_TIME,0) < 600) {
+    public static boolean isNewPlayerSpamming(Player player, String textSent) {//TODO get rid of this class
+        if (player.<Long>getAttribOr(AttributeKey.GAME_TIME,0) < 600L) {
             int flagPoint = 0;
             for (int index = 0; index < player.newPlayerChat.size(); index++) {
                 String oldText = player.newPlayerChat.get(index).toLowerCase();

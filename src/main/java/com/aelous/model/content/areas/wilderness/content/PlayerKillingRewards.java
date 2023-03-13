@@ -246,15 +246,15 @@ public class PlayerKillingRewards {
 
     private static void updateAchievement(Player killer, Player target) {
         // Starter trade prevention
-        if (killer.<Integer>getAttribOr(AttributeKey.GAME_TIME, 0) < 3000 && !killer.getPlayerRights().isDeveloper(killer) && !target.getPlayerRights().isDeveloper(target)) {
+        if (killer.<Long>getAttribOr(AttributeKey.GAME_TIME, 0L) < 3000L && !killer.getPlayerRights().isDeveloper(killer) && !target.getPlayerRights().isDeveloper(target)) {
             killer.message("You are restricted from completing achievements until 30 minutes of play time.");
-            killer.message("Only " + Math.ceil((int) (3000.0 - killer.<Integer>getAttribOr(AttributeKey.GAME_TIME, 0)) / 100.0) + "minutes left.");
+            killer.message("Only " + Math.ceil((int) (3000.0 - killer.<Long>getAttribOr(AttributeKey.GAME_TIME, 0L)) / 100.0) + "minutes left.");
             return;
         }
 
-        if (target.<Integer>getAttribOr(AttributeKey.GAME_TIME, 0) < 3000 && !target.getPlayerRights().isDeveloper(target) && !killer.getPlayerRights().isDeveloper(killer)) {
+        if (target.<Long>getAttribOr(AttributeKey.GAME_TIME, 0L) < 3000L && !target.getPlayerRights().isDeveloper(target) && !killer.getPlayerRights().isDeveloper(killer)) {
             killer.message("Your partner is restricted from completing achievements until 30 minutes of play time.");
-            killer.message("Only " + Math.ceil((int) (3000.0 - killer.<Integer>getAttribOr(AttributeKey.GAME_TIME, 0)) / 100.0) + "minutes left.");
+            killer.message("Only " + Math.ceil((int) (3000.0 - killer.<Long>getAttribOr(AttributeKey.GAME_TIME, 0L)) / 100.0) + "minutes left.");
             return;
         }
 

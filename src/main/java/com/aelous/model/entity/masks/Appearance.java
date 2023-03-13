@@ -119,7 +119,7 @@ public class Appearance {
         //Head icon, prayers
         packetBuilder.put(target.getHeadHint());
         //Skull icon
-        var lootKeysCarried = target.<Integer>getAttribOr(LOOT_KEYS_CARRIED, 0);
+        int lootKeysCarried = target.getAttribOr(LOOT_KEYS_CARRIED, 0);
         var skullType = switch (lootKeysCarried) {
             case 1 -> 2;
             case 2 -> 3;

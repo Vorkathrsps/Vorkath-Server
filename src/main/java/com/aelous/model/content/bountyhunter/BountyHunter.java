@@ -253,9 +253,9 @@ public class BountyHunter {
             TopPkers.SINGLETON.increase(killer.getUsername());
 
             //Other rewards
-           // if(WildernessArea.inWilderness(killer.tile())) { // Only reward if in wild
-                //PlayerKillingRewards.reward(killer, killed,true);
-           // }
+            if(WildernessArea.inWilderness(killer.tile())) { // Only reward if in wild
+                PlayerKillingRewards.reward(killer, killed,true);
+            }
         } else {
             killer.message("You don't get any rewards for that kill.");
             //Player is probably farming kills.

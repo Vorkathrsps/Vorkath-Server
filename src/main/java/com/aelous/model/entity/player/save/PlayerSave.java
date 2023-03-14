@@ -827,6 +827,7 @@ public class PlayerSave {
         private final MagicSpellbook previousSpellbook;
         private final int venomTicks;
 
+        @Expose
         private final HashMap<Integer, Item[]> lootKeys;
         private int lootKeysCarried;
         private int lootKeysLooted;

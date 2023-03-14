@@ -213,7 +213,7 @@ public class Player extends Entity {
     }
 
     public boolean deadRecently(int ticks) {
-        return dead() || (World.getWorld().cycleCount() - getOrT(DEATH_TICK, World.getWorld().cycleCount() - 1000) <= ticks);
+        return dead() || (World.getWorld().cycleCount() - this.<Integer>getAttribOr(DEATH_TICK, World.getWorld().cycleCount() - 1000) <= ticks);
     }
 
     public void heal() {

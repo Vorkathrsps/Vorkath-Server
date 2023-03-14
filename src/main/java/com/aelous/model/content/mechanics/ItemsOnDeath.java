@@ -17,6 +17,7 @@ import com.aelous.model.entity.combat.skull.Skulling;
 import com.aelous.model.entity.player.GameMode;
 import com.aelous.model.entity.player.IronMode;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.inter.lootkeys.LootKey;
 import com.aelous.model.items.Item;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.items.ground.GroundItemHandler;
@@ -82,10 +83,6 @@ public class ItemsOnDeath {
         var minigame_safe_death = player.getMinigame() != null && player.getMinigame().getType().equals(MinigameManager.ItemType.SAFE);
         var hunleff_area = player.tile().region() == 6810;
 
-        if (player.getGameMode() == GameMode.DARK_LORD) {
-            stripDarkLordRank(player);
-        }
-
         // If we're in FFA clan wars, don't drop our items.
         // Have these safe area checks before we do some expensive code ... looking for who killed us.
         if (donator_zone || vorkath_area || zulrah_area || hydra_area || safe_accounts || duel_arena || pest_control || raids_area || minigame_safe_death || hunleff_area) {
@@ -108,7 +105,6 @@ public class ItemsOnDeath {
 
         // Game Lists
         LinkedList<Item> toDrop = new LinkedList<>();
-        List<Item> keep = new LinkedList<>();
         List<Item> toDropPre = new LinkedList<>();
 
         // Unit Testing Lists
@@ -134,13 +130,13 @@ public class ItemsOnDeath {
         //System.out.println("Dropping: " + Arrays.toString(toDrop.toArray()));
 
         // remove always kept before calculating kept-3 by value
-        List<Item> alwaysKept = toDrop.stream().filter(ItemsKeptOnDeath::alwaysKept).collect(Collectors.toList());
+        List<Item> alwaysKept = toDrop.stream().filter(ItemsKeptOnDeath::alwaysKept).toList();
         IKODTest.debug("death alwaysKept list : " + Arrays.toString(alwaysKept.stream().map(Item::toShortValueString).toArray()));
-        keep.addAll(alwaysKept);
+        List<Item> keep = new LinkedList<>(alwaysKept);
         toDrop.removeIf(ItemsKeptOnDeath::alwaysKept);
 
         // custom always lost
-        final List<Item> alwaysLostSpecial = toDrop.stream().filter(i -> i.getId() == RUNE_POUCH || i.getId() == LOOTING_BAG || i.getId() == LOOTING_BAG_22586).collect(Collectors.toList());
+        final List<Item> alwaysLostSpecial = toDrop.stream().filter(i -> i.getId() == RUNE_POUCH || i.getId() == LOOTING_BAG || i.getId() == LOOTING_BAG_22586).toList();
         for (Item item : alwaysLostSpecial) {
             toDrop.remove(item); // not included in kept-3 if unskulled
             Item currency;
@@ -194,7 +190,7 @@ public class ItemsOnDeath {
 
         //#Update as of 16/02/2021 when smited you're actually smited the pet effect will not work!
 
-        if (player.getSkullType().equals(SkullType.RED_SKULL) || player.getGameMode().isDarklord()) {
+        if (player.getSkullType().equals(SkullType.RED_SKULL)) {
             keptItems = 0;
         }
         IKODTest.debug("keeping " + keptItems + " items");
@@ -308,32 +304,27 @@ public class ItemsOnDeath {
             // if we've got to here, add the original or changed SINGLE item to the newer list
             toDropConverted.add(item);
         });
-        // replace the original list with the newer list which reflects changes
         toDrop = toDropConverted;
 
-        // Dropping in-game the finalized items list on death here
         toDrop.forEach(item -> {
-            //   IKODTest.debug("dropping check: "+item.toShortString());
 
             if (ItemsKeptOnDeath.alwaysKept(item)) {
-                //System.out.println("Autokeep");
-                //QOL OSRS doesn't drop them anymore but spawns in inventory.
                 player.inventory().add(item);
                 outputKept.add(item);
                 return;
             }
 
-            //Drop item
-            //System.out.println("Creating ground item " + item.getId());
-            //Add the items to the lost list regardless of if the player died to a bot.
             lostItems.add(item);
 
             boolean diedToSelf = theKiller == player;
-            //System.out.println("died to npc "+npcFlag+" or died to self "+diedToSelf);
-            boolean nifflerShouldLoot = !diedToSelf && !npcFlag;
-            //System.out.println("nifflerShouldLoot "+nifflerShouldLoot);
 
-            //Niffler should only pick up items of monsters and players that you've killed.
+            //This IKOD is such dogshit lol, probs need to redo loot keys part
+            boolean lootKeysEnabled = LootKey.lootKeysEnabled(theKiller);
+            boolean killerIsDead = theKiller.deadRecently();
+            boolean discardLootBecauseItsInKey = lootKeysEnabled && !killerIsDead;
+            if (discardLootBecauseItsInKey) {
+                return;
+            }
 
             GroundItem g = new GroundItem(item, player.tile(), theKiller);
             GroundItemHandler.createGroundItem(g);
@@ -341,7 +332,10 @@ public class ItemsOnDeath {
 
             outputDrop.add(item);
         });
-
+        System.out.println("output : "+toDrop);
+        player.putAttrib(AttributeKey.LOST_ITEMS_ON_DEATH, toDrop);
+        var list = player.<LinkedList<Item>>getAttribOr(AttributeKey.LOST_ITEMS_ON_DEATH,null);
+        System.out.println("attrib : "+Arrays.toString(list.toArray()));
         GroundItemHandler.createGroundItem(new GroundItem(new Item(BONES), player.tile(), theKiller));
         outputDrop.add(new Item(BONES));
         playerDeathLogs.log(PLAYER_DEATHS, player.getUsername() + " (Skulled: " + Skulling.skulled(player) + ") lost items: " + Arrays.toString(lostItems.stream().map(Item::toShortString).toArray()) + (killer != null && killer.isPlayer() ? " to " + killer.getMobName() : ""));

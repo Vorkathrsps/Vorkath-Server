@@ -10,6 +10,7 @@ import com.aelous.model.entity.combat.skull.SkullType;
 import com.aelous.model.entity.combat.skull.Skulling;
 import com.aelous.model.entity.player.IronMode;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.inter.lootkeys.LootKey;
 import com.aelous.model.items.Item;
 import com.aelous.model.items.ground.GroundItem.State;
 import com.aelous.model.map.position.Tile;
@@ -310,7 +311,7 @@ public final class GroundItemHandler {
 
             TaskManager.submit(new Task("GroundItemPickupTask", 1, true) {
                 @Override
-                public void execute() {
+                public void execute() {//such a mess
                     if (groundItem.getState() != State.SEEN_BY_EVERYONE && groundItem.getOwnerHash() != player.getLongUsername()) {
                         stop();
                         return;
@@ -386,6 +387,10 @@ public final class GroundItemHandler {
                                 stop();
                                 return;
                             }
+                        }
+
+                        if (LootKey.KEYS.stream().anyMatch(key -> item.getId() == key)) {
+                            LootKey.pickupKey(player, groundItem);
                         }
 
                         // If we've made it here then it added to the inventory.

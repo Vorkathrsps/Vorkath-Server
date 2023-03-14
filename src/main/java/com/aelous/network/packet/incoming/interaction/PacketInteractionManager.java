@@ -120,7 +120,6 @@ public class PacketInteractionManager {
     public static boolean checkObjectInteraction(Player player, GameObject object, int type) {
         for (PacketInteraction interaction : interactions) {
             if (interaction.handleObjectInteraction(player, object, type)) {
-                System.out.println("checkObjectInteraction prints "+interaction.getClass().getSimpleName());
                 return true;
             }
         }

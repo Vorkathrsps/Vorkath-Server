@@ -362,7 +362,6 @@ public class Item implements Cloneable {
         if (def != null && def.noteModel > 0) {
             return new Item(def.notelink, amount); // Properties check not required: properties do not stick to notes.
         }
-
         return this;
     }
 
@@ -766,8 +765,10 @@ public class Item implements Cloneable {
      */
     public int getValue() {
         final ItemDefinition def = definition(World.getWorld());
-        if (def.pvpAllowed)
+        if (def.pvpAllowed) {
+            System.out.println(this.unnote().name());//doubt it
             return 0;
+        }
         return TradingPost.TRADING_POST_VALUE_ENABLED ? TradingPost.getProtectionPrice(id) : getBloodMoneyPrice() == null ? 0 : getBloodMoneyPrice().value();
     }
 

@@ -94,7 +94,7 @@ public class ItemDefinition implements Definition {
     public boolean changes;
     public boolean autoKeptOnDeath;
     public BloodMoneyPrices bm;
-    public boolean pvpAllowed;
+    public boolean pvpAllowed;//this isnt pvp mode lol ik, but have a feeling its possibly fucking with it, if values arent set ? idk
     public boolean consumable;
 
     public ItemDefinition(int id, byte[] data) {

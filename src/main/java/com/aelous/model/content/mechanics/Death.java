@@ -141,9 +141,9 @@ public class Death {
             }
 
             //BH death logic
-            if (killer != null && killer.isPlayer()) {
-                BountyHunter.onDeath(killer, player);
-            }
+           // if (killer != null && killer.isPlayer()) {
+            //    BountyHunter.onDeath(killer, player);
+           // }
 
             if (killer != null && player.getController() != null) {
                 player.getController().defeated(killer, player);
@@ -151,11 +151,9 @@ public class Death {
 
             player.clearAttrib(AttributeKey.LASTDEATH_VALUE);
             try {
-                if (mostdmg.isPresent()) {
-                    LootKey.handleDeath(player, mostdmg.get());
-                } else {
-                    ItemsOnDeath.droplootToKiller(player, killer);
-                }
+                ItemsOnDeath.droplootToKiller(player, killer);
+
+                mostdmg.ifPresent(value -> LootKey.handleDeath(player, value));
             } catch (Exception e) {
                 logger.error("Error dropping items and loot!", e);
             }

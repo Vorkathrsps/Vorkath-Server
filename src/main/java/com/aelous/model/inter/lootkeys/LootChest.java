@@ -24,7 +24,7 @@ import static com.aelous.utility.ItemIdentifiers.*;
  */
 public class LootChest extends PacketInteraction {
 
-    private static final List<Integer> LOOT_CHEST = Arrays.asList(43469, 43484,43485, 43486, 44780, 44781);
+    private static final List<Integer> LOOT_CHEST = Arrays.asList(43469, 43484, 43485, 43486, 44780, 44781);
 
     private static final int INTERFACE_ID = 69500;
     private static final int GP_ID = 69505;
@@ -38,33 +38,33 @@ public class LootChest extends PacketInteraction {
         player.getInterfaceManager().open(INTERFACE_ID);
         player.getPacketSender().sendString(BANK_AMOUNT_ID, "" + player.getBank().size());
         player.getPacketSender().sendString(BANK_MAX_ID, "816");
-        player.getPacketSender().sendConfig(WITHDRAW_AS_ITEM_LOOT_KEY,1);
-        player.getPacketSender().sendConfig(WITHDRAW_AS_NOTE_LOOT_KEY,0);
-        player.putAttrib(AttributeKey.LOOT_KEY_WITHDRAW_LOOT_TYPE,0);
+        player.getPacketSender().sendConfig(WITHDRAW_AS_ITEM_LOOT_KEY, 1);
+        player.getPacketSender().sendConfig(WITHDRAW_AS_NOTE_LOOT_KEY, 0);
+        player.putAttrib(AttributeKey.LOOT_KEY_WITHDRAW_LOOT_TYPE, 0);
     }
 
     private void open(Player player) {
+        if (!player.inventory().containsAny(LOOT_KEY, LOOT_KEY_26652, LOOT_KEY_26653, LOOT_KEY_26654, LOOT_KEY_26655)) {
+            DialogueManager.npcChat(player, Expression.NODDING_ONE, SKULLY, "You don't seem to have any loot keys on you there,", "mate.");
+            return;
+        }
         player.animate(832);
         player.lock();
 
         Chain.bound(null).runFn(2, () -> {
-            if (!player.inventory().containsAny(LOOT_KEY, LOOT_KEY_26652, LOOT_KEY_26653, LOOT_KEY_26654, LOOT_KEY_26655)) {
-                DialogueManager.npcChat(player, Expression.NODDING_ONE, SKULLY, "You don't seem to have any loot keys on you there,", "mate.");
-            } else {
-                // Open a tab where we have a key
-                for (int keyIdx : LootKey.KEYS) {
-                    if (player.inventory().contains(keyIdx)) {
-                        player.putAttrib(AttributeKey.LOOT_KEY_ACTIVE_VIEWED, keyIdx - LOOT_KEY);
-                        break;
-                    }
+            // Open a tab where we have a key
+            for (int keyIdx : LootKey.KEYS) {
+                if (player.inventory().contains(keyIdx)) {
+                    player.putAttrib(AttributeKey.LOOT_KEY_ACTIVE_VIEWED, keyIdx - LOOT_KEY);
+                    break;
                 }
-
-                var info = infoForPlayer(player);
-                var idx = player.<Integer>getAttribOr(AttributeKey.LOOT_KEY_ACTIVE_VIEWED, -1);
-                refreshKey(player, info, idx);
-
-                sendInterfaceInfo(player);
             }
+
+            var info = infoForPlayer(player);
+            var idx = player.<Integer>getAttribOr(AttributeKey.LOOT_KEY_ACTIVE_VIEWED, -1);
+            refreshKey(player, info, idx);
+
+            sendInterfaceInfo(player);
 
             player.unlock();
         });
@@ -95,12 +95,12 @@ public class LootChest extends PacketInteraction {
         info.keys[idx].value = 0L;
         refreshKey(player, info, idx);
         player.inventory().remove(new Item(keyIdForIdx(idx)), true);
-        player.putAttrib(AttributeKey.LOOT_KEYS_CARRIED, Math.max(0, player.<Integer>getAttribOr(AttributeKey.LOOT_KEYS_CARRIED,0) - 1));
+        player.putAttrib(AttributeKey.LOOT_KEYS_CARRIED, Math.max(0, player.<Integer>getAttribOr(AttributeKey.LOOT_KEYS_CARRIED, 0) - 1));
         player.looks().update();
     }
 
     public static void destroyKey(Player player, Item item) {
-        if(LootKey.KEYS.stream().anyMatch(keyId -> item.getId() == keyId)) {
+        if (LootKey.KEYS.stream().anyMatch(keyId -> item.getId() == keyId)) {
             for (int keyIdx : LootKey.KEYS) {
                 if (item.getId() == keyIdx) {
                     player.putAttrib(AttributeKey.LOOT_KEY_ACTIVE_VIEWED, keyIdx - LOOT_KEY);
@@ -113,8 +113,8 @@ public class LootChest extends PacketInteraction {
 
     @Override
     public boolean handleItemInteraction(Player player, Item item, int option) {
-        if(option == 1) {
-            if(LootKey.KEYS.stream().anyMatch(keyId -> item.getId() == keyId)) {
+        if (option == 1) {
+            if (LootKey.KEYS.stream().anyMatch(keyId -> item.getId() == keyId)) {
                 for (int keyIdx : LootKey.KEYS) {
                     if (item.getId() == keyIdx) {
                         player.putAttrib(AttributeKey.LOOT_KEY_ACTIVE_VIEWED, keyIdx - LOOT_KEY);
@@ -126,7 +126,7 @@ public class LootChest extends PacketInteraction {
                 var idx = player.<Integer>getAttribOr(AttributeKey.LOOT_KEY_ACTIVE_VIEWED, -1);
                 var key = info.keys[idx];
 
-                player.message("Your loot key contains items that are worth approximately "+Utils.formatRunescapeStyle(key.value)+" gp.");
+                player.message("Your loot key contains items that are worth approximately " + Utils.formatRunescapeStyle(key.value) + " gp.");
                 return true;
             }
         }
@@ -189,7 +189,7 @@ public class LootChest extends PacketInteraction {
                 player.message("Not all of the key's items could be added to your inventory.");
             } else {
                 player.inventory().remove(new Item(keyIdForIdx(idx)), true);
-                player.putAttrib(AttributeKey.LOOT_KEYS_CARRIED, Math.max(0, player.<Integer>getAttribOr(AttributeKey.LOOT_KEYS_CARRIED,0) - 1));
+                player.putAttrib(AttributeKey.LOOT_KEYS_CARRIED, Math.max(0, player.<Integer>getAttribOr(AttributeKey.LOOT_KEYS_CARRIED, 0) - 1));
                 player.looks().update();
                 player.getInterfaceManager().close();
             }
@@ -222,7 +222,7 @@ public class LootChest extends PacketInteraction {
                 player.message("Not all of the key's items could be added to your bank.");
             } else {
                 player.inventory().remove(new Item(keyIdForIdx(idx)), true);
-                player.putAttrib(AttributeKey.LOOT_KEYS_CARRIED, Math.max(0, player.<Integer>getAttribOr(AttributeKey.LOOT_KEYS_CARRIED,0) - 1));
+                player.putAttrib(AttributeKey.LOOT_KEYS_CARRIED, Math.max(0, player.<Integer>getAttribOr(AttributeKey.LOOT_KEYS_CARRIED, 0) - 1));
                 player.looks().update();
                 player.getInterfaceManager().close();
             }
@@ -242,7 +242,7 @@ public class LootChest extends PacketInteraction {
     @Override
     public boolean handleItemOnObject(Player player, Item item, GameObject object) {
         if (LOOT_CHEST.stream().anyMatch(chestId -> object.getId() == chestId)) {
-            if(LootKey.KEYS.stream().anyMatch(keyId -> item.getId() == keyId)) {
+            if (LootKey.KEYS.stream().anyMatch(keyId -> item.getId() == keyId)) {
                 // Open a tab where we have a key
                 for (int keyIdx : LootKey.KEYS) {
                     if (item.getId() == keyIdx) {

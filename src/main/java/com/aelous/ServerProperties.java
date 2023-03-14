@@ -226,7 +226,7 @@ public final class ServerProperties {
         doubleSlayerRewardPointsEvent = false;
         doubleBMEvent = false;
         doubleVotePointsEvent = true;
-        pvpMode = true;
+        pvpMode = false;
         nerfDropRateBoxes = true;
     }
 

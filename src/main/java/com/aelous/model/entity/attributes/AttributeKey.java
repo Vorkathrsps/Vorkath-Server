@@ -1,5 +1,7 @@
 package com.aelous.model.entity.attributes;
 
+import com.sun.source.doctree.AttributeTree;
+
 /**
  * Created by Bart on 8/13/2015.
  */
@@ -32,6 +34,7 @@ public enum AttributeKey {
     SEND_VALUABLES_TO_LOOT_KEYS("send_valuables_to_loot_key", AttribType.BOOLEAN),
 
     LOOT_KEYS_VALUABLE_ITEM_THRESHOLD("loot_keys_valuable_item_threshold", AttribType.INTEGER),
+
     LOST_ITEMS_ON_DEATH,
     KILLERS_TILE_ON_DEATH,
     DEATH_TILE,

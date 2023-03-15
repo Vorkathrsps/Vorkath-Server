@@ -992,4 +992,16 @@ public class NPC extends Entity {
     public void remove() {
         World.getWorld().unregisterNpc(this);
     }
+
+    private boolean canAttack = true;
+
+    public boolean canAttack() {
+        return canAttack;
+    }
+
+    public NPC canAttack(boolean canAttack) {
+        this.canAttack = canAttack;
+        return this;
+    }
+
 }

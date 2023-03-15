@@ -603,6 +603,9 @@ public class CombatFactory {
         if (entity.isNpc() && entity.getAsNpc().attackNpcListener != null && !entity.getAsNpc().attackNpcListener.allow(entity.getAsPlayer(), entity.getAsNpc(), message)) {
             return false;
         }
+        if (entity.isNpc() && !entity.npc().canAttack()) {
+            return false;
+        }
 
         if (entity.isNpc() && entity.getAsNpc().getBotHandler() != null) {
             if (!(WildernessArea.inWilderness(entity.tile())) || !(WildernessArea.inWilderness(other.tile()))) {

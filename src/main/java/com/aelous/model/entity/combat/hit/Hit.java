@@ -17,6 +17,7 @@ import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.PlayerStatus;
 import com.aelous.utility.ItemIdentifiers;
+import lombok.Setter;
 
 import java.security.SecureRandom;
 import java.util.function.Consumer;
@@ -55,6 +56,8 @@ public class Hit {
     private final Entity target;
 
     public CombatSpell spell;
+
+    @Setter
     public SplatType splatType;
 
     public Splat splat;

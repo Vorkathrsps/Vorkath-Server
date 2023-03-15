@@ -54,7 +54,7 @@ public class VerzikViturInstance {
             npcList.clear();
             player.teleport(ENTRANCE_POINT.transform(0, 0, instance.getzLevel()));
 
-            var verzik = new VerzikVitur(VERZIK_SPAWN_TILE.transform(0, 0, instance.getzLevel()), player);
+            var verzik = new NPC(8372, VERZIK_SPAWN_TILE.transform(0, 0, instance.getzLevel()));
             verzik.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN,25);
             World.getWorld().registerNpc(verzik);
             npcList.add(verzik);

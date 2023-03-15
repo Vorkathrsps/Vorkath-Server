@@ -904,6 +904,9 @@ public abstract class Entity {
      * doesnt return {@code Hit} instance because its immidiately submitted() so you cant change properties after.
      */
     public Hit hit(Entity attacker, int damage, CombatType combatType, SplatType type) {
+        return hit(attacker, damage, 0, combatType, type);
+    }
+    public Hit hit(Entity attacker, int damage, int delay, CombatType combatType, SplatType type) {
         Hit hit = hit(attacker, damage, 0, combatType);
         hit.splatType = type;
         return hit;
@@ -924,6 +927,10 @@ public abstract class Entity {
 
     public Hit healHit(Entity attacker, int heal) {
         return hit(attacker, heal, null, SplatType.NPC_HEALING_HITSPLAT);
+    }
+
+    public Hit healHit(Entity attacker, int heal, int delay) {
+        return hit(attacker, heal, delay, null, SplatType.NPC_HEALING_HITSPLAT);
     }
 
     protected boolean noRetaliation = false;
@@ -1797,4 +1804,15 @@ public abstract class Entity {
 
     public int pidOrderIndex;
 
+    public void faceEntity(Entity target) {
+        setEntityInteraction(target);
+    }
+
+    public void face(Entity mob) {
+        setEntityInteraction(mob);
+    }
+
+    public void resetFreeze() {
+        getTimers().cancel(TimerKey.FROZEN); //Remove frozen timer key
+    }
 }

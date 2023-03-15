@@ -1,6 +1,7 @@
 package com.aelous.model.entity.npc;
 
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.method.impl.npcs.bosses.corruptedhunleff.CorruptedHunleff;
 import com.aelous.model.entity.combat.method.impl.npcs.karuulm.Wyrm;
 import com.google.common.base.Stopwatch;
@@ -442,8 +443,13 @@ public class NPC extends Entity {
         } else {
             sequenceNormal();
         }
-
+        postSequence();
     }
+
+    /**
+     * override me
+     */
+    public void postSequence() {}
 
     public boolean useSmartPath;
 
@@ -699,6 +705,9 @@ public class NPC extends Entity {
 
     public void setCombatMethod(CombatMethod combatMethod) {
         this.combatMethod = combatMethod;
+        if (combatMethod instanceof CommonCombatMethod ccm) {
+            ccm.init(this);
+        }
     }
 
     public SecondsTimer getImmunity() {

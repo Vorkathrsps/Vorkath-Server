@@ -1,39 +1,49 @@
 package com.aelous.model.entity.combat.method.impl.npcs.godwars.nex;
 
-import com.aelous.cache.definitions.NpcDefinition;
+import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
+import com.aelous.core.task.TaskManager;
+import com.aelous.core.task.impl.ForceMovementTask;
 import com.aelous.model.World;
-import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.model.content.EffectTimer;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
-import com.aelous.model.entity.masks.Projectile;
-import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.Direction;
-import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
+import com.aelous.model.entity.masks.ForceMovement;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.npc.NPCCombatInfo;
-import com.aelous.model.entity.masks.ForceMovement;
+import com.aelous.model.entity.npc.NPCDeath;
+import com.aelous.model.entity.npc.droptables.ScalarLootTable;
+import com.aelous.model.entity.npc.pets.Pet;
+import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
+import com.aelous.model.items.Item;
+import com.aelous.model.items.ground.GroundItem;
+import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.object.GameObject;
-import com.aelous.model.map.object.ObjectManager;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.route.routes.DumbRoute;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
-import static com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars.*;
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.BLOOD_REAVER;
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.NEX_11282;
+import static com.aelous.model.content.collection_logs.LogType.BOSSES;
+import static com.aelous.model.entity.attributes.AttributeKey.*;
+import static com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.NexFightState.*;
+import static com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars.nex;
+import static com.aelous.utility.ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD;
 
 /**
  * @author Patrick van Elderen <https://github.com/PVE95>
@@ -73,251 +83,303 @@ public class NexCombat extends CommonCombatMethod {
         new Tile(2924, 5194, 0), // south
         new Tile(2916, 5203, 0),}; // west
 
+
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
-        if (entity.isNpc()) {
-            NPC npc = entity.getAsNpc();
-            final Nex nex = (Nex) npc;
-            attackCount += 1;
-            nex.useSmartPath = true;
-            if (nex.getAttacksStage() == 0) {
-                if (nex.getLastVirus() < Utils.currentTimeMillis() && attackCount == 1) {
-                    virusAttack(nex, target);
-                } else if (attackCount == 4) {
-                    dragAttack(nex);
-                } else if (nex.getLastNoEscape() < Utils.currentTimeMillis() && attackCount == 6) {
-                    attackCount = 0;
-                    smokeBulletAttack(nex);
-                } else {
-                    if (CombatFactory.canReach(nex, CombatFactory.MELEE_COMBAT, target)) {
-                        if(World.getWorld().rollDie(2,1)) {
-                            meleeAttack(nex, target,false);
-                        } else {
-                            smokeRushAttack(nex);
-                        }
-                    } else {
-                        smokeRushAttack(nex);
-                    }
-                }
-            } else if (nex.getAttacksStage() == 1) {
-                if (attackCount == 1) {
-                    shadowShotsAttack(nex);
-                } else if (attackCount == 3) {
-                    shadowSmashAttack(nex);
-                    attackCount = 0;
-                /*} else if (attackCount == 6) {
-                    embraceDarknessAttack(nex);
-                    attackCount = 0; // reset attack count
-                    */
-                } else {
-                    if (CombatFactory.canReach(nex, CombatFactory.MELEE_COMBAT, target)) {
-                        meleeAttack(nex, target,false);
-                    } else {
-                        shadowShotsAttack(nex);
-                    }
-                }
-            } else if (nex.getAttacksStage() == 2) {
-                if (attackCount == 1) {
-                    bloodBarrage(nex, target);
-                } else if (attackCount == 3) {
-                    bloodSiphon(nex);
-                } else if (attackCount == 6) {
-                    bloodSacrifice(nex, target);
-                    attackCount = 0; // reset attack count
-                } else {
-                    if (CombatFactory.canReach(nex, CombatFactory.MELEE_COMBAT, target)) {
-                        if(World.getWorld().rollDie(2,1)) {
-                            meleeAttack(nex, target,false);
-                        } else {
-                            smokeRushAttack(nex);
-                        }
-                    } else {
-                        bloodBarrage(nex, target);
-                    }
-                }
-            } else if (nex.getAttacksStage() == 3) {
-                if (CombatFactory.canReach(nex, CombatFactory.MELEE_COMBAT, target)) {
-                    if(World.getWorld().rollDie(2,1)) {
-                        meleeAttack(nex, target,false);
-                    } else {
-                        smokeRushAttack(nex);
-                    }
-                } else {
-                    iceBarrageAttack(nex);
-                }
-            } else if (nex.getAttacksStage() == 4) {
-                if (attackCount == 0) {
-                    if (!nex.isTurmoilAttackUsed()) {
-                        turmoil(nex);
-                    }
-                } else {
-                    //25% chance to drain
-                    if (World.getWorld().rollDie(100, 25)) {
-                        drainAttack(nex);
-                    }
+    public void init(NPC npc) {
+        if (nex == null) return;
+        nex.clearAttrib(SMOKE_PHASE_INITIATED);
+        nex.clearAttrib(SHADOW_PHASE_INITIATED);
+        nex.clearAttrib(BLOOD_PHASE_INITIATED);
+        nex.clearAttrib(AttributeKey.ICE_PHASE_INITIATED);
+        nex.useSmartPath = true; // wont get stuck on corners
+        nex.def().ignoreOccupiedTiles = true; // walk through minions
+        nex.lockMoveDamageOk();
+        nex.getMovement().reset();
+    }
 
-                    if (CombatFactory.canReach(nex, CombatFactory.MELEE_COMBAT, target)) {
-                        if(World.getWorld().rollDie(2,1)) {
-                            meleeAttack(nex, target,true);
-                        } else {
-                            smokeRushAttack(nex);
-                        }
-                    } else {
-                        magicAttack(nex);
-                    }
+    public int lastAttack;
+
+    @Override
+    public void prepareAttack(Entity mob, Entity target) {
+        if (nex == null) {
+            return;
+        }
+
+        //Only kneels down during this attack
+        if (nex.doingSiphon) {
+            return;
+        }
+
+        nex.faceEntity(target);
+        attackCount += 1;
+        lastAttack = 0;
+        //System.out.println("prepare attack attackCount : " + attackCount + " fight state: " + nex.fightState);
+        if (nex.fightState == SMOKE_PHASE) {
+            if (withinDistance(1) && World.getWorld().rollDie(2)) {
+                basicAttack(nex, target);
+                return;
+            }
+
+            if (attackCount % 5 == 0) {
+                if (World.getWorld().rollDie(10)) {
+                    smokeDash();
+                } else {
+                    choke(target);
+                }
+            } else {
+                smokeRush();
+            }
+
+            //The drag attack can happen at any time, in between attacks.
+            drag(nex);
+        } else if (nex.fightState == SHADOW_PHASE) {
+            if (attackCount % 5 == 0) {
+                if (World.getWorld().rollDie(4)) {
+                    embraceDarkness();
+                } else {
+                    shadowSmash();
+                }
+            } else {
+                shadowShots();
+            }
+        } else if (nex.fightState == BLOOD_PHASE) {
+            if (attackCount % 5 == 0) {
+                if (World.getWorld().rollDie(4)) {
+                    bloodSacrifice(target);
+                } else {
+                    bloodSiphon();
+                }
+            } else {
+                bloodBarrage();
+            }
+        } else if (nex.fightState == ICE_PHASE) {
+            if (attackCount % 5 == 0) {
+                if (World.getWorld().rollDie(6)) {
+                    icePrison(target);
+                } else {
+                    containment();
+                }
+            } else {
+                iceBarrage();
+            }
+        } else if (nex.fightState == ZAROS_PHASE) {
+            if (World.getWorld().rollDie(15, 1)) {
+                if (!nex.turmoil) {
+                    nex.graphic(TURMOIL_GFX);
+                    nex.turmoil = true;
                 }
             }
-        }
-    }
-
-    //Lasting until the end of the fight, Nex's magic and melee attacks are now far more accurate and powerful, hitting massive damage even through prayer.
-    private void turmoil(Nex nex) {
-        nex.graphic(TURMOIL_GFX);
-        nex.combatInfo().stats.attack += 100;
-        nex.combatInfo().stats.strength += 100;
-        nex.combatInfo().stats.magic += 100;
-        nex.putAttrib(AttributeKey.TURMOIL_ACTIVE, true);
-        nex.setTurmoilAttackUsed(true);
-    }
-
-    private void drainAttack(Nex nex) {
-        for (Entity t : getPossibleTargets(nex)) {
-            Projectile projectile = new Projectile(nex, t, 2010, 0, 100, 43, 31, 0);
-            projectile.sendProjectile();
-
-            for (int skill : DRAIN) {
-                int take = 5;
-                t.getSkills().alterSkill(skill, -take);
-                nex.combatInfo().stats.attack += take;
-                nex.combatInfo().stats.strength += take;
-                nex.combatInfo().stats.defence += take;
-            }
-        }
-    }
-
-    private void magicAttack(Nex nex) {
-        nex.putAttrib(AttributeKey.MAXHIT_OVERRIDE, MAGIC_ATTACK_MAX);
-        nex.animate(MAGIC_ATTACK_ANIM);
-        for (Entity t : getPossibleTargets(nex)) {
-            Projectile projectile = new Projectile(nex, t, 2007, 0, 100, 43, 31, 0);
-            projectile.sendProjectile();
-            Hit hit = t.hit(nex, CombatFactory.calcDamageFromType(nex, t, CombatType.MAGIC), 3, CombatType.MAGIC);
-            hit.checkAccuracy().submit();
-            if(hit.isAccurate()) {
-                t.graphic(2008);
-                t.getSkills().alterSkill(Skills.PRAYER, -5);
-            }
-        }
-        nex.putAttrib(AttributeKey.MAXHIT_OVERRIDE, -1);
-    }
-
-    private void bloodSacrifice(Nex nex, Entity target) {
-        nex.forceChat("I demand a blood sacrifice!");
-        final Player player = (Player) target;
-        //player.getAppearence().setGlowRed(true);
-        player.message("Nex has marked you as a sacrifice, RUN!");
-        final int x = player.getX();
-        final int y = player.getY();
-
-        //marked player has about four seconds to move at least seven tiles away from Nex, otherwise they will be dealt up to 40 damage through
-        // Protect from Magic which heals her and drains the player's current prayer points by 1/3rd.
-        Chain.bound(null).runFn(7, () -> {
-            //player.getAppearence().setGlowRed(false);
-            if (x == player.getX() && y == player.getY()) {
-                int damage = Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MAGIC) ? 40 : BLOOD_SACRIFICE_ATTACK_MAX;
-                player.hit(nex, World.getWorld().random(1,damage));
-                int currentLevel = player.getSkills().level(Skills.PRAYER);
-                int drain = currentLevel / 3;
-                player.getSkills().alterSkill(Skills.PRAYER, -drain);
-                player.message("You didn't make it far enough in time - Nex fires a punishing attack!");
-
-                //Random players will also take up to 12 damage through Protect from Magic, and their prayer is drained by 1/3rd as well.
-                for (final Entity t : getPossibleTargets(nex)) {
-                    Projectile projectile = new Projectile(nex, t, 374, 35, 56, 41, 16, 0);
-                    projectile.sendProjectile();
-
-                    damage = World.getWorld().random(1, 12);
-                    t.hit(nex, damage, 1);
-                    t.graphic(376);
-                    nex.hit(nex, damage / 4, SplatType.NPC_HEALING_HITSPLAT);
-                }
-            }
-        });
-    }
-
-    private void bloodSiphon(Nex nex) {
-        if(nex.getLastSiphon() < Utils.currentTimeMillis()) {
-            nex.setLastSiphon(Utils.currentTimeMillis() + 30000);
-            nex.killBloodReavers();
-            nex.forceChat("A siphon will solve this!");
-            nex.animate(BLOOD_SIPHON_ANIM);
-            nex.setDoingSiphon(true);
-            int bloodReaverSize = World.getWorld().definitions().get(NpcDefinition.class, BLOOD_REAVER).size;
-            int respawnedBloodReaverCount = 0;
-            int maxMinions = Utils.getRandom(3);
-            if (maxMinions != 0) {
-                int[][] dirs = Utils.getCoordOffsetsNear(bloodReaverSize);
-                for (int dir = 0; dir < dirs[0].length; dir++) {
-                    final Tile tile = new Tile(target.getX() + dirs[0][dir], target.getY() + dirs[1][dir], target.getZ());
-                    if (World.getWorld().canMoveNPC(tile.getZ(), tile.getX(), tile.getY(), bloodReaverSize)) {
-                        nex.getBloodReavers()[respawnedBloodReaverCount++] = new NPC(BLOOD_REAVER, tile).spawn(false);
-                        if (respawnedBloodReaverCount == maxMinions)
-                            break;
-                    }
-                }
-            }
-            Chain.bound(null).runFn(8, () -> nex.setDoingSiphon(false));
-        }
-    }
-
-    private void bloodBarrage(Nex nex, Entity target) {
-        nex.animate(MAGIC_ATTACK_ANIM);
-        nex.graphic(2001);
-        nex.putAttrib(AttributeKey.MAXHIT_OVERRIDE, MAGIC_ATTACK_MAX);
-        Hit hit = target.hit(nex, CombatFactory.calcDamageFromType(nex, target, CombatType.MAGIC), 3, CombatType.MAGIC).graphic(new Graphic(379));
-        hit.checkAccuracy().submit();
-        if (hit.isAccurate()) {
-            nex.hit(nex, hit.getDamage() / 4, SplatType.NPC_HEALING_HITSPLAT);
-            target.graphic(2002);
-        }
-        nex.putAttrib(AttributeKey.MAXHIT_OVERRIDE, -1);
-    }
-
-    private void embraceDarknessAttack(Nex nex) {
-        nex.forceChat("Embrace darkness!");
-        nex.animate(EMBRACE_DARKNESS_ATTACK_ANIM);
-
-        Chain.bound(null).runFn(1, () -> {
-            if (nex.getAttacksStage() != 1 || nex.finished()) {
-                for (Entity m : getPossibleTargets(nex)) {
-                    if (m instanceof Player) {
-                        Player player = (Player) m;
-                        //TODO a varbit to turn screen darker
-                    }
+            if (withinDistance(1)) {
+                if (World.getWorld().rollDie(3, 1)) {
+                    magic();
+                } else {
+                    zarosMelee(target);
                 }
                 return;
             }
 
-            if (Utils.getRandom(2) == 0) {
-                for (Entity t : getPossibleTargets(nex)) {
-                    if (t instanceof Player) {
-                        Player player = (Player) t;
-                        int distance = Utils.getDistance(player.getX(), player.getY(), nex.getX(), nex.getY());
-                        if (distance > 30)
-                            distance = 30;
-                        //TODO a varbit to turn screen darker
-                    }
+            if (World.getWorld().rollDie(5, 1)) {
+                leech(target);
+            } else {
+                magic();
+            }
+        }
+    }
+
+    private void zarosMelee(Entity target) {
+        nex.animate(MELEE_ATTACK_ZAROS_PHASE);
+        int damage = nex.combatInfo().maxhit;
+        if (nex.turmoil)
+            damage *= 1.50;
+
+        //Nex hits through prayer when turmoil is activated but random
+        if (World.getWorld().rollDie(10, 2) && nex.turmoil) {
+            target.hit(nex, World.getWorld().random(1, 8), 1, CombatType.MELEE).checkAccuracy().submit();
+            return;
+        }
+
+        target.hit(nex, World.getWorld().random(damage), 1, CombatType.MELEE).checkAccuracy().submit();
+    }
+
+    private void magic() {
+        nex.animate(MAGIC_ATTACK_ANIM);
+        for (Entity t : getPossibleTargets(nex)) {
+            //Ignore players outside the Nex fighting area
+            if (!inNexArea(t.tile())) {
+                continue;
+            }
+            int delay = MAGIC_PROJECTILE.send(nex, t);
+            Hit hit = t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), CombatType.MAGIC).clientDelay(delay).checkAccuracy().postDamage(h -> {
+                if (h.isAccurate()) {
+                    h.getTarget().graphic(2008);
+                    h.getTarget().skills().alterSkill(Skills.PRAYER, -5);
+                }
+            });
+            hit.submit();
+        }
+    }
+
+    private void leech(Entity target) {
+        LEECH_PROJECTILE.send(nex, target);
+        for (int skill : DRAIN) {
+            int take = 5;
+            target.graphic(2011);
+            target.player().skills().alterSkill(skill, -take);
+            nex.combatInfo().stats.attack += take;
+            nex.combatInfo().stats.strength += take;
+            nex.combatInfo().stats.defence += take;
+        }
+    }
+
+    private void bloodSacrifice(Entity target) {
+        nex.forceChat("I demand a blood sacrifice!");
+        final Player player = (Player) target;
+        target.modelRecolourUpdate = new Entity.ModelRecolourUpdate(0, 240, 0, 6, 28, 108);
+        target.getUpdateFlag().flag(Flag.MODEL_RECOLOUR);
+        player.message("Nex has marked you as a sacrifice, RUN!");
+
+        //marked player has about four seconds to move at least seven tiles away from Nex, otherwise they will be dealt up to 40 damage through
+        // Protect from Magic which heals her and drains the player's current prayer points by 1/3rd.
+        Chain.bound(null).runFn(8, () ->{
+            int damage = Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MAGIC) ? 40 : BLOOD_SACRIFICE_ATTACK_MAX;
+            if (player.tile().isWithinDistance(nex.tile(), 7)) {
+                player.graphic(2003);
+                player.hit(nex, damage);
+                nex.heal(damage);
+                int currentLevel = player.skills().level(Skills.PRAYER);
+                int drain = currentLevel / 3;
+                player.skills().alterSkill(Skills.PRAYER, -drain);
+                player.message("You didn't make it far enough in time - Nex fires a punishing attack!");
+            }
+
+            //Closest players will also take up to 12 damage through Protect from Magic, and their prayer is drained by 1/3rd as well.
+            for (final Entity t : getPossibleTargets(nex)) {
+                if (t.tile().isWithinDistance(player.tile(), 7)) {
+                    damage = World.getWorld().random(1, 12);
+                    t.hit(nex, damage);
+                    nex.heal(damage);
+                    t.graphic(2003);
                 }
             }
         });
     }
 
-    private void shadowSmashAttack(Nex nex) {
+    private void bloodSiphon() {
+        if (nex.lastSiphon < Utils.currentTimeMillis()) {
+            nex.lastSiphon = Utils.currentTimeMillis() + 30000;
+            nex.lockMoveDamageOk();
+            nex.getMovement().reset();
+            nex.graphic(2015);
+            nex.killBloodReavers();
+            nex.forceChat("A siphon will solve this!");
+            nex.animate(BLOOD_SIPHON_ANIM);
+            nex.doingSiphon = true;
+            int maxMinions = nex.closePlayers().length;
+            if(maxMinions > 8) {
+                maxMinions = 8;
+            }
+            if (maxMinions != 0) {
+                for (int i = 0; i < maxMinions; i++) {
+                    Tile tile = Utils.randomElement(nex.getCentrePosition().area(7, t -> World.getWorld().meleeClip(t.x, t.y, t.level) == 0));
+                    NPC bloodReaver = new NPC(BLOOD_REAVER, tile);
+                    if (nex.bloodReavers != null)
+                        nex.bloodReavers.add(bloodReaver);
+                    bloodReaver.spawn(false);
+                    bloodReaver.graphic(2017);
+                }
+            }
+            Chain.bound(null).runFn(8, () ->{
+                nex.doingSiphon = false;
+                nex.unlock();
+            });
+        }
+    }
+
+    private void bloodBarrage() {
+        nex.animate(MAGIC_ATTACK_ANIM);
+        nex.graphic(2001);
+
+        for (Entity t : getPossibleTargets(nex)) {
+            //Ignore players outside the Nex fighting area
+            if (!inNexArea(t.tile())) {
+                continue;
+            }
+            int delay = BLOOD_BARRAGE_PROJECTILE.send(nex, t);
+            t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), 3, CombatType.MAGIC).clientDelay(delay).checkAccuracy().postDamage(h -> {
+                if (h.isAccurate()) {
+                    int heal = h.getDamage() / 4;
+                    if (heal <= 0) {
+                        heal = 1;
+                    }
+                    nex.healHit(nex, heal);
+                    h.getTarget().graphic(2003);
+                }
+            }).submit();
+        }
+    }
+
+    public static boolean inNexArea(Tile tile) {
+        return tile.inArea(NEX_AREA);
+    }
+    
+    private void embraceDarkness() {
+        nex.forceChat("Embrace darkness!");
+        nex.animate(EMBRACE_DARKNESS_ATTACK_ANIM);
+
+        for (Entity t : getPossibleTargets(nex)) {
+            //Ignore players outside the Nex fighting area
+            if (!inNexArea(t.tile())) {
+                continue;
+            }
+            if (t instanceof Player player) {
+                //Ignore players outside the Nex fighting area
+                if (!inNexArea(player.tile())) {
+                    continue;
+                }
+                AtomicInteger tick = new AtomicInteger(); // Internal tick, this is how long the attack lasts for
+                Chain.bound(null).repeatingChain(1, chain -> {
+                    tick.getAndIncrement();
+                    if (tick.get() == 33) { // Attack lasts for 20s
+                        player.getPacketSender().darkenScreen(0);
+                        chain.stop();
+                        return;
+                    }
+
+                    //The closer players are to Nex, the darker the room will be.
+                    int distance = Utils.getDistance(player.getX(), player.getY(), nex.getX(), nex.getY());
+                    int opacity = 200 - (distance * 17);
+                    if (opacity <= 30)
+                        opacity = 30;
+                    player.getPacketSender().darkenScreen(opacity);
+
+                    // If players stand next to Nex, they will take constant damage from the pure shadow.
+                    if (distance <= 3) {
+                        player.hit(nex, 5);
+                    }
+                });
+            }
+        }
+
+        //Extra safety reset all players screen opactity
+        Chain.bound(null).runFn(33, () ->{
+            for (Entity targets : getPossibleTargets(nex)) {
+                if (targets instanceof Player player) {
+                    player.getPacketSender().darkenScreen(0);
+                }
+            }
+        });
+    }
+
+    private void shadowSmash() {
         nex.forceChat("Fear the Shadow!");
-        nex.animate( SHADOW_SMASH_ATTACK_ANIM);
-        List<Entity> possibleTargets = getPossibleTargets(nex);
+        nex.animate(SHADOW_SMASH_ATTACK_ANIM);
+        ArrayList<Entity> possibleTargets = getPossibleTargets(nex);
         final HashMap<String, int[]> tiles = new HashMap<>();
         for (Entity t : possibleTargets) {
+            //Ignore players outside the Nex fighting area
+            if (!inNexArea(t.tile())) {
+                continue;
+            }
             String key = t.getX() + "_" + t.getY();
             if (!tiles.containsKey(t.getX() + "_" + t.getY())) {
                 tiles.put(key, new int[]{t.getX(), t.getY()});
@@ -325,13 +387,19 @@ public class NexCombat extends CommonCombatMethod {
         }
 
         //Set up the tile graphics
-        Chain.bound(null).runFn(1, () -> {
+        List<GameObject> shadows = new ArrayList<>();
+        Chain.bound(null).runFn(1, () ->{
             for (int[] tile : tiles.values()) {
-                World.getWorld().tileGraphic(383, new Tile(tile[0], tile[1], 0), 0, 0);
+                shadows.add(GameObject.spawn(ObjectID.SHADOW, tile[0], tile[1], 0, 10, 0));
             }
             //Players have 3 ticks to move
-        }).then(3, () -> {
+        }).then(3, () ->{
+            for (GameObject obj : shadows) {
+                obj.remove();
+            }
+            shadows.clear();
             for (int[] tile : tiles.values()) {
+                World.getWorld().tileGraphic(383, new Tile(tile[0], tile[1], 0), 0, 0);
                 for (Entity t : possibleTargets) {
                     if (t.getX() == tile[0] && t.getY() == tile[1]) {
                         t.hit(nex, World.getWorld().random(1, SHADOW_SMASH_ATTACK_MAX));
@@ -341,12 +409,14 @@ public class NexCombat extends CommonCombatMethod {
         });
     }
 
-    private void shadowShotsAttack(Nex nex) {
-        //When using prot range, damage cut in half
+    private void shadowShots() {
         nex.animate(MAGIC_ATTACK_ANIM);
         for (Entity t : getPossibleTargets(nex)) {
-            Projectile projectile = new Projectile(nex, t, 378, 0, 100, 43, 31, 0);
-            projectile.sendProjectile();
+            //Ignore players outside the Nex fighting area
+            if (!inNexArea(t.tile())) {
+                continue;
+            }
+            int delay = SHADOW_SHOTS_PROJECTILE.send(nex, t);
 
             //Players will take more damage from the shadow shots the closer to Nex they are, up to 30.
             int damage = 0;
@@ -358,83 +428,99 @@ public class NexCombat extends CommonCombatMethod {
                 damage = RANGED_ATTACK_MAX - 30;
             }
 
-            if(Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MISSILES)) {
+            // Having Protect from Missiles active will cut the damage taken in half.
+            if (Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MISSILES)) {
                 damage = damage / 2;
             }
 
-            nex.putAttrib(AttributeKey.MAXHIT_OVERRIDE, damage);
-            t.hit(nex, World.getWorld().random(1, damage), 3);
-            Chain.bound(null).runFn(3, () -> {
-                t.graphic(379);
-                t.getSkills().alterSkill(Skills.PRAYER, -5);
-            });
+            t.hit(nex, World.getWorld().random(damage), CombatType.RANGED).clientDelay(delay).ignorePrayer().checkAccuracy().postDamage(h -> {
+                // Successful hits can drain prayer points slightly, which can be reduced by the spectral spirit shield.
+                if (h.isAccurate()) {
+                    t.graphic(379);
+                    t.skills().alterSkill(Skills.PRAYER, t.player().getEquipment().hasAt(EquipSlot.SHIELD, SPECTRAL_SPIRIT_SHIELD) ? -2 : -3);
+                }
+            }).submit();
         }
-        nex.putAttrib(AttributeKey.MAXHIT_OVERRIDE, -1);
     }
 
-    private void smokeBulletAttack(Nex nex) {
-        nex.setLastNoEscape(Utils.currentTimeMillis() + 30000);
+    public void smokeDash() {
+        if (nex.fightState == SHADOW_PHASE) {
+            return;
+        }
+        lastAttack = 1;
+        nex.lastNoEscape = Utils.currentTimeMillis() + 30000;
         nex.forceChat("There is...");
-        nex.cantInteract(true);
+        nex.setPositionToFace(null);
+        //nex.cantInteract(true); // rsps friendly
         nex.getCombat().reset();
         final int idx = Utils.random(NO_ESCAPE_TELEPORTS.length);
+        // yes, teleport (not very visually user-friendly)
+        // to the outskirt of the room, then dash inwards.
         final Tile selectedTile = NO_ESCAPE_TELEPORTS[idx];
         final Tile center = new Tile(2924, 5202, 0);
+        nex.lockMoveDamageOk();
+        nex.getMovement().reset();
+        nex.animate(SMOKE_BULLET_ATTACK_ANIM);
+        nex.setPositionToFace(selectedTile);
+        nex.faceEntity(null);
+        var start = nex.tile();
 
-        Chain.bound(null).runFn(4, () -> {
-            nex.animate(SMOKE_BULLET_ATTACK_ANIM);
-            nex.setPositionToFace(selectedTile);
-        }).then(6, () -> {
-            nex.teleport(selectedTile);
-            nex.faceEntity(null);
-        }).then(1, () -> { // lands
+        Chain.bound(null).runFn(3, () ->{
+            var face = Direction.getDirection(start, selectedTile);
+            final ForceMovement fm = new ForceMovement(selectedTile, null, 15, 0, face);
+            // nex.forceChat(face+" 1");
+            nex.setForceMovement(fm);
+        }).then(1, () ->{
+            //nex.face(Direction.getDirection(selectedTile, center));
             nex.forceChat("NO ESCAPE!");
+        }).then(1, () ->{ // lands
+            var face = Direction.getDirection(selectedTile, center);
+            final ForceMovement fm = new ForceMovement(center, null, 60, 0, face);
+            //  nex.forceChat(face+" 2");
+            nex.setForceMovement(fm);
+
             //Look for potential victims
             for (Entity p : nex.calculatePossibleTargets(center, selectedTile, idx == 0 || idx == 2)) {
                 if (p instanceof Player) {
-                    Chain.bound(null).runFn(1, () -> {
+                    Chain.bound(null).runFn(1, c2 -> {
                         p.lock();
                         p.animate(FLYING_PLAYER_ANIM);
-                        p.graphic(245, GraphicHeight.LOW, 124);
+                        p.graphic(245, 5, 124);
                         p.hit(p, World.getWorld().random(SMOKE_BULLET_ATTACK_MAX));
                         p.stun(2, true);
                         int diffX = center.x - p.getAbsX();
                         int diffY = center.y - p.getAbsY();
-                        //TaskManager.submit(new ForceMovement(p.getAsPlayer(), 3, new ForceMovement(p.tile().clone(), new Tile(diffX, diffY), 10, 60, idx == 3 ? 3 : idx == 2 ? 2 : idx == 1 ? 1 : 0)));
-                        final ForceMovement fm = new ForceMovement(selectedTile, new Tile(diffX, diffY), 10, 60, idx == 3 ? 3 : idx == 2 ? 2 : idx == 1 ? 1 : 0, 0);
-                        p.setForceMovement(fm);
+                        TaskManager.submit(new ForceMovementTask(p.player(), 3, new ForceMovement(p.tile().clone(), new Tile(diffX, diffY), 10, 60, idx == 3 ? Direction.WEST : idx == 2 ? Direction.NORTH_EAST : idx == 1 ? Direction.NORTH : Direction.NORTH_WEST)));
                         p.unlock();
                     });
                 }
             }
-            nex.animate(SMOKE_BULLET_ATTACK_ANIM);
-            Tile dif = new Tile(center.x - selectedTile.x, center.y - selectedTile.y);
-            final ForceMovement fm = new ForceMovement(selectedTile, dif, 50, 80, 3);
-            entity.setForceMovement(fm);
-            Chain.bound(null).then(3, () -> nex.teleport(center)); //Update nex on map
-        }).then(8, () -> {
+        }).then(7, () ->{
+            nex.teleport(center);
+            nex.animate(nex.def().standingAnimation);
+            nex.unlock();
             nex.getCombat().setTarget(Utils.randomElement(getPossibleTargets(nex)));
             nex.cantInteract(false);
         });
     }
 
-    private void dragAttack(Nex nex) {
+    /**
+     * Nex will drag a random player towards her, stunning them and deactivate their protection prayer.
+     * Nex will only drag players if they are within 6 tiles away.
+     * There is a 1/4 chance for Nex to drag a player if they do not have Protect from Magic on and a 1/8 chance if they do.
+     */
+    private void drag(Nex nex) {
         Entity target = Utils.randomElement(getPossibleTargets(nex));
-        if(target == null) {
+        if (target == null) {
             return; // No targets found
         }
-        if (target.isPlayer()) {
+        if (target.tile().distanceTo(nex.tile()) < 6) {
+            return;
+        }
+        var drag = World.getWorld().rollDie(Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC) ? 4 : 8);
+        if (target.isPlayer() && drag) {
             int vecX = (nex.getAbsX() - Utils.getClosestX(nex, target.tile()));
             int vecY = (nex.getAbsY() - Utils.getClosestY(nex, target.tile()));
-            int endX = nex.getAbsX();
-            int endY = nex.getAbsY();
-            for (int i = 0; i < 4; i++) {
-                if (DumbRoute.getDirection(endX, endY, nex.getZ(), target.getSize(), endX + vecX, endY + vecY) != null) { // we can take this step!
-                    endX += vecX;
-                    endY += vecY;
-                } else
-                    break; // cant take the step, stop here
-            }
             Direction dir;
             if (vecX == -1)
                 dir = Direction.EAST;
@@ -445,168 +531,345 @@ public class NexCombat extends CommonCombatMethod {
             else
                 dir = Direction.SOUTH;
 
-            int finalEndX = endX;
-            int finalEndY = endY;
-            Chain.bound(null).runFn(1, () -> {
+            Tile tile = Utils.randomElement(nex.getCentrePosition().area(7, t -> World.getWorld().meleeClip(t.x, t.y, t.level) == 0));
+            // Cancel when player is not in the Nex region
+            Chain.bound(null).cancelWhen(() -> target.tile().region() != 11601).runFn(1, () ->{
                 final Player p = target.getAsPlayer();
                 p.lock();
+                p.getMovement().reset();
                 p.animate(FLYING_PLAYER_ANIM);
-                p.graphic(1998, GraphicHeight.LOW, 124);
-                p.hit(entity, World.getWorld().random(DRAG_ATTACK_MAX));
+                p.graphic(1998, 5, 124);
+                p.hit(nex, World.getWorld().random(DRAG_ATTACK_MAX));
                 p.stun(2, true);
-                int diffX = finalEndX - p.getAbsX();
-                int diffY = finalEndY - p.getAbsY();
-                //TaskManager.submit(new ForceMovementTask(p, 3, new ForceMovement(p.tile().clone(), new Tile(diffX, diffY), 10, 60, dir.toInteger())));
+                CombatFactory.disableProtectionPrayers(p);
+                int diffX = tile.x - p.getAbsX();
+                int diffY = tile.y - p.getAbsY();
+                TaskManager.submit(new ForceMovementTask(p, 3, new ForceMovement(p.tile().clone(), new Tile(diffX, diffY), 10, 60, dir)));
                 p.unlock();
             });
         }
     }
 
-    private void virusAttack(Nex nex, Entity target) {
+    /**
+     * Nex will shout Let the virus flow through you! The player the furthest away with the least amount of magic defence bonus will be targeted with the attack and become infected,
+     * drains two prayer points per every two ticks, and drains stats based on the player's highest attack bonus. The virus will also spread between adjacent players, infecting players
+     * without it, and resetting the duration on infected players. Infected players can be easily identified by the *Cough* above their heads. The virus can easily be prevented from
+     * spreading by having one player equip negative magic defence armour, such as Justiciar, and standing away from the other players, at the start of the fight to avoid spreading
+     * Choke to the rest of the players. A slayer helmet will reduce the duration of the choke, and the spectral spirit shield will reduce the prayer drain.
+     */
+    private void choke(Entity target) { // TODO finish the effect
         nex.animate(VIRUS_ATTACK_ANIM);
-        nex.setLastVirus(Utils.currentTimeMillis() + 60000);
         nex.forceChat("Let the virus flow through you.");
-        sendVirusAttack(nex, new ArrayList<>(), getPossibleTargets(nex), target);
+        virus(new ArrayList<>(), getPossibleTargets(nex), target);
     }
 
-    public void sendVirusAttack(Nex nex, ArrayList<Entity> hit, List<Entity> possibleTargets, Entity infected) {
+    public void virus(ArrayList<Entity> hit, ArrayList<Entity> possibleTargets, Entity infected) {
         for (Entity t : possibleTargets) {
+            //Ignore players outside the Nex fighting area
+            if (!inNexArea(t.tile())) {
+                continue;
+            }
             if (hit.contains(t))
                 continue;
             if (Utils.getDistance(t.getX(), t.getY(), infected.getX(), infected.getY()) <= 1) {
                 t.forceChat("*Cough*");
                 t.hit(nex, World.getWorld().random(10));
-                t.getSkills().alterSkill(Skills.PRAYER, -2);
+                t.skills().alterSkill(Skills.PRAYER, -2);
+                final int[] internalTick = {0};
+                Chain.bound(null).repeatingChain(2, event -> {
+                    internalTick[0]++;
+                    //6 cycles
+                    if (internalTick[0] == 12) {
+                        event.stop();
+                        return;
+                    }
+                    int drain = t.player().getEquipment().hasAt(EquipSlot.SHIELD, SPECTRAL_SPIRIT_SHIELD) ? 1 : 2;
+                    t.skills().alterSkill(Skills.PRAYER, -drain);
+                });
                 hit.add(t);
-                sendVirusAttack(nex, hit, possibleTargets, infected);
+                virus(hit, possibleTargets, infected);
             }
         }
     }
 
-    private void smokeRushAttack(Nex nex) {
-        nex.putAttrib(AttributeKey.MAXHIT_OVERRIDE, MAGIC_ATTACK_MAX);
+    private void smokeRush() {
         nex.animate(MAGIC_ATTACK_ANIM);
         for (Entity t : getPossibleTargets(nex)) {
-            Projectile projectile = new Projectile(nex, t, 384, 0, 100, 43, 31, 0);
-            projectile.sendProjectile();
-            if (World.getWorld().rollDie(100, 25)) {
-                t.hit(nex, 2, SplatType.POISON_HITSPLAT);
+            //Ignore players outside the Nex fighting area
+            if (!inNexArea(t.tile())) {
+                continue;
             }
-            t.hit(nex, CombatFactory.calcDamageFromType(nex, t, CombatType.MAGIC), 3, CombatType.MAGIC).graphic(new Graphic(385)).checkAccuracy().submit();
-        }
-        nex.putAttrib(AttributeKey.MAXHIT_OVERRIDE, -1);
-    }
-
-    private void meleeAttack(Nex nex, Entity target, boolean zarosPhase) {
-        nex.putAttrib(AttributeKey.MAXHIT_OVERRIDE, MELEE_ATTACK_MAX);
-        nex.animate(zarosPhase ? MELEE_ATTACK_ZAROS_PHASE : MELEE_ATTACK_ANIM);
-        target.hit(nex, CombatFactory.calcDamageFromType(nex, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy().submit();
-        nex.putAttrib(AttributeKey.MAXHIT_OVERRIDE, -1);
-    }
-
-    private void iceBarrageAttack(Nex nex) {
-        nex.putAttrib(AttributeKey.MAXHIT_OVERRIDE, MAGIC_ATTACK_MAX);
-        nex.animate(MAGIC_ATTACK_ANIM);
-        for (Entity t : getPossibleTargets(nex)) {
-            Projectile projectile = new Projectile(nex, t, 362, 0, 100, 43, 31, 0);
-            projectile.sendProjectile();
-            Hit hit = t.hit(nex, CombatFactory.calcDamageFromType(nex, t, CombatType.MAGIC), 3, CombatType.MAGIC);
-            hit.checkAccuracy().submit();
-            if(hit.isAccurate()) {
-                if (World.getWorld().rollDie(100, 25)) {
-                    t.graphic(369);
-                    t.freeze(10, nex);
+            int delay = SMOKE_RUSH_PROJECTILE.send(nex, t);
+            t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), CombatType.MAGIC).clientDelay(delay).checkAccuracy().postDamage(h -> {
+                if (h.isAccurate()) {
+                    if (World.getWorld().rollDie(100, 25)) {
+                        h.getTarget().hit(nex, 2, SplatType.POISON_HITSPLAT);
+                        h.getTarget().poison(2);
+                    }
+                    h.getTarget().graphic(1998);
                 }
-            }
+            }).submit();
         }
-        nex.putAttrib(AttributeKey.MAXHIT_OVERRIDE, -1);
+    }
+
+    //which will freeze them if they are not praying Protect from Magic and lowers their prayer points by half of the damage she deals, reduced to one third by
+    // the spectral spirit shield
+    private void iceBarrage() {
+        nex.animate(MAGIC_ATTACK_ANIM);
+        for (Entity t : getPossibleTargets(nex)) {
+            //Ignore players outside the Nex fighting area
+            if (!inNexArea(t.tile())) {
+                continue;
+            }
+            int delay = ICE_BARRAGE_PROJECTILE.send(nex, t);
+            t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), CombatType.MAGIC).clientDelay(delay).checkAccuracy().postDamage(h -> {
+                if (h.isAccurate() && !Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MAGIC)) {
+                    h.getTarget().graphic(2005);
+                    h.getTarget().freeze(20, nex);
+                    int drain = t.player().getEquipment().hasAt(EquipSlot.SHIELD, SPECTRAL_SPIRIT_SHIELD) ? h.getDamage() / 3 : h.getDamage() / 2;
+                    h.getTarget().skills().alterSkill(Skills.PRAYER, -drain);
+                }
+            }).submit();
+        }
+    }
+
+    private void containment() {
+        // Nex will shout Contain this!
+        nex.lockMoveDamageOk();
+        nex.forceChat("Contain this!");
+        nex.animate(SHADOW_SMASH_ATTACK_ANIM);
+
+        // She will smash the floor and icicles will appear in a 5x5 area around her
+        Set<Tile> tiles = nex.tile().expandedBounds(2);// radius 2 is a 5x5 area
+
+        // Spawn the icicles
+        Chain.noCtx().runFn(4, () ->{
+            for (Tile tile : tiles) {
+                nex.stalagmite.add(GameObject.spawn(42944, tile.getX(), tile.getY(), tile.getZ(), 10,0));
+            }
+            // Deal damage 7 ticks later to everyone inside
+        }).then(7, c2 -> {
+            for (Tile tile : tiles) {
+                // Getting caught in this can damage players up to 60 hitpoints and will deactivate protection prayers
+                getPossibleTargets(nex).forEach(t -> {
+                    if (tile.isWithinDistance(t.tile(), 5) && !nex.stalagmiteDestroyed) {
+                        CombatFactory.disableProtectionPrayers(t);
+                        // Praying Protect from Missiles will reduce the damage by half its original amount
+                        int damage = Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MISSILES) ? CONTAINMENT_SPECIAL_ATTACK_MAX / 2 : CONTAINMENT_SPECIAL_ATTACK_MAX;
+                        Hit hit = t.hit(nex, World.getWorld().random(damage), CombatType.MAGIC);
+                        hit.submit();
+                    }
+                });
+                break;
+            }
+            for (GameObject obj : nex.stalagmite) {
+                obj.remove();
+            }
+            nex.stalagmite.clear();
+            nex.stalagmiteDestroyed = false;
+            nex.unlock();
+        });
+    }
+
+    private void icePrison(Entity target) {
+        // Nex will shout Die now, in a prison of ice!
+        nex.forceChat("Die now, in a prison of ice!");
+        nex.animate(SHADOW_SMASH_ATTACK_ANIM);
+
+        // She will freeze a targeted player using an ice stalagmite attack
+        target.freeze(5, nex);
+
+        // Spawning stalagmites within a 3x3 AoE centred on the target player
+        Set<Tile> tiles = target.tile().expandedBounds(1);// radius 1 is 3x3
+        Chain.bound(null).runFn(4, () ->{
+            for (Tile tile : tiles) {
+                nex.stalagmite.add(GameObject.spawn(42944, tile.getX(), tile.getY(), tile.getZ(), 10,0));
+            }
+            // Four seconds after forming, the prison will shatter
+        }).then(7, () ->{
+            for (Tile tile : tiles) {
+                // Players next to the formation will be shoved aside for no damage, although players on the same tile as the target will also be imprisoned
+                getPossibleTargets(nex).forEach(t -> {
+                    if (tile.isWithinDistance(t.tile(), 3) && !nex.stalagmiteDestroyed) {
+                        // Deactivating their protection prayers
+                        CombatFactory.disableProtectionPrayers((Player) t);
+
+                        // Praying Protect from Missiles will reduce the damage by half its original amount
+                        int damage = Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MISSILES) ? ICE_PRISON_SPECIAL_ATTACK_MAX / 2 : ICE_PRISON_SPECIAL_ATTACK_MAX;
+
+                        // Dealing up to 75 damage to everyone inside it if one of the stalagmites were not destroyed
+                        Hit hit = t.hit(nex, World.getWorld().random(damage), CombatType.MAGIC);
+                        hit.submit();
+                    }
+                });
+                break;
+            }
+            for (GameObject obj : nex.stalagmite) {
+                obj.remove();
+            }
+            nex.stalagmite.clear();
+            nex.stalagmiteDestroyed = false;
+        });
     }
 
     @Override
-    public int getAttackSpeed(Entity entity) {
-        return entity.getBaseAttackSpeed();
+    public int getAttackSpeed(Entity mob) {
+        return lastAttack == 1 ? 12 : mob.getBaseAttackSpeed();
     }
 
     @Override
     public int getAttackDistance(Entity entity) {
-        return 8;
+        return 30;
+    }
+
+    @Override
+    public void doFollowLogic() {
+        DumbRoute.step(entity, target, 1);
+    }
+
+    @Override
+    public void postDamage(Hit hit) {
+        //Nex taking damage
+        if (hit.getTarget().isNpc() && hit.getSource().isPlayer()) {
+            if (nex.id() == NpcIdentifiers.NEX_11280 && hit.getCombatType() == CombatType.MELEE) {
+                //The player attacking Nex
+                Entity source = hit.getSource();
+                if (source != null) {
+                    int deflectedDamage = (int) (hit.getDamage() * 0.1);
+                    if (deflectedDamage > 0)
+                        source.hit(hit.getTarget(), deflectedDamage, 1, null).setIsReflected().submit();
+                }
+            }
+        }
+
+        //Nex dealing damage
+        if (hit.getSource().isNpc()) {
+            if (nex.soulsplit) {
+                nex.healHit(nex, hit.getDamage());
+            }
+        }
+    }
+
+    @Override
+    public void preDefend(Hit hit) {
+        if (hit.getTarget().isNpc() && hit.getSource().isPlayer()) {
+            if (nex.fightState == SMOKE_PHASE && nex.hp() <= 2720 && !nex.<Boolean>getAttribOr(SMOKE_PHASE_INITIATED, false)) {
+                nex.forceChat("Fumus, don't fail me!");
+                nex.getCombat().delayAttack(1);
+                nex.bodyguardPhase = BodyguardPhase.FUMUS;
+                ZarosGodwars.fumus.putAttrib(AttributeKey.BARRIER_BROKEN, true);
+                nex.putAttrib(SMOKE_PHASE_INITIATED, true);
+            } else if (nex.fightState == SHADOW_PHASE && nex.hp() <= 2040 && !nex.<Boolean>getAttribOr(SHADOW_PHASE_INITIATED, false)) {
+                nex.forceChat("Umbra, don't fail me!");
+                nex.getCombat().delayAttack(1);
+                nex.bodyguardPhase = BodyguardPhase.UMBRA;
+                ZarosGodwars.umbra.putAttrib(AttributeKey.BARRIER_BROKEN, true);
+                nex.putAttrib(SHADOW_PHASE_INITIATED, true);
+            } else if (nex.fightState == BLOOD_PHASE && nex.hp() <= 1360 && !nex.<Boolean>getAttribOr(BLOOD_PHASE_INITIATED, false)) {
+                nex.forceChat("Cruor, don't fail me!");
+                nex.getCombat().delayAttack(1);
+                nex.bodyguardPhase = BodyguardPhase.CRUOR;
+                ZarosGodwars.cruor.putAttrib(AttributeKey.BARRIER_BROKEN, true);
+                nex.putAttrib(BLOOD_PHASE_INITIATED, true);
+            } else if (nex.fightState == ICE_PHASE && nex.hp() <= 680 && !nex.<Boolean>getAttribOr(ICE_PHASE_INITIATED, false)) {
+                nex.forceChat("Glacies, don't fail me!");
+                nex.getCombat().delayAttack(1);
+                nex.bodyguardPhase = BodyguardPhase.GLACIES;
+                ZarosGodwars.glacies.putAttrib(AttributeKey.BARRIER_BROKEN, true);
+                nex.putAttrib(AttributeKey.ICE_PHASE_INITIATED, true);
+            }
+        }
+
+        if (nex.bodyguardPhase != null) {
+            hit.block();
+        }
+
+        //During this, all damage she receives will instead heal her.
+        if (nex.doingSiphon && hit.getSource().isPlayer()) { // Player damage will heal her
+            nex.healHit(nex, hit.getDamage());
+        }
     }
 
     @Override
     public boolean customOnDeath(Hit hit) {
         if (hit.getTarget().isNpc()) {
-            NPC npc = hit.getTarget().getAsNpc();
-            npc.clearAttrib(AttributeKey.TURMOIL_ACTIVE);
+            NPC npc = hit.getTarget().npc();
+            Player player = hit.getSource().player();
             npc.transmog(NEX_11282);
-            npc.forceChat("Taste my wrath!");
             final NPCCombatInfo combatInfo = npc.combatInfo();
             npc.animate(combatInfo.animations.death);
-            Chain.bound(null).runFn(combatInfo.deathlen, () -> {
+            Chain.bound(null).runFn(combatInfo.deathlen, () ->{
                 npc.graphic(2013);
-                List<Entity> possibleTargets = getPossibleTargets(npc);
-                if (possibleTargets != null) {
-                    for (Entity t : possibleTargets) {
-                        if (t == null || t.dead() || !t.isRegistered() || !t.tile().isWithinDistance(npc.tile(), 5))
-                            continue;
-                        Projectile projectile = new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 1, npc.getY() - 2, npc.getZ()), 1, 2012, 100, 40, npc.getZ(), 0, 0);
-                        projectile.sendProjectile();
-                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() + 1, npc.getY() - 2, npc.getZ()), 0, 85);
-                        Projectile projectile2 = new Projectile(npc.getCentrePosition(), new Tile(npc.getX() - 1, npc.getY() - 1, npc.getZ()), 1, 2012, 100, 40, npc.getZ(), 0, 0);
-                        projectile2.sendProjectile();
-                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() - 1, npc.getY() - 1, npc.getZ()), 0, 85);
-                        Projectile projectile3 = new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 3, npc.getY() - 1, npc.getZ()), 1, 2012, 100, 40, npc.getZ(), 0, 0);
-                        projectile3.sendProjectile();
-                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() + 3, npc.getY() - 1, npc.getZ()), 0, 85);
-                        Projectile projectile4 = new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 3, npc.getY() - 1, npc.getZ()), 1, 2012, 100, 40, npc.getZ(), 0, 0);
-                        projectile4.sendProjectile();
-                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() + 3, npc.getY() - 1, npc.getZ()), 0, 85);
-                        Projectile projectile5 = new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 4, npc.getY() + 1, npc.getZ()), 1, 2012, 100, 40, npc.getZ(), 0, 0);
-                        projectile5.sendProjectile();
-                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() + 4, npc.getY() + 1, npc.getZ()), 0, 85);
-                        Projectile projectile6 = new Projectile(npc.getCentrePosition(), new Tile(npc.getX() - 1, npc.getY() + 3, npc.getZ()), 1, 2012, 100, 40, npc.getZ(), 0, 0);
-                        projectile6.sendProjectile();
-                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() - 1, npc.getY() + 3, npc.getZ()), 0, 85);
-                        Projectile projectile7 = new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 3, npc.getY() + 3, npc.getZ()), 1, 2012, 100, 40, npc.getZ(), 0, 0);
-                        projectile7.sendProjectile();
-                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() + 3, npc.getY() + 3, npc.getZ()), 0, 85);
-                        Projectile projectile8 = new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 1, npc.getY() + 4, npc.getZ()), 1, 2012, 100, 40, npc.getZ(), 0, 0);
-                        projectile8.sendProjectile();
-                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() + 1, npc.getY() + 4, npc.getZ()), 0, 85);
-                        t.hit(npc, World.getWorld().random(40));
-                    }
+                for (Player close : npc.closePlayers(10)) {
+
+                    WRATH_PROJECTILE.send(npc.getCentrePosition(), new Tile(npc.getX() + 2, npc.getY() + 2, npc.getZ()));
+
+                    WRATH_PROJECTILE.send(npc.getCentrePosition(), new Tile(npc.getX() + 2, npc.getY(), npc.getZ()));
+
+                    WRATH_PROJECTILE.send(npc.getCentrePosition(), new Tile(npc.getX() + 2, npc.getY() - 2, npc.getZ()));
+
+                    WRATH_PROJECTILE.send(npc.getCentrePosition(), new Tile(npc.getX() - 2, npc.getY() + 2, npc.getZ()));
+
+                    WRATH_PROJECTILE.send(npc.getCentrePosition(), new Tile(npc.getX() - 2, npc.getY(), npc.getZ()));
+
+                    WRATH_PROJECTILE.send(npc.getCentrePosition(), new Tile(npc.getX() - 2, npc.getY() - 2, npc.getZ()));
+
+                    WRATH_PROJECTILE.send(npc.getCentrePosition(), new Tile(npc.getX(), npc.getY() + 2, npc.getZ()));
+
+                    WRATH_PROJECTILE.send(npc.getCentrePosition(), new Tile(npc.getX(), npc.getY() - 2, npc.getZ()));
+
+                    close.hit(npc, World.getWorld().random(40));
                 }
-            }).then(2, () -> {
-
-                dropLoot(npc);
-
+            }).then(3, () ->{
+                ZarosGodwars.nex = null;
                 npc.remove();
-
-                if (redBarrierPurple != null && ancientBarrierPurple.isPresent()) {
-                    ObjectManager.replaceWith(redBarrierPurple, ancientBarrierPurple.get());
-                }
-
-                ZarosGodwars.clear();
-
+                player.getPacketSender().sendEffectTimer(12, EffectTimer.MONSTER_RESPAWN);
+                drop();
                 //Respawn nex
-                //seems to be bugging out here on respawn
-
-                if (getPlayersCount() >= 1) {
-                    respawnNexFunction();
-                } else {
-                    ZarosGodwars.cancel();
-                }
-
-            });
+            }).then(20, () ->ZarosGodwars.startEvent());
         }
         return true;
     }
 
-    public void respawnNexFunction() {
-        ZarosGodwars.startEvent();
+    @Override
+    public boolean canMultiAttackInSingleZones() {
+        return super.canMultiAttackInSingleZones();
     }
 
-    public void dropLoot(NPC npc) {
-        ZarosGodwars.drop(npc);
+    private void drop() {
+        var amountOfPlayersToGetDrop = 5;
+        var list = nex.getCombat().getDamageMap().entrySet().stream()
+            .sorted(Comparator.comparingInt(e -> e.getValue().getDamage()))
+            .collect(Collectors.collectingAndThen(
+                Collectors.toList(),
+                l -> { Collections.reverse(l); return l; })
+            );
+        list.stream().limit(amountOfPlayersToGetDrop).forEach(e -> {
+            var key = e.getKey();
+            Player player = (Player) key;
+            if (nex.tile().isWithinDistance(player.tile(), 12)) {
+                //Random drop from the table
+                ScalarLootTable table = ScalarLootTable.forNPC(nex.id());
+                if (table != null) {
+
+                    Item reward = table.randomItem(World.getWorld().random());
+                    if (reward != null) {
+
+                        // bosses, find npc ID, find item ID
+                        BOSSES.log(player, nex.id(), reward);
+
+                        GroundItemHandler.createGroundItem(new GroundItem(reward, player.tile(), player));
+
+                        Utils.sendDiscordInfoLog("Player " + player.getUsername() + " with display name " + player.getDisplayName() + " got drop item " + reward, "npcdrops");
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    public ArrayList<Entity> getPossibleTargets(Entity mob) {
+        return Arrays.stream(mob.closePlayers(64)).collect(Collectors.toCollection(ArrayList::new));
     }
 
 }

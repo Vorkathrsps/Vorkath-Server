@@ -97,6 +97,10 @@ public class Hit {
         return this.attacker;
     }
 
+    public Entity getSource() {
+        return this.attacker;
+    }
+
     /**
      * Adjusts the hit delay with the characters update index (PID).
      */
@@ -343,6 +347,12 @@ public class Hit {
             return;
         target.splats.add(new Splat(getDamage(), splatType));
         target.getUpdateFlag().flag(Flag.FIRST_SPLAT);
+    }
+
+    public Hit block() {
+        accurate = false;
+        damage = 0;
+        return this;
     }
 }
 

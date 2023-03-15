@@ -201,6 +201,9 @@ public class MovementQueue {
                 return false;
             }
         }
+        if (entity.<Boolean>getAttribOr(AttributeKey.LOCKED_FROM_MOVEMENT, false) || entity.moveLocked()) {
+            return false;
+        }
 
         if (blockMovement) {
             //System.out.println("movement blocked in canMove()");

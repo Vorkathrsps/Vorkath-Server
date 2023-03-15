@@ -36,7 +36,6 @@
     },
     "scripts": {
       "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDNex",
-      "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.NexAgro",
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.NexCombat"
     }
   },
@@ -72,7 +71,6 @@
       "death": 836
     },
     "scripts": {
-      "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.NexAgro",
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Fumus"
     }
   },
@@ -108,7 +106,6 @@
       "death": 836
     },
     "scripts": {
-      "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.NexAgro",
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Umbra"
     }
   },
@@ -144,7 +141,6 @@
       "death": 836
     },
     "scripts": {
-      "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.NexAgro",
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Cruor"
     }
   },
@@ -180,7 +176,6 @@
       "death": 836
     },
     "scripts": {
-      "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.NexAgro",
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Glacies"
     }
   },
@@ -216,7 +211,6 @@
       "death": 9192
     },
     "scripts": {
-      "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.NexAgro",
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.BloodReaver"
     }
   },

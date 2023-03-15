@@ -42,6 +42,7 @@ public enum LockType {
      */
     FULL_WITHDMG,
 
+    MOVEMENT_DAMAGE_OK,
     /**
      * Will stop entity from attacking if this lock is active
      */

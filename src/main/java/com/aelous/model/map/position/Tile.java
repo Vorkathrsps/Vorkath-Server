@@ -734,6 +734,10 @@ public class Tile implements Cloneable {
         return World.getWorld().clipstr(clip());
     }
 
+    public Set<Tile> expandedBounds(int radius) {
+        return expandedBounds(radius, null);
+    }
+
     public Set<Tile> expandedBounds(int radius, Predicate<Tile> filter) {
         Set<Tile> list = new HashSet<>((int)Math.pow((1 + radius), 2));
         final Tile src = this;

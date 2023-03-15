@@ -68,13 +68,6 @@ public abstract class CommonCombatMethod implements CombatMethod {
     }
 
     /**
-     * npc only
-     */
-    public void onDeath() {
-        entity.getCombat().reset();
-    }
-
-    /**
      * player only
      */
     public void postAttack() {
@@ -83,6 +76,42 @@ public abstract class CommonCombatMethod implements CombatMethod {
     }
 
     public void onHit(Entity entity, Entity target, Hit hit) {
+
+    }
+
+    /**
+     * npc only
+     */
+    public void onDeath(Player killer, NPC npc) {
+        entity.getCombat().reset();
+    }
+
+    public void postDefend(Hit hit) {
+
+    }
+
+    public void postTargetDefend(Hit hit, Entity mob) {
+
+    }
+
+    /**
+     * npc only
+     */
+    public void postDamage(Hit hit) {
+
+    }
+
+    /**
+     * npc only
+     */
+    public void preDefend(Hit hit) {
+    }
+
+    /**
+     * Handler functions
+     */
+
+    public void init(NPC npc) {
 
     }
 
@@ -209,5 +238,64 @@ public abstract class CommonCombatMethod implements CombatMethod {
             return CombatType.RANGED;
         System.err.println("unknown player styleOf combat script: " + this + " wep " + entity.getAsPlayer().getEquipment().getId(3));
         return null;
+    }
+    /**
+     * Always returns the max damage from the npc info.
+     */
+    protected Hit basicAttack(Entity mob, Entity target) {
+        return basicAttack(mob, target, -1, CombatType.MELEE, -1, false);
+    }
+
+    /**
+     * Always returns the max damage from the npc info.
+     */
+    protected Hit basicAttack(Entity mob, Entity target, int damage) {
+        return basicAttack(mob, target, -1, CombatType.MELEE, damage, false);
+    }
+
+    /**
+     * Always returns the max damage from the npc info.
+     */
+    protected Hit basicAttack(Entity mob, Entity target, int anim, int damage) {
+        return basicAttack(mob, target, anim, CombatType.MELEE, damage, false);
+    }
+
+    /**
+     * Always returns the max damage from the npc info.
+     */
+    protected Hit basicAttack(Entity mob, Entity target, int anim, CombatType type, int damage) {
+        return basicAttack(mob, target, anim, type, damage, false);
+    }
+
+    /**
+     * Can send any max damage.
+     */
+    protected Hit basicAttack(Entity mob, Entity target, int animation, CombatType type, int damage, boolean ignorePrayer) {
+        if (!mob.isNpc()) {
+            System.out.println("basicAttack was send by a non NPC character! " + mob.getMobName() + " index " + mob.getIndex());
+            return null;
+        }
+
+        //Do default attack anim if not override
+        int anim = -1;
+
+        if(anim == -1) {
+            if (mob.getAsNpc().combatInfo() != null && mob.getAsNpc().combatInfo().animations != null) {
+                anim = mob.getAsNpc().combatInfo().animations.attack;
+            }
+        } else {
+            anim = animation;
+        }
+
+        int maxDamage = 1;
+        if (mob.getAsNpc().combatInfo() != null && mob.getAsNpc().combatInfo().animations != null) {
+            maxDamage = mob.getAsNpc().combatInfo().maxhit;
+        }
+
+        mob.animate(anim);
+        int dmg = damage == -1 ? maxDamage : damage;
+        Hit hit = target.hit(mob, World.getWorld().random(dmg), type).checkAccuracy();
+        hit.submit();
+        return hit;
     }
 }

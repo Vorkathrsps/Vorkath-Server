@@ -1114,6 +1114,13 @@ public class CombatFactory {
             }
         }
 
+        if (attacker != null && attacker.isPlayer() && target.isNpc()) {
+            CombatMethod method = CombatFactory.getMethod(target);
+            if (method instanceof CommonCombatMethod o) {
+                o.preDefend(hit);
+            }
+        }
+
         if (attacker.isPlayer() && !hit.reflected && hit.getCombatType() != null) {
             if (attacker instanceof Player) {
                 Player playerAttacker = (Player) attacker;

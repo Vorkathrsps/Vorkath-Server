@@ -249,6 +249,10 @@ public class Player extends Entity {
         }
     }
 
+    public String getDisplayName() {
+        return username;
+    }
+
     public static class TextData {
 
         public final String text;

@@ -285,7 +285,15 @@ public abstract class Entity {
         return ((Player) this);
     }
 
+    public Player player() {
+        return ((Player) this);
+    }
+
     public NPC getAsNpc() {
+        return ((NPC) this);
+    }
+
+    public NPC npc() {
         return ((NPC) this);
     }
 
@@ -328,6 +336,10 @@ public abstract class Entity {
         task.bind(this);
         TaskManager.submit(task);
         return task;
+    }
+
+    public Player[] closePlayers() {
+        return closePlayers(254, 14);
     }
 
     /**
@@ -892,7 +904,9 @@ public abstract class Entity {
      * doesnt return {@code Hit} instance because its immidiately submitted() so you cant change properties after.
      */
     public Hit hit(Entity attacker, int damage, CombatType combatType, SplatType type) {
-        return hit(attacker, damage, 0, combatType);
+        Hit hit = hit(attacker, damage, 0, combatType);
+        hit.splatType = type;
+        return hit;
     }
 
     /**
@@ -906,6 +920,10 @@ public abstract class Entity {
     public Hit hit(Entity attacker, int damage, CombatType type) {
         Hit hit = Hit.builder(attacker, this, damage, 0, type);
         return hit;
+    }
+
+    public Hit healHit(Entity attacker, int heal) {
+        return hit(attacker, heal, null, SplatType.NPC_HEALING_HITSPLAT);
     }
 
     protected boolean noRetaliation = false;
@@ -973,7 +991,7 @@ public abstract class Entity {
     }
 
     public boolean moveLocked() {
-        return lock == LockType.MOVEMENT;
+        return lock == LockType.MOVEMENT || lock == LockType.MOVEMENT_DAMAGE_OK;
     }
 
     public void lock() {
@@ -998,6 +1016,11 @@ public abstract class Entity {
 
     public void lockDamageOk() {
         lock = LockType.FULL_WITHDMG;
+        lockTime = System.currentTimeMillis();
+    }
+
+    public void lockMoveDamageOk() {
+        lock = LockType.MOVEMENT_DAMAGE_OK;
         lockTime = System.currentTimeMillis();
     }
 
@@ -1108,6 +1131,10 @@ public abstract class Entity {
     private Skills skills;
 
     public Skills getSkills() {
+        return skills;
+    }
+
+    public Skills skills() {
         return skills;
     }
 

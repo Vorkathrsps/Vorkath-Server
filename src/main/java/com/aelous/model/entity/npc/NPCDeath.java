@@ -535,7 +535,7 @@ public class NPCDeath {
                     if (npc.getCombatMethod() instanceof CommonCombatMethod) {
                         CommonCombatMethod commonCombatMethod = (CommonCombatMethod) npc.getCombatMethod();
                         commonCombatMethod.set(npc, killer);
-                        commonCombatMethod.onDeath();
+                        commonCombatMethod.onDeath(killer, npc);
                     }
 
                     //Rock crabs

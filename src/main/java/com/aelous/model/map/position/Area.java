@@ -167,6 +167,10 @@ public class Area {
         return p.getX() >= x1 && p.getX() <= x2 && p.getY() >= y1 && p.getY() <= y2;
     }
 
+    public boolean inBounds(int x, int y, int z, int range) {
+        return !(this.level != -1 && z != this.level) && x >= x1 - range && x <= x2 + range && y >= y1 - range && y <= y2 + range;
+    }
+
     public Tile relative(Tile tile) {
         return bottomLeft().plus(tile);
     }

@@ -10,5 +10,19 @@ public enum CombatType {
 
     MELEE,
     RANGED,
-    MAGIC
+    MAGIC;
+
+
+    public boolean isMelee() {
+        return this == MELEE;
+    }
+
+    public boolean isRanged() {
+        return this == RANGED;
+    }
+
+    public boolean isMagic() {
+        return this == MAGIC;
+    }
+
 }

@@ -449,7 +449,7 @@ public class Tile implements Cloneable {
         return false;
     }
 
-    public boolean inBounds(Boundary boundary) {
+    public boolean inBounds(Area boundary) {
         return boundary.inBounds(x, y, level, 0);
     }
 

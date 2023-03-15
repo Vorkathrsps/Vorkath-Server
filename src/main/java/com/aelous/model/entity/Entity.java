@@ -316,6 +316,10 @@ public abstract class Entity {
         return task;
     }
 
+    public Chain<Entity> repeatingTask(int tickBetweenLoop, Consumer<Task> work) {
+        return Chain.bound(this).repeatingTask(tickBetweenLoop, work);
+    }
+
     public Hit hits;
 
     public Splat getSplat() {

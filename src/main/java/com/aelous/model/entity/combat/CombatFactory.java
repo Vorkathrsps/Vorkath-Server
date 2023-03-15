@@ -1649,13 +1649,19 @@ public class CombatFactory {
      * @param player The player to disable protection prayers for.
      */
     public static void disableProtectionPrayers(Player player) {
-        player.getTimers().register(TimerKey.OVERHEADS_BLOCKED, 9);
+        disableProtectionPrayers(player, true, true);
+    }
+
+    public static void disableProtectionPrayers(Entity player, boolean sendMsg, boolean block) {
+        if (block)
+            player.getTimers().register(TimerKey.OVERHEADS_BLOCKED, 9);
         Prayers.deactivatePrayer(player, PROTECT_FROM_MAGIC);
         Prayers.deactivatePrayer(player, PROTECT_FROM_MISSILES);
         Prayers.deactivatePrayer(player, PROTECT_FROM_MELEE);
         Prayers.deactivatePrayer(player, RETRIBUTION);
         Prayers.deactivatePrayer(player, REDEMPTION);
-        player.message("You have been disabled and can no longer use protection prayers.");
+        if (sendMsg)
+            player.message("You have been disabled and can no longer use protection prayers.");
     }
 
     /**

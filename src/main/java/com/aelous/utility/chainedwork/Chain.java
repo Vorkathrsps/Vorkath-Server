@@ -213,6 +213,10 @@ public class Chain<T> {
         return this;
     }
 
+    public Chain<T> delay(int startAfterTicks, Runnable work) {
+        return runFn(startAfterTicks, work);
+    }
+
     // this is private on purpose, internal class use only
     private void startChainExecution() {
         if (cycleDelay == 0) {

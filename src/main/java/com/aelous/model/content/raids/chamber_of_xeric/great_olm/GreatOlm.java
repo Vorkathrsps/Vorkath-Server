@@ -17,6 +17,7 @@ import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.map.object.GameObject;
+import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Color;
 import com.aelous.utility.TickDelay;
@@ -36,6 +37,7 @@ import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.GREAT_OLM_
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.*;
 import static com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm.Facing.*;
 import static com.aelous.model.entity.attributes.AttributeKey.OLM_BURN_EFFECT;
+import static com.aelous.model.entity.attributes.AttributeKey.VENOMED_BY;
 
 /**
  * @author Sharky
@@ -81,16 +83,16 @@ public class GreatOlm extends CommonCombatMethod {
         World.getWorld().definitions().get(ObjectDefinition.class, FIRE_32297).clipType = 1; // force flame wall fire to clip tiles
 
         npc = mob.npc();
-        northTargetBounds = new Bounds(getTile(RIGHT.swX, RIGHT.swY), getTile(RIGHT.neX, RIGHT.neY), npc.getZ()); // no debug
-        centerTargetBounds = new Bounds(getTile(CENTER.swX, CENTER.swY), getTile(CENTER.neX, CENTER.neY), npc.getZ()); // somehow this is null
-        southTargetBounds = new Bounds(getTile(LEFT.swX, LEFT.swY), getTile(LEFT.neX, LEFT.neY), npc.getZ());
-        arenaBounds = new Bounds(getTile(28, 35), getTile(37, 51), npc.getZ());
+        northTargetBounds = new Area(getTile(RIGHT.swX, RIGHT.swY), getTile(RIGHT.neX, RIGHT.neY), npc.getZ()); // no debug
+        centerTargetBounds = new Area(getTile(CENTER.swX, CENTER.swY), getTile(CENTER.neX, CENTER.neY), npc.getZ()); // somehow this is null
+        southTargetBounds = new Area(getTile(LEFT.swX, LEFT.swY), getTile(LEFT.neX, LEFT.neY), npc.getZ());
+        arenaBounds = new Area(getTile(28, 35), getTile(37, 51), npc.getZ());
        /* System.out.println("northTargetBounds "+northTargetBounds);
         System.out.println("centerTargetBounds "+centerTargetBounds);
         System.out.println("southTargetBounds "+southTargetBounds);
         System.out.println("arenaBounds "+arenaBounds);*/
         lastPhase = 2; //0,1,2  = 3 phases default
-        Chain.bound(null).delay(2, c-> {
+        Chain.bound(null).runFn(2, c-> {
             party = npc.getAttribOr(RAID_INSTANCE, null);
             lastPhase += party.getPartySize() / 8;
         });
@@ -122,7 +124,7 @@ public class GreatOlm extends CommonCombatMethod {
                 @Override
                 public void onDeath(Player killer, NPC npc) {
                     clawDeathStart(npc);
-                    Chain.bound(null).runFn(combatInfo.deathlen, () ->  {
+                    Chain.bound(null).runFn(npc.combatInfo().deathlen, () ->  {
                         clawDeathEnd(npc);
                     });
                 }
@@ -157,7 +159,7 @@ public class GreatOlm extends CommonCombatMethod {
                 @Override
                 public void onDeath(Player killer, NPC npc) {
                     clawDeathStart(npc);
-                    Chain.bound(null).runFn(combatInfo.deathlen, () ->  {
+                    Chain.bound(null).runFn(npc.combatInfo().deathlen, () ->  {
                         clawDeathEnd(npc);
                     });
                 }
@@ -294,7 +296,7 @@ public class GreatOlm extends CommonCombatMethod {
     public void onDeath(Player killer, NPC npc) {
         Party party = killer.raidsParty;
         olmDeathStart();
-        Chain.bound(null).runFn(combatInfo.deathlen, () ->  {
+        Chain.bound(null).runFn(npc.combatInfo().deathlen, () ->  {
             olmDeathEnd(party);
         });
     }
@@ -419,7 +421,7 @@ public class GreatOlm extends CommonCombatMethod {
         lastBasicAttackStyle = Utils.rollPercent(75) ? lastBasicAttackStyle : (lastBasicAttackStyle == CombatType.RANGED ? CombatType.MAGIC : CombatType.RANGED);
         targets.forEach(p -> {
             int delay = (lastBasicAttackStyle == CombatType.RANGED ? RANGED_PROJECTILE : MAGIC_PROJECTILE).send(npc, p);
-            int maxDamage = combatInfo.maxhit;
+            int maxDamage = npc.combatInfo().maxhit;
             if (Prayers.usingPrayer(p, lastBasicAttackStyle == CombatType.RANGED ? Prayers.PROTECT_FROM_MISSILES : Prayers.PROTECT_FROM_MAGIC))
                 maxDamage /= 4;
             Hit hit = p.hit(npc, maxDamage, lastBasicAttackStyle).clientDelay(delay).checkAccuracy();
@@ -488,7 +490,7 @@ public class GreatOlm extends CommonCombatMethod {
             Chain.noCtx().runFn(2, () ->  {
                 crystal.setId(LARGE_CRYSTALS);
                 if (p.tile().equals(pos))
-                    p.hit(npc, World.getWorld().random(combatInfo.maxhit));
+                    p.hit(npc, World.getWorld().random(npc.combatInfo().maxhit));
             }).delay(1, () -> crystal.remove());
         });
     }
@@ -510,7 +512,7 @@ public class GreatOlm extends CommonCombatMethod {
                 World.getWorld().tileGraphic(1356, lightningPos[0], 0, 0);
                 forAllTargets(player -> {
                     if (player.isAt(lightningPos[0])) {
-                        player.hit(npc, World.getWorld().random(combatInfo.maxhit / 2));
+                        player.hit(npc, World.getWorld().random(npc.combatInfo().maxhit / 2));
                         player.stun(2, true);
                         CombatFactory.disableProtectionPrayers(player, true, true);
                         player.message(Color.RED.wrap("You've been electrocuted to the spot!"));
@@ -1003,7 +1005,12 @@ public class GreatOlm extends CommonCombatMethod {
     }
 
     public void restore(NPC claw) {
-        claw.getCombat().restore();
+        claw.heal(claw.maxHp());
+        claw.putAttrib(AttributeKey.POISON_TICKS,0);
+        claw.putAttrib(AttributeKey.VENOM_TICKS, 0);
+        claw.putAttrib(AttributeKey.POISON_TICKS, 0);
+        claw.clearAttrib(VENOMED_BY);
+        claw.resetFreeze();
         claw.hidden(false);
     }
 
@@ -1081,16 +1088,7 @@ public class GreatOlm extends CommonCombatMethod {
             isOnEastSide() ? npc.getAbsX() : npc.getAbsX() - 3,
             npc.getAbsY(),
             npc.getZ());
-        GameObject obj = t
-            .getObject(-1,10, -1); // getObject = spawnObjects - since its not in cache at z>0
-        if (obj == null) {
-            obj = party.objects.stream().filter(e -> e.tile().equals(npc.tile())).findFirst().orElse(null);
-            if (obj == null) {
-                System.err.println("nothing at "+t+" lookup "+isOnEastSide()+" "+npc.toStringShort(50)+" "+npc.tile()+" = "+obj);
-            } else {
-                System.err.println("found fallback at "+t+" lookup "+isOnEastSide()+" "+npc.toStringShort(50)+" "+npc.tile()+" = "+obj);
-            }
-        }
+        GameObject obj = t.getObject(-1,10, -1); // getObject = spawnObjects - since its not in cache at z>0
         if (obj == null) { // stop NPEs
             obj = DUMMY;
         }
@@ -1102,7 +1100,7 @@ public class GreatOlm extends CommonCombatMethod {
     }
 
     private Facing facing = CENTER;
-    private Bounds northTargetBounds, centerTargetBounds, southTargetBounds, arenaBounds;
+    private Area northTargetBounds, centerTargetBounds, southTargetBounds, arenaBounds;
 
     enum Facing {
         RIGHT(7337, 7376, 7346, 7373,
@@ -1192,7 +1190,7 @@ public class GreatOlm extends CommonCombatMethod {
     }
 
     private List<Player> getFacingTargets() {
-        Bounds bounds;
+        Area bounds;
         if (facing == CENTER)
             bounds = centerTargetBounds;
         else if (facing == RIGHT)

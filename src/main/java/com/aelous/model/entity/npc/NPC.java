@@ -437,7 +437,7 @@ public class NPC extends Entity {
     /**
      * Processes this npc. Previously called onTick.
      */
-    public void sequence() {
+    public final void sequence() {
         if (NpcPerformance.PERF_CHECK_MODE_ENABLED) {
             sequencePerformanceMode();
         } else {
@@ -453,7 +453,7 @@ public class NPC extends Entity {
 
     public boolean useSmartPath;
 
-    private void sequenceNormal() {
+    private final void sequenceNormal() {
         action.sequence();
         TaskManager.sequenceForMob(this);
         getTimers().cycle(this);
@@ -471,7 +471,7 @@ public class NPC extends Entity {
         getCombat().process();
     }
 
-    private void sequencePerformanceMode() {
+    private final void sequencePerformanceMode() {
         performance.reset();
 
         // accumulateRuntimeTo(() -> {

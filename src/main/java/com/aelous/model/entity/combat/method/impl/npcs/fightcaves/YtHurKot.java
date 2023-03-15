@@ -24,7 +24,7 @@ public class YtHurKot extends NPC {
     }
 
     @Override
-    public void sequence() {
+    public void postSequence() {
 
         if (jad == null) {
             return;

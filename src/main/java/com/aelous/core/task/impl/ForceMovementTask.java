@@ -23,7 +23,7 @@ public class ForceMovementTask extends Task {
         super("ForceMovementTask", delay, player, true);
         this.player = player;
         this.start = forceM.getStart().copy();
-        this.end = forceM.getEnd().copy();
+        this.end = forceM.getEnd() == null ? new Tile(0,0) : forceM.getEnd().copy();
         player.getMovementQueue().clear();
         player.setForceMovement(forceM);
     }
@@ -32,7 +32,7 @@ public class ForceMovementTask extends Task {
         super("ForceMovementTask", 1, player, true);
         this.player = player;
         this.start = forcemove.getStart().copy();
-        this.end = forcemove.getEnd().copy();
+        this.end = forcemove.getEnd() == null ? new Tile(0,0) : forcemove.getEnd().copy();
         player.getMovementQueue().clear();
         player.setForceMovement(forcemove);
         int x = start.getX() + end.getX();

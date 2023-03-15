@@ -1150,4 +1150,9 @@ public final class PacketSender {
         player.getSession().write(out);
         return this;
     }
+
+    public PacketSender darkenScreen(int i) {
+        // osrs is cs2, 317 needs hardcoding?
+        return this;
+    }
 }

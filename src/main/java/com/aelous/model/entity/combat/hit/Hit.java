@@ -37,6 +37,7 @@ public class Hit {
     public boolean reflected;
 
     public boolean forceShowSplashWhenMissMagic;
+    public boolean prayerIgnored;
 
     public Hit forceShowSplashWhenMissMagic() {
         forceShowSplashWhenMissMagic = true;
@@ -352,6 +353,11 @@ public class Hit {
     public Hit block() {
         accurate = false;
         damage = 0;
+        return this;
+    }
+
+    public Hit ignorePrayer() {
+        prayerIgnored = true;
         return this;
     }
 }

@@ -83,13 +83,6 @@ public class Nex extends NPC {
         }
     }
 
-    public void initCombat() {
-        setCombatMethod(new NexCombat(this));
-        if (getCombatMethod() instanceof CommonCombatMethod) {
-            getCombatMethod().init(this, combatInfo());
-        }
-    }
-
     public void killBloodReavers() {
         if(bloodReavers == null) {
             return;
@@ -109,9 +102,6 @@ public class Nex extends NPC {
 
     @Override
     public NexCombat getCombatMethod() {
-        if (!(super.getCombatMethod() instanceof NexCombat)) {
-            initCombat(); // prevents double initialization
-        }
         return (NexCombat) super.getCombatMethod();
     }
 

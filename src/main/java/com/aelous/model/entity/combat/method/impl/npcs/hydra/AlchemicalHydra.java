@@ -89,7 +89,7 @@ public class AlchemicalHydra extends NPC {
     }
 
     @Override
-    public void sequence() {
+    public void postSequence() {
 
         if (locked()) {
             return;

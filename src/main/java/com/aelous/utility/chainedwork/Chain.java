@@ -101,6 +101,10 @@ public class Chain<T> {
         return chain;
     }
 
+    public static <T> Chain<T> noCtx() {
+        return bound(null);
+    }
+
     private void findSource() {
         fromLocation = StackWalker.getInstance().walk(s -> s.dropWhile(e -> e.getClassName().toLowerCase().contains("chain"))
             .limit(4)

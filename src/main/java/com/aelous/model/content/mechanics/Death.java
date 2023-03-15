@@ -254,8 +254,6 @@ public class Death {
         player.getMovementQueue().setBlockMovement(false); //Incase the player movement was locked elsewhere unlock it on death.
         //Open presets when dieing if enabled
 
-        ZarosGodwars.removeFromList(player);
-
         //Auto repair broken items if enabled
         var autoRepairOnDeath = player.<Boolean>getAttribOr(AttributeKey.REPAIR_BROKEN_ITEMS_ON_DEATH, false);
         if (autoRepairOnDeath) {

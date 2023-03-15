@@ -9,6 +9,7 @@ public class UndeadMaxHitDummy extends NPC {
 
     public UndeadMaxHitDummy(int id, Tile tile) {
         super(NpcIdentifiers.UNDEAD_COMBAT_DUMMY, tile);
+        lockMoveDamageOk();
     }
 
     @Override
@@ -24,11 +25,6 @@ public class UndeadMaxHitDummy extends NPC {
     @Override
     public NPC setHitpoints(int hitpoints) {
         return this;
-    }
-
-    @Override
-    public void sequence() {
-        getCombat().process();
     }
 
 }

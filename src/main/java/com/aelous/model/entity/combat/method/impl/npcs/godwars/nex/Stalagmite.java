@@ -23,7 +23,7 @@ public class Stalagmite extends PacketInteraction {
                     if(nex.stalagmite != null) {
                         Optional<GameObject> stal = nex.stalagmite.stream().filter(o -> o.tile().equals(object.tile())).findFirst();
                         player.animate(player.attackAnimation());
-                        Chain.bound(null).runFn(1, c -> {
+                        Chain.bound(null).runFn(1, () -> {
                             stal.ifPresent(GameObject::remove);
                             nex.stalagmiteDestroyed = true;
                         });

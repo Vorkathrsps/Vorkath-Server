@@ -31,9 +31,4 @@ public class MaxHitDummyNpc extends NPC {
         return this;
     }
 
-    @Override
-    public void sequence() {
-        getCombat().process();
-    }
-
 }

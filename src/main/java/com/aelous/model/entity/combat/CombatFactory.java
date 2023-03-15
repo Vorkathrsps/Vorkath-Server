@@ -1498,7 +1498,7 @@ public class CombatFactory {
                     boolean meleePrayer = hit.getCombatType() == CombatType.MELEE && Prayers.usingPrayer(target, PROTECT_FROM_MELEE);
                     boolean rangedPrayer = hit.getCombatType() == CombatType.RANGED && Prayers.usingPrayer(target, PROTECT_FROM_MISSILES);
                     boolean magicPrayer = hit.getCombatType() == CombatType.MAGIC && Prayers.usingPrayer(target, PROTECT_FROM_MAGIC);
-                    if (meleePrayer || rangedPrayer || magicPrayer)
+                    if (!hit.prayerIgnored && (meleePrayer || rangedPrayer || magicPrayer))
                         hit.setDamage(0);
                 }
             }

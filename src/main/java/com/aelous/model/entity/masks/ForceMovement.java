@@ -2,6 +2,8 @@ package com.aelous.model.entity.masks;
 
 import com.aelous.model.map.position.Tile;
 
+import javax.annotation.Nullable;
+
 public class ForceMovement {
 
     private Tile start;
@@ -12,7 +14,7 @@ public class ForceMovement {
 
     private int animation;
 
-    public ForceMovement(Tile start, Tile end, int speed, int reverseSpeed, int direction) {
+    public ForceMovement(Tile start, @Nullable Tile end, int speed, int reverseSpeed, int direction) {
         this.setStart(start);
         this.setEnd(end);
         this.setSpeed((short)speed);
@@ -20,7 +22,7 @@ public class ForceMovement {
         this.setDirection((byte)direction);
     }
     
-    public ForceMovement(Tile start, Tile end, int speed, int reverseSpeed, int direction, int animation) {
+    public ForceMovement(Tile start, @Nullable Tile end, int speed, int reverseSpeed, int direction, int animation) {
         this.setStart(start);
         this.setEnd(end);
         this.setSpeed((short)speed);
@@ -29,7 +31,7 @@ public class ForceMovement {
         this.setAnimation((short)animation);
     }
 
-    public ForceMovement(Tile start, Tile end, int speed, int reverseSpeed, FaceDirection direction) {
+    public ForceMovement(Tile start, @Nullable Tile end, int speed, int reverseSpeed, FaceDirection direction) {
         this.setStart(start);
         this.setEnd(end);
         this.setSpeed((short)speed);
@@ -53,7 +55,7 @@ public class ForceMovement {
         this.start = start;
     }
 
-    public Tile getEnd() {
+    public @Nullable Tile getEnd() {
         return end;
     }
 

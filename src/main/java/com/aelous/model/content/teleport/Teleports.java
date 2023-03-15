@@ -223,8 +223,6 @@ public class Teleports {
         if (instancedArea != null)
             instancedArea.onTeleport(player, tile);
 
-        ZarosGodwars.removeFromList(player);
-
         player.lockNoDamage();
         player.animate(anim);
         player.sendSound(202, 0);

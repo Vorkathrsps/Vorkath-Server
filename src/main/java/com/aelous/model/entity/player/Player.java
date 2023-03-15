@@ -1448,14 +1448,6 @@ public class Player extends Entity {
             }
         });
 
-        /*
-         * Clear instances
-         */
-        runExceptionally(() -> {
-            this.clearInstance();
-            ZarosGodwars.removeFromList(this);
-        });
-
         runExceptionally(() -> {
             // If we're in a duel, make sure to give us a loss for logging out.
             if (getDueling().inDuel()) {
@@ -3109,7 +3101,7 @@ public class Player extends Entity {
 
     public static int warnTimeMs = 20;
 
-    public void sequence() {
+    public final void sequence() {
         try {
             Arrays.fill(section, false);
 

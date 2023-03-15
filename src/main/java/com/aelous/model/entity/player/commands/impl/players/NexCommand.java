@@ -11,7 +11,6 @@ public class NexCommand implements Command {
     @Override
     public void execute(Player player, String command, String[] parts) {
         player.teleport(new Tile(2905, 5203, 0));
-        ZarosGodwars.removeFromList(player);
     }
 
     @Override

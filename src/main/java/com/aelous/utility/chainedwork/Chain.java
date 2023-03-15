@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
- * A utlity class to chain code functions together which depend on delays like OSS's {@code delay(1)}.
+ * A utility class to chain code functions together which depend on delays like OSS's {@code delay(1)}.
  * The internal clock/delay system is built upon {@link TaskManager}
  *
  * <br>Has similiar fields to {@link Action} but doesnt have Mob as fixed parent generic type
@@ -48,15 +48,9 @@ public class Chain<T> {
     @Nullable
     public Chain<T> nextNode;
 
-    /**
-     * Evaluated in {@link Task#execute()}, will stop and NOT run the {@link #work} when true.
-     */
     @Nullable
     public BooleanSupplier cancelCondition;
 
-    /**
-     * Evaluated in {@link Task#execute()}, will only run the {@link #work} when true.
-     */
     @Nullable
     public BooleanSupplier executeCondition;
 
@@ -66,13 +60,10 @@ public class Chain<T> {
     @Nullable
     public Task task;
 
-    /**
-     * Same as {@link Task#delay}
-     */
     public int cycleDelay = 1;
 
     /**
-     * The function to run inside {@link Task#execute()}
+     * The function to run inside
      * <br>types allowed = {@link Runnable}, Consumer{@link Consumer<Task>}
      */
     @Nullable
@@ -132,12 +123,6 @@ public class Chain<T> {
         return this;
     }
 
-    /**
-     * repeats forever every 1 tick. Only stops when CONDITION evaluates to true or {@link Mob#stopActions(boolean)} or {@link Mob#interruptChains()} is called
-     * @param tickBetweenLoop
-     * @param condition
-     * @return
-     */
     public Chain<T> waitForTile(Tile tile, Runnable work) {
         if (this.work != null) {
             nextNode = bound(owner); // make a new one
@@ -158,7 +143,7 @@ public class Chain<T> {
     }
 
     /**
-     * repeats forever every tickBetweenLoop ticks. Only stops when CONDITION evaluates to true or {@link Mob#stopActions(boolean)} or {@link Mob#interruptChains()} is called
+     * repeats forever every tickBetweenLoop ticks. Only stops when CONDITION evaluates to true or stop or interrupt is called
      * @param tickBetweenLoop
      * @param condition
      * @return
@@ -186,7 +171,6 @@ public class Chain<T> {
      * repeats forever every tickBetweenLoop ticks. Must be stopped MANUALLY by calling task.stop from the consumer.
      * <br> Check usages for examples.
      * @param tickBetweenLoop
-     * @param shouldRepeatCondition
      * @return
      */
     public Chain<T> repeatingTask(int tickBetweenLoop, Consumer<Task> work) {

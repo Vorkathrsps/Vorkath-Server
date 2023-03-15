@@ -54,6 +54,7 @@ import java.io.FileReader;
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.SHANOMI;
@@ -193,6 +194,20 @@ public class World {
     }
 
     protected final Map<String, OwnedObject> ownedObjects = Maps.newConcurrentMap();
+
+    public double get() {
+        return ThreadLocalRandom.current().nextDouble();
+    }
+    public int get(int maxRange) {
+        return (int) (get() * (maxRange + 1D));
+    }
+    public <T> T get(List<T> list) {
+        return list.get(get(list.size() - 1));
+    }
+    public <T> T get(T[] values) {
+        return values[get(values.length - 1)];
+    }
+
 
     public static class WorldPerfTracker {
         public long skulls, tasks, login, logout, objects, packets, players,

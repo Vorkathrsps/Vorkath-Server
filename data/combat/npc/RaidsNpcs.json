@@ -440,7 +440,7 @@
   {
     // Olm Right Hand
     "ids": [
-      7553
+      7550, 7553
     ],
     "boss": true,
     "maxhit": 33,
@@ -469,12 +469,15 @@
       "attack": -1,
       "block": -1,
       "death": -1
+    },
+    "scripts": {
+      "combat": "com.aelous.model.content.raids.chamber_of_xeric.great_olm.OlmRightClaw"
     }
   },
   {
     // Olm
     "ids": [
-      7554
+      7551, 7554
     ],
     "boss": true,
     "maxhit": 33,
@@ -504,12 +507,15 @@
       "attack": -1,
       "block": -1,
       "death": 7348
+    },
+    "scripts": {
+      "combat": "com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm"
     }
   },
   {
     // Olm Left Hand
     "ids": [
-      7555
+      7552, 7555
     ],
     "boss": true,
     "maxhit": 33,
@@ -538,6 +544,9 @@
       "attack": -1,
       "block": -1,
       "death": -1
+    },
+    "scripts": {
+      "combat": "com.aelous.model.content.raids.chamber_of_xeric.great_olm.OlmLeftClaw"
     }
   }
 ]

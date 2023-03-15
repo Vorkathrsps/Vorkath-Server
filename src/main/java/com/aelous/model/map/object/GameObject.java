@@ -46,6 +46,10 @@ public class GameObject {
         return new GameObject(i, new Tile(x,y,z), i1, i2).spawn();
     }
 
+    public static GameObject spawn(int i, Tile pos, int i1, int i2) {
+        return spawn(i, pos.x, pos.y, pos.getZ(), i1, i2);
+    }
+
     public GameObject spawn() {
         return ObjectManager.addObj(this);
     }

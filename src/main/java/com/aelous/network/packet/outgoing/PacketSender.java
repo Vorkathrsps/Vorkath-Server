@@ -1155,4 +1155,12 @@ public final class PacketSender {
         // osrs is cs2, 317 needs hardcoding?
         return this;
     }
+
+    public void sendCameraNeutrality() {
+
+    }
+
+    public void shakeCamera(int i, int i1, int i2, int i3) {
+
+    }
 }

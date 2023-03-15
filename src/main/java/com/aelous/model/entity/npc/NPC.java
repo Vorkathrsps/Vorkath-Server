@@ -270,7 +270,6 @@ public class NPC extends Entity {
             case NpcIdentifiers.DEMONIC_GORILLA,
                 NpcIdentifiers.DEMONIC_GORILLA_7145,
                 NpcIdentifiers.DEMONIC_GORILLA_7146 -> new DemonicGorilla(id, tile);
-            case 7555, 7554, 7553 -> new GreatOlm(id, tile);
             case NpcIdentifiers.CORRUPTED_HUNLLEF,
                 NpcIdentifiers.CORRUPTED_HUNLLEF_9036,
                 NpcIdentifiers.CORRUPTED_HUNLLEF_9037 -> new CorruptedHunleff(id, tile);

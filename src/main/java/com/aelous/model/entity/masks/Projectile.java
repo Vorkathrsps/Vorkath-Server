@@ -101,9 +101,10 @@ public final class Projectile {
 
     public Projectile(Entity source, Entity victim, int projectileId,
                       int delay, int speed, int startHeight, int endHeight, int curve, int creatorSize, int stepMultiplier) {
-        this(source.getCentrePosition(), victim.getCentrePosition(),
-            (victim.isPlayer() ? -victim.getIndex() - 1
-                : victim.getIndex() + 1), projectileId, speed, delay,
+        this(source.getCentrePosition(),
+            victim.getCentrePosition(),
+            (victim.isPlayer() ? -victim.getIndex() - 1 : victim.getIndex() + 1),
+            projectileId, speed, delay,
             startHeight, endHeight, curve, creatorSize, 64, stepMultiplier);
     }
 
@@ -316,5 +317,61 @@ public final class Projectile {
             ", slope=" + slope +
             ", radius=" + radius +
             '}';
+    }
+
+    public Projectile(int gfxId, int startHeight, int endHeight, int delay, int durationStart, int durationIncrement, int curve, int idk) {
+        this.projectileId = gfxId;
+        this.startHeight = startHeight;
+        this.endHeight = endHeight;
+        this.delay = delay;
+        this.angle = 0;
+        this.speed = durationStart;
+       // this.durationIncrement = durationIncrement;
+        this.creatorSize = curve;
+        startDistanceOffset = 64;
+       this.slope = curve;
+       this.lockon = 0;
+        //this.idk = idk;
+        this.radius = 0;
+        this.stepMultiplier = 0;
+        this.offset = null; // set in send()
+    }
+
+    public int send(Entity mob, Tile pos) {
+        return send(mob, pos.getX(), pos.getY());
+    }
+
+    public int send(Entity mob, int targetX, int targetY) {
+        Projectile projectile = new Projectile(
+            mob.getCentrePosition(),
+            new Tile(targetX, targetY),
+            this.lockon,
+            this.projectileId, this.speed, this.delay, this.startHeight, this.endHeight,
+            this.slope, this.creatorSize, this.startDistanceOffset, this.stepMultiplier);
+        projectile.sendProjectile();
+        return 2;
+    }
+    public int send(Entity mob, Entity target) {
+        Projectile projectile = new Projectile(
+            mob.getCentrePosition(),
+            target.getCentrePosition(),
+            (target.isPlayer() ? -target.getIndex() - 1 : target.getIndex() + 1),
+            this.projectileId, this.speed, this.delay, this.startHeight, this.endHeight,
+            this.slope, this.creatorSize, this.startDistanceOffset, this.stepMultiplier);
+        projectile.sendProjectile();
+        return 2;
+    }
+
+    public int send(Tile src, Tile dest) {
+        return send(src.getX(), src.getY(), dest.getX(), dest.getY(), src.getZ());
+    }
+
+    public int send(int startX, int startY, int destX, int destY, int z) {
+        Projectile projectile = new Projectile(new Tile(startX, startY),
+            new Tile(destX, destY),
+            this.lockon, this.projectileId, this.speed, this.delay, this.startHeight, this.endHeight,
+            this.slope, this.creatorSize, this.startDistanceOffset, this.stepMultiplier);
+        projectile.sendProjectile();
+        return 2;
     }
 }

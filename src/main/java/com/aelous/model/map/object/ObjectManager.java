@@ -183,7 +183,7 @@ public class ObjectManager {
      */
     public static GameObject objById(int id, Tile tile) {
         Optional<GameObject> obj = World.getWorld().getSpawnedObjs().stream().filter(o -> o.getId() == id && o.tile().equals(tile)).findAny();
-        return obj.orElse(null);
+        return obj.orElse(MapObjects.get(id, tile).orElse(null));
     }
 
     public static GameObject get(int obj) {

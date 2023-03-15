@@ -12,7 +12,9 @@ import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Direction;
+import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.masks.Projectile;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
@@ -47,7 +49,7 @@ public class GreatOlm extends CommonCombatMethod {
     
     private Entity mob;
 
-   /* private static final Projectile CRYSTAL_DROP_PROJECTILE = new Projectile(1357, 150, 0, 0, 135, 0, 0, 0);
+    private static final Projectile CRYSTAL_DROP_PROJECTILE = new Projectile(1357, 150, 0, 0, 135, 0, 0, 0);
     private static final Projectile CRYSTAL_BOMB_PROJECTILE = new Projectile(1357, 90, 0, 30, 100, 0, 16, 0);
     private static final Projectile CRYSTAL_SPIKE_PROJECTILE = new Projectile(1352, 200, 0, 0, 30, 0, 0, 0);
 
@@ -66,12 +68,11 @@ public class GreatOlm extends CommonCombatMethod {
     private static final Projectile MAGIC_SPHERE = new Projectile(1341, 90, 43, 30, 150, 0, 16, 192);
     private static final Projectile RANGED_SPHERE = new Projectile(1343, 90, 43, 30, 150, 0, 16, 192);
     private static final Projectile MELEE_SPHERE = new Projectile(1345, 90, 43, 30, 150, 0, 16, 192);
-*/
     /**
      * Converts coordinates
      */
     public Tile getTile(int localX, int localY) {
-        return mob.tile().getRegion().base().transform(0, 0, mob.getZ()).relative(localX, localY);
+        return new Tile(mob.tile().getBaseX(), mob.tile().getBaseY()).transform(0, 0, mob.getZ()).relative(localX, localY);
     }
 
     public NPC npc, rightClaw, leftClaw;
@@ -92,10 +93,6 @@ public class GreatOlm extends CommonCombatMethod {
         System.out.println("southTargetBounds "+southTargetBounds);
         System.out.println("arenaBounds "+arenaBounds);*/
         lastPhase = 2; //0,1,2  = 3 phases default
-        Chain.bound(null).runFn(2, c-> {
-            party = npc.getAttribOr(RAID_INSTANCE, null);
-            lastPhase += party.getPartySize() / 8;
-        });
         npc.repeatingTask(5, t -> {
             List<Player> allTargets = getAllTargets(); // wait until a player is available
             if (allTargets.size() == 0) {
@@ -174,7 +171,6 @@ public class GreatOlm extends CommonCombatMethod {
                     postLeftClawDamage(hit);
                 }
             });
-            party.olmFightStarted = true;
             rise();
         });
         startAcidPoolEvent(npc);
@@ -215,7 +211,6 @@ public class GreatOlm extends CommonCombatMethod {
         if (targets.size() == 0 || (!justTurned && headRunnerNotInDirection)) {
             turn();
             justTurned = true;
-            mob.getCombat().updateLastAttack(getAttackSpeed(mob));
             return;
         }
         justTurned = false;
@@ -362,7 +357,7 @@ public class GreatOlm extends CommonCombatMethod {
                                 return;
                             }
                             Direction dir = Direction.getDirection(tile, target.tile());
-                            tile.transform(dir.deltaX, dir.deltaY, 0);
+                            tile.transform(dir.x, dir.y, 0);
                         }
                     }
                 });
@@ -467,7 +462,7 @@ public class GreatOlm extends CommonCombatMethod {
                 message += " Your prayers have been sapped.";
             }
             int delay = projectile.send(npc, target);
-            target.graphic(hitGfx, 100, delay);
+            target.graphic(hitGfx, GraphicHeight.HIGH, delay);
             target.message(message);
             target.addEvent(event -> {
                 event.delay(4, () ->  {
@@ -600,10 +595,6 @@ public class GreatOlm extends CommonCombatMethod {
         animate(npc, facing.getAttackAnim(isEmpowered()));
         delayedAnimation(npc, facing.getIdleAnim(isEmpowered()), 1);
         int bombCount = 1;
-        if (party.getPartySize() >= 30)
-            bombCount = 3;
-        else if (party.getPartySize() >= 15)
-            bombCount = 2;
         for (int i = 0; i < bombCount; i++) {
             npc.addEvent(event -> {
                 Tile bombPos = arenaBounds.randomTile();
@@ -744,7 +735,7 @@ public class GreatOlm extends CommonCombatMethod {
     public void acidPoolsAttack(NPC npc, Party party) {
         animate(npc, facing.getAttackAnim(isEmpowered()));
         delayedAnimation(npc, facing.getIdleAnim(isEmpowered()), 1);
-        int poisonPools = 6 + (party.getPartySize() / 3);
+        int poisonPools = 6;
         for (int i = 0; i < poisonPools; i++) {
             Tile pos = arenaBounds.randomTile();
             ACID_POOL_PROJECTILE.send(npc, pos);
@@ -868,7 +859,7 @@ public class GreatOlm extends CommonCombatMethod {
     public void clawDeathStart(NPC claw) {
         // make hand object do dying (falling underground) anim
         animate(claw, claw == leftClaw ? 7370 : 7352);
-        Chain.noCtx().delay(2, event -> {
+        Chain.noCtx().delay(2, () -> {
             // set object ID to empty hole
             getObject(claw).setId(claw == leftClaw ? LARGE_ROCK_29885 : CRYSTAL_STRUCTURE);
         });
@@ -892,7 +883,7 @@ public class GreatOlm extends CommonCombatMethod {
                 AtomicInteger progress = new AtomicInteger(1);
                 event.repeatingTask(1, t -> {
                     if (progress.getAndIncrement() <= 25 && !otherClaw.dead()) {
-                        claw.getUpdateFlag().flag(Flag.HITSPLAT);
+                        claw.getUpdateFlag().flag(Flag.FIRST_SPLAT);
                     }
                     t.stop();
                 }).then(c2 -> {
@@ -1032,7 +1023,7 @@ public class GreatOlm extends CommonCombatMethod {
             npc.unlock();
             leftClaw.unlock();
             rightClaw.unlock();
-            target = CombatFactory.findAggressionTarget(npc);
+            target = getAllTargets().stream().findFirst().orElse(null);
         });
     }
 

@@ -363,5 +363,10 @@ public class Hit {
         prayerIgnored = true;
         return this;
     }
+
+    public Hit clientDelay(int delay) {
+        this.delay = delay;
+        return this;
+    }
 }
 

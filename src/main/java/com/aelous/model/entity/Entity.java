@@ -9,6 +9,7 @@ import com.aelous.core.task.impl.TickableTask;
 import com.aelous.model.World;
 import com.aelous.model.action.ActionManager;
 import com.aelous.model.content.EffectTimer;
+import com.aelous.model.content.instance.InstancedArea;
 import com.aelous.model.content.instance.InstancedAreaManager;
 import com.aelous.model.content.mechanics.Poison;
 import com.aelous.model.entity.attributes.AttributeKey;
@@ -46,6 +47,8 @@ import com.aelous.utility.timers.TimerKey;
 import com.aelous.utility.timers.TimerRepository;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Stopwatch;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -1814,5 +1817,11 @@ public abstract class Entity {
 
     public void resetFreeze() {
         getTimers().cancel(TimerKey.FROZEN); //Remove frozen timer key
+    }
+
+    @Setter@Getter
+    public InstancedArea instancedArea;
+    public void setInstance(InstancedArea instancedArea) {
+        this.instancedArea = instancedArea;
     }
 }

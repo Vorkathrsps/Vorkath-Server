@@ -1,5 +1,6 @@
 package com.aelous.model.entity.npc;
 
+import com.aelous.GameEngine;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.method.impl.npcs.bosses.corruptedhunleff.CorruptedHunleff;
@@ -526,8 +527,10 @@ public class NPC extends Entity {
                 }, d -> NpcPerformance.cumeNpcD += d.toNanos());
 
             } catch (Exception e) {
-                logger.catching(e);
-                logger.error("There was an error sequencing an NPC. Check the npc spawns and other json files.");
+                logger.error("There was an error sequencing an NPC. Check the npc spawns and other json files.", e);
+                GameEngine.getInstance().addSyncTask(() -> {
+                    remove();
+                });
             }
         }
         performance.assess(this);

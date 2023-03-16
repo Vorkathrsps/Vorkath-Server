@@ -323,12 +323,11 @@ public class GreatOlm extends CommonCombatMethod {
         Player target = World.getWorld().get(potentialTargets);
         ACID_DRIP_PROJECTILE.send(npc, target);
         target.message(Color.RED.wrap("The Great Olm has smothered you in acid. It starts to drip off slowly."));
-        target.addEvent(event -> {
-            event.setCancelCondition(this::isDead);
-            event.delay(3, () ->  {
+
+            Chain.noCtx().delay(3, () ->  {
                 AtomicInteger maxLoops = new AtomicInteger();
                 AtomicInteger sleepFor = new AtomicInteger();
-                event.repeatingTask(1, t -> {
+                Chain.noCtx().repeatingTask(1, t -> {
                     if (sleepFor.getAndDecrement() > 0)
                         return; // replacement for event.delay inside a loop
                     if (maxLoops.getAndIncrement() < 20) {
@@ -336,7 +335,7 @@ public class GreatOlm extends CommonCombatMethod {
                             sleepFor.incrementAndGet();
                             return;
                         }
-                        Tile tile = target.getLastPosition().copy();
+                        Tile tile = target.getPreviousTile().copy();
                         if (tile.distance(target.tile()) > 16) {
                             //teleported or something
                             return;
@@ -362,7 +361,6 @@ public class GreatOlm extends CommonCombatMethod {
                     }
                 });
             });
-        });
     }
 
     private static final int[] BURN_STAT_DRAIN = {Skills.ATTACK, Skills.STRENGTH, Skills.DEFENCE, Skills.RANGED, Skills.MAGIC};
@@ -372,7 +370,7 @@ public class GreatOlm extends CommonCombatMethod {
             return;
         if (wasSpread)
             player.forceChat("I will burn with you!");
-        player.addEvent(event -> {
+
             player.putAttrib(OLM_BURN_EFFECT, true);
             for (int i = 0; i < 5; i++) {
                 if (!player.tile().inBounds(arenaBounds))
@@ -387,11 +385,10 @@ public class GreatOlm extends CommonCombatMethod {
                     if (p.tile().isWithinDistance(player.tile(), 1))
                         burnPlayer(npc, p, true);
                 }
-                event.delay(i * 8, () ->  {
+                Chain.noCtx().delay(i * 8, () ->  {
                     player.clearAttrib(OLM_BURN_EFFECT);
                 });
             }
-        });
     }
 
     public void burnAttack(NPC npc) {
@@ -402,11 +399,11 @@ public class GreatOlm extends CommonCombatMethod {
         animate(npc, facing.getAttackAnim(isEmpowered()));
         delayedAnimation(npc, facing.getIdleAnim(isEmpowered()), 1);
         BURN_PROJECTILE.send(npc, target);
-        npc.addEvent(event -> {
-            event.delay(2, () ->  {
+
+            Chain.noCtx().delay(2, () ->  {
                 burnPlayer(npc, target, false);
             });
-        });
+
     }
 
 
@@ -464,13 +461,13 @@ public class GreatOlm extends CommonCombatMethod {
             int delay = projectile.send(npc, target);
             target.graphic(hitGfx, GraphicHeight.HIGH, delay);
             target.message(message);
-            target.addEvent(event -> {
-                event.delay(4, () ->  {
+
+                Chain.noCtx().delay(4, () ->  {
                     if (!Prayers.usingPrayer(target, prayer)) {
                         target.hit(npc, World.getWorld().random((Math.min(200, target.hp() / 2))));
                     }
                 });
-            });
+
         }
     }
 
@@ -501,8 +498,8 @@ public class GreatOlm extends CommonCombatMethod {
             int yStep = Utils.rollPercent(50) ? -1 : 1;
             final Tile[] lightningPos = {getTile(x, yStep == -1 ? 52 : 35)};
             Chain.noCtx().repeatingTask(1, event -> {
-                event.setCancelCondition(this::isDead);
-                if (event.actionCount() == 17)
+
+                if (event.getRunDuration() == 17)
                     event.stop();
                 World.getWorld().tileGraphic(1356, lightningPos[0], 0, 0);
                 forAllTargets(player -> {
@@ -543,19 +540,19 @@ public class GreatOlm extends CommonCombatMethod {
             int gfxId = 1359 + i;
             Player finalOther = other;
             Tile finalTile = tile;
-            npc.addEvent(event -> {
+
                 AtomicInteger ticks = new AtomicInteger();
-                event.repeatingTask(2, t -> {
+                Chain.noCtx().repeatingTask(2, t -> {
                     if (ticks.getAndIncrement() < 4) {
-                        player.graphic(gfxId, 0, 0);
+                        player.graphic(gfxId, GraphicHeight.MIDDLE, 0);
                         if (finalOther != null)
-                            finalOther.graphic(gfxId, 0, 0);
+                            finalOther.graphic(gfxId, GraphicHeight.LOW, 0);
                         else
                             World.getWorld().tileGraphic(gfxId, finalTile, 0, 0);
                     } else {
                         t.stop();
                     }
-                }).then(c2 -> {
+                }).then(() -> {
                     int distance = player.tile().distance(finalOther != null ? finalOther.tile() : finalTile);
                     if (distance > 20)
                         return;
@@ -573,7 +570,7 @@ public class GreatOlm extends CommonCombatMethod {
                     }
                 });
 
-            });
+
         }
     }
 
@@ -582,12 +579,12 @@ public class GreatOlm extends CommonCombatMethod {
             return;
         animate(leftClaw, 7357);
         clawHealing = true;
-        leftClaw.addEvent(event -> {
-            event.delay(15, () ->  {
+
+            Chain.noCtx().delay(15, () ->  {
                 clawHealing = false;
                 animate(leftClaw, 7355);
             });
-        });
+
     }
 
     //phase specific attacks
@@ -596,12 +593,12 @@ public class GreatOlm extends CommonCombatMethod {
         delayedAnimation(npc, facing.getIdleAnim(isEmpowered()), 1);
         int bombCount = 1;
         for (int i = 0; i < bombCount; i++) {
-            npc.addEvent(event -> {
+
                 Tile bombPos = arenaBounds.randomTile();
                 CRYSTAL_BOMB_PROJECTILE.send(npc, bombPos);
-                event.delay(5, () ->  {
+                Chain.noCtx().delay(5, () ->  {
                     GameObject bomb = GameObject.spawn(29766, bombPos, 10, 0);
-                    Chain.noCtx().delay(8, c2 ->  {
+                    Chain.noCtx().delay(8, () ->  {
                         bomb.remove();
                         World.getWorld().tileGraphic(40, bombPos, 0, 0);
                         forAllTargets(p -> {
@@ -612,7 +609,7 @@ public class GreatOlm extends CommonCombatMethod {
                         });
                     });
                 });
-            });
+
         }
     }
 
@@ -624,10 +621,10 @@ public class GreatOlm extends CommonCombatMethod {
         Player target = World.getWorld().get(potentialTargets);
         target.message(Color.RED.wrap("The Great Olm has chosen you as its target - watch out!"));
         target.graphic(246);
-        npc.addEvent(event -> {
+
             AtomicInteger crystals = new AtomicInteger();
             AtomicInteger sleepFor = new AtomicInteger();
-            event.repeatingTask(1, t -> {
+            Chain.noCtx().repeatingTask(1, t -> {
                 if (sleepFor.getAndDecrement() > 0)
                     return; // replacement for event.delay inside a loop
                 if (crystals.getAndIncrement() > 10) {
@@ -637,7 +634,7 @@ public class GreatOlm extends CommonCombatMethod {
                 target.graphic(246);
                 Tile pos = target.tile().copy();
                 sleepFor.addAndGet(6);
-                event.delay(3, () ->  {
+                Chain.noCtx().delay(3, () ->  {
                     target.graphic(246);
                     getAllTargets().forEach(p -> {
                         if (p.tile().equals(pos))
@@ -653,7 +650,7 @@ public class GreatOlm extends CommonCombatMethod {
                     });
                 });
             });
-        });
+
     }
 
     private final List<GameObject> fires = new ArrayList<>(20);
@@ -674,8 +671,8 @@ public class GreatOlm extends CommonCombatMethod {
         FLAME_WALL_PROJECTILE_1.send(npc, src1);
         Tile src2 = new Tile(projectileX, targetY - 1, npc.getZ());
         FLAME_WALL_PROJECTILE_1.send(npc, src2);
-        npc.addEvent(event -> {
-            event.delay(1, () ->  {
+
+            Chain.noCtx().delay(1, () ->  {
                 if (isOnEastSide()) {
                     for (int x = projectileX; x < projectileX + 10; x++) {
                         FLAME_WALL_PROJECTILE_2.send(src1.getX(), src1.getY(), x, targetY + 1, src1.getZ());
@@ -706,17 +703,15 @@ public class GreatOlm extends CommonCombatMethod {
                 });
             }).delay(1, () ->  {
                 fires.forEach(gameObject -> {
-                    if (!gameObject.isRemoved())
-                        gameObject.remove();
+                    gameObject.remove();
                 });
             });
-        });
+
     }
 
     public void startAcidPoolEvent(NPC npc) {
-        npc.addEvent(event -> {
-            event.setCancelCondition(npc::dead);
-            event.repeatingTask(1, t -> {
+
+            Chain.noCtx().repeatingTask(1, t -> {
                 forAllTargets(p -> {
                     if (Tile.getObject(30032, p.getAbsX(), p.getAbsY(), p.getZ(), 10, -1) != null) {
                         p.hit(npc, World.getWorld().random(3, 6), SplatType.POISON_HITSPLAT);
@@ -724,12 +719,12 @@ public class GreatOlm extends CommonCombatMethod {
                     }
                 });
             });
-        });
+
     }
 
     public void spawnAcidPool(NPC npc, Tile tile) {
         GameObject pool = GameObject.spawn(30032, tile, 10, 0);
-        npc.addEvent(event -> event.delay(10, () -> pool.remove()));
+         Chain.noCtx().delay(10, () -> pool.remove());
     }
 
     public void acidPoolsAttack(NPC npc, Party party) {
@@ -739,26 +734,25 @@ public class GreatOlm extends CommonCombatMethod {
         for (int i = 0; i < poisonPools; i++) {
             Tile pos = arenaBounds.randomTile();
             ACID_POOL_PROJECTILE.send(npc, pos);
-            npc.addEvent(event -> {
-                event.delay(3, () ->  {
+
+                Chain.noCtx().delay(3, () ->  {
                     GameObject pool = GameObject.spawn(30032, pos, 10, 0);
-                    event.delay(6, c2 -> pool.remove());
+                    Chain.noCtx().delay(6, () -> pool.remove());
                 });
-            });
+
         }
     }
 
     public void siphonAttack(NPC npc) {
         animate(npc, facing.getAttackAnim(isEmpowered()));
         delayedAnimation(npc, facing.getIdleAnim(isEmpowered()), 1);
-        npc.addEvent(event -> {
-            event.setCancelCondition(this::isDead);
+
             Tile[] siphons = new Tile[2];
             for (int i = 0; i < siphons.length; i++) {
                 siphons[i] = centerTargetBounds.randomTile();
                 SIPHON_PROJECTILE.send(npc, siphons[i]);
             }
-            event.delay(4, () ->  {
+            Chain.noCtx().delay(4, () ->  {
                 for (Tile siphon : siphons) {
                     World.getWorld().tileGraphic(1363, siphon, 0, 0);
                 }
@@ -779,7 +773,7 @@ public class GreatOlm extends CommonCombatMethod {
                 }
                 npc.hit(npc, damageDealt * 3, SplatType.NPC_HEALING_HITSPLAT);
             });
-        });
+
     }
 
     public void preLeftClawDefend(Hit hit) {
@@ -813,14 +807,14 @@ public class GreatOlm extends CommonCombatMethod {
                 clenched = true;
                 animate(leftClaw, 7360);
                 delayedAnimation(leftClaw, 7361, 1);
-                npc.addEvent(event -> {
-                    event.delay(20, () ->  {
+
+                    Chain.noCtx().delay(20, () ->  {
                         forAllTargets(p -> p.message("The Great Olm regains control of its left claw!"));
                         clenched = false;
                         animate(leftClaw, 7362);
                         delayedAnimation(leftClaw, 7355, 2);
                     });
-                });
+
             }
         }
     }
@@ -829,7 +823,6 @@ public class GreatOlm extends CommonCombatMethod {
         animate(npc, 7348);
         if (!fires.isEmpty()) {
             fires.forEach(gameObject -> {
-                if (!gameObject.isRemoved())
                     gameObject.remove();
             });
         }
@@ -843,11 +836,10 @@ public class GreatOlm extends CommonCombatMethod {
         if (party.getLeader().getRaids() != null) {
             party.getLeader().getRaids().complete(party);
         }
-        World.startEvent(event -> {
-            event.delay(2, () ->  {
+            Chain.noCtx().delay(2, () ->  {
                 party.greatOlmCrystal.remove();
             });
-        });
+
         npc.remove();
         leftClaw.remove();
         rightClaw.remove();
@@ -877,22 +869,22 @@ public class GreatOlm extends CommonCombatMethod {
     public void startClawReviveTimer(NPC claw) {
         NPC otherClaw = claw == leftClaw ? rightClaw : leftClaw;
         claw.lock();
-        claw.addEvent(event -> {
-            event.delay(2, () ->  {
+
+            Chain.noCtx().delay(2, () ->  {
                 claw.hidden(false);
                 AtomicInteger progress = new AtomicInteger(1);
-                event.repeatingTask(1, t -> {
+                Chain.noCtx().repeatingTask(1, t -> {
                     if (progress.getAndIncrement() <= 25 && !otherClaw.dead()) {
                         claw.getUpdateFlag().flag(Flag.FIRST_SPLAT);
                     }
                     t.stop();
-                }).then(c2 -> {
+                }).then(() -> {
                     if (!otherClaw.dead() && progress.get() >= 25) { // failed, revive claw
                         restore(claw);
                         getObject(claw).setId(claw == leftClaw ? LARGE_ROCK_29883 : CRYSTALLINE_STRUCTURE);
-                        event.delay(1, c3 ->  {
+                        Chain.noCtx().delay(1, () ->  {
                             animate(claw, claw == leftClaw ? 7354 : 7350);
-                        }).delay(5, c3 ->  {
+                        }).delay(5, () ->  {
                             getObject(claw).setId(claw == leftClaw ? LARGE_ROCK_29884 : CRYSTALLINE_STRUCTURE_29887);
                         });
                     } else {
@@ -902,16 +894,16 @@ public class GreatOlm extends CommonCombatMethod {
                 });
                 claw.unlock();
             });
-        });
+
     }
 
     public void ceilingCrystals(NPC npc, int delay, int duration) {
-        npc.addEvent(event -> {
+
             forAllTargets(p -> p.getPacketSender().shakeCamera(0, 6, 0, 6));
-            event.setCancelCondition(this::isDead);
-            event.delay(delay, () ->  {
+
+            Chain.noCtx().delay(delay, () ->  {
                 AtomicInteger ticks = new AtomicInteger();
-                event.repeatingTask(2, t -> {
+                Chain.noCtx().repeatingTask(2, t -> {
                     if (ticks.get() < duration) {
                         for (int i = 0; i < 2; i++) {
                             Tile tile;
@@ -923,7 +915,7 @@ public class GreatOlm extends CommonCombatMethod {
                             int projDelay = CRYSTAL_DROP_PROJECTILE.send(src, tile);
                             World.getWorld().tileGraphic(1447, tile, 0, 30);
                             World.getWorld().tileGraphic(1358, tile, 0, projDelay);
-                            Chain.bound(null).runFn(projDelay / 30, c2 ->  {
+                            Chain.bound(null).runFn(projDelay / 30, () ->  {
                                 forAllTargets(p -> {
                                     int distance = p.tile().distance(tile);
                                     if (distance <= 1) {
@@ -937,11 +929,11 @@ public class GreatOlm extends CommonCombatMethod {
                         forAllTargets(p -> p.getPacketSender().sendCameraNeutrality());
                         t.stop();
                     }
-                }).then(c2 -> {
+                }).then(() -> {
                     forAllTargets(p -> p.getPacketSender().sendCameraNeutrality());
                 });
             });
-        });
+
     }
 
     public void nextPhase() {
@@ -960,12 +952,12 @@ public class GreatOlm extends CommonCombatMethod {
         rightClaw.lock();
         ceilingCrystals(npc, 1, 15);// Was 30
         facing = CENTER;
-        npc.addEvent(event -> {
+
             //go down
             animate(npc, 7348);
             animate(leftClaw, 7370);
             animate(rightClaw, 7352);
-            event.delay(2, () ->  {
+            Chain.noCtx().delay(2, () ->  {
                 if (npc.finished())
                     return;
                 getObject(npc).setId(LARGE_HOLE_29882);
@@ -992,7 +984,7 @@ public class GreatOlm extends CommonCombatMethod {
                 restore(rightClaw);
                 currentPhase++;
             });
-        });
+
     }
 
     public void restore(NPC claw) {

@@ -640,47 +640,6 @@ public class CombatFactory {
                 return false;
             }
 
-            if (entity.isPlayer() && other.isNpc()) {
-                Party party = player.raidsParty;
-                if (party != null) {
-
-                    var melee = entity.getCombat().combatType() == CombatType.MELEE;
-                    var magic = entity.getCombat().combatType() == CombatType.MAGIC;
-                    var range = entity.getCombat().combatType() == CombatType.RANGED;
-                    if (party.getLeftHandNpc() != null && other.getAsNpc().id() == party.getLeftHandNpc().id() && !melee) {
-                        entity.message(Color.RED.wrap("You can only fight this claw with melee."));
-                        return false;
-                    } else if (party.getRightHandNpc() != null && other.getAsNpc().id() == party.getRightHandNpc().id() && !magic) {
-                        entity.message(Color.RED.wrap("You can only fight this claw with magic."));
-                        return false;
-                    } else if (party.getGreatOlmNpc() != null && other.getAsNpc().id() == party.getGreatOlmNpc().id() && !range) {
-                        entity.message(Color.RED.wrap("You can only fight the Basilisk with range."));
-                        return false;
-                    }
-                }
-            }
-
-            if (entity.isPlayer() && npc.id() == 7555) {
-                Party party = player.raidsParty;
-                if (party != null) {
-                    if (!party.isCanAttackLeftHand()) {
-                        entity.message(Color.RED.wrap("You can't attack it's left claw, kill the right claw first!"));
-                        Debugs.CMB.debug(entity, "You can't attack it's left claw, kill the right claw first!", other, true);
-                        return false;
-                    }
-                }
-            }
-            if (entity.isPlayer() && npc.id() == 7554) {
-                Party party = player.raidsParty;
-                if (party != null) {
-                    if (!party.isLeftHandDead()) {
-                        entity.message(Color.RED.wrap("You can't attack it's left claw, kill the right claw first!"));
-                        Debugs.CMB.debug(entity, "You can't attack it's left claw, kill the right claw first!", other, true);
-                        return false;
-                    }
-                }
-            }
-
             if (npc.id() == 2668) // you can always attack combat dummies
                 return true;
         }

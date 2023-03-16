@@ -11,6 +11,7 @@ import com.aelous.model.content.raids.party.Party;
 import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.Venom;
+import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
@@ -19,6 +20,10 @@ import com.aelous.model.map.object.ObjectManager;
 import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Color;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.*;
 import static com.aelous.model.entity.attributes.AttributeKey.PERSONAL_POINTS;
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
 
@@ -198,5 +203,31 @@ public class ChamberOfXerics extends Raids {
         party.monsters.add(babyMuttadile);
         party.monsters.add(mommaMuttadile);
         party.monsters.add(vespula);
+
+        olm(party);
+    }
+
+    private void olm(Party party) {
+        party.greatOlmCrystal = GameObject.spawn(CRYSTAL_30018, 3232, 5749, party.getHeight(), 10, 0);
+
+        party.greatOlmRewardCrystal = GameObject.spawn(CRYSTAL_30027, 3233, 5751, party.getHeight(), 10, 0);
+
+
+        GameObject o2 = GameObject.spawn(LARGE_HOLE, 3238, 5738, party.getHeight(), 10, 1);
+
+        GameObject o3 = GameObject.spawn(LARGE_ROCK_29883, 3238, 5733, party.getHeight(), 10, 1);
+
+        GameObject o1 = GameObject.spawn(CRYSTALLINE_STRUCTURE, 3238, 5743, party.getHeight(), 10, 1);
+
+        NPC spawn = new RaidsNpc(GREAT_OLM_7554, new Tile(3238, 5738, party.getHeight()), Direction.WEST, party.getSize(), true).spawn();
+        NPC spawn1 = new RaidsNpc(GREAT_OLM_LEFT_CLAW_7555, new Tile(3238, 5733, party.getHeight()), Direction.WEST, party.getSize(), true).spawn();
+        NPC spawn2 = new RaidsNpc(GREAT_OLM_RIGHT_CLAW_7553, new Tile(3238, 5743, party.getHeight()), Direction.WEST, party.getSize(), true).spawn();
+        spawn.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, true);
+        spawn1.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, true);
+        spawn2.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, true);
+
+        List<NPC> boss = Arrays.stream(new NPC[]{spawn, spawn1, spawn2}).toList();
+        party.monsters.addAll(boss);
+
     }
 }

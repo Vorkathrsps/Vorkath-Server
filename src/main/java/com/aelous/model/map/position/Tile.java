@@ -821,6 +821,11 @@ public class Tile implements Cloneable {
         return new Tile(x, y, z);
     }
 
+
+    public static GameObject getObject(int id, int x, int y, int z, int type, int rot) {
+        return new Tile(x,y,z).getObject(id, type, rot);
+    }
+
     public GameObject getObject(int id, int type, int rot) {
         Optional<GameObject> obj = World.getWorld().getSpawnedObjs().stream().filter(o ->
             (type == -1 || o.getType() == type)

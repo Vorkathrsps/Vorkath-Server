@@ -24,9 +24,6 @@ public class StartOlmScriptCommand implements Command {
             //Teleport to boss
             Tile bossRoomTile = new Tile(3232, 5730, party.getHeight());
             player.teleport(bossRoomTile);
-            if(!party.bossFightStarted()) {
-                GreatOlm.start(party);
-            }
         }
     }
 

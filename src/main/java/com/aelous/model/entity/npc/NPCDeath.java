@@ -10,8 +10,6 @@ import com.aelous.model.content.areas.burthope.warriors_guild.MagicalAnimator;
 import com.aelous.model.content.areas.wilderness.content.boss_event.WildernessBossEvent;
 import com.aelous.model.content.daily_tasks.DailyTaskManager;
 import com.aelous.model.content.daily_tasks.DailyTasks;
-import com.aelous.model.content.raids.chamber_of_xeric.great_olm.Phases;
-import com.aelous.model.content.raids.party.Party;
 import com.aelous.model.content.skill.impl.prayer.Bone;
 import com.aelous.model.content.skill.impl.slayer.Slayer;
 import com.aelous.model.content.skill.impl.slayer.SlayerConstants;
@@ -687,32 +685,6 @@ public class NPCDeath {
                     return;
                 } else if (npc.id() == KALPHITE_QUEEN_6501) {
                     KalphiteQueenSecondForm.death(npc);
-                }
-
-                if (npc.id() == Phases.OLM_LEFT_HAND) {
-                    if (killer == null) return;
-                    Party party = killer.raidsParty;
-                    if (party != null) {
-                        party.forPlayers(player -> player.getPacketSender().sendObjectAnimation(party.getLeftHandObject(), 7370));
-                        Chain.bound(null).runFn(2, () -> {
-                            ObjectManager.addObj(new GameObject(29885, new Tile(3238, 5733, killer.tile().getZ()), 10, 1));
-                            ObjectManager.addObj(new GameObject(29885, new Tile(3220, 5743, killer.tile().getZ()), 10, 3));
-                        });
-                        party.setLeftHandDead(true);
-                    }
-                }
-
-                if (npc.id() == Phases.OLM_RIGHT_HAND) {
-                    if (killer == null) return;
-                    Party party = killer.raidsParty;
-                    if (party != null) {
-                        party.forPlayers(player -> player.getPacketSender().sendObjectAnimation(party.getRightHandObject(), 7352));
-                        Chain.bound(null).runFn(2, () -> {
-                            party.forPlayers(player -> player.getPacketSender().sendObjectAnimation(party.getRightHandObject(), 7353));
-                        });
-                        party.setRightHandDead(true);
-                        party.setCanAttackLeftHand(true);
-                    }
                 }
 
                 if (npc.id() == VETION_REBORN) {

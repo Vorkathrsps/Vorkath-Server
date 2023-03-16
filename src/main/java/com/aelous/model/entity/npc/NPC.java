@@ -158,6 +158,11 @@ public class NPC extends Entity {
         return this;
     }
 
+    public NPC spawn() {
+        World.getWorld().registerNpc(this);
+        return this;
+    }
+
     public NPC(int id, Tile tile) {
         super(NodeType.NPC, tile);
         this.id = id;
@@ -951,42 +956,6 @@ public class NPC extends Entity {
 
     public Tile walkTo;
     public Predicate<Tile> skipReachCheck;
-
-    public void performGreatOlmAttack(Party party) {
-        if (party.getCurrentPhase() == 3) {
-            if (tile().getX() >= 3238) {
-                if (spawnDirection == Direction.SOUTH.toInteger())
-                    party.forPlayers(player -> player.getPacketSender().sendObjectAnimation(party.getGreatOlmObject(), 7372));
-                else if (spawnDirection == Direction.NORTH.toInteger())
-                    party.forPlayers(player -> player.getPacketSender().sendObjectAnimation(party.getGreatOlmObject(), 7373));
-                else if (spawnDirection == Direction.NONE.toInteger())
-                    party.forPlayers(player -> player.getPacketSender().sendObjectAnimation(party.getGreatOlmObject(), 7371));
-            } else {
-                if (spawnDirection == Direction.SOUTH.toInteger())
-                    party.forPlayers(player -> player.getPacketSender().sendObjectAnimation(party.getGreatOlmObject(), 7373));
-                else if (spawnDirection == Direction.NORTH.toInteger())
-                    party.forPlayers(player -> player.getPacketSender().sendObjectAnimation(party.getGreatOlmObject(), 7372));
-                else if (spawnDirection == Direction.NONE.toInteger())
-                    party.forPlayers(player -> player.getPacketSender().sendObjectAnimation(party.getGreatOlmObject(), 7371));
-            }
-        } else {
-            if (tile().getX() >= 3238) {
-                if (spawnDirection == Direction.SOUTH.toInteger())
-                    party.forPlayers(player -> player.getPacketSender().sendObjectAnimation(party.getGreatOlmObject(), 7347));
-                else if (spawnDirection == Direction.NORTH.toInteger())
-                    party.forPlayers(player -> player.getPacketSender().sendObjectAnimation(party.getGreatOlmObject(), 7346));
-                else if (spawnDirection == Direction.NONE.toInteger())
-                    party.forPlayers(player -> player.getPacketSender().sendObjectAnimation(party.getGreatOlmObject(), 7345));
-            } else {
-                if (spawnDirection == Direction.SOUTH.toInteger())
-                    party.forPlayers(player -> player.getPacketSender().sendObjectAnimation(party.getGreatOlmObject(), 7346));
-                else if (spawnDirection == Direction.NORTH.toInteger())
-                    party.forPlayers(player -> player.getPacketSender().sendObjectAnimation(party.getGreatOlmObject(), 7347));
-                else if (spawnDirection == Direction.NONE.toInteger())
-                    party.forPlayers(player -> player.getPacketSender().sendObjectAnimation(party.getGreatOlmObject(), 7345));
-            }
-        }
-    }
 
     public void remove() {
         World.getWorld().unregisterNpc(this);

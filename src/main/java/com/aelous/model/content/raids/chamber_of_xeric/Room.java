@@ -1,6 +1,5 @@
 package com.aelous.model.content.raids.chamber_of_xeric;
 
-import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.aelous.model.content.raids.chamber_of_xeric.reward.ChamberOfXericReward;
 import com.aelous.model.content.raids.party.Party;
 import com.aelous.model.entity.player.Player;
@@ -81,9 +80,6 @@ public class Room extends PacketInteraction {
             if (object.getId() == MYSTICAL_BARRIER) {
                 Tile bossRoomTile = new Tile(3232, 5730, player.tile().level);
                 player.teleport(bossRoomTile);
-                if (!party.bossFightStarted()) {
-                    GreatOlm.start(party);
-                }
                 return true;
             }
 

@@ -31,7 +31,7 @@
       "death": 4167
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.theatre.VerzikCombatScript"
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.verzik.VerzikVitur"
     }
   },
   {

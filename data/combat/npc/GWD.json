@@ -71,7 +71,7 @@
       "death": 836
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Fumus"
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.bodyguard.Fumus"
     }
   },
   {
@@ -106,7 +106,7 @@
       "death": 836
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Umbra"
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.bodyguard.Umbra"
     }
   },
   {
@@ -141,7 +141,7 @@
       "death": 836
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Cruor"
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.bodyguard.Cruor"
     }
   },
   {
@@ -176,7 +176,7 @@
       "death": 836
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Glacies"
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.bodyguard.Glacies"
     }
   },
   {
@@ -211,7 +211,7 @@
       "death": 9192
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.BloodReaver"
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.minions.BloodReaver"
     }
   },
   {

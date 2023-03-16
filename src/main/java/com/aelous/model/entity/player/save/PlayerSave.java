@@ -1917,7 +1917,7 @@ public class PlayerSave {
             claimedDonatorRewards = Player.getAttribBooleanOr(player, CLAIMED_DONATOR_REWARDS, false);
             snowMonsterTimer = Player.getAttribIntOr(player, SNOW_MONSTER_TIMER,500);
             lastPet = player.getPet().getCurrentPetAsId();
-            System.err.println("saving info = "+lastPet);
+            //System.err.println("saving info = "+lastPet);
         }
 
         public void parseDetails() throws Exception {

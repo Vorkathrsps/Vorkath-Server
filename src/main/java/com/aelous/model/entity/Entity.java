@@ -361,7 +361,7 @@ public abstract class Entity {
         int caret = 0;
         for (int idx = 0; idx < 2048; idx++) {
             Player p = World.getWorld().getPlayers().get(idx);
-            if (p == null || p == this || p.tile().level != tile().level || p.looks().hidden() || p.finished()) {
+            if (p == null || p == this || p.tile() == null || p.tile().level != tile().level || p.looks().hidden() || p.finished()) {
                 continue;
             }
             if (tile().distance(p.tile()) > span)
@@ -388,7 +388,7 @@ public abstract class Entity {
         int caret = 0;
         for (int idx = 0; idx < World.getWorld().getNpcs().size(); idx++) {
             NPC npc = World.getWorld().getNpcs().get(idx);
-            if (npc == null || npc == this || npc.tile().level != tile().level || npc.finished()) {
+            if (npc == null || npc == this || npc.tile() == null || npc.tile().level != tile().level || npc.finished()) {
                 continue;
             }
             if (tile().distance(npc.tile()) > span)

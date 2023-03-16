@@ -848,6 +848,11 @@ public class Player extends Entity {
         this.skills = skills;
     }
 
+    @Override
+    public Skills skills() {
+        return skills;
+    }
+
     /**
      * Our appearance (clothes, colours, gender)
      */

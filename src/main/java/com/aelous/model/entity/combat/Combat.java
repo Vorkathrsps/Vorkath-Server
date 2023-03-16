@@ -344,7 +344,7 @@ public class Combat {
             return;
         }
 
-        final Entity targ = target;
+        final Entity target = this.target;
 
         int combatAttackTicksRemaining = mob.getTimers().left(TimerKey.COMBAT_ATTACK);
 
@@ -353,7 +353,6 @@ public class Combat {
             if (mob.isPlayer() && target.isPlayer()) {
                 if (WildernessArea.inWild((Player) mob)) {
                     Player player = mob.getAsPlayer();
-                    Player target = targ.getAsPlayer();
 
                     Skulling.skull(player, target, SkullType.WHITE_SKULL);
                 }

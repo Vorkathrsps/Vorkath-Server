@@ -30,6 +30,7 @@ public class Nex extends NPC {
 
     public Nex(int id, Tile tile) {
         super(id, tile);
+        useSmartPath = true;
     }
 
     public BodyguardPhase bodyguardPhase = null;

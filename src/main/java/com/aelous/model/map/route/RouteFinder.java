@@ -111,7 +111,8 @@ public class RouteFinder {
             route.finishX = movement.getStepsX()[movement.writeOffset - 1];
             route.finishY = movement.getStepsY()[movement.writeOffset - 1];
         }
-        if (entity.isMovementBlocked(message, ignoreFreeze)) entity.getMovement().reset();
+        if (entity.isMovementBlocked(message, ignoreFreeze))
+            entity.getMovement().reset();
     }
 
     /**

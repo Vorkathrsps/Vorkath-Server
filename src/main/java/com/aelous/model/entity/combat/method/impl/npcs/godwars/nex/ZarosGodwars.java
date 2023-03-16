@@ -67,9 +67,13 @@ public class ZarosGodwars {
     }
 
     public static void startEvent() {
+        if (nex != null && !nex.isRegistered()) {
+            clear();
+        }
         if (nex == null) {
             NEX_EVENT_ACTIVE = true;
             Nex nex = new Nex(NEX, new Tile(2924, 5202, 0));
+            nex.lockMovement();
             ZarosGodwars.nex = nex;
             Chain.bound(null).then(GameServer.properties().production ? 20 : 5, () -> {
                 nex.spawn(false);

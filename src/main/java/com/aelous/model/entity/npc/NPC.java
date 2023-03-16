@@ -507,10 +507,10 @@ public class NPC extends Entity {
                 }, to -> NpcPerformance.npcA += to.toNanos());
 
                 accumulateRuntimeTo(() -> {
-                    if (id == 8063)
+                    if (useSmartPath)
                         TargetRoute.beforeMovement(this);
                     getMovementQueue().process();
-                    if (id == 8063)
+                    if (useSmartPath)
                         TargetRoute.afterMovement(this);
                 }, d -> NpcPerformance.cumeNpcB += d.toNanos());
 

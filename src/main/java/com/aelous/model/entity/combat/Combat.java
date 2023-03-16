@@ -179,7 +179,7 @@ public class Combat {
         if (target != null) {
             if (!CombatFactory.canAttack(mob, method, target))
                 reset();
-            else if (target != null && (mob.isPlayer() || (mob.isNpc() && mob.getAsNpc().id() == ZOMBIFIED_SPAWN_8063)))
+            else if (target != null && (mob.isPlayer() || (mob.isNpc() && mob.getAsNpc().useSmartPath)))
                 TargetRoute.set(mob, target, method.getAttackDistance(mob));
         }
     }

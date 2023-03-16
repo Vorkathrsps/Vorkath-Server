@@ -736,7 +736,7 @@ public class NexCombat extends CommonCombatMethod {
 
     @Override
     public void doFollowLogic() {
-        DumbRoute.step(entity, target, 1);
+        TargetRoute.set(entity, target, 1);
     }
 
     @Override

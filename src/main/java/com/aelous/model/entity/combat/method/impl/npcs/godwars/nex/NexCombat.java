@@ -33,6 +33,7 @@ import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.route.routes.DumbRoute;
+import com.aelous.model.map.route.routes.TargetRoute;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 
@@ -637,7 +638,7 @@ public class NexCombat extends CommonCombatMethod {
             t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), 3, CombatType.MAGIC).checkAccuracy().postDamage(h -> {
                 if (h.isAccurate() && !Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MAGIC)) {
                     h.getTarget().graphic(2005);
-                    h.getTarget().freeze(20, nex);
+                    h.getTarget().freeze(33, nex);
                     int drain = t.player().getEquipment().hasAt(EquipSlot.SHIELD, SPECTRAL_SPIRIT_SHIELD) ? h.getDamage() / 3 : h.getDamage() / 2;
                     h.getTarget().skills().alterSkill(Skills.PRAYER, -drain);
                 }

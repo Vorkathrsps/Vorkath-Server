@@ -1153,6 +1153,7 @@ public final class PacketSender {
 
     public PacketSender darkenScreen(int i) {
         // osrs is cs2, 317 needs hardcoding?
+        sendScreenFade("", i, 5);
         return this;
     }
 

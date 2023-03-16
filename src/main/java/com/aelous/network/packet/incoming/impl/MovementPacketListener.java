@@ -73,7 +73,10 @@ public class MovementPacketListener implements PacketListener {
                 CombatFactory.unfreezeWhenOutOfRange(player);
             }
 
-            if (player.frozen() && !WildernessArea.inWilderness(player.tile()) || !WildernessArea.inWilderness(freezer.tile()) || !freezer.isRegistered()) {
+            if (player.frozen() && freezer.isPlayer()
+                && (!WildernessArea.inWilderness(player.tile()) && WildernessArea.inWilderness(freezer.tile()))
+                || (WildernessArea.inWilderness(player.tile()) && !WildernessArea.inWilderness(freezer.tile()))
+            ) {
                 CombatFactory.unfreezeWhenOutOfRange(player);
             }
         }

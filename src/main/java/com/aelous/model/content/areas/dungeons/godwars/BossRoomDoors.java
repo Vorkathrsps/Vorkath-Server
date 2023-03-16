@@ -60,6 +60,7 @@ public class BossRoomDoors extends PacketInteraction {
             if(obj.getId() == 42967) {
                 if(player.getX() <= 2908) {
                     player.teleport(new Tile(2910, 5203, 0));
+                    ZarosGodwars.startEvent();
                 }
                 return true;
             }

@@ -18,6 +18,9 @@ import org.apache.logging.log4j.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_ACTIVE;
+import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_UNLOCKED;
+
 public class CommandManager {
 
     private static final Logger commandLogs = LogManager.getLogger("CommandLogs");
@@ -304,6 +307,18 @@ public class CommandManager {
             @Override
             public void execute(Player player, String command, String[] parts) {
                 player.varps().varbit(Varbit.IN_WILDERNESS, 1);
+            }
+
+            @Override
+            public boolean canUse(Player player) {
+                return true;
+            }
+        });
+        commands.put("test1", new Command() {
+            @Override
+            public void execute(Player player, String command, String[] parts) {
+                player.putAttrib(LOOT_KEYS_ACTIVE, true);
+                player.putAttrib(LOOT_KEYS_UNLOCKED, true);
             }
 
             @Override

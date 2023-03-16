@@ -41,8 +41,6 @@ import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.items.ground.GroundItemHandler;
-import com.aelous.model.map.object.GameObject;
-import com.aelous.model.map.object.ObjectManager;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
@@ -892,7 +890,7 @@ public class NPCDeath {
         boolean untrade_notifications = killer.getAttribOr(AttributeKey.UNTRADABLE_LOOT_NOTIFICATIONS, false);
         int lootDropThresholdValue = killer.getAttribOr(AttributeKey.LOOT_DROP_THRESHOLD_VALUE, 0);
         if (notifications_enabled) {
-            if (loot.untradable()) {
+            if (!loot.rawtradable()) {
                 if (untrade_notifications) {
                     killer.message("Untradable drop: " + loot.getAmount() + " x <col=cc0000>" + loot.name() + "</col>.");
                 }

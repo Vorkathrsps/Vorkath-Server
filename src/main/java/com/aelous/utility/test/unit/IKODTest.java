@@ -65,7 +65,7 @@ public class IKODTest {
 
     @Test
     public void untradable1() {
-        assertFalse(new Item(PET_ZILYANA).untradable());
+        assertFalse(new Item(PET_ZILYANA).rawtradable());
     }
 
     //We no longer use getEmblem().getItemId() so I believe this test is unnecessary and invalid.
@@ -77,17 +77,17 @@ public class IKODTest {
 
     @Test
     public void rsUntradableRP() {
-        assertFalse(new Item(RUNE_POUCH).untradable());
+        assertFalse(new Item(RUNE_POUCH).rawtradable());
     }
 
     @Test
     public void tradable2() {
-        assertFalse(new Item(AncientArtifacts.ANCIENT_EMBLEM.getItemId()).untradable());
+        assertFalse(new Item(AncientArtifacts.ANCIENT_EMBLEM.getItemId()).rawtradable());
     }
 
     @Test
     public void tradable4() {
-        assertTrue(new Item(SARADOMINS_BLESSED_SWORD).untradable());
+        assertTrue(new Item(SARADOMINS_BLESSED_SWORD).rawtradable());
     }
 
     // idk expected for these

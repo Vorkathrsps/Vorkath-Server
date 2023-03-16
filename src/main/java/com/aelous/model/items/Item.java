@@ -395,7 +395,7 @@ public class Item implements Cloneable {
         return def.stackable();
     }
 
-    public boolean untradable() {
+    public boolean rawtradable() {
         ItemDefinition def = definition(World.getWorld());
         return (def == null || id == ItemIdentifiers.PLATINUM_TOKEN || id == COINS_995 || def.grandexchange || def.noteModel > 0 || def.notelink > 0 || TRADABLES.contains(id));
     }
@@ -586,8 +586,8 @@ public class Item implements Cloneable {
         }
     };
 
-    public boolean untradables() {
-        return false;
+    public boolean untradable() {
+        return !rawtradable();
     }
 
     public boolean isSpawnable() {

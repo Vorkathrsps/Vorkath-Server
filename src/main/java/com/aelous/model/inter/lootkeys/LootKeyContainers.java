@@ -14,7 +14,6 @@ import org.apache.logging.log4j.MarkerManager;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 
 import static com.aelous.model.entity.attributes.AttributeKey.*;
@@ -86,31 +85,21 @@ public class LootKeyContainers {
         var valuableThreshold = killer.<Integer>getAttribOr(LOOT_KEYS_VALUABLE_ITEM_THRESHOLD, 0);
 
         // Filter out the null items, untradeables and spawnable items.
-        /*items.removeIf(item -> item == null || item.definition() == null || item.untradable() || item.isSpawnable());
-
-        // Store the filtered items into a new list
-        LinkedList<Item> filteredItems = new LinkedList<>();
-        items.forEach(item -> {
-            if ((!storeConsumable && item.definition().consumable) || (keepValuables && item.getValue() < valuableThreshold)) {
-                filteredItems.add(item);
+        items.removeIf(item -> {
+            if (item.untradable() || item.isSpawnable()) {
+                var groundItem = new GroundItem(item, dead.tile(), killer).pkedFrom(dead.getUsername());
+                GroundItemHandler.createGroundItem(groundItem);
+                logger.info("reject {}", item.definition());
+                return true;
             }
-        });*/
 
-       // logger.debug(marker, "Items filtered: " + Arrays.toString(filteredItems.toArray()));
-        //System.out.println("Items filtered: " + Arrays.toString(filteredItems.toArray()));
-
-        /*for (Item item : filteredItems) {
-            if (item == null) continue;
-            var groundItem = new GroundItem(item, dead.tile(), killer).pkedFrom(dead.getUsername());
-            GroundItemHandler.createGroundItem(groundItem);
-        }
-
-        filteredItems.clear(); // Clear the list after we've dropped the items.
-*/
-        // Now actually filter out our settings
-        //items.removeIf(item -> (!storeConsumable && item.definition().consumable) || (keepValuables && item.getValue() < valuableThreshold));
-
-       // System.out.println("Filtered items: "+ Arrays.toString(filteredItems.toArray()));
+            if ((!storeConsumable && item.definition().consumable) || (keepValuables && item.getValue() < valuableThreshold)) {
+                var groundItem = new GroundItem(item, dead.tile(), killer).pkedFrom(dead.getUsername());
+                GroundItemHandler.createGroundItem(groundItem);
+                return true;
+            }
+            return false;
+        });
 
         System.out.println("currently lost items "+items);
 

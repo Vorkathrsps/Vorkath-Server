@@ -129,7 +129,7 @@ public final class GroundItemHandler {
                 Item item = new Item(groundItem.getItem().getId());
 
                 //If the item is a non-tradable item continue
-                if (!item.untradable()) {
+                if (!item.rawtradable()) {
                     continue;
                 }
 
@@ -190,7 +190,7 @@ public final class GroundItemHandler {
 
             Item items = new Item(item.getItem().getId());
 
-            if (items.untradable() || item.getOwnerHash() == player.getLongUsername()) {
+            if (items.rawtradable() || item.getOwnerHash() == player.getLongUsername()) {
 
                 if (item.getState() == State.SEEN_BY_EVERYONE || item.getOwnerHash() == player.getLongUsername()) {
                     //System.out.println(String.format("spawned: %s%n", item));

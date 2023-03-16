@@ -726,7 +726,7 @@ public class TradingPost {
                 return false;
             }
 
-            if (!offerItem.untradable()) {
+            if (!offerItem.rawtradable()) {
                 player.message("<col=ff0000>You can't offer this item.");
                 return false;
             }

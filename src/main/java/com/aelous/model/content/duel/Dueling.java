@@ -421,7 +421,7 @@ public class Dueling {
                 return;
             }
             Item stakeItem = new Item(id, amount);
-            if (!stakeItem.untradable()) {
+            if (!stakeItem.rawtradable()) {
                 player.message("You cannot stake that item.");
                 return;
             }

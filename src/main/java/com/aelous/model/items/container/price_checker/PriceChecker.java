@@ -56,7 +56,7 @@ public class PriceChecker extends ItemContainer {
         if (item == null)
             return;
 
-        if (!item.untradable()) {
+        if (!item.rawtradable()) {
             player.message("This item isn't tradeble!");
             return;
         }

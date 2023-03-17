@@ -6,6 +6,7 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 
 /**
  * @author Patrick van Elderen <https://github.com/PVE95>
@@ -16,14 +17,14 @@ public class BloodReaver extends CommonCombatMethod {
     @Override
     public void prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
-        var tileDist = entity.tile().transform(1, 1, 0).distance(target.tile());
-        var delay = Math.max(1, (50 + (tileDist * 12)) / 30);
-        Projectile projectile = new Projectile(entity, target, 2000, 35, 20 * tileDist, 45, 30, 0);
-        projectile.sendProjectile();
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (51 + -5 + (10 * tileDist));
+        Projectile p = new Projectile(entity, target, 2000, 35, duration, 31, 0, 0, target.getSize(), 10);
+        final int delay = entity.executeProjectile(p);
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC);
         hit.checkAccuracy().submit();
         if(hit.isAccurate()) {
-            target.graphic(2001);
+            target.graphic(2001, GraphicHeight.HIGH, p.getSpeed());
         }
     }
 

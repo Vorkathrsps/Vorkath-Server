@@ -15,7 +15,7 @@ public class Flags {
     /**
      * The flag which denotes a bridge tile.
      */
-    public static final int BRIDGE = 0x40000;
+    public static final int FLOOR_DECORATION = 0x40000;
 
     /**
      * The flag which denotes a blocked tile.
@@ -31,6 +31,11 @@ public class Flags {
      * The flag for a south facing wall.
      */
     public static final int WALL_SOUTH = 0x20;
+
+    /**
+     * Object
+     */
+    public static final int OBJECT = 0x100;
 
     /**
      * The flag for a east facing wall.
@@ -65,7 +70,7 @@ public class Flags {
     /**
      * The flag for an object occupant, which is impenetrable.
      */
-    public static final int IMPENETRABLE_BLOCKED = 0x20000;
+    public static final int FLOOR = 0x20000;
 
     /**
      * The flag for a impenetrable north facing wall.

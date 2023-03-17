@@ -1,11 +1,10 @@
 package com.aelous.model.entity.combat.method.impl.npcs.godwars.nex;
 
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
-import com.aelous.core.task.TaskManager;
-import com.aelous.core.task.impl.ForceMovementTask;
 import com.aelous.model.World;
 import com.aelous.model.content.EffectTimer;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
@@ -13,16 +12,14 @@ import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
-import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.masks.FaceDirection;
-import com.aelous.model.entity.masks.ForceMovement;
 import com.aelous.model.entity.masks.Projectile;
+import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
+import com.aelous.model.entity.masks.impl.tinting.Tinting;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.npc.NPCCombatInfo;
-import com.aelous.model.entity.npc.NPCDeath;
 import com.aelous.model.entity.npc.droptables.ScalarLootTable;
-import com.aelous.model.entity.npc.pets.Pet;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
@@ -32,7 +29,7 @@ import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
-import com.aelous.model.map.route.routes.DumbRoute;
+import com.aelous.model.map.route.routes.ProjectileRoute;
 import com.aelous.model.map.route.routes.TargetRoute;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
@@ -76,7 +73,7 @@ public class NexCombat extends CommonCombatMethod {
     private static final int CONTAINMENT_SPECIAL_ATTACK_MAX = 60;
     private static final int ICE_PRISON_SPECIAL_ATTACK_MAX = 75;
 
-    private static final int[] DRAIN = { Skills.ATTACK, Skills.STRENGTH, Skills.DEFENCE};
+    private static final int[] DRAIN = {Skills.ATTACK, Skills.STRENGTH, Skills.DEFENCE};
 
     static GameObject redBarrier;// = new GameObject(42941, ancientBarrierPurple.get().tile(), ancientBarrierPurple.get().getType(), ancientBarrierPurple.get().getRotation());
 
@@ -198,8 +195,7 @@ public class NexCombat extends CommonCombatMethod {
     private void zarosMelee(Entity target) {
         nex.animate(MELEE_ATTACK_ZAROS_PHASE);
         int damage = nex.combatInfo().maxhit;
-        if (nex.turmoil)
-            damage *= 1.50;
+        if (nex.turmoil) damage *= 1.50;
 
         //Nex hits through prayer when turmoil is activated but random
         if (World.getWorld().rollDie(10, 2) && nex.turmoil) {
@@ -243,25 +239,32 @@ public class NexCombat extends CommonCombatMethod {
     }
 
     private void bloodSacrifice(Entity target) {
+        short delay = 0;
+        short duration = 240;
+        byte hue = 0;
+        byte sat = 6;
+        byte lum = 28;
+        byte opac = 108;
         nex.forceChat("I demand a blood sacrifice!");
         final Player player = (Player) target;
         player.message("Nex has marked you as a sacrifice, RUN!");
 
-        //marked player has about four seconds to move at least seven tiles away from Nex, otherwise they will be dealt up to 40 damage through
-        // Protect from Magic which heals her and drains the player's current prayer points by 1/3rd.
-        Chain.bound(null).runFn(8, () ->{
-            int damage = Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MAGIC) ? 40 : BLOOD_SACRIFICE_ATTACK_MAX;
-            if (player.tile().isWithinDistance(nex.tile(), 7)) {
-                player.graphic(2003);
-                player.hit(nex, damage);
-                nex.heal(damage);
-                int currentLevel = player.skills().level(Skills.PRAYER);
-                int drain = currentLevel / 3;
-                player.skills().alterSkill(Skills.PRAYER, -drain);
-                player.message("You didn't make it far enough in time - Nex fires a punishing attack!");
-            }
+        for (final Entity selectedTarget : getPossibleTargets(nex)) {
+            selectedTarget.setTinting(new Tinting(delay, duration, hue, sat, lum, opac), target);
+        }
 
-            //Closest players will also take up to 12 damage through Protect from Magic, and their prayer is drained by 1/3rd as well.
+        Chain.bound(null).name("bloodsacrifice").cancelWhen(() -> {
+            return !entity.tile().isWithinDistance(target.tile(), 5) || target.dead() || entity.dead(); // cancels as expected
+        }).runFn(8, () -> {
+            int damage = Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MAGIC) ? 40 : BLOOD_SACRIFICE_ATTACK_MAX;
+            player.performGraphic(new Graphic(2003, GraphicHeight.HIGH, 1));
+            player.hit(nex, damage);
+            nex.heal(damage);
+            int currentLevel = player.skills().level(Skills.PRAYER);
+            int drain = currentLevel / 3;
+            player.skills().alterSkill(Skills.PRAYER, -drain);
+            player.message("You didn't make it far enough in time - Nex fires a punishing attack!");
+
             for (final Entity t : getPossibleTargets(nex)) {
                 if (t.tile().isWithinDistance(player.tile(), 7)) {
                     damage = World.getWorld().random(1, 12);
@@ -284,20 +287,21 @@ public class NexCombat extends CommonCombatMethod {
             nex.animate(BLOOD_SIPHON_ANIM);
             nex.doingSiphon = true;
             int maxMinions = nex.closePlayers().length;
-            if(maxMinions > 8) {
+            if (maxMinions > 8) {
                 maxMinions = 8;
             }
             if (maxMinions != 0) {
                 for (int i = 0; i < maxMinions; i++) {
-                    Tile tile = Utils.randomElement(nex.getCentrePosition().area(7, t -> World.getWorld().meleeClip(t.x, t.y, t.level) == 0));
-                    NPC bloodReaver = new NPC(BLOOD_REAVER, tile);
+                    List<Tile> tiles = nex.tile().area(7, pos -> World.getWorld().clipAt(pos) == 0 && !pos.equals(entity.tile()) && !ProjectileRoute.allow(entity, pos));
+                    Tile destination = Utils.randomElement(tiles);
+                    NPC bloodReaver = new NPC(BLOOD_REAVER, destination);
                     if (nex.bloodReavers != null)
                         nex.bloodReavers.add(bloodReaver);
                     bloodReaver.spawn(false);
                     bloodReaver.graphic(2017);
                 }
             }
-            Chain.bound(null).runFn(8, () ->{
+            Chain.bound(null).runFn(8, () -> {
                 nex.doingSiphon = false;
                 nex.unlock();
             });
@@ -305,33 +309,33 @@ public class NexCombat extends CommonCombatMethod {
     }
 
     private void bloodBarrage() {
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (51 + -5 + (10 * tileDist));
+        Projectile p = new Projectile(entity, target, 2002, 51, duration, 43, 0, 0, target.getSize(), 10);
+        final int delay = entity.executeProjectile(p);
         nex.animate(MAGIC_ATTACK_ANIM);
-        nex.graphic(2001);
-
+        nex.graphic(2001, GraphicHeight.HIGH, 0);
         for (Entity t : getPossibleTargets(nex)) {
-            //Ignore players outside the Nex fighting area
             if (!inNexArea(t.tile())) {
                 continue;
             }
-            Projectile projectile = new Projectile(nex, t, 2002, 0, 100, 43, 31, 0);
-            projectile.sendProjectile();
-            t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), 3, CombatType.MAGIC).checkAccuracy().postDamage(h -> {
+            t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), delay, CombatType.MAGIC).checkAccuracy().postDamage(h -> {
                 if (h.isAccurate()) {
                     int heal = h.getDamage() / 4;
                     if (heal <= 0) {
                         heal = 1;
                     }
                     nex.healHit(nex, heal);
-                    h.getTarget().graphic(2003);
                 }
             }).submit();
+            target.graphic(2001, GraphicHeight.HIGH, p.getSpeed());
         }
     }
 
     public static boolean inNexArea(Tile tile) {
         return tile.inArea(NEX_AREA);
     }
-    
+
     private void embraceDarkness() {
         nex.forceChat("Embrace darkness!");
         nex.animate(EMBRACE_DARKNESS_ATTACK_ANIM);
@@ -355,14 +359,11 @@ public class NexCombat extends CommonCombatMethod {
                         return;
                     }
 
-                    //The closer players are to Nex, the darker the room will be.
                     int distance = Utils.getDistance(player.getX(), player.getY(), nex.getX(), nex.getY());
                     int opacity = 200 - (distance * 17);
-                    if (opacity <= 30)
-                        opacity = 30;
+                    if (opacity <= 30) opacity = 30;
                     player.getPacketSender().darkenScreen(opacity);
 
-                    // If players stand next to Nex, they will take constant damage from the pure shadow.
                     if (distance <= 3) {
                         player.hit(nex, 5);
                     }
@@ -371,7 +372,7 @@ public class NexCombat extends CommonCombatMethod {
         }
 
         //Extra safety reset all players screen opactity
-        Chain.bound(null).runFn(33, () ->{
+        Chain.bound(null).runFn(33, () -> {
             for (Entity targets : getPossibleTargets(nex)) {
                 if (targets instanceof Player player) {
                     player.getPacketSender().darkenScreen(0);
@@ -386,7 +387,6 @@ public class NexCombat extends CommonCombatMethod {
         ArrayList<Entity> possibleTargets = getPossibleTargets(nex);
         final HashMap<String, int[]> tiles = new HashMap<>();
         for (Entity t : possibleTargets) {
-            //Ignore players outside the Nex fighting area
             if (!inNexArea(t.tile())) {
                 continue;
             }
@@ -395,15 +395,12 @@ public class NexCombat extends CommonCombatMethod {
                 tiles.put(key, new int[]{t.getX(), t.getY()});
             }
         }
-
-        //Set up the tile graphics
         List<GameObject> shadows = new ArrayList<>();
-        Chain.bound(null).runFn(1, () ->{
+        Chain.bound(null).runFn(1, () -> {
             for (int[] tile : tiles.values()) {
                 shadows.add(GameObject.spawn(42942, tile[0], tile[1], 0, 10, 0));
             }
-            //Players have 3 ticks to move
-        }).then(3, () ->{
+        }).then(3, () -> {
             for (GameObject obj : shadows) {
                 obj.remove();
             }
@@ -420,16 +417,15 @@ public class NexCombat extends CommonCombatMethod {
     }
 
     private void shadowShots() {
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (51 + -5 + (10 * tileDist));
         nex.animate(MAGIC_ATTACK_ANIM);
         for (Entity t : getPossibleTargets(nex)) {
-            //Ignore players outside the Nex fighting area
             if (!inNexArea(t.tile())) {
                 continue;
             }
-            Projectile projectile = new Projectile(nex, t, 378, 0, 100, 43, 31, 0);
-            projectile.sendProjectile();
-
-            //Players will take more damage from the shadow shots the closer to Nex they are, up to 30.
+            Projectile p = new Projectile(nex, t, 378, 51, duration, 43, 35, 0, t.getSize(), 10);
+            final int delay = nex.executeProjectile(p);
             int damage = 0;
             if (t.tile().distance(nex.tile()) <= 2) {
                 damage = RANGED_ATTACK_MAX;
@@ -438,19 +434,16 @@ public class NexCombat extends CommonCombatMethod {
             } else if (t.tile().distance(nex.tile()) > 6) {
                 damage = RANGED_ATTACK_MAX - 30;
             }
-
-            // Having Protect from Missiles active will cut the damage taken in half.
             if (Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MISSILES)) {
                 damage = damage / 2;
             }
-
-            t.hit(nex, World.getWorld().random(damage), 3, CombatType.RANGED).ignorePrayer().checkAccuracy().postDamage(h -> {
+            t.hit(nex, World.getWorld().random(damage), delay, CombatType.RANGED).ignorePrayer().checkAccuracy().postDamage(h -> {
                 // Successful hits can drain prayer points slightly, which can be reduced by the spectral spirit shield.
                 if (h.isAccurate()) {
-                    t.graphic(379);
                     t.skills().alterSkill(Skills.PRAYER, t.player().getEquipment().hasAt(EquipSlot.SHIELD, SPECTRAL_SPIRIT_SHIELD) ? -2 : -3);
                 }
             }).submit();
+            t.graphic(379, GraphicHeight.MIDDLE, p.getSpeed());
         }
     }
 
@@ -476,19 +469,24 @@ public class NexCombat extends CommonCombatMethod {
         nex.faceEntity(null);
         var start = nex.tile();
 
-        Chain.bound(null).runFn(3, () ->{
+        Chain.bound(null).runFn(3, () -> {
             var face = FaceDirection.forTargetTile(start, selectedTile);
-            final ForceMovement fm = new ForceMovement(selectedTile, null, 15, 0, face);
+            //final ForceMovement fm = new ForceMovement(selectedTile, null, 15, 0, face);
             // nex.forceChat(face+" 1");
-            nex.setForceMovement(fm);
-        }).then(1, () ->{
+            //nex.setForceMovement(fm);
+            nex.lock();
+            nex.getMovementQueue().clear();
+            nex.teleport(selectedTile);
+        }).then(1, () -> {
             //nex.face(Direction.getDirection(selectedTile, center));
+            nex.setPositionToFace(center);
             nex.forceChat("NO ESCAPE!");
-        }).then(1, () ->{ // lands
+        }).then(1, () -> { // lands
             var face = FaceDirection.forTargetTile(selectedTile, center);
-            final ForceMovement fm = new ForceMovement(center, null, 60, 0, face);
+            //final ForceMovement fm = new ForceMovement(center, null, 60, 0, face);
             //  nex.forceChat(face+" 2");
-            nex.setForceMovement(fm);
+            //nex.setForceMovement(fm);
+            nex.stepAbs(center.getX(), center.getY(), MovementQueue.StepType.FORCED_RUN);
 
             //Look for potential victims
             for (Entity p : nex.calculatePossibleTargets(center, selectedTile, idx == 0 || idx == 2)) {
@@ -501,12 +499,12 @@ public class NexCombat extends CommonCombatMethod {
                         p.stun(2, true);
                         int diffX = center.x - p.getAbsX();
                         int diffY = center.y - p.getAbsY();
-                        TaskManager.submit(new ForceMovementTask(p.player(), 3, new ForceMovement(p.tile().clone(), new Tile(diffX, diffY), 10, 60, idx == 3 ? FaceDirection.WEST : idx == 2 ? FaceDirection.NORTH_EAST : idx == 1 ? FaceDirection.NORTH : FaceDirection.NORTH_WEST)));
+                        //TaskManager.submit(new ForceMovementTask(p.player(), 3, new ForceMovement(p.tile().clone(), new Tile(diffX, diffY), 10, 60, idx == 3 ? FaceDirection.WEST : idx == 2 ? FaceDirection.NORTH_EAST : idx == 1 ? FaceDirection.NORTH : FaceDirection.NORTH_WEST)));
                         p.unlock();
                     });
                 }
             }
-        }).then(7, () ->{
+        }).then(7, () -> {
             nex.teleport(center);
             nex.animate(nex.def().standingAnimation);
             nex.unlock();
@@ -533,18 +531,14 @@ public class NexCombat extends CommonCombatMethod {
             int vecX = (nex.getAbsX() - Utils.getClosestX(nex, target.tile()));
             int vecY = (nex.getAbsY() - Utils.getClosestY(nex, target.tile()));
             FaceDirection dir;
-            if (vecX == -1)
-                dir = FaceDirection.EAST;
-            else if (vecX == 1)
-                dir = FaceDirection.WEST;
-            else if (vecY == -1)
-                dir = FaceDirection.NORTH;
-            else
-                dir = FaceDirection.SOUTH;
+            if (vecX == -1) dir = FaceDirection.EAST;
+            else if (vecX == 1) dir = FaceDirection.WEST;
+            else if (vecY == -1) dir = FaceDirection.NORTH;
+            else dir = FaceDirection.SOUTH;
 
             Tile tile = Utils.randomElement(nex.getCentrePosition().area(7, t -> World.getWorld().meleeClip(t.x, t.y, t.level) == 0));
             // Cancel when player is not in the Nex region
-            Chain.bound(null).cancelWhen(() -> target.tile().region() != 11601).runFn(1, () ->{
+            Chain.bound(null).cancelWhen(() -> target.tile().region() != 11601).runFn(1, () -> {
                 final Player p = target.getAsPlayer();
                 p.lock();
                 p.getMovement().reset();
@@ -555,7 +549,7 @@ public class NexCombat extends CommonCombatMethod {
                 CombatFactory.disableProtectionPrayers(p);
                 int diffX = tile.x - p.getAbsX();
                 int diffY = tile.y - p.getAbsY();
-                TaskManager.submit(new ForceMovementTask(p, 3, new ForceMovement(p.tile().clone(), new Tile(diffX, diffY), 10, 60, dir)));
+                //TaskManager.submit(new ForceMovementTask(p, 3, new ForceMovement(p.tile().clone(), new Tile(diffX, diffY), 10, 60, dir)));
                 p.unlock();
             });
         }
@@ -580,8 +574,7 @@ public class NexCombat extends CommonCombatMethod {
             if (!inNexArea(t.tile())) {
                 continue;
             }
-            if (hit.contains(t))
-                continue;
+            if (hit.contains(t)) continue;
             if (Utils.getDistance(t.getX(), t.getY(), infected.getX(), infected.getY()) <= 1) {
                 t.forceChat("*Cough*");
                 t.hit(nex, World.getWorld().random(10));
@@ -604,21 +597,22 @@ public class NexCombat extends CommonCombatMethod {
     }
 
     private void smokeRush() {
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (51 + -5 + (10 * tileDist));
         nex.animate(MAGIC_ATTACK_ANIM);
         for (Entity t : getPossibleTargets(nex)) {
-            //Ignore players outside the Nex fighting area
             if (!inNexArea(t.tile())) {
                 continue;
             }
-            Projectile projectile = new Projectile(nex, t, 384, 0, 100, 43, 31, 0);
-            projectile.sendProjectile();
-            t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), 3, CombatType.MAGIC).checkAccuracy().postDamage(h -> {
+            Projectile p = new Projectile(nex, t, 384, 51, duration, 43, 35, 0, t.getSize(), 10);
+            final int delay = nex.executeProjectile(p);
+            t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), delay, CombatType.MAGIC).checkAccuracy().postDamage(h -> {
                 if (h.isAccurate()) {
                     if (World.getWorld().rollDie(100, 25)) {
                         h.getTarget().hit(nex, 2, SplatType.POISON_HITSPLAT);
                         h.getTarget().poison(2);
                     }
-                    h.getTarget().graphic(1998);
+                    h.getTarget().graphic(1998, GraphicHeight.MIDDLE, p.getSpeed());
                 }
             }).submit();
         }
@@ -627,14 +621,16 @@ public class NexCombat extends CommonCombatMethod {
     //which will freeze them if they are not praying Protect from Magic and lowers their prayer points by half of the damage she deals, reduced to one third by
     // the spectral spirit shield
     private void iceBarrage() {
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (51 + -5 + (10 * tileDist));
         nex.animate(MAGIC_ATTACK_ANIM);
         for (Entity t : getPossibleTargets(nex)) {
             //Ignore players outside the Nex fighting area
             if (!inNexArea(t.tile())) {
                 continue;
             }
-            Projectile projectile = new Projectile(nex, t, 362, 0, 100, 43, 31, 0);
-            projectile.sendProjectile();
+            Projectile p = new Projectile(nex, t, 362, 51, duration, 43, 31, 0, t.getSize(), 10);
+            final int delay = entity.executeProjectile(p);
             t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), 3, CombatType.MAGIC).checkAccuracy().postDamage(h -> {
                 if (h.isAccurate() && !Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MAGIC)) {
                     h.getTarget().graphic(2005);
@@ -647,27 +643,24 @@ public class NexCombat extends CommonCombatMethod {
     }
 
     private void containment() {
-        // Nex will shout Contain this!
         nex.lockMoveDamageOk();
         nex.forceChat("Contain this!");
         nex.animate(SHADOW_SMASH_ATTACK_ANIM);
+        Set<Tile> tiles = nex.tile().expandedBounds(2);
 
-        // She will smash the floor and icicles will appear in a 5x5 area around her
-        Set<Tile> tiles = nex.tile().expandedBounds(2);// radius 2 is a 5x5 area
-
-        // Spawn the icicles
-        Chain.noCtx().runFn(4, () ->{
+        Set<Tile> entityTiles = entity.tile().expandedBounds(2);
+        Chain.noCtx().runFn(4, () -> {
             for (Tile tile : tiles) {
-                nex.stalagmite.add(GameObject.spawn(42944, tile.getX(), tile.getY(), tile.getZ(), 10,0));
+                if ((World.getWorld().floorAt(tile) & 0x4) != 0) {
+                    nex.stalagmite.add(GameObject.spawn(42944, tile.getX(), tile.getY(), tile.getZ(), 10, 0));
+                }
+                ;
             }
-            // Deal damage 7 ticks later to everyone inside
         }).then(7, () -> {
             for (Tile tile : tiles) {
-                // Getting caught in this can damage players up to 60 hitpoints and will deactivate protection prayers
                 getPossibleTargets(nex).forEach(t -> {
                     if (tile.isWithinDistance(t.tile(), 5) && !nex.stalagmiteDestroyed) {
                         CombatFactory.disableProtectionPrayers((Player) t);
-                        // Praying Protect from Missiles will reduce the damage by half its original amount
                         int damage = Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MISSILES) ? CONTAINMENT_SPECIAL_ATTACK_MAX / 2 : CONTAINMENT_SPECIAL_ATTACK_MAX;
                         Hit hit = t.hit(nex, World.getWorld().random(damage), CombatType.MAGIC);
                         hit.submit();
@@ -685,32 +678,25 @@ public class NexCombat extends CommonCombatMethod {
     }
 
     private void icePrison(Entity target) {
-        // Nex will shout Die now, in a prison of ice!
+
         nex.forceChat("Die now, in a prison of ice!");
         nex.animate(SHADOW_SMASH_ATTACK_ANIM);
 
-        // She will freeze a targeted player using an ice stalagmite attack
         target.freeze(5, nex);
 
-        // Spawning stalagmites within a 3x3 AoE centred on the target player
         Set<Tile> tiles = target.tile().expandedBounds(1);// radius 1 is 3x3
-        Chain.bound(null).runFn(4, () ->{
+        Chain.bound(null).runFn(4, () -> {
             for (Tile tile : tiles) {
-                nex.stalagmite.add(GameObject.spawn(42944, tile.getX(), tile.getY(), tile.getZ(), 10,0));
+                nex.stalagmite.add(GameObject.spawn(42944, tile.getX(), tile.getY(), tile.getZ(), 10, 0));
             }
-            // Four seconds after forming, the prison will shatter
-        }).then(7, () ->{
+
+        }).then(7, () -> {
             for (Tile tile : tiles) {
-                // Players next to the formation will be shoved aside for no damage, although players on the same tile as the target will also be imprisoned
+
                 getPossibleTargets(nex).forEach(t -> {
                     if (tile.isWithinDistance(t.tile(), 3) && !nex.stalagmiteDestroyed) {
-                        // Deactivating their protection prayers
                         CombatFactory.disableProtectionPrayers((Player) t);
-
-                        // Praying Protect from Missiles will reduce the damage by half its original amount
                         int damage = Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MISSILES) ? ICE_PRISON_SPECIAL_ATTACK_MAX / 2 : ICE_PRISON_SPECIAL_ATTACK_MAX;
-
-                        // Dealing up to 75 damage to everyone inside it if one of the stalagmites were not destroyed
                         Hit hit = t.hit(nex, World.getWorld().random(damage), CombatType.MAGIC);
                         hit.submit();
                     }
@@ -811,35 +797,52 @@ public class NexCombat extends CommonCombatMethod {
             npc.transmog(NEX_11282);
             final NPCCombatInfo combatInfo = npc.combatInfo();
             npc.animate(combatInfo.animations.death);
-            Chain.bound(null).runFn(combatInfo.deathlen, () ->{
+            Chain.bound(null).runFn(combatInfo.deathlen, () -> {
                 npc.graphic(2013);
                 for (Player close : npc.closePlayers(10)) {
 
-                    Projectile projectile = new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 1, npc.getY() - 2, npc.getZ()), 1, 2012, 100, 40, npc.getZ(), 0, 0);
-                    projectile.sendProjectile();
-                    World.getWorld().tileGraphic(2014, new Tile(npc.getX() + 1, npc.getY() - 2, npc.getZ()), 0, 85);
-                    Projectile projectile2 = new Projectile(npc.getCentrePosition(), new Tile(npc.getX() - 1, npc.getY() - 1, npc.getZ()), 1, 2012, 100, 40, npc.getZ(), 0, 0);
-                    projectile2.sendProjectile();
-                    World.getWorld().tileGraphic(2014, new Tile(npc.getX() - 1, npc.getY() - 1, npc.getZ()), 0, 85);
-                    Projectile projectile3 = new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 3, npc.getY() - 1, npc.getZ()), 1, 2012, 100, 40, npc.getZ(), 0, 0);
-                    projectile3.sendProjectile();
-                    World.getWorld().tileGraphic(2014, new Tile(npc.getX() + 3, npc.getY() - 1, npc.getZ()), 0, 85);
-                    Projectile projectile4 = new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 3, npc.getY() - 1, npc.getZ()), 1, 2012, 100, 40, npc.getZ(), 0, 0);
-                    projectile4.sendProjectile();
-                    World.getWorld().tileGraphic(2014, new Tile(npc.getX() + 3, npc.getY() - 1, npc.getZ()), 0, 85);
-                    Projectile projectile5 = new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 4, npc.getY() + 1, npc.getZ()), 1, 2012, 100, 40, npc.getZ(), 0, 0);
-                    projectile5.sendProjectile();
-                    World.getWorld().tileGraphic(2014, new Tile(npc.getX() + 4, npc.getY() + 1, npc.getZ()), 0, 85);
-                    Projectile projectile6 = new Projectile(npc.getCentrePosition(), new Tile(npc.getX() - 1, npc.getY() + 3, npc.getZ()), 1, 2012, 100, 40, npc.getZ(), 0, 0);
-                    projectile6.sendProjectile();
-                    World.getWorld().tileGraphic(2014, new Tile(npc.getX() - 1, npc.getY() + 3, npc.getZ()), 0, 85);
-                    Projectile projectile7 = new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 3, npc.getY() + 3, npc.getZ()), 1, 2012, 100, 40, npc.getZ(), 0, 0);
-                    projectile7.sendProjectile();
-                    World.getWorld().tileGraphic(2014, new Tile(npc.getX() + 3, npc.getY() + 3, npc.getZ()), 0, 85);
-                    Projectile projectile8 = new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 1, npc.getY() + 4, npc.getZ()), 1, 2012, 100, 40, npc.getZ(), 0, 0);
-                    projectile8.sendProjectile();
-                    World.getWorld().tileGraphic(2014, new Tile(npc.getX() + 1, npc.getY() + 4, npc.getZ()), 0, 85);
-
+                    Tile clip = Utils.randomElement(nex.getCentrePosition().area(7, t -> World.getWorld().projectileClip(t.x, t.y, t.level) == 0));
+                    boolean flag = ProjectileRoute.allow(npc.getX(), npc.getY(), npc.getZ(), clip.getX(), clip.getY());
+                    Projectile projectile = flag ? new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 1, npc.getY() - 2, npc.getZ()), 1, 2012, 100, 40, clip.getZ(), 0, 0) : null;
+                    if (projectile != null) {
+                        projectile.sendProjectile();
+                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() - 1, npc.getY() - 1, npc.getZ()), 0, 85);
+                    }
+                    Projectile projectile2 = flag ? new Projectile(npc.getCentrePosition(), new Tile(npc.getX() - 1, npc.getY() - 1, npc.getZ()), 1, 2012, 100, 40, clip.getZ(), 0, 0) : null;
+                    if (projectile2 != null) {
+                        projectile2.sendProjectile();
+                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() - 1, npc.getY() - 1, npc.getZ()), 0, 85);
+                    }
+                    Projectile projectile3 = flag ? new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 3, npc.getY() - 1, npc.getZ()), 1, 2012, 100, 40, clip.getZ(), 0, 0) : null;
+                    if (projectile3 != null) {
+                        projectile3.sendProjectile();
+                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() + 3, npc.getY() - 1, npc.getZ()), 0, 85);
+                    }
+                    Projectile projectile4 = flag ? new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 3, npc.getY() - 1, npc.getZ()), 1, 2012, 100, 40, clip.getZ(), 0, 0) : null;
+                    if (projectile4 != null) {
+                        projectile4.sendProjectile();
+                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() + 3, npc.getY() - 1, npc.getZ()), 0, 85);
+                    }
+                    Projectile projectile5 = flag ? new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 4, npc.getY() + 1, npc.getZ()), 1, 2012, 100, 40, clip.getZ(), 0, 0) : null;
+                    if (projectile5 != null) {
+                        projectile5.sendProjectile();
+                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() + 4, npc.getY() + 1, npc.getZ()), 0, 85);
+                    }
+                    Projectile projectile6 = flag ? new Projectile(npc.getCentrePosition(), new Tile(npc.getX() - 1, npc.getY() + 3, npc.getZ()), 1, 2012, 100, 40, clip.getZ(), 0, 0) : null;
+                    if (projectile6 != null) {
+                        projectile6.sendProjectile();
+                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() - 1, npc.getY() + 3, npc.getZ()), 0, 85);
+                    }
+                    Projectile projectile7 = flag ? new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 3, npc.getY() + 3, npc.getZ()), 1, 2012, 100, 40, clip.getZ(), 0, 0) : null;
+                    if (projectile7 != null) {
+                        projectile7.sendProjectile();
+                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() + 3, npc.getY() + 3, npc.getZ()), 0, 85);
+                    }
+                    Projectile projectile8 = flag ? new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 1, npc.getY() + 4, npc.getZ()), 1, 2012, 100, 40, clip.getZ(), 0, 0) : null;
+                    if (projectile8 != null) {
+                        projectile8.sendProjectile();
+                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() + 1, npc.getY() + 4, npc.getZ()), 0, 85);
+                    }
                     close.hit(npc, World.getWorld().random(40));
                 }
             }).then(3, () ->{
@@ -860,12 +863,10 @@ public class NexCombat extends CommonCombatMethod {
 
     private void drop() {
         var amountOfPlayersToGetDrop = 5;
-        var list = nex.getCombat().getDamageMap().entrySet().stream()
-            .sorted(Comparator.comparingInt(e -> e.getValue().getDamage()))
-            .collect(Collectors.collectingAndThen(
-                Collectors.toList(),
-                l -> { Collections.reverse(l); return l; })
-            );
+        var list = nex.getCombat().getDamageMap().entrySet().stream().sorted(Comparator.comparingInt(e -> e.getValue().getDamage())).collect(Collectors.collectingAndThen(Collectors.toList(), l -> {
+            Collections.reverse(l);
+            return l;
+        }));
         list.stream().limit(amountOfPlayersToGetDrop).forEach(e -> {
             var key = e.getKey();
             Player player = (Player) key;

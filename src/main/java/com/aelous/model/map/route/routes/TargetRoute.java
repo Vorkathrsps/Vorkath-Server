@@ -105,9 +105,7 @@ public class TargetRoute {
                 size,
                 targetX,
                 targetY,
-                targetSize))) { // TODO: nick: look into projectile clipping so
-                // the zuk(inferno boss) exception is not
-                // required?
+                targetSize))) { 
                 withinDistance = true;
                 entity.getMovement().reset();
             }

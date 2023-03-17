@@ -9,19 +9,23 @@ import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.combat.weapon.FightStyle;
 import com.aelous.model.entity.npc.NPC;
+import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
+import com.aelous.model.items.Item;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.utility.ItemIdentifiers;
 
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
+import java.util.stream.Stream;
 
 import static com.aelous.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
 import static com.aelous.model.entity.combat.CombatType.RANGED;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.*;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.EAGLE_EYE;
 import static com.aelous.utility.ItemIdentifiers.DRAGON_HUNTER_CROSSBOW;
+import static com.aelous.utility.ItemIdentifiers.TWISTED_BOW;
 
 /**
  * @Author Origin
@@ -142,6 +146,32 @@ public class RangeAccuracy {
                     effectiveLevel = (int) Math.floor(effectiveLevel * specialMultiplier);
                 }
 
+                double bonus = 1;
+                Player player = (Player) attacker;
+                final Item weapon = player.getEquipment().get(EquipSlot.WEAPON);
+                if (weapon != null) {
+                    if (Stream.of(TWISTED_BOW).anyMatch(w -> w == weapon.getId())) {
+
+                        double magicLevel = 1;
+
+                        if (attacker.isPlayer()) {
+                            if (defender instanceof NPC n) {
+                                if (n.combatInfo() != null && n.combatInfo().stats != null)
+                                    magicLevel = n.combatInfo().stats.magic > 350 && player.raidsParty != null ? 350 : n.combatInfo().stats.magic > 250D ? 250D : n.combatInfo().stats.magic;
+                            } else {
+                                magicLevel = defender.getAsPlayer().getSkills().getMaxLevel(Skills.MAGIC);
+                            }
+
+                            bonus += 140 + (((10 * 3 * magicLevel) / 10) - 10) - ((Math.floor(3 * magicLevel / 10 - 100)) * 2);
+                            bonus = Math.floor(bonus / 100);
+                            if (bonus > 2.4D)
+                                bonus = (int) 2.4;
+                        }
+                        if (attacker.isPlayer() && defender.isNpc()) {
+                            effectiveLevel = (int) Math.floor(effectiveLevel * bonus);
+                        }
+                    }
+                }
             }
         }
 

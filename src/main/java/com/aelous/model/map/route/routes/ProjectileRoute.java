@@ -1,48 +1,52 @@
 package com.aelous.model.map.route.routes;
 
+import static com.aelous.model.map.route.ClipUtils.withDistance;
 import static com.aelous.model.map.route.RouteFinder.*;
 
 import com.aelous.model.entity.Entity;
+import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
+import com.aelous.model.map.region.Flags;
 import com.aelous.model.map.region.RegionManager;
+import com.aelous.model.map.route.ObjectType;
 
 public class ProjectileRoute {
 
     public static boolean allow(Entity entity, Entity target) {
         return allow(
-                entity.getAbsX(),
-                entity.getAbsY(),
-                entity.getZ(),
-                entity.getSize(),
-                target.getAbsX(),
-                target.getAbsY(),
-                target.getSize());
+            entity.getAbsX(),
+            entity.getAbsY(),
+            entity.getZ(),
+            entity.getSize(),
+            target.getAbsX(),
+            target.getAbsY(),
+            target.getSize());
     }
 
     public static boolean allow(Entity entity, Tile dest) {
         return allow(
-                entity.getAbsX(),
-                entity.getAbsY(),
-                entity.getZ(),
-                entity.getSize(),
-                dest.getX(),
-                dest.getY(),
-                1);
+            entity.getAbsX(),
+            entity.getAbsY(),
+            entity.getZ(),
+            entity.getSize(),
+            dest.getX(),
+            dest.getY(),
+            1);
     }
 
     public static boolean allow(Entity entity, int destX, int destY) {
         return allow(
-                entity.getAbsX(),
-                entity.getAbsY(),
-                entity.getZ(),
-                entity.getSize(),
-                destX,
-                destY,
-                1);
+            entity.getAbsX(),
+            entity.getAbsY(),
+            entity.getZ(),
+            entity.getSize(),
+            destX,
+            destY,
+            1);
     }
 
     public static boolean allow(
-            int absX, int absY, int z, int size, int targetX, int targetY, int targetSize) {
+        int absX, int absY, int z, int size, int targetX, int targetY, int targetSize) {
         targetX = targetX * 2 + targetSize - 1;
         targetY = targetY * 2 + targetSize - 1;
 
@@ -90,25 +94,25 @@ public class ProjectileRoute {
         if (dx == 0 && dy == -1 && (getClipping(x, y - 1, z) & SOUTH_MASK) == 0) return true;
         if (dx == 0 && dy == 1 && (getClipping(x, y + 1, z) & NORTH_MASK) == 0) return true;
         if (dx == -1
-                && dy == -1
-                && (getClipping(x - 1, y - 1, z) & SOUTH_WEST_MASK) == 0
-                && (getClipping(x - 1, y, z) & WEST_MASK) == 0
-                && (getClipping(x, y - 1, z) & SOUTH_MASK) == 0) return true;
+            && dy == -1
+            && (getClipping(x - 1, y - 1, z) & SOUTH_WEST_MASK) == 0
+            && (getClipping(x - 1, y, z) & WEST_MASK) == 0
+            && (getClipping(x, y - 1, z) & SOUTH_MASK) == 0) return true;
         if (dx == 1
-                && dy == -1
-                && (getClipping(x + 1, y - 1, z) & SOUTH_EAST_MASK) == 0
-                && (getClipping(x + 1, y, z) & EAST_MASK) == 0
-                && (getClipping(x, y - 1, z) & SOUTH_MASK) == 0) return true;
+            && dy == -1
+            && (getClipping(x + 1, y - 1, z) & SOUTH_EAST_MASK) == 0
+            && (getClipping(x + 1, y, z) & EAST_MASK) == 0
+            && (getClipping(x, y - 1, z) & SOUTH_MASK) == 0) return true;
         if (dx == -1
-                && dy == 1
-                && (getClipping(x - 1, y + 1, z) & NORTH_WEST_MASK) == 0
-                && (getClipping(x - 1, y, z) & WEST_MASK) == 0
-                && (getClipping(x, y + 1, z) & NORTH_MASK) == 0) return true;
+            && dy == 1
+            && (getClipping(x - 1, y + 1, z) & NORTH_WEST_MASK) == 0
+            && (getClipping(x - 1, y, z) & WEST_MASK) == 0
+            && (getClipping(x, y + 1, z) & NORTH_MASK) == 0) return true;
         if (dx == 1
-                && dy == 1
-                && (getClipping(x + 1, y + 1, z) & NORTH_EAST_MASK) == 0
-                && (getClipping(x + 1, y, z) & EAST_MASK) == 0
-                && (getClipping(x, y + 1, z) & NORTH_MASK) == 0) return true;
+            && dy == 1
+            && (getClipping(x + 1, y + 1, z) & NORTH_EAST_MASK) == 0
+            && (getClipping(x + 1, y, z) & EAST_MASK) == 0
+            && (getClipping(x, y + 1, z) & NORTH_MASK) == 0) return true;
         return false;
     }
 

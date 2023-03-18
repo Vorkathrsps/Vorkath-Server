@@ -717,6 +717,7 @@ public class NPC extends Entity {
     public void setCombatMethod(CombatMethod combatMethod) {
         this.combatMethod = combatMethod;
         if (combatMethod instanceof CommonCombatMethod ccm) {
+            ccm.set(this, null);
             ccm.init(this);
         }
     }

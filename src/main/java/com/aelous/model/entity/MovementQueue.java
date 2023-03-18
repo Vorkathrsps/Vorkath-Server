@@ -143,6 +143,24 @@ public class MovementQueue {
 
     }
 
+    public static boolean dumbReachable(int destX, int destY, Tile start) {
+        int x = start.getX();
+        int y = start.getY();
+        int z = start.getZ();
+        int size = 1;
+        var maxSteps = 0;
+        while (true) {
+            com.aelous.model.map.route.Direction stepDir = getStepDirection(ClipUtils.REGULAR, x, y, z, size, destX, destY);
+            if (stepDir == null || maxSteps++ > 50)
+                break;
+            x += stepDir.deltaX;
+            y += stepDir.deltaY;
+            if ((x == destX && y == destY))
+                return true;
+        }
+        return false;
+    }
+
     public void walkTo(Tile tile) {
         walkTo(tile.x, tile.y);
     }

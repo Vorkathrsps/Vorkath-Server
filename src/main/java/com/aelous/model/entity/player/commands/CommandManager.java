@@ -1,7 +1,14 @@
 package com.aelous.model.entity.player.commands;
 
+import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
+import com.aelous.model.World;
+import com.aelous.model.entity.MovementQueue;
+import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
+import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
+import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.NexCombat;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.aelous.model.entity.masks.Direction;
+import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.InputScript;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.commands.impl.dev.*;
@@ -12,18 +19,25 @@ import com.aelous.model.entity.player.commands.impl.staff.admin.*;
 import com.aelous.model.entity.player.commands.impl.staff.moderator.*;
 import com.aelous.model.entity.player.commands.impl.staff.server_support.StaffZoneCommand;
 import com.aelous.model.entity.player.commands.impl.super_member.YellColourCommand;
+import com.aelous.model.items.Item;
+import com.aelous.model.items.ground.GroundItem;
+import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Debugs;
 import com.aelous.utility.Utils;
 import com.aelous.utility.Varbit;
+import com.aelous.utility.chainedwork.Chain;
 import org.apache.logging.log4j.*;
 import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_ACTIVE;
 import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_UNLOCKED;
+import static com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars.nex;
 
 public class CommandManager {
 
@@ -348,6 +362,34 @@ public class CommandManager {
             var n = Direction.NORTH;
             p.setPositionToFace(new Tile(p.tile().tileToDir(n).x * 2 + 1, p.tile().tileToDir(n).y * 2 +1));
             p.getPacketSender().sendPositionalHint(p.tile().tileToDir(n), 2);
+        });
+        dev("test4", (p, c, s) -> {
+            var n = new Nex(NpcIdentifiers.NEX, p.tile()).spawn();
+            n.lockNoAttack();
+            n.respawns(false);
+            ((CommonCombatMethod)n.getCombatMethod()).set(n, p);
+            n.getCombatMethod().customOnDeath(n.hit(p, n.hp()));
+            Chain.noCtx().delay(15, () -> n.remove());
+
+            Set<Tile> tiles = n.tile().expandedBounds(2);
+
+            Chain.noCtx().runFn(1, () -> {
+                for (Tile tile : tiles) {
+                    var g = new GroundItem(new Item(995), tile, null).spawn();
+                    Chain.noCtx().runFn(5, () -> {
+                        g.setState(GroundItem.State.SEEN_BY_EVERYONE);
+                        g.setTimer(1);
+                    });
+                    if (MovementQueue.dumbReachable(tile.getX(), tile.getY(), n.tile())) {
+                        var o = GameObject.spawn(42944, tile.getX(), tile.getY(), tile.getZ(), 10, 0);
+                        Chain.noCtx().delay(10, () -> o.remove());
+                    }
+                }
+            });
+        });
+        dev("test5", (p, c, s) -> {
+           var b = p.getRouteFinder().routeAbsolute(p.tile().transform(4, 0).x, p.tile().transform( 0, 4).y).reachable;
+            System.out.println(b);
         });
     }
 

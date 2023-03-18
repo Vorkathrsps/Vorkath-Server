@@ -33,6 +33,7 @@ import com.aelous.model.map.route.routes.ProjectileRoute;
 import com.aelous.model.map.route.routes.TargetRoute;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
+import com.google.common.collect.Lists;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -661,13 +662,11 @@ public class NexCombat extends CommonCombatMethod {
         nex.animate(SHADOW_SMASH_ATTACK_ANIM);
         Set<Tile> tiles = nex.tile().expandedBounds(2);
 
-        Set<Tile> entityTiles = entity.tile().expandedBounds(2);
         Chain.noCtx().runFn(4, () -> {
             for (Tile tile : tiles) {
-                if ((World.getWorld().floorAt(tile) & 0x4) != 0) {
+                if (MovementQueue.dumbReachable(tile.getX(), tile.getY(), nex.tile())) {
                     nex.stalagmite.add(GameObject.spawn(42944, tile.getX(), tile.getY(), tile.getZ(), 10, 0));
                 }
-                ;
             }
         }).then(7, () -> {
             for (Tile tile : tiles) {
@@ -804,6 +803,7 @@ public class NexCombat extends CommonCombatMethod {
 
     @Override
     public boolean customOnDeath(Hit hit) {
+        var nex = hit.getTarget();
         if (hit.getTarget().isNpc()) {
             NPC npc = hit.getTarget().npc();
             Player player = hit.getSource().player();
@@ -812,49 +812,22 @@ public class NexCombat extends CommonCombatMethod {
             npc.animate(combatInfo.animations.death);
             Chain.bound(null).runFn(combatInfo.deathlen, () -> {
                 npc.graphic(2013);
-                for (Player close : npc.closePlayers(10)) {
+                var list = Lists.newArrayList(
+                    new Tile(npc.getX() + 1, npc.getY() - 2, npc.getZ()),
+                    new Tile(npc.getX() - 1, npc.getY() - 1, npc.getZ()),
+                    new Tile(npc.getX() + 3, npc.getY() - 1, npc.getZ()),
+                    new Tile(npc.getX() + 3, npc.getY() - 1, npc.getZ()),
+                    new Tile(npc.getX() - 1, npc.getY() + 3, npc.getZ()),
+                    new Tile(npc.getX() - 1, npc.getY() + 3, npc.getZ()),
+                    new Tile(npc.getX() + 1, npc.getY() + 4, npc.getZ())
+                );
+                list.removeIf(t -> !MovementQueue.dumbReachable(t.getX(), t.getY(), nex.tile()));
 
-                    Tile clip = Utils.randomElement(nex.getCentrePosition().area(7, t -> World.getWorld().projectileClip(t.x, t.y, t.level) == 0));
-                    boolean flag = ProjectileRoute.allow(npc.getX(), npc.getY(), npc.getZ(), clip.getX(), clip.getY());
-                    Projectile projectile = flag ? new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 1, npc.getY() - 2, npc.getZ()), 1, 2012, 100, 40, clip.getZ(), 0, 0) : null;
-                    if (projectile != null) {
-                        projectile.sendProjectile();
-                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() - 1, npc.getY() - 1, npc.getZ()), 0, 85);
-                    }
-                    Projectile projectile2 = flag ? new Projectile(npc.getCentrePosition(), new Tile(npc.getX() - 1, npc.getY() - 1, npc.getZ()), 1, 2012, 100, 40, clip.getZ(), 0, 0) : null;
-                    if (projectile2 != null) {
-                        projectile2.sendProjectile();
-                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() - 1, npc.getY() - 1, npc.getZ()), 0, 85);
-                    }
-                    Projectile projectile3 = flag ? new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 3, npc.getY() - 1, npc.getZ()), 1, 2012, 100, 40, clip.getZ(), 0, 0) : null;
-                    if (projectile3 != null) {
-                        projectile3.sendProjectile();
-                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() + 3, npc.getY() - 1, npc.getZ()), 0, 85);
-                    }
-                    Projectile projectile4 = flag ? new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 3, npc.getY() - 1, npc.getZ()), 1, 2012, 100, 40, clip.getZ(), 0, 0) : null;
-                    if (projectile4 != null) {
-                        projectile4.sendProjectile();
-                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() + 3, npc.getY() - 1, npc.getZ()), 0, 85);
-                    }
-                    Projectile projectile5 = flag ? new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 4, npc.getY() + 1, npc.getZ()), 1, 2012, 100, 40, clip.getZ(), 0, 0) : null;
-                    if (projectile5 != null) {
-                        projectile5.sendProjectile();
-                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() + 4, npc.getY() + 1, npc.getZ()), 0, 85);
-                    }
-                    Projectile projectile6 = flag ? new Projectile(npc.getCentrePosition(), new Tile(npc.getX() - 1, npc.getY() + 3, npc.getZ()), 1, 2012, 100, 40, clip.getZ(), 0, 0) : null;
-                    if (projectile6 != null) {
-                        projectile6.sendProjectile();
-                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() - 1, npc.getY() + 3, npc.getZ()), 0, 85);
-                    }
-                    Projectile projectile7 = flag ? new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 3, npc.getY() + 3, npc.getZ()), 1, 2012, 100, 40, clip.getZ(), 0, 0) : null;
-                    if (projectile7 != null) {
-                        projectile7.sendProjectile();
-                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() + 3, npc.getY() + 3, npc.getZ()), 0, 85);
-                    }
-                    Projectile projectile8 = flag ? new Projectile(npc.getCentrePosition(), new Tile(npc.getX() + 1, npc.getY() + 4, npc.getZ()), 1, 2012, 100, 40, clip.getZ(), 0, 0) : null;
-                    if (projectile8 != null) {
-                        projectile8.sendProjectile();
-                        World.getWorld().tileGraphic(2014, new Tile(npc.getX() + 1, npc.getY() + 4, npc.getZ()), 0, 85);
+                for (Player close : npc.closePlayers(10)) {
+                    for (Tile tile : list) {
+                        var projectile = new Projectile(npc.getCentrePosition(), tile, 1, 2012, 100, 40, tile.getZ(), 0, 0);
+                        nex.executeProjectile(projectile);
+                        World.getWorld().tileGraphic(2014, tile, 0, 85);
                     }
                     close.hit(npc, World.getWorld().random(40));
                 }

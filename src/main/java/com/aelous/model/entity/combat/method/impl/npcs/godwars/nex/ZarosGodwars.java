@@ -44,7 +44,12 @@ public class ZarosGodwars {
 
     public static void clear() {
         if (nex != null) {
-            nex.killBloodReavers();
+            for (NPC npc : nex.bloodReavers) {
+                if(npc == null) {
+                    continue;
+                }
+                npc.remove();
+            }
             nex.remove();
             nex = null;
         }

@@ -832,7 +832,12 @@ public class NexCombat extends CommonCombatMethod {
                     close.hit(npc, World.getWorld().random(40));
                 }
             }).then(3, () ->{
-                nex.killBloodReavers();
+                for (NPC re : nex.bloodReavers) {
+                    if(re == null) {
+                        continue;
+                    }
+                    re.remove();
+                }
                 ZarosGodwars.nex = null;
                 npc.remove();
                 player.getPacketSender().sendEffectTimer(12, EffectTimer.MONSTER_RESPAWN);

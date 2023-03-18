@@ -119,12 +119,14 @@ public class NPCUpdating {
         builder.putBits(1, npc.getUpdateFlag().isUpdateRequired() ? 1 : 0);
 
         //Facing update. We don't want to update facing for npcs that walk.
-        boolean updateFacing = npc.walkRadius() == 0;
+        var useLastFaceTileCalc = npc.getInteractingEntity() == null && npc.lastTileFaced != null;
+        boolean updateFacing = npc.walkRadius() == 0 || useLastFaceTileCalc;
         builder.putBits(1, updateFacing ? 1 : 0);
         if (updateFacing) {
-            Tile tile = face(npc);
-            builder.putBits(14, tile.getX() * 2 + 1); //face x
-            builder.putBits(14, tile.getY() * 2 + 1); //face y
+            // lastTileFaced already has *2+1 applied
+            Tile tile = useLastFaceTileCalc ? npc.lastTileFaced : new Tile(face(npc).x * 2 + 1, face(npc).y * 2 + 1);
+            builder.putBits(14, tile.getX()); //face x
+            builder.putBits(14, tile.getY()); //face y
         }
     }
 

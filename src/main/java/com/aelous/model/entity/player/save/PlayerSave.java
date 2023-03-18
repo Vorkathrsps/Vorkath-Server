@@ -769,6 +769,7 @@ public class PlayerSave {
                 player.putAttrib(CLAIMED_DONATOR_REWARDS, details.claimedDonatorRewards);
                 player.putAttrib(SNOW_MONSTER_TIMER, details.snowMonsterTimer);
                 player.lastPetId = details.lastPet;
+                player.setInvulnerable(details.infhp);
                 System.out.println("Details of pet="+details.lastPet+" - "+player.lastPetId);
                 return true;
             }
@@ -862,6 +863,7 @@ public class PlayerSave {
         private final boolean sponsorMemberUnlocked;
 
         public int lastPet;
+        public boolean infhp;
 
         //Skills
         private final int[] dynamicLevels;
@@ -1917,6 +1919,7 @@ public class PlayerSave {
             claimedDonatorRewards = Player.getAttribBooleanOr(player, CLAIMED_DONATOR_REWARDS, false);
             snowMonsterTimer = Player.getAttribIntOr(player, SNOW_MONSTER_TIMER,500);
             lastPet = player.getPet().getCurrentPetAsId();
+            infhp = player.isInvulnerable();
             //System.err.println("saving info = "+lastPet);
         }
 

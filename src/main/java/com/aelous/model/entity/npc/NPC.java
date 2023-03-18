@@ -5,6 +5,7 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.method.impl.npcs.bosses.corruptedhunleff.CorruptedHunleff;
 import com.aelous.model.entity.combat.method.impl.npcs.karuulm.Wyrm;
+import com.aelous.utility.Debugs;
 import com.google.common.base.Stopwatch;
 import com.aelous.GameServer;
 import com.aelous.cache.definitions.NpcDefinition;
@@ -173,6 +174,7 @@ public class NPC extends Entity {
         hp = combatInfo == null ? 50 : combatInfo.stats.hitpoints;
         spawnArea = new Area(spawnTile, walkRadius);
         putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, id == GIANT_MOLE ? 64 : 12);
+        getCombat().setAutoRetaliate(true);
 
         for (int types : venom_immunes) {
             if (id == types) {
@@ -218,6 +220,7 @@ public class NPC extends Entity {
         hp = combatInfo == null ? 50 : combatInfo.stats.hitpoints;
         spawnArea = new Area(spawnTile, walkRadius);
         putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, id == GIANT_MOLE ? 64 : 12);
+        getCombat().setAutoRetaliate(true);
 
         for (int types : venom_immunes) {
             if (id == types) {
@@ -660,6 +663,7 @@ public class NPC extends Entity {
 
         // Prevent being too far from spawn - unless you're in a boss room. Free reign!
         if (spawnTile.distance(tile) > maxDistanceFromSpawn && walkRadius != -1) {
+            logger.info("reset dist {} vs {}", spawnTile.distance(tile), maxDistanceFromSpawn);
             stopActions(false);
             getCombat().reset(); // Otherwise we'll forever be stuck with a target yo!
             //if (target != null)
@@ -947,6 +951,7 @@ public class NPC extends Entity {
             return;
         }
         if (def != null && combatInfo != null && !combatInfo.retaliates) {
+            Debugs.CMB.debug(attacker, "mob cant retal");
             //System.out.println("STOP AUTORETALIATE");
             return;
         }

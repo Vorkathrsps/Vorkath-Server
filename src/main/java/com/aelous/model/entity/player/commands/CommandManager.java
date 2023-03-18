@@ -1,5 +1,7 @@
 package com.aelous.model.entity.player.commands;
 
+import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
+import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.player.InputScript;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.commands.impl.dev.*;
@@ -11,9 +13,11 @@ import com.aelous.model.entity.player.commands.impl.staff.moderator.*;
 import com.aelous.model.entity.player.commands.impl.staff.server_support.StaffZoneCommand;
 import com.aelous.model.entity.player.commands.impl.super_member.YellColourCommand;
 import com.aelous.model.map.position.Tile;
+import com.aelous.utility.Debugs;
 import com.aelous.utility.Utils;
 import com.aelous.utility.Varbit;
 import org.apache.logging.log4j.*;
+import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -324,6 +328,39 @@ public class CommandManager {
             @Override
             public boolean canUse(Player player) {
                 return true;
+            }
+        });
+        dev("nex1", (p, c, s) -> {
+            ZarosGodwars.clear();
+            ZarosGodwars.nex = null;
+        });
+        dev("recmd", (p, c, s) -> {
+            commands.clear();
+            CommandManager.loadCmds();
+        });
+        dev("devcb", (p, c, s) -> {
+            Debugs.CMB.toggle();
+        });
+        dev("test2", (p, c, s) -> {
+            p.setPositionToFace(null);
+        });
+        dev("test3", (p, c, s) -> {
+            var n = Direction.NORTH;
+            p.setPositionToFace(new Tile(p.tile().tileToDir(n).x * 2 + 1, p.tile().tileToDir(n).y * 2 +1));
+            p.getPacketSender().sendPositionalHint(p.tile().tileToDir(n), 2);
+        });
+    }
+
+    public static void dev(String cmd, TriConsumer<Player, String, String[]> tc) {
+        commands.put(cmd, new Command() {
+            @Override
+            public void execute(Player player, String command, String[] parts) {
+                tc.accept(player, command, parts);
+            }
+
+            @Override
+            public boolean canUse(Player player) {
+                return player.getPlayerRights().isDeveloper(player);
             }
         });
     }

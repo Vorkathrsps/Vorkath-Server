@@ -8,6 +8,8 @@ import com.aelous.model.entity.masks.impl.chat.ChatMessage;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.masks.UpdateFlag;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.items.Item;
+import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
 import com.aelous.network.packet.ByteOrder;
@@ -15,6 +17,7 @@ import com.aelous.network.packet.PacketBuilder;
 import com.aelous.network.packet.PacketBuilder.AccessType;
 import com.aelous.network.packet.PacketType;
 import com.aelous.network.packet.ValueType;
+import com.aelous.utility.chainedwork.Chain;
 
 import java.util.Iterator;
 
@@ -102,7 +105,7 @@ public class PlayerUpdating {
         builder.putBits(1, 1);
         int yDiff = target.tile().getY() - player.tile().getY();
         int xDiff = target.tile().getX() - player.tile().getX();
-        builder.putBits(5, yDiff);
+        builder.putBits(5, yDiff); // localized position relative to POV
         builder.putBits(5, xDiff);
     }
 
@@ -317,7 +320,11 @@ public class PlayerUpdating {
      * @return The PlayerUpdating instance.
      */
     private static void appendUpdates(Player player, PacketBuilder builder, Player target, boolean updateAppearance, boolean noChat) {
-        if (!target.getUpdateFlag().isUpdateRequired() && !updateAppearance)
+        var sendFacing = updateAppearance && target != player && target.getInteractingEntity() == null && target.lastTileFaced != null;
+        var sendLockon = updateAppearance && target != player && target.getInteractingEntity() != null;
+
+        // no update?
+        if (!target.getUpdateFlag().isUpdateRequired() && !updateAppearance && !sendFacing && !sendLockon)
             return;
 
        /* if (player.getCachedUpdateBlock() != null && !player.equals(target) && !updateAppearance && !noChat) {
@@ -342,13 +349,13 @@ public class PlayerUpdating {
         if (flag.flagged(Flag.CHAT) && target.getCurrentChatMessage() != null && !noChat) {
             mask |= 0x80;
         }
-        if (flag.flagged(Flag.ENTITY_INTERACTION)) {
+        if (flag.flagged(Flag.ENTITY_INTERACTION) || sendLockon) {
             mask |= 0x1;
         }
         if (flag.flagged(Flag.APPEARANCE) || updateAppearance) {
             mask |= 0x10;
         }
-        if (flag.flagged(Flag.FACE_TILE)) {
+        if (flag.flagged(Flag.FACE_TILE) || sendFacing) {
             mask |= 0x2;
         }
         if (flag.flagged(Flag.FIRST_SPLAT)) {
@@ -378,14 +385,15 @@ public class PlayerUpdating {
         if (flag.flagged(Flag.CHAT) && target.getCurrentChatMessage() != null && !noChat) {
             updateChat(builder, target);
         }
-        if (flag.flagged(Flag.ENTITY_INTERACTION)) {
+        if (flag.flagged(Flag.ENTITY_INTERACTION) || sendLockon) {
             updateEntityInteraction(builder, target);
         }
         if (flag.flagged(Flag.APPEARANCE) || updateAppearance) {
             target.looks().update(builder, target);
         }
-        if (flag.flagged(Flag.FACE_TILE)) {
-            updateFacingPosition(builder, target.getFaceTile().getX(), target.getFaceTile().getY());
+        if (flag.flagged(Flag.FACE_TILE) || sendFacing) {
+            var tile = sendFacing ? target.lastTileFaced : target.getFaceTile();
+            updateFacingPosition(builder, tile == null ? 0 : tile.getX(), tile == null ? 0 : tile.getY());
         }
         if (flag.flagged(Flag.FIRST_SPLAT)) {
             writehit1(builder, target);

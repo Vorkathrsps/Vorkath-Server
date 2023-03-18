@@ -87,7 +87,7 @@ public class NexCombat extends CommonCombatMethod {
 
     @Override
     public void init(NPC npc) {
-        if (nex == null) return;
+        var nex = npc;
         nex.clearAttrib(SMOKE_PHASE_INITIATED);
         nex.clearAttrib(SHADOW_PHASE_INITIATED);
         nex.clearAttrib(BLOOD_PHASE_INITIATED);
@@ -96,6 +96,19 @@ public class NexCombat extends CommonCombatMethod {
         nex.def().ignoreOccupiedTiles = true; // walk through minions
         nex.lockMoveDamageOk();
         nex.getMovement().reset();
+        nex.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, 30);
+        Chain.noCtx().repeatingTask(10, t -> {
+            if (!nex.isRegistered()) {
+                t.stop();
+                return;
+            }
+            if (nex.locked()) { // still in setup phase. wait till all minions spawned
+                return;
+            }
+            if (World.getWorld().getPlayers().stream().filter(Objects::nonNull).filter(p -> NEX_AREA.contains(p)).count() == 0) {
+                ZarosGodwars.clear();
+            }
+        });
     }
 
     public int lastAttack;
@@ -862,6 +875,7 @@ public class NexCombat extends CommonCombatMethod {
     }
 
     private void drop() {
+        var nex = this.entity.getAsNpc();
         var amountOfPlayersToGetDrop = 5;
         var list = nex.getCombat().getDamageMap().entrySet().stream().sorted(Comparator.comparingInt(e -> e.getValue().getDamage())).collect(Collectors.collectingAndThen(Collectors.toList(), l -> {
             Collections.reverse(l);

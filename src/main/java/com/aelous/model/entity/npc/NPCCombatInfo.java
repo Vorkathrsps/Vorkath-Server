@@ -142,12 +142,16 @@ public class NPCCombatInfo {
                 try {
                     return combatMethodClass.getDeclaredConstructor().newInstance();
                 } catch (InstantiationException e) {
+                    System.err.println("issue init "+combat+": "+e);
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {
+                    System.err.println("issue init "+combat+": "+e);
                     e.printStackTrace();
                 } catch (InvocationTargetException e) {
+                    System.err.println("issue init "+combat+": "+e);
                     e.printStackTrace();
                 } catch (NoSuchMethodException e) {
+                    System.err.println("issue init "+combat+": "+e);
                     e.printStackTrace();
                 }
             }

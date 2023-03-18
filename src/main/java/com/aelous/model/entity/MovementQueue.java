@@ -11,6 +11,7 @@ import com.aelous.model.map.region.RegionManager;
 import com.aelous.model.map.route.ClipUtils;
 import com.aelous.model.map.route.routes.DumbRoute;
 import com.aelous.utility.Debugs;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -340,6 +341,9 @@ public class MovementQueue {
 
         if(!entity.getRouteFinder().allowStep(newX, newY))
             return false;
+        var dirMoved = Direction.getDirection(diffX, diffY);
+        var nt = entity.tile().transform(dirMoved.x == 0 ? 0 : (dirMoved.x * 10), dirMoved.y == 0 ? 0 : (dirMoved.y * 10));
+        entity.lastTileFaced = entity.tile.transform(nt.x * 2 + 1, nt.y * 2 + 1);
 
         entity.setTile(new Tile(newX, newY, entity.getZ()));
         if (entity.isPlayer())

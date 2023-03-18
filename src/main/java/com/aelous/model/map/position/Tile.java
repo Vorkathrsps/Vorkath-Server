@@ -3,6 +3,7 @@ package com.aelous.model.map.position;
 import com.aelous.model.content.areas.riskzone.RiskFightArea;
 import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.map.object.GameObject;
@@ -838,5 +839,9 @@ public class Tile implements Cloneable {
                 && (rot == -1 || o.getRotation() == rot)
                 && (id == -1 || o.getId() == id);
         }, new Tile(this.x, this.y, this.getZ())).orElse(null));
+    }
+
+    public Tile tileToDir(Direction n) {
+        return transform(n.x * 10, n.y * 10);
     }
 }

@@ -464,13 +464,16 @@ public abstract class Entity {
      *
      * @return The face tile, or <code>null</code> if the entity is not facing.
      */
-    public Tile getFaceTile() {
+    public @Nullable Tile getFaceTile() {
         return faceTile;
     }
+
+    public Tile lastTileFaced;
 
     public Entity setPositionToFace(Tile tile) {
         this.getUpdateFlag().flag(Flag.FACE_TILE);
         this.faceTile = tile;
+        this.lastTileFaced = tile;
         return this;
     }
 

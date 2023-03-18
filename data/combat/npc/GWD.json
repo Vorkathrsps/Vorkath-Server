@@ -47,7 +47,7 @@
     "maxhit": 29,
     "attackspeed": 5,
     "aggressive": true,
-    "retaliates": false,
+    "retaliates": true,
     "boss": true,
     "aggroradius": 50,
     "stats": {
@@ -82,7 +82,7 @@
     "maxhit": 29,
     "attackspeed": 5,
     "aggressive": true,
-    "retaliates": false,
+    "retaliates": true,
     "boss": true,
     "aggroradius": 50,
     "stats": {
@@ -117,7 +117,7 @@
     "maxhit": 29,
     "attackspeed": 5,
     "aggressive": true,
-    "retaliates": false,
+    "retaliates": true,
     "boss": true,
     "aggroradius": 50,
     "stats": {
@@ -152,7 +152,7 @@
     "maxhit": 29,
     "attackspeed": 5,
     "aggressive": true,
-    "retaliates": false,
+    "retaliates": true,
     "boss": true,
     "aggroradius": 50,
     "stats": {

@@ -299,7 +299,7 @@ public class NexCombat extends CommonCombatMethod {
             nex.forceChat("A siphon will solve this!");
             nex.animate(BLOOD_SIPHON_ANIM);
             nex.doingSiphon = true;
-            int maxMinions = nex.closePlayers().length;
+            int maxMinions = Math.min(9 - nex.bloodReavers.size(), nex.closePlayers().length); // one per player
             if (maxMinions > 8) {
                 maxMinions = 8;
             }

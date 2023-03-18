@@ -68,14 +68,10 @@ public class SetLevelOther implements Command {
 
         @Override
         public void execute(Player player, String command, String[] parts) {
-            try {
-                Integer x = Integer.valueOf(parts[1]);
-                Integer y = Integer.valueOf(parts[2]);
-                Integer z = Integer.valueOf(parts[3]);
-                player.teleport(x, y, z);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Integer x = Integer.valueOf(parts[1]);
+            Integer y = Integer.valueOf(parts[2]);
+            Integer z = Integer.valueOf(parts[3]);
+            player.teleport(x, y, player.tile().getZ()); // fuck what the client thinks about height
         }
 
         @Override

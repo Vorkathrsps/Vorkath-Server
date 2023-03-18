@@ -12,6 +12,7 @@ import com.aelous.model.map.object.ObjectManager;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.model.map.region.RegionManager;
 import com.aelous.utility.Utils;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -824,7 +825,11 @@ public class Tile implements Cloneable {
 
 
     public static GameObject getObject(int id, int x, int y, int z, int type, int rot) {
-        return new Tile(x,y,z).getObject(id, type, rot);
+        GameObject object = new Tile(x, y, z).getObject(id, type, rot);
+        //if (object == null) {
+            LogManager.getLogger("GameObject").info("request {} {} {} {} {} {} found {}", id, x, y, z, type, rot, object);
+        //}
+        return object;
     }
 
     public GameObject getObject(int id, int type, int rot) {
@@ -834,11 +839,15 @@ public class Tile implements Cloneable {
                 && (id == -1 || o.getId() == id)
                 && o.tile().equals(new Tile(x, y, level))
         ).findAny();
-        return obj.orElse(MapObjects.get(o -> {
+        GameObject gameObject = obj.orElse(MapObjects.get(o -> {
             return (type == -1 || o.getType() == type)
                 && (rot == -1 || o.getRotation() == rot)
                 && (id == -1 || o.getId() == id);
         }, new Tile(this.x, this.y, this.getZ())).orElse(null));
+        if (gameObject == null) {
+            LogManager.getLogger("GameObject").info("request2 {} {} {} {} {} {} found {}", id, x, y, level, type, rot, gameObject);
+        }
+        return gameObject;
     }
 
     public Tile tileToDir(Direction n) {

@@ -66,7 +66,12 @@ public class ObjectManager {
      * @param object       The object to deregister.
      */
     public static void removeObj(GameObject object) {
-        World.getWorld().getSpawnedObjs().removeIf(o -> o.equals(object));
+        World.getWorld().getSpawnedObjs().removeIf(o -> {
+            return o.getId() == object.getId() &&
+                o.getType() == object.getType() &&
+                o.getRotation() == object.getRotation() &&
+                o.tile().equals(object.tile);
+        });
         perform(object, OperationType.DESPAWN);
 
         // Remove duplicates!

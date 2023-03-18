@@ -391,6 +391,9 @@ public class CommandManager {
            var b = p.getRouteFinder().routeAbsolute(p.tile().transform(4, 0).x, p.tile().transform( 0, 4).y).reachable;
             System.out.println(b);
         });
+        dev("test6", (p, c, s) -> {
+            logger.info("base {} {}", p.tile().getBaseX(), p.tile().getBaseLocalX());
+        });
     }
 
     public static void dev(String cmd, TriConsumer<Player, String, String[]> tc) {

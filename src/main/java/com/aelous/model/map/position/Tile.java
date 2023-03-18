@@ -461,7 +461,7 @@ public class Tile implements Cloneable {
      * @param span
      */
     public boolean inSqRadius(Tile tile, int span) {
-        return this.inArea(new Area(tile.x - span, tile.y - span, tile.x + span, tile.y + span, tile.level));
+        return this.inAreaZ(new Area(tile.x - span, tile.y - span, tile.x + span, tile.y + span, tile.level));
     }
 
     public int region() {
@@ -827,7 +827,7 @@ public class Tile implements Cloneable {
     public static GameObject getObject(int id, int x, int y, int z, int type, int rot) {
         GameObject object = new Tile(x, y, z).getObject(id, type, rot);
         //if (object == null) {
-            LogManager.getLogger("GameObject").info("request {} {} {} {} {} {} found {}", id, x, y, z, type, rot, object);
+         //   LogManager.getLogger("GameObject").info("request {} {} {} {} {} {} found {}", id, x, y, z, type, rot, object);
         //}
         return object;
     }
@@ -840,7 +840,7 @@ public class Tile implements Cloneable {
                 && o.tile().equals(new Tile(x, y, level))
         ).findFirst();
         if (obj.isPresent()) {
-            LogManager.getLogger("GameObject").info("request2 {} {} {} {} {} {} found {}", id, x, y, level, type, rot, obj);
+        //    LogManager.getLogger("GameObject").info("request2 {} {} {} {} {} {} found {}", id, x, y, level, type, rot, obj.orElse(null));
         }
         GameObject gameObject = obj.orElse(MapObjects.get(o -> {
             return (type == -1 || o.getType() == type)
@@ -848,7 +848,7 @@ public class Tile implements Cloneable {
                 && (id == -1 || o.getId() == id);
         }, new Tile(this.x, this.y, this.getZ())).orElse(null));
         if (gameObject == null) {
-            LogManager.getLogger("GameObject").info("request2 {} {} {} {} {} {} found {}", id, x, y, level, type, rot, gameObject);
+       //     LogManager.getLogger("GameObject").info("request3 {} {} {} {} {} {} found {}", id, x, y, level, type, rot, gameObject);
         }
         return gameObject;
     }

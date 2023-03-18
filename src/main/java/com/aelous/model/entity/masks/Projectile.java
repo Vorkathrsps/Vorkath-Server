@@ -319,6 +319,17 @@ public final class Projectile {
             '}';
     }
 
+    /**
+     * constructor for runite formatted projectiles, aim to match them 1:1 with existing fields
+     * @param gfxId
+     * @param startHeight
+     * @param endHeight
+     * @param delay
+     * @param durationStart
+     * @param durationIncrement
+     * @param curve
+     * @param idk
+     */
     public Projectile(int gfxId, int startHeight, int endHeight, int delay, int durationStart, int durationIncrement, int curve, int idk) {
         this.projectileId = gfxId;
         this.startHeight = startHeight;
@@ -348,8 +359,7 @@ public final class Projectile {
             this.lockon,
             this.projectileId, this.speed, this.delay, this.startHeight, this.endHeight,
             this.slope, this.creatorSize, this.startDistanceOffset, this.stepMultiplier);
-        projectile.sendProjectile();
-        return 2;
+        return mob.executeProjectile(projectile);
     }
     public int send(Entity mob, Entity target) {
         Projectile projectile = new Projectile(
@@ -358,8 +368,7 @@ public final class Projectile {
             (target.isPlayer() ? -target.getIndex() - 1 : target.getIndex() + 1),
             this.projectileId, this.speed, this.delay, this.startHeight, this.endHeight,
             this.slope, this.creatorSize, this.startDistanceOffset, this.stepMultiplier);
-        projectile.sendProjectile();
-        return 2;
+        return mob.executeProjectile(projectile);
     }
 
     public int send(Tile src, Tile dest) {

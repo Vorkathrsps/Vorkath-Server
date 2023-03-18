@@ -273,7 +273,7 @@ public class GameObject {
         if (lastAnimationTick != currentTick) {
             lastAnimationTick = currentTick;
             World.getWorld().getPlayers().forEach(p -> {
-                if (p != null && p.tile().inSqRadius(this.tile(),12)) {
+                if (p != null && p.tile().inSqRadius(this.tile(),64)) {
                     p.getPacketSender().sendObjectAnimation(this, id);
                 }
             });

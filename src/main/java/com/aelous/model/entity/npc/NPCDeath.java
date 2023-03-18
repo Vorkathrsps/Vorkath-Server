@@ -742,7 +742,7 @@ public class NPCDeath {
                         GwdLogic.onRespawn(npc);
                         respawn(npc);
                     });
-                } else if (npc.id() != KALPHITE_QUEEN_6500) {
+                } else if (unregisterOnDeath(npc.id())) {
                     npc.hidden(true);
                     World.getWorld().unregisterNpc(npc);
                 }
@@ -750,6 +750,13 @@ public class NPCDeath {
         } catch (Exception e) {
             logger.catching(e);
         }
+    }
+
+    private static boolean unregisterOnDeath(int npcId) {
+        if (npcId == KALPHITE_QUEEN_963 || npcId == GREAT_OLM_LEFT_CLAW_7555 || npcId == GREAT_OLM_RIGHT_CLAW_7553) {
+            return false;
+        }
+        return true;
     }
 
     private static void treasure(Player killer, NPC npc, Tile tile) {

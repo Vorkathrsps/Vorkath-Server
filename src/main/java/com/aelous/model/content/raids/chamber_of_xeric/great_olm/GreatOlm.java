@@ -25,6 +25,7 @@ import com.aelous.utility.Color;
 import com.aelous.utility.TickDelay;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -70,7 +71,8 @@ public class GreatOlm extends CommonCombatMethod {
      * Converts coordinates
      */
     public Tile getTile(int localX, int localY) {
-        return new Tile(entity.tile().getBaseX(), entity.tile().getBaseY()).transform(0, 0, entity.getZ()).relative(localX, localY);
+        Tile relative = entity.tile().regionCorner().transform(0, 0, entity.getZ()).relative(localX, localY);
+        return relative;
     }
 
     public NPC npc, rightClaw, leftClaw;
@@ -82,6 +84,7 @@ public class GreatOlm extends CommonCombatMethod {
         World.getWorld().definitions().get(ObjectDefinition.class, FIRE_32297).clipType = 1; // force flame wall fire to clip tiles
 
         npc = entity.npc();
+        npc.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, 40);
         northTargetBounds = new Area(getTile(RIGHT.swX, RIGHT.swY), getTile(RIGHT.neX, RIGHT.neY), npc.getZ()); // no debug
         centerTargetBounds = new Area(getTile(CENTER.swX, CENTER.swY), getTile(CENTER.neX, CENTER.neY), npc.getZ()); // somehow this is null
         southTargetBounds = new Area(getTile(LEFT.swX, LEFT.swY), getTile(LEFT.neX, LEFT.neY), npc.getZ());
@@ -99,6 +102,8 @@ public class GreatOlm extends CommonCombatMethod {
             party = npc1.getAttrib(AttributeKey.RAID_PARTY);
             rightClaw = party.monsters.stream().filter(e -> e.id() == GREAT_OLM_RIGHT_CLAW_7553).findFirst().get();
             leftClaw = party.monsters.stream().filter(e -> e.id() == GREAT_OLM_LEFT_CLAW_7555).findFirst().get();
+            rightClaw.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, 40);
+            leftClaw.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, 40);
             rightClaw.setCombatMethod(new CommonCombatMethod() {
 
                 @Override
@@ -1069,17 +1074,12 @@ public class GreatOlm extends CommonCombatMethod {
         });
     }
 
-    private final GameObject DUMMY = new GameObject(0, new Tile(0,0,0));
-
     private GameObject getObject(NPC npc) {
         var t = new Tile(
             isOnEastSide() ? npc.getAbsX() : npc.getAbsX() - 3,
             npc.getAbsY(),
             npc.getZ());
-        GameObject obj = t.getObject(-1,10, -1); // getObject = spawnObjects - since its not in cache at z>0
-        if (obj == null) { // stop NPEs
-            obj = DUMMY;
-        }
+        GameObject obj = t.getObject(-1,10, -1);
         return obj;
     }
 

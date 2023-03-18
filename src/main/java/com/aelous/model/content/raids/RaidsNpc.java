@@ -17,7 +17,8 @@ public class RaidsNpc extends NPC {
     public RaidsNpc(int id, Tile tile, int partySize) {
         super(id, tile);
         this.respawns(false);
-        this.combatInfo().aggroradius = 15;
+        if (this.combatInfo() != null)
+            this.combatInfo().aggroradius = 15;
         this.walkRadius(15);
         this.setHitpoints((int) (this.hp() * (1 + (BONUS_HP_PER_PLAYER * (partySize - 1)))));
     }
@@ -25,7 +26,8 @@ public class RaidsNpc extends NPC {
     public RaidsNpc(int id, Tile tile, Direction direction, int partySize, boolean scale) {
         super(id, tile);
         this.respawns(false);
-        this.combatInfo().aggroradius = 15;
+        if (this.combatInfo() != null)
+            this.combatInfo().aggroradius = 15;
         this.walkRadius(15);
         if (scale)
             this.setHitpoints((int) (this.hp() * (1 + (BONUS_HP_PER_PLAYER * (partySize - 1)))));

@@ -838,7 +838,10 @@ public class Tile implements Cloneable {
                 && (rot == -1 || o.getRotation() == rot)
                 && (id == -1 || o.getId() == id)
                 && o.tile().equals(new Tile(x, y, level))
-        ).findAny();
+        ).findFirst();
+        if (obj.isPresent()) {
+            LogManager.getLogger("GameObject").info("request2 {} {} {} {} {} {} found {}", id, x, y, level, type, rot, obj);
+        }
         GameObject gameObject = obj.orElse(MapObjects.get(o -> {
             return (type == -1 || o.getType() == type)
                 && (rot == -1 || o.getRotation() == rot)

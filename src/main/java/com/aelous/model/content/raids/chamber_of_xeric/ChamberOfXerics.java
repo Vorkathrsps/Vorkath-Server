@@ -19,6 +19,8 @@ import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.object.ObjectManager;
 import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Color;
+import com.google.common.collect.Lists;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,11 +41,11 @@ public class ChamberOfXerics extends Raids {
         if (party == null) return;
         party.setRaidStage(6);
         final int height = party.getLeader().getIndex() * 4;
+        party.setHeight(height);
 
         for (Player member : party.getMembers()) {
             member.setRaids(this);
             member.teleport(new Tile(3299, 5189, height));
-            party.setHeight(height);
         }
 
         //Clear kills
@@ -219,15 +221,38 @@ public class ChamberOfXerics extends Raids {
 
         GameObject o1 = GameObject.spawn(CRYSTALLINE_STRUCTURE, 3238, 5743, party.getHeight(), 10, 1);
 
-        NPC spawn = new RaidsNpc(GREAT_OLM_7554, new Tile(3238, 5738, party.getHeight()), Direction.WEST, party.getSize(), true).spawn();
-        NPC spawn1 = new RaidsNpc(GREAT_OLM_LEFT_CLAW_7555, new Tile(3238, 5733, party.getHeight()), Direction.WEST, party.getSize(), true).spawn();
-        NPC spawn2 = new RaidsNpc(GREAT_OLM_RIGHT_CLAW_7553, new Tile(3238, 5743, party.getHeight()), Direction.WEST, party.getSize(), true).spawn();
+        party.objects.addAll(Lists.newArrayList(o1, o2, o3));
+
+        var o4 = new GameObject(29888, new Tile(3238, 5743, party.getHeight()), 10, 1);
+        var o5 = new GameObject(29882, new Tile(3238, 5738, party.getHeight()), 10, 1);
+        var o6 = new GameObject(29885, new Tile(3238, 5733, party.getHeight()), 10, 1);
+
+        // left side
+        var o7 = new GameObject(29888, new Tile(3220, 5733, party.getHeight()), 10, 3);
+        var o8 = new GameObject(29882, new Tile(3220, 5738, party.getHeight()), 10, 3);
+        var o9 = new GameObject(29885, new Tile(3220, 5743, party.getHeight()), 10, 3);
+
+        var cacheLandscapeObjects = Lists.newArrayList(o4,o5,o6,o7,o8,o9);
+        party.objects.addAll(cacheLandscapeObjects);
+        World.getWorld().getSpawnedObjs().addAll(cacheLandscapeObjects);
+        LogManager.getLogger("cox").info("adding {}", cacheLandscapeObjects);
+
+        NPC spawn = new RaidsNpc(GREAT_OLM_7554, new Tile(3238, 5738, party.getHeight()), Direction.WEST, party.getSize(), true);
+
+        NPC spawn1 = new RaidsNpc(GREAT_OLM_LEFT_CLAW_7555, new Tile(3238, 5733, party.getHeight()), Direction.WEST, party.getSize(), true);
+
+        NPC spawn2 = new RaidsNpc(GREAT_OLM_RIGHT_CLAW_7553, new Tile(3238, 5743, party.getHeight()), Direction.WEST, party.getSize(), true);
+
         spawn.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, true);
         spawn1.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, true);
         spawn2.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, true);
 
-        List<NPC> boss = Arrays.stream(new NPC[]{spawn, spawn1, spawn2}).toList();
-        party.monsters.addAll(boss);
+        var mobs = Lists.newArrayList(spawn, spawn1, spawn2);
+        party.monsters.addAll(mobs);
+        for (NPC mob : mobs) {
+            mob.putAttrib(AttributeKey.RAID_PARTY, party);
+            mob.spawn(false);
+        }
 
     }
 }

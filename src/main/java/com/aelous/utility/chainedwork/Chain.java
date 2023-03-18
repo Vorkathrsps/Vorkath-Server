@@ -234,6 +234,7 @@ public class Chain<T> {
                 @Override
                 public void onStop() {
                     if (interrupted) {
+                        logger.info("chain interrupted, wont continue to next");
                         return;
                     }
                     super.onStop();
@@ -261,8 +262,10 @@ public class Chain<T> {
     }
 
     private void attemptWork() {
-        if (interrupted)
+        if (interrupted) {
+            logger.info("chain interrupted, wont continue to next");
             return;
+        }
         if (cancelCondition != null && cancelCondition.getAsBoolean()) {
             if (DEBUG_CHAIN) {
                 System.out.println("[DEBUG_CHAIN] Cancel condition was True, stopping work for "+owner);

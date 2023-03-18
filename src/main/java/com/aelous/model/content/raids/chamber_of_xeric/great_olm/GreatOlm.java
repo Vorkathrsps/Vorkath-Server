@@ -46,8 +46,6 @@ import static com.aelous.model.entity.attributes.AttributeKey.VENOMED_BY;
  * @Since December 24, 2022
  */
 public class GreatOlm extends CommonCombatMethod {
-    
-    private Entity mob;
 
     private static final Projectile CRYSTAL_DROP_PROJECTILE = new Projectile(1357, 150, 0, 0, 135, 0, 0, 0);
     private static final Projectile CRYSTAL_BOMB_PROJECTILE = new Projectile(1357, 90, 0, 30, 100, 0, 16, 0);
@@ -72,7 +70,7 @@ public class GreatOlm extends CommonCombatMethod {
      * Converts coordinates
      */
     public Tile getTile(int localX, int localY) {
-        return new Tile(mob.tile().getBaseX(), mob.tile().getBaseY()).transform(0, 0, mob.getZ()).relative(localX, localY);
+        return new Tile(entity.tile().getBaseX(), entity.tile().getBaseY()).transform(0, 0, entity.getZ()).relative(localX, localY);
     }
 
     public NPC npc, rightClaw, leftClaw;
@@ -83,7 +81,7 @@ public class GreatOlm extends CommonCombatMethod {
     public void init(NPC npc1) {
         World.getWorld().definitions().get(ObjectDefinition.class, FIRE_32297).clipType = 1; // force flame wall fire to clip tiles
 
-        npc = mob.npc();
+        npc = entity.npc();
         northTargetBounds = new Area(getTile(RIGHT.swX, RIGHT.swY), getTile(RIGHT.neX, RIGHT.neY), npc.getZ()); // no debug
         centerTargetBounds = new Area(getTile(CENTER.swX, CENTER.swY), getTile(CENTER.neX, CENTER.neY), npc.getZ()); // somehow this is null
         southTargetBounds = new Area(getTile(LEFT.swX, LEFT.swY), getTile(LEFT.neX, LEFT.neY), npc.getZ());
@@ -93,12 +91,12 @@ public class GreatOlm extends CommonCombatMethod {
         System.out.println("southTargetBounds "+southTargetBounds);
         System.out.println("arenaBounds "+arenaBounds);*/
         lastPhase = 2; //0,1,2  = 3 phases default
-        npc.repeatingTask(5, t -> {
+        Chain.noCtx().repeatingTask(5, t -> {
             List<Player> allTargets = getAllTargets(); // wait until a player is available
             if (allTargets.size() == 0) {
                 return;
             }
-            t.stop();
+            party = npc1.getAttrib(AttributeKey.RAID_PARTY);
             rightClaw = party.monsters.stream().filter(e -> e.id() == GREAT_OLM_RIGHT_CLAW_7553).findFirst().get();
             leftClaw = party.monsters.stream().filter(e -> e.id() == GREAT_OLM_LEFT_CLAW_7555).findFirst().get();
             rightClaw.setCombatMethod(new CommonCombatMethod() {
@@ -172,16 +170,17 @@ public class GreatOlm extends CommonCombatMethod {
                 }
             });
             rise();
+            t.stop();
         });
         startAcidPoolEvent(npc);
     }
 
     @Override
     public void postDamage(Hit hit) {
-        if (hit.getDamage() == 0 || hit.splatType == SplatType.NPC_HEALING_HITSPLAT || mob.dead())
+        if (hit.getDamage() == 0 || hit.splatType == SplatType.NPC_HEALING_HITSPLAT || entity.dead())
             return;
         if (currentPhase != lastPhase || !leftClaw.dead() || !rightClaw.dead()) {
-            mob.healHit(mob, hit.getDamage(), 3);
+            entity.healHit(entity, hit.getDamage(), 3);
         }
     }
 
@@ -264,7 +263,7 @@ public class GreatOlm extends CommonCombatMethod {
 
     @Override
     public int getAttackSpeed(Entity mob) {
-        return mob.getBaseAttackSpeed();
+        return entity.getBaseAttackSpeed();
     }
 
     @Override
@@ -328,6 +327,7 @@ public class GreatOlm extends CommonCombatMethod {
                 AtomicInteger maxLoops = new AtomicInteger();
                 AtomicInteger sleepFor = new AtomicInteger();
                 Chain.noCtx().repeatingTask(1, t -> {
+                    if (npc.dead() || !npc.isRegistered()) t.stop();
                     if (sleepFor.getAndDecrement() > 0)
                         return; // replacement for event.delay inside a loop
                     if (maxLoops.getAndIncrement() < 20) {
@@ -497,10 +497,10 @@ public class GreatOlm extends CommonCombatMethod {
                 continue;
             int yStep = Utils.rollPercent(50) ? -1 : 1;
             final Tile[] lightningPos = {getTile(x, yStep == -1 ? 52 : 35)};
-            Chain.noCtx().repeatingTask(1, event -> {
-
-                if (event.getRunDuration() == 17)
-                    event.stop();
+            Chain.noCtx().repeatingTask(1, t -> {
+                if (npc.dead() || !npc.isRegistered()) t.stop();
+                if (t.getRunDuration() == 17)
+                    t.stop();
                 World.getWorld().tileGraphic(1356, lightningPos[0], 0, 0);
                 forAllTargets(player -> {
                     if (player.isAt(lightningPos[0])) {
@@ -543,6 +543,7 @@ public class GreatOlm extends CommonCombatMethod {
 
                 AtomicInteger ticks = new AtomicInteger();
                 Chain.noCtx().repeatingTask(2, t -> {
+                    if (npc.dead() || !npc.isRegistered()) t.stop();
                     if (ticks.getAndIncrement() < 4) {
                         player.graphic(gfxId, GraphicHeight.MIDDLE, 0);
                         if (finalOther != null)
@@ -625,6 +626,7 @@ public class GreatOlm extends CommonCombatMethod {
             AtomicInteger crystals = new AtomicInteger();
             AtomicInteger sleepFor = new AtomicInteger();
             Chain.noCtx().repeatingTask(1, t -> {
+                if (npc.dead() || !npc.isRegistered()) t.stop();
                 if (sleepFor.getAndDecrement() > 0)
                     return; // replacement for event.delay inside a loop
                 if (crystals.getAndIncrement() > 10) {
@@ -712,6 +714,7 @@ public class GreatOlm extends CommonCombatMethod {
     public void startAcidPoolEvent(NPC npc) {
 
             Chain.noCtx().repeatingTask(1, t -> {
+                if (npc.dead() || !npc.isRegistered()) t.stop();
                 forAllTargets(p -> {
                     if (Tile.getObject(30032, p.getAbsX(), p.getAbsY(), p.getZ(), 10, -1) != null) {
                         p.hit(npc, World.getWorld().random(3, 6), SplatType.POISON_HITSPLAT);
@@ -724,7 +727,7 @@ public class GreatOlm extends CommonCombatMethod {
 
     public void spawnAcidPool(NPC npc, Tile tile) {
         GameObject pool = GameObject.spawn(30032, tile, 10, 0);
-         Chain.noCtx().delay(10, () -> pool.remove());
+        Chain.noCtx().delay(10, () -> pool.remove());
     }
 
     public void acidPoolsAttack(NPC npc, Party party) {
@@ -874,6 +877,7 @@ public class GreatOlm extends CommonCombatMethod {
                 claw.hidden(false);
                 AtomicInteger progress = new AtomicInteger(1);
                 Chain.noCtx().repeatingTask(1, t -> {
+                    if (npc.dead() || !npc.isRegistered()) t.stop();
                     if (progress.getAndIncrement() <= 25 && !otherClaw.dead()) {
                         claw.getUpdateFlag().flag(Flag.FIRST_SPLAT);
                     }
@@ -904,6 +908,7 @@ public class GreatOlm extends CommonCombatMethod {
             Chain.noCtx().delay(delay, () ->  {
                 AtomicInteger ticks = new AtomicInteger();
                 Chain.noCtx().repeatingTask(2, t -> {
+                    if (npc.dead() || !npc.isRegistered()) t.stop();
                     if (ticks.get() < duration) {
                         for (int i = 0; i < 2; i++) {
                             Tile tile;

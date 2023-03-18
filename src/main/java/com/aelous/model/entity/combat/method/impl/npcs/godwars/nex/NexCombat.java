@@ -803,7 +803,7 @@ public class NexCombat extends CommonCombatMethod {
 
     @Override
     public boolean customOnDeath(Hit hit) {
-        var nex = hit.getTarget();
+        var nex = (Nex) hit.getTarget();
         if (hit.getTarget().isNpc()) {
             NPC npc = hit.getTarget().npc();
             Player player = hit.getSource().player();
@@ -832,6 +832,7 @@ public class NexCombat extends CommonCombatMethod {
                     close.hit(npc, World.getWorld().random(40));
                 }
             }).then(3, () ->{
+                nex.killBloodReavers();
                 ZarosGodwars.nex = null;
                 npc.remove();
                 player.getPacketSender().sendEffectTimer(12, EffectTimer.MONSTER_RESPAWN);

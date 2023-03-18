@@ -559,7 +559,7 @@ public class CombatFactory {
      * @param other  The victim.
      * @return True if attacker has the requirements to attack, otherwise false.
      */
-    public static boolean canAttack(Entity entity, CombatMethod method, Entity other) {
+    public static boolean canAttack(Entity entity, CombatMethod method, Entity other) { // im expecting this is print for the player, that fact its not is odd as shit
         Debugs.CMB.debug(entity, "enter can attack", other, true);
 
         boolean message = false;
@@ -594,16 +594,17 @@ public class CombatFactory {
             Debugs.CMB.debug(entity, "cant attack locked", other, true);
             return false;
         }
-
         if (other.tile().level != entity.tile().level) {
             Debugs.CMB.debug(entity, "cant attack not on the same height level", other, true);
             return false;
         }
 
         if (entity.isNpc() && entity.getAsNpc().attackNpcListener != null && !entity.getAsNpc().attackNpcListener.allow(entity.getAsPlayer(), entity.getAsNpc(), message)) {
+            Debugs.CMB.debug(entity, "kys 1", other, true);
             return false;
         }
         if (entity.isNpc() && !entity.npc().canAttack()) {
+            Debugs.CMB.debug(entity, "kys 2", other, true);
             return false;
         }
 
@@ -634,8 +635,8 @@ public class CombatFactory {
 
         if (other.isNpc()) {
             var npc = other.getAsNpc();
-            var player = entity.getAsPlayer();
-            if (npc.hidden() || (entity.isPlayer() && npc.id() == 7707) || npc.locked() && npc.id() != 5886 && npc.id() != 2668) {
+            // special case fuck knows why
+            if (npc.hidden() || (entity.isPlayer() && npc.id() == 7707)) {
                 Debugs.CMB.debug(entity, "cant attack idk what this is hidden" + npc.hidden(), other, true);
                 return false;
             }
@@ -653,6 +654,7 @@ public class CombatFactory {
             // Check if we can attack in this area
             if (!ControllerManager.canAttack(player, other)) {
                 entity.getMovementQueue().reset();
+                Debugs.CMB.debug(entity, "kys 3", other, true);
                 return false;
             }
             // Check if we're using a special attack..

@@ -1007,9 +1007,13 @@ public abstract class Entity {
         return lock == LockType.FULL_LOGOUT_OK;
     }
 
-    public boolean moveLocked() {
+    public boolean isMoveLocked() {
         return lock == LockType.MOVEMENT || lock == LockType.MOVEMENT_DAMAGE_OK;
     }
+    public boolean isMoveLockedDamageOk() {
+        return lock == LockType.MOVEMENT_DAMAGE_OK;
+    }
+
 
     public void lock() {
         lock = LockType.FULL;
@@ -1830,5 +1834,9 @@ public abstract class Entity {
     public InstancedArea instancedArea;
     public void setInstance(InstancedArea instancedArea) {
         this.instancedArea = instancedArea;
+    }
+
+    public boolean isNpc(int i) {
+        return isNpc() && getAsNpc().id() == i;
     }
 }

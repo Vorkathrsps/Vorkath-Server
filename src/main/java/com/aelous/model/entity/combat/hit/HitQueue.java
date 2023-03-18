@@ -29,7 +29,7 @@ public class HitQueue {
         if (entity.stunned()) {
             return;
         }
-        if (entity.dead() || (entity.locked() && !entity.isDelayDamageLocked() && !entity.isDamageOkLocked() && !entity.isLogoutOkLocked())) {
+        if (entity.dead() || (entity.locked() && !entity.isDelayDamageLocked() && !entity.isDamageOkLocked() && !entity.isLogoutOkLocked() && !entity.isMoveLockedDamageOk())) {
             hits.clear();
             return;
         }

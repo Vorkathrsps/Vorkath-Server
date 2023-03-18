@@ -1,7 +1,5 @@
 package com.aelous.model.entity;
 
-import com.aelous.core.task.Task;
-import com.aelous.core.task.TaskManager;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.npc.NPC;
@@ -202,7 +200,7 @@ public class MovementQueue {
                 return false;
             }
         }
-        if (entity.<Boolean>getAttribOr(AttributeKey.LOCKED_FROM_MOVEMENT, false) || entity.moveLocked()) {
+        if (entity.<Boolean>getAttribOr(AttributeKey.LOCKED_FROM_MOVEMENT, false) || entity.isMoveLocked()) {
             return false;
         }
 

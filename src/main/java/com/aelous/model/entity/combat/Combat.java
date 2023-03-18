@@ -200,7 +200,7 @@ public class Combat {
      */
     public void attack(Entity target) {
         //When certain conditions are met you can no longer attack.
-        if (mob.dead() || target.dead() || mob.isNoAttackLocked()) {
+        if (mob.dead() || target.dead() || mob.locked()) {
             return;
         }
 
@@ -297,7 +297,7 @@ public class Combat {
         /**
          * Set the facing position
          */
-        if (mob.getInteractingEntity() != target) {
+        if (mob.getInteractingEntity() != target && !mob.isNpc(6611)) {
             mob.setEntityInteraction(target);
         }
         return true;
@@ -332,10 +332,14 @@ public class Combat {
         if (!beforePerformAttack()) {
             return;
         }
+        // ok we we do have to have a hardcode case
 
         method = CombatFactory.getMethod(mob);
 
         updateLastTarget(target);
+        if (target.isNpc()) {
+            System.out.print("");
+        }
 
         final int attackSpeed = method.getAttackSpeed(mob);
 

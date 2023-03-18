@@ -14,7 +14,7 @@ public class WingmanSkree extends CommonCombatMethod {
         entity.animate(6955);
         var tileDist = entity.tile().distance(target.tile());
         int duration = (45 + 11 + (5 * tileDist));
-        Projectile p = new Projectile(entity, target, 1199, 25, duration, 80, 25, 0, target.getSize(), 5);
+        Projectile p = new Projectile(entity, target, 1199, 25, duration, 0, 0, 0, target.getSize(), 5);
         final int delay = entity.executeProjectile(p);
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
     }

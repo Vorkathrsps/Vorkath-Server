@@ -199,7 +199,7 @@ public class Hit {
     public boolean invalid() {
 
         // Locked, and the lock isn't one that allows damage through.
-        if (target.locked() && !target.isDamageOkLocked() && !target.isDelayDamageLocked())
+        if (target.locked() && !target.isDamageOkLocked() && !target.isDelayDamageLocked() && !target.isMoveLockedDamageOk())
             return true;
 
         return false;

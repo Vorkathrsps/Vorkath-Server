@@ -105,7 +105,7 @@ public class TargetRoute {
                 size,
                 targetX,
                 targetY,
-                targetSize))) { 
+                targetSize))) {
                 withinDistance = true;
                 entity.getMovement().reset();
             }

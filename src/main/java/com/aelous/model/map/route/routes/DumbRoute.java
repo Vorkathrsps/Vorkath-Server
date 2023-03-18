@@ -46,10 +46,10 @@ public class DumbRoute {
         if (stepDir != null) entity.step(stepDir.deltaX, stepDir.deltaY, MovementQueue.StepType.REGULAR);
     }
 
-    public static void step(Entity entity, Entity target, int distance) {
+    public static void step(Entity entity, Entity target, int distance) { // this is probably used in uh agility and shit then as a forcewalk/interpolate from oss copy
         /** Use the route finder to find the exact x/y to walk to.. I know.. bad.. */
         RouteFinder rf = entity.getRouteFinder();
-        rf.customClipUtils = ClipUtils.NONE;
+        rf.customClipUtils = ClipUtils.REGULAR;//i have the forcewalk and interpolate stuff
         rf.routeEntity(target);
         rf.customClipUtils = null;
         entity.getMovement().reset();

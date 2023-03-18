@@ -34,6 +34,7 @@ public class RottenPotato extends PacketInteraction {
     public static boolean onItemOnMob(Player player, Entity target) {
         // Give you the name and distance to a target
         if (player.getPlayerRights().isDeveloper(player)) {
+            Debugs.CMB.toggle();
             if (target.isPlayer()) {
                 player.debugMessage(String.format("Distance to %s (%d) : %d. ", (target.getAsPlayer()).getUsername(), target.getIndex(), player.tile().distance(target.tile())));
             } else {
@@ -52,6 +53,9 @@ public class RottenPotato extends PacketInteraction {
     }
 
     private static void potatoOnMob(Player player, NPC npc) {
+        npc.getAsNpc().cantInteract(false);
+        npc.unlock();
+        System.out.println(npc.getSize());
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {

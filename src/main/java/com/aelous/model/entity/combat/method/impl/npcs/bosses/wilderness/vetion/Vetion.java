@@ -1,123 +1,49 @@
 package com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion;
 
-import com.aelous.core.task.Task;
-import com.aelous.core.task.TaskManager;
-import com.aelous.core.task.impl.TickAndStop;
 import com.aelous.model.World;
+import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
-import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
-import com.aelous.model.entity.masks.Projectile;
-import com.aelous.model.entity.masks.impl.animations.Animation;
-import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
-import com.aelous.model.entity.player.Player;
-import com.aelous.model.map.object.GameObject;
-import com.aelous.model.map.object.ObjectManager;
-import com.aelous.model.map.position.Area;
+import com.aelous.model.entity.player.Skills;
 import com.aelous.model.map.position.Tile;
+import com.aelous.model.map.route.routes.ProjectileRoute;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 import com.aelous.utility.timers.TimerKey;
+import com.mysql.cj.util.Util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 public class Vetion extends CommonCombatMethod {
 
+    boolean canwalk = false;
+    int walkCount = 0;
+
     @Override
     public void prepareAttack(Entity entity, Entity target) {
-        /*if (entity.hp() <= 125 && !entity.hasAttrib(AttributeKey.VETION_HELLHOUND_SPAWNED)) {
+        walkCount++;
+        entity.face(null);
+        if (entity.hp() <= 125 && !entity.hasAttrib(AttributeKey.VETION_HELLHOUND_SPAWNED)) {
             spawnHellhounds((NPC) entity, target);
         }
 
-        //If the 5 minute timer has expired we revert vetion back to his original form.
-        if (!entity.getTimers().has(TimerKey.VETION_REBORN_TIMER) && ((NPC) entity).transmog() == 6612) {
-            ((NPC) entity).transmog(6611);
-        }
+        // doMagicSwordSlash();
+        var random = World.getWorld().random(10);
+       switch (random) {
+           case 0, 1 -> doMagicSwordRaise();
+           case 2, 3 -> doMagicSwordSlash();
+       }
 
-        if (Utils.rollDie(20, 1)) { // 5% chance the target sends his bitch ass lightning
-            doMagic();
-        } else if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
-            entity.animate(5499);
-            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
-        } else {
-            doMagic();
-        }*/
-
-
-        fillToxicFumes((NPC) entity, target);
-
-
-    }
-
-    private static void fillToxicFumes(NPC npc, Entity target) {
-        Tile spawnTile = npc.spawnTile();
-
-        Chain.bound(null).runFn(1, () -> {
-            npc.animate(5069);
-            npc.setPositionToFace(spawnTile.transform(4, -4));
-            spitFume(npc, spawnTile.transform(2, -4), target, 3);
-            spitFume(npc, spawnTile.transform(5, -4), target, 3);
-        }).then(3, () -> {
-            // South-west
-            npc.animate(5069);
-            npc.setPositionToFace(spawnTile.transform(-2, -4));
-            spitFume(npc, spawnTile.transform(-1, -4), target, 3);
-            spitFume(npc, spawnTile.transform(-4, -3), target, 3);
-        }).then(3, () -> {
-            // East
-            npc.animate(5069);
-            npc.setPositionToFace(spawnTile.transform(6, 2));
-            spitFume(npc, spawnTile.transform(6, -1), target, 3);
-            spitFume(npc, spawnTile.transform(6, 2), target, 3);
-        }).then(3, () -> {
-            // West
-            npc.animate(5069);
-            npc.setPositionToFace(spawnTile.transform(-4, 2));
-            spitFume(npc, spawnTile.transform(-4, 3), target, 3);
-            spitFume(npc, spawnTile.transform(-4, 0), target, 3);
-        });
-
-    }
-
-    private static void spitFume(NPC npc, Tile tile, Entity target, int delay) {
-        GameObject obj = new GameObject(11700, tile, 10, 0);
-        Area area = tile.transform(1, 1).area(1); // Center, 3x3
-
-        var tileDist = npc.tile().distance(obj.tile());
-        int duration = (41 + 11 + (5 * tileDist));
-
-        new Projectile(npc.tile(), tile, 1045, 41, duration, 65, 0, 0, 0, 5).sendProjectile();
-
-        TaskManager.submit(new TickAndStop(delay) {
-            @Override
-            public void executeAndStop() {
-                ObjectManager.addObj(obj);
-                TaskManager.submit(new Task() {
-                    int internalCounter = 30;
-
-                    @Override
-                    protected void execute() {
-                        if (internalCounter-- > 0) {
-                            if (area.contains(target, true)) {
-                                // just standing here causes damage, not only when venom ticker is applied
-                                target.hit(npc, 1 + Utils.getRandom(3), SplatType.VENOM_HITSPLAT);
-                                target.venom(npc); // apply venom
-                            }
-                        } else {
-                            ObjectManager.removeObj(obj);
-                            stop();
-                        }
-                    }
-                });
-            }
-        });
     }
 
     @Override
@@ -126,61 +52,106 @@ public class Vetion extends CommonCombatMethod {
     }
 
     @Override
+    public void doFollowLogic() {
+        NPC vetion = (NPC) entity;
+        vetion.face(null);
+        if (canwalk) {
+            vetion.stepAbs(target.getX(), target.getY(), MovementQueue.StepType.REGULAR);
+        }
+    }
+
+    @Override
     public int getAttackDistance(Entity entity) {
         return 6;
     }
 
     private void doMagicSwordRaise() {
-        int startSpeed = 51, stepMultiplier = 10, tileDist = entity.tile().distance(target.tile());
-        Tile lightning_one = target.tile().transform(0, 1);
-        Tile lightning_two = lightning_one.transform(1, 0);
-        Tile lightning_three = lightning_one.transform(1, 1);
-        entity.animate(9969, 0);
-        Chain.bound(entity).runFn(1, () -> {
-            entity.performGraphic(new Graphic(2344, GraphicHeight.MIDDLE, 0));
+        canwalk = false; //he doesnt follow, only faces & paths
+        // ok when this attack happens what should happen.. he walk to the tile? when does it lock? , he locks to avoid interaction, then he steps to tile, then when at tile, performs attack, without updating facing
+        NPC vetion = (NPC) entity;
+        vetion.lockMoveDamageOk();// here let me show u how he interacts
+        List<Tile> tiles = entity.tile().area(1, pos -> World.getWorld().clipAt(pos.x, pos.y, pos.level) == 0 && !pos.equals(entity.tile()) && !ProjectileRoute.allow(entity, pos));
+        Tile destination = Utils.randomElement(tiles);
+        Tile finalDest1 = destination == null ? null : World.getWorld().randomTileAround(destination, 4);
+        Tile finalDest2 = destination == null ? null : World.getWorld().randomTileAround(destination, 4);
+        Tile finalDest3 = destination == null ? null : World.getWorld().randomTileAround(destination, 4);
+        Tile finalDest4 = destination == null ? null : World.getWorld().randomTileAround(destination, 4);
+        Tile finalDest5 = destination == null ? null : World.getWorld().randomTileAround(destination, 4);
+        Tile finalDest6 = destination == null ? null : World.getWorld().randomTileAround(destination, 4);
+        if (destination == null)
+            return;
+        var lastTarget = target;
+        Chain.noCtx().runFn(1, () -> {
+            vetion.forceChat("Dodge this!");
+            vetion.setPositionToFace(target.tile());
+        }).runFn(1, () -> {
+            vetion.animate(9969);
+            vetion.graphic(2344, GraphicHeight.MIDDLE, 0);
+            World.getWorld().tileGraphic(2346, finalDest1, 0, 30);
+            World.getWorld().tileGraphic(2346, finalDest2, 0, 30);
+            World.getWorld().tileGraphic(2346, finalDest3, 0, 30);
+            World.getWorld().tileGraphic(2346, finalDest4, 0, 30);
+            World.getWorld().tileGraphic(2346, finalDest5, 0, 30);
+            World.getWorld().tileGraphic(2346, finalDest6, 0, 30);
         }).then(2, () -> {
             if (target != null && target.isPlayer() && !target.dead() && entity.isRegistered() && !entity.dead()) {
-                int duration = (startSpeed + -5 + (stepMultiplier * tileDist));
-                World.getWorld().tileGraphic(2346, lightning_one, 0, 0);
-                World.getWorld().tileGraphic(2346, lightning_one, 0, 0);
-                World.getWorld().tileGraphic(2346, lightning_two, 0, 0);
-                World.getWorld().tileGraphic(2346, lightning_three, 0, 0);
-                if (target.tile().equals(lightning_one) || target.tile().equals(lightning_two) || target.tile().equals(lightning_three)) {
-                    Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), duration, CombatType.MAGIC).checkAccuracy();
+                if (target.tile().equals(finalDest1) || target.tile().equals(finalDest2) || target.tile().equals(finalDest3) || target.tile().equals(finalDest4) || target.tile().equals(finalDest5) || target.tile().equals(finalDest6)) {
+                    Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 1, CombatType.MAGIC).checkAccuracy();
                     hit.submit();
-                } else if (target.tile().isWithinDistance(lightning_one, 1)) {
-                    Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), duration, CombatType.MAGIC).checkAccuracy();
+                } else if (target.tile().isWithinDistance(finalDest1, 1) || target.tile().isWithinDistance(finalDest2, 1) || target.tile().isWithinDistance(finalDest3, 1) || target.tile().isWithinDistance(finalDest4, 1) || target.tile().isWithinDistance(finalDest5, 1) || target.tile().isWithinDistance(finalDest6, 1)) {
+                    Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 1, CombatType.MAGIC).checkAccuracy();
                     hit.submit();
                     hit.setDamage(hit.getDamage() / 2);
                 }
             }
+        }).then(2, () -> {
+            vetion.unlock();
+            vetion.getCombat().setTarget(lastTarget);
+            entity.face(null);
         });
     }
 
     private void doMagicSwordSlash() {
-        int startSpeed = 51, stepMultiplier = 10, tileDist = entity.tile().distance(target.tile());
-        Tile lightning_one = target.tile().transform(0, 1);
-        Tile lightning_two = lightning_one.transform(1, 0);
-        Tile lightning_three = lightning_one.transform(1, 1);
-        entity.animate(9972);
-        Chain.bound(entity).runFn(1, () -> {
-            entity.performGraphic(new Graphic(2344, GraphicHeight.MIDDLE, 0));
-        }).then(0, () -> {
+        canwalk = false;
+        NPC vetion = (NPC) entity;
+        vetion.lockMoveDamageOk();// here let me show u how he interacts
+        List<Tile> tiles = entity.tile().area(1, pos -> World.getWorld().clipAt(pos.x, pos.y, pos.level) == 0 && !pos.equals(entity.tile()) && !ProjectileRoute.allow(entity, pos));
+        Tile destination = Utils.randomElement(tiles);
+        Tile finalDest1 = destination == null ? null : World.getWorld().randomTileAround(destination, 4);
+        Tile finalDest2 = destination == null ? null : World.getWorld().randomTileAround(destination, 4);
+        Tile finalDest3 = destination == null ? null : World.getWorld().randomTileAround(destination, 4);
+        Tile finalDest4 = destination == null ? null : World.getWorld().randomTileAround(destination, 4);
+        Tile finalDest5 = destination == null ? null : World.getWorld().randomTileAround(destination, 4);
+        Tile finalDest6 = destination == null ? null : World.getWorld().randomTileAround(destination, 4);
+        if (destination == null)
+            return;
+        var lastTarget = target;
+        Chain.noCtx().runFn(1, () -> {
+            vetion.forceChat("stfu");
+            vetion.setPositionToFace(target.tile());
+        }).runFn(1, () -> {
+            vetion.animate(9972);
+            World.getWorld().tileGraphic(2346, finalDest1, 0, 30);
+            World.getWorld().tileGraphic(2346, finalDest2, 0, 30);
+            World.getWorld().tileGraphic(2346, finalDest3, 0, 30);
+            World.getWorld().tileGraphic(2346, finalDest4, 0, 30);
+            World.getWorld().tileGraphic(2346, finalDest5, 0, 30);
+            World.getWorld().tileGraphic(2346, finalDest6, 0, 30);
+        }).then(2, () -> {
             if (target != null && target.isPlayer() && !target.dead() && entity.isRegistered() && !entity.dead()) {
-                int duration = (startSpeed + -10 + (stepMultiplier * tileDist));
-                World.getWorld().tileGraphic(2346, lightning_one, 0, duration);
-                World.getWorld().tileGraphic(2346, lightning_one, 0, duration);
-                World.getWorld().tileGraphic(2346, lightning_two, 0, duration);
-                World.getWorld().tileGraphic(2346, lightning_three, 0, duration);
-                if (target.tile().equals(lightning_one) || target.tile().equals(lightning_two) || target.tile().equals(lightning_three)) {
-                    Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), duration, CombatType.MAGIC).checkAccuracy();
+                if (target.tile().equals(finalDest1) || target.tile().equals(finalDest2) || target.tile().equals(finalDest3) || target.tile().equals(finalDest4) || target.tile().equals(finalDest5) || target.tile().equals(finalDest6)) {
+                    Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 0, CombatType.MAGIC).checkAccuracy();
                     hit.submit();
-                } else if (target.tile().isWithinDistance(lightning_one, 1)) {
-                    Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), duration, CombatType.MAGIC).checkAccuracy();
+                } else if (target.tile().isWithinDistance(finalDest1, 1) || target.tile().isWithinDistance(finalDest2, 1) || target.tile().isWithinDistance(finalDest3, 1) || target.tile().isWithinDistance(finalDest4, 1) || target.tile().isWithinDistance(finalDest5, 1) || target.tile().isWithinDistance(finalDest6, 1)) {
+                    Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 0, CombatType.MAGIC).checkAccuracy();
                     hit.submit();
                     hit.setDamage(hit.getDamage() / 2);
                 }
             }
+        }).then(2, () -> { // no sure if 1 after 0 is supported in chains
+            vetion.unlock();
+            vetion.getCombat().setTarget(lastTarget);
+            entity.face(null);
         });
     }
 
@@ -211,4 +182,15 @@ public class Vetion extends CommonCombatMethod {
         }
         return false;
     }
+
+    @Override
+    public boolean canMultiAttackInSingleZones() {
+        return super.canMultiAttackInSingleZones();
+    }
+
+    @Override
+    public ArrayList<Entity> getPossibleTargets(Entity mob) {
+        return Arrays.stream(mob.closePlayers(64)).collect(Collectors.toCollection(ArrayList::new));
+    }
+
 }

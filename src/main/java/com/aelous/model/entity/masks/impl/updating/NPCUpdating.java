@@ -16,7 +16,6 @@ import com.aelous.network.packet.ValueType;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Represents a player's npc updating task, which loops through all local
@@ -54,7 +53,7 @@ public class NPCUpdating {
                     synchronized (npc) {
                         npc.inViewport(true); // Mark as in viewport
                         if (npc.getUpdateFlag().isUpdateRequired()) {
-                            appendUpdates(npc, update);
+                            appendUpdates(npc, update, false);
                         }
                     }
                 } else {
@@ -79,8 +78,8 @@ public class NPCUpdating {
                     addNPC(player, npc, packet);
                     synchronized (npc) {
                         npc.inViewport(true); // Mark as in viewport
-                        if (npc.getUpdateFlag().isUpdateRequired()) {
-                            appendUpdates(npc, update);
+                        if (npc.getUpdateFlag().isUpdateRequired() || sendNewNpcUpdates(npc)) {
+                            appendUpdates(npc, update, true);
                         }
                     }
                     localNpcCount++;
@@ -99,6 +98,9 @@ public class NPCUpdating {
         }
     }
 
+    private static boolean sendNewNpcUpdates(NPC npc) {
+        return npc.getInteractingEntity() != null || (npc.getInteractingEntity() == null && npc.lastTileFaced != null);
+    }
 
 
     /**
@@ -116,15 +118,14 @@ public class NPCUpdating {
         builder.putBits(5, xOffset);
         builder.putBits(1, 0);
         builder.putBits(14, npc.id());
-        builder.putBits(1, npc.getUpdateFlag().isUpdateRequired() ? 1 : 0);
+        builder.putBits(1, npc.getUpdateFlag().isUpdateRequired() || sendNewNpcUpdates(npc) ? 1 : 0);
 
         //Facing update. We don't want to update facing for npcs that walk.
-        var useLastFaceTileCalc = npc.getInteractingEntity() == null && npc.lastTileFaced != null;
-        boolean updateFacing = npc.walkRadius() == 0 || useLastFaceTileCalc;
+        boolean updateFacing = npc.walkRadius() == 0;
         builder.putBits(1, updateFacing ? 1 : 0);
         if (updateFacing) {
             // lastTileFaced already has *2+1 applied
-            Tile tile = useLastFaceTileCalc ? npc.lastTileFaced : new Tile(face(npc).x * 2 + 1, face(npc).y * 2 + 1);
+            Tile tile = new Tile(face(npc).x * 2 + 1, face(npc).y * 2 + 1);
             builder.putBits(14, tile.getX()); //face x
             builder.putBits(14, tile.getY()); //face y
         }
@@ -195,11 +196,14 @@ public class NPCUpdating {
     /**
      * Appends a mask update for {@code npc}.
      *
-     * @param npc   The npc to update masks for.
-     * @param block The packet builder to write information on.
+     * @param npc    The npc to update masks for.
+     * @param block  The packet builder to write information on.
+     * @param newNpc
      * @return The NPCUpdating instance.
      */
-    private static void appendUpdates(NPC npc, PacketBuilder block) {
+    private static void appendUpdates(NPC npc, PacketBuilder block, boolean newNpc) {
+        var sendFaceTile = newNpc && npc.getInteractingEntity() == null && npc.lastTileFaced != null;
+        var sendLockon = newNpc && npc.getInteractingEntity() != null;
         int mask = 0;
         UpdateFlag flag = npc.getUpdateFlag();
         if (flag.flagged(Flag.ANIMATION) && npc.getAnimation() != null) {
@@ -211,7 +215,7 @@ public class NPCUpdating {
         if (flag.flagged(Flag.FIRST_SPLAT)) {
             mask |= 0x8;
         }
-        if (flag.flagged(Flag.ENTITY_INTERACTION)) {
+        if (flag.flagged(Flag.ENTITY_INTERACTION) || sendLockon) {
             mask |= 0x20;
         }
         if (flag.flagged(Flag.FORCED_CHAT) && npc.getForcedChat() != null) {
@@ -223,7 +227,7 @@ public class NPCUpdating {
         if (flag.flagged(Flag.TRANSFORM)) {
             mask |= 0x2;
         }
-        if (flag.flagged(Flag.FACE_TILE) && npc.getFaceTile() != null) {
+        if (sendFaceTile || (flag.flagged(Flag.FACE_TILE) && npc.getFaceTile() != null)) {
             mask |= 0x4;
         }
         block.put(mask);
@@ -236,7 +240,7 @@ public class NPCUpdating {
         if (flag.flagged(Flag.FIRST_SPLAT)) {
             updateSingleHit(block, npc);
         }
-        if (flag.flagged(Flag.ENTITY_INTERACTION)) {
+        if (flag.flagged(Flag.ENTITY_INTERACTION) || sendLockon) {
             Entity entity = npc.getInteractingEntity();
             block.putShort(entity == null ? -1 : entity.getIndex() + (entity instanceof Player ? 32768 : 0));
         }
@@ -250,8 +254,8 @@ public class NPCUpdating {
             block.putShort(npc.transmog() <= 0 ? npc.id() : npc.transmog(), ValueType.A, ByteOrder.LITTLE);
             block.putShort(npc.getHeadHint());
         }
-        if (flag.flagged(Flag.FACE_TILE)) {
-            final Tile position = npc.getFaceTile();
+        if (flag.flagged(Flag.FACE_TILE) || sendFaceTile) {
+            final Tile position = sendFaceTile ? npc.lastTileFaced : npc.getFaceTile();
             int x = position == null ? 0 : position.getX();
             int y = position == null ? 0 : position.getY();
             block.putShort(x * 2 + 1, ByteOrder.LITTLE);

@@ -3,6 +3,8 @@ package com.aelous.model.entity.player.commands;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 import com.aelous.model.entity.MovementQueue;
+import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.Venom;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
@@ -428,6 +430,12 @@ public class CommandManager {
                     p.hit(p, 0, value).submit();
                 });
             }
+        });
+        dev("test8", (p, c, s) -> {
+            p.poison(8, true);
+        });
+        dev("test9", (p, c, s) -> {
+           p.venom(p.closeNpcs(15)[0]);
         });
     }
 

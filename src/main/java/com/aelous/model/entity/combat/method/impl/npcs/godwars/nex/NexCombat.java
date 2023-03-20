@@ -27,6 +27,7 @@ import com.aelous.model.items.Item;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.object.GameObject;
+import com.aelous.model.map.object.ObjectManager;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.route.routes.ProjectileRoute;
@@ -44,7 +45,7 @@ import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.NEX_11282;
 import static com.aelous.model.content.collection_logs.LogType.BOSSES;
 import static com.aelous.model.entity.attributes.AttributeKey.*;
 import static com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.NexFightState.*;
-import static com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars.nex;
+import static com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars.*;
 import static com.aelous.utility.ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD;
 
 /**
@@ -842,6 +843,10 @@ public class NexCombat extends CommonCombatMethod {
                 }
                 ZarosGodwars.clear();
                 player.getPacketSender().sendEffectTimer(12, EffectTimer.MONSTER_RESPAWN);
+
+                if (redBarrierPurple != null && ancientBarrierPurple.isPresent()) {
+                    ObjectManager.replaceWith(redBarrierPurple, ancientBarrierPurple.get());
+                }
                 drop();
                 //Respawn nex
             }).then(20, () ->ZarosGodwars.startEvent());

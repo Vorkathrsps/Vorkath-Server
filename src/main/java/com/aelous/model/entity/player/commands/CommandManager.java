@@ -2,6 +2,8 @@ package com.aelous.model.entity.player.commands;
 
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
+import com.aelous.model.content.areas.theatre.ViturRoom;
+import com.aelous.model.content.instance.impl.VerzikViturInstance;
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.Venom;
@@ -447,6 +449,11 @@ public class CommandManager {
                 if (opacity <= 30) opacity = 30;
                 p.getPacketSender().darkenScreen(opacity);
             });
+        });
+        dev("verzik", (p, c, s) -> {
+            p.unlock();
+            p.getCombat().clearDamagers();
+            p.getVerzikViturInstance().enterInstance(p);
         });
     }
 

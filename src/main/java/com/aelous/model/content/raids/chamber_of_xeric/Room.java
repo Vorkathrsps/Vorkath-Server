@@ -2,13 +2,19 @@ package com.aelous.model.content.raids.chamber_of_xeric;
 
 import com.aelous.model.content.raids.chamber_of_xeric.reward.ChamberOfXericReward;
 import com.aelous.model.content.raids.party.Party;
+import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.inter.dialogue.Dialogue;
+import com.aelous.model.inter.dialogue.DialogueType;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
 import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.utility.Color;
 
+import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.VERZIK_VITUR_8369;
+import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.VERZIK_VITUR_8370;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.*;
+import static com.aelous.model.inter.dialogue.Dialogue.send;
 
 /**
  * @author Patrick van Elderen <https://github.com/PVE95>
@@ -90,6 +96,32 @@ public class Room extends PacketInteraction {
                 }
                 ChamberOfXericReward.displayRewards(player);
                 ChamberOfXericReward.withdrawReward(player);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    @Override
+    public boolean handleNpcInteraction(Player player, NPC npc, int option) {
+        if(option == 1) {
+            if(npc.id() == VERZIK_VITUR_8369) {
+                player.getDialogueManager().start(new Dialogue() {
+                    @Override
+                    protected void start(Object... parameters) {
+                        send(DialogueType.NPC_STATEMENT, VERZIK_VITUR_8369, 590, "Now that was quite the show! I haven't been that", "entertained in a long time.");
+                        setPhase(0);
+                    }
+
+                    @Override
+                    protected void next() {
+                        if(isPhase(0)) {
+                            npc.transmog(VERZIK_VITUR_8370);
+                            stop();
+                        }
+                    }
+                });
                 return true;
             }
         }

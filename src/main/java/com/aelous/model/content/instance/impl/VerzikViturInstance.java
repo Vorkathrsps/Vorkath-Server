@@ -4,6 +4,7 @@ import com.aelous.model.World;
 import com.aelous.model.content.EffectTimer;
 import com.aelous.model.content.instance.InstancedAreaManager;
 import com.aelous.model.content.instance.SingleInstancedArea;
+import com.aelous.model.content.raids.RaidsNpc;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.method.impl.npcs.verzik.VerzikVitur;
 import com.aelous.model.entity.npc.NPC;
@@ -13,6 +14,8 @@ import com.aelous.model.map.position.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.VERZIK_VITUR_8369;
 
 public class VerzikViturInstance {
 
@@ -50,16 +53,18 @@ public class VerzikViturInstance {
 
     public void enterInstance(Player player) {
         instance = (SingleInstancedArea) InstancedAreaManager.getSingleton().createSingleInstancedArea(player, VERZIK_AREA);
-        if (player != null && instance != null) {
+        if (instance == null) {
+            player.message("Instance unavailable");
+            return;
+        }
+        System.out.println("ok "+instance.getzLevel());
             npcList.clear();
             player.teleport(ENTRANCE_POINT.transform(0, 0, instance.getzLevel()));
 
-            var verzik = new NPC(8372, VERZIK_SPAWN_TILE.transform(0, 0, instance.getzLevel()));
-            verzik.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN,25);
-            World.getWorld().registerNpc(verzik);
+            NPC verzik = new RaidsNpc(VERZIK_VITUR_8369, new Tile(3166, 4323, instance.getzLevel()), 1, false);
+             verzik.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, true);
+            verzik.spawn();
             npcList.add(verzik);
-        }
-        if(instance != null && player != null) {
             instance.setOnTeleport((p, t) -> {
                 // so now we check if the target tile is inside or outside of the instance, if its out, we know we're leaving, if inside, we don't care
                 if (t.getZ() != instance.getzLevel()) {
@@ -67,7 +72,6 @@ public class VerzikViturInstance {
                     player.getPacketSender().sendEffectTimer(0, EffectTimer.MONSTER_RESPAWN);
                 }
             });
-        }
     }
 
     public void clear() {

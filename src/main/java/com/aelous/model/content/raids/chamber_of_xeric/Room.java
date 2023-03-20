@@ -6,6 +6,7 @@ import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.inter.dialogue.Dialogue;
 import com.aelous.model.inter.dialogue.DialogueType;
+import com.aelous.model.inter.dialogue.Expression;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
 import com.aelous.network.packet.incoming.interaction.PacketInteraction;
@@ -110,7 +111,7 @@ public class Room extends PacketInteraction {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {
-                        send(DialogueType.NPC_STATEMENT, VERZIK_VITUR_8369, 590, "Now that was quite the show! I haven't been that", "entertained in a long time.");
+                        send(DialogueType.NPC_STATEMENT, VERZIK_VITUR_8369, Expression.CALM_TALK, "Now that was quite the show! I haven't been that", "entertained in a long time.");
                         setPhase(0);
                     }
 

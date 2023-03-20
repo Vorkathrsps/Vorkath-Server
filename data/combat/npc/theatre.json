@@ -1,8 +1,8 @@
 [
   {
-    //Verzik Vitur Phase 2
+    // Verzik Vitur
     "ids": [
-      8372
+      8369, 8370, 8371, 8372, 8373, 8374, 8375
     ],
     "maxhit": 50,
     "deathlen": 2,

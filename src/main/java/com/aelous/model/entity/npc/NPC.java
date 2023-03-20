@@ -294,6 +294,9 @@ public class NPC extends Entity {
     public void transmog(int id) {
         this.transmog = id;
         this.id = id;
+        this.def(World.getWorld().definitions().get(NpcDefinition.class, id));
+        NpcDefinition def = def();
+        setSize(def.size);
         this.getUpdateFlag().flag(Flag.TRANSFORM);
     }
 

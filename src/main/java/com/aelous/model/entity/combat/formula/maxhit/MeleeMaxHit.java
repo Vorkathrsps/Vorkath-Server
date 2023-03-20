@@ -166,10 +166,6 @@ public class MeleeMaxHit {
             otherBonus *= 1.10;
         }
 
-        if (FormulaUtils.wearingTwistedSlayerHelmetI(player) && target != null && target.isNpc() && includeNpcMax) {
-            otherBonus *= 1.10;
-        }
-
         if(player.getEquipment().hasAt(EquipSlot.WEAPON, ARCLIGHT) && target != null && includeNpcMax) {
             if(target.isNpc() && target.getAsNpc().id() == NpcIdentifiers.COMBAT_DUMMY) {
                 otherBonus *= 1.70;

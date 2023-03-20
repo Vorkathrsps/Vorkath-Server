@@ -116,7 +116,7 @@ public class RangeAccuracy {
 
         if(attacker.isPlayer()) { //additional bonuses here
             if (style.equals(RANGED)) {
-                if (((Player) attacker).getEquipment().contains(ItemIdentifiers.BOW_OF_FAERDHINEN)) {
+                if ((FormulaUtils.hasBowOfFaerdhenin((Player) attacker))) {
                     if (((Player) attacker).getEquipment().contains(ItemIdentifiers.CRYSTAL_HELM)) {
                         effectiveLevel = (int) Math.floor(effectiveLevel * 1.05D);
                     }

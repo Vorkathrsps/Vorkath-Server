@@ -81,10 +81,6 @@ public class RangeMaxHit {
             otherBonus *= 1.125;
         }
 
-        if (FormulaUtils.wearingTwistedSlayerHelmetI(player) && target != null && target.isNpc() && includeNpcMax) {
-            otherBonus *= 1.10; //+10%
-        }
-
         if (player.getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
             otherBonus *= 1.15;
         }

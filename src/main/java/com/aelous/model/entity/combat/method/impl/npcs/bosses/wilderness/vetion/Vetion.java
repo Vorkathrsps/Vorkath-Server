@@ -70,7 +70,7 @@ public class Vetion extends CommonCombatMethod {
         // ok when this attack happens what should happen.. he walk to the tile? when does it lock? , he locks to avoid interaction, then he steps to tile, then when at tile, performs attack, without updating facing
         NPC vetion = (NPC) entity;
         vetion.lockMoveDamageOk();// here let me show u how he interacts
-        List<Tile> tiles = entity.tile().area(1, pos -> World.getWorld().clipAt(pos.x, pos.y, pos.level) == 0 && !pos.equals(entity.tile()) && !ProjectileRoute.allow(entity, pos));
+        List<Tile> tiles = entity.tile().area(10, pos -> World.getWorld().clipAt(pos.x, pos.y, pos.level) == 0 && !pos.equals(entity.tile()) && !ProjectileRoute.allow(entity, pos));
         Tile destination = Utils.randomElement(tiles);
         Tile finalDest1 = destination == null ? null : World.getWorld().randomTileAround(destination, 4);
         Tile finalDest2 = destination == null ? null : World.getWorld().randomTileAround(destination, 4);
@@ -108,6 +108,7 @@ public class Vetion extends CommonCombatMethod {
             vetion.unlock();
             vetion.getCombat().setTarget(lastTarget);
             entity.face(null);
+            canwalk = true;
         });
     }
 
@@ -115,7 +116,7 @@ public class Vetion extends CommonCombatMethod {
         canwalk = false;
         NPC vetion = (NPC) entity;
         vetion.lockMoveDamageOk();// here let me show u how he interacts
-        List<Tile> tiles = entity.tile().area(1, pos -> World.getWorld().clipAt(pos.x, pos.y, pos.level) == 0 && !pos.equals(entity.tile()) && !ProjectileRoute.allow(entity, pos));
+        List<Tile> tiles = entity.tile().area(10, pos -> World.getWorld().clipAt(pos.x, pos.y, pos.level) == 0 && !pos.equals(entity.tile()) && !ProjectileRoute.allow(entity, pos));
         Tile destination = Utils.randomElement(tiles);
         Tile finalDest1 = destination == null ? null : World.getWorld().randomTileAround(destination, 4);
         Tile finalDest2 = destination == null ? null : World.getWorld().randomTileAround(destination, 4);
@@ -152,6 +153,7 @@ public class Vetion extends CommonCombatMethod {
             vetion.unlock();
             vetion.getCombat().setTarget(lastTarget);
             entity.face(null);
+            canwalk = true;
         });
     }
 

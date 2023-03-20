@@ -40,31 +40,36 @@ public class ItemOnItem {
             return;
         }
 
-        if(LogLighting.onItemOnItem(player, use, with)) {
+        if (LogLighting.onItemOnItem(player, use, with)) {
             return;
         }
-        if(PotionBrewing.onItemOnItem(player, use, with)) {
-            return;
-        }
-
-        if(PestleAndMortar.onItemOnItem(player, use, with)) {
-            return;
-        }
-        if(HerbTar.onItemOnItem(player, use, with)) {
-            return;
-        }
-        if(Potions.onItemOnItem(player, use, with)) {
-            return;
-        }
-        if(SuperCombatPotions.makePotion(player, use, with)) {
+        if (PotionBrewing.onItemOnItem(player, use, with)) {
             return;
         }
 
-        if(player.getRunePouch().itemOnItem(use, with)) {
+        if (PestleAndMortar.onItemOnItem(player, use, with)) {
+            return;
+        }
+        if (HerbTar.onItemOnItem(player, use, with)) {
+            return;
+        }
+        if (Potions.onItemOnItem(player, use, with)) {
+            return;
+        }
+        if (SuperCombatPotions.makePotion(player, use, with)) {
+            return;
+        }
+
+        if (player.getRunePouch().itemOnItem(use, with)) {
             return;
         }
 
         if (player.getLootingBag().itemOnItem(use, with)) {
+            return;
+        }
+
+        if (use.getId() == CRYSTAL_OF_IORWERTH || use.getId() == BOW_OF_FAERDHINEN) {
+            player.getDialogueManager().start(new BowOfFaerdhenin());
             return;
         }
 

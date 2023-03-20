@@ -1776,7 +1776,7 @@ public class CombatFactory {
         var crystalBow = (weaponId >= 4212 && weaponId <= 4223);
         var crawsBow = weaponId == ItemIdentifiers.CRAWS_BOW;
         var webWeaver = weaponId == ItemIdentifiers.WEBWEAVER_BOW;
-        var bowOfFaerdhinen = weaponId == ItemIdentifiers.BOW_OF_FAERDHINEN;
+        var bowOfFaerdhinen = FormulaUtils.hasBowOfFaerdhenin(player);
 
         WeaponType weaponType = player.getCombat().getWeaponType();
 
@@ -1798,7 +1798,7 @@ public class CombatFactory {
             }
         }
 
-        if (!bowOfFaerdhinen && !webWeaver && !crawsBow && !crystalBow && (weaponType == WeaponType.BOW && !ammoName.contains(" arrow"))) {
+        if (!bowOfFaerdhinen && !webWeaver && !crawsBow && !crystalBow && (weaponType == WeaponType.BOW && !ammoName.contains("arrow"))) {
             player.message("You can't use that ammo with your bow.");
             return false;
         }

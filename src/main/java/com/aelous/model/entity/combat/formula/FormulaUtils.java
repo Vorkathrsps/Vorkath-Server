@@ -134,6 +134,10 @@ public class FormulaUtils {
         return player.getEquipment().containsAny(OSMUMTENS_FANG, OSMUMTENS_FANG_OR);
     }
 
+    public static boolean hasBowOfFaerdhenin(Player player) {
+        return player.getEquipment().containsAny(BOW_OF_FAERDHINEN, BOW_OF_FAERDHINEN_27187, BOW_OF_FAERDHINEN_C, BOW_OF_FAERDHINEN_C_25869,BOW_OF_FAERDHINEN_C_25884,BOW_OF_FAERDHINEN_C_25886,BOW_OF_FAERDHINEN_C_25888, BOW_OF_FAERDHINEN_C_25890,BOW_OF_FAERDHINEN_C_25892,BOW_OF_FAERDHINEN_C_25892,BOW_OF_FAERDHINEN_C_25896,BOW_OF_FAERDHINEN_C_25896);
+    }
+
     public static boolean hasZurielStaff(Player player) {
         return player.getEquipment().contains(ZURIELS_STAFF);
     }
@@ -191,10 +195,4 @@ public class FormulaUtils {
     public static boolean wearingBlackMaskImbued(Player player) {
         return Arrays.stream(BLACK_MASK_IMBUED).anyMatch(mask -> player.getEquipment().hasAt(EquipSlot.HEAD, mask));
     }
-
-    private static final int[] TWISTED_SLAYER_HELMET_I = new int[] {ItemIdentifiers.TWISTED_SLAYER_HELMET_I};
-    public static boolean wearingTwistedSlayerHelmetI(Player player) {
-        return Arrays.stream(TWISTED_SLAYER_HELMET_I).anyMatch(mask -> player.getEquipment().hasAt(EquipSlot.HEAD, mask));
-    }
-
 }

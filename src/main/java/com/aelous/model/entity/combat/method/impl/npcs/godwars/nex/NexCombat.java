@@ -227,11 +227,13 @@ public class NexCombat extends CommonCombatMethod {
             if (!inNexArea(t.tile())) {
                 continue;
             }
-            Projectile projectile = new Projectile(nex, t, 2007, 0, 100, 43, 31, 0);
-            projectile.sendProjectile();
-            Hit hit = t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), 3, CombatType.MAGIC).checkAccuracy().postDamage(h -> {
+            var tileDist = entity.tile().distance(target.tile());
+            int duration = (51 + -5 + (10 * tileDist));
+            Projectile p = new Projectile(nex, target, 2007, 51, duration, 43, 31, 0, target.getSize(), 10);
+            final int delay = entity.executeProjectile(p);
+            Hit hit = t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), delay, CombatType.MAGIC).checkAccuracy().postDamage(h -> {
                 if (h.isAccurate()) {
-                    h.getTarget().graphic(2008);
+                    h.getTarget().graphic(2008, GraphicHeight.MIDDLE, p.getSpeed());
                     h.getTarget().skills().alterSkill(Skills.PRAYER, -5);
                 }
             });

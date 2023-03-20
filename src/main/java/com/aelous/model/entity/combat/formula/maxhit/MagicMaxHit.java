@@ -80,10 +80,6 @@ public class MagicMaxHit {
                     multiplier += 0.10;
                 }
 
-                if (FormulaUtils.wearingTwistedSlayerHelmetI(player) && target != null && target.isNpc() && includeNpcMax) {
-                    multiplier += 0.10;
-                }
-
                 // #Custom slayer effects
                 var weakSpot = player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.WEAK_SPOT);
                 if (weakSpot && target != null && target.isNpc()) {

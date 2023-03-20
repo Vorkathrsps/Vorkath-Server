@@ -699,141 +699,85 @@ public class EquipmentInfo {
 
         // Individual cases here.
         switch (weapon) {
-            case INQUISITORS_MACE:
+            case INQUISITORS_MACE -> {
                 return 403;
-            case VIGGORAS_CHAINMACE:
-            case VIGGORAS_CHAINMACE_U:
-            case URSINE_CHAINMACE:
+            }
+            case VIGGORAS_CHAINMACE, VIGGORAS_CHAINMACE_U, URSINE_CHAINMACE -> {
                 return 7200;
-            case KODAI_WAND:
-            case KODAI_WAND_23626:
-           // case ANATHEMATIC_WAND:
-            case _3RD_AGE_WAND:
+            }
+            // case ANATHEMATIC_WAND:
+            case KODAI_WAND, KODAI_WAND_23626, _3RD_AGE_WAND -> {
                 return 415;
-            case GHRAZI_RAPIER:
-            case DRAGON_2H_SWORD:
+            }
+            case GHRAZI_RAPIER, DRAGON_2H_SWORD -> {
                 return 410;
-            case SCYTHE_OF_VITUR:
+            }
+            case SCYTHE_OF_VITUR -> {
                 return 435;
-            case DRAGON_HUNTER_LANCE:
-            case STAFF_OF_THE_DEAD:
-            case TOXIC_STAFF_UNCHARGED:
-            case TOXIC_STAFF_OF_THE_DEAD:
-            case TRIDENT_OF_THE_SEAS:
-            case TRIDENT_OF_THE_SEAS_FULL:
-            case TRIDENT_OF_THE_SEAS_E:
-            case UNCHARGED_TOXIC_TRIDENT:
-            case TRIDENT_OF_THE_SWAMP:
-            case TRIDENT_OF_THE_SWAMP_E:
-            case THAMMARONS_SCEPTRE:
-            case THAMMARONS_SCEPTRE_U:
-            case NIGHTMARE_STAFF:
-            case HARMONISED_NIGHTMARE_STAFF:
-            case VOLATILE_NIGHTMARE_STAFF:
-            case ELDRITCH_NIGHTMARE_STAFF:
-            case SANGUINESTI_STAFF:
+            }
+            case DRAGON_HUNTER_LANCE, STAFF_OF_THE_DEAD, TOXIC_STAFF_UNCHARGED, TOXIC_STAFF_OF_THE_DEAD, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS_E, UNCHARGED_TOXIC_TRIDENT, TRIDENT_OF_THE_SWAMP, TRIDENT_OF_THE_SWAMP_E, THAMMARONS_SCEPTRE, THAMMARONS_SCEPTRE_U, NIGHTMARE_STAFF, HARMONISED_NIGHTMARE_STAFF, VOLATILE_NIGHTMARE_STAFF, ELDRITCH_NIGHTMARE_STAFF, SANGUINESTI_STAFF -> {
                 return 420;
-            case ABYSSAL_DAGGER:
-            case ABYSSAL_DAGGER_P:
-            case ABYSSAL_DAGGER_P_13269:
-            case ABYSSAL_DAGGER_P_13271:
+            }
+            case ABYSSAL_DAGGER, ABYSSAL_DAGGER_P, ABYSSAL_DAGGER_P_13269, ABYSSAL_DAGGER_P_13271 -> {
                 return 3295;
-            case 13263: // Abyssal bludgeon
-            case GRANITE_MAUL_24225:
-            case 24944:
-            case GRANITE_MAUL_12848: // Granite maul (or)
-            case 16200:
-            case 16201:
-            case 16202:
-            case 16203:
-            case 16204:
-            case 16205:
-            case 16206:
-            case 16207:
-            case 16208:
-            case 4153:
+            }
+            case 13263, GRANITE_MAUL_24225, 24944, GRANITE_MAUL_12848, 16200, 16201, 16202, 16203, 16204, 16205, 16206, 16207, 16208, 4153 -> {
                 return 1666;
-            case 7671:
-            case 7673:
-            case 11705:
-            case 11706: // Boxing gloves
+            }
+            case 7671, 7673, 11705, 11706 -> {
                 return 3679;
-            case 20593:
-            case 14487:
-            case 30003: // gs
-            case 11802: // gs
-            case 11804: // gs
-            case 11806: // gs
-            case 11808: // gs
-            case 20368: // gs
-            case 20370: // gs
-            case 20372: // gs
-            case 20374: // gs
-            case 26233:
-            case 11838: // sara sword
-            case 12808: // blessed ss (full)
-            case 12809: // blessed ss
+            }
+            case 20593, 14487, 30003, 11802, 11804, 11806, 11808, 20368, 20370, 20372, 20374, 26233, 11838, 12808, 12809 -> { // blessed ss
                 return 7056;
-            case LIGHT_BALLISTA:
-            case HEAVY_BALLISTA:
+            }
+            case LIGHT_BALLISTA, HEAVY_BALLISTA -> {
                 return 7219;
-            case 11824: // Zammy spear
+            }
+            case 11824, TUMEKENS_SHADOW -> { // Zammy spear
                 return 1709;
-            case 20779: // H'ween 2016 hunting knife
+            }
+            case 20779 -> { // H'ween 2016 hunting knife
                 return -1;
-            case 21003: // Elder maul
-            case 30005: //Elder ice maul
-            case 21205:
+            } // Elder maul
+            //Elder ice maul
+            case 21003, 30005, 21205 -> {
                 return 7517;
-            case 21015: // Dinh's Bulwark
+            }
+            case 21015 -> {
                 return 7512;
-            case DRAGON_HASTA:
-            case TOXIC_BLOWPIPE:
+            }
+            case DRAGON_HASTA, TOXIC_BLOWPIPE -> {
                 return 430;
-            case DRAGON_CLAWS:
-            case BRONZE_CROSSBOW:
-            case IRON_CROSSBOW:
-            case STEEL_CROSSBOW:
-            case ADAMANT_CROSSBOW:
-            case RUNE_CROSSBOW:
-            case DRAGON_CROSSBOW:
-            case DRAGON_HUNTER_CROSSBOW:
-            case KARILS_CROSSBOW:
-            case ZARYTE_CROSSBOW:
-            case 4747: // Torag's hamers
-            case 4958: // Torag's hamers
-            case 4959: // Torag's hamers
-            case 4960: // Torag's hamers
-            case 4961: // Torag's hamers
-            case 4718: // Dharok's greataxe
-            case 4886: // Dharok's greataxe
-            case 4887: // Dharok's greataxe
-            case 4888: // Dharok's greataxe
-            case 4889: // Dharok's greataxe
+            } // Torag's hamers
+            // Torag's hamers
+            // Torag's hamers
+            // Torag's hamers
+            // Torag's hamers
+            // Dharok's greataxe
+            // Dharok's greataxe
+            // Dharok's greataxe
+            // Dharok's greataxe
+            case DRAGON_CLAWS, BRONZE_CROSSBOW, IRON_CROSSBOW, STEEL_CROSSBOW, ADAMANT_CROSSBOW, RUNE_CROSSBOW, DRAGON_CROSSBOW, DRAGON_HUNTER_CROSSBOW, KARILS_CROSSBOW, ZARYTE_CROSSBOW, 4747, 4958, 4959, 4960, 4961, 4718, 4886, 4887, 4888, 4889 -> { // Dharok's greataxe
                 return 424;
-            case LEAFBLADED_BATTLEAXE:
+            }
+            case LEAFBLADED_BATTLEAXE -> {
                 return 397;
-            case 4755: // Verac's flail
-            case 4982: // Verac's flail
-            case 4983: // Verac's flail
-            case 4984: // Verac's flail
-            case 4985: // Verac's flail
+            } // Verac's flail
+            // Verac's flail
+            // Verac's flail
+            // Verac's flail
+            case 4755, 4982, 4983, 4984, 4985 -> { // Verac's flail
                 return 2063;
-            case 4910: // Guthan's warspear
-            case 4911: // Guthan's warspear
-            case 4912: // Guthan's warspear
-            case 4913: // Guthan's warspear
-            case 4914: // Guthan's warspear
+            } // Guthan's warspear
+            // Guthan's warspear
+            // Guthan's warspear
+            // Guthan's warspear
+            case 4910, 4911, 4912, 4913, 4914 -> { // Guthan's warspear
                 return 430;
-            case TUMEKENS_SHADOW:
-                return 1709;
-            case AHRIMS_STAFF:
-            case AHRIMS_STAFF_0:
-            case AHRIMS_STAFF_25:
-            case AHRIMS_STAFF_50:
-            case AHRIMS_STAFF_75:
-            case AHRIMS_STAFF_100:
+            }
+            case AHRIMS_STAFF, AHRIMS_STAFF_0, AHRIMS_STAFF_25, AHRIMS_STAFF_50, AHRIMS_STAFF_75, AHRIMS_STAFF_100 -> {
                 return 2079;
+            }
         }
 
         // Book-based defaults

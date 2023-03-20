@@ -6084,3 +6084,6 @@
 27665:3.1:WebWeaver Bow
 27610:4.5:Venator Bow
 26219:1.8:Osmumtens Fang
+27363:0.4:Masori Assembler Max Cape
+27374:5.8:Masori Assembler
+27624:2.2:Masori Assembler

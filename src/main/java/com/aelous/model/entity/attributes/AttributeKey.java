@@ -1368,6 +1368,8 @@ public enum AttributeKey {
     VOLATILE_NIGHTMARE_STAFF_QUESTION("volatile_nightmare_staff_question", AttribType.BOOLEAN),
     ELDRITCH_NIGHTMARE_STAFF_QUESTION("eldritch_nightmare_staff_question", AttribType.BOOLEAN),
     HARMONISED_NIGHTMARE_STAFF_QUESTION("harmonised_nightmare_staff_question", AttribType.BOOLEAN),
+
+    BOW_OF_FAERDHENIN_QUESTION("bow_of_faerdhenin_question", AttribType.BOOLEAN),
     BOT_KILLS("bot_kills", AttribType.INTEGER),
     BOT_DEATHS("bot_deaths", AttribType.INTEGER),
     VORKATH_CB_COOLDOWN,

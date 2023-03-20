@@ -1151,9 +1151,13 @@ public final class PacketSender {
         return this;
     }
 
-    public PacketSender darkenScreen(int i) {
-        // osrs is cs2, 317 needs hardcoding?
-        sendScreenFade("", i, 5);
+    public PacketSender darkenScreen(int opacity) {
+        if (this.player.getSession() != null) { // custom packet
+            PacketBuilder out = new PacketBuilder(190);
+            out.put(opacity > 0 ? 1 : 0);
+            out.putInt(opacity);
+            this.player.getSession().write(out);
+        }
         return this;
     }
 

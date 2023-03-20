@@ -437,6 +437,17 @@ public class CommandManager {
         dev("test9", (p, c, s) -> {
            p.venom(p.closeNpcs(15)[0]);
         });
+        dev("test10", (p, c, s) -> {
+            Chain.noCtx().repeatingTask(1, t -> {
+
+                if (t.getRunDuration() >= 14)
+                    t.stop();
+                var distance = t.getRunDuration();
+                int opacity = 200 - (distance * 17);
+                if (opacity <= 30) opacity = 30;
+                p.getPacketSender().darkenScreen(opacity);
+            });
+        });
     }
 
     public static void dev(String cmd, TriConsumer<Player, String, String[]> tc) {

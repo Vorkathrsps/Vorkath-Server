@@ -57,21 +57,21 @@ public class VerzikViturInstance {
             player.message("Instance unavailable");
             return;
         }
-        System.out.println("ok "+instance.getzLevel());
-            npcList.clear();
-            player.teleport(ENTRANCE_POINT.transform(0, 0, instance.getzLevel()));
+        instance.addPlayer(player);
+        npcList.clear();
+        player.teleport(ENTRANCE_POINT.transform(0, 0, instance.getzLevel()));
 
-            NPC verzik = new RaidsNpc(VERZIK_VITUR_8369, new Tile(3166, 4323, instance.getzLevel()), 1, false);
-             verzik.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, true);
-            verzik.spawn();
-            npcList.add(verzik);
-            instance.setOnTeleport((p, t) -> {
-                // so now we check if the target tile is inside or outside of the instance, if its out, we know we're leaving, if inside, we don't care
-                if (t.getZ() != instance.getzLevel()) {
-                    playerHasLeft = true;
-                    player.getPacketSender().sendEffectTimer(0, EffectTimer.MONSTER_RESPAWN);
-                }
-            });
+        NPC verzik = new RaidsNpc(VERZIK_VITUR_8369, new Tile(3166, 4323, instance.getzLevel()), 1, false);
+         verzik.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, true);
+        verzik.spawn();
+        npcList.add(verzik);
+        instance.setOnTeleport((p, t) -> {
+            // so now we check if the target tile is inside or outside of the instance, if its out, we know we're leaving, if inside, we don't care
+            if (t.getZ() != instance.getzLevel()) {
+                playerHasLeft = true;
+                player.getPacketSender().sendEffectTimer(0, EffectTimer.MONSTER_RESPAWN);
+            }
+        });
     }
 
     public void clear() {

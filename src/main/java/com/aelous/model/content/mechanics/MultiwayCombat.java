@@ -184,7 +184,8 @@ public class MultiwayCombat {
         9886, 10142, // waterbirth dungeon / dagannoth cave
         9007, 9008, // zulrah
         9023, // vorkath
-        12889, 13136, 13137, 13138, 13139, //Raids
+        12889, 13136, 13137, 13138, 13139, //COX
+        12869, 12613, 13125, 13122, 13123, 12611, 12612, 12867,//TOB
         12615, 12616 // HP raids
     );
 

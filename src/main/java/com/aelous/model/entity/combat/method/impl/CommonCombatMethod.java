@@ -245,5 +245,8 @@ public abstract class CommonCombatMethod implements CombatMethod {
         System.err.println("unknown player styleOf combat script: " + this + " wep " + entity.getAsPlayer().getEquipment().getId(3));
         return null;
     }
-    
+
+    public boolean isAggressive() {
+        return entity.isNpc() && entity.npc().combatInfo() != null && entity.npc().combatInfo().aggressive && entity.npc().inViewport();
+    }
 }

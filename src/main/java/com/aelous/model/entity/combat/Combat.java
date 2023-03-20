@@ -8,6 +8,7 @@ import com.aelous.model.entity.combat.formula.maxhit.RangeMaxHit;
 import com.aelous.model.entity.combat.magic.data.ModernSpells;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.network.packet.incoming.impl.MagicOnPlayerPacketListener;
+import com.aelous.utility.NpcPerformance;
 import com.google.common.base.Stopwatch;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.hit.HitDamageCache;
@@ -41,6 +42,7 @@ import java.util.Map.Entry;
 
 import static com.aelous.model.content.daily_tasks.DailyTaskUtility.DAILY_TASK_MANAGER_INTERFACE;
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
+import static com.aelous.model.entity.Entity.accumulateRuntimeTo;
 
 /**
  * My entity-based combat system. The main class of the system.
@@ -712,7 +714,18 @@ public class Combat {
             return;
         }
 
-        method = CombatFactory.getMethod(mob);
+        if (method instanceof CommonCombatMethod ccm) {
+            if (mob.isNpc()) {
+                accumulateRuntimeTo(() -> {
+                    if (target == null && ccm.isAggressive()) {
+                        mob.npc().findAgroTarget();
+                        if (target != null) {
+                            mob.faceEntity(target);
+                        }
+                    }
+                }, d -> NpcPerformance.H += d.toNanos());
+            }
+        }
 
         // npcs can have overridable logic
         if (target != null && mob.isNpc()) {

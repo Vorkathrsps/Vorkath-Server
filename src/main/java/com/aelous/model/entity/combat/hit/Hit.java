@@ -242,7 +242,7 @@ public class Hit {
         if (target.isNpc() && target.npc().combatInfo() == null) {
             System.err.println("missing cbinfo for "+target.npc());
         }
-        if (combatType != null && !(target.isNpc() && target.npc().combatInfo() == null)) {
+        if (combatType != null && !(target.isNpc() && target.npc().combatInfo() == null) && !(attacker.isNpc() && attacker.npc().combatInfo() == null)) {
             switch (combatType) {
                 case MAGIC -> {
                     //if (attacker.isNpc() && target.isPlayer()) {

@@ -481,7 +481,7 @@
     ],
     "boss": true,
     "maxhit": 33,
-    "attackspeed": 6,
+    "attackspeed": 4,
     "deathlen": 3,
     "unstacked": true,
     "aggressive": true,

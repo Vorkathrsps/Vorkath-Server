@@ -394,6 +394,16 @@ public class CommandManager {
         dev("test6", (p, c, s) -> {
             logger.info("base {} {}", p.tile().getBaseX(), p.tile().getBaseLocalX());
         });
+        dev("test7", (p, c, s) -> {
+            for (int i = 0; i < 7; i++) {
+                var n = new NPC(105 + i, p.tile().transform(i, 0));
+                n.spawnDirection(i);
+                n.spawn();
+            }
+        });
+        dev("invis", (p, c, s) -> {
+            p.looks().hide(!p.looks().hidden());
+        });
     }
 
     public static void dev(String cmd, TriConsumer<Player, String, String[]> tc) {

@@ -963,7 +963,7 @@ public class CombatFactory {
             return;
         }
 
-        if (attacker.isNpc()) {
+        if (attacker != null && attacker.isNpc()) {
             NpcDefinition def = attacker.getAsNpc().def();
             String name = def.name;
             boolean isRevenant = attacker.isNpc() && name != null && name.toLowerCase().contains("revenant");
@@ -977,7 +977,7 @@ public class CombatFactory {
                 }
             }
         }
-        if (target.isNpc() && attacker.isPlayer()) {
+        if (target.isNpc() && attacker != null && attacker.isPlayer()) {
             if (target instanceof NPC) {
                 NPC npc = (NPC) target;
                 Player player = (Player) attacker;
@@ -1085,7 +1085,7 @@ public class CombatFactory {
             }
         }
 
-        if (attacker.isPlayer() && !hit.reflected && hit.getCombatType() != null) {
+        if (attacker != null && attacker.isPlayer() && !hit.reflected && hit.getCombatType() != null) {
             if (attacker instanceof Player) {
                 Player playerAttacker = (Player) attacker;
                 // Reward the player experience for this attack (as long as it's not a combat dummy)..

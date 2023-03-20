@@ -3,6 +3,7 @@ package com.aelous.model.entity.player.commands;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 import com.aelous.model.entity.MovementQueue;
+import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.NexCombat;
@@ -348,6 +349,10 @@ public class CommandManager {
             ZarosGodwars.clear();
             ZarosGodwars.nex = null;
         });
+        dev("nex2", (p, c, s) -> {
+            ZarosGodwars.clear();
+            ZarosGodwars.startEvent();
+        });
         dev("recmd", (p, c, s) -> {
             commands.clear();
             CommandManager.loadCmds();
@@ -403,6 +408,26 @@ public class CommandManager {
         });
         dev("invis", (p, c, s) -> {
             p.looks().hide(!p.looks().hidden());
+        });
+        dev("hit1", (p, c, s) -> {
+            p.hit(p, 1, SplatType.NPC_HEALING_HITSPLAT).submit();
+        });
+        dev("hit2", (p, c, s) -> {
+            p.hit(p, 1, SplatType.POISON_HITSPLAT).submit();;
+        });
+        dev("hit3", (p, c, s) -> {
+            p.hit(p, 1, SplatType.VENOM_HITSPLAT).submit();;
+        });
+        dev("hit4", (p, c, s) -> {
+            p.hit(p, 1, SplatType.MAX_HIT).submit();;
+        });
+        dev("hit5", (p, c, s) -> {
+            var i = 1;
+            for (SplatType value : SplatType.values()) {
+                Chain.noCtx().delay(i++, () -> {
+                    p.hit(p, 0, value).submit();
+                });
+            }
         });
     }
 

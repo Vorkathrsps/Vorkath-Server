@@ -840,8 +840,7 @@ public class NexCombat extends CommonCombatMethod {
                     }
                     re.remove();
                 }
-                ZarosGodwars.nex = null;
-                npc.remove();
+                ZarosGodwars.clear();
                 player.getPacketSender().sendEffectTimer(12, EffectTimer.MONSTER_RESPAWN);
                 drop();
                 //Respawn nex

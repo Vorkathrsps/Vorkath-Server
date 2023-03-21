@@ -64,6 +64,7 @@ public class VerzikViturInstance {
         NPC verzik = new RaidsNpc(VERZIK_VITUR_8369, new Tile(3166, 4323, instance.getzLevel()), 1, false);
          verzik.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, true);
         verzik.spawn();
+        instance.addNpc(verzik);
         npcList.add(verzik);
         instance.setOnTeleport((p, t) -> {
             // so now we check if the target tile is inside or outside of the instance, if its out, we know we're leaving, if inside, we don't care

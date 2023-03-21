@@ -109,7 +109,7 @@ public class InstancedArea {
     }
 
     public void listenAfter() {
-        listener = Chain.noCtx().repeatingTask(1, c -> {
+        listener = Chain.noCtx().name("instancecheck").repeatingTask(1, c -> {
             if (disposeCooldown-- > 0)
                 return;
             if (disposed) {

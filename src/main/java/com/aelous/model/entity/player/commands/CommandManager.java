@@ -459,6 +459,9 @@ public class CommandManager {
         dev("vz1", (p, c, s) -> {
             GameObject throne = GameObject.spawn(VERZIKS_THRONE_32737, 3167, 4324, p.getZ(),10,0);
         });
+        dev("tob", (p, c, s) -> {
+            p.teleport(3678, 3216);
+        });
     }
 
     public static void dev(String cmd, TriConsumer<Player, String, String[]> tc) {

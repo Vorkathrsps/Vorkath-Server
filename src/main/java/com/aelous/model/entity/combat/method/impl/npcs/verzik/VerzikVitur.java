@@ -36,7 +36,7 @@ import static com.aelous.utility.ItemIdentifiers.DAWNBRINGER;
  * @Since January 07, 2022
  */
 public class VerzikVitur extends CommonCombatMethod {
-    private static final Projectile ELECTRIC_PROJECTILE_ID = new Projectile(1580, 105, 43, 25, 85, 0, 16, 96);
+    private static final Projectile ELECTRIC_PROJECTILE_ID = new Projectile(1580, 105, 43, 25, 85, 10, 16, 96);
     private static final Projectile BOMB_PROJECTILE_ID = new Projectile(1583, 105, 43, 25, 75, 0, 16, 96);
     private static final Projectile SPIDER_PROJECTILE_ID = new Projectile(1586, 100, 0, 0, 130, 0, 16, 96);
     private static final Projectile HEAL_PROJECTILE = new Projectile(1578, 50, 25, 0, 100, 0, 16, 96);
@@ -75,7 +75,7 @@ public class VerzikVitur extends CommonCombatMethod {
                         int dmg = Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MAGIC) ? World.getWorld().random(1, 60) : World.getWorld().random(1, 137);
                         t.hit(mob, dmg);
                     }
-                    World.getWorld().tileGraphic(1582, targetPos, 0, 0);
+                    World.getWorld().tileGraphic(1582, targetPos, 0, ELECTRIC_PROJECTILE_ID.getSpeed());
                 });
             }
         }
@@ -89,7 +89,7 @@ public class VerzikVitur extends CommonCombatMethod {
 
                     final Tile targetPos = target.tile().copy();
                     int delay = BOMB_PROJECTILE_ID.send(mob, target);
-                    World.getWorld().tileGraphic(1584, targetPos, 0, 3);
+                    World.getWorld().tileGraphic(1584, targetPos, 0, BOMB_PROJECTILE_ID.getSpeed());
                     Chain.bound(mob).name("VerzikViturPrepareAttackTask2").runFn(delay, () -> {
                         if (t != null && t.tile().equals(targetPos)) {
                             t.hit(mob, World.getWorld().random(1, 60));

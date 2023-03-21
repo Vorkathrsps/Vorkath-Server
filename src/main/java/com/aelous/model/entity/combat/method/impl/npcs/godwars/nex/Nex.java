@@ -72,7 +72,6 @@ public class Nex extends NPC {
             fightState = ICE_PHASE;
             forceChat("Infuse me with the power of ice!");
             bodyguardPhase = null;
-            //Any blood reavers that persist will be automatically killed once Nex starts the next phase.
             killBloodReavers();
         } else if (fightState == ICE_PHASE && bodyguardPhase == BodyguardPhase.GLACIES) {
             fightState = ZAROS_PHASE;

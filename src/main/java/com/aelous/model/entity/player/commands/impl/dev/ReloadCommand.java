@@ -1,5 +1,6 @@
 package com.aelous.model.entity.player.commands.impl.dev;
 
+import com.aelous.GameEngine;
 import com.aelous.model.content.skill.impl.fishing.Fishing;
 import com.aelous.model.World;
 import com.aelous.model.entity.npc.NPC;
@@ -34,21 +35,23 @@ public class ReloadCommand implements Command {
             player.message("Finished.");
         } else if (reload.equalsIgnoreCase("npcs")) {
             player.message("Reloading npcs...");
-            for (NPC worldNpcs : World.getWorld().getNpcs()) {
-                if(worldNpcs == null || worldNpcs.def().isPet) {
-                    continue;
+            GameEngine.getInstance().addSyncTask(() -> {
+                for (NPC worldNpcs : World.getWorld().getNpcs()) {
+                    if(worldNpcs == null || worldNpcs.def().isPet) {
+                        continue;
+                    }
+                    World.getWorld().unregisterNpc(worldNpcs);
                 }
-                World.getWorld().unregisterNpc(worldNpcs);
-            }
-           // Halloween.loadNpcs();
-            World.loadNpcSpawns(new File("data/map/npcs"));
-            try {
-                Fishing.respawnAllSpots(World.getWorld());
-            } catch (FileNotFoundException e) {
-                logger.catching(e);
-            }
-            player.message(format("Reloaded %d npcs. <col=ca0d0d>Warning: Npcs in Instances will not be respawned.", World.getWorld().getNpcs().size()));
-            player.message("<col=ca0d0d>Must be done manually.");
+                // Halloween.loadNpcs();
+                World.loadNpcSpawns(new File("data/map/npcs"));
+                try {
+                    Fishing.respawnAllSpots(World.getWorld());
+                } catch (FileNotFoundException e) {
+                    logger.catching(e);
+                }
+                player.message(format("Reloaded %d npcs. <col=ca0d0d>Warning: Npcs in Instances will not be respawned.", World.getWorld().getNpcs().size()));
+                player.message("<col=ca0d0d>Must be done manually.");
+            });
         } else if (reload.equalsIgnoreCase("drops")) {
             player.message("Reloading drops...");
             World.getWorld().loadDrops();

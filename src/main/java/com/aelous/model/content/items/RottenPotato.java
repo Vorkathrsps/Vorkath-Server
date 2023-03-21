@@ -30,6 +30,7 @@ import static com.aelous.utility.ItemIdentifiers.ROTTEN_POTATO;
  * mei 17, 2020
  */
 public class RottenPotato extends PacketInteraction {
+    private static final Logger logger = LogManager.getLogger(RottenPotato.class);
 
     public static boolean onItemOnMob(Player player, Entity target) {
         // Give you the name and distance to a target
@@ -70,7 +71,12 @@ public class RottenPotato extends PacketInteraction {
                         player.message(""+ npc.def().name+" is dead.");
                     if (npc.id() == 6611)
                         npc.clearAttrib(AttributeKey.VETION_HELLHOUND_SPAWNED);
-                    npc.hit(player, npc.hp(), 1);
+                    var h = npc.hit(player, npc.hp());
+                    npc.hp(npc.hp(), 0);
+                    npc.die();
+                    if (npc.getCombatMethod() != null && npc.getCombatMethod().customOnDeath(h)) {
+
+                    }
                 } else if(option == 2) {
                     World.getWorld().unregisterNpc(npc);
                 } else if(option == 3) {

@@ -2,7 +2,12 @@ package com.aelous.model.entity.player.commands;
 
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
+import com.aelous.model.content.areas.theatre.ViturRoom;
+import com.aelous.model.content.instance.impl.VerzikViturInstance;
 import com.aelous.model.entity.MovementQueue;
+import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.Venom;
+import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.NexCombat;
@@ -35,6 +40,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
 import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_ACTIVE;
 import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_UNLOCKED;
 import static com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars.nex;
@@ -348,6 +354,10 @@ public class CommandManager {
             ZarosGodwars.clear();
             ZarosGodwars.nex = null;
         });
+        dev("nex2", (p, c, s) -> {
+            ZarosGodwars.clear();
+            ZarosGodwars.startEvent();
+        });
         dev("recmd", (p, c, s) -> {
             commands.clear();
             CommandManager.loadCmds();
@@ -393,6 +403,61 @@ public class CommandManager {
         });
         dev("test6", (p, c, s) -> {
             logger.info("base {} {}", p.tile().getBaseX(), p.tile().getBaseLocalX());
+        });
+        dev("test7", (p, c, s) -> {
+            for (int i = 0; i < 7; i++) {
+                var n = new NPC(105 + i, p.tile().transform(i, 0));
+                n.spawnDirection(i);
+                n.spawn();
+            }
+        });
+        dev("invis", (p, c, s) -> {
+            p.looks().hide(!p.looks().hidden());
+        });
+        dev("hit1", (p, c, s) -> {
+            p.hit(p, 1, SplatType.NPC_HEALING_HITSPLAT).submit();
+        });
+        dev("hit2", (p, c, s) -> {
+            p.hit(p, 1, SplatType.POISON_HITSPLAT).submit();;
+        });
+        dev("hit3", (p, c, s) -> {
+            p.hit(p, 1, SplatType.VENOM_HITSPLAT).submit();;
+        });
+        dev("hit4", (p, c, s) -> {
+            p.hit(p, 1, SplatType.MAX_HIT).submit();;
+        });
+        dev("hit5", (p, c, s) -> {
+            var i = 1;
+            for (SplatType value : SplatType.values()) {
+                Chain.noCtx().delay(i++, () -> {
+                    p.hit(p, 0, value).submit();
+                });
+            }
+        });
+        dev("test8", (p, c, s) -> {
+            p.poison(8, true);
+        });
+        dev("test9", (p, c, s) -> {
+           p.venom(p.closeNpcs(15)[0]);
+        });
+        dev("test10", (p, c, s) -> {
+            Chain.noCtx().repeatingTask(1, t -> {
+
+                if (t.getRunDuration() >= 14)
+                    t.stop();
+                var distance = t.getRunDuration();
+                int opacity = 200 - (distance * 17);
+                if (opacity <= 30) opacity = 30;
+                p.getPacketSender().darkenScreen(opacity);
+            });
+        });
+        dev("verzik", (p, c, s) -> {
+            p.unlock();
+            p.getCombat().clearDamagers();
+            p.getVerzikViturInstance().enterInstance(p);
+        });
+        dev("vz1", (p, c, s) -> {
+            GameObject throne = GameObject.spawn(VERZIKS_THRONE_32737, 3167, 4324, p.getZ(),10,0);
         });
     }
 

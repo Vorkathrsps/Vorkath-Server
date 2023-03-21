@@ -37,7 +37,7 @@ public class ZarosGodwars {
     public static NPC cruor;
     public static NPC glacies;
 
-    public static Optional<GameObject> ancientBarrierPurple = MapObjects.get(42967, new Tile(2909, 5202, 0));
+    public static Optional<GameObject> ancientBarrierPurple = Optional.empty();
     public static GameObject redBarrierPurple = null;
 
     public static boolean NEX_EVENT_ACTIVE = false;
@@ -141,6 +141,14 @@ public class ZarosGodwars {
                 if(target != null) {
                     nex.getCombat().setTarget(target);
                     nex.getCombat().attack(target);
+                }
+                //Replace purple barrier with red
+                if (ancientBarrierPurple.isEmpty()) {
+                    ancientBarrierPurple = MapObjects.get(42967, new Tile(2909, 5202, 0));
+                }
+                if (ancientBarrierPurple.isPresent()) {
+                    redBarrierPurple = new GameObject(42941, ancientBarrierPurple.get().tile(), ancientBarrierPurple.get().getType(), ancientBarrierPurple.get().getRotation());
+                    ObjectManager.replaceWith(ancientBarrierPurple.get(), redBarrierPurple);
                 }
             });
         }

@@ -1,19 +1,20 @@
 [
   {
-    //Verzik Vitur Phase 2
+    // Verzik Vitur
     "ids": [
-      8372
+      8369, 8370, 8371, 8372, 8373, 8374, 8375
     ],
     "maxhit": 50,
     "deathlen": 2,
     "aggressive": true,
+    "aggroradius": 30,
     "stats": {
       "attack": 400,
       "strength": 400,
       "magic": 400,
       "ranged": 400,
       "defence": 200,
-      "hitpoints": 3250
+      "hitpoints": 2000
     },
     "bonuses": {
       "attack": 0,
@@ -42,6 +43,7 @@
     "maxhit": 17,
     "deathlen": 2,
     "aggressive": true,
+    "aggroradius": 30,
     "stats": {
       "attack": 200,
       "strength": 160,
@@ -76,6 +78,7 @@
     "maxhit": 17,
     "deathlen": 2,
     "aggressive": true,
+    "aggroradius": 30,
     "stats": {
       "attack": 200,
       "strength": 160,
@@ -111,6 +114,7 @@
     "maxhit": 17,
     "deathlen": 2,
     "aggressive": true,
+    "aggroradius": 30,
     "stats": {
       "attack": 200,
       "strength": 160,

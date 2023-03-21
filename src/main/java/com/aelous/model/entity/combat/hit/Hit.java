@@ -110,12 +110,17 @@ public class Hit {
      */
     private void adjustDelay() {
 
-        if (attacker.isNpc() || target.isNpc() || attacker.pidOrderIndex == -1) {
+        if (target != null && target.isNpc()) {
             return;
         }
+        if (attacker != null) {
+            if (attacker.isNpc() || attacker.pidOrderIndex == -1) {
+                return;
+            }
 
-        if (attacker.pidOrderIndex <= target.pidOrderIndex) {
-            delay -= 1;
+            if (attacker.pidOrderIndex <= target.pidOrderIndex) {
+                delay -= 1;
+            }
         }
 
         if (delay < 1 && combatType != CombatType.MELEE) {
@@ -234,7 +239,10 @@ public class Hit {
 
         var success = false;
 
-        if (combatType != null) {
+        if (target.isNpc() && target.npc().combatInfo() == null) {
+            System.err.println("missing cbinfo for "+target.npc());
+        }
+        if (combatType != null && !(target.isNpc() && target.npc().combatInfo() == null) && !(attacker.isNpc() && attacker.npc().combatInfo() == null)) {
             switch (combatType) {
                 case MAGIC -> {
                     //if (attacker.isNpc() && target.isPlayer()) {

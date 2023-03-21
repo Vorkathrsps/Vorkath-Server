@@ -238,6 +238,7 @@ public class VerzikVitur extends CommonCombatMethod {
 
     private boolean transform(Entity mob) {
         if (mob.npc().id() == VERZIK_VITUR_8370) {
+            mob.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, false);
             mob.npc().canAttack(false);
             mob.animate(OUT_OF_CHAIR);
             mob.faceEntity(null);

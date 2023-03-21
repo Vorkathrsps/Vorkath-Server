@@ -7,11 +7,8 @@ import com.aelous.model.entity.combat.method.impl.npcs.bosses.corruptedhunleff.C
 import com.aelous.model.entity.combat.method.impl.npcs.karuulm.Wyrm;
 import com.aelous.utility.Debugs;
 import com.google.common.base.Stopwatch;
-import com.aelous.GameServer;
 import com.aelous.cache.definitions.NpcDefinition;
 import com.aelous.model.content.areas.wilderness.content.boss_event.BossEvent;
-import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
-import com.aelous.model.content.raids.party.Party;
 import com.aelous.model.content.skill.impl.hunter.trap.impl.Chinchompas;
 import com.aelous.core.task.TaskManager;
 import com.aelous.model.World;
@@ -46,16 +43,13 @@ import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.utility.NpcPerformance;
 import com.aelous.utility.SecondsTimer;
 import com.aelous.utility.Utils;
-import com.aelous.utility.timers.TimerKey;
 import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.lang.ref.WeakReference;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.SKOTIZO;
@@ -105,7 +99,8 @@ public class NPC extends Entity {
     }
 
     public boolean isRandomWalkAllowed() {
-        return spawnArea != null
+        return walkRadius > 0 &&
+            spawnArea != null
             && !hidden()
             && getMovement().isAtDestination()
                 && !locked()
@@ -294,6 +289,9 @@ public class NPC extends Entity {
     public void transmog(int id) {
         this.transmog = id;
         this.id = id;
+        this.def(World.getWorld().definitions().get(NpcDefinition.class, id));
+        NpcDefinition def = def();
+        setSize(def.size);
         this.getUpdateFlag().flag(Flag.TRANSFORM);
     }
 
@@ -465,8 +463,7 @@ public class NPC extends Entity {
         action.sequence();
         TaskManager.sequenceForMob(this);
         getTimers().cycle(this);
-        findAgroTarget();
-        getCombat().processRoute();
+        getCombat().npcPreAttackFolo();
         if (useSmartPath)
             TargetRoute.beforeMovement(this);
         getMovementQueue().process();
@@ -497,7 +494,6 @@ public class NPC extends Entity {
             getTimers().cycle(this);
         }, d -> NpcPerformance.G += d.toNanos());
 
-        accumulateRuntimeTo(this::findAgroTarget, d -> NpcPerformance.H += d.toNanos());
         //}, d -> NpcPerformance.cumeNpcE += d.toNanos());
 
 
@@ -507,7 +503,7 @@ public class NPC extends Entity {
             try {
                 accumulateRuntimeTo(() -> {
                     //Handles random walk and retreating from fights
-                    getCombat().processRoute();
+                    getCombat().npcPreAttackFolo();
                 }, to -> NpcPerformance.npcA += to.toNanos());
 
                 accumulateRuntimeTo(() -> {
@@ -539,136 +535,57 @@ public class NPC extends Entity {
         performance.assess(this);
     }
 
-    private void findAgroTarget() {
-        WeakReference<Entity> wrTarget = getAttrib(AttributeKey.TARGET);
-        Entity target = null;
-        CombatMethod method = null;
-        // DONT CREATE VARS HERE UNTIL YOU ARE SURE THEY WILL BE USED - OPTIMIZED
-        Stopwatch stopwatch = Stopwatch.createStarted();
-
-        if (wrTarget != null && (target = wrTarget.get()) != null) {
-            method = CombatFactory.getMethod(this);
-            // Target is no longer valid. Clear it.
-            // Interesting fact, the NPC will path to it's set target and only reset when in distance. So a melee NPC will get within distance
-            // (1 tile) then reset combat if unavailable.
-
-            // Now we need to be clever and check what sort of combat style this npc uses
-            int dist = 1;
-
-            boolean reached = CombatFactory.canReach(this, method, target);
-            // Fuck this is not a perfect solution! canAttack always worked but other circumstances such as area/distance checks need to be included too.
-            if (!(this.id() >= 3116 && this.id() <= 3128) && this.id() != 5886 && id != 239 && !def.inferno) {
-
-                if (!CombatFactory.canAttack(this, method, target) && reached) {
-                    this.getCombat().reset();// Clear it.
-                }
-            }
-
-            //If our NPC is a reanimated monster, after 60 seconds remove it!
-            boolean isReanimated = getAttribOr(AttributeKey.IS_REANIMATED_MONSTER, false);
-            if (isReanimated) {
-                if (!getTimers().has(TimerKey.REANIMATED_MONSTER_DESPAWN)) {
-                    target.clearAttrib(AttributeKey.HAS_REANIMATED_MONSTER);
-                    World.getWorld().unregisterNpc(this);
-                }
-            }
-
-            // Changing target aggression. Gwd boss room minions.
-            if (TARG_SWITCH_ON && hp() > 0 && inViewport() && !locked() && World.getWorld().cycleCount() - (int) getAttribOr(AttributeKey.LAST_AGRO_SWITCH, 0) >= 2) {
-                // Set anyway, don't check for 2t. Less lag xd
-                putAttrib(AttributeKey.LAST_AGRO_SWITCH, World.getWorld().cycleCount());
-
-                Entity lastagro = null;
-                if (Graardor.isMinion(this) && Graardor.getBandosArea().contains(this)) {
-                    lastagro = Graardor.getLastBossDamager();
-                } else if (Kril.isMinion(this) && Kril.getENCAMPMENT().contains(this)) {
-                    lastagro = Kril.getLastBossDamager();
-                } else if (Zilyana.isMinion(this) && Zilyana.getENCAMPMENT().contains(this)) {
-                    lastagro = Zilyana.getLastBossDamager();
-                } else if (KreeArra.isMinion(this) && KreeArra.getENCAMPMENT().contains(this)) {
-                    lastagro = KreeArra.getLastBossDamager();
-                }
-                if (lastagro != null && lastagro != target) { // Change target to a new one
-                    if (reached && CombatFactory.canAttack(this, method, lastagro)) {
-                        //target.message("target changed to "+lastagro.tile().toStringSimple());
-                        putAttrib(AttributeKey.TARGET, new WeakReference<>(lastagro));
-                        faceEntity(lastagro);
-                    }
-                }
-            }
-        }
-        stopwatch.stop();
-        performance.targetVerification = stopwatch;
-        if (stopwatch.elapsed().toMillis() > 0 && GameServer.properties().displayCycleLag) {
-            performance.targetVerifMsg = "target verif in " + stopwatch.elapsed().toNanos() + " ns to target: " + target + ". ";
-        }
+    public void findAgroTarget() {
         Stopwatch stopwatch1 = Stopwatch.createStarted();
+        boolean wilderness = (WildernessArea.wildernessLevel(tile()) >= 1) && !WildernessArea.inside_rouges_castle(tile()) && !Chinchompas.hunterNpc(id);
+        if (dead() || !inViewport || locked() || combatInfo == null || !(combatInfo.aggressive || (wilderness && getBotHandler() == null)))
+            return;
 
-        //Aggression
-        if (hp() > 0 && ((wrTarget == null || wrTarget.get() == null)) && !locked() && inViewport && !getTimers().has(TimerKey.COMBAT_ATTACK)) {
-            boolean wilderness = (WildernessArea.wildernessLevel(tile()) >= 1) && !WildernessArea.inside_rouges_castle(tile()) && !Chinchompas.hunterNpc(id);
-            //NPCs should only aggro if you can attack them.
-            if (combatInfo != null && (combatInfo.aggressive || (wilderness && getBotHandler() == null))) {
-                if (method == null)
-                    method = CombatFactory.getMethod(this);
-                CombatMethod finalMethod = method;
-                final int ceil = def.combatlevel * 2;
-                final boolean override = combatInfo != null && combatInfo.scripts != null && combatInfo.scripts.agro_ != null;
-                var bounds = boundaryBounds(combatInfo != null ? combatInfo.aggroradius : 1);
-                var range = (combatInfo != null ? combatInfo.aggroradius : 1);
+        //NPCs should only aggro if you can attack them.
+        final int ceil = def.combatlevel * 2;
+        final boolean override = combatInfo != null && combatInfo.scripts != null && combatInfo.scripts.agro_ != null;
+        var bounds = boundaryBounds(combatInfo != null ? combatInfo.aggroradius : 1);
+        var range = (combatInfo != null ? combatInfo.aggroradius : 1);
 
-                //Highly optimized code
-                Stream<Player> playerStream = World.getWorld().getPlayers()
-                    .stream()
-                    .filter(Objects::nonNull)
-                    .filter(p -> !p.looks().hidden())
-                    .filter(p -> p.tile().distance(tile) <= range)
-                    .filter(p -> bounds.inside(p.tile()));
-                // apply overrides
-                if (override) {
-                    playerStream = playerStream.filter(p -> combatInfo.scripts.agro_.shouldAgro(this, p));
-                } else {
-                    if (!wilderness) {
-                        // only check combatLevel if no custom script is present which will override it
-                        playerStream = playerStream.filter(p -> p.getSkills().combatLevel() <= ceil)
-                            .filter(p -> CombatFactory.bothInFixedRoom(this, p));
-                    } else {
-                        playerStream = playerStream.filter(p -> p.getEquipment().getId(EquipSlot.HANDS) != BRACELET_OF_ETHEREUM && (def != null && !def.name.contains("revenant")));
-                    }
+        //Highly optimized code
+        Stream<Player> playerStream = World.getWorld().getPlayers()
+            .stream()
+            .filter(Objects::nonNull)
+            .filter(p -> !p.looks().hidden())
+            .filter(p -> p.tile().distance(tile) <= range)
+            .filter(p -> bounds.inside(p.tile()));
+        // apply overrides
+        if (override) {
+            playerStream = playerStream.filter(p -> combatInfo.scripts.agro_.shouldAgro(this, p));
+        } else {
+            if (!wilderness) {
+                // only check combatLevel if no custom script is present which will override it
+                playerStream = playerStream.filter(p -> p.getSkills().combatLevel() <= ceil)
+                    .filter(p -> CombatFactory.bothInFixedRoom(this, p));
+            } else {
+                playerStream = playerStream.filter(p -> p.getEquipment().getId(EquipSlot.HANDS) != BRACELET_OF_ETHEREUM && (def != null && !def.name.contains("revenant")));
+            }
+        }
+        // execute stream filters and use.
+        final List<Player> collect = playerStream.toList();
+        for (Player p : collect) {
+            long lastTime = System.currentTimeMillis() - (long) p.getAttribOr(AttributeKey.LAST_WAS_ATTACKED_TIME, 0L);
+            Entity lastAttacker = p.getAttrib(AttributeKey.LAST_DAMAGER);
+            if (lastTime > 5000L || lastAttacker == this ||
+                (lastAttacker != null && (lastAttacker.dead() || lastAttacker.finished()))
+                || p.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) == 1) {
+                if (CombatFactory.canAttack(this, combatMethod, p)) {
+                    getCombat().attack(p);
+                    //String ss = this.def.getName()+" v "+p.getUsername()+" : "+ CombatFactory.canAttack(this, method, p);
+                    //System.out.println(ss);
+                    //this.forceChat(ss);
+                    break;
                 }
-                // execute stream filters and use.
-                final List<Player> collect = playerStream.collect(Collectors.toList());
-                for (Player p : collect) {
-                    long lastTime = System.currentTimeMillis() - (long) p.getAttribOr(AttributeKey.LAST_WAS_ATTACKED_TIME, 0L);
-                    Entity lastAttacker = p.getAttrib(AttributeKey.LAST_DAMAGER);
-                    if (lastTime > 5000L || lastAttacker == this ||
-                        (lastAttacker != null && (lastAttacker.dead() || lastAttacker.finished()))
-                        || p.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) == 1) {
-                        if (CombatFactory.canAttack(this, finalMethod, p)) {
-                            getCombat().attack(p);
-                            //String ss = this.def.getName()+" v "+p.getUsername()+" : "+ CombatFactory.canAttack(this, method, p);
-                            //System.out.println(ss);
-                            //this.forceChat(ss);
-                            break;
-                        }
 
-                    }
-                }
             }
         }
         stopwatch1.stop();
         performance.aggression = stopwatch1;
-
-        int maxDistanceFromSpawn = getAttribOr(AttributeKey.MAX_DISTANCE_FROM_SPAWN, 12);
-
-        // Prevent being too far from spawn - unless you're in a boss room. Free reign!
-        if (spawnTile.distance(tile) > maxDistanceFromSpawn && walkRadius != -1) {
-            logger.info("reset dist {} vs {}", spawnTile.distance(tile), maxDistanceFromSpawn);
-            stopActions(false);
-            getCombat().reset(); // Otherwise we'll forever be stuck with a target yo!
-            //if (target != null)
-            //	target.message("abandoned - out of range "+def.name);
-        }
     }
 
     /**

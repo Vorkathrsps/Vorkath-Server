@@ -907,7 +907,7 @@ public abstract class Entity {
      * doesnt return {@code Hit} instance because its immidiately submitted() so you cant change properties after.
      */
     public Hit hit(Entity attacker, int damage, SplatType type) {
-        return hit(attacker, damage, 0, null);
+        return hit(attacker, damage, 0, null, type);
     }
 
     /**

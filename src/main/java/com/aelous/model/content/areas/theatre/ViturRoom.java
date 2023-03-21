@@ -12,7 +12,7 @@ public class ViturRoom extends PacketInteraction {
 
     @Override
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
-        if (obj != null && obj.getId() == THEATRE_ENTRACE) {
+        if (obj != null && obj.getId() == THEATRE_ENTRACE) { // tob lobby 32653, 3678, 3216
             boolean insideCheck = player.getAbsX() >= 3138;
             player.lockMovement();
             Chain.bound(null).runFn(1, () -> {

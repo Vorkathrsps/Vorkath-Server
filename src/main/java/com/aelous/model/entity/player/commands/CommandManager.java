@@ -35,10 +35,7 @@ import com.aelous.utility.chainedwork.Chain;
 import org.apache.logging.log4j.*;
 import org.apache.logging.log4j.util.TriConsumer;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
 import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_ACTIVE;
@@ -461,6 +458,10 @@ public class CommandManager {
         });
         dev("tob", (p, c, s) -> {
             p.teleport(3678, 3216);
+        });
+        dev("teleto", (p, c, s) -> {
+            Optional<Player> plr = World.getWorld().getPlayerByName(c.substring(s[0].length() + 1));
+            p.teleport(plr.get().tile());
         });
     }
 

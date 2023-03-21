@@ -148,7 +148,7 @@ public final class Projectile {
     public void sendProjectile() {
         for (Player player : World.getWorld().getPlayers()) {
 
-            if (player == null) {
+            if (player == null || !start.isViewableFrom(player.tile())) {
                 continue;
             }
 
@@ -161,7 +161,7 @@ public final class Projectile {
     public void sendProjectile(Tile x, Tile y, Tile x2, Tile y2) {
         for (Player player : World.getWorld().getPlayers()) {
 
-            if (player == null) {
+            if (player == null || !start.isViewableFrom(player.tile())) {
                 continue;
             }
 
@@ -357,7 +357,7 @@ public final class Projectile {
     public int send(Entity mob, int targetX, int targetY) {
         Projectile projectile = new Projectile(
             mob.getCentrePosition(),
-            new Tile(targetX, targetY),
+            new Tile(targetX, targetY, mob.getZ()),
             this.lockon,
             this.projectileId, this.speed, this.delay, this.startHeight, this.endHeight,
             this.slope, this.creatorSize, this.startDistanceOffset, this.stepMultiplier);
@@ -378,11 +378,11 @@ public final class Projectile {
     }
 
     public int send(int startX, int startY, int destX, int destY, int z) {
-        Projectile projectile = new Projectile(new Tile(startX, startY),
-            new Tile(destX, destY),
+        Projectile projectile = new Projectile(new Tile(startX, startY, z),
+            new Tile(destX, destY, z),
             this.lockon, this.projectileId, this.speed, this.delay, this.startHeight, this.endHeight,
             this.slope, this.creatorSize, this.startDistanceOffset, this.stepMultiplier);
         projectile.sendProjectile();
-        return 2;
+        return projectile.getHitDelay(projectile.start.getChevDistance(projectile.getEnd()));
     }
 }

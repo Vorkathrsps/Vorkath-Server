@@ -727,7 +727,37 @@ public class NPC extends Entity {
 
     @Override
     public String toString() {
-        return MessageFormat.format("NPC'{'name={0},spawnStack=''{1}'', id={2}, spawnTile={3}, walkRadius={4}, spawnDirection={5}, inViewport={6}, def={7}, hp={8}, combatInfo={9}, hidden={10}, respawns={11}, venomImmune={12}, poisonImmune={13}, spawnArea={14}, movementCoordinator={15}, combatMethod={16}, immunity={17}, transmog={18} lock: {19} idx:{20} '}'", getMobName(), spawnStack, id, spawnTile, walkRadius, spawnDirection, inViewport, def == null ? "?" : "def", hp, combatInfo == null ? "?" : "ci", hidden, respawns, venomImmune, poisonImmune, spawnArea, combatMethod, immunity, transmog, lockState(), getIndex());
+        return "NPC{" + getMobName()+
+            ", id=" + id +
+            ", hp=" + hp +
+            ", tile=" + tile +
+            ", lock=" + lockState() +
+            ", walkRadius=" + walkRadius +
+            ", spawnDirection=" + spawnDirection +
+            "lockMovementCompletely=" + lockMovementCompletely +
+            ", capDamage=" + capDamage +
+            ", cantInteract=" + cantInteract +
+            ", spawnTile=" + spawnTile +
+            ", ancientSpawn=" + ancientSpawn +
+            ", lastDirection=" + lastDirection +
+            ", inViewport=" + inViewport +
+            ", def=" + (def==null?"?":"def") +
+            ", combatInfo=" + (combatInfo == null? "?":combatInfo) +
+            ", hidden=" + hidden +
+            ", respawns=" + respawns +
+            ", venomImmune=" + venomImmune +
+            ", poisonImmune=" + poisonImmune +
+            ", spawnArea=" + spawnArea +
+            ", transmog=" + transmog +
+            ", combatMethod=" + combatMethod +
+            ", immunity=" + immunity +
+            ", useSmartPath=" + useSmartPath +
+            ", walkTo=" + walkTo +
+            ", skipReachCheck=" + skipReachCheck +
+            ", canAttack=" + canAttack +
+            ", spawnStack='" + spawnStack + '\'' +
+            ", idx: "+getIndex()+
+            '}';
     }
 
     @Override

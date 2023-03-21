@@ -29,7 +29,7 @@ public final class Projectile {
     /**
      * The speed of the projectile.
      */
-    private int speed;
+    private final int speed;
 
     /**
      * The id of the projectile.
@@ -95,6 +95,7 @@ public final class Projectile {
         this.radius = getRadius();
         this.stepMultiplier = stepMultiplier;
     }
+
     public Projectile(Tile start, Tile end, int lockon,
                       int projectileId, int speed, int delay, int startHeight, int endHeight,
                       int curve) {
@@ -118,12 +119,11 @@ public final class Projectile {
     }
 
     /**
-     *
      * @param source
      * @param victim
      * @param projectileId
      * @param delay
-     * @param speed  ANYTHING UNDER 40 MIGHT BE TOO FAST TO SEE ON SCREEN
+     * @param speed
      * @param startHeight
      * @param endHeight
      * @param curve
@@ -323,6 +323,7 @@ public final class Projectile {
 
     /**
      * constructor for runite formatted projectiles, aim to match them 1:1 with existing fields
+     *
      * @param gfxId
      * @param startHeight
      * @param endHeight
@@ -339,11 +340,11 @@ public final class Projectile {
         this.delay = delay;
         this.angle = 0;
         this.speed = durationStart;
-       // this.durationIncrement = durationIncrement;
+        // this.durationIncrement = durationIncrement;
         this.creatorSize = curve;
         startDistanceOffset = 64;
-       this.slope = curve;
-       this.lockon = 0;
+        this.slope = curve;
+        this.lockon = 0;
         //this.idk = idk;
         this.radius = 0;
         this.stepMultiplier = 0;
@@ -363,6 +364,7 @@ public final class Projectile {
             this.slope, this.creatorSize, this.startDistanceOffset, this.stepMultiplier);
         return mob.executeProjectile(projectile);
     }
+
     public int send(Entity mob, Entity target) {
         Projectile projectile = new Projectile(
             mob.getCentrePosition(),

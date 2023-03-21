@@ -1514,7 +1514,7 @@ public class Player extends Entity {
     public void onLogin() {
         long startTime = System.currentTimeMillis();
         putAttrib(AttributeKey.LOGGED_IN_AT_TIME, startTime);
-        // Attempt to register the player..
+
         //logger.info("Registering player - [username, host] : [{}, {}]", getUsername(), getHostAddress());
 
         //Stuff that happens during login...

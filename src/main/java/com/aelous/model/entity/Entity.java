@@ -486,7 +486,9 @@ public abstract class Entity {
         if (source == null || target == null) {
             return 0;
         }
-        Tile delta = projectile.getTarget().getDelta(source, target);
+        int offX = (source.getY() - target.getY()) * -1;
+        int offY = (source.getX() - target.getX()) * -1;
+        Tile offset = new Tile(offX, offY, source.getZ());
 
         int distance = this.tile().getChevDistance(target);
 
@@ -500,7 +502,7 @@ public abstract class Entity {
 
                 if (source.isViewableFrom(player.getCentrePosition())) {
                     player.getPacketSender()
-                        .sendProjectile(source, delta, projectile.getSlope(), projectile.getSpeed(), projectile.getProjectileID(), projectile.getStartHeight(), projectile.getEndHeight(), projectile.getLockon(), projectile.getDelay(), creatorSize, projectile.getStartDistanceOffset());
+                        .sendProjectile(source, offset, projectile.getAngle(), projectile.getSpeed(), projectile.getProjectileID(), projectile.getStartHeight(), projectile.getEndHeight(), projectile.getLockon(), projectile.getDelay(), creatorSize, projectile.getStartDistanceOffset());
                 }
             }
         }

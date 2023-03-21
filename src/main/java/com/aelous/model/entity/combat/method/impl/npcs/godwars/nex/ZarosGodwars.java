@@ -69,6 +69,10 @@ public class ZarosGodwars {
             glacies.remove();
             glacies = null;
         }
+        // allow enter again
+        if (redBarrierPurple != null && ancientBarrierPurple.isPresent()) {
+            ObjectManager.replaceWith(redBarrierPurple, ancientBarrierPurple.get());
+        }
     }
 
     public static void startEvent() {

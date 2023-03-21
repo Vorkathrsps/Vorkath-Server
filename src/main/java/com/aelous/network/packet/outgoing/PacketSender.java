@@ -887,6 +887,7 @@ public final class PacketSender {
      * @return The Packet Sender instance.
      */
     public PacketSender sendPositionalHint(Tile tile, int tilePosition) {
+        if (tile == null) return this;
         PacketBuilder out = new PacketBuilder(254);
         out.put(tilePosition);
         out.putShort(tile.getX());

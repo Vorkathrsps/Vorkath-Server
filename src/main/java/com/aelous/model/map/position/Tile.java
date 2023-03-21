@@ -5,12 +5,15 @@ import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.items.Item;
 import com.aelous.model.items.ground.GroundItem;
+import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.object.MapObjects;
 import com.aelous.model.map.object.ObjectManager;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.model.map.region.RegionManager;
+import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.Utils;
 import org.apache.logging.log4j.LogManager;
 
@@ -855,5 +858,12 @@ public class Tile implements Cloneable {
 
     public Tile tileToDir(Direction n) {
         return transform(n.x * 10, n.y * 10);
+    }
+
+    public GroundItem showTempItem(int i) {
+        GroundItem gi = new GroundItem(new Item(i), this, null);
+        GroundItemHandler.createGroundItem(gi);
+        gi.setTimer(i);
+        return gi;
     }
 }

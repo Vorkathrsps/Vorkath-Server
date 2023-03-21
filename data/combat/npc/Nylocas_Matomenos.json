@@ -1,0 +1,35 @@
+[
+  {
+    // Nylocas Matomenos
+    "ids": [
+      8366, 8385
+    ],
+    "aggressive": false,
+    "boss": false,
+    "maxhit": 13,
+    "attackspeed": 4,
+    "deathlen": 4,
+    "slayerxp": 0,
+    "slayerlvl": 1,
+    "stats": {
+      "attack": 100,
+      "strength": 100,
+      "defence": 100,
+      "ranged": 100,
+      "magic": 100,
+      "hitpoints": 200
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": 8097
+    }
+  }
+]

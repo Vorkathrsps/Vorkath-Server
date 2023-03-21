@@ -42,6 +42,6 @@ public class ExamineNpcPacketListener implements PacketListener {
             DropsDisplay.start(player, def.name, npcId);
         }
 
-        World.getWorld().examineRepository().npc(npcId);
+        player.message(World.getWorld().examineRepository().npc(npcId));
     }
 }

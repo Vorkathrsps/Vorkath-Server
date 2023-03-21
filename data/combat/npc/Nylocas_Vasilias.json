@@ -1,0 +1,39 @@
+[
+  {
+    // Nylocas Vasilias
+    "ids": [
+      8354, 8355, 8356, 8357
+    ],
+    "aggressive": true,
+
+    "boss": true,
+    "maxhit": 70,
+    "attackspeed": 4,
+    "deathlen": 4,
+    "slayerxp": 0,
+    "slayerlvl": 1,
+    "stats": {
+      "attack": 400,
+      "strength": 350,
+      "magic": 50,
+      "ranged": 350,
+      "defence": 50,
+      "hitpoints": 2500
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": 7991
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.vasilas.NylocasVasilias"
+    }
+  }
+]

@@ -78,8 +78,10 @@ public final class Projectile {
                       int curve, int creatorSize, int startDistanceOffset, int stepMultiplier) {
         this.start = start;
         this.target = end;
-        this.offset = new Tile((end.getX() - start.getX()),
-            (end.getY() - start.getY()));
+        int offX = (start.getY() - end.getY()) * -1; // yes inverted
+        int offY = (start.getX() - end.getX()) * -1;
+        Tile offset = new Tile(offX, offY, start.getZ());
+        this.offset = offset;
         this.creatorSize = creatorSize;
         this.startDistanceOffset = startDistanceOffset;
         this.lockon = lockon;

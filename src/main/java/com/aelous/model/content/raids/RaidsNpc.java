@@ -17,18 +17,12 @@ public class RaidsNpc extends NPC {
     public RaidsNpc(int id, Tile tile, int partySize) {
         super(id, tile);
         this.respawns(false);
-        if (this.combatInfo() != null)
-            this.combatInfo().aggroradius = 15;
-        this.walkRadius(15);
             scaleNPC(this, partySize);
     }
 
     public RaidsNpc(int id, Tile tile, Direction direction, int partySize, boolean scale) {
         super(id, tile);
         this.respawns(false);
-        if (this.combatInfo() != null)
-            this.combatInfo().aggroradius = 15;
-        this.walkRadius(15);
         if (scale)
             scaleNPC(this, partySize);
         this.spawnDirection(direction.toInteger());
@@ -40,6 +34,7 @@ public class RaidsNpc extends NPC {
         if (scale)
             scaleNPC(this, partySize);
     }
+
     private void scaleNPC(NPC npc, int partySize) {
         if (npc.getCombatMethod() == null) {
             return;

@@ -7,7 +7,6 @@ import com.aelous.model.entity.combat.formula.maxhit.MeleeMaxHit;
 import com.aelous.model.entity.combat.formula.maxhit.RangeMaxHit;
 import com.aelous.model.entity.combat.magic.data.ModernSpells;
 import com.aelous.model.entity.npc.NPC;
-import com.aelous.network.packet.incoming.impl.MagicOnPlayerPacketListener;
 import com.aelous.utility.NpcPerformance;
 import com.google.common.base.Stopwatch;
 import com.aelous.model.entity.attributes.AttributeKey;
@@ -699,22 +698,12 @@ public class Combat {
     /**
      * aka NPCCombat.follow0/follow in Runite
      */
-    public void processRoute() {
-
-        if (target == null || mob.locked())
-            return;
+    public void npcPreAttackFolo() {
 
         method = CombatFactory.getMethod(mob);
-        checkLastTarget();
-        checkGraniteMaul();
-
-        //System.err.println("preattack for cb");
-        if (!CombatFactory.canAttack(mob, method, target)) {
-            reset();
-            return;
-        }
 
         if (method instanceof CommonCombatMethod ccm) {
+            ccm.set(mob, target);
             if (mob.isNpc()) {
                 accumulateRuntimeTo(() -> {
                     if (target == null && ccm.isAggressive()) {
@@ -734,7 +723,7 @@ public class Combat {
                 commonCombatMethod.set(mob, target);
                 commonCombatMethod.doFollowLogic();
             } else {
-                // the normal code for all mobs who dont have CommonCombat as their script
+                // fallback: the normal code for all mobs who dont have CommonCombat as their script
                 DumbRoute.step(mob, target, method.getAttackDistance(mob));
             }
         }

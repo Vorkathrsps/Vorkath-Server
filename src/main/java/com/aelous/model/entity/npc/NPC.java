@@ -7,11 +7,8 @@ import com.aelous.model.entity.combat.method.impl.npcs.bosses.corruptedhunleff.C
 import com.aelous.model.entity.combat.method.impl.npcs.karuulm.Wyrm;
 import com.aelous.utility.Debugs;
 import com.google.common.base.Stopwatch;
-import com.aelous.GameServer;
 import com.aelous.cache.definitions.NpcDefinition;
 import com.aelous.model.content.areas.wilderness.content.boss_event.BossEvent;
-import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
-import com.aelous.model.content.raids.party.Party;
 import com.aelous.model.content.skill.impl.hunter.trap.impl.Chinchompas;
 import com.aelous.core.task.TaskManager;
 import com.aelous.model.World;
@@ -46,16 +43,13 @@ import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.utility.NpcPerformance;
 import com.aelous.utility.SecondsTimer;
 import com.aelous.utility.Utils;
-import com.aelous.utility.timers.TimerKey;
 import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.lang.ref.WeakReference;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.SKOTIZO;
@@ -469,7 +463,7 @@ public class NPC extends Entity {
         action.sequence();
         TaskManager.sequenceForMob(this);
         getTimers().cycle(this);
-        getCombat().processRoute();
+        getCombat().npcPreAttackFolo();
         if (useSmartPath)
             TargetRoute.beforeMovement(this);
         getMovementQueue().process();
@@ -509,7 +503,7 @@ public class NPC extends Entity {
             try {
                 accumulateRuntimeTo(() -> {
                     //Handles random walk and retreating from fights
-                    getCombat().processRoute();
+                    getCombat().npcPreAttackFolo();
                 }, to -> NpcPerformance.npcA += to.toNanos());
 
                 accumulateRuntimeTo(() -> {

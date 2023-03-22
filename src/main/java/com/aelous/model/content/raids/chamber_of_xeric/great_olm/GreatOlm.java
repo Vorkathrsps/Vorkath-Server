@@ -1074,12 +1074,17 @@ public class GreatOlm extends CommonCombatMethod {
         });
     }
 
+    private final GameObject DUMMY = new GameObject(0, new Tile(0,0,0));
+
     private GameObject getObject(NPC npc) {
         var t = new Tile(
             isOnEastSide() ? npc.getAbsX() : npc.getAbsX() - 3,
             npc.getAbsY(),
             npc.getZ());
         GameObject obj = t.getObject(-1,10, -1);
+        if (obj == null) {
+            return DUMMY;
+        }
         return obj;
     }
 

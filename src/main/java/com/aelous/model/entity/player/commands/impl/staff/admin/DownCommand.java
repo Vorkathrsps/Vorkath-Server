@@ -11,7 +11,7 @@ public class DownCommand implements Command {
 
     @Override
     public void execute(Player player, String command, String[] parts) {
-        player.teleport(player.tile().x, player.tile().y, Math.min(3, player.tile().level - 1));
+        player.teleport(player.tile().x, player.tile().y, Math.max(0, player.tile().level - 1));
     }
 
     @Override

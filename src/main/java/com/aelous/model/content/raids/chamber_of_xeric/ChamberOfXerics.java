@@ -43,7 +43,7 @@ public class ChamberOfXerics extends Raids {
         Party party = player.raidsParty;
         if (party == null) return;
         party.setRaidStage(6);
-        var instance = new InstancedArea(new InstanceConfigurationBuilder().setCloseOnPlayersEmpty(false).createInstanceConfiguration(), new Area(3202, 5123, 3390, 5759));
+        var instance = new InstancedArea(new InstanceConfigurationBuilder().setCloseOnPlayersEmpty(true).createInstanceConfiguration(), new Area(3202, 5123, 3390, 5759));
         final int height = instance.getzLevel();
         party.setHeight(height);
 

@@ -140,7 +140,8 @@ public class InstancedArea {
             return;
         }
 
-        npcs.add(npc);
+        if (!npcs.contains(npc))
+            npcs.add(npc);
         npc.setInstance(this);
         logger.trace(marker, "Add to instance npc={}, instance={}", npc, this);
     }
@@ -165,7 +166,7 @@ public class InstancedArea {
         }
 
         //all this works problem is list is empty for bot player and npc
-        //System.out.println("dispose npcs "+getNpcs());
+        logger.trace("dispose {} npcs ", npcs.size());
         Lists.newArrayList(getNpcs()).forEach(npc -> {
             World.getWorld().unregisterNpc(npc);
             removeNpc(npc);

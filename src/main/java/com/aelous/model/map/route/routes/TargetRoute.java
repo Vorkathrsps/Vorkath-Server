@@ -3,6 +3,9 @@ package com.aelous.model.map.route.routes;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.map.route.RouteType;
 
+import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.VERZIK_VITUR_8369;
+import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.VERZIK_VITUR_8370;
+
 // I'm not 100% sure I like this class...
 public class TargetRoute {
 
@@ -95,9 +98,9 @@ public class TargetRoute {
             int targetX = target.getAbsX();
             int targetY = target.getAbsY();
             int targetSize = target.getSize();
-            if (!inTarget(absX, absY, size, targetX, targetY, targetSize)
-                && inRange(absX, absY, size, targetX, targetY, targetSize, distance)
-                && ((target.isNpc() && target.getAsNpc().id() == 7706)
+            if (!inTarget(absX, absY, size, targetX, targetY, targetSize))
+                if (inRange(absX, absY, size, targetX, targetY, targetSize, distance))
+                if ((skipClipCheck()
                 || ProjectileRoute.allow(
                 absX,
                 absY,
@@ -110,6 +113,11 @@ public class TargetRoute {
                 entity.getMovement().reset();
             }
         }
+    }
+
+    private boolean skipClipCheck() {
+        return (target.isNpc() && target.getAsNpc().id() == 7706)
+            || (target.isNpc() && target.getAsNpc().id() == VERZIK_VITUR_8370);
     }
 
     public boolean allowStep(Entity entity, int stepX, int stepY) {

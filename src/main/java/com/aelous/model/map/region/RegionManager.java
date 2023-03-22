@@ -10,6 +10,7 @@ import com.aelous.utility.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.annotation.Nonnull;
 import javax.naming.OperationNotSupportedException;
 import java.io.File;
 import java.nio.file.Files;
@@ -73,7 +74,7 @@ public class RegionManager {
      * @param regionId
      * @return
      */
-    public static Region getRegion(int regionId) {
+    public static @Nonnull Region getRegion(int regionId) {
         Region region = regions.get(regionId);
         if (region == null) {
             region = new Region(regionId, -1, -1);
@@ -87,7 +88,7 @@ public class RegionManager {
     /**
      * Attempts to get a {@link Region} based on coordinates.
      */
-    public static Region getRegion(int x, int y) {
+    public @Nonnull static Region getRegion(int x, int y) {
         loadMapFiles(x, y);
         int regionX = x >> 3;
         int regionY = y >> 3;
@@ -257,12 +258,12 @@ public class RegionManager {
      */
     public static int getClipping(int x, int y, int zLevel) {
         Region r = getRegion(x, y);
-        return (r != null ? r.getClip(x, y, zLevel) : 0);
+        return r.getClip(x, y, zLevel);
     }
 
     public static int getClippingProj(int x, int y, int zLevel) {
         Region r = getRegion(x, y);
-        return (r != null ? r.getClipProj(x, y, zLevel) : 0);
+        return r.getClipProj(x, y, zLevel);
     }
 
     public static boolean blockedProjectile(Tile tile) {

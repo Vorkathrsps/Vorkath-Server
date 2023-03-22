@@ -36,13 +36,6 @@ import static com.aelous.utility.ItemIdentifiers.DAWNBRINGER;
  * @Since January 07, 2022
  */
 public class VerzikVitur extends CommonCombatMethod {
-    private static final Projectile ELECTRIC_PROJECTILE_ID = new Projectile(1580, 105, 43, 25, 85, 10, 16, 96);
-    private static final Projectile BOMB_PROJECTILE_ID = new Projectile(1583, 105, 43, 25, 75, 0, 16, 96);
-    private static final Projectile SPIDER_PROJECTILE_ID = new Projectile(1586, 100, 0, 0, 130, 0, 16, 96);
-    private static final Projectile HEAL_PROJECTILE = new Projectile(1578, 50, 25, 0, 100, 0, 16, 96);
-    private static final Projectile RANGED_PROJECTILE = new Projectile(1593, 25, 30, 45, 75, 10, 16, 96);
-    private static final Projectile MAGIC_PROJECTILE = new Projectile(1594, 70, 20, 45, 75, 10, 16, 96);
-
 
     private static final int NYLOCAS_ATHANATOS_SPAWN_ANIMATION_ID = 8079;
     private static final int OUT_OF_CHAIR = 8111;
@@ -69,7 +62,7 @@ public class VerzikVitur extends CommonCombatMethod {
                     continue;
                 }
                 final Tile targetPos = t.tile().copy();
-                var tileDist = entity.tile().distance(target.tile());
+                var tileDist = entity.tile().distance(targetPos);
                 int duration = (85 + -5 + (10 * tileDist));
                 Projectile p = new Projectile(entity, targetPos, 1580, 85, duration, 105, 0, 0, target.getSize(), 10);
                 int delay = p.send(mob, targetPos);
@@ -90,10 +83,10 @@ public class VerzikVitur extends CommonCombatMethod {
                         continue;
                     }
 
-                    final Tile targetPos = target.tile().copy();
+                    final Tile targetPos = t.tile().copy();
                     var tileDist = entity.tile().distance(target.tile());
-                    int duration = (75 + -5 + (10 * tileDist));
-                    Projectile p = new Projectile(entity, targetPos, 1583, 75, duration, 105, 0, 0, target.getSize(), 10);
+                    int duration = (51 + -5 + (10 * tileDist));
+                    Projectile p = new Projectile(entity, targetPos, 1583, 51, duration, 105, 0, 0, target.getSize(), 10);
                     int delay = p.send(mob, targetPos);
                     Chain.bound(mob).name("VerzikViturPrepareAttackTask2").runFn(delay, () -> {
                         if (t != null && t.tile().equals(targetPos)) {
@@ -110,18 +103,29 @@ public class VerzikVitur extends CommonCombatMethod {
                             continue;
                         }
                         if (Utils.rollPercent(50)) {
-                            int delay = MAGIC_PROJECTILE.send(mob, t);
+                            var targetPos = t.tile().copy();
+                            var tileDist = entity.tile().distance(t.tile());
+                            int duration = (51 + -5 + (10 * tileDist));
+                            Projectile p = new Projectile(entity, targetPos, 1594, 51, duration, 70, 20, 0, target.getSize(), 10);
+                            int delay = p.send(mob, t);
                             t.hit(mob, World.getWorld().random(1, 40), delay, CombatType.MAGIC).checkAccuracy().submit();
                         } else {
-                            int delay = RANGED_PROJECTILE.send(mob, t);
+                            var targetPos = t.tile().copy();
+                            var tileDist = entity.tile().distance(t.tile());
+                            int duration = (41 + 11 + (5 * tileDist));
+                            Projectile p = new Projectile(entity, targetPos, 1593, 41, duration, 43, 31, 0, target.getSize(), 10);
+                            int delay = p.send(mob, t);
                             t.hit(mob, World.getWorld().random(1, 40), delay, CombatType.RANGED).checkAccuracy().submit();
                         }
                     }
                     electricCount++;
                     bombCount = 0;
                 } else {
-                    int delay = SPIDER_PROJECTILE_ID.send(mob.getCentrePosition(), target.getCentrePosition());
                     final Tile targetPos = target.tile().copy();
+                    var tileDist = entity.tile().distance(targetPos);
+                    int duration = (41 + 11 + (5 * tileDist));
+                    Projectile p = new Projectile(entity, targetPos, 1586, 41, duration, 43, 31, 0, target.getSize(), 10);
+                    int delay = p.send(mob.getCentrePosition(), target.getCentrePosition());
                     if (target.tile().equals(targetPos)) {
                         Hit hit = target.hit(mob, World.getWorld().random(1, 60), delay, null).checkAccuracy();
                         hit.submit();
@@ -161,7 +165,10 @@ public class VerzikVitur extends CommonCombatMethod {
                                 stop();
                             }
                             if ((count % 2 == 0) && nylocasAthanatos != null && !nylocasAthanatos.dead()) {
-                                int delay = HEAL_PROJECTILE.send(mob, target);
+                                var tileDist = entity.tile().distance(target.tile());
+                                int duration = (51 + -5 + (10 * tileDist));
+                                Projectile p = new Projectile(entity, targetPos, 1578, 100, duration, 50, 0, 0, target.getSize(), 10);
+                                int delay = p.send(mob, targetPos);
                                 mob.healHit(mob, 6, delay);
                             }
                         }
@@ -183,7 +190,10 @@ public class VerzikVitur extends CommonCombatMethod {
                     if (t == null || t.player().dead() || !t.tile().isWithinDistance(mob.tile(), 32) || !t.tile().inArea(ARENA)) {
                         continue;
                     }
-                    int delay = MAGIC_PROJECTILE.send(mob, t);
+                    var tileDist = entity.tile().distance(t.tile());
+                    int duration = (45 + -5 + (10 * tileDist));
+                    Projectile p = new Projectile(entity, t, 1594, 45, duration, 70, 20, 0, target.getSize(), 10);
+                    int delay = p.send(mob, t);
                     t.hit(mob, World.getWorld().random(1, 40), delay, CombatType.MAGIC).checkAccuracy().submit();
                 }
             } else if (random == 2) {
@@ -192,7 +202,10 @@ public class VerzikVitur extends CommonCombatMethod {
                     if (t == null || t.player().dead() || !t.tile().isWithinDistance(mob.tile(), 32) || !t.tile().inArea(ARENA)) {
                         continue;
                     }
-                    int delay = RANGED_PROJECTILE.send(mob, t);
+                    var tileDist = entity.tile().distance(t.tile());
+                    int duration = (75 + -5 + (10 * tileDist));
+                    Projectile p = new Projectile(entity, t, 1593, 75, duration, 43, 31, 0, target.getSize(), 10);
+                    int delay = p.send(mob, t);
                     t.hit(mob, World.getWorld().random(1, 40), delay, CombatType.RANGED).checkAccuracy().submit();
                 }
             }

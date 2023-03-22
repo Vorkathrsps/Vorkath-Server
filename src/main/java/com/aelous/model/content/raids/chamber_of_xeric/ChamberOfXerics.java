@@ -219,6 +219,8 @@ public class ChamberOfXerics extends Raids {
 
         party.greatOlmRewardCrystal = GameObject.spawn(CRYSTAL_30027, 3233, 5751, party.getHeight(), 10, 0);
 
+        GameObject.spawn(CRYSTAL_30027, 3233, 5751, party.getHeight(), 10, 0).remove(); // remove the default cache one so this tile is walkable
+        // until DynamicMap support is added, or custom Z clipping is supported, you cant have unique clipping at z>3 which is all instances
 
         GameObject o2 = GameObject.spawn(LARGE_HOLE, 3238, 5738, party.getHeight(), 10, 1);
 

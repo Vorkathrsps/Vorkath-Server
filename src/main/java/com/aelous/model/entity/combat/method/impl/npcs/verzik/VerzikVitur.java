@@ -69,14 +69,17 @@ public class VerzikVitur extends CommonCombatMethod {
                     continue;
                 }
                 final Tile targetPos = t.tile().copy();
-                int delay = ELECTRIC_PROJECTILE_ID.send(mob, targetPos);
+                var tileDist = entity.tile().distance(target.tile());
+                int duration = (85 + -5 + (10 * tileDist));
+                Projectile p = new Projectile(entity, targetPos, 1580, 85, duration, 105, 0, 0, target.getSize(), 10);
+                int delay = p.send(mob, targetPos);
                 Chain.bound(mob).name("VerzikViturPrepareAttackTask1").runFn(delay, () -> {
                     if (t.tile().isWithinDistance(targetPos, 1)) {
                         int dmg = Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MAGIC) ? World.getWorld().random(1, 60) : World.getWorld().random(1, 137);
                         t.hit(mob, dmg);
                     }
-                    World.getWorld().tileGraphic(1582, targetPos, 0, ELECTRIC_PROJECTILE_ID.getSpeed());
                 });
+                World.getWorld().tileGraphic(1582, targetPos, 0, p.getSpeed());
             }
         }
         if (mob.npc().id() == VERZIK_VITUR_8372) {
@@ -86,15 +89,17 @@ public class VerzikVitur extends CommonCombatMethod {
                     if (t.player().dead() || !t.tile().inArea(ARENA)) {
                         continue;
                     }
-
                     final Tile targetPos = target.tile().copy();
-                    int delay = BOMB_PROJECTILE_ID.send(mob, target);
-                    World.getWorld().tileGraphic(1584, targetPos, 0, BOMB_PROJECTILE_ID.getSpeed());
+                    var tileDist = entity.tile().distance(target.tile());
+                    int duration = (75 + -5 + (10 * tileDist));
+                    Projectile p = new Projectile(entity, targetPos, 1583, 75, duration, 105, 0, 0, target.getSize(), 10);
+                    int delay = p.send(mob, targetPos);
                     Chain.bound(mob).name("VerzikViturPrepareAttackTask2").runFn(delay, () -> {
                         if (t != null && t.tile().equals(targetPos)) {
                             t.hit(mob, World.getWorld().random(1, 60));
                         }
                     });
+                    World.getWorld().tileGraphic(1584, targetPos, 0, p.getSpeed());
                 }
                 bombCount++;
             } else {

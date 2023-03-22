@@ -5,7 +5,9 @@ import com.aelous.model.content.sigils.data.tier1.Fortifcation;
 import com.aelous.model.content.sigils.data.tier1.MenacingMage;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
+import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.animations.Priority;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
@@ -41,7 +43,7 @@ public abstract class SigilHandler {
     public static void handle(Player player, int itemId, boolean activate, boolean unattune) {
         SigilHandler info = getSigil(itemId);
         Entity target = player.getCombat().getTarget();
-        Hit hit = player.hit(player, 0);
+        Hit hit = player.hit(player, 0, (CombatType) null);
         /**
          * Make Sure The Sigil Is Not Null
          */

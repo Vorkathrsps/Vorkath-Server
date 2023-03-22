@@ -2,6 +2,8 @@ package com.aelous.model.content.raids.chamber_of_xeric;
 
 import com.aelous.model.content.daily_tasks.DailyTaskManager;
 import com.aelous.model.content.daily_tasks.DailyTasks;
+import com.aelous.model.content.instance.InstanceConfigurationBuilder;
+import com.aelous.model.content.instance.InstancedArea;
 import com.aelous.model.content.mechanics.Poison;
 import com.aelous.model.content.raids.Raids;
 import com.aelous.model.content.raids.RaidsNpc;
@@ -17,6 +19,7 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.object.ObjectManager;
+import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Color;
 import com.google.common.collect.Lists;
@@ -40,12 +43,14 @@ public class ChamberOfXerics extends Raids {
         Party party = player.raidsParty;
         if (party == null) return;
         party.setRaidStage(6);
-        final int height = party.getLeader().getIndex() * 4;
+        var instance = new InstancedArea(new InstanceConfigurationBuilder().setCloseOnPlayersEmpty(false).createInstanceConfiguration(), new Area(3202, 5123, 3390, 5759));
+        final int height = instance.getzLevel();
         party.setHeight(height);
 
         for (Player member : party.getMembers()) {
             member.setRaids(this);
             member.teleport(new Tile(3299, 5189, height));
+            member.setInstance(instance);
         }
 
         //Clear kills
@@ -222,6 +227,7 @@ public class ChamberOfXerics extends Raids {
         GameObject o1 = GameObject.spawn(CRYSTALLINE_STRUCTURE, 3238, 5743, party.getHeight(), 10, 1);
 
         party.objects.addAll(Lists.newArrayList(o1, o2, o3));
+        Lists.newArrayList(o1, o2, o3).forEach(o -> party.getLeader().getInstancedArea().addGameObj(o));
 
         var o4 = new GameObject(29888, new Tile(3238, 5743, party.getHeight()), 10, 1);
         var o5 = new GameObject(29882, new Tile(3238, 5738, party.getHeight()), 10, 1);
@@ -234,6 +240,7 @@ public class ChamberOfXerics extends Raids {
 
         var cacheLandscapeObjects = Lists.newArrayList(o4,o5,o6,o7,o8,o9);
         party.objects.addAll(cacheLandscapeObjects);
+        cacheLandscapeObjects.forEach(o -> party.getLeader().getInstancedArea().addGameObj(o));
         World.getWorld().getSpawnedObjs().addAll(cacheLandscapeObjects);
         LogManager.getLogger("cox").info("adding {}", cacheLandscapeObjects);
 

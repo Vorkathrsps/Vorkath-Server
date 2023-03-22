@@ -96,7 +96,7 @@ public class ObjectInteractionHandler implements PacketListener {
 
         object.ifPresent(gameObject -> player.debugMessage("optionId " + finalOption + "= " + gameObject.toString()));
 
-        Optional<GameObject> spawnedObject = World.getWorld().getSpawnedObjs().stream().filter(o -> o.getId() == finalId && o.getX() == finalX && o.getY() == finalY).findFirst();
+        Optional<GameObject> spawnedObject = World.getWorld().getSpawnedObjs().stream().filter(o -> o.getId() == finalId && o.tile().equals(new Tile(finalX, finalY, player.getZ()))).findFirst();
 
         if (object.isEmpty() && spawnedObject.isEmpty())
             return;

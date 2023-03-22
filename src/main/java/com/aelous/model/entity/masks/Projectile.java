@@ -118,6 +118,13 @@ public final class Projectile {
             startHeight, endHeight, curve, creatorSize, 64, stepMultiplier);
     }
 
+    public Projectile(Entity source, Tile victim, int projectileId,
+                      int delay, int speed, int startHeight, int endHeight, int curve, int creatorSize, int stepMultiplier) {
+        this(source.getCentrePosition(), victim,
+            0, projectileId, speed, delay,
+            startHeight, endHeight, curve, creatorSize, 64, stepMultiplier);
+    }
+
     /**
      * @param source
      * @param victim

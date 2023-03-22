@@ -2837,6 +2837,10 @@ public class Player extends Entity {
             this.getPacketSender().sendEffectTimer(0, EffectTimer.MONSTER_RESPAWN);
             InstancedAreaManager.getSingleton().disposeOf(alchemicalHydraInstance.getInstance());
         }
+        if (getInstancedArea() != null) {
+            getInstancedArea().dispose();
+            instancedArea = null;
+        }
     }
 
     @Override

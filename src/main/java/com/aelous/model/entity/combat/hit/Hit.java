@@ -1,7 +1,6 @@
 package com.aelous.model.entity.combat.hit;
 
 import com.aelous.cache.definitions.NpcDefinition;
-import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
@@ -10,16 +9,11 @@ import com.aelous.model.entity.combat.formula.accuracy.*;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.method.CombatMethod;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
-import com.aelous.model.entity.combat.weapon.AttackType;
-import com.aelous.model.entity.combat.weapon.FightType;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.PlayerStatus;
-import com.aelous.utility.ItemIdentifiers;
-import lombok.Setter;
 
-import java.security.SecureRandom;
 import java.util.function.Consumer;
 
 /**
@@ -57,7 +51,11 @@ public class Hit {
 
     public CombatSpell spell;
 
-    @Setter
+    public Hit setSplatType(SplatType splatType) {
+        this.splatType = splatType;
+        return this;
+    }
+
     public SplatType splatType;
 
     public Splat splat;

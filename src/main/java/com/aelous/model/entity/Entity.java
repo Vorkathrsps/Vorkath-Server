@@ -1848,7 +1848,21 @@ public abstract class Entity {
     @Setter@Getter
     public InstancedArea instancedArea;
     public void setInstance(InstancedArea instancedArea) {
+        var prev = this.instancedArea;
         this.instancedArea = instancedArea;
+        if (prev == instancedArea)
+            return;
+        if (prev != null && instancedArea == null) { // setting null probably removing
+            if (isPlayer())
+                prev.removePlayer(getAsPlayer());
+            else
+                prev.removeNpc(npc());
+        } else if (instancedArea != null) { // add
+            if (isPlayer())
+                instancedArea.addPlayer(getAsPlayer());
+            else
+                instancedArea.addNpc(npc());
+        }
     }
 
     public boolean isNpc(int i) {

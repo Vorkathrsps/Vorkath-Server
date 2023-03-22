@@ -269,7 +269,7 @@ public class Hit {
 
         int damage;
 
-        final int alwaysHitDamage = getSource() != attacker ? attacker.getAttribOr(AttributeKey.ALWAYS_HIT, 0) : 0;
+        final int alwaysHitDamage = getTarget() != attacker ? attacker.getAttribOr(AttributeKey.ALWAYS_HIT, 0) : 0;
         final boolean alwaysHitActive = alwaysHitDamage > 0;
         final boolean oneHitActive = attacker.getAttribOr(AttributeKey.ONE_HIT_MOB, false);
 

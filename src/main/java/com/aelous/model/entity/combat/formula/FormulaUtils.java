@@ -1,9 +1,9 @@
 package com.aelous.model.entity.combat.formula;
 
 import com.aelous.cache.definitions.NpcDefinition;
+import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.entity.Entity;
 
-import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
@@ -98,6 +98,19 @@ public class FormulaUtils {
             ItemIdentifiers.ZAMORAKIAN_HASTA, ItemIdentifiers.OSMUMTENS_FANG,
             ItemIdentifiers.OSMUMTENS_FANG_OR, ItemIdentifiers.CRYSTAL_HALBERD,
             ItemIdentifiers.CRYSTAL_HALBERD_FULL, ItemIdentifiers.NEW_CRYSTAL_HALBERD_FULL, ItemIdentifiers.DRAGON_HALBERD);
+    }
+
+    public static boolean isWearingPoisonEquipmentOrWeapon(Player player) {
+        return player.getEquipment().containsAny(
+            SERPENTINE_HELM, MAGMA_HELM, TANZANITE_HELM, TOXIC_BLOWPIPE, DRAGON_DAGGERP, DRAGON_DAGGERP_5680, DRAGON_DAGGER_20407);
+    }
+
+    public static boolean isWearingDamageReductionStaff(Player player) {
+        return player.getEquipment().containsAny(STAFF_OF_THE_DEAD, TOXIC_STAFF_OF_THE_DEAD, TOXIC_STAFF_UNCHARGED, STAFF_OF_LIGHT);
+    }
+
+    public static int[] isRevenant() {
+        return new int[]{NpcIdentifiers.REVENANT_CYCLOPS, NpcIdentifiers.REVENANT_DEMON , NpcIdentifiers.REVENANT_DRAGON , NpcIdentifiers.REVENANT_GOBLIN , NpcIdentifiers.REVENANT_HELLHOUND , NpcIdentifiers.REVENANT_DARK_BEAST , NpcIdentifiers.REVENANT_HOBGOBLIN , NpcIdentifiers.REVENANT_IMP , NpcIdentifiers.REVENANT_KNIGHT , NpcIdentifiers.REVENANT_PYREFIEND, NpcIdentifiers.REVENANT_MALEDICTUS, NpcIdentifiers.REVENANT_IMP};
     }
 
     public static boolean fullDharok(Player player) {

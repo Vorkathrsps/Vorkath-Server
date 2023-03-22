@@ -55,16 +55,13 @@ public class MeleeCombatMethod extends CommonCombatMethod {
 
                 Tile gfxTile = entity.getCentrePosition().transform(dir.x, dir.y);
 
-                World.getWorld().tileGraphic(gfx, gfxTile, 96, 20);
+                World.getWorld().tileGraphic(gfx, gfxTile, 96, 30);
 
                 //entity.graphic(478, 100, 0);
                 if(target.getAsNpc().getSize() > 2 || target.getAsNpc().isCombatDummy()) {
                     target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
                     target.hit(entity, (int) (CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE) * 0.50D), 0, CombatType.MELEE).checkAccuracy().submit();
                     target.hit(entity, (int) (CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE) * 0.25D), 0, CombatType.MELEE).checkAccuracy().submit();
-                    //int damage = hit1.getDamage();
-                    //target.hit(entity, (int) (damage * 0.50));
-                    //target.hit(entity, (int) (damage * .25));
                 } else {
                     target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
                 }

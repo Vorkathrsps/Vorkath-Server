@@ -4,10 +4,19 @@ import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.formula.FormulaUtils;
+import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
+import com.aelous.model.entity.masks.Projectile;
+import com.aelous.model.entity.masks.impl.graphics.Graphic;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
+import com.aelous.model.entity.player.EquipSlot;
+import com.aelous.model.entity.player.Player;
 
 import java.security.SecureRandom;
+
+import static com.aelous.utility.ItemIdentifiers.BRACELET_OF_ETHEREUM;
 
 /**
  * @author Patrick van Elderen | Zerikoth
@@ -33,12 +42,12 @@ public class Revenant extends CommonCombatMethod {
             }
         }
         if (CombatFactory.canAttack(entity, CombatFactory.MELEE_COMBAT, target) && World.getWorld().random(2) == 1)
-                meleeAttack(npc, target);
-            else if (World.getWorld().rollDie(2, 1))
-                rangedAttack(npc, target);
-            else
-                magicAttack(npc, target);
-        }
+            meleeAttack(npc, target);
+        else if (World.getWorld().rollDie(2, 1))
+            rangedAttack(npc, target);
+        else
+            magicAttack(npc, target);
+    }
 
     @Override
     public int getAttackSpeed(Entity entity) {
@@ -56,24 +65,23 @@ public class Revenant extends CommonCombatMethod {
     }
 
     private void rangedAttack(NPC npc, Entity target) {
-        int tileDist = npc.tile().getChevDistance(target.tile());
-        int delay = (int) (1 + Math.floor(3 + tileDist) / 6D);
-
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (41 + 11 + (5 * tileDist));
+        Projectile p = new Projectile(entity, target, 206, 41, duration, 43, 31, 0, target.getSize(), 5);
+        final int delay = entity.executeProjectile(p);
         npc.animate(npc.attackAnimation());
-        //int hitdelay = npc.executeProjectile(new Projectile(npc, target, 206, delay, tileDist, 30,31,0,1));
-      //  target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), hitdelay + 1, CombatType.RANGED).checkAccuracy().submit();
+        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
     }
 
     private void magicAttack(NPC npc, Entity target) {
-        var tileDist = npc.tile().transform(1, 1, 0).distance(target.tile());
-        int delay = (int) (1D + Math.floor(1 + tileDist) / 3D);
-        delay = (int) Math.min(Math.max(1.0 , delay), 5.0);
-
         npc.animate(npc.attackAnimation());
-       // int hitdelay = npc.executeProjectile(new Projectile(npc, target, 1415, delay, tileDist, 30,31,0,1));
+        var tileDist = npc.tile().distance(target.tile());
+        int duration = (51 + -5 + (10 * tileDist));
+        Projectile p = new Projectile(npc, target, 1415, 51, duration, 43, 31, 0, target.getSize(), 10);
+        final int delay = npc.executeProjectile(p);
         int damage = CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC);
-       // target.hit(npc, damage, hitdelay + 1, CombatType.MAGIC).checkAccuracy().submit();
-      //  target.performGraphic(damage > 0 ? new Graphic(1454, GraphicHeight.HIGH, hitdelay + 1) : new Graphic(85, GraphicHeight.HIGH, hitdelay * 5));
+        target.hit(npc, damage, delay, CombatType.MAGIC).checkAccuracy().submit();
+        target.performGraphic(damage > 0 ? new Graphic(1454, GraphicHeight.HIGH, p.getSpeed()) : new Graphic(85, GraphicHeight.HIGH, p.getSpeed()));
         npc.freeze(8, target);
     }
 }

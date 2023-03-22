@@ -1082,7 +1082,9 @@ public class GreatOlm extends CommonCombatMethod {
             npc.getAbsY(),
             npc.getZ());
         GameObject obj = t.getObject(-1,10, -1);
-        if (obj == null) return DUMMY;
+        if (obj == null) {
+            return DUMMY;
+        }
         return obj;
     }
 

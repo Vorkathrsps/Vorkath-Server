@@ -463,6 +463,12 @@ public class CommandManager {
             Optional<Player> plr = World.getWorld().getPlayerByName(c.substring(s[0].length() + 1));
             p.teleport(plr.get().tile());
         });
+        dev("up", (p, c, s) -> {
+            p.teleport(p.tile().transform(0,0,1));
+        });
+        dev("up4", (p, c, s) -> {
+            p.teleport(p.tile().transform(0,0,4));
+        });
     }
 
     public static void dev(String cmd, TriConsumer<Player, String, String[]> tc) {

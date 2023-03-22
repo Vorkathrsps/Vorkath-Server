@@ -140,7 +140,8 @@ public class InstancedArea {
             return;
         }
 
-        npcs.add(npc);
+        if (!npcs.contains(npc))
+            npcs.add(npc);
         npc.setInstance(this);
         logger.trace(marker, "Add to instance npc={}, instance={}", npc, this);
     }

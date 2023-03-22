@@ -116,8 +116,10 @@ public class Region {
     public void addClip(int x, int y, int height, int shift) {
         int regionAbsX = (regionId >> 8) * 64;
         int regionAbsY = (regionId & 0xff) * 64;
-        if (height < 0 || height >= 4)
+        if (height < 0)
             height = 0;
+        if (height > 3)
+            height %= 4;
         if (clips[height] == null) {
             clips[height] = new int[64][64];
         }
@@ -134,8 +136,10 @@ public class Region {
     public void addClipProj(int x, int y, int height, int shift) {
         int regionAbsX = (regionId >> 8) * 64;
         int regionAbsY = (regionId & 0xff) * 64;
-        if (height < 0 || height >= 4)
+        if (height < 0)
             height = 0;
+        if (height > 3)
+            height %= 4;
         if (projectileClip[height] == null) {
             projectileClip[height] = new int[64][64];
         }
@@ -153,8 +157,10 @@ public class Region {
     public void removeClip(int x, int y, int height, int shift) {
         int regionAbsX = (regionId >> 8) * 64;
         int regionAbsY = (regionId & 0xff) * 64;
-        if (height < 0 || height >= 4)
+        if (height < 0)
             height = 0;
+        if (height > 3)
+            height %= 4;
         if (clips[height] == null) {
             clips[height] = new int[64][64];
         }
@@ -164,8 +170,10 @@ public class Region {
     public void removeClipProj(int x, int y, int height, int shift) {
         int regionAbsX = (regionId >> 8) * 64;
         int regionAbsY = (regionId & 0xff) * 64;
-        if (height < 0 || height >= 4)
+        if (height < 0)
             height = 0;
+        if (height > 3)
+            height %= 4;
         if (projectileClip[height] == null) {
             projectileClip[height] = new int[64][64];
         }
@@ -175,8 +183,10 @@ public class Region {
     public void setClip(int x, int y, int height, int value) {
         int regionAbsX = (regionId >> 8) * 64;
         int regionAbsY = (regionId & 0xff) * 64;
-        if (height < 0 || height >= 4)
+        if (height < 0)
             height = 0;
+        if (height > 3)
+            height %= 4;
         if (clips[height] == null) {
             clips[height] = new int[64][64];
         }

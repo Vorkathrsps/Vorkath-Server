@@ -244,6 +244,8 @@ public abstract class Entity {
      * @param tile the world position
      */
     public Entity setTile(Tile tile) {
+        if (tile == null)
+            throw new RuntimeException("wtf");
         this.tile = tile;
         return this;
     }
@@ -894,34 +896,29 @@ public abstract class Entity {
     /**
      * doesnt return {@code Hit} instance because its immidiately submitted() so you cant change properties after.
      */
-    public Hit hit(Entity attacker, int damage) {
-        return hit(attacker, damage, SplatType.HITSPLAT);
+    public void hit(Entity attacker, int damage) {
+        hit(attacker, damage, SplatType.HITSPLAT);
     }
 
     /**
      * doesnt return {@code Hit} instance because its immidiately submitted() so you cant change properties after.
      */
-    public Hit hit(Entity attacker, int damage, int delay) {
-        return hit(attacker, damage, SplatType.HITSPLAT);
+    public void hit(Entity attacker, int damage, int delay) {
+        hit(attacker, damage, SplatType.HITSPLAT);
     }
 
     /**
      * doesnt return {@code Hit} instance because its immidiately submitted() so you cant change properties after.
      */
-    public Hit hit(Entity attacker, int damage, SplatType type) {
-        return hit(attacker, damage, 0, null, type);
+    public void hit(Entity attacker, int damage, SplatType type) {
+        hit(attacker, damage, 0, null, type);
     }
 
     /**
      * doesnt return {@code Hit} instance because its immidiately submitted() so you cant change properties after.
      */
-    public Hit hit(Entity attacker, int damage, CombatType combatType, SplatType type) {
-        return hit(attacker, damage, 0, combatType, type);
-    }
-    public Hit hit(Entity attacker, int damage, int delay, CombatType combatType, SplatType type) {
-        Hit hit = hit(attacker, damage, 0, combatType);
-        hit.splatType = type;
-        return hit;
+    public void hit(Entity attacker, int damage, CombatType combatType, SplatType type) {
+        hit(attacker, damage, 0, combatType, type);
     }
 
     /**
@@ -932,17 +929,33 @@ public abstract class Entity {
         return hit;
     }
 
+    /**
+     * Use a builder pattern, allowing you to call methods to change properties of Hit before calling {@code CombatFactory.addPendingHit(hit);}
+     */
     public Hit hit(Entity attacker, int damage, CombatType type) {
         Hit hit = Hit.builder(attacker, this, damage, 0, type);
         return hit;
     }
 
-    public Hit healHit(Entity attacker, int heal) {
-        return hit(attacker, heal, null, SplatType.NPC_HEALING_HITSPLAT);
+    /**
+     * doesn't return {@code Hit} instance because It's immediately submitted() so you can't change properties after.
+     */
+    public void healHit(Entity attacker, int heal) {
+        hit(attacker, heal, null, SplatType.NPC_HEALING_HITSPLAT);
     }
 
-    public Hit healHit(Entity attacker, int heal, int delay) {
-        return hit(attacker, heal, delay, null, SplatType.NPC_HEALING_HITSPLAT);
+    /**
+     * doesn't return {@code Hit} instance because It's immediately submitted() so you can't change properties after.
+     */
+    public void healHit(Entity attacker, int heal, int delay) {
+        hit(attacker, heal, delay, null, SplatType.NPC_HEALING_HITSPLAT);
+    }
+
+    /**
+     * doesn't return {@code Hit} instance because It's immediately submitted() so you can't change properties after.
+     */
+    public void hit(Entity attacker, int damage, int delay, CombatType combatType, SplatType type) {
+        hit(attacker, damage, delay, combatType).setIsReflected().setSplatType(type).submit();
     }
 
     protected boolean noRetaliation = false;

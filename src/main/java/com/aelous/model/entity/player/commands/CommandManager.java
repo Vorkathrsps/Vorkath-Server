@@ -375,7 +375,7 @@ public class CommandManager {
             n.lockNoAttack();
             n.respawns(false);
             ((CommonCombatMethod)n.getCombatMethod()).set(n, p);
-            n.getCombatMethod().customOnDeath(n.hit(p, n.hp()));
+            n.getCombatMethod().customOnDeath(n.hit(p, n.hp(), (CombatType) null));
             Chain.noCtx().delay(15, () -> n.remove());
 
             Set<Tile> tiles = n.tile().expandedBounds(2);
@@ -412,22 +412,22 @@ public class CommandManager {
             p.looks().hide(!p.looks().hidden());
         });
         dev("hit1", (p, c, s) -> {
-            p.hit(p, 1, SplatType.NPC_HEALING_HITSPLAT).submit();
+            p.hit(p, 1, SplatType.NPC_HEALING_HITSPLAT);
         });
         dev("hit2", (p, c, s) -> {
-            p.hit(p, 1, SplatType.POISON_HITSPLAT).submit();;
+            p.hit(p, 1, SplatType.POISON_HITSPLAT);;
         });
         dev("hit3", (p, c, s) -> {
-            p.hit(p, 1, SplatType.VENOM_HITSPLAT).submit();;
+            p.hit(p, 1, SplatType.VENOM_HITSPLAT);;
         });
         dev("hit4", (p, c, s) -> {
-            p.hit(p, 1, SplatType.MAX_HIT).submit();;
+            p.hit(p, 1, SplatType.MAX_HIT);;
         });
         dev("hit5", (p, c, s) -> {
             var i = 1;
             for (SplatType value : SplatType.values()) {
                 Chain.noCtx().delay(i++, () -> {
-                    p.hit(p, 0, value).submit();
+                    p.hit(p, 0, value);
                 });
             }
         });

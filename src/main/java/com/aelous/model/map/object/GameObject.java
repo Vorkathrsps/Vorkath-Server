@@ -445,7 +445,7 @@ public class GameObject {
     }
 
     public GameObject clip(boolean remove) {
-        if (id == -1 || skipClipping)
+        if (id == -1 || skipClipping || tile().getZ() > 3)
             return this;
         // when osrs data is rdy
         ObjectDefinition def = definition();

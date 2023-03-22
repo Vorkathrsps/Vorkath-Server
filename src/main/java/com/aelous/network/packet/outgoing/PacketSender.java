@@ -346,7 +346,8 @@ public final class PacketSender {
      */
     public PacketSender sendMessage(String message) {
         if (message.length() > 220) {
-            throw new IllegalArgumentException("The message length was too big! " + message);
+            logger.error("aye", new IllegalArgumentException("The message length was too big! " + message));
+            message = message.substring(0, 220);
         }
         PacketBuilder out = new PacketBuilder(253, PacketType.VARIABLE);
         out.putString(message);

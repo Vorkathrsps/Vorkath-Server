@@ -61,7 +61,7 @@ public class Venom {
                     mob.putAttrib(AttributeKey.VENOM_TICKS, Math.max(1, ticks - 1));
                     Entity attacker = mob.getAttribOr(AttributeKey.VENOMED_BY,null);
                     if(attacker != null) {
-                        mob.hit(attacker, calcHit(ticks), SplatType.VENOM_HITSPLAT).submit();
+                        mob.hit(attacker, calcHit(ticks), SplatType.VENOM_HITSPLAT);
                     }
                     //System.out.println("current tick: "+ticks);
                 } else if (ticks < 0) {

@@ -2,9 +2,12 @@ package com.aelous.model.content.items;
 
 import com.aelous.GameServer;
 import com.aelous.model.World;
+import com.aelous.model.content.instance.InstanceHeight;
 import com.aelous.model.entity.attributes.AttributeKey;
 
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.InputScript;
 import com.aelous.model.inter.dialogue.Dialogue;
@@ -73,7 +76,7 @@ public class RottenPotato extends PacketInteraction {
                         player.message(""+ npc.def().name+" is dead.");
                     if (npc.id() == 6611)
                         npc.clearAttrib(AttributeKey.VETION_HELLHOUND_SPAWNED);
-                    var h = npc.hit(player, npc.hp());
+                    var h = npc.hit(player, npc.hp(), (CombatType) null);
                     npc.hp(npc.hp(), 0);
                     npc.die();
                     if (npc.getCombatMethod() != null && npc.getCombatMethod().customOnDeath(h)) {
@@ -115,6 +118,7 @@ public class RottenPotato extends PacketInteraction {
 
     public static void onItemOption1(Player player) {
         if (player.getPlayerRights().isDeveloper(player)) {
+            CommandManager.attempt(player, "infhp");
             if (GameServer.properties().production) {
                 potatoChat(player);
             } else {

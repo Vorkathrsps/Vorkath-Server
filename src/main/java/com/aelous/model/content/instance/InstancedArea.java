@@ -191,6 +191,17 @@ public class InstancedArea {
         }
     }
 
+    public void addGameObj(GameObject o) {
+        if (disposed) {
+            logger.error(marker, "Attempting to add o to instance after diposed {} {}", o, this);
+            return;
+        }
+        if (!gameobjs.contains(o)) {
+            gameobjs.add(o);
+        }
+        logger.trace(marker, "Add to instance o={}, instance={}", o, this);
+    }
+
     /**
      * Remove an {@link NPC} to the instance and calls {@link Mob#setInstance(InstancedArea)} on the npc.
      */

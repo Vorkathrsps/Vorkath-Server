@@ -1201,6 +1201,10 @@ public class CombatFactory {
 
         if (hit.postDamage != null)
             hit.postDamage.accept(hit);
+        CombatMethod method = CombatFactory.getMethod(target);
+        if (method instanceof CommonCombatMethod o) {
+            o.postDamage(hit);
+        }
 
         if (attacker.isPlayer()) {
             Player player = (Player) attacker;

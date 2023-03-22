@@ -2,6 +2,8 @@ package com.aelous.model.map.position;
 
 import com.aelous.model.entity.Entity;
 
+import java.util.function.Consumer;
+
 /**
  * Created by Bart on 8/22/2015.
  */
@@ -189,6 +191,23 @@ public class Area {
 
     public boolean overlaps(Area other) {
         return Tile.overlaps(x1, y1, x2 - x1 + 1, y2 - y1 + 1, other.x1, other.y1, other.x2 - other.x1 + 1, other.y2 - other.y1 + 1);
+    }
+
+    public void forEachPos(Consumer<Tile> consumer) {
+        int minZ, maxZ;
+        if(level == -1) {
+            minZ = 0;
+            maxZ = 3;
+        } else {
+            minZ = level;
+            maxZ = minZ;
+        }
+        for(int z = minZ; z <= maxZ; z++) {
+            for(int x = x1; x <= x2; x++) {
+                for(int y= y1; y <= y2; y++)
+                    consumer.accept(new Tile(x, y, z));
+            }
+        }
     }
 
     public Area setLargeViewPort(boolean largeViewPort) {

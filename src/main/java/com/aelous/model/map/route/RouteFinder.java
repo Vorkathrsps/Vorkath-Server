@@ -241,6 +241,13 @@ public class RouteFinder {
         return routeObject;
     }
 
+    public static boolean isRemoteObjectSkipPath(GameObject object) {
+        if (object.getId() == 29778 && object.getX() == 3231 && object.getY() == 5755) {
+            return true;
+        }
+        return false;
+    }
+
     public static boolean isRemoteObject(GameObject object) {
         //Rogues den basement door.
         if (object.getId() == DOOR_7259 && object.getX() == 3061 && object.getY() == 4984 && object.getHeight() == 1) {
@@ -287,12 +294,21 @@ public class RouteFinder {
     }
 
     public void routeObject(GameObject gameObject, Runnable successAction) {
+        routeObject(gameObject, successAction, true);
+    }
+
+    public void routeObject(GameObject gameObject, Runnable successAction, boolean checkRemote) {
         RouteType route;
         if (gameObject.walkTo != null)
             route = routeAbsolute(gameObject.walkTo.getX(), gameObject.walkTo.getY());
         else route = routeObject(gameObject);
         /** No event required, already at destination. */
-        final boolean isInstantTriggerRemoteObj = isRemoteObject(gameObject);
+        final boolean isInstantTriggerRemoteObj = checkRemote && isRemoteObject(gameObject);
+        final boolean skippath = checkRemote && isRemoteObjectSkipPath(gameObject);
+        if (skippath) {
+            successAction.run();
+            return;
+        }
         if (route.finished(entity.tile())) {
             //entity.setPositionToFace(gameObject.tile());
             if (route.reachable) {

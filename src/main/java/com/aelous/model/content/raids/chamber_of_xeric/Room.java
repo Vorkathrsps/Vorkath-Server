@@ -9,11 +9,11 @@ import com.aelous.model.inter.dialogue.DialogueType;
 import com.aelous.model.inter.dialogue.Expression;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
+import com.aelous.network.packet.incoming.impl.ObjectInteractionHandler;
 import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.utility.Color;
 
-import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.VERZIK_VITUR_8369;
-import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.VERZIK_VITUR_8370;
+import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.*;
 import static com.aelous.model.inter.dialogue.Dialogue.send;
 
@@ -33,7 +33,16 @@ public class Room extends PacketInteraction {
 
             if (object.getId() == STEPS_29778) {
                 if (player.getRaids() != null) {
-                    player.getRaids().exit(player);
+                    var alive = player.raidsParty.monsters.stream().anyMatch(n -> n.id() == GREAT_OLM_7554 && !n.dead());
+                    if (alive) {
+                        player.message("the raid isn't over!");
+                        // until DynamicMap support is added, or custom Z clipping is supported, you cant have unique clipping at z>3 which is all instances
+                        // this means players can noclip through the crystal to the stairs, so reset movement when they try this when boss (and crystal techniclly) is still active
+                        player.getMovementQueue().reset();
+                        return true;
+                    }
+                    // re-route the player, when complete, trigger exit raid. dont trigger exit raid until path complete (path was skipped earlier via isRemoteObjectSkipPath())
+                    player.getRouteFinder().routeObject(object, () -> player.getRaids().exit(player), false);
                 }
                 return true;
             }

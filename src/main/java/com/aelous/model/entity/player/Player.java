@@ -1428,6 +1428,7 @@ public class Player extends Entity {
         logoutLogs.log(LOGOUT, "[Logout] Deregistering player - {}", getUsername());
         Utils.sendDiscordInfoLog("```Deregistering player - " + getUsername() + " with IP " + getHostAddress() + "```", "logout");
 
+        clearInstance();
         if (this.getPet().hasPet()) {
             this.getPet().pickup(true);
         }
@@ -2838,7 +2839,7 @@ public class Player extends Entity {
             InstancedAreaManager.getSingleton().disposeOf(alchemicalHydraInstance.getInstance());
         }
         if (getInstancedArea() != null) {
-            getInstancedArea().dispose();
+            getInstancedArea().removePlayer(this); // will dispose only when empty
             instancedArea = null;
         }
     }

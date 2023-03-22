@@ -1,7 +1,6 @@
 package com.aelous.model.entity.combat.formula;
 
 import com.aelous.cache.definitions.NpcDefinition;
-import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.entity.Entity;
 
 import com.aelous.model.entity.npc.NPC;
@@ -80,8 +79,16 @@ public class FormulaUtils {
         return ((eq.hasAt(EquipSlot.HEAD, 21298) && eq.hasAt(EquipSlot.BODY, 21301) && eq.hasAt(EquipSlot.LEGS, 21304)));
     }
 
-    public static boolean hasViggorasChainMace(Player player) {
-        return ((player.getEquipment().hasAt(EquipSlot.WEAPON, VIGGORAS_CHAINMACE) && WildernessArea.inWild(player)));
+    public static boolean hasMeleeWildernessWeapon(Player player) {
+        return player.getEquipment().containsAny(VIGGORAS_CHAINMACE, URSINE_CHAINMACE);
+    }
+
+    public static boolean hasRangedWildernessWeapon(Player player) {
+        return player.getEquipment().containsAny(CRAWS_BOW, WEBWEAVER_BOW);
+    }
+
+    public static boolean hasMagicWildernessWeapon(Player player) {
+        return player.getEquipment().containsAny(THAMMARONS_SCEPTRE, ACCURSED_SCEPTRE_A);
     }
 
     public static boolean wearingFullInquisitors(Player player) {
@@ -107,10 +114,6 @@ public class FormulaUtils {
 
     public static boolean isWearingDamageReductionStaff(Player player) {
         return player.getEquipment().containsAny(STAFF_OF_THE_DEAD, TOXIC_STAFF_OF_THE_DEAD, TOXIC_STAFF_UNCHARGED, STAFF_OF_LIGHT);
-    }
-
-    public static int[] isRevenant() {
-        return new int[]{NpcIdentifiers.REVENANT_CYCLOPS, NpcIdentifiers.REVENANT_DEMON , NpcIdentifiers.REVENANT_DRAGON , NpcIdentifiers.REVENANT_GOBLIN , NpcIdentifiers.REVENANT_HELLHOUND , NpcIdentifiers.REVENANT_DARK_BEAST , NpcIdentifiers.REVENANT_HOBGOBLIN , NpcIdentifiers.REVENANT_IMP , NpcIdentifiers.REVENANT_KNIGHT , NpcIdentifiers.REVENANT_PYREFIEND, NpcIdentifiers.REVENANT_MALEDICTUS, NpcIdentifiers.REVENANT_IMP};
     }
 
     public static boolean fullDharok(Player player) {

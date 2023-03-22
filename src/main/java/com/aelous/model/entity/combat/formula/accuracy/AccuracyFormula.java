@@ -113,7 +113,7 @@ public class AccuracyFormula {
                 bonus += 0.2D;
             }
 
-            if (weapon != null && FormulaUtils.hasViggorasChainMace(player)) {
+            if (weapon != null && FormulaUtils.hasMeleeWildernessWeapon(player)) {
                 bonus += 0.5D;
             }
 

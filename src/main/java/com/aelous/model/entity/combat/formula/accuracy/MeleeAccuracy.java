@@ -1,5 +1,6 @@
 package com.aelous.model.entity.combat.formula.accuracy;
 
+import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 
 import com.aelous.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
@@ -15,6 +16,7 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
+import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.ItemIdentifiers;
 
 import java.security.SecureRandom;
@@ -35,7 +37,7 @@ public class MeleeAccuracy {
     }
 
     public static boolean successful(Entity attacker, Entity defender, CombatType style) {
-        int attackBonus = getAttackRoll(attacker, style);
+        int attackBonus = getAttackRoll(attacker, defender, style);
         int defenceBonus = getDefenceRoll(defender);
         double successfulRoll;
 
@@ -101,7 +103,7 @@ public class MeleeAccuracy {
         return effectiveLevel;
     }
 
-    public static int getEffectiveMelee(Entity attacker, CombatType style) {
+    public static int getEffectiveMelee(Entity attacker, Entity defender, CombatType style) {
         var task_id = attacker.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
         var task = SlayerCreature.lookup(task_id);
         final Item weapon = attacker.isPlayer() ? attacker.getAsPlayer().getEquipment().get(EquipSlot.WEAPON) : null;
@@ -135,14 +137,18 @@ public class MeleeAccuracy {
                 if (FormulaUtils.eliteVoidEquipmentMelee((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMelee((Player) attacker)) {
                     effectiveLevel = (int) Math.floor(effectiveLevel * 1.125D);
                 }
-                if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.15D);
+                if (defender.isNpc() && defender.getAsNpc().id() == NpcIdentifiers.REVENANT_CYCLOPS || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_DEMON || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_DRAGON || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_GOBLIN || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_HELLHOUND || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_DARK_BEAST || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_HOBGOBLIN || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_IMP || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_KNIGHT || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_PYREFIEND || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_MALEDICTUS || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_IMP) {
+                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getAsPlayer().getEquipment().contains(SALVE_AMULET_E) || attacker.getAsPlayer().getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.2D);
+                    }
+                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.15D);
+                    }
                 }
-                if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getAsPlayer().getEquipment().contains(SALVE_AMULET_E) || attacker.getAsPlayer().getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.2D);
-                }
-                if (weapon != null && FormulaUtils.hasViggorasChainMace(attacker.getAsPlayer())) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.5D);
+                if (defender.isNpc() && WildernessArea.inWilderness(attacker.tile())) {
+                    if (weapon != null && FormulaUtils.hasMeleeWildernessWeapon(attacker.getAsPlayer())) {
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.5D);
+                    }
                 }
                 if (FormulaUtils.obbyArmour(attacker.getAsPlayer()) && FormulaUtils.hasObbyWeapon(attacker.getAsPlayer())) {
                     effectiveLevel = (int) Math.floor(effectiveLevel * 1.1D);
@@ -187,8 +193,8 @@ public class MeleeAccuracy {
         return bonus;
     }
 
-    public static int getAttackRoll(Entity attacker, CombatType style) {
-        return (int) Math.floor(getEffectiveMelee(attacker, style) * (getGearAttackBonus(attacker) + 64));
+    public static int getAttackRoll(Entity attacker, Entity defender, CombatType style) {
+        return (int) Math.floor(getEffectiveMelee(attacker, defender, style) * (getGearAttackBonus(attacker) + 64));
     }
 
     public static int getDefenceRoll(Entity defender) {

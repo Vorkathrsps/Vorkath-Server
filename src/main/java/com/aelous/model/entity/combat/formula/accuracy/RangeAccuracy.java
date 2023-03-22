@@ -1,5 +1,6 @@
 package com.aelous.model.entity.combat.formula.accuracy;
 
+import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 
 import com.aelous.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
@@ -14,6 +15,7 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
+import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.ItemIdentifiers;
 
 import java.security.SecureRandom;
@@ -24,8 +26,7 @@ import static com.aelous.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
 import static com.aelous.model.entity.combat.CombatType.RANGED;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.*;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.EAGLE_EYE;
-import static com.aelous.utility.ItemIdentifiers.DRAGON_HUNTER_CROSSBOW;
-import static com.aelous.utility.ItemIdentifiers.TWISTED_BOW;
+import static com.aelous.utility.ItemIdentifiers.*;
 
 /**
  * @Author Origin
@@ -96,6 +97,7 @@ public class RangeAccuracy {
 
     public static int getEffectiveRanged(Entity attacker, Entity defender, CombatType style) {
         var task_id = attacker.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
+        final Item weapon = attacker.isPlayer() ? attacker.getAsPlayer().getEquipment().get(EquipSlot.WEAPON) : null;
         var task = SlayerCreature.lookup(task_id);
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
         int effectiveLevel = (int) Math.floor(getRangeLevel(attacker) * getPrayerAttackBonus(attacker));
@@ -127,6 +129,19 @@ public class RangeAccuracy {
                         effectiveLevel = (int) Math.floor(effectiveLevel * 1.10D);
                     }
                 }
+                if (defender.isNpc() && defender.getAsNpc().id() == NpcIdentifiers.REVENANT_CYCLOPS || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_DEMON || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_DRAGON || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_GOBLIN || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_HELLHOUND || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_DARK_BEAST || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_HOBGOBLIN || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_IMP || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_KNIGHT || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_PYREFIEND || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_MALEDICTUS || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_IMP) {
+                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getAsPlayer().getEquipment().contains(SALVE_AMULET_E) || attacker.getAsPlayer().getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.2D);
+                    }
+                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.15D);
+                    }
+                }
+                if (defender.isNpc() && WildernessArea.inWilderness(attacker.tile())) {
+                    if (weapon != null && FormulaUtils.hasRangedWildernessWeapon(attacker.getAsPlayer())) {
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.5D);
+                    }
+                }
                 if (attacker.getAsPlayer().getEquipment().contains(DRAGON_HUNTER_CROSSBOW)) {
                     if (defender instanceof NPC && FormulaUtils.isDragon(defender)) {
                         effectiveLevel = (int) Math.floor(effectiveLevel * 1.25D);
@@ -148,7 +163,6 @@ public class RangeAccuracy {
 
                 double bonus = 1;
                 Player player = (Player) attacker;
-                final Item weapon = player.getEquipment().get(EquipSlot.WEAPON);
                 if (weapon != null) {
                     if (Stream.of(TWISTED_BOW).anyMatch(w -> w == weapon.getId())) {
 

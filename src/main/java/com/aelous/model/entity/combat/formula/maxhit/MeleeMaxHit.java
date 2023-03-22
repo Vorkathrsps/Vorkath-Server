@@ -230,7 +230,7 @@ public class MeleeMaxHit {
             }
         }
 
-        if (FormulaUtils.hasViggorasChainMace(player) && target != null && target.isNpc() && includeNpcMax) {
+        if (FormulaUtils.hasMeleeWildernessWeapon(player) && target != null && target.isNpc() && includeNpcMax) {
             otherBonus *= 1.50;
         }
 

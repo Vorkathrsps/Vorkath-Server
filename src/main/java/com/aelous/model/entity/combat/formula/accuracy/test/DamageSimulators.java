@@ -28,17 +28,14 @@ import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.network.Session;
 import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.Utils;
-import org.junit.Test;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.util.*;
-import java.util.stream.Stream;
 
 import static com.aelous.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
 import static com.aelous.model.entity.combat.CombatType.MELEE;
@@ -576,7 +573,7 @@ public class DamageSimulators {
                     if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getAsPlayer().getEquipment().contains(SALVE_AMULET_E) || attacker.getAsPlayer().getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
                         effectiveLevel = (int) Math.floor(effectiveLevel * 1.2D);
                     }
-                    if (weapon != null && FormulaUtils.hasViggorasChainMace(attacker.getAsPlayer())) {
+                    if (weapon != null && FormulaUtils.hasMeleeWildernessWeapon(attacker.getAsPlayer())) {
                         effectiveLevel = (int) Math.floor(effectiveLevel * 1.5D);
                     }
                     if (FormulaUtils.obbyArmour(attacker.getAsPlayer()) && FormulaUtils.hasObbyWeapon(attacker.getAsPlayer())) {

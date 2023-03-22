@@ -1,5 +1,6 @@
 package com.aelous.model.entity.combat.formula.accuracy;
 
+import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 import com.aelous.model.content.skill.impl.slayer.Slayer;
 import com.aelous.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
@@ -9,9 +10,11 @@ import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.combat.weapon.FightStyle;
 import com.aelous.model.entity.npc.NPC;
+import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
+import com.aelous.model.items.Item;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.ItemIdentifiers;
@@ -22,6 +25,7 @@ import java.text.DecimalFormat;
 import static com.aelous.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.*;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.AUGURY;
+import static com.aelous.utility.ItemIdentifiers.SALVE_AMULET_E;
 
 /**
  * @Author Origin
@@ -35,7 +39,7 @@ public class MagicAccuracy {
     }
 
     public static boolean successful(Entity attacker, Entity defender, CombatType style) {
-        int attackBonus = getAttackRoll(attacker, style);
+        int attackBonus = getAttackRoll(attacker, defender,style);
         int defenceBonus = getDefenceRoll(defender, style);
         double successfulRoll;
 
@@ -116,7 +120,8 @@ public class MagicAccuracy {
         return prayerBonus;
     }
 
-    public static int getEffectiveLevelAttacker(Entity attacker, CombatType style) {
+    public static int getEffectiveLevelAttacker(Entity attacker, Entity defender, CombatType style) {
+        final Item weapon = attacker.isPlayer() ? attacker.getAsPlayer().getEquipment().get(EquipSlot.WEAPON) : null;
         var task_id = attacker.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
         var task = SlayerCreature.lookup(task_id);
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
@@ -146,40 +151,34 @@ public class MagicAccuracy {
                 if (FormulaUtils.regularVoidEquipmentBaseMagic((Player) attacker)) {
                     effectiveLevel = (int) Math.floor(effectiveLevel * 1.45D);
                 }
-
                 if (FormulaUtils.eliteVoidEquipmentBaseMagic((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMagic((Player) attacker)) {
                     effectiveLevel = (int) Math.floor(effectiveLevel * 1.70);
                 }
-
                 if (attacker.getAsPlayer().getSpellbook().equals(MagicSpellbook.ANCIENT) && FormulaUtils.hasZurielStaff((Player) attacker)) {
                     effectiveLevel = (int) Math.floor(effectiveLevel * 1.10);
                 }
                 if (((Player) attacker).getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
                     effectiveLevel = (int) Math.floor(effectiveLevel * 3);
                 }
-                if (FormulaUtils.isUndead(attacker.getCombat().getTarget())) { //UNDEAD BONUSES
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI_25278)) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.20D);
+                if (defender.isNpc() && FormulaUtils.isUndead(attacker.getCombat().getTarget())) { //UNDEAD BONUSES
+                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getAsPlayer().getEquipment().contains(SALVE_AMULET_E) || attacker.getAsPlayer().getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.2D);
                     }
                     if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.10D);
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.15D);
                     }
-                    if (attacker.getCombat().getTarget().isNpc()) {
-                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SLAYER_HELMET)) {
-                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.05D);
-                        }
-                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.BLACK_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.GREEN_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.HYDRA_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.PURPLE_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.RED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TURQUOISE_SLAYER_HELMET)) {
-                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.10D);
-                        }
-                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.TWISTED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TZKAL_SLAYER_HELMET)) {
-                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.15D);
-                        }
-                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.OCCULT_NECKLACE_OR)) {
-                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.05D);
-                        }
-                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.THAMMARONS_SCEPTRE) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.ACCURSED_SCEPTRE_A)) {
-                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.50D);
-                        }
+                }
+                if (defender.isNpc() && defender.getAsNpc().id() == NpcIdentifiers.REVENANT_CYCLOPS || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_DEMON || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_DRAGON || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_GOBLIN || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_HELLHOUND || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_DARK_BEAST || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_HOBGOBLIN || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_IMP || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_KNIGHT || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_PYREFIEND || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_MALEDICTUS || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_IMP) {
+                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getAsPlayer().getEquipment().contains(SALVE_AMULET_E) || attacker.getAsPlayer().getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.2D);
+                    }
+                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.15D);
+                    }
+                }
+                if (defender.isNpc() && WildernessArea.inWilderness(attacker.tile())) {
+                    if (weapon != null && FormulaUtils.hasMagicWildernessWeapon(attacker.getAsPlayer())) {
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.5D);
                     }
                 }
                 if (task != null && Slayer.creatureMatches((Player) attacker, attacker.getAsNpc().id())) {
@@ -199,12 +198,11 @@ public class MagicAccuracy {
             }
             effectiveLevel = (int) Math.floor(effectiveLevel);
         }
-
         return effectiveLevel;
     }
 
-    public static int getAttackRoll(Entity attacker, CombatType style) {
-        int effectiveMagicLevel = (int) Math.floor(getEffectiveLevelAttacker(attacker, style));
+    public static int getAttackRoll(Entity attacker, Entity defender, CombatType style) {
+        int effectiveMagicLevel = (int) Math.floor(getEffectiveLevelAttacker(attacker, defender, style));
         int equipmentAttackBonus = getEquipmentBonusAttacker(attacker, style);
         return (int) Math.floor(effectiveMagicLevel * (equipmentAttackBonus + 64));
     }

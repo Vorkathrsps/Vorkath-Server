@@ -82,8 +82,7 @@ public class VerzikVitur extends CommonCombatMethod {
                     if (t.player().dead() || !t.tile().inArea(ARENA)) {
                         continue;
                     }
-
-                    final Tile targetPos = t.tile().copy();
+                    final Tile targetPos = target.tile().copy();
                     var tileDist = entity.tile().distance(target.tile());
                     int duration = (51 + -5 + (10 * tileDist));
                     Projectile p = new Projectile(entity, targetPos, 1583, 51, duration, 105, 0, 0, target.getSize(), 10);

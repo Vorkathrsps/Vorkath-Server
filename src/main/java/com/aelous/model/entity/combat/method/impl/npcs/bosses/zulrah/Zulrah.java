@@ -582,7 +582,7 @@ public class Zulrah {
                     NPC snakeling = new NPC(NpcIdentifiers.SNAKELING, tile.copy());
 
                     //Add snakeling to the npc list of this instance
-                    player.getZulrahInstance().npcList.add(snakeling);
+                    player.getInstancedArea().addNpc(snakeling);
 
                     World.getWorld().registerNpc(snakeling);
                     snakeling.respawns(false);

@@ -49,6 +49,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Stopwatch;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -1652,10 +1653,19 @@ public abstract class Entity {
             getAsPlayer().getInterfaceManager().close(false);
         }
 
-        if (this.isPlayer()) {
-            var instancedArea = InstancedAreaManager.getSingleton().ofZ(this.getZ());
-            if (instancedArea != null)
-                instancedArea.onTeleport(getAsPlayer(), teleportTarget);
+        if (getInstancedArea() != null) {
+            if (!getInstancedArea().inInstanceArea(this)) {
+                // mob has left the instance
+                if (isNpc()) {
+                    // players can TP out .. but npcs? if they're tping out thats probably a bug!
+                    LogManager.getLogger("Entity").error("Npc is teleporting out of instance. removing " + getMobName() + " from " + getInstancedArea(), new RuntimeException("tp out of instance"));
+                }
+                if (isNpc()) {
+                    getInstancedArea().removeNpc(getAsNpc());
+                } else if (isPlayer()) {
+                    getInstancedArea().removePlayer(getAsPlayer());
+                }
+            }
         }
 
         setTile(teleportTarget);

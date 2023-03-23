@@ -162,7 +162,6 @@ public class Death {
 
             // Close open interface. do this BEFORE MINIGAME HANDLING -> such as arena deaths.
             player.stopActions(true);
-            player.clearInstance();
 
             var duel_arena = player.getDueling().inDuel();
             /**

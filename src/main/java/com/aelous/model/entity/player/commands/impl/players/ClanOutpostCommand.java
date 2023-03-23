@@ -25,7 +25,7 @@ public class ClanOutpostCommand implements Command {
 
                 if (clan != null) {
                     if (clan.meetingRoom == null) {
-                        clan.meetingRoom = InstancedAreaManager.getSingleton().createSingleInstancedArea(player, new Area(1, 2, 3, 4));
+                        clan.meetingRoom = InstancedAreaManager.getSingleton().createInstancedArea(new Area(1, 2, 3, 4));
                         NPC pvpDummy = new NPC(NpcIdentifiers.UNDEAD_COMBAT_DUMMY, new Tile(2454, 2846,2 + clan.meetingRoom.getzLevel()));
                         pvpDummy.spawnDirection(1);
                         NPC slayerDummy = new NPC(NpcIdentifiers.COMBAT_DUMMY, new Tile(2454, 2848,2 + clan.meetingRoom.getzLevel()));

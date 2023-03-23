@@ -2,7 +2,12 @@ package com.aelous.model.content.areas.dungeons.karuulm_slayer_dungeon;
 
 import com.aelous.core.task.TaskManager;
 import com.aelous.core.task.impl.ForceMovementTask;
+import com.aelous.model.World;
+import com.aelous.model.content.EffectTimer;
+import com.aelous.model.content.instance.InstancedAreaManager;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
+import com.aelous.model.entity.combat.method.impl.npcs.hydra.AlchemicalHydra;
 import com.aelous.model.entity.masks.ForceMovement;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
@@ -95,6 +100,10 @@ public class KaruulmSlayerDungeon extends PacketInteraction {
      */
     private final List<Integer> alchemicalDoors = Arrays.asList(ALCHEMICAL_DOOR, ALCHEMICAL_DOOR_34554);
 
+    public static final Area ALCHEMICAL_HYDRA_AREA = new Area(1356, 10257, 1377, 10278);
+    public static final Tile ENTRANCE_POINT = new Tile(1356, 10258);
+    public static final Tile HYDRA_SPAWN_TILE = new Tile(1364, 10265);
+
     @Override
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         if (obj.getId() == ELEVATOR) {
@@ -125,7 +134,12 @@ public class KaruulmSlayerDungeon extends PacketInteraction {
                     player.unlock();
                     if (!inside) {
                         player.getCombat().clearDamagers();
-                        player.getAlchemicalHydraInstance().enterInstance(player);
+                        var instance = InstancedAreaManager.getSingleton().createInstancedArea(ALCHEMICAL_HYDRA_AREA);
+                        player.teleport(ENTRANCE_POINT.transform(0, 0, instance.getzLevel()));
+                        var hydra = new AlchemicalHydra(HYDRA_SPAWN_TILE.transform(0, 0, instance.getzLevel()), player);
+                        hydra.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN,25);
+                        World.getWorld().registerNpc(hydra);
+                        instance.addNpc(hydra);
                     } else {
                         player.teleport(1355, 10259);
                     }

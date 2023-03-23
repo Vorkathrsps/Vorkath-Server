@@ -1,7 +1,11 @@
 package com.aelous.model.content.areas.zulandra;
 
+import com.aelous.model.World;
 import com.aelous.model.content.areas.wilderness.content.key.EscapeKeyPlugin;
 import com.aelous.model.content.areas.zulandra.dialogue.*;
+import com.aelous.model.content.instance.InstancedAreaManager;
+import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.model.entity.combat.method.impl.npcs.bosses.zulrah.Zulrah;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.inter.dialogue.Dialogue;
@@ -10,8 +14,11 @@ import com.aelous.model.inter.dialogue.DialogueType;
 import com.aelous.model.inter.dialogue.Expression;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.object.GameObject;
+import com.aelous.model.map.position.Area;
+import com.aelous.model.map.position.Tile;
 import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
+import com.aelous.utility.Tuple;
 import com.aelous.utility.chainedwork.Chain;
 
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.SACRIFICIAL_BOAT;
@@ -23,6 +30,8 @@ import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.ZULANDR
  */
 public class ZulAndra extends PacketInteraction {
 
+    private static final Tile ZULRAH_PLAYER_START_TILE = new Tile(2268, 3069);
+    private static final Area ZULRAH_AREA = new Area(2251, 3058, 2281, 3088);
     @Override
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         if (option == 1) {
@@ -47,12 +56,13 @@ public class ZulAndra extends PacketInteraction {
                                 stop();
                                 player.getPacketSender().sendScreenFade("", 1, 5);
                                 DialogueManager.sendStatement(player, "The priestess rows you to Zulrah's shrine,", "then hurriedly paddles away.");
-                                player.getZulrahInstance().enterInstance(player, false);
+                                enterInstance(player);
                             } else if (option == 2) {
                                 stop();
                             }
                         }
                     }
+
                 });
                 return true;
             }
@@ -75,7 +85,7 @@ public class ZulAndra extends PacketInteraction {
                                 Chain.bound(null).name("ZulrahReturnTask").runFn(4, () -> {
                                     player.animate(-1);
                                     player.getInterfaceManager().close();
-                                    player.getZulrahInstance().enterInstance(player, true);
+                                    enterInstance(player);
                                 });
                             } else if (option == 2) {
                                 stop();
@@ -87,6 +97,30 @@ public class ZulAndra extends PacketInteraction {
             }
         }
         return false;
+    }
+
+    private void enterInstance(Player player) {
+        var instance = InstancedAreaManager.getSingleton().createInstancedArea(ZULRAH_AREA);
+        player.lock();
+        NPC zulrah = new NPC(NpcIdentifiers.ZULRAH, ZULRAH_PLAYER_START_TILE.transform(-2, 3, instance.getzLevel()));
+        instance.addNpc(zulrah);
+        Chain.bound(null).name("ZulAndraBoatTask").runFn(9, () -> {
+            instance.addPlayer(player);
+            player.getMovementQueue().clear();
+            player.teleport(ZULRAH_PLAYER_START_TILE.x, ZULRAH_PLAYER_START_TILE.y, instance.getzLevel());
+            player.unlock();
+
+            zulrah.respawns(false);
+            zulrah.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
+            zulrah.setPositionToFace(null);
+            zulrah.noRetaliation(true);
+            zulrah.combatInfo().aggressive = false;
+        }).then(1, () -> player.message("Welcome to Zulrah's shrine.")).then(1, () -> {
+            World.getWorld().registerNpc(zulrah);
+            zulrah.setPositionToFace(zulrah.tile().transform(0, -10, 0));
+            zulrah.animate(5073);
+            Zulrah.startZulrahBattle(zulrah, player);
+        });
     }
 
     @Override

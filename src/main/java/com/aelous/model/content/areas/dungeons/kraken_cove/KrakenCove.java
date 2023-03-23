@@ -33,7 +33,7 @@ public class KrakenCove extends PacketInteraction {
                 }
                 return true;
             } else if (obj.getId() == CREVICE_538) {
-                if (player.getKrakenInstance() != null && player.getKrakenInstance().getInstance() != null) {
+                if (player.getInstancedArea() != null) {
                     player.getDialogueManager().start(new Dialogue() {
                         @Override
                         protected void start(Object... parameters) {
@@ -45,7 +45,6 @@ public class KrakenCove extends PacketInteraction {
                         protected void select(int option) {
                             if(option == 1) {
                                 player.teleport(new Tile(2280, 10016));
-                                player.clearInstance(); // exit
                                 stop();
                             } else if(option == 2) {
                                 stop();
@@ -54,7 +53,6 @@ public class KrakenCove extends PacketInteraction {
                     });
                 } else {
                     player.teleport(new Tile(2280, 10016));
-                    player.putAttrib(AttributeKey.TENTACLES_DISTURBED, 0);
                 }
                 return true;
             }

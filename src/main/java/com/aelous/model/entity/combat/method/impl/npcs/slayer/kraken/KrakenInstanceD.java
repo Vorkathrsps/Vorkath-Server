@@ -3,7 +3,6 @@ package com.aelous.model.entity.combat.method.impl.npcs.slayer.kraken;
 import com.aelous.model.World;
 import com.aelous.model.content.EffectTimer;
 import com.aelous.model.content.instance.InstancedAreaManager;
-import com.aelous.model.content.instance.SingleInstancedArea;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.inter.dialogue.Dialogue;
@@ -60,7 +59,7 @@ public class KrakenInstanceD extends Dialogue {
                 }
 
                 player.message("You pay " + currencyReq + " " + currency + " to enter an instance room.");
-                var instance = InstancedAreaManager.getSingleton().createSingleInstancedArea(player, new Area(2269, 10023, 2302, 10046));
+                var instance = InstancedAreaManager.getSingleton().createInstancedArea(new Area(2269, 10023, 2302, 10046));
                 player.setInstance(instance);
                 player.teleport(new Tile(2280, 10022, instance.getzLevel()));
                 instance.setOnTeleport((p, t) -> {

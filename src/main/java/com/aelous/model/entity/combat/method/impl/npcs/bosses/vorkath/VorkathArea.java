@@ -3,7 +3,6 @@ package com.aelous.model.entity.combat.method.impl.npcs.bosses.vorkath;
 import com.aelous.core.task.TaskManager;
 import com.aelous.model.World;
 import com.aelous.model.content.instance.InstancedAreaManager;
-import com.aelous.model.content.instance.SingleInstancedArea;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.object.GameObject;
@@ -23,7 +22,7 @@ public class VorkathArea extends PacketInteraction {
         //Vorkath ice chunks
         if (object.getId() == 31990) {
             if (player.tile().y == 4052) {
-                var instance = InstancedAreaManager.getSingleton().createSingleInstancedArea(player, VORKATH_AREA);
+                var instance = InstancedAreaManager.getSingleton().createInstancedArea(VORKATH_AREA);
                 player.teleport(ENTRANCE_POINT.transform(0, 0, instance.getzLevel()));
                 player.setInstance(instance);
                 instance.addPlayer(player);

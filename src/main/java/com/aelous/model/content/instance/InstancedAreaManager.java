@@ -1,14 +1,9 @@
 package com.aelous.model.content.instance;
 
-import com.aelous.model.World;
-import com.aelous.model.entity.player.Player;
-import com.aelous.model.items.ground.GroundItem;
-import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.position.Area;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * A class that manages all {@link InstancedArea} objects created.
@@ -58,15 +53,8 @@ public class InstancedAreaManager {
         return true;
     }
 
-    /**
-     * Creates a new {@link SingleInstancedArea} object with the given params
-     * @param player    the player for this instanced area
-     * @param area    the boundary of the area
-     * @return    null if no height can be found for this area, otherwise the new
-     * {@link SingleInstancedArea} object will be returned.
-     */
-    public InstancedArea createSingleInstancedArea(Player player, Area area) {
-        SingleInstancedArea singleInstancedArea = new SingleInstancedArea(player, area);
+    public InstancedArea createInstancedArea(Area area) {
+        InstancedArea singleInstancedArea = new InstancedArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, area);
         active.put(singleInstancedArea.getZLevel(), singleInstancedArea);
         return singleInstancedArea;
     }

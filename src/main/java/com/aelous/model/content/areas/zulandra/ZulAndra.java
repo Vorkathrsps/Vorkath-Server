@@ -4,7 +4,6 @@ import com.aelous.model.World;
 import com.aelous.model.content.areas.wilderness.content.key.EscapeKeyPlugin;
 import com.aelous.model.content.areas.zulandra.dialogue.*;
 import com.aelous.model.content.instance.InstancedAreaManager;
-import com.aelous.model.content.instance.SingleInstancedArea;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.method.impl.npcs.bosses.zulrah.Zulrah;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
@@ -101,7 +100,7 @@ public class ZulAndra extends PacketInteraction {
     }
 
     private void enterInstance(Player player) {
-        var instance = (SingleInstancedArea) InstancedAreaManager.getSingleton().createSingleInstancedArea(player, ZULRAH_AREA);
+        var instance = InstancedAreaManager.getSingleton().createInstancedArea(ZULRAH_AREA);
         player.lock();
         NPC zulrah = new NPC(NpcIdentifiers.ZULRAH, ZULRAH_PLAYER_START_TILE.transform(-2, 3, instance.getzLevel()));
         instance.addNpc(zulrah);

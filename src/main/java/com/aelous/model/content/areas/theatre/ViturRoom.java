@@ -2,7 +2,6 @@ package com.aelous.model.content.areas.theatre;
 
 import com.aelous.model.content.EffectTimer;
 import com.aelous.model.content.instance.InstancedAreaManager;
-import com.aelous.model.content.instance.SingleInstancedArea;
 import com.aelous.model.content.raids.RaidsNpc;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.npc.NPC;
@@ -35,7 +34,7 @@ public class ViturRoom extends PacketInteraction {
             Chain.bound(null).runFn(1, () -> {
                 player.unlock();
                 player.getCombat().clearDamagers();
-                var instance = (SingleInstancedArea) InstancedAreaManager.getSingleton().createSingleInstancedArea(player, VERZIK_AREA);
+                var instance = InstancedAreaManager.getSingleton().createInstancedArea(VERZIK_AREA);
                 instance.addPlayer(player);
                 player.teleport(ENTRANCE_POINT.transform(0, 0, instance.getzLevel()));
                 NPC verzik = new RaidsNpc(VERZIK_VITUR_8369, new Tile(3166, 4323, instance.getzLevel()), 1, false);

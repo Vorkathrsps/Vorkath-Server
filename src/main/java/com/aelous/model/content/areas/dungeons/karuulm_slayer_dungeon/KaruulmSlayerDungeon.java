@@ -5,7 +5,6 @@ import com.aelous.core.task.impl.ForceMovementTask;
 import com.aelous.model.World;
 import com.aelous.model.content.EffectTimer;
 import com.aelous.model.content.instance.InstancedAreaManager;
-import com.aelous.model.content.instance.SingleInstancedArea;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.method.impl.npcs.hydra.AlchemicalHydra;
@@ -135,7 +134,7 @@ public class KaruulmSlayerDungeon extends PacketInteraction {
                     player.unlock();
                     if (!inside) {
                         player.getCombat().clearDamagers();
-                        var instance = InstancedAreaManager.getSingleton().createSingleInstancedArea(player, ALCHEMICAL_HYDRA_AREA);
+                        var instance = InstancedAreaManager.getSingleton().createInstancedArea(ALCHEMICAL_HYDRA_AREA);
                         player.teleport(ENTRANCE_POINT.transform(0, 0, instance.getzLevel()));
                         var hydra = new AlchemicalHydra(HYDRA_SPAWN_TILE.transform(0, 0, instance.getzLevel()), player);
                         hydra.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN,25);

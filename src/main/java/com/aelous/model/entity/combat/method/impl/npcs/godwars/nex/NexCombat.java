@@ -1,6 +1,8 @@
 package com.aelous.model.entity.combat.method.impl.npcs.godwars.nex;
 
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
+import com.aelous.core.task.TaskManager;
+import com.aelous.core.task.impl.ForceMovementTask;
 import com.aelous.model.World;
 import com.aelous.model.content.EffectTimer;
 import com.aelous.model.entity.Entity;
@@ -13,6 +15,7 @@ import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.FaceDirection;
+import com.aelous.model.entity.masks.ForceMovement;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
@@ -298,7 +301,7 @@ public class NexCombat extends CommonCombatMethod {
             nex.lastSiphon = Utils.currentTimeMillis() + 30000;
             nex.lockMoveDamageOk();
             nex.getMovement().reset();
-            nex.graphic(2015);
+            nex.graphic(2015, GraphicHeight.LOW, 30);
             nex.killBloodReavers();
             nex.forceChat("A siphon will solve this!");
             nex.animate(BLOOD_SIPHON_ANIM);
@@ -315,7 +318,7 @@ public class NexCombat extends CommonCombatMethod {
                     if (nex.bloodReavers != null)
                         nex.bloodReavers.add(bloodReaver);
                     bloodReaver.spawn(false);
-                    bloodReaver.graphic(2017);
+                    bloodReaver.graphic(2017, GraphicHeight.LOW, 30);
                 }
             }
             Chain.bound(null).runFn(8, () -> {
@@ -355,7 +358,7 @@ public class NexCombat extends CommonCombatMethod {
 
     private void embraceDarkness() {
         nex.forceChat("Embrace darkness!");
-        nex.animate(EMBRACE_DARKNESS_ATTACK_ANIM);
+        nex.animate(EMBRACE_DARKNESS_ATTACK_ANIM, 30);
 
         for (Entity t : getPossibleTargets(nex)) {
             //Ignore players outside the Nex fighting area
@@ -369,20 +372,22 @@ public class NexCombat extends CommonCombatMethod {
                 }
                 AtomicInteger tick = new AtomicInteger(); // Internal tick, this is how long the attack lasts for
                 Chain.bound(null).repeatingTask(1, chain -> {
-                    tick.getAndIncrement();
-                    if (tick.get() == 33) { // Attack lasts for 20s
-                        player.getPacketSender().darkenScreen(0);
-                        chain.stop();
-                        return;
-                    }
+                    synchronized (tick) {
+                        tick.getAndIncrement();
+                        if (tick.get() == 33) { // Attack lasts for 20s
+                            player.getPacketSender().darkenScreen(0);
+                            chain.stop();
+                            return;
+                        }
 
-                    int distance = Utils.getDistance(player.getX(), player.getY(), nex.getX(), nex.getY());
-                    int opacity = 200 - (distance * 17);
-                    if (opacity <= 30) opacity = 30;
-                    player.getPacketSender().darkenScreen(opacity);
+                        int distance = Utils.getDistance(player.getX(), player.getY(), nex.getX(), nex.getY());
+                        int opacity = 200 - (distance * 17);
+                        if (opacity <= 30) opacity = 30;
+                        player.getPacketSender().darkenScreen(opacity);
 
-                    if (distance <= 3) {
-                        player.hit(nex, 5);
+                        if (distance <= 3) {
+                            player.hit(nex, 5);
+                        }
                     }
                 });
             }
@@ -566,7 +571,8 @@ public class NexCombat extends CommonCombatMethod {
                 CombatFactory.disableProtectionPrayers(p);
                 int diffX = tile.x - p.getAbsX();
                 int diffY = tile.y - p.getAbsY();
-                //TaskManager.submit(new ForceMovementTask(p, 3, new ForceMovement(p.tile().clone(), new Tile(diffX, diffY), 10, 60, dir)));
+                //ForceMovement forceMovement = new ForceMovement(p.tile().clone(), new Tile(diffX, diffY), 10, 60, dir);
+                //TaskManager.submit(new ForceMovementTask(p, 1, forceMovement));
                 p.unlock();
             });
         }
@@ -642,15 +648,14 @@ public class NexCombat extends CommonCombatMethod {
         int duration = (51 + -5 + (10 * tileDist));
         nex.animate(MAGIC_ATTACK_ANIM);
         for (Entity t : getPossibleTargets(nex)) {
-            //Ignore players outside the Nex fighting area
             if (!inNexArea(t.tile())) {
                 continue;
             }
             Projectile p = new Projectile(nex, t, 362, 51, duration, 43, 31, 0, t.getSize(), 10);
             final int delay = entity.executeProjectile(p);
-            t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), 3, CombatType.MAGIC).checkAccuracy().postDamage(h -> {
+            t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), delay, CombatType.MAGIC).checkAccuracy().postDamage(h -> {
                 if (h.isAccurate() && !Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MAGIC)) {
-                    h.getTarget().graphic(2005);
+                    h.getTarget().graphic(2005, GraphicHeight.MIDDLE, p.getSpeed());
                     h.getTarget().freeze(33, nex);
                     int drain = t.player().getEquipment().hasAt(EquipSlot.SHIELD, SPECTRAL_SPIRIT_SHIELD) ? h.getDamage() / 3 : h.getDamage() / 2;
                     h.getTarget().skills().alterSkill(Skills.PRAYER, -drain);
@@ -702,7 +707,9 @@ public class NexCombat extends CommonCombatMethod {
         Set<Tile> tiles = target.tile().expandedBounds(1);// radius 1 is 3x3
         Chain.bound(null).runFn(4, () -> {
             for (Tile tile : tiles) {
-                nex.stalagmite.add(GameObject.spawn(42944, tile.getX(), tile.getY(), tile.getZ(), 10, 0));
+                if (MovementQueue.dumbReachable(tile.getX(), tile.getY(), nex.tile())) {
+                    nex.stalagmite.add(GameObject.spawn(42944, tile.getX(), tile.getY(), tile.getZ(), 10, 0));
+                }
             }
 
         }).then(7, () -> {
@@ -814,7 +821,7 @@ public class NexCombat extends CommonCombatMethod {
             final NPCCombatInfo combatInfo = npc.combatInfo();
             npc.animate(combatInfo.animations.death);
             Chain.bound(null).runFn(combatInfo.deathlen, () -> {
-                npc.graphic(2013);
+                npc.graphic(2013, GraphicHeight.LOW, 30);
                 var list = Lists.newArrayList(
                     new Tile(npc.getX() + 1, npc.getY() - 2, npc.getZ()),
                     new Tile(npc.getX() - 1, npc.getY() - 1, npc.getZ()),

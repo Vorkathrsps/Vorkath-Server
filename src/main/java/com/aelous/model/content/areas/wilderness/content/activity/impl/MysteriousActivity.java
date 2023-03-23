@@ -21,7 +21,7 @@ public class MysteriousActivity extends WildernessActivity {
 
     @Override
     public String announcement() {
-        return "<img=506>" + wildernessLocation.location() +" is the new Wilderness Hotspot for the next hour!</col>";
+        return "<img=2011>" + wildernessLocation.location() +" is the new Wilderness Hotspot for the next hour!</col>";
     }
 
     /**

@@ -129,17 +129,19 @@ public class RangeAccuracy {
                         effectiveLevel = (int) Math.floor(effectiveLevel * 1.10D);
                     }
                 }
-                if (defender.isNpc() && defender.getAsNpc().id() == NpcIdentifiers.REVENANT_CYCLOPS || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_DEMON || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_DRAGON || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_GOBLIN || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_HELLHOUND || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_DARK_BEAST || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_HOBGOBLIN || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_IMP || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_KNIGHT || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_PYREFIEND || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_MALEDICTUS || defender.getAsNpc().id() ==  NpcIdentifiers.REVENANT_IMP) {
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getAsPlayer().getEquipment().contains(SALVE_AMULET_E) || attacker.getAsPlayer().getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.2D);
+                if (defender instanceof NPC) {
+                    if (defender.isNpc() && defender.getAsNpc().id() == NpcIdentifiers.REVENANT_CYCLOPS || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_DEMON || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_DRAGON || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_GOBLIN || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_HELLHOUND || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_DARK_BEAST || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_HOBGOBLIN || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_IMP || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_KNIGHT || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_PYREFIEND || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_MALEDICTUS || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_IMP) {
+                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getAsPlayer().getEquipment().contains(SALVE_AMULET_E) || attacker.getAsPlayer().getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
+                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.2D);
+                        }
+                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
+                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.15D);
+                        }
                     }
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.15D);
-                    }
-                }
-                if (defender.isNpc() && WildernessArea.inWilderness(attacker.tile())) {
-                    if (weapon != null && FormulaUtils.hasRangedWildernessWeapon(attacker.getAsPlayer())) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.5D);
+                    if (defender.isNpc() && WildernessArea.inWilderness(attacker.tile())) {
+                        if (weapon != null && FormulaUtils.hasRangedWildernessWeapon(attacker.getAsPlayer())) {
+                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.5D);
+                        }
                     }
                 }
                 if (attacker.getAsPlayer().getEquipment().contains(DRAGON_HUNTER_CROSSBOW)) {

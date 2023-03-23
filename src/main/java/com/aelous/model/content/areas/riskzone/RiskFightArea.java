@@ -66,7 +66,7 @@ public class RiskFightArea extends PacketInteraction {
                     player.message(Color.RED.wrap("You can ring the bell again in " + player.getTimers().asMinutesAndSecondsLeft(TimerKey.RISK_FIGHT_BELL) + "."));
                 } else {
                     player.getTimers().register(TimerKey.RISK_FIGHT_BELL, 300);
-                    World.getWorld().sendWorldMessage("<img=162>" + Color.BLUE.wrap(player.getUsername()) + Color.RAID_PURPLE.wrap(" has just rung the bell at the risk zone and is looking for a fight!"));
+                    World.getWorld().sendWorldMessage("<img=2011>" + Color.BLUE.wrap(player.getUsername()) + Color.RAID_PURPLE.wrap(" has just rung the bell at the risk zone and is looking for a fight!"));
                 }
                 return true;
             }

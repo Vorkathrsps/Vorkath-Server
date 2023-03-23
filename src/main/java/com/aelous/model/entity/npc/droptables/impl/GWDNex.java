@@ -25,8 +25,6 @@ public class GWDNex implements Droptable {//TODO redunant class remove this clas
         entity.getCombat().getDamageMap().forEach((key, hits) -> {
             Player player = (Player) key;
             player.message(Color.RED.wrap("You've dealt " + hits.getDamage() + " damage to Nex!"));
-            // Only people nearby are rewarded. This is to avoid people 'poking' the boss to do some damage
-            // without really risking being there.
             if (entity.tile().isWithinDistance(player.tile(),10) && hits.getDamage() >= 100) {
                 if(entity instanceof NPC) {
                     player.message("You received a drop roll from the table for dealing at least 100 damage!");

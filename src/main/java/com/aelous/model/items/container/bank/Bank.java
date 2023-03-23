@@ -3,7 +3,6 @@ package com.aelous.model.items.container.bank;
 import com.aelous.cache.definitions.ItemDefinition;
 import com.aelous.model.World;
 import com.aelous.model.content.duel.Dueling;
-import com.aelous.model.entity.player.GameMode;
 import com.aelous.model.entity.player.InputScript;
 import com.aelous.model.inter.InterfaceConstants;
 import com.aelous.model.entity.attributes.AttributeKey;

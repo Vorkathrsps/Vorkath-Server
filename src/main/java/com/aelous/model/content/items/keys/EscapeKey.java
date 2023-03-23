@@ -102,7 +102,7 @@ public class EscapeKey extends PacketInteraction {
             String openedAt = wilderness ? "inside the Escape Zone" : "inside the Escape Zone";
 
             if(!player.getUsername().equalsIgnoreCase("Box test")) {
-                String msg = "<img=506><shad=0>[<col=" + Color.MEDRED.getColorValue() + ">Escape key</col>]</shad>: " + "<col=AD800F>" + player.getUsername() + " has received " + amtString + " " + rewardOne.name() + " " + openedAt + "!";
+                String msg = "<img=2011><shad=0>[<col=" + Color.MEDRED.getColorValue() + ">Escape key</col>]</shad>: " + "<col=AD800F>" + player.getUsername() + " has received " + amtString + " " + rewardOne.name() + " " + openedAt + "!";
                 World.getWorld().sendWorldMessage(msg);
             }
 
@@ -123,7 +123,7 @@ public class EscapeKey extends PacketInteraction {
 
             //The user box test doesn't yell.
             if(!player.getUsername().equalsIgnoreCase("Box test")) {
-                String msg = "<img=506><shad=0>[<col=" + Color.MEDRED.getColorValue() + ">Escape key</col>]</shad>: " + "<col=AD800F>" + player.getUsername() + " has received " + amtString + " " + rewardTwo.name() + " " + openedAt + "!";
+                String msg = "<img=2011><shad=0>[<col=" + Color.MEDRED.getColorValue() + ">Escape key</col>]</shad>: " + "<col=AD800F>" + player.getUsername() + " has received " + amtString + " " + rewardTwo.name() + " " + openedAt + "!";
                 World.getWorld().sendWorldMessage(msg);
             }
 

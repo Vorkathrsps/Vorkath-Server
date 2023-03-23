@@ -61,7 +61,7 @@ public class FrozenCache {
             if (reward != null) {
                 player.clueScrollReward().add(new Item(reward.reward.getId(), reward.reward.getAmount()), true);
                 if (!player.getUsername().equalsIgnoreCase("Box test"))
-                    World.getWorld().sendWorldMessage("<img=472> " + player.getUsername() + " has just received <col=" + Color.BLACK.getColorValue() + ">" + Utils.getAOrAn(reward.name()) + " " + reward.name() + " from a frozen pvp cache!");
+                    World.getWorld().sendWorldMessage("<img=2010> " + player.getUsername() + " has just received <col=" + Color.BLACK.getColorValue() + ">" + Utils.getAOrAn(reward.name()) + " " + reward.name() + " from a frozen pvp cache!");
             }
         }
     }

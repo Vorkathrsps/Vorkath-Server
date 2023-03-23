@@ -58,13 +58,13 @@ public class EnchantedChestP extends PacketInteraction {
                 //Collection logs
                 KEYS.log(player, key, reward);
                 //Send a world message that someone opened the enchanted chest
-                World.getWorld().sendWorldMessage("<img=505>[<col=" + Color.MEDRED.getColorValue() + ">Enchanted chest</col>]: " + "<col=1e44b3>" + player.getUsername() + " has just looted the purple enchanted chest!");
+                World.getWorld().sendWorldMessage("<img=2010>[<col=" + Color.MEDRED.getColorValue() + ">Enchanted chest</col>]: " + "<col=1e44b3>" + player.getUsername() + " has just looted the purple enchanted chest!");
 
                 //When we receive a rare loot send a world message
                 if (reward.getValue() >= 5000) {
                     boolean amOverOne = reward.getAmount() > 1;
                     String amtString = amOverOne ? "x " + Utils.format(reward.getAmount()) + "" : Utils.getAOrAn(reward.name());
-                    String msg = "<img=505>[<col=" + Color.MEDRED.getColorValue() + ">Enchanted chest</col>]: " + "<col=1e44b3>" + player.getUsername() + " has received " + amtString + " " + reward.unnote().name() + "!";
+                    String msg = "<img=2010>[<col=" + Color.MEDRED.getColorValue() + ">Enchanted chest</col>]: " + "<col=1e44b3>" + player.getUsername() + " has received " + amtString + " " + reward.unnote().name() + "!";
                     World.getWorld().sendWorldMessage(msg);
                 }
                 player.inventory().addOrDrop(reward);

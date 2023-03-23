@@ -77,7 +77,7 @@ public class WildernessActivityManager {
                 nextActivityTime = System.currentTimeMillis() + ACTIVITY_BETWEEN_DELAY;
                 currentActivity = randomActivity;
 
-                World.getWorld().sendWorldMessage("<img=1081> "+randomActivity.announcement());
+                World.getWorld().sendWorldMessage("<img=2013> "+randomActivity.announcement());
             } else if (currentActivity != null) {
                 long activityTime = currentActivity.activityTime();
                 currentActivity.process();
@@ -193,7 +193,7 @@ public class WildernessActivityManager {
     /**
      * The message players will see when the activity is over
      */
-    private static final String ACTIVITY_COMPLETE_MESSAGE = "<img=1081> The current wilderness activity has ended! Please wait for the next one.";
+    private static final String ACTIVITY_COMPLETE_MESSAGE = "<img=2013> The current wilderness activity has ended! Please wait for the next one.";
 
     /**
      * The list of wilderness activities in the server

@@ -152,7 +152,7 @@ public enum MemberRights {
             player.putAttrib(AttributeKey.MEMBER_UNLOCKED, true);
             player.inventory().addOrBank(new Item(WEAPON_MYSTERY_BOX));
             if (!silent)
-                World.getWorld().sendWorldMessage("<img=1081> " + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><img=" + RUBY_MEMBER.spriteId + ">Ruby Member</col>!");
+                World.getWorld().sendWorldMessage("<img=2013> " + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><img=" + RUBY_MEMBER.spriteId + ">Ruby Member</col>!");
         }
 
         boolean superMemberUnlocked = player.getAttribOr(AttributeKey.SUPER_MEMBER_UNLOCKED, false);
@@ -161,7 +161,7 @@ public enum MemberRights {
             player.putAttrib(AttributeKey.SUPER_MEMBER_UNLOCKED, true);
             player.inventory().addOrBank(new Item(ARMOUR_MYSTERY_BOX));
             if (!silent)
-                World.getWorld().sendWorldMessage("<img=1081> " + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><img=" + SAPPHIRE_MEMBER.spriteId + ">Sapphire Member</col>!");
+                World.getWorld().sendWorldMessage("<img=2013> " + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><img=" + SAPPHIRE_MEMBER.spriteId + ">Sapphire Member</col>!");
         }
 
         boolean eliteMemberUnlocked = player.getAttribOr(AttributeKey.ELITE_MEMBER_UNLOCKED, false);
@@ -170,7 +170,7 @@ public enum MemberRights {
             player.inventory().addOrBank(new Item(DONATOR_MYSTERY_BOX));
             player.putAttrib(AttributeKey.ELITE_MEMBER_UNLOCKED, true);
             if (!silent)
-                World.getWorld().sendWorldMessage("<img=1081> " + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><img=" + EMERALD_MEMBER.spriteId + ">Emerald Member</col>!");
+                World.getWorld().sendWorldMessage("<img=2013> " + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><img=" + EMERALD_MEMBER.spriteId + ">Emerald Member</col>!");
         }
 
         boolean extremeMemberUnlocked = player.getAttribOr(AttributeKey.EXTREME_MEMBER_UNLOCKED, false);
@@ -179,7 +179,7 @@ public enum MemberRights {
             player.putAttrib(AttributeKey.EXTREME_MEMBER_UNLOCKED, true);
             player.inventory().addOrBank(new Item(LEGENDARY_MYSTERY_BOX));
             if (!silent)
-                World.getWorld().sendWorldMessage("<img=1081> " + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><img=" + DIAMOND_MEMBER.spriteId + ">Diamond Member</col>!");
+                World.getWorld().sendWorldMessage("<img=2013> " + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><img=" + DIAMOND_MEMBER.spriteId + ">Diamond Member</col>!");
         }
 
         boolean legendaryMemberUnlocked = player.getAttribOr(AttributeKey.LEGENDARY_MEMBER_UNLOCKED, false);
@@ -188,7 +188,7 @@ public enum MemberRights {
             player.putAttrib(AttributeKey.LEGENDARY_MEMBER_UNLOCKED, true);
             player.inventory().addOrBank(new Item(GRAND_MYSTERY_BOX));
             if (!silent)
-                World.getWorld().sendWorldMessage("<img=1081> " + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><img=" + DRAGONSTONE_MEMBER.spriteId + ">Dragonstone Member</col>!");
+                World.getWorld().sendWorldMessage("<img=2013> " + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><img=" + DRAGONSTONE_MEMBER.spriteId + ">Dragonstone Member</col>!");
         }
 
         boolean vipMemberUnlocked = player.getAttribOr(AttributeKey.VIP_UNLOCKED, false);
@@ -197,7 +197,7 @@ public enum MemberRights {
             player.putAttrib(AttributeKey.VIP_UNLOCKED, true);
             player.inventory().addOrBank(new Item(MYSTERY_TICKET, 5));
             if (!silent)
-                World.getWorld().sendWorldMessage("<img=1081> " + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><img=" + ONYX_MEMBER.spriteId + ">Onyx Member</col>!");
+                World.getWorld().sendWorldMessage("<img=2013> " + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><img=" + ONYX_MEMBER.spriteId + ">Onyx Member</col>!");
         }
 
         boolean sponsorMemberUnlocked = player.getAttribOr(AttributeKey.SPONSOR_UNLOCKED, false);
@@ -206,7 +206,7 @@ public enum MemberRights {
             player.putAttrib(AttributeKey.SPONSOR_UNLOCKED, true);
             player.inventory().addOrBank(new Item(MYSTERY_CHEST));
             if (!silent)
-                World.getWorld().sendWorldMessage("<img=1081> " + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><img=" + ZENYTE_MEMBER.spriteId + ">Zenyte Member</col>!");
+                World.getWorld().sendWorldMessage("<img=2013> " + player.getUsername() + " has been promoted to <col=" + Color.HOTPINK.getColorValue() + "><img=" + ZENYTE_MEMBER.spriteId + ">Zenyte Member</col>!");
         }
 
         if (totalAmountPaid >= 10.00) {

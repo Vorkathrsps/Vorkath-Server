@@ -1516,7 +1516,7 @@ public class Player extends Entity {
         long startTime = System.currentTimeMillis();
         putAttrib(AttributeKey.LOGGED_IN_AT_TIME, startTime);
 
-        //logger.info("Registering player - [username, host] : [{}, {}]", getUsername(), getHostAddress());
+        logger.info("Registering player - [username, host] : [{}, {}]", getUsername(), getHostAddress());
 
         //Stuff that happens during login...
         Chain.bound(null).runFn(1, () -> {
@@ -3226,7 +3226,7 @@ public class Player extends Entity {
                 if (minutesTillWildyBoss == 5) {
                     if (!WildernessBossEvent.ANNOUNCE_5_MIN_TIMER) {
                         WildernessBossEvent.ANNOUNCE_5_MIN_TIMER = true;
-                        World.getWorld().sendWorldMessage("<col=6a1a18><img=1100>The world boss will spawn in 5 minutes, gear up!");
+                        World.getWorld().sendWorldMessage("<col=6a1a18><img=2012>The world boss will spawn in 5 minutes, gear up!");
                     }
                 }
             }

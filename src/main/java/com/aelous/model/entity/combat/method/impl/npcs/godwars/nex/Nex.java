@@ -34,12 +34,15 @@ public class Nex extends NPC {
     }
 
     public BodyguardPhase bodyguardPhase = null;
+
     public NexFightState fightState = SMOKE_PHASE;
     public long lastNoEscape;
     public long lastSiphon;
     public boolean doingSiphon;
     public boolean soulsplit; // An overhead prayer in which Nex will heal a small percentage of her health for every successful hit she inflicts on up to three players.
+
     public boolean turmoil;
+
     public final List<GameObject> stalagmite = new ArrayList<>();
     public boolean stalagmiteDestroyed;
     public ArrayList<NPC> bloodReavers = new ArrayList<>();

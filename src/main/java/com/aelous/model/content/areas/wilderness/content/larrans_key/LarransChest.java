@@ -56,13 +56,13 @@ public class LarransChest extends PacketInteraction {
                 KEYS.log(player, key, reward);
 
                 //Send a world message that someone opened the Larran's chest
-                World.getWorld().sendWorldMessage("<img=505>[<col=" + Color.MEDRED.getColorValue() + ">Larran's chest</col>]: " + "<col=1e44b3>" + player.getUsername() + " has just looted the Larran's chest with a Larran's key!");
+                World.getWorld().sendWorldMessage("<img=2010>[<col=" + Color.MEDRED.getColorValue() + ">Larran's chest</col>]: " + "<col=1e44b3>" + player.getUsername() + " has just looted the Larran's chest with a Larran's key!");
 
                 //When we receive a rare loot send a world message
                 if (reward.getValue() >= 30_000) {
                     boolean amOverOne = reward.getAmount() > 1;
                     String amtString = amOverOne ? "x " + Utils.format(reward.getAmount()) + "" : Utils.getAOrAn(reward.name());
-                    String msg = "<img=505>[<col=" + Color.MEDRED.getColorValue() + ">Larran's chest</col>]: " + "<col=1e44b3>" + player.getUsername() + " has received " + amtString + " " + reward.unnote().name() + "!";
+                    String msg = "<img=2010>[<col=" + Color.MEDRED.getColorValue() + ">Larran's chest</col>]: " + "<col=1e44b3>" + player.getUsername() + " has received " + amtString + " " + reward.unnote().name() + "!";
                     World.getWorld().sendWorldMessage(msg);
                 }
                 player.inventory().addOrDrop(reward);

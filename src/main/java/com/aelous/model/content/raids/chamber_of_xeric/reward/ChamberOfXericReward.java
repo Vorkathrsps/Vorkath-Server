@@ -24,7 +24,7 @@ public class ChamberOfXericReward {
             if (ChamberLootTable.uniqueTable.allItems().stream().anyMatch(i -> item.matchesId(item.getId()))) {
                 Utils.sendDiscordInfoLog("Rare drop collected: " + player.getUsername() + " withdrew " + item.unnote().name() + " ", "raids");
                 if (item.getValue() > 50_000) {
-                    String worldMessage = "<img=1081>[<col=" + Color.RAID_PURPLE.getColorValue() + ">Chambers of Xerics</col>]</shad></col>: " + Color.BLUE.wrap(player.getUsername()) + " received " + Utils.getAOrAn(item.unnote().name()) + " <shad=0><col=AD800F>" + item.unnote().name() + "</shad>!";
+                    String worldMessage = "<img=2013>[<col=" + Color.RAID_PURPLE.getColorValue() + ">Chambers of Xerics</col>]</shad></col>: " + Color.BLUE.wrap(player.getUsername()) + " received " + Utils.getAOrAn(item.unnote().name()) + " <shad=0><col=AD800F>" + item.unnote().name() + "</shad>!";
                     World.getWorld().sendWorldMessage(worldMessage);
                 }
             }

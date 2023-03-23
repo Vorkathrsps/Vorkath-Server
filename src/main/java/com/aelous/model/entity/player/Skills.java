@@ -171,16 +171,16 @@ public class Skills {
         //Only unlockable for trained accounts.
         if(player.getGameMode() == GameMode.TRAINED_ACCOUNT) {
             if (totalLevel() >= 750) {
-                AchievementsManager.activate(player, Achievements.SKILLER_I, 1);
+               // AchievementsManager.activate(player, Achievements.SKILLER_I, 1);
             }
             if (totalLevel() >= 1000) {
-                AchievementsManager.activate(player, Achievements.SKILLER_II, 1);
+               // AchievementsManager.activate(player, Achievements.SKILLER_II, 1);
             }
             if (totalLevel() >= 1500) {
-                AchievementsManager.activate(player, Achievements.SKILLER_III, 1);
+               // AchievementsManager.activate(player, Achievements.SKILLER_III, 1);
             }
             if (totalLevel() >= Mac.TOTAL_LEVEL_FOR_MAXED) {
-                AchievementsManager.activate(player, Achievements.SKILLER_IV, 1);
+               // AchievementsManager.activate(player, Achievements.SKILLER_IV, 1);
             }
         }
 
@@ -357,11 +357,11 @@ public class Skills {
                 player.graphic(1388, GraphicHeight.HIGH, 0);
                 player.message(Color.ORANGE_RED.tag() + "Congratulations on achieving level 99 in " + SKILL_NAMES[skill] + "!");
                 player.message(Color.ORANGE_RED.tag() + "You may now purchase a skillcape from Mac who can be found at home.");
-                World.getWorld().sendWorldMessage("<img=1081> <col=" + Color.HOTPINK.getColorValue() + ">" + player.getUsername() + "</col> has just achieved level 99 in "+Color.BLUE.tag()+"" + SKILL_NAMES[skill] + "</col> on a "+Color.BLUE.tag()+" "+ Utils.gameModeToString(player)+"</col>!");
+                World.getWorld().sendWorldMessage("<img=2013> <col=" + Color.HOTPINK.getColorValue() + ">" + player.getUsername() + "</col> has just achieved level 99 in "+Color.BLUE.tag()+"" + SKILL_NAMES[skill] + "</col> on a "+Color.BLUE.tag()+" "+ Utils.gameModeToString(player)+"</col>!");
             }
 
             if(totalLevel() >= Mac.TOTAL_LEVEL_FOR_MAXED) {
-                World.getWorld().sendWorldMessage("<img=1081> <col=" + Color.HOTPINK.getColorValue() + ">" + player.getUsername() + "</col> has just maxed out on a "+Color.BLUE.tag()+" "+ Utils.gameModeToString(player)+"</col>!");
+                World.getWorld().sendWorldMessage("<img=2013> <col=" + Color.HOTPINK.getColorValue() + ">" + player.getUsername() + "</col> has just maxed out on a "+Color.BLUE.tag()+" "+ Utils.gameModeToString(player)+"</col>!");
             }
 
             recalculateCombat();

@@ -358,7 +358,7 @@ public class ItemsOnDeath {
 
             player.getGameMode(GameMode.TRAINED_ACCOUNT);
             player.message("You have fallen as a Dark Lord', your status has been revoked.");
-            World.getWorld().sendWorldMessage("<img=1081>" + Color.PURPLE.wrap(player.getUsername()) + Color.RED.wrap("has fallen as a Dark Lord!"));
+            World.getWorld().sendWorldMessage("<img=2013>" + Color.PURPLE.wrap(player.getUsername()) + Color.RED.wrap("has fallen as a Dark Lord!"));
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.aelous.model.entity.combat.method.impl.npcs.slayer.kraken;
 
 import com.aelous.cache.definitions.NpcDefinition;
-import com.aelous.model.content.instance.impl.KrakenInstance;
 import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
@@ -92,9 +91,8 @@ public class KrakenBoss {
 
         // Leaving
         if (obj.getId() == EXIT_CREVICE) {
-            KrakenInstance krakenInstance = player.getKrakenInstance();
             //Check if instance is active
-            if (krakenInstance != null) {
+            if (player.getInstancedArea() != null) {
                 player.getDialogueManager().start(new Dialogue() {
                     @Override
                     protected void start(Object... parameters) {

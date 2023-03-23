@@ -390,7 +390,7 @@ public class Vorkath extends CommonCombatMethod {
                 //Add the spawn to the instance list
                 if (target != null && target instanceof Player) {
                     Player player = (Player) target;
-                    player.getVorkathInstance().npcList.add(spawn);
+                    player.getInstancedArea().addNpc(spawn);
                 }
             } else if (t.tick > 3) {
                 if (t.tick > 20) {
@@ -400,7 +400,7 @@ public class Vorkath extends CommonCombatMethod {
                         //Remove the spawn from the instance list
                         if (target != null && target instanceof Player) {
                             Player player = (Player) target;
-                            player.getVorkathInstance().npcList.remove(spawn);
+                            player.getInstancedArea().addNpc(spawn);
                         }
                     }
                 }
@@ -411,7 +411,7 @@ public class Vorkath extends CommonCombatMethod {
                     //Remove the spawn from the instance list
                     if (target != null && target instanceof Player) {
                         Player player = (Player) target;
-                        player.getVorkathInstance().npcList.remove(spawn);
+                        player.getInstancedArea().addNpc(spawn);
                     }
                 } else {
                     if (spawn != null && spawn.tile().getChevDistance(target.tile()) <= 1) {
@@ -422,7 +422,7 @@ public class Vorkath extends CommonCombatMethod {
                         //Remove the spawn from the instance list
                         if (target != null && target instanceof Player) {
                             Player player = (Player) target;
-                            player.getVorkathInstance().npcList.remove(spawn);
+                            player.getInstancedArea().addNpc(spawn);
                         }
                     }
                 }

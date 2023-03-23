@@ -691,12 +691,6 @@ public class NPCDeath {
                     npc.transmog(VETION);
                 }
 
-                if (npc.def().name.equalsIgnoreCase("Alchemical hydra")) {
-                    if (killer != null && killer.getAlchemicalHydraInstance() != null) {
-                        killer.getAlchemicalHydraInstance().death(killer);//Do Alchemical hydra death
-                    }
-                }
-
                 if (npc.id() == 6613) {
                     VetionMinion.death(npc); //Do Vetíon minion death
                 }

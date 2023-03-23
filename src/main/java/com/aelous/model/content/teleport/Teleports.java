@@ -4,7 +4,6 @@ import com.aelous.GameServer;
 import com.aelous.model.content.areas.wilderness.content.key.EscapeKeyPlugin;
 import com.aelous.model.content.duel.Dueling;
 import com.aelous.model.content.instance.InstancedAreaManager;
-import com.aelous.model.content.instance.impl.KrakenInstance;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportData;
 import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;

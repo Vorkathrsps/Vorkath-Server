@@ -3,14 +3,11 @@ package com.aelous.model.entity.player.commands;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 import com.aelous.model.content.areas.theatre.ViturRoom;
-import com.aelous.model.content.instance.impl.VerzikViturInstance;
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.combat.CombatType;
-import com.aelous.model.entity.combat.Venom;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
-import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.NexCombat;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.npc.NPC;
@@ -21,7 +18,10 @@ import com.aelous.model.entity.player.commands.impl.member.*;
 import com.aelous.model.entity.player.commands.impl.owner.*;
 import com.aelous.model.entity.player.commands.impl.players.*;
 import com.aelous.model.entity.player.commands.impl.staff.admin.*;
-import com.aelous.model.entity.player.commands.impl.staff.moderator.*;
+import com.aelous.model.entity.player.commands.impl.staff.moderator.ModZoneCommand;
+import com.aelous.model.entity.player.commands.impl.staff.moderator.TeleToMePlayerCommand;
+import com.aelous.model.entity.player.commands.impl.staff.moderator.UnVanishCommand;
+import com.aelous.model.entity.player.commands.impl.staff.moderator.VanishCommand;
 import com.aelous.model.entity.player.commands.impl.staff.server_support.StaffZoneCommand;
 import com.aelous.model.entity.player.commands.impl.super_member.YellColourCommand;
 import com.aelous.model.items.Item;
@@ -32,15 +32,19 @@ import com.aelous.utility.Debugs;
 import com.aelous.utility.Utils;
 import com.aelous.utility.Varbit;
 import com.aelous.utility.chainedwork.Chain;
-import org.apache.logging.log4j.*;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.TriConsumer;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
 import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_ACTIVE;
 import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_UNLOCKED;
-import static com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars.nex;
 
 public class CommandManager {
 
@@ -451,7 +455,7 @@ public class CommandManager {
         dev("verzik", (p, c, s) -> {
             p.unlock();
             p.getCombat().clearDamagers();
-            p.getVerzikViturInstance().enterInstance(p);
+            new ViturRoom().handleObjectInteraction(p, new GameObject(32653, p.tile()), 1);
         });
         dev("vz1", (p, c, s) -> {
             GameObject throne = GameObject.spawn(VERZIKS_THRONE_32737, 3167, 4324, p.getZ(),10,0);

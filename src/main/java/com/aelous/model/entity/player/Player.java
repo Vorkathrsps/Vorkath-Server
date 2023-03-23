@@ -4,7 +4,6 @@ import com.aelous.GameServer;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.core.task.impl.*;
 import com.aelous.model.content.areas.wilderness.content.key.EscapeKeyPlugin;
-import com.aelous.model.content.instance.impl.*;
 import com.aelous.model.content.raids.RaidStage;
 import com.aelous.model.content.raids.party.RaidsParty;
 import com.aelous.model.content.security.AccountPin;
@@ -664,16 +663,6 @@ public class Player extends Entity {
 
     private static final Logger logger = LogManager.getLogger(Player.class);
 
-    private VorkathState state = VorkathState.SLEEPING;
-
-    public VorkathState getVorkathState() {
-        return state;
-    }
-
-    public void setVorkathState(VorkathState state) {
-        this.state = state;
-    }
-
     private final PaymentPromo paymentPromo = new PaymentPromo(this);
 
     public PaymentPromo getPaymentPromo() {
@@ -1070,46 +1059,6 @@ public class Player extends Entity {
         return -getIndex() - 1;
     }
 
-    private KrakenInstance krakenInstance;
-
-    public KrakenInstance getKrakenInstance() {
-        if (krakenInstance == null)
-            krakenInstance = new KrakenInstance();
-        return krakenInstance;
-    }
-
-    private ZulrahInstance zulrahInstance;
-
-    public ZulrahInstance getZulrahInstance() {
-        if (zulrahInstance == null)
-            zulrahInstance = new ZulrahInstance();
-        return zulrahInstance;
-    }
-
-    private VorkathInstance vorkathInstance;
-
-    public VorkathInstance getVorkathInstance() {
-        if (vorkathInstance == null)
-            vorkathInstance = new VorkathInstance();
-        return vorkathInstance;
-    }
-
-    private AlchemicalHydraInstance alchemicalHydraInstance;
-
-    public AlchemicalHydraInstance getAlchemicalHydraInstance() {
-        if (alchemicalHydraInstance == null)
-            alchemicalHydraInstance = new AlchemicalHydraInstance();
-        return alchemicalHydraInstance;
-    }
-
-    private VerzikViturInstance verzikViturInstance;
-
-    public VerzikViturInstance getVerzikViturInstance() {
-        if (verzikViturInstance == null)
-            verzikViturInstance = new VerzikViturInstance();
-        return verzikViturInstance;
-    }
-
     /**
      * Actions that should be done when this mob is added to the world.
      */
@@ -1428,7 +1377,9 @@ public class Player extends Entity {
         logoutLogs.log(LOGOUT, "[Logout] Deregistering player - {}", getUsername());
         Utils.sendDiscordInfoLog("```Deregistering player - " + getUsername() + " with IP " + getHostAddress() + "```", "logout");
 
-        clearInstance();
+        if (instancedArea != null) {
+            instancedArea.removePlayer(this);
+        }
         if (this.getPet().hasPet()) {
             this.getPet().pickup(true);
         }
@@ -2817,27 +2768,6 @@ public class Player extends Entity {
     }
 
     public void clearInstance() {
-        //Clear instances when teleporting
-        if (krakenInstance != null && krakenInstance.getInstance() != null) {
-            InstancedAreaManager.getSingleton().disposeOf(krakenInstance.getInstance());
-            putAttrib(AttributeKey.TENTACLES_DISTURBED, 0);
-        }
-
-        if (zulrahInstance != null && zulrahInstance.getInstance() != null) {
-            zulrahInstance.clear();
-            InstancedAreaManager.getSingleton().disposeOf(zulrahInstance.getInstance());
-        }
-
-        if (vorkathInstance != null && vorkathInstance.getInstance() != null) {
-            vorkathInstance.clear(this);
-            InstancedAreaManager.getSingleton().disposeOf(vorkathInstance.getInstance());
-        }
-
-        if (alchemicalHydraInstance != null && alchemicalHydraInstance.getInstance() != null) {
-            alchemicalHydraInstance.clear();
-            this.getPacketSender().sendEffectTimer(0, EffectTimer.MONSTER_RESPAWN);
-            InstancedAreaManager.getSingleton().disposeOf(alchemicalHydraInstance.getInstance());
-        }
         if (getInstancedArea() != null) {
             getInstancedArea().removePlayer(this); // will dispose only when empty
             instancedArea = null;

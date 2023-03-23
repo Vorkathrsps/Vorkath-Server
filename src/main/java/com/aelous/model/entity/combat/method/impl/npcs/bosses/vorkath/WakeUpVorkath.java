@@ -34,42 +34,28 @@ public class WakeUpVorkath extends Task {
             return;
         }
 
-        NPC sleepingVorkath = player.getVorkathInstance().sleepingVorkath;
-        if (sleepingVorkath == null) {
+        NPC npc = player.getInstancedArea().getNpcs().get(0);
+        if (npc == null) {
             this.stop();
             return;
         }
 
         ticks++;
-        sleepingVorkath.getCombat().reset();
+        npc.getCombat().reset();
         if (ticks == 1) {
-            player.setVorkathState(VorkathState.AWAKE);
             player.animate(POKE_ANIMATION);
             player.message("You poke the dragon..");
         } else if (ticks == 2) {
-            sleepingVorkath.animate(WAKE_ANIMATION);
-            sleepingVorkath.setPositionToFace(player.tile());
+            npc.animate(WAKE_ANIMATION);
+            npc.setPositionToFace(player.tile());
         } else if (ticks == 9) {
             //Remove sleeping vorkath from the world
-            Tile tile = sleepingVorkath.spawnTile();
-            World.getWorld().unregisterNpc(sleepingVorkath);
-
-            //Create a vorkath instance
-            player.getVorkathInstance().vorkath = new NPC(VORKATH_8061, tile);
-            NPC vorkath = player.getVorkathInstance().vorkath;
-
-            //Spawn the vorkath
-            World.getWorld().registerNpc(vorkath);
-
-            //Add the vorkath to the instance list
-            player.getVorkathInstance().npcList.add(vorkath);
-
-            vorkath.respawns(false);
-            vorkath.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
+            npc.transmog(8061);
+            npc.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
             Chain.bound(null).name("VorkathWakeTask").runFn(3, () -> {
-                vorkath.getMovementQueue().setBlockMovement(true);
-                vorkath.setCombatMethod(new Vorkath());
-                vorkath.getCombat().attack(player);
+                npc.getMovementQueue().setBlockMovement(true);
+                npc.setCombatMethod(new Vorkath());
+                npc.getCombat().attack(player);
             });
             this.stop();
         }

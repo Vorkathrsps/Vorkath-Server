@@ -41,9 +41,6 @@ public class ViturRoom extends PacketInteraction {
                 verzik.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, true);
                 verzik.spawn();
                 instance.addNpc(verzik);
-                instance.setOnTeleport((p, t) -> {
-                    player.getPacketSender().sendEffectTimer(0, EffectTimer.MONSTER_RESPAWN);
-                });
             });
         }
         return false;

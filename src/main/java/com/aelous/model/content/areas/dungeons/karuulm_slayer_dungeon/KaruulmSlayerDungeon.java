@@ -140,9 +140,6 @@ public class KaruulmSlayerDungeon extends PacketInteraction {
                         hydra.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN,25);
                         World.getWorld().registerNpc(hydra);
                         instance.addNpc(hydra);
-                        instance.setOnTeleport((p, t) -> {
-                            player.getPacketSender().sendEffectTimer(0, EffectTimer.MONSTER_RESPAWN);
-                        });
                     } else {
                         player.teleport(1355, 10259);
                     }

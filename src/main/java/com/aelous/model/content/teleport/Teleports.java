@@ -218,10 +218,6 @@ public class Teleports {
             player.clearAttrib(AttributeKey.MAGEBANK_MAGIC_ONLY);
         }
 
-        var instancedArea = InstancedAreaManager.getSingleton().ofZ(player.getZ());
-        if (instancedArea != null)
-            instancedArea.onTeleport(player, tile);
-
         player.lockNoDamage();
         player.animate(anim);
         player.sendSound(202, 0);

@@ -1260,7 +1260,6 @@ public enum AttributeKey {
     TUTORIAL("tutorial", AttribType.BOOLEAN),
     FISHING_ACTIVITY("fishing_activity_npc", AttribType.BOOLEAN),
     ARMOUR_PIERCING("armour_piercing", AttribType.BOOLEAN),
-    TENTACLES_DISTURBED("tentacles_disturbed", AttribType.INTEGER),
     TARGET_IMMUNITY("target_immunity", AttribType.INTEGER),
     SMITE_DAMAGE("smite_dmg", AttribType.INTEGER),
     LAST_ATTACK_WAS_MELEE("last_attack_was_melee", AttribType.BOOLEAN),

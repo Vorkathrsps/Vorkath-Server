@@ -388,17 +388,6 @@ public class InstancedArea {
         return v;
     }
 
-    private OnTele onTeleport;
-
-    public void setOnTeleport(OnTele c) {
-        this.onTeleport = c;
-    }
-
-    public void onTeleport(Player player, Tile tile) {
-         if (onTeleport != null)
-             onTeleport.accept(player, tile);
-    }
-
     public int getzLevel() {
         return zLevel;
     }

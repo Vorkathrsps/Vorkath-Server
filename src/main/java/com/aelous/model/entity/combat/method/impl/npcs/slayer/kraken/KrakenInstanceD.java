@@ -62,10 +62,6 @@ public class KrakenInstanceD extends Dialogue {
                 var instance = InstancedAreaManager.getSingleton().createInstancedArea(new Area(2269, 10023, 2302, 10046));
                 player.setInstance(instance);
                 player.teleport(new Tile(2280, 10022, instance.getzLevel()));
-                instance.setOnTeleport((p, t) -> {
-                    player.getPacketSender().sendEffectTimer(0, EffectTimer.MONSTER_RESPAWN);
-                    player.putAttrib(AttributeKey.TENTACLES_DISTURBED, 0);
-                });
                 NPC kraken = new NPC(KrakenBoss.KRAKEN_WHIRLPOOL, new Tile(2278, 10034, instance.getzLevel()));
                 instance.addNpc(kraken);
                 for (Tile tile : KrakenBoss.TENT_TILES) {

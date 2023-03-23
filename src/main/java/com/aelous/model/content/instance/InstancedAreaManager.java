@@ -39,20 +39,6 @@ public class InstancedAreaManager {
         return active.get(z);
     }
 
-    /**
-     * Determines if the {@link InstancedArea} paramater exists within
-     * the mapping of active {@link InstancedArea} objects and can be
-     * disposed of.
-     *
-     * @param area    the instanced area
-     * @return        true if the area exists in the mapping with the same height level
-     *                 and the same reference
-     */
-    public boolean disposeOf(InstancedArea area) {
-        area.dispose();
-        return true;
-    }
-
     public InstancedArea createInstancedArea(Area area) {
         InstancedArea singleInstancedArea = new InstancedArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, area);
         active.put(singleInstancedArea.getZLevel(), singleInstancedArea);

@@ -53,7 +53,6 @@ public class KrakenCove extends PacketInteraction {
                     });
                 } else {
                     player.teleport(new Tile(2280, 10016));
-                    player.putAttrib(AttributeKey.TENTACLES_DISTURBED, 0);
                 }
                 return true;
             }

@@ -1667,11 +1667,6 @@ public abstract class Entity {
                 }
             }
         }
-        if (this.isPlayer()) {
-            var instancedArea = InstancedAreaManager.getSingleton().ofZ(this.getZ());
-            if (instancedArea != null)
-                instancedArea.onTeleport(getAsPlayer(), teleportTarget);
-        }
 
         setTile(teleportTarget);
         Tile.occupy(this);

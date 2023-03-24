@@ -72,7 +72,7 @@ public class WildernessVolcano extends PacketInteraction {
                                     DialogueManager.sendStatement(player, "You drop the three shield shards into the mouth of the volcanic", "chamber of fire.");
                                     player.animate(4411);
                                 }).then(1, () -> {
-                                    TaskManager.submit(new ForceMovementTask(player, 3, new ForceMovement(player.tile().clone(), new Tile(0, -1), 45, 126, FaceDirection.NORTH)));
+                                  //  TaskManager.submit(new ForceMovementTask(player, 3, new ForceMovement(player.tile().clone(), new Tile(0, -1), 45, 126, FaceDirection.NORTH)));
                                 }).then(1, () -> {
                                     player.animate(734, 5);
                                 }).then(3, () -> {

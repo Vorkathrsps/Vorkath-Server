@@ -1,6 +1,5 @@
 package com.aelous.model.map.position.areas.impl;
 
-import com.aelous.model.content.areas.wilderness.content.key.EscapeKeyPlugin;
 import com.aelous.model.content.duel.Dueling;
 import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
@@ -179,12 +178,6 @@ public class WildernessArea extends Controller {
             player.getTimers().cancel(TimerKey.FROZEN);
         }
         player.getPacketSender().sendString(PLAYERS_PKING.childId, QuestTab.InfoTab.INFO_TAB.get(PLAYERS_PKING.childId).fetchLineData(player));
-
-        if (player.inventory().contains(CustomItemIdentifiers.ESCAPE_KEY)) {
-            log.info("{} - made it to safety with the Escaped key.", player.getUsername());
-            EscapeKeyPlugin.announceKeyEscape(player);
-
-        }
     }
 
     private void refreshWildernessLevel(Player player) {
@@ -201,11 +194,6 @@ public class WildernessArea extends Controller {
         if (!inWilderness(player.tile())) {
             leave(player);
             return;
-        }
-
-        if (EscapeKeyPlugin.hasKey(player)) {
-            if (!EscapeKeyPlugin.ESCAPED)
-                World.getWorld().sendBroadcast(player.getUsername() + " is holding the wilderness key at wilderness level (" + wildernessLevel(player.tile()) + ")");
         }
     }
 

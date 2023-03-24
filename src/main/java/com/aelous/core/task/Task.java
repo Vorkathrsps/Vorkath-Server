@@ -27,7 +27,7 @@ public abstract class Task {
      * We don't want MobFollowTask to run indefinitely except for pets,
      * but we handle that elsewhere.
      */
-    private static final String[] IGNORED_TASKS = {"EarningPotential", "shanomi_shout_task", "TournamentCycleTask", "TournamentLobbyTask", "SaveTask", "HotspotTask", "MobFollowTask", "RegionalPetTask", "DidYouKnowTask", "WildernessActivityManagerTask", "WildernessBossEventTask", "BossEventCancelTask", "AddShopStockTask", "VenomTask", "AntifireTask", "WildernessKeyPluginTask", "EscapeKeyPluginTask", "TopPkersAnnouncementTask", "PoisonTask", "ImplingTask", "instancecheck"};
+    private static final String[] IGNORED_TASKS = {"EarningPotential", "shanomi_shout_task", "TournamentCycleTask", "TournamentLobbyTask", "SaveTask", "HotspotTask", "MobFollowTask", "RegionalPetTask", "DidYouKnowTask", "WildernessActivityManagerTask", "WildernessBossEventTask", "BossEventCancelTask", "AddShopStockTask", "VenomTask", "AntifireTask", "WildernessKeyPluginTask", "TopPkersAnnouncementTask", "PoisonTask", "ImplingTask", "instancecheck"};
 
     /** The default key for every task. */
     public static final Object DEFAULT_KEY = new Object();

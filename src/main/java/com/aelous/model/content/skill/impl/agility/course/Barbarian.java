@@ -5,11 +5,14 @@ import com.aelous.core.task.TaskManager;
 import com.aelous.core.task.impl.ForceMovementTask;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.MovementQueue;
+import com.aelous.model.entity.masks.Direction;
+import com.aelous.model.entity.masks.FaceDirection;
 import com.aelous.model.entity.masks.ForceMovement;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
+import com.aelous.model.map.route.types.RouteAbsolute;
 import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
@@ -69,17 +72,14 @@ public class Barbarian extends PacketInteraction {
                     player.getMovementQueue().interpolate(2551, 3554);
                 }
 
-                player.waitForTile(new Tile(2551, 3554), () -> {
-                    player.lockDelayDamage();
-                    player.getPacketSender().sendObjectAnimation(obj, 54);// make rope pull back
-                    player.animate(751); //Swing
-                    TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, -5), 30, 50, 2)));// move
-                    Chain.bound(player).name("BarbarianRopeSwing3Task").runFn(1, () -> {
-                        player.getPacketSender().sendObjectAnimation(obj, 55);// make the rope go forwards while we swing
-                        putStage(player, 1);
-                        player.getSkills().addXp(Skills.AGILITY, 22.0);
-                        player.unlock();
-                    });
+                ForceMovement forceMovement = new ForceMovement(player, player.tile(), new Tile(0, -5),30, 0, 751, Direction.SOUTH.toInteger());
+                Chain.bound(player).runFn(0, () -> {
+                    player.setForceMovement(forceMovement);
+                    player.getPacketSender().sendObjectAnimation(obj, 54);
+                }).then(1, () -> {
+                    player.getSkills().addXp(Skills.AGILITY, 22.0);
+                    putStage(player, 1);
+                    player.getPacketSender().sendObjectAnimation(obj, 55);
                 });
                 return true;
             }
@@ -114,7 +114,7 @@ public class Barbarian extends PacketInteraction {
                             player.graphic(68);
                             player.teleport(player.tile().transform(0, 1, 0));
                         }).then(1, () -> {
-                            player.hit(player,Utils.random(5, 7));
+                            player.hit(player, Utils.random(5, 7));
                             player.teleport(new Tile(2544, 3549));
                             player.agilityWalk(true);
                             player.looks().resetRender();
@@ -164,7 +164,7 @@ public class Barbarian extends PacketInteraction {
                             player.animate(766);
                         }).then(1, () -> {
                             player.teleport(2534, 3546, 0);
-                            player.hit(player,Utils.random(5, 7));
+                            player.hit(player, Utils.random(5, 7));
                         }).then(1, () -> {
                             player.getMovementQueue().clear();
                             Tile end = new Tile(2536, 3546);

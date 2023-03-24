@@ -251,13 +251,13 @@ public class Shortcuts extends PacketInteraction {
             player.waitForTile(obj.tile().transform(1, 0, 0), () -> {
                 player.lockDelayDamage();
                 player.animate(2589, 0);
-                TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(-1, 0), 0, 50, FaceDirection.WEST)));
+               // TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(-1, 0), 0, 50, FaceDirection.WEST)));
             }).then(2, () -> {
                 player.animate(2590, 0);
-                TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(-3, 3), 0, 100, FaceDirection.WEST)));
+               // TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(-3, 3), 0, 100, FaceDirection.WEST)));
             }).then(5, () -> {
                 player.animate(2591, 0);
-                TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(-1, 0), 15, 33, FaceDirection.WEST)));
+              //  TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(-1, 0), 15, 33, FaceDirection.WEST)));
                 player.unlock();
             });
             return true;

@@ -1,7 +1,7 @@
 package com.aelous.model.items.ground;
 
 import com.aelous.GameEngine;
-import com.aelous.model.content.areas.wilderness.content.key.EscapeKeyPlugin;
+
 import com.aelous.model.content.duel.Dueling;
 import com.aelous.core.task.Task;
 import com.aelous.core.task.TaskManager;
@@ -346,7 +346,6 @@ public final class GroundItemHandler {
                                         if (gItem.isEmpty()) {
                                             return;
                                         }
-                                        EscapeKeyPlugin.announceKeyPickup(player, tile);
                                         Skulling.assignSkullState(player, SkullType.RED_SKULL);
                                         player.inventory().add(item);
                                         sendRemoveGroundItem(groundItem);
@@ -360,26 +359,6 @@ public final class GroundItemHandler {
                                 return;
                             }
                         } {
-                            if (item.getId() == ESCAPE_KEY) {
-                                if (WildernessArea.inWild(player)) {
-                                    player.confirmDialogue(new String[]{Color.RED.wrap("Are you sure you wish to pick up this key? You will be red"), Color.RED.wrap("skulled and all your items will be lost on death!")}, "", "Proceed.", "Cancel.", () -> {
-                                        Optional<GroundItem> gItem = GroundItemHandler.getGroundItem(ESCAPE_KEY, tile, player);
-                                        if (gItem.isEmpty()) {
-                                            return;
-                                        }
-                                        EscapeKeyPlugin.announceKeyPickup(player, tile);
-                                        Skulling.assignSkullState(player, SkullType.RED_SKULL);
-                                        player.inventory().add(item);
-                                        sendRemoveGroundItem(groundItem);
-                                        player.getRisk().update();
-                                        pickupLogs.log(PICKUPS, "Player " + player.getUsername() + " picked up item " + item.getAmount() + "x " + item.unnote().name() + " (id " + item.getId() + ")");
-                                        Utils.sendDiscordInfoLog("Player " + player.getUsername() + " picked up item " + item.getAmount() + "x " + item.unnote().name() + " (id " + item.getId() + ")", "pickups");
-                                        player.inventory().refresh();
-                                    });
-                                }
-                                stop();
-                                return;
-                            }
 
                             boolean added = player.inventory().add(item);
                             if (!added) {

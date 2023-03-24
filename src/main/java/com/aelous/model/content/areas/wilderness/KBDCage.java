@@ -1,6 +1,5 @@
 package com.aelous.model.content.areas.wilderness;
 
-import com.aelous.model.content.areas.wilderness.content.key.EscapeKeyPlugin;
 import com.aelous.model.content.packet_actions.interactions.objects.Ladders;
 import com.aelous.core.task.TaskManager;
 import com.aelous.core.task.impl.TickAndStop;
@@ -33,11 +32,6 @@ public class KBDCage extends PacketInteraction {
                 //Check to see if the player is teleblocked
                 if (player.getTimers().has(TimerKey.TELEBLOCK) || player.getTimers().has(TimerKey.SPECIAL_TELEBLOCK)) {
                     player.teleblockMessage();
-                    return true;
-                }
-
-                if (EscapeKeyPlugin.hasKey(player) && WildernessArea.inWild(player)) {
-                    player.message("You cannot teleport outside the Wilderness with the Wilderness key.");
                     return true;
                 }
 

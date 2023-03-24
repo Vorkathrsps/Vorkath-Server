@@ -3,7 +3,6 @@ package com.aelous.model.entity.player;
 import com.aelous.GameServer;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.core.task.impl.*;
-import com.aelous.model.content.areas.wilderness.content.key.EscapeKeyPlugin;
 import com.aelous.model.content.raids.RaidStage;
 import com.aelous.model.content.raids.party.RaidsParty;
 import com.aelous.model.content.security.AccountPin;
@@ -161,7 +160,7 @@ public class Player extends Entity {
 
     public RaidStage raidStage;
 
-    public PlayerManager playerManager = new PlayerManager();
+    public PlayerManager playerManager = new PlayerManager(this);
 
     public transient ShopReference shopReference = ShopReference.DEFAULT;
 
@@ -1387,14 +1386,6 @@ public class Player extends Entity {
             TaskManager.cancelTasks(this);
             looks().hide(true);
             Hunter.abandon(this, null, true);
-            if (WildernessArea.inWilderness(this.tile())) {
-                if (this.inventory().contains(CustomItemIdentifiers.ESCAPE_KEY)) {
-                    this.inventory().remove(CustomItemIdentifiers.ESCAPE_KEY, Integer.MAX_VALUE);
-                    World.getWorld().clearBroadcast();
-                    respawn(Item.of(CustomItemIdentifiers.ESCAPE_KEY), tile, 3);
-                    EscapeKeyPlugin.announceKeySpawn(tile);
-                }
-            }
             if (getClan() != null) {
                 ClanManager.leave(this, true);
             }

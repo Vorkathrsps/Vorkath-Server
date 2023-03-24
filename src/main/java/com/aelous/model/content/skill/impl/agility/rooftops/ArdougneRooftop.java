@@ -168,7 +168,7 @@ public class ArdougneRooftop extends PacketInteraction {
                 player.getMovementQueue().interpolate(2661, 3298, MovementQueue.StepType.FORCED_WALK);
             }).waitForTile(new Tile(2661, 3298), () -> {
                 player.animate(741);
-                TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(2, -1), 15, 30, FaceDirection.EAST)));
+               // TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(2, -1), 15, 30, FaceDirection.EAST)));
             }).then(1, () -> {
                 player.teleport(2663, 3297, 1);
             }).then(1, () -> {
@@ -176,7 +176,7 @@ public class ArdougneRooftop extends PacketInteraction {
                 player.getMovementQueue().interpolate(2666, 3297, MovementQueue.StepType.FORCED_WALK);
             }).waitForTile(new Tile(2666, 3297), () -> {
                 player.animate(741);
-                TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(1, 0), 15, 30, FaceDirection.EAST)));
+              //  TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(1, 0), 15, 30, FaceDirection.EAST)));
             }).then(1, () -> {
                 player.teleport(2667, 3297, 1);
                 player.animate(2586);

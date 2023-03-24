@@ -5,7 +5,6 @@ import com.aelous.model.content.DropsDisplay;
 import com.aelous.model.content.achievements.AchievementWidget;
 import com.aelous.model.content.areas.wilderness.content.EloRating;
 import com.aelous.model.content.areas.wilderness.content.boss_event.WildernessBossEvent;
-import com.aelous.model.content.areas.wilderness.content.key.EscapeKeyPlugin;
 import com.aelous.model.content.collection_logs.LogType;
 import com.aelous.model.content.items_kept_on_death.ItemsKeptOnDeath;
 import com.aelous.model.content.skill.impl.slayer.Slayer;
@@ -201,13 +200,6 @@ public final class QuestTab {
             public String fetchLineData(Player player) {
                 long risked = ItemsKeptOnDeath.getLostItemsValue();
                 return "Risked wealth: <col=ffffff>" + Utils.formatNumber(risked) + " BM";
-            }
-        },
-
-        WILDERNESS_KEY(12687) {
-            @Override
-            public String fetchLineData(Player player) {
-                return "Next Wildy Key: <col=ffffff>" + EscapeKeyPlugin.timeTill(false);
             }
         },
 

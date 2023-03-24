@@ -4,7 +4,6 @@ import com.aelous.GameServer;
 import com.aelous.model.content.account.ChangeAccountTypeDialogue;
 import com.aelous.model.content.areas.edgevile.dialogue.*;
 import com.aelous.model.content.areas.lumbridge.dialogue.Hans;
-import com.aelous.model.content.areas.wilderness.content.key.EscapeKeyPlugin;
 import com.aelous.model.content.areas.wilderness.content.todays_top_pkers.TopPkers;
 import com.aelous.model.content.areas.wilderness.dialogue.ArtifactTraderDialogue;
 import com.aelous.model.content.mechanics.MagicalAltarDialogue;
@@ -234,11 +233,6 @@ public class Edgeville extends PacketInteraction {
                 //Check to see if the player is teleblocked
                 if (player.getTimers().has(TimerKey.TELEBLOCK) || player.getTimers().has(TimerKey.SPECIAL_TELEBLOCK)) {
                     player.teleblockMessage();
-                    return true;
-                }
-
-                if (EscapeKeyPlugin.hasKey(player) && WildernessArea.inWild(player)) {
-                    player.message("You cannot teleport outside the Wilderness with the Wilderness key.");
                     return true;
                 }
 

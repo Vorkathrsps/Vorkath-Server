@@ -1,7 +1,6 @@
 package com.aelous.model.content.areas.zulandra;
 
 import com.aelous.model.World;
-import com.aelous.model.content.areas.wilderness.content.key.EscapeKeyPlugin;
 import com.aelous.model.content.areas.zulandra.dialogue.*;
 import com.aelous.model.content.instance.InstancedAreaManager;
 import com.aelous.model.entity.attributes.AttributeKey;
@@ -36,11 +35,6 @@ public class ZulAndra extends PacketInteraction {
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         if (option == 1) {
             if (obj.getId() == SACRIFICIAL_BOAT) {
-
-                if (EscapeKeyPlugin.hasKey(player)) {
-                    player.message("Nice try, you should keep walking because the boat is leaving.");
-                    return false;
-                }
 
                 player.getDialogueManager().start(new Dialogue() {
                     @Override

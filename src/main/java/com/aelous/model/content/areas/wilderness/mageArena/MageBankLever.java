@@ -1,13 +1,11 @@
 package com.aelous.model.content.areas.wilderness.mageArena;
 
-import com.aelous.model.content.areas.wilderness.content.key.EscapeKeyPlugin;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.object.ObjectManager;
 import com.aelous.model.map.position.Tile;
-import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.utility.chainedwork.Chain;
 import com.aelous.utility.timers.TimerKey;
@@ -29,10 +27,6 @@ public class MageBankLever extends PacketInteraction {
                     return true;
                 }
 
-                if (EscapeKeyPlugin.hasKey(player) && WildernessArea.inWild(player)) {
-                    player.message("You cannot teleport outside the Wilderness with the Wilderness key.");
-                    return true;
-                }
                 player.lockNoDamage();
                 Chain.bound(null).runFn(1, () -> {
                     player.animate(2140);
@@ -70,11 +64,6 @@ public class MageBankLever extends PacketInteraction {
                 //Check to see if the player is teleblocked
                 if (player.getTimers().has(TimerKey.TELEBLOCK) || player.getTimers().has(TimerKey.SPECIAL_TELEBLOCK)) {
                     player.teleblockMessage();
-                    return true;
-                }
-
-                if (EscapeKeyPlugin.hasKey(player) && WildernessArea.inWild(player)) {
-                    player.message("You cannot teleport outside the Wilderness with the Wilderness key.");
                     return true;
                 }
 

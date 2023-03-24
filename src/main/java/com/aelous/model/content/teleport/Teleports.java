@@ -1,13 +1,10 @@
 package com.aelous.model.content.teleport;
 
 import com.aelous.GameServer;
-import com.aelous.model.content.areas.wilderness.content.key.EscapeKeyPlugin;
 import com.aelous.model.content.duel.Dueling;
-import com.aelous.model.content.instance.InstancedAreaManager;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportData;
 import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
-import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.animations.Priority;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
@@ -37,10 +34,6 @@ public class Teleports {
      * if we so wish to.
      */
     public static boolean canTeleport(Player player, boolean inform, TeleportType teletype) {
-        if ((EscapeKeyPlugin.hasKey(player) && WildernessArea.inWild(player)) && !player.getPlayerRights().isDeveloper(player)) {
-            player.message("You cannot teleport outside the Wilderness with the Wilderness key.");
-            return false;
-        }
 
         if (player.getController() != null) {
             if (!player.getController().canTeleport(player)) {

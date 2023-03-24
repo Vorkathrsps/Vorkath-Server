@@ -211,7 +211,6 @@ public class CommandManager {
         commands.put("setslayerstreak", new SetSlayerStreakCommand());
         commands.put("giveslayerpoints", new GiveSlayerPointsCommand());
         commands.put("spawnkey", new WildernessKeyCommand());
-        commands.put("spawnkey2", new EscapeKeyCommand());
         commands.put("vanish", new VanishCommand());
         commands.put("unvanish", new UnVanishCommand());
         commands.put("tele", new TeleToLocationCommand());

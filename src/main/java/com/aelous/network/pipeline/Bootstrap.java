@@ -3,9 +3,7 @@ package com.aelous.network.pipeline;
 import com.aelous.GameBuilder;
 import com.aelous.GameServer;
 import com.aelous.model.content.areas.wilderness.content.boss_event.WildernessBossEvent;
-import com.aelous.model.content.areas.wilderness.content.key.EscapeKeyPlugin;
 import com.aelous.model.content.areas.wilderness.content.todays_top_pkers.TopPkers;
-import com.aelous.core.task.TaskManager;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.GwdLogic;
 import com.aelous.model.items.Item;
 import com.aelous.network.security.HostBlacklist;
@@ -60,7 +58,6 @@ public final class Bootstrap {
         }
         if (GameServer.properties().enableWildernessBossEvents && GameServer.properties().pvpMode) {// Events only on PvP.
             WildernessBossEvent.onServerStart();
-            EscapeKeyPlugin.onServerStart();
             TopPkers.SINGLETON.init();
         }
         Item.onServerStart();

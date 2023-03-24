@@ -144,14 +144,14 @@ public class AlKharidCourse extends PacketInteraction {
                 .name("AlKharidPalmtreeswingTask").waitForTile(new Tile(3318, 3165), () -> {
                 player.lock();
                 player.animate(2583);
-                TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, 4), 35, 49, FaceDirection.NORTH)));
+                //TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, 4), 35, 49, FaceDirection.NORTH)));
             }).then(1, () -> {
                 player.setPositionToFace(new Tile(3320, 3169, 1));
                 player.animate(1122);
-                TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, 1), 34, 42, FaceDirection.NORTH)));
+                //TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, 1), 34, 42, FaceDirection.NORTH)));
             }).then(1, () -> {
                 player.animate(1124);
-                TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(-1, 4), 34, 52, FaceDirection.SOUTH)));
+               // TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(-1, 4), 34, 52, FaceDirection.SOUTH)));
             }).then(1, () -> {
                 player.animate(2588);
             }).then(1, () -> player.teleport(new Tile(3317, 3174, 2))).waitForTile(new Tile(3317, 3174, 2), () -> {//Reward exp when tile has been reached.

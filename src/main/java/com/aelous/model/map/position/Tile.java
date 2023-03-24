@@ -798,6 +798,12 @@ public class Tile implements Cloneable {
             || allowEntrance(NORTH_MASK);
     }
 
+    public Tile setTile(int x, int y) {
+        this.x = x;
+        this.y = y;
+        return new Tile(x, y);
+    }
+
     public static void occupy(Entity entity) {
         // TODO runite
     }

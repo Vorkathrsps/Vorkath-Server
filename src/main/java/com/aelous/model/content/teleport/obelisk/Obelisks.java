@@ -1,7 +1,6 @@
 package com.aelous.model.content.teleport.obelisk;
 
 import com.aelous.model.World;
-import com.aelous.model.content.areas.wilderness.content.key.EscapeKeyPlugin;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.object.ObjectManager;
@@ -235,9 +234,7 @@ public class Obelisks extends PacketInteraction {
                 int plry = p.tile().y;
 
                 if (plrx >= x - 1 && plrx <= x + 1 && plry >= y - 1 && plry <= y + 1) {
-                    if (EscapeKeyPlugin.hasKey(p)) {
-                        p.message("You cannot teleport outside the Wilderness with the Wilderness key.");
-                    } else if (p.getTimers().has(TimerKey.TELEBLOCK) || p.getTimers().has(TimerKey.SPECIAL_TELEBLOCK)) {
+                     if (p.getTimers().has(TimerKey.TELEBLOCK) || p.getTimers().has(TimerKey.SPECIAL_TELEBLOCK)) {
                         p.message("You're teleblocked and cannot travel with obelisks.");
                     } else if (!p.locked() || !p.stunned()) {
                         p.stopActions(true);

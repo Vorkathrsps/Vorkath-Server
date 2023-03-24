@@ -72,9 +72,9 @@ public class Barbarian extends PacketInteraction {
                     player.getMovementQueue().interpolate(2551, 3554);
                 }
 
-                ForceMovement forceMovement = new ForceMovement(player, player.tile(), new Tile(0, -5),30, 0, 751, Direction.SOUTH.toInteger());
+                ForceMovement forceMovement = new ForceMovement(player, player.tile(), new Tile(0, -5),30, 60, 751, 2);
+                player.setForceMovement(forceMovement);
                 Chain.bound(player).runFn(0, () -> {
-                    player.setForceMovement(forceMovement);
                     player.getPacketSender().sendObjectAnimation(obj, 54);
                 }).then(1, () -> {
                     player.getSkills().addXp(Skills.AGILITY, 22.0);

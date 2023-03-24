@@ -22,6 +22,19 @@ public class ForceMovement {
 
     private int animation;
 
+    public ForceMovement(Player player, Tile start, Tile end, int cycleDelay, int cycleEnd, int animation, int direction) {
+        this.start = start;
+        this.end = end;
+        this.speed = cycleDelay;
+        this.reverseSpeed = cycleEnd;
+        this.animation = animation;
+        this.direction = direction;
+        int x = start.getX() + end.getX();
+        int y = start.getY() + end.getY();
+        player.setTile(new Tile(x, y));
+        player.getUpdateFlag().flag(Flag.APPEARANCE);
+    }
+
     public ForceMovement(Tile start, @Nullable Tile end, int speed, int reverseSpeed, int direction) {
         this.setStart(start);
         this.setEnd(end);
@@ -48,7 +61,7 @@ public class ForceMovement {
         this.setDirection((byte)direction.direction);
     }
 
-    public ForceMovement(Player player, Tile start, @Nullable Tile end, int speed, int reverseSpeed, int animation, int direction) {
+   /* public ForceMovement(Player player, Tile start, @Nullable Tile end, int cycleStart, int reverseSpeed, int animation, int movementDirection) {
         if (player == null || start == null) {
             throw new IllegalArgumentException("player and start cannot be null");
         }
@@ -57,9 +70,9 @@ public class ForceMovement {
         if (end != null) {
             this.setEnd(new Tile(end.getX(), end.getY()));
         }
-        this.setSpeed((short)speed);
+        this.setSpeed((short)cycleStart);
         this.setReverseSpeed((short)reverseSpeed);
-        this.setDirection((byte)direction);
+        this.setDirection((byte)movementDirection);
         this.setAnimation((short)animation);
 
         int x = start.getX() + (end != null ? end.getX() : 0);
@@ -69,7 +82,7 @@ public class ForceMovement {
         player.setNeedsPlacement(true);
         player.setResetMovementQueue(true);
         player.getMovementQueue().clear();
-    }
+    }*/
 
 
     public ForceMovement(int dx, int dy, int dx2, int dy2, int speed1, int speed2, FaceDirection direction, int animation) {
@@ -91,6 +104,18 @@ public class ForceMovement {
 
     public @Nullable Tile getEnd() {
         return end;
+    }
+
+    public Tile getStart(Player player) {
+        int dx = player.tile().getLocalX();
+        int dy = player.tile().getLocalY();
+        return new Tile(dx, dy, start.getLevel());
+    }
+
+    public Tile getEnd(Player player) {
+        int dx = player.tile().getLocalX();
+        int dy = player.tile().getLocalY();
+        return new Tile(dx, dy, end.getLevel());
     }
 
     public void setEnd(Tile end) {

@@ -401,8 +401,8 @@ public class CommandManager {
            var b = p.getRouteFinder().routeAbsolute(p.tile().transform(4, 0).x, p.tile().transform( 0, 4).y).reachable;
             System.out.println(b);
         });
-        dev("test6", (p, c, s) -> {
-            logger.info("base {} {}", p.tile().getBaseX(), p.tile().getBaseLocalX());
+        dev("base", (p, c, s) -> {
+            logger.info("base {} {} corner {}", p.tile().getBaseX(), p.tile().getBaseY(), p.tile().regionCorner());
         });
         dev("test7", (p, c, s) -> {
             for (int i = 0; i < 7; i++) {
@@ -471,6 +471,11 @@ public class CommandManager {
         });
         dev("up4", (p, c, s) -> {
             p.teleport(p.tile().transform(0,0,4));
+        });
+        dev("runes", (p, c, s) -> {
+            for (int i = 554; i <= 566; i++) {
+                p.inventory().add(i, 1000000);
+            }
         });
     }
 

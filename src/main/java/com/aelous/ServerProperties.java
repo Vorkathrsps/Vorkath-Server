@@ -113,9 +113,9 @@ public final class ServerProperties {
         concurrency = (Runtime.getRuntime().availableProcessors() > 1);
         queuedLoopThreshold = 45;
         packetProcessLimit = 25;
-        defaultTile = new Tile(Utils.get(3089, 3092), Utils.get(3489, 3493), 0);
+        defaultTile = new Tile(3097, 3501, 0);
         duelTile = new Tile(3369, 3266);
-        defaultClanChat = "";
+        defaultClanChat = "help";
         queueSwitchingRefresh = false;
         rightClickAutocast = false;
         autosaveMinutes = 15;

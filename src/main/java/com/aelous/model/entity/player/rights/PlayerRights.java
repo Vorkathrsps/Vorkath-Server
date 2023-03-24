@@ -9,25 +9,14 @@ import com.intellij.openapi.util.text.StringUtil;
 public enum PlayerRights {
 
 
-    PLAYER( -1, -1),
+    PLAYER( -1, 0),
 
-    SUPPORT(505, 0),
+    SUPPORT(505, 1),
+    MODERATOR(1313, 2),
+    ADMINISTRATOR(1314, 3),
+    DEVELOPER(495, 4),
 
-    SENIOR_SUPPORT(505, 0),
-
-    MODERATOR(494, 1),
-
-    SENIOR_MODERATOR(1313, 1),
-
-    ADMINISTRATOR(495, 2),
-
-    SENIOR_ADMINISTRATOR(1314, 2),
-
-    COMMUNITY_MANAGER(495, 2),
-
-    DEVELOPER(495, 2),
-
-    OWNER(495, 2),
+    OWNER(495, 5),
 
     ;
 

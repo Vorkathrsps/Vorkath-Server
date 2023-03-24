@@ -103,16 +103,16 @@ public class VerzikVitur extends CommonCombatMethod {
                         }
                         if (Utils.rollPercent(50)) {
                             var targetPos = t.tile().copy();
-                            var tileDist = entity.tile().distance(t.tile());
+                            var tileDist = mob.tile().distance(t.tile());
                             int duration = (51 + -5 + (10 * tileDist));
-                            Projectile p = new Projectile(entity, targetPos, 1594, 51, duration, 70, 20, 0, target.getSize(), 10);
+                            Projectile p = new Projectile(mob, targetPos, 1594, 51, duration, 70, 20, 0, target.getSize(), 10);
                             int delay = p.send(mob, t);
                             t.hit(mob, World.getWorld().random(1, 40), delay, CombatType.MAGIC).checkAccuracy().submit();
                         } else {
                             var targetPos = t.tile().copy();
-                            var tileDist = entity.tile().distance(t.tile());
+                            var tileDist = mob.tile().distance(t.tile());
                             int duration = (41 + 11 + (5 * tileDist));
-                            Projectile p = new Projectile(entity, targetPos, 1593, 41, duration, 43, 31, 0, target.getSize(), 10);
+                            Projectile p = new Projectile(mob, targetPos, 1593, 41, duration, 43, 31, 0, target.getSize(), 10);
                             int delay = p.send(mob, t);
                             t.hit(mob, World.getWorld().random(1, 40), delay, CombatType.RANGED).checkAccuracy().submit();
                         }
@@ -121,9 +121,9 @@ public class VerzikVitur extends CommonCombatMethod {
                     bombCount = 0;
                 } else {
                     final Tile targetPos = target.tile().copy();
-                    var tileDist = entity.tile().distance(targetPos);
+                    var tileDist = mob.tile().distance(targetPos);
                     int duration = (41 + 11 + (5 * tileDist));
-                    Projectile p = new Projectile(entity, targetPos, 1586, 41, duration, 43, 31, 0, target.getSize(), 10);
+                    Projectile p = new Projectile(mob, targetPos, 1586, 41, duration, 43, 31, 0, target.getSize(), 10);
                     int delay = p.send(mob.getCentrePosition(), target.getCentrePosition());
                     if (target.tile().equals(targetPos)) {
                         Hit hit = target.hit(mob, World.getWorld().random(1, 60), delay, null).checkAccuracy();

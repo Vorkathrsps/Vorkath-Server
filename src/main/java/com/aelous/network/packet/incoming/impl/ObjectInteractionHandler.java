@@ -1,10 +1,13 @@
 package com.aelous.network.packet.incoming.impl;
 
 import com.aelous.GameServer;
+import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 import com.aelous.model.content.skill.impl.smithing.Bar;
 import com.aelous.model.content.skill.impl.smithing.EquipmentMaking;
+import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.model.entity.npc.impl.MaxHitDummyNpc;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.tradingpost.TradingPost;
 import com.aelous.model.map.object.GameObject;
@@ -171,6 +174,11 @@ public class ObjectInteractionHandler implements PacketListener {
 
                 if (bank) {
                     player.getBank().open();
+                    return;
+                }
+
+                if (object.getId() == 35965) {
+                    TeleportInterface.open(player);
                     return;
                 }
 

@@ -13,7 +13,7 @@ public enum IronMode {
     ELITE("Elite Ironman"),
     GROUP("Group Ironman");
 
-    public String name;
+    public final String name;
 
     IronMode(String name) {
         this.name = name;

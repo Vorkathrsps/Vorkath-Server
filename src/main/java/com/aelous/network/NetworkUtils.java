@@ -41,7 +41,7 @@ public class NetworkUtils {
     public static final BigInteger RSA_EXPONENT = new BigInteger("79304472214370922762932105237390187381463672363705375233978043425709379778525976284494572865658334707555904114207777777341892920168231399767577257735843278036440634354404060637137311110371217284157987350293683059890663583033195388794460636931915044283757261183264988297579912358758185856341914846035938600173");
 
     /**
-     * The list of exceptions that are ignored and discarded by the {@link UpstreamChannelHandler}.
+     * The list of exceptions that are ignored and discarded by the {@link }.
      */
     public static final ImmutableList<String> IGNORED_NETWORK_EXCEPTIONS =
             ImmutableList.of("An existing connection was forcibly closed by the remote host",
@@ -53,5 +53,5 @@ public class NetworkUtils {
      */
     public static final AttributeKey<Session> SESSION_KEY = AttributeKey.valueOf("session.key");
 
-    public static final String[] INVALID_USERNAMES = {"Admin", "Owner", "Dev"};
+    public static final String[] INVALID_USERNAMES = {"Admin", "Owner", "Dev", "Origin", "Cryptic"};
 }

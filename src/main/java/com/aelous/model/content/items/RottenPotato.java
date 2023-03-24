@@ -21,6 +21,7 @@ import com.aelous.model.map.object.ObjectManager;
 import com.aelous.model.map.position.Tile;
 import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.utility.Debugs;
+import com.aelous.utility.chainedwork.Chain;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -72,16 +73,20 @@ public class RottenPotato extends PacketInteraction {
             @Override
             protected void select(int option) {
                 if(option == 1) {
-                    if(npc.dead())
-                        player.message(""+ npc.def().name+" is dead.");
+                    if(npc.dead()) {
+                        player.message("" + npc.def().name + " is dead.");
+                    }
                     if (npc.id() == 6611)
                         npc.clearAttrib(AttributeKey.VETION_HELLHOUND_SPAWNED);
                     var h = npc.hit(player, npc.hp(), (CombatType) null);
-                    npc.hp(npc.hp(), 0);
-                    npc.die();
+                    h.submit();
                     if (npc.getCombatMethod() != null && npc.getCombatMethod().customOnDeath(h)) {
-
+                        // empty on purpose just to trigger above method
                     }
+                    Chain.noCtx().delay(2, () -> {
+                        if (!npc.locked()) // for some reason death code didnt run? kill manually
+                            npc.die();
+                    });
                 } else if(option == 2) {
                     World.getWorld().unregisterNpc(npc);
                 } else if(option == 3) {

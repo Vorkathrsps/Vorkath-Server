@@ -18,7 +18,7 @@ public class ViturRoom extends PacketInteraction {
 
     private final int THEATRE_ENTRACE = 32653;
 
-    public static final Area VERZIK_AREA = new Area(3138, 4328, 3153, 4328);
+    public static final Area VERZIK_AREA = new Area(3135, 4288, 3263, 4351);
 
     //32653, 3678, 3216
 

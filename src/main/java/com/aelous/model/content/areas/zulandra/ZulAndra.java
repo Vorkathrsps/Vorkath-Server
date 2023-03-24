@@ -94,22 +94,25 @@ public class ZulAndra extends PacketInteraction {
     }
 
     private void enterInstance(Player player) {
-        var instance = InstancedAreaManager.getSingleton().createInstancedArea(ZULRAH_AREA);
         player.lock();
-        NPC zulrah = new NPC(NpcIdentifiers.ZULRAH, ZULRAH_PLAYER_START_TILE.transform(-2, 3, instance.getzLevel()));
-        instance.addNpc(zulrah);
         Chain.bound(null).name("ZulAndraBoatTask").runFn(9, () -> {
+            var instance = InstancedAreaManager.getSingleton().createInstancedArea(ZULRAH_AREA);
+            NPC zulrah = new NPC(NpcIdentifiers.ZULRAH, ZULRAH_PLAYER_START_TILE.transform(-2, 3, instance.getzLevel()));
+            player.setInstance(instance);
+            instance.addNpc(zulrah);
             instance.addPlayer(player);
             player.getMovementQueue().clear();
             player.teleport(ZULRAH_PLAYER_START_TILE.x, ZULRAH_PLAYER_START_TILE.y, instance.getzLevel());
             player.unlock();
 
+            zulrah.setInstance(instance);
             zulrah.respawns(false);
             zulrah.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
             zulrah.setPositionToFace(null);
             zulrah.noRetaliation(true);
             zulrah.combatInfo().aggressive = false;
         }).then(1, () -> player.message("Welcome to Zulrah's shrine.")).then(1, () -> {
+            var zulrah = player.getInstancedArea().getNpcs().get(0);
             World.getWorld().registerNpc(zulrah);
             zulrah.setPositionToFace(zulrah.tile().transform(0, -10, 0));
             zulrah.animate(5073);

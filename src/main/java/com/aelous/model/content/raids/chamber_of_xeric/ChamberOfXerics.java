@@ -212,6 +212,10 @@ public class ChamberOfXerics extends Raids {
         party.monsters.add(vespula);
 
         olm(party);
+        for (NPC monster : party.monsters) {
+            monster.setInstance(party.getLeader().instancedArea);
+            monster.putAttrib(AttributeKey.RAID_PARTY, party);
+        }
     }
 
     private void olm(Party party) {
@@ -259,7 +263,6 @@ public class ChamberOfXerics extends Raids {
         var mobs = Lists.newArrayList(spawn, spawn1, spawn2);
         party.monsters.addAll(mobs);
         for (NPC mob : mobs) {
-            mob.putAttrib(AttributeKey.RAID_PARTY, party);
             mob.spawn(false);
         }
 

@@ -12,11 +12,11 @@ public enum PlayerRights {
     PLAYER( -1, 0),
 
     SUPPORT(505, 1),
-    MODERATOR(1313, 2),
-    ADMINISTRATOR(1314, 3),
-    DEVELOPER(495, 4),
+    MODERATOR(1313, 1),
+    ADMINISTRATOR(1314, 2),
+    DEVELOPER(495, 2),
 
-    OWNER(495, 5),
+    OWNER(495, 2),
 
     ;
 

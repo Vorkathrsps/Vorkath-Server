@@ -12,6 +12,7 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.tradingpost.TradingPost;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.object.MapObjects;
+import com.aelous.model.map.object.ObjectManager;
 import com.aelous.model.map.position.Tile;
 import com.aelous.network.packet.Packet;
 import com.aelous.network.packet.PacketListener;
@@ -73,9 +74,11 @@ public class ObjectInteractionHandler implements PacketListener {
 
         int height = player.tile().getLevel();
 
-        Tile tile = new Tile(x, y, height > 3 ? (height % 4) : height);
+        Tile tile = new Tile(x, y, height);
 
-        Optional<GameObject> object = MapObjects.get(id, tile);
+        var object = tile.getObject(id, -1, -1);
+
+        player.debug("click %s opt %d", object, option);
 
         if (player.dead() || player.busy() || player.locked())
             return;
@@ -92,40 +95,26 @@ public class ObjectInteractionHandler implements PacketListener {
 
         player.afkTimer.reset();
 
-        int finalId = id;
-        int finalX = x;
-        int finalY = y;
         int finalOption = option;
 
-        object.ifPresent(gameObject -> player.debugMessage("optionId " + finalOption + "= " + gameObject.toString()));
-
-        Optional<GameObject> spawnedObject = World.getWorld().getSpawnedObjs().stream().filter(o -> o.getId() == finalId && o.tile().equals(new Tile(finalX, finalY, player.getZ()))).findFirst();
-
-        if (object.isEmpty() && spawnedObject.isEmpty())
-            return;
-
-        final GameObject gameObject = spawnedObject.isEmpty() ? object.get() : spawnedObject.get();
-
-        if (gameObject.definition() == null) {
+        if (object.definition() == null) {
             logger.error("ObjectDefinition for object {} is null for player " + player.toString() + ".", box(id));
             return;
         }
         player.stopActions(false);
-        player.putAttrib(AttributeKey.INTERACTION_OBJECT, gameObject);
+        player.putAttrib(AttributeKey.INTERACTION_OBJECT, object);
         player.putAttrib(AttributeKey.INTERACTION_OPTION, finalOption);
-        player.getRouteFinder().routeObject(gameObject, () -> handleAction(player, gameObject, finalOption));
-        if (object.isPresent()) {
-            x = object.get().getX();
-            y = object.get().getY();
-            final int sizeX = object.get().definition().sizeX;
-            final int sizeY = object.get().definition().sizeY;
-            boolean inversed = (object.get().getRotation() & 0x1) != 0;
+        player.getRouteFinder().routeObject(object, () -> handleAction(player, object, finalOption));
+            x = object.getX();
+            y = object.getY();
+            final int sizeX = object.definition().sizeX;
+            final int sizeY = object.definition().sizeY;
+            boolean inversed = (object.getRotation() & 0x1) != 0;
             int faceCoordX = x * 2 + (inversed ? sizeY : sizeX);
             int faceCoordY = y * 2 + (inversed ? sizeX : sizeY);
             Tile position = new Tile(faceCoordX, faceCoordY);
             player.getCombat().reset();
             player.setPositionToFace(position);
-        }
     }
 
     private void handleAction(Player player, GameObject object, int option) {

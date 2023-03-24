@@ -55,10 +55,6 @@ public class HomeArea extends PacketInteraction {
                 });
                 return true;
             }
-            if(object.getId() == 31675) {
-                player.getSlayerKey().open();
-                return true;
-            }
             if(object.getId() == 23311) {
                 TeleportInterface.open(player);
                 return true;

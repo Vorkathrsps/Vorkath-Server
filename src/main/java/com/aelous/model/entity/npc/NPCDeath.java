@@ -607,8 +607,7 @@ public class NPCDeath {
                         for (int i = 0; i < dropRolls; i++) {
                             Item reward = table.randomItem(World.getWorld().random());
                             if (reward != null) {
-                                boolean canDoubleDrop = doubleDropsLampActive;
-                                if (canDoubleDrop) {
+                                if (doubleDropsLampActive) {
                                     if (rolledDoubleDrop) {
                                         //Drop the item to the ground instead of editing the item instance
                                         GroundItem doubleDrop = new GroundItem(reward, tile, killer);
@@ -631,9 +630,9 @@ public class NPCDeath {
                                 GroundItemHandler.createGroundItem(new GroundItem(reward, tile, killer));
 
                                 if (WildernessArea.inWilderness(killer.tile())) {
-                                    //TODO wilderness random drops (boxes, caskets, pk stuff)
+                                    killer.getPlayerManager().getWildernessSlayerCasket().rollForCasket(npc);
+                                    killer.getPlayerManager().getWildernessSlayerCasket().rollForSupplys(npc);
                                 }
-                                killer.getSlayerKey().drop(npc);
 
                                 npcDropLogs.log(NPC_DROPS, "Player " + killer.getUsername() + " got drop item " + reward.unnote().name());
                                 Utils.sendDiscordInfoLog("Player " + killer.getUsername() + " got drop item " + reward.unnote().name(), "npcdrops");

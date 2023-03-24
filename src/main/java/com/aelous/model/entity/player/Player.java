@@ -30,7 +30,6 @@ import com.aelous.model.content.consumables.potions.impl.*;
 import com.aelous.model.content.daily_tasks.DailyTaskManager;
 import com.aelous.model.content.daily_tasks.DailyTasks;
 import com.aelous.model.content.duel.Dueling;
-import com.aelous.model.content.instance.InstancedAreaManager;
 import com.aelous.model.content.kill_logs.BossKillLog;
 import com.aelous.model.content.kill_logs.SlayerKillLog;
 import com.aelous.model.content.mechanics.*;
@@ -51,7 +50,6 @@ import com.aelous.model.content.skill.impl.farming.patch.Farmbit;
 import com.aelous.model.content.skill.impl.farmingOld.FarmingOld;
 import com.aelous.model.content.skill.impl.hunter.Hunter;
 import com.aelous.model.content.skill.impl.slayer.SlayerConstants;
-import com.aelous.model.content.skill.impl.slayer.SlayerKey;
 import com.aelous.model.content.skill.impl.slayer.SlayerRewards;
 import com.aelous.model.content.skill.impl.slayer.slayer_partner.SlayerPartner;
 import com.aelous.model.content.tasks.TaskMasterManager;
@@ -74,7 +72,6 @@ import com.aelous.model.entity.combat.CombatSpecial;
 import com.aelous.model.entity.combat.Venom;
 import com.aelous.model.content.bountyhunter.BountyHunter;
 import com.aelous.model.entity.combat.magic.spells.CombatSpells;
-import com.aelous.model.entity.combat.method.impl.npcs.bosses.vorkath.VorkathState;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.aelous.model.entity.combat.prayer.default_prayer.DefaultPrayerData;
 import com.aelous.model.entity.combat.skull.SkullType;
@@ -156,13 +153,15 @@ public class Player extends Entity {
 
     public int lastPetId;//ItemId?
 
-    private Pet pet = new Pet(this);
+    private final Pet pet = new Pet(this);
 
     public Pet getPet() {
         return pet;
     }
 
     public RaidStage raidStage;
+
+    public PlayerManager playerManager = new PlayerManager();
 
     public transient ShopReference shopReference = ShopReference.DEFAULT;
 
@@ -292,44 +291,6 @@ public class Player extends Entity {
         };
     }
 
-    public int totemDropRateBonus() {
-        var extraPercentageChance = 0;
-        if (getMemberRights().isSponsorOrGreater(this) && tile().memberCave())
-            extraPercentageChance = 30;
-        else if (getMemberRights().isVIPOrGreater(this) && tile().memberCave())
-            extraPercentageChance = 20;
-        else if (getMemberRights().isLegendaryMemberOrGreater(this) && tile().memberCave())
-            extraPercentageChance = 10;
-        else if (getMemberRights().isExtremeMemberOrGreater(this) && tile().memberCave())
-            extraPercentageChance = 5;
-        else if (getMemberRights().isEliteMemberOrGreater(this) && tile().memberCave())
-            extraPercentageChance = 5;
-        else if (getMemberRights().isSuperMemberOrGreater(this) && tile().memberCave())
-            extraPercentageChance = 5;
-
-        return extraPercentageChance;
-    }
-
-    public int memberAncientRevBonus() {
-        var extraPercentageChance = 0;
-        if (getMemberRights().isSponsorOrGreater(this) && tile().memberCave())
-            extraPercentageChance = 10;
-        else if (getMemberRights().isVIPOrGreater(this) && tile().memberCave())
-            extraPercentageChance = 8;
-        else if (getMemberRights().isLegendaryMemberOrGreater(this) && tile().memberCave())
-            extraPercentageChance = 6;
-        else if (getMemberRights().isExtremeMemberOrGreater(this) && tile().memberCave())
-            extraPercentageChance = 4;
-        else if (getMemberRights().isEliteMemberOrGreater(this) && tile().memberCave())
-            extraPercentageChance = 2;
-        else if (getMemberRights().isSuperMemberOrGreater(this) && tile().memberCave())
-            extraPercentageChance = 1;
-        else if (getMemberRights().isRegularMemberOrGreater(this) && tile().memberCave())
-            extraPercentageChance = 0;
-
-        return extraPercentageChance;
-    }
-
     public int masterCasketMemberBonus() {
         var extraPercentageChance = 0;
         if (getMemberRights().isSponsorOrGreater(this) && tile().memberCave())
@@ -376,10 +337,6 @@ public class Player extends Entity {
         }
 
         return percent;
-    }
-
-    public boolean getPetBoostperk() {
-        return getSlayerRewards().getUnlocks().containsKey(SlayerConstants.ZRIAWK_BOOST);
     }
 
     public boolean getDropRatePerk() {
@@ -462,10 +419,8 @@ public class Player extends Entity {
         Venom.cure(2, this);
     }
 
-    private final SlayerKey slayerKey = new SlayerKey(this);
-
-    public SlayerKey getSlayerKey() {
-        return slayerKey;
+    public PlayerManager getPlayerManager() {
+        return playerManager;
     }
 
     private final ItemContainer raidRewards = new ItemContainer(2, ItemContainer.StackPolicy.ALWAYS);
@@ -964,7 +919,6 @@ public class Player extends Entity {
         return container;
     }
 
-    public long lastGpi;
     public Map<Integer, Integer> commonStringsCache;
 
     private final InterfaceManager interfaceManager = new InterfaceManager(this);
@@ -2789,35 +2743,6 @@ public class Player extends Entity {
         getSkills().stopSkillable();
 
         getMovementQueue().resetFollowing();
-    }
-
-    private static final Logger nifflerLogs = LogManager.getLogger("NifflerLogs");
-    private static final Level NIFFLER_LOGS;
-
-    static {
-        NIFFLER_LOGS = Level.getLevel("NIFFLER_LOGS");
-    }
-
-    public int nifflerPouchSize() {
-        return this.<ArrayList<Item>>getAttribOr(AttributeKey.NIFFLER_ITEMS_STORED, new ArrayList<Item>()).size();
-    }
-
-    public boolean nifflerCanStore(Entity target) {
-        if (target != null && target.isPlayer()) {
-            Player playerTarg = (Player) target;
-            var playerIsIron = ironMode.isIronman() || ironMode.isHardcoreIronman();
-            var targIsIron = playerTarg.ironMode.isIronman() || playerTarg.ironMode.isHardcoreIronman();
-            if (playerIsIron && !targIsIron) {//Already has a check here target was just not properly recoginized
-                message(Color.RED.wrap(playerTarg.getUsername() + " is not a ironman, your Niffler cannot loot their items."));
-                return false;
-            }
-        }
-
-        if (nifflerPouchSize() >= 28) {
-            message(Color.RED.tag() + "Your Niffler cannot hold anymore items in his belly.");
-            return false;
-        }
-        return true;
     }
 
     public boolean muted() {

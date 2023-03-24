@@ -1,6 +1,7 @@
 package com.aelous.model.content.packet_actions.interactions.items;
 
 import com.aelous.model.content.EffectTimer;
+import com.aelous.model.content.areas.wilderness.slayer.WildernessSlayerCasket;
 import com.aelous.model.content.collection_logs.LogType;
 import com.aelous.model.content.consumables.FoodConsumable;
 import com.aelous.model.content.consumables.potions.Potions;
@@ -50,6 +51,10 @@ public class ItemActionOne {
         }
 
         if (FrozenCache.openCasket(player, item)) {
+            return;
+        }
+
+        if (player.getPlayerManager().getWildernessSlayerCasket().open(player, item)) {
             return;
         }
 

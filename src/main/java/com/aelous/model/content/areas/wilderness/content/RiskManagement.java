@@ -76,11 +76,6 @@ public class RiskManagement {
         if (roll > 100)
             roll = 100;
 
-        //System.out.println("new roll: "+roll);
-
-        /*if (player.getDisplayName().equalsIgnoreCase("zoo")) {
-            roll = 95;
-        }*/
         int[] veryRareRange = Utils.convertRollRangeStringToIntArray(GameServer.properties().riskManagementVeryRareRollRange);
         int[] rareRange = Utils.convertRollRangeStringToIntArray(GameServer.properties().riskManagementRareRollRange);
         int[] uncommonRange = Utils.convertRollRangeStringToIntArray(GameServer.properties().riskManagementUncommonRollRange);

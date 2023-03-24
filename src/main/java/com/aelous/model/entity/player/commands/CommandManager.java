@@ -472,6 +472,11 @@ public class CommandManager {
         dev("up4", (p, c, s) -> {
             p.teleport(p.tile().transform(0,0,4));
         });
+        dev("runes", (p, c, s) -> {
+            for (int i = 554; i <= 566; i++) {
+                p.inventory().add(i, 1000000);
+            }
+        });
     }
 
     public static void dev(String cmd, TriConsumer<Player, String, String[]> tc) {

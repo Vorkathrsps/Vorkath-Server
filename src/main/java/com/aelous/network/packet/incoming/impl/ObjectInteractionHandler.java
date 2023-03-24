@@ -77,10 +77,13 @@ public class ObjectInteractionHandler implements PacketListener {
         Tile tile = new Tile(x, y, height);
 
         var object = tile.getObject(id, -1, -1);
+        if (object == null && tile.getZ() > 3) {
+            object = new Tile(tile.x, tile.y, tile.getZ() % 3).getObject(id, -1, -1);
+        }
 
         player.debug("click %s opt %d", object, option);
 
-        if (player.dead() || player.busy() || player.locked())
+        if (player.dead() || player.busy() || player.locked() || object == null)
             return;
 
         if (!player.getBankPin().hasEnteredPin() && GameServer.properties().requireBankPinOnLogin) {
@@ -104,7 +107,8 @@ public class ObjectInteractionHandler implements PacketListener {
         player.stopActions(false);
         player.putAttrib(AttributeKey.INTERACTION_OBJECT, object);
         player.putAttrib(AttributeKey.INTERACTION_OPTION, finalOption);
-        player.getRouteFinder().routeObject(object, () -> handleAction(player, object, finalOption));
+        GameObject finalObject = object;
+        player.getRouteFinder().routeObject(object, () -> handleAction(player, finalObject, finalOption));
             x = object.getX();
             y = object.getY();
             final int sizeX = object.definition().sizeX;

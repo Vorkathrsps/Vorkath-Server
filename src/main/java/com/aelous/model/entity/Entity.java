@@ -1653,21 +1653,6 @@ public abstract class Entity {
             getAsPlayer().getInterfaceManager().close(false);
         }
 
-        if (getInstancedArea() != null) {
-            if (!getInstancedArea().inInstanceArea(this)) {
-                // mob has left the instance
-                if (isNpc()) {
-                    // players can TP out .. but npcs? if they're tping out thats probably a bug!
-                    LogManager.getLogger("Entity").error("Npc is teleporting out of instance. removing " + getMobName() + " from " + getInstancedArea(), new RuntimeException("tp out of instance"));
-                }
-                if (isNpc()) {
-                    getInstancedArea().removeNpc(getAsNpc());
-                } else if (isPlayer()) {
-                    getInstancedArea().removePlayer(getAsPlayer());
-                }
-            }
-        }
-
         setTile(teleportTarget);
         Tile.occupy(this);
         setPreviousTile(teleportTarget);
@@ -1683,6 +1668,21 @@ public abstract class Entity {
 
         getMovementQueue().lastFollowX = teleportTarget.x;
         getMovementQueue().lastFollowY = teleportTarget.y;
+
+        if (getInstancedArea() != null) { // make sure this is after tile set
+            if (!getInstancedArea().inInstanceArea(this)) {
+                // mob has left the instance
+                if (isNpc()) {
+                    // players can TP out .. but npcs? if they're tping out thats probably a bug!
+                    LogManager.getLogger("Entity").error("Npc is teleporting out of instance. removing " + getMobName() + " from " + getInstancedArea(), new RuntimeException("tp out of instance"));
+                }
+                if (isNpc()) {
+                    getInstancedArea().removeNpc(getAsNpc());
+                } else if (isPlayer()) {
+                    getInstancedArea().removePlayer(getAsPlayer());
+                }
+            }
+        }
     }
 
     public MovementQueue getMovement() {

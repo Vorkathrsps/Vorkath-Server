@@ -49,7 +49,7 @@ public class ChamberOfXerics extends Raids {
 
         for (Player member : party.getMembers()) {
             member.setRaids(this);
-            member.teleport(new Tile(3299, 5189, height));
+            member.teleport(new Tile(3232, 5721, height)); // straight to olm
             member.setInstance(instance);
         }
 

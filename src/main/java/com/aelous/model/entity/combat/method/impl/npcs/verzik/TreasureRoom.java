@@ -10,7 +10,7 @@ public class TreasureRoom extends PacketInteraction {
     @Override
     public boolean handleObjectInteraction(Player player, GameObject object, int option) {
         if (object.getId() == TREASURE_ROOM) {
-            player.teleport(3237, 4307, player.getHeight());
+            player.teleport(3237, 4307, player.getZ());
             return true;
         }
         return false;

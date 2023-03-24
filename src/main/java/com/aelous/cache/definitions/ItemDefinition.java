@@ -1,6 +1,5 @@
 package com.aelous.cache.definitions;
 
-import com.aelous.GameConstants;
 import com.aelous.model.content.consumables.FoodConsumable;
 import com.aelous.model.content.consumables.potions.Potions;
 import com.aelous.utility.loaders.BloodMoneyPrices;
@@ -87,8 +86,6 @@ public class ItemDefinition implements Definition {
     private int op140 = -1;
 
     public int id;
-
-    // our fields: optimized speed so you dont need 1k loops
     public boolean isCrystal;
     public boolean tradeable_special_items;
     public boolean changes;
@@ -410,10 +407,7 @@ public class ItemDefinition implements Definition {
     }
 
     void postDecode(int id) {
-        if (id == 6808) {
-            name = "Scroll of Imbuement";
-        }
-        bm = new BloodMoneyPrices();
+        bm = new BloodMoneyPrices(id, this.getKeptOnDeathValue());
 
         for (FoodConsumable.Food food : FoodConsumable.Food.values()) {
             if (food.getItemId() == id) {
@@ -438,7 +432,66 @@ public class ItemDefinition implements Definition {
         return cost *= 0.65;
     }
 
+    public final static Item[] BANK_ITEMS = {
+      new Item(ANCESTRAL_ROBE_BOTTOM),
+      new Item(ANCESTRAL_ROBE_TOP)
+    };
+
+    private boolean nameToLowerCase(String name) {
+        return this.name.toLowerCase().contains(name);
+    }
+
     public int getKeptOnDeathValue() {
+        if (nameToLowerCase("ancestral") || nameToLowerCase("masori")
+        || nameToLowerCase("eldritch") || nameToLowerCase("volatile nightmare staff")
+        || nameToLowerCase("harmonised nightmare staff") || nameToLowerCase("venator bow")
+        || nameToLowerCase("bow of faerdhinin")) {
+            cost = 2_000_000;
+        }
+        if (nameToLowerCase("vesta") || nameToLowerCase("morrigan") || nameToLowerCase("statius")) {
+            cost = 1_500_000;
+        }
+        if (nameToLowerCase("prayer scroll") && !nameToLowerCase("torn prayer scroll")
+        || nameToLowerCase("avernic")) {
+            cost = 1_250_000;
+        }
+        if (nameToLowerCase("twisted bow") || nameToLowerCase("elysian spirit shield")
+            || nameToLowerCase("voidwaker") || nameToLowerCase("scythe of vitur")) {
+            cost = 5_000_000;
+        }
+        if (nameToLowerCase("zaryte crossbow") || nameToLowerCase("ancient godsword")) {
+            cost = 1_800_000;
+        }
+        if (nameToLowerCase("zenyte") || nameToLowerCase("torture")
+            || nameToLowerCase("anguish") || nameToLowerCase("tormented bracelet")
+            || nameToLowerCase("crystal helm") || nameToLowerCase("crystal body")
+            || nameToLowerCase("crystal legs") || nameToLowerCase("dragon hunter lance")) {
+            cost = 1_000_000;
+        }
+        if (nameToLowerCase("pegasian") || nameToLowerCase("primordial")
+            || nameToLowerCase("eternal boots") || nameToLowerCase("dragon hunter crossbow")) {
+            cost = 980_000;
+        }
+        if (nameToLowerCase("armadyl") || nameToLowerCase("bandos") && !nameToLowerCase("godsword")) {
+            cost = 925_000;
+        }
+        if (nameToLowerCase("armadyl godsword") || nameToLowerCase("armadyl crossbow")
+            || nameToLowerCase("heavy ballista") || nameToLowerCase("ancient sceptre")
+            || nameToLowerCase("craws bow") || nameToLowerCase("viggoras")
+            || nameToLowerCase("ursine") || nameToLowerCase("webweaver")
+            || nameToLowerCase("dinhs bulwark") || nameToLowerCase("thammarons sceptre")) {
+            cost = 950_000;
+        }
+        if (nameToLowerCase("dragonfire ward") || nameToLowerCase("ancient wyvern shield")
+            || nameToLowerCase("toxic blowpipe") || nameToLowerCase("toxic staff of the dead")) {
+            cost = 925_000;
+        }
+        if (nameToLowerCase("staff of light") || nameToLowerCase("dragon crossbow")
+            || nameToLowerCase("ancient sceptre") || nameToLowerCase("brimstone ring")
+            || nameToLowerCase("bandos godsword") || nameToLowerCase("zamorak godsword")
+            || nameToLowerCase("saradomin godsword")) {
+            cost = 915_000;
+        }
         return cost;
     }
 

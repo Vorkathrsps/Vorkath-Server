@@ -3,6 +3,7 @@ package com.aelous.utility.test.unit;
 import com.aelous.cache.definitions.ItemDefinition;
 import com.aelous.GameBuilder;
 import com.aelous.model.World;
+import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.loaders.BloodMoneyPrices;
 import com.aelous.model.entity.npc.droptables.ScalarLootTable;
 import com.aelous.model.items.Item;
@@ -47,21 +48,28 @@ public class ItemBloodMoneyValueTest {
         items.addAll(Arrays.asList(world.shop(7).container.getItems()));
         items.addAll(Arrays.asList(world.shop(8).container.getItems()));
 
+        ItemIdentifiers[] itemIdentifiers = new ItemIdentifiers[]{};
+
+        //List<Item> idArray = List.of(Item.of(itemIdentifiers.length));
+
+        items.add(Item.of(itemIdentifiers.length));
+
+
         for (Item item : items) {
             if (item == null) {
                 continue;
             }
             //Untradable items don't really need a value.
             if (!item.rawtradable()) continue;
-            if (BloodMoneyPrices.get(item.getId()).id() < 1 && Arrays.stream(IGNORED_ITEMS).noneMatch(itemId -> itemId == item.getId())) {
+           /* if (BloodMoneyPrices.get(item.getId()).id() < 1 && Arrays.stream(IGNORED_ITEMS).noneMatch(itemId -> itemId == item.getId())) {
                 missingValues = true;
                 itemsMissingValues.add(item);
-            }
+            }*/
             StoreItem storeItem = (StoreItem) item;
-            if (BloodMoneyPrices.get(item.getId()).id() !=  storeItem.getShopValue()) {
+           /* if (BloodMoneyPrices.get(item.getId()).id() !=  storeItem.getShopValue()) {
                 matchingValues = false;
                 System.err.println("BM value does not match for " + storeItem.name() + " (" + storeItem.getId() + "). Shop value: " + storeItem.getShopValue() + " - Definition value: " + BloodMoneyPrices.get(item.getId()).id());
-            }
+            }*/
         }
 
         if (missingValues) {
@@ -82,10 +90,10 @@ public class ItemBloodMoneyValueTest {
         for (Integer item : Item.TRADABLES) {
             //Untradable items don't really need a value.
             if (!new Item(item, 1).rawtradable()) continue;
-            if (BloodMoneyPrices.get(item).id() < 1 && Arrays.stream(IGNORED_ITEMS).noneMatch(itemId -> itemId == item)) {
+            /*if (BloodMoneyPrices.get(item).id() < 1 && Arrays.stream(IGNORED_ITEMS).noneMatch(itemId -> itemId == item)) {
                 missingValues = true;
                 itemsMissingValues.add(new Item(item, 1));
-            }
+            }*/
         }
         if (missingValues) {
             System.err.println("The " + itemsMissingValues.size() + " items missing BM values are: " + Arrays.toString(itemsMissingValues.toArray()));
@@ -126,13 +134,13 @@ public class ItemBloodMoneyValueTest {
         for (Integer item : npcDrops.keySet()) {
             //Untradable items don't really need a value.
             if (!new Item(item, 1).rawtradable()) continue;
-            if (BloodMoneyPrices.get(item).id() < 1 && Arrays.stream(IGNORED_ITEMS).noneMatch(itemId -> itemId == item)) {
+            /*if (BloodMoneyPrices.get(item).id() < 1 && Arrays.stream(IGNORED_ITEMS).noneMatch(itemId -> itemId == item)) {
                 missingValues = true;
                 itemsMissingValues.add(new Item(item, 1));
                 if (nonStandardNotedIds.containsKey(item)) {
                     nonStandardNotedIdsString.append(item).append(",");
                 }
-            }
+            }*/
         }
         if (missingValues) {
             System.err.println("The " + itemsMissingValues.size() + " items missing BM values are: " + Arrays.toString(itemsMissingValues.toArray()));

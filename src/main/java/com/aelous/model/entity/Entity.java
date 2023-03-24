@@ -1375,10 +1375,7 @@ public abstract class Entity {
 
     public boolean addStep(int absX, int absY) {
         MovementQueue movement = getMovement();
-        if (movement.writeOffset > 25)
-            movement.writeOffset = 25;
-            movement.writeOffset--;
-        if (movement.writeOffset < 25) {
+        if (movement.writeOffset < 50) {
             movement.getStepsX()[movement.writeOffset] = absX;
             movement.getStepsY()[movement.writeOffset] = absY;
             movement.writeOffset++;
@@ -1448,6 +1445,10 @@ public abstract class Entity {
     public Entity setForceMovement(ForceMovement forceMovement) {
         getUpdateFlag().flag(Flag.FORCED_MOVEMENT);
         this.forceMovement = forceMovement;
+        Chain.noCtx().delay(1 + (forceMovement.getSpeed() / 30), () -> {
+            teleport(tile().transform(forceMovement.getEnd()));
+            getMovementQueue().reset();
+        });
         return this;
     }
 

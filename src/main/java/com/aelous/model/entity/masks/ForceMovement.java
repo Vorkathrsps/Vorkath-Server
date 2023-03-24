@@ -3,6 +3,7 @@ package com.aelous.model.entity.masks;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
 
+import com.aelous.utility.chainedwork.Chain;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,6 +23,16 @@ public class ForceMovement {
 
     private int animation;
 
+    /**
+     *
+     * @param player the player we're updating
+     * @param start the starting position
+     * @param end the ending position
+     * @param cycleDelay the task cycle delay
+     * @param cycleEnd the task cycle end delay
+     * @param animation the animation we're updating
+     * @param direction the directions that we are force moving the player too! NOT FACING.
+     */
     public ForceMovement(Player player, Tile start, Tile end, int cycleDelay, int cycleEnd, int animation, int direction) {
         this.start = start;
         this.end = end;
@@ -29,10 +40,6 @@ public class ForceMovement {
         this.reverseSpeed = cycleEnd;
         this.animation = animation;
         this.direction = direction;
-        int x = start.getX() + end.getX();
-        int y = start.getY() + end.getY();
-        player.setTile(new Tile(x, y));
-        player.getUpdateFlag().flag(Flag.APPEARANCE);
     }
 
     public ForceMovement(Tile start, @Nullable Tile end, int speed, int reverseSpeed, int direction) {
@@ -104,18 +111,6 @@ public class ForceMovement {
 
     public @Nullable Tile getEnd() {
         return end;
-    }
-
-    public Tile getStart(Player player) {
-        int dx = player.tile().getLocalX();
-        int dy = player.tile().getLocalY();
-        return new Tile(dx, dy, start.getLevel());
-    }
-
-    public Tile getEnd(Player player) {
-        int dx = player.tile().getLocalX();
-        int dy = player.tile().getLocalY();
-        return new Tile(dx, dy, end.getLevel());
     }
 
     public void setEnd(Tile end) {

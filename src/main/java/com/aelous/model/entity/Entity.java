@@ -68,6 +68,7 @@ public abstract class Entity {
      * <br> was handled first in 1 cycle
      */
     public boolean processed;
+    public boolean occupyingTiles;
 
     public Entity() {
     }

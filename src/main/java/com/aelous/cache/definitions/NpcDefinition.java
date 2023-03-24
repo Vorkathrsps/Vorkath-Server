@@ -13,6 +13,8 @@ import java.util.*;
  */
 public class NpcDefinition implements Definition {
 
+    public boolean occupyTiles;
+
     public int getOption(String... searchOptions) {
         if (actions != null) {
             for (String s : searchOptions) {

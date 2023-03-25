@@ -78,7 +78,7 @@ public class ObjectInteractionHandler implements PacketListener {
 
         var object = tile.getObject(id, -1, -1);
         if (object == null && tile.getZ() > 3) {
-            object = new Tile(tile.x, tile.y, tile.getZ() % 3).getObject(id, -1, -1);
+            object = new Tile(tile.x, tile.y, tile.getZ() % 4).getObject(id, -1, -1);
         }
 
         player.debug("click %s opt %d", object, option);

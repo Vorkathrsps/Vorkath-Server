@@ -107,7 +107,7 @@ public class RegionManager {
      * @param direction
      */
     public static void addObject(int objectId, int x, int y, int zLevel, int type, int direction) {
-        final Tile tile = new Tile(x, y, zLevel);
+        final Tile tile = Tile.get(x, y, zLevel, true);
         final int oldid = objectId;
         //House portal
         if (x == 2031 && y == 3568) {
@@ -212,14 +212,14 @@ public class RegionManager {
      */
     public static void addClipping(int x, int y, int zLevel, int shift) {
         Region r = getRegion(x, y);
-        if (r != null)
-            r.addClip(x, y, zLevel, shift);
+        Tile.get(x, y, zLevel, true);
+        r.addClip(x, y, zLevel, shift);
     }
 
     public static void addClippingProj(int x, int y, int zLevel, int shift) {
         Region r = getRegion(x, y);
-        if (r != null)
-            r.addClipProj(x, y, zLevel, shift);
+        Tile.get(x, y, zLevel, true);
+        r.addClipProj(x, y, zLevel, shift);
     }
 
     /**

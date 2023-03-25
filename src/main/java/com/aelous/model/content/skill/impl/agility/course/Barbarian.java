@@ -69,18 +69,23 @@ public class Barbarian extends PacketInteraction {
                 // Get in position
                 if (!player.tile().equals(2551, 3554)) { // Get in position
                     player.getMovementQueue().clear();
-                    player.getMovementQueue().interpolate(2551, 3554);
+                    player.smartPathTo(new Tile(2551, 3554));
                 }
-
-                ForceMovement forceMovement = new ForceMovement(player, player.tile(), new Tile(0, -5),30, 60, 751, 2);
-                player.setForceMovement(forceMovement);
-                Chain.bound(player).runFn(0, () -> {
-                    player.getPacketSender().sendObjectAnimation(obj, 54);
-                }).then(1, () -> {
-                    player.getSkills().addXp(Skills.AGILITY, 22.0);
-                    putStage(player, 1);
-                    player.getPacketSender().sendObjectAnimation(obj, 55);
+                player.waitForTile(new Tile(2551, 3554, player.getZ()), () -> {
+                    ForceMovement forceMovement = new ForceMovement(player, player.tile(), new Tile(0, -5),30, 60, 751, 2);
+                    player.setForceMovement(forceMovement);
+                    Chain.bound(player).runFn(0, () -> {
+                        player.getPacketSender().sendObjectAnimation(obj, 54);
+                    }).then(1, () -> {
+                        player.getSkills().addXp(Skills.AGILITY, 22.0);
+                        putStage(player, 1);
+                        player.getPacketSender().sendObjectAnimation(obj, 55);
+                    }).then(() -> {
+                        player.unlock();
+                    });
                 });
+
+
                 return true;
             }
 

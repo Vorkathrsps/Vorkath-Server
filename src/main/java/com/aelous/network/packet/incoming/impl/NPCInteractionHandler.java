@@ -102,6 +102,7 @@ public class NPCInteractionHandler implements PacketListener {
             return;
 
         player.stopActions(false);
+        player.debugMessage("NPCDebug=" + option + " Id=" + npc.id() + " name=" + npc.getMobName() + " Pos=" + npc.tile().toString());
 
         if (opcode == ATTACK_OPTION) {
 
@@ -128,7 +129,6 @@ public class NPCInteractionHandler implements PacketListener {
             player.getCombat().reset();
         }
 
-        player.debugMessage("NPCDebug=" + option + " Id=" + npc.id() + " name=" + npc.getMobName() + " Pos=" + npc.tile().toString());
         player.putAttrib(AttributeKey.TARGET, new WeakReference<Entity>(npc));
         player.putAttrib(AttributeKey.INTERACTION_OPTION, option);
         player.setEntityInteraction(npc);

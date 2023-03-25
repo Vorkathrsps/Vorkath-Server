@@ -74,7 +74,7 @@ public class NexCombat extends CommonCombatMethod {
     private static final int DRAG_ATTACK_MAX = 30;
     private static final int SMOKE_BULLET_ATTACK_MAX = 50;
     private static final int SHADOW_SMASH_ATTACK_MAX = 50;
-    private static final int BLOOD_SACRIFICE_ATTACK_MAX = 80;
+    private static final int BLOOD_SACRIFICE_ATTACK_MAX = 50;
     private static final int CONTAINMENT_SPECIAL_ATTACK_MAX = 60;
     private static final int ICE_PRISON_SPECIAL_ATTACK_MAX = 75;
 
@@ -276,7 +276,7 @@ public class NexCombat extends CommonCombatMethod {
         Chain.bound(null).name("bloodsacrifice").cancelWhen(() -> {
             return !entity.tile().isWithinDistance(target.tile(), 5) || target.dead() || entity.dead(); // cancels as expected
         }).runFn(8, () -> {
-            int damage = Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MAGIC) ? 40 : BLOOD_SACRIFICE_ATTACK_MAX;
+            int damage = World.getWorld().random(BLOOD_SACRIFICE_ATTACK_MAX);
             player.performGraphic(new Graphic(2003, GraphicHeight.HIGH, 1));
             player.hit(nex, damage);
             nex.heal(damage);
@@ -313,6 +313,7 @@ public class NexCombat extends CommonCombatMethod {
             if (maxMinions != 0) {
                 for (int i = 0; i < maxMinions; i++) {
                     List<Tile> tiles = nex.tile().area(7, pos -> World.getWorld().clipAt(pos) == 0 && !pos.equals(entity.tile()) && !ProjectileRoute.allow(entity, pos));
+                    tiles.removeIf(t -> t.x <= 2909);
                     Tile destination = Utils.randomElement(tiles);
                     NPC bloodReaver = new NPC(BLOOD_REAVER, destination);
                     if (nex.bloodReavers != null)

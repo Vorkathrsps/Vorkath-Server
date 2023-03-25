@@ -446,8 +446,9 @@ public class PlayerUpdating {
     private static void updateForcedMovement(Player player, PacketBuilder builder, Player target) {
         int startX = target.getForceMovement().getStart().getLocalX(player.getLastKnownRegion());
         int startY = target.getForceMovement().getStart().getLocalY(player.getLastKnownRegion());
-        int endX = target.getForceMovement().getEnd() == null ? 0 : target.getForceMovement().getEnd().getLocalX(player.getLastKnownRegion());
-        int endY = target.getForceMovement().getEnd() == null ? 0 : target.getForceMovement().getEnd().getLocalY(player.getLastKnownRegion());
+        int endX = target.getForceMovement().getEnd() == null ? 0 : target.getForceMovement().getEnd().getX();
+        int endY = target.getForceMovement().getEnd() == null ? 0 : target.getForceMovement().getEnd().getY();
+
 
         builder.put(startX, ValueType.S);
         builder.put(startY, ValueType.S);

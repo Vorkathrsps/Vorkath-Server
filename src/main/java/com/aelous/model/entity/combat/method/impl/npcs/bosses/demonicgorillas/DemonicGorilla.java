@@ -125,8 +125,9 @@ public class DemonicGorilla extends NPC {
                     return;
                 }
             }
+            if (withinDistance(1))
                 currentMethod.prepareAttack(entity, target);
-            }
+        }
 
             @Override
             public int getAttackSpeed (Entity entity){

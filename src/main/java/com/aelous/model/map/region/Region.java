@@ -2,6 +2,8 @@ package com.aelous.model.map.region;
 
 import com.aelous.model.map.position.Tile;
 
+import java.util.ArrayList;
+
 /**
  * Represents a region.
  *
@@ -23,6 +25,8 @@ public class Region {
      * This region's object file id.
      */
     private final int objectFile;
+    private final int baseX;
+    private final int baseY;
 
     /**
      * The clipping in this region.
@@ -47,6 +51,9 @@ public class Region {
         this.regionId = regionId;
         this.terrainFile = terrainFile;
         this.objectFile = objectFile;
+        this.baseX = (regionId >> 8) * 64;
+        this.baseY = (regionId & 0xff) * 64;
+        this.activeTiles = new ArrayList<>();
     }
 
     public int getRegionId() {
@@ -226,4 +233,26 @@ public class Region {
     public void setLoaded(boolean loaded) {
         this.loaded = loaded;
     }
+
+    public final ArrayList<Tile> activeTiles;
+    public Tile[][][] tiles;
+
+    public Tile getTile(int x, int y, int z, boolean create) {
+        int localX = x - baseX;
+        int localY = y - baseY;
+        if(tiles == null) {
+            if(!create)
+                return null;
+            tiles = new Tile[4][64][64];
+        }
+        Tile tile = tiles[z][localX][localY];
+        if(tile == null && create)
+            tile = tiles[z][localX][localY] = new Tile(x, y, z);
+        return tile;
+    }
+
+    public static Region get(int absX, int absY) {
+        return RegionManager.getRegion(absX, absY);
+    }
+
 }

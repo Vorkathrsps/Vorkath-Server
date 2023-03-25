@@ -12,6 +12,7 @@ import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.object.MapObjects;
 import com.aelous.model.map.object.ObjectManager;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
+import com.aelous.model.map.region.Region;
 import com.aelous.model.map.region.RegionManager;
 import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.Utils;
@@ -30,6 +31,8 @@ import static com.aelous.model.map.route.RouteFinder.*;
 public class Tile implements Cloneable {
 
     public static final Area GAMBLING_ZONE = new Area(2338, 4934, 2381, 4993);
+    private int playerCount;
+    private int npcCount;
 
     public boolean homeRegion() {
         return inArea(EDGEVILE_HOME_AREA) || region() == 7991 || region() == 7992 || region() == 8247;
@@ -799,16 +802,71 @@ public class Tile implements Cloneable {
     }
 
     public static void occupy(Entity entity) {
-        // TODO runite
+        if(entity.occupyingTiles) {
+            fill(entity, entity.getPreviousTile(), -1);
+            entity.occupyingTiles = false;
+        }
+        if(!(entity.isPlayer() && entity.player().looks().hidden())) {
+            if(entity.isNpc() && !entity.npc().def().occupyTiles)
+                return;
+            fill(entity, entity.tile(), 1);
+            entity.occupyingTiles = true;
+        }
     }
 
     private static void fill(Entity entity, Tile pos, int increment) {
-        // TODO runite
+        int size = entity.getSize();
+        int absX = pos.getX();
+        int absY = pos.getY();
+        int z = pos.getZ();
+        for(int x = absX; x < (absX + size); x++) {
+            for(int y = absY; y < (absY + size); y++) {
+                Tile tile = Tile.get(x, y, z, true);
+                if(entity.isPlayer())
+                    tile.playerCount += increment;
+                else
+                    tile.npcCount += increment;
+            }
+        }
+    }
+
+    public static Tile get(int x, int y, int z) {
+        return get(x, y, z, false);
+    }
+
+    public static Tile get(Tile position) {
+        return get(position.getX(), position.getY(), position.getZ(), false);
+    }
+
+    public static Tile get(Tile position, boolean create) {
+        return Region.get(position.getX(), position.getY()).getTile(position.getX(), position.getY(), position.getZ(), create);
+    }
+
+    public static Tile get(int x, int y, int z, boolean create) {
+        return Region.get(x, y).getTile(x, y, z, create);
     }
 
     public static boolean isOccupied(Entity entity, int stepX, int stepY) {
-        return false; // TODO runite stacking
+        int size = entity.getSize();
+        int absX = entity.getAbsX();
+        int absY = entity.getAbsY();
+        int z = entity.getZ();
+        int eastMostX = absX + (size - 1);
+        int northMostY = absY + (size - 1);
+        for(int x = stepX; x < (stepX + size); x++) {
+            for(int y = stepY; y < (stepY + size); y++) {
+                if(x >= absX && x <= eastMostX && y >= absY && y <= northMostY) {
+                    /* stepping within itself, allow it */
+                    continue;
+                }
+                Tile tile = Tile.get(x, y, z, true);
+                if(tile.playerCount > 0 || tile.npcCount > 0)
+                    return true;
+            }
+        }
+        return false;
     }
+
 
     public void flagDecoration() {
         RegionManager.addClipping(x, y, level, 0x40000);

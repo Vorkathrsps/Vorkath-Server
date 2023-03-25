@@ -252,7 +252,6 @@ public class NPCUpdating {
         }
         if (flag.flagged(Flag.TRANSFORM)) {
             block.putShort(npc.transmog() <= 0 ? npc.id() : npc.transmog(), ValueType.A, ByteOrder.LITTLE);
-            block.putShort(npc.getHeadHint());
         }
         if (flag.flagged(Flag.FACE_TILE) || sendFaceTile) {
             final Tile position = sendFaceTile ? npc.lastTileFaced : npc.getFaceTile();

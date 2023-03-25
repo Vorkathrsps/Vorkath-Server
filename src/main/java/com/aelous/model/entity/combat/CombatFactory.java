@@ -1145,8 +1145,6 @@ public class CombatFactory {
             target.getAsPlayer().getPacketSender().sendInterfaceRemoval();
         }
 
-        target.decrementHealth(hit);
-
         // Before target takes damage, manipulate the hit to handle
         // last-second effects
         hit = target.manipulateHit(hit);
@@ -1483,6 +1481,8 @@ public class CombatFactory {
 
         //Send the hit sound
         attacker.takehitSound(hit);
+
+        target.decrementHealth(hit);
     }
 
     private static void addCombatXp(Player player, Entity target, int hitDamage, CombatType style, FightStyle mode) {

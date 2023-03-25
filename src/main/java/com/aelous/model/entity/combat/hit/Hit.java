@@ -209,7 +209,7 @@ public class Hit {
     }
 
     /**
-     * checks alwaysHit attrib and accuracy (depending on combat method+style). sets damage to 0 or maxhp or does no change at all, retaining existing {@link #damage} value set by {@link CombatFactory#calcDamageFromType(Mob, Mob, CombatType)}
+     * checks alwaysHit attrib and accuracy (depending on combat method+style). sets damage to 0 or maxhp or does no change at all, retaining existing {@link #damage} value set by {@link CombatFactory#calcDamageFromType(Entity, Entity, CombatType)}
      */
     private void applyAccuracyToMiss() {
         if (attacker == null || target == null) {

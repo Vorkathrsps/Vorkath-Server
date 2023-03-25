@@ -10,7 +10,6 @@ import com.aelous.model.items.Item;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
-import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.utility.Color;
 import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.Utils;

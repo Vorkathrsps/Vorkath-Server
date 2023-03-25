@@ -25,7 +25,6 @@ public class ForceMovement {
 
     /**
      *
-     * @param player the player we're updating
      * @param start the starting position
      * @param end the ending position
      * @param cycleDelay the task cycle delay
@@ -33,7 +32,7 @@ public class ForceMovement {
      * @param animation the animation we're updating
      * @param direction the directions that we are force moving the player too! NOT FACING.
      */
-    public ForceMovement(Player player, Tile start, Tile end, int cycleDelay, int cycleEnd, int animation, int direction) {
+    public ForceMovement(Tile start, Tile end, int cycleDelay, int cycleEnd, int animation, int direction) {
         this.start = start;
         this.end = end;
         this.speed = cycleDelay;
@@ -50,15 +49,6 @@ public class ForceMovement {
         this.setDirection((byte)direction);
     }
 
-    public ForceMovement(Tile start, @Nullable Tile end, int speed, int reverseSpeed, int direction, int animation) {
-        this.setStart(start);
-        this.setEnd(end);
-        this.setSpeed((short)speed);
-        this.setReverseSpeed((short)reverseSpeed);
-        this.setDirection((byte)direction);
-        this.setAnimation((short)animation);
-    }
-
     public ForceMovement(Tile start, @Nullable Tile end, int speed, int reverseSpeed, int animation, FaceDirection direction) {
         this.setStart(start);
         this.setEnd(end);
@@ -67,29 +57,6 @@ public class ForceMovement {
         this.setAnimation((short)animation);
         this.setDirection((byte)direction.direction);
     }
-
-   /* public ForceMovement(Player player, Tile start, @Nullable Tile end, int cycleStart, int reverseSpeed, int animation, int movementDirection) {
-        if (player == null || start == null) {
-            throw new IllegalArgumentException("player and start cannot be null");
-        }
-
-        this.setStart(new Tile(start.getX(), start.getY()));
-        if (end != null) {
-            this.setEnd(new Tile(end.getX(), end.getY()));
-        }
-        this.setSpeed((short)cycleStart);
-        this.setReverseSpeed((short)reverseSpeed);
-        this.setDirection((byte)movementDirection);
-        this.setAnimation((short)animation);
-
-        int x = start.getX() + (end != null ? end.getX() : 0);
-        int y = start.getY() + (end != null ? end.getY() : 0);
-        player.setTile(new Tile(x, y));
-        player.getUpdateFlag().flag(Flag.APPEARANCE);
-        player.setNeedsPlacement(true);
-        player.setResetMovementQueue(true);
-        player.getMovementQueue().clear();
-    }*/
 
 
     public ForceMovement(int dx, int dy, int dx2, int dy2, int speed1, int speed2, FaceDirection direction, int animation) {

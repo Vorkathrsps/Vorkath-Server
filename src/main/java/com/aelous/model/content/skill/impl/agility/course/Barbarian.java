@@ -1,20 +1,14 @@
 package com.aelous.model.content.skill.impl.agility.course;
 
 import com.aelous.model.content.packet_actions.interactions.objects.Ladders;
-import com.aelous.core.task.TaskManager;
-import com.aelous.core.task.impl.ForceMovementTask;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.MovementQueue;
-import com.aelous.model.entity.masks.Direction;
-import com.aelous.model.entity.masks.FaceDirection;
 import com.aelous.model.entity.masks.ForceMovement;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
-import com.aelous.model.map.route.types.RouteAbsolute;
 import com.aelous.network.packet.incoming.interaction.PacketInteraction;
-import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 
 /**
@@ -66,13 +60,12 @@ public class Barbarian extends PacketInteraction {
             }
 
             if (obj.getId() == ROPE_SWING) {
-                // Get in position
-                if (!player.tile().equals(2551, 3554)) { // Get in position
+                if (!player.tile().equals(2551, 3554)) {
                     player.getMovementQueue().clear();
                     player.smartPathTo(new Tile(2551, 3554));
                 }
                 player.waitForTile(new Tile(2551, 3554, player.getZ()), () -> {
-                    ForceMovement forceMovement = new ForceMovement(player, player.tile(), new Tile(0, -5),30, 60, 751, 2);
+                    ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, -5),30, 60, 751, 2);
                     player.setForceMovement(forceMovement);
                     Chain.bound(player).runFn(0, () -> {
                         player.getPacketSender().sendObjectAnimation(obj, 54);
@@ -80,9 +73,7 @@ public class Barbarian extends PacketInteraction {
                         player.getSkills().addXp(Skills.AGILITY, 22.0);
                         putStage(player, 1);
                         player.getPacketSender().sendObjectAnimation(obj, 55);
-                    }).then(() -> {
-                        player.unlock();
-                    });
+                    }).then(player::unlock);
                 });
 
 
@@ -90,42 +81,22 @@ public class Barbarian extends PacketInteraction {
             }
 
             if (obj.getId() == LOG_BALANCE) {
-                // Get in position
                 player.smartPathTo(new Tile(2551, 3546));
-                Chain.bound(player).name("BarbarianLogBalanceTask").waitForTile(new Tile(2551, 3546), () -> {
+                player.waitForTile(new Tile(2551, 3546), () -> {
                     player.lockDelayDamage();
                     player.message("You walk carefully across the slippery log...");
                     player.agilityWalk(false);
                     player.getMovementQueue().clear();
-                    player.getMovementQueue().interpolate(new Tile(2541, 3546), MovementQueue.StepType.FORCED_WALK);
+                    player.getMovementQueue().step(2541, 3546, MovementQueue.StepType.FORCED_WALK);
                     player.looks().render(763, 762, 762, 762, 762, 762, -1);
-                    boolean success = successful(player);
-                    if (success) {
-                        Chain.bound(player).waitForTile(new Tile(2541, 3546), () -> {
-                            player.agilityWalk(true);
-                            player.looks().resetRender();
-                            putStage(player, 2);
-                            player.getSkills().addXp(Skills.AGILITY, 13.7);
-                            player.message("...You make it safely to the other side.");
-                            player.unlock();
-                        });
-                    } else {
-                        Chain.bound(player).runFn(3, () -> {
-                            player.getMovementQueue().clear();
-                            player.animate(771);
-                            player.message("...You loose your footing and fall into the water. Something bites you.");
-                        }).then(1, () -> {
-                            player.looks().render(772, 772, 772, 772, 772, 772, -1);
-                            player.graphic(68);
-                            player.teleport(player.tile().transform(0, 1, 0));
-                        }).then(1, () -> {
-                            player.hit(player, Utils.random(5, 7));
-                            player.teleport(new Tile(2544, 3549));
-                            player.agilityWalk(true);
-                            player.looks().resetRender();
-                            player.unlock();
-                        });
-                    }
+                }).then(1, () -> {
+                        player.agilityWalk(true);
+                        putStage(player, 2);
+                }).then(10, () -> {
+                    player.getSkills().addXp(Skills.AGILITY, 13.7);
+                    player.message("...You make it safely to the other side.");
+                    player.looks().resetRender();
+                    player.unlock();
                 });
                 return true;
             }
@@ -142,42 +113,23 @@ public class Barbarian extends PacketInteraction {
             }
 
             if (obj.getId() == LEDGE) {
-                Chain.bound(player).name("BarbarianLedgeTask").waitForTile(new Tile(2536, 3547, 1), () -> {
+                player.smartPathTo(new Tile(2536, 3547, 1));
+                player.waitForTile(new Tile(2536, 3547, 1), () -> {
                     player.lockDelayDamage();
                     player.animate(753);
-                    player.setPositionToFace(new Tile(0, player.tile().y));
                     player.agilityWalk(false);
                     player.getMovementQueue().clear();
-                    player.getMovementQueue().interpolate(2533, 3547, MovementQueue.StepType.FORCED_WALK);
+                    player.getMovementQueue().step(2532, 3547, MovementQueue.StepType.FORCED_WALK);
                     player.looks().render(756, 756, 756, 756, 756, 756, -1);
-                    boolean success = successful(player);
-                    if (success) {
-                        Chain.bound(player).name("BarbarianLedge2Task").runFn(3, () -> {
-                            player.getMovementQueue().clear();
-                            player.getMovementQueue().interpolate(2532, 3546, MovementQueue.StepType.FORCED_WALK);
-                        }).waitForTile(new Tile(2532, 3546), () -> {
-                            player.agilityWalk(true);
-                            player.looks().resetRender();
-                            putStage(player, 8);
-                            player.getSkills().addXp(Skills.AGILITY, 22.0);
-                            player.unlock();
-                        });
-                    } else {
-                        Chain.bound(player).name("BarbarianLedge2Task").runFn(3, () -> {
-                            player.getMovementQueue().clear();
-                            player.looks().resetRender();
-                            player.animate(766);
-                        }).then(1, () -> {
-                            player.teleport(2534, 3546, 0);
-                            player.hit(player, Utils.random(5, 7));
-                        }).then(1, () -> {
-                            player.getMovementQueue().clear();
-                            Tile end = new Tile(2536, 3546);
-                            player.getMovementQueue().walkTo(end);
-                            player.agilityWalk(true);
-                            player.unlock();
-                        });
-                    }
+                }).then(1, () -> {
+                    player.agilityWalk(true);
+                    putStage(player, 8);
+                }).then(4, () -> {
+                    player.getMovementQueue().step(2532, 3546, MovementQueue.StepType.FORCED_WALK);
+                    player.getSkills().addXp(Skills.AGILITY, 22.0);
+                    player.message("...You make it safely to the other side.");
+                    player.looks().resetRender();
+                    player.unlock();
                 });
                 return true;
             }
@@ -189,6 +141,9 @@ public class Barbarian extends PacketInteraction {
             }
 
             if (obj.getId() == WALL) {
+                if (obj.tile().equals(new Tile(2536, 3553))) {
+                    player.smartPathTo(new Tile(2535, 3553));
+                }
                 if (obj.tile().equals(new Tile(2536, 3553)) || obj.tile().equals(new Tile(2539, 3553)) || obj.tile().equals(new Tile(2542, 3553))) {
                     player.waitForTile(obj.tile().transform(-1, 0, 0), () -> {
                         var end = obj.tile().equals(2542, 3553);
@@ -196,8 +151,8 @@ public class Barbarian extends PacketInteraction {
                             player.getMovementQueue().walkTo(obj.tile().transform(-1, 0, 0));
                         }
                         player.lockDelayDamage();
-                        player.animate(839);
-                        TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(2, 0), 0, 60, 1))); //Move
+                        ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(2, 0),30, 60, 839, 1);
+                        player.setForceMovement(forceMovement);
                         Chain.bound(player).name("BarbarianWallTask").runFn(1, () -> {
                             player.getSkills().addXp(Skills.AGILITY, 13.7);
                             player.unlock();
@@ -205,7 +160,6 @@ public class Barbarian extends PacketInteraction {
                             if (end && stage == 15) {
                                 player.putAttrib(AttributeKey.BARBARIAN_COURSE_STATE, 0);
                                 player.getSkills().addXp(Skills.AGILITY, 46.2);
-
                             }
                         });
                     });

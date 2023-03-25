@@ -1409,7 +1409,6 @@ public abstract class Entity {
     }
 
     public static void generalTimed(Runnable r, Consumer<Duration> to) {
-        // no benchmark disabled check
         com.google.common.base.Stopwatch stopwatch = Stopwatch.createStarted();
         r.run();
         stopwatch.stop();

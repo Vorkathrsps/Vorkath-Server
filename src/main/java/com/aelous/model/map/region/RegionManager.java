@@ -107,7 +107,6 @@ public class RegionManager {
      * @param direction
      */
     public static void addObject(int objectId, int x, int y, int zLevel, int type, int direction) {
-        final Tile tile = Tile.get(x, y, zLevel, true);
         final int oldid = objectId;
         //House portal
         if (x == 2031 && y == 3568) {
@@ -195,10 +194,12 @@ public class RegionManager {
 
 
         if (objectId == -1) {
+            final Tile tile = Tile.get(x, y, zLevel, true);
             //System.out.println("ignoring cache-object on server-side "+ObjectDefinition.forId(oldid).name+" at "+position);
-            MapObjects.remove(new GameObject(oldid, tile, type, direction));
+            MapObjects.remove(new GameObject(oldid, new Tile(x,y,zLevel), type, direction));
         } else {
-            MapObjects.add(new GameObject(oldid, tile, type, direction));
+            final Tile tile = Tile.get(x, y, zLevel, true);
+            MapObjects.add(new GameObject(oldid, new Tile(x,y,zLevel), type, direction));
         }
     }
 

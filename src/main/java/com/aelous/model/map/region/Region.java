@@ -2,6 +2,8 @@ package com.aelous.model.map.region;
 
 import com.aelous.model.map.position.Tile;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 
 /**
@@ -81,7 +83,7 @@ public class Region {
         int regionAbsY = (regionId & 0xff) * 64;
         if (height < 0)
             height = 0;
-        if (height >3)
+        if (height >3) // normal normal level clip
             height %= 4;
         if (clips[height] == null) {
             clips[height] = new int[64][64];
@@ -99,7 +101,7 @@ public class Region {
         int regionAbsY = (regionId & 0xff) * 64;
         if (height < 0)
             height = 0;
-        if (height > 3)
+        if (height > 3)// normal normal level clip
             height %= 4;
         if (projectileClip[height] == null) {
             projectileClip[height] = new int[64][64];
@@ -125,8 +127,8 @@ public class Region {
         int regionAbsY = (regionId & 0xff) * 64;
         if (height < 0)
             height = 0;
-        if (height > 3)
-            height %= 4;
+        if (height > 3) // no z>3 support yet
+            return;
         if (clips[height] == null) {
             clips[height] = new int[64][64];
         }
@@ -145,8 +147,8 @@ public class Region {
         int regionAbsY = (regionId & 0xff) * 64;
         if (height < 0)
             height = 0;
-        if (height > 3)
-            height %= 4;
+        if (height > 3) // no z>3 support yet
+            return;
         if (projectileClip[height] == null) {
             projectileClip[height] = new int[64][64];
         }
@@ -166,8 +168,8 @@ public class Region {
         int regionAbsY = (regionId & 0xff) * 64;
         if (height < 0)
             height = 0;
-        if (height > 3)
-            height %= 4;
+        if (height > 3) // no z>3 support yet
+            return;
         if (clips[height] == null) {
             clips[height] = new int[64][64];
         }
@@ -179,8 +181,8 @@ public class Region {
         int regionAbsY = (regionId & 0xff) * 64;
         if (height < 0)
             height = 0;
-        if (height > 3)
-            height %= 4;
+        if (height > 3) // no z>3 support yet
+            return;
         if (projectileClip[height] == null) {
             projectileClip[height] = new int[64][64];
         }
@@ -192,8 +194,8 @@ public class Region {
         int regionAbsY = (regionId & 0xff) * 64;
         if (height < 0)
             height = 0;
-        if (height > 3)
-            height %= 4;
+        if (height > 3) // no z>3 support yet
+            return;
         if (clips[height] == null) {
             clips[height] = new int[64][64];
         }
@@ -237,7 +239,9 @@ public class Region {
     public final ArrayList<Tile> activeTiles;
     public Tile[][][] tiles;
 
-    public Tile getTile(int x, int y, int z, boolean create) {
+    public @Nullable Tile getTile(int x, int y, int z, boolean create) {
+        if (z > 3)
+            return new Tile(x,y,z);// no support for caching z>3 yet
         int localX = x - baseX;
         int localY = y - baseY;
         if(tiles == null) {
@@ -251,7 +255,7 @@ public class Region {
         return tile;
     }
 
-    public static Region get(int absX, int absY) {
+    public static @Nonnull Region get(int absX, int absY) {
         return RegionManager.getRegion(absX, absY);
     }
 

@@ -44,18 +44,23 @@ public class Barbarian extends PacketInteraction {
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         if (option == 1) {
             if (obj.getId() == ENTRANCE_PIPE) {
-                player.smartPathTo(obj.tile());
-                player.waitUntil(1, () -> !player.getMovementQueue().isMoving(), () -> {
-                    if (player.tile().y >= 3560) {
-                        if (player.getSkills().level(Skills.AGILITY) < 35) {
-                            player.message("You need a agility level of 35 to enter this course.");
-                        } else {
-                            player.teleport(new Tile(2552, 3558, 0));
-                        }
-                    } else {
-                        player.teleport(new Tile(2552, 3561, 0));
-                    }
-                });
+                player.smartPathTo(new Tile(2552, 3561));
+                if (player.getSkills().level(Skills.AGILITY) >= 35) {
+                    player.waitForTile(new Tile(2552, 3561), () -> {
+                        player.lockDelayDamage();
+                        player.getMovementQueue().clear();
+                        player.agilityWalk(false);
+                        player.looks().render(749, -1);
+                        Chain.bound(player).runFn(0, () -> {
+                            player.agilityWalk(true);
+                            ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, -3), 30, 60, 749, 2);
+                            player.setForceMovement(forceMovement);
+                            player.looks().resetRender();
+                        });
+                    }).then(2, player::unlock);
+                } else {
+                    player.message("You need a agility level of 35 to enter this course.");
+                }
                 return true;
             }
 
@@ -65,7 +70,7 @@ public class Barbarian extends PacketInteraction {
                     player.smartPathTo(new Tile(2551, 3554));
                 }
                 player.waitForTile(new Tile(2551, 3554, player.getZ()), () -> {
-                    ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, -5),30, 60, 751, 2);
+                    ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, -5), 30, 60, 751, 2);
                     player.setForceMovement(forceMovement);
                     Chain.bound(player).runFn(0, () -> {
                         player.getPacketSender().sendObjectAnimation(obj, 54);
@@ -90,8 +95,8 @@ public class Barbarian extends PacketInteraction {
                     player.getMovementQueue().step(2541, 3546, MovementQueue.StepType.FORCED_WALK);
                     player.looks().render(763, 762, 762, 762, 762, 762, -1);
                 }).then(1, () -> {
-                        player.agilityWalk(true);
-                        putStage(player, 2);
+                    player.agilityWalk(true);
+                    putStage(player, 2);
                 }).then(10, () -> {
                     player.getSkills().addXp(Skills.AGILITY, 13.7);
                     player.message("...You make it safely to the other side.");
@@ -151,7 +156,7 @@ public class Barbarian extends PacketInteraction {
                             player.getMovementQueue().walkTo(obj.tile().transform(-1, 0, 0));
                         }
                         player.lockDelayDamage();
-                        ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(2, 0),30, 60, 839, 1);
+                        ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(2, 0), 30, 60, 839, 1);
                         player.setForceMovement(forceMovement);
                         Chain.bound(player).name("BarbarianWallTask").runFn(1, () -> {
                             player.getSkills().addXp(Skills.AGILITY, 13.7);

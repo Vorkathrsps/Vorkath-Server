@@ -18,6 +18,8 @@ import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.Utils;
 import org.apache.logging.log4j.LogManager;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -822,6 +824,7 @@ public class Tile implements Cloneable {
         for(int x = absX; x < (absX + size); x++) {
             for(int y = absY; y < (absY + size); y++) {
                 Tile tile = Tile.get(x, y, z, true);
+                if (tile == null) continue;
                 if(entity.isPlayer())
                     tile.playerCount += increment;
                 else
@@ -830,19 +833,19 @@ public class Tile implements Cloneable {
         }
     }
 
-    public static Tile get(int x, int y, int z) {
+    public static @Nullable Tile get(int x, int y, int z) {
         return get(x, y, z, false);
     }
 
-    public static Tile get(Tile position) {
+    public static @Nullable Tile get(Tile position) {
         return get(position.getX(), position.getY(), position.getZ(), false);
     }
 
-    public static Tile get(Tile position, boolean create) {
-        return Region.get(position.getX(), position.getY()).getTile(position.getX(), position.getY(), position.getZ(), create);
+    public static @Nullable Tile get(Tile position, boolean create) {
+        return Region.get(position.getX(), position.getY()). getTile(position.getX(), position.getY(), position.getZ(), create);
     }
 
-    public static Tile get(int x, int y, int z, boolean create) {
+    public static @Nullable Tile get(int x, int y, int z, boolean create) {
         return Region.get(x, y).getTile(x, y, z, create);
     }
 
@@ -860,6 +863,7 @@ public class Tile implements Cloneable {
                     continue;
                 }
                 Tile tile = Tile.get(x, y, z, true);
+                if (tile == null) continue;
                 if(tile.playerCount > 0 || tile.npcCount > 0)
                     return true;
             }

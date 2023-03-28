@@ -276,7 +276,6 @@ public class Skills {
         boolean pvp = target != null && target.isPlayer() && target.getIndex() + 32768 == (int) player.getAttribOr(AttributeKey.LAST_FACE_ENTITY_IDX, 0);
         boolean combatxp = skill == ATTACK || skill == STRENGTH || skill == DEFENCE || skill == RANGED || skill == MAGIC || skill == HITPOINTS;
         boolean locked = player.getAttribOr(AttributeKey.XP_LOCKED, false);
-        boolean xpLocked = locked;
         /**
          * player.inActiveTournament() || player.isInTournamentLobby()
          */
@@ -323,7 +322,7 @@ public class Skills {
 
         //System.err.println("SkillId="+skill);
 
-        if (combatxp && xpLocked || xpLocked) { //don't get combat exp when locked.
+        if (combatxp && locked) { //don't get combat exp when locked.
             player.getPacketSender().sendFakeXPDrop(skill, amount);
             return false;
         }

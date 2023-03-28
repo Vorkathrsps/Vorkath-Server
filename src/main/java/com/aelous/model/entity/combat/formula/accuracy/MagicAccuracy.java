@@ -57,7 +57,7 @@ public class MagicAccuracy {
 
         System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
-        return successfulRoll > selectedChance;
+        return successfulRoll >= selectedChance;
     }
 
     public static int getEquipmentBonusAttacker(Entity attacker, CombatType style) {

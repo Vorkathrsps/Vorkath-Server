@@ -21,11 +21,11 @@ public class ItemActionTwo {
     public static void click(Player player, Item item) {
         int id = item.getId();
 
-        ArdyCape.onItemOption2(player, item);
-
         if (PacketInteractionManager.checkItemInteraction(player, item, 2)) {
             return;
         }
+
+        ArdyCape.onItemOption2(player, item);
 
         if(Potions.onItemOption2(player, item)) {
             return;
@@ -40,16 +40,6 @@ public class ItemActionTwo {
         }
 
         if (HarmonisedNightmareStaff.dismantle(player, item)) {
-            return;
-        }
-
-        if (SigilHandler.isSigil(item.getId())) {
-            SigilHandler.handle(player, item.getId(), false, true);
-            System.out.println("itemActionTwo is working");
-        }else {
-            if(!SigilHandler.isSigil(item.getId())) {
-                System.out.println("no sigil found");
-            }
             return;
         }
 

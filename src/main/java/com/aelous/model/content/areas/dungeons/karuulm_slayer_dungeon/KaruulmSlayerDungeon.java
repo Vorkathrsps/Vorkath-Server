@@ -70,10 +70,12 @@ public class KaruulmSlayerDungeon extends PacketInteraction {
             default:
                 return;
         }
-        Chain.bound(null).runFn(1, () -> {
+        int tile = player.tile().equals(1352, 10252) ? -2 : player.tile().equals(1352, 10250) ? 2 : player.tile().equals(1351, 10252) ? -2 : player.tile().equals(1351, 10250) ? 2 : 0;
+        int face = player.tile().equals(1352, 10252) ? 2 : player.tile().equals(1352, 10250) ? 0 : player.tile().equals(1351, 10252) ? 2 : player.tile().equals(1351, 10250) ? 0 : 0;
+        ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, tile), 30, 60, 839, face);
+        Chain.bound(player).runFn(1, () -> {
             player.lockDelayDamage();
-            player.animate(839);
-            TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(dir.deltaX * 2, dir.deltaY * 2), 0, 60, dir.faceValue)));
+            player.setForceMovement(forceMovement);
         }).then(2, player::unlock);
     }
 

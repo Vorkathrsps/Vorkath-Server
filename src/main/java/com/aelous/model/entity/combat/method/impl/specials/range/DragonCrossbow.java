@@ -6,9 +6,11 @@ import com.aelous.model.entity.combat.CombatSpecial;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
+import com.aelous.model.entity.combat.ranged.drawback.BoltDrawBack;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
+import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
 
 /**
@@ -20,20 +22,43 @@ import com.aelous.model.entity.player.Player;
 public class DragonCrossbow extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity attacker, Entity entity) {
-        final Player player = attacker.getAsPlayer();
+    public void prepareAttack(Entity entity, Entity target) {
+        final Player player = entity.getAsPlayer();
+
+        var graphic = -1;
+        var weaponId = player.getEquipment().getId(EquipSlot.WEAPON);
+        var boltDrawBack = BoltDrawBack.find(weaponId, graphic);
+        int stepMultiplier = 0;
+        int distance = entity.tile().getChevDistance(target.tile());
+        int endHeight = 0;
+        int startHeight = 0;
+        int startSpeed = 0;
+        int duration = 0;
 
         player.animate(4230);
 
-        new Projectile(attacker, target, 698, 50, 70, 44, 35, 0).sendProjectile();
-        target.performGraphic(new Graphic(1466, GraphicHeight.HIGH, 3));
+        if (boltDrawBack != null) {
+            entity.performGraphic(new Graphic(boltDrawBack.gfx, GraphicHeight.HIGH, 0));
+            startSpeed = boltDrawBack.startSpeed;
+            startHeight = boltDrawBack.startHeight;
+            endHeight = boltDrawBack.endHeight;
+            stepMultiplier = boltDrawBack.stepMultiplier;
+            duration = startSpeed + 11 + (stepMultiplier * distance);
+        }
+
+        Projectile projectile = new Projectile(entity, target, 698, startSpeed, duration, startHeight, endHeight, 0, entity.getSize(), stepMultiplier);
+
+        final int hitDelay = entity.executeProjectile(projectile);
+
+
+        target.performGraphic(new Graphic(1466, GraphicHeight.HIGH, projectile.getSpeed()));
 
         //Decrement ammo by 1
         CombatFactory.decrementAmmo(player);
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED),2, CombatType.RANGED).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED),hitDelay, CombatType.RANGED).checkAccuracy();
         hit.submit();
-        CombatSpecial.drain(attacker, CombatSpecial.DRAGON_CROSSBOW.getDrainAmount());
+        CombatSpecial.drain(entity, CombatSpecial.DRAGON_CROSSBOW.getDrainAmount());
     }
 
     @Override

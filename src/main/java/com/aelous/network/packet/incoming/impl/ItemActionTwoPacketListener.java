@@ -28,7 +28,6 @@ public class ItemActionTwoPacketListener implements PacketListener {
 
         if (slot < 0 || slot > 27) return;
 
-        // Check if we used the item that we think we used.
         Item used = player.inventory().get(slot);
         if (used != null && used.getId() == itemId) {
             if(used.getId() == ROTTEN_POTATO) {
@@ -57,12 +56,11 @@ public class ItemActionTwoPacketListener implements PacketListener {
 
             player.afkTimer.reset();
 
+            if (interfaceId == InterfaceConstants.INVENTORY_INTERFACE) {
             player.stopActions(false);
             player.putAttrib(AttributeKey.ITEM_SLOT, slot);
             player.putAttrib(AttributeKey.FROM_ITEM, player.inventory().get(slot));
             player.putAttrib(AttributeKey.ITEM_ID, used.getId());
-
-            if (interfaceId == InterfaceConstants.INVENTORY_INTERFACE) {
                 ItemActionTwo.click(player, used);
                 player.getInventory().refresh();
             }

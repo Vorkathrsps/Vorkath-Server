@@ -26,17 +26,19 @@ public class ItemActionThreePacketListener implements PacketListener {
 
         player.debugMessage(String.format("Third item action, itemId: %d slot: %d interfaceId: %d", itemId, slot, interfaceId));
 
-        if (slot < 0 || slot > 27)
+        if (slot < 0 || slot > 27) {
             return;
+        }
+
         Item item = player.inventory().get(slot);
         if (item != null && item.getId() == itemId) {
 
-            if(item.getId() == ROTTEN_POTATO) {
+            if (item.getId() == ROTTEN_POTATO) {
                 RottenPotato.onItemOption3(player);
                 return;
             }
 
-            if (player.locked() || player.dead()) {
+            if (player.locked() || player.dead() || !player.inventory().hasAt(slot)) {
                 return;
             }
 
@@ -49,20 +51,20 @@ public class ItemActionThreePacketListener implements PacketListener {
                 return;
             }
 
-            if(player.askForAccountPin()) {
+            if (player.askForAccountPin()) {
                 player.sendAccountPinMessage();
                 return;
             }
 
             player.afkTimer.reset();
 
-            player.stopActions(false);
-            player.putAttrib(AttributeKey.ITEM_SLOT, slot);
-            player.putAttrib(AttributeKey.FROM_ITEM, player.inventory().get(slot));
-            player.putAttrib(AttributeKey.ITEM_ID, item.getId());
-
             if (interfaceId == InterfaceConstants.INVENTORY_INTERFACE) {
+                player.stopActions(false);
+                player.putAttrib(AttributeKey.ITEM_SLOT, slot);
+                player.putAttrib(AttributeKey.FROM_ITEM, player.inventory().get(slot));
+                player.putAttrib(AttributeKey.ITEM_ID, item.getId());
                 ItemActionThree.click(player, item);
+                player.getInventory().refresh();
             }
         }
     }

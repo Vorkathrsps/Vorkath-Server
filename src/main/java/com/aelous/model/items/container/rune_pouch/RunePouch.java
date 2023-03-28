@@ -1,6 +1,7 @@
 package com.aelous.model.items.container.rune_pouch;
 
 import com.aelous.model.entity.player.InputScript;
+import com.aelous.utility.ItemIdentifiers;
 import com.google.common.collect.ImmutableSet;
 import com.aelous.model.inter.dialogue.Dialogue;
 import com.aelous.model.inter.dialogue.DialogueType;
@@ -57,6 +58,9 @@ public class RunePouch extends ItemContainer {
     }
 
     public boolean quickFill(int id) {
+        if (id != RUNE_POUCH) {
+            return false;
+        }
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
@@ -87,11 +91,11 @@ public class RunePouch extends ItemContainer {
                         player.getRunePouch().refresh(); //TODO
 
                         stop();
+
                     } else {
                         player.getInterfaceManager().closeDialogue();
                         player.message(Color.RED.wrap("You need at least 3 death runes, 3 blood runes and 3 water runes to fill the pouch."));
                     }
-                //Teleblock
                 } else if(option == 2) {
                     if(!player.getRunePouch().isEmpty()) {
                         player.message(Color.RED.wrap("Empty your pouch before adding a preset. This could overwrite your runes."));
@@ -109,7 +113,6 @@ public class RunePouch extends ItemContainer {
                         player.getInterfaceManager().closeDialogue();
                         player.message(Color.RED.wrap("You need at least 3 Law runes, 3 Chaos runes and 3 Water runes to fill the pouch."));
                     }
-                //Vengeance
                 } else if(option == 3) {
                     if(!player.getRunePouch().isEmpty()) {
                         player.message(Color.RED.wrap("Empty your pouch before adding a preset. This could overwrite your runes."));
@@ -160,17 +163,13 @@ public class RunePouch extends ItemContainer {
             player.getRunePouch().withdraw(item.getId(), item.getAmount());
         } else if(type == 5) {
 
-            player.setAmountScript("How many would you like to withdraw?", new InputScript() {
+            player.setAmountScript("How many would you like to withdraw?", value -> {
+                int amount = (Integer) value;
+                if (id < 0 || slot < 0 || amount <= 0)
+                    return false;
 
-                @Override
-                public boolean handle(Object value) {
-                    int amount = (Integer) value;
-                    if (id < 0 || slot < 0 || amount <= 0)
-                        return false;
-
-                    player.getRunePouch().withdraw(id, amount);
-                    return true;
-                }
+                player.getRunePouch().withdraw(id, amount);
+                return true;
             });
         }
         return true;
@@ -190,16 +189,12 @@ public class RunePouch extends ItemContainer {
         } else if(type == 4) {
             player.getRunePouch().deposit(new Item(id, player.inventory().count(id)));
         } else if(type == 5) {
-            player.setAmountScript("How many would you like to deposit?", new InputScript() {
-
-                @Override
-                public boolean handle(Object value) {
-                    int amount = (Integer) value;
-                    if (id < 0 || slot < 0 || amount <= 0)
-                        return false;
-                    player.getRunePouch().deposit(new Item(id, (int) amount));
-                    return true;
-                }
+            player.setAmountScript("How many would you like to deposit?", value -> {
+                int amount = (Integer) value;
+                if (id < 0 || slot < 0 || amount <= 0)
+                    return false;
+                player.getRunePouch().deposit(new Item(id, (int) amount));
+                return true;
             });
         }
         return true;
@@ -211,12 +206,10 @@ public class RunePouch extends ItemContainer {
             return false;
         }
 
-        if(id == RUNE_POUCH) {
-            if(size() > 3) {
-                Item fourthSlot = player.getRunePouch().get(3);
-                player.getRunePouch().remove(fourthSlot);
-                player.inventory().addOrBank(fourthSlot);
-            }
+        if (size() > 3) {
+            Item fourthSlot = player.getRunePouch().get(3);
+            player.getRunePouch().remove(fourthSlot);
+            player.inventory().addOrBank(fourthSlot);
         }
 
         player.getInterfaceManager().open(48700);

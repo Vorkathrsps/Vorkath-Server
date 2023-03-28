@@ -2,6 +2,7 @@ package com.aelous.model.items.tradingpost;
 
 import com.aelous.GameConstants;
 import com.aelous.GameEngine;
+import com.aelous.cache.definitions.DefinitionRepository;
 import com.aelous.model.entity.player.InputScript;
 import com.aelous.model.inter.InterfaceConstants;
 import com.aelous.model.World;
@@ -14,6 +15,7 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
 import com.aelous.utility.Color;
 import com.aelous.utility.Utils;
+import com.esotericsoftware.minlog.Log;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.primitives.Ints;
@@ -82,7 +84,7 @@ public class TradingPost {
             if (!folder.exists())
                 folder.mkdirs();
 
-            for (File f : folder.listFiles()) {
+            for (File f : Objects.requireNonNull(folder.listFiles())) {
                 try {
                     String name = FilenameUtils.removeExtension(f.getName());
                     Type type = new TypeToken<PlayerListing>() {
@@ -173,10 +175,13 @@ public class TradingPost {
     public static void save(PlayerListing listing) {
         GameEngine.getInstance().submitLowPriority(() -> {
             try {
-                final List<Map.Entry<String, PlayerListing>> objects = sales.entrySet().stream().filter(entry -> entry.getValue() == listing).collect(Collectors.toList());
+                List<String> savedFiles = new ArrayList<>();
+                final List<Map.Entry<String, PlayerListing>> objects = sales.entrySet().stream().filter(entry -> entry.getValue() == listing).toList();
                 for (Map.Entry<String, PlayerListing> entry : objects) {
-                    try (FileWriter fw = new FileWriter("./data/saves/tradingpost/listings/" + entry.getKey() + ".json")) {
+                    String fileName = "./data/saves/tradingpost/listings/" + entry.getKey() + ".json";
+                    try (FileWriter fw = new FileWriter(fileName)) {
                         gson.toJson(entry.getValue(), fw);
+                        savedFiles.add(fileName);
                     } catch (IOException e) {
                         logger.catching(e);
                     }
@@ -190,7 +195,7 @@ public class TradingPost {
     public static void save() {
         GameEngine.getInstance().submitLowPriority(() -> {
             try {
-                final List<Map.Entry<String, PlayerListing>> objects = sales.entrySet().stream().collect(Collectors.toList());
+                final List<Map.Entry<String, PlayerListing>> objects = sales.entrySet().stream().toList();
                 for (Map.Entry<String, PlayerListing> entry : objects) {
                     try (FileWriter fw = new FileWriter("./data/saves/tradingpost/listings/" + entry.getKey() + ".json")) {
                         gson.toJson(entry.getValue(), fw);
@@ -247,11 +252,6 @@ public class TradingPost {
 
         if (player.ironMode() != IronMode.NONE) {
             player.message(Color.RED.wrap("As an ironman you stand alone."));
-            return;
-        }
-
-        if (player.getGameMode().isDarklord()) {
-            player.message("You are an Dark Lord, you stand alone.");
             return;
         }
 
@@ -431,24 +431,16 @@ public class TradingPost {
             return true;
         }
         if (buttonId == 66011) {//search item
-            p.setNameScript("Which item would you like to buy?", new InputScript() {
-
-                @Override
-                public boolean handle(Object value) {
-                    TradingPost.searchByItemName(p, (String) value, false);
-                    return true;
-                }
+            p.setNameScript("Which item would you like to buy?", value -> {
+                TradingPost.searchByItemName(p, (String) value, false);
+                return true;
             });
             return true;
         }
         if (buttonId == 66014) {//search user
-            p.setNameScript("Which persons shop would you like to view? (username)", new InputScript() {
-
-                @Override
-                public boolean handle(Object value) {
-                    TradingPost.searchByUsername(p, (String) value, false);
-                    return true;
-                }
+            p.setNameScript("Which persons shop would you like to view? (username)", value -> {
+                TradingPost.searchByUsername(p, (String) value, false);
+                return true;
             });
             return true;
         }
@@ -834,22 +826,36 @@ public class TradingPost {
 
     public static void listSale(Player player, Item sale, long price) {
         try {
+            if (player == null || sale == null || !isValid(player) || price <= 0) {
+                logger.info("player: " + player.getUsername() + " sale: " + sale.getId() + " price: " + price);
+                return;
+            }
+
             TradingPostListing tpl = new TradingPostListing(player.getUsername().toLowerCase(), sale, price);
 
             PlayerListing listing = sales.getOrDefault(player.getUsername().toLowerCase(), getListings(player.getUsername().toLowerCase()));
 
-            //Safety
-            if (!player.inventory().contains(sale.getId(), sale.getAmount())) {
+            if (!isValid(player)) {
+                player.message("Invalid listing. Please try again.");
                 return;
             }
 
-            if (listing.submit(tpl)) {
-                player.inventory().remove(sale.getId(), sale.getAmount());
-                sales.put(player.getUsername().toLowerCase(), listing);
-                Utils.sendDiscordInfoLog(player.getUsername() + " listed: ItemName=" + sale.name() + " ItemAmount=" + sale.getAmount() + " Price=" + Utils.formatRunescapeStyle(price), "trading_post_sales");
-                tradingPostLogs.log(TRADING_POST, player.getUsername() + " listed: ItemName=" + sale.name() + " ItemAmount=" + sale.getAmount() + " Price=" + Utils.formatRunescapeStyle(price));
-                save(listing);
-                player.message("You've successfully listed your offer to the " + GameConstants.SERVER_NAME + " marketplace!");
+            if (!player.inventory().contains(sale.getId(), sale.getAmount())) {
+                logger.info("player: " + player.getUsername() + " sale: " + sale.getId() + " price: " + price);
+                return;
+            }
+
+            if (listing != null) {
+                if (tpl.getSaleItem() != null) {
+                    if (listing.submit(tpl)) {
+                        player.inventory().remove(sale.getId(), sale.getAmount());
+                        sales.put(player.getUsername().toLowerCase(), listing);
+                        Utils.sendDiscordInfoLog(player.getUsername() + " listed: ItemName=" + sale.name() + " ItemAmount=" + sale.getAmount() + " Price=" + Utils.formatRunescapeStyle(price), "trading_post_sales");
+                        tradingPostLogs.log(TRADING_POST, player.getUsername() + " listed: ItemName=" + sale.name() + " ItemAmount=" + sale.getAmount() + " Price=" + Utils.formatRunescapeStyle(price));
+                        save(listing);
+                        player.message("You've successfully listed your offer to the " + GameConstants.SERVER_NAME + " marketplace!");
+                    }
+                }
             }
             open(player);
         } catch (Exception e) {
@@ -1251,6 +1257,11 @@ public class TradingPost {
 
         TradingPostListing offer = list.get(buttonId);
 
+        if (offer == null) {
+            p.message("You've already claimed your listing.");
+            return;
+        }
+
        /* if (offer.profit <= 0) {
             if (offer.profit < 0)
                 offer.profit = 0;
@@ -1315,7 +1326,6 @@ public class TradingPost {
         TradingPostListing offer = listing.getSaleBySlot(listIndex);
 
         if (offer == null) {
-            //System.out.println("offer is null. listIndex = " + listIndex);
             return;
         }
 

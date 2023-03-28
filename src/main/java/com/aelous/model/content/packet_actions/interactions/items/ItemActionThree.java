@@ -2,10 +2,12 @@ package com.aelous.model.content.packet_actions.interactions.items;
 
 import com.aelous.model.content.items.RockCake;
 import com.aelous.model.content.items.teleport.ArdyCape;
+import com.aelous.model.content.skill.impl.slayer.content.SlayerHelm;
 import com.aelous.model.content.skill.impl.slayer.content.SlayerRing;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
 import com.aelous.network.packet.incoming.interaction.PacketInteractionManager;
+import com.aelous.utility.ItemIdentifiers;
 
 import static com.aelous.utility.ItemIdentifiers.*;
 
@@ -24,15 +26,19 @@ public class ItemActionThree {
 
         ArdyCape.onItemOption3(player, item);
 
-        if(player.getRunePouch().quickFill(item.getId())) {
+        if (player.getRunePouch().quickFill(item.getId())) {
             return;
         }
 
-        if(SlayerRing.onItemOption3(player, item)) {
+        if (SlayerRing.onItemOption3(player, item)) {
             return;
         }
 
-        if(RockCake.onItemOption3(player, item)) {
+        if (RockCake.onItemOption3(player, item)) {
+            return;
+        }
+
+        if (SlayerHelm.onItemOption3(player, item)) {
             return;
         }
 

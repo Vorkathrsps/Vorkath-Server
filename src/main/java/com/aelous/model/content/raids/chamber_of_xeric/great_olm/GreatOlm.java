@@ -417,7 +417,11 @@ public class GreatOlm extends CommonCombatMethod {
         delayedAnimation(npc, facing.getIdleAnim(isEmpowered()), 1);
         lastBasicAttackStyle = Utils.rollPercent(75) ? lastBasicAttackStyle : (lastBasicAttackStyle == CombatType.RANGED ? CombatType.MAGIC : CombatType.RANGED);
         targets.forEach(p -> {
-            int delay = (lastBasicAttackStyle == CombatType.RANGED ? RANGED_PROJECTILE : MAGIC_PROJECTILE).send(npc, p);
+            var tileDist = entity.tile().distance(target.tile());
+            int duration = (51 + -5 + (10 * tileDist));
+            Projectile projectile = new Projectile(npc, p, 1339, 51, duration, 105, 0, 0, target.getSize(), 10);
+            int delay = projectile.send(npc, target);
+            //int delay = (lastBasicAttackStyle == CombatType.RANGED ? RANGED_PROJECTILE : MAGIC_PROJECTILE).send(npc, p);
             int maxDamage = npc.combatInfo().maxhit;
             if (Prayers.usingPrayer(p, lastBasicAttackStyle == CombatType.RANGED ? Prayers.PROTECT_FROM_MISSILES : Prayers.PROTECT_FROM_MAGIC))
                 maxDamage /= 4;

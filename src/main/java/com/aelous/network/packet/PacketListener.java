@@ -16,5 +16,5 @@ public interface PacketListener {
      * @param player    The player to which execute the packet for.
      * @param packet    The packet being executed.
      */
-    public void handleMessage(Player player, Packet packet) throws Exception;
+    void handleMessage(Player player, Packet packet) throws Exception;
 }

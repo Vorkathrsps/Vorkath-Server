@@ -93,7 +93,9 @@ public class Slayer {
     public static void displayCurrentAssignment(Player player) {
         String name = taskName(player.getAttribOr(AttributeKey.SLAYER_TASK_ID, 0));
         int num = player.getAttribOr(AttributeKey.SLAYER_TASK_AMT, 0);
-
+        if (num == 0) {
+            player.message("You currently have no active slayer task.");
+        }
         if (num == 0) {
             player.getPacketSender().sendString(63208, "None");
         } else {

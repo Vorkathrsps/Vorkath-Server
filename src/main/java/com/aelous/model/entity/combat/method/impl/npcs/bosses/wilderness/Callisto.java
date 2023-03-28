@@ -38,25 +38,25 @@ public class Callisto extends CommonCombatMethod {
 
     @Override
     public void prepareAttack(Entity entity, Entity target) {
-        NPC npc = (NPC) entity;
-
         //All attacks are melee
-        if (CombatFactory.canReach(npc, CombatFactory.MELEE_COMBAT, target)) {
+       // if (CombatFactory.canReach(npc, CombatFactory.MELEE_COMBAT, target)) {
             // At all times, callisto can initiate the heal.
-            if (Utils.rollDie(18, 1)) {
-                prepareHeal(npc);
-            }
+          //  if (Utils.rollDie(18, 1)) {
+         //       prepareHeal(npc);
+         //   }
+
+
             // Determine if we do a special hit, or a regular hit.
-            if (Utils.rollDie(18, 1)) {
-                fury(npc, target);
-            /*} else if (Utils.rollDie(6, 1) && !npc.<Boolean>getAttribOr(AttributeKey.CALLISTO_ROAR, false)) {
-                roar(npc, target);*/
-            } else {
-                target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
-                npc.animate(npc.attackAnimation());
+           // if (Utils.rollDie(18, 1)) {
+           //     fury(npc, target);
+           // } else if (Utils.rollDie(6, 1) && !npc.<Boolean>getAttribOr(AttributeKey.CALLISTO_ROAR, false)) {
+                roar((NPC) entity, target);
+           // } else {
+            //    target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
+           //     npc.animate(npc.attackAnimation());
             }
-        }
-    }
+       // }
+  //  }
 
     /**
      * Callisto unleashes a shockwave against his target. When this happens, a game message will appear saying that he has used the ability against you,
@@ -109,9 +109,13 @@ public class Callisto extends CommonCombatMethod {
                 }
             }
             ((Player)target).message("Callisto's roar throws you backwards.");
-            target.animate(846);
-            TaskManager.submit(new ForceMovementTask(target.getAsPlayer(), 3, new ForceMovement(target.getAsPlayer().tile().clone(), new Tile(direction.x() * 3, direction.y() * 3), 0, 15, face.direction)));
-            Chain.bound(null).name("CallistoRoarTask").runFn(3, () -> target.hit(npc, 3, CombatType.MELEE).checkAccuracy().submit());
+            ForceMovement forceMovement = new ForceMovement(target.tile(), new Tile(direction.x() * 3, direction.y() * 3), 30, 60, 1157, face.direction);
+            target.setForceMovement(forceMovement);
+            target.graphic(245, GraphicHeight.HIGH, 60);
+            Chain.bound(null).name("CallistoRoarTask").runFn(3, () -> {
+                target.stun(2);
+                target.hit(npc, 3, CombatType.MELEE).checkAccuracy().submit();
+            });
         }
         npc.clearAttrib(AttributeKey.CALLISTO_ROAR);
     }

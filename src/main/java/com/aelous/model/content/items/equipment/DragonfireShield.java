@@ -52,7 +52,7 @@ public class DragonfireShield extends PacketInteraction {
             final boolean inDistance = (player.tile().distance(target.tile()) <= 10);
             if (target != player && !player.dead() && CombatFactory.inCombat(player) && inDistance) {
 
-                player.setPositionToFace(target.tile());
+                player.setEntityInteraction(target);
 
                 // Allow timers to fire before player event
                 player.getTimers().extendOrRegister(TimerKey.COMBAT_ATTACK, 4);

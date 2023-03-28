@@ -252,7 +252,7 @@ public final class GameEngine implements Runnable {
             gameTicksIncrementor++;
             totalCycleTime += profile.total;
         } catch (Throwable t) {
-            logger.catching(t);
+            logger.error("help", t);
             World.getWorld().getPlayers().forEach(Player::synchronousSave);
         } finally {
             if (!successfulCycle) {
@@ -355,7 +355,7 @@ public final class GameEngine implements Runnable {
             try {
                 pending.run();
             } catch (Exception e) {
-                logger.catching(e);
+                logger.error("help", e);
             }
         }
     }

@@ -3023,7 +3023,7 @@ public class Player extends Entity {
         } catch (Exception e) {
             logger.error("Error processing logic for Player: {}.", this);
             logger.error(captureState());
-            logger.catching(e);
+            logger.error(e);
         }
     }
 

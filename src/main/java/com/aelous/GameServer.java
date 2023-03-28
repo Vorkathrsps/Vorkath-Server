@@ -252,7 +252,7 @@ public class GameServer {
                 databaseService.init();
             } catch (Throwable t) {
                 logger.fatal("There was an error initializing the SQL database service, are you sure you have SQL configured?");
-                logger.catching(t);
+                logger.error(t);
                 System.exit(1);
             }
             try {
@@ -262,7 +262,7 @@ public class GameServer {
                 votesDb.init();
             } catch (Throwable t) {
                 logger.fatal("There was an error initializing the SQL database service, are you sure you have SQL configured?");
-                logger.catching(t);
+                logger.error(t);
                 System.exit(1);
             }
         } else {

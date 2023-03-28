@@ -216,7 +216,7 @@ public class Zulrah {
 
 
         // run after top section goes
-        Chain.bound(null).cancelWhen(() -> instanceFinished(npc)).runFn(cooldown, () -> {
+        Chain.bound(null).cancelWhen(() -> instanceFinished(npc)).runFn(cooldown < 1 ? 1 : cooldown, () -> {
             npc.setEntityInteraction(null);
             if (phase.hasConfig(ZulrahConfig.FULL_TOXIC_FUMES)) {
                 fillToxicFumes(npc, target);

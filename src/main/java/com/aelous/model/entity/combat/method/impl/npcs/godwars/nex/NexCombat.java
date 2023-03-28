@@ -80,9 +80,10 @@ public class NexCombat extends CommonCombatMethod {
 
     private static final int[] DRAIN = {Skills.ATTACK, Skills.STRENGTH, Skills.DEFENCE};
 
-    static GameObject redBarrier;// = new GameObject(42941, ancientBarrierPurple.get().tile(), ancientBarrierPurple.get().getType(), ancientBarrierPurple.get().getRotation());
+    static GameObject redBarrier;
 
     public static final Area NEX_AREA = new Area(2910, 5189, 2939, 5217);
+
 
     public static Tile[] NO_ESCAPE_TELEPORTS = {new Tile(2925, 5212, 0), // north
         new Tile(2934, 5203, 0), // east,
@@ -103,7 +104,7 @@ public class NexCombat extends CommonCombatMethod {
         nex.getMovement().reset();
         nex.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, 30);
         Chain.noCtx().repeatingTask(1, t -> {
-            if (!nex.isRegistered()) {
+            if (nex.dead()) {
                 t.stop();
                 return;
             }
@@ -112,8 +113,12 @@ public class NexCombat extends CommonCombatMethod {
             }
             if (World.getWorld().getPlayers().stream().filter(Objects::nonNull).filter(p -> NEX_AREA.contains(p)).count() == 0) {
                 ZarosGodwars.clear();
+                t.stop();
             }
         });
+        nex.combatInfo().scripts.agro_ = (n, p) -> {
+            return NEX_AREA.contains(p);
+        };
     }
 
     public int lastAttack;
@@ -306,7 +311,7 @@ public class NexCombat extends CommonCombatMethod {
             nex.forceChat("A siphon will solve this!");
             nex.animate(BLOOD_SIPHON_ANIM);
             nex.doingSiphon = true;
-            int maxMinions = Math.min(9 - nex.bloodReavers.size(), nex.closePlayers().length); // one per player
+            int maxMinions = Math.min(9 - nex.bloodReavers.size(), Arrays.stream(nex.closePlayers()).filter(p -> NEX_AREA.contains(p)).toArray().length); // one per player
             if (maxMinions > 8) {
                 maxMinions = 8;
             }
@@ -835,6 +840,7 @@ public class NexCombat extends CommonCombatMethod {
                 list.removeIf(t -> !MovementQueue.dumbReachable(t.getX(), t.getY(), nex.tile()));
 
                 for (Player close : npc.closePlayers(10)) {
+                    if (!NEX_AREA.contains(close)) continue;
                     for (Tile tile : list) {
                         var projectile = new Projectile(npc.getCentrePosition(), tile, 1, 2012, 100, 40, tile.getZ(), 0, 0);
                         nex.executeProjectile(projectile);
@@ -900,7 +906,7 @@ public class NexCombat extends CommonCombatMethod {
     @Override
     public ArrayList<Entity> getPossibleTargets(Entity mob) {
         if (inNexArea(mob.tile())) {
-            return Arrays.stream(mob.closePlayers(64)).collect(Collectors.toCollection(ArrayList::new));
+            return Arrays.stream(mob.closePlayers(64)).filter(p -> NEX_AREA.contains(p)).collect(Collectors.toCollection(ArrayList::new));
         }
         return null;
     }

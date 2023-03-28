@@ -26,8 +26,11 @@ import com.aelous.model.entity.player.commands.impl.staff.server_support.StaffZo
 import com.aelous.model.entity.player.commands.impl.super_member.YellColourCommand;
 import com.aelous.model.items.Item;
 import com.aelous.model.items.ground.GroundItem;
+import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
+import com.aelous.model.map.region.Region;
+import com.aelous.model.map.region.RegionManager;
 import com.aelous.utility.Debugs;
 import com.aelous.utility.Utils;
 import com.aelous.utility.Varbit;
@@ -37,14 +40,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.TriConsumer;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
 import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_ACTIVE;
 import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_UNLOCKED;
+import static com.aelous.utility.Debugs.CLIP;
 
 public class CommandManager {
 
@@ -476,6 +477,45 @@ public class CommandManager {
             for (int i = 554; i <= 566; i++) {
                 p.inventory().add(i, 1000000);
             }
+        });
+        dev("scm", (player, c, parts) -> {
+            ArrayList<GroundItem> gis = new ArrayList<>();
+            int baseitem = 0;
+            int radius = parts.length > 1 ? Integer.parseInt(parts[1]) : 4;
+            for (int x = player.getX() - radius; x < player.getX() + radius; x++) {
+                for (int y = player.getY() - radius; y < player.getY() + radius; y++) {
+                    int clip = Region.get(x, y).getClip(x, y, player.getZ());
+                    int item = clip == 1 ? 227 : baseitem++;
+                    if (CLIP.enabled)
+                        CLIP.debug(player, String.format("%s is %s %s = %s %s", new Tile(x, y, player.getZ()), item, new Item(item).name(),
+                        clip, World.clipstr(clip)));
+                    else
+                        System.out.println("clip : "+clip);
+                    if (clip != 0) {
+                        GroundItem gi = new GroundItem(new Item(item, 1), Tile.create(x, y, player.tile().level), player);
+                        player.getPacketSender().createGroundItem(gi);
+                        gis.add(gi);
+                    }
+                }
+            }
+            Chain.bound(player).runFn(10, () ->  {
+                gis.forEach(GroundItemHandler::sendRemoveGroundItem);
+            });
+        });
+        dev("calv", (p, c, s) -> {
+            p.teleport(1888, 11547, 1);
+        });
+        dev("vet2", (p, c, s) -> {
+            p.teleport(3303, 10199, 1);
+        });
+        dev("artio", (p, c, s) -> {
+            p.teleport(1759, 11551);
+        });
+        dev("dclips", (p, c, s) -> {
+            CLIP.toggle();
+        });
+        dev("lr", (p, c, s) -> {
+            RegionManager.loadMapFiles(p.tile().x, p.tile().y, true);
         });
     }
 

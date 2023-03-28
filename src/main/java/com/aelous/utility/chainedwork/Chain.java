@@ -273,6 +273,7 @@ public class Chain<T> {
                 System.out.println("[DEBUG_CHAIN] Cancel condition was True, stopping work for "+owner);
             }
             repeats = false; // condition to cancel was true, stop looping
+            nextNode = null;
             return;
         }
         if (executeCondition != null) {
@@ -348,6 +349,9 @@ public class Chain<T> {
         nextNode.name = name; // re-use the name
         nextNode.cycleDelay = startDelay;
         nextNode.cancelCondition = cancelCondition;
+        if (nextNode.cancelCondition == null) {
+            System.err.println("warning: using thenCancellable but no cancel condition exists");
+        }
         nextNode.findSource();
         return nextNode;
     }

@@ -102,7 +102,7 @@ public class NexCombat extends CommonCombatMethod {
         nex.lockMoveDamageOk();
         nex.getMovement().reset();
         nex.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, 30);
-        Chain.noCtx().repeatingTask(10, t -> {
+        Chain.noCtx().repeatingTask(1, t -> {
             if (!nex.isRegistered()) {
                 t.stop();
                 return;

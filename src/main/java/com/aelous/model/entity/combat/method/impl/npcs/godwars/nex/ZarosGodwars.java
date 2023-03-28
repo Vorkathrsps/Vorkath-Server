@@ -1,6 +1,7 @@
 package com.aelous.model.entity.combat.method.impl.npcs.godwars.nex;
 
 import com.aelous.GameServer;
+import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.masks.Projectile;
@@ -23,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.aelous.model.content.collection_logs.LogType.BOSSES;
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
+import static com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.NexCombat.NEX_AREA;
 
 /**
  * An utility class for the Zaros part of GWD
@@ -76,15 +78,36 @@ public class ZarosGodwars {
     }
 
     public static void startEvent() {
-        if (nex != null && !nex.isRegistered()) {
-            clear();
+        if (nex != null) {
+            // dont restart event if nex still spawned. wait until dead
+            return;
         }
-        if (nex == null) {
+
             NEX_EVENT_ACTIVE = true;
             Nex nex = new Nex(NEX, new Tile(2924, 5202, 0));
+            var minions = new Object() {
+                NPC a, b, c, d;
+            };
             nex.lockMovement();
             ZarosGodwars.nex = nex;
-            Chain.bound(null).then(GameServer.properties().production ? 20 : 5, () -> {
+            Chain.bound(null).cancelWhen(() -> {
+                var empty = World.getWorld().getPlayers().stream().filter(Objects::nonNull).filter(p -> NEX_AREA.contains(p)).count() == 0;
+                // no players, new nex spawned, old despawned
+                var stop = false;
+                // p,s cant use registered since it doesnt spawn for 20t
+                if (ZarosGodwars.nex != nex || nex.dead() || empty) {
+                    stop = true;
+                   // System.out.println((ZarosGodwars.nex != nex)+", "+nex.dead()+" "+empty);
+                    NPC[] a = new NPC[] {minions.a, minions.b, minions.c, minions.d};
+                    for (NPC npc : a) {
+                        if (npc == null) continue;
+                        npc.remove();
+                    }
+                    clear();
+                }
+                return stop;
+            }).thenCancellable(GameServer.properties().production ? 20 : 5, () -> {
+
                 nex.spawn(false);
             }).thenCancellable(1, () -> {
                 nex.forceChat("AT LAST!");
@@ -93,49 +116,49 @@ public class ZarosGodwars {
                 NPC fumus = new NPC(FUMUS, new Tile(2913, 5215, 0)).spawn(false);
                 fumus.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT,true);
                 fumus.putAttrib(AttributeKey.BARRIER_BROKEN,false);
-                ZarosGodwars.fumus = fumus;
+                minions.a = fumus;
                 fumus.setPositionToFace(nex.tile());
                 nex.setPositionToFace(fumus.tile());
                 nex.forceChat("Fumus!");
                 nex.animate(9189);
-                Projectile projectile = new Projectile(ZarosGodwars.fumus, nex, 2010, 30, 80, 18, 18, 0);
+                Projectile projectile = new Projectile(minions.a, nex, 2010, 30, 80, 18, 18, 0);
                 projectile.sendProjectile();
             }).thenCancellable(3, () -> {
                 NPC umbra = new NPC(UMBRA, new Tile(2937, 5215, 0)).spawn(false);
                 umbra.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT,true);
                 umbra.putAttrib(AttributeKey.BARRIER_BROKEN,false);
-                ZarosGodwars.umbra = umbra;
+                minions.b = umbra;
                 umbra.setPositionToFace(nex.tile());
                 nex.setPositionToFace(umbra.tile());
                 nex.forceChat("Umbra!");
                 nex.animate(9189);
-                Projectile projectile = new Projectile(ZarosGodwars.umbra, nex, 2010, 30, 80, 18, 18, 0);
+                Projectile projectile = new Projectile(minions.b, nex, 2010, 30, 80, 18, 18, 0);
                 projectile.sendProjectile();
             }).thenCancellable(3, () -> {
                 NPC cruor = new NPC(CRUOR, new Tile(2937, 5191, 0)).spawn(false);
                 cruor.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT,true);
                 cruor.putAttrib(AttributeKey.BARRIER_BROKEN,false);
-                ZarosGodwars.cruor = cruor;
+                minions.c = cruor;
                 cruor.setPositionToFace(nex.tile());
                 nex.setPositionToFace(cruor.tile());
                 nex.forceChat("Cruor!");
                 nex.animate(9189);
-                Projectile projectile = new Projectile(ZarosGodwars.cruor, nex, 2010, 30, 80, 18, 18, 0);
+                Projectile projectile = new Projectile(minions.c, nex, 2010, 30, 80, 18, 18, 0);
                 projectile.sendProjectile();
             }).thenCancellable(3, () -> {
                 NPC glacies = new NPC(GLACIES, new Tile(2913, 5191, 0)).spawn(false);
                 glacies.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT,true);
                 glacies.putAttrib(AttributeKey.BARRIER_BROKEN,false);
-                ZarosGodwars.glacies = glacies;
+                minions.d = glacies;
                 glacies.setPositionToFace(nex.tile());
                 nex.setPositionToFace(glacies.tile());
                 nex.forceChat("Glacies!");
                 nex.animate(9189);
-                Projectile projectile = new Projectile(ZarosGodwars.glacies, nex, 2010, 30, 80, 18, 18, 0);
+                Projectile projectile = new Projectile(minions.d, nex, 2010, 30, 80, 18, 18, 0);
                 projectile.sendProjectile();
             }).thenCancellable(3, () -> {
                 nex.forceChat("Fill my soul with smoke!");
-                Projectile projectile = new Projectile(ZarosGodwars.glacies, nex, 2010, 30, 80, 18, 18, 0);
+                Projectile projectile = new Projectile(minions.d, nex, 2010, 30, 80, 18, 18, 0);
                 projectile.sendProjectile();
             }).thenCancellable(2, () -> {
                 nex.setPositionToFace(null);
@@ -154,8 +177,13 @@ public class ZarosGodwars {
                     redBarrierPurple = new GameObject(42941, ancientBarrierPurple.get().tile(), ancientBarrierPurple.get().getType(), ancientBarrierPurple.get().getRotation());
                     ObjectManager.replaceWith(ancientBarrierPurple.get(), redBarrierPurple);
                 }
+                ZarosGodwars.fumus = minions.a;
+                ZarosGodwars.umbra = minions.b;
+                ZarosGodwars.cruor = minions.c;
+                ZarosGodwars.glacies = minions.d;
+
             });
-        }
+
 
     }
 

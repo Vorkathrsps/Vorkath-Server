@@ -204,8 +204,10 @@ public class Chain<T> {
      * The first function to run, kicks off the internal {@link Task} via {@link TaskManager}. Only runs ONCE.
      */
     public Chain<T> runFn(int startAfterTicks, Runnable work) {
-        if (startAfterTicks < 1)
-            throw new RuntimeException("StartAfterTicks must be greater than 0");
+        if (startAfterTicks < 1) {
+            logger.error(new RuntimeException("StartAfterTicks must be greater than 0. change to 1 or higher."));
+            startAfterTicks = 1;
+        }
         if (this.work != null) {
             return then(startAfterTicks, work);
         }

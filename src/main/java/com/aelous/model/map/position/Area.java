@@ -221,6 +221,6 @@ public class Area {
 
     @Override
     public String toString() {
-        return "Area[" + x1 + ".." + y1 + ", " + x2 + ".." + y2 + "]";
+        return "Area[" + x1 + ".." + y1 + ", " + x2 + ".." + y2 + ", level="+level+"]";
     }
 }

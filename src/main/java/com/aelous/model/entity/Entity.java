@@ -1676,6 +1676,8 @@ public abstract class Entity {
                 if (isNpc()) {
                     // players can TP out .. but npcs? if they're tping out thats probably a bug!
                     LogManager.getLogger("Entity").error("Npc is teleporting out of instance. removing " + getMobName() + " from " + getInstancedArea(), new RuntimeException("tp out of instance"));
+                } else {
+                    LogManager.getLogger("Entity").info("Player left instance. If not ok, double check area coords removing " + getMobName() + " from " + getInstancedArea());
                 }
                 if (isNpc()) {
                     getInstancedArea().removeNpc(getAsNpc());

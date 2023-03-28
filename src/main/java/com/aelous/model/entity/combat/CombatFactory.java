@@ -1131,7 +1131,7 @@ public class CombatFactory {
 
         // If target/attacker is dead, don't continue.
         // hits with no type and method are probably recoil, retribution, wrath, which can apply when the source is of course death
-        if (attacker.dead() && combatType != null) {
+        if (attacker != null && attacker.dead() && combatType != null) {
             return;
         }
 
@@ -1151,7 +1151,7 @@ public class CombatFactory {
 
         // Do block animation
         target.action.reset();
-        if (attacker.isNpc() && hit.getCombatType() == CombatType.MAGIC && !target.getUpdateFlag().flagged(Flag.ANIMATION)) {
+        if (attacker != null && attacker.isNpc() && hit.getCombatType() == CombatType.MAGIC && !target.getUpdateFlag().flagged(Flag.ANIMATION)) {
             target.animate(new Animation(target.getBlockAnim()));
         }
 
@@ -1161,7 +1161,7 @@ public class CombatFactory {
             return;
         }
 
-        if (target.isNpc() && attacker.isPlayer()) {
+        if (target.isNpc() && attacker != null && attacker.isPlayer()) {
             Player player = attacker.getAsPlayer();
             NPC npcTarget = target.getAsNpc();
             if (player.getRaids() != null) {
@@ -1171,7 +1171,7 @@ public class CombatFactory {
             }
         }
 
-        if (target.isNpc() && attacker.isPlayer()) {
+        if (target.isNpc() && attacker != null && attacker.isPlayer()) {
             Player player = attacker.getAsPlayer();
             NPC npcTarget = target.getAsNpc();
             if (player.getRaids() != null) {
@@ -1182,7 +1182,7 @@ public class CombatFactory {
         }
 
         // Do other stuff for players..
-        if (target.isPlayer()) {
+        if (attacker != null && target.isPlayer()) {
             final Player targetAsPlayer = target.getAsPlayer();
 
             // Prayer effects
@@ -1204,7 +1204,7 @@ public class CombatFactory {
             o.postDamage(hit);
         }
 
-        if (attacker.isPlayer()) {
+        if (attacker != null && attacker.isPlayer()) {
             Player player = (Player) attacker;
             if (hit.isAccurate() && combatType == CombatType.MELEE) {
                 if (player.getEquipment().hasAt(EquipSlot.AMULET, AMULET_OF_BLOOD_FURY)) {
@@ -1219,7 +1219,7 @@ public class CombatFactory {
 
         // Check for poisonous weapons..
         // And do other effects, such as barrows effects..
-        if (attacker.isPlayer()) {
+        if (attacker != null && attacker.isPlayer()) {
 
 
             Player attackerAsPlayer = attacker.getAsPlayer();
@@ -1354,7 +1354,7 @@ public class CombatFactory {
                     // Other barrows effects here..
                 }
             }
-        } else if (attacker.isNpc()) {
+        } else if (attacker != null && attacker.isNpc()) {
             NPC npc = attacker.getAsNpc();
             // Poison?
             if (hit.getDamage() > 0 && (npc.combatInfo() != null && npc.combatInfo().poisonous())) {
@@ -1367,7 +1367,7 @@ public class CombatFactory {
 
         // Handle ring of recoil for target
         // Also handle vengeance for target
-        if (hit.getDamage() > 0) {
+        if (attacker != null && hit.getDamage() > 0) {
             if (target.isPlayer()) {
                 Player player = target.getAsPlayer();
 
@@ -1422,7 +1422,7 @@ public class CombatFactory {
         }
 
         // Auto-retaliate
-        if (!CombatFactory.isAttacking(target) && !hit.reflected) { // is mob fighting someone?
+        if (attacker != null && !CombatFactory.isAttacking(target) && !hit.reflected) { // is mob fighting someone?
             if (attacker.isPlayer()) {
                 //if (player.getCombat().autoRetaliate()) {
                 // Players only auto retal the attacker when out of combat.
@@ -1450,11 +1450,11 @@ public class CombatFactory {
                 target.autoRetaliate(attacker);
         }
 
-        if (!attacker.getCombat().getFightTimer().isRunning()) {
+        if (attacker != null && !attacker.getCombat().getFightTimer().isRunning()) {
             attacker.getCombat().getFightTimer().start();
         }
 
-        if (damage > 0) {
+        if (attacker != null && damage > 0) {
             if (target.isPlayer() && attacker.isNpc()) {//NPC PROTECTION PRAYERS
                 if (attacker.getAsNpc().getBotHandler() != null) {
                     if (Prayers.usingPrayer(target, Prayers.getProtectingPrayer(hit.getCombatType()))) {
@@ -1470,17 +1470,19 @@ public class CombatFactory {
             }
         }
 
-        // Add damage to target damage map
-        target.getCombat().addDamage(attacker, hit.getDamage());
+        if (attacker != null) {
+            // Add damage to target damage map
+            target.getCombat().addDamage(attacker, hit.getDamage());
 
-        if (target.isPlayer()) {
-            target.getAsPlayer().setLastActiveOverhead();
-            //Store the latest damage being dealt to a player.
-            attacker.putAttrib(AttributeKey.LATEST_DAMAGE, hit.getDamage());
+            if (target.isPlayer()) {
+                target.getAsPlayer().setLastActiveOverhead();
+                //Store the latest damage being dealt to a player.
+                attacker.putAttrib(AttributeKey.LATEST_DAMAGE, hit.getDamage());
+            }
+
+            //Send the hit sound
+            attacker.takehitSound(hit);
         }
-
-        //Send the hit sound
-        attacker.takehitSound(hit);
 
         target.decrementHealth(hit);
     }

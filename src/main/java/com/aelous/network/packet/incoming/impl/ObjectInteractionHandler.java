@@ -7,7 +7,9 @@ import com.aelous.model.content.skill.impl.smithing.Bar;
 import com.aelous.model.content.skill.impl.smithing.EquipmentMaking;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.npc.impl.MaxHitDummyNpc;
+import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.tradingpost.TradingPost;
 import com.aelous.model.map.object.GameObject;
@@ -175,6 +177,11 @@ public class ObjectInteractionHandler implements PacketListener {
                     return;
                 }
 
+                if (object.getId() == 31858) {
+                    player.animate(new Animation(645));
+                    MagicSpellbook.changeSpellbook(player, MagicSpellbook.NORMAL, true);
+                }
+
                 if (name.equalsIgnoreCase("furnace")) {
                     Arrays.stream(Bar.values()).forEach(b -> player.getPacketSender().sendInterfaceModel(b.getFrame(), 150, b.getBar()));
                     player.getPacketSender().sendChatboxInterface(2400);
@@ -188,6 +195,11 @@ public class ObjectInteractionHandler implements PacketListener {
                 if (bank) {
                     player.getBank().open();
                     return;
+                }
+
+                if (object.getId() == 31858) {
+                    player.animate(new Animation(645));
+                    MagicSpellbook.changeSpellbook(player, MagicSpellbook.ANCIENT, true);
                 }
 
                 if (name.equalsIgnoreCase("furnace")) {
@@ -204,6 +216,13 @@ public class ObjectInteractionHandler implements PacketListener {
                     TradingPost.open(player);
                     return;
                 }
+
+                if (object.getId() == 31858) {
+                    player.animate(new Animation(645));
+                    MagicSpellbook.changeSpellbook(player, MagicSpellbook.LUNAR, true);
+                    return;
+                }
+
                 player.getPacketSender().sendMessage("Nothing interesting happens.");
                 break;
             }

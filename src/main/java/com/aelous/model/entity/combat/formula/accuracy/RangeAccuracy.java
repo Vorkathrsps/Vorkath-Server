@@ -33,34 +33,33 @@ import static com.aelous.utility.ItemIdentifiers.*;
  */
 public class RangeAccuracy {
 
-    public static final SecureRandom srand = new SecureRandom();
+    byte[] seed = new byte[16];
+    SecureRandom random = new SecureRandom(seed);
 
-    public static boolean doesHit(Entity attacker, Entity defender, CombatType style) {
+    public boolean doesHit(Entity attacker, Entity defender, CombatType style) {
         return successful(attacker, defender, style);//doesHit(entity, enemy, style, 1);
     }
 
-    public static boolean successful(Entity attacker, Entity defender, CombatType style) {
+    private boolean successful(Entity attacker, Entity defender, CombatType style) {
         int attackBonus = getAttackRoll(attacker, defender, style);
         int defenceBonus = getDefenceRoll(defender, style);
         double successfulRoll;
 
-        byte[] seed = new byte[16];
-        new SecureRandom().nextBytes(seed);
-        SecureRandom random = new SecureRandom(seed);
+        random.nextBytes(seed);
 
         if (attackBonus > defenceBonus) {
-            successfulRoll = (int) 1D - ((defenceBonus + 2D) / (2D * (attackBonus + 1D)));
+            successfulRoll = 1F - ((defenceBonus + 2F) / (2F * (attackBonus + 1F)));
         } else {
-            successfulRoll = attackBonus / (2D * (defenceBonus + 1D));
+            successfulRoll = attackBonus / (2F * (defenceBonus + 1F));
         }
 
         double selectedChance = random.nextDouble();
 
         System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
-        return successfulRoll >= selectedChance;
+        return successfulRoll > selectedChance;
     }
-    public static double getPrayerAttackBonus(Entity attacker) {
+    private double getPrayerAttackBonus(Entity attacker) {
         double prayerBonus = 1D;
         if (Prayers.usingPrayer(attacker, SHARP_EYE))
             prayerBonus *= 1.05D; // 5% range level boost
@@ -73,7 +72,7 @@ public class RangeAccuracy {
         return prayerBonus;
     }
 
-    public static double getPrayerDefenseBonus(Entity defender) {
+    private double getPrayerDefenseBonus(Entity defender) {
         double prayerBonus = 1D;
         if (Prayers.usingPrayer(defender, RIGOUR)) {
             prayerBonus *= 1.25D;
@@ -81,7 +80,7 @@ public class RangeAccuracy {
         return prayerBonus;
     }
 
-    public static int getEffectiveDefence(Entity defender) {
+    private int getEffectiveDefence(Entity defender) {
         FightStyle fightStyle = defender.getCombat().getFightType().getStyle();
         int effectiveLevel = (int) Math.floor(getRangeLevel(defender) * getPrayerDefenseBonus(defender));
 
@@ -95,7 +94,7 @@ public class RangeAccuracy {
         return effectiveLevel;
     }
 
-    public static int getEffectiveRanged(Entity attacker, Entity defender, CombatType style) {
+    private int getEffectiveRanged(Entity attacker, Entity defender, CombatType style) {
         var task_id = attacker.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
         final Item weapon = attacker.isPlayer() ? attacker.getAsPlayer().getEquipment().get(EquipSlot.WEAPON) : null;
         var task = SlayerCreature.lookup(task_id);
@@ -194,7 +193,7 @@ public class RangeAccuracy {
         return effectiveLevel;
     }
 
-    public static int getRangeLevel(Entity attacker) {
+    private int getRangeLevel(Entity attacker) {
         int rangeLevel = 1;
         if (attacker instanceof NPC npc) {
             if (npc.combatInfo() != null && npc.combatInfo().stats != null)
@@ -205,7 +204,7 @@ public class RangeAccuracy {
         return rangeLevel;
     }
 
-    public static int getGearAttackBonus(Entity attacker, CombatType style) {
+    private int getGearAttackBonus(Entity attacker, CombatType style) {
         EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
         int bonus = 0;
         if (style == RANGED) {
@@ -214,7 +213,7 @@ public class RangeAccuracy {
         return bonus;
     }
 
-    public static int getGearDefenceBonus(Entity defender, CombatType style) {
+    private int getGearDefenceBonus(Entity defender, CombatType style) {
         EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(defender, World.getWorld().equipmentInfo());
         int bonus = 0;
         if (style == RANGED) {
@@ -223,13 +222,13 @@ public class RangeAccuracy {
         return bonus;
     }
 
-    public static int getAttackRoll(Entity attacker, Entity defender, CombatType style) {
+    private int getAttackRoll(Entity attacker, Entity defender, CombatType style) {
         int effectiveRangeLevel = (int) Math.floor(getEffectiveRanged(attacker, defender, style));
         int equipmentRangeBonus = getGearAttackBonus(attacker, style);
         return (int) Math.floor(effectiveRangeLevel * (equipmentRangeBonus + 64));
     }
 
-    public static int getDefenceRoll(Entity defender, CombatType style) {
+    private int getDefenceRoll(Entity defender, CombatType style) {
         int effectiveDefenceLevel = (int) Math.floor(getEffectiveDefence(defender));
         int equipmentRangeBonus = getGearDefenceBonus(defender, style);
         return (int) Math.floor(effectiveDefenceLevel * (equipmentRangeBonus + 64));

@@ -9,6 +9,7 @@ import com.aelous.model.entity.combat.formula.accuracy.*;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.method.CombatMethod;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
+import com.aelous.model.entity.combat.weapon.AttackType;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.npc.NPC;
@@ -216,6 +217,8 @@ public class Hit {
             return;
         }
 
+        var attackType = attacker.getCombat().getFightType().getAttackType();
+
         if (target.dead()) {
             //System.out.println(target.getMobName() + " is dead.");
             return;
@@ -238,28 +241,21 @@ public class Hit {
         var success = false;
 
         if (target.isNpc() && target.npc().combatInfo() == null) {
-            System.err.println("missing cbinfo for "+target.npc());
+            System.err.println("missing cbinfo for " + target.npc());
         }
         if (combatType != null && !(target.isNpc() && target.npc().combatInfo() == null) && !(attacker.isNpc() && attacker.npc().combatInfo() == null)) {
             switch (combatType) {
                 case MAGIC -> {
-                    //if (attacker.isNpc() && target.isPlayer()) {
-                        //success = MagicAccuracyNpc.doesHit(attacker, target, combatType);
-                   // } else if (attacker.isPlayer() && target.isPlayer() || target.isNpc()) {
-                        success = MagicAccuracy.doesHit(attacker, target, combatType);
-                   // }
+                    MagicAccuracy magicAccuracy = new MagicAccuracy();
+                    success = magicAccuracy.doesHit(attacker, target, combatType);
                 }
                 case RANGED -> {
-                   // if (attacker.isNpc() && target.isPlayer()) {
-                        //success = RangeAccuracyNpc.doesHit(attacker, target, combatType);
-                  //  } else if (attacker.isPlayer() && target.isPlayer() || target.isNpc()) {
-                        success = RangeAccuracy.doesHit(attacker, target, combatType);
-                   // }
+                    RangeAccuracy rangeAccuracy = new RangeAccuracy();
+                    success = rangeAccuracy.doesHit(attacker, target, combatType);
                 }
                 case MELEE -> {
-                  //  if (attacker.isPlayer() && target.isPlayer()) {
-                        success = MeleeAccuracy.doesHit(attacker, target, combatType);
-                  //  }
+                    MeleeAccuracy meleeAccuracy = new MeleeAccuracy();
+                    success = meleeAccuracy.doesHit(attacker, target, combatType);
                 }
             }
         }

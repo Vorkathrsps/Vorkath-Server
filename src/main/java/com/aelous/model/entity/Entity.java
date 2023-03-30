@@ -492,12 +492,18 @@ public abstract class Entity {
         }
         int offX = (source.getY() - target.getY()) * -1;
         int offY = (source.getX() - target.getX()) * -1;
-        Tile offset = new Tile(offX, offY, source.getZ());
 
         int distance = this.tile().getChevDistance(target);
 
         if (distance <= 60) {
             int creatorSize = projectile.getCreatorSize() == -1 ? getSize() : projectile.getCreatorSize();
+
+            if (creatorSize > 1) {
+                offX += creatorSize / 2;
+                offY += creatorSize / 2;
+            }
+
+            Tile offset = new Tile(offX, offY, source.getZ());
 
             for (Player player : World.getWorld().getPlayers()) {
                 if (player == null) {

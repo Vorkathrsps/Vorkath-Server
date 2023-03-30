@@ -32,14 +32,9 @@ public class MeleeMaxHit {
      * @return return the max hit based on the given calculations
      */
 
-    public static int maxHit(Player player, boolean includeNpcMax) {
+    public int maxHit(Player player, boolean includeNpcMax) {
 
         double specialMultiplier = player.getCombatSpecial() == null ? 1 : player.getCombatSpecial().getSpecialMultiplier();
-
-        /**
-         * Max Hit
-         *
-         */
 
         int maxHit = (int) Math.floor(getBaseDamage(player) * slayerPerkBonus(player));
 
@@ -50,24 +45,20 @@ public class MeleeMaxHit {
         return (int) Math.floor(maxHit);
     }
 
-    public static int getBaseDamage(Player player) {
-        return (int) (Math.floor(0.5 + (getEffectiveStrength(player)) * (getStrengthBonus(player) + 64) + 320) / 640.0);
+    public int getBaseDamage(Player player) {
+        return (int) Math.floor((((0.5 + (getEffectiveStrength(player) * getStrengthBonus(player)) + 64) + 320)) / 640.0);
     }
 
-    public static int getStrengthBonus(Player player) {
+    public int getStrengthBonus(Player player) {
         EquipmentInfo.Bonuses bonuses = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo());
         return bonuses.str;
     }
 
-    public static int getStrengthLevel(Player player) {
+    public int getStrengthLevel(Player player) {
         return player.getSkills().level(Skills.STRENGTH);
     }
 
-    private static double getPrayerBonus(Player player) {
-        /**
-         * Prayer Bonus
-         *
-         */
+    private double getPrayerBonus(Player player) {
         double prayerBonus = 1;
         if (Prayers.usingPrayer(player, Prayers.BURST_OF_STRENGTH)) {
             prayerBonus *= 1.05;
@@ -83,12 +74,12 @@ public class MeleeMaxHit {
         return prayerBonus;
     }
 
-    public static int getStyleBonus(Player player) {
+    public int getStyleBonus(Player player) {
         FightStyle style = player.getCombat().getFightType().getStyle();
         return style.equals(FightStyle.AGGRESSIVE) ? 3 : style.equals(FightStyle.ACCURATE) ? 1 : 0;
     }
 
-    public static double slayerPerkBonus(Player player) {
+    public double slayerPerkBonus(Player player) {
         Entity target = player.getCombat().getTarget();
 
         double slayerPerkBonus = 1.0;
@@ -102,18 +93,7 @@ public class MeleeMaxHit {
         return slayerPerkBonus;
     }
 
-    public static double getPetBonus(Player player, boolean includeNpcMax) {
-        double petBonus = 1;
-        Entity target = player.getCombat().getTarget();
-        /**
-         * PetDefinitions bonuses
-         *
-         */
-
-        return petBonus;
-    }
-
-    public static double getOtherBonus(Player player, boolean includeNpcMax) {
+    public double getOtherBonus(Player player, boolean includeNpcMax) {
 
         FightStyle style = player.getCombat().getFightType().getStyle();
         double otherBonus = 1;
@@ -237,7 +217,7 @@ public class MeleeMaxHit {
         return otherBonus;
     }
 
-    public static int getEffectiveStrength(Player player) {
-        return (int) (Math.floor(((((getStrengthLevel(player)) * getPrayerBonus(player)) + getStyleBonus(player)) + 8) * getOtherBonus(player, true)) * getPetBonus(player, true));
+    public int getEffectiveStrength(Player player) {
+        return (int) Math.floor((getStrengthLevel(player) * getPrayerBonus(player)) + ((getStyleBonus(player) + 8) * getOtherBonus(player, true)));
     }
 }

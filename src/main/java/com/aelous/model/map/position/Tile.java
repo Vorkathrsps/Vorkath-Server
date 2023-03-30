@@ -623,6 +623,19 @@ public class Tile implements Cloneable {
         return region() >= 12957 && region() <= 12959 || region() >= 12701 && region() <= 12703;
     }
 
+    public boolean allowObjectPlacement() {
+        if (ObjectManager.objWithTypeExists(10, this)) {
+            return false;
+        }
+        if (ObjectManager.objWithTypeExists(11, this)) {
+            return false;
+        }
+        if ((World.getWorld().floorAt(this) & 0x4) != 0) {
+            return false;
+        }
+        return true;
+    }
+
     public boolean memberZone() {
         return region() == 13462 || region() == 9772;
     }

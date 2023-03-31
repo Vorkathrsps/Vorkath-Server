@@ -187,11 +187,6 @@ public class Edgeville extends PacketInteraction {
         }
 
         if (option == 1) {
-            if(obj.getId() == MAGIC_PORTAL_2157) {
-                Teleports.basicTeleport(player, new Tile(3156, 3975));
-                return true;
-            }
-
             if(obj.getId() == ELVEN_LAMP_36492) {
                 Teleports.basicTeleport(player, new Tile(3328, 4751));
                 return true;
@@ -265,35 +260,37 @@ public class Edgeville extends PacketInteraction {
 
             final Tile crossDitch = new Tile(0, player.tile().getY() < 3522 ? 3 : -3);
 
-            player.runFn(1, () -> {
-                int diffX = 0, diffY = 0;
-                if(obj.getRotation() == 0 || obj.getRotation() == 2) {
-                    if(player.getAbsY() == 3520) {
-                        diffY = 3;
+            if (obj.getId() == WILDERNESS_DITCH) {
+                player.runFn(1, () -> {
+                    int diffX = 0, diffY = 0;
+                    if (obj.getRotation() == 0 || obj.getRotation() == 2) {
+                        if (player.getAbsY() == 3520) {
+                            diffY = 3;
+                        } else {
+                            diffY -= 3;
+                        }
                     } else {
-                        diffY -= 3;
+                        if (player.getAbsX() == 2995) {
+                            diffX = 3;
+                        } else {
+                            diffX = -3;
+                        }
                     }
-                } else {
-                    if(player.getAbsX() == 2995) {
-                        diffX = 3;
-                    } else {
-                        diffX = -3;
-                    }
-                }
-                player.lock();
-                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(diffX, diffY), 30, 60, 6132, crossDitch.getY() == 3 ? 0 : 2);
-                player.setForceMovement(forceMovement);
-            }).then(2, player::unlock);
+                    player.lock();
+                    ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(diffX, diffY), 30, 60, 6132, crossDitch.getY() == 3 ? 0 : 2);
+                    player.setForceMovement(forceMovement);
+                }).then(2, player::unlock);
 
-            if (obj.getId() == ALTAR) {
-                if (player.getSkills().level(Skills.PRAYER) < player.getSkills().xpLevel(Skills.PRAYER)) {
-                    player.animate(new Animation(645));
-                    player.getSkills().replenishSkill(5, player.getSkills().xpLevel(5));
-                    player.message("You recharge your Prayer points.");
-                } else {
-                    player.message("You already have full prayer points.");
+                if (obj.getId() == ALTAR) {
+                    if (player.getSkills().level(Skills.PRAYER) < player.getSkills().xpLevel(Skills.PRAYER)) {
+                        player.animate(new Animation(645));
+                        player.getSkills().replenishSkill(5, player.getSkills().xpLevel(5));
+                        player.message("You recharge your Prayer points.");
+                    } else {
+                        player.message("You already have full prayer points.");
+                    }
+                    return true;
                 }
-                return true;
             }
 
             if (obj.getId() == DOOR_1536) {

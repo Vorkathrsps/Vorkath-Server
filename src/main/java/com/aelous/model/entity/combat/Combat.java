@@ -136,17 +136,16 @@ public class Combat {
     }
 
     public int maximumMeleeHit() {
-        MeleeMaxHit maxHit = new MeleeMaxHit();
         //NPC have their own max hits
         if (mob.isNpc()) {
             return mob.getAsNpc().combatInfo() == null ? 0 : mob.getAsNpc().combatInfo().maxhit;
         }
         //PvP max hit
         if (mob.isPlayer() && target != null && target.isNpc() && target.getAsNpc().id() == UNDEAD_COMBAT_DUMMY) {
-            return maxHit.maxHit(mob.getAsPlayer(), false);
+            return MeleeMaxHit.maxHit(mob.getAsPlayer(), false);
         }
         //PvM max hit
-        return maxHit.maxHit(mob.getAsPlayer(), true);
+        return MeleeMaxHit.maxHit(mob.getAsPlayer(), true);
     }
 
     /**

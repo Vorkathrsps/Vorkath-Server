@@ -521,7 +521,7 @@ public class DamageSimulators {
 
         public static int getEffectiveDefence(Entity defender) {
             FightStyle fightStyle = defender.getCombat().getFightType().getStyle();
-            int effectiveLevel = defender instanceof NPC ? ((NPC) defender).combatInfo().stats.defence : (int) Math.floor(getDefenceLevel(defender) * getPrayerDefenseBonus(defender));
+            int effectiveLevel = defender instanceof NPC ? ((NPC) defender).getCombatInfo().stats.defence : (int) Math.floor(getDefenceLevel(defender) * getPrayerDefenseBonus(defender));
 
             switch (fightStyle) {
                 case DEFENSIVE -> effectiveLevel = effectiveLevel + 3;
@@ -586,11 +586,11 @@ public class DamageSimulators {
         }
 
         public static int getAttackLevel(Entity attacker) {
-            return attacker instanceof NPC && attacker.getAsNpc().combatInfo().stats != null ? attacker.getAsNpc().combatInfo().stats.attack : attacker.getSkills().level(Skills.ATTACK);
+            return attacker instanceof NPC && attacker.getAsNpc().getCombatInfo().stats != null ? attacker.getAsNpc().getCombatInfo().stats.attack : attacker.getSkills().level(Skills.ATTACK);
         }
 
         public static int getDefenceLevel(Entity defender) {
-            return defender instanceof NPC && defender.getAsNpc().combatInfo().stats != null ? defender.getAsNpc().combatInfo().stats.defence : defender.getSkills().level(Skills.DEFENCE);
+            return defender instanceof NPC && defender.getAsNpc().getCombatInfo().stats != null ? defender.getAsNpc().getCombatInfo().stats.defence : defender.getSkills().level(Skills.DEFENCE);
         }
 
         private static int getGearDefenceBonus(Entity defender) {

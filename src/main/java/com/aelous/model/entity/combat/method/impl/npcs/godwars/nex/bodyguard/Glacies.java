@@ -24,7 +24,7 @@ public class Glacies extends CommonCombatMethod {
 
     @Override
     public void init(NPC npc) {
-        npc.combatInfo().scripts.agro_ = (n, t) -> false;
+        npc.getCombatInfo().scripts.agro_ = (n, t) -> false;
     }
 
     @Override

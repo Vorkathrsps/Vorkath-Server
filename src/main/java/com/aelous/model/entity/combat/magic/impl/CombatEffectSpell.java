@@ -95,7 +95,7 @@ public abstract class CombatEffectSpell extends CombatSpell {
                 if (castOn == n) // we're already done damage for the primary target, don't do even more
                     continue;
 
-                if (n.combatInfo() != null && n.combatInfo().unattackable) {
+                if (n.getCombatInfo() != null && n.getCombatInfo().unattackable) {
                     continue;
                 }
 

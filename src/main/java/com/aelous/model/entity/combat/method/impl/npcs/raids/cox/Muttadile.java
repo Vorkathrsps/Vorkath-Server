@@ -92,7 +92,7 @@ public class Muttadile extends CommonCombatMethod {
     }
 
     private void meleeAttack(NPC npc, Entity entity) {
-        npc.combatInfo().maxhit = 78;
+        npc.getCombatInfo().maxhit = 78;
         npc.animate(npc.attackAnimation());
         target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
     }
@@ -106,7 +106,7 @@ public class Muttadile extends CommonCombatMethod {
 
             for (Player member : party.getMembers()) {
                 if (member != null && member.getRaids() != null && member.getRaids().raiding(member) && member.tile().inArea(new Area(3300, 5313, 3324, 5338, member.raidsParty.getHeight()))) {
-                    npc.combatInfo().maxhit = 35;
+                    npc.getCombatInfo().maxhit = 35;
                     npc.animate(npc.attackAnimation());
                     var tileDist = npc.tile().transform(1, 1, 0).distance(member.tile());
                     var delay = Math.max(1, (50 + (tileDist * 12)) / 30);
@@ -126,7 +126,7 @@ public class Muttadile extends CommonCombatMethod {
 
             for (Player member : party.getMembers()) {
                 if (member != null && member.getRaids() != null && member.getRaids().raiding(member) && member.tile().inArea(new Area(3300, 5313, 3324, 5338, member.raidsParty.getHeight()))) {
-                    npc.combatInfo().maxhit = 45;
+                    npc.getCombatInfo().maxhit = 45;
                     npc.animate(npc.attackAnimation());
                     var tileDist = npc.tile().transform(1, 1, 0).distance(member.tile());
                     var delay = Math.max(1, (50 + (tileDist * 12)) / 30);
@@ -138,7 +138,7 @@ public class Muttadile extends CommonCombatMethod {
     }
 
     private void shockwaveAttack(NPC npc, Entity entity) {
-        npc.combatInfo().maxhit = 118;
+        npc.getCombatInfo().maxhit = 118;
         npc.animate(7424);
         target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
         target.message(Color.RED.wrap("You have been hit by the Muttadiles stomp attack!"));

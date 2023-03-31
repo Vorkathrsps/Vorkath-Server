@@ -65,7 +65,7 @@ public class CorruptedHunleffCombatStrategy extends CommonCombatMethod {
         if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
             if(World.getWorld().rollDie(2,1)) {
                 entity.animate(8420);
-                entity.getAsNpc().combatInfo().maxhit = 50;
+                entity.getAsNpc().getCombatInfo().maxhit = 50;
                 target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).setAccurate(true).submit();
             } else {
                 //Standard attacks: The Hunllef uses two main standard attacks, a ranged crystal-like attack and a magic based orb attack.

@@ -247,6 +247,6 @@ public abstract class CommonCombatMethod implements CombatMethod {
     }
 
     public boolean isAggressive() {
-        return entity.isNpc() && entity.npc().combatInfo() != null && entity.npc().combatInfo().aggressive && entity.npc().inViewport();
+        return entity.isNpc() && entity.npc().getCombatInfo() != null && entity.npc().getCombatInfo().aggressive && entity.npc().inViewport();
     }
 }

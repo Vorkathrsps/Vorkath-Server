@@ -515,11 +515,11 @@ public class NPCDeath {
             } else if (npc instanceof TzTokJad) {
                 npc.graphic(453);
             } else {
-                npc.animate(npc.combatInfo() != null ? npc.combatInfo().animations.death : -1);
+                npc.animate(npc.getCombatInfo() != null ? npc.getCombatInfo().animations.death : -1);
             }
 
             int finalRespawnTimer = respawnTimer;
-            Chain.bound(null).runFn(npc.combatInfo() != null ? npc.combatInfo().deathlen : 5, () -> {
+            Chain.bound(null).runFn(npc.getCombatInfo() != null ? npc.getCombatInfo().deathlen : 5, () -> {
                 if (killer != null) {
                     //Do inferno minigame death here and fight caves
 
@@ -597,7 +597,7 @@ public class NPCDeath {
                             });
                         }
 
-                        int dropRolls = npc.combatInfo().droprolls;
+                        int dropRolls = npc.getCombatInfo().droprolls;
 
                         if (killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.DOUBLE_DROP_CHANCE) && World.getWorld().rollDie(100, 1)) {
                             dropRolls += 1;
@@ -649,7 +649,7 @@ public class NPCDeath {
                         }
 
                         //Only give BM when the npc is flagged as boss and we have the perk unlocked
-                        if (npc.combatInfo().boss && killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.BLOOD_MONEY_FROM_KILLING_BOSSES)) {
+                        if (npc.getCombatInfo().boss && killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.BLOOD_MONEY_FROM_KILLING_BOSSES)) {
                             int combat = def.combatlevel;
 
                             var amount = 0;
@@ -669,8 +669,8 @@ public class NPCDeath {
                     }
 
                     // Custom drop tables
-                    if (npc.combatInfo() != null && npc.combatInfo().scripts != null && npc.combatInfo().scripts.droptable_ != null) {
-                        npc.combatInfo().scripts.droptable_.reward(npc, killer);
+                    if (npc.getCombatInfo() != null && npc.getCombatInfo().scripts != null && npc.getCombatInfo().scripts.droptable_ != null) {
+                        npc.getCombatInfo().scripts.droptable_.reward(npc, killer);
                     }
 
                 }
@@ -839,7 +839,7 @@ public class NPCDeath {
         if (npc.id() == KrakenBoss.KRAKEN_NPCID) {
             npc.transmog(KrakenBoss.KRAKEN_WHIRLPOOL);
             // Transmog kraken info after the drop table is done otherwise it'll look for the wrong table
-            npc.combatInfo(World.getWorld().combatInfo(KrakenBoss.KRAKEN_WHIRLPOOL));
+            npc.getCombatInfo(World.getWorld().combatInfo(KrakenBoss.KRAKEN_WHIRLPOOL));
         }
 
         if (npc.id() == KrakenBoss.TENTACLE_WHIRLPOOL || npc.id() == NpcIdentifiers.ENORMOUS_TENTACLE) {
@@ -862,11 +862,11 @@ public class NPCDeath {
         if (npc.hidden()) { // not respawned yet. we do this check incase it was force-respawned by .. group spawning (gwd)
             deathReset(npc);
             npc.hidden(false);
-            if (npc.combatInfo() != null) {
-                if (npc.combatInfo().stats != null || npc.combatInfo().originalStats != null)
-                    npc.combatInfo().stats = npc.combatInfo().originalStats.clone(); // Replenish all stats on this NPC.
-                if (npc.combatInfo().bonuses != null || npc.combatInfo().originalBonuses != null)
-                    npc.combatInfo().bonuses = npc.combatInfo().originalBonuses.clone(); // Replenish all stats on this NPC.
+            if (npc.getCombatInfo() != null) {
+                if (npc.getCombatInfo().stats != null || npc.getCombatInfo().originalStats != null)
+                    npc.getCombatInfo().stats = npc.getCombatInfo().originalStats.clone(); // Replenish all stats on this NPC.
+                if (npc.getCombatInfo().bonuses != null || npc.getCombatInfo().originalBonuses != null)
+                    npc.getCombatInfo().bonuses = npc.getCombatInfo().originalBonuses.clone(); // Replenish all stats on this NPC.
             }
 
             npc.hp(npc.maxHp(), 0); // Heal up to full hp

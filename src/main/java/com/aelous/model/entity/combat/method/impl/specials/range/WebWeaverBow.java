@@ -26,7 +26,7 @@ public class WebWeaverBow extends CommonCombatMethod {
 
         double secure = Math.min(Math.max(secureRandom.nextDouble(), 0.40), 0.10);
 
-        double hitLogic = (entity.getCombat().maximumRangedHit(ignoreArrows) * secure);
+        double hitLogic = (entity.getCombat().getMaximumRangedDamage(ignoreArrows) * secure);
 
         boolean chanceToPoison = Utils.securedRandomChance(0.35D);
 

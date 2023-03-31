@@ -40,12 +40,12 @@ public class AncientWyvern extends CommonCombatMethod {
 
     private void doTailWhip(Entity wyvern, Entity entity) {
         wyvern.animate(wyvern.attackAnimation());
-        target.hit(wyvern, Utils.random(wyvern.getAsNpc().combatInfo().maxhit), 1, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(wyvern, Utils.random(wyvern.getAsNpc().getCombatInfo().maxhit), 1, CombatType.MELEE).checkAccuracy().submit();
     }
 
     private void doMelee(Entity wyvern, Entity entity) {
         wyvern.animate(7658);
-        target.hit(wyvern, Utils.random(wyvern.getAsNpc().combatInfo().maxhit), 1, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(wyvern, Utils.random(wyvern.getAsNpc().getCombatInfo().maxhit), 1, CombatType.MELEE).checkAccuracy().submit();
     }
 
     @Override

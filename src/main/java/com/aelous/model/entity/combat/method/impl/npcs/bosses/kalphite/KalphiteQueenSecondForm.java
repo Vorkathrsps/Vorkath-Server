@@ -70,7 +70,7 @@ public class KalphiteQueenSecondForm extends CommonCombatMethod {
     public static void death(NPC npc) {
         NPC spawn = new NPC(6500, npc.tile());
 
-        Chain.bound(null).runFn(spawn.combatInfo().respawntime, () -> {
+        Chain.bound(null).runFn(spawn.getCombatInfo().respawntime, () -> {
             spawn.respawns(false);
             World.getWorld().registerNpc(spawn);
             npc.animate(6240);

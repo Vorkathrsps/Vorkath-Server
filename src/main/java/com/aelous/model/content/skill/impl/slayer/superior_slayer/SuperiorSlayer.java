@@ -42,7 +42,7 @@ public class SuperiorSlayer {
             World.getWorld().registerNpc(boss);
             boss.respawns(false);
             boss.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
-            boss.combatInfo().aggressive = true;
+            boss.getCombatInfo().aggressive = true;
             TaskManager.submit(new RemoveSuperiorTask(player, boss));
             player.getTimers().register(TimerKey.SUPERIOR_BOSS_DESPAWN, 200);
             player.message("<col=" + Color.RED.getColorValue() + ">A superior foe has appeared...");

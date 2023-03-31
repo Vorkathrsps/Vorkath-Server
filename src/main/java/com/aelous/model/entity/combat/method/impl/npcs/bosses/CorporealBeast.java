@@ -72,7 +72,7 @@ public class CorporealBeast extends CommonCombatMethod {
             stompAttack((NPC) entity, (Player) target);
         } else if (Utils.securedRandomChance(0.5D)) {
             entity.animate(corporeal_beast_animation);
-            entity.getAsNpc().combatInfo().maxhit = 55;
+            entity.getAsNpc().getCombatInfo().maxhit = 55;
             int duration = (60 + -5 + (10 * tileDist));
             Projectile p = new Projectile(entity, target, 314, 60, duration, 43, 31, 0, target.getSize(), 10);
             final int delay = entity.executeProjectile(p);
@@ -80,12 +80,12 @@ public class CorporealBeast extends CommonCombatMethod {
             stat_draining_magic_attack(target);
         } else if (Utils.securedRandomChance(0.5D)) {
             entity.animate(corporeal_beast_animation);
-            entity.getAsNpc().combatInfo().maxhit = 65;
+            entity.getAsNpc().getCombatInfo().maxhit = 65;
             splashing_magic_attack(((NPC) entity), target);
             entity.getTimers().register(TimerKey.COMBAT_ATTACK, 4);
         } else {
             entity.animate(corporeal_beast_animation);
-            entity.getAsNpc().combatInfo().maxhit = 65;
+            entity.getAsNpc().getCombatInfo().maxhit = 65;
             int duration = (60 + -5 + (10 * tileDist));
             Projectile p = new Projectile(entity, target, 316, 60, duration, 40, 25, 0, target.getSize(), 10);
             final int delay = entity.executeProjectile(p);

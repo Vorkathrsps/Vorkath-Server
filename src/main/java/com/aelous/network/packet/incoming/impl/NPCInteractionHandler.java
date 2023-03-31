@@ -106,7 +106,7 @@ public class NPCInteractionHandler implements PacketListener {
 
         if (opcode == ATTACK_OPTION) {
 
-            if (npc.combatInfo() == null) {
+            if (npc.getCombatInfo() == null) {
                 player.message("Missing combat definition forId=" + npc.getId() + ". Report this to a developer!");
                 return;
             }

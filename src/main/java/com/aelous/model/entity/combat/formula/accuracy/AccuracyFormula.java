@@ -139,8 +139,8 @@ public class AccuracyFormula {
         double effectiveDefence = 1D;
         if (defender instanceof NPC) {
             NPC npc = ((NPC) defender);
-            if (npc.combatInfo() != null && npc.combatInfo().stats != null)
-                effectiveDefence = npc.combatInfo().stats.defence;
+            if (npc.getCombatInfo() != null && npc.getCombatInfo().stats != null)
+                effectiveDefence = npc.getCombatInfo().stats.defence;
         } else {
             effectiveDefence = defender.getAsPlayer().getSkills().level(Skills.DEFENCE) + (type == MELEE ? 0 : 9D);
             effectiveDefence *= (1 + getPrayerDefenseBonus(defender));

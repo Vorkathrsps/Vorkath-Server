@@ -70,7 +70,7 @@ public class RangeAccuracyNpc {
     }
 
     public static int getDefenceNpc(Entity defender) {
-        return defender.getAsNpc().combatInfo().stats.defence;
+        return defender.getAsNpc().getCombatInfo().stats.defence;
     }
 
     public static int getEffectiveRanged(Entity attacker, CombatType style) {
@@ -152,8 +152,8 @@ public class RangeAccuracyNpc {
         int rangeLevel = 1;
         if (attacker instanceof NPC) {
             NPC npc = ((NPC) attacker);
-            if (npc.combatInfo() != null && npc.combatInfo().stats != null) {
-                rangeLevel = npc.combatInfo().stats.ranged;
+            if (npc.getCombatInfo() != null && npc.getCombatInfo().stats != null) {
+                rangeLevel = npc.getCombatInfo().stats.ranged;
             }
         } else {
             rangeLevel = attacker.getSkills().level(Skills.RANGED);
@@ -173,8 +173,8 @@ public class RangeAccuracyNpc {
                 if (attacker.isPlayer()) {
                     if (defender instanceof NPC) {
                         NPC n = (NPC) defender;
-                        if (n.combatInfo() != null && n.combatInfo().stats != null)
-                            magicLevel = n.combatInfo().stats.magic > 350 && player.raidsParty != null ? 350 : n.combatInfo().stats.magic > 250D ? 250D : n.combatInfo().stats.magic;
+                        if (n.getCombatInfo() != null && n.getCombatInfo().stats != null)
+                            magicLevel = n.getCombatInfo().stats.magic > 350 && player.raidsParty != null ? 350 : n.getCombatInfo().stats.magic > 250D ? 250D : n.getCombatInfo().stats.magic;
                     } else {
                         magicLevel = defender.getAsPlayer().getSkills().getMaxLevel(Skills.MAGIC);
                     }

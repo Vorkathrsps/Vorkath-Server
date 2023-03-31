@@ -187,7 +187,7 @@ public class Slayer {
                 SlayerCreature taskdef = SlayerCreature.lookup(task);
                 if (taskdef != null && taskdef.matches(npc.id())) {
                     //Making sure that we have a fallback exp drop
-                    killer.getSkills().addXp(Skills.SLAYER, npc.combatInfo().slayerxp != 0 ? npc.combatInfo().slayerxp : npc.maxHp());
+                    killer.getSkills().addXp(Skills.SLAYER, npc.getCombatInfo().slayerxp != 0 ? npc.getCombatInfo().slayerxp : npc.maxHp());
                     killer.putAttrib(AttributeKey.SLAYER_TASK_AMT, amt - 1);
                     amt -= 1;
 

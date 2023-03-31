@@ -47,7 +47,6 @@ import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.text.MessageFormat;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -189,11 +188,11 @@ public class NPC extends Entity {
             logger.error("NPC {} might not have an NPC definition entry.", box(id));
         }
 
-        if (combatInfo() != null && combatInfo().scripts != null && combatInfo().scripts.combat_ != null) {
+        if (getCombatInfo() != null && getCombatInfo().scripts != null && getCombatInfo().scripts.combat_ != null) {
             if (id == NpcIdentifiers.ZULRAH || id == NpcIdentifiers.ZULRAH_2043 || id == NpcIdentifiers.ZULRAH_2044) {
                 setCombatMethod(Zulrah.EmptyCombatMethod.make());
             }
-            setCombatMethod(combatInfo().scripts.newCombatInstance());
+            setCombatMethod(getCombatInfo().scripts.newCombatInstance());
         }
 
         if (getMobName().toLowerCase().contains("clerk") || getMobName().toLowerCase().contains("banker")) {
@@ -235,11 +234,11 @@ public class NPC extends Entity {
             logger.error("NPC {} might not have an NPC definition entry.", box(id));
         }
 
-        if (combatInfo() != null && combatInfo().scripts != null && combatInfo().scripts.combat_ != null) {
+        if (getCombatInfo() != null && getCombatInfo().scripts != null && getCombatInfo().scripts.combat_ != null) {
             if (id == NpcIdentifiers.ZULRAH || id == NpcIdentifiers.ZULRAH_2043 || id == NpcIdentifiers.ZULRAH_2044) {
                 setCombatMethod(Zulrah.EmptyCombatMethod.make());
             }
-            setCombatMethod(combatInfo().scripts.newCombatInstance());
+            setCombatMethod(getCombatInfo().scripts.newCombatInstance());
         }
 
         if (getMobName().toLowerCase().contains("clerk") || getMobName().toLowerCase().contains("banker")) {
@@ -367,11 +366,11 @@ public class NPC extends Entity {
         this.def = d;
     }
 
-    public NPCCombatInfo combatInfo() {
+    public NPCCombatInfo getCombatInfo() {
         return combatInfo;
     }
 
-    public void combatInfo(NPCCombatInfo info) {
+    public void getCombatInfo(NPCCombatInfo info) {
         combatInfo = info;
     }
 

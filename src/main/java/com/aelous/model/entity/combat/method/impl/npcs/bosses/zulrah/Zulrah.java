@@ -268,7 +268,7 @@ public class Zulrah {
         int duration = (41 + 11 + (5 * tileDist));
         Projectile p = new Projectile(npc, target, 1044, 41, duration, 65, 31, 0, target.getSize(), 5);
         final int delay = npc.executeProjectile(p);
-        int max = npc.combatInfo().maxhit;
+        int max = npc.getCombatInfo().maxhit;
         target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
         target.venom(npc);
     }

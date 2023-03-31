@@ -8,7 +8,6 @@ import com.aelous.model.content.EffectTimer;
 import com.aelous.model.content.duel.Dueling;
 import com.aelous.model.content.mechanics.MultiwayCombat;
 import com.aelous.model.content.members.MemberZone;
-import com.aelous.model.content.raids.party.Party;
 import com.aelous.model.content.sigils.SigilHandler;
 import com.aelous.model.content.sigils.data.tier1.FeralFighter;
 import com.aelous.model.content.skill.impl.slayer.SlayerConstants;
@@ -18,6 +17,7 @@ import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.formula.FormulaUtils;
+import com.aelous.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.hit.Splat;
 import com.aelous.model.entity.combat.hit.SplatType;
@@ -75,7 +75,6 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.ref.WeakReference;
-import java.security.SecureRandom;
 import java.util.*;
 
 import static com.aelous.model.entity.attributes.AttributeKey.*;
@@ -236,20 +235,20 @@ public class CombatFactory {
 
         switch (type) {
             case MELEE ->
-                max_damage = attacker.isNpc() ? attacker.getAsNpc().combatInfo() == null ? 0 : attacker.getAsNpc().combatInfo().maxhit : attacker.getCombat().maximumMeleeHit();
+                max_damage = attacker.isNpc() ? attacker.getAsNpc().getCombatInfo() == null ? 0 : attacker.getAsNpc().getCombatInfo().maxhit : attacker.getCombat().getMaximumMeleeDamage();
             case RANGED -> {
                 if (attacker.isPlayer()) {
                     Player p = attacker.getAsPlayer();
                     RangedWeapon rangeWeapon = p.getCombat().getRangedWeapon();
                     boolean ignoreArrows = rangeWeapon != null && rangeWeapon.ignoreArrowsSlot();
 
-                    max_damage = p.getCombat().maximumRangedHit(ignoreArrows);
+                    max_damage = p.getCombat().getMaximumRangedDamage(ignoreArrows);
                 } else {
                     //Npcs
-                    max_damage = attacker.getCombat().maximumRangedHit(true);
+                    max_damage = attacker.getCombat().getMaximumRangedDamage(true);
                 }
             }
-            case MAGIC -> max_damage = attacker.getCombat().maximumMagicHit();
+            case MAGIC -> max_damage = attacker.getCombat().getMaximumMagicDamage();
         }
 
         //Ability to override max hits
@@ -287,11 +286,6 @@ public class CombatFactory {
                         if (player.getCombatSpecial() == CombatSpecial.ARMADYL_GODSWORD) {
                             if (damage > 88) {
                                 damage = 88;
-                            }
-                        }
-                        if (player.getCombatSpecial() == CombatSpecial.ARMADYL_GODSWORD_OR) {
-                            if (damage > 89) {
-                                damage = 89;
                             }
                         }
                     }
@@ -349,8 +343,7 @@ public class CombatFactory {
                 npc.setCombatMethod(new CaveKraken());
             }
 
-            if (npc instanceof AlchemicalHydra) {
-                AlchemicalHydra hydra = (AlchemicalHydra) npc;
+            if (npc instanceof AlchemicalHydra hydra) {
                 if (!hydra.getShieldDropped()) {
                     player.message("The Alchemical Hydra's defences partially absorb your attack!");
                     damage = Math.round(damage * 0.5F);
@@ -358,10 +351,10 @@ public class CombatFactory {
             }
 
             if (attacker.isPlayer() && target.getAsNpc().id() == (NpcIdentifiers.CORPOREAL_BEAST)) {
-                if (!attacker.getAsPlayer().getCombat().combatType().equals(CombatType.MAGIC)) {
+                if (!attacker.getAsPlayer().getCombat().getCombatType().equals(CombatType.MAGIC)) {
                     if (!attacker.getCombat().getFightType().getAttackType().equals(AttackType.STAB) &&
                         !FormulaUtils.wearingSpearsOrHalberds(player)) {
-                        damage = (int) Math.floor(damage * 0.5D);
+                        damage = (int) Math.floor(damage * 0.5F);
                     }
                 }
             }
@@ -384,7 +377,7 @@ public class CombatFactory {
                 //System.err.println("Damage Before=" + damage);
 
                 if (isProtecting) {
-                    damage = (int) Math.floor(damage * 0.4);
+                    damage = (int) Math.floor(damage * 0.4F);
                 }
                 //System.err.println("Damage After=" + damage);
             }
@@ -393,7 +386,7 @@ public class CombatFactory {
         if (target instanceof Player) {
             Item shield = target.getAsPlayer().getEquipment().get(EquipSlot.SHIELD);
             if (shield != null && shield.getId() == 12817) {
-                if (target.isPlayer() && Utils.securedRandomChance(0.7D)) {
+                if (target.isPlayer() && Utils.securedRandomChance(0.7F)) {
                     damage = (int) Math.floor(damage * CombatConstants.ELYSIAN_DAMAGE_REDUCTION);
                     target.performGraphic(new Graphic(321, GraphicHeight.MIDDLE)); // Elysian spirit shield effect gfx
                 }
@@ -533,8 +526,7 @@ public class CombatFactory {
                     return false;
                 }
             }
-            if (method instanceof CommonCombatMethod) {
-                CommonCombatMethod commonCombatMethod = (CommonCombatMethod) method;
+            if (method instanceof CommonCombatMethod commonCombatMethod) {
                 commonCombatMethod.set(attacker, target);
                 if (attacker.isNpc() && !commonCombatMethod.inAttackRange()) {
                     DumbRoute.route(attacker, attacker.tile().getX(), attacker.tile().getY());
@@ -704,10 +696,10 @@ public class CombatFactory {
                 }
             }
         } else if (other.isNpc()) {
-            if ((other.getAsNpc()).combatInfo() == null) {
+            if ((other.getAsNpc()).getCombatInfo() == null) {
                 entity.message("Without combat attributes this monster is unattackable.");
                 return false;
-            } else if ((other.getAsNpc()).combatInfo().unattackable) {
+            } else if ((other.getAsNpc()).getCombatInfo().unattackable) {
                 entity.message("You cannot attack this monster.");
                 return false;
             }
@@ -728,9 +720,9 @@ public class CombatFactory {
 
         if (entity.isPlayer() && other.isNpc()) {
             var oppNpc = other.getAsNpc();
-            if (oppNpc.combatInfo() != null) {
+            if (oppNpc.getCombatInfo() != null) {
                 var noRequirementNeeded = entity.getAsPlayer().getSlayerRewards().getUnlocks().containsKey(SlayerConstants.NO_SLAYER_REQ);
-                var slayerReq = Math.max(SlayerCreature.slayerReq(oppNpc.id()), oppNpc.combatInfo().slayerlvl);
+                var slayerReq = Math.max(SlayerCreature.slayerReq(oppNpc.id()), oppNpc.getCombatInfo().slayerlvl);
                 if (!noRequirementNeeded && slayerReq > (entity.getAsPlayer()).getSkills().level(Skills.SLAYER)) {
                     entity.message("You need a slayer level of " + slayerReq + " to harm this NPC.");
                     return false;
@@ -979,8 +971,7 @@ public class CombatFactory {
             }
         }
         if (target.isNpc() && attacker != null && attacker.isPlayer()) {
-            if (target instanceof NPC) {
-                NPC npc = (NPC) target;
+            if (target instanceof NPC npc) {
                 Player player = (Player) attacker;
                 if (player.getCombat() == null)
                     return; // should never happen lol
@@ -989,8 +980,7 @@ public class CombatFactory {
                     hit.setDamage(npc.capDamage());
                 }
 
-                if (npc.getCombatMethod() instanceof Vorkath) {
-                    Vorkath combatMethod = (Vorkath) npc.getCombatMethod();
+                if (npc.getCombatMethod() instanceof Vorkath combatMethod) {
                     if (combatMethod.resistance != null) {
                         switch (combatMethod.resistance) {
                             case PARTIAL -> hit.setDamage((int) (hit.getDamage() * 0.5d));
@@ -1003,16 +993,6 @@ public class CombatFactory {
                 if (spell != null && spell.name().equals("Crumble Undead")) {
                     if (npc.def().name.equalsIgnoreCase("Zombified Spawn")) {
                         hit.setDamage(npc.hp());
-                    }
-                }
-
-                if (spell != null && spell.name().equalsIgnoreCase("Avada Kedavra")) {
-                    if (target.isNpc()) {
-                        boolean insideAnyRaids = false;
-                        if (player.getRaids() != null) {
-                            insideAnyRaids = player.getRaids().raiding(player);
-                        }
-                        hit.setDamage(npc.isWorldBoss() || insideAnyRaids || npc.id() == THE_NIGHTMARE ? 500 : npc.hp());
                     }
                 }
 
@@ -1087,8 +1067,7 @@ public class CombatFactory {
         }
 
         if (attacker != null && attacker.isPlayer() && !hit.reflected && hit.getCombatType() != null) {
-            if (attacker instanceof Player) {
-                Player playerAttacker = (Player) attacker;
+            if (attacker instanceof Player playerAttacker) {
                 // Reward the player experience for this attack (as long as it's not a combat dummy)..
                 if (!target.isNpc() || !target.getAsNpc().isCombatDummy()) {
                     // while damage can appear visually higher than opponents HP, you cannot get that EXP (stops boosters)
@@ -1120,7 +1099,7 @@ public class CombatFactory {
         if (target.isNpc()) {
             NPC npc = (NPC) target;
 
-            if (npc.combatInfo() == null) {
+            if (npc.getCombatInfo() == null) {
                 //logger.info("Missing combat attributes for npc {}", npc.id());
                 Utils.sendDiscordInfoLog("Missing combat attributes for npc " + npc.id());
                 return;
@@ -1281,7 +1260,7 @@ public class CombatFactory {
 
                 //Dustdevil
                 if (npc.id() == NpcIdentifiers.DUST_DEVIL || npc.id() == NpcIdentifiers.DUST_DEVIL_7249 || npc.id() == NpcIdentifiers.CHOKE_DEVIL) {
-                    if (attackerAsPlayer != null && (attackerAsPlayer.getEquipment().getId(EquipSlot.HEAD) != FACEMASK && !attackerAsPlayer.getEquipment().wearingSlayerHelm())) {
+                    if (attackerAsPlayer.getEquipment().getId(EquipSlot.HEAD) != FACEMASK && !attackerAsPlayer.getEquipment().wearingSlayerHelm()) {
                         hit.setDamage(0);
                         attackerAsPlayer.message("Blinded by the monster's dust, you miss your attack!");
                     }
@@ -1358,10 +1337,10 @@ public class CombatFactory {
         } else if (attacker != null && attacker.isNpc()) {
             NPC npc = attacker.getAsNpc();
             // Poison?
-            if (hit.getDamage() > 0 && (npc.combatInfo() != null && npc.combatInfo().poisonous())) {
-                var chance = npc.combatInfo().poisonchance;
-                if (chance >= 100 || World.getWorld().rollDie(100, npc.combatInfo().poisonchance)) {
-                    target.poison(npc.combatInfo().poison);
+            if (hit.getDamage() > 0 && (npc.getCombatInfo() != null && npc.getCombatInfo().poisonous())) {
+                var chance = npc.getCombatInfo().poisonchance;
+                if (chance >= 100 || World.getWorld().rollDie(100, npc.getCombatInfo().poisonchance)) {
+                    target.poison(npc.getCombatInfo().poison);
                 }
             }
         }
@@ -1745,7 +1724,7 @@ public class CombatFactory {
             if (Prayers.usingPrayer(victim, Prayers.REDEMPTION)
                 && victim.hp() <= (victim.getSkills().xpLevel(Skills.HITPOINTS) / 10)) {
                 int amountToHeal = (int) (victim.getSkills().xpLevel(Skills.PRAYER) * .25);
-                victim.performGraphic(new Graphic(436));
+                victim.graphic(436, GraphicHeight.HIGH, 0);
                 victim.getSkills().setLevel(Skills.PRAYER, 0);
                 victim.getSkills().setLevel(Skills.HITPOINTS, victim.hp() + amountToHeal);
                 victim.message("You've run out of prayer points!");
@@ -1758,7 +1737,7 @@ public class CombatFactory {
                 Player playerAttacker = (Player) attacker;
 
                 if (Prayers.usingPrayer(playerAttacker, Prayers.SMITE)) {
-                    int removePoints = damage / 4;
+                    int removePoints = (int) (damage * 0.25F);
 
                     victim.getSkills().alterSkill(Skills.PRAYER, -removePoints);
 

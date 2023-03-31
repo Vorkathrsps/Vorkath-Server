@@ -1,8 +1,6 @@
 package com.aelous.model.entity.combat.method.impl.npcs.godwars.nex;
 
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
-import com.aelous.core.task.TaskManager;
-import com.aelous.core.task.impl.ForceMovementTask;
 import com.aelous.model.World;
 import com.aelous.model.content.EffectTimer;
 import com.aelous.model.entity.Entity;
@@ -15,7 +13,6 @@ import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.FaceDirection;
-import com.aelous.model.entity.masks.ForceMovement;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
@@ -116,7 +113,7 @@ public class NexCombat extends CommonCombatMethod {
                 t.stop();
             }
         });
-        nex.combatInfo().scripts.agro_ = (n, p) -> {
+        nex.getCombatInfo().scripts.agro_ = (n, p) -> {
             return NEX_AREA.contains(p);
         };
     }
@@ -217,7 +214,7 @@ public class NexCombat extends CommonCombatMethod {
 
     private void zarosMelee(Entity target) {
         nex.animate(MELEE_ATTACK_ZAROS_PHASE);
-        int damage = nex.combatInfo().maxhit;
+        int damage = nex.getCombatInfo().maxhit;
         if (nex.turmoil) damage *= 1.50;
 
         //Nex hits through prayer when turmoil is activated but random
@@ -257,9 +254,9 @@ public class NexCombat extends CommonCombatMethod {
             int take = 5;
             target.graphic(2011);
             target.player().skills().alterSkill(skill, -take);
-            nex.combatInfo().stats.attack += take;
-            nex.combatInfo().stats.strength += take;
-            nex.combatInfo().stats.defence += take;
+            nex.getCombatInfo().stats.attack += take;
+            nex.getCombatInfo().stats.strength += take;
+            nex.getCombatInfo().stats.defence += take;
         }
     }
 
@@ -824,7 +821,7 @@ public class NexCombat extends CommonCombatMethod {
             NPC npc = hit.getTarget().npc();
             Player player = hit.getSource().player();
             npc.transmog(NEX_11282);
-            final NPCCombatInfo combatInfo = npc.combatInfo();
+            final NPCCombatInfo combatInfo = npc.getCombatInfo();
             npc.animate(combatInfo.animations.death);
             Chain.bound(null).runFn(combatInfo.deathlen, () -> {
                 npc.graphic(2013, GraphicHeight.LOW, 30);

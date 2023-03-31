@@ -93,8 +93,8 @@ public class RangeMaxHit {
         if (weapon != null && (weapon.getId() == TWISTED_BOW) && target != null && target.isNpc() && includeNpcMax) {
             int magicLevel = 0;
 
-            if (((NPC) target).combatInfo() != null && ((NPC) target).combatInfo().stats != null)
-                magicLevel = ((NPC) target).combatInfo().stats.magic;
+            if (((NPC) target).getCombatInfo() != null && ((NPC) target).getCombatInfo().stats != null)
+                magicLevel = ((NPC) target).getCombatInfo().stats.magic;
 
             //double damage = (250D + ((((10 * 3) * magicLevel) / 10D) - 14) / 100D) - (((((3 * magicLevel) /10D) - 140) / 100D) * 2);
             double damage = 250D + (((10*3*magicLevel) / 10D) - 14) - ((Math.floor((3 * magicLevel / 10D) - 140)) * 2);

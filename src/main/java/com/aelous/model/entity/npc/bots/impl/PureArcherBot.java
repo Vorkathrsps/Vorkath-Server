@@ -39,7 +39,7 @@ public class PureArcherBot extends NPCBotHandler implements CombatMethod {
         super(npc);
         npc.clearAttrib(AttributeKey.VENGEANCE_ACTIVE);
         npc.getCombat().setRangedWeapon(RangedData.RangedWeapon.MAGIC_SHORTBOW);
-        npc.combatInfo().projectile = 15;
+        npc.getCombatInfo().projectile = 15;
     }
 
     @Override
@@ -113,17 +113,17 @@ public class PureArcherBot extends NPCBotHandler implements CombatMethod {
                 if (!npc.isSpecialActivated()) {
                     //System.out.println("We are not spec.");
                     transform(DEFAULT_BOT_ID);
-                    npc.combatInfo().maxhit = 21;
+                    npc.getCombatInfo().maxhit = 21;
                     //Lower attack speed is faster.
-                    npc.combatInfo().attackspeed = 3;
+                    npc.getCombatInfo().attackspeed = 3;
                     npc.getCombat().setRangedWeapon(RangedData.RangedWeapon.MAGIC_SHORTBOW);
-                    npc.combatInfo().projectile = 15;
+                    npc.getCombatInfo().projectile = 15;
                 } else {
-                    npc.combatInfo().maxhit = 45;
+                    npc.getCombatInfo().maxhit = 45;
                     //Lower attack speed is faster.
-                    npc.combatInfo().attackspeed = 5;
+                    npc.getCombatInfo().attackspeed = 5;
                     npc.getCombat().setRangedWeapon(RangedData.RangedWeapon.BALLISTA);
-                    npc.combatInfo().projectile = 1301;
+                    npc.getCombatInfo().projectile = 1301;
                     //System.out.println("We are spec.");
                     npc.setSpecialAttackPercentage(npc.getSpecialAttackPercentage() - CombatSpecial.DRAGON_DAGGER.getDrainAmount()); //use dds spec amount (25%) for ballista spec
                     transform(SPEC_BOT_ID);

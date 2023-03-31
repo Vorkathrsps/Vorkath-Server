@@ -1,7 +1,6 @@
 package com.aelous.model.entity.combat.method.impl.npcs.vasilas;
 
 
-import com.aelous.GameServer;
 import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.attributes.AttributeKey;
@@ -59,7 +58,7 @@ public class NylocasVasilias extends CommonCombatMethod {
 
     @Override
     public void prepareAttack(Entity mob, Entity target) {
-        var combatInfo = mob.npc().combatInfo();
+        var combatInfo = mob.npc().getCombatInfo();
         if (isTransforming) {
             return;
         }

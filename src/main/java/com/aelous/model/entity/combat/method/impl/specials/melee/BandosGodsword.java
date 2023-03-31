@@ -35,13 +35,13 @@ public class BandosGodsword extends CommonCombatMethod {
                 var targetCurrentStat = target.isPlayer() ? target.getSkills().level(skills[i])
                     :
                     new int[] {
-                        target.getAsNpc().combatInfo().stats.attack,
-                        target.getAsNpc().combatInfo().stats.defence,
-                        target.getAsNpc().combatInfo().stats.strength,
+                        target.getAsNpc().getCombatInfo().stats.attack,
+                        target.getAsNpc().getCombatInfo().stats.defence,
+                        target.getAsNpc().getCombatInfo().stats.strength,
                         0,
-                        target.getAsNpc().combatInfo().stats.ranged,
+                        target.getAsNpc().getCombatInfo().stats.ranged,
                         0,
-                        target.getAsNpc().combatInfo().stats.magic
+                        target.getAsNpc().getCombatInfo().stats.magic
                     }[i];
 
                 if (targetCurrentStat - take < 0) // Cap the amount we can take away to that available.
@@ -52,11 +52,11 @@ public class BandosGodsword extends CommonCombatMethod {
                     target.getSkills().setLevel(skills[i], target.getSkills().level(skills[i]) - take);
                 } else {
                     switch (i) {
-                        case 0 -> target.getAsNpc().combatInfo().stats.attack -= take;
-                        case 1 -> target.getAsNpc().combatInfo().stats.defence -= take;
-                        case 2 -> target.getAsNpc().combatInfo().stats.strength -= take;
-                        case 4 -> target.getAsNpc().combatInfo().stats.ranged -= take;
-                        case 6 -> target.getAsNpc().combatInfo().stats.magic -= take;
+                        case 0 -> target.getAsNpc().getCombatInfo().stats.attack -= take;
+                        case 1 -> target.getAsNpc().getCombatInfo().stats.defence -= take;
+                        case 2 -> target.getAsNpc().getCombatInfo().stats.strength -= take;
+                        case 4 -> target.getAsNpc().getCombatInfo().stats.ranged -= take;
+                        case 6 -> target.getAsNpc().getCombatInfo().stats.magic -= take;
                     }
 
                 }

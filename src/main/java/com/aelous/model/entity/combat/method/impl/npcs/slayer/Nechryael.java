@@ -42,7 +42,7 @@ public class Nechryael extends CommonCombatMethod {
         for (NPC deathSpawn : minions) {
             if (!deathSpawn.hidden()) {
                 NPCDeath.deathReset(deathSpawn);
-                deathSpawn.animate(deathSpawn.combatInfo().animations.death);
+                deathSpawn.animate(deathSpawn.getCombatInfo().animations.death);
                 deathSpawn.respawns(false);
             }
         }

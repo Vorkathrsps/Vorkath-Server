@@ -17,8 +17,8 @@ public class YtHurKot extends NPC {
         super(id, tile);
         this.jad = jad;
         respawns(false);
-        combatInfo().aggressive = false;
-        combatInfo().combatFollowDistance = 7;
+        getCombatInfo().aggressive = false;
+        getCombatInfo().combatFollowDistance = 7;
         walkRadius(5);
         putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, 12);
     }

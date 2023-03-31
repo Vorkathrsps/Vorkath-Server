@@ -69,7 +69,7 @@ public class MagicAccuracyNpc {
     }
 
     public static int getMagicLevelNpc(Entity defender) {
-        return defender.getAsNpc().combatInfo().stats.magic;
+        return defender.getAsNpc().getCombatInfo().stats.magic;
     }
 
     public static int getMagicDefenceLevelNpc(Entity defender) {

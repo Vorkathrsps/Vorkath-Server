@@ -20,7 +20,7 @@ public class VoidWaker extends CommonCombatMethod {
     public void prepareAttack(Entity entity, Entity target) {
         SecureRandom randomGarunteedAccuracy = new SecureRandom();
 
-        double maxHit = entity.getCombat().maximumMeleeHit();
+        double maxHit = entity.getCombat().getMaximumMeleeDamage();
         double minhit = maxHit * 0.5;
         double hitLogic = minhit + randomGarunteedAccuracy.nextInt((int) (maxHit * 1.5 + 1 - minhit));
 

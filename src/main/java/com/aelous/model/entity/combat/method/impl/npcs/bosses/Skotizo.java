@@ -65,7 +65,7 @@ public class Skotizo extends CommonCombatMethod {
         });
 
         npc.animate(npc.attackAnimation());
-        npc.getTimers().register(TimerKey.COMBAT_ATTACK, npc.combatInfo().attackspeed);
+        npc.getTimers().register(TimerKey.COMBAT_ATTACK, npc.getCombatInfo().attackspeed);
     }
 
     /**
@@ -86,7 +86,7 @@ public class Skotizo extends CommonCombatMethod {
             }
         });
         npc.animate(69);
-        npc.getTimers().register(TimerKey.COMBAT_ATTACK, npc.combatInfo().attackspeed);
+        npc.getTimers().register(TimerKey.COMBAT_ATTACK, npc.getCombatInfo().attackspeed);
     }
 
 
@@ -108,7 +108,7 @@ public class Skotizo extends CommonCombatMethod {
         });
 
         npc.animate(69);
-        npc.getTimers().register(TimerKey.COMBAT_ATTACK, npc.combatInfo().attackspeed);
+        npc.getTimers().register(TimerKey.COMBAT_ATTACK, npc.getCombatInfo().attackspeed);
     }
 
     @Override

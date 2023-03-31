@@ -110,7 +110,7 @@ public class ZulAndra extends PacketInteraction {
             zulrah.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
             zulrah.setPositionToFace(null);
             zulrah.noRetaliation(true);
-            zulrah.combatInfo().aggressive = false;
+            zulrah.getCombatInfo().aggressive = false;
         }).then(1, () -> player.message("Welcome to Zulrah's shrine.")).then(1, () -> {
             var zulrah = player.getInstancedArea().getNpcs().get(0);
             World.getWorld().registerNpc(zulrah);

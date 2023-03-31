@@ -11,10 +11,10 @@ import com.aelous.model.entity.npc.NPCCombatInfo;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
-import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.JGson;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import lombok.Data;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -123,8 +123,8 @@ public class EquipmentInfo {
             }
         } else {
             NPC npc = (NPC) entity;
-            if (npc.combatInfo() != null) {
-                NPCCombatInfo.Bonuses i = npc.combatInfo().originalBonuses;
+            if (npc.getCombatInfo() != null) {
+                NPCCombatInfo.Bonuses i = npc.getCombatInfo().originalBonuses;
                 bonuses.stabdef = i.stabdefence;
                 bonuses.slashdef = i.slashdefence;
                 bonuses.crushdef = i.crushdefence;
@@ -338,6 +338,7 @@ public class EquipmentInfo {
         return itemRequirements.get(id);
     }
 
+    @Data
     public static class Bonuses {
 
         public int stab;

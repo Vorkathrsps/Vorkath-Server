@@ -10,8 +10,6 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Projectile;
-import com.aelous.model.entity.masks.impl.graphics.Graphic;
-import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
@@ -88,13 +86,13 @@ public class RuneDragon extends CommonCombatMethod {
 
     private void doMelee(NPC npc, Entity target) {
         npc.animate(npc.attackAnimation());
-        target.hit(npc, Utils.random(npc.combatInfo().maxhit), CombatType.MELEE).checkAccuracy().submit();
+        target.hit(npc, Utils.random(npc.getCombatInfo().maxhit), CombatType.MELEE).checkAccuracy().submit();
     }
 
     private void doRangedAttack(NPC npc, Entity target) {
         npc.animate(81);
         new Projectile(npc, target, 1486, 40, npc.projectileSpeed(target), 10, 31, 0, 16, 127).sendProjectile();
-        int damage = Utils.random(npc.combatInfo().maxhit);
+        int damage = Utils.random(npc.getCombatInfo().maxhit);
         //The second attack is a ranged attack that hits through Protect from Missiles, and uses the Life Leech effect from enchanted onyx bolts,
         // where the dragon will heal itself for 100% of the damage dealt to the player.
         if (Utils.rollDie(5, 2)) {
@@ -109,7 +107,7 @@ public class RuneDragon extends CommonCombatMethod {
     private void doMagicBlast(NPC npc, Entity target) {
         npc.animate(81);
         new Projectile(npc, target, 162, 40, npc.projectileSpeed(target), 10, 31, 0, 16, 127).sendProjectile();
-        target.hit(npc, Utils.random(npc.combatInfo().maxhit), npc.getProjectileHitDelay(target), CombatType.MAGIC).checkAccuracy().submit();
+        target.hit(npc, Utils.random(npc.getCombatInfo().maxhit), npc.getProjectileHitDelay(target), CombatType.MAGIC).checkAccuracy().submit();
         //target.delayedGraphics(new Graphic(163, GraphicHeight.HIGH), npc.getProjectileHitDelay(target));
     }
 

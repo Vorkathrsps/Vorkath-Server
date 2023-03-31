@@ -15,6 +15,18 @@ import java.util.List;
  */
 public class Pet {
 
+
+    /**
+     * Check The Pet
+     * Pet Type
+     * Does the pet have an owner
+     * who is the owner
+     * is the pet spawned
+     * did the player unlock the pet
+     */
+
+
+
     /**
      * References the pet for checking bonuses ect
      * @param player
@@ -22,13 +34,12 @@ public class Pet {
      * @return
      */
     public static boolean isOut(Player player, PetDefinitions defs) {
-        return player.getPet().hasPet() && player.getPet().currentPet.id() == defs.npc;
+        return player.getPet().hasPet() && player.getPet().getCurrentPet().id() == defs.npc;
     }
 
-    private Player owner;
+    private final Player owner;
 
     public List<Integer> unlockedPets = Lists.newArrayList();
-
     private NPC currentPet;
 
     public NPC getCurrentPet() {
@@ -52,7 +63,6 @@ public class Pet {
 
     public void onLogin() {
         if (hasPet()) {
-            System.err.println("already has a pet???");
             return;
         }
         if (!hasPet()) {
@@ -82,8 +92,8 @@ public class Pet {
         }
 
         NPC npc = new NPC(defs.npc, owner.tile(), true).walkRadius(-1);
-        currentPet = npc;
-        followOwner();
+        this.currentPet = npc;
+        this.followOwner();
         return true;
 
     }
@@ -131,8 +141,8 @@ public class Pet {
         if (logout) {
             return;
         }
-        owner.getInventory().add(PetDefinitions.getByNpc(currentPet.id()).item, 1);
-        owner.getPacketSender().sendMessage("You pick up your pet.");
+        this.owner.getInventory().add(PetDefinitions.getByNpc(currentPet.id()).item, 1);
+        this.owner.getPacketSender().sendMessage("You pick up your pet.");
         currentPet = null;
     }
 

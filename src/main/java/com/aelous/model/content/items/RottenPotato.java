@@ -2,12 +2,10 @@ package com.aelous.model.content.items;
 
 import com.aelous.GameServer;
 import com.aelous.model.World;
-import com.aelous.model.content.instance.InstanceHeight;
 import com.aelous.model.entity.attributes.AttributeKey;
 
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatType;
-import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.InputScript;
 import com.aelous.model.inter.dialogue.Dialogue;
@@ -197,8 +195,8 @@ public class RottenPotato extends PacketInteraction {
                             int id = (Integer) value;
                             NPC npc = new NPC(id, new Tile(player.tile().x - 2, player.tile().y));
                             World.getWorld().registerNpc(npc);
-                            if (npc.combatInfo() != null)
-                                npc.combatInfo().aggressive = true;
+                            if (npc.getCombatInfo() != null)
+                                npc.getCombatInfo().aggressive = true;
                             return true;
                         }
                     });

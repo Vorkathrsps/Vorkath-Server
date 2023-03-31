@@ -50,8 +50,8 @@ public class BossKillLog {
                 player.putAttrib(BOSS_POINTS, points);
                 player.message(Color.PURPLE.wrap("You have received +"+boss.points+" boss points, you now have a total of "+Utils.formatNumber(points)+" boss points."));
 
-                if(npc.combatInfo() == null) return;
-                int deathLength = npc.combatInfo().deathlen;
+                if(npc.getCombatInfo() == null) return;
+                int deathLength = npc.getCombatInfo().deathlen;
                 break;
             }
         }

@@ -25,7 +25,6 @@ import com.aelous.utility.Color;
 import com.aelous.utility.TickDelay;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
-import org.apache.logging.log4j.LogManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -124,7 +123,7 @@ public class GreatOlm extends CommonCombatMethod {
                 @Override
                 public void onDeath(Player killer, NPC npc) {
                     clawDeathStart(npc);
-                    Chain.bound(null).runFn(npc.combatInfo().deathlen, () ->  {
+                    Chain.bound(null).runFn(npc.getCombatInfo().deathlen, () ->  {
                         clawDeathEnd(npc);
                     });
                 }
@@ -159,7 +158,7 @@ public class GreatOlm extends CommonCombatMethod {
                 @Override
                 public void onDeath(Player killer, NPC npc) {
                     clawDeathStart(npc);
-                    Chain.bound(null).runFn(npc.combatInfo().deathlen, () ->  {
+                    Chain.bound(null).runFn(npc.getCombatInfo().deathlen, () ->  {
                         clawDeathEnd(npc);
                     });
                 }
@@ -295,7 +294,7 @@ public class GreatOlm extends CommonCombatMethod {
     public void onDeath(Player killer, NPC npc) {
         Party party = killer.raidsParty;
         olmDeathStart();
-        Chain.bound(null).runFn(npc.combatInfo().deathlen, () ->  {
+        Chain.bound(null).runFn(npc.getCombatInfo().deathlen, () ->  {
             olmDeathEnd(party);
         });
     }
@@ -422,7 +421,7 @@ public class GreatOlm extends CommonCombatMethod {
             Projectile projectile = new Projectile(npc, p, 1339, 51, duration, 105, 0, 0, target.getSize(), 10);
             int delay = projectile.send(npc, target);
             //int delay = (lastBasicAttackStyle == CombatType.RANGED ? RANGED_PROJECTILE : MAGIC_PROJECTILE).send(npc, p);
-            int maxDamage = npc.combatInfo().maxhit;
+            int maxDamage = npc.getCombatInfo().maxhit;
             if (Prayers.usingPrayer(p, lastBasicAttackStyle == CombatType.RANGED ? Prayers.PROTECT_FROM_MISSILES : Prayers.PROTECT_FROM_MAGIC))
                 maxDamage /= 4;
             Hit hit = p.hit(npc, maxDamage, lastBasicAttackStyle).clientDelay(delay).checkAccuracy();
@@ -491,7 +490,7 @@ public class GreatOlm extends CommonCombatMethod {
             Chain.noCtx().runFn(2, () ->  {
                 crystal.setId(LARGE_CRYSTALS);
                 if (p.tile().equals(pos))
-                    p.hit(npc, World.getWorld().random(npc.combatInfo().maxhit));
+                    p.hit(npc, World.getWorld().random(npc.getCombatInfo().maxhit));
             }).delay(1, () -> crystal.remove());
         });
     }
@@ -513,7 +512,7 @@ public class GreatOlm extends CommonCombatMethod {
                 World.getWorld().tileGraphic(1356, lightningPos[0], 0, 0);
                 forAllTargets(player -> {
                     if (player.isAt(lightningPos[0])) {
-                        player.hit(npc, World.getWorld().random(npc.combatInfo().maxhit / 2));
+                        player.hit(npc, World.getWorld().random(npc.getCombatInfo().maxhit / 2));
                         player.stun(2, true);
                         CombatFactory.disableProtectionPrayers(player, true, true);
                         player.message(Color.RED.wrap("You've been electrocuted to the spot!"));

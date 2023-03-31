@@ -119,7 +119,7 @@ public class KrakenBoss {
     public static void onNpcSpawn(NPC kraken) {
         if (kraken.id() == KRAKEN_WHIRLPOOL) {
 
-            kraken.combatInfo().respawntime = 9;
+            kraken.getCombatInfo().respawntime = 9;
 
             // Is it spawned in an Instance?
             //TODO?
@@ -168,7 +168,7 @@ public class KrakenBoss {
 
             npc.transmog(KRAKEN_NPCID);
             npc.def(World.getWorld().definitions().get(NpcDefinition.class, KRAKEN_NPCID));
-            npc.combatInfo(World.getWorld().combatInfo(KRAKEN_NPCID)); // Quickly replace scripts for retaliation before Java finishes processing.
+            npc.getCombatInfo(World.getWorld().combatInfo(KRAKEN_NPCID)); // Quickly replace scripts for retaliation before Java finishes processing.
             npc.setCombatMethod(World.getWorld().combatInfo(KRAKEN_NPCID).scripts.newCombatInstance());
             npc.animate(7135);
         }
@@ -182,7 +182,7 @@ public class KrakenBoss {
                 minion.stopActions(false);
                 minion.getCombat().reset();
                 NPCDeath.deathReset(minion);
-                minion.animate(minion.combatInfo().animations.death);
+                minion.animate(minion.getCombatInfo().animations.death);
             }
         }
 
@@ -192,7 +192,7 @@ public class KrakenBoss {
             for (NPC minion : minions) {
                 minion.hidden(true);
                 minion.transmog(TENTACLE_WHIRLPOOL); // Set it back to the whirlpool
-                minion.combatInfo(World.getWorld().combatInfo(TENTACLE_WHIRLPOOL));
+                minion.getCombatInfo(World.getWorld().combatInfo(TENTACLE_WHIRLPOOL));
                 minion.hp(minion.maxHp(), 0);
             }
         }).then(11, () -> {

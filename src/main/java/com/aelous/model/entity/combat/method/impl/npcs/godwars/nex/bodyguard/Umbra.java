@@ -25,7 +25,7 @@ public class Umbra extends CommonCombatMethod {
 
     @Override
     public void init(NPC npc) {
-        npc.combatInfo().scripts.agro_ = (n, t) -> false;
+        npc.getCombatInfo().scripts.agro_ = (n, t) -> false;
     }
     @Override
     public void prepareAttack(Entity entity, Entity target) {

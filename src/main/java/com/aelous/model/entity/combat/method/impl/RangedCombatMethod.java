@@ -28,7 +28,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
         attacker.animate(new Animation(attacker.attackAnimation()));
 
         if (attacker.isNpc()) {
-            new Projectile(attacker, target, attacker.getAsNpc().combatInfo().projectile, 41, 60, 40, 36, 15).sendProjectile();
+            new Projectile(attacker, target, attacker.getAsNpc().getCombatInfo().projectile, 41, 60, 40, 36, 15).sendProjectile();
             return;
         }
 

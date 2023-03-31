@@ -9,7 +9,6 @@ import com.aelous.model.entity.combat.formula.accuracy.*;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.method.CombatMethod;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
-import com.aelous.model.entity.combat.weapon.AttackType;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.npc.NPC;
@@ -201,12 +200,7 @@ public class Hit {
     }
 
     public boolean invalid() {
-
-        // Locked, and the lock isn't one that allows damage through.
-        if (target.locked() && !target.isDamageOkLocked() && !target.isDelayDamageLocked() && !target.isMoveLockedDamageOk())
-            return true;
-
-        return false;
+        return target.locked() && !target.isDamageOkLocked() && !target.isDelayDamageLocked() && !target.isMoveLockedDamageOk();
     }
 
     /**
@@ -240,10 +234,10 @@ public class Hit {
 
         var success = false;
 
-        if (target.isNpc() && target.npc().combatInfo() == null) {
+        if (target.isNpc() && target.npc().getCombatInfo() == null) {
             System.err.println("missing cbinfo for " + target.npc());
         }
-        if (combatType != null && !(target.isNpc() && target.npc().combatInfo() == null) && !(attacker.isNpc() && attacker.npc().combatInfo() == null)) {
+        if (combatType != null && !(target.isNpc() && target.npc().getCombatInfo() == null) && !(attacker.isNpc() && attacker.npc().getCombatInfo() == null)) {
             switch (combatType) {
                 case MAGIC -> {
                     MagicAccuracy magicAccuracy = new MagicAccuracy();

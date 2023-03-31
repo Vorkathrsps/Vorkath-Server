@@ -65,7 +65,7 @@ public class Venenatis extends CommonCombatMethod {
         var delay = Math.max(1, (20 + (tileDist * 12)) / 30);
         target.message("Venenatis hurls her web at you, sticking you to the ground.");
         target.stun(6, false,true,true);
-        target.hit(npc, npc.combatInfo().maxhit, delay);// Cannot protect from this.
+        target.hit(npc, npc.getCombatInfo().maxhit, delay);// Cannot protect from this.
     }
 
     private void drainPrayer(Entity npc, Entity target) {

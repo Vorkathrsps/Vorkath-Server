@@ -35,7 +35,6 @@ public class MeleeMaxHit {
     public static int maxHit(Player player, boolean includeNpcMax) {
 
         double specialMultiplier = player.getCombatSpecial() == null ? 1 : player.getCombatSpecial().getSpecialMultiplier();
-
         /**
          * Max Hit
          *

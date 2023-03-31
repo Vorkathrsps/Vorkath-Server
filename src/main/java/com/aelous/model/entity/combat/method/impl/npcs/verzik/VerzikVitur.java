@@ -4,7 +4,6 @@ import com.aelous.cache.definitions.NpcDefinition;
 import com.aelous.core.task.Task;
 import com.aelous.core.task.TaskManager;
 import com.aelous.model.World;
-import com.aelous.model.content.raids.party.Party;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatType;
@@ -22,12 +21,9 @@ import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 
-import java.util.List;
-
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.TREASURE_ROOM;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
-import static com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars.nex;
 import static com.aelous.model.entity.combat.method.impl.npcs.verzik.VerzikPhase.INIT_PHASE_2;
 import static com.aelous.utility.ItemIdentifiers.DAWNBRINGER;
 
@@ -48,7 +44,7 @@ public class VerzikVitur extends CommonCombatMethod {
 
     @Override
     public void init(NPC npc) {
-        npc.combatInfo().scripts.agro_ = (n, t) -> phase != INIT_PHASE_2;
+        npc.getCombatInfo().scripts.agro_ = (n, t) -> phase != INIT_PHASE_2;
     }
 
     @Override

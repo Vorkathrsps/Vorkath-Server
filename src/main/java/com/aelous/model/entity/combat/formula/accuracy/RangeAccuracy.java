@@ -36,13 +36,13 @@ public class RangeAccuracy {
     byte[] seed = new byte[16];
     SecureRandom random = new SecureRandom(seed);
 
-    public boolean doesHit(Entity attacker, Entity defender, CombatType style) {
+    public boolean doesHit(final Entity attacker, final Entity defender, CombatType style) {
         return successful(attacker, defender, style);//doesHit(entity, enemy, style, 1);
     }
 
-    private boolean successful(Entity attacker, Entity defender, CombatType style) {
-        int attackBonus = getAttackRoll(attacker, defender, style);
-        int defenceBonus = getDefenceRoll(defender, style);
+    private boolean successful(final Entity attacker, final Entity defender, CombatType style) {
+        final int attackBonus = getAttackRoll(attacker, defender, style);
+        final int defenceBonus = getDefenceRoll(defender, style);
         double successfulRoll;
 
         random.nextBytes(seed);
@@ -59,7 +59,7 @@ public class RangeAccuracy {
 
         return successfulRoll > selectedChance;
     }
-    private double getPrayerAttackBonus(Entity attacker) {
+    private double getPrayerAttackBonus(final Entity attacker) {
         double prayerBonus = 1D;
         if (Prayers.usingPrayer(attacker, SHARP_EYE))
             prayerBonus *= 1.05D; // 5% range level boost
@@ -72,7 +72,7 @@ public class RangeAccuracy {
         return prayerBonus;
     }
 
-    private double getPrayerDefenseBonus(Entity defender) {
+    private double getPrayerDefenseBonus(final Entity defender) {
         double prayerBonus = 1D;
         if (Prayers.usingPrayer(defender, RIGOUR)) {
             prayerBonus *= 1.25D;
@@ -80,7 +80,7 @@ public class RangeAccuracy {
         return prayerBonus;
     }
 
-    private int getEffectiveDefence(Entity defender) {
+    private int getEffectiveDefence(final Entity defender) {
         FightStyle fightStyle = defender.getCombat().getFightType().getStyle();
         int effectiveLevel = (int) Math.floor(getRangeLevel(defender) * getPrayerDefenseBonus(defender));
 
@@ -94,7 +94,7 @@ public class RangeAccuracy {
         return effectiveLevel;
     }
 
-    private int getEffectiveRanged(Entity attacker, Entity defender, CombatType style) {
+    private int getEffectiveRanged(final Entity attacker, final Entity defender, CombatType style) {
         var task_id = attacker.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
         final Item weapon = attacker.isPlayer() ? attacker.getAsPlayer().getEquipment().get(EquipSlot.WEAPON) : null;
         var task = SlayerCreature.lookup(task_id);
@@ -171,8 +171,8 @@ public class RangeAccuracy {
 
                         if (attacker.isPlayer()) {
                             if (defender instanceof NPC n) {
-                                if (n.combatInfo() != null && n.combatInfo().stats != null)
-                                    magicLevel = n.combatInfo().stats.magic > 350 && player.raidsParty != null ? 350 : n.combatInfo().stats.magic > 250D ? 250D : n.combatInfo().stats.magic;
+                                if (n.getCombatInfo() != null && n.getCombatInfo().stats != null)
+                                    magicLevel = n.getCombatInfo().stats.magic > 350 && player.raidsParty != null ? 350 : n.getCombatInfo().stats.magic > 250D ? 250D : n.getCombatInfo().stats.magic;
                             } else {
                                 magicLevel = defender.getAsPlayer().getSkills().getMaxLevel(Skills.MAGIC);
                             }
@@ -193,18 +193,18 @@ public class RangeAccuracy {
         return effectiveLevel;
     }
 
-    private int getRangeLevel(Entity attacker) {
+    private int getRangeLevel(final Entity attacker) {
         int rangeLevel = 1;
         if (attacker instanceof NPC npc) {
-            if (npc.combatInfo() != null && npc.combatInfo().stats != null)
-                rangeLevel = npc.combatInfo().stats.ranged;
+            if (npc.getCombatInfo() != null && npc.getCombatInfo().stats != null)
+                rangeLevel = npc.getCombatInfo().stats.ranged;
         } else {
             rangeLevel = attacker.getSkills().level(Skills.RANGED);
         }
         return rangeLevel;
     }
 
-    private int getGearAttackBonus(Entity attacker, CombatType style) {
+    private int getGearAttackBonus(final Entity attacker, CombatType style) {
         EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
         int bonus = 0;
         if (style == RANGED) {
@@ -213,7 +213,7 @@ public class RangeAccuracy {
         return bonus;
     }
 
-    private int getGearDefenceBonus(Entity defender, CombatType style) {
+    private int getGearDefenceBonus(final Entity defender, CombatType style) {
         EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(defender, World.getWorld().equipmentInfo());
         int bonus = 0;
         if (style == RANGED) {
@@ -222,7 +222,7 @@ public class RangeAccuracy {
         return bonus;
     }
 
-    private int getAttackRoll(Entity attacker, Entity defender, CombatType style) {
+    private int getAttackRoll(final Entity attacker, final Entity defender, CombatType style) {
         int effectiveRangeLevel = (int) Math.floor(getEffectiveRanged(attacker, defender, style));
         int equipmentRangeBonus = getGearAttackBonus(attacker, style);
         return (int) Math.floor(effectiveRangeLevel * (equipmentRangeBonus + 64));

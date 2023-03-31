@@ -85,13 +85,13 @@ public class Vespula extends CommonCombatMethod {
             // land
             npc.transmog(VESPULA_7532);
             npc.heal(npc.maxHp());
-            npc.combatInfo(World.getWorld().combatInfo(VESPULA_7532));
+            npc.getCombatInfo(World.getWorld().combatInfo(VESPULA_7532));
             npc.setCombatMethod(World.getWorld().combatInfo(VESPULA_7532).scripts.newCombatInstance());
             npc.animate(7457);
             Chain.bound(null).runFn(50, () -> {
                 if (!npc.dead()) {
                     npc.transmog(VESPULA);
-                    npc.combatInfo(World.getWorld().combatInfo(VESPULA_7532));
+                    npc.getCombatInfo(World.getWorld().combatInfo(VESPULA_7532));
                     npc.setCombatMethod(World.getWorld().combatInfo(VESPULA_7532).scripts.newCombatInstance());
                     npc.animate(7452);
                     npc.heal(npc.maxHp());

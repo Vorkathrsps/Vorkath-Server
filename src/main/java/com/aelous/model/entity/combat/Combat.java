@@ -106,7 +106,7 @@ public class Combat {
         this.hitQueue = new HitQueue();
     }
 
-    public CombatType combatType() {
+    public CombatType getCombatType() {
         CombatType combatType = null;
         if (method instanceof CommonCombatMethod commonCombatMethod) {
             combatType = commonCombatMethod.styleOf();
@@ -122,9 +122,9 @@ public class Combat {
         mob.getTimers().extendOrRegister(TimerKey.COMBAT_ATTACK, ticks);
     }
 
-    public int maximumMagicHit() {
+    public int getMaximumMagicDamage() {
         if (mob.isNpc()) {
-            return mob.getAsNpc().combatInfo() == null ? 0 : mob.getAsNpc().combatInfo().maxhit;
+            return mob.getAsNpc().getCombatInfo() == null ? 0 : mob.getAsNpc().getCombatInfo().maxhit;
         }
         Player player = mob.getAsPlayer();
         if (target instanceof NPC) {
@@ -135,10 +135,10 @@ public class Combat {
         return MagicMaxHit.maxHit(player, true);
     }
 
-    public int maximumMeleeHit() {
+    public int getMaximumMeleeDamage() {
         //NPC have their own max hits
         if (mob.isNpc()) {
-            return mob.getAsNpc().combatInfo() == null ? 0 : mob.getAsNpc().combatInfo().maxhit;
+            return mob.getAsNpc().getCombatInfo() == null ? 0 : mob.getAsNpc().getCombatInfo().maxhit;
         }
         //PvP max hit
         if (mob.isPlayer() && target != null && target.isNpc() && target.getAsNpc().id() == UNDEAD_COMBAT_DUMMY) {
@@ -154,9 +154,9 @@ public class Combat {
      * @param ignoreArrowRangeStr Checks if we are ignoring arrows equipment
      * @return The max hit
      */
-    public int maximumRangedHit(boolean ignoreArrowRangeStr) {
+    public int getMaximumRangedDamage(boolean ignoreArrowRangeStr) {
         if (mob.isNpc()) {
-            return mob.getAsNpc().combatInfo() == null ? 0 : mob.getAsNpc().combatInfo().maxhit;
+            return mob.getAsNpc().getCombatInfo() == null ? 0 : mob.getAsNpc().getCombatInfo().maxhit;
         }
         if (mob.isPlayer() && target.isNpc() && target.getAsNpc().id() == UNDEAD_COMBAT_DUMMY) {
             return RangeMaxHit.maxHit(mob.getAsPlayer(), mob.getAsPlayer().getCombat().target, ignoreArrowRangeStr, false);
@@ -463,7 +463,7 @@ public class Combat {
 
     private boolean isNonCombatNpc(Entity entity) {
         if (!entity.isNpc()) return false;
-        return entity.isNpc() && entity.getAsNpc().combatInfo() != null && entity.getAsNpc().combatInfo().unattackable;
+        return entity.isNpc() && entity.getAsNpc().getCombatInfo() != null && entity.getAsNpc().getCombatInfo().unattackable;
     }
 
     /**

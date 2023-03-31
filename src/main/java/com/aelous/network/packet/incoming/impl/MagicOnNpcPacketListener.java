@@ -58,7 +58,7 @@ public class MagicOnNpcPacketListener implements PacketListener {
                     player.putAttrib(AttributeKey.TARGET, new WeakReference<Entity>(other));
                     player.putAttrib(AttributeKey.INTERACTION_OPTION, 2);
 
-                    if (other.combatInfo() == null) {
+                    if (other.getCombatInfo() == null) {
                         player.message("Without combat attributes this monster is unattackable.");
                         return;
                     }

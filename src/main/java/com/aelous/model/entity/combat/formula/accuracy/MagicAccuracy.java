@@ -17,7 +17,9 @@ import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
+import com.aelous.utility.Color;
 import com.aelous.utility.ItemIdentifiers;
+import com.aelous.utility.Utils;
 
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
@@ -34,8 +36,9 @@ public class MagicAccuracy {
 
     byte[] seed = new byte[16];
     SecureRandom random = new SecureRandom(seed);
+
     public boolean doesHit(final Entity attacker, final Entity defender, CombatType style) {
-        return successful(attacker, defender,style);
+        return successful(attacker, defender, style);
     }
 
     private boolean successful(final Entity attacker, final Entity defender, CombatType combatType) {
@@ -68,18 +71,18 @@ public class MagicAccuracy {
                 bonus = attackerBonus.mage;
             }
         } else if (attacker instanceof NPC) {
-            bonus = attacker.getAsNpc().combatInfo().bonuses.magic;
+            bonus = attacker.getAsNpc().getCombatInfo().getBonuses().getMagic();
         }
         return bonus;
     }
 
     private int getEquipmentBonusDefender(final Entity defender) {
         EquipmentInfo.Bonuses defenderBonus = EquipmentInfo.totalBonuses(defender, World.getWorld().equipmentInfo());
-        return defender instanceof NPC ? defender.getAsNpc().combatInfo().bonuses.magicdefence : defenderBonus.magedef;
+        return defender instanceof NPC ? defender.getAsNpc().getCombatInfo().bonuses.magicdefence : defenderBonus.magedef;
     }
 
     private int getEffectiveDefenceDefender(final Entity defender) {
-        int effectiveLevel = defender instanceof NPC ? ((NPC) defender).combatInfo().stats.defence : (int) Math.floor(defender.getSkills().level(Skills.DEFENCE) * getPrayerBonusDefender(defender));
+        int effectiveLevel = defender instanceof NPC ? ((NPC) defender).getCombatInfo().stats.defence : (int) Math.floor(defender.getSkills().level(Skills.DEFENCE) * getPrayerBonusDefender(defender));
         var fightStyle = defender.getCombat().getFightType().getStyle();
         int magicLevel = getMagicLevelDefender(defender);
         switch (fightStyle) {
@@ -95,11 +98,11 @@ public class MagicAccuracy {
     }
 
     private int getMagicLevelAttacker(final Entity attacker) {
-        return attacker instanceof NPC && attacker.getAsNpc().combatInfo() != null ? attacker.getAsNpc().combatInfo().stats.magic : attacker.getSkills().level(Skills.MAGIC);
+        return attacker instanceof NPC && attacker.getAsNpc().getCombatInfo() != null ? attacker.getAsNpc().getCombatInfo().getStats().magic : attacker.getSkills().level(Skills.MAGIC);
     }
 
     private int getMagicLevelDefender(final Entity defender) {
-        return defender instanceof NPC ? defender.getAsNpc().combatInfo().stats.magic : defender.getSkills().level(Skills.MAGIC);
+        return defender instanceof NPC ? defender.getAsNpc().getCombatInfo().getStats().magic : defender.getSkills().level(Skills.MAGIC);
     }
 
     private double getPrayerBonus(final Entity attacker, CombatType style) {
@@ -142,36 +145,38 @@ public class MagicAccuracy {
         }
 
         switch (fightStyle) {
-            case ACCURATE -> effectiveLevel += weapon != null && weapon.getId() != ItemIdentifiers.TRIDENT_OF_THE_SEAS ? 3 : 2;
+            case ACCURATE ->
+                effectiveLevel += weapon != null && weapon.getId() != ItemIdentifiers.TRIDENT_OF_THE_SEAS ? 3 : 2;
             case CONTROLLED -> effectiveLevel += 1;
         }
 
         effectiveLevel = (int) Math.floor(effectiveLevel);
 
-        if (attacker.isPlayer()) {
-            if (style == CombatType.MAGIC) {
-                if (FormulaUtils.regularVoidEquipmentBaseMagic((Player) attacker)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.45F);
-                }
-                if (FormulaUtils.eliteVoidEquipmentBaseMagic((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMagic((Player) attacker)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.70F);
-                }
-                if (attacker.getAsPlayer().getSpellbook().equals(MagicSpellbook.ANCIENT) && FormulaUtils.hasZurielStaff((Player) attacker)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.10F);
-                }
-                if (((Player) attacker).getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 3);
-                }
-                if (defender.isNpc() && FormulaUtils.isUndead(attacker.getCombat().getTarget())) { //UNDEAD BONUSES
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getAsPlayer().getEquipment().contains(SALVE_AMULET_E) || attacker.getAsPlayer().getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.2F);
-                    }
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.15F);
+        if (defender != null) {
+            if (attacker.isPlayer() && defender.isPlayer()) {
+                if (attacker.getAsPlayer().getEquipment().contains(ItemIdentifiers.BRIMSTONE_RING)) {
+                    if (Utils.securedRandomChance(0.25F)) {
+                        effectiveLevel *= 1.10F;
+                        attacker.message(Color.RED.wrap("Your attack ignored 10% of your opponent's magic defence."));
                     }
                 }
-                if (defender instanceof NPC) {
-                    if (defender.isNpc() && defender.getAsNpc().id() == NpcIdentifiers.REVENANT_CYCLOPS || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_DEMON || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_DRAGON || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_GOBLIN || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_HELLHOUND || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_DARK_BEAST || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_HOBGOBLIN || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_IMP || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_KNIGHT || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_PYREFIEND || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_MALEDICTUS || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_IMP) {
+            }
+
+            if (attacker.isPlayer()) {
+                if (style == CombatType.MAGIC) {
+                    if (FormulaUtils.regularVoidEquipmentBaseMagic((Player) attacker)) {
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.45F);
+                    }
+                    if (FormulaUtils.eliteVoidEquipmentBaseMagic((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMagic((Player) attacker)) {
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.70F);
+                    }
+                    if (attacker.getAsPlayer().getSpellbook().equals(MagicSpellbook.ANCIENT) && FormulaUtils.hasZurielStaff((Player) attacker)) {
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.10F);
+                    }
+                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 3);
+                    }
+                    if (defender.isNpc() && FormulaUtils.isUndead(attacker.getCombat().getTarget())) { //UNDEAD BONUSES
                         if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getAsPlayer().getEquipment().contains(SALVE_AMULET_E) || attacker.getAsPlayer().getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
                             effectiveLevel = (int) Math.floor(effectiveLevel * 1.2F);
                         }
@@ -179,24 +184,34 @@ public class MagicAccuracy {
                             effectiveLevel = (int) Math.floor(effectiveLevel * 1.15F);
                         }
                     }
-                    if (defender.isNpc() && WildernessArea.inWilderness(attacker.tile())) {
-                        if (weapon != null && FormulaUtils.hasMagicWildernessWeapon(attacker.getAsPlayer())) {
-                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.5F);
+                    if (defender instanceof NPC) {
+                        if (defender.isNpc() && defender.getAsNpc().id() == NpcIdentifiers.REVENANT_CYCLOPS || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_DEMON || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_DRAGON || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_GOBLIN || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_HELLHOUND || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_DARK_BEAST || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_HOBGOBLIN || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_IMP || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_KNIGHT || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_PYREFIEND || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_MALEDICTUS || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_IMP) {
+                            if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getAsPlayer().getEquipment().contains(SALVE_AMULET_E) || attacker.getAsPlayer().getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
+                                effectiveLevel = (int) Math.floor(effectiveLevel * 1.2F);
+                            }
+                            if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
+                                effectiveLevel = (int) Math.floor(effectiveLevel * 1.15F);
+                            }
+                        }
+                        if (defender.isNpc() && WildernessArea.inWilderness(attacker.tile())) {
+                            if (weapon != null && FormulaUtils.hasMagicWildernessWeapon(attacker.getAsPlayer())) {
+                                effectiveLevel = (int) Math.floor(effectiveLevel * 1.5F);
+                            }
                         }
                     }
-                }
-                if (task != null && Slayer.creatureMatches((Player) attacker, attacker.getAsNpc().id())) {
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SLAYER_HELMET)) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.15F);
-                    }
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SLAYER_HELMET_I)) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.18F);
-                    }
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.BLACK_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.GREEN_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.HYDRA_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.PURPLE_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.RED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TURQUOISE_SLAYER_HELMET)) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.20F);
-                    }
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.TWISTED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TZKAL_SLAYER_HELMET)) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.25F);
+                    if (task != null && Slayer.creatureMatches((Player) attacker, attacker.getAsNpc().id())) {
+                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SLAYER_HELMET)) {
+                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.15F);
+                        }
+                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SLAYER_HELMET_I)) {
+                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.18F);
+                        }
+                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.BLACK_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.GREEN_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.HYDRA_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.PURPLE_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.RED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TURQUOISE_SLAYER_HELMET)) {
+                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.20F);
+                        }
+                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.TWISTED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TZKAL_SLAYER_HELMET)) {
+                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.25F);
+                        }
                     }
                 }
             }

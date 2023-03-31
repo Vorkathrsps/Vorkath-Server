@@ -44,7 +44,7 @@ public class RaidsNpc extends NPC {
         if (factor != 0 & partySize > 1) {
             var newHp = (int) (npc.hp() * factor);
             npc.setHitpoints(newHp); // scale stats. note that this also scales the hp on top of the per-player bonus already added above. as these are both multiplicative modifiers it does no matter which one is applied first
-            npc.combatInfo().stats.hitpoints = newHp;
+            npc.getCombatInfo().stats.hitpoints = newHp;
         }
     }
 }

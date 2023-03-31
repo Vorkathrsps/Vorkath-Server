@@ -123,8 +123,8 @@ public class SlayerKillLog {
                 killCount++;
                 player.putAttrib(slayerMonster.getKc(), (killCount));
                 player.message("Your " + slayerMonster.getName() + " kill count is: <col=ca0d0d>" + Utils.format(killCount) + "</col>.");
-                if(npc.combatInfo() == null) return;
-                int deathLength = npc.combatInfo().deathlen;
+                if(npc.getCombatInfo() == null) return;
+                int deathLength = npc.getCombatInfo().deathlen;
                 break;
             }
         }

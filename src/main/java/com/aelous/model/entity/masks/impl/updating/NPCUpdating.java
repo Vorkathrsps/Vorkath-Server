@@ -311,7 +311,7 @@ public class NPCUpdating {
             builder.putShort(splat.getDamage());
             builder.put(splat.getType().getId());
             builder.putShort(npc.hp());
-            builder.putShort(npc.combatInfo() == null ? 1 : npc.combatInfo().stats == null ? 1 : npc.combatInfo().stats.hitpoints);
+            builder.putShort(npc.getCombatInfo() == null ? 1 : npc.getCombatInfo().stats == null ? 1 : npc.getCombatInfo().stats.hitpoints);
         }
     }
 }

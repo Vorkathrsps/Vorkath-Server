@@ -17,7 +17,7 @@ public class SpawnNPCCommand implements Command {
             World.getWorld().registerNpc(npc);
             if (parts.length > 2) {
                 npc.setHitpoints(Integer.parseInt(parts[2]));
-                npc.combatInfo().stats.hitpoints = npc.hp();
+                npc.getCombatInfo().stats.hitpoints = npc.hp();
             }
         }
     }

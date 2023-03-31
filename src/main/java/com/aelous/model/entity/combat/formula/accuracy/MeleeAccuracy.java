@@ -5,6 +5,8 @@ import com.aelous.model.World;
 
 import com.aelous.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.combat.Combat;
+import com.aelous.model.entity.combat.CombatSpecial;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
@@ -18,6 +20,8 @@ import com.aelous.model.items.Item;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.ItemIdentifiers;
+import com.aelous.utility.Utils;
+import lombok.val;
 
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
@@ -35,13 +39,14 @@ public class MeleeAccuracy {
     byte[] seed = new byte[16];
     SecureRandom random = new SecureRandom(seed);
 
+
     public boolean doesHit(final Entity attacker, final Entity defender, CombatType style) {
         return successful(attacker, defender, style);
     }
 
     public boolean successful(final Entity attacker, final Entity defender, CombatType style) {
-        int attackBonus = getAttackRoll(attacker, defender, style);
-        int defenceBonus = getDefenceRoll(defender);
+        final int attackBonus = getAttackRoll(attacker, defender, style);
+        final int defenceBonus = getDefenceRoll(attacker, defender);
         double successfulRoll;
 
         random.nextBytes(seed);
@@ -92,7 +97,7 @@ public class MeleeAccuracy {
 
     public int getEffectiveDefence(final Entity defender) {
         FightStyle fightStyle = defender.getCombat().getFightType().getStyle();
-        int effectiveLevel = defender instanceof NPC ? ((NPC) defender).combatInfo().stats.defence : (int) Math.floor(getDefenceLevel(defender) * getPrayerDefenseBonus(defender));
+        int effectiveLevel = defender instanceof NPC ? ((NPC) defender).getCombatInfo().stats.defence : (int) Math.floor(getDefenceLevel(defender) * getPrayerDefenseBonus(defender));
 
         switch (fightStyle) {
             case DEFENSIVE -> effectiveLevel = effectiveLevel + 3;
@@ -116,7 +121,7 @@ public class MeleeAccuracy {
             if (player.getCombatSpecial() != null) {
                 double specialMultiplier = player.getCombatSpecial().getAccuracyMultiplier();
                 if (attacker.getAsPlayer().isSpecialActivated()) {
-                    effectiveLevel = (int) (effectiveLevel * specialMultiplier);
+                    effectiveLevel *= specialMultiplier;
                 }
             }
         }
@@ -162,11 +167,11 @@ public class MeleeAccuracy {
     }
 
     private int getAttackLevel(final Entity attacker) {
-        return attacker instanceof NPC && attacker.getAsNpc().combatInfo().stats != null ? attacker.getAsNpc().combatInfo().stats.attack : attacker.getSkills().level(Skills.ATTACK);
+        return attacker instanceof NPC && attacker.getAsNpc().getCombatInfo().stats != null ? attacker.getAsNpc().getCombatInfo().stats.attack : attacker.getSkills().level(Skills.ATTACK);
     }
 
     private int getDefenceLevel(final Entity defender) {
-        return defender instanceof NPC && defender.getAsNpc().combatInfo().stats != null ? defender.getAsNpc().combatInfo().stats.defence : defender.getSkills().level(Skills.DEFENCE);
+        return defender instanceof NPC && defender.getAsNpc().getCombatInfo().stats != null ? defender.getAsNpc().getCombatInfo().stats.defence : defender.getSkills().level(Skills.DEFENCE);
     }
 
     private int getGearDefenceBonus(final Entity defender) {
@@ -199,7 +204,10 @@ public class MeleeAccuracy {
         return (int) Math.floor(getEffectiveAttack(attacker, defender, style) * (getGearAttackBonus(attacker) + 64));
     }
 
-    public int getDefenceRoll(final Entity defender) {
+    public int getDefenceRoll(final Entity attacker, final Entity defender) {
+        if ((attacker.isPlayer() && attacker.getAsPlayer().getEquipment().contains(VESTAS_BLIGHTED_LONGSWORD) && attacker.isSpecialActivated())) {
+            return (int) Math.floor((getEffectiveDefence(defender) * (getGearDefenceBonus(defender) + 64)) * 0.80F);
+        }
         return (int) Math.floor(getEffectiveDefence(defender) * (getGearDefenceBonus(defender) + 64));
     }
 }

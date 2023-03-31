@@ -9,7 +9,6 @@ import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
-import com.aelous.model.map.route.routes.DumbRoute;
 
 /**
  * Cruor is one of the four mages guarding Nex in the Ancient Prison, within in the God Wars Dungeon. Having mastered blood magic, he enhances Nex's powers over blood.
@@ -22,7 +21,7 @@ public class Cruor extends CommonCombatMethod {
 
     @Override
     public void init(NPC npc) {
-        npc.combatInfo().scripts.agro_ = (n, t) -> false;
+        npc.getCombatInfo().scripts.agro_ = (n, t) -> false;
     }
     @Override
     public void prepareAttack(Entity mob, Entity target) {

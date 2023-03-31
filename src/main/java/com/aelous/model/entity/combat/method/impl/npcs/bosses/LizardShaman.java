@@ -40,7 +40,7 @@ public class LizardShaman extends CommonCombatMethod {
         NPC spawn = new NPC(6768, new Tile(target.tile().x + Utils.random(2), target.tile().y + Utils.random(2)));
         spawn.respawns(false);
         spawn.noRetaliation(true);
-        spawn.combatInfo(World.getWorld().combatInfo(6768));
+        spawn.getCombatInfo(World.getWorld().combatInfo(6768));
         spawn.getCombat().setTarget(target);
         spawn.setPositionToFace(target.tile());
         World.getWorld().registerNpc(spawn);
@@ -63,7 +63,7 @@ public class LizardShaman extends CommonCombatMethod {
     private void primary_melee_attack(NPC npc, Entity target) {
         target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
         npc.animate(npc.attackAnimation());
-        npc.getTimers().register(TimerKey.COMBAT_ATTACK, npc.combatInfo().attackspeed);
+        npc.getTimers().register(TimerKey.COMBAT_ATTACK, npc.getCombatInfo().attackspeed);
     }
 
     private void primate_ranged_attack(NPC npc, Entity target) {
@@ -74,7 +74,7 @@ public class LizardShaman extends CommonCombatMethod {
         final int delay = entity.executeProjectile(p1);
         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
         hit.submit();
-        npc.getTimers().register(TimerKey.COMBAT_ATTACK, npc.combatInfo().attackspeed);
+        npc.getTimers().register(TimerKey.COMBAT_ATTACK, npc.getCombatInfo().attackspeed);
     }
 
     private void jump_attack(NPC npc, Entity target) {
@@ -119,7 +119,7 @@ public class LizardShaman extends CommonCombatMethod {
                 }
             }
         });
-        npc.getTimers().register(TimerKey.COMBAT_ATTACK, npc.combatInfo().attackspeed);
+        npc.getTimers().register(TimerKey.COMBAT_ATTACK, npc.getCombatInfo().attackspeed);
         World.getWorld().tileGraphic(1294, green_acidic_orb, GraphicHeight.LOW.ordinal(), p1.getSpeed());
     }
 

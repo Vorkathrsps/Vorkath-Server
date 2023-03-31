@@ -91,7 +91,7 @@ public class DropsDisplay {
     public static void open(Player player, int npc) {
         Tile empty = new Tile(-1, -1, -1);
         NPC defaultNpc = new NPC(npc, empty);
-        if (Arrays.stream(NPCS_DROPS_EXCLUDED).anyMatch(n -> n == npc) || defaultNpc.combatInfo() != null && defaultNpc.combatInfo().unattackable) {
+        if (Arrays.stream(NPCS_DROPS_EXCLUDED).anyMatch(n -> n == npc) || defaultNpc.getCombatInfo() != null && defaultNpc.getCombatInfo().unattackable) {
             return;
         }
         player.getInterfaceManager().open(55140);

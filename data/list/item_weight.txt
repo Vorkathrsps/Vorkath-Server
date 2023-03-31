@@ -6087,3 +6087,4 @@
 27363:0.4:Masori Assembler Max Cape
 27374:5.8:Masori Assembler
 27624:2.2:Masori Assembler
+24617:1.8:Vestas Blighted Longsword

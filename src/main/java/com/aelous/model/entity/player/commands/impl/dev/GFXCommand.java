@@ -10,7 +10,7 @@ public class GFXCommand implements Command {
     @Override
     public void execute(Player player, String command, String[] parts) {
         int gfx = Integer.parseInt(parts[1]);
-        player.performGraphic(new Graphic(gfx, GraphicHeight.HIGH_5, 0));
+        player.performGraphic(new Graphic(gfx, GraphicHeight.HIGH, 0));
     }
 
     @Override

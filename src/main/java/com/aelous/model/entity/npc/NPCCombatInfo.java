@@ -2,6 +2,8 @@ package com.aelous.model.entity.npc;
 
 import com.aelous.model.entity.combat.method.CombatMethod;
 import com.aelous.model.entity.npc.droptables.Droptable;
+import lombok.Data;
+import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,11 +18,11 @@ public class NPCCombatInfo {
 
     public int[] ids;
 
-    public Bonuses bonuses = new Bonuses();
+    @Getter public Bonuses bonuses = new Bonuses();
     public Bonuses originalBonuses;
 
     public Stats originalStats;
-    public Stats stats;
+    @Getter public Stats stats;
     public Animations animations;
     public Sounds sounds;
     public Scripts scripts;
@@ -73,6 +75,8 @@ public class NPCCombatInfo {
         }
     }
 
+
+    @Data
     public static class Bonuses {
         public int attack;
         public int magic;

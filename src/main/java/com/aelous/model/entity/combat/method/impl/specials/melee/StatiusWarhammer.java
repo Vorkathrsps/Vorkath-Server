@@ -26,7 +26,7 @@ public class StatiusWarhammer extends CommonCombatMethod {
             playerTarget.getSkills().alterSkill(Skills.DEFENCE, (int) -(playerTarget.getSkills().level(Skills.DEFENCE) * 0.3));
         } else if (target.isNpc()) {
             NPC npcTarget = (NPC) target;
-            npcTarget.combatInfo().stats.defence = (int) Math.max(0, npcTarget.combatInfo().stats.defence - (npcTarget.combatInfo().stats.defence * 0.3));
+            npcTarget.getCombatInfo().stats.defence = (int) Math.max(0, npcTarget.getCombatInfo().stats.defence - (npcTarget.getCombatInfo().stats.defence * 0.3));
         }
         CombatSpecial.drain(entity, CombatSpecial.STATIUS_WARHAMMER.getDrainAmount());
     }

@@ -411,13 +411,6 @@ public class CombatFactory {
                 }
             }
 
-            if (attacker instanceof Player) {
-                if (target.isNpc()) {
-                    if (SigilHandler.isActive(attacker.getAsPlayer(), FeralFighter.INSTANCE)) {
-                    }
-                }
-            }
-
             // Passive effect of Dinh's Bulwark on Block mode
             if (target.isPlayer()) {
                 if (shield != null && shield.getId() == 21015 && target.getAsPlayer().getCombat().getFightType().getChildId() == 2) {
@@ -1628,11 +1621,11 @@ public class CombatFactory {
         }
 
         if (player.getEquipment().hasAt(EquipSlot.RING, RING_OF_SUFFERING)) {
-            attacker.hit(player, damage > 10 ? (damage / 10) : 1, 1, null).setIsReflected().submit();
+            attacker.hit(player, damage > 10 ? (damage / 10) : 1, 0, null).setIsReflected().submit();
         }
 
         if (player.getEquipment().hasAt(EquipSlot.RING, RING_OF_SUFFERING_I)) {
-            attacker.hit(player, damage > 10 ? (damage / 10) : 1, 1, null).setIsReflected().submit();
+            attacker.hit(player, damage > 10 ? (damage / 10) : 1, 0, null).setIsReflected().submit();
         }
 
         if (player.getEquipment().hasAt(EquipSlot.RING, 2550)) {
@@ -1648,7 +1641,7 @@ public class CombatFactory {
 
                 // hmm ok so this doesnt throw an exception because its adding a hit to
                 // the Attacker, which is not the same Iterator i think
-                attacker.hit(player, damage > 10 ? (damage / 10) : 1, 1, null).setIsReflected().submit();
+                attacker.hit(player, damage > 10 ? (damage / 10) : 1, 0, null).setIsReflected().submit();
                 if (attacker.isNpc()) {
                     if (((NPC) attacker).id() == 319) {
                         //TODO update string corp beast lair, we don't have this string yet
@@ -1671,7 +1664,7 @@ public class CombatFactory {
             return;
 
         entity.clearAttrib(AttributeKey.VENGEANCE_ACTIVE);
-        attacker.hit(entity, (int) (damage * 0.75), 1, null).setIsReflected().submit();
+        attacker.hit(entity, (int) (damage * 0.75), 0, null).setIsReflected().submit();
         entity.forceChat("Taste Vengeance!");
     }
 

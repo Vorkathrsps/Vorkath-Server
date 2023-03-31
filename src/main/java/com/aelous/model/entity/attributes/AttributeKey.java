@@ -1046,6 +1046,9 @@ public enum AttributeKey {
 
     MAGEBANK_MAGIC_ONLY("mage_bank_magic_only", AttribType.BOOLEAN),
     RING_OF_RECOIL_CHARGES("recoil_charges", AttribType.INTEGER),
+
+    BLOWPIPE_SCALE_CHARGES("blowpipe_charges", AttribType.INTEGER),
+    BLOWPIPE_DARTS("blowpipe_darts", AttribType.INTEGER),
     ELO_RATING("elo_rating", AttribType.INTEGER),
     ALLOWED_TO_LOGOUT("can_logout", AttribType.BOOLEAN),
     DEATH_SPAWNS_SPAWNED,

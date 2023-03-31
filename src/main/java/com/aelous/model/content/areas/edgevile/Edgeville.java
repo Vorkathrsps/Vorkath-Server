@@ -12,6 +12,7 @@ import com.aelous.model.content.tasks.TaskMasterD;
 import com.aelous.model.content.teleport.OrnateJewelleryBox;
 import com.aelous.model.content.teleport.Teleports;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
+import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.masks.ForceMovement;
 import com.aelous.model.items.tradingpost.TradingPost;
 import com.aelous.core.task.TaskManager;
@@ -262,18 +263,27 @@ public class Edgeville extends PacketInteraction {
                 return true;
             }
 
-            if (obj.getId() == WILDERNESS_DITCH) {
-                player.getMovementQueue().clear();
-                player.lockDelayDamage();
-                if (player.getForceMovement() == null && player.getClickDelay().elapsed(2000)) {
-                    final Tile crossDitch = new Tile(0, player.tile().getY() < 3522 ? 3 : -3);
-                    TaskManager.submit(new ForceMovementTask(player, 3, new ForceMovement(player.tile().copy(), crossDitch, 0, 70, crossDitch.getY() == 3 ? 0 : 2)));
-                    player.animate(6132);
-                    player.getClickDelay().reset();
-                    TickableTask.runOnceTask(3, c -> player.unlock());
+            final Tile crossDitch = new Tile(0, player.tile().getY() < 3522 ? 3 : -3);
+
+            player.runFn(1, () -> {
+                int diffX = 0, diffY = 0;
+                if(obj.getRotation() == 0 || obj.getRotation() == 2) {
+                    if(player.getAbsY() == 3520) {
+                        diffY = 3;
+                    } else {
+                        diffY -= 3;
+                    }
+                } else {
+                    if(player.getAbsX() == 2995) {
+                        diffX = 3;
+                    } else {
+                        diffX = -3;
+                    }
                 }
-                return true;
-            }
+                player.lock();
+                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(diffX, diffY), 30, 60, 6132, crossDitch.getY() == 3 ? 0 : 2);
+                player.setForceMovement(forceMovement);
+            }).then(2, player::unlock);
 
             if (obj.getId() == ALTAR) {
                 if (player.getSkills().level(Skills.PRAYER) < player.getSkills().xpLevel(Skills.PRAYER)) {

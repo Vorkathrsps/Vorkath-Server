@@ -648,10 +648,6 @@ public class Tile implements Cloneable {
         return inArea(RiskFightArea.NH_AREA);
     }
 
-    public boolean insideFeroxEnclave() {
-        return inArea(WildernessArea.FEROX_ENCLAVE);
-    }
-
     public static boolean standingOn(Entity entity, Entity other) {
         int firstSize = entity.getSize();
         int secondSize = other.getSize();

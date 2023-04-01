@@ -15,7 +15,6 @@ import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.position.areas.Controller;
-import com.aelous.utility.CustomItemIdentifiers;
 import com.aelous.utility.Varbit;
 import com.aelous.utility.timers.TimerKey;
 import org.slf4j.Logger;
@@ -28,9 +27,23 @@ import static com.aelous.model.entity.player.QuestTab.InfoTab.PLAYERS_PKING;
 public class WildernessArea extends Controller {
 
     private static final Logger log = LoggerFactory.getLogger(WildernessArea.class);
+    public static final Area getFeroxCenter = new Area(3118, 3623, 3153, 3634, 0); //block this when tb'd
 
-    public static final Area FEROX_ENCLAVE = new Area(3119, 3646, 3160, 3616, 0);
+    public static final Area getFeroxUpperNorth =  new Area(3120, 3636, 3157, 3640, 0); //block this when tb'd
 
+    public static final Area getFeroxNorthEntrance =  new Area(3122, 3636, 3157, 3643, 0); //block this when tb'd
+
+    public static final Area getFeroxNorthEdges =  new Area(3136, 3642, 3156, 3646, 0); //block this when tb'd
+
+    public static final Area getFeroxEastEdges =  new Area(3154, 3627, 3159, 3633, 0); //block this when tb'd
+
+    public static final Area getFeroxLowerSouth =  new Area(3120, 3621, 3151, 3622, 0); //block this when tb'd
+
+    public static final Area getFeroxLowerSouthEdges =  new Area(3124, 3616, 3144, 3620, 0); //block this when tb'd
+
+    public static final Area getFeroxSouthEntrance =  new Area(3129, 3610, 3140, 3615, 0); //block this when tb'd
+
+    public static final Area getFeroxRandomLine =  new Area(3120, 3635, 3154, 3635, 0); //block this when tb'd
 
     public static boolean inWilderness(Tile tile) {
         return wildernessLevel(tile) > 0;
@@ -42,13 +55,11 @@ public class WildernessArea extends Controller {
 
     public static int wildernessLevel(Tile tile) {
         int region = tile.region();
+        int x = tile.getX();
+        int y = tile.getY();
         int z = (tile.y > 6400) ? tile.y - 6400 : tile.y;
 
         if (region == 12700 || region == 12187) {
-            return 0;
-        }
-
-        if (tile.insideFeroxEnclave()) {
             return 0;
         }
 
@@ -69,13 +80,25 @@ public class WildernessArea extends Controller {
             return 0;
         }
 
+        if (tile.inArea(getFeroxCenter) || tile.inArea(getFeroxUpperNorth) || tile.inArea(getFeroxNorthEntrance)
+            || tile.inArea(getFeroxNorthEdges) || tile.inArea(getFeroxEastEdges) || tile.inArea(getFeroxLowerSouth)
+            || tile.inArea(getFeroxLowerSouthEdges) || tile.inArea(getFeroxSouthEntrance) || tile.inArea(getFeroxRandomLine)) {
+
+            return 0;
+        }
+
         if (region == 13623) {
             return 0;
         }
 
-        //OSRS calculated by coordinates
-
-        return ((z - 3520) >> 3) + 1;
+        if (x >= 2944 && x <= 3391 && y >= 3520 && y <= 4351) {
+            return ((y - 3520) >> 3) + 1;
+        } else if (x >= 3008 && x <= 3071 && y >= 10112 && y <= 10175) {
+            return ((y - 9920) >> 3) - 1;
+        } else if (x >= 2944 && x <= 3391 && y >= 9920 && y <= 10879) {
+            return ((y - 9920) >> 3) + 1;
+        }
+        return 0;
     }
 
     public static boolean inUndergroundWilderness(Tile tile) {

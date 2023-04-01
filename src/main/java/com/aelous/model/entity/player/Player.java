@@ -138,7 +138,6 @@ import static com.aelous.model.content.daily_tasks.DailyTaskUtility.TIME_FRAME_T
 import static com.aelous.model.entity.attributes.AttributeKey.*;
 import static com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.NexCombat.NEX_AREA;
 import static com.aelous.model.entity.player.QuestTab.InfoTab.*;
-import static com.aelous.network.packet.incoming.impl.PickupItemPacketListener.respawn;
 import static com.aelous.utility.ItemIdentifiers.*;
 
 public class Player extends Entity {
@@ -1338,7 +1337,6 @@ public class Player extends Entity {
         }
 
         this.getCombat().setAutoCastSpell(null);
-
         // Update session state
         getSession().setState(SessionState.LOGGING_OUT);
 
@@ -1467,15 +1465,15 @@ public class Player extends Entity {
             }
 
             if (getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS)) {
-                getCombat().setAutoCastSpell(CombatSpells.TRIDENT_OF_THE_SEAS.getSpell());
+                this.getCombat().setPoweredStaffSpell(CombatSpells.TRIDENT_OF_THE_SEAS.getSpell());
             } else if (getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SWAMP)) {
-                getCombat().setAutoCastSpell(CombatSpells.TRIDENT_OF_THE_SEAS.getSpell());
+                this.getCombat().setPoweredStaffSpell(CombatSpells.TRIDENT_OF_THE_SEAS.getSpell());
             } else if (getEquipment().hasAt(EquipSlot.WEAPON, SANGUINESTI_STAFF)) {
-                getCombat().setAutoCastSpell(CombatSpells.SANGUINESTI_STAFF.getSpell());
+                this.getCombat().setPoweredStaffSpell(CombatSpells.SANGUINESTI_STAFF.getSpell());
             } else if (getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
-                getCombat().setAutoCastSpell(CombatSpells.TUMEKENS_SHADOW.getSpell());
+                this.getCombat().setPoweredStaffSpell(CombatSpells.TUMEKENS_SHADOW.getSpell());
             } else if (getEquipment().hasAt(EquipSlot.WEAPON, ACCURSED_SCEPTRE_A)) {
-                getCombat().setAutoCastSpell(CombatSpells.ACCURSED_SCEPTRE.getSpell());
+                this.getCombat().setPoweredStaffSpell(CombatSpells.ACCURSED_SCEPTRE.getSpell());
             }
 
             boolean newAccount = this.getAttribOr(NEW_ACCOUNT, false);

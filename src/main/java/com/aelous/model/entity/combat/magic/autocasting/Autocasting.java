@@ -71,6 +71,7 @@ public class Autocasting {
 
     public static boolean toggleAutocast(final Player player, int actionButtonId) {
         final CombatSpell cbSpell = CombatSpells.getCombatSpell(actionButtonId);
+        boolean isWearingPoweredStaff = player.getEquipment().containsAny(TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, SANGUINESTI_STAFF, TUMEKENS_SHADOW, DAWNBRINGER);
 
         if (cbSpell == null) {
             return false;

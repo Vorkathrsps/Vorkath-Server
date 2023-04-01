@@ -52,7 +52,10 @@ public abstract class Spell {
                 }
 
                 boolean autoCastSelected = player.getAttribOr(AttributeKey.AUTOCAST_SELECTED, false);
+                boolean hasActivePoweredStaffSpell = player.getCombat().getPoweredStaffSpell() != null;
+                var setPoweredStaffSpell = CombatSpells.getCombatSpell(spellId());
                 //Reset auto casting if we were autocasting
+
                 if (autoCastSelected) {
                     Autocasting.setAutocast(player, null);
                 } else {
@@ -70,9 +73,9 @@ public abstract class Spell {
                     }
                 }
 
-                CombatSpell combatSpell = player.getCombat().getCastSpell() != null ? player.getCombat().getCastSpell() : player.getCombat().getAutoCastSpell();
+                CombatSpell combatSpell = player.getCombat().getCastSpell() != null ? player.getCombat().getCastSpell() : player.getCombat().getAutoCastSpell() != null ? player.getCombat().getAutoCastSpell() : player.getCombat().getPoweredStaffSpell() != null ? player.getCombat().getPoweredStaffSpell() : null;
                 boolean ignoreBookCheck = combatSpell == CombatSpells.ELDRITCH_NIGHTMARE_STAFF.getSpell() ||
-                    combatSpell == CombatSpells.VOLATILE_NIGHTMARE_STAFF.getSpell();
+                    combatSpell == CombatSpells.VOLATILE_NIGHTMARE_STAFF.getSpell() || combatSpell == CombatSpells.TRIDENT_OF_THE_SEAS.getSpell() || combatSpell == CombatSpells.SANGUINESTI_STAFF.getSpell() || combatSpell == CombatSpells.TUMEKENS_SHADOW.getSpell() || combatSpell == CombatSpells.ACCURSED_SCEPTRE.getSpell();
 
                 // Secondly we check if they have proper magic spellbook
                 // If not, reset all magic attributes such as current spell
@@ -81,7 +84,6 @@ public abstract class Spell {
                 if (combatSpell != null && !ignoreBookCheck && Arrays.stream(player.getCombat().AUTOCAST_SPELLS).noneMatch(combatSpell1 -> combatSpell1 == finalCombatSpell)) {
                     if (!player.getSpellbook().equals(combatSpell.spellbook())) {
                         Autocasting.setAutocast(player, null);
-                        player.getCombat().setCastSpell(null);
                         Debugs.CMB.debug(player, "bad book", target, true);
                         player.message("This spell belongs to a different spellbook.");
                         return false;

@@ -9,10 +9,8 @@ import com.aelous.model.content.mechanics.break_items.BreakItemsOnDeath;
 import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
 
-import com.aelous.model.content.bountyhunter.BountyHunter;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.magic.autocasting.Autocasting;
-import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.combat.skull.Skulling;
 import com.aelous.model.entity.combat.weapon.WeaponInterfaces;
@@ -20,7 +18,6 @@ import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
-import com.aelous.model.entity.player.rights.PlayerRights;
 import com.aelous.model.inter.lootkeys.LootKey;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.Utils;
@@ -201,6 +198,7 @@ public class Death {
 
         //Remove auto-select
         Autocasting.setAutocast(player, null); // Set auto-cast to default; 0
+        player.getCombat().setPoweredStaffSpell(null);
         WeaponInterfaces.updateWeaponInterface(player); //Update the weapon interface
         player.getCombat().setRangedWeapon(null);
 

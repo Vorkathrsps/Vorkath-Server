@@ -8,8 +8,6 @@ import com.aelous.model.content.EffectTimer;
 import com.aelous.model.content.duel.Dueling;
 import com.aelous.model.content.mechanics.MultiwayCombat;
 import com.aelous.model.content.members.MemberZone;
-import com.aelous.model.content.sigils.SigilHandler;
-import com.aelous.model.content.sigils.data.tier1.FeralFighter;
 import com.aelous.model.content.skill.impl.slayer.SlayerConstants;
 import com.aelous.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.aelous.model.content.teleport.Teleports;
@@ -17,7 +15,6 @@ import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.formula.FormulaUtils;
-import com.aelous.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.hit.Splat;
 import com.aelous.model.entity.combat.hit.SplatType;
@@ -185,7 +182,7 @@ public class CombatFactory {
             // Order here is important: Spell on player takes priority over
             // having the special attack button just "on"
             // Check if player is maging..
-            if (p.getCombat().getCastSpell() != null || p.getCombat().getAutoCastSpell() != null) {
+            if (p.getCombat().getCastSpell() != null || p.getCombat().getAutoCastSpell() != null || p.getCombat().getPoweredStaffSpell() != null) {
                 return MAGIC_COMBAT;
             }
 
@@ -259,7 +256,7 @@ public class CombatFactory {
         int damage = Utils.inclusive(0, max_damage);
 
         if (target != null && target.isNpc() && target.getAsNpc().isCombatDummy()) {
-            CombatSpell spell = attacker.getCombat().getCastSpell() != null ? attacker.getCombat().getCastSpell() : attacker.getCombat().getAutoCastSpell();
+            CombatSpell spell = attacker.getCombat().getCastSpell() != null ? attacker.getCombat().getCastSpell() : attacker.getCombat().getAutoCastSpell() != null ? attacker.getCombat().getAutoCastSpell() : attacker.getCombat().getPoweredStaffSpell() != null ? attacker.getCombat().getPoweredStaffSpell() : null;
             damage = spell == CombatSpells.CRUMBLE_UNDEAD.getSpell() ? target.hp() : max_damage;
         }
 
@@ -1525,7 +1522,7 @@ public class CombatFactory {
             }
 
             case MAGIC -> {
-                CombatSpell spell = player.getCombat().getCastSpell() != null ? player.getCombat().getCastSpell() : player.getCombat().getAutoCastSpell();
+                CombatSpell spell = player.getCombat().getCastSpell() != null ? player.getCombat().getCastSpell() : player.getCombat().getAutoCastSpell() != null ? player.getCombat().getAutoCastSpell() : player.getCombat().getPoweredStaffSpell() != null ? player.getCombat().getPoweredStaffSpell() : null;
                 if (spell != null) {
                     if (hit > 0) {
                         // Accurate? Or normal autocast? aka non defensive

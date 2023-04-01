@@ -11,6 +11,7 @@ import com.aelous.model.entity.combat.magic.spells.Spell;
 import com.aelous.model.entity.player.Player;
 import com.aelous.network.packet.Packet;
 import com.aelous.network.packet.PacketListener;
+import com.aelous.utility.Color;
 
 import java.lang.ref.WeakReference;
 
@@ -65,6 +66,10 @@ public class MagicOnPlayerPacketListener implements PacketListener {
                     }
                     player.setEntityInteraction(other);
                     player.getCombat().setCastSpell(spell);
+                    if (player.getCombat().getPoweredStaffSpell() != null) {
+                        player.message(Color.RED.wrap("You cannot attack players in the wilderness with this weapon."));
+                        return;
+                    }
                     player.getCombat().attack(other);
                 }
             }

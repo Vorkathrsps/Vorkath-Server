@@ -30,8 +30,6 @@ import java.util.List;
  */
 public abstract class CombatEffectSpell extends CombatSpell {
 
-    private ArrayList<Entity> targets;
-
     public void whenSpellCast(Entity cast, Entity castOn) {
 
         // The spell doesn't support multiple targets or we aren't in a
@@ -46,14 +44,6 @@ public abstract class CombatEffectSpell extends CombatSpell {
         ItemIdentifiers.VOLATILE_NIGHTMARE_STAFF, ItemIdentifiers.ELDRITCH_NIGHTMARE_STAFF, ItemIdentifiers.NIGHTMARE_STAFF, ItemIdentifiers.UNCHARGED_TOXIC_TRIDENT, ItemIdentifiers.UNCHARGED_TOXIC_TRIDENT_E, ItemIdentifiers.TRIDENT_OF_THE_SEAS, ItemIdentifiers.TRIDENT_OF_THE_SWAMP
         , ItemIdentifiers.TRIDENT_OF_THE_SWAMP_E, ItemIdentifiers.TRIDENT_OF_THE_SEAS_E, ItemIdentifiers.TRIDENT_OF_THE_SEAS_FULL, ItemIdentifiers.SANGUINESTI_STAFF, ItemIdentifiers.SANGUINESTI_STAFF_UNCHARGED};
 
-        if (cast.getAsPlayer().getEquipment().containsAny(AUTOCAST_RESET_STAFFS)) {
-                if (cast.getCombat().getAutoCastSpell() != null) {
-                    Autocasting.setAutocast((Player) cast, null);
-                    cast.getAsPlayer().getPacketSender().sendAutocastId(-1).sendConfig(108, 0).setDefensiveAutocastState(0);
-                    cast.getAsPlayer().stopActions(false);
-                }
-        }
-
         // Flag the target as under attack at this moment to factor in delayed combat styles.
         castOn.putAttrib(AttributeKey.LAST_DAMAGER, cast);
         castOn.putAttrib(AttributeKey.LAST_WAS_ATTACKED_TIME, System.currentTimeMillis());
@@ -62,7 +52,7 @@ public abstract class CombatEffectSpell extends CombatSpell {
         cast.putAttrib(AttributeKey.LAST_TARGET, castOn);
         cast.getTimers().register(TimerKey.COMBAT_LOGOUT, 16);
 
-        targets = new ArrayList<>();
+        ArrayList<Entity> targets = new ArrayList<>();
 
         // We passed the checks, so now we do multiple target stuff.
         Iterator<? extends Entity> it = null;

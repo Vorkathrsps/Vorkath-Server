@@ -478,6 +478,20 @@ public final class Equipment extends ItemContainer {
             }
         }
 
+        if (player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS) || player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS_FULL)) {
+            player.getCombat().setPoweredStaffSpell(CombatSpells.TRIDENT_OF_THE_SEAS.getSpell());
+        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SWAMP)) {
+            player.getCombat().setPoweredStaffSpell(CombatSpells.TRIDENT_OF_THE_SWAMP.getSpell());
+        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, SANGUINESTI_STAFF)) {
+            player.getCombat().setPoweredStaffSpell(CombatSpells.SANGUINESTI_STAFF.getSpell());
+        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
+            player.getCombat().setPoweredStaffSpell(CombatSpells.TUMEKENS_SHADOW.getSpell());
+        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, ACCURSED_SCEPTRE_A)) {
+            player.getCombat().setPoweredStaffSpell(CombatSpells.ACCURSED_SCEPTRE.getSpell());
+        } else {
+            player.getCombat().setPoweredStaffSpell(null);
+        }
+
         Item current;
 
         current = get(equipmentSlot);
@@ -531,7 +545,7 @@ public final class Equipment extends ItemContainer {
         //Update weapon interface
         WeaponInterfaces.updateWeaponInterface(player);
 
-        boolean unarmed = player.getEquipment().hasWeapon();
+        boolean unarmed = player.getEquipment().getWeapon() == null;
         if (equipmentSlot == EquipSlot.SHIELD && unarmed) { // Player isn't wielding a weapon, reset weapon too.
             resetWeapon();
         } else if (equipmentSlot == EquipSlot.WEAPON) {
@@ -616,6 +630,10 @@ public final class Equipment extends ItemContainer {
 
         player.getCombat().setCastSpell(null);
 
+        if (player.getCombat().getPoweredStaffSpell() != null) {
+            player.getCombat().setPoweredStaffSpell(null);
+        }
+
         //Always reset ranged weapon when unequipping weapon
         if (player.getCombat().getRangedWeapon() != null) {
             player.getCombat().setRangedWeapon(null);
@@ -644,15 +662,30 @@ public final class Equipment extends ItemContainer {
         WeaponInterfaces.updateWeaponInterface(player);
 
         if (player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS) || player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS_FULL)) {
-            Autocasting.setAutocast(player, CombatSpells.TRIDENT_OF_THE_SEAS.getSpell());
+            if (player.getCombat().getPoweredStaffSpell() != null) {
+                player.getCombat().setPoweredStaffSpell(null);
+            }
+            player.getCombat().setPoweredStaffSpell(CombatSpells.TRIDENT_OF_THE_SEAS.getSpell());
         } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SWAMP)) {
-            Autocasting.setAutocast(player, CombatSpells.TRIDENT_OF_THE_SWAMP.getSpell());
+            if (player.getCombat().getPoweredStaffSpell() != null) {
+                player.getCombat().setPoweredStaffSpell(null);
+            }
+            player.getCombat().setPoweredStaffSpell(CombatSpells.TRIDENT_OF_THE_SWAMP.getSpell());
         } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, SANGUINESTI_STAFF)) {
-            Autocasting.setAutocast(player, CombatSpells.SANGUINESTI_STAFF.getSpell());
+            if (player.getCombat().getPoweredStaffSpell() != null) {
+                player.getCombat().setPoweredStaffSpell(null);
+            }
+            player.getCombat().setPoweredStaffSpell(CombatSpells.SANGUINESTI_STAFF.getSpell());
         } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
-            Autocasting.setAutocast(player, CombatSpells.TUMEKENS_SHADOW.getSpell());
+            if (player.getCombat().getPoweredStaffSpell() != null) {
+                player.getCombat().setPoweredStaffSpell(null);
+            }
+            player.getCombat().setPoweredStaffSpell(CombatSpells.TUMEKENS_SHADOW.getSpell());
         } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, ACCURSED_SCEPTRE_A)) {
-                player.getCombat().setAutoCastSpell(CombatSpells.ACCURSED_SCEPTRE.getSpell());
+            if (player.getCombat().getPoweredStaffSpell() != null) {
+                player.getCombat().setPoweredStaffSpell(null);
+            }
+            player.getCombat().setPoweredStaffSpell(CombatSpells.ACCURSED_SCEPTRE.getSpell());
         } else {
             if (player.getCombat().getAutoCastSpell() != null) {
                 Autocasting.setAutocast(player, null);

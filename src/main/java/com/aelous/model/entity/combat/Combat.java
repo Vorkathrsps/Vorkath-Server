@@ -32,6 +32,8 @@ import com.aelous.model.map.route.routes.TargetRoute;
 import com.aelous.utility.Debugs;
 import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.timers.TimerKey;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -100,6 +102,10 @@ public class Combat {
 
     private ModernSpells spellID;
     private CombatSpell autoCastSpell;
+
+    @Getter
+    @Setter
+    private CombatSpell poweredStaffSpell;
 
     public Combat(Entity mob) {
         this.mob = mob;

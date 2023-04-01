@@ -3276,6 +3276,21 @@ public class Player extends Entity {
         this.setRunningEnergy(energy + add, true);
     }
 
+    public boolean insideFeroxEnclaveSafe() {
+        if (!this.getTimers().has(TimerKey.TELEBLOCK)) {
+            return this.tile().inArea(WildernessArea.getFeroxCenter) || this.tile().inArea(WildernessArea.getFeroxUpperNorth)
+                || this.tile().inArea(WildernessArea.getFeroxNorthEntrance)
+                || this.tile().inArea(WildernessArea.getFeroxNorthEdges)
+                || this.tile().inArea(WildernessArea.getFeroxEastEdges)
+                || this.tile().inArea(WildernessArea.getFeroxLowerSouth)
+                || this.tile().inArea(WildernessArea.getFeroxLowerSouthEdges)
+                || this.tile().inArea(WildernessArea.getFeroxSouthEntrance)
+                || this.tile().inArea(WildernessArea.getFeroxRandomLine);
+        } else {
+            return false;
+        }
+    }
+
     public void drainRunEnergy() {
 
         boolean hamstrung = false;

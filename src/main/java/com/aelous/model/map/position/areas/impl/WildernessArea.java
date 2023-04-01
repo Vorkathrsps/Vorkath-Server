@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
+import java.util.Optional;
 
 import static com.aelous.model.entity.player.QuestTab.InfoTab.PLAYERS_PKING;
 
@@ -77,13 +78,6 @@ public class WildernessArea extends Controller {
             || tile.inArea(3027, 3525, 3032, 3530) || tile.inArea(3003, 3537, 3004, 3538)
             // And level 20, west side of wildy, trollhiem shortcut. More people lure here :)
             || tile.inArea(2941, 3676, 2947, 3681)) {
-            return 0;
-        }
-
-        if (tile.inArea(getFeroxCenter) || tile.inArea(getFeroxUpperNorth) || tile.inArea(getFeroxNorthEntrance)
-            || tile.inArea(getFeroxNorthEdges) || tile.inArea(getFeroxEastEdges) || tile.inArea(getFeroxLowerSouth)
-            || tile.inArea(getFeroxLowerSouthEdges) || tile.inArea(getFeroxSouthEntrance) || tile.inArea(getFeroxRandomLine)) {
-
             return 0;
         }
 
@@ -304,6 +298,9 @@ public class WildernessArea extends Controller {
 
     @Override
     public boolean inside(Entity entity) {
+        if (entity.getAsPlayer().insideFeroxEnclaveSafe()) {
+            return false;
+        }
         return wildernessLevel(entity.tile()) > 0;
     }
 

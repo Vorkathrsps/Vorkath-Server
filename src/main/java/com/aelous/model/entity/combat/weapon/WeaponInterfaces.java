@@ -302,6 +302,19 @@ public class WeaponInterfaces {
                 return true;
             }
 
+            case 24502 -> {
+                player.getCombat().setFightType(FightType.POWERED_STAFF_ACCURATE_1);
+                return true;
+            }
+            case 24501 -> {
+                player.getCombat().setFightType(FightType.POWERED_STAFF_ACCURATE_2);
+                return true;
+            }
+            case 24500 -> {
+                player.getCombat().setFightType(FightType.POWERED_STAFF_LONGRANGE);
+                return true;
+            }
+
             case 336 -> {
                 if (Autocasting.SPECIAL_AUTOCAST_STAFFS.contains(staff.getId())) {
                     return false;

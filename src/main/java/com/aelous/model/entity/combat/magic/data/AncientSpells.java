@@ -21,10 +21,10 @@ public enum AncientSpells {
     BLOOD_BARRAGE(12929, -1, 51, 43, 31, -1, 377, 10, 1979, GraphicHeight.MIDDLE, GraphicHeight.MIDDLE),
     ICE_BARRAGE(12891, -1, 51, 43, 0, -1, 369, 10, 1979,  GraphicHeight.LOW, GraphicHeight.LOW);
 
-    public int spellID, projectile, castAnimation, startSpeed, startHeight, endHeight, startGraphic, endGraphic, stepMultiplier;
+    public final int spellID, projectile, castAnimation, startSpeed, startHeight, endHeight, startGraphic, endGraphic, stepMultiplier;
 
-    public GraphicHeight startGraphicheight;
-    public GraphicHeight endGraphicHeight;
+    public final GraphicHeight startGraphicheight;
+    public final GraphicHeight endGraphicHeight;
     AncientSpells(int spellID, int projectile, int startSpeed, int startHeight, int endHeight, int startGraphic, int endGraphic, int stepMultiplier, int castAnimation, GraphicHeight startGraphicheight, GraphicHeight endGraphicHeight) {
         this.spellID = spellID;
         this.projectile = projectile;

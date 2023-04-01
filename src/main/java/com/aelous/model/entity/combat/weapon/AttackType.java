@@ -22,6 +22,10 @@ public enum AttackType {
 
     UNDEFINED_MAGIC,
 
+    ACCURATE_MAGIC,
+    ACCURATE_MAGIC_2,
+    LONGRANGE_MAGIC,
+
     DRAGON_FIRE,
     NONE
 }

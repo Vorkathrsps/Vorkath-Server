@@ -50,6 +50,7 @@ public class Buttons {
     private static final int TOGGLE_AUTO_RETALIATE = 22845;
     private static final int TOGGLE_AUTO_RETALIATE_2 = 24115;
     private static final int TOGGLE_AUTO_RETALIATE_3 = 24048;
+    private static final int TOGGLE_AUTO_RETALIATE_4 = 24509;
 
     private static final int TOGGLE_RUN_ENERGY_ORB = 1050;
     public static final int RUN_BUTTON = 42507;
@@ -220,220 +221,221 @@ public class Buttons {
                         return;
                     }
                     if (staff != null && Autocasting.SPECIAL_AUTOCAST_STAFFS.contains(staff.getId()) && onNormals || onAncients) {
-                            player.message("You can't autocast regular offensive spells with this staff.");
-                            return;
-                        }
-                        if (staff != null && ANCIENT_SPELL_AUTOCAST_STAFFS.contains(staff.getId()) && !full_ahrim_effect) {
-                            if (player.getSpellbook() == MagicSpellbook.ANCIENT) {
-                                if (player.getEquipment().getWeapon().getId() != HARMONISED_NIGHTMARE_STAFF) {
-                                    player.getInterfaceManager().setSidebar(0, 1689);
-                                } else {
-                                    player.message("You can only autocast regular offensive spells with this staff.");
-                                    return;
-                                }
+                        player.message("You can't autocast regular offensive spells with this staff.");
+                        return;
+                    }
+                    if (staff != null && ANCIENT_SPELL_AUTOCAST_STAFFS.contains(staff.getId()) && !full_ahrim_effect) {
+                        if (player.getSpellbook() == MagicSpellbook.ANCIENT) {
+                            if (player.getEquipment().getWeapon().getId() != HARMONISED_NIGHTMARE_STAFF) {
+                                player.getInterfaceManager().setSidebar(0, 1689);
                             } else {
-                                if (player.getEquipment().getWeapon().getId() != ANCIENT_STAFF) {
-                                    player.getInterfaceManager().setSidebar(0, 1829);
-                                } else {
-                                    player.message("You can only autocast ancient magicks with that.");
-                                    return;
-                                }
+                                player.message("You can only autocast regular offensive spells with this staff.");
+                                return;
                             }
                         } else {
-                            if (player.getSpellbook() == MagicSpellbook.NORMAL) {
+                            if (player.getEquipment().getWeapon().getId() != ANCIENT_STAFF) {
                                 player.getInterfaceManager().setSidebar(0, 1829);
                             } else {
-                                player.message("You can only autocast normal magic with that.");
+                                player.message("You can only autocast ancient magicks with that.");
                                 return;
                             }
                         }
                     } else {
-                        player.getPacketSender().sendMessage("A spell can be autocast by simply right-clicking on it in your Magic spellbook and ").sendMessage("selecting the \"Autocast\" option.");
+                        if (player.getSpellbook() == MagicSpellbook.NORMAL) {
+                            player.getInterfaceManager().setSidebar(0, 1829);
+                        } else {
+                            player.message("You can only autocast normal magic with that.");
+                            return;
+                        }
                     }
-                    break;
-
-                    case AUTOCAST_BUTTON_2:
-                        player.putAttrib(AttributeKey.DEFENSIVE_AUTOCAST, true);
-                        if (!GameServer.properties().rightClickAutocast) {
-                            if (player.getSpellbook() == MagicSpellbook.LUNAR) {
-                                player.message("You can't autocast lunar spells.");
-                                player.getPacketSender().setDefensiveAutocastState(0);
-                                return;
-                            }
-                            if (staff != null && Autocasting.SPECIAL_AUTOCAST_STAFFS.contains(staff.getId()) && onNormals || onAncients) {
-                                player.message("You can't autocast regular offensive spells with this staff.");
-                                player.getPacketSender().setDefensiveAutocastState(0);
-                                return;
-                            }
-                            if (player.getEquipment().get(3) != null && player.getEquipment().containsAny(ANCIENT_STAFF, MASTER_WAND, STAFF_OF_THE_DEAD, TOXIC_STAFF_UNCHARGED, TOXIC_STAFF_OF_THE_DEAD, KODAI_WAND)) {
-                                player.getInterfaceManager().setSidebar(0, 1689);
-                            } else {
-                                if (player.getSpellbook() != MagicSpellbook.NORMAL) {
-                                    player.message("You can't autocast ancient magicks with this staff.");
-                                    player.getPacketSender().setDefensiveAutocastState(0);
-                                    return;
-                                }
-                                player.getInterfaceManager().setSidebar(0, 1829);
-                            }
-                        } else {
-                            player.getPacketSender()
-                                .sendMessage(
-                                    "A spell can be autocast by simply right-clicking on it in your Magic spellbook and ")
-                                .sendMessage("selecting the \"Autocast\" option.");
-                        }
-                        break;
-
-                    case DUEL_ACCEPT_BUTTON_1:
-                    case DUEL_ACCEPT_BUTTON_2:
-                        player.getDueling().acceptDuel();
-                        break;
-
-                    case ADVANCED_OPTIONS_BUTTON:
-                        player.getInterfaceManager().open(43000);
-                        break;
-
-                    case TOGGLE_AUTO_RETALIATE:
-                    case TOGGLE_AUTO_RETALIATE_2:
-                    case TOGGLE_AUTO_RETALIATE_3:
-                        player.getCombat().setAutoRetaliate(!player.getCombat().hasAutoReliateToggled());
-                        break;
-
-                    case DESTROY_ITEM:
-                        int id = player.getDestroyItem();
-                        Item itemToDestroy = new Item(id);
-                        if (!player.inventory().contains(itemToDestroy)) {
-                            return;
-                        }
-                        player.inventory().remove(itemToDestroy, true);
-                        player.getInterfaceManager().close();
-                        break;
-
-                    case TOGGLE_EXP_LOCK:
-                        boolean locked = player.getAttribOr(AttributeKey.XP_LOCKED, false);
-                        player.putAttrib(AttributeKey.XP_LOCKED, locked);
-
-                        if (!locked) {
-                            player.message("Your experience is now <col=ca0d0d>locked.");
-                        } else {
-                            player.message("Your experience is now <col=65280>unlocked.");
-                        }
-                        break;
-
-                    default:
-                        if (Arrays.stream(CLOSE_BUTTONS).anyMatch(b -> b == button)) {
-                            player.getInterfaceManager().close();
-                        }
-
-                        if (button == LOGOUT) {
-                            // Handle this here and not in canLogout() so that x-logging doesn't "break" the
-                            // attack timer.
-                            if (player.getDueling().inDuel() && player.getDueling().getRules()[DuelRule.NO_FORFEIT.ordinal()]) {
-                                player.message("You cannot log out at the moment.");
-                                return;
-                            }
-                            player.putAttrib(AttributeKey.LOGOUT_CLICKED, true);
-                            return;
-                        }
-
-                        if (button == 54763) {
-                            player.getTaskMasterManager().claimReward();
-                            return;
-                        }
-
-                        if (player.getQuickPrayers().handleButton(button)) {
-                            return;
-                        }
-
-                        if (TradingPost.handleButtons(player, button))
-                            return;
-
-                        if (player.getSlayerRewards().handleButtonInteraction(player, button)) {
-                            return;
-                        }
-                        if (player.getRunePouch().onButton(button)) {
-                            return;
-                        }
-
-                        if (player.getSkills().pressedSkill(button)) {
-                            return;
-                        }
-                        if (QuestTab.onButton(player, button)) {
-                            return;
-                        }
-                        if (Smelting.handleButton(player, button)) {
-                            return;
-                        }
-                        if (BonusesInterface.bonusesButtons(player, button)) {
-                            return;
-                        }
-                        if (CollectionLogButtons.onButtonClick(player, button)) {
-                            return;
-                        }
-                        if (OrnateJewelleryBox.teleport(player, button)) {
-                            return;
-                        }
-                        if (DropsDisplay.clickActions(player, button)) {
-                            return;
-                        }
-                        if (AchievementButtons.handleButtons(player, button)) {
-                            return;
-                        }
-                        if (player.getBank().buttonAction(button)) {
-                            return;
-                        }
-                        if (player.chatBoxItemDialogue != null) {
-                            if (player.chatBoxItemDialogue.clickButton(button)) {
-                                player.chatBoxItemDialogue = null;
-                                return;
-                            }
-                        }
-
-                        if (ItemActionDialogue.clickButton(player, button)) {
-                            return;
-                        }
-
-                        BankPin bankPin = player.getBankPin();
-                        if (bankPin.isEnteringPin() && bankPin.getPinInterface().enterDigit(button)) {
-                            return;
-                        }
-                        if (Prayers.togglePrayer(player, button)) {
-                            return;
-                        }
-                        if (Autocasting.handleLegacyAutocast(player, button)) {
-                            return;
-                        }
-                        if (Autocasting.toggleAutocast(player, button)) {
-                            return;
-                        }
-                        if (WeaponInterfaces.changeCombatSettings(player, button)) {
-                            return;
-                        }
-                        if (MagicClickSpells.handleSpell(player, button)) {
-                            return;
-                        }
-                        if (player.getPriceChecker().buttonActions(button)) {
-                            return;
-                        }
-                        if (Emotes.doEmote(player, button)) {
-                            return;
-                        }
-                        if (ClanButtons.handle(player, button)) {
-                            return;
-                        }
-                        if (player.getDueling().checkRule(button)) {
-                            return;
-                        }
-                        if (player.getPresetManager().handleButton(button, 0)) {
-                            return;
-                        }
-                        if (Arrays.stream(CLOSE_BUTTONS).anyMatch(b -> b == button)) {
-                            return;
-                        }
-                        if (Arrays.stream(ButtonClickPacketListener.ALL).anyMatch(b -> b == button)) {
-                            return;
-                        }
-                        break;
+                } else {
+                    player.getPacketSender().sendMessage("A spell can be autocast by simply right-clicking on it in your Magic spellbook and ").sendMessage("selecting the \"Autocast\" option.");
                 }
-        }
+                break;
 
+            case AUTOCAST_BUTTON_2:
+                player.putAttrib(AttributeKey.DEFENSIVE_AUTOCAST, true);
+                if (!GameServer.properties().rightClickAutocast) {
+                    if (player.getSpellbook() == MagicSpellbook.LUNAR) {
+                        player.message("You can't autocast lunar spells.");
+                        player.getPacketSender().setDefensiveAutocastState(0);
+                        return;
+                    }
+                    if (staff != null && Autocasting.SPECIAL_AUTOCAST_STAFFS.contains(staff.getId()) && onNormals || onAncients) {
+                        player.message("You can't autocast regular offensive spells with this staff.");
+                        player.getPacketSender().setDefensiveAutocastState(0);
+                        return;
+                    }
+                    if (player.getEquipment().get(3) != null && player.getEquipment().containsAny(ANCIENT_STAFF, MASTER_WAND, STAFF_OF_THE_DEAD, TOXIC_STAFF_UNCHARGED, TOXIC_STAFF_OF_THE_DEAD, KODAI_WAND)) {
+                        player.getInterfaceManager().setSidebar(0, 1689);
+                    } else {
+                        if (player.getSpellbook() != MagicSpellbook.NORMAL) {
+                            player.message("You can't autocast ancient magicks with this staff.");
+                            player.getPacketSender().setDefensiveAutocastState(0);
+                            return;
+                        }
+                        player.getInterfaceManager().setSidebar(0, 1829);
+                    }
+                } else {
+                    player.getPacketSender()
+                        .sendMessage(
+                            "A spell can be autocast by simply right-clicking on it in your Magic spellbook and ")
+                        .sendMessage("selecting the \"Autocast\" option.");
+                }
+                break;
+
+            case DUEL_ACCEPT_BUTTON_1:
+            case DUEL_ACCEPT_BUTTON_2:
+                player.getDueling().acceptDuel();
+                break;
+
+            case ADVANCED_OPTIONS_BUTTON:
+                player.getInterfaceManager().open(43000);
+                break;
+
+            case TOGGLE_AUTO_RETALIATE:
+            case TOGGLE_AUTO_RETALIATE_2:
+            case TOGGLE_AUTO_RETALIATE_3:
+            case TOGGLE_AUTO_RETALIATE_4:
+                player.getCombat().setAutoRetaliate(!player.getCombat().hasAutoReliateToggled());
+                break;
+
+            case DESTROY_ITEM:
+                int id = player.getDestroyItem();
+                Item itemToDestroy = new Item(id);
+                if (!player.inventory().contains(itemToDestroy)) {
+                    return;
+                }
+                player.inventory().remove(itemToDestroy, true);
+                player.getInterfaceManager().close();
+                break;
+
+            case TOGGLE_EXP_LOCK:
+                boolean locked = player.getAttribOr(AttributeKey.XP_LOCKED, false);
+                player.putAttrib(AttributeKey.XP_LOCKED, locked);
+
+                if (!locked) {
+                    player.message("Your experience is now <col=ca0d0d>locked.");
+                } else {
+                    player.message("Your experience is now <col=65280>unlocked.");
+                }
+                break;
+
+            default:
+                if (Arrays.stream(CLOSE_BUTTONS).anyMatch(b -> b == button)) {
+                    player.getInterfaceManager().close();
+                }
+
+                if (button == LOGOUT) {
+                    // Handle this here and not in canLogout() so that x-logging doesn't "break" the
+                    // attack timer.
+                    if (player.getDueling().inDuel() && player.getDueling().getRules()[DuelRule.NO_FORFEIT.ordinal()]) {
+                        player.message("You cannot log out at the moment.");
+                        return;
+                    }
+                    player.putAttrib(AttributeKey.LOGOUT_CLICKED, true);
+                    return;
+                }
+
+                if (button == 54763) {
+                    player.getTaskMasterManager().claimReward();
+                    return;
+                }
+
+                if (player.getQuickPrayers().handleButton(button)) {
+                    return;
+                }
+
+                if (TradingPost.handleButtons(player, button))
+                    return;
+
+                if (player.getSlayerRewards().handleButtonInteraction(player, button)) {
+                    return;
+                }
+                if (player.getRunePouch().onButton(button)) {
+                    return;
+                }
+
+                if (player.getSkills().pressedSkill(button)) {
+                    return;
+                }
+                if (QuestTab.onButton(player, button)) {
+                    return;
+                }
+                if (Smelting.handleButton(player, button)) {
+                    return;
+                }
+                if (BonusesInterface.bonusesButtons(player, button)) {
+                    return;
+                }
+                if (CollectionLogButtons.onButtonClick(player, button)) {
+                    return;
+                }
+                if (OrnateJewelleryBox.teleport(player, button)) {
+                    return;
+                }
+                if (DropsDisplay.clickActions(player, button)) {
+                    return;
+                }
+                if (AchievementButtons.handleButtons(player, button)) {
+                    return;
+                }
+                if (player.getBank().buttonAction(button)) {
+                    return;
+                }
+                if (player.chatBoxItemDialogue != null) {
+                    if (player.chatBoxItemDialogue.clickButton(button)) {
+                        player.chatBoxItemDialogue = null;
+                        return;
+                    }
+                }
+
+                if (ItemActionDialogue.clickButton(player, button)) {
+                    return;
+                }
+
+                BankPin bankPin = player.getBankPin();
+                if (bankPin.isEnteringPin() && bankPin.getPinInterface().enterDigit(button)) {
+                    return;
+                }
+                if (Prayers.togglePrayer(player, button)) {
+                    return;
+                }
+                if (Autocasting.handleLegacyAutocast(player, button)) {
+                    return;
+                }
+                if (Autocasting.toggleAutocast(player, button)) {
+                    return;
+                }
+                if (WeaponInterfaces.changeCombatSettings(player, button)) {
+                    return;
+                }
+                if (MagicClickSpells.handleSpell(player, button)) {
+                    return;
+                }
+                if (player.getPriceChecker().buttonActions(button)) {
+                    return;
+                }
+                if (Emotes.doEmote(player, button)) {
+                    return;
+                }
+                if (ClanButtons.handle(player, button)) {
+                    return;
+                }
+                if (player.getDueling().checkRule(button)) {
+                    return;
+                }
+                if (player.getPresetManager().handleButton(button, 0)) {
+                    return;
+                }
+                if (Arrays.stream(CLOSE_BUTTONS).anyMatch(b -> b == button)) {
+                    return;
+                }
+                if (Arrays.stream(ButtonClickPacketListener.ALL).anyMatch(b -> b == button)) {
+                    return;
+                }
+                break;
+        }
     }
+
+}

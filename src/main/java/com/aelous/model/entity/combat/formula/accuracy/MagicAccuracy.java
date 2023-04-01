@@ -150,6 +150,7 @@ public class MagicAccuracy {
             case CONTROLLED -> effectiveLevel += 1;
         }
 
+
         effectiveLevel = (int) Math.floor(effectiveLevel);
 
         if (defender != null) {

@@ -2813,7 +2813,7 @@ CombatSpells {
 
         @Override
         public MagicSpellbook spellbook() {
-            return MagicSpellbook.NORMAL;
+            return null;
         }
     }),
     TRIDENT_OF_THE_SWAMP(new CombatNormalSpell() {
@@ -2854,7 +2854,7 @@ CombatSpells {
 
         @Override
         public MagicSpellbook spellbook() {
-            return MagicSpellbook.NORMAL;
+            return null;
         }
     }),
     SANGUINESTI_STAFF(new CombatEffectSpell() {
@@ -2909,7 +2909,7 @@ CombatSpells {
 
         @Override
         public MagicSpellbook spellbook() {
-            return MagicSpellbook.NORMAL;
+            return null;
         }
     }),
     TUMEKENS_SHADOW(new CombatNormalSpell() {
@@ -2950,7 +2950,7 @@ CombatSpells {
 
         @Override
         public MagicSpellbook spellbook() {
-            return MagicSpellbook.NORMAL;
+            return null;
         }
     }),
     ACCURSED_SCEPTRE(new CombatNormalSpell() {
@@ -2991,7 +2991,7 @@ CombatSpells {
 
         @Override
         public MagicSpellbook spellbook() {
-            return MagicSpellbook.NORMAL;
+            return null;
         }
     }),
     VOLATILE_NIGHTMARE_STAFF(new CombatNormalSpell() {
@@ -3073,7 +3073,7 @@ CombatSpells {
 
         @Override
         public MagicSpellbook spellbook() {
-            return MagicSpellbook.NORMAL;
+            return null;
         }
     });
 

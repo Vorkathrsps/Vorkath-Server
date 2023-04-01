@@ -8,6 +8,7 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.magic.spells.CombatSpells;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 
 /**
  * The volatile nightmare staff has a special attack, Immolate, that consumes 55% of the player's special attack energy
@@ -31,7 +32,7 @@ public class VolatileNMS extends CommonCombatMethod {
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 3, CombatType.MAGIC).checkAccuracy();
         hit.submit();
         if(hit.isAccurate()) {
-            target.graphic(1759);
+            target.graphic(1759, GraphicHeight.LOW, 0);
         }
         //Reset spell
         entity.getCombat().setCastSpell(null);

@@ -27,13 +27,7 @@ public enum ModernSpells {
     WATER_SURGE(22658, 1459, 51, 43, 31, 1458, 1460, 10, 7855,  GraphicHeight.HIGH),
     EARTH_SURGE(22628, 1462, 51, 43, 31, 1461, 1463, 10, 7855,  GraphicHeight.HIGH),
     FIRE_SURGE(22608, 1465, 51, 43, 31, 1464, 1466, 10, 7855,  GraphicHeight.HIGH),
-    TELEBLOCK(12445, 1299,75, 43, 31, -1, 345, 10, 1820, GraphicHeight.LOW),
-    TUMMEKENS_SHADOW(6, 2126, 51, 63, 31, 2125, 2127, 10, 9493,  GraphicHeight.HIGH),
-    ACCURSED_SCEPTRE(7, 2337, 51, 43, 31, -1, 78, 10, 1167,  GraphicHeight.HIGH),
-    SANGUINESTI_STAFF(3, 1539, 51, 31, 0, 1540, 1541, 10, 1167,  GraphicHeight.LOW),
-    TRIDENT_OF_THE_SEAS(1, 1252, 51, 31, 0, 1251, 1253, 10, 1167,  GraphicHeight.LOW),
-    TRIDENT_OF_THE_SWAMP(2, 1040, 51, 31, 0, 665, 1042, 10, 1167,  GraphicHeight.LOW)
-    ;
+    TELEBLOCK(12445, 1299,75, 43, 31, -1, 345, 10, 1820, GraphicHeight.LOW);
 
     public int spellID, projectile, castAnimation, startSpeed, startHeight, endHeight, startGraphic, endGraphic, stepMultiplier;
 

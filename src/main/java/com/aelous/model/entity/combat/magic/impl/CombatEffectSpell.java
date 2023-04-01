@@ -136,7 +136,7 @@ public abstract class CombatEffectSpell extends CombatSpell {
 
             // dmg is calcd inside hit
 
-            Hit hit = castOn.hit(cast, CombatFactory.calcDamageFromType(cast, castOn, CombatType.MAGIC), delay, CombatType.MAGIC);
+            Hit hit = castOn.hit(cast, CombatFactory.calcDamageFromType(cast, target, CombatType.MAGIC), delay, CombatType.MAGIC);
 
 
             //Hit hit = Hit.builder(cast, target, CombatFactory.calcDamageFromType(cast, target, CombatType.MAGIC));

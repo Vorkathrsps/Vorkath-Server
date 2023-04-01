@@ -6,6 +6,7 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.magic.data.AncientSpells;
+import com.aelous.model.entity.combat.magic.data.AutoCastWeaponSpells;
 import com.aelous.model.entity.combat.magic.data.ModernSpells;
 import com.aelous.model.entity.combat.magic.impl.CombatEffectSpell;
 import com.aelous.model.entity.combat.magic.spells.CombatSpells;
@@ -17,6 +18,7 @@ import com.aelous.model.entity.masks.impl.graphics.Priority;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
+import com.aelous.utility.ItemIdentifiers;
 
 import java.util.*;
 import java.util.stream.IntStream;
@@ -41,22 +43,22 @@ public class MagicCombatMethod extends CommonCombatMethod {
             CombatSpell spell = entity.getCombat().getCastSpell() != null ? entity.getCombat().getCastSpell() : entity.getCombat().getAutoCastSpell();
             IntStream dataStore = Arrays.stream(new int[]{Integer.parseInt(String.valueOf(spell.spellId()))});
 
-            boolean canCast = spell.canCast(entity.getAsPlayer(), target, true);
             boolean modernSpellbook = entity.getAsPlayer().getSpellbook() == MagicSpellbook.NORMAL;
             boolean ancientSpellbook = entity.getAsPlayer().getSpellbook() == MagicSpellbook.ANCIENT;
+            boolean isWearingPoweredStaff = entity.getAsPlayer().getEquipment().containsAny(TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, SANGUINESTI_STAFF, TUMEKENS_SHADOW, DAWNBRINGER);
+            boolean canCast = spell.canCast(entity.getAsPlayer(), target, true);
             //final var list = parseMagicDataModerns;
             var spellID = spell.spellId();
-            var projectileObject = new Object() {
-                int projectile;
-                int startgraphic;
-                int castAnimation;
-                int startSpeed;
-                int startHeight;
-                int endHeight;
-                int endGraphic;
-                int stepMultiplier;
-                int duration;
-            };
+
+            int projectile = -1;
+            int startgraphic = -1;
+            int castAnimation = -1;
+            int startSpeed = -1;
+            int startHeight = -1;
+            int endHeight = -1;
+            int endGraphic = -1;
+            int stepMultiplier = -1;
+            int duration = -1;
 
             int distance = entity.tile().getChevDistance(target.tile());
 
@@ -64,48 +66,72 @@ public class MagicCombatMethod extends CommonCombatMethod {
             GraphicHeight endGraphicHeight = GraphicHeight.HIGH;
             ModernSpells findProjectileDataModern = ModernSpells.findSpellProjectileData(spellID, endGraphicHeight);
             AncientSpells findProjectileDataAncients = AncientSpells.findSpellProjectileData(spellID, startGraphicHeight, endGraphicHeight);
-
+            AutoCastWeaponSpells findAutoCastWeaponsData = AutoCastWeaponSpells.findSpellProjectileData(spellID, endGraphicHeight);
             if (!target.dead() && !entity.dead()) {
                 if (canCast) {
                     if (modernSpellbook) {
                         if (findProjectileDataModern != null) {
-                            if (dataStore.anyMatch(f -> f == findProjectileDataModern.spellID)) {
-                                projectileObject.projectile = (findProjectileDataModern.projectile);
-                                projectileObject.startgraphic = (findProjectileDataModern.startGraphic);
-                                projectileObject.castAnimation = (findProjectileDataModern.castAnimation);
-                                projectileObject.startSpeed = (findProjectileDataModern.startSpeed);
-                                projectileObject.startHeight = (findProjectileDataModern.startHeight);
-                                projectileObject.endHeight = (findProjectileDataModern.endHeight);
-                                projectileObject.endGraphic = (findProjectileDataModern.endGraphic);
-                                projectileObject.stepMultiplier = (findProjectileDataModern.stepMultiplier);
-                                projectileObject.duration = (projectileObject.startSpeed + -5 + (projectileObject.stepMultiplier * distance));
+                            if (entity.getAsPlayer().getCombat().getCastSpell().spellId() == findProjectileDataModern.spellID) {
+                                projectile = (findProjectileDataModern.projectile);
+                                startgraphic = (findProjectileDataModern.startGraphic);
+                                castAnimation = (findProjectileDataModern.castAnimation);
+                                startSpeed = (findProjectileDataModern.startSpeed);
+                                startHeight = (findProjectileDataModern.startHeight);
+                                endHeight = (findProjectileDataModern.endHeight);
+                                endGraphic = (findProjectileDataModern.endGraphic);
+                                stepMultiplier = (findProjectileDataModern.stepMultiplier);
+                                duration = (startSpeed + -5 + (stepMultiplier * distance));
                                 endGraphicHeight = findProjectileDataModern.endGraphicHeight;
                             }
                         }
                     }
                 }
-                if (ancientSpellbook) {
-                    if (findProjectileDataAncients != null) {
-                        if (dataStore.anyMatch(f -> f == findProjectileDataAncients.spellID)) {
-                            projectileObject.projectile = (findProjectileDataAncients.projectile);
-                            projectileObject.startgraphic = (findProjectileDataAncients.startGraphic);
-                            projectileObject.castAnimation = (findProjectileDataAncients.castAnimation);
-                            projectileObject.startSpeed = (findProjectileDataAncients.startSpeed);
-                            projectileObject.startHeight = (findProjectileDataAncients.startHeight);
-                            projectileObject.endHeight = (findProjectileDataAncients.endHeight);
-                            projectileObject.endGraphic = (findProjectileDataAncients.endGraphic);
-                            projectileObject.stepMultiplier = (findProjectileDataAncients.stepMultiplier);
-                            projectileObject.duration = (projectileObject.startSpeed + -5 + (projectileObject.stepMultiplier * distance));
-                            endGraphicHeight = findProjectileDataAncients.endGraphicHeight;
+                if (!target.dead() && !entity.dead()) {
+                    if (canCast) {
+                        if (ancientSpellbook) {
+                            if (findProjectileDataAncients != null) {
+                                if (entity.getAsPlayer().getCombat().getCastSpell().spellId() == findProjectileDataAncients.spellID) {
+                                    projectile = (findProjectileDataAncients.projectile);
+                                    startgraphic = (findProjectileDataAncients.startGraphic);
+                                    castAnimation = (findProjectileDataAncients.castAnimation);
+                                    startSpeed = (findProjectileDataAncients.startSpeed);
+                                    startHeight = (findProjectileDataAncients.startHeight);
+                                    endHeight = (findProjectileDataAncients.endHeight);
+                                    endGraphic = (findProjectileDataAncients.endGraphic);
+                                    stepMultiplier = (findProjectileDataAncients.stepMultiplier);
+                                    duration = (startSpeed + -5 + (stepMultiplier * distance));
+                                    endGraphicHeight = findProjectileDataAncients.endGraphicHeight;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (!target.dead() && !entity.dead()) {
+                    if (canCast) {
+                        if (isWearingPoweredStaff) {
+                            if (findAutoCastWeaponsData != null) {
+                                if (entity.getAsPlayer().getCombat().getAutoCastSpell().spellId() == findAutoCastWeaponsData.spellID) {
+                                    projectile = (findAutoCastWeaponsData.projectile);
+                                    startgraphic = (findAutoCastWeaponsData.startGraphic);
+                                    castAnimation = (findAutoCastWeaponsData.castAnimation);
+                                    startSpeed = (findAutoCastWeaponsData.startSpeed);
+                                    startHeight = (findAutoCastWeaponsData.startHeight);
+                                    endHeight = (findAutoCastWeaponsData.endHeight);
+                                    endGraphic = (findAutoCastWeaponsData.endGraphic);
+                                    stepMultiplier = (findAutoCastWeaponsData.stepMultiplier);
+                                    duration = (startSpeed + -5 + (stepMultiplier * distance));
+                                    endGraphicHeight = findAutoCastWeaponsData.endGraphicHeight;
+                                }
+                            }
                         }
                     }
                 }
 
-                entity.animate(new Animation(projectileObject.castAnimation));
+                entity.animate(new Animation(castAnimation));
 
-                entity.performGraphic(new Graphic(projectileObject.startgraphic, startGraphicHeight, 0));
+                entity.performGraphic(new Graphic(startgraphic, startGraphicHeight, 0));
 
-                Projectile p = new Projectile(entity, target, projectileObject.projectile, projectileObject.startSpeed, projectileObject.duration, projectileObject.startHeight, projectileObject.endHeight, 0, target.getSize(), projectileObject.stepMultiplier);
+                Projectile p = new Projectile(entity, target, projectile, startSpeed, duration, startHeight, endHeight, 0, target.getSize(), stepMultiplier);
 
                 final int delay = entity.executeProjectile(p);
 
@@ -114,7 +140,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
                 hit.submit();
 
                 if (hit.isAccurate()) {
-                    target.performGraphic(new Graphic(projectileObject.endGraphic, endGraphicHeight, p.getSpeed()));
+                    target.performGraphic(new Graphic(endGraphic, endGraphicHeight, p.getSpeed()));
                 } else {
                     target.performGraphic(new Graphic(85, GraphicHeight.LOW, p.getSpeed(), Priority.HIGH));
                 }

@@ -56,6 +56,13 @@ public abstract class Spell {
                 var setPoweredStaffSpell = CombatSpells.getCombatSpell(spellId());
                 //Reset auto casting if we were autocasting
 
+                if (hasActivePoweredStaffSpell) {
+                    player.getCombat().setPoweredStaffSpell(setPoweredStaffSpell);
+                } else {
+                    player.getCombat().reset();
+                    return false;
+                }
+
                 if (autoCastSelected) {
                     Autocasting.setAutocast(player, null);
                 } else {
@@ -74,8 +81,14 @@ public abstract class Spell {
                 }
 
                 CombatSpell combatSpell = player.getCombat().getCastSpell() != null ? player.getCombat().getCastSpell() : player.getCombat().getAutoCastSpell() != null ? player.getCombat().getAutoCastSpell() : player.getCombat().getPoweredStaffSpell() != null ? player.getCombat().getPoweredStaffSpell() : null;
-                boolean ignoreBookCheck = combatSpell == CombatSpells.ELDRITCH_NIGHTMARE_STAFF.getSpell() ||
-                    combatSpell == CombatSpells.VOLATILE_NIGHTMARE_STAFF.getSpell() || combatSpell == CombatSpells.TRIDENT_OF_THE_SEAS.getSpell() || combatSpell == CombatSpells.SANGUINESTI_STAFF.getSpell() || combatSpell == CombatSpells.TUMEKENS_SHADOW.getSpell() || combatSpell == CombatSpells.ACCURSED_SCEPTRE.getSpell();
+                boolean ignoreBookCheck =
+                    combatSpell == CombatSpells.ELDRITCH_NIGHTMARE_STAFF.getSpell() ||
+                    combatSpell == CombatSpells.VOLATILE_NIGHTMARE_STAFF.getSpell() ||
+                        combatSpell == CombatSpells.TRIDENT_OF_THE_SEAS.getSpell() ||
+                        combatSpell == CombatSpells.TRIDENT_OF_THE_SWAMP.getSpell() ||
+                        combatSpell == CombatSpells.SANGUINESTI_STAFF.getSpell() ||
+                        combatSpell == CombatSpells.TUMEKENS_SHADOW.getSpell() ||
+                        combatSpell == CombatSpells.ACCURSED_SCEPTRE.getSpell();
 
                 // Secondly we check if they have proper magic spellbook
                 // If not, reset all magic attributes such as current spell

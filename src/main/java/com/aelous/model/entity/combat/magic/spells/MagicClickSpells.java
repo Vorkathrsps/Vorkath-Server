@@ -1456,7 +1456,6 @@ public class MagicClickSpells {
      * @return
      */
     public static boolean handleSpellOnObject(Player player, GameObject object, Tile tile, int spell_id) {
-
         Optional<MagicSpells> spell = getMagicSpells(spell_id);
 
         if (spell.isEmpty()) {

@@ -64,7 +64,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
             AncientSpells findProjectileDataAncients = AncientSpells.findSpellProjectileData(spellID, startGraphicHeight, endGraphicHeight);
             AutoCastWeaponSpells findAutoCastWeaponsData = AutoCastWeaponSpells.findSpellProjectileData(spellID, endGraphicHeight);
 
-           // boolean determineProjectileData = findProjectileDataModern != null && modernSpellbook ? entity.getAsPlayer().getCombat().getCastSpell().spellId() == findProjectileDataModern.spellID :
+            // boolean determineProjectileData = findProjectileDataModern != null && modernSpellbook ? entity.getAsPlayer().getCombat().getCastSpell().spellId() == findProjectileDataModern.spellID :
             if (!target.dead() && !entity.dead()) {
                 if (canCast) {
                     if (findProjectileDataModern != null) {
@@ -136,7 +136,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
                 if (hit.isAccurate()) {
                     target.performGraphic(new Graphic(endGraphic, endGraphicHeight, p.getSpeed()));
                 } else {
-                    target.performGraphic(new Graphic(85, GraphicHeight.LOW, p.getSpeed(), Priority.HIGH));
+                    target.performGraphic(new Graphic(85, GraphicHeight.LOW, p.getSpeed()));
                 }
                 if (spell instanceof CombatEffectSpell) {
                     if (hit.isAccurate()) {
@@ -174,8 +174,14 @@ public class MagicCombatMethod extends CommonCombatMethod {
 
     @Override
     public void postAttack() {
-        boolean spellWeapon = entity.getCombat().getCastSpell() == CombatSpells.ELDRITCH_NIGHTMARE_STAFF.getSpell() || entity.getCombat().getCastSpell() == CombatSpells.VOLATILE_NIGHTMARE_STAFF.getSpell();
-
+        boolean spellWeapon =
+            entity.getCombat().getCastSpell() == CombatSpells.ELDRITCH_NIGHTMARE_STAFF.getSpell()
+                || entity.getCombat().getCastSpell() == CombatSpells.VOLATILE_NIGHTMARE_STAFF.getSpell()
+                || entity.getCombat().getPoweredStaffSpell() == CombatSpells.TRIDENT_OF_THE_SEAS.getSpell()
+                || entity.getCombat().getPoweredStaffSpell() == CombatSpells.TRIDENT_OF_THE_SWAMP.getSpell()
+                || entity.getCombat().getPoweredStaffSpell() == CombatSpells.SANGUINESTI_STAFF.getSpell()
+                || entity.getCombat().getPoweredStaffSpell() == CombatSpells.TUMEKENS_SHADOW.getSpell();
+        boolean isWearingPoweredStaff = entity.getAsPlayer().getEquipment().containsAny(TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, SANGUINESTI_STAFF, TUMEKENS_SHADOW, DAWNBRINGER);
         if (entity.getCombat().getAutoCastSpell() == null && !spellWeapon) {
             entity.getCombat().reset();
         }

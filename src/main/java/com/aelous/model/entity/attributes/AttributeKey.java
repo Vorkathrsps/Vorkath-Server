@@ -268,6 +268,8 @@ public enum AttributeKey {
 
     AUTOCAST_SELECTED("autocast_selected", AttribType.BOOLEAN),
 
+    POWERED_STAFF_AUTOCAST("powered_staff_equipped", AttribType.BOOLEAN),
+
     EARNING_POTENTIAL("earning_potential", AttribType.INTEGER),
 
     SANGUINE_TWISTED_BOW_ATTEMTPS("sanguine_twisted_bow_attempts", AttribType.INTEGER),

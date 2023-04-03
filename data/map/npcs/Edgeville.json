@@ -1,13 +1,5 @@
 [
   {
-    "name": "Surok Magis",
-    "id": 4159,
-    "x": 3097,
-    "y": 3510,
-    "z": 0,
-    "direction": "S"
-  },
-  {
     "name": "Mac",
     "id": 6481,
     "x": 3076,
@@ -62,5 +54,69 @@
     "y": 3502,
     "z": 0,
     "direction": "E"
+  },
+  {
+    "name": "Trading Post Clerk",
+    "id": 2148,
+    "x": 3096,
+    "y": 3511,
+    "z": 0,
+    "direction": "S"
+  },
+  {
+    "name": "Trading Post Clerk",
+    "id": 2149,
+    "x": 3097,
+    "y": 3511,
+    "z": 0,
+    "direction": "S"
+  },
+  {
+    "name": "Trading Post Clerk",
+    "id": 2148,
+    "x": 3098,
+    "y": 3513,
+    "z": 0,
+    "direction": "E"
+  },
+  {
+    "name": "Trading Post Clerk",
+    "id": 2149,
+    "x": 3098,
+    "y": 3512,
+    "z": 0,
+    "direction": "E"
+  },
+  {
+    "name": "Trading Post Clerk",
+    "id": 2148,
+    "x": 3095,
+    "y": 3512,
+    "z": 0,
+    "direction": "W"
+  },
+  {
+    "name": "Trading Post Clerk",
+    "id": 2149,
+    "x": 3095,
+    "y": 3513,
+    "z": 0,
+    "direction": "W"
+  },
+  {
+    "name": "Trading Post Clerk",
+    "id": 2148,
+    "x": 3096,
+    "y": 3514,
+    "z": 0,
+    "direction": "N"
+  },
+  {
+    "name": "Trading Post Clerk",
+    "id": 2149,
+    "x": 3097,
+    "y": 3514,
+    "z": 0,
+    "direction": "N"
   }
 ]

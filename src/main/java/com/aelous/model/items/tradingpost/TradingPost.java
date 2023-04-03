@@ -2,7 +2,6 @@ package com.aelous.model.items.tradingpost;
 
 import com.aelous.GameConstants;
 import com.aelous.GameEngine;
-import com.aelous.cache.definitions.DefinitionRepository;
 import com.aelous.model.entity.player.InputScript;
 import com.aelous.model.inter.InterfaceConstants;
 import com.aelous.model.World;
@@ -15,7 +14,6 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
 import com.aelous.utility.Color;
 import com.aelous.utility.Utils;
-import com.esotericsoftware.minlog.Log;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.primitives.Ints;
@@ -30,7 +28,6 @@ import org.apache.logging.log4j.Logger;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.aelous.model.entity.attributes.AttributeKey.*;
 import static com.aelous.utility.CustomItemIdentifiers.BLOODY_TOKEN;
@@ -250,7 +247,7 @@ public class TradingPost {
             return;
         }
 
-        if (player.ironMode() != IronMode.NONE) {
+        if (player.getIronManStatus() != IronMode.NONE) {
             player.message(Color.RED.wrap("As an ironman you stand alone."));
             return;
         }

@@ -16,7 +16,7 @@ public class ComboCommand implements Command {
 
     @Override
     public void execute(Player player, String command, String[] parts) {
-        if(player.ironMode() != IronMode.NONE) {
+        if(player.getIronManStatus() != IronMode.NONE) {
             player.message("As an ironman you cannot use this command.");
             return;
         }

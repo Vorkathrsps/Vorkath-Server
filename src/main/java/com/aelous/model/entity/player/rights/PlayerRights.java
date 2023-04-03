@@ -16,8 +16,7 @@ public enum PlayerRights {
     ADMINISTRATOR(1314, 2),
     DEVELOPER(495, 2),
 
-    OWNER(495, 2),
-
+    OWNER(495, 2)
     ;
 
     private final int spriteId;

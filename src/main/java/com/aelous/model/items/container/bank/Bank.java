@@ -12,12 +12,8 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
 import com.aelous.model.items.container.ItemContainer;
 import com.aelous.model.items.container.ItemContainerAdapter;
-import com.aelous.model.items.ground.GroundItem;
-import com.aelous.model.items.ground.GroundItemHandler;
-import com.aelous.utility.Utils;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -166,7 +162,7 @@ public class Bank extends ItemContainer {
         if (!player.getBankPin().enterPin(this::open)) {
             return;
         }
-        if (player.ironMode() == IronMode.ULTIMATE) {
+        if (player.getIronManStatus() == IronMode.ULTIMATE) {
             player.message("As an Ultimate Iron Man, you cannot use the bank.");
             return;
         }

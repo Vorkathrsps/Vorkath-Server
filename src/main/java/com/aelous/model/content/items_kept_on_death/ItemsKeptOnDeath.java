@@ -129,7 +129,7 @@ public class ItemsKeptOnDeath {
         int itemsKept = (Skulling.skulled(player) ? 0 : 3);
 
         // On Ultimate Iron Man, you drop everything!
-        if (player.ironMode() == IronMode.ULTIMATE) {
+        if (player.getIronManStatus() == IronMode.ULTIMATE) {
             itemsKept = 0;
         }
 

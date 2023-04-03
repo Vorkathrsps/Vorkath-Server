@@ -419,6 +419,7 @@ public class PlayerUpdating {
         builder.putShort(((message.getColour() & 0xff) << 8) | (message.getEffects() & 0xff), ByteOrder.LITTLE);
         builder.put(target.getPlayerRights().getRightsId());
         builder.put(target.getMemberRights().ordinal());
+        builder.put(target.getIronManStatus().ordinal());
         builder.put(bytes.length, ValueType.C);
         for (int ptr = bytes.length - 1; ptr >= 0; ptr--) {
             builder.put(bytes[ptr]);

@@ -24,7 +24,7 @@ public class IronManTutor extends Dialogue {
     private static final Logger logger = LogManager.getLogger(IronManTutor.class);
 
     public static void armour(Player player) {
-        switch (player.ironMode()) {
+        switch (player.getIronManStatus()) {
             case REGULAR -> {
                 if (player.ownsAny(IRONMAN_HELM, IRONMAN_PLATEBODY, IRONMAN_PLATELEGS)) {
                     player.message("Come back when you've lost your ironman armour.");
@@ -55,7 +55,7 @@ public class IronManTutor extends Dialogue {
             default -> player.message("Only ironman players can claim their armour.");
         }
 
-        if (player.ironMode() != IronMode.NONE) {
+        if (player.getIronManStatus() != IronMode.NONE) {
             DialogueManager.npcChat(player, Expression.HAPPY, NpcIdentifiers.IRON_MAN_TUTOR, "There you go. Wear it with pride.");
         }
     }

@@ -118,13 +118,13 @@ public class Trading {
         }
 
         // Ironman? fuck off lol!!
-        if (player.ironMode() != IronMode.NONE && (otherPlayer == null || !(otherPlayer.getPlayerRights().isOwner(otherPlayer) || otherPlayer.ironMode().isGroupIronman()))) {
+        if (player.getIronManStatus() != IronMode.NONE && (otherPlayer == null || !(otherPlayer.getPlayerRights().isOwner(otherPlayer) || otherPlayer.getIronManStatus().isGroupIronman()))) {
             player.message("You are an Iron Man. You stand alone.");
             return;
         }
 
         // Ironman? fuck off lol!!
-        if (otherPlayer.ironMode() != IronMode.NONE && !(player.getPlayerRights().isOwner(player) || player.ironMode().isGroupIronman())) {
+        if (otherPlayer.getIronManStatus() != IronMode.NONE && !(player.getPlayerRights().isOwner(player) || player.getIronManStatus().isGroupIronman())) {
             player.message(otherPlayer.getUsername() + " is an Iron Man. They stand alone.");
             return;
         }

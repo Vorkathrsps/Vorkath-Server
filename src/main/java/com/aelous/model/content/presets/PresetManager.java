@@ -509,7 +509,7 @@ public class PresetManager {
             if (!(player.getPlayerRights().isAdministrator(player))) {
                 return;
             }
-            if (player.ironMode() != IronMode.NONE) {
+            if (player.getIronManStatus() != IronMode.NONE) {
                 player.message("As ironman you cannot load global presets.");
                 return;
             }

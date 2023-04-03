@@ -429,14 +429,14 @@ public final class Equipment extends ItemContainer {
         }
 
         if (equip.getId() == HARDCORE_IRONMAN_HELM || equip.getId() == HARDCORE_IRONMAN_PLATEBODY || equip.getId() == HARDCORE_IRONMAN_PLATELEGS) {
-            if (player.ironMode() != IronMode.HARDCORE) {
+            if (player.getIronManStatus() != IronMode.HARDCORE) {
                 player.message("<col=FF0000>You cannot wear this equipment as you are no longer a hardcore ironman.");
                 return false;
             }
         }
 
         if (equip.getId() == IRONMAN_HELM || equip.getId() == IRONMAN_PLATEBODY || equip.getId() == IRONMAN_PLATELEGS) {
-            if (player.ironMode() != IronMode.REGULAR) {
+            if (player.getIronManStatus() != IronMode.REGULAR) {
                 player.message("<col=FF0000>You cannot wear this equipment as you are no longer a ironman.");
                 return false;
             }
@@ -546,7 +546,8 @@ public final class Equipment extends ItemContainer {
         WeaponInterfaces.updateWeaponInterface(player);
 
         boolean unarmed = player.getEquipment().getWeapon() == null;
-        if (equipmentSlot == EquipSlot.SHIELD && unarmed) { // Player isn't wielding a weapon, reset weapon too.
+        boolean twoHanded = player.getEquipment().getWeapon().isTwoHanded();
+        if (equipmentSlot == EquipSlot.SHIELD && unarmed || twoHanded) {
             resetWeapon();
         } else if (equipmentSlot == EquipSlot.WEAPON) {
             resetWeapon();

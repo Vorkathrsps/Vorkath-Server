@@ -44,7 +44,7 @@ public class MeleeAccuracy {
         return successful(attacker, defender, style);
     }
 
-    public boolean successful(final Entity attacker, final Entity defender, CombatType style) {
+    private boolean successful(final Entity attacker, final Entity defender, CombatType style) {
         final int attackBonus = getAttackRoll(attacker, defender, style);
         final int defenceBonus = getDefenceRoll(attacker, defender);
         double successfulRoll;
@@ -95,7 +95,7 @@ public class MeleeAccuracy {
     }
 
 
-    public int getEffectiveDefence(final Entity defender) {
+    private int getEffectiveDefence(final Entity defender) {
         FightStyle fightStyle = defender.getCombat().getFightType().getStyle();
         int effectiveLevel = defender instanceof NPC ? ((NPC) defender).getCombatInfo().stats.defence : (int) Math.floor(getDefenceLevel(defender) * getPrayerDefenseBonus(defender));
 
@@ -109,7 +109,7 @@ public class MeleeAccuracy {
         return effectiveLevel;
     }
 
-    public int getEffectiveAttack(final Entity attacker, final Entity defender, CombatType style) {
+    private int getEffectiveAttack(final Entity attacker, final Entity defender, CombatType style) {
         var task_id = attacker.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
         var task = SlayerCreature.lookup(task_id);
         final Item weapon = attacker.isPlayer() ? attacker.getAsPlayer().getEquipment().get(EquipSlot.WEAPON) : null;
@@ -200,11 +200,11 @@ public class MeleeAccuracy {
         return bonus;
     }
 
-    public int getAttackRoll(final Entity attacker, final Entity defender, CombatType style) {
+    private int getAttackRoll(final Entity attacker, final Entity defender, CombatType style) {
         return (int) Math.floor(getEffectiveAttack(attacker, defender, style) * (getGearAttackBonus(attacker) + 64));
     }
 
-    public int getDefenceRoll(final Entity attacker, final Entity defender) {
+    private int getDefenceRoll(final Entity attacker, final Entity defender) {
         if ((attacker.isPlayer() && attacker.getAsPlayer().getEquipment().contains(VESTAS_BLIGHTED_LONGSWORD) && attacker.isSpecialActivated())) {
             return (int) Math.floor((getEffectiveDefence(defender) * (getGearDefenceBonus(defender) + 64)) * 0.80F);
         }

@@ -66,7 +66,7 @@ public class ChangeAccountTypeDialogue extends Dialogue {
                 player.resetSkills();
                 GameMode accountType = player.getGameMode(GameMode.TRAINED_ACCOUNT);
                 player.getGameMode(accountType);
-                player.ironMode(IronMode.NONE);
+                player.setIronmanStatus(IronMode.NONE);
                 //logger.info(player.toString() + " has changed their account type to "+player.mode().toName());
                 Utils.sendDiscordInfoLog(player.toString() + " has changed their account type to "+player.getGameMode().toName());
                 /*if (accountType == GameMode.INSTANT_PKER) {

@@ -569,11 +569,11 @@ public class Player extends Entity {
 
     private IronMode ironMode = IronMode.NONE;
 
-    public IronMode ironMode() {
+    public IronMode getIronManStatus() {
         return ironMode;
     }
 
-    public void ironMode(IronMode mode) {
+    public void setIronmanStatus(IronMode mode) {
         ironMode = mode;
     }
 
@@ -1723,7 +1723,7 @@ public class Player extends Entity {
             setPlayerRights(PlayerRights.PLAYER);
         }
         //Deiron
-        ironMode(IronMode.NONE);
+        setIronmanStatus(IronMode.NONE);
         //Reset member rank otherwise people get free ranks
         setMemberRights(MemberRights.NONE);
         putAttrib(AttributeKey.NEW_ACCOUNT, true);
@@ -1740,12 +1740,12 @@ public class Player extends Entity {
 
     public void ecoResetAccount() {
 
-        if (ironMode() != IronMode.NONE) {
+        if (getIronManStatus() != IronMode.NONE) {
             //De rank all irons
             setPlayerRights(PlayerRights.PLAYER);
         }
         //Deiron
-        ironMode(IronMode.NONE);
+        setIronmanStatus(IronMode.NONE);
 
         //Make the accounts a new account
         putAttrib(AttributeKey.NEW_ACCOUNT, true);

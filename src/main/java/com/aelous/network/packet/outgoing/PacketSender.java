@@ -876,6 +876,7 @@ public final class PacketSender {
         PacketBuilder out = new PacketBuilder(127);
         out.put(player.getPlayerRights().getRightsId());
         out.put(player.getMemberRights().ordinal());
+        out.put(player.getIronManStatus().ordinal());
         player.getSession().write(out);
         return this;
     }
@@ -944,11 +945,12 @@ public final class PacketSender {
         return this;
     }
 
-    public PacketSender sendPrivateMessage(int senderRights, int senderMemberRights, Player target, byte[] message, int size) {
+    public PacketSender sendPrivateMessage(int senderRights, int senderIronmanRights, int senderMemberRights, Player target, byte[] message, int size) {
         PacketBuilder out = new PacketBuilder(196, PacketType.VARIABLE_SHORT);
         out.putString(target.getUsername());
         out.putInt(target.getRelations().getPrivateMessageId());
         out.put(senderRights);
+        out.put(senderIronmanRights);
         out.put(senderMemberRights);
         out.putBytes(message, size);
         player.getSession().write(out);

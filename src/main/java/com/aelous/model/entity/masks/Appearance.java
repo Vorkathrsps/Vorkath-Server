@@ -242,6 +242,7 @@ public class Appearance {
         packetBuilder.put(target.getSkills().combatLevel());
         packetBuilder.put(target.getPlayerRights().ordinal());
         packetBuilder.put(target.getMemberRights().ordinal());
+        packetBuilder.put(target.getIronManStatus().ordinal());
 
         out.put(packetBuilder.buffer().writerIndex(), ValueType.C);
         out.puts(packetBuilder.buffer());

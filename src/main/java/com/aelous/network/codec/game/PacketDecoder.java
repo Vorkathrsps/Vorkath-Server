@@ -38,7 +38,6 @@ public final class PacketDecoder extends ByteToMessageDecoder {
         this.random = random;
     }
 
-
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf buffer, List<Object> out) throws Exception {
         Session session = ctx.channel().attr(NetworkUtils.SESSION_KEY).get();

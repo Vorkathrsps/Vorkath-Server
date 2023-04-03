@@ -346,7 +346,7 @@ public class PlayerRelations {
         if (status == PrivateChatStatus.OFF) {
             setStatus(PrivateChatStatus.FRIENDS_ONLY);
         }
-        friend.getPacketSender().sendPrivateMessage(player.getPlayerRights().getRightsId(), player.getMemberRights().ordinal(), player, message, size);
+        friend.getPacketSender().sendPrivateMessage(player.getPlayerRights().getRightsId(),  player.getIronManStatus().ordinal(), player.getMemberRights().ordinal(), player, message, size);
     }
 
     /**

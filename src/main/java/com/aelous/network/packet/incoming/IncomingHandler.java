@@ -295,7 +295,7 @@ public class IncomingHandler {
         PACKET_NAMES[160] = "CUSTOM_LAG_REPORT";
         PACKET_NAMES[161] = "DISCONENCTED_BY_PACKET";
 
-        PACKET_SIZES[127] = 2;
+        PACKET_SIZES[127] = 3;
         PACKET_SIZES[0] = 0;
         PACKET_SIZES[1] = -3;
         PACKET_SIZES[2] = 6;

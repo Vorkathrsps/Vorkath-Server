@@ -34,7 +34,7 @@ public class AccountSelection extends PacketInteraction {
                 player.getPacketSender().sendChangeSprite(42423, (byte) 0);
                 player.getPacketSender().sendChangeSprite(42405, (byte) 0);
                 player.getPacketSender().sendChangeSprite(42406, (byte) 0);
-                player.ironMode(IronMode.REGULAR);
+                player.setIronmanStatus(IronMode.REGULAR);
                 player.getGameMode(GameMode.TRAINED_ACCOUNT);
             }
             case 42403 -> {
@@ -43,7 +43,7 @@ public class AccountSelection extends PacketInteraction {
                     player.getPacketSender().sendChangeSprite(42423, (byte) 0);
                     player.getPacketSender().sendChangeSprite(42405, (byte) 0);
                     player.getPacketSender().sendChangeSprite(42406, (byte) 0);
-                    player.ironMode(IronMode.HARDCORE);
+                    player.setIronmanStatus(IronMode.HARDCORE);
                     player.getGameMode(GameMode.TRAINED_ACCOUNT);
             }
             case 42423 -> {
@@ -52,7 +52,7 @@ public class AccountSelection extends PacketInteraction {
                 player.getPacketSender().sendChangeSprite(42423, (byte) 2);
                 player.getPacketSender().sendChangeSprite(42405, (byte) 0);
                 player.getPacketSender().sendChangeSprite(42406, (byte) 0);
-                player.ironMode(IronMode.NONE);
+                player.setIronmanStatus(IronMode.NONE);
                 player.getGameMode(GameMode.TRAINED_ACCOUNT);
             }
             }
@@ -113,6 +113,7 @@ public class AccountSelection extends PacketInteraction {
                 player.getInventory().add(new Item(IRONMAN_PLATEBODY, 1), true);
                 player.getInventory().add(new Item(IRONMAN_PLATELEGS, 1), true);
                 player.getInventory().addAll(GameConstants.STARTER_ITEMS);
+                player.setIronmanStatus(IronMode.REGULAR);
                 player.message("You have been given some training equipment.");
             }
             case 1 -> {
@@ -121,6 +122,7 @@ public class AccountSelection extends PacketInteraction {
                 player.getInventory().add(new Item(HARDCORE_IRONMAN_PLATEBODY, 1), true);
                 player.getInventory().add(new Item(HARDCORE_IRONMAN_PLATELEGS, 1), true);
                 player.getInventory().addAll(GameConstants.STARTER_ITEMS);
+                player.setIronmanStatus(IronMode.HARDCORE);
                 player.message("You have been given some training equipment.");
             }
             case 2 -> {
@@ -151,7 +153,7 @@ public class AccountSelection extends PacketInteraction {
         player.getUpdateFlag().flag(Flag.APPEARANCE);
 
         //Setup bank
-        if(!player.ironMode().isIronman() && !player.ironMode().isHardcoreIronman()) {
+        if(!player.getIronManStatus().isIronman() && !player.getIronManStatus().isHardcoreIronman()) {
             player.getBank().addAll(BANK_ITEMS);
             System.arraycopy(TAB_AMOUNT, 0, player.getBank().tabAmounts, 0, TAB_AMOUNT.length);
             player.getBank().shift();

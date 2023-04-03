@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.aelous.utility.ItemIdentifiers.*;
 
@@ -93,7 +92,7 @@ public class ItemsOnDeath {
         }
 
         // If it's not a safe death, turn a Hardcore Ironman into a regular.
-        if (player.ironMode() == IronMode.HARDCORE) {
+        if (player.getIronManStatus() == IronMode.HARDCORE) {
             stripHardcoreRank(player);
         }
 
@@ -179,7 +178,7 @@ public class ItemsOnDeath {
         int keptItems = (Skulling.skulled(player) ? 0 : 3);
 
         // On Ultimate Iron Man, you drop everything!
-        if (player.ironMode() == IronMode.ULTIMATE) {
+        if (player.getIronManStatus() == IronMode.ULTIMATE) {
             keptItems = 0;
         }
 

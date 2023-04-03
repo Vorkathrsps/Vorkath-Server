@@ -138,9 +138,9 @@ public class PlayerSave {
                 if (details.gameMode != null)
                     player.getGameMode(details.gameMode);
                 if (details.ironMode == null) {
-                    player.ironMode(IronMode.NONE);
+                    player.setIronmanStatus(IronMode.NONE);
                 } else {
-                    player.ironMode(details.ironMode);
+                    player.setIronmanStatus(details.ironMode);
                 }
                 player.putAttrib(DARK_LORD_LIVES, details.darkLordLives);
                 if(details.lastIP != null) {
@@ -1392,7 +1392,7 @@ public class PlayerSave {
             playerRights = player.getPlayerRights().name();
             memberRights = player.getMemberRights().name();
             gameMode = player.getGameMode();
-            ironMode = player.ironMode();
+            ironMode = player.getIronManStatus();
             darkLordLives = Player.getAttribIntOr(player, DARK_LORD_LIVES,3);
             lastIP = player.getHostAddress();
             mac = player.getAttribOr(MAC_ADDRESS, "invalid");

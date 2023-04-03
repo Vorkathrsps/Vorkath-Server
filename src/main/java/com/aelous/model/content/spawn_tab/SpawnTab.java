@@ -14,7 +14,7 @@ import com.aelous.utility.Color;
 public class SpawnTab {
 
     public static void spawn(Player player, int item, int amount, boolean toBank) {
-        if(player.ironMode() != IronMode.NONE) {
+        if(player.getIronManStatus() != IronMode.NONE) {
             player.message(Color.RED.wrap("As an ironman you stand alone."));
             return;
         }

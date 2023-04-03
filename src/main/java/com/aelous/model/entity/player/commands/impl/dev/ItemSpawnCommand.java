@@ -12,7 +12,7 @@ public class ItemSpawnCommand implements Command {
 
     @Override
     public void execute(Player player, String command, String[] parts) {
-        if (player.ironMode() != IronMode.NONE && !player.getPlayerRights().isAdministrator(player)) {
+        if (player.getIronManStatus() != IronMode.NONE && !player.getPlayerRights().isAdministrator(player)) {
             player.message("As an ironman you cannot use this command.");
             return;
         }

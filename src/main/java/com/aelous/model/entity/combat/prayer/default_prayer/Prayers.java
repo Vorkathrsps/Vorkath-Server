@@ -214,7 +214,7 @@ public class Prayers {
             return false;
         }
         if (prayer == DefaultPrayerData.PROTECT_ITEM) {
-            if (player.ironMode() == IronMode.ULTIMATE) {
+            if (player.getIronManStatus() == IronMode.ULTIMATE) {
                 if (msg) {
                     player.playSound(CANNOT_USE);
                     player.getPacketSender().sendConfig(prayer.getConfigId(), 0);

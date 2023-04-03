@@ -88,8 +88,8 @@ public class Utils {
 
     public static String gameModeToString(Player player) {
         //Player is some sort of ironman
-        if (player.ironMode() != IronMode.NONE) {
-            return player.ironMode().name;
+        if (player.getIronManStatus() != IronMode.NONE) {
+            return player.getIronManStatus().name;
         } else {
             return player.getGameMode().toName();
         }

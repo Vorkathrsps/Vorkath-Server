@@ -630,8 +630,8 @@ public class NPCDeath {
                                 GroundItemHandler.createGroundItem(new GroundItem(reward, tile, killer));
 
                                 if (WildernessArea.inWilderness(killer.tile())) {
-                                    killer.getPlayerManager().getWildernessSlayerCasket().rollForCasket(npc);
-                                    killer.getPlayerManager().getWildernessSlayerCasket().rollForSupplys(npc);
+                                    killer.getWildernessSlayerCasket().rollForCasket(npc);
+                                    killer.getWildernessSlayerCasket().rollForSupplys(npc);
                                 }
 
                                 npcDropLogs.log(NPC_DROPS, "Player " + killer.getUsername() + " got drop item " + reward.unnote().name());

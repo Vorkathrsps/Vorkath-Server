@@ -3,6 +3,7 @@ package com.aelous.model.entity.player;
 import com.aelous.GameServer;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.core.task.impl.*;
+import com.aelous.model.content.areas.wilderness.slayer.WildernessSlayerCasket;
 import com.aelous.model.content.raids.RaidStage;
 import com.aelous.model.content.raids.party.RaidsParty;
 import com.aelous.model.content.security.AccountPin;
@@ -158,10 +159,13 @@ public class Player extends Entity {
     }
 
     public RaidStage raidStage;
-
-    public PlayerManager playerManager = new PlayerManager(this);
-
     public transient ShopReference shopReference = ShopReference.DEFAULT;
+
+    private final WildernessSlayerCasket wildernessSlayerCasket = new WildernessSlayerCasket(this);
+
+    public WildernessSlayerCasket getWildernessSlayerCasket() {
+        return wildernessSlayerCasket;
+    }
 
     public void removeAll(Item item) {
         int inventoryCount = inventory.count(item.getId());
@@ -415,10 +419,6 @@ public class Player extends Entity {
         setRunningEnergy(100.0, true);
         Poison.cure(this);
         Venom.cure(2, this);
-    }
-
-    public PlayerManager getPlayerManager() {
-        return playerManager;
     }
 
     private final ItemContainer raidRewards = new ItemContainer(2, ItemContainer.StackPolicy.ALWAYS);

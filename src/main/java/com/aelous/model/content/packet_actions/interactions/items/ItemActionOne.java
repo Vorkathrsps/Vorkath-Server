@@ -54,7 +54,7 @@ public class ItemActionOne {
             return;
         }
 
-        if (player.getPlayerManager().getWildernessSlayerCasket().open(player, item)) {
+        if (player.getWildernessSlayerCasket().open(player, item)) {
             return;
         }
 

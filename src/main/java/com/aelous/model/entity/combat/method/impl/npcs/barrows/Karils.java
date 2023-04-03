@@ -7,6 +7,7 @@ import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
+import com.aelous.model.entity.player.Skill;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.utility.Utils;
 
@@ -41,7 +42,9 @@ public class Karils extends CommonCombatMethod {
     private void taintedShot() {
         if (target != null) {
             target.graphic(401, GraphicHeight.HIGH, 0);
-            target.getSkills().setLevel(Skills.AGILITY, (target.getSkills().level(Skills.AGILITY) - reductionFormula()));
+            if (target.getSkills().getMaxLevel(Skill.AGILITY) > 1) {
+                target.getSkills().setLevel(Skills.AGILITY, (target.getSkills().level(Skills.AGILITY) - reductionFormula()));
+            }
         }
     }
 

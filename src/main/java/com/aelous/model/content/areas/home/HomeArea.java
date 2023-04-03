@@ -70,15 +70,12 @@ public class HomeArea extends PacketInteraction {
         }
         if(option == 2) {
             if(object.getId() == 13641) {
-                //System.err.println("here.. tryn teleport recent..");
                 TeleportInterface.teleportRecent(player);
                 return true;
             }
         }
         return false;
     }
-
-    private int[] IRON_MAN_SHOPS = new int[]{ZAFF, };
 
     @Override
     public boolean handleNpcInteraction(Player player, NPC npc, int option) {

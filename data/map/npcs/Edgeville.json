@@ -6,5 +6,61 @@
     "y": 3510,
     "z": 0,
     "direction": "S"
+  },
+  {
+    "name": "Mac",
+    "id": 6481,
+    "x": 3076,
+    "y": 3509,
+    "z": 0,
+    "direction": "E"
+  },
+  {
+    "name": "IronMan Armour Shop",
+    "id": 11434,
+    "x": 3076,
+    "y": 3510,
+    "z": 0,
+    "direction": "E"
+  },
+  {
+    "name": "IronMan Supply Shop",
+    "id": 2884,
+    "x": 3076,
+    "y": 3511,
+    "z": 0,
+    "direction": "E"
+  },
+  {
+    "name": "Wise Old Man",
+    "id": 2108,
+    "x": 3076,
+    "y": 3512,
+    "z": 0,
+    "direction": "E"
+  },
+  {
+    "name": "Vote Store",
+    "id": 5365,
+    "x": 3078,
+    "y": 3514,
+    "z": 0,
+    "direction": "S"
+  },
+  {
+    "name": "Nieve",
+    "id": 6797,
+    "x": 3078,
+    "y": 3501,
+    "z": 0,
+    "direction": "E"
+  },
+  {
+    "name": "Nieve",
+    "id": 403,
+    "x": 3078,
+    "y": 3502,
+    "z": 0,
+    "direction": "E"
   }
 ]

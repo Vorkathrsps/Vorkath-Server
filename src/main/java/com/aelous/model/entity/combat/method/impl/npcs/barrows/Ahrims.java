@@ -20,14 +20,12 @@ public class Ahrims extends CommonCombatMethod {
 
         entity.animate(entity.attackAnimation());
 
-        var tileDist = entity.tile().transform(3, 3, 0).distance(target.tile());
+        //var tileDist = entity.tile().transform(3, 3, 0).distance(target.tile());
 
-        new Projectile(entity, target, 156, 40, 12 * tileDist, 30, 30, 0).sendProjectile();
-
-        var delay = Math.max(Math.max(1, 20 + tileDist * 12 / 30), 4);
-
-        if (delay > 2)
-            delay = 2;
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (51 + -5 + (10 * tileDist));
+        Projectile p = new Projectile(entity, target, 156, 51, duration, 43, 31, 0, target.getSize(), 10);
+        final int delay = entity.executeProjectile(p);
 
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
 

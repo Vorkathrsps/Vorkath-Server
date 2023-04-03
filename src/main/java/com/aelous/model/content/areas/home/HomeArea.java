@@ -1,5 +1,6 @@
 package com.aelous.model.content.areas.home;
 
+import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.content.packet_actions.interactions.objects.Ladders;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.aelous.model.entity.MovementQueue;
@@ -15,8 +16,7 @@ import com.aelous.utility.chainedwork.Chain;
 
 //import static net.aelous.util.CustomItemIdentifiers.LARRANS_KEY_TIER_III;
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
-import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.STAIRCASE_25801;
-import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.STAIRCASE_25935;
+import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.*;
 
 /**
  * @author Patrick van Elderen | April, 23, 2021, 10:49
@@ -78,9 +78,23 @@ public class HomeArea extends PacketInteraction {
         return false;
     }
 
+    private int[] IRON_MAN_SHOPS = new int[]{ZAFF, };
+
     @Override
     public boolean handleNpcInteraction(Player player, NPC npc, int option) {
         if(option == 1) {
+            /**
+             * IronMan Shops
+             */
+            if (npc.id() == AUBURY_11434) {
+                World.getWorld().shop(5004).open(player);
+            }
+            if (npc.id() == SHOP_KEEPER_2884) {
+                World.getWorld().shop(5005).open(player);
+            }
+            /**
+             * End
+             */
             if(npc.id() == GERRANT_2891) {
                 World.getWorld().shop(46).open(player);
                 return true;

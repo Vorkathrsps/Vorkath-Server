@@ -21,13 +21,10 @@ public class Karils extends CommonCombatMethod {
 
         entity.animate(entity.attackAnimation());
 
-        var tileDist = entity.tile().transform(3, 3, 0).distance(target.tile());
-
-        new Projectile(entity, target, 27, 41, 12 * tileDist, 30, 30, 0, 10, 15).sendProjectile();
-
-        var delay = Math.max(1, 20 + tileDist * 12 / 30);
-        if (delay > 2)
-            delay = 2;
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (41 + 11 + (5 * tileDist));
+        Projectile p = new Projectile(entity, target, 27, 41, duration, 43, 31, 0, target.getSize(), 5);
+        final int delay = entity.executeProjectile(p);
 
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
 

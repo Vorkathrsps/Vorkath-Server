@@ -1,5 +1,6 @@
 package com.aelous.cache.definitions;
 
+import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.entity.npc.pets.PetDefinitions;
 import com.aelous.network.codec.RSBuffer;
 import io.netty.buffer.Unpooled;
@@ -96,12 +97,12 @@ public class NpcDefinition implements Definition {
             int skel = a.skeletonSets[0] >> 16;
             try {
                 AnimationSkeletonSet sett = AnimationSkeletonSet.get(store, skel);
-                if (sett.loadedSkins.keySet().contains(skin)) {
+                if (sett.loadedSkins.containsKey(skin)) {
                     work.add(i);
                     //System.out.println("Animation #" + i + " uses player kinematic set.");
                 }
                 //System.out.println(skel);
-            } catch (Exception e) {
+            } catch (Exception ignored) {
 
             }
         }
@@ -128,6 +129,9 @@ public class NpcDefinition implements Definition {
             decode(new RSBuffer(Unpooled.wrappedBuffer(data)));
         //custom();
 
+        if (name != null && name.toLowerCase().contains("wise old man")) {
+            name = "Vote Shop";
+        }
         gwdRoomNpc = ArrayUtils.contains(GWD_ROOM_NPCIDS, id);
         inferno = id >= 7677 && id <= 7710;
         roomBoss = name != null && ((id >= 2042 && id <= 2044 || inferno) || gwdRoomNpc);

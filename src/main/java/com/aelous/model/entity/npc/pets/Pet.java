@@ -91,8 +91,7 @@ public class Pet {
              */
         }
 
-        NPC npc = new NPC(defs.npc, owner.tile(), true).walkRadius(-1);
-        this.currentPet = npc;
+        this.currentPet = new NPC(defs.npc, owner.tile(), true).walkRadius(-1);
         this.followOwner();
         return true;
 

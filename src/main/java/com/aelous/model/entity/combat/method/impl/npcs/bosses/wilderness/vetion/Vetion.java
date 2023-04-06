@@ -88,7 +88,7 @@ public class Vetion extends CommonCombatMethod {
                 continue;
             }
             usedTiles.add(finalDest);
-            vetion.waitUntil(() -> canwalk, () -> Chain.noCtx().runFn(1, () -> {
+            Chain.noCtx().runFn(1, () -> {
                 vetion.forceChat(Utils.randomElement(VETION_QUOTES));
                 vetion.lockMoveDamageOk();
                 vetion.getMovementQueue().clear();
@@ -118,7 +118,7 @@ public class Vetion extends CommonCombatMethod {
                 canwalk = false;
                 hasWalked = true;
                 usedTiles.clear();
-            }));
+            });
         }
     }
 
@@ -139,7 +139,7 @@ public class Vetion extends CommonCombatMethod {
                 continue;
             }
             usedTiles.add(finalDest);
-            vetion.waitUntil(() -> canwalk, () -> Chain.noCtx().runFn(1, () -> {
+            Chain.noCtx().runFn(1, () -> {
                 vetion.forceChat(Utils.randomElement(VETION_QUOTES));
                 vetion.lockMoveDamageOk();
                 vetion.getMovementQueue().clear();
@@ -168,7 +168,7 @@ public class Vetion extends CommonCombatMethod {
                 canwalk = false;
                 hasWalked = true;
                 usedTiles.clear();
-            }));
+            });
         }
     }
 

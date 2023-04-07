@@ -29,7 +29,6 @@ import com.aelous.model.items.Item;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.object.GameObject;
-import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.region.Region;
 import com.aelous.model.map.region.RegionManager;
@@ -544,7 +543,7 @@ public class CommandManager {
 
             var dir = Direction.resolveForLargeNpc(p.tile(), n);
             n.forceChat("assessed as "+dir);
-            Vetion.spawnShieldInDir(n.tile(), dir);
+            Vetion.spawnShieldInDir(new Vetion(), n.tile(), dir);
         });
 
         dev("vet3", (p, c, s) -> {

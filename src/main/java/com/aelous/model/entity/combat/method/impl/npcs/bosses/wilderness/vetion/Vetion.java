@@ -25,7 +25,7 @@ public class Vetion extends CommonCombatMethod {
 
     boolean canwalk = false;
     Set<Tile> usedTiles = new HashSet<>();
-    static Set<Tile> tiles = new HashSet<>(12);
+    Set<Tile> tiles = new HashSet<>(12);
     private final List<String> VETION_QUOTES = Arrays.asList("Dodge this!",
         "Sit still you rat!",
         "Die, rodent!", "I will end you!",
@@ -207,24 +207,23 @@ public class Vetion extends CommonCombatMethod {
         canwalk = true;
         NPC vetion = (NPC) entity;
         var lastTarget = target;
-        var targetDest = new Tile(target.tile().x, target.tile().y, target.tile().level);
         vetion.waitUntil(() -> canwalk, () -> Chain.noCtx().runFn(1, () -> {
             vetion.forceChat(Utils.randomElement(VETION_QUOTES));
             vetion.setPositionToFace(target.tile());
             vetion.lockMoveDamageOk();
             vetion.getMovementQueue().clear();
             var dir = Direction.resolveForLargeNpc(lastTarget.tile(), entity.npc());
-            spawnShieldInDir(entity.tile(), dir);
+            spawnShieldInDir(this, entity.tile(), dir);
         }).runFn(3, () -> {
             vetion.animate(9974);
-        }).then(3, () -> {
-            if (target != null && target.isPlayer() && !target.dead() && target.isRegistered() && !entity.dead()) {
-                if (tiles.contains(targetDest)) {
+        }).then(2, () -> {
+            Chain.bound(null).cancelWhen(() -> !tiles.contains(target.tile())).then(1, () -> {
+                if (target != null && target.isPlayer() && !target.dead() && target.isRegistered() && !entity.dead()) {
                     Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).setAccurate(true);
                     hit.setDamage(Utils.random(15, 30));
                     hit.submit();
                 }
-            }
+            });
         }).then(4, () -> {
             vetion.unlock();
             vetion.getCombat().setTarget(lastTarget);
@@ -273,7 +272,7 @@ public class Vetion extends CommonCombatMethod {
     }
 
 
-    public static void spawnShieldInDir(Tile origin, Direction dir) {
+    public static void spawnShieldInDir(Vetion vetion, Tile origin, Direction dir) {
         var PATTERNS = new int[][][]{ // player is [NESW] of vetion
             // NESW
             new int[][]{
@@ -301,7 +300,10 @@ public class Vetion extends CommonCombatMethod {
                 if (offset == null || offset.length == 0)
                     break;
                 var pos = origin.transform(offset[0], offset[1]);
+                vetion.tiles.add(pos); // you were missing side ones
                 World.getWorld().tileGraphic(1448, pos, 0, 0);
+
+                //World.getWorld().tileGraphic(2349, pos, 0, 30);
             }
         } else if (dir.ordinal() >= 4 && dir.ordinal() <= 7) {
             Area[][] PATTERNS2 = new Area[][]{
@@ -318,10 +320,10 @@ public class Vetion extends CommonCombatMethod {
                 area.topRight().showTempItem(995);
                 area.forEachPos(t -> {
                     var pos = origin.transform(t.x, t.y);
-                    tiles.add(pos);
+                    vetion.tiles.add(pos);
                 });
             }
-            for (Tile tile : tiles) {
+            for (Tile tile : vetion.tiles) {
                 World.getWorld().tileGraphic(1448, tile, 0, 0);
             }
         }

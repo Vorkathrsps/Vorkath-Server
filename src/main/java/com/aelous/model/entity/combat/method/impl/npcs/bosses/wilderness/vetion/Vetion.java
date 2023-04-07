@@ -17,15 +17,22 @@ import com.aelous.model.map.route.routes.ProjectileRoute;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 import com.aelous.utility.timers.TimerKey;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Vetion extends CommonCombatMethod {
 
     boolean canwalk = false;
-    boolean hasWalked = false;
     Set<Tile> usedTiles = new HashSet<>();
+    static Set<Tile> tiles = new HashSet<>(12);
     private final List<String> VETION_QUOTES = Arrays.asList("Dodge this!",
+        "Sit still you rat!",
+        "Die, rodent!", "I will end you!",
+        "You can't escape!",
+        "Filthy whelps!");
+
+    private final List<String> VETION_QUOTES2 = Arrays.asList("Dodge this!",
         "Sit still you rat!",
         "Die, rodent!", "I will end you!",
         "You can't escape!",
@@ -199,44 +206,29 @@ public class Vetion extends CommonCombatMethod {
     private void doShieldBash() {
         canwalk = true;
         NPC vetion = (NPC) entity;
-        var transformedTile = target.tile().transform(3, 3, 0);
-        List<Tile> tiles = transformedTile.area(5, pos -> World.getWorld().clipAt(pos.x, pos.y, pos.level) == 0 && !pos.equals(transformedTile) && !ProjectileRoute.allow(target, pos));
-        Tile destination = Utils.randomElement(tiles);
-        if (tiles.isEmpty()) {
-            return;
-        }
         var lastTarget = target;
-            vetion.waitUntil(() -> canwalk, () -> Chain.noCtx().runFn(1, () -> {
-                vetion.forceChat(Utils.randomElement(VETION_QUOTES));
-                vetion.setPositionToFace(target.tile());
-                vetion.lockMoveDamageOk();
-                vetion.getMovementQueue().clear();
-            }).runFn(1, () -> {
-                vetion.animate(9974);
-                //n e s w positions
-
-                var dir = Direction.resolveForLargeNpc(lastTarget.tile(), entity.npc());
-                spawnShieldInDir(entity.tile(), dir);
-
-            }).then(3, () -> {
-                if (target != null && target.isPlayer() && !target.dead() && target.isRegistered() && !entity.dead()) {
-                  //  if (destination != null && (target.tile().equals(finalDest))) {
-                        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 0, CombatType.MAGIC).setAccurate(true);
-                        hit.setDamage(Utils.random(15, 30));
-                        hit.submit();
-                    }
-                  //  if (finalDest != null && target.tile().inSqRadius(finalDest, 1) && !target.tile().equals(finalDest)) {
-                        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 0, CombatType.MAGIC).setAccurate(true);
-                        hit.setDamage(hit.getDamage() / 2);
-                        hit.submit();
-                    //}
-               // }
-            }).then(3, () -> {
-                vetion.unlock();
-                vetion.getCombat().setTarget(lastTarget);
-                vetion.face(null);
-                canwalk = false;
-            }));
+        vetion.waitUntil(() -> canwalk, () -> Chain.noCtx().runFn(1, () -> {
+            vetion.forceChat(Utils.randomElement(VETION_QUOTES));
+            vetion.setPositionToFace(target.tile());
+            vetion.lockMoveDamageOk();
+            vetion.getMovementQueue().clear();
+            var dir = Direction.resolveForLargeNpc(lastTarget.tile(), entity.npc());
+            spawnShieldInDir(entity.tile(), dir);
+        }).runFn(3, () -> {
+            vetion.animate(9974);
+        }).then(3, () -> {
+            if (target != null && target.isPlayer() && !target.dead() && target.isRegistered() && !entity.dead()) {
+                Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).setAccurate(true);
+                hit.setDamage(Utils.random(15, 30));
+                hit.submit();
+            }
+        }).then(4, () -> {
+            vetion.unlock();
+            vetion.getCombat().setTarget(lastTarget);
+            vetion.face(null);
+            canwalk = false;
+            tiles.clear();
+        }));
     }
 
     private void spawnHellhounds(NPC vetion, Entity target) {
@@ -279,23 +271,23 @@ public class Vetion extends CommonCombatMethod {
 
 
     public static void spawnShieldInDir(Tile origin, Direction dir) {
-        var PATTERNS = new int[][][] { // player is [NESW] of vetion
+        var PATTERNS = new int[][][]{ // player is [NESW] of vetion
             // NESW
-            new int[][] {
-                new int[] {-2, 4}, new int[] {-1,4}, new int[] {0,4}, new int[] {1,4}, new int[] {2,4}, new int[] {3,4}, new int[] {4,4}
-                , new int[] {-1,3}, new int[] {0,3}, new int[] {1,3}, new int[] {2,3}, new int[] {3,3}
+            new int[][]{
+                new int[]{-2, 4}, new int[]{-1, 4}, new int[]{0, 4}, new int[]{1, 4}, new int[]{2, 4}, new int[]{3, 4}, new int[]{4, 4}
+                , new int[]{-1, 3}, new int[]{0, 3}, new int[]{1, 3}, new int[]{2, 3}, new int[]{3, 3}
             },
-            new int[][] {
-                new int[] {4, 4}, new int[] {4,3}, new int[] {4,2}, new int[] {4,1}, new int[] {4,0}, new int[] {4,-1}, new int[] {4,-2}
-                , new int[] {3,3}, new int[] {3,2}, new int[] {3,1}, new int[] {3,0}, new int[] {3,-1}
+            new int[][]{
+                new int[]{4, 4}, new int[]{4, 3}, new int[]{4, 2}, new int[]{4, 1}, new int[]{4, 0}, new int[]{4, -1}, new int[]{4, -2}
+                , new int[]{3, 3}, new int[]{3, 2}, new int[]{3, 1}, new int[]{3, 0}, new int[]{3, -1}
             },
-            new int[][] {
-                new int[] {-2, -2}, new int[] {-1,-2}, new int[] {0,-2}, new int[] {1,-2}, new int[] {2,-2}, new int[] {3,-2}, new int[] {4,-2}
-                , new int[] {-1,-1}, new int[] {0,-1}, new int[] {1,-1}, new int[] {2,-1}, new int[] {3,-1}
+            new int[][]{
+                new int[]{-2, -2}, new int[]{-1, -2}, new int[]{0, -2}, new int[]{1, -2}, new int[]{2, -2}, new int[]{3, -2}, new int[]{4, -2}
+                , new int[]{-1, -1}, new int[]{0, -1}, new int[]{1, -1}, new int[]{2, -1}, new int[]{3, -1}
             },
-            new int[][] {
-                new int[] {-2, -2}, new int[] {-2,-1}, new int[] {-2,0}, new int[] {-2,1}, new int[] {-2,2}, new int[] {-2,3}, new int[] {-2,4}
-                , new int[] {-1,-1}, new int[] {-1,0}, new int[] {-1,1}, new int[] {-1,2}, new int[] {-1,3}
+            new int[][]{
+                new int[]{-2, -2}, new int[]{-2, -1}, new int[]{-2, 0}, new int[]{-2, 1}, new int[]{-2, 2}, new int[]{-2, 3}, new int[]{-2, 4}
+                , new int[]{-1, -1}, new int[]{-1, 0}, new int[]{-1, 1}, new int[]{-1, 2}, new int[]{-1, 3}
             }
         };
         if (dir.ordinal() <= 3) {
@@ -309,16 +301,15 @@ public class Vetion extends CommonCombatMethod {
                 World.getWorld().tileGraphic(1448, pos, 0, 0);
             }
         } else if (dir.ordinal() >= 4 && dir.ordinal() <= 7) {
-            Area[][] PATTERNS2 = new Area[][] {
-                new Area[] { new Area(-2, 1, -1, 4), new Area(-2, 3, 1, 4), },
-                new Area[] { new Area(3, 1, 4, 4), new Area(1, 3, 4, 4), },
-                new Area[] { new Area(1, -2, 4, -1), new Area(3, -2, 4, 1), },
-                new Area[] { new Area(-2, -2, -1, 1), new Area(-2, -2, 1, -1), },
+            Area[][] PATTERNS2 = new Area[][]{
+                new Area[]{new Area(-2, 1, -1, 4), new Area(-2, 3, 1, 4),},
+                new Area[]{new Area(3, 1, 4, 4), new Area(1, 3, 4, 4),},
+                new Area[]{new Area(1, -2, 4, -1), new Area(3, -2, 4, 1),},
+                new Area[]{new Area(-2, -2, -1, 1), new Area(-2, -2, 1, -1),},
             };
             Area[] pattern = PATTERNS2[dir.ordinal() - 4];
             if (pattern.length == 0)
                 return;
-            var tiles = new HashSet<Tile>(12);
             for (Area area : pattern) {
                 area.bottomLeft().showTempItem(995);
                 area.topRight().showTempItem(995);

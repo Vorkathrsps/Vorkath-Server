@@ -217,17 +217,13 @@ public class Vetion extends CommonCombatMethod {
             vetion.getMovementQueue().clear();
             var dir = Direction.resolveForLargeNpc(lastTarget.tile(), entity.npc());
             spawnShieldInDir(this, entity.tile(), dir);
-        }).runFn(3, () -> {
-            vetion.animate(9974);
-        }).then(2, () -> {
-            Chain.bound(null).cancelWhen(() -> !tiles.contains(target.tile())).then(1, () -> {
-                if (target != null && target.isPlayer() && !target.dead() && target.isRegistered() && !entity.dead()) {
-                    Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).setAccurate(true);
-                    hit.setDamage(Utils.random(15, 30));
-                    hit.submit();
-                }
-            });
-        }).then(4, () -> {
+        }).runFn(3, () -> vetion.animate(9974)).then(2, () -> Chain.bound(null).cancelWhen(() -> !tiles.contains(target.tile())).then(1, () -> {
+            if (target != null && target.isPlayer() && !target.dead() && target.isRegistered() && !entity.dead()) {
+                Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).setAccurate(true);
+                hit.setDamage(Utils.random(15, 30));
+                hit.submit();
+            }
+        })).then(4, () -> {
             vetion.unlock();
             vetion.getCombat().setTarget(lastTarget);
             vetion.face(null);

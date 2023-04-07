@@ -472,7 +472,7 @@ public abstract class Entity {
         return faceTile;
     }
 
-    public Tile lastTileFaced;
+    @Getter public Tile lastTileFaced;
 
     public Entity setPositionToFace(Tile tile) {
         this.getUpdateFlag().flag(Flag.FACE_TILE);
@@ -597,7 +597,7 @@ public abstract class Entity {
     }
 
     public Area bounds() {
-        return new Area(tile.x, tile.y, tile.x, tile.y);
+        return new Area(tile.x, tile.y, tile.x + getSize() - 1, tile.y + getSize() - 1, tile.getZ());
     }
 
     public List<Splat> splats = new ArrayList<>(4);

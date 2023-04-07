@@ -28,6 +28,7 @@ import com.aelous.model.items.Item;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.object.GameObject;
+import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.region.Region;
 import com.aelous.model.map.region.RegionManager;
@@ -45,6 +46,7 @@ import java.util.*;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
 import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_ACTIVE;
 import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_UNLOCKED;
+import static com.aelous.model.entity.masks.Direction.*;
 import static com.aelous.utility.Debugs.CLIP;
 
 public class CommandManager {
@@ -370,7 +372,7 @@ public class CommandManager {
             p.setPositionToFace(null);
         });
         dev("test3", (p, c, s) -> {
-            var n = Direction.NORTH;
+            var n = NORTH;
             p.setPositionToFace(new Tile(p.tile().tileToDir(n).x * 2 + 1, p.tile().tileToDir(n).y * 2 +1));
             p.getPacketSender().sendPositionalHint(p.tile().tileToDir(n), 2);
         });
@@ -517,7 +519,129 @@ public class CommandManager {
         dev("lr", (p, c, s) -> {
             RegionManager.loadMapFiles(p.tile().x, p.tile().y, true);
         });
+        dev("gfx1", (p, c, s) -> {
+            World.getWorld().tileGraphic(Integer.parseInt(s[1]), new Tile(p.tile().x + 1, p.tile().y), 0, 0);
+        });
+        dev("npc3", (p, c, s) -> {
+                var cal = new NPC(6611, p.tile(), false).spawn();
+                cal.lock();
+            }); // just cos we dont want him to move while testing
+        dev("vet2", (p, c, s) -> {
+            var dist = 100;
+            NPC n = null;
+            for (NPC npc : p.getLocalNpcs()) { // apparently cant see any close npcs ?
+                var delta = npc.tile().distance(p.tile());
+                if (delta < dist) {
+                    dist = delta;
+                    n = npc;
+                }
+            }
+            // ok assume npc size 3x3
+
+            if (n == null)
+                return;
+
+            var dir = NONE;
+            for (int i = 0; i < dirs.length; i++) {
+                if (dirs[i].test(p.tile(), n)) {
+                    dir = Direction.values()[i];
+                    break;
+                }
+            }
+            n.forceChat("assessed as "+dir);
+            var PATTERNS = new int[][][] { // player is [NESW] of vetion
+                // NESW
+                new int[][] {
+                    new int[] {-2, 4}, new int[] {-1,4}, new int[] {0,4}, new int[] {1,4}, new int[] {2,4}, new int[] {3,4}, new int[] {4,4}
+                    , new int[] {-1,3}, new int[] {0,3}, new int[] {1,3}, new int[] {2,3}, new int[] {3,3}
+                },
+                new int[][] {
+                    new int[] {4, 4}, new int[] {4,3}, new int[] {4,2}, new int[] {4,1}, new int[] {4,0}, new int[] {4,-1}, new int[] {4,-2}
+                    , new int[] {3,3}, new int[] {3,2}, new int[] {3,1}, new int[] {3,0}, new int[] {3,-1}
+                },
+                new int[][] {
+                    new int[] {-2, -2}, new int[] {-1,-2}, new int[] {0,-2}, new int[] {1,-2}, new int[] {2,-2}, new int[] {3,-2}, new int[] {4,-2}
+                    , new int[] {-1,-1}, new int[] {0,-1}, new int[] {1,-1}, new int[] {2,-1}, new int[] {3,-1}
+                },
+                new int[][] {
+                    new int[] {-2, -2}, new int[] {-2,-1}, new int[] {-2,0}, new int[] {-2,1}, new int[] {-2,2}, new int[] {-2,3}, new int[] {-2,4}
+                    , new int[] {-1,-1}, new int[] {-1,0}, new int[] {-1,1}, new int[] {-1,2}, new int[] {-1,3}
+                }
+            };
+            if (dir.ordinal() <= 3) {
+                int[][] pattern = PATTERNS[dir.ordinal()];
+                if (pattern.length == 0)
+                    return;
+                var origin = n.tile();
+                for (int[] offset : pattern) {
+                    if (offset == null || offset.length == 0)
+                        break;
+                    var pos = origin.transform(offset[0], offset[1]);
+                    World.getWorld().tileGraphic(1448, pos, 0, 0);
+                }
+            } else if (dir.ordinal() >= 4 && dir.ordinal() <= 7) {
+                Area[][] PATTERNS2 = new Area[][] {
+                    new Area[] { new Area(-2, 1, -1, 4), new Area(-2, 3, 1, 4), },
+                    new Area[] { new Area(3, 1, 4, 4), new Area(1, 3, 4, 4), },
+                    new Area[] { new Area(1, -2, 4, -1), new Area(3, -2, 4, 1), },
+                    new Area[] { new Area(-2, -2, -1, 1), new Area(-2, -2, 1, -1), },
+                };
+                Area[] pattern = PATTERNS2[dir.ordinal() - 4];
+                if (pattern.length == 0)
+                    return;
+                var origin = n.tile();
+                var tiles = new HashSet<Tile>(12);
+                for (Area area : pattern) {
+                    area.bottomLeft().showTempItem(995);
+                    area.topRight().showTempItem(995);
+                    area.forEachPos(t -> {
+                        var pos = origin.transform(t.x, t.y);
+                        tiles.add(pos);
+                    });
+                }
+                for (Tile tile : tiles) {
+                    World.getWorld().tileGraphic(1448, tile, 0, 0);
+                }
+            }
+        });
+
+        dev("vet3", (p, c, s) -> {
+            var n = p.getLocalNpcs().get(0);
+            var base = n.tile().transform(-2, -2);
+            System.out.println("size "+n.getSize());
+            for (int x = 0 ; x < n.getSize() + 4; x++) {
+                for (int y = 0 ; y <  n.getSize() + 4; y++) {
+
+                    var t = base.transform(x, y);
+                    if (n.getBounds().inside(t))
+                        continue;
+
+                    var dir = NONE;
+                    for (int i3 = 0; i3 < dirs.length; i3++) {
+                        if (dirs[i3].test(t, n)) {
+                            dir = Direction.values()[i3];
+                            break;
+                        }
+                    }
+                    var g = new GroundItem(new Item(554 + dir.ordinal()), t, null);
+                    g.spawn();
+                    g.setTimer(50);
+                }
+            }
+        });
     }
+
+    public static DirTest[] dirs = new DirTest[] {
+        (p, n) -> p.getX() >= n.getX() && p.getX() <= (n.getX()+(n.getSize()-1)) && p.getY() > (n.getY()+(n.getSize()-1)),
+        (p, n) -> p.getX() > (n.getX()+ (n.getSize()-1)) && p.getY() >= n.getY() && p.getY() <= (n.getY()+ (n.getSize()-1)),
+        (p, n) -> p.getX() >= n.getX() && p.getX() <= n.getX()+(n.getSize()-1) && p.getY() < n.getY(),
+        (p, n) -> p.getX() < n.getX() && p.getY() >= n.getY() && p.getY() <= n.getY()+ (n.getSize()-1),
+
+        (p, n) -> p.getX() < n.getX() && p.getY() >= (n.getY() +n.getSize()),
+        (p, n) -> p.getX() > n.getX() && p.getY() > n.getY(),
+        (p, n) -> p.getX() >= (n.getX()+n.getSize()) && p.getY() < n.getY(),
+        (p, n) -> p.getX() < n.getX() && p.getY() < n.getY(),
+    };
 
     public static void dev(String cmd, TriConsumer<Player, String, String[]> tc) {
         commands.put(cmd, new Command() {
@@ -531,6 +655,12 @@ public class CommandManager {
                 return player.getPlayerRights().isDeveloper(player);
             }
         });
+    }
+
+
+    @FunctionalInterface
+    interface DirTest {
+        boolean test(Tile p, NPC n);
     }
 
     public static void attempt(Player player, String command) {

@@ -8,19 +8,16 @@ import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
+import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
-import com.aelous.model.entity.player.Skills;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.route.routes.ProjectileRoute;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 import com.aelous.utility.timers.TimerKey;
-import com.mysql.cj.util.Util;
-
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 public class Vetion extends CommonCombatMethod {
@@ -30,7 +27,7 @@ public class Vetion extends CommonCombatMethod {
     Set<Tile> usedTiles = new HashSet<>();
     private final List<String> VETION_QUOTES = Arrays.asList("Dodge this!",
         "Sit still you rat!",
-        "Die, rodent!",
+        "Die, rodent!", "I will end you!",
         "You can't escape!",
         "Filthy whelps!");
 
@@ -41,13 +38,13 @@ public class Vetion extends CommonCombatMethod {
             spawnHellhounds((NPC) entity, target);
         }
 
-        var random = World.getWorld().random(3);
-        if (hasWalked) {
-            switch (random) {
-                case 0, 1 -> doMagicSwordRaise();
-                case 2, 3 -> doMagicSwordSlash();
-            }
-        }
+        //  var random = World.getWorld().random(3);
+        //   switch (random) {
+        //        case 0, 1 -> doMagicSwordRaise();
+        //        case 2, 3 -> doMagicSwordSlash();
+        //    }
+
+        doShieldBash();
     }
 
     @Override
@@ -73,7 +70,6 @@ public class Vetion extends CommonCombatMethod {
 
     private void doMagicSwordRaise() {
         canwalk = true;
-        hasWalked = false;
         NPC vetion = (NPC) entity;
         var transformedTile = target.tile().transform(3, 3, 0);
         List<Tile> tiles = transformedTile.area(3, pos -> World.getWorld().clipAt(pos.x, pos.y, pos.level) == 0 && !pos.equals(transformedTile) && !ProjectileRoute.allow(target, pos));
@@ -82,7 +78,7 @@ public class Vetion extends CommonCombatMethod {
             return;
         }
         var lastTarget = target;
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             Tile finalDest = destination == null ? null : World.getWorld().randomTileAround(destination, i % 2 == 0 ? 2 : 3);
             if (finalDest != null && usedTiles.contains(finalDest)) {
                 continue;
@@ -116,15 +112,28 @@ public class Vetion extends CommonCombatMethod {
                 vetion.getCombat().setTarget(lastTarget);
                 vetion.face(null);
                 canwalk = false;
-                hasWalked = true;
                 usedTiles.clear();
             });
         }
+        var targetDest = new Tile(target.tile().x, target.tile().y, target.tile().level);
+        Chain.bound(null).runFn(2, () -> World.getWorld().tileGraphic(2346, target.tile(), 0, 0)).then(3, () -> {
+            if (target != null && target.isPlayer() && !target.dead() && target.isRegistered() && !entity.dead()) {
+                if (destination != null && (target.tile().equals(targetDest))) {
+                    Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 0, CombatType.MAGIC).setAccurate(true);
+                    hit.setDamage(Utils.random(15, 30));
+                    hit.submit();
+                }
+                if (target.tile().inSqRadius(targetDest, 1) && !target.tile().equals(targetDest)) {
+                    Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 0, CombatType.MAGIC).setAccurate(true);
+                    hit.setDamage(hit.getDamage() / 2);
+                    hit.submit();
+                }
+            }
+        });
     }
 
     private void doMagicSwordSlash() {
         canwalk = true;
-        hasWalked = false;
         NPC vetion = (NPC) entity;
         var transformedTile = target.tile().transform(3, 3, 0);
         List<Tile> tiles = transformedTile.area(3, pos -> World.getWorld().clipAt(pos.x, pos.y, pos.level) == 0 && !pos.equals(transformedTile) && !ProjectileRoute.allow(target, pos));
@@ -133,7 +142,7 @@ public class Vetion extends CommonCombatMethod {
             return;
         }
         var lastTarget = target;
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             Tile finalDest = destination == null ? null : World.getWorld().randomTileAround(destination, i % 2 == 0 ? 2 : 3);
             if (finalDest != null && usedTiles.contains(finalDest)) {
                 continue;
@@ -149,7 +158,7 @@ public class Vetion extends CommonCombatMethod {
                     World.getWorld().tileGraphic(2346, finalDest, 0, 0);
                 }
             }).then(3, () -> {
-                if (target != null && target.isPlayer() && !target.dead() && entity.isRegistered() && !entity.dead()) {
+                if (target != null && target.isPlayer() && !target.dead() && target.isRegistered() && !entity.dead()) {
                     if (destination != null && (target.tile().equals(finalDest))) {
                         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 0, CombatType.MAGIC).setAccurate(true);
                         hit.setDamage(Utils.random(15, 30));
@@ -166,10 +175,25 @@ public class Vetion extends CommonCombatMethod {
                 vetion.getCombat().setTarget(lastTarget);
                 vetion.face(null);
                 canwalk = false;
-                hasWalked = true;
                 usedTiles.clear();
             });
         }
+
+        var targetDest = new Tile(target.tile().x, target.tile().y, target.tile().level);
+        Chain.bound(null).runFn(2, () -> World.getWorld().tileGraphic(2346, target.tile(), 0, 0)).then(3, () -> {
+            if (target != null && target.isPlayer() && !target.dead() && target.isRegistered() && !entity.dead()) {
+                if (destination != null && (target.tile().equals(targetDest))) {
+                    Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 0, CombatType.MAGIC).setAccurate(true);
+                    hit.setDamage(Utils.random(15, 30));
+                    hit.submit();
+                }
+                if (target.tile().inSqRadius(targetDest, 1) && !target.tile().equals(targetDest)) {
+                    Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 0, CombatType.MAGIC).setAccurate(true);
+                    hit.setDamage(hit.getDamage() / 2);
+                    hit.submit();
+                }
+            }
+        });
     }
 
     private void doShieldBash() {
@@ -186,16 +210,37 @@ public class Vetion extends CommonCombatMethod {
             Tile finalDest = destination == null ? null : World.getWorld().randomTileAround(destination, i % 2 == 0 ? 2 : 3);
             vetion.waitUntil(() -> canwalk, () -> Chain.noCtx().runFn(1, () -> {
                 vetion.forceChat(Utils.randomElement(VETION_QUOTES));
-                vetion.face(target);
+                vetion.setPositionToFace(target.tile());
                 vetion.lockMoveDamageOk();
                 vetion.getMovementQueue().clear();
             }).runFn(1, () -> {
                 vetion.animate(9974);
-                if (finalDest != null) {
-                    World.getWorld().tileGraphic(2349, finalDest, 0, 0);
+                //n e s w positions
+                final Tile el = entity.getCentrePosition();
+                final Tile vl = target.getCentrePosition();
+                Direction dir = Direction.getDirection(el, vl); // woul;dnt rely on this tbh too many case cases for diagonals
+                switch (dir) {
+                    case NORTH, SOUTH -> {
+                        var tile1 = new Tile(target.tile().x, target.tile().y);
+                        var tile2 = new Tile(target.tile().x - 1, target.tile().y);
+                        var tile3 = new Tile(target.tile().x - 2, target.tile().y);
+                        var tile4 = new Tile(target.tile().x + 1, target.tile().y);
+                        var tile5 = new Tile(target.tile().x + 2, target.tile().y);
+                        var tile6 = new Tile(target.tile().x, target.tile().y - 1);
+                        var tile7 = new Tile(target.tile().x - 1, target.tile().y - 1);
+                        var tile8 = new Tile(target.tile().x + 1, target.tile().y - 1);
+                        World.getWorld().tileGraphic(1448, new Tile(target.tile().x, target.tile().y), 0, 0);
+                        World.getWorld().tileGraphic(1448, new Tile(target.tile().x - 1, target.tile().y), 0, 0);
+                        World.getWorld().tileGraphic(1448, new Tile(target.tile().x - 2, target.tile().y), 0, 0);
+                        World.getWorld().tileGraphic(1448, new Tile(target.tile().x + 1, target.tile().y), 0, 0);
+                        World.getWorld().tileGraphic(1448, new Tile(target.tile().x + 2, target.tile().y), 0, 0);
+                        World.getWorld().tileGraphic(1448, new Tile(target.tile().x, target.tile().y - 1), 0, 0);
+                        World.getWorld().tileGraphic(1448, new Tile(target.tile().x - 1, target.tile().y - 1), 0, 0);
+                        World.getWorld().tileGraphic(1448, new Tile(target.tile().x + 1, target.tile().y - 1), 0, 0);
+                    }
                 }
             }).then(3, () -> {
-                if (target != null && target.isPlayer() && !target.dead() && entity.isRegistered() && !entity.dead()) {
+                if (target != null && target.isPlayer() && !target.dead() && target.isRegistered() && !entity.dead()) {
                     if (destination != null && (target.tile().equals(finalDest))) {
                         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 0, CombatType.MAGIC).setAccurate(true);
                         hit.setDamage(Utils.random(15, 30));

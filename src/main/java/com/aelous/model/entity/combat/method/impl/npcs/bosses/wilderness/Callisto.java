@@ -16,6 +16,7 @@ import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.masks.ForceMovement;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
+import com.aelous.utility.Color;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 
@@ -108,7 +109,7 @@ public class Callisto extends CommonCombatMethod {
                     }
                 }
             }
-            ((Player)target).message("Callisto's roar throws you backwards.");
+            ((Player)target).message(Color.RED.wrap("Callisto's roar throws you backwards."));
             ForceMovement forceMovement = new ForceMovement(target.tile(), new Tile(direction.x() * 3, direction.y() * 3), 30, 60, 1157, face.direction);
             target.setForceMovement(forceMovement);
             target.graphic(245, GraphicHeight.HIGH, 60);

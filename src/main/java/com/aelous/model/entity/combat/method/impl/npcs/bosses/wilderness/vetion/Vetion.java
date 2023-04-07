@@ -100,9 +100,9 @@ public class Vetion extends CommonCombatMethod {
                 vetion.getMovementQueue().clear();
             }).runFn(1, () -> {
                 vetion.animate(9969);
-                vetion.graphic(2344, GraphicHeight.MIDDLE, 0);
+                vetion.graphic(vetion.id() == 6612 ? 2345 : 2344, GraphicHeight.MIDDLE, 0);
                 if (finalDest != null) {
-                    World.getWorld().tileGraphic(2346, finalDest, 0, 0);
+                    World.getWorld().tileGraphic(vetion.id() == 6612 ? 2347 : 2346, finalDest, 0, 0);
                 }
             }).then(3, () -> {
                 if (target != null && target.isPlayer() && !target.dead() && entity.isRegistered() && !entity.dead()) {
@@ -126,7 +126,7 @@ public class Vetion extends CommonCombatMethod {
             });
         }
         var targetDest = new Tile(target.tile().x, target.tile().y, target.tile().level);
-        Chain.bound(null).runFn(2, () -> World.getWorld().tileGraphic(2346, target.tile(), 0, 0)).then(3, () -> {
+        Chain.bound(null).runFn(2, () -> World.getWorld().tileGraphic(vetion.id() == 6612 ? 2347 : 2346, target.tile(), 0, 0)).then(3, () -> {
             if (target != null && target.isPlayer() && !target.dead() && target.isRegistered() && !entity.dead()) {
                 if (destination != null && (target.tile().equals(targetDest))) {
                     Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 0, CombatType.MAGIC).setAccurate(true);
@@ -165,7 +165,10 @@ public class Vetion extends CommonCombatMethod {
             }).runFn(1, () -> {
                 vetion.animate(9972);
                 if (finalDest != null) {
-                    World.getWorld().tileGraphic(2346, finalDest, 0, 0);
+                    World.getWorld().tileGraphic(vetion.id() == 6612 ? 2347 : 2346, finalDest, 0, 0);
+                }
+                if (vetion.id() == 6612) {
+                    vetion.graphic(2348, GraphicHeight.LOW, 0);
                 }
             }).then(3, () -> {
                 if (target != null && target.isPlayer() && !target.dead() && target.isRegistered() && !entity.dead()) {
@@ -190,7 +193,7 @@ public class Vetion extends CommonCombatMethod {
         }
 
         var targetDest = new Tile(target.tile().x, target.tile().y, target.tile().level);
-        Chain.bound(null).runFn(2, () -> World.getWorld().tileGraphic(2346, target.tile(), 0, 0)).then(3, () -> {
+        Chain.bound(null).runFn(2, () -> World.getWorld().tileGraphic(vetion.id() == 6612 ? 2347 : 2346, target.tile(), 0, 0)).then(3, () -> {
             if (target != null && target.isPlayer() && !target.dead() && target.isRegistered() && !entity.dead()) {
                 if (destination != null && (target.tile().equals(targetDest))) {
                     Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 0, CombatType.MAGIC).setAccurate(true);

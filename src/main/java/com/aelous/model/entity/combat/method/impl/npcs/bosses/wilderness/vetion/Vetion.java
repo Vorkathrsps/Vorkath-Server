@@ -207,6 +207,7 @@ public class Vetion extends CommonCombatMethod {
         canwalk = true;
         NPC vetion = (NPC) entity;
         var lastTarget = target;
+        var targetDest = new Tile(target.tile().x, target.tile().y, target.tile().level);
         vetion.waitUntil(() -> canwalk, () -> Chain.noCtx().runFn(1, () -> {
             vetion.forceChat(Utils.randomElement(VETION_QUOTES));
             vetion.setPositionToFace(target.tile());
@@ -218,9 +219,11 @@ public class Vetion extends CommonCombatMethod {
             vetion.animate(9974);
         }).then(3, () -> {
             if (target != null && target.isPlayer() && !target.dead() && target.isRegistered() && !entity.dead()) {
-                Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).setAccurate(true);
-                hit.setDamage(Utils.random(15, 30));
-                hit.submit();
+                if (tiles.contains(targetDest)) {
+                    Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).setAccurate(true);
+                    hit.setDamage(Utils.random(15, 30));
+                    hit.submit();
+                }
             }
         }).then(4, () -> {
             vetion.unlock();

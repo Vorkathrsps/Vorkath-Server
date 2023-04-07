@@ -206,8 +206,6 @@ public class Vetion extends CommonCombatMethod {
             return;
         }
         var lastTarget = target;
-        for (int i = 0; i < 10; i++) {
-            Tile finalDest = destination == null ? null : World.getWorld().randomTileAround(destination, i % 2 == 0 ? 2 : 3);
             vetion.waitUntil(() -> canwalk, () -> Chain.noCtx().runFn(1, () -> {
                 vetion.forceChat(Utils.randomElement(VETION_QUOTES));
                 vetion.setPositionToFace(target.tile());
@@ -216,49 +214,29 @@ public class Vetion extends CommonCombatMethod {
             }).runFn(1, () -> {
                 vetion.animate(9974);
                 //n e s w positions
-                final Tile el = entity.getCentrePosition();
-                final Tile vl = target.getCentrePosition();
-                Direction dir = Direction.getDirection(el, vl); // woul;dnt rely on this tbh too many case cases for diagonals
-                switch (dir) {
-                    case NORTH, SOUTH -> {
-                        var tile1 = new Tile(target.tile().x, target.tile().y);
-                        var tile2 = new Tile(target.tile().x - 1, target.tile().y);
-                        var tile3 = new Tile(target.tile().x - 2, target.tile().y);
-                        var tile4 = new Tile(target.tile().x + 1, target.tile().y);
-                        var tile5 = new Tile(target.tile().x + 2, target.tile().y);
-                        var tile6 = new Tile(target.tile().x, target.tile().y - 1);
-                        var tile7 = new Tile(target.tile().x - 1, target.tile().y - 1);
-                        var tile8 = new Tile(target.tile().x + 1, target.tile().y - 1);
-                        World.getWorld().tileGraphic(1448, new Tile(target.tile().x, target.tile().y), 0, 0);
-                        World.getWorld().tileGraphic(1448, new Tile(target.tile().x - 1, target.tile().y), 0, 0);
-                        World.getWorld().tileGraphic(1448, new Tile(target.tile().x - 2, target.tile().y), 0, 0);
-                        World.getWorld().tileGraphic(1448, new Tile(target.tile().x + 1, target.tile().y), 0, 0);
-                        World.getWorld().tileGraphic(1448, new Tile(target.tile().x + 2, target.tile().y), 0, 0);
-                        World.getWorld().tileGraphic(1448, new Tile(target.tile().x, target.tile().y - 1), 0, 0);
-                        World.getWorld().tileGraphic(1448, new Tile(target.tile().x - 1, target.tile().y - 1), 0, 0);
-                        World.getWorld().tileGraphic(1448, new Tile(target.tile().x + 1, target.tile().y - 1), 0, 0);
-                    }
-                }
+
+                var dir = Direction.resolveForLargeNpc(lastTarget.tile(), entity.npc());
+                spawnShieldInDir(entity.tile(), dir);
+
             }).then(3, () -> {
                 if (target != null && target.isPlayer() && !target.dead() && target.isRegistered() && !entity.dead()) {
-                    if (destination != null && (target.tile().equals(finalDest))) {
+                  //  if (destination != null && (target.tile().equals(finalDest))) {
                         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 0, CombatType.MAGIC).setAccurate(true);
                         hit.setDamage(Utils.random(15, 30));
                         hit.submit();
                     }
-                    if (finalDest != null && target.tile().inSqRadius(finalDest, 1) && !target.tile().equals(finalDest)) {
+                  //  if (finalDest != null && target.tile().inSqRadius(finalDest, 1) && !target.tile().equals(finalDest)) {
                         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 0, CombatType.MAGIC).setAccurate(true);
                         hit.setDamage(hit.getDamage() / 2);
                         hit.submit();
-                    }
-                }
+                    //}
+               // }
             }).then(3, () -> {
                 vetion.unlock();
                 vetion.getCombat().setTarget(lastTarget);
                 vetion.face(null);
                 canwalk = false;
             }));
-        }
     }
 
     private void spawnHellhounds(NPC vetion, Entity target) {
@@ -299,4 +277,59 @@ public class Vetion extends CommonCombatMethod {
         return Arrays.stream(mob.closePlayers(64)).collect(Collectors.toCollection(ArrayList::new));
     }
 
+
+    public static void spawnShieldInDir(Tile origin, Direction dir) {
+        var PATTERNS = new int[][][] { // player is [NESW] of vetion
+            // NESW
+            new int[][] {
+                new int[] {-2, 4}, new int[] {-1,4}, new int[] {0,4}, new int[] {1,4}, new int[] {2,4}, new int[] {3,4}, new int[] {4,4}
+                , new int[] {-1,3}, new int[] {0,3}, new int[] {1,3}, new int[] {2,3}, new int[] {3,3}
+            },
+            new int[][] {
+                new int[] {4, 4}, new int[] {4,3}, new int[] {4,2}, new int[] {4,1}, new int[] {4,0}, new int[] {4,-1}, new int[] {4,-2}
+                , new int[] {3,3}, new int[] {3,2}, new int[] {3,1}, new int[] {3,0}, new int[] {3,-1}
+            },
+            new int[][] {
+                new int[] {-2, -2}, new int[] {-1,-2}, new int[] {0,-2}, new int[] {1,-2}, new int[] {2,-2}, new int[] {3,-2}, new int[] {4,-2}
+                , new int[] {-1,-1}, new int[] {0,-1}, new int[] {1,-1}, new int[] {2,-1}, new int[] {3,-1}
+            },
+            new int[][] {
+                new int[] {-2, -2}, new int[] {-2,-1}, new int[] {-2,0}, new int[] {-2,1}, new int[] {-2,2}, new int[] {-2,3}, new int[] {-2,4}
+                , new int[] {-1,-1}, new int[] {-1,0}, new int[] {-1,1}, new int[] {-1,2}, new int[] {-1,3}
+            }
+        };
+        if (dir.ordinal() <= 3) {
+            int[][] pattern = PATTERNS[dir.ordinal()];
+            if (pattern.length == 0)
+                return;
+            for (int[] offset : pattern) {
+                if (offset == null || offset.length == 0)
+                    break;
+                var pos = origin.transform(offset[0], offset[1]);
+                World.getWorld().tileGraphic(1448, pos, 0, 0);
+            }
+        } else if (dir.ordinal() >= 4 && dir.ordinal() <= 7) {
+            Area[][] PATTERNS2 = new Area[][] {
+                new Area[] { new Area(-2, 1, -1, 4), new Area(-2, 3, 1, 4), },
+                new Area[] { new Area(3, 1, 4, 4), new Area(1, 3, 4, 4), },
+                new Area[] { new Area(1, -2, 4, -1), new Area(3, -2, 4, 1), },
+                new Area[] { new Area(-2, -2, -1, 1), new Area(-2, -2, 1, -1), },
+            };
+            Area[] pattern = PATTERNS2[dir.ordinal() - 4];
+            if (pattern.length == 0)
+                return;
+            var tiles = new HashSet<Tile>(12);
+            for (Area area : pattern) {
+                area.bottomLeft().showTempItem(995);
+                area.topRight().showTempItem(995);
+                area.forEachPos(t -> {
+                    var pos = origin.transform(t.x, t.y);
+                    tiles.add(pos);
+                });
+            }
+            for (Tile tile : tiles) {
+                World.getWorld().tileGraphic(1448, tile, 0, 0);
+            }
+        }
+    }
 }

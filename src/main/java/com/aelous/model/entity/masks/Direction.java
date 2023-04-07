@@ -1,6 +1,7 @@
 package com.aelous.model.entity.masks;
 
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.map.position.Tile;
 
 /**
@@ -180,6 +181,34 @@ public enum Direction {
     public static Direction of(int angle) {
         return values[(angle + 1024 & 0x3fff) >> 11];
     }
+
+    public static Direction resolveForLargeNpc(Tile tile, NPC n) {
+        for (int i = 0; i < dirs.length; i++) {
+            if (dirs[i].test(tile, n)) {
+                return Direction.values()[i];
+            }
+        }
+        return NONE;
+    }
+
+    public static DirTest[] dirs = new DirTest[] {
+        (p, n) -> p.getX() >= n.getX() && p.getX() <= (n.getX()+(n.getSize()-1)) && p.getY() > (n.getY()+(n.getSize()-1)),
+        (p, n) -> p.getX() > (n.getX()+ (n.getSize()-1)) && p.getY() >= n.getY() && p.getY() <= (n.getY()+ (n.getSize()-1)),
+        (p, n) -> p.getX() >= n.getX() && p.getX() <= n.getX()+(n.getSize()-1) && p.getY() < n.getY(),
+        (p, n) -> p.getX() < n.getX() && p.getY() >= n.getY() && p.getY() <= n.getY()+ (n.getSize()-1),
+
+        (p, n) -> p.getX() < n.getX() && p.getY() >= (n.getY() +n.getSize()),
+        (p, n) -> p.getX() > n.getX() && p.getY() > n.getY(),
+        (p, n) -> p.getX() >= (n.getX()+n.getSize()) && p.getY() < n.getY(),
+        (p, n) -> p.getX() < n.getX() && p.getY() < n.getY(),
+    };
+
+
+    @FunctionalInterface
+    interface DirTest {
+        boolean test(Tile p, NPC n);
+    }
+
 
     public Direction opposite() {
         return Direction.diagonal(-x, -y);

@@ -45,13 +45,16 @@ public class Vetion extends CommonCombatMethod {
             spawnHellhounds((NPC) entity, target);
         }
 
-        //  var random = World.getWorld().random(3);
-        //   switch (random) {
-        //        case 0, 1 -> doMagicSwordRaise();
-        //        case 2, 3 -> doMagicSwordSlash();
-        //    }
-
-        doShieldBash();
+        var random = World.getWorld().random(5);
+        switch (random) {
+            case 0, 1 -> doMagicSwordRaise();
+            case 2, 3 -> doMagicSwordSlash();
+            case 4, 5 -> {
+                if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
+                    doShieldBash();
+                }
+            }
+        }
     }
 
     @Override

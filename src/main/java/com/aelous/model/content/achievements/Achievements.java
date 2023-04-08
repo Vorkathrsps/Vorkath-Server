@@ -186,18 +186,18 @@ public enum Achievements {
     THIEF_III("Thief III", "Steal 500 times from the Magic stall.", 500, Difficulty.MED, new Item(GameServer.properties().pvpMode ? BLOOD_MONEY : COINS_995, GameServer.properties().pvpMode ? 50_000 : 50_000_000)),
     THIEF_IV("Thief IV", "Steal 750 times from the Scimitar stall.", 750, Difficulty.MED, new Item(GameServer.properties().pvpMode ? BLOOD_MONEY : COINS_995,  GameServer.properties().pvpMode ? 75_000 : 75_000_000)),
     MASTER_THIEF("Master thief", "Steal times supplies from the any stall.", 5000, Difficulty.HARD, new Item(GameServer.properties().pvpMode ? BLOOD_MONEY : COINS_995, GameServer.properties().pvpMode ? 50_000 : 100_000_000)),
-    MINING_I("Mining I", "Mine 50 copper ore.", 50, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(PROSPECTOR_HELMET)),
-    MINING_II("Mining II", "Mine 100 coal.", 100, Difficulty.MED, new Item(COINS_995, 10_000_000), new Item(PROSPECTOR_JACKET)),
-    MINING_III("Mining III", "Mine 250 adamant ore.", 250, Difficulty.MED, new Item(COINS_995, 20_000_000), new Item(PROSPECTOR_LEGS)),
-    MINING_IV("Mining IV", "Mine 500 runite ore.", 250, Difficulty.HARD, new Item(COINS_995, 35_000_000), new Item(MYSTERY_BOX, 1), new Item(PROSPECTOR_BOOTS)),
-    SMELTING_I("Smelting I", "Smith 50 bronze platebody's.", 50, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(BLACKSMITHS_HELM)),
-    SMELTING_II("Smelting II", "Smith 100 mithril platebody's.", 100, Difficulty.MED, new Item(COINS_995, 10_000_000), new Item(SMITHS_TUNIC)),
-    SMELTING_III("Smelting III", "Smith 250 adamant platebody's.", 250, Difficulty.MED, new Item(COINS_995, 20_000_000), new Item(SMITHS_TROUSERS)),
-    SMELTING_IV("Smelting IV", "Smith 500 runite platebody's.", 250, Difficulty.HARD, new Item(COINS_995, 35_000_000), new Item(MYSTERY_BOX, 1), new Item(IMCANDO_HAMMER), new Item(SMITHS_BOOTS), new Item(SMITHS_GLOVES)),
-    FISHING_I("Fishing I", "Fish 50 shrimp", 50, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(ANGLER_HAT)),
-    FISHING_II("Fishing II", "Fish 100 swordfish.", 100, Difficulty.MED, new Item(COINS_995, 10_000_000), new Item(ANGLER_TOP)),
-    FISHING_III("Fishing III", "Fish 250 shark.", 250, Difficulty.MED, new Item(COINS_995, 20_000_000), new Item(ANGLER_WADERS)),
-    FISHING_IV("Fishing IV", "Fish 500 anglerfish.", 250, Difficulty.HARD, new Item(COINS_995, 35_000_000), new Item(MYSTERY_BOX, 1), new Item(ANGLER_BOOTS))
+    MINING_I("Mining I", "Mine 50 copper ore.", 50, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(PROSPECTOR_HELMET), new Item(MYSTERY_BOX, 1)),
+    MINING_II("Mining II", "Mine 100 coal.", 100, Difficulty.MED, new Item(COINS_995, 10_000_000), new Item(PROSPECTOR_JACKET), new Item(MYSTERY_BOX, 2)),
+    MINING_III("Mining III", "Mine 250 adamant ore.", 250, Difficulty.MED, new Item(COINS_995, 20_000_000), new Item(PROSPECTOR_LEGS), new Item(MYSTERY_BOX, 3)),
+    MINING_IV("Mining IV", "Mine 500 runite ore.", 250, Difficulty.HARD, new Item(COINS_995, 35_000_000), new Item(MYSTERY_BOX, 4), new Item(PROSPECTOR_BOOTS)),
+    SMELTING_I("Smelting I", "Smith 50 bronze platebody's.", 50, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(BLACKSMITHS_HELM), new Item(MYSTERY_BOX, 1)),
+    SMELTING_II("Smelting II", "Smith 100 mithril platebody's.", 100, Difficulty.MED, new Item(COINS_995, 10_000_000), new Item(SMITHS_TUNIC), new Item(MYSTERY_BOX, 2)),
+    SMELTING_III("Smelting III", "Smith 250 adamant platebody's.", 250, Difficulty.MED, new Item(COINS_995, 20_000_000), new Item(SMITHS_TROUSERS), new Item(MYSTERY_BOX, 3)),
+    SMELTING_IV("Smelting IV", "Smith 500 runite platebody's.", 250, Difficulty.HARD, new Item(COINS_995, 35_000_000), new Item(MYSTERY_BOX, 4), new Item(IMCANDO_HAMMER), new Item(SMITHS_BOOTS), new Item(SMITHS_GLOVES)),
+    FISHING_I("Fishing I", "Fish 50 shrimp.", 50, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(ANGLER_HAT), new Item(MYSTERY_BOX, 1)),
+    FISHING_II("Fishing II", "Fish 100 swordfish.", 100, Difficulty.MED, new Item(COINS_995, 10_000_000), new Item(ANGLER_TOP), new Item(MYSTERY_BOX, 2)),
+    FISHING_III("Fishing III", "Fish 250 shark.", 250, Difficulty.MED, new Item(COINS_995, 20_000_000), new Item(ANGLER_WADERS), new Item(MYSTERY_BOX, 3)),
+    FISHING_IV("Fishing IV", "Fish 500 anglerfish.", 250, Difficulty.HARD, new Item(COINS_995, 35_000_000), new Item(MYSTERY_BOX, 4), new Item(ANGLER_BOOTS))
     ;
 
     public static List<Achievements> asList(Difficulty difficulty) {

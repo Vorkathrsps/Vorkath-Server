@@ -841,8 +841,8 @@ public class CombatFactory {
             }
         }
 
-       // if (other.getMobName().toLowerCase().equalsIgnoreCase("origin3"))
-       // System.out.println(targetLastAttacker+" vs "+ entity+" "+targetLastAttackedTime);
+        // if (other.getMobName().toLowerCase().equalsIgnoreCase("origin3"))
+        // System.out.println(targetLastAttacker+" vs "+ entity+" "+targetLastAttackedTime);
         if (targetLastAttackedTime < targTimeToPj && targetLastAttacker != null && targetLastAttacker != entity) {
             // Multiway check bro!
             if (other.isPlayer()) {
@@ -1180,7 +1180,7 @@ public class CombatFactory {
             Player player = (Player) attacker;
             if (hit.isAccurate() && combatType == CombatType.MELEE) {
                 if (player.getEquipment().hasAt(EquipSlot.AMULET, AMULET_OF_BLOOD_FURY)) {
-                    if (Utils.securedRandomChance(0.20D)) {
+                    if (Utils.securedRandomChance(0.20F)) {
                         int healAmount = damage * 30 / 100;
                         player.heal(healAmount);
                         player.graphic(1542);
@@ -1189,6 +1189,44 @@ public class CombatFactory {
             }
         }
 
+        if (attacker != null && attacker.isPlayer() && target.isPlayer()) {
+            Player player = (Player) attacker;
+            if (hit.isAccurate() && combatType == CombatType.RANGED) {
+                if (FormulaUtils.wearingFullKarils(player)) {
+                    if (Utils.securedRandomChance(0.25F)) {
+                        if (target.getSkills().level(Skills.AGILITY) > 20) {
+                            target.graphic(401, GraphicHeight.HIGH, 0);
+                            target.getSkills().setLevel(Skills.AGILITY, target.getSkills().level(Skills.AGILITY) - 20);
+                        }
+                    }
+                }
+            }
+            if (hit.isAccurate() && combatType == CombatType.MELEE) {
+                if (FormulaUtils.wearingFullVerac(player)) {
+                    if (Utils.securedRandomChance(0.25F)) {
+                        hit.ignorePrayer();
+                    }
+                }
+                if (FormulaUtils.wearingFullTorag(player)) {
+                    if (Utils.securedRandomChance(0.25F)) {
+                        target.graphic(399, GraphicHeight.HIGH, 0);
+                        target.getAttribOr(AttributeKey.RUN_ENERGY, -20);
+                    }
+                }
+            }
+        }
+
+        if (attacker != null && attacker.isPlayer() && target.isPlayer() || target.isNpc()) {
+            Player player = (Player) attacker;
+            if (hit.isAccurate() && combatType == CombatType.MELEE) {
+                if (FormulaUtils.wearingFullGuthan(player)) {
+                    if (Utils.securedRandomChance(0.25F)) {
+                        target.graphic(398, GraphicHeight.LOW, 0);
+                        player.heal(damage);
+                    }
+                }
+            }
+        }
         // Check for poisonous weapons..
         // And do other effects, such as barrows effects..
         if (attacker != null && attacker.isPlayer()) {

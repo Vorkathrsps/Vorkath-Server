@@ -118,13 +118,13 @@ public class RangeAccuracy {
         if(attacker.isPlayer()) { //additional bonuses here
             if (style.equals(RANGED)) {
                 if ((FormulaUtils.hasBowOfFaerdhenin((Player) attacker))) {
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.CRYSTAL_HELM)) {
+                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.CRYSTAL_HELM) || ((Player) attacker).getEquipment().contains(CRYSTAL_HELM_27705)  || ((Player) attacker).getEquipment().contains(CRYSTAL_HELM_27717) || ((Player) attacker).getEquipment().contains(CRYSTAL_HELM_27729) || ((Player) attacker).getEquipment().contains(CRYSTAL_HELM_27741) || ((Player) attacker).getEquipment().contains(CRYSTAL_HELM_27753) || ((Player) attacker).getEquipment().contains(CRYSTAL_HELM_27765) || ((Player) attacker).getEquipment().contains(CRYSTAL_HELM_27777)) {
                         effectiveLevel = (int) Math.floor(effectiveLevel * 1.05D);
                     }
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.CRYSTAL_BODY)) {
+                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.CRYSTAL_BODY) || ((Player) attacker).getEquipment().contains(CRYSTAL_BODY_27697)  || ((Player) attacker).getEquipment().contains(CRYSTAL_BODY_27709) || ((Player) attacker).getEquipment().contains(CRYSTAL_BODY_27721) || ((Player) attacker).getEquipment().contains(CRYSTAL_BODY_27733) || ((Player) attacker).getEquipment().contains(CRYSTAL_BODY_27745) || ((Player) attacker).getEquipment().contains(CRYSTAL_BODY_27757) || ((Player) attacker).getEquipment().contains(CRYSTAL_BODY_27769)) {
                         effectiveLevel = (int) Math.floor(effectiveLevel * 1.15D);
                     }
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.CRYSTAL_LEGS)) {
+                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.CRYSTAL_LEGS) || ((Player) attacker).getEquipment().contains(CRYSTAL_LEGS_27701)  || ((Player) attacker).getEquipment().contains(CRYSTAL_LEGS_27713) || ((Player) attacker).getEquipment().contains(CRYSTAL_LEGS_27725) || ((Player) attacker).getEquipment().contains(CRYSTAL_LEGS_27737) || ((Player) attacker).getEquipment().contains(CRYSTAL_LEGS_27749) || ((Player) attacker).getEquipment().contains(CRYSTAL_LEGS_27761) || ((Player) attacker).getEquipment().contains(CRYSTAL_LEGS_27773)) {
                         effectiveLevel = (int) Math.floor(effectiveLevel * 1.10D);
                     }
                 }
@@ -159,7 +159,7 @@ public class RangeAccuracy {
                 }
 
                 if (attacker.isPlayer() && attacker.getAsPlayer().isSpecialActivated()) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * specialMultiplier);
+                    effectiveLevel *= specialMultiplier;
                 }
 
                 double bonus = 1;

@@ -175,14 +175,17 @@ public class AccountSelection extends PacketInteraction {
         switch (player.<Integer>getAttribOr(AttributeKey.GAME_MODE_SELECTED, 42405)) {
             case 42402 -> {
                 starter_package(player, 0);
+                player.getUpdateFlag().flag(Flag.APPEARANCE);
             }
             case 42403 -> {
 
                 starter_package(player, 1);
+                player.getUpdateFlag().flag(Flag.APPEARANCE);
             }
             case 42423 -> {
 
                 starter_package(player, 2);
+                player.getUpdateFlag().flag(Flag.APPEARANCE);
             }
         }
 

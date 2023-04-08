@@ -91,6 +91,35 @@ public class FormulaUtils {
         return player.getEquipment().containsAny(THAMMARONS_SCEPTRE, ACCURSED_SCEPTRE_A);
     }
 
+    public static boolean wearingFullAhrims(Player player) {
+        return player.getEquipment().containsAll(AHRIMS_HOOD, AHRIMS_ROBETOP, AHRIMS_ROBESKIRT, AHRIMS_STAFF);
+    }
+
+    public static boolean wearingFullDharok(Player player) {
+        return player.getEquipment().containsAll(DHAROKS_HELM, DHAROKS_GREATAXE, DHAROKS_PLATEBODY, DHAROKS_PLATELEGS);
+    }
+
+    public static boolean wearingFullGuthan(Player player) {
+        return player.getEquipment().containsAll(GUTHANS_HELM, GUTHANS_WARSPEAR, GUTHANS_CHAINSKIRT, GUTHANS_PLATEBODY);
+    }
+
+    public static boolean wearingFullVerac(Player player) {
+        return player.getEquipment().containsAll(VERACS_HELM, VERACS_FLAIL, VERACS_BRASSARD, VERACS_PLATESKIRT);
+    }
+
+    public static boolean wearingFullTorag(Player player) {
+        return player.getEquipment().containsAll(TORAGS_HELM, TORAGS_HAMMERS, TORAGS_PLATEBODY, TORAGS_PLATELEGS);
+    }
+
+    public static boolean wearingFullKarils(Player player) {
+        return player.getEquipment().containsAll(KARILS_COIF, KARILS_CROSSBOW, KARILS_LEATHERSKIRT, KARILS_LEATHERTOP);
+    }
+
+
+    public static boolean wearingAmuletOfDamned(Player player) {
+        return player.getEquipment().contains(AMULET_OF_THE_DAMNED_FULL);
+    }
+
     public static boolean wearingFullInquisitors(Player player) {
         return player.getEquipment().containsAll(INQUISITORS_GREAT_HELM, INQUISITORS_HAUBERK, INQUISITORS_PLATESKIRT);
     }

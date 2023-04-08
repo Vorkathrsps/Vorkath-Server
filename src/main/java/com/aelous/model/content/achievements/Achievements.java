@@ -205,17 +205,17 @@ public enum Achievements {
     WOODCUTTING_III("Woodcutting III", "Cut 250 yew tree's.", 250, Difficulty.MED, new Item(COINS_995, 20_000_000), new Item(LUMBERJACK_LEGS, 1), new Item(MYSTERY_BOX, 3)),
     WOODCUTTING_IV("Woodcutting IV", "Cut 500 magic tree's.", 500, Difficulty.HARD, new Item(COINS_995, 35_000_000), new Item(LUMBERJACK_BOOTS, 1), new Item(MYSTERY_BOX, 4)),
     CRAFTING_I("Crafting I", "Cut 50 sapphire gems.", 50, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(MYSTERY_BOX, 1)),
-    CRAFTING_II("Crafting II", "Cut 100 emerald gems.", 100, Difficulty.MED, new Item(COINS_995, 10_000_000), new Item(MYSTERY_BOX, 2)),
-    CRAFTING_III("Crafting III", "Cut 250 ruby gems.", 250, Difficulty.MED, new Item(COINS_995, 20_000_000), new Item(MYSTERY_BOX, 3)),
-    CRAFTING_IV("Crafting IV", "Cut 500 diamond gems.", 500, Difficulty.HARD, new Item(COINS_995, 35_000_000), new Item(MYSTERY_BOX, 4)),
-    DAMAGE_DEALER_I("Damage Dealer I", "Deal 1000 damage.", 1000, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(MYSTERY_BOX, 1)),
-    DAMAGE_DEALER_II("Damage Dealer II", "Deal 2000 damage.", 2000, Difficulty.MED, new Item(COINS_995, 10_000_000), new Item(MYSTERY_BOX, 2)),
-    DAMAGE_DEALER_III("Damage Dealer III", "Deal 5000 damage.", 5000, Difficulty.MED, new Item(COINS_995, 20_000_000), new Item(MYSTERY_BOX, 3)),
-    DAMAGE_DEALER_IV("Damage Dealer IV", "Deal 10000 damage.", 10000, Difficulty.HARD, new Item(COINS_995, 35_000_000), new Item(MYSTERY_BOX, 4)),
-    SLAYER_I("Slayer I", "Complete 10 slayer tasks.", 10, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(MYSTERY_BOX, 1)),
-    SLAYER_II("Slayer II", "Complete 25 slayer tasks.", 25, Difficulty.MED, new Item(COINS_995, 25_000_000), new Item(MYSTERY_BOX, 2)),
-    SLAYER_III("Slayer III", "Complete 50 slayer tasks.", 50, Difficulty.MED, new Item(COINS_995, 35_000_000), new Item(MYSTERY_BOX, 3)),
-    SLAYER_IV("Slayer IV", "Complete 75 slayer tasks.", 75, Difficulty.HARD, new Item(COINS_995, 50_000_000), new Item(MYSTERY_BOX, 4))
+    CRAFTING_II("Crafting II", "Cut 100 emerald gems.", 100, Difficulty.MED, new Item(COINS_995, 10_000_000), new Item(MYSTERY_BOX, 1)),
+    CRAFTING_III("Crafting III", "Cut 250 ruby gems.", 250, Difficulty.MED, new Item(COINS_995, 20_000_000), new Item(MYSTERY_BOX, 1)),
+    CRAFTING_IV("Crafting IV", "Cut 500 diamond gems.", 500, Difficulty.HARD, new Item(COINS_995, 35_000_000), new Item(MYSTERY_BOX, 2)),
+    DAMAGE_DEALER_I("Damage Dealer I", "Deal 1000 damage.", 5000, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(MYSTERY_BOX, 1)),
+    DAMAGE_DEALER_II("Damage Dealer II", "Deal 2000 damage.", 10000, Difficulty.MED, new Item(COINS_995, 10_000_000), new Item(MYSTERY_BOX, 1)),
+    DAMAGE_DEALER_III("Damage Dealer III", "Deal 5000 damage.", 15000, Difficulty.MED, new Item(COINS_995, 20_000_000), new Item(MYSTERY_BOX, 1)),
+    DAMAGE_DEALER_IV("Damage Dealer IV", "Deal 10000 damage.", 20000, Difficulty.HARD, new Item(COINS_995, 35_000_000), new Item(MYSTERY_BOX, 2)),
+    SLAYER_I("Slayer I", "Complete 25 slayer tasks.", 25, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(MYSTERY_BOX, 1)),
+    SLAYER_II("Slayer II", "Complete 50 slayer tasks.", 50, Difficulty.MED, new Item(COINS_995, 25_000_000), new Item(MYSTERY_BOX, 1)),
+    SLAYER_III("Slayer III", "Complete 75 slayer tasks.", 75, Difficulty.MED, new Item(COINS_995, 35_000_000), new Item(MYSTERY_BOX, 1)),
+    SLAYER_IV("Slayer IV", "Complete 150 slayer tasks.", 150, Difficulty.HARD, new Item(COINS_995, 50_000_000), new Item(MYSTERY_BOX, 2))
 
     ;
 

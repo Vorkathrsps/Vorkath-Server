@@ -18427,5 +18427,115 @@
     "slot": 3,
     "type": 0,
     "showBeard": false
+  },
+  "27705": {
+    "slot": 0,
+    "type": 8,
+    "showBeard": false
+  },
+  "27717": {
+    "slot": 0,
+    "type": 8,
+    "showBeard": false
+  },
+  "27729": {
+    "slot": 0,
+    "type": 8,
+    "showBeard": false
+  },
+  "27741": {
+    "slot": 0,
+    "type": 8,
+    "showBeard": false
+  },
+  "27753": {
+    "slot": 0,
+    "type": 8,
+    "showBeard": false
+  },
+  "27765": {
+    "slot": 0,
+    "type": 8,
+    "showBeard": false
+  },
+  "27777": {
+    "slot": 0,
+    "type": 8,
+    "showBeard": false
+  },
+  "27697": {
+    "slot": 4,
+    "type": 6,
+    "showBeard": false
+  },
+  "27709": {
+    "slot": 4,
+    "type": 6,
+    "showBeard": false
+  },
+  "27721": {
+    "slot": 4,
+    "type": 6,
+    "showBeard": false
+  },
+  "27733": {
+    "slot": 4,
+    "type": 6,
+    "showBeard": false
+  },
+  "27745": {
+    "slot": 4,
+    "type": 6,
+    "showBeard": false
+  },
+  "27757": {
+    "slot": 4,
+    "type": 6,
+    "showBeard": false
+  },
+  "27769": {
+    "slot": 4,
+    "type": 6,
+    "showBeard": false
+  },
+  "27701": {
+    "slot": 7,
+    "type": 0,
+    "showBeard": false
+  },
+  "27713": {
+    "slot": 7,
+    "type": 0,
+    "showBeard": false
+  },
+  "27725": {
+    "slot": 7,
+    "type": 0,
+    "showBeard": false
+  },
+  "27737": {
+    "slot": 7,
+    "type": 0,
+    "showBeard": false
+  },
+  "27749": {
+    "slot": 7,
+    "type": 0,
+    "showBeard": false
+  },
+  "27761": {
+    "slot": 7,
+    "type": 0,
+    "showBeard": false
+  },
+  "27773": {
+    "slot": 7,
+    "type": 0,
+    "showBeard": false
+  },
+  "27814": {
+    "slot": 5,
+    "type": 0,
+    "showBeard": false
   }
 }

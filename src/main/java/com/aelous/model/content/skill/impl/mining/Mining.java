@@ -1,5 +1,7 @@
 package com.aelous.model.content.skill.impl.mining;
 
+import com.aelous.model.content.achievements.Achievements;
+import com.aelous.model.content.achievements.AchievementsManager;
 import com.aelous.model.content.tasks.impl.Tasks;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 
@@ -47,13 +49,13 @@ public class Mining extends PacketInteraction {
         RUNE(451, "rune", 85, 380, 125.0, 1500, 1000),
         JAIL_BLURITE(668, "blurite", 1, 320, 0.0, 3, 1000000);
 
-        public int ore;
-        public String rockName;
-        public int level;
-        public int difficulty;
-        public double xp;
-        public int respawnTime;
-        public int petOdds;
+        public final int ore;
+        public final String rockName;
+        public final int level;
+        public final int difficulty;
+        public final double xp;
+        public final int respawnTime;
+        public final int petOdds;
 
         Rock(int ore, String rockName, int level, int difficulty, double xp, int respawnTime, int petOdds) {
             this.ore = ore;
@@ -195,6 +197,12 @@ public class Mining extends PacketInteraction {
                         addBar(player, finalRock);
                     } else {
                         player.inventory().add(new Item(finalRock.ore));
+                        switch (finalRock) {
+                            case COPPER -> AchievementsManager.activate(player, Achievements.MINING_I, 1);
+                            case COAL -> AchievementsManager.activate(player, Achievements.MINING_II, 1);
+                            case ADAMANT -> AchievementsManager.activate(player, Achievements.MINING_III, 1);
+                            case RUNE -> AchievementsManager.activate(player, Achievements.MINING_IV, 1);
+                        }
                     }
 
                     if(finalRock == Rock.RUNE) {

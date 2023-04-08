@@ -30,7 +30,7 @@ public class Vetion extends CommonCombatMethod {
         "Sit still you rat!",
         "Die, rodent!", "I will end you!",
         "You can't escape!",
-        "Filthy whelps!");
+        "Filthy whelps!", "Time to die, mortal!", "You call that a weapon?!");
 
     private final List<String> VETION_QUOTES2 = Arrays.asList("Dodge this!",
         "Sit still you rat!",
@@ -45,16 +45,16 @@ public class Vetion extends CommonCombatMethod {
             spawnHellhounds((NPC) entity, target);
         }
 
-        var random = World.getWorld().random(5);
-        switch (random) {
-            case 0, 1 -> doMagicSwordRaise();
-            case 2, 3 -> doMagicSwordSlash();
-            case 4, 5 -> {
-                if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
+      //  var random = World.getWorld().random(5);
+      //  switch (random) {
+          //  case 0, 1 -> doMagicSwordRaise();
+          //  case 2, 3 -> doMagicSwordSlash();
+          //  case 4, 5 -> {
+                //if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
                     doShieldBash();
-                }
-            }
-        }
+              //  }
+        //    }
+       // }
     }
 
     @Override
@@ -243,6 +243,9 @@ public class Vetion extends CommonCombatMethod {
             World.getWorld().registerNpc(minion);
         }
 
+        vetion.animate(9976);
+        vetion.forceChat(vetion.id() == 6611 ? "Gah! Hounds! get them!" : "HOUNDS! DISPOSE OF THESE TRESSPASSERS!");
+
         vetion.putAttrib(AttributeKey.VETION_HELLHOUND_SPAWNED, true);
         vetion.putAttrib(AttributeKey.MINION_LIST, minions);
     }
@@ -304,7 +307,7 @@ public class Vetion extends CommonCombatMethod {
                 var pos = origin.transform(offset[0], offset[1]);
                 vetion.tiles.add(pos); // you were missing side ones
                 World.getWorld().tileGraphic(1448, pos, 0, 0);
-
+                World.getWorld().tileGraphic(2349, pos, 0, 30);
                 //World.getWorld().tileGraphic(2349, pos, 0, 30);
             }
         } else if (dir.ordinal() >= 4 && dir.ordinal() <= 7) {
@@ -327,6 +330,7 @@ public class Vetion extends CommonCombatMethod {
             }
             for (Tile tile : vetion.tiles) {
                 World.getWorld().tileGraphic(1448, tile, 0, 0);
+                World.getWorld().tileGraphic(2349, tile, 0, 30);
             }
         }
     }

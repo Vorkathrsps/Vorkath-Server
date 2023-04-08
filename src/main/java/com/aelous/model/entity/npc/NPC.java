@@ -800,7 +800,9 @@ public class NPC extends Entity {
 
     @Override
     public void die() {
-        NPCDeath.execute(this);
+        try {
+            NPCDeath.execute(this);
+        } catch (Exception e1) {e1.printStackTrace(); }
     }
 
     @Override

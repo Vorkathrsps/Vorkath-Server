@@ -42,13 +42,7 @@ public enum Achievements {
     LARRANS_LOOTER_I("Larran's looter I", "Open the Larran's chest 10 times.", 10, Difficulty.EASY, new Item(LARRANS_KEY,2)),
     LARRANS_LOOTER_II("Larran's looter II", "Open the Larran's chest 50 times.", 50, Difficulty.MED, new Item(LARRANS_KEY,5)),
     LARRANS_LOOTER_III("Larran's looter III", "Open the Larran's chest 100 times.", 100, Difficulty.HARD, new Item(LARRANS_KEY,10)),
-   /* ENCHANTED_LOOTER_R_I("Enchanted (r) looter I", "Open the red enchanted chest 10 times.", 10, Difficulty.EASY, new Item(ENCHANTED_KEY_I,2)),
-    ENCHANTED_LOOTER_R_II("Enchanted (r) looter II", "Open the red enchanted chest 50 times.", 50, Difficulty.MED, new Item(ENCHANTED_KEY_I,5)),
-    ENCHANTED_LOOTER_R_III("Enchanted (r) looter III", "Open the red enchanted chest 100 times.", 100, Difficulty.HARD, new Item(ENCHANTED_KEY_I,10)),
-    ENCHANTED_LOOTER_P_I("Enchanted (p) looter I", "Open the purple enchanted chest 2 times.", 2, Difficulty.EASY, new Item(ENCHANTED_KEY_II,1)),
-    ENCHANTED_LOOTER_P_II("Enchanted (p) looter II", "Open the purple enchanted chest 5 times.", 5, Difficulty.MED, new Item(ENCHANTED_KEY_II,2)),
-    ENCHANTED_LOOTER_P_III("Enchanted (p) looter III", "Open the purple enchanted chest 10 times.", 10, Difficulty.HARD, new Item(ENCHANTED_KEY_II,3)),
-*/
+
     //Pvm
     YAK_HUNTER("Yak hunter", "Kill 50 Yaks.", 50, Difficulty.EASY, new Item(DIVINE_SUPER_COMBAT_POTION4+1,25)),
     ROCK_CRAB_HUNTER("Rock crab hunter", "Kill 50 Rock crabs.", 50, Difficulty.EASY, new Item(DIVINE_SUPER_COMBAT_POTION4+1,25)),

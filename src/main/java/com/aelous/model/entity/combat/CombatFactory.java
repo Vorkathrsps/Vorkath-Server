@@ -5,6 +5,8 @@ import com.aelous.cache.definitions.NpcDefinition;
 import com.aelous.GameEngine;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.content.EffectTimer;
+import com.aelous.model.content.achievements.Achievements;
+import com.aelous.model.content.achievements.AchievementsManager;
 import com.aelous.model.content.duel.Dueling;
 import com.aelous.model.content.mechanics.MultiwayCombat;
 import com.aelous.model.content.members.MemberZone;
@@ -1350,8 +1352,7 @@ public class CombatFactory {
                     //20% chance to set your target on fire.
                     if (Utils.rollDie(5, 1)) {
                         target.hit(player, Utils.random(1, 5));
-                        if (target instanceof Player) {
-                            Player ptarg = (Player) target;
+                        if (target instanceof Player ptarg) {
                             ptarg.animate(3170);
                             ptarg.message("You feel a hot blaze caused by the lava whip.");
                         }
@@ -1452,6 +1453,13 @@ public class CombatFactory {
 
             //Send the hit sound
             attacker.takehitSound(hit);
+        }
+
+        if (attacker instanceof Player damageDealer) {
+            AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_I, hit.getDamage());
+            AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_II, hit.getDamage());
+            AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_III, hit.getDamage());
+            AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_IV, hit.getDamage());
         }
 
         target.decrementHealth(hit);

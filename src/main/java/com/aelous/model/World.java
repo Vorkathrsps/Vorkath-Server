@@ -558,6 +558,8 @@ public class World {
 
     public void unregisterNpc(NPC npc) {
         npcs.remove(npc);
+        Tile.unoccupy(npc);
+        npc.setInstance(null);
     }
 
     private EquipmentInfo equipmentInfo;

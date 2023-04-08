@@ -1,5 +1,7 @@
 package com.aelous.model.content.skill.impl.slayer;
 
+import com.aelous.model.content.achievements.Achievements;
+import com.aelous.model.content.achievements.AchievementsManager;
 import com.aelous.model.content.daily_tasks.DailyTaskManager;
 import com.aelous.model.content.daily_tasks.DailyTasks;
 import com.aelous.model.content.skill.impl.slayer.master.SlayerMaster;
@@ -274,6 +276,10 @@ public class Slayer {
 
                         killer.putAttrib(AttributeKey.SLAYER_TASK_SPREE, spree);
                         killer.putAttrib(AttributeKey.COMPLETED_SLAYER_TASKS, (int) killer.getAttribOr(AttributeKey.COMPLETED_SLAYER_TASKS, 0) + 1);
+                        AchievementsManager.activate(killer, Achievements.SLAYER_I, 1);
+                        AchievementsManager.activate(killer, Achievements.SLAYER_II, 1);
+                        AchievementsManager.activate(killer, Achievements.SLAYER_III, 1);
+                        AchievementsManager.activate(killer, Achievements.SLAYER_IV, 1);
                     } else {
                         // Chance to spawn a superior slayer one if unlocked.
                         SuperiorSlayer.trySpawn(killer, taskdef, npc);

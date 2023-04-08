@@ -1,5 +1,7 @@
 package com.aelous.model.content.skill.impl.firemaking;
 
+import com.aelous.model.content.achievements.Achievements;
+import com.aelous.model.content.achievements.AchievementsManager;
 import com.aelous.model.content.tasks.impl.Tasks;
 import com.aelous.core.task.TaskManager;
 import com.aelous.core.task.impl.TimedObjectSpawnTask;
@@ -256,6 +258,11 @@ public class LogLighting {
 
             // Give us some xp now, because.. dialogue.
             player.getSkills().addXp(Skills.FIREMAKING, log.xp * pyromancerOutfitBonus(player));
+
+            AchievementsManager.activate(player, Achievements.FIREMAKING_I, 1);
+            AchievementsManager.activate(player, Achievements.FIREMAKING_II, 1);
+            AchievementsManager.activate(player, Achievements.FIREMAKING_III, 1);
+            AchievementsManager.activate(player, Achievements.FIREMAKING_IV, 1);
         });
     }
 

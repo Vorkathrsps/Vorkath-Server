@@ -2,6 +2,8 @@ package com.aelous.model.content.skill.impl.cooking;
 
 import com.aelous.model.action.Action;
 import com.aelous.model.action.policy.WalkablePolicy;
+import com.aelous.model.content.achievements.Achievements;
+import com.aelous.model.content.achievements.AchievementsManager;
 import com.aelous.model.content.tasks.impl.Tasks;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.player.InputScript;
@@ -230,6 +232,13 @@ public class Cooking extends PacketInteraction {
                         case SEAWEED -> "You burn the seaweed to soda ash.";
                         default -> "You successfully cook " + food.itemname + ".";
                     };
+
+                    switch (food) {
+                        case RAW_SHRIMPS -> AchievementsManager.activate(player, Achievements.COOKING_I, 1);
+                        case RAW_LOBSTER -> AchievementsManager.activate(player, Achievements.COOKING_II, 1);
+                        case RAW_SHARK -> AchievementsManager.activate(player, Achievements.COOKING_III, 1);
+                        case RAW_ANGLERFISH -> AchievementsManager.activate(player, Achievements.COOKING_IV, 1);
+                    }
 
                     if(food == Cookable.RAW_SHARK) {
                         player.getTaskMasterManager().increase(Tasks.COOK_SHARKS);

@@ -201,8 +201,11 @@ public enum Achievements {
     FIREMAKING_I("Firemaking I", "Light 100 fires.", 100, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(PYROMANCER_HOOD), new Item(MYSTERY_BOX, 1)),
     FIREMAKING_II("Firemaking II", "Light 150 fires.", 150, Difficulty.MED, new Item(COINS_995, 10_000_000), new Item(PYROMANCER_GARB), new Item(MYSTERY_BOX, 2)),
     FIREMAKING_III("Firemaking III", "Light 250 fires.", 250, Difficulty.MED, new Item(COINS_995, 20_000_000), new Item(PYROMANCER_ROBE), new Item(MYSTERY_BOX, 3)),
-    FIREMAKING_IV("Firemaking IV", "Light 500 fires.", 500, Difficulty.HARD, new Item(COINS_995, 35_000_000), new Item(MYSTERY_BOX, 4), new Item(PYROMANCER_BOOTS))
-
+    FIREMAKING_IV("Firemaking IV", "Light 500 fires.", 500, Difficulty.HARD, new Item(COINS_995, 35_000_000), new Item(MYSTERY_BOX, 4), new Item(PYROMANCER_BOOTS)),
+    COOKING_I("Cooking I", "Cook 50 shrimp.", 50, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(LOBSTER, 250), new Item(MYSTERY_BOX, 1)),
+    COOKING_II("Cooking II", "Cook 100 lobster.", 100, Difficulty.MED, new Item(COINS_995, 10_000_000), new Item(MONKFISH, 150), new Item(MYSTERY_BOX, 2)),
+    COOKING_III("Cooking III", "Cook 250 shark.", 250, Difficulty.MED, new Item(COINS_995, 20_000_000), new Item(SHARK, 100), new Item(MYSTERY_BOX, 3)),
+    COOKING_IV("Cooking IV", "Cook 500 anglerfish.", 500, Difficulty.HARD, new Item(COINS_995, 35_000_000), new Item(MYSTERY_BOX, 4), new Item(ANGLERFISH, 250))
     ;
 
     public static List<Achievements> asList(Difficulty difficulty) {

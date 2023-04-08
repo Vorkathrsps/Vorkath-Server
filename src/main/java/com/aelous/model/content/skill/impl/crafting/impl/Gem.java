@@ -4,6 +4,7 @@ import com.aelous.model.content.skill.impl.crafting.Craftable;
 import com.aelous.model.content.skill.impl.crafting.CraftableItem;
 import com.aelous.model.items.Item;
 import com.aelous.utility.ItemIdentifiers;
+import lombok.Getter;
 
 import static com.aelous.utility.ItemIdentifiers.*;
 
@@ -11,6 +12,7 @@ import static com.aelous.utility.ItemIdentifiers.*;
  * @author Patrick van Elderen <patrick.vanelderen@live.nl>
  * juni 16, 2020
  */
+@Getter
 public enum Gem implements Craftable {
 
     OPAL("Opal", new Item(CHISEL), new Item(UNCUT_OPAL), new CraftableItem(new Item(ItemIdentifiers.OPAL), new Item(UNCUT_OPAL), 1, 15.0)),
@@ -46,8 +48,6 @@ public enum Gem implements Craftable {
             case DRAGONSTONE -> 885;
             case ONYX -> 2717;
             case ZENYTE -> 7185;
-//Fallback
-            default -> 886;
         };
     }
 

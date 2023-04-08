@@ -2,6 +2,8 @@ package com.aelous.model.content.skill.impl.crafting;
 
 import com.aelous.model.action.Action;
 import com.aelous.model.action.policy.WalkablePolicy;
+import com.aelous.model.content.achievements.Achievements;
+import com.aelous.model.content.achievements.AchievementsManager;
 import com.aelous.model.content.skill.impl.crafting.impl.*;
 import com.aelous.model.content.tasks.impl.Tasks;
 import com.aelous.model.entity.attributes.AttributeKey;
@@ -487,7 +489,7 @@ public class Crafting extends PacketInteraction {
     }
 
     private static Action<Player> craft(Player player, Craftable craftable, CraftableItem item, int index, int amount) {
-        return new Action<Player>(player, 2, true) {
+        return new Action<>(player, 2, true) {
             int iterations = 0;
 
             @Override
@@ -501,11 +503,25 @@ public class Crafting extends PacketInteraction {
                     player.message(craftable.getProductionMessage());
                 }
 
-                if(craftable.getName().equalsIgnoreCase("Gem")) {
-                    if(item.getProduct().getId() == 1615) {
+                if (craftable.getName().equalsIgnoreCase("Gem")) {
+                    if (item.getProduct().getId() == 1615) {
                         player.getTaskMasterManager().increase(Tasks.CRAFT_DRAGONSTONES);
                     }
                 }
+
+                if (craftable == Gem.SAPPHIRE) {
+                    AchievementsManager.activate(player, Achievements.CRAFTING_I, 1);
+                }
+                if (craftable == Gem.EMERALD) {
+                    AchievementsManager.activate(player, Achievements.CRAFTING_II, 1);
+                }
+                if (craftable == Gem.RUBY) {
+                    AchievementsManager.activate(player, Achievements.CRAFTING_III, 1);
+                }
+                if (craftable == Gem.DIAMOND) {
+                    AchievementsManager.activate(player, Achievements.CRAFTING_IV, 1);
+                }
+
 
                 if (++iterations == amount) {
                     stop();

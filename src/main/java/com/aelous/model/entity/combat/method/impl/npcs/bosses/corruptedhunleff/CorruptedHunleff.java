@@ -89,7 +89,7 @@ public class CorruptedHunleff extends NPC {
         @Override
         public boolean prepareAttack(Entity entity, Entity target) {
             attacksDone();
-            currentMethod.prepareAttack(entity, target);
+            return currentMethod.prepareAttack(entity, target);
         }
 
         @Override

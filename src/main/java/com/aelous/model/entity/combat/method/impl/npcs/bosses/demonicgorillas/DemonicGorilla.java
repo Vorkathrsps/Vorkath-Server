@@ -119,11 +119,12 @@ public class DemonicGorilla extends NPC {
                 if (Utils.random(4) == 1) {
                     boulderToss(entity, target);
                     entity.getCombat().delayAttack(4);
-                    return;
+                    return false;
                 }
             }
             if (withinDistance(1))
-                currentMethod.prepareAttack(entity, target);
+                return currentMethod.prepareAttack(entity, target);
+            return false;
         }
 
             @Override

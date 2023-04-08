@@ -50,7 +50,7 @@ public class EquipmentMaking {
         //Search for bar..
         Optional<Bar> bar = Optional.empty();
         for (Bar b : Bar.values()) {
-            if (!b.getItems().isPresent()) {
+            if (b.getItems().isEmpty()) {
                 continue;
             }
             if (player.inventory().contains(b.getBar())) {
@@ -63,15 +63,17 @@ public class EquipmentMaking {
         //Did we find a bar in the player's inventory?
         if (bar.isPresent()) {
             //Go through the bar's items..
-            for (SmithableEquipment b : bar.get().getItems().get()) {
-                player.getPacketSender().sendItemOnInterfaceSlot(b.getItemFrame(), b.getItemId(), b.getAmount(), b.getItemSlot());
+            if (bar.get().getItems().isPresent()) {
+                for (SmithableEquipment b : bar.get().getItems().get()) {
+                    player.getPacketSender().sendItemOnInterfaceSlot(b.getItemFrame(), b.getItemId(), b.getAmount(), b.getItemSlot());
 
-                int bars = player.inventory().count(b.getBarId());
-                int smithLevel = player.getSkills().levels()[Skills.SMITHING];
-                boolean meetsRequirementsForOilLamp = true;
-                player.getPacketSender().sendConfig(210, bars);
-                player.getPacketSender().sendConfig(211, smithLevel);
-                player.getPacketSender().sendConfig(262, meetsRequirementsForOilLamp ? 1 : 0);
+                    int bars = player.inventory().count(b.getBarId());
+                    int smithLevel = player.getSkills().levels()[Skills.SMITHING];
+                    boolean meetsRequirementsForOilLamp = true;
+                    player.getPacketSender().sendConfig(210, bars);
+                    player.getPacketSender().sendConfig(211, smithLevel);
+                    player.getPacketSender().sendConfig(262, meetsRequirementsForOilLamp ? 1 : 0);
+                }
             }
 
             //Send interface..
@@ -96,14 +98,13 @@ public class EquipmentMaking {
                 //Start making items..
                 player.getSkills().startSkillable(new ItemCreationSkillable(Arrays.asList(new RequiredItem(new Item(ItemIdentifiers.HAMMER)), new RequiredItem(new Item(smithable.getBarId(), smithable.getBarsRequired()), true)),
                     new Item(smithable.getItemId(), smithable.getAmount()), amount, Optional.of(new AnimationLoop(new Animation(898), 3)), smithable.getRequiredLevel(), smithable.getExperience(), Skills.SMITHING));
+                switch (smithable) {
+                    case BRONZE_PLATEBODY -> AchievementsManager.activate(player, Achievements.SMITHING_I, 1);
+                    case MITHRIL_PLATEBODY -> AchievementsManager.activate(player, Achievements.SMITHING_II, 1);
+                    case ADAMANT_PLATEBODY -> AchievementsManager.activate(player, Achievements.SMITHING_III, 1);
+                    case RUNE_PLATEBODY -> AchievementsManager.activate(player, Achievements.SMITHING_IV, 1);
+                }
                 break;
-            }
-
-            switch (smithable) {
-                case BRONZE_PLATEBODY -> AchievementsManager.activate(player, Achievements.SMITHING_I, 1);
-                case MITHRIL_PLATEBODY -> AchievementsManager.activate(player, Achievements.SMITHING_II, 1);
-                case ADAMANT_PLATEBODY -> AchievementsManager.activate(player, Achievements.SMITHING_III, 1);
-                case RUNE_PLATEBODY -> AchievementsManager.activate(player, Achievements.SMITHING_IV, 1);
             }
         }
     }

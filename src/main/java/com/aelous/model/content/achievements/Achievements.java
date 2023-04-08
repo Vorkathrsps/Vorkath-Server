@@ -201,11 +201,17 @@ public enum Achievements {
     FIREMAKING_I("Firemaking I", "Light 100 fires.", 100, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(PYROMANCER_HOOD), new Item(MYSTERY_BOX, 1)),
     FIREMAKING_II("Firemaking II", "Light 150 fires.", 150, Difficulty.MED, new Item(COINS_995, 10_000_000), new Item(PYROMANCER_GARB), new Item(MYSTERY_BOX, 2)),
     FIREMAKING_III("Firemaking III", "Light 250 fires.", 250, Difficulty.MED, new Item(COINS_995, 20_000_000), new Item(PYROMANCER_ROBE), new Item(MYSTERY_BOX, 3)),
-    FIREMAKING_IV("Firemaking IV", "Light 500 fires.", 500, Difficulty.HARD, new Item(COINS_995, 35_000_000), new Item(MYSTERY_BOX, 4), new Item(PYROMANCER_BOOTS)),
+    FIREMAKING_IV("Firemaking IV", "Light 500 fires.", 500, Difficulty.HARD, new Item(COINS_995, 35_000_000), new Item(MYSTERY_BOX, 4), new Item(PYROMANCER_BOOTS), new Item(MAGIC_LOGS, 100)),
     COOKING_I("Cooking I", "Cook 50 shrimp.", 50, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(LOBSTER, 250), new Item(MYSTERY_BOX, 1)),
     COOKING_II("Cooking II", "Cook 100 lobster.", 100, Difficulty.MED, new Item(COINS_995, 10_000_000), new Item(MONKFISH, 150), new Item(MYSTERY_BOX, 2)),
     COOKING_III("Cooking III", "Cook 250 shark.", 250, Difficulty.MED, new Item(COINS_995, 20_000_000), new Item(SHARK, 100), new Item(MYSTERY_BOX, 3)),
-    COOKING_IV("Cooking IV", "Cook 500 anglerfish.", 500, Difficulty.HARD, new Item(COINS_995, 35_000_000), new Item(MYSTERY_BOX, 4), new Item(ANGLERFISH, 250))
+    COOKING_IV("Cooking IV", "Cook 500 anglerfish.", 500, Difficulty.HARD, new Item(COINS_995, 35_000_000), new Item(MYSTERY_BOX, 4), new Item(ANGLERFISH, 250)),
+
+    WOODCUTTING_I("Woodcutting I", "Cut 50 tree's.", 50, Difficulty.EASY, new Item(COINS_995, 5_000_000), new Item(LUMBERJACK_HAT, 1), new Item(MYSTERY_BOX, 1)),
+    WOODCUTTING_II("Woodcutting II", "Cut 100 willow tree's.", 100, Difficulty.MED, new Item(COINS_995, 10_000_000), new Item(LUMBERJACK_TOP, 1), new Item(MYSTERY_BOX, 2)),
+    WOODCUTTING_III("Woodcutting III", "Cut 250 yew tree's.", 250, Difficulty.MED, new Item(COINS_995, 20_000_000), new Item(LUMBERJACK_LEGS, 1), new Item(MYSTERY_BOX, 3)),
+    WOODCUTTING_IV("Woodcutting IV", "Cut 500 magic tree's.", 500, Difficulty.HARD, new Item(COINS_995, 35_000_000), new Item(LUMBERJACK_BOOTS, 1), new Item(MYSTERY_BOX, 4))
+
     ;
 
     public static List<Achievements> asList(Difficulty difficulty) {

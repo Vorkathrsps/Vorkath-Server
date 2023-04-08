@@ -1,5 +1,7 @@
 package com.aelous.model.content.skill.impl.woodcutting;
 
+import com.aelous.model.content.achievements.Achievements;
+import com.aelous.model.content.achievements.AchievementsManager;
 import com.aelous.model.content.tasks.impl.Tasks;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 
@@ -192,6 +194,13 @@ public class Woodcutting extends PacketInteraction {
 
                     if (tree == Tree.MAGIC) {
                         player.getTaskMasterManager().increase(Tasks.CUT_MAGIC_TREES);
+                    }
+
+                    switch (tree) {
+                        case REGULAR -> AchievementsManager.activate(player, Achievements.WOODCUTTING_I, 1);
+                        case WILLOW -> AchievementsManager.activate(player, Achievements.WOODCUTTING_II, 1);
+                        case YEW -> AchievementsManager.activate(player, Achievements.WOODCUTTING_III, 1);
+                        case MAGIC -> AchievementsManager.activate(player, Achievements.WOODCUTTING_IV, 1);
                     }
 
                     player.getSkills().addXp(Skills.WOODCUTTING, tree.xp); // Xp as last, it can spawn a dialogue

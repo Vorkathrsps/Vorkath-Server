@@ -1,5 +1,7 @@
 package com.aelous.model.content.skill.impl.fishing;
 
+import com.aelous.model.content.achievements.Achievements;
+import com.aelous.model.content.achievements.AchievementsManager;
 import com.aelous.model.content.tasks.impl.Tasks;
 import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
@@ -144,6 +146,13 @@ public class Fishing {
 
                     player.inventory().add(new Item(weCatch.item), true);
                     player.getSkills().addXp(Skills.FISHING, weCatch.xp);
+
+                    switch (weCatch) {
+                        case SHRIMP -> AchievementsManager.activate(player, Achievements.FISHING_I, 1);
+                        case SWORDFISH -> AchievementsManager.activate(player, Achievements.FISHING_II, 1);
+                        case SHARK -> AchievementsManager.activate(player, Achievements.FISHING_III, 1);
+                        case ANGLERFISH -> AchievementsManager.activate(player, Achievements.FISHING_IV, 1);
+                    }
 
                     //Finding a casket in the water! Money, money, money..
                     if (Utils.rollDie(20, 1)) {

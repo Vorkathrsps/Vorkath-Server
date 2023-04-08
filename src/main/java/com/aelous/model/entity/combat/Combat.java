@@ -360,7 +360,8 @@ public class Combat {
         int combatAttackTicksRemaining = mob.getTimers().left(TimerKey.COMBAT_ATTACK);
 
         if (combatAttackTicksRemaining <= 0) {
-            method.prepareAttack(mob, target);
+            if (!method.prepareAttack(mob, target))
+                return;
             if (mob.isPlayer() && target.isPlayer()) {
                 if (WildernessArea.inWild((Player) mob)) {
                     Player player = mob.getAsPlayer();

@@ -17,7 +17,7 @@ public class DeathSpawn extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         basicAttack(entity, target);
     }
 

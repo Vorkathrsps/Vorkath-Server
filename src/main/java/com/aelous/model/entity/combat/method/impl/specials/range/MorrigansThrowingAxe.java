@@ -21,7 +21,7 @@ import com.aelous.utility.timers.TimerKey;
 public class MorrigansThrowingAxe extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(929);
         entity.graphic(1626, GraphicHeight.HIGH, 0);
 

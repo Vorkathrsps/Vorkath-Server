@@ -9,7 +9,7 @@ import com.aelous.model.entity.masks.Projectile;
 public class Grimspike extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(6154);
         new Projectile(entity, target, 1220, 30, 65, 25, 25, 0).sendProjectile();
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), 2, CombatType.RANGED).checkAccuracy().submit();

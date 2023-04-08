@@ -13,7 +13,7 @@ import com.aelous.model.entity.player.Skills;
 public class StatiusWarhammer extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1378);
         entity.graphic(844);
 

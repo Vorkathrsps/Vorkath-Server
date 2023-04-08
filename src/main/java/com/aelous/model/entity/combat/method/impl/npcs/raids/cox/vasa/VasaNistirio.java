@@ -278,7 +278,7 @@ public class VasaNistirio extends CommonCombatMethod {
 
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
 
         if (!withinDistance(16)) {

@@ -18,7 +18,7 @@ public class BasicDragon extends CommonCombatMethod {
     boolean fire;
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (!withinDistance(1))
             return;
         if (!fire && Utils.rollDie(6, 1)) { // don't do dragon fire twice in a row

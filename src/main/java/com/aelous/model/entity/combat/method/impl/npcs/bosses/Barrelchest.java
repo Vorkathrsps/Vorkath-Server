@@ -8,7 +8,7 @@ import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 public class Barrelchest extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         meleeAttack(entity, target);
     }
 

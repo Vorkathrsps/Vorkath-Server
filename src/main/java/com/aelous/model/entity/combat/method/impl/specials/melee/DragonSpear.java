@@ -26,7 +26,7 @@ import com.aelous.utility.timers.TimerKey;
 public class DragonSpear extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity attacker, Entity victim) {
+    public boolean prepareAttack(Entity attacker, Entity victim) {
         attacker.animate(1064);
         attacker.graphic(253, GraphicHeight.HIGH, 0);
 

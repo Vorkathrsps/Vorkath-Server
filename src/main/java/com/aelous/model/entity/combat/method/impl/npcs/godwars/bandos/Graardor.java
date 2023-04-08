@@ -52,7 +52,7 @@ public class Graardor extends CommonCombatMethod {
         "FOR THE GLORY OF THE BIG HIGH WAR GOD!");
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (target == null) {
             return;
         }

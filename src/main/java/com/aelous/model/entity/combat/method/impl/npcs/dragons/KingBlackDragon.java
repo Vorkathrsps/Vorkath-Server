@@ -26,7 +26,7 @@ public class KingBlackDragon extends CommonCombatMethod {
     };
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.rollDie(4, 1))
             basicAttack(entity, target);
         else {

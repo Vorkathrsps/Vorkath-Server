@@ -24,7 +24,7 @@ public class Cruor extends CommonCombatMethod {
         npc.getCombatInfo().scripts.agro_ = (n, t) -> false;
     }
     @Override
-    public void prepareAttack(Entity mob, Entity target) {
+    public boolean prepareAttack(Entity mob, Entity target) {
         if(!mob.<Boolean>getAttribOr(AttributeKey.BARRIER_BROKEN,false)) {
             return;
         }

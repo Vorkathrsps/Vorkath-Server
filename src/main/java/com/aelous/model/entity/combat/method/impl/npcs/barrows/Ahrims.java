@@ -13,7 +13,7 @@ import com.aelous.utility.Utils;
 public class Ahrims extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (!withinDistance(8)) {
             return;
         }

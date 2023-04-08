@@ -20,7 +20,7 @@ import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.FEAR_REAPE
 public class GrimCombatScript extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if(World.getWorld().rollDie(10,1)) {
             spawnMinions((NPC) entity);
         }

@@ -12,7 +12,7 @@ import com.aelous.utility.timers.TimerKey;
 public class ElderChaosDruid extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         //Check to see if we're able to teleport the player beside us.
         if (Utils.rollDie(5, 1) && entity.tile().distance(target.tile()) > 3 && entity.tile().distance(target.tile()) < 6 &&
             !target.getTimers().has(TimerKey.ELDER_CHAOS_DRUID_TELEPORT)) {

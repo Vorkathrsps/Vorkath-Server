@@ -50,7 +50,7 @@ public class Kril extends CommonCombatMethod {
         "No retreat!");
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (Utils.rollDie(3, 1)) {
             entity.forceChat(Utils.randomElement(QUOTES));
         }

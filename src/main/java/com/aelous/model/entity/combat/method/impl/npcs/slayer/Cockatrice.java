@@ -22,7 +22,7 @@ public class Cockatrice extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
 
         Player player = (Player) target;

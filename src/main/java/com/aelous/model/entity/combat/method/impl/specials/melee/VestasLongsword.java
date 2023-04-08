@@ -9,7 +9,7 @@ import com.aelous.model.entity.player.Player;
 
 public class VestasLongsword extends CommonCombatMethod {
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         final Player player = (Player) entity;
         int animation = 7515;
         player.animate(animation);

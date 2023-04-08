@@ -57,7 +57,7 @@ public class NylocasVasilias extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity mob, Entity target) {
+    public boolean prepareAttack(Entity mob, Entity target) {
         var combatInfo = mob.npc().getCombatInfo();
         if (isTransforming) {
             return;

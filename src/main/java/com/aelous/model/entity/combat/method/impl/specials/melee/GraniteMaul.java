@@ -20,7 +20,7 @@ import static com.aelous.utility.ItemIdentifiers.GRANITE_MAUL_12848;
 public class GraniteMaul extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         double vigour = 0;
 
         int specPercentage = (int) (entity.getSpecialAttackPercentage() + vigour);

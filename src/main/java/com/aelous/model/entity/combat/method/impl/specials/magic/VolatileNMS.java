@@ -24,7 +24,7 @@ import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 public class VolatileNMS extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.graphic(1760);
         entity.animate(8532);
 

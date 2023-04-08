@@ -28,7 +28,7 @@ public class Fumus extends CommonCombatMethod {
         npc.getCombatInfo().scripts.agro_ = (n, t) -> false;
     }
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if(!entity.<Boolean>getAttribOr(AttributeKey.BARRIER_BROKEN,false)) {
             return;
         }

@@ -25,7 +25,7 @@ public class GreaterAbyssalDemon extends CommonCombatMethod {
     private static final byte[][] BASIC_OFFSETS = new byte[][]{{0, -1}, {-1, 0}, {0, 1}, {1, 0}};
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (!entity.isNpc() || !target.isPlayer())
             return;
         entity.animate(entity.attackAnimation());

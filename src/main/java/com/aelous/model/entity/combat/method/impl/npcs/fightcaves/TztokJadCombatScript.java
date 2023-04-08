@@ -1,7 +1,5 @@
 package com.aelous.model.entity.combat.method.impl.npcs.fightcaves;
 
-import com.aelous.model.World;
-
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
@@ -10,9 +8,7 @@ import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
-import com.aelous.model.entity.masks.impl.graphics.Priority;
 import com.aelous.model.entity.player.Player;
-import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Utils;
 
 /**
@@ -25,7 +21,7 @@ public class TztokJadCombatScript extends CommonCombatMethod {
     private static final int MAX_DISTANCE = 10;
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         Player player = target.getAsPlayer();
 
         // Select attack type..

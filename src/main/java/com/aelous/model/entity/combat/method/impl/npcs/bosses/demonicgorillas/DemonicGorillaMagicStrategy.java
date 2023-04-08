@@ -13,7 +13,7 @@ import com.aelous.model.entity.masks.Projectile;
 public class DemonicGorillaMagicStrategy extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         //mob.forceChat("MAGIC!");
         entity.animate(7238);
         var tileDist = entity.tile().distance(target.tile());

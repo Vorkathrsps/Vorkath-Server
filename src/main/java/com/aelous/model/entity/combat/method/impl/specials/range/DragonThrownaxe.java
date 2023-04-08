@@ -20,7 +20,7 @@ public class DragonThrownaxe extends CommonCombatMethod {
     private static final Graphic GRAPHIC = new Graphic(1317, GraphicHeight.HIGH);
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         final Player player = entity.getAsPlayer();
 
         player.animate(ANIMATION);

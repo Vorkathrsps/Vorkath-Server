@@ -10,7 +10,7 @@ import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 public class ThermonuclearSmokeDevil extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(3847);
         var tileDist = entity.tile().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));

@@ -10,7 +10,7 @@ import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 public class DinhsBulwark extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(7511);
         entity.graphic(1336);
 

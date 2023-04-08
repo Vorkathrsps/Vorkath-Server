@@ -20,7 +20,7 @@ import java.security.SecureRandom;
 public class LizardShaman extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         var random = new SecureRandom().nextInt(5);
         NPC npc = (NPC) entity;
 

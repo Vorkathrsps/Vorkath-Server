@@ -13,7 +13,7 @@ import com.aelous.model.entity.player.Skills;
 public class AbyssalBludgeon extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(3299);
         //TODO it.player().sound(2715, 10)
         //TODO it.player().sound(1930, 30)

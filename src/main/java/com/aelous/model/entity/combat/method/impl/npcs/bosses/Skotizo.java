@@ -21,7 +21,7 @@ import java.security.SecureRandom;
 public class Skotizo extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         int roll = new SecureRandom().nextInt(5);
 
         //10% chance that the wold boss skulls you!

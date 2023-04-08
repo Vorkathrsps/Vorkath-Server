@@ -14,7 +14,7 @@ import com.aelous.model.entity.player.Player;
 public class LavaBeast extends CommonCombatMethod {
 
         @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
             //10% chance that the boss skulls you!
             if (World.getWorld().rollDie(10, 1)) {
                 Skulling.assignSkullState(((Player) target), SkullType.RED_SKULL);

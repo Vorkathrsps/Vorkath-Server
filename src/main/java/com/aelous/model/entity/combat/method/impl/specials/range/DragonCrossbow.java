@@ -22,7 +22,7 @@ import com.aelous.model.entity.player.Player;
 public class DragonCrossbow extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         final Player player = entity.getAsPlayer();
 
         var graphic = -1;

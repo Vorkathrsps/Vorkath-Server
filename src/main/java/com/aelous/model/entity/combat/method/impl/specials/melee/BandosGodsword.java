@@ -15,7 +15,7 @@ import com.aelous.utility.ItemIdentifiers;
 public class BandosGodsword extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         final Player player = (Player) entity;
         player.animate(player.getEquipment().contains(ItemIdentifiers.BANDOS_GODSWORD_OR) ? 7643 : 7642);
         boolean gfx_gold = player.getAttribOr(AttributeKey.BGS_GFX_GOLD, false);

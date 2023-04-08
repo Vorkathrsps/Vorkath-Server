@@ -102,7 +102,7 @@ public class BrutalLavaDragon extends CommonCombatMethod {
 
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         //10% chance that the wold boss skulls you!
         if(World.getWorld().rollDie(10,1)) {
             Skulling.assignSkullState(((Player) target), SkullType.WHITE_SKULL);

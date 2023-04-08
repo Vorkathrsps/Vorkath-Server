@@ -51,7 +51,7 @@ public class Gargoyle extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         basicAttack(entity, target);
     }
 

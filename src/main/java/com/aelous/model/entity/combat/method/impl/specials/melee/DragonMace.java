@@ -12,7 +12,7 @@ import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 public class DragonMace extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1060);
         entity.graphic(251, GraphicHeight.MIDDLE, 0);
 

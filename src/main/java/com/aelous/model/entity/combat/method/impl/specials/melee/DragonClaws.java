@@ -12,7 +12,7 @@ import com.aelous.utility.Utils;
 public class DragonClaws extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(7514);
         entity.graphic(1171);
 

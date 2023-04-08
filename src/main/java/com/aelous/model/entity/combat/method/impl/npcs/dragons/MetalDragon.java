@@ -16,7 +16,7 @@ import com.aelous.utility.Utils;
 public class MetalDragon extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (!CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
             breathFire(entity, target);
         } else {

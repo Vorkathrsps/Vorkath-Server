@@ -10,7 +10,7 @@ import com.aelous.model.entity.masks.Projectile;
 public class Growler extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(7037);
         entity.graphic(1182);
         var tileDist = entity.tile().distance(target.tile());

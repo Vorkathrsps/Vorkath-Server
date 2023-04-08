@@ -6,7 +6,6 @@ import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
-import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.map.position.Tile;
 import com.aelous.utility.chainedwork.Chain;
@@ -20,7 +19,7 @@ import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
 public class Vanguard extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (entity.isNpc()) {
             NPC npc = entity.getAsNpc();
 

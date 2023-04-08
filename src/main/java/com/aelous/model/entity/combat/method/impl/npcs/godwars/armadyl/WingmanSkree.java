@@ -10,7 +10,7 @@ import com.aelous.model.entity.masks.Projectile;
 public class WingmanSkree extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(6955);
         var tileDist = entity.tile().distance(target.tile());
         int duration = (45 + 11 + (5 * tileDist));

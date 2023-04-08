@@ -106,7 +106,7 @@ public class GreatOlm extends CommonCombatMethod {
             rightClaw.setCombatMethod(new CommonCombatMethod() {
 
                 @Override
-                public void prepareAttack(Entity entity, Entity target) {
+                public boolean prepareAttack(Entity entity, Entity target) {
                     
                 }
 
@@ -141,7 +141,7 @@ public class GreatOlm extends CommonCombatMethod {
             leftClaw.setCombatMethod(new CommonCombatMethod() {
 
                 @Override
-                public void prepareAttack(Entity entity, Entity target) {
+                public boolean prepareAttack(Entity entity, Entity target) {
 
                 }
 
@@ -189,7 +189,7 @@ public class GreatOlm extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity mob, Entity target) {
+    public boolean prepareAttack(Entity mob, Entity target) {
         if (getObject(npc).getId() != 29881) // hasnt risen yet
             return;
         attackCounter++;

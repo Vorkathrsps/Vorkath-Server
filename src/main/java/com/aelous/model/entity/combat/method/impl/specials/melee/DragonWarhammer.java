@@ -14,7 +14,7 @@ import com.aelous.model.entity.player.Skills;
 public class DragonWarhammer extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1378);
         entity.graphic(1292, GraphicHeight.LOW, 0);
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();

@@ -10,7 +10,7 @@ import com.aelous.utility.Utils;
 public class ChaosDruid extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (Utils.rollDie(2, 1)) {
             int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC);
             target.hit(entity, hit, CombatType.MAGIC).checkAccuracy().submit();

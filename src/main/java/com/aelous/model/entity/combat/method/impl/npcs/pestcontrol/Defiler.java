@@ -26,7 +26,7 @@ public class Defiler extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         NPC npc = (NPC) entity;
         if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
             melee(npc, target);

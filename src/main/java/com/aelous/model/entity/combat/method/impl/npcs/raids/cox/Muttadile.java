@@ -63,7 +63,7 @@ public class Muttadile extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
 
         Party party = target.getAsPlayer().raidsParty;
 

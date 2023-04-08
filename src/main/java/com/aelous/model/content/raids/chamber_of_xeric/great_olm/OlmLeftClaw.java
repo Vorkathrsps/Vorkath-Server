@@ -16,7 +16,7 @@ public class OlmLeftClaw extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity Entity, Entity target) {
+    public boolean prepareAttack(Entity Entity, Entity target) {
     }
 
     @Override

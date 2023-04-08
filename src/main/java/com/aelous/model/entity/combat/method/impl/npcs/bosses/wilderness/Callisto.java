@@ -1,11 +1,8 @@
 package com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness;
 
-import com.aelous.core.task.TaskManager;
-import com.aelous.core.task.impl.ForceMovementTask;
 import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
@@ -38,7 +35,7 @@ public class Callisto extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         //All attacks are melee
        // if (CombatFactory.canReach(npc, CombatFactory.MELEE_COMBAT, target)) {
             // At all times, callisto can initiate the heal.

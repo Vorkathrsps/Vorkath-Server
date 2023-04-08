@@ -41,7 +41,7 @@ public class FragmentOfSeren extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && World.getWorld().rollDie(2, 1)) {
             if (World.getWorld().rollDie(2, 1)) {
                 meleeClawAttack(entity, target);

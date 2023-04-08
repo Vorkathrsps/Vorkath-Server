@@ -11,7 +11,7 @@ import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 public class DarkWizard extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.performGraphic(new Graphic(96, GraphicHeight.HIGH));
         entity.animate(entity.attackAnimation());
         entity.performGraphic(new Graphic(98, GraphicHeight.HIGH));

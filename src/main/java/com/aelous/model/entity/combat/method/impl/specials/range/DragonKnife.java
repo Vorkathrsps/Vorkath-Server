@@ -18,7 +18,7 @@ import com.aelous.model.entity.player.Player;
 public class DragonKnife extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         final Player player = entity.getAsPlayer();
         int delay = (int) (Math.floor(3 + entity.tile().distance(target.tile()) / 6D));
 

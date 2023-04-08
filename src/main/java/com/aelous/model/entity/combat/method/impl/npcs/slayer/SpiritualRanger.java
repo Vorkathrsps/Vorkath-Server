@@ -18,7 +18,7 @@ public class SpiritualRanger extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (entity.isNpc()) {
             entity.animate(entity.attackAnimation());
             NPC npc = (NPC) entity;

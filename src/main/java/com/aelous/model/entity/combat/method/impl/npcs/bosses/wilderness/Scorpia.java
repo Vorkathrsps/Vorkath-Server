@@ -13,7 +13,7 @@ import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 public class Scorpia extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         //If Scorpia is below 50% HP & hasn't summoned offspring that heal we..
         var summoned_guardians = entity.<Boolean>getAttribOr(AttributeKey.SCORPIA_GUARDIANS_SPAWNED, false);
         if (entity.hp() < 100 && !summoned_guardians) {

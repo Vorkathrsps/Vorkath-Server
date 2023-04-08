@@ -21,7 +21,7 @@ import com.aelous.utility.chainedwork.Chain;
 public class ChaosElemental extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         NPC npc = (NPC) entity;
         int random = Utils.random(7);
         npc.animate(npc.attackAnimation());

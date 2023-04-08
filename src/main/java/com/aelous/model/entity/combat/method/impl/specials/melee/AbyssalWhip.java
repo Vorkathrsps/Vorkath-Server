@@ -13,7 +13,7 @@ import com.aelous.model.entity.player.Player;
 public class AbyssalWhip extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity mob, Entity target) {
+    public boolean prepareAttack(Entity mob, Entity target) {
         entity.animate(1658);
         //todo it.player().world().spawnSound(it.player().tile(), 2713, 0, 10)
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();

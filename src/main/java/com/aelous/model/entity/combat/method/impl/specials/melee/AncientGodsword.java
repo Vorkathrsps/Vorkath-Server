@@ -15,7 +15,7 @@ import com.aelous.utility.chainedwork.Chain;
 public class AncientGodsword extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         short delay = 0;
         short duration = 240;
         byte hue = 0;

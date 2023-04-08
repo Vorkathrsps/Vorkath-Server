@@ -13,7 +13,7 @@ import com.aelous.model.entity.masks.Projectile;
 public class DemonicGorillaRangedStrategy extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(7227);
         var tileDist = entity.tile().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));

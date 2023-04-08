@@ -18,7 +18,7 @@ import com.aelous.model.entity.player.Skills;
 public class Venenatis extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         // Determine if we do a special hit, or a regular hit.
         if (World.getWorld().rollDie(14, 1)) {
             hurlWeb((NPC) entity, target);

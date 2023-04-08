@@ -19,7 +19,7 @@ import static com.aelous.model.entity.combat.CombatFactory.MELEE_COMBAT;
 public class WyrmCombatScript extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         var inMeleeDistance = CombatFactory.canReach(entity, MELEE_COMBAT, target);
         if (inMeleeDistance && World.getWorld().rollDie(2, 1))
             basicAttack(entity, target);

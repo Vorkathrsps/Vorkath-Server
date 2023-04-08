@@ -14,7 +14,7 @@ import com.aelous.utility.ItemIdentifiers;
 public class SaradominGodsword extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         final Player player = (Player) entity;
         player.animate(player.getEquipment().contains(ItemIdentifiers.SARADOMIN_GODSWORD_OR) ? 7641 : 7640);
         boolean gfx_gold = player.getAttribOr(AttributeKey.SGS_GFX_GOLD, false);

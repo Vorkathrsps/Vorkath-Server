@@ -29,7 +29,7 @@ import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.KALPHITE_Q
 public class KalphiteQueenFirstForm extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         int distance = getAttackDistance(target);
         boolean inDistance = target.boundaryBounds().within(entity.tile(), entity.getSize(), distance);
         if (inDistance) {

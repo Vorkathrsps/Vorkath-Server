@@ -12,7 +12,7 @@ import com.aelous.model.entity.player.Player;
 public class DragonScimitar extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1872);
         entity.graphic(347, GraphicHeight.HIGH, 0);
         //TODO it.sound(2540)

@@ -19,7 +19,7 @@ import static com.aelous.model.entity.combat.CombatFactory.MELEE_COMBAT;
 public class DrakeCombatScript extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         NPC npc = (NPC) entity;
 
         if (npc instanceof Drake) {

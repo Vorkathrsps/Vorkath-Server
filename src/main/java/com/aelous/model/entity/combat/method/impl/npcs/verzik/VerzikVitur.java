@@ -48,7 +48,7 @@ public class VerzikVitur extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity mob, Entity target) {
+    public boolean prepareAttack(Entity mob, Entity target) {
         mob.faceEntity(target);
         Player[] targets = mob.closePlayers(32);
         if (mob.npc().id() == VERZIK_VITUR_8370) {

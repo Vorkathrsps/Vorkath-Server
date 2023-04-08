@@ -35,7 +35,7 @@ public class AbyssalDemon extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (Utils.rollDie(4, 1))
             teleportAttack(entity, target);
         else

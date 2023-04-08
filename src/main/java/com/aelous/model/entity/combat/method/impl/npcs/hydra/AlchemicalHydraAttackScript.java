@@ -11,7 +11,7 @@ import com.aelous.model.entity.npc.NPC;
 public class AlchemicalHydraAttackScript extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         NPC mobAsNpc = (NPC) entity;
 
         if (mobAsNpc instanceof AlchemicalHydra) {

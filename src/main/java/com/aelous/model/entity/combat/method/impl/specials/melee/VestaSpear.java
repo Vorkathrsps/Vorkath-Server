@@ -15,7 +15,7 @@ import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 public class VestaSpear extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(8184);
         entity.graphic(1627);
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();

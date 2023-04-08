@@ -26,7 +26,7 @@ import com.aelous.model.entity.player.Skills;
 public class EldritchNMS extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.graphic(1762);
         entity.animate(8532);
 

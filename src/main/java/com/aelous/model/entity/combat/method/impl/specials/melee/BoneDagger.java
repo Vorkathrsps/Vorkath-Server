@@ -14,7 +14,7 @@ import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 public class BoneDagger extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(4198);
         entity.graphic(704);
 

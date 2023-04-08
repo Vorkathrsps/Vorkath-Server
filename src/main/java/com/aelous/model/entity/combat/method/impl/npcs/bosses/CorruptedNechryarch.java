@@ -25,7 +25,7 @@ public class CorruptedNechryarch extends CommonCombatMethod {
     private final List<Tile> acidPools = Lists.newArrayList();
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
        if (!acidAttackCooldown.isDelayed()) {
             acid_attack(entity, target);
         }

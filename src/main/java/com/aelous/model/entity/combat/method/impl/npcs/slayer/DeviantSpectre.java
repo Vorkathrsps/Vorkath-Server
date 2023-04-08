@@ -13,7 +13,7 @@ public class DeviantSpectre extends CommonCombatMethod {
     //TODO: find correct anim and gfx
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.performGraphic(new Graphic(96, GraphicHeight.HIGH));
         entity.animate(entity.attackAnimation());
         entity.performGraphic(new Graphic(98, GraphicHeight.HIGH));

@@ -9,7 +9,7 @@ import com.aelous.model.entity.masks.Projectile;
 public class DarkBeasts extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
        if (entity.tile().distance(target.tile()) <= 2) {
            int tileDist = entity.tile().transform(1, 1).distance(target.tile());

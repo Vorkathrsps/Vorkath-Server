@@ -21,7 +21,7 @@ import static com.aelous.utility.ItemIdentifiers.SCYTHE_OF_VITUR;
 public class MeleeCombatMethod extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (target.isNpc() && entity.isPlayer()) {
             Player player = (Player) entity;
             if (player.getEquipment().hasAt(EquipSlot.WEAPON, SCYTHE_OF_VITUR)) {

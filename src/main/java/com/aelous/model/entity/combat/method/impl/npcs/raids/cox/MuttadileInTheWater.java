@@ -17,7 +17,7 @@ import com.aelous.model.map.position.Area;
 public class MuttadileInTheWater extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         magicAttack((NPC) entity, (Player) target);
     }
 

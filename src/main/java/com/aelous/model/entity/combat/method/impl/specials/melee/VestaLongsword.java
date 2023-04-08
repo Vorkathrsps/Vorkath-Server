@@ -1,7 +1,6 @@
 package com.aelous.model.entity.combat.method.impl.specials.melee;
 
 import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatSpecial;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
@@ -11,7 +10,7 @@ import com.aelous.utility.Utils;
 public class VestaLongsword extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(7515);
 
         boolean isDummy = target != target.getAsPlayer() && target.getAsNpc().isCombatDummy();

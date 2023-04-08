@@ -53,7 +53,7 @@ public class Zilyana extends CommonCombatMethod {
         "Attack! Find the Godsword!");
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (entity.isNpc()) {
             NPC npc = (NPC) entity;
             Player player = (Player) target;

@@ -22,7 +22,7 @@ import com.aelous.utility.timers.TimerKey;
 public class MarbleGargoyle extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (Utils.random(3) == 0) {
             entity.animate(7815);
             stoneAttack(entity, target);

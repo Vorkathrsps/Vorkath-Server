@@ -66,7 +66,7 @@ public class Vorkath extends CommonCombatMethod {
     public Resistance resistance = null;
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
        if (entity.<Integer>getAttribOr(AttributeKey.VORKATH_CB_COOLDOWN, 0) > 0)
             return;
 

@@ -10,7 +10,7 @@ import com.aelous.model.entity.masks.Projectile;
 public class Balfrug extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(4630);
         var tileDist = entity.tile().distance(target.tile());
         int duration = (25 + -5 + (10 * tileDist));

@@ -23,7 +23,7 @@ import com.aelous.model.entity.player.Player;
 public class RangedCombatMethod extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity attacker, Entity target) {
+    public boolean prepareAttack(Entity attacker, Entity target) {
         //TODO sound here
         attacker.animate(new Animation(attacker.attackAnimation()));
 

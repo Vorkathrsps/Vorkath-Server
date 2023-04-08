@@ -12,7 +12,7 @@ import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 public class DragonDagger extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1062);
         entity.graphic(252, GraphicHeight.HIGH, 0);
         //TODO it.player().world().spawnSound(it.player().tile(), 2537, 0, 10)

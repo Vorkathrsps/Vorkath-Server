@@ -239,7 +239,7 @@ public class Cerberus extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
 
         SecureRandom secureRandom = new SecureRandom();
 

@@ -121,7 +121,7 @@ public class NexCombat extends CommonCombatMethod {
     public int lastAttack;
 
     @Override
-    public void prepareAttack(Entity mob, Entity target) {
+    public boolean prepareAttack(Entity mob, Entity target) {
         if (nex == null) {
             return;
         }

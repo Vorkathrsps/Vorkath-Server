@@ -8,7 +8,7 @@ import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 
 public class OsmumtensFang extends CommonCombatMethod {
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1378);
         entity.graphic(2128);
 

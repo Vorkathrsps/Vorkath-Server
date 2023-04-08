@@ -6,7 +6,6 @@ import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
-import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 
 /**
  * @author Patrick van Elderen | March, 04, 2021, 17:06
@@ -15,7 +14,7 @@ import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 public class Wallasalki extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
         var tileDist = entity.tile().transform(3, 3, 0).distance(target.tile());
         var delay = Math.max(1, (20 + (tileDist * 12)) / 30);

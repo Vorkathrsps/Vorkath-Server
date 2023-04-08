@@ -25,7 +25,7 @@ import com.aelous.utility.chainedwork.Chain;
 public class AdamantDragon extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity dragon, Entity entity) {
+    public boolean prepareAttack(Entity dragon, Entity entity) {
         var tileDist = dragon.tile().distance(target.tile());
         var delay = Math.max(1, (50 + (tileDist) * 12) / 30);
         var rand = Utils.random(4);

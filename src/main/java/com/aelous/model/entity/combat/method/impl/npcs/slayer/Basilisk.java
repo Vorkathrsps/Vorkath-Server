@@ -23,7 +23,7 @@ public class Basilisk extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         Player player = (Player) target;
         basicAttack(entity, target);
         if(!player.getEquipment().contains(ItemIdentifiers.MIRROR_SHIELD)) {

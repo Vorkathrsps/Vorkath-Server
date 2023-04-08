@@ -1,5 +1,7 @@
 package com.aelous.model.content.skill.impl.smithing;
 
+import com.aelous.model.content.achievements.Achievements;
+import com.aelous.model.content.achievements.AchievementsManager;
 import com.aelous.model.content.skill.ItemCreationSkillable;
 import com.aelous.model.content.skill.Skillable;
 import com.aelous.model.entity.masks.impl.animations.Animation;
@@ -95,6 +97,13 @@ public class EquipmentMaking {
                 player.getSkills().startSkillable(new ItemCreationSkillable(Arrays.asList(new RequiredItem(new Item(ItemIdentifiers.HAMMER)), new RequiredItem(new Item(smithable.getBarId(), smithable.getBarsRequired()), true)),
                     new Item(smithable.getItemId(), smithable.getAmount()), amount, Optional.of(new AnimationLoop(new Animation(898), 3)), smithable.getRequiredLevel(), smithable.getExperience(), Skills.SMITHING));
                 break;
+            }
+
+            switch (smithable) {
+                case BRONZE_PLATEBODY -> AchievementsManager.activate(player, Achievements.SMITHING_I, 1);
+                case MITHRIL_PLATEBODY -> AchievementsManager.activate(player, Achievements.SMITHING_II, 1);
+                case ADAMANT_PLATEBODY -> AchievementsManager.activate(player, Achievements.SMITHING_III, 1);
+                case RUNE_PLATEBODY -> AchievementsManager.activate(player, Achievements.SMITHING_IV, 1);
             }
         }
     }

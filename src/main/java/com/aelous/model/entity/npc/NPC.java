@@ -544,7 +544,6 @@ public class NPC extends Entity {
         final int ceil = def.combatlevel * 2;
         final boolean override = combatInfo != null && combatInfo.scripts != null && combatInfo.scripts.agro_ != null;
         var bounds = boundaryBounds(combatInfo != null ? combatInfo.aggroradius : 1);
-        var range = (combatInfo != null ? combatInfo.aggroradius : 1);
 
         //Highly optimized code
         Stream<Player> playerStream = World.getWorld().getPlayers()

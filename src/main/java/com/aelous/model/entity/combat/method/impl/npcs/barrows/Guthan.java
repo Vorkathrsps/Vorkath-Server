@@ -9,9 +9,9 @@ import com.aelous.utility.Utils;
 
 public class Guthan extends CommonCombatMethod {
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (!withinDistance(1)) {
-            return;
+            return false;
         }
 
         entity.animate(entity.attackAnimation());
@@ -23,6 +23,7 @@ public class Guthan extends CommonCombatMethod {
         }
 
         hit.submit();
+        return true;
     }
 
     private Entity infestation(Hit hit) {

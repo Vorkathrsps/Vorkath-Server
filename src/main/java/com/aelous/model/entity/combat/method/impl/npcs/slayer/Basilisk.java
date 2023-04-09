@@ -23,7 +23,7 @@ public class Basilisk extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         Player player = (Player) target;
         basicAttack(entity, target);
         if(!player.getEquipment().contains(ItemIdentifiers.MIRROR_SHIELD)) {
@@ -34,6 +34,7 @@ public class Basilisk extends CommonCombatMethod {
             player.message("<col=ff0000>The basilisk's piercing gaze drains your stats!");
             player.message("<col=ff0000>A mirror shield can protect you from this attack.");
         }
+        return true;
     }
 
     @Override

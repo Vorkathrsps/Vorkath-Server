@@ -20,7 +20,7 @@ public class DragonThrownaxe extends CommonCombatMethod {
     private static final Graphic GRAPHIC = new Graphic(1317, GraphicHeight.HIGH);
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         final Player player = entity.getAsPlayer();
 
         player.animate(ANIMATION);
@@ -36,6 +36,7 @@ public class DragonThrownaxe extends CommonCombatMethod {
 
         player.getTimers().register(TimerKey.THROWING_AXE_DELAY,1);
         player.getTimers().register(TimerKey.COMBAT_ATTACK,1); // 1 tick delay before another normal melee
+        return true;
     }
 
     @Override

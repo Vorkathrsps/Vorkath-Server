@@ -23,13 +23,13 @@ import com.aelous.model.entity.player.Player;
 public class RangedCombatMethod extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity attacker, Entity target) {
+    public boolean prepareAttack(Entity attacker, Entity target) {
         //TODO sound here
         attacker.animate(new Animation(attacker.attackAnimation()));
 
         if (attacker.isNpc()) {
             new Projectile(attacker, target, attacker.getAsNpc().getCombatInfo().projectile, 41, 60, 40, 36, 15).sendProjectile();
-            return;
+            return true;
         }
 
         if (attacker.isPlayer()) {
@@ -157,6 +157,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                 }
             }
         }
+        return true;
     }
 
     @Override

@@ -28,9 +28,9 @@ public class Fumus extends CommonCombatMethod {
         npc.getCombatInfo().scripts.agro_ = (n, t) -> false;
     }
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if(!entity.<Boolean>getAttribOr(AttributeKey.BARRIER_BROKEN,false)) {
-            return;
+            return false;
         }
         entity.animate(entity.attackAnimation());
         var tileDist = entity.tile().transform(1, 1, 0).distance(target.tile());
@@ -45,6 +45,7 @@ public class Fumus extends CommonCombatMethod {
         if(hit.isAccurate()) {
             target.graphic(391);
         }
+        return true;
     }
 
     @Override

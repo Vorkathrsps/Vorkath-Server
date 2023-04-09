@@ -12,7 +12,7 @@ import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 public class DragonHalberd extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1203);
         entity.graphic(1231, GraphicHeight.HIGH, 0);
 
@@ -29,6 +29,7 @@ public class DragonHalberd extends CommonCombatMethod {
             hit2.submit();
         }
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_HALBERD.getDrainAmount());
+return true;
     }
 
     @Override

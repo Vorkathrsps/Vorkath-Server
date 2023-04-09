@@ -17,7 +17,7 @@ import java.security.SecureRandom;
 public class VoidWaker extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         SecureRandom randomGarunteedAccuracy = new SecureRandom();
 
         double maxHit = entity.getCombat().getMaximumMeleeDamage();
@@ -45,6 +45,7 @@ public class VoidWaker extends CommonCombatMethod {
         target.performGraphic(new Graphic(2363, GraphicHeight.LOW, 0));
 
         CombatSpecial.drain(entity, CombatSpecial.VOIDWAKER.getDrainAmount());
+return true;
     }
 
     @Override

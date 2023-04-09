@@ -544,8 +544,12 @@ public class CombatFactory {
      * @param other  The victim.
      * @return True if attacker has the requirements to attack, otherwise false.
      */
-    public static boolean canAttack(Entity entity, CombatMethod method, Entity other) { // im expecting this is print for the player, that fact its not is odd as shit
-        Debugs.CMB.debug(entity, "enter can attack", other, true);
+    public static boolean canAttack(Entity entity, CombatMethod method, Entity other) {
+        boolean b = canAttackInnerCheck(entity, method, other);
+        return b;
+    }
+
+    private static boolean canAttackInnerCheck(Entity entity, CombatMethod method, Entity other) { // im expecting this is print for the player, that fact its not is odd as shit
 
         boolean message = false;
 
@@ -659,6 +663,7 @@ public class CombatFactory {
                     entity.message("You do not have enough special attack energy left!");
                     entity.setSpecialActivated(false);
                     CombatSpecial.updateBar(entity.getAsPlayer());
+                    Debugs.CMB.debug(entity, "nospec", other, true);
                     return false;
                 }
             }
@@ -690,8 +695,10 @@ public class CombatFactory {
         } else if (other.isNpc()) {
             if ((other.getAsNpc()).getCombatInfo() == null) {
                 entity.message("Without combat attributes this monster is unattackable.");
+                Debugs.CMB.debug(entity, "missing npccbinfo", other, true);
                 return false;
             } else if ((other.getAsNpc()).getCombatInfo().unattackable) {
+                Debugs.CMB.debug(entity, "npc unattackable", other, true);
                 entity.message("You cannot attack this monster.");
                 return false;
             }
@@ -701,6 +708,7 @@ public class CombatFactory {
                 var combatState = other.<AbyssalSireState>getAttribOr(AttributeKey.ABYSSAL_SIRE_STATE, AbyssalSireState.DISORIENTED);
 
                 if (combatState == AbyssalSireState.DISORIENTED) {
+                    Debugs.CMB.debug(entity, "sire fixed", other, true);
                     entity.message("The sire is disoriented. Maybe you can do something useful while it's unable to control the tentacles.");
                     return false;
                 }
@@ -717,18 +725,21 @@ public class CombatFactory {
                 var slayerReq = Math.max(SlayerCreature.slayerReq(oppNpc.id()), oppNpc.getCombatInfo().slayerlvl);
                 if (!noRequirementNeeded && slayerReq > (entity.getAsPlayer()).getSkills().level(Skills.SLAYER)) {
                     entity.message("You need a slayer level of " + slayerReq + " to harm this NPC.");
+                    Debugs.CMB.debug(entity, "slayreq", other, true);
                     return false;
                 }
             }
 
             if (wep == 10501) {
                 entity.message("You can only pelt other players with a snowball.");
+                Debugs.CMB.debug(entity, "snowball", other, true);
                 return false;
             } else if (oppNpc.id() == 5914) {
                 var respiratoryState = other.<AbyssalSireState>getAttribOr(AttributeKey.ABYSSAL_SIRE_STATE, AbyssalSireState.STASIS);
 
                 if (respiratoryState == AbyssalSireState.STASIS) {
                     entity.message("I can't reach that!");
+                    Debugs.CMB.debug(entity, "sire statis", other, true);
                     return false;
                 }
             }
@@ -737,6 +748,7 @@ public class CombatFactory {
             if (oppNpc.id() == KRAKEN_WHIRLPOOL && oppNpc.transmog() == KrakenBoss.KRAKEN_NPCID) {
                 if (other.<WeakReference<Entity>>getAttribOr(AttributeKey.TARGET, new WeakReference(null)).get() != entity && targetLastAttackedTime < 10000L) {
                     entity.message("The Kraken already has a target.");
+                    Debugs.CMB.debug(entity, "kraken other", other, true);
                     return false;
                 }
             }
@@ -769,14 +781,17 @@ public class CombatFactory {
             //As of 06/07/2021 you can no longer use tridents and elder wand on players
             if (playerAttacker.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SWAMP) || playerAttacker.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS) || playerAttacker.getEquipment().hasAt(EquipSlot.WEAPON, SANGUINESTI_STAFF)) {
                 entity.message(Color.RED.wrap("You cannot use a this magic weapon against a player."));
+                Debugs.CMB.debug(entity, "wep specific", other, true);
                 return false;
             }
 
             // Staking security
             if (Dueling.not_in_area(entity, other, "You can't attack them.")) {
+                Debugs.CMB.debug(entity, "duel1", other, true);
                 return false;
             }
             if (Dueling.stake_not_started(entity, other)) {
+                Debugs.CMB.debug(entity, "duel2", other, true);
                 entity.message("The fight hasn't started yet!");
                 return false;
             }
@@ -812,12 +827,14 @@ public class CombatFactory {
 
                 if (!oppWithinLvl) {
                     entity.message((!WildernessArea.inWilderness(entity.tile())) ? "Your level difference is too great! You need to move deeper into the Wilderness." : "Your level difference is too great.");
+                    Debugs.CMB.debug(entity, "lvldif", other, true);
                     return false;
                 } else {
                     var withinLvl = (other.getSkills().combatLevel() >= getLowestLevel(entity, other) &&
                         other.getSkills().combatLevel() <= getHighestLevel(entity, other));
                     if (!withinLvl) {
                         entity.message((!WildernessArea.inWilderness(entity.tile())) ? "Your level difference is too great! You need to move deeper into the Wilderness." : "Your level difference is too great.");
+                        Debugs.CMB.debug(entity, "lvldif2", other, true);
                         return false;
                     }
                 }
@@ -831,11 +848,13 @@ public class CombatFactory {
             if (entity.isPlayer()) {
                 if (entity.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) != 1 && !MultiwayCombat.includes(other)) {
                     entity.message("You're already under attack.");
+                    Debugs.CMB.debug(entity, "already under1", other, true);
                     return false;
                 }
             } else {
                 if (!MultiwayCombat.includes(entity)) {
                     entity.message("I'm already under attack.");
+                    Debugs.CMB.debug(entity, "already under2", other, true);
                     return false;
                 }
             }
@@ -848,11 +867,13 @@ public class CombatFactory {
             if (other.isPlayer()) {
                 if (other.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) != 1 && !MultiwayCombat.includes(other)) {
                     entity.message("Someone else is already fighting your opponent.");
+                    Debugs.CMB.debug(entity, "in battle1", other, true);
                     return false;
                 }
             } else {
                 if (!MultiwayCombat.includes(other)) {
                     entity.message("Someone else is fighting that.");
+                    Debugs.CMB.debug(entity, "in battle2", other, true);
                     return false;
                 }
             }

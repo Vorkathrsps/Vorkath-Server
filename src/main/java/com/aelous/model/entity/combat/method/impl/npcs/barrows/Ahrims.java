@@ -13,9 +13,9 @@ import com.aelous.utility.Utils;
 public class Ahrims extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (!withinDistance(8)) {
-            return;
+            return false;
         }
 
         entity.animate(entity.attackAnimation());
@@ -37,6 +37,7 @@ public class Ahrims extends CommonCombatMethod {
         } else {
             hit.submit();
         }
+        return true;
     }
 
     private void blightedAura() {

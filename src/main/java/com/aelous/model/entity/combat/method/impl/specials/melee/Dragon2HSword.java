@@ -15,12 +15,13 @@ import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 public class Dragon2HSword extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(3157);
 
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
         hit.submit();
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_2H_SWORD.getDrainAmount());
+return true;
     }
 
     @Override

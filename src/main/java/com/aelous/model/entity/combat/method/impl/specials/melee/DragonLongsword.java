@@ -12,13 +12,14 @@ import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 public class DragonLongsword extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1058);
         entity.graphic(248, GraphicHeight.HIGH, 0);
 
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
         hit.submit();
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_LONGSWORD.getDrainAmount());
+return true;
     }
 
     @Override

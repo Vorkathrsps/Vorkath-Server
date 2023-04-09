@@ -33,7 +33,7 @@ public class KreeArra extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         int roll = Utils.random(2);
         int melee_distance = entity.tile().distance(target.tile());
         boolean melee_range = melee_distance <= 1;
@@ -54,6 +54,7 @@ public class KreeArra extends CommonCombatMethod {
             final int delay = entity.executeProjectile(p);
             target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
         }
+        return true;
     }
 
     @Override

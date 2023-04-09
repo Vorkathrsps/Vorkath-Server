@@ -24,7 +24,7 @@ public class CrazyArchaeologist extends CommonCombatMethod {
     };
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         NPC npc = (NPC) entity;
         //Check to see if we're able to melee the target..
         if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
@@ -63,6 +63,7 @@ public class CrazyArchaeologist extends CommonCombatMethod {
             //..and take a quick nap
             entity.getTimers().register(TimerKey.COMBAT_ATTACK, 3);
         }
+        return true;
     }
 
     //Handle the melee attack

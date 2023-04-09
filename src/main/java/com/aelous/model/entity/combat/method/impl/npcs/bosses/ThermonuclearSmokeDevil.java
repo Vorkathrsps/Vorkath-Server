@@ -10,7 +10,7 @@ import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 public class ThermonuclearSmokeDevil extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(3847);
         var tileDist = entity.tile().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
@@ -18,6 +18,7 @@ public class ThermonuclearSmokeDevil extends CommonCombatMethod {
         final int delay = entity.executeProjectile(p);
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
         target.graphic(643, GraphicHeight.LOW, p.getSpeed());
+        return true;
     }
 
     @Override

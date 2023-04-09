@@ -544,15 +544,17 @@ public class NPC extends Entity {
         final int ceil = def.combatlevel * 2;
         final boolean override = combatInfo != null && combatInfo.scripts != null && combatInfo.scripts.agro_ != null;
         var bounds = boundaryBounds(combatInfo != null ? combatInfo.aggroradius : 1);
-        var range = (combatInfo != null ? combatInfo.aggroradius : 1);
 
         //Highly optimized code
         Stream<Player> playerStream = World.getWorld().getPlayers()
             .stream()
             .filter(Objects::nonNull)
             .filter(p -> !p.looks().hidden())
-            .filter(p -> p.tile().distance(tile) <= range)
-            .filter(p -> bounds.inside(p.tile()));
+            .filter(p -> {
+                var v = bounds.inside(p.tile());
+                //bounds.forEachPos(t -> t.showTempItem(995));
+                return v;
+            });
         // apply overrides
         if (override) {
             playerStream = playerStream.filter(p -> combatInfo.scripts.agro_.shouldAgro(this, p));
@@ -800,7 +802,9 @@ public class NPC extends Entity {
 
     @Override
     public void die() {
-        NPCDeath.execute(this);
+        try {
+            NPCDeath.execute(this);
+        } catch (Exception e1) {e1.printStackTrace(); }
     }
 
     @Override

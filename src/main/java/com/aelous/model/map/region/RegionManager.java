@@ -485,10 +485,6 @@ public class RegionManager {
             int regionY = y >> 3;
             int regionId = ((regionX / 8) << 8) + (regionY / 8);
             Region r = getRegion(regionId);
-            if (r == null) {
-                //System.err.println("cannot load map for "+regionId);
-                return;
-            }
             if (r.isLoaded() && !force) {
                 return;
             }
@@ -508,10 +504,11 @@ public class RegionManager {
             // Don't allow ground file to be invalid..
             if (gFileData == null) {
                 stopwatch.stop();
-                //logger.trace("ungzipped clipmap region {} at {} in {} ns but Disregarding Data!", regionId, Tile.regionToTile(regionId), stopwatch.elapsed().toNanos());
+                logger.trace("ungzipped clipmap region {} at {} in {} ns but Disregarding Data!", regionId, Tile.regionToTile(regionId), stopwatch.elapsed().toNanos());
                 //System.err.println("missing clipping at region "+regionId);
                 return;
             }
+            logger.trace("clipmap region {} at {} in {} ns len:{} len:{} files {} {}", regionId, Tile.regionToTile(regionId), stopwatch.elapsed().toNanos(), oFileData.length, gFileData.length, r.getObjectFile(), r.getTerrainFile());
 
             // Read values using our streams..
             Buffer groundStream = new Buffer(gFileData);
@@ -591,6 +588,7 @@ public class RegionManager {
                 //logger.trace("clipmap region {} at {} loaded in {} ns", regionId, Tile.regionToTile(regionId), stopwatch.elapsed().toNanos());
           //  }
         } catch (Exception e) {
+            logger.error("?", e);
             throw new MapDecodeEx("map decode", e);
         }
     }

@@ -10,7 +10,7 @@ import com.aelous.model.entity.masks.Projectile;
 public class DagannothPrime extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(2854);
         var tileDist = entity.tile().distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
@@ -18,6 +18,7 @@ public class DagannothPrime extends CommonCombatMethod {
         final int delay = entity.executeProjectile(p);
         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
         hit.submit();
+        return true;
     }
 
     @Override

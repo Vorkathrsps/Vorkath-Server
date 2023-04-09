@@ -26,7 +26,7 @@ import com.aelous.model.entity.player.Skills;
 public class EldritchNMS extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.graphic(1762);
         entity.animate(8532);
 
@@ -48,6 +48,7 @@ public class EldritchNMS extends CommonCombatMethod {
 
         //Drain spec after the attack
         CombatSpecial.drain(entity, CombatSpecial.ELDRITCH_NIGHTMARE_STAFF.getDrainAmount());
+return true;
     }
 
     @Override

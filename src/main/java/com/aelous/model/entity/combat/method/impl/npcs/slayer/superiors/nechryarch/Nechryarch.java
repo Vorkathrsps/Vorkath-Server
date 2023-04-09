@@ -32,7 +32,7 @@ public class Nechryarch extends CommonCombatMethod {
     private static final int SPECIAL_ATTACK_ANIMATION = 7549;
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         boolean spawnsAlreadySpawned = entity.getAttribOr(AttributeKey.DEATH_SPAWNS_SPAWNED, false);
         boolean canAttack = CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target);
 
@@ -44,6 +44,7 @@ public class Nechryarch extends CommonCombatMethod {
             spawnMinions((NPC) entity, target);
             entity.getTimers().register(TimerKey.COMBAT_ATTACK, 5); //Give the minions chance to attack the player
         }
+        return true;
     }
 
     @Override

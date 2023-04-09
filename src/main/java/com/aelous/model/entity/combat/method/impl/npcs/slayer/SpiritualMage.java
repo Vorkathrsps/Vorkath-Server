@@ -18,7 +18,7 @@ import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
 public class SpiritualMage extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         // Attack the player
         entity.animate(entity.attackAnimation());
         int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC);
@@ -34,6 +34,7 @@ public class SpiritualMage extends CommonCombatMethod {
                 playerTarget.performGraphic(new Graphic(85, GraphicHeight.HIGH,0)); // Cannot protect from this.
             }
         }
+        return true;
     }
 
     private Graphic get_graphic(int npc) {

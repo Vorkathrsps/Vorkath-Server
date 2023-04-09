@@ -14,13 +14,14 @@ import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 public class GraniteHammer extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1378);
         entity.graphic(1450);
 
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE) + 5,1, CombatType.MELEE).checkAccuracy();
         hit.submit();
         CombatSpecial.drain(entity, CombatSpecial.GRANITE_HAMMER.getDrainAmount());
+return true;
     }
 
     @Override

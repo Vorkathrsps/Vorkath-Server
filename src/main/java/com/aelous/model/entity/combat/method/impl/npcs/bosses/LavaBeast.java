@@ -14,7 +14,7 @@ import com.aelous.model.entity.player.Player;
 public class LavaBeast extends CommonCombatMethod {
 
         @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
             //10% chance that the boss skulls you!
             if (World.getWorld().rollDie(10, 1)) {
                 Skulling.assignSkullState(((Player) target), SkullType.RED_SKULL);
@@ -26,6 +26,7 @@ public class LavaBeast extends CommonCombatMethod {
         entity.animate(7678);
         new Projectile(entity, target, 1403, 20, 60, 30, 30, 0,10,14).sendProjectile();
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 1, CombatType.MAGIC).checkAccuracy().submit();
+            return true;
     }
 
     @Override

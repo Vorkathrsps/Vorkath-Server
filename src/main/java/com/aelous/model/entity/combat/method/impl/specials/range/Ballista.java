@@ -19,7 +19,7 @@ public class Ballista extends CommonCombatMethod {
     private static final Graphic GRAPHIC = new Graphic(344, GraphicHeight.HIGH);
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         final Player player = entity.getAsPlayer();
         int delay = (int) (Math.floor(3 + entity.tile().distance(target.tile()) / 6D));
         double distance = entity.tile().getChevDistance(target.tile());
@@ -39,6 +39,7 @@ public class Ballista extends CommonCombatMethod {
         target.performGraphic(new Graphic(344, GraphicHeight.HIGH, (int) (41 + 11 + (5 * distance))));
 
         CombatSpecial.drain(entity, CombatSpecial.BALLISTA.getDrainAmount());
+return true;
     }
 
     @Override

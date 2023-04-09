@@ -62,7 +62,7 @@ public class Arachne extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.rollPercent(25)) {
             meleeAttack();
         } else if (Utils.rollPercent(50)) {
@@ -72,6 +72,7 @@ public class Arachne extends CommonCombatMethod {
         } else {
             magicAttack();
         }
+        return true;
     }
 
     @Override

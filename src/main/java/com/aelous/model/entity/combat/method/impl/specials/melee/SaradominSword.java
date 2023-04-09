@@ -21,7 +21,7 @@ import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 public class SaradominSword extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1132);
         entity.graphic(1213, GraphicHeight.HIGH, 0);
 
@@ -42,6 +42,7 @@ public class SaradominSword extends CommonCombatMethod {
         Hit hit2 = target.hit(entity, magicHit,1, CombatType.MAGIC).checkAccuracy();
         hit2.submit();
         CombatSpecial.drain(entity, CombatSpecial.SARADOMIN_SWORD.getDrainAmount());
+return true;
     }
 
     @Override

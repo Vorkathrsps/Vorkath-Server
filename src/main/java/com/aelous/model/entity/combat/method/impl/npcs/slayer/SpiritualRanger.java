@@ -18,7 +18,7 @@ public class SpiritualRanger extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (entity.isNpc()) {
             entity.animate(entity.attackAnimation());
             NPC npc = (NPC) entity;
@@ -30,6 +30,7 @@ public class SpiritualRanger extends CommonCombatMethod {
             int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED);
             target.hit(entity, hit,1, CombatType.RANGED).checkAccuracy().submit();
         }
+        return true;
     }
 
     @Override

@@ -14,7 +14,7 @@ import com.aelous.utility.ItemIdentifiers;
 public class ArmadylGodsword extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         final Player player = (Player) entity;
         int animation = 7644;
         if(player.getEquipment().contains(ItemIdentifiers.ARMADYL_GODSWORD_OR))
@@ -27,6 +27,7 @@ public class ArmadylGodsword extends CommonCombatMethod {
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
         hit.submit();
         CombatSpecial.drain(entity, CombatSpecial.ARMADYL_GODSWORD.getDrainAmount());
+return true;
     }
 
     @Override

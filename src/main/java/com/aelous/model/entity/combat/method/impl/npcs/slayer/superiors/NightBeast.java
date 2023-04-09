@@ -24,7 +24,7 @@ public class NightBeast extends CommonCombatMethod {
     private Tile groupAttackTile;
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
         if (Utils.random(3) == 0) {
             sendGroupMagicAttack(entity, target);
@@ -36,6 +36,7 @@ public class NightBeast extends CommonCombatMethod {
         } else {
             target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
         }
+        return true;
     }
 
     private void sendGroupMagicAttack(Entity entity, Entity target) {

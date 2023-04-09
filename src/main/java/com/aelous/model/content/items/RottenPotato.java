@@ -39,7 +39,7 @@ public class RottenPotato extends PacketInteraction {
     public static boolean onItemOnMob(Player player, Entity target) {
         // Give you the name and distance to a target
         if (player.getPlayerRights().isDeveloper(player)) {
-            Debugs.CMB.toggle();
+            //Debugs.CMB.toggle();
             if (target.isPlayer()) {
                 player.debugMessage(String.format("Distance to %s (%d) : %d. ", (target.getAsPlayer()).getUsername(), target.getIndex(), player.tile().distance(target.tile())));
             } else {

@@ -14,7 +14,7 @@ public class AberrantSpectre extends CommonCombatMethod {
     private static final int[] DRAIN = { Skills.ATTACK, Skills.STRENGTH, Skills.DEFENCE, Skills.RANGED, Skills.MAGIC};
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
         new Projectile(entity, target, 336, 5, 45, 37, 38, 0,16, 0).sendProjectile();
 
@@ -30,6 +30,7 @@ public class AberrantSpectre extends CommonCombatMethod {
         } else {
             player.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), CombatType.MAGIC).checkAccuracy().submit();
         }
+        return true;
     }
 
     @Override

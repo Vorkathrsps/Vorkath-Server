@@ -1,10 +1,7 @@
 package com.aelous.model.entity.combat.method.impl.npcs.bosses.demonicgorillas;
 
-import com.aelous.core.task.Task;
-import com.aelous.core.task.TaskManager;
 import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.CombatMethod;
@@ -117,16 +114,17 @@ public class DemonicGorilla extends NPC {
         }
 
         @Override
-        public void prepareAttack(Entity entity, Entity target) {
+        public boolean prepareAttack(Entity entity, Entity target) {
             if (demonic.phase == Phase.MAGIC || demonic.phase == Phase.RANGED) {
                 if (Utils.random(4) == 1) {
                     boulderToss(entity, target);
                     entity.getCombat().delayAttack(4);
-                    return;
+                    return false;
                 }
             }
             if (withinDistance(1))
-                currentMethod.prepareAttack(entity, target);
+                return currentMethod.prepareAttack(entity, target);
+            return false;
         }
 
             @Override

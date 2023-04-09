@@ -4,19 +4,13 @@ import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
-import com.aelous.model.entity.combat.formula.FormulaUtils;
-import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
-import com.aelous.model.entity.player.EquipSlot;
-import com.aelous.model.entity.player.Player;
 
 import java.security.SecureRandom;
-
-import static com.aelous.utility.ItemIdentifiers.BRACELET_OF_ETHEREUM;
 
 /**
  * @author Patrick van Elderen | Zerikoth
@@ -29,7 +23,7 @@ import static com.aelous.utility.ItemIdentifiers.BRACELET_OF_ETHEREUM;
 public class Revenant extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
 
         SecureRandom secureRandom = new SecureRandom();
         double chance = secureRandom.nextDouble();
@@ -47,6 +41,7 @@ public class Revenant extends CommonCombatMethod {
             rangedAttack(npc, target);
         else
             magicAttack(npc, target);
+        return true;
     }
 
     @Override

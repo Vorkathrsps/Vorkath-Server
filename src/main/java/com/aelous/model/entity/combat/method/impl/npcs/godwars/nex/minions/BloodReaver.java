@@ -15,7 +15,7 @@ import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 public class BloodReaver extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
         var tileDist = entity.tile().distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
@@ -26,6 +26,7 @@ public class BloodReaver extends CommonCombatMethod {
         if(hit.isAccurate()) {
             target.graphic(2001, GraphicHeight.HIGH, p.getSpeed());
         }
+        return true;
     }
 
     @Override

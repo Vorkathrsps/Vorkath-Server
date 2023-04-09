@@ -18,7 +18,7 @@ import com.aelous.utility.chainedwork.Chain;
 public class Judge extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
         target.getAsPlayer().getPacketSender().sendEntityHint(entity);
 
@@ -39,6 +39,7 @@ public class Judge extends CommonCombatMethod {
             case 4, 5 -> rangeAttack(entity, target);
         }
 
+        return true;
     }
 
     public void rangeAttack(Entity entity, Entity target) {

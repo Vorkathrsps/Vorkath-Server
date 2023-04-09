@@ -3,7 +3,6 @@ package com.aelous.model.entity.combat.method.impl.npcs.slayer;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
-import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
@@ -39,10 +38,11 @@ public class SmokeDevil extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (smokeAttack(entity, target))
-            return;
+            return true;
         magicAttack(entity, target);
+        return true;
     }
 
     @Override

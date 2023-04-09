@@ -26,13 +26,14 @@ public class BrutalDragons extends CommonCombatMethod {
     boolean fire;
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.rollDie(5, 4))
             basicAttack(entity, target);
         else if (!fire && Utils.rollDie(2, 1))
             meleeDragonfire(entity, target);
         else
             magicAttack(((NPC) entity), target);
+        return true;
     }
 
     private void meleeDragonfire(Entity entity, Entity target) {

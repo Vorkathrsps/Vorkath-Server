@@ -13,7 +13,7 @@ import com.aelous.model.entity.player.Skills;
 public class StatiusWarhammer extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1378);
         entity.graphic(844);
 
@@ -29,6 +29,7 @@ public class StatiusWarhammer extends CommonCombatMethod {
             npcTarget.getCombatInfo().stats.defence = (int) Math.max(0, npcTarget.getCombatInfo().stats.defence - (npcTarget.getCombatInfo().stats.defence * 0.3));
         }
         CombatSpecial.drain(entity, CombatSpecial.STATIUS_WARHAMMER.getDrainAmount());
+return true;
     }
 
     @Override

@@ -12,7 +12,7 @@ import com.aelous.utility.chainedwork.Chain;
 public class InquisitorsMace extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1060);
 
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
@@ -27,6 +27,7 @@ public class InquisitorsMace extends CommonCombatMethod {
             });
         }
         CombatSpecial.drain(entity, CombatSpecial.INQUISITORS_MACE.getDrainAmount());
+return true;
     }
 
     @Override

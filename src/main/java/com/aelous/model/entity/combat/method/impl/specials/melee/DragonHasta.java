@@ -14,11 +14,12 @@ import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 public class DragonHasta extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(7515);
         entity.graphic(1369);
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
         hit.submit();
+        return true;
     }
 
     @Override

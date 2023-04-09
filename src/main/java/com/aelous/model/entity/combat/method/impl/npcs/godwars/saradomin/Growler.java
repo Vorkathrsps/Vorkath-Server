@@ -10,7 +10,7 @@ import com.aelous.model.entity.masks.Projectile;
 public class Growler extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(7037);
         entity.graphic(1182);
         var tileDist = entity.tile().distance(target.tile());
@@ -18,6 +18,7 @@ public class Growler extends CommonCombatMethod {
         Projectile p = new Projectile(entity, target, 1183, 25, duration, 0, 0, 0, target.getSize(), 10);
         final int delay = entity.executeProjectile(p);
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+        return true;
     }
 
     @Override

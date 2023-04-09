@@ -10,11 +10,12 @@ import com.aelous.model.entity.masks.Projectile;
 public class Steelwill extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(6154);
         entity.graphic(1216);
         new Projectile(entity, target, 1217, 30, 65, 25, 25, 0).sendProjectile();
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 2, CombatType.MAGIC).checkAccuracy().postDamage(this::handleAfterHit).submit();
+        return true;
     }
 
     @Override

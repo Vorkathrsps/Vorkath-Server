@@ -13,14 +13,10 @@ import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 public class AbyssalTentacle extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1658);
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
         hit.submit();
-
-        if (target.dead()) {
-            return;
-        }
 
         target.graphic(341, GraphicHeight.HIGH, 0);
         target.freeze(8, entity);// 5 second freeze timer
@@ -28,6 +24,7 @@ public class AbyssalTentacle extends CommonCombatMethod {
             target.poison(4);
         }
         CombatSpecial.drain(entity, CombatSpecial.ABYSSAL_TENTACLE.getDrainAmount());
+        return true;
     }
 
     @Override

@@ -27,7 +27,7 @@ public class RuneDragon extends CommonCombatMethod {
     boolean sparkAttack = false;
 
     @Override
-    public void prepareAttack(Entity dragon, Entity target) {
+    public boolean prepareAttack(Entity dragon, Entity target) {
         int rand = Utils.random(5);
         NPC npc = (NPC) dragon;
         if (rand == 1) {
@@ -53,6 +53,7 @@ public class RuneDragon extends CommonCombatMethod {
                 }
             }
         }
+        return true;
     }
 
     private void sparkAttack(NPC npc, Entity target) {

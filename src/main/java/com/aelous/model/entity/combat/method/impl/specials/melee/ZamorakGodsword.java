@@ -13,7 +13,7 @@ import com.aelous.utility.ItemIdentifiers;
 public class ZamorakGodsword extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         final Player player = (Player) entity;
         player.animate(player.getEquipment().contains(ItemIdentifiers.SARADOMIN_GODSWORD_OR) ? 7639 : 7638);
         boolean gfx_gold = player.getAttribOr(AttributeKey.ZGS_GFX_GOLD, false);
@@ -28,6 +28,7 @@ public class ZamorakGodsword extends CommonCombatMethod {
             target.freeze(33, entity);
         }
         CombatSpecial.drain(entity, CombatSpecial.ZAMORAK_GODSWORD.getDrainAmount());
+return true;
     }
 
     @Override

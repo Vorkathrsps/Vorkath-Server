@@ -51,6 +51,7 @@ public class Artio extends CommonCombatMethod {
                 npc.animate(npc.attackAnimation());
             }
         }
+        return true;
     }
 
     /**

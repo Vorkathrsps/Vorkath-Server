@@ -55,6 +55,7 @@ public class Vetion extends CommonCombatMethod {
               //  }
         //    }
        // }
+        return true;
     }
 
     @Override

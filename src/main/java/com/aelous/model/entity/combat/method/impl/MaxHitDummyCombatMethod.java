@@ -11,6 +11,7 @@ public class MaxHitDummyCombatMethod extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
 
+        return false;
     }
 
     @Override

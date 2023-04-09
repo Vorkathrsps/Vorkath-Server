@@ -53,6 +53,7 @@ public class AncientGodsword extends CommonCombatMethod {
             }
         }
         CombatSpecial.drain(entity, CombatSpecial.ANCIENT_GODSWORD.getDrainAmount());
+return true;
     }
 
     @Override

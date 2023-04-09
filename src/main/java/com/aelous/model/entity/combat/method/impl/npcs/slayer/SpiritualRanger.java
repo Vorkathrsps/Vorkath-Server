@@ -30,6 +30,7 @@ public class SpiritualRanger extends CommonCombatMethod {
             int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED);
             target.hit(entity, hit,1, CombatType.RANGED).checkAccuracy().submit();
         }
+        return true;
     }
 
     @Override

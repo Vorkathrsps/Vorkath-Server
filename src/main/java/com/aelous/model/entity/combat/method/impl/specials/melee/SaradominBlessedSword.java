@@ -20,6 +20,7 @@ public class SaradominBlessedSword extends CommonCombatMethod {
 
         target.graphic(1196, GraphicHeight.MIDDLE, 0);
         CombatSpecial.drain(entity, CombatSpecial.BLESSED_SARADOMIN_SWORD.getDrainAmount());
+return true;
     }
 
     @Override

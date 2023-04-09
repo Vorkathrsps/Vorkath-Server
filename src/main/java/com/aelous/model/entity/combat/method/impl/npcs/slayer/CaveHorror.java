@@ -29,6 +29,7 @@ public class CaveHorror extends CommonCombatMethod {
             player.message("<col=ff0000>A witchwood icon can protect you from this attack.");
         } else
             basicAttack(entity, target);
+        return true;
     }
 
     @Override

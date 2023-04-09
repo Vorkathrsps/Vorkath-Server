@@ -149,6 +149,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return true;
     }
 
     @Override

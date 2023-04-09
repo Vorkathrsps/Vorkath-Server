@@ -27,6 +27,7 @@ public class ArmadylGodsword extends CommonCombatMethod {
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
         hit.submit();
         CombatSpecial.drain(entity, CombatSpecial.ARMADYL_GODSWORD.getDrainAmount());
+return true;
     }
 
     @Override

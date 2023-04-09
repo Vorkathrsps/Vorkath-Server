@@ -51,6 +51,7 @@ public class Tekton extends CommonCombatMethod {
                 doMeleePhaseInner(npc, target);
             }
         }
+        return true;
     }
 
     private static boolean instanceFinished(Entity entity) {

@@ -21,6 +21,7 @@ public class DemonicGorillaMagicStrategy extends CommonCombatMethod {
         Projectile p = new Projectile(entity, target, 1304, 51, duration, 43, 31, 0, target.getSize(), 10);
         final int delay = entity.executeProjectile(p);
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().postDamage(h -> ((DemonicGorilla)entity).getCombatAI().handleAfterHit(h)).submit();
+        return true;
     }
 
     @Override

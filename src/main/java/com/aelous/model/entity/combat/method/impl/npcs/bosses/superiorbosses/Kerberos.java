@@ -47,6 +47,7 @@ public class Kerberos extends CommonCombatMethod {
         } else {
             magicAttack();
         }
+        return true;
     }
 
     @Override

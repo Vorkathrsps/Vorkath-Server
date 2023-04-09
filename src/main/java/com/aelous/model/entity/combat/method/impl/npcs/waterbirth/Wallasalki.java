@@ -28,6 +28,7 @@ public class Wallasalki extends CommonCombatMethod {
            // target.delayedGraphics(137, GraphicHeight.HIGH, 2);
        // else
            // target.delayedGraphics(85, GraphicHeight.HIGH, 2);
+        return true;
     }
 
     @Override

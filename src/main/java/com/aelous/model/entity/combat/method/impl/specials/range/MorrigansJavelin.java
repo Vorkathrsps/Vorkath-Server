@@ -67,6 +67,7 @@ public class MorrigansJavelin extends CommonCombatMethod {
             });
         }
         CombatSpecial.drain(entity, CombatSpecial.MORRIGANS_JAVALIN.getDrainAmount());
+return true;
     }
 
     @Override

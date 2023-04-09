@@ -28,6 +28,7 @@ public class DragonScimitar extends CommonCombatMethod {
             }
         }
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_SCIMITAR.getDrainAmount());
+return true;
     }
 
     @Override

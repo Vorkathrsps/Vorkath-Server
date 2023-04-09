@@ -174,5 +174,6 @@ public class PureArcherBot extends NPCBotHandler implements CombatMethod {
         entity.animate(entity.attackAnimation());
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED),1, CombatType.RANGED).checkAccuracy();
         hit.submit();
+        return true;
     }
 }

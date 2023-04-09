@@ -117,6 +117,7 @@ public class BrutalLavaDragon extends CommonCombatMethod {
         }
 
         magicAttack((NPC) entity, target);
+        return true;
     }
 
     private void magicAttack(NPC npc, Entity target) {

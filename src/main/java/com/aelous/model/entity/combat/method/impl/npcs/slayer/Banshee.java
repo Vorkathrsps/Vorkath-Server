@@ -31,6 +31,7 @@ public class Banshee extends CommonCombatMethod {
         } else {
             player.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
         }
+        return true;
     }
 
     @Override

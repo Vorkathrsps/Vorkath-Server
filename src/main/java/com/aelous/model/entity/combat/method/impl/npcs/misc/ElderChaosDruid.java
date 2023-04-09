@@ -26,6 +26,7 @@ public class ElderChaosDruid extends CommonCombatMethod {
             new Projectile(entity, target, 159, 51, 60, 43, 31, 0).sendProjectile();
             target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 2, CombatType.MAGIC).checkAccuracy().submit();
         }
+        return true;
     }
 
     @Override

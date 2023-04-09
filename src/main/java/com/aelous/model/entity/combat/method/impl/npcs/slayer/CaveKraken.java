@@ -22,6 +22,7 @@ public class CaveKraken extends CommonCombatMethod {
         } else {
             target.graphic(85, GraphicHeight.LOW, p.getSpeed());
         }
+        return true;
     }
 
     @Override

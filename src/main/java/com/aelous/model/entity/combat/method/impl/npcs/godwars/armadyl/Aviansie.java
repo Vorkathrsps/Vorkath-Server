@@ -22,6 +22,7 @@ public class Aviansie extends CommonCombatMethod {
             new Projectile(entity, target, projectile(npc.id()), 29, 65, 95, 33, 0).sendProjectile();
             target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), 2, CombatType.RANGED).checkAccuracy().submit();
         }
+        return true;
     }
 
     private int projectile(int npc) {

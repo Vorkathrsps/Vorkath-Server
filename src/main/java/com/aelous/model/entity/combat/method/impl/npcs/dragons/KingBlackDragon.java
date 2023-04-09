@@ -50,6 +50,7 @@ public class KingBlackDragon extends CommonCombatMethod {
                 }
             }
         }
+        return true;
     }
 
     private void basicAttack(Entity entity, Entity target) {

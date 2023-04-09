@@ -337,6 +337,7 @@ public class Zulrah {
 
         @Override
         public boolean prepareAttack(Entity entity, Entity target) {
+            return true;
         }
 
         @Override

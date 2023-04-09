@@ -36,6 +36,7 @@ public class NightBeast extends CommonCombatMethod {
         } else {
             target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
         }
+        return true;
     }
 
     private void sendGroupMagicAttack(Entity entity, Entity target) {

@@ -26,6 +26,7 @@ public class BloodReaver extends CommonCombatMethod {
         if(hit.isAccurate()) {
             target.graphic(2001, GraphicHeight.HIGH, p.getSpeed());
         }
+        return true;
     }
 
     @Override

@@ -58,6 +58,7 @@ public class TztokJadCombatScript extends CommonCombatMethod {
             hit.submit();
             target.graphic(157, GraphicHeight.LOW, p.getSpeed());
         }
+        return true;
     }
 
     @Override

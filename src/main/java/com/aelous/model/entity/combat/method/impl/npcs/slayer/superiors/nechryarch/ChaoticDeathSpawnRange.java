@@ -17,6 +17,7 @@ public class ChaoticDeathSpawnRange extends CommonCombatMethod {
         entity.animate(entity.attackAnimation());
         new Projectile(entity, target, 393, 40, 55, 31, 43, 0).sendProjectile();
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target,CombatType.RANGED), 2, CombatType.RANGED).checkAccuracy().submit();
+        return true;
     }
 
     @Override

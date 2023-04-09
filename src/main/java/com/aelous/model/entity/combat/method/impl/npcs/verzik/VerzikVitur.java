@@ -205,6 +205,7 @@ public class VerzikVitur extends CommonCombatMethod {
                 }
             }
         }
+        return true;
     }
 
     @Override

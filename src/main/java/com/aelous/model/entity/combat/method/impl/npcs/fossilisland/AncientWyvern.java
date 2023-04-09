@@ -28,6 +28,7 @@ public class AncientWyvern extends CommonCombatMethod {
                 doMagic(wyvern, target);
             }
         }
+        return true;
     }
 
     private void doMagic(Entity wyvern, Entity entity) {

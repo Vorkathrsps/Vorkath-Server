@@ -23,6 +23,7 @@ public class CaveCrawler extends CommonCombatMethod {
         entity.heal(1);
         if (Utils.rollDie(4, 1))
             target.poison(4);
+        return true;
     }
 
     @Override

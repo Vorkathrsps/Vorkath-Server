@@ -39,6 +39,7 @@ public class HydraCombatScript extends CommonCombatMethod {
                 regularAttack(hydra, target);
             }
         }
+        return true;
     }
 
     /**

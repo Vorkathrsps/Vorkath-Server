@@ -48,6 +48,7 @@ public class EldritchNMS extends CommonCombatMethod {
 
         //Drain spec after the attack
         CombatSpecial.drain(entity, CombatSpecial.ELDRITCH_NIGHTMARE_STAFF.getDrainAmount());
+return true;
     }
 
     @Override

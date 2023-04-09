@@ -21,6 +21,7 @@ public class GraniteHammer extends CommonCombatMethod {
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE) + 5,1, CombatType.MELEE).checkAccuracy();
         hit.submit();
         CombatSpecial.drain(entity, CombatSpecial.GRANITE_HAMMER.getDrainAmount());
+return true;
     }
 
     @Override

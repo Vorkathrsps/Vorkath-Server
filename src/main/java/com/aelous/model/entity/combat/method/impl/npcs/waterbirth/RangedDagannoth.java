@@ -22,6 +22,7 @@ public class RangedDagannoth extends CommonCombatMethod {
 
         int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED);
         target.hit(entity, hit, delay, CombatType.RANGED).checkAccuracy().submit();
+        return true;
     }
 
     @Override

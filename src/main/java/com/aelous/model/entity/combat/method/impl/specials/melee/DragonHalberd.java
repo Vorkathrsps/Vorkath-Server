@@ -29,6 +29,7 @@ public class DragonHalberd extends CommonCombatMethod {
             hit2.submit();
         }
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_HALBERD.getDrainAmount());
+return true;
     }
 
     @Override

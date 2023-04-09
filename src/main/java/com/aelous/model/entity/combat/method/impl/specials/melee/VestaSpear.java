@@ -21,6 +21,7 @@ public class VestaSpear extends CommonCombatMethod {
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
         hit.submit();
         CombatSpecial.drain(entity, CombatSpecial.VESTA_SPEAR.getDrainAmount());
+return true;
     }
 
     @Override

@@ -15,6 +15,7 @@ public class ChaoticDeathSpawnMelee extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target,CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
+        return true;
     }
 
     @Override

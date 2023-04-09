@@ -40,6 +40,7 @@ public class BarrelchestAnchor extends CommonCombatMethod {
             playerTarget.getSkills().alterSkill(skill, -deduceVal);
         }
         CombatSpecial.drain(entity, CombatSpecial.BARRELSCHEST_ANCHOR.getDrainAmount());
+return true;
     }
 
     @Override

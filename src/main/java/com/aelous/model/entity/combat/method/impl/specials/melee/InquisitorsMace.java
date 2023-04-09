@@ -27,6 +27,7 @@ public class InquisitorsMace extends CommonCombatMethod {
             });
         }
         CombatSpecial.drain(entity, CombatSpecial.INQUISITORS_MACE.getDrainAmount());
+return true;
     }
 
     @Override

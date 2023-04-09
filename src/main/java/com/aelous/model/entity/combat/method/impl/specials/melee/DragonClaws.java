@@ -48,6 +48,7 @@ public class DragonClaws extends CommonCombatMethod {
         Hit hit4 = target.hit(entity, fourth, 2, CombatType.MELEE).checkAccuracy();
         hit4.submit();
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_CLAWS.getDrainAmount());
+return true;
     }
 
     @Override

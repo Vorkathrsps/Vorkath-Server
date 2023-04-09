@@ -17,6 +17,7 @@ public class WingmanSkree extends CommonCombatMethod {
         Projectile p = new Projectile(entity, target, 1199, 25, duration, 0, 0, 0, target.getSize(), 5);
         final int delay = entity.executeProjectile(p);
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+        return true;
     }
 
     @Override

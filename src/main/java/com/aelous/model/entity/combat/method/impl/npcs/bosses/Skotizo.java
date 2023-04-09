@@ -49,6 +49,7 @@ public class Skotizo extends CommonCombatMethod {
                // System.out.println("Otherwise rolled ranged attack due to out of melee distance.");
             }
         }
+        return true;
     }
 
     /**

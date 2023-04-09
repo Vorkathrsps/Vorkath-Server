@@ -55,6 +55,7 @@ public class ToxicBlowpipeSpecialAttack extends CommonCombatMethod {
                 target.venom(player);
         }
         CombatSpecial.drain(entity, CombatSpecial.TOXIC_BLOWPIPE.getDrainAmount());
+return true;
     }
 
     @Override

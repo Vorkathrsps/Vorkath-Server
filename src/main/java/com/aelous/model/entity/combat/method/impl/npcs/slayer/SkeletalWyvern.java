@@ -85,6 +85,7 @@ public class SkeletalWyvern extends CommonCombatMethod {
             attackStyle = AttackStyle.RANGED;
             jumpAttack(entity, target);
         }
+        return true;
     }
 
     @Override

@@ -28,6 +28,7 @@ public class ChaosDruid extends CommonCombatMethod {
                 target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
         }
 
+        return true;
     }
 
     @Override

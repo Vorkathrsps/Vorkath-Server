@@ -29,6 +29,7 @@ public class StatiusWarhammer extends CommonCombatMethod {
             npcTarget.getCombatInfo().stats.defence = (int) Math.max(0, npcTarget.getCombatInfo().stats.defence - (npcTarget.getCombatInfo().stats.defence * 0.3));
         }
         CombatSpecial.drain(entity, CombatSpecial.STATIUS_WARHAMMER.getDrainAmount());
+return true;
     }
 
     @Override

@@ -35,6 +35,7 @@ public class ZombiesChampion extends CommonCombatMethod {
         } else {
             magicAttack((NPC) entity, target);
         }
+        return true;
     }
 
     private void rangeAttack(NPC npc, Entity target) {

@@ -34,6 +34,7 @@ public class AbyssalDagger extends CommonCombatMethod {
             hit2.submit();
         }
         CombatSpecial.drain(entity, CombatSpecial.ABYSSAL_DAGGER.getDrainAmount());
+return true;
     }
 
     @Override

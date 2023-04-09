@@ -39,6 +39,7 @@ public class VolatileNMS extends CommonCombatMethod {
 
         //Drain spec after the attack
         CombatSpecial.drain(entity, CombatSpecial.VOLATILE_NIGHTMARE_STAFF.getDrainAmount());
+return true;
     }
 
     @Override

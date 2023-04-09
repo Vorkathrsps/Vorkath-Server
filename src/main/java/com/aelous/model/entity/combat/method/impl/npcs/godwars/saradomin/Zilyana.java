@@ -80,6 +80,7 @@ public class Zilyana extends CommonCombatMethod {
                 target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 1, CombatType.MAGIC).checkAccuracy().submit();
             }
         }
+        return true;
     }
 
     @Override

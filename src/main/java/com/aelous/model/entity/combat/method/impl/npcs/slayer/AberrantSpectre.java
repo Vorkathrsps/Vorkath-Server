@@ -30,6 +30,7 @@ public class AberrantSpectre extends CommonCombatMethod {
         } else {
             player.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), CombatType.MAGIC).checkAccuracy().submit();
         }
+        return true;
     }
 
     @Override

@@ -31,6 +31,7 @@ public class MorrigansThrowingAxe extends CommonCombatMethod {
         int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED);
         target.hit(entity, hit, 1, CombatType.RANGED).checkAccuracy().postDamage(this::handleAfterHit).submit();
         CombatSpecial.drain(entity, CombatSpecial.MORRIGANS_THROWING_AXE.getDrainAmount());
+return true;
     }
 
     @Override

@@ -27,6 +27,7 @@ public class InfernalMage extends CommonCombatMethod {
         } else {
             target.graphic(85, GraphicHeight.HIGH, delay);
         }
+        return true;
     }
 
     @Override

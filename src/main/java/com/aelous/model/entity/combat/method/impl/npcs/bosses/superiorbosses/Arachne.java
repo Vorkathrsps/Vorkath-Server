@@ -72,6 +72,7 @@ public class Arachne extends CommonCombatMethod {
         } else {
             magicAttack();
         }
+        return true;
     }
 
     @Override

@@ -38,6 +38,7 @@ public class TheNightmare extends CommonCombatMethod {
                 case 6, 7, 8 -> specialAttack();
             }
         }
+        return true;
     }
 
     private void meleeClawAttack() {

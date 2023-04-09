@@ -35,10 +35,13 @@ public class KalphiteQueenFirstForm extends CommonCombatMethod {
         if (inDistance) {
             if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.rollDie(4, 1)) {
                 attack(((NPC)entity), ((Player)target), CombatType.MELEE);
+                return true;
             } else {
                 attack(((NPC)entity), ((Player)target), Utils.percentageChance(50) ? CombatType.MAGIC : CombatType.RANGED);
+                return true;
             }
         }
+        return false;
     }
 
     private void attack(NPC npc, Player target, CombatType combatType) {

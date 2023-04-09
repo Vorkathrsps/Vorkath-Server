@@ -151,6 +151,7 @@ public class PureBot extends NPCBotHandler implements CombatMethod {
         entity.animate(entity.attackAnimation());
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
         hit.submit();
+        return true;
     }
 
     @Override

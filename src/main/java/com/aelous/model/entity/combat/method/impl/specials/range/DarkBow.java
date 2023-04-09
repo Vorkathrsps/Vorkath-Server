@@ -74,6 +74,7 @@ public class DarkBow extends CommonCombatMethod {
         hit2.postDamage(this::handleAfterHit).submit();
 
         CombatSpecial.drain(entity, CombatSpecial.DARK_BOW.getDrainAmount());
+return true;
     }
 
     @Override

@@ -22,6 +22,7 @@ public class MetalDragon extends CommonCombatMethod {
         } else {
             basicAttack(entity, target);
         }
+        return true;
     }
 
     private void breathFire(Entity entity, Entity target) {

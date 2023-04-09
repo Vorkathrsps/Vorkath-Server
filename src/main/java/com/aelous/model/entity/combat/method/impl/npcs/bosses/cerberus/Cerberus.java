@@ -265,6 +265,7 @@ public class Cerberus extends CommonCombatMethod {
                 rangedAttack();
             }
         }
+        return true;
     }
 
     @Override

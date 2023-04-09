@@ -58,6 +58,7 @@ public class FragmentOfSeren extends CommonCombatMethod {
                 case 6, 7, 8 -> tornadoAttack(entity, target);
             }
         }
+        return true;
     } //8380
 
     private void meleeClawAttack(Entity entity, Entity target) {

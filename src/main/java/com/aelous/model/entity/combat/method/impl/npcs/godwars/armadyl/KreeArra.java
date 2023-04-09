@@ -54,6 +54,7 @@ public class KreeArra extends CommonCombatMethod {
             final int delay = entity.executeProjectile(p);
             target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
         }
+        return true;
     }
 
     @Override

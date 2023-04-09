@@ -41,6 +41,7 @@ public class Revenant extends CommonCombatMethod {
             rangedAttack(npc, target);
         else
             magicAttack(npc, target);
+        return true;
     }
 
     @Override

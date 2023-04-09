@@ -47,6 +47,7 @@ public class UrsineMace extends CommonCombatMethod {
         }
 
         CombatSpecial.drain(entity, CombatSpecial.URSINE_CHAINMACE.getDrainAmount());
+return true;
     }
 
     @Override

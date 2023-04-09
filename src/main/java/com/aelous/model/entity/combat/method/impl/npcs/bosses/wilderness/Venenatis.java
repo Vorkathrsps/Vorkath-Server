@@ -48,6 +48,7 @@ public class Venenatis extends CommonCombatMethod {
         if (World.getWorld().rollDie(20, 1)) {
             drainPrayer(entity, target);
         }
+        return true;
     }
 
     private void magicAttack(Entity npc, Entity target) {

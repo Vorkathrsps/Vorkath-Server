@@ -19,6 +19,7 @@ public class DragonSword extends CommonCombatMethod {
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_SWORD.getDrainAmount());
 
         //TODO If the target is using Protect from Melee, the special attack will ignore the prayer for one attack.
+        return true;
     }
 
     @Override

@@ -24,6 +24,7 @@ public class DragonDagger extends CommonCombatMethod {
         Hit hit2 = target.hit(entity, h2,target.isNpc() ? 0 : 1, CombatType.MELEE).checkAccuracy();
         hit2.submit();
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_DAGGER.getDrainAmount());
+return true;
     }
 
     @Override

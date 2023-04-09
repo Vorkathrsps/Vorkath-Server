@@ -28,6 +28,7 @@ public class ZamorakGodsword extends CommonCombatMethod {
             target.freeze(33, entity);
         }
         CombatSpecial.drain(entity, CombatSpecial.ZAMORAK_GODSWORD.getDrainAmount());
+return true;
     }
 
     @Override

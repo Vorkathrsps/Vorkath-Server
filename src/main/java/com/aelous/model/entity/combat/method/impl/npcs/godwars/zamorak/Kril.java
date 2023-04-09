@@ -89,6 +89,7 @@ public class Kril extends CommonCombatMethod {
         if (Utils.rollDie(10, 1)) {
             target.poison(16);
         }
+        return true;
     }
 
     @Override

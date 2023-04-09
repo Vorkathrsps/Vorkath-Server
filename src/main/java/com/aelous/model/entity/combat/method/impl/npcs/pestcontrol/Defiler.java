@@ -33,6 +33,7 @@ public class Defiler extends CommonCombatMethod {
         } else {
             range(npc, target);
         }
+        return true;
     }
 
     @Override

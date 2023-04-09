@@ -18,6 +18,7 @@ public class Spinolyp extends CommonCombatMethod {
         final int delay = entity.executeProjectile(p);
         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
         hit.submit();
+        return true;
     }
 
     @Override

@@ -36,6 +36,7 @@ public class MithrilDragon extends CommonCombatMethod {
                 doRanged(entity, target);
             }
         }
+        return true;
     }
 
     private void doMelee(Entity entity, Entity target) {

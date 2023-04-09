@@ -39,6 +39,7 @@ public class MagicShortbow extends CommonCombatMethod {
         Hit hit2 = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED),2, CombatType.RANGED).checkAccuracy();
         hit2.submit();
         CombatSpecial.drain(entity, CombatSpecial.MAGIC_SHORTBOW.getDrainAmount());
+return true;
     }
 
     @Override

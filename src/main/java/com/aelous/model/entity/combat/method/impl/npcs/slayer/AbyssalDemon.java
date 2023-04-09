@@ -40,6 +40,7 @@ public class AbyssalDemon extends CommonCombatMethod {
             teleportAttack(entity, target);
         else
             basicAttack(entity, target);
+        return true;
     }
 
     @Override

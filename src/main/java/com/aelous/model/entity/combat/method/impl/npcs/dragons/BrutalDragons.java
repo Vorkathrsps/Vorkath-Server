@@ -33,6 +33,7 @@ public class BrutalDragons extends CommonCombatMethod {
             meleeDragonfire(entity, target);
         else
             magicAttack(((NPC) entity), target);
+        return true;
     }
 
     private void meleeDragonfire(Entity entity, Entity target) {

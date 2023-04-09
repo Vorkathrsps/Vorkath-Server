@@ -35,6 +35,7 @@ public class Nechryael extends CommonCombatMethod {
         if (Utils.rollDie(4, 1))
             spawnDeathSpawns(entity, target);
         basicAttack(entity, target);
+        return true;
     }
 
     public void onDeath(Entity entity) {

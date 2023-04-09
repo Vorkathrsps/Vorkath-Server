@@ -21,6 +21,7 @@ public class Dragon2HSword extends CommonCombatMethod {
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
         hit.submit();
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_2H_SWORD.getDrainAmount());
+return true;
     }
 
     @Override

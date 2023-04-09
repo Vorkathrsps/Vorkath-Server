@@ -14,6 +14,7 @@ public class Lizardman extends CommonCombatMethod {
         entity.animate(7193);
         new Projectile(entity, target, 1291, 50, 60, 50, 30, 0).sendProjectile();
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), 2, CombatType.RANGED).checkAccuracy().submit();
+        return true;
     }
 
     @Override

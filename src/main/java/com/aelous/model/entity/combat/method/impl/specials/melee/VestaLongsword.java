@@ -25,6 +25,7 @@ public class VestaLongsword extends CommonCombatMethod {
         hit.submit();
 
         CombatSpecial.drain(entity, CombatSpecial.VESTAS_BLIGHTED_LONGSWORD.getDrainAmount());
+return true;
     }
 
     @Override

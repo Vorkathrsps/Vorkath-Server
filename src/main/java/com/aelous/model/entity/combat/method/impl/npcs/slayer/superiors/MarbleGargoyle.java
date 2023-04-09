@@ -35,6 +35,7 @@ public class MarbleGargoyle extends CommonCombatMethod {
             entity.animate(7814);
             target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
         }
+        return true;
     }
 
     private void stoneAttack(Entity entity, Entity target) {

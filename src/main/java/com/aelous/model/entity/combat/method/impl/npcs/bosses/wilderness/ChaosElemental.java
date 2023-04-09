@@ -39,6 +39,7 @@ public class ChaosElemental extends CommonCombatMethod {
             default:
                 primary_attack(npc, target);
         }
+        return true;
     }
 
     private void disarming_attack(NPC npc, Entity target) {

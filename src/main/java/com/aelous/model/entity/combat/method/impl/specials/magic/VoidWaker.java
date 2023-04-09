@@ -45,6 +45,7 @@ public class VoidWaker extends CommonCombatMethod {
         target.performGraphic(new Graphic(2363, GraphicHeight.LOW, 0));
 
         CombatSpecial.drain(entity, CombatSpecial.VOIDWAKER.getDrainAmount());
+return true;
     }
 
     @Override

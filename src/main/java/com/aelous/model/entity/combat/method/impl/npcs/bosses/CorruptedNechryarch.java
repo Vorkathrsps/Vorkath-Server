@@ -32,6 +32,7 @@ public class CorruptedNechryarch extends CommonCombatMethod {
         boolean close = target.tile().isWithinDistance(entity.tile(),2);
         if (close && World.getWorld().rollDie(3))
             melee_attack(entity, target);
+        return true;
     }
 
     @Override

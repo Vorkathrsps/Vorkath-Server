@@ -46,6 +46,7 @@ public class WebWeaverBow extends CommonCombatMethod {
         });
 
         CombatSpecial.drain(entity, CombatSpecial.WEBWEAVER_BOW.getDrainAmount());
+        return true;
 
     }
 

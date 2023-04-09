@@ -25,6 +25,7 @@ public class WyrmCombatScript extends CommonCombatMethod {
             basicAttack(entity, target);
         else
             magicAttack(entity, target);
+        return true;
     }
 
     private void basicAttack(Entity entity, Entity target) {

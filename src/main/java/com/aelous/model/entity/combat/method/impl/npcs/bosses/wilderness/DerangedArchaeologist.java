@@ -63,6 +63,7 @@ public class DerangedArchaeologist extends CommonCombatMethod {
             //..and take a quick nap
             entity.getTimers().register(TimerKey.COMBAT_ATTACK, 3);
         }
+        return true;
     }
 
     //Handle the melee attack

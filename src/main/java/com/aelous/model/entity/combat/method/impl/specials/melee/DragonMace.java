@@ -19,6 +19,7 @@ public class DragonMace extends CommonCombatMethod {
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
         hit.submit();
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_MACE.getDrainAmount());
+return true;
     }
 
     @Override

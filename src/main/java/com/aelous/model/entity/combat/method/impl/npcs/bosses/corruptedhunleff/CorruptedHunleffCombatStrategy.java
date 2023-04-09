@@ -93,6 +93,7 @@ public class CorruptedHunleffCombatStrategy extends CommonCombatMethod {
             tornadoAttack = true;
             tornadoAttack(entity, target);
         }
+        return true;
     }
 
     private void rangeAttack(Entity entity, Entity target) {

@@ -17,6 +17,7 @@ public class DarkWizard extends CommonCombatMethod {
         entity.performGraphic(new Graphic(98, GraphicHeight.HIGH));
         new Projectile(entity, target, 97, 40, 60, 43, 31, 0).sendProjectile();
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 2, CombatType.MAGIC).checkAccuracy().submit();
+        return true;
     }
 
     @Override

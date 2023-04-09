@@ -13,6 +13,7 @@ public class Dagannoths extends CommonCombatMethod {
         entity.animate(entity.attackAnimation());
         new Projectile(entity, target, 294, 50, 60, 50, 30, 0).sendProjectile();
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), 2, CombatType.RANGED).checkAccuracy().submit();
+        return true;
     }
 
     @Override

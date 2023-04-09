@@ -34,6 +34,7 @@ public class Vespula extends CommonCombatMethod {
             else
                 meleeAttack(npc, target);
         }
+        return true;
     }
 
     private void rangeAttack(NPC npc, Entity entity) {

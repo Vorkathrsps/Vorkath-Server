@@ -18,6 +18,7 @@ public class Zakln extends CommonCombatMethod {
         Projectile p = new Projectile(entity, target, 1223, 41, duration, 1, 5, 0, target.getSize(), 5);
         final int delay = entity.executeProjectile(p);
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+        return true;
     }
 
     @Override

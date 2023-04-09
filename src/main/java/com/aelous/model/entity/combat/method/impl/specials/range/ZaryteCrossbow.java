@@ -53,6 +53,7 @@ public class ZaryteCrossbow extends CommonCombatMethod {
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), hitDelay, CombatType.RANGED).checkAccuracy();
         hit.submit();
         CombatSpecial.drain(entity, CombatSpecial.ZARYTE_CROSSBOW.getDrainAmount());
+return true;
     }
 
     @Override

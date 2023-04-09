@@ -33,6 +33,7 @@ public class DrakeCombatScript extends CommonCombatMethod {
                 regularAttack(drake, target);
             }
         }
+        return true;
     }
 
     /**

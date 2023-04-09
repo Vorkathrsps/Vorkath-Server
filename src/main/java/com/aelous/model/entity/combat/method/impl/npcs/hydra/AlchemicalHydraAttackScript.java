@@ -27,6 +27,7 @@ public class AlchemicalHydraAttackScript extends CommonCombatMethod {
             nextAttackType.executeAttack(npc, target.getAsPlayer());
             npc.getCombat().delayAttack(5);
         }
+        return true;
     }
 
     @Override

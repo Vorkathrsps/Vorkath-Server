@@ -64,6 +64,7 @@ public class BandosGodsword extends CommonCombatMethod {
             }
         }
         CombatSpecial.drain(entity, CombatSpecial.BANDOS_GODSWORD.getDrainAmount());
+return true;
     }
 
     @Override

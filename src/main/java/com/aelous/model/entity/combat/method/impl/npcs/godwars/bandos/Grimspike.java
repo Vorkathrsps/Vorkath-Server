@@ -13,6 +13,7 @@ public class Grimspike extends CommonCombatMethod {
         entity.animate(6154);
         new Projectile(entity, target, 1220, 30, 65, 25, 25, 0).sendProjectile();
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), 2, CombatType.RANGED).checkAccuracy().submit();
+        return true;
     }
 
     @Override

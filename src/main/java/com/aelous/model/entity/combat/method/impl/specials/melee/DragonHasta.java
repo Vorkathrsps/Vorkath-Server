@@ -19,6 +19,7 @@ public class DragonHasta extends CommonCombatMethod {
         entity.graphic(1369);
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
         hit.submit();
+        return true;
     }
 
     @Override

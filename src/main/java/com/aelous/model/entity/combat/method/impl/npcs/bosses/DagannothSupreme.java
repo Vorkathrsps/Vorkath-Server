@@ -18,6 +18,7 @@ public class DagannothSupreme extends CommonCombatMethod {
         final int delay = entity.executeProjectile(p);
         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
         hit.submit();
+        return true;
     }
 
     @Override

@@ -53,6 +53,7 @@ public class RuneDragon extends CommonCombatMethod {
                 }
             }
         }
+        return true;
     }
 
     private void sparkAttack(NPC npc, Entity target) {

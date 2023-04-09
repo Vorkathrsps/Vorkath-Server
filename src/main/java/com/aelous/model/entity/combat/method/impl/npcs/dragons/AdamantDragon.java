@@ -51,6 +51,7 @@ public class AdamantDragon extends CommonCombatMethod {
                 }
             }
         }
+        return true;
     }
 
     private void doMelee(NPC npc, Entity entity) {

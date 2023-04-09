@@ -37,6 +37,7 @@ public class DustDevil extends CommonCombatMethod {
                 player.getSkills().alterSkill(skill, -5);
             }
         }
+        return true;
     }
 
     @Override

@@ -24,6 +24,7 @@ public class AbyssalBludgeon extends CommonCombatMethod {
         hit.submit();
         target.graphic(1284, GraphicHeight.LOW, 15);
         CombatSpecial.drain(entity, CombatSpecial.ABYSSAL_BLUDGEON.getDrainAmount());
+        return true;
     }
 
     @Override

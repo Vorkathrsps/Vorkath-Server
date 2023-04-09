@@ -28,6 +28,7 @@ public class CrystalHalberd extends CommonCombatMethod {
             hit2.submit();
         }
         CombatSpecial.drain(entity, CombatSpecial.CRYSTAL_HALBERD.getDrainAmount());
+return true;
     }
 
     @Override

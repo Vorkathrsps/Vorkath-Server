@@ -34,6 +34,7 @@ public class SpiritualMage extends CommonCombatMethod {
                 playerTarget.performGraphic(new Graphic(85, GraphicHeight.HIGH,0)); // Cannot protect from this.
             }
         }
+        return true;
     }
 
     private Graphic get_graphic(int npc) {

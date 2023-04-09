@@ -30,6 +30,7 @@ public class Scorpia extends CommonCombatMethod {
             target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
             entity.animate(entity.attackAnimation());
         }
+        return true;
     }
 
     private void summon_guardian(NPC scorpia) {

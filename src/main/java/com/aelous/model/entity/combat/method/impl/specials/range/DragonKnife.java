@@ -43,6 +43,7 @@ public class DragonKnife extends CommonCombatMethod {
         hi2.submit();
 
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_KNIFE.getDrainAmount());
+return true;
     }
 
     @Override

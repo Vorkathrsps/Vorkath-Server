@@ -17,6 +17,7 @@ public class DarkBeasts extends CommonCombatMethod {
            target.hit(entity, CombatFactory.calcDamageFromType(entity, target,CombatType.MAGIC), 2, CombatType.MAGIC).checkAccuracy().submit();
        }
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target,CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy().submit();
+        return true;
     }
 
     @Override

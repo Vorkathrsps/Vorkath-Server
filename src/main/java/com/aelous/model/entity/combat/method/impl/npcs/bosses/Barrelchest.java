@@ -10,6 +10,7 @@ public class Barrelchest extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         meleeAttack(entity, target);
+        return true;
     }
 
     private void meleeAttack(Entity entity, Entity target) {

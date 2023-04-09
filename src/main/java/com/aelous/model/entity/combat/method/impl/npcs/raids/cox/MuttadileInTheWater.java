@@ -19,6 +19,7 @@ public class MuttadileInTheWater extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         magicAttack((NPC) entity, (Player) target);
+        return true;
     }
 
     private void magicAttack(NPC npc, Player target) {

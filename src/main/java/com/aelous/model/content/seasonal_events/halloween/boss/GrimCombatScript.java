@@ -30,6 +30,7 @@ public class GrimCombatScript extends CommonCombatMethod {
         }
 
         meleeAttack((NPC) entity, target);
+        return true;
     }
 
     private void spawnMinions(NPC mob) {

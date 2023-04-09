@@ -52,6 +52,7 @@ public class Callisto extends CommonCombatMethod {
            // } else {
             //    target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
            //     npc.animate(npc.attackAnimation());
+        return true;
             }
        // }
   //  }

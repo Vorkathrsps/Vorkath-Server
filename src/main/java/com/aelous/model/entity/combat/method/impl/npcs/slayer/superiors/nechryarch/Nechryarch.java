@@ -44,6 +44,7 @@ public class Nechryarch extends CommonCombatMethod {
             spawnMinions((NPC) entity, target);
             entity.getTimers().register(TimerKey.COMBAT_ATTACK, 5); //Give the minions chance to attack the player
         }
+        return true;
     }
 
     @Override

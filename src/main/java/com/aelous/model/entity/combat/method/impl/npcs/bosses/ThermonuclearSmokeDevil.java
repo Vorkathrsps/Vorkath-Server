@@ -18,6 +18,7 @@ public class ThermonuclearSmokeDevil extends CommonCombatMethod {
         final int delay = entity.executeProjectile(p);
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
         target.graphic(643, GraphicHeight.LOW, p.getSpeed());
+        return true;
     }
 
     @Override

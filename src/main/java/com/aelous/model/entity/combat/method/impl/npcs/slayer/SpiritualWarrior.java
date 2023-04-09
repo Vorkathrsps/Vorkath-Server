@@ -12,6 +12,7 @@ public class SpiritualWarrior extends CommonCombatMethod {
         entity.animate(entity.attackAnimation());
         int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE);
         target.hit(entity, hit, CombatType.MELEE).checkAccuracy().submit();
+        return true;
     }
 
     @Override

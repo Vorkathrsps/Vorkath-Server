@@ -34,6 +34,7 @@ public class LizardShaman extends CommonCombatMethod {
                 else primate_ranged_attack(npc, target);
             }
         }
+        return true;
     }
 
     private void spawn_destructive_minions(Entity target) {

@@ -39,6 +39,7 @@ public class Ballista extends CommonCombatMethod {
         target.performGraphic(new Graphic(344, GraphicHeight.HIGH, (int) (41 + 11 + (5 * distance))));
 
         CombatSpecial.drain(entity, CombatSpecial.BALLISTA.getDrainAmount());
+return true;
     }
 
     @Override

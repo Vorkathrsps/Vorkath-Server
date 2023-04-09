@@ -31,6 +31,7 @@ public class Vanguard extends CommonCombatMethod {
                 magicAttack(npc, target);
             }
         }
+        return true;
     }
 
     private void meleeAttack(Entity entity, Entity target) {

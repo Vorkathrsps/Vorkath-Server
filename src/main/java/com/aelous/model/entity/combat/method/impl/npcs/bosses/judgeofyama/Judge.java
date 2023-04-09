@@ -39,6 +39,7 @@ public class Judge extends CommonCombatMethod {
             case 4, 5 -> rangeAttack(entity, target);
         }
 
+        return true;
     }
 
     public void rangeAttack(Entity entity, Entity target) {

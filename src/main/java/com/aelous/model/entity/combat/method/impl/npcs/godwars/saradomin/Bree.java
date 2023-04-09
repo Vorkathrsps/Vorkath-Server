@@ -17,6 +17,7 @@ public class Bree extends CommonCombatMethod {
         Projectile p = new Projectile(entity, target, 1190, 41, duration, 55, 35, 0, target.getSize(), 5);
         final int delay = entity.executeProjectile(p);
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+        return true;
     }
 
     @Override

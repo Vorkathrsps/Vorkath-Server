@@ -107,7 +107,7 @@ public class GreatOlm extends CommonCombatMethod {
 
                 @Override
                 public boolean prepareAttack(Entity entity, Entity target) {
-                    
+                    return true;
                 }
 
                 @Override
@@ -142,7 +142,7 @@ public class GreatOlm extends CommonCombatMethod {
 
                 @Override
                 public boolean prepareAttack(Entity entity, Entity target) {
-
+                    return true;
                 }
 
                 @Override
@@ -191,7 +191,7 @@ public class GreatOlm extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity mob, Entity target) {
         if (getObject(npc).getId() != 29881) // hasnt risen yet
-            return;
+            return false;
         attackCounter++;
         if ((attackCounter % 10) == 1) {
             if (++specialCounter == (isEmpowered() ? 10 : 9))
@@ -214,7 +214,7 @@ public class GreatOlm extends CommonCombatMethod {
         if (targets.size() == 0 || (!justTurned && headRunnerNotInDirection)) {
             turn();
             justTurned = true;
-            return;
+            return false;
         }
         justTurned = false;
 
@@ -263,6 +263,7 @@ public class GreatOlm extends CommonCombatMethod {
         if (attackType == 2) {
             attackCounter = 0;
         }
+        return true;
     }
 
     @Override

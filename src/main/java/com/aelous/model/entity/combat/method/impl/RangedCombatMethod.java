@@ -29,7 +29,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
 
         if (attacker.isNpc()) {
             new Projectile(attacker, target, attacker.getAsNpc().getCombatInfo().projectile, 41, 60, 40, 36, 15).sendProjectile();
-            return;
+            return true;
         }
 
         if (attacker.isPlayer()) {
@@ -157,6 +157,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                 }
             }
         }
+        return true;
     }
 
     @Override

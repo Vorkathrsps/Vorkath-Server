@@ -30,7 +30,7 @@ public class GraniteMaul extends CommonCombatMethod {
             entity.message("You do not have enough special attack energy left!");
             entity.setSpecialActivated(false);
             CombatSpecial.updateBar(entity.getAsPlayer());
-            return;
+            return false;
         }
         entity.animate(1667);
         entity.graphic(340, GraphicHeight.HIGH, 0);
@@ -51,6 +51,7 @@ public class GraniteMaul extends CommonCombatMethod {
 
         hit.submit();
         CombatSpecial.drain(entity, entity.getAsPlayer().getCombatSpecial().getDrainAmount());
+        return true;
     }
 
     @Override

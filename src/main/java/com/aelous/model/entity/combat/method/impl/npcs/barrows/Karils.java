@@ -17,7 +17,7 @@ public class Karils extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
 
         if (!withinDistance(8)) {
-            return;
+            return false;
         }
 
         entity.animate(entity.attackAnimation());
@@ -37,6 +37,7 @@ public class Karils extends CommonCombatMethod {
         } else {
             hit.submit();
         }
+        return true;
     }
 
     private void taintedShot() {

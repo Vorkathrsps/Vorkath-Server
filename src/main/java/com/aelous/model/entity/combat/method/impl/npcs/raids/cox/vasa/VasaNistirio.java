@@ -282,7 +282,7 @@ public class VasaNistirio extends CommonCombatMethod {
         entity.animate(entity.attackAnimation());
 
         if (!withinDistance(16)) {
-            return;
+            return false;
         }
 
         if (target != null) {
@@ -294,6 +294,7 @@ public class VasaNistirio extends CommonCombatMethod {
                 rangeAttack(entity, target.getAsPlayer());
             }
         }
+        return true;
     }
 
     @Override

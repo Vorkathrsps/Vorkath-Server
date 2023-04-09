@@ -26,7 +26,7 @@ public class Cruor extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity mob, Entity target) {
         if(!mob.<Boolean>getAttribOr(AttributeKey.BARRIER_BROKEN,false)) {
-            return;
+            return false;
         }
         mob.animate(mob.attackAnimation());
         Hit hit = target.hit(mob, CombatFactory.calcDamageFromType(mob, target, CombatType.MAGIC), 1, CombatType.MAGIC);
@@ -36,6 +36,7 @@ public class Cruor extends CommonCombatMethod {
                 mob.heal(hit.getDamage() / 4);
             }
         }).submit();
+        return true;
     }
 
     @Override

@@ -12,7 +12,7 @@ public class Verac extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
 
         if (!withinDistance(1)) {
-            return;
+            return false;
         }
 
         entity.animate(entity.attackAnimation());
@@ -26,6 +26,7 @@ public class Verac extends CommonCombatMethod {
 
         hit.submit();
 
+        return true;
     }
 
     @Override

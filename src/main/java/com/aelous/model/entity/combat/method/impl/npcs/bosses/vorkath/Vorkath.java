@@ -68,7 +68,7 @@ public class Vorkath extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
        if (entity.<Integer>getAttribOr(AttributeKey.VORKATH_CB_COOLDOWN, 0) > 0)
-            return;
+            return false;
 
         int count = entity.getAttribOr(VORKATH_NORMAL_ATTACK_COUNT, 6);
         int attackType = 0;
@@ -99,6 +99,7 @@ public class Vorkath extends CommonCombatMethod {
             //case 6 -> acidSpitball();
             //case 7 -> zombified();
       //  }
+        return true;
     }
 
     private void bomb() {

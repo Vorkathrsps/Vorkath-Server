@@ -18,16 +18,13 @@ public class AbyssalTentacle extends CommonCombatMethod {
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
         hit.submit();
 
-        if (target.dead()) {
-            return;
-        }
-
         target.graphic(341, GraphicHeight.HIGH, 0);
         target.freeze(8, entity);// 5 second freeze timer
         if (World.getWorld().rollDie(100, 25)) {
             target.poison(4);
         }
         CombatSpecial.drain(entity, CombatSpecial.ABYSSAL_TENTACLE.getDrainAmount());
+        return true;
     }
 
     @Override

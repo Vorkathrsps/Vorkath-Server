@@ -12,7 +12,7 @@ public class Dharok extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
 
         if (!withinDistance(1)) {
-            return;
+            return false;
         }
 
         entity.animate(entity.attackAnimation());
@@ -24,6 +24,7 @@ public class Dharok extends CommonCombatMethod {
         } else {
             hit.submit();
         }
+        return true;
     }
 
     @Override

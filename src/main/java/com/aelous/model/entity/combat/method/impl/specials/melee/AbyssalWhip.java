@@ -19,10 +19,6 @@ public class AbyssalWhip extends CommonCombatMethod {
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
         hit.submit();
 
-        if (target.dead()) {
-            return;
-        }
-
         target.graphic(341, GraphicHeight.HIGH, 0);
         if (target.isPlayer()) {
             Player t = (Player) target;
@@ -38,6 +34,7 @@ public class AbyssalWhip extends CommonCombatMethod {
             }
         }
         CombatSpecial.drain(entity, CombatSpecial.ABYSSAL_WHIP.getDrainAmount());
+        return true;
     }
 
     @Override

@@ -123,12 +123,12 @@ public class NexCombat extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity mob, Entity target) {
         if (nex == null) {
-            return;
+            return false;
         }
 
         //Only kneels down during this attack
         if (nex.doingSiphon) {
-            return;
+            return false;
         }
 
         nex.faceEntity(target);
@@ -138,7 +138,7 @@ public class NexCombat extends CommonCombatMethod {
         if (nex.fightState == SMOKE_PHASE) {
             if (withinDistance(1) && World.getWorld().rollDie(2)) {
                 basicAttack(nex, target);
-                return;
+                return true;
             }
 
             if (attackCount % 5 == 0) {
@@ -196,7 +196,7 @@ public class NexCombat extends CommonCombatMethod {
                 } else {
                     zarosMelee(target);
                 }
-                return;
+                return true;
             }
 
             if (World.getWorld().rollDie(5, 1)) {
@@ -205,6 +205,7 @@ public class NexCombat extends CommonCombatMethod {
                 magic();
             }
         }
+        return true;
     }
 
     private void basicAttack(Entity entity, Entity target) {

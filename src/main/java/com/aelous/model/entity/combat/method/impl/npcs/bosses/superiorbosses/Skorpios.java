@@ -21,7 +21,7 @@ public class Skorpios extends CommonCombatMethod {
             summon_guardian((NPC) entity);
             summon_guardian((NPC) entity);
             entity.putAttrib(AttributeKey.SCORPIA_GUARDIANS_SPAWNED, true);
-            return;
+            return false;
         }
 
         if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
@@ -32,6 +32,7 @@ public class Skorpios extends CommonCombatMethod {
             target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
             entity.animate(entity.attackAnimation());
         }
+        return true;
     }
 
     private void summon_guardian(NPC scorpia) {

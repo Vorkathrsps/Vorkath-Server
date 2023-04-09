@@ -60,7 +60,7 @@ public class NylocasVasilias extends CommonCombatMethod {
     public boolean prepareAttack(Entity mob, Entity target) {
         var combatInfo = mob.npc().getCombatInfo();
         if (isTransforming) {
-            return;
+            return false;
         }
         switch (form.getCombatType()) {
             case MAGIC:
@@ -94,6 +94,7 @@ public class NylocasVasilias extends CommonCombatMethod {
                 }
                 break;
         }
+        return true;
     }
 
     @Override

@@ -40,8 +40,9 @@ public class SmokeDevil extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         if (smokeAttack(entity, target))
-            return;
+            return true;
         magicAttack(entity, target);
+        return true;
     }
 
     @Override

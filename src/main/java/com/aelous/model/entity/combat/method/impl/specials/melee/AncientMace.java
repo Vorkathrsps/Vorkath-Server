@@ -19,10 +19,6 @@ public class AncientMace extends CommonCombatMethod {
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
         hit.submit();
 
-        if (target.dead()) {
-            return;
-        }
-
         //TODO in combat ignore prayer, mace ignores overheads
         if (target.isPlayer()) {
             Player t = (Player) target;
@@ -31,6 +27,7 @@ public class AncientMace extends CommonCombatMethod {
             p.getSkills().alterSkill(Skills.PRAYER, hit.getDamage());
         }
         CombatSpecial.drain(entity, CombatSpecial.ANCIENT_MACE.getDrainAmount());
+        return true;
     }
 
     @Override

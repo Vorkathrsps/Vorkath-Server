@@ -1216,7 +1216,7 @@ public class CombatFactory {
             }
         }
 
-        if (attacker != null && attacker.isPlayer() && target.isPlayer() || target.isNpc()) {
+        if (attacker != null && attacker.isPlayer()) {
             Player player = (Player) attacker;
             if (hit.isAccurate() && combatType == CombatType.MELEE) {
                 if (FormulaUtils.wearingFullGuthan(player)) {

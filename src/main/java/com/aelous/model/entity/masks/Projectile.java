@@ -394,4 +394,10 @@ public final class Projectile {
         projectile.sendProjectile();
         return projectile.getHitDelay(projectile.start.getChevDistance(projectile.getEnd()));
     }
+
+    public Projectile sendMagicProjectile(Entity source, Entity victim, int projectileId) {
+        var tileDist = source.tile().distance(victim.tile());
+        int duration = (51 + -5 + (10 * tileDist));
+        return new Projectile(source, victim, projectileId, 51, duration, 43, 31, 0, creatorSize, 10);
+    }
 }

@@ -12,7 +12,7 @@ import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 public class DragonDagger extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1062);
         entity.graphic(252, GraphicHeight.HIGH, 0);
         //TODO it.player().world().spawnSound(it.player().tile(), 2537, 0, 10)
@@ -24,6 +24,7 @@ public class DragonDagger extends CommonCombatMethod {
         Hit hit2 = target.hit(entity, h2,target.isNpc() ? 0 : 1, CombatType.MELEE).checkAccuracy();
         hit2.submit();
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_DAGGER.getDrainAmount());
+return true;
     }
 
     @Override

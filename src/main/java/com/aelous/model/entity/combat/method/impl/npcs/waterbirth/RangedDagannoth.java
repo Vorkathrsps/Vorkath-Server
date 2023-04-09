@@ -14,7 +14,7 @@ import com.aelous.model.entity.masks.Projectile;
 public class RangedDagannoth extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
         var tileDist = entity.tile().transform(1, 1, 0).distance(target.tile());
         var delay = Math.max(1, (50 + (tileDist * 12)) / 30);
@@ -22,6 +22,7 @@ public class RangedDagannoth extends CommonCombatMethod {
 
         int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED);
         target.hit(entity, hit, delay, CombatType.RANGED).checkAccuracy().submit();
+        return true;
     }
 
     @Override

@@ -26,7 +26,7 @@ import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.VESPULA_75
 public class Vespula extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (entity.isNpc()) {
             NPC npc = entity.getAsNpc();
             if (npc.id() != VESPULA || !withinDistance(1) || World.getWorld().random(5) > 3)
@@ -34,6 +34,7 @@ public class Vespula extends CommonCombatMethod {
             else
                 meleeAttack(npc, target);
         }
+        return true;
     }
 
     private void rangeAttack(NPC npc, Entity entity) {

@@ -22,7 +22,7 @@ import com.aelous.utility.Utils;
 public class MithrilDragon extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
             if (Utils.rollDie(3, 1)) {
                 doMelee(entity, target);
@@ -36,6 +36,7 @@ public class MithrilDragon extends CommonCombatMethod {
                 doRanged(entity, target);
             }
         }
+        return true;
     }
 
     private void doMelee(Entity entity, Entity target) {

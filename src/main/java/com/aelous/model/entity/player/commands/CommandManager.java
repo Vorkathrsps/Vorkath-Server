@@ -564,6 +564,18 @@ public class CommandManager {
                 }
             }
         });
+        dev("dcb", (p, c, s) -> {
+            Debugs.CMB.toggle();
+        });
+        dev("cleargi", (p, c, s) -> {
+            for (GroundItem groundItem : GroundItemHandler.getGroundItems()) {
+                p.getPacketSender().deleteGroundItem(groundItem);
+            }
+            GroundItemHandler.getGroundItems().clear();
+        });
+        dev("test11", (p, c, s) -> {
+            CommandManager.attempt(p, "npc 106 1 5 1");  // ID HP AMOUNT RESPAWN=1
+        });
     }
 
 

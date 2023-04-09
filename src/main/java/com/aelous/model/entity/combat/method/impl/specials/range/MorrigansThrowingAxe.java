@@ -21,7 +21,7 @@ import com.aelous.utility.timers.TimerKey;
 public class MorrigansThrowingAxe extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(929);
         entity.graphic(1626, GraphicHeight.HIGH, 0);
 
@@ -31,6 +31,7 @@ public class MorrigansThrowingAxe extends CommonCombatMethod {
         int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED);
         target.hit(entity, hit, 1, CombatType.RANGED).checkAccuracy().postDamage(this::handleAfterHit).submit();
         CombatSpecial.drain(entity, CombatSpecial.MORRIGANS_THROWING_AXE.getDrainAmount());
+return true;
     }
 
     @Override

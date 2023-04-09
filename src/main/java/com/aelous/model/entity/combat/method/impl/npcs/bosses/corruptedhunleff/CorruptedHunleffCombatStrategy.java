@@ -58,7 +58,7 @@ public class CorruptedHunleffCombatStrategy extends CommonCombatMethod {
     private boolean tornadoAttack = false;
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         checkStompTask(entity, target);
         attacks++;
 
@@ -93,6 +93,7 @@ public class CorruptedHunleffCombatStrategy extends CommonCombatMethod {
             tornadoAttack = true;
             tornadoAttack(entity, target);
         }
+        return true;
     }
 
     private void rangeAttack(Entity entity, Entity target) {

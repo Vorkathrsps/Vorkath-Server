@@ -21,7 +21,7 @@ import static com.aelous.utility.ItemIdentifiers.SCYTHE_OF_VITUR;
 public class MeleeCombatMethod extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (target.isNpc() && entity.isPlayer()) {
             Player player = (Player) entity;
             if (player.getEquipment().hasAt(EquipSlot.WEAPON, SCYTHE_OF_VITUR)) {
@@ -65,18 +65,19 @@ public class MeleeCombatMethod extends CommonCombatMethod {
                 } else {
                     target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
                 }
-                return;
+                return true;
             }
         }
         if (entity.isNpc()) {
             if (!withinDistance(1))
-                return;
+                return false;
         }
 
         final Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy();
         hit.submit();
 
         entity.animate(entity.attackAnimation());
+        return true;
     }
 
     @Override

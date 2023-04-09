@@ -11,7 +11,7 @@ import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 public class CaveKraken extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         var tileDist = entity.tile().distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, 162, 51, duration, 43, 31, 0, target.getSize(), 10);
@@ -22,6 +22,7 @@ public class CaveKraken extends CommonCombatMethod {
         } else {
             target.graphic(85, GraphicHeight.LOW, p.getSpeed());
         }
+        return true;
     }
 
     @Override

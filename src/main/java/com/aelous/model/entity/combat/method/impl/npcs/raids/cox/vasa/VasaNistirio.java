@@ -278,11 +278,11 @@ public class VasaNistirio extends CommonCombatMethod {
 
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
 
         if (!withinDistance(16)) {
-            return;
+            return false;
         }
 
         if (target != null) {
@@ -294,6 +294,7 @@ public class VasaNistirio extends CommonCombatMethod {
                 rangeAttack(entity, target.getAsPlayer());
             }
         }
+        return true;
     }
 
     @Override

@@ -22,9 +22,10 @@ public class Torcher extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         NPC npc = (NPC) entity;
         magic(npc, target);
+        return true;
     }
 
     @Override

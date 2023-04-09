@@ -13,15 +13,11 @@ import com.aelous.model.entity.player.Skills;
 public class AncientMace extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(6147);
         entity.graphic(1027);
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
         hit.submit();
-
-        if (target.dead()) {
-            return;
-        }
 
         //TODO in combat ignore prayer, mace ignores overheads
         if (target.isPlayer()) {
@@ -31,6 +27,7 @@ public class AncientMace extends CommonCombatMethod {
             p.getSkills().alterSkill(Skills.PRAYER, hit.getDamage());
         }
         CombatSpecial.drain(entity, CombatSpecial.ANCIENT_MACE.getDrainAmount());
+        return true;
     }
 
     @Override

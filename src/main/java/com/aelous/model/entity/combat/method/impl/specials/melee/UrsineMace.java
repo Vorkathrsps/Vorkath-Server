@@ -13,7 +13,7 @@ import com.aelous.utility.chainedwork.Chain;
 
 public class UrsineMace extends CommonCombatMethod {
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(9963);
         entity.performGraphic(new Graphic(2341, GraphicHeight.HIGH, 0));
         entity.performGraphic(new Graphic(2342, GraphicHeight.HIGH, 0));
@@ -47,6 +47,7 @@ public class UrsineMace extends CommonCombatMethod {
         }
 
         CombatSpecial.drain(entity, CombatSpecial.URSINE_CHAINMACE.getDrainAmount());
+return true;
     }
 
     @Override

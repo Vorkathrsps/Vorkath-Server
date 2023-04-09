@@ -28,9 +28,9 @@ public class Umbra extends CommonCombatMethod {
         npc.getCombatInfo().scripts.agro_ = (n, t) -> false;
     }
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if(!entity.<Boolean>getAttribOr(AttributeKey.BARRIER_BROKEN,false)) {
-            return;
+            return false;
         }
         entity.animate(entity.attackAnimation());
         if (target.isPlayer()) {
@@ -49,6 +49,7 @@ public class Umbra extends CommonCombatMethod {
                 }
             }).submit();
         }
+        return true;
     }
 
     @Override

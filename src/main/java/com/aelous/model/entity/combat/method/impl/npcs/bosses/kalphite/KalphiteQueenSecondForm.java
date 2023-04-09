@@ -21,17 +21,20 @@ import com.aelous.utility.timers.TimerKey;
 public class KalphiteQueenSecondForm extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         int distance = getAttackDistance(target);
         boolean inDistance = target.boundaryBounds().within(entity.tile(), entity.getSize(), distance);
         if (inDistance) {
             if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.rollDie(4, 1)) {
                 attack(((NPC)entity), ((Player)target), CombatType.MELEE);
+                return true;
             } else {
                 int random = Utils.RANDOM_GEN.nextInt(100);
                 attack(((NPC)entity), ((Player)target), random < 50 ? CombatType.MAGIC : CombatType.RANGED);
+                return true;
             }
         }
+        return false;
     }
 
     private void attack(NPC npc, Player target, CombatType combatType) {

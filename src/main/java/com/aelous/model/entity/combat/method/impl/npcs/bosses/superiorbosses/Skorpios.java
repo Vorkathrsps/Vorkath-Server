@@ -14,14 +14,14 @@ import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 public class Skorpios extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         //If Scorpia is below 50% HP & hasn't summoned offspring that heal we..
         var summoned_guardians = entity.<Boolean>getAttribOr(AttributeKey.SCORPIA_GUARDIANS_SPAWNED, false);
         if (entity.hp() < 100 && !summoned_guardians) {
             summon_guardian((NPC) entity);
             summon_guardian((NPC) entity);
             entity.putAttrib(AttributeKey.SCORPIA_GUARDIANS_SPAWNED, true);
-            return;
+            return false;
         }
 
         if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
@@ -32,6 +32,7 @@ public class Skorpios extends CommonCombatMethod {
             target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
             entity.animate(entity.attackAnimation());
         }
+        return true;
     }
 
     private void summon_guardian(NPC scorpia) {

@@ -24,7 +24,7 @@ public class DustDevil extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         Player player = (Player) target;
         if ((player.getEquipment().getId(EquipSlot.HEAD) != ItemIdentifiers.FACEMASK && !player.getEquipment().wearingSlayerHelm())) {
             player.hit(entity, 16, CombatType.MELEE).submit();
@@ -37,6 +37,7 @@ public class DustDevil extends CommonCombatMethod {
                 player.getSkills().alterSkill(skill, -5);
             }
         }
+        return true;
     }
 
     @Override

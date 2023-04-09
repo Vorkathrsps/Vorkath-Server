@@ -23,7 +23,7 @@ import com.aelous.model.entity.player.Player;
 public class MorrigansJavelin extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(806);
         entity.graphic(1621);
 
@@ -67,6 +67,7 @@ public class MorrigansJavelin extends CommonCombatMethod {
             });
         }
         CombatSpecial.drain(entity, CombatSpecial.MORRIGANS_JAVALIN.getDrainAmount());
+return true;
     }
 
     @Override

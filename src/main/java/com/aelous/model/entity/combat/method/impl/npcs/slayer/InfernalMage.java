@@ -14,7 +14,7 @@ import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 public class InfernalMage extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
         entity.graphic(129, GraphicHeight.HIGH, 0);
         new Projectile(entity, target, 130, 51, entity.projectileSpeed(target), 43, 31, 0,16, 64).sendProjectile();
@@ -27,6 +27,7 @@ public class InfernalMage extends CommonCombatMethod {
         } else {
             target.graphic(85, GraphicHeight.HIGH, delay);
         }
+        return true;
     }
 
     @Override

@@ -12,10 +12,11 @@ import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 public class DemonicGorillaMeleeStrategy extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         //mob.forceChat("MELEE!");
         entity.animate(entity.attackAnimation());
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy().postDamage(h -> ((DemonicGorilla)entity).getCombatAI().handleAfterHit(h)).submit();
+        return true;
     }
 
     @Override

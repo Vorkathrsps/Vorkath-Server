@@ -20,7 +20,7 @@ import static com.aelous.utility.ItemIdentifiers.GRANITE_MAUL_12848;
 public class GraniteMaul extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         double vigour = 0;
 
         int specPercentage = (int) (entity.getSpecialAttackPercentage() + vigour);
@@ -30,7 +30,7 @@ public class GraniteMaul extends CommonCombatMethod {
             entity.message("You do not have enough special attack energy left!");
             entity.setSpecialActivated(false);
             CombatSpecial.updateBar(entity.getAsPlayer());
-            return;
+            return false;
         }
         entity.animate(1667);
         entity.graphic(340, GraphicHeight.HIGH, 0);
@@ -51,6 +51,7 @@ public class GraniteMaul extends CommonCombatMethod {
 
         hit.submit();
         CombatSpecial.drain(entity, entity.getAsPlayer().getCombatSpecial().getDrainAmount());
+        return true;
     }
 
     @Override

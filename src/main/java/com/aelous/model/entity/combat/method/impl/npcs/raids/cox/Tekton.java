@@ -24,7 +24,7 @@ import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.TEKTON_ENR
 public class Tekton extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if(entity.isNpc()) {
             NPC npc = entity.getAsNpc();
 
@@ -51,6 +51,7 @@ public class Tekton extends CommonCombatMethod {
                 doMeleePhaseInner(npc, target);
             }
         }
+        return true;
     }
 
     private static boolean instanceFinished(Entity entity) {

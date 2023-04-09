@@ -17,7 +17,7 @@ import static com.aelous.utility.ItemIdentifiers.TOXIC_BLOWPIPE;
 public class ToxicBlowpipeSpecialAttack extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         final Player player = entity.getAsPlayer();
 
         var weaponId = player.getEquipment().getId(EquipSlot.WEAPON);
@@ -55,6 +55,7 @@ public class ToxicBlowpipeSpecialAttack extends CommonCombatMethod {
                 target.venom(player);
         }
         CombatSpecial.drain(entity, CombatSpecial.TOXIC_BLOWPIPE.getDrainAmount());
+return true;
     }
 
     @Override

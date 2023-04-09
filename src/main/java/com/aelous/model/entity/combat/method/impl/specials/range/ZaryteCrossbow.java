@@ -20,7 +20,7 @@ public class ZaryteCrossbow extends CommonCombatMethod {
     private static final Animation ANIMATION = new Animation(9166, Priority.HIGH);
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         final Player player = entity.getAsPlayer();
 
         var graphic = -1;
@@ -53,6 +53,7 @@ public class ZaryteCrossbow extends CommonCombatMethod {
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), hitDelay, CombatType.RANGED).checkAccuracy();
         hit.submit();
         CombatSpecial.drain(entity, CombatSpecial.ZARYTE_CROSSBOW.getDrainAmount());
+return true;
     }
 
     @Override

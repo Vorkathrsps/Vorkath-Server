@@ -825,6 +825,12 @@ public class Tile implements Cloneable {
             entity.occupyingTiles = true;
         }
     }
+    public static void unoccupy(Entity mob) {
+        if (mob.occupyingTiles) {
+            fill(mob, mob.getPreviousTile(), -1);
+            mob.occupyingTiles = false;
+        }
+    }
 
     private static void fill(Entity entity, Tile pos, int increment) {
         int size = entity.getSize();

@@ -39,7 +39,7 @@ public class Vetion extends CommonCombatMethod {
         "Filthy whelps!");
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.face(null);
         if (entity.hp() <= 125 && !entity.hasAttrib(AttributeKey.VETION_HELLHOUND_SPAWNED)) {
             spawnHellhounds((NPC) entity, target);
@@ -55,6 +55,7 @@ public class Vetion extends CommonCombatMethod {
               //  }
         //    }
        // }
+        return true;
     }
 
     @Override

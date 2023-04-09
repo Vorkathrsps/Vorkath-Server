@@ -11,7 +11,7 @@ import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 public class CrystalHalberd extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1203);
         entity.graphic(1235, GraphicHeight.HIGH, 0);
 
@@ -28,6 +28,7 @@ public class CrystalHalberd extends CommonCombatMethod {
             hit2.submit();
         }
         CombatSpecial.drain(entity, CombatSpecial.CRYSTAL_HALBERD.getDrainAmount());
+return true;
     }
 
     @Override

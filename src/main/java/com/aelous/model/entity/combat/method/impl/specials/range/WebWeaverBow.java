@@ -16,7 +16,7 @@ import java.security.SecureRandom;
 
 public class WebWeaverBow extends CommonCombatMethod {
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         SecureRandom secureRandom = new SecureRandom();
 
         int delay = (int) (Math.floor(3 + entity.tile().getManHattanDist(entity.tile(), target.tile()) / 6D));
@@ -46,6 +46,7 @@ public class WebWeaverBow extends CommonCombatMethod {
         });
 
         CombatSpecial.drain(entity, CombatSpecial.WEBWEAVER_BOW.getDrainAmount());
+        return true;
 
     }
 

@@ -63,12 +63,12 @@ public class Muttadile extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
 
         Party party = target.getAsPlayer().raidsParty;
 
         if (!withinDistance(8)) {
-            return;
+            return false;
         }
 
         if (entity.getAsNpc().id() == MUTTADILE_7563)
@@ -89,6 +89,7 @@ public class Muttadile extends CommonCombatMethod {
         else if (withinDistance(1))
             rangeAttack(entity.getAsNpc(), target);
 
+        return true;
     }
 
     private void meleeAttack(NPC npc, Entity entity) {

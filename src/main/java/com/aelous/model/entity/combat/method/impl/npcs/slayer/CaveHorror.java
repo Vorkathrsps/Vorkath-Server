@@ -20,7 +20,7 @@ public class CaveHorror extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         Player player = (Player) target;
         if (player.getEquipment().getId(EquipSlot.AMULET) != 8923) {
             entity.animate(4237);
@@ -29,6 +29,7 @@ public class CaveHorror extends CommonCombatMethod {
             player.message("<col=ff0000>A witchwood icon can protect you from this attack.");
         } else
             basicAttack(entity, target);
+        return true;
     }
 
     @Override

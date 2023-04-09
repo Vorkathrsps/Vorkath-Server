@@ -20,7 +20,7 @@ public class DarkBow extends CommonCombatMethod {
     private int endgfx;
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         final Player player = entity.getAsPlayer();
 
         player.animate(426);
@@ -74,6 +74,7 @@ public class DarkBow extends CommonCombatMethod {
         hit2.postDamage(this::handleAfterHit).submit();
 
         CombatSpecial.drain(entity, CombatSpecial.DARK_BOW.getDrainAmount());
+return true;
     }
 
     @Override

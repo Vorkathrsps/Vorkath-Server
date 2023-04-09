@@ -266,16 +266,6 @@ public class Combat {
     }
 
     public boolean beforePerformAttack() {
-        if (target == null) {
-            return false;
-        }
-        /**
-         * Set our common combat method
-         */
-        method = CombatFactory.getMethod(mob);
-        if (method instanceof CommonCombatMethod) {
-            ((CommonCombatMethod) method).set(mob, target);
-        }
         /**
          * Are we within distance?
          */
@@ -286,9 +276,11 @@ public class Combat {
          * Pre-Combat Checks
          */
         if (!CombatFactory.validTarget(mob, target)) {
+            reset();
             return false;
         }
         if (!CombatFactory.canAttack(mob, method, target)) {
+            reset();
             return false;
         }
         /**
@@ -335,18 +327,21 @@ public class Combat {
         if (target == null) {
             return;
         }
+        /**
+         * Set our common combat method
+         */
+        method = CombatFactory.getMethod(mob);
+        if (method instanceof CommonCombatMethod) {
+            ((CommonCombatMethod) method).set(mob, target);
+        }
 
         if (!beforePerformAttack()) {
             return;
         }
-        // ok we we do have to have a hardcode case
-
-        method = CombatFactory.getMethod(mob);
-
         updateLastTarget(target);
-        if (target.isNpc()) {
+        /*if (target.isNpc()) {
             System.out.print("");
-        }
+        }*/
 
         final int attackSpeed = method.getAttackSpeed(mob);
 
@@ -360,7 +355,8 @@ public class Combat {
         int combatAttackTicksRemaining = mob.getTimers().left(TimerKey.COMBAT_ATTACK);
 
         if (combatAttackTicksRemaining <= 0) {
-            method.prepareAttack(mob, target);
+            if (!method.prepareAttack(mob, target))
+                return;
             if (mob.isPlayer() && target.isPlayer()) {
                 if (WildernessArea.inWild((Player) mob)) {
                     Player player = mob.getAsPlayer();

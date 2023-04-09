@@ -22,7 +22,7 @@ public class Cockatrice extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
 
         Player player = (Player) target;
@@ -34,6 +34,7 @@ public class Cockatrice extends CommonCombatMethod {
             player.message("<col=ff0000>The cockatrice's piercing gaze drains your stats!");
             player.message("<col=ff0000>A mirror shield can protect you from this attack.");
         }
+        return true;
     }
 
     @Override

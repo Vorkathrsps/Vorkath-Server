@@ -28,9 +28,9 @@ public class Glacies extends CommonCombatMethod {
     }
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if(!entity.<Boolean>getAttribOr(AttributeKey.BARRIER_BROKEN,false)) {
-            return;
+            return false;
         }
         entity.animate(entity.attackAnimation());
         var tileDist = entity.tile().transform(1, 1, 0).distance(target.tile());
@@ -44,6 +44,7 @@ public class Glacies extends CommonCombatMethod {
                 target.freeze(33, entity);
             }
         }).submit();
+        return true;
     }
 
     @Override

@@ -13,7 +13,7 @@ import com.aelous.utility.Utils;
 public class AncientWyvern extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity wyvern, Entity target) {
+    public boolean prepareAttack(Entity wyvern, Entity target) {
         int roll = Utils.random(2);
         if(roll == 1) {
             doMagic(wyvern, target);
@@ -28,6 +28,7 @@ public class AncientWyvern extends CommonCombatMethod {
                 doMagic(wyvern, target);
             }
         }
+        return true;
     }
 
     private void doMagic(Entity wyvern, Entity entity) {

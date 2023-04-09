@@ -12,7 +12,7 @@ import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 public class AbyssalDagger extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(3300);
         entity.graphic(1283, GraphicHeight.LOW, 0);
         //TODO mob.sound(2537);
@@ -34,6 +34,7 @@ public class AbyssalDagger extends CommonCombatMethod {
             hit2.submit();
         }
         CombatSpecial.drain(entity, CombatSpecial.ABYSSAL_DAGGER.getDrainAmount());
+return true;
     }
 
     @Override

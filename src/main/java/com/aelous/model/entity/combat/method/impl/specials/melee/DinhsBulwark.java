@@ -10,7 +10,7 @@ import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 public class DinhsBulwark extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(7511);
         entity.graphic(1336);
 
@@ -20,6 +20,7 @@ public class DinhsBulwark extends CommonCombatMethod {
         //TODO effect Dinh's bulwark has a special attack, Shield Bash, which hits up to 10 enemies in a 11x11 area around the player (thus up to five tiles away from the player)
         // The targeted monster gets hit twice by the attack, while all other monsters get hit once.
         CombatSpecial.drain(entity, CombatSpecial.DINHS_BULWARK.getDrainAmount());
+return true;
     }
 
     @Override

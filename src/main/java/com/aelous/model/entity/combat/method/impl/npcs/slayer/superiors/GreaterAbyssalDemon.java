@@ -25,9 +25,9 @@ public class GreaterAbyssalDemon extends CommonCombatMethod {
     private static final byte[][] BASIC_OFFSETS = new byte[][]{{0, -1}, {-1, 0}, {0, 1}, {1, 0}};
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (!entity.isNpc() || !target.isPlayer())
-            return;
+            return false;
         entity.animate(entity.attackAnimation());
         if (Utils.percentageChance(20)) {
             teleportAttack(entity, target);
@@ -39,6 +39,7 @@ public class GreaterAbyssalDemon extends CommonCombatMethod {
                 target.teleport(target.getX() + offsets[0], target.getY() + offsets[1],target.getZ());
             }
         }
+        return true;
     }
 
     private void teleportAttack(Entity entity, Entity target) {

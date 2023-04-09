@@ -8,10 +8,11 @@ import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 public class SpiritualWarrior extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
         int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE);
         target.hit(entity, hit, CombatType.MELEE).checkAccuracy().submit();
+        return true;
     }
 
     @Override

@@ -12,9 +12,10 @@ import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 public class ChaoticDeathSpawnMelee extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target,CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
+        return true;
     }
 
     @Override

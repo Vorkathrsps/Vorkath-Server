@@ -28,9 +28,9 @@ public class ChaosFanatic extends CommonCombatMethod {
     };
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         if (!entity.isNpc() || !target.isPlayer())
-            return;
+            return false;
 
         entity.forceChat(QUOTES[Utils.getRandom(QUOTES.length)]);
 
@@ -42,6 +42,7 @@ public class ChaosFanatic extends CommonCombatMethod {
         } else {
             attack(npc, target);
         }
+        return true;
     }
 
     @Override

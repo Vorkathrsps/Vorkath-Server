@@ -52,13 +52,10 @@ public class Graardor extends CommonCombatMethod {
         "FOR THE GLORY OF THE BIG HIGH WAR GOD!");
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
-        if (target == null) {
-            return;
-        }
+    public boolean prepareAttack(Entity entity, Entity target) {
 
         if (!withinDistance(8))
-            return;
+            return false;
 
         if (Utils.rollDie(6, 1))
             entity.forceChat(Utils.randomElement(QUOTES));
@@ -67,6 +64,7 @@ public class Graardor extends CommonCombatMethod {
             meleeAttack();
         else
             rangedAttack();
+        return true;
 
     }
 

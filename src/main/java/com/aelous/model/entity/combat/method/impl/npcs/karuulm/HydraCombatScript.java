@@ -26,7 +26,7 @@ import java.util.List;
 public class HydraCombatScript extends CommonCombatMethod {
 
     @Override
-    public void prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(Entity entity, Entity target) {
         NPC npc = (NPC) entity;
 
         if (npc instanceof Hydra) {
@@ -39,6 +39,7 @@ public class HydraCombatScript extends CommonCombatMethod {
                 regularAttack(hydra, target);
             }
         }
+        return true;
     }
 
     /**

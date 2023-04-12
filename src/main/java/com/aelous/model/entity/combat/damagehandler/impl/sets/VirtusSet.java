@@ -15,12 +15,12 @@ import java.util.List;
 
 public class VirtusSet implements DamageEffectListener {
 
-    private final List<Integer> blood_spells = Arrays.asList(12901,
+    private final List<Integer> blood_spells = List.of(12901,
         12919,
         12911,
         12929);
 
-    private final List<Integer> ice_spells = Arrays.asList(12861,
+    private final List<Integer> ice_spells = List.of(12861,
         12881,
         12871,
         12891);

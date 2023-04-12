@@ -36,7 +36,7 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         listeners.add(new VeracSet());
         listeners.add(new GuthanSet());
         listeners.add(new KarilSet());
-        listeners.add(new VirtusEquipment());
+        listeners.add(new VirtusSet());
         return listeners;
     }
 
@@ -58,7 +58,7 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         listeners.add(new VoidEquipment());
         listeners.add(new ZurielStaff());
         listeners.add(new SlayerHelmets());
-        listeners.add(new VirtusEquipment());
+        listeners.add(new VirtusSet());
         return listeners;
     }
 

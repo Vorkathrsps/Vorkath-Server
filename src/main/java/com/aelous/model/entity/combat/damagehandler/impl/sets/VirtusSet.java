@@ -1,4 +1,4 @@
-package com.aelous.model.entity.combat.damagehandler.impl.armor;
+package com.aelous.model.entity.combat.damagehandler.impl.sets;
 
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatType;
@@ -10,21 +10,20 @@ import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.player.Player;
 
-public class VirtusEquipment implements DamageEffectListener {
+import java.util.Arrays;
+import java.util.List;
 
-    private final int[] blood_spells = new int[]{
-        12901,
+public class VirtusSet implements DamageEffectListener {
+
+    private final List<Integer> blood_spells = Arrays.asList(12901,
         12919,
         12911,
-        12929
-    };
+        12929);
 
-    private final int[] ice_spells = new int[]{
-        12861,
+    private final List<Integer> ice_spells = Arrays.asList(12861,
         12881,
         12871,
-        12891
-    };
+        12891);
 
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
@@ -56,16 +55,30 @@ public class VirtusEquipment implements DamageEffectListener {
 
     @Override
     public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
-        final Entity target = magicAccuracy.getDefender();
-        boolean isFrozen = target.frozen();
-        if (entity instanceof Player player) {
-            if (player.getCombat().getCastSpell() != null) {
-                if (FormulaUtils.wearingFullVirtus(player)) {
-                    if (isFrozen) {
-                        for (var s : ice_spells) {
-                            if (player.getCombat().getCastSpell().spellId() == s) {
-                                magicAccuracy.setModifier(0.010F);
-                            }
+        if (combatType != null) {
+            if (!(entity instanceof Player player) || !combatType.isMagic()) {
+                return false;
+            }
+            if (!FormulaUtils.wearingFullVirtus(player)) {
+                return false;
+            }
+            if (player.getCombat().getCastSpell() == null) {
+                return false;
+            }
+
+            final Entity target = magicAccuracy.getDefender();
+
+            if (target == null) {
+                return false;
+            }
+
+            boolean isFrozen = target.frozen();
+
+            if (FormulaUtils.wearingFullVirtus(player)) {
+                if (isFrozen) {
+                    for (var s : ice_spells) {
+                        if (player.getCombat().getCastSpell().spellId() == s) {
+                            magicAccuracy.setModifier(0.010F);
                         }
                     }
                 }

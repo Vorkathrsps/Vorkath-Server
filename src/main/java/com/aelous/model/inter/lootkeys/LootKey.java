@@ -123,7 +123,7 @@ public class LootKey {
                     var deadKey = createLootKey(killer, deadInfo);
                     killer.message("You are awarded the loot key of %s.", dead.getUsername());
 
-                    if (killer.inventory().add0(lootKey).success()) { //TODO  && !killer.getGameMode().ironman()
+                    if (killer.inventory().add0(lootKey).success() && !killer.getIronManStatus().isIronman()) {
                         killerInfo.keys[carried] = deadKey;
                         killer.putAttrib(AttributeKey.LOOT_KEYS_CARRIED, carried + 1);
                         killer.looks().update();

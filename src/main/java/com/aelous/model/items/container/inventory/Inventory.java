@@ -37,8 +37,6 @@ public final class Inventory extends ItemContainer {
         this.player = player;
     }
 
-    //TODO increase item weight for inventory, I don't know a good way without causing lag for either equipment or inventory.
-
     /** Refreshes the players inventory. */
     public void sync() {
         refresh(player, InterfaceConstants.INVENTORY_INTERFACE);

@@ -61,11 +61,13 @@ public class MetalDragon extends CommonCombatMethod {
             if (hasShield && hasPotion) {
                 max = 0.0;
             }
-
-            new Projectile(entity, target, 54, 50, entity.projectileSpeed(target), 22, 32, 0, 5, 24).sendProjectile();
             entity.animate(81);
             int hit = Utils.random((int) max);
-            player.hit(entity, hit, entity.getProjectileHitDelay(player), CombatType.MAGIC).submit();
+            var tileDist = entity.tile().distance(target.tile());
+            int duration = (41 + 11 + (5 * tileDist));
+            Projectile p1 = new Projectile(entity, target, 54, 51, duration, 43, 31, 0, target.getSize(), 5);
+            final int delay = entity.executeProjectile(p1);
+            target.hit(entity, hit, delay, CombatType.MAGIC).submit();
             if (max == 50 && hit > 0) {
                 player.message("You are badly burned by the dragon fire!");
             }

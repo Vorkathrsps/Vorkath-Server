@@ -95,14 +95,30 @@ public class BrutalDragons extends CommonCombatMethod {
     private void magicAttack(NPC npc, Entity entity) {
         fire = false;
         npc.animate(6722);
+        entity.animate(81);
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (41 + 11 + (5 * tileDist));
         switch (npc.id()) {
-            case NpcIdentifiers.BRUTAL_GREEN_DRAGON, NpcIdentifiers.BRUTAL_GREEN_DRAGON_8081 -> new Projectile(npc, target, 133, 60, npc.projectileSpeed(target), 10, 31, 0, 10, 16).sendProjectile();
-            case NpcIdentifiers.BRUTAL_BLUE_DRAGON, NpcIdentifiers.BRUTAL_RED_DRAGON -> new Projectile(npc, target, 136, 60, npc.projectileSpeed(target), 10, 31, 0, 10, 16).sendProjectile();
-            case NpcIdentifiers.BRUTAL_RED_DRAGON_8087, NpcIdentifiers.BRUTAL_BLACK_DRAGON, NpcIdentifiers.BRUTAL_BLACK_DRAGON_8092, NpcIdentifiers.BRUTAL_BLACK_DRAGON_8093 -> new Projectile(npc, target, 130, 60, npc.projectileSpeed(target), 10, 31, 0, 10, 16).sendProjectile();
+            case NpcIdentifiers.BRUTAL_GREEN_DRAGON, NpcIdentifiers.BRUTAL_GREEN_DRAGON_8081 -> {
+                Projectile p1 = new Projectile(entity, target, 133, 51, duration, 43, 31, 0, target.getSize(), 5);
+                final int delay = entity.executeProjectile(p1);
+                target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).submit();
+
+            }
+            case NpcIdentifiers.BRUTAL_BLUE_DRAGON, NpcIdentifiers.BRUTAL_RED_DRAGON -> {
+                Projectile p1 = new Projectile(entity, target, 136, 51, duration, 43, 31, 0, target.getSize(), 5);
+                final int delay = entity.executeProjectile(p1);
+                target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).submit();
+
+            }
+            case NpcIdentifiers.BRUTAL_RED_DRAGON_8087, NpcIdentifiers.BRUTAL_BLACK_DRAGON, NpcIdentifiers.BRUTAL_BLACK_DRAGON_8092, NpcIdentifiers.BRUTAL_BLACK_DRAGON_8093 -> {
+                Projectile p1 = new Projectile(entity, target, 130, 51, duration, 43, 31, 0, target.getSize(), 5);
+                final int delay = entity.executeProjectile(p1);
+                target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).submit();
+
+            }
             default -> System.err.println("Assigned brutal dragon script with no projectile, npc id " + npc.id());
         }
-
-        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), npc.getProjectileHitDelay(target), CombatType.MAGIC).submit();
     }
 
     @Override

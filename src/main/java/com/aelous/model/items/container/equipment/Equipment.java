@@ -545,14 +545,6 @@ public final class Equipment extends ItemContainer {
         //Update weapon interface
         WeaponInterfaces.updateWeaponInterface(player);
 
-        boolean unarmed = player.getEquipment().getWeapon() == null;
-        boolean twoHanded = player.getEquipment().getWeapon().isTwoHanded();
-        if (equipmentSlot == EquipSlot.SHIELD && unarmed || twoHanded) {
-            resetWeapon();
-        } else if (equipmentSlot == EquipSlot.WEAPON) {
-            resetWeapon();
-        }
-
         //OSRS resets target and interaction
         player.getCombat().setTarget(null);
         player.setEntityInteraction(null);

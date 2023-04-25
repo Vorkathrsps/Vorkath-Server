@@ -57,15 +57,14 @@ public class MithrilDragon extends CommonCombatMethod {
     }
 
     private void breathFire(Entity entity, Entity target) {
-        if(target instanceof Player) {
-            Player player = (Player) target;
+        if(target instanceof Player player) {
             double max = 50.0;
             int antifire_charges = player.getAttribOr(AttributeKey.ANTIFIRE_POTION, 0);
             boolean hasShield = CombatConstants.hasAntiFireShield(player);
             boolean hasPotion = antifire_charges > 0;
 
             boolean memberEffect = player.getMemberRights().isExtremeMemberOrGreater(player) && !WildernessArea.inWild(player);
-            if (max > 0 && player.<Boolean>getAttribOr(AttributeKey.SUPER_ANTIFIRE_POTION, false) || memberEffect) {
+            if (player.<Boolean>getAttribOr(AttributeKey.SUPER_ANTIFIRE_POTION, false) || memberEffect) {
                 player.message("Your super antifire potion protects you completely from the heat of the dragon's breath!");
                 max = 0.0;
             }
@@ -92,8 +91,14 @@ public class MithrilDragon extends CommonCombatMethod {
             if (hasShield && hasPotion) {
                 max = 0.0;
             }
+
+            entity.animate(81);
             int hit = Utils.random((int) max);
-            player.hit(entity, hit, CombatType.MAGIC).submit();
+            var tileDist = entity.tile().distance(target.tile());
+            int duration = (41 + 11 + (5 * tileDist));
+            Projectile p1 = new Projectile(entity, target, 54, 51, duration, 43, 31, 0, target.getSize(), 5);
+            final int delay = entity.executeProjectile(p1);
+            target.hit(entity, hit, delay, CombatType.MAGIC).submit();
             if (max == 50 && hit > 0) {
                 player.message("You are badly burned by the dragon fire!");
             }

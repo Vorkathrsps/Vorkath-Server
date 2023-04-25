@@ -23,7 +23,6 @@ import com.aelous.utility.chainedwork.Chain;
  * april 29, 2020
  */
 public class RuneDragon extends CommonCombatMethod {
-
     boolean sparkAttack = false;
 
     @Override
@@ -62,7 +61,6 @@ public class RuneDragon extends CommonCombatMethod {
             Tile pos = target.tile().relative(Utils.get(-1, 1), Utils.get(-1, 1));
             NPC spark = new NPC(8032, pos);
 
-            //When projectile hits ground sparks start following player
             Chain.bound(null).runFn(5, () -> {
                 for (int j = 0; j < 5; j++) {
                     World.getWorld().registerNpc(spark);
@@ -79,8 +77,6 @@ public class RuneDragon extends CommonCombatMethod {
                 World.getWorld().unregisterNpc(spark);
                 this.sparkAttack = false;
             });
-
-            //new Projectile(npc.tile(), pos, 0, 1488, 160, 40,10, 0, 0, 16, 192).sendProjectile();
         }
     }
 
@@ -92,38 +88,39 @@ public class RuneDragon extends CommonCombatMethod {
 
     private void doRangedAttack(NPC npc, Entity target) {
         npc.animate(81);
-        new Projectile(npc, target, 1486, 40, npc.projectileSpeed(target), 10, 31, 0, 16, 127).sendProjectile();
         int damage = Utils.random(npc.getCombatInfo().maxhit);
-        //The second attack is a ranged attack that hits through Protect from Missiles, and uses the Life Leech effect from enchanted onyx bolts,
-        // where the dragon will heal itself for 100% of the damage dealt to the player.
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (41 + 11 + (5 * tileDist));
+        Projectile p = new Projectile(entity, target, 1486, 41, duration, 43, 31, 0, target.getSize(), 5);
+        final int delay = entity.executeProjectile(p);
+
         if (Utils.rollDie(5, 2)) {
-            target.hit(npc, damage, npc.getProjectileHitDelay(target), CombatType.RANGED).submit();
+            target.hit(npc, damage, delay, CombatType.RANGED).submit();
             npc.heal(damage, npc.maxHp());
         } else {
             //Regular ranged attack
-            target.hit(npc, damage, npc.getProjectileHitDelay(target), CombatType.RANGED).checkAccuracy().submit();
+            target.hit(npc, damage, delay, CombatType.RANGED).checkAccuracy().submit();
         }
     }
 
     private void doMagicBlast(NPC npc, Entity target) {
         npc.animate(81);
-        new Projectile(npc, target, 162, 40, npc.projectileSpeed(target), 10, 31, 0, 16, 127).sendProjectile();
-        target.hit(npc, Utils.random(npc.getCombatInfo().maxhit), npc.getProjectileHitDelay(target), CombatType.MAGIC).checkAccuracy().submit();
-        //target.delayedGraphics(new Graphic(163, GraphicHeight.HIGH), npc.getProjectileHitDelay(target));
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (51 + -5 + (10 * tileDist));
+        Projectile p = new Projectile(entity, target, 162, 51, duration, 43, 31, 0, target.getSize(), 10);
+        final int delay = entity.executeProjectile(p);
+        target.hit(npc, Utils.random(npc.getCombatInfo().maxhit), delay, CombatType.MAGIC).checkAccuracy().submit();
     }
 
     private void doDragonBreath(NPC npc, Entity target) {
-        npc.animate(81);
-        new Projectile(npc, target, 54, 50, npc.projectileSpeed(target), 22, 32, 0, 5, 24).sendProjectile();
-        if(target instanceof Player) {
-            Player player = (Player) target;
+        if(target instanceof Player player) {
             double max = 50.0;
             int antifire_charges = player.getAttribOr(AttributeKey.ANTIFIRE_POTION, 0);
             boolean hasShield = CombatConstants.hasAntiFireShield(player);
             boolean hasPotion = antifire_charges > 0;
 
             boolean memberEffect = player.getMemberRights().isExtremeMemberOrGreater(player) && !WildernessArea.inWild(player);
-            if (max > 0 && player.<Boolean>getAttribOr(AttributeKey.SUPER_ANTIFIRE_POTION, false) || memberEffect) {
+            if (player.<Boolean>getAttribOr(AttributeKey.SUPER_ANTIFIRE_POTION, false) || memberEffect) {
                 player.message("Your super antifire potion protects you completely from the heat of the dragon's breath!");
                 max = 0.0;
             }
@@ -150,8 +147,14 @@ public class RuneDragon extends CommonCombatMethod {
                 max = 0.0;
             }
 
+
+            entity.animate(81);
             int hit = Utils.random((int) max);
-            player.hit(npc, hit, npc.getProjectileHitDelay(player), CombatType.MAGIC).submit();
+            var tileDist = entity.tile().distance(target.tile());
+            int duration = (41 + 11 + (5 * tileDist));
+            Projectile p1 = new Projectile(entity, target, 54, 51, duration, 43, 31, 0, target.getSize(), 5);
+            final int delay = entity.executeProjectile(p1);
+            target.hit(entity, hit, delay, CombatType.MAGIC).submit();
             if (max == 65 && hit > 0) {
                 player.message("You are badly burned by the dragon fire!");
             }

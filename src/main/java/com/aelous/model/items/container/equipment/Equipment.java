@@ -640,54 +640,6 @@ public final class Equipment extends ItemContainer {
         return true;
     }
 
-    public void resetWeapon() {
-        if (player.getTimers().has(TimerKey.SOTD_DAMAGE_REDUCTION)) {
-            player.getPacketSender().sendMessage("Your Staff of the dead special de-activated because you unequipped the staff.");
-        }
-
-        player.getCombat().setRangedWeapon(null);
-        Autocasting.setAutocast(player, null);
-        player.getCombat().setCastSpell(null);
-        player.getCombat().setPoweredStaffSpell(null);
-        player.getTimers().cancel(TimerKey.SOTD_DAMAGE_REDUCTION);
-        player.setSpecialActivated(false);
-        player.putAttrib(AttributeKey.GRANITE_MAUL_SPECIALS, 0);
-        CombatSpecial.updateBar(player);
-        WeaponInterfaces.updateWeaponInterface(player);
-
-        if (player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS) || player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS_FULL)) {
-            if (player.getCombat().getPoweredStaffSpell() != null) {
-                player.getCombat().setPoweredStaffSpell(null);
-            }
-            player.getCombat().setPoweredStaffSpell(CombatSpells.TRIDENT_OF_THE_SEAS.getSpell());
-        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SWAMP)) {
-            if (player.getCombat().getPoweredStaffSpell() != null) {
-                player.getCombat().setPoweredStaffSpell(null);
-            }
-            player.getCombat().setPoweredStaffSpell(CombatSpells.TRIDENT_OF_THE_SWAMP.getSpell());
-        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, SANGUINESTI_STAFF)) {
-            if (player.getCombat().getPoweredStaffSpell() != null) {
-                player.getCombat().setPoweredStaffSpell(null);
-            }
-            player.getCombat().setPoweredStaffSpell(CombatSpells.SANGUINESTI_STAFF.getSpell());
-        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
-            if (player.getCombat().getPoweredStaffSpell() != null) {
-                player.getCombat().setPoweredStaffSpell(null);
-            }
-            player.getCombat().setPoweredStaffSpell(CombatSpells.TUMEKENS_SHADOW.getSpell());
-        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, ACCURSED_SCEPTRE_A)) {
-            if (player.getCombat().getPoweredStaffSpell() != null) {
-                player.getCombat().setPoweredStaffSpell(null);
-            }
-            player.getCombat().setPoweredStaffSpell(CombatSpells.ACCURSED_SCEPTRE.getSpell());
-        } else {
-            if (player.getCombat().getAutoCastSpell() != null) {
-                Autocasting.setAutocast(player, null);
-                player.getPacketSender().sendMessage("Autocast spell cleared.");
-            }
-        }
-    }
-
     /**
      * Flags the {@code APPEARANCE} update block, only if the equipment piece on
      * {@code equipmentIndex} requires an appearance update.

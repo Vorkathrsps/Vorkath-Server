@@ -99,6 +99,7 @@ public class EquipPacketListener implements PacketListener {
                     player.getTimers().cancel(TimerKey.SOTD_DAMAGE_REDUCTION);
                     player.setSpecialActivated(false);
                     player.putAttrib(AttributeKey.GRANITE_MAUL_SPECIALS, 0);
+                    player.getCombat().reset();
                     CombatSpecial.updateBar(player);
                     WeaponInterfaces.updateWeaponInterface(player);
                     if (player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS) || player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS_FULL)) {

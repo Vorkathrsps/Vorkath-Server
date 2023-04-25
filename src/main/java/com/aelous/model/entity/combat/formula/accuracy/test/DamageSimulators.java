@@ -1,6 +1,7 @@
 package com.aelous.model.entity.combat.formula.accuracy.test;
 
 import com.aelous.GameServer;
+import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 import com.aelous.model.content.presets.PresetManager;
 import com.aelous.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
@@ -25,6 +26,7 @@ import com.aelous.model.entity.player.commands.CommandManager;
 import com.aelous.model.entity.player.rights.PlayerRights;
 import com.aelous.model.items.Item;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
+import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.network.Session;
 import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.Utils;
@@ -42,6 +44,7 @@ import static com.aelous.model.entity.combat.CombatType.MELEE;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.*;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.PIETY;
 import static com.aelous.utility.ItemIdentifiers.SALVE_AMULET_E;
+import static com.aelous.utility.ItemIdentifiers.VESTAS_BLIGHTED_LONGSWORD;
 import static java.lang.System.out;
 
 /**
@@ -141,9 +144,7 @@ public class DamageSimulators {
         }
 
 
-
-
-            public static int blyat = 1;
+        public static int blyat = 1;
 
         public static void main(String[] args) {
             GameServer.properties().gamePort = 39999;
@@ -414,8 +415,8 @@ public class DamageSimulators {
         }
 
         public static String debugSuccessful(Entity attacker, Entity defender, CombatType style) {
-            int attackBonus = getAttackRoll(attacker, style);
-            int defenceBonus = getDefenceRoll(defender);
+            final int attackBonus = getAttackRoll(attacker, defender, style);
+            final int defenceBonus = getDefenceRoll(attacker, defender);
             double successfulRoll;
 
             byte[] seed = new byte[16];
@@ -427,7 +428,7 @@ public class DamageSimulators {
             debugString += "Attacker:\n";
             debugString += "  Attack level: " + getAttackLevel(attacker) + "\n";
             debugString += "  Prayer attack bonus: " + getPrayerAttackBonus(attacker, style) + "\n";
-            debugString += "  Effective melee level: " + getEffectiveMelee(attacker, style) + "\n";
+            debugString += "  Effective melee level: " + getEffectiveAttack(attacker, defender, style) + "\n";
             debugString += "  Gear attack bonus: " + getGearAttackBonus(attacker) + "\n";
             debugString += "  Total attack bonus: " + attackBonus + "\n";
 
@@ -440,15 +441,15 @@ public class DamageSimulators {
 
             if (attackBonus > defenceBonus) {
                 debugString += "Attack bonus is greater than defence bonus, using formula: (1 - (defenceBonus + 2) / (2 * (attackBonus + 1)))\n";
-                successfulRoll = (int) 1D - ((defenceBonus + 2D) / (2D * (attackBonus + 1D)));
+                successfulRoll = 1F - ((defenceBonus + 2F) / (2F * (attackBonus + 1F)));
             } else {
                 debugString += "Defence bonus is greater than or equal to attack bonus, using formula: (attackBonus / (2 * (defenceBonus + 1)))\n";
-                successfulRoll = attackBonus / (2D * (defenceBonus + 1D));
+                successfulRoll = attackBonus / (2F * (defenceBonus + 1F));
             }
 
             debugString += "Calculated success chance: " + new DecimalFormat("0.000").format(successfulRoll) + "\n";
 
-            double selectedChance = random.nextDouble();
+            double selectedChance = random.nextFloat();
             debugString += "Rolled chance: " + new DecimalFormat("0.000").format(selectedChance) + "\n";
 
             if (successfulRoll > selectedChance) {
@@ -461,65 +462,65 @@ public class DamageSimulators {
         }
 
 
-
         public static String doesHit(Entity attacker, Entity defender, CombatType style) {
             return successful(attacker, defender, style);
         }
 
+        static byte[] seed = new byte[16];
+        static SecureRandom random = new SecureRandom(seed);
+
         public static String successful(Entity attacker, Entity defender, CombatType style) {
-            int attackBonus = getAttackRoll(attacker, style);
-            int defenceBonus = getDefenceRoll(defender);
+            final int attackBonus = getAttackRoll(attacker, defender, style);
+            final int defenceBonus = getDefenceRoll(attacker, defender);
             double successfulRoll;
 
-            byte[] seed = new byte[16];
-            new SecureRandom().nextBytes(seed);
-            SecureRandom random = new SecureRandom(seed);
+            random.nextBytes(seed);
 
             if (attackBonus > defenceBonus) {
-                successfulRoll = (int) 1D - ((defenceBonus + 2D) / (2D * (attackBonus + 1D)));
+                successfulRoll = 1F - ((defenceBonus + 2F) / (2F * (attackBonus + 1F)));
             } else {
-                successfulRoll = attackBonus / (2D * (defenceBonus + 1D));
+                successfulRoll = attackBonus / (2F * (defenceBonus + 1F));
             }
 
-            double selectedChance = random.nextDouble();
+            double selectedChance = random.nextFloat();
 
             out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
-            return String.valueOf(successfulRoll >= selectedChance);
+            return String.valueOf(successfulRoll > selectedChance);
         }
 
-        private static double getPrayerDefenseBonus(Entity defender) {
-            double prayerBonus = 1D;
+        private static double getPrayerDefenseBonus(final Entity defender) {
+            double prayerBonus = 1F;
             if (Prayers.usingPrayer(defender, THICK_SKIN))
-                prayerBonus *= 1.05D; // 5% def level boost
+                prayerBonus *= 1.05F; // 5% def level boost
             else if (Prayers.usingPrayer(defender, ROCK_SKIN))
-                prayerBonus *= 1.10D; // 10% def level boost
+                prayerBonus *= 1.10F; // 10% def level boost
             else if (Prayers.usingPrayer(defender, STEEL_SKIN))
-                prayerBonus *= 1.15D; // 15% def level boost
+                prayerBonus *= 1.15F; // 15% def level boost
             if (Prayers.usingPrayer(defender, CHIVALRY))
-                prayerBonus *= 1.20D; // 20% def level boost
+                prayerBonus *= 1.20F; // 20% def level boost
             else if (Prayers.usingPrayer(defender, PIETY))
-                prayerBonus *= 1.25D; // 25% def level boost
+                prayerBonus *= 1.25F; // 25% def level boost
             return prayerBonus;
         }
 
-        private static double getPrayerAttackBonus(Entity attacker, CombatType style) {
-            double prayerBonus = 1D;
+        private static double getPrayerAttackBonus(final Entity attacker, CombatType style) {
+            double prayerBonus = 1F;
             if (Prayers.usingPrayer(attacker, CLARITY_OF_THOUGHT))
-                prayerBonus *= 1.05D; // 5% attack level boost
+                prayerBonus *= 1.05F; // 5% attack level boost
             else if (Prayers.usingPrayer(attacker, IMPROVED_REFLEXES))
-                prayerBonus *= 1.10D; // 10% attack level boost
+                prayerBonus *= 1.10F; // 10% attack level boost
             else if (Prayers.usingPrayer(attacker, INCREDIBLE_REFLEXES))
-                prayerBonus *= 1.15D; // 15% attack level boost
+                prayerBonus *= 1.15F; // 15% attack level boost
             else if (Prayers.usingPrayer(attacker, CHIVALRY))
-                prayerBonus *= 1.15D; // 15% attack level boost
+                prayerBonus *= 1.15F; // 15% attack level boost
             else if (Prayers.usingPrayer(attacker, PIETY))
-                prayerBonus *= 1.20D; // 20% attack level boost
+                prayerBonus *= 1.20F; // 20% attack level boost
             return prayerBonus;
         }
 
 
-        public static int getEffectiveDefence(Entity defender) {
+        private static int getEffectiveDefence(final Entity defender) {
             FightStyle fightStyle = defender.getCombat().getFightType().getStyle();
             int effectiveLevel = defender instanceof NPC ? ((NPC) defender).getCombatInfo().stats.defence : (int) Math.floor(getDefenceLevel(defender) * getPrayerDefenseBonus(defender));
 
@@ -533,19 +534,19 @@ public class DamageSimulators {
             return effectiveLevel;
         }
 
-        public static int getEffectiveMelee(Entity attacker, CombatType style) {
+        private static int getEffectiveAttack(final Entity attacker, final Entity defender, CombatType style) {
             var task_id = attacker.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
             var task = SlayerCreature.lookup(task_id);
             final Item weapon = attacker.isPlayer() ? attacker.getAsPlayer().getEquipment().get(EquipSlot.WEAPON) : null;
             FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
-            int effectiveLevel = (int) Math.floor(getAttackLevel(attacker) * getPrayerAttackBonus(attacker, style));
+            double effectiveLevel = Math.floor(getAttackLevel(attacker) * getPrayerAttackBonus(attacker, style));
 
             if (attacker.isPlayer()) {
                 Player player = attacker.getAsPlayer();
                 if (player.getCombatSpecial() != null) {
                     double specialMultiplier = player.getCombatSpecial().getAccuracyMultiplier();
                     if (attacker.getAsPlayer().isSpecialActivated()) {
-                        effectiveLevel = (int) (effectiveLevel * specialMultiplier);
+                        effectiveLevel *= specialMultiplier;
                     }
                 }
             }
@@ -562,27 +563,32 @@ public class DamageSimulators {
             if (attacker.isPlayer()) {
                 if (style.equals(MELEE)) {
                     if (FormulaUtils.regularVoidEquipmentBaseMelee((Player) attacker)) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.1D);
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.1F);
                     }
                     if (FormulaUtils.eliteVoidEquipmentMelee((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMelee((Player) attacker)) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.125D);
-                    }
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.15D);
-                    }
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getAsPlayer().getEquipment().contains(SALVE_AMULET_E) || attacker.getAsPlayer().getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.2D);
-                    }
-                    if (weapon != null && FormulaUtils.hasMeleeWildernessWeapon(attacker.getAsPlayer())) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.5D);
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.125F);
                     }
                     if (FormulaUtils.obbyArmour(attacker.getAsPlayer()) && FormulaUtils.hasObbyWeapon(attacker.getAsPlayer())) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.1D);
+                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.1F);
                     }
-                    effectiveLevel = (int) Math.floor(effectiveLevel);
+                    if (defender instanceof NPC) {
+                        if (defender.isNpc() && defender.getAsNpc().id() == NpcIdentifiers.REVENANT_CYCLOPS || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_DEMON || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_DRAGON || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_GOBLIN || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_HELLHOUND || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_DARK_BEAST || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_HOBGOBLIN || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_IMP || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_KNIGHT || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_PYREFIEND || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_MALEDICTUS || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_IMP) {
+                            if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getAsPlayer().getEquipment().contains(SALVE_AMULET_E) || attacker.getAsPlayer().getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
+                                effectiveLevel = (int) Math.floor(effectiveLevel * 1.2F);
+                            }
+                            if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
+                                effectiveLevel = (int) Math.floor(effectiveLevel * 1.15F);
+                            }
+                        }
+                        if (defender.isNpc() && WildernessArea.inWilderness(attacker.tile())) {
+                            if (weapon != null && FormulaUtils.hasMeleeWildernessWeapon(attacker.getAsPlayer())) {
+                                effectiveLevel = (int) Math.floor(effectiveLevel * 1.5F);
+                            }
+                        }
+                    }
                 }
             }
-            return effectiveLevel;
+            return (int) Math.floor(effectiveLevel);
         }
 
         public static int getAttackLevel(Entity attacker) {
@@ -619,11 +625,14 @@ public class DamageSimulators {
             return bonus;
         }
 
-        public static int getAttackRoll(Entity attacker, CombatType style) {
-            return (int) Math.floor(getEffectiveMelee(attacker, style) * (getGearAttackBonus(attacker) + 64));
+        private static int getAttackRoll(final Entity attacker, final Entity defender, CombatType style) {
+            return (int) Math.floor(getEffectiveAttack(attacker, defender, style) * (getGearAttackBonus(attacker) + 64));
         }
 
-        public static int getDefenceRoll(Entity defender) {
+        private static int getDefenceRoll(final Entity attacker, final Entity defender) {
+            if ((attacker.isPlayer() && attacker.getAsPlayer().getEquipment().contains(VESTAS_BLIGHTED_LONGSWORD) && attacker.isSpecialActivated())) {
+                return (int) Math.floor((getEffectiveDefence(defender) * (getGearDefenceBonus(defender) + 64)) * 0.80F);
+            }
             return (int) Math.floor(getEffectiveDefence(defender) * (getGearDefenceBonus(defender) + 64));
         }
     }

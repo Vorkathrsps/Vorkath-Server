@@ -54,7 +54,7 @@ public class MagicAccuracy {
             successfulRoll = attackBonus / (2F * (defenceBonus + 1F));
         }
 
-        double selectedChance = random.nextDouble();
+        double selectedChance = random.nextFloat();
 
         System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
@@ -193,25 +193,27 @@ public class MagicAccuracy {
                             if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
                                 effectiveLevel = (int) Math.floor(effectiveLevel * 1.15F);
                             }
-                        }
-                        if (defender.isNpc() && WildernessArea.inWilderness(attacker.tile())) {
-                            if (weapon != null && FormulaUtils.hasMagicWildernessWeapon(attacker.getAsPlayer())) {
-                                effectiveLevel = (int) Math.floor(effectiveLevel * 1.5F);
+                            if (defender.isNpc() && WildernessArea.inWilderness(attacker.tile())) {
+                                if (weapon != null && FormulaUtils.hasMagicWildernessWeapon(attacker.getAsPlayer())) {
+                                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.5F);
+                                }
                             }
-                        }
-                    }
-                    if (task != null && Slayer.creatureMatches((Player) attacker, attacker.getAsNpc().id())) {
-                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SLAYER_HELMET)) {
-                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.15F);
-                        }
-                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SLAYER_HELMET_I)) {
-                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.18F);
-                        }
-                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.BLACK_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.GREEN_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.HYDRA_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.PURPLE_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.RED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TURQUOISE_SLAYER_HELMET)) {
-                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.20F);
-                        }
-                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.TWISTED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TZKAL_SLAYER_HELMET)) {
-                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.25F);
+                            if (task != null) {
+                                if (Slayer.creatureMatches((Player) attacker, defender.getAsNpc().id())) {
+                                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SLAYER_HELMET)) {
+                                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.15F);
+                                    }
+                                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SLAYER_HELMET_I)) {
+                                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.18F);
+                                    }
+                                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.BLACK_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.GREEN_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.HYDRA_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.PURPLE_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.RED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TURQUOISE_SLAYER_HELMET)) {
+                                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.20F);
+                                    }
+                                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.TWISTED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TZKAL_SLAYER_HELMET)) {
+                                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.25F);
+                                    }
+                                }
+                            }
                         }
                     }
                 }

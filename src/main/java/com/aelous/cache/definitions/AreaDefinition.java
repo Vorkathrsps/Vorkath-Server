@@ -44,29 +44,29 @@ public class AreaDefinition implements Definition {
 
     void decode(RSBuffer buffer, int code) {
         if (code == 1) {
-            spriteId = buffer.readLEInt();
+            spriteId = buffer.readBigSmart2();
         } else if (code == 2) {
-            anInt1967 = buffer.readLEInt();
+            anInt1967 = buffer.readBigSmart2();
         } else if (code == 3) {
             name = buffer.readString();
         } else if (code == 4) {
-            anInt1959 = buffer.readUByte();
+            anInt1959 = buffer.read24BitInt();
         } else if (code == 5) {
-            buffer.readUByte();
+            buffer.read24BitInt();
         } else if (code == 6) {
-            anInt1968 = buffer.readByte();
+            anInt1968 = buffer.readUByte();
         } else if (code == 7) {
-            int flags = buffer.readByte();
+            int flags = buffer.readUByte();
             if ((flags & 0x1) == 0) {
             }
             if ((flags & 0x2) == 2) {
             }
         } else if (code == 8) {
-            buffer.readByte();
+            buffer.readUByte();
         } else if (code >= 10 && code <= 14) {
             aStringArray1969[code - 10] = buffer.readString();
         } else if (code == 15) {
-            int size = buffer.readByte();
+            int size = buffer.readUByte();
             anIntArray1982 = new int[size * 2];
 
             for (int i = 0; i < size * 2; ++i) {
@@ -74,7 +74,7 @@ public class AreaDefinition implements Definition {
             }
 
             buffer.readInt();
-            int size2 = buffer.readByte() & 0xFF;
+            int size2 = buffer.readUByte() & 0xFF;
             anIntArray1981 = new int[size2];
 
             for (int i = 0; i < anIntArray1981.length; ++i) {
@@ -89,28 +89,28 @@ public class AreaDefinition implements Definition {
         } else if (code == 17) {
             aString1970 = buffer.readString();
         } else if (code == 18) {
-            buffer.readLEInt();
+            buffer.readBigSmart2();
         } else if (code == 19) {
-            anInt1980 = buffer.readShort();
+            anInt1980 = buffer.readUShort();
         } else if (code == 21) {
             buffer.readInt();
         } else if (code == 22) {
             buffer.readInt();
         } else if (code == 23) {
-            buffer.readByte();
-            buffer.readByte();
-            buffer.readByte();
+            buffer.readUByte();
+            buffer.readUByte();
+            buffer.readUByte();
         } else if (code == 24) {
             buffer.readShort();
             buffer.readShort();
         } else if (code == 25) {
-            buffer.readLEInt();
+            buffer.readBigSmart2();
         } else if (code == 28) {
-            buffer.readByte();
+            buffer.readUByte();
         } else if (code == 29) {
-            buffer.readByte();
+            buffer.readUByte();
         } else if (code == 30) {
-            buffer.readByte();
+            buffer.readUByte();
         }
     }
 

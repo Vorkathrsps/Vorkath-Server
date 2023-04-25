@@ -533,13 +533,15 @@ public class EquipmentInfo {
                 case 11824: // Zammy spear
                 case ZAMORAKIAN_HASTA:
                     switch (style) {
-                        case 0:
-                        case 3:
+                        case 0, 3 -> {
                             return 1711;
-                        case 1:
+                        }
+                        case 1 -> {
                             return 1712;
-                        case 2:
+                        }
+                        case 2 -> {
                             return 1710;
+                        }
                     }
                 case 20779: // H'ween 2016 hunting knife
                     return 7328;

@@ -18,20 +18,6 @@ import static com.aelous.utility.ItemIdentifiers.*;
  */
 public enum Achievements {
 
-    /*
-     * ROMAN NUMBERS:
-     * I
-     * II
-     * III
-     * IV
-     * V
-     * VI
-     * VII
-     * VIII
-     * IX
-     * X
-     */
-    //Misc
     COMPLETIONIST("Completionist", "Complete all Achievements besides this one.", 1, Difficulty.HARD, new Item(GameServer.properties().pvpMode ? BLOOD_MONEY : COINS_995, GameServer.properties().pvpMode ? 100_000 : 100_000_000), new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX,5)),
     WHATS_IN_THE_BOX_I("Mystery box I", "Open the mystery box 10 times.", 10, Difficulty.EASY, AchievementUtility.DEFAULT_REWARD, new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX)),
     WHATS_IN_THE_BOX_II("Mystery box II", "Open the mystery box 50 times.", 50, Difficulty.MED, new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX,2)),

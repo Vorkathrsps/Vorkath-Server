@@ -15,7 +15,8 @@ import java.util.stream.Stream;
  * This command is used to send a list of items and their id's to the player based on the search term.
  * @author Bananastreet
  */
-public class GetItemIdCommand implements Command {
+public class
+GetItemIdCommand implements Command {
 
     private static final boolean ALLOW_SPAWN = true;
 

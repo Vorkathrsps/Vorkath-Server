@@ -57,11 +57,11 @@ public class MeleeAccuracy {
             successfulRoll = attackBonus / (2F * (defenceBonus + 1F));
         }
 
-        double selectedChance = random.nextDouble();
+        double selectedChance = random.nextFloat();
 
         System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
-        return selectedChance < successfulRoll;
+        return successfulRoll > selectedChance;
     }
 
     private double getPrayerDefenseBonus(final Entity defender) {

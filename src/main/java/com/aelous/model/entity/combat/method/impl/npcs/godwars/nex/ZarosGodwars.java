@@ -181,7 +181,6 @@ public class ZarosGodwars {
                 ZarosGodwars.umbra = minions.b;
                 ZarosGodwars.cruor = minions.c;
                 ZarosGodwars.glacies = minions.d;
-
             });
 
 

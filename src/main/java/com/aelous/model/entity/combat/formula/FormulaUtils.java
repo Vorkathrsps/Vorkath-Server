@@ -202,14 +202,14 @@ public class FormulaUtils {
     }
     public static boolean regularVoidEquipmentBaseMelee(Player player) {
         return player.getEquipment().containsAll(VOID_KNIGHT_GLOVES, VOID_KNIGHT_ROBE, VOID_KNIGHT_TOP, VOID_MELEE_HELM);
-    }    public static boolean regularVoidEquipmentBaseRanged(Player player) {
+    }
+    public static boolean regularVoidEquipmentBaseRanged(Player player) {
         return player.getEquipment().containsAll(VOID_KNIGHT_GLOVES, VOID_KNIGHT_ROBE, VOID_KNIGHT_TOP, VOID_RANGER_HELM);
     }
 
     public static boolean eliteVoidEquipmentBaseMagic(Player player) {
         return player.getEquipment().containsAll(ELITE_VOID_TOP, ELITE_VOID_ROBE, VOID_KNIGHT_GLOVES, VOID_MAGE_HELM);
     }
-
     public static boolean eliteVoidEquipmentMelee(Player player) {
         return player.getEquipment().containsAll(ELITE_VOID_TOP, ELITE_VOID_ROBE, VOID_KNIGHT_GLOVES, VOID_MELEE_HELM);
     }

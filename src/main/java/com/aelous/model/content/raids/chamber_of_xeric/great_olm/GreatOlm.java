@@ -87,10 +87,6 @@ public class GreatOlm extends CommonCombatMethod {
         centerTargetBounds = new Area(getTile(CENTER.swX, CENTER.swY), getTile(CENTER.neX, CENTER.neY), npc.getZ()); // somehow this is null
         southTargetBounds = new Area(getTile(LEFT.swX, LEFT.swY), getTile(LEFT.neX, LEFT.neY), npc.getZ());
         arenaBounds = new Area(getTile(28, 35), getTile(37, 51), npc.getZ());
-       /* System.out.println("northTargetBounds "+northTargetBounds);
-        System.out.println("centerTargetBounds "+centerTargetBounds);
-        System.out.println("southTargetBounds "+southTargetBounds);
-        System.out.println("arenaBounds "+arenaBounds);*/
         lastPhase = 2; //0,1,2  = 3 phases default
         Chain.noCtx().repeatingTask(5, t -> {
             List<Player> allTargets = getAllTargets(); // wait until a player is available

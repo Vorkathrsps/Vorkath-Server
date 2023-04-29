@@ -88,18 +88,6 @@ public class Prayers {
         //System.out.println("Prayer data is not null.");
         //Check if we're already praying this prayer.
         if (entity.getPrayerActive()[prayerId]) {
-
-            //If we are an npc, make sure our headicon
-            //is up to speed.
-            if (entity.isNpc()) {
-                NPC npc = entity.getAsNpc();
-                if (pd.getHint() != -1) {
-                    int hintId = getPrayerHeadIcon(entity);
-                    if (npc.getPKBotHeadIcon() != hintId) {
-                        npc.setPKBotHeadIcon(hintId);
-                    }
-                }
-            }
             return;
         }
 
@@ -161,14 +149,6 @@ public class Prayers {
             if (pd.getHint() != -1) {
                 int hintId = getPrayerHeadIcon(entity);
                 p.setHeadHint(hintId);
-            }
-        } else if (entity.isNpc()) {
-            NPC npc = entity.getAsNpc();
-            if (pd.getHint() != -1) {
-                int hintId = getPrayerHeadIcon(entity);
-                if (npc.getPKBotHeadIcon() != hintId) {
-                    npc.setPKBotHeadIcon(hintId);
-                }
             }
         }
     }
@@ -300,13 +280,6 @@ public class Prayers {
             }
 
             p.getQuickPrayers().checkActive();
-        } else if (mob.isNpc()) {
-            if (pd.getHint() != -1) {
-                int hintId = getPrayerHeadIcon(mob);
-                if (mob.getAsNpc().getPKBotHeadIcon() != hintId) {
-                    mob.getAsNpc().setPKBotHeadIcon(hintId);
-                }
-            }
         }
     }
 
@@ -321,10 +294,6 @@ public class Prayers {
         if (mob.isPlayer()) {
             mob.getAsPlayer().getQuickPrayers().setEnabled(false);
             mob.getAsPlayer().getPacketSender().sendQuickPrayersState(false);
-        } else if (mob.isNpc()) {
-            if (mob.getAsNpc().getPKBotHeadIcon() != -1) {
-                mob.getAsNpc().setPKBotHeadIcon(-1);
-            }
         }
     }
 

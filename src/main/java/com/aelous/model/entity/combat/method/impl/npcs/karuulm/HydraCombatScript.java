@@ -5,10 +5,12 @@ import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.method.impl.npcs.hydra.HydraAttacks;
 import com.aelous.model.entity.masks.Direction;
+import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
@@ -55,12 +57,11 @@ public class HydraCombatScript extends CommonCombatMethod {
             hydra.recordedAttacks = 3;
         }
 
-        var tileDist = entity.tile().transform(3, 3, 0).distance(target.tile());
-        var delay = Math.max(1, (20 + (tileDist * 12)) / 30);
-        var duration = entity.tile().distance(target.tile());
-
-        int speed = tileDist + delay + duration * 5;
        // hydra.executeProjectile(new Projectile(hydra, target, hydra.currentAttack == HydraAttacks.MAGIC ? 1663 : 1662, 30, speed ,35 ,0,0, hydra.getSize()));
+        var tileDist = entity.tile().transform(3, 3, 0).distance(target.tile());
+        int duration = (41 + 11 + (5 * tileDist));
+        Projectile p = new Projectile(entity, target, hydra.currentAttack == HydraAttacks.MAGIC ? 1663 : 1662, hydra.currentAttack == HydraAttacks.MAGIC ?  51 : 41, duration, 43, 31, 0, target.getSize(), hydra.currentAttack == HydraAttacks.MAGIC ? 10 : 5);
+        final int delay = hydra.executeProjectile(p);
 
         Chain.bound(null).runFn(delay, () -> target.hit(hydra, CombatFactory.calcDamageFromType(
             hydra, target, hydra.currentAttack ==
@@ -82,14 +83,20 @@ public class HydraCombatScript extends CommonCombatMethod {
             targets.add(Utils.randomElement(positions));
         targets.forEach(pos -> hydra.runFn(1, () -> {
        //     hydra.executeProjectile(new Projectile(hydra, target, 1, 1644, 54, 25, 35, 0, hydra.getSize()));
+            var tileDist = entity.tile().distance(target.tile());
+            int duration = (41 + 11 + (5 * tileDist));
+            Projectile p = new Projectile(entity, target, 1644, 41, duration, 43, 31, 0, target.getSize(), 5);
+            final int delay = hydra.executeProjectile(p);
             Direction dir = Direction.getDirection(Utils.getClosestTile(hydra, pos), pos);
 
-            World.getWorld().tileGraphic(1645, new Tile(pos.getX(), pos.getY()), pos.getZ(),40);
-            World.getWorld().tileGraphic(POISON_POOLS[dir.ordinal()], new Tile(pos.getX(), pos.getY()), pos.getZ(),40);
+            World.getWorld().tileGraphic(1645, new Tile(pos.getX(), pos.getY()), pos.getZ(), p.getSpeed());
+            World.getWorld().tileGraphic(POISON_POOLS[dir.ordinal()], new Tile(pos.getX(), pos.getY()), pos.getZ(),p.getSpeed());
             Chain.bound(hydra).runFn(3, () -> {
                 for (int i = 0; i < 15; i++) {
                     if (target.tile().equals(pos)) {
-                        target.hit(hydra, World.getWorld().random(1, 4), SplatType.POISON_HITSPLAT);
+                        Hit hit = Hit.builder(hydra, target, World.getWorld().random(1, 4), delay, CombatType.RANGED).checkAccuracy();
+                        hit.submit();
+
                     }
                     Chain.bound(hydra).runFn(2, () -> {
                         //Just ticking

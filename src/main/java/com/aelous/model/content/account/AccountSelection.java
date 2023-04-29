@@ -194,10 +194,6 @@ public class AccountSelection extends PacketInteraction {
 
         player.unlock();
         player.looks().hide(false);
-        /*if (player.mode() == GameMode.INSTANT_PKER) {
-            player.getPresetManager().open();
-            player.message("Pick a preset to load to get started.");
-        }*/
         return true;
     }
 }

@@ -5,8 +5,6 @@ import com.aelous.model.World;
 
 import com.aelous.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.combat.Combat;
-import com.aelous.model.entity.combat.CombatSpecial;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
@@ -20,8 +18,6 @@ import com.aelous.model.items.Item;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.ItemIdentifiers;
-import com.aelous.utility.Utils;
-import lombok.val;
 
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
@@ -79,7 +75,7 @@ public class MeleeAccuracy {
         return prayerBonus;
     }
 
-    private double getPrayerAttackBonus(final Entity attacker, CombatType style) {
+    private double getPrayerAttackBonus(final Entity attacker) {
         double prayerBonus = 1F;
         if (Prayers.usingPrayer(attacker, CLARITY_OF_THOUGHT))
             prayerBonus *= 1.05F; // 5% attack level boost
@@ -114,7 +110,7 @@ public class MeleeAccuracy {
         var task = SlayerCreature.lookup(task_id);
         final Item weapon = attacker.isPlayer() ? attacker.getAsPlayer().getEquipment().get(EquipSlot.WEAPON) : null;
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
-        double effectiveLevel = Math.floor(getAttackLevel(attacker) * getPrayerAttackBonus(attacker, style));
+        double effectiveLevel = Math.floor(getAttackLevel(attacker) * getPrayerAttackBonus(attacker));
 
         if (attacker.isPlayer()) {
             Player player = attacker.getAsPlayer();

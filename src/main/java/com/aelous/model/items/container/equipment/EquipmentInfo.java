@@ -82,7 +82,6 @@ public class EquipmentInfo {
 
             if (player.getEquipment().hasAt(EquipSlot.WEAPON, DINHS_BULWARK)) {
             if (type.equals(FightType.DINHS_PUMMEL)) {
-                    int formula1 = ((((bonuses.stabdef + bonuses.slashdef + bonuses.crushdef + bonuses.rangedef) / 4) - 200) / 3) - 38;
                     int formula2 = (int) (((bonuses.stabdef + bonuses.slashdef + bonuses.crushdef + bonuses.rangedef) / 12) - 104.66D);
                     bonuses.str += formula2;
                     System.out.println(formula2);
@@ -598,7 +597,6 @@ public class EquipmentInfo {
 
                 case KODAI_WAND:
                 case KODAI_WAND_23626:
-               // case ANATHEMATIC_WAND:
                 case _3RD_AGE_WAND:
                     return 414;
 
@@ -765,16 +763,10 @@ public class EquipmentInfo {
             }
             case LEAFBLADED_BATTLEAXE -> {
                 return 397;
-            } // Verac's flail
-            // Verac's flail
-            // Verac's flail
-            // Verac's flail
+            }
             case 4755, 4982, 4983, 4984, 4985 -> { // Verac's flail
                 return 2063;
-            } // Guthan's warspear
-            // Guthan's warspear
-            // Guthan's warspear
-            // Guthan's warspear
+            }
             case 4910, 4911, 4912, 4913, 4914 -> { // Guthan's warspear
                 return 430;
             }

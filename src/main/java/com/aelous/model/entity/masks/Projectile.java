@@ -347,12 +347,10 @@ public final class Projectile {
         this.delay = delay;
         this.angle = 0;
         this.speed = durationStart;
-        // this.durationIncrement = durationIncrement;
         this.creatorSize = curve;
         startDistanceOffset = 64;
         this.slope = curve;
         this.lockon = 0;
-        //this.idk = idk;
         this.radius = 0;
         this.stepMultiplier = 0;
         this.offset = null; // set in send()

@@ -97,6 +97,7 @@ public abstract class Spell {
                 if (combatSpell != null && !ignoreBookCheck && Arrays.stream(player.getCombat().AUTOCAST_SPELLS).noneMatch(combatSpell1 -> combatSpell1 == finalCombatSpell)) {
                     if (!player.getSpellbook().equals(combatSpell.spellbook())) {
                         Autocasting.setAutocast(player, null);
+                        player.getCombat().setPoweredStaffSpell(null);
                         Debugs.CMB.debug(player, "bad book", target, true);
                         player.message("This spell belongs to a different spellbook.");
                         return false;

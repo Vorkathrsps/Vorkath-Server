@@ -29,9 +29,9 @@ public enum ModernSpells {
     FIRE_SURGE(22608, 1465, 51, 43, 31, 1464, 1466, 10, 7855,  GraphicHeight.HIGH),
     TELEBLOCK(12445, 1299,75, 43, 31, -1, 345, 10, 1820, GraphicHeight.LOW);
 
-    public int spellID, projectile, castAnimation, startSpeed, startHeight, endHeight, startGraphic, endGraphic, stepMultiplier;
+    public final int spellID, projectile, castAnimation, startSpeed, startHeight, endHeight, startGraphic, endGraphic, stepMultiplier;
 
-    public GraphicHeight endGraphicHeight;
+    public final GraphicHeight endGraphicHeight;
 
     ModernSpells(int spellID, int projectile, int startSpeed, int startHeight, int endHeight, int startGraphic, int endGraphic, int stepMultiplier, int castAnimation, GraphicHeight endGraphicHeight) {
         this.spellID = spellID;

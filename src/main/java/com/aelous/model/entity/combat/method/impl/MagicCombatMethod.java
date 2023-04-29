@@ -27,11 +27,6 @@ import static com.aelous.utility.ItemIdentifiers.*;
  */
 public class MagicCombatMethod extends CommonCombatMethod {
 
-
-    private static final String MODERN = "./data/combat/magic/modern.toml";
-    private static final String ANCIENTS = "./data/combat/magic/ancients.toml";
-
-
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         try {
@@ -40,10 +35,8 @@ public class MagicCombatMethod extends CommonCombatMethod {
             boolean modernSpellbook = entity.getAsPlayer().getSpellbook() == MagicSpellbook.NORMAL;
             boolean ancientSpellbook = entity.getAsPlayer().getSpellbook() == MagicSpellbook.ANCIENT;
             boolean isWearingPoweredStaff = entity.getAsPlayer().getEquipment().containsAny(TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, SANGUINESTI_STAFF, TUMEKENS_SHADOW, DAWNBRINGER, ACCURSED_SCEPTRE_A);
-            assert spell != null;
-            boolean canCast = spell.canCast(entity.getAsPlayer(), target, true);
-            //final var list = parseMagicDataModerns;
-            var spellID = spell.spellId();
+            boolean canCast = spell != null && spell.canCast(entity.getAsPlayer(), target, true);
+            var spellID = spell != null ? spell.spellId() : null;
 
             int projectile = -1;
             int startgraphic = -1;
@@ -57,63 +50,58 @@ public class MagicCombatMethod extends CommonCombatMethod {
 
             int distance = entity.tile().getChevDistance(target.tile());
 
-            GraphicHeight startGraphicHeight = GraphicHeight.HIGH;
-            GraphicHeight endGraphicHeight = GraphicHeight.HIGH;
-            ModernSpells findProjectileDataModern = ModernSpells.findSpellProjectileData(spellID, endGraphicHeight);
-            AncientSpells findProjectileDataAncients = AncientSpells.findSpellProjectileData(spellID, startGraphicHeight, endGraphicHeight);
-            AutoCastWeaponSpells findAutoCastWeaponsData = AutoCastWeaponSpells.findSpellProjectileData(spellID, endGraphicHeight);
+            if (spell != null) {
+                GraphicHeight startGraphicHeight = GraphicHeight.HIGH;
+                GraphicHeight endGraphicHeight = GraphicHeight.HIGH;
+                ModernSpells findProjectileDataModern = ModernSpells.findSpellProjectileData(spellID, endGraphicHeight);
+                AncientSpells findProjectileDataAncients = AncientSpells.findSpellProjectileData(spellID, startGraphicHeight, endGraphicHeight);
+                AutoCastWeaponSpells findAutoCastWeaponsData = AutoCastWeaponSpells.findSpellProjectileData(spellID, endGraphicHeight);
 
-            // boolean determineProjectileData = findProjectileDataModern != null && modernSpellbook ? entity.getAsPlayer().getCombat().getCastSpell().spellId() == findProjectileDataModern.spellID :
-            if (!target.dead() && !entity.dead()) {
-                if (canCast) {
-                    if (findProjectileDataModern != null) {
-                        if (modernSpellbook && entity.getAsPlayer().getCombat().getCastSpell().spellId() == findProjectileDataModern.spellID) {
-                            projectile = (findProjectileDataModern.projectile);
-                            startgraphic = (findProjectileDataModern.startGraphic);
-                            castAnimation = (findProjectileDataModern.castAnimation);
-                            startSpeed = (findProjectileDataModern.startSpeed);
-                            startHeight = (findProjectileDataModern.startHeight);
-                            endHeight = (findProjectileDataModern.endHeight);
-                            endGraphic = (findProjectileDataModern.endGraphic);
-                            stepMultiplier = (findProjectileDataModern.stepMultiplier);
-                            duration = (startSpeed + -5 + (stepMultiplier * distance));
-                            endGraphicHeight = findProjectileDataModern.endGraphicHeight;
-                        }
-                    }
-                }
                 if (!target.dead() && !entity.dead()) {
                     if (canCast) {
-                        if (findProjectileDataAncients != null) {
-                            if (ancientSpellbook && entity.getAsPlayer().getCombat().getCastSpell().spellId() == findProjectileDataAncients.spellID) {
-                                projectile = (findProjectileDataAncients.projectile);
-                                startgraphic = (findProjectileDataAncients.startGraphic);
-                                castAnimation = (findProjectileDataAncients.castAnimation);
-                                startSpeed = (findProjectileDataAncients.startSpeed);
-                                startHeight = (findProjectileDataAncients.startHeight);
-                                endHeight = (findProjectileDataAncients.endHeight);
-                                endGraphic = (findProjectileDataAncients.endGraphic);
-                                stepMultiplier = (findProjectileDataAncients.stepMultiplier);
-                                duration = (startSpeed + -5 + (stepMultiplier * distance));
-                                endGraphicHeight = findProjectileDataAncients.endGraphicHeight;
-                            }
-                        }
-                    }
-                }
-                if (!target.dead() && !entity.dead()) {
-                    if (canCast) {
-                        if (isWearingPoweredStaff) {
-                            if (findAutoCastWeaponsData != null) {
-                                if (entity.getAsPlayer().getCombat().getPoweredStaffSpell().spellId() == findAutoCastWeaponsData.spellID) {
-                                    projectile = (findAutoCastWeaponsData.projectile);
-                                    startgraphic = (findAutoCastWeaponsData.startGraphic);
-                                    castAnimation = (findAutoCastWeaponsData.castAnimation);
-                                    startSpeed = (findAutoCastWeaponsData.startSpeed);
-                                    startHeight = (findAutoCastWeaponsData.startHeight);
-                                    endHeight = (findAutoCastWeaponsData.endHeight);
-                                    endGraphic = (findAutoCastWeaponsData.endGraphic);
-                                    stepMultiplier = (findAutoCastWeaponsData.stepMultiplier);
+                        if (entity instanceof Player player) {
+                            if (findProjectileDataModern != null) {
+                                if (modernSpellbook && player.getCombat().getCastSpell().spellId() == findProjectileDataModern.spellID) {
+                                    projectile = (findProjectileDataModern.projectile);
+                                    startgraphic = (findProjectileDataModern.startGraphic);
+                                    castAnimation = (findProjectileDataModern.castAnimation);
+                                    startSpeed = (findProjectileDataModern.startSpeed);
+                                    startHeight = (findProjectileDataModern.startHeight);
+                                    endHeight = (findProjectileDataModern.endHeight);
+                                    endGraphic = (findProjectileDataModern.endGraphic);
+                                    stepMultiplier = (findProjectileDataModern.stepMultiplier);
                                     duration = (startSpeed + -5 + (stepMultiplier * distance));
-                                    endGraphicHeight = findAutoCastWeaponsData.endGraphicHeight;
+                                    endGraphicHeight = findProjectileDataModern.endGraphicHeight;
+                                }
+                            }
+                            if (findProjectileDataAncients != null) {
+                                if (ancientSpellbook && player.getCombat().getCastSpell().spellId() == findProjectileDataAncients.spellID) {
+                                    projectile = (findProjectileDataAncients.projectile);
+                                    startgraphic = (findProjectileDataAncients.startGraphic);
+                                    castAnimation = (findProjectileDataAncients.castAnimation);
+                                    startSpeed = (findProjectileDataAncients.startSpeed);
+                                    startHeight = (findProjectileDataAncients.startHeight);
+                                    endHeight = (findProjectileDataAncients.endHeight);
+                                    endGraphic = (findProjectileDataAncients.endGraphic);
+                                    stepMultiplier = (findProjectileDataAncients.stepMultiplier);
+                                    duration = (startSpeed + -5 + (stepMultiplier * distance));
+                                    endGraphicHeight = findProjectileDataAncients.endGraphicHeight;
+                                }
+                            }
+                            if (isWearingPoweredStaff) {
+                                if (findAutoCastWeaponsData != null) {
+                                    if (player.getCombat().getPoweredStaffSpell().spellId() == findAutoCastWeaponsData.spellID) {
+                                        projectile = (findAutoCastWeaponsData.projectile);
+                                        startgraphic = (findAutoCastWeaponsData.startGraphic);
+                                        castAnimation = (findAutoCastWeaponsData.castAnimation);
+                                        startSpeed = (findAutoCastWeaponsData.startSpeed);
+                                        startHeight = (findAutoCastWeaponsData.startHeight);
+                                        endHeight = (findAutoCastWeaponsData.endHeight);
+                                        endGraphic = (findAutoCastWeaponsData.endGraphic);
+                                        stepMultiplier = (findAutoCastWeaponsData.stepMultiplier);
+                                        duration = (startSpeed + -5 + (stepMultiplier * distance));
+                                        endGraphicHeight = findAutoCastWeaponsData.endGraphicHeight;
+                                    }
                                 }
                             }
                         }
@@ -165,7 +153,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
     public int getAttackDistance(Entity entity) {
         if (entity.isPlayer()) {
             Player player = (Player) entity;
-            if (player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS) || player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SWAMP) || player.getEquipment().hasAt(EquipSlot.WEAPON, SANGUINESTI_STAFF)) {
+            if (player.getEquipment().containsAny(TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, SANGUINESTI_STAFF, TUMEKENS_SHADOW, DAWNBRINGER, ACCURSED_SCEPTRE_A)) {
                 return 8;
             }
         }
@@ -174,14 +162,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
 
     @Override
     public void postAttack() {
-        boolean spellWeapon =
-            entity.getCombat().getCastSpell() == CombatSpells.ELDRITCH_NIGHTMARE_STAFF.getSpell()
-                || entity.getCombat().getCastSpell() == CombatSpells.VOLATILE_NIGHTMARE_STAFF.getSpell()
-                || entity.getCombat().getPoweredStaffSpell() == CombatSpells.TRIDENT_OF_THE_SEAS.getSpell()
-                || entity.getCombat().getPoweredStaffSpell() == CombatSpells.TRIDENT_OF_THE_SWAMP.getSpell()
-                || entity.getCombat().getPoweredStaffSpell() == CombatSpells.SANGUINESTI_STAFF.getSpell()
-                || entity.getCombat().getPoweredStaffSpell() == CombatSpells.TUMEKENS_SHADOW.getSpell()
-                || entity.getCombat().getPoweredStaffSpell() == CombatSpells.ACCURSED_SCEPTRE.getSpell();
+        boolean spellWeapon = entity.getCombat().getCastSpell() == CombatSpells.ELDRITCH_NIGHTMARE_STAFF.getSpell() || entity.getCombat().getCastSpell() == CombatSpells.VOLATILE_NIGHTMARE_STAFF.getSpell() || entity.getCombat().getPoweredStaffSpell() == CombatSpells.TRIDENT_OF_THE_SEAS.getSpell() || entity.getCombat().getPoweredStaffSpell() == CombatSpells.TRIDENT_OF_THE_SWAMP.getSpell() || entity.getCombat().getPoweredStaffSpell() == CombatSpells.SANGUINESTI_STAFF.getSpell() || entity.getCombat().getPoweredStaffSpell() == CombatSpells.TUMEKENS_SHADOW.getSpell() || entity.getCombat().getPoweredStaffSpell() == CombatSpells.ACCURSED_SCEPTRE.getSpell();
         if (entity.getCombat().getAutoCastSpell() == null && !spellWeapon) {
             entity.getCombat().reset();
         }

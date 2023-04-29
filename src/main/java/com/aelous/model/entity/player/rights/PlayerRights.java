@@ -12,12 +12,10 @@ public enum PlayerRights {
     PLAYER( -1, 0),
 
     SUPPORT(505, 1),
-    MODERATOR(1313, 1),
-    ADMINISTRATOR(1314, 2),
-    DEVELOPER(495, 2),
-
-    OWNER(495, 2)
-    ;
+    MODERATOR(494, 2),
+    ADMINISTRATOR(495, 3),
+    DEVELOPER(497, 4),
+    OWNER(496, 5);
 
     private final int spriteId;
 

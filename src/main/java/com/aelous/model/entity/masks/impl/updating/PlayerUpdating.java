@@ -449,8 +449,6 @@ public class PlayerUpdating {
         int startY = target.getForceMovement().getStart().getLocalY(player.getLastKnownRegion());
         int endX = target.getForceMovement().getEnd() == null ? 0 : target.getForceMovement().getEnd().getX();
         int endY = target.getForceMovement().getEnd() == null ? 0 : target.getForceMovement().getEnd().getY();
-
-
         builder.put(startX, ValueType.S);
         builder.put(startY, ValueType.S);
         builder.put(startX + endX, ValueType.S);

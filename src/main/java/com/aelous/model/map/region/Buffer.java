@@ -65,7 +65,7 @@ public class Buffer {
         return ((buffer[offset - 2] & 0xff) << 8) + (buffer[offset - 1] & 0xff);
     }
 
-    public int getUSmart() {
+    public int getUnsignedShortSmart() {
         int i = buffer[offset] & 0xff;
         if (i < 128) {
             return getUByte();
@@ -82,7 +82,7 @@ public class Buffer {
         int var1 = 0;
 
         int var2;
-        for (var2 = readUnsignedShortSmart(); var2 == 32767; var2 = this.readUnsignedShortSmart())
+        for (var2 = readUnsignedShortSmart(); var2 == 32767; var2 = readUnsignedShortSmart())
         {
             var1 += 32767;
         }
@@ -94,7 +94,7 @@ public class Buffer {
         try {
             int value = 0;
             int ptr;
-            for (ptr = getUSmart(); 32767 == ptr; ptr = getUSmart())
+            for (ptr = getUnsignedShortSmart(); 32767 == ptr; ptr = getUnsignedShortSmart())
                 value += 32767;
             value += ptr;
             return value;

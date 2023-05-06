@@ -7,6 +7,7 @@ import com.aelous.model.inter.dialogue.Expression;
 
 import com.aelous.model.items.Item;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
+import com.aelous.utility.Utils;
 
 /**
  * @author Patrick van Elderen | December, 23, 2020, 15:33
@@ -286,7 +287,7 @@ public class TzHaarMejJalDialogue extends Dialogue {
                                                     return;
                                                 }
                                                 player.inventory().remove(new Item(6570));
-                                                int roll = 0;//TODO
+                                                boolean roll = Utils.securedRandomChance(1.0F);
                                                 boolean receivedPet = false;
                                                 if (receivedPet) {
                                                     send(DialogueType.NPC_STATEMENT, NpcIdentifiers.TZHAARMEJJAL, Expression.DEFAULT, "You lucky. Better train him good else TzTok-Jad find", "you JalYt.");

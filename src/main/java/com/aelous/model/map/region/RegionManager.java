@@ -80,7 +80,6 @@ public class RegionManager {
             region = new Region(regionId, -1, -1);
             logger.debug("Region not found in 317 dump {}", regionId );
             regions.put(regionId, region);
-            // do NOT put loadMapFIles here - will cause loop
         }
         return region;
     }
@@ -90,9 +89,7 @@ public class RegionManager {
      */
     public @Nonnull static Region getRegion(int x, int y) {
         loadMapFiles(x, y);
-        int regionX = x >> 3;
-        int regionY = y >> 3;
-        int regionId = ((regionX / 8) << 8) + (regionY / 8);
+        int regionId = ((x >> 6) << 8) | (y >> 6);
         return getRegion(regionId);
     }
 
@@ -508,6 +505,7 @@ public class RegionManager {
                 //System.err.println("missing clipping at region "+regionId);
                 return;
             }
+            if (oFileData != null)
             logger.trace("clipmap region {} at {} in {} ns len:{} len:{} files {} {}", regionId, Tile.regionToTile(regionId), stopwatch.elapsed().toNanos(), oFileData.length, gFileData.length, r.getObjectFile(), r.getTerrainFile());
 
             // Read values using our streams..
@@ -557,7 +555,7 @@ public class RegionManager {
                     objectId += incr;
                     int location = 0;
                     int incr2;
-                    while ((incr2 = objectStream.getUSmart()) != 0) {
+                    while ((incr2 = objectStream.readUnsignedShortSmart()) != 0) {
                         location += incr2 - 1;
                         int localX = (location >> 6 & 0x3f);
                         int localY = (location & 0x3f);
@@ -571,8 +569,6 @@ public class RegionManager {
                         if ((r.heightMap[1][localX][localY] & 2) == 2) {
                             zLevel--;
                         }
-
-                        // Add object..
 
                         if (zLevel >= 0 && zLevel <= 3) {
                             RegionManager.addObject(objectId, absX + localX, absY + localY, zLevel, type, direction); // Add

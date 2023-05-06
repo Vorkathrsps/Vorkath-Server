@@ -17,9 +17,9 @@ public class FileUtil {
     public static byte[] readFile(String name) {
         try {
             RandomAccessFile raf = new RandomAccessFile(name, "r");
-            ByteBuffer buf =
-                raf.getChannel().map(FileChannel.MapMode.READ_ONLY, 0, raf.length());
-            try {
+            try (raf) {
+                ByteBuffer buf =
+                    raf.getChannel().map(FileChannel.MapMode.READ_ONLY, 0, raf.length());
                 if (buf.hasArray()) {
                     return buf.array();
                 } else {
@@ -27,8 +27,6 @@ public class FileUtil {
                     buf.get(array);
                     return array;
                 }
-            } finally {
-                raf.close();
             }
         } catch (Exception e) {
             logger.catching(e);

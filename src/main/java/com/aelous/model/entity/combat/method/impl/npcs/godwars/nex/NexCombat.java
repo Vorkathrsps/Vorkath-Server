@@ -32,11 +32,15 @@ import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.route.routes.ProjectileRoute;
 import com.aelous.model.map.route.routes.TargetRoute;
+import com.aelous.model.phase.PhaseStage;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 import com.google.common.collect.Lists;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -77,16 +81,16 @@ public class NexCombat extends CommonCombatMethod {
 
     private static final int[] DRAIN = {Skills.ATTACK, Skills.STRENGTH, Skills.DEFENCE};
 
-    static GameObject redBarrier;
-
     public static final Area NEX_AREA = new Area(2910, 5189, 2939, 5217);
-
 
     public static Tile[] NO_ESCAPE_TELEPORTS = {new Tile(2925, 5212, 0), // north
         new Tile(2934, 5203, 0), // east,
         new Tile(2924, 5194, 0), // south
         new Tile(2916, 5203, 0),}; // west
 
+    @Getter
+    @Setter
+    public static AtomicBoolean darknessTickBoolean = new AtomicBoolean(false);
 
     @Override
     public void init(NPC npc) {
@@ -113,9 +117,7 @@ public class NexCombat extends CommonCombatMethod {
                 t.stop();
             }
         });
-        nex.getCombatInfo().scripts.agro_ = (n, p) -> {
-            return NEX_AREA.contains(p);
-        };
+        nex.getCombatInfo().scripts.agro_ = (n, p) -> NEX_AREA.contains(p);
     }
 
     public int lastAttack;
@@ -131,11 +133,15 @@ public class NexCombat extends CommonCombatMethod {
             return false;
         }
 
+        if (nex.progressingPhase.get()) {
+            return false;
+        }
+
         nex.faceEntity(target);
         attackCount += 1;
         lastAttack = 0;
         //System.out.println("prepare attack attackCount : " + attackCount + " fight state: " + nex.fightState);
-        if (nex.fightState == SMOKE_PHASE) {
+        if (nex.phase.getStage() == PhaseStage.ONE) {
             if (withinDistance(1) && World.getWorld().rollDie(2)) {
                 basicAttack(nex, target);
                 return true;
@@ -153,17 +159,18 @@ public class NexCombat extends CommonCombatMethod {
 
             //The drag attack can happen at any time, in between attacks.
             drag(nex);
-        } else if (nex.fightState == SHADOW_PHASE) {
+        } else if (nex.phase.getStage() == PhaseStage.TWO) {
+            if (nex.darkenScreen.get()) {
+                embraceDarkness();
+            }
             if (attackCount % 5 == 0) {
                 if (World.getWorld().rollDie(4)) {
-                    embraceDarkness();
-                } else {
                     shadowSmash();
                 }
             } else {
                 shadowShots();
             }
-        } else if (nex.fightState == BLOOD_PHASE) {
+        } else if (nex.phase.getStage() == PhaseStage.THREE) {
             if (attackCount % 5 == 0) {
                 if (World.getWorld().rollDie(4)) {
                     bloodSacrifice(target);
@@ -173,7 +180,7 @@ public class NexCombat extends CommonCombatMethod {
             } else {
                 bloodBarrage();
             }
-        } else if (nex.fightState == ICE_PHASE) {
+        } else if (nex.phase.getStage() == PhaseStage.FOUR) {
             if (attackCount % 5 == 0) {
                 if (World.getWorld().rollDie(6)) {
                     icePrison(target);
@@ -183,7 +190,7 @@ public class NexCombat extends CommonCombatMethod {
             } else {
                 iceBarrage();
             }
-        } else if (nex.fightState == ZAROS_PHASE) {
+        } else if (nex.phase.getStage() == PhaseStage.FIVE) {
             if (World.getWorld().rollDie(15, 1)) {
                 if (!nex.turmoil) {
                     nex.graphic(TURMOIL_GFX);
@@ -249,11 +256,13 @@ public class NexCombat extends CommonCombatMethod {
     }
 
     private void leech(Entity target) {
-        Projectile projectile = new Projectile(nex, target, 2010, 0, 100, 43, 31, 0);
-        projectile.sendProjectile();
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (51 + -5 + (10 * tileDist));
+        Projectile p = new Projectile(nex, target, 2010, 51, duration, 43, 31, 0, target.getSize(), 10);
+        entity.executeProjectile(p);
         for (int skill : DRAIN) {
             int take = 5;
-            target.graphic(2011);
+            target.graphic(2011, GraphicHeight.LOW, p.getSpeed());
             target.player().skills().alterSkill(skill, -take);
             nex.getCombatInfo().stats.attack += take;
             nex.getCombatInfo().stats.strength += take;
@@ -299,7 +308,7 @@ public class NexCombat extends CommonCombatMethod {
         });
     }
 
-    private void bloodSiphon() {
+    public void bloodSiphon() {
         if (nex.lastSiphon < Utils.currentTimeMillis()) {
             nex.lastSiphon = Utils.currentTimeMillis() + 30000;
             nex.lockMoveDamageOk();
@@ -360,9 +369,10 @@ public class NexCombat extends CommonCombatMethod {
         return tile.inArea(NEX_AREA);
     }
 
-    private void embraceDarkness() {
+    public void embraceDarkness() {
         nex.forceChat("Embrace darkness!");
         nex.animate(EMBRACE_DARKNESS_ATTACK_ANIM, 30);
+        nex.darkenScreen.getAndSet(false);
 
         for (Entity t : getPossibleTargets(nex)) {
             //Ignore players outside the Nex fighting area
@@ -381,6 +391,7 @@ public class NexCombat extends CommonCombatMethod {
                         if (tick.get() == 33) { // Attack lasts for 20s
                             player.getPacketSender().darkenScreen(0);
                             chain.stop();
+                            nex.darkenScreen.getAndSet(false);
                             return;
                         }
 
@@ -402,6 +413,7 @@ public class NexCombat extends CommonCombatMethod {
             for (Entity targets : getPossibleTargets(nex)) {
                 if (targets instanceof Player player) {
                     player.getPacketSender().darkenScreen(0);
+                    nex.darkenScreen.getAndSet(false);
                 }
             }
         });
@@ -474,7 +486,7 @@ public class NexCombat extends CommonCombatMethod {
     }
 
     public void smokeDash() {
-        if (nex.fightState == SHADOW_PHASE) {
+        if (nex.phase.getStage() == PhaseStage.ONE) {
             return;
         }
         lastAttack = 1;
@@ -749,15 +761,16 @@ public class NexCombat extends CommonCombatMethod {
 
     @Override
     public void doFollowLogic() {
+        if (nex.progressingPhase.get()) {
+            return;
+        }
         TargetRoute.set(entity, target, 1);
     }
 
     @Override
     public void postDamage(Hit hit) {
-        //Nex taking damage
         if (hit.getTarget().isNpc() && hit.getSource().isPlayer()) {
             if (nex.id() == NpcIdentifiers.NEX_11280 && hit.getCombatType() == CombatType.MELEE) {
-                //The player attacking Nex
                 Entity source = hit.getSource();
                 if (source != null) {
                     int deflectedDamage = (int) (hit.getDamage() * 0.1);
@@ -766,8 +779,6 @@ public class NexCombat extends CommonCombatMethod {
                 }
             }
         }
-
-        //Nex dealing damage
         if (hit.getSource().isNpc()) {
             if (nex.soulsplit) {
                 nex.healHit(nex, hit.getDamage());
@@ -778,25 +789,25 @@ public class NexCombat extends CommonCombatMethod {
     @Override
     public void preDefend(Hit hit) {
         if (hit.getTarget().isNpc() && hit.getSource().isPlayer()) {
-            if (nex.fightState == SMOKE_PHASE && nex.hp() <= 2720 && !nex.<Boolean>getAttribOr(SMOKE_PHASE_INITIATED, false)) {
+            if (nex.phase.getStage() == PhaseStage.ONE && nex.hp() <= 2720 && !nex.<Boolean>getAttribOr(SMOKE_PHASE_INITIATED, false)) {
                 nex.forceChat("Fumus, don't fail me!");
                 nex.getCombat().delayAttack(1);
                 nex.bodyguardPhase = BodyguardPhase.FUMUS;
                 ZarosGodwars.fumus.putAttrib(AttributeKey.BARRIER_BROKEN, true);
                 nex.putAttrib(SMOKE_PHASE_INITIATED, true);
-            } else if (nex.fightState == SHADOW_PHASE && nex.hp() <= 2040 && !nex.<Boolean>getAttribOr(SHADOW_PHASE_INITIATED, false)) {
+            } else if (nex.phase.getStage() == PhaseStage.TWO && nex.hp() <= 2040 && !nex.<Boolean>getAttribOr(SHADOW_PHASE_INITIATED, false)) {
                 nex.forceChat("Umbra, don't fail me!");
                 nex.getCombat().delayAttack(1);
                 nex.bodyguardPhase = BodyguardPhase.UMBRA;
                 ZarosGodwars.umbra.putAttrib(AttributeKey.BARRIER_BROKEN, true);
                 nex.putAttrib(SHADOW_PHASE_INITIATED, true);
-            } else if (nex.fightState == BLOOD_PHASE && nex.hp() <= 1360 && !nex.<Boolean>getAttribOr(BLOOD_PHASE_INITIATED, false)) {
+            } else if (nex.phase.getStage() == PhaseStage.THREE && nex.hp() <= 1360 && !nex.<Boolean>getAttribOr(BLOOD_PHASE_INITIATED, false)) {
                 nex.forceChat("Cruor, don't fail me!");
                 nex.getCombat().delayAttack(1);
                 nex.bodyguardPhase = BodyguardPhase.CRUOR;
                 ZarosGodwars.cruor.putAttrib(AttributeKey.BARRIER_BROKEN, true);
                 nex.putAttrib(BLOOD_PHASE_INITIATED, true);
-            } else if (nex.fightState == ICE_PHASE && nex.hp() <= 680 && !nex.<Boolean>getAttribOr(ICE_PHASE_INITIATED, false)) {
+            } else if (nex.phase.getStage() == PhaseStage.FOUR && nex.hp() <= 680 && !nex.<Boolean>getAttribOr(ICE_PHASE_INITIATED, false)) {
                 nex.forceChat("Glacies, don't fail me!");
                 nex.getCombat().delayAttack(1);
                 nex.bodyguardPhase = BodyguardPhase.GLACIES;
@@ -809,9 +820,10 @@ public class NexCombat extends CommonCombatMethod {
             hit.block();
         }
 
-        //During this, all damage she receives will instead heal her.
-        if (nex.doingSiphon && hit.getSource().isPlayer()) { // Player damage will heal her
-            nex.healHit(nex, hit.getDamage());
+        if (nex.phase.getStage() == PhaseStage.THREE) {
+            if (nex.doingSiphon && hit.getSource().isPlayer()) {
+                nex.healHit(nex, hit.getDamage());
+            }
         }
     }
 
@@ -846,9 +858,9 @@ public class NexCombat extends CommonCombatMethod {
                     }
                     close.hit(npc, World.getWorld().random(40));
                 }
-            }).then(3, () ->{
+            }).then(3, () -> {
                 for (NPC re : nex.bloodReavers) {
-                    if(re == null) {
+                    if (re == null) {
                         continue;
                     }
                     re.remove();
@@ -861,7 +873,7 @@ public class NexCombat extends CommonCombatMethod {
                 }
                 drop();
                 //Respawn nex
-            }).then(20, () ->ZarosGodwars.startEvent());
+            }).then(20, () -> ZarosGodwars.startEvent());
         }
         return true;
     }

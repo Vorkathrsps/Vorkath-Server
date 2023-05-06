@@ -19,8 +19,10 @@ import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.map.object.GameObject;
+import com.aelous.model.map.object.MapObjects;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
+import com.aelous.model.map.region.RegionManager;
 import com.aelous.utility.Color;
 import com.aelous.utility.TickDelay;
 import com.aelous.utility.Utils;
@@ -49,20 +51,20 @@ import static com.aelous.model.entity.attributes.AttributeKey.VENOMED_BY;
 public class GreatOlm extends CommonCombatMethod {
 
     private static final Projectile CRYSTAL_DROP_PROJECTILE = new Projectile(1357, 150, 0, 0, 135, 0, 0, 0);
-    private static final Projectile CRYSTAL_BOMB_PROJECTILE = new Projectile(1357, 90, 0, 30, 100, 0, 16, 0);
+    private static final Projectile CRYSTAL_BOMB_PROJECTILE = new Projectile(1357, 100, 0, 30, 100, 0, 16, 0);
     private static final Projectile CRYSTAL_SPIKE_PROJECTILE = new Projectile(1352, 200, 0, 0, 30, 0, 0, 0);
 
-    private static final Projectile ACID_POOL_PROJECTILE = new Projectile(1354, 90, 0, 30, 100, 0, 16, 0);
-    private static final Projectile ACID_DRIP_PROJECTILE = new Projectile(1354, 90, 43, 30, 25, 6, 16, 0);
+    private static final Projectile ACID_POOL_PROJECTILE = new Projectile(1354, 100, 0, 30, 100, 0, 16, 0);
+    private static final Projectile ACID_DRIP_PROJECTILE = new Projectile(1354, 100, 43, 30, 25, 6, 16, 0);
 
-    private static final Projectile BURN_PROJECTILE = new Projectile(1350, 90, 43, 35, 20, 6, 16, 192);
-    private static final Projectile FLAME_WALL_PROJECTILE_1 = new Projectile(1347, 90, 0, 15, 55, 0, 16, 127);
+    private static final Projectile BURN_PROJECTILE = new Projectile(1350, 100, 43, 35, 20, 6, 16, 192);
+    private static final Projectile FLAME_WALL_PROJECTILE_1 = new Projectile(1347, 100, 0, 15, 55, 0, 16, 127);
     private static final Projectile FLAME_WALL_PROJECTILE_2 = new Projectile(1348, 0, 0, 0, 30, 0, 16, 0);
 
-    private static final Projectile SIPHON_PROJECTILE = new Projectile(1355, 90, 0, 30, 100, 0, 16, 0);
-    private static final Projectile MAGIC_SPHERE = new Projectile(1341, 90, 43, 30, 150, 0, 16, 192);
-    private static final Projectile RANGED_SPHERE = new Projectile(1343, 90, 43, 30, 150, 0, 16, 192);
-    private static final Projectile MELEE_SPHERE = new Projectile(1345, 90, 43, 30, 150, 0, 16, 192);
+    private static final Projectile SIPHON_PROJECTILE = new Projectile(1355, 100, 0, 30, 100, 0, 16, 0);
+    private static final Projectile MAGIC_SPHERE = new Projectile(1341, 80, 43, 30, 150, 0, 16, 192);
+    private static final Projectile RANGED_SPHERE = new Projectile(1343, 80, 43, 30, 150, 0, 16, 192);
+    private static final Projectile MELEE_SPHERE = new Projectile(1345, 80, 43, 30, 150, 0, 16, 192);
 
     AtomicBoolean turning = new AtomicBoolean();
 
@@ -417,7 +419,7 @@ public class GreatOlm extends CommonCombatMethod {
             targets.forEach(p -> {
                 var tileDist = entity.tile().distance(target.tile());
                 int duration = lastBasicAttackStyle == CombatType.RANGED ? (41 + 11 + (5 * tileDist)) : (51 + -5 + (10 * tileDist));
-                Projectile projectile = new Projectile(npc, p, lastBasicAttackStyle == CombatType.RANGED ? 1340 : 1339, lastBasicAttackStyle == CombatType.RANGED ? 41 : 51, duration, 105, 31, 0, target.getSize(), lastBasicAttackStyle == CombatType.RANGED ? 5 : 10);
+                Projectile projectile = new Projectile(npc, p, lastBasicAttackStyle == CombatType.RANGED ? 1340 : 1339, lastBasicAttackStyle == CombatType.RANGED ? 41 : 51, duration, 80, 31, 0, 1, lastBasicAttackStyle == CombatType.RANGED ? 5 : 10);
                 final int delay = entity.executeProjectile(projectile);
                 int maxDamage = npc.getCombatInfo().maxhit;
                 if (Prayers.usingPrayer(p, lastBasicAttackStyle == CombatType.RANGED ? Prayers.PROTECT_FROM_MISSILES : Prayers.PROTECT_FROM_MAGIC))
@@ -426,8 +428,6 @@ public class GreatOlm extends CommonCombatMethod {
                 hit.submit();
             });
         }).then(1, () -> delayedAnimation(npc, facing.getIdleAnim(isEmpowered()), 1));
-        // animate(npc, facing.getAttackAnim(isEmpowered()));
-        // delayedAnimation(npc, facing.getIdleAnim(isEmpowered()), 1);
     }
 
     public void sphereAttack(NPC npc, List<Player> targets) {
@@ -492,7 +492,7 @@ public class GreatOlm extends CommonCombatMethod {
         getAllTargets().forEach(p -> {
             Tile pos = p.tile().copy();
             GameObject crystal = GameObject.spawn(30033, pos, 10, 0);
-            Chain.noCtx().runFn(2, () -> {
+            Chain.noCtx().runFn(3, () -> {
                 crystal.setId(LARGE_CRYSTALS);
                 if (p.tile().equals(pos))
                     p.hit(npc, World.getWorld().random(npc.getCombatInfo().maxhit));
@@ -939,7 +939,7 @@ public class GreatOlm extends CommonCombatMethod {
                         else
                             tile = arenaBounds.randomTile();
                         Tile src = World.getWorld().get() < 0.5 ? tile.relative(1, 0) : tile.relative(0, 1);
-                        Projectile p1 = new Projectile(entity, tile, 1357, 0, 120, 150, 0, 0, target.getSize(), 10);
+                        Projectile p1 = new Projectile(entity, tile, 1357, 0, 120, 150, 0, 0, 1, 10);
                         final int projDelay = p1.send(src, tile);
                         World.getWorld().tileGraphic(1447, tile, 0, 30);
                         World.getWorld().tileGraphic(1358, tile, 0, p1.getSpeed());

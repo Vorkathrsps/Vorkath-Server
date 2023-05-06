@@ -50,6 +50,7 @@ public class Party {
     private int raidStage = 0;
     public GameObject greatOlmCrystal;
     public GameObject greatOlmRewardCrystal;
+    public GameObject chestRewardLight;
 
     public Party(Player leader) {
         this.leader = leader;

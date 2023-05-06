@@ -121,6 +121,7 @@ public class NexCombat extends CommonCombatMethod {
     }
 
     public int lastAttack;
+    PhaseStage stage = PhaseStage.ONE;
 
     @Override
     public boolean prepareAttack(Entity mob, Entity target) {
@@ -140,76 +141,81 @@ public class NexCombat extends CommonCombatMethod {
         nex.faceEntity(target);
         attackCount += 1;
         lastAttack = 0;
-        //System.out.println("prepare attack attackCount : " + attackCount + " fight state: " + nex.fightState);
-        if (nex.phase.getStage() == PhaseStage.ONE) {
-            if (withinDistance(1) && World.getWorld().rollDie(2)) {
-                basicAttack(nex, target);
-                return true;
-            }
 
-            if (attackCount % 5 == 0) {
-                if (World.getWorld().rollDie(10)) {
-                    smokeDash();
-                } else {
-                    choke(target);
+        switch (nex.getPhase().getStage()) {
+            case ONE -> {
+                if (withinDistance(1) && World.getWorld().rollDie(2)) {
+                    basicAttack(nex, target);
+                    return true;
                 }
-            } else {
-                smokeRush();
+                if (attackCount % 5 == 0) {
+                    if (World.getWorld().rollDie(10)) {
+                        smokeDash();
+                    } else {
+                        choke(target);
+                    }
+                } else {
+                    smokeRush();
+                }
+                drag(nex);
             }
+            case TWO -> {
+                if (nex.darkenScreen.get()) {
+                    embraceDarkness();
+                }
+                if (attackCount % 5 == 0) {
+                    if (World.getWorld().rollDie(4)) {
+                        shadowSmash();
+                    }
+                } else {
+                    shadowShots();
+                }
+            }
+            case THREE -> {
+                if (attackCount % 5 == 0) {
+                    if (World.getWorld().rollDie(4)) {
+                        bloodSacrifice(target);
+                    } else {
+                        bloodSiphon();
+                    }
+                } else {
+                    bloodBarrage();
+                }
+            }
+            case FOUR -> {
+                if (attackCount % 5 == 0) {
+                    if (World.getWorld().rollDie(6)) {
+                        icePrison(target);
+                    } else {
+                        containment();
+                    }
+                } else {
+                    iceBarrage();
+                }
+            }
+            case FIVE -> {
+                if (World.getWorld().rollDie(15, 1)) {
+                    if (!nex.turmoil) {
+                        nex.getCombat().delayAttack(2);
+                        nex.animate(9179);
+                        nex.graphic(TURMOIL_GFX);
+                        nex.turmoil = true;
+                    }
+                }
+                if (withinDistance(1)) {
+                    if (World.getWorld().rollDie(3, 1)) {
+                        magic();
+                    } else {
+                        zarosMelee(target);
+                    }
+                    return true;
+                }
 
-            //The drag attack can happen at any time, in between attacks.
-            drag(nex);
-        } else if (nex.phase.getStage() == PhaseStage.TWO) {
-            if (nex.darkenScreen.get()) {
-                embraceDarkness();
-            }
-            if (attackCount % 5 == 0) {
-                if (World.getWorld().rollDie(4)) {
-                    shadowSmash();
-                }
-            } else {
-                shadowShots();
-            }
-        } else if (nex.phase.getStage() == PhaseStage.THREE) {
-            if (attackCount % 5 == 0) {
-                if (World.getWorld().rollDie(4)) {
-                    bloodSacrifice(target);
+                if (World.getWorld().rollDie(5, 1)) {
+                    leech(target);
                 } else {
-                    bloodSiphon();
-                }
-            } else {
-                bloodBarrage();
-            }
-        } else if (nex.phase.getStage() == PhaseStage.FOUR) {
-            if (attackCount % 5 == 0) {
-                if (World.getWorld().rollDie(6)) {
-                    icePrison(target);
-                } else {
-                    containment();
-                }
-            } else {
-                iceBarrage();
-            }
-        } else if (nex.phase.getStage() == PhaseStage.FIVE) {
-            if (World.getWorld().rollDie(15, 1)) {
-                if (!nex.turmoil) {
-                    nex.graphic(TURMOIL_GFX);
-                    nex.turmoil = true;
-                }
-            }
-            if (withinDistance(1)) {
-                if (World.getWorld().rollDie(3, 1)) {
                     magic();
-                } else {
-                    zarosMelee(target);
                 }
-                return true;
-            }
-
-            if (World.getWorld().rollDie(5, 1)) {
-                leech(target);
-            } else {
-                magic();
             }
         }
         return true;

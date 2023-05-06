@@ -15,6 +15,7 @@ import com.aelous.model.map.position.Tile;
 import com.aelous.model.phase.Phase;
 import com.aelous.model.phase.PhaseStage;
 import com.aelous.utility.chainedwork.Chain;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public class Nex extends NPC {
 
     public BodyguardPhase bodyguardPhase = null;
 
+    @Getter
     public Phase phase = new Phase(PhaseStage.ONE);
     public AtomicBoolean progressingPhase = new AtomicBoolean(false);
 
@@ -46,7 +48,7 @@ public class Nex extends NPC {
     public long lastNoEscape;
     public long lastSiphon;
     public boolean doingSiphon;
-    public boolean soulsplit; // An overhead prayer in which Nex will heal a small percentage of her health for every successful hit she inflicts on up to three players.
+    public boolean soulsplit;
 
     public boolean turmoil;
 
@@ -114,6 +116,7 @@ public class Nex extends NPC {
             }).then(2, () -> {
                 forceChat("NOW, THE POWER OF ZAROS!");
                 animate(9179);
+                graphic(2016);
             }).then(3, () -> {
                 phase.setStage(PhaseStage.FIVE);
                 getCombat().delayAttack(1);

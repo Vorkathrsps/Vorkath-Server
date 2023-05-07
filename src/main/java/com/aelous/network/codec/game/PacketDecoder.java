@@ -72,6 +72,7 @@ public final class PacketDecoder extends ByteToMessageDecoder {
             logger.error("Unhandled size for OpCode=" + opcode + " size=" + size + " Info=" + session.getPlayer().toString());
             buffer.resetReaderIndex();
             logger.error("Decoding failed for packet with OpCode=" + opcode + " and size=" + size);
+            ctx.close();
             return;
         }
 

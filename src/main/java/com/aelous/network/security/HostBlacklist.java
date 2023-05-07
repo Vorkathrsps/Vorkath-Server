@@ -4,18 +4,11 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
-/**
- * @author Patrick van Elderen | May, 07, 2021, 13:34
- * @see <a href="https://github.com/PVE95">Github profile</a>
- */
 public class HostBlacklist {
 
-    /**
-     * TODO
-     */
     private static final String BLACKLIST_DIR = "./data/blacklist.txt";
-
     private static final List<String> blockedHostnames = new ArrayList<>();
 
     public static List<String> getBlockedHostnames() {
@@ -24,6 +17,10 @@ public class HostBlacklist {
 
     public static boolean isBlocked(String host) {
         return blockedHostnames.contains(host.toLowerCase());
+    }
+
+    public static CompletableFuture<Boolean> isBlockedAsync(String host) {
+        return CompletableFuture.supplyAsync(() -> isBlocked(host));
     }
 
     public static void loadBlacklist() {

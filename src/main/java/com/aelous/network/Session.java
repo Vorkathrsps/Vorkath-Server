@@ -147,13 +147,14 @@ public class Session {
      * This method is called EACH GAME CYCLE.
      */
     public void handleQueuedPackets() {
-
         setPacketCounter(0);
+
         for (int i = 0; i < GameServer.properties().packetProcessLimit; i++) {
             Packet packet = packetsQueue.poll();
             if (packet == null) {
                 break;
             }
+
             try {
                 int opcode = packet.getOpcode();
                 int size = packet.getSize();
@@ -161,11 +162,12 @@ public class Session {
                 PacketListener listener = IncomingHandler.PACKETS[opcode];
 
                 if (listener == null) {
-                    String msg = "-> Error processing Opcode="+opcode+" Size="+size+" doesn't have a handler.";
-                    if (PlayerRights.is(player, PlayerRights.ADMINISTRATOR))
-                        player.getPacketSender().sendMessage("<col=ff0000>"+msg);
-                    System.err.println("Error processing Opcode="+opcode+" Size="+size+" DOESN'T HAVE A HANDLER!");
-                    return;
+                    String errorMsg = "Error processing Opcode=" + opcode + " Size=" + size + " doesn't have a handler.";
+                    if (PlayerRights.is(player, PlayerRights.ADMINISTRATOR)) {
+                        player.getPacketSender().sendMessage("<col=ff0000>" + errorMsg);
+                    }
+                    System.err.println(errorMsg);
+                    continue; // Continue processing other packets
                 }
 
                 if (GameServer.broadcast != null) {
@@ -178,23 +180,19 @@ public class Session {
                     } catch (Throwable t) {
                         logger.catching(t);
                     }
-                    if (player.getCurrentTask() != null) {
-                        if (player.getCurrentTask() instanceof PlayerTask task) {
-                            if (task.stops(listener.getClass())) {
-                                task.stop();
-                            }
+
+                    if (player.getCurrentTask() instanceof PlayerTask task) {
+                        if (task.stops(listener.getClass())) {
+                            task.stop();
                         }
                     }
                 }, taken -> {
-                    if (!TimesCycle.BENCHMARKING_ENABLED)
-                        return;
-                    if (taken.toNanos() > threshold) { // 0.5ms
-                        final double taken2 = taken.toNanos() / 1_000_000.;
-                        final String frm = df.format(taken2);
-                        final String time = frm.equals("0") || frm.equals("0.0") ? taken2 + "" : frm;
-                        final String name = IncomingHandler.PACKETS[packet.getOpcode()].getClass().getSimpleName();
-                        final String data = Arrays.toString(packet.getBuffer().array()); // cant release before calling this
-                        System.err.println(time + " ms to process packet id " + name+" warning");
+                    if (TimesCycle.BENCHMARKING_ENABLED && taken.toNanos() > threshold) {
+                        double taken2 = taken.toNanos() / 1_000_000.0;
+                        String time = df.format(taken2);
+                        String name = IncomingHandler.PACKETS[packet.getOpcode()].getClass().getSimpleName();
+                        String data = Arrays.toString(packet.getBuffer().array());
+                        System.err.println(time + " ms to process packet id " + name + " warning");
                     }
                 });
             } catch (Throwable t) {
@@ -204,6 +202,8 @@ public class Session {
             }
         }
     }
+
+
 
     /**
      * Queues the {@code msg} for this session to be encoded and sent to the

@@ -50,8 +50,11 @@ public class KalphiteQueenSecondForm extends CommonCombatMethod {
             case RANGED:
                 for(Player player : World.getWorld().getPlayers()) {
                     if(player != null && player.tile().inArea(KalphiteQueen.getArea())) {
-                        new Projectile(npc, target, 473, 41, 60, 45, 30, 0, 10, 15).sendProjectile();
-                        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), 2, CombatType.RANGED).checkAccuracy().submit();
+                        var tileDist = entity.tile().distance(target.tile());
+                        int duration = (41 + 11 + (5 * tileDist));
+                        Projectile p = new Projectile(entity, target, 473, 41, duration, 43, 31, 0, target.getSize(), 5);
+                        final int delay = entity.executeProjectile(p);
+                        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
                     }
                 }
                 break;
@@ -59,10 +62,13 @@ public class KalphiteQueenSecondForm extends CommonCombatMethod {
                 npc.graphic(278);
                 for(Player player : World.getWorld().getPlayers()) {
                     if (player != null && player.tile().inArea(KalphiteQueen.getArea())) {
-                        new Projectile(npc, target, 280, 41, 60, 45, 30, 0, 10, 15).sendProjectile();
-                        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), 2, CombatType.MAGIC).checkAccuracy().submit();
+                        var tileDist = entity.tile().distance(target.tile());
+                        int duration = (51 + -5 + (10 * tileDist));
+                        Projectile p = new Projectile(entity, target, 280, 51, duration, 43, 31, 0, target.getSize(), 10);
+                        final int delay = entity.executeProjectile(p);
+                        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
 
-                        target.performGraphic(new Graphic(281, GraphicHeight.LOW,2));
+                        target.performGraphic(new Graphic(281, GraphicHeight.LOW,p.getSpeed()));
                     }
                 }
                 break;

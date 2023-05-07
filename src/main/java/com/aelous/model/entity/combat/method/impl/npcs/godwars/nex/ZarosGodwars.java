@@ -71,7 +71,6 @@ public class ZarosGodwars {
             glacies.remove();
             glacies = null;
         }
-        // allow enter again
         if (redBarrierPurple != null && ancientBarrierPurple.isPresent()) {
             ObjectManager.replaceWith(redBarrierPurple, ancientBarrierPurple.get());
         }
@@ -79,7 +78,6 @@ public class ZarosGodwars {
 
     public static void startEvent() {
         if (nex != null) {
-            // dont restart event if nex still spawned. wait until dead
             return;
         }
 
@@ -91,13 +89,10 @@ public class ZarosGodwars {
             nex.lockMovement();
             ZarosGodwars.nex = nex;
             Chain.bound(null).cancelWhen(() -> {
-                var empty = World.getWorld().getPlayers().stream().filter(Objects::nonNull).filter(p -> NEX_AREA.contains(p)).count() == 0;
-                // no players, new nex spawned, old despawned
+                var empty = World.getWorld().getPlayers().stream().filter(Objects::nonNull).noneMatch(NEX_AREA::contains);
                 var stop = false;
-                // p,s cant use registered since it doesnt spawn for 20t
                 if (ZarosGodwars.nex != nex || nex.dead() || empty) {
                     stop = true;
-                   // System.out.println((ZarosGodwars.nex != nex)+", "+nex.dead()+" "+empty);
                     NPC[] a = new NPC[] {minions.a, minions.b, minions.c, minions.d};
                     for (NPC npc : a) {
                         if (npc == null) continue;
@@ -107,7 +102,6 @@ public class ZarosGodwars {
                 }
                 return stop;
             }).thenCancellable(GameServer.properties().production ? 20 : 5, () -> {
-
                 nex.spawn(false);
             }).thenCancellable(1, () -> {
                 nex.forceChat("AT LAST!");

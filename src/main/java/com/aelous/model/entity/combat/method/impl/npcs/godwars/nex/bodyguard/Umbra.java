@@ -22,7 +22,6 @@ import com.aelous.model.entity.player.Skills;
  * @Since January 13, 2023
  */
 public class Umbra extends CommonCombatMethod {
-
     @Override
     public void init(NPC npc) {
         npc.getCombatInfo().scripts.agro_ = (n, t) -> false;

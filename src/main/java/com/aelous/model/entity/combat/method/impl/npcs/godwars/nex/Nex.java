@@ -43,7 +43,6 @@ public class Nex extends NPC {
     @Getter
     public Phase phase = new Phase(PhaseStage.ONE);
     public AtomicBoolean progressingPhase = new AtomicBoolean(false);
-
     public AtomicBoolean darkenScreen = new AtomicBoolean(false);
     public long lastNoEscape;
     public long lastSiphon;

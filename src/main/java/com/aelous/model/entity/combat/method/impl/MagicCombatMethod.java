@@ -77,7 +77,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
                         endHeight = findProjectileDataModern.endHeight;
                         endGraphic = findProjectileDataModern.endGraphic;
                         stepMultiplier = findProjectileDataModern.stepMultiplier;
-                        duration = startSpeed - 5 + (stepMultiplier * distance);
+                        duration = (startSpeed + -5 + (stepMultiplier * distance));
                         endGraphicHeight = findProjectileDataModern.endGraphicHeight;
                     } else if (findProjectileDataAncients != null && ancientSpellbook && player.getCombat().getCastSpell() != null && player.getCombat().getCastSpell().spellId() == findProjectileDataAncients.spellID) {
                         projectile = findProjectileDataAncients.projectile;
@@ -88,7 +88,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
                         endHeight = findProjectileDataAncients.endHeight;
                         endGraphic = findProjectileDataAncients.endGraphic;
                         stepMultiplier = findProjectileDataAncients.stepMultiplier;
-                        duration = startSpeed - 5 + (stepMultiplier * distance);
+                        duration = (startSpeed + -5 + (stepMultiplier * distance));
                         endGraphicHeight = findProjectileDataAncients.endGraphicHeight;
                     } else if (isWearingPoweredStaff && findAutoCastWeaponsData != null && player.getCombat().getPoweredStaffSpell() != null && player.getCombat().getPoweredStaffSpell().spellId() == findAutoCastWeaponsData.spellID) {
                         projectile = findAutoCastWeaponsData.projectile;
@@ -99,7 +99,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
                         endHeight = findAutoCastWeaponsData.endHeight;
                         endGraphic = findAutoCastWeaponsData.endGraphic;
                         stepMultiplier = findAutoCastWeaponsData.stepMultiplier;
-                        duration = startSpeed - 5 + (stepMultiplier * distance);
+                        duration = (startSpeed + -5 + (stepMultiplier * distance));
                         endGraphicHeight = findAutoCastWeaponsData.endGraphicHeight;
                     }
 

@@ -7,6 +7,7 @@ import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.magic.CombatSpell;
+import com.aelous.model.entity.combat.magic.spells.CombatSpells;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
@@ -53,8 +54,10 @@ public class MagicMaxHit {
                     spellMaxHit = (int) Math.round((Math.max(spellMaxHit, spellMaxHit + (Math.max(0, level - 75)) / 3)) * (1 + (b.magestr / 100.0)));
                 }
 
-                if (player.getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
-                    spellMaxHit += (player.getSkills().level(Skills.MAGIC) / 3) + 1;
+                if (player.getCombat().getPoweredStaffSpell() != null && player.getCombat().getCastSpell() == null) {
+                    if (player.getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
+                        spellMaxHit += (player.getSkills().level(Skills.MAGIC) / 3) + 1;
+                    }
                 }
 
                 // Trident of the swamp
@@ -74,7 +77,7 @@ public class MagicMaxHit {
                     spellMaxHit *= 1.50;
                 }
 
-                double multiplier = 1 + ((b.magestr > 0 ? b.magestr : 1.0) / 100);
+                double multiplier = 1 + ((b.getMagestr() > 0 ? b.getMagestr() : 1.0) / 100);
 
                 if (FormulaUtils.hasThammaronSceptre(player) && target != null && target.isNpc() && includeNpcMax) {
                     multiplier += 0.25;

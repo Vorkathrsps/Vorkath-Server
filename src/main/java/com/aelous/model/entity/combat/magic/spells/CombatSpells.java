@@ -2824,7 +2824,7 @@ CombatSpells {
 
         @Override
         public int baseMaxHit() {
-            return 33;
+            return 31;
         }
 
         @Override
@@ -2865,7 +2865,7 @@ CombatSpells {
 
         @Override
         public int baseMaxHit() {
-            return 34;
+            return 32;
         }
 
         @Override

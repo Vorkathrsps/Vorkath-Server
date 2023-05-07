@@ -20,7 +20,7 @@ import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.VESPULA;
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.VESPULA_7532;
 
 /**
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since October 30, 2021
  */
 public class Vespula extends CommonCombatMethod {

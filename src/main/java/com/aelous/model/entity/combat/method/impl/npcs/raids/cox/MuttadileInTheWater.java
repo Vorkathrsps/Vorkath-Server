@@ -11,7 +11,7 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Area;
 
 /**
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since October 31, 2021
  */
 public class MuttadileInTheWater extends CommonCombatMethod {

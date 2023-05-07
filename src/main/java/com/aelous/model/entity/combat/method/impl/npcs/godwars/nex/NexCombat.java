@@ -53,7 +53,7 @@ import static com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosG
 import static com.aelous.utility.ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD;
 
 /**
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since January 12, 2022
  */
 public class NexCombat extends CommonCombatMethod {

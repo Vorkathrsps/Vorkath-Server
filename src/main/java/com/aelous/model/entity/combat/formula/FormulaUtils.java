@@ -17,7 +17,7 @@ import static com.aelous.utility.ItemIdentifiers.BLACK_MASK_9_I;
 
 /**
  * This is a utility class for the combat max hits.
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since November 06, 2021
  */
 public class FormulaUtils {

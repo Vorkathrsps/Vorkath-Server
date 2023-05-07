@@ -4,7 +4,7 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.npc.AggressionCheck;
 
 /**
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since October 19, 2021
  */
 public class MenInBlackAgro implements AggressionCheck {

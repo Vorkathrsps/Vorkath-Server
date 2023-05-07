@@ -13,7 +13,7 @@ import com.aelous.utility.chainedwork.Chain;
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
 
 /**
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since October 29, 2021
  */
 public class Vanguard extends CommonCombatMethod {

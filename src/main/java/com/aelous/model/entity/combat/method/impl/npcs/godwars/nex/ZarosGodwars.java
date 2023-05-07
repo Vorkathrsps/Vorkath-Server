@@ -28,7 +28,7 @@ import static com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.NexCom
 
 /**
  * An utility class for the Zaros part of GWD
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since January 13, 2022
  */
 public class ZarosGodwars {

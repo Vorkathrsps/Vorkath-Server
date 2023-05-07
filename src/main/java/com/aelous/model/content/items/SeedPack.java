@@ -10,7 +10,7 @@ import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import static com.aelous.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since October 22, 2021
  */
 public class SeedPack extends PacketInteraction {

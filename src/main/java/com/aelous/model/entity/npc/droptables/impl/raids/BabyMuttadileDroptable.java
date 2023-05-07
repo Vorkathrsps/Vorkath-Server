@@ -17,7 +17,7 @@ import static com.aelous.model.entity.attributes.AttributeKey.MUTTADILE_HEAL_COU
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.MUTTADILE_7563;
 
 /**
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since October 30, 2021
  */
 public class BabyMuttadileDroptable implements Droptable {

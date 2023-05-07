@@ -8,7 +8,7 @@ import com.aelous.model.entity.player.commands.Command;
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.SCORPIA;
 
 /**
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since October 19, 2021
  */
 public class KillScorpiaCommand implements Command {

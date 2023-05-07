@@ -4,7 +4,7 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.commands.Command;
 
 /**
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since November 03, 2021
  */
 public class VihticCommand implements Command {

@@ -5,7 +5,7 @@ import com.aelous.model.entity.player.commands.Command;
 import com.aelous.model.entity.player.commands.impl.players.PromoCodeCommand;
 
 /**
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since October 30, 2021
  */
 public class DisablePromoCodeCommand implements Command {

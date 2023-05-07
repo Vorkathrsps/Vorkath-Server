@@ -7,7 +7,7 @@ import com.aelous.model.map.position.Tile;
 
 /**
  * An abstract handling all the logic we need for raids.
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since October 28, 2021
  */
 public abstract class Raids {

@@ -6,7 +6,7 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.object.ObjectManager;
 
 /**
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since October 30, 2021
  */
 public class MommaMuttadileDroptable implements Droptable {

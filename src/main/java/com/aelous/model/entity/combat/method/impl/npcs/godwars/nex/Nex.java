@@ -28,7 +28,7 @@ import static com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.NexFig
 /**
  * The nex
  *
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since January 13, 2022
  */
 public class Nex extends NPC {

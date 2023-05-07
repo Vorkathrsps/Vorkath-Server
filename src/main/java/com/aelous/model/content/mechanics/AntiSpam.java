@@ -5,7 +5,7 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.utility.PlayerPunishment;
 
 /**
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since November 01, 2021
  */
 public class AntiSpam {

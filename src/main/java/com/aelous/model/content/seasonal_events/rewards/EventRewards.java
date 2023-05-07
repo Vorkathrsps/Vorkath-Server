@@ -8,7 +8,7 @@ import com.aelous.utility.ItemIdentifiers;
 import static com.aelous.model.entity.attributes.AttributeKey.*;
 
 /**
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since October 14, 2021
  */
 public enum EventRewards {

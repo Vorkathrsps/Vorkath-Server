@@ -33,7 +33,7 @@ import static com.aelous.model.entity.attributes.AttributeKey.PERSONAL_POINTS;
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
 
 /**
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since October 29, 2021
  */
 public class ChamberOfXerics extends Raids {

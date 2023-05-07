@@ -21,7 +21,7 @@ import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.MUTTADILE_
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.MUTTADILE_7563;
 
 /**
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since October 29, 2021
  */
 public class Muttadile extends CommonCombatMethod {

@@ -25,7 +25,7 @@ import static com.aelous.utility.CustomItemIdentifiers.WEAPON_MYSTERY_BOX;
 import static com.aelous.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since October 30, 2021
  */
 public class PromoCodeCommand implements Command {

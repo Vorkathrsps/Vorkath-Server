@@ -14,7 +14,7 @@ import com.aelous.utility.chainedwork.Chain;
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.FEAR_REAPER;
 
 /**
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since October 15, 2021
  */
 public class GrimCombatScript extends CommonCombatMethod {

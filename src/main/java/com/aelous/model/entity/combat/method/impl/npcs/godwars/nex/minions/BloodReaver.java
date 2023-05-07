@@ -9,7 +9,7 @@ import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 
 /**
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since January 16, 2022
  */
 public class BloodReaver extends CommonCombatMethod {

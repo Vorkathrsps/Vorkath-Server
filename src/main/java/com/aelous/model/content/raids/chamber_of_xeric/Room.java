@@ -18,7 +18,7 @@ import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.*;
 import static com.aelous.model.inter.dialogue.Dialogue.send;
 
 /**
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since October 29, 2021
  */
 public class Room extends PacketInteraction {

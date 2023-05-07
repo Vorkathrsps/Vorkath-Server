@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 import static com.aelous.model.content.collection_logs.LogType.BOSSES;
 
 /**
- * @author Patrick van Elderen <https://github.com/PVE95>
+ * @Author Origin
  * @Since January 12, 2022
  */
 public class GWDNex implements Droptable {//TODO redunant class remove this class

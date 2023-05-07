@@ -30,17 +30,16 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
     }
 
     @Override
-    protected void encode(ChannelHandlerContext ctx, Packet packet, ByteBuf out)
-        throws Exception {
-
+    protected void encode(ChannelHandlerContext ctx, Packet packet, ByteBuf out) throws Exception {
         final int opcode = (packet.getOpcode() + rand.nextInt()) & 0xFF;
         PacketType type = packet.getType();
         final int size = packet.getSize();
+
         if (size == -3) {
             logger.error("{PacketEncoder} Opcode " + packet.getOpcode() + " is not whitelisted.");
-
             return;
         }
+
         // Used for finding incorrect client pkt sizes
         if (type == PacketType.FIXED) {
             int currSize = PACKET_SIZES[packet.getOpcode()];
@@ -63,15 +62,16 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
         }
 
         int finalSize = size + 1;
+
         switch (type) {
             case VARIABLE -> {
-                if (size > 255) { // trying to send more data then we can represent with 8 bits!
+                if (size > 255) {
                     throw new IllegalArgumentException("Tried to send packet #" + packet.getOpcode() + " length " + size + " in variable-byte packet");
                 }
                 finalSize++;
             }
             case VARIABLE_SHORT -> {
-                if (size > 65535) { // trying to send more data then we can represent with 8 bits!
+                if (size > 65535) {
                     throw new IllegalArgumentException("Tried to send packet #" + packet.getOpcode() + " length " + size + " in variable-short packet");
                 }
                 finalSize += 2;
@@ -81,26 +81,32 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
         }
 
         // Create a new buffer
-        ByteBuf buffer = Unpooled.buffer(finalSize);
+        ByteBuf buffer = ctx.alloc().buffer(finalSize);
 
-        // Write opcode
-        buffer.writeByte(opcode);
+        try {
+            // Write opcode
+            buffer.writeByte(opcode);
 
-        // Write packet size
-        switch (type) {
-            case VARIABLE -> buffer.writeByte((byte) size);
-            case VARIABLE_SHORT -> buffer.writeShort((short) size);
-            default -> {
+            // Write packet size
+            switch (type) {
+                case VARIABLE -> buffer.writeByte((byte) size);
+                case VARIABLE_SHORT -> buffer.writeShort((short) size);
+                default -> {
+                }
             }
+
+            // Write packet
+            buffer.writeBytes(packet.getBuffer());
+
+            // Write the packet to the out buffer
+            out.writeBytes(buffer);
+            //logger.info("Encoded packet with opcode " + opcode + " and size " + size);
+        } finally {
+            buffer.release();
         }
-
-        // Write packet
-        buffer.writeBytes(packet.getBuffer());
-
-        // Write the packet to the out buffer
-        out.writeBytes(buffer);
-
     }
+
+
     public static final int[] PACKET_SIZES = new int[256];
     //The server PacketEncoder class PACKET_SIZES array should match the Client ServerToClientPackets class PACKET_SIZES array.
     static {

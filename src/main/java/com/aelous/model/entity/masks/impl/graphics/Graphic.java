@@ -16,21 +16,21 @@ public class Graphic {
         this.id = id;
         this.height = GraphicHeight.LOW;
         this.delay = 0;
-        this.priority = Priority.LOW;
+        this.priority = Priority.MEDIUM;
     }
 
     public Graphic(int id, GraphicHeight height) {
         this.id = id;
         this.height = height;
         this.delay = 0;
-        this.priority = Priority.LOW;
+        this.priority = Priority.MEDIUM;
     }
 
     public Graphic(int id, GraphicHeight height, int delay) {
         this.id = id;
         this.height = height;
         this.delay = delay;
-        this.priority = Priority.LOW;
+        this.priority = Priority.MEDIUM;
     }
 
     public Graphic(int id, GraphicHeight height, int delay, Priority priority)

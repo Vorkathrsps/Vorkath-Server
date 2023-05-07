@@ -33,7 +33,6 @@ public final class PacketDecoder extends ByteToMessageDecoder {
     private int size = -1;
     private final IsaacRandom random;
 
-
     public PacketDecoder(IsaacRandom random) {
         this.random = random;
     }
@@ -42,54 +41,63 @@ public final class PacketDecoder extends ByteToMessageDecoder {
     protected void decode(ChannelHandlerContext ctx, ByteBuf buffer, List<Object> out) throws Exception {
         Session session = ctx.channel().attr(NetworkUtils.SESSION_KEY).get();
 
-        if (!buffer.isReadable() || session == null || session.getPlayer() == null || !ctx.channel().isOpen())
+        if (session == null || session.getPlayer() == null || !ctx.channel().isOpen()) {
             return;
+        }
 
         buffer.markReaderIndex();
 
         if (opcode == -1) {
-            if (!buffer.isReadable())
+            if (!buffer.isReadable()) {
                 return;
+            }
             opcode = buffer.readUnsignedByte();
             opcode = opcode - random.nextInt() & 0xFF;
             size = IncomingHandler.PACKET_SIZES[opcode];
         }
 
         if (size == -1) {
-            if (buffer.readableBytes() < 1)
+            if (buffer.readableBytes() < 1) {
+                buffer.resetReaderIndex();
                 return;
+            }
             size = buffer.readUnsignedByte() & 0xFF;
         } else if (size == -2) {
-            if (buffer.readableBytes() < 2)
+            if (buffer.readableBytes() < 2) {
+                buffer.resetReaderIndex();
                 return;
+            }
             size = buffer.readUnsignedByte() & 0xFF;
         } else if (size == -3) {
-            logger.error("Unhandled size for OpCode="+opcode+" size="+size+" Info=" + session.getPlayer().toString());
-            ctx.close();
+            logger.error("Unhandled size for OpCode=" + opcode + " size=" + size + " Info=" + session.getPlayer().toString());
+            buffer.resetReaderIndex();
+            logger.error("Decoding failed for packet with OpCode=" + opcode + " and size=" + size);
             return;
         }
 
-        if(buffer.readableBytes() < size) {
-            /**
-             * Not enough bytes
-             */
+        if (buffer.readableBytes() < size) {
+            buffer.resetReaderIndex();
             return;
         }
 
         try {
             byte[] payload = new byte[size];
-
             buffer.readBytes(payload);
 
             session.packetCounter++;
 
-            if (session.getPacketCounter() < GameServer.properties().packetProcessLimit)
+            if (session.getPacketCounter() < GameServer.properties().packetProcessLimit) {
                 session.queuePacket(new Packet(opcode, Unpooled.copiedBuffer(payload)));
+                //logger.info("Decoded packet with OpCode=" + opcode + " and size=" + size);
+            }
 
+        } catch (Exception e) {
+            logger.error("Exception occurred while handling packet. OpCode=" + opcode + " size=" + size, e);
+            logger.error("Decoding failed for packet with OpCode=" + opcode + " and size=" + size);
         } finally {
             opcode = -1;
             size = -1;
+            buffer.discardReadBytes();
         }
-
     }
 }

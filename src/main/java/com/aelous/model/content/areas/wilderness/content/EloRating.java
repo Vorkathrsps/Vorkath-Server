@@ -6,7 +6,7 @@ import com.aelous.model.entity.player.QuestTab;
 import com.aelous.utility.Utils;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * april 12, 2020
  */
 public class EloRating {

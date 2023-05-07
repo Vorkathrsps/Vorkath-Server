@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 import static org.apache.logging.log4j.util.Unbox.box;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * mei 05, 2020
  */
 public class ItemOnObject {

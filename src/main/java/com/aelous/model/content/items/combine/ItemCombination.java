@@ -16,7 +16,7 @@ import java.util.List;
 import static com.aelous.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * juni 28, 2020
  */
 public class ItemCombination extends PacketInteraction {

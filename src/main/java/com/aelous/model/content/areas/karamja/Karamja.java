@@ -9,7 +9,7 @@ import com.aelous.utility.chainedwork.Chain;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.*;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * april 20, 2020
  */
 public class Karamja extends PacketInteraction {

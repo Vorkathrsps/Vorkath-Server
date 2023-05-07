@@ -26,7 +26,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * mei 26, 2020
  */
 public class DropsDisplay {

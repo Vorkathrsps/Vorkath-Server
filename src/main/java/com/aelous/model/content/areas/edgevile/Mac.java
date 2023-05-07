@@ -17,7 +17,7 @@ import static com.aelous.utility.ItemIdentifiers.BLOOD_MONEY;
 import static com.aelous.utility.ItemIdentifiers.COINS_995;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * juni 20, 2020
  */
 public class Mac extends PacketInteraction {

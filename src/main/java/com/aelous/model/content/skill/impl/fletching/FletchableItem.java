@@ -3,7 +3,7 @@ package com.aelous.model.content.skill.impl.fletching;
 import com.aelous.model.items.Item;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * juni 17, 2020
  */
 public final class FletchableItem {

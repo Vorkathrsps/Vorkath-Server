@@ -30,7 +30,7 @@ import static com.aelous.utility.ItemIdentifiers.ROTTEN_POTATO;
 /**
  * item 5733
  * <br>
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * mei 17, 2020
  */
 public class RottenPotato extends PacketInteraction {

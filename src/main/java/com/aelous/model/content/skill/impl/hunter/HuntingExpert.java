@@ -8,7 +8,7 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * juni 18, 2020
  */
 public class HuntingExpert extends Dialogue {

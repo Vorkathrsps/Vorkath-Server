@@ -19,7 +19,7 @@ import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * april 29, 2020
  */
 public class RuneDragon extends CommonCombatMethod {

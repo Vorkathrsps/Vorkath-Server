@@ -16,7 +16,7 @@ import com.aelous.utility.timers.TimerKey;
  * covering a 3x3 area dealing damage based on the player's current hitpoints. It is best to have Protect from Melee active and take the hits,
  * as the attack will never kill the player. The attack can be avoided by simply moving away from the targeted area.
  *
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * maart 31, 2020
  */
 public class NightBeast extends CommonCombatMethod {

@@ -16,7 +16,7 @@ import java.util.Map;
 import static com.aelous.utility.ItemIdentifiers.SWAMP_TAR;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * juni 18, 2020
  */
 public enum HerbTar {

@@ -1,7 +1,7 @@
 package com.aelous.utility;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * mei 07, 2020
  */
 public interface ConsumerMethod<T> {

@@ -11,7 +11,7 @@ import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.utility.timers.TimerKey;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * april 12, 2020
  */
 public class DesertedKeepLever extends PacketInteraction {

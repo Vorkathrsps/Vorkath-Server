@@ -9,7 +9,7 @@ import lombok.Getter;
 import static com.aelous.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * juni 16, 2020
  */
 @Getter

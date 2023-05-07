@@ -11,7 +11,7 @@ import java.util.Optional;
 /**
  * This class contains all the data for all armour/weaponry/costmetics etc sets.
  *
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * mei 24, 2020
  */
 public class ItemPacks {

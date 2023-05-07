@@ -8,7 +8,7 @@ import com.aelous.model.map.position.Tile;
 import java.util.List;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * april 02, 2020
  */
 public class NechryarchDeathSpawn extends NPC {

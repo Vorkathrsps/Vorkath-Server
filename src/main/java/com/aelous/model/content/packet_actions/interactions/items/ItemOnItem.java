@@ -15,7 +15,7 @@ import com.aelous.network.packet.incoming.interaction.PacketInteractionManager;
 import static com.aelous.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * juni 15, 2020
  */
 public class ItemOnItem {

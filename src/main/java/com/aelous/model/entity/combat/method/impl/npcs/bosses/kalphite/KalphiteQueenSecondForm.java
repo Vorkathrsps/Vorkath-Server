@@ -15,7 +15,7 @@ import com.aelous.utility.chainedwork.Chain;
 import com.aelous.utility.timers.TimerKey;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * april 24, 2020
  */
 public class KalphiteQueenSecondForm extends CommonCombatMethod {
@@ -66,7 +66,6 @@ public class KalphiteQueenSecondForm extends CommonCombatMethod {
                         Projectile p = new Projectile(entity, target, 280, 51, duration, 43, 31, 0, target.getSize(), 10);
                         final int delay = entity.executeProjectile(p);
                         target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
-
                         target.performGraphic(new Graphic(281, GraphicHeight.LOW, p.getSpeed()));
                     }
                 }
@@ -82,7 +81,6 @@ public class KalphiteQueenSecondForm extends CommonCombatMethod {
             spawn.respawns(false);
             World.getWorld().registerNpc(spawn);
             npc.animate(6240);
-            //here? not sure show ingame again
         });
     }
 

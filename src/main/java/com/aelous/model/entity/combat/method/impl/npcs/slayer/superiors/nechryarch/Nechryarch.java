@@ -22,7 +22,7 @@ import java.util.List;
  * Like their standard counterparts, the chaotic death spawns will not be summoned if the nechryarch is unable to attack the player back (such as when being safespotted).
  *
  * Any chaotic death spawns that the nechryarch summons will despawn when its host is killed.
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * maart 31, 2020
  */
 public class Nechryarch extends CommonCombatMethod {

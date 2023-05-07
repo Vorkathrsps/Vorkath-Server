@@ -1,7 +1,7 @@
 package com.aelous.model.entity.player;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * juni 21, 2020
  */
 public enum GameMode {

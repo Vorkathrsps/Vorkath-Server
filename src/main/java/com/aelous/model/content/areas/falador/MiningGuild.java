@@ -13,7 +13,7 @@ import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.utility.chainedwork.Chain;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * mei 06, 2020
  */
 public class MiningGuild extends PacketInteraction {

@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * juni 17, 2020
  */
 public class Fletching extends PacketInteraction {

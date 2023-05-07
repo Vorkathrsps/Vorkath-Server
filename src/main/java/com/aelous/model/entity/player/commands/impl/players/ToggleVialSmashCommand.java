@@ -5,7 +5,7 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.commands.Command;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * mei 21, 2020
  */
 public class ToggleVialSmashCommand implements Command {

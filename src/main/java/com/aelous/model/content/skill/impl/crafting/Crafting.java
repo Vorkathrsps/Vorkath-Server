@@ -27,7 +27,7 @@ import static com.aelous.utility.ItemIdentifiers.ZENYTE_SHARD;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.POTTERY_OVEN_11601;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * juni 16, 2020
  */
 public class Crafting extends PacketInteraction {

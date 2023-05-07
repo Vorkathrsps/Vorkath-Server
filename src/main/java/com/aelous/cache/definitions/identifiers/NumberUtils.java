@@ -5,7 +5,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * juni 25, 2020
  */
 public class NumberUtils {

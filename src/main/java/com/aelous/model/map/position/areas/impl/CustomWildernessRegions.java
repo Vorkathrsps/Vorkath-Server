@@ -3,7 +3,7 @@ package com.aelous.model.map.position.areas.impl;
 /**
  * This class utilizes all custom wilderness regions.
  *
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * December 7, 2021
  */
 public enum CustomWildernessRegions {

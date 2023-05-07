@@ -9,7 +9,7 @@ import com.aelous.utility.Utils;
 import java.util.Optional;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * april 18, 2020
  */
 public class ResetSlayerTask implements Command {

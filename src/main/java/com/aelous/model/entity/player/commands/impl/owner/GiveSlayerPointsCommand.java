@@ -15,7 +15,7 @@ import java.util.Optional;
 import static com.aelous.model.entity.player.QuestTab.InfoTab.SLAYER_POINTS;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * mei 11, 2020
  */
 public class GiveSlayerPointsCommand implements Command {

@@ -7,7 +7,7 @@ import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * april 02, 2020
  */
 public class ChaoticDeathSpawnMagic extends CommonCombatMethod {

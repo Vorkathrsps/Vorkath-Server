@@ -18,7 +18,7 @@ import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.TEKTON_754
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.TEKTON_ENRAGED_7544;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * april 11, 2020
  */
 public class Tekton extends CommonCombatMethod {

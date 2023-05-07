@@ -18,7 +18,7 @@ import static com.aelous.model.content.collection_logs.LogType.KEYS;
 import static com.aelous.utility.ItemIdentifiers.CRYSTAL_KEY;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * april 18, 2020
  */
 public class CrystalKey extends PacketInteraction {

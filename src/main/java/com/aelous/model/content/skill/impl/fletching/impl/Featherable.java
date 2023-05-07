@@ -7,7 +7,7 @@ import com.aelous.model.items.Item;
 import com.aelous.utility.ItemIdentifiers;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * juni 17, 2020
  */
 public enum Featherable implements Fletchable {

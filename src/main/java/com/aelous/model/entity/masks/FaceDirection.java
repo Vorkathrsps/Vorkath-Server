@@ -3,7 +3,7 @@ package com.aelous.model.entity.masks;
 import com.aelous.model.map.position.Tile;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * mei 15, 2020
  */
 public class FaceDirection {

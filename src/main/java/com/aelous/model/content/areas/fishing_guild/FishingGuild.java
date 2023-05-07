@@ -12,7 +12,7 @@ import com.aelous.utility.chainedwork.Chain;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.DOOR_20925;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * april 21, 2020
  */
 public class FishingGuild extends PacketInteraction {

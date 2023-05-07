@@ -29,7 +29,7 @@ import static com.aelous.utility.CustomNpcIdentifiers.*;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.*;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * mei 19, 2020
  */
 public class MemberZone extends PacketInteraction {

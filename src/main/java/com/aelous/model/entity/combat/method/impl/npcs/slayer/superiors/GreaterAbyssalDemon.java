@@ -17,7 +17,7 @@ import com.aelous.utility.timers.TimerKey;
  * <p>
  * Like all demons, the greater abyssal demon is weak against demonbane weapons.
  *
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * maart 31, 2020
  */
 public class GreaterAbyssalDemon extends CommonCombatMethod {

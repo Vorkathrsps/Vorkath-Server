@@ -13,7 +13,7 @@ import com.aelous.model.items.Item;
 import static com.aelous.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * juni 19, 2020
  */
 public class SuperCombatPotions {

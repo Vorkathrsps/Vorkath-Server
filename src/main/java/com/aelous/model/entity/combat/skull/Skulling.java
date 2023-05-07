@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * mei 11, 2020
  * Created by Mack on 10/19/2017.
  */

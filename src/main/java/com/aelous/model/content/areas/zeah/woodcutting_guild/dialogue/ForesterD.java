@@ -7,7 +7,7 @@ import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.utility.Utils;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * april 21, 2020
  */
 public class ForesterD extends Dialogue {

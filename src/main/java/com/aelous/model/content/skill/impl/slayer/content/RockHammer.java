@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * mei 15, 2020
  */
 public class RockHammer {

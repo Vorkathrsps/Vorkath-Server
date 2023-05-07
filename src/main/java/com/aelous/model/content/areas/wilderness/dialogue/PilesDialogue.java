@@ -7,7 +7,7 @@ import com.aelous.model.inter.dialogue.Expression;
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.PILES;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * april 07, 2020
  */
 public class PilesDialogue extends Dialogue {

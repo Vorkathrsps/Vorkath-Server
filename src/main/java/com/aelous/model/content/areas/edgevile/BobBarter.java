@@ -10,7 +10,7 @@ import com.aelous.utility.Color;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * juni 11, 2020
  */
 public class BobBarter extends Dialogue {

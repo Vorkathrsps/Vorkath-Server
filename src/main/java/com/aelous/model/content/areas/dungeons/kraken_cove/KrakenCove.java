@@ -16,7 +16,7 @@ import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.CREVICE
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.CREVICE_538;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * april 26, 2020
  */
 public class KrakenCove extends PacketInteraction {

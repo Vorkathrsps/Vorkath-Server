@@ -13,7 +13,7 @@ import com.aelous.utility.chainedwork.Chain;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.STEPPING_STONE_14918;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * mei 11, 2020
  */
 public class LavaDragonIsle extends PacketInteraction {

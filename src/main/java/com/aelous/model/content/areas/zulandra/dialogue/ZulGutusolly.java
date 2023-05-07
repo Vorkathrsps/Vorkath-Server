@@ -6,7 +6,7 @@ import com.aelous.model.inter.dialogue.Expression;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * april 28, 2020
  */
 public class ZulGutusolly extends Dialogue {

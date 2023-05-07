@@ -12,7 +12,7 @@ import com.aelous.utility.Utils;
 import java.util.List;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * mei 07, 2020
  */
 public class MarksOfGrace {

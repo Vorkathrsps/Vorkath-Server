@@ -9,7 +9,7 @@ import static com.aelous.utility.ItemIdentifiers.*;
 import static com.aelous.utility.ItemIdentifiers.BLACK_DHIDE_VAMBRACES;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * juni 16, 2020
  */
 public enum Hide implements Craftable {

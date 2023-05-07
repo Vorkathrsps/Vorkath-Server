@@ -7,7 +7,7 @@ import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * juni 15, 2020
  */
 public class JugOfWine {

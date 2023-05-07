@@ -8,7 +8,7 @@ import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.DARK_HOLE;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * april 19, 2020
  */
 public class Lumbridge extends PacketInteraction {

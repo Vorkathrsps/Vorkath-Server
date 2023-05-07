@@ -16,7 +16,7 @@ import com.aelous.utility.timers.TimerKey;
  * If hit by the projectile, it will inflict up to 38 damage and immobilise the player for a few seconds. The message box states "You have been trapped in stone!" when this occurs.
  * Players are able to avoid this attack by moving at least one tile away from their original position once the projectile is launched.
  *
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * maart 31, 2020
  */
 public class MarbleGargoyle extends CommonCombatMethod {

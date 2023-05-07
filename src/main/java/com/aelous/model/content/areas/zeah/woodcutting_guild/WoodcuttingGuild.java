@@ -16,7 +16,7 @@ import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.*;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * april 20, 2020
  */
 public class WoodcuttingGuild extends PacketInteraction {

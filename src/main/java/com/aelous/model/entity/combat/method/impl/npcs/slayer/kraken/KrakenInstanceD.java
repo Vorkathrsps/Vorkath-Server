@@ -17,7 +17,7 @@ import java.util.List;
 import static com.aelous.utility.ItemIdentifiers.BLOOD_MONEY;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * april 26, 2020
  */
 public class KrakenInstanceD extends Dialogue {

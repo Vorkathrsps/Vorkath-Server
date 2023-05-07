@@ -1,7 +1,7 @@
 package com.aelous.model.entity;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * mei 03, 2020
  */
 public enum LockType {

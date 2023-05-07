@@ -20,7 +20,7 @@ import java.util.List;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.*;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * juni 14, 2020
  */
 public class SeersRooftop extends PacketInteraction {

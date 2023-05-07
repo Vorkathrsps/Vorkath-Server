@@ -6,7 +6,7 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * april 02, 2020
  */
 public class ChaoticDeathSpawnMelee extends CommonCombatMethod {

@@ -8,7 +8,7 @@ import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.Color;
 
 /**
- * @author Patrick van Elderen <patrick.vanelderen@live.nl>
+ * @author Origin
  * mei 21, 2020
  */
 public class HealCommand implements Command {

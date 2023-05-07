@@ -770,7 +770,6 @@ public class PlayerSave {
                 player.putAttrib(SNOW_MONSTER_TIMER, details.snowMonsterTimer);
                 player.lastPetId = details.lastPet;
                 player.setInvulnerable(details.infhp);
-                System.out.println("Details of pet="+details.lastPet+" - "+player.lastPetId);
                 return true;
             }
         }

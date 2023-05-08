@@ -35,7 +35,7 @@ public class GnomeStronghold extends PacketInteraction {
                     player.lockNoDamage();
                     player.message("You walk carefully across the slippery log...");
                     player.getMovementQueue().clear();
-                    player.getMovementQueue().interpolate(2474, 3429, MovementQueue.StepType.FORCED_WALK);
+                    player.getMovementQueue().step(2474, 3429, MovementQueue.StepType.FORCED_WALK);
                     player.looks().render(763, 762, 762, 762, 762, 762, -1);
                 }).waitForTile(new Tile(2474, 3429, 0), () -> {
                     player.looks().resetRender();
@@ -80,7 +80,7 @@ public class GnomeStronghold extends PacketInteraction {
                     player.lockNoDamage();
                     player.message("You carefully cross the tightrope.");
                     player.getMovementQueue().clear();
-                    player.getMovementQueue().interpolate(2483, 3420, MovementQueue.StepType.FORCED_WALK);
+                    player.getMovementQueue().step(2483, 3420, MovementQueue.StepType.FORCED_WALK);
                     player.looks().render(763, 762, 762, 762, 762, 762, -1);
                 }).waitForTile(new Tile(2483, 3420, 0), () -> {
                     player.looks().resetRender();
@@ -139,16 +139,15 @@ public class GnomeStronghold extends PacketInteraction {
 
                 player.lockNoDamage();
                 Chain.bound(player).name("GnomeStrongholdExitPipesTask").waitForTile(obj.tile().transform(0, -1, 0), () -> Chain.bound(player).name("GnomeStrongholdExitPipes2Task").runFn(1, () -> {
-                    // Go to the right spot if we're not there
                     if (!player.tile().equals(obj.tile().transform(0, -1, 0))) {
                         player.getMovementQueue().walkTo(obj.tile().transform(0, -1, 0));
                     }
                 }).waitForTile(obj.tile().transform(0, -1, 0), () -> {
-                    player.animate(749, 30);
-                    TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, 3), 33, 126, 0)));
+                    ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, 3), 30, 60, 749, 0);
+                    player.setForceMovement(forceMovement);
                 })).then(3, () -> player.getMovementQueue().interpolate(player.tile().x, player.tile().y + 1)).then(1, () -> {
-                    player.animate(749, 30);
-                    TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, 4), 0, 15, 0)));
+                    ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, 4), 30, 60, 749, 0);
+                    player.setForceMovement(forceMovement);
                 }).then(3, () -> {
                     player.unlock();
                     putStage(player, 8);

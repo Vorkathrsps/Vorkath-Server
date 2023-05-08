@@ -59,46 +59,39 @@ public class WildernessCourse extends PacketInteraction {
             }
 
             if (obj.getId() == PIPE) {
-                // Get in position
                 player.smartPathTo(obj.tile());
-                Chain.bound(player).name("WildernessCourse1Task").waitForTile(new Tile(3004, 3937), () -> {
+                Chain.bound(player).name("WildernessCoursePipeTask").waitForTile(new Tile(3004, 3937), () -> {
                     player.lockDelayDamage();
-                    player.animate(749, 30);
-                    //TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, 6), 33, 126, FaceDirection.SOUTH)));
-                }).name("WildernessCourse2Task")
-                    /*.then(3, () -> {
-                        TaskManager.submit(new ForceMovementTask(player, 3, new ForceMovement(player.tile().clone(), new Tile(0, 7), 33, 126, 0)));
-                    })*/.then(1, () -> {
-                    player.teleport(3004, 3950);
-                    //player.animate(749, 30);
-                    player.unlock();
+                    ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, 6), 30, 60, 749, 0);
+                    player.setForceMovement(forceMovement);
+                }).then(3, () -> player.getMovementQueue().interpolate(player.tile().x, player.tile().y + 1)).then(1, () -> {
+                    ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, 7), 30, 60, 748, 0);
+                    player.setForceMovement(forceMovement);
+                }).then(3, () -> {
                     var stage = player.<Integer>getAttribOr(WILDY_COURSE_STATE, 0) + 1;
                     player.putAttrib(WILDY_COURSE_STATE, stage);
-                    //System.out.println("stage is now: "+stage);
                     player.getSkills().addXp(Skills.AGILITY, 12.5);
+                    player.unlock();
                 });
                 return true;
             }
 
             if (obj.getId() == ROPESWING) {
-                player.smartPathTo(new Tile(3005, 3951)); // turns out this tile is solid clipped.
-                // when you get here it should do a run up but doesnt.
-                player.waitForTile(new Tile(3005, 3951), () -> {
-                    player.setPositionToFace(player.tile().transform(0, 10));
-                    player.lockDelayDamage();
-                    player.getPacketSender().sendObjectAnimation(obj, 54);// make rope pull back
-                    player.animate(751); // swing
-
-                    TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, 7), 30, 50, 0))); // move
-
-                    // 2t later
-                    Chain.bound(player).name("WildernessCourse4Task").runFn(1, () -> {
-                        player.getPacketSender().sendObjectAnimation(obj, 55);
-                        var stage = player.<Integer>getAttribOr(WILDY_COURSE_STATE, 0) + 1;
-                        player.putAttrib(WILDY_COURSE_STATE, stage);
-                        //System.out.println("stage is now: "+stage);
-                        player.getSkills().addXp(Skills.AGILITY, 20.0);
-                    }).then(2, player::unlock);
+                player.smartPathTo(new Tile(3005, 3951));
+                Chain.bound(player).waitForTile(new Tile(3005, 3951, player.getZ()), () -> {
+                    player.getMovementQueue().step(3005, 3953, MovementQueue.StepType.FORCED_WALK);
+                }).then(2, () -> {
+                    player.waitForTile(new Tile(3005, 3953, player.getZ()), () -> {
+                        ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, 5), 30, 60, 751, 0);
+                        player.setForceMovement(forceMovement);
+                        player.getPacketSender().sendObjectAnimation(obj, 54);
+                        Chain.bound(player).runFn(1, () -> {
+                            var stage = player.<Integer>getAttribOr(WILDY_COURSE_STATE, 0) + 1;
+                            player.putAttrib(WILDY_COURSE_STATE, stage);
+                            player.getSkills().addXp(Skills.AGILITY, 20.0);
+                            player.getPacketSender().sendObjectAnimation(obj, 55);
+                        }).then(player::unlock);
+                    });
                 });
                 return true;
             }
@@ -111,23 +104,31 @@ public class WildernessCourse extends PacketInteraction {
             if (obj.getId() == STEPPINGSTONE) {
                 player.smartPathTo(new Tile(3002, 3960));
                 player.waitUntil(() -> player.tile().equals(3002, 3960), () -> {
-                    player.getMovementQueue().interpolate(3002, 3960, MovementQueue.StepType.FORCED_WALK);
+                    player.getMovementQueue().step(3002, 3960, MovementQueue.StepType.FORCED_WALK);
                     player.lockDelayDamage();
                 }).then(2, () -> {
-                    player.setPositionToFace(new Tile(0, player.tile().y));
-                    //Increase stage when starting the obstacle
-                    var stage = player.<Integer>getAttribOr(WILDY_COURSE_STATE, 0) + 1;
-                    player.putAttrib(WILDY_COURSE_STATE, stage);
-                    //System.out.println("stage is now: "+stage);
-
-                    for (int i = 0; i < 6; i++) {
-                        // add new Tasks @ instantly (0*3=0), 3 6, 9, 12
-                        Chain.bound(player).name("WildernessCourse7Task").runFn(i * 3, () -> {
-                            player.animate(741);
-                            TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(-1, 0), 5, 35, 3)));
-                        });
-                    }
-                    Chain.bound(player).name("WildernessCourse8Task").waitForTile(new Tile(2996, 3960), () -> {
+                    Chain.bound(player).name("WildernessCourseRockJumping").runFn(1, () -> {
+                        player.lockDelayDamage();
+                        ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(-1, 0), 0, 30, 741, 3);
+                        player.setForceMovement(forceMovement);
+                    }).then(2, () -> {
+                        ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(-1, 0), 0, 30, 741, 3);
+                        player.setForceMovement(forceMovement);
+                    }).then(3, () -> {
+                        ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(-1, 0), 0, 30, 741, 3);
+                        player.setForceMovement(forceMovement);
+                    }).then(3, () -> {
+                        ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(-1, 0), 0, 30, 741, 3);
+                        player.setForceMovement(forceMovement);
+                    }).then(2, () -> {
+                        ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(-1, 0), 0, 30, 741, 3);
+                        player.setForceMovement(forceMovement);
+                    }).then(2, () -> {
+                        ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(-1, 0), 0, 30, 741, 3);
+                        player.setForceMovement(forceMovement);
+                        player.looks().resetRender();
+                        var stage = player.<Integer>getAttribOr(WILDY_COURSE_STATE, 0) + 1;
+                        player.putAttrib(WILDY_COURSE_STATE, stage);
                         player.getSkills().addXp(Skills.AGILITY, 20.0);
                         player.unlock();
                     });
@@ -138,31 +139,24 @@ public class WildernessCourse extends PacketInteraction {
             if (obj.getId() == LOGBALANCE) {
                 player.smartPathTo(new Tile(3002, 3945));
                 player.waitForTile(new Tile(3002, 3945), () -> {
-
+                    player.lockDelayDamage();
+                    player.message("You walk carefully across the slippery log...");
+                    player.agilityWalk(false);
+                    player.getMovementQueue().clear();
                     if (!player.tile().equals(3002, 3945)) { // Get in position
-                        player.getMovementQueue().interpolate(3002, 3945, MovementQueue.StepType.FORCED_WALK);
+                        player.getMovementQueue().step(3002, 3945, MovementQueue.StepType.FORCED_WALK);
                     }
-
-                    Tile end = new Tile(2994, 3945);
-                    Chain.bound(player).name("WildernessCourse9Task").runFn(1, () -> {
-                        player.lockDelayDamage();
-                        player.message("You walk carefully across the slippery log...");
-                        player.getMovementQueue().clear();
-                        player.agilityWalk(false);
-                        player.getMovementQueue().interpolate(end, MovementQueue.StepType.FORCED_WALK);
-                        player.looks().render(763, 762, 762, 762, 762, 762, -1);
-                    });
-
-                    Chain.bound(player).name("WildernessCourse10Task").waitForTile(end, () -> {
-                        player.looks().resetRender();
-                        var stage = player.<Integer>getAttribOr(WILDY_COURSE_STATE, 0) + 1;
-                        player.putAttrib(WILDY_COURSE_STATE, stage);
-                        //System.out.println("stage is now: "+stage);
-                        player.getSkills().addXp(Skills.AGILITY, 20.0);
-                        player.message("...You make it safely to the other side.");
-                        player.agilityWalk(true);
-                        player.unlock();
-                    });
+                    player.looks().render(763, 762, 762, 762, 762, 762, -1);
+                }).then(1, () -> {
+                    player.getMovementQueue().step(2994, 3945, MovementQueue.StepType.FORCED_WALK);
+                    player.agilityWalk(true);
+                    var stage = player.<Integer>getAttribOr(WILDY_COURSE_STATE, 0) + 1;
+                    player.putAttrib(WILDY_COURSE_STATE, stage);
+                }).then(8, () -> {
+                    player.getSkills().addXp(Skills.AGILITY, 20.0);
+                    player.message("...You make it safely to the other side.");
+                    player.looks().resetRender();
+                    player.unlock();
                 });
                 return true;
             }
@@ -170,28 +164,23 @@ public class WildernessCourse extends PacketInteraction {
             if (obj.getId() == ROCKS) {
                 player.waitUntil(1, () -> player.tile().y == 3937, () -> {
                     if (!player.tile().equals(2995, 3937)) { // Get in position
-                        player.getMovementQueue().interpolate(2995, 3937, MovementQueue.StepType.FORCED_WALK);
+                        player.getMovementQueue().step(2995, 3937, MovementQueue.StepType.FORCED_WALK);
                         player.getMovementQueue().clear();
                     }
-
-                    Chain.bound(player).name("WildernessCourse13Task").runFn(1, () -> {
+                    Chain.bound(player).name("WildernessCourseRockWallClimbing").runFn(1, () -> {
                         player.lockDelayDamage();
-                        player.animate(740);
-                        TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, -4), 5, 80, 2))); // move
-                    }).then(3, () -> {
-                        player.teleport(new Tile(2995, 3934));
-                        player.looks().resetRender();
-                        player.animate(-1);
+                        ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, -2), 0, 30, 740, 2);
+                        player.setForceMovement(forceMovement);
+                    }).then(1, () -> {
+                        ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, -2), 0, 30, 737, 2);
+                        player.setForceMovement(forceMovement);
+                    }).then(1, () -> {
                         var stage = player.<Integer>getAttribOr(WILDY_COURSE_STATE, 0) + 1;
                         player.putAttrib(WILDY_COURSE_STATE, stage);
                         player.getSkills().addXp(Skills.AGILITY, 498.9);
-                        //System.out.println("stage is now: "+stage);
                         if (stage == 5) {
                             player.getTaskMasterManager().increase(Tasks.WILDERNESS_COURSE);
                             DailyTaskManager.increase(DailyTasks.WILDY_AGLITY, player);
-
-
-                            //Finding blood money while skilling..
                             if (WildernessArea.inWild(player)) {
                                 if (World.getWorld().rollDie(5, 1)) {
                                     if (player.inventory().add(new Item(13307, 5), true)) {
@@ -224,32 +213,29 @@ public class WildernessCourse extends PacketInteraction {
             player.getMovementQueue().walkTo(obj.tile());
         }
 
-        var end = new Tile(2998, 3916);
-        Chain.bound(player).waitForTile(obj.tile(), () -> {
-            player.setPositionToFace(player.tile().transform(0, -1));
-
-            Chain.bound(player).name("uppergate").runFn(1, () -> {
-                // Walk away!
-                player.lockDelayDamage();
-
-                // Agility animation
+        if (obj.interactAble() && obj.tile().equals(2998, 3931)) {
+            if (!player.tile().equals(2998, 3931)) { // Get in position
+                player.getMovementQueue().step(2998, 3931, MovementQueue.StepType.FORCED_WALK);
                 player.getMovementQueue().clear();
-
-                player.agilityWalk(false);
-                player.getMovementQueue().interpolate(end, MovementQueue.StepType.FORCED_WALK);
-                player.looks().render(763, 762, 762, 762, 762, 762, -1);
-                // The ending doors
-                openDoubleDoors();
-
-                // Walk to the end
-            }).then(13, () -> {
-                openEntranceGate(player, obj);
-            }).waitForTile(end, () -> {
-                player.looks().resetRender();
-                player.agilityWalk(true);
-                player.unlock();
+            }
+            Chain.bound(player).waitForTile(new Tile(2998, 3931, 0), () -> {
+                Chain.bound(player).runFn(1, () -> {
+                    player.lockDelayDamage();
+                    openDoubleDoors();
+                }).then(1, () -> {
+                    player.getMovementQueue().clear();
+                    player.getMovementQueue().step(2998, 3916, MovementQueue.StepType.FORCED_WALK);
+                    player.agilityWalk(false);
+                    player.looks().render(763, 762, 762, 762, 762, 762, -1);
+                }).waitForTile(new Tile(2998, 3916, 0), () -> {
+                    openEntranceGate(player, obj);
+                }).then(1, () -> {
+                    player.looks().resetRender();
+                    player.agilityWalk(true);
+                    player.unlock();
+                });
             });
-        });
+        }
     }
 
     private static void lowergate(Player player, GameObject obj) {
@@ -259,26 +245,24 @@ public class WildernessCourse extends PacketInteraction {
         }
 
         if (obj.interactAble() && obj.tile().equals(2998, 3917)) {
-            player.lockDelayDamage();
-
-            // Agility animation
-            player.getMovementQueue().clear();
-            var end = new Tile(2998, 3931);
-            player.getMovementQueue().interpolate(end, MovementQueue.StepType.FORCED_WALK);
-            player.agilityWalk(false);
-            player.looks().render(763, 762, 762, 762, 762, 762, -1);
-
-            // Handle the door
-            openEntranceGate(player, obj);
-
-            // Finish up agility part
-            Chain.bound(player).name("lowergateTask").runFn(13, () -> {
-                // The ending doors
-                openDoubleDoors();
-            }).waitForTile(end, () -> {
-                player.looks().resetRender();
-                player.agilityWalk(true);
-                player.unlock();
+            if (!player.tile().equals(2995, 3917)) { // Get in position
+                player.getMovementQueue().step(2998, 3916, MovementQueue.StepType.FORCED_WALK);
+                player.getMovementQueue().clear();
+            }
+            Chain.bound(player).waitForTile(new Tile(2998, 3916, 0), () -> {
+                Chain.bound(player).runFn(1, () -> {
+                    player.lockDelayDamage();
+                    openEntranceGate(player, obj);
+                }).then(1, () -> {
+                    player.getMovementQueue().clear();
+                    player.getMovementQueue().step(2998, 3931, MovementQueue.StepType.FORCED_WALK);
+                    player.agilityWalk(false);
+                    player.looks().render(763, 762, 762, 762, 762, 762, -1);
+                }).waitForTile(new Tile(2998, 3931, 0), WildernessCourse::openDoubleDoors).then(1, () -> {
+                    player.looks().resetRender();
+                    player.agilityWalk(true);
+                    player.unlock();
+                });
             });
         }
     }

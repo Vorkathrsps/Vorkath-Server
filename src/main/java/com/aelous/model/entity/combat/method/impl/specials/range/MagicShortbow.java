@@ -12,34 +12,34 @@ import com.aelous.model.entity.masks.impl.animations.Priority;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.player.Player;
+import com.aelous.utility.chainedwork.Chain;
 
 public class MagicShortbow extends CommonCombatMethod {
-
-    private static final Animation ANIMATION = new Animation(1074, Priority.HIGH);
-    private static final Graphic GRAPHIC = new Graphic(250, GraphicHeight.HIGH);
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         final Player player = entity.getAsPlayer();
 
-        player.animate(ANIMATION);
-        player.performGraphic(GRAPHIC);
+        entity.animate(1074);
+        int tileDist = entity.tile().transform(1, 1).getChevDistance(target.tile());
+        int duration1 = (21 + 11 + (3 * tileDist));
+        int duration2 = (41 + 11 + (5 * tileDist));
+        Projectile p1 = new Projectile(entity, target, 249, 21, duration1, 40, 30, 0, target.getSize(), 5);
+        Projectile p2 = new Projectile(entity, target, 249, 41, duration2, 40, 30, 0, target.getSize(), 5);
 
-        //Send 2 arrow projectiles
-        new Projectile(player, target, 249, 40, 70, 43, 31, 0).sendProjectile();
-        new Projectile(player, target, 249, 33, 74, 48, 31, 0).sendProjectile();
+        final int delay1 = entity.executeProjectile(p1);
+        final int delay2 = entity.executeProjectile(p2);
 
-        //Remove 2 arrows from ammo
         CombatFactory.decrementAmmo(player);
         CombatFactory.decrementAmmo(player);
 
-        Hit hit1 = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED),3, CombatType.RANGED).checkAccuracy();
-        hit1.submit();
+        for (int i = 0; i < 2; i++) {
+            Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), i == 1 ? delay1 : delay2, CombatType.RANGED).checkAccuracy();
+            hit.submit();
+        }
 
-        Hit hit2 = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED),2, CombatType.RANGED).checkAccuracy();
-        hit2.submit();
         CombatSpecial.drain(entity, CombatSpecial.MAGIC_SHORTBOW.getDrainAmount());
-return true;
+        return true;
     }
 
     @Override

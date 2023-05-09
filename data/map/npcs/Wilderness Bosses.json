@@ -8,9 +8,9 @@
   }, //vetion
   {
     "id": 6609,
-    "x": 3291,
-    "y": 3847,
-    "walkRange": 8,
+    "x": 1759,
+    "y": 11544,
+    "walkRange": 5,
     "direction": "NE"
   },  // Callisto
   {

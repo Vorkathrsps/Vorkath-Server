@@ -10,6 +10,7 @@ import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.weapon.FightStyle;
 import com.aelous.model.entity.masks.Projectile;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.player.Player;
 
 /**
@@ -25,16 +26,16 @@ public class MorrigansJavelin extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(806);
-        entity.graphic(1621);
+        entity.graphic(1621, GraphicHeight.HIGH, 0);
 
-        //Fire projectile
-        new Projectile(entity, target, 1622, 30, 60, 40, 36, 0).sendProjectile();
-
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED),0, CombatType.RANGED).checkAccuracy();
+        int tileDist = entity.tile().transform(1, 1).getChevDistance(target.tile());
+        int duration = (40 + 11 + (3 * tileDist));
+        Projectile p1 = new Projectile(entity, target, 1622, 40, duration, 40, 30, 0, target.getSize(), 5);
+        final int delay = entity.executeProjectile(p1);
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED),delay, CombatType.RANGED).checkAccuracy();
         hit.submit();
 
-        if(target instanceof Player) {
-            Player playerTarget = (Player) target;
+        if(target instanceof Player playerTarget) {
             playerTarget.message("You start to bleed as a result of the javelin strike.");
             playerTarget.hit(target, 5, CombatType.RANGED).submit();
 

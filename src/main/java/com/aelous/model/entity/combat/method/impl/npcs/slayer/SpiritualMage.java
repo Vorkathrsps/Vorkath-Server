@@ -3,7 +3,9 @@ package com.aelous.model.entity.combat.method.impl.npcs.slayer;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
+import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
@@ -21,14 +23,16 @@ public class SpiritualMage extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         // Attack the player
         entity.animate(entity.attackAnimation());
-        int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC);
-        target.hit(entity, hit, CombatType.MAGIC).checkAccuracy().submit();
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (51 + -5 + (10 * tileDist));
+        Projectile p = new Projectile(entity, target, 1193, 51, duration, 43, 31, 0, target.getSize(), 10);
+        final int delay = entity.executeProjectile(p);
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
 
         // Does NOT splash when miss!
-        if(target instanceof Player) {
-            Player playerTarget = (Player) target;
+        if(target instanceof Player playerTarget) {
             NPC npc = (NPC) entity;
-            if (hit > 0) {
+            if (hit.getDamage() > 0) {
                 playerTarget.performGraphic(get_graphic(npc.id())); // Cannot protect from this.
             } else {
                 playerTarget.performGraphic(new Graphic(85, GraphicHeight.HIGH,0)); // Cannot protect from this.
@@ -39,8 +43,8 @@ public class SpiritualMage extends CommonCombatMethod {
 
     private Graphic get_graphic(int npc) {
         return switch (npc) {
-            case SPIRITUAL_MAGE_3161, BATTLE_MAGE -> new Graphic(78, GraphicHeight.LOW, 0);
-            case SPIRITUAL_MAGE, SARADOMIN_PRIEST, BATTLE_MAGE_1611 -> new Graphic(76, GraphicHeight.HIGH, 0);
+            case SPIRITUAL_MAGE_3161, BATTLE_MAGE -> new Graphic(166, GraphicHeight.LOW, 0);
+            case SPIRITUAL_MAGE, SARADOMIN_PRIEST, BATTLE_MAGE_1611 -> new Graphic(78, GraphicHeight.HIGH, 0);
             default -> new Graphic(77, GraphicHeight.HIGH, 0);
         };
     }

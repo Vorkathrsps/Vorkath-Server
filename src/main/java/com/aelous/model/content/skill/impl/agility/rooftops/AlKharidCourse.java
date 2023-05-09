@@ -138,7 +138,6 @@ public class AlKharidCourse extends PacketInteraction {
         // Palm tree swing
         if (obj.getId() == TROPICAL_TREE_14404) {
             Tile startPos = new Tile(3318, 3165, 1);
-            //player.smartPathTo(startPos, obj.getSize());
             player.smartPathTo(startPos);
             player.waitForTile(startPos, () -> player.getMovementQueue().interpolate(3318, 3165, MovementQueue.StepType.REGULAR))
                 .name("AlKharidPalmtreeswingTask").waitForTile(new Tile(3318, 3165), () -> {

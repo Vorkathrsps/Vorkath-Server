@@ -86,6 +86,7 @@ public class Pet {
 
         if (!login) {
             owner.getInventory().remove(itemId);
+
             /**
              * TODO add pickup/drop animation for pet.
              */

@@ -23,9 +23,7 @@ import java.util.Objects;
 import static com.aelous.utility.ItemIdentifiers.*;
 
 /**
- * Represents the combat method for magic attacks.
- *
- * @author Professor Oak
+ * @author Origin
  */
 public class MagicCombatMethod extends CommonCombatMethod {
 

@@ -20,30 +20,23 @@ public class DragonKnife extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         final Player player = entity.getAsPlayer();
-        int delay = (int) (Math.floor(3 + entity.tile().distance(target.tile()) / 6D));
 
         boolean poisonKnive = player.getEquipment().containsAny(22806, 22808, 22810);
 
         player.animate(poisonKnive ? 8292 : 8291);
 
-        // Get proper projectile id
         int projectileId = poisonKnive ? 1629 : 699;
 
-        // Send projectiles
-        Projectile projectile = new Projectile(player, target, projectileId, 41, delay, 41, 36, 0);
-
-        entity.executeProjectile(projectile);
-
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
-
-        hit.submit();
-
-        Hit hi2 = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
-
-        hi2.submit();
-
+        int tileDist = entity.tile().transform(1, 1).getChevDistance(target.tile());
+        int duration = (40 + 11 + (3 * tileDist));
+        Projectile p1 = new Projectile(entity, target, projectileId, 40, duration, 40, 30, 0, target.getSize(), 5);
+        final int delay = entity.executeProjectile(p1);
+        for (int i = 0; i < 2; i++) {
+            Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
+            hit.submit();
+        }
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_KNIFE.getDrainAmount());
-return true;
+        return true;
     }
 
     @Override

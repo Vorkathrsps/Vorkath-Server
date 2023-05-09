@@ -50,7 +50,6 @@ public class DragonCrossbow extends CommonCombatMethod {
 
         final int hitDelay = entity.executeProjectile(projectile);
 
-
         target.performGraphic(new Graphic(1466, GraphicHeight.HIGH, projectile.getSpeed()));
 
         //Decrement ammo by 1

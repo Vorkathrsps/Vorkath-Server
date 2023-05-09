@@ -77,7 +77,7 @@ public class WildernessActivityManager {
                 nextActivityTime = System.currentTimeMillis() + ACTIVITY_BETWEEN_DELAY;
                 currentActivity = randomActivity;
 
-                World.getWorld().sendWorldMessage("<img=2013> "+randomActivity.announcement());
+                World.getWorld().sendWorldMessage(randomActivity.announcement());
             } else if (currentActivity != null) {
                 long activityTime = currentActivity.activityTime();
                 currentActivity.process();

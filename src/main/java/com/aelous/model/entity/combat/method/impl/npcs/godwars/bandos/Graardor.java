@@ -73,8 +73,11 @@ public class Graardor extends CommonCombatMethod {
         if (target != null) {
             if (entity.getLocalPlayers().stream().anyMatch(p -> p.tile().distance(entity.tile()) < 10)) {
                 if (ProjectileRoute.allow(entity.getAsNpc(), target.getAsPlayer())) {
-                    new Projectile(entity, target, 1202, 90, 5, 1, 5, 0).sendProjectile();
-                    target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), 2, CombatType.RANGED).checkAccuracy().submit();
+                    var tileDist = entity.tile().distance(target.tile());
+                    int duration = (41 + 11 + (5 * tileDist));
+                    Projectile p = new Projectile(entity, target, 1202, 41, duration, 43, 31, 0, target.getSize(), 5);
+                    final int delay = entity.executeProjectile(p);
+                    target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
                 }
             }
         }

@@ -11,12 +11,13 @@ public class DarkBeasts extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
-       if (entity.tile().distance(target.tile()) <= 2) {
-           int tileDist = entity.tile().transform(1, 1).distance(target.tile());
-           new Projectile(entity, target, 130, 50, 12 * tileDist, 40, 30, 0).sendProjectile();
-           target.hit(entity, CombatFactory.calcDamageFromType(entity, target,CombatType.MAGIC), 2, CombatType.MAGIC).checkAccuracy().submit();
-       }
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target,CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy().submit();
+        if (entity.tile().distance(target.tile()) <= 2) {
+            int tileDist = entity.tile().transform(1, 1).distance(target.tile());
+            int duration = (51 + -5 + (10 * tileDist));
+            Projectile p = new Projectile(entity, target, 130, 51, duration, 43, 31, 0, target.getSize(), 10);
+            final int delay = entity.executeProjectile(p);
+            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+        }
         return true;
     }
 

@@ -16,7 +16,10 @@ public class AberrantSpectre extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
-        new Projectile(entity, target, 336, 5, 45, 37, 38, 0,16, 0).sendProjectile();
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (51 + -5 + (10 * tileDist));
+        Projectile p = new Projectile(entity, target, 336, 51, duration, 43, 31, 0, target.getSize(), 10);
+        final int delay = entity.executeProjectile(p);
 
         Player player = (Player) target;
 
@@ -28,7 +31,7 @@ public class AberrantSpectre extends CommonCombatMethod {
             player.message("<col=ff0000>The aberrant spectre's stench disorients you!");
             player.message("<col=ff0000>A nose peg can protect you from this attack.");
         } else {
-            player.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), CombatType.MAGIC).checkAccuracy().submit();
+            player.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
         }
         return true;
     }

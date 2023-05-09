@@ -12,7 +12,7 @@ public class DagannothSupreme extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(2855);
-        var tileDist = entity.tile().distance(target.tile());
+        int tileDist = entity.tile().transform(1, 1).distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
         Projectile p = new Projectile(entity, target, 475, 41, duration, 43, 31, 0, target.getSize(), 5);
         final int delay = entity.executeProjectile(p);

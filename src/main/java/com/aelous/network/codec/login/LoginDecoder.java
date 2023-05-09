@@ -53,8 +53,6 @@ public final class LoginDecoder extends ByteToMessageDecoder {
     public static void sendCodeAndClose(ChannelHandlerContext ctx, int response) {
         ByteBuf buffer = Unpooled.buffer(Byte.BYTES);
         buffer.writeByte(response);
-        //We may not want to add the ChannelFutureListener.CLOSE here.
-        //ctx.writeAndFlush(buffer);
         ctx.writeAndFlush(buffer).addListener(ChannelFutureListener.CLOSE);
     }
 
@@ -74,16 +72,13 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 
         int request = buffer.readUnsignedByte();
         if (request != NetworkUtils.LOGIN_REQUEST_OPCODE) {
-            //logger.error("Session rejected for bad login request id: {} for IP: {}", box(request), ctx.channel().remoteAddress());
             sendCodeAndClose(ctx, LoginResponses.LOGIN_BAD_SESSION_ID);
             return;
         }
 
-        // Send information to the client
         ByteBuf buf = ctx.alloc().buffer(Byte.BYTES + Long.BYTES);
-        buf.writeByte(0); // 0 = continue login
-        buf.writeLong(secureRandom.get().nextLong()); // This long will be used for
-        // encryption later on
+        buf.writeByte(0);
+        buf.writeLong(secureRandom.get().nextLong());
         ctx.writeAndFlush(buf, ctx.voidPromise());
 
         state = LoginDecoderState.LOGIN_TYPE_AND_SIZE;
@@ -127,14 +122,6 @@ public final class LoginDecoder extends ByteToMessageDecoder {
             return;
         }
 
-        /*
-         * int[] archiveCrcs = new int[9]; for (int i = 0; i < 9; i++) { archiveCrcs[i]
-         * = buffer.readInt(); }
-         */
-
-        /**
-         * Our RSA components.
-         */
         int length = buffer.readUnsignedByte();
         byte[] rsaBytes = new byte[length];
         buffer.readBytes(rsaBytes);
@@ -143,7 +130,6 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 
         int securityId = rsaBuffer.readByte();
         if (securityId != 10) {
-            //logger.error("[host={}] was rejected for having the wrong securityId {}.", ctx.channel().remoteAddress(), securityId);
             sendCodeAndClose(ctx, LoginResponses.LOGIN_REJECT_SESSION);
             return;
         }
@@ -170,9 +156,6 @@ public final class LoginDecoder extends ByteToMessageDecoder {
         String hostName = ((InetSocketAddress) ctx.channel().remoteAddress()).getAddress().getHostName();
 
         if(HostBlacklist.isBlocked(hostName)) {
-            /**
-             * TODO
-             */
             sendCodeAndClose(ctx, LoginResponses.LOGIN_REJECT_SESSION);
             return;
         }

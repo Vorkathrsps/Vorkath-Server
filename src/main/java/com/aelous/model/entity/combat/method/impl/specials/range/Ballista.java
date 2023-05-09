@@ -21,14 +21,13 @@ public class Ballista extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         final Player player = entity.getAsPlayer();
-        int delay = (int) (Math.floor(3 + entity.tile().distance(target.tile()) / 6D));
-        double distance = entity.tile().getChevDistance(target.tile());
 
         player.animate(ANIMATION);
 
-        Projectile projectile = new Projectile(player, target, 1301, 41, delay, 45, 36, 0);
-        
-        player.executeProjectile(projectile);
+        int tileDist = entity.tile().transform(1, 1).getChevDistance(target.tile());
+        int duration = (66 + 11 + (5 * tileDist));
+        Projectile p1 = new Projectile(entity, target, 1301, 66, duration, 40, 30, 0, target.getSize(), 5);
+        final int delay = entity.executeProjectile(p1);
 
         CombatFactory.decrementAmmo(player);
 
@@ -36,10 +35,10 @@ public class Ballista extends CommonCombatMethod {
 
         hit.submit();
 
-        target.performGraphic(new Graphic(344, GraphicHeight.HIGH, (int) (41 + 11 + (5 * distance))));
+        target.graphic(344, GraphicHeight.HIGH, p1.getSpeed());
 
         CombatSpecial.drain(entity, CombatSpecial.BALLISTA.getDrainAmount());
-return true;
+        return true;
     }
 
     @Override

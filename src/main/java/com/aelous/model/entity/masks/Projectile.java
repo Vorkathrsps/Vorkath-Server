@@ -80,8 +80,7 @@ public final class Projectile {
         this.target = end;
         int offX = (start.getY() - end.getY()) * -1; // yes inverted
         int offY = (start.getX() - end.getX()) * -1;
-        Tile offset = new Tile(offX, offY, start.getZ());
-        this.offset = offset;
+        this.offset = new Tile(offX, offY, start.getZ());
         this.creatorSize = creatorSize;
         this.startDistanceOffset = startDistanceOffset;
         this.lockon = lockon;

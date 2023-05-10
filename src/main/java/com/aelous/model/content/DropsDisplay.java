@@ -67,7 +67,6 @@ public class DropsDisplay {
     private static final String DEFAULT = "Aberrant spectre";
 
     public static void start(Player player) {
-        //Search for an empty space so all NPCs are displayed by default.
         search(player, " ", Type.NPC);
         if (display(player, DEFAULT_NPC)) {
             open(player, DEFAULT_NPC);
@@ -166,13 +165,13 @@ public class DropsDisplay {
         if (v.items != null) {
             ids.addAll(Arrays.stream(v.items)
                 .filter(Objects::nonNull)
-                .map(i -> i.id).collect(Collectors.toList()));
+                .map(i -> i.id).toList());
         }
         if (v.guaranteed != null) {
             ids.addAll(
                 Arrays.stream(v.guaranteed)
                     .filter(Objects::nonNull)
-                    .map(i -> i.id).collect(Collectors.toList()));
+                    .map(i -> i.id).toList());
         }
         if (v.tables != null) {
             for (ScalarLootTable table : v.tables) {
@@ -352,12 +351,9 @@ public class DropsDisplay {
                             player.getPacketSender().sendMessage("DISABLED - Ynneh");
                         } else if (option == 2) {
                             stop();
-                            player.setNameScript("Which item would you like to find?", new InputScript() {
-                                @Override
-                                public boolean handle(Object value) {
-                                    DropsDisplay.search(player, (String) value, DropsDisplay.Type.ITEM);
-                                    return false;
-                                }
+                            player.setNameScript("Which item would you like to find?", value -> {
+                                DropsDisplay.search(player, (String) value, Type.ITEM);
+                                return false;
                             });
                         } else if (option == 3) {
                             stop();

@@ -127,11 +127,9 @@ public class EquipPacketListener implements PacketListener {
                             player.getCombat().setPoweredStaffSpell(null);
                         }
                         player.getCombat().setPoweredStaffSpell(CombatSpells.ACCURSED_SCEPTRE.getSpell());
-                    } else {
-                        if (player.getCombat().getAutoCastSpell() != null) {
-                            Autocasting.setAutocast(player, null);
-                            player.getPacketSender().sendMessage("Autocast spell cleared.");
-                        }
+                    } else if (player.getCombat().getAutoCastSpell() != null) {
+                        Autocasting.setAutocast(player, null);
+                        player.getPacketSender().sendMessage("Autocast spell cleared.");
                     }
                 }
             }

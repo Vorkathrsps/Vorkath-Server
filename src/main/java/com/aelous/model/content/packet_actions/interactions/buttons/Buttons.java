@@ -220,12 +220,10 @@ public class Buttons {
                         player.message("You can't autocast lunar magic.");
                         return;
                     }
-                    if (staff != null && Autocasting.SPECIAL_AUTOCAST_STAFFS.contains(staff.getId()) && onNormals || onAncients) {
-                        player.message("You can't autocast regular offensive spells with this staff.");
-                        return;
-                    }
+
                     if (staff != null && ANCIENT_SPELL_AUTOCAST_STAFFS.contains(staff.getId()) && !full_ahrim_effect) {
                         if (player.getSpellbook() == MagicSpellbook.ANCIENT) {
+                            //It can autocast offensive standard spells, but cannot autocast Ancient Magicks unlike its other variants.
                             if (player.getEquipment().getWeapon().getId() != HARMONISED_NIGHTMARE_STAFF) {
                                 player.getInterfaceManager().setSidebar(0, 1689);
                             } else {
@@ -258,11 +256,6 @@ public class Buttons {
                 if (!GameServer.properties().rightClickAutocast) {
                     if (player.getSpellbook() == MagicSpellbook.LUNAR) {
                         player.message("You can't autocast lunar spells.");
-                        player.getPacketSender().setDefensiveAutocastState(0);
-                        return;
-                    }
-                    if (staff != null && Autocasting.SPECIAL_AUTOCAST_STAFFS.contains(staff.getId()) && onNormals || onAncients) {
-                        player.message("You can't autocast regular offensive spells with this staff.");
                         player.getPacketSender().setDefensiveAutocastState(0);
                         return;
                     }

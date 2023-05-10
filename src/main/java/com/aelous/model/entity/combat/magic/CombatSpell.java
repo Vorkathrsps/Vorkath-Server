@@ -51,6 +51,7 @@ public abstract class CombatSpell extends Spell {
     public int getAttackSpeed(Entity attacker) {
         int speed = 5;
         if (attacker.isPlayer()) {
+
             Player player = (Player) attacker;
 
             if (player.getEquipment().hasAt(EquipSlot.WEAPON, HARMONISED_NIGHTMARE_STAFF) || player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SWAMP) || player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS) || player.getEquipment().hasAt(EquipSlot.WEAPON, SANGUINESTI_STAFF) || player.getEquipment().hasAt(EquipSlot.WEAPON, HOLY_SANGUINESTI_STAFF)) {

@@ -31,21 +31,22 @@ public class MagicCombatMethod extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         try {
-            CombatSpell spell = entity.getCombat().getCastSpell();
+            Player player = (Player) entity;
+            CombatSpell spell = player.getCombat().getCastSpell();
             if (spell == null) {
-                spell = entity.getCombat().getAutoCastSpell();
+                spell = player.getCombat().getAutoCastSpell();
                 if (spell == null) {
-                    spell = entity.getCombat().getPoweredStaffSpell();
+                    spell = player.getCombat().getPoweredStaffSpell();
                 }
             }
 
             if (spell != null) {
                 int spellID = spell.spellId();
 
-                boolean modernSpellbook = entity.getAsPlayer().getSpellbook() == MagicSpellbook.NORMAL;
-                boolean ancientSpellbook = entity.getAsPlayer().getSpellbook() == MagicSpellbook.ANCIENT;
-                boolean isWearingPoweredStaff = entity.getAsPlayer().getEquipment().containsAny(TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, SANGUINESTI_STAFF, TUMEKENS_SHADOW, DAWNBRINGER, ACCURSED_SCEPTRE_A);
-                boolean canCast = spell.canCast(entity.getAsPlayer(), target, true);
+                boolean modernSpells = player.getSpellbook() == MagicSpellbook.NORMAL;
+                boolean ancientSpells = player.getSpellbook() == MagicSpellbook.ANCIENT;
+                boolean isWearingPoweredStaff = player.getEquipment().containsAny(TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, SANGUINESTI_STAFF, TUMEKENS_SHADOW, DAWNBRINGER, ACCURSED_SCEPTRE_A);
+                boolean canCast = spell.canCast(player, target, true);
 
                 int projectile = -1;
                 int startgraphic = -1;
@@ -57,16 +58,16 @@ public class MagicCombatMethod extends CommonCombatMethod {
                 int stepMultiplier = -1;
                 int duration = -1;
 
-                int distance = entity.tile().getChevDistance(target.tile());
+                int distance = player.tile().getChevDistance(target.tile());
 
-                if (canCast && !target.dead() && !entity.dead() && entity instanceof Player player) {
+                if (canCast && !target.dead() && !player.dead()) {
                     GraphicHeight startGraphicHeight = GraphicHeight.HIGH;
                     GraphicHeight endGraphicHeight = GraphicHeight.HIGH;
                     ModernSpells findProjectileDataModern = ModernSpells.findSpellProjectileData(spellID, endGraphicHeight);
                     AncientSpells findProjectileDataAncients = AncientSpells.findSpellProjectileData(spellID, startGraphicHeight, endGraphicHeight);
                     AutoCastWeaponSpells findAutoCastWeaponsData = AutoCastWeaponSpells.findSpellProjectileData(spellID, endGraphicHeight);
 
-                    if (findProjectileDataModern != null && modernSpellbook && player.getCombat().getCastSpell() != null && player.getCombat().getCastSpell().spellId() == findProjectileDataModern.spellID) {
+                    if (findProjectileDataModern != null && modernSpells && player.getCombat().getCastSpell() != null && player.getCombat().getCastSpell().spellId() == findProjectileDataModern.spellID) {
                         projectile = findProjectileDataModern.projectile;
                         startgraphic = findProjectileDataModern.startGraphic;
                         castAnimation = findProjectileDataModern.castAnimation;
@@ -77,7 +78,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
                         stepMultiplier = findProjectileDataModern.stepMultiplier;
                         duration = (startSpeed + -5 + (stepMultiplier * distance));
                         endGraphicHeight = findProjectileDataModern.endGraphicHeight;
-                    } else if (findProjectileDataAncients != null && ancientSpellbook && player.getCombat().getCastSpell() != null && player.getCombat().getCastSpell().spellId() == findProjectileDataAncients.spellID) {
+                    } else if (findProjectileDataAncients != null && ancientSpells && player.getCombat().getCastSpell() != null && player.getCombat().getCastSpell().spellId() == findProjectileDataAncients.spellID) {
                         projectile = findProjectileDataAncients.projectile;
                         startgraphic = findProjectileDataAncients.startGraphic;
                         castAnimation = findProjectileDataAncients.castAnimation;
@@ -101,14 +102,14 @@ public class MagicCombatMethod extends CommonCombatMethod {
                         endGraphicHeight = findAutoCastWeaponsData.endGraphicHeight;
                     }
 
-                    entity.animate(new Animation(castAnimation));
-                    entity.performGraphic(new Graphic(startgraphic, startGraphicHeight, 0));
+                    player.animate(new Animation(castAnimation));
+                    player.performGraphic(new Graphic(startgraphic, startGraphicHeight, 0));
 
-                    Projectile p = new Projectile(entity, target, projectile, startSpeed, duration, startHeight, endHeight, 0, target.getSize(), stepMultiplier);
+                    Projectile p = new Projectile(player, target, projectile, startSpeed, duration, startHeight, endHeight, 0, target.getSize(), stepMultiplier);
 
-                    final int delay = entity.executeProjectile(p);
+                    final int delay = player.executeProjectile(p);
 
-                    Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+                    Hit hit = Hit.builder(player, target, CombatFactory.calcDamageFromType(player, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
                     hit.submit();
 
                     if (hit.isAccurate()) {
@@ -118,11 +119,11 @@ public class MagicCombatMethod extends CommonCombatMethod {
                     }
 
                     if (spell instanceof CombatEffectSpell combatEffectSpell && hit.isAccurate()) {
-                        combatEffectSpell.whenSpellCast(entity, target);
-                        combatEffectSpell.spellEffect(entity, target, hit);
+                        combatEffectSpell.whenSpellCast(player, target);
+                        combatEffectSpell.spellEffect(player, target, hit);
                     }
 
-                    spell.finishCast(entity, target, hit.isAccurate(), hit.getDamage());
+                    spell.finishCast(player, target, hit.isAccurate(), hit.getDamage());
                 }
             }
         } catch (Exception e) {

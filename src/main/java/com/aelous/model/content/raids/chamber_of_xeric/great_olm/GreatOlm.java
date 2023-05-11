@@ -699,13 +699,13 @@ public class GreatOlm extends CommonCombatMethod {
         }).delay(1, () -> {
             if (isOnEastSide()) {
                 for (int x = projectileX; x < projectileX + 10; x++) {
-                    fires.add(GameObject.spawn(FIRE_32297, x, targetY + 2, npc.getZ(), 10, 0));
-                    fires.add(GameObject.spawn(FIRE_32297, x, targetY - 2, npc.getZ(), 10, 0));
+                    fires.add(GameObject.spawn(FIRE_32297, x, targetY + 1, npc.getZ(), 10, 0));
+                    fires.add(GameObject.spawn(FIRE_32297, x, targetY - 1, npc.getZ(), 10, 0));
                 }
             } else {
                 for (int x = projectileX; x > projectileX - 10; x--) {
-                    fires.add(GameObject.spawn(FIRE_32297, x, targetY + 2, npc.getZ(), 10, 0));
-                    fires.add(GameObject.spawn(FIRE_32297, x, targetY - 2, npc.getZ(), 10, 0));
+                    fires.add(GameObject.spawn(FIRE_32297, x, targetY + 1, npc.getZ(), 10, 0));
+                    fires.add(GameObject.spawn(FIRE_32297, x, targetY - 1, npc.getZ(), 10, 0));
                 }
             }
         }).delay(10, () -> {

@@ -177,7 +177,7 @@ public class Death {
             } else if (player.getRaids() != null) {
                 player.getRaids().death(player);
             } else {
-                player.teleport(GameServer.properties().defaultTile); //Teleport the player to Varrock square
+               // player.teleport(GameServer.properties().defaultTile); //Teleport the player to Varrock square
             }
             player.message("Oh dear, you are dead!"); //Send the death message
             deathReset(player);

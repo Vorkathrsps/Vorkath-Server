@@ -550,7 +550,7 @@ public class NPCDeath {
 
                 killer.getBossTimers().submit(npc.def().name, (int) killer.getCombat().getFightTimer().elapsed(TimeUnit.SECONDS), killer);
 
-                ScalarLootTable table = null;// ScalarLootTable.forNPC(npc.id());
+                ScalarLootTable table = ScalarLootTable.forNPC(npc.id());
                 //Drop loot, but the first form of KQ, Runite golem and world bosses do not drop anything.
                 if (table != null && (npc.id() != KALPHITE_QUEEN_6500 && npc.id() != RUNITE_GOLEM && !npc.isWorldBoss() && npc.id() != THE_NIGHTMARE_9430)) {
                     boolean dropUnderPlayer = npc.id() == NpcIdentifiers.KRAKEN || npc.id() == NpcIdentifiers.CAVE_KRAKEN || npc.id() >= NpcIdentifiers.ZULRAH && npc.id() <= NpcIdentifiers.ZULRAH_2044 || npc.id() >= NpcIdentifiers.VORKATH_8059 && npc.id() <= NpcIdentifiers.VORKATH_8061 || npc.id() >= LAVA_BEAST;

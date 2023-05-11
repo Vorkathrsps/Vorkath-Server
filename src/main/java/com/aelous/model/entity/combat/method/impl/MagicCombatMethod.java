@@ -26,8 +26,6 @@ import static com.aelous.utility.ItemIdentifiers.*;
  * @author Origin
  */
 public class MagicCombatMethod extends CommonCombatMethod {
-
-
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         try {

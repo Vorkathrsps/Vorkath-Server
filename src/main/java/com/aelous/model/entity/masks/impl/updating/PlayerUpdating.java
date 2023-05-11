@@ -40,39 +40,37 @@ public class PlayerUpdating {
      * @return The PlayerUpdating instance.
      */
 
-    public static synchronized void update(final Player player) {
+    public static void update(final Player player) {
         PacketBuilder update = new PacketBuilder();
         PacketBuilder packet = new PacketBuilder(81, PacketType.VARIABLE_SHORT);
         packet.initializeAccess(AccessType.BIT);
         updateMovement(player, packet);
-        synchronized (player.getLocalPlayers()) {
-            appendUpdates(player, update, player, false, true);
-            packet.putBits(8, player.getLocalPlayers().size());
-            for (Iterator<Player> playerIterator = player.getLocalPlayers().iterator(); playerIterator.hasNext(); ) {
-                Player otherPlayer = playerIterator.next();
-                if (otherPlayer.getIndex() != -1 && World.getWorld().getPlayers().get(otherPlayer.getIndex()) != null && !otherPlayer.looks().hidden() && otherPlayer.tile().isWithinDistance(player.tile()) && !otherPlayer.isNeedsPlacement() && canSee(player, otherPlayer)) {
-                    updateOtherPlayerMovement(packet, otherPlayer);
-                    if (otherPlayer.getUpdateFlag().isUpdateRequired()) {
-                        appendUpdates(player, update, otherPlayer, false, false);
-                    }
-                } else {
-                    playerIterator.remove();
-                    packet.putBits(1, 1);
-                    packet.putBits(2, 3);
+        appendUpdates(player, update, player, false, true);
+        packet.putBits(8, player.getLocalPlayers().size());
+        for (Iterator<Player> playerIterator = player.getLocalPlayers().iterator(); playerIterator.hasNext(); ) {
+            Player otherPlayer = playerIterator.next();
+            if (otherPlayer.getIndex() != -1 && World.getWorld().getPlayers().get(otherPlayer.getIndex()) != null && !otherPlayer.looks().hidden() && otherPlayer.tile().isWithinDistance(player.tile()) && !otherPlayer.isNeedsPlacement() && canSee(player, otherPlayer)) {
+                updateOtherPlayerMovement(packet, otherPlayer);
+                if (otherPlayer.getUpdateFlag().isUpdateRequired()) {
+                    appendUpdates(player, update, otherPlayer, false, false);
                 }
+            } else {
+                playerIterator.remove();
+                packet.putBits(1, 1);
+                packet.putBits(2, 3);
             }
-            int playersAdded = 0;
-            for (Player otherPlayer : World.getWorld().getPlayers()) {
-                if (player.getLocalPlayers().size() >= 79 || playersAdded > MAX_NEW_PLAYERS_PER_CYCLE)
-                    break;
-                if (otherPlayer == null || otherPlayer == player || player.getLocalPlayers().contains(otherPlayer) || !otherPlayer.tile().isWithinDistance(player.tile()) || otherPlayer.looks().hidden() || !canSee(player, otherPlayer)) {
-                    continue;
-                }
-                player.getLocalPlayers().add(otherPlayer);
-                addPlayer(player, otherPlayer, packet);
-                appendUpdates(player, update, otherPlayer, true, false);
-                playersAdded++;
+        }
+        int playersAdded = 0;
+        for (Player otherPlayer : World.getWorld().getPlayers()) {
+            if (player.getLocalPlayers().size() >= 79 || playersAdded > MAX_NEW_PLAYERS_PER_CYCLE)
+                break;
+            if (otherPlayer == null || otherPlayer == player || player.getLocalPlayers().contains(otherPlayer) || !otherPlayer.tile().isWithinDistance(player.tile()) || otherPlayer.looks().hidden() || !canSee(player, otherPlayer)) {
+                continue;
             }
+            player.getLocalPlayers().add(otherPlayer);
+            addPlayer(player, otherPlayer, packet);
+            appendUpdates(player, update, otherPlayer, true, false);
+            playersAdded++;
         }
         if (update.buffer().writerIndex() > 0) {
             packet.putBits(11, 2047);
@@ -81,11 +79,8 @@ public class PlayerUpdating {
         } else {
             packet.initializeAccess(AccessType.BYTE);
         }
-        synchronized (player.getSession()) {
-            player.getSession().write(packet);
-        }
+        player.getSession().write(packet);
     }
-
 
 
     private static boolean canSee(Player player, Player otherPlayer) {

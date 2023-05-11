@@ -198,12 +198,15 @@ public class World {
     public double get() {
         return ThreadLocalRandom.current().nextDouble();
     }
+
     public int get(int maxRange) {
         return (int) (get() * (maxRange + 1D));
     }
+
     public <T> T get(List<T> list) {
         return list.get(get(list.size() - 1));
     }
+
     public <T> T get(T[] values) {
         return values[get(values.length - 1)];
     }
@@ -267,30 +270,22 @@ public class World {
     public WorldPerfTracker benchmark = new WorldPerfTracker();
 
     Runnable skull = () -> {
-
-        //Temporary minute check until a better system is created.
         if (TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - lastMinuteScan) >= 60) {
             players.forEach(p -> {
                 if (Skulling.skulled(p)) {
                     Skulling.decrementSkullCycle(p);
                 }
             });
-
             lastMinuteScan = System.currentTimeMillis();
         }
-    },
-        tasks = () -> {
-            TaskManager.sequence();
-        }, objs = () -> {
-
-        for (OwnedObject object : ownedObjects.values()) {
+    }, tasks = TaskManager::sequence,
+        objs = () -> ownedObjects.values().forEach(object -> {
             try {
                 object.tick();
             } catch (Throwable t) {
                 t.printStackTrace();
             }
-        }
-    }, packets = () -> {
+        }), packets = () -> {
         try {
             executor.sync(new GameSyncTask(NodeType.PLAYER, false, playerRenderOrder) {
                 @Override
@@ -312,10 +307,8 @@ public class World {
                     NPC npc = npcs.get(index);
                     if (npc != null && !npc.hidden()) {
                         npc.sequence();
-                        synchronized (npcs) {//Assume viewport is false, we set it in NPC Updating below.
-                            npc.inViewport(false);
-                            npc.processed = true;
-                        }
+                        npc.inViewport(false);
+                        npc.processed = true;
                     }
                 }
             });
@@ -329,9 +322,7 @@ public class World {
                 public void execute(int index) {
                     Player player = players.get(index);
                     player.sequence();
-                    synchronized (players) {
-                        player.processed = true;
-                    }
+                    player.processed = true;
                 }
             });
         } catch (Exception e) {
@@ -339,14 +330,12 @@ public class World {
         }
     }, gpi = () -> {
         try {
-            executor.sync(new GameSyncTask(NodeType.PLAYER, playerRenderOrder) {
+            executor.sync(new GameSyncTask(NodeType.PLAYER, false, playerRenderOrder) {
                 @Override
                 public void execute(int index) {
-                    synchronized (players) {
-                        Player player = players.get(index);
-                        PlayerUpdating.update(player);
-                        NPCUpdating.update(player);
-                    }
+                    Player player = players.get(index);
+                    PlayerUpdating.update(player);
+                    NPCUpdating.update(player);
                 }
             });
         } catch (Exception e) {
@@ -362,9 +351,7 @@ public class World {
                         npc.resetUpdating();
                         npc.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
                         npc.performance.reset();
-                        synchronized (npcs) {
-                            npc.processed = false;
-                        }
+                        npc.processed = false;
                     } catch (Throwable e) {
                         e.printStackTrace();
                         World.getWorld().getNpcs().remove(npc);
@@ -385,17 +372,14 @@ public class World {
                     player.setCachedUpdateBlock(null);
                     player.getSession().flush();
                     player.perf.pulse();
-                    synchronized (players) {
-                        player.processed = false;
-                    }
+                    player.processed = false;
                 }
             });
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }, games = () -> {
-        MinigameManager.onTick();
-    };
+    }, games = MinigameManager::onTick;
+
 
     public int getTickCount() {
         return elapsedTicks;
@@ -523,8 +507,8 @@ public class World {
     }
 
     public NPC findNPC(int id) {
-        Optional<NPC> toGet = npcs.stream().filter(n -> n != null).filter(n -> n.getId() == id).findFirst();
-        if (!toGet.isPresent()) {
+        Optional<NPC> toGet = npcs.stream().filter(Objects::nonNull).filter(n -> n.getId() == id).findFirst();
+        if (toGet.isEmpty()) {
             System.err.println("couldn't find any npc for id=" + id);
             return null;
         }

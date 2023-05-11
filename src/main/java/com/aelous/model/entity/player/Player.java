@@ -3025,9 +3025,7 @@ public class Player extends Entity {
         }
     }
 
-    Runnable logR = () -> {
-        this.fireLogout();
-    },
+    Runnable logR = this::fireLogout,
         qtStuff = () -> {
             this.setPlayerQuestTabCycleCount(getPlayerQuestTabCycleCount() + 1);
             //Update the players online regardless of the cycle count, this is the most important number, otherwise players might see "0" if they log in too soon. Can always remove this later.
@@ -3101,9 +3099,7 @@ public class Player extends Entity {
 
         if (lastregion != tile.region() || lastChunk != tile.chunk()) {
             MultiwayCombat.refresh(this, lastregion, lastChunk);
-            //TODO Have Jak check
-            // Register the unique farmbit regions
-            var uniqueRegions = Arrays.stream(Farmbit.values()).map(fb -> fb.visibleRegion).collect(Collectors.toList());
+            var uniqueRegions = Arrays.stream(Farmbit.values()).map(fb -> fb.visibleRegion).toList();
             for (int region : uniqueRegions) {
                 if (lastregion == region) {
                     Farming.synchRegion(this);

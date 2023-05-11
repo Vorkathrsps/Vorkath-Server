@@ -550,6 +550,7 @@ public class IncomingHandler {
         PACKET_SIZES[OBJECT_SECOND_CLICK_OPCODE] = 8;
         PACKET_SIZES[253] = 6;
         PACKET_SIZES[254] = -3;
+        PACKET_SIZES[255] = -3;
         // Exceeds array no idea why its set to [257] PACKET_SIZES[256] = -3;
     }
 

@@ -150,14 +150,14 @@ public class NexCombat extends CommonCombatMethod {
                 }
                 if (attackCount % 5 == 0) {
                     if (World.getWorld().rollDie(10)) {
-                        smokeDash();
+                        //smokeDash();
                     } else {
                         choke(target);
                     }
                 } else {
                     smokeRush();
                 }
-                drag(nex);
+               // drag(nex);
             }
             case TWO -> {
                 if (nex.darkenScreen.get()) {
@@ -231,7 +231,6 @@ public class NexCombat extends CommonCombatMethod {
         int damage = nex.getCombatInfo().maxhit;
         if (nex.turmoil) damage *= 1.50;
 
-        //Nex hits through prayer when turmoil is activated but random
         if (World.getWorld().rollDie(10, 2) && nex.turmoil) {
             target.hit(nex, World.getWorld().random(1, 8), 1, CombatType.MELEE).checkAccuracy().submit();
             return;

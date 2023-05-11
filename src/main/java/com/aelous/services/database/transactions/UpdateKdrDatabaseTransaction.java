@@ -31,6 +31,6 @@ public class UpdateKdrDatabaseTransaction extends VoidDatabaseTransaction {
     @Override
     public void exceptionCaught(Throwable cause) {
         logger.error("There was an error updating the kdr column for Player " + username + ": ");
-        logger.catching(cause);
+        logger.error("db", cause);
     }
 }

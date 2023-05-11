@@ -184,7 +184,7 @@ public class NPC extends Entity {
         try {
             NPCBotHandler.assignBotHandler(this);
         } catch (Exception e) {
-            logger.catching(e);
+            logger.error("sadge", e);
             logger.error("NPC {} might not have an NPC definition entry.", box(id));
         }
 
@@ -230,7 +230,7 @@ public class NPC extends Entity {
         try {
             NPCBotHandler.assignBotHandler(this);
         } catch (Exception e) {
-            logger.catching(e);
+            logger.error("sadge", e);
             logger.error("NPC {} might not have an NPC definition entry.", box(id));
         }
 

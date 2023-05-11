@@ -36,6 +36,6 @@ public final class UpdatePasswordDatabaseTransaction extends VoidDatabaseTransac
     @Override
     public void exceptionCaught(Throwable cause) {
         logger.error("There was an error updating the password for user " + player.getUsername() + ": ");
-        logger.catching(cause);
+        logger.error("db", cause);
     }
 }

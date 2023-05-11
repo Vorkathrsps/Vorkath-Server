@@ -28,7 +28,7 @@ public class DoorDefinitionLoader extends DefinitionLoader {
             }
             //logger.info("Loaded "+ Doors.CACHE.size() +" door definitions.");
         } catch (Exception e) {
-            logger.catching(e);
+            logger.error("sadge", e);
         }
     }
 

@@ -102,7 +102,7 @@ public class PlayerSave {
             new SaveDetails(player).parseDetails();
             return true;
         } catch (final Exception e) {
-            logger.catching(e);
+            logger.error("save", e);
         }
         return false;
     }

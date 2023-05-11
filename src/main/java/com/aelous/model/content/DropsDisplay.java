@@ -157,7 +157,7 @@ public class DropsDisplay {
             player.putAttrib(AttributeKey.DROP_DISPLAY_KEY, id);
             display(player, id.get(0));
         } catch (Exception e) {
-            logger.catching(e);
+            logger.error("sadge", e);
         }
     }
 

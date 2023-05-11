@@ -71,7 +71,7 @@ public class Flooder implements Runnable {
                     String password = "bot";
                     new FloodClient(Utils.formatText(username), password).attemptLogin();
                 } catch(Exception e) {
-                    logger.catching(e);
+                    logger.error("sadge", e);
                 }
             }
         }
@@ -88,13 +88,13 @@ public class Flooder implements Runnable {
                     try {
                         entry.getValue().process();
                     } catch(Exception e) {
-                        logger.catching(e);
+                        logger.error("sadge", e);
                         i.remove();
                     }
                 }
                 Thread.sleep(300);
             } catch(Exception e) {
-                logger.catching(e);
+                logger.error("sadge", e);
             }
         }
     }
@@ -115,7 +115,7 @@ public class Flooder implements Runnable {
                         try {
                             entry.getValue().process();
                         } catch(Exception e) {
-                            logger.catching(e);
+                            logger.error("sadge", e);
                             i.remove();
                         }
                     }
@@ -123,7 +123,7 @@ public class Flooder implements Runnable {
                 }
                 Thread.sleep(300);
             } catch(Exception e) {
-                logger.catching(e);
+                logger.error("sadge", e);
             }
         }
     }

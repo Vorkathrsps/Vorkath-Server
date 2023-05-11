@@ -55,6 +55,6 @@ public final class verifyOrInsertUserDatabaseTransaction extends VoidDatabaseTra
     @Override
     public void exceptionCaught(Throwable cause) {
         logger.error("There was an error inserting the user " + player.getUsername() + ": ");
-        logger.catching(cause);
+        logger.error("db", cause);
     }
 }

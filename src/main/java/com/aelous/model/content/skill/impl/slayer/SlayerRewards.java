@@ -277,7 +277,7 @@ public class SlayerRewards {
                 player.getPacketSender().sendString(63232 + index, "<col=ffa500>Unblock Task </col>");
             }
         } catch (Exception e) {
-            logger.catching(e);
+            logger.error("sadge", e);
         }
     }
 
@@ -419,7 +419,7 @@ public class SlayerRewards {
                         player.getSlayerRewards().block();
                         return true;
                     } catch (Exception e) {
-                        logger.catching(e);
+                        logger.error("sadge", e);
                     }
                 }
 

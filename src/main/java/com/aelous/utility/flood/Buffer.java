@@ -270,7 +270,7 @@ public final class Buffer {
                 return readUShort() - 32768;
             }
         } catch (Exception e) {
-            logger.catching(e);
+            logger.error("sadge", e);
             return readUShort() - 32768;
         }
     }

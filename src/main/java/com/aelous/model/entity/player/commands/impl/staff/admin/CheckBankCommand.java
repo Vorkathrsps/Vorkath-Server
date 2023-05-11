@@ -41,7 +41,7 @@ public class CheckBankCommand implements Command {
                         player.message("The Player " + plr2.getUsername() + " does not exist.");
                     }
                 } catch (Exception e) {
-                    logger.catching(e);
+                    logger.error("sadge", e);
                 }
             });
         }

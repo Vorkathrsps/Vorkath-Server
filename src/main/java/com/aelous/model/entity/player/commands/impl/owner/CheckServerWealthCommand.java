@@ -489,12 +489,12 @@ public class CheckServerWealthCommand implements Command {
                         } catch (Exception e) {
                             dev.message("Something wrong went checking server wealth for offline Player " + opp.getUsername());
                             logger.error("Something wrong went checking server wealth for offline Player " + opp.getUsername());
-                            logger.catching(e);
+                            logger.error("sadge", e);
                         }
                     });
                 }
             } catch (Exception e) {
-                logger.catching(e);
+                logger.error("sadge", e);
             }
         });
     }

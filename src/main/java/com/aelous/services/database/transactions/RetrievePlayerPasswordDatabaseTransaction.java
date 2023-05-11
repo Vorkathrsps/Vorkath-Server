@@ -37,6 +37,6 @@ public class RetrievePlayerPasswordDatabaseTransaction extends DatabaseTransacti
     @Override
     public void exceptionCaught(Throwable cause) {
         logger.error("There was an error with the retrieve password query for Player " + username + ": ");
-        logger.catching(cause);
+        logger.error("db", cause);
     }
 }

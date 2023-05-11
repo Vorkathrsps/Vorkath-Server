@@ -39,6 +39,6 @@ public class BanPlayerDatabaseTransaction extends VoidDatabaseTransaction {
     @Override
     public void exceptionCaught(Throwable cause) {
         logger.error("There was an error banning the player  " + username + ": ");
-        logger.catching(cause);
+        logger.error("db", cause);
     }
 }

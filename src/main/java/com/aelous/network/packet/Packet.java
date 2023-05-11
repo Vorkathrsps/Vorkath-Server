@@ -95,7 +95,7 @@ public class Packet {
         try {
             b = buffer.readByte();
         } catch (Exception e) {
-            logger.catching(e);
+            logger.error("sadge", e);
         }
         return b;
     }

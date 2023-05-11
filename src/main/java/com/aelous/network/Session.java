@@ -178,7 +178,7 @@ public class Session {
                     try {
                         listener.handleMessage(player, packet);
                     } catch (Throwable t) {
-                        logger.catching(t);
+                        logger.error("shite", t);
                     }
 
                     if (player.getCurrentTask() instanceof PlayerTask task) {
@@ -196,7 +196,7 @@ public class Session {
                     }
                 });
             } catch (Throwable t) {
-                logger.catching(t);
+                logger.error("shite", t);
             } finally {
                 packet.getBuffer().release();
             }
@@ -222,7 +222,7 @@ public class Session {
 
             channel.write(packet);
         } catch (Exception e) {
-            logger.catching(e);
+            logger.error("sadge", e);
         }
     }
 

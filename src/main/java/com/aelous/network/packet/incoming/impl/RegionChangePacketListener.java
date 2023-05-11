@@ -28,7 +28,7 @@ private static final Logger logger = LogManager.getLogger(RegionChangePacketList
                 player.afkTimer.reset();
             } catch (Exception e) {
                 logger.error(player.toString() + " has encountered an error loading region " + player.tile().region() + " regionid " + player.tile().region());
-                logger.catching(e);
+                logger.error("sadge", e);
             }
         }
     }

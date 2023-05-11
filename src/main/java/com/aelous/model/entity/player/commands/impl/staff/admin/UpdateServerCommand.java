@@ -64,7 +64,7 @@ public class UpdateServerCommand implements Command {
                 TaskManager.submit(updateTask);
             }
         } catch (Exception e) {
-            logger.catching(e);
+            logger.error("sadge", e);
         }
     }
 

@@ -40,6 +40,6 @@ public final class FindPlayersFromIpDatabaseTransaction extends DatabaseTransact
     @Override
     public void exceptionCaught(Throwable cause) {
         logger.error("There was an error with the find players from IP query: ");
-        logger.catching(cause);
+        logger.error("db", cause);
     }
 }

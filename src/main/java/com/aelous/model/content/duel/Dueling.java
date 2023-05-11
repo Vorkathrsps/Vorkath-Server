@@ -1029,7 +1029,7 @@ public class Dueling {
 
             } catch (Exception e) {
                 //The value shouldn't ever really be a string, but just in case, let's catch the exception.
-                logger.catching(e);
+                logger.error("sadge", e);
                 logger.error("Somehow there was an exception from logging dueling between player " + player.getUsername() + " and " + opponent.getUsername());
             }
 

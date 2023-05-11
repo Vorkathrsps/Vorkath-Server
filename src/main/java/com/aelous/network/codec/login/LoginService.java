@@ -81,7 +81,7 @@ public class LoginService implements Service {
             // If we don't catch any possible errors, thread could die silently.
             logger.error(
                     "There was an error finishing the logout for " + request.getUsername() + ": ");
-            logger.catching(t);
+            logger.error("shite", t);
         }
         return false;
     }

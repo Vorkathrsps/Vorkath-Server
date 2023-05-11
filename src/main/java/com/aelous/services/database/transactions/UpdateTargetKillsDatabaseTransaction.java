@@ -31,6 +31,6 @@ public class UpdateTargetKillsDatabaseTransaction extends VoidDatabaseTransactio
     @Override
     public void exceptionCaught(Throwable cause) {
         logger.error("There was an error updating the target_kills column for Player " + username + ": ");
-        logger.catching(cause);
+        logger.error("db", cause);
     }
 }

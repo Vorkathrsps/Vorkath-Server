@@ -107,7 +107,7 @@ public final class LoginResponses {
                 //Here we use execute instead of submit, since we want this to be executed synchronously and not asynchronously, since we want to wait for the response of the query before continuing execution in this LoginResponses class.
                 banned = GameServer.getDatabaseService().execute(new GetBanStatusDatabaseTransaction(player.getUsername()));
             } catch (Exception e) {
-                logger.catching(e);
+                logger.error("sadge", e);
             }
             if (banned) {
                 return LoginResponses.LOGIN_DISABLED_ACCOUNT;
@@ -147,14 +147,14 @@ public final class LoginResponses {
                 }
             } catch (Throwable t) {
                 logger.error("There was an error logging on for " + player.getUsername() + ": ");
-                logger.catching(t);
+                logger.error("shite", t);
                 return LoginResponses.COULD_NOT_COMPLETE_LOGIN;
             }
             try {
                 PlayerSave.load(player);
             } catch (Throwable t) {
                 logger.error("There was an error loading profile for " + player.getUsername() + ": ");
-                logger.catching(t);
+                logger.error("shite", t);
                 return LoginResponses.COULD_NOT_COMPLETE_LOGIN;
             }
 

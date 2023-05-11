@@ -99,7 +99,7 @@ public class Buffer {
             value += ptr;
             return value;
         } catch (Exception e) {
-            logger.catching(e);
+            logger.error("sadge", e);
         }
         return -1;
     }

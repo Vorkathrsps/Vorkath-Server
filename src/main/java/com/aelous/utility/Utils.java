@@ -375,11 +375,11 @@ public class Utils {
                         //Let's log the text, since this error type shouldn't happen and we don't know why it did.
                         //Perhaps this error is caused by the Discord servers being overloaded/lagging in general?
                         logger.error("The text that Discord tried to log was: " + text);
-                        logger.catching(e);
+                        logger.error("sadge", e);
                     }
                 } catch (Throwable t) {
                     logger.error("I think Discord webhook threw an exception");
-                    logger.catching(t);
+                    logger.error("shite", t);
                 }
             });
         }
@@ -863,7 +863,7 @@ public class Utils {
                     out.close();
                 }
             } catch (IOException e) {
-                logger.catching(e);
+                logger.error("sadge", e);
             }
         });
     }
@@ -893,7 +893,7 @@ public class Utils {
                 w.flush();
                 w.close();
             } catch (Exception e) {
-                logger.catching(e);
+                logger.error("sadge", e);
             }
         });
     }
@@ -1607,7 +1607,7 @@ public class Utils {
             dis.close();
             return buffer;
         } catch (Exception e) {
-            logger.catching(e);
+            logger.error("sadge", e);
         }
         return null;
     }

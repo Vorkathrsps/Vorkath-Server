@@ -97,12 +97,12 @@ public class EcoResetCommand implements Command {
                         } catch (Exception e) {
                             dev.message("Something wrong went resetting the account for offline Player " + player.getUsername());
                             logger.error("Something wrong went resetting the account for offline Player " + player.getUsername());
-                            logger.catching(e);
+                            logger.error("sadge", e);
                         }
                     });
                 }
             } catch (Exception e) {
-                logger.catching(e);
+                logger.error("sadge", e);
             }
         });
     }

@@ -95,6 +95,6 @@ public final class GetBanStatusDatabaseTransaction extends DatabaseTransaction<B
     @Override
     public void exceptionCaught(Throwable cause) {
         logger.error("There was an error with the find missing users query: ");
-        logger.catching(cause);
+        logger.error("db", cause);
     }
 }

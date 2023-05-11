@@ -39,6 +39,6 @@ public class MutePlayerDatabaseTransaction extends VoidDatabaseTransaction {
     @Override
     public void exceptionCaught(Throwable cause) {
         logger.error("There was an error muting the player  " + username + ": ");
-        logger.catching(cause);
+        logger.error("db", cause);
     }
 }

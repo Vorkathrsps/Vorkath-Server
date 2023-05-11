@@ -69,7 +69,7 @@ public class ClanRepository {
                 clan.init();
             }
         } catch (FileNotFoundException e) {
-            logger.catching(e);
+            logger.error("sadge", e);
         }
     }
 
@@ -82,7 +82,7 @@ public class ClanRepository {
                 try (FileWriter fileWriter = new FileWriter("./data/saves/clans/world_clan_list.json")) {
                     fileWriter.write(SAVER.toJson(CLANS));
                 } catch (final Exception e) {
-                    logger.catching(e);
+                    logger.error("sadge", e);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

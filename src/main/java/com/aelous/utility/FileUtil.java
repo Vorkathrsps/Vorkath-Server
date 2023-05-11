@@ -29,7 +29,7 @@ public class FileUtil {
                 }
             }
         } catch (Exception e) {
-            logger.catching(e);
+            logger.error("sadge", e);
         }
         return null;
     }
@@ -68,7 +68,7 @@ public class FileUtil {
             byte[] buffer = getGZBuffer(file);
             return CompressionUtil.gunzip(buffer);
         } catch (Exception e) {
-            logger.catching(e);
+            logger.error("sadge", e);
         }
         return null;
     }

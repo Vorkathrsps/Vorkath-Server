@@ -47,7 +47,7 @@ public class ReloadCommand implements Command {
                 try {
                     Fishing.respawnAllSpots(World.getWorld());
                 } catch (FileNotFoundException e) {
-                    logger.catching(e);
+                    logger.error("sadge", e);
                 }
                 player.message(format("Reloaded %d npcs. <col=ca0d0d>Warning: Npcs in Instances will not be respawned.", World.getWorld().getNpcs().size()));
                 player.message("<col=ca0d0d>Must be done manually.");

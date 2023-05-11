@@ -44,6 +44,6 @@ public final class InsertPlayerIPDatabaseTransaction extends VoidDatabaseTransac
     @Override
     public void exceptionCaught(Throwable cause) {
         logger.error("There was an error inserting the IP " + player.getHostAddress() + " for Player " + player.getUsername() + ": ");
-        logger.catching(cause);
+        logger.error("db", cause);
     }
 }

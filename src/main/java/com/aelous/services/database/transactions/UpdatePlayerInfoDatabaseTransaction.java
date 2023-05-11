@@ -45,6 +45,6 @@ public class UpdatePlayerInfoDatabaseTransaction extends VoidDatabaseTransaction
     @Override
     public void exceptionCaught(Throwable cause) {
         logger.error("There was an error updating the info column for Player with id: " + id + ": ");
-        logger.catching(cause);
+        logger.error("db", cause);
     }
 }

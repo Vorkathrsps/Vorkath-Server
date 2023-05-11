@@ -214,7 +214,7 @@ public final class ByteBuffer {
                 return getUnsignedShort() - 32768;
             }
         } catch (Exception e) {
-            logger.catching(e);
+            logger.error("sadge", e);
             return getUnsignedShort() - 32768;
         }
     }

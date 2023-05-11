@@ -37,6 +37,6 @@ public final class UpdateTotalPaymentAmountDatabaseTransaction extends VoidDatab
     @Override
     public void exceptionCaught(Throwable cause) {
         logger.error("There was an error with the update total paid amount query for player " + player.getUsername() + ": ");
-        logger.catching(cause);
+        logger.error("db", cause);
     }
 }

@@ -180,7 +180,7 @@ public class TradingPost {
                         gson.toJson(entry.getValue(), fw);
                         savedFiles.add(fileName);
                     } catch (IOException e) {
-                        logger.catching(e);
+                        logger.error("sadge", e);
                     }
                 }
             } catch (Exception e) {
@@ -197,7 +197,7 @@ public class TradingPost {
                     try (FileWriter fw = new FileWriter("./data/saves/tradingpost/listings/" + entry.getKey() + ".json")) {
                         gson.toJson(entry.getValue(), fw);
                     } catch (IOException e) {
-                        logger.catching(e);
+                        logger.error("sadge", e);
                     }
                 }
             } catch (Exception e) {
@@ -212,7 +212,7 @@ public class TradingPost {
                 try (FileWriter fw = new FileWriter("./data/saves/tradingpost/recentTransactions.json")) {
                     gson.toJson(recentTransactions, fw);
                 } catch (IOException e) {
-                    logger.catching(e);
+                    logger.error("sadge", e);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

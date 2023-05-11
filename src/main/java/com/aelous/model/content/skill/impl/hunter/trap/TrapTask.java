@@ -72,7 +72,7 @@ public final class TrapTask extends Task {
             }
             trap.onSequence();
         } catch (Exception e) {
-            logger.catching(e);
+            logger.error("sadge", e);
         }
     }
 }

@@ -77,7 +77,7 @@ public class AppearanceChangePacketListener implements PacketListener {
             player.stopActions(true);
             player.getInterfaceManager().close();
         } catch(Exception e) {
-            logger.catching(e);
+            logger.error("sadge", e);
         }
     }
 

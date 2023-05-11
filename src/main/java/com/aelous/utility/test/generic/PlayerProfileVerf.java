@@ -23,7 +23,7 @@ public class PlayerProfileVerf {
             PlayerSave.load(player);
         } catch (Exception e) {
             logger.error("Player serialization -- integrity fail!");
-            logger.catching(e);
+            logger.error("sadge", e);
             System.exit(1);
         }
     }

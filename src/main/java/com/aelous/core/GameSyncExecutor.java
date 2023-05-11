@@ -79,7 +79,11 @@ public final class GameSyncExecutor {
         phaser.arriveAndAwaitAdvance();
     }
 
-
+    public void shutdown() {
+        if (service != null) {
+            service.shutdown();
+        }
+    }
 
     /**
      * Creates and configures the update service for this game sync executor.

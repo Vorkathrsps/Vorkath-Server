@@ -78,7 +78,7 @@ public class ScalarLootTable {
     public int odds = 0;
 
     public static void loadAll(File dir) {
-        for (File f : dir.listFiles()) {
+        for (File f : Objects.requireNonNull(dir.listFiles())) {
             if (f.isDirectory()) {
                 loadAll(f);
             } else {
@@ -86,10 +86,12 @@ public class ScalarLootTable {
                     if (f.getName().endsWith(".json")) {
                         ScalarLootTable t = load(f);
 
-                        t.process();
+                        if (t != null) {
+                            t.process();
 
-                        for (int n : t.npcs) {
-                            registered.put(n, t);
+                            for (int n : t.npcs) {
+                                registered.put(n, t);
+                            }
                         }
                     }
                 } catch (Exception e) {
@@ -191,7 +193,6 @@ public class ScalarLootTable {
     }
 
     private void calcRare() {
-        // Ingest rare knowledge
         if (tables != null) {
             for (ScalarLootTable table : tables) {
                 if (table.rareaffected) {
@@ -242,8 +243,7 @@ public class ScalarLootTable {
         if (tables != null && tables.length > 0) {
             for (ScalarLootTable table : tables) {
                 if (drop >= table.from && drop < table.from + table.points) {
-                    Item item = table.randomItem(random);
-                    return item;
+                    return table.randomItem(random);
                 }
             }
         }

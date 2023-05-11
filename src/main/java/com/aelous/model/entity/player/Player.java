@@ -3141,7 +3141,8 @@ public class Player extends Entity {
 
         //Section 12 Sync containers, if dirty
         section[12] = true;
-        this.syncContainers();
+        //this.syncContainers();
+        postcycle_dirty();
 
         //Section 13 Send queued chat messages
         section[13] = true;

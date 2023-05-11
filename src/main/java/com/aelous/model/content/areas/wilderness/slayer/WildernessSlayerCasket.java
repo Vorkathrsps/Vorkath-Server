@@ -117,8 +117,7 @@ public class WildernessSlayerCasket {
         return Utils.randomElement(CASKET_LOOT);
     }
 
-    private static final List<Item> CASKET_LOOT = Arrays.asList(
-    );
+    private static final List<Item> CASKET_LOOT = List.of();
     /**
      * The Loot ArrayList
      */

@@ -718,7 +718,6 @@ public final class PacketSender {
                 out.put(0).putShort(0, ValueType.A, ByteOrder.LITTLE);
             }
         }
-
         player.getSession().write(out);
         return this;
     }

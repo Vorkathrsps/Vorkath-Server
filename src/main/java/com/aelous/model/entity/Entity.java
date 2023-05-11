@@ -1408,10 +1408,11 @@ public abstract class Entity {
             r.run();
             return;
         }
-        com.google.common.base.Stopwatch stopwatch = Stopwatch.createStarted();
+        long startTime = System.nanoTime();
         r.run();
-        stopwatch.stop();
-        to.accept(stopwatch.elapsed());
+        long endTime = System.nanoTime();
+        Duration duration = Duration.ofNanos(endTime - startTime);
+        to.accept(duration);
     }
 
     public static void generalTimed(Runnable r, Consumer<Duration> to) {
@@ -1421,15 +1422,18 @@ public abstract class Entity {
         to.accept(stopwatch.elapsed());
     }
 
-    public static void time(Consumer<Duration> t, Runnable r) {
-        if (!TimesCycle.BENCHMARKING_ENABLED) {// skip timer
-            r.run();
+    public static void time(Consumer<Duration> consumer, Runnable task) {
+        if (!TimesCycle.BENCHMARKING_ENABLED) {
+            task.run();
             return;
         }
-        com.google.common.base.Stopwatch stopwatch = Stopwatch.createStarted();
-        r.run();
-        stopwatch.stop();
-        t.accept(stopwatch.elapsed());
+
+        long startTime = System.nanoTime();
+        task.run();
+        long endTime = System.nanoTime();
+
+        Duration elapsedDuration = Duration.ofNanos(endTime - startTime);
+        consumer.accept(elapsedDuration);
     }
 
     private int graphicSwap;

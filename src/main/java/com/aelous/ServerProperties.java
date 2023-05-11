@@ -110,7 +110,7 @@ public final class ServerProperties {
         debugMode = true;
         autoRefreshQuestTab = true;
         enableLeakDetection = false;
-        concurrency = (Runtime.getRuntime().availableProcessors() > 1);
+        concurrency = false; //(Runtime.getRuntime().availableProcessors() > 1);
         queuedLoopThreshold = 45;
         packetProcessLimit = 25;
         defaultTile = new Tile(3097, 3501, 0);

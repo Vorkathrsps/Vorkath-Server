@@ -41,23 +41,23 @@ public class PlayerUpdating {
      */
 
     public static void update(final Player player) {
-        PacketBuilder update = new PacketBuilder();
-        PacketBuilder packet = new PacketBuilder(81, PacketType.VARIABLE_SHORT);
-        packet.initializeAccess(AccessType.BIT);
-        updateMovement(player, packet);
-        appendUpdates(player, update, player, false, true);
-        packet.putBits(8, player.getLocalPlayers().size());
+        PacketBuilder builder = new PacketBuilder();
+        PacketBuilder out = new PacketBuilder(81, PacketType.VARIABLE_SHORT);
+        out.initializeAccess(AccessType.BIT);
+        updateMovement(player, out);
+        appendUpdates(player, builder, player, false, true);
+        out.putBits(8, player.getLocalPlayers().size());
         for (Iterator<Player> playerIterator = player.getLocalPlayers().iterator(); playerIterator.hasNext(); ) {
             Player otherPlayer = playerIterator.next();
             if (otherPlayer.getIndex() != -1 && World.getWorld().getPlayers().get(otherPlayer.getIndex()) != null && !otherPlayer.looks().hidden() && otherPlayer.tile().isWithinDistance(player.tile()) && !otherPlayer.isNeedsPlacement() && canSee(player, otherPlayer)) {
-                updateOtherPlayerMovement(packet, otherPlayer);
+                updateOtherPlayerMovement(out, otherPlayer);
                 if (otherPlayer.getUpdateFlag().isUpdateRequired()) {
-                    appendUpdates(player, update, otherPlayer, false, false);
+                    appendUpdates(player, builder, otherPlayer, false, false);
                 }
             } else {
                 playerIterator.remove();
-                packet.putBits(1, 1);
-                packet.putBits(2, 3);
+                out.putBits(1, 1);
+                out.putBits(2, 3);
             }
         }
         int playersAdded = 0;
@@ -68,18 +68,18 @@ public class PlayerUpdating {
                 continue;
             }
             player.getLocalPlayers().add(otherPlayer);
-            addPlayer(player, otherPlayer, packet);
-            appendUpdates(player, update, otherPlayer, true, false);
+            addPlayer(player, otherPlayer, out);
+            appendUpdates(player, builder, otherPlayer, true, false);
             playersAdded++;
         }
-        if (update.buffer().writerIndex() > 0) {
-            packet.putBits(11, 2047);
-            packet.initializeAccess(AccessType.BYTE);
-            packet.puts(update.buffer());
+        if (builder.buffer().writerIndex() > 0) {
+            out.putBits(11, 2047);
+            out.initializeAccess(AccessType.BYTE);
+            out.puts(builder.buffer());
         } else {
-            packet.initializeAccess(AccessType.BYTE);
+            out.initializeAccess(AccessType.BYTE);
         }
-        player.getSession().write(packet);
+        player.getSession().write(out);
     }
 
 

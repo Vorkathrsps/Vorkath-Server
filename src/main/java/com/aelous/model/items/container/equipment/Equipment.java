@@ -747,7 +747,6 @@ public final class Equipment extends ItemContainer {
      * EQUIPMENT_DISPLAY_ID} widget.
      */
     public void sync() {
-        //Also refresh rendering
         player.looks().resetRender();
         refresh(player, InterfaceConstants.EQUIPMENT_DISPLAY_ID);
         player.getCombat().setRangedWeapon(null);

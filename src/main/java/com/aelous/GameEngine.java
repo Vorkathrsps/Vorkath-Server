@@ -274,7 +274,7 @@ public final class GameEngine implements Runnable {
                                     counter2++) {
                                 Player player = World.getWorld().getPlayers().get(counter2);
                                 if (player != null) {
-                                    // logger.info("Player was not null when logging");
+                                        logger.info("Player was not null when logging");
                                     for (int counter3 = 0;
                                             counter3 < player.section.length;
                                             counter3++) {

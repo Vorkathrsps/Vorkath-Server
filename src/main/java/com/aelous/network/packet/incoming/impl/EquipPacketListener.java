@@ -90,7 +90,7 @@ public class EquipPacketListener implements PacketListener {
                 if (info != null) {
                     player.getEquipment().equip(slot);
                     BonusesInterface.sendBonuses(player);
-                    player.getInventory().refresh();
+                    //player.getInventory().refresh();
                     player.getEquipment().refresh();
                     player.getCombat().setRangedWeapon(null);
                     Autocasting.setAutocast(player, null);

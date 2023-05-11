@@ -293,6 +293,7 @@ public class World {
                     Player player = players.get(index);
                     player.getSession().handleQueuedPackets();
                     player.syncContainers();
+                    player.getSession().flush();
                 }
             });
         } catch (Exception e) {
@@ -307,8 +308,8 @@ public class World {
                     NPC npc = npcs.get(index);
                     if (npc != null && !npc.hidden()) {
                         npc.sequence();
-                        npc.inViewport(false);
                         npc.processed = true;
+                        npc.inViewport(false);
                     }
                 }
             });
@@ -321,8 +322,9 @@ public class World {
                 @Override
                 public void execute(int index) {
                     Player player = players.get(index);
-                    player.sequence();
                     player.processed = true;
+                    player.sequence();
+                    player.syncContainers();
                 }
             });
         } catch (Exception e) {
@@ -336,6 +338,23 @@ public class World {
                     Player player = players.get(index);
                     PlayerUpdating.update(player);
                     NPCUpdating.update(player);
+                }
+            });
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }, flush = () -> {
+        try {
+            executor.sync(new GameSyncTask(NodeType.PLAYER, false, playerRenderOrder) {
+                @Override
+                public void execute(int index) {
+                    Player player = players.get(index);
+                    player.resetUpdating();
+                    player.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
+                    player.setCachedUpdateBlock(null);
+                    player.getSession().flush();
+                    player.perf.pulse();
+                    player.processed = false;
                 }
             });
         } catch (Exception e) {
@@ -361,23 +380,6 @@ public class World {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }, flush = () -> {
-        try {
-            executor.sync(new GameSyncTask(NodeType.PLAYER, false, playerRenderOrder) {
-                @Override
-                public void execute(int index) {
-                    Player player = players.get(index);
-                    player.resetUpdating();
-                    player.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
-                    player.setCachedUpdateBlock(null);
-                    player.getSession().flush();
-                    player.perf.pulse();
-                    player.processed = false;
-                }
-            });
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }, games = MinigameManager::onTick;
 
 
@@ -393,28 +395,27 @@ public class World {
 
         long startTime = System.currentTimeMillis();
 
-        Entity.time(t -> benchmark.skulls += t.toNanos(), skull);
-        Entity.time(t -> benchmark.tasks += t.toNanos(), tasks);
-        Entity.time(t -> benchmark.objects += t.toNanos(), objs);
+        npcRenderOrder = npcs.getRenderOrder();
+        playerRenderOrder = players.getRenderOrder();
 
-        //Handle synchronization tasks.
         if (GameServer.properties().enablePidShuffling && (lastPidUpdateTick == 0 || elapsedTicks - lastPidUpdateTick >= GameServer.properties().pidIntervalTicks)) {
             lastPidUpdateTick = elapsedTicks;
             players.shuffleRenderOrder();
         }
 
-        npcRenderOrder = npcs.getRenderOrder();
-        playerRenderOrder = players.getRenderOrder();
-
-        Entity.time(t -> GameEngine.profile.wp.player_process += t.toMillis(), () -> {
-            Entity.time(t -> benchmark.packets += t.toNanos(), packets);
-            Entity.time(t -> benchmark.players += t.toNanos(), playerProcess);
-        });
+        Entity.time(t -> benchmark.skulls += t.toNanos(), skull);
+        Entity.time(t -> benchmark.tasks += t.toNanos(), tasks);
+        Entity.time(t -> benchmark.objects += t.toNanos(), objs);
 
         Entity.time(t -> {
             benchmark.allNpcsProcess += t.toNanos();
             GameEngine.profile.wp.npc_process = t.toMillis();
         }, npcProcess);
+
+        Entity.time(t -> GameEngine.profile.wp.player_process += t.toMillis(), () -> {
+            Entity.time(t -> benchmark.packets += t.toNanos(), packets);
+            Entity.time(t -> benchmark.players += t.toNanos(), playerProcess);
+        });
 
         Entity.time(t -> {
             benchmark.gpi += t.toNanos();

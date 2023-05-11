@@ -726,7 +726,7 @@ public class NPCDeath {
             if (npc.respawns()) {
                 npc.teleport(npc.spawnTile());
                 npc.hidden(true);
-                System.out.println("respawn in "+finalRespawnTimer);
+                //System.out.println("respawn in "+finalRespawnTimer);
 
                 Chain.bound(null).runFn(finalRespawnTimer, () -> {
                     GwdLogic.onRespawn(npc);

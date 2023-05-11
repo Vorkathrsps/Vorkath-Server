@@ -614,6 +614,11 @@ public class CommandManager {
             olm.getCombat().delayAttack(30);
             ((GreatOlm) olm.getCombatMethod()).crystalMark(olm);
         });
+        dev("olm4", (p, c, s) -> {
+            var olm = p.raidsParty.monsters.stream().filter(n -> n.id() == GREAT_OLM_7554).findFirst().get();
+            olm.getCombat().delayAttack(30);
+            ((GreatOlm) olm.getCombatMethod()).flameWall(olm);
+        });
     }
 
 

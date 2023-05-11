@@ -423,7 +423,7 @@ public class GreatOlm extends CommonCombatMethod {
                 int maxDamage = npc.getCombatInfo().maxhit;
                 if (Prayers.usingPrayer(p, lastBasicAttackStyle == CombatType.RANGED ? Prayers.PROTECT_FROM_MISSILES : Prayers.PROTECT_FROM_MAGIC))
                     maxDamage /= 4;
-                Hit hit = p.hit(npc, maxDamage, lastBasicAttackStyle).clientDelay(delay).checkAccuracy();
+                Hit hit = p.hit(npc, World.getWorld().random(maxDamage), lastBasicAttackStyle).clientDelay(delay).checkAccuracy();
                 hit.submit();
             });
         }).then(1, () -> delayedAnimation(npc, facing.getIdleAnim(isEmpowered()), 1));

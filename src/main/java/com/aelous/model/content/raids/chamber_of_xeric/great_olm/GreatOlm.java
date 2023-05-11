@@ -203,8 +203,7 @@ public class GreatOlm extends CommonCombatMethod {
         //System.out.println("targets size : " + targets.size());
         // if everyone runs between both sides, olm spends all the time turning and no time attacking.
         if (justTurned && targets.size() == 0)
-            targets = Arrays.stream(npc.closePlayers(32))
-                .collect(Collectors.toList());
+            targets = getAllTargets();
         var headRunnerNotInDirection = false;
         if (isOnEastSide()) {
             headRunnerNotInDirection = (facing == RIGHT && target.tile().y < 5741) || (facing == LEFT && target.tile().y > 5739) || (facing == CENTER && target.tile().y != 5740);
@@ -1200,7 +1199,7 @@ public class GreatOlm extends CommonCombatMethod {
         // System.out.println("bounds " + bounds);
         // bounds.corners().forEach(() -> new GroundItem(new Item(ItemID.MITHRIL_ARROWTIPS), c, null).setInstance(npc.getInstance()).spawn().setTimer(2));
         return Arrays.stream(npc.closePlayers(32))
-            .filter(p -> p.tile().inBounds(bounds))
+            .filter(p -> p.tile().inBounds(bounds) && (p.tile().getY() & 63) >= 34)
             .collect(Collectors.toList());
     }
 }

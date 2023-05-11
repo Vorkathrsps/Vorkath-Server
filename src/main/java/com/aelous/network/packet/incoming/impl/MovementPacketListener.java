@@ -51,7 +51,7 @@ public class MovementPacketListener implements PacketListener {
         Entity freezer = player.getAttribOr(AttributeKey.FROZEN_BY, null);
         int size = packet.getSize();
         player.afkTimer.reset();
-
+        var minimapClick = packet.getOpcode() == 248;
         if (player.locked() || player.dead()) {
             return;
         }
@@ -134,7 +134,7 @@ public class MovementPacketListener implements PacketListener {
         if (steps < 0) {
             return;
         }
-        boolean shiftTeleport = packet.readByte() == 1; //We already send shift teleport as a command, but lets read the byte anyway.
+        var plane = packet.readByte();
         final int firstStepX = packet.readLEShortA();
         final int[][] path = new int[steps][2];
         for (int i = 0; i < steps; i++) {
@@ -142,6 +142,7 @@ public class MovementPacketListener implements PacketListener {
             path[i][1] = packet.readByte();
         }
         final int firstStepY = packet.readLEShort();
+        var shiftTeleport = packet.readByteC();
 
         final Tile[] tiles = new Tile[steps + 1];
         tiles[0] = new Tile(firstStepX, firstStepY, player.tile().getLevel());
@@ -151,6 +152,15 @@ public class MovementPacketListener implements PacketListener {
 
         // Get the ending position..
         Tile end = tiles[tiles.length - 1];
+        /*for (Tile tile : tiles) {
+            tile.showTempItem(995);
+        }*/
+        //System.out.println(shiftTeleport+" "+minimapClick+" "+Arrays.toString(Arrays.stream(tiles).toArray()));
+
+        if (shiftTeleport == 1 && minimapClick && tiles.length > 0) {
+            player.teleport(tiles[tiles.length-1]);
+            return;
+        }
 
         if (Debugs.MOB_STEPS.enabled) {
             ArrayList<GroundItem> markers = new ArrayList<>(tiles.length);

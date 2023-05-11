@@ -116,7 +116,7 @@ public class Death {
 
         player.animate(836); //Animate the player
 
-        player.runOnceTask(4, r -> {
+        Chain.noCtx().delay(4, () -> {
             player.stopActions(true);
 
             Entity lastAttacker = player.getAttrib(AttributeKey.LAST_DAMAGER);

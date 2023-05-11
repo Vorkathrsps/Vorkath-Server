@@ -59,7 +59,7 @@ public final class TaskManager {
             }
 
         } catch(Exception e) {
-            logger.error(e);
+            logger.error("task error", e);
         }
         long end = (System.currentTimeMillis() - start);
         GameEngine.profile.tasks = end;
@@ -160,7 +160,7 @@ public final class TaskManager {
                 activeTasks.stream().filter(t -> t != null && t.getKey() == key).forEach(Task::stop);
             }
         } catch(Exception e) {
-            logger.error(e);
+            logger.error("cancel fail", e);
         }
     }
 

@@ -153,7 +153,8 @@ public class ChamberOfXerics extends Raids {
             case 4 -> new Tile(3311, 5309, level);
             case 5 -> new Tile(3311, 5277, level);
             case 6 -> new Tile(3232, 5721, level);
-            default -> throw new IllegalStateException("Unexpected value: " + party.getRaidStage());
+            case 7 -> new Tile(3232, 5721, level);
+            default -> throw new IllegalStateException("Raid bad tile: " + party.getRaidStage());
         };
     }
 

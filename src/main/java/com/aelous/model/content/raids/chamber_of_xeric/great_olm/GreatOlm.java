@@ -942,8 +942,8 @@ public class GreatOlm extends CommonCombatMethod {
                         Projectile p1 = new Projectile(entity, tile, 1357, 0, 120, 150, 0, 0, 1, 10);
                         final int projDelay = p1.send(src, tile);
                         World.getWorld().tileGraphic(1447, tile, 0, 30);
-                        World.getWorld().tileGraphic(1358, tile, 0, p1.getSpeed());
-                        Chain.bound(null).runFn(projDelay, () -> forAllTargets(p -> {
+                        World.getWorld().tileGraphic(1358, tile, 0, 90);
+                        Chain.bound(null).runFn(4, () -> forAllTargets(p -> {
                             int distance = p.tile().distance(tile);
                             if (p.tile().isWithinDistance(tile, 1)) {
                                 p.hit(npc, World.getWorld().random(distance == 0 ? 30 : 15));

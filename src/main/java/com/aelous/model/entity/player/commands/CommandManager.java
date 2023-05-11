@@ -3,6 +3,8 @@ package com.aelous.model.entity.player.commands;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 import com.aelous.model.content.areas.theatre.ViturRoom;
+import com.aelous.model.content.raids.chamber_of_xeric.ChamberOfXerics;
+import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.SplatType;
@@ -43,6 +45,7 @@ import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.*;
 
+import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.GREAT_OLM_7554;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
 import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_ACTIVE;
 import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_UNLOCKED;
@@ -320,6 +323,31 @@ public class CommandManager {
         commands.put("savealltp", new SaveAllTPCommand());
         commands.put("savetp", new SaveTPCommand());
         commands.put("olm", new StartOlmScriptCommand());
+        commands.put("kick", new Command() {
+            @Override
+            public void execute(Player player, String command, String[] parts) {
+                String player2 = Utils.formatText(command.substring(5)); // after "kick "
+                Optional<Player> plr = World.getWorld().getPlayerByName(player2);
+                if (plr.isPresent()) {
+                    /*if (plr.get().getPlayerRights().isDeveloper(player.getPlayerRights())) {
+                        player.message("You cannot kick that player!");
+                        logger.warn(player.getUsername() + " tried to kick " + plr.get().getUsername(), "warning");
+                        Utils.sendDiscordInfoLog(player.getUsername() + " tried to kick " + plr.get().getUsername(), "warning");
+                        return;
+                    }*/
+                    plr.get().requestLogout();
+                    player.message("Player " + player2 + " ("+plr.get().getUsername()+") has been kicked.");
+                    Utils.sendDiscordInfoLog(player.getUsername() + " has kicked " + plr.get().getUsername(), "sanctions");
+                } else {
+                    player.message("Player " + player2 + " does not exist or is not online.");
+                }
+            }
+
+            @Override
+            public boolean canUse(Player player) {
+                return true;
+            }
+        });
 
         /*
          * Owner commands
@@ -520,7 +548,7 @@ public class CommandManager {
             RegionManager.loadMapFiles(p.tile().x, p.tile().y, true);
         });
         dev("gfx1", (p, c, s) -> {
-            World.getWorld().tileGraphic(Integer.parseInt(s[1]), new Tile(p.tile().x + 1, p.tile().y), 0, 0);
+            World.getWorld().tileGraphic(Integer.parseInt(s[1]), new Tile(p.tile().x + 1, p.tile().y, p.getZ()), 0, 0);
         });
         dev("npc3", (p, c, s) -> {
                 var cal = new NPC(6611, p.tile(), false).spawn();
@@ -575,6 +603,11 @@ public class CommandManager {
         });
         dev("test11", (p, c, s) -> {
             CommandManager.attempt(p, "npc 106 1 5 1");  // ID HP AMOUNT RESPAWN=1
+        });
+        dev("olm2", (p, c, s) -> {
+            var olm = p.raidsParty.monsters.stream().filter(n -> n.id() == GREAT_OLM_7554).findFirst().get();
+            olm.getCombat().delayAttack(25);
+            ((GreatOlm) olm.getCombatMethod()).ceilingCrystals(olm, 1, 20);
         });
     }
 

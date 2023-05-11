@@ -463,7 +463,7 @@ public class GreatOlm extends CommonCombatMethod {
                 }
             }
             if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MISSILES) || Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC) || Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MELEE)) {
-                target.skills().alterSkill(Skills.PRAYER, target.skills().level(Skills.PRAYER) / 2);
+                target.skills().alterSkill(Skills.PRAYER, Math.max(1, target.skills().level(Skills.PRAYER)) / 2);
                 Prayers.closeAllPrayers(target);
                 message += " Your prayers have been sapped.";
             }

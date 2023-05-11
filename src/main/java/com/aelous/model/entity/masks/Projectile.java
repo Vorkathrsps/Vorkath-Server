@@ -334,18 +334,18 @@ public final class Projectile {
      * @param startHeight
      * @param endHeight
      * @param delay
-     * @param durationStart
+     * @param speed
      * @param durationIncrement
      * @param curve
      * @param idk
      */
-    public Projectile(int gfxId, int startHeight, int endHeight, int delay, int durationStart, int durationIncrement, int curve, int idk) {
+    public Projectile(int gfxId, int startHeight, int endHeight, int delay, int speed, int durationIncrement, int curve, int idk) {
         this.projectileId = gfxId;
         this.startHeight = startHeight;
         this.endHeight = endHeight;
         this.delay = delay;
         this.angle = 0;
-        this.speed = durationStart;
+        this.speed = speed;
         this.creatorSize = curve;
         startDistanceOffset = 64;
         this.slope = curve;

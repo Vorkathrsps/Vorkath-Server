@@ -52,7 +52,7 @@ public class GreatOlm extends CommonCombatMethod {
 
     private static final Projectile CRYSTAL_DROP_PROJECTILE = new Projectile(1357, 150, 0, 0, 135, 0, 0, 0);
     private static final Projectile CRYSTAL_BOMB_PROJECTILE = new Projectile(1357, 100, 0, 30, 100, 0, 16, 0);
-    private static final Projectile CRYSTAL_SPIKE_PROJECTILE = new Projectile(1352, 200, 0, 0, 30, 0, 0, 0);
+    private static final Projectile CRYSTAL_SPIKE_PROJECTILE = new Projectile(1352, 200, 0, 0, 60, 0, 0, 0);
 
     private static final Projectile ACID_POOL_PROJECTILE = new Projectile(1354, 100, 0, 30, 100, 0, 16, 0);
     private static final Projectile ACID_DRIP_PROJECTILE = new Projectile(1354, 100, 43, 30, 25, 6, 16, 0);
@@ -640,34 +640,26 @@ public class GreatOlm extends CommonCombatMethod {
             return;
         Player target = World.getWorld().get(potentialTargets);
         target.message(Color.RED.wrap("The Great Olm has chosen you as its target - watch out!"));
-        target.graphic(246);
 
-        AtomicInteger crystals = new AtomicInteger();
-        AtomicInteger sleepFor = new AtomicInteger();
+        AtomicInteger attacksDone = new AtomicInteger();
+        AtomicInteger sleep = new AtomicInteger();
         Chain.noCtx().repeatingTask(1, t -> {
             if (npc.dead() || !npc.isRegistered()) t.stop();
-            if (sleepFor.getAndDecrement() > 0)
-                return; // replacement for event.delay inside a loop
-            if (crystals.getAndIncrement() > 10) {
+            if (attacksDone.getAndIncrement() >= 22) { // lasts for 11 attacks https://oldschool.runescape.wiki/w/Great_Olm#Attacks
                 t.stop();
                 return;
             }
+            if (sleep.getAndDecrement() > 0)
+                return;
             target.graphic(246);
             Tile pos = target.tile().copy();
-            sleepFor.addAndGet(6);
+            sleep.addAndGet(3);
+            CRYSTAL_SPIKE_PROJECTILE.send(pos.relative(0, 1), pos);
+            World.getWorld().tileGraphic(1353, pos, 0, 1);
             Chain.noCtx().delay(1, () -> {
-                target.graphic(246);
-                int delay = CRYSTAL_SPIKE_PROJECTILE.send(pos.relative(0, 1), pos);
                 getAllTargets().forEach(p -> {
                     if (p.tile().equals(pos))
-                        p.hit(npc, World.getWorld().random(10, 15), delay);
-                });
-                World.getWorld().tileGraphic(1353, pos, 0, CRYSTAL_SPIKE_PROJECTILE.getSpeed());
-            }).delay(3, () -> {
-                target.graphic(246);
-                getAllTargets().forEach(p -> {
-                    if (p.tile().equals(pos))
-                        p.hit(npc, World.getWorld().random(5, 10));
+                        p.hit(npc, World.getWorld().random(10, 15), 0);
                 });
             });
         });

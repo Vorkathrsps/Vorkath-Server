@@ -29,7 +29,7 @@ import static com.aelous.utility.Utils.formatNumber;
 
 /**
  * The bounty hunter minigame as of 4 November 2019.
- * 
+ *
  * @author Professor Oak
  * @author Zerikoth
  */
@@ -54,7 +54,9 @@ public class BountyHunter {
         //Get our target..
         Optional<Player> target = getTargetfor(player);
 
-        target.ifPresent(value -> player.getPacketSender().sendString(53723, "Target: <col=65280>" + value.getUsername() + " (" + WildernessArea.wildernessLevel(value.tile()) + ")"));
+        target.ifPresent(value -> player.getPacketSender().sendString(53723, "Target: <col=65280>" + value.getUsername()));
+        target.ifPresent(value -> player.getPacketSender().sendString(53724, "Level: <col=65280>" + WildernessArea.wildernessLevel(value.tile())));
+       // target.ifPresent(value -> target.get().getInventory().containsAny(ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_1, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_2, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_3, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_4, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_5) ? player.getPacketSender().sendItemOnInterface(53721, target.get().getInventory().stream().filter(f -> )));
 
         //Is player in the wilderness?
         if (WildernessArea.inWild(player)) {
@@ -74,16 +76,16 @@ public class BountyHunter {
                         if (validTargetContester(potential)) {
                             //Check other stuff...
 
-                           if(potential.getHostAddress().equalsIgnoreCase(player.getHostAddress())) {
+                            if (potential.getHostAddress().equalsIgnoreCase(player.getHostAddress())) {
                                 continue;
                             }
 
-                            if(potential.looks().hidden()) {
+                            if (potential.looks().hidden()) {
                                 continue;
                             }
 
                             //Skip risk arena
-                            if(potential.tile().insideRiskArea() || player.tile().insideRiskArea()) {
+                            if (potential.tile().insideRiskArea() || player.tile().insideRiskArea()) {
                                 continue;
                             }
 
@@ -98,11 +100,11 @@ public class BountyHunter {
                             }
 
                             //Skip clan mates
-                            if(player.getClanChat().equalsIgnoreCase(potential.getClanChat())) {
+                            if (player.getClanChat().equalsIgnoreCase(potential.getClanChat())) {
                                 continue;
                             }
 
-                            if(Math.abs(player.getSkills().combatLevel() - potential.getSkills().combatLevel()) > 5) {
+                            if (Math.abs(player.getSkills().combatLevel() - potential.getSkills().combatLevel()) > 5) {
                                 continue;
                             }
 
@@ -141,9 +143,9 @@ public class BountyHunter {
             TARGET_PAIRS.add(pair);
 
             //Send messages..
-            player.getPacketSender().sendMessage("You've been assigned "+target.getUsername()+" as your target!");
+            player.getPacketSender().sendMessage("You've been assigned " + target.getUsername() + " as your target!");
 
-            target.getPacketSender().sendMessage("You've been assigned "+player.getUsername()+" as your target!");
+            target.getPacketSender().sendMessage("You've been assigned " + player.getUsername() + " as your target!");
 
             //Send hints..
             player.getPacketSender().sendEntityHint(target);
@@ -207,7 +209,7 @@ public class BountyHunter {
     public static Optional<TargetPair> getPairFor(final Player p) {
         for (TargetPair pair : TARGET_PAIRS) {
             if (p.equals(pair.getPlayer1()) ||
-                    p.equals(pair.getPlayer2())) {
+                p.equals(pair.getPlayer2())) {
                 return Optional.of(pair);
             }
         }
@@ -227,7 +229,7 @@ public class BountyHunter {
         //Should the player be rewarded for this kill?
         boolean rewardPlayer = true;
 
-        if(killer.getRecentKills().contains(killed.getHostAddress())) {
+        if (killer.getRecentKills().contains(killed.getHostAddress())) {
             rewardPlayer = false;
             //System.out.println("Let's not reward the player, already killed before.");
         } else if (killer.getHostAddress().equals(killed.getHostAddress())) {
@@ -245,7 +247,7 @@ public class BountyHunter {
 
         Optional<Player> target = getTargetfor(killer);
 
-        if(killer.getPlayerRights().isDeveloper(killer)) {
+        if (killer.getPlayerRights().isDeveloper(killer)) {
             rewardPlayer = true;
         }
 
@@ -253,8 +255,8 @@ public class BountyHunter {
             TopPkers.SINGLETON.increase(killer.getUsername());
 
             //Other rewards
-            if(WildernessArea.inWilderness(killer.tile())) { // Only reward if in wild
-                PlayerKillingRewards.reward(killer, killed,true);
+            if (WildernessArea.inWilderness(killer.tile())) { // Only reward if in wild
+                PlayerKillingRewards.reward(killer, killed, true);
             }
         } else {
             killer.message("You don't get any rewards for that kill.");
@@ -297,7 +299,7 @@ public class BountyHunter {
                     killer.inventory().add(new Item(emblem.get().getNextOrLast().getItemId()));
 
                     boolean tierTen = emblem.get().getNextOrLast().getItemId() == ItemIdentifiers.ANTIQUE_EMBLEM_TIER_10;
-                    if(tierTen) {
+                    if (tierTen) {
                         DailyTaskManager.increase(DailyTasks.TIER_UPGRADE, killer);
                     }
                 } else {
@@ -318,32 +320,32 @@ public class BountyHunter {
      */
     public static int exchange(Player player, boolean performSale) {
         ArrayList<BountyHunterEmblem> list = new ArrayList<>();
-        for(BountyHunterEmblem emblem : BountyHunterEmblem.values()) {
-            if(player.inventory().contains(emblem.getItemId())) {
+        for (BountyHunterEmblem emblem : BountyHunterEmblem.values()) {
+            if (player.inventory().contains(emblem.getItemId())) {
                 list.add(emblem);
             }
         }
 
-        if(list.isEmpty()) {
+        if (list.isEmpty()) {
             return 0;
         }
 
         int value = 0;
         int targetPoints = 0;
 
-        for(BountyHunterEmblem emblem : list) {
+        for (BountyHunterEmblem emblem : list) {
             int amount = player.inventory().count(emblem.getItemId());
-            if(amount > 0) {
+            if (amount > 0) {
                 targetPoints += (emblem.getTargetPoints() * amount);
                 value += (emblem.getBm() * amount);
-                player.putAttrib(EMBLEM_WEALTH,formatNumber(value)+" BM and "+formatNumber(targetPoints)+" target points");
+                player.putAttrib(EMBLEM_WEALTH, formatNumber(value) + " BM and " + formatNumber(targetPoints) + " target points");
 
-                if(performSale) {
-                    if(!player.inventory().contains(emblem.getItemId())) {
+                if (performSale) {
+                    if (!player.inventory().contains(emblem.getItemId())) {
                         return 0;
                     }
                     player.inventory().remove(emblem.getItemId(), amount);
-                    var increaseTargetPointsBy = player.<Integer>getAttribOr(AttributeKey.TARGET_POINTS,0) + targetPoints;
+                    var increaseTargetPointsBy = player.<Integer>getAttribOr(AttributeKey.TARGET_POINTS, 0) + targetPoints;
                     player.putAttrib(AttributeKey.TARGET_POINTS, increaseTargetPointsBy);
                     player.inventory().add(new Item(BLOOD_MONEY, value));
                     player.clearAttrib(EMBLEM_WEALTH);

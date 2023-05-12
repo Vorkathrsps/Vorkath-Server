@@ -33,7 +33,6 @@ import static com.aelous.utility.ItemIdentifiers.*;
 public class MeleeAccuracy {
     byte[] seed = new byte[16];
     SecureRandom random = new SecureRandom(seed);
-
     public boolean doesHit(final Entity attacker, final Entity defender, CombatType style) {
         return successful(attacker, defender, style);
     }

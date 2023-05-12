@@ -12,7 +12,7 @@ public class PlayersOnlineCommand implements Command {
 
     @Override
     public void execute(Player player, String command, String[] parts) {
-        List<Player> players = World.getWorld().getPlayers().stream().collect(Collectors.toList());
+        List<Player> players = World.getWorld().getPlayers().stream().toList();
         StringBuilder playersOnline = new StringBuilder("<col=800000>Players:");
 
         for (Player p : players) {

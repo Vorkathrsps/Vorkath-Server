@@ -35,7 +35,7 @@ public class SpiritualMage extends CommonCombatMethod {
             if (hit.getDamage() > 0) {
                 playerTarget.performGraphic(get_graphic(npc.id())); // Cannot protect from this.
             } else {
-                playerTarget.performGraphic(new Graphic(85, GraphicHeight.HIGH,0)); // Cannot protect from this.
+                playerTarget.performGraphic(new Graphic(85, GraphicHeight.LOW,p.getSpeed())); // Cannot protect from this.
             }
         }
         return true;

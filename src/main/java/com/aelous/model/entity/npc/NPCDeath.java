@@ -52,16 +52,20 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.CAVE_KRAKEN;
+import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.NECHRYAEL;
+import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.RUNE_DRAGON;
 import static com.aelous.model.content.collection_logs.CollectionLog.RAIDS_KEY;
 import static com.aelous.model.content.collection_logs.LogType.BOSSES;
 import static com.aelous.model.content.collection_logs.LogType.OTHER;
 import static com.aelous.model.entity.attributes.AttributeKey.*;
 import static com.aelous.utility.CustomNpcIdentifiers.*;
-import static com.aelous.utility.ItemIdentifiers.BLOOD_MONEY;
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
+import static com.aelous.utility.ItemIdentifiers.*;
 
 /**
  * Represents an npc's death task, which handles everything
@@ -87,10 +91,10 @@ public class NPCDeath {
         // Path reset instantly when hitsplat appears killing the npc.
         var respawnTimer = Utils.secondsToTicks(45);// default 45 seconds
         NpcDefinition def = World.getWorld().definitions().get(NpcDefinition.class, npc.id());
-        if(def != null) {
-            if(def.combatlevel >= 1 && def.combatlevel <= 50) {
+        if (def != null) {
+            if (def.combatlevel >= 1 && def.combatlevel <= 50) {
                 respawnTimer = Utils.secondsToTicks(30);//30 seconds
-            } else if(def.combatlevel >= 51 && def.combatlevel <= 150) {
+            } else if (def.combatlevel >= 51 && def.combatlevel <= 150) {
                 respawnTimer = Utils.secondsToTicks(25);//25 seconds
             } else {
                 respawnTimer = Utils.secondsToTicks(20);// 20 seconds
@@ -116,11 +120,11 @@ public class NPCDeath {
             var legendaryInsideCave = killer.tile().memberCave() && killer.getMemberRights().isLegendaryMemberOrGreater(killer);
             var VIPInsideCave = killer.tile().memberCave() && killer.getMemberRights().isLegendaryMemberOrGreater(killer);
             var SponsorInsideCave = killer.tile().memberCave() && killer.getMemberRights().isLegendaryMemberOrGreater(killer);
-            if(legendaryInsideCave)
+            if (legendaryInsideCave)
                 respawnTimer = 34;
-            if(VIPInsideCave)
+            if (VIPInsideCave)
                 respawnTimer = 30;
-            if(SponsorInsideCave)
+            if (SponsorInsideCave)
                 respawnTimer = 25;
 
             killer.getCombat().reset();
@@ -223,7 +227,7 @@ public class NPCDeath {
                 AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_III, 1);
                 killer.getTaskMasterManager().increase(Tasks.KING_BLACK_DRAGON);
                 DailyTaskManager.increase(DailyTasks.WILDERNESS_BOSS, killer);
-                if(!npc.ancientSpawn()) {
+                if (!npc.ancientSpawn()) {
                     Chain.bound(null).runFn(30, () -> {
                         var kingBlackDragon = new NPC(KING_BLACK_DRAGON, npc.spawnTile());
                         World.getWorld().getNpcs().add(kingBlackDragon);
@@ -346,7 +350,8 @@ public class NPCDeath {
                     DailyTaskManager.increase(DailyTasks.CORRUPTED_NECHRYARCHS, killer);
                 }
 
-                case ADAMANT_DRAGON, ADAMANT_DRAGON_8090, RUNE_DRAGON, RUNE_DRAGON_8031, RUNE_DRAGON_8091 -> AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_IV, 1);
+                case ADAMANT_DRAGON, ADAMANT_DRAGON_8090, RUNE_DRAGON, RUNE_DRAGON_8031, RUNE_DRAGON_8091 ->
+                    AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_IV, 1);
 
                 case CERBERUS, CERBERUS_5863, CERBERUS_5866 -> {
                     killer.getTaskMasterManager().increase(Tasks.CERBERUS);
@@ -527,8 +532,7 @@ public class NPCDeath {
                     KrakenBoss.onDeath(npc); //Kraken uses its own death script
                 }
 
-                if (npc.getCombatMethod() instanceof CommonCombatMethod) {
-                    CommonCombatMethod commonCombatMethod = (CommonCombatMethod) npc.getCombatMethod();
+                if (npc.getCombatMethod() instanceof CommonCombatMethod commonCombatMethod) {
                     commonCombatMethod.set(npc, killer);
                     commonCombatMethod.onDeath(killer, npc);
                 }
@@ -553,7 +557,7 @@ public class NPCDeath {
                 ScalarLootTable table = ScalarLootTable.forNPC(npc.id());
                 //Drop loot, but the first form of KQ, Runite golem and world bosses do not drop anything.
                 if (table != null && (npc.id() != KALPHITE_QUEEN_6500 && npc.id() != RUNITE_GOLEM && !npc.isWorldBoss() && npc.id() != THE_NIGHTMARE_9430)) {
-                    boolean dropUnderPlayer = npc.id() == NpcIdentifiers.KRAKEN || npc.id() == NpcIdentifiers.CAVE_KRAKEN || npc.id() >= NpcIdentifiers.ZULRAH && npc.id() <= NpcIdentifiers.ZULRAH_2044 || npc.id() >= NpcIdentifiers.VORKATH_8059 && npc.id() <= NpcIdentifiers.VORKATH_8061 || npc.id() >= LAVA_BEAST;
+                    boolean dropUnderPlayer = npc.id() == NpcIdentifiers.KRAKEN || npc.id() == CAVE_KRAKEN || npc.id() >= NpcIdentifiers.ZULRAH && npc.id() <= NpcIdentifiers.ZULRAH_2044 || npc.id() >= NpcIdentifiers.VORKATH_8059 && npc.id() <= NpcIdentifiers.VORKATH_8061 || npc.id() >= LAVA_BEAST;
                     boolean jad = npc.id() == TZTOKJAD;
                     boolean doubleDropsLampActive = (Integer) killer.getAttribOr(DOUBLE_DROP_LAMP_TICKS, 0) > 0;
                     boolean rolledDoubleDrop = World.getWorld().rollDie(10, 1);
@@ -583,14 +587,22 @@ public class NPCDeath {
                                         dropped = dropped.note();
                                     }
 
-                                    GroundItemHandler.createGroundItem(new GroundItem(dropped, tile, killer));
-
+                                    if (killer.getEquipment().contains(RING_OF_WEALTH_I) && dropped.getId() == BLOOD_MONEY) {
+                                        killer.inventory().addOrDrop(new Item(dropped, dropped.getAmount()));
+                                    } else {
+                                        GroundItemHandler.createGroundItem(new GroundItem(dropped, tile, killer));
+                                    }
                                 } else {
-                                    // fixed amount items
+
                                     if ((tableItem.convert().getId() == ItemIdentifiers.DRAGON_BONES || tableItem.convert().getId() == ItemIdentifiers.LAVA_DRAGON_BONES && killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.NOTED_DRAGON_BONES)) && WildernessArea.inWilderness(killer.tile())) {
                                         tableItem.convert().setId(tableItem.convert().note().getId());
                                     }
-                                    GroundItemHandler.createGroundItem(new GroundItem(tableItem.convert(), tile, killer));
+
+                                    if (killer.getEquipment().contains(RING_OF_WEALTH_I) && tableItem.id == BLOOD_MONEY && tableItem.amount > 0) {
+                                        killer.inventory().addOrDrop(new Item(tableItem.id, tableItem.amount));
+                                    } else {
+                                        GroundItemHandler.createGroundItem(new GroundItem(tableItem.convert(), tile, killer));
+                                    }
                                 }
                             }
                         });
@@ -649,7 +661,7 @@ public class NPCDeath {
 
                     //Only give BM when the npc is flagged as boss and we have the perk unlocked
                     if (npc.getCombatInfo().boss && killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.BLOOD_MONEY_FROM_KILLING_BOSSES)) {
-                        int combat = def.combatlevel;
+                        int combat = Objects.requireNonNull(def).combatlevel;
 
                         var amount = 0;
                         if (combat > 200) {
@@ -660,7 +672,11 @@ public class NPCDeath {
 
                         Item BM = new Item(BLOOD_MONEY, amount);
 
-                        GroundItemHandler.createGroundItem(new GroundItem(BM, tile, killer));
+                        if (killer.getEquipment().contains(RING_OF_WEALTH_I)) {
+                            killer.inventory().addOrDrop(new Item(BM, BM.getAmount()));
+                        } else {
+                            GroundItemHandler.createGroundItem(new GroundItem(BM, tile, killer));
+                        }
 
                     }
 
@@ -751,7 +767,7 @@ public class NPCDeath {
             return;
         }
 
-        if(!Slayer.creatureMatches(killer, npc.id())) {
+        if (!Slayer.creatureMatches(killer, npc.id())) {
             return;
         }
 
@@ -900,8 +916,8 @@ public class NPCDeath {
             player.message(Color.RED.wrap("You've dealt " + hits.getDamage() + " damage to The Seren!"));
             // Only people nearby are rewarded. This is to avoid people 'poking' the boss to do some damage
             // without really risking being there.
-            if (entity.tile().isWithinDistance(player.tile(),10) && hits.getDamage() >= 200) {
-                if(entity instanceof NPC) {
+            if (entity.tile().isWithinDistance(player.tile(), 10) && hits.getDamage() >= 200) {
+                if (entity instanceof NPC) {
                     player.message("You received a drop roll from the table for dealing at least 500 damage!");
                     NPC npc = entity.getAsNpc();
 
@@ -926,7 +942,7 @@ public class NPCDeath {
                             //Niffler doesn't loot world The Nightmare loot
                             GroundItemHandler.createGroundItem(new GroundItem(reward, npc.tile(), player));
 
-                         }
+                        }
                     }
                 }
             }
@@ -939,8 +955,8 @@ public class NPCDeath {
             player.message(Color.RED.wrap("You've dealt " + hits.getDamage() + " damage to The Nightmare!"));
             // Only people nearby are rewarded. This is to avoid people 'poking' the boss to do some damage
             // without really risking being there.
-            if (entity.tile().isWithinDistance(player.tile(),10) && hits.getDamage() >= 500) {
-                if(entity instanceof NPC) {
+            if (entity.tile().isWithinDistance(player.tile(), 10) && hits.getDamage() >= 500) {
+                if (entity instanceof NPC) {
                     player.message("You received a drop roll from the table for dealing at least 500 damage!");
                     NPC npc = entity.getAsNpc();
 

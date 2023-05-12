@@ -24,7 +24,7 @@ import java.util.*;
  */
 public abstract class SigilHandler {
 
-    private static List<SigilHandler> sigil_list = Lists.newArrayList();
+    private static final List<SigilHandler> sigil_list = Lists.newArrayList();
 
     public abstract void handleActvation(Player player, Entity target, Hit hit, int itemID);
 

@@ -122,8 +122,8 @@ public class CrystalKey extends PacketInteraction {
             if(player.getUsername().equalsIgnoreCase("Box test")) {
                 return;
             }
-            System.out.println(drop.toString());
-            World.getWorld().sendWorldMessage("<img=2013>" + player.getUsername() + " received <col=A30072>" + drop.name() + " </col>from the crystal key.");
+            System.out.println(drop);
+            World.getWorld().sendWorldMessage("<img=2010>" + player.getUsername() + " received <col=A30072>" + drop.name() + " </col>from the crystal key.");
         }
 
         int keysUsed = player.<Integer>getAttribOr(AttributeKey.CRYSTAL_KEYS_OPENED, 0) + 1;

@@ -8,68 +8,57 @@
   ],
   "tables": [
     {
-      "name": "Weapons",
-      "points": 1,
+      "name": "Supplies",
+      "points": 140,
       "items": [
-        { "id": 1397, "min": 1, "max": 1, "points": 4 }, //Air battlestaff
-        { "id": 1399, "min": 1, "max": 1, "points": 4 }, //Earth battlestaff
-        { "id": 1395, "min": 1, "max": 1, "points": 4 }, //Water battlestaff
-        { "id": 1392, "min": 10, "max": 30, "points": 4 }, //Battlestaff (noted)
-        { "id": 6562, "min": 1, "max": 1, "points": 1 }, //Mud battlestaff
-        { "id": 6739, "min": 1, "max": 1, "points": 1 } //Dragon axe
+        { "id": 13307, "min": 503, "max": 632, "points": 140 }, //blood money
+        { "id": 5281, "min": 1, "max": 1, "points": 140 }, //Belladonna seed
+        { "id": 5280, "min": 1, "max": 1, "points": 140 }, //Cactus seed
+        { "id": 5106, "min": 1, "max": 1, "points": 140 }, //Poison ivy seed
+        { "id": 5297, "min": 1, "max": 1, "points": 140 }, //Irit seed
+        { "id": 5296, "min": 1, "max": 1, "points": 125 }, //Toadflax seed
+        { "id": 5298, "min": 1, "max": 1, "points": 125 }, //Avantoe seed
+        { "id": 5299, "min": 1, "max": 1, "points": 125 }, //Kwuarm seed
+        { "id": 5301, "min": 1, "max": 1, "points": 125 }, //Cadantine seed
+        { "id": 5302, "min": 1, "max": 1, "points": 125 }, //Lantadyme seed
+        { "id": 5303, "min": 1, "max": 1, "points": 110 }, //Dwarf weed seed
+        { "id": 5300, "min": 1, "max": 1, "points": 110 }, //Snapdragon seed
+        { "id": 1439, "min": 1, "max": 80, "points": 110 }, //Air talisman (noted)
+        { "id": 1441, "min": 1, "max": 80, "points": 100 }, //Earth talisman (noted)
+        { "id": 1445, "min": 1, "max": 80, "points": 100 }, //Water talisman (noted)
+        { "id": 556, "min": 155, "max": 155, "points": 100 }, //Air rune
+        { "id": 4698, "min": 32, "max": 44, "points": 100 }, //Mud rune
+        { "id": 560, "min": 22, "max": 85, "points": 100 }, //Death rune
+        { "id": 565, "min": 22, "max": 85, "points": 100 }, //Blood rune
+        { "id": 7937, "min": 150, "max": 150, "points": 100 }, //Pure essence (noted)
+        { "id": 207, "min": 1, "max": 1, "points": 100 }, //Grimy ranarr weed
+        { "id": 385, "min": 5, "max": 5, "points": 100 }, //Shark
+        { "id": 13493, "min": 1, "max": 1, "points": 100 }, //Ensouled dagannoth head
+        { "id": 1397, "min": 1, "max": 1, "points": 80 }, //Air battlestaff
+        { "id": 1399, "min": 1, "max": 1, "points": 80 }, //Earth battlestaff
+        { "id": 1395, "min": 1, "max": 1, "points": 80 }, //Water battlestaff
+        { "id": 1392, "min": 10, "max": 30, "points": 80 }, //Battlestaff (noted)
+        { "id": 6562, "min": 1, "max": 1, "points": 80 }, //Mud battlestaff
+        { "id": 3758, "min": 1, "max": 1, "points": 80 }, //Fremennik shield
+        { "id": 3748, "min": 1, "max": 1, "points": 80 }, //Fremennik helm
+        { "id": 6139, "min": 1, "max": 1, "points": 80 }, //Skeletal top
+        { "id": 6141, "min": 1, "max": 1, "points": 80 }, //Skeletal bottoms
+        { "id": 3755, "min": 1, "max": 1, "points": 80 }, //Farseer helm
+        { "id": 989, "min": 1, "max": 1, "points": 70 }, //crystal key
+        { "id": 6739, "min": 1, "max": 1, "points": 50 }, //Dragon axe
+        { "id": 6731, "min": 1, "max": 1, "points": 45 } //Seers ring
       ]
     },
     {
-      "name": "Runes and Talismans",
-      "points": 1,
+      "name": "Empty",
+      "points": 135,
       "items": [
-        { "id": 1439, "min": 1, "max": 80, "points": 3 }, //Air talisman (noted)
-        { "id": 1441, "min": 1, "max": 80, "points": 3 }, //Earth talisman (noted)
-        { "id": 1445, "min": 1, "max": 80, "points": 3 }, //Water talisman (noted)
-        { "id": 556, "min": 155, "max": 155, "points": 1 }, //Air rune
-        { "id": 4698, "min": 32, "max": 44, "points": 1 }, //Mud rune
-        { "id": 560, "min": 22, "max": 85, "points": 1 }, //Death rune
-        { "id": 565, "min": 22, "max": 85, "points": 1 } //Blood rune
-      ]
-    },
-    {
-      "name": "Armour",
-      "points": 1,
-      "items": [
-        { "id": 3758, "min": 1, "max": 1, "points": 8 }, //Fremennik shield
-        { "id": 3748, "min": 1, "max": 1, "points": 4 }, //Fremennik helm
-        { "id": 6139, "min": 1, "max": 1, "points": 4 }, //Skeletal top
-        { "id": 6141, "min": 1, "max": 1, "points": 4 }, //Skeletal bottoms
-        { "id": 3755, "min": 1, "max": 1, "points": 4 }, //Farseer helm
-        { "id": 6731, "min": 1, "max": 1, "points": 1 } //Seers ring
-      ]
-    },
-    {
-      "name": "Seeds",
-      "points": 1,
-      "items": [
-        { "id": 5281, "min": 1, "max": 1, "points": 3 }, //Belladonna seed
-        { "id": 5280, "min": 1, "max": 1, "points": 3 }, //Cactus seed
-        { "id": 5106, "min": 1, "max": 1, "points": 3 }, //Poison ivy seed
-        { "id": 5297, "min": 1, "max": 1, "points": 3 }, //Irit seed
-        { "id": 5296, "min": 1, "max": 1, "points": 3 }, //Toadflax seed
-        { "id": 5298, "min": 1, "max": 1, "points": 3 }, //Avantoe seed
-        { "id": 5299, "min": 1, "max": 1, "points": 3 }, //Kwuarm seed
-        { "id": 5301, "min": 1, "max": 1, "points": 1 }, //Cadantine seed
-        { "id": 5302, "min": 1, "max": 1, "points": 1 }, //Lantadyme seed
-        { "id": 5303, "min": 1, "max": 1, "points": 1 }, //Dwarf weed seed
-        { "id": 5300, "min": 1, "max": 1, "points": 1 } //Snapdragon seed
       ]
     },
     {
       "name": "Others",
-      "points": 1,
+      "points": 7,
       "items": [
-
-        { "id": 7937, "min": 150, "max": 150, "points": 15 }, //Pure essence (noted)
-        { "id": 207, "min": 1, "max": 1, "points": 15 }, //Grimy ranarr weed
-        { "id": 385, "min": 5, "max": 5, "points": 10 }, //Shark
-        { "id": 13493, "min": 1, "max": 1, "points": 10 } //Ensouled dagannoth head
       ]
     }
   ]

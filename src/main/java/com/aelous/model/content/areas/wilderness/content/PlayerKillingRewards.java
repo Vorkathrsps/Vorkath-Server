@@ -180,7 +180,7 @@ public class PlayerKillingRewards {
                 if(World.getWorld().rollDie(1000,1)) {
                     killer.inventory().addOrBank(new Item(VESTAS_LONGSWORD));
                     killer.message(Color.PURPLE.wrap("You've found a epic pet mystery box searching the corpse of "+target.getUsername()+"."));
-                    World.getWorld().sendWorldMessage("<img=2013>" + killer.getUsername() + " " + "found a epic pet mystery box searching the corpse of "+target.getUsername()+".");
+                    World.getWorld().sendWorldMessage("<img=2010><img=2013>" + killer.getUsername() + " " + "found a epic pet mystery box searching the corpse of "+target.getUsername()+".");
                 }
 
                 var whosKeysAreThese = killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.WHOS_KEYS_ARE_THESE);
@@ -189,7 +189,7 @@ public class PlayerKillingRewards {
                 if(whosKeysAreThese && World.getWorld().rollDie(250,1)) {
                     killer.inventory().addOrBank(new Item(DONATOR_MYSTERY_BOX));
                     killer.message(Color.PURPLE.wrap("You've found a key of drops searching the corpse of "+target.getUsername()+"."));
-                    World.getWorld().sendWorldMessage("<img=2013>" + killer.getUsername() + " " + "found a "+Color.BLUE.wrap("key of drops")+" searching the corpse of "+target.getUsername()+".");
+                    World.getWorld().sendWorldMessage("<img=2010><img=2013>" + killer.getUsername() + " " + "found a "+Color.BLUE.wrap("key of drops")+" searching the corpse of "+target.getUsername()+".");
                 }
             }
         } catch (Exception e) {

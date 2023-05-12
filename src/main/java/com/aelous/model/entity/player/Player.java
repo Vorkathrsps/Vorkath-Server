@@ -7,6 +7,8 @@ import com.aelous.model.content.areas.wilderness.slayer.WildernessSlayerCasket;
 import com.aelous.model.content.raids.RaidStage;
 import com.aelous.model.content.raids.party.RaidsParty;
 import com.aelous.model.content.security.AccountPin;
+import com.aelous.model.content.teleport.newinterface.NewTeleportInterface;
+import com.aelous.model.content.teleport.newinterface.SpecificTeleport;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.masks.Appearance;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
@@ -603,6 +605,20 @@ public class Player extends Entity {
         this.favorites = favorites;
     }
 
+    public NewTeleportInterface getnewteleInterface() {
+        return newteleInterface;
+    }
+    private final NewTeleportInterface newteleInterface = new NewTeleportInterface(this);
+
+    private List<SpecificTeleport> newtelefavs = new ArrayList<>();
+
+    public List<SpecificTeleport> getnewfavs() {
+        return newtelefavs;
+    }
+
+    public void setnewtelefavs(List<SpecificTeleport> newtelefavs) {
+        this.newtelefavs = newtelefavs;
+    }
 
     private int currentTabIndex;
 

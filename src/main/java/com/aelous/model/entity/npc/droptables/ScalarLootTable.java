@@ -66,7 +66,7 @@ public class ScalarLootTable {
     public int rndcap;
     private int tblrndcap;
     private boolean debug = false;
-    private int rowmod = 1;
+    private final int rowmod = 1;
     public int points = 1;
     private int from;
     private boolean rareaffected;
@@ -118,11 +118,10 @@ public class ScalarLootTable {
             }
         }
 
-        // Upscale it
         int current = 0;
         if (items != null) {
             for (TableItem item : items) {
-                if (item.points == 0) // Filter out guaranteed drops
+                if (item.points == 0)
                     continue;
 
                 item.from = current;
@@ -135,7 +134,6 @@ public class ScalarLootTable {
             rndcap = current;
         }
 
-        // Normalize the nested tables
         if (tables != null) {
             for (ScalarLootTable table : tables) {
                 table.from = current;
@@ -155,7 +153,9 @@ public class ScalarLootTable {
         // Items..
         if (items != null) {
             for (TableItem item : items) {
-                double chance = (double) (item.points * num) / (double) (denom * computed);
+               // double chance = (double) (item.points * num) / (double) (denom * computed);
+                double chance =  (item.points * num);
+                chance /= (denom * computed);
                 item.computedFraction = Fraction.getFraction(chance);
             }
         }
@@ -218,8 +218,7 @@ public class ScalarLootTable {
         return null;
     }
 
-    public Item randomItem(Random random) {
-        random = new SecureRandom();
+    public Item randomItem(SecureRandom random) {
 
         if (rndcap < 1) {
             return null;
@@ -260,7 +259,7 @@ public class ScalarLootTable {
         return guaranteed == null ? Collections.emptyList() : Arrays.asList(guaranteed);
     }
 
-    public List<Item> simulate(Random r, int samples) {
+    public List<Item> simulate(SecureRandom r, int samples) {
         List<Item> list = new LinkedList<>();
         Map<Integer, Integer> state = new HashMap<>();
 

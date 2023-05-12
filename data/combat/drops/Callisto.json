@@ -1,30 +1,186 @@
 {
-  "npcs": [ 6503, 6609 ],
+  "npcs": [
+    6503,
+    6609
+  ],
   "petItem": 13178,
-  "petRarity": 1000,
+  "petRarity": 1500,
   "guaranteed": [
-    { "id": 532, "min": 1, "max": 1 }, //Big bones
-    { "id": 13307, "min": 250, "max": 55300 }   //blood money
+    {
+      "id": 532,
+      "amount": 1
+    }
+  ],
+  "items": [
+    {
+      "id": 1275,
+      "amount": 1,
+      "points": 3
+    },
+    {
+      "id": 1319,
+      "amount": 1,
+      "points": 1
+    },
+    {
+      "id": 566,
+      "amount": 250,
+      "points": 1
+    },
+    {
+      "id": 560,
+      "amount": 300,
+      "points": 1
+    },
+    {
+      "id": 562,
+      "amount": 400,
+      "points": 1
+    },
+    {
+      "id": 565,
+      "amount": 200,
+      "points": 1
+    },
+    {
+      "id": 5300,
+      "amount": 3,
+      "points": 1
+    },
+    {
+      "id": 5295,
+      "amount": 5,
+      "points": 1
+    },
+    {
+      "id": 995,
+      "min": 12000,
+      "max": 20000,
+      "points": 5
+    },
+    {
+      "id": 11937,
+      "amount": 8,
+      "points": 4
+    },
+    {
+      "id": 3025,
+      "amount": 3,
+      "points": 4
+    },
+    {
+      "id": 1620,
+      "amount": 20,
+      "points": 1
+    },
+    {
+      "id": 1618,
+      "amount": 10,
+      "points": 1
+    },
+    {
+      "id": 5975,
+      "amount": 60,
+      "points": 1
+    },
+    {
+      "id": 6035,
+      "amount": 100,
+      "points": 1
+    },
+    {
+      "id": 1634,
+      "amount": 75,
+      "points": 1
+    },
+    {
+      "id": 2,
+      "amount": 250,
+      "points": 1
+    },
+    {
+      "id": 1514,
+      "amount": 100,
+      "points": 1
+    },
+    {
+      "id": 12746,
+      "amount": 1,
+      "points": 1
+    },
+    {
+      "id": 226,
+      "amount": 50,
+      "points": 1
+    },
+    {
+      "id": 1750,
+      "amount": 75,
+      "points": 1
+    },
+    {
+      "id": 6334,
+      "amount": 200,
+      "points": 1
+    }
   ],
   "tables": [
     {
-      "name": "Unique",
-      "points": 1,
+      "name": "Rares",
+      "points": 2,
       "items": [
-        { "id": 12914, "min": 5, "max": 10, "points": 45 }, //Anti-venom+(4) (noted)
-        { "id": 21979, "min": 2, "max": 10, "points": 45 }, //Super antifire potion(4) (noted)
-        { "id": 11840, "min": 1, "max": 1, "points": 35 }, //Dragon boots
-        { "id": 6585, "min": 1, "max": 1, "points": 35 }, //Amulet of fury
-        { "id": 12877, "min": 1, "max": 1, "points": 30 }, //DH set
-        { "id": 11920, "min": 1, "max": 1, "points": 8 }, //Dragon pickaxe
-        { "id": 12603, "min": 1, "max": 1, "points": 7 }, //Tyranical ring
-        { "id": 2944, "min": 1, "max": 1, "points": 2 } //Key of drops
-      ]
-    },
-    {
-      "name": "Other",
-      "points": 4,
-      "items": []
+        {
+          "id": 11920,
+          "amount": 1,
+          "points": 2
+        },
+        {
+          "id": 7158,
+          "amount": 1,
+          "points": 2
+        },
+        {
+          "id": 12603,
+          "amount": 1,
+          "points": 1
+        },
+        {
+          "id": 5315,
+          "amount": 1,
+          "points": 4
+        },
+        {
+          "id": 5316,
+          "amount": 1,
+          "points": 4
+        },
+        {
+          "id": 5289,
+          "amount": 1,
+          "points": 4
+        },
+        {
+          "id": 1631,
+          "amount": 1,
+          "points": 4
+        },
+        {
+          "id": 3049,
+          "amount": 1,
+          "points": 4
+        },
+        {
+          "id": 11940,
+          "amount": 375,
+          "points": 4
+        },
+        {
+          "id": 12603,
+          "amount": 1,
+          "points": 1
+        }
+      ],
+      "tables": []
     }
   ]
 }

@@ -881,9 +881,9 @@ public class World {
         });
     }
 
-    private final Random random = new SecureRandom();
+    private final SecureRandom random = new SecureRandom();
 
-    public Random random() {
+    public SecureRandom random() {
         return random;
     }
 

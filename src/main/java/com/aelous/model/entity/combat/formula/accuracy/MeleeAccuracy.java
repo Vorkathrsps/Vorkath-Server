@@ -36,7 +36,6 @@ public class MeleeAccuracy {
     public boolean doesHit(final Entity attacker, final Entity defender, CombatType style) {
         return successful(attacker, defender, style);
     }
-
     private boolean successful(final Entity attacker, final Entity defender, CombatType style) {
         final int attackBonus = getAttackRoll(attacker, defender, style);
         final int defenceBonus = getDefenceRoll(attacker, defender);

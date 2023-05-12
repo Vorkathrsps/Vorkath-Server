@@ -580,7 +580,6 @@ public class NPCDeath {
                                 }
                             } else {
                                 if (tableItem.min > 0) {
-                                    // not fixed-amount drop, amount has a min/max amount randomly given
                                     Item dropped = new Item(tableItem.id, Utils.random(tableItem.min, tableItem.max));
 
                                     if ((dropped.getId() == ItemIdentifiers.DRAGON_BONES || dropped.getId() == ItemIdentifiers.LAVA_DRAGON_BONES && killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.NOTED_DRAGON_BONES)) && WildernessArea.inWilderness(killer.tile())) {

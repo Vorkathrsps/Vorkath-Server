@@ -736,7 +736,7 @@ public class World {
         }
 
         try {
-            ItemWeight.init();
+            //ItemWeight.init();
         } catch (Exception e) {
             e.printStackTrace();
         }

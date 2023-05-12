@@ -266,6 +266,7 @@ public final class Equipment extends ItemContainer {
             set(index, get(index), true);
         }
         ItemWeight.calculateWeight(player);
+       // System.out.println(ItemWeight.calculateWeight(player));
         WeaponInterfaces.updateWeaponInterface(player);
         refresh();
     }

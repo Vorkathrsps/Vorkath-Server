@@ -26,6 +26,7 @@ public class BonusesInterface {
         sendBonuses(player);
 
         var dropRateBonus = player.dropRateBonus();
+        var weight = player.getWeight();
         var target = player.getCombat().getTarget();
         var bloodMoneyDrop = 0;
 

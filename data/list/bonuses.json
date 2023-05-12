@@ -50959,22 +50959,6 @@
     "magestr": 0,
     "pray": 2
   },
-  "30000": {
-    "stab": 0,
-    "slash": 0,
-    "crush": 0,
-    "range": -4,
-    "mage": 10,
-    "stabdef": 14,
-    "slashdef": 13,
-    "crushdef": 15,
-    "rangedef": 0,
-    "magedef": 7,
-    "str": 0,
-    "rangestr": 0,
-    "magestr": 0,
-    "pray": 1
-  },
   "30002": {
     "stab": 0,
     "slash": 0,
@@ -51982,5 +51966,37 @@
     "rangestr": 0,
     "magestr": 0,
     "pray": 2
+  },
+  "30276": {
+    "stab": 3,
+    "slash": 3,
+    "crush": 3,
+    "range": 3,
+    "mage": 3,
+    "stabdef": 12,
+    "slashdef": 12,
+    "crushdef": 14,
+    "rangedef": 12,
+    "magedef": 12,
+    "str": 8,
+    "rangestr": 0,
+    "magestr": 0,
+    "pray": 2
+  },
+  "30000": {
+    "stab": 5,
+    "slash": 5,
+    "crush": 5,
+    "range": 5,
+    "mage": 5,
+    "stabdef": 14,
+    "slashdef": 14,
+    "crushdef": 14,
+    "rangedef": 14,
+    "magedef": 14,
+    "str": 10,
+    "rangestr": 10,
+    "magestr": 10,
+    "pray": 6
   }
 }

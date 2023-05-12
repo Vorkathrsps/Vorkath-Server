@@ -769,7 +769,10 @@ public class Item implements Cloneable {
             System.out.println(this.unnote().name());//doubt it
             return 0;
         }
-        return TradingPost.TRADING_POST_VALUE_ENABLED ? TradingPost.getProtectionPrice(id) : getBloodMoneyPrice() == null ? 0 : getBloodMoneyPrice().value();
+        if (def.noted()) {
+            return def.getKeptOnDeathValue();
+        }
+        return TradingPost.TRADING_POST_VALUE_ENABLED ? TradingPost.getProtectionPrice(id) : getBloodMoneyPrice() == null ? 0 :  def.getKeptOnDeathValue();
     }
 
     /**
@@ -792,9 +795,8 @@ public class Item implements Cloneable {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Item))
+        if (!(o instanceof Item item))
             return false;
-        Item item = (Item) o;
         return item.getId() == this.getId()
             && item.getAmount() == this.getAmount();
     }

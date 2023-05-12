@@ -409,6 +409,10 @@ public class ItemDefinition implements Definition {
     void postDecode(int id) {
         bm = new BloodMoneyPrices(id, this.getKeptOnDeathValue());
 
+        if (stackable()) {
+            weight = 0;
+        }
+
         for (FoodConsumable.Food food : FoodConsumable.Food.values()) {
             if (food.getItemId() == id) {
                 consumable = true;
@@ -513,6 +517,10 @@ public class ItemDefinition implements Definition {
 
     public boolean noted() {
         return noteModel > 0;
+    }
+
+    public double getWeight() {
+        return weight / 1000D;
     }
 
     @Override

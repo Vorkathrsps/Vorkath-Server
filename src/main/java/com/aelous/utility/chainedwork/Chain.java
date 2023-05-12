@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
  * @author Jak | Shadowrs
  * @version 25/4/2020
  */
+@SuppressWarnings("ALL")
 public class Chain<T> {
 
     private static final Logger logger = LogManager.getLogger(Chain.class);
@@ -248,6 +249,7 @@ public class Chain<T> {
                 }
             }.bind(owner);
             // just cloning exists fromLocation which should filter properly already
+            task.parent = this;
             task.codeOrigin = Arrays.toString(fromLocation.stream().map(s1 -> s1.toString())
                 .map(s2 -> {
                     // kotlin.KtCommands$init$26.invoke(KtCommands.kt:293)
@@ -386,4 +388,38 @@ public class Chain<T> {
         return nextNode;
     }
 
+    public String info() {
+        StringBuilder stringBuilder = new StringBuilder();
+        String a="?", b="?", ownerAvoidStackOverflow = "?";
+        try {
+            if (owner != null && owner instanceof Entity m) {
+                ownerAvoidStackOverflow = m.getMobName(); // avoid toString because it has
+                // chain.toString -> causes infinite recursion StackOverflow
+            } else {
+                ownerAvoidStackOverflow = ""+owner;
+            }
+            a=sourceMethodsOnly();
+            if (task != null)
+                b=task.toString().substring(task.toString().lastIndexOf(".")+1);
+        } catch (Exception e) {
+            logger.error("wtf", e);
+        }
+        stringBuilder.append(id()+" owner="+ownerAvoidStackOverflow+" src="+a);
+        if (task != null)
+            stringBuilder.append(" task="+b+" repeat="+repeats+" running="+task.isRunning()+" "+task.getRunDuration()+" ");
+        if (cancelCondition != null)
+            stringBuilder.append(" cancel="+cancelCondition.getAsBoolean()+" ");
+        if (executeCondition != null)
+            stringBuilder.append(" exec="+executeCondition.getAsBoolean()+" ");
+        return stringBuilder.toString();
+    }
+
+    public String sourceMethodsOnly() {
+        // turns a.b.c.d.e.methodName(Bob.java:20) into methodName(Bob.java:20)
+        return Arrays.toString(fromLocation.stream().map(e -> e.getMethodName()+"("+e.getClassName().substring(e.getClassName().replace(".java", "").lastIndexOf(".")+1)+".java:"+e.getLineNumber()+")").toArray());
+    }
+
+    public String id() {
+        return "Chain@"+Integer.toHexString(hashCode());
+    }
 }

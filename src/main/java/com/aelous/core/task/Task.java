@@ -5,6 +5,7 @@ import com.aelous.GameEngine;
 import com.aelous.core.task.impl.TickAndStop;
 import com.aelous.core.task.impl.TickableTask;
 import com.aelous.utility.Utils;
+import com.aelous.utility.chainedwork.Chain;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -83,6 +84,7 @@ public abstract class Task {
     }
 
     public String codeOrigin;
+    public Chain<?> parent;
 
     /**
      * allow null keys (aka contextless / ownerless , runs w/o a player/npc bound to it)
@@ -307,6 +309,9 @@ public abstract class Task {
             stop();
             logger.warn("Task " + getClassName() + " has been running for over an hour, and has been stopped! Source "+keyOrOrigin());
             Utils.sendDiscordInfoLog("Task " + getClassName() + " has been running for over an hour, and has been stopped! Source "+keyOrOrigin(), "warning");
+            if (parent != null) {
+                logger.error("chain task's running for {} {}", runDuration, parent.info());
+            }
         }
     }
 

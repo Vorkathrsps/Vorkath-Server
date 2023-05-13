@@ -308,8 +308,8 @@ public class World {
                     NPC npc = npcs.get(index);
                     if (npc != null && !npc.hidden()) {
                         npc.sequence();
-                        npc.processed = true;
                         npc.inViewport(false);
+                        npc.processed = true;
                     }
                 }
             });
@@ -322,9 +322,9 @@ public class World {
                 @Override
                 public void execute(int index) {
                     Player player = players.get(index);
-                    player.processed = true;
                     player.sequence();
                     player.syncContainers();
+                    player.processed = true;
                 }
             });
         } catch (Exception e) {

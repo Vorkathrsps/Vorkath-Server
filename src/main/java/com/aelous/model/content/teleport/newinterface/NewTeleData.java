@@ -89,11 +89,8 @@ public enum NewTeleData {
     GNOME_AGILITY(new Tile(2474, 3438),"Gnome Stronghold Agility Course", "", SKILLING, MEDIUM),
     BARB_AGILITY(new Tile(2552, 3563),"Barbarian Outpost Agility Course", "", SKILLING, MEDIUM),
     FARMING_AREA(new Tile(2815, 3457),"Farming Area", "", SKILLING, MEDIUM),
-
     FISHING_AREAS(new Tile(1,1),"Fishing Areas", "", SKILLING, MEDIUM),
-
     MINING_AREAS(new Tile(1,1),"Mining Areas", "", SKILLING, MEDIUM),
-
     WOODCUTTING_AREAS(new Tile(1,1),"Woodcutting Areas", "", SKILLING, MEDIUM),
 
     HUNTER_AREAS(new Tile(1,1),"Hunter Areas", "", SKILLING, MEDIUM),

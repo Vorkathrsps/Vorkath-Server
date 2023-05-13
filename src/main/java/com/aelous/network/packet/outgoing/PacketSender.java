@@ -944,13 +944,13 @@ public final class PacketSender {
         return this;
     }
 
-    public PacketSender sendPrivateMessage(int senderRights, int senderIronmanRights, int senderMemberRights, Player target, byte[] message, int size) {
+    public PacketSender sendPrivateMessage(int senderRights, int senderMemberRights, int senderIronmanRights, Player target, byte[] message, int size) {
         PacketBuilder out = new PacketBuilder(196, PacketType.VARIABLE_SHORT);
         out.putString(target.getUsername());
         out.putInt(target.getRelations().getPrivateMessageId());
         out.put(senderRights);
-        out.put(senderIronmanRights);
         out.put(senderMemberRights);
+        out.put(senderIronmanRights);
         out.putBytes(message, size);
         player.getSession().write(out);
         return this;

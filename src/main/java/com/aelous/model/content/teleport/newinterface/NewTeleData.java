@@ -37,8 +37,7 @@ public enum NewTeleData {
     ANCIENT_WYVERNS(new Tile(3609, 10278), "Wyvern Cave", "", SLAYING, MEDIUM),
     KARUULM_SLAYER_DUNGEON(new Tile(1311, 3812), "Karuulm Slayer Dungeon", "", SLAYING, MEDIUM),
     MOSS_LE_HARMLESS_CAVE(new Tile(3826, 9425), "Cave Horrors", "", SLAYING, MEDIUM),
-
-
+    WILDERNESS_SLAYER_CAVE(new Tile(3385, 10053),"Wilderness Slayer Cave", "", SLAYING, MEDIUM),
 
     //Bossing teleports
     CALLISTO(new Tile(3307, 3837), "Callisto", "@red@Dangerous Teleport Level:40 Multi-combat Wilderness", BOSSING, MEDIUM),
@@ -108,16 +107,19 @@ public enum NewTeleData {
     FIGHT_CAVE(new Tile(2440, 5172),"Fight Cave", "", MINIGAMES, MEDIUM),
 
     //Wilderness teleports
-    BANDIT_CAMP(new Tile(3034, 3690),"Bandit Camp", "@red@Dangerous Teleport Level:22 Multi-combat Wilderness", WILDERNESS, MEDIUM),
-    CHAOS_TEMPLE(new Tile(3235, 3643),"Chaos Temple", "@red@Dangerous Teleport Level:16 Multi-combat Wilderness", WILDERNESS, MEDIUM),
-    DEMONIC_RUINS(new Tile(3287, 3884),"Demonic Ruins", "@red@Dangerous Teleport Level:46 Multi-combat Wilderness", WILDERNESS, MEDIUM),
+    MAGEBANK_WILD(new Tile(2539, 4715),"Magebank", "", WILDERNESS, MEDIUM),
+    FEROX_ENCLAVE(new Tile(3131, 3629),"Ferox Enclave", "", WILDERNESS, MEDIUM),
+    BATTLE_MAGES(new Tile(3105, 3956),"Battle Mages", "@red@Dangerous Teleport Level:52 Wilderness", WILDERNESS, EASY),
     EAST_DRAGONS(new Tile(3343, 3664),"East Green Dragons", "@red@Dangerous Teleport Level:19 Wilderness", WILDERNESS, MEDIUM),
     WEST_DRAGONS(new Tile(2978, 3598),"West Green Dragons", "@red@Dangerous Teleport Level:10 Wilderness", WILDERNESS, MEDIUM),
-    GRAVEYARD(new Tile(3161, 3670),"Graveyard", "@red@Dangerous Teleport Level:19 Wilderness", WILDERNESS, MEDIUM),
-    MAGEBANK_WILD(new Tile(2539, 4715),"Magebank", "", WILDERNESS, MEDIUM),
     REV_CAVES(new Tile(3127, 3832),"Revenant Cave", "@red@Dangerous Teleport Level:40 Wilderness", WILDERNESS, MEDIUM),
+    GRAVEYARD(new Tile(3161, 3670),"Graveyard", "@red@Dangerous Teleport Level:19 Wilderness", WILDERNESS, MEDIUM),
+    BLACK_CHINS(new Tile(3149, 3779),"Black chinchompas", "@red@Dangerous Teleport Level:33 Wilderness", WILDERNESS, MEDIUM),
+    FOURTY_FOUR(new Tile(2980, 3871),"44'S Obelisk", "@red@Dangerous Teleport Level:44 Wilderness", WILDERNESS, MEDIUM),
+    DEMONIC_RUINS(new Tile(3287, 3884),"Demonic Ruins", "@red@Dangerous Teleport Level:46 Multi-combat Wilderness", WILDERNESS, MEDIUM),
+    BANDIT_CAMP(new Tile(3034, 3690),"Bandit Camp", "@red@Dangerous Teleport Level:22 Multi-combat Wilderness", WILDERNESS, MEDIUM),
+    CHAOS_TEMPLE(new Tile(3235, 3643),"Chaos Temple", "@red@Dangerous Teleport Level:16 Multi-combat Wilderness", WILDERNESS, MEDIUM),
     THE_GATE(new Tile(3225, 3903),"Wilderness Gates", "@red@Dangerous Teleport Level:48 Multi-combat Wilderness", WILDERNESS, MEDIUM),
-    BLACK_CHINS(new Tile(3149, 3779),"Black chinchompas", "@red@Dangerous Teleport Level:33 Multi-combat Wilderness", WILDERNESS, MEDIUM),
 
     //City Teleports
     CATHERBY(new Tile(2809, 3439),"Catherby", "", CITIES, MEDIUM),

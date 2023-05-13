@@ -48,5 +48,6 @@ public class SecondItemContainerActionPacketListener implements PacketListener {
         player.putAttrib(AttributeKey.ITEM_ID, id);
 
         SecondContainerAction.secondAction(player, interfaceId, slot, id);
+        player.getInventory().refresh();
     }
 }

@@ -16,6 +16,7 @@ import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.position.areas.Controller;
 import com.aelous.utility.Varbit;
+import com.aelous.utility.chainedwork.Chain;
 import com.aelous.utility.timers.TimerKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,21 +31,21 @@ public class WildernessArea extends Controller {
     private static final Logger log = LoggerFactory.getLogger(WildernessArea.class);
     public static final Area getFeroxCenter = new Area(3118, 3623, 3153, 3634, 0); //block this when tb'd
 
-    public static final Area getFeroxUpperNorth =  new Area(3120, 3636, 3157, 3640, 0); //block this when tb'd
+    public static final Area getFeroxUpperNorth = new Area(3120, 3636, 3157, 3640, 0); //block this when tb'd
 
-    public static final Area getFeroxNorthEntrance =  new Area(3122, 3636, 3157, 3643, 0); //block this when tb'd
+    public static final Area getFeroxNorthEntrance = new Area(3122, 3636, 3157, 3643, 0); //block this when tb'd
 
-    public static final Area getFeroxNorthEdges =  new Area(3136, 3642, 3156, 3646, 0); //block this when tb'd
+    public static final Area getFeroxNorthEdges = new Area(3136, 3642, 3156, 3646, 0); //block this when tb'd
 
-    public static final Area getFeroxEastEdges =  new Area(3154, 3627, 3159, 3633, 0); //block this when tb'd
+    public static final Area getFeroxEastEdges = new Area(3154, 3627, 3159, 3633, 0); //block this when tb'd
 
-    public static final Area getFeroxLowerSouth =  new Area(3120, 3621, 3151, 3622, 0); //block this when tb'd
+    public static final Area getFeroxLowerSouth = new Area(3120, 3621, 3151, 3622, 0); //block this when tb'd
 
-    public static final Area getFeroxLowerSouthEdges =  new Area(3124, 3616, 3144, 3620, 0); //block this when tb'd
+    public static final Area getFeroxLowerSouthEdges = new Area(3124, 3616, 3144, 3620, 0); //block this when tb'd
 
-    public static final Area getFeroxSouthEntrance =  new Area(3129, 3610, 3140, 3615, 0); //block this when tb'd
+    public static final Area getFeroxSouthEntrance = new Area(3129, 3610, 3140, 3615, 0); //block this when tb'd
 
-    public static final Area getFeroxRandomLine =  new Area(3120, 3635, 3154, 3635, 0); //block this when tb'd
+    public static final Area getFeroxRandomLine = new Area(3120, 3635, 3154, 3635, 0); //block this when tb'd
 
     public static boolean inWilderness(Tile tile) {
         return wildernessLevel(tile) > 0;
@@ -282,6 +283,17 @@ public class WildernessArea extends Controller {
 
     @Override
     public boolean handleObjectClick(Player player, GameObject object, int type) {
+        switch (object.getId()) {
+            case 40390 -> {
+                if (player.tile().x == 3293 && player.tile().y == 3746) {
+                    Chain.bound(player)
+                        .runFn(1, player::lockDelayDamage)
+                        .then(2, () -> player.teleport(3385, 10052))
+                        .then(1, player::unlock);
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -300,6 +312,6 @@ public class WildernessArea extends Controller {
 
     @Override
     public boolean useInsideCheck() {
-        return true; //We want to check using the inside method of this class.
+        return true;
     }
 }

@@ -2375,7 +2375,6 @@ public class Player extends Entity {
     public final LootingBag getLootingBag() {
         return lootingBag;
     }
-
     private final Bank bank = new Bank(this);
 
     public final Bank getBank() {

@@ -38,7 +38,7 @@ public class InterfaceConstants {
     /**
      * The equipment screen interface id
      */
-    public static final int EQUIPMENT_SCREEN_INTERFACE_ID = 15106;
+    public static final int EQUIPMENT_SCREEN_INTERFACE_ID = 21172;
 
     public static final int BARROWS_REWARD_WIDGET = 25400;
     public static final int BARROWS_REWARD_CONTAINER = 25406;

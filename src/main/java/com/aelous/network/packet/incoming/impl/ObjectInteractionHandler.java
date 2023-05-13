@@ -23,6 +23,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.OPEN_CHEST_3194;
@@ -126,7 +127,7 @@ public class ObjectInteractionHandler implements PacketListener {
     private void handleAction(Player player, GameObject object, int option) {
         /** Definitions **/
         if (object == null || object.definition() == null) {
-            logger.error("ObjectDefinition for object {} is null for player " + player.toString() + ".", box(object.getId()));
+            logger.error("ObjectDefinition for object {} is null for player " + player.toString() + ".", box(Objects.requireNonNull(object).getId()));
             return;
         }
 

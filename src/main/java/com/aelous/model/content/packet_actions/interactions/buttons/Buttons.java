@@ -109,17 +109,14 @@ public class Buttons {
         boolean onNormals = player.getSpellbook() == MagicSpellbook.NORMAL;
 
         switch (button) {
-
-            case 15151:
+            case 15151 -> {
                 if (WildernessArea.inWild(player)) {
                     return;
                 }
-                player.getPacketSender().sendInterfaceDisplayState(15150, true);
+                player.getPacketSender().sendInterfaceDisplayState(21172, true);
                 player.getBank().open();
-                break;
-
-            case 19210:
-            case 21741:
+            }
+            case 19210, 21741 -> {
                 if (player.getDueling().inDuel()) {
                     return;
                 }
@@ -128,37 +125,16 @@ public class Buttons {
                     Teleports.basicTeleport(player, tile);
                     player.message("You have been teleported to home.");
                 }
-                break;
-
-            case TRADE_ACCEPT_BUTTON_1:
-            case TRADE_ACCEPT_BUTTON_2:
-                player.getTrading().acceptTrade();
-                break;
-
-            case TRADE_DECLINE_BUTTON_1:
-            case TRADE_DECLINE_BUTTON_2:
-            case TRADE_SCREEN_CLOSE_BUTTON:
+            }
+            case TRADE_ACCEPT_BUTTON_1, TRADE_ACCEPT_BUTTON_2 -> player.getTrading().acceptTrade();
+            case TRADE_DECLINE_BUTTON_1, TRADE_DECLINE_BUTTON_2, TRADE_SCREEN_CLOSE_BUTTON ->
                 player.getTrading().abortTrading();
-                break;
-
-            case CLOSE_LOOTING_BAG_OPEN:
-            case CLOSE_LOOTING_BAG_ADD:
-            case CLOSE_LOOTING_BAG_BANK:
+            case 21299 -> player.getInterfaceManager().close();
+            case CLOSE_LOOTING_BAG_OPEN, CLOSE_LOOTING_BAG_ADD, CLOSE_LOOTING_BAG_BANK ->
                 player.getLootingBag().close();
-                break;
-
-            case 14921:
-                player.getBankPinSettings().dontKnowPin();
-                break;
-            case 14922:
-
-            case CANCEL_DESTROY_ITEM:
-            case 35002:
-                player.getInterfaceManager().close();
-                break;
-
-            case TOGGLE_RUN_ENERGY_ORB:
-            case RUN_BUTTON:
+            case 14921 -> player.getBankPinSettings().dontKnowPin();
+            case 14922, CANCEL_DESTROY_ITEM, 35002 -> player.getInterfaceManager().close();
+            case TOGGLE_RUN_ENERGY_ORB, RUN_BUTTON -> {
                 if (player.looks().trans() > -1) {
                     player.message("You can't run as an npc.");
                     return;
@@ -171,49 +147,38 @@ public class Buttons {
                 } else {
                     player.message("You cannot do that right now.");
                 }
-                break;
-
-            case OPEN_SETTINGS: // 42500
+            }
+            case OPEN_SETTINGS -> { // 42500
                 if (!player.busy()) {
                     player.getInterfaceManager().setSidebar(11, 23000);
                 } else {
                     player.message("You cannot do that right now.");
                 }
-                break;
-
-            case OPEN_KEYBINDINGS:
+            }
+            case OPEN_KEYBINDINGS -> {
                 if (!player.busy()) {
                     player.getInterfaceManager().open(53000);
                 } else {
                     player.message("You cannot do that right now.");
                 }
-                break;
-
-            case OPEN_PRICE_CHECKER:
+            }
+            case OPEN_PRICE_CHECKER -> {
                 if (!player.busy()) {
                     player.getPriceChecker().open();
                 } else {
                     player.message("You cannot do that right now.");
                 }
-                break;
-
-            case PRICE_CHECKER_WITHDRAW_ALL:
-                player.getPriceChecker().withdrawAll();
-                break;
-
-            case PRICE_CHECKER_DEPOSIT_ALL:
-                player.getPriceChecker().depositAll();
-                break;
-
-            case OPEN_ITEMS_KEPT_ON_DEATH_SCREEN:
+            }
+            case PRICE_CHECKER_WITHDRAW_ALL -> player.getPriceChecker().withdrawAll();
+            case PRICE_CHECKER_DEPOSIT_ALL -> player.getPriceChecker().depositAll();
+            case OPEN_ITEMS_KEPT_ON_DEATH_SCREEN -> {
                 if (!player.busy()) {
                     ItemsKeptOnDeath.open(player);
                 } else {
                     player.message("You cannot do that right now.");
                 }
-                break;
-
-            case AUTOCAST_BUTTON_1:
+            }
+            case AUTOCAST_BUTTON_1 -> {
                 player.putAttrib(AttributeKey.DEFENSIVE_AUTOCAST, false);
                 if (!GameServer.properties().rightClickAutocast) {
                     if (player.getSpellbook() == MagicSpellbook.LUNAR) {
@@ -249,9 +214,8 @@ public class Buttons {
                 } else {
                     player.getPacketSender().sendMessage("A spell can be autocast by simply right-clicking on it in your Magic spellbook and ").sendMessage("selecting the \"Autocast\" option.");
                 }
-                break;
-
-            case AUTOCAST_BUTTON_2:
+            }
+            case AUTOCAST_BUTTON_2 -> {
                 player.putAttrib(AttributeKey.DEFENSIVE_AUTOCAST, true);
                 if (!GameServer.properties().rightClickAutocast) {
                     if (player.getSpellbook() == MagicSpellbook.LUNAR) {
@@ -275,25 +239,12 @@ public class Buttons {
                             "A spell can be autocast by simply right-clicking on it in your Magic spellbook and ")
                         .sendMessage("selecting the \"Autocast\" option.");
                 }
-                break;
-
-            case DUEL_ACCEPT_BUTTON_1:
-            case DUEL_ACCEPT_BUTTON_2:
-                player.getDueling().acceptDuel();
-                break;
-
-            case ADVANCED_OPTIONS_BUTTON:
-                player.getInterfaceManager().open(43000);
-                break;
-
-            case TOGGLE_AUTO_RETALIATE:
-            case TOGGLE_AUTO_RETALIATE_2:
-            case TOGGLE_AUTO_RETALIATE_3:
-            case TOGGLE_AUTO_RETALIATE_4:
+            }
+            case DUEL_ACCEPT_BUTTON_1, DUEL_ACCEPT_BUTTON_2 -> player.getDueling().acceptDuel();
+            case ADVANCED_OPTIONS_BUTTON -> player.getInterfaceManager().open(43000);
+            case TOGGLE_AUTO_RETALIATE, TOGGLE_AUTO_RETALIATE_2, TOGGLE_AUTO_RETALIATE_3, TOGGLE_AUTO_RETALIATE_4 ->
                 player.getCombat().setAutoRetaliate(!player.getCombat().hasAutoReliateToggled());
-                break;
-
-            case DESTROY_ITEM:
+            case DESTROY_ITEM -> {
                 int id = player.getDestroyItem();
                 Item itemToDestroy = new Item(id);
                 if (!player.inventory().contains(itemToDestroy)) {
@@ -301,24 +252,20 @@ public class Buttons {
                 }
                 player.inventory().remove(itemToDestroy, true);
                 player.getInterfaceManager().close();
-                break;
-
-            case TOGGLE_EXP_LOCK:
+            }
+            case TOGGLE_EXP_LOCK -> {
                 boolean locked = player.getAttribOr(AttributeKey.XP_LOCKED, false);
                 player.putAttrib(AttributeKey.XP_LOCKED, locked);
-
                 if (!locked) {
                     player.message("Your experience is now <col=ca0d0d>locked.");
                 } else {
                     player.message("Your experience is now <col=65280>unlocked.");
                 }
-                break;
-
-            default:
+            }
+            default -> {
                 if (Arrays.stream(CLOSE_BUTTONS).anyMatch(b -> b == button)) {
                     player.getInterfaceManager().close();
                 }
-
                 if (button == LOGOUT) {
                     // Handle this here and not in canLogout() so that x-logging doesn't "break" the
                     // attack timer.
@@ -329,26 +276,21 @@ public class Buttons {
                     player.putAttrib(AttributeKey.LOGOUT_CLICKED, true);
                     return;
                 }
-
                 if (button == 54763) {
                     player.getTaskMasterManager().claimReward();
                     return;
                 }
-
                 if (player.getQuickPrayers().handleButton(button)) {
                     return;
                 }
-
                 if (TradingPost.handleButtons(player, button))
                     return;
-
                 if (player.getSlayerRewards().handleButtonInteraction(player, button)) {
                     return;
                 }
                 if (player.getRunePouch().onButton(button)) {
                     return;
                 }
-
                 if (player.getSkills().pressedSkill(button)) {
                     return;
                 }
@@ -382,11 +324,9 @@ public class Buttons {
                         return;
                     }
                 }
-
                 if (ItemActionDialogue.clickButton(player, button)) {
                     return;
                 }
-
                 BankPin bankPin = player.getBankPin();
                 if (bankPin.isEnteringPin() && bankPin.getPinInterface().enterDigit(button)) {
                     return;
@@ -427,7 +367,7 @@ public class Buttons {
                 if (Arrays.stream(ButtonClickPacketListener.ALL).anyMatch(b -> b == button)) {
                     return;
                 }
-                break;
+            }
         }
     }
 

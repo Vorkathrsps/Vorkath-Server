@@ -68,19 +68,18 @@ public class ChaosElemental extends CommonCombatMethod {
     }
 
     private void primary_attack(NPC npc, Entity target) {
-        CombatType combat_style = World.getWorld().random(10) > 7 ? CombatType.MAGIC : CombatType.RANGED;
-        CombatMethod combatMethod = combat_style == CombatType.MAGIC ? CombatFactory.MAGIC_COMBAT : CombatFactory.RANGED_COMBAT;
-
         attack_logic(npc, target, 556, 557, 558);
-        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, combat_style), combat_style).checkAccuracy().submit();
     }
 
     private void attack_logic(NPC npc, Entity target, int initial_graphic, int projectile, int end_graphic) {
-        int tileDist = npc.tile().distance(target.tile());
-        int time = Math.max(1, (20 + tileDist * 12) / 30) + 1;
+        CombatType combat_style = World.getWorld().random(10) > 7 ? CombatType.MAGIC : CombatType.RANGED;
         npc.graphic(initial_graphic, GraphicHeight.HIGH, 0);
-        new Projectile(npc, target, projectile, 35, 12 * tileDist, 40, 25, 0).sendProjectile();
-        Chain.bound(null).name("ChaosElementalAttackLogicTask").runFn(time, () -> target.graphic(end_graphic, GraphicHeight.HIGH, 0));
+        int tileDist = entity.tile().transform(1, 1).distance(target.tile());
+        int duration = (51 + -5 + (10 * tileDist));
+        Projectile p = new Projectile(entity, target, projectile, 51, duration, 43, 31, 0, target.getSize(), 10);
+        final int delay = entity.executeProjectile(p);
+        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, combat_style), delay, combat_style).checkAccuracy().submit();
+        target.graphic(end_graphic, GraphicHeight.HIGH, p.getSpeed());
     }
 
     @Override

@@ -376,7 +376,8 @@ public final class GroundItemHandler {
                         sendRemoveGroundItem(groundItem);
                         player.getRisk().update();
                         pickupLogs.log(PICKUPS, "Player " + player.getUsername() + " picked up item " + item.getAmount() + "x " + item.unnote().name() + " (id " + item.getId() + ") at X: "+groundItem.getTile().x+" Y: "+groundItem.getTile().y);
-                        Utils.sendDiscordInfoLog("Player " + player.getUsername() + " picked up item " + item.getAmount() + "x " + item.unnote().name() + " (id " + item.getId() + ") at X: "+groundItem.getTile().x+" Y: "+groundItem.getTile().y, "pickups");player.getInventory().refresh();
+                        Utils.sendDiscordInfoLog("Player " + player.getUsername() + " picked up item " + item.getAmount() + "x " + item.unnote().name() + " (id " + item.getId() + ") at X: "+groundItem.getTile().x+" Y: "+groundItem.getTile().y, "pickups");
+                        player.getInventory().refresh();
                         stop();
 
                         // Does this ground item respawn?

@@ -8,6 +8,7 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.skull.SkullType;
 import com.aelous.model.entity.combat.skull.Skulling;
 import com.aelous.model.entity.npc.NPC;
+import com.aelous.model.inter.InterfaceConstants;
 import com.aelous.model.inter.dialogue.DialogueManager;
 import com.aelous.model.entity.player.IronMode;
 import com.aelous.model.entity.player.Player;

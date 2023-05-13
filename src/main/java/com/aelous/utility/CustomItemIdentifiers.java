@@ -20,4 +20,8 @@ public class CustomItemIdentifiers {
     public static final int VOTE_TICKET = 619;
     public static final int ACTIVITY_CASKET_3 = 16475;
     public static final int VENGEANCE_SKULL = 964;
+
+    public static final int TOKHAAR_KAL = 30276;
+    public static final int COMP_CAPE = 30000;
+
 }

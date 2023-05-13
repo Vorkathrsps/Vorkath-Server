@@ -16,7 +16,7 @@ import java.util.Map;
  * Created by Situations on 12/31/2015.
  */
 public class ItemWeight {
-    private static final Map<Integer, Double> itemWeight = new HashMap<>();
+    private static Map<Integer, Double> itemWeight = new HashMap<>();
 
     public static double calculateWeight(Player player) {
         double weight = 0;
@@ -35,7 +35,7 @@ public class ItemWeight {
 
         player.setWeight(weight);
         player.getPacketSender().sendWeight(weight);
-        player.getPacketSender().sendString(15122, Utils.format((int) weight) + " kg");
+        player.getPacketSender().sendString(184, Utils.format((int) weight) + " kg");
         return weight;
     }
 

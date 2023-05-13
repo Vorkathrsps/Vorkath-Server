@@ -33,6 +33,7 @@ import com.aelous.model.entity.combat.method.impl.npcs.slayer.Gargoyle;
 import com.aelous.model.entity.combat.method.impl.npcs.slayer.Nechryael;
 import com.aelous.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss;
 import com.aelous.model.entity.combat.method.impl.npcs.slayer.superiors.nechryarch.NechryarchDeathSpawn;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.droptables.ScalarLootTable;
 
 import com.aelous.model.entity.player.GameMode;
@@ -41,6 +42,8 @@ import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.items.ground.GroundItemHandler;
+import com.aelous.model.map.object.GameObject;
+import com.aelous.model.map.object.ObjectManager;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
@@ -592,7 +595,6 @@ public class NPCDeath {
                                         GroundItemHandler.createGroundItem(new GroundItem(dropped, tile, killer));
                                     }
                                 } else {
-
                                     if ((tableItem.convert().getId() == ItemIdentifiers.DRAGON_BONES || tableItem.convert().getId() == ItemIdentifiers.LAVA_DRAGON_BONES && killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.NOTED_DRAGON_BONES)) && WildernessArea.inWilderness(killer.tile())) {
                                         tableItem.convert().setId(tableItem.convert().note().getId());
                                     }

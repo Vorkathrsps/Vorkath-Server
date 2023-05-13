@@ -16,19 +16,14 @@ import com.aelous.utility.Color;
  */
 public class BonusesInterface {
 
+    static int bloodMoneyDrop = 0;
     public static void showEquipmentInfo(Player player) {
-        // Cannot do this while locked.
         if (player.locked())
             return;
 
-        // Has introduced dupes previously..
         player.stopActions(false);
         sendBonuses(player);
-
-        var dropRateBonus = player.dropRateBonus();
-        var weight = player.getWeight();
         var target = player.getCombat().getTarget();
-        var bloodMoneyDrop = 0;
 
         if(target != null && target.isPlayer()) {
             bloodMoneyDrop = player.bloodMoneyAmount(target.getAsPlayer());
@@ -36,9 +31,8 @@ public class BonusesInterface {
             bloodMoneyDrop = player.bloodMoneyAmount(null);
         }
 
-        player.getInterfaceManager().open(InterfaceConstants.EQUIPMENT_SCREEN_INTERFACE_ID);
-        player.getPacketSender().sendInterfaceDisplayState(15150,true).sendString(15122, "Drop rate bonus: "+ Color.GREEN.wrap("+"+dropRateBonus)+"<col=65280>%</col>").sendString(15123, "Blood money rate: "+ Color.GREEN.wrap("+"+bloodMoneyDrop));
-        player.getUpdateFlag().flag(Flag.APPEARANCE); //Update the players looks
+        player.getInterfaceManager().open(21172);
+        player.getUpdateFlag().flag(Flag.APPEARANCE);
     }
 
     private static String plusify(int bonus) {
@@ -47,6 +41,7 @@ public class BonusesInterface {
 
     public static void sendBonuses(Player player) {
         EquipmentInfo.Bonuses b = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo());
+        var dropRateBonus = player.dropRateBonus();
 
         player.getPacketSender().sendString(1675, "Stab: " + plusify(b.stab));
         player.getPacketSender().sendString(1676, "Slash: " + plusify(b.slash));
@@ -60,13 +55,16 @@ public class BonusesInterface {
         player.getPacketSender().sendString(1683, "Range: " + plusify(b.rangedef));
         player.getPacketSender().sendString(1684, "Magic: " + plusify(b.magedef));
 
-        player.getPacketSender().sendString(15115, "Melee strength: " + plusify(b.str));
-        player.getPacketSender().sendString(15116, "Ranged strength: " + plusify(b.rangestr));
-        player.getPacketSender().sendString(15117, "Magic damage: " + plusify(b.magestr) + "%");
+        player.getPacketSender().sendString(1686, "Melee strength: " + plusify(b.str));
+        player.getPacketSender().sendString(24751,"Ranged strength: " + plusify(b.rangestr));
+        player.getPacketSender().sendString(24752,"Magic damage: " + plusify(b.magestr) + "%");
 
-        player.getPacketSender().sendString(15118, "Prayer: " + plusify(b.pray));
-        player.getPacketSender().sendString(15119, "Undead: " + getUndead(player) + "%");
-        player.getPacketSender().sendString(15120, "Slayer: " + getSlay(player) + "%");
+        player.getPacketSender().sendString(1687, "Prayer: " + plusify(b.pray));
+        player.getPacketSender().sendString(24754,"Undead: " + plusify(getUndead(player)) + "%");
+        player.getPacketSender().sendString(24755,"Slayer: " + plusify(getSlay(player)) + "%");
+        player.getPacketSender().sendString(24757,"Base: " + plusify(player.getBaseAttackSpeed()) + "s");
+        player.getPacketSender().sendString(24774, "BM: " + (bloodMoneyDrop > 0 ? Color.GREEN.wrap(plusify(bloodMoneyDrop)) : plusify(bloodMoneyDrop)));
+        player.getPacketSender().sendString(24775, "DR: " + (dropRateBonus > 0 ? Color.GREEN.wrap(plusify(dropRateBonus)) : plusify(dropRateBonus)));
     }
 
     public static int getSlay(Player player) {

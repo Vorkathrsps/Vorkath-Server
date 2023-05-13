@@ -40,5 +40,6 @@ public class FourthItemContainerActionPacketListener implements PacketListener {
         }
 
         FourthContainerAction.fourthAction(player, interfaceId, slot, id);
+        player.getInventory().refresh();
     }
 }

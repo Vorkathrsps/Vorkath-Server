@@ -177,5 +177,8 @@ public class FirstContainerAction {
             player.getPriceChecker().withdraw(id, 1);
         }
 
+        if (interfaceId == INVENTORY_INTERFACE) {
+            player.getInventory().refresh();
+        }
     }
 }

@@ -35,5 +35,6 @@ public class ThirdItemContainerActionPacketListener implements PacketListener {
         player.debugMessage(String.format("third action, container: %d slot: %d id %d", interfaceId, slot, id));
 
         ThirdContainerAction.thirdAction(player, interfaceId, slot, id);
+        player.getInventory().refresh();
     }
 }

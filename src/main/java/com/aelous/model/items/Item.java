@@ -400,6 +400,11 @@ public class Item implements Cloneable {
         return (def == null || id == ItemIdentifiers.PLATINUM_TOKEN || id == COINS_995 || def.grandexchange || def.noteModel > 0 || def.notelink > 0 || TRADABLES.contains(id));
     }
 
+    public int getInventoryModelID(int id) {
+        ItemDefinition def = World.getWorld().definitions().get(ItemDefinition.class, id);
+        return def.inventoryModel;
+    }
+
     public String name() {
         ItemDefinition def = definition(World.getWorld());
         if (def == null) {

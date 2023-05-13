@@ -37,5 +37,6 @@ public class FifthItemContainerActionPacketListener implements PacketListener {
         }
 
         FifthContainerAction.fifthAction(player, interfaceId, slot, id);
+        player.getInventory().refresh();
     }
 }

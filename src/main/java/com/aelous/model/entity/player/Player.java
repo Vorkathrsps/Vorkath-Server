@@ -3150,8 +3150,8 @@ public class Player extends Entity {
         }
 
         if (queuedAppearanceUpdate()) {
-            this.getUpdateFlag().flag(Flag.APPEARANCE);
-            this.setQueuedAppearanceUpdate(false);
+            getUpdateFlag().flag(Flag.APPEARANCE);
+            setQueuedAppearanceUpdate(false);
         }
 
         //Section 12 Sync containers, if dirty

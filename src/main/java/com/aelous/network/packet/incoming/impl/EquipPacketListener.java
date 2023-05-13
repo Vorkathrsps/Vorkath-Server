@@ -90,8 +90,6 @@ public class EquipPacketListener implements PacketListener {
                 if (info != null) {
                     player.getEquipment().equip(slot);
                     BonusesInterface.sendBonuses(player);
-                    player.getInventory().refresh();
-                    player.getEquipment().refresh();
                     player.getCombat().setRangedWeapon(null);
                     Autocasting.setAutocast(player, null);
                     player.getCombat().setCastSpell(null);
@@ -102,6 +100,8 @@ public class EquipPacketListener implements PacketListener {
                     player.getCombat().reset();
                     CombatSpecial.updateBar(player);
                     WeaponInterfaces.updateWeaponInterface(player);
+                    player.getInventory().refresh();
+                    player.getEquipment().refresh();
                     if (player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS) || player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS_FULL)) {
                         if (player.getCombat().getPoweredStaffSpell() != null) {
                             player.getCombat().setPoweredStaffSpell(null);

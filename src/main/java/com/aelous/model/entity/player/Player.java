@@ -610,6 +610,7 @@ public class Player extends Entity {
     public NewTeleportInterface getnewteleInterface() {
         return newteleInterface;
     }
+
     private final NewTeleportInterface newteleInterface = new NewTeleportInterface(this);
 
     private List<SpecificTeleport> newtelefavs = new ArrayList<>();
@@ -2063,15 +2064,14 @@ public class Player extends Entity {
     private CombatSpecial combatSpecial;
 
     public double getEnergyDeprecation() {
-        if (this.getPlayerRights().isOwner(this)) {
-            return 0;
-        }
-        double weight = Math.max(0, Math.min(54, getWeight())); // Capped at 54kg - where stamina affect no longer works.. for a QoL. Stamina always helpful!
-        return (0.67) + weight / 100.0;
+        double weight = Math.max(0, Math.min(54, getWeight())); // Capped at 54kg - where stamina effect no longer works.. for a QoL. Stamina always helpful!
+        double clampWeight = Math.max(0, Math.min(64, weight));
+        return (67 + Math.floorDiv((67 * (int) clampWeight), 64)) / 100.0;
     }
 
     public double getRecoveryRate() {
-        return (8.0 + (skills.level(Skills.AGILITY) / 6.0)) / 100;
+        int agilityLevel = skills.level(Skills.AGILITY);
+        return (Math.floorDiv(agilityLevel, 6) + 8) / 100.0;
     }
 
     public void setRunningEnergy(double runningEnergy, boolean send) {
@@ -2377,6 +2377,7 @@ public class Player extends Entity {
     public final LootingBag getLootingBag() {
         return lootingBag;
     }
+
     private final Bank bank = new Bank(this);
 
     public final Bank getBank() {
@@ -3304,27 +3305,41 @@ public class Player extends Entity {
     }
 
     public void drainRunEnergy() {
-
         boolean hamstrung = false;
-
-        //Grabs the players energy %
         double energy = this.getAttribOr(AttributeKey.RUN_ENERGY, 0);
-        //Grabs the change in energy
         double change = this.getEnergyDeprecation();
-        //Check to see if the player has drank a stamina potion
         int stamina = this.getAttribOr(AttributeKey.STAMINA_POTION_TICKS, 0);
-        //If the player has drank a stamina potion, energy drain is reduced by 70%
-        if (stamina > 0)
+
+        // Apply stamina potion effect
+        if (stamina > 0) {
             change *= 0.3;
-        //If for some reason the change is less then 0, we set it to 0.05
-        if (change < 0)
-            change = 0.05;
-        if (this.getTimers().has(TimerKey.HAMSTRUNG))
+        }
+
+        // Apply hamstrung effect
+        if (this.getTimers().has(TimerKey.HAMSTRUNG)) {
             hamstrung = true;
-        //Only drain the players run energy if they are running.
-        if (this.getMovementQueue().isRunning()) {
-            //We apply the change to the players energy level
-            this.setRunningEnergy(hamstrung ? energy - change * 6 : energy - change, true);
+        }
+
+        // Only drain run energy if the player is running and has non-zero energy
+        if (this.getMovementQueue().isRunning() && energy > 0) {
+            // Calculate the modified change based on hamstrung state
+            double modifiedChange = hamstrung ? change * 6 : change;
+
+            // Adjust the energy drain rate if the player has the Ring of Endurance
+            if (this.getEquipment().contains(RING_OF_ENDURANCE)) {
+                modifiedChange *= 0.85;  // Reduce energy drain by 15%
+            }
+
+            // Calculate the new energy level after draining
+            double newEnergy = energy - modifiedChange;
+
+            // Ensure the energy level does not go below 0
+            if (newEnergy < 0) {
+                newEnergy = 0;
+            }
+
+            // Update the player's run energy level
+            this.setRunningEnergy(newEnergy, true);
         }
     }
 }

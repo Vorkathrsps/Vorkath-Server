@@ -18,6 +18,7 @@ import static com.aelous.model.entity.attributes.AttributeKey.MOVEMENT_PACKET_ST
 public class PlayerMovement extends MovementQueue {
 
     public Player player;
+
     /**
      * Creates a walking queue for the specified mob.
      *
@@ -27,14 +28,14 @@ public class PlayerMovement extends MovementQueue {
         super(entity);
         this.player = entity.getAsPlayer();
     }
+
     @Setter
     private Entity following;
 
     /**
      * Processes the movement queue.
-     *
+     * <p>
      * Polls through the queue of steps and handles them.
-     *
      */
     public void process() {
         player.setPreviousTile(player.tile());
@@ -116,6 +117,7 @@ public class PlayerMovement extends MovementQueue {
 
     /**
      * Checks if we're currently following the given {@link Entity}.
+     *
      * @param entity
      * @return
      */
@@ -132,23 +134,23 @@ public class PlayerMovement extends MovementQueue {
     }
 
     public void handleRegionChange() {
-            final int diffX = player.tile().getX() - player.getLastKnownRegion().getRegionX() * 8;
-            final int diffY = player.tile().getY() - player.getLastKnownRegion().getRegionY() * 8;
-            boolean regionChanged = false;
-            if (diffX < 16)
-                regionChanged = true;
-            else if (diffX >= 88)
-                regionChanged = true;
-            if (diffY < 16)
-                regionChanged = true;
-            else if (diffY >= 88)
-                regionChanged = true;
-            if (regionChanged || player.getRegionHeight() != player.tile().getLevel()) {
-                //System.out.println("Region changed for " + player.toString());
-                player.getPacketSender().sendMapRegion();
-                player.setRegionHeight(player.tile().getLevel());
-                player.setActiveMap(new Tile(player.tile().x, player.tile().y, player.tile().level));
-            }
-        
+        final int diffX = player.tile().getX() - player.getLastKnownRegion().getRegionX() * 8;
+        final int diffY = player.tile().getY() - player.getLastKnownRegion().getRegionY() * 8;
+        boolean regionChanged = false;
+        if (diffX < 16)
+            regionChanged = true;
+        else if (diffX >= 88)
+            regionChanged = true;
+        if (diffY < 16)
+            regionChanged = true;
+        else if (diffY >= 88)
+            regionChanged = true;
+        if (regionChanged || player.getRegionHeight() != player.tile().getLevel()) {
+            //System.out.println("Region changed for " + player.toString());
+            player.getPacketSender().sendMapRegion();
+            player.setRegionHeight(player.tile().getLevel());
+            player.setActiveMap(new Tile(player.tile().x, player.tile().y, player.tile().level));
+        }
+
     }
 }

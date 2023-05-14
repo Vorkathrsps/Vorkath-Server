@@ -10,6 +10,7 @@ import com.aelous.model.entity.combat.magic.autocasting.Autocasting;
 import com.aelous.model.entity.player.IronMode;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
+import com.aelous.model.items.ItemWeight;
 import com.aelous.model.items.container.ItemContainer;
 import com.aelous.model.items.container.ItemContainerAdapter;
 
@@ -281,10 +282,9 @@ public class Bank extends ItemContainer {
                 // insert into tab 0 main first dont care about size of the tab
                 add(new Item(id, amount), destinationSlot);
 
-                int from = destinationSlot;
                 // move it from tab 0 main into the active tab you are in
                 int to = slotForTab(bankTab);
-                swap(true, from, to, false);
+                swap(true, destinationSlot, to, false);
             }
         } else {
             Item depositItem = get(getSlot(id));
@@ -298,7 +298,10 @@ public class Bank extends ItemContainer {
 
         if (amount > 0)
             fromIc.remove(item.getId(), amount);
+
         setFiringEvents(true);
+
+        ItemWeight.calculateWeight(player);
 
         refresh();
     }
@@ -730,7 +733,6 @@ public class Bank extends ItemContainer {
         }
         switch (button) {
             case 26102:
-                // client sided search btn does nothing here.
                 return true;
 
             case 26106:

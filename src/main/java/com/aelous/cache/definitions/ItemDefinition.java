@@ -2,6 +2,7 @@ package com.aelous.cache.definitions;
 
 import com.aelous.model.content.consumables.FoodConsumable;
 import com.aelous.model.content.consumables.potions.Potions;
+import com.aelous.model.entity.combat.weapon.WeaponType;
 import com.aelous.utility.loaders.BloodMoneyPrices;
 import com.aelous.model.items.Item;
 import com.aelous.network.codec.RSBuffer;
@@ -404,6 +405,58 @@ public class ItemDefinition implements Definition {
                 params.put(key, value);
             }
         }
+    }
+
+    public String getWeaponCategory(WeaponType weaponType) {
+        switch (category) {
+            case 0 -> {
+                return "Unarmed";
+            }
+            case 1 -> {
+                if (weaponType == WeaponType.MAGIC_STAFF) {
+                    return "Staff";
+                } else {
+                    return weaponType != WeaponType.BLADED_STAFF ? "Powered Staff" : "Bladed Staff";
+                }
+            }
+            case 24 -> {
+                return "Thrown";
+            }
+            case 25 -> {
+                return "Stab Sword";
+            }
+            case 26 -> {
+                return "Blunt";
+            }
+            case 36 -> {
+                return "Spear";
+            }
+            case 37 -> {
+                return "Crossbow";
+            }
+            case 39 -> {
+                return "Spiked";
+            }
+            case 61 -> {
+                return "Two-handed Sword";
+            }
+            case 65 -> {
+                return "Claw";
+            }
+            case 66 -> {
+                return "Polearm";
+            }
+            case 106 -> {
+                return "Bow";
+            }
+            case 1193 -> {
+                return "Scythe";
+            }
+            case 150 -> {
+                return "Whip";
+            }
+        }
+        return String.valueOf(this.category);
     }
 
     void postDecode(int id) {

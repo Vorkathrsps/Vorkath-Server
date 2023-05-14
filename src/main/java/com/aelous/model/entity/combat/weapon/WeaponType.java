@@ -19,6 +19,7 @@ public enum WeaponType {
 
     //Magic
     MAGIC_STAFF(328, 355, new FightType[]{FightType.STAFF_BASH, FightType.STAFF_POUND, FightType.STAFF_FOCUS}, 7474, 7486),
+    BLADED_STAFF(328, 355, new FightType[]{FightType.STAFF_BASH, FightType.STAFF_POUND, FightType.STAFF_FOCUS}, 7474, 7486),
     //Melee
     UNARMED(5855, 5857, new FightType[]{FightType.UNARMED_PUNCH, FightType.UNARMED_KICK, FightType.UNARMED_BLOCK}),
     FIXED_DEVICE(-1, -1, new FightType[]{}),//TODO
@@ -38,7 +39,7 @@ public enum WeaponType {
     DINHS_BULWARK(11799, 428, new FightType[]{FightType.DINHS_PUMMEL, FightType.DINHS_BLOCK}, 7474, 7486),
     GHRAZI_RAPIER(2276, 2279, new FightType[]{FightType.RAPIER_STAB, FightType.RAPIER_LUNGE, FightType.RAPIER_SLASH, FightType.RAPIER_BLOCK}, 7574, 7586),
     POWERED_STAFF(24496, 24497, new FightType[]{FightType.POWERED_STAFF_ACCURATE_1, FightType.POWERED_STAFF_ACCURATE_2, FightType.POWERED_STAFF_LONGRANGE}),
-    MJOLNIR(-1, -1, new FightType[]{});//TODO
+    MJOLNIR(-1, -1, new FightType[]{});
 
     /**
      * The interface that will be displayed on the sidebar.

@@ -1,5 +1,6 @@
 package com.aelous.model.entity.combat.weapon;
 
+import com.aelous.cache.definitions.ItemDefinition;
 import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatSpecial;
@@ -28,6 +29,7 @@ public class WeaponInterfaces {
         Item equippedWeapon = player.getEquipment().getItems()[EquipSlot.WEAPON];
         WeaponType weaponType = WeaponType.UNARMED;
         EquipmentInfo info = World.getWorld().equipmentInfo();
+        ItemDefinition def = World.getWorld().definitions().get(ItemDefinition.class, equippedWeapon != null ? equippedWeapon.getId() : 0);
 
         // Get the currently equipped weapon's interface
         if (equippedWeapon != null) {
@@ -51,9 +53,29 @@ public class WeaponInterfaces {
         player.getInterfaceManager().setSidebar(0, weaponType.getInterfaceId());
         player.getPacketSender().sendString(weaponType.getNameLineId(), (weaponType == WeaponType.UNARMED ? "Unarmed" : equippedWeapon.name()));
 
-        //player.debugMessage("Weapon interface: "+weaponInterface);
+        //player.getPacketSender().sendString(24776, "Category: " + def.category);
 
-        //Assign the weapon for combat
+        switch (weaponType) {
+            case UNARMED -> player.getPacketSender().sendString(24776, "Category: " + def.getWeaponCategory(weaponType));
+            case HAMMER -> player.getPacketSender().sendString(24777, "Category: " + def.getWeaponCategory(weaponType));
+            case SCYTHE -> player.getPacketSender().sendString(24778, "Category: " + def.getWeaponCategory(weaponType));
+            case MAGIC_STAFF, BLADED_STAFF -> player.getPacketSender().sendString(24779, "Category: " + def.getWeaponCategory(weaponType));
+            case AXE -> player.getPacketSender().sendString(24780, "Category: " + def.getWeaponCategory(weaponType));
+            case PICKAXE -> player.getPacketSender().sendString(24783, "Category: " + def.getWeaponCategory(weaponType));
+            case TWOHANDED -> player.getPacketSender().sendString(24784, "Category: " + def.getWeaponCategory(weaponType));
+            case BOW, CROSSBOW -> player.getPacketSender().sendString(24781, "Category: " + def.getWeaponCategory(weaponType));
+            case DAGGER -> player.getPacketSender().sendString(24782, "Category: " + def.getWeaponCategory(weaponType));
+            case THROWN -> player.getPacketSender().sendString(24786, "Category: " + def.getWeaponCategory(weaponType));
+            case SPEAR ->  player.getPacketSender().sendString(24785, "Category: " + def.getWeaponCategory(weaponType));
+            case MACE -> player.getPacketSender().sendString(24787, "Category: " + def.getWeaponCategory(weaponType));
+            case SWORD -> player.getPacketSender().sendString(24788, "Category: " + def.getWeaponCategory(weaponType));
+            case WHIP -> player.getPacketSender().sendString(24792, "Category: " + def.getWeaponCategory(weaponType));
+            case HALBERD -> player.getPacketSender().sendString(24791, "Category: " + def.getWeaponCategory(weaponType));
+            case CLAWS -> player.getPacketSender().sendString(24790, "Category: " + def.getWeaponCategory(weaponType));
+            case POWERED_STAFF -> player.getPacketSender().sendString(24793, "Category: " + def.getWeaponCategory(weaponType));
+            //case -> player.getPacketSender().sendString(24782, "Category: " + def.getWeaponCategory()); polestaffs -> 24789 banner -> 24785 partisan -> 24782
+        }
+
         player.getCombat().setWeapon(weaponType);
         CombatSpecial.assign(player);
         CombatSpecial.updateBar(player);

@@ -6,6 +6,7 @@ import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
+import com.aelous.model.items.ItemWeight;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.utility.Color;
 
@@ -64,7 +65,7 @@ public class BonusesInterface {
         player.getPacketSender().sendString(24755,"Slayer: " + plusify(getSlay(player)) + "%");
         player.getPacketSender().sendString(24757,"Base: " + plusify(player.getBaseAttackSpeed()) + "s");
         player.getPacketSender().sendString(24774, "BM: " + (bloodMoneyDrop > 0 ? Color.GREEN.wrap(plusify(bloodMoneyDrop)) : plusify(bloodMoneyDrop)));
-        player.getPacketSender().sendString(24775, "DR: " + (dropRateBonus > 0 ? Color.GREEN.wrap(plusify(dropRateBonus)) : plusify(dropRateBonus)));
+        player.getPacketSender().sendString(24775, "DR: " + (dropRateBonus > 0 ? Color.GREEN.wrap(dropRateBonus + "%") : dropRateBonus + "%"));
     }
 
     public static int getSlay(Player player) {
@@ -105,6 +106,7 @@ public class BonusesInterface {
 
     public static boolean bonusesButtons(Player player, int button) {
         if (button == 27653) {
+            ItemWeight.calculateWeight(player);
             showEquipmentInfo(player);
             return true;
         }

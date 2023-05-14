@@ -325,12 +325,16 @@ public class Player extends Entity {
             case ZENYTE_MEMBER -> 13;
         };
 
+        if (getDropRatePerk()) {
+            percent += 3;
+        }
+
         if (getGameMode() == GameMode.TRAINED_ACCOUNT) {
             percent += 5;
         }
 
-        if (getDropRatePerk()) {
-            percent += 3;
+        if (getEquipment().contains(RING_OF_WEALTH_I)) {
+            percent += 7;
         }
 
         var cap = 50;
@@ -361,13 +365,11 @@ public class Player extends Entity {
     }
 
     public int shutdownValueOf(int streak) {
-        int bonus = 1000 * streak;
-        return bonus;
+        return 1000 * streak;
     }
 
     private int killstreakValueOf(int streak) {
-        int bonus = 50 * streak;
-        return bonus;
+        return 50 * streak;
     }
 
     private int firstKillOfTheDay() {

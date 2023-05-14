@@ -13,6 +13,7 @@ import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
+import com.aelous.model.items.ItemWeight;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.model.items.container.looting_bag.LootingBag;
 import com.aelous.network.packet.Packet;

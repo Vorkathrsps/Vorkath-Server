@@ -83,7 +83,7 @@ public final class PacketDecoder extends ByteToMessageDecoder {
                 return;
             }
 
-            final ByteBuf payload = buffer.readSlice(size);
+            final ByteBuf payload = buffer.readRetainedSlice(size);
             state = State.OPCODE;
 
             try {

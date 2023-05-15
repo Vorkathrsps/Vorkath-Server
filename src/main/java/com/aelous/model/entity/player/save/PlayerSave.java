@@ -116,667 +116,673 @@ public class PlayerSave {
      */
     public static final class SaveDetails {
 
-        public static boolean loadDetails(Player player) throws Exception {
+        public static boolean loadDetails(final Player player) throws Exception {
             final Path path = SAVE_DIR.resolve(player.getUsername() + ".json");
             if (!Files.exists(path)) {
                 return false;
             }
 
+            final SaveDetails details;
             try (BufferedReader reader = new BufferedReader(new FileReader(path.toFile()))) {
-                final SaveDetails details = PlayerSave.SERIALIZE.fromJson(reader, SaveDetails.class);
-                player.setUsername(details.username);
-                player.setPassword(details.password);
-                player.setNewPassword("");
-                if (details.title != null)
-                    player.putAttrib(TITLE, details.title);
-                if (details.titleColor != null)
-                    player.putAttrib(TITLE_COLOR, details.titleColor);
-                if (details.tile != null)
-                    player.setTile(details.tile);
-                player.putAttrib(GAME_TIME, details.gameTime);
-                player.putAttrib(RUN_ENERGY, details.runEnergy);
-                player.putAttrib(IS_RUNNING, details.running);
-                if (details.playerRights != null)
-                    player.setPlayerRights(PlayerRights.valueOf(details.playerRights));
-                if (details.memberRights != null)
-                    player.setMemberRights(MemberRights.valueOf(details.memberRights));
-                if (details.gameMode != null)
-                    player.getGameMode(details.gameMode);
-                if (details.ironMode == null) {
-                    player.setIronmanStatus(IronMode.NONE);
-                } else {
-                    player.setIronmanStatus(details.ironMode);
-                }
-                player.putAttrib(DARK_LORD_LIVES, details.darkLordLives);
-                if(details.lastIP != null) {
-                    player.setHostAddress(details.lastIP);
-                }
-                player.getHostAddressMap().put(player.getHostAddress(), 1);
-                if (details.mac != null && !details.mac.equals("invalid"))
-                    player.putAttrib(MAC_ADDRESS, details.mac);
-                player.putAttrib(ACCOUNT_PIN, details.accountPin);
-                player.putAttrib(ASK_FOR_ACCOUNT_PIN, details.askAccountPin);
-                player.putAttrib(ACCOUNT_PIN_ATTEMPTS_LEFT, details.accountPinAttemptsLeft);
-                player.putAttrib(ACCOUNT_PIN_FREEZE_TICKS, details.accountPinFrozenTicks);
-                if (details.creationDate != null)
-                    player.setCreationDate(details.creationDate);
-                if (details.creationIp != null)
-                    player.setCreationIp(details.creationIp);
-                if (details.lastLogin != null)
-                    player.setLastLogin(details.lastLogin);
-                player.putAttrib(MUTED, details.muted);
-                player.putAttrib(YOUTUBER_BM_CLAIM, details.lastBMClaim);
-                player.putAttrib(COMBAT_MAXED, details.isCombatMaxed);
-                player.putAttrib(STARTER_WEAPON_DAMAGE, details.starterWeaponDamage);
-                player.putAttrib(NEW_ACCOUNT, details.newPlayer);
-                player.putAttrib(IS_BETA_TESTER, details.isBetaTester);
-                player.putAttrib(VETERAN, details.veteran);
-                player.putAttrib(VETERAN_GIFT_CLAIMED, details.veteranGiftClaimed);
-                player.putAttrib(PLAYTIME_GIFT_CLAIMED, details.playtimeGiftClaimed);
-                player.putAttrib(GAMBLER, details.gambler);
-                player.putAttrib(STARTER_BOX_CLAIMED, details.starterboxClaimed);
-                player.putAttrib(CLAN_BOX_OPENED, details.clanBoxOpened);
-                player.putAttrib(PROMO_CODE_CLAIMED, details.promoCodeClaimed);
-                player.putAttrib(RECEIVED_MONTHLY_SPONSOR_REWARDS, details.receivedMonthlySponsorRewards);
-                player.putAttrib(TOP_PKER_REWARD_UNCLAIMED, details.receivedTopPkerReward);
-                player.putAttrib(TOP_PKER_POSITION, details.topPkerPosition);
-                if (details.topPkerReward != null)
-                    player.putAttrib(TOP_PKER_REWARD, details.topPkerReward);
-                player.looks().female(details.female);
-                if (details.looks != null)
-                    player.looks().looks(details.looks);
-                if (details.colors != null)
-                    player.looks().colors(details.colors);
-                if (details.spellBook != null)
-                    player.setSpellbook(MagicSpellbook.valueOf(details.spellBook));
-                if (details.fightType != null)
-                    player.getCombat().setFightType(FightType.valueOf(details.fightType));
-                player.getCombat().getFightType().setParentId(details.fightTypeVarp);
-                player.getCombat().getFightType().setChildId(details.fightTypeVarpState);
-                player.getCombat().setAutoRetaliate(details.autoRetaliate);
-                if (details.previousSpellbook != null) {
-                    player.setPreviousSpellbook(details.previousSpellbook);
-                }
-                if (details.lootKeys != null) {
-                    for (int i = 0; i < LootKey.infoForPlayer(player).keys.length; i++) {
-                        for (Map.Entry<Integer, Item[]> integerEntry : details.lootKeys.entrySet()) {
-                            ItemContainer ic = new ItemContainer(LOOT_KEY_CONTAINER_SIZE, ItemContainer.StackPolicy.ALWAYS);
-                            ic.addAll(integerEntry.getValue());
-                            LootKey.infoForPlayer(player).keys[integerEntry.getKey()] = new LootKey(ic, ic.containerValue());
-                        }
-                    }
-                }
-                player.putAttrib(LOOT_KEYS_CARRIED, details.lootKeysCarried);
-                player.putAttrib(LOOT_KEYS_LOOTED, details.lootKeysLooted);
-                player.putAttrib(TOTAL_LOOT_KEYS_VALUE, details.totalLootKeysValue);
-                player.putAttrib(LOOT_KEYS_UNLOCKED, details.lootKeysUnlocked);
-                player.putAttrib(LOOT_KEYS_ACTIVE, details.lootKeysActive);
-                player.putAttrib(LOOT_KEYS_DROP_CONSUMABLES, details.lootKeysDropConsumables);
-                player.putAttrib(SEND_VALUABLES_TO_LOOT_KEYS, details.sendValuablesToLootKey);
-                player.putAttrib(LOOT_KEYS_VALUABLE_ITEM_THRESHOLD, details.lootKeysValuableItemThreshold);
-                player.putAttrib(VENOM_TICKS, details.venomTicks);
-                player.putAttrib(POISON_TICKS, details.poisonTicks);
-                player.setSpecialAttackPercentage(details.specPercentage);
-                player.putAttrib(RING_OF_RECOIL_CHARGES, details.recoilCharges);
-                player.getTargetSearchTimer().start(details.targetSearchTimer);
-                player.getSpecialAttackRestore().start(details.specialAttackRestoreTimer);
-                player.putAttrib(SKULL_CYCLES, Math.max(details.skullTimer, 0));
-                player.setSkullType((details.skullTimer < 0 || details.skullType == null) ? SkullType.NO_SKULL : details.skullType);
-                if (details.quickPrayers != null)
-                    player.getQuickPrayers().setPrayers(details.quickPrayers);
-                if (details.presets != null) {
-                    // put into individual slots, dont replace an array[20] with a game save array[10]
-                    for (int i = 0; i < details.presets.length; i++) {
-                        player.getPresets()[i] = details.presets[i];
-                    }
-                }
-                if (details.lastPreset != null) {
-                    player.setLastPreset(details.lastPreset);
-                }
-                player.getTimers().register(TimerKey.SPECIAL_TELEBLOCK, details.specialTeleblockTimer);
-                player.putAttrib(TOTAL_PAYMENT_AMOUNT, details.totalAmountPaid);
-                player.putAttrib(PROMO_PAYMENT_AMOUNT, details.promoPaymentAmount);
-                player.putAttrib(PROMO_ITEMS_UNLOCKED, details.promoItemsClaimed);
-                player.putAttrib(MEMBER_UNLOCKED, details.memberUnlocked);
-                player.putAttrib(SUPER_MEMBER_UNLOCKED, details.superMemberUnlocked);
-                player.putAttrib(ELITE_MEMBER_UNLOCKED, details.eliteMemberUnlocked);
-                player.putAttrib(EXTREME_MEMBER_UNLOCKED, details.extremeMemberUnlocked);
-                player.putAttrib(LEGENDARY_MEMBER_UNLOCKED, details.legendaryMemberUnlocked);
-                player.putAttrib(VIP_UNLOCKED, details.vipUnlocked);
-                player.putAttrib(SPONSOR_UNLOCKED, details.sponsorMemberUnlocked);
-                player.getSkills().setAllLevels(details.dynamicLevels);
-                player.getSkills().setAllXps(details.skillXP);
-                player.putAttrib(ACTIVE_PET_ITEM_ID, details.activePetItemId);
-                if (details.unlockedPets != null) {
-                    player.setUnlockedPets(details.unlockedPets);
-                }
-                if (details.insuredPets != null) {
-                    player.setInsuredPets(details.insuredPets);
-                }
-                player.putAttrib(SLAYER_TASK_ID, details.slayerTaskId);
-                player.putAttrib(SLAYER_TASK_AMT, details.slayerTaskAmount);
-                player.putAttrib(SLAYER_MASTER, details.slayerMasterId);
-                player.putAttrib(SLAYER_TASK_SPREE, details.slayerTaskStreak);
-                player.putAttrib(SLAYER_TASK_SPREE_RECORD, details.slayerTaskStreakRecord);
-                player.putAttrib(COMPLETED_SLAYER_TASKS, details.completedSlayerTasks);
-                player.putAttrib(WILDERNESS_SLAYER_TASK_ACTIVE, details.wildernessSlayerActive);
-                player.putAttrib(WILDERNESS_SLAYER_DESCRIBED, details.wildernessSlayerDescribed);
-                if (details.slayerPartner != null) {
-                    player.putAttrib(SLAYER_PARTNER, details.slayerPartner);
-                }
-
-                if (details.blockedSlayerTasks != null) {
-                    player.getSlayerRewards().setBlocked(details.blockedSlayerTasks);
-                }
-
-                if (details.slayerUnlocks != null) {
-                    player.getSlayerRewards().setUnlocks(details.slayerUnlocks);
-                }
-
-                if (details.slayerExtensionsList != null) {
-                    player.getSlayerRewards().setExtendable(details.slayerExtensionsList);
-                }
-
-                if (details.inventory != null) {
-                    for (int i = 0; i < details.inventory.length; i++) {
-                        player.inventory().set(i, details.inventory[i], false);
-                    }
-                }
-                if (details.equipment != null) {
-                    for (int i = 0; i < details.equipment.length; i++) {
-                        player.getEquipment().set(i, details.equipment[i], false);
-                    }
-                }
-                if (details.bank != null) {
-                    for (int i = 0; i < details.bank.length; i++) {
-                        player.getBank().set(i, details.bank[i], false);
-                    }
-                }
-                if (details.tabAmounts != null) {
-                    if (details.tabAmounts.length >= 0)
-                        System.arraycopy(details.tabAmounts, 0, player.getBank().tabAmounts, 0, details.tabAmounts.length);
-                }
-                player.getBank().placeHolder = details.placeholdersActive;
-                player.getBank().placeHolderAmount = details.placeHolderAmount;
-                player.getBankPin().setHashedPin(details.hashedBankPin);
-                player.getBankPin().setPinLength(details.bankPinLength);
-                player.getBankPin().setRecoveryDays(details.recoveryDelay);
-                player.getBankPin().setPendingMod(details.pendingBankPinMod);
-                if (details.lootingBag != null) {
-                    for (int index = 0; index < details.lootingBag.length; index++) {
-                        player.getLootingBag().set(index, details.lootingBag[index], false);
-                    }
-                }
-                player.getLootingBag().setAskHowManyToStore(details.askHowManyToStore);
-                player.getLootingBag().setStoreAsMany(details.storeAsMany);
-                if (details.runePouch != null) {
-                    for (int index = 0; index < details.runePouch.length; index++) {
-                        player.getRunePouch().set(index, details.runePouch[index], false);
-                    }
-                }
-                player.putAttrib(CART_ITEMS_TOTAL_VALUE, details.totalCartValue);
-                if (details.cartItems != null) {
-                    player.putAttrib(CART_ITEMS, details.cartItems);
-                }
-                if (details.nifflerItems != null) {
-                    player.putAttrib(NIFFLER_ITEMS_STORED, details.nifflerItems);
-                }
-                if(details.sackOfPresentItems != null) {
-                    player.putAttrib(SACK_OF_PRESENTS_LIST, details.sackOfPresentItems);
-                }
-                if (details.newFriends == null)
-                    details.newFriends = new ArrayList<>(200);
-                for (String friend : details.newFriends) {
-                    player.getRelations().getFriendList().add(friend);
-                }
-                if (details.newIgnores == null)
-                    details.newIgnores = new ArrayList<>(100);
-                for (String ignore : details.newIgnores) {
-                    player.getRelations().getIgnoreList().add(ignore);
-                }
-                if (details.clan != null)
-                    player.setClanChat(details.clan);
-                if (details.yellColour != null) {
-                    if (details.yellColour.equals("0")) {
-                        player.putAttrib(YELL_COLOUR, "006601");
-                    } else {
-                        player.putAttrib(YELL_COLOUR, details.yellColour);
-                    }
-                }
-                player.putAttrib(ELDRITCH_NIGHTMARE_STAFF_QUESTION, details.dontAskAgainEldritch);
-                player.putAttrib(VOLATILE_NIGHTMARE_STAFF_QUESTION, details.dontAskAgainVolatile);
-                player.putAttrib(HARMONISED_NIGHTMARE_STAFF_QUESTION, details.dontAskAgainHarmonised);
-                player.putAttrib(CURRENCY_COLLECTION, details.currencyCollection);
-                player.putAttrib(GIVE_EMPTY_POTION_VIALS, details.emptyPotionVials);
-                player.putAttrib(AGS_GFX_GOLD, details.gold_ags_spec);
-                player.putAttrib(BGS_GFX_GOLD, details.gold_bgs_spec);
-                player.putAttrib(SGS_GFX_GOLD, details.gold_sgs_spec);
-                player.putAttrib(ZGS_GFX_GOLD, details.gold_zgs_spec);
-                player.putAttrib(XP_LOCKED, details.xpLocked);
-                player.putAttrib(LEVEL_UP_INTERFACE, details.levelUpMessages);
-                player.putAttrib(DID_YOU_KNOW, details.enableDidYouKnow);
-                player.putAttrib(DEBUG_MESSAGES, details.enableDebugMessages);
-                player.getPresetManager().setSaveLevels(details.savePresetLevels);
-                player.getPresetManager().setOpenOnDeath(details.openPresetsOnDeath);
-                if (details.savedDuelConfig != null) {
-                    player.setSavedDuelConfig(details.savedDuelConfig);
-                }
-                player.putAttrib(REPAIR_BROKEN_ITEMS_ON_DEATH, details.autoRepairBrokenItems);
-                player.putAttrib(VOTE_POINS, details.votePoints);
-                player.putAttrib(AttributeKey.PEST_CONTROL_POINTS, details.pestControlPoints);
-                player.putAttrib(SLAYER_REWARD_POINTS, details.slayerRewardPoints);
-                player.putAttrib(TARGET_POINTS, details.targetPoints);
-                player.putAttrib(ELO_RATING, details.eloRating);
-                player.putAttrib(BOSS_POINTS, details.bossPoints);
-                player.putAttrib(RISKZONE_POINTS, details.riskzonePoints);
-                player.putAttrib(BOUNTY_HUNTER_TARGET_TELEPORT_UNLOCKED, details.teleportToTargetUnlocked);
-                player.putAttrib(PRESERVE, details.preserve);
-                player.putAttrib(RIGOUR, details.rigour);
-                player.putAttrib(AUGURY, details.augury);
-                player.putAttrib(AttributeKey.BOT_KILLS, details.botKills);
-                player.putAttrib(AttributeKey.BOT_DEATHS, details.botDeaths);
-                player.putAttrib(PLAYER_KILLS, details.kills);
-                player.putAttrib(PLAYER_DEATHS, details.deaths);
-                player.putAttrib(ALLTIME_KILLS, details.allTimeKills);
-                player.putAttrib(ALLTIME_DEATHS, details.allTimeDeaths);
-                player.putAttrib(KILLSTREAK, details.killstreak);
-                player.putAttrib(KILLSTREAK_RECORD, details.highestKillstreak);
-                player.putAttrib(WILDERNESS_KILLSTREAK, details.wildernessStreak);
-                player.putAttrib(SHUTDOWN_RECORD, details.shutdownRecord);
-                if (details.recentKills != null) {
-                    for (String kills : details.recentKills) {
-                        player.getRecentKills().add(kills);
-                    }
-                }
-                player.putAttrib(FIRST_KILL_OF_THE_DAY, details.firstKillOfTheDay);
-                player.putAttrib(TARGET_KILLS, details.targetKills);
-                player.putAttrib(KING_BLACK_DRAGONS_KILLED, details.kingBlackDragonsKilled);
-                player.putAttrib(VETIONS_KILLED, details.vetionsKilled);
-                player.putAttrib(CRAZY_ARCHAEOLOGISTS_KILLED, details.crazyArchaeologistsKilled);
-                player.putAttrib(ZULRAHS_KILLED, details.zulrahsKilled);
-                player.putAttrib(ALCHY_KILLED, details.alchysKilled);
-                player.putAttrib(KRAKENS_KILLED, details.krakensKilled);
-                player.putAttrib(REVENANTS_KILLED, details.revenantsKilled);
-                player.putAttrib(ANCIENT_REVENANTS_KILLED, details.ancientRevenantsKilled);
-                player.putAttrib(ICE_DEMONS_KILLED, details.iceDemonsKilled);
-                player.putAttrib(ELVARGS_KILLED, details.elvargsKilled);
-                player.putAttrib(LAVA_BEASTS_KILLED, details.lavaBeastsKilled);
-                player.putAttrib(EL_FUEGO_KILLED, details.elFuegoKilled);
-                player.putAttrib(DERANGED_ARCHAEOLOGIST_KILLED, details.derangedArchaeologistKilled);
-                player.putAttrib(ANCIENT_KING_BLACK_DRAGONS_KILLED, details.ancientKingBlackDragonsKilled);
-                player.putAttrib(CORRUPTED_HUNLEFFS_KILLED, details.corruptedHunleffsKilled);
-                player.putAttrib(ANCIENT_CHAOS_ELEMENTALS_KILLED, details.ancientChaosElementalsKilled);
-                player.putAttrib(ANCIENT_BARRELCHESTS_KILLED, details.ancientBarrelchestsKilled);
-                player.putAttrib(KERBEROS_KILLED, details.kerberosKilled);
-                player.putAttrib(ARACHNE_KILLED, details.arachneKilled);
-                player.putAttrib(SKORPIOS_KILLED, details.skorpiosKilled);
-                player.putAttrib(ARTIO_KILLED, details.artioKilled);
-                player.putAttrib(SEREN_KILLED, details.serenKilled);
-                player.putAttrib(JADS_KILLED, details.jadsKilled);
-                player.putAttrib(CHAOS_ELEMENTALS_KILLED, details.chaosElementalsKilled);
-                player.putAttrib(DEMONIC_GORILLAS_KILLED, details.demonicGorillasKilled);
-                player.putAttrib(BARRELCHESTS_KILLED, details.barrelchestsKilled);
-                player.putAttrib(CORPOREAL_BEASTS_KILLED, details.corporealBeastsKilled);
-                player.putAttrib(CERBERUS_KILLED, details.abyssalSiresKilled);
-                player.putAttrib(VORKATHS_KILLED, details.vorkathsKilled);
-                player.putAttrib(LIZARDMAN_SHAMANS_KILLED, details.lizardmanShamansKilled);
-                player.putAttrib(BARROWS_CHESTS_OPENED, details.barrowsChestsOpened);
-                player.putAttrib(CORRUPTED_NECHRYARCHS_KILLED, details.corruptedNechryarchsKilled);
-                player.putAttrib(FLUFFYS_KILLED, details.fluffysKilled);
-                player.putAttrib(DEMENTORS_KILLED, details.dementorsKilled);
-                player.putAttrib(HUNGARIAN_HORNTAILS_KILLED, details.hungarianHorntailsKilled);
-                player.putAttrib(FENRIR_GREYBACKS_KILLED, details.fenrirGreybacksKilled);
-                player.putAttrib(SCORPIAS_KILLED, details.scorpiasKilled);
-                player.putAttrib(CALLISTOS_KILLED, details.callistosKilled);
-                player.putAttrib(KC_GIANTMOLE, details.molesKilled);
-                player.putAttrib(THE_NIGHTMARE_KC, details.nightmaresKilled);
-                player.putAttrib(KC_REX, details.rexKilled);
-                player.putAttrib(KC_PRIME, details.primeKilled);
-                player.putAttrib(KC_SUPREME, details.supremeKilled);
-                player.putAttrib(KC_KQ, details.kalphiteQueensKilled);
-                player.putAttrib(LAVA_DRAGONS_KILLED, details.lavaDragonsKilled);
-                player.putAttrib(SKOTIZOS_KILLED, details.skotizosKilled);
-                player.putAttrib(ZOMBIES_CHAMPIONS_KILLED, details.zombieChampionsKilled);
-                player.putAttrib(BRUTAL_LAVA_DRAGONS_KILLED, details.brutalLavaDragonsKilled);
-                player.putAttrib(TEKTONS_KILLED, details.tektonsKilled);
-                player.putAttrib(CHAOS_FANATICS_KILLED, details.chaosFanaticsKilled);
-                player.putAttrib(THERMONUCLEAR_SMOKE_DEVILS_KILLED, details.thermonuclearSmokeDevilKilled);
-                player.putAttrib(VENENATIS_KILLED, details.venenatisKilled);
-                player.putAttrib(KC_ARAGOG, details.aragogKC);
-                player.putAttrib(CHAMBER_OF_SECRET_RUNS_COMPLETED, details.chamberOfSecretRuns);
-                player.putAttrib(KC_SMOKEDEVIL, details.smokeDevilKills);
-                player.putAttrib(SUPERIOR, details.superiorCreatureKills);
-                player.putAttrib(KC_CRAWL_HAND, details.crawlingHandKills);
-                player.putAttrib(KC_CAVE_BUG, details.caveBugKills);
-                player.putAttrib(KC_CAVE_CRAWLER, details.caveCrawlerKills);
-                player.putAttrib(KC_BANSHEE, details.bansheeKills);
-                player.putAttrib(KC_CAVE_SLIME, details.caveSlimeKills);
-                player.putAttrib(KC_ROCKSLUG, details.rockslugKills);
-                player.putAttrib(KC_DESERT_LIZARD, details.desertLizardKills);
-                player.putAttrib(KC_COCKATRICE, details.cockatriceKills);
-                player.putAttrib(KC_PYREFRIEND, details.pyrefiendKills);
-                player.putAttrib(KC_MOGRE, details.mogreKills);
-                player.putAttrib(KC_HARPIE_BUG, details.harpieBugSwarmKills);
-                player.putAttrib(KC_WALL_BEAST, details.wallBeastKills);
-                player.putAttrib(KC_KILLERWATT, details.killerwattKills);
-                player.putAttrib(KC_MOLANISK, details.molaniskKills);
-                player.putAttrib(KC_BASILISK, details.basiliskKills);
-                player.putAttrib(KC_SEASNAKE, details.seaSnakeKills);
-                player.putAttrib(KC_TERRORDOG, details.terrorDogKills);
-                player.putAttrib(KC_FEVER_SPIDER, details.feverSpiderKills);
-                player.putAttrib(KC_INFERNAL_MAGE, details.infernalMageKills);
-                player.putAttrib(KC_BRINERAT, details.brineRatKills);
-                player.putAttrib(KC_BLOODVELD, details.bloodveldKills);
-                player.putAttrib(KC_JELLY, details.jellyKills);
-                player.putAttrib(KC_TUROTH, details.turothKills);
-                player.putAttrib(KC_ZYGOMITE, details.zygomiteKills);
-                player.putAttrib(KC_CAVEHORROR, details.caveHorrorKills);
-                player.putAttrib(KC_ABERRANT_SPECTRE, details.aberrantSpectreKills);
-                player.putAttrib(KC_SPIRITUAL_WARRIOR, details.spiritualWarriorKills);
-                player.putAttrib(KC_KURASK, details.kuraskKills);
-                player.putAttrib(KC_SKELETAL_WYVERN, details.skeletalWyvernKills);
-                player.putAttrib(KC_GARGOYLE, details.gargoyleKills);
-                player.putAttrib(KC_NECHRYAEL, details.nechryaelKills);
-                player.putAttrib(KC_SPIRITUAL_MAGE, details.spiritualMageKills);
-                player.putAttrib(KC_ABYSSALDEMON, details.abyssalDemonKills);
-                player.putAttrib(KC_CAVEKRAKEN, details.caveKrakenKills);
-                player.putAttrib(KC_DARKBEAST, details.darkBeastKills);
-                player.putAttrib(BRUTAL_BLACK_DRAGON, details.brutalBlackDragonKills);
-                player.putAttrib(FOSSIL_WYVERN, details.fossilIslandWyvernKills);
-                player.putAttrib(WYRM, details.wyrmKills);
-                player.putAttrib(DRAKE, details.drakeKills);
-                player.putAttrib(HYDRA, details.hydraKills);
-                player.putAttrib(BASILISK_KNIGHT, details.basiliskKnightKills);
-                player.putAttrib(MEN_IN_BLACK_KILLED, details.menInBlackKills);
-                if (details.bossTimers != null) {
-                    player.getBossTimers().setTimes(details.bossTimers);
-                }
-                if (details.recentTeleports != null) {
-                    player.setRecentTeleports(details.recentTeleports);
-                }
-                if (details.favoriteTeleports != null) {
-                    player.setFavorites(details.favoriteTeleports);
-                }
-                if (details.collectionLog != null) {
-                    player.getCollectionLog().collectionLog = details.collectionLog;
-                }
-                if (details.achievements != null) {
-                    player.achievements().putAll(details.achievements);
-                }
-                player.putAttrib(ACHIEVEMENTS_COMPLETED, details.achievementsCompleted);
-                player.putAttrib(ANTI_FIRE_RESISTANT, details.antiFireResistant);
-                player.putAttrib(VENOM_RESISTANT, details.venomResistant);
-                player.putAttrib(ROCKY_BALBOA_TITLE_UNLOCKED, details.rockyBalboaTitle);
-                if (details.task != null) {
-                    player.putAttrib(TASK, details.task);
-                }
-                player.putAttrib(TASK_AMOUNT, details.taskAmount);
-                player.putAttrib(TASK_COMPLETE_AMOUNT, details.taskCompletionAmount);
-                player.putAttrib(TASKS_COMPLETED, details.totalTasksCompleted);
-                player.putAttrib(CAN_CLAIM_TASK_REWARD, details.canClaimTaskReward);
-                player.putAttrib(PLAYER_KILLS_WITHOUT_LEAVING_WILD, details.playerKillsWithoutLeavingWild);
-                player.putAttrib(TREASURE_CHESTS_OPENED, details.treasuresOpened);
-                player.putAttrib(REFERRAL_MILESTONE_10HOURS, details.referalMilestone10hoursPassed);
-                player.putAttrib(REFERRAL_MILESTONE_1_DAY, details.referalMilestone1dayPassed);
-                player.putAttrib(REFERRER_USERNAME, details.referrerUsername);
-                player.putAttrib(REFERRALS_COUNT, details.referralsCount);
-                player.putAttrib(DATABASE_PLAYER_ID, details.databaseId);
-                player.putAttrib(REFERRAL_MILESTONE_THREE_REFERRALS, details.referalMilestone3refs);
-                player.putAttrib(STAMINA_POTION_TICKS, details.staminaTicks);
-                player.putAttrib(OVERLOAD_POTION, details.overloadTicks);
-                player.putAttrib(ANTIFIRE_POTION, details.antifireTicks);
-                player.putAttrib(SUPER_ANTIFIRE_POTION, details.superAntiFire);
-                player.putAttrib(LARRANS_KEYS_TIER_ONE_USED, details.larranKeysUsed);
-                player.putAttrib(EARNING_POTENTIAL, details.earningPotential);
-                player.putAttrib(ARMADYL_GODSWORD_OR_ATTEMPTS, details.enchantedAGSAttempts);
-                player.putAttrib(BANDOS_GODSWORD_OR_ATTEMPTS, details.enchantedBGSAttempts);
-                player.putAttrib(SARADOMIN_GODSWORD_OR_ATTEMPTS, details.enchantedSGSAttempts);
-                player.putAttrib(ZAMORAK_GODSWORD_OR_ATTEMPTS, details.enchantedZGSAttempts);
-                player.putAttrib(FURY_OR_ATTEMPTS, details.enchantedFuryAttempts);
-                player.putAttrib(OCCULT_OR_ATTEMPTS, details.enchantedOccultAttempts);
-                player.putAttrib(TORTURE_OR_ATTEMPTS, details.enchantedTortureAttempts);
-                player.putAttrib(ANGUISH_OR_ATTEMPTS, details.enchantedAnguishAttempts);
-                player.putAttrib(BERSERKER_NECKLACE_OR_ATTEMPTS, details.enchantedBNeckAttempts);
-                player.putAttrib(TORMENTED_BRACELET_OR_ATTEMPTS, details.enchantedTBraceAttempts);
-                player.putAttrib(GRANITE_MAUL_OR_ATTEMPTS, details.enchantedGmaulAttempts);
-                player.putAttrib(DRAGON_DEFENDER_T_ATTEMPTS, details.enchantedDDefAttempts);
-                player.putAttrib(DRAGON_BOOTS_G_ATTEMPTS, details.enchantedDBootsAttempts);
-                player.putAttrib(RUNE_POUCH_I_ATTEMPTS, details.enchantedRunePouchAttempts);
-                player.putAttrib(DRAGON_CLAWS_OR_ATTEMPTS, details.enchantedDClawsAttempts);
-                player.putAttrib(RING_OF_MANHUNTING_ATTEMPTS, details.enchantedROMAttempts);
-                player.putAttrib(RING_OF_SORCERY_ATTEMPTS, details.enchantedROSAttempts);
-                player.putAttrib(RING_OF_PRECISION_ATTEMPTS, details.enchantedROPAttempts);
-                player.putAttrib(RING_OF_TRINITY_ATTEMPTS, details.enchantedROTAttempts);
-                player.putAttrib(SLAYER_HELMET_I_ATTEMPTS, details.enchantedSlayerHelmIAttempts);
-                player.putAttrib(GREEN_SLAYER_HELMET_I_ATTEMPTS, details.enchantedGreenSlayerHelmIAttempts);
-                player.putAttrib(TURQUOISE_SLAYER_HELMET_I_ATTEMPTS, details.enchantedTurquoiseSlayerHelmIAttempts);
-                player.putAttrib(RED_SLAYER_HELMET_I_ATTEMPTS, details.enchantedRedSlayerHelmIAttempts);
-                player.putAttrib(BLACK_SLAYER_HELMET_I_ATTEMPTS, details.enchantedBlackSlayerHelmIAttempts);
-                player.putAttrib(TWISTED_SLAYER_HELMET_I_ATTEMPTS, details.enchantedTwistedSlayerHelmIAttempts);
-                player.putAttrib(LARRANS_KEY_II_ATTEMPTS, details.larransKeyIIAttempts);
-                player.putAttrib(LARRANS_KEY_III_ATTEMPTS, details.larransKeyIIIAttempts);
-                player.putAttrib(MAGMA_BLOWPIPE_ATTEMPTS, details.blowpipeAttempts);
-                player.putAttrib(SANGUINE_TWISTED_BOW_ATTEMTPS, details.twistedBowAttempts);
-                player.putAttrib(ANCESTRAL_HAT_I_ATTEMPTS, details.ancestralHatAttempts);
-                player.putAttrib(ANCESTRAL_ROBE_TOP_I_ATTEMPTS, details.ancestralTopAttempts);
-                player.putAttrib(ANCESTRAL_ROBE_BOTTOM_I_ATTEMPTS, details.ancestralBottomAttempts);
-                player.putAttrib(PRIMORDIAL_BOOTS_OR_ATTEMPTS, details.primordialBootsAttempts);
-                player.putAttrib(INFERNAL_CAPE_ATTEMPTS, details.infernalCapeAttempts);
-                player.putAttrib(HOLY_SANGUINESTI_STAFF_ATTEMPTS, details.sanguistiStaffAttempts);
-                player.putAttrib(HOLY_SCYTHE_OF_VITUR_ATTEMPTS, details.holyScytheAttempts);
-                player.putAttrib(HOLY_GHRAZI_RAPIER_ATTEMPTS, details.ghraziRapierAttempts);
-                player.putAttrib(SANGUINE_SCYTHE_OF_VITUR_ATTEMPTS, details.scytheOfViturAttempts);
-                player.putAttrib(PEGASIAN_BOOTS_OR_ATTEMPTS, details.pegasianBootsAttempts);
-                player.putAttrib(ETERNAL_BOOTS_OR_ATTEMPTS, details.eternalBootsAttempts);
-                player.putAttrib(CORRUPTED_VIGGORAS_CHAINMACE_ATTEMPTS, details.viggorasChainmaceAttempts);
-                player.putAttrib(CORRUPTED_CRAWS_BOW_ATTEMPTS, details.crawsBowAttempts);
-                player.putAttrib(CORRUPTED_THAMMARONS_STAFF_ATTEMPTS, details.thammaronsStaffAttempts);
-                player.putAttrib(CORRUPTED_BOOTS_ATTEMTPS, details.corruptedBootsAttempts);
-                player.putAttrib(ANCIENT_FACEGUARD_ATTEMPTS, details.ancientFaceguardAttempts);
-                player.putAttrib(TOXIC_STAFF_OF_THE_DEAD_C_ATTEMPTS, details.toxicStaffOfTheDeadAttempts);
-                player.putAttrib(PRESENTS_OPENED, details.presentsOpened);
-                player.putAttrib(MOLTEN_MYSTERY_BOXES_OPENED, details.moltenMysteryBoxesOpened);
-                player.putAttrib(ARMOUR_MYSTERY_BOXES_OPENED, details.armourMysteryBoxesOpened);
-                player.putAttrib(DONATOR_MYSTERY_BOXES_OPENED, details.donatorMysteryBoxesOpened);
-                player.putAttrib(LEGENDARY_MYSTERY_BOXES_OPENED, details.legendaryMysteryBoxesOpened);
-                player.putAttrib(PET_MYSTERY_BOXES_OPENED, details.petMysteryBoxesOpened);
-                player.putAttrib(REGULAR_MYSTERY_BOXES_OPENED, details.regularMysteryBoxesOpened);
-                player.putAttrib(WEAPON_MYSTERY_BOXES_OPENED, details.weaponMysteryBoxesOpened);
-                player.putAttrib(PRESENT_MYSTERY_BOXES_OPENED, details.presentMysteryBoxesOpened);
-                player.putAttrib(EPIC_PET_MYSTERY_BOXES_OPENED, details.epicPetMysteryBoxesOpened);
-                player.putAttrib(RAIDS_MYSTERY_BOXES_OPENED, details.raidsMysteryBoxesOpened);
-                player.putAttrib(ZENYTE_MYSTERY_BOXES_OPENED, details.zenyteMysteryBoxesOpened);
-                player.putAttrib(MYSTERY_CHESTS_OPENED, details.mysteryChestsOpened);
-                player.putAttrib(TOTAL_RARES_FROM_MYSTERY_BOX, details.raresFromMysteryBox);
-                player.putAttrib(SLAYER_KEYS_OPENED, details.slayerKeysOpened);
-                player.putAttrib(SLAYER_KEYS_RECEIVED, details.slayerKeysReceived);
-                player.putAttrib(DOUBLE_EXP_TICKS, details.doubleExpTicks);
-                player.putAttrib(DOUBLE_DROP_LAMP_TICKS, details.dropRateLampTicks);
-                player.putAttrib(ETHEREUM_ABSORPTION, details.ethereumAbsorption);
-                player.putAttrib(JAILED, details.jailed);
-                player.putAttrib(JAIL_ORES_TO_ESCAPE, details.jailOresToEscape);
-                player.putAttrib(JAIL_ORES_MINED, details.jailOresMined);
-                player.putAttrib(LOC_BEFORE_JAIL, details.locBeforeJail);
-                player.putAttrib(TOURNAMENT_WINS, details.tournamentWins);
-                player.putAttrib(TOURNAMENT_POINTS, details.tournamentPoints);
-                player.putAttrib(LOST_CANNON, details.lostCannon);
-                player.putAttrib(WILDY_COURSE_STATE, details.wildernessCourseState);
-                player.putAttrib(EDGE_PVP_DAILY_TASK_COMPLETION_AMOUNT, details.edgePvpDailyAmount);
-                player.putAttrib(EDGE_PVP_DAILY_TASK_COMPLETED, details.edgePvpDailyCompleted);
-                player.putAttrib(EDGE_PVP_DAILY_TASK_REWARD_CLAIMED, details.edgePvpDailyRewardClaimed);
-                player.putAttrib(REVENANT_CAVE_PVP_DAILY_TASK_COMPLETION_AMOUNT, details.revCavePvpDailyAmount);
-                player.putAttrib(REVENANT_CAVE_PVP_DAILY_TASK_COMPLETED, details.revCavePvpDailyCompleted);
-                player.putAttrib(REVENANT_CAVE_PVP_DAILY_TASK_REWARD_CLAIMED, details.revCavePvpDailyRewardClaimed);
-                player.putAttrib(DEEP_WILD_PVP_DAILY_TASK_COMPLETION_AMOUNT, details.deepWildPvpDailyAmount);
-                player.putAttrib(DEEP_WILD_PVP_DAILY_TASK_COMPLETED, details.deepWildPvpDailyCompleted);
-                player.putAttrib(DEEP_WILD_PVP_DAILY_TASK_REWARD_CLAIMED, details.deepWildPvpDailyRewardClaimed);
-                player.putAttrib(PURE_PVP_DAILY_TASK_COMPLETION_AMOUNT, details.purePvpeDailyAmount);
-                player.putAttrib(PURE_PVP_DAILY_TASK_COMPLETED, details.purePvpDailyCompleted);
-                player.putAttrib(PURE_PVP_DAILY_TASK_REWARD_CLAIMED, details.purePvpDailyRewardClaimed);
-                player.putAttrib(ZERKER_PVP_DAILY_TASK_COMPLETION_AMOUNT, details.zekerPvpDailyAmount);
-                player.putAttrib(ZERKER_PVP_DAILY_TASK_COMPLETED, details.zekerPvpDailyCompleted);
-                player.putAttrib(ZERKER_PVP_DAILY_TASK_REWARD_CLAIMED, details.zekerPVPDailyRewardClaimed);
-                player.putAttrib(TIER_UPGRADE_DAILY_TASK_COMPLETION_AMOUNT, details.tierUpgradePvpDailyAmount);
-                player.putAttrib(TIER_UPGRADE_DAILY_TASK_COMPLETED, details.tierUpgradePvpDailyCompleted);
-                player.putAttrib(TIER_UPGRADE_DAILY_TASK_REWARD_CLAIMED, details.tierUpgradePvpDailyRewardClaimed);
-                player.putAttrib(NO_ARM_DAILY_TASK_COMPLETION_AMOUNT, details.noArmPvpDailyAmount);
-                player.putAttrib(NO_ARM_DAILY_TASK_COMPLETED, details.noArmPvpDailyCompleted);
-                player.putAttrib(NO_ARM_DAILY_TASK_REWARD_CLAIMED, details.noArmPvpDailyRewardClaimed);
-                player.putAttrib(DHAROK_DAILY_TASK_COMPLETION_AMOUNT, details.dharokPvpDailyAmount);
-                player.putAttrib(DHAROK_DAILY_TASK_COMPLETED, details.dharokPvpDailyCompleted);
-                player.putAttrib(DHAROK_DAILY_TASK_REWARD_CLAIMED, details.dharokPvpDailyRewardClaimed);
-                player.putAttrib(BOTS_DAILY_TASK_COMPLETION_AMOUNT, details.botsPvpDailyAmount);
-                player.putAttrib(BOTS_DAILY_TASK_COMPLETED, details.botsPvpDailyCompleted);
-                player.putAttrib(BOTS_DAILY_TASK_REWARD_CLAIMED, details.botsPvpDailyRewardClaimed);
-                player.putAttrib(TOURNEY_PARTICIPATION_DAILY_TASK_COMPLETION_AMOUNT, details.tourneyParticipationDailyAmount);
-                player.putAttrib(TOURNEY_PARTICIPATION_DAILY_TASK_COMPLETED, details.tourneyParticipationDailyCompleted);
-                player.putAttrib(TOURNEY_PARTICIPATION_DAILY_TASK_REWARD_CLAIMED, details.tourneyParticipationDailyRewardClaimed);
-                player.putAttrib(DAILY_RAIDS_DAILY_TASK_COMPLETION_AMOUNT, details.dailyRaidsDailyAmount);
-                player.putAttrib(DAILY_RAIDS_DAILY_TASK_COMPLETED, details.dailyRaidsDailyCompleted);
-                player.putAttrib(DAILY_RAIDS_DAILY_TASK_REWARD_CLAIMED, details.dailyRaidsDailyRewardClaimed);
-                player.putAttrib(WORLD_BOSS_DAILY_TASK_COMPLETION_AMOUNT, details.worldBossDailyDailyAmount);
-                player.putAttrib(WORLD_BOSS_DAILY_TASK_COMPLETED, details.worldBossDailyDailyCompleted);
-                player.putAttrib(WORLD_BOSS_DAILY_TASK_REWARD_CLAIMED, details.worldBossDailyRewardClaimed);
-                player.putAttrib(DAILY_REVENANTS_TASK_COMPLETION_AMOUNT, details.revenantsDailyAmount);
-                player.putAttrib(DAILY_REVENANTS_TASK_COMPLETED, details.revenantsDailyCompleted);
-                player.putAttrib(DAILY_REVENANTS_TASK_REWARD_CLAIMED, details.revenantsDailyRewardClaimed);
-                player.putAttrib(BATTLE_MAGE_DAILY_TASK_COMPLETION_AMOUNT, details.battleMageDailyAmount);
-                player.putAttrib(BATTLE_MAGE_DAILY_TASK_COMPLETED, details.battleMageDailyCompleted);
-                player.putAttrib(BATTLE_MAGE_DAILY_TASK_REWARD_CLAIMED, details.battleMageDailyRewardClaimed);
-                player.putAttrib(WILDERNESS_BOSS_DAILY_TASK_COMPLETION_AMOUNT, details.wildernessBossDailyAmount);
-                player.putAttrib(WILDERNESS_BOSS_DAILY_TASK_COMPLETED, details.wildernessBossDailyCompleted);
-                player.putAttrib(WILDERNESS_BOSS_DAILY_TASK_REWARD_CLAIMED, details.wildernessBossDailyRewardClaimed);
-                player.putAttrib(ZULRAH_DAILY_TASK_COMPLETION_AMOUNT, details.zulrahDailyAmount);
-                player.putAttrib(ZULRAH_DAILY_TASK_COMPLETED, details.zulrahDailyCompleted);
-                player.putAttrib(ZULRAH_DAILY_TASK_REWARD_CLAIMED, details.zulrahDailyRewardClaimed);
-                player.putAttrib(SLAYER_DAILY_TASK_COMPLETION_AMOUNT, details.slayerDailyAmount);
-                player.putAttrib(SLAYER_DAILY_TASK_COMPLETED, details.slayerDailyCompleted);
-                player.putAttrib(SLAYER_DAILY_TASK_REWARD_CLAIMED, details.slayerDailyRewardClaimed);
-                player.putAttrib(CORRUPTED_NECHRYARCHS_DAILY_TASK_COMPLETION_AMOUNT, details.corruptedNechryarchDailyAmount);
-                player.putAttrib(CORRUPTED_NECHRYARCHS_DAILY_TASK_COMPLETED, details.corruptedNechryarchDailyCompleted);
-                player.putAttrib(CORRUPTED_NECHRYARCHS_DAILY_TASK_REWARD_CLAIMED, details.corruptedNechryarchDailyRewardClaimed);
-                player.putAttrib(VORKATH_DAILY_TASK_COMPLETION_AMOUNT, details.vorkathDailyAmount);
-                player.putAttrib(VORKATH_DAILY_TASK_COMPLETED, details.vorkathDailyCompleted);
-                player.putAttrib(VORKATH_DAILY_TASK_REWARD_CLAIMED, details.vorkathDailyRewardClaimed);
-                player.putAttrib(CORPOREAL_BEAST_DAILY_TASK_COMPLETION_AMOUNT, details.corporealBeastDailyAmount);
-                player.putAttrib(CORPOREAL_BEAST_DAILY_TASK_COMPLETED, details.corporealBeastDailyCompleted);
-                player.putAttrib(CORPOREAL_BEAST_DAILY_TASK_REWARD_CLAIMED, details.corporealBeastDailyRewardClaimed);
-                player.putAttrib(WILDY_RUNNER_DAILY_TASK_COMPLETION_AMOUNT, details.wildyRunnerDailyAmount);
-                player.putAttrib(WILDY_RUNNER_DAILY_TASK_COMPLETED, details.wildyRunnerDailyCompleted);
-                player.putAttrib(WILDY_RUNNER_DAILY_TASK_REWARD_CLAIMED, details.wildyRunnerDailyRewardClaimed);
-                player.putAttrib(ALCHEMICAL_HYDRA_LOG_CLAIMED, details.alchemicalHydraLogClaimed);
-                player.putAttrib(ANCIENT_BARRELCHEST_LOG_CLAIMED, details.ancientBarrelchestLogClaimed);
-                player.putAttrib(ANCIENT_CHAOS_ELEMENTAL_LOG_CLAIMED, details.ancientChaosElementalLogClaimed);
-                player.putAttrib(ANCIENT_KING_BLACK_DRAGON_LOG_CLAIMED, details.ancientKingBlackDragonLogClaimed);
-                player.putAttrib(ARACHNE_LOG_CLAIMED, details.arachneLogClaimed);
-                player.putAttrib(ARTIO_LOG_CLAIMED, details.artioLogClaimed);
-                player.putAttrib(SEREN_LOG_CLAIMED, details.serenLogClaimed);
-                player.putAttrib(BARRELCHEST_LOG_CLAIMED, details.barrelchestLogClaimed);
-                player.putAttrib(BRUTAL_LAVA_DRAGON_LOG_CLAIMED, details.brutalLavaDragonLogClaimed);
-                player.putAttrib(CALLISTO_LOG_CLAIMED, details.callistoLogClaimed);
-                player.putAttrib(CERBERUS_LOG_CLAIMED, details.cerberusLogClaimed);
-                player.putAttrib(CHAOS_ELEMENTAL_LOG_CLAIMED, details.chaosElementalLogClaimed);
-                player.putAttrib(CHAOS_FANATIC_LOG_CLAIMED, details.chaosFanaticLogClaimed);
-                player.putAttrib(CORPOREAL_BEAST_LOG_CLAIMED, details.corporealBeastLogClaimed);
-                player.putAttrib(CORRUPTED_NECHRYARCH_LOG_CLAIMED, details.corruptedNechryarchLogClaimed);
-                player.putAttrib(CRAZY_ARCHAEOLOGIST_LOG_CLAIMED, details.crazyArchaeologistLogClaimed);
-                player.putAttrib(DEMONIC_GORILLA_LOG_CLAIMED, details.demonicGorillaLogClaimed);
-                player.putAttrib(GIANT_MOLE_LOG_CLAIMED, details.giantMoleLogClaimed);
-                player.putAttrib(KERBEROS_LOG_CLAIMED, details.kerberosLogClaimed);
-                player.putAttrib(KING_BLACK_DRAGON_LOG_CLAIMED, details.kingBlackDragonLogClaimed);
-                player.putAttrib(KRAKEN_LOG_CLAIMED, details.krakenLogClaimed);
-                player.putAttrib(LAVA_DRAGON_LOG_CLAIMED, details.lavaDragonLogClaimed);
-                player.putAttrib(LIZARDMAN_SHAMAN_LOG_CLAIMED, details.lizardmanShamanLogClaimed);
-                player.putAttrib(SCORPIA_LOG_CLAIMED, details.scorpiaLogClaimed);
-                player.putAttrib(SKORPIOS_LOG_CLAIMED, details.skorpiosLogClaimed);
-                player.putAttrib(SKOTIZO_LOG_CLAIMED, details.skotizoLogClaimed);
-                player.putAttrib(TEKTON_LOG_CLAIMED, details.tektonLogClaimed);
-                player.putAttrib(THERMONUCLEAR_SMOKE_DEVIL_LOG_CLAIMED, details.thermonuclearSmokeDevilLogClaimed);
-                player.putAttrib(THE_NIGTHMARE_LOG_CLAIMED, details.theNightmareLogClaimed);
-                player.putAttrib(CORRUPTED_HUNLEFF_LOG_CLAIMED, details.corruptedHunleffLogClaimed);
-                player.putAttrib(MEN_IN_BLACK_LOG_CLAIMED, details.menInBlackLogClaimed);
-                player.putAttrib(TZTOK_JAD_LOG_CLAIMED, details.tztokJadLogClaimed);
-                player.putAttrib(VENENATIS_LOG_CLAIMED, details.venenatisLogClaimed);
-                player.putAttrib(VETION_LOG_CLAIMED, details.vetionLogClaimed);
-                player.putAttrib(VORKATH_LOG_CLAIMED, details.vorkathLogClaimed);
-                player.putAttrib(ZOMBIES_CHAMPION_LOG_CLAIMED, details.zombiesChampionLogClaimed);
-                player.putAttrib(ZULRAH_LOG_CLAIMED, details.zulrahLogClaimed);
-                player.putAttrib(ARMOUR_MYSTERY_BOX_LOG_CLAIMED, details.armourMysteryBoxLogClaimed);
-                player.putAttrib(DONATOR_MYSTERY_BOX_LOG_CLAIMED, details.donatorMysteryBoxLogClaimed);
-                player.putAttrib(EPIC_PET_MYSTERY_BOX_LOG_CLAIMED, details.epicPetMysteryBoxLogClaimed);
-                player.putAttrib(MYSTERY_CHEST_LOG_CLAIMED, details.mysteryChestLogClaimed);
-                player.putAttrib(RAIDS_MYSTERY_BOX_LOG_CLAIMED, details.raidsMysteryBoxLogClaimed);
-                player.putAttrib(WEAPON_MYSTERY_BOX_LOG_CLAIMED, details.weaponMysteryBoxLogClaimed);
-                player.putAttrib(LEGENDARY_MYSTERY_BOX_LOG_CLAIMED, details.legendaryMysteryBoxLogClaimed);
-                player.putAttrib(ZENYTE_MYSTERY_BOX_LOG_CLAIMED, details.zenyteLogClaimed);
-                player.putAttrib(CRYSTAL_KEY_LOG_CLAIMED, details.crystalKeyLogClaimed);
-                player.putAttrib(MOLTEN_KEY_LOG_CLAIMED, details.moltenKeyLogClaimed);
-                player.putAttrib(ENCHANTED_KEY_R_LOG_CLAIMED, details.enchantedKeyRLogClaimed);
-                player.putAttrib(ENCHANTED_KEY_P_LOG_CLAIMED, details.enchantedKeyPLogClaimed);
-                player.putAttrib(LARRANS_KEY_TIER_I_LOG_CLAIMED, details.larransKeyTierILogClaimed);
-                player.putAttrib(LARRANS_KEY_TIER_II_LOG_CLAIMED, details.larransKeyTierIILogClaimed);
-                player.putAttrib(LARRANS_KEY_TIER_III_LOG_CLAIMED, details.larransKeyTierIIILogClaimed);
-                player.putAttrib(SLAYER_KEY_LOG_CLAIMED, details.slayerKeyLogClaimed);
-                player.putAttrib(WILDERNESS_KEY_LOG_CLAIMED, details.wildernessKeyLogClaimed);
-                player.putAttrib(ANCIENT_REVENANTS_LOG_CLAIMED, details.ancientRevenantsLogClaimed);
-                player.putAttrib(CHAMBER_OF_SECRETS_LOG_CLAIMED, details.chamberOfSecretsLogClaimed);
-                player.putAttrib(REVENANTS_LOG_CLAIMED, details.revenantsLogClaimed);
-                player.putAttrib(SLAYER_LOG_CLAIMED, details.slayerLogClaimed);
-                player.putAttrib(LAST_DAILY_RESET, details.lastDailyReset);
-                player.putAttrib(FINISHED_HALLOWEEN_TEACHER_DIALOGUE, details.finishedHalloweenDialogue);
-                player.putAttrib(CANDIES_TRADED, details.candiesTraded);
-                player.putAttrib(EVENT_REWARD_1_CLAIMED, details.eventReward1Claimed);
-                player.putAttrib(EVENT_REWARD_2_CLAIMED, details.eventReward2Claimed);
-                player.putAttrib(EVENT_REWARD_3_CLAIMED, details.eventReward3Claimed);
-                player.putAttrib(EVENT_REWARD_4_CLAIMED, details.eventReward4Claimed);
-                player.putAttrib(EVENT_REWARD_5_CLAIMED, details.eventReward5Claimed);
-                player.putAttrib(EVENT_REWARD_6_CLAIMED, details.eventReward6Claimed);
-                player.putAttrib(EVENT_REWARD_7_CLAIMED, details.eventReward7Claimed);
-                player.putAttrib(EVENT_REWARD_8_CLAIMED, details.eventReward8Claimed);
-                player.putAttrib(EVENT_REWARD_9_CLAIMED, details.eventReward9Claimed);
-                player.putAttrib(EVENT_REWARD_10_CLAIMED, details.eventReward10Claimed);
-                player.putAttrib(EVENT_REWARD_11_CLAIMED, details.eventReward11Claimed);
-                player.putAttrib(EVENT_REWARD_12_CLAIMED, details.eventReward12Claimed);
-                player.putAttrib(EVENT_REWARD_13_CLAIMED, details.eventReward13Claimed);
-                player.putAttrib(EVENT_REWARD_14_CLAIMED, details.eventReward14Claimed);
-                player.putAttrib(EVENT_REWARD_15_CLAIMED, details.eventReward15Claimed);
-                player.putAttrib(EVENT_REWARD_16_CLAIMED, details.eventReward16Claimed);
-                player.putAttrib(EVENT_REWARD_17_CLAIMED, details.eventReward17Claimed);
-                player.putAttrib(EVENT_REWARD_18_CLAIMED, details.eventReward18Claimed);
-                player.putAttrib(EVENT_REWARD_19_CLAIMED, details.eventReward19Claimed);
-                player.putAttrib(EVENT_REWARD_20_CLAIMED, details.eventReward20Claimed);
-                player.putAttrib(EVENT_REWARD_21_CLAIMED, details.eventReward21Claimed);
-                player.putAttrib(EVENT_REWARD_22_CLAIMED, details.eventReward22Claimed);
-                player.putAttrib(EVENT_REWARD_23_CLAIMED, details.eventReward23Claimed);
-                player.putAttrib(EVENT_REWARD_24_CLAIMED, details.eventReward24Claimed);
-                player.putAttrib(EVENT_REWARD_25_CLAIMED, details.eventReward25Claimed);
-                player.putAttrib(EVENT_REWARD_26_CLAIMED, details.eventReward26Claimed);
-                player.putAttrib(EVENT_REWARD_27_CLAIMED, details.eventReward27Claimed);
-                player.putAttrib(EVENT_REWARD_28_CLAIMED, details.eventReward28Claimed);
-                player.putAttrib(EVENT_REWARD_29_CLAIMED, details.eventReward29Claimed);
-                player.putAttrib(EVENT_REWARD_30_CLAIMED, details.eventReward30Claimed);
-                player.putAttrib(EVENT_REWARD_31_CLAIMED, details.eventReward31Claimed);
-                player.putAttrib(EVENT_REWARD_32_CLAIMED, details.eventReward32Claimed);
-                player.putAttrib(EVENT_REWARD_33_CLAIMED, details.eventReward33Claimed);
-                player.putAttrib(EVENT_REWARD_34_CLAIMED, details.eventReward34Claimed);
-                player.putAttrib(EVENT_REWARD_35_CLAIMED, details.eventReward35Claimed);
-                player.putAttrib(EVENT_REWARD_36_CLAIMED, details.eventReward36Claimed);
-                player.putAttrib(EVENT_REWARD_37_CLAIMED, details.eventReward37Claimed);
-                player.putAttrib(EVENT_REWARD_38_CLAIMED, details.eventReward38Claimed);
-                player.putAttrib(EVENT_REWARD_39_CLAIMED, details.eventReward39Claimed);
-                player.putAttrib(EVENT_REWARD_40_CLAIMED, details.eventReward40Claimed);
-                player.putAttrib(EVENT_REWARD_41_CLAIMED, details.eventReward41Claimed);
-                player.putAttrib(EVENT_REWARD_42_CLAIMED, details.eventReward42Claimed);
-                player.putAttrib(EVENT_REWARD_43_CLAIMED, details.eventReward43Claimed);
-                player.putAttrib(EVENT_REWARD_44_CLAIMED, details.eventReward44Claimed);
-                player.putAttrib(WINTER_EVENT_TOKENS_SPENT, details.winterEventTokensSpent);
-                player.putAttrib(HERB_BOX_CHARGES, details.herbBoxCharges);
-                player.putAttrib(CLAIMED_DONATOR_REWARDS, details.claimedDonatorRewards);
-                player.putAttrib(SNOW_MONSTER_TIMER, details.snowMonsterTimer);
-                player.lastPetId = details.lastPet;
-                player.setInvulnerable(details.infhp);
-                return true;
+                details = PlayerSave.SERIALIZE.fromJson(reader, SaveDetails.class);
             }
+
+            applyDetails(player, details);
+            return true;
+        }
+
+        private static void applyDetails(final Player player, final SaveDetails details) {
+            player.setUsername(details.username);
+            player.setPassword(details.password);
+            player.setNewPassword("");
+            if (details.title != null)
+                player.putAttrib(TITLE, details.title);
+            if (details.titleColor != null)
+                player.putAttrib(TITLE_COLOR, details.titleColor);
+            if (details.tile != null)
+                player.setTile(details.tile);
+            player.putAttrib(GAME_TIME, details.gameTime);
+            player.putAttrib(RUN_ENERGY, details.runEnergy);
+            player.putAttrib(IS_RUNNING, details.running);
+            if (details.playerRights != null)
+                player.setPlayerRights(PlayerRights.valueOf(details.playerRights));
+            if (details.memberRights != null)
+                player.setMemberRights(MemberRights.valueOf(details.memberRights));
+            if (details.gameMode != null)
+                player.getGameMode(details.gameMode);
+            if (details.ironMode == null) {
+                player.setIronmanStatus(IronMode.NONE);
+            } else {
+                player.setIronmanStatus(details.ironMode);
+            }
+            player.putAttrib(DARK_LORD_LIVES, details.darkLordLives);
+            if(details.lastIP != null) {
+                player.setHostAddress(details.lastIP);
+            }
+            player.getHostAddressMap().put(player.getHostAddress(), 1);
+            if (details.mac != null && !details.mac.equals("invalid"))
+                player.putAttrib(MAC_ADDRESS, details.mac);
+            player.putAttrib(ACCOUNT_PIN, details.accountPin);
+            player.putAttrib(ASK_FOR_ACCOUNT_PIN, details.askAccountPin);
+            player.putAttrib(ACCOUNT_PIN_ATTEMPTS_LEFT, details.accountPinAttemptsLeft);
+            player.putAttrib(ACCOUNT_PIN_FREEZE_TICKS, details.accountPinFrozenTicks);
+            if (details.creationDate != null)
+                player.setCreationDate(details.creationDate);
+            if (details.creationIp != null)
+                player.setCreationIp(details.creationIp);
+            if (details.lastLogin != null)
+                player.setLastLogin(details.lastLogin);
+            player.putAttrib(MUTED, details.muted);
+            player.putAttrib(YOUTUBER_BM_CLAIM, details.lastBMClaim);
+            player.putAttrib(COMBAT_MAXED, details.isCombatMaxed);
+            player.putAttrib(STARTER_WEAPON_DAMAGE, details.starterWeaponDamage);
+            player.putAttrib(NEW_ACCOUNT, details.newPlayer);
+            player.putAttrib(IS_BETA_TESTER, details.isBetaTester);
+            player.putAttrib(VETERAN, details.veteran);
+            player.putAttrib(VETERAN_GIFT_CLAIMED, details.veteranGiftClaimed);
+            player.putAttrib(PLAYTIME_GIFT_CLAIMED, details.playtimeGiftClaimed);
+            player.putAttrib(GAMBLER, details.gambler);
+            player.putAttrib(STARTER_BOX_CLAIMED, details.starterboxClaimed);
+            player.putAttrib(CLAN_BOX_OPENED, details.clanBoxOpened);
+            player.putAttrib(PROMO_CODE_CLAIMED, details.promoCodeClaimed);
+            player.putAttrib(RECEIVED_MONTHLY_SPONSOR_REWARDS, details.receivedMonthlySponsorRewards);
+            player.putAttrib(TOP_PKER_REWARD_UNCLAIMED, details.receivedTopPkerReward);
+            player.putAttrib(TOP_PKER_POSITION, details.topPkerPosition);
+            if (details.topPkerReward != null)
+                player.putAttrib(TOP_PKER_REWARD, details.topPkerReward);
+            player.looks().female(details.female);
+            if (details.looks != null)
+                player.looks().looks(details.looks);
+            if (details.colors != null)
+                player.looks().colors(details.colors);
+            if (details.spellBook != null)
+                player.setSpellbook(MagicSpellbook.valueOf(details.spellBook));
+            if (details.fightType != null)
+                player.getCombat().setFightType(FightType.valueOf(details.fightType));
+            player.getCombat().getFightType().setParentId(details.fightTypeVarp);
+            player.getCombat().getFightType().setChildId(details.fightTypeVarpState);
+            player.getCombat().setAutoRetaliate(details.autoRetaliate);
+            if (details.previousSpellbook != null) {
+                player.setPreviousSpellbook(details.previousSpellbook);
+            }
+            if (details.lootKeys != null) {
+                for (int i = 0; i < LootKey.infoForPlayer(player).keys.length; i++) {
+                    for (Map.Entry<Integer, Item[]> integerEntry : details.lootKeys.entrySet()) {
+                        ItemContainer ic = new ItemContainer(LOOT_KEY_CONTAINER_SIZE, ItemContainer.StackPolicy.ALWAYS);
+                        ic.addAll(integerEntry.getValue());
+                        LootKey.infoForPlayer(player).keys[integerEntry.getKey()] = new LootKey(ic, ic.containerValue());
+                    }
+                }
+            }
+            player.putAttrib(LOOT_KEYS_CARRIED, details.lootKeysCarried);
+            player.putAttrib(LOOT_KEYS_LOOTED, details.lootKeysLooted);
+            player.putAttrib(TOTAL_LOOT_KEYS_VALUE, details.totalLootKeysValue);
+            player.putAttrib(LOOT_KEYS_UNLOCKED, details.lootKeysUnlocked);
+            player.putAttrib(LOOT_KEYS_ACTIVE, details.lootKeysActive);
+            player.putAttrib(LOOT_KEYS_DROP_CONSUMABLES, details.lootKeysDropConsumables);
+            player.putAttrib(SEND_VALUABLES_TO_LOOT_KEYS, details.sendValuablesToLootKey);
+            player.putAttrib(LOOT_KEYS_VALUABLE_ITEM_THRESHOLD, details.lootKeysValuableItemThreshold);
+            player.putAttrib(VENOM_TICKS, details.venomTicks);
+            player.putAttrib(POISON_TICKS, details.poisonTicks);
+            player.setSpecialAttackPercentage(details.specPercentage);
+            player.putAttrib(RING_OF_RECOIL_CHARGES, details.recoilCharges);
+            player.getTargetSearchTimer().start(details.targetSearchTimer);
+            player.getSpecialAttackRestore().start(details.specialAttackRestoreTimer);
+            player.putAttrib(SKULL_CYCLES, Math.max(details.skullTimer, 0));
+            player.setSkullType((details.skullTimer < 0 || details.skullType == null) ? SkullType.NO_SKULL : details.skullType);
+            if (details.quickPrayers != null)
+                player.getQuickPrayers().setPrayers(details.quickPrayers);
+            if (details.presets != null) {
+                // put into individual slots, dont replace an array[20] with a game save array[10]
+                for (int i = 0; i < details.presets.length; i++) {
+                    player.getPresets()[i] = details.presets[i];
+                }
+            }
+            if (details.lastPreset != null) {
+                player.setLastPreset(details.lastPreset);
+            }
+            player.getTimers().register(TimerKey.SPECIAL_TELEBLOCK, details.specialTeleblockTimer);
+            player.putAttrib(TOTAL_PAYMENT_AMOUNT, details.totalAmountPaid);
+            player.putAttrib(PROMO_PAYMENT_AMOUNT, details.promoPaymentAmount);
+            player.putAttrib(PROMO_ITEMS_UNLOCKED, details.promoItemsClaimed);
+            player.putAttrib(MEMBER_UNLOCKED, details.memberUnlocked);
+            player.putAttrib(SUPER_MEMBER_UNLOCKED, details.superMemberUnlocked);
+            player.putAttrib(ELITE_MEMBER_UNLOCKED, details.eliteMemberUnlocked);
+            player.putAttrib(EXTREME_MEMBER_UNLOCKED, details.extremeMemberUnlocked);
+            player.putAttrib(LEGENDARY_MEMBER_UNLOCKED, details.legendaryMemberUnlocked);
+            player.putAttrib(VIP_UNLOCKED, details.vipUnlocked);
+            player.putAttrib(SPONSOR_UNLOCKED, details.sponsorMemberUnlocked);
+            player.getSkills().setAllLevels(details.dynamicLevels);
+            player.getSkills().setAllXps(details.skillXP);
+            player.putAttrib(ACTIVE_PET_ITEM_ID, details.activePetItemId);
+            if (details.unlockedPets != null) {
+                player.setUnlockedPets(details.unlockedPets);
+            }
+            if (details.insuredPets != null) {
+                player.setInsuredPets(details.insuredPets);
+            }
+            player.putAttrib(SLAYER_TASK_ID, details.slayerTaskId);
+            player.putAttrib(SLAYER_TASK_AMT, details.slayerTaskAmount);
+            player.putAttrib(SLAYER_MASTER, details.slayerMasterId);
+            player.putAttrib(SLAYER_TASK_SPREE, details.slayerTaskStreak);
+            player.putAttrib(SLAYER_TASK_SPREE_RECORD, details.slayerTaskStreakRecord);
+            player.putAttrib(COMPLETED_SLAYER_TASKS, details.completedSlayerTasks);
+            player.putAttrib(WILDERNESS_SLAYER_TASK_ACTIVE, details.wildernessSlayerActive);
+            player.putAttrib(WILDERNESS_SLAYER_DESCRIBED, details.wildernessSlayerDescribed);
+            if (details.slayerPartner != null) {
+                player.putAttrib(SLAYER_PARTNER, details.slayerPartner);
+            }
+
+            if (details.blockedSlayerTasks != null) {
+                player.getSlayerRewards().setBlocked(details.blockedSlayerTasks);
+            }
+
+            if (details.slayerUnlocks != null) {
+                player.getSlayerRewards().setUnlocks(details.slayerUnlocks);
+            }
+
+            if (details.slayerExtensionsList != null) {
+                player.getSlayerRewards().setExtendable(details.slayerExtensionsList);
+            }
+
+            if (details.inventory != null) {
+                for (int i = 0; i < details.inventory.length; i++) {
+                    player.inventory().set(i, details.inventory[i], false);
+                }
+            }
+            if (details.equipment != null) {
+                for (int i = 0; i < details.equipment.length; i++) {
+                    player.getEquipment().set(i, details.equipment[i], false);
+                }
+            }
+            if (details.bank != null) {
+                for (int i = 0; i < details.bank.length; i++) {
+                    player.getBank().set(i, details.bank[i], false);
+                }
+            }
+            if (details.tabAmounts != null) {
+                if (details.tabAmounts.length >= 0)
+                    System.arraycopy(details.tabAmounts, 0, player.getBank().tabAmounts, 0, details.tabAmounts.length);
+            }
+            player.getBank().placeHolder = details.placeholdersActive;
+            player.getBank().placeHolderAmount = details.placeHolderAmount;
+            player.getBankPin().setHashedPin(details.hashedBankPin);
+            player.getBankPin().setPinLength(details.bankPinLength);
+            player.getBankPin().setRecoveryDays(details.recoveryDelay);
+            player.getBankPin().setPendingMod(details.pendingBankPinMod);
+            if (details.lootingBag != null) {
+                for (int index = 0; index < details.lootingBag.length; index++) {
+                    player.getLootingBag().set(index, details.lootingBag[index], false);
+                }
+            }
+            player.getLootingBag().setAskHowManyToStore(details.askHowManyToStore);
+            player.getLootingBag().setStoreAsMany(details.storeAsMany);
+            if (details.runePouch != null) {
+                for (int index = 0; index < details.runePouch.length; index++) {
+                    player.getRunePouch().set(index, details.runePouch[index], false);
+                }
+            }
+            player.putAttrib(CART_ITEMS_TOTAL_VALUE, details.totalCartValue);
+            if (details.cartItems != null) {
+                player.putAttrib(CART_ITEMS, details.cartItems);
+            }
+            if (details.nifflerItems != null) {
+                player.putAttrib(NIFFLER_ITEMS_STORED, details.nifflerItems);
+            }
+            if(details.sackOfPresentItems != null) {
+                player.putAttrib(SACK_OF_PRESENTS_LIST, details.sackOfPresentItems);
+            }
+            if (details.newFriends == null)
+                details.newFriends = new ArrayList<>(200);
+            for (String friend : details.newFriends) {
+                player.getRelations().getFriendList().add(friend);
+            }
+            if (details.newIgnores == null)
+                details.newIgnores = new ArrayList<>(100);
+            for (String ignore : details.newIgnores) {
+                player.getRelations().getIgnoreList().add(ignore);
+            }
+            if (details.clan != null)
+                player.setClanChat(details.clan);
+            if (details.yellColour != null) {
+                if (details.yellColour.equals("0")) {
+                    player.putAttrib(YELL_COLOUR, "006601");
+                } else {
+                    player.putAttrib(YELL_COLOUR, details.yellColour);
+                }
+            }
+            player.putAttrib(ELDRITCH_NIGHTMARE_STAFF_QUESTION, details.dontAskAgainEldritch);
+            player.putAttrib(VOLATILE_NIGHTMARE_STAFF_QUESTION, details.dontAskAgainVolatile);
+            player.putAttrib(HARMONISED_NIGHTMARE_STAFF_QUESTION, details.dontAskAgainHarmonised);
+            player.putAttrib(CURRENCY_COLLECTION, details.currencyCollection);
+            player.putAttrib(GIVE_EMPTY_POTION_VIALS, details.emptyPotionVials);
+            player.putAttrib(AGS_GFX_GOLD, details.gold_ags_spec);
+            player.putAttrib(BGS_GFX_GOLD, details.gold_bgs_spec);
+            player.putAttrib(SGS_GFX_GOLD, details.gold_sgs_spec);
+            player.putAttrib(ZGS_GFX_GOLD, details.gold_zgs_spec);
+            player.putAttrib(XP_LOCKED, details.xpLocked);
+            player.putAttrib(LEVEL_UP_INTERFACE, details.levelUpMessages);
+            player.putAttrib(DID_YOU_KNOW, details.enableDidYouKnow);
+            player.putAttrib(DEBUG_MESSAGES, details.enableDebugMessages);
+            player.getPresetManager().setSaveLevels(details.savePresetLevels);
+            player.getPresetManager().setOpenOnDeath(details.openPresetsOnDeath);
+            if (details.savedDuelConfig != null) {
+                player.setSavedDuelConfig(details.savedDuelConfig);
+            }
+            player.putAttrib(REPAIR_BROKEN_ITEMS_ON_DEATH, details.autoRepairBrokenItems);
+            player.putAttrib(VOTE_POINS, details.votePoints);
+            player.putAttrib(AttributeKey.PEST_CONTROL_POINTS, details.pestControlPoints);
+            player.putAttrib(SLAYER_REWARD_POINTS, details.slayerRewardPoints);
+            player.putAttrib(TARGET_POINTS, details.targetPoints);
+            player.putAttrib(ELO_RATING, details.eloRating);
+            player.putAttrib(BOSS_POINTS, details.bossPoints);
+            player.putAttrib(RISKZONE_POINTS, details.riskzonePoints);
+            player.putAttrib(BOUNTY_HUNTER_TARGET_TELEPORT_UNLOCKED, details.teleportToTargetUnlocked);
+            player.putAttrib(PRESERVE, details.preserve);
+            player.putAttrib(RIGOUR, details.rigour);
+            player.putAttrib(AUGURY, details.augury);
+            player.putAttrib(AttributeKey.BOT_KILLS, details.botKills);
+            player.putAttrib(AttributeKey.BOT_DEATHS, details.botDeaths);
+            player.putAttrib(PLAYER_KILLS, details.kills);
+            player.putAttrib(PLAYER_DEATHS, details.deaths);
+            player.putAttrib(ALLTIME_KILLS, details.allTimeKills);
+            player.putAttrib(ALLTIME_DEATHS, details.allTimeDeaths);
+            player.putAttrib(KILLSTREAK, details.killstreak);
+            player.putAttrib(KILLSTREAK_RECORD, details.highestKillstreak);
+            player.putAttrib(WILDERNESS_KILLSTREAK, details.wildernessStreak);
+            player.putAttrib(SHUTDOWN_RECORD, details.shutdownRecord);
+            if (details.recentKills != null) {
+                for (String kills : details.recentKills) {
+                    player.getRecentKills().add(kills);
+                }
+            }
+            player.putAttrib(FIRST_KILL_OF_THE_DAY, details.firstKillOfTheDay);
+            player.putAttrib(TARGET_KILLS, details.targetKills);
+            player.putAttrib(KING_BLACK_DRAGONS_KILLED, details.kingBlackDragonsKilled);
+            player.putAttrib(VETIONS_KILLED, details.vetionsKilled);
+            player.putAttrib(CRAZY_ARCHAEOLOGISTS_KILLED, details.crazyArchaeologistsKilled);
+            player.putAttrib(ZULRAHS_KILLED, details.zulrahsKilled);
+            player.putAttrib(ALCHY_KILLED, details.alchysKilled);
+            player.putAttrib(KRAKENS_KILLED, details.krakensKilled);
+            player.putAttrib(REVENANTS_KILLED, details.revenantsKilled);
+            player.putAttrib(ANCIENT_REVENANTS_KILLED, details.ancientRevenantsKilled);
+            player.putAttrib(ICE_DEMONS_KILLED, details.iceDemonsKilled);
+            player.putAttrib(ELVARGS_KILLED, details.elvargsKilled);
+            player.putAttrib(LAVA_BEASTS_KILLED, details.lavaBeastsKilled);
+            player.putAttrib(EL_FUEGO_KILLED, details.elFuegoKilled);
+            player.putAttrib(DERANGED_ARCHAEOLOGIST_KILLED, details.derangedArchaeologistKilled);
+            player.putAttrib(ANCIENT_KING_BLACK_DRAGONS_KILLED, details.ancientKingBlackDragonsKilled);
+            player.putAttrib(CORRUPTED_HUNLEFFS_KILLED, details.corruptedHunleffsKilled);
+            player.putAttrib(ANCIENT_CHAOS_ELEMENTALS_KILLED, details.ancientChaosElementalsKilled);
+            player.putAttrib(ANCIENT_BARRELCHESTS_KILLED, details.ancientBarrelchestsKilled);
+            player.putAttrib(KERBEROS_KILLED, details.kerberosKilled);
+            player.putAttrib(ARACHNE_KILLED, details.arachneKilled);
+            player.putAttrib(SKORPIOS_KILLED, details.skorpiosKilled);
+            player.putAttrib(ARTIO_KILLED, details.artioKilled);
+            player.putAttrib(SEREN_KILLED, details.serenKilled);
+            player.putAttrib(JADS_KILLED, details.jadsKilled);
+            player.putAttrib(CHAOS_ELEMENTALS_KILLED, details.chaosElementalsKilled);
+            player.putAttrib(DEMONIC_GORILLAS_KILLED, details.demonicGorillasKilled);
+            player.putAttrib(BARRELCHESTS_KILLED, details.barrelchestsKilled);
+            player.putAttrib(CORPOREAL_BEASTS_KILLED, details.corporealBeastsKilled);
+            player.putAttrib(CERBERUS_KILLED, details.abyssalSiresKilled);
+            player.putAttrib(VORKATHS_KILLED, details.vorkathsKilled);
+            player.putAttrib(LIZARDMAN_SHAMANS_KILLED, details.lizardmanShamansKilled);
+            player.putAttrib(BARROWS_CHESTS_OPENED, details.barrowsChestsOpened);
+            player.putAttrib(CORRUPTED_NECHRYARCHS_KILLED, details.corruptedNechryarchsKilled);
+            player.putAttrib(FLUFFYS_KILLED, details.fluffysKilled);
+            player.putAttrib(DEMENTORS_KILLED, details.dementorsKilled);
+            player.putAttrib(HUNGARIAN_HORNTAILS_KILLED, details.hungarianHorntailsKilled);
+            player.putAttrib(FENRIR_GREYBACKS_KILLED, details.fenrirGreybacksKilled);
+            player.putAttrib(SCORPIAS_KILLED, details.scorpiasKilled);
+            player.putAttrib(CALLISTOS_KILLED, details.callistosKilled);
+            player.putAttrib(KC_GIANTMOLE, details.molesKilled);
+            player.putAttrib(THE_NIGHTMARE_KC, details.nightmaresKilled);
+            player.putAttrib(KC_REX, details.rexKilled);
+            player.putAttrib(KC_PRIME, details.primeKilled);
+            player.putAttrib(KC_SUPREME, details.supremeKilled);
+            player.putAttrib(KC_KQ, details.kalphiteQueensKilled);
+            player.putAttrib(LAVA_DRAGONS_KILLED, details.lavaDragonsKilled);
+            player.putAttrib(SKOTIZOS_KILLED, details.skotizosKilled);
+            player.putAttrib(ZOMBIES_CHAMPIONS_KILLED, details.zombieChampionsKilled);
+            player.putAttrib(BRUTAL_LAVA_DRAGONS_KILLED, details.brutalLavaDragonsKilled);
+            player.putAttrib(TEKTONS_KILLED, details.tektonsKilled);
+            player.putAttrib(CHAOS_FANATICS_KILLED, details.chaosFanaticsKilled);
+            player.putAttrib(THERMONUCLEAR_SMOKE_DEVILS_KILLED, details.thermonuclearSmokeDevilKilled);
+            player.putAttrib(VENENATIS_KILLED, details.venenatisKilled);
+            player.putAttrib(KC_ARAGOG, details.aragogKC);
+            player.putAttrib(CHAMBER_OF_SECRET_RUNS_COMPLETED, details.chamberOfSecretRuns);
+            player.putAttrib(KC_SMOKEDEVIL, details.smokeDevilKills);
+            player.putAttrib(SUPERIOR, details.superiorCreatureKills);
+            player.putAttrib(KC_CRAWL_HAND, details.crawlingHandKills);
+            player.putAttrib(KC_CAVE_BUG, details.caveBugKills);
+            player.putAttrib(KC_CAVE_CRAWLER, details.caveCrawlerKills);
+            player.putAttrib(KC_BANSHEE, details.bansheeKills);
+            player.putAttrib(KC_CAVE_SLIME, details.caveSlimeKills);
+            player.putAttrib(KC_ROCKSLUG, details.rockslugKills);
+            player.putAttrib(KC_DESERT_LIZARD, details.desertLizardKills);
+            player.putAttrib(KC_COCKATRICE, details.cockatriceKills);
+            player.putAttrib(KC_PYREFRIEND, details.pyrefiendKills);
+            player.putAttrib(KC_MOGRE, details.mogreKills);
+            player.putAttrib(KC_HARPIE_BUG, details.harpieBugSwarmKills);
+            player.putAttrib(KC_WALL_BEAST, details.wallBeastKills);
+            player.putAttrib(KC_KILLERWATT, details.killerwattKills);
+            player.putAttrib(KC_MOLANISK, details.molaniskKills);
+            player.putAttrib(KC_BASILISK, details.basiliskKills);
+            player.putAttrib(KC_SEASNAKE, details.seaSnakeKills);
+            player.putAttrib(KC_TERRORDOG, details.terrorDogKills);
+            player.putAttrib(KC_FEVER_SPIDER, details.feverSpiderKills);
+            player.putAttrib(KC_INFERNAL_MAGE, details.infernalMageKills);
+            player.putAttrib(KC_BRINERAT, details.brineRatKills);
+            player.putAttrib(KC_BLOODVELD, details.bloodveldKills);
+            player.putAttrib(KC_JELLY, details.jellyKills);
+            player.putAttrib(KC_TUROTH, details.turothKills);
+            player.putAttrib(KC_ZYGOMITE, details.zygomiteKills);
+            player.putAttrib(KC_CAVEHORROR, details.caveHorrorKills);
+            player.putAttrib(KC_ABERRANT_SPECTRE, details.aberrantSpectreKills);
+            player.putAttrib(KC_SPIRITUAL_WARRIOR, details.spiritualWarriorKills);
+            player.putAttrib(KC_KURASK, details.kuraskKills);
+            player.putAttrib(KC_SKELETAL_WYVERN, details.skeletalWyvernKills);
+            player.putAttrib(KC_GARGOYLE, details.gargoyleKills);
+            player.putAttrib(KC_NECHRYAEL, details.nechryaelKills);
+            player.putAttrib(KC_SPIRITUAL_MAGE, details.spiritualMageKills);
+            player.putAttrib(KC_ABYSSALDEMON, details.abyssalDemonKills);
+            player.putAttrib(KC_CAVEKRAKEN, details.caveKrakenKills);
+            player.putAttrib(KC_DARKBEAST, details.darkBeastKills);
+            player.putAttrib(BRUTAL_BLACK_DRAGON, details.brutalBlackDragonKills);
+            player.putAttrib(FOSSIL_WYVERN, details.fossilIslandWyvernKills);
+            player.putAttrib(WYRM, details.wyrmKills);
+            player.putAttrib(DRAKE, details.drakeKills);
+            player.putAttrib(HYDRA, details.hydraKills);
+            player.putAttrib(BASILISK_KNIGHT, details.basiliskKnightKills);
+            player.putAttrib(MEN_IN_BLACK_KILLED, details.menInBlackKills);
+            if (details.bossTimers != null) {
+                player.getBossTimers().setTimes(details.bossTimers);
+            }
+            if (details.recentTeleports != null) {
+                player.setRecentTeleports(details.recentTeleports);
+            }
+            if (details.favoriteTeleports != null) {
+                player.setFavorites(details.favoriteTeleports);
+            }
+            if (details.collectionLog != null) {
+                player.getCollectionLog().collectionLog = details.collectionLog;
+            }
+            if (details.achievements != null) {
+                player.achievements().putAll(details.achievements);
+            }
+            player.putAttrib(ACHIEVEMENTS_COMPLETED, details.achievementsCompleted);
+            player.putAttrib(ANTI_FIRE_RESISTANT, details.antiFireResistant);
+            player.putAttrib(VENOM_RESISTANT, details.venomResistant);
+            player.putAttrib(ROCKY_BALBOA_TITLE_UNLOCKED, details.rockyBalboaTitle);
+            if (details.task != null) {
+                player.putAttrib(TASK, details.task);
+            }
+            player.putAttrib(TASK_AMOUNT, details.taskAmount);
+            player.putAttrib(TASK_COMPLETE_AMOUNT, details.taskCompletionAmount);
+            player.putAttrib(TASKS_COMPLETED, details.totalTasksCompleted);
+            player.putAttrib(CAN_CLAIM_TASK_REWARD, details.canClaimTaskReward);
+            player.putAttrib(PLAYER_KILLS_WITHOUT_LEAVING_WILD, details.playerKillsWithoutLeavingWild);
+            player.putAttrib(TREASURE_CHESTS_OPENED, details.treasuresOpened);
+            player.putAttrib(REFERRAL_MILESTONE_10HOURS, details.referalMilestone10hoursPassed);
+            player.putAttrib(REFERRAL_MILESTONE_1_DAY, details.referalMilestone1dayPassed);
+            player.putAttrib(REFERRER_USERNAME, details.referrerUsername);
+            player.putAttrib(REFERRALS_COUNT, details.referralsCount);
+            player.putAttrib(DATABASE_PLAYER_ID, details.databaseId);
+            player.putAttrib(REFERRAL_MILESTONE_THREE_REFERRALS, details.referalMilestone3refs);
+            player.putAttrib(STAMINA_POTION_TICKS, details.staminaTicks);
+            player.putAttrib(OVERLOAD_POTION, details.overloadTicks);
+            player.putAttrib(ANTIFIRE_POTION, details.antifireTicks);
+            player.putAttrib(SUPER_ANTIFIRE_POTION, details.superAntiFire);
+            player.putAttrib(LARRANS_KEYS_TIER_ONE_USED, details.larranKeysUsed);
+            player.putAttrib(EARNING_POTENTIAL, details.earningPotential);
+            player.putAttrib(ARMADYL_GODSWORD_OR_ATTEMPTS, details.enchantedAGSAttempts);
+            player.putAttrib(BANDOS_GODSWORD_OR_ATTEMPTS, details.enchantedBGSAttempts);
+            player.putAttrib(SARADOMIN_GODSWORD_OR_ATTEMPTS, details.enchantedSGSAttempts);
+            player.putAttrib(ZAMORAK_GODSWORD_OR_ATTEMPTS, details.enchantedZGSAttempts);
+            player.putAttrib(FURY_OR_ATTEMPTS, details.enchantedFuryAttempts);
+            player.putAttrib(OCCULT_OR_ATTEMPTS, details.enchantedOccultAttempts);
+            player.putAttrib(TORTURE_OR_ATTEMPTS, details.enchantedTortureAttempts);
+            player.putAttrib(ANGUISH_OR_ATTEMPTS, details.enchantedAnguishAttempts);
+            player.putAttrib(BERSERKER_NECKLACE_OR_ATTEMPTS, details.enchantedBNeckAttempts);
+            player.putAttrib(TORMENTED_BRACELET_OR_ATTEMPTS, details.enchantedTBraceAttempts);
+            player.putAttrib(GRANITE_MAUL_OR_ATTEMPTS, details.enchantedGmaulAttempts);
+            player.putAttrib(DRAGON_DEFENDER_T_ATTEMPTS, details.enchantedDDefAttempts);
+            player.putAttrib(DRAGON_BOOTS_G_ATTEMPTS, details.enchantedDBootsAttempts);
+            player.putAttrib(RUNE_POUCH_I_ATTEMPTS, details.enchantedRunePouchAttempts);
+            player.putAttrib(DRAGON_CLAWS_OR_ATTEMPTS, details.enchantedDClawsAttempts);
+            player.putAttrib(RING_OF_MANHUNTING_ATTEMPTS, details.enchantedROMAttempts);
+            player.putAttrib(RING_OF_SORCERY_ATTEMPTS, details.enchantedROSAttempts);
+            player.putAttrib(RING_OF_PRECISION_ATTEMPTS, details.enchantedROPAttempts);
+            player.putAttrib(RING_OF_TRINITY_ATTEMPTS, details.enchantedROTAttempts);
+            player.putAttrib(SLAYER_HELMET_I_ATTEMPTS, details.enchantedSlayerHelmIAttempts);
+            player.putAttrib(GREEN_SLAYER_HELMET_I_ATTEMPTS, details.enchantedGreenSlayerHelmIAttempts);
+            player.putAttrib(TURQUOISE_SLAYER_HELMET_I_ATTEMPTS, details.enchantedTurquoiseSlayerHelmIAttempts);
+            player.putAttrib(RED_SLAYER_HELMET_I_ATTEMPTS, details.enchantedRedSlayerHelmIAttempts);
+            player.putAttrib(BLACK_SLAYER_HELMET_I_ATTEMPTS, details.enchantedBlackSlayerHelmIAttempts);
+            player.putAttrib(TWISTED_SLAYER_HELMET_I_ATTEMPTS, details.enchantedTwistedSlayerHelmIAttempts);
+            player.putAttrib(LARRANS_KEY_II_ATTEMPTS, details.larransKeyIIAttempts);
+            player.putAttrib(LARRANS_KEY_III_ATTEMPTS, details.larransKeyIIIAttempts);
+            player.putAttrib(MAGMA_BLOWPIPE_ATTEMPTS, details.blowpipeAttempts);
+            player.putAttrib(SANGUINE_TWISTED_BOW_ATTEMTPS, details.twistedBowAttempts);
+            player.putAttrib(ANCESTRAL_HAT_I_ATTEMPTS, details.ancestralHatAttempts);
+            player.putAttrib(ANCESTRAL_ROBE_TOP_I_ATTEMPTS, details.ancestralTopAttempts);
+            player.putAttrib(ANCESTRAL_ROBE_BOTTOM_I_ATTEMPTS, details.ancestralBottomAttempts);
+            player.putAttrib(PRIMORDIAL_BOOTS_OR_ATTEMPTS, details.primordialBootsAttempts);
+            player.putAttrib(INFERNAL_CAPE_ATTEMPTS, details.infernalCapeAttempts);
+            player.putAttrib(HOLY_SANGUINESTI_STAFF_ATTEMPTS, details.sanguistiStaffAttempts);
+            player.putAttrib(HOLY_SCYTHE_OF_VITUR_ATTEMPTS, details.holyScytheAttempts);
+            player.putAttrib(HOLY_GHRAZI_RAPIER_ATTEMPTS, details.ghraziRapierAttempts);
+            player.putAttrib(SANGUINE_SCYTHE_OF_VITUR_ATTEMPTS, details.scytheOfViturAttempts);
+            player.putAttrib(PEGASIAN_BOOTS_OR_ATTEMPTS, details.pegasianBootsAttempts);
+            player.putAttrib(ETERNAL_BOOTS_OR_ATTEMPTS, details.eternalBootsAttempts);
+            player.putAttrib(CORRUPTED_VIGGORAS_CHAINMACE_ATTEMPTS, details.viggorasChainmaceAttempts);
+            player.putAttrib(CORRUPTED_CRAWS_BOW_ATTEMPTS, details.crawsBowAttempts);
+            player.putAttrib(CORRUPTED_THAMMARONS_STAFF_ATTEMPTS, details.thammaronsStaffAttempts);
+            player.putAttrib(CORRUPTED_BOOTS_ATTEMTPS, details.corruptedBootsAttempts);
+            player.putAttrib(ANCIENT_FACEGUARD_ATTEMPTS, details.ancientFaceguardAttempts);
+            player.putAttrib(TOXIC_STAFF_OF_THE_DEAD_C_ATTEMPTS, details.toxicStaffOfTheDeadAttempts);
+            player.putAttrib(PRESENTS_OPENED, details.presentsOpened);
+            player.putAttrib(MOLTEN_MYSTERY_BOXES_OPENED, details.moltenMysteryBoxesOpened);
+            player.putAttrib(ARMOUR_MYSTERY_BOXES_OPENED, details.armourMysteryBoxesOpened);
+            player.putAttrib(DONATOR_MYSTERY_BOXES_OPENED, details.donatorMysteryBoxesOpened);
+            player.putAttrib(LEGENDARY_MYSTERY_BOXES_OPENED, details.legendaryMysteryBoxesOpened);
+            player.putAttrib(PET_MYSTERY_BOXES_OPENED, details.petMysteryBoxesOpened);
+            player.putAttrib(REGULAR_MYSTERY_BOXES_OPENED, details.regularMysteryBoxesOpened);
+            player.putAttrib(WEAPON_MYSTERY_BOXES_OPENED, details.weaponMysteryBoxesOpened);
+            player.putAttrib(PRESENT_MYSTERY_BOXES_OPENED, details.presentMysteryBoxesOpened);
+            player.putAttrib(EPIC_PET_MYSTERY_BOXES_OPENED, details.epicPetMysteryBoxesOpened);
+            player.putAttrib(RAIDS_MYSTERY_BOXES_OPENED, details.raidsMysteryBoxesOpened);
+            player.putAttrib(ZENYTE_MYSTERY_BOXES_OPENED, details.zenyteMysteryBoxesOpened);
+            player.putAttrib(MYSTERY_CHESTS_OPENED, details.mysteryChestsOpened);
+            player.putAttrib(TOTAL_RARES_FROM_MYSTERY_BOX, details.raresFromMysteryBox);
+            player.putAttrib(SLAYER_KEYS_OPENED, details.slayerKeysOpened);
+            player.putAttrib(SLAYER_KEYS_RECEIVED, details.slayerKeysReceived);
+            player.putAttrib(DOUBLE_EXP_TICKS, details.doubleExpTicks);
+            player.putAttrib(DOUBLE_DROP_LAMP_TICKS, details.dropRateLampTicks);
+            player.putAttrib(ETHEREUM_ABSORPTION, details.ethereumAbsorption);
+            player.putAttrib(JAILED, details.jailed);
+            player.putAttrib(JAIL_ORES_TO_ESCAPE, details.jailOresToEscape);
+            player.putAttrib(JAIL_ORES_MINED, details.jailOresMined);
+            player.putAttrib(LOC_BEFORE_JAIL, details.locBeforeJail);
+            player.putAttrib(TOURNAMENT_WINS, details.tournamentWins);
+            player.putAttrib(TOURNAMENT_POINTS, details.tournamentPoints);
+            player.putAttrib(LOST_CANNON, details.lostCannon);
+            player.putAttrib(WILDY_COURSE_STATE, details.wildernessCourseState);
+            player.putAttrib(EDGE_PVP_DAILY_TASK_COMPLETION_AMOUNT, details.edgePvpDailyAmount);
+            player.putAttrib(EDGE_PVP_DAILY_TASK_COMPLETED, details.edgePvpDailyCompleted);
+            player.putAttrib(EDGE_PVP_DAILY_TASK_REWARD_CLAIMED, details.edgePvpDailyRewardClaimed);
+            player.putAttrib(REVENANT_CAVE_PVP_DAILY_TASK_COMPLETION_AMOUNT, details.revCavePvpDailyAmount);
+            player.putAttrib(REVENANT_CAVE_PVP_DAILY_TASK_COMPLETED, details.revCavePvpDailyCompleted);
+            player.putAttrib(REVENANT_CAVE_PVP_DAILY_TASK_REWARD_CLAIMED, details.revCavePvpDailyRewardClaimed);
+            player.putAttrib(DEEP_WILD_PVP_DAILY_TASK_COMPLETION_AMOUNT, details.deepWildPvpDailyAmount);
+            player.putAttrib(DEEP_WILD_PVP_DAILY_TASK_COMPLETED, details.deepWildPvpDailyCompleted);
+            player.putAttrib(DEEP_WILD_PVP_DAILY_TASK_REWARD_CLAIMED, details.deepWildPvpDailyRewardClaimed);
+            player.putAttrib(PURE_PVP_DAILY_TASK_COMPLETION_AMOUNT, details.purePvpeDailyAmount);
+            player.putAttrib(PURE_PVP_DAILY_TASK_COMPLETED, details.purePvpDailyCompleted);
+            player.putAttrib(PURE_PVP_DAILY_TASK_REWARD_CLAIMED, details.purePvpDailyRewardClaimed);
+            player.putAttrib(ZERKER_PVP_DAILY_TASK_COMPLETION_AMOUNT, details.zekerPvpDailyAmount);
+            player.putAttrib(ZERKER_PVP_DAILY_TASK_COMPLETED, details.zekerPvpDailyCompleted);
+            player.putAttrib(ZERKER_PVP_DAILY_TASK_REWARD_CLAIMED, details.zekerPVPDailyRewardClaimed);
+            player.putAttrib(TIER_UPGRADE_DAILY_TASK_COMPLETION_AMOUNT, details.tierUpgradePvpDailyAmount);
+            player.putAttrib(TIER_UPGRADE_DAILY_TASK_COMPLETED, details.tierUpgradePvpDailyCompleted);
+            player.putAttrib(TIER_UPGRADE_DAILY_TASK_REWARD_CLAIMED, details.tierUpgradePvpDailyRewardClaimed);
+            player.putAttrib(NO_ARM_DAILY_TASK_COMPLETION_AMOUNT, details.noArmPvpDailyAmount);
+            player.putAttrib(NO_ARM_DAILY_TASK_COMPLETED, details.noArmPvpDailyCompleted);
+            player.putAttrib(NO_ARM_DAILY_TASK_REWARD_CLAIMED, details.noArmPvpDailyRewardClaimed);
+            player.putAttrib(DHAROK_DAILY_TASK_COMPLETION_AMOUNT, details.dharokPvpDailyAmount);
+            player.putAttrib(DHAROK_DAILY_TASK_COMPLETED, details.dharokPvpDailyCompleted);
+            player.putAttrib(DHAROK_DAILY_TASK_REWARD_CLAIMED, details.dharokPvpDailyRewardClaimed);
+            player.putAttrib(BOTS_DAILY_TASK_COMPLETION_AMOUNT, details.botsPvpDailyAmount);
+            player.putAttrib(BOTS_DAILY_TASK_COMPLETED, details.botsPvpDailyCompleted);
+            player.putAttrib(BOTS_DAILY_TASK_REWARD_CLAIMED, details.botsPvpDailyRewardClaimed);
+            player.putAttrib(TOURNEY_PARTICIPATION_DAILY_TASK_COMPLETION_AMOUNT, details.tourneyParticipationDailyAmount);
+            player.putAttrib(TOURNEY_PARTICIPATION_DAILY_TASK_COMPLETED, details.tourneyParticipationDailyCompleted);
+            player.putAttrib(TOURNEY_PARTICIPATION_DAILY_TASK_REWARD_CLAIMED, details.tourneyParticipationDailyRewardClaimed);
+            player.putAttrib(DAILY_RAIDS_DAILY_TASK_COMPLETION_AMOUNT, details.dailyRaidsDailyAmount);
+            player.putAttrib(DAILY_RAIDS_DAILY_TASK_COMPLETED, details.dailyRaidsDailyCompleted);
+            player.putAttrib(DAILY_RAIDS_DAILY_TASK_REWARD_CLAIMED, details.dailyRaidsDailyRewardClaimed);
+            player.putAttrib(WORLD_BOSS_DAILY_TASK_COMPLETION_AMOUNT, details.worldBossDailyDailyAmount);
+            player.putAttrib(WORLD_BOSS_DAILY_TASK_COMPLETED, details.worldBossDailyDailyCompleted);
+            player.putAttrib(WORLD_BOSS_DAILY_TASK_REWARD_CLAIMED, details.worldBossDailyRewardClaimed);
+            player.putAttrib(DAILY_REVENANTS_TASK_COMPLETION_AMOUNT, details.revenantsDailyAmount);
+            player.putAttrib(DAILY_REVENANTS_TASK_COMPLETED, details.revenantsDailyCompleted);
+            player.putAttrib(DAILY_REVENANTS_TASK_REWARD_CLAIMED, details.revenantsDailyRewardClaimed);
+            player.putAttrib(BATTLE_MAGE_DAILY_TASK_COMPLETION_AMOUNT, details.battleMageDailyAmount);
+            player.putAttrib(BATTLE_MAGE_DAILY_TASK_COMPLETED, details.battleMageDailyCompleted);
+            player.putAttrib(BATTLE_MAGE_DAILY_TASK_REWARD_CLAIMED, details.battleMageDailyRewardClaimed);
+            player.putAttrib(WILDERNESS_BOSS_DAILY_TASK_COMPLETION_AMOUNT, details.wildernessBossDailyAmount);
+            player.putAttrib(WILDERNESS_BOSS_DAILY_TASK_COMPLETED, details.wildernessBossDailyCompleted);
+            player.putAttrib(WILDERNESS_BOSS_DAILY_TASK_REWARD_CLAIMED, details.wildernessBossDailyRewardClaimed);
+            player.putAttrib(ZULRAH_DAILY_TASK_COMPLETION_AMOUNT, details.zulrahDailyAmount);
+            player.putAttrib(ZULRAH_DAILY_TASK_COMPLETED, details.zulrahDailyCompleted);
+            player.putAttrib(ZULRAH_DAILY_TASK_REWARD_CLAIMED, details.zulrahDailyRewardClaimed);
+            player.putAttrib(SLAYER_DAILY_TASK_COMPLETION_AMOUNT, details.slayerDailyAmount);
+            player.putAttrib(SLAYER_DAILY_TASK_COMPLETED, details.slayerDailyCompleted);
+            player.putAttrib(SLAYER_DAILY_TASK_REWARD_CLAIMED, details.slayerDailyRewardClaimed);
+            player.putAttrib(CORRUPTED_NECHRYARCHS_DAILY_TASK_COMPLETION_AMOUNT, details.corruptedNechryarchDailyAmount);
+            player.putAttrib(CORRUPTED_NECHRYARCHS_DAILY_TASK_COMPLETED, details.corruptedNechryarchDailyCompleted);
+            player.putAttrib(CORRUPTED_NECHRYARCHS_DAILY_TASK_REWARD_CLAIMED, details.corruptedNechryarchDailyRewardClaimed);
+            player.putAttrib(VORKATH_DAILY_TASK_COMPLETION_AMOUNT, details.vorkathDailyAmount);
+            player.putAttrib(VORKATH_DAILY_TASK_COMPLETED, details.vorkathDailyCompleted);
+            player.putAttrib(VORKATH_DAILY_TASK_REWARD_CLAIMED, details.vorkathDailyRewardClaimed);
+            player.putAttrib(CORPOREAL_BEAST_DAILY_TASK_COMPLETION_AMOUNT, details.corporealBeastDailyAmount);
+            player.putAttrib(CORPOREAL_BEAST_DAILY_TASK_COMPLETED, details.corporealBeastDailyCompleted);
+            player.putAttrib(CORPOREAL_BEAST_DAILY_TASK_REWARD_CLAIMED, details.corporealBeastDailyRewardClaimed);
+            player.putAttrib(WILDY_RUNNER_DAILY_TASK_COMPLETION_AMOUNT, details.wildyRunnerDailyAmount);
+            player.putAttrib(WILDY_RUNNER_DAILY_TASK_COMPLETED, details.wildyRunnerDailyCompleted);
+            player.putAttrib(WILDY_RUNNER_DAILY_TASK_REWARD_CLAIMED, details.wildyRunnerDailyRewardClaimed);
+            player.putAttrib(ALCHEMICAL_HYDRA_LOG_CLAIMED, details.alchemicalHydraLogClaimed);
+            player.putAttrib(ANCIENT_BARRELCHEST_LOG_CLAIMED, details.ancientBarrelchestLogClaimed);
+            player.putAttrib(ANCIENT_CHAOS_ELEMENTAL_LOG_CLAIMED, details.ancientChaosElementalLogClaimed);
+            player.putAttrib(ANCIENT_KING_BLACK_DRAGON_LOG_CLAIMED, details.ancientKingBlackDragonLogClaimed);
+            player.putAttrib(ARACHNE_LOG_CLAIMED, details.arachneLogClaimed);
+            player.putAttrib(ARTIO_LOG_CLAIMED, details.artioLogClaimed);
+            player.putAttrib(SEREN_LOG_CLAIMED, details.serenLogClaimed);
+            player.putAttrib(BARRELCHEST_LOG_CLAIMED, details.barrelchestLogClaimed);
+            player.putAttrib(BRUTAL_LAVA_DRAGON_LOG_CLAIMED, details.brutalLavaDragonLogClaimed);
+            player.putAttrib(CALLISTO_LOG_CLAIMED, details.callistoLogClaimed);
+            player.putAttrib(CERBERUS_LOG_CLAIMED, details.cerberusLogClaimed);
+            player.putAttrib(CHAOS_ELEMENTAL_LOG_CLAIMED, details.chaosElementalLogClaimed);
+            player.putAttrib(CHAOS_FANATIC_LOG_CLAIMED, details.chaosFanaticLogClaimed);
+            player.putAttrib(CORPOREAL_BEAST_LOG_CLAIMED, details.corporealBeastLogClaimed);
+            player.putAttrib(CORRUPTED_NECHRYARCH_LOG_CLAIMED, details.corruptedNechryarchLogClaimed);
+            player.putAttrib(CRAZY_ARCHAEOLOGIST_LOG_CLAIMED, details.crazyArchaeologistLogClaimed);
+            player.putAttrib(DEMONIC_GORILLA_LOG_CLAIMED, details.demonicGorillaLogClaimed);
+            player.putAttrib(GIANT_MOLE_LOG_CLAIMED, details.giantMoleLogClaimed);
+            player.putAttrib(KERBEROS_LOG_CLAIMED, details.kerberosLogClaimed);
+            player.putAttrib(KING_BLACK_DRAGON_LOG_CLAIMED, details.kingBlackDragonLogClaimed);
+            player.putAttrib(KRAKEN_LOG_CLAIMED, details.krakenLogClaimed);
+            player.putAttrib(LAVA_DRAGON_LOG_CLAIMED, details.lavaDragonLogClaimed);
+            player.putAttrib(LIZARDMAN_SHAMAN_LOG_CLAIMED, details.lizardmanShamanLogClaimed);
+            player.putAttrib(SCORPIA_LOG_CLAIMED, details.scorpiaLogClaimed);
+            player.putAttrib(SKORPIOS_LOG_CLAIMED, details.skorpiosLogClaimed);
+            player.putAttrib(SKOTIZO_LOG_CLAIMED, details.skotizoLogClaimed);
+            player.putAttrib(TEKTON_LOG_CLAIMED, details.tektonLogClaimed);
+            player.putAttrib(THERMONUCLEAR_SMOKE_DEVIL_LOG_CLAIMED, details.thermonuclearSmokeDevilLogClaimed);
+            player.putAttrib(THE_NIGTHMARE_LOG_CLAIMED, details.theNightmareLogClaimed);
+            player.putAttrib(CORRUPTED_HUNLEFF_LOG_CLAIMED, details.corruptedHunleffLogClaimed);
+            player.putAttrib(MEN_IN_BLACK_LOG_CLAIMED, details.menInBlackLogClaimed);
+            player.putAttrib(TZTOK_JAD_LOG_CLAIMED, details.tztokJadLogClaimed);
+            player.putAttrib(VENENATIS_LOG_CLAIMED, details.venenatisLogClaimed);
+            player.putAttrib(VETION_LOG_CLAIMED, details.vetionLogClaimed);
+            player.putAttrib(VORKATH_LOG_CLAIMED, details.vorkathLogClaimed);
+            player.putAttrib(ZOMBIES_CHAMPION_LOG_CLAIMED, details.zombiesChampionLogClaimed);
+            player.putAttrib(ZULRAH_LOG_CLAIMED, details.zulrahLogClaimed);
+            player.putAttrib(ARMOUR_MYSTERY_BOX_LOG_CLAIMED, details.armourMysteryBoxLogClaimed);
+            player.putAttrib(DONATOR_MYSTERY_BOX_LOG_CLAIMED, details.donatorMysteryBoxLogClaimed);
+            player.putAttrib(EPIC_PET_MYSTERY_BOX_LOG_CLAIMED, details.epicPetMysteryBoxLogClaimed);
+            player.putAttrib(MYSTERY_CHEST_LOG_CLAIMED, details.mysteryChestLogClaimed);
+            player.putAttrib(RAIDS_MYSTERY_BOX_LOG_CLAIMED, details.raidsMysteryBoxLogClaimed);
+            player.putAttrib(WEAPON_MYSTERY_BOX_LOG_CLAIMED, details.weaponMysteryBoxLogClaimed);
+            player.putAttrib(LEGENDARY_MYSTERY_BOX_LOG_CLAIMED, details.legendaryMysteryBoxLogClaimed);
+            player.putAttrib(ZENYTE_MYSTERY_BOX_LOG_CLAIMED, details.zenyteLogClaimed);
+            player.putAttrib(CRYSTAL_KEY_LOG_CLAIMED, details.crystalKeyLogClaimed);
+            player.putAttrib(MOLTEN_KEY_LOG_CLAIMED, details.moltenKeyLogClaimed);
+            player.putAttrib(ENCHANTED_KEY_R_LOG_CLAIMED, details.enchantedKeyRLogClaimed);
+            player.putAttrib(ENCHANTED_KEY_P_LOG_CLAIMED, details.enchantedKeyPLogClaimed);
+            player.putAttrib(LARRANS_KEY_TIER_I_LOG_CLAIMED, details.larransKeyTierILogClaimed);
+            player.putAttrib(LARRANS_KEY_TIER_II_LOG_CLAIMED, details.larransKeyTierIILogClaimed);
+            player.putAttrib(LARRANS_KEY_TIER_III_LOG_CLAIMED, details.larransKeyTierIIILogClaimed);
+            player.putAttrib(SLAYER_KEY_LOG_CLAIMED, details.slayerKeyLogClaimed);
+            player.putAttrib(WILDERNESS_KEY_LOG_CLAIMED, details.wildernessKeyLogClaimed);
+            player.putAttrib(ANCIENT_REVENANTS_LOG_CLAIMED, details.ancientRevenantsLogClaimed);
+            player.putAttrib(CHAMBER_OF_SECRETS_LOG_CLAIMED, details.chamberOfSecretsLogClaimed);
+            player.putAttrib(REVENANTS_LOG_CLAIMED, details.revenantsLogClaimed);
+            player.putAttrib(SLAYER_LOG_CLAIMED, details.slayerLogClaimed);
+            player.putAttrib(LAST_DAILY_RESET, details.lastDailyReset);
+            player.putAttrib(FINISHED_HALLOWEEN_TEACHER_DIALOGUE, details.finishedHalloweenDialogue);
+            player.putAttrib(CANDIES_TRADED, details.candiesTraded);
+            player.putAttrib(EVENT_REWARD_1_CLAIMED, details.eventReward1Claimed);
+            player.putAttrib(EVENT_REWARD_2_CLAIMED, details.eventReward2Claimed);
+            player.putAttrib(EVENT_REWARD_3_CLAIMED, details.eventReward3Claimed);
+            player.putAttrib(EVENT_REWARD_4_CLAIMED, details.eventReward4Claimed);
+            player.putAttrib(EVENT_REWARD_5_CLAIMED, details.eventReward5Claimed);
+            player.putAttrib(EVENT_REWARD_6_CLAIMED, details.eventReward6Claimed);
+            player.putAttrib(EVENT_REWARD_7_CLAIMED, details.eventReward7Claimed);
+            player.putAttrib(EVENT_REWARD_8_CLAIMED, details.eventReward8Claimed);
+            player.putAttrib(EVENT_REWARD_9_CLAIMED, details.eventReward9Claimed);
+            player.putAttrib(EVENT_REWARD_10_CLAIMED, details.eventReward10Claimed);
+            player.putAttrib(EVENT_REWARD_11_CLAIMED, details.eventReward11Claimed);
+            player.putAttrib(EVENT_REWARD_12_CLAIMED, details.eventReward12Claimed);
+            player.putAttrib(EVENT_REWARD_13_CLAIMED, details.eventReward13Claimed);
+            player.putAttrib(EVENT_REWARD_14_CLAIMED, details.eventReward14Claimed);
+            player.putAttrib(EVENT_REWARD_15_CLAIMED, details.eventReward15Claimed);
+            player.putAttrib(EVENT_REWARD_16_CLAIMED, details.eventReward16Claimed);
+            player.putAttrib(EVENT_REWARD_17_CLAIMED, details.eventReward17Claimed);
+            player.putAttrib(EVENT_REWARD_18_CLAIMED, details.eventReward18Claimed);
+            player.putAttrib(EVENT_REWARD_19_CLAIMED, details.eventReward19Claimed);
+            player.putAttrib(EVENT_REWARD_20_CLAIMED, details.eventReward20Claimed);
+            player.putAttrib(EVENT_REWARD_21_CLAIMED, details.eventReward21Claimed);
+            player.putAttrib(EVENT_REWARD_22_CLAIMED, details.eventReward22Claimed);
+            player.putAttrib(EVENT_REWARD_23_CLAIMED, details.eventReward23Claimed);
+            player.putAttrib(EVENT_REWARD_24_CLAIMED, details.eventReward24Claimed);
+            player.putAttrib(EVENT_REWARD_25_CLAIMED, details.eventReward25Claimed);
+            player.putAttrib(EVENT_REWARD_26_CLAIMED, details.eventReward26Claimed);
+            player.putAttrib(EVENT_REWARD_27_CLAIMED, details.eventReward27Claimed);
+            player.putAttrib(EVENT_REWARD_28_CLAIMED, details.eventReward28Claimed);
+            player.putAttrib(EVENT_REWARD_29_CLAIMED, details.eventReward29Claimed);
+            player.putAttrib(EVENT_REWARD_30_CLAIMED, details.eventReward30Claimed);
+            player.putAttrib(EVENT_REWARD_31_CLAIMED, details.eventReward31Claimed);
+            player.putAttrib(EVENT_REWARD_32_CLAIMED, details.eventReward32Claimed);
+            player.putAttrib(EVENT_REWARD_33_CLAIMED, details.eventReward33Claimed);
+            player.putAttrib(EVENT_REWARD_34_CLAIMED, details.eventReward34Claimed);
+            player.putAttrib(EVENT_REWARD_35_CLAIMED, details.eventReward35Claimed);
+            player.putAttrib(EVENT_REWARD_36_CLAIMED, details.eventReward36Claimed);
+            player.putAttrib(EVENT_REWARD_37_CLAIMED, details.eventReward37Claimed);
+            player.putAttrib(EVENT_REWARD_38_CLAIMED, details.eventReward38Claimed);
+            player.putAttrib(EVENT_REWARD_39_CLAIMED, details.eventReward39Claimed);
+            player.putAttrib(EVENT_REWARD_40_CLAIMED, details.eventReward40Claimed);
+            player.putAttrib(EVENT_REWARD_41_CLAIMED, details.eventReward41Claimed);
+            player.putAttrib(EVENT_REWARD_42_CLAIMED, details.eventReward42Claimed);
+            player.putAttrib(EVENT_REWARD_43_CLAIMED, details.eventReward43Claimed);
+            player.putAttrib(EVENT_REWARD_44_CLAIMED, details.eventReward44Claimed);
+            player.putAttrib(WINTER_EVENT_TOKENS_SPENT, details.winterEventTokensSpent);
+            player.putAttrib(HERB_BOX_CHARGES, details.herbBoxCharges);
+            player.putAttrib(CLAIMED_DONATOR_REWARDS, details.claimedDonatorRewards);
+            player.putAttrib(SNOW_MONSTER_TIMER, details.snowMonsterTimer);
+            player.lastPetId = details.lastPet;
+            player.setInvulnerable(details.infhp);
         }
 
         //Account

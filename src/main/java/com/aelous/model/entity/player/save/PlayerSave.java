@@ -1,39 +1,43 @@
 package com.aelous.model.entity.player.save;
 
-import com.aelous.model.content.teleport.world_teleport_manager.TeleportData;
-import com.aelous.model.entity.player.GameMode;
-import com.aelous.model.entity.player.IronMode;
-import com.aelous.model.entity.player.MagicSpellbook;
-import com.aelous.model.entity.player.Player;
-import com.aelous.model.inter.lootkeys.LootKey;
-import com.aelous.model.items.container.ItemContainer;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.InstanceCreator;
-import com.google.gson.annotations.Expose;
-import com.google.gson.internal.ConstructorConstructor;
 import com.aelous.GameServer;
-import com.aelous.services.database.transactions.UpdatePasswordDatabaseTransaction;
 import com.aelous.model.content.achievements.Achievements;
 import com.aelous.model.content.bank_pin.BankPinModification;
 import com.aelous.model.content.collection_logs.Collection;
 import com.aelous.model.content.presets.Presetable;
 import com.aelous.model.content.tasks.impl.Tasks;
+import com.aelous.model.content.teleport.world_teleport_manager.TeleportData;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.prayer.default_prayer.DefaultPrayerData;
 import com.aelous.model.entity.combat.skull.SkullType;
 import com.aelous.model.entity.combat.weapon.FightType;
+import com.aelous.model.entity.player.GameMode;
+import com.aelous.model.entity.player.IronMode;
+import com.aelous.model.entity.player.MagicSpellbook;
+import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.rights.MemberRights;
 import com.aelous.model.entity.player.rights.PlayerRights;
+import com.aelous.model.inter.lootkeys.LootKey;
 import com.aelous.model.items.Item;
+import com.aelous.model.items.container.ItemContainer;
 import com.aelous.model.map.position.Tile;
+import com.aelous.services.database.transactions.UpdatePasswordDatabaseTransaction;
 import com.aelous.utility.timers.TimerKey;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.InstanceCreator;
+import com.google.gson.annotations.Expose;
+import com.google.gson.internal.ConstructorConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -113,11 +117,12 @@ public class PlayerSave {
     public static final class SaveDetails {
 
         public static boolean loadDetails(Player player) throws Exception {
-            final File file = new File("./data/saves/characters/" + player.getUsername() + ".json");
-            if (!file.exists()) {
+            final Path path = SAVE_DIR.resolve(player.getUsername() + ".json");
+            if (!Files.exists(path)) {
                 return false;
             }
-            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+
+            try (BufferedReader reader = new BufferedReader(new FileReader(path.toFile()))) {
                 final SaveDetails details = PlayerSave.SERIALIZE.fromJson(reader, SaveDetails.class);
                 player.setUsername(details.username);
                 player.setPassword(details.password);
@@ -1923,21 +1928,28 @@ public class PlayerSave {
         }
 
         public void parseDetails() throws Exception {
-            File dir = new File("./data/saves/characters/");
-            if (!dir.exists()) {
-                dir.mkdirs();
+            final Path path = SAVE_DIR.resolve(username + ".json");
+            Path parent = path.getParent();
+            if (parent == null) {
+                throw new UnsupportedOperationException("Path must have a parent " + path);
             }
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("./data/saves/characters/" + username + ".json", false))) {
-                writer.write(PlayerSave.SERIALIZE.toJson(this));
-                writer.flush();
+            if (!Files.exists(parent)) {
+                parent = Files.createDirectories(parent);
             }
+
+            final String json = PlayerSave.SERIALIZE.toJson(this);
+
+            final Path tempFile = Files.createTempFile(parent, path.getFileName().toString(), ".tmp");
+            Files.write(tempFile, json.getBytes());
+
+            Files.move(tempFile, path, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
         }
     }
 
     public static boolean playerExists(String name) {
-        File file;
-        file = new File("./data/saves/characters/" + name + ".json");
-        return file.exists();
+        return Files.exists(SAVE_DIR.resolve(name + ".json"));
     }
+
+    public static final Path SAVE_DIR = Path.of("data", "saves", "characters");
 
 }

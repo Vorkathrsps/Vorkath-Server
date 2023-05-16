@@ -21,7 +21,7 @@ public class Tutorial extends Dialogue {
     public static void start(Player player) {
         player.lock();
         player.looks().hide(true);
-        player.teleport(GameServer.properties().defaultTile);
+        player.teleport(GameServer.properties().defaultTile.tile());
         player.getDialogueManager().start(new Tutorial());
     }
 
@@ -64,7 +64,7 @@ public class Tutorial extends Dialogue {
             send(DialogueType.NPC_STATEMENT, NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.CALM_TALK, "And the revenants can be found here deep in the wilderness.", "You can use the teleporting mage or a quick access", "command for both entrances. ::revs offers to teleport you", "to the level 17 or level 39 entrance.");
             setPhase(12);
         } else if (isPhase(12)) {
-            player.teleport(GameServer.properties().defaultTile);
+            player.teleport(GameServer.properties().defaultTile.tile());
             send(DialogueType.NPC_STATEMENT, NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.CALM_TALK, "Enjoy your stay here at " + GameConstants.SERVER_NAME + "!");
             setPhase(13);
         } else if (isPhase(13)) {

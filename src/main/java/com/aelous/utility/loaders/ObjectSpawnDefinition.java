@@ -1,5 +1,6 @@
 package com.aelous.utility.loaders;
 
+import com.aelous.PlainTile;
 import com.aelous.model.map.position.Tile;
 
 /**
@@ -12,7 +13,7 @@ public class ObjectSpawnDefinition {
     private int face = 0;
     private int type = 10;
     private int id;
-    private Tile tile;
+    private PlainTile tile;
     private boolean enabled = true;
     public boolean PVPWorldExclusive = false;
     public boolean economyExclusive = false;
@@ -42,11 +43,11 @@ public class ObjectSpawnDefinition {
     }
 
     public void setTile(Tile tile) {
-        this.tile = tile;
+        this.tile = tile.toPlain();
     }
 
     public Tile getTile() {
-        return tile;
+        return tile.tile();
     }
 
     public void setEnabled(boolean enabled) {

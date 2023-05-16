@@ -10,7 +10,7 @@ import com.aelous.model.map.position.Tile;
 public class HomeCommand implements Command {
 
     public void execute(Player player, String command, String[] parts) {
-        Tile tile = GameServer.properties().defaultTile;
+        Tile tile = GameServer.properties().defaultTile.tile();
 
         if (!Teleports.canTeleport(player,true, TeleportType.GENERIC)) {
             return;

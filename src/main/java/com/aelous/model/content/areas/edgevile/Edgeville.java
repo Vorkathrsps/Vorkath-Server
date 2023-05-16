@@ -198,7 +198,7 @@ public class Edgeville extends PacketInteraction {
             }
 
             if(obj.getId() == 34752) {
-                Teleports.basicTeleport(player, GameServer.properties().defaultTile);
+                Teleports.basicTeleport(player, GameServer.properties().defaultTile.tile());
                 return true;
             }
 

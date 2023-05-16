@@ -1,9 +1,7 @@
 package com.aelous;
 
-import com.aelous.utility.Utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.aelous.model.map.position.Tile;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,6 +40,7 @@ public final class ServerProperties {
                 logger.info("Server properties file (./data/LocalProperties.json) was not found, loaded with default settings.");
             }
         } catch (IOException e) {
+            logger.error("ffs", e);
             throw new ExceptionInInitializerError(e);
         }
         try {
@@ -74,6 +73,7 @@ public final class ServerProperties {
                 }
             }
         } catch (IOException e) {
+            logger.error("ffs", e);
             throw new ExceptionInInitializerError(e);
         }
     }
@@ -113,8 +113,8 @@ public final class ServerProperties {
         concurrency = false; //(Runtime.getRuntime().availableProcessors() > 1);
         queuedLoopThreshold = 45;
         packetProcessLimit = 25;
-        defaultTile = new Tile(3097, 3501, 0);
-        duelTile = new Tile(3369, 3266);
+        defaultTile = new PlainTile(3097, 3501, 0);
+        duelTile = new PlainTile(3369, 3266);
         defaultClanChat = "help";
         queueSwitchingRefresh = false;
         rightClickAutocast = false;
@@ -293,13 +293,13 @@ public final class ServerProperties {
      * The default position, where players will
      * spawn upon logging in for the first time.
      */
-    public final Tile defaultTile;
+    public final PlainTile defaultTile;
 
     /**
      * The default position, where players will
      * spawn upon logging in for the first time.
      */
-    public final Tile duelTile;
+    public final PlainTile duelTile;
 
     /**
      * The default clan chat a player will join upon logging in,

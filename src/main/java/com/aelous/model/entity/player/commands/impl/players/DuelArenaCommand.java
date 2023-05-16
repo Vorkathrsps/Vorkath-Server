@@ -19,7 +19,7 @@ public class DuelArenaCommand implements Command {
             return;
         }
 
-        Tile tile = GameServer.properties().duelTile;
+        Tile tile = GameServer.properties().duelTile.tile();
 
         if (!Teleports.canTeleport(player,true, TeleportType.GENERIC)) {
             return;

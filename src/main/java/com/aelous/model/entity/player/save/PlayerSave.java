@@ -1,6 +1,7 @@
 package com.aelous.model.entity.player.save;
 
 import com.aelous.GameServer;
+import com.aelous.PlainTile;
 import com.aelous.model.content.achievements.Achievements;
 import com.aelous.model.content.bank_pin.BankPinModification;
 import com.aelous.model.content.collection_logs.Collection;
@@ -140,7 +141,7 @@ public class PlayerSave {
             if (details.titleColor != null)
                 player.putAttrib(TITLE_COLOR, details.titleColor);
             if (details.tile != null)
-                player.setTile(details.tile);
+                player.setTile(details.tile.tile());
             player.putAttrib(GAME_TIME, details.gameTime);
             player.putAttrib(RUN_ENERGY, details.runEnergy);
             player.putAttrib(IS_RUNNING, details.running);
@@ -604,7 +605,7 @@ public class PlayerSave {
             player.putAttrib(JAILED, details.jailed);
             player.putAttrib(JAIL_ORES_TO_ESCAPE, details.jailOresToEscape);
             player.putAttrib(JAIL_ORES_MINED, details.jailOresMined);
-            player.putAttrib(LOC_BEFORE_JAIL, details.locBeforeJail);
+            player.putAttrib(LOC_BEFORE_JAIL, details.locBeforeJail.tile());
             player.putAttrib(TOURNAMENT_WINS, details.tournamentWins);
             player.putAttrib(TOURNAMENT_POINTS, details.tournamentPoints);
             player.putAttrib(LOST_CANNON, details.lostCannon);
@@ -790,7 +791,7 @@ public class PlayerSave {
         private final String password;
         private final String title;
         private final String titleColor;
-        private final Tile tile;
+        private final PlainTile tile;
         private final long gameTime;
         private final double runEnergy;
         private final boolean running;
@@ -1176,7 +1177,7 @@ public class PlayerSave {
         private final int jailed;
         private final int jailOresToEscape;
         private final int jailOresMined;
-        private final Tile locBeforeJail;
+        private final PlainTile locBeforeJail;
         private final int tournamentWins;
         private final boolean lostCannon;
 
@@ -1395,7 +1396,7 @@ public class PlayerSave {
             }
             title = Player.getAttribStringOr(player, TITLE, "");
             titleColor = Player.getAttribStringOr(player, TITLE_COLOR, "");
-            tile = player.tile();
+            tile = player.tile().toPlain();
             gameTime = Player.getAttribLongOr(player, GAME_TIME, 0L);
             runEnergy = Player.getAttribDoubleOr(player, RUN_ENERGY, 0D);
             running = Player.getAttribBooleanOr(player, IS_RUNNING, false);
@@ -1751,7 +1752,7 @@ public class PlayerSave {
             jailed = Player.getAttribIntOr(player, JAILED, 0);
             jailOresToEscape = Player.getAttribIntOr(player, JAIL_ORES_TO_ESCAPE, 0);
             jailOresMined = Player.getAttribIntOr(player, JAIL_ORES_MINED, 0);
-            locBeforeJail = player.getAttribOr(LOC_BEFORE_JAIL, new Tile(3092, 3500));
+            locBeforeJail = ((Tile)player.getAttribOr(LOC_BEFORE_JAIL, new Tile(3092, 3500))).toPlain();
             tournamentWins = Player.getAttribIntOr(player, TOURNAMENT_WINS, 0);
             tournamentPoints = Player.getAttribIntOr(player, TOURNAMENT_POINTS, 0);
             lostCannon = Player.getAttribBooleanOr(player, LOST_CANNON, false);

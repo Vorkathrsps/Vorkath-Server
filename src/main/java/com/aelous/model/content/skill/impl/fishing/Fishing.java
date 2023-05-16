@@ -1,5 +1,6 @@
 package com.aelous.model.content.skill.impl.fishing;
 
+import com.aelous.PlainTile;
 import com.aelous.model.content.achievements.Achievements;
 import com.aelous.model.content.achievements.AchievementsManager;
 import com.aelous.model.content.tasks.impl.Tasks;
@@ -12,7 +13,6 @@ import com.aelous.model.inter.dialogue.DialogueManager;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
-import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 import com.google.gson.Gson;
@@ -164,21 +164,21 @@ public class Fishing {
         });
     }
 
-    public static NPC createSpot(World world, FishSpot spot, List<Tile> possible) {
+    public static NPC createSpot(World world, FishSpot spot, List<PlainTile> possible) {
         Collections.shuffle(possible);
-        NPC npc = new NPC(spot.id, randomFreeSpotTile(world, possible));
+        NPC npc = new NPC(spot.id, randomFreeSpotTile(world, possible).tile());
         npc.putAttrib(AttributeKey.POSSIBLE_FISH_TILES, possible);
         world.registerNpc(npc);
         return npc;
     }
 
-    public static Tile randomFreeSpotTile(World world, List<Tile> tiles) {
+    public static PlainTile randomFreeSpotTile(World world, List<PlainTile> tiles) {
         return tiles.parallelStream().filter(t -> world.getNpcs().stream().filter(Objects::nonNull).noneMatch(n  -> n.tile().equals(t))).findAny().orElse(tiles.get(0));
     }
 
     public static class FishSpotDef {
         FishSpot spot = null;
-        List<Tile> tiles = new ArrayList<>();
+        List<PlainTile> tiles = new ArrayList<>();
     }
 
 }

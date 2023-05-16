@@ -143,7 +143,7 @@ public class ObjectInteractionHandler implements PacketListener {
         final String name = object.definition().name;
 
         if (object.definition().id == 10556 || object.definition().id == 21177) {
-            player.teleport(GameServer.properties().defaultTile);
+            player.teleport(GameServer.properties().defaultTile.tile());
             return;
         }
 

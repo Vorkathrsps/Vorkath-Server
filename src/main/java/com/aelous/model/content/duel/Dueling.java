@@ -986,8 +986,8 @@ public class Dueling {
             opponent.getDueling().setState(DuelState.ENDING_DUEL);
 
             //Move players home
-            opponent.teleport(GameServer.properties().duelTile.copy().add(Utils.getRandom(2), Utils.getRandom(2)));
-            player.teleport(GameServer.properties().duelTile.copy().add(Utils.getRandom(2), Utils.getRandom(2)));
+            opponent.teleport(GameServer.properties().duelTile.tile().copy().add(Utils.getRandom(2), Utils.getRandom(2)));
+            player.teleport(GameServer.properties().duelTile.tile().copy().add(Utils.getRandom(2), Utils.getRandom(2)));
 
             //Add won items to a list..
             long totalValue = 0;

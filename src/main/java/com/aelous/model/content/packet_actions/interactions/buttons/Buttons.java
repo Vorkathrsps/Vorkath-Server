@@ -120,7 +120,7 @@ public class Buttons {
                 if (player.getDueling().inDuel()) {
                     return;
                 }
-                Tile tile = GameServer.properties().defaultTile;
+                Tile tile = GameServer.properties().defaultTile.tile();
                 if (Teleports.canTeleport(player, true, TeleportType.GENERIC)) {
                     Teleports.basicTeleport(player, tile);
                     player.message("You have been teleported to home.");

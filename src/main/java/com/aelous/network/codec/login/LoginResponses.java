@@ -73,6 +73,7 @@ public final class LoginResponses {
         }
 
         if (!msg.getClientVersion().equals(GameServer.properties().gameVersion)) {
+            System.err.println(msg.getClientVersion()+" vs "+GameServer.properties().gameVersion);
             return OLD_CLIENT_VERSION;
         }
 
@@ -146,6 +147,9 @@ public final class LoginResponses {
                     return LoginResponses.LOGIN_INVALID_CREDENTIALS;
                 }
             } catch (Throwable t) {
+                if (t.getMessage().toLowerCase().contains("json")) {
+                    logger.error("this exception is probably the result of attempting to serialize a Unsupport Class like Tile. Instead, use PlainTile.");
+                }
                 logger.error("There was an error logging on for " + player.getUsername() + ": ");
                 logger.error("shite", t);
                 return LoginResponses.COULD_NOT_COMPLETE_LOGIN;

@@ -2,6 +2,7 @@ package com.aelous.model.entity.combat.method.impl.npcs.bosses.judgeofyama;
 
 import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
@@ -12,13 +13,21 @@ import com.aelous.model.entity.masks.impl.animations.Priority;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.masks.impl.tinting.Tinting;
+import com.aelous.model.entity.npc.NPC;
+import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.utility.chainedwork.Chain;
+import com.aelous.utility.timers.TimerKey;
 
 public class Judge extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
+        var player = (Player) target;
+        var npc = (NPC) entity;
+        if (player.getWildernessKeys().getNpc() != npc) {
+            return false;
+        }
         entity.animate(entity.attackAnimation());
         target.getAsPlayer().getPacketSender().sendEntityHint(entity);
 
@@ -108,6 +117,6 @@ public class Judge extends CommonCombatMethod {
 
     @Override
     public boolean canMultiAttackInSingleZones() {
-        return super.canMultiAttackInSingleZones();
+        return false;
     }
 }

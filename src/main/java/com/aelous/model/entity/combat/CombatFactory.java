@@ -717,6 +717,7 @@ public class CombatFactory {
 
         // The last time our target was attacked
         var targetLastAttackedTime = System.currentTimeMillis() - other.<Long>getAttribOr(AttributeKey.LAST_WAS_ATTACKED_TIME, 0L);
+        var attackersLastAttackTime = System.currentTimeMillis() - entity.<Long>getAttribOr(AttributeKey.LAST_WAS_ATTACKED_TIME, 0L);
 
         if (entity.isPlayer() && other.isNpc()) {
             var oppNpc = other.getAsNpc();
@@ -883,6 +884,14 @@ public class CombatFactory {
             return true;
         }
 
+        if (other.isNpc() && entity.isPlayer() && entity.getAsPlayer().getWildernessKeys().isNpcLinked()) {
+            return true;
+        }
+       // } else if (other.isPlayer() && !other.getAsPlayer().getWildernessKeys().isNpcLinked()) {
+       //     other.message(Color.RED.wrap("You cannot attack an npc that is not linked to you"));
+      //      return false;
+      //  }
+
         // Check immune npcs..
         if (other.isNpc()) {
             if (other instanceof NPC) {
@@ -903,6 +912,13 @@ public class CombatFactory {
                             }
                         }
                     }
+                }
+
+                var player = (Player) entity;
+                var targetList = player.getWildernessKeys().getTargetList();
+                if (!targetList.contains((Player) entity)) {
+                    player.message(Color.RED.wrap("You cannot attack a spawned npc that is not linked to you."));
+                    return false;
                 }
 
                 if (npc.getTimers().has(TimerKey.ATTACK_IMMUNITY)) {

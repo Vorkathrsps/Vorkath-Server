@@ -327,6 +327,7 @@ public class Combat {
         if (target == null) {
             return;
         }
+
         /**
          * Set our common combat method
          */
@@ -353,6 +354,8 @@ public class Combat {
         final Entity target = this.target;
 
         int combatAttackTicksRemaining = mob.getTimers().left(TimerKey.COMBAT_ATTACK);
+
+        //TODO add wildernesskey damage authentication
 
         if (combatAttackTicksRemaining <= 0) {
             if (!method.prepareAttack(mob, target))

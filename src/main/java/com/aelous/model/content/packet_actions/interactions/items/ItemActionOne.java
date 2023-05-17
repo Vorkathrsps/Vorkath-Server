@@ -58,6 +58,10 @@ public class ItemActionOne {
             return;
         }
 
+        if (player.getWildernessKeys().digToSpawnNpc(item)) {
+            return;
+        }
+
         if (Potions.onItemOption1(player, item)) {
             return;
         }

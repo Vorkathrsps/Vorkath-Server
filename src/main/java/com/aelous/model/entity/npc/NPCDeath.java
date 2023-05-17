@@ -8,6 +8,7 @@ import com.aelous.model.content.achievements.Achievements;
 import com.aelous.model.content.achievements.AchievementsManager;
 import com.aelous.model.content.areas.burthope.warriors_guild.MagicalAnimator;
 import com.aelous.model.content.areas.wilderness.content.boss_event.WildernessBossEvent;
+import com.aelous.model.content.areas.wilderness.wildernesskeys.WildernessKeys;
 import com.aelous.model.content.daily_tasks.DailyTaskManager;
 import com.aelous.model.content.daily_tasks.DailyTasks;
 import com.aelous.model.content.skill.impl.prayer.Bone;
@@ -719,6 +720,12 @@ public class NPCDeath {
             }
 
             Zulrah.death(killer, npc);
+
+            if (killer != null) {
+                if (killer.getWildernessKeys().hasSpawnedNpc()) {
+                    killer.getWildernessKeys().onDeath();
+                }
+            }
 
             if (npc.id() == CORPOREAL_BEAST) { // Corp beast
                 // Reset damage counter

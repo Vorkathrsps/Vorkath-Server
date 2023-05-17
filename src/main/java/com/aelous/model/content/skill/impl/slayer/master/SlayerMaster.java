@@ -13,6 +13,8 @@ import com.google.common.collect.Range;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import static com.aelous.model.entity.player.QuestTab.InfoTab.SLAYER_TASK;
 
@@ -28,30 +30,28 @@ public class SlayerMaster {
     public final List<SlayerTaskDef> defs = new ArrayList<>();
 
     private SlayerTaskDef randomTask(Player player) {
-        // Grab our last task and exclude it to avoid b2b
         int last = player.getAttribOr(AttributeKey.SLAYER_TASK_ID, 0);
 
-        // Build a map and fill it with possible tasks.
         final int[] tmp = {0};
 
-        ImmutableRangeMap.Builder<Integer, SlayerTaskDef> builder = ImmutableRangeMap.builder();
+        TreeMap<Integer, SlayerTaskDef> taskMap = new TreeMap<>();
         defs.forEach(task -> {
             if (task != null && task.getCreatureUid() != last &&
                 player.getSkills().xpLevel(Skills.SLAYER) >= SlayerCreature.lookup(task.getCreatureUid()).req &&
                 player.getSkills().combatLevel() >= SlayerCreature.lookup(task.getCreatureUid()).cbreq &&
                 !player.getSlayerRewards().isTaskBlocked(task) && player.getSlayerRewards().canAssign(task)) {
-                builder.put(Range.closedOpen(tmp[0], tmp[0] + task.getWeighing()), task);
+                taskMap.put(tmp[0], task);
                 tmp[0] += task.getWeighing();
             }
         });
-        ImmutableRangeMap<Integer, SlayerTaskDef> build = builder.build();
+
         if (tmp[0] == 0) {
-            // builder is empty u cant do any tasks at all
             return null;
         }
-        Range<Integer> range = build.span();
-        int rnd = World.getWorld().random(range.upperEndpoint() - 1);
-        return build.get(rnd);
+
+        int rnd = World.getWorld().random(tmp[0] - 1);
+        Map.Entry<Integer, SlayerTaskDef> entry = taskMap.floorEntry(rnd);
+        return entry.getValue();
     }
 
     public static void assign(Player player, int id) {

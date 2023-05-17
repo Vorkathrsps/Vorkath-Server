@@ -932,7 +932,6 @@ public final class PacketSender {
         out.put(type).putShort(-1);
         out.putInt(0, ByteOrder.TRIPLE_INT);
         player.getSession().write(out);
-
         // Tell client to prioritize the target.
         player.message("prioritizetarget:-1");
         return this;

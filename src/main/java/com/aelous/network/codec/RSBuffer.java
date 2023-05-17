@@ -277,8 +277,6 @@ public class RSBuffer {
     public int bitpos(int i) {
         return 8 * i - bitPosition;
     }
-
-
     private static final char[] CHARACTERS = new char[]
         {
             '\u20ac', '\u0000', '\u201a', '\u0192', '\u201e', '\u2026',
@@ -317,6 +315,46 @@ public class RSBuffer {
         }
         return sb.toString();
     }
+
+    public final char[] cp1252AsciiExtension = new char[]{
+        '€', '\u0000', '‚', 'ƒ', '„', '…', '†', '‡', 'ˆ', '‰', 'Š', '‹', 'Œ', '\u0000', 'Ž', '\u0000',
+        '\u0000', '‘', '’', '“', '”', '•', '–', '—', '˜', '™', 'š', '›', 'œ', '\u0000', 'ž', 'Ÿ'
+    };
+
+    public String readStringCp1252NullTerminated() {
+        int var1 = this.bitPosition;
+
+        while(this.get().array()[++this.bitPosition - 1] != 0) {
+            ;
+        }
+
+        int var2 = this.bitPosition - var1 - 1;
+        return var2 == 0 ? "" : decodeStringCp1252(this.get().array(), var1, var2);
+    }
+
+    public String decodeStringCp1252(byte[] var0, int var1, int var2) {
+        char[] var3 = new char[var2];
+        int var4 = 0;
+
+        for(int var5 = 0; var5 < var2; ++var5) {
+            int var6 = var0[var5 + var1] & 255;
+            if (var6 != 0) {
+                if (var6 >= 128 && var6 < 160) {
+                    char var7 = cp1252AsciiExtension[var6 - 128];
+                    if (var7 == 0) {
+                        var7 = '?';
+                    }
+
+                    var6 = var7;
+                }
+
+                var3[var4++] = (char)var6;
+            }
+        }
+
+        return new String(var3, 0, var4);
+    }
+
     public void writeBits(int numBits, int value) {
         int bytePos = bitPosition >> 3;
         int bitOffset = 8 - (bitPosition & 7);

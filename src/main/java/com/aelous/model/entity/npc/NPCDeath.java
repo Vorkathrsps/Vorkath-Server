@@ -569,6 +569,11 @@ public class NPCDeath {
 
                     table.rollForLarransKey(npc, killer);
 
+                    if (WildernessArea.inWilderness(killer.tile())) {
+                        killer.getWildernessSlayerCasket().rollForCasket(npc);
+                        killer.getWildernessSlayerCasket().rollForSupplys(npc);
+                    }
+
                     if (!customDrops.contains(npc.id())) {
                         table.getGuaranteedDrops().forEach(tableItem -> {
                             if (killer.inventory().contains(13116)) {
@@ -640,11 +645,6 @@ public class NPCDeath {
                             }
 
                             GroundItemHandler.createGroundItem(new GroundItem(reward, tile, killer));
-
-                            if (WildernessArea.inWilderness(killer.tile())) {
-                                killer.getWildernessSlayerCasket().rollForCasket(npc);
-                                killer.getWildernessSlayerCasket().rollForSupplys(npc);
-                            }
 
                             npcDropLogs.log(NPC_DROPS, "Player " + killer.getUsername() + " got drop item " + reward.unnote().name());
                             Utils.sendDiscordInfoLog("Player " + killer.getUsername() + " got drop item " + reward.unnote().name(), "npcdrops");

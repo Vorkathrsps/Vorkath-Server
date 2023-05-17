@@ -53,5 +53,5 @@ public class NetworkUtils {
      */
     public static final AttributeKey<Session> SESSION_KEY = AttributeKey.valueOf("session.key");
 
-    public static final String[] INVALID_USERNAMES = {"Admin", "Owner", "Dev", "Origin", "Cryptic"};
+    public static final String[] INVALID_USERNAMES = {"Admin", "Owner", "Dev"};
 }

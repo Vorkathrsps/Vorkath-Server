@@ -457,9 +457,6 @@ public class GameObject {
                     if (remove) {
                         tile.unflagDecoration();
                     } else {
-                        /*if (tile.x >= 2944 && tile.x<= 3330 && tile.y >= 3521 && tile.y <= 3522) {
-                            System.out.println("wildy obj "+this);
-                        }*/
                         tile.flagDecoration();
                     }
                 }

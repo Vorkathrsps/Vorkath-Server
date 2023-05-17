@@ -150,7 +150,6 @@ public class MagicAccuracy {
             case CONTROLLED -> effectiveLevel += 1;
         }
 
-
         effectiveLevel = (int) Math.floor(effectiveLevel);
 
         if (defender != null) {
@@ -232,6 +231,6 @@ public class MagicAccuracy {
 
     private int getDefenceRoll(final Entity defender) {
         int equipmentDefenceBonus = getEquipmentBonusDefender(defender);
-        return (int) Math.floor((getEffectiveDefenceDefender(defender) * (equipmentDefenceBonus + 64)) * 0.825);
+        return (int) Math.floor((getEffectiveDefenceDefender(defender) * (equipmentDefenceBonus + 64)));
     }
 }

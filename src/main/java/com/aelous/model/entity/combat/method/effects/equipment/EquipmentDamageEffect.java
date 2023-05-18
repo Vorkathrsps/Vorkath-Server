@@ -6,6 +6,7 @@ import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.effects.equipment.impl.*;
 import com.aelous.model.entity.combat.method.effects.listener.DamageEffectListener;
+import com.aelous.model.entity.combat.method.effects.typeless.PrayerDamage;
 
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         //damage defender
         damageEffectListenersDefender.add(new ToxicStaffOfTheDead());
         damageEffectListenersDefender.add(new ElysianSpiritShield());
+        damageEffectListenersDefender.add(new PrayerDamage());
     }
 
     @Override

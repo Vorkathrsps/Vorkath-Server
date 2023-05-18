@@ -211,10 +211,7 @@ public class Hit {
             return;
         }
 
-        var attackType = attacker.getCombat().getFightType().getAttackType();
-
         if (target.dead()) {
-            //System.out.println(target.getMobName() + " is dead.");
             return;
         }
 
@@ -274,13 +271,6 @@ public class Hit {
             } else if (alwaysHitActive) {
                 damage = alwaysHitDamage;
             } else {
-                if (attacker instanceof NPC) {
-                    NpcDefinition def = attacker.getAsNpc().def();
-                    String name = def.name;
-                    if (attacker.isNpc() && name != null && name.equalsIgnoreCase("Nex") && attacker.<Boolean>getAttribOr(AttributeKey.TURMOIL_ACTIVE, false)) {
-                        this.damage *= 1.10;
-                    }
-                }
                 damage = this.damage;
             }
         }

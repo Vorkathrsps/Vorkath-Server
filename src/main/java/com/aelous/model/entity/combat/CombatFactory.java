@@ -360,29 +360,6 @@ public class CombatFactory {
             }
         }
 
-        //PvP protection prayers
-        if (damage > 0 && target != null) {
-            if (target.isPlayer() && attacker.isPlayer()) {
-                Player targ = target.getAsPlayer();
-                boolean isProtecting = false;
-                if (type == CombatType.MELEE && targ.lastActiveOverhead == PROTECT_FROM_MELEE) {
-                    isProtecting = true;
-                } else if (type == CombatType.RANGED && targ.lastActiveOverhead == PROTECT_FROM_MISSILES) {
-                    isProtecting = true;
-                } else if (type == CombatType.MAGIC && targ.lastActiveOverhead == PROTECT_FROM_MAGIC) {
-                    isProtecting = true;
-                }
-
-                //System.err.println("New prayer formula: Target is Praying=" + (isProtecting ? "YES" : "NO"));
-                //System.err.println("Damage Before=" + damage);
-
-                if (isProtecting) {
-                    damage = (int) Math.floor(damage * 0.4F);
-                }
-                //System.err.println("Damage After=" + damage);
-            }
-        }
-
         if (target instanceof Player) {
             Item shield = target.getAsPlayer().getEquipment().get(EquipSlot.SHIELD);
 
@@ -429,11 +406,8 @@ public class CombatFactory {
                     }
                 }
             }
-
             target.takeHit();
-
         }
-
         // Return our hitDamage that may have been modified slightly.
         return damage;
     }
@@ -1481,22 +1455,6 @@ public class CombatFactory {
 
         if (attacker != null && !attacker.getCombat().getFightTimer().isRunning()) {
             attacker.getCombat().getFightTimer().start();
-        }
-
-        if (attacker != null && damage > 0) {
-            if (target.isPlayer() && attacker.isNpc()) {//NPC PROTECTION PRAYERS
-                if (attacker.getAsNpc().getBotHandler() != null) {
-                    if (Prayers.usingPrayer(target, Prayers.getProtectingPrayer(hit.getCombatType()))) {
-                        hit.setDamage((damage));
-                    }
-                } else {
-                    boolean meleePrayer = hit.getCombatType() == CombatType.MELEE && Prayers.usingPrayer(target, PROTECT_FROM_MELEE);
-                    boolean rangedPrayer = hit.getCombatType() == CombatType.RANGED && Prayers.usingPrayer(target, PROTECT_FROM_MISSILES);
-                    boolean magicPrayer = hit.getCombatType() == CombatType.MAGIC && Prayers.usingPrayer(target, PROTECT_FROM_MAGIC);
-                    if (!hit.prayerIgnored && (meleePrayer || rangedPrayer || magicPrayer))
-                        hit.setDamage(0);
-                }
-            }
         }
 
         if (attacker != null) {

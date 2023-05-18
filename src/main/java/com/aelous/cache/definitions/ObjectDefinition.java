@@ -498,7 +498,6 @@ public class ObjectDefinition implements Definition {
         }
     }
 
-
     public static int method32(int var0) {
         --var0;
         var0 |= var0 >>> 1;

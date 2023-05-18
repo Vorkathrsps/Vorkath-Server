@@ -29,6 +29,7 @@ public class PrayerDamage implements DamageEffectListener {
         if (attacker.isNpc() && name != null && name.equalsIgnoreCase("Nex") && attacker.<Boolean>getAttribOr(AttributeKey.TURMOIL_ACTIVE, false)) {
             damage = (int) Math.floor(damage * 1.10F);
             hit.setDamage(damage);
+            return true;
         }
         return false;
     }

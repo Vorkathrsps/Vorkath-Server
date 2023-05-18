@@ -5,10 +5,10 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.effects.equipment.impl.*;
+import com.aelous.model.entity.combat.method.effects.equipment.impl.seteffects.GuthanSet;
+import com.aelous.model.entity.combat.method.effects.equipment.impl.seteffects.VeracSet;
 import com.aelous.model.entity.combat.method.effects.listener.DamageEffectListener;
 import com.aelous.model.entity.combat.method.effects.typeless.PrayerDamage;
-
-import javax.swing.colorchooser.AbstractColorChooserPanel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +23,11 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         damageEffectListenersDefender = new ArrayList<>();
         accuracyModificationListenerAttacker = new ArrayList<>();
         accuracyModificationListenerDefender = new ArrayList<>();
+
         //damage attacker
         damageEffectListenersAttacker.add(new AmuletOfBloodFury());
+        damageEffectListenersDefender.add(new VeracSet());
+        damageEffectListenersAttacker.add(new GuthanSet());
 
         //accuracy attacker
         accuracyModificationListenerAttacker.add(new BrimstoneRing());

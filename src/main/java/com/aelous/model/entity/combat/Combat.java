@@ -455,7 +455,7 @@ public class Combat {
             //System.out.println("yeet this guy "+entity.getMobName()+" by "+amount);
             return;
         }
-        //System.out.println(entity.getMobName()+" hit "+mob.getMobName()+" for "+amount);
+
         getDamageMap(); // make sure it exists
 
         if (damageMap.containsKey(entity)) {

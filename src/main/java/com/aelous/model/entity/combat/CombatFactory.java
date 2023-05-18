@@ -1076,6 +1076,11 @@ public class CombatFactory {
         target.getCombat().getHitQueue().add(hit);
     }
 
+
+
+    static PreDamageEffectHandler triggerAttacker = new PreDamageEffectHandler(new EquipmentDamageEffect());
+    static PreDamageEffectHandler triggerDefender = new PreDamageEffectHandler(new EquipmentDamageEffect());
+
     /**
      * Executes a hit that has been ticking until now.
      *
@@ -1118,6 +1123,12 @@ public class CombatFactory {
 
         // Before target takes damage, manipulate the hit to handle
         // last-second effects
+
+        if (attacker instanceof Player a)
+            triggerAttacker.triggerEffectForAttacker(a, combatType, hit);
+        if (target instanceof Player t)
+            triggerDefender.triggerEffectForDefender(t, combatType, hit);
+
         hit = target.manipulateHit(hit);
 
         // Do block animation
@@ -1166,15 +1177,7 @@ public class CombatFactory {
 
                 handlePrayerEffects(attacker, target, damage, hit.getCombatType());
             }
-        } //blood fury here
-
-        PreDamageEffectHandler triggerAttacker = new PreDamageEffectHandler(new EquipmentDamageEffect());
-        if (attacker instanceof Player a)
-            triggerAttacker.triggerEffectForAttacker(a, combatType, hit);
-
-        PreDamageEffectHandler triggerDefender = new PreDamageEffectHandler(new EquipmentDamageEffect());
-        if (target instanceof Player t)
-            triggerDefender.triggerEffectForDefender(t, combatType, hit);
+        }
 
         if (hit.postDamage != null)
             hit.postDamage.accept(hit);
@@ -1184,6 +1187,7 @@ public class CombatFactory {
         }
 
         if (attacker != null && attacker.isPlayer() && target.isPlayer()) {
+            assert attacker instanceof Player;
             Player player = (Player) attacker;
             if (hit.isAccurate() && combatType == CombatType.RANGED) {
                 if (FormulaUtils.wearingFullKarils(player)) {
@@ -1195,32 +1199,14 @@ public class CombatFactory {
                     }
                 }
             }
-            if (hit.isAccurate() && combatType == CombatType.MELEE) {
-                if (FormulaUtils.wearingFullVerac(player)) {
-                    if (Utils.securedRandomChance(0.25F)) {
-                        hit.ignorePrayer();
-                    }
-                }
-                if (FormulaUtils.wearingFullTorag(player)) {
-                    if (Utils.securedRandomChance(0.25F)) {
-                        target.graphic(399, GraphicHeight.HIGH, 0);
-                        target.getAttribOr(AttributeKey.RUN_ENERGY, -20);
-                    }
+            if (FormulaUtils.wearingFullTorag(player)) {
+                if (Utils.securedRandomChance(0.25F)) {
+                    target.graphic(399, GraphicHeight.HIGH, 0);
+                    target.getAttribOr(AttributeKey.RUN_ENERGY, -20);
                 }
             }
         }
 
-        if (attacker != null && attacker.isPlayer()) {
-            Player player = (Player) attacker;
-            if (hit.isAccurate() && combatType == CombatType.MELEE) {
-                if (FormulaUtils.wearingFullGuthan(player)) {
-                    if (Utils.securedRandomChance(0.25F)) {
-                        target.graphic(398, GraphicHeight.LOW, 0);
-                        player.heal(damage);
-                    }
-                }
-            }
-        }
         // Check for poisonous weapons..
         // And do other effects, such as barrows effects..
         if (attacker != null && attacker.isPlayer()) {
@@ -1346,18 +1332,7 @@ public class CombatFactory {
             boolean venom = Venom.attempt(attacker, target, hit.getCombatType(), hit.isAccurate());
             if (venom)
                 target.venom(attacker);
-            // Handle barrows effects if damage is more than zero.
-            if (hit.getDamage() > 0 && !hit.reflected) {
-                if (Utils.getRandom(10) >= 8) {
 
-                    // Apply Guthan's effect..
-                    if (fullGuthans(attackerAsPlayer)) {
-                        handleGuthans(attackerAsPlayer, target, hit.getDamage());
-                    }
-
-                    // Other barrows effects here..
-                }
-            }
         } else if (attacker != null && attacker.isNpc()) {
             NPC npc = attacker.getAsNpc();
             // Poison?
@@ -1372,27 +1347,6 @@ public class CombatFactory {
         // Handle ring of recoil for target
         // Also handle vengeance for target
         if (attacker != null && hit.getDamage() > 0) {
-            if (target.isPlayer()) {
-                Player player = target.getAsPlayer();
-
-                if (player.getEquipment().hasAt(EquipSlot.WEAPON, FROZEN_ABYSSAL_WHIP)) {
-                    //20% chance to freeze your target.
-                    if (Utils.rollDie(5, 1)) {
-                        target.freeze(5, player);
-                    }
-                } else if (attacker.isPlayer() && attacker.getAsPlayer().getEquipment().hasAt(EquipSlot.WEAPON, VOLCANIC_ABYSSAL_WHIP)) {
-                    //20% chance to set your target on fire.
-                    if (Utils.rollDie(5, 1)) {
-                        target.hit(player, Utils.random(1, 5));
-                        if (target instanceof Player ptarg) {
-                            ptarg.animate(3170);
-                            ptarg.message("You feel a hot blaze caused by the lava whip.");
-                        }
-                    }
-                }
-
-                //We don't have to check if ring is null here we already check that in the main method.
-            }
 
             if (!hit.reflected) {
                 if (target instanceof Player targ) {
@@ -1431,11 +1385,8 @@ public class CombatFactory {
         // Auto-retaliate
         if (attacker != null && !CombatFactory.isAttacking(target) && !hit.reflected) { // is mob fighting someone?
             if (attacker.isPlayer()) {
-                //if (player.getCombat().autoRetaliate()) {
-                // Players only auto retal the attacker when out of combat.
                 boolean mayAttack = true;
 
-                // Check attackability
                 if (!canAttack(attacker, getMethod(attacker), target)) {
                     mayAttack = false;
                     attacker.getCombat().reset();//Can't attack, reset combat
@@ -1444,7 +1395,6 @@ public class CombatFactory {
                 if (mayAttack) {
                     target.autoRetaliate(attacker);
                 }
-                //}
             } else {
                 assert attacker instanceof NPC;
                 NPC npc = (NPC) attacker;
@@ -1473,7 +1423,7 @@ public class CombatFactory {
             }
 
             //Send the hit sound
-            attacker.takehitSound(hit);
+            //attacker.takehitSound(hit);
         }
 
         if (attacker instanceof Player damageDealer) {
@@ -1699,20 +1649,6 @@ public class CombatFactory {
         entity.clearAttrib(AttributeKey.VENGEANCE_ACTIVE);
         attacker.hit(entity, (int) (damage * 0.75), 0, null).setIsReflected().submit();
         entity.forceChat("Taste Vengeance!");
-    }
-
-    /**
-     * Handles the Guthan's set effect for a player. Wearing full guthan's has a
-     * small chance of healing the player.
-     *
-     * @param player
-     * @param target
-     * @param damage
-     */
-    public static void handleGuthans(Player player, Entity target, int damage) {
-        // Ammy of damned allows healing 10HP above base HP level
-        player.heal(damage, Equipment.hasAmmyOfDamned(player) ? 10 : 0);
-        target.graphic(398, GraphicHeight.HIGH, 0);
     }
 
     public static void unfreezeWhenOutOfRange(Entity entity) {

@@ -1,23 +1,17 @@
 package com.aelous.model.entity.combat.method.effects.equipment.impl;
 
 import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.combat.CombatConstants;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.aelous.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
-import com.aelous.model.entity.combat.method.effects.registery.ListenerRegistry;
 import com.aelous.model.entity.combat.method.effects.listener.DamageEffectListener;
-import com.aelous.model.entity.masks.impl.graphics.Graphic;
-import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.player.Player;
-import com.aelous.utility.ItemIdentifiers;
-import com.aelous.utility.Utils;
-public class ElysianSpiritShield implements DamageEffectListener {
-    public ElysianSpiritShield() {
-        ListenerRegistry.registerListener(this);
-    }
+import com.aelous.model.map.position.areas.impl.WildernessArea;
+
+public class WildernessWeapon implements DamageEffectListener {
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         return false;
@@ -25,26 +19,28 @@ public class ElysianSpiritShield implements DamageEffectListener {
 
     @Override
     public boolean prepareDamageEffectForDefender(Entity entity, CombatType combatType, Hit hit) {
-        Player defender = (Player) entity;
-        var setIgnoreElysianReduction = hit.reflected ? 1 : CombatConstants.ELYSIAN_DAMAGE_REDUCTION;
-        if (Utils.securedRandomChance(0.7F) && defender.getEquipment().contains(ItemIdentifiers.ELYSIAN_SPIRIT_SHIELD)) {
-            int damage = hit.getDamage();
-            damage = (int) Math.floor(damage * setIgnoreElysianReduction);
-            hit.setDamage(damage);
-            defender.performGraphic(new Graphic(321, GraphicHeight.MIDDLE));
-            entity.message("bs");
-            return true;
-        }
         return false;
     }
 
     @Override
     public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
+        var attacker = (Player) entity;
+        if (combatType == CombatType.MAGIC) {
+            if (FormulaUtils.hasMagicWildernessWeapon(attacker) && magicAccuracy.getDefender().isNpc() && WildernessArea.inWilderness(magicAccuracy.getDefender().getAsNpc().tile())) {
+                magicAccuracy.setModifier(1.50F);
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
     public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
+        var attacker = (Player) entity;
+        if (FormulaUtils.hasMeleeWildernessWeapon(attacker) && meleeAccuracy.getDefender().isNpc() && WildernessArea.inWilderness(meleeAccuracy.getDefender().getAsNpc().tile())) {
+            meleeAccuracy.setModifier(1.50F);
+            return true;
+        }
         return false;
     }
 
@@ -53,4 +49,3 @@ public class ElysianSpiritShield implements DamageEffectListener {
         return false;
     }
 }
-

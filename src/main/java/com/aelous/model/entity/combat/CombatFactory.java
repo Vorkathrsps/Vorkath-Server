@@ -1076,8 +1076,6 @@ public class CombatFactory {
         target.getCombat().getHitQueue().add(hit);
     }
 
-
-
     static PreDamageEffectHandler triggerAttacker = new PreDamageEffectHandler(new EquipmentDamageEffect());
     static PreDamageEffectHandler triggerDefender = new PreDamageEffectHandler(new EquipmentDamageEffect());
 
@@ -1189,16 +1187,6 @@ public class CombatFactory {
         if (attacker != null && attacker.isPlayer() && target.isPlayer()) {
             assert attacker instanceof Player;
             Player player = (Player) attacker;
-            if (hit.isAccurate() && combatType == CombatType.RANGED) {
-                if (FormulaUtils.wearingFullKarils(player)) {
-                    if (Utils.securedRandomChance(0.25F)) {
-                        if (target.getSkills().level(Skills.AGILITY) > 20) {
-                            target.graphic(401, GraphicHeight.HIGH, 0);
-                            target.getSkills().setLevel(Skills.AGILITY, target.getSkills().level(Skills.AGILITY) - 20);
-                        }
-                    }
-                }
-            }
             if (FormulaUtils.wearingFullTorag(player)) {
                 if (Utils.securedRandomChance(0.25F)) {
                     target.graphic(399, GraphicHeight.HIGH, 0);

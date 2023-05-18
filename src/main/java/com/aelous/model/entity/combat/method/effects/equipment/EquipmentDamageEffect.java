@@ -3,46 +3,74 @@ package com.aelous.model.entity.combat.method.effects.equipment;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
+import com.aelous.model.entity.combat.formula.accuracy.MeleeAccuracy;
+import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.effects.equipment.impl.*;
 import com.aelous.model.entity.combat.method.effects.equipment.impl.seteffects.GuthanSet;
+import com.aelous.model.entity.combat.method.effects.equipment.impl.seteffects.KarilSet;
+import com.aelous.model.entity.combat.method.effects.equipment.impl.seteffects.ObsidianArmor;
 import com.aelous.model.entity.combat.method.effects.equipment.impl.seteffects.VeracSet;
 import com.aelous.model.entity.combat.method.effects.listener.DamageEffectListener;
 import com.aelous.model.entity.combat.method.effects.typeless.PrayerDamage;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class EquipmentDamageEffect implements DamageEffectListener {
-    private final List<DamageEffectListener> damageEffectListenersAttacker;
-    private final List<DamageEffectListener> damageEffectListenersDefender;
-    private final List<DamageEffectListener> accuracyModificationListenerAttacker;
-    private final List<DamageEffectListener> accuracyModificationListenerDefender;
+    private static final List<DamageEffectListener> damageEffectListenersAttacker;
+    private static final List<DamageEffectListener> damageEffectListenersDefender;
+    private static final List<DamageEffectListener> magicAccuracyModificationListenerAttacker;
 
-    public EquipmentDamageEffect() {
-        damageEffectListenersAttacker = new ArrayList<>();
-        damageEffectListenersDefender = new ArrayList<>();
-        accuracyModificationListenerAttacker = new ArrayList<>();
-        accuracyModificationListenerDefender = new ArrayList<>();
+    private static final List<DamageEffectListener> rangeAccuracyModificationListenerAttacker;
+    private static final List<DamageEffectListener> meleeAccuracyModificationListenerAttacker;
 
-        //damage attacker
-        damageEffectListenersAttacker.add(new AmuletOfBloodFury());
-        damageEffectListenersDefender.add(new VeracSet());
-        damageEffectListenersAttacker.add(new GuthanSet());
+    static {
+        damageEffectListenersAttacker = initializeDamageEffectListenersAttacker();
+        damageEffectListenersDefender = initializeDamageEffectListenersDefender();
+        magicAccuracyModificationListenerAttacker = initializeMagicAccuracyModificationListenerAttacker();
+        rangeAccuracyModificationListenerAttacker = initializeRangeAccuracyModificationListenerAttacker();
+        meleeAccuracyModificationListenerAttacker = initializeMeleeAccuracyModificationListenerAttacker();
+    }
 
-        //accuracy attacker
-        accuracyModificationListenerAttacker.add(new BrimstoneRing());
-        accuracyModificationListenerAttacker.add(new TumekensShadow());
-        accuracyModificationListenerAttacker.add(new SalveAmulet());
-        accuracyModificationListenerAttacker.add(new ThammaronSceptre());
-        accuracyModificationListenerAttacker.add(new VoidEquipment());
-        accuracyModificationListenerAttacker.add(new ZurielStaff());
-        accuracyModificationListenerAttacker.add(new VoidEquipment());
-        accuracyModificationListenerAttacker.add(new SlayerHelmets());
+    private static List<DamageEffectListener> initializeDamageEffectListenersAttacker() {
+        List<DamageEffectListener> listeners = new ArrayList<>();
+        listeners.add(new AmuletOfBloodFury());
+        listeners.add(new VeracSet());
+        listeners.add(new GuthanSet());
+        listeners.add(new KarilSet());
+        return listeners;
+    }
 
-        //damage defender
-        damageEffectListenersDefender.add(new ToxicStaffOfTheDead());
-        damageEffectListenersDefender.add(new ElysianSpiritShield());
-        damageEffectListenersDefender.add(new PrayerDamage());
+    private static List<DamageEffectListener> initializeDamageEffectListenersDefender() {
+        List<DamageEffectListener> listeners = new ArrayList<>();
+        listeners.add(new ToxicStaffOfTheDead());
+        listeners.add(new ElysianSpiritShield());
+        listeners.add(new PrayerDamage());
+        return listeners;
+    }
+
+    private static List<DamageEffectListener> initializeMagicAccuracyModificationListenerAttacker() {
+        List<DamageEffectListener> listeners = new ArrayList<>();
+        listeners.add(new BrimstoneRing());
+        listeners.add(new TumekensShadow());
+        listeners.add(new SalveAmulet());
+        listeners.add(new WildernessWeapon());
+        listeners.add(new VoidEquipment());
+        listeners.add(new ZurielStaff());
+        listeners.add(new SlayerHelmets());
+        return listeners;
+    }
+
+    private static List<DamageEffectListener> initializeRangeAccuracyModificationListenerAttacker() {
+        return new ArrayList<>();
+    }
+
+    private static List<DamageEffectListener> initializeMeleeAccuracyModificationListenerAttacker() {
+        List<DamageEffectListener> listeners = new ArrayList<>();
+        listeners.add(new VestaLongsword());
+        listeners.add(new ObsidianArmor());
+        return listeners;
     }
 
     @Override
@@ -67,11 +95,35 @@ public class EquipmentDamageEffect implements DamageEffectListener {
 
     @Override
     public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
-        for (DamageEffectListener listener : accuracyModificationListenerAttacker) {
+        for (DamageEffectListener listener : magicAccuracyModificationListenerAttacker) {
             if (listener.prepareMagicAccuracyModification(entity, combatType, magicAccuracy)) {
                 return true;
             }
         }
         return false;
     }
+
+    @Override
+    public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
+        for (DamageEffectListener listener : meleeAccuracyModificationListenerAttacker) {
+            if (listener.prepareMeleeAccuracyModification(entity, combatType, meleeAccuracy)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
+        for (DamageEffectListener listener : rangeAccuracyModificationListenerAttacker) {
+            if (listener.prepareRangeAccuracyModification(entity, combatType, rangeAccuracy)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public EquipmentDamageEffect() {
+    }
+
 }

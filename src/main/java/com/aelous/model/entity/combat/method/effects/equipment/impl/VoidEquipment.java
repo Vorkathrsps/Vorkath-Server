@@ -4,6 +4,8 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
+import com.aelous.model.entity.combat.formula.accuracy.MeleeAccuracy;
+import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.effects.listener.DamageEffectListener;
 import com.aelous.model.entity.combat.method.effects.registery.ListenerRegistry;
@@ -14,6 +16,7 @@ public class VoidEquipment implements DamageEffectListener {
     public VoidEquipment() {
         ListenerRegistry.registerListener(this);
     }
+
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         return false;
@@ -35,6 +38,24 @@ public class VoidEquipment implements DamageEffectListener {
                 return true;
             }
         }
+        return false;
+    }
+
+    @Override
+    public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
+        var attacker = (Player) entity;
+        if (FormulaUtils.regularVoidEquipmentBaseMelee(attacker)) {
+            meleeAccuracy.setModifier(1.10F);
+            return true;
+        } else if (FormulaUtils.eliteVoidEquipmentMelee(attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMelee(attacker)) {
+            meleeAccuracy.setModifier(1.125F);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
         return false;
     }
 }

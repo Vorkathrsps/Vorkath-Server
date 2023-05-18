@@ -1,6 +1,5 @@
 package com.aelous.model.entity.combat.hit;
 
-import com.aelous.cache.definitions.NpcDefinition;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
@@ -11,7 +10,6 @@ import com.aelous.model.entity.combat.method.CombatMethod;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.Flag;
-import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.PlayerStatus;
 
 import java.util.function.Consumer;
@@ -243,7 +241,7 @@ public class Hit {
         }
         MagicAccuracy magicAccuracy = new MagicAccuracy(attacker, target, combatType);
         RangeAccuracy rangeAccuracy = new RangeAccuracy();
-        MeleeAccuracy meleeAccuracy = new MeleeAccuracy();
+        MeleeAccuracy meleeAccuracy = new MeleeAccuracy(attacker, target, combatType);
         if (combatType != null && !(target.isNpc() && target.npc().getCombatInfo() == null) && !(attacker.isNpc() && attacker.npc().getCombatInfo() == null)) {
             switch (combatType) {
                 case MAGIC -> {
@@ -253,7 +251,7 @@ public class Hit {
                     success = rangeAccuracy.doesHit(attacker, target, combatType);
                 }
                 case MELEE -> {
-                    success = meleeAccuracy.doesHit(attacker, target, combatType);
+                    success = meleeAccuracy.doesHit();
                 }
             }
         }

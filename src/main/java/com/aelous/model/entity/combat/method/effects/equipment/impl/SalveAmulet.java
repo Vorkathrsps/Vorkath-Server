@@ -5,6 +5,8 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
+import com.aelous.model.entity.combat.formula.accuracy.MeleeAccuracy;
+import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.effects.listener.DamageEffectListener;
 import com.aelous.model.entity.combat.method.effects.registery.ListenerRegistry;
@@ -31,7 +33,7 @@ public class SalveAmulet implements DamageEffectListener {
     @Override
     public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
         var attacker = (Player) entity;
-        if (attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getAsPlayer().getEquipment().contains(SALVE_AMULET_E) || attacker.getAsPlayer().getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
+        if (attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getEquipment().contains(SALVE_AMULET_E) || attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
             if (magicAccuracy.getDefender().isNpc() && FormulaUtils.isUndead(magicAccuracy.getDefender().getAsNpc())) {
                 magicAccuracy.setModifier(1.20F);
                 return true;
@@ -40,6 +42,28 @@ public class SalveAmulet implements DamageEffectListener {
             magicAccuracy.setModifier(1.15F);
             return true;
         }
+        return false;
+    }
+
+    @Override
+    public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
+        var attacker = (Player) entity;
+        var target = attacker.getCombat().getTarget();
+        if (target.isNpc() && FormulaUtils.isUndead(target)) {
+            if (attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getEquipment().contains(SALVE_AMULET_E) || attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
+                meleeAccuracy.setModifier(1.20F);
+                return true;
+            }
+            if (attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
+                meleeAccuracy.setModifier(1.15F);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
         return false;
     }
 }

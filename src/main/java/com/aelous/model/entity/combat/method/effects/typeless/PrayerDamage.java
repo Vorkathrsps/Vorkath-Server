@@ -6,6 +6,8 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
+import com.aelous.model.entity.combat.formula.accuracy.MeleeAccuracy;
+import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.effects.listener.DamageEffectListener;
 import com.aelous.model.entity.combat.method.effects.registery.ListenerRegistry;
@@ -48,6 +50,7 @@ public class PrayerDamage implements DamageEffectListener {
             } else if (hit.getTarget().isNpc() && hit.getTarget().getAsNpc().id() == NpcIdentifiers.CORPOREAL_BEAST && hit.getCombatType() == CombatType.MAGIC && Prayers.usingPrayer(player, PROTECT_FROM_MAGIC)) {
                 damage = (int) Math.floor(damage * 0.66F);
                 hit.setDamage(damage);
+                return true;
             }
         } else if (hit.getDamage() > 0 && hit.getTarget().isPlayer()) {
             if (!hit.prayerIgnored && (meleePrayer || rangedPrayer || magicPrayer)) {
@@ -61,6 +64,16 @@ public class PrayerDamage implements DamageEffectListener {
 
     @Override
     public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
+        return false;
+    }
+
+    @Override
+    public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
+        return false;
+    }
+
+    @Override
+    public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
         return false;
     }
 }

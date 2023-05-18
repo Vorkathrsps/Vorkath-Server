@@ -1,23 +1,17 @@
 package com.aelous.model.entity.combat.method.effects.equipment.impl;
 
 import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.combat.CombatConstants;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.aelous.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
-import com.aelous.model.entity.combat.method.effects.registery.ListenerRegistry;
 import com.aelous.model.entity.combat.method.effects.listener.DamageEffectListener;
-import com.aelous.model.entity.masks.impl.graphics.Graphic;
-import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.player.Player;
-import com.aelous.utility.ItemIdentifiers;
-import com.aelous.utility.Utils;
-public class ElysianSpiritShield implements DamageEffectListener {
-    public ElysianSpiritShield() {
-        ListenerRegistry.registerListener(this);
-    }
+
+import static com.aelous.utility.ItemIdentifiers.VESTAS_BLIGHTED_LONGSWORD;
+
+public class VestaLongsword implements DamageEffectListener {
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         return false;
@@ -25,16 +19,6 @@ public class ElysianSpiritShield implements DamageEffectListener {
 
     @Override
     public boolean prepareDamageEffectForDefender(Entity entity, CombatType combatType, Hit hit) {
-        Player defender = (Player) entity;
-        var setIgnoreElysianReduction = hit.reflected ? 1 : CombatConstants.ELYSIAN_DAMAGE_REDUCTION;
-        if (Utils.securedRandomChance(0.7F) && defender.getEquipment().contains(ItemIdentifiers.ELYSIAN_SPIRIT_SHIELD)) {
-            int damage = hit.getDamage();
-            damage = (int) Math.floor(damage * setIgnoreElysianReduction);
-            hit.setDamage(damage);
-            defender.performGraphic(new Graphic(321, GraphicHeight.MIDDLE));
-            entity.message("bs");
-            return true;
-        }
         return false;
     }
 
@@ -42,9 +26,14 @@ public class ElysianSpiritShield implements DamageEffectListener {
     public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
         return false;
     }
-
     @Override
     public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
+        var attacker = (Player) entity;
+        if ((attacker.getEquipment().contains(VESTAS_BLIGHTED_LONGSWORD) && attacker.isSpecialActivated())) {
+            meleeAccuracy.setModifier(1.80F);
+            attacker.message("doing shit");
+            return true;
+        }
         return false;
     }
 
@@ -53,4 +42,3 @@ public class ElysianSpiritShield implements DamageEffectListener {
         return false;
     }
 }
-

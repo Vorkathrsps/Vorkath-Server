@@ -3,6 +3,7 @@ package com.aelous.model.content.bountyhunter.emblem;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
 import com.aelous.utility.ItemIdentifiers;
+import lombok.Getter;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -14,23 +15,25 @@ import java.util.stream.Collectors;
  */
 public enum BountyHunterEmblem {
 
-    ANTIQUE_EMBLEM_TIER_1(ItemIdentifiers.ANTIQUE_EMBLEM_TIER_1,250,1,0),
-    ANTIQUE_EMBLEM_TIER_2(ItemIdentifiers.ANTIQUE_EMBLEM_TIER_2,500,2,1),
-    ANTIQUE_EMBLEM_TIER_3(ItemIdentifiers.ANTIQUE_EMBLEM_TIER_3,1000,4,2),
-    ANTIQUE_EMBLEM_TIER_4(ItemIdentifiers.ANTIQUE_EMBLEM_TIER_4,2500,8,3),
-    ANTIQUE_EMBLEM_TIER_5(ItemIdentifiers.ANTIQUE_EMBLEM_TIER_5,6000,12,4),
-    ANTIQUE_EMBLEM_TIER_6(ItemIdentifiers.ANTIQUE_EMBLEM_TIER_6,10000,15,5),
-    ANTIQUE_EMBLEM_TIER_7(ItemIdentifiers.ANTIQUE_EMBLEM_TIER_7,15000,20,6),
-    ANTIQUE_EMBLEM_TIER_8(ItemIdentifiers.ANTIQUE_EMBLEM_TIER_8,20000,25,7),
-    ANTIQUE_EMBLEM_TIER_9(ItemIdentifiers.ANTIQUE_EMBLEM_TIER_9,25000,32,8),
-    ANTIQUE_EMBLEM_TIER_10(ItemIdentifiers.ANTIQUE_EMBLEM_TIER_10,30000,40,9);
+    ANTIQUE_EMBLEM_TIER_1("Tier 1:", ItemIdentifiers.ANTIQUE_EMBLEM_TIER_1,250,1,0),
+    ANTIQUE_EMBLEM_TIER_2("Tier 2:", ItemIdentifiers.ANTIQUE_EMBLEM_TIER_2,500,2,1),
+    ANTIQUE_EMBLEM_TIER_3("Tier 3:", ItemIdentifiers.ANTIQUE_EMBLEM_TIER_3,1000,4,2),
+    ANTIQUE_EMBLEM_TIER_4("Tier 4:", ItemIdentifiers.ANTIQUE_EMBLEM_TIER_4,2500,8,3),
+    ANTIQUE_EMBLEM_TIER_5("Tier 5:", ItemIdentifiers.ANTIQUE_EMBLEM_TIER_5,6000,12,4),
+    ANTIQUE_EMBLEM_TIER_6("Tier 6:", ItemIdentifiers.ANTIQUE_EMBLEM_TIER_6,10000,15,5),
+    ANTIQUE_EMBLEM_TIER_7("Tier 7:", ItemIdentifiers.ANTIQUE_EMBLEM_TIER_7,15000,20,6),
+    ANTIQUE_EMBLEM_TIER_8("Tier 8:", ItemIdentifiers.ANTIQUE_EMBLEM_TIER_8,20000,25,7),
+    ANTIQUE_EMBLEM_TIER_9("Tier 9:", ItemIdentifiers.ANTIQUE_EMBLEM_TIER_9,25000,32,8),
+    ANTIQUE_EMBLEM_TIER_10("Tier 10:", ItemIdentifiers.ANTIQUE_EMBLEM_TIER_10,30000,40,9);
 
     private final int itemId;
     private final int bm;
     private final int targetPoints;
     private final int index;
+    @Getter public final String tier;
 
-    BountyHunterEmblem(int itemId, int bm, int targetPoints, int index) {
+    BountyHunterEmblem(String tier, int itemId, int bm, int targetPoints, int index) {
+        this.tier = tier;
         this.itemId = itemId;
         this.bm = bm;
         this.targetPoints = targetPoints;

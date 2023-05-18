@@ -17,7 +17,7 @@ public class PlayerInactivePacketListener implements PacketListener {
     @Override
     public void handleMessage(Player player, Packet packet) {
         // ok afk timer now applies to <10min playtime accs, lets make up a verify on login
-        if(player.afkTimer.elapsed(GameServer.properties().afkLogoutMinutesNewAccounts, TimeUnit.MINUTES) && player.<Long>getAttribOr(AttributeKey.GAME_TIME, 0L) < 1000L) {
+        if (player.afkTimer.elapsed(GameServer.properties().afkLogoutMinutesNewAccounts, TimeUnit.MINUTES) && player.<Long>getAttribOr(AttributeKey.GAME_TIME, 0L) < 1000L) {
             player.requestLogout();
         }
 

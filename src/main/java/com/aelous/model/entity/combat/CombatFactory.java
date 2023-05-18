@@ -23,6 +23,8 @@ import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.magic.spells.CombatSpells;
 import com.aelous.model.entity.combat.method.CombatMethod;
+import com.aelous.model.entity.combat.method.effects.AbilityHandler;
+import com.aelous.model.entity.combat.method.effects.equipment.EquipmentAbility;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.method.impl.MagicCombatMethod;
 import com.aelous.model.entity.combat.method.impl.MeleeCombatMethod;
@@ -255,7 +257,7 @@ public class CombatFactory {
             max_damage = attacker.<Integer>getAttribOr(MAXHIT_OVERRIDE, -1);
         }
 
-        int damage = Utils.inclusive(0, max_damage);
+        int damage = Utils.inclusive(1, max_damage);
 
         if (target != null && target.isNpc() && target.getAsNpc().isCombatDummy()) {
             CombatSpell spell = attacker.getCombat().getCastSpell() != null ? attacker.getCombat().getCastSpell() : attacker.getCombat().getAutoCastSpell() != null ? attacker.getCombat().getAutoCastSpell() : attacker.getCombat().getPoweredStaffSpell() != null ? attacker.getCombat().getPoweredStaffSpell() : null;
@@ -400,13 +402,6 @@ public class CombatFactory {
                         damage = damage - formula;
                         damage = damage - 1;
                     }
-                }
-            }
-
-            //If we have used the SOTD special attack, reduce incoming melee damage by 50%.
-            if (target.isPlayer()) {
-                if (target.getTimers().has(TimerKey.SOTD_DAMAGE_REDUCTION) && target.getAsPlayer().getEquipment().containsAny(STAFF_OF_THE_DEAD, TOXIC_STAFF_OF_THE_DEAD, TOXIC_STAFF_UNCHARGED, STAFF_OF_LIGHT) && type == CombatType.MELEE) {
-                    damage = (int) Math.floor(damage * CombatConstants.TSTOD_DAMAGE_REDUCTION);
                 }
             }
 
@@ -887,10 +882,10 @@ public class CombatFactory {
         if (other.isNpc() && entity.isPlayer() && entity.getAsPlayer().getWildernessKeys().isNpcLinked()) {
             return true;
         }
-       // } else if (other.isPlayer() && !other.getAsPlayer().getWildernessKeys().isNpcLinked()) {
-       //     other.message(Color.RED.wrap("You cannot attack an npc that is not linked to you"));
-      //      return false;
-      //  }
+        // } else if (other.isPlayer() && !other.getAsPlayer().getWildernessKeys().isNpcLinked()) {
+        //     other.message(Color.RED.wrap("You cannot attack an npc that is not linked to you"));
+        //      return false;
+        //  }
 
         // Check immune npcs..
         if (other.isNpc()) {
@@ -1206,24 +1201,14 @@ public class CombatFactory {
             }
         } //blood fury here
 
+        AbilityHandler equipmentAbility = new AbilityHandler(new EquipmentAbility());
+        equipmentAbility.triggerEffect(attacker, combatType, hit);
+
         if (hit.postDamage != null)
             hit.postDamage.accept(hit);
         CombatMethod method = CombatFactory.getMethod(target);
         if (method instanceof CommonCombatMethod o) {
             o.postDamage(hit);
-        }
-
-        if (attacker != null && attacker.isPlayer()) {
-            Player player = (Player) attacker;
-            if (hit.isAccurate() && combatType == CombatType.MELEE) {
-                if (player.getEquipment().hasAt(EquipSlot.AMULET, AMULET_OF_BLOOD_FURY)) {
-                    if (Utils.securedRandomChance(0.20F)) {
-                        int healAmount = damage * 30 / 100;
-                        player.heal(healAmount);
-                        player.graphic(1542);
-                    }
-                }
-            }
         }
 
         if (attacker != null && attacker.isPlayer() && target.isPlayer()) {

@@ -111,6 +111,12 @@ public class Hit {
         if (target != null && target.isNpc()) {
             return;
         }
+
+        if (pidIgnored) {
+            delay = 0;
+            return;
+        }
+
         if (attacker != null) {
             if (attacker.isNpc() || attacker.pidOrderIndex == -1) {
                 return;
@@ -167,6 +173,7 @@ public class Hit {
         return this.target;
     }
 
+    public boolean pidIgnored;
 
     public int decrementAndGetDelay() {
         return --delay;

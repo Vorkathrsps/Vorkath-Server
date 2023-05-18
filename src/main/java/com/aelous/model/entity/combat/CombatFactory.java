@@ -847,8 +847,8 @@ public class CombatFactory {
         }
 
         //if (other.isNpc() && entity.isPlayer() && entity.getAsPlayer().getWildernessKeys().isNpcLinked()) {
-         //   return true;
-       // }
+        //   return true;
+        // }
         // } else if (other.isPlayer() && !other.getAsPlayer().getWildernessKeys().isNpcLinked()) {
         //     other.message(Color.RED.wrap("You cannot attack an npc that is not linked to you"));
         //      return false;
@@ -880,8 +880,8 @@ public class CombatFactory {
                 //var targetList = player.getWildernessKeys().getTargetList();
                 //if (!targetList.contains((Player) entity)) {
                 //    player.message(Color.RED.wrap("You cannot attack a spawned npc that is not linked to you."));
-               //     return false;
-               // }
+                //     return false;
+                // }
 
                 if (npc.getTimers().has(TimerKey.ATTACK_IMMUNITY)) {
                     if (entity.isPlayer()) {
@@ -1170,11 +1170,11 @@ public class CombatFactory {
 
         PreDamageEffectHandler triggerAttacker = new PreDamageEffectHandler(new EquipmentDamageEffect());
         if (attacker instanceof Player a)
-        triggerAttacker.triggerEffectForAttacker(a, combatType, hit);
+            triggerAttacker.triggerEffectForAttacker(a, combatType, hit);
 
         PreDamageEffectHandler triggerDefender = new PreDamageEffectHandler(new EquipmentDamageEffect());
         if (target instanceof Player t)
-        triggerDefender.triggerEffectForDefender(t, combatType, hit);
+            triggerDefender.triggerEffectForDefender(t, combatType, hit);
 
         if (hit.postDamage != null)
             hit.postDamage.accept(hit);
@@ -1392,8 +1392,12 @@ public class CombatFactory {
                 }
 
                 //We don't have to check if ring is null here we already check that in the main method.
-                if (!hit.reflected)
-                    handleRecoil(player, attacker, hit.getDamage());
+            }
+
+            if (!hit.reflected) {
+                if (target instanceof Player targ) {
+                    handleRecoil(targ, attacker, hit.getDamage());
+                }
             }
 
             boolean hasVengeance = target.getAttribOr(AttributeKey.VENGEANCE_ACTIVE, false);
@@ -1442,6 +1446,7 @@ public class CombatFactory {
                 }
                 //}
             } else {
+                assert attacker instanceof NPC;
                 NPC npc = (NPC) attacker;
 
                 if (!npc.isCombatDummy())
@@ -1642,11 +1647,15 @@ public class CombatFactory {
         }
 
         if (player.getEquipment().hasAt(EquipSlot.RING, RING_OF_SUFFERING)) {
-            attacker.hit(player, damage > 10 ? (damage / 10) : 1, 0, null).setIsReflected().submit();
+            Hit h1 = attacker.hit(player, damage > 10 ? (damage / 10) : 1, 0, null).setIsReflected();
+            h1.delay(-1);
+            h1.submit();
         }
 
         if (player.getEquipment().hasAt(EquipSlot.RING, RING_OF_SUFFERING_I)) {
-            attacker.hit(player, damage > 10 ? (damage / 10) : 1, 0, null).setIsReflected().submit();
+            Hit h2 = attacker.hit(player, damage > 10 ? (damage / 10) : 1, 0, null).setIsReflected();
+            h2.delay(-1);
+            h2.submit();
         }
 
         if (player.getEquipment().hasAt(EquipSlot.RING, 2550)) {
@@ -1662,7 +1671,10 @@ public class CombatFactory {
 
                 // hmm ok so this doesnt throw an exception because its adding a hit to
                 // the Attacker, which is not the same Iterator i think
-                attacker.hit(player, damage > 10 ? (damage / 10) : 1, 0, null).setIsReflected().submit();
+                Hit h3 = attacker.hit(player, damage > 10 ? (damage / 10) : 1, 0, null).setIsReflected();
+                h3.pidIgnored = true;
+                h3.delay(-1);
+                h3.submit();
                 if (attacker.isNpc()) {
                     if (((NPC) attacker).id() == 319) {
                         //TODO update string corp beast lair, we don't have this string yet

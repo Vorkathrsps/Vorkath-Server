@@ -3,19 +3,19 @@ package com.aelous.model.entity.combat.method.effects.equipment.impl;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
-import com.aelous.model.entity.combat.method.effects.AbilityListener;
-import com.aelous.model.entity.combat.method.ListenerRegistry;
+import com.aelous.model.entity.combat.method.effects.listener.DamageEffectListener;
+import com.aelous.model.entity.combat.method.effects.registery.ListenerRegistry;
 import com.aelous.model.entity.player.Player;
 import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.Utils;
 
-public class AmuletOfBloodFury implements AbilityListener {
+public class AmuletOfBloodFury implements DamageEffectListener {
     public AmuletOfBloodFury() {
         ListenerRegistry.registerListener(this);
     }
 
     @Override
-    public boolean prepareEffect(Entity entity, CombatType combatType, Hit hit) {
+    public boolean prepareEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         if (!(entity instanceof Player player) || !combatType.isMelee() || !hit.isAccurate()) {
             ListenerRegistry.unregisterListener(this);
             return false;
@@ -34,6 +34,10 @@ public class AmuletOfBloodFury implements AbilityListener {
             return true;
         }
 
+        return false;
+    }
+    @Override
+    public boolean prepareEffectForDefender(Entity entity, CombatType combatType, Hit hit) {
         return false;
     }
 }

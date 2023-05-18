@@ -23,8 +23,8 @@ import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.magic.spells.CombatSpells;
 import com.aelous.model.entity.combat.method.CombatMethod;
-import com.aelous.model.entity.combat.method.effects.AbilityHandler;
-import com.aelous.model.entity.combat.method.effects.equipment.EquipmentAbility;
+import com.aelous.model.entity.combat.method.effects.PreDamageEffectHandler;
+import com.aelous.model.entity.combat.method.effects.equipment.EquipmentDamageEffect;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.method.impl.MagicCombatMethod;
 import com.aelous.model.entity.combat.method.impl.MeleeCombatMethod;
@@ -51,7 +51,6 @@ import com.aelous.model.entity.combat.weapon.AttackType;
 import com.aelous.model.entity.combat.weapon.FightStyle;
 import com.aelous.model.entity.combat.weapon.WeaponType;
 import com.aelous.model.entity.masks.impl.animations.Animation;
-import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
@@ -386,12 +385,6 @@ public class CombatFactory {
 
         if (target instanceof Player) {
             Item shield = target.getAsPlayer().getEquipment().get(EquipSlot.SHIELD);
-            if (shield != null && shield.getId() == 12817) {
-                if (target.isPlayer() && Utils.securedRandomChance(0.7F)) {
-                    damage = (int) Math.floor(damage * CombatConstants.ELYSIAN_DAMAGE_REDUCTION);
-                    target.performGraphic(new Graphic(321, GraphicHeight.MIDDLE)); // Elysian spirit shield effect gfx
-                }
-            }
 
             if (target.isPlayer()) {
                 if (!WildernessArea.inWilderness(target.getAsPlayer().tile())) {
@@ -1201,8 +1194,11 @@ public class CombatFactory {
             }
         } //blood fury here
 
-        AbilityHandler equipmentAbility = new AbilityHandler(new EquipmentAbility());
-        equipmentAbility.triggerEffect(attacker, combatType, hit);
+        PreDamageEffectHandler triggerAttacker = new PreDamageEffectHandler(new EquipmentDamageEffect());
+        triggerAttacker.triggerEffectForAttacker(attacker, combatType, hit);
+
+        PreDamageEffectHandler triggerDefender = new PreDamageEffectHandler(new EquipmentDamageEffect());
+        triggerDefender.triggerEffectForDefender(target, combatType, hit);
 
         if (hit.postDamage != null)
             hit.postDamage.accept(hit);

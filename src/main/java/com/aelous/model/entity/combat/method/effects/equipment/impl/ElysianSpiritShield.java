@@ -6,32 +6,33 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.effects.registery.ListenerRegistry;
 import com.aelous.model.entity.combat.method.effects.listener.DamageEffectListener;
+import com.aelous.model.entity.masks.impl.graphics.Graphic;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.player.Player;
-import com.aelous.utility.timers.TimerKey;
-
-import static com.aelous.utility.ItemIdentifiers.*;
-
-public class ToxicStaffOfTheDead implements DamageEffectListener {
-    public ToxicStaffOfTheDead() {
+import com.aelous.utility.ItemIdentifiers;
+import com.aelous.utility.Utils;
+public class ElysianSpiritShield implements DamageEffectListener {
+    public ElysianSpiritShield() {
         ListenerRegistry.registerListener(this);
     }
-
     @Override
     public boolean prepareEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
+        System.out.println(hit.getDamage());
         return false;
     }
 
     @Override
     public boolean prepareEffectForDefender(Entity entity, CombatType combatType, Hit hit) {
-        var player = (Player) entity;
-        if (player.getTimers().has(TimerKey.SOTD_DAMAGE_REDUCTION)
-            && player.getEquipment().containsAny(STAFF_OF_THE_DEAD, TOXIC_STAFF_OF_THE_DEAD, TOXIC_STAFF_UNCHARGED, STAFF_OF_LIGHT)
-            && combatType == CombatType.MELEE) {
+        Player defender = (Player) entity;
+        if (Utils.securedRandomChance(0.7F) && defender.getEquipment().contains(ItemIdentifiers.ELYSIAN_SPIRIT_SHIELD)) {
             int damage = hit.getDamage();
-            damage = (int) Math.floor(damage * CombatConstants.TSTOD_DAMAGE_REDUCTION);
+            damage = (int) Math.floor(damage * CombatConstants.ELYSIAN_DAMAGE_REDUCTION);
             hit.setDamage(damage);
+            defender.performGraphic(new Graphic(321, GraphicHeight.MIDDLE));
+            entity.message("bs");
             return true;
         }
         return false;
     }
 }
+

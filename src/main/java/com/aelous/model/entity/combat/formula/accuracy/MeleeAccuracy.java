@@ -5,8 +5,8 @@ import com.aelous.model.World;
 import com.aelous.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatType;
-import com.aelous.model.entity.combat.method.effects.PreDamageEffectHandler;
-import com.aelous.model.entity.combat.method.effects.equipment.EquipmentDamageEffect;
+import com.aelous.model.entity.combat.damagehandler.PreDamageEffectHandler;
+import com.aelous.model.entity.combat.damagehandler.impl.EquipmentDamageEffect;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.combat.weapon.AttackType;
 import com.aelous.model.entity.combat.weapon.FightStyle;
@@ -22,7 +22,6 @@ import java.text.DecimalFormat;
 
 import static com.aelous.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.*;
-import static com.aelous.utility.ItemIdentifiers.*;
 
 /**
  * @Author Origin

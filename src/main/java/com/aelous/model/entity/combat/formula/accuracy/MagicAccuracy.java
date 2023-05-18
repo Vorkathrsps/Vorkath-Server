@@ -3,8 +3,8 @@ package com.aelous.model.entity.combat.formula.accuracy;
 import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatType;
-import com.aelous.model.entity.combat.method.effects.PreDamageEffectHandler;
-import com.aelous.model.entity.combat.method.effects.equipment.EquipmentDamageEffect;
+import com.aelous.model.entity.combat.damagehandler.PreDamageEffectHandler;
+import com.aelous.model.entity.combat.damagehandler.impl.EquipmentDamageEffect;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.combat.weapon.FightStyle;
 import com.aelous.model.entity.npc.NPC;
@@ -144,6 +144,8 @@ public class MagicAccuracy {
             handler.triggerMagicAccuracyModificationAttacker(a, combatType, this);
 
         float modification = modifier;
+
+        System.out.println(modification);
 
         if (attacker.isPlayer()) {
             Player player = attacker.getAsPlayer();

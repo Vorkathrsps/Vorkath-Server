@@ -872,9 +872,9 @@ public class CombatFactory {
             return true;
         }
 
-        if (other.isNpc() && entity.isPlayer() && entity.getAsPlayer().getWildernessKeys().isNpcLinked()) {
-            return true;
-        }
+        //if (other.isNpc() && entity.isPlayer() && entity.getAsPlayer().getWildernessKeys().isNpcLinked()) {
+         //   return true;
+       // }
         // } else if (other.isPlayer() && !other.getAsPlayer().getWildernessKeys().isNpcLinked()) {
         //     other.message(Color.RED.wrap("You cannot attack an npc that is not linked to you"));
         //      return false;
@@ -902,12 +902,12 @@ public class CombatFactory {
                     }
                 }
 
-                var player = (Player) entity;
-                var targetList = player.getWildernessKeys().getTargetList();
-                if (!targetList.contains((Player) entity)) {
-                    player.message(Color.RED.wrap("You cannot attack a spawned npc that is not linked to you."));
-                    return false;
-                }
+                //var player = (Player) entity;
+                //var targetList = player.getWildernessKeys().getTargetList();
+                //if (!targetList.contains((Player) entity)) {
+                //    player.message(Color.RED.wrap("You cannot attack a spawned npc that is not linked to you."));
+               //     return false;
+               // }
 
                 if (npc.getTimers().has(TimerKey.ATTACK_IMMUNITY)) {
                     if (entity.isPlayer()) {
@@ -1195,10 +1195,12 @@ public class CombatFactory {
         } //blood fury here
 
         PreDamageEffectHandler triggerAttacker = new PreDamageEffectHandler(new EquipmentDamageEffect());
-        triggerAttacker.triggerEffectForAttacker(attacker, combatType, hit);
+        if (attacker instanceof Player a)
+        triggerAttacker.triggerEffectForAttacker(a, combatType, hit);
 
         PreDamageEffectHandler triggerDefender = new PreDamageEffectHandler(new EquipmentDamageEffect());
-        triggerDefender.triggerEffectForDefender(target, combatType, hit);
+        if (target instanceof Player t)
+        triggerDefender.triggerEffectForDefender(t, combatType, hit);
 
         if (hit.postDamage != null)
             hit.postDamage.accept(hit);

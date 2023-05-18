@@ -184,7 +184,7 @@ public class FormulaUtils {
     }
 
     public static boolean hasZurielStaff(Player player) {
-        return player.getEquipment().contains(ZURIELS_STAFF);
+        return player.getEquipment().containsAny(ZURIELS_STAFF, ZURIELS_STAFF_23617);
     }
 
     public static boolean hasDragonHunterLance(Player player) {

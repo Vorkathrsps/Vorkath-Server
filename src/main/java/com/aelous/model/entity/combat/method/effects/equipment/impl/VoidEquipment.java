@@ -1,22 +1,19 @@
 package com.aelous.model.entity.combat.method.effects.equipment.impl;
 
 import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.combat.CombatConstants;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
-import com.aelous.model.entity.combat.method.effects.registery.ListenerRegistry;
 import com.aelous.model.entity.combat.method.effects.listener.DamageEffectListener;
+import com.aelous.model.entity.combat.method.effects.registery.ListenerRegistry;
 import com.aelous.model.entity.player.Player;
-import com.aelous.utility.timers.TimerKey;
 
-import static com.aelous.utility.ItemIdentifiers.*;
+public class VoidEquipment implements DamageEffectListener {
 
-public class ToxicStaffOfTheDead implements DamageEffectListener {
-    public ToxicStaffOfTheDead() {
+    public VoidEquipment() {
         ListenerRegistry.registerListener(this);
     }
-
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         return false;
@@ -24,20 +21,20 @@ public class ToxicStaffOfTheDead implements DamageEffectListener {
 
     @Override
     public boolean prepareDamageEffectForDefender(Entity entity, CombatType combatType, Hit hit) {
-        var defender = (Player) entity;
-        if (defender.getTimers().has(TimerKey.SOTD_DAMAGE_REDUCTION)
-            && defender.getEquipment().containsAny(STAFF_OF_THE_DEAD, TOXIC_STAFF_OF_THE_DEAD, TOXIC_STAFF_UNCHARGED, STAFF_OF_LIGHT)
-            && combatType == CombatType.MELEE) {
-            int damage = hit.getDamage();
-            damage = (int) Math.floor(damage * CombatConstants.TSTOD_DAMAGE_REDUCTION);
-            hit.setDamage(damage);
-            return true;
-        }
         return false;
     }
 
     @Override
     public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
+        if (combatType == CombatType.MAGIC) {
+            if (FormulaUtils.regularVoidEquipmentBaseMagic((Player) entity)) {
+                magicAccuracy.setModifier(1.45F);
+                return true;
+            } else if (FormulaUtils.eliteVoidEquipmentBaseMagic((Player) entity) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMagic((Player) entity)) {
+                magicAccuracy.setModifier(1.70F);
+                return true;
+            }
+        }
         return false;
     }
 }

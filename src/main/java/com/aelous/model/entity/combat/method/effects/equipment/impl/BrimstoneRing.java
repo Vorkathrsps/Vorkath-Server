@@ -1,19 +1,19 @@
 package com.aelous.model.entity.combat.method.effects.equipment.impl;
 
 import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.combat.CombatConstants;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
-import com.aelous.model.entity.combat.method.effects.registery.ListenerRegistry;
 import com.aelous.model.entity.combat.method.effects.listener.DamageEffectListener;
+import com.aelous.model.entity.combat.method.effects.registery.ListenerRegistry;
 import com.aelous.model.entity.player.Player;
-import com.aelous.utility.timers.TimerKey;
+import com.aelous.utility.Color;
+import com.aelous.utility.ItemIdentifiers;
+import com.aelous.utility.Utils;
 
-import static com.aelous.utility.ItemIdentifiers.*;
+public class BrimstoneRing implements DamageEffectListener {
 
-public class ToxicStaffOfTheDead implements DamageEffectListener {
-    public ToxicStaffOfTheDead() {
+    public BrimstoneRing() {
         ListenerRegistry.registerListener(this);
     }
 
@@ -24,20 +24,21 @@ public class ToxicStaffOfTheDead implements DamageEffectListener {
 
     @Override
     public boolean prepareDamageEffectForDefender(Entity entity, CombatType combatType, Hit hit) {
-        var defender = (Player) entity;
-        if (defender.getTimers().has(TimerKey.SOTD_DAMAGE_REDUCTION)
-            && defender.getEquipment().containsAny(STAFF_OF_THE_DEAD, TOXIC_STAFF_OF_THE_DEAD, TOXIC_STAFF_UNCHARGED, STAFF_OF_LIGHT)
-            && combatType == CombatType.MELEE) {
-            int damage = hit.getDamage();
-            damage = (int) Math.floor(damage * CombatConstants.TSTOD_DAMAGE_REDUCTION);
-            hit.setDamage(damage);
-            return true;
-        }
         return false;
     }
 
     @Override
     public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
+        var attacker = (Player) entity;
+        if (combatType == CombatType.MAGIC) {
+            if (attacker.getEquipment().contains(ItemIdentifiers.BRIMSTONE_RING)) {
+                if (Utils.securedRandomChance(0.25F)) {
+                    attacker.message(Color.RED.wrap("Your attack ignored 10% of your opponent's magic defence."));
+                    magicAccuracy.setModifier(1.10F);//1.10
+                    return true;
+                }
+            }
+        }
         return false;
     }
 }

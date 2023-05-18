@@ -5,38 +5,15 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.effects.listener.DamageEffectListener;
-import com.aelous.model.entity.combat.method.effects.registery.ListenerRegistry;
 import com.aelous.model.entity.player.Player;
 import com.aelous.utility.ItemIdentifiers;
-import com.aelous.utility.Utils;
 
-public class AmuletOfBloodFury implements DamageEffectListener {
-    public AmuletOfBloodFury() {
-        ListenerRegistry.registerListener(this);
-    }
-
+public class TumekensShadow implements DamageEffectListener {
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
-        if (!(entity instanceof Player player) || !combatType.isMelee() || !hit.isAccurate()) {
-            ListenerRegistry.unregisterListener(this);
-            return false;
-        }
-
-        if (!player.getEquipment().contains(ItemIdentifiers.AMULET_OF_BLOOD_FURY)) {
-            ListenerRegistry.unregisterListener(this);
-            return false;
-        }
-
-        if (Utils.securedRandomChance(0.20F)) {
-            int damage = hit.getDamage();
-            int healAmount = damage * 30 / 100;
-            player.heal(healAmount);
-            player.graphic(1542);
-            return true;
-        }
-
         return false;
     }
+
     @Override
     public boolean prepareDamageEffectForDefender(Entity entity, CombatType combatType, Hit hit) {
         return false;
@@ -44,7 +21,13 @@ public class AmuletOfBloodFury implements DamageEffectListener {
 
     @Override
     public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
+        var attacker = (Player) entity;
+        if (combatType == CombatType.MAGIC) {
+            if (attacker.getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
+                magicAccuracy.setModifier(3.0F);
+                return true;
+            }
+        }
         return false;
     }
 }
-

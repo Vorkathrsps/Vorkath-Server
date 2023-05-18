@@ -3,6 +3,7 @@ package com.aelous.model.entity.combat.method.effects.equipment.impl;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatConstants;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.effects.registery.ListenerRegistry;
 import com.aelous.model.entity.combat.method.effects.listener.DamageEffectListener;
@@ -16,13 +17,12 @@ public class ElysianSpiritShield implements DamageEffectListener {
         ListenerRegistry.registerListener(this);
     }
     @Override
-    public boolean prepareEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
-        System.out.println(hit.getDamage());
+    public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         return false;
     }
 
     @Override
-    public boolean prepareEffectForDefender(Entity entity, CombatType combatType, Hit hit) {
+    public boolean prepareDamageEffectForDefender(Entity entity, CombatType combatType, Hit hit) {
         Player defender = (Player) entity;
         if (Utils.securedRandomChance(0.7F) && defender.getEquipment().contains(ItemIdentifiers.ELYSIAN_SPIRIT_SHIELD)) {
             int damage = hit.getDamage();
@@ -32,6 +32,11 @@ public class ElysianSpiritShield implements DamageEffectListener {
             entity.message("bs");
             return true;
         }
+        return false;
+    }
+
+    @Override
+    public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
         return false;
     }
 }

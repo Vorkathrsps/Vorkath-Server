@@ -240,8 +240,8 @@ public class Hit {
         if (combatType != null && !(target.isNpc() && target.npc().getCombatInfo() == null) && !(attacker.isNpc() && attacker.npc().getCombatInfo() == null)) {
             switch (combatType) {
                 case MAGIC -> {
-                    MagicAccuracy magicAccuracy = new MagicAccuracy();
-                    success = magicAccuracy.doesHit(attacker, target, combatType);
+                    MagicAccuracy magicAccuracy = new MagicAccuracy(attacker, target, combatType);
+                    success = magicAccuracy.doesHit(combatType);
                 }
                 case RANGED -> {
                     RangeAccuracy rangeAccuracy = new RangeAccuracy();

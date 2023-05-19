@@ -74,7 +74,8 @@ public final class LoginResponses {
 
         if (!msg.getClientVersion().equals(GameServer.properties().gameVersion)) {
             System.err.println(msg.getClientVersion()+" vs "+GameServer.properties().gameVersion);
-            return OLD_CLIENT_VERSION;
+            if (!GameServer.properties().test)
+                return OLD_CLIENT_VERSION;
         }
 
         if (GameServer.isStaffOnlyLogins() && !player.getPlayerRights().isModerator(player)) {

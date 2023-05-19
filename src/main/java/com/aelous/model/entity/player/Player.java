@@ -1352,8 +1352,8 @@ public class Player extends Entity {
         logoutLogs.log(LOGOUT, "[Logout] Deregistering player - {}", getUsername());
         Utils.sendDiscordInfoLog("```Deregistering player - " + getUsername() + " with IP " + getHostAddress() + "```", "logout");
 
-        if (instancedArea != null) {
-            instancedArea.removePlayer(this);
+        if (getInstancedArea() != null) {
+            getInstancedArea().removePlayer(this);
         }
         if (this.getPet().hasPet()) {
             this.getPet().pickup(true);
@@ -2547,6 +2547,7 @@ public class Player extends Entity {
         if (rights.isAdministrator(this)) {
             if (getAttribOr(AttributeKey.DEBUG_MESSAGES, false)) {//debug messages are on and I know whats wrong
                 getPacketSender().sendMessage(params.length > 0 ? String.format(format, (Object[]) params) : format);
+                System.out.println(String.format(format, params));
             }
         }
     }
@@ -2742,7 +2743,7 @@ public class Player extends Entity {
     public void clearInstance() {
         if (getInstancedArea() != null) {
             getInstancedArea().removePlayer(this); // will dispose only when empty
-            instancedArea = null;
+            setInstance(null);
         }
     }
 

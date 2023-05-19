@@ -1870,8 +1870,9 @@ public abstract class Entity {
         getTimers().cancel(TimerKey.FROZEN); //Remove frozen timer key
     }
 
-    @Setter@Getter
-    public InstancedArea instancedArea;
+    @Getter
+    private InstancedArea instancedArea;
+
     public void setInstance(InstancedArea instancedArea) {
         var prev = this.instancedArea;
         this.instancedArea = instancedArea;
@@ -1916,4 +1917,5 @@ public abstract class Entity {
         // System.out.println("regions "+ Arrays.toString(Arrays.stream(surrounding).map(r -> r.getRegionId()).toArray()));
         return surrounding;
     }
+
 }

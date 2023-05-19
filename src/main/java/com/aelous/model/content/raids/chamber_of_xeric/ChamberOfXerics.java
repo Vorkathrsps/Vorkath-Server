@@ -214,7 +214,7 @@ public class ChamberOfXerics extends Raids {
 
         olm(party);
         for (NPC monster : party.monsters) {
-            monster.setInstance(party.getLeader().instancedArea);
+            monster.setInstance(party.getLeader().getInstancedArea());
             monster.putAttrib(AttributeKey.RAID_PARTY, party);
         }
     }

@@ -5,6 +5,7 @@ import com.aelous.core.task.TaskManager;
 import com.aelous.model.World;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
+import com.aelous.model.map.region.Region;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,12 +32,10 @@ public class ObjectManager {
      * @param player The player whose changing region.
      */
     public static void onRegionChange(Player player) {
-        for (GameObject object : World.getWorld().getSpawnedObjs()) {
-            perform(object, OperationType.SPAWN);
-        }
-        for (GameObject obj : World.getWorld().getRemovedObjs()) {
-            if (obj != null && Tile.sameH(player, obj)) {
-                player.getPacketSender().sendObjectRemoval(obj);
+        for (Region surroundingRegion : player.getSurroundingRegions()) {
+            for (Tile activeTile : surroundingRegion.activeTiles) {
+                if (activeTile.getZ() == player.getZ())
+                    activeTile.update(player);
             }
         }
     }
@@ -48,15 +47,7 @@ public class ObjectManager {
      * @return
      */
     public static GameObject addObj(GameObject object) {
-        World.getWorld().getSpawnedObjs().removeIf(o -> o.tile().equals(object.tile())
-            && o.getType() == object.getType());
-
-        World.getWorld().getSpawnedObjs().add(object);
-
-        // Remove any previously spawned obj
-        World.getWorld().getRemovedObjs().removeIf(o -> o.getType() == object.getType() && o.tile().equals(object.tile())); // TODO remove the clip of that obj
-
-        perform(object, OperationType.SPAWN);
+        object.spawn();
         return object;
     }
 
@@ -66,86 +57,14 @@ public class ObjectManager {
      * @param object       The object to deregister.
      */
     public static void removeObj(GameObject object) {
-        World.getWorld().getSpawnedObjs().removeIf(o -> {
-            return o.getId() == object.getId() &&
-                o.getType() == object.getType() &&
-                o.getRotation() == object.getRotation() &&
-                o.tile().equals(object.tile);
-        });
-        perform(object, OperationType.DESPAWN);
-
-        // Remove duplicates!
-        World.getWorld().getRemovedObjs().removeIf(o -> o == null || o.tile() == null || o.getType() == object.getType() && o.tile().equals(object.tile()));
-        World.getWorld().getRemovedObjs().add(object);
-    }
-
-    /**
-     * Performs the given {@link OperationType} on the given {@link GameObject}.
-     * Used for spawning and despawning objects.
-     * If the object has an owner, it will only be spawned for them. Otherwise,
-     * it will act as global.
-     */
-    private static void perform(GameObject object, OperationType type) {
-        if (object.getId() == -1) {
-            //logger.info("Gonna perform despawn object.");
-            type = OperationType.DESPAWN;
-        } else {
-            //logger.info("Gonna perform spawn object " + object);
-        }
-
-        /**
-         * We add/remove to/from mapobjects aswell. This is because the server handles clipping
-         * via the map objects and also checks for cheatclients via them.
-         */
-        switch (type) {
-            case SPAWN -> MapObjects.add(object);
-            case DESPAWN -> MapObjects.remove(object);
-        }
-
-        //Spawn/despawn the actual {@link GameObject}
-        if (object.getSpawnedfor().isPresent()) {
-            switch (type) {
-                case SPAWN:
-                case DESPAWN:
-                    if (type == OperationType.SPAWN) {
-                        object.getSpawnedfor().get().getPacketSender().sendObject(object);
-                    } else {
-                        object.getSpawnedfor().get().getPacketSender().sendObjectRemoval(object);
-                    }
-                    break;
-            }
-        } else {
-            switch (type) {
-                case SPAWN:
-                case DESPAWN:
-                    for (Player player : World.getWorld().getPlayers()) {
-                        if (player == null)
-                            continue;
-                        if (player.tile().isWithinDistance(object.tile(), 64)) {
-                            if (type == OperationType.SPAWN) {
-                                player.getPacketSender().sendObject(object);
-                            } else {
-                                player.getPacketSender().sendObjectRemoval(object);
-                            }
-                        }
-                    }
-                    break;
-            }
-        }
+        object.remove();
     }
 
     /**
      * Checks if a {@link GameObject} exists at the given location.
      */
     public static boolean exists(Tile tile) {
-        for (GameObject object : World.getWorld().getSpawnedObjs()) {
-            System.out.println("object: " + object.getId() + " tile: " + object.tile().getX() + " " + object.tile().getY() + " " + object.tile().getZ());
-            if (object.tile().equals(tile)) {
-                System.out.println("Exists!");
-                return true;
-            }
-        }
-        return false;
+        return MapObjects.get(o -> o.getType() == 10, tile).isPresent();
     }
 
     /**
@@ -153,14 +72,7 @@ public class ObjectManager {
      * with the given id.
      */
     public static boolean exists(int id, Tile tile) {
-        for (GameObject object : World.getWorld().getSpawnedObjs()) {
-            if (object.tile().equals(tile)) {
-                if (object.getId() == id) {
-                    return true;
-                }
-            }
-        }
-        return MapObjects.exists(id, tile);
+        return MapObjects.get(o -> o.getId() == id || id == -1, tile).isPresent();
     }
 
     /**
@@ -168,15 +80,7 @@ public class ObjectManager {
      * with the given type.
      */
     public static boolean objWithTypeExists(int type, Tile tile) {
-        for (GameObject object : World.getWorld().getSpawnedObjs()) {
-            if (object.tile().equals(tile)) {
-                //System.out.printf("found %s%n", object);
-                if (object.getType() == type) {
-                    return true;
-                }
-            }
-        }
-        return MapObjects.around(tile, 0)
+        return MapObjects.getAll(tile, 0)
             .stream()
             .filter(Objects::nonNull)
             .anyMatch(o -> o.getType() == type);
@@ -187,17 +91,7 @@ public class ObjectManager {
      * with the given id.
      */
     public static GameObject objById(int id, Tile tile) {
-        Optional<GameObject> obj = World.getWorld().getSpawnedObjs().stream().filter(o -> o.getId() == id && o.tile().equals(tile)).findAny();
-        return obj.orElse(MapObjects.get(id, tile).orElse(null));
-    }
-
-    public static GameObject get(int obj) {
-        for (GameObject object : World.getWorld().getSpawnedObjs()) {
-            if (object.getId() == obj) {
-                return object;
-            }
-        }
-        return null;
+        return MapObjects.get(id, tile).orElse(null);
     }
 
     public static void openAndCloseDoor(GameObject opendoor, GameObject closedoor) {

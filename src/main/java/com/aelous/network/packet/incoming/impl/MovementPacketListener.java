@@ -80,6 +80,9 @@ public class MovementPacketListener implements PacketListener {
                 CombatFactory.unfreezeWhenOutOfRange(player);
             }
         }
+        if (player.getZ() > 3 && player.getInstancedArea() == null) {
+            player.debug("You're at z %s but not in an InstanceArea.. sus mate", player.getZ());
+        }
 
         if (!checkReqs(player, packet.getOpcode())) {
             return;
@@ -182,7 +185,7 @@ public class MovementPacketListener implements PacketListener {
             return;
         }
 
-        player.smartPathTo(new Tile(end.x, end.y));
+        player.smartPathTo(new Tile(end.x, end.y, player.getZ()));
 
         // very important to put this AFTER movement.clear is called otherwise attrib is overwritten
         player.putAttrib(AttributeKey.MOVEMENT_PACKET_STEPS, new ArrayDeque<>(Arrays.asList(tiles)));

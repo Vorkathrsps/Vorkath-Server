@@ -1,39 +1,47 @@
 package com.aelous.model.map.region;
 
+import com.aelous.PlainTile;
+import com.aelous.model.World;
 import com.aelous.model.map.position.Tile;
+import com.aelous.utility.Debugs;
+import lombok.Getter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Represents a region.
  *
  * @author Professor Oak
  */
+@SuppressWarnings("ALL")
 public class Region {
+    private static final Logger logger = LogManager.getLogger(Region.class);
+    private static final Marker marker = MarkerManager.getMarker("Region");
 
     /**
      * This region's id.
      */
-    private final int regionId;
+    public final int regionId;
 
     /**
      * This region's terrain file id.
      */
-    private final int terrainFile;
+    public final int terrainFile;
 
     /**
      * This region's object file id.
      */
-    private final int objectFile;
-    private final int baseX;
-    private final int baseY;
+    public final int objectFile;
+    public final int baseX;
+    public final int baseY;
 
-    /**
-     * The clipping in this region.
-     */
-    public int[][][] clips = new int[4][][];
     public int[][][] projectileClip = new int[4][][];
     public int[][][] heightMap;
 
@@ -70,136 +78,46 @@ public class Region {
         return objectFile;
     }
 
+    @Nullable
+    public Tile getTile(int x, int y, final int z, boolean create) {
+        return provider.getTile(x, y, z, create, this);
+    }
+
     /**
      * Gets clipping
-     *
-     * @param x
-     * @param y
-     * @param height
-     * @return
      */
     public int getClip(int x, int y, int height) {
-        int regionAbsX = (regionId >> 8) * 64;
-        int regionAbsY = (regionId & 0xff) * 64;
-        if (height < 0)
-            height = 0;
-        if (height >3) // normal normal level clip
-            height %= 4;
-        if (clips[height] == null) {
-            clips[height] = new int[64][64];
-        }
-       /* int finalHeight = height;
-        long count = World.getWorld().getPlayers().filter(p -> p != null && p.getPosition().distance(new Position(x, y, finalHeight)) < 10).count();
-        if (count > 0)
-        Debugs.CLIP.debug(null, String.format("gc %s,%s,%s = %s aka %s%n", x, y, height, clips[height][x - regionAbsX][y - regionAbsY],
-            World.clipstr(clips[height][x - regionAbsX][y - regionAbsY])));*/
-        return clips[height][x - regionAbsX][y - regionAbsY];
+        return provider.getClip(x, y, height, this);
     }
 
     public int getClipProj(int x, int y, int height) {
-        int regionAbsX = (regionId >> 8) * 64;
-        int regionAbsY = (regionId & 0xff) * 64;
-        if (height < 0)
-            height = 0;
-        if (height > 3)// normal normal level clip
-            height %= 4;
-        if (projectileClip[height] == null) {
-            projectileClip[height] = new int[64][64];
-        }
-       /* int finalHeight = height;
-        long count = World.getWorld().getPlayers().filter(p -> p != null && p.getPosition().distance(new Position(x, y, finalHeight)) < 10).count();
-        if (count > 0)
-        Debugs.CLIP.debug(null, String.format("gc %s,%s,%s = %s aka %s%n", x, y, height, clips[height][x - regionAbsX][y - regionAbsY],
-            World.clipstr(clips[height][x - regionAbsX][y - regionAbsY])));*/
-        return projectileClip[height][x - regionAbsX][y - regionAbsY];
+        return provider.getProjClip(x, y, height, this);
     }
 
     /**
      * Adds clipping
-     *
-     * @param x
-     * @param y
-     * @param height
-     * @param shift
      */
     public void addClip(int x, int y, int height, int shift) {
-        int regionAbsX = (regionId >> 8) * 64;
-        int regionAbsY = (regionId & 0xff) * 64;
-        if (height < 0)
-            height = 0;
-        if (height > 3) // no z>3 support yet
-            return;
-        if (clips[height] == null) {
-            clips[height] = new int[64][64];
-        }
-        // asuming xy is abs xy
-        if (x >= 2944 && x<= 3330 && y >= 3521 && y <= 3522) {
-            //System.out.println("clip change "+x+", "+y+", "+height+" by "+shift);
-            //if (shift == 262144 || shift == 256) {
-              //  return; // fuck wildy ditch
-          //  }
-        }
-        clips[height][x - regionAbsX][y - regionAbsY] |= shift;
+        provider.addClip(x, y, height, shift, this);
     }
 
     public void addClipProj(int x, int y, int height, int shift) {
-        int regionAbsX = (regionId >> 8) * 64;
-        int regionAbsY = (regionId & 0xff) * 64;
-        if (height < 0)
-            height = 0;
-        if (height > 3) // no z>3 support yet
-            return;
-        if (projectileClip[height] == null) {
-            projectileClip[height] = new int[64][64];
-        }
-        projectileClip[height][x - regionAbsX][y - regionAbsY] |= shift;
+        provider.addProjClip(x, y, height, shift, this);
     }
 
     /**
      * Removes clipping.
-     *
-     * @param x
-     * @param y
-     * @param height
-     * @param shift
      */
     public void removeClip(int x, int y, int height, int shift) {
-        int regionAbsX = (regionId >> 8) * 64;
-        int regionAbsY = (regionId & 0xff) * 64;
-        if (height < 0)
-            height = 0;
-        if (height > 3) // no z>3 support yet
-            return;
-        if (clips[height] == null) {
-            clips[height] = new int[64][64];
-        }
-        clips[height][x - regionAbsX][y - regionAbsY] &= ~shift;
+        provider.removeClip(x, y, height, shift, this);
     }
 
     public void removeClipProj(int x, int y, int height, int shift) {
-        int regionAbsX = (regionId >> 8) * 64;
-        int regionAbsY = (regionId & 0xff) * 64;
-        if (height < 0)
-            height = 0;
-        if (height > 3) // no z>3 support yet
-            return;
-        if (projectileClip[height] == null) {
-            projectileClip[height] = new int[64][64];
-        }
-        projectileClip[height][x - regionAbsX][y - regionAbsY] &= ~shift;
+        provider.removeProjClip(x, y, height, shift, this);
     }
 
     public void setClip(int x, int y, int height, int value) {
-        int regionAbsX = (regionId >> 8) * 64;
-        int regionAbsY = (regionId & 0xff) * 64;
-        if (height < 0)
-            height = 0;
-        if (height > 3) // no z>3 support yet
-            return;
-        if (clips[height] == null) {
-            clips[height] = new int[64][64];
-        }
-        clips[height][x - regionAbsX][y - regionAbsY] = value;
+        provider.setClip(x, y, height, value, this);
     }
 
     /**
@@ -237,26 +155,69 @@ public class Region {
     }
 
     public final ArrayList<Tile> activeTiles;
-    public Tile[][][] tiles;
-
-    public @Nullable Tile getTile(int x, int y, int z, boolean create) {
-        if (z > 3)
-            return new Tile(x,y,z);// no support for caching z>3 yet
-        int localX = x - baseX;
-        int localY = y - baseY;
-        if(tiles == null) {
-            if(!create)
-                return null;
-            tiles = new Tile[4][64][64];
-        }
-        Tile tile = tiles[z][localX][localY];
-        if(tile == null && create)
-            tile = tiles[z][localX][localY] = new Tile(x, y, z);
-        return tile;
-    }
 
     public static @Nonnull Region get(int absX, int absY) {
         return RegionManager.getRegion(absX, absY);
     }
+
+    public interface RegionProvider {
+        Tile getTile(int x, int y, final int z, boolean create, Region r);
+        int getClip(int x, int y, int height, Region r);
+        int getProjClip(int x, int y, int height, Region r);
+        void addClip(int x, int y, int height, int shift, Region r);
+        void addProjClip(int x, int y, int height, int shift, Region r);
+        void removeClip(int x, int y, int height, int shift, Region r);
+        void removeProjClip(int x, int y, int height, int shift, Region r);
+        void setClip(int x, int y, int height, int value, Region r);
+
+    }
+
+    public static RegionProvider provider = new RegionProvider() {
+        @Override
+        public Tile getTile(int x, int y, int z, boolean create, Region r) {
+            return new Tile(x, y, z);
+        }
+
+        @Override
+        public int getClip(int x, int y, int height, Region r) {
+            return 0;
+        }
+
+        @Override
+        public int getProjClip(int x, int y, int height, Region r) {
+            return 0;
+        }
+
+        @Override
+        public void addClip(int x, int y, int height, int shift, Region r) {
+
+        }
+
+        @Override
+        public void addProjClip(int x, int y, int height, int shift, Region r) {
+
+        }
+
+        @Override
+        public void removeClip(int x, int y, int height, int shift, Region r) {
+
+        }
+
+        @Override
+        public void removeProjClip(int x, int y, int height, int shift, Region r) {
+
+        }
+
+        @Override
+        public void setClip(int x, int y, int height, int value, Region r) {
+
+        }
+    };
+
+    public HashMap<Integer, RegionZData> customZObjectTiles;
+    public RegionZData baseZData = new RegionZData();
+
+    public int recentCachedBaseZLevel;
+    public RegionZData recentCachedBaseZData;
 
 }

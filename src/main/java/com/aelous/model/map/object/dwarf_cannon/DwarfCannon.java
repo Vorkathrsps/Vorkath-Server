@@ -311,7 +311,7 @@ public class DwarfCannon extends OwnedObject {
     }
 
     public boolean isValidSpot() {
-        int[][] area = World.getWorld().clipAround(tile, 2);
+        int[][] area = World.getWorld().clipAround(tile(), 2);
 
         for (int[] array : area) {
             for (int value : array) {

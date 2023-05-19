@@ -224,9 +224,6 @@ public class ChamberOfXerics extends Raids {
 
         party.greatOlmRewardCrystal = GameObject.spawn(CRYSTAL_30027, 3233, 5751, party.getHeight(), 10, 0);
 
-        GameObject.spawn(CRYSTAL_30027, 3233, 5751, party.getHeight(), 10, 0).remove(); // remove the default cache one so this tile is walkable
-        // until DynamicMap support is added, or custom Z clipping is supported, you cant have unique clipping at z>3 which is all instances
-
         GameObject o2 = GameObject.spawn(LARGE_HOLE, 3238, 5738, party.getHeight(), 10, 1);
 
         GameObject o3 = GameObject.spawn(LARGE_ROCK_29883, 3238, 5733, party.getHeight(), 10, 1);
@@ -234,7 +231,6 @@ public class ChamberOfXerics extends Raids {
         GameObject o1 = GameObject.spawn(CRYSTALLINE_STRUCTURE, 3238, 5743, party.getHeight(), 10, 1);
 
         party.objects.addAll(Lists.newArrayList(o1, o2, o3));
-        Lists.newArrayList(o1, o2, o3).forEach(o -> party.getLeader().getInstancedArea().addGameObj(o));
 
         var o4 = new GameObject(29888, new Tile(3238, 5743, party.getHeight()), 10, 1);
         var o5 = new GameObject(29882, new Tile(3238, 5738, party.getHeight()), 10, 1);
@@ -247,8 +243,6 @@ public class ChamberOfXerics extends Raids {
 
         var cacheLandscapeObjects = Lists.newArrayList(o4,o5,o6,o7,o8,o9);
         party.objects.addAll(cacheLandscapeObjects);
-        cacheLandscapeObjects.forEach(o -> party.getLeader().getInstancedArea().addGameObj(o));
-        World.getWorld().getSpawnedObjs().addAll(cacheLandscapeObjects);
         LogManager.getLogger("cox").info("adding {}", cacheLandscapeObjects);
 
         NPC spawn = new RaidsNpc(GREAT_OLM_7554, new Tile(3238, 5738, party.getHeight()), Direction.WEST, party.getSize(), true);

@@ -51,8 +51,8 @@ public class TimesCycle {
         long freeMem = Runtime.getRuntime().freeMemory();
         long maxMem = Runtime.getRuntime().maxMemory();
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%sms cycle. Average: %sms. players: %s, npcs: %s, tasks: %s, objects: %s, Memory usage: %sMB/%sMB. ",
-            box(total), box(Math.max(1, GameEngine.totalCycleTime) / Math.max(1, GameEngine.gameTicksIncrementor)), Unbox.box(World.getWorld().getPlayers().size()), box(World.getWorld().getNpcs().size()), box(TaskManager.getTaskAmount()), box(World.getWorld().getSpawnedObjs().size()), box((totalMem - freeMem) / 1024 / 1024), box(totalMem / 1024 / 1024)
+        sb.append(String.format("%sms cycle. Average: %sms. players: %s, npcs: %s, tasks: %s, Memory usage: %sMB/%sMB. ",
+            box(total), box(Math.max(1, GameEngine.totalCycleTime) / Math.max(1, GameEngine.gameTicksIncrementor)), Unbox.box(World.getWorld().getPlayers().size()), box(World.getWorld().getNpcs().size()), box(TaskManager.getTaskAmount()), box((totalMem - freeMem) / 1024 / 1024), box(totalMem / 1024 / 1024)
         ));
 
         var sb3 = new StringBuilder();

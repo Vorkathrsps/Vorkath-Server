@@ -1,5 +1,6 @@
 package com.aelous.model.map.position;
 
+import com.aelous.PlainTile;
 import com.aelous.model.content.areas.riskzone.RiskFightArea;
 import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
@@ -11,13 +12,12 @@ import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.object.MapObjects;
 import com.aelous.model.map.object.ObjectManager;
-import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.model.map.region.Region;
 import com.aelous.model.map.region.RegionManager;
-import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.Utils;
-import com.aelous.utility.timers.TimerKey;
+import com.google.common.collect.Lists;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -32,10 +32,79 @@ import static com.aelous.model.map.route.RouteFinder.*;
  * @author relex lawl
  */
 public class Tile implements Cloneable {
+    private static final Logger log = LogManager.getLogger(Tile.class);
 
     public static final Area GAMBLING_ZONE = new Area(2338, 4934, 2381, 4993);
     private int playerCount;
     private int npcCount;
+    public ArrayList<GameObject> gameObjects;
+
+    public void addObject(GameObject gameObject) {
+        if(gameObjects == null) {
+            gameObjects = new ArrayList<>(4);
+        } else {
+            // is gonna replace whatever was there previously visually on client so lets remove too
+            for (GameObject object : Lists.newArrayList(gameObjects)) {
+                if ((object.getType() == 10 && gameObject.getType() == 10) ||
+                    (object.getType() == 4 && gameObject.getType() == 4 && object.getRotation() == gameObject.getRotation())) {
+                    log.debug("replacing a matching object-type {} with {}", object, gameObject);
+                    removeObject(object);
+                }
+            }
+        }
+        gameObject.setTile(this);
+        gameObject.clip(false);
+        gameObjects.add(gameObject);
+        checkActive();
+    }
+
+    public void removeObject(GameObject gameObject) {
+        if(gameObjects == null) {
+            /* this tile has been destroyed */
+            return;
+        }
+        gameObject.clip(true);
+        gameObject.setTile(null);
+        gameObjects.remove(gameObject);
+        checkActive();
+    }
+    private boolean active;
+    private Region region;
+
+    @Nonnull
+    public Region getRegion() {
+        if (region != null)
+            return region;
+        return region = Region.get(x, y);
+    }
+
+    public void checkActive() {
+        boolean active = false;
+        var gameObjects = MapObjects.getAll(this);
+       /* if(groundItems != null && groundItems.size() > 0)
+            active = true;
+        else */if(gameObjects != null && gameObjects.size() > 0)
+            active = gameObjects.stream().anyMatch(GameObject::isCustom);
+        if(this.active == active) {
+            /* same active state */
+            return;
+        }
+        if((this.active = active))
+            getRegion().activeTiles.add(this);
+        else
+            getRegion().activeTiles.remove(this);
+    }
+
+    public void update(Player player) {
+        var gameObjects = MapObjects.getAll(this);
+        if (gameObjects != null) {
+            for (GameObject gameObject : gameObjects) {
+                if (gameObject.isCustom())
+                    gameObject.send(player);
+            }
+        }
+        // log.info("sync {} has {}", this, gameObjects.size());
+    }
 
     public boolean homeRegion() {
         return inArea(EDGEVILE_HOME_AREA) || region() == 7991 || region() == 7992 || region() == 8247;
@@ -386,6 +455,10 @@ public class Tile implements Cloneable {
     @Override
     public String toString() {
         return "[" + x + ", " + y + ", " + level + "].";
+    }
+
+    public String hcode() {
+        return "Tile@"+Integer.toHexString(hashCode());
     }
 
     public boolean isViewableFrom(Tile other) {
@@ -913,25 +986,13 @@ public class Tile implements Cloneable {
         return object;
     }
 
-    public GameObject getObject(int id, int type, int rot) {
-        Optional<GameObject> obj = World.getWorld().getSpawnedObjs().stream().filter(o ->
-            (type == -1 || o.getType() == type)
-                && (rot == -1 || o.getRotation() == rot)
-                && (id == -1 || o.getId() == id)
-                && o.tile().equals(new Tile(x, y, level))
-        ).findFirst();
-        if (obj.isPresent()) {
-        //    LogManager.getLogger("GameObject").info("request2 {} {} {} {} {} {} found {}", id, x, y, level, type, rot, obj.orElse(null));
-        }
-        GameObject gameObject = obj.orElse(MapObjects.get(o -> {
-            return (type == -1 || o.getType() == type)
-                && (rot == -1 || o.getRotation() == rot)
-                && (id == -1 || o.getId() == id);
-        }, new Tile(this.x, this.y, this.getZ())).orElse(null));
-        if (gameObject == null) {
-       //     LogManager.getLogger("GameObject").info("request3 {} {} {} {} {} {} found {}", id, x, y, level, type, rot, gameObject);
-        }
-        return gameObject;
+    public GameObject getObject(int id, int type, int direction) {
+        return MapObjects.get(t -> {
+            return t.tile().equals(x, y, level)
+                && (id == -1 || t.getId() == id)
+                && (type == -1 || t.getType() == type) // -1 means match any id
+                && (direction == -1 || t.getRotation() == direction);
+        }, new Tile(x, y, level)).orElse(null);
     }
 
     public Tile tileToDir(Direction n) {
@@ -943,5 +1004,9 @@ public class Tile implements Cloneable {
         GroundItemHandler.createGroundItem(gi);
         gi.setTimer(i);
         return gi;
+    }
+
+    public PlainTile toPlain() {
+        return new PlainTile(x, y, level);
     }
 }

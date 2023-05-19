@@ -3,6 +3,7 @@ package com.aelous.model.entity.player.commands;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 import com.aelous.model.content.areas.theatre.ViturRoom;
+import com.aelous.model.content.areas.zulandra.ZulAndra;
 import com.aelous.model.content.raids.chamber_of_xeric.ChamberOfXerics;
 import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.aelous.model.entity.MovementQueue;
@@ -508,6 +509,14 @@ public class CommandManager {
                 p.inventory().add(i, 1000000);
             }
         });
+        for (String s : new String[]{"cpa", "clipat", "clippos"})
+            dev(s, (p, cmd, parts) -> {
+                int c = RegionManager.getClipping(p.tile().x, p.tile().y, p.tile().level);
+
+                p.message("cur clip %s %s = %s", p.tile(), c, World.getWorld().clipstr(c));
+                p.message(String.format("%s", World.getWorld().clipstrMethods(p.tile())));
+                CLIP.debug(p, String.format("%s", World.getWorld().clipstrMethods(p.tile())));
+            });
         dev("scm", (player, c, parts) -> {
             ArrayList<GroundItem> gis = new ArrayList<>();
             int baseitem = 0;
@@ -528,7 +537,7 @@ public class CommandManager {
                     }
                 }
             }
-            Chain.bound(player).runFn(10, () ->  {
+            Chain.noCtx().runFn(10, () ->  {
                 gis.forEach(GroundItemHandler::sendRemoveGroundItem);
             });
         });
@@ -618,6 +627,9 @@ public class CommandManager {
             var olm = p.raidsParty.monsters.stream().filter(n -> n.id() == GREAT_OLM_7554).findFirst().get();
             olm.getCombat().delayAttack(30);
             ((GreatOlm) olm.getCombatMethod()).flameWall(olm);
+        });
+        dev("zulrah2", (p, c, s) -> {
+            ZulAndra.enterInstance(p);
         });
     }
 

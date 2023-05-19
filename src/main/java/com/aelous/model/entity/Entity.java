@@ -39,6 +39,8 @@ import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Boundary;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.position.areas.Controller;
+import com.aelous.model.map.region.Region;
+import com.aelous.model.map.region.RegionManager;
 import com.aelous.model.map.route.RouteFinder;
 import com.aelous.model.map.route.routes.TargetRoute;
 import com.aelous.utility.Debugs;
@@ -1890,5 +1892,28 @@ public abstract class Entity {
 
     public boolean isNpc(int i) {
         return isNpc() && getAsNpc().id() == i;
+    }
+
+    public Region[] surrounding;
+
+    /**
+     * @author Shadowrs
+     */
+    public Region[] getSurroundingRegions() {
+        final var region = tile.region();
+        if (surrounding != null && surrounding[0] != null && surrounding[0].getRegionId() == region)
+            return surrounding;
+        surrounding = new Region[9];
+        surrounding[0] = RegionManager.getRegion(region); // cant tell if its chunk or abs X we'll see
+        surrounding[1] = RegionManager.getRegion(region - 1);
+        surrounding[2] = RegionManager.getRegion(region + 1);
+        surrounding[3] = RegionManager.getRegion(region - 256);
+        surrounding[4] = RegionManager.getRegion(region + 256);
+        surrounding[5] = RegionManager.getRegion(region + 257);
+        surrounding[6] = RegionManager.getRegion(region - 257);
+        surrounding[7] = RegionManager.getRegion(region - 255);
+        surrounding[8] = RegionManager.getRegion(region + 255);
+        // System.out.println("regions "+ Arrays.toString(Arrays.stream(surrounding).map(r -> r.getRegionId()).toArray()));
+        return surrounding;
     }
 }

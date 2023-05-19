@@ -33,16 +33,7 @@ public class Room extends PacketInteraction {
 
             if (object.getId() == STEPS_29778) {
                 if (player.getRaids() != null) {
-                    var alive = player.raidsParty.monsters.stream().anyMatch(n -> n.id() == GREAT_OLM_7554 && !n.dead());
-                    if (alive) {
-                        player.message("the raid isn't over!");
-                        // until DynamicMap support is added, or custom Z clipping is supported, you cant have unique clipping at z>3 which is all instances
-                        // this means players can noclip through the crystal to the stairs, so reset movement when they try this when boss (and crystal techniclly) is still active
-                        player.getMovementQueue().reset();
-                        return true;
-                    }
-                    // re-route the player, when complete, trigger exit raid. dont trigger exit raid until path complete (path was skipped earlier via isRemoteObjectSkipPath())
-                    player.getRouteFinder().routeObject(object, () -> player.getRaids().exit(player), false);
+                    player.getRaids().exit(player);
                 }
                 return true;
             }

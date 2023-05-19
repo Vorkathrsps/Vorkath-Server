@@ -280,7 +280,6 @@ public class VerzikVitur extends CommonCombatMethod {
             }, () -> {
                 phase = VerzikPhase.PHASE_2;
                 var o = GameObject.spawn(VERZIKS_THRONE_32737, 3167, 4324, mob.getZ(),10,0);
-                area.addGameObj(o);
                 mob.npc().transmog(VERZIK_VITUR_8372);
                 mob.npc().def(World.getWorld().definitions().get(NpcDefinition.class, VERZIK_VITUR_8372));
             });
@@ -311,7 +310,6 @@ public class VerzikVitur extends CommonCombatMethod {
                 }
                 mob.npc().remove();
                 treasure.spawn();
-                area.addGameObj(treasure);
             });
             return true;
         }

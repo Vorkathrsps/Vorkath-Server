@@ -9,6 +9,9 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.route.ClipUtils;
 import com.aelous.utility.SecondsTimer;
+import lombok.Getter;
+import lombok.Setter;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -17,7 +20,10 @@ import java.util.function.Predicate;
  * This file manages a game object entity on the globe.
  *
  * @author Relex lawl / iRageQuit2012
+ * @author Jak Shadowrs
+ * @author Runite team
  */
+@SuppressWarnings("ALL")
 public class GameObject {
 
     /**
@@ -38,9 +44,21 @@ public class GameObject {
     private int rotation;
 
     private boolean interactAble = true;
+    @Setter
     private boolean custom = false;
 
+    @Nullable
     public Tile tile;
+
+    @Getter
+    public final int x, y, z; // exact pos.
+
+    public GameObject setTile(Tile tile) {
+        if (tile != null && this.tile != null && !this.tile.equals(tile))
+            throw new RuntimeException("You can't change the tile of a GameObject. Create a new one. "+this.tile+" -> "+tile);
+        this.tile = tile; // ugly way of setting 'removed' state
+        return this;
+    }
 
     public static GameObject spawn(int i, int x, int y, int z, int i1, int i2) {
         return new GameObject(i, new Tile(x,y,z), i1, i2).spawn();
@@ -51,19 +69,42 @@ public class GameObject {
     }
 
     public GameObject spawn() {
-        return ObjectManager.addObj(this);
+        custom = true;
+        Tile.get(x, y, z, true).addObject(this);
+        World.getWorld().getPlayers().forEachFiltered(p -> tile().area(64).contains(p, true), player ->
+            send(player));
+        return this;
+    }
+
+    public void send(Player player) {
+        if (id != -1)
+            sendCreate(player);
+        else
+            sendRemove(player);
+    }
+
+    public void sendCreate(Player player) {
+        player.getPacketSender().sendObject(this);
+    }
+
+    public void sendRemove(Player player) {
+        player.getPacketSender().sendObjectRemoval(this);
+    }
+
+    public boolean isCustom() {
+        return custom || id != originalId;
     }
 
     public int getX() {
-        return tile.getX();
+        return x;
     }
 
     public int getY() {
-        return tile.getY();
+        return y;
     }
 
     public int getHeight() {
-        return tile.getZ();
+        return z;
     }
 
     /**
@@ -79,9 +120,11 @@ public class GameObject {
      * @param tile The new object's position on the globe.
      */
     public GameObject(int id, Tile tile) {
-        this.tile = tile;
         this.id = id;
         this.originalId = id;
+        this.x = tile.x;
+        this.y = tile.y;
+        this.z = tile.level;
     }
 
     /**
@@ -94,7 +137,9 @@ public class GameObject {
         this.id = id;
         this.originalId = id;
         this.spawnedFor = spawnedFor;
-        this.tile = tile;
+        this.x = tile.x;
+        this.y = tile.y;
+        this.z = tile.level;
     }
 
     /**
@@ -108,7 +153,9 @@ public class GameObject {
         this.id = id;
         this.originalId = id;
         this.type = type;
-        this.tile = tile;
+        this.x = tile.x;
+        this.y = tile.y;
+        this.z = tile.level;
     }
 
     @Override
@@ -129,7 +176,9 @@ public class GameObject {
         this.originalId = id;
         this.type = type;
         this.rotation = rotation;
-        this.tile = tile;
+        this.x = tile.x;
+        this.y = tile.y;
+        this.z = tile.level;
     }
 
     public GameObject(Tile tile, int id, int type, int rotation) {
@@ -137,7 +186,9 @@ public class GameObject {
         this.originalId = id;
         this.type = type;
         this.rotation = rotation;
-        this.tile = tile;
+        this.x = tile.x;
+        this.y = tile.y;
+        this.z = tile.level;
     }
 
     public GameObject(int id, Tile tile, int type, int rot, boolean custom) {
@@ -161,7 +212,9 @@ public class GameObject {
         this.id = id;
         this.originalId = id;
         this.timer = new SecondsTimer(disappear_seconds);
-        this.tile = tile;
+        this.x = tile.x;
+        this.y = tile.y;
+        this.z = tile.level;
     }
 
     /**
@@ -175,14 +228,15 @@ public class GameObject {
      */
     public GameObject(int id, Tile tile, int type, int rotation, int seconds) {
         this.id = id;
-        this.tile = tile;
         this.originalId = id;
         this.type = type;
         this.rotation = rotation;
-
         if (seconds != -1) {
             this.timer = new SecondsTimer(seconds);
         }
+        this.x = tile.x;
+        this.y = tile.y;
+        this.z = tile.level;
     }
 
     /**
@@ -288,9 +342,13 @@ public class GameObject {
 
     @Override
     public boolean equals(Object o) {
+        if (o == null)
+            return false;
         if (!(o instanceof GameObject))
             return false;
         GameObject object = (GameObject) o;
+        if (object.tile == null)
+            return false;
         if (getSpawnedfor().isPresent()) {
             if (object.getSpawnedfor().isEmpty()) {
                 return false;
@@ -384,24 +442,6 @@ public class GameObject {
         return this;
     }
 
-    // Checks if this mapobj is still valid in the world.
-    // First find the equivilent obj type on this coord (ignore invalid stuff like walls, floor decoration)
-    // Then compare the object ID that matches. Otherwise when a tree gets replaced with a stump it'd still be classed as valid
-    // Due to the tree and stump having the same object type.
-    public boolean valid() {
-        return valid(false);
-    }
-
-    public boolean valid(boolean uuidMatch) {
-        GameObject currentAtTile = objByType(type, tile.x, tile.y, tile.level);
-        if (currentAtTile == null) return false;
-        if (uuidMatch && currentAtTile.getAttribOr(AttributeKey.MAPOBJ_UUID, -2) != getAttribOr(AttributeKey.MAPOBJ_UUID, -1)) {
-            //System.out.printf(this+" vs "+currentAtTile+" didnt match!%n");
-            return false;
-        }
-        return id == currentAtTile.getId();
-    }
-
     public boolean isOwnedObject() {
         return this instanceof OwnedObject;
     }
@@ -410,17 +450,12 @@ public class GameObject {
         return ((OwnedObject) this);
     }
 
-    public static GameObject objByType(int type, int x, int y, int level) {
-        Optional<GameObject> obj = World.getWorld().getSpawnedObjs().stream().filter(o -> o.getType() == type && o.tile().equals(new Tile(x, y, level))).findAny();
-        return obj.orElse(null);
-    }
-
     public Tile tile() {
-        return tile;
+        return new Tile(x, y, z);
     }
 
     public GameObject remove() {
-        ObjectManager.removeObj(this);
+        setId(-1);
         return this;
     }
 
@@ -430,9 +465,24 @@ public class GameObject {
     }
 
     public void setId(int newId) {
-        ObjectManager.removeObj(this);
-        id = newId;
-        ObjectManager.addObj(this);
+        if (custom && newId == -1) {
+            // System.out.println("despawn custom "+this);
+            if (tile != null) {
+                tile.removeObject(this);
+            }
+            World.getWorld().getPlayers().forEachFiltered(p -> tile().area(64).contains(p, true), player ->
+                sendRemove(player));
+        } else {
+            // there is no tile.remove because we keep the object, but change ID to a new one.
+            // replacing, unclip old and reclip new
+            //   System.out.println("replace "+this);
+            clip(true);
+            id = newId;
+            Tile.get(x, y, z, true).checkActive();
+            clip(false);
+            World.getWorld().getPlayers().forEachFiltered(p -> tile().area(64).contains(p, true), player ->
+                send(player));
+        }
     }
 
     public Tile walkTo;
@@ -445,7 +495,7 @@ public class GameObject {
     }
 
     public GameObject clip(boolean remove) {
-        if (id == -1 || skipClipping || tile().getZ() > 3)
+        if (id == -1 || skipClipping)
             return this;
         // when osrs data is rdy
         ObjectDefinition def = definition();
@@ -472,25 +522,25 @@ public class GameObject {
             }
             if (def.clipType != 0) {
                 if (remove) {
-                    ClipUtils.removeClipping(tile.x, tile.y, tile.level, xLength, yLength, def.tall, false);
+                    ClipUtils.removeClipping(x, y, z, xLength, yLength, def.tall, false);
                     if (def.tall)
-                        ClipUtils.removeClipping(tile.x, tile.y, tile.level, xLength, yLength, true, true);
+                        ClipUtils.removeClipping(x, y, z, xLength, yLength, true, true);
                 } else {
-                    ClipUtils.addClipping(tile.x, tile.y, tile.level, xLength, yLength, def.tall, false);
+                    ClipUtils.addClipping(x, y, z, xLength, yLength, def.tall, false);
                     if (def.tall)
-                        ClipUtils.addClipping(tile.x, tile.y, tile.level, xLength, yLength, true, true);
+                        ClipUtils.addClipping(x, y, z, xLength, yLength, true, true);
                 }
             }
         } else if (type >= 0 && type <= 3) {
             if (def.clipType != 0) {
                 if (remove) {
-                    ClipUtils.removeVariableClipping(tile.x, tile.y, tile.level, type, rotation, def.tall, false);
+                    ClipUtils.removeVariableClipping(x, y, z, type, rotation, def.tall, false);
                     if (def.tall)
-                        ClipUtils.removeVariableClipping(tile.x, tile.y, tile.level, type, rotation, true, true);
+                        ClipUtils.removeVariableClipping(x, y, z, type, rotation, true, true);
                 } else {
-                    ClipUtils.addVariableClipping(tile.x, tile.y, tile.level, type, rotation, def.tall, false);
+                    ClipUtils.addVariableClipping(x, y, z, type, rotation, def.tall, false);
                     if (def.tall)
-                        ClipUtils.addVariableClipping(tile.x, tile.y, tile.level, type, rotation, true, true);
+                        ClipUtils.addVariableClipping(x, y, z, type, rotation, true, true);
                 }
             }
         }

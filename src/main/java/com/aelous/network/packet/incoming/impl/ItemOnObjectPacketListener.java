@@ -36,13 +36,6 @@ public class ItemOnObjectPacketListener implements PacketListener {
 
         Tile tile = new Tile(objectX, objectY, player.tile().getLevel());
         Optional<GameObject> object = MapObjects.get(objectId, tile);
-        int osize = object.map(GameObject::getSize).orElse(1);
-
-        if (object.isEmpty() && tile.getLevel() > 3) {
-            tile = new Tile(objectX, objectY, player.tile().getLevel() % 4);
-            object = MapObjects.get(objectId, tile);
-            player.debugMessage(String.format("found real mapobj %s from %s", object.orElse(null), player.tile().level));
-        }
 
         //Make sure the object actually exists in the region...
         if (object.isEmpty()) {

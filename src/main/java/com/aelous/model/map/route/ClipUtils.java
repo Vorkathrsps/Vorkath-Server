@@ -14,7 +14,6 @@ public class ClipUtils {
                 @Override
                 public int getAbs(int absX, int absY, int z) {
                     Region region = RegionManager.getRegion(absX, absY);
-                    if (region == null) return RouteFinder.UNMOVABLE_MASK;
                     return region.getClip(absX, absY, z);
                 }
             };
@@ -24,7 +23,6 @@ public class ClipUtils {
                 @Override
                 public int getAbs(int absX, int absY, int z) {
                     Region region = RegionManager.getRegion(absX, absY);
-                    if (region == null) return RouteFinder.UNMOVABLE_MASK;
                     return region.getClip(absX, absY, z);
                 }
             };
@@ -34,7 +32,6 @@ public class ClipUtils {
                 @Override
                 public int getAbs(int absX, int absY, int z) {
                     Region region = RegionManager.getRegion(absX, absY);
-                    if (region == null) return RouteFinder.UNMOVABLE_MASK;
                     int clipping = region.getClip(absX, absY, z);
                     return (clipping == 0 || (clipping & RouteFinder.UNMOVABLE_MASK) == 0)
                             ? RouteFinder.UNMOVABLE_MASK

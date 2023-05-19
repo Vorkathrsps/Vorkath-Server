@@ -10,6 +10,8 @@ import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
+import com.aelous.model.map.region.Region;
+import com.aelous.model.map.region.RegionManager;
 import com.aelous.utility.chainedwork.Chain;
 import com.google.common.collect.Lists;
 import org.apache.logging.log4j.LogManager;
@@ -17,9 +19,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @SuppressWarnings("ALL")
 public class InstancedArea {
@@ -43,8 +43,6 @@ public class InstancedArea {
      * The {@link NPC}s contained in this instance.
      */
     protected final List<NPC> npcs = Lists.newArrayList();
-
-    protected final List<GameObject> gameobjs = Lists.newArrayList();
 
     /**
      * The height level that the instance takes place in.
@@ -90,6 +88,10 @@ public class InstancedArea {
 
     public Chain<?> listener;
 
+    private final List<GameObject> gameobjs;
+
+    private Set<Integer> regions;
+
     /**
      * Creates a {@link InstancedArea}.
      *
@@ -104,6 +106,9 @@ public class InstancedArea {
         this.areas.addAll(Arrays.stream(areas).map(area -> new Area(area, height)).toList());
         this.zLevel = height;
         this.freeHeightLevel = false;
+        this.gameobjs = new ArrayList<>();
+        regions = RegionManager.areasToRegions.apply(areas);
+        gameobjs.addAll(RegionManager.loadGroupMapFiles.apply(regions, height));
         listenAfter();
 
     }
@@ -178,29 +183,24 @@ public class InstancedArea {
             this.removePlayer(player);
         });
 
-        logger.trace(marker, "Disposed instance: remove {} objects from {}", gameobjs.size(), this);
-        for (GameObject gameobj : Lists.newArrayList(gameobjs)) {
-            gameobj.remove();
-        }
-        gameobjs.clear();
-
         for (GroundItem gi : GroundItemHandler.getGroundItems()) {
             if (!inInstanceArea(gi.getTile()))
                 continue;
 
             GroundItemHandler.sendRemoveGroundItem(gi);
         }
-    }
-
-    public void addGameObj(GameObject o) {
-        if (disposed) {
-            logger.error(marker, "Attempting to add o to instance after diposed {} {}", o, this);
-            return;
+        for (GameObject gameobj : Lists.newArrayList(gameobjs)) {
+            // shadowrs: must be custom for remove to work in instanceAreas.
+            gameobj.setCustom(true);
+            gameobj.remove();
         }
-        if (!gameobjs.contains(o)) {
-            gameobjs.add(o);
-        }
-        logger.trace(marker, "Add to instance o={}, instance={}", o, this);
+        gameobjs.clear();
+        regions.forEach(r -> {
+            var reg = RegionManager.getRegion(r);
+            reg.customZObjectTiles.remove(zLevel);
+            reg.recentCachedBaseZData = null;
+            reg.recentCachedBaseZLevel = -1;
+        });
     }
 
     /**
@@ -217,10 +217,6 @@ public class InstancedArea {
      */
     public List<NPC> getNpcs() {
         return Collections.unmodifiableList(npcs);
-    }
-
-    public List<GameObject> getGameobjs() {
-        return Collections.unmodifiableList(gameobjs);
     }
 
     /**
@@ -286,33 +282,6 @@ public class InstancedArea {
     }
 
     /**
-     * Resolves a relative height level for this instance.
-     *
-     * Takes the {@param height} and adds {@link InstancedArea#getZLevel()}} to it,
-     * giving us a relative height level for the instance.
-     *
-     * @param height the absolute height (0-3).
-     * @return the relative height.
-     */
-    public int resolveHeight(int height) {
-        return height + getZLevel();
-    }
-
-    /**
-     * Resolve a position to be at the correct coordinates for this instance.
-     *
-     * It takes the {@param position} and returns a new position with that
-     * positions height, plus the value of {@link InstancedArea#getZLevel()},
-     * giving a relative position for this instance. Does not change the X/Y positions.
-     *
-     * @param tile The coordinates without any instance height adjusted (meaning 0 through 3).
-     * @return {@link Tile} with the height adjusted to be inside the instance.
-     */
-    public Tile resolve(Tile tile) {
-        return tile.withHeight(tile.getZ() + getZLevel());
-    }
-
-    /**
      * The area or location of this instanced area
      *
      * @return the area
@@ -353,7 +322,6 @@ public class InstancedArea {
             ", areas=" + areas +
             ", zLevel=" + zLevel +
             ", configuration=" + configuration +
-            ", objs=" + gameobjs.size() +
             '}';
     }
 
@@ -370,7 +338,7 @@ public class InstancedArea {
                     logger.debug(markerZ, "normalized z level to {} via {}", z, remainder);
                 }
                 var inside = tile.getZ() >= z && tile.getZ() <= z + 3;
-                logger.debug(markerZ, "inside={} check {} z{} at custom {} for {}", inside, area, z, z+3, tile);
+                logger.debug(markerZ, "inside={} check {} z range{}-{} for {}", inside, area, z, z+3, tile);
                 if (inside) {
                     return true;
                 }

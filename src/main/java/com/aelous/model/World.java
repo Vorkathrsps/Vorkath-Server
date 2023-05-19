@@ -111,12 +111,6 @@ public class World {
     private final EntityList<NPC> npcs = new EntityList<>(GameConstants.NPCS_LIMIT);
 
     /**
-     * The collection of active {@link GameObject}s..
-     */
-    private final List<GameObject> spawnedObjs = new LinkedList<>();
-    private final List<GameObject> removedObjs = new LinkedList<>();
-
-    /**
      * The manager for game synchronization.
      */
     private static final GameSyncExecutor executor = new GameSyncExecutor();
@@ -520,14 +514,6 @@ public class World {
         return npcs;
     }
 
-    public List<GameObject> getSpawnedObjs() {
-        return spawnedObjs;
-    }
-
-    public List<GameObject> getRemovedObjs() {
-        return removedObjs;
-    }
-
     public LoginService ls = new LoginService();
 
     public int cycleCount() {
@@ -786,8 +772,6 @@ public class World {
         Tile tile = new Tile(x, y, plane);
         int regionId = tile.region();
         Region region = RegionManager.getRegion(regionId);
-        if (region == null)
-            return -1;
         int clip = region.getClip(x, y, tile.getLevel());
         //("gm %s,%s,%s = %s aka %s%n", x, y, tile.level, clip, clipstr(clip));
         return clip;
@@ -850,8 +834,8 @@ public class World {
                     active = RegionManager.getRegion(activeId);
                 }
 
-                if (active != null && active.clips[base.level % 4] != null)
-                    clipping[x - base.x][y - base.y] = active.clips[base.level % 4][x & 63][y & 63];
+                if (active != null && active.baseZData.clips[base.level % 4] != null)
+                    clipping[x - base.x][y - base.y] = active.baseZData.clips[base.level % 4][x & 63][y & 63];
             }
         }
 
@@ -864,7 +848,7 @@ public class World {
 
     public int clipAt(Tile tile) {
         Region active = RegionManager.getRegion(tile.region());
-        return active.clips == null ? 0 : active.clips[tile.level % 4] == null ? 0 : active.clips[tile.level % 4][tile.x & 63][tile.y & 63];
+        return active.baseZData.clips == null ? 0 : active.baseZData.clips[tile.level % 4] == null ? 0 : active.baseZData.clips[tile.level % 4][tile.x & 63][tile.y & 63];
     }
 
     public int floorAt(Tile tile) {

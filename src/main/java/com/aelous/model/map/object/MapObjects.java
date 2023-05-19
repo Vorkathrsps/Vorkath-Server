@@ -1,31 +1,20 @@
 package com.aelous.model.map.object;
 
 import com.aelous.model.map.position.Tile;
+import com.aelous.model.map.region.Region;
 import com.aelous.model.map.region.RegionManager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import javax.annotation.Nonnull;
+import java.util.*;
 import java.util.function.Predicate;
 
 /**
- * Map objects are objects that are in the maps.
- * These are loaded when the maps are so that we can
- * verify that an object exists when a player
- * tries to interact with it.
- *
- * @author Professor Oak
+ * uses prof oak's old class name but code is runite
+ * @author Jak|shadowrs
+ * @author Runite team
  */
+@SuppressWarnings("ALL")
 public class MapObjects {
-
-    /**
-     * A map which holds all of our map objects. This contains objects from the cache, the
-     * landscape from files before any objects are custom spawned or adjusted
-     */
-    public static final Map<Long, ArrayList<GameObject>> mapObjects = new HashMap<Long, ArrayList<GameObject>>();
 
     /**
      * Attempts to get an object with the given id and position.
@@ -38,19 +27,14 @@ public class MapObjects {
     }
 
     public static Optional<GameObject> get(Predicate<GameObject> predicate, Tile tile) {
-        //Load region..
-        RegionManager.loadMapFiles(tile.getX(), tile.getY());
 
-        //Get hash..
-        long hash = getHash(tile.getX(), tile.getY(), tile.getLevel());
-
-        //Check if the map contains the hash..
-        if (!mapObjects.containsKey(hash)) {
+        // don't create, no need to make it.
+        var t = Tile.get(tile.x, tile.y, tile.level);
+        if (t == null)
             return Optional.empty();
-        }
 
         //Go through the objects in the list..
-        ArrayList<GameObject> list = mapObjects.get(hash);
+        ArrayList<GameObject> list = t.gameObjects;
         if (list != null) {
             Iterator<GameObject> it = list.iterator();
             for (; it.hasNext(); ) {
@@ -62,6 +46,36 @@ public class MapObjects {
             }
         }
         return Optional.empty();
+    }
+    public static @Nonnull List<GameObject> getAll(Tile tile) {
+        return getAll(tile, 0);
+    }
+
+    public static @Nonnull List<GameObject> getAll(Tile tile, final int radius) {
+        if (radius == 0) {
+            RegionManager.loadMapFiles(tile.x, tile.y);
+            var t = Tile.get(tile);
+            if (t == null)
+                return List.of();
+            var o = t.gameObjects;
+            return o == null || o.size() == 0 ? List.of() : o;
+        }
+        ArrayList<GameObject> list = null;
+        for (int x = tile.getX() - radius; x < tile.getX() + radius; x++) {
+            for (int y = tile.getY() - radius; y < tile.getY() + radius; y++) {
+                RegionManager.loadMapFiles(x, y);
+                var t = Tile.get(x, y, tile.level);
+                if (t == null) continue;
+                var o = t.gameObjects;
+                if (o == null || o.size() == 0) continue;
+                if (list == null)
+                    list = new ArrayList<>();
+                list.addAll(o);
+                //System.out.println("found "+ Arrays.toString(o.stream().map(e -> e.definition().name).toArray()));
+            }
+        }
+        //System.out.println("found " + list.size() + " at " + tile);
+        return list == null || list.size() == 0 ? List.of() : list;
     }
 
     /**
@@ -85,125 +99,4 @@ public class MapObjects {
         return get(object.getId(), object.tile()).isPresent();
     }
 
-    /**
-     * Attempts to add a new object to our map of mapobjects.
-     *
-     * @param object
-     */
-    public static void add(GameObject object) {
-        RegionManager.loadMapFiles(object.getX(), object.getY());
-        //Get hash for object..
-        long hash = getHash(object.tile().getX(), object.tile().getY(), object.tile().getLevel());
-
-        if (mapObjects.containsKey(hash)) {
-            //Check if object already exists in this list..
-            boolean exists = false;
-            List<GameObject> list = mapObjects.get(hash);
-            Iterator<GameObject> it = list.iterator();
-            for (; it.hasNext(); ) {
-                GameObject o = it.next();
-                if (o.equals(object)) {
-                    exists = true;
-                    break;
-                }
-            }
-            //If it didn't exist, add it.
-            if (!exists) {
-                mapObjects.get(hash).add(object);
-            }
-        } else {
-            ArrayList<GameObject> list = new ArrayList<GameObject>();
-            list.add(object);
-            mapObjects.put(hash, list);
-        }
-
-        //Add clipping for object.
-        object.clip(false);
-    }
-
-    public static List<GameObject> at(Tile tile) {
-        return around(tile, 0);
-    }
-
-    public static List<GameObject> around(Tile tile, int radius) {
-        if (radius == 0) {
-            RegionManager.loadMapFiles(tile.x, tile.y);
-            long hash = getHash(tile.x, tile.y, tile.level);
-            if (mapObjects.containsKey(hash)) {
-                return mapObjects.get(getHash(tile.x, tile.y, tile.level));
-            }
-        }
-        ArrayList<GameObject> list = new ArrayList<>();
-        for (int x = tile.getX() - radius; x < tile.getX() + radius; x++) {
-            for (int y = tile.getY() - radius; y < tile.getY() + radius; y++) {
-                RegionManager.loadMapFiles(x, y);
-                long hash = getHash(x, y, tile.level);
-                if (mapObjects.containsKey(hash)) {
-                    list.addAll(mapObjects.get(getHash(x, y, tile.level)));
-                }
-            }
-        }
-        //System.out.println("found " + list.size() + " at " + tile);
-        return list;
-    }
-
-    /**
-     * Attempts to remove the given object from our map of mapobjects.
-     *
-     * @param object
-     */
-    public static void remove(GameObject object) {
-        //Get hash for object..
-        long hash = getHash(object.tile().getX(), object.tile().getY(), object.tile().getLevel());
-
-        //Attempt to delete..
-        if (mapObjects.containsKey(hash)) {
-            Iterator<GameObject> it = mapObjects.get(hash).iterator();
-            while (it.hasNext()) {
-                GameObject o = it.next();
-                if (o.getId() == object.getId() && o.tile().equals(object.tile())) {
-                    it.remove();
-                }
-            }
-        }
-
-        //Remove clipping from this area..
-        object.clip(true);
-    }
-
-    /**
-     * Removes all objects in this position.
-     *
-     * @param tile
-     */
-    public static void clear(Tile tile, int clipShift) {
-        //Get hash for pos..
-        long hash = getHash(tile.getX(), tile.getY(), tile.getLevel());
-
-        //Attempt to delete..
-        if (mapObjects.containsKey(hash)) {
-            Iterator<GameObject> it = mapObjects.get(hash).iterator();
-            while (it.hasNext()) {
-                GameObject o = it.next();
-                if (o.tile().equals(tile)) {
-                    it.remove();
-                }
-            }
-        }
-
-        //Remove clipping from this area..
-        RegionManager.removeClipping(tile.getX(), tile.getY(), tile.getLevel(), clipShift);
-    }
-
-    /**
-     * Gets the hash for a map object.
-     *
-     * @param x
-     * @param y
-     * @param z
-     * @return
-     */
-    public static long getHash(int x, int y, int z) {
-        return (z + ((long) x << 24) + ((long) y << 48));
-    }
 }

@@ -1,5 +1,12 @@
 package com.aelous.model.map.region;
 
+import com.aelous.cache.definitions.ObjectDefinition;
+import com.aelous.model.World;
+import com.aelous.model.items.Item;
+import com.aelous.model.items.ground.GroundItem;
+import com.aelous.model.items.ground.GroundItemHandler;
+import com.aelous.model.map.position.Area;
+import com.aelous.utility.chainedwork.Chain;
 import com.google.common.base.Stopwatch;
 import com.aelous.GameServer;
 import com.aelous.GameEngine;
@@ -14,8 +21,11 @@ import javax.annotation.Nonnull;
 import javax.naming.OperationNotSupportedException;
 import java.io.File;
 import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * This manager handles all regions and their related functions, such as
@@ -23,6 +33,7 @@ import java.util.Map;
  *
  * @author Professor Oak
  */
+@SuppressWarnings("ALL")
 public class RegionManager {
 
     private static final Logger logger = LogManager.getLogger(RegionManager.class);
@@ -195,10 +206,10 @@ public class RegionManager {
         if (objectId == -1) {
             final Tile tile = Tile.get(x, y, zLevel, true);
             //System.out.println("ignoring cache-object on server-side "+ObjectDefinition.forId(oldid).name+" at "+position);
-            MapObjects.remove(new GameObject(oldid, new Tile(x,y,zLevel), type, direction));
+            new GameObject(oldid, new Tile(x,y,zLevel), type, direction).remove();
         } else {
             final Tile tile = Tile.get(x, y, zLevel, true);
-            MapObjects.add(new GameObject(oldid, new Tile(x,y,zLevel), type, direction));
+            new GameObject(oldid, new Tile(x,y,zLevel), type, direction).spawn();
         }
     }
 
@@ -310,7 +321,6 @@ public class RegionManager {
                                             int yLength) {
         int diffX = endX - startX;
         int diffY = endY - startY;
-        zLevel %= 4;
         int max = Math.max(Math.abs(diffX), Math.abs(diffY));
         for (int ii = 0; ii < max; ii++) {
             int currentX = endX - diffX;
@@ -479,6 +489,10 @@ public class RegionManager {
     }
 
     public static void loadMapFiles(int x, int y, boolean force) {
+        loadMapFiles(x, y, force, OBJECT_CONSUMER, CLIP_CONSUMER);
+    }
+
+    public static void loadMapFiles(int x, int y, boolean force, ObjectConsumer consumer, ClipConsumer clipConsumer) {
         try {
             int regionX = x >> 3;
             int regionY = y >> 3;
@@ -507,8 +521,9 @@ public class RegionManager {
                 //System.err.println("missing clipping at region "+regionId);
                 return;
             }
-            if (oFileData != null)
-            logger.trace("clipmap region {} at {} in {} ns len:{} len:{} files {} {}", regionId, Tile.regionToTile(regionId), stopwatch.elapsed().toNanos(), oFileData.length, gFileData.length, r.getObjectFile(), r.getTerrainFile());
+            if (oFileData != null) {
+                logger.trace("clipmap region {} at {} in {} ns len:{} len:{} files {} {}", regionId, Tile.regionToTile(regionId), stopwatch.elapsed().toNanos(), oFileData.length, gFileData.length, r.getObjectFile(), r.getTerrainFile());
+            }
 
             // Read values using our streams..
             Buffer groundStream = new Buffer(gFileData);
@@ -543,7 +558,7 @@ public class RegionManager {
                                 zLevel--;
                             }
                             if (zLevel >= 0 && zLevel <= 3) {
-                                RegionManager.addClipping(absX + i2, absY + i3, zLevel, 0x200000);
+                                clipConsumer.accept(absX + i2, absY + i3, zLevel, r);
                             }
                         }
                     }
@@ -573,7 +588,7 @@ public class RegionManager {
                         }
 
                         if (zLevel >= 0 && zLevel <= 3) {
-                            RegionManager.addObject(objectId, absX + localX, absY + localY, zLevel, type, direction); // Add
+                            consumer.accept(objectId, absX + localX, absY + localY, zLevel, type, direction, r);
                         }
                     }
                 }
@@ -581,15 +596,17 @@ public class RegionManager {
                 System.err.println("missing mapobjs at region "+regionId);
             }
             stopwatch.stop();
-           // if (GameEngine.gameTicksIncrementor > 10) {
-                // log when game is running
-                //logger.trace("clipmap region {} at {} loaded in {} ns", regionId, Tile.regionToTile(regionId), stopwatch.elapsed().toNanos());
-          //  }
+            if (GameEngine.gameTicksIncrementor > 10) {
+                logger.trace("clipmap region {} at {} loaded in {} ns", regionId, Tile.regionToTile(regionId), stopwatch.elapsed().toNanos());
+            }
         } catch (Exception e) {
             logger.error("?", e);
             throw new MapDecodeEx("map decode", e);
         }
     }
+
+    public static BiFunction<Set<Integer>, Integer, List<GameObject>> loadGroupMapFiles = (i, i2) -> List.of();
+    public static Function<Area[], Set<Integer>> areasToRegions = areas -> Set.of();
 
     public static final class MapDecodeEx extends RuntimeException {
 
@@ -597,4 +614,29 @@ public class RegionManager {
             super(mapDecode, e);
         }
     }
+
+    public interface ClipConsumer {
+        void accept(int x, int y, int z, Region r);
+    }
+
+    public interface ObjectConsumer {
+        void accept(int id, int x, int y, int z, int type, int dir, Region r);
+    }
+
+    private static final ClipConsumer CLIP_CONSUMER = (x, y, z, r) -> {
+        r.addClip(x, y, z, 0x200000);
+    };
+
+    private static final ObjectConsumer OBJECT_CONSUMER = (objectId, x, y, z, type, direction, r1) -> {
+        var obj = new GameObject(objectId, new Tile(x, y, z), type, direction);
+        final Tile tile = r1.getTile(obj.tile().x, obj.tile().y, obj.tile().level, true);
+        if (obj.getId() == -1) {
+            tile.removeObject(obj);
+        } else {
+            tile.addObject(obj);
+            // if (objectId == 29102)
+            //     logger.info(marker, "found {}", tile);
+        }
+    };
+
 }

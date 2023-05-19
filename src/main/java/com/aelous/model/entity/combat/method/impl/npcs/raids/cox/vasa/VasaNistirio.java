@@ -34,7 +34,7 @@ public class VasaNistirio extends CommonCombatMethod {
      * Crystal Variables
      */
     int id, x, y, z;
-    private final List<Crystals> crystals = Collections.singletonList(Crystals.find(ObjectManager.get(id)));
+    private List<Crystals> crystals = Collections.singletonList(Crystals.find(ObjectManager.objById(id, new Tile(x, y, z))));
 
     public List<Crystals> getCrystals() {
         return crystals;

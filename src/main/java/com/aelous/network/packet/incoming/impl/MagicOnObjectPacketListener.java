@@ -33,13 +33,6 @@ public class MagicOnObjectPacketListener implements PacketListener {
         Tile tile = new Tile(x, y, player.tile().getZ());
         Optional<GameObject> object = MapObjects.get(object_id, tile);
 
-        //Fix object not found for instances
-        if (object.isEmpty() && tile.getLevel() > 3) {
-            tile = new Tile(x, y, player.tile().getLevel() % 4);
-            object = MapObjects.get(object_id, tile);
-            player.debugMessage(String.format("found real mapobj %s from %s", object.orElse(null), player.tile().level));
-        }
-
         object.ifPresent(gameObject -> player.debugMessage("Magic on object " + gameObject.toString()));
 
         //Make sure the object actually exists in the region...

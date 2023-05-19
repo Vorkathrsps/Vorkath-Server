@@ -197,7 +197,8 @@ public class InstancedArea {
         gameobjs.clear();
         regions.forEach(r -> {
             var reg = RegionManager.getRegion(r);
-            reg.customZObjectTiles.remove(zLevel);
+            if (reg.customZObjectTiles != null)
+                reg.customZObjectTiles.remove(zLevel);
             reg.recentCachedBaseZData = null;
             reg.recentCachedBaseZLevel = -1;
         });

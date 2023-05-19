@@ -38,3 +38,4 @@ data/cache/main_file_cache.idx9
 src/main/resources/log4j2-dev.xml
 functions/
 functions/*.jar
+dependency-reduced-pom.xml

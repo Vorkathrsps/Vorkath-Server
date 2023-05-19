@@ -41,8 +41,6 @@ public class Region {
     public final int objectFile;
     public final int baseX;
     public final int baseY;
-
-    public int[][][] projectileClip = new int[4][][];
     public int[][][] heightMap;
 
     /**

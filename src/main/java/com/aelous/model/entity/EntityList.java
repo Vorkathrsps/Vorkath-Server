@@ -232,7 +232,7 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
      * @param predicate
      * @return
      */
-    public void forEachFiltered(Predicate<? super Entity> predicate, Consumer<E> consumer) {
+    public void forEachFiltered(Predicate<E> predicate, Consumer<E> consumer) {
         Arrays.stream(entities).filter(mob -> Objects.nonNull(mob) && predicate.test(mob)).forEach(consumer);
     }
 

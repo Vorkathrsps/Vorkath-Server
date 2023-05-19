@@ -93,7 +93,7 @@ public class ZulAndra extends PacketInteraction {
         return false;
     }
 
-    private void enterInstance(Player player) {
+    public static void enterInstance(Player player) {
         player.lock();
         Chain.bound(null).name("ZulAndraBoatTask").runFn(9, () -> {
             var instance = InstancedAreaManager.getSingleton().createInstancedArea(ZULRAH_AREA);

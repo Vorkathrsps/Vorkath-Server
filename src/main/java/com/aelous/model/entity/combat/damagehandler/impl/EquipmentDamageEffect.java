@@ -76,52 +76,57 @@ public class EquipmentDamageEffect implements DamageEffectListener {
 
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
+        var affectsApplied = false;
         for (DamageEffectListener listener : damageEffectListenersAttacker) {
             if (listener.prepareDamageEffectForAttacker(entity, combatType, hit)) {
-                return true;
+                affectsApplied = true;
             }
         }
-        return false;
+        return affectsApplied;
     }
 
     @Override
     public boolean prepareDamageEffectForDefender(Entity entity, CombatType combatType, Hit hit) {
+        var affectsApplied = false;
         for (DamageEffectListener listener : damageEffectListenersDefender) {
             if (listener.prepareDamageEffectForDefender(entity, combatType, hit)) {
-                return true;
+                affectsApplied = true;
             }
         }
-        return false;
+        return affectsApplied;
     }
 
     @Override
     public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
+        var affectsApplied = false;
         for (DamageEffectListener listener : magicAccuracyModificationListenerAttacker) {
             if (listener.prepareMagicAccuracyModification(entity, combatType, magicAccuracy)) {
-                return true;
+                affectsApplied = true;
             }
         }
-        return false;
+        return affectsApplied;
     }
 
     @Override
     public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
+        var affectsApplied = false;
         for (DamageEffectListener listener : meleeAccuracyModificationListenerAttacker) {
             if (listener.prepareMeleeAccuracyModification(entity, combatType, meleeAccuracy)) {
-                return true;
+                affectsApplied = true;
             }
         }
-        return false;
+        return affectsApplied;
     }
 
     @Override
     public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
+        var affectsApplied = false;
         for (DamageEffectListener listener : rangeAccuracyModificationListenerAttacker) {
             if (listener.prepareRangeAccuracyModification(entity, combatType, rangeAccuracy)) {
-                return true;
+                affectsApplied = true;
             }
         }
-        return false;
+        return affectsApplied;
     }
 
     public EquipmentDamageEffect() {

@@ -20,32 +20,19 @@ public class ToxicBlowpipeSpecialAttack extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         final Player player = entity.getAsPlayer();
 
-        var weaponId = player.getEquipment().getId(EquipSlot.WEAPON);
-        var drawbackDart = DartDrawback.find(weaponId);
-        int stepMultiplier = 0;
         int distance = entity.tile().getChevDistance(target.tile());
-        int endHeight = 0;
-        int startHeight = 0;
-        int startSpeed = 0;
-        int duration = 0;
-
-        if (drawbackDart != null) {
-            startSpeed = drawbackDart.startSpeed;
-            startHeight = drawbackDart.startHeight;
-            endHeight = drawbackDart.endHeight;
-            stepMultiplier = drawbackDart.stepMultiplier;
-            duration = startSpeed + 11 + (stepMultiplier * distance);
-        }
 
         player.animate(player.getEquipment().hasAt(EquipSlot.WEAPON, TOXIC_BLOWPIPE) ? 5061 : 11901);
 
-        Projectile projectile = new Projectile(entity, target, 1043, startSpeed, duration, startHeight, endHeight, 0, target.getSize(), stepMultiplier);
+        int duration = 41 + 11 + (5 * distance);
+
+        Projectile projectile = new Projectile(entity, target, 1043, 41, duration, 38, 28, 0, entity.getSize(), 5);
 
         final int hitDelay = entity.executeProjectile(projectile);
 
         CombatFactory.decrementAmmo(player);
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED),hitDelay, CombatType.RANGED).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), hitDelay, CombatType.RANGED).checkAccuracy();
         hit.submit();
 
         if (hit.getDamage() > 0) {
@@ -55,7 +42,7 @@ public class ToxicBlowpipeSpecialAttack extends CommonCombatMethod {
                 target.venom(player);
         }
         CombatSpecial.drain(entity, CombatSpecial.TOXIC_BLOWPIPE.getDrainAmount());
-return true;
+        return true;
     }
 
     @Override

@@ -2582,8 +2582,7 @@ public class Player extends Entity {
     private Task distancedTask;
     public final Stopwatch afkTimer = new Stopwatch();
 
-    public final Stopwatch despawnLinkedNpcTimer = new Stopwatch();
-
+    public final Stopwatch prayerDrainTimer = new Stopwatch();
     public void setDistancedTask(Task task) {
         stopDistancedTask();
         this.distancedTask = task;

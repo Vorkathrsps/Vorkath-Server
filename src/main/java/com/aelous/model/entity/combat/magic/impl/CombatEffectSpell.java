@@ -31,20 +31,12 @@ import java.util.List;
 public abstract class CombatEffectSpell extends CombatSpell {
 
     public void whenSpellCast(Entity cast, Entity castOn) {
-
-        // The spell doesn't support multiple targets or we aren't in a
-        // multicombat zone, so do nothing.
         if (spellRadius() == 0) {
             return;
         }
 
-        int delay = (int) (2 + (Math.floor((1 + cast.tile().getManHattanDist(cast.tile(), castOn.tile())) / 3D)));
+        int delay = (int) (2 + Math.floor((1 + cast.tile().getManHattanDist(cast.tile(), castOn.tile())) / 3D));
 
-        int[] AUTOCAST_RESET_STAFFS = {ItemIdentifiers.STAFF_OF_THE_DEAD, ItemIdentifiers.STAFF_OF_LIGHT, ItemIdentifiers.TOXIC_STAFF_OF_THE_DEAD, ItemIdentifiers.TOXIC_STAFF_UNCHARGED,
-        ItemIdentifiers.VOLATILE_NIGHTMARE_STAFF, ItemIdentifiers.ELDRITCH_NIGHTMARE_STAFF, ItemIdentifiers.NIGHTMARE_STAFF, ItemIdentifiers.UNCHARGED_TOXIC_TRIDENT, ItemIdentifiers.UNCHARGED_TOXIC_TRIDENT_E, ItemIdentifiers.TRIDENT_OF_THE_SEAS, ItemIdentifiers.TRIDENT_OF_THE_SWAMP
-        , ItemIdentifiers.TRIDENT_OF_THE_SWAMP_E, ItemIdentifiers.TRIDENT_OF_THE_SEAS_E, ItemIdentifiers.TRIDENT_OF_THE_SEAS_FULL, ItemIdentifiers.SANGUINESTI_STAFF, ItemIdentifiers.SANGUINESTI_STAFF_UNCHARGED};
-
-        // Flag the target as under attack at this moment to factor in delayed combat styles.
         castOn.putAttrib(AttributeKey.LAST_DAMAGER, cast);
         castOn.putAttrib(AttributeKey.LAST_WAS_ATTACKED_TIME, System.currentTimeMillis());
         castOn.getTimers().register(TimerKey.COMBAT_LOGOUT, 16);
@@ -54,7 +46,6 @@ public abstract class CombatEffectSpell extends CombatSpell {
 
         ArrayList<Entity> targets = new ArrayList<>();
 
-        // We passed the checks, so now we do multiple target stuff.
         Iterator<? extends Entity> it = null;
         if (cast.isPlayer() && castOn.isPlayer()) {
             it = cast.getLocalPlayers().iterator();
@@ -66,81 +57,69 @@ public abstract class CombatEffectSpell extends CombatSpell {
             it = World.getWorld().getPlayers().iterator();
         }
 
-        for (Iterator<? extends Entity> $it = it; $it.hasNext(); ) {
-            Entity next = $it.next();
+        if (it != null) {
+            while (it.hasNext()) {
+                Entity next = it.next();
 
-            if (next == null) {
-                continue;
-            }
-
-            if (!(next.tile().isWithinDistance(castOn.tile(), spellRadius()) && next.hp() > 0 && next.hp() > 0)) {
-                continue;
-            }
-
-            if (next.isNpc()) {
-                NPC n = (NPC) next;
-                //if(n.isPet()) {
-                  //  continue;
-               // }
-                if (castOn == n) // we're already done damage for the primary target, don't do even more
-                    continue;
-
-                if (n.getCombatInfo() != null && n.getCombatInfo().unattackable) {
+                if (next == null) {
                     continue;
                 }
 
-                if (!MultiwayCombat.includes(n)) {
-                    //not in the multi area and we were, don't carry over.
+                if (!(next.tile().isWithinDistance(castOn.tile(), spellRadius()) && next.hp() > 0 && next.hp() > 0)) {
                     continue;
                 }
 
-                //Inferno checks
-                if (n.id() == 7710 || n.id() == 7709) {
-                    continue;
-                }
+                if (next.isNpc()) {
+                    NPC n = (NPC) next;
+                    if (castOn == n) {
+                        continue;
+                    }
 
-                if (!CombatFactory.canAttack(cast, CombatFactory.MAGIC_COMBAT, n)) {
-                    cast.getCombat().reset();//Can't attack, reset combat
-                    continue;
+                    if (n.getCombatInfo() != null && n.getCombatInfo().unattackable) {
+                        continue;
+                    }
+
+                    if (!MultiwayCombat.includes(n)) {
+                        continue;
+                    }
+
+                    if (n.id() == 7710 || n.id() == 7709) {
+                        continue;
+                    }
+
+                    if (!CombatFactory.canAttack(cast, CombatFactory.MAGIC_COMBAT, n)) {
+                        cast.getCombat().reset();
+                        continue;
+                    }
+                    targets.add(n);
+                } else {
+                    Player p = (Player) next;
+                    if (castOn == p) {
+                        continue;
+                    }
+
+                    if (p.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) == 0 || !WildernessArea.inAttackableArea(p) || !MultiwayCombat.includes(p)) {
+                        continue;
+                    }
+
+                    if (!CombatFactory.canAttack(cast, CombatFactory.MAGIC_COMBAT, p)) {
+                        cast.getCombat().reset();
+                        continue;
+                    }
+                    targets.add(p);
                 }
-                // the list of potential targets
-                targets.add(n);
-            } else {
-                Player p = (Player) next;
-                if (castOn == p) // we're already done damage for the primary target, don't do even more
-                    continue;
-                if (p.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA,-1) == 0 || !WildernessArea.inAttackableArea(p) || !MultiwayCombat.includes(p)) {
-                    //not in the multi area and we were, don't carry over.
-                    continue;
-                }
-                if (!CombatFactory.canAttack(cast, CombatFactory.MAGIC_COMBAT, p)) {
-                    cast.getCombat().reset();//Can't attack, reset combat
-                    continue;
-                }
-                // the list of potential targets
-                targets.add(p);
             }
         }
 
         for (Entity target : targets) {
-
-            // dmg is calcd inside hit
-
             Hit hit = castOn.hit(cast, CombatFactory.calcDamageFromType(cast, target, CombatType.MAGIC), delay, CombatType.MAGIC);
-
-
-            //Hit hit = Hit.builder(cast, target, CombatFactory.calcDamageFromType(cast, target, CombatType.MAGIC));
-            if (cast.isPlayer() && target.isPlayer()) { // Check if the player should be skulled for making this attack..
-                Player attacker = cast.getAsPlayer();
-                Player playerTarget = target.getAsPlayer();
-                if (WildernessArea.inWilderness(playerTarget.tile())) {
-                    Skulling.skull(attacker, playerTarget, SkullType.WHITE_SKULL);
-                }
+            if (cast.isPlayer() && target.isPlayer() && WildernessArea.inWilderness(target.tile())) {
+                Skulling.skull(cast.getAsPlayer(), target.getAsPlayer(), SkullType.WHITE_SKULL);
             }
-
             spellEffect(cast, target, hit);
         }
     }
+
 
     @Override
     public List<Item> equipmentRequired(Player player) {
@@ -153,7 +132,8 @@ public abstract class CombatEffectSpell extends CombatSpell {
 
     /**
      * The effect this spell has on the target.
-     *  @param cast   the entity casting this spell.
+     *
+     * @param cast   the entity casting this spell.
      * @param castOn the person being hit by this spell.
      * @param hit
      */

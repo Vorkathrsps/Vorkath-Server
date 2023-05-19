@@ -15,8 +15,10 @@ import com.aelous.model.items.Item;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.ItemIdentifiers;
+import com.aelous.utility.Utils;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.val;
 
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
@@ -51,21 +53,16 @@ public class MagicAccuracy {
     private boolean successful() {
         final int attackBonus = getAttackRoll();
         final int defenceBonus = getDefenceRoll();
-        double successfulRoll;
 
         random.nextBytes(seed);
 
-        if (attackBonus > defenceBonus) {
-            successfulRoll = 1F - ((defenceBonus + 2F) / (2F * (attackBonus + 1F)));
-        } else {
-            successfulRoll = attackBonus / (2F * (defenceBonus + 1F));
-        }
+        val accuracy = attackBonus > defenceBonus ? (1F - (defenceBonus + 2F) / (2F*(attackBonus + 1F))) : (attackBonus / (2F*(defenceBonus + 1F)));
 
         double selectedChance = random.nextFloat();
 
-        System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
+        System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(accuracy) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (accuracy > selectedChance ? "YES" : "NO"));
 
-        return successfulRoll > selectedChance;
+        return accuracy > selectedChance;
     }
 
     private int getEquipmentBonusAttacker() {
@@ -92,15 +89,18 @@ public class MagicAccuracy {
         int effectiveLevel = defender instanceof NPC ? ((NPC) defender).getCombatInfo().stats.defence : (int) Math.floor(defender.getSkills().level(Skills.DEFENCE) * getPrayerBonusDefender());
         var fightStyle = defender.getCombat().getFightType().getStyle();
         int magicLevel = getMagicLevelDefender();
+
+        effectiveLevel = Math.round(effectiveLevel);
+
         switch (fightStyle) {
             case DEFENSIVE -> effectiveLevel += 3;
             case CONTROLLED -> effectiveLevel += 1;
         }
-        effectiveLevel = (int) Math.floor(effectiveLevel + magicLevel);
-        effectiveLevel = (int) Math.floor(effectiveLevel * 0.3F);
-        effectiveLevel *= 1.7F;
-        effectiveLevel = (int) Math.floor(effectiveLevel);
+
+        effectiveLevel += magicLevel;
+
         effectiveLevel += 9;
+        System.out.println(effectiveLevel);
         return (int) Math.floor(effectiveLevel);
     }
 
@@ -137,14 +137,12 @@ public class MagicAccuracy {
     private int getEffectiveLevelAttacker() {
         final Item weapon = attacker.isPlayer() ? attacker.getAsPlayer().getEquipment().get(EquipSlot.WEAPON) : null;
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
-        double effectiveLevel = Math.floor(getMagicLevelAttacker() * getPrayerBonus());
+        int effectiveLevel = (int) Math.floor(getMagicLevelAttacker() * getPrayerBonus());
 
         if (attacker instanceof Player a)
             handler.triggerMagicAccuracyModificationAttacker(a, combatType, this);
 
         float modification = modifier;
-
-        System.out.println(modification);
 
         if (attacker.isPlayer()) {
             Player player = attacker.getAsPlayer();
@@ -162,22 +160,24 @@ public class MagicAccuracy {
             case CONTROLLED -> effectiveLevel += 1;
         }
 
-        effectiveLevel = modification > 0 ? Math.floor(effectiveLevel * modification) : effectiveLevel;
+        effectiveLevel = modification > 0 ? (int) Math.floor(effectiveLevel * modification) : effectiveLevel;
 
-        effectiveLevel += 9;
+        effectiveLevel += 8F;
 
         return (int) Math.floor(effectiveLevel);
     }
 
     private int getAttackRoll() {
-        int getEffectiveMagicAttacker = (int) Math.floor(getEffectiveLevelAttacker());
         int equipmentAttackBonus = getEquipmentBonusAttacker();
-        return (int) Math.floor(getEffectiveMagicAttacker * (equipmentAttackBonus + 64));
+        return (int) Math.floor(getEffectiveLevelAttacker() * (equipmentAttackBonus + 64));
     }
 
 
     private int getDefenceRoll() {
+        int eDef = (int) Math.floor(getEffectiveDefenceDefender() * 0.3F);
+        int eAtt = (int) Math.floor(getEffectiveLevelAttacker() * 0.7F);
+        int finalDef = eDef + eAtt;
         int equipmentDefenceBonus = getEquipmentBonusDefender();
-        return (int) Math.floor((getEffectiveDefenceDefender() * (equipmentDefenceBonus + 64)));
+        return (int) Math.floor(finalDef * (equipmentDefenceBonus + 64));
     }
 }

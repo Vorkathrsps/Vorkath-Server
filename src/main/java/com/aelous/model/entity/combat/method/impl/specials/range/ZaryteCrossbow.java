@@ -16,35 +16,16 @@ import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
 
 public class ZaryteCrossbow extends CommonCombatMethod {
-
-    private static final Animation ANIMATION = new Animation(9166, Priority.HIGH);
-
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         final Player player = entity.getAsPlayer();
 
-        var graphic = -1;
-        var weaponId = player.getEquipment().getId(EquipSlot.WEAPON);
-        var boltDrawBack = BoltDrawBack.find(weaponId, graphic);
-        int stepMultiplier = 0;
         int distance = entity.tile().getChevDistance(target.tile());
-        int endHeight = 0;
-        int startHeight = 0;
-        int startSpeed = 0;
-        int duration = 0;
 
-        player.animate(ANIMATION);
+        player.animate(9166);
 
-        if (boltDrawBack != null) {
-            entity.performGraphic(new Graphic(boltDrawBack.gfx, GraphicHeight.HIGH, 0));
-            startSpeed = boltDrawBack.startSpeed;
-            startHeight = boltDrawBack.startHeight;
-            endHeight = boltDrawBack.endHeight;
-            stepMultiplier = boltDrawBack.stepMultiplier;
-            duration = startSpeed + 11 + (stepMultiplier * distance);
-        }
-
-        Projectile projectile = new Projectile(entity, target, 1995, startSpeed, duration, startHeight, endHeight, 0, target.getSize(), stepMultiplier);
+        int duration = 41 + 11 + (5 * distance);
+        Projectile projectile = new Projectile(entity, target, 1995, 41, duration, 38, 36, 0, entity.getSize(), 5);
 
         final int hitDelay = entity.executeProjectile(projectile);
 
@@ -53,7 +34,7 @@ public class ZaryteCrossbow extends CommonCombatMethod {
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), hitDelay, CombatType.RANGED).checkAccuracy();
         hit.submit();
         CombatSpecial.drain(entity, CombatSpecial.ZARYTE_CROSSBOW.getDrainAmount());
-return true;
+        return true;
     }
 
     @Override

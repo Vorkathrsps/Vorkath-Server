@@ -3,6 +3,7 @@ package com.aelous.model.entity.combat.magic.spells;
 import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.magic.impl.CombinationRunes;
 import com.aelous.model.entity.combat.magic.impl.PlayerMagicStaff;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.aelous.utility.ItemIdentifiers.*;
+import static com.aelous.utility.timers.TimerKey.TELEBLOCK;
 
 /**
  * A parent class represented by any generic spell able to be cast by an
@@ -71,14 +73,58 @@ public abstract class Spell {
                 }
             }
 
-                if (target != null && target.isPlayer()) {
-                    if (name().equalsIgnoreCase("Ice burst") || name().equalsIgnoreCase("Ice blitz") || name().equalsIgnoreCase("Ice barrage") || name().equalsIgnoreCase("Bind") || name().equalsIgnoreCase("Snare") || name().equalsIgnoreCase("Entangle")) {
+            switch (spellId()) {
+                case 12445 -> {
+                    if (target.isNpc() && target.getAsNpc().isCombatDummy() || target.isNpc()) {
+                        player.message("You cannot cast this spell on the combat dummy.");
+                        return false;
+                    }
+                    if (target.isPlayer() && target.getTimers().has(TELEBLOCK)) {
+                        player.message("That player is currently immune to this spell.");
+                        return false;
+                    }
+                }
+                case 1171 -> {
+                    if (target.isPlayer()) {
+                        player.message("That player is immune to this spell.");
+                        return false;
+                    }
+                    if (target.isNpc() && !FormulaUtils.isUndead(target)) {
+                        player.message("You cannot cast this spell on this monster.");
+                        return false;
+                    }
+                    if (target.isNpc() && target.getAsNpc().isCombatDummy()) {
+                        player.message("You cannot cast this spell on the combat dummy.");
+                        return false;
+                    }
+                }
+                case 1562, 1543, 1153, 1157, 1161, 1542 -> {
+                    if (target.isNpc() && target.getAsNpc().isCombatDummy()) {
+                        player.message("You cannot cast this spell on the combat dummy.");
+                        return false;
+                    }
+                }
+                case 12881, 12871, 12891 -> {
+                    if (target != null && target.isPlayer()) {
                         if (target.stunned()) {
                             player.message("That player is currently immune to this spell.");
                             return false;
                         }
                     }
                 }
+                case 1592, 1582, 1572 -> {
+                    if (target.isNpc() && target.getAsNpc().isCombatDummy()) {
+                        player.message("You cannot cast this spell on the combat dummy.");
+                        return false;
+                    }
+                    if (target.isPlayer()) {
+                        if (target.stunned()) {
+                            player.message("That player is currently immune to this spell.");
+                            return false;
+                        }
+                    }
+                }
+            }
 
                 CombatSpell combatSpell = player.getCombat().getCastSpell() != null ? player.getCombat().getCastSpell() : player.getCombat().getAutoCastSpell() != null ? player.getCombat().getAutoCastSpell() : player.getCombat().getPoweredStaffSpell() != null ? player.getCombat().getPoweredStaffSpell() : null;
                 boolean ignoreBookCheck =

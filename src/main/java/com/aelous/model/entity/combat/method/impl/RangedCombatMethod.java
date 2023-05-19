@@ -14,6 +14,7 @@ import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
+import com.aelous.utility.ItemIdentifiers;
 
 /**
  * Represents the combat method for ranged attacks.
@@ -24,11 +25,13 @@ public class RangedCombatMethod extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity attacker, Entity target) {
-        //TODO sound here
         attacker.animate(new Animation(attacker.attackAnimation()));
 
         if (attacker.isNpc()) {
-            new Projectile(attacker, target, attacker.getAsNpc().getCombatInfo().projectile, 41, 60, 40, 36, 15).sendProjectile();
+            int tileDist = attacker.tile().transform(3, 3).distance(target.tile());
+            int duration = (41 + 11 + (5 * tileDist));
+            Projectile p = new Projectile(attacker, target, attacker.getAsNpc().getCombatInfo().projectile, 41, duration, 43, 31, 0, target.getSize(), 5);
+            attacker.executeProjectile(p);
             return true;
         }
 
@@ -122,7 +125,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                         duration = startSpeed + 11 + (stepMultiplier * distance);
                     }
                 }
-                case DARTS -> {
+                case DARTS, TOXIC_BLOWPIPE -> {
                     if (drawbackDart != null) {
                         graphic = drawbackDart.projectile;
                         startSpeed = drawbackDart.startSpeed;
@@ -134,25 +137,39 @@ public class RangedCombatMethod extends CommonCombatMethod {
                 }
             }
 
-            Projectile projectile = new Projectile(attacker, target, graphic, startSpeed, duration, startHeight, endHeight, 0, target.getSize(), stepMultiplier);
+            if (player.getEquipment().contains(ItemIdentifiers.DARK_BOW)) {
+                int duration1 = (41 + 11 + (5 * distance));
+                int duration2 = (51 + 11 + (5 * distance));
+                Projectile p1 = new Projectile(attacker, target, graphic, 41, duration1, 41, 31, 0, target.getSize(), 5);
+                Projectile p2 = new Projectile(attacker, target, graphic, 51, duration2, 51, 41, 0, target.getSize(), 5);
+                final int d1 = attacker.executeProjectile(p1);
+                final int d2 = attacker.executeProjectile(p2);
+                Hit hit1 = Hit.builder(attacker, target, CombatFactory.calcDamageFromType(attacker, target, CombatType.RANGED), d1, CombatType.RANGED).checkAccuracy();
+                Hit hit2 = Hit.builder(attacker, target, CombatFactory.calcDamageFromType(attacker, target, CombatType.RANGED), d2, CombatType.RANGED).checkAccuracy();
+                hit1.submit();
+                hit2.submit();
+            } else {
 
-            final int hitDelay = attacker.executeProjectile(projectile);
+                Projectile projectile = new Projectile(attacker, target, graphic, startSpeed, duration, startHeight, endHeight, 0, target.getSize(), stepMultiplier);
 
-            Hit hit = Hit.builder(attacker, target, CombatFactory.calcDamageFromType(attacker, target, CombatType.RANGED), hitDelay, CombatType.RANGED).checkAccuracy();
+                final int hitDelay = attacker.executeProjectile(projectile);
 
-            hit.submit();
+                Hit hit = Hit.builder(attacker, target, CombatFactory.calcDamageFromType(attacker, target, CombatType.RANGED), hitDelay, CombatType.RANGED).checkAccuracy();
 
-            if (graphic != -1) {
+                hit.submit();
 
-                if (weaponType == WeaponType.CHINCHOMPA) {
-                    if (chinChompaDrawBack != null) {
-                        target.performGraphic(new Graphic(chinChompaDrawBack.gfx, GraphicHeight.HIGH, projectile.getSpeed()));
+                if (graphic != -1) {
+
+                    if (weaponType == WeaponType.CHINCHOMPA) {
+                        if (chinChompaDrawBack != null) {
+                            target.performGraphic(new Graphic(chinChompaDrawBack.gfx, GraphicHeight.HIGH, projectile.getSpeed()));
+                        }
                     }
-                }
 
-                if (weaponTypeSpecial == RangedData.RangedWeaponType.BALLISTA) {
-                    if (drawbackBow != null) {
-                        target.performGraphic(new Graphic(drawbackBow.gfx, GraphicHeight.HIGH, projectile.getSpeed()));
+                    if (weaponTypeSpecial == RangedData.RangedWeaponType.BALLISTA) {
+                        if (drawbackBow != null) {
+                            target.performGraphic(new Graphic(drawbackBow.gfx, GraphicHeight.HIGH, projectile.getSpeed()));
+                        }
                     }
                 }
             }

@@ -5,7 +5,10 @@ import com.aelous.model.World;
 
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
+import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.masks.Projectile;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
@@ -70,18 +73,25 @@ public class DragonfireShield extends PacketInteraction {
 
     private void wyvernSpecial(Player attacker, Entity target) {
         int dmg = World.getWorld().random(attacker.getEquipment().hasAt(EquipSlot.SHIELD, DRAGONFIRE_WARD) ? 25 : 15);
-        int distance = attacker.tile().getChevDistance(target.tile());
-        int delay = (int) (2D + (4D + distance) /6D);
+
         attacker.animate(7700);
+
+        int tileDist = attacker.tile().transform(1, 1).getChevDistance(target.tile());
+        int duration = (80 + 11 + (5 * tileDist));
+        Projectile p1 = new Projectile(attacker, target, 500, 80, duration, 40, 30, 0, target.getSize(), 5);
+        final int delay = attacker.executeProjectile(p1);
 
         if (dmg > 0) {
             target.freeze(25, attacker);
         }
 
-        Chain.bound(null).cancelWhen(() -> {
-            return !attacker.tile().isWithinDistance(target.tile()) || attacker.dead(); // cancels as expected
-        }).runFn(3, () -> {
-            target.graphic(367);
+        Hit hit = target.hit(attacker, dmg, delay, null).checkAccuracy().postDamage(p -> {
+            if (target.dead() || attacker.dead()) {
+                return;
+            }
+            if (!attacker.tile().isWithinDistance(target.tile())) {
+                return;
+            }
             if (target instanceof NPC) {
                 attacker.getSkills().addXp(Skills.MAGIC, dmg * 4);
                 attacker.getSkills().addXp(Skills.DEFENCE, dmg * 4);
@@ -89,22 +99,26 @@ public class DragonfireShield extends PacketInteraction {
             } else {
                 attacker.getSkills().addXp(Skills.DEFENCE, dmg * 4);
             }
-
-            target.hit(attacker, dmg, delay);
         });
+        hit.submit();
+        target.graphic(367, GraphicHeight.HIGH, p1.getSpeed());
     }
 
     private void dragonfireSpecial(Player attacker, Entity target) {
         int dmg = World.getWorld().random(25);
-        int distance = attacker.tile().getChevDistance(target.tile());
         attacker.animate(6696);
         attacker.graphic(1165);
-        Projectile projectile = new Projectile(attacker, target, 1166, 30, 30, 31, 16, 0);
-        projectile.getHitDelay(distance);
-        projectile.sendProjectile();
-        Chain.bound(null).cancelWhen(() -> {
-            return !attacker.tile().isWithinDistance(target.tile()) || attacker.dead(); // cancels as expected
-        }).runFn(3, () -> {
+        int tileDist = attacker.tile().transform(1, 1).getChevDistance(target.tile());
+        int duration = (80 + 11 + (5 * tileDist));
+        Projectile p1 = new Projectile(attacker, target, 1166, 80, duration, 40, 30, 0, target.getSize(), 5);
+        final int delay = attacker.executeProjectile(p1);
+        Hit hit = target.hit(attacker, dmg, delay, null).checkAccuracy().postDamage(p -> {
+            if (target.dead() || attacker.dead()) {
+                return;
+            }
+            if (!attacker.tile().isWithinDistance(target.tile())) {
+                return;
+            }
             if (target instanceof NPC) {
                 attacker.getSkills().addXp(Skills.MAGIC, dmg * 4);
                 attacker.getSkills().addXp(Skills.DEFENCE, dmg * 4);
@@ -112,8 +126,9 @@ public class DragonfireShield extends PacketInteraction {
             } else {
                 attacker.getSkills().addXp(Skills.DEFENCE, dmg * 4);
             }
-            target.hit(attacker, dmg);
         });
+        hit.submit();
+        target.graphic(1167, GraphicHeight.HIGH, p1.getSpeed());
     }
 
     public static DragonfireShieldType getType(Player player) {

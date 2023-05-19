@@ -26,11 +26,14 @@ public class DragonThrownaxe extends CommonCombatMethod {
         player.animate(ANIMATION);
         player.performGraphic(GRAPHIC);
 
-        new Projectile(player, target, 1318, 45, 65, 40, 33, 0).sendProjectile();
+        int tileDist = entity.tile().transform(1, 1).getChevDistance(target.tile());
+        int duration = (36 +  11 + (2 * tileDist));
+        Projectile p1 = new Projectile(entity, target, 1318, 36, duration, 40, 30, 0, target.getSize(), 5);
+        final int delay = entity.executeProjectile(p1);
 
         CombatFactory.decrementAmmo(player);
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED),0, CombatType.RANGED).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED),delay, CombatType.RANGED).checkAccuracy();
         hit.submit();
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_THROWNAXE.getDrainAmount());
 

@@ -36,7 +36,6 @@ public class MagicClickSpells {
     public enum MagicSpells {
 
         TELEPORT_TO_TARGET_NORMAL(new Spell() {
-
             @Override
             public String name() {
                 return "Teleport to target";

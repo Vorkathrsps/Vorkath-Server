@@ -11,6 +11,7 @@ import com.aelous.model.entity.npc.NPCCombatInfo;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
+import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.JGson;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -629,12 +630,10 @@ public class EquipmentInfo {
                 case RUNE_CROSSBOW:
                 case DRAGON_CROSSBOW:
                 case ARMADYL_CROSSBOW:
-                    return 4230;
+                case DRAGON_HUNTER_CROSSBOW:
+                    return WildernessArea.inWilderness(player.tile()) ? 4230 : 7552;
                 case ZARYTE_CROSSBOW:
                     return 9166;
-                case DRAGON_HUNTER_CROSSBOW:
-                case 18357:
-                    return 7552;
             }
         }
 

@@ -1260,6 +1260,8 @@ public enum AttributeKey {
 
     GROUP_SPAWN_MAP,
 
+    PRAYER_DRAIN_COUNTER,
+
     FIRST_KILL_OF_THE_DAY("first_kill_otd", AttribType.LONG),
     TOURNAMENT_COUNTDOWN("tourny_countdown_last", AttribType.INTEGER),
     TUTORIAL("tutorial", AttribType.BOOLEAN),

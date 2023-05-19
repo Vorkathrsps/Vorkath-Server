@@ -27,6 +27,19 @@ public enum ModernSpells {
     WATER_SURGE(22658, 1459, 51, 43, 31, 1458, 1460, 10, 7855,  GraphicHeight.HIGH),
     EARTH_SURGE(22628, 1462, 51, 43, 31, 1461, 1463, 10, 7855,  GraphicHeight.HIGH),
     FIRE_SURGE(22608, 1465, 51, 43, 31, 1464, 1466, 10, 7855,  GraphicHeight.HIGH),
+    SNARE(1582, 178,75, 43, 0, 177, 180, 10, 1161, GraphicHeight.LOW),
+    VULNERABILITY(1542, 168,34, 36, 31, 167, 169, 10, 718, GraphicHeight.LOW),
+    MAGIC_DART(12037, 328,51, 43, 31, -1, 329, 10, 1576, GraphicHeight.LOW),
+    IBAN_BLAST(1539, 60,51, 36, 31, 87, 89, 10, 708, GraphicHeight.LOW),
+    BIND(1572, 178,75, 45, 0, 177, 181, 10, 1161, GraphicHeight.LOW),
+    CURSE(1161, 109,51, 43, 31, 108, 110, 10, 1165, GraphicHeight.LOW),
+    WEAKEN(1157, 106,44, 36, 31, 105, 107, 10, 1164, GraphicHeight.HIGH),
+    CONFUSE(1153, 103,61, 36, 31, 102, 104, 10, 1163, GraphicHeight.HIGH),
+    CRUMBLE_UNDEAD(1171, 146,46, 31, 31, 145, 147, 10, 724, GraphicHeight.LOW),
+    ENFEEBLE(1543, 171,48, 36, 31, 170, 172, 10, 728, GraphicHeight.LOW),
+    STUN(1562, 174,52, 36, 31, 173, 80, 10, 729, GraphicHeight.LOW),
+    ENTANGLE(1592, 178,75, 43, 0, 177, 180, 10, 1161, GraphicHeight.LOW),
+
     TELEBLOCK(12445, 1299,75, 43, 31, -1, 345, 10, 1820, GraphicHeight.LOW);
 
     public final int spellID, projectile, castAnimation, startSpeed, startHeight, endHeight, startGraphic, endGraphic, stepMultiplier;

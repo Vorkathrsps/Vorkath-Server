@@ -36,3 +36,5 @@ data/cache/main_file_cache.idx7
 data/cache/main_file_cache.idx8
 data/cache/main_file_cache.idx9
 src/main/resources/log4j2-dev.xml
+functions/
+functions/*.jar

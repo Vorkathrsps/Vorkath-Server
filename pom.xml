@@ -275,6 +275,21 @@
         </dependency>
 
         <dependency>
+            <groupId>com.dev.shadow</groupId>
+            <artifactId>functions</artifactId>
+            <version>1.90.0</version>
+            <optional>true</optional>
+            <exclusions>
+                <exclusion>  <!-- declare the exclusion here -->
+                    <groupId>com.aelous</groupId>
+                    <artifactId>Aelous</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/functions/functions-1.90.0.jar</systemPath>
+        </dependency>
+
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>failureaccess</artifactId>
             <version>1.0.1</version>

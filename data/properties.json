@@ -1,5 +1,5 @@
 {
-  "gameVersion": "4",
+  "gameVersion": "5",
   "definitionsDirectory": "./data/def/",
   "clippingDirectory": "./data/map/clipping/",
   "debugMode": true,

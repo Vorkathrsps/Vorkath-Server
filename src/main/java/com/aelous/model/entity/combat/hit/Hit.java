@@ -1,6 +1,5 @@
 package com.aelous.model.entity.combat.hit;
 
-import com.aelous.cache.definitions.NpcDefinition;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
@@ -11,7 +10,6 @@ import com.aelous.model.entity.combat.method.CombatMethod;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.Flag;
-import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.PlayerStatus;
 
 import java.util.function.Consumer;
@@ -111,6 +109,12 @@ public class Hit {
         if (target != null && target.isNpc()) {
             return;
         }
+
+        if (pidIgnored) {
+            delay = 0;
+            return;
+        }
+
         if (attacker != null) {
             if (attacker.isNpc() || attacker.pidOrderIndex == -1) {
                 return;
@@ -167,6 +171,7 @@ public class Hit {
         return this.target;
     }
 
+    public boolean pidIgnored;
 
     public int decrementAndGetDelay() {
         return --delay;
@@ -211,10 +216,7 @@ public class Hit {
             return;
         }
 
-        var attackType = attacker.getCombat().getFightType().getAttackType();
-
         if (target.dead()) {
-            //System.out.println(target.getMobName() + " is dead.");
             return;
         }
 
@@ -237,19 +239,20 @@ public class Hit {
         if (target.isNpc() && target.npc().getCombatInfo() == null) {
             System.err.println("missing cbinfo for " + target.npc());
         }
+        MagicAccuracy magicAccuracy = new MagicAccuracy(attacker, target, combatType);
+        RangeAccuracy rangeAccuracy = new RangeAccuracy(attacker, target, combatType);
+        MeleeAccuracy meleeAccuracy = new MeleeAccuracy(attacker, target, combatType);
+
         if (combatType != null && !(target.isNpc() && target.npc().getCombatInfo() == null) && !(attacker.isNpc() && attacker.npc().getCombatInfo() == null)) {
             switch (combatType) {
                 case MAGIC -> {
-                    MagicAccuracy magicAccuracy = new MagicAccuracy();
-                    success = magicAccuracy.doesHit(attacker, target, combatType);
+                    success = magicAccuracy.doesHit();
                 }
                 case RANGED -> {
-                    RangeAccuracy rangeAccuracy = new RangeAccuracy();
-                    success = rangeAccuracy.doesHit(attacker, target, combatType);
+                    success = rangeAccuracy.doesHit();
                 }
                 case MELEE -> {
-                    MeleeAccuracy meleeAccuracy = new MeleeAccuracy();
-                    success = meleeAccuracy.doesHit(attacker, target, combatType);
+                    success = meleeAccuracy.doesHit();
                 }
             }
         }
@@ -274,13 +277,6 @@ public class Hit {
             } else if (alwaysHitActive) {
                 damage = alwaysHitDamage;
             } else {
-                if (attacker instanceof NPC) {
-                    NpcDefinition def = attacker.getAsNpc().def();
-                    String name = def.name;
-                    if (attacker.isNpc() && name != null && name.equalsIgnoreCase("Nex") && attacker.<Boolean>getAttribOr(AttributeKey.TURMOIL_ACTIVE, false)) {
-                        this.damage *= 1.10;
-                    }
-                }
                 damage = this.damage;
             }
         }

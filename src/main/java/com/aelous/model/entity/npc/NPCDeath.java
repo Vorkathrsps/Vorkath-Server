@@ -8,6 +8,7 @@ import com.aelous.model.content.achievements.Achievements;
 import com.aelous.model.content.achievements.AchievementsManager;
 import com.aelous.model.content.areas.burthope.warriors_guild.MagicalAnimator;
 import com.aelous.model.content.areas.wilderness.content.boss_event.WildernessBossEvent;
+import com.aelous.model.content.areas.wilderness.wildernesskeys.WildernessKeys;
 import com.aelous.model.content.daily_tasks.DailyTaskManager;
 import com.aelous.model.content.daily_tasks.DailyTasks;
 import com.aelous.model.content.skill.impl.prayer.Bone;
@@ -569,6 +570,11 @@ public class NPCDeath {
 
                     table.rollForLarransKey(npc, killer);
 
+                    if (WildernessArea.inWilderness(killer.tile())) {
+                        killer.getWildernessSlayerCasket().rollForCasket(npc);
+                        killer.getWildernessSlayerCasket().rollForSupplys(npc);
+                    }
+
                     if (!customDrops.contains(npc.id())) {
                         table.getGuaranteedDrops().forEach(tableItem -> {
                             if (killer.inventory().contains(13116)) {
@@ -640,11 +646,6 @@ public class NPCDeath {
                             }
 
                             GroundItemHandler.createGroundItem(new GroundItem(reward, tile, killer));
-
-                            if (WildernessArea.inWilderness(killer.tile())) {
-                                killer.getWildernessSlayerCasket().rollForCasket(npc);
-                                killer.getWildernessSlayerCasket().rollForSupplys(npc);
-                            }
 
                             npcDropLogs.log(NPC_DROPS, "Player " + killer.getUsername() + " got drop item " + reward.unnote().name());
                             Utils.sendDiscordInfoLog("Player " + killer.getUsername() + " got drop item " + reward.unnote().name(), "npcdrops");
@@ -719,6 +720,12 @@ public class NPCDeath {
             }
 
             Zulrah.death(killer, npc);
+
+            if (killer != null) {
+                if (killer.getWildernessKeys().hasSpawnedNpc()) {
+                    killer.getWildernessKeys().onDeath();
+                }
+            }
 
             if (npc.id() == CORPOREAL_BEAST) { // Corp beast
                 // Reset damage counter

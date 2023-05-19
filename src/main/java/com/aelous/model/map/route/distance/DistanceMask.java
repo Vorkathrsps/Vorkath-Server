@@ -22,6 +22,7 @@ public class DistanceMask extends Tile {
         this.next_region_start = getBaseLocalX();
         this.next_region_end = getBaseLocalY();
     }
+
     Player player;
 
     static PacketBuilder out = new PacketBuilder();
@@ -48,7 +49,7 @@ public class DistanceMask extends Tile {
     private static int current_walking_queue_length;
     private static int destination_mask;
 
-    public static boolean walk(int opcode, int obstruction_orientation, int obstruction_height, int obstruction_type, int local_y_path, int obstruction_width, int orientation_mask, int path_to_y_position, int local_x_path, boolean minimap_click, int path_to_x_position) {
+    private boolean walk(int opcode, int obstruction_orientation, int obstruction_height, int obstruction_type, int local_y_path, int obstruction_width, int orientation_mask, int path_to_y_position, int local_x_path, boolean minimap_click, int path_to_x_position) {
         try {
             byte region_x = 104;
             byte region_y = 104;
@@ -78,7 +79,8 @@ public class DistanceMask extends Tile {
                     break;
                 }
                 if (obstruction_type != 0) {
-                    if ((obstruction_type < 5 || obstruction_type == 10) && collisionMaps[height].obstruction_wall(path_to_x_position, x, y, obstruction_orientation, obstruction_type - 1, path_to_y_position)) {
+                    if ((obstruction_type < 5 || obstruction_type == 10) && collisionMaps[height].obstruction_wall(path_to_x_position, x, y,
+                        obstruction_orientation, obstruction_type - 1, path_to_y_position)) {
                         reached = true;
                         break;
                     }
@@ -92,7 +94,8 @@ public class DistanceMask extends Tile {
                     break;
                 }
                 int updated_distance = travel_distances[x][y] + 1;
-                if (x > 0 && waypoints[x - 1][y] == 0 && (adjacencies[x - 1][y] & 0x1280108) == 0) {
+                if (x > 0 && waypoints[x - 1][y] == 0
+                    && (adjacencies[x - 1][y] & 0x1280108) == 0) {
                     walking_queue_x[next_pos] = x - 1;
                     walking_queue_y[next_pos] = y;
                     next_pos = (next_pos + 1) % path_length;
@@ -120,28 +123,40 @@ public class DistanceMask extends Tile {
                     waypoints[x][y + 1] = 4;
                     travel_distances[x][y + 1] = updated_distance;
                 }
-                if (x > 0 && y > 0 && waypoints[x - 1][y - 1] == 0 && (adjacencies[x - 1][y - 1] & 0x128010e) == 0 && (adjacencies[x - 1][y] & 0x1280108) == 0 && (adjacencies[x][y - 1] & 0x1280102) == 0) {
+                if (x > 0 && y > 0 && waypoints[x - 1][y - 1] == 0
+                    && (adjacencies[x - 1][y - 1] & 0x128010e) == 0
+                    && (adjacencies[x - 1][y] & 0x1280108) == 0
+                    && (adjacencies[x][y - 1] & 0x1280102) == 0) {
                     walking_queue_x[next_pos] = x - 1;
                     walking_queue_y[next_pos] = y - 1;
                     next_pos = (next_pos + 1) % path_length;
                     waypoints[x - 1][y - 1] = 3;
                     travel_distances[x - 1][y - 1] = updated_distance;
                 }
-                if (x < region_x - 1 && y > 0 && waypoints[x + 1][y - 1] == 0 && (adjacencies[x + 1][y - 1] & 0x1280183) == 0 && (adjacencies[x + 1][y] & 0x1280180) == 0 && (adjacencies[x][y - 1] & 0x1280102) == 0) {
+                if (x < region_x - 1 && y > 0 && waypoints[x + 1][y - 1] == 0
+                    && (adjacencies[x + 1][y - 1] & 0x1280183) == 0
+                    && (adjacencies[x + 1][y] & 0x1280180) == 0
+                    && (adjacencies[x][y - 1] & 0x1280102) == 0) {
                     walking_queue_x[next_pos] = x + 1;
                     walking_queue_y[next_pos] = y - 1;
                     next_pos = (next_pos + 1) % path_length;
                     waypoints[x + 1][y - 1] = 9;
                     travel_distances[x + 1][y - 1] = updated_distance;
                 }
-                if (x > 0 && y < region_y - 1 && waypoints[x - 1][y + 1] == 0 && (adjacencies[x - 1][y + 1] & 0x1280138) == 0 && (adjacencies[x - 1][y] & 0x1280108) == 0 && (adjacencies[x][y + 1] & 0x1280120) == 0) {
+                if (x > 0 && y < region_y - 1 && waypoints[x - 1][y + 1] == 0
+                    && (adjacencies[x - 1][y + 1] & 0x1280138) == 0
+                    && (adjacencies[x - 1][y] & 0x1280108) == 0
+                    && (adjacencies[x][y + 1] & 0x1280120) == 0) {
                     walking_queue_x[next_pos] = x - 1;
                     walking_queue_y[next_pos] = y + 1;
                     next_pos = (next_pos + 1) % path_length;
                     waypoints[x - 1][y + 1] = 6;
                     travel_distances[x - 1][y + 1] = updated_distance;
                 }
-                if (x < region_x - 1 && y < region_y - 1 && waypoints[x + 1][y + 1] == 0 && (adjacencies[x + 1][y + 1] & 0x12801e0) == 0 && (adjacencies[x + 1][y] & 0x1280180) == 0 && (adjacencies[x][y + 1] & 0x1280120) == 0) {
+                if (x < region_x - 1 && y < region_y - 1 && waypoints[x + 1][y + 1] == 0
+                    && (adjacencies[x + 1][y + 1] & 0x12801e0) == 0
+                    && (adjacencies[x + 1][y] & 0x1280180) == 0
+                    && (adjacencies[x][y + 1] & 0x1280120) == 0) {
                     walking_queue_x[next_pos] = x + 1;
                     walking_queue_y[next_pos] = y + 1;
                     next_pos = (next_pos + 1) % path_length;
@@ -165,10 +180,12 @@ public class DistanceMask extends Tile {
                                 }
                             }
                         }
-                        if (reached) break;
+                        if (reached)
+                            break;
                     }
                 }
                 if (!reached) {
+                    // dont send walk packet when pathfinding fails
                     return false;
                 }
             }
@@ -176,20 +193,26 @@ public class DistanceMask extends Tile {
             walking_queue_x[current_pos] = x;
             walking_queue_y[current_pos++] = y;
             int skip;
-            for (int waypoint = skip = waypoints[x][y]; x != local_x_path || y != local_y_path; waypoint = waypoints[x][y]) {
+            for (int waypoint = skip = waypoints[x][y]; x != local_x_path
+                || y != local_y_path; waypoint = waypoints[x][y]) {
                 if (waypoint != skip) {
                     skip = waypoint;
                     walking_queue_x[current_pos] = x;
                     walking_queue_y[current_pos++] = y;
                 }
-                if ((waypoint & 2) != 0) x++;
-                else if ((waypoint & 8) != 0) x--;
-                if ((waypoint & 1) != 0) y++;
-                else if ((waypoint & 4) != 0) y--;
+                if ((waypoint & 2) != 0)
+                    x++;
+                else if ((waypoint & 8) != 0)
+                    x--;
+                if ((waypoint & 1) != 0)
+                    y++;
+                else if ((waypoint & 4) != 0)
+                    y--;
             }
             if (current_pos > 0) {
                 int max_path = current_pos;
-                if (max_path > 25) max_path = 25;
+                if (max_path > 25)
+                    max_path = 25;
                 current_pos--;
                 int walking_x = walking_queue_x[current_pos];
                 int walking_y = walking_queue_y[current_pos];
@@ -214,7 +237,7 @@ public class DistanceMask extends Tile {
                     out.put(walking_queue_y[current_pos] - walking_y);
                 }
                 out.putShort(walking_y + next_region_end, ByteOrder.LITTLE);
-                out.put(key_status[5] != 1 ? 0 : 1);
+                out.put((key_status[5] != 1 ? 0 : 1));
                 return true;
             }
         } catch (Exception e) {

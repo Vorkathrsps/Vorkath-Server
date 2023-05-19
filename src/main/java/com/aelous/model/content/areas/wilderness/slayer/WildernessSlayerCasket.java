@@ -13,10 +13,9 @@ import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.Color;
 import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.Utils;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static com.aelous.utility.ItemIdentifiers.*;
 
@@ -40,20 +39,26 @@ public class WildernessSlayerCasket {
      *
      * @param npc
      */
-    private void dropSupplys(NPC npc) {
+    private void dropSupplys(@NotNull NPC npc) {
         var taskID = player.<Integer>getAttribOr(AttributeKey.SLAYER_TASK_ID, 0);
         var task = SlayerCreature.lookup(player.slayerTaskId());
+
         if (task != null && Slayer.creatureMatches(player, npc.id())) {
             if (task.matches(taskID)) {
-                GroundItem groundItem = new GroundItem(new Item(Objects.requireNonNull(supplyLoot())), npc.tile(), player);
-                player.message(Color.RED.wrap("<img=2010>You've recieved a supply loot drop!"));
-                for (int lootIndex = 0; lootIndex < 3; lootIndex++) {
+                player.message(Color.RED.wrap("<img=2010>You've received a supply loot drop!"));
+                int[] lootAmounts = supplyLoot();
+                for (int amount : lootAmounts) {
+                    int itemId = Objects.requireNonNull(Utils.randomElement(LOOT)).getId();
+                    Item item = new Item(itemId, amount);
+                    GroundItem groundItem = new GroundItem(item, npc.tile(), player);
                     GroundItemHandler.createGroundItem(groundItem);
-                    player.message(Color.RED.wrap(groundItem.getItem().getAmount() + "X: " + groundItem.getItem().name()));
+                    var name = item.noted() ? item.unnote().name() : item.name();
+                    player.message(Color.RED.wrap(item.getAmount() + "X: " + name));
                 }
             }
         }
     }
+
 
     /**
      * The Slayer Casket Loot Generator
@@ -104,9 +109,19 @@ public class WildernessSlayerCasket {
      *
      * @return
      */
-    private Item supplyLoot() {
-        return Utils.randomElement(LOOT);
+    private int[] supplyLoot() {
+        List<Item> loot = new ArrayList<>(LOOT);
+        Collections.shuffle(loot);
+        int[] itemAmounts = new int[3];
+
+        for (int i = 0; i < 3 && i < loot.size(); i++) {
+            Item item = loot.get(i);
+            itemAmounts[i] = item.getAmount();
+        }
+
+        return itemAmounts;
     }
+
 
     /**
      * They ArrayList Loot Picker For Caskets

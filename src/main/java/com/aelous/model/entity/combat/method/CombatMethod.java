@@ -7,7 +7,6 @@ import com.aelous.model.entity.combat.hit.Hit;
  * Represents a combat method.
  */
 public interface CombatMethod {
-
     boolean prepareAttack(Entity entity, Entity target);
     int getAttackSpeed(Entity entity);
     int getAttackDistance(Entity entity);

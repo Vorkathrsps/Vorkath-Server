@@ -87,6 +87,8 @@ public enum TimerKey {
      */
     IMBUED_HEART_COOLDOWN(24, false),
 
+    WILDERNESS_KEY_ATTACK_DESPAWN_TIMER,
+
     /**
      * 2 minute NPC timer that will despawn a superior boss monster if not under attack at that point.
      */

@@ -89,7 +89,9 @@ public class RegionManager {
      */
     public @Nonnull static Region getRegion(int x, int y) {
         loadMapFiles(x, y);
-        int regionId = ((x >> 6) << 8) | (y >> 6);
+        int regionX = x >> 3;
+        int regionY = y >> 3;
+        int regionId = ((regionX / 8) << 8) + (regionY / 8);
         return getRegion(regionId);
     }
 
@@ -521,7 +523,7 @@ public class RegionManager {
                             if (tileType == 0) {
                                 break;
                             } else if (tileType == 1) {
-                                groundStream.getUByte();
+                                groundStream.getByte();
                                 break;
                             } else if (tileType <= 49) {
                                 groundStream.getShort();

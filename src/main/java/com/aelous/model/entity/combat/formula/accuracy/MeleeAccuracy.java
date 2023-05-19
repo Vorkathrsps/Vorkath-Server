@@ -1,44 +1,54 @@
 package com.aelous.model.entity.combat.formula.accuracy;
 
-import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 
 import com.aelous.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatType;
-import com.aelous.model.entity.combat.formula.FormulaUtils;
+import com.aelous.model.entity.combat.damagehandler.PreDamageEffectHandler;
+import com.aelous.model.entity.combat.damagehandler.impl.EquipmentDamageEffect;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.combat.weapon.AttackType;
 import com.aelous.model.entity.combat.weapon.FightStyle;
 import com.aelous.model.entity.npc.NPC;
-import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
-import com.aelous.model.items.Item;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
-import com.aelous.model.map.position.areas.impl.WildernessArea;
-import com.aelous.utility.ItemIdentifiers;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
 
 import static com.aelous.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
-import static com.aelous.model.entity.combat.CombatType.MELEE;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.*;
-import static com.aelous.utility.ItemIdentifiers.*;
 
 /**
  * @Author Origin
  */
 public class MeleeAccuracy {
+    @Getter
+    @Setter
+    float modifier;
+    @Getter
+    @Setter
+    Entity attacker, defender;
+    CombatType combatType;
     byte[] seed = new byte[16];
     SecureRandom random = new SecureRandom(seed);
-    public boolean doesHit(final Entity attacker, final Entity defender, CombatType style) {
-        return successful(attacker, defender, style);
+
+    public MeleeAccuracy(Entity attacker, Entity defender, CombatType combatType) {
+        this.attacker = attacker;
+        this.defender = defender;
+        this.combatType = combatType;
     }
-    private boolean successful(final Entity attacker, final Entity defender, CombatType style) {
-        final int attackBonus = getAttackRoll(attacker, defender, style);
-        final int defenceBonus = getDefenceRoll(attacker, defender);
+
+    public boolean doesHit() {
+        return successful();
+    }
+    private boolean successful() {
+        final int attackBonus = getAttackRoll();
+        final int defenceBonus = getDefenceRoll();
         double successfulRoll;
 
         random.nextBytes(seed);
@@ -87,9 +97,9 @@ public class MeleeAccuracy {
     }
 
 
-    private int getEffectiveDefence(final Entity defender) {
+    private int getEffectiveDefence() {
         FightStyle fightStyle = defender.getCombat().getFightType().getStyle();
-        int effectiveLevel = defender instanceof NPC ? ((NPC) defender).getCombatInfo().stats.defence : (int) Math.floor(getDefenceLevel(defender) * getPrayerDefenseBonus(defender));
+        int effectiveLevel = defender instanceof NPC ? ((NPC) defender).getCombatInfo().stats.defence : (int) Math.floor(getDefenceLevel() * getPrayerDefenseBonus(defender));
 
         switch (fightStyle) {
             case DEFENSIVE -> effectiveLevel = effectiveLevel + 3;
@@ -101,12 +111,27 @@ public class MeleeAccuracy {
         return effectiveLevel;
     }
 
-    private int getEffectiveAttack(final Entity attacker, final Entity defender, CombatType style) {
+    PreDamageEffectHandler handler = new PreDamageEffectHandler(new EquipmentDamageEffect());
+
+    private int getEffectiveAttack() {
         var task_id = attacker.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
         var task = SlayerCreature.lookup(task_id);
-        final Item weapon = attacker.isPlayer() ? attacker.getAsPlayer().getEquipment().get(EquipSlot.WEAPON) : null;
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
         double effectiveLevel = Math.floor(getAttackLevel(attacker) * getPrayerAttackBonus(attacker));
+
+        if (attacker instanceof Player a)
+            handler.triggerMeleeAccuracyModificationAttacker(a, combatType, this);
+
+        float modification = modifier;
+
+        System.out.println(modification);
+
+        switch (fightStyle) {
+            case ACCURATE -> effectiveLevel = effectiveLevel + 3;
+            case CONTROLLED -> effectiveLevel = effectiveLevel + 1;
+        }
+
+        effectiveLevel = modification > 0 ? Math.floor(effectiveLevel * modification) : effectiveLevel;
 
         if (attacker.isPlayer()) {
             Player player = attacker.getAsPlayer();
@@ -118,43 +143,10 @@ public class MeleeAccuracy {
             }
         }
 
-        switch (fightStyle) {
-            case ACCURATE -> effectiveLevel = effectiveLevel + 3;
-            case CONTROLLED -> effectiveLevel = effectiveLevel + 1;
-        }
-
         effectiveLevel = effectiveLevel + 8;
 
         effectiveLevel = (int) Math.floor(effectiveLevel);
 
-        if (attacker.isPlayer()) {
-            if (style.equals(MELEE)) {
-                if (FormulaUtils.regularVoidEquipmentBaseMelee((Player) attacker)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.1F);
-                }
-                if (FormulaUtils.eliteVoidEquipmentMelee((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMelee((Player) attacker)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.125F);
-                }
-                if (FormulaUtils.obbyArmour(attacker.getAsPlayer()) && FormulaUtils.hasObbyWeapon(attacker.getAsPlayer())) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.1F);
-                }
-                if (defender instanceof NPC) {
-                    if (defender.isNpc() && defender.getAsNpc().id() == NpcIdentifiers.REVENANT_CYCLOPS || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_DEMON || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_DRAGON || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_GOBLIN || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_HELLHOUND || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_DARK_BEAST || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_HOBGOBLIN || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_IMP || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_KNIGHT || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_PYREFIEND || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_MALEDICTUS || defender.getAsNpc().id() == NpcIdentifiers.REVENANT_IMP) {
-                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getAsPlayer().getEquipment().contains(SALVE_AMULET_E) || attacker.getAsPlayer().getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
-                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.2F);
-                        }
-                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
-                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.15F);
-                        }
-                    }
-                    if (defender.isNpc() && WildernessArea.inWilderness(attacker.tile())) {
-                        if (weapon != null && FormulaUtils.hasMeleeWildernessWeapon(attacker.getAsPlayer())) {
-                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.5F);
-                        }
-                    }
-                }
-            }
-        }
         return (int) Math.floor(effectiveLevel);
     }
 
@@ -162,11 +154,11 @@ public class MeleeAccuracy {
         return attacker instanceof NPC && attacker.getAsNpc().getCombatInfo().stats != null ? attacker.getAsNpc().getCombatInfo().stats.attack : attacker.getSkills().level(Skills.ATTACK);
     }
 
-    private int getDefenceLevel(final Entity defender) {
+    private int getDefenceLevel() {
         return defender instanceof NPC && defender.getAsNpc().getCombatInfo().stats != null ? defender.getAsNpc().getCombatInfo().stats.defence : defender.getSkills().level(Skills.DEFENCE);
     }
 
-    private int getGearDefenceBonus(final Entity defender) {
+    private int getGearDefenceBonus() {
         EquipmentInfo.Bonuses defenderBonus = EquipmentInfo.totalBonuses(defender, World.getWorld().equipmentInfo());
         final AttackType type = defender instanceof NPC ? AttackType.SLASH : defender.getCombat().getFightType().getAttackType();
         int bonus = 0;
@@ -179,7 +171,7 @@ public class MeleeAccuracy {
         return bonus;
     }
 
-    private int getGearAttackBonus(final Entity attacker) {
+    private int getGearAttackBonus() {
         final AttackType type = attacker.getCombat().getFightType().getAttackType();
         EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
         int bonus = 0;
@@ -192,14 +184,14 @@ public class MeleeAccuracy {
         return bonus;
     }
 
-    private int getAttackRoll(final Entity attacker, final Entity defender, CombatType style) {
-        return (int) Math.floor(getEffectiveAttack(attacker, defender, style) * (getGearAttackBonus(attacker) + 64));
+    private int getAttackRoll() {
+        return (int) Math.floor(getEffectiveAttack() * (getGearAttackBonus() + 64));
     }
 
-    private int getDefenceRoll(final Entity attacker, final Entity defender) {
-        if ((attacker.isPlayer() && attacker.getAsPlayer().getEquipment().contains(VESTAS_BLIGHTED_LONGSWORD) && attacker.isSpecialActivated())) {
-            return (int) Math.floor((getEffectiveDefence(defender) * (getGearDefenceBonus(defender) + 64)) * 0.80F);
-        }
-        return (int) Math.floor(getEffectiveDefence(defender) * (getGearDefenceBonus(defender) + 64));
+    private int getDefenceRoll() {
+        //float modification = modifier;
+        //var mod = modification > 0 ? modification : 1;
+        ///System.out.println(mod);
+        return (int) Math.floor(getEffectiveDefence() * (getGearDefenceBonus() + 64));
     }
 }

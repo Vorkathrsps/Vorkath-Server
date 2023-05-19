@@ -6,6 +6,8 @@ import com.aelous.model.World;
 import com.aelous.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.damagehandler.PreDamageEffectHandler;
+import com.aelous.model.entity.combat.damagehandler.impl.EquipmentDamageEffect;
 import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.combat.weapon.FightStyle;
@@ -17,6 +19,8 @@ import com.aelous.model.items.Item;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.ItemIdentifiers;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
@@ -33,16 +37,29 @@ import static com.aelous.utility.ItemIdentifiers.*;
  */
 public class RangeAccuracy {
 
+    @Getter
+    @Setter
+    float modifier;
+    @Getter
+    @Setter
+    Entity attacker, defender;
+    CombatType combatType;
     byte[] seed = new byte[16];
     SecureRandom random = new SecureRandom(seed);
 
-    public boolean doesHit(final Entity attacker, final Entity defender, CombatType style) {
-        return successful(attacker, defender, style);//doesHit(entity, enemy, style, 1);
+    public RangeAccuracy(Entity attacker, Entity defender, CombatType combatType) {
+        this.attacker = attacker;
+        this.defender = defender;
+        this.combatType = combatType;
     }
 
-    private boolean successful(final Entity attacker, final Entity defender, CombatType style) {
-        final int attackBonus = getAttackRoll(attacker, defender, style);
-        final int defenceBonus = getDefenceRoll(defender, style);
+    public boolean doesHit() {
+        return successful();//doesHit(entity, enemy, style, 1);
+    }
+
+    private boolean successful() {
+        final int attackBonus = getAttackRoll();
+        final int defenceBonus = getDefenceRoll();
         double successfulRoll;
 
         random.nextBytes(seed);
@@ -59,7 +76,8 @@ public class RangeAccuracy {
 
         return successfulRoll > selectedChance;
     }
-    private double getPrayerAttackBonus(final Entity attacker) {
+
+    private double getPrayerAttackBonus() {
         double prayerBonus = 1D;
         if (Prayers.usingPrayer(attacker, SHARP_EYE))
             prayerBonus *= 1.05D; // 5% range level boost
@@ -72,7 +90,7 @@ public class RangeAccuracy {
         return prayerBonus;
     }
 
-    private double getPrayerDefenseBonus(final Entity defender) {
+    private double getPrayerDefenseBonus() {
         double prayerBonus = 1D;
         if (Prayers.usingPrayer(defender, RIGOUR)) {
             prayerBonus *= 1.25D;
@@ -80,9 +98,9 @@ public class RangeAccuracy {
         return prayerBonus;
     }
 
-    private int getEffectiveDefence(final Entity defender) {
+    private int getEffectiveDefence() {
         FightStyle fightStyle = defender.getCombat().getFightType().getStyle();
-        int effectiveLevel = (int) Math.floor(getRangeLevel(defender) * getPrayerDefenseBonus(defender));
+        int effectiveLevel = (int) Math.floor(getRangeLevel() * getPrayerDefenseBonus());
 
         switch (fightStyle) {
             case DEFENSIVE -> effectiveLevel = (int) Math.floor(effectiveLevel + 3);
@@ -94,13 +112,27 @@ public class RangeAccuracy {
         return effectiveLevel;
     }
 
-    private int getEffectiveRanged(final Entity attacker, final Entity defender, CombatType style) {
+    PreDamageEffectHandler handler = new PreDamageEffectHandler(new EquipmentDamageEffect());
+
+    private int getEffectiveRanged() {
         var task_id = attacker.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
         final Item weapon = attacker.isPlayer() ? attacker.getAsPlayer().getEquipment().get(EquipSlot.WEAPON) : null;
         var task = SlayerCreature.lookup(task_id);
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
-        int effectiveLevel = (int) Math.floor(getRangeLevel(attacker) * getPrayerAttackBonus(attacker));
+        double effectiveLevel = (int) Math.floor(getRangeLevel() * getPrayerAttackBonus());
         double specialMultiplier = 1;
+
+        if (attacker instanceof Player a)
+            handler.triggerRangeAccuracyModificationAttacker(a, combatType, this);
+
+        float modification = modifier;
+
+
+        System.out.println(modification);
+
+        if (fightStyle == FightStyle.ACCURATE) {
+            effectiveLevel = (int) Math.floor(effectiveLevel + 3);
+        }
 
         if (attacker.isPlayer()) {
             Player player = attacker.getAsPlayer();
@@ -109,91 +141,19 @@ public class RangeAccuracy {
             }
         }
 
-        if (fightStyle == FightStyle.ACCURATE) {
-            effectiveLevel = (int) Math.floor(effectiveLevel + 3);
+        if (attacker.isPlayer() && attacker.getAsPlayer().isSpecialActivated()) {
+            effectiveLevel *= specialMultiplier;
         }
+
+        System.out.println(modification);
+        effectiveLevel = modification > 0 ? Math.floor(effectiveLevel * modification) : effectiveLevel;
 
         effectiveLevel = (int) Math.floor(effectiveLevel + 8);
 
-        if(attacker.isPlayer()) { //additional bonuses here
-            if (style.equals(RANGED)) {
-                if ((FormulaUtils.hasBowOfFaerdhenin((Player) attacker))) {
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.CRYSTAL_HELM) || ((Player) attacker).getEquipment().contains(CRYSTAL_HELM_27705)  || ((Player) attacker).getEquipment().contains(CRYSTAL_HELM_27717) || ((Player) attacker).getEquipment().contains(CRYSTAL_HELM_27729) || ((Player) attacker).getEquipment().contains(CRYSTAL_HELM_27741) || ((Player) attacker).getEquipment().contains(CRYSTAL_HELM_27753) || ((Player) attacker).getEquipment().contains(CRYSTAL_HELM_27765) || ((Player) attacker).getEquipment().contains(CRYSTAL_HELM_27777)) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.05D);
-                    }
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.CRYSTAL_BODY) || ((Player) attacker).getEquipment().contains(CRYSTAL_BODY_27697)  || ((Player) attacker).getEquipment().contains(CRYSTAL_BODY_27709) || ((Player) attacker).getEquipment().contains(CRYSTAL_BODY_27721) || ((Player) attacker).getEquipment().contains(CRYSTAL_BODY_27733) || ((Player) attacker).getEquipment().contains(CRYSTAL_BODY_27745) || ((Player) attacker).getEquipment().contains(CRYSTAL_BODY_27757) || ((Player) attacker).getEquipment().contains(CRYSTAL_BODY_27769)) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.15D);
-                    }
-                    if (((Player) attacker).getEquipment().contains(ItemIdentifiers.CRYSTAL_LEGS) || ((Player) attacker).getEquipment().contains(CRYSTAL_LEGS_27701)  || ((Player) attacker).getEquipment().contains(CRYSTAL_LEGS_27713) || ((Player) attacker).getEquipment().contains(CRYSTAL_LEGS_27725) || ((Player) attacker).getEquipment().contains(CRYSTAL_LEGS_27737) || ((Player) attacker).getEquipment().contains(CRYSTAL_LEGS_27749) || ((Player) attacker).getEquipment().contains(CRYSTAL_LEGS_27761) || ((Player) attacker).getEquipment().contains(CRYSTAL_LEGS_27773)) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.10D);
-                    }
-                }
-                if (defender instanceof NPC) {
-                    if (defender.isNpc() && FormulaUtils.isUndead(defender)) {
-                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getAsPlayer().getEquipment().contains(SALVE_AMULET_E) || attacker.getAsPlayer().getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
-                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.2D);
-                        }
-                        if (((Player) attacker).getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
-                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.15D);
-                        }
-                    }
-                    if (defender.isNpc() && WildernessArea.inWilderness(attacker.tile())) {
-                        if (weapon != null && FormulaUtils.hasRangedWildernessWeapon(attacker.getAsPlayer())) {
-                            effectiveLevel = (int) Math.floor(effectiveLevel * 1.5D);
-                        }
-                    }
-                }
-                if (attacker.getAsPlayer().getEquipment().contains(DRAGON_HUNTER_CROSSBOW)) {
-                    if (defender instanceof NPC && FormulaUtils.isDragon(defender)) {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.25D);
-                    } else {
-                        effectiveLevel = (int) Math.floor(effectiveLevel * 1.30D);
-                    }
-                }
-                if (FormulaUtils.regularVoidEquipmentBaseRanged((Player) attacker)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.10D);
-                }
-
-                if (FormulaUtils.eliteVoidEquipmentRanged((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseRanged((Player) attacker)) {
-                    effectiveLevel = (int) Math.floor(effectiveLevel * 1.125D);
-                }
-
-                if (attacker.isPlayer() && attacker.getAsPlayer().isSpecialActivated()) {
-                    effectiveLevel *= specialMultiplier;
-                }
-
-                double bonus = 1;
-                Player player = (Player) attacker;
-                if (weapon != null) {
-                    if (Stream.of(TWISTED_BOW).anyMatch(w -> w == weapon.getId())) {
-
-                        double magicLevel = 1;
-
-                        if (attacker.isPlayer()) {
-                            if (defender instanceof NPC n) {
-                                if (n.getCombatInfo() != null && n.getCombatInfo().stats != null)
-                                    magicLevel = n.getCombatInfo().stats.magic > 350 && player.raidsParty != null ? 350 : n.getCombatInfo().stats.magic > 250D ? 250D : n.getCombatInfo().stats.magic;
-                            } else {
-                                magicLevel = defender.getAsPlayer().getSkills().getMaxLevel(Skills.MAGIC);
-                            }
-
-                            bonus += 140 + (((10 * 3 * magicLevel) / 10) - 10) - ((Math.floor(3 * magicLevel / 10 - 100)) * 2);
-                            bonus = Math.floor(bonus / 100);
-                            if (bonus > 2.4D)
-                                bonus = (int) 2.4;
-                        }
-                        if (attacker.isPlayer() && defender.isNpc()) {
-                            effectiveLevel = (int) Math.floor(effectiveLevel * bonus);
-                        }
-                    }
-                }
-            }
-        }
-
-        return effectiveLevel;
+        return (int) Math.floor(effectiveLevel);
     }
 
-    private int getRangeLevel(final Entity attacker) {
+    private int getRangeLevel() {
         int rangeLevel = 1;
         if (attacker instanceof NPC npc) {
             if (npc.getCombatInfo() != null && npc.getCombatInfo().stats != null)
@@ -204,33 +164,29 @@ public class RangeAccuracy {
         return rangeLevel;
     }
 
-    private int getGearAttackBonus(final Entity attacker, CombatType style) {
+    private int getGearAttackBonus() {
         EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
-        int bonus = 0;
-        if (style == RANGED) {
-            bonus = attackerBonus.range;
-        }
+        int bonus;
+        bonus = attackerBonus.range;
         return bonus;
     }
 
-    private int getGearDefenceBonus(final Entity defender, CombatType style) {
+    private int getGearDefenceBonus() {
         EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(defender, World.getWorld().equipmentInfo());
-        int bonus = 0;
-        if (style == RANGED) {
-            bonus = attackerBonus.rangedef;
-        }
+        int bonus;
+        bonus = attackerBonus.rangedef;
         return bonus;
     }
 
-    private int getAttackRoll(final Entity attacker, final Entity defender, CombatType style) {
-        int effectiveRangeLevel = (int) Math.floor(getEffectiveRanged(attacker, defender, style));
-        int equipmentRangeBonus = getGearAttackBonus(attacker, style);
+    private int getAttackRoll() {
+        int effectiveRangeLevel = (int) Math.floor(getEffectiveRanged());
+        int equipmentRangeBonus = getGearAttackBonus();
         return (int) Math.floor(effectiveRangeLevel * (equipmentRangeBonus + 64));
     }
 
-    private int getDefenceRoll(Entity defender, CombatType style) {
-        int effectiveDefenceLevel = (int) Math.floor(getEffectiveDefence(defender));
-        int equipmentRangeBonus = getGearDefenceBonus(defender, style);
+    private int getDefenceRoll() {
+        int effectiveDefenceLevel = (int) Math.floor(getEffectiveDefence());
+        int equipmentRangeBonus = getGearDefenceBonus();
         return (int) Math.floor(effectiveDefenceLevel * (equipmentRangeBonus + 64));
     }
 }

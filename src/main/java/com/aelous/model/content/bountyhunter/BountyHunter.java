@@ -18,9 +18,8 @@ import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.Color;
 import com.aelous.utility.ItemIdentifiers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.aelous.model.entity.attributes.AttributeKey.EMBLEM_WEALTH;
 import static com.aelous.utility.ItemIdentifiers.ANTIQUE_EMBLEM_TIER_1;
@@ -54,9 +53,20 @@ public class BountyHunter {
         //Get our target..
         Optional<Player> target = getTargetfor(player);
 
+
         target.ifPresent(value -> player.getPacketSender().sendString(53723, "Target: <col=65280>" + value.getUsername()));
         target.ifPresent(value -> player.getPacketSender().sendString(53724, "Level: <col=65280>" + WildernessArea.wildernessLevel(value.tile())));
-       // target.ifPresent(value -> target.get().getInventory().containsAny(ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_1, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_2, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_3, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_4, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_5) ? player.getPacketSender().sendItemOnInterface(53721, target.get().getInventory().stream().filter(f -> )));
+        target.ifPresent(value -> {
+            Optional<BountyHunterEmblem> emblem = Arrays.stream(BountyHunterEmblem.values())
+                .filter(bountyHunterEmblem -> player.getInventory().contains(bountyHunterEmblem.getItemId()))
+                .findFirst();
+
+            emblem.ifPresent(bountyHunterEmblem -> {
+                Item emblemItem = new Item(bountyHunterEmblem.getItemId(), 1);
+                player.getPacketSender().sendItemOnInterface(53727, emblemItem);
+                player.getPacketSender().sendString(53725, bountyHunterEmblem.getTier());
+            });
+        });
 
         //Is player in the wilderness?
         if (WildernessArea.inWild(player)) {

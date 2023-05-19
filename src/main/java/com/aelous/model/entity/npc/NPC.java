@@ -1,6 +1,7 @@
 package com.aelous.model.entity.npc;
 
 import com.aelous.GameEngine;
+import com.aelous.model.content.areas.wilderness.wildernesskeys.WildernessKeys;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.method.impl.npcs.bosses.corruptedhunleff.CorruptedHunleff;
@@ -75,6 +76,11 @@ public class NPC extends Entity {
 
     public void completelyLockedFromMoving(boolean lockMovementCompletely) {
         this.lockMovementCompletely = lockMovementCompletely;
+    }
+
+    public WildernessKeys wildernessKeys = new WildernessKeys(null, this);
+    public WildernessKeys getWildernessKeys() {
+        return wildernessKeys;
     }
 
     private int capDamage = -1;

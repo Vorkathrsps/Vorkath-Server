@@ -57,7 +57,6 @@ import static com.aelous.utility.ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD;
  * @Since January 12, 2022
  */
 public class NexCombat extends CommonCombatMethod {
-
     private int attackCount;
     private static final int TURMOIL_GFX = 2016;
     private static final int MELEE_ATTACK_ANIM = 9180;

@@ -4,6 +4,7 @@ import com.aelous.GameServer;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.core.task.impl.*;
 import com.aelous.model.content.areas.wilderness.slayer.WildernessSlayerCasket;
+import com.aelous.model.content.areas.wilderness.wildernesskeys.WildernessKeys;
 import com.aelous.model.content.raids.RaidStage;
 import com.aelous.model.content.raids.party.RaidsParty;
 import com.aelous.model.content.security.AccountPin;
@@ -164,9 +165,12 @@ public class Player extends Entity {
     public transient ShopReference shopReference = ShopReference.DEFAULT;
 
     private final WildernessSlayerCasket wildernessSlayerCasket = new WildernessSlayerCasket(this);
-
     public WildernessSlayerCasket getWildernessSlayerCasket() {
         return wildernessSlayerCasket;
+    }
+    private final WildernessKeys wildernessKeys = new WildernessKeys(this, null);
+    public WildernessKeys getWildernessKeys() {
+        return wildernessKeys;
     }
 
     public void removeAll(Item item) {
@@ -1353,6 +1357,12 @@ public class Player extends Entity {
         }
         if (this.getPet().hasPet()) {
             this.getPet().pickup(true);
+        }
+
+        if  (this.getWildernessKeys() != null) {
+            if (this.getWildernessKeys().hasSpawnedNpc()) {
+                this.getWildernessKeys().onDeath();
+            }
         }
 
         this.getCombat().setAutoCastSpell(null);
@@ -2572,6 +2582,7 @@ public class Player extends Entity {
     private Task distancedTask;
     public final Stopwatch afkTimer = new Stopwatch();
 
+    public final Stopwatch prayerDrainTimer = new Stopwatch();
     public void setDistancedTask(Task task) {
         stopDistancedTask();
         this.distancedTask = task;

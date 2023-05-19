@@ -43,6 +43,7 @@ public class ItemActionOne {
 
     public static void click(Player player, Item item) {
         int id = item.getId();
+
         if (PacketInteractionManager.checkItemInteraction(player, item, 1)) {
             return;
         }
@@ -56,6 +57,12 @@ public class ItemActionOne {
 
         if (player.getWildernessSlayerCasket().open(player, item)) {
             return;
+        }
+
+        if (item.getId() == SPADE) {
+            if (player.getWildernessKeys().digToSpawnNpc(item)) {
+                return;
+            }
         }
 
         if (Potions.onItemOption1(player, item)) {

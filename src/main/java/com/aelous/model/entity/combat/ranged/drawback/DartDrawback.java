@@ -38,7 +38,8 @@ public enum DartDrawback {
     DRAGON_DART(11230, 1123, 1122, 41,38,36, 5),
     DRAGON_DART_P1(11231, 1123, 1122, 41,38,36, 5),
     DRAGON_DART_P2(11233, 1123, 1122, 41,38,36, 5),
-    DRAGON_DART_P3(11234, 1123, 1122, 41,38,36, 5);
+    DRAGON_DART_P3(11234, 1123, 1122, 41,38,36, 5),
+    BLOWPIPE(12926, 1123, 1122, 41, 38, 28, 5);
 
     public final int dart, gfx, projectile, startSpeed, startHeight, endHeight, stepMultiplier;
 

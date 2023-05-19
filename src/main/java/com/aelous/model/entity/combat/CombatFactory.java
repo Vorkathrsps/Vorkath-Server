@@ -23,6 +23,8 @@ import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.magic.spells.CombatSpells;
 import com.aelous.model.entity.combat.method.CombatMethod;
+import com.aelous.model.entity.combat.damagehandler.PreDamageEffectHandler;
+import com.aelous.model.entity.combat.damagehandler.impl.EquipmentDamageEffect;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.method.impl.MagicCombatMethod;
 import com.aelous.model.entity.combat.method.impl.MeleeCombatMethod;
@@ -49,7 +51,6 @@ import com.aelous.model.entity.combat.weapon.AttackType;
 import com.aelous.model.entity.combat.weapon.FightStyle;
 import com.aelous.model.entity.combat.weapon.WeaponType;
 import com.aelous.model.entity.masks.impl.animations.Animation;
-import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
@@ -255,7 +256,7 @@ public class CombatFactory {
             max_damage = attacker.<Integer>getAttribOr(MAXHIT_OVERRIDE, -1);
         }
 
-        int damage = Utils.inclusive(0, max_damage);
+        int damage = Utils.inclusive(1, max_damage);
 
         if (target != null && target.isNpc() && target.getAsNpc().isCombatDummy()) {
             CombatSpell spell = attacker.getCombat().getCastSpell() != null ? attacker.getCombat().getCastSpell() : attacker.getCombat().getAutoCastSpell() != null ? attacker.getCombat().getAutoCastSpell() : attacker.getCombat().getPoweredStaffSpell() != null ? attacker.getCombat().getPoweredStaffSpell() : null;
@@ -359,37 +360,8 @@ public class CombatFactory {
             }
         }
 
-        //PvP protection prayers
-        if (damage > 0 && target != null) {
-            if (target.isPlayer() && attacker.isPlayer()) {
-                Player targ = target.getAsPlayer();
-                boolean isProtecting = false;
-                if (type == CombatType.MELEE && targ.lastActiveOverhead == PROTECT_FROM_MELEE) {
-                    isProtecting = true;
-                } else if (type == CombatType.RANGED && targ.lastActiveOverhead == PROTECT_FROM_MISSILES) {
-                    isProtecting = true;
-                } else if (type == CombatType.MAGIC && targ.lastActiveOverhead == PROTECT_FROM_MAGIC) {
-                    isProtecting = true;
-                }
-
-                //System.err.println("New prayer formula: Target is Praying=" + (isProtecting ? "YES" : "NO"));
-                //System.err.println("Damage Before=" + damage);
-
-                if (isProtecting) {
-                    damage = (int) Math.floor(damage * 0.4F);
-                }
-                //System.err.println("Damage After=" + damage);
-            }
-        }
-
         if (target instanceof Player) {
             Item shield = target.getAsPlayer().getEquipment().get(EquipSlot.SHIELD);
-            if (shield != null && shield.getId() == 12817) {
-                if (target.isPlayer() && Utils.securedRandomChance(0.7F)) {
-                    damage = (int) Math.floor(damage * CombatConstants.ELYSIAN_DAMAGE_REDUCTION);
-                    target.performGraphic(new Graphic(321, GraphicHeight.MIDDLE)); // Elysian spirit shield effect gfx
-                }
-            }
 
             if (target.isPlayer()) {
                 if (!WildernessArea.inWilderness(target.getAsPlayer().tile())) {
@@ -400,13 +372,6 @@ public class CombatFactory {
                         damage = damage - formula;
                         damage = damage - 1;
                     }
-                }
-            }
-
-            //If we have used the SOTD special attack, reduce incoming melee damage by 50%.
-            if (target.isPlayer()) {
-                if (target.getTimers().has(TimerKey.SOTD_DAMAGE_REDUCTION) && target.getAsPlayer().getEquipment().containsAny(STAFF_OF_THE_DEAD, TOXIC_STAFF_OF_THE_DEAD, TOXIC_STAFF_UNCHARGED, STAFF_OF_LIGHT) && type == CombatType.MELEE) {
-                    damage = (int) Math.floor(damage * CombatConstants.TSTOD_DAMAGE_REDUCTION);
                 }
             }
 
@@ -441,11 +406,8 @@ public class CombatFactory {
                     }
                 }
             }
-
             target.takeHit();
-
         }
-
         // Return our hitDamage that may have been modified slightly.
         return damage;
     }
@@ -717,6 +679,7 @@ public class CombatFactory {
 
         // The last time our target was attacked
         var targetLastAttackedTime = System.currentTimeMillis() - other.<Long>getAttribOr(AttributeKey.LAST_WAS_ATTACKED_TIME, 0L);
+        var attackersLastAttackTime = System.currentTimeMillis() - entity.<Long>getAttribOr(AttributeKey.LAST_WAS_ATTACKED_TIME, 0L);
 
         if (entity.isPlayer() && other.isNpc()) {
             var oppNpc = other.getAsNpc();
@@ -883,6 +846,14 @@ public class CombatFactory {
             return true;
         }
 
+        //if (other.isNpc() && entity.isPlayer() && entity.getAsPlayer().getWildernessKeys().isNpcLinked()) {
+        //   return true;
+        // }
+        // } else if (other.isPlayer() && !other.getAsPlayer().getWildernessKeys().isNpcLinked()) {
+        //     other.message(Color.RED.wrap("You cannot attack an npc that is not linked to you"));
+        //      return false;
+        //  }
+
         // Check immune npcs..
         if (other.isNpc()) {
             if (other instanceof NPC) {
@@ -904,6 +875,13 @@ public class CombatFactory {
                         }
                     }
                 }
+
+                //var player = (Player) entity;
+                //var targetList = player.getWildernessKeys().getTargetList();
+                //if (!targetList.contains((Player) entity)) {
+                //    player.message(Color.RED.wrap("You cannot attack a spawned npc that is not linked to you."));
+                //     return false;
+                // }
 
                 if (npc.getTimers().has(TimerKey.ATTACK_IMMUNITY)) {
                     if (entity.isPlayer()) {
@@ -1098,6 +1076,9 @@ public class CombatFactory {
         target.getCombat().getHitQueue().add(hit);
     }
 
+    static PreDamageEffectHandler triggerAttacker = new PreDamageEffectHandler(new EquipmentDamageEffect());
+    static PreDamageEffectHandler triggerDefender = new PreDamageEffectHandler(new EquipmentDamageEffect());
+
     /**
      * Executes a hit that has been ticking until now.
      *
@@ -1140,6 +1121,12 @@ public class CombatFactory {
 
         // Before target takes damage, manipulate the hit to handle
         // last-second effects
+
+        if (attacker instanceof Player a)
+            triggerAttacker.triggerEffectForAttacker(a, combatType, hit);
+        if (target instanceof Player t)
+            triggerDefender.triggerEffectForDefender(t, combatType, hit);
+
         hit = target.manipulateHit(hit);
 
         // Do block animation
@@ -1188,7 +1175,7 @@ public class CombatFactory {
 
                 handlePrayerEffects(attacker, target, damage, hit.getCombatType());
             }
-        } //blood fury here
+        }
 
         if (hit.postDamage != null)
             hit.postDamage.accept(hit);
@@ -1197,57 +1184,17 @@ public class CombatFactory {
             o.postDamage(hit);
         }
 
-        if (attacker != null && attacker.isPlayer()) {
-            Player player = (Player) attacker;
-            if (hit.isAccurate() && combatType == CombatType.MELEE) {
-                if (player.getEquipment().hasAt(EquipSlot.AMULET, AMULET_OF_BLOOD_FURY)) {
-                    if (Utils.securedRandomChance(0.20F)) {
-                        int healAmount = damage * 30 / 100;
-                        player.heal(healAmount);
-                        player.graphic(1542);
-                    }
-                }
-            }
-        }
-
         if (attacker != null && attacker.isPlayer() && target.isPlayer()) {
+            assert attacker instanceof Player;
             Player player = (Player) attacker;
-            if (hit.isAccurate() && combatType == CombatType.RANGED) {
-                if (FormulaUtils.wearingFullKarils(player)) {
-                    if (Utils.securedRandomChance(0.25F)) {
-                        if (target.getSkills().level(Skills.AGILITY) > 20) {
-                            target.graphic(401, GraphicHeight.HIGH, 0);
-                            target.getSkills().setLevel(Skills.AGILITY, target.getSkills().level(Skills.AGILITY) - 20);
-                        }
-                    }
-                }
-            }
-            if (hit.isAccurate() && combatType == CombatType.MELEE) {
-                if (FormulaUtils.wearingFullVerac(player)) {
-                    if (Utils.securedRandomChance(0.25F)) {
-                        hit.ignorePrayer();
-                    }
-                }
-                if (FormulaUtils.wearingFullTorag(player)) {
-                    if (Utils.securedRandomChance(0.25F)) {
-                        target.graphic(399, GraphicHeight.HIGH, 0);
-                        target.getAttribOr(AttributeKey.RUN_ENERGY, -20);
-                    }
+            if (FormulaUtils.wearingFullTorag(player)) {
+                if (Utils.securedRandomChance(0.25F)) {
+                    target.graphic(399, GraphicHeight.HIGH, 0);
+                    target.getAttribOr(AttributeKey.RUN_ENERGY, -20);
                 }
             }
         }
 
-        if (attacker != null && attacker.isPlayer()) {
-            Player player = (Player) attacker;
-            if (hit.isAccurate() && combatType == CombatType.MELEE) {
-                if (FormulaUtils.wearingFullGuthan(player)) {
-                    if (Utils.securedRandomChance(0.25F)) {
-                        target.graphic(398, GraphicHeight.LOW, 0);
-                        player.heal(damage);
-                    }
-                }
-            }
-        }
         // Check for poisonous weapons..
         // And do other effects, such as barrows effects..
         if (attacker != null && attacker.isPlayer()) {
@@ -1373,18 +1320,7 @@ public class CombatFactory {
             boolean venom = Venom.attempt(attacker, target, hit.getCombatType(), hit.isAccurate());
             if (venom)
                 target.venom(attacker);
-            // Handle barrows effects if damage is more than zero.
-            if (hit.getDamage() > 0 && !hit.reflected) {
-                if (Utils.getRandom(10) >= 8) {
 
-                    // Apply Guthan's effect..
-                    if (fullGuthans(attackerAsPlayer)) {
-                        handleGuthans(attackerAsPlayer, target, hit.getDamage());
-                    }
-
-                    // Other barrows effects here..
-                }
-            }
         } else if (attacker != null && attacker.isNpc()) {
             NPC npc = attacker.getAsNpc();
             // Poison?
@@ -1399,28 +1335,11 @@ public class CombatFactory {
         // Handle ring of recoil for target
         // Also handle vengeance for target
         if (attacker != null && hit.getDamage() > 0) {
-            if (target.isPlayer()) {
-                Player player = target.getAsPlayer();
 
-                if (player.getEquipment().hasAt(EquipSlot.WEAPON, FROZEN_ABYSSAL_WHIP)) {
-                    //20% chance to freeze your target.
-                    if (Utils.rollDie(5, 1)) {
-                        target.freeze(5, player);
-                    }
-                } else if (attacker.isPlayer() && attacker.getAsPlayer().getEquipment().hasAt(EquipSlot.WEAPON, VOLCANIC_ABYSSAL_WHIP)) {
-                    //20% chance to set your target on fire.
-                    if (Utils.rollDie(5, 1)) {
-                        target.hit(player, Utils.random(1, 5));
-                        if (target instanceof Player ptarg) {
-                            ptarg.animate(3170);
-                            ptarg.message("You feel a hot blaze caused by the lava whip.");
-                        }
-                    }
+            if (!hit.reflected) {
+                if (target instanceof Player targ) {
+                    handleRecoil(targ, attacker, hit.getDamage());
                 }
-
-                //We don't have to check if ring is null here we already check that in the main method.
-                if (!hit.reflected)
-                    handleRecoil(player, attacker, hit.getDamage());
             }
 
             boolean hasVengeance = target.getAttribOr(AttributeKey.VENGEANCE_ACTIVE, false);
@@ -1454,11 +1373,8 @@ public class CombatFactory {
         // Auto-retaliate
         if (attacker != null && !CombatFactory.isAttacking(target) && !hit.reflected) { // is mob fighting someone?
             if (attacker.isPlayer()) {
-                //if (player.getCombat().autoRetaliate()) {
-                // Players only auto retal the attacker when out of combat.
                 boolean mayAttack = true;
 
-                // Check attackability
                 if (!canAttack(attacker, getMethod(attacker), target)) {
                     mayAttack = false;
                     attacker.getCombat().reset();//Can't attack, reset combat
@@ -1467,8 +1383,8 @@ public class CombatFactory {
                 if (mayAttack) {
                     target.autoRetaliate(attacker);
                 }
-                //}
             } else {
+                assert attacker instanceof NPC;
                 NPC npc = (NPC) attacker;
 
                 if (!npc.isCombatDummy())
@@ -1484,22 +1400,6 @@ public class CombatFactory {
             attacker.getCombat().getFightTimer().start();
         }
 
-        if (attacker != null && damage > 0) {
-            if (target.isPlayer() && attacker.isNpc()) {//NPC PROTECTION PRAYERS
-                if (attacker.getAsNpc().getBotHandler() != null) {
-                    if (Prayers.usingPrayer(target, Prayers.getProtectingPrayer(hit.getCombatType()))) {
-                        hit.setDamage((damage));
-                    }
-                } else {
-                    boolean meleePrayer = hit.getCombatType() == CombatType.MELEE && Prayers.usingPrayer(target, PROTECT_FROM_MELEE);
-                    boolean rangedPrayer = hit.getCombatType() == CombatType.RANGED && Prayers.usingPrayer(target, PROTECT_FROM_MISSILES);
-                    boolean magicPrayer = hit.getCombatType() == CombatType.MAGIC && Prayers.usingPrayer(target, PROTECT_FROM_MAGIC);
-                    if (!hit.prayerIgnored && (meleePrayer || rangedPrayer || magicPrayer))
-                        hit.setDamage(0);
-                }
-            }
-        }
-
         if (attacker != null) {
             // Add damage to target damage map
             target.getCombat().addDamage(attacker, hit.getDamage());
@@ -1511,7 +1411,7 @@ public class CombatFactory {
             }
 
             //Send the hit sound
-            attacker.takehitSound(hit);
+            //attacker.takehitSound(hit);
         }
 
         if (attacker instanceof Player damageDealer) {
@@ -1685,11 +1585,15 @@ public class CombatFactory {
         }
 
         if (player.getEquipment().hasAt(EquipSlot.RING, RING_OF_SUFFERING)) {
-            attacker.hit(player, damage > 10 ? (damage / 10) : 1, 0, null).setIsReflected().submit();
+            Hit h1 = attacker.hit(player, damage > 10 ? (damage / 10) : 1, 0, null).setIsReflected();
+            h1.delay(-1);
+            h1.submit();
         }
 
         if (player.getEquipment().hasAt(EquipSlot.RING, RING_OF_SUFFERING_I)) {
-            attacker.hit(player, damage > 10 ? (damage / 10) : 1, 0, null).setIsReflected().submit();
+            Hit h2 = attacker.hit(player, damage > 10 ? (damage / 10) : 1, 0, null).setIsReflected();
+            h2.delay(-1);
+            h2.submit();
         }
 
         if (player.getEquipment().hasAt(EquipSlot.RING, 2550)) {
@@ -1705,7 +1609,10 @@ public class CombatFactory {
 
                 // hmm ok so this doesnt throw an exception because its adding a hit to
                 // the Attacker, which is not the same Iterator i think
-                attacker.hit(player, damage > 10 ? (damage / 10) : 1, 0, null).setIsReflected().submit();
+                Hit h3 = attacker.hit(player, damage > 10 ? (damage / 10) : 1, 0, null).setIsReflected();
+                h3.pidIgnored = true;
+                h3.delay(-1);
+                h3.submit();
                 if (attacker.isNpc()) {
                     if (((NPC) attacker).id() == 319) {
                         //TODO update string corp beast lair, we don't have this string yet
@@ -1730,20 +1637,6 @@ public class CombatFactory {
         entity.clearAttrib(AttributeKey.VENGEANCE_ACTIVE);
         attacker.hit(entity, (int) (damage * 0.75), 0, null).setIsReflected().submit();
         entity.forceChat("Taste Vengeance!");
-    }
-
-    /**
-     * Handles the Guthan's set effect for a player. Wearing full guthan's has a
-     * small chance of healing the player.
-     *
-     * @param player
-     * @param target
-     * @param damage
-     */
-    public static void handleGuthans(Player player, Entity target, int damage) {
-        // Ammy of damned allows healing 10HP above base HP level
-        player.heal(damage, Equipment.hasAmmyOfDamned(player) ? 10 : 0);
-        target.graphic(398, GraphicHeight.HIGH, 0);
     }
 
     public static void unfreezeWhenOutOfRange(Entity entity) {

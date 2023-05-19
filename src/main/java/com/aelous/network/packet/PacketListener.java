@@ -10,7 +10,6 @@ import com.aelous.model.entity.player.Player;
  */
 
 public interface PacketListener {
-
     /**
      * Executes the packet.
      * @param player    The player to which execute the packet for.

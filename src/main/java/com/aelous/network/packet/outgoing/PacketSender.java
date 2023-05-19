@@ -21,6 +21,7 @@ import com.aelous.network.packet.outgoing.message.ComponentVisibility;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.nio.ByteBuffer;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -931,7 +932,6 @@ public final class PacketSender {
         out.put(type).putShort(-1);
         out.putInt(0, ByteOrder.TRIPLE_INT);
         player.getSession().write(out);
-
         // Tell client to prioritize the target.
         player.message("prioritizetarget:-1");
         return this;

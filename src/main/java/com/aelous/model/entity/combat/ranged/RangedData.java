@@ -52,8 +52,7 @@ public class RangedData {
         double boltSpecialMultiplier;
 
         boolean always_spec = false;
-        if (target instanceof NPC) {
-            NPC npc = (NPC) target;
+        if (target instanceof NPC npc) {
             if (npc.isCombatDummy()) {
                 always_spec = true;
             }

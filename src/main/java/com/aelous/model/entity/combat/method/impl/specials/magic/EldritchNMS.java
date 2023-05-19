@@ -8,6 +8,7 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.magic.spells.CombatSpells;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.player.Skills;
 
 /**
@@ -31,17 +32,17 @@ public class EldritchNMS extends CommonCombatMethod {
         entity.animate(8532);
 
         entity.getCombat().setCastSpell(CombatSpells.ELDRITCH_NIGHTMARE_STAFF.getSpell());
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 2, CombatType.MAGIC).checkAccuracy();
-        hit.submit();
-        if(hit.isAccurate()) {
-            target.graphic(1761);
-        }
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 2, CombatType.MAGIC).checkAccuracy().postDamage(p -> {
+            if (target.isPlayer()) {
+                var drain = p.getDamage() * 35 / 100; // smite 35% of the damage dealt
+                target.getSkills().alterSkill(Skills.PRAYER, -drain);
+                entity.heal(drain);
+            }
+        });
 
-        if(target.isPlayer()) {
-            var drain = hit.getDamage() * 35 / 100; // smite 35% of the damage dealt
-            target.getSkills().alterSkill(Skills.PRAYER, -drain);
-            entity.heal(drain);
-        }
+        target.graphic(1761, GraphicHeight.LOW, 30);
+
+        hit.submit();
 
         //Reset spell
         entity.getCombat().setCastSpell(null);

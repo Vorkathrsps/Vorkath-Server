@@ -63,6 +63,18 @@ public class SalveAmulet implements DamageEffectListener {
 
     @Override
     public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
+        var attacker = (Player) entity;
+        var target = rangeAccuracy.getDefender().getCombat().getTarget();
+        if (target.isNpc() && FormulaUtils.isUndead(target)) {
+            if (attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getEquipment().contains(SALVE_AMULET_E) || attacker.getAsPlayer().getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
+                rangeAccuracy.setModifier(1.20F);
+                return true;
+            }
+            if (attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
+                rangeAccuracy.setModifier(1.15F);
+                return true;
+            }
+        }
         return false;
     }
 }

@@ -56,6 +56,15 @@ public class VoidEquipment implements DamageEffectListener {
 
     @Override
     public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
+        var attacker = (Player) entity;
+        if (FormulaUtils.regularVoidEquipmentBaseRanged(attacker)) {
+            rangeAccuracy.setModifier(1.10F);
+            return true;
+        }
+        if (FormulaUtils.eliteVoidEquipmentRanged(attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseRanged((Player) attacker)) {
+            rangeAccuracy.setModifier(1.125F);
+            return true;
+        }
         return false;
     }
 }

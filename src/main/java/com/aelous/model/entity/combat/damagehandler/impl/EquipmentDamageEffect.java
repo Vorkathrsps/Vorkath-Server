@@ -3,14 +3,11 @@ package com.aelous.model.entity.combat.damagehandler.impl;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.damagehandler.impl.armor.*;
+import com.aelous.model.entity.combat.damagehandler.impl.sets.*;
 import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.aelous.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
-import com.aelous.model.entity.combat.damagehandler.impl.sets.GuthanSet;
-import com.aelous.model.entity.combat.damagehandler.impl.sets.KarilSet;
-import com.aelous.model.entity.combat.damagehandler.impl.sets.ObsidianArmor;
-import com.aelous.model.entity.combat.damagehandler.impl.sets.VeracSet;
 import com.aelous.model.entity.combat.damagehandler.listener.DamageEffectListener;
 import com.aelous.model.entity.combat.damagehandler.impl.typeless.PrayerDamage;
 
@@ -63,7 +60,11 @@ public class EquipmentDamageEffect implements DamageEffectListener {
     }
 
     private static List<DamageEffectListener> initializeRangeAccuracyModificationListenerAttacker() {
-        return new ArrayList<>();
+        List<DamageEffectListener> listeners = new ArrayList<>();
+        listeners.add(new CrystalSet());
+        //listeners.add(new TwistedBow());
+        listeners.add(new DragonHunterCrossbow());
+        return listeners;
     }
 
     private static List<DamageEffectListener> initializeMeleeAccuracyModificationListenerAttacker() {

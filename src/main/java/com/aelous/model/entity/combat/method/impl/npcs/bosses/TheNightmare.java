@@ -1,42 +1,117 @@
 package com.aelous.model.entity.combat.method.impl.npcs.bosses;
 
+import com.aelous.cache.definitions.NpcDefinition;
+import com.aelous.core.task.Task;
 import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.MovementQueue;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
+import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Projectile;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
-import com.aelous.model.entity.player.Player;
+import com.aelous.model.map.object.GameObject;
+import com.aelous.model.map.position.Area;
+import com.aelous.model.map.position.Boundary;
 import com.aelous.model.map.position.Tile;
-import com.aelous.utility.Color;
+import com.aelous.model.phase.Phase;
+import com.aelous.model.phase.PhaseStage;
+import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static com.aelous.model.entity.attributes.AttributeKey.NIGHTMARE_CURSE;
+
+/**
+ * @Author: Origin
+ * @Date: 5/21/2023
+ */
 public class TheNightmare extends CommonCombatMethod {
-
     private enum Attacks {
         MELEE, RANGE, MAGIC, SPEED_ATTACK, HIDE_ATTACK, SPECIAL_ATTACK
     }
-
     private Attacks attack = Attacks.MELEE;
+    public static final Boundary BOUNDARY = new Boundary(3862, 9940, 3884, 9962);
+    @Getter
+    public Phase phase = new Phase(PhaseStage.ONE);
+    boolean stageOneSpecialAbilitys = phase.getStage() == PhaseStage.ONE;
+    boolean stageTwoSpecialAbilitys = phase.getStage() == PhaseStage.TWO;
+    boolean stageThreeSpecialAbilitys = phase.getStage() == PhaseStage.THREE;
+    @Getter
+    @Setter
+    boolean huskSpawned, flowerPower, sleepWalking = false;
+    @Getter
+    int spawnedHuskCount, flowerPowerCount, attackTicks = 0;
+    AtomicInteger cursedCount = new AtomicInteger();
+    AtomicBoolean cursed = new AtomicBoolean(false);
+    static List<GameObject> objectsList = new ArrayList<>();
+    Area safe = new Area(3863, 9951, 3872, 9961, 3);
+    Area unsafe1 = new Area(3872, 9951, 3881, 9961, 3);
+    Area unsafe2 = new Area(3863, 9941, 3872, 9951, 3);
+    Area unsafe3 = new Area(3872, 9941, 3881, 9951, 3);
+
+    @Override
+    public void preDefend(Hit hit) {
+        this.phase.setStage(PhaseStage.ONE);
+    }
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && World.getWorld().rollDie(2, 1)) {
-            if(World.getWorld().rollDie(2,1)) {
-                meleeClawAttack();//Neither of these hits are protectable
-            } else {
-                speedAttack();//One of these hits is protectable
-            }
-        } else {
-            var roll = World.getWorld().random(8);
 
-            switch (roll) {
-                case 0, 1 -> hideAttack();
-                case 2, 3 -> magicAttack();
-                case 4, 5 -> rangeAttack();
-                case 6, 7, 8 -> specialAttack();
+        if (entity.hp() <= 1800) {
+            phase.setStage(PhaseStage.TWO);
+        } else if (entity.hp() <= 1000) {
+            phase.setStage(PhaseStage.THREE);
+        }
+
+        if (cursed != null && cursed.get()) {
+            cursedCount.getAndIncrement();
+        }
+
+        if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.percentageChance(50)) {
+            meleeClawAttack();
+        } else {
+            if (Utils.percentageChance(50)) {
+                rangeAttack();
+            } else if (Utils.percentageChance(50)) {
+                magicAttack();
+            } else if (Utils.percentageChance(15)) {
+                sleepWalker();
             }
+        }
+
+        if (stageOneSpecialAbilitys) {
+            if (Utils.percentageChance(35) && phase.getStage() == PhaseStage.ONE && flowerPowerCount <= 2) {
+                flowerPowerCount++;
+                flowerPower();
+            }
+            if (Utils.percentageChance(25) && !isHuskSpawned() && phase.getStage() == PhaseStage.ONE && spawnedHuskCount <= 2) {
+                spawnedHuskCount++;
+                spawnHusk();
+                entity.getCombat().delayAttack(6);
+            }
+        }
+
+        if (stageTwoSpecialAbilitys) {
+            if (Utils.percentageChance(35) && phase.getStage() == PhaseStage.TWO && !cursed.get()) {
+                cursed.getAndSet(true);
+                curse();
+            }
+        }
+
+        if (stageThreeSpecialAbilitys) {
+
         }
         return true;
     }
@@ -60,176 +135,240 @@ public class TheNightmare extends CommonCombatMethod {
         entity.setPositionToFace(target.tile()); // Go back to facing the target.
     }
 
-    private void speedAttack() {
-        attack = Attacks.SPEED_ATTACK;
-        entity.animate(8597);
-        entity.setPositionToFace(null); // Stop facing the target
-        World.getWorld().getPlayers().forEach(p -> {
-            if (entity.isRegistered() && !entity.dead() && p != null && p.tile().inSqRadius(entity.tile(), 12)) {
-                entity.forceChat("DEADLY NARUTOOOOOOOOOOO!");
-                int second = World.getWorld().random(1, 25);
-                p.hit(entity, CombatFactory.calcDamageFromType(entity, p, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy().submit();
-                p.hit(entity, second, 2);
-            }
-        });
-        entity.setPositionToFace(target.tile()); // Go back to facing the target.
+    private void sleepWalker() {
+        this.setSleepWalking(true);
+        entity.lockDamageOk();
+        NPC[] sleepwalkerArray = {
+            new NPC(9446, new Tile(3865, 9958, 3)),
+            new NPC(9446, new Tile(3865, 9944, 3)),
+            new NPC(9446, new Tile(3879, 9944, 3)),
+            new NPC(9446, new Tile(3879, 9958, 3))
+        };
+
+        List<NPC> sleepwalkerCount = new ArrayList<>(Arrays.asList(sleepwalkerArray));
+
+        World world = World.getWorld();
+        world.definitions().get(NpcDefinition.class, 100);
+
+        for (NPC sleepy : sleepwalkerCount) {
+            world.registerNpc(sleepy);
+            sleepy.respawns(false);
+            sleepy.setHitpoints(10);
+            sleepy.getMovementQueue().step(entity.getCentrePosition().getX(), entity.getCentrePosition().getY(), MovementQueue.StepType.FORCED_WALK);
+
+            Chain.bound(sleepy)
+                .cancelWhen(() -> {
+                    if (sleepwalkerCount.isEmpty()) {
+                        this.setSleepWalking(false);
+                        entity.unlock();
+                        return true;
+                    }
+                    return false;
+                }).thenCancellable(1, () -> {
+                    sleepy.waitForTile(entity.tile(), () -> {
+                        if (sleepy.dead()) {
+                            sleepy.remove();
+                            sleepwalkerCount.remove(sleepy);
+                            return;
+                        }
+                        entity.healHit(entity, sleepy.hp());
+                        target.hit(entity, sleepy.hp());
+                        sleepy.die();
+                        sleepy.remove();
+                        sleepwalkerCount.remove(sleepy);
+                    });
+                });
+        }
     }
 
-    private void hideAttack() {
-        attack = Attacks.HIDE_ATTACK;
-        Tile targetTile = target.tile().copy();
+    private void curse() {
+        Chain.noCtx().cancelWhen(() -> cursedCount.get() >= 5).repeatingTask(1, curseCount -> {
+            cursedCount.getAndIncrement();
+            cursed.getAndSet(true);
 
+            if (cursedCount.get() == 5) {
+                target.clearAttrib(AttributeKey.NIGHTMARE_CURSE);
+                if (!target.hasAttrib(AttributeKey.NIGHTMARE_CURSE)) {
+                    int hintId = Prayers.getPrayerHeadIcon(target);
+                    for (var prayerIndex : Prayers.PROTECTION_PRAYERS) {
+                        if (target.getPrayerActive()[prayerIndex]) {
+                            target.setHeadHint(hintId);
+                        }
+                    }
+                }
+            }
+        });
+
+        Task.runOnceTask(1, apply -> {
+            if (cursed.get()) {
+                target.putAttrib(NIGHTMARE_CURSE, true);
+            }
+
+            if (target.hasAttrib(AttributeKey.NIGHTMARE_CURSE)) {
+                int hintId = Prayers.getPrayerHeadIcon(target);
+                for (var prayerIndex : Prayers.PROTECTION_PRAYERS) {
+                    if (target.getPrayerActive()[prayerIndex]) {
+                        target.setHeadHint(hintId);
+                    }
+                }
+            }
+        });
+    }
+
+    private void hide() {
+        attack = Attacks.HIDE_ATTACK;
         Chain.bound(null).name("TheNightmareHideAttackTask").runFn(1, () -> {
-            entity.setPositionToFace(target.tile()); // Face the target.
+            entity.face(null);
             entity.animate(8607);
             entity.lockNoDamage();
-            target.message(Color.RED.wrap("The Nightmare has targeted you."));
         }).then(3, () -> {
-            ((NPC) entity).hidden(true);// removes from client view
-            entity.teleport(targetTile);// just sets new location, doesn't do any npc updating changes (npc doesn't support TELEPORT like players do)
+            ((NPC) entity).hidden(true);
+            entity.teleport(3872, 9951, 3);
         }).then(3, () -> {
             entity.animate(8609);
             ((NPC) entity).hidden(false);
-            entity.setPositionToFace(target.tile());
-            entity.unlock();
-            entity.getCombat().attack(target);
-            if (target.tile().inSqRadius(targetTile, 2))
-                target.hit(entity, World.getWorld().random(55), 1);
+            entity.setPositionToFace(null);
+
         });
-        entity.setPositionToFace(target.tile()); // Go back to facing the target.
+    }
+
+    private void flowerPower() {
+        this.setFlowerPower(true);
+        hide();
+        if (entity.isNpc()) {
+            entity.getAsNpc().waitForTile(new Tile(3872, 9951, 3), () -> {
+                spawnGameObjects(new Tile(entity.getX(), entity.getY(), entity.getZ()), 10, 11, 37745, 37741);
+                Chain.noCtx().cancelWhen(() -> attackTicks >= 12).repeatingTask(1, flowerTask -> {
+                    attackTicks++;
+                    if (target.tile().inArea(unsafe1) || target.tile().inArea(unsafe2) || target.tile().inArea(unsafe3)) {
+                        target.hit(entity, 5);
+                    }
+                    if (entity.dead()) {
+                        for (GameObject obj : objectsList) {
+                            obj.remove();
+                        }
+                        flowerTask.stop();
+                    }
+                }).then(1, () -> {
+                    objectsList.clear();
+                    this.setFlowerPower(false);
+                });
+            });
+        }
     }
 
     private void magicAttack() {
         attack = Attacks.MAGIC;
-        entity.animate(8598);
-        entity.setPositionToFace(null); // Stop facing the target
-        Chain.bound(null).runFn(6, () -> {
-            World.getWorld().getPlayers().forEach(p -> {
-                if (entity.isRegistered() && !entity.dead() && p != null && p.tile().inSqRadius(entity.tile(), 12)) {
-                    projectile_bombing(p);
-                }
-            });
-            entity.setPositionToFace(target.tile()); // Go back to facing the target.
-        });
-    }
-
-    private void projectile_bombing(Player player) {
-        int x = player.tile().x;
-        int y = player.tile().y;
-
-        Tile projectile_one = new Tile(x, y);
-        int projectile_one_distance = entity.tile().distance(projectile_one);
-        int projectile_one_delay = Math.max(1, (20 + projectile_one_distance * 12) / 30);
-
-        Tile projectile_two = new Tile(x + World.getWorld().random(2), y + World.getWorld().random(2));
-        int projectile_two_distance = entity.tile().distance(projectile_two);
-        int projectile_two_delay = Math.max(1, (20 + projectile_two_distance * 12) / 30);
-
-        Tile projectile_three = new Tile(x + World.getWorld().random(2), y + World.getWorld().random(2));
-        int projectile_three_distance = entity.tile().distance(projectile_three);
-        int projectile_three_delay = Math.max(1, (20 + projectile_three_distance * 12) / 30);
-
-        new Projectile(entity.tile(), projectile_one, 0, 1665, 24 * projectile_one_distance, projectile_one_delay, 50, 0, 0).sendProjectile();
-        new Projectile(entity.tile(), projectile_two, 0, 1665, 24 * projectile_two_distance, projectile_two_delay, 50, 0, 0).sendProjectile();
-        new Projectile(entity.tile(), projectile_three, 0, 1665, 24 * projectile_three_distance, projectile_three_delay, 50, 0, 0).sendProjectile();
-
-        World.getWorld().tileGraphic(1717, projectile_one, 1, 24 * projectile_one_distance);
-        World.getWorld().tileGraphic(1717, projectile_two, 1, 24 * projectile_two_distance);
-        World.getWorld().tileGraphic(1717, projectile_three, 1, 24 * projectile_three_distance);
-
-        Chain.bound(null).name("projectile_one_task").runFn(projectile_one_distance, () -> {
-            if (player.tile().inSqRadius(projectile_one, 1))
-                player.hit(entity, Math.min(20, World.getWorld().random(35)));
-            if (player.tile().inSqRadius(projectile_two, 1))
-                player.hit(entity, Math.min(20, World.getWorld().random(35)));
-            if (player.tile().inSqRadius(projectile_three, 1))
-                player.hit(entity, Math.min(20, World.getWorld().random(35)));
-        });
-
-        int explosive_x = projectile_two.x;
-        int explosive_z = projectile_two.y;
-
-        Tile ricochet_projectile_one = new Tile(explosive_x + World.getWorld().random(2), explosive_z + World.getWorld().random(2));
-        int ricochet_projectile_one_distance = projectile_two.distance(ricochet_projectile_one);
-        int ricochet_projectile_one_delay = Math.max(1, (20 + ricochet_projectile_one_distance * 12) / 30);
-
-        Tile ricochet_projectile_two = new Tile(explosive_x + World.getWorld().random(2), explosive_z + World.getWorld().random(3));
-        int ricochet_projectile_two_distance = projectile_two.distance(ricochet_projectile_two);
-        int ricochet_projectile_two_delay = Math.max(1, (20 + ricochet_projectile_two_distance * 12) / 30);
-
-        Chain.bound(null).name("projectile_two_task").runFn(projectile_two_distance, () -> {
-            new Projectile(projectile_two, ricochet_projectile_one, 0, 1378, 50 * ricochet_projectile_one_distance, ricochet_projectile_one_delay, 0, 0, 0).sendProjectile();
-            new Projectile(projectile_two, ricochet_projectile_two, 0, 1378, 50 * ricochet_projectile_two_distance, ricochet_projectile_two_delay, 0, 0, 0).sendProjectile();
-
-            World.getWorld().tileGraphic(1718, ricochet_projectile_one, 1, 50 * ricochet_projectile_one_distance);
-            World.getWorld().tileGraphic(1718, ricochet_projectile_two, 1, 50 * ricochet_projectile_two_distance);
-
-        }).then(ricochet_projectile_one_delay, () -> {
-            if (player.tile().inSqRadius(ricochet_projectile_one, 1))
-                player.hit(entity, Math.min(20, World.getWorld().random(35)));
-            if (player.tile().inSqRadius(ricochet_projectile_two, 1))
-                player.hit(entity, Math.min(20, World.getWorld().random(35)));
-        });
+        entity.animate(8595);
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (80 + -15 + (10 * tileDist));
+        Projectile p = new Projectile(entity, target, 1764, 80, duration, 90, 30, 0, target.getSize(), 10);
+        int delay = entity.executeProjectile(p);
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        hit.submit();
+        target.graphic(1765, GraphicHeight.HIGH_3, p.getSpeed());
     }
 
     private void rangeAttack() {
         attack = Attacks.RANGE;
-        entity.animate(8606);
-        entity.setPositionToFace(null); // Stop facing the target
-        World.getWorld().getPlayers().forEach(p -> Chain.bound(null).runFn(2, () -> {
-            if (entity.isRegistered() && !entity.dead() && p != null && p.tile().inSqRadius(entity.tile(), 12)) {
-                int tileDist = entity.tile().transform(1, 1, 0).distance(p.tile());
-                var delay = Math.max(1, (50 + (tileDist * 12)) / 30);
-
-                new Projectile(entity, p, 1380, 12 * tileDist, 120, 100, 43, 0, 14, 5).sendProjectile();
-
-                p.hit(entity, CombatFactory.calcDamageFromType(entity, p, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
-
-                Chain.bound(null).runFn(3, () -> {
-                    p.runOnceTask(5, r -> {
-                        final var tile = p.tile().copy();
-                        //new Projectile(entity.getCentrePosition(), tile, 1, 1637, 125, 40, 100, 0, 0, 16, 96).sendProjectile();
-                        World.getWorld().tileGraphic(1638, tile, 0, 0);
-                        if (p.tile().equals(tile)) {
-                            for (int hits = 0; hits < 4; hits++) {
-                                Chain.bound(null).name("the_nightmare_special_ranged_attack_task").runFn(hits * 3, () -> p.hit(entity, World.getWorld().random(6, 8)));
-                            }
-                        }
-                    });
-                });
-            }
-        }));
-        entity.setPositionToFace(target.tile()); // Go back to facing the target.
+        entity.animate(8596);
+        int tileDist = entity.tile().distance(target.tile());
+        int duration = (90 + 15 + (5 * tileDist));
+        Projectile p = new Projectile(entity, target, 1766, 90, duration, 90, 30, 0, target.getSize(), 10);
+        final int delay = entity.executeProjectile(p);
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC);
+        hit.submit();
     }
 
-    private void specialAttack() {
-        attack = Attacks.SPECIAL_ATTACK;
-        // Go back to facing the target.
-        entity.animate(8601);
-        entity.setPositionToFace(null); // Stop facing the target
-        World.getWorld().getPlayers().forEach(p -> {
-            if (entity.isRegistered() && !entity.dead() && p != null && p.tile().inSqRadius(entity.tile(), 12)) {
-                Tile tile_one = p.tile();
-                Tile tile_two = tile_one.transform(World.getWorld().random(1, 2), World.getWorld().random(1, 2));
-                Tile tile_three = tile_one.transform(World.getWorld().random(1, 2), World.getWorld().random(1, 2));
-                Tile tile_four = tile_one.transform(World.getWorld().random(1, 2), World.getWorld().random(1, 2));
-                Tile tile_five = tile_one.transform(World.getWorld().random(1, 2), World.getWorld().random(1, 2));
+    private void spawnHusk() {
+        if (phase.getStage() != PhaseStage.ONE || this.isHuskSpawned()) {
+            return;
+        }
+        this.setHuskSpawned(true);
+        List<NPC> huskCount = new ArrayList<>();
+        entity.animate(8605);
+        final Tile targetPos1 = new Tile(target.getX(), target.getY() + 1, target.getZ());
+        final Tile targetPos2 = new Tile(target.getX(), target.getY() - 1, target.getZ());
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (80 + 15 + (10 * tileDist));
+        Projectile p1 = new Projectile(entity, targetPos1, 1781, 80, duration, 90, 0, 0, target.getSize(), 10);
+        p1.send(entity, targetPos1);
+        Projectile p2 = new Projectile(entity, targetPos2, 1781, 80, duration, 90, 0, 0, target.getSize(), 10);
+        p2.send(entity, targetPos2);
 
-                World.getWorld().tileGraphic(1727, tile_one, 100, 0);
-                World.getWorld().tileGraphic(1727, tile_two, 100, 0);
-                World.getWorld().tileGraphic(1727, tile_three, 100, 0);
-                World.getWorld().tileGraphic(1727, tile_four, 100, 0);
-                World.getWorld().tileGraphic(1727, tile_five, 100, 0);
+        NPC husk1 = new NPC(9454, new Tile(target.getX(), target.getY() + 1, target.getZ()));
+        NPC husk2 = new NPC(9454, new Tile(target.getX(), target.getY() - 1, target.getZ()));
 
-                Chain.bound(null).runFn(10, () -> {
-                    if (p.tile().inSqRadius(tile_one, 2) || p.tile().inSqRadius(tile_two, 2) || p.tile().inSqRadius(tile_three, 2) || p.tile().inSqRadius(tile_four, 2) || p.tile().inSqRadius(tile_five, 2)) {
-                        p.hit(entity, World.getWorld().random(1, 30), 1);
-                    }
-                });
+        huskCount.add(husk1);
+        huskCount.add(husk2);
+
+        husk1.respawns(false);
+        husk2.respawns(false);
+
+        husk1.getAsNpc().getCombatMethod().canMultiAttackInSingleZones();
+        husk2.getAsNpc().getCombatMethod().canMultiAttackInSingleZones();
+
+        Task.runOnceTask(4, husk -> {
+            World.getWorld().registerNpc(husk1);
+            World.getWorld().registerNpc(husk2);
+            husk1.animate(8567);
+            husk2.animate(8567);
+            World.getWorld().definitions().get(NpcDefinition.class, 9454);
+            husk1.face(target);
+            husk2.face(target);
+            husk1.getCombat().setTarget(target);
+            husk2.getCombat().setTarget(target);
+        });
+
+        target.getMovementQueue().setBlockMovement(true);
+
+        Chain.noCtx().cancelWhen(() -> {
+            if (huskCount.isEmpty()) {
+                this.setHuskSpawned(false);
+                target.getMovementQueue().setBlockMovement(false);
+                return true;
+            }
+            return false;
+        }).repeatingTask(1, count -> {
+            if (husk1.dead()) {
+                huskCount.remove(husk1);
+                World.getWorld().unregisterNpc(husk1);
+            }
+            if (husk2.dead()) {
+                huskCount.remove(husk2);
+                World.getWorld().unregisterNpc(husk2);
             }
         });
-        entity.setPositionToFace(target.tile()); // Go back to facing the target.
     }
+
+    public static void spawnGameObjects(Tile baseTile, int tileOne, int tileTwo, int flowerOne, int flowerTwo) {
+        GameObject object;
+        for (int index = 0; index < tileOne; index++) {
+            Tile originalTile = new Tile(baseTile.getX(), baseTile.getY() + index, baseTile.getZ());
+            object = new GameObject(flowerOne, originalTile, 10, 0);
+            object.spawn();
+            objectsList.add(index, object);
+        }
+        for (int index = 0; index < tileOne; index++) {
+            Tile originalTile = new Tile(baseTile.getX() + index, baseTile.getY(), baseTile.getZ());
+            object = new GameObject(flowerOne, originalTile, 10, 0);
+            object.spawn();
+            objectsList.add(index, object);
+        }
+        for (int index = 0; index < tileTwo; index++) {
+            Tile originalTile = new Tile(baseTile.getX() - index, baseTile.getY(), baseTile.getZ());
+            object = new GameObject(flowerTwo, originalTile, 10, 0);
+            object.spawn();
+            objectsList.add(index, object);
+        }
+        for (int index = 0; index < tileTwo; index++) {
+            Tile originalTile = new Tile(baseTile.getX(), baseTile.getY() - index, baseTile.getZ());
+            object = new GameObject(flowerTwo, originalTile, 10, 0);
+            object.spawn();
+            objectsList.add(index, object);
+        }
+    }
+
     @Override
     public int getAttackSpeed(Entity entity) {
         return attack.equals(Attacks.MAGIC) ? 12 : entity.getBaseAttackSpeed();
@@ -239,4 +378,10 @@ public class TheNightmare extends CommonCombatMethod {
     public int getAttackDistance(Entity entity) {
         return 12;
     }
+
+    @Override
+    public boolean canMultiAttackInSingleZones() {
+        return super.canMultiAttackInSingleZones();
+    }
+
 }

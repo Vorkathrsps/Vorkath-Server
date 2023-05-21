@@ -274,20 +274,20 @@
             <version>8.5.11</version>
         </dependency>
 
-        <dependency>
+       <!-- <dependency>
             <groupId>com.dev.shadow</groupId>
             <artifactId>functions</artifactId>
             <version>1.90.0</version>
             <optional>true</optional>
             <exclusions>
-                <exclusion>  <!-- declare the exclusion here -->
+                <exclusion>  &lt;!&ndash; declare the exclusion here &ndash;&gt;
                     <groupId>com.aelous</groupId>
                     <artifactId>Aelous</artifactId>
                 </exclusion>
             </exclusions>
             <scope>system</scope>
             <systemPath>${pom.basedir}/functions/functions-1.90.0.jar</systemPath>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>com.google.guava</groupId>

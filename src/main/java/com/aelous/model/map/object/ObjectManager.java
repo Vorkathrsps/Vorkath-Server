@@ -117,8 +117,7 @@ public class ObjectManager {
     }
 
     public static void replaceWith(GameObject obj, GameObject newObj) {
-        removeObj(obj);
-        addObj(newObj);
+        obj.setId(newObj.getId());
     }
 
     /**
@@ -131,17 +130,13 @@ public class ObjectManager {
      *                    original
      */
     public static void replace(final GameObject original, final GameObject replacement, int cycles) {
-        removeObj(original);
-        if (replacement != null) {
-            addObj(replacement);
-        }
+        original.setId(replacement != null ? replacement.getId() : -1);
         if (cycles < 0)
             return;
         TaskManager.submit(new Task("ObjectReplaceTask", cycles) {
             @Override
             public void execute() {
-                GameObject addOrig = new GameObject(original.getId(), original.tile(), original.getType(), original.getRotation());
-                addObj(addOrig);
+                original.setId(original.originalId);
                 stop();
             }
         });

@@ -17,6 +17,7 @@ import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.masks.impl.tinting.Tinting;
+import com.aelous.model.entity.npc.HealthHud;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.npc.NPCCombatInfo;
 import com.aelous.model.entity.npc.droptables.ScalarLootTable;
@@ -870,7 +871,11 @@ public class NexCombat extends CommonCombatMethod {
                     re.remove();
                 }
                 ZarosGodwars.clear();
-                player.getPacketSender().sendEffectTimer(12, EffectTimer.MONSTER_RESPAWN);
+
+                Arrays.stream(npc.closePlayers()).forEach(close -> {
+                    HealthHud.close(close);
+                    close.getPacketSender().sendEffectTimer(12, EffectTimer.MONSTER_RESPAWN);
+                });
 
                 if (redBarrierPurple != null && ancientBarrierPurple.isPresent()) {
                     ObjectManager.replaceWith(redBarrierPurple, ancientBarrierPurple.get());

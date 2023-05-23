@@ -7,6 +7,7 @@ import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
+import com.aelous.model.entity.npc.HealthHud;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.object.GameObject;
@@ -149,6 +150,10 @@ public class Nex extends NPC {
 
     @Override
     public void postSequence() {
+        for (Player p : this.closePlayers(32)) {
+            HealthHud.update(p, HealthHud.Type.REGULAR, (dead() ? 0 : hp()), maxHp());
+        }
+
         if (phase.getStage() == PhaseStage.FIVE) {
             if (World.getWorld().getTickCount() % 41 == 0) {
                 if (soulsplit) {

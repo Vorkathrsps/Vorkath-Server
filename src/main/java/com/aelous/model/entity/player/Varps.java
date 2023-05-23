@@ -8,9 +8,6 @@ import com.aelous.utility.Varp;
 
 /**
  * Created by bart on 7/18/15.
- * ok it sgot all the code needed straight from os-scape
- * just doesnt have saving
- * but the system is therre will work
  */
 public class Varps {
 
@@ -23,8 +20,8 @@ public class Varps {
         }
     }
 
-    private Player player;
-    private int[] varps = new int[4000]; // osrs is 4k 317 was 2k
+    private final Player player;
+    private final int[] varps = new int[4000];
 
     public Varps(Player player) {
         this.player = player;
@@ -114,11 +111,10 @@ public class Varps {
     public void presave() {
         // Turn off prayers
         Prayers.closeAllPrayers(player);
-        varp(Varp.SPECIAL_ENABLED, 0);
     }
 
     public void syncNonzero() {
-        for (int i = 0; i < 4000; i++) { // what you mean 2000? magic number, theres 2k varps, or was now theres more like 4k. and its varps count not varbit (5.9k)
+        for (int i = 0; i < 4000; i++) {
             if (varps[i] != 0)
                 sync(i);
         }

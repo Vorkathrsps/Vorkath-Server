@@ -9,6 +9,7 @@ import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.animations.Priority;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
+import com.aelous.model.entity.npc.HealthHud;
 import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
@@ -216,6 +217,7 @@ public class Teleports {
         player.sendSound(202, 0);
         player.graphic(gfx.id(), gfx.getHeight(), gfx.delay());
         Chain.bound(null).runFn(3, () -> {
+            HealthHud.close(player);
             player.teleport(tile);
             player.animate(new Animation(-1, Priority.HIGH));
             player.graphic(-1);

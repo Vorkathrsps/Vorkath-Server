@@ -269,9 +269,6 @@ public class TheNightmare extends CommonCombatMethod {
         husk1.respawns(false);
         husk2.respawns(false);
 
-        husk1.getAsNpc().getCombatMethod().canMultiAttackInSingleZones();
-        husk2.getAsNpc().getCombatMethod().canMultiAttackInSingleZones();
-
         Task.runOnceTask(4, husk -> {
             World.getWorld().registerNpc(husk1);
             World.getWorld().registerNpc(husk2);
@@ -348,7 +345,7 @@ public class TheNightmare extends CommonCombatMethod {
 
     @Override
     public boolean canMultiAttackInSingleZones() {
-        return super.canMultiAttackInSingleZones();
+        return true;
     }
 
 }

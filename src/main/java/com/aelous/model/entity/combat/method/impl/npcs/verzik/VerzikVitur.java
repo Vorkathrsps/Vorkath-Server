@@ -246,7 +246,7 @@ public class VerzikVitur extends CommonCombatMethod {
 
     @Override
     public boolean canMultiAttackInSingleZones() {
-        return super.canMultiAttackInSingleZones();
+        return true;
     }
 
     private void meleeAttack(Entity mob, Entity target) {

@@ -37,7 +37,7 @@ public class OlmLeftClaw extends CommonCombatMethod {
 
     @Override
     public boolean canMultiAttackInSingleZones() {
-        return super.canMultiAttackInSingleZones();
+        return true;
     }
 
     @Override

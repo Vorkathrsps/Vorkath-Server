@@ -13,6 +13,7 @@ import com.aelous.model.content.teleport.newinterface.SpecificTeleport;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.masks.Appearance;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
+import com.aelous.model.entity.npc.HealthHud;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.npc.pets.Pet;
 import com.aelous.network.Session;
@@ -263,6 +264,16 @@ public class Player extends Entity {
 
     public String getDisplayName() {
         return username;
+    }
+
+    private int[] sessionVarps = new int[4000];
+
+    public int[] sessionVarps() {
+        return sessionVarps;
+    }
+
+    public void setSessionVarps(int[] varps) {
+        this.sessionVarps = varps;
     }
 
     public static class TextData {
@@ -1422,6 +1433,10 @@ public class Player extends Entity {
             if (getClan() != null) {
                 ClanManager.leave(this, true);
             }
+        });
+
+        runExceptionally(() -> {
+            HealthHud.close(this);
         });
 
         //Technically this is the last logout, but we'll use it as the last login so the last login doesn't get "overwritten" for the welcome screen when the player logs in.

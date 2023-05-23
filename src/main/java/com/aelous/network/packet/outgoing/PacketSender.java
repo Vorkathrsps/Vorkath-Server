@@ -22,6 +22,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,6 +38,77 @@ import java.util.stream.Collectors;
 public final class PacketSender {
 
     private static final Logger logger = LogManager.getLogger(PacketSender.class);
+
+    private final ArrayList<Integer> walkableInterfaceList = new ArrayList<>();
+
+    public void resetParallelInterfaces() {
+        walkableInterfaceList.clear();
+    }
+
+    public void sendParallelInterfaceVisibility(int interfaceId, boolean visible) {
+        PacketBuilder out = new PacketBuilder(210);
+        if (player != null) {
+            if (visible) {
+                if(walkableInterfaceList.contains(interfaceId)) {
+                    return;
+                } else {
+                    walkableInterfaceList.add(interfaceId);
+                }
+            } else {
+                if(!walkableInterfaceList.contains(interfaceId)) {
+                    return;
+                }
+            }
+            out.putInt(interfaceId);
+            out.put(visible ? 1 : 0);
+            player.getSession().write(out);
+        }
+    }
+
+    public void sendClientInstruction(int instruction, Object... args) {
+        PacketBuilder bldr = new PacketBuilder(245, PacketType.VARIABLE_SHORT);
+
+        // Write the instruction id
+        bldr.putShort(instruction);
+
+        StringBuilder argBuilder = new StringBuilder();
+        final int argumentSize = args.length;
+        Object[] arguments = new Object[argumentSize];
+
+        // Write the arg types.
+        int intVals = 0;
+        int stringVals = 0;
+        for (int index = args.length - 1; index >= 0; index--) {
+            Object o = args[index];
+            arguments[index] = args[argumentSize - index - 1];
+            if (o instanceof String) {
+                argBuilder.append("s");
+                stringVals++;
+            } else {
+                argBuilder.append("i");
+                intVals++;
+            }
+        }
+
+        String argTypes = argBuilder.toString();
+        char[] typeArray = argTypes.toCharArray();
+        bldr.putString(argTypes);
+
+        // Write the arg lengths
+        bldr.putShort(intVals);
+        bldr.putShort(stringVals);
+
+        for (int index = 0; index < typeArray.length; index++) {
+            char type = typeArray[index];
+            if (type == 's') {
+                bldr.putString((String) arguments[index]);
+            } else {
+                bldr.putInt((int) arguments[index]);
+            }
+        }
+
+        player.getSession().write(bldr);
+    }
 
     public PacketSender sendEntityFeed(String opponent, int HP, int maxHP) {
         // so its literally gonna be going thru, checking anything > 0 is fixed,
@@ -406,6 +478,7 @@ public final class PacketSender {
      * @return The PacketSender instance.
      */
     public PacketSender sendConfig(int id, int state) {
+        player.sessionVarps()[id] = state;
         if (state > Byte.MAX_VALUE) {
             return sendVarpIntSize(id, state);
         }
@@ -424,6 +497,7 @@ public final class PacketSender {
      * @return The PacketSender instance.
      */
     public PacketSender sendVarpIntSize(int id, int state) {
+        player.sessionVarps()[id] = state;
         PacketBuilder out = new PacketBuilder(87);
         out.putShort(id, ByteOrder.LITTLE);
         out.putInt(state, ByteOrder.MIDDLE);

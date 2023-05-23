@@ -2,6 +2,7 @@ package com.aelous.model.entity.player;
 
 import com.aelous.GameConstants;
 import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.model.entity.npc.HealthHud;
 import com.aelous.model.items.container.shop.Shop;
 import com.aelous.utility.Utils;
 
@@ -178,6 +179,9 @@ public class InterfaceManager {
         player.getBankPin().clearPinInterface();
         player.getPacketSender().sendInterfaceRemoval();
         setSidebar(GameConstants.LOGOUT_TAB, 2449);
+
+        HealthHud.close(player);
+        player.getPacketSender().resetParallelInterfaces();
     }
 
     public void setSidebar(int tab, int id) {

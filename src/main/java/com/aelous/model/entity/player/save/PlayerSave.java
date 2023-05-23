@@ -23,6 +23,7 @@ import com.aelous.model.items.Item;
 import com.aelous.model.items.container.ItemContainer;
 import com.aelous.model.map.position.Tile;
 import com.aelous.services.database.transactions.UpdatePasswordDatabaseTransaction;
+import com.aelous.utility.Varp;
 import com.aelous.utility.timers.TimerKey;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -784,6 +785,13 @@ public class PlayerSave {
             player.putAttrib(SNOW_MONSTER_TIMER, details.snowMonsterTimer);
             player.lastPetId = details.lastPet;
             player.setInvulnerable(details.infhp);
+            if (details.varps != null) {
+                int[] varps = new int[4000];
+                details.varps.forEach((k, v) -> {
+                    varps[k] = v;
+                });
+                player.setSessionVarps(varps);
+            }
         }
 
         //Account
@@ -875,6 +883,7 @@ public class PlayerSave {
 
         public int lastPet;
         public boolean infhp;
+        private final HashMap<Integer, Integer> varps;
 
         //Skills
         private final int[] dynamicLevels;
@@ -1931,6 +1940,13 @@ public class PlayerSave {
             snowMonsterTimer = Player.getAttribIntOr(player, SNOW_MONSTER_TIMER,500);
             lastPet = player.getPet().getCurrentPetAsId();
             infhp = player.isInvulnerable();
+            varps = new HashMap<>() {
+                {
+                    for (Varp v : Varp.SYNCED_VARPS) {
+                        put(v.id(), player.sessionVarps()[v.id()]);
+                    }
+                }
+            };
             //System.err.println("saving info = "+lastPet);
         }
 

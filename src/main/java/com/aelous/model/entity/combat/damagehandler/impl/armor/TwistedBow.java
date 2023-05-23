@@ -38,33 +38,29 @@ public class TwistedBow implements DamageEffectListener {
 
     @Override
     public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
-        var attacker = (Player) entity;
-        assert rangeAccuracy.getDefender().getCombat().getTarget() != null;
-        var target = rangeAccuracy.getDefender().getAsNpc();
-        if (!rangeAccuracy.getDefender().isNpc()) {
+        if (!entity.getCombat().getTarget().isNpc()) {
             return false;
         }
-        if (attacker.getEquipment().contains(TWISTED_BOW)) {
-            float bonus = 1;
-            int magicLevel;
+        var attacker = (Player) entity;
+        var target = rangeAccuracy.getDefender().getAsNpc();
+        if (attacker.isPlayer() && target.isNpc()) {
+            if (attacker.getEquipment().contains(TWISTED_BOW)) {
+                float bonus = 1;
+                int magicLevel;
+                if (target.getCombatInfo() != null && target.getCombatInfo().stats != null) {
+                    magicLevel = target.getCombatInfo().stats.magic > 350 && attacker.raidsParty != null ? 350 : Math.min(target.getCombatInfo().stats.magic, 250);
+                } else {
+                    magicLevel = target.getSkills().getMaxLevel(Skills.MAGIC);
+                }
 
-            if (attacker.isPlayer()) {
-                if (target != null) {
-                    if (target.getCombatInfo() != null && target.getCombatInfo().stats != null) {
-                        magicLevel = target.getCombatInfo().stats.magic > 350 && attacker.raidsParty != null ? 350 : Math.min(target.getCombatInfo().stats.magic, 250);
-                    } else {
-                        magicLevel = target.getSkills().getMaxLevel(Skills.MAGIC);
-                    }
+                bonus += 140.0f + (((10.0f * 3.0f * magicLevel) / 10.0f) - 10.0f) - ((float) Math.floor(3.0f * magicLevel / 10.0f - 100.0f) * 2.0f);
+                bonus = (float) Math.floor(bonus / 100);
 
-                    bonus += 140.0f + (((10.0f * 3.0f * magicLevel) / 10.0f) - 10.0f) - ((float) Math.floor(3.0f * magicLevel / 10.0f - 100.0f) * 2.0f);
-                    bonus = (float) Math.floor(bonus / 100);
+                if (bonus > 2.4)
+                    bonus = 2.4f;
 
-                    if (bonus > 2.4)
-                        bonus = 2.4f;
-
-                    if (attacker.isPlayer() && target.isNpc()) {
-                        rangeAccuracy.setModifier(bonus);
-                    }
+                if (attacker.isPlayer() && target.isNpc()) {
+                    rangeAccuracy.setModifier(bonus);
                 }
             }
             return true;

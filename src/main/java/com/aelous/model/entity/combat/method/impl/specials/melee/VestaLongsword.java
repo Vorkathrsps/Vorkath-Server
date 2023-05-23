@@ -13,7 +13,7 @@ public class VestaLongsword extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(7515);
 
-        boolean isDummy = target != target.getAsPlayer() && target.getAsNpc().isCombatDummy();
+        boolean isDummy = target.isNpc() && target.getAsNpc().isCombatDummy();
 
         int maxHit = entity.getCombat().getMaximumMeleeDamage();
         int minhit = (int) (maxHit * 0.2);

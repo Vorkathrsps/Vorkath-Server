@@ -41,12 +41,8 @@ public enum BoltDrawBack {
     public static BoltDrawBack find(int bolt, int graphic) {
         if (graphic == -1 && bolt != -1) {
             for (BoltDrawBack boltDrawBack : BoltDrawBack.values()) {
-                if (boltDrawBack.bolt == bolt) {
-                    return boltDrawBack;
-                } else {
-                        return boltDrawBack;
-                    }
-                }
+                return boltDrawBack;
+            }
             }
         return null;
     }

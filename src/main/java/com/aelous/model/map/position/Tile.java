@@ -296,6 +296,10 @@ public class Tile implements Cloneable {
         return Math.max(Math.abs(other.getX() - getX()), Math.abs(other.getY() - getY()));
     }
 
+    public int getManhattanDistance(Tile other) {
+        return Math.abs(other.getX() - getX()) + Math.abs(other.getY() - getY());
+    }
+
     public int getManHattanDist(Tile pos, Tile other) {
         return getManhattanDistance(pos.getX(), pos.getY(), other.getX(), other.getY());
     }

@@ -20,13 +20,14 @@ public class VoidWaker extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         SecureRandom randomGarunteedAccuracy = new SecureRandom();
 
+        var isDummy = target.isNpc() && target.getAsNpc().isCombatDummy();
         double maxHit = entity.getCombat().getMaximumMeleeDamage();
         double minhit = maxHit * 0.5;
         double hitLogic = minhit + randomGarunteedAccuracy.nextInt((int) (maxHit * 1.5 + 1 - minhit));
 
         entity.animate(new Animation(1378));
 
-        Hit hit = target.hit(entity, (int) Math.floor(hitLogic), 0, CombatType.MAGIC);
+        Hit hit = target.hit(entity, (int) (isDummy ? maxHit * 1.5 + 1 - minhit : Math.floor(hitLogic)), 0, CombatType.MAGIC);
 
         if (target instanceof NPC npc) {
             if (npc.id() == NpcIdentifiers.CORPOREAL_BEAST) {

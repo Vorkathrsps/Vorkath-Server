@@ -118,6 +118,8 @@ import com.aelous.utility.chainedwork.Chain;
 import com.aelous.utility.timers.TimerKey;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFutureListener;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -172,6 +174,10 @@ public class Player extends Entity {
     public WildernessKeys getWildernessKeys() {
         return wildernessKeys;
     }
+
+    @Getter
+    @Setter
+    public boolean cursed = hasAttrib(NIGHTMARE_CURSE);
 
     public void removeAll(Item item) {
         int inventoryCount = inventory.count(item.getId());
@@ -1068,7 +1074,7 @@ public class Player extends Entity {
         if (attacker.isNpc()) {
             NPC npc = attacker.getAsNpc();
             if (npc.id() == NpcIdentifiers.TZTOKJAD) {
-                if (Prayers.usingPrayer(this, Prayers.getProtectingPrayer(hit.getCombatType()))) {
+                if (Prayers.usingPrayer(this, Prayers.getProtectingPrayer(hit.getCombatType(), this))) {
                     hit.setDamage(0);
                 }
             }

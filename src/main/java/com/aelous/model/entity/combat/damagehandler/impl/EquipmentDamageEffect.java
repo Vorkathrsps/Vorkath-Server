@@ -62,13 +62,14 @@ public class EquipmentDamageEffect implements DamageEffectListener {
     private static List<DamageEffectListener> initializeRangeAccuracyModificationListenerAttacker() {
         List<DamageEffectListener> listeners = new ArrayList<>();
         listeners.add(new CrystalSet());
-        //listeners.add(new TwistedBow());
+        listeners.add(new TwistedBow());
         listeners.add(new DragonHunterCrossbow());
         return listeners;
     }
 
     private static List<DamageEffectListener> initializeMeleeAccuracyModificationListenerAttacker() {
         List<DamageEffectListener> listeners = new ArrayList<>();
+        listeners.add(new VoidEquipment());
         listeners.add(new VestaLongsword());
         listeners.add(new ObsidianArmor());
         return listeners;

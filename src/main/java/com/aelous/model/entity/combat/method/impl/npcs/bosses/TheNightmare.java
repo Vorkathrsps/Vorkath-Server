@@ -9,6 +9,8 @@ import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
+import com.aelous.model.entity.combat.hit.SplatType;
+import com.aelous.model.entity.combat.method.EntityCombatBuilder;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Projectile;
@@ -41,6 +43,7 @@ public class TheNightmare extends CommonCombatMethod {
     private enum Attacks {
         MELEE, RANGE, MAGIC, SPEED_ATTACK, HIDE_ATTACK, SPECIAL_ATTACK
     }
+
     private Attacks attack = Attacks.MELEE;
     public static final Boundary BOUNDARY = new Boundary(3862, 9940, 3884, 9962);
     @Getter
@@ -63,76 +66,39 @@ public class TheNightmare extends CommonCombatMethod {
 
     @Override
     public void preDefend(Hit hit) {
-        this.phase.setStage(PhaseStage.ONE);
+        hit.setSplatType(SplatType.VERZIK_SHIELD_HITSPLAT);
     }
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
 
-        if (entity.hp() <= 1800) {
-            phase.setStage(PhaseStage.TWO);
-        } else if (entity.hp() <= 1000) {
-            phase.setStage(PhaseStage.THREE);
-        }
-
         if (cursed != null && cursed.get()) {
             cursedCount.getAndIncrement();
         }
 
-        if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.percentageChance(50)) {
-            meleeClawAttack();
-        } else {
-            if (Utils.percentageChance(50)) {
-                rangeAttack();
-            } else if (Utils.percentageChance(50)) {
-                magicAttack();
-            } else if (Utils.percentageChance(15)) {
-                sleepWalker();
-            }
-        }
-
-        if (stageOneSpecialAbilitys) {
-            if (Utils.percentageChance(35) && phase.getStage() == PhaseStage.ONE && flowerPowerCount <= 2) {
-                flowerPowerCount++;
-                flowerPower();
-            }
-            if (Utils.percentageChance(25) && !isHuskSpawned() && phase.getStage() == PhaseStage.ONE && spawnedHuskCount <= 2) {
-                spawnedHuskCount++;
-                spawnHusk();
-                entity.getCombat().delayAttack(6);
-            }
-        }
-
-        if (stageTwoSpecialAbilitys) {
-            if (Utils.percentageChance(35) && phase.getStage() == PhaseStage.TWO && !cursed.get()) {
-                cursed.getAndSet(true);
-                curse();
-            }
-        }
-
-        if (stageThreeSpecialAbilitys) {
-
-        }
+        combatBuilder(entity)
+            .addAttackConsumer(EntityCombatBuilder.CombatPhase.ALL, t -> meleeClawAttack())
+            .addAttackConsumer(EntityCombatBuilder.CombatPhase.ALL, t -> rangeAttack())
+            .addAttackConsumer(EntityCombatBuilder.CombatPhase.ALL, t -> magicAttack())
+            .setDelayAttack(6)
+            .build()
+            .distributeAttacks(EntityCombatBuilder.CombatPhase.ALL);
         return true;
     }
 
-    private void meleeClawAttack() {
+    @Override
+    public EntityCombatBuilder combatBuilder(Entity entity) {
+        return new EntityCombatBuilder(entity, target);
+    }
+
+    public void meleeClawAttack() {
+        if (!CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
+            return;
+        }
         attack = Attacks.MELEE;
         entity.animate(8594);
-        entity.setPositionToFace(null); // Stop facing the target
-        World.getWorld().getPlayers().forEach(p -> {
-            if (entity.isRegistered() && !entity.dead() && p != null && p.tile().inSqRadius(entity.tile(), 12)) {
-                int first = World.getWorld().random(1, 30);
-                int second = first / 2;
-                int third = second / 2;
-                int fourth = third / 2;
-                p.hit(entity, first, 1);
-                p.hit(entity, second, 1);
-                p.hit(entity, third, 2);
-                p.hit(entity, fourth, 2);
-            }
-        });
-        entity.setPositionToFace(target.tile()); // Go back to facing the target.
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 3, CombatType.MELEE);
+        hit.submit();
     }
 
     private void sleepWalker() {
@@ -215,52 +181,50 @@ public class TheNightmare extends CommonCombatMethod {
         });
     }
 
-    private void hide() {
-        attack = Attacks.HIDE_ATTACK;
-        Chain.bound(null).name("TheNightmareHideAttackTask").runFn(1, () -> {
-            entity.face(null);
-            entity.animate(8607);
-            entity.lockNoDamage();
-        }).then(3, () -> {
-            ((NPC) entity).hidden(true);
-            entity.teleport(3872, 9951, 3);
-        }).then(3, () -> {
-            entity.animate(8609);
-            ((NPC) entity).hidden(false);
-            entity.setPositionToFace(null);
-
-        });
-    }
-
     private void flowerPower() {
         this.setFlowerPower(true);
-        hide();
-        if (entity.isNpc()) {
-            entity.getAsNpc().waitForTile(new Tile(3872, 9951, 3), () -> {
-                spawnGameObjects(new Tile(entity.getX(), entity.getY(), entity.getZ()), 10, 11, 37745, 37741);
-                Chain.noCtx().cancelWhen(() -> attackTicks >= 12).repeatingTask(1, flowerTask -> {
-                    attackTicks++;
-                    if (target.tile().inArea(unsafe1) || target.tile().inArea(unsafe2) || target.tile().inArea(unsafe3)) {
-                        target.hit(entity, 5);
-                    }
-                    if (entity.dead()) {
-                        for (GameObject obj : objectsList) {
-                            obj.remove();
-                        }
-                        flowerTask.stop();
-                    }
-                }).then(1, () -> {
-                    objectsList.clear();
-                    this.setFlowerPower(false);
+        Chain.noCtx().runFn(1, () -> {
+            attackTicks++;
+            entity.face(null);
+            entity.lockDamageOk();
+            entity.animate(8607);
+        }).then(2, () -> {
+            ((NPC) entity).hidden(true);
+            entity.teleport(3871, 9950, 3);
+        }).then(2, () -> {
+            ((NPC) entity).hidden(false);
+            entity.animate(8609);
+            entity.face(target);
+            entity.getCombat().setTarget(target);
+            if (entity.isNpc()) {
+                entity.getAsNpc().waitForTile(new Tile(3872, 9951, 3), () -> {
+                    spawnGameObjects(new Tile(entity.getX(), entity.getY(), entity.getZ()), 10, 11, 37745, 37741);
                 });
-            });
-        }
+            }
+        });
+        Chain.noCtx().cancelWhen(() -> attackTicks == 12).repeatingTask(1, flowerTask -> {
+            attackTicks++;
+            if (target != null && target.tile() != null) {
+                if (target.tile().inArea(unsafe1) || target.tile().inArea(unsafe2) || target.tile().inArea(unsafe3)) {
+                    target.hit(entity, 5);
+                }
+                if (entity.dead()) {
+                    for (GameObject obj : objectsList) {
+                        obj.remove();
+                    }
+                    flowerTask.stop();
+                }
+            }
+        }).then(1, () -> {
+            objectsList.clear();
+            this.setFlowerPower(false);
+        });
     }
 
     private void magicAttack() {
         attack = Attacks.MAGIC;
         entity.animate(8595);
-        var tileDist = entity.tile().distance(target.tile());
+        var tileDist = entity.tile().getChevDistance(target.tile());
         int duration = (80 + -15 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, 1764, 80, duration, 90, 30, 0, target.getSize(), 10);
         int delay = entity.executeProjectile(p);
@@ -272,7 +236,7 @@ public class TheNightmare extends CommonCombatMethod {
     private void rangeAttack() {
         attack = Attacks.RANGE;
         entity.animate(8596);
-        int tileDist = entity.tile().distance(target.tile());
+        int tileDist = entity.tile().getChevDistance(target.tile());
         int duration = (90 + 15 + (5 * tileDist));
         Projectile p = new Projectile(entity, target, 1766, 90, duration, 90, 30, 0, target.getSize(), 10);
         final int delay = entity.executeProjectile(p);
@@ -320,12 +284,15 @@ public class TheNightmare extends CommonCombatMethod {
             husk2.getCombat().setTarget(target);
         });
 
+        target.getMovementQueue().clear();
         target.getMovementQueue().setBlockMovement(true);
 
         Chain.noCtx().cancelWhen(() -> {
             if (huskCount.isEmpty()) {
                 this.setHuskSpawned(false);
-                target.getMovementQueue().setBlockMovement(false);
+                if (target != null) {
+                    target.getMovementQueue().setBlockMovement(false);
+                }
                 return true;
             }
             return false;
@@ -371,7 +338,7 @@ public class TheNightmare extends CommonCombatMethod {
 
     @Override
     public int getAttackSpeed(Entity entity) {
-        return attack.equals(Attacks.MAGIC) ? 12 : entity.getBaseAttackSpeed();
+        return entity.getBaseAttackSpeed();
     }
 
     @Override

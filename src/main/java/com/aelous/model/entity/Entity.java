@@ -1311,6 +1311,10 @@ public abstract class Entity {
         return Chain.bound(this).waitForTile(tile, work);
     }
 
+    public Chain<Entity> waitForArea(Area area, Runnable work) {
+        return Chain.bound(this).waitForArea(area, work);
+    }
+
     public Chain<Entity> walkAndWait(Tile tile, Runnable work) {
         //smartPathTo(tile, 1);
         smartPathTo(tile);
@@ -1642,21 +1646,7 @@ public abstract class Entity {
         }
     }
 
-    private boolean[] prayerActive = new boolean[30], curseActive = new boolean[20];
-
-    public boolean[] getCurseActive() {
-        return curseActive;
-    }
-
-    public Entity setCurseActive(boolean[] curseActive) {
-        this.curseActive = curseActive;
-        return this;
-    }
-
-    public Entity setCurseActive(int id, boolean curseActive) {
-        this.curseActive[id] = curseActive;
-        return this;
-    }
+    private boolean[] prayerActive = new boolean[30];
 
     /**
      * Teleports the mob to a target location

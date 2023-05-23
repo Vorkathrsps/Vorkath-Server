@@ -9,6 +9,7 @@ public enum GraphicHeight {
     LOW,
     MIDDLE,
     HIGH,
+    HIGH_2,
     HIGH_3,
     HIGH_5
     ;

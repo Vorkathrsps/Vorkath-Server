@@ -235,7 +235,7 @@ public abstract class NPCBotHandler {
                 botType = CombatType.RANGED;
             if (botType == null)
                 System.err.println("unknown bot combat style: "+this);
-            int counterPrayer = Prayers.getProtectingPrayer(botType);
+            int counterPrayer = Prayers.getProtectingPrayer(botType, getOpponent());
             if (Prayers.usingPrayer(p, counterPrayer) || (!inDistance)) {
                 //prayer = PrayerHandler.getProtectingPrayer(CombatFactory.getMethod(p).getCombatType());
                 //We want their last hit combat type,

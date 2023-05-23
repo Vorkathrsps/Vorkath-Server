@@ -9,6 +9,7 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.method.CombatMethod;
+import com.aelous.model.entity.combat.method.EntityCombatBuilder;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.inter.dialogue.DialogueManager;
 import com.aelous.model.entity.player.Player;
@@ -38,6 +39,10 @@ public abstract class CommonCombatMethod implements CombatMethod {
 
     protected boolean withinDistance(int distance) {
         return DumbRoute.withinDistance(entity, target, distance);
+    }
+
+    public EntityCombatBuilder combatBuilder(Entity entity) {
+        return new EntityCombatBuilder(entity, target);
     }
 
     /**

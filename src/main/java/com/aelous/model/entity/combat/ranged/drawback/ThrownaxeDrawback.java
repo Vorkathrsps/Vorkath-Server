@@ -13,7 +13,7 @@ public enum ThrownaxeDrawback {
     RUNE_THROWING_AXE(805, 48, 41,41,38,36, 5),
     DRAGON_THROWING_AXE(20849, 1320, 1319,41,38,36, 5),
     MORRIGANS_THROWING_AXE(22634, 1624, 1623,41,38,36, 5),
-    MORRIGANS_JAVELIN(22636, 1620, 11,41,38,36, 5);
+    MORRIGANS_JAVELIN(22636, 1619, 1620,41,38,36, 5);
 
     public final int arrow, gfx, projectile, startSpeed, startHeight, endHeight, stepMultiplier;
 

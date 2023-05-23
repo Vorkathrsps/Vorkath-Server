@@ -124,8 +124,6 @@ public class MeleeAccuracy {
 
         float modification = modifier;
 
-        System.out.println(modification);
-
         switch (fightStyle) {
             case ACCURATE -> effectiveLevel = effectiveLevel + 3;
             case CONTROLLED -> effectiveLevel = effectiveLevel + 1;

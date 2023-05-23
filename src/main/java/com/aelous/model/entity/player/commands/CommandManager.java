@@ -1,18 +1,19 @@
 package com.aelous.model.entity.player.commands;
 
+import com.aelous.cache.definitions.NpcDefinition;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 import com.aelous.model.content.areas.theatre.ViturRoom;
-import com.aelous.model.content.areas.zulandra.ZulAndra;
-import com.aelous.model.content.raids.chamber_of_xeric.ChamberOfXerics;
 import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.aelous.model.entity.MovementQueue;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
+import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.InputScript;
@@ -32,6 +33,7 @@ import com.aelous.model.items.Item;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.object.GameObject;
+import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.region.Region;
 import com.aelous.model.map.region.RegionManager;
@@ -48,8 +50,7 @@ import java.util.*;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.GREAT_OLM_7554;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
-import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_ACTIVE;
-import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_UNLOCKED;
+import static com.aelous.model.entity.attributes.AttributeKey.*;
 import static com.aelous.model.entity.masks.Direction.*;
 import static com.aelous.utility.Debugs.CLIP;
 
@@ -337,7 +338,7 @@ public class CommandManager {
                         return;
                     }*/
                     plr.get().requestLogout();
-                    player.message("Player " + player2 + " ("+plr.get().getUsername()+") has been kicked.");
+                    player.message("Player " + player2 + " (" + plr.get().getUsername() + ") has been kicked.");
                     Utils.sendDiscordInfoLog(player.getUsername() + " has kicked " + plr.get().getUsername(), "sanctions");
                 } else {
                     player.message("Player " + player2 + " does not exist or is not online.");
@@ -402,14 +403,14 @@ public class CommandManager {
         });
         dev("test3", (p, c, s) -> {
             var n = NORTH;
-            p.setPositionToFace(new Tile(p.tile().tileToDir(n).x * 2 + 1, p.tile().tileToDir(n).y * 2 +1));
+            p.setPositionToFace(new Tile(p.tile().tileToDir(n).x * 2 + 1, p.tile().tileToDir(n).y * 2 + 1));
             p.getPacketSender().sendPositionalHint(p.tile().tileToDir(n), 2);
         });
         dev("test4", (p, c, s) -> {
             var n = new Nex(NpcIdentifiers.NEX, p.tile()).spawn();
             n.lockNoAttack();
             n.respawns(false);
-            ((CommonCombatMethod)n.getCombatMethod()).set(n, p);
+            ((CommonCombatMethod) n.getCombatMethod()).set(n, p);
             n.getCombatMethod().customOnDeath(n.hit(p, n.hp(), (CombatType) null));
             Chain.noCtx().delay(15, () -> n.remove());
 
@@ -430,8 +431,8 @@ public class CommandManager {
             });
         });
         dev("test5", (p, c, s) -> {
-           var b = p.getRouteFinder().routeAbsolute(p.tile().transform(4, 0).x, p.tile().transform( 0, 4).y).reachable;
-            System.out.println("aa "+b);
+            var b = p.getRouteFinder().routeAbsolute(p.tile().transform(4, 0).x, p.tile().transform(0, 4).y).reachable;
+            System.out.println("aa " + b);
         });
         dev("base", (p, c, s) -> {
             logger.info("base {} {} corner {}", p.tile().getBaseX(), p.tile().getBaseY(), p.tile().regionCorner());
@@ -450,13 +451,16 @@ public class CommandManager {
             p.hit(p, 1, SplatType.NPC_HEALING_HITSPLAT);
         });
         dev("hit2", (p, c, s) -> {
-            p.hit(p, 1, SplatType.POISON_HITSPLAT);;
+            p.hit(p, 1, SplatType.POISON_HITSPLAT);
+            ;
         });
         dev("hit3", (p, c, s) -> {
-            p.hit(p, 1, SplatType.VENOM_HITSPLAT);;
+            p.hit(p, 1, SplatType.VENOM_HITSPLAT);
+            ;
         });
         dev("hit4", (p, c, s) -> {
-            p.hit(p, 1, SplatType.MAX_HIT);;
+            p.hit(p, 1, SplatType.MAX_HIT);
+            ;
         });
         dev("hit5", (p, c, s) -> {
             var i = 1;
@@ -470,7 +474,7 @@ public class CommandManager {
             p.poison(8, true);
         });
         dev("test9", (p, c, s) -> {
-           p.venom(p.closeNpcs(15)[0]);
+            p.venom(p.closeNpcs(15)[0]);
         });
         dev("test10", (p, c, s) -> {
             Chain.noCtx().repeatingTask(1, t -> {
@@ -489,7 +493,7 @@ public class CommandManager {
             new ViturRoom().handleObjectInteraction(p, new GameObject(32653, p.tile()), 1);
         });
         dev("vz1", (p, c, s) -> {
-            GameObject throne = GameObject.spawn(VERZIKS_THRONE_32737, 3167, 4324, p.getZ(),10,0);
+            GameObject throne = GameObject.spawn(VERZIKS_THRONE_32737, 3167, 4324, p.getZ(), 10, 0);
         });
         dev("tob", (p, c, s) -> {
             p.teleport(3678, 3216);
@@ -499,10 +503,10 @@ public class CommandManager {
             p.teleport(plr.get().tile());
         });
         dev("up", (p, c, s) -> {
-            p.teleport(p.tile().transform(0,0,1));
+            p.teleport(p.tile().transform(0, 0, 1));
         });
         dev("up4", (p, c, s) -> {
-            p.teleport(p.tile().transform(0,0,4));
+            p.teleport(p.tile().transform(0, 0, 4));
         });
         dev("runes", (p, c, s) -> {
             for (int i = 554; i <= 566; i++) {
@@ -527,9 +531,9 @@ public class CommandManager {
                     int item = clip == 1 ? 227 : baseitem++;
                     if (CLIP.enabled)
                         CLIP.debug(player, String.format("%s is %s %s = %s %s", new Tile(x, y, player.getZ()), item, new Item(item).name(),
-                        clip, World.clipstr(clip)));
+                            clip, World.clipstr(clip)));
                     else
-                        System.out.println("clip : "+clip);
+                        System.out.println("clip : " + clip);
                     if (clip != 0) {
                         GroundItem gi = new GroundItem(new Item(item, 1), Tile.create(x, y, player.tile().level), player);
                         player.getPacketSender().createGroundItem(gi);
@@ -537,7 +541,7 @@ public class CommandManager {
                     }
                 }
             }
-            Chain.noCtx().runFn(10, () ->  {
+            Chain.noCtx().runFn(10, () -> {
                 gis.forEach(GroundItemHandler::sendRemoveGroundItem);
             });
         });
@@ -560,9 +564,9 @@ public class CommandManager {
             World.getWorld().tileGraphic(Integer.parseInt(s[1]), new Tile(p.tile().x + 1, p.tile().y, p.getZ()), 0, 0);
         });
         dev("npc3", (p, c, s) -> {
-                var cal = new NPC(6611, p.tile(), false).spawn();
-                cal.lock();
-            }); // just cos we dont want him to move while testing
+            var cal = new NPC(6611, p.tile(), false).spawn();
+            cal.lock();
+        }); // just cos we dont want him to move while testing
         dev("vet2", (p, c, s) -> {
             var dist = 100;
             NPC n = null;
@@ -579,16 +583,16 @@ public class CommandManager {
                 return;
 
             var dir = Direction.resolveForLargeNpc(p.tile(), n);
-            n.forceChat("assessed as "+dir);
-            Vetion.spawnShieldInDir(new Vetion(), n.tile(), dir);
+            n.forceChat("assessed as " + dir);
+           // Vetion.spawnShieldInDir(ent, n.tile(), dir);
         });
 
         dev("vet3", (p, c, s) -> {
             var n = p.getLocalNpcs().get(0);
             var base = n.tile().transform(-2, -2);
-            System.out.println("size "+n.getSize());
-            for (int x = 0 ; x < n.getSize() + 4; x++) {
-                for (int y = 0 ; y <  n.getSize() + 4; y++) {
+            System.out.println("size " + n.getSize());
+            for (int x = 0; x < n.getSize() + 4; x++) {
+                for (int y = 0; y < n.getSize() + 4; y++) {
 
                     var t = base.transform(x, y);
                     if (n.getBounds().inside(t))
@@ -628,12 +632,78 @@ public class CommandManager {
             olm.getCombat().delayAttack(30);
             ((GreatOlm) olm.getCombatMethod()).flameWall(olm);
         });
-        dev("zulrah2", (p, c, s) -> {
-            ZulAndra.enterInstance(p);
+        dev("c", (p, c, s) -> {
+
+            var area = new Area(3865, 9958, 3879, 9944, 3);
+
+            List<Tile> tileList = new ArrayList<>();
+
+            for (int i = 0; i < 2; i++) {
+                Tile randomTile = area.randomTile();
+                tileList.add(randomTile);
+            }
+
+            List<GameObject> objectList = new ArrayList<>();
+
+            for (var sporeTile : tileList) {
+                GameObject gameObject = new GameObject(37739, sporeTile);
+                gameObject.spawn();
+                objectList.add(gameObject);
+
+                Chain.noCtx().repeatingTask(1, count -> {
+                    if (p.tile().nextTo(sporeTile) || p.tile().equals(sporeTile)) {
+                        p.getPacketSender().sendObjectAnimation(gameObject, 8632);
+                        p.hit(p, 50);
+                        gameObject.remove();
+                        objectList.remove(gameObject);
+                    }
+                    if (objectList.isEmpty()) {
+                        count.stop();
+                    }
+                });
+            }
+
+        });
+        dev("curseoff", (p, c, s) -> {
+            p.clearAttrib(AttributeKey.NIGHTMARE_CURSE);
+            p.message("curse off");
+
+            if (!p.hasAttrib(AttributeKey.NIGHTMARE_CURSE)) {
+                int hintId = Prayers.getPrayerHeadIcon(p);
+                for (var prayerIndex : Prayers.PROTECTION_PRAYERS) {
+                    if (p.getPrayerActive()[prayerIndex]) {
+                        p.setHeadHint(hintId);
+                    }
+                }
+            }
+
+            Map<CombatType, Integer> prayerMap = new HashMap<>();
+
+            if (p.hasAttrib(AttributeKey.NIGHTMARE_CURSE)) {
+                prayerMap.put(CombatType.MELEE, Prayers.PROTECT_FROM_MAGIC);
+                prayerMap.put(CombatType.MAGIC, Prayers.PROTECT_FROM_MISSILES);
+                prayerMap.put(CombatType.RANGED, Prayers.PROTECT_FROM_MELEE);
+            } else {
+                prayerMap.put(CombatType.MELEE, Prayers.PROTECT_FROM_MELEE);
+                prayerMap.put(CombatType.MAGIC, Prayers.PROTECT_FROM_MAGIC);
+                prayerMap.put(CombatType.RANGED, Prayers.PROTECT_FROM_MISSILES);
+            }
+
+            p.message(Arrays.toString(prayerMap.entrySet().toArray(new Map.Entry[0])));
+
         });
     }
 
+    private static int rotateX(int x, int y, int angle) {
+        double radians = Math.toRadians(angle);
+        return (int) Math.round(x * Math.cos(radians) - y * Math.sin(radians));
+    }
 
+    // Helper method to rotate Y coordinates
+    private static int rotateY(int x, int y, int angle) {
+        double radians = Math.toRadians(angle);
+        return (int) Math.round(x * Math.sin(radians) + y * Math.cos(radians));
+    }
 
     public static void dev(String cmd, TriConsumer<Player, String, String[]> tc) {
         commands.put(cmd, new Command() {
@@ -699,8 +769,8 @@ public class CommandManager {
             //
 
             case "icons": {
-                for(int i = 160; i < 400; i++) {
-                    player.getPacketSender().sendMessage("Icon="+i+" - <img="+i+">");
+                for (int i = 160; i < 400; i++) {
+                    player.getPacketSender().sendMessage("Icon=" + i + " - <img=" + i + ">");
                 }
                 return true;
             }

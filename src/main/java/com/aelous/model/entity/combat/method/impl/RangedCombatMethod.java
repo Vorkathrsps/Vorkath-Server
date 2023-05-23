@@ -61,7 +61,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
             switch (weaponType) {
                 case BOW -> {
                     if (drawbackBow != null) {
-                        attacker.performGraphic(new Graphic(drawbackBow.gfx, GraphicHeight.HIGH, 0));
+                        attacker.performGraphic(new Graphic(drawbackBow.gfx, player.getEquipment().contains(ItemIdentifiers.VENATOR_BOW) ? GraphicHeight.LOW : GraphicHeight.HIGH, 0));
                         graphic = drawbackBow.projectile;
                         startSpeed = drawbackBow.startSpeed;
                         startHeight = drawbackBow.startHeight;
@@ -102,6 +102,8 @@ public class RangedCombatMethod extends CommonCombatMethod {
                         duration = startSpeed + 11 + (stepMultiplier * distance);
                     }
                 }
+                default -> {
+                }
             }
 
             switch (weaponTypeSpecial) {
@@ -117,6 +119,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                 }
                 case THROWING_AXES -> {
                     if (thrownDrawBack != null) {
+                        attacker.performGraphic(new Graphic(thrownDrawBack.gfx, GraphicHeight.HIGH, 0));
                         graphic = thrownDrawBack.projectile;
                         startSpeed = thrownDrawBack.startSpeed;
                         startHeight = thrownDrawBack.startHeight;
@@ -149,7 +152,6 @@ public class RangedCombatMethod extends CommonCombatMethod {
                 hit1.submit();
                 hit2.submit();
             } else {
-
                 Projectile projectile = new Projectile(attacker, target, graphic, startSpeed, duration, startHeight, endHeight, 0, target.getSize(), stepMultiplier);
 
                 final int hitDelay = attacker.executeProjectile(projectile);

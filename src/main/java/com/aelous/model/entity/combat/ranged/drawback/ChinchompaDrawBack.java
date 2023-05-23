@@ -7,7 +7,6 @@ public enum ChinchompaDrawBack {
 
     public final int id, gfx, projectile, startSpeed, startHeight, endHeight, stepMultiplier;
 
-
     ChinchompaDrawBack(int id, int gfx, int projectile, int startSpeed, int startHeight, int endHeight, int stepMultiplier) {
         this.id = id;
         this.gfx = gfx;
@@ -18,14 +17,10 @@ public enum ChinchompaDrawBack {
         this.stepMultiplier = stepMultiplier;
     }
 
-    public static ChinchompaDrawBack find(int bolt, int graphic) {
-        if (bolt != -1) {
-            for (ChinchompaDrawBack boltDrawBack : ChinchompaDrawBack.values()) {
-                if (boltDrawBack.id == bolt) {
-                    return boltDrawBack;
-                } else {
-                    return boltDrawBack;
-                }
+    public static ChinchompaDrawBack find(int chin, int graphic) {
+        if (graphic == -1 && chin != -1) {
+            for (ChinchompaDrawBack chinchompaDrawBack : ChinchompaDrawBack.values()) {
+                return chinchompaDrawBack;
             }
         }
         return null;

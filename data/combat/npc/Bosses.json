@@ -1196,7 +1196,7 @@
     "attackspeed": 6,
     "aggroradius": 0,
     "respawntime": 50,
-    "deathlen": 2,
+    "deathlen": 4,
     "aggressive": false,
     "stats": {
       "attack": 150,
@@ -1218,10 +1218,81 @@
     "animations": {
       "attack": -1,
       "block": -1,
-      "death": 8612
+      "death": 8581
     },
     "scripts": {
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.TheNightmare"
+    }
+  },
+  {
+    // Husks
+    "ids": [
+      9454
+    ],
+    "maxhit": 26,
+    "attackspeed": 4,
+    "aggroradius": 0,
+    "respawntime": 50,
+    "deathlen": 2,
+    "aggressive": true,
+    "stats": {
+      "attack": 1,
+      "strength": 1,
+      "magic": 168,
+      "ranged": 0,
+      "defence": 20,
+      "hitpoints": 20
+    },
+    "bonuses": {
+      "attack": 1,
+      "strength": 1,
+      "stabdefence": 20,
+      "slashdefence": 20,
+      "crushdefence": 20,
+      "rangeddefence": 80,
+      "magicdefence": 80
+    },
+    "animations": {
+      "attack": 8565,
+      "block": -1,
+      "death": 8566
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.nightmare.attacks.impl.Husks"
+    }
+  },
+  {
+    // sleepwalker
+    "ids": [
+      9446
+    ],
+    "maxhit": 10,
+    "attackspeed": 4,
+    "aggroradius": 0,
+    "respawntime": 50,
+    "deathlen": 2,
+    "aggressive": true,
+    "stats": {
+      "attack": 1,
+      "strength": 1,
+      "magic": 0,
+      "ranged": 0,
+      "defence": 0,
+      "hitpoints": 10
+    },
+    "bonuses": {
+      "attack": 1,
+      "strength": 1,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": 8570
     }
   },
   {

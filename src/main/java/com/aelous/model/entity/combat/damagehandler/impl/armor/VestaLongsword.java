@@ -31,7 +31,6 @@ public class VestaLongsword implements DamageEffectListener {
         var attacker = (Player) entity;
         if ((attacker.getEquipment().contains(VESTAS_BLIGHTED_LONGSWORD) && attacker.isSpecialActivated())) {
             meleeAccuracy.setModifier(1.80F);
-            attacker.message("doing shit");
             return true;
         }
         return false;

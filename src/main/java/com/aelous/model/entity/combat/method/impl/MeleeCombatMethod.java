@@ -55,7 +55,7 @@ public class MeleeCombatMethod extends CommonCombatMethod {
 
                 Tile gfxTile = entity.getCentrePosition().transform(dir.x, dir.y);
 
-                World.getWorld().tileGraphic(gfx, gfxTile, 96, 30);
+                World.getWorld().tileGraphic(gfx, gfxTile, 96, 20);
 
                 //entity.graphic(478, 100, 0);
                 if(target.getAsNpc().getSize() > 2 || target.getAsNpc().isCombatDummy()) {

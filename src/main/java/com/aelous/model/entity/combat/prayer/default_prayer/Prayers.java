@@ -7,14 +7,13 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.skull.SkullType;
 import com.aelous.model.entity.combat.skull.Skulling;
-import com.aelous.model.entity.npc.NPC;
-import com.aelous.model.inter.InterfaceConstants;
 import com.aelous.model.inter.dialogue.DialogueManager;
 import com.aelous.model.entity.player.IronMode;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.utility.timers.TimerKey;
+import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -29,6 +28,10 @@ public class Prayers {
         return usingPrayer(player, PROTECT_FROM_MAGIC) || usingPrayer(player, PROTECT_FROM_MISSILES) || usingPrayer(player, PROTECT_FROM_MELEE) || usingPrayer(player, RETRIBUTION) || usingPrayer(player, REDEMPTION) || usingPrayer(player, SMITE);
     }
 
+    public static boolean protectionPrayerActivated(Player player) {
+        return usingPrayer(player, PROTECT_FROM_MAGIC) || usingPrayer(player, PROTECT_FROM_MISSILES) || usingPrayer(player, PROTECT_FROM_MELEE);
+    }
+
     private static final int CANNOT_USE = 447;
     private static final int TURN_OFF_AND_ON = 435;
 
@@ -38,13 +41,36 @@ public class Prayers {
      * @param type the combat type.
      * @return the protecting prayer.
      */
-    public static int getProtectingPrayer(@Nullable CombatType type) {
-        if (type == null) return -1;
-        return switch (type) {
-            case MELEE -> PROTECT_FROM_MELEE;
-            case MAGIC -> PROTECT_FROM_MAGIC;
-            case RANGED -> PROTECT_FROM_MISSILES;
-        };
+    public static int getProtectingPrayer(@Nullable CombatType type, Player player) {
+        if (type == null || player == null) return -1;
+
+        if (player.hasAttrib(AttributeKey.NIGHTMARE_CURSE)) {
+            switch (type) {
+                case MELEE -> {
+                    return PROTECT_FROM_MAGIC;
+                }
+                case MAGIC -> {
+                    return PROTECT_FROM_MISSILES;
+                }
+                case RANGED -> {
+                    return PROTECT_FROM_MELEE;
+                }
+            }
+        } else {
+            switch (type) {
+                case MELEE -> {
+                    return PROTECT_FROM_MELEE;
+                }
+                case MAGIC -> {
+                    return PROTECT_FROM_MAGIC;
+                }
+                case RANGED -> {
+                    return PROTECT_FROM_MISSILES;
+                }
+            }
+        }
+
+        return -1;
     }
 
     public static boolean usingPrayer(Entity mob, int prayer) {
@@ -152,6 +178,25 @@ public class Prayers {
                 p.setHeadHint(hintId);
             }
         }
+    }
+
+    public int shift(int shift, int... bounds) {
+        Preconditions.checkArgument(bounds.length > 0, "No prayer shift bound specified.");
+        var index = -1;
+        for (var i = 0; i < bounds.length; i++) {
+            if (index == (bounds[i])) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            return -1;
+        }
+        var newIndex = ((index + shift) % bounds.length);
+        if (newIndex < 0) {
+            newIndex = (bounds.length - Math.abs(newIndex));
+        }
+        return bounds[newIndex];
     }
 
     /**
@@ -305,83 +350,101 @@ public class Prayers {
      * @param mob The player to fetch head hint index for.
      * @return The player's current head hint index.
      */
-    private static int getPrayerHeadIcon(Entity mob) {
+    public static int getPrayerHeadIcon(Entity mob) {
         boolean[] prayers = mob.getPrayerActive();
-        if (prayers[PROTECT_FROM_MELEE])
-            return 0;
-        if (prayers[PROTECT_FROM_MISSILES])
-            return 1;
-        if (prayers[PROTECT_FROM_MAGIC])
-            return 2;
-        if (prayers[RETRIBUTION])
-            return 3;
-        if (prayers[SMITE])
-            return 4;
-        if (prayers[REDEMPTION])
-            return 5;
+        if (mob.isPlayer() && mob.hasAttrib(AttributeKey.NIGHTMARE_CURSE)) {
+            for (int i = 0; i < prayers.length; i++) {
+                if (prayers[i]) {
+                    if (i == PROTECT_FROM_MELEE)
+                        return 2;
+                    if (i == PROTECT_FROM_MISSILES)
+                        return 0;
+                    if (i == PROTECT_FROM_MAGIC)
+                        return 1;
+                }
+            }
+        }
+
+        for (int i = 0; i < prayers.length; i++) {
+            if (prayers[i]) {
+                if (i == PROTECT_FROM_MELEE)
+                    return 0;
+                if (i == PROTECT_FROM_MISSILES)
+                    return 1;
+                if (i == PROTECT_FROM_MAGIC)
+                    return 2;
+                if (i == RETRIBUTION)
+                    return 3;
+                if (i == SMITE)
+                    return 4;
+                if (i == REDEMPTION)
+                    return 5;
+            }
+        }
         return -1;
     }
+
 
     public static double compute(Player player) {
         double rate = 0;
 
-        if (usingPrayer(player,THICK_SKIN))
+        if (usingPrayer(player, THICK_SKIN))
             rate += 0.083;
-        if (usingPrayer(player,BURST_OF_STRENGTH))
+        if (usingPrayer(player, BURST_OF_STRENGTH))
             rate += 0.083;
-        if (usingPrayer(player,CLARITY_OF_THOUGHT))
+        if (usingPrayer(player, CLARITY_OF_THOUGHT))
             rate += 0.083;
-        if (usingPrayer(player,SHARP_EYE))
+        if (usingPrayer(player, SHARP_EYE))
             rate += 0.083;
-        if (usingPrayer(player,MYSTIC_WILL))
+        if (usingPrayer(player, MYSTIC_WILL))
             rate += 0.083;
-        if (usingPrayer(player,ROCK_SKIN))
+        if (usingPrayer(player, ROCK_SKIN))
             rate += 0.086;
-        if (usingPrayer(player,SUPERHUMAN_STRENGTH))
+        if (usingPrayer(player, SUPERHUMAN_STRENGTH))
             rate += 0.086;
-        if (usingPrayer(player,IMPROVED_REFLEXES))
+        if (usingPrayer(player, IMPROVED_REFLEXES))
             rate += 0.086;
-        if (usingPrayer(player,RAPID_RESTORE))
+        if (usingPrayer(player, RAPID_RESTORE))
             rate += 0.081;
-        if (usingPrayer(player,RAPID_HEAL))
+        if (usingPrayer(player, RAPID_HEAL))
             rate += 0.082;
-        if (usingPrayer(player,PROTECT_ITEM))
+        if (usingPrayer(player, PROTECT_ITEM))
             rate += 0.082;
-        if (usingPrayer(player,HAWK_EYE))
+        if (usingPrayer(player, HAWK_EYE))
             rate += 0.086;
-        if (usingPrayer(player,MYSTIC_LORE))
+        if (usingPrayer(player, MYSTIC_LORE))
             rate += 0.086;
-        if (usingPrayer(player,STEEL_SKIN))
+        if (usingPrayer(player, STEEL_SKIN))
             rate += 0.0912;
-        if (usingPrayer(player,ULTIMATE_STRENGTH))
+        if (usingPrayer(player, ULTIMATE_STRENGTH))
             rate += 0.33;
-        if (usingPrayer(player,INCREDIBLE_REFLEXES))
+        if (usingPrayer(player, INCREDIBLE_REFLEXES))
             rate += 0.33;
-        if (usingPrayer(player,PROTECT_FROM_MELEE))
+        if (usingPrayer(player, PROTECT_FROM_MELEE))
             rate += 0.33;
-        if (usingPrayer(player,PROTECT_FROM_MAGIC))
+        if (usingPrayer(player, PROTECT_FROM_MAGIC))
             rate += 0.33;
-        if (usingPrayer(player,PROTECT_FROM_MISSILES))
+        if (usingPrayer(player, PROTECT_FROM_MISSILES))
             rate += 0.33;
-        if (usingPrayer(player,EAGLE_EYE))
+        if (usingPrayer(player, EAGLE_EYE))
             rate += 0.33;
-        if (usingPrayer(player,MYSTIC_MIGHT))
+        if (usingPrayer(player, MYSTIC_MIGHT))
             rate += 0.33;
-        if (usingPrayer(player,RETRIBUTION))
+        if (usingPrayer(player, RETRIBUTION))
             rate += 0.083;
-        if (usingPrayer(player,REDEMPTION))
+        if (usingPrayer(player, REDEMPTION))
             rate += 0.086;
-        if (usingPrayer(player,SMITE))
+        if (usingPrayer(player, SMITE))
             rate += 0.56;
-        if (usingPrayer(player,PRESERVE))
+        if (usingPrayer(player, PRESERVE))
             rate += 0.082;
-        if (usingPrayer(player,CHIVALRY))
+        if (usingPrayer(player, CHIVALRY))
             rate += 0.50;
-        if (usingPrayer(player,PIETY))
+        if (usingPrayer(player, PIETY))
             rate += 0.50;
-        if (usingPrayer(player,RIGOUR))
+        if (usingPrayer(player, RIGOUR))
             rate += 0.50;
-        if (usingPrayer(player,AUGURY))
+        if (usingPrayer(player, AUGURY))
             rate += 0.50;
 
         //System.out.println("rate: "+rate);

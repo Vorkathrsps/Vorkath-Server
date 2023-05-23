@@ -56,7 +56,7 @@ public class MagicAccuracy {
 
         random.nextBytes(seed);
 
-        val accuracy = attackBonus > defenceBonus ? (1F - (defenceBonus + 2F) / (2F*(attackBonus + 1F))) : (attackBonus / (2F*(defenceBonus + 1F)));
+        val accuracy = attackBonus > defenceBonus ? (1F - (defenceBonus + 2F) / (2F * (attackBonus + 1F))) : (attackBonus / (2F * (defenceBonus + 1F)));
 
         double selectedChance = random.nextFloat();
 
@@ -69,11 +69,7 @@ public class MagicAccuracy {
         EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
         int bonus = 0;
         if (attacker instanceof Player) {
-            if (!WildernessArea.inWild((Player) attacker) && ((Player) attacker).getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
-                bonus = attackerBonus.mage += Math.min(attackerBonus.mage * 3, attackerBonus.mage * attackerBonus.mage);
-            } else {
-                bonus = attackerBonus.mage;
-            }
+            bonus = attackerBonus.mage;
         } else if (attacker instanceof NPC) {
             bonus = attacker.getAsNpc().getCombatInfo().getBonuses().getMagic();
         }

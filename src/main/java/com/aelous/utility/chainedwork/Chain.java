@@ -5,6 +5,7 @@ import com.aelous.core.task.Task;
 import com.aelous.core.task.TaskManager;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -136,6 +137,25 @@ public class Chain<T> {
             return nextNode;
         }
         executeCondition = () -> ((Entity)owner).tile().x == tile.x && ((Entity)owner).tile().y == tile.y;
+        cycleDelay = 1;
+        this.work = work;
+        repeats = true;
+        startChainExecution();
+        return this;
+    }
+
+    public Chain<T> waitForArea(Area area, Runnable work) {
+        if (this.work != null) {
+            nextNode = bound(owner); // make a new one
+            nextNode.work = work; // init work
+            nextNode.name = name; // re-use the name
+            nextNode.executeCondition = () -> ((Player)owner).tile().x == area.x1 && ((Player)owner).tile().y == area.y1;
+            nextNode.cycleDelay = 1;
+            nextNode.repeats = true;
+            nextNode.findSource();
+            return nextNode;
+        }
+        executeCondition = () -> ((Entity)owner).tile().x == area.x2 && ((Entity)owner).tile().y == area.y2;
         cycleDelay = 1;
         this.work = work;
         repeats = true;

@@ -113,7 +113,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
                         target.performGraphic(new Graphic(85, GraphicHeight.LOW, p.getSpeed()));
                     }
 
-                    if (spell instanceof CombatEffectSpell combatEffectSpell && hit.isAccurate()) {
+                    if (spell instanceof CombatEffectSpell combatEffectSpell) {
                         combatEffectSpell.whenSpellCast(player, target);
                         combatEffectSpell.spellEffect(player, target, hit);
                     }

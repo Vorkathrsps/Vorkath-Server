@@ -9,9 +9,16 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.magic.autocasting.Autocasting;
+import com.aelous.model.entity.combat.magic.data.AncientSpells;
+import com.aelous.model.entity.combat.magic.data.AutoCastWeaponSpells;
+import com.aelous.model.entity.combat.magic.data.ModernSpells;
 import com.aelous.model.entity.combat.skull.SkullType;
 import com.aelous.model.entity.combat.skull.Skulling;
+import com.aelous.model.entity.masks.Projectile;
+import com.aelous.model.entity.masks.impl.graphics.Graphic;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
+import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
@@ -19,8 +26,11 @@ import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.timers.TimerKey;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+
+import static com.aelous.utility.ItemIdentifiers.*;
 
 /**
  * A {@link CombatSpell} implementation that is primarily used for spells that
@@ -65,7 +75,7 @@ public abstract class CombatEffectSpell extends CombatSpell {
                     continue;
                 }
 
-                if (!(next.tile().isWithinDistance(castOn.tile(), spellRadius()) && next.hp() > 0 && next.hp() > 0)) {
+                if (!next.tile().isWithinDistance(castOn.tile(), spellRadius()) || next.dead()) {
                     continue;
                 }
 
@@ -98,9 +108,13 @@ public abstract class CombatEffectSpell extends CombatSpell {
                         continue;
                     }
 
-                    if (p.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) == 0 || !WildernessArea.inAttackableArea(p) || !MultiwayCombat.includes(p)) {
+                    if (p.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) == 0) {
                         continue;
                     }
+                    if (!WildernessArea.inAttackableArea(p))
+                        continue;
+                    if ( !MultiwayCombat.includes(p))
+                        continue;
 
                     if (!CombatFactory.canAttack(cast, CombatFactory.MAGIC_COMBAT, p)) {
                         cast.getCombat().reset();
@@ -111,12 +125,65 @@ public abstract class CombatEffectSpell extends CombatSpell {
             }
         }
 
+        //System.out.println("targets: "+ Arrays.toString(targets.stream().map(e -> e.getMobName()).toArray()));
         for (Entity target : targets) {
-            Hit hit = castOn.hit(cast, CombatFactory.calcDamageFromType(cast, target, CombatType.MAGIC), delay, CombatType.MAGIC);
+            Hit hit = target.hit(cast, CombatFactory.calcDamageFromType(cast, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
             if (cast.isPlayer() && target.isPlayer() && WildernessArea.inWilderness(target.tile())) {
                 Skulling.skull(cast.getAsPlayer(), target.getAsPlayer(), SkullType.WHITE_SKULL);
             }
-            spellEffect(cast, target, hit);
+            hit.submit();
+            if (hit.isAccurate()) {
+                spellEffect(cast, target, hit);
+            }
+            boolean modernSpells = cast.isPlayer() && cast.player().getSpellbook() == MagicSpellbook.NORMAL;
+            boolean ancientSpells = cast.isPlayer() && cast.player().getSpellbook() == MagicSpellbook.ANCIENT;
+            boolean isWearingPoweredStaff = cast.isPlayer() && cast.player().getEquipment().containsAny(TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, SANGUINESTI_STAFF, TUMEKENS_SHADOW, DAWNBRINGER, ACCURSED_SCEPTRE_A);
+            AutoCastWeaponSpells data = AutoCastWeaponSpells.findSpellProjectileData(spellId(), GraphicHeight.HIGH);
+            int projectile = -1;
+            int startgraphic = -1;
+            int castAnimation = -1;
+            int startSpeed = -1;
+            int startHeight = -1;
+            int endHeight = -1;
+            int endGraphic = -1;
+            int stepMultiplier = -1;
+            int duration = -1;
+            GraphicHeight startGraphicHeight = GraphicHeight.HIGH;
+            GraphicHeight endGraphicHeight = GraphicHeight.HIGH;
+            ModernSpells findProjectileDataModern = ModernSpells.findSpellProjectileData(spellId(), endGraphicHeight);
+            AncientSpells findProjectileDataAncients = AncientSpells.findSpellProjectileData(spellId(), startGraphicHeight, endGraphicHeight);
+            AutoCastWeaponSpells findAutoCastWeaponsData = AutoCastWeaponSpells.findSpellProjectileData(spellId(), endGraphicHeight);
+            int distance = cast.tile().getChevDistance(target.tile());
+
+            if (findProjectileDataAncients != null && ancientSpells && cast.getCombat().getCastSpell() != null && cast.getCombat().getCastSpell().spellId() == findProjectileDataAncients.spellID) {
+                projectile = findProjectileDataAncients.projectile;
+                startgraphic = findProjectileDataAncients.startGraphic;
+                castAnimation = findProjectileDataAncients.castAnimation;
+                startSpeed = findProjectileDataAncients.startSpeed;
+                startHeight = findProjectileDataAncients.startHeight;
+                endHeight = findProjectileDataAncients.endHeight;
+                endGraphic = findProjectileDataAncients.endGraphic;
+                stepMultiplier = findProjectileDataAncients.stepMultiplier;
+                duration = (startSpeed + -5 + (stepMultiplier * distance));
+                endGraphicHeight = findProjectileDataAncients.endGraphicHeight;
+            } else if (isWearingPoweredStaff && findAutoCastWeaponsData != null && cast.getCombat().getPoweredStaffSpell() != null && cast.getCombat().getPoweredStaffSpell().spellId() == findAutoCastWeaponsData.spellID) {
+                projectile = findAutoCastWeaponsData.projectile;
+                startgraphic = findAutoCastWeaponsData.startGraphic;
+                castAnimation = findAutoCastWeaponsData.castAnimation;
+                startSpeed = findAutoCastWeaponsData.startSpeed;
+                startHeight = findAutoCastWeaponsData.startHeight;
+                endHeight = findAutoCastWeaponsData.endHeight;
+                endGraphic = findAutoCastWeaponsData.endGraphic;
+                stepMultiplier = findAutoCastWeaponsData.stepMultiplier;
+                duration = (startSpeed + -5 + (stepMultiplier * distance));
+                endGraphicHeight = findAutoCastWeaponsData.endGraphicHeight;
+            }
+            Projectile p = new Projectile(cast, target, projectile, startSpeed, duration, startHeight, endHeight, 0, target.getSize(), stepMultiplier);
+            if (hit.isAccurate()) {
+                target.performGraphic(new Graphic(endGraphic, endGraphicHeight, p.getSpeed()));
+            } else {
+                target.performGraphic(new Graphic(85, GraphicHeight.LOW, p.getSpeed()));
+            }
         }
     }
 

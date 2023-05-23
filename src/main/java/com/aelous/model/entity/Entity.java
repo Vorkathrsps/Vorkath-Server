@@ -21,6 +21,7 @@ import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.hit.Splat;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.AttackNpcListener;
+import com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.masks.Projectile;

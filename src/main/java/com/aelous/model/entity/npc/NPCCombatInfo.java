@@ -145,16 +145,8 @@ public class NPCCombatInfo {
             if (combatMethodClass != null) {
                 try {
                     return combatMethodClass.getDeclaredConstructor().newInstance();
-                } catch (InstantiationException e) {
-                    System.err.println("issue init "+combat+": "+e);
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    System.err.println("issue init "+combat+": "+e);
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    System.err.println("issue init "+combat+": "+e);
-                    e.printStackTrace();
-                } catch (NoSuchMethodException e) {
+                } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                         NoSuchMethodException e) {
                     System.err.println("issue init "+combat+": "+e);
                     e.printStackTrace();
                 }

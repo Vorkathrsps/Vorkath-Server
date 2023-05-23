@@ -115,8 +115,10 @@ public class ZarosGodwars {
                 nex.setPositionToFace(fumus.tile());
                 nex.forceChat("Fumus!");
                 nex.animate(9189);
-                Projectile projectile = new Projectile(minions.a, nex, 2010, 30, 80, 18, 18, 0);
-                projectile.sendProjectile();
+                int tileDist = minions.a.tile().transform(3, 3).getManhattanDistance(nex.tile().transform(3, 3, 0));
+                int duration = (30 + 11 + (3 * tileDist));
+                Projectile p = new Projectile(minions.a, nex, 2010, 30, duration, 18, 18, 0, 1, 5);
+                minions.a.executeProjectile(p);
             }).thenCancellable(3, () -> {
                 NPC umbra = new NPC(UMBRA, new Tile(2937, 5215, 0)).spawn(false);
                 umbra.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT,true);
@@ -126,8 +128,10 @@ public class ZarosGodwars {
                 nex.setPositionToFace(umbra.tile());
                 nex.forceChat("Umbra!");
                 nex.animate(9189);
-                Projectile projectile = new Projectile(minions.b, nex, 2010, 30, 80, 18, 18, 0);
-                projectile.sendProjectile();
+                int tileDist = minions.b.tile().transform(3, 3).getManhattanDistance(nex.tile().transform(3, 3, 0));
+                int duration = (30 + 11 + (3 * tileDist));
+                Projectile p = new Projectile(minions.b, nex, 2010, 30, duration, 18, 18, 0, 1, 5);
+                minions.b.executeProjectile(p);
             }).thenCancellable(3, () -> {
                 NPC cruor = new NPC(CRUOR, new Tile(2937, 5191, 0)).spawn(false);
                 cruor.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT,true);
@@ -137,8 +141,10 @@ public class ZarosGodwars {
                 nex.setPositionToFace(cruor.tile());
                 nex.forceChat("Cruor!");
                 nex.animate(9189);
-                Projectile projectile = new Projectile(minions.c, nex, 2010, 30, 80, 18, 18, 0);
-                projectile.sendProjectile();
+                int tileDist = minions.c.tile().transform(3, 3).getManhattanDistance(nex.tile().transform(3, 3, 0));
+                int duration = (30 + 11 + (3 * tileDist));
+                Projectile p = new Projectile(minions.c, nex, 2010, 30, duration, 18, 18, 0, 1, 5);
+                minions.c.executeProjectile(p);
             }).thenCancellable(3, () -> {
                 NPC glacies = new NPC(GLACIES, new Tile(2913, 5191, 0)).spawn(false);
                 glacies.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT,true);
@@ -148,12 +154,12 @@ public class ZarosGodwars {
                 nex.setPositionToFace(glacies.tile());
                 nex.forceChat("Glacies!");
                 nex.animate(9189);
-                Projectile projectile = new Projectile(minions.d, nex, 2010, 30, 80, 18, 18, 0);
-                projectile.sendProjectile();
+                int tileDist = minions.d.tile().transform(3, 3).getManhattanDistance(nex.tile().transform(3, 3, 0));
+                int duration = (30 + 11 + (3 * tileDist));
+                Projectile p = new Projectile(minions.d, nex, 2010, 30, duration, 18, 18, 0, 1, 5);
+                minions.d.executeProjectile(p);
             }).thenCancellable(3, () -> {
                 nex.forceChat("Fill my soul with smoke!");
-                Projectile projectile = new Projectile(minions.d, nex, 2010, 30, 80, 18, 18, 0);
-                projectile.sendProjectile();
             }).thenCancellable(2, () -> {
                 nex.setPositionToFace(null);
                 nex.cantInteract(false);

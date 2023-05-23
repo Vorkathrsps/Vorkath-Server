@@ -14,8 +14,7 @@ public class AlchemicalHydraAttackScript extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         NPC mobAsNpc = (NPC) entity;
 
-        if (mobAsNpc instanceof AlchemicalHydra) {
-            AlchemicalHydra npc = (AlchemicalHydra) mobAsNpc;
+        if (mobAsNpc instanceof AlchemicalHydra npc) {
 
             npc.recordedAttacks--;
             var nextAttackType = npc.getNextAttack();

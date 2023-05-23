@@ -97,6 +97,9 @@ public class WildernessArea extends Controller {
         if (region == 12701 || region == 12702 || region == 12703 || region == 12957 || region == 12958 || region == 12959)
             return true;
 
+        if (region == 7604)
+            return true;
+
         return region == 12192 || region == 12193 || region == 12961 || region == 11937 || region == 12443 || region == 12190;
     }
 

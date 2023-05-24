@@ -6,6 +6,7 @@ import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 import com.aelous.model.content.areas.theatre.ViturRoom;
 import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
+import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatType;
@@ -691,6 +692,19 @@ public class CommandManager {
         });
         dev("ht2", (p, c, s) -> {
             CommandManager.attempt(p, "oa 8278 34570");
+        });
+        dev("tp1", (p, c, s) -> {
+            TeleportInterface.open(p);
+        });
+        dev("tp2", (p, c, s) -> {
+            p.setCurrentTabIndex(3);
+            p.getInterfaceManager().open(88000);
+            p.getnewteleInterface().drawInterface(88005);
+        });
+        dev("test12", (p, c, s) -> {
+            for (NPC n : p.getLocalNpcs()) {
+                logger.info("{} face {}", n.getMobName(), n.getInteractingEntity());
+            }
         });
     }
 

@@ -14,7 +14,7 @@ public interface Definition {
                 //continue;
             }
             try {
-                System.out.println(field.getName() + ": " + getValue(field));
+                System.out.println("field "+field.getName() + ": " + getValue(field));
             } catch (Throwable e) {
                 e.printStackTrace();
             }

@@ -175,7 +175,7 @@ public class WildernessArea extends Controller {
         player.getRisk().update();
         refreshInterface(player, true);
         player.varps().varbit(Varbit.IN_WILDERNESS, 1);
-        System.out.println(player.varps().varbit(Varbit.IN_WILDERNESS));
+       // System.out.println(player.varps().varbit(Varbit.IN_WILDERNESS));
     }
 
     @Override

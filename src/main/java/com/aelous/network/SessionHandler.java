@@ -2,13 +2,12 @@ package com.aelous.network;
 
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.player.Player;
-import com.aelous.network.codec.login.LoginHandler;
-import io.netty.channel.ChannelHandler.Sharable;
+import com.aelous.network.codec.login.LoginDetailsMessage;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.ReadTimeoutException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.SocketException;
@@ -16,22 +15,21 @@ import java.net.SocketException;
 /**
  * @author os-scape team
  */
-@Sharable
 public final class SessionHandler extends ChannelInboundHandlerAdapter {
 
-    private static final Logger logger = LogManager.getLogger(SessionHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(SessionHandler.class);
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        // oss: read is handled directly in decoder rather than passed to handler
-        super.channelRead(ctx, msg);
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
+        if (msg instanceof LoginDetailsMessage) {
+            ctx.channel().attr(NetworkUtils.SESSION_KEY).setIfAbsent(new Session(ctx.channel()));
+            Session session = ctx.channel().attr(NetworkUtils.SESSION_KEY).get();
+            session.finalizeLogin((LoginDetailsMessage) msg);
+        }
     }
 
     @Override
-    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-        super.channelUnregistered(ctx);
-        LoginHandler.reduceIPConnectedCount(ctx);
-
+    public void channelUnregistered(ChannelHandlerContext ctx) {
         Session session = ctx.channel().attr(NetworkUtils.SESSION_KEY).get();
 
         if (session != null) {
@@ -78,20 +76,15 @@ public final class SessionHandler extends ChannelInboundHandlerAdapter {
                 return; // dc
             }
             if (throwable instanceof ReadTimeoutException) {
-                //logger.info("Channel disconnected due to read timeout (30s): {}.", ctx.channel());
+                logger.debug("Channel disconnected due to read timeout (30s): {}.", ctx.channel());
                 ctx.channel().close();
             }
             else {
-                //logger.error("An exception has been caused in the pipeline: {} {}", session, throwable);
+                logger.error("An exception has been caused in the pipeline: {} {}", session, throwable);
             }
         } catch (Exception e) {
-            //logger.error("Uncaught server exception!", e);
+            logger.error("Uncaught server exception!", e);
         }
-
-        // dont close on exception, continue
-        super.exceptionCaught(ctx, throwable);
-
     }
-
 
 }

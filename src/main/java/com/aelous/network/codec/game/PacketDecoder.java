@@ -1,6 +1,5 @@
 package com.aelous.network.codec.game;
 
-import com.aelous.GameServer;
 import com.aelous.network.NetworkUtils;
 import com.aelous.network.Session;
 import com.aelous.network.packet.Packet;
@@ -87,11 +86,8 @@ public final class PacketDecoder extends ByteToMessageDecoder {
             state = State.OPCODE;
 
             try {
-                final int packetCounter = session.packetCounter++;
-                if (packetCounter <= GameServer.properties().packetProcessLimit) {
-                    session.queuePacket(new Packet(opcode, payload));
-                    //logger.info("Decoded packet with OpCode=" + opcode + " and size=" + size);
-                }
+                session.queuePacket(new Packet(opcode, payload));
+                //logger.info("Decoded packet with OpCode=" + opcode + " and size=" + size);
             } catch (Exception e) {
                 logger.error("Exception occurred while handling packet. OpCode=" + opcode + " size=" + size, e);
             }

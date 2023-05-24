@@ -35,8 +35,8 @@ public class PlayerUpdating {
      */
 
     public static void update(final Player player) {
-        try (final PacketBuilder out = new PacketBuilder(81, PacketType.VARIABLE_SHORT);
-             final PacketBuilder builder = new PacketBuilder()) {
+        final PacketBuilder out = new PacketBuilder(81, PacketType.VARIABLE_SHORT);
+        try (final PacketBuilder builder = new PacketBuilder()) {
             out.initializeAccess(AccessType.BIT);
             updateMovement(player, out);
             appendUpdates(player, builder, player, false, true);

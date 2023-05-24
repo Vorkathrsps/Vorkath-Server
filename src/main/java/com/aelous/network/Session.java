@@ -21,13 +21,14 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue;
+import io.netty.util.internal.shaded.org.jctools.queues.MpscArrayQueue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
-import java.util.LinkedList;
 
 import static com.aelous.model.entity.attributes.AttributeKey.MAC_ADDRESS;
 
@@ -46,7 +47,7 @@ public class Session {
     /**
      * The queue of packets that will be handled on the next sequence.
      */
-    private final LinkedList<Packet> packetsQueue = new LinkedList<>();
+    private final MessagePassingQueue<Packet> packetsQueue = new MpscArrayQueue<>(GameServer.properties().packetProcessLimit);
 
     /**
      * The channel that will manage the connection for this player.
@@ -58,11 +59,6 @@ public class Session {
      */
     private final Player player;
     public ChannelHandlerContext ctx;
-
-    /**
-     * The amount of packets read this cycle.
-     */
-    public int packetCounter;
 
     /**
      * The current state of this I/O session.
@@ -125,17 +121,13 @@ public class Session {
      *
      * @param msg The packet that should be queued.
      */
-    public void queuePacket(Packet msg) {
-
-        int queuedSize = packetsQueue.size();
-
-        if (queuedSize >= GameServer.properties().packetProcessLimit) {
-            logger.error("Packet limit reached for " + getPlayer().getUsername() + ", disconnecting this player.  (Packet limit: " + GameServer.properties().packetProcessLimit + " )");
-            getPlayer().requestLogout();
-            return;
+    public boolean queuePacket(Packet msg) {
+        if (!packetsQueue.offer(msg)) {
+            logger.warn("Packet limit reached for " + getPlayer().getUsername() + " (Packet limit: " + GameServer.properties().packetProcessLimit + " )");
+            //getPlayer().requestLogout();
+            return false;
         }
-        packetsQueue.add(msg);
-
+        return true;
     }
 
     private static final DecimalFormat df = new DecimalFormat("#.##");
@@ -147,8 +139,6 @@ public class Session {
      * This method is called EACH GAME CYCLE.
      */
     public void handleQueuedPackets() {
-        setPacketCounter(0);
-
         for (int i = 0; i < GameServer.properties().packetProcessLimit; i++) {
             Packet packet = packetsQueue.poll();
             if (packet == null) {
@@ -213,7 +203,7 @@ public class Session {
      */
     public void write(final PacketBuilder builder) {
         final Channel channel = this.channel;
-        if (channel == null || !channel.isOpen())
+        if (channel == null || !channel.isOpen() || !channel.isActive())
             return;
         try {
             final Packet packet = builder.toPacket();
@@ -263,14 +253,6 @@ public class Session {
     @Nullable
     public Channel getChannel() {
         return channel;
-    }
-
-    public void setPacketCounter(int packetCounter) {
-        this.packetCounter = packetCounter;
-    }
-
-    public int getPacketCounter() {
-        return packetCounter;
     }
 
     @Override

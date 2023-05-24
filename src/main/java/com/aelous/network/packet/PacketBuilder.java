@@ -2,7 +2,7 @@ package com.aelous.network.packet;
 
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufAllocator;
+import io.netty.buffer.Unpooled;
 
 /**
  * The {@link Message} implementation that functions as a dynamic buffer wrapper
@@ -37,7 +37,7 @@ public final class PacketBuilder implements AutoCloseable {
     /**
      * The buffer used to write the packet information.
      */
-    private final ByteBuf buffer = ByteBufAllocator.DEFAULT.heapBuffer();
+    private final ByteBuf buffer = Unpooled.buffer();
 
     /**
      * The PacketBuilder constructor.

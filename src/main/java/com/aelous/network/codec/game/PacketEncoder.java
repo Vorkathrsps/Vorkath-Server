@@ -32,54 +32,43 @@ public final class PacketEncoder extends MessageToByteEncoder<Packet> {
 
     @Override
     protected void encode(ChannelHandlerContext ctx, Packet packet, ByteBuf out) {
+        final int opcode = packet.getOpcode();
         final int size = packet.getSize();
         if (size == -3) {
-            logger.error("{PacketEncoder} Opcode " + packet.getOpcode() + " is not whitelisted.");
+            logger.error("{PacketEncoder} Opcode " + opcode + " is not whitelisted.");
             return;
         }
 
         final PacketType type = packet.getType();
 
         // Used for finding incorrect client pkt sizes
-        if (type == PacketType.FIXED) {
-            int currSize = PACKET_SIZES[packet.getOpcode()];
-            if (size != currSize) {
-                logger.error("{PacketEncoder} Opcode " + packet.getOpcode() + " has defined size " + currSize + " but is actually " + size + ".");
-                return;
-            }
-        } else if (type == PacketType.VARIABLE) {
-            int currSize = PACKET_SIZES[packet.getOpcode()];
-            if (currSize != -1) {
-                logger.error("{PacketEncoder} Opcode " + packet.getOpcode() + "'s size needs to be -1, it's currently " + currSize + ".");
-                return;
-            }
-        } else if (type == PacketType.VARIABLE_SHORT) {
-            int currSize = PACKET_SIZES[packet.getOpcode()];
-            if (currSize != -2) {
-                logger.error("{PacketEncoder} Opcode " + packet.getOpcode() + "'s size needs to be -2, it's currently " + currSize + ".");
-                return;
-            }
+        final int currSize = PACKET_SIZES[opcode];
+        final int expectedSize = type == PacketType.VARIABLE ? -1
+            : type == PacketType.VARIABLE_SHORT ? -2
+            : size;
+        if (currSize != expectedSize) {
+            logger.error("{PacketEncoder} Opcode " + opcode + " has expects size " + expectedSize + " but is actually " + currSize + ".");
+            return;
         }
 
         switch (type) {
             case VARIABLE -> {
                 if (size > 255) {
-                    throw new IllegalArgumentException("Tried to send packet #" + packet.getOpcode() + " length " + size + " in variable-byte packet");
+                    throw new IllegalArgumentException("Tried to send packet #" + opcode + " length " + size + " in variable-byte packet");
                 }
             }
             case VARIABLE_SHORT -> {
                 if (size > 65535) {
-                    throw new IllegalArgumentException("Tried to send packet #" + packet.getOpcode() + " length " + size + " in variable-short packet");
+                    throw new IllegalArgumentException("Tried to send packet #" + opcode + " length " + size + " in variable-short packet");
                 }
             }
             default -> {
             }
         }
 
-        final int opcode = (packet.getOpcode() + rand.nextInt()) & 0xFF;
 
         // Write opcode
-        out.writeByte(opcode);
+        out.writeByte((opcode + rand.nextInt()) & 0xFF);
 
         // Write packet size
         switch (type) {
@@ -92,7 +81,7 @@ public final class PacketEncoder extends MessageToByteEncoder<Packet> {
         // Write packet
         out.writeBytes(packet.getBuffer());
 
-        //logger.info("Encoded packet with opcode " + opcode + " and size " + size);
+        //logger.debug("Encoded packet with opcode {} and size {} (type={})", opcode, size, type);
     }
 
 

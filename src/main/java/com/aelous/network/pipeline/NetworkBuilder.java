@@ -3,6 +3,7 @@ package com.aelous.network.pipeline;
 import com.aelous.utility.timers.TimerKey;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBufAllocator;
+import io.netty.buffer.UnpooledByteBufAllocator;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -76,8 +77,9 @@ public final class NetworkBuilder {
         bootstrap.childOption(ChannelOption.CONNECT_TIMEOUT_MILLIS, 30_000);
         bootstrap.childOption(ChannelOption.TCP_NODELAY, true);
         bootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
-        bootstrap.option(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
-        bootstrap.childOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
+        final ByteBufAllocator allocator = new UnpooledByteBufAllocator(false);
+        bootstrap.option(ChannelOption.ALLOCATOR, allocator);
+        bootstrap.childOption(ChannelOption.ALLOCATOR, allocator);
 
         //TODO: research what this does
         //bootstrap.handler(new LoggingHandler(LogLevel.DEBUG));

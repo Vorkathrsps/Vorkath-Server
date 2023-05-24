@@ -38,8 +38,8 @@ public class NPCUpdating {
      * @return The NPCUpdating instance.
      */
     public static void update(Player player) {
-        try (final PacketBuilder update = new PacketBuilder();
-             final PacketBuilder packet = new PacketBuilder(65, PacketType.VARIABLE_SHORT)) {
+        final PacketBuilder packet = new PacketBuilder(65, PacketType.VARIABLE_SHORT);
+        try (final PacketBuilder update = new PacketBuilder()) {
             packet.initializeAccess(AccessType.BIT);
             List<NPC> localNpcs = player.getLocalNpcs();
             Tile playerTile = player.tile();

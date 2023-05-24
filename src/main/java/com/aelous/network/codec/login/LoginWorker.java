@@ -103,7 +103,6 @@ public class LoginWorker implements Runnable {
     private void initForGame(LoginDetailsMessage message, Channel channel) {
         if (channel != null) {
             final ChannelPipeline pipeline = channel.pipeline();
-            pipeline.remove("login-handler");
             pipeline.replace("decoder", "decoder", new PacketDecoder(message.getDecryptor()));
             pipeline.replace("encoder", "encoder", new PacketEncoder(message.getEncryptor()));
         }

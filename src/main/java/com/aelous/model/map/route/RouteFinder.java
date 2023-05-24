@@ -242,9 +242,6 @@ public class RouteFinder {
     }
 
     public static boolean isRemoteObjectSkipPath(GameObject object) {
-        if (object.getId() == 29778 && object.getX() == 3231 && object.getY() == 5755) {
-            return true;
-        }
         return false;
     }
 

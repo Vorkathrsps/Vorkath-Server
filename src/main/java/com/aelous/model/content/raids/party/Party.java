@@ -71,7 +71,8 @@ public class Party {
     }
 
     public void addMember(Player player) {
-        members.add(player);
+        if (!members.contains(player))
+            members.add(player);
     }
 
     public int getHeight() {

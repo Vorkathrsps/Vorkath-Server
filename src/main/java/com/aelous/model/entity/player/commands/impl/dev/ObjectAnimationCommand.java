@@ -10,11 +10,12 @@ public class ObjectAnimationCommand implements Command {
     @Override
     public void execute(Player player, String command, String[] parts) {
         int animation = Integer.parseInt(parts[1]);
-        int objectId = Integer.parseInt(parts[1]);
+        int objectId = Integer.parseInt(parts[2]);
 
         GameObject gameObject = new GameObject(objectId, new Tile(player.getX(), player.getY(), player.getZ()));
         gameObject.spawn();
-        gameObject.animate(animation);
+
+        Chain.noCtx().runFn(1, () -> gameObject.animate(animation));
         Chain.noCtx().runFn(5, gameObject::remove);
 
     }

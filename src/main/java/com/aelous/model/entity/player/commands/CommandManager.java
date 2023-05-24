@@ -1,6 +1,7 @@
 package com.aelous.model.entity.player.commands;
 
 import com.aelous.cache.definitions.NpcDefinition;
+import com.aelous.cache.definitions.VarbitDefinition;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 import com.aelous.model.content.areas.theatre.ViturRoom;
@@ -19,6 +20,7 @@ import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.InputScript;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.entity.player.Varps;
 import com.aelous.model.entity.player.commands.impl.dev.*;
 import com.aelous.model.entity.player.commands.impl.member.*;
 import com.aelous.model.entity.player.commands.impl.owner.*;
@@ -676,6 +678,12 @@ public class CommandManager {
 
             p.message(Arrays.toString(prayerMap.entrySet().toArray(new Map.Entry[0])));
 
+        });
+        dev("varp", (p, c, s) -> {
+            p.getPacketSender().sendConfig(Integer.parseInt(s[1]), Integer.parseInt(s[2]));
+        });
+        dev("varbit", (p, c, s) -> {
+            p.varps().varbit(Integer.parseInt(s[1]), Integer.parseInt(s[2]));
         });
     }
 

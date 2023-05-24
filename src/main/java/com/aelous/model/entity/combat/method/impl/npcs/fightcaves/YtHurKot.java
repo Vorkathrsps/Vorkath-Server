@@ -18,7 +18,6 @@ public class YtHurKot extends NPC {
         this.jad = jad;
         respawns(false);
         getCombatInfo().aggressive = false;
-        getCombatInfo().combatFollowDistance = 7;
         walkRadius(5);
         putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, 12);
     }

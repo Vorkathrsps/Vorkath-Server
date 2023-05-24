@@ -842,7 +842,8 @@ public class CombatFactory {
             }
         }
 
-        if (other.isNpc() && other.getAsNpc().getCombatMethod() != null && other.getAsNpc().getCombatMethod().canMultiAttackInSingleZones()) {
+        if ((other.isNpc() && other.getAsNpc().getCombatMethod() != null && other.getAsNpc().getCombatMethod().canMultiAttackInSingleZones())
+        || (entity.isNpc() && entity.getAsNpc().getCombatMethod() != null && entity.getAsNpc().getCombatMethod().canMultiAttackInSingleZones())) {
             return true;
         }
 

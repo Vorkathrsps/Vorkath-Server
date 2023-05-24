@@ -282,7 +282,7 @@ public class GreatOlm extends CommonCombatMethod {
 
     @Override
     public boolean canMultiAttackInSingleZones() {
-        return super.canMultiAttackInSingleZones();
+        return true;
     }
 
     @Override

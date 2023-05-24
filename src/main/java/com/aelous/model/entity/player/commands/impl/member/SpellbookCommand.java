@@ -18,7 +18,7 @@ public class SpellbookCommand implements Command {
             return;
         }
 
-        if(WildernessArea.inWild(player)) {
+        if(WildernessArea.inWild(player) && !player.getPlayerRights().isDeveloper(player)) {
             player.message("You can't use this command here.");
             return;
         }

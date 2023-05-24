@@ -43,7 +43,6 @@ public class NPCCombatInfo {
 
     public int poison;
     public int poisonchance = 100;
-    public int combatFollowDistance = 7; //default is 7
     public boolean retreats = true;
 
     public boolean poisonous() {

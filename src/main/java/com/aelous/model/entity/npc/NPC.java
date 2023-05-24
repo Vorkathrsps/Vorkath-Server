@@ -67,6 +67,7 @@ import static org.apache.logging.log4j.util.Unbox.box;
 public class NPC extends Entity {
 
     private static final Logger logger = LogManager.getLogger(NPC.class);
+    public boolean ignoreOccupiedTiles;
 
     private boolean lockMovementCompletely;
 
@@ -175,6 +176,7 @@ public class NPC extends Entity {
         spawnArea = new Area(spawnTile, walkRadius);
         putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, id == GIANT_MOLE ? 64 : 12);
         getCombat().setAutoRetaliate(true);
+        ignoreOccupiedTiles = def.ignoreOccupiedTiles;
 
         for (int types : venom_immunes) {
             if (id == types) {
@@ -209,6 +211,8 @@ public class NPC extends Entity {
         }
         if (tile().equals(3109, 3517))
             walkTo = tile.transform(1, 0);
+        if (this.getMobName().toLowerCase().contains("rock crab"))
+            ignoreOccupiedTiles = true;
     }
 
     public NPC(int id, Tile tile, boolean spawn) {

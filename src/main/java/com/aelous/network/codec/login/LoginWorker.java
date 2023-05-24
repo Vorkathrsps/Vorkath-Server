@@ -12,14 +12,13 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
-import io.netty.handler.timeout.ReadTimeoutHandler;
+import io.netty.channel.ChannelPipeline;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /** Created by Bart on 8/1/2015. */
 public class LoginWorker implements Runnable {
@@ -103,12 +102,10 @@ public class LoginWorker implements Runnable {
 
     private void initForGame(LoginDetailsMessage message, Channel channel) {
         if (channel != null) {
-            channel.pipeline()
-                    .replace("encoder", "encoder", new PacketEncoder(message.getEncryptor()));
-            channel.pipeline()
-                    .replace("decoder", "decoder", new PacketDecoder(message.getDecryptor()));
-            channel.pipeline().remove("login-handler");
-            channel.pipeline().addFirst("timeout", new ReadTimeoutHandler(30, TimeUnit.SECONDS));
+            final ChannelPipeline pipeline = channel.pipeline();
+            pipeline.remove("login-handler");
+            pipeline.replace("decoder", "decoder", new PacketDecoder(message.getDecryptor()));
+            pipeline.replace("encoder", "encoder", new PacketEncoder(message.getEncryptor()));
         }
     }
 

@@ -80,7 +80,8 @@ public class Cerberus extends CommonCombatMethod {
         entity.animate(4490); // triple attack
         combatAttack = true;
         //mob.forceChat("MAGIC COMBO");
-        entity.runFn(0, this::magicAttack).then(1, () -> {
+        magicAttack();
+        entity.runFn(1, () -> {
             if (entity == null || target.dead()) {
                 return;
             }

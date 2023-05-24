@@ -36,6 +36,7 @@ public class CrazyArchaeologist extends CommonCombatMethod {
 
                 //..take a nap
                 entity.getTimers().register(TimerKey.COMBAT_ATTACK, 3);
+                return true;
             }
 
             //Attack the player
@@ -56,6 +57,7 @@ public class CrazyArchaeologist extends CommonCombatMethod {
 
                 //..take a nap
                 entity.getTimers().register(TimerKey.COMBAT_ATTACK, 3);
+                return true;
             }
             //Attack the player
             ranged_attack(npc, target);
@@ -132,7 +134,7 @@ public class CrazyArchaeologist extends CommonCombatMethod {
         target.getAsPlayer().getPacketSender().sendTileGraphic(157, explosive_book_three, 1, 24 * explosive_book_three_distance);
 
         //Create a delay before checking if the player is on the explosive tile
-        Chain.bound(null).name("explosive_book_one_task").runFn(explosive_book_one_distance, () -> {
+        Chain.bound(null).name("explosive_book_one_task").runFn(Math.max(1, explosive_book_one_distance), () -> {
             //For each player in the world we..
             //Check to see if the player's tile is the same as the first explosive book..
             if (target.tile().inSqRadius(explosive_book_one, 1))
@@ -160,7 +162,7 @@ public class CrazyArchaeologist extends CommonCombatMethod {
         int ricochet_explosive_book_two_delay = Math.max(1, (20 + ricochet_explosive_book_two_distance * 12) / 30);
 
         //Create a delay before sending the ricochet explosives
-        Chain.bound(null).name("explosive_book_two_task").runFn(explosive_book_two_distance, () -> {
+        Chain.bound(null).name("explosive_book_two_task").runFn(Math.max(1, explosive_book_two_distance), () -> {
 
             //Send the projectiles
             new Projectile(explosive_book_two, ricochet_explosive_book_one, 0, 1260, 50 * ricochet_explosive_book_one_distance, ricochet_explosive_book_one_delay, 0, 0, 0).sendProjectile();

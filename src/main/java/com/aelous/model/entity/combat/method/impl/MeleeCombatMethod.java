@@ -20,51 +20,55 @@ import static com.aelous.utility.ItemIdentifiers.SCYTHE_OF_VITUR;
  */
 public class MeleeCombatMethod extends CommonCombatMethod {
 
+    private void attackWithScythe(Player player, Entity target) {
+        entity.animate(entity.attackAnimation());
+
+        final Tile el = entity.getCentrePosition();
+        final Tile vl = target.getCentrePosition();
+
+        int gfx;
+
+        Direction dir = Direction.getDirection(el, vl);
+
+        switch (dir) {
+            case SOUTH, SOUTH_EAST -> {
+                dir = Direction.SOUTH;
+                gfx = 478;
+            }
+            case NORTH, NORTH_WEST -> {
+                gfx = 506;
+                dir = Direction.NORTH;
+            }
+            case EAST, NORTH_EAST -> {
+                gfx = 1172;
+                dir = Direction.EAST;
+            }
+            default -> {
+                gfx = 1231;
+                dir = Direction.WEST;
+            }
+        }
+
+        Tile gfxTile = entity.getCentrePosition().transform(dir.x, dir.y);
+
+        World.getWorld().tileGraphic(gfx, gfxTile, 96, 20);
+
+        //entity.graphic(478, 100, 0);
+        if(target.getAsNpc().getSize() > 2 || target.getAsNpc().isCombatDummy()) {
+            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
+            target.hit(entity, (int) (CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE) * 0.50D), 0, CombatType.MELEE).checkAccuracy().submit();
+            target.hit(entity, (int) (CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE) * 0.25D), 0, CombatType.MELEE).checkAccuracy().submit();
+        } else {
+            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
+        }
+    }
+
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         if (target.isNpc() && entity.isPlayer()) {
             Player player = (Player) entity;
             if (player.getEquipment().hasAt(EquipSlot.WEAPON, SCYTHE_OF_VITUR)) {
-                entity.animate(entity.attackAnimation());
-
-                final Tile el = entity.getCentrePosition();
-                final Tile vl = target.getCentrePosition();
-
-                int gfx;
-
-                Direction dir = Direction.getDirection(el, vl);
-
-                switch (dir) {
-                    case SOUTH, SOUTH_EAST -> {
-                        dir = Direction.SOUTH;
-                        gfx = 478;
-                    }
-                    case NORTH, NORTH_WEST -> {
-                        gfx = 506;
-                        dir = Direction.NORTH;
-                    }
-                    case EAST, NORTH_EAST -> {
-                        gfx = 1172;
-                        dir = Direction.EAST;
-                    }
-                    default -> {
-                        gfx = 1231;
-                        dir = Direction.WEST;
-                    }
-                }
-
-                Tile gfxTile = entity.getCentrePosition().transform(dir.x, dir.y);
-
-                World.getWorld().tileGraphic(gfx, gfxTile, 96, 20);
-
-                //entity.graphic(478, 100, 0);
-                if(target.getAsNpc().getSize() > 2 || target.getAsNpc().isCombatDummy()) {
-                    target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
-                    target.hit(entity, (int) (CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE) * 0.50D), 0, CombatType.MELEE).checkAccuracy().submit();
-                    target.hit(entity, (int) (CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE) * 0.25D), 0, CombatType.MELEE).checkAccuracy().submit();
-                } else {
-                    target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
-                }
+                attackWithScythe(player, target);
                 return true;
             }
         }

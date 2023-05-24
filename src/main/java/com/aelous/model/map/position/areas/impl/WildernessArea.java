@@ -80,6 +80,8 @@ public class WildernessArea extends Controller {
         if (region == 13623) {
             return 0;
         }
+        if (region == 7604)
+            return 21;
 
         if (x >= 2944 && x <= 3391 && y >= 3520 && y <= 4351) {
             return ((y - 3520) >> 3) + 1;

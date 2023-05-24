@@ -4,7 +4,6 @@ import com.aelous.network.packet.Packet;
 import com.aelous.network.packet.PacketType;
 import com.aelous.network.security.IsaacRandom;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import org.apache.logging.log4j.LogManager;
@@ -14,8 +13,10 @@ import org.apache.logging.log4j.Logger;
  * Encodes packets before they're sent to the channel.
  * @author Swiffy
  */
-public class PacketEncoder extends MessageToByteEncoder<Packet> {
+public final class PacketEncoder extends MessageToByteEncoder<Packet> {
+
     private static final Logger logger = LogManager.getLogger(PacketEncoder.class);
+
     /**
      * The encoder used for encryption of the packet.
      */
@@ -30,15 +31,14 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
     }
 
     @Override
-    protected void encode(ChannelHandlerContext ctx, Packet packet, ByteBuf out) throws Exception {
-        final int opcode = (packet.getOpcode() + rand.nextInt()) & 0xFF;
-        PacketType type = packet.getType();
+    protected void encode(ChannelHandlerContext ctx, Packet packet, ByteBuf out) {
         final int size = packet.getSize();
-
         if (size == -3) {
             logger.error("{PacketEncoder} Opcode " + packet.getOpcode() + " is not whitelisted.");
             return;
         }
+
+        final PacketType type = packet.getType();
 
         // Used for finding incorrect client pkt sizes
         if (type == PacketType.FIXED) {
@@ -61,49 +61,38 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
             }
         }
 
-        int finalSize = size + 1;
-
         switch (type) {
             case VARIABLE -> {
                 if (size > 255) {
                     throw new IllegalArgumentException("Tried to send packet #" + packet.getOpcode() + " length " + size + " in variable-byte packet");
                 }
-                finalSize++;
             }
             case VARIABLE_SHORT -> {
                 if (size > 65535) {
                     throw new IllegalArgumentException("Tried to send packet #" + packet.getOpcode() + " length " + size + " in variable-short packet");
                 }
-                finalSize += 2;
             }
             default -> {
             }
         }
 
-        // Create a new buffer
-        ByteBuf buffer = ctx.alloc().buffer(finalSize);
+        final int opcode = (packet.getOpcode() + rand.nextInt()) & 0xFF;
 
-        try {
-            // Write opcode
-            buffer.writeByte(opcode);
+        // Write opcode
+        out.writeByte(opcode);
 
-            // Write packet size
-            switch (type) {
-                case VARIABLE -> buffer.writeByte((byte) size);
-                case VARIABLE_SHORT -> buffer.writeShort((short) size);
-                default -> {
-                }
+        // Write packet size
+        switch (type) {
+            case VARIABLE -> out.writeByte(size);
+            case VARIABLE_SHORT -> out.writeShort(size);
+            default -> {
             }
-
-            // Write packet
-            buffer.writeBytes(packet.getBuffer());
-
-            // Write the packet to the out buffer
-            out.writeBytes(buffer);
-            //logger.info("Encoded packet with opcode " + opcode + " and size " + size);
-        } finally {
-            buffer.release();
         }
+
+        // Write packet
+        out.writeBytes(packet.getBuffer());
+
+        //logger.info("Encoded packet with opcode " + opcode + " and size " + size);
     }
 
 

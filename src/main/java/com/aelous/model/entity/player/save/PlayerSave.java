@@ -72,7 +72,7 @@ public class PlayerSave {
         .setPrettyPrinting()
         .registerTypeAdapterFactory(
             new MapTypeAdapterFactoryNulls(
-                new ConstructorConstructor(instanceCreators), false)
+                new ConstructorConstructor(instanceCreators, false, new ArrayList<>()), false)
         )
         .disableHtmlEscaping()
         .create();

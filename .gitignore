@@ -39,3 +39,4 @@ src/main/resources/log4j2-dev.xml
 functions/
 functions/*.jar
 dependency-reduced-pom.xml
+1 serv.bat

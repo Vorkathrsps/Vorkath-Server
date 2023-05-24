@@ -1,5 +1,6 @@
 package com.aelous.model.entity.player.commands;
 
+import com.aelous.cache.definitions.ItemDefinition;
 import com.aelous.cache.definitions.NpcDefinition;
 import com.aelous.cache.definitions.VarbitDefinition;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
@@ -21,6 +22,7 @@ import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.masks.FaceDirection;
 import com.aelous.model.entity.masks.ForceMovement;
 import com.aelous.model.entity.npc.NPC;
+import com.aelous.model.entity.npc.droptables.ScalarLootTable;
 import com.aelous.model.entity.player.InputScript;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Varps;
@@ -52,6 +54,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.TriConsumer;
 
+import java.security.SecureRandom;
 import java.util.*;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.GREAT_OLM_7554;
@@ -700,6 +703,22 @@ public class CommandManager {
             p.setCurrentTabIndex(3);
             p.getInterfaceManager().open(88000);
             p.getnewteleInterface().drawInterface(88005);
+        });
+        dev("sim", (p, c, s) -> {
+            var t = ScalarLootTable.registered.get(Integer.parseInt(s[1]));
+            var kills = Integer.parseInt(s[2]);
+            List<Item> simulate = t.simulate(new SecureRandom(), kills);
+            simulate.sort((o1, o2) -> {
+                int oo1 = kills / Math.max(1, o1.getAmount());
+                int oo2 = kills / Math.max(1, o2.getAmount());
+                return Integer.compare(oo1, oo2);
+            });
+
+            for (Item item : simulate) {
+                int indiv = kills / Math.max(1, item.getAmount());
+                System.out.println(item.getAmount() + " x " + World.getWorld().definitions().get(ItemDefinition.class,
+                        new Item(item.getId()).unnote(World.getWorld().definitions()).getId()).name + " (1/" + indiv + ")");
+            }
         });
         dev("test12", (p, c, s) -> {
             for (NPC n : p.getLocalNpcs()) {

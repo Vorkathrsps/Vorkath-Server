@@ -26,6 +26,7 @@ public class Stalagmite extends PacketInteraction {
                         Chain.bound(null).runFn(1, () -> {
                             stal.ifPresent(GameObject::remove);
                             nex.stalagmiteDestroyed = true;
+                            player.resetFreeze();
                         });
                     }
                 }

@@ -28,12 +28,10 @@ import com.aelous.model.entity.npc.droptables.ScalarLootTable;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.PlayerPerformanceTracker;
 import com.aelous.model.items.Item;
-import com.aelous.model.items.ItemWeight;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.model.items.container.shop.Shop;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.items.ground.GroundItemHandler;
-import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.object.OwnedObject;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.region.Flags;
@@ -287,7 +285,6 @@ public class World {
                     Player player = players.get(index);
                     player.getSession().handleQueuedPackets();
                     player.syncContainers();
-                    player.getSession().flush();
                 }
             });
         } catch (Exception e) {

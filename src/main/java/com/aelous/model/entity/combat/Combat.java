@@ -44,6 +44,7 @@ import java.util.Map.Entry;
 import static com.aelous.model.content.daily_tasks.DailyTaskUtility.DAILY_TASK_MANAGER_INTERFACE;
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.aelous.model.entity.Entity.accumulateRuntimeTo;
+import static com.aelous.model.entity.attributes.AttributeKey.MAX_DISTANCE_FROM_SPAWN;
 
 /**
  * My entity-based combat system. The main class of the system.
@@ -709,22 +710,25 @@ public class Combat {
 
         if (method instanceof CommonCombatMethod ccm) {
             ccm.set(mob, target);
-            if (mob.isNpc()) {
-                accumulateRuntimeTo(() -> {
-                    if (target == null && ccm.isAggressive()) {
-                        mob.npc().findAgroTarget();
-                        if (target != null) {
-                            mob.faceEntity(target);
-                        }
+
+            accumulateRuntimeTo(() -> {
+                if (target == null && ccm.isAggressive()) {
+                    mob.npc().findAgroTarget();
+                    if (target != null) {
+                        mob.faceEntity(target);
                     }
-                }, d -> NpcPerformance.H += d.toNanos());
-            }
+                }
+            }, d -> NpcPerformance.H += d.toNanos());
+
         }
 
         // npcs can have overridable logic
-        if (target != null && mob.isNpc()) {
+        if (target != null) {
+            if (!target.tile().inArea(mob.npc().spawnTile().area(mob.getAttribOr(MAX_DISTANCE_FROM_SPAWN, 12)))) {
+                DumbRoute.route(mob, mob.npc().spawnTile().getX(), mob.npc().spawnTile().getY());
+            }
             // delegate into a method you can override for npcs for special cases
-            if (method instanceof CommonCombatMethod commonCombatMethod) {
+            else if (method instanceof CommonCombatMethod commonCombatMethod) {
                 commonCombatMethod.set(mob, target);
                 commonCombatMethod.doFollowLogic();
             } else {

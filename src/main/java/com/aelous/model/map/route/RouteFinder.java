@@ -412,7 +412,7 @@ public class RouteFinder {
             if (!entity.getMovement().canMove(!entity.isNpc() && entity.getAsPlayer().getMovementQueue().movementPacketThisCycle()))
                 return false;
             if (entity.isNpc()
-                && !entity.getAsNpc().def().ignoreOccupiedTiles
+                && !entity.getAsNpc().ignoreOccupiedTiles
                 && Tile.isOccupied(entity, stepX, stepY)) {
                 entity.getMovement()
                     .reset(); // let's reset the movement so the occupied check isn't spammed

@@ -6,25 +6,25 @@
       ],
       "aggressive": true,
       "boss": true,
-      "maxhit": 45,
+      "maxhit": 44,
       "attackspeed": 4,
       "slayerlvl": 1,
       "slayerxp": 312,
-      "respawntime": 50,
+      "respawntime": 33,
       "stats": {
         "attack": 430,
         "strength": 430,
-        "defence": 100,
+        "defence": 395,
         "hitpoints": 255,
         "magic": 300
       },
       "bonuses": {
         "attack": 0,
         "strength": 0,
-        "stabdefence": 150,
-        "slashdefence": 150,
+        "stabdefence": 201,
+        "slashdefence": 200,
         "crushdefence": -10,
-        "rangeddefence": 150,
+        "rangeddefence": 270,
         "magicdefence": 250
       },
       "animations": {

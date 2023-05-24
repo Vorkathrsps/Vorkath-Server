@@ -24,27 +24,6 @@ public class Venenatis extends CommonCombatMethod {
             hurlWeb((NPC) entity, target);
         }
 
-        // Determine if we're going to melee or mage
-        if(CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
-            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
-            entity.animate(entity.attackAnimation());
-            //mob.forceChat("MELEE");
-        } else {
-            // Grab all players in a radius and do our magic projectile on them.
-            World.getWorld().getPlayers().forEachInArea(entity.bounds(6), enemy -> {
-                //If the target is currently in multi we..
-                if (MultiwayCombat.includes(enemy.tile())) {
-                    magicAttack(entity, enemy);
-                    //mob.forceChat("MULTI PLAYER");
-                } else if (enemy == target) {
-                    //mob.forceChat("SINGLE PLAYER");
-                    magicAttack(entity, enemy);
-                }
-            });
-            // Do an animation..
-            entity.animate(5322);
-        }
-
         if (World.getWorld().rollDie(20, 1)) {
             drainPrayer(entity, target);
         }

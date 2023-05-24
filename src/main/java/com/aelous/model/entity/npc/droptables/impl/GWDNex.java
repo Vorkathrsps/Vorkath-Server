@@ -20,7 +20,6 @@ import static com.aelous.model.content.collection_logs.LogType.BOSSES;
  * @Since January 12, 2022
  */
 public class GWDNex implements Droptable {//TODO redunant class remove this class
-
     private void drop(Entity entity) {
         entity.getCombat().getDamageMap().forEach((key, hits) -> {
             Player player = (Player) key;

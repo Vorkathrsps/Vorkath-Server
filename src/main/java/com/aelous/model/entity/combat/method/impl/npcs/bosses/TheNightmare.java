@@ -58,7 +58,7 @@ public class TheNightmare extends CommonCombatMethod {
     int spawnedHuskCount, flowerPowerCount, attackTicks = 0;
     AtomicInteger cursedCount = new AtomicInteger();
     AtomicBoolean cursed = new AtomicBoolean(false);
-    static List<GameObject> objectsList = new ArrayList<>();
+    public static List<GameObject> objectsList = new ArrayList<>();
     Area safe = new Area(3863, 9951, 3872, 9961, 3);
     Area unsafe1 = new Area(3872, 9951, 3881, 9961, 3);
     Area unsafe2 = new Area(3863, 9941, 3872, 9951, 3);
@@ -269,9 +269,6 @@ public class TheNightmare extends CommonCombatMethod {
         husk1.respawns(false);
         husk2.respawns(false);
 
-        husk1.getAsNpc().getCombatMethod().canMultiAttackInSingleZones();
-        husk2.getAsNpc().getCombatMethod().canMultiAttackInSingleZones();
-
         Task.runOnceTask(4, husk -> {
             World.getWorld().registerNpc(husk1);
             World.getWorld().registerNpc(husk2);
@@ -348,7 +345,7 @@ public class TheNightmare extends CommonCombatMethod {
 
     @Override
     public boolean canMultiAttackInSingleZones() {
-        return super.canMultiAttackInSingleZones();
+        return true;
     }
 
 }

@@ -5,11 +5,10 @@ import com.aelous.model.World;
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.combat.CombatFactory;
-import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.EntityCombatBuilder;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
+import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.NexCombat;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
@@ -17,32 +16,78 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.route.routes.ProjectileRoute;
+import com.aelous.model.phase.Phase;
+import com.aelous.model.phase.PhaseStage;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 import com.aelous.utility.timers.TimerKey;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.VERZIK_VITUR_8374;
-
 public class Vetion extends CommonCombatMethod {
     boolean hasAttacked = false;
     Set<Tile> usedTiles = new HashSet<>();
+    public static List<Player> playersInArea = new ArrayList<>();
+    @Getter @Setter
+    public Phase phase = new Phase(PhaseStage.ONE);
+    public static final Area vetionArea = new Area(1879, 11553, 1895, 11559, 1); //block this when tb'd
     Set<Tile> tiles = new HashSet<>(12);
     private final List<String> VETION_QUOTES = Arrays.asList("Dodge this!",
         "Sit still you rat!",
         "Die, rodent!", "I will end you!",
         "You can't escape!",
         "Filthy whelps!", "Time to die, mortal!", "You call that a weapon?!", "Now i've got you!");
+
+    @Override
+    public void init(NPC npc) {
+        if (phase.getStage() == PhaseStage.ONE && entity.npc().id() == 6611 && entity.npc().hp() == entity.npc().maxHp()) {
+            Chain.noCtx().runFn(1, () -> {
+                entity.npc().canAttack(false);
+                entity.lockNoDamage();
+                entity.animate(9977);
+            }).then(2, () -> {
+                entity.unlock();
+                phase.setStage(PhaseStage.TWO);
+                entity.npc().canAttack(true);
+                entity.getCombat().setTarget(target);
+            });
+        }
+    }
+
     @Override
     public void preDefend(Hit hit) {
-        if (VetionMinion.houndCount.size() == 0) {
-            entity.message("My hounds! I'll make you pay for that!");
+        //if (target != null && target.isPlayer() && !target.tile().inArea(vetionArea)) {
+       //     playersInArea.remove(target.getAsPlayer());
+      //      System.out.println("removed: " + playersInArea.size());
+      //  }
+        Player player = (Player) target;
+        NPC vetion = (NPC) entity;
+        if (player != null) {
+            if (player.isPlayer() && player.tile().inArea(vetionArea)) {
+                if (!playersInArea.contains(player)) {
+                    playersInArea.add(player);
+
+                    System.out.println("added");
+                    return;
+                } else {
+                    playersInArea.remove(player);
+                    System.out.println("removed");
+                }
+            }
+            if (vetion.isNpc() && playersInArea.size() == 0) {
+                vetion.heal(vetion.maxHp());
+            }
+            if (VetionMinion.houndCount.size() == 0) {
+                vetion.message("My hounds! I'll make you pay for that!");
+            }
+            if (!hasAttacked) {
+                vetion.getCombat().setTarget(player);
+            }
         }
-        if (target != null && !hasAttacked) {
-            entity.getCombat().setTarget(target);
-        }
+
+        System.out.println("inside: " + playersInArea.size());
     }
 
     @Override
@@ -87,9 +132,6 @@ public class Vetion extends CommonCombatMethod {
     public int getAttackDistance(Entity entity) {
         return 1;
     }
-
-    public static final Area vetionArea = new Area(1879, 11559, 1895, 11533, 0); //block this when tb'd
-
     private void doMagicSwordRaise() {
         NPC vetion = (NPC) entity;
         var transformedTile = target.tile().transform(3, 3, 0);
@@ -247,35 +289,33 @@ public class Vetion extends CommonCombatMethod {
 
     public boolean transform(Entity entity) {
         NPC purpleVetion = (NPC) entity;
-        if (purpleVetion.hp() == 0 || purpleVetion.dead() && !purpleVetion.<Boolean>getAttribOr(AttributeKey.VETION_REBORN_ACTIVE, false)) {
-            Chain.noCtx().runFn(1, () -> {
-                purpleVetion.lockNoDamage();
-                purpleVetion.canAttack(false);
-                purpleVetion.message("Now.. DO IT AGAIN!!!");
-                purpleVetion.transmog(6612);
-                purpleVetion.animate(9979);
-                purpleVetion.npc().def(World.getWorld().definitions().get(NpcDefinition.class, 6612));
-                purpleVetion.heal(purpleVetion.maxHp());
-                purpleVetion.getTimers().register(TimerKey.VETION_REBORN_TIMER, 500);
-                purpleVetion.putAttrib(AttributeKey.VETION_REBORN_ACTIVE, true);
-            }).then(1, () -> {
-                purpleVetion.unlock();
-                purpleVetion.canAttack(true);
+        if (purpleVetion.npc().id() == 6611) {
+            if (purpleVetion.hp() == 0 || purpleVetion.dead() && !purpleVetion.<Boolean>getAttribOr(AttributeKey.VETION_REBORN_ACTIVE, false)) {
+                Chain.noCtx().runFn(2, () -> {
+                    purpleVetion.lockNoDamage();
+                    purpleVetion.canAttack(false);
+                    purpleVetion.message("Now.. DO IT AGAIN!!!");
+                    purpleVetion.transmog(6612);
+                    purpleVetion.animate(9979);
+                    purpleVetion.npc().def(World.getWorld().definitions().get(NpcDefinition.class, 6612));
+                    purpleVetion.heal(purpleVetion.maxHp());
+                    purpleVetion.getTimers().register(TimerKey.VETION_REBORN_TIMER, 500);
+                    purpleVetion.putAttrib(AttributeKey.VETION_REBORN_ACTIVE, true);
+                }).then(1, () -> {
+                    purpleVetion.unlock();
+                    purpleVetion.canAttack(true);
+                });
+                return true;
+            }
+        } else if (purpleVetion.npc().id() == 6612) {
+            purpleVetion.animate(9980);
+            purpleVetion.getTimers().cancel(TimerKey.VETION_REBORN_TIMER);
+            purpleVetion.clearAttrib(AttributeKey.VETION_REBORN_ACTIVE);
+            Chain.noCtx().runFn(5, () -> {
+                purpleVetion.animate(-1);
+                purpleVetion.remove();
             });
-        } else if (purpleVetion.npc().id() == 6612 && purpleVetion.hasAttrib(AttributeKey.VETION_REBORN_ACTIVE)) {
-            Chain.noCtx().runFn(1, () -> {
-                purpleVetion.stopActions(true);
-                purpleVetion.canAttack(false);
-                purpleVetion.lock();
-            }).then(1, () -> {
-                purpleVetion.animate(9980);
-                purpleVetion.die();
-                purpleVetion.npc().remove();
-            }).then(1, () -> {
-                purpleVetion.unlock();
-                purpleVetion.canAttack(true);
-                purpleVetion.putAttrib(AttributeKey.VETION_REBORN_ACTIVE, false);
-            });
+            return true;
         }
         return false;
     }
@@ -290,7 +330,7 @@ public class Vetion extends CommonCombatMethod {
 
     @Override
     public boolean canMultiAttackInSingleZones() {
-        return super.canMultiAttackInSingleZones();
+        return true;
     }
 
     @Override

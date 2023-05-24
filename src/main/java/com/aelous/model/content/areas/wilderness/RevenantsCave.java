@@ -27,7 +27,6 @@ import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.*;
  * @date maart 17, 2020 16:19
  */
 public class RevenantsCave extends PacketInteraction {
-
     @Override
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         if (option == 1) {

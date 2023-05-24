@@ -1,6 +1,7 @@
 package com.aelous.model.entity.player.commands;
 
 import com.aelous.cache.definitions.NpcDefinition;
+import com.aelous.cache.definitions.VarbitDefinition;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 import com.aelous.model.content.areas.theatre.ViturRoom;
@@ -10,6 +11,7 @@ import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
+import com.aelous.model.entity.combat.method.impl.npcs.bosses.TheNightmare;
 import com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
@@ -18,6 +20,7 @@ import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.InputScript;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.entity.player.Varps;
 import com.aelous.model.entity.player.commands.impl.dev.*;
 import com.aelous.model.entity.player.commands.impl.member.*;
 import com.aelous.model.entity.player.commands.impl.owner.*;
@@ -51,6 +54,8 @@ import java.util.*;
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.GREAT_OLM_7554;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
 import static com.aelous.model.entity.attributes.AttributeKey.*;
+import static com.aelous.model.entity.combat.method.impl.npcs.bosses.TheNightmare.objectsList;
+import static com.aelous.model.entity.combat.method.impl.npcs.bosses.TheNightmare.spawnGameObjects;
 import static com.aelous.model.entity.masks.Direction.*;
 import static com.aelous.utility.Debugs.CLIP;
 
@@ -303,6 +308,7 @@ public class CommandManager {
         commands.put("config", new ConfigCommand());
         commands.put("configall", new ConfigAllCommand());
         commands.put("gfx", new GFXCommand());
+        commands.put("oa", new ObjectAnimationCommand());
         commands.put("anim", new AnimationCommand());
         commands.put("int", new InterfaceCommand());
         commands.put("walkint", new WalkableInterfaceCommand());
@@ -547,6 +553,8 @@ public class CommandManager {
         });
         dev("calv", (p, c, s) -> {
             p.teleport(1888, 11547, 1);
+            if (!Vetion.playersInArea.contains(p))
+            Vetion.playersInArea.add(p);
         });
         dev("vet2", (p, c, s) -> {
             p.teleport(3303, 10199, 1);
@@ -584,7 +592,7 @@ public class CommandManager {
 
             var dir = Direction.resolveForLargeNpc(p.tile(), n);
             n.forceChat("assessed as " + dir);
-           // Vetion.spawnShieldInDir(ent, n.tile(), dir);
+            // Vetion.spawnShieldInDir(ent, n.tile(), dir);
         });
 
         dev("vet3", (p, c, s) -> {
@@ -634,34 +642,13 @@ public class CommandManager {
         });
         dev("c", (p, c, s) -> {
 
-            var area = new Area(3865, 9958, 3879, 9944, 3);
+            spawnGameObjects(new Tile(p.getX(), p.getY(), p.getZ()), 10, 11, 37745, 37741);
 
-            List<Tile> tileList = new ArrayList<>();
-
-            for (int i = 0; i < 2; i++) {
-                Tile randomTile = area.randomTile();
-                tileList.add(randomTile);
-            }
-
-            List<GameObject> objectList = new ArrayList<>();
-
-            for (var sporeTile : tileList) {
-                GameObject gameObject = new GameObject(37739, sporeTile);
-                gameObject.spawn();
-                objectList.add(gameObject);
-
-                Chain.noCtx().repeatingTask(1, count -> {
-                    if (p.tile().nextTo(sporeTile) || p.tile().equals(sporeTile)) {
-                        p.getPacketSender().sendObjectAnimation(gameObject, 8632);
-                        p.hit(p, 50);
-                        gameObject.remove();
-                        objectList.remove(gameObject);
-                    }
-                    if (objectList.isEmpty()) {
-                        count.stop();
-                    }
-                });
-            }
+            Chain.bound(null).runFn(6, () -> {
+                for (var o : objectsList) {
+                    o.remove();
+                }
+            });
 
         });
         dev("curseoff", (p, c, s) -> {
@@ -691,6 +678,12 @@ public class CommandManager {
 
             p.message(Arrays.toString(prayerMap.entrySet().toArray(new Map.Entry[0])));
 
+        });
+        dev("varp", (p, c, s) -> {
+            p.getPacketSender().sendConfig(Integer.parseInt(s[1]), Integer.parseInt(s[2]));
+        });
+        dev("varbit", (p, c, s) -> {
+            p.varps().varbit(Integer.parseInt(s[1]), Integer.parseInt(s[2]));
         });
     }
 

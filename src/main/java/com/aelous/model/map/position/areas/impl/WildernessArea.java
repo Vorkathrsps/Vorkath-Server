@@ -80,6 +80,8 @@ public class WildernessArea extends Controller {
         if (region == 13623) {
             return 0;
         }
+        if (region == 7604)
+            return 21;
 
         if (x >= 2944 && x <= 3391 && y >= 3520 && y <= 4351) {
             return ((y - 3520) >> 3) + 1;
@@ -95,6 +97,9 @@ public class WildernessArea extends Controller {
         int region = tile.region();
         // Revenant caves:
         if (region == 12701 || region == 12702 || region == 12703 || region == 12957 || region == 12958 || region == 12959)
+            return true;
+
+        if (region == 7604)
             return true;
 
         return region == 12192 || region == 12193 || region == 12961 || region == 11937 || region == 12443 || region == 12190;

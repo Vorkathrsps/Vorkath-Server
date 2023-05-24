@@ -25,7 +25,6 @@ public class EntityCombatBuilder {
     public EntityCombatBuilder addAttackConsumer(CombatPhase phase, Consumer<Entity> attackConsumer) {
         Objects.requireNonNull(phase, "phase cannot be null");
         Objects.requireNonNull(attackConsumer, "attackConsumer cannot be null");
-
         attackConsumers.computeIfAbsent(phase, k -> new ArrayList<>()).add(attackConsumer);
         return this;
     }

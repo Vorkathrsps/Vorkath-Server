@@ -4,6 +4,7 @@ import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.Direction;
@@ -12,6 +13,7 @@ import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.aelous.model.entity.combat.method.impl.npcs.hydra.HydraChamber.*;
 
@@ -26,13 +28,13 @@ public enum HydraAttacks {
         @Override
         public void executeAttack(AlchemicalHydra hydra, Entity target) {
             hydra.animate(hydra.getAttackAnim());
-            fireProjectileToEntity(hydra, target, 1663, 50);
-            var tileDist = hydra.tile().transform(3, 3, 0).distance(target.tile());
-            var delay = Math.max(1, (20 + (tileDist * 12)) / 30);
-
-            Chain.bound(null).runFn(delay, () -> {
-                target.hit(hydra, CombatFactory.calcDamageFromType(hydra, target, CombatType.MAGIC), CombatType.RANGED).checkAccuracy().submit();
-            });
+           // fireProjectileToEntity(hydra, target, 1663, 50);
+            int tileDist = hydra.tile().transform(3, 3, 0).distance(target.tile());
+            int duration = (50 + 11 + (5 * tileDist));
+            Projectile p = new Projectile(hydra, target, 1663, 50, duration, 43, 31, 0, target.getSize(), 5);
+            final int delay = hydra.executeProjectile(p);
+            Hit hit = Hit.builder(hydra, target, CombatFactory.calcDamageFromType(hydra, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
+            hit.submit();
         }
     },
 
@@ -43,15 +45,12 @@ public enum HydraAttacks {
         @Override
         public void executeAttack(AlchemicalHydra hydra, Entity target) {
             hydra.animate(hydra.getAttackAnim());
-            fireProjectileToEntity(hydra, target, 1662, 50);
-            fireProjectileToEntity(hydra, target, 1662, 60);
-
-            var tileDist = hydra.tile().transform(3, 3, 0).distance(target.tile());
-            var delay = Math.max(1, (20 + (tileDist * 12)) / 30);
-
-            Chain.bound(null).runFn(delay, () -> {
-                target.hit(hydra, hydra.isEnraged() ? 26 : CombatFactory.calcDamageFromType(hydra, target, CombatType.RANGED), CombatType.MAGIC).checkAccuracy().submit();
-            });
+            int tileDist = hydra.tile().transform(3, 3).getManhattanDistance(target.tile());
+            int duration = (50 + 11 + (5 * tileDist));
+            Projectile p = new Projectile(hydra, target, 1662, 50, duration, 43, 0, 0, 1, 5);
+            final int delay = hydra.executeProjectile(p);
+            Hit hit = Hit.builder(hydra, target, CombatFactory.calcDamageFromType(hydra, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+            hit.submit();
         }
     },
 
@@ -66,26 +65,23 @@ public enum HydraAttacks {
             hydra.animate(8234);
 
             for (Tile pool : pools) {
-                fireProjectileToLocation(hydra, pool, 1644, 50, 90, 0, 5, 55, 0);
+                var tileDist = hydra.tile().distance(pool);
+                int duration = (50 + -5 + (10 * tileDist));
+                Projectile p = new Projectile(hydra, pool, 1644, 50, duration, 105, 0, 0, target.getSize(), 10);
+                p.send(hydra, pool);
+                World.getWorld().tileGraphic(1645, pool, 0, p.getSpeed());
+                var graphicId = getPoolGraphic(hydra, pool);
+                World.getWorld().tileGraphic(graphicId, pool, 0, p.getSpeed());
             }
 
-            Chain.bound(null).runFn(3, () -> {
+            Chain.noCtx().repeatingTask(1, acidTask -> {
                 for (Tile pool : pools) {
-                    World.getWorld().tileGraphic(1645, pool, 0, 0);
-                }
-            }).then(1, () -> {
-                for (Tile pool : pools) {
-                    var graphicId = getPoolGraphic(hydra, pool);
-                    World.getWorld().tileGraphic(graphicId, pool, 0, 0);
-                }
-            }).repeatingTask(1, t -> {
-                for (Tile pool : pools) {
-                    if (pool == target.tile()) {
+                    if (target.tile().equals(pool)) {
                         target.hit(hydra, Utils.random(12), SplatType.POISON_HITSPLAT);
                     }
                 }
-                if (t.getRunDuration() == 10) {
-                    t.stop();
+                if (acidTask.getRunDuration() == 10) {
+                    acidTask.stop();
                 }
             });
         }
@@ -103,26 +99,35 @@ public enum HydraAttacks {
             Tile centralLightningSpot = new Tile(39, 14, 0);
             Tile central = base.transform(centralLightningSpot.x, centralLightningSpot.y);
             ArrayList<Tile> spots = new ArrayList<>(lightningSpots);
-            fireProjectileToLocation(hydra, central, 1664, 50, 80, 0, 0, 0, 0);
-            int[] ticker = new int[1];
-            Chain.bound(null).runFn(2, () -> {
-                World.getWorld().tileGraphic(1664, central, 0, 0);
-            }).then(1, () -> {
-                for (Tile spot : spots) {
-                    fireProjectileToLocation(central, base.transform(spot.x, spot.y), 1665, 0, 40, 0, 5, 55, 0);
-                }
-            }).repeatingTask(1, t -> { //
-                if (ticker[0] == 10) {
+
+            var tileDist = hydra.tile().distance(central);
+            int duration = (50 + -5 + (10 * tileDist));
+            Projectile p = new Projectile(hydra, central, 1664, 50, duration, 0, 0, 0, target.getSize(), 10);
+            p.send(hydra, central);
+            World.getWorld().tileGraphic(1664, central, 0, p.getSpeed());
+
+            AtomicInteger ticker = new AtomicInteger(0);
+
+            Projectile p2 = null;
+            for (var spot : spots) {
+                p2 = new Projectile(hydra, base.transform(spot.x, spot.y), 1665, 50, duration, 55, 0, 0, target.getSize(), 5);
+                p2.send(hydra, base.transform(spot.x, spot.y));
+            }
+
+            Projectile finalP = p2;
+            Chain.noCtx().repeatingTask(1, t -> {
+                if (ticker.get() == 10) {
                     t.stop();
                     return;
                 }
                 for (Tile spot : spots) {
-                    World.getWorld().tileGraphic(1666, base.transform(spot.x, spot.y), 0, 0);
+                    World.getWorld().tileGraphic(1666, base.transform(spot.x, spot.y), 0, finalP.getSpeed());
                 }
                 ArrayList<Tile> newSpots = new ArrayList<>();
                 for (Tile spot : new ArrayList<>(spots)) {
                     final Tile curSpot = base.transform(spot.x, spot.y);
-                    if (curSpot.equals(target.tile())) {
+
+                    if (target.tile().equals(curSpot)) {
                         target.hit(hydra, Utils.random(20), SplatType.POISON_HITSPLAT);
                         if (target.isPlayer()) {
                             target.message("<col=ff0000>The electricity temporarily paralyzes you!");
@@ -130,27 +135,16 @@ public enum HydraAttacks {
                         }
                     } else {
                         final Direction direction = Direction.getDirection(curSpot, target.tile());
+
                         Tile newSpot = spot.transform(direction.x, direction.y);
 
                         newSpots.add(newSpot);
-
                     }
                 }
-                // visual debug
-                /*ArrayList<GroundItem> markers = new ArrayList<>(1);
-                for (Tile step : newSpots) {
-                    GroundItem marker = new GroundItem(new Item(ItemIdentifiers.VIAL, 1), new Tile(base.transform(step.x, step.y).x,
-                        base.transform(step.x, step.y).y, hydra.getZ()), null);
-                    GroundItemHandler.createGroundItem(marker);
-                    markers.add(marker);
-                }
-                Task.runOnceTask(1, c -> {
-                    markers.forEach(GroundItemHandler::sendRemoveGroundItem);
-                });*/
                 spots.clear();
                 spots.addAll(newSpots);
-                ticker[0]++;
-            }); // looks fine actually
+                ticker.getAndIncrement();
+            });
         }
     },
 
@@ -160,8 +154,6 @@ public enum HydraAttacks {
     FIRE_WALL(HydraPhase.RED) {
         @Override
         public void executeAttack(AlchemicalHydra hydra, Entity target) {
-            //hydra.lockNoAttack();
-           // hydra.setPositionToFace(null);
             Tile base = hydra.baseLocation;
             hydra.walkAndWait(base.transform(hydraSpawnLoc.x, hydraSpawnLoc.y), () -> {
                 FireWallSpots fireWallSpots = getWallFireSpots(target.tile(), base);

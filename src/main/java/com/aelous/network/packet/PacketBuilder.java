@@ -37,7 +37,7 @@ public final class PacketBuilder implements AutoCloseable {
     /**
      * The buffer used to write the packet information.
      */
-    private final ByteBuf buffer = ByteBufAllocator.DEFAULT.buffer();
+    private final ByteBuf buffer = ByteBufAllocator.DEFAULT.heapBuffer();
 
     /**
      * The PacketBuilder constructor.

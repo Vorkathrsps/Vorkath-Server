@@ -16,10 +16,9 @@ public class GsonPropertyValidator implements TypeAdapterFactory {
     @Override
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
         TypeAdapter<T> delegate = gson.getDelegateAdapter(this, type);
-
         if (delegate instanceof ReflectiveTypeAdapterFactory.Adapter) {
             try {
-                Field f = delegate.getClass().getDeclaredField("boundFields");
+                Field f = delegate.getClass().getSuperclass().getDeclaredField("boundFields");
                 f.setAccessible(true);
                 Map<?, ?> boundFields = (Map<?, ?>) f.get(delegate);
 

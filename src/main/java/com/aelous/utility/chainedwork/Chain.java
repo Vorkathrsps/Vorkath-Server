@@ -226,7 +226,7 @@ public class Chain<T> {
      */
     public Chain<T> runFn(int startAfterTicks, Runnable work) {
         if (startAfterTicks < 1) {
-            logger.error(new RuntimeException("StartAfterTicks must be greater than 0. change to 1 or higher."));
+            logger.error("bad code", new RuntimeException("StartAfterTicks must be greater than 0. change to 1 or higher."));
             startAfterTicks = 1;
         }
         if (this.work != null) {

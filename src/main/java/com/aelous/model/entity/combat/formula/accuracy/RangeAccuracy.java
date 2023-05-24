@@ -72,7 +72,7 @@ public class RangeAccuracy {
 
         double selectedChance = random.nextFloat();
 
-        System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
+        //System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
         return successfulRoll > selectedChance;
     }
@@ -128,7 +128,7 @@ public class RangeAccuracy {
         float modification = modifier;
 
 
-        System.out.println(modification);
+       // System.out.println(modification);
 
         if (fightStyle == FightStyle.ACCURATE) {
             effectiveLevel = (int) Math.floor(effectiveLevel + 3);
@@ -145,7 +145,7 @@ public class RangeAccuracy {
             effectiveLevel *= specialMultiplier;
         }
 
-        System.out.println(modification);
+      //  System.out.println(modification);
         effectiveLevel = modification > 0 ? Math.floor(effectiveLevel * modification) : effectiveLevel;
 
         effectiveLevel = (int) Math.floor(effectiveLevel + 8);

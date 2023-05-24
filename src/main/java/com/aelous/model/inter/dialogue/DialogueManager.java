@@ -73,7 +73,7 @@ public class DialogueManager {
             return true;
         }
         if (dialogue==null){
-           System.out.println(dialogue);
+           System.out.println("missing chat: "+dialogue);
 }
         return false;
     }

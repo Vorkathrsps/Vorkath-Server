@@ -995,11 +995,11 @@ public class CombatFactory {
                 }
 
                 if ((hit.getCombatType() == CombatType.RANGED || hit.getCombatType() == CombatType.MAGIC) && npc.id() == NpcIdentifiers.KALPHITE_QUEEN_6500) {
-                    hit.setDamage(0);
+                    hit.setDamage((int) (hit.getDamage() * 0.6));
                 }
 
                 if (npc.id() == NpcIdentifiers.KALPHITE_QUEEN_6501 && hit.getCombatType() == CombatType.MELEE) {
-                    hit.setDamage(0);
+                    hit.setDamage((int) (hit.getDamage() * 0.6));
                 }
 
                 if (npc.id() == VANGUARD_7527 && hit.getCombatType() != CombatType.MELEE) {

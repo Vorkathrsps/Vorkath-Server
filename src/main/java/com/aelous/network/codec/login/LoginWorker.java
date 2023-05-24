@@ -9,17 +9,17 @@ import com.aelous.network.codec.game.PacketDecoder;
 import com.aelous.network.codec.game.PacketEncoder;
 import com.aelous.utility.Utils;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.handler.timeout.ReadTimeoutHandler;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /** Created by Bart on 8/1/2015. */
 public class LoginWorker implements Runnable {
@@ -96,7 +96,7 @@ public class LoginWorker implements Runnable {
     }
 
     private void sendCodeAndClose(Channel channel, int response) {
-        ByteBuf buffer = Unpooled.buffer(Byte.BYTES);
+        ByteBuf buffer = channel.alloc().buffer(Byte.BYTES);
         buffer.writeByte(response);
         channel.writeAndFlush(buffer).addListener(ChannelFutureListener.CLOSE);
     }

@@ -3,21 +3,15 @@ package com.aelous.model.entity.masks.impl.updating;
 import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.hit.Splat;
-import com.aelous.model.entity.masks.FaceDirection;
-import com.aelous.model.entity.masks.impl.chat.ChatMessage;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.masks.UpdateFlag;
+import com.aelous.model.entity.masks.impl.chat.ChatMessage;
 import com.aelous.model.entity.player.Player;
-import com.aelous.model.items.Item;
-import com.aelous.model.items.ground.GroundItem;
-import com.aelous.model.map.object.GameObject;
-import com.aelous.model.map.position.Tile;
 import com.aelous.network.packet.ByteOrder;
 import com.aelous.network.packet.PacketBuilder;
 import com.aelous.network.packet.PacketBuilder.AccessType;
 import com.aelous.network.packet.PacketType;
 import com.aelous.network.packet.ValueType;
-import com.aelous.utility.chainedwork.Chain;
 
 import java.util.Iterator;
 
@@ -41,45 +35,48 @@ public class PlayerUpdating {
      */
 
     public static void update(final Player player) {
-        PacketBuilder builder = new PacketBuilder();
-        PacketBuilder out = new PacketBuilder(81, PacketType.VARIABLE_SHORT);
-        out.initializeAccess(AccessType.BIT);
-        updateMovement(player, out);
-        appendUpdates(player, builder, player, false, true);
-        out.putBits(8, player.getLocalPlayers().size());
-        for (Iterator<Player> playerIterator = player.getLocalPlayers().iterator(); playerIterator.hasNext(); ) {
-            Player otherPlayer = playerIterator.next();
-            if (otherPlayer.getIndex() != -1 && World.getWorld().getPlayers().get(otherPlayer.getIndex()) != null && !otherPlayer.looks().hidden() && otherPlayer.tile().isWithinDistance(player.tile()) && !otherPlayer.isNeedsPlacement() && canSee(player, otherPlayer)) {
-                updateOtherPlayerMovement(out, otherPlayer);
-                if (otherPlayer.getUpdateFlag().isUpdateRequired()) {
-                    appendUpdates(player, builder, otherPlayer, false, false);
+        try (final PacketBuilder out = new PacketBuilder(81, PacketType.VARIABLE_SHORT);
+             final PacketBuilder builder = new PacketBuilder()) {
+            out.initializeAccess(AccessType.BIT);
+            updateMovement(player, out);
+            appendUpdates(player, builder, player, false, true);
+            out.putBits(8, player.getLocalPlayers().size());
+            for (Iterator<Player> playerIterator = player.getLocalPlayers().iterator(); playerIterator.hasNext(); ) {
+                Player otherPlayer = playerIterator.next();
+                if (otherPlayer.getIndex() != -1 && World.getWorld().getPlayers().get(otherPlayer.getIndex()) != null && !otherPlayer.looks().hidden() && otherPlayer.tile().isWithinDistance(player.tile()) && !otherPlayer.isNeedsPlacement() && canSee(player, otherPlayer)) {
+                    updateOtherPlayerMovement(out, otherPlayer);
+                    if (otherPlayer.getUpdateFlag().isUpdateRequired()) {
+                        appendUpdates(player, builder, otherPlayer, false, false);
+                    }
+                } else {
+                    playerIterator.remove();
+                    out.putBits(1, 1);
+                    out.putBits(2, 3);
                 }
+            }
+            int playersAdded = 0;
+            for (Player otherPlayer : World.getWorld().getPlayers()) {
+                if (player.getLocalPlayers().size() >= 79 || playersAdded > MAX_NEW_PLAYERS_PER_CYCLE)
+                    break;
+                if (otherPlayer == null || otherPlayer == player || player.getLocalPlayers().contains(otherPlayer) || !otherPlayer.tile().isWithinDistance(player.tile()) || otherPlayer.looks().hidden() || !canSee(player, otherPlayer)) {
+                    continue;
+                }
+                player.getLocalPlayers().add(otherPlayer);
+                addPlayer(player, otherPlayer, out);
+                appendUpdates(player, builder, otherPlayer, true, false);
+                playersAdded++;
+            }
+            if (builder.buffer().writerIndex() > 0) {
+                out.putBits(11, 2047);
+                out.initializeAccess(AccessType.BYTE);
+                out.puts(builder.buffer());
             } else {
-                playerIterator.remove();
-                out.putBits(1, 1);
-                out.putBits(2, 3);
+                out.initializeAccess(AccessType.BYTE);
             }
+            player.getSession().write(out);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        int playersAdded = 0;
-        for (Player otherPlayer : World.getWorld().getPlayers()) {
-            if (player.getLocalPlayers().size() >= 79 || playersAdded > MAX_NEW_PLAYERS_PER_CYCLE)
-                break;
-            if (otherPlayer == null || otherPlayer == player || player.getLocalPlayers().contains(otherPlayer) || !otherPlayer.tile().isWithinDistance(player.tile()) || otherPlayer.looks().hidden() || !canSee(player, otherPlayer)) {
-                continue;
-            }
-            player.getLocalPlayers().add(otherPlayer);
-            addPlayer(player, otherPlayer, out);
-            appendUpdates(player, builder, otherPlayer, true, false);
-            playersAdded++;
-        }
-        if (builder.buffer().writerIndex() > 0) {
-            out.putBits(11, 2047);
-            out.initializeAccess(AccessType.BYTE);
-            out.puts(builder.buffer());
-        } else {
-            out.initializeAccess(AccessType.BYTE);
-        }
-        player.getSession().write(out);
     }
 
 

@@ -51,7 +51,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
      * @param response The response code to send.
      */
     public static void sendCodeAndClose(ChannelHandlerContext ctx, int response) {
-        ByteBuf buffer = Unpooled.buffer(Byte.BYTES);
+        ByteBuf buffer = ctx.alloc().buffer(Byte.BYTES);
         buffer.writeByte(response);
         ctx.writeAndFlush(buffer).addListener(ChannelFutureListener.CLOSE);
     }

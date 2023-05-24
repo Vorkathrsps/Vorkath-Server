@@ -1,9 +1,8 @@
 package com.aelous.network.packet;
 
 
-
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
+import io.netty.buffer.ByteBufAllocator;
 
 /**
  * The {@link Message} implementation that functions as a dynamic buffer wrapper
@@ -12,7 +11,7 @@ import io.netty.buffer.Unpooled;
  * @author lare96 <http://github.com/lare96>
  * @author blakeman8192
  */
-public final class PacketBuilder {
+public final class PacketBuilder implements AutoCloseable {
 
     /**
      * An array of the bit masks used for writing bits.
@@ -38,8 +37,7 @@ public final class PacketBuilder {
     /**
      * The buffer used to write the packet information.
      */
-    private ByteBuf buffer = Unpooled.buffer();
-
+    private final ByteBuf buffer = ByteBufAllocator.DEFAULT.buffer();
 
     /**
      * The PacketBuilder constructor.
@@ -517,6 +515,14 @@ public final class PacketBuilder {
 
     public PacketType getType() {
         return type;
+    }
+
+    @Override
+    public void close() throws Exception {
+        final ByteBuf buffer = this.buffer;
+        if (buffer.refCnt() > 0) {
+            buffer.release();
+        }
     }
 
     /**

@@ -9,6 +9,7 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.rights.PlayerRights;
 import com.aelous.network.codec.game.PacketDecoder;
 import com.aelous.network.codec.login.LoginDetailsMessage;
+import com.aelous.network.codec.login.LoginRequest;
 import com.aelous.network.codec.login.LoginResponsePacket;
 import com.aelous.network.codec.login.LoginResponses;
 import com.aelous.network.packet.Packet;
@@ -28,7 +29,6 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-import com.aelous.network.codec.login.LoginRequest;
 import static com.aelous.model.entity.attributes.AttributeKey.MAC_ADDRESS;
 
 /**
@@ -211,16 +211,13 @@ public class Session {
      *
      * @param builder the packet to queue.
      */
-    public void write(PacketBuilder builder) {
+    public void write(final PacketBuilder builder) {
+        final Channel channel = this.channel;
         if (channel == null || !channel.isOpen())
             return;
         try {
-            Packet packet = builder.toPacket();
-
-            if (!channel.isActive())
-                return;
-
-            channel.write(packet);
+            final Packet packet = builder.toPacket();
+            channel.write(packet, channel.voidPromise());
         } catch (Exception e) {
             logger.error("sadge", e);
         }
@@ -230,6 +227,7 @@ public class Session {
      * Flushes this channel.
      */
     public void flush() {
+        final Channel channel = this.channel;
         if (channel == null || !channel.isOpen())
             return;
         channel.flush();

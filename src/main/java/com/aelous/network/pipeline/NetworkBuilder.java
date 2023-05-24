@@ -7,6 +7,9 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.epoll.Epoll;
+import io.netty.channel.epoll.EpollEventLoopGroup;
+import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.apache.logging.log4j.LogManager;
@@ -46,7 +49,7 @@ public final class NetworkBuilder {
      * @throws Exception
      *             if any issues occur while starting the network.
      */
-    public void initialize(int port) throws Exception {
+    public void initialize(final int port) throws Exception {
         // Set up uncaught exception handler
         Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
             logger.error("Uncaught server exception in thread {}!", t, e);
@@ -55,20 +58,26 @@ public final class NetworkBuilder {
         // Verify data/code integrity
         TimerKey.verifyIntegrity();
 
+        final boolean epoll = Epoll.isAvailable();
+
         // Construct bootstrap
-        EventLoopGroup parentGroup = new NioEventLoopGroup(1);
-        EventLoopGroup childGroup = new NioEventLoopGroup();
+        final EventLoopGroup parentGroup = epoll
+            ? new EpollEventLoopGroup(1)
+            : new NioEventLoopGroup(1);
+        final EventLoopGroup childGroup = epoll
+            ? new EpollEventLoopGroup()
+            : new NioEventLoopGroup();
 
         bootstrap.group(parentGroup, childGroup);
-        bootstrap.channel(NioServerSocketChannel.class);
+        bootstrap.channel(epoll ?
+            EpollServerSocketChannel.class
+            : NioServerSocketChannel.class);
         bootstrap.childHandler(connectionInitializer);
         bootstrap.childOption(ChannelOption.CONNECT_TIMEOUT_MILLIS, 30_000);
         bootstrap.childOption(ChannelOption.TCP_NODELAY, true);
         bootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
         bootstrap.option(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
         bootstrap.childOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
-
-        System.gc();
 
         //TODO: research what this does
         //bootstrap.handler(new LoggingHandler(LogLevel.DEBUG));

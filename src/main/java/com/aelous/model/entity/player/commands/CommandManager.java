@@ -706,6 +706,27 @@ public class CommandManager {
                 logger.info("{} face {}", n.getMobName(), n.getInteractingEntity());
             }
         });
+        dev("fn", (p, c, s) -> {
+            new Thread(() -> {
+                int found = 0;
+                for (int i = 0; i < World.getWorld().definitions().total(NpcDefinition.class); i++) {
+                    if (found > 249) {
+                        p.message("Too many results (> 250). Please narrow down.");
+                        break;
+                    }
+                    NpcDefinition def = World.getWorld().definitions().get(NpcDefinition.class, i);
+                    if (def != null && def.name != null && def.name.toLowerCase().contains(s[1])) {
+                        String result_string = "Result: " + i + " - " + def.name + " (cb " + def.combatlevel + ", alts: " + Arrays.toString(def.altForms) + ", renders: " + def.standingAnimation + ", " + def.walkingAnimation + ")";
+                        p.message(result_string);
+                        if (World.getWorld().getPlayers().size() < 10) { // Show in cmd for more results
+                            System.out.println(result_string);
+                        }
+                        found++;
+                    }
+                }
+                p.message("Done searching. Found " + found + " results for '" + s + "'.");
+            }).start();
+        });
     }
 
     private static int rotateX(int x, int y, int angle) {

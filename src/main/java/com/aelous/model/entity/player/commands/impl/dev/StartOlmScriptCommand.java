@@ -29,6 +29,7 @@ public class StartOlmScriptCommand implements Command {
 
         Party.createParty(player);
         if (player.getClan() == null) {
+            player.message("not in cc");
             return;
         }
         party = player.raidsParty;

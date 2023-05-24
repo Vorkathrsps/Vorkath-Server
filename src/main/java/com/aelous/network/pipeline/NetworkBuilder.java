@@ -2,7 +2,7 @@ package com.aelous.network.pipeline;
 
 import com.aelous.utility.timers.TimerKey;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.UnpooledByteBufAllocator;
+import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -56,22 +56,24 @@ public final class NetworkBuilder {
         TimerKey.verifyIntegrity();
 
         // Construct bootstrap
-        EventLoopGroup acceptGroup = new NioEventLoopGroup(1);
-        EventLoopGroup ioGroup = new NioEventLoopGroup(2);
+        EventLoopGroup parentGroup = new NioEventLoopGroup(1);
+        EventLoopGroup childGroup = new NioEventLoopGroup();
 
-        bootstrap.group(acceptGroup, ioGroup);
+        bootstrap.group(parentGroup, childGroup);
         bootstrap.channel(NioServerSocketChannel.class);
         bootstrap.childHandler(connectionInitializer);
-        bootstrap.childOption(ChannelOption.CONNECT_TIMEOUT_MILLIS, 30000);
+        bootstrap.childOption(ChannelOption.CONNECT_TIMEOUT_MILLIS, 30_000);
         bootstrap.childOption(ChannelOption.TCP_NODELAY, true);
         bootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
-        bootstrap.option(ChannelOption.ALLOCATOR, new UnpooledByteBufAllocator(false));
-        bootstrap.childOption(ChannelOption.ALLOCATOR, new UnpooledByteBufAllocator(false));
+        bootstrap.option(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
+        bootstrap.childOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
 
         System.gc();
 
         //TODO: research what this does
         //bootstrap.handler(new LoggingHandler(LogLevel.DEBUG));
-        bootstrap.bind(port).sync().awaitUninterruptibly();
+        bootstrap.bind(port)
+            .sync()
+            .awaitUninterruptibly();
     }
 }

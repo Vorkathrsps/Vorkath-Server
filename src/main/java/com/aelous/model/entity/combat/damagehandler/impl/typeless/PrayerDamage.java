@@ -43,17 +43,17 @@ public class PrayerDamage implements DamageEffectListener {
         boolean meleePrayer = hit.getCombatType() == CombatType.MELEE && Prayers.usingPrayer(player, PROTECT_FROM_MELEE);
         boolean rangedPrayer = hit.getCombatType() == CombatType.RANGED && Prayers.usingPrayer(player, PROTECT_FROM_MISSILES);
         boolean magicPrayer = hit.getCombatType() == CombatType.MAGIC && Prayers.usingPrayer(player, PROTECT_FROM_MAGIC);
-        if (hit.getDamage() > 0 && hit.getTarget().isNpc()) {
-            if (!hit.prayerIgnored && (meleePrayer || rangedPrayer || magicPrayer)) {
-                hit.setDamage(0);
-                return true;
-            } else if (hit.getTarget().isNpc() && hit.getTarget().getAsNpc().id() == NpcIdentifiers.CORPOREAL_BEAST && hit.getCombatType() == CombatType.MAGIC && Prayers.usingPrayer(player, PROTECT_FROM_MAGIC)) {
+        if (hit.getDamage() > 0) {
+            if (hit.getTarget().isNpc() && hit.getTarget().getAsNpc().id() == NpcIdentifiers.CORPOREAL_BEAST && hit.getCombatType() == CombatType.MAGIC && Prayers.usingPrayer(player, PROTECT_FROM_MAGIC)) {
                 damage = (int) Math.floor(damage * 0.66F);
                 hit.setDamage(damage);
                 return true;
             }
-        } else if (hit.getDamage() > 0 && hit.getTarget().isPlayer()) {
-            if (!hit.prayerIgnored && (meleePrayer || rangedPrayer || magicPrayer)) {
+            else if (!hit.prayerIgnored && (meleePrayer || rangedPrayer || magicPrayer) && hit.getSource().isNpc() && hit.getTarget().isPlayer()) {
+                hit.setDamage(0);
+                return true;
+            }
+            else if (!hit.prayerIgnored && (meleePrayer || rangedPrayer || magicPrayer)) {
                 damage = (int) Math.floor(damage * 0.4F);
                 hit.setDamage(damage);
                 return true;

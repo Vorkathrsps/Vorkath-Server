@@ -693,6 +693,10 @@ public class NexCombat extends CommonCombatMethod {
 
         Chain.noCtx().runFn(4, () -> {
             for (Tile tile : tiles) {
+                if(!tile.allowObjectPlacement()) {
+                    continue;
+                } // Skip can't spawn a obj on a obj
+
                 if (MovementQueue.dumbReachable(tile.getX(), tile.getY(), nex.tile())) {
                     nex.stalagmite.add(GameObject.spawn(42944, tile.getX(), tile.getY(), tile.getZ(), 10, 0));
                 }
@@ -728,6 +732,10 @@ public class NexCombat extends CommonCombatMethod {
         Set<Tile> tiles = target.tile().expandedBounds(1);// radius 1 is 3x3
         Chain.bound(null).runFn(4, () -> {
             for (Tile tile : tiles) {
+                if(!tile.allowObjectPlacement()) {
+                    continue;
+                } // Skip can't spawn a obj on a obj
+
                 if (MovementQueue.dumbReachable(tile.getX(), tile.getY(), nex.tile())) {
                     nex.stalagmite.add(GameObject.spawn(42944, tile.getX(), tile.getY(), tile.getZ(), 10, 0));
                 }

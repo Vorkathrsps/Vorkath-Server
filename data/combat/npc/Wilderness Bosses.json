@@ -30,10 +30,12 @@
       "animations": {
         "attack": 5507,
         "block": 5508,
-        "death": -1
+        "death": 5509
       },
       "scripts": {
-        "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion"
+        "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion",
+        "death": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.vetion.Vetion.death",
+        "hit": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.vetion.Vetion.hit"
       }
     },
     {

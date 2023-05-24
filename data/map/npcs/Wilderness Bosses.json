@@ -1,11 +1,10 @@
 [
   {
     "id": 6611,
-    "x": 1885,
-    "y": 11544,
-    "z": 1,
-    "walkRange": 9,
-    "direction": "S"
+    "x": 3231,
+    "y": 3807,
+    "walkRange": 5,
+    "direction": "NE"
   }, //vetion
   {
     "id": 6609,

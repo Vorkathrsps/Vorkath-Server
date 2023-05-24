@@ -6,12 +6,16 @@
     <option name="MAIN_CLASS_NAME" value="com.aelous.GameServer" />
     <module name="Aelous" />
     <option name="VM_PARAMETERS" value="-Xmx4g -Xms4g --add-opens java.base/jdk.internal.misc=ALL-UNNAMED --add-opens java.base/java.time=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED" />
-    <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.aelous.*" />
         <option name="ENABLED" value="true" />
       </pattern>
+    </extension>
+    <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+      <option name="credential" />
+      <option name="region" />
+      <option name="useCurrentConnection" value="false" />
     </extension>
     <method v="2">
       <option name="Make" enabled="true" />

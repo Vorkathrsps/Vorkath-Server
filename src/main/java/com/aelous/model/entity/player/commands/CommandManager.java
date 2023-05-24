@@ -514,6 +514,9 @@ public class CommandManager {
         dev("up4", (p, c, s) -> {
             p.teleport(p.tile().transform(0, 0, 4));
         });
+        dev("down4", (p, c, s) -> {
+            p.teleport(p.tile().transform(0, 0, -4));
+        });
         dev("runes", (p, c, s) -> {
             for (int i = 554; i <= 566; i++) {
                 p.inventory().add(i, 1000000);
@@ -684,6 +687,12 @@ public class CommandManager {
         });
         dev("varbit", (p, c, s) -> {
             p.varps().varbit(Integer.parseInt(s[1]), Integer.parseInt(s[2]));
+        });
+        dev("ht1", (p, c, s) -> {
+            CommandManager.attempt(p, "oa 8280 34570");
+        });
+        dev("ht2", (p, c, s) -> {
+            CommandManager.attempt(p, "oa 8278 34570");
         });
     }
 

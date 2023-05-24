@@ -60,7 +60,7 @@ public class RottenPotato extends PacketInteraction {
     private static void potatoOnMob(Player player, NPC npc) {
         npc.getAsNpc().cantInteract(false);
         npc.unlock();
-        System.out.println(npc.getSize());
+       // System.out.println(npc.getSize());
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {

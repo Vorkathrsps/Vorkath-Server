@@ -1,11 +1,13 @@
 package com.aelous.network.codec.game;
 
+import com.aelous.model.entity.player.Player;
 import com.aelous.network.NetworkUtils;
 import com.aelous.network.Session;
 import com.aelous.network.packet.Packet;
 import com.aelous.network.packet.incoming.IncomingHandler;
 import com.aelous.network.security.IsaacRandom;
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import org.slf4j.Logger;
@@ -41,11 +43,14 @@ public final class PacketDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf buffer, List<Object> out) throws Exception {
-        Session session = ctx.channel().attr(NetworkUtils.SESSION_KEY).get();
+        final Channel channel = ctx.channel();
+        if (!channel.isActive()) return;
 
-        if (session == null || session.getPlayer() == null || !ctx.channel().isOpen()) {
-            return;
-        }
+        final Session session = channel.attr(NetworkUtils.SESSION_KEY).get();
+        if (session == null) return;
+
+        final Player player = session.getPlayer();
+        if (player == null) return;
 
         if (state == State.OPCODE) {
             opcode = (buffer.readUnsignedByte() - random.nextInt()) & 0xFF;
@@ -69,7 +74,7 @@ public final class PacketDecoder extends ByteToMessageDecoder {
                     size = buffer.readUnsignedShort();
                     break;
                 case -3:
-                    logger.error("Unhandled size for OpCode=" + opcode + " size=" + size + " Info=" + session.getPlayer().toString());
+                    logger.error("Unhandled size for OpCode=" + opcode + " size=" + size + " Info=" + player);
                     ctx.close();
                     return;
             }

@@ -67,9 +67,6 @@ public class TheNightmare extends CommonCombatMethod {
         Arrays.stream(entity.closePlayers()).forEach(p -> {
             HealthHud.open(p, HealthHud.Type.CYAN_SHIELD,"The Nightmare", 1100);
         });
-        for (Player p : this.entity.closePlayers(32)) {
-            HealthHud.update(p, HealthHud.Type.CYAN_SHIELD, (entity.dead() ? 0 : entity.hp()), entity.maxHp());
-        }
 
     }
 

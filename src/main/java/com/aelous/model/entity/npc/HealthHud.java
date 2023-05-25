@@ -3,10 +3,11 @@ package com.aelous.model.entity.npc;
 import com.aelous.model.entity.player.Player;
 import com.aelous.utility.Varp;
 import com.aelous.utility.client_instruction.ClientInstruction;
+import lombok.Getter;
 
 /**
- *
  * A class that represents the Health HUD interface.
+ *
  * @author Sharky
  * @Since May 23, 2023
  */
@@ -30,6 +31,7 @@ public class HealthHud {
     /**
      * The type of hud.
      */
+    @Getter
     public enum Type {
         REGULAR, ORANGE_SHIELD, CYAN_SHIELD
     }
@@ -48,10 +50,10 @@ public class HealthHud {
     /**
      * Opens the hud.
      *
-     * @param player The player.
-     * @param name   The name of the target.
+     * @param player        The player.
+     * @param name          The name of the target.
      * @param currentHealth The current health.
-     * @param maxHealth The maximum health.
+     * @param maxHealth     The maximum health.
      */
     public static void open(Player player, Type type, String name, int currentHealth, int maxHealth) {
         ClientInstruction instruction = ClientInstruction.of(13);

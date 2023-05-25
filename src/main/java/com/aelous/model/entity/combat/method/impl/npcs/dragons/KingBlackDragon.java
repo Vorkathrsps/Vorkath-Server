@@ -5,9 +5,12 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatConstants;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Projectile;
+import com.aelous.model.entity.npc.HealthHud;
+import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
@@ -26,8 +29,18 @@ public class KingBlackDragon extends CommonCombatMethod {
     };
 
     @Override
+    public void onRespawn() {
+        if (entity != null && entity.isNpc()) {
+            for (Player p : entity.closePlayers(32)) {
+                HealthHud.open(p, HealthHud.Type.REGULAR, "King Black Dragon", entity.hp());
+            }
+        }
+    }
+
+    @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.rollDie(4, 1))
+
             basicAttack(entity, target);
         else {
             if (Utils.rollDie(2, 1))
@@ -60,7 +73,7 @@ public class KingBlackDragon extends CommonCombatMethod {
 
     private void fire(Entity entity, Entity target, FireType fireType, int minMaxDamage) {
         entity.animate(81);
-        var tileDist = entity.tile().distance(target.tile());
+        var tileDist = entity.tile().transform(3, 3, 0).getManHattanDist(entity.tile(), target.tile());
         int duration = (41 + 11 + (5 * tileDist));
 
         if (target instanceof Player player) {
@@ -126,6 +139,14 @@ public class KingBlackDragon extends CommonCombatMethod {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean customOnDeath(Hit hit) {
+        for (Player p : entity.closePlayers(32)) {
+            HealthHud.close(p);
+        }
+        return false;
     }
 
     @Override

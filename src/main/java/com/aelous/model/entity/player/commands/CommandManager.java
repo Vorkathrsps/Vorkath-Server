@@ -19,6 +19,8 @@ import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Direction;
+import com.aelous.model.entity.masks.FaceDirection;
+import com.aelous.model.entity.masks.ForceMovement;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.npc.droptables.ScalarLootTable;
 import com.aelous.model.entity.player.InputScript;
@@ -648,15 +650,11 @@ public class CommandManager {
             ((GreatOlm) olm.getCombatMethod()).flameWall(olm);
         });
         dev("c", (p, c, s) -> {
-
-            spawnGameObjects(new Tile(p.getX(), p.getY(), p.getZ()), 10, 11, 37745, 37741);
-
-            Chain.bound(null).runFn(6, () -> {
-                for (var o : objectsList) {
-                    o.remove();
-                }
-            });
-
+            NPC nex = new NPC(11278, new Tile(p.tile().getX(), p.tile().getY(), p.tile().getZ()));
+            nex.spawn();
+            ForceMovement forceMovement = new ForceMovement(nex.tile(), new Tile(0, 2), 0, 30,0);
+            nex.setForceMovement(forceMovement);
+            Chain.noCtx().runFn(10, nex::remove);
         });
         dev("curseoff", (p, c, s) -> {
             p.clearAttrib(AttributeKey.NIGHTMARE_CURSE);

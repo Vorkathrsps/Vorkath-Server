@@ -92,10 +92,6 @@ public class AlchemicalHydra extends NPC {
 
     @Override
     public void postSequence() {
-        for (Player p : this.closePlayers(32)) {
-            HealthHud.update(p, HealthHud.Type.REGULAR, (dead() ? 0 : hp()), maxHp());
-        }
-
         if (locked()) {
             return;
         }

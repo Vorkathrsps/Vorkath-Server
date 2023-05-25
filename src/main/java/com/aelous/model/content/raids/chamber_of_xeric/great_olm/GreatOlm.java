@@ -15,6 +15,7 @@ import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
+import com.aelous.model.entity.npc.HealthHud;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
@@ -82,7 +83,6 @@ public class GreatOlm extends CommonCombatMethod {
     @Override
     public void init(NPC npc1) {
         World.getWorld().definitions().get(ObjectDefinition.class, FIRE_32297).clipType = 1; // force flame wall fire to clip tiles
-
         npc = entity.npc();
         npc.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, 40);
         northTargetBounds = new Area(getTile(RIGHT.swX, RIGHT.swY), getTile(RIGHT.neX, RIGHT.neY), npc.getZ()); // no debug
@@ -862,6 +862,10 @@ public class GreatOlm extends CommonCombatMethod {
         getObject(npc).remove();
         getObject(leftClaw).remove();
         getObject(rightClaw).remove();
+
+        for (Player p : this.npc.closePlayers(32)) {
+            HealthHud.close(p);
+        }
     }
 
     public void clawDeathStart(NPC claw) {
@@ -1015,6 +1019,9 @@ public class GreatOlm extends CommonCombatMethod {
         npc.lock();
         rightClaw.lock();
         leftClaw.lock();
+        Arrays.stream(npc.closePlayers()).forEach(p -> {
+            HealthHud.open(p, HealthHud.Type.REGULAR,"Great Olm", 1600);
+        });
         getObject(rightClaw).setId(CRYSTALLINE_STRUCTURE);
         getObject(npc).setId(LARGE_HOLE);
         getObject(leftClaw).setId(LARGE_ROCK_29883);

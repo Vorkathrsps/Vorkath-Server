@@ -8,7 +8,6 @@ import com.aelous.model.content.achievements.Achievements;
 import com.aelous.model.content.achievements.AchievementsManager;
 import com.aelous.model.content.areas.burthope.warriors_guild.MagicalAnimator;
 import com.aelous.model.content.areas.wilderness.content.boss_event.WildernessBossEvent;
-import com.aelous.model.content.areas.wilderness.wildernesskeys.WildernessKeys;
 import com.aelous.model.content.daily_tasks.DailyTaskManager;
 import com.aelous.model.content.daily_tasks.DailyTasks;
 import com.aelous.model.content.skill.impl.prayer.Bone;
@@ -34,7 +33,6 @@ import com.aelous.model.entity.combat.method.impl.npcs.slayer.Gargoyle;
 import com.aelous.model.entity.combat.method.impl.npcs.slayer.Nechryael;
 import com.aelous.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss;
 import com.aelous.model.entity.combat.method.impl.npcs.slayer.superiors.nechryarch.NechryarchDeathSpawn;
-import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.droptables.ScalarLootTable;
 
 import com.aelous.model.entity.player.GameMode;
@@ -43,8 +41,6 @@ import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.items.ground.GroundItemHandler;
-import com.aelous.model.map.object.GameObject;
-import com.aelous.model.map.object.ObjectManager;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
@@ -875,6 +871,10 @@ public class NPCDeath {
         if (npc.id() == NpcIdentifiers.VETION) {//Just do it again for extra safety
             npc.clearAttrib(AttributeKey.VETION_HELLHOUND_SPAWNED);
             npc.putAttrib(AttributeKey.VETION_REBORN_ACTIVE, false);
+        }
+
+        if (npc.getCombatMethod() instanceof CommonCombatMethod commonCombatMethod) {
+            commonCombatMethod.onRespawn();
         }
 
         if (npc.hidden()) { // not respawned yet. we do this check incase it was force-respawned by .. group spawning (gwd)

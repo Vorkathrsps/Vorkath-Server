@@ -8,9 +8,9 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.EntityCombatBuilder;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
-import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.NexCombat;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
+import com.aelous.model.entity.npc.HealthHud;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Area;
@@ -58,22 +58,18 @@ public class Vetion extends CommonCombatMethod {
 
     @Override
     public void preDefend(Hit hit) {
-        //if (target != null && target.isPlayer() && !target.tile().inArea(vetionArea)) {
-       //     playersInArea.remove(target.getAsPlayer());
-      //      System.out.println("removed: " + playersInArea.size());
-      //  }
         Player player = (Player) target;
         NPC vetion = (NPC) entity;
+        Arrays.stream(entity.closePlayers()).forEach(p -> {
+            HealthHud.open(p, HealthHud.Type.REGULAR,"Vet'ion", 255);
+        });
         if (player != null) {
             if (player.isPlayer() && player.tile().inArea(vetionArea)) {
                 if (!playersInArea.contains(player)) {
                     playersInArea.add(player);
-
-                    System.out.println("added");
                     return;
                 } else {
                     playersInArea.remove(player);
-                    System.out.println("removed");
                 }
             }
             if (vetion.isNpc() && playersInArea.size() == 0) {
@@ -86,8 +82,6 @@ public class Vetion extends CommonCombatMethod {
                 vetion.getCombat().setTarget(player);
             }
         }
-
-        System.out.println("inside: " + playersInArea.size());
     }
 
     @Override

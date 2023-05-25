@@ -224,6 +224,9 @@ public class NPCUpdating {
         if (flag.flagged(Flag.TRANSFORM)) {
             mask |= 0x2;
         }
+        if (flag.flagged(Flag.FORCED_MOVEMENT) && npc.getForcedChat() != null) {
+            mask |= 0x160;
+        }
         if (sendFaceTile || (flag.flagged(Flag.FACE_TILE) && npc.getFaceTile() != null)) {
             mask |= 0x4;
         }
@@ -249,6 +252,9 @@ public class NPCUpdating {
         }
         if (flag.flagged(Flag.TRANSFORM)) {
             block.putShort(npc.transmog() <= 0 ? npc.id() : npc.transmog(), ValueType.A, ByteOrder.LITTLE);
+        }
+        if (flag.flagged(Flag.FORCED_MOVEMENT) && npc.getForceMovement() != null) {
+            updateForcedMovement(npc,block);
         }
         if (flag.flagged(Flag.FACE_TILE) || sendFaceTile) {
             final Tile position = sendFaceTile ? npc.lastTileFaced : npc.getFaceTile();
@@ -281,8 +287,7 @@ public class NPCUpdating {
 
     private static void updateGraphics(PacketBuilder builder, NPC npc) {
         builder.putShort(npc.graphic().id());
-        builder.putInt(((npc.graphic().getHeight().ordinal() * 50) << 16)
-            + (npc.graphic().delay() & 0xffff));
+        builder.putInt((npc.graphic().getHeight().ordinal() * 50 << 16) | (npc.graphic().delay() & 0xFFFF));
     }
 
     /*
@@ -301,6 +306,20 @@ public class NPCUpdating {
     }*/
 
 
+    private static void updateForcedMovement(NPC npc, PacketBuilder builder) {
+        int startX = npc.getForceMovement().getStart().getLocalX(npc.getLastKnownRegion());
+        int startY = npc.getForceMovement().getStart().getLocalY(npc.getLastKnownRegion());
+        int endX = npc.getForceMovement().getEnd() == null ? 0 : npc.getForceMovement().getEnd().getX();
+        int endY = npc.getForceMovement().getEnd() == null ? 0 : npc.getForceMovement().getEnd().getY();
+        builder.put(startX, ValueType.S);
+        builder.put(startY, ValueType.S);
+        builder.put(startX + endX, ValueType.S);
+        builder.put(startY + endY, ValueType.S);
+        builder.putShort(npc.getForceMovement().getSpeed(), ValueType.A, ByteOrder.LITTLE);
+        builder.putShort(npc.getForceMovement().getReverseSpeed(), ValueType.A);
+        builder.putShort(npc.getForceMovement().getAnimation(), ValueType.A, ByteOrder.LITTLE);
+        builder.put(npc.getForceMovement().getDirection(), ValueType.S);
+    }
 
     private static void writeLuminanceOverlay(PacketBuilder builder, NPC npc) {
         builder.putShort(npc.tinting().delay());

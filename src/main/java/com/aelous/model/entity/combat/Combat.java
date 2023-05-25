@@ -6,6 +6,7 @@ import com.aelous.model.entity.combat.formula.maxhit.MagicMaxHit;
 import com.aelous.model.entity.combat.formula.maxhit.MeleeMaxHit;
 import com.aelous.model.entity.combat.formula.maxhit.RangeMaxHit;
 import com.aelous.model.entity.combat.magic.data.ModernSpells;
+import com.aelous.model.entity.npc.HealthHud;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.utility.NpcPerformance;
 import com.google.common.base.Stopwatch;
@@ -255,10 +256,12 @@ public class Combat {
         performNewAttack();
 
         if (mob.isPlayer() && target != null) {
-           // mob.getAsPlayer().getPacketSender().sendEntityFeed(target.getMobName(), target.hp(), target.maxHp());
+            if (target.isNpc()) {
+                for (Player p : target.closePlayers(32)) {
+                    HealthHud.update(p, HealthHud.Type.REGULAR, (target.dead() ? 0 : target.hp()), target.maxHp());
+                }
+            }
         } else if (mob.isPlayer() && target == null) {
-           // mob.getAsPlayer().getPacketSender().resetEntityFeed();
-
             //No target found reset fight time
             if (fightTimer.isRunning()) {
                 fightTimer.reset();

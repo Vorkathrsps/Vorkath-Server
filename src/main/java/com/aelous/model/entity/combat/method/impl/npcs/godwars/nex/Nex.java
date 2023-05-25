@@ -150,10 +150,6 @@ public class Nex extends NPC {
 
     @Override
     public void postSequence() {
-        for (Player p : this.closePlayers(32)) {
-            HealthHud.update(p, HealthHud.Type.REGULAR, (dead() ? 0 : hp()), maxHp());
-        }
-
         if (phase.getStage() == PhaseStage.FIVE) {
             if (World.getWorld().getTickCount() % 41 == 0) {
                 if (soulsplit) {

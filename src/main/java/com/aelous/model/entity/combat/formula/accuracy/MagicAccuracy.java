@@ -31,12 +31,11 @@ public final class MagicAccuracy {
     private float modifier;
 
     @Getter
-    @Setter
     private final Entity attacker;
 
     @Getter
-    @Setter
     private final Entity defender;
+
     private final CombatType combatType;
 
     private final PreDamageEffectHandler handler = new PreDamageEffectHandler(new EquipmentDamageEffect());
@@ -118,13 +117,13 @@ public final class MagicAccuracy {
 
             handler.triggerMagicAccuracyModificationAttacker(a, combatType, this);
             float modification = modifier;
-            effectiveLevel *= modification;
+            if (modification > 0) {
+                effectiveLevel *= modification;
+            }
 
-            if (a.getCombatSpecial() != null) {
+            if (a.getCombatSpecial() != null && a.isSpecialActivated()) {
                 double specialMultiplier = a.getCombatSpecial().getAccuracyMultiplier();
-                if (a.isSpecialActivated()) {
-                    effectiveLevel = (int) (effectiveLevel * specialMultiplier);
-                }
+                effectiveLevel *= specialMultiplier;
             }
         } else {
             effectiveLevel = magicLevel + 9;

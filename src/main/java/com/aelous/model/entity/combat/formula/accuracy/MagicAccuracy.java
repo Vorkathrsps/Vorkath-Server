@@ -60,7 +60,7 @@ public final class MagicAccuracy {
         else
             chance = attackRoll / (2D * (defenceRoll + 1D));
 
-        double selectedChance = random.nextFloat();
+        double selectedChance = random.nextDouble();
 
         System.out.println("PlayerStats - Attack=" + attackRoll + " Def=" + defenceRoll + " chanceOfSucess="
             + new DecimalFormat("0.000").format(chance) + " rolledChance="

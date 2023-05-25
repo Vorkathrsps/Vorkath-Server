@@ -67,27 +67,26 @@ public class EquipmentInfo {
     public static Bonuses totalBonuses(Entity entity, EquipmentInfo info, boolean ignoreAmmo) {
         Bonuses bonuses = new Bonuses();
 
-        if (entity.isPlayer()) {
-            Player player = ((Player) entity);
+        if (entity instanceof Player player) {
             Item wep = player.getEquipment().get(EquipSlot.WEAPON);
             int wepid = wep != null ? wep.getId() : -1;
-            if (Equipment.hasAmmyOfDamned(player) && Equipment.hasVerac(player)) {
-                bonuses.pray += 4;
-            }
+            //if (Equipment.hasAmmyOfDamned(entity.getAsPlayer()) && Equipment.hasVerac(entity.getAsPlayer())) {
+            //  bonuses.pray += 4;
+            //}
 
             /**
              * Dihns Bulwark
              */
-            FightStyle style = player.getCombat().getFightType().getStyle();
-            FightType type = player.getCombat().getFightType();
+          //  FightStyle style = player.getCombat().getFightType().getStyle();
+          //  FightType type = player.getCombat().getFightType();
 
-            if (player.getEquipment().hasAt(EquipSlot.WEAPON, DINHS_BULWARK)) {
+            /*if (player.getEquipment().hasAt(EquipSlot.WEAPON, DINHS_BULWARK)) {
             if (type.equals(FightType.DINHS_PUMMEL)) {
                     int formula2 = (int) (((bonuses.stabdef + bonuses.slashdef + bonuses.crushdef + bonuses.rangedef) / 12) - 104.66D);
                     bonuses.str += formula2;
                    // System.out.println(formula2);
                 }
-            }
+            }*/
 
             for (int i = 0; i < 14; i++) {
                 if (i == EquipSlot.AMMO && ignoreAmmo) {
@@ -122,8 +121,7 @@ public class EquipmentInfo {
                 }
             }
         } else {
-            NPC npc = (NPC) entity;
-            if (npc.getCombatInfo() != null) {
+            if (entity instanceof NPC npc && npc.getCombatInfo() != null) {
                 NPCCombatInfo.Bonuses i = npc.getCombatInfo().originalBonuses;
                 bonuses.stabdef = i.stabdefence;
                 bonuses.slashdef = i.slashdefence;
@@ -425,6 +423,7 @@ public class EquipmentInfo {
                 case 12727:
                     return 2323;
                 case 10887: //anchor
+                case 27855:
                     return 5865;
                 case 13263: // Abyssal bludgeon
                     return 3298;
@@ -718,7 +717,7 @@ public class EquipmentInfo {
             case DRAGON_HUNTER_LANCE, STAFF_OF_THE_DEAD, TOXIC_STAFF_UNCHARGED, TOXIC_STAFF_OF_THE_DEAD, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS_E, UNCHARGED_TOXIC_TRIDENT, TRIDENT_OF_THE_SWAMP, TRIDENT_OF_THE_SWAMP_E, THAMMARONS_SCEPTRE, THAMMARONS_SCEPTRE_U, NIGHTMARE_STAFF, HARMONISED_NIGHTMARE_STAFF, VOLATILE_NIGHTMARE_STAFF, ELDRITCH_NIGHTMARE_STAFF, SANGUINESTI_STAFF -> {
                 return 420;
             }
-            case ABYSSAL_DAGGER, ABYSSAL_DAGGER_P, ABYSSAL_DAGGER_P_13269, ABYSSAL_DAGGER_P_13271 -> {
+            case ABYSSAL_DAGGER, ABYSSAL_DAGGER_P, ABYSSAL_DAGGER_P_13269, ABYSSAL_DAGGER_P_13271, 27867 -> {
                 return 3295;
             }
             case 13263, GRANITE_MAUL_24225, 24944, GRANITE_MAUL_12848, 16200, 16201, 16202, 16203, 16204, 16205, 16206, 16207, 16208, 4153 -> {
@@ -740,7 +739,7 @@ public class EquipmentInfo {
                 return -1;
             } // Elder maul
             //Elder ice maul
-            case 21003, 30005, 21205 -> {
+            case 21003, 27100, 30005, 21205 -> {
                 return 7517;
             }
             case 21015 -> {

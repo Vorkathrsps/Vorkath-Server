@@ -25,6 +25,7 @@ import com.aelous.utility.timers.TimerKey;
 
 import java.util.Arrays;
 
+import static com.aelous.utility.ItemIdentifiers.DRAGON_MACE_BH;
 import static com.aelous.utility.ItemIdentifiers.TOXIC_STAFF_UNCHARGED;
 
 /**
@@ -39,6 +40,7 @@ public enum CombatSpecial {
     MAGIC_SHORTBOW(new int[]{ItemIdentifiers.MAGIC_SHORTBOW, ItemIdentifiers.MAGIC_SHORTBOW_I}, 55, 1.0, 1.2, new MagicShortbow(), WeaponType.BOW),
     WEBWEAVER_BOW(new int[]{ItemIdentifiers.WEBWEAVER_BOW}, 50, 1.0, 1.5, new WebWeaverBow(), WeaponType.BOW),
     DARK_BOW(new int[]{ItemIdentifiers.DARK_BOW, ItemIdentifiers.DARK_BOW_12765, ItemIdentifiers.DARK_BOW_12766, ItemIdentifiers.DARK_BOW_12767, ItemIdentifiers.DARK_BOW_12768, ItemIdentifiers.DARK_BOW_20408}, 55, 1.30, 1.24, new DarkBow(), WeaponType.BOW),
+    DARK_BOW_BH(new int[]{ItemIdentifiers.DARK_BOW_BH},45, 1.30, 1.24, new DarkBowBH(), WeaponType.BOW),
     ARMADYL_CROSSBOW(new int[]{ItemIdentifiers.ARMADYL_CROSSBOW}, 40, 1.10, 2.0, new ArmadylCrossbow(), WeaponType.CROSSBOW),
     ZARYTE_CROSSBOW(new int[]{ItemIdentifiers.ZARYTE_CROSSBOW}, 75, 1.10, 2.0, new ZaryteCrossbow(), WeaponType.CROSSBOW),
     ZARYTE_I(new int[]{ItemIdentifiers.ZARYTE_CROSSBOW}, 50, 1.40, 5.0, new ZaryteCrossbow(), WeaponType.CROSSBOW),
@@ -66,6 +68,7 @@ public enum CombatSpecial {
     DRAGON_LONGSWORD(new int[]{ItemIdentifiers.DRAGON_LONGSWORD}, 25, 1.25D, 1.25F, new DragonLongsword(), WeaponType.LONGSWORD),
     DRAGON_DAGGER(new int[]{ItemIdentifiers.DRAGON_DAGGER, ItemIdentifiers.DRAGON_DAGGERP, ItemIdentifiers.DRAGON_DAGGERP_5680, ItemIdentifiers.DRAGON_DAGGERP_5698, ItemIdentifiers.DRAGON_DAGGER_20407}, 25, 1.15, 1.15, new DragonDagger(), WeaponType.DAGGER),
     ABYSSAL_DAGGER(new int[]{ItemIdentifiers.ABYSSAL_DAGGER, ItemIdentifiers.ABYSSAL_DAGGER_P, ItemIdentifiers.ABYSSAL_DAGGER_P_13269, ItemIdentifiers.ABYSSAL_DAGGER_P_13271}, 50, 0.85, 1.25, new AbyssalDagger(), WeaponType.DAGGER),
+    ABYSSAL_DAGGER_BH(new int[]{ItemIdentifiers.ABYSSAL_DAGGER_BH, ItemIdentifiers.ABYSSAL_DAGGER_BHP_27867, ItemIdentifiers.ABYSSAL_DAGGER_BHP, ItemIdentifiers.ABYSSAL_DAGGER_BHP_27865}, 25, 0.95, 1.25, new AbyssalDaggerBH(), WeaponType.DAGGER),
     ARMADYL_GODSWORD(new int[]{ItemIdentifiers.ARMADYL_GODSWORD, 20593}, 50, 1.25D * 1.10F, 1.50F, new ArmadylGodsword(), WeaponType.TWOHANDED),
     ANCIENT_GODSWORD(new int[]{ItemIdentifiers.ANCIENT_GODSWORD}, 50, 1.10D, 1.50F, new AncientGodsword(), WeaponType.TWOHANDED),
     BANDOS_GODSWORD(new int[]{ItemIdentifiers.BANDOS_GODSWORD, ItemIdentifiers.BANDOS_GODSWORD_OR}, 50, 1.20D, 1.0, new BandosGodsword(), WeaponType.TWOHANDED),
@@ -83,6 +86,8 @@ public enum CombatSpecial {
     DRAGON_2H_SWORD(new int[]{ItemIdentifiers.DRAGON_2H_SWORD}, 60, 1.0, 1.0, new Dragon2HSword(), WeaponType.TWOHANDED),
     BARRELSCHEST_ANCHOR(new int[]{ItemIdentifiers.BARRELCHEST_ANCHOR}, 50, 1.10, 1.10, new BarrelchestAnchor(), WeaponType.HAMMER),
     DRAGON_MACE(new int[]{ItemIdentifiers.DRAGON_MACE, 16254, 16255, 16256, 16257, 16258, 16259, 16260, 16261, 16262}, 25, 1.50D, 1.25F, new DragonMace(), WeaponType.MACE),
+    DRAGON_MACE_BH(new int[]{ItemIdentifiers.DRAGON_MACE_BH}, 25, 1.50D, 1.25F, new DragonMace(), WeaponType.MACE),
+
     INQUISITORS_MACE(new int[]{ItemIdentifiers.INQUISITORS_MACE}, 50, 1.10, 1.25, new InquisitorsMace(), WeaponType.MACE),
     URSINE_CHAINMACE(new int[]{ItemIdentifiers.URSINE_CHAINMACE}, 50, 1.0, 2.0, new UrsineMace(), WeaponType.MACE),
     DRAGON_WARHAMMER(new int[]{ItemIdentifiers.DRAGON_WARHAMMER, ItemIdentifiers.DRAGON_WARHAMMER_20785}, 50, 1.50D, 1.50F, new DragonWarhammer(), WeaponType.HAMMER),

@@ -1717,7 +1717,7 @@ public class CombatFactory {
 
         WeaponType weaponType = player.getCombat().getWeaponType();
 
-        if (!bowOfFaerdhinen && !webWeaver && !crawsBow && !crystalBow && ((weaponType == WeaponType.BOW || weaponType == WeaponType.CROSSBOW) && ammoName == "")) {
+        if (!bowOfFaerdhinen && !webWeaver && !crawsBow && !crystalBow && ((weaponType == WeaponType.BOW || weaponType == WeaponType.CROSSBOW) && ammoName.equals(""))) {
             player.message("There's no ammo left in your quiver.");
             return false;
         }

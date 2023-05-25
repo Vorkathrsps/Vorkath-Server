@@ -60,7 +60,7 @@ public class Vetion extends CommonCombatMethod {
     public void preDefend(Hit hit) {
         Player player = (Player) target;
         NPC vetion = (NPC) entity;
-        Arrays.stream(entity.closePlayers()).forEach(p -> {
+        Arrays.stream(vetion.closePlayers()).forEach(p -> {
             HealthHud.open(p, HealthHud.Type.REGULAR,"Vet'ion", 255);
         });
         if (player != null) {
@@ -72,7 +72,7 @@ public class Vetion extends CommonCombatMethod {
                     playersInArea.remove(player);
                 }
             }
-            if (vetion.isNpc() && playersInArea.size() == 0 && vetion.tile().inArea(vetionArea)) {
+            if (vetion.isNpc() && playersInArea.size() == 0) {
                 vetion.heal(vetion.maxHp());
             }
             if (VetionMinion.houndCount.size() == 0) {

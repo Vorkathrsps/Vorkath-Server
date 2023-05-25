@@ -72,6 +72,7 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         listeners.add(new VoidEquipment());
         listeners.add(new VestaLongsword());
         listeners.add(new ObsidianArmor());
+        listeners.add(new DragonMace());
         return listeners;
     }
 

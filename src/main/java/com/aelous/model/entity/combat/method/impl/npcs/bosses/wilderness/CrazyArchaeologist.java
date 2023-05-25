@@ -79,14 +79,15 @@ public class CrazyArchaeologist extends CommonCombatMethod {
 
     //Handle the ranged attack
     private void ranged_attack(NPC npc, Entity target) {
-        int tileDist = npc.tile().distance(target.tile());
-        int delay = Math.max(1, (20 + tileDist * 12) / 30);
 
         //Shout!
         npc.forceChat(misc_shout[Utils.random(5)]);
 
         //Send the projectile and animate the NPC
-        new Projectile(npc, target, 1259, 35, 6 * tileDist, 25, 25, 0).sendProjectile();
+        int tileDist = entity.tile().transform(1, 1).distance(target.tile());
+        int duration = (41 + 11 + (5 * tileDist));
+        Projectile p = new Projectile(entity, target, 1259, 41, duration, 43, 31, 0, target.getSize(), 5);
+        final int delay = entity.executeProjectile(p);
         npc.animate(3353);
 
         //Determine the damage dealt to the target

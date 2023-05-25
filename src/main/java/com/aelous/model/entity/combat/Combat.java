@@ -255,9 +255,9 @@ public class Combat {
         performNewAttack();
 
         if (mob.isPlayer() && target != null) {
-            mob.getAsPlayer().getPacketSender().sendEntityFeed(target.getMobName(), target.hp(), target.maxHp());
+           // mob.getAsPlayer().getPacketSender().sendEntityFeed(target.getMobName(), target.hp(), target.maxHp());
         } else if (mob.isPlayer() && target == null) {
-            mob.getAsPlayer().getPacketSender().resetEntityFeed();
+           // mob.getAsPlayer().getPacketSender().resetEntityFeed();
 
             //No target found reset fight time
             if (fightTimer.isRunning()) {

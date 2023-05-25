@@ -42,6 +42,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
                 boolean ancientSpells = player.getSpellbook() == MagicSpellbook.ANCIENT;
                 boolean isWearingPoweredStaff = player.getEquipment().containsAny(TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, SANGUINESTI_STAFF, TUMEKENS_SHADOW, DAWNBRINGER, ACCURSED_SCEPTRE_A);
                 boolean canCast = spell.canCast(player, target, true);
+                boolean hasTumeken = player.getEquipment().contains(TUMEKENS_SHADOW);
 
                 int projectile = -1;
                 int startgraphic = -1;
@@ -56,7 +57,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
                 int distance = player.tile().getChevDistance(target.tile());
 
                 if (canCast && !target.dead() && !player.dead()) {
-                    GraphicHeight startGraphicHeight = GraphicHeight.HIGH;
+                    GraphicHeight startGraphicHeight = hasTumeken ? GraphicHeight.LOW : GraphicHeight.HIGH;
                     GraphicHeight endGraphicHeight = GraphicHeight.HIGH;
                     ModernSpells findProjectileDataModern = ModernSpells.findSpellProjectileData(spellID, endGraphicHeight);
                     AncientSpells findProjectileDataAncients = AncientSpells.findSpellProjectileData(spellID, startGraphicHeight, endGraphicHeight);
@@ -93,7 +94,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
                         endHeight = findAutoCastWeaponsData.endHeight;
                         endGraphic = findAutoCastWeaponsData.endGraphic;
                         stepMultiplier = findAutoCastWeaponsData.stepMultiplier;
-                        duration = (startSpeed + -5 + (stepMultiplier * distance));
+                        duration = hasTumeken ? (startSpeed + 10 + (stepMultiplier * distance)) : (startSpeed + -5 + (stepMultiplier * distance));
                         endGraphicHeight = findAutoCastWeaponsData.endGraphicHeight;
                     }
 

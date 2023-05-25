@@ -3,8 +3,7 @@ package com.aelous.model.content.teleport.newinterface;
 import com.aelous.model.map.position.Tile;
 
 import static com.aelous.model.content.teleport.newinterface.NewTeleportInterface.*;
-import static com.aelous.model.content.teleport.newinterface.TeleDifficulty.EASY;
-import static com.aelous.model.content.teleport.newinterface.TeleDifficulty.MEDIUM;
+import static com.aelous.model.content.teleport.newinterface.TeleDifficulty.*;
 
 public enum NewTeleData {
     //Training Teleports
@@ -81,7 +80,7 @@ public enum NewTeleData {
     GIANT_MOLE(new Tile(1752, 5234), "Giant Mole", "", BOSSING, MEDIUM),
 
     ALCHEMICAL_HYDRA(new Tile(1354, 10258), "Alchemical Hydra", "", BOSSING, MEDIUM),
-    CORRUPTED_NECHRYARCH(new Tile(1885, 3865), "Corrupted Nechryarch", "", BOSSING, MEDIUM),
+    NEX(new Tile(2903, 5203), "Nex", "", BOSSING, HARD),
 
 
 

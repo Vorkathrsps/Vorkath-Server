@@ -1,6 +1,7 @@
 package com.aelous.model.entity.combat.method.impl.npcs.hydra;
 
 import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.model.entity.npc.HealthHud;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.object.GameObject;
@@ -9,6 +10,7 @@ import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static com.aelous.model.entity.combat.method.impl.npcs.hydra.HydraChamber.*;
 
@@ -90,6 +92,9 @@ public class AlchemicalHydra extends NPC {
 
     @Override
     public void postSequence() {
+        for (Player p : this.closePlayers(32)) {
+            HealthHud.update(p, HealthHud.Type.REGULAR, (dead() ? 0 : hp()), maxHp());
+        }
 
         if (locked()) {
             return;

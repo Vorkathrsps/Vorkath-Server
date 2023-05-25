@@ -5,6 +5,7 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.hit.Splat;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.masks.UpdateFlag;
+import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
@@ -14,8 +15,7 @@ import com.aelous.network.packet.PacketBuilder.AccessType;
 import com.aelous.network.packet.PacketType;
 import com.aelous.network.packet.ValueType;
 
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Represents a player's npc updating task, which loops through all local
@@ -273,11 +273,28 @@ public class NPCUpdating {
      * @param npc     The npc to update graphics for.
      * @return The NPCUpdating instance.
      */
+
     private static void updateGraphics(PacketBuilder builder, NPC npc) {
         builder.putShort(npc.graphic().id());
         builder.putInt(((npc.graphic().getHeight().ordinal() * 50) << 16)
             + (npc.graphic().delay() & 0xffff));
     }
+
+    /*
+    private static final Map<Integer, Graphic> graphic = new HashMap<>();
+
+    private static void updateGraphics(PacketBuilder builder, NPC npc) {
+        graphic.put(npc.graphic().id(), npc.graphic());
+        builder.put(graphic.size(), ValueType.A);
+        for (var entry : graphic.entrySet()) {
+            int key = entry.getKey();
+            Graphic graphic = entry.getValue();
+            builder.put(key, ValueType.S);
+            builder.putShort(graphic.id(), ValueType.A, ByteOrder.LITTLE);
+            builder.putInt((graphic.getHeight().ordinal() * 50 << 16) | (graphic.getDelay() & 0xFFFF), ByteOrder.LITTLE);
+        }
+    }*/
+
 
 
     private static void writeLuminanceOverlay(PacketBuilder builder, NPC npc) {

@@ -7,6 +7,7 @@ import com.aelous.core.task.impl.RestoreSpecialAttackTask;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.method.CombatMethod;
+import com.aelous.model.entity.combat.method.impl.specials.magic.AccursedSceptre;
 import com.aelous.model.entity.combat.method.impl.specials.magic.EldritchNMS;
 import com.aelous.model.entity.combat.method.impl.specials.magic.VoidWaker;
 import com.aelous.model.entity.combat.method.impl.specials.magic.VolatileNMS;
@@ -55,6 +56,7 @@ public enum CombatSpecial {
     STAFF_OF_LIGHT(new int[]{ItemIdentifiers.STAFF_OF_LIGHT}, 100, 1.0, 1.0, null, WeaponType.MAGIC_STAFF),
     VOLATILE_NIGHTMARE_STAFF(new int[]{ItemIdentifiers.VOLATILE_NIGHTMARE_STAFF}, 55, 1.0, 1.50, new VolatileNMS(), WeaponType.MAGIC_STAFF),
     ELDRITCH_NIGHTMARE_STAFF(new int[]{ItemIdentifiers.ELDRITCH_NIGHTMARE_STAFF}, 75, 1.0, 1.0, new EldritchNMS(), WeaponType.MAGIC_STAFF),
+    ACCURSED_SCEPTRE(new int[]{ItemIdentifiers.ACCURSED_SCEPTRE_A}, 50, 1.0, 1.0, new AccursedSceptre(), WeaponType.POWERED_STAFF),
 
     VOIDWAKER(new int[]{ItemIdentifiers.VOIDWAKER}, 50,  1.0, 1.0, new VoidWaker(), WeaponType.LONGSWORD),
 

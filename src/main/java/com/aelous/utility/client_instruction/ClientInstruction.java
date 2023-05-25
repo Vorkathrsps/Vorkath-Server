@@ -42,4 +42,9 @@ public class ClientInstruction {
         arguments.clear();
         arguments = null;
     }
+
+    public void clearInstructions() {
+        arguments.clear();
+        arguments = null;
+    }
 }

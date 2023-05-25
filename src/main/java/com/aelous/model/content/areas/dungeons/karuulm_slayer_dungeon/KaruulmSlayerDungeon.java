@@ -9,6 +9,7 @@ import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.method.impl.npcs.hydra.AlchemicalHydra;
 import com.aelous.model.entity.masks.ForceMovement;
+import com.aelous.model.entity.npc.HealthHud;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.map.object.GameObject;
@@ -141,6 +142,9 @@ public class KaruulmSlayerDungeon extends PacketInteraction {
                         player.teleport(ENTRANCE_POINT.transform(0, 0, instance.getzLevel()));
                         var hydra = new AlchemicalHydra(HYDRA_SPAWN_TILE.transform(0, 0, instance.getzLevel()), player);
                         hydra.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN,25);
+                        Arrays.stream(hydra.closePlayers()).forEach(p -> {
+                            HealthHud.open(p, HealthHud.Type.REGULAR,"Alchemical Hydra", 1100);
+                        });
                         World.getWorld().registerNpc(hydra);
                         instance.addNpc(hydra);
                     } else {

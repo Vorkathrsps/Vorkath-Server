@@ -4,6 +4,7 @@ import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.skull.SkullType;
 import com.aelous.model.entity.combat.skull.Skulling;
@@ -27,7 +28,7 @@ public class Skotizo extends CommonCombatMethod {
         //10% chance that the wold boss skulls you!
         if (World.getWorld().rollDie(10, 1)) {
             Skulling.assignSkullState(((Player) target), SkullType.WHITE_SKULL);
-            target.message("The "+entity.getMobName()+" has skulled you, be careful!");
+            target.message("The " + entity.getMobName() + " has skulled you, be careful!");
         }
 
         NPC npc = (NPC) entity;
@@ -39,14 +40,14 @@ public class Skotizo extends CommonCombatMethod {
             magic_attack(npc, target);
         } else {
             if (CombatFactory.canReach(npc, CombatFactory.MELEE_COMBAT, target)) {
-               // System.out.println("melee distance, using melee attack.");
+                // System.out.println("melee distance, using melee attack.");
                 melee_attack(npc, target);
             } else if (Utils.rollDie(2, 1)) {
                 magic_attack(npc, target);
-               // System.out.println("Otherwise rolled magic attack due to out of melee distance.");
+                // System.out.println("Otherwise rolled magic attack due to out of melee distance.");
             } else {
                 ranged_attack(npc, target);
-               // System.out.println("Otherwise rolled ranged attack due to out of melee distance.");
+                // System.out.println("Otherwise rolled ranged attack due to out of melee distance.");
             }
         }
         return true;
@@ -78,12 +79,13 @@ public class Skotizo extends CommonCombatMethod {
         World.getWorld().getPlayers().forEach(player -> {
             if (tile.inSqRadius(player.tile(), 3)) {
                 int tileDist = npc.tile().transform(3, 3, 0).distance(player.tile());
-                int delay = Math.max(1, (30 + (tileDist * 12)) / 30);
-
-                new Projectile(npc, player, 165, 20, 12 * tileDist, 80, 30, 0).sendProjectile();
-
+                int duration = (51 + -5 + (10 * tileDist));
+                Projectile p = new Projectile(entity, target, 165, 51, duration, 80, 30, 0, target.getSize(), 10);
+                final int delay = entity.executeProjectile(p);
+                Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+                hit.submit();
                 target.hit(npc, CombatFactory.calcDamageFromType(npc, player, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
-               // player.delayedGraphics(new Graphic(166, GraphicHeight.HIGH, 0), delay);
+                player.graphic(166, GraphicHeight.HIGH, p.getSpeed());
             }
         });
         npc.animate(69);
@@ -100,11 +102,11 @@ public class Skotizo extends CommonCombatMethod {
         World.getWorld().getPlayers().forEach(player -> {
             if (tile.inSqRadius(player.tile(), 3)) {
                 int tileDist = npc.tile().transform(3, 3, 0).distance(player.tile());
-                int delay = Math.max(1, (30 + (tileDist * 12)) / 30);
-
-                new Projectile(npc, player, 1242, 20, 12 * tileDist, 80, 50, 0).sendProjectile();
+                int duration = (41 + 11 + (5 * tileDist));
+                Projectile p = new Projectile(npc, player, 1242, 41, duration, 43, 31, 0, player.getSize(), 5);
+                final int delay = npc.executeProjectile(p);
                 target.hit(npc, CombatFactory.calcDamageFromType(npc, player, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
-                player.performGraphic(new Graphic(1243, GraphicHeight.HIGH, delay));
+                player.graphic(1243, GraphicHeight.HIGH, p.getSpeed());
             }
         });
 

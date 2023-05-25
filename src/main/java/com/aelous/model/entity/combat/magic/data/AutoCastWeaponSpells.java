@@ -3,11 +3,11 @@ package com.aelous.model.entity.combat.magic.data;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 
 public enum AutoCastWeaponSpells {
-    TUMMEKENS_SHADOW(6, 2126, 51, 63, 31, 2125, 2127, 10, 9493,  GraphicHeight.HIGH),
+    TUMMEKENS_SHADOW(6, 2126, 51, 70, 31, 2125, 2127, 10, 9493,  GraphicHeight.HIGH),
     ACCURSED_SCEPTRE(7, 2337, 51, 43, 31, -1, 78, 10, 1167,  GraphicHeight.HIGH),
-    SANGUINESTI_STAFF(3, 1539, 51, 31, 0, 1540, 1541, 10, 1167,  GraphicHeight.LOW),
-    TRIDENT_OF_THE_SEAS(1, 1252, 51, 31, 0, 1251, 1253, 10, 1167,  GraphicHeight.LOW),
-    TRIDENT_OF_THE_SWAMP(2, 1040, 51, 31, 0, 665, 1042, 10, 1167,  GraphicHeight.LOW);
+    SANGUINESTI_STAFF(3, 1539, 51, 31, 11, 1540, 1541, 10, 1167,  GraphicHeight.LOW),
+    TRIDENT_OF_THE_SEAS(1, 1252, 51, 25, 11, 1251, 1253, 10, 1167,  GraphicHeight.LOW),
+    TRIDENT_OF_THE_SWAMP(2, 1040, 51, 25, 11, 665, 1042, 10, 1167,  GraphicHeight.LOW);
 
     public final int spellID, projectile, castAnimation, startSpeed, startHeight, endHeight, startGraphic, endGraphic, stepMultiplier;
 

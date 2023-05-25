@@ -25,13 +25,16 @@ public class MorrigansThrowingAxe extends CommonCombatMethod {
         entity.animate(929);
         entity.graphic(1626, GraphicHeight.HIGH, 0);
 
-        //Fire projectile
-        new Projectile(entity, target, 1625, 50, 70, 44, 35, 3).sendProjectile();
 
-        int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED);
-        target.hit(entity, hit, 1, CombatType.RANGED).checkAccuracy().postDamage(this::handleAfterHit).submit();
+        int tileDist = entity.tile().distance(target.tile());
+        int duration = (41 + 11 + (5 * tileDist));
+        Projectile p = new Projectile(entity, target, 1625, 41, duration, 43, 31, 0, target.getSize(), 5);
+        final int delay = entity.executeProjectile(p);
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
+        hit.submit();
+        hit.postDamage(this::handleAfterHit);
         CombatSpecial.drain(entity, CombatSpecial.MORRIGANS_THROWING_AXE.getDrainAmount());
-return true;
+        return true;
     }
 
     @Override
@@ -45,8 +48,7 @@ return true;
     }
 
     public void handleAfterHit(Hit hit) {
-        if(hit.getTarget() instanceof Player) {
-            Player player = (Player) hit.getTarget();
+        if (hit.getTarget() instanceof Player player) {
             player.getTimers().register(TimerKey.HAMSTRUNG, 100);
             player.message("You've been hamstrung! For the next minute, your run energy will drain 6x faster.");
         }

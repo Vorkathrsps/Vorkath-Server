@@ -15,14 +15,15 @@ import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
+import com.aelous.model.entity.npc.HealthHud;
 import com.aelous.model.entity.npc.NPC;
+import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Boundary;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.phase.Phase;
 import com.aelous.model.phase.PhaseStage;
-import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,13 +45,9 @@ public class TheNightmare extends CommonCombatMethod {
         MELEE, RANGE, MAGIC, SPEED_ATTACK, HIDE_ATTACK, SPECIAL_ATTACK
     }
 
-    private Attacks attack = Attacks.MELEE;
     public static final Boundary BOUNDARY = new Boundary(3862, 9940, 3884, 9962);
     @Getter
     public Phase phase = new Phase(PhaseStage.ONE);
-    boolean stageOneSpecialAbilitys = phase.getStage() == PhaseStage.ONE;
-    boolean stageTwoSpecialAbilitys = phase.getStage() == PhaseStage.TWO;
-    boolean stageThreeSpecialAbilitys = phase.getStage() == PhaseStage.THREE;
     @Getter
     @Setter
     boolean huskSpawned, flowerPower, sleepWalking = false;
@@ -67,6 +64,13 @@ public class TheNightmare extends CommonCombatMethod {
     @Override
     public void preDefend(Hit hit) {
         hit.setSplatType(SplatType.VERZIK_SHIELD_HITSPLAT);
+        Arrays.stream(entity.closePlayers()).forEach(p -> {
+            HealthHud.open(p, HealthHud.Type.CYAN_SHIELD,"The Nightmare", 1100);
+        });
+        for (Player p : this.entity.closePlayers(32)) {
+            HealthHud.update(p, HealthHud.Type.CYAN_SHIELD, (entity.dead() ? 0 : entity.hp()), entity.maxHp());
+        }
+
     }
 
     @Override
@@ -95,7 +99,6 @@ public class TheNightmare extends CommonCombatMethod {
         if (!CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
             return;
         }
-        attack = Attacks.MELEE;
         entity.animate(8594);
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 3, CombatType.MELEE);
         hit.submit();
@@ -222,7 +225,6 @@ public class TheNightmare extends CommonCombatMethod {
     }
 
     private void magicAttack() {
-        attack = Attacks.MAGIC;
         entity.animate(8595);
         var tileDist = entity.tile().getChevDistance(target.tile());
         int duration = (80 + -15 + (10 * tileDist));
@@ -234,7 +236,6 @@ public class TheNightmare extends CommonCombatMethod {
     }
 
     private void rangeAttack() {
-        attack = Attacks.RANGE;
         entity.animate(8596);
         int tileDist = entity.tile().getChevDistance(target.tile());
         int duration = (90 + 15 + (5 * tileDist));

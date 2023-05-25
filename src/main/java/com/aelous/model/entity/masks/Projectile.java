@@ -5,6 +5,7 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
+import lombok.Setter;
 
 /**
  * A graphic propelled through the air by some sort of spell, weapon, or other
@@ -59,17 +60,17 @@ public final class Projectile {
     /**
      * The curve angle of the projectile.
      */
-    private final int angle;
+    @Setter public int angle;
 
     /**
      * The slope of the projectile.
      */
-    private final int slope;
+    @Setter public int slope;
 
     /**
      * The radius that the projectile is launched from.
      */
-    private final int radius;
+    @Setter public int radius;
 
     private final int stepMultiplier;
 

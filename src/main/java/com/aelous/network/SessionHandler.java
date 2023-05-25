@@ -20,6 +20,11 @@ public final class SessionHandler extends ChannelInboundHandlerAdapter {
     private static final Logger logger = LoggerFactory.getLogger(SessionHandler.class);
 
     @Override
+    public void channelActive(ChannelHandlerContext ctx) {
+        ctx.read();
+    }
+
+    @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         if (msg instanceof LoginDetailsMessage) {
             ctx.channel().attr(NetworkUtils.SESSION_KEY).setIfAbsent(new Session(ctx.channel()));

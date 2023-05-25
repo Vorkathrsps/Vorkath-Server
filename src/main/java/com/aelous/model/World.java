@@ -283,6 +283,7 @@ public class World {
                 @Override
                 public void execute(int index) {
                     Player player = players.get(index);
+                    player.getSession().read();
                     player.getSession().handleQueuedPackets();
                     player.syncContainers();
                 }

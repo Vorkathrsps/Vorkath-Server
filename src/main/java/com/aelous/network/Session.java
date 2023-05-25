@@ -262,4 +262,14 @@ public class Session {
             ", state=" + state +
             '}';
     }
+
+    public boolean read() {
+        final Channel channel = this.channel;
+        if (channel.isActive()) {
+            channel.read();
+            return true;
+        }
+        return false;
+    }
+
 }

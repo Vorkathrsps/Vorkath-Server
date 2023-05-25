@@ -4,10 +4,7 @@ import com.aelous.utility.timers.TimerKey;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.UnpooledByteBufAllocator;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.epoll.Epoll;
 import io.netty.channel.epoll.EpollEventLoopGroup;
 import io.netty.channel.epoll.EpollServerSocketChannel;
@@ -77,6 +74,11 @@ public final class NetworkBuilder {
         bootstrap.childOption(ChannelOption.CONNECT_TIMEOUT_MILLIS, 30_000);
         bootstrap.childOption(ChannelOption.TCP_NODELAY, true);
         bootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
+        bootstrap.childOption(ChannelOption.AUTO_READ, false);
+        bootstrap.childOption(ChannelOption.SO_RCVBUF, 65536);
+        bootstrap.childOption(ChannelOption.SO_SNDBUF, 65536);
+        bootstrap.childOption(ChannelOption.WRITE_BUFFER_WATER_MARK,
+            new WriteBufferWaterMark(65536, 65536 * 2));
         final ByteBufAllocator allocator = new UnpooledByteBufAllocator(false);
         bootstrap.option(ChannelOption.ALLOCATOR, allocator);
         bootstrap.childOption(ChannelOption.ALLOCATOR, allocator);

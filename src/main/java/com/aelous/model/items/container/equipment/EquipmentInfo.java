@@ -85,7 +85,7 @@ public class EquipmentInfo {
             if (type.equals(FightType.DINHS_PUMMEL)) {
                     int formula2 = (int) (((bonuses.stabdef + bonuses.slashdef + bonuses.crushdef + bonuses.rangedef) / 12) - 104.66D);
                     bonuses.str += formula2;
-                    System.out.println(formula2);
+                   // System.out.println(formula2);
                 }
             }
 

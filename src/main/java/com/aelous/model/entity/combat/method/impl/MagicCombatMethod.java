@@ -16,6 +16,7 @@ import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
+import org.apache.logging.log4j.LogManager;
 
 import static com.aelous.utility.ItemIdentifiers.*;
 
@@ -25,7 +26,6 @@ import static com.aelous.utility.ItemIdentifiers.*;
 public class MagicCombatMethod extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        try {
             Player player = (Player) entity;
             CombatSpell spell = player.getCombat().getCastSpell();
             if (spell == null) {
@@ -34,8 +34,10 @@ public class MagicCombatMethod extends CommonCombatMethod {
                     spell = player.getCombat().getPoweredStaffSpell();
                 }
             }
-
-            if (spell != null) {
+        LogManager.getLogger("dev").info("spell {}", spell);
+            if (spell == null) {
+                return false;
+            }
                 int spellID = spell.spellId();
 
                 boolean modernSpells = player.getSpellbook() == MagicSpellbook.NORMAL;
@@ -56,14 +58,16 @@ public class MagicCombatMethod extends CommonCombatMethod {
 
                 int distance = player.tile().getChevDistance(target.tile());
 
-                if (canCast && !target.dead() && !player.dead()) {
+                if (!canCast || target.dead() || player.dead()) {
+                    return false;
+                }
                     GraphicHeight startGraphicHeight = hasTumeken ? GraphicHeight.LOW : GraphicHeight.HIGH;
                     GraphicHeight endGraphicHeight = GraphicHeight.HIGH;
                     ModernSpells findProjectileDataModern = ModernSpells.findSpellProjectileData(spellID, endGraphicHeight);
                     AncientSpells findProjectileDataAncients = AncientSpells.findSpellProjectileData(spellID, startGraphicHeight, endGraphicHeight);
                     AutoCastWeaponSpells findAutoCastWeaponsData = AutoCastWeaponSpells.findSpellProjectileData(spellID, endGraphicHeight);
 
-                    if (findProjectileDataModern != null && modernSpells && player.getCombat().getCastSpell() != null && player.getCombat().getCastSpell().spellId() == findProjectileDataModern.spellID) {
+                    if (findProjectileDataModern != null && modernSpells && spell.spellId() == findProjectileDataModern.spellID) {
                         projectile = findProjectileDataModern.projectile;
                         startgraphic = findProjectileDataModern.startGraphic;
                         castAnimation = findProjectileDataModern.castAnimation;
@@ -74,7 +78,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
                         stepMultiplier = findProjectileDataModern.stepMultiplier;
                         duration = (startSpeed + -5 + (stepMultiplier * distance));
                         endGraphicHeight = findProjectileDataModern.endGraphicHeight;
-                    } else if (findProjectileDataAncients != null && ancientSpells && player.getCombat().getCastSpell() != null && player.getCombat().getCastSpell().spellId() == findProjectileDataAncients.spellID) {
+                    } else if (findProjectileDataAncients != null && ancientSpells && spell.spellId() == findProjectileDataAncients.spellID) {
                         projectile = findProjectileDataAncients.projectile;
                         startgraphic = findProjectileDataAncients.startGraphic;
                         castAnimation = findProjectileDataAncients.castAnimation;
@@ -85,7 +89,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
                         stepMultiplier = findProjectileDataAncients.stepMultiplier;
                         duration = (startSpeed + -5 + (stepMultiplier * distance));
                         endGraphicHeight = findProjectileDataAncients.endGraphicHeight;
-                    } else if (isWearingPoweredStaff && findAutoCastWeaponsData != null && player.getCombat().getPoweredStaffSpell() != null && player.getCombat().getPoweredStaffSpell().spellId() == findAutoCastWeaponsData.spellID) {
+                    } else if (isWearingPoweredStaff && findAutoCastWeaponsData != null && spell.spellId() == findAutoCastWeaponsData.spellID) {
                         projectile = findAutoCastWeaponsData.projectile;
                         startgraphic = findAutoCastWeaponsData.startGraphic;
                         castAnimation = findAutoCastWeaponsData.castAnimation;
@@ -120,11 +124,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
                     }
 
                     spell.finishCast(player, target, hit.isAccurate(), hit.getDamage());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         return true;
     }
 

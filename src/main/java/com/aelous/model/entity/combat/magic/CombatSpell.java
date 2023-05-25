@@ -70,4 +70,9 @@ public abstract class CombatSpell extends Spell {
     public abstract MagicSpellbook spellbook();
 
     public abstract void finishCast(Entity cast, Entity castOn, boolean accurate, int damage);
+
+    @Override
+    public String toString() {
+        return "CombatSpell{"+name()+", "+spellbook()+" "+spellId()+"}";
+    }
 }

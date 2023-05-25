@@ -96,7 +96,7 @@ public class MagicAccuracy {
         effectiveLevel += magicLevel;
 
         effectiveLevel += 9;
-        System.out.println(effectiveLevel);
+        //System.out.println(effectiveLevel);
         return (int) Math.floor(effectiveLevel);
     }
 

@@ -18,7 +18,7 @@ public class HungarianHorntailDroptable implements Droptable {
             var currentKills = party.getKills();
             party.setKills(currentKills + 1);
             party.teamMessage("<col=ef20ff>" + killer.getUsername() + " has killed a " + npc.def().name + ".");
-            System.out.println(party.getKills());
+           // System.out.println(party.getKills());
 
             //Progress to the next stage
             if (party.getKills() == 3) {

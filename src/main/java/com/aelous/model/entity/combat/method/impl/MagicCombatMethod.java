@@ -26,104 +26,104 @@ import static com.aelous.utility.ItemIdentifiers.*;
 public class MagicCombatMethod extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-            Player player = (Player) entity;
-            CombatSpell spell = player.getCombat().getCastSpell();
+        Player player = (Player) entity;
+        CombatSpell spell = player.getCombat().getCastSpell();
+        if (spell == null) {
+            spell = player.getCombat().getAutoCastSpell();
             if (spell == null) {
-                spell = player.getCombat().getAutoCastSpell();
-                if (spell == null) {
-                    spell = player.getCombat().getPoweredStaffSpell();
-                }
+                spell = player.getCombat().getPoweredStaffSpell();
             }
+        }
         LogManager.getLogger("dev").info("spell {}", spell);
-            if (spell == null) {
-                return false;
-            }
-                int spellID = spell.spellId();
+        if (spell == null) {
+            return false;
+        }
+        int spellID = spell.spellId();
 
-                boolean modernSpells = player.getSpellbook() == MagicSpellbook.NORMAL;
-                boolean ancientSpells = player.getSpellbook() == MagicSpellbook.ANCIENT;
-                boolean isWearingPoweredStaff = player.getEquipment().containsAny(TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, SANGUINESTI_STAFF, TUMEKENS_SHADOW, DAWNBRINGER, ACCURSED_SCEPTRE_A);
-                boolean canCast = spell.canCast(player, target, true);
-                boolean hasTumeken = player.getEquipment().contains(TUMEKENS_SHADOW);
+        boolean modernSpells = player.getSpellbook() == MagicSpellbook.NORMAL;
+        boolean ancientSpells = player.getSpellbook() == MagicSpellbook.ANCIENT;
+        boolean isWearingPoweredStaff = player.getEquipment().containsAny(TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, SANGUINESTI_STAFF, TUMEKENS_SHADOW, DAWNBRINGER, ACCURSED_SCEPTRE_A);
+        boolean canCast = spell.canCast(player, target, true);
+        boolean hasTumeken = player.getEquipment().contains(TUMEKENS_SHADOW);
 
-                int projectile = -1;
-                int startgraphic = -1;
-                int castAnimation = -1;
-                int startSpeed = -1;
-                int startHeight = -1;
-                int endHeight = -1;
-                int endGraphic = -1;
-                int stepMultiplier = -1;
-                int duration = -1;
+        int projectile = -1;
+        int startgraphic = -1;
+        int castAnimation = -1;
+        int startSpeed = -1;
+        int startHeight = -1;
+        int endHeight = -1;
+        int endGraphic = -1;
+        int stepMultiplier = -1;
+        int duration = -1;
 
-                int distance = player.tile().getChevDistance(target.tile());
+        int distance = player.tile().getChevDistance(target.tile());
 
-                if (!canCast || target.dead() || player.dead()) {
-                    return false;
-                }
-                    GraphicHeight startGraphicHeight = hasTumeken ? GraphicHeight.LOW : GraphicHeight.HIGH;
-                    GraphicHeight endGraphicHeight = GraphicHeight.HIGH;
-                    ModernSpells findProjectileDataModern = ModernSpells.findSpellProjectileData(spellID, endGraphicHeight);
-                    AncientSpells findProjectileDataAncients = AncientSpells.findSpellProjectileData(spellID, startGraphicHeight, endGraphicHeight);
-                    AutoCastWeaponSpells findAutoCastWeaponsData = AutoCastWeaponSpells.findSpellProjectileData(spellID, endGraphicHeight);
+        if (!canCast || target.dead() || player.dead()) {
+            return false;
+        }
+        GraphicHeight startGraphicHeight = hasTumeken ? GraphicHeight.LOW : GraphicHeight.HIGH;
+        GraphicHeight endGraphicHeight = GraphicHeight.HIGH;
+        ModernSpells findProjectileDataModern = ModernSpells.findSpellProjectileData(spellID, endGraphicHeight);
+        AncientSpells findProjectileDataAncients = AncientSpells.findSpellProjectileData(spellID, startGraphicHeight, endGraphicHeight);
+        AutoCastWeaponSpells findAutoCastWeaponsData = AutoCastWeaponSpells.findSpellProjectileData(spellID, endGraphicHeight);
 
-                    if (findProjectileDataModern != null && modernSpells && spell.spellId() == findProjectileDataModern.spellID) {
-                        projectile = findProjectileDataModern.projectile;
-                        startgraphic = findProjectileDataModern.startGraphic;
-                        castAnimation = findProjectileDataModern.castAnimation;
-                        startSpeed = findProjectileDataModern.startSpeed;
-                        startHeight = findProjectileDataModern.startHeight;
-                        endHeight = findProjectileDataModern.endHeight;
-                        endGraphic = findProjectileDataModern.endGraphic;
-                        stepMultiplier = findProjectileDataModern.stepMultiplier;
-                        duration = (startSpeed + -5 + (stepMultiplier * distance));
-                        endGraphicHeight = findProjectileDataModern.endGraphicHeight;
-                    } else if (findProjectileDataAncients != null && ancientSpells && spell.spellId() == findProjectileDataAncients.spellID) {
-                        projectile = findProjectileDataAncients.projectile;
-                        startgraphic = findProjectileDataAncients.startGraphic;
-                        castAnimation = findProjectileDataAncients.castAnimation;
-                        startSpeed = findProjectileDataAncients.startSpeed;
-                        startHeight = findProjectileDataAncients.startHeight;
-                        endHeight = findProjectileDataAncients.endHeight;
-                        endGraphic = findProjectileDataAncients.endGraphic;
-                        stepMultiplier = findProjectileDataAncients.stepMultiplier;
-                        duration = (startSpeed + -5 + (stepMultiplier * distance));
-                        endGraphicHeight = findProjectileDataAncients.endGraphicHeight;
-                    } else if (isWearingPoweredStaff && findAutoCastWeaponsData != null && spell.spellId() == findAutoCastWeaponsData.spellID) {
-                        projectile = findAutoCastWeaponsData.projectile;
-                        startgraphic = findAutoCastWeaponsData.startGraphic;
-                        castAnimation = findAutoCastWeaponsData.castAnimation;
-                        startSpeed = findAutoCastWeaponsData.startSpeed;
-                        startHeight = findAutoCastWeaponsData.startHeight;
-                        endHeight = findAutoCastWeaponsData.endHeight;
-                        endGraphic = findAutoCastWeaponsData.endGraphic;
-                        stepMultiplier = findAutoCastWeaponsData.stepMultiplier;
-                        duration = hasTumeken ? (startSpeed + 10 + (stepMultiplier * distance)) : (startSpeed + -5 + (stepMultiplier * distance));
-                        endGraphicHeight = findAutoCastWeaponsData.endGraphicHeight;
-                    }
+        if (findProjectileDataModern != null && modernSpells && spell.spellId() == findProjectileDataModern.spellID) {
+            projectile = findProjectileDataModern.projectile;
+            startgraphic = findProjectileDataModern.startGraphic;
+            castAnimation = findProjectileDataModern.castAnimation;
+            startSpeed = findProjectileDataModern.startSpeed;
+            startHeight = findProjectileDataModern.startHeight;
+            endHeight = findProjectileDataModern.endHeight;
+            endGraphic = findProjectileDataModern.endGraphic;
+            stepMultiplier = findProjectileDataModern.stepMultiplier;
+            duration = (startSpeed + -5 + (stepMultiplier * distance));
+            endGraphicHeight = findProjectileDataModern.endGraphicHeight;
+        } else if (findProjectileDataAncients != null && ancientSpells && spell.spellId() == findProjectileDataAncients.spellID) {
+            projectile = findProjectileDataAncients.projectile;
+            startgraphic = findProjectileDataAncients.startGraphic;
+            castAnimation = findProjectileDataAncients.castAnimation;
+            startSpeed = findProjectileDataAncients.startSpeed;
+            startHeight = findProjectileDataAncients.startHeight;
+            endHeight = findProjectileDataAncients.endHeight;
+            endGraphic = findProjectileDataAncients.endGraphic;
+            stepMultiplier = findProjectileDataAncients.stepMultiplier;
+            duration = (startSpeed + -5 + (stepMultiplier * distance));
+            endGraphicHeight = findProjectileDataAncients.endGraphicHeight;
+        } else if (isWearingPoweredStaff && findAutoCastWeaponsData != null && spell.spellId() == findAutoCastWeaponsData.spellID) {
+            projectile = findAutoCastWeaponsData.projectile;
+            startgraphic = findAutoCastWeaponsData.startGraphic;
+            castAnimation = findAutoCastWeaponsData.castAnimation;
+            startSpeed = findAutoCastWeaponsData.startSpeed;
+            startHeight = findAutoCastWeaponsData.startHeight;
+            endHeight = findAutoCastWeaponsData.endHeight;
+            endGraphic = findAutoCastWeaponsData.endGraphic;
+            stepMultiplier = findAutoCastWeaponsData.stepMultiplier;
+            duration = hasTumeken ? (startSpeed + 10 + (stepMultiplier * distance)) : (startSpeed + -5 + (stepMultiplier * distance));
+            endGraphicHeight = findAutoCastWeaponsData.endGraphicHeight;
+        }
 
-                    player.animate(new Animation(castAnimation));
-                    player.performGraphic(new Graphic(startgraphic, startGraphicHeight, 0));
+        player.animate(new Animation(castAnimation));
+        player.performGraphic(new Graphic(startgraphic, startGraphicHeight, 0));
 
-                    Projectile p = new Projectile(player, target, projectile, startSpeed, duration, startHeight, endHeight, 0, target.getSize(), stepMultiplier);
+        Projectile p = new Projectile(player, target, projectile, startSpeed, duration, startHeight, endHeight, 0, target.getSize(), stepMultiplier);
 
-                    final int delay = player.executeProjectile(p);
+        final int delay = player.executeProjectile(p);
 
-                    Hit hit = Hit.builder(player, target, CombatFactory.calcDamageFromType(player, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
-                    hit.submit();
+        Hit hit = Hit.builder(player, target, CombatFactory.calcDamageFromType(player, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        hit.submit();
 
-                    if (hit.isAccurate()) {
-                        target.performGraphic(new Graphic(endGraphic, endGraphicHeight, p.getSpeed()));
-                    } else {
-                        target.performGraphic(new Graphic(85, GraphicHeight.LOW, p.getSpeed()));
-                    }
+        if (hit.isAccurate()) {
+            target.performGraphic(new Graphic(endGraphic, endGraphicHeight, p.getSpeed()));
+        } else {
+            target.performGraphic(new Graphic(85, GraphicHeight.LOW, p.getSpeed()));
+        }
 
-                    if (spell instanceof CombatEffectSpell combatEffectSpell) {
-                        combatEffectSpell.whenSpellCast(player, target);
-                        combatEffectSpell.spellEffect(player, target, hit);
-                    }
+        if (spell instanceof CombatEffectSpell combatEffectSpell) {
+            combatEffectSpell.whenSpellCast(player, target);
+            combatEffectSpell.spellEffect(player, target, hit);
+        }
 
-                    spell.finishCast(player, target, hit.isAccurate(), hit.getDamage());
+        spell.finishCast(player, target, hit.isAccurate(), hit.getDamage());
 
         return true;
     }

@@ -76,7 +76,7 @@ public class Vetion extends CommonCombatMethod {
                     System.out.println("removed");
                 }
             }
-            if (vetion.isNpc() && playersInArea.size() == 0) {
+            if (vetion.isNpc() && playersInArea.size() == 0 && vetion.tile().inArea(vetionArea)) {
                 vetion.heal(vetion.maxHp());
             }
             if (VetionMinion.houndCount.size() == 0) {

@@ -1371,6 +1371,8 @@ public class Player extends Entity {
 
         if (tile.inArea(new Area(1356, 10254, 1380, 10280))) // hydra
             teleport(1353, 10258, 0);
+        if (tile.region() == 9023 && getZ() > 3) // vorkath
+            teleport(2272, 4050, 0);
 
         if (getInstancedArea() != null) {
             getInstancedArea().removePlayer(this);
@@ -1495,6 +1497,9 @@ public class Player extends Entity {
 
             if (this.<Boolean>getAttribOr(ASK_FOR_ACCOUNT_PIN, false)) {
                 askForAccountPin();
+            }
+            if (getInstancedArea() == null && getZ() > 3) {
+                logger.error("Player {} at height {} with no instance attached. You probably need to TP them out of instance on logout.", getMobName(), getZ());
             }
             //We're logged in now, we can now send data such as quest tab friends list etc.
         }).then(1, () -> {

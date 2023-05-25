@@ -60,7 +60,7 @@ public class MagicAccuracy {
 
         double selectedChance = random.nextFloat();
 
-        System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(accuracy) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (accuracy > selectedChance ? "YES" : "NO"));
+        //System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(accuracy) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (accuracy > selectedChance ? "YES" : "NO"));
 
         return accuracy > selectedChance;
     }

@@ -17,14 +17,7 @@ import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.SCORPIA;
 public class ScorpiaGuardian {
 
     public static void heal(NPC scorpia, NPC minion) {
-        if (scorpia.id() == SCORPIA) {
-            Chain.bound(null).runFn(8, () -> {
-                if(minion.tile().isWithinDistance(scorpia.tile(), 2)) {
-                    scorpia.heal(1);
-                    new Projectile(minion, scorpia,109,50,100,53,31,0).sendProjectile();
-                }
-            });
-        }
+        minion.ignoreOccupiedTiles = true;
 
         //If they do not heal Scorpia in 15 seconds, they will despawn.
         TaskManager.submit(new Task("ScorpiaGuardianTask", 1) {
@@ -38,6 +31,10 @@ public class ScorpiaGuardian {
 
                 if(!minion.tile().isWithinDistance(scorpia.tile(), 2) && !minion.finished()) {
                     no_heal_ticks++;
+                }
+                if(minion.tile().isWithinDistance(scorpia.tile(), 2)) {
+                    scorpia.heal(1);
+                    new Projectile(minion, scorpia,109,50,100,53,31,0).sendProjectile();
                 }
 
                 if(no_heal_ticks == 25) {

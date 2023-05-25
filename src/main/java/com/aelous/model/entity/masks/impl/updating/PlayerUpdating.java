@@ -14,6 +14,7 @@ import com.aelous.network.packet.PacketType;
 import com.aelous.network.packet.ValueType;
 
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Represents the associated player's player updating.
@@ -24,9 +25,15 @@ import java.util.Iterator;
 public class PlayerUpdating {
 
     /**
-     * The max amount of players that can be added per cycle.
+     * The maximum amount of local players.
      */
-    private static final int MAX_NEW_PLAYERS_PER_CYCLE = 25;
+    private static final int MAXIMUM_LOCAL_PLAYERS = 255;
+
+    /**
+     * The maximum number of players to load per cycle. This prevents the update packet from becoming too large (the
+     * client uses a 5000 byte buffer) and also stops old spec PCs from crashing when they login or teleport.
+     */
+    private static final int NEW_PLAYERS_PER_CYCLE = 20;
 
     /**
      * Loops through the associated player's {@code localPlayer} list and updates them.
@@ -54,17 +61,25 @@ public class PlayerUpdating {
                     out.putBits(2, 3);
                 }
             }
-            int playersAdded = 0;
+            List<Player> localPlayers = player.getLocalPlayers();
+            int added = 0, count = localPlayers.size();
             for (Player otherPlayer : World.getWorld().getPlayers()) {
-                if (player.getLocalPlayers().size() >= 79 || playersAdded > MAX_NEW_PLAYERS_PER_CYCLE)
+                if (count >= MAXIMUM_LOCAL_PLAYERS) {
                     break;
+                } else if (added >= NEW_PLAYERS_PER_CYCLE) {
+                    break;
+                }
+
                 if (otherPlayer == null || otherPlayer == player || player.getLocalPlayers().contains(otherPlayer) || !otherPlayer.tile().isWithinDistance(player.tile()) || otherPlayer.looks().hidden() || !canSee(player, otherPlayer)) {
                     continue;
                 }
-                player.getLocalPlayers().add(otherPlayer);
+
+                localPlayers.add(otherPlayer);
+                count++;
+                added++;
+
                 addPlayer(player, otherPlayer, out);
                 appendUpdates(player, builder, otherPlayer, true, false);
-                playersAdded++;
             }
             if (builder.buffer().writerIndex() > 0) {
                 out.putBits(11, 2047);

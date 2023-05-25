@@ -1,7 +1,6 @@
 package com.aelous.model.entity.combat.formula.accuracy;
 
 import com.aelous.model.World;
-
 import com.aelous.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatType;
@@ -18,7 +17,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.security.SecureRandom;
-import java.text.DecimalFormat;
 
 import static com.aelous.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.*;
@@ -46,6 +44,7 @@ public class MeleeAccuracy {
     public boolean doesHit() {
         return successful();
     }
+
     private boolean successful() {
         final int attackBonus = getAttackRoll();
         final int defenceBonus = getDefenceRoll();
@@ -156,22 +155,40 @@ public class MeleeAccuracy {
         return defender instanceof NPC && defender.getAsNpc().getCombatInfo().stats != null ? defender.getAsNpc().getCombatInfo().stats.defence : defender.getSkills().level(Skills.DEFENCE);
     }
 
+    @Getter
+    @Setter
+    public double percentage = 1;
+    EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(this.attacker, World.getWorld().equipmentInfo());
+    EquipmentInfo.Bonuses defenderBonus = EquipmentInfo.totalBonuses(this.defender, World.getWorld().equipmentInfo());
+
     private int getGearDefenceBonus() {
-        EquipmentInfo.Bonuses defenderBonus = EquipmentInfo.totalBonuses(defender, World.getWorld().equipmentInfo());
-        final AttackType type = defender instanceof NPC ? AttackType.SLASH : defender.getCombat().getFightType().getAttackType();
         int bonus = 0;
-        if (type == AttackType.STAB)
-            bonus = defenderBonus.stabdef;
-        else if (type == AttackType.CRUSH)
-            bonus = defenderBonus.crushdef;
-        else if (type == AttackType.SLASH)
-            bonus = defenderBonus.slashdef;
+        AttackType type = defender instanceof NPC ? AttackType.SLASH : defender.getCombat().getFightType().getAttackType();
+
+        if (defender instanceof NPC npc) {
+            var npcBonuses = npc.getCombatInfo().bonuses;
+            if (type == AttackType.STAB)
+                bonus = npcBonuses.stabdefence;
+            else if (type == AttackType.CRUSH)
+                bonus = npcBonuses.crushdefence;
+            else if (type == AttackType.SLASH)
+                bonus = npcBonuses.slashdefence;
+        } else {
+            if (type == AttackType.STAB)
+                bonus = defenderBonus.stabdef;
+            else if (type == AttackType.CRUSH)
+                bonus = defenderBonus.crushdef;
+            else if (type == AttackType.SLASH)
+                bonus = defenderBonus.slashdef;
+        }
+
+        System.out.println(bonus);
         return bonus;
     }
 
-    private int getGearAttackBonus() {
+
+    public int getGearAttackBonus() {
         final AttackType type = attacker.getCombat().getFightType().getAttackType();
-        EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
         int bonus = 0;
         if (type == AttackType.STAB)
             bonus = attackerBonus.stab;
@@ -187,9 +204,7 @@ public class MeleeAccuracy {
     }
 
     private int getDefenceRoll() {
-        //float modification = modifier;
-        //var mod = modification > 0 ? modification : 1;
-        ///System.out.println(mod);
+        System.out.println(getGearDefenceBonus());
         return (int) Math.floor(getEffectiveDefence() * (getGearDefenceBonus() + 64));
     }
 }

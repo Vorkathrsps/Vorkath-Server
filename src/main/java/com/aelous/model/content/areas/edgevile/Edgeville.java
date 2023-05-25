@@ -298,7 +298,7 @@ public class Edgeville extends PacketInteraction {
                 return true;
             }
 
-            if (obj.getId() == ORNATE_REJUVENATION_POOL) {
+            if (obj.getId() == ORNATE_REJUVENATION_POOL || obj.getId() == POOL_OF_REFRESHMENT) {
                 Chain.bound(null).name("RejuvenationPoolTask").runFn(1, () -> player.animate(7305)).then(2, () -> {
                     player.lock();
                     player.message("<col=" + Color.BLUE.getColorValue() + ">You have restored your hitpoints, run energy and prayer.");

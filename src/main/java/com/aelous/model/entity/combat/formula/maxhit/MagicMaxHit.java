@@ -83,6 +83,18 @@ public class MagicMaxHit {
                     multiplier += 0.25;
                 }
 
+                if (spell.spellbook() == MagicSpellbook.ANCIENT) {
+                    if (player.getEquipment().contains(VIRTUS_MASK)) {
+                        multiplier += 0.04;
+                    }
+                    if (player.getEquipment().contains(VIRTUS_ROBE_TOP)) {
+                        multiplier += 0.04;
+                    }
+                    if (player.getEquipment().contains(VIRTUS_ROBE_BOTTOMS)) {
+                        multiplier += 0.04;
+                    }
+                }
+
                 if (player.getEquipment().hasAt(EquipSlot.WEAPON, TURQUOISE_SLAYER_HELMET_I) && target != null && target.isNpc() && includeNpcMax) {
                     multiplier += 0.10;
                 }

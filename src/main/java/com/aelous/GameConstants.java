@@ -181,8 +181,9 @@ public class GameConstants {
      */
     public static final String[] BAD_STRINGS = { };
 
-    public final static int[] TAB_AMOUNT = {154, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    public final static int[] TAB_AMOUNT = {170, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     public final static Item[] BANK_ITEMS = {
+        new Item(VOIDWAKER, 20000), // rune full helm
         new Item(ABYSSAL_TENTACLE, 20000), // rune full helm
         new Item(ABYSSAL_WHIP, 20000), // rune full helm
         new Item(CRYSTAL_HELM, 20000), // rune full helm
@@ -192,6 +193,17 @@ public class GameConstants {
         new Item(ItemIdentifiers.ANCESTRAL_HAT, 20000), // Scim
         new Item(ItemIdentifiers.ANCESTRAL_ROBE_TOP, 20000), // Dagger
         new Item(ItemIdentifiers.ANCESTRAL_ROBE_BOTTOM, 20000), // Mystic
+        new Item(VIRTUS_MASK, 20000), // Scim
+        new Item(VIRTUS_ROBE_TOP, 20000), // Dagger
+        new Item(VIRTUS_ROBE_BOTTOMS, 20000), // Mystic
+        new Item(ABYSSAL_DAGGER_BHP_27867, 20000), // Mystic
+        new Item(DARK_BOW_BH, 20000), // Mystic
+        new Item(DRAGON_LONGSWORD_BH, 20000), // Mystic
+        new Item(DRAGON_MACE_BH, 20000), // Mystic
+        new Item(28067, 20000), // Mystic
+        new Item(SATURATED_HEART, 20000), // Mystic
+        new Item(TUMEKENS_SHADOW, 20000), // pots
+        new Item(TOXIC_BLOWPIPE, 20000), // pots
         new Item(ItemIdentifiers.TOXIC_STAFF_OF_THE_DEAD, 20000), // Mystic
         new Item(ItemIdentifiers.THAMMARONS_SCEPTRE, 20000), // Mystic
         new Item(ItemIdentifiers.ANCIENT_SCEPTRE, 20000), // Mystic
@@ -228,7 +240,8 @@ public class GameConstants {
         new Item(VERACS_BRASSARD, 20000), // Mystic
         new Item(VERACS_PLATESKIRT, 20000), // Mystic
         new Item(VERACS_FLAIL, 20000), // Mystic
-        new Item(ItemIdentifiers.VESTAS_LONGSWORD, 20000), // Mystic
+        new Item(GRANITE_MAUL_24225, 20000), // Mystic
+        new Item(VESTAS_BLIGHTED_LONGSWORD, 20000), // Mystic
         new Item(ItemIdentifiers.VESTAS_CHAINBODY, 20000), // wiz boots
         new Item(ItemIdentifiers.VESTAS_PLATESKIRT, 20000), // helm
         new Item(ItemIdentifiers.MORRIGANS_COIF, 20000), // rune boots
@@ -254,7 +267,7 @@ public class GameConstants {
         new Item(ItemIdentifiers.BARROWS_GLOVES, 20000), // Mystic
         new Item(ItemIdentifiers.FEROCIOUS_GLOVES, 20000), // Enchanted
         new Item(ItemIdentifiers.INFERNAL_CAPE, 20000), // farseer helm
-        new Item(INFERNAL_MAX_CAPE, 20000), // rune full helm
+        new Item(21285, 20000), // rune full helm
         new Item(ItemIdentifiers.IMBUED_ZAMORAK_CAPE, 20000), // d long
         new Item(ItemIdentifiers.IMBUED_SARADOMIN_CAPE, 20000), // ancient staff
         new Item(ItemIdentifiers.IMBUED_GUTHIX_CAPE, 20000), // Mystic
@@ -284,6 +297,8 @@ public class GameConstants {
         new Item(ItemIdentifiers.AMETHYST_ARROW, 1000000), // hides
         new Item(ItemIdentifiers.RUNE_ARROW, 1000000), // hides
         new Item(ItemIdentifiers.DRAGON_ARROW, 1000000), // hides
+        new Item(12695, 20000), // pots
+        new Item(22461, 20000), // pots
         new Item(2436, 20000), // pots
         new Item(2440, 20000), // pots
         new Item(2442, 20000), // pots
@@ -316,7 +331,7 @@ public class GameConstants {
         new Item(10931, 20000), // pots
         new Item(3030, 20000), // pots
         new Item(6691, 20000), // pots
-        new Item(385, 20000), // sharks
+        new Item(13441, 20000), // sharks
         new Item(3144, 20000), // karambwan
         new Item(560, 20000000), // runes
         new Item(565, 20000000), // runes
@@ -332,6 +347,7 @@ public class GameConstants {
         new Item(559, 20000000), // runes
         new Item(566, 20000000), // runes
         new Item(561, 20000000), // runes
+        new Item(21880, 20000000), // Mystic
         new Item(9241, 20000), // bolts
         new Item(9244, 20000), // bolts
         new Item(9245, 20000), // bolts
@@ -339,6 +355,7 @@ public class GameConstants {
         new Item(9242, 20000), // bolts
         new Item(ItemIdentifiers.DIAMOND_DRAGON_BOLTS_E, 20000000),
         new Item(ItemIdentifiers.DRAGONSTONE_DRAGON_BOLTS_E, 20000000),
+        new Item(OPAL_DRAGON_BOLTS_E, 20000000),
         new Item(10828, 20000), // neit helm
         new Item(2412, 20000), // sara god cape
         new Item(7458, 20000), // mithril gloves for pures

@@ -173,7 +173,7 @@ public class ObjectInteractionHandler implements PacketListener {
                     return;
                 }
 
-                if (object.getId() == 35965) {
+                if (object.getId() == 35965 || object.getId() == 47347) {
                     player.setCurrentTabIndex(3);
                     player.getInterfaceManager().open(88000);
                     player.getnewteleInterface().drawInterface(88005);

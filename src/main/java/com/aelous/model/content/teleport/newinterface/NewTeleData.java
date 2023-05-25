@@ -105,6 +105,7 @@ public enum NewTeleData {
     //Wilderness teleports
     MAGEBANK_WILD(new Tile(2539, 4715),"Magebank", "", WILDERNESS, MEDIUM),
     FEROX_ENCLAVE(new Tile(3131, 3629),"Ferox Enclave", "", WILDERNESS, MEDIUM),
+    BOUNTY_HUNTER(new Tile(3419, 4067),"Bounty Hunter", "", WILDERNESS, MEDIUM),
     BATTLE_MAGES(new Tile(3105, 3956),"Battle Mages", "@red@Dangerous Teleport Level:52 Wilderness", WILDERNESS, EASY),
     EAST_DRAGONS(new Tile(3343, 3664),"East Green Dragons", "@red@Dangerous Teleport Level:19 Wilderness", WILDERNESS, MEDIUM),
     WEST_DRAGONS(new Tile(2978, 3598),"West Green Dragons", "@red@Dangerous Teleport Level:10 Wilderness", WILDERNESS, MEDIUM),

@@ -18542,5 +18542,70 @@
     "slot": 5,
     "type": 0,
     "showBeard": false
+  },
+  "26241": { //virtus mask
+    "slot": 0,
+    "type": 8,
+    "showBeard": false
+  },
+  "26243": { //virtus top
+    "slot": 4,
+    "type": 6,
+    "showBeard": false
+  },
+  "26245": { //virtus legs
+    "slot": 7,
+    "type": 0,
+    "showBeard": false
+  },
+  "27867": { //abby dag bh
+    "slot": 3,
+    "type": 0,
+    "showBeard": false
+  },
+  "27857": { //dmace bh
+    "slot": 3,
+    "type": 0,
+    "showBeard": false
+  },
+  "28027": { //dmace cr
+    "slot": 3,
+    "type": 0,
+    "showBeard": false
+  },
+  "27859": { //dl bh
+    "slot": 3,
+    "type": 0,
+    "showBeard": false
+  },
+  "28033": { //dl cr
+    "slot": 3,
+    "type": 0,
+    "showBeard": false
+  },
+  "28067": { //fighter torso or
+    "slot": 4,
+    "type": 6,
+    "showBeard": false
+  },
+  "27828": { //siilver phat
+    "slot": 0,
+    "type": 0,
+    "showBeard": true
+  },
+  "27853": { //dbow bh
+    "slot": 3,
+    "type": 5,
+    "showBeard": false
+  },
+  "27855": { //ancher bh
+    "slot": 3,
+    "type": 5,
+    "showBeard": false
+  },
+  "27100": {
+    "slot": 3,
+    "type": 5,
+    "showBeard": false
   }
 }

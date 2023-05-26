@@ -458,7 +458,7 @@ public class Tile implements Cloneable {
 
     @Override
     public String toString() {
-        return "[" + x + ", " + y + ", " + level + "].";
+        return "[" + x + ", " + y + ", " + level + ", "+hcode()+"].";
     }
 
     public String hcode() {
@@ -633,11 +633,6 @@ public class Tile implements Cloneable {
 
     public int hash30() {
         return (level << 28) | (x << 14) | y;
-    }
-
-    @Override
-    public int hashCode() {
-        return (level << 30) | (x << 14) | y;
     }
 
     public Area area(int radius) {

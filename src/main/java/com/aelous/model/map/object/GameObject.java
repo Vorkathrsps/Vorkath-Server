@@ -341,29 +341,6 @@ public class GameObject {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (o == null)
-            return false;
-        if (!(o instanceof GameObject))
-            return false;
-        GameObject object = (GameObject) o;
-        if (object.tile == null)
-            return false;
-        if (getSpawnedfor().isPresent()) {
-            if (object.getSpawnedfor().isEmpty()) {
-                return false;
-            }
-            if (!getSpawnedfor().get().equals(object.getSpawnedfor().get())) {
-                return false;
-            }
-        }
-        return object.tile().equals(tile())
-            && object.getId() == getId()
-            && object.getRotation() == getRotation()
-            && object.getType() == getType();
-    }
-
-    @Override
     public GameObject clone() {
         return new GameObject(getId(), tile(), getType(), getRotation());
     }
@@ -376,6 +353,8 @@ public class GameObject {
             ", name=" + (definition() != null ? definition().name : "unknown") +
             ", type=" + getType() +
             ", face=" + getRotation() +
+                ", " +(custom ? "custom":"cache") +
+                ", linktile=" + tile +
             '}';
     }
 

@@ -13,13 +13,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * A simple object manager used to manage
- * {@link GameObject}s which are spawned
- * by the server.
- * <p>
- * For client/map-objects, see {@link MapObjects}.
- *
- * @author Professor Oak
+ * GameObject tracking.
+ * @author Shadowrs + Runite team
  */
 public class ObjectManager {
 
@@ -144,26 +139,4 @@ public class ObjectManager {
         //System.out.println("Replacing: "+original.toString());
     }
 
-    /**
-     * The possible operation types.
-     */
-    public enum OperationType {
-        SPAWN, DESPAWN
-    }
-
-    public static void spawnTempObject(final GameObject ob, final int cycles) {
-        addObj(ob);
-        TaskManager.submit(new Task("ObjectManager:spawnTempObject", cycles) {
-            @Override
-            public void execute() {
-                removeObj(ob);
-                this.stop();
-            }
-
-            @Override
-            public void stop() {
-                setEventRunning(false);
-            }
-        });
-    }
 }

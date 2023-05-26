@@ -182,7 +182,7 @@ public class MeleeAccuracy {
                 bonus = defenderBonus.slashdef;
         }
 
-        System.out.println(bonus);
+        //System.out.println(bonus);
         return bonus;
     }
 
@@ -204,7 +204,7 @@ public class MeleeAccuracy {
     }
 
     private int getDefenceRoll() {
-        System.out.println(getGearDefenceBonus());
+        //System.out.println(getGearDefenceBonus());
         return (int) Math.floor(getEffectiveDefence() * (getGearDefenceBonus() + 64));
     }
 }

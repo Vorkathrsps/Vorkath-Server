@@ -52,11 +52,6 @@ public class MovementPacketListener implements PacketListener {
         player.afkTimer.reset();
         var minimapClick = packet.getOpcode() == 248;
 
-        if (player.action.getCurrentAction() != null && packet.getOpcode() == IncomingHandler.GAME_MOVEMENT_OPCODE) {
-            player.action.cancel();
-            return;
-        }
-
         if (player.locked() || player.dead()) {
             return;
         }
@@ -103,7 +98,6 @@ public class MovementPacketListener implements PacketListener {
             player.getCombat().reset();//Reset combat when moving
             player.getCombat().setCastSpell(null);
         }
-
 
         // Close dialogues
         player.getInterfaceManager().closeDialogue();

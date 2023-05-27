@@ -18,13 +18,11 @@ import com.aelous.model.map.object.ObjectManager;
 import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.Utils;
-import com.aelous.utility.chainedwork.Chain;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Random;
 
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.*;
 import static com.aelous.utility.ItemIdentifiers.*;
@@ -38,17 +36,17 @@ import static com.aelous.utility.ItemIdentifiers.*;
 public class Woodcutting extends PacketInteraction {
 
     public enum Tree {
-        REGULAR(ItemIdentifiers.LOGS, "logs", 1, 55, 25.0, 75, true, 2764),
-        ACHEY(ACHEY_TREE_LOGS, "achey logs", 1, 55, 25.0, 75, true, 2764),
-        OAK(OAK_LOGS, "oak logs", 15, 95, 37.5, 15, false, 2664),
-        WILLOW(WILLOW_LOGS, "willow logs", 30, 140, 67.5, 10, false, 2500),
-        TEAK(TEAK_LOGS, "teak logs", 35, 140, 85.0, 10, false, 2400),
-        JUNIPER(JUNIPER_LOGS, "juniper logs", 42, 150, 35.0, 30, false, 2300),
-        MAPLE(MAPLE_LOGS, "maple logs", 45, 180, 100.0, 60, false, 2200),
-        MAHOGANY(MAHOGANY_LOGS, "mahogany logs", 50, 200, 125.0, 80, false, 2100),
-        YEW(YEW_LOGS, "yew logs", 60, 225, 175.0, 100, false, 2000),
-        MAGIC(MAGIC_LOGS, "magic logs", 75, 375, 250.0, 100, false, 1400),
-        REDWOOD(REDWOOD_LOGS, "redwood logs", 90, 460, 380.0, 200, false, 1000),
+        REGULAR(ItemIdentifiers.LOGS, "logs", 1, 55, 5.0, 75, true, 15000),
+        ACHEY(ACHEY_TREE_LOGS, "achey logs", 1, 55, 7.0, 75, true, 14000),
+        OAK(OAK_LOGS, "oak logs", 15, 95, 7.0, 15, false, 14000),
+        WILLOW(WILLOW_LOGS, "willow logs", 30, 140, 9.0, 10, false, 13000),
+        TEAK(TEAK_LOGS, "teak logs", 35, 140, 10.0, 10, false, 12000),
+        JUNIPER(JUNIPER_LOGS, "juniper logs", 42, 150, 20.0, 30, false, 12000),
+        MAPLE(MAPLE_LOGS, "maple logs", 45, 180, 20.0, 60, false, 11000),
+        MAHOGANY(MAHOGANY_LOGS, "mahogany logs", 50, 200, 25.0, 80, false, 11000),
+        YEW(YEW_LOGS, "yew logs", 60, 225, 35.0, 100, false, 8000),
+        MAGIC(MAGIC_LOGS, "magic logs", 75, 375, 45.0, 100, false, 5000),
+        REDWOOD(REDWOOD_LOGS, "redwood logs", 90, 460, 60.0, 200, false, 4500),
         ENTTRUNK(-1, "ent trunk", -1, 250, 0.0, 0, false, 0); // Used for algo only
 
         private final int logs;
@@ -137,150 +135,64 @@ public class Woodcutting extends PacketInteraction {
             return;
         }
 
-        // player.message("You swing your axe at the tree.");
-        //player.animate(axe.anim);
-        // player.action.execute(cut(player, axe, tree, trunkObjectId), true);
-        AtomicInteger tick = new AtomicInteger(Utils.random(1, 8));
-        AtomicBoolean interrupt = new AtomicBoolean(false);
-
-        final int level = player.getSkills().levels()[Skills.WOODCUTTING];
-
         player.message("You swing your axe at the tree.");
 
-        Chain.bound(player).cancelWhen(interrupt::get).repeatingTask(1, t -> {
-
-            int modifiedLevel = level;
-            if (player.tile().inArea(WoodcuttingGuild.AREA_EAST) || player.tile().inArea(WoodcuttingGuild.AREA_WEST)) {
-                modifiedLevel += 7;
-            }
-
-            player.animate(axe.anim);
-
-            if (player.getMovementQueue().isMoving()) {
-                player.animate(-1);
-                interrupt.getAndSet(true);
-                t.stop();
-                player.message("attetmpting to stop");
-                return;
-            }
-
-            if (player.getInventory().isFull()) {
-                player.message("Your inventory is too full to hold any more logs.");
-                player.animate(-1);
-                t.stop();
-                System.out.println("inventory full");
-                return;
-            }
-
-            if (Utils.percentageChance((int) 12.5D)) {
-                player.animate(axe.anim);
-                player.inventory().add(new Item(tree.logs));
-                collapseTree(player, tree, trunkObjectId);
-                player.getSkills().addXp(Skills.WOODCUTTING, tree.xp);
-                t.stop();
-                return;
-            }
-
-            if (axe == Hatchet.INFERNAL && Utils.percentageChance(30) && tree.logs > 0) {
-                LogLighting.LightableLog log = LogLighting.LightableLog.logForId(tree.logs);
-
-                if (log != null) {
-                    player.graphic(580, GraphicHeight.MIDDLE, 0);
-                    player.getSkills().addXp(Skills.FIREMAKING, (log.xp * LogLighting.pyromancerOutfitBonus(player)) / 2);
-                }
-                return;
-            }
-
-            if (Utils.random(100) <= chance(modifiedLevel, tree, axe)) {
-
-                if (interrupt.get()) {
-                    player.animate(-1);
-                    player.message("stopping");
-                    t.stop();
-                    return;
-                }
-
-                player.inventory().add(new Item(tree.logs));
-                player.getSkills().addXp(Skills.WOODCUTTING, tree.xp);
-            }
-        });
+        if (player.getAnimation() != null) {
+            player.animate(65535);
+            player.stopActions(false);
+        }
+        player.animate(axe.anim);
+        player.action.execute(cut(player, axe, tree, trunkObjectId), true);
     }
 
     private static boolean collapseTree(Player player, Tree tree, int trunkObjectId) {
         GameObject obj = player.getAttribOr(AttributeKey.INTERACTION_OBJECT, null);
-        player.animate(-1);
         GameObject old = new GameObject(obj.getId(), obj.tile(), obj.getType(), obj.getRotation());
         GameObject spawned = new GameObject(trunkObjectId, obj.tile(), obj.getType(), obj.getRotation());
         ObjectManager.replace(old, spawned, tree.respawnTime);
-        player.getSkills().addXp(Skills.WOODCUTTING, tree.xp); // Xp as last, it can spawn a dialogue
+        player.getSkills().addXp(Skills.WOODCUTTING, tree.xp);
         return true;
     }
 
+    static Random random = new Random();
+    static int[] birdNest = new int[]{5070, 5071, 5072, 5073, 5074, 5075};
     private static Action<Player> cut(Player player, Hatchet axe, Tree tree, int trunkObjectId) {
-        return new Action<>(player, 2, false) {
+        return new Action<>(player, 2, true) {
 
             @Override
             public void execute() {
 
-                GameObject obj = player.getAttribOr(AttributeKey.INTERACTION_OBJECT, null);
+                final int level = player.getSkills().levels()[Skills.WOODCUTTING];
 
-                int level = player.getSkills().levels()[Skills.WOODCUTTING];
-                if (player.tile().inArea(WoodcuttingGuild.AREA_EAST) || player.tile().inArea(WoodcuttingGuild.AREA_WEST))
-                    level += 7; // +7 invisible boost in WC guild!
+                player.animate(axe.anim);
 
-                if (Utils.random(100) <= chance(level, tree, axe)) {
-                    player.message("You get some " + tree.treeName + ".");
+                if (player.getInventory().isFull()) {
+                    player.animate(65535);
+                    player.looks().resetRender();
+                    player.message("Your inventory is too full to hold any more logs.");
+                    stop();
+                }
 
-                    if (tree.single || Utils.random(10) == 3) {
-                        player.animate(-1);
-                        stop();//Tree despawned stop skilling
+                if (Utils.percentageChance((int) 12.5D)) {
+                    player.inventory().add(new Item(tree.logs));
+                    collapseTree(player, tree, trunkObjectId);
+                    stop();
+                }
 
-                        GameObject old = new GameObject(obj.getId(), obj.tile(), obj.getType(), obj.getRotation());
-                        GameObject spawned = new GameObject(trunkObjectId, obj.tile(), obj.getType(), obj.getRotation());
-                        ObjectManager.replace(old, spawned, tree.respawnTime);
-                        player.getSkills().addXp(Skills.WOODCUTTING, tree.xp); // Xp as last, it can spawn a dialogue
+                int modifiedLevel = level;
+                if (player.tile().inArea(WoodcuttingGuild.AREA_EAST) || player.tile().inArea(WoodcuttingGuild.AREA_WEST)) {
+                    modifiedLevel += 7;
+                }
 
 
-                        // If we're using the infernal axe, we have 1/3 odds to burn the log and get 50% FM xp.
-                        if (axe == Hatchet.INFERNAL && Utils.rollDie(30, 10) && tree.logs > 0) {
-                            LogLighting.LightableLog log = LogLighting.LightableLog.logForId(tree.logs);
+                //var chance = ((modifiedLevel + axe.points) / (tree.level * 2));
 
-                            if (log != null) {
-                                player.graphic(580, GraphicHeight.MIDDLE, 0);
-                                player.getSkills().addXp(Skills.FIREMAKING, (log.xp * LogLighting.pyromancerOutfitBonus(player)) / 2);
-                            }
-                        } else {
-                            player.inventory().add(new Item(tree.logs));
-                        }
+                var chance = chance(modifiedLevel, tree, axe);
 
-                        return;
-                    }
+                int rand = random.nextInt(1, 100);
 
-                    //Finding a casket Money, money, money..
-                    if (Utils.rollDie(100, 1)) {
-                        player.inventory().addOrDrop(new Item(7956, 1));
-                        player.message("You find a casket whilst cutting down the tree.");
-                    }
-
-                    if (tree == Tree.YEW) {
-                        player.getTaskMasterManager().increase(Tasks.CUT_YEW_TREES);
-                    }
-
-                    if (tree == Tree.MAGIC) {
-                        player.getTaskMasterManager().increase(Tasks.CUT_MAGIC_TREES);
-                    }
-
-                    switch (tree) {
-                        case REGULAR -> AchievementsManager.activate(player, Achievements.WOODCUTTING_I, 1);
-                        case WILLOW -> AchievementsManager.activate(player, Achievements.WOODCUTTING_II, 1);
-                        case YEW -> AchievementsManager.activate(player, Achievements.WOODCUTTING_III, 1);
-                        case MAGIC -> AchievementsManager.activate(player, Achievements.WOODCUTTING_IV, 1);
-                    }
-
-                    player.getSkills().addXp(Skills.WOODCUTTING, tree.xp); // Xp as last, it can spawn a dialogue
-
-                    // If we're using the infernal axe, we have 1/3 odds to burn the log and get 50% FM xp.
-                    if (axe == Hatchet.INFERNAL && Utils.rollDie(30, 10) && tree.logs > 0) {
+                if (chance > rand) {
+                    if (axe == Hatchet.INFERNAL && tree.logs > 0) {
                         LogLighting.LightableLog log = LogLighting.LightableLog.logForId(tree.logs);
 
                         if (log != null) {
@@ -289,16 +201,28 @@ public class Woodcutting extends PacketInteraction {
                         }
                     } else {
                         player.inventory().add(new Item(tree.logs));
+                        player.getSkills().addXp(Skills.WOODCUTTING, tree.xp);
                     }
                 }
-                if (player.inventory().isFull()) {
-                    player.message("Your inventory is too full to hold any more logs.");
-                    player.animate(-1);
-                    stop();
-                    return;
+
+                //Finding a casket Money, money, money..
+                if (Utils.rollDie(100, 1)) {
+                    player.inventory().addOrDrop(new Item(Utils.randomElement(birdNest), 1));
+                    player.message("You find a bird's nest whilst cutting down the tree.");
                 }
 
-                player.animate(axe.anim);
+                switch (tree) {
+                    case REGULAR -> AchievementsManager.activate(player, Achievements.WOODCUTTING_I, 1);
+                    case WILLOW -> AchievementsManager.activate(player, Achievements.WOODCUTTING_II, 1);
+                    case YEW -> {
+                        AchievementsManager.activate(player, Achievements.WOODCUTTING_III, 1);
+                        player.getTaskMasterManager().increase(Tasks.CUT_YEW_TREES);
+                    }
+                    case MAGIC -> {
+                        AchievementsManager.activate(player, Achievements.WOODCUTTING_IV, 1);
+                        player.getTaskMasterManager().increase(Tasks.CUT_MAGIC_TREES);
+                    }
+                }
             }
 
             @Override
@@ -319,8 +243,7 @@ public class Woodcutting extends PacketInteraction {
             @Override
             public void onStop() {
                 super.onStop();
-                if (player.getAnimation() != null && player.getAnimation().getId() == axe.anim)
-                    player.animate(-1);
+                player.animate(-1);
             }
         };
     }

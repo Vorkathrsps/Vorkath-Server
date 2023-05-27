@@ -4,12 +4,12 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.damagehandler.impl.armor.*;
 import com.aelous.model.entity.combat.damagehandler.impl.sets.*;
+import com.aelous.model.entity.combat.damagehandler.impl.typeless.PrayerDamage;
+import com.aelous.model.entity.combat.damagehandler.listener.DamageEffectListener;
 import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.aelous.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
-import com.aelous.model.entity.combat.damagehandler.listener.DamageEffectListener;
-import com.aelous.model.entity.combat.damagehandler.impl.typeless.PrayerDamage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +44,7 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         listeners.add(new ToxicStaffOfTheDead());
         listeners.add(new ElysianSpiritShield());
         listeners.add(new PrayerDamage());
+        listeners.add(new BraceletOfEthereum());
         return listeners;
     }
 

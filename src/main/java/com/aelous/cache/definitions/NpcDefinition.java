@@ -1,10 +1,10 @@
 package com.aelous.cache.definitions;
 
-import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
+import com.aelous.cache.DataStore;
 import com.aelous.model.entity.npc.pets.PetDefinitions;
 import com.aelous.network.codec.RSBuffer;
 import io.netty.buffer.Unpooled;
-import com.aelous.cache.DataStore;
+import lombok.Getter;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.*;
@@ -31,7 +31,7 @@ public class NpcDefinition implements Definition {
 
     public int[] models;
     public String name = null;
-    public int size = 1;
+    @Getter public int size = 1;
     public int standingAnimation = -1;
     public int walkingAnimation = -1;
     public boolean isFollower;
@@ -337,6 +337,11 @@ public class NpcDefinition implements Definition {
         } else {
             System.err.println("npc def invalid opcoode:  %d%n" + opcode);
         }
+    }
+
+    public int getSize() {
+        System.out.println("size="+ size);
+        return size;
     }
 
     public static int method32(int var0) {

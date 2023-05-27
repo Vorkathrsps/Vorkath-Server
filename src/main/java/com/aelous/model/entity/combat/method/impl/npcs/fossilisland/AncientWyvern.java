@@ -37,7 +37,7 @@ public class AncientWyvern extends CommonCombatMethod {
         var tileDist = wyvern.tile().distance(entity.tile());
         int duration = (51 + -5 + (10 * tileDist));
         Projectile project = p.sendMagicProjectile(wyvern, entity, 162);
-        //Projectile p = new Projectile(wyvern, entity, 162, 51, duration, 43, 31, 0, entity.getSize(), 10);
+        //Projectile p = new Projectile(wyvern, entity, 162, 51, duration, 43, 31, 0, target.getSize(), 10);
         int delay = wyvern.executeProjectile(project);
         target.performGraphic(new Graphic(137, GraphicHeight.HIGH, p.getSpeed()));
         target.hit(wyvern, Utils.random(25), delay, CombatType.MAGIC).checkAccuracy().submit();

@@ -1,11 +1,12 @@
 package com.aelous.model.entity.combat.method.impl.npcs.bosses.zulrah;
 
+import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.core.task.Task;
 import com.aelous.core.task.TaskManager;
 import com.aelous.core.task.impl.TickAndStop;
 import com.aelous.model.World;
-import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.SplatType;
@@ -17,7 +18,6 @@ import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.object.ObjectManager;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
-import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.utility.Tuple;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;

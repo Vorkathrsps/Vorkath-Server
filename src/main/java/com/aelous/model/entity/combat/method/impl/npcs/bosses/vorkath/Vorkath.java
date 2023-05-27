@@ -1,13 +1,13 @@
 package com.aelous.model.entity.combat.method.impl.npcs.bosses.vorkath;
 
 import com.aelous.core.task.Task;
-import com.aelous.core.task.TaskManager;
 import com.aelous.model.World;
-import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatConstants;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
@@ -29,9 +29,11 @@ import com.aelous.utility.timers.TimerKey;
 
 import java.security.SecureRandom;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
-import static com.aelous.model.entity.attributes.AttributeKey.*;
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.ZOMBIFIED_SPAWN_8063;
+import static com.aelous.model.entity.attributes.AttributeKey.*;
 
 public class Vorkath extends CommonCombatMethod {
 
@@ -67,11 +69,11 @@ public class Vorkath extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-       if (entity.<Integer>getAttribOr(AttributeKey.VORKATH_CB_COOLDOWN, 0) > 0)
+        if (entity.<Integer>getAttribOr(AttributeKey.VORKATH_CB_COOLDOWN, 0) > 0)
             return false;
 
         int count = entity.getAttribOr(VORKATH_NORMAL_ATTACK_COUNT, 6);
-        int attackType = 0;
+        int attackType;
 
         if (count-- < 1) {
             count = 6; // reset back
@@ -82,46 +84,57 @@ public class Vorkath extends CommonCombatMethod {
             if (entity.hasAttrib(VORKATH_LINEAR_ATTACKS)) // finish the remaining grouped triple attacks
                 attackType = 4;
             else {
-                // choose a random attack, only melee if close
                 attackType = !CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) ? 2 + RANDOM.nextInt(4) : 1 + RANDOM.nextInt(5);
             }
         }
         entity.putAttrib(VORKATH_NORMAL_ATTACK_COUNT, count);
 
-        bomb();
 
-       // switch (attackType) {
-            //case 1 -> melee();
-            //case 2 -> mage();
-            //case 3 -> range();
-            //case 4 -> tripleOrdered();
-         //   case 1 -> bomb();
-            //case 6 -> acidSpitball();
-            //case 7 -> zombified();
-      //  }
+        //mage();
+        //range();
+        //tripleOrdered();
+        acidSpitball();
+      /*  switch (attackType) {
+            case 1 -> melee();
+            case 2 -> mage();
+            case 3 -> range();
+            case 4 -> tripleOrdered();
+            case 6 -> acidSpitball();
+            case 7 -> {
+                bomb();
+            }
+        }*/
         return true;
     }
 
     private void bomb() {
         entity.animate(FIREBALL_ATTACK_ANIMATION);
-        Tile targPos = target.tile().copy();
-        var tileDist = entity.tile().distance(target.tile());
-        int duration = (51 + -5 + (10 * tileDist));
-        //Projectile p1 = new Projectile(entity.tile(), targPos, 1491, 51, duration, 165, 0, 0, target.getSize(), 10);
-        //new Projectile(entity.tile(), targPos, 1491, 41, duration, 165, 0, 0, 0, 5).sendProjectile();
-        new Projectile(entity.tile().transform(1, -4, 0), targPos.transform(-4, 1, 0), 0, 1491, 165, 30, 200, 0, 0).sendProjectile();
-
-        //inal int delay = entity.executeProjectile(p1);
-        entity.runUninterruptable(7, () -> World.getWorld().getPlayers().forEachInArea(targPos.area(1), p -> p.hit(entity, p.tile().equals(targPos) ? Utils.random(121) : Utils.random(60), 0)));
-        target.graphic(1466, GraphicHeight.LOW, 30);
-        Chain.bound(null).runFn(tileDist, () -> entity.setEntityInteraction(target));
+        final Tile targetPos = target.tile().copy();
+        var tileDist = entity.tile().getChevDistance(targetPos);
+        int duration = (85 + -5 + (10 * tileDist));
+        var tile = entity.tile().translateAndCenterLargeNpc(entity, target);
+        Projectile p1 = new Projectile(tile, targetPos, 1491, 85, duration, 150, 0, 0, entity.getSize(), 10);
+        int delay = p1.send(tile, targetPos);
+        Task.runOnceTask(delay, t -> {
+            if (target.tile().equals(targetPos)) {
+                target.hit(entity, Utils.random(121), delay);
+                t.stop();
+            } else if (target.tile().nextTo(targetPos)) {
+                target.hit(entity, Utils.random(60), delay);
+                t.stop();
+            } else {
+                t.stop();
+            }
+        });
+        World.getWorld().tileGraphic(1466, targetPos, GraphicHeight.LOW.ordinal(), p1.getSpeed());
     }
 
     private void range() {
         entity.animate(ATTACK_ANIMATION);
         var tileDist = entity.tile().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
-        Projectile p = new Projectile(entity, target, 1477, 41, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 0, target.getSize(), 5);
+        var tile = entity.tile().translateAndCenterLargeNpc(entity, target);
+        Projectile p = new Projectile(tile, target, 1477, 41, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 0, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);
         target.hit(entity, Utils.random(32), delay, CombatType.RANGED).checkAccuracy().submit();
         target.graphic(1478, GraphicHeight.MIDDLE, p.getSpeed());
@@ -132,7 +145,8 @@ public class Vorkath extends CommonCombatMethod {
         entity.animate(ATTACK_ANIMATION);
         var tileDist = entity.tile().distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
-        Projectile p = new Projectile(entity, target, 1479, 51, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 0, target.getSize(), 10);
+        var tile = entity.tile().translateAndCenterLargeNpc(entity, target);
+        Projectile p = new Projectile(tile, target, 1479, 51, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 0, entity.getSize(), 10);
         final int delay = entity.executeProjectile(p);
         target.hit(entity, Utils.random(30), delay, CombatType.MAGIC).checkAccuracy().submit();
         target.graphic(1480, GraphicHeight.MIDDLE, p.getSpeed());
@@ -140,7 +154,6 @@ public class Vorkath extends CommonCombatMethod {
     }
 
     private void melee() {
-        //mob.forceChat("melee");
         entity.animate(MELEE_ATTACK_ANIMATION_2);
         target.hit(entity, Utils.random(32), CombatType.MELEE).checkAccuracy().submit();
         Chain.bound(null).runFn(1, () -> entity.setEntityInteraction(target));
@@ -155,22 +168,29 @@ public class Vorkath extends CommonCombatMethod {
         LinkedList<Integer> attackIds = entity.getAttrib(VORKATH_LINEAR_ATTACKS);
         switch (attackIds.pop()) {
             case 0 -> {
-                //mob.forceChat("venom");
-                // venom
                 entity.animate(ATTACK_ANIMATION);
-                new Projectile(entity, target, 1470, BREATH_DELAY, entity.projectileSpeed(target), BREATH_START_HEIGHT, BREATH_END_HEIGHT, 1, true).sendProjectile();
-                target.runOnceTask(3, r -> target.performGraphic(VENOMOUS_DRAGONFIRE_END_GRAPHIC));
+                entity.animate(ATTACK_ANIMATION);
+                var tileDist = entity.tile().distance(target.tile());
+                int duration = (BREATH_DELAY + -5 + (10 * tileDist));
+                var tile = entity.tile().translateAndCenterLargeNpc(entity, target);
+                Projectile p = new Projectile(tile, target, 1470, BREATH_DELAY, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 0, entity.getSize(), 10);
+                final int delay = entity.executeProjectile(p);
+                target.graphic(1472, GraphicHeight.MIDDLE, p.getSpeed());
                 if (Utils.random(4) <= 3)
                     target.venom(entity);
-                fireDamage();
+                Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+                fireDamage(hit);
             }
             case 1 -> {
-                //mob.forceChat("purple");
-                // purple prayer
                 entity.animate(ATTACK_ANIMATION);
-                new Projectile(entity, target, 1471, BREATH_DELAY, entity.projectileSpeed(target), BREATH_START_HEIGHT, BREATH_END_HEIGHT, 1, true).sendProjectile();
-                target.runOnceTask(3, r -> target.performGraphic(PRAYER_DRAGONFIRE_END_GRAPHIC));
-                fireDamage();
+                var tileDist = entity.tile().distance(target.tile());
+                int duration = (BREATH_DELAY + -5 + (10 * tileDist));
+                var tile = entity.tile().translateAndCenterLargeNpc(entity, target);
+                Projectile p = new Projectile(tile, target, 1471, BREATH_DELAY, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 0, entity.getSize(), 10);
+                final int delay = entity.executeProjectile(p);
+                target.graphic(1473, GraphicHeight.MIDDLE, p.getSpeed());
+                Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+                fireDamage(hit);
                 if (target.isPlayer()) {
                     for (int i = 0; i < target.getAsPlayer().getPrayerActive().length; i++) {
                         Prayers.deactivatePrayer(target, i);
@@ -179,21 +199,23 @@ public class Vorkath extends CommonCombatMethod {
                 }
             }
             case 2 -> {
-                //mob.forceChat("normal");
-                // normal orange dragonfire from kbd
-                target.runOnceTask(3, r -> target.performGraphic(REGULAR_DRAGONFIRE_END_GRAPHIC));
-                new Projectile(entity, target, 393, BREATH_DELAY, entity.projectileSpeed(target), BREATH_START_HEIGHT, BREATH_END_HEIGHT, 1, true).sendProjectile();
+                var tileDist = entity.tile().distance(target.tile());
+                int duration = (BREATH_DELAY + -5 + (10 * tileDist));
+                var tile = entity.tile().translateAndCenterLargeNpc(entity, target);
+                Projectile p = new Projectile(tile, target, 393, BREATH_DELAY, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 0, entity.getSize(), 10);
+                final int delay = entity.executeProjectile(p);
+                target.graphic(157, GraphicHeight.MIDDLE, p.getSpeed());
                 entity.animate(ATTACK_ANIMATION);
-                fireDamage();
+                Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+                fireDamage(hit);
             }
         }
-        if (attackIds.isEmpty()) // attacks done
+        if (attackIds.isEmpty())
             entity.clearAttrib(VORKATH_LINEAR_ATTACKS);
     }
 
-    private void fireDamage() {
-        if (target instanceof Player) {
-            Player player = (Player) target;
+    private void fireDamage(Hit hit) {
+        if (target instanceof Player player) {
             int max = 73;
             var antifire_charges = player.<Integer>getAttribOr(AttributeKey.ANTIFIRE_POTION, 0);
             var hasShield = CombatConstants.hasAntiFireShield(player);
@@ -201,55 +223,54 @@ public class Vorkath extends CommonCombatMethod {
             var prayerProtection = Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MAGIC);
 
             //If player is wearing a anti-dragon shield max hit is 20
-            if(hasShield) {
+            if (hasShield) {
                 max = 20;
             }
 
             //If player is using protect from magic max hit is 30
-            if(prayerProtection) {
+            if (prayerProtection) {
                 max = 30;
             }
 
             //If player is using protect from magic and anti-fire shield max hit 20
-            if(hasShield && prayerProtection) {
+            if (hasShield && prayerProtection) {
                 max = 20;
             }
 
             //If player is using anti-fire shield and antifire potion max hit 10
-            if(hasShield && antifire_charges > 0) {
+            if (hasShield && antifire_charges > 0) {
                 max = 10;
             }
 
             //If player is using anti-fire shield and super antifire potion max hit 0
-            if(hasShield && superAntifire) {
+            if (hasShield && superAntifire) {
                 max = 0;
             }
 
             //If player is using protect from magic and anti-fire potion max hit remains 20
-            if(prayerProtection && antifire_charges > 0) {
+            if (prayerProtection && antifire_charges > 0) {
                 max = 20;
             }
 
             //If player is using protect from magic and super anti-fire potion max hit is 10
-            if(prayerProtection && superAntifire) {
+            if (prayerProtection && superAntifire) {
                 max = 10;
             }
 
             //If player is using anti-fire shield, protect from magic and anti-fire potion max hit is 10
-            if(hasShield && prayerProtection && antifire_charges > 0) {
+            if (hasShield && prayerProtection && antifire_charges > 0) {
                 max = 10;
             }
 
             //If player is using anti-fire shield, protect from magic and super anti-fire potion max hit is 0
-            if(hasShield && prayerProtection && superAntifire) {
+            if (hasShield && prayerProtection && superAntifire) {
                 max = 0;
             }
 
-            var hit = World.getWorld().random(max);
-            var delay = entity.getProjectileHitDelay(target);
-            player.hit(entity, hit, delay, CombatType.MAGIC).submit();
-            if (hit > 30) {
-                // maxhit wasnt reduced by any factors
+            //var hit = World.getWorld().random(max);
+            hit.setDamage(World.getWorld().random(max));
+            hit.submit();
+            if (hit.getDamage() > 30) {
                 player.message("You are badly burned by the dragon fire!");
             }
         }
@@ -279,9 +300,6 @@ public class Vorkath extends CommonCombatMethod {
             }
             Player[] yo = entity.closePlayers(64);
             for (GameObject object : poisons) {
-                /*World.getWorld().getObjects().removeIf(o -> o.tile().equals(object.tile())
-                    && o.getType() == object.getType());
-                World.getWorld().getObjects().add(object);*/
                 for (Player player : yo) {
                     player.getPacketSender().sendObject(object);
                 }
@@ -310,9 +328,7 @@ public class Vorkath extends CommonCombatMethod {
             Chain.bound(null).runFn(1 + 23 + 1, () -> {
                 resistance = null;
                 poison = false;
-               // World.getWorld().getObjects().removeAll(poisons);
                 poisons.forEach(object -> {
-                  //  MapObjects.remove(object);
                     for (Player player : yo) {
                         player.getPacketSender().sendObjectRemoval(object);
                     }
@@ -320,15 +336,14 @@ public class Vorkath extends CommonCombatMethod {
                 poisons.clear();
                 poisonTiles.clear();
             });
-            entity.unlock(); // was locked so no damage can by taken
+            entity.unlock();
             Chain.bound(null).runFn(23, () -> entity.setEntityInteraction(target));
         }
     }
 
     private void acidSpitball() {
-        //mob.forceChat("acidSpitball");
-        entity.animate(FIREBALL_SPIT_ATTACK_ANIMATION); // this anim lasts like 15+ seconds
-        poisonPools(); // this is a 2 in 1, does pools first then spitballs
+        entity.animate(FIREBALL_SPIT_ATTACK_ANIMATION);
+        poisonPools();
         entity.putAttrib(AttributeKey.VORKATH_CB_COOLDOWN, 27);
         entity.runUninterruptable(2, this::startSpitball);
     }
@@ -337,31 +352,28 @@ public class Vorkath extends CommonCombatMethod {
         //mob.forceChat("speed spitball");
         final Area area = new Area(2257, 4053, 2286, 4077).transform(0, 0, 0, 0, target.tile().level);
         Optional<Player> first = World.getWorld().getPlayers().search(p -> p.tile().inAreaZ(area));
-        first.ifPresent(player -> TaskManager.submit(new Task() {
-            int loops = 25;
+        AtomicInteger loops = new AtomicInteger(25);
+        final int[] delay = new int[1];
+        AtomicReference<Projectile> projectile = new AtomicReference<>();
 
-            @Override
-            protected void execute() {
-                if (Vorkath.finished(entity)) {
-                    stop();
-                    return;
-                }
-                if (loops-- > 0) {
-                    //mob.forceChat("pew " + loops);
-                    Tile landed = player.tile();
-                    new Projectile(entity.getCentrePosition(), landed, 0, 1482, 75, 20, 20, 20, 1).sendProjectile();
-
-                    Chain.bound(null).runFn(1, () -> World.getWorld().getPlayers().forEachFiltered(p -> p.tile().equals(landed), p -> p.hit(entity, World.getWorld().random(1, 15), 1)));
-                    //System.out.println("pew");
-                    return;
-                }
-                entity.animate(-1);
-                stop();
-                Chain.bound(null).runFn(1, () -> {
-                    entity.putAttrib(AttributeKey.VORKATH_CB_COOLDOWN, 0);
-                    entity.setEntityInteraction(target);
-                });
+        first.ifPresent(player -> Chain.bound(player).cancelWhen(() -> Vorkath.finished(entity)).runFn(1, () -> {
+            if (loops.getAndDecrement() > 0) {
+                Tile landed = player.tile();
+                var tileDist = entity.tile().distance(target.tile());
+                int duration = (75 + 11 + (5 * tileDist));
+                var tile = entity.tile().translateAndCenterLargeNpc(entity, target);
+                projectile.set(new Projectile(tile, target, 1482, 75, duration, 20, 20, 0, entity.getSize(), 10));
+                delay[0] = entity.executeProjectile(projectile.get());
+                entity.getCombat().delayAttack(0);
+                World.getWorld().getPlayers().forEachFiltered(p2 -> p2.tile().equals(landed),
+                    p2 -> p2.hit(entity, World.getWorld().random(1, 15),
+                        delay[0]));
+                return;
             }
+            entity.animate(-1);
+        }).then(1, () -> {
+            entity.putAttrib(AttributeKey.VORKATH_CB_COOLDOWN, 0);
+            entity.setEntityInteraction(target);
         }));
     }
 
@@ -417,7 +429,7 @@ public class Vorkath extends CommonCombatMethod {
                 } else {
                     if (spawn != null && spawn.tile().getChevDistance(target.tile()) <= 1) {
                         spawn.hit(spawn, spawn.hp());
-                        target.hit(entity,60, 1);
+                        target.hit(entity, 60, 1);
                         spawn.graphic(157);
 
                         //Remove the spawn from the instance list

@@ -1,14 +1,13 @@
 package com.aelous.model.entity.combat.magic.impl;
 
-import com.aelous.model.content.mechanics.MultiwayCombat;
 import com.aelous.model.World;
-import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.model.content.mechanics.MultiwayCombat;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.magic.CombatSpell;
-import com.aelous.model.entity.combat.magic.autocasting.Autocasting;
 import com.aelous.model.entity.combat.magic.data.AncientSpells;
 import com.aelous.model.entity.combat.magic.data.AutoCastWeaponSpells;
 import com.aelous.model.entity.combat.magic.data.ModernSpells;
@@ -22,11 +21,9 @@ import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
-import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.timers.TimerKey;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 

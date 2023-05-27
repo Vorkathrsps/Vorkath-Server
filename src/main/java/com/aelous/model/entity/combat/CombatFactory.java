@@ -1,9 +1,10 @@
 package com.aelous.model.entity.combat;
 
+import com.aelous.GameEngine;
 import com.aelous.GameServer;
 import com.aelous.cache.definitions.NpcDefinition;
-import com.aelous.GameEngine;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
+import com.aelous.model.World;
 import com.aelous.model.content.EffectTimer;
 import com.aelous.model.content.achievements.Achievements;
 import com.aelous.model.content.achievements.AchievementsManager;
@@ -13,9 +14,10 @@ import com.aelous.model.content.members.MemberZone;
 import com.aelous.model.content.skill.impl.slayer.SlayerConstants;
 import com.aelous.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.aelous.model.content.teleport.Teleports;
-import com.aelous.model.World;
-import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.model.entity.combat.damagehandler.PreDamageEffectHandler;
+import com.aelous.model.entity.combat.damagehandler.impl.EquipmentDamageEffect;
 import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.hit.Splat;
@@ -23,8 +25,6 @@ import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.magic.spells.CombatSpells;
 import com.aelous.model.entity.combat.method.CombatMethod;
-import com.aelous.model.entity.combat.damagehandler.PreDamageEffectHandler;
-import com.aelous.model.entity.combat.damagehandler.impl.EquipmentDamageEffect;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.method.impl.MagicCombatMethod;
 import com.aelous.model.entity.combat.method.impl.MeleeCombatMethod;
@@ -42,17 +42,17 @@ import com.aelous.model.entity.combat.method.impl.npcs.slayer.Gargoyle;
 import com.aelous.model.entity.combat.method.impl.npcs.slayer.kraken.EnormousTentacle;
 import com.aelous.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
-import com.aelous.model.entity.combat.ranged.requirements.BowReqs;
-import com.aelous.model.entity.combat.ranged.requirements.CbowReqs;
 import com.aelous.model.entity.combat.ranged.RangedData;
 import com.aelous.model.entity.combat.ranged.RangedData.RangedWeapon;
 import com.aelous.model.entity.combat.ranged.RangedData.RangedWeaponType;
+import com.aelous.model.entity.combat.ranged.requirements.BowReqs;
+import com.aelous.model.entity.combat.ranged.requirements.CbowReqs;
 import com.aelous.model.entity.combat.weapon.AttackType;
 import com.aelous.model.entity.combat.weapon.FightStyle;
 import com.aelous.model.entity.combat.weapon.WeaponType;
-import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.masks.Flag;
+import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.EquipSlot;
@@ -68,7 +68,10 @@ import com.aelous.model.map.position.areas.ControllerManager;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.model.map.route.routes.DumbRoute;
 import com.aelous.network.SessionState;
-import com.aelous.utility.*;
+import com.aelous.utility.Color;
+import com.aelous.utility.Debugs;
+import com.aelous.utility.ItemIdentifiers;
+import com.aelous.utility.Utils;
 import com.aelous.utility.timers.TimerKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -77,13 +80,14 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.ref.WeakReference;
 import java.util.*;
 
-import static com.aelous.model.entity.attributes.AttributeKey.*;
-import static com.aelous.model.inter.InterfaceConstants.BARROWS_REWARD_WIDGET;
+import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
+import static com.aelous.model.entity.attributes.AttributeKey.MAXHIT_OVERRIDE;
+import static com.aelous.model.entity.attributes.AttributeKey.STARTER_WEAPON_DAMAGE;
 import static com.aelous.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss.KRAKEN_WHIRLPOOL;
 import static com.aelous.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss.TENTACLE_WHIRLPOOL;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.*;
+import static com.aelous.model.inter.InterfaceConstants.BARROWS_REWARD_WIDGET;
 import static com.aelous.utility.ItemIdentifiers.*;
-import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
 
 /**
  * Acts as a utility class for combat.
@@ -935,6 +939,10 @@ public class CombatFactory {
         }
     }
 
+    static PreDamageEffectHandler triggerAttacker = new PreDamageEffectHandler(new EquipmentDamageEffect());
+    static PreDamageEffectHandler triggerDefender = new PreDamageEffectHandler(new EquipmentDamageEffect());
+
+
     /**
      * Adds a hit to a target's queue.
      *
@@ -943,25 +951,15 @@ public class CombatFactory {
     public static void addPendingHit(Hit hit) {
         Entity attacker = hit.getAttacker();
         Entity target = hit.getTarget();
+        final CombatType combatType = hit.getCombatType();
 
         if (target.dead()) {
             return;
         }
 
-        if (attacker != null && attacker.isNpc()) {
-            NpcDefinition def = attacker.getAsNpc().def();
-            String name = def.name;
-            boolean isRevenant = attacker.isNpc() && name != null && name.toLowerCase().contains("revenant");
-            if (isRevenant && target.isPlayer()) {
-                Player playerTarget = target.getAsPlayer();
-                var memberCave = playerTarget.tile().memberCave() && playerTarget.getMemberRights().isExtremeMemberOrGreater(playerTarget);
-                if (playerTarget.getEquipment().hasAt(EquipSlot.HANDS, BRACELET_OF_ETHEREUM) || memberCave) {
-                    int newDamage = hit.getDamage() * 25 / 100;
-                    //Wearing the bracelet of ethereum no longer gives complete immunity of revenant attacks, now reducing incoming damage from them by 75%.
-                    hit.setDamage(newDamage);
-                }
-            }
-        }
+        if (target instanceof Player t)
+            triggerDefender.triggerEffectForDefender(t, combatType, hit);
+
         if (target.isNpc() && attacker != null && attacker.isPlayer()) {
             if (target instanceof NPC npc) {
                 Player player = (Player) attacker;
@@ -1076,9 +1074,6 @@ public class CombatFactory {
 
         target.getCombat().getHitQueue().add(hit);
     }
-
-    static PreDamageEffectHandler triggerAttacker = new PreDamageEffectHandler(new EquipmentDamageEffect());
-    static PreDamageEffectHandler triggerDefender = new PreDamageEffectHandler(new EquipmentDamageEffect());
 
     /**
      * Executes a hit that has been ticking until now.

@@ -49323,7 +49323,7 @@
     "rangedef": 12,
     "magedef": 8,
     "str": 0,
-    "rangestr": 0,
+    "rangestr": 4,
     "magestr": 0,
     "pray": 0
   },
@@ -49339,7 +49339,7 @@
     "rangedef": 62,
     "magedef": 75,
     "str": 0,
-    "rangestr": 0,
+    "rangestr": 6,
     "magestr": 0,
     "pray": 0
   },
@@ -49355,7 +49355,7 @@
     "rangedef": 35,
     "magedef": 46,
     "str": 0,
-    "rangestr": 0,
+    "rangestr": 6,
     "magestr": 0,
     "pray": 0
   },

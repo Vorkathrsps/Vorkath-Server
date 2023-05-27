@@ -6,13 +6,7 @@ import com.aelous.model.entity.combat.CombatSpecial;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
-import com.aelous.model.entity.combat.ranged.drawback.BoltDrawBack;
 import com.aelous.model.entity.masks.Projectile;
-import com.aelous.model.entity.masks.impl.animations.Animation;
-import com.aelous.model.entity.masks.impl.animations.Priority;
-import com.aelous.model.entity.masks.impl.graphics.Graphic;
-import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
-import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
 
 public class ZaryteCrossbow extends CommonCombatMethod {
@@ -25,7 +19,7 @@ public class ZaryteCrossbow extends CommonCombatMethod {
         player.animate(9166);
 
         int duration = 41 + 11 + (5 * distance);
-        Projectile projectile = new Projectile(entity, target, 1995, 41, duration, 38, 36, 0, entity.getSize(), 5);
+        Projectile projectile = new Projectile(entity, target, 1995, 41, duration, 38, 36, 0, target.getSize(), 5);
 
         final int hitDelay = entity.executeProjectile(projectile);
 

@@ -20,10 +20,8 @@ import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.map.object.GameObject;
-import com.aelous.model.map.object.MapObjects;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
-import com.aelous.model.map.region.RegionManager;
 import com.aelous.utility.Color;
 import com.aelous.utility.TickDelay;
 import com.aelous.utility.Utils;
@@ -418,7 +416,8 @@ public class GreatOlm extends CommonCombatMethod {
             targets.forEach(p -> {
                 var tileDist = entity.tile().distance(target.tile());
                 int duration = lastBasicAttackStyle == CombatType.RANGED ? (41 + 11 + (5 * tileDist)) : (51 + -5 + (10 * tileDist));
-                Projectile projectile = new Projectile(npc, p, lastBasicAttackStyle == CombatType.RANGED ? 1340 : 1339, lastBasicAttackStyle == CombatType.RANGED ? 41 : 51, duration, 80, 31, 0, 1, lastBasicAttackStyle == CombatType.RANGED ? 5 : 10);
+                var tile = npc.tile().translateAndCenterLargeNpc(npc, p);
+                Projectile projectile = new Projectile(tile, p, lastBasicAttackStyle == CombatType.RANGED ? 1340 : 1339, lastBasicAttackStyle == CombatType.RANGED ? 41 : 51, duration, 80, 31, 0, 1, lastBasicAttackStyle == CombatType.RANGED ? 5 : 10);
                 final int delay = entity.executeProjectile(projectile);
                 int maxDamage = npc.getCombatInfo().maxhit;
                 if (Prayers.usingPrayer(p, lastBasicAttackStyle == CombatType.RANGED ? Prayers.PROTECT_FROM_MISSILES : Prayers.PROTECT_FROM_MAGIC))
@@ -437,24 +436,27 @@ public class GreatOlm extends CommonCombatMethod {
             CombatType style = World.getWorld().get() < 1d / 3 ? CombatType.MAGIC : (World.getWorld().get() < 1d / 2 ? CombatType.RANGED : CombatType.MELEE);
             String message;
             Projectile projectile;
+            var tileDist = entity.tile().distance(target.tile());
+            int duration = (51 + 11 + (10 * tileDist));
+            var tile = npc.tile().translateAndCenterLargeNpc(npc, target);
             int prayer;
             int hitGfx;
             switch (style) {
                 case MAGIC -> {
                     message = Color.PURPLE.wrap("The Great Olm fires a sphere of magical power your way.");
-                    projectile = MAGIC_SPHERE;
+                    projectile = new Projectile(tile, target, 1341, 51, duration, 80, 43, 0, npc.getSize(), 10);
                     hitGfx = 1342;
                     prayer = Prayers.PROTECT_FROM_MAGIC;
                 }
                 case RANGED -> {
                     message = Color.DARK_GREEN.wrap("The Great Olm fires a sphere of accuracy and dexterity your way.");
-                    projectile = RANGED_SPHERE;
+                    projectile = new Projectile(tile, target, 1343, 51, duration, 80, 43, 0, npc.getSize(), 10);
                     hitGfx = 1344;
                     prayer = Prayers.PROTECT_FROM_MISSILES;
                 }
                 case MELEE -> {
                     message = Color.RED.wrap("The Great Olm fires a sphere of aggression your way.");
-                    projectile = MELEE_SPHERE;
+                    projectile = new Projectile(tile, target, 1345, 51, duration, 80, 43, 0, npc.getSize(), 10);
                     hitGfx = 1346;
                     prayer = Prayers.PROTECT_FROM_MELEE;
                 }
@@ -467,7 +469,7 @@ public class GreatOlm extends CommonCombatMethod {
                 Prayers.closeAllPrayers(target);
                 message += " Your prayers have been sapped.";
             }
-            int delay = projectile.send(npc, target);
+            final int delay = entity.executeProjectile(projectile);
             target.graphic(hitGfx, GraphicHeight.HIGH, projectile.getSpeed());
             target.message(message);
 

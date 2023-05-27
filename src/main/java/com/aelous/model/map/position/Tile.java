@@ -1,8 +1,8 @@
 package com.aelous.model.map.position;
 
 import com.aelous.PlainTile;
-import com.aelous.model.content.areas.riskzone.RiskFightArea;
 import com.aelous.model.World;
+import com.aelous.model.content.areas.riskzone.RiskFightArea;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.player.Player;
@@ -21,7 +21,10 @@ import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import static com.aelous.model.map.route.RouteFinder.*;
@@ -736,6 +739,16 @@ public class Tile implements Cloneable {
             }
         }
         return false;
+    }
+
+    public Tile translateAndCenterLargeNpc(Entity source, Entity target) {
+        var vectorX = (this.unitVectorX(target.getCentrePosition()) / 2);
+        var vectorY = (this.unitVectorY(target.getCentrePosition()) / 2);
+        var height = this.getZ();
+        this.transform(vectorX, vectorY, height);
+        var centerX = (this.getX() + source.getSize() / 2);
+        var centerY = (this.getY() + source.getSize() / 2);
+        return new Tile(centerX, centerY, height);
     }
 
     public int unitVectorX(Tile target) {

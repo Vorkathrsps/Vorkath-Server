@@ -1,16 +1,16 @@
 package com.aelous.network.packet.incoming.impl;
 
 import com.aelous.GameServer;
+import com.aelous.core.task.Task;
 import com.aelous.model.content.EffectTimer;
 import com.aelous.model.content.duel.DuelRule;
-import com.aelous.core.task.Task;
-import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.skull.SkullType;
 import com.aelous.model.entity.combat.skull.Skulling;
-import com.aelous.model.inter.dialogue.DialogueManager;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.inter.dialogue.DialogueManager;
 import com.aelous.model.items.Item;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.items.ground.GroundItemHandler;
@@ -22,7 +22,6 @@ import com.aelous.network.packet.incoming.IncomingHandler;
 import com.aelous.utility.Debugs;
 import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.timers.TimerKey;
-import com.intellij.openapi.vfs.pointers.VirtualFilePointerListener;
 import io.netty.buffer.Unpooled;
 
 import java.util.ArrayDeque;
@@ -52,6 +51,12 @@ public class MovementPacketListener implements PacketListener {
         int size = packet.getSize();
         player.afkTimer.reset();
         var minimapClick = packet.getOpcode() == 248;
+
+        if (player.action.getCurrentAction() != null && packet.getOpcode() == IncomingHandler.GAME_MOVEMENT_OPCODE) {
+            player.action.cancel();
+            return;
+        }
+
         if (player.locked() || player.dead()) {
             return;
         }

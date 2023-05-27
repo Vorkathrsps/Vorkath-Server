@@ -2,7 +2,6 @@ package com.aelous.model.entity.player.commands;
 
 import com.aelous.cache.definitions.ItemDefinition;
 import com.aelous.cache.definitions.NpcDefinition;
-import com.aelous.cache.definitions.VarbitDefinition;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 import com.aelous.model.content.areas.theatre.ViturRoom;
@@ -11,21 +10,18 @@ import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterfac
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
-import com.aelous.model.entity.combat.method.impl.npcs.bosses.TheNightmare;
 import com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Direction;
-import com.aelous.model.entity.masks.FaceDirection;
-import com.aelous.model.entity.masks.ForceMovement;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.npc.droptables.ScalarLootTable;
 import com.aelous.model.entity.player.InputScript;
 import com.aelous.model.entity.player.Player;
-import com.aelous.model.entity.player.Varps;
 import com.aelous.model.entity.player.commands.impl.dev.*;
 import com.aelous.model.entity.player.commands.impl.member.*;
 import com.aelous.model.entity.player.commands.impl.owner.*;
@@ -41,7 +37,6 @@ import com.aelous.model.items.Item;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.object.GameObject;
-import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.region.Region;
 import com.aelous.model.map.region.RegionManager;
@@ -59,10 +54,9 @@ import java.util.*;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.GREAT_OLM_7554;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
-import static com.aelous.model.entity.attributes.AttributeKey.*;
-import static com.aelous.model.entity.combat.method.impl.npcs.bosses.TheNightmare.objectsList;
-import static com.aelous.model.entity.combat.method.impl.npcs.bosses.TheNightmare.spawnGameObjects;
-import static com.aelous.model.entity.masks.Direction.*;
+import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_ACTIVE;
+import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_UNLOCKED;
+import static com.aelous.model.entity.masks.Direction.NORTH;
 import static com.aelous.utility.Debugs.CLIP;
 
 public class CommandManager {
@@ -563,7 +557,7 @@ public class CommandManager {
         dev("calv", (p, c, s) -> {
             p.teleport(1888, 11547, 1);
             if (!Vetion.playersInArea.contains(p))
-            Vetion.playersInArea.add(p);
+                Vetion.playersInArea.add(p);
         });
         dev("vet2", (p, c, s) -> {
             p.teleport(3303, 10199, 1);
@@ -650,11 +644,20 @@ public class CommandManager {
             ((GreatOlm) olm.getCombatMethod()).flameWall(olm);
         });
         dev("c", (p, c, s) -> {
-            NPC nex = new NPC(11278, new Tile(p.tile().getX(), p.tile().getY(), p.tile().getZ()));
-            nex.spawn();
-            ForceMovement forceMovement = new ForceMovement(nex.tile(), new Tile(0, 2), 0, 30,0);
-            nex.setForceMovement(forceMovement);
-            Chain.noCtx().runFn(10, nex::remove);
+            NPC npc = new NPC(100, new Tile(p.getX() + 1, p.getY(), p.getZ()));
+            World.getWorld().registerNpc(npc);
+            npc.getCombat().setTarget(p);
+            Hit hit = Hit.builder(npc, p, 50, 0, CombatType.MELEE);
+            hit.submit();
+            if (p.getEquipment().contains(21816)) {
+                if (hit.getDamage() > 0) {
+                    int damage = hit.getDamage();
+                    damage = (damage * 25);
+                    damage /= 100;
+                    hit.setDamage(damage);
+                    System.out.println("working");
+                }
+            }
         });
         dev("curseoff", (p, c, s) -> {
             p.clearAttrib(AttributeKey.NIGHTMARE_CURSE);
@@ -717,7 +720,7 @@ public class CommandManager {
             for (Item item : simulate) {
                 int indiv = kills / Math.max(1, item.getAmount());
                 System.out.println(item.getAmount() + " x " + World.getWorld().definitions().get(ItemDefinition.class,
-                        new Item(item.getId()).unnote(World.getWorld().definitions()).getId()).name + " (1/" + indiv + ")");
+                    new Item(item.getId()).unnote(World.getWorld().definitions()).getId()).name + " (1/" + indiv + ")");
             }
         });
         dev("test12", (p, c, s) -> {

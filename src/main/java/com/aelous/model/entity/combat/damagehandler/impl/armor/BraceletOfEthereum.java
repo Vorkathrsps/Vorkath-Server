@@ -1,23 +1,16 @@
 package com.aelous.model.entity.combat.damagehandler.impl.armor;
 
 import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.combat.CombatConstants;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.damagehandler.listener.DamageEffectListener;
-import com.aelous.model.entity.combat.damagehandler.registery.ListenerRegistry;
+import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.aelous.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
-import com.aelous.model.entity.masks.impl.graphics.Graphic;
-import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
+import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
-import com.aelous.utility.ItemIdentifiers;
-import com.aelous.utility.Utils;
-public class ElysianSpiritShield implements DamageEffectListener {
-    public ElysianSpiritShield() {
-        ListenerRegistry.registerListener(this);
-    }
+public class BraceletOfEthereum implements DamageEffectListener {
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         return false;
@@ -25,14 +18,21 @@ public class ElysianSpiritShield implements DamageEffectListener {
 
     @Override
     public boolean prepareDamageEffectForDefender(Entity entity, CombatType combatType, Hit hit) {
-        Player defender = (Player) entity;
-        var setIgnoreElysianReduction = hit.reflected ? 1 : CombatConstants.ELYSIAN_DAMAGE_REDUCTION;
-        if (Utils.securedRandomChance(0.7F) && defender.getEquipment().contains(ItemIdentifiers.ELYSIAN_SPIRIT_SHIELD)) {
-            int damage = hit.getDamage();
-            damage = (int) Math.floor(damage * setIgnoreElysianReduction);
-            hit.setDamage(damage);
-            defender.performGraphic(new Graphic(321, GraphicHeight.MIDDLE));
-            return true;
+        var player = (Player) entity;
+        var npc = (NPC) hit.getAttacker().getAsNpc();
+        if (npc != null && player != null) {
+            if (player.getEquipment().contains(21816) && hit.getAttacker().isNpc()) {
+                for (var n : FormulaUtils.isRevenant()) {
+                    if (n == npc.id()) {
+                        if (hit.isAccurate()) {
+                            int damage = hit.getDamage();
+                            damage = ((damage * 25) / 100);
+                            hit.setDamage(damage);
+                            return true;
+                        }
+                    }
+                }
+            }
         }
         return false;
     }
@@ -52,4 +52,3 @@ public class ElysianSpiritShield implements DamageEffectListener {
         return false;
     }
 }
-

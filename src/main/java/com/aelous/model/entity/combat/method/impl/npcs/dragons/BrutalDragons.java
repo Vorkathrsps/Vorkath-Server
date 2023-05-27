@@ -1,7 +1,8 @@
 package com.aelous.model.entity.combat.method.impl.npcs.dragons;
 
-import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatConstants;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
@@ -13,7 +14,6 @@ import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
-import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.utility.Utils;
 
 

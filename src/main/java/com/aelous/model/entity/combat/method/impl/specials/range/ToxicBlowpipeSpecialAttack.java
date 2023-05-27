@@ -7,7 +7,6 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.Venom;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
-import com.aelous.model.entity.combat.ranged.drawback.DartDrawback;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
@@ -26,7 +25,7 @@ public class ToxicBlowpipeSpecialAttack extends CommonCombatMethod {
 
         int duration = 41 + 11 + (5 * distance);
 
-        Projectile projectile = new Projectile(entity, target, 1043, 41, duration, 38, 28, 0, entity.getSize(), 5);
+        Projectile projectile = new Projectile(entity, target, 1043, 41, duration, 38, 28, 0, target.getSize(), 5);
 
         final int hitDelay = entity.executeProjectile(projectile);
 

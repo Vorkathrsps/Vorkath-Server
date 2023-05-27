@@ -3,8 +3,6 @@ package com.aelous.model.items.container.equipment;
 import com.aelous.cache.definitions.ItemDefinition;
 import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.combat.weapon.FightStyle;
-import com.aelous.model.entity.combat.weapon.FightType;
 import com.aelous.model.entity.combat.weapon.WeaponType;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.npc.NPCCombatInfo;
@@ -492,7 +490,14 @@ public class EquipmentInfo {
                 case 4912: // Guthan's warspear
                 case 4913: // Guthan's warspear
                 case 4914: // Guthan's warspear
-                    return style == 1 ? 2081 : style == 2 ? 2082 : 2080;
+                case VESTAS_SPEAR:
+                    if (style == 1) {
+                        return 2081;
+                    } else if  (style == 2) {
+                        return 2082;
+                    } else {
+                        return 2080;
+                    }
                 case AHRIMS_STAFF:
                 case AHRIMS_STAFF_0:
                 case AHRIMS_STAFF_25:

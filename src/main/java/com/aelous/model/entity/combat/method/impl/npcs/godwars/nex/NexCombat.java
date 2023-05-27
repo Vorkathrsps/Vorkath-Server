@@ -28,8 +28,6 @@ import com.aelous.model.items.Item;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.object.GameObject;
-import com.aelous.model.map.object.MapObjects;
-import com.aelous.model.map.object.ObjectManager;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.route.routes.ProjectileRoute;
@@ -50,7 +48,7 @@ import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.BLOOD_REAV
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.NEX_11282;
 import static com.aelous.model.content.collection_logs.LogType.BOSSES;
 import static com.aelous.model.entity.attributes.AttributeKey.*;
-import static com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars.*;
+import static com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars.nex;
 import static com.aelous.utility.ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD;
 
 /**

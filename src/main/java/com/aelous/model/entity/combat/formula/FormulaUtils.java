@@ -1,8 +1,8 @@
 package com.aelous.model.entity.combat.formula;
 
 import com.aelous.cache.definitions.NpcDefinition;
+import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.entity.Entity;
-
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
@@ -13,10 +13,10 @@ import com.aelous.utility.ItemIdentifiers;
 import java.util.Arrays;
 
 import static com.aelous.utility.ItemIdentifiers.*;
-import static com.aelous.utility.ItemIdentifiers.BLACK_MASK_9_I;
 
 /**
  * This is a utility class for the combat max hits.
+ *
  * @Author Origin
  * @Since November 06, 2021
  */
@@ -29,11 +29,11 @@ public class FormulaUtils {
      * @return true if the npc is in fact a demon, false otherwise.
      */
     public static boolean isDemon(Entity target) {
-        if(target.isNpc()) {
+        if (target.isNpc()) {
             NPC npc = target.getAsNpc();
             NpcDefinition def = npc.def();
             String name = "";
-            if(def != null) {
+            if (def != null) {
                 name = def.name;
             }
             return name.equalsIgnoreCase("Imp") || name.equalsIgnoreCase("Imp Champion") || name.equalsIgnoreCase("Lesser demon") || name.equalsIgnoreCase("Lesser Demon Champion") || name.equalsIgnoreCase("Greater demon") || name.equalsIgnoreCase("Black demon") || name.equalsIgnoreCase("Abyssal demon") || name.equalsIgnoreCase("Greater abyssal demon") || name.equalsIgnoreCase("Ice demon") || name.equalsIgnoreCase("Bloodveld") || name.equalsIgnoreCase("Insatiable Bloodveld") || name.equalsIgnoreCase("Mutated Bloodveld") || name.equalsIgnoreCase("Insatiable Mutated Bloodveld") || name.equalsIgnoreCase("Demonic gorilla") || name.equalsIgnoreCase("hellhound") || name.equalsIgnoreCase("Skeleton Hellhound") || name.equalsIgnoreCase("Greater Skeleton Hellhound") || name.equalsIgnoreCase("Nechryael") || name.equalsIgnoreCase("Death spawn") || name.equalsIgnoreCase("Greater Nechryael") || name.equalsIgnoreCase("Nechryarch") || name.equalsIgnoreCase("Chaotic death spawn");
@@ -42,16 +42,26 @@ public class FormulaUtils {
     }
 
     public static boolean isUndead(Entity target) {
-        if(target.isNpc()) {
+        if (target.isNpc()) {
             NPC npc = target.getAsNpc();
             NpcDefinition def = npc.def();
             String name = "";
-            if(def != null) {
+            if (def != null) {
                 name = def.name;
             }
             return name.equalsIgnoreCase("ancient revenant") || name.equalsIgnoreCase("revenant") || name.equalsIgnoreCase("Aberrant spectre") || name.equalsIgnoreCase("Ankou") || name.equalsIgnoreCase("Banshee") || name.equalsIgnoreCase("Crawling Hand") || name.equalsIgnoreCase("Ghast") || name.equalsIgnoreCase("Ghost") || name.equalsIgnoreCase("Mummy") || name.contains("revenant") || name.equalsIgnoreCase("Shade") || name.equalsIgnoreCase("Skeleton") || name.equalsIgnoreCase("Skogre") || name.equalsIgnoreCase("Summoned Zombie") || name.equalsIgnoreCase("Tortured soul") || name.equalsIgnoreCase("Undead chicken") || name.equalsIgnoreCase("Undead cow") || name.equalsIgnoreCase("Undead one") || name.equalsIgnoreCase("Zogre") || name.equalsIgnoreCase("Zombified Spawn") || name.equalsIgnoreCase("Zombie") || name.equalsIgnoreCase("Zombie rat") || name.equalsIgnoreCase("Vet'ion") || name.equalsIgnoreCase("Ahrim the Blighted") || name.equalsIgnoreCase("Dharok the Wretched") || name.equalsIgnoreCase("Guthan the Infested") || name.equalsIgnoreCase("Karil the Tainted") || name.equalsIgnoreCase("Torag the Corrupted") || name.equalsIgnoreCase("Verac the Defiled") || name.equalsIgnoreCase("Pestilent Bloat") || name.equalsIgnoreCase("Mi-Gor") || name.equalsIgnoreCase("Treus Dayth") || name.equalsIgnoreCase("Nazastarool") || name.equalsIgnoreCase("Slash Bash") || name.equalsIgnoreCase("Ulfric") || name.equalsIgnoreCase("Vorkath");
         }
         return false;
+    }
+
+    public static int[] isRevenant() {
+        return new int[]{NpcIdentifiers.REVENANT_HELLHOUND, NpcIdentifiers.REVENANT_IMP,
+            NpcIdentifiers.REVENANT_KNIGHT, NpcIdentifiers.REVENANT_HOBGOBLIN,
+            NpcIdentifiers.REVENANT_GOBLIN, NpcIdentifiers.REVENANT_IMP,
+            NpcIdentifiers.REVENANT_DRAGON, NpcIdentifiers.REVENANT_DARK_BEAST,
+            NpcIdentifiers.REVENANT_DEMON, NpcIdentifiers.REVENANT_ORK,
+            NpcIdentifiers.REVENANT_PYREFIEND, NpcIdentifiers.REVENANT_CYCLOPS,
+            NpcIdentifiers.REVENANT_MALEDICTUS};
     }
 
     /**
@@ -155,7 +165,7 @@ public class FormulaUtils {
     }
 
     public static boolean hasCrawsBow(Player player) {
-        return ((player.getEquipment().hasAt(EquipSlot.WEAPON, CRAWS_BOW)  && WildernessArea.inWild(player)));
+        return ((player.getEquipment().hasAt(EquipSlot.WEAPON, CRAWS_BOW) && WildernessArea.inWild(player)));
     }
 
     public static boolean hasAmuletOfAvarice(Player player) {
@@ -180,7 +190,7 @@ public class FormulaUtils {
     }
 
     public static boolean hasBowOfFaerdhenin(Player player) {
-        return player.getEquipment().containsAny(BOW_OF_FAERDHINEN, BOW_OF_FAERDHINEN_27187, BOW_OF_FAERDHINEN_C, BOW_OF_FAERDHINEN_C_25869,BOW_OF_FAERDHINEN_C_25884,BOW_OF_FAERDHINEN_C_25886,BOW_OF_FAERDHINEN_C_25888, BOW_OF_FAERDHINEN_C_25890,BOW_OF_FAERDHINEN_C_25892,BOW_OF_FAERDHINEN_C_25892,BOW_OF_FAERDHINEN_C_25896,BOW_OF_FAERDHINEN_C_25896);
+        return player.getEquipment().containsAny(BOW_OF_FAERDHINEN, BOW_OF_FAERDHINEN_27187, BOW_OF_FAERDHINEN_C, BOW_OF_FAERDHINEN_C_25869, BOW_OF_FAERDHINEN_C_25884, BOW_OF_FAERDHINEN_C_25886, BOW_OF_FAERDHINEN_C_25888, BOW_OF_FAERDHINEN_C_25890, BOW_OF_FAERDHINEN_C_25892, BOW_OF_FAERDHINEN_C_25892, BOW_OF_FAERDHINEN_C_25896, BOW_OF_FAERDHINEN_C_25896);
     }
 
     public static boolean hasZurielStaff(Player player) {
@@ -200,9 +210,11 @@ public class FormulaUtils {
     public static boolean regularVoidEquipmentBaseMagic(Player player) {
         return player.getEquipment().containsAll(VOID_KNIGHT_GLOVES, VOID_KNIGHT_ROBE, VOID_KNIGHT_TOP, VOID_MAGE_HELM);
     }
+
     public static boolean regularVoidEquipmentBaseMelee(Player player) {
         return player.getEquipment().containsAll(VOID_KNIGHT_GLOVES, VOID_KNIGHT_ROBE, VOID_KNIGHT_TOP, VOID_MELEE_HELM);
     }
+
     public static boolean regularVoidEquipmentBaseRanged(Player player) {
         return player.getEquipment().containsAll(VOID_KNIGHT_GLOVES, VOID_KNIGHT_ROBE, VOID_KNIGHT_TOP, VOID_RANGER_HELM);
     }
@@ -210,24 +222,29 @@ public class FormulaUtils {
     public static boolean eliteVoidEquipmentBaseMagic(Player player) {
         return player.getEquipment().containsAll(ELITE_VOID_TOP, ELITE_VOID_ROBE, VOID_KNIGHT_GLOVES, VOID_MAGE_HELM);
     }
+
     public static boolean eliteVoidEquipmentMelee(Player player) {
         return player.getEquipment().containsAll(ELITE_VOID_TOP, ELITE_VOID_ROBE, VOID_KNIGHT_GLOVES, VOID_MELEE_HELM);
     }
+
     public static boolean eliteVoidEquipmentRanged(Player player) {
         return player.getEquipment().containsAll(ELITE_VOID_TOP, ELITE_VOID_ROBE, VOID_KNIGHT_GLOVES, VOID_RANGER_HELM);
     }
+
     public static boolean eliteTrimmedVoidEquipmentBaseMagic(Player player) {
         return player.getEquipment().containsAll(ELITE_VOID_TOP_LOR, ELITE_VOID_ROBE_LOR, VOID_KNIGHT_GLOVES_LOR, VOID_MAGE_HELM_LOR);
     }
+
     public static boolean eliteTrimmedVoidEquipmentBaseMelee(Player player) {
         return player.getEquipment().containsAll(ELITE_VOID_TOP_LOR, ELITE_VOID_ROBE_LOR, VOID_KNIGHT_GLOVES_LOR, VOID_MELEE_HELM_LOR);
     }
+
     public static boolean eliteTrimmedVoidEquipmentBaseRanged(Player player) {
         return player.getEquipment().containsAll(ELITE_VOID_TOP_LOR, ELITE_VOID_ROBE_LOR, VOID_KNIGHT_GLOVES_LOR, VOID_RANGER_HELM_LOR);
     }
 
-    private static final int[] BLACK_MASK = new int[] {BLACK_MASK_1, BLACK_MASK_2, BLACK_MASK_3, BLACK_MASK_4, BLACK_MASK_5, BLACK_MASK_6, BLACK_MASK_7, BLACK_MASK_8, BLACK_MASK_9, BLACK_MASK_10};
-    private static final int[] BLACK_MASK_IMBUED = new int[] {BLACK_MASK_1_I, BLACK_MASK_2_I, BLACK_MASK_3_I, BLACK_MASK_4_I, BLACK_MASK_5_I, BLACK_MASK_6_I, BLACK_MASK_7_I, BLACK_MASK_8_I, BLACK_MASK_9_I, BLACK_MASK_10_I};
+    private static final int[] BLACK_MASK = new int[]{BLACK_MASK_1, BLACK_MASK_2, BLACK_MASK_3, BLACK_MASK_4, BLACK_MASK_5, BLACK_MASK_6, BLACK_MASK_7, BLACK_MASK_8, BLACK_MASK_9, BLACK_MASK_10};
+    private static final int[] BLACK_MASK_IMBUED = new int[]{BLACK_MASK_1_I, BLACK_MASK_2_I, BLACK_MASK_3_I, BLACK_MASK_4_I, BLACK_MASK_5_I, BLACK_MASK_6_I, BLACK_MASK_7_I, BLACK_MASK_8_I, BLACK_MASK_9_I, BLACK_MASK_10_I};
 
     public static boolean wearingBlackMask(Player player) {
         return Arrays.stream(BLACK_MASK).anyMatch(mask -> player.getEquipment().hasAt(EquipSlot.HEAD, mask));

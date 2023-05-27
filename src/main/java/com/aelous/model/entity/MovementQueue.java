@@ -9,7 +9,6 @@ import com.aelous.model.map.region.RegionManager;
 import com.aelous.model.map.route.ClipUtils;
 import com.aelous.model.map.route.routes.DumbRoute;
 import com.aelous.utility.Debugs;
-import org.apache.logging.log4j.LogManager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -307,7 +306,6 @@ public class MovementQueue {
     public boolean hasMoved() {
         return entity.getWalkingDirection() != Direction.NONE || entity.getRunningDirection() != Direction.NONE || entity.isNeedsPlacement();
     }
-
 
     public enum StepType {
         REGULAR, FORCED_WALK, FORCED_RUN

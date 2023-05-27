@@ -1,17 +1,15 @@
 package com.aelous.model.content.skill.impl.woodcutting;
 
-import com.aelous.model.content.achievements.Achievements;
-import com.aelous.model.content.achievements.AchievementsManager;
-import com.aelous.model.content.tasks.impl.Tasks;
-import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
-
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSortedSet;
+import com.aelous.cache.definitions.identifiers.ObjectIdentifiers;
 import com.aelous.model.action.Action;
 import com.aelous.model.action.policy.WalkablePolicy;
+import com.aelous.model.content.achievements.Achievements;
+import com.aelous.model.content.achievements.AchievementsManager;
 import com.aelous.model.content.areas.zeah.woodcutting_guild.WoodcuttingGuild;
 import com.aelous.model.content.skill.impl.firemaking.LogLighting;
+import com.aelous.model.content.tasks.impl.Tasks;
 import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
@@ -19,13 +17,17 @@ import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.object.ObjectManager;
 import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.utility.ItemIdentifiers;
-import com.aelous.cache.definitions.identifiers.ObjectIdentifiers;
 import com.aelous.utility.Utils;
+import com.aelous.utility.chainedwork.Chain;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedSet;
 
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.aelous.utility.ItemIdentifiers.*;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.*;
+import static com.aelous.utility.ItemIdentifiers.*;
 
 /**
  * Created by Bart on 8/28/2015.
@@ -37,17 +39,17 @@ public class Woodcutting extends PacketInteraction {
 
     public enum Tree {
         REGULAR(ItemIdentifiers.LOGS, "logs", 1, 55, 25.0, 75, true, 2764),
-        ACHEY(ACHEY_TREE_LOGS, "achey logs", 1, 55, 25.0, 75, true,2764),
-        OAK(OAK_LOGS, "oak logs", 15, 95, 37.5, 15, false,2664),
-        WILLOW(WILLOW_LOGS, "willow logs", 30, 140, 67.5, 10, false,2500),
-        TEAK(TEAK_LOGS, "teak logs", 35, 140, 85.0, 10, false,2400),
-        JUNIPER(JUNIPER_LOGS, "juniper logs", 42, 150, 35.0, 30, false,2300),
-        MAPLE(MAPLE_LOGS, "maple logs", 45, 180, 100.0, 60, false,2200),
-        MAHOGANY(MAHOGANY_LOGS, "mahogany logs", 50, 200, 125.0, 80, false,2100),
-        YEW(YEW_LOGS, "yew logs", 60, 225, 175.0, 100, false,2000),
-        MAGIC(MAGIC_LOGS, "magic logs", 75, 375, 250.0, 100, false,1400),
-        REDWOOD(REDWOOD_LOGS, "redwood logs", 90, 460, 380.0, 200, false,1000),
-        ENTTRUNK(-1, "ent trunk", -1, 250, 0.0, 0, false,0); // Used for algo only
+        ACHEY(ACHEY_TREE_LOGS, "achey logs", 1, 55, 25.0, 75, true, 2764),
+        OAK(OAK_LOGS, "oak logs", 15, 95, 37.5, 15, false, 2664),
+        WILLOW(WILLOW_LOGS, "willow logs", 30, 140, 67.5, 10, false, 2500),
+        TEAK(TEAK_LOGS, "teak logs", 35, 140, 85.0, 10, false, 2400),
+        JUNIPER(JUNIPER_LOGS, "juniper logs", 42, 150, 35.0, 30, false, 2300),
+        MAPLE(MAPLE_LOGS, "maple logs", 45, 180, 100.0, 60, false, 2200),
+        MAHOGANY(MAHOGANY_LOGS, "mahogany logs", 50, 200, 125.0, 80, false, 2100),
+        YEW(YEW_LOGS, "yew logs", 60, 225, 175.0, 100, false, 2000),
+        MAGIC(MAGIC_LOGS, "magic logs", 75, 375, 250.0, 100, false, 1400),
+        REDWOOD(REDWOOD_LOGS, "redwood logs", 90, 460, 380.0, 200, false, 1000),
+        ENTTRUNK(-1, "ent trunk", -1, 250, 0.0, 0, false, 0); // Used for algo only
 
         private final int logs;
         private final String treeName;
@@ -135,11 +137,83 @@ public class Woodcutting extends PacketInteraction {
             return;
         }
 
-        player.runFn(1, () -> {
-            player.message("You swing your axe at the tree.");
+        // player.message("You swing your axe at the tree.");
+        //player.animate(axe.anim);
+        // player.action.execute(cut(player, axe, tree, trunkObjectId), true);
+        AtomicInteger tick = new AtomicInteger(Utils.random(1, 8));
+        AtomicBoolean interrupt = new AtomicBoolean(false);
+
+        final int level = player.getSkills().levels()[Skills.WOODCUTTING];
+
+        player.message("You swing your axe at the tree.");
+
+        Chain.bound(player).cancelWhen(interrupt::get).repeatingTask(1, t -> {
+
+            int modifiedLevel = level;
+            if (player.tile().inArea(WoodcuttingGuild.AREA_EAST) || player.tile().inArea(WoodcuttingGuild.AREA_WEST)) {
+                modifiedLevel += 7;
+            }
+
             player.animate(axe.anim);
-            player.action.execute(cut(player, axe, tree, trunkObjectId), true);
+
+            if (player.getMovementQueue().isMoving()) {
+                player.animate(-1);
+                interrupt.getAndSet(true);
+                t.stop();
+                player.message("attetmpting to stop");
+                return;
+            }
+
+            if (player.getInventory().isFull()) {
+                player.message("Your inventory is too full to hold any more logs.");
+                player.animate(-1);
+                t.stop();
+                System.out.println("inventory full");
+                return;
+            }
+
+            if (Utils.percentageChance((int) 12.5D)) {
+                player.animate(axe.anim);
+                player.inventory().add(new Item(tree.logs));
+                collapseTree(player, tree, trunkObjectId);
+                player.getSkills().addXp(Skills.WOODCUTTING, tree.xp);
+                t.stop();
+                return;
+            }
+
+            if (axe == Hatchet.INFERNAL && Utils.percentageChance(30) && tree.logs > 0) {
+                LogLighting.LightableLog log = LogLighting.LightableLog.logForId(tree.logs);
+
+                if (log != null) {
+                    player.graphic(580, GraphicHeight.MIDDLE, 0);
+                    player.getSkills().addXp(Skills.FIREMAKING, (log.xp * LogLighting.pyromancerOutfitBonus(player)) / 2);
+                }
+                return;
+            }
+
+            if (Utils.random(100) <= chance(modifiedLevel, tree, axe)) {
+
+                if (interrupt.get()) {
+                    player.animate(-1);
+                    player.message("stopping");
+                    t.stop();
+                    return;
+                }
+
+                player.inventory().add(new Item(tree.logs));
+                player.getSkills().addXp(Skills.WOODCUTTING, tree.xp);
+            }
         });
+    }
+
+    private static boolean collapseTree(Player player, Tree tree, int trunkObjectId) {
+        GameObject obj = player.getAttribOr(AttributeKey.INTERACTION_OBJECT, null);
+        player.animate(-1);
+        GameObject old = new GameObject(obj.getId(), obj.tile(), obj.getType(), obj.getRotation());
+        GameObject spawned = new GameObject(trunkObjectId, obj.tile(), obj.getType(), obj.getRotation());
+        ObjectManager.replace(old, spawned, tree.respawnTime);
+        player.getSkills().addXp(Skills.WOODCUTTING, tree.xp); // Xp as last, it can spawn a dialogue
+        return true;
     }
 
     private static Action<Player> cut(Player player, Hatchet axe, Tree tree, int trunkObjectId) {

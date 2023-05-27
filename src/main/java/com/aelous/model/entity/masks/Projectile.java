@@ -2,10 +2,8 @@ package com.aelous.model.entity.masks;
 
 import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
-import lombok.Setter;
 
 /**
  * A graphic propelled through the air by some sort of spell, weapon, or other
@@ -18,61 +16,61 @@ public final class Projectile {
     /**
      * The starting position of the projectile.
      */
-    private Tile start, target;
+    public Tile start, target;
 
     /**
      * The offset position of the projectile.
      */
-    private final Tile offset;
+    public final Tile offset;
 
-    private final int creatorSize, startDistanceOffset;
+    public final int creatorSize, startDistanceOffset;
 
     /**
      * The speed of the projectile.
      */
-    private final int speed;
+    public int speed;
 
     /**
      * The id of the projectile.
      */
-    private final int projectileId;
+    public final int projectileId;
 
     /**
      * The starting height of the projectile.
      */
-    private final int startHeight;
+    public final int startHeight;
 
     /**
      * The ending height of the projectile.
      */
-    private final int endHeight;
+    public final int endHeight;
 
     /**
      * The lock on value of the projectile.
      */
-    private final int lockon;
+    public final int lockon;
 
     /**
      * The delay of the projectile.
      */
-    private int delay;
+    public int delay;
 
     /**
      * The curve angle of the projectile.
      */
-    @Setter public int angle;
+    public int angle;
 
     /**
      * The slope of the projectile.
      */
-    @Setter public int slope;
+    public int slope;
 
     /**
      * The radius that the projectile is launched from.
      */
-    @Setter public int radius;
+    public int radius;
 
-    private final int stepMultiplier;
+    public int stepMultiplier;
 
     public Projectile(Tile start, Tile end, int lockon,
                       int projectileId, int speed, int delay, int startHeight, int endHeight,
@@ -91,17 +89,38 @@ public final class Projectile {
         this.startHeight = startHeight;
         this.endHeight = endHeight;
         this.slope = curve;
-        this.angle = getAngle();
-        this.radius = getRadius();
         this.stepMultiplier = stepMultiplier;
     }
 
-    public Projectile(Tile start, Tile end, int lockon,
-                      int projectileId, int speed, int delay, int startHeight, int endHeight,
-                      int curve) {
+    /**
+     * Old method NOT USED
+     * @param start
+     * @param end
+     * @param lockon
+     * @param projectileId
+     * @param speed
+     * @param delay
+     * @param startHeight
+     * @param endHeight
+     * @param curve
+     */
+    public Projectile(Tile start, Tile end, int lockon, int projectileId, int speed, int delay, int startHeight, int endHeight, int curve) {
         this(start, end, lockon, projectileId, speed, delay, startHeight, endHeight, curve, 1, 64, 0);
     }
 
+    /**
+     * Entity to Entity Lockon
+     * @param source
+     * @param victim
+     * @param projectileId
+     * @param delay
+     * @param speed
+     * @param startHeight
+     * @param endHeight
+     * @param curve
+     * @param creatorSize
+     * @param stepMultiplier
+     */
     public Projectile(Entity source, Entity victim, int projectileId,
                       int delay, int speed, int startHeight, int endHeight, int curve, int creatorSize, int stepMultiplier) {
         this(source.getCentrePosition(),
@@ -118,6 +137,19 @@ public final class Projectile {
             startHeight, endHeight, curve, creatorSize, 64, stepMultiplier);
     }
 
+    /**
+     * Entity TO Target Tile no-lockon
+     * @param source
+     * @param victim
+     * @param projectileId
+     * @param delay
+     * @param speed
+     * @param startHeight
+     * @param endHeight
+     * @param curve
+     * @param creatorSize
+     * @param stepMultiplier
+     */
     public Projectile(Entity source, Tile victim, int projectileId,
                       int delay, int speed, int startHeight, int endHeight, int curve, int creatorSize, int stepMultiplier) {
         this(source.getCentrePosition(), victim,
@@ -125,7 +157,30 @@ public final class Projectile {
             startHeight, endHeight, curve, creatorSize, 64, stepMultiplier);
     }
 
+
     /**
+     * Larger Entity Tile to Target Lockon
+     * @param source
+     * @param victim
+     * @param projectileId
+     * @param delay
+     * @param speed
+     * @param startHeight
+     * @param endHeight
+     * @param curve
+     * @param creatorSize
+     * @param stepMultiplier
+     */
+    public Projectile(Tile source, Entity victim, int projectileId,
+                      int delay, int speed, int startHeight, int endHeight, int curve, int creatorSize, int stepMultiplier) {
+        this(source, victim.getCentrePosition(),
+            (victim.isPlayer() ? -victim.getIndex() - 1 : victim.getIndex() + 1), projectileId, speed, delay,
+            startHeight, endHeight, curve, creatorSize, 64, stepMultiplier);
+    }
+
+    /**
+     *
+     * OLD NOT USED
      * @param source
      * @param victim
      * @param projectileId
@@ -143,12 +198,20 @@ public final class Projectile {
             startHeight, endHeight, curve, source.getSize(), 0, 0);
     }
 
+    /**
+     * OLD NOT USED
+     * @param source
+     * @param victim
+     * @param projectileId
+     * @param delay
+     * @param speed
+     * @param startHeight
+     * @param endHeight
+     * @param angle
+     * @param forNpc
+     */
     public Projectile(Entity source, Entity victim, int projectileId, int delay, int speed, int startHeight, int endHeight, int angle, boolean forNpc) {
         this(source.getCentrePosition(), victim.getCentrePosition(), victim.getProjectileLockonIndex(), projectileId, speed, delay, startHeight, endHeight, angle, 16, 64, 0);
-    }
-
-    public Projectile(Tile npc, Tile transform, int lockon, int projectileId, int speed, int delay, int duration, int startHeight, int endHeight, int curve, int stepMultiplier) {
-        this(npc, transform, lockon, projectileId, speed, delay, startHeight, endHeight, curve, 1, 0, stepMultiplier);
     }
 
 

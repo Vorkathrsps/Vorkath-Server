@@ -1,7 +1,7 @@
 package com.aelous.core.task;
 
-import com.aelous.GameServer;
 import com.aelous.GameEngine;
+import com.aelous.GameServer;
 import com.aelous.core.task.impl.TickAndStop;
 import com.aelous.core.task.impl.TickableTask;
 import com.aelous.utility.Utils;
@@ -285,8 +285,6 @@ public abstract class Task {
      * (see {@link Task#increaseRunDuration()})
      */
     public void stop() {
-        //System.out.println("Stopping task initiated by: " + Utils.getStackTrace());
-        //System.out.println("Stopping task " + getClassName() + " with " + getKeyName());
         running = false;
         onStop();
     }

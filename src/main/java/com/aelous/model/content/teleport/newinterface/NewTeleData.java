@@ -47,7 +47,7 @@ public enum NewTeleData {
 
     VENENATIS(new Tile(3319, 3745), "Venenatis", "@red@Dangerous Teleport Level:29 Multi-combat Wilderness", BOSSING, MEDIUM),
 
-    VETION(new Tile(3239, 3783), "Vet'ion", "@red@Dangerous Teleport Level:33 Multi-combat Wilderness", BOSSING, MEDIUM),
+    VETION(new Tile(3180, 3679), "Vet'ion", "@red@Dangerous Teleport Level:20 Wilderness", BOSSING, MEDIUM),
 
     SCORPIA(new Tile(3232, 3950), "Scorpia", "@red@Dangerous Teleport Level:54 Multi-combat Wilderness", BOSSING, MEDIUM),
 

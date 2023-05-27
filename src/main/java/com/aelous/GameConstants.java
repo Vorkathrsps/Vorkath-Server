@@ -181,158 +181,157 @@ public class GameConstants {
      */
     public static final String[] BAD_STRINGS = { };
 
-    public final static int[] TAB_AMOUNT = {170, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    public final static int[] TAB_AMOUNT = {48, 26, 36, 66, 0, 0, 0, 0, 0, 0}; //170
     public final static Item[] BANK_ITEMS = {
-        new Item(VOIDWAKER, 20000), // rune full helm
-        new Item(ABYSSAL_TENTACLE, 20000), // rune full helm
-        new Item(ABYSSAL_WHIP, 20000), // rune full helm
-        new Item(CRYSTAL_HELM, 20000), // rune full helm
-        new Item(CRYSTAL_BODY, 20000), // rune full helm
-        new Item(CRYSTAL_LEGS, 20000), // rune full helm
-        new Item(BOW_OF_FAERDHINEN, 20000), // rune full helm
-        new Item(ItemIdentifiers.ANCESTRAL_HAT, 20000), // Scim
-        new Item(ItemIdentifiers.ANCESTRAL_ROBE_TOP, 20000), // Dagger
-        new Item(ItemIdentifiers.ANCESTRAL_ROBE_BOTTOM, 20000), // Mystic
-        new Item(VIRTUS_MASK, 20000), // Scim
-        new Item(VIRTUS_ROBE_TOP, 20000), // Dagger
-        new Item(VIRTUS_ROBE_BOTTOMS, 20000), // Mystic
-        new Item(ABYSSAL_DAGGER_BHP_27867, 20000), // Mystic
-        new Item(DARK_BOW_BH, 20000), // Mystic
-        new Item(DRAGON_LONGSWORD_BH, 20000), // Mystic
-        new Item(DRAGON_MACE_BH, 20000), // Mystic
-        new Item(28067, 20000), // Mystic
-        new Item(SATURATED_HEART, 20000), // Mystic
-        new Item(TUMEKENS_SHADOW, 20000), // pots
-        new Item(TOXIC_BLOWPIPE, 20000), // pots
-        new Item(ItemIdentifiers.TOXIC_STAFF_OF_THE_DEAD, 20000), // Mystic
-        new Item(ItemIdentifiers.THAMMARONS_SCEPTRE, 20000), // Mystic
-        new Item(ItemIdentifiers.ANCIENT_SCEPTRE, 20000), // Mystic
-        new Item(ItemIdentifiers.STAFF_OF_LIGHT, 20000), // enchanted
-        new Item(ItemIdentifiers.HARMONISED_NIGHTMARE_STAFF, 20000), // hat
-        new Item(ItemIdentifiers.VOLATILE_NIGHTMARE_STAFF, 20000), // rune
-        new Item(ItemIdentifiers.ELDRITCH_NIGHTMARE_STAFF, 20000), // mace
-        new Item(ItemIdentifiers.STAFF_OF_THE_DEAD, 20000), // crossbow
-        new Item(ItemIdentifiers.STAFF_OF_BALANCE, 20000), // Mystic
-        new Item(ItemIdentifiers.ARCANE_SPIRIT_SHIELD, 20000), // Mystic
-        new Item(ItemIdentifiers.ELYSIAN_SPIRIT_SHIELD, 20000), // Enchanted
-        new Item(ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD, 20000), // farseer helm
-        new Item(ItemIdentifiers.ANCIENT_WYVERN_SHIELD, 20000), // rune full helm
-        new Item(ItemIdentifiers.DRAGONFIRE_SHIELD, 20000), // d long
-        new Item(ItemIdentifiers.DRAGONFIRE_WARD, 20000), // ancient staff
-        new Item(ItemIdentifiers.DINHS_BULWARK, 20000), // Mystic
-        new Item(ItemIdentifiers.AVERNIC_DEFENDER, 20000), // Mystic
-        new Item(ItemIdentifiers.DRAGON_DEFENDER, 20000), // Mystic
-        new Item(ItemIdentifiers.DRAGON_CROSSBOW, 20000), // Mystic
-        new Item(ItemIdentifiers.ARMADYL_CROSSBOW, 20000), // Mystic
-        new Item(ItemIdentifiers.ZARYTE_CROSSBOW, 20000), // enchanted
-        new Item(ItemIdentifiers.TWISTED_BOW, 20000), // enchanted
-        new Item(ItemIdentifiers.DRAGON_HUNTER_CROSSBOW, 20000), // helm
-        new Item(ItemIdentifiers.KARILS_CROSSBOW, 20000), // rune
-        new Item(DHAROKS_HELM, 20000), // dagger
-        new Item(DHAROKS_PLATEBODY, 20000), // dagger
-        new Item(DHAROKS_PLATELEGS, 20000), // dagger
-        new Item(DHAROKS_GREATAXE, 20000), // dagger
-        new Item(AHRIMS_HOOD, 20000), // dagger
-        new Item(AHRIMS_ROBETOP, 20000), // avas
-        new Item(AHRIMS_ROBESKIRT, 20000), // avas
-        new Item(AHRIMS_STAFF, 20000), // Mystic
-        new Item(VERACS_HELM, 20000), // Mystic
-        new Item(VERACS_BRASSARD, 20000), // Mystic
-        new Item(VERACS_PLATESKIRT, 20000), // Mystic
-        new Item(VERACS_FLAIL, 20000), // Mystic
-        new Item(GRANITE_MAUL_24225, 20000), // Mystic
-        new Item(VESTAS_BLIGHTED_LONGSWORD, 20000), // Mystic
-        new Item(ItemIdentifiers.VESTAS_CHAINBODY, 20000), // wiz boots
-        new Item(ItemIdentifiers.VESTAS_PLATESKIRT, 20000), // helm
-        new Item(ItemIdentifiers.MORRIGANS_COIF, 20000), // rune boots
-        new Item(ItemIdentifiers.MORRIGANS_LEATHER_BODY, 20000), // hides
-        new Item(ItemIdentifiers.MORRIGANS_LEATHER_CHAPS, 20000), // hides
-        new Item(ItemIdentifiers.STATIUSS_FULL_HELM, 20000), // hides
-        new Item(ItemIdentifiers.STATIUSS_PLATEBODY, 20000), // hides
-        new Item(ItemIdentifiers.STATIUSS_PLATELEGS, 20000), // hides
-        new Item(ItemIdentifiers.STATIUSS_WARHAMMER, 20000), // climbers
-        new Item(ItemIdentifiers.DRAGON_BOOTS, 20000), // rune
-        new Item(ItemIdentifiers.PRIMORDIAL_BOOTS, 20000), // rune
-        new Item(ItemIdentifiers.ETERNAL_BOOTS, 20000), // god book
-        new Item(ItemIdentifiers.PEGASIAN_BOOTS, 20000), // god book
-        new Item(ItemIdentifiers.BOOTS_OF_BRIMSTONE, 20000), // hides
-        new Item(ItemIdentifiers.INFINITY_BOOTS, 20000), // hides
-        new Item(ItemIdentifiers.AMULET_OF_BLOOD_FURY, 20000), // hides
-        new Item(ItemIdentifiers.AMULET_OF_FURY_OR, 20000), // ghostly
-        new Item(ItemIdentifiers.AMULET_OF_TORTURE, 20000), // ghostly
-        new Item(ItemIdentifiers.NECKLACE_OF_ANGUISH, 20000),
-        new Item(ItemIdentifiers.OCCULT_NECKLACE, 20000), // Scim
-        new Item(ItemIdentifiers.BERSERKER_NECKLACE, 20000), // Dagger
-        new Item(ItemIdentifiers.TORMENTED_BRACELET, 20000), // Mystic
-        new Item(ItemIdentifiers.BARROWS_GLOVES, 20000), // Mystic
-        new Item(ItemIdentifiers.FEROCIOUS_GLOVES, 20000), // Enchanted
-        new Item(ItemIdentifiers.INFERNAL_CAPE, 20000), // farseer helm
-        new Item(21285, 20000), // rune full helm
-        new Item(ItemIdentifiers.IMBUED_ZAMORAK_CAPE, 20000), // d long
-        new Item(ItemIdentifiers.IMBUED_SARADOMIN_CAPE, 20000), // ancient staff
-        new Item(ItemIdentifiers.IMBUED_GUTHIX_CAPE, 20000), // Mystic
-        new Item(ItemIdentifiers.BERSERKER_RING_I_26770, 20000), // Mystic
-        new Item(ItemIdentifiers.SEERS_RING_I_26767, 20000), // enchanted
-        new Item(ItemIdentifiers.ARCHERS_RING_I_26768, 20000), // hat
-        new Item(ItemIdentifiers.BRIMSTONE_RING, 20000), // rune
-        new Item(ItemIdentifiers.MASORI_ASSEMBLER, 20000), // mace
-        new Item(ItemIdentifiers.AVAS_ACCUMULATOR, 20000), // crossbow
-        new Item(ItemIdentifiers.MASORI_MASK, 20000), // Mystic
-        new Item(ItemIdentifiers.MASORI_BODY, 20000), // Mystic
-        new Item(ItemIdentifiers.MASORI_CHAPS, 20000), // Mystic
-        new Item(ItemIdentifiers.ARMADYL_CHESTPLATE, 20000), // enchanted
-        new Item(ItemIdentifiers.ARMADYL_CHAINSKIRT, 20000), // helm
-        new Item(ItemIdentifiers.ARMADYL_GODSWORD, 20000), // rune
-        new Item(ItemIdentifiers.BANDOS_GODSWORD, 20000), // dagger
-        new Item(ItemIdentifiers.ZAMORAK_GODSWORD, 20000), // avas
-        new Item(ItemIdentifiers.ANCIENT_GODSWORD, 20000), // avas
-        new Item(ItemIdentifiers.DRAGON_CLAWS, 20000), // Mystic
-        new Item(ItemIdentifiers.VIGGORAS_CHAINMACE, 20000), // Mystic
-        new Item(ItemIdentifiers.URSINE_CHAINMACE, 20000), // Mystic
-        new Item(ItemIdentifiers.CRAWS_BOW, 20000), // wiz boots
-        new Item(ItemIdentifiers.WEBWEAVER_BOW, 20000), // helm
-        new Item(ItemIdentifiers.ACCURSED_SCEPTRE_A, 20000), // rune boots
-        new Item(ItemIdentifiers.THAMMARONS_SCEPTRE, 20000), // hides
-        new Item(ItemIdentifiers.SALVE_AMULETEI, 20000), // hides
-        new Item(ItemIdentifiers.AMETHYST_ARROW, 1000000), // hides
-        new Item(ItemIdentifiers.RUNE_ARROW, 1000000), // hides
-        new Item(ItemIdentifiers.DRAGON_ARROW, 1000000), // hides
-        new Item(12695, 20000), // pots
-        new Item(22461, 20000), // pots
-        new Item(2436, 20000), // pots
-        new Item(2440, 20000), // pots
-        new Item(2442, 20000), // pots
-        new Item(2444, 20000), // pots
-        new Item(3040, 20000), // pots
-        new Item(10925, 20000), // pots
-        new Item(3024, 20000), // pots
-        new Item(6685, 20000), // pots
-        new Item(145, 20000), // pots
-        new Item(157, 20000), // pots
-        new Item(163, 20000), // pots
-        new Item(169, 20000), // pots
-        new Item(3042, 20000), // pots
-        new Item(10927, 20000), // pots
-        new Item(3026, 20000), // pots
-        new Item(6689, 20000), // pots
-        new Item(147, 20000), // pots
-        new Item(159, 20000), // pots
-        new Item(165, 20000), // pots
-        new Item(171, 20000), // pots
-        new Item(3044, 20000), // pots
-        new Item(10929, 20000), // pots
-        new Item(3028, 20000), // pots
-        new Item(6687, 20000), // pots
-        new Item(149, 20000), // pots
-        new Item(161, 20000), // pots
-        new Item(167, 20000), // pots
-        new Item(173, 20000), // pots
-        new Item(3046, 20000), // pots
-        new Item(10931, 20000), // pots
-        new Item(3030, 20000), // pots
-        new Item(6691, 20000), // pots
-        new Item(13441, 20000), // sharks
-        new Item(3144, 20000), // karambwan
+        new Item(VOIDWAKER, 20000000), // rune full helm
+        new Item(DRAGON_HUNTER_LANCE, 20000000), // rune full helm
+        new Item(VESTAS_SPEAR, 20000000), // rune full helm
+        new Item(ABYSSAL_TENTACLE, 20000000), // rune full helm
+        new Item(ABYSSAL_WHIP, 20000000), // rune full helm
+        new Item(ABYSSAL_DAGGER_BHP_27867, 20000000), // Mystic
+        new Item(DRAGON_LONGSWORD_BH, 20000000), // Mystic
+        new Item(DRAGON_MACE_BH, 20000000), // Mystic
+        new Item(28067, 20000000), //torso
+        new Item(ItemIdentifiers.DINHS_BULWARK, 20000000), // Mystic
+        new Item(ItemIdentifiers.AVERNIC_DEFENDER, 20000000), // Mystic
+        new Item(ItemIdentifiers.DRAGON_DEFENDER, 20000000), // Mystic
+        new Item(ItemIdentifiers.DRAGONFIRE_SHIELD, 20000000), // d long
+        new Item(DHAROKS_HELM, 20000000), // dagger
+        new Item(DHAROKS_PLATEBODY, 20000000), // dagger
+        new Item(DHAROKS_PLATELEGS, 20000000), // dagger
+        new Item(DHAROKS_GREATAXE, 20000000), // dagger
+        new Item(VERACS_HELM, 20000000), // Mystic
+        new Item(VERACS_BRASSARD, 20000000), // Mystic
+        new Item(VERACS_PLATESKIRT, 20000000), // Mystic
+        new Item(VERACS_FLAIL, 20000000), // Mystic
+        new Item(GRANITE_MAUL_24225, 20000000), // Mystic
+        new Item(VESTAS_BLIGHTED_LONGSWORD, 20000000), // Mystic
+        new Item(ItemIdentifiers.VESTAS_CHAINBODY, 20000000), // wiz boots
+        new Item(ItemIdentifiers.VESTAS_PLATESKIRT, 20000000), // helm
+        new Item(ItemIdentifiers.STATIUSS_FULL_HELM, 20000000), // hides
+        new Item(ItemIdentifiers.STATIUSS_PLATEBODY, 20000000), // hides
+        new Item(ItemIdentifiers.STATIUSS_PLATELEGS, 20000000), // hides
+        new Item(ItemIdentifiers.STATIUSS_WARHAMMER, 20000000), // climbers
+        new Item(ItemIdentifiers.DRAGON_BOOTS, 20000000), // rune
+        new Item(ItemIdentifiers.PRIMORDIAL_BOOTS, 20000000), // rune
+        new Item(ItemIdentifiers.BOOTS_OF_BRIMSTONE, 20000000), // hides
+        new Item(ItemIdentifiers.AMULET_OF_BLOOD_FURY, 20000000), // hides
+        new Item(ItemIdentifiers.AMULET_OF_FURY_OR, 20000000), // ghostly
+        new Item(ItemIdentifiers.AMULET_OF_TORTURE, 20000000), // ghostly
+        new Item(ItemIdentifiers.BERSERKER_NECKLACE, 20000000), // Dagger
+        new Item(ItemIdentifiers.BARROWS_GLOVES, 20000000), // Mystic
+        new Item(ItemIdentifiers.FEROCIOUS_GLOVES, 20000000), // Enchanted
+        new Item(ItemIdentifiers.INFERNAL_CAPE, 20000000), // farseer helm
+        new Item(ItemIdentifiers.ARMADYL_GODSWORD, 20000000), // rune
+        new Item(ItemIdentifiers.BANDOS_GODSWORD, 20000000), // dagger
+        new Item(ItemIdentifiers.ZAMORAK_GODSWORD, 20000000), // avas
+        new Item(ItemIdentifiers.ANCIENT_GODSWORD, 20000000), // avas
+        new Item(ItemIdentifiers.DRAGON_CLAWS, 20000000), // Mystic
+        new Item(ItemIdentifiers.VIGGORAS_CHAINMACE, 20000000), // Mystic
+        new Item(ItemIdentifiers.URSINE_CHAINMACE, 20000000), // Mystic
+        new Item(ItemIdentifiers.BERSERKER_RING_I_26770, 20000000), // Mystic
+        new Item(21285, 20000000), // rune full helm
+        new Item(ItemIdentifiers.SALVE_AMULETEI, 20000000), // hides
+        new Item(CRYSTAL_HELM, 20000000), // rune full helm
+        new Item(CRYSTAL_BODY, 20000000), // rune full helm
+        new Item(CRYSTAL_LEGS, 20000000), // rune full helm
+        new Item(BOW_OF_FAERDHINEN, 20000000), // rune full helm
+        new Item(DARK_BOW_BH, 20000000), // Mystic
+        new Item(TOXIC_BLOWPIPE, 20000000), // pots
+        new Item(ItemIdentifiers.DRAGON_CROSSBOW, 20000000), // Mystic
+        new Item(ItemIdentifiers.ARMADYL_CROSSBOW, 20000000), // Mystic
+        new Item(ItemIdentifiers.ZARYTE_CROSSBOW, 20000000), // enchanted
+        new Item(ItemIdentifiers.TWISTED_BOW, 20000000), // enchanted
+        new Item(ItemIdentifiers.DRAGON_HUNTER_CROSSBOW, 20000000), // helm
+        new Item(ItemIdentifiers.KARILS_CROSSBOW, 20000000), // rune
+        new Item(ItemIdentifiers.MORRIGANS_COIF, 20000000), // rune boots
+        new Item(ItemIdentifiers.MORRIGANS_LEATHER_BODY, 20000000), // hides
+        new Item(ItemIdentifiers.MORRIGANS_LEATHER_CHAPS, 20000000), // hides
+        new Item(ItemIdentifiers.PEGASIAN_BOOTS, 20000000), // god book
+        new Item(ItemIdentifiers.NECKLACE_OF_ANGUISH, 20000000),
+        new Item(ItemIdentifiers.MASORI_ASSEMBLER, 20000000), // mace
+        new Item(ItemIdentifiers.AVAS_ACCUMULATOR, 20000000), // crossbow
+        new Item(ItemIdentifiers.MASORI_MASK, 20000000), // Mystic
+        new Item(ItemIdentifiers.MASORI_BODY, 20000000), // Mystic
+        new Item(ItemIdentifiers.MASORI_CHAPS, 20000000), // Mystic
+        new Item(ItemIdentifiers.ARMADYL_CHESTPLATE, 20000000), // enchanted
+        new Item(ItemIdentifiers.ARMADYL_CHAINSKIRT, 20000000), // helm
+        new Item(ItemIdentifiers.CRAWS_BOW, 20000000), // wiz boots
+        new Item(ItemIdentifiers.WEBWEAVER_BOW, 20000000), // helm
+        new Item(ItemIdentifiers.ARCHERS_RING_I_26768, 20000000), // hat
+        new Item(ItemIdentifiers.ANCESTRAL_HAT, 20000000), // Scim
+        new Item(ItemIdentifiers.ANCESTRAL_ROBE_TOP, 20000000), // Dagger
+        new Item(ItemIdentifiers.ANCESTRAL_ROBE_BOTTOM, 20000000), // Mystic
+        new Item(VIRTUS_MASK, 20000000), // Scim
+        new Item(VIRTUS_ROBE_TOP, 20000000), // Dagger
+        new Item(VIRTUS_ROBE_BOTTOMS, 20000000), // Mystic
+        new Item(AHRIMS_HOOD, 20000000), // dagger
+        new Item(AHRIMS_ROBETOP, 20000000), // avas
+        new Item(AHRIMS_ROBESKIRT, 20000000), // avas
+        new Item(AHRIMS_STAFF, 20000000), // Mystic
+        new Item(SATURATED_HEART, 20000000), // Mystic
+        new Item(TUMEKENS_SHADOW, 20000000), // pots
+        new Item(ItemIdentifiers.TOXIC_STAFF_OF_THE_DEAD, 20000000), // Mystic
+        new Item(ItemIdentifiers.THAMMARONS_SCEPTRE, 20000000), // Mystic
+        new Item(ItemIdentifiers.ANCIENT_SCEPTRE, 20000000), // Mystic
+        new Item(ItemIdentifiers.STAFF_OF_LIGHT, 20000000), // enchanted
+        new Item(ItemIdentifiers.HARMONISED_NIGHTMARE_STAFF, 20000000), // hat
+        new Item(ItemIdentifiers.VOLATILE_NIGHTMARE_STAFF, 20000000), // rune
+        new Item(ItemIdentifiers.ELDRITCH_NIGHTMARE_STAFF, 20000000), // mace
+        new Item(ItemIdentifiers.STAFF_OF_THE_DEAD, 20000000), // crossbow
+        new Item(ItemIdentifiers.STAFF_OF_BALANCE, 20000000), // Mystic
+        new Item(ItemIdentifiers.ARCANE_SPIRIT_SHIELD, 20000000), // Mystic
+        new Item(ItemIdentifiers.ELYSIAN_SPIRIT_SHIELD, 20000000), // Enchanted
+        new Item(ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD, 20000000), // farseer helm
+        new Item(ItemIdentifiers.ANCIENT_WYVERN_SHIELD, 20000000), // rune full helm
+        new Item(ItemIdentifiers.DRAGONFIRE_WARD, 20000000), // ancient staff
+        new Item(ItemIdentifiers.ETERNAL_BOOTS, 20000000), // god book
+        new Item(ItemIdentifiers.INFINITY_BOOTS, 20000000), // hides
+        new Item(ItemIdentifiers.OCCULT_NECKLACE, 20000000), // Scim
+        new Item(ItemIdentifiers.TORMENTED_BRACELET, 20000000), // Mystic
+        new Item(ItemIdentifiers.IMBUED_ZAMORAK_CAPE, 20000000), // d long
+        new Item(ItemIdentifiers.IMBUED_SARADOMIN_CAPE, 20000000), // ancient staff
+        new Item(ItemIdentifiers.IMBUED_GUTHIX_CAPE, 20000000), // Mystic
+        new Item(ItemIdentifiers.SEERS_RING_I_26767, 20000000), // enchanted
+        new Item(ItemIdentifiers.ACCURSED_SCEPTRE_A, 20000000), // rune boots
+        new Item(ItemIdentifiers.THAMMARONS_SCEPTRE, 20000000), // hides
+        new Item(ItemIdentifiers.BRIMSTONE_RING, 20000000), // rune
+        new Item(12695, 20000000), // pots
+        new Item(22461, 20000000), // pots
+        new Item(2436, 20000000), // pots
+        new Item(2440, 20000000), // pots
+        new Item(2442, 20000000), // pots
+        new Item(2444, 20000000), // pots
+        new Item(3040, 20000000), // pots
+        new Item(10925, 20000000), // pots
+        new Item(3024, 20000000), // pots
+        new Item(6685, 20000000), // pots
+        new Item(145, 20000000), // pots
+        new Item(157, 20000000), // pots
+        new Item(163, 20000000), // pots
+        new Item(169, 20000000), // pots
+        new Item(3042, 20000000), // pots
+        new Item(10927, 20000000), // pots
+        new Item(3026, 20000000), // pots
+        new Item(6689, 20000000), // pots
+        new Item(147, 20000000), // pots
+        new Item(159, 20000000), // pots
+        new Item(165, 20000000), // pots
+        new Item(171, 20000000), // pots
+        new Item(3044, 20000000), // pots
+        new Item(10929, 20000000), // pots
+        new Item(3028, 20000000), // pots
+        new Item(6687, 20000000), // pots
+        new Item(149, 20000000), // pots
+        new Item(161, 20000000), // pots
+        new Item(167, 20000000), // pots
+        new Item(173, 20000000), // pots
+        new Item(3046, 20000000), // pots
+        new Item(10931, 20000000), // pots
+        new Item(3030, 20000000), // pots
+        new Item(6691, 20000000), // pots
+        new Item(13441, 20000000), // sharks
+        new Item(3144, 20000000), // karambwan
         new Item(560, 20000000), // runes
         new Item(565, 20000000), // runes
         new Item(555, 20000000), // runes
@@ -348,18 +347,21 @@ public class GameConstants {
         new Item(566, 20000000), // runes
         new Item(561, 20000000), // runes
         new Item(21880, 20000000), // Mystic
-        new Item(9241, 20000), // bolts
-        new Item(9244, 20000), // bolts
-        new Item(9245, 20000), // bolts
-        new Item(9243, 20000), // bolts
-        new Item(9242, 20000), // bolts
+        new Item(9241, 20000000), // bolts
+        new Item(9244, 20000000), // bolts
+        new Item(9245, 20000000), // bolts
+        new Item(9243, 20000000), // bolts
+        new Item(9242, 20000000), // bolts
+        new Item(ItemIdentifiers.AMETHYST_ARROW, 1000000), // hides
+        new Item(ItemIdentifiers.RUNE_ARROW, 1000000), // hides
+        new Item(ItemIdentifiers.DRAGON_ARROW, 1000000), // hides
         new Item(ItemIdentifiers.DIAMOND_DRAGON_BOLTS_E, 20000000),
         new Item(ItemIdentifiers.DRAGONSTONE_DRAGON_BOLTS_E, 20000000),
         new Item(OPAL_DRAGON_BOLTS_E, 20000000),
-        new Item(10828, 20000), // neit helm
-        new Item(2412, 20000), // sara god cape
-        new Item(7458, 20000), // mithril gloves for pures
-        new Item(7462, 20000), // gloves
-        new Item(11978, 20000) // glory (6)
+        new Item(10828, 20000000), // neit helm
+        new Item(2412, 20000000), // sara god cape
+        new Item(7458, 20000000), // mithril gloves for pures
+        new Item(7462, 20000000), // gloves
+        new Item(11978, 20000000) // glory (6)
     };
 }

@@ -9,7 +9,7 @@ import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.player.Player;
 
-import static com.aelous.utility.ItemIdentifiers.*;
+import static com.aelous.utility.ItemIdentifiers.DRAGON_MACE_BH;
 
 public class DragonMace implements DamageEffectListener {
     @Override
@@ -32,7 +32,6 @@ public class DragonMace implements DamageEffectListener {
         var attacker = (Player) entity;
         if ((attacker.getEquipment().contains(DRAGON_MACE_BH) && attacker.isSpecialActivated())) {
             //meleeAccuracy.getGearDefenceBonus(true);
-            meleeAccuracy.setPercentage(0.60D);
             return true;
         }
         return false;

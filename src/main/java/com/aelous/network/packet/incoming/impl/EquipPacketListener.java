@@ -1,19 +1,18 @@
 package com.aelous.network.packet.incoming.impl;
 
 import com.aelous.GameServer;
+import com.aelous.model.World;
+import com.aelous.model.content.mechanics.item_simulator.ItemSimulatorUtility;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatSpecial;
 import com.aelous.model.entity.combat.magic.autocasting.Autocasting;
 import com.aelous.model.entity.combat.magic.spells.CombatSpells;
 import com.aelous.model.entity.combat.weapon.WeaponInterfaces;
 import com.aelous.model.entity.player.EquipSlot;
-import com.aelous.model.inter.impl.BonusesInterface;
-import com.aelous.model.content.mechanics.item_simulator.ItemSimulatorUtility;
-import com.aelous.model.inter.InterfaceConstants;
-import com.aelous.model.World;
-import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.inter.InterfaceConstants;
+import com.aelous.model.inter.impl.BonusesInterface;
 import com.aelous.model.items.Item;
-import com.aelous.model.items.ItemWeight;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.model.items.container.looting_bag.LootingBag;
 import com.aelous.network.packet.Packet;
@@ -23,7 +22,6 @@ import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.timers.TimerKey;
 
 import static com.aelous.utility.ItemIdentifiers.*;
-import static com.aelous.utility.ItemIdentifiers.ACCURSED_SCEPTRE_A;
 
 /**
  * This packet listener manages the equip action a player
@@ -76,11 +74,6 @@ public class EquipPacketListener implements PacketListener {
                 return;
             }
 
-            if (player.getTimers().has(TimerKey.SOTD_DAMAGE_REDUCTION)) {
-                player.getPacketSender().sendMessage(Color.RED.wrap("Your Staff of the dead special de-activated because you unequipped the staff."));
-                return;
-            }
-
             if (interfaceId == InterfaceConstants.INVENTORY_INTERFACE) {
                 player.debugMessage("Equip ItemId=" + id + " Slot=" + slot + " InterfaceId=" + interfaceId);
 
@@ -103,6 +96,10 @@ public class EquipPacketListener implements PacketListener {
                     WeaponInterfaces.updateWeaponInterface(player);
                     player.getInventory().refresh();
                     player.getEquipment().refresh();
+                    if (player.getEquipment().getWeapon() != null && player.getTimers().has(TimerKey.SOTD_DAMAGE_REDUCTION)) {
+                        player.getTimers().cancel(TimerKey.SOTD_DAMAGE_REDUCTION);
+                        player.getPacketSender().sendMessage(Color.RED.wrap("Your Staff of the dead special de-activated because you unequipped the staff."));
+                    }
                     if (player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS) || player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS_FULL)) {
                         if (player.getCombat().getPoweredStaffSpell() != null) {
                             player.getCombat().setPoweredStaffSpell(null);

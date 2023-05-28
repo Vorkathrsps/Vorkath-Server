@@ -7,7 +7,10 @@ import com.aelous.model.content.packet_actions.GlobalStrings;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.method.CombatMethod;
-import com.aelous.model.entity.combat.method.impl.specials.magic.*;
+import com.aelous.model.entity.combat.method.impl.specials.magic.AccursedSceptre;
+import com.aelous.model.entity.combat.method.impl.specials.magic.EldritchNMS;
+import com.aelous.model.entity.combat.method.impl.specials.magic.VoidWaker;
+import com.aelous.model.entity.combat.method.impl.specials.magic.VolatileNMS;
 import com.aelous.model.entity.combat.method.impl.specials.melee.*;
 import com.aelous.model.entity.combat.method.impl.specials.range.*;
 import com.aelous.model.entity.combat.weapon.WeaponType;
@@ -22,8 +25,6 @@ import com.aelous.utility.timers.TimerKey;
 
 import java.util.Arrays;
 
-import static com.aelous.utility.ItemIdentifiers.TOXIC_STAFF_UNCHARGED;
-
 /**
  * Holds constants that hold data for all of the special attacks that can be
  * used.
@@ -36,7 +37,7 @@ public enum CombatSpecial {
     MAGIC_SHORTBOW(new int[]{ItemIdentifiers.MAGIC_SHORTBOW, ItemIdentifiers.MAGIC_SHORTBOW_I}, 55, 1.0, 1.2, new MagicShortbow(), WeaponType.BOW),
     WEBWEAVER_BOW(new int[]{ItemIdentifiers.WEBWEAVER_BOW}, 50, 1.0, 1.5, new WebWeaverBow(), WeaponType.BOW),
     DARK_BOW(new int[]{ItemIdentifiers.DARK_BOW, ItemIdentifiers.DARK_BOW_12765, ItemIdentifiers.DARK_BOW_12766, ItemIdentifiers.DARK_BOW_12767, ItemIdentifiers.DARK_BOW_12768, ItemIdentifiers.DARK_BOW_20408}, 55, 1.30, 1.24, new DarkBow(), WeaponType.BOW),
-    DARK_BOW_BH(new int[]{ItemIdentifiers.DARK_BOW_BH},45, 1.30, 1.24, new DarkBowBH(), WeaponType.BOW),
+    DARK_BOW_BH(new int[]{ItemIdentifiers.DARK_BOW_BH}, 45, 1.30, 1.24, new DarkBowBH(), WeaponType.BOW),
     ARMADYL_CROSSBOW(new int[]{ItemIdentifiers.ARMADYL_CROSSBOW}, 40, 1.10, 2.0, new ArmadylCrossbow(), WeaponType.CROSSBOW),
     ZARYTE_CROSSBOW(new int[]{ItemIdentifiers.ZARYTE_CROSSBOW}, 75, 1.10, 2.0, new ZaryteCrossbow(), WeaponType.CROSSBOW),
     ZARYTE_I(new int[]{ItemIdentifiers.ZARYTE_CROSSBOW}, 50, 1.40, 5.0, new ZaryteCrossbow(), WeaponType.CROSSBOW),
@@ -49,14 +50,15 @@ public enum CombatSpecial {
     MORRIGANS_JAVALIN(new int[]{ItemIdentifiers.MORRIGANS_JAVELIN_23619, ItemIdentifiers.MORRIGANS_JAVELIN}, 50, 1.0, 1.0, new MorrigansJavelin(), WeaponType.THROWN),
 
     //Magic
-    STAFF_OF_THE_DEAD(new int[]{ItemIdentifiers.STAFF_OF_THE_DEAD}, 100, 1.0, 1.0, new ToxicStaffOfTheDead(), WeaponType.MAGIC_STAFF),
-    TOXIC_STAFF_OF_THE_DEAD(new int[]{ItemIdentifiers.TOXIC_STAFF_OF_THE_DEAD}, 100, 1.0, 1.0, new ToxicStaffOfTheDead(), WeaponType.MAGIC_STAFF),
-    STAFF_OF_LIGHT(new int[]{ItemIdentifiers.STAFF_OF_LIGHT}, 100, 1.0, 1.0, new StaffOfLight(), WeaponType.MAGIC_STAFF),
+    STAFF_OF_THE_DEAD(new int[]{ItemIdentifiers.STAFF_OF_THE_DEAD}, 100, 1.0, 1.0, null, WeaponType.BLADED_STAFF),
+    TOXIC_STAFF_OF_THE_DEAD(new int[]{ItemIdentifiers.TOXIC_STAFF_OF_THE_DEAD}, 100, 1.0, 1.0, null, WeaponType.BLADED_STAFF),
+    STAFF_OF_LIGHT(new int[]{ItemIdentifiers.STAFF_OF_LIGHT}, 100, 1.0, 1.0, null, WeaponType.BLADED_STAFF),
+
     VOLATILE_NIGHTMARE_STAFF(new int[]{ItemIdentifiers.VOLATILE_NIGHTMARE_STAFF}, 55, 1.0, 1.50, new VolatileNMS(), WeaponType.MAGIC_STAFF),
     ELDRITCH_NIGHTMARE_STAFF(new int[]{ItemIdentifiers.ELDRITCH_NIGHTMARE_STAFF}, 75, 1.0, 1.0, new EldritchNMS(), WeaponType.MAGIC_STAFF),
     ACCURSED_SCEPTRE(new int[]{ItemIdentifiers.ACCURSED_SCEPTRE_A}, 50, 1.0, 1.0, new AccursedSceptre(), WeaponType.POWERED_STAFF),
 
-    VOIDWAKER(new int[]{ItemIdentifiers.VOIDWAKER}, 50,  1.0, 1.0, new VoidWaker(), WeaponType.LONGSWORD),
+    VOIDWAKER(new int[]{ItemIdentifiers.VOIDWAKER}, 50, 1.0, 1.0, new VoidWaker(), WeaponType.LONGSWORD),
 
     DRAGON_BATTLEAXE(new int[]{ItemIdentifiers.DRAGON_BATTLEAXE}, 100, 1.0, 1.0, null, WeaponType.AXE),
     BARRELCHEST_ANCHOR(new int[]{ItemIdentifiers.BARRELCHEST_ANCHOR}, 50, 1.0, 1.10F, new BarrelchestAnchor(), WeaponType.MACE),
@@ -82,7 +84,7 @@ public enum CombatSpecial {
     DRAGON_2H_SWORD(new int[]{ItemIdentifiers.DRAGON_2H_SWORD}, 60, 1.0, 1.0, new Dragon2HSword(), WeaponType.TWOHANDED),
     BARRELSCHEST_ANCHOR(new int[]{ItemIdentifiers.BARRELCHEST_ANCHOR}, 50, 1.10, 1.10, new BarrelchestAnchor(), WeaponType.HAMMER),
     DRAGON_MACE(new int[]{ItemIdentifiers.DRAGON_MACE, 16254, 16255, 16256, 16257, 16258, 16259, 16260, 16261, 16262}, 25, 1.50D, 1.25F, new DragonMace(), WeaponType.MACE),
-    DRAGON_MACE_BH(new int[]{ItemIdentifiers.DRAGON_MACE_BH}, 25, 1.50D, 1.25F, new DragonMace(), WeaponType.MACE),
+    DRAGON_MACE_BH(new int[]{ItemIdentifiers.DRAGON_MACE_BH}, 25, 1.50D, 1.25F, new DragonMaceBH(), WeaponType.MACE),
 
     INQUISITORS_MACE(new int[]{ItemIdentifiers.INQUISITORS_MACE}, 50, 1.10, 1.25, new InquisitorsMace(), WeaponType.MACE),
     URSINE_CHAINMACE(new int[]{ItemIdentifiers.URSINE_CHAINMACE}, 50, 1.0, 2.0, new UrsineMace(), WeaponType.MACE),
@@ -175,6 +177,7 @@ public enum CombatSpecial {
             player.putAttrib(AttributeKey.SPECIAL_ATTACK_USED, true);
         }
     }
+
     /**
      * Updates the special bar with the amount of special energy the argued
      * {@link Player} has.
@@ -222,6 +225,11 @@ public enum CombatSpecial {
             if (weaponType == specialAttackBar) {
                 //player.debugMessage("looping combat specials...");
                 Item weapon = player.getEquipment().get(EquipSlot.WEAPON);
+                if (weapon.getId() == 22296 || weapon.getId() == 12904) {
+                    player.getPacketSender().sendInterfaceDisplayState(player.getCombat().getWeaponType().getSpecialBar(), false);
+                    player.setCombatSpecial(special);
+                    return;
+                }
                 if (Arrays.stream(special.getIdentifiers()).anyMatch(id -> weapon != null && weapon.getId() == id)) {
                     //player.debugMessage("set spec bar");
                     player.getPacketSender().sendInterfaceDisplayState(player.getCombat().getWeaponType().getSpecialBar(), false);
@@ -264,35 +272,41 @@ public enum CombatSpecial {
             if (weapon != null) {
                 switch (weapon.getId()) {
                     case 22296 -> {
-                        doStaffOfTheDead(player, true);
+                        doStaffOfLight(player);
                         return true;
                     }
-                    case ItemIdentifiers.STAFF_OF_THE_DEAD, TOXIC_STAFF_UNCHARGED -> {
-                        doStaffOfTheDead(player, false);
+                    case ItemIdentifiers.STAFF_OF_THE_DEAD, ItemIdentifiers.TOXIC_STAFF_OF_THE_DEAD -> {
+                        doStaffOfTheDead(player);
                         return true;
                     }
                     case ItemIdentifiers.DRAGON_BATTLEAXE -> {
                         doDragonBattleaxe(player);
                         return true;
                     }
-                    default -> {
-                        CombatSpecial.activate(player);
-                        return true;
-                    }
                 }
+                CombatSpecial.activate(player);
+                return true;
             }
         }
         return false;
     }
 
-    private static void doStaffOfTheDead(Player player, boolean staffOfLight) {
+    private static void doStaffOfTheDead(Player player) {
         //Toxic & Regular Staff of the Dead
-        if (CombatFactory.takeSpecialEnergy(player, 100)) {
-            player.animate(staffOfLight ? 7967 : 7083);
-            player.graphic(staffOfLight ? 1516 : 1228, GraphicHeight.HIGH_3, 0);
-            player.getTimers().addOrSet(TimerKey.SOTD_DAMAGE_REDUCTION, 60);
-            player.message("<col=3d5d2b>Spirits of deceased evildoers offer you their protection.");
-        }
+        player.animate(7083);
+        player.graphic(1228, GraphicHeight.HIGH8, 0);
+        player.getTimers().addOrSet(TimerKey.SOTD_DAMAGE_REDUCTION, 60);
+        player.message("<col=3d5d2b>Spirits of deceased evildoers offer you their protection.");
+        CombatSpecial.drain(player, 100);
+    }
+
+    private static void doStaffOfLight(Player player) {
+        //Toxic & Regular Staff of the Dead
+        player.animate(7967);
+        player.graphic(1516, GraphicHeight.HIGH8, 0);
+        player.getTimers().addOrSet(TimerKey.SOTD_DAMAGE_REDUCTION, 60);
+        player.message("<col=3d5d2b>Spirits of deceased evildoers offer you their protection.");
+        CombatSpecial.drain(player, 100);
     }
 
     private static void doDragonBattleaxe(Player player) {

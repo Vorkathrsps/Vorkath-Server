@@ -1,11 +1,11 @@
 package com.aelous.model.content.account;
 
 import com.aelous.GameServer;
+import com.aelous.model.entity.player.GameMode;
+import com.aelous.model.entity.player.IronMode;
 import com.aelous.model.inter.dialogue.Dialogue;
 import com.aelous.model.inter.dialogue.DialogueType;
 import com.aelous.model.inter.dialogue.Expression;
-import com.aelous.model.entity.player.GameMode;
-import com.aelous.model.entity.player.IronMode;
 import com.aelous.model.items.Item;
 import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.Utils;
@@ -64,8 +64,8 @@ public class ChangeAccountTypeDialogue extends Dialogue {
         if (isPhase(4)) {
             if (option == 1) {
                 player.resetSkills();
-                GameMode accountType = player.getGameMode(GameMode.TRAINED_ACCOUNT);
-                player.getGameMode(accountType);
+                GameMode accountType = player.setGameMode(GameMode.TRAINED_ACCOUNT);
+                player.setGameMode(accountType);
                 player.setIronmanStatus(IronMode.NONE);
                 //logger.info(player.toString() + " has changed their account type to "+player.mode().toName());
                 Utils.sendDiscordInfoLog(player.toString() + " has changed their account type to "+player.getGameMode().toName());

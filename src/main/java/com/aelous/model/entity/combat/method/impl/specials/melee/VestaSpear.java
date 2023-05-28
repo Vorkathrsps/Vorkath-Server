@@ -9,7 +9,7 @@ import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 
 /**
  * Vesta's spear has a special attack, Spear Wall, that consumes 50% of the player's special attack energy and damages up to 16 targets within 8 tiles surrounding the player (one if the player is outside a multicombat area).
- *
+ * <p>
  * In addition, the user becomes immune to melee attacks for 8 ticks (4.8 seconds).
  */
 public class VestaSpear extends CommonCombatMethod {
@@ -18,10 +18,10 @@ public class VestaSpear extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(8184);
         entity.graphic(1627);
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy();
         hit.submit();
         CombatSpecial.drain(entity, CombatSpecial.VESTA_SPEAR.getDrainAmount());
-return true;
+        return true;
     }
 
     @Override

@@ -2,15 +2,14 @@ package com.aelous.model.content.mechanics;
 
 import com.aelous.GameServer;
 import com.aelous.cache.definitions.ItemDefinition;
+import com.aelous.model.World;
 import com.aelous.model.content.areas.wilderness.content.revenant_caves.AncientArtifacts;
+import com.aelous.model.content.bountyhunter.emblem.BountyHunterEmblem;
 import com.aelous.model.content.items_kept_on_death.ItemsKeptOnDeath;
 import com.aelous.model.content.mechanics.break_items.BrokenItem;
 import com.aelous.model.content.minigames.MinigameManager;
-import com.aelous.model.World;
-import com.aelous.model.entity.attributes.AttributeKey;
-
-import com.aelous.model.content.bountyhunter.emblem.BountyHunterEmblem;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.combat.skull.SkullType;
 import com.aelous.model.entity.combat.skull.Skulling;
@@ -22,11 +21,11 @@ import com.aelous.model.items.Item;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.position.Tile;
+import com.aelous.utility.Color;
+import com.aelous.utility.Utils;
 import com.aelous.utility.test.unit.IKODTest;
 import com.aelous.utility.test.unit.PlayerDeathConvertResult;
 import com.aelous.utility.test.unit.PlayerDeathDropResult;
-import com.aelous.utility.Color;
-import com.aelous.utility.Utils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -355,7 +354,7 @@ public class ItemsOnDeath {
         player.putAttrib(AttributeKey.DARK_LORD_LIVES, lives);
         if (lives == 0) {
 
-            player.getGameMode(GameMode.TRAINED_ACCOUNT);
+            player.setGameMode(GameMode.TRAINED_ACCOUNT);
             player.message("You have fallen as a Dark Lord', your status has been revoked.");
             World.getWorld().sendWorldMessage("<img=2013>" + Color.PURPLE.wrap(player.getUsername()) + Color.RED.wrap("has fallen as a Dark Lord!"));
         }

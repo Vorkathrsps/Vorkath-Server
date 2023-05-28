@@ -1,13 +1,13 @@
 package com.aelous.model.entity.combat.magic.spells;
 
 import com.aelous.model.World;
-import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.magic.CombatSpell;
+import com.aelous.model.entity.combat.magic.autocasting.Autocasting;
 import com.aelous.model.entity.combat.magic.impl.CombinationRunes;
 import com.aelous.model.entity.combat.magic.impl.PlayerMagicStaff;
-import com.aelous.model.entity.combat.magic.autocasting.Autocasting;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
@@ -76,7 +76,7 @@ public abstract class Spell {
             switch (spellId()) {
                 case 12445 -> {
                     if (target.isNpc() && target.getAsNpc().isCombatDummy() || target.isNpc()) {
-                        player.message("You cannot cast this spell on the combat dummy.");
+                        player.message("You cannot cast this spell on this npc.");
                         return false;
                     }
                     if (target.isPlayer() && target.getTimers().has(TELEBLOCK)) {

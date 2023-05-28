@@ -34,8 +34,8 @@ public class GameConstants {
         //Food (Lobsters, noted)
         new Item(LOBSTER+1, 50),
         //Potion
-        new Item(SUPER_COMBAT_POTION4, 1),
-        new Item(BLOOD_MONEY, 500000),
+        new Item(COMBAT_POTION4+1, 25),
+        new Item(BLOOD_MONEY, 2500),
 
 
     };

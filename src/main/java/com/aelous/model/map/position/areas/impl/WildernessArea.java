@@ -1,11 +1,11 @@
 package com.aelous.model.map.position.areas.impl;
 
-import com.aelous.model.content.duel.Dueling;
 import com.aelous.model.World;
-import com.aelous.model.entity.attributes.AttributeKey;
-import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.content.bountyhunter.BountyHunter;
+import com.aelous.model.content.duel.Dueling;
+import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.skull.Skulling;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
@@ -22,7 +22,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
-import java.util.Optional;
 
 import static com.aelous.model.entity.player.QuestTab.InfoTab.PLAYERS_PKING;
 
@@ -91,6 +90,11 @@ public class WildernessArea extends Controller {
             return ((y - 9920) >> 3) + 1;
         }
         return 0;
+    }
+
+    public static boolean inRevenantCaves(Player player) {
+        int region = player.tile().region();
+        return region == 12701 || region == 12702 || region == 12703 || region == 12957 || region == 12958 || region == 12959;
     }
 
     public static boolean inUndergroundWilderness(Tile tile) {

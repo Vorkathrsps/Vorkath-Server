@@ -127,6 +127,8 @@ public enum NewTeleData {
 
     LUMBRIDGE(new Tile(3222, 3218),"Lumbridge", "", CITIES, MEDIUM),
     VARROCK(new Tile(3210, 3424),"Varrock", "", CITIES, MEDIUM),
+    DRAYNOR(new Tile(3092, 3249),"Draynor", "", CITIES, MEDIUM),
+
     FALADOR(new Tile(2964, 3378),"Falador", "", CITIES, MEDIUM),
     CAMELOT(new Tile(2757, 3477),"Camelot", "", CITIES, MEDIUM),
     ARDOUGNE(new Tile(2662, 3305),"Ardougne", "", CITIES, MEDIUM),

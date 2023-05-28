@@ -29,6 +29,6 @@ public class CaveKrakenDeath implements Droptable {
                 drop(killed, killer.tile(), killer, new Item(tableItem.id, Utils.random(tableItem.min, tableItem.max)));
             });
         }
-        killed.transmog(-1);
+        killed.die();
     }
 }

@@ -1,31 +1,27 @@
 package com.aelous.model.entity.combat;
 
-import com.aelous.model.content.duel.DuelRule;
-import com.aelous.model.content.packet_actions.GlobalStrings;
 import com.aelous.core.task.TaskManager;
 import com.aelous.core.task.impl.RestoreSpecialAttackTask;
-import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.model.content.duel.DuelRule;
+import com.aelous.model.content.packet_actions.GlobalStrings;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.method.CombatMethod;
-import com.aelous.model.entity.combat.method.impl.specials.magic.AccursedSceptre;
-import com.aelous.model.entity.combat.method.impl.specials.magic.EldritchNMS;
-import com.aelous.model.entity.combat.method.impl.specials.magic.VoidWaker;
-import com.aelous.model.entity.combat.method.impl.specials.magic.VolatileNMS;
+import com.aelous.model.entity.combat.method.impl.specials.magic.*;
 import com.aelous.model.entity.combat.method.impl.specials.melee.*;
 import com.aelous.model.entity.combat.method.impl.specials.range.*;
 import com.aelous.model.entity.combat.weapon.WeaponType;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
-import com.aelous.model.inter.dialogue.DialogueManager;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
+import com.aelous.model.inter.dialogue.DialogueManager;
 import com.aelous.model.items.Item;
 import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.timers.TimerKey;
 
 import java.util.Arrays;
 
-import static com.aelous.utility.ItemIdentifiers.DRAGON_MACE_BH;
 import static com.aelous.utility.ItemIdentifiers.TOXIC_STAFF_UNCHARGED;
 
 /**
@@ -53,9 +49,9 @@ public enum CombatSpecial {
     MORRIGANS_JAVALIN(new int[]{ItemIdentifiers.MORRIGANS_JAVELIN_23619, ItemIdentifiers.MORRIGANS_JAVELIN}, 50, 1.0, 1.0, new MorrigansJavelin(), WeaponType.THROWN),
 
     //Magic
-    STAFF_OF_THE_DEAD(new int[]{ItemIdentifiers.STAFF_OF_THE_DEAD}, 100, 1.0, 1.0, null, WeaponType.MAGIC_STAFF),
-    TOXIC_STAFF_OF_THE_DEAD(new int[]{ItemIdentifiers.TOXIC_STAFF_OF_THE_DEAD}, 100, 1.0, 1.0, null, WeaponType.MAGIC_STAFF),
-    STAFF_OF_LIGHT(new int[]{ItemIdentifiers.STAFF_OF_LIGHT}, 100, 1.0, 1.0, null, WeaponType.MAGIC_STAFF),
+    STAFF_OF_THE_DEAD(new int[]{ItemIdentifiers.STAFF_OF_THE_DEAD}, 100, 1.0, 1.0, new ToxicStaffOfTheDead(), WeaponType.MAGIC_STAFF),
+    TOXIC_STAFF_OF_THE_DEAD(new int[]{ItemIdentifiers.TOXIC_STAFF_OF_THE_DEAD}, 100, 1.0, 1.0, new ToxicStaffOfTheDead(), WeaponType.MAGIC_STAFF),
+    STAFF_OF_LIGHT(new int[]{ItemIdentifiers.STAFF_OF_LIGHT}, 100, 1.0, 1.0, new StaffOfLight(), WeaponType.MAGIC_STAFF),
     VOLATILE_NIGHTMARE_STAFF(new int[]{ItemIdentifiers.VOLATILE_NIGHTMARE_STAFF}, 55, 1.0, 1.50, new VolatileNMS(), WeaponType.MAGIC_STAFF),
     ELDRITCH_NIGHTMARE_STAFF(new int[]{ItemIdentifiers.ELDRITCH_NIGHTMARE_STAFF}, 75, 1.0, 1.0, new EldritchNMS(), WeaponType.MAGIC_STAFF),
     ACCURSED_SCEPTRE(new int[]{ItemIdentifiers.ACCURSED_SCEPTRE_A}, 50, 1.0, 1.0, new AccursedSceptre(), WeaponType.POWERED_STAFF),

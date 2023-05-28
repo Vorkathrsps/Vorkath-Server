@@ -152,7 +152,7 @@ public class PlayerSave {
             if (details.memberRights != null)
                 player.setMemberRights(MemberRights.valueOf(details.memberRights));
             if (details.gameMode != null)
-                player.getGameMode(details.gameMode);
+                player.setGameMode(details.gameMode);
             if (details.ironMode == null) {
                 player.setIronmanStatus(IronMode.NONE);
             } else {

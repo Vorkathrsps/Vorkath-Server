@@ -19,7 +19,7 @@ public enum IronMode {
     }
 
     public boolean ironman() {
-        return name.equals("Ironman") || name.equals("Hardcore Ironman");
+        return name.equalsIgnoreCase("Ironman") || name.equalsIgnoreCase("Hardcore Ironman");
     }
 
     /**

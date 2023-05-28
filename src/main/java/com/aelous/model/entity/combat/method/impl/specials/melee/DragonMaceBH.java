@@ -12,8 +12,7 @@ public class DragonMaceBH extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1060);
-        entity.graphic(251, GraphicHeight.HIGH_2, 0);
-
+        entity.graphic(251, GraphicHeight.HIGH, 0);
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
         hit.submit();
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_MACE_BH.getDrainAmount());

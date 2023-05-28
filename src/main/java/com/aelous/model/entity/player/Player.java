@@ -358,8 +358,12 @@ public class Player extends Entity {
             percent += 3;
         }
 
-        if (getGameMode() == GameMode.TRAINED_ACCOUNT) {
+        if (getIronManStatus() == IronMode.REGULAR || getIronManStatus() == IronMode.REGULAR) {
             percent += 5;
+        }
+
+        if (Skulling.skulled(player()) && player().tile.insideRevCave()) {
+            percent += 15;
         }
 
         if (getEquipment().contains(RING_OF_WEALTH_I)) {
@@ -2539,7 +2543,7 @@ public class Player extends Entity {
         return mode;
     }
 
-    public GameMode getGameMode(GameMode mode) {
+    public GameMode setGameMode(GameMode mode) {
         this.mode = mode;
         return mode;
     }

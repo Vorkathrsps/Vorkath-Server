@@ -1,6 +1,7 @@
 package com.aelous.model.content.areas.edgevile;
 
 import com.aelous.GameServer;
+import com.aelous.model.World;
 import com.aelous.model.content.account.ChangeAccountTypeDialogue;
 import com.aelous.model.content.areas.edgevile.dialogue.*;
 import com.aelous.model.content.areas.lumbridge.dialogue.Hans;
@@ -12,31 +13,30 @@ import com.aelous.model.content.tasks.TaskMasterD;
 import com.aelous.model.content.teleport.OrnateJewelleryBox;
 import com.aelous.model.content.teleport.Teleports;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
-import com.aelous.model.entity.masks.Direction;
-import com.aelous.model.entity.masks.ForceMovement;
-import com.aelous.model.items.tradingpost.TradingPost;
-import com.aelous.core.task.TaskManager;
-import com.aelous.core.task.impl.ForceMovementTask;
-import com.aelous.model.entity.player.*;
-import com.aelous.core.task.impl.TickableTask;
-import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatSpecial;
 import com.aelous.model.entity.combat.Venom;
+import com.aelous.model.entity.masks.ForceMovement;
 import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
+import com.aelous.model.entity.player.MagicSpellbook;
+import com.aelous.model.entity.player.Player;
+import com.aelous.model.entity.player.Skills;
+import com.aelous.model.entity.player.rights.MemberRights;
 import com.aelous.model.items.Item;
 import com.aelous.model.items.container.shop.impl.ShopReference;
+import com.aelous.model.items.tradingpost.TradingPost;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.object.ObjectManager;
 import com.aelous.model.map.position.Tile;
-import com.aelous.model.map.position.areas.impl.WildernessArea;
+import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.utility.Color;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 import com.aelous.utility.timers.TimerKey;
-import com.aelous.network.packet.incoming.interaction.PacketInteraction;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.ALTAR;
@@ -51,17 +51,17 @@ public class Edgeville extends PacketInteraction {
     @Override
     public boolean handleNpcInteraction(Player player, NPC npc, int option) {
         if (option == 1) {
-            if(npc.id() == ARMOUR_SALESMAN) {
+            if (npc.id() == ARMOUR_SALESMAN) {
                 player.shopReference = ShopReference.GEAR;
                 player.getPacketSender().sendConfig(1126, 1);
                 World.getWorld().shop(10).open(player);
                 return true;
             }
-            if(npc.id() == PERDU) {
+            if (npc.id() == PERDU) {
                 player.getDialogueManager().start(new PerduDialogue());
                 return true;
             }
-            if(npc.id() == IRON_MAN_TUTOR) {
+            if (npc.id() == IRON_MAN_TUTOR) {
                 player.getDialogueManager().start(new ChangeAccountTypeDialogue());
                 return true;
             }
@@ -99,7 +99,7 @@ public class Edgeville extends PacketInteraction {
                 return true;
             }
         } else if (option == 2) {
-            if(npc.id() == TRADE_REFEREE) {
+            if (npc.id() == TRADE_REFEREE) {
                 World.getWorld().shop(8).open(player);
                 return true;
             }
@@ -107,7 +107,7 @@ public class Edgeville extends PacketInteraction {
                 World.getWorld().shop(17).open(player);
                 return true;
             }
-            if(npc.id() == IRON_MAN_TUTOR) {
+            if (npc.id() == IRON_MAN_TUTOR) {
                 World.getWorld().shop(16).open(player);
                 return true;
             }
@@ -125,16 +125,16 @@ public class Edgeville extends PacketInteraction {
             }
             if (npc.id() == 315) {
                 World.getWorld().shop(17).open(player);
-                var targetPoints = player.<Integer>getAttribOr(AttributeKey.TARGET_POINTS,0);
-                player.message(Color.RED.wrap("You currently have "+ Utils.formatNumber(targetPoints)+" target points."));
+                var targetPoints = player.<Integer>getAttribOr(AttributeKey.TARGET_POINTS, 0);
+                player.message(Color.RED.wrap("You currently have " + Utils.formatNumber(targetPoints) + " target points."));
                 return true;
             }
         } else if (option == 3) {
-            if(npc.id() == EMERALD_BENEDICT) {
+            if (npc.id() == EMERALD_BENEDICT) {
                 World.getWorld().shop(48).open(player);
                 return true;
             }
-            if(npc.id() == IRON_MAN_TUTOR) {
+            if (npc.id() == IRON_MAN_TUTOR) {
                 World.getWorld().shop(49).open(player);
                 return true;
             }
@@ -149,7 +149,7 @@ public class Edgeville extends PacketInteraction {
                 return true;
             }
         } else if (option == 4) {
-            if(npc.id() == IRON_MAN_TUTOR) {
+            if (npc.id() == IRON_MAN_TUTOR) {
                 World.getWorld().shop(47).open(player);
                 return true;
             }
@@ -187,17 +187,17 @@ public class Edgeville extends PacketInteraction {
         }
 
         if (option == 1) {
-            if(obj.getId() == ELVEN_LAMP_36492) {
+            if (obj.getId() == ELVEN_LAMP_36492) {
                 Teleports.basicTeleport(player, new Tile(3328, 4751));
                 return true;
             }
 
-            if(obj.getId() == PORTAL_26646) {
+            if (obj.getId() == PORTAL_26646) {
                 Teleports.basicTeleport(player, new Tile(3087, 3492));
                 return true;
             }
 
-            if(obj.getId() == 34752) {
+            if (obj.getId() == 34752) {
                 Teleports.basicTeleport(player, GameServer.properties().defaultTile.tile());
                 return true;
             }
@@ -299,10 +299,11 @@ public class Edgeville extends PacketInteraction {
             }
 
             if (obj.getId() == ORNATE_REJUVENATION_POOL || obj.getId() == POOL_OF_REFRESHMENT) {
+                AtomicInteger time = new AtomicInteger(120);
                 Chain.bound(null).name("RejuvenationPoolTask").runFn(1, () -> player.animate(7305)).then(2, () -> {
                     player.lock();
-                    player.message("<col=" + Color.BLUE.getColorValue() + ">You have restored your hitpoints, run energy and prayer.");
-                    player.message("<col=" + Color.HOTPINK.getColorValue() + ">You've also been cured of poison and venom.");
+                    player.message("<col=" + Color.PURPLE.getColorValue() + ">You have restored your hitpoints, run energy and prayer.");
+                    player.message("<col=" + Color.HOTPINK.getColorValue() + ">You have been cured of poison and venom.");
                     player.getSkills().resetStats();
                     int increase = player.getEquipment().hpIncrease();
                     player.hp(Math.max(increase > 0 ? player.getSkills().level(Skills.HITPOINTS) + increase : player.getSkills().level(Skills.HITPOINTS), player.getSkills().xpLevel(Skills.HITPOINTS)), 39); //Set hitpoints to 100%
@@ -312,23 +313,20 @@ public class Edgeville extends PacketInteraction {
                     Venom.cure(2, player);
 
                     if (player.tile().region() != 13386) {
-                        player.message(Color.RED.tag() + "When being a member your special attack will also regenerate.");
-                        if (player.getMemberRights().isRegularMemberOrGreater(player)) {
-                            if (player.getTimers().has(TimerKey.RECHARGE_SPECIAL_ATTACK)) {
-                                player.message("Special attack energy can be restored in " + player.getTimers().asMinutesAndSecondsLeft(TimerKey.RECHARGE_SPECIAL_ATTACK) + ".");
+                        if (player.getMemberRights().equals(MemberRights.NONE) || player.getMemberRights().isRegularMemberOrGreater(player)) {
+                            if (player.getTimers().has(TimerKey.RECHARGE_SPECIAL_ATTACK) && !player.getPlayerRights().isOwner(player)) {
+                                player.message(Color.PURPLE.wrap("Special attack energy can be restored in " + player.getTimers().asMinutesAndSecondsLeft(TimerKey.RECHARGE_SPECIAL_ATTACK) + "."));
+                                player.message(Color.HOTPINK.tag() + "When being a member your special attack timer wait time will reduce.");
                             } else {
                                 player.restoreSpecialAttack(100);
                                 player.setSpecialActivated(false);
                                 CombatSpecial.updateBar(player);
-                                int time = 0;
-                                if (player.getMemberRights().isRegularMemberOrGreater(player))
-                                    time = 300;//3 minutes
-                                if (player.getMemberRights().isSuperMemberOrGreater(player))
-                                    time = 100;//1 minute
-                                if (player.getMemberRights().isEliteMemberOrGreater(player))
-                                    time = 0;//always
-                                player.getTimers().register(TimerKey.RECHARGE_SPECIAL_ATTACK, time); //Set the value of the timer.
-                                player.message("<col=" + Color.HOTPINK.getColorValue() + ">You have restored your special attack.");
+                                if (player.getMemberRights().equals(MemberRights.NONE)) time.set(500); //5minutes
+                                if (player.getMemberRights().isRegularMemberOrGreater(player)) time.set(300);//3 minutes
+                                if (player.getMemberRights().isSuperMemberOrGreater(player)) time.set(100);//1 minute
+                                if (player.getMemberRights().isEliteMemberOrGreater(player)) time.set(0);//always
+                                player.getTimers().register(TimerKey.RECHARGE_SPECIAL_ATTACK, time.get());
+                                player.message("<col=" + Color.PURPLE.getColorValue() + ">You have restored your special attack.");
                             }
                         }
                     } else {

@@ -1,6 +1,7 @@
 package com.aelous.model.content.areas.edgevile;
 
 import com.aelous.GameServer;
+import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.entity.player.*;
 import com.aelous.model.inter.dialogue.Dialogue;
 import com.aelous.model.inter.dialogue.DialogueManager;
@@ -8,7 +9,6 @@ import com.aelous.model.inter.dialogue.DialogueType;
 import com.aelous.model.inter.dialogue.Expression;
 import com.aelous.model.items.Item;
 import com.aelous.utility.ItemIdentifiers;
-import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.utility.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -103,7 +103,7 @@ public class IronManTutor extends Dialogue {
                 player.resetSkills();
                 // iron to trained
                 GameMode gameMode = (player.getGameMode() == GameMode.TRAINED_ACCOUNT ? GameMode.TRAINED_ACCOUNT : GameMode.TRAINED_ACCOUNT);
-                player.getGameMode(gameMode);
+                player.setGameMode(gameMode);
                 player.getPacketSender().sendString(QuestTab.InfoTab.GAME_MODE.childId, QuestTab.InfoTab.INFO_TAB.get(QuestTab.InfoTab.GAME_MODE.childId).fetchLineData(player));
                 //logger.info(player.toString() + " has changed their account type to " + gameMode.toName());
                 Utils.sendDiscordInfoLog(player.toString() + " has changed their account type to " + gameMode.toName());

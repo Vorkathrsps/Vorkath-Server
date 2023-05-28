@@ -5,12 +5,12 @@ import com.aelous.cache.definitions.NpcDefinition;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 import com.aelous.model.content.areas.theatre.ViturRoom;
+import com.aelous.model.content.new_players.Tutorial;
 import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatType;
-import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion;
@@ -644,20 +644,7 @@ public class CommandManager {
             ((GreatOlm) olm.getCombatMethod()).flameWall(olm);
         });
         dev("c", (p, c, s) -> {
-            NPC npc = new NPC(100, new Tile(p.getX() + 1, p.getY(), p.getZ()));
-            World.getWorld().registerNpc(npc);
-            npc.getCombat().setTarget(p);
-            Hit hit = Hit.builder(npc, p, 50, 0, CombatType.MELEE);
-            hit.submit();
-            if (p.getEquipment().contains(21816)) {
-                if (hit.getDamage() > 0) {
-                    int damage = hit.getDamage();
-                    damage = (damage * 25);
-                    damage /= 100;
-                    hit.setDamage(damage);
-                    System.out.println("working");
-                }
-            }
+            Tutorial.start(p);
         });
         dev("curseoff", (p, c, s) -> {
             p.clearAttrib(AttributeKey.NIGHTMARE_CURSE);

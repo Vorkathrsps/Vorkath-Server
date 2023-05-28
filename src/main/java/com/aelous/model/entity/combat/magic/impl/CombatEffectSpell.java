@@ -122,7 +122,6 @@ public abstract class CombatEffectSpell extends CombatSpell {
             }
         }
 
-        //System.out.println("targets: "+ Arrays.toString(targets.stream().map(e -> e.getMobName()).toArray()));
         for (Entity target : targets) {
             Hit hit = target.hit(cast, CombatFactory.calcDamageFromType(cast, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
             if (cast.isPlayer() && target.isPlayer() && WildernessArea.inWilderness(target.tile())) {

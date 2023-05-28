@@ -1,18 +1,22 @@
 package com.aelous.model.content.areas.dungeons.taverley.cerberus;
 
+import com.aelous.model.content.skill.impl.slayer.Slayer;
+import com.aelous.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
+import com.aelous.model.entity.player.Player;
 import com.aelous.model.inter.dialogue.Dialogue;
 import com.aelous.model.inter.dialogue.DialogueType;
 import com.aelous.model.inter.dialogue.Expression;
-import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
 import com.aelous.network.packet.incoming.interaction.PacketInteraction;
+import com.aelous.utility.Color;
 import com.aelous.utility.chainedwork.Chain;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.IRON_WINCH;
+import static com.aelous.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
 
 public class IronWinch extends PacketInteraction {
 
@@ -31,11 +35,27 @@ public class IronWinch extends PacketInteraction {
                     objectTile.equals(new Tile(1307, 1269)) ? 5140 : //North
                         0;
 
-            if (option == 1)
-                teleportPlayer(player, destination);
-            else
+            var task_id = player.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
+            var task = SlayerCreature.lookup(task_id);
+
+            if (option == 1) {
+                if (task == null) {
+                    player.message(Color.RED.wrap("You need a slayer task to enter cerberus's dungeon."));
+                    return false;
+                }
+                if (!Slayer.creatureMatches(player, 494)) {
+                    if (!task.matches(task_id)) {
+                        player.message(Color.RED.wrap("You need a slayer task to enter the cerberus's dungeon."));
+                        return false;
+                    }
+                } else {
+                    teleportPlayer(player, destination);
+                    return true;
+                }
+            }
+            if (option == 2) {
                 peek(player, region);
-            return true;
+            }
         }
         return false;
     }

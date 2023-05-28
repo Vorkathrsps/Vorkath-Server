@@ -7,7 +7,9 @@ package com.aelous.model.entity.player;
 public enum GameMode {
 
     TRAINED_ACCOUNT("Normal account",1, 150),
-    DARK_LORD("Dark lord", 2,125);
+    REALISM("realism", 2, 25),
+    HARDCORE_REALISM("hardcore realism", 3, 20),
+    DARK_LORD("Dark lord", 4,125);
 
     private final String name;
     private final int uid;

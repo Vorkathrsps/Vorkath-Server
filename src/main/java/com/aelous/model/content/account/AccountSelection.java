@@ -3,10 +3,12 @@ package com.aelous.model.content.account;
 import com.aelous.GameConstants;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.masks.Flag;
-import com.aelous.model.entity.player.*;
+import com.aelous.model.entity.player.GameMode;
+import com.aelous.model.entity.player.IronMode;
+import com.aelous.model.entity.player.MagicSpellbook;
+import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
 import com.aelous.network.packet.incoming.interaction.PacketInteraction;
-import com.aelous.utility.Color;
 import com.aelous.utility.timers.TimerKey;
 
 import static com.aelous.GameConstants.BANK_ITEMS;
@@ -21,85 +23,100 @@ import static com.aelous.utility.ItemIdentifiers.*;
  */
 public class AccountSelection extends PacketInteraction {
 
+    public static boolean hasCompletedSelection = false;
     public static void open(Player player) {
+        player.lock();
         player.getInterfaceManager().open(42400);
+        player.putAttrib(AttributeKey.GAME_MODE_SELECTED, 42812);
+        player.getPacketSender().sendString(42802, "Regular");
+        player.getPacketSender().sendString(42803, "No Ironman restrictions will be applied to this account.");
+        player.getPacketSender().sendString(42804, "Ironman");
+        player.getPacketSender().sendString(42805, "Restrictions on trading, dueling, and trading post.<br>"+"5% Drop rate boost.");
+        player.getPacketSender().sendString(42806, "Hardcore Ironman");
+        player.getPacketSender().sendString(42807, "Restrictions on trading, dueling, and trading post.<br>"+"6.5% Drop rate boost.");
+        player.getPacketSender().sendString(42808, "Realism");
+        player.getPacketSender().sendString(42809, "No Ironman restrictions. 10% Drop rate boost.");
+        player.getPacketSender().sendString(42810, "Hardcore Realism");
+        player.getPacketSender().sendString(42811, "No ironman restrictions, status is lost on death.<br>" + "11.5% Drop rate boost.");
+        player.getPacketSender().sendString(42418, "Please set your pin.");
+        player.getPacketSender().sendString(42410, "");
+        player.getPacketSender().sendString(42411, "");
+        player.getPacketSender().sendString(42415, "");
+        player.getPacketSender().sendString(42416, "");
         refreshOptions(player);
     }
 
     private static void refreshOptions(Player player) {
-        switch (player.<Integer>getAttribOr(AttributeKey.GAME_MODE_SELECTED, 42405)) {
-            case 42402 -> {
-                player.getPacketSender().sendChangeSprite(42402, (byte) 2);
-                player.getPacketSender().sendChangeSprite(42403, (byte) 0);
-                player.getPacketSender().sendChangeSprite(42423, (byte) 0);
-                player.getPacketSender().sendChangeSprite(42405, (byte) 0);
-                player.getPacketSender().sendChangeSprite(42406, (byte) 0);
-                player.setIronmanStatus(IronMode.REGULAR);
-                player.getGameMode(GameMode.TRAINED_ACCOUNT);
-            }
-            case 42403 -> {
-                    player.getPacketSender().sendChangeSprite(42402, (byte) 0);
-                    player.getPacketSender().sendChangeSprite(42403, (byte) 2);
-                    player.getPacketSender().sendChangeSprite(42423, (byte) 0);
-                    player.getPacketSender().sendChangeSprite(42405, (byte) 0);
-                    player.getPacketSender().sendChangeSprite(42406, (byte) 0);
-                    player.setIronmanStatus(IronMode.HARDCORE);
-                    player.getGameMode(GameMode.TRAINED_ACCOUNT);
-            }
-            case 42423 -> {
-                player.getPacketSender().sendChangeSprite(42402, (byte) 0);
-                player.getPacketSender().sendChangeSprite(42403, (byte) 0);
-                player.getPacketSender().sendChangeSprite(42423, (byte) 2);
-                player.getPacketSender().sendChangeSprite(42405, (byte) 0);
-                player.getPacketSender().sendChangeSprite(42406, (byte) 0);
+        switch (player.<Integer>getAttribOr(AttributeKey.GAME_MODE_SELECTED, 42812)) {
+            case 42812 -> {
+                player.getPacketSender().sendChangeSprite(42812, (byte) 2);
+                player.getPacketSender().sendChangeSprite(42813, (byte) 0);
+                player.getPacketSender().sendChangeSprite(42814, (byte) 0);
+                player.getPacketSender().sendChangeSprite(42815, (byte) 0);
+                player.getPacketSender().sendChangeSprite(42816, (byte) 0);
                 player.setIronmanStatus(IronMode.NONE);
-                player.getGameMode(GameMode.TRAINED_ACCOUNT);
+                player.setGameMode(GameMode.TRAINED_ACCOUNT);
             }
+            case 42813 -> {
+                player.getPacketSender().sendChangeSprite(42812, (byte) 0);
+                player.getPacketSender().sendChangeSprite(42813, (byte) 2);
+                player.getPacketSender().sendChangeSprite(42814, (byte) 0);
+                player.getPacketSender().sendChangeSprite(42815, (byte) 0);
+                player.getPacketSender().sendChangeSprite(42816, (byte) 0);
+                player.setIronmanStatus(IronMode.REGULAR);
+                player.setGameMode(GameMode.TRAINED_ACCOUNT);
+            }
+            case 42814 -> {
+                player.getPacketSender().sendChangeSprite(42812, (byte) 0);
+                player.getPacketSender().sendChangeSprite(42813, (byte) 0);
+                player.getPacketSender().sendChangeSprite(42814, (byte) 2);
+                player.getPacketSender().sendChangeSprite(42815, (byte) 0);
+                player.getPacketSender().sendChangeSprite(42816, (byte) 0);
+                player.setIronmanStatus(IronMode.HARDCORE);
+                player.setGameMode(GameMode.TRAINED_ACCOUNT);
+            }
+            case 42815 -> {
+                player.getPacketSender().sendChangeSprite(42812, (byte) 0);
+                player.getPacketSender().sendChangeSprite(42813, (byte) 0);
+                player.getPacketSender().sendChangeSprite(42814, (byte) 0);
+                player.getPacketSender().sendChangeSprite(42815, (byte) 2);
+                player.getPacketSender().sendChangeSprite(42816, (byte) 0);
+                player.setIronmanStatus(IronMode.NONE);
+                player.setGameMode(GameMode.REALISM);
+            }
+            case 42816 -> {
+                player.getPacketSender().sendChangeSprite(42812, (byte) 0);
+                player.getPacketSender().sendChangeSprite(42813, (byte) 0);
+                player.getPacketSender().sendChangeSprite(42814, (byte) 0);
+                player.getPacketSender().sendChangeSprite(42815, (byte) 0);
+                player.getPacketSender().sendChangeSprite(42816, (byte) 2);
+                player.setIronmanStatus(IronMode.NONE);
+                player.setGameMode(GameMode.HARDCORE_REALISM);
             }
         }
-
-    private static final boolean DARK_LORD_MODE_ENABLED = false;
+    }
 
     @Override
     public boolean handleButtonInteraction(Player player, int button) {
-        if(button == 42406 && !DARK_LORD_MODE_ENABLED) {
-            player.message(Color.RED.wrap("Disabled."));
-            return true;
-        }
         for (AccountType type : AccountType.values()) {
             if (type.getButtonId() == button) {
-                if(player.getTimers().has(TimerKey.CLICK_DELAY)) {
-                    return true;
+                if (button == 42812) {
+                    player.putAttrib(AttributeKey.GAME_MODE_SELECTED, 42812);
+                } else if (button == 42813) {
+                    player.putAttrib(AttributeKey.GAME_MODE_SELECTED, 42813);
+                } else if (button == 42814) {
+                    player.putAttrib(AttributeKey.GAME_MODE_SELECTED, 42814);
+                } else if (button == 42815) {
+                    player.putAttrib(AttributeKey.GAME_MODE_SELECTED, 42815);
+                } else if (button == 42816) {
+                    player.putAttrib(AttributeKey.GAME_MODE_SELECTED, 42816);
                 }
-
-                if (player.<Integer>getAttribOr(AttributeKey.GAME_MODE_SELECTED,42405) == button) {
-                    player.message("<col=ff0000>Disabled.</col>");
-                } else {
-                    if (button == 42402) {
-                        player.message(Color.RED.wrap("Your levels will be reset if you choose this game mode!"));
-                        player.putAttrib(AttributeKey.GAME_MODE_SELECTED,42402);
-                    } else if (button == 42403) {
-                        player.message(Color.RED.wrap("Your levels will be reset if you choose this game mode!"));
-                        player.putAttrib(AttributeKey.GAME_MODE_SELECTED,42403);
-                    } else if (button == 42423) {
-                        player.putAttrib(AttributeKey.GAME_MODE_SELECTED,42423);
-                    } else if (button == 42405) {
-                        player.putAttrib(AttributeKey.GAME_MODE_SELECTED,42405);
-                    } else if (button == 42406) {
-                        player.putAttrib(AttributeKey.GAME_MODE_SELECTED,42406);
-                    }
-                    player.getTimers().register(TimerKey.CLICK_DELAY,2);
-                    refreshOptions(player);
-                }
+                refreshOptions(player);
                 return true;
             }
         }
-        if(button == 42419) {
-            if(player.getTimers().has(TimerKey.CLICK_DELAY)) {
-                return true;
-            }
+        if (button == 42419) {
             confirm(player);
-            player.getTimers().register(TimerKey.CLICK_DELAY,2);
             return true;
         }
         return false;
@@ -109,6 +126,10 @@ public class AccountSelection extends PacketInteraction {
         switch (type) {
             case 0 -> {
                 player.resetSkills();
+                player.getInventory().addAll(GameConstants.STARTER_ITEMS);
+            }
+            case 1 -> {
+                player.resetSkills();
                 player.getInventory().add(new Item(IRONMAN_HELM, 1), true);
                 player.getInventory().add(new Item(IRONMAN_PLATEBODY, 1), true);
                 player.getInventory().add(new Item(IRONMAN_PLATELEGS, 1), true);
@@ -116,7 +137,7 @@ public class AccountSelection extends PacketInteraction {
                 player.setIronmanStatus(IronMode.REGULAR);
                 player.message("You have been given some training equipment.");
             }
-            case 1 -> {
+            case 2 -> {
                 player.resetSkills();
                 player.getInventory().add(new Item(HARDCORE_IRONMAN_HELM, 1), true);
                 player.getInventory().add(new Item(HARDCORE_IRONMAN_PLATEBODY, 1), true);
@@ -125,22 +146,17 @@ public class AccountSelection extends PacketInteraction {
                 player.setIronmanStatus(IronMode.HARDCORE);
                 player.message("You have been given some training equipment.");
             }
-            case 2 -> {
+            case 3 -> {
+                player.getInventory().add(new Item(SHATTERED_HOOD_T3, 1), true);
+                player.getInventory().add(new Item(SHATTERED_TOP_T3, 1), true);
+                player.getInventory().add(new Item(SHATTERED_TROUSERS_T3, 1), true);
                 player.getInventory().addAll(GameConstants.STARTER_ITEMS);
                 player.message("You have been given some training equipment.");
             }
-            case 3 -> {
-                //Max out combat
-                for (int skill = 0; skill < 7; skill++) {
-                    player.getSkills().setXp(skill, Skills.levelToXp(99));
-                    player.getSkills().update();
-                    player.getSkills().recalculateCombat();
-                }
-            }
             case 4 -> {
-                player.getInventory().add(new Item(HARDCORE_IRONMAN_HELM, 1), true);
-                player.getInventory().add(new Item(HARDCORE_IRONMAN_PLATEBODY, 1), true);
-                player.getInventory().add(new Item(HARDCORE_IRONMAN_PLATELEGS, 1), true);
+                player.getInventory().add(new Item(SHATTERED_HOOD_T1, 1), true);
+                player.getInventory().add(new Item(SHATTERED_TOP_T1, 1), true);
+                player.getInventory().add(new Item(SHATTERED_TROUSERS_T1, 1), true);
                 player.getInventory().addAll(GameConstants.STARTER_ITEMS);
                 player.message("You have been given some training equipment.");
             }
@@ -153,7 +169,7 @@ public class AccountSelection extends PacketInteraction {
         player.getUpdateFlag().flag(Flag.APPEARANCE);
 
         //Setup bank
-        if(!player.getIronManStatus().isIronman() && !player.getIronManStatus().isHardcoreIronman()) {
+        if (!player.getIronManStatus().isIronman() && !player.getIronManStatus().isHardcoreIronman()) {
             player.getBank().addAll(BANK_ITEMS);
             System.arraycopy(TAB_AMOUNT, 0, player.getBank().tabAmounts, 0, TAB_AMOUNT.length);
             player.getBank().shift();
@@ -165,35 +181,84 @@ public class AccountSelection extends PacketInteraction {
             return false;
         }
 
-        boolean validButtons = player.<Integer>getAttribOr(AttributeKey.GAME_MODE_SELECTED, 42405) >= 42402 && player.<Integer>getAttribOr(AttributeKey.GAME_MODE_SELECTED, 42405) <= 42406 || player.<Integer>getAttribOr(AttributeKey.GAME_MODE_SELECTED, 42405) == 42423;
+        int validButtons = 42812;
+        for (AccountType type : AccountType.values()) {
+            validButtons = type.getButtonId();
+        }
 
-        if (!validButtons) {
-            player.message("You have yet to select an game mode.");
+        if (validButtons < 42812 && validButtons > 42816) {
             return false;
         }
 
-        switch (player.<Integer>getAttribOr(AttributeKey.GAME_MODE_SELECTED, 42405)) {
-            case 42402 -> {
+        switch (player.<Integer>getAttribOr(AttributeKey.GAME_MODE_SELECTED, 42812)) {
+            case 42812 -> {
                 starter_package(player, 0);
                 player.getUpdateFlag().flag(Flag.APPEARANCE);
+                player.getInterfaceManager().close();
+                player.putAttrib(AttributeKey.NEW_ACCOUNT, false);
+                player.looks().hide(false);
+                return true;
             }
-            case 42403 -> {
-
+            case 42813 -> {
                 starter_package(player, 1);
                 player.getUpdateFlag().flag(Flag.APPEARANCE);
+                player.getInterfaceManager().close();
+                player.putAttrib(AttributeKey.NEW_ACCOUNT, false);
+                player.looks().hide(false);
+                return true;
             }
-            case 42423 -> {
-
+            case 42814 -> {
                 starter_package(player, 2);
                 player.getUpdateFlag().flag(Flag.APPEARANCE);
+                player.getInterfaceManager().close();
+                player.putAttrib(AttributeKey.NEW_ACCOUNT, false);
+                player.looks().hide(false);
+                return true;
+            }
+            case 42815 -> {
+                starter_package(player, 3);
+                player.getUpdateFlag().flag(Flag.APPEARANCE);
+                player.getInterfaceManager().close();
+                player.putAttrib(AttributeKey.NEW_ACCOUNT, false);
+                player.looks().hide(false);
+                return true;
+            }
+            case 42816 -> {
+                starter_package(player, 4);
+                player.getUpdateFlag().flag(Flag.APPEARANCE);
+                player.getInterfaceManager().close();
+                player.putAttrib(AttributeKey.NEW_ACCOUNT, false);
+                player.looks().hide(false);
+                return true;
             }
         }
+        return false;
+    }
 
-        player.getInterfaceManager().close();
-        player.putAttrib(AttributeKey.NEW_ACCOUNT,false);
+    public enum AccountType {
 
-        player.unlock();
-        player.looks().hide(false);
-        return true;
+        REGULAR(42812),
+        IRONMAN(42813),
+        HARDCORE_IRONMAN(42814),
+        REALISM(42815),
+        HARDCORE_REALISM(42816);
+
+        private final int button;
+
+        /**
+         * We don't have to set a constructor because the Enum only consists of Types
+         */
+        AccountType(int button) {
+            this.button = button;
+        }
+
+        /**
+         * The buttonId
+         *
+         * @return The button we receive from the client.
+         */
+        public int getButtonId() {
+            return button;
+        }
     }
 }

@@ -37,6 +37,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -1951,7 +1952,8 @@ public class PlayerSave {
         }
 
         public void parseDetails() throws Exception {
-            final Path path = SAVE_DIR.resolve(username + ".json");
+            final String fileName = username + ".json";
+            final Path path = SAVE_DIR.resolve(fileName);
             Path parent = path.getParent();
             if (parent == null) {
                 throw new UnsupportedOperationException("Path must have a parent " + path);
@@ -1962,8 +1964,8 @@ public class PlayerSave {
 
             final String json = PlayerSave.SERIALIZE.toJson(this);
 
-            final Path tempFile = Files.createTempFile(parent, path.getFileName().toString(), ".tmp");
-            Files.write(tempFile, json.getBytes());
+            final Path tempFile = Files.createTempFile(parent, fileName, ".tmp");
+            Files.writeString(tempFile, json, StandardCharsets.UTF_8);
 
             Files.move(tempFile, path, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
         }

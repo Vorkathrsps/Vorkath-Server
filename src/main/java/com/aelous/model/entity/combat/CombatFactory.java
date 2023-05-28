@@ -260,7 +260,7 @@ public class CombatFactory {
             max_damage = attacker.<Integer>getAttribOr(MAXHIT_OVERRIDE, -1);
         }
 
-        int damage = Utils.inclusive(1, max_damage);
+        int damage = Utils.inclusive(0, max_damage);
 
         if (target != null && target.isNpc() && target.getAsNpc().isCombatDummy()) {
             CombatSpell spell = attacker.getCombat().getCastSpell() != null ? attacker.getCombat().getCastSpell() : attacker.getCombat().getAutoCastSpell() != null ? attacker.getCombat().getAutoCastSpell() : attacker.getCombat().getPoweredStaffSpell() != null ? attacker.getCombat().getPoweredStaffSpell() : null;

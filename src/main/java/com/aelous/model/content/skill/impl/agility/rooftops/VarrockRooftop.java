@@ -222,7 +222,7 @@ public class VarrockRooftop extends PacketInteraction {
             });
             return true;
         }
-        
+
         if (obj.getId() == EDGE) {
             player.setPositionToFace(null);
             Tile startPos = obj.tile().transform(new Tile(0, -1, 0));

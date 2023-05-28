@@ -115,13 +115,12 @@ public class MagicCombatMethod extends CommonCombatMethod {
 
         if (hit.isAccurate()) {
             target.performGraphic(new Graphic(endGraphic, endGraphicHeight, p.getSpeed()));
+            if (spell instanceof CombatEffectSpell combatEffectSpell) {
+                combatEffectSpell.whenSpellCast(player, target);
+                combatEffectSpell.spellEffect(player, target, hit);
+            }
         } else {
-            target.performGraphic(new Graphic(85, GraphicHeight.LOW, p.getSpeed()));
-        }
-
-        if (spell instanceof CombatEffectSpell combatEffectSpell) {
-            combatEffectSpell.whenSpellCast(player, target);
-            combatEffectSpell.spellEffect(player, target, hit);
+            target.performGraphic(new Graphic(85, GraphicHeight.HIGH, p.getSpeed()));
         }
 
         spell.finishCast(player, target, hit.isAccurate(), hit.getDamage());

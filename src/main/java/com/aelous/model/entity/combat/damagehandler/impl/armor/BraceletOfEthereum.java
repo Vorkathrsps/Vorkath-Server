@@ -10,6 +10,7 @@ import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
+
 public class BraceletOfEthereum implements DamageEffectListener {
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
@@ -18,17 +19,18 @@ public class BraceletOfEthereum implements DamageEffectListener {
 
     @Override
     public boolean prepareDamageEffectForDefender(Entity entity, CombatType combatType, Hit hit) {
-        var player = (Player) entity;
-        var npc = (NPC) hit.getAttacker().getAsNpc();
-        if (npc != null && player != null) {
-            if (player.getEquipment().contains(21816) && hit.getAttacker().isNpc()) {
-                for (var n : FormulaUtils.isRevenant()) {
-                    if (n == npc.id()) {
-                        if (hit.isAccurate()) {
-                            int damage = hit.getDamage();
-                            damage = ((damage * 25) / 100);
-                            hit.setDamage(damage);
-                            return true;
+        if (entity instanceof Player player) {
+            final Entity attacker = hit.getAttacker();
+            if (attacker instanceof NPC npc) {
+                if (player.getEquipment().contains(21816)) {
+                    for (var n : FormulaUtils.isRevenant()) {
+                        if (n == npc.id()) {
+                            if (hit.isAccurate()) {
+                                int damage = hit.getDamage();
+                                damage = ((damage * 25) / 100);
+                                hit.setDamage(damage);
+                                return true;
+                            }
                         }
                     }
                 }

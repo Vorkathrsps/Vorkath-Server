@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.security.SecureRandom;
+import java.text.DecimalFormat;
 
 import static com.aelous.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
 import static com.aelous.model.entity.combat.prayer.default_prayer.Prayers.*;
@@ -46,8 +47,8 @@ public class MeleeAccuracy {
     }
 
     private boolean successful() {
-        final int attackBonus = getAttackRoll();
-        final int defenceBonus = getDefenceRoll();
+        final double attackBonus = getAttackRoll();
+        final double defenceBonus = getDefenceRoll();
         double successfulRoll;
 
         random.nextBytes(seed);
@@ -60,7 +61,7 @@ public class MeleeAccuracy {
 
         double selectedChance = random.nextFloat();
 
-        //System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
+        System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
         return successfulRoll > selectedChance;
     }
@@ -95,56 +96,43 @@ public class MeleeAccuracy {
         return prayerBonus;
     }
 
-
-    private int getEffectiveDefence() {
-        FightStyle fightStyle = defender.getCombat().getFightType().getStyle();
-        int effectiveLevel = defender instanceof NPC ? ((NPC) defender).getCombatInfo().stats.defence : (int) Math.floor(getDefenceLevel() * getPrayerDefenseBonus(defender));
-
-        switch (fightStyle) {
-            case DEFENSIVE -> effectiveLevel = effectiveLevel + 3;
-            case CONTROLLED -> effectiveLevel = effectiveLevel + 1;
-        }
-
-        effectiveLevel = effectiveLevel + 8;
-
-        return effectiveLevel;
-    }
-
     PreDamageEffectHandler handler = new PreDamageEffectHandler(new EquipmentDamageEffect());
 
-    private int getEffectiveAttack() {
+    private double getEffectiveAttack() {
         var task_id = attacker.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
         var task = SlayerCreature.lookup(task_id);
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
-        double effectiveLevel = Math.floor(getAttackLevel(attacker) * getPrayerAttackBonus(attacker));
+        double effectiveLevel = getAttackLevel(attacker) * getPrayerAttackBonus(attacker);
 
-        if (attacker instanceof Player a)
+        if (attacker instanceof Player a) {
+            effectiveLevel = Math.floor(effectiveLevel);
+
             handler.triggerMeleeAccuracyModificationAttacker(a, combatType, this);
 
-        float modification = modifier;
+            float modification = modifier;
 
-        switch (fightStyle) {
-            case ACCURATE -> effectiveLevel = effectiveLevel + 3;
-            case CONTROLLED -> effectiveLevel = effectiveLevel + 1;
+            switch (fightStyle) {
+                case ACCURATE -> effectiveLevel += 3;
+                case CONTROLLED -> effectiveLevel += 1;
+            }
+
+            if (modification > 0) {
+                effectiveLevel *= modification;
+            }
         }
 
-        effectiveLevel = modification > 0 ? Math.floor(effectiveLevel * modification) : effectiveLevel;
+        effectiveLevel += 8;
 
-        if (attacker.isPlayer()) {
-            Player player = attacker.getAsPlayer();
-            if (player.getCombatSpecial() != null) {
-                double specialMultiplier = player.getCombatSpecial().getAccuracyMultiplier();
-                if (attacker.getAsPlayer().isSpecialActivated()) {
+        if (attacker instanceof Player a) {
+            if (a.getCombatSpecial() != null) {
+                double specialMultiplier = a.getCombatSpecial().getAccuracyMultiplier();
+                if (a.isSpecialActivated()) {
                     effectiveLevel *= specialMultiplier;
                 }
             }
         }
 
-        effectiveLevel = effectiveLevel + 8;
-
-        effectiveLevel = (int) Math.floor(effectiveLevel);
-
-        return (int) Math.floor(effectiveLevel);
+        return Math.floor(effectiveLevel);
     }
 
     private int getAttackLevel(final Entity attacker) {
@@ -158,8 +146,6 @@ public class MeleeAccuracy {
     @Getter
     @Setter
     public double percentage = 1;
-    EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(this.attacker, World.getWorld().equipmentInfo());
-    EquipmentInfo.Bonuses defenderBonus = EquipmentInfo.totalBonuses(this.defender, World.getWorld().equipmentInfo());
 
     private int getGearDefenceBonus() {
         int bonus = 0;
@@ -173,38 +159,68 @@ public class MeleeAccuracy {
                 bonus = npcBonuses.crushdefence;
             else if (type == AttackType.SLASH)
                 bonus = npcBonuses.slashdefence;
+            System.out.println("npc=" + bonus);
         } else {
+            EquipmentInfo.Bonuses defenderBonus = EquipmentInfo.totalBonuses(this.defender, World.getWorld().equipmentInfo());
             if (type == AttackType.STAB)
                 bonus = defenderBonus.stabdef;
             else if (type == AttackType.CRUSH)
                 bonus = defenderBonus.crushdef;
             else if (type == AttackType.SLASH)
                 bonus = defenderBonus.slashdef;
+            System.out.println("player=" + bonus);
         }
 
         //System.out.println(bonus);
         return bonus;
     }
 
-
     public int getGearAttackBonus() {
-        final AttackType type = attacker.getCombat().getFightType().getAttackType();
         int bonus = 0;
-        if (type == AttackType.STAB)
-            bonus = attackerBonus.stab;
-        else if (type == AttackType.CRUSH)
-            bonus = attackerBonus.crush;
-        else if (type == AttackType.SLASH)
-            bonus = attackerBonus.slash;
+        if (attacker instanceof Player) {
+            EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
+            final AttackType type = attacker.getCombat().getFightType().getAttackType();
+            if (type == AttackType.STAB)
+                bonus = attackerBonus.stab;
+            else if (type == AttackType.CRUSH)
+                bonus = attackerBonus.crush;
+            else if (type == AttackType.SLASH)
+                bonus = attackerBonus.slash;
+            System.out.println("player=" + bonus);
+        } else if (attacker instanceof NPC n) {
+            bonus = n.getCombatInfo().getBonuses().getAttack();
+            System.out.println("npc=" + bonus);
+        }
+
+
         return bonus;
     }
 
-    private int getAttackRoll() {
-        return (int) Math.floor(getEffectiveAttack() * (getGearAttackBonus() + 64));
+    public double getAttackRoll() {
+        double effectiveLevel = getEffectiveAttack();
+        double attackBonus = getGearAttackBonus();
+
+        double roll = effectiveLevel * (attackBonus + 64);
+
+        return Math.floor(roll);
     }
 
-    private int getDefenceRoll() {
-        //System.out.println(getGearDefenceBonus());
-        return (int) Math.floor(getEffectiveDefence() * (getGearDefenceBonus() + 64));
+    public double getDefenceRoll() {
+        double defenceLevel = getDefenceLevel();
+        double defenceBonus = getGearDefenceBonus();
+
+        if (defender instanceof Player) {
+            defenceLevel *= getPrayerDefenseBonus(defender);
+
+            switch (defender.getCombat().getFightType().getStyle()) {
+                case DEFENSIVE -> defenceLevel += 3;
+                case CONTROLLED -> defenceLevel += 1;
+            }
+        } else {
+            defenceLevel += 9;
+        }
+
+        return defenceLevel * (defenceBonus + 64);
     }
+
 }

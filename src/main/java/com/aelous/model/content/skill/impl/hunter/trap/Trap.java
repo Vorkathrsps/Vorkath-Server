@@ -106,21 +106,9 @@ public abstract class Trap {
         if (this.hasLarupiaSetEquipped()) {
             chance = chance + 10;
         }
-        chance = chance + (int) (player.getSkills().level(Skills.HUNTER) / 1.5) + 10;
+        chance = chance + (int) (player.getSkills().level(Skills.HUNTER) / 1.5D) + 10;
 
-        if (player.getSkills().level(Skills.HUNTER) < 65) {
-            chance = (int) (chance * 1.05) + 3;
-        } else if (player.getSkills().level(Skills.HUNTER) < 60) {
-            chance = (int) (chance * 1.1);
-        } else if (player.getSkills().level(Skills.HUNTER) < 55) {
-            chance = (int) (chance * 1.2);
-        } else if (player.getSkills().level(Skills.HUNTER) < 50) {
-            chance = (int) (chance * 1.3) + 1;
-        } else if (player.getSkills().level(Skills.HUNTER) < 40) {
-            chance = (int) (chance * 1.4) + 3;
-        } else if (player.getSkills().level(Skills.HUNTER) < 25) {
-            chance = (int) (chance * 1.5) + 8;      
-        }
+        chance = (int) (chance * 1.63D);
         return chance;
     }
     

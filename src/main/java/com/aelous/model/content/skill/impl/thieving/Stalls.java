@@ -1,21 +1,17 @@
 package com.aelous.model.content.skill.impl.thieving;
 
 import com.aelous.GameServer;
-import com.aelous.model.content.achievements.AchievementsManager;
+import com.aelous.model.World;
 import com.aelous.model.content.achievements.Achievements;
+import com.aelous.model.content.achievements.AchievementsManager;
 import com.aelous.model.content.skill.impl.slayer.SlayerConstants;
 import com.aelous.model.content.tasks.impl.Tasks;
-import com.aelous.core.task.TaskManager;
-import com.aelous.core.task.impl.ForceMovementTask;
-import com.aelous.model.World;
-import com.aelous.model.inter.dialogue.DialogueManager;
-import com.aelous.model.entity.masks.ForceMovement;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
+import com.aelous.model.inter.dialogue.DialogueManager;
 import com.aelous.model.items.Item;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.object.ObjectManager;
-import com.aelous.model.map.position.Tile;
 import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
@@ -30,12 +26,15 @@ public class Stalls extends PacketInteraction {
 
     public enum Stall {
 
-        //Donator zone stalls
-        SPICE_STALL(65, 5, 181.0, 13000, "spice stall", new int[][]{{6572, 6573}, {11733, 634}, {20348, 20349},}),
-        GEM_STALL(75, 10, 200.0, 8500, "gem stall", new int[][]{{6162, 6984}, {11731, 634},}),
-
         //Normal stalls
-        CRAFTING_STALL(1, 2, 10.0, 49000, "crafting stall", new int[][]{{4874, 4797}, {6166, 6984},}),
+        CRAFTING_STALL(1, 3, 38.8, 49000, "crafting stall", new int[][]{{4874, 4797}, {6166, 6984},}),
+        BAKERS_STALL(5, 3, 204.1, 48000, "bakers stall", new int[][]{{11730, 634}, {6945, 6984},}),
+        SILK_STALL(20, 3, 397.86, 47000, "silk stall", new int[][]{{11729, 634}}),
+        FUR_STALL(35, 3, 1578.54, 43000, "fur stall", new int[][]{{11732, 634}}),
+        SILVER_STALL(50, 3, 3480.95, 40000, "silver stall", new int[][]{{11734, 634}}),
+        SPICE_STALL(65, 3, 7609, 30000, "spice stall", new int[][]{{6572, 6573}, {11733, 634}, {20348, 20349},}),
+        GEM_STALL(75, 3, 23648, 20000, "gem stall", new int[][]{{6162, 6984}, {11731, 634},}),
+
         MONKEY_GENERAL_STALL(5, 2, 20.0, 49000, "general stall", new int[][]{{4876, 4797},}),
         MAGIC_STALL(65, 2, 50, 12000, "magic stall", new int[][]{{4877, 4797},}),
         SCIMITAR_STALL(65, 2, 50.0, 1000, "scimitar stall", new int[][]{{4878, 4797},});
@@ -68,56 +67,69 @@ public class Stalls extends PacketInteraction {
         player.lock();
         player.animate(832);
 
-        Chain.bound(player).runFn(1, () -> {
+        Chain.bound(player).runFn(1, () -> player.animate(832)).then(1, () -> {
             replaceStall(stall, object, replacementID, player);
             var bloodMoney = 0;
 
             if (stall == Stall.CRAFTING_STALL) {
-                bloodMoney = World.getWorld().random(150, 257);
+                bloodMoney = World.getWorld().random(25, 50);
                 AchievementsManager.activate(player, Achievements.THIEF_I, 1);
                 AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+            } else if (stall == Stall.BAKERS_STALL) {
+                bloodMoney = World.getWorld().random(50, 75);
+                AchievementsManager.activate(player, Achievements.THIEF_II, 1);
+                AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+            } else if (stall == Stall.SILK_STALL) {
+                bloodMoney = World.getWorld().random(50, 85);
+                AchievementsManager.activate(player, Achievements.THIEF_II, 1);
+                AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+            } else if (stall == Stall.FUR_STALL) {
+                bloodMoney = World.getWorld().random(50, 95);
+                AchievementsManager.activate(player, Achievements.THIEF_II, 1);
+                AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+            } else if (stall == Stall.SILVER_STALL) {
+                bloodMoney = World.getWorld().random(75, 100);
+                AchievementsManager.activate(player, Achievements.THIEF_II, 1);
+                AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
             } else if (stall == Stall.MONKEY_GENERAL_STALL) {
-                bloodMoney = World.getWorld().random(150, 378);
+                bloodMoney = World.getWorld().random(75, 100);
                 AchievementsManager.activate(player, Achievements.THIEF_II, 1);
                 AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
             } else if (stall == Stall.MAGIC_STALL) {
-                bloodMoney = World.getWorld().random(150, 600);
+                bloodMoney = World.getWorld().random(100, 125);
                 AchievementsManager.activate(player, Achievements.THIEF_III, 1);
                 AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
             } else if (stall == Stall.SCIMITAR_STALL) {
-                bloodMoney = World.getWorld().random(150, 1337);
+                bloodMoney = World.getWorld().random(125, 150);
                 AchievementsManager.activate(player, Achievements.THIEF_IV, 1);
                 AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
                 player.getTaskMasterManager().increase(Tasks.STEAL_FROM_SCIMITAR_STALL);
             } else if (stall == Stall.SPICE_STALL) {
-                bloodMoney = World.getWorld().random(215, 1750);
+                bloodMoney = World.getWorld().random(150, 175);
                 AchievementsManager.activate(player, Achievements.THIEF_IV, 1);
                 AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
             } else if (stall == Stall.GEM_STALL) {
-                bloodMoney = World.getWorld().random(215, 3000);
+                bloodMoney = World.getWorld().random(175, 200);
                 AchievementsManager.activate(player, Achievements.THIEF_IV, 1);
                 AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
             }
 
             var thievingBoostPerk = player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.MORE_BM_THIEVING);
+
             if (thievingBoostPerk) {
                 bloodMoney *= 10.0 / 100;
             }
-
 
             if (GameServer.properties().pvpMode) {
                 player.inventory().add(new Item(BLOOD_MONEY, bloodMoney), true);
             }
 
             if (Utils.percentageChance(5)) {
-                TaskManager.submit(new ForceMovementTask(player, 3, new ForceMovement(player.tile().clone(), new Tile(0, 3), 0, 70, 2)));
-                player.animate(3130);
-                player.getMovementQueue().clear();
-                player.stun(10);
-                player.message("A mysterious force knocks you back.");
+                player.hit(player, Utils.random(3));
+                player.stun(3);
             }
 
-            player.getSkills().addXp(Skills.THIEVING, stall.experience, true);
+            player.getSkills().addXp(Skills.THIEVING, stall.experience, false);
             player.unlock();
         });
     }

@@ -115,7 +115,7 @@
   "buyTwoGetOneFree": true,
   "promoEnabled": true,
   "donatorPromo": true,
-  "doubleExperienceEvent": true,
+  "doubleExperienceEvent": false,
   "doubleSlayerRewardPointsEvent": false,
   "doubleBMEvent": false,
   "doubleVotePointsEvent": false,

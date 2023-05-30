@@ -2,22 +2,22 @@ package com.aelous.model.entity.player;
 
 import com.aelous.GameServer;
 import com.aelous.cache.definitions.ItemDefinition;
+import com.aelous.model.World;
 import com.aelous.model.content.achievements.Achievements;
 import com.aelous.model.content.achievements.AchievementsManager;
 import com.aelous.model.content.areas.edgevile.Mac;
-import com.aelous.model.content.skill.Skillable;
-import com.aelous.model.World;
-import com.aelous.model.entity.attributes.AttributeKey;
-import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.content.bountyhunter.BountyHunter;
+import com.aelous.model.content.skill.Skillable;
+import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.prayer.default_prayer.DefaultPrayerData;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
+import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.inter.dialogue.Dialogue;
 import com.aelous.model.inter.dialogue.DialogueType;
-import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.items.Item;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
@@ -58,7 +58,7 @@ public class Skills {
     }
 
     private double expModifiers(int skill) {
-        switch(skill) {
+       /* switch(skill) {
             case PRAYER -> {
                 return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 50.0;
             }
@@ -107,7 +107,7 @@ public class Skills {
             case HUNTER -> {
                 return player.<Boolean>getAttribOr(AttributeKey.HARD_EXP_MODE,false) ? 15 : player.getIronManStatus() != IronMode.NONE || player.getGameMode().isDarklord() ? 20 : 30.0;
             }
-        }
+        }*/
         return 1.0;
     }
 
@@ -317,10 +317,6 @@ public class Skills {
 
         //World multiplier exp gives x2 exp.
         amount *= World.getWorld().xpMultiplier > 1 ? 2.0 : 1.0;
-
-        //System.out.println("earning combat xp: " + amount);
-
-        //System.err.println("SkillId="+skill);
 
         if (combatxp && locked) { //don't get combat exp when locked.
             player.getPacketSender().sendFakeXPDrop(skill, amount);

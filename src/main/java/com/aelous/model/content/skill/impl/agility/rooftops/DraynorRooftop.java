@@ -1,9 +1,6 @@
 package com.aelous.model.content.skill.impl.agility.rooftops;
 
 import com.aelous.model.content.skill.impl.agility.MarksOfGrace;
-import com.aelous.core.task.TaskManager;
-import com.aelous.core.task.impl.ForceMovementTask;
-import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.masks.ForceMovement;
 import com.aelous.model.entity.player.Player;
@@ -37,7 +34,7 @@ public class DraynorRooftop extends PacketInteraction {
     @Override
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         // Wall climb
-        if(obj.getId() == ROUGH_WALL) {
+        if (obj.getId() == ROUGH_WALL) {
             if (player.getSkills().level(Skills.AGILITY) >= 10) {
                 player.lockNoDamage();
                 Chain.bound(player).name("DraynorWallClimbTask").runFn(1, () -> player.animate(828, 15)).then(2, () -> {
@@ -54,86 +51,84 @@ public class DraynorRooftop extends PacketInteraction {
         }
 
         // Tightrope
-        if(obj.getId() == TIGHTROPE) {
-            player.lockNoDamage();
-            player.getMovementQueue().clear();
-            player.getMovementQueue().interpolate(3090, 3277, MovementQueue.StepType.FORCED_WALK);
-            Chain.bound(player).name("DraynorTightrope1Task").runFn(1, () -> {
-                player.agilityWalk(false);
-                player.looks().render(763, 762, 762, 762, 762, 762, -1);
-            }).waitForTile(new Tile(3090, 3277), () -> {
+        if (obj.getId() == TIGHTROPE) {
+            player.waitForTile(new Tile(3099, 3277, 3), () -> {
+                player.getMovementQueue().step(3098, 3277, MovementQueue.StepType.FORCED_WALK);
+            }).waitForTile(new Tile(3098, 3277, 3), () -> {
+                player.lockNoDamage();
                 player.agilityWalk(true);
+                player.getMovementQueue().clear();
+                player.looks().render(763, 762, 762, 762, 762, 762, -1);
+                player.getMovementQueue().step(3090, 3277, MovementQueue.StepType.FORCED_WALK);
+            }).waitForTile(new Tile(3090, 3277, 3), () -> {
+                player.agilityWalk(false);
                 player.looks().resetRender();
-                player.getMovementQueue().interpolate(3090, 3276);
-                Chain.bound(player).name("DraynorTightrope2Task").runFn(1, () -> {
-                    player.unlock();
-                    player.getSkills().addXp(Skills.AGILITY, 8.0);
-                    MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
-                });
+            }).then(1, () -> {
+                player.unlock();
+                player.getSkills().addXp(Skills.AGILITY, 8.0);
+                MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
             });
             return true;
         }
 
         // Second tightrope
-        if(obj.getId() == TIGHTROPE_11406) {
-            Chain.bound(player).name("DraynorTightrope3Task").runFn(1, () -> {
+        if (obj.getId() == TIGHTROPE_11406) {
+            player.waitForTile(new Tile(3091, 3276, 3), () -> {
                 player.lockNoDamage();
-                player.getMovementQueue().clear();
-                player.getMovementQueue().interpolate(3092, 3276, MovementQueue.StepType.FORCED_WALK);
-            }).then(1, () -> {
-                player.agilityWalk(false);
-                player.looks().render(763, 762, 762, 762, 762, 762, -1);
-                player.getMovementQueue().interpolate(3092, 3266, MovementQueue.StepType.FORCED_WALK);
-            }).waitForTile(new Tile(3092, 3267), () -> {
                 player.agilityWalk(true);
+                player.getMovementQueue().clear();
+                player.getMovementQueue().step(3092, 3276, MovementQueue.StepType.FORCED_WALK);
+            }).waitForTile(new Tile(3092, 3276, 3), () -> {
+                player.looks().render(763, 762, 762, 762, 762, 762, -1);
+                player.getMovementQueue().step(3092, 3267, MovementQueue.StepType.FORCED_WALK);
+            }).waitForTile(new Tile(3092, 3267, 3), () -> {
+                player.agilityWalk(false);
                 player.looks().resetRender();
-                Chain.bound(player).name("DraynorTightrope4Task").runFn(1, () -> {
-                    player.unlock();
-                    player.getSkills().addXp(Skills.AGILITY, 7.0);
-                    MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
-                });
+            }).then(1, () -> {
+                player.unlock();
+                player.getSkills().addXp(Skills.AGILITY, 7.0);
+                MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
             });
             return true;
         }
 
-        // Narrow wall
-        if(obj.getId() == NARROW_WALL) {
+        if (obj.getId() == NARROW_WALL) {
             Tile startPos = obj.tile().transform(0, 1);
             player.smartPathTo(startPos);
-            player.waitForTile(startPos, () -> {})
-                .name("DraynorNarrowWall1Task").then(1, () -> {
+            player.waitForTile(startPos, () -> {
                 player.lockNoDamage();
-                player.animate(753);
-                player.agilityWalk(false);
-                player.looks().render(757, 757, 756, 756, 756, 756, -1);
-                player.getMovementQueue().clear();
-                player.getMovementQueue().interpolate(3089, 3262, MovementQueue.StepType.FORCED_WALK);
-                player.getMovementQueue().interpolate(3088, 3261, MovementQueue.StepType.FORCED_WALK);
-            }).waitForTile(new Tile(3088, 3261), () -> {
                 player.agilityWalk(true);
+                player.getMovementQueue().clear();
+            }).waitForTile(new Tile(3089, 3265, 3), () -> {
+                player.looks().render(757, 757, 756, 756, 756, 756, -1);
+                player.getMovementQueue().step(3089, 3261, MovementQueue.StepType.FORCED_WALK);
+            }).waitForTile(new Tile(3089, 3261, 3), () -> {
                 player.looks().resetRender();
                 player.animate(759);
-                Chain.bound(player).name("DraynorNarrowWall2Task").runFn(1, () -> {
-                    player.unlock();
-                    player.getSkills().addXp(Skills.AGILITY, 7.0);
-                    MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
-                });
+                player.getMovementQueue().step(3088, 3261, MovementQueue.StepType.FORCED_WALK);
+            }).then(1, () -> {
+                player.unlock();
+                player.agilityWalk(false);
+                player.getSkills().addXp(Skills.AGILITY, 7.0);
+                MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
             });
             return true;
         }
 
-        // Wall jump
-        if(obj.getId() == WALL_11630) {
-            Tile startPos = obj.tile().transform(0, 2);
-            player.smartPathTo(startPos);
-            player.waitForTile(startPos, () -> {}).then(1, () -> {
+        if (obj.getId() == WALL_11630) {
+            Tile startPos = obj.tile().transform(0, 1);
+            player.waitForTile(startPos, () -> {
+            }).then(1, () -> {
                 player.lockNoDamage();
-                player.getMovementQueue().step(3088, 3256);
-                player.animate(2583, 20);
-                TaskManager.submit(new ForceMovementTask(player, 0, new ForceMovement(player.tile().clone(), new Tile(0, -1), 25, 30, Direction.NORTH.toInteger(), 2583)));
-            }).then(1, () -> player.animate(2585)).then(1, () -> {
+                player.getMovementQueue().clear();
+            }).waitForTile(new Tile(3088, 3257, 3), () -> {
+                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, -1), 15, 30, 2583, 2);
+                player.setForceMovement(forceMovement);
+            }).then(1, () -> {
+                player.getMovementQueue().clear();
                 player.getMovementQueue().step(3088, 3255);
-                TaskManager.submit(new ForceMovementTask(player, 0, new ForceMovement(player.tile().clone(), new Tile(0, -1), 17, 26, Direction.NORTH.toInteger(), -1)));
+                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, -1), 30, 60, 2585, 2);
+                player.setForceMovement(forceMovement);
             }).then(1, () -> {
                 player.unlock();
                 player.getSkills().addXp(Skills.AGILITY, 10.0);
@@ -143,13 +138,12 @@ public class DraynorRooftop extends PacketInteraction {
         }
 
         // Gap jump
-        if(obj.getId() == GAP_11631) {
+        if (obj.getId() == GAP_11631) {
             Tile startPos = obj.tile().transform(-1, 0);
             player.smartPathTo(startPos);
-            player.waitForTile(startPos, () -> {})
-                .name("DraynorGapJumpTask").then(1, () -> {
+            player.waitForTile(startPos, () -> {
                 player.lockNoDamage();
-                player.setPositionToFace(new Tile(3096, 3256));
+                player.getMovementQueue().clear();
             }).then(1, () -> player.animate(2586, 15)).then(1, () -> {
                 player.teleport(new Tile(3096, 3256, 3));
                 player.animate(2588);
@@ -163,26 +157,27 @@ public class DraynorRooftop extends PacketInteraction {
         }
 
         // Crate jump
-        if(obj.getId() == CRATE_11632) {
+        if (obj.getId() == CRATE_11632) {
             Tile startPos = obj.tile().transform(-1, 0);
             player.smartPathTo(startPos);
-            player.waitForTile(startPos, () -> {})
+            player.waitForTile(startPos, () -> {
+                })
                 .name("DraynorCrateJumpTask").then(1, () -> {
-                player.lockNoDamage();
-                player.animate(2586, 15);
-            }).then(1, () -> {
-                player.teleport(new Tile(3102, 3261, 1));
-                player.animate(2588);
-            }).then(1, () -> player.animate(-1)).then(1, () -> player.animate(2586, 15)).then(1, () -> {
-                player.teleport(new Tile(3103, 3261, 0));
-                player.animate(2588);
-            }).then(1, () -> {
-                player.animate(-1);
-                player.unlock();
-                player.getSkills().addXp(Skills.AGILITY, 79.0);
-                MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
+                    player.lockNoDamage();
+                    player.animate(2586, 15);
+                }).then(1, () -> {
+                    player.teleport(new Tile(3102, 3261, 1));
+                    player.animate(2588);
+                }).then(1, () -> player.animate(-1)).then(1, () -> player.animate(2586, 15)).then(1, () -> {
+                    player.teleport(new Tile(3103, 3261, 0));
+                    player.animate(2588);
+                }).then(1, () -> {
+                    player.animate(-1);
+                    player.unlock();
+                    player.getSkills().addXp(Skills.AGILITY, 79.0);
+                    MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 10);
 
-            });
+                });
             return true;
         }
         return false;

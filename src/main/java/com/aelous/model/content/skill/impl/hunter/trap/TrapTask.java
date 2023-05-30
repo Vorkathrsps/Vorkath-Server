@@ -1,8 +1,8 @@
 package com.aelous.model.content.skill.impl.hunter.trap;
 
+import com.aelous.core.task.Task;
 import com.aelous.model.content.skill.impl.hunter.Hunter;
 import com.aelous.model.content.skill.impl.hunter.trap.Trap.TrapState;
-import com.aelous.core.task.Task;
 import com.aelous.model.entity.player.Player;
 import com.aelous.utility.RandomGen;
 import org.apache.logging.log4j.LogManager;
@@ -48,7 +48,7 @@ public final class TrapTask extends Task {
                 return;
             }
 
-            if (!trapProcessor.getTask().isPresent() || trapProcessor.getTraps().isEmpty()) {
+            if (trapProcessor.getTask().isEmpty() || trapProcessor.getTraps().isEmpty()) {
                 stop();
                 return;
             }
@@ -60,6 +60,7 @@ public final class TrapTask extends Task {
                     Hunter.abandon(player, trap, false);
                 }
             }
+
             trapProcessor.getTraps().removeIf(Trap::isAbandoned);
 
             Trap trap = gen.random(trapProcessor.getTraps());
@@ -67,7 +68,7 @@ public final class TrapTask extends Task {
             if (trap == null)
                 return;
 
-            if (!Hunter.getTrap(player, trap.getObject()).isPresent() || !trap.getState().equals(TrapState.PENDING)) {
+            if (Hunter.getTrap(player, trap.getObject()).isEmpty() || !trap.getState().equals(TrapState.PENDING)) {
                 return;
             }
             trap.onSequence();

@@ -2,11 +2,11 @@ package com.aelous.model.entity.player.commands.impl.players;
 
 import com.aelous.model.content.teleport.TeleportType;
 import com.aelous.model.content.teleport.Teleports;
+import com.aelous.model.entity.player.Player;
+import com.aelous.model.entity.player.commands.Command;
 import com.aelous.model.entity.player.rights.PlayerRights;
 import com.aelous.model.inter.dialogue.Dialogue;
 import com.aelous.model.inter.dialogue.DialogueType;
-import com.aelous.model.entity.player.Player;
-import com.aelous.model.entity.player.commands.Command;
 import com.aelous.model.map.position.Tile;
 
 /**
@@ -69,9 +69,10 @@ public class Wilderness44TeleportCommand implements Command {
         @Override
         public void execute(Player player, String command, String[] parts) {
             try {
-                Integer sound = Integer.valueOf(parts[1]);
+                int sound = Integer.parseInt(parts[1]);
                 player.getPacketSender().sendMessage("Sending soundId="+sound);
                 player.sendSound(sound, 1);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

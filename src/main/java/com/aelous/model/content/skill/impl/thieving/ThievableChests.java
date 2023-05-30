@@ -40,7 +40,6 @@ public class ThievableChests extends PacketInteraction {
         BLOOD(59, 250.0, 135, new ArrayList<>(List.of(new Loot(ItemIdentifiers.SUPER_COMBAT_POTION4 + 1, 10, 20), new Loot(565, 2, 2))), new ArrayList<>(List.of(new Tile(2586, 9737), new Tile(2586, 9734)))),
         PALADIN(72, 500.0, 400, new ArrayList<>(List.of(new Loot(ItemIdentifiers.ANGLERFISH + 1, 10, 25), new Loot(383, 1, 1), new Loot(449, 1, 1), new Loot(1623, 1, 1))), new ArrayList<>(List.of(new Tile(2588, 3302), new Tile(2588, 3291)))),
         DORG_RICH(78, 650.0, 300, new ArrayList<>(List.of(new Loot(ItemIdentifiers.COOKED_KARAMBWAN + 1, 10, 35), new Loot(1623, 1, 1), new Loot(1621, 1, 1), new Loot(1619, 1, 1), new Loot(1617, 1, 1), new Loot(1625, 1, 1), new Loot(1627, 1, 1), new Loot(1629, 1, 1), new Loot(4548, 1, 1), new Loot(5013, 1, 1), new Loot(10954, 1, 1), new Loot(10956, 1, 1), new Loot(10958, 1, 1), new Loot(2351, 1, 1), new Loot(10973, 1, 1), new Loot(10980, 1, 1))), new ArrayList<>(List.of(new Tile(0, 0))));
-        // ROGUE_CHEST - has its own impl for w1-3
 
         private final int level;
         private final double xp;

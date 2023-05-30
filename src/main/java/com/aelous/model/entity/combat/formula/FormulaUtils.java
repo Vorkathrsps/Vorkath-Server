@@ -64,6 +64,10 @@ public class FormulaUtils {
             NpcIdentifiers.REVENANT_MALEDICTUS};
     }
 
+    public static boolean wearingFullVirtus(Player player) {
+        return player.getEquipment().containsAll(ItemIdentifiers.VIRTUS_MASK, ItemIdentifiers.VIRTUS_ROBE_TOP, ItemIdentifiers.VIRTUS_ROBE_BOTTOMS);
+    }
+
     /**
      * Checks if the NPC is a dragon.
      *

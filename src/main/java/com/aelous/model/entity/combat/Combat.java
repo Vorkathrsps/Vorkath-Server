@@ -1,19 +1,15 @@
 package com.aelous.model.entity.combat;
 
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.formula.accuracy.test.HitListener;
 import com.aelous.model.entity.combat.formula.maxhit.MagicMaxHit;
 import com.aelous.model.entity.combat.formula.maxhit.MeleeMaxHit;
 import com.aelous.model.entity.combat.formula.maxhit.RangeMaxHit;
-import com.aelous.model.entity.combat.magic.data.ModernSpells;
-import com.aelous.model.entity.npc.HealthHud;
-import com.aelous.model.entity.npc.NPC;
-import com.aelous.utility.NpcPerformance;
-import com.google.common.base.Stopwatch;
-import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.hit.HitDamageCache;
 import com.aelous.model.entity.combat.hit.HitQueue;
 import com.aelous.model.entity.combat.magic.CombatSpell;
+import com.aelous.model.entity.combat.magic.data.ModernSpells;
 import com.aelous.model.entity.combat.magic.spells.CombatSpells;
 import com.aelous.model.entity.combat.method.CombatMethod;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
@@ -23,6 +19,8 @@ import com.aelous.model.entity.combat.skull.SkullType;
 import com.aelous.model.entity.combat.skull.Skulling;
 import com.aelous.model.entity.combat.weapon.FightType;
 import com.aelous.model.entity.combat.weapon.WeaponType;
+import com.aelous.model.entity.npc.HealthHud;
+import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
@@ -32,7 +30,9 @@ import com.aelous.model.map.route.routes.DumbRoute;
 import com.aelous.model.map.route.routes.TargetRoute;
 import com.aelous.utility.Debugs;
 import com.aelous.utility.ItemIdentifiers;
+import com.aelous.utility.NpcPerformance;
 import com.aelous.utility.timers.TimerKey;
+import com.google.common.base.Stopwatch;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
@@ -42,8 +42,8 @@ import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.Map.Entry;
 
+import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.UNDEAD_COMBAT_DUMMY;
 import static com.aelous.model.content.daily_tasks.DailyTaskUtility.DAILY_TASK_MANAGER_INTERFACE;
-import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.aelous.model.entity.Entity.accumulateRuntimeTo;
 import static com.aelous.model.entity.attributes.AttributeKey.MAX_DISTANCE_FROM_SPAWN;
 
@@ -101,7 +101,6 @@ public class Combat {
     private boolean autoRetaliate;
     // Magic data
     private CombatSpell castSpell;
-
     private ModernSpells spellID;
     private CombatSpell autoCastSpell;
 

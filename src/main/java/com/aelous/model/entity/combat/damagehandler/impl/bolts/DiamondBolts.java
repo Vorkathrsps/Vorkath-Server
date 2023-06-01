@@ -1,36 +1,55 @@
 package com.aelous.model.entity.combat.damagehandler.impl.bolts;
 
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.damagehandler.impl.AmmunitionDamageEffect;
+import com.aelous.model.entity.combat.damagehandler.listener.AmmunitionDamageEffectListener;
 import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.aelous.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.damagehandler.listener.DamageEffectListener;
+import com.aelous.model.entity.combat.ranged.RangedData;
+import com.aelous.model.entity.masks.impl.graphics.Graphic;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
+import com.aelous.model.entity.npc.NPC;
+import com.aelous.model.entity.player.Player;
+import com.aelous.utility.Utils;
 
-public class DiamondBolts implements DamageEffectListener {
-    @Override
-    public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
-        return false;
-    }
+import static com.aelous.model.entity.combat.ranged.RangedData.zaryteCrossBowEvoke;
 
-    @Override
-    public boolean prepareDamageEffectForDefender(Entity entity, CombatType combatType, Hit hit) {
-        return false;
-    }
-
-    @Override
-    public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
-        return false;
-    }
+public class DiamondBolts implements AmmunitionDamageEffectListener {
 
     @Override
-    public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
-        return false;
-    }
+    public int prepareBoltSpecialEffect(Entity entity, Entity target, CombatType combatType, int damage) {
+        var always_spec = false;
+        double boltSpecialMultiplier = 1.15;
 
-    @Override
-    public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
-        return false;
+        if (damage <= 0 || combatType != CombatType.RANGED) {
+            return 0;
+        }
+
+        if (target instanceof NPC npc) {
+            if (npc.isCombatDummy()) {
+                always_spec = true;
+            }
+        }
+
+        if (entity instanceof Player player) {
+            if (zaryteCrossBowEvoke(player)) {
+                always_spec = true;
+            }
+            if (Utils.percentageChance(RangedData.boltSpecialChance(always_spec))) {
+                player.putAttrib(AttributeKey.ARMOUR_PIERCING, true);
+                target.performGraphic(new Graphic(758, GraphicHeight.HIGH));
+                damage *= 1.15;
+                if (zaryteCrossBowEvoke(player)) {
+                    damage += boltSpecialMultiplier;
+                }
+            }
+            return damage;
+        }
+        return 0;
     }
 }

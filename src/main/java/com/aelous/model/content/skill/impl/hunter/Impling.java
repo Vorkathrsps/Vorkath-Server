@@ -81,8 +81,7 @@ public enum Impling {
                 player.animate(hasMagicButterflyNet(player) ? 6605 : 6606);
             }
             Chain.bound(null).runFn(2, () -> {
-                if(World.getWorld().rollDie(2, 1)) { //TODO: proper chance
-
+                if(Utils.percentageChance(50)) {
                     if (barehands) {
                         ImplingLoot.ImplingJar jar = ImplingLoot.ImplingJar.forJarId(impling.jarId);
                         Item loot;

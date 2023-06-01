@@ -115,8 +115,7 @@ public final class Hunter {
         trapProcessor.getTraps().add(trap);
 
         // only start a task after you've added the trap to the list
-
-        if (!trapProcessor.getTask().isPresent()) {
+        if (trapProcessor.getTask().isEmpty()) {
             trapProcessor.setTask(new TrapTask(player));
             TaskManager.submit(trapProcessor.getTask().get());
         }
@@ -138,7 +137,7 @@ public final class Hunter {
     public static boolean pickup(Player player, GameObject object) {
         Optional<TrapType> type = TrapType.getTrapByObjectId(object.getId());
 
-        if (!type.isPresent()) {
+        if (type.isEmpty()) {
             return false;
         }
 

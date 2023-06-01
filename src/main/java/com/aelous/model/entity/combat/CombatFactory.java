@@ -16,7 +16,9 @@ import com.aelous.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.aelous.model.content.teleport.Teleports;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.model.entity.combat.damagehandler.PreAmmunitionDamageEffectHandler;
 import com.aelous.model.entity.combat.damagehandler.PreDamageEffectHandler;
+import com.aelous.model.entity.combat.damagehandler.impl.AmmunitionDamageEffect;
 import com.aelous.model.entity.combat.damagehandler.impl.EquipmentDamageEffect;
 import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.hit.Hit;
@@ -248,7 +250,6 @@ public class CombatFactory {
 
                     max_damage = p.getCombat().getMaximumRangedDamage(ignoreArrows);
                 } else {
-                    //Npcs
                     max_damage = attacker.getCombat().getMaximumRangedDamage(true);
                 }
             }
@@ -298,9 +299,9 @@ public class CombatFactory {
         } else if (type == CombatType.RANGED) {
             if (attacker.isPlayer()) {
                 Player player = attacker.getAsPlayer();
-                // Handle bolt special effects for a player whose using crossbow
                 if (player.getCombat().getWeaponType() == WeaponType.CROSSBOW) {
                     damage = RangedData.getBoltSpecialAttack(player, target, damage);
+                    ammunitionDamageListener.triggerAmmunitionDamageModification(player, target, type, damage);
                 }
 
                 //Hard cap ranged special attacks
@@ -941,6 +942,7 @@ public class CombatFactory {
 
     static PreDamageEffectHandler triggerAttacker = new PreDamageEffectHandler(new EquipmentDamageEffect());
     static PreDamageEffectHandler triggerDefender = new PreDamageEffectHandler(new EquipmentDamageEffect());
+    static PreAmmunitionDamageEffectHandler ammunitionDamageListener = new PreAmmunitionDamageEffectHandler(new AmmunitionDamageEffect());
 
 
     /**

@@ -9,18 +9,23 @@ import com.aelous.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.player.Player;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class VirtusSet implements DamageEffectListener {
 
+    @Getter
     private final List<Integer> blood_spells = List.of(12901,
         12919,
         12911,
         12929);
 
-    private final List<Integer> ice_spells = List.of(12861,
+    @Getter
+    private final List<Integer> ice_spells = List.of(
+        12861,
         12881,
         12871,
         12891);
@@ -38,7 +43,7 @@ public class VirtusSet implements DamageEffectListener {
                 return false;
             }
 
-            for (var s : blood_spells) {
+            for (var s : this.getBlood_spells()) {
                 if (player.getCombat().getCastSpell().spellId() == s) {
                     player.heal(hit.getDamage() / 4, (int) (hit.getDamage() * 0.20));
                 }
@@ -76,7 +81,7 @@ public class VirtusSet implements DamageEffectListener {
 
             if (FormulaUtils.wearingFullVirtus(player)) {
                 if (isFrozen) {
-                    for (var s : ice_spells) {
+                    for (var s : this.getIce_spells()) {
                         if (player.getCombat().getCastSpell().spellId() == s) {
                             magicAccuracy.setModifier(0.010F);
                         }

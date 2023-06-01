@@ -2,6 +2,7 @@ package com.aelous.model.entity.combat.damagehandler;
 
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.damagehandler.listener.AmmunitionDamageEffectListener;
 import com.aelous.model.entity.combat.damagehandler.listener.DamageEffectListener;
 import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.aelous.model.entity.combat.formula.accuracy.MeleeAccuracy;

@@ -32,7 +32,7 @@ import static com.aelous.utility.ItemIdentifiers.BOW_OF_FAERDHINEN;
  */
 public class RangedData {
 
-    private static int boltSpecialChance(boolean always_spec) {
+    public static int boltSpecialChance(boolean always_spec) {
         int percentage = 10;
         return always_spec ? 100 : percentage;
     }
@@ -58,23 +58,21 @@ public class RangedData {
             }
         }
 
-        if (zaryteCrossBowEvoke(p)) {
+        if (zaryteCrossBowEvoke(p) && damage > 0) {
             always_spec = true;
         }
 
         Item ammo = p.getEquipment().get(EquipSlot.AMMO);
-
         if (ammo != null) {
             switch (ammo.getId()) {
                 case OPAL_BOLTS_E, OPAL_DRAGON_BOLTS_E -> {
                     if (Utils.percentageChance(boltSpecialChance(always_spec))) {
-                        double zbow = .10;
                         int current_range_level = p.getSkills().level(Skills.RANGED);
                         target.performGraphic(new Graphic(749, GraphicHeight.LOW, 55 + 5));
                         boltSpecialMultiplier = (current_range_level * 0.10); // Can max deal 25% extra damage.
                         damage += boltSpecialMultiplier;
                         if (zaryteCrossBowEvoke(p)) {
-                            damage += boltSpecialMultiplier * zbow;
+                            damage += boltSpecialMultiplier;
                         }
                     }
                 }
@@ -83,8 +81,7 @@ public class RangedData {
                         boltSpecialMultiplier = 1.18; // Deals 18% extra damage.
                         damage *= boltSpecialMultiplier;
                         target.performGraphic(new Graphic(756, GraphicHeight.HIGH, 55 + 5));
-                        if (target.isNpc()) {
-                            NPC npc = (NPC) target;
+                        if (target instanceof NPC npc) {
                             if (!npc.isCombatDummy())
                                 target.stun(10);
                         }
@@ -93,11 +90,10 @@ public class RangedData {
                 case PEARL_BOLTS_E, PEARL_DRAGON_BOLTS_E -> {
                     if (Utils.percentageChance(boltSpecialChance(always_spec))) {
                         target.performGraphic(new Graphic(750, GraphicHeight.LOW, 55 + 5));
-                        double zbow = .10;
                         boltSpecialMultiplier = 1.1;
                         damage *= boltSpecialMultiplier;
                         if (zaryteCrossBowEvoke(p)) {
-                            damage += boltSpecialMultiplier * zbow;
+                            damage += boltSpecialMultiplier;
                         }
                     }
                 }
@@ -130,8 +126,6 @@ public class RangedData {
                     if (Utils.percentageChance(boltSpecialChance(always_spec))) {
                         int cap = 100;
 
-                        double zbow = .10;
-
                         target.performGraphic(new Graphic(754, GraphicHeight.LOW, 55 + 5));
 
                         int selfDamage = (int) (p.getSkills().level(Skills.HITPOINTS) * 0.1);
@@ -145,23 +139,22 @@ public class RangedData {
                                 p.hit(p, selfDamage, 0, null).setIsReflected().submit();
                             }
                             if (zaryteCrossBowEvoke(p)) {
-                                damage += targetHP * 0.2 * zbow;
+                                damage += targetHP * 0.2;
                             }
                         }
                     }
                 }
-                case DIAMOND_BOLTS_E, DIAMOND_DRAGON_BOLTS_E -> {
+                /* case DIAMOND_BOLTS_E, DIAMOND_DRAGON_BOLTS_E -> {
                     if (Utils.percentageChance(boltSpecialChance(always_spec))) {
-                        double zbow = .10;
                         p.putAttrib(AttributeKey.ARMOUR_PIERCING, true);
                         target.performGraphic(new Graphic(758, GraphicHeight.HIGH));
                         boltSpecialMultiplier = 1.15; // Deals 15% extra damage.
                         damage *= boltSpecialMultiplier;
                         if (zaryteCrossBowEvoke(p)) {
-                            damage += boltSpecialMultiplier * zbow;
+                            damage += boltSpecialMultiplier;
                         }
                     }
-                }
+                }*/
                 case DRAGONSTONE_BOLTS_E, DRAGONSTONE_DRAGON_BOLTS_E -> {
                     boolean can_perform_dragons_breath = true;
                     if (Utils.percentageChance(boltSpecialChance(always_spec))) {
@@ -171,15 +164,13 @@ public class RangedData {
                             can_perform_dragons_breath = !(potionEffect || Equipment.hasDragonProtectionGear(t));
                         }
 
-                        double zbow = .10;
-
                         if (Utils.percentageChance(boltSpecialChance(always_spec))) {
                             target.performGraphic(new Graphic(756, GraphicHeight.HIGH, 55 + 5));
                             int current_range_level = p.getSkills().level(Skills.RANGED);
                             boltSpecialMultiplier = (current_range_level * 0.20); // 20 % extra damage
                             damage += boltSpecialMultiplier;
                             if (zaryteCrossBowEvoke(p)) {
-                                damage += boltSpecialMultiplier * zbow;
+                                damage += boltSpecialMultiplier;
                             }
                         }
                     }
@@ -191,7 +182,6 @@ public class RangedData {
                         damage *= boltSpecialMultiplier;
                         int heal = (int) (damage * 0.25);
 
-                        // Only heal the player if the person hasn't already got full hp.
                         if (p.hp() < 99) {
                             p.setHitpoints(p.hp() + heal);
                         }
@@ -199,8 +189,6 @@ public class RangedData {
                 }
             }
         }
-
-        //System.out.println("bolt spec dmg "+damage);
         return damage;
     }
 

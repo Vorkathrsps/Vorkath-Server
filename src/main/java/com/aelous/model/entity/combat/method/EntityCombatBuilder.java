@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class EntityCombatBuilder {
+
     private final Entity entity;
     private final Entity target;
     private final Map<CombatPhase, List<Consumer<Entity>>> attackConsumers;

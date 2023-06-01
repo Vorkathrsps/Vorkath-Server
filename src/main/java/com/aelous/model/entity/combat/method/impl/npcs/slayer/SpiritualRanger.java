@@ -3,6 +3,7 @@ package com.aelous.model.entity.combat.method.impl.npcs.slayer;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.npc.NPC;
@@ -21,14 +22,13 @@ public class SpiritualRanger extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         if (entity.isNpc()) {
             entity.animate(entity.attackAnimation());
-            NPC npc = (NPC) entity;
-            var tileDist = entity.tile().transform(3, 3, 0).distance(target.tile());
-            var delay = Math.max(1, (20 + (tileDist * 12)) / 30);
-
-            new Projectile(entity, target, 1192, getDelay(npc.id()), 5 * npc.tile().distance(target.tile()), getProjectileHeight(npc.id()), 33, 0).sendProjectile();
-
-            int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED);
-            target.hit(entity, hit,1, CombatType.RANGED).checkAccuracy().submit();
+            int tileDist = entity.tile().distance(target.tile());
+            int duration = (41 + -5 + (10 * tileDist));
+            var tile = entity.tile().translateAndCenterLargeNpc(entity, target);
+            Projectile p = new Projectile(tile, target, 1192, 41, duration, 43, 31, 0, entity.getSize(), 10);
+            final int delay = entity.executeProjectile(p);
+            Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.MAGIC).checkAccuracy();
+            hit.submit();
         }
         return true;
     }

@@ -149,7 +149,7 @@
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
-            <version>${kotlin.version}</version>
+            <version>1.8.10</version>
         </dependency>
 
         <dependency>
@@ -383,6 +383,11 @@
             <version>1.90.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/functions/functions-1.90.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-compiler</artifactId>
+            <version>1.8.10</version>
         </dependency>
     </dependencies>
 </project>

@@ -1,14 +1,18 @@
 package com.aelous.model.entity.combat.method.impl.npcs.bosses.cerberus;
 
+import com.aelous.cache.definitions.NpcDefinition;
 import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
+import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
+import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
@@ -16,13 +20,14 @@ import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.TickDelay;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
+import org.jetbrains.annotations.NotNull;
 
-import java.security.SecureRandom;
 import java.util.ArrayList;
 
 /**
- * @author Patrick van Elderen | March, 10, 2021, 09:44
- * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
+ * @Author: Origin
+ * @SubAuthor: Patrick
+ * Date: 6/1/2023
  */
 public class Cerberus extends CommonCombatMethod {
 
@@ -33,64 +38,78 @@ public class Cerberus extends CommonCombatMethod {
     private static final Area area = new Area(1358, 1257, 1378, 1257);
     private boolean combatAttack = false;
 
-    private void rangedAttack() {
-        //mob.forceChat("RANGE");
-        if(target.dead() || target.getSkills().xpLevel(Skills.HITPOINTS) <= 0) {
-            return;
-        }
-        var tileDist = entity.tile().distance(target.tile());
-        var delay = (1D + (Math.floor(1 + tileDist) / 6D));
-        //int duration = entity.executeProjectile(new Projectile(entity, target, 1245, 50, tileDist, 43, 31, 0, 5));
-        int duration = 0;
-        entity.animate(4492);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), duration + 1, CombatType.RANGED).checkAccuracy().submit();
-        target.performGraphic(new Graphic(1244, GraphicHeight.HIGH, duration + 75));
-    }
-
-    private void magicAttack() {
-        //mob.forceChat("MAGIC");
-        if(target.dead() || target.getSkills().xpLevel(Skills.HITPOINTS) <= 0) {
-            return;
-        }
-        int tileDist = entity.tile().distance(target.tile());
-        int delay = (int) entity.getCombat().magicSpellDelay(target);
-        //int duration = entity.executeProjectile(new Projectile(entity, target, 1242, 50, tileDist, 43, 31, 0, 5));
-        int duration = 0;
-        entity.animate(4492);
-
-        int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC);
-
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), duration + 1, CombatType.MAGIC).checkAccuracy().submit();
-
-        if (hit > 0) {
-            target.graphic(1243, GraphicHeight.HIGH, duration + 75);
+    private void rangedAttack(Entity entity, Entity target) {
+        if (entity instanceof NPC npc) {
+            if (target instanceof Player player) {
+                if (npc.dead()) {
+                    return;
+                }
+                if (player.dead() || player.getSkills().xpLevel(Skills.HITPOINTS) <= 0) {
+                    return;
+                }
+                npc.animate(4492);
+                int tileDist = npc.tile().distance(player.tile());
+                int duration = (51 + 11 + (20 * tileDist));
+                var tile = npc.tile().translateAndCenterLargeNpc(npc, player);
+                Projectile p = new Projectile(tile, player, 1245, 51, duration, 65, 31, 0, npc.getSize(), 20);
+                final int delay = npc.executeProjectile(p);
+                Hit hit = player.hit(npc, World.getWorld().random(30), CombatType.RANGED).clientDelay(delay).checkAccuracy();
+                hit.submit();
+                if (hit.getDamage() > 0) {
+                    target.graphic(1244, GraphicHeight.HIGH, p.getSpeed());
+                }
+            }
         }
     }
 
-    private void meleeAttack(boolean animate) {
-        if (animate)
-            entity.animate(entity.attackAnimation());
+    private void magicAttack(Entity entity, Entity target) {
+        if (entity instanceof NPC npc) {
+            if (target instanceof Player player) {
+                if (player.dead() || player.getSkills().xpLevel(Skills.HITPOINTS) <= 0) {
+                    return;
+                }
+               npc.animate(4492);
+                int tileDist = npc.tile().distance(player.tile());
+                int duration = (51 + 11 + (20 * tileDist));
+                Projectile p = new Projectile(npc.tile().translateAndCenterLargeNpc(npc, player), player, 1242, 55, duration, 65, 31, 0, npc.getSize(), 20);
+                final int delay = npc.executeProjectile(p);
+                Hit hit = Hit.builder(npc, player, CombatFactory.calcDamageFromType(npc, player, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+                hit.submit();
+                if (hit.getDamage() > 0) {
+                    target.graphic(1243, GraphicHeight.HIGH, p.getSpeed());
+                }
+            }
+        }
+    }
+
+    private void meleeAttack() {
+        entity.animate(entity.attackAnimation());
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy().submit();
     }
 
-    private void comboAttack() {
-        if(target.dead() || target.getSkills().xpLevel(Skills.HITPOINTS) <= 0) {
-            return;
-        }
-        entity.animate(4490); // triple attack
-        combatAttack = true;
-        //mob.forceChat("MAGIC COMBO");
-        magicAttack();
-        entity.runFn(1, () -> {
-            if (entity == null || target.dead()) {
-                return;
+    private void comboAttack(Entity entity, Entity target) {
+        if (entity instanceof NPC npc) {
+            if (target instanceof Player player) {
+                if (player.dead() || player.getSkills().xpLevel(Skills.HITPOINTS) <= 0) {
+                    return;
+                }
+                npc.animate(4490); // triple attack
+                combatAttack = true;
+                //mob.forceChat("MAGIC COMBO");
+                npc.runFn(1, () -> {
+                    if (player.dead()) {
+                        return;
+                    }
+                    rangedAttack(npc, player);
+                }).then(1, () -> {
+                    magicAttack(npc, player);
+                }).then(1, () -> {
+                    combatAttack = true;
+                    meleeAttack();
+                });
+                comboAttackCooldown.delay(66); // ~40 seconds cooldown
             }
-            rangedAttack();
-        }).then(2, () -> {
-            combatAttack = true;
-            meleeAttack(true);
-        });
-        comboAttackCooldown.delay(66); // ~40 seconds cooldown
+        }
     }
 
     ArrayList<NPC> souls = new ArrayList<>();
@@ -105,42 +124,47 @@ public class Cerberus extends CommonCombatMethod {
             return;
         }
 
-        int tileDist = entity.tile().distance(target.tile());
-
         NPC melee = new NPC(5869, new Tile(1239, 1256, 0));
         NPC archer = new NPC(5867, new Tile(1240, 1256, 0));
         NPC magician = new NPC(5868, new Tile(1241, 1256, 0));
 
-        if (!target.tile().inArea(area)) {
-            World.getWorld().unregisterNpc(melee);
-            World.getWorld().unregisterNpc(archer);
-            World.getWorld().unregisterNpc(magician);
-            souls.clear();
-            return;
-        }
-
-        melee.respawns(false);
-        archer.respawns(false);
-        magician.respawns(false);
-        melee.getCombat().setTarget(target);
-        archer.getCombat().setTarget(target);
-        magician.getCombat().setTarget(target);
-        World.getWorld().registerNpc(melee);
-        World.getWorld().registerNpc(archer);
-        World.getWorld().registerNpc(magician);
         souls.add(melee);
         souls.add(archer);
         souls.add(magician);
 
+        melee.respawns(false);
+        archer.respawns(false);
+        magician.respawns(false);
+        World.getWorld().definitions().get(NpcDefinition.class, melee.getId());
+        World.getWorld().definitions().get(NpcDefinition.class, archer.getId());
+        World.getWorld().definitions().get(NpcDefinition.class, magician.getId());
+        melee.face(entity);
+        archer.face(entity);
+        magician.face(entity);
+        World.getWorld().registerNpc(melee);
+        World.getWorld().registerNpc(archer);
+        World.getWorld().registerNpc(magician);
+
+
+        int tileDist = melee.tile().getChevDistance(target.tile());
+        var tile = melee.tile().transform(1, 1, 0);
+        int duration = (41 + 11 + (5 * tileDist));
+        final Projectile[] projectile = {null};
+
         melee.startEvent(1, () -> {
             melee.stopActions(true);
+            melee.lock();
             melee.setPositionToFace(target.tile());
             melee.animate(1); //TODO
         },2, () -> {
             World.getWorld().getPlayers().forEach(p -> {
-                //melee.executeProjectile(new Projectile(melee, target, 1248, 50, tileDist, 43, 31, 0, target.getSize()));
+                projectile[0] = new Projectile(tile, target, 1248, 41, duration, 43, 0, 0, target.getSize(), 5);
                 if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MELEE)) {
-                    p.hit(melee, 30);
+                    final int delay = melee.executeProjectile(projectile[0]);
+                    p.hit(melee, 30, delay);
+                } else {
+                    melee.executeProjectile(projectile[0]);
+                    p.hits.block();
                 }
                 if (!target.getAsPlayer().getEquipment().contains(ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD)) {
                     p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 30));
@@ -151,11 +175,11 @@ public class Cerberus extends CommonCombatMethod {
         });
         archer.startEvent(3, () -> {
             archer.stopActions(true);
+            archer.lock();
             archer.setPositionToFace(target.tile());
             archer.animate(1); //TODO
         },2, () -> {
             World.getWorld().getPlayers().forEach(p -> {
-                //archer.executeProjectile(new Projectile(archer, target, 1248, 50, tileDist, 43, 31, 0, target.getSize()));
                 if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MISSILES)) {
                     p.hit(archer, 30);
                 }
@@ -165,10 +189,11 @@ public class Cerberus extends CommonCombatMethod {
                     p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 15));
                 }
             });
-            });
+        });
 
         magician.startEvent(5, () -> {
             magician.stopActions(true);
+            magician.lock();
             magician.setPositionToFace(target.tile());
             magician.animate(1); //TODO
         },2, () -> {
@@ -177,9 +202,9 @@ public class Cerberus extends CommonCombatMethod {
                     p.hit(magician, 30);
                 }
                 if (!target.getAsPlayer().getEquipment().contains(ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD)) {
-                        p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 30));
+                    p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 30));
                 } else {
-                        p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 15));
+                    p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 15));
                 }
             });
         });
@@ -193,7 +218,7 @@ public class Cerberus extends CommonCombatMethod {
 
     }
 
-    private void spreadLava() { //TODO lava doesnt spread across 3 tiles instead all on mob.tile()
+    private void spreadLava() {
         if(target.dead() || target.getSkills().xpLevel(Skills.HITPOINTS) <= 0) {
             return;
         }
@@ -204,18 +229,17 @@ public class Cerberus extends CommonCombatMethod {
             new Tile(entity.getAbsX() + Utils.random(-1, entity.getSize() - 2), entity.getAbsY() + Utils.random(-4, entity.getSize() + 4), entity.getZ()),
             new Tile(entity.getAbsX() + Utils.random(-1, entity.getSize() - 2), entity.getAbsY() + Utils.random(-4, entity.getSize() + 4), entity.getZ())};
         for (Tile pos : positions) {
-            //entity.executeProjectile(new Projectile(entity, target, 1247,25,86,65,0,0,entity.getSize()));
             entity.runFn(1, () -> {
                 World.getWorld().tileGraphic(1246, new Tile(pos.getX(), pos.getY(), pos.getZ()), 0, 0);
                 World.getWorld().tileGraphic(1246, new Tile(pos.getX()-1, pos.getY() - 1, pos.getZ()), 0, 0);
             }).then(2, () -> {
-                    if (target == null)
-                        return;
-                    if (target.tile().equals(pos)) {
-                        target.hit(entity,World.getWorld().random(10, 15));
-                    } else if (Utils.getDistance(target.tile(), pos) == 1) {
-                        target.hit(entity,7);
-                    }
+                if (target == null)
+                    return;
+                if (target.tile().equals(pos)) {
+                    target.hit(entity,World.getWorld().random(10, 15));
+                } else if (Utils.getDistance(target.tile(), pos) == 1) {
+                    target.hit(entity,7);
+                }
             }).then(2, () -> {
                 World.getWorld().tileGraphic(1247, new Tile(pos.getX(), pos.getY(), pos.getZ()), 0, 0);
             }).then(1, () -> {
@@ -236,46 +260,44 @@ public class Cerberus extends CommonCombatMethod {
         spreadLavaCooldown.reset();
         spawnSoulCooldown.reset();
         souls.clear();
-
     }
 
     @Override
-    public boolean prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(@NotNull Entity entity, Entity target) {
+        if (!comboAttackCooldown.isDelayed()) {
+            comboAttack(entity, target);
+            return true;
+        }
 
-        SecureRandom secureRandom = new SecureRandom();
+        if (entity.hp() <= 200 && !spreadLavaCooldown.isDelayed()) {
+            spreadLava();
+            return true;
+        }
 
-        if (!entity.dead()) {
+        if (Utils.percentageChance(50)) {
+            magicAttack(entity, target);
+        } else {
+            rangedAttack(entity, target);
+            return true;
+        }
 
-            if (!comboAttackCooldown.isDelayed()) {
-                comboAttack();
-            }
-            if (souls.isEmpty()) {
-                if (secureRandom.nextDouble() < 0.10) {
-                    entity.forceChat("Arrrrroooooooooo!");
-                    spawnSouls(target);
-                }
-            }
-            if (entity.hp() <= 200 && !spreadLavaCooldown.isDelayed()) {
-                spreadLava();
-            }
-            if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.rollPercent(25)) {
-                meleeAttack(true);
-            } else if (Utils.rollPercent(50)) {
-                magicAttack();
-            } else {
-                rangedAttack();
+        if (souls.isEmpty()) {
+            if (Utils.percentageChance(10)) {
+                entity.forceChat("Arrrrroooooooooo!");
+                spawnSouls(target);
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     @Override
     public int getAttackSpeed(Entity entity) {
-        return combatAttack ? 12 : entity.getBaseAttackSpeed();
+        return this.entity.getBaseAttackSpeed();
     }
 
     @Override
     public int getAttackDistance(Entity entity) {
-        return 10;
+        return 8;
     }
 }

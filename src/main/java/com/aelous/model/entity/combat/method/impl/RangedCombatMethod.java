@@ -1,6 +1,9 @@
 package com.aelous.model.entity.combat.method.impl;
 
+import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
+import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
@@ -15,6 +18,8 @@ import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
 import com.aelous.utility.ItemIdentifiers;
+
+import java.util.ArrayList;
 
 /**
  * Represents the combat method for ranged attacks.
@@ -156,7 +161,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
 
                 final int hitDelay = attacker.executeProjectile(projectile);
 
-                Hit hit = Hit.builder(attacker, target, CombatFactory.calcDamageFromType(attacker, target, CombatType.RANGED), hitDelay, CombatType.RANGED).checkAccuracy();
+                Hit hit = Hit.builder(attacker, target, CombatFactory.calcDamageFromType(attacker, target, CombatType.RANGED), hitDelay, CombatType.RANGED).checkAccuracy().postDamage(this::handleAfterHit);
 
                 hit.submit();
 
@@ -197,5 +202,67 @@ public class RangedCombatMethod extends CommonCombatMethod {
             return weapon.getType().getDefaultDistance();
         }
         return 6;
+    }
+
+    public void handleAfterHit(Hit hit) {
+        if (hit.getSource() == null) {
+            return;
+        }
+
+        final RangedWeapon rangedWeapon = hit.getSource().getCombat().getRangedWeapon();
+        if (rangedWeapon == null) {
+            return;
+        }
+
+        boolean chins = rangedWeapon == RangedWeapon.CHINCHOMPA;
+
+        if (chins) {
+            hit.getTarget().performGraphic(new Graphic(157, 100, 0));
+            chinChompa(hit.getSource(), hit.getTarget(), hit.getDelay());
+        }
+    }
+
+    private void chinChompa(Entity source, Entity target, int delay) {
+        var targets = new ArrayList<Entity>();
+        if (target.isPlayer()) {
+            World.getWorld().getPlayers().forEachInArea(target.tile().area(1), t -> {
+                if (source.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) == 1) {
+                    targets.add(t);
+                }
+            });
+        } else {
+            World.getWorld().getNpcs().forEachInArea(target.tile().area(1), t -> {
+                if (source.<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) == 1) {
+                    targets.add(t);
+                }
+            });
+        }
+
+        for (Entity targ : targets) {
+            if (targ == target || targ == source) {
+                //don't hit us, or the target we've already hit
+                continue;
+            }
+            if (targ.isNpc()) {
+                var n = targ.getAsNpc();
+
+                if (n.id() == NpcIdentifiers.ROCKY_SUPPORT || n.id() == NpcIdentifiers.ROCKY_SUPPORT_7710 || n.def().isPet) {
+                    continue;
+                }
+            }
+            if (!CombatFactory.canAttack(source,this, targ)) { // Validate they're in an attackable location
+                continue;
+            }
+
+            final Hit hit = targ.hit(source, CombatFactory.calcDamageFromType(source, targ, CombatType.RANGED), delay, CombatType.RANGED);
+            hit.checkAccuracy().submit();
+
+            targ.graphic(157, GraphicHeight.HIGH,100);//TODO for Origin, idk how to do delayed gfx on ur base
+
+            targ.putAttrib(AttributeKey.LAST_DAMAGER, source);
+            targ.putAttrib(AttributeKey.LAST_WAS_ATTACKED_TIME, System.currentTimeMillis());
+            targ.graphic(-1);
+        }
+        targets.clear();
     }
 }

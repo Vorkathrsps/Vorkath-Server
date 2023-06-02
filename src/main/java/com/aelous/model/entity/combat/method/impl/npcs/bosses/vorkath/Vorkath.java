@@ -112,7 +112,7 @@ public class Vorkath extends CommonCombatMethod {
         final Tile targetPos = target.tile().copy();
         var tileDist = entity.tile().getChevDistance(targetPos);
         int duration = (85 + -5 + (10 * tileDist));
-        var tile = entity.tile().translateAndCenterLargeNpc(entity, target);
+        var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
         Projectile p1 = new Projectile(tile, targetPos, 1491, 85, duration, 150, 0, 0, entity.getSize(), 10);
         int delay = p1.send(tile, targetPos);
         Task.runOnceTask(delay, t -> {
@@ -133,7 +133,7 @@ public class Vorkath extends CommonCombatMethod {
         entity.animate(ATTACK_ANIMATION);
         var tileDist = entity.tile().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
-        var tile = entity.tile().translateAndCenterLargeNpc(entity, target);
+        var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
         Projectile p = new Projectile(tile, target, 1477, 41, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 0, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);
         target.hit(entity, Utils.random(32), delay, CombatType.RANGED).checkAccuracy().submit();
@@ -145,7 +145,7 @@ public class Vorkath extends CommonCombatMethod {
         entity.animate(ATTACK_ANIMATION);
         var tileDist = entity.tile().distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
-        var tile = entity.tile().translateAndCenterLargeNpc(entity, target);
+        var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
         Projectile p = new Projectile(tile, target, 1479, 51, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 0, entity.getSize(), 10);
         final int delay = entity.executeProjectile(p);
         target.hit(entity, Utils.random(30), delay, CombatType.MAGIC).checkAccuracy().submit();
@@ -172,7 +172,7 @@ public class Vorkath extends CommonCombatMethod {
                 entity.animate(ATTACK_ANIMATION);
                 var tileDist = entity.tile().distance(target.tile());
                 int duration = (BREATH_DELAY + -5 + (10 * tileDist));
-                var tile = entity.tile().translateAndCenterLargeNpc(entity, target);
+                var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
                 Projectile p = new Projectile(tile, target, 1470, BREATH_DELAY, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 0, entity.getSize(), 10);
                 final int delay = entity.executeProjectile(p);
                 target.graphic(1472, GraphicHeight.MIDDLE, p.getSpeed());
@@ -185,7 +185,7 @@ public class Vorkath extends CommonCombatMethod {
                 entity.animate(ATTACK_ANIMATION);
                 var tileDist = entity.tile().distance(target.tile());
                 int duration = (BREATH_DELAY + -5 + (10 * tileDist));
-                var tile = entity.tile().translateAndCenterLargeNpc(entity, target);
+                var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
                 Projectile p = new Projectile(tile, target, 1471, BREATH_DELAY, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 0, entity.getSize(), 10);
                 final int delay = entity.executeProjectile(p);
                 target.graphic(1473, GraphicHeight.MIDDLE, p.getSpeed());
@@ -201,7 +201,7 @@ public class Vorkath extends CommonCombatMethod {
             case 2 -> {
                 var tileDist = entity.tile().distance(target.tile());
                 int duration = (BREATH_DELAY + -5 + (10 * tileDist));
-                var tile = entity.tile().translateAndCenterLargeNpc(entity, target);
+                var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
                 Projectile p = new Projectile(tile, target, 393, BREATH_DELAY, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 0, entity.getSize(), 10);
                 final int delay = entity.executeProjectile(p);
                 target.graphic(157, GraphicHeight.MIDDLE, p.getSpeed());
@@ -361,7 +361,7 @@ public class Vorkath extends CommonCombatMethod {
                 Tile landed = player.tile();
                 var tileDist = entity.tile().distance(target.tile());
                 int duration = (75 + 11 + (5 * tileDist));
-                var tile = entity.tile().translateAndCenterLargeNpc(entity, target);
+                var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
                 projectile.set(new Projectile(tile, target, 1482, 75, duration, 20, 20, 0, entity.getSize(), 10));
                 delay[0] = entity.executeProjectile(projectile.get());
                 entity.getCombat().delayAttack(0);

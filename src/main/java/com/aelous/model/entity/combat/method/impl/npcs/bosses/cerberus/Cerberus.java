@@ -45,7 +45,7 @@ public class Cerberus extends CommonCombatMethod {
                 npc.animate(4492);
                 int tileDist = entity.tile().getDistance(target.tile());
                 int duration = (30 + 11 + (10 * tileDist));
-                var tile = entity.tile().translateAndCenterLargeNpc(entity, target);
+                var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
                 Projectile p = new Projectile(tile, target, 1245, 30, duration, 70, 31, 0, target.getSize(), 15);
                 final int delay = entity.executeProjectile(p);
                 Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
@@ -64,7 +64,7 @@ public class Cerberus extends CommonCombatMethod {
                 npc.animate(4492);
                 int tileDist = npc.tile().getDistance(player.tile());
                 int duration = (30 + 11 + (10 * tileDist));
-                var tile = npc.tile().translateAndCenterLargeNpc(npc, player);
+                var tile = npc.tile().translateAndCenterNpcPosition(npc, player);
                 Projectile p = new Projectile(tile, target, 1242, 30, duration, 70, 31, 0, target.getSize(), 15);
                 final int delay = npc.executeProjectile(p);
                 Hit hit = Hit.builder(npc, player, CombatFactory.calcDamageFromType(npc, player, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
@@ -149,7 +149,7 @@ public class Cerberus extends CommonCombatMethod {
             melee.stopActions(true);
             melee.lock();
             melee.setPositionToFace(target.tile());
-            melee.animate(1); //TODO
+            melee.animate(8528); //TODO
         }, 2, () -> {
             World.getWorld().getPlayers().forEach(p -> {
                 projectile[0] = new Projectile(tile, target, 1248, 41, duration, 43, 0, 0, target.getSize(), 5);
@@ -171,7 +171,7 @@ public class Cerberus extends CommonCombatMethod {
             archer.stopActions(true);
             archer.lock();
             archer.setPositionToFace(target.tile());
-            archer.animate(1); //TODO
+            archer.animate(8528); //TODO
         }, 2, () -> {
             World.getWorld().getPlayers().forEach(p -> {
                 if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MISSILES)) {
@@ -189,7 +189,7 @@ public class Cerberus extends CommonCombatMethod {
             magician.stopActions(true);
             magician.lock();
             magician.setPositionToFace(target.tile());
-            magician.animate(1); //TODO
+            magician.animate(8528); //TODO
         }, 2, () -> {
             World.getWorld().getPlayers().forEach(p -> {
                 if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {

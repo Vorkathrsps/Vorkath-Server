@@ -1,7 +1,7 @@
 package com.aelous.model.entity.combat.method.impl.specials.melee;
 
-import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatSpecial;
 import com.aelous.model.entity.combat.CombatType;
@@ -19,7 +19,7 @@ public class AbyssalWhip extends CommonCombatMethod {
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
         hit.submit();
 
-        target.graphic(341, GraphicHeight.HIGH, 0);
+        target.graphic(341, GraphicHeight.LOW, 0);
         if (target.isPlayer()) {
             Player t = (Player) target;
             Player player = (Player) entity;

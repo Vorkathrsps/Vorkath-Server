@@ -6,7 +6,6 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
-import com.aelous.model.entity.npc.NPC;
 
 public class SpiritualRanger extends CommonCombatMethod {
 
@@ -24,7 +23,7 @@ public class SpiritualRanger extends CommonCombatMethod {
             entity.animate(entity.attackAnimation());
             int tileDist = entity.tile().distance(target.tile());
             int duration = (41 + -5 + (10 * tileDist));
-            var tile = entity.tile().translateAndCenterLargeNpc(entity, target);
+            var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
             Projectile p = new Projectile(tile, target, 1192, 41, duration, 43, 31, 0, entity.getSize(), 10);
             final int delay = entity.executeProjectile(p);
             Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.MAGIC).checkAccuracy();

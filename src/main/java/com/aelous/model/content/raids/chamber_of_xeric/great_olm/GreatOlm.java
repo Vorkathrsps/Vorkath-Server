@@ -416,7 +416,7 @@ public class GreatOlm extends CommonCombatMethod {
             targets.forEach(p -> {
                 var tileDist = entity.tile().distance(target.tile());
                 int duration = lastBasicAttackStyle == CombatType.RANGED ? (41 + 11 + (5 * tileDist)) : (51 + -5 + (10 * tileDist));
-                var tile = npc.tile().translateAndCenterLargeNpc(npc, p);
+                var tile = npc.tile().translateAndCenterNpcPosition(npc, p);
                 Projectile projectile = new Projectile(tile, p, lastBasicAttackStyle == CombatType.RANGED ? 1340 : 1339, lastBasicAttackStyle == CombatType.RANGED ? 41 : 51, duration, 80, 31, 0, 1, lastBasicAttackStyle == CombatType.RANGED ? 5 : 10);
                 final int delay = entity.executeProjectile(projectile);
                 int maxDamage = npc.getCombatInfo().maxhit;
@@ -438,7 +438,7 @@ public class GreatOlm extends CommonCombatMethod {
             Projectile projectile;
             var tileDist = entity.tile().distance(target.tile());
             int duration = (51 + 11 + (10 * tileDist));
-            var tile = npc.tile().translateAndCenterLargeNpc(npc, target);
+            var tile = npc.tile().translateAndCenterNpcPosition(npc, target);
             int prayer;
             int hitGfx;
             switch (style) {

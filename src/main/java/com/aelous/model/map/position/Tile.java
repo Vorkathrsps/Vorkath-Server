@@ -741,7 +741,7 @@ public class Tile implements Cloneable {
         return false;
     }
 
-    public Tile translateAndCenterLargeNpc(Entity source, Entity target) {
+    public Tile translateAndCenterNpcPosition(Entity source, Entity target) {
         var vectorX = (this.unitVectorX(target.getCentrePosition()) / 2);
         var vectorY = (this.unitVectorY(target.getCentrePosition()) / 2);
         var height = this.getZ();

@@ -2110,7 +2110,6 @@ public class Player extends Entity {
         skills.syncDirty();
     }
 
-    // Combat
     private final SecondsTimer aggressionTolerance = new SecondsTimer();
     private CombatSpecial combatSpecial;
 

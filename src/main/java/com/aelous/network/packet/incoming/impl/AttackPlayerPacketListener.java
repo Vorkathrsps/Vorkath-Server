@@ -2,11 +2,9 @@ package com.aelous.network.packet.incoming.impl;
 
 import com.aelous.GameServer;
 import com.aelous.model.World;
-import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.combat.CombatFactory;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.weapon.FightStyle;
-import com.aelous.model.entity.combat.weapon.FightType;
 import com.aelous.model.entity.player.Player;
 import com.aelous.network.packet.Packet;
 import com.aelous.network.packet.PacketListener;
@@ -63,7 +61,7 @@ public class AttackPlayerPacketListener implements PacketListener {
         }
 
         if (player.getEquipment().contains(ItemIdentifiers.DINHS_BULWARK) && player.getCombat().getFightType().getStyle() == FightStyle.DEFENSIVE) {
-            player.message(Color.RED.wrap("You cannot attack players in the defensive state with a " + player.getEquipment().getWeapon().name() + "."));
+            player.message(Color.RED.wrap("Your bulwark gets in the way."));
             return;
         }
 

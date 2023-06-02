@@ -169,6 +169,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
 
                     if (weaponType == WeaponType.CHINCHOMPA) {
                         if (chinChompaDrawBack != null) {
+                            chinChompa(hit.getSource(), hit.getTarget(), hit.getDelay());
                             target.performGraphic(new Graphic(chinChompaDrawBack.gfx, GraphicHeight.HIGH, projectile.getSpeed()));
                         }
                     }
@@ -214,12 +215,6 @@ public class RangedCombatMethod extends CommonCombatMethod {
             return;
         }
 
-        boolean chins = rangedWeapon == RangedWeapon.CHINCHOMPA;
-
-        if (chins) {
-            hit.getTarget().performGraphic(new Graphic(157, 100, 0));
-            chinChompa(hit.getSource(), hit.getTarget(), hit.getDelay());
-        }
     }
 
     private void chinChompa(Entity source, Entity target, int delay) {
@@ -240,7 +235,6 @@ public class RangedCombatMethod extends CommonCombatMethod {
 
         for (Entity targ : targets) {
             if (targ == target || targ == source) {
-                //don't hit us, or the target we've already hit
                 continue;
             }
             if (targ.isNpc()) {
@@ -255,9 +249,8 @@ public class RangedCombatMethod extends CommonCombatMethod {
             }
 
             final Hit hit = targ.hit(source, CombatFactory.calcDamageFromType(source, targ, CombatType.RANGED), delay, CombatType.RANGED);
-            hit.checkAccuracy().submit();
 
-            targ.graphic(157, GraphicHeight.HIGH,100);//TODO for Origin, idk how to do delayed gfx on ur base
+            hit.checkAccuracy().submit();
 
             targ.putAttrib(AttributeKey.LAST_DAMAGER, source);
             targ.putAttrib(AttributeKey.LAST_WAS_ATTACKED_TIME, System.currentTimeMillis());

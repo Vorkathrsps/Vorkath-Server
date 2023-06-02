@@ -2,28 +2,26 @@ package com.aelous.model.content;
 
 import com.aelous.cache.definitions.ItemDefinition;
 import com.aelous.cache.definitions.NpcDefinition;
-import com.aelous.model.content.skill.impl.slayer.SlayerConstants;
+import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
+import com.aelous.model.content.skill.impl.slayer.SlayerConstants;
 import com.aelous.model.entity.attributes.AttributeKey;
-import com.aelous.model.entity.player.InputScript;
-import com.aelous.model.inter.dialogue.Dialogue;
-import com.aelous.model.inter.dialogue.DialogueManager;
-import com.aelous.model.inter.dialogue.DialogueType;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.npc.droptables.ScalarLootTable;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.inter.dialogue.Dialogue;
+import com.aelous.model.inter.dialogue.DialogueManager;
+import com.aelous.model.inter.dialogue.DialogueType;
 import com.aelous.model.items.Item;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.Color;
 import com.aelous.utility.ItemIdentifiers;
-import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.utility.Utils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author Origin
@@ -363,6 +361,73 @@ public class DropsDisplay {
             });
         }
         return false;
+    }
+
+
+    public static int howmanydrops(Player player, String context, Type type) {
+        try {
+            int amt = 0;
+            context = context.trim().toLowerCase();
+            List<String> npc = new ArrayList<>();
+            List<Integer> id = new ArrayList<>();
+            String finalContext = context;
+            //System.out.printf("%s drops%n", ScalarLootTable.registered.size());
+            ScalarLootTable.registered.forEach((k, v) -> {
+                NpcDefinition npcDefinition = World.getWorld().definitions().get(NpcDefinition.class, k);
+                if (v != null && npcDefinition != null) {
+                    if (type == Type.ITEM) {
+                        ArrayList<Integer> ids = new ArrayList<>();
+                        ids.add(v.petItem);
+                        deepAdd(v, ids);
+                        ids.forEach(i -> {
+                            ItemDefinition idef = World.getWorld().definitions().get(ItemDefinition.class, i);
+                            if (idef.name.toLowerCase().contains(finalContext)) {
+                                if (!npc.contains(npcDefinition.name)) {
+                                    npc.add(npcDefinition.name);
+                                    id.add(k);
+                                    System.out.printf("%s vs %s%n", npcDefinition.name, finalContext);
+                                }
+                            }
+                        });
+                    }
+                    if (type == Type.NPC) {
+                        String name = npcDefinition.name;
+                        if (name != null && name.toLowerCase().contains(finalContext)) {
+                            if (!npc.contains(name)) {
+                                if (Arrays.stream(NPCS_DROPS_EXCLUDED).noneMatch(n -> n == k)) {
+                                    npc.add(name);
+                                    id.add(k);
+                                    //System.out.printf("%s vs %d %s %n", npcDefinition.name, k, finalContext);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            //Clear any previous entries.
+//            for (int index = 0; index < 430; index++) {
+//                player.getPacketSender().sendString(55510 + index, "");
+//                //Probably redundant code
+//                //if (index >= 55940)//Max 430 npcs
+//                //    break;
+//            }
+            Collections.sort(npc);
+            id.sort(Comparator.comparing(a -> World.getWorld().definitions().get(NpcDefinition.class, a).name));
+            // it was flashing because of this
+//            for (int index = 0; index < npc.size(); index++) {
+//                player.getPacketSender().sendString(55510 + index, npc.get(index));
+//                if (index >= 55940)//Max 430 npcs
+//                    break;
+//            }
+            amt = npc.size();
+            //  player.debugMessage("There are " + npc.size() + " npcs with drops");
+            return amt;
+            // player.putAttrib(AttributeKey.DROP_DISPLAY_KEY, id);
+            //  display(player, id.get(0));
+        } catch (Exception e) {
+            logger.catching(e);
+        }
+        return 0;
     }
 
     public static void close(Player player) {

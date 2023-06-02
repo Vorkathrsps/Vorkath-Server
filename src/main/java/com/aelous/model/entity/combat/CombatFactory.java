@@ -62,7 +62,6 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
 import com.aelous.model.items.container.equipment.Equipment;
-import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.position.Area;
@@ -270,32 +269,7 @@ public class CombatFactory {
 
         if (type == CombatType.MELEE) {
             // Do melee effects with the calculated damage..
-            if (attacker.isPlayer() && target != null) {
-                boolean pvpDummy = target.isNpc() && target.getAsNpc().isPvPCombatDummy();
-                if (target.isPlayer() || pvpDummy) {
 
-                    Player player = attacker.getAsPlayer();
-
-                    //Hard cap melee special attacks
-                    if (player.isSpecialActivated()) {
-                        if (player.getCombatSpecial() == CombatSpecial.DRAGON_DAGGER) {
-                            if (damage > 48) {
-                                damage = 48;
-                            }
-                        }
-                        if (player.getCombatSpecial() == CombatSpecial.ANCIENT_GODSWORD) {
-                            if (damage > 89) {
-                                damage = 89;
-                            }
-                        }
-                        if (player.getCombatSpecial() == CombatSpecial.ARMADYL_GODSWORD) {
-                            if (damage > 88) {
-                                damage = 88;
-                            }
-                        }
-                    }
-                }
-            }
         } else if (type == CombatType.RANGED) {
             if (attacker.isPlayer()) {
                 Player player = attacker.getAsPlayer();
@@ -303,26 +277,9 @@ public class CombatFactory {
                     damage = RangedData.getBoltSpecialAttack(player, target, damage);
                     ammunitionDamageListener.triggerAmmunitionDamageModification(player, target, type, damage);
                 }
-
-                //Hard cap ranged special attacks
-                if (player.isSpecialActivated()) {
-                    if (player.getCombatSpecial() == CombatSpecial.DARK_BOW) {
-                        if (damage > 48) {
-                            damage = 48;
-                        }
-                    }
-                }
             }
         } else if (type == CombatType.MAGIC) {
-            // Do magic effects with the calculated damage..
-            if (attacker.isPlayer()) {
-                Player player = attacker.getAsPlayer();
-                if (player.getCombatSpecial() == CombatSpecial.VOLATILE_NIGHTMARE_STAFF) {
-                    if (damage > 87) {
-                        damage = 87;
-                    }
-                }
-            }
+
         }
 
         if (target != null && target.isNpc() && attacker.isPlayer()) {
@@ -366,27 +323,6 @@ public class CombatFactory {
         }
 
         if (target instanceof Player) {
-            Item shield = target.getAsPlayer().getEquipment().get(EquipSlot.SHIELD);
-
-            if (target.isPlayer()) {
-                if (!WildernessArea.inWilderness(target.getAsPlayer().tile())) {
-                    if (damage > 0 && Equipment.justiciarSet(target.getAsPlayer())) {
-                        EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(target, World.getWorld().equipmentInfo());
-                        int bonus = attackerBonus.crushdef;
-                        int formula = bonus / 3000;
-                        damage = damage - formula;
-                        damage = damage - 1;
-                    }
-                }
-            }
-
-            // Passive effect of Dinh's Bulwark on Block mode
-            if (target.isPlayer()) {
-                if (shield != null && shield.getId() == 21015 && target.getAsPlayer().getCombat().getFightType().getChildId() == 2) {
-                    damage -= damage / 5;
-                    damage = (int) Math.floor(damage * CombatConstants.DINHS_BULWARK_REDUCTION);
-                }
-            }
 
             if (target.isPlayer()) {
                 Player player = (Player) target;

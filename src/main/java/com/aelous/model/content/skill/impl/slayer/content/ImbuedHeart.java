@@ -10,7 +10,6 @@ import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.timers.TimerKey;
 
 public class ImbuedHeart {
-
     public static void activate(Player player) {
         if(!player.inventory().contains(ItemIdentifiers.IMBUED_HEART)) {
             return;

@@ -1576,7 +1576,7 @@ public class Player extends Entity {
 
             this.getPet().onLogin();
 
-            QuestTab.refreshInfoTab(this);
+            //QuestTab.refreshInfoTab(this);
         }).then(1, () -> {
 
             // Send friends and ignored players lists...

@@ -1,41 +1,40 @@
-package com.aelous.model.entity.combat.damagehandler.impl.armor;
+package com.aelous.model.entity.combat.damagehandler.impl.sets;
 
+import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.combat.CombatConstants;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.damagehandler.listener.DamageEffectListener;
-import com.aelous.model.entity.combat.damagehandler.registery.ListenerRegistry;
 import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.aelous.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.player.Player;
-import com.aelous.utility.timers.TimerKey;
+import com.aelous.model.items.container.equipment.Equipment;
+import com.aelous.model.items.container.equipment.EquipmentInfo;
+import com.aelous.model.map.position.areas.impl.WildernessArea;
 
-import static com.aelous.utility.ItemIdentifiers.*;
-
-public class ToxicStaffOfTheDead implements DamageEffectListener {
-    public ToxicStaffOfTheDead() {
-        ListenerRegistry.registerListener(this);
-    }
-
+public class JusticiarSet implements DamageEffectListener {
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
+        var damage = hit.getDamage();
+        if (entity instanceof Player player) {
+            if (!WildernessArea.inWilderness(player.tile())) {
+                if (damage > 0 && Equipment.justiciarSet(player)) {
+                    EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo());
+                    int bonus = attackerBonus.crushdef;
+                    int formula = bonus / 3000;
+                    damage = damage - formula;
+                    damage = damage - 1;
+                    hit.setDamage(damage);
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
     @Override
     public boolean prepareDamageEffectForDefender(Entity entity, CombatType combatType, Hit hit) {
-        var defender = (Player) entity;
-        if (defender.getTimers().has(TimerKey.SOTD_DAMAGE_REDUCTION)
-            && defender.getEquipment().containsAny(STAFF_OF_THE_DEAD, TOXIC_STAFF_OF_THE_DEAD, TOXIC_STAFF_UNCHARGED, STAFF_OF_LIGHT)
-            && combatType == CombatType.MELEE) {
-            int damage = hit.getDamage();
-            var reduced_value = damage - (damage * CombatConstants.TSTOD_DAMAGE_REDUCTION);
-            damage = (int) reduced_value;
-            hit.setDamage(damage);
-            return true;
-        }
         return false;
     }
 

@@ -27,10 +27,10 @@ public class ElysianSpiritShield implements DamageEffectListener {
     public boolean prepareDamageEffectForDefender(Entity entity, CombatType combatType, Hit hit) {
         Player defender = (Player) entity;
         var setIgnoreElysianReduction = hit.reflected ? 1 : CombatConstants.ELYSIAN_DAMAGE_REDUCTION;
-        if (Utils.securedRandomChance(0.70D) && defender.getEquipment().contains(ItemIdentifiers.ELYSIAN_SPIRIT_SHIELD)) {
+        if (Utils.percentageChance(70) && defender.getEquipment().contains(ItemIdentifiers.ELYSIAN_SPIRIT_SHIELD)) {
             int damage = hit.getDamage();
-            damage = (int) (damage * setIgnoreElysianReduction);
-            hit.setDamage(damage);
+            var reduced_value = damage - (damage * setIgnoreElysianReduction);
+            hit.setDamage((int) reduced_value);
             defender.performGraphic(new Graphic(321, GraphicHeight.MIDDLE));
             return true;
         }

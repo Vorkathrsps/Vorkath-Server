@@ -1,7 +1,5 @@
 package com.aelous.model.entity.attributes;
 
-import com.sun.source.doctree.AttributeTree;
-
 /**
  * Created by Bart on 8/13/2015.
  */
@@ -13,6 +11,8 @@ public enum AttributeKey {
 
     // Holds a list of max 40 items (fully stackable)
     LOOT_KEY_INFO,
+
+    SHOWPLAYTIME,
 
     LOOT_KEYS_CARRIED("loot_keys_carried", AttribType.INTEGER),
 

@@ -413,6 +413,8 @@ public class EquipmentInfo {
                 case SCYTHE:
                     return 408;
                 case SCYTHE_OF_VITUR:
+                case SANGUINE_SCYTHE_OF_VITUR:
+                case HOLY_SCYTHE_OF_VITUR:
                     return 8056;
                 case GHRAZI_RAPIER: // Rapier
                     return style == 2 ? 390 : 8145;
@@ -446,6 +448,7 @@ public class EquipmentInfo {
                 case STAFF_OF_THE_DEAD:
                 case TOXIC_STAFF_UNCHARGED:
                 case TOXIC_STAFF_OF_THE_DEAD:
+                case STAFF_OF_LIGHT:
                     return style == 0 ? 428 : style == 1 ? 440 : 419;
                 case 1215: // dd
                 case 1231: // ddp
@@ -709,14 +712,13 @@ public class EquipmentInfo {
             case VIGGORAS_CHAINMACE, VIGGORAS_CHAINMACE_U, URSINE_CHAINMACE -> {
                 return 7200;
             }
-            // case ANATHEMATIC_WAND:
             case KODAI_WAND, KODAI_WAND_23626, _3RD_AGE_WAND -> {
                 return 415;
             }
             case GHRAZI_RAPIER, DRAGON_2H_SWORD -> {
                 return 410;
             }
-            case SCYTHE_OF_VITUR -> {
+            case SCYTHE_OF_VITUR, HOLY_SCYTHE_OF_VITUR, SANGUINE_SCYTHE_OF_VITUR -> {
                 return 435;
             }
             case DRAGON_HUNTER_LANCE, STAFF_OF_THE_DEAD, TOXIC_STAFF_UNCHARGED, TOXIC_STAFF_OF_THE_DEAD, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS_E, UNCHARGED_TOXIC_TRIDENT, TRIDENT_OF_THE_SWAMP, TRIDENT_OF_THE_SWAMP_E, THAMMARONS_SCEPTRE, THAMMARONS_SCEPTRE_U, NIGHTMARE_STAFF, HARMONISED_NIGHTMARE_STAFF, VOLATILE_NIGHTMARE_STAFF, ELDRITCH_NIGHTMARE_STAFF, SANGUINESTI_STAFF -> {
@@ -737,10 +739,10 @@ public class EquipmentInfo {
             case LIGHT_BALLISTA, HEAVY_BALLISTA -> {
                 return 7219;
             }
-            case 11824, TUMEKENS_SHADOW -> { // Zammy spear
+            case 11824, TUMEKENS_SHADOW -> {
                 return 1709;
             }
-            case 20779 -> { // H'ween 2016 hunting knife
+            case 20779 -> {
                 return -1;
             } // Elder maul
             //Elder ice maul
@@ -750,7 +752,7 @@ public class EquipmentInfo {
             case 21015 -> {
                 return 7512;
             }
-            case DRAGON_HASTA, TOXIC_BLOWPIPE -> {
+            case DRAGON_HASTA, TOXIC_BLOWPIPE, 4910, 4911, 4912, 4913, 4914 -> {
                 return 430;
             } // Torag's hamers
             // Torag's hamers
@@ -770,9 +772,7 @@ public class EquipmentInfo {
             case 4755, 4982, 4983, 4984, 4985 -> { // Verac's flail
                 return 2063;
             }
-            case 4910, 4911, 4912, 4913, 4914 -> { // Guthan's warspear
-                return 430;
-            }
+            // Guthan's warspear
             case AHRIMS_STAFF, AHRIMS_STAFF_0, AHRIMS_STAFF_25, AHRIMS_STAFF_50, AHRIMS_STAFF_75, AHRIMS_STAFF_100 -> {
                 return 2079;
             }
@@ -786,7 +786,6 @@ public class EquipmentInfo {
             case WHIP -> 1659;
             case PICKAXE, CLAWS -> 397;
             case LONGSWORD, DAGGER -> 4177;
-            // Heh blaze it fkn fagt
             case MAGIC_STAFF -> 420;
             case TWOHANDED -> 410;
             case SPEAR, HALBERD -> 430;

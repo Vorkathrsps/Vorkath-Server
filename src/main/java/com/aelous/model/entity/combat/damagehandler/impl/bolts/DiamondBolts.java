@@ -3,13 +3,7 @@ package com.aelous.model.entity.combat.damagehandler.impl.bolts;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatType;
-import com.aelous.model.entity.combat.damagehandler.impl.AmmunitionDamageEffect;
 import com.aelous.model.entity.combat.damagehandler.listener.AmmunitionDamageEffectListener;
-import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
-import com.aelous.model.entity.combat.formula.accuracy.MeleeAccuracy;
-import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracy;
-import com.aelous.model.entity.combat.hit.Hit;
-import com.aelous.model.entity.combat.damagehandler.listener.DamageEffectListener;
 import com.aelous.model.entity.combat.ranged.RangedData;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
@@ -37,6 +31,7 @@ public class DiamondBolts implements AmmunitionDamageEffectListener {
         }
 
         if (entity instanceof Player player) {
+
             if (zaryteCrossBowEvoke(player)) {
                 always_spec = true;
             }

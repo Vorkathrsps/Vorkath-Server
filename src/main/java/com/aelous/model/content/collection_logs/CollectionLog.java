@@ -154,4 +154,61 @@ public class CollectionLog {
 
         return unlocked[0];
     }
+
+    public int totalAmountToCollect() {
+        int globalTotal = 0;
+        List<Collection> log = Collection.getAsList(LogType.KEYS);
+        int total = log.size();
+        for (int i = 0; i < total; i++){
+
+            globalTotal+= totalObtained(log.get(i));
+        }
+        log = Collection.getAsList(LogType.BOSSES);
+        total = log.size();
+        for (int i = 0; i < total; i++){
+            globalTotal+= totalObtained(log.get(i));
+        }
+//        log = Collection.getAsList(LogType.RAIDS);
+//        total = log.size();
+//        for (int i = 0; i < total; i++){
+//            globalTotal+= totalObtained(log.get(i));
+//        }
+        log = Collection.getAsList(LogType.OTHER);
+        total = log.size();
+        for (int i = 0; i < total; i++){
+
+            globalTotal+= totalObtained(log.get(i));
+        }
+        return globalTotal;
+    }
+
+    public int sumTotalObtained() {
+        int globalTotal = 0;
+        List<Collection> log = Collection.getAsList(LogType.KEYS);
+        int total = log.size();
+        Collection col;
+        for (int i = 0; i < total; i++){
+            col = log.get(i);
+            globalTotal+= col.totalCollectables();
+        }
+        log = Collection.getAsList(LogType.BOSSES);
+        total = log.size();
+        for (int i = 0; i < total; i++){
+            col = log.get(i);
+            globalTotal+= col.totalCollectables();
+        }
+//        log = Collection.getAsList(LogType.RAIDS);
+//        total = log.size();
+//        for (int i = 0; i < total; i++){
+//            col = log.get(i);
+//            globalTotal+= col.totalCollectables();
+//        }
+        log = Collection.getAsList(LogType.OTHER);
+        total = log.size();
+        for (int i = 0; i < total; i++){
+            col = log.get(i);
+            globalTotal+= col.totalCollectables();
+        }
+        return globalTotal;
+    }
 }

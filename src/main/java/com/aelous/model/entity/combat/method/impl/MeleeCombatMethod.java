@@ -7,11 +7,10 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.weapon.WeaponType;
 import com.aelous.model.entity.masks.Direction;
-import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
 
-import static com.aelous.utility.ItemIdentifiers.SCYTHE_OF_VITUR;
+import static com.aelous.utility.ItemIdentifiers.*;
 
 /**
  * Represents the combat method for melee attacks.
@@ -20,7 +19,7 @@ import static com.aelous.utility.ItemIdentifiers.SCYTHE_OF_VITUR;
  */
 public class MeleeCombatMethod extends CommonCombatMethod {
 
-    private void attackWithScythe(Player player, Entity target) {
+    private void attackWithScythe(Entity target) {
         entity.animate(entity.attackAnimation());
 
         final Tile el = entity.getCentrePosition();
@@ -67,8 +66,8 @@ public class MeleeCombatMethod extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         if (target.isNpc() && entity.isPlayer()) {
             Player player = (Player) entity;
-            if (player.getEquipment().hasAt(EquipSlot.WEAPON, SCYTHE_OF_VITUR)) {
-                attackWithScythe(player, target);
+            if (player.getEquipment().containsAny(HOLY_SCYTHE_OF_VITUR, SANGUINE_SCYTHE_OF_VITUR, SCYTHE_OF_VITUR)) {
+                attackWithScythe(target);
                 return true;
             }
         }

@@ -1,7 +1,7 @@
 package com.aelous.model.content.packet_actions.interactions.items;
 
 import com.aelous.model.content.EffectTimer;
-import com.aelous.model.content.areas.wilderness.slayer.WildernessSlayerCasket;
+import com.aelous.model.content.bountyhunter.dialogue.TeleportToTargetScrollD;
 import com.aelous.model.content.collection_logs.LogType;
 import com.aelous.model.content.consumables.FoodConsumable;
 import com.aelous.model.content.consumables.potions.Potions;
@@ -15,11 +15,11 @@ import com.aelous.model.content.skill.impl.hunter.HunterItemPacks;
 import com.aelous.model.content.skill.impl.hunter.trap.impl.Birds;
 import com.aelous.model.content.skill.impl.hunter.trap.impl.Chinchompas;
 import com.aelous.model.content.skill.impl.slayer.content.ImbuedHeart;
+import com.aelous.model.content.skill.impl.slayer.content.SaturatedHeart;
 import com.aelous.model.content.skill.impl.woodcutting.BirdNest;
-import com.aelous.model.content.treasure.pvpcache.FrozenCache;
 import com.aelous.model.content.treasure.TreasureRewardCaskets;
+import com.aelous.model.content.treasure.pvpcache.FrozenCache;
 import com.aelous.model.entity.attributes.AttributeKey;
-import com.aelous.model.content.bountyhunter.dialogue.TeleportToTargetScrollD;
 import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
@@ -36,7 +36,8 @@ import com.aelous.utility.Utils;
 import com.aelous.utility.timers.TimerKey;
 
 import static com.aelous.model.entity.attributes.AttributeKey.VIEWING_RUNE_POUCH_I;
-import static com.aelous.utility.CustomItemIdentifiers.*;
+import static com.aelous.utility.CustomItemIdentifiers.VENGEANCE_SKULL;
+import static com.aelous.utility.CustomItemIdentifiers.VOTE_TICKET;
 import static com.aelous.utility.ItemIdentifiers.*;
 
 public class ItemActionOne {
@@ -78,6 +79,10 @@ public class ItemActionOne {
         }
 
         if (RockCake.onItemOption1(player, item)) {
+            return;
+        }
+
+        if (SaturatedHeart.onItemOption1(player, item)) {
             return;
         }
 

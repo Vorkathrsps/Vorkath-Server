@@ -3,38 +3,40 @@ package com.aelous.model.content.packet_actions.interactions.buttons;
 import com.aelous.GameServer;
 import com.aelous.model.content.DropsDisplay;
 import com.aelous.model.content.achievements.AchievementButtons;
+import com.aelous.model.content.achievements.AchievementWidget;
 import com.aelous.model.content.bank_pin.BankPin;
-import com.aelous.model.inter.clan.ClanButtons;
 import com.aelous.model.content.collection_logs.CollectionLogButtons;
 import com.aelous.model.content.duel.DuelRule;
 import com.aelous.model.content.emote.Emotes;
-import com.aelous.model.inter.impl.BonusesInterface;
 import com.aelous.model.content.items_kept_on_death.ItemsKeptOnDeath;
 import com.aelous.model.content.skill.impl.smithing.Smelting;
 import com.aelous.model.content.teleport.OrnateJewelleryBox;
 import com.aelous.model.content.teleport.TeleportType;
 import com.aelous.model.content.teleport.Teleports;
-import com.aelous.model.items.tradingpost.TradingPost;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.magic.autocasting.Autocasting;
 import com.aelous.model.entity.combat.magic.spells.MagicClickSpells;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.combat.weapon.WeaponInterfaces;
-import com.aelous.model.inter.dialogue.ItemActionDialogue;
-
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.QuestTab;
+import com.aelous.model.inter.clan.ClanButtons;
+import com.aelous.model.inter.dialogue.ItemActionDialogue;
+import com.aelous.model.inter.impl.BonusesInterface;
 import com.aelous.model.items.Item;
 import com.aelous.model.items.container.equipment.Equipment;
+import com.aelous.model.items.tradingpost.TradingPost;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.network.packet.incoming.impl.ButtonClickPacketListener;
 
 import java.util.Arrays;
 
+import static com.aelous.model.content.areas.lumbridge.dialogue.Hans.getTimeDHS;
+import static com.aelous.model.content.collection_logs.LogType.BOSSES;
 import static com.aelous.model.entity.combat.magic.autocasting.Autocasting.ANCIENT_SPELL_AUTOCAST_STAFFS;
 import static com.aelous.network.packet.incoming.impl.ButtonClickPacketListener.LOGOUT;
 import static com.aelous.utility.ItemIdentifiers.*;
@@ -43,6 +45,11 @@ import static com.aelous.utility.ItemIdentifiers.*;
  * Handles button actions.
  */
 public class Buttons {
+
+    private static final int OPEN_COLLECTION_LOG = 78901;
+    public static final int OPEN_NPC_DROPS = 78903;
+    //combat tasks button
+    private static final int OPEN_COMBAT_TASKS = 78902;
 
     public static final int ADVANCED_OPTIONS_BUTTON = 42524;
 
@@ -133,6 +140,29 @@ public class Buttons {
             case CLOSE_LOOTING_BAG_OPEN, CLOSE_LOOTING_BAG_ADD, CLOSE_LOOTING_BAG_BANK ->
                 player.getLootingBag().close();
             case 14921 -> player.getBankPinSettings().dontKnowPin();
+            case 10407 -> QuestTab.updatePlayerPanel(player);
+
+            case OPEN_COMBAT_TASKS ->
+                AchievementWidget.openEasyJournal(player);
+
+            case OPEN_COLLECTION_LOG ->
+                player.getCollectionLog().open(BOSSES);
+
+            case OPEN_NPC_DROPS ->
+                DropsDisplay.start(player);
+
+            case 78904 -> {
+                boolean showplaytime = player.getAttribOr(AttributeKey.SHOWPLAYTIME, false);
+
+                if(!showplaytime) {
+                    player.getPacketSender().sendString(32578,"@lre@Time Played:@gre@"+ getTimeDHS(player));
+                    player.putAttrib(AttributeKey.SHOWPLAYTIME, true);
+                }	else {
+                    player.getPacketSender().sendString(32578,"Time played: Click to reveal.");
+                    player.putAttrib(AttributeKey.SHOWPLAYTIME, false);
+                }
+            }
+
             case 14922, CANCEL_DESTROY_ITEM, 35002 -> player.getInterfaceManager().close();
             case TOGGLE_RUN_ENERGY_ORB, RUN_BUTTON -> {
                 if (player.looks().trans() > -1) {

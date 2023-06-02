@@ -4,8 +4,8 @@ import com.aelous.cache.definitions.ItemDefinition;
 import com.aelous.cache.definitions.NpcDefinition;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
+import com.aelous.model.content.account.AccountSelection;
 import com.aelous.model.content.areas.theatre.ViturRoom;
-import com.aelous.model.content.new_players.Tutorial;
 import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.aelous.model.entity.MovementQueue;
@@ -644,7 +644,7 @@ public class CommandManager {
             ((GreatOlm) olm.getCombatMethod()).flameWall(olm);
         });
         dev("c", (p, c, s) -> {
-            Tutorial.start(p);
+            AccountSelection.open(p);
         });
         dev("curseoff", (p, c, s) -> {
             p.clearAttrib(AttributeKey.NIGHTMARE_CURSE);

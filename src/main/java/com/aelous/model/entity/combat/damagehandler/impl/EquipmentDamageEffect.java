@@ -37,6 +37,8 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         listeners.add(new GuthanSet());
         listeners.add(new KarilSet());
         listeners.add(new VirtusSet());
+        listeners.add(new JusticiarSet());
+        listeners.add(new DinhBulwark());
         return listeners;
     }
 

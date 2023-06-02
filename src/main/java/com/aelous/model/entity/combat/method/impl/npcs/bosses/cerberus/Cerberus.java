@@ -9,7 +9,6 @@ import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Projectile;
-import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
@@ -34,30 +33,24 @@ public class Cerberus extends CommonCombatMethod {
     private final TickDelay comboAttackCooldown = new TickDelay();
     private final TickDelay spreadLavaCooldown = new TickDelay();
     private final TickDelay spawnSoulCooldown = new TickDelay();
-
     private static final Area area = new Area(1358, 1257, 1378, 1257);
     private boolean combatAttack = false;
 
     private void rangedAttack(Entity entity, Entity target) {
         if (entity instanceof NPC npc) {
             if (target instanceof Player player) {
-                if (npc.dead()) {
-                    return;
-                }
-                if (player.dead() || player.getSkills().xpLevel(Skills.HITPOINTS) <= 0) {
+                if (npc.dead() || player.dead()) {
                     return;
                 }
                 npc.animate(4492);
-                int tileDist = npc.tile().distance(player.tile());
-                int duration = (51 + 11 + (20 * tileDist));
-                var tile = npc.tile().translateAndCenterLargeNpc(npc, player);
-                Projectile p = new Projectile(tile, player, 1245, 51, duration, 65, 31, 0, npc.getSize(), 20);
-                final int delay = npc.executeProjectile(p);
-                Hit hit = player.hit(npc, World.getWorld().random(30), CombatType.RANGED).clientDelay(delay).checkAccuracy();
+                int tileDist = entity.tile().getDistance(target.tile());
+                int duration = (30 + 11 + (10 * tileDist));
+                var tile = entity.tile().translateAndCenterLargeNpc(entity, target);
+                Projectile p = new Projectile(tile, target, 1245, 30, duration, 70, 31, 0, target.getSize(), 15);
+                final int delay = entity.executeProjectile(p);
+                Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
                 hit.submit();
-                if (hit.getDamage() > 0) {
-                    target.graphic(1244, GraphicHeight.HIGH, p.getSpeed());
-                }
+                target.graphic(1244, GraphicHeight.HIGH, p.getSpeed());
             }
         }
     }
@@ -68,10 +61,11 @@ public class Cerberus extends CommonCombatMethod {
                 if (player.dead() || player.getSkills().xpLevel(Skills.HITPOINTS) <= 0) {
                     return;
                 }
-               npc.animate(4492);
-                int tileDist = npc.tile().distance(player.tile());
-                int duration = (51 + 11 + (20 * tileDist));
-                Projectile p = new Projectile(npc.tile().translateAndCenterLargeNpc(npc, player), player, 1242, 55, duration, 65, 31, 0, npc.getSize(), 20);
+                npc.animate(4492);
+                int tileDist = npc.tile().getDistance(player.tile());
+                int duration = (30 + 11 + (10 * tileDist));
+                var tile = npc.tile().translateAndCenterLargeNpc(npc, player);
+                Projectile p = new Projectile(tile, target, 1242, 30, duration, 70, 31, 0, target.getSize(), 15);
                 final int delay = npc.executeProjectile(p);
                 Hit hit = Hit.builder(npc, player, CombatFactory.calcDamageFromType(npc, player, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
                 hit.submit();
@@ -156,7 +150,7 @@ public class Cerberus extends CommonCombatMethod {
             melee.lock();
             melee.setPositionToFace(target.tile());
             melee.animate(1); //TODO
-        },2, () -> {
+        }, 2, () -> {
             World.getWorld().getPlayers().forEach(p -> {
                 projectile[0] = new Projectile(tile, target, 1248, 41, duration, 43, 0, 0, target.getSize(), 5);
                 if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MELEE)) {
@@ -178,7 +172,7 @@ public class Cerberus extends CommonCombatMethod {
             archer.lock();
             archer.setPositionToFace(target.tile());
             archer.animate(1); //TODO
-        },2, () -> {
+        }, 2, () -> {
             World.getWorld().getPlayers().forEach(p -> {
                 if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MISSILES)) {
                     p.hit(archer, 30);
@@ -196,7 +190,7 @@ public class Cerberus extends CommonCombatMethod {
             magician.lock();
             magician.setPositionToFace(target.tile());
             magician.animate(1); //TODO
-        },2, () -> {
+        }, 2, () -> {
             World.getWorld().getPlayers().forEach(p -> {
                 if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {
                     p.hit(magician, 30);
@@ -219,7 +213,7 @@ public class Cerberus extends CommonCombatMethod {
     }
 
     private void spreadLava() {
-        if(target.dead() || target.getSkills().xpLevel(Skills.HITPOINTS) <= 0) {
+        if (target.dead() || target.getSkills().xpLevel(Skills.HITPOINTS) <= 0) {
             return;
         }
         spreadLavaCooldown.delay(30);
@@ -231,14 +225,14 @@ public class Cerberus extends CommonCombatMethod {
         for (Tile pos : positions) {
             entity.runFn(1, () -> {
                 World.getWorld().tileGraphic(1246, new Tile(pos.getX(), pos.getY(), pos.getZ()), 0, 0);
-                World.getWorld().tileGraphic(1246, new Tile(pos.getX()-1, pos.getY() - 1, pos.getZ()), 0, 0);
+                World.getWorld().tileGraphic(1246, new Tile(pos.getX() - 1, pos.getY() - 1, pos.getZ()), 0, 0);
             }).then(2, () -> {
                 if (target == null)
                     return;
                 if (target.tile().equals(pos)) {
-                    target.hit(entity,World.getWorld().random(10, 15));
+                    target.hit(entity, World.getWorld().random(10, 15));
                 } else if (Utils.getDistance(target.tile(), pos) == 1) {
-                    target.hit(entity,7);
+                    target.hit(entity, 7);
                 }
             }).then(2, () -> {
                 World.getWorld().tileGraphic(1247, new Tile(pos.getX(), pos.getY(), pos.getZ()), 0, 0);
@@ -246,9 +240,9 @@ public class Cerberus extends CommonCombatMethod {
                 if (target == null)
                     return;
                 if (target.tile().equals(pos)) {
-                    target.hit(entity,World.getWorld().random(10, 18));
+                    target.hit(entity, World.getWorld().random(10, 18));
                 } else if (Utils.getDistance(target.tile(), pos) == 1) {
-                    target.hit(entity,10);
+                    target.hit(entity, 10);
                 }
             });
         }
@@ -263,37 +257,38 @@ public class Cerberus extends CommonCombatMethod {
     }
 
     @Override
-    public boolean prepareAttack(@NotNull Entity entity, Entity target) {
+    public void preDefend(Hit hit) {
+
         if (!comboAttackCooldown.isDelayed()) {
             comboAttack(entity, target);
-            return true;
-        }
-
-        if (entity.hp() <= 200 && !spreadLavaCooldown.isDelayed()) {
-            spreadLava();
-            return true;
-        }
-
-        if (Utils.percentageChance(50)) {
-            magicAttack(entity, target);
+        } else if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.rollDie(1, 4)) {
+            meleeAttack();
         } else {
-            rangedAttack(entity, target);
-            return true;
-        }
-
-        if (souls.isEmpty()) {
-            if (Utils.percentageChance(10)) {
-                entity.forceChat("Arrrrroooooooooo!");
-                spawnSouls(target);
-                return true;
+            if (entity.hp() <= 200 && !spreadLavaCooldown.isDelayed() && comboAttackCooldown.isDelayed()) {
+                spreadLava();
             }
         }
-        return false;
+
+    }
+
+    @Override
+    public boolean prepareAttack(@NotNull Entity entity, Entity target) {
+
+        if (Utils.rollDie(1, 2)) {
+            rangedAttack(entity, target);
+        } else if (Utils.rollDie(1, 4)) {
+            magicAttack(entity, target);
+        } else {
+            entity.forceChat("Arrrrroooooooooo!");
+            spawnSouls(target);
+        }
+
+        return true;
     }
 
     @Override
     public int getAttackSpeed(Entity entity) {
-        return this.entity.getBaseAttackSpeed();
+        return 6;
     }
 
     @Override

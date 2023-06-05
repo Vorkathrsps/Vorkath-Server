@@ -212,17 +212,17 @@ public class DropsDisplay {
         var reduction = petAverage * player.dropRateBonus() / 100;
         petAverage -= reduction;
 
-        if(petId != -1)
+        if (petId != -1)
             drops.add(0, new Integer[]{petId, 1, 1, petAverage}); //"pet" specifically identified by minAmount == -1
 
-        if(def.name.equalsIgnoreCase("Great Olm")) {
+        if (def.name.equalsIgnoreCase("Great Olm")) {
             drops.add(0, new Integer[]{ItemIdentifiers.OLMLET, 1, 1, 650});
         }
 
         var larransLuck = player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.LARRANS_LUCK);
         var combatLvl = def.combatlevel;
         var roll = combatLvl < 50 ? larransLuck ? 875 : 1000 : larransLuck ? 350 : 400;
-        if(WildernessArea.inWild(player)) {
+        if (WildernessArea.inWild(player)) {
             drops.add(petId != -1 ? 1 : 0, new Integer[]{ItemIdentifiers.LARRANS_KEY, 1, 1, roll});
         }
 
@@ -262,7 +262,7 @@ public class DropsDisplay {
             }
         }
 
-        for(int index = 0; index < drops.size(); index++) {
+        for (int index = 0; index < drops.size(); index++) {
             Integer[] drop = drops.get(index);
 
             int itemId = drop[0];
@@ -292,7 +292,7 @@ public class DropsDisplay {
             Item item = new Item(drop[0]);
             String name = item.unnote().name().length() > 17 ? item.unnote().name().substring(0, 16) + "<br>" + item.unnote().name().substring(16) : item.unnote().name();
             player.getPacketSender().sendString(56700 + index, name);
-            String amount = maxAmount == minAmount ? ""+maxAmount : ""+ minAmount + "/"+maxAmount;
+            String amount = maxAmount == minAmount ? "" + maxAmount : "" + minAmount + "/" + maxAmount;
             player.getPacketSender().sendString(56850 + index, "<col=ffb83f>" + amount);
             player.getPacketSender().sendString(57000 + index, "<col=ffb83f>" + Utils.formatRunescapeStyle(item.getValue()));
             player.getPacketSender().sendString(57150 + index, "<col=ffb83f>" + (average == 1 ? "Always" : ("~ 1 / " + average)));
@@ -333,19 +333,18 @@ public class DropsDisplay {
                     if (isPhase(0)) {
                         if (option == 1) {
                             stop();
-                            /**
-                             * DropsDisplay.search(player, input, DropsDisplay.Type.NPC);
-                             *         for (int i = 0; i < World.getWorld().definitions().total(NpcDefinition.class); i++) {
-                             *             NpcDefinition npcDefinition = World.getWorld().definitions().get(NpcDefinition.class, i);
-                             *             if (npcDefinition.name != null && npcDefinition.name.equalsIgnoreCase(input)) {
-                             *                 if (DropsDisplay.display(player, i)) {
-                             *                     DropsDisplay.open(player, i);
-                             *                     return;
-                             *                 }
-                             *                 break;
-                             *             }
-                             *         }
-                             */
+                            String input = "";
+                            DropsDisplay.search(player, input, DropsDisplay.Type.NPC);
+                            for (int i = 0; i < World.getWorld().definitions().total(NpcDefinition.class); i++) {
+                                NpcDefinition npcDefinition = World.getWorld().definitions().get(NpcDefinition.class, i);
+                                if (npcDefinition.name != null && npcDefinition.name.equalsIgnoreCase(input)) {
+                                    if (DropsDisplay.display(player, i)) {
+                                        DropsDisplay.open(player, i);
+                                        return;
+                                    }
+                                    break;
+                                }
+                            }
                             player.getPacketSender().sendMessage("DISABLED - Ynneh");
                         } else if (option == 2) {
                             stop();

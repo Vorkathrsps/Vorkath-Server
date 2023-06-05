@@ -282,18 +282,29 @@ public class Tile implements Cloneable {
      *         if not.
      */
     public int distance(Tile other) {
-        int deltaX = x - other.x;
-        int deltaY = y - other.y;
-        return (int) Math.ceil(Math.sqrt(deltaX * deltaX + deltaY * deltaY));
+        final int deltaX = other.getX() - getX(), deltaY = other.getY() - getY();
+        return Math.max(Math.abs(deltaX), Math.abs(deltaY));
     }
 
-    public int getDistance(Tile other) {
+    public double getDistance(final Tile other) {
+        final int xdiff = getX() - other.getX();
+        final int ydiff = getY() - other.getY();
+        return Math.sqrt(xdiff * xdiff + ydiff * ydiff);
+    }
+
+    public double getDistance(final int x, final int y) {
+        final int xdiff = getX() - x;
+        final int ydiff = getY() - y;
+        return Math.sqrt(xdiff * xdiff + ydiff * ydiff);
+    }
+
+   /* public int getDistance(Tile other) {
         var dx = Math.abs(other.getX() - getX());
         var dy = Math.abs(other.getY() - getY());
         var min = Math.min(dx, dy);
         var max = Math.max(dx, dy);
         return min + (max - min);
-    }
+    }*/
 
     public int getChevDistance(Tile other) {
         return Math.max(Math.abs(getX() - other.getX()), Math.abs(getY() - other.getY()));

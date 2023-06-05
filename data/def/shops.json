@@ -3318,9 +3318,9 @@
   },
   {
     "shopId": 15,
-    "name": "Zaryte Coins exchange (Changes every 6 weeks)",
+    "name": "Cryptic Coins exchange (Changes every 6 weeks)",
     "noiron": false,
-    "currency": "ZARYTE_COINS",
+    "currency": "CRYPTIC_COINS",
     "restock": false,
     "sellType": "NONE",
     "scroll": 0,

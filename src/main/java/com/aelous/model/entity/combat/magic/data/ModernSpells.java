@@ -39,7 +39,6 @@ public enum ModernSpells {
     ENFEEBLE(1543, 171,48, 36, 31, 170, 172, 10, 728, GraphicHeight.LOW),
     STUN(1562, 174,52, 36, 31, 173, 80, 10, 729, GraphicHeight.LOW),
     ENTANGLE(1592, 178,75, 43, 0, 177, 180, 10, 1161, GraphicHeight.LOW),
-
     TELEBLOCK(12445, 1299,75, 43, 31, -1, 345, 10, 1820, GraphicHeight.LOW);
 
     public final int spellID, projectile, castAnimation, startSpeed, startHeight, endHeight, startGraphic, endGraphic, stepMultiplier;

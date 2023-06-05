@@ -1,15 +1,17 @@
 package com.aelous.model.entity.combat.hit;
 
-import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
-import com.aelous.model.entity.combat.formula.accuracy.*;
+import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
+import com.aelous.model.entity.combat.formula.accuracy.MeleeAccuracy;
+import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.method.CombatMethod;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
-import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.Flag;
+import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.player.PlayerStatus;
 
 import java.util.function.Consumer;
@@ -120,7 +122,7 @@ public class Hit {
                 return;
             }
 
-            if (attacker.pidOrderIndex <= target.pidOrderIndex) {
+            if (target != null && attacker.pidOrderIndex <= target.pidOrderIndex) {
                 delay -= 1;
             }
         }
@@ -159,7 +161,7 @@ public class Hit {
     }
 
     public Hit delay(int d) {
-        this.delay = Math.max(0, d);
+        this.delay = Math.min(32767, Math.max(0, d));
         return this;
     }
 

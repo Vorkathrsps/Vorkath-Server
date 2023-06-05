@@ -43,7 +43,7 @@ public class Cerberus extends CommonCombatMethod {
                     return;
                 }
                 npc.animate(4492);
-                int tileDist = entity.tile().getDistance(target.tile());
+                int tileDist = (int) entity.tile().getDistance(target.tile());
                 int duration = (30 + 11 + (10 * tileDist));
                 var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
                 Projectile p = new Projectile(tile, target, 1245, 30, duration, 70, 31, 0, target.getSize(), 15);
@@ -62,7 +62,7 @@ public class Cerberus extends CommonCombatMethod {
                     return;
                 }
                 npc.animate(4492);
-                int tileDist = npc.tile().getDistance(player.tile());
+                int tileDist = (int) npc.tile().getDistance(player.tile());
                 int duration = (30 + 11 + (10 * tileDist));
                 var tile = npc.tile().translateAndCenterNpcPosition(npc, player);
                 Projectile p = new Projectile(tile, target, 1242, 30, duration, 70, 31, 0, target.getSize(), 15);

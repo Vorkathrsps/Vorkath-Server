@@ -512,7 +512,8 @@ public abstract class Entity {
                 }
             }
         }
-        return projectile.getHitDelay(distance);
+        return projectile.getTime(distance);
+       // return projectile.getHitDelay(distance);
     }
 
     public UpdateFlag getUpdateFlag() {

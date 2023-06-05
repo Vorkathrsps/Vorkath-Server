@@ -3,12 +3,12 @@ package com.aelous.model.items.container.bank;
 import com.aelous.cache.definitions.ItemDefinition;
 import com.aelous.model.World;
 import com.aelous.model.content.duel.Dueling;
-import com.aelous.model.entity.player.InputScript;
-import com.aelous.model.inter.InterfaceConstants;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.magic.autocasting.Autocasting;
+import com.aelous.model.entity.player.InputScript;
 import com.aelous.model.entity.player.IronMode;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.inter.InterfaceConstants;
 import com.aelous.model.items.Item;
 import com.aelous.model.items.ItemWeight;
 import com.aelous.model.items.container.ItemContainer;
@@ -167,7 +167,7 @@ public class Bank extends ItemContainer {
             player.message("As an Ultimate Iron Man, you cannot use the bank.");
             return;
         }
-        player.getPacketSender().sendString(InterfaceConstants.BANK_WIDGET + 5, "The Bank of Zaryte");
+        player.getPacketSender().sendString(InterfaceConstants.BANK_WIDGET + 5, "The Bank of Cryptic");
         //Set search button inactive by default
         player.getPacketSender().setWidgetActive(26102, false);
         player.getPacketSender().sendString(26019, "");

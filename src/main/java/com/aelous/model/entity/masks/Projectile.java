@@ -16,44 +16,44 @@ public final class Projectile {
     /**
      * The starting position of the projectile.
      */
-    public Tile start, target;
+    private Tile start, target;
 
     /**
      * The offset position of the projectile.
      */
-    public final Tile offset;
+    private final Tile offset;
 
-    public final int creatorSize, startDistanceOffset;
+    private final int creatorSize, startDistanceOffset;
 
     /**
      * The speed of the projectile.
      */
-    public int speed;
+    private final int speed;
 
     /**
      * The id of the projectile.
      */
-    public final int projectileId;
+    private final int projectileId;
 
     /**
      * The starting height of the projectile.
      */
-    public final int startHeight;
+    private final int startHeight;
 
     /**
      * The ending height of the projectile.
      */
-    public final int endHeight;
+    private final int endHeight;
 
     /**
      * The lock on value of the projectile.
      */
-    public final int lockon;
+    private final int lockon;
 
     /**
      * The delay of the projectile.
      */
-    public int delay;
+    private int delay;
 
     /**
      * The curve angle of the projectile.
@@ -70,7 +70,7 @@ public final class Projectile {
      */
     public int radius;
 
-    public int stepMultiplier;
+    private final int stepMultiplier;
 
     public Projectile(Tile start, Tile end, int lockon,
                       int projectileId, int speed, int delay, int startHeight, int endHeight,
@@ -358,6 +358,19 @@ public final class Projectile {
         return (int) Math.floor((getDuration(distance) / 30D) + 1);
     }
 
+    public static final float CYCLES_PER_TICK = 30;
+    public int getTime(int distance) {
+        float duration = getProjectileDuration(distance) / CYCLES_PER_TICK;
+        if (duration - (int) duration > 0.5F) {
+            duration++;
+        }
+        return (int) duration - 1;
+    }
+
+    public int getProjectileDuration(int distance) {
+        return this.delay + this.speed + distance;
+    }
+
     public Tile getTarget() {
         return target;
     }
@@ -453,7 +466,7 @@ public final class Projectile {
             this.lockon, this.projectileId, this.speed, this.delay, this.startHeight, this.endHeight,
             this.slope, this.creatorSize, this.startDistanceOffset, this.stepMultiplier);
         projectile.sendProjectile();
-        return projectile.getHitDelay(projectile.start.getChevDistance(projectile.getEnd()));
+        return projectile.getTime(projectile.start.getChevDistance(projectile.getEnd()));
     }
 
     public Projectile sendMagicProjectile(Entity source, Entity victim, int projectileId) {

@@ -16,40 +16,56 @@ public class DragonClaws extends CommonCombatMethod {
         entity.animate(7514);
         entity.graphic(1171);
 
-        int first = CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE);
-        int maxHit = entity.getCombat().getMaximumMeleeDamage();
+        Hit hit1 = target.hit(entity, Math.max(4, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE)),1, CombatType.MELEE).checkAccuracy();
+        Hit hit2;
+        Hit hit3;
+        Hit hit4;
 
-        int second = first <= 0 ? CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE) : (first / 2);
-        int third, fourth;
+        final int maxHit = entity.getCombat().getMaximumMeleeDamage();
 
-        if (second > 0) {
-            if (second == 1 || second % 2 == 0) {
-                third = fourth = second / 2;
-            } else {
-                fourth = 1 + (second / 2);
-                third = fourth - 1;
+        if (hit1.isAccurate()) {
+            if (hit1.getDamage() > 4)
+                hit1.setDamage(hit1.getDamage() - 1);
+            hit2 = target.hit(entity, hit1.getDamage() / 2,1, CombatType.MELEE);
+            hit3 = target.hit(entity, hit2.getDamage() / 2 ,2, CombatType.MELEE);
+            hit4 = target.hit(entity, hit3.getDamage() + (Utils.get(1) == 1 ? 1 : 0) ,2, CombatType.MELEE);
+        }
+        else {
+            hit2 = target.hit(entity, Utils.get((int) (maxHit * 0.375d), (int) (maxHit * 0.875d)),1, CombatType.MELEE).checkAccuracy();
+            if (hit2.isAccurate()) {
+                hit3 = target.hit(entity, hit2.getDamage() / 2, 2, CombatType.MELEE);
+                hit4 = target.hit(entity, hit3.getDamage() + (Utils.get(1) == 1 ? 1 : 0), 2, CombatType.MELEE);
             }
+            else {
+                hit3 = target.hit(entity, Utils.get((int) (maxHit * 0.25), (int) (maxHit * 0.75)), 2, CombatType.MELEE).checkAccuracy();
+                if (hit3.isAccurate()) {
+                    hit4 = target.hit(entity, hit3.getDamage() + (Utils.get(1) == 1 ? 1 : 0), 2, CombatType.MELEE);
+                }
+                else {
+                    hit4 = target.hit(entity, Utils.get((int) (maxHit * 0.25), (int) (maxHit * 1.25)), 2, CombatType.MELEE).checkAccuracy();
+                    if (!hit4.isAccurate()) {
+                        if (Utils.get(1) == 1) {
+                            hit3.setDamage(1); hit4.setDamage(1);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (hit1.isAccurate()) {
+            hit2.submit();
+            hit1.submit();
         } else {
-            int damage = (int) (maxHit * 0.75);
-            third = Utils.random(1, damage);
-            fourth = Utils.random(1, damage);
+            hit1.submit();
+            hit2.submit();
         }
-
-        if (first <= 0 && second <= 0 && third <= 0) {
-            fourth = Utils.random(maxHit, (int) (maxHit * 1.5));
-        }
-
-        Hit hit1 = target.hit(entity, first, 1, CombatType.MELEE).checkAccuracy();
-        hit1.submit();
-        Hit hit2 = target.hit(entity, second, 1, CombatType.MELEE).checkAccuracy();
-        hit2.submit();
-        Hit hit3 = target.hit(entity, third, 2, CombatType.MELEE).checkAccuracy();
         hit3.submit();
-        Hit hit4 = target.hit(entity, fourth, 2, CombatType.MELEE).checkAccuracy();
         hit4.submit();
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_CLAWS.getDrainAmount());
-return true;
+        return true;
     }
+
+
 
     @Override
     public int getAttackSpeed(Entity entity) {

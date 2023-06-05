@@ -1,17 +1,18 @@
 package com.aelous.utility;
 
+import com.aelous.GameEngine;
 import com.aelous.GameServer;
 import com.aelous.model.World;
-import com.google.gson.Gson;
-import com.aelous.GameEngine;
-import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.player.IronMode;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
 import com.aelous.model.map.position.Tile;
 import com.aelous.network.Session;
 import com.aelous.utility.flood.Buffer;
+import com.google.gson.Gson;
+import lombok.val;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.ParameterizedMessage;
@@ -152,6 +153,20 @@ public class Utils {
         List<Map.Entry<K, V>> sortedEntries = new ArrayList<Map.Entry<K, V>>(map.entrySet());
         Collections.sort(sortedEntries, (e1, e2) -> e2.getValue().compareTo(e1.getValue()));
         return sortedEntries;
+    }
+
+    public static final boolean collides(final Tile first, final int firstSize, final Tile second, final int secondSize, final int extraDistance) {
+        val distanceX = first.getX() - second.getX();
+        val distanceY = first.getY() - second.getY();
+        val size1 = firstSize + extraDistance;
+        val size2 = secondSize + extraDistance;
+        return distanceX < (size2) && distanceX > (-size1) && distanceY < (size2) && distanceY > (-size1);
+    }
+
+    public static final boolean collides(final int x1, final int y1, final int size1, final int x2, final int y2, final int size2) {
+        final int distanceX = x1 - x2;
+        final int distanceY = y1 - y2;
+        return distanceX < size2 && distanceX > -size1 && distanceY < size2 && distanceY > -size1;
     }
 
     public static Map<String, Long> sortByComparator(Map<String, Long> unsortMap, final boolean ascending) {

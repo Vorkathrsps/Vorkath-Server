@@ -238,6 +238,12 @@ public class CombatFactory {
             return 0;
         }
 
+        if (attacker instanceof NPC npc) {
+            if (Utils.collides(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize())) {
+                return 0;
+            }
+        }
+
         switch (type) {
             case MELEE ->
                 max_damage = attacker.isNpc() ? attacker.getAsNpc().getCombatInfo() == null ? 0 : attacker.getAsNpc().getCombatInfo().maxhit : attacker.getCombat().getMaximumMeleeDamage();
@@ -284,6 +290,7 @@ public class CombatFactory {
 
         if (target != null && target.isNpc() && attacker.isPlayer()) {
             NPC npc = target.getAsNpc();
+            assert attacker instanceof Player;
             Player player = (Player) attacker;
 
             //Disturb the whirlpools
@@ -1042,6 +1049,7 @@ public class CombatFactory {
         if (attacker != null && attacker.dead() && combatType != null) {
             return;
         }
+
 
         // If target is teleporting or needs placement
         // Don't continue to add the hit.

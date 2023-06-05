@@ -9,9 +9,9 @@ import io.netty.buffer.Unpooled;
 public class SpotanimDefinition implements Definition {
 
     int id;
-    public int animationID = 1140458533;
-    int resizeX = 711925632;
-    int resizeY = 446051968;
+    public int animationID = 0x43fa0425;
+    int resizeX = 0x2a6f1f80;
+    int resizeY = 0x1a963680;
     int rotation = 0;
     int ambient = 0;
     int contrast = 0;

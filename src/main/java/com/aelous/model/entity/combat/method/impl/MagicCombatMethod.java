@@ -61,7 +61,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
         if (!canCast || target.dead() || player.dead()) {
             return false;
         }
-        GraphicHeight startGraphicHeight = hasTumeken ? GraphicHeight.LOW : GraphicHeight.HIGH;
+        GraphicHeight startGraphicHeight = (hasTumeken && spell.spellId() == 6) ? GraphicHeight.LOW : GraphicHeight.HIGH;
         GraphicHeight endGraphicHeight = GraphicHeight.HIGH;
         ModernSpells findProjectileDataModern = ModernSpells.findSpellProjectileData(spellID, endGraphicHeight);
         AncientSpells findProjectileDataAncients = AncientSpells.findSpellProjectileData(spellID, startGraphicHeight, endGraphicHeight);
@@ -98,7 +98,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
             endHeight = findAutoCastWeaponsData.endHeight;
             endGraphic = findAutoCastWeaponsData.endGraphic;
             stepMultiplier = findAutoCastWeaponsData.stepMultiplier;
-            duration = hasTumeken ? (startSpeed + 10 + (stepMultiplier * distance)) : (startSpeed + -5 + (stepMultiplier * distance));
+            duration = (hasTumeken && spell.spellId() == 6) ? (startSpeed + 10 + (stepMultiplier * distance)) : (startSpeed + -5 + (stepMultiplier * distance));
             endGraphicHeight = findAutoCastWeaponsData.endGraphicHeight;
         }
 

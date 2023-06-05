@@ -6,6 +6,7 @@ import com.aelous.model.entity.combat.CombatSpecial;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
+import com.aelous.model.entity.combat.ranged.drawback.DblArrowDrawBack;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
@@ -23,12 +24,17 @@ public class DarkBow extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         final Player player = entity.getAsPlayer();
 
-        player.animate(426);
-
         Item ammo = player.getEquipment().get(EquipSlot.AMMO);
         if(ammo == null || ammo.getAmount() < 2) {
             player.message("You need at least two arrows in your quiver to use this special attack.");
             return false;
+        }
+
+        player.animate(426);
+
+        var db2 = DblArrowDrawBack.find(ammo.getId());
+        if (db2 != null) {
+            player.graphic(db2.gfx, GraphicHeight.HIGH, 0);
         }
 
         var gfx = 1101;

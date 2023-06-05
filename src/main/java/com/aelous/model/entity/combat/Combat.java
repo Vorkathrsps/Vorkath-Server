@@ -17,6 +17,7 @@ import com.aelous.model.entity.combat.method.impl.specials.melee.GraniteMaul;
 import com.aelous.model.entity.combat.ranged.RangedData.RangedWeapon;
 import com.aelous.model.entity.combat.skull.SkullType;
 import com.aelous.model.entity.combat.skull.Skulling;
+import com.aelous.model.entity.combat.weapon.AttackType;
 import com.aelous.model.entity.combat.weapon.FightType;
 import com.aelous.model.entity.combat.weapon.WeaponType;
 import com.aelous.model.entity.npc.HealthHud;
@@ -631,6 +632,10 @@ public class Combat {
     public void setRangedWeapon(RangedWeapon rangedWeapon) {
         //System.out.printf("%s wep updated %s%n", mob, rangedWeapon);
         this.rangedWeapon = rangedWeapon;
+    }
+
+    public AttackType getAttackType() {
+        return fightType.getAttackType();
     }
 
     public WeaponType getWeaponType() {

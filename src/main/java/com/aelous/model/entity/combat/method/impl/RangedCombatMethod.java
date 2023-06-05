@@ -10,6 +10,7 @@ import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.ranged.RangedData;
 import com.aelous.model.entity.combat.ranged.RangedData.RangedWeapon;
 import com.aelous.model.entity.combat.ranged.drawback.*;
+import com.aelous.model.entity.combat.weapon.AttackType;
 import com.aelous.model.entity.combat.weapon.WeaponType;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.animations.Animation;
@@ -20,6 +21,7 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.utility.ItemIdentifiers;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * Represents the combat method for ranged attacks.
@@ -164,8 +166,12 @@ public class RangedCombatMethod extends CommonCombatMethod {
 
                 final int hitDelay = attacker.executeProjectile(projectile);
 
-                Hit hit = Hit.builder(attacker, target, CombatFactory.calcDamageFromType(attacker, target, CombatType.RANGED), hitDelay, CombatType.RANGED).checkAccuracy().postDamage(this::handleAfterHit);
-
+                Hit hit = Hit.builder(attacker, target, CombatFactory.calcDamageFromType(attacker, target, CombatType.RANGED), hitDelay, CombatType.RANGED).checkAccuracy();
+                if (player.getCombat().getAttackType() == AttackType.BOLT || player.getCombat().getAttackType() == AttackType.ARROW) {
+                    if (hit.isAccurate()) {
+                        //TODO ammo effects
+                    }
+                }
                 hit.submit();
 
                 if (graphic != -1) {
@@ -206,18 +212,6 @@ public class RangedCombatMethod extends CommonCombatMethod {
             return weapon.getType().getDefaultDistance();
         }
         return 6;
-    }
-
-    public void handleAfterHit(Hit hit) {
-        if (hit.getSource() == null) {
-            return;
-        }
-
-        final RangedWeapon rangedWeapon = hit.getSource().getCombat().getRangedWeapon();
-        if (rangedWeapon == null) {
-            return;
-        }
-
     }
 
     private void chinChompa(Entity source, Entity target, int delay) {

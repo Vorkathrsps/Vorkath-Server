@@ -26,13 +26,17 @@ public class DarkBow extends CommonCombatMethod {
         player.animate(426);
 
         Item ammo = player.getEquipment().get(EquipSlot.AMMO);
+        if(ammo == null || ammo.getAmount() < 2) {
+            player.message("You need at least two arrows in your quiver to use this special attack.");
+            return false;
+        }
 
         var gfx = 1101;
         var gfx2 = 1102; //non drag arrow 2nd arrow has another graphic id
         endgfx = 1103; // small puff
         var min = 5;
 
-        if (ammo != null && ammo.getId() == DRAGON_ARROW) {
+        if (ammo.getId() == DRAGON_ARROW) {
             // dragon arrows
             gfx = 1099; // dragon spec
             gfx2 = 1099; // drag again

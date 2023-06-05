@@ -57,6 +57,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
             var weaponId = player.getEquipment().getId(EquipSlot.WEAPON);
             var ammoId = player.getEquipment().getId(EquipSlot.AMMO);
             var drawbackBow = ArrowDrawBack.find(weaponId, ammoId);
+            var drawbackBowDouble = DblArrowDrawBack.find(ammoId);
             var drawBackKnife = KnifeDrawback.find(weaponId);
             var drawbackDart = DartDrawback.find(weaponId);
             var thrownDrawBack = ThrownaxeDrawback.find(weaponId);
@@ -146,6 +147,8 @@ public class RangedCombatMethod extends CommonCombatMethod {
             }
 
             if (player.getEquipment().contains(ItemIdentifiers.DARK_BOW) || player.getEquipment().contains(ItemIdentifiers.DARK_BOW_BH)) {
+                if (drawbackBowDouble != null)
+                    attacker.graphic(drawbackBowDouble.gfx, GraphicHeight.HIGH, 0);
                 int duration1 = (41 + 11 + (5 * distance));
                 int duration2 = (51 + 11 + (5 * distance));
                 Projectile p1 = new Projectile(attacker, target, graphic, 41, duration1, 41, 31, 0, target.getSize(), 5);

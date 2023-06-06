@@ -255,7 +255,8 @@ public class Zulrah {
         npc.animate(5069);
         var tileDist = npc.tile().distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
-        Projectile p = new Projectile(npc, target, 1046, 51, duration, 65, 31, 0, target.getSize(), 10);
+        var tile = npc.tile().translateAndCenterNpcPosition(npc, target);
+        Projectile p = new Projectile(tile, target, 1046, 51, duration, 65, 31, 0, target.getSize(), 10);
         final int delay = npc.executeProjectile(p);
         target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
         target.venom(npc);
@@ -266,7 +267,8 @@ public class Zulrah {
         npc.animate(5069);
         var tileDist = npc.tile().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
-        Projectile p = new Projectile(npc, target, 1044, 41, duration, 65, 31, 0, target.getSize(), 5);
+        var tile = npc.tile().translateAndCenterNpcPosition(npc, target);
+        Projectile p = new Projectile(tile, target, 1044, 41, duration, 65, 31, 0, target.getSize(), 5);
         final int delay = npc.executeProjectile(p);
         int max = npc.getCombatInfo().maxhit;
         target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
@@ -537,7 +539,6 @@ public class Zulrah {
 
         var tileDist = npc.tile().distance(obj.tile());
         int duration = (41 + 11 + (5 * tileDist));
-
         new Projectile(npc.tile().transform(2, 2, 0), tile.transform(1, 1), 1045, 41, duration, 65, 0, 0, 0, 5).sendProjectile();
 
         TaskManager.submit(new TickAndStop(delay) {
@@ -616,8 +617,13 @@ public class Zulrah {
         });
     }
 
+    private static final Tile EASTERN_SAFESPOT2 = new Tile(2273, 3072, 0);
+    private static final Tile EASTERN_SAFESPOT = new Tile(2272, 3072, 0);
+    private static final Tile WESTERN_SAFESPOT = new Tile(2264, 3072, 0);
+    private static final Tile WESTERN_SAFESPOT2 = new Tile(2263, 3072, 0);
+
     private static boolean isMeleeSafespot(NPC npc, Tile tile) {
         Tile spawnTile = npc.spawnTile();
-        return tile == spawnTile.transform(-3, 0) || tile == spawnTile.transform(7, 0) || tile == spawnTile.transform(4, -2) || tile == spawnTile.transform(0, -2);
+        return tile.equals(EASTERN_SAFESPOT) || tile.equals(EASTERN_SAFESPOT2) || tile.equals(WESTERN_SAFESPOT) || tile.equals(WESTERN_SAFESPOT2);
     }
 }

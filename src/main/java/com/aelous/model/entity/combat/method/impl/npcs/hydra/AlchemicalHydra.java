@@ -209,9 +209,6 @@ public class AlchemicalHydra extends NPC {
         }
 
         recordedAttacks = isEnraged() ? 1 : 3;
-        /*possibleAttacks.remove(HydraAttacks.MAGIC); // testing
-        possibleAttacks.remove(HydraAttacks.RANGED);
-        possibleAttacks.remove(HydraAttacks.ENRAGED_POISON);*/
 
         var attack = possibleAttacks.get(Utils.rand(possibleAttacks.size() - 1));
 

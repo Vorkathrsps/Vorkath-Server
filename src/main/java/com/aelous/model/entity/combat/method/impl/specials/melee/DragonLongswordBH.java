@@ -1,6 +1,5 @@
 package com.aelous.model.entity.combat.method.impl.specials.melee;
 
-
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatSpecial;
@@ -9,8 +8,7 @@ import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 
-public class DragonLongsword extends CommonCombatMethod {
-
+public class DragonLongswordBH extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1058);

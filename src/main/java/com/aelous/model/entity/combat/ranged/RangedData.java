@@ -1,7 +1,7 @@
 package com.aelous.model.entity.combat.ranged;
 
-import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatSpecial;
 import com.aelous.model.entity.combat.weapon.FightType;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.aelous.utility.ItemIdentifiers.*;
-import static com.aelous.utility.ItemIdentifiers.BOW_OF_FAERDHINEN;
 
 /**
  * A table of constants that hold data for all ranged ammo.
@@ -326,6 +325,7 @@ public class RangedData {
         SEERCULL_BOW(8, 10, FightType.ARROW_LONGRANGE, false),
         BALLISTA(9, 10, FightType.ARROW_LONGRANGE, true),
         CHINCHOMPA(9, 10, FightType.THROWING_LONGRANGE, false),
+        TOKTZ_XIL_UL(6, 8, FightType.THROWING_RAPID, false),
         _3_AGE_BOW(9, 10, FightType.ARROW_LONGRANGE, false),
         CRAWS_BOW(9, 10, FightType.ARROW_LONGRANGE, false),
         BOW_OF_FAERDHINEN(10, 10, FightType.ARROW_LONGRANGE, false),
@@ -333,9 +333,7 @@ public class RangedData {
         CRYSTAL_BOW(10, 10, FightType.ARROW_LONGRANGE, false),
         DARK_BOW(10, 10, FightType.ARROW_LONGRANGE, true),
         TWISTED_BOW(10, 10, FightType.ARROW_LONGRANGE, true),
-
         VENATOR_BOW(6, 6, FightType.ARROW_RAPID, true),
-
         WEBWEAVER_BOW(9, 9, FightType.ARROW_RAPID, false);
 
         private final FightType longRangeFightType;

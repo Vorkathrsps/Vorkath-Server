@@ -21,7 +21,6 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.utility.ItemIdentifiers;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 /**
  * Represents the combat method for ranged attacks.
@@ -172,6 +171,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                         //TODO ammo effects
                     }
                 }
+
                 hit.submit();
 
                 if (graphic != -1) {

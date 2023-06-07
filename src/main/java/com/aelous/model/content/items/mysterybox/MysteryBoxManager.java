@@ -172,20 +172,8 @@ public class MysteryBoxManager {
         player.putAttrib(box.key(), mysteryBoxesOpened);
         player.getPacketSender().sendString(TOTAL_MYSTERY_BOXES_OPENED, Integer.toString(player.getAttribOr(box.key(), 0)));
 
-        //The reward amount
         int amount = reward.getAmount();
         String plural = amount > 1 ? "x" + amount : "x1";
-
-        // System.out.println("Reward amount from mbox: "+amount);//updatet1
-
-        if(reward.getId() == ItemIdentifiers.DRAGON_BOOTS || reward.getId() ==  ItemIdentifiers.AMULET_OF_FURY || reward.getId() ==  ItemIdentifiers.AMULET_OF_FURY) {
-            player.message(Color.ORANGE_2.tag() + "Congratulations, you have received X10 " + reward.unnote().name() + "!");
-
-        } else {
-            player.message(Color.ORANGE_2.tag() + "Congratulations, you have received " +  plural + " " + reward.unnote().name() + "!");
-
-        }
-
 
         player.message(Color.ORANGE_2.tag() + "Congratulations, you have received " + plural + " " + reward.unnote().name() + "!");
 

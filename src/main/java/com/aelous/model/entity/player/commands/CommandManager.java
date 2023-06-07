@@ -17,6 +17,7 @@ import com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.aelous.model.entity.combat.method.impl.npcs.hydra.AlchemicalHydra;
+import com.aelous.model.entity.combat.method.impl.npcs.verzik.nylocas.Athanatos;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.npc.HealthHud;
@@ -56,6 +57,7 @@ import java.security.SecureRandom;
 import java.util.*;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.GREAT_OLM_7554;
+import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.NYLOCAS_ATHANATOS;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
 import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_ACTIVE;
 import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_UNLOCKED;
@@ -647,23 +649,11 @@ public class CommandManager {
             ((GreatOlm) olm.getCombatMethod()).flameWall(olm);
         });
         dev("c", (p, c, s) -> {
-            final Tile HYDRA_SPAWN_TILE = new Tile(1364, 10265);
-            final Area ALCHEMICAL_HYDRA_AREA = new Area(1356, 10257, 1377, 10278);
-            final Tile ENTRANCE_POINT = new Tile(1356, 10258);
-            Chain.bound(null).runFn(1, () -> { // and running a tick later bad .. if delaying tick have to lock
-                p.unlock();
-                p.getCombat().clearDamagers();
-                var instance = InstancedAreaManager.getSingleton().createInstancedArea(ALCHEMICAL_HYDRA_AREA);
-                p.setInstance(instance);
-                p.teleport(ENTRANCE_POINT.transform(0, 0, instance.getzLevel()));
-                var hydra = new AlchemicalHydra(HYDRA_SPAWN_TILE.transform(0, 0, instance.getzLevel()), p);
-                hydra.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, 25);
-                Arrays.stream(hydra.closePlayers()).forEach(p1 -> {
-                    HealthHud.open(p1, HealthHud.Type.REGULAR, "Alchemical Hydra", 1100);
-                });
-                World.getWorld().registerNpc(hydra);
-                instance.addNpc(hydra);
-            });
+            NPC npc =  new Athanatos(NYLOCAS_ATHANATOS, p.tile(), false);
+            npc.spawn();
+            npc.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, true);
+            npc.canAttack(false);
+            npc.face(p);
         });
         dev("curseoff", (p, c, s) -> {
             p.clearAttrib(AttributeKey.NIGHTMARE_CURSE);

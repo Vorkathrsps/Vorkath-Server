@@ -5,11 +5,14 @@ import com.aelous.core.task.Task;
 import com.aelous.core.task.TaskManager;
 import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
+import com.aelous.model.entity.combat.method.impl.npcs.verzik.nylocas.Athanatos;
+import com.aelous.model.entity.combat.method.impl.npcs.verzik.nylocas.Matomenos;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.npc.NPC;
@@ -20,6 +23,8 @@ import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
+
+import java.util.Objects;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.TREASURE_ROOM;
@@ -81,10 +86,11 @@ public class VerzikVitur extends CommonCombatMethod {
                     final Tile targetPos = target.tile().copy();
                     var tileDist = entity.tile().distance(target.tile());
                     int duration = (51 + -5 + (10 * tileDist));
-                    Projectile p = new Projectile(entity, targetPos, 1583, 51, duration, 105, 0, 0, target.getSize(), 10);
+                    var tile = mob.tile().translateAndCenterNpcPosition(mob, target);
+                    Projectile p = new Projectile(tile, targetPos, 1583, 51, duration, 105, 0, 0, target.getSize(), 10);
                     int delay = p.send(mob, targetPos);
                     Chain.bound(mob).name("VerzikViturPrepareAttackTask2").runFn(delay, () -> {
-                        if (t != null && t.tile().equals(targetPos)) {
+                        if (t.tile().equals(targetPos)) {
                             t.hit(mob, World.getWorld().random(1, 60));
                         }
                     });
@@ -101,14 +107,16 @@ public class VerzikVitur extends CommonCombatMethod {
                             var targetPos = t.tile().copy();
                             var tileDist = mob.tile().distance(t.tile());
                             int duration = (51 + -5 + (10 * tileDist));
-                            Projectile p = new Projectile(mob, targetPos, 1594, 51, duration, 70, 20, 0, target.getSize(), 10);
+                            var tile = mob.tile().translateAndCenterNpcPosition(mob, target);
+                            Projectile p = new Projectile(tile, targetPos, 1594, 51, duration, 70, 20, 0, target.getSize(), 10);
                             int delay = p.send(mob, t);
                             t.hit(mob, World.getWorld().random(1, 40), delay, CombatType.MAGIC).checkAccuracy().submit();
                         } else {
                             var targetPos = t.tile().copy();
                             var tileDist = mob.tile().distance(t.tile());
                             int duration = (41 + 11 + (5 * tileDist));
-                            Projectile p = new Projectile(mob, targetPos, 1593, 41, duration, 43, 31, 0, target.getSize(), 10);
+                            var tile = mob.tile().translateAndCenterNpcPosition(mob, target);
+                            Projectile p = new Projectile(tile, targetPos, 1593, 41, duration, 43, 31, 0, target.getSize(), 10);
                             int delay = p.send(mob, t);
                             t.hit(mob, World.getWorld().random(1, 40), delay, CombatType.RANGED).checkAccuracy().submit();
                         }
@@ -119,7 +127,8 @@ public class VerzikVitur extends CommonCombatMethod {
                     final Tile targetPos = target.tile().copy();
                     var tileDist = mob.tile().distance(targetPos);
                     int duration = (41 + 11 + (5 * tileDist));
-                    Projectile p = new Projectile(mob, targetPos, 1586, 41, duration, 43, 31, 0, target.getSize(), 10);
+                    var tile = mob.tile().translateAndCenterNpcPosition(mob, target);
+                    Projectile p = new Projectile(tile, targetPos, 1586, 41, duration, 43, 31, 0, target.getSize(), 10);
                     int delay = p.send(mob.getCentrePosition(), target.getCentrePosition());
                     if (target.tile().equals(targetPos)) {
                         Hit hit = target.hit(mob, World.getWorld().random(1, 60), delay, null).checkAccuracy();
@@ -127,34 +136,42 @@ public class VerzikVitur extends CommonCombatMethod {
                     }
                     Task task = new Task("VerzikViturPrepareAttackTask3", 1) {
                         int count = 0;
-                        NPC nylocasAthanatos;
+                        Athanatos nylocasAthanatos;
                         NPC bomber;
 
                         @Override
                         public void execute() {
                             count++;
                             if (count == 5 && nylocasAthanatos == null && bomber == null) {
-                                nylocasAthanatos = new NPC(NYLOCAS_ATHANATOS, targetPos).spawn(false);
+                                nylocasAthanatos = new Athanatos(NYLOCAS_ATHANATOS, targetPos, true);
                                 nylocasAthanatos.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, true);
-                                nylocasAthanatos.animate(NYLOCAS_ATHANATOS_SPAWN_ANIMATION_ID);
+                                nylocasAthanatos.canAttack(false);
                                 nylocasAthanatos.face(mob);
                                 nylocasAthanatos.setInstance(mob.getInstancedArea());
                                 nylocasAthanatos.getInstancedArea().addNpc(nylocasAthanatos);
-                                bomber = new NPC(NYLOCAS_MATOMENOS_8385, SPIDER_SPAWN.transform(0, 0, target.getZ())).spawn(false);
+                                bomber = new Matomenos(NYLOCAS_MATOMENOS_8385, SPIDER_SPAWN.transform(0, 0, target.getZ()), true);
                                 bomber.getCombat().setTarget(target);
+                                bomber.stepAbs(target.getAbsX(), target.getAbsY(), MovementQueue.StepType.FORCED_WALK);
                                 bomber.animate(8098);
                                 bomber.setInstance(mob.getInstancedArea());
                                 bomber.getInstancedArea().addNpc(bomber);
-                                Chain.noCtx().runFn(2, () -> bomber.face(target));
+                                Chain.noCtx().runFn(2, () -> {
+                                    bomber.face(target);
+                                }).then(5, () -> {
+                                    if (bomber.tile().equals(target.tile())) {
+                                        Hit hit = target.hit(bomber, World.getWorld().random(1, 60), delay, null).checkAccuracy();
+                                        hit.submit();
+                                    }
+                                });
                             }
                             if (count >= 5 && nylocasAthanatos != null) {
                                 if (nylocasAthanatos.hp() < nylocasAthanatos.maxHp()) {
-                                    nylocasAthanatos.hit(nylocasAthanatos, nylocasAthanatos.hp());
+                                    nylocasAthanatos.hit(nylocasAthanatos, nylocasAthanatos.maxHp());
                                 }
                             }
                             if (count >= 15) {
                                 if (bomber != null)
-                                    bomber.hit(nylocasAthanatos, nylocasAthanatos.hp());
+                                    bomber.hit(bomber, Objects.requireNonNull(nylocasAthanatos).hp());
                                 if (nylocasAthanatos != null)
                                     nylocasAthanatos.hit(nylocasAthanatos, nylocasAthanatos.hp());
                                 stop();

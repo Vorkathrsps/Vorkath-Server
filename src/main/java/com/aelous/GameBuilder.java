@@ -1,6 +1,7 @@
 package com.aelous;
 
 import com.aelous.model.content.areas.wilderness.content.activity.WildernessActivityManager;
+import com.aelous.model.content.items.mysterybox.MysteryBox;
 import com.aelous.model.inter.clan.ClanRepository;
 
 import com.aelous.model.content.skill.impl.crafting.Crafting;
@@ -82,6 +83,7 @@ public class GameBuilder {
         //Load definitions..
         tasks.add(new BloodMoneyPriceLoader());
         tasks.add(TradingPost::init);
+        tasks.add(MysteryBox::load);
         tasks.add(new Slayer()::loadMasters);
         tasks.add(Crafting::load);
         tasks.add(Fletching::load);

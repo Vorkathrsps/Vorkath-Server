@@ -33,6 +33,7 @@ public class EquipmentDamageEffect implements DamageEffectListener {
     private static List<DamageEffectListener> initializeDamageEffectListenersAttacker() {
         List<DamageEffectListener> listeners = new ArrayList<>();
         listeners.add(new AmuletOfBloodFury());
+        listeners.add(new SerpentineHelm());
         listeners.add(new VeracSet());
         listeners.add(new GuthanSet());
         listeners.add(new KarilSet());

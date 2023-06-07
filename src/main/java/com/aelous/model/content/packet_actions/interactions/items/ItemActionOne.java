@@ -7,6 +7,8 @@ import com.aelous.model.content.consumables.FoodConsumable;
 import com.aelous.model.content.consumables.potions.Potions;
 import com.aelous.model.content.duel.DuelRule;
 import com.aelous.model.content.items.RockCake;
+import com.aelous.model.content.items.mysterybox.MboxItem;
+import com.aelous.model.content.items.mysterybox.MysteryBox;
 import com.aelous.model.content.items.tools.ItemPacks;
 import com.aelous.model.content.sigils.SigilHandler;
 import com.aelous.model.content.skill.impl.herblore.Cleaning;
@@ -34,6 +36,8 @@ import com.aelous.utility.Color;
 import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.Utils;
 import com.aelous.utility.timers.TimerKey;
+
+import java.util.Optional;
 
 import static com.aelous.model.entity.attributes.AttributeKey.VIEWING_RUNE_POUCH_I;
 import static com.aelous.utility.CustomItemIdentifiers.VENGEANCE_SKULL;
@@ -183,6 +187,10 @@ public class ItemActionOne {
 
         if (SigilHandler.isSigil(item.getId())) {
             SigilHandler.handle(player, item.getId(), true, false);
+            return;
+        }
+
+        if (player.getMysteryBox().open(item)) {
             return;
         }
 

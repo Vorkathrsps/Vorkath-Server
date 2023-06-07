@@ -1,33 +1,28 @@
 package com.aelous.model.content.collection_logs;
 
+import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.items.Item;
 import com.aelous.utility.CustomItemIdentifiers;
 import com.aelous.utility.ItemIdentifiers;
-import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.aelous.utility.CustomNpcIdentifiers.*;
+import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.THE_NIGHTMARE_9430;
 import static com.aelous.utility.ItemIdentifiers.*;
-import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
 
 /**
  * @author PVE
  * @Since juli 15, 2020
  */
 public enum Collection {
-    // bosses
-    BARRELCHEST(AttributeKey.BARRELCHESTS_KILLED, LogType.BOSSES, "Barrelchests", new int[]{NpcIdentifiers.BARRELCHEST_6342}, AttributeKey.BARRELCHEST_LOG_CLAIMED, new Item[]{new Item(CustomItemIdentifiers.LEGENDARY_MYSTERY_BOX)},
-        //Drops
-        new Item(BARRELCHEST_PET)),
 
     CALLISTO(AttributeKey.CALLISTOS_KILLED, LogType.BOSSES, "Callisto", new int[]{NpcIdentifiers.CALLISTO, NpcIdentifiers.CALLISTO_6609}, AttributeKey.CALLISTO_LOG_CLAIMED, new Item[]{new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX, 3)},
         //Drops
-        new Item(ItemIdentifiers.CALLISTO_CUB), new Item(DRAGON_PICKAXE), new Item(TYRANNICAL_RING), new Item(CustomItemIdentifiers.ARMOUR_MYSTERY_BOX), new Item(CustomItemIdentifiers.WEAPON_MYSTERY_BOX), new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX)),
+        new Item(ItemIdentifiers.CALLISTO_CUB), new Item(DRAGON_PICKAXE), new Item(DRAGON_2H_SWORD), new Item(TYRANNICAL_RING), new Item(VOIDWAKER_HILT), new Item(CLAWS_OF_CALLISTO)),
 
     CERBERUS(AttributeKey.CERBERUS_KILLED, LogType.BOSSES, "Cerberus", new int[]{NpcIdentifiers.CERBERUS}, AttributeKey.CERBERUS_LOG_CLAIMED, new Item[]{new Item(PRIMORDIAL_BOOTS), new Item(PEGASIAN_BOOTS), new Item(ETERNAL_BOOTS)},
         //Drops
@@ -35,35 +30,35 @@ public enum Collection {
 
     CHAOS_ELEMENTAL(AttributeKey.CHAOS_ELEMENTALS_KILLED, LogType.BOSSES, "Chaos Elemental", new int[]{NpcIdentifiers.CHAOS_ELEMENTAL}, AttributeKey.CHAOS_ELEMENTAL_LOG_CLAIMED, new Item[]{new Item(CustomItemIdentifiers.LEGENDARY_MYSTERY_BOX)},
         //Drops
-        new Item(ItemIdentifiers.PET_CHAOS_ELEMENTAL), new Item(DRAGON_2H_SWORD), new Item(DRAGON_PICKAXE), new Item(CustomItemIdentifiers.ARMOUR_MYSTERY_BOX), new Item(CustomItemIdentifiers.WEAPON_MYSTERY_BOX), new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX), new Item(CustomItemIdentifiers.LEGENDARY_MYSTERY_BOX)),
+        new Item(ItemIdentifiers.PET_CHAOS_ELEMENTAL), new Item(DRAGON_2H_SWORD), new Item(DRAGON_PICKAXE)),
 
     CHAOS_FANATIC(AttributeKey.CHAOS_FANATICS_KILLED, LogType.BOSSES, "Chaos Fanatic", new int[]{NpcIdentifiers.CHAOS_FANATIC}, AttributeKey.CHAOS_FANATIC_LOG_CLAIMED,
         //Drops
-        new Item[]{new Item(ItemIdentifiers.PET_CHAOS_ELEMENTAL)}, new Item(ODIUM_WARD_12807), new Item(MALEDICTION_WARD_12806), new Item(CustomItemIdentifiers.ARMOUR_MYSTERY_BOX), new Item(CustomItemIdentifiers.WEAPON_MYSTERY_BOX)),
+        new Item[]{new Item(ItemIdentifiers.PET_CHAOS_ELEMENTAL)}, new Item(ODIUM_WARD_12807), new Item(MALEDICTION_WARD_12806)),
 
     CORPOREAL_BEAST(AttributeKey.CORPOREAL_BEASTS_KILLED, LogType.BOSSES, "Corporeal Beast", new int[]{NpcIdentifiers.CORPOREAL_BEAST}, AttributeKey.CORPOREAL_BEAST_LOG_CLAIMED, new Item[]{new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX, 3), new Item(CustomItemIdentifiers.LEGENDARY_MYSTERY_BOX, 2)},
         //Drops
-        new Item(ItemIdentifiers.PET_DARK_CORE), new Item(ELYSIAN_SPIRIT_SHIELD), new Item(SPECTRAL_SPIRIT_SHIELD), new Item(ARCANE_SPIRIT_SHIELD), new Item(HOLY_ELIXIR)),
+        new Item(ItemIdentifiers.PET_DARK_CORE), new Item(ELYSIAN_SIGIL), new Item(SPECTRAL_SIGIL), new Item(ARCANE_SIGIL),  new Item(SPIRIT_SHIELD), new Item(HOLY_ELIXIR)),
 
     CRAZY_ARCHAEOLOGIST(AttributeKey.CRAZY_ARCHAEOLOGISTS_KILLED, LogType.BOSSES, "Crazy Archaeologist", new int[]{NpcIdentifiers.CRAZY_ARCHAEOLOGIST}, AttributeKey.CRAZY_ARCHAEOLOGIST_LOG_CLAIMED, new Item[]{new Item(ODIUM_WARD), new Item(MALEDICTION_WARD)},
         //Drops
-        new Item(ODIUM_SHARD_2), new Item(MALEDICTION_SHARD_2), new Item(FEDORA), new Item(CustomItemIdentifiers.ARMOUR_MYSTERY_BOX)),
+        new Item(ODIUM_SHARD_2), new Item(MALEDICTION_SHARD_2), new Item(FEDORA)),
 
     DEMONIC_GORILLA(AttributeKey.DEMONIC_GORILLAS_KILLED, LogType.BOSSES, "Demonic Gorilla", new int[]{NpcIdentifiers.DEMONIC_GORILLA, NpcIdentifiers.DEMONIC_GORILLA_7145, NpcIdentifiers.DEMONIC_GORILLA_7146, NpcIdentifiers.DEMONIC_GORILLA_7147, NpcIdentifiers.DEMONIC_GORILLA_7148, NpcIdentifiers.DEMONIC_GORILLA_7149}, AttributeKey.DEMONIC_GORILLA_LOG_CLAIMED, new Item[]{new Item(HEAVY_BALLISTA), new Item(DRAGON_JAVELIN, 4000)},
         //Drops
-        new Item(DRAGON_JAVELIN), new Item(LIGHT_BALLISTA), new Item(HEAVY_BALLISTA), new Item(NECKLACE_OF_ANGUISH), new Item(TORMENTED_BRACELET), new Item(RING_OF_SUFFERING), new Item(AMULET_OF_TORTURE)),
+        new Item(DRAGON_JAVELIN), new Item(MONKEY_TAIL), new Item(BALLISTA_LIMBS), new Item(BALLISTA_SPRING), new Item(HEAVY_FRAME), new Item(LIGHT_FRAME), new Item(UNCUT_ZENYTE)),
 
     KING_BLACK_DRAGON(AttributeKey.KING_BLACK_DRAGONS_KILLED, LogType.BOSSES, "King Black Dragon", new int[]{NpcIdentifiers.KING_BLACK_DRAGON}, AttributeKey.KING_BLACK_DRAGON_LOG_CLAIMED, new Item[]{new Item(CustomItemIdentifiers.LEGENDARY_MYSTERY_BOX, 3), new Item(DRAGONFIRE_SHIELD, 2)},
         //Drops
-        new Item(ItemIdentifiers.PRINCE_BLACK_DRAGON), new Item(KBD_HEADS), new Item(DRAGON_PICKAXE), new Item(DRAGONFIRE_SHIELD), new Item(ARMADYL_GODSWORD), new Item(BANDOS_GODSWORD), new Item(SARADOMIN_GODSWORD), new Item(ZAMORAK_GODSWORD), new Item(CustomItemIdentifiers.ARMOUR_MYSTERY_BOX), new Item(CustomItemIdentifiers.WEAPON_MYSTERY_BOX), new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX)),
+        new Item(ItemIdentifiers.PRINCE_BLACK_DRAGON), new Item(KBD_HEADS), new Item(DRAGON_PICKAXE), new Item(DRACONIC_VISAGE)),
 
     KRAKEN(AttributeKey.KRAKENS_KILLED, LogType.BOSSES, "Kraken", new int[]{NpcIdentifiers.KRAKEN}, AttributeKey.KRAKEN_LOG_CLAIMED, new Item[]{new Item(ANCIENT_WYVERN_SHIELD), new Item(DRAGONFIRE_WARD)},
         //Drops
-        new Item(ItemIdentifiers.PET_KRAKEN), new Item(ABYSSAL_TENTACLE), new Item(TRIDENT_OF_THE_SEAS), new Item(JAR_OF_DIRT), new Item(ANCIENT_WYVERN_SHIELD), new Item(DRAGONFIRE_WARD), new Item(NIGHTMARE_STAFF)),
+        new Item(ItemIdentifiers.PET_KRAKEN), new Item(ABYSSAL_TENTACLE), new Item(TRIDENT_OF_THE_SEAS), new Item(JAR_OF_DIRT)),
 
     LAVA_DRAGON(AttributeKey.LAVA_DRAGONS_KILLED, LogType.BOSSES, "Lava Dragon", new int[]{NpcIdentifiers.LAVA_DRAGON}, AttributeKey.LAVA_DRAGON_LOG_CLAIMED, new Item[]{new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX, 3)},
         //Drops
-        new Item(DRAGONFIRE_SHIELD), new Item(CustomItemIdentifiers.ARMOUR_MYSTERY_BOX), new Item(CustomItemIdentifiers.WEAPON_MYSTERY_BOX), new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX)),
+        new Item(DRACONIC_VISAGE)),
 
     LIZARDMAN_SHAMAN(AttributeKey.LIZARDMAN_SHAMANS_KILLED, LogType.BOSSES, "Lizardman Shaman", new int[]{NpcIdentifiers.LIZARDMAN_SHAMAN, NpcIdentifiers.LIZARDMAN_SHAMAN_6767}, AttributeKey.LIZARDMAN_SHAMAN_LOG_CLAIMED, new Item[]{new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX, 5)},
         //Drops
@@ -75,23 +70,23 @@ public enum Collection {
 
     THERMONUCLEAR_SMOKE_DEVIL(AttributeKey.THERMONUCLEAR_SMOKE_DEVILS_KILLED, LogType.BOSSES, "Thermonuclear Smoke Devil", new int[]{NpcIdentifiers.THERMONUCLEAR_SMOKE_DEVIL}, AttributeKey.THERMONUCLEAR_SMOKE_DEVIL_LOG_CLAIMED, new Item[]{new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX, 3)},
         //Drops
-        new Item(ItemIdentifiers.PET_SMOKE_DEVIL), new Item(MYSTERY_BOX)),
+        new Item(ItemIdentifiers.PET_SMOKE_DEVIL), new Item(OCCULT_NECKLACE)),
 
-    TZTOK_JAD(AttributeKey.JADS_KILLED, LogType.BOSSES, "Tztok-Jad", new int[]{NpcIdentifiers.TZTOKJAD}, AttributeKey.TZTOK_JAD_LOG_CLAIMED, new Item[]{new Item(DRAGON_CLAWS)},
+    TZTOK_JAD(AttributeKey.JADS_KILLED, LogType.OTHER, "Tztok-Jad", new int[]{NpcIdentifiers.TZTOKJAD}, AttributeKey.TZTOK_JAD_LOG_CLAIMED, new Item[]{new Item(DRAGON_CLAWS)},
         //Drops
-        new Item(ItemIdentifiers.TZREKJAD), new Item(DRAGON_CLAWS), new Item(INFERNAL_CAPE)),
+        new Item(ItemIdentifiers.TZREKJAD), new Item(FIRE_CAPE)),
 
     VENENATIS(AttributeKey.VENENATIS_KILLED, LogType.BOSSES, "Venenatis", new int[]{NpcIdentifiers.VENENATIS, NpcIdentifiers.VENENATIS_6610}, AttributeKey.VENENATIS_LOG_CLAIMED, new Item[]{new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX, 5)},
         //Drops
-        new Item(ItemIdentifiers.VENENATIS_SPIDERLING), new Item(TREASONOUS_RING), new Item(DRAGON_PICKAXE), new Item(CustomItemIdentifiers.ARMOUR_MYSTERY_BOX), new Item(CustomItemIdentifiers.WEAPON_MYSTERY_BOX)),
+        new Item(ItemIdentifiers.VENENATIS_SPIDERLING), new Item(TREASONOUS_RING), new Item(DRAGON_PICKAXE), new Item(VOIDWAKER_GEM), new Item(FANGS_OF_VENENATIS)),
 
     VETION(AttributeKey.VETIONS_KILLED, LogType.BOSSES, "Vet'ion", new int[]{NpcIdentifiers.VETION_REBORN}, AttributeKey.VETION_LOG_CLAIMED, new Item[]{new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX, 5)},
         //Drops
-        new Item(VETION_JR_13180), new Item(DRAGON_PICKAXE), new Item(RING_OF_THE_GODS), new Item(CustomItemIdentifiers.ARMOUR_MYSTERY_BOX), new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX)),
+        new Item(VETION_JR_13180), new Item(DRAGON_PICKAXE), new Item(RING_OF_THE_GODS), new Item(VOIDWAKER_BLADE), new Item(SKULL_OF_VETION)),
 
     VORKATH(AttributeKey.VORKATHS_KILLED, LogType.BOSSES, "Vorkath", new int[]{NpcIdentifiers.VORKATH}, AttributeKey.VORKATH_LOG_CLAIMED, new Item[]{new Item(VORKATHS_HEAD_21907)},
         //Drops
-        new Item(ItemIdentifiers.VORKI), new Item(VORKATHS_HEAD), new Item(DRAGONFIRE_SHIELD), new Item(DRAGON_CROSSBOW), new Item(DRAGONFIRE_WARD), new Item(DRAGON_HUNTER_CROSSBOW), new Item(JAR_OF_DECAY), new Item(DRAGONBONE_NECKLACE)),
+        new Item(ItemIdentifiers.VORKI), new Item(VORKATHS_HEAD), new Item(DRACONIC_VISAGE), new Item(DRAGON_CROSSBOW), new Item(SKELETAL_VISAGE), new Item(JAR_OF_DECAY), new Item(DRAGONBONE_NECKLACE)),
 
     TEKTON(AttributeKey.TEKTONS_KILLED, LogType.BOSSES, "Tekton", new int[]{NpcIdentifiers.TEKTON_7542}, AttributeKey.TEKTON_LOG_CLAIMED, new Item[]{new Item(ELDER_MAUL)},
         //Drops
@@ -99,15 +94,11 @@ public enum Collection {
 
     SKOTIZO(AttributeKey.SKOTIZOS_KILLED, LogType.BOSSES, "Skotizo", new int[]{NpcIdentifiers.SKOTIZO}, AttributeKey.SKOTIZO_LOG_CLAIMED, new Item[]{new Item(CustomItemIdentifiers.LEGENDARY_MYSTERY_BOX)},
         //Dropscustom
-        new Item(ItemIdentifiers.SKOTOS), new Item(DARK_CLAW), new Item(JAR_OF_DARKNESS), new Item(CustomItemIdentifiers.LEGENDARY_MYSTERY_BOX), new Item(JUSTICIAR_FACEGUARD), new Item(JUSTICIAR_CHESTGUARD), new Item(JUSTICIAR_LEGGUARDS)),
+        new Item(ItemIdentifiers.SKOTOS), new Item(DARK_CLAW), new Item(JAR_OF_DARKNESS)),
 
     ZOMBIES_CHAMPION(AttributeKey.ZOMBIES_CHAMPIONS_KILLED, LogType.BOSSES, "Zombies Champion", new int[]{NpcIdentifiers.ZOMBIES_CHAMPION}, AttributeKey.ZOMBIES_CHAMPION_LOG_CLAIMED, new Item[]{new Item(VESTAS_LONGSWORD), new Item(STATIUSS_WARHAMMER), new Item(ZURIELS_STAFF)},
         //Drops
         new Item(ARMADYL_CROSSBOW), new Item(ARMADYL_GODSWORD), new Item(VESTAS_LONGSWORD), new Item(VESTAS_CHAINBODY), new Item(VESTAS_PLATESKIRT), new Item(STATIUSS_WARHAMMER), new Item(STATIUSS_FULL_HELM), new Item(STATIUSS_PLATEBODY), new Item(STATIUSS_PLATELEGS), new Item(MORRIGANS_COIF), new Item(MORRIGANS_LEATHER_BODY), new Item(MORRIGANS_LEATHER_CHAPS), new Item(ZURIELS_STAFF), new Item(ZURIELS_HOOD), new Item(ZURIELS_ROBE_TOP), new Item(ZURIELS_ROBE_BOTTOM)),
-
-    BRUTAL_LAVA_DRAGON(AttributeKey.BRUTAL_LAVA_DRAGONS_KILLED, LogType.BOSSES, "Brutal Lava Dragon", new int[]{BRUTAL_LAVA_DRAGON_FLYING}, AttributeKey.BRUTAL_LAVA_DRAGON_LOG_CLAIMED, new Item[]{new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX, 5), new Item(CustomItemIdentifiers.LEGENDARY_MYSTERY_BOX, 2)},
-        //Drops
-        new Item(BABY_LAVA_DRAGON), new Item(DAGONHAI_HAT), new Item(DAGONHAI_ROBE_TOP), new Item(DAGONHAI_ROBE_BOTTOM), new Item(CustomItemIdentifiers.LEGENDARY_MYSTERY_BOX), new Item(INFERNAL_CAPE)),
 
     ZULRAH(AttributeKey.ZULRAHS_KILLED, LogType.BOSSES, "Zulrah", new int[]{NpcIdentifiers.ZULRAH, NpcIdentifiers.ZULRAH_2044, NpcIdentifiers.ZULRAH_2043}, AttributeKey.ZULRAH_LOG_CLAIMED, new Item[]{new Item(TOXIC_BLOWPIPE), new Item(TRIDENT_OF_THE_SWAMP), new Item(TOXIC_STAFF_OF_THE_DEAD)},
         //Drops
@@ -115,20 +106,19 @@ public enum Collection {
 
     ALCHEMICAL_HYDRA(AttributeKey.ALCHY_KILLED, LogType.BOSSES, "Alchemical Hydra", new int[]{NpcIdentifiers.ALCHEMICAL_HYDRA, NpcIdentifiers.ALCHEMICAL_HYDRA_8616, NpcIdentifiers.ALCHEMICAL_HYDRA_8617, NpcIdentifiers.ALCHEMICAL_HYDRA_8618, NpcIdentifiers.ALCHEMICAL_HYDRA_8619, NpcIdentifiers.ALCHEMICAL_HYDRA_8620, NpcIdentifiers.ALCHEMICAL_HYDRA_8621, NpcIdentifiers.ALCHEMICAL_HYDRA_8622}, AttributeKey.ALCHEMICAL_HYDRA_LOG_CLAIMED, new Item[]{new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX, 5)},
         //Drops
-        new Item(ItemIdentifiers.IKKLE_HYDRA), new Item(HYDRAS_CLAW), new Item(HYDRA_TAIL), new Item(FEROCIOUS_GLOVES), new Item(BRIMSTONE_RING), new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX), new Item(DRAGON_KNIFE), new Item(DRAGON_THROWNAXE), new Item(JAR_OF_CHEMICALS), new Item(ALCHEMICAL_HYDRA_HEADS)),
+        new Item(ItemIdentifiers.IKKLE_HYDRA), new Item(HYDRAS_CLAW), new Item(HYDRA_TAIL), new Item(FEROCIOUS_GLOVES), new Item(BRIMSTONE_RING), new Item(DRAGON_KNIFE), new Item(DRAGON_THROWNAXE), new Item(JAR_OF_CHEMICALS), new Item(ALCHEMICAL_HYDRA_HEADS)),
 
     GIANT_MOLE(AttributeKey.KC_GIANTMOLE, LogType.BOSSES, "Giant Mole", new int[]{NpcIdentifiers.GIANT_MOLE}, AttributeKey.GIANT_MOLE_LOG_CLAIMED, new Item[]{new Item(DRAGON_CLAWS)},
         //Drops
-        new Item(NIFFLER), new Item(MOLE_SKIN), new Item(MOLE_CLAW), new Item(DRAGON_CLAWS)),
+        new Item(ItemIdentifiers.BABY_MOLE), new Item(MOLE_SKIN), new Item(MOLE_CLAW)),
 
 
     THE_NIGHTMARE(AttributeKey.THE_NIGHTMARE_KC, LogType.BOSSES, "The nightmare", new int[]{THE_NIGHTMARE_9430}, AttributeKey.THE_NIGTHMARE_LOG_CLAIMED, new Item[]{new Item(ItemIdentifiers.LITTLE_NIGHTMARE), new Item(ItemIdentifiers.CRYSTAL_KEY)},
-        new Item(CustomItemIdentifiers.WEAPON_MYSTERY_BOX), new Item(CustomItemIdentifiers.ARMOUR_MYSTERY_BOX), new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX), new Item(ABYSSAL_BLUDGEON), new Item(ARMADYL_GODSWORD), new Item(DRAGON_CLAWS), new Item(DRAGON_WARHAMMER), new Item(CustomItemIdentifiers.LEGENDARY_MYSTERY_BOX), new Item(INQUISITORS_MACE), new Item(INQUISITORS_GREAT_HELM), new Item(INQUISITORS_HAUBERK), new Item(INQUISITORS_PLATESKIRT), new Item(NIGHTMARE_STAFF), new Item(ELDRITCH_ORB), new Item(HARMONISED_ORB), new Item(VOLATILE_ORB)),
+        new Item(INQUISITORS_MACE), new Item(INQUISITORS_GREAT_HELM), new Item(INQUISITORS_HAUBERK), new Item(INQUISITORS_PLATESKIRT), new Item(NIGHTMARE_STAFF), new Item(ELDRITCH_ORB), new Item(HARMONISED_ORB), new Item(VOLATILE_ORB)),
 
     CORRUPTED_HUNLEFF(AttributeKey.CORRUPTED_HUNLEFFS_KILLED, LogType.BOSSES, "Corrupted Hunleff", new int[]{NpcIdentifiers.CORRUPTED_HUNLLEF, NpcIdentifiers.CORRUPTED_HUNLLEF_9036, NpcIdentifiers.CORRUPTED_HUNLLEF_9037}, AttributeKey.CORRUPTED_HUNLEFF_LOG_CLAIMED, new Item[]{new Item(CustomItemIdentifiers.LEGENDARY_MYSTERY_BOX, 2)},
         //Drops
-        new Item(ItemIdentifiers.YOUNGLLEF), new Item(CRYSTAL_HELM), new Item(CRYSTAL_BODY), new Item(CRYSTAL_LEGS), new Item(BANDOS_GODSWORD_OR), new Item(SARADOMIN_GODSWORD_OR), new Item(ZAMORAK_GODSWORD_OR)
-    ),
+        new Item(ItemIdentifiers.YOUNGLLEF), new Item(CRYSTAL_ARMOUR_SEED), new Item(CRYSTAL_WEAPON_SEED), new Item(ENHANCED_CRYSTAL_WEAPON_SEED)),
 
     // mboxes
     DONATOR_MYSTERY_BOX(AttributeKey.DONATOR_MYSTERY_BOXES_OPENED, LogType.MYSTERY_BOX, "Donator mystery box", new int[]{CustomItemIdentifiers.DONATOR_MYSTERY_BOX}, AttributeKey.DONATOR_MYSTERY_BOX_LOG_CLAIMED, new Item[]{new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX, 5)},
@@ -332,7 +322,7 @@ public enum Collection {
         new Item(ItemIdentifiers.RING_OF_RECOIL + 1), new Item(ItemIdentifiers.GUTHIX_REST4 + 1), new Item(ItemIdentifiers.ANGLERFISH + 1), new Item(ItemIdentifiers.DRAGON_JAVELIN), new Item(ItemIdentifiers.DRAGON_KNIFE), new Item(ItemIdentifiers.DRAGON_DART), new Item(ItemIdentifiers.DRAGON_BOOTS + 1), new Item(ItemIdentifiers.STAMINA_POTION4 + 1), new Item(ItemIdentifiers.DARK_BOW), new Item(ItemIdentifiers.AMULET_OF_FURY), new Item(ItemIdentifiers.MAGES_BOOK), new Item(ItemIdentifiers.MASTER_WAND), new Item(ItemIdentifiers.DRAGONFIRE_SHIELD)),
 
 
-    LARRANS_KEY_I(AttributeKey.LARRANS_KEYS_TIER_ONE_USED, LogType.KEYS, "Larran's key tier I", new int[]{LARRANS_KEY}, AttributeKey.LARRANS_KEY_TIER_I_LOG_CLAIMED, new Item[]{new Item(LARRANS_KEY, 20)},
+    LARRANS_KEY_I(AttributeKey.LARRANS_KEYS_TIER_ONE_USED, LogType.KEYS, "Larran's key", new int[]{LARRANS_KEY}, AttributeKey.LARRANS_KEY_TIER_I_LOG_CLAIMED, new Item[]{new Item(LARRANS_KEY, 20)},
         new Item(CRYSTAL_HELM),
         new Item(ARMADYL_GODSWORD_OR),
         new Item(ELDER_MAUL),
@@ -404,9 +394,6 @@ public enum Collection {
         new Item(ABYSSAL_TENTACLE),
         new Item(RANGER_BOOTS),
         new Item(ROBIN_HOOD_HAT),
-        new Item(DIVINE_SUPER_COMBAT_POTION4 + 1, 50),
-        new Item(STAMINA_POTION4 + 1, 25),
-        new Item(SUPER_ANTIFIRE_POTION4 + 1, 25),
         new Item(DRAGON_CROSSBOW),
         new Item(ARMADYL_HELMET),
         new Item(ABYSSAL_BLUDGEON),
@@ -414,7 +401,6 @@ public enum Collection {
         new Item(ZAMORAK_GODSWORD),
         new Item(SARADOMIN_GODSWORD),
         new Item(DRAGONFIRE_SHIELD),
-        new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX),
         new Item(ARMADYL_GODSWORD),
         new Item(BANDOS_TASSETS),
         new Item(BANDOS_CHESTPLATE),
@@ -432,22 +418,6 @@ public enum Collection {
         //Drops
         new Item(VESTAS_SPEAR), new Item(VESTAS_LONGSWORD), new Item(VESTAS_CHAINBODY), new Item(VESTAS_PLATESKIRT), new Item(STATIUSS_WARHAMMER), new Item(STATIUSS_FULL_HELM), new Item(STATIUSS_PLATEBODY), new Item(STATIUSS_PLATELEGS), new Item(ZURIELS_STAFF), new Item(ZURIELS_HOOD), new Item(ZURIELS_ROBE_TOP), new Item(ZURIELS_ROBE_BOTTOM), new Item(MORRIGANS_COIF), new Item(MORRIGANS_LEATHER_BODY), new Item(MORRIGANS_LEATHER_CHAPS), new Item(MORRIGANS_JAVELIN), new Item(MORRIGANS_THROWING_AXE), new Item(VIGGORAS_CHAINMACE), new Item(CRAWS_BOW), new Item(THAMMARONS_SCEPTRE), new Item(AMULET_OF_AVARICE), new Item(BRACELET_OF_ETHEREUM_UNCHARGED), new Item(ANCIENT_RELIC), new Item(ANCIENT_EFFIGY), new Item(ANCIENT_MEDALLION), new Item(ItemIdentifiers.ANCIENT_STATUETTE), new Item(ANCIENT_TOTEM), new Item(ANCIENT_EMBLEM), new Item(REVENANT_CAVE_TELEPORT), new Item(REVENANT_ETHER)
     ),
-
-/*    ICE_DEMON(AttributeKey.ICE_DEMONS_KILLED, LogType.OTHER, "Ice demon", new int[]{CustomNpcIdentifiers.ICE_DEMON}, AttributeKey.ICE_DEMON_LOG_CLAIMED, new Item[]{new Item(PRESENT_13346, 5), new Item(WINTER_ITEM_CASKET)},
-        //Drops
-        new Item(CustomItemIdentifiers.SNOWBIRD), new Item(GIANT_PRESENT), new Item(CustomItemIdentifiers.WEAPON_MYSTERY_BOX), new Item(CustomItemIdentifiers.ARMOUR_MYSTERY_BOX), new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX), new Item(CustomItemIdentifiers.LEGENDARY_MYSTERY_BOX), new Item(FROST_WHIP), new Item(ABYSSAL_TENTACLE_24948), new Item(CustomItemIdentifiers.SNOWY_SLED), new Item(CustomItemIdentifiers.ICED_PARTYHAT), new Item(CustomItemIdentifiers.ICED_SANTA_HAT), new Item(CustomItemIdentifiers.ICED_HWEEN_MASK), new Item(UGLY_SANTA_HAT), new Item(WINTER_ITEM_CASKET), new Item(CustomItemIdentifiers.MYSTERY_TICKET), new Item(FROST_CLAWS), new Item(ARMADYL_FROSTSWORD), new Item(CustomItemIdentifiers.INFINITY_WINTER_BOOTS), new Item(FROST_IMBUED_CAPE), new Item(DRAGON_HUNTER_CROSSBOW_T), new Item(CustomItemIdentifiers.ELDER_ICE_MAUL)
-    ),*/
-
-/*    ELVARG(AttributeKey.ELVARGS_KILLED, LogType.OTHER, "Elvarg", new int[]{ELVARG_HARD}, AttributeKey.ELVARG_LOG_CLAIMED, new Item[]{new Item(PRESENT_13346, 5), new Item(WINTER_ITEM_CASKET)},
-        //Drops
-        new Item(CustomItemIdentifiers.ELVARG_JR), new Item(CustomItemIdentifiers.WEAPON_MYSTERY_BOX), new Item(CustomItemIdentifiers.ARMOUR_MYSTERY_BOX), new Item(CustomItemIdentifiers.DONATOR_MYSTERY_BOX), new Item(CustomItemIdentifiers.LEGENDARY_MYSTERY_BOX), new Item(LAVA_WHIP), new Item(ABYSSAL_TENTACLE_24948), new Item(DRAGON_HUNTER_CROSSBOW), new Item(DRAGON_CLAWS), new Item(UGLY_SANTA_HAT), new Item(TEN_DOLLAR_BOND), new Item(WINTER_ITEM_CASKET), new Item(EPIC_PET_BOX), new Item(DRAGON_HUNTER_CROSSBOW_T)
-    ),*/
-
-/*    DERANGED_ARCHAEOLOGIST(AttributeKey.DERANGED_ARCHAEOLOGIST_KILLED, LogType.OTHER, "Deranged Archaeologist", new int[]{NpcIdentifiers.DERANGED_ARCHAEOLOGIST}, AttributeKey.DERANGED_ARCHAEOLOGIST_LOG_CLAIMED, new Item[]{new Item(ENCHANTED_KEY_I, 10), new Item(ENCHANTED_KEY_II, 1)},
-        //Drops
-        new Item(CustomItemIdentifiers.DERANGED_ARCHAEOLOGIST), new Item(ENCHANTED_KEY_I), new Item(ENCHANTED_KEY_II)
-    ),*/
-
 
     SLAYER(null, LogType.OTHER, "Slayer",
         //Npcs that drop these items

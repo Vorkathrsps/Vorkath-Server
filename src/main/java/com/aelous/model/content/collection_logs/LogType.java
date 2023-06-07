@@ -32,7 +32,7 @@ public enum LogType {
             int before = killer.getCollectionLog().totalObtained(c);
             killer.getCollectionLog().collectionLog.compute(c, (k, v) -> {
                 if (v == null) {
-                    v = new ArrayList<Item>();
+                    v = new ArrayList<>();
                     v.add(finalReward);
                 } else {
                     Optional<Item> first = v.stream().filter(loot -> loot.getId() == finalReward.getId()).findFirst();

@@ -23,6 +23,7 @@ import com.aelous.model.content.consumables.potions.impl.*;
 import com.aelous.model.content.daily_tasks.DailyTaskManager;
 import com.aelous.model.content.daily_tasks.DailyTasks;
 import com.aelous.model.content.duel.Dueling;
+import com.aelous.model.content.items.mysterybox.MysteryBoxManager;
 import com.aelous.model.content.kill_logs.BossKillLog;
 import com.aelous.model.content.kill_logs.SlayerKillLog;
 import com.aelous.model.content.mechanics.BossTimers;
@@ -182,6 +183,12 @@ public class Player extends Entity {
     private final WildernessKeys wildernessKeys = new WildernessKeys(this, null);
     public WildernessKeys getWildernessKeys() {
         return wildernessKeys;
+    }
+
+    private final MysteryBoxManager mysteryBox = new MysteryBoxManager(this);
+
+    public MysteryBoxManager getMysteryBox() {
+        return mysteryBox;
     }
 
     @Getter

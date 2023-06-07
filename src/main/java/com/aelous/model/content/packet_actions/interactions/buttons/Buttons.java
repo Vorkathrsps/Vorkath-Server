@@ -64,6 +64,8 @@ public class Buttons {
     private static final int OPEN_PRICE_CHECKER = 27651;
     private static final int OPEN_ITEMS_KEPT_ON_DEATH_SCREEN = 27654;
     private static final int DESTROY_ITEM = 14175;
+
+    private static final int MYSTERY_BOX_OPEN = 71003;
     private static final int CANCEL_DESTROY_ITEM = 14176;
     private static final int PRICE_CHECKER_WITHDRAW_ALL = 18255;
     private static final int PRICE_CHECKER_DEPOSIT_ALL = 18252;
@@ -114,6 +116,10 @@ public class Buttons {
         boolean full_ahrim_effect = CombatFactory.fullAhrims(player) && Equipment.hasAmmyOfDamned(player);
         boolean onAncients = player.getSpellbook() == MagicSpellbook.ANCIENT;
         boolean onNormals = player.getSpellbook() == MagicSpellbook.NORMAL;
+
+        if(player.getMysteryBox().onButton(button)) {
+            return;
+        }
 
         switch (button) {
             case 15151 -> {

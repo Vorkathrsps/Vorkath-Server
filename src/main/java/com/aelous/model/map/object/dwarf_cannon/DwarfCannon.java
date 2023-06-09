@@ -4,9 +4,13 @@ import com.aelous.model.content.mechanics.MultiwayCombat;
 import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.combat.CombatFactory;
+import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.items.ground.GroundItemHandler;
@@ -240,33 +244,26 @@ public class DwarfCannon extends OwnedObject {
             cannonDirection = cannonDirection.next();
         }
 
-       /* target.ifPresent(
+        target.ifPresent(
                 npc -> {
                     Player owner = getOwnerOpt().get();
-                    Projectile cannonBall =
-                            new Projectile(
-                                    getCorrectedTile(tile()),
-                                    npc.tile(),
-                                    npc.getProjectileLockonIndex(),
-                                    53,
-                                    85,
-                                    35,
-                                    20,
-                                    20,
-                                    0,
-                                    0,
-                                    64);
-                    cannonBall.sendProjectile();
-                    var tileDist = owner.tile().transform(3, 3, 0).distance(npc.tile());
-                    var delay = Math.max(1, (20 + (tileDist * 12)) / 30);
+                    var center = getCorrectedTile(tile());
+                    var targetTile = npc.getSize() > 1 ? npc.tile().transform(1, 1, 0) : npc.tile();
+                    var distance = owner.tile().distance(npc.tile());
+                    var duration = (41 - 5 + (5 * distance));
+                    Projectile p1 = new Projectile(center, targetTile, 53, 0, duration, 40, 30, 16, npc.getSize(), 5);
+                    final int delay = p1.send(center, targetTile);
 
-                    npc.hit(owner, World.getWorld().random(MAX_HIT), delay);
+                    Hit hit = npc.hit(owner, World.getWorld().random(MAX_HIT), delay, null).postDamage(d -> {
+                        owner.getSkills().addXp(Skills.RANGED, d.getDamage() * 4);
+                    });
+                    hit.submit();
                     setAmmo(getAmmo() - 1);
                     if (getAmmo() <= 0) {
                         owner.message("Your cannon is out of ammo!");
                         setStage(CannonStage.FURNACE, true);
                     }
-                });*/
+                });
     }
 
     public void checkDecayTimer() {

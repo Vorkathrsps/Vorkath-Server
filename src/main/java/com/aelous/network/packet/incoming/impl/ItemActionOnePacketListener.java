@@ -16,7 +16,7 @@ import static com.aelous.utility.ItemIdentifiers.ROTTEN_POTATO;
  * @author PVE
  * @Since augustus 27, 2020
  */
-public class ItemActionOnePacketListener  implements PacketListener {
+public class ItemActionOnePacketListener implements PacketListener {
 
     @Override
     public void handleMessage(Player player, Packet packet) {

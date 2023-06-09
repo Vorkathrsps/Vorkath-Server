@@ -58,9 +58,11 @@ public class DragonfireShield extends PacketInteraction {
                 player.setEntityInteraction(target);
 
                 // Allow timers to fire before player event
-                player.getTimers().extendOrRegister(TimerKey.COMBAT_ATTACK, 4);
-                player.getTimers().register(TimerKey.DRAGONFIRE_SPECIAL, 200);
-                player.getCombat().reset();
+                if (!player.getPlayerRights().isOwner(player)) {
+                    player.getTimers().extendOrRegister(TimerKey.COMBAT_ATTACK, 4);
+                    player.getTimers().register(TimerKey.DRAGONFIRE_SPECIAL, 200);
+                    player.getCombat().reset();
+                }
 
                 if (shield.getId() == DragonfireShieldType.WYVERN.charged()) {
                     wyvernSpecial(player, target);

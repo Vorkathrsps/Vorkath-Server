@@ -38,6 +38,9 @@ public class TwistedBow implements DamageEffectListener {
 
     @Override
     public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
+        if (entity.getCombat().getTarget() == null) {
+            return false;
+        }
         if (!entity.getCombat().getTarget().isNpc()) {
             return false;
         }

@@ -1,10 +1,9 @@
 package com.aelous.model.content.items.mysterybox.impl;
 
-import com.aelous.GameServer;
-import com.aelous.model.World;
 import com.aelous.model.content.items.mysterybox.MboxItem;
 import com.aelous.model.content.items.mysterybox.MysteryBox;
 import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.utility.CustomItemIdentifiers;
 import com.aelous.utility.Utils;
 
 import java.util.ArrayList;
@@ -23,11 +22,12 @@ public class DonatorMysteryBox extends MysteryBox {
         return MYSTERY_BOX;
     }
 
-    private static final int EXTREME_ROLL = 500;
-    private static final int RARE_ROLL = 50;
-    private static final int UNCOMMON_ROLL = 20;
+    private static final int EXTREME_ROLL = 100;
+    private static final int RARE_ROLL = 45;
+    private static final int UNCOMMON_ROLL = 25;
 
     private static final MboxItem[] EXTREMELY_RARE = new MboxItem[]{
+        new MboxItem(CustomItemIdentifiers.TOKHAAR_KAL).broadcastWorldMessage(true),
         new MboxItem(INFERNAL_CAPE).broadcastWorldMessage(true),
         new MboxItem(ELYSIAN_SPIRIT_SHIELD).broadcastWorldMessage(true),
         new MboxItem(ARCANE_SPIRIT_SHIELD).broadcastWorldMessage(true),
@@ -123,11 +123,11 @@ public class DonatorMysteryBox extends MysteryBox {
 
     @Override
     public MboxItem rollReward() {
-        if (Utils.rollDie(EXTREME_ROLL, 1)) {
+        if (Utils.rollPercent(5)) {
             return Utils.randomElement(EXTREMELY_RARE);
-        } else if (Utils.rollDie(RARE_ROLL, 1)) {
+        } else if (Utils.rollPercent(10)) {
             return Utils.randomElement(RARE);
-        } else if (Utils.rollDie(UNCOMMON_ROLL, 1)) {
+        } else if (Utils.rollPercent(35)) {
             return Utils.randomElement(UNCOMMON);
         } else {
             return Utils.randomElement(COMMON);

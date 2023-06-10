@@ -468,7 +468,8 @@ public abstract class Entity {
         return faceTile;
     }
 
-    @Getter public Tile lastTileFaced;
+    @Getter
+    public Tile lastTileFaced;
 
     public Entity setPositionToFace(Tile tile) {
         this.getUpdateFlag().flag(Flag.FACE_TILE);
@@ -482,51 +483,35 @@ public abstract class Entity {
             return 0;
         }
 
-        var entityAbsX = this.getAbsX();
-        var entityAbsY = this.getAbsY();
-
         Tile source = projectile.getStart();
         Tile target = projectile.getTarget();
-
-        var entityX = source.getX();
-        var entityY = source.getY();
-
-        int diffX = entityAbsX - entityX;
-        int diffY = entityAbsY - entityY;
-
-        int creatorSize = projectile.getCreatorSize() == -1 ? getSize() : projectile.getCreatorSize();
-
-        if (creatorSize > 1) {
-            entityX += creatorSize / 2;
-            entityY += creatorSize / 2;
-        }
 
         if (target == null) {
             return 0;
         }
 
+        var entityX = source.getX();
+        var entityY = source.getY();
+
+        int creatorSize = projectile.getCreatorSize() == -1 ? getSize() : projectile.getCreatorSize();
+
         int offX = (entityY - target.getY()) * -1;
         int offY = (entityX - target.getX()) * -1;
 
-        if (diffX != 0)
-            entityAbsX += offX * (diffX / Math.abs(diffX));
-        if (diffY != 0)
-            entityAbsY += offY * (diffY / Math.abs(diffY));
-
         var translatedTile = this.getCombat().getTarget() != null ? this.tile().translateAndCenterNpcPosition(this, this.getCombat().getTarget()) : this.tile();
 
-        int distance = translatedTile.getDistance(entityX, entityY, entityAbsX, entityAbsY);
+        int distance = translatedTile.getChevDistance(target);
+
+        Tile offset = new Tile(offX, offY, source.getZ());
 
         if (distance <= 60) {
-
-            Tile offset = new Tile(offX, offY, source.getZ());
 
             for (Player player : World.getWorld().getPlayers()) {
                 if (player == null) {
                     continue;
                 }
 
-                if (source.isViewableFrom(player.getCentrePosition())) {
+                if (source.isViewableFrom(player.getCentrePosition())  ) {
                     player.getPacketSender()
                         .sendProjectile(source, offset, projectile.getAngle(), projectile.getSpeed(), projectile.getProjectileID(), projectile.getStartHeight(), projectile.getEndHeight(), projectile.getLockon(), projectile.getDelay(), projectile.getSlope(), creatorSize, projectile.getStartDistanceOffset());
                 }
@@ -1049,6 +1034,7 @@ public abstract class Entity {
     public boolean isMoveLocked() {
         return lock == LockType.MOVEMENT || lock == LockType.MOVEMENT_DAMAGE_OK;
     }
+
     public boolean isMoveLockedDamageOk() {
         return lock == LockType.MOVEMENT_DAMAGE_OK;
     }
@@ -1363,6 +1349,7 @@ public abstract class Entity {
      * When handling objects (doing custom walkto logic) if {@code
      * player.smartPathTo(startPos, obj.getSize());} doesn't work or walk exactly where you expect it too, its probably beacuse its a 1999 pathfinder.
      * <br> use {@code player.doPath(new DefaultPathFinder(), tile)} instead
+     *
      * @return
      */
     public void smartPathTo(Tile targetPos) {

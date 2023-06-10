@@ -45,6 +45,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
         boolean isWearingPoweredStaff = player.getEquipment().containsAny(TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, SANGUINESTI_STAFF, TUMEKENS_SHADOW, DAWNBRINGER, ACCURSED_SCEPTRE_A);
         boolean canCast = spell.canCast(player, target, true);
         boolean hasTumeken = player.getEquipment().contains(TUMEKENS_SHADOW);
+        boolean hasSanguinestiStaff = player.getEquipment().contains(SANGUINESTI_STAFF);
 
         int projectile = -1;
         int startgraphic = -1;
@@ -55,6 +56,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
         int endGraphic = -1;
         int stepMultiplier = -1;
         int duration = -1;
+        int curve = 16;
 
         int distance = player.tile().getChevDistance(target.tile());
 
@@ -105,7 +107,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
         player.animate(new Animation(castAnimation));
         player.performGraphic(new Graphic(startgraphic, startGraphicHeight, 0));
 
-        Projectile p = new Projectile(player, target, projectile, startSpeed, duration, startHeight, endHeight, 16, entity.getSize(), stepMultiplier);
+        Projectile p = new Projectile(player, target, projectile, startSpeed, duration, startHeight, endHeight, curve, entity.getSize(), stepMultiplier);
 
 
         final int delay = player.executeProjectile(p);

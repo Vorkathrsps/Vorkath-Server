@@ -2,35 +2,45 @@ package com.aelous.model.entity.combat.damagehandler.impl.bolts;
 
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.damagehandler.listener.AmmunitionDamageEffectListener;
 import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.aelous.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.damagehandler.listener.DamageEffectListener;
+import com.aelous.model.entity.masks.impl.graphics.Graphic;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
+import com.aelous.model.entity.npc.NPC;
+import com.aelous.model.entity.player.Player;
+import com.aelous.model.entity.player.Skills;
+import com.aelous.utility.ItemIdentifiers;
+import com.aelous.utility.Utils;
 
-public class TopazBolts implements DamageEffectListener {
-    @Override
-    public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
-        return false;
-    }
+import static com.aelous.model.entity.combat.ranged.RangedData.boltSpecialChance;
+import static com.aelous.model.entity.combat.ranged.RangedData.zaryteCrossBowEvoke;
 
+public class TopazBolts implements AmmunitionDamageEffectListener {
     @Override
-    public boolean prepareDamageEffectForDefender(Entity entity, CombatType combatType, Hit hit) {
-        return false;
-    }
+    public int prepareBoltSpecialEffect(Entity entity, Entity target, CombatType combatType, int damage) {
+        if (damage <= 0 || combatType != CombatType.RANGED || !(entity instanceof Player player)) {
+            return 0;
+        }
 
-    @Override
-    public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
-        return false;
-    }
+        boolean alwaysSpec = zaryteCrossBowEvoke(player);
 
-    @Override
-    public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
-        return false;
-    }
+        if (target instanceof NPC npc && npc.isCombatDummy()) {
+            alwaysSpec = true;
+        }
 
-    @Override
-    public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
-        return false;
+        if (player.getEquipment().containsAny(ItemIdentifiers.TOPAZ_DRAGON_BOLTS_E, ItemIdentifiers.TOPAZ_BOLTS_E)) {
+            if (Utils.percentageChance(boltSpecialChance(alwaysSpec)) && target.isPlayer()) {
+                Player t = target.getAsPlayer();
+                t.performGraphic(new Graphic(757, GraphicHeight.HIGH, 55 + 5));
+                t.getSkills().alterSkill(Skills.MAGIC, t.getSkills().level(Skills.MAGIC) - 1);
+                t.getPacketSender().sendMessage("Your Magic level has been reduced.");
+                return damage;
+            }
+        }
+        return 0;
     }
 }

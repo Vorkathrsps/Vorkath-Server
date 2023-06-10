@@ -281,7 +281,6 @@ public class CombatFactory {
             if (attacker.isPlayer()) {
                 Player player = attacker.getAsPlayer();
                 if (player.getCombat().getWeaponType() == WeaponType.CROSSBOW) {
-                    damage = RangedData.getBoltSpecialAttack(player, target, damage);
                     damage = ammunitionDamageListener.triggerAmmunitionDamageModification(player, target, type, damage);
                 }
             }
@@ -792,7 +791,7 @@ public class CombatFactory {
         }
 
         if ((other.isNpc() && other.getAsNpc().getCombatMethod() != null && other.getAsNpc().getCombatMethod().canMultiAttackInSingleZones())
-        || (entity.isNpc() && entity.getAsNpc().getCombatMethod() != null && entity.getAsNpc().getCombatMethod().canMultiAttackInSingleZones())) {
+            || (entity.isNpc() && entity.getAsNpc().getCombatMethod() != null && entity.getAsNpc().getCombatMethod().canMultiAttackInSingleZones())) {
             return true;
         }
 

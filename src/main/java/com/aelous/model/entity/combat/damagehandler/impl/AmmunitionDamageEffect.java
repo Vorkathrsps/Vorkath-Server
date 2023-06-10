@@ -2,8 +2,7 @@ package com.aelous.model.entity.combat.damagehandler.impl;
 
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatType;
-import com.aelous.model.entity.combat.damagehandler.impl.bolts.DiamondBolts;
-import com.aelous.model.entity.combat.damagehandler.impl.bolts.DragonStoneBolts;
+import com.aelous.model.entity.combat.damagehandler.impl.bolts.*;
 import com.aelous.model.entity.combat.damagehandler.listener.AmmunitionDamageEffectListener;
 
 import java.util.ArrayList;
@@ -21,6 +20,14 @@ public class AmmunitionDamageEffect implements AmmunitionDamageEffectListener {
         List<AmmunitionDamageEffectListener> listeners = new ArrayList<>();
         listeners.add(new DiamondBolts());
         listeners.add(new DragonStoneBolts());
+        listeners.add(new EmeraldBolts());
+        listeners.add(new JadeBolt());
+        listeners.add(new OnyxBolts());
+        listeners.add(new OpalBolts());
+        listeners.add(new PearlBolts());
+        listeners.add(new RubyBolts());
+        listeners.add(new SapphireBolts());
+        listeners.add(new TopazBolts());
         return listeners;
     }
 

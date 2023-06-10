@@ -1,9 +1,11 @@
 package com.aelous.model.entity.combat.damagehandler.impl;
 
+import com.aelous.model.content.mechanics.Poison;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.damagehandler.impl.armor.*;
 import com.aelous.model.entity.combat.damagehandler.impl.sets.*;
+import com.aelous.model.entity.combat.damagehandler.impl.typeless.PoisonDamageEffect;
 import com.aelous.model.entity.combat.damagehandler.impl.typeless.PrayerDamage;
 import com.aelous.model.entity.combat.damagehandler.listener.DamageEffectListener;
 import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
@@ -33,7 +35,6 @@ public class EquipmentDamageEffect implements DamageEffectListener {
     private static List<DamageEffectListener> initializeDamageEffectListenersAttacker() {
         List<DamageEffectListener> listeners = new ArrayList<>();
         listeners.add(new AmuletOfBloodFury());
-        listeners.add(new SerpentineHelm());
         listeners.add(new VeracSet());
         listeners.add(new GuthanSet());
         listeners.add(new KarilSet());
@@ -48,6 +49,7 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         listeners.add(new ToxicStaffOfTheDead());
         listeners.add(new ElysianSpiritShield());
         listeners.add(new PrayerDamage());
+        listeners.add(new PoisonDamageEffect());
         listeners.add(new BraceletOfEthereum());
         return listeners;
     }

@@ -1,4 +1,4 @@
-package com.aelous.model.entity.combat.damagehandler.impl.armor;
+package com.aelous.model.entity.combat.damagehandler.impl.typeless;
 
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.entity.Entity;
@@ -11,9 +11,8 @@ import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
-import com.aelous.utility.ItemIdentifiers;
 
-public class SerpentineHelm implements DamageEffectListener {
+public class PoisonDamageEffect implements DamageEffectListener {
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         var attacker = (Player) hit.getAttacker();

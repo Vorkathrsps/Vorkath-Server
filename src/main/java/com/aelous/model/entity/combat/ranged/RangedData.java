@@ -143,17 +143,6 @@ public class RangedData {
                         }
                     }
                 }
-                /* case DIAMOND_BOLTS_E, DIAMOND_DRAGON_BOLTS_E -> {
-                    if (Utils.percentageChance(boltSpecialChance(always_spec))) {
-                        p.putAttrib(AttributeKey.ARMOUR_PIERCING, true);
-                        target.performGraphic(new Graphic(758, GraphicHeight.HIGH));
-                        boltSpecialMultiplier = 1.15; // Deals 15% extra damage.
-                        damage *= boltSpecialMultiplier;
-                        if (zaryteCrossBowEvoke(p)) {
-                            damage += boltSpecialMultiplier;
-                        }
-                    }
-                }*/
                 case ONYX_BOLTS_E, ONYX_DRAGON_BOLTS_E -> {
                     if (Utils.percentageChance(boltSpecialChance(always_spec))) {
                         target.performGraphic(new Graphic(753, GraphicHeight.LOW, 55 + 5));

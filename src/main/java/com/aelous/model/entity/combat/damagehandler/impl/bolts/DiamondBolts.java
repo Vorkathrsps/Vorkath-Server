@@ -41,9 +41,6 @@ public class DiamondBolts implements AmmunitionDamageEffectListener {
                     player.putAttrib(AttributeKey.ARMOUR_PIERCING, true);
                     target.performGraphic(new Graphic(758, GraphicHeight.HIGH));
                     damage *= 1.15;
-                    if (zaryteCrossBowEvoke(player)) {
-                        damage += boltSpecialMultiplier;
-                    }
                 }
                 return damage;
             }

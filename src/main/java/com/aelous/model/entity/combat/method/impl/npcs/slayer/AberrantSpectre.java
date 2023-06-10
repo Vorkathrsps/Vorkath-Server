@@ -10,13 +10,12 @@ import com.aelous.model.entity.player.Skills;
 import com.aelous.utility.ItemIdentifiers;
 
 public class AberrantSpectre extends CommonCombatMethod {
-
     private static final int[] DRAIN = { Skills.ATTACK, Skills.STRENGTH, Skills.DEFENCE, Skills.RANGED, Skills.MAGIC};
-
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
-        var tileDist = entity.tile().distance(target.tile());
+        var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
+        var tileDist = tile.distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, 336, 51, duration, 43, 31, 0, target.getSize(), 10);
         final int delay = entity.executeProjectile(p);

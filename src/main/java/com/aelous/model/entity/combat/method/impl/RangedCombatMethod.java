@@ -161,7 +161,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                 hit1.submit();
                 hit2.submit();
             } else {
-                Projectile projectile = new Projectile(attacker, target, graphic, startSpeed, duration, startHeight, endHeight, 0, target.getSize(), stepMultiplier);
+                Projectile projectile = new Projectile(attacker, target, graphic, startSpeed, duration, startHeight, endHeight, 16, target.getSize(), stepMultiplier);
 
                 final int hitDelay = attacker.executeProjectile(projectile);
 

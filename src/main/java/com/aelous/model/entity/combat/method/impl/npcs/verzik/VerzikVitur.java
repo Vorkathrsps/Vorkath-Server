@@ -24,11 +24,12 @@ import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
-import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.TREASURE_ROOM;
-import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
+import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.*;
 import static com.aelous.model.entity.combat.method.impl.npcs.verzik.VerzikPhase.INIT_PHASE_2;
 import static com.aelous.utility.ItemIdentifiers.DAWNBRINGER;
 
@@ -37,8 +38,6 @@ import static com.aelous.utility.ItemIdentifiers.DAWNBRINGER;
  * @Since January 07, 2022
  */
 public class VerzikVitur extends CommonCombatMethod {
-
-    private static final int NYLOCAS_ATHANATOS_SPAWN_ANIMATION_ID = 8079;
     private static final int OUT_OF_CHAIR = 8111;
     private static final int CHAIR_ATTACK = 8109;
     private static final Tile SPIDER_SPAWN = new Tile(3171, 4315);
@@ -113,7 +112,8 @@ public class VerzikVitur extends CommonCombatMethod {
                             t.hit(mob, World.getWorld().random(1, 40), delay, CombatType.MAGIC).checkAccuracy().submit();
                         } else {
                             var targetPos = t.tile().copy();
-                            var tileDist = mob.tile().distance(t.tile());
+                            var translateTile = entity.tile().translateAndCenterNpcPosition(mob, target);
+                            var tileDist = translateTile.distance(targetPos);
                             int duration = (41 + 11 + (5 * tileDist));
                             var tile = mob.tile().translateAndCenterNpcPosition(mob, target);
                             Projectile p = new Projectile(tile, targetPos, 1593, 41, duration, 43, 31, 0, target.getSize(), 10);
@@ -125,7 +125,8 @@ public class VerzikVitur extends CommonCombatMethod {
                     bombCount = 0;
                 } else {
                     final Tile targetPos = target.tile().copy();
-                    var tileDist = mob.tile().distance(targetPos);
+                    var translateTile = entity.tile().translateAndCenterNpcPosition(mob, target);
+                    var tileDist = translateTile.distance(targetPos);
                     int duration = (41 + 11 + (5 * tileDist));
                     var tile = mob.tile().translateAndCenterNpcPosition(mob, target);
                     Projectile p = new Projectile(tile, targetPos, 1586, 41, duration, 43, 31, 0, target.getSize(), 10);
@@ -177,7 +178,8 @@ public class VerzikVitur extends CommonCombatMethod {
                                 stop();
                             }
                             if ((count % 2 == 0) && nylocasAthanatos != null && !nylocasAthanatos.dead()) {
-                                var tileDist = entity.tile().distance(target.tile());
+                                var tile = entity.tile().translateAndCenterNpcPosition(mob, target);
+                                var tileDist = tile.distance(target.tile());
                                 int duration = (51 + -5 + (10 * tileDist));
                                 Projectile p = new Projectile(entity, targetPos, 1578, 100, duration, 50, 0, 0, target.getSize(), 10);
                                 int delay = p.send(mob, targetPos);
@@ -202,7 +204,8 @@ public class VerzikVitur extends CommonCombatMethod {
                     if (t == null || t.player().dead() || !t.tile().isWithinDistance(mob.tile(), 32) || !t.tile().inArea(ARENA)) {
                         continue;
                     }
-                    var tileDist = entity.tile().distance(t.tile());
+                    var tile = entity.tile().translateAndCenterNpcPosition(mob, target);
+                    var tileDist = tile.distance(t.tile());
                     int duration = (45 + -5 + (10 * tileDist));
                     Projectile p = new Projectile(entity, t, 1594, 45, duration, 70, 20, 0, target.getSize(), 10);
                     int delay = p.send(mob, t);
@@ -214,7 +217,8 @@ public class VerzikVitur extends CommonCombatMethod {
                     if (t == null || t.player().dead() || !t.tile().isWithinDistance(mob.tile(), 32) || !t.tile().inArea(ARENA)) {
                         continue;
                     }
-                    var tileDist = entity.tile().distance(t.tile());
+                    var tile = entity.tile().translateAndCenterNpcPosition(mob, target);
+                    var tileDist = tile.distance(t.tile());
                     int duration = (75 + -5 + (10 * tileDist));
                     Projectile p = new Projectile(entity, t, 1593, 75, duration, 43, 31, 0, target.getSize(), 10);
                     int delay = p.send(mob, t);
@@ -272,6 +276,7 @@ public class VerzikVitur extends CommonCombatMethod {
     }
 
     private boolean transform(Entity mob) {
+        GameObject throne = new GameObject(VERZIKS_THRONE_32737, new Tile(3167, 4324, mob.getZ()), 10, 0);
         var area = mob.getInstancedArea();
         if (mob.npc().id() == VERZIK_VITUR_8370) {
             mob.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, false);
@@ -292,11 +297,11 @@ public class VerzikVitur extends CommonCombatMethod {
                 mob.npc().canAttack(true);
             }).waitUntil(1, () -> {
                 mob.resetFreeze();
+                throne.spawn();
                 mob.smartPathTo(new Tile(3167, 4311, mob.tile().level));
                 return mob.tile().equals(3167, 4311, mob.getZ());
             }, () -> {
                 phase = VerzikPhase.PHASE_2;
-                var o = GameObject.spawn(VERZIKS_THRONE_32737, 3167, 4324, mob.getZ(),10,0);
                 mob.npc().transmog(VERZIK_VITUR_8372);
                 mob.npc().def(World.getWorld().definitions().get(NpcDefinition.class, VERZIK_VITUR_8372));
             });
@@ -322,12 +327,18 @@ public class VerzikVitur extends CommonCombatMethod {
                 mob.animate(-1);
                 mob.npc().transmog(VERZIK_VITUR_8375);
             }).then(6, () -> {
+                List<NPC> npcsToRemove = new ArrayList<>();
                 for (NPC npc : mob.getInstancedArea().getNpcs()) {
+                    if (npc != null) {
+                        npcsToRemove.add(npc);
+                    }
+                }
+                for (NPC npc : npcsToRemove) {
                     npc.remove();
                 }
                 mob.npc().remove();
-                treasure.spawn();
-            });
+                throne.animate(8108);
+            }).then(4, treasure::spawn);
             return true;
         }
         return false;

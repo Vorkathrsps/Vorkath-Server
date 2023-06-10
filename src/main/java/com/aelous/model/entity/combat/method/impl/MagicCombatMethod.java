@@ -105,7 +105,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
         player.animate(new Animation(castAnimation));
         player.performGraphic(new Graphic(startgraphic, startGraphicHeight, 0));
 
-        Projectile p = new Projectile(player, target, projectile, startSpeed, duration, startHeight, endHeight, 0, entity.getSize(), stepMultiplier);
+        Projectile p = new Projectile(player, target, projectile, startSpeed, duration, startHeight, endHeight, 16, entity.getSize(), stepMultiplier);
 
 
         final int delay = player.executeProjectile(p);

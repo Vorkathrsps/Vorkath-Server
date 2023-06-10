@@ -417,7 +417,7 @@ public class GreatOlm extends CommonCombatMethod {
                 var tileDist = entity.tile().distance(target.tile());
                 int duration = lastBasicAttackStyle == CombatType.RANGED ? (41 + 11 + (5 * tileDist)) : (51 + -5 + (10 * tileDist));
                 var tile = npc.tile().translateAndCenterNpcPosition(npc, p);
-                Projectile projectile = new Projectile(tile, p, lastBasicAttackStyle == CombatType.RANGED ? 1340 : 1339, lastBasicAttackStyle == CombatType.RANGED ? 41 : 51, duration, 80, 31, 0, 1, lastBasicAttackStyle == CombatType.RANGED ? 5 : 10);
+                Projectile projectile = new Projectile(tile, p, lastBasicAttackStyle == CombatType.RANGED ? 1340 : 1339, lastBasicAttackStyle == CombatType.RANGED ? 41 : 51, duration, 80, 31, 16, 1, lastBasicAttackStyle == CombatType.RANGED ? 5 : 10);
                 final int delay = entity.executeProjectile(projectile);
                 int maxDamage = npc.getCombatInfo().maxhit;
                 if (Prayers.usingPrayer(p, lastBasicAttackStyle == CombatType.RANGED ? Prayers.PROTECT_FROM_MISSILES : Prayers.PROTECT_FROM_MAGIC))
@@ -444,7 +444,7 @@ public class GreatOlm extends CommonCombatMethod {
             switch (style) {
                 case MAGIC -> {
                     message = Color.PURPLE.wrap("The Great Olm fires a sphere of magical power your way.");
-                    projectile = new Projectile(tile, target, 1341, 51, duration, 80, 43, 0, npc.getSize(), 10);
+                    projectile = new Projectile(tile, target, 1341, 51, duration, 80, 43, 16, npc.getSize(), 10);
                     hitGfx = 1342;
                     prayer = Prayers.PROTECT_FROM_MAGIC;
                 }

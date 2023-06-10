@@ -313,9 +313,11 @@ public class CombatFactory {
             }
 
             if (npc instanceof AlchemicalHydra hydra) {
-                if (!hydra.getShieldDropped()) {
-                    player.message("The Alchemical Hydra's defences partially absorb your attack!");
-                    damage = Math.round(damage * 0.5F);
+                if (!hydra.isEnraged()) {
+                    if (!hydra.getShieldDropped()) {
+                        player.message("The Alchemical Hydra's defences partially absorb your attack!");
+                        damage = Math.round(damage * 0.5F);
+                    }
                 }
             }
 

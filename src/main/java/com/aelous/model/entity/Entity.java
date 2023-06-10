@@ -481,15 +481,34 @@ public abstract class Entity {
         if (projectile == null) {
             return 0;
         }
+
+        var entityAbsX = this.getAbsX();
+        var entityAbsY = this.getAbsY();
+
         Tile source = projectile.getStart();
         Tile target = projectile.getTarget();
-        if (source == null || target == null) {
+
+        var entityX = source.getX();
+        var entityY = source.getY();
+
+        int diffX = entityAbsX - entityX;
+        int diffY = entityAbsY - entityY;
+
+        if (target == null) {
             return 0;
         }
-        int offX = (source.getY() - target.getY()) * -1;
-        int offY = (source.getX() - target.getX()) * -1;
 
-        int distance = this.tile().getChevDistance(target);
+        int offX = (entityY - target.getY()) * -1;
+        int offY = (entityX - target.getX()) * -1;
+
+        if (diffX != 0)
+            entityAbsX += offX * (diffX / Math.abs(diffX));
+        if (diffY != 0)
+            entityAbsY += offY * (diffY / Math.abs(diffY));
+
+        var translatedTile = this.getCombat().getTarget() != null ? this.tile().translateAndCenterNpcPosition(this, this.getCombat().getTarget()) : this.tile();
+
+        int distance = translatedTile.getManHattanDist(entityX, entityY, entityAbsX, entityAbsY);
 
         if (distance <= 60) {
             int creatorSize = projectile.getCreatorSize() == -1 ? getSize() : projectile.getCreatorSize();
@@ -508,12 +527,11 @@ public abstract class Entity {
 
                 if (source.isViewableFrom(player.getCentrePosition())) {
                     player.getPacketSender()
-                        .sendProjectile(source, offset, projectile.getAngle(), projectile.getSpeed(), projectile.getProjectileID(), projectile.getStartHeight(), projectile.getEndHeight(), projectile.getLockon(), projectile.getDelay(), creatorSize, projectile.getStartDistanceOffset());
+                        .sendProjectile(source, offset, projectile.getAngle(), projectile.getSpeed(), projectile.getProjectileID(), projectile.getStartHeight(), projectile.getEndHeight(), projectile.getLockon(), projectile.getDelay(), projectile.getSlope(), creatorSize, projectile.getStartDistanceOffset());
                 }
             }
         }
         return projectile.getTime(distance);
-       // return projectile.getHitDelay(distance);
     }
 
     public UpdateFlag getUpdateFlag() {

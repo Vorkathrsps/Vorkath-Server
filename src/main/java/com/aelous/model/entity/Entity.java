@@ -494,6 +494,13 @@ public abstract class Entity {
         int diffX = entityAbsX - entityX;
         int diffY = entityAbsY - entityY;
 
+        int creatorSize = projectile.getCreatorSize() == -1 ? getSize() : projectile.getCreatorSize();
+
+        if (creatorSize > 1) {
+            entityX += creatorSize / 2;
+            entityY += creatorSize / 2;
+        }
+
         if (target == null) {
             return 0;
         }
@@ -508,15 +515,9 @@ public abstract class Entity {
 
         var translatedTile = this.getCombat().getTarget() != null ? this.tile().translateAndCenterNpcPosition(this, this.getCombat().getTarget()) : this.tile();
 
-        int distance = translatedTile.getManHattanDist(entityX, entityY, entityAbsX, entityAbsY);
+        int distance = translatedTile.getDistance(entityX, entityY, entityAbsX, entityAbsY);
 
         if (distance <= 60) {
-            int creatorSize = projectile.getCreatorSize() == -1 ? getSize() : projectile.getCreatorSize();
-
-            if (creatorSize > 1) {
-                offX += creatorSize / 2;
-                offY += creatorSize / 2;
-            }
 
             Tile offset = new Tile(offX, offY, source.getZ());
 

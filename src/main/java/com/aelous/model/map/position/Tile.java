@@ -321,6 +321,12 @@ public class Tile implements Cloneable {
         return Math.abs(x - x2) + Math.abs(y - y2);
     }
 
+    public int getDistance(int x1, int y1, int x2, int y2) {
+        int diffX = Math.abs(x1 - x2);
+        int diffY = Math.abs(y1 - y2);
+        return Math.max(diffX, diffY);
+    }
+
     /**
      * Checks if this location is within range of another.
      * @param other The other location.

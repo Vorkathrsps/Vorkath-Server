@@ -8,6 +8,8 @@ import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.masks.Projectile;
+import com.aelous.model.entity.masks.impl.animations.Animation;
+import com.aelous.model.entity.masks.impl.animations.Priority;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.EquipSlot;
@@ -108,7 +110,7 @@ public class DragonfireShield extends PacketInteraction {
 
     private void dragonfireSpecial(Player attacker, Entity target) {
         int dmg = World.getWorld().random(25);
-        attacker.animate(6696);
+        attacker.animate(new Animation(6696, Priority.HIGH));
         attacker.graphic(1165);
         int tileDist = attacker.tile().transform(1, 1).getChevDistance(target.tile());
         int duration = (80 + 11 + (5 * tileDist));

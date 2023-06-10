@@ -55,6 +55,7 @@ import com.aelous.model.entity.combat.weapon.WeaponType;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.masks.impl.animations.Animation;
+import com.aelous.model.entity.masks.impl.animations.Priority;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.EquipSlot;
@@ -281,7 +282,7 @@ public class CombatFactory {
                 Player player = attacker.getAsPlayer();
                 if (player.getCombat().getWeaponType() == WeaponType.CROSSBOW) {
                     damage = RangedData.getBoltSpecialAttack(player, target, damage);
-                    ammunitionDamageListener.triggerAmmunitionDamageModification(player, target, type, damage);
+                    damage = ammunitionDamageListener.triggerAmmunitionDamageModification(player, target, type, damage);
                 }
             }
         } else if (type == CombatType.MAGIC) {
@@ -1075,7 +1076,7 @@ public class CombatFactory {
         target.action.reset();
 
         if (attacker != null && attacker.isNpc() && hit.getCombatType() == CombatType.MAGIC && !target.getUpdateFlag().flagged(Flag.ANIMATION)) {
-            target.animate(new Animation(target.getBlockAnim()));
+            target.animate(new Animation(target.getBlockAnim(), Priority.MEDIUM));
         }
 
         // no need to process anything more

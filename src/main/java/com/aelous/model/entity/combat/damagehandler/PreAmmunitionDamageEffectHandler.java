@@ -13,7 +13,7 @@ public class PreAmmunitionDamageEffectHandler {
         this.ammunitionDamage = ammunitionDamage;
     }
 
-    public void triggerAmmunitionDamageModification(Entity entity, Entity target, CombatType combatType, int damage) {
-        ammunitionDamage.prepareBoltSpecialEffect(entity, target, combatType, damage);
+    public int triggerAmmunitionDamageModification(Entity entity, Entity target, CombatType combatType, int damage) {
+       return ammunitionDamage.prepareBoltSpecialEffect(entity, target, combatType, damage);
     }
 }

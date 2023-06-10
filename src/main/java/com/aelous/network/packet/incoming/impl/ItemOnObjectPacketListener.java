@@ -69,6 +69,7 @@ public class ItemOnObjectPacketListener implements PacketListener {
             }
 
             if (gameObject.interactAble()) {
+
                 boolean reachable = false;
 
                 if (player.getPlayerRights().isOwner(player)) {

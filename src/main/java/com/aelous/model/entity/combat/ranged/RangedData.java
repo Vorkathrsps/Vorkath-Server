@@ -154,26 +154,6 @@ public class RangedData {
                         }
                     }
                 }*/
-                case DRAGONSTONE_BOLTS_E, DRAGONSTONE_DRAGON_BOLTS_E -> {
-                    boolean can_perform_dragons_breath = true;
-                    if (Utils.percentageChance(boltSpecialChance(always_spec))) {
-                        if (target.isPlayer()) {
-                            Player t = target.getAsPlayer();
-                            boolean potionEffect = (int) t.getAttribOr(AttributeKey.ANTIFIRE_POTION, 0) > 0;
-                            can_perform_dragons_breath = !(potionEffect || Equipment.hasDragonProtectionGear(t));
-                        }
-
-                        if (Utils.percentageChance(boltSpecialChance(always_spec))) {
-                            target.performGraphic(new Graphic(756, GraphicHeight.HIGH, 55 + 5));
-                            int current_range_level = p.getSkills().level(Skills.RANGED);
-                            boltSpecialMultiplier = (current_range_level * 0.20); // 20 % extra damage
-                            damage += boltSpecialMultiplier;
-                            if (zaryteCrossBowEvoke(p)) {
-                                damage += boltSpecialMultiplier;
-                            }
-                        }
-                    }
-                }
                 case ONYX_BOLTS_E, ONYX_DRAGON_BOLTS_E -> {
                     if (Utils.percentageChance(boltSpecialChance(always_spec))) {
                         target.performGraphic(new Graphic(753, GraphicHeight.LOW, 55 + 5));

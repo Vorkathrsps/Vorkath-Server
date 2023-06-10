@@ -118,6 +118,7 @@ public class Hit {
         }
 
         if (attacker != null) {
+
             if (attacker.isNpc() || attacker.pidOrderIndex == -1) {
                 return;
             }

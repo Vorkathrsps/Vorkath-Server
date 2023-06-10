@@ -490,35 +490,36 @@ public abstract class Entity {
             return 0;
         }
 
-        var entityX = source.getX();
-        var entityY = source.getY();
+        int entityX = source.getX();
+        int entityY = source.getY();
 
         int creatorSize = projectile.getCreatorSize() == -1 ? getSize() : projectile.getCreatorSize();
 
         int offX = (entityY - target.getY()) * -1;
         int offY = (entityX - target.getX()) * -1;
 
-        var translatedTile = this.getCombat().getTarget() != null ? this.tile().translateAndCenterNpcPosition(this, this.getCombat().getTarget()) : this.tile();
+        Tile translatedTile = this.getCombat().getTarget() != null ? this.tile().translateAndCenterNpcPosition(this, this.getCombat().getTarget()) : this.tile();
 
-        int distance = translatedTile.getChevDistance(target);
+        int distance = translatedTile.getManhattanDistance(target);
 
         Tile offset = new Tile(offX, offY, source.getZ());
 
         if (distance <= 60) {
-
             for (Player player : World.getWorld().getPlayers()) {
                 if (player == null) {
                     continue;
                 }
 
-                if (source.isViewableFrom(player.getCentrePosition())  ) {
+                if (source.isViewableFrom(player.getCentrePosition())) {
                     player.getPacketSender()
                         .sendProjectile(source, offset, projectile.getAngle(), projectile.getSpeed(), projectile.getProjectileID(), projectile.getStartHeight(), projectile.getEndHeight(), projectile.getLockon(), projectile.getDelay(), projectile.getSlope(), creatorSize, projectile.getStartDistanceOffset());
                 }
             }
         }
+
         return projectile.getTime(distance);
     }
+
 
     public UpdateFlag getUpdateFlag() {
         return updateFlag;

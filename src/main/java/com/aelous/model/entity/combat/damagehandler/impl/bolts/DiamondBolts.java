@@ -19,7 +19,6 @@ public class DiamondBolts implements AmmunitionDamageEffectListener {
     @Override
     public int prepareBoltSpecialEffect(Entity entity, Entity target, CombatType combatType, int damage) {
         var always_spec = false;
-        double boltSpecialMultiplier = 1.15;
 
         if (damage <= 0 || combatType != CombatType.RANGED) {
             return 0;

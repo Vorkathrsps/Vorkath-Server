@@ -18,21 +18,27 @@ public class VoidWaker extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        SecureRandom randomGarunteedAccuracy = new SecureRandom();
+        SecureRandom random = new SecureRandom();
 
-        var isDummy = target.isNpc() && target.getAsNpc().isCombatDummy();
+        boolean isDummy = target.isNpc() && target.getAsNpc().isCombatDummy();
         double maxHit = entity.getCombat().getMaximumMeleeDamage();
-        double minhit = maxHit * 0.5;
-        double hitLogic = minhit + randomGarunteedAccuracy.nextInt((int) (maxHit * 1.5 + 1 - minhit));
+        double minHit = maxHit * 0.5;
+        double hitDamage = minHit + random.nextInt((int) (maxHit * 1.5 + 1 - minHit));
 
         entity.animate(new Animation(1378));
 
-        Hit hit = target.hit(entity, (int) (isDummy ? maxHit * 1.5 + 1 - minhit : Math.floor(hitLogic)), 0, CombatType.MAGIC);
+        CombatType combatType = CombatType.MAGIC;
+        if (isDummy) {
+            hitDamage = maxHit * 1.5;
+            combatType = CombatType.MELEE;
+        }
 
-        if (target instanceof NPC npc) {
-            if (npc.id() == NpcIdentifiers.CORPOREAL_BEAST) {
-                hit = target.hit(entity, (int) Math.floor(hitLogic), 0, CombatType.MAGIC).checkAccuracy();
-            }
+        int finalDamage = (int) Math.floor(hitDamage);
+
+        Hit hit = target.hit(entity, finalDamage, 0, combatType).checkAccuracy();
+
+        if (target instanceof NPC npc && npc.id() == NpcIdentifiers.CORPOREAL_BEAST) {
+            hit = target.hit(entity, finalDamage, 0, CombatType.MAGIC).checkAccuracy();
         }
 
         hit.setAccurate(true);
@@ -46,8 +52,9 @@ public class VoidWaker extends CommonCombatMethod {
         target.performGraphic(new Graphic(2363, GraphicHeight.LOW, 0));
 
         CombatSpecial.drain(entity, CombatSpecial.VOIDWAKER.getDrainAmount());
-return true;
+        return true;
     }
+
 
     @Override
     public int getAttackSpeed(Entity entity) {

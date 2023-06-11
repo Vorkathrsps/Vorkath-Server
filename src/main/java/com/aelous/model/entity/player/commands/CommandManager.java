@@ -649,11 +649,18 @@ public class CommandManager {
             ((GreatOlm) olm.getCombatMethod()).flameWall(olm);
         });
         dev("c", (p, c, s) -> {
-            NPC npc =  new Athanatos(NYLOCAS_ATHANATOS, p.tile(), false);
-            npc.spawn();
-            npc.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, true);
-            npc.canAttack(false);
-            npc.face(p);
+
+            for (var t : p.getSurroundingRegions()) {
+                for (Tile activeTile : t.activeTiles) {
+                    if (activeTile.gameObjects != null) {
+                        for (int index = 0; index < activeTile.gameObjects.size(); index++) {
+                            if (activeTile.gameObjects.get(index) != null) {
+                                System.out.println("id= " + activeTile.gameObjects.get(index).getId());
+                            }
+                        }
+                    }
+                }
+            }
         });
         dev("curseoff", (p, c, s) -> {
             p.clearAttrib(AttributeKey.NIGHTMARE_CURSE);

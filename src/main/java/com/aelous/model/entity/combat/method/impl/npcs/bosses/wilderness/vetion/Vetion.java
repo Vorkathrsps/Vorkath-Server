@@ -126,6 +126,7 @@ public class Vetion extends CommonCombatMethod {
     public int getAttackDistance(Entity entity) {
         return 1;
     }
+
     private void doMagicSwordRaise() {
         NPC vetion = (NPC) entity;
         var transformedTile = target.tile().transform(3, 3, 0);

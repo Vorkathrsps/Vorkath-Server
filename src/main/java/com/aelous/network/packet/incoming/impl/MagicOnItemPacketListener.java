@@ -153,7 +153,7 @@ public class MagicOnItemPacketListener implements PacketListener {
                             coinAmountToGive = 0;
                         }
 
-                        spell.startCast(player, null);
+                        spell.cast(player, null);
 
                         item = new Item(item.getId(), 1);
 
@@ -184,7 +184,7 @@ public class MagicOnItemPacketListener implements PacketListener {
                             coinAmountToGive = 0;
                         }
 
-                        spell.startCast(player, null);
+                        spell.cast(player, null);
 
                         item = new Item(item.getId(), 1);
 

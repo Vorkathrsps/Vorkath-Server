@@ -1,15 +1,11 @@
 package com.aelous.model.entity.combat.magic.spells;
 
-import com.aelous.core.task.Task;
-import com.aelous.model.World;
-import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.combat.method.impl.arceuus.MagicThrall;
 import com.aelous.model.entity.combat.method.impl.arceuus.MeleeThrall;
 import com.aelous.model.entity.combat.method.impl.arceuus.RangeThrall;
 import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
-import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -81,7 +77,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
                 final Player player = cast.isPlayer() ? (Player) cast : null;
 
                 if (player != null) {
@@ -201,7 +197,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
                 final Player player = cast.isPlayer() ? (Player) cast : null;
 
                 // Send message and effect timer to client
@@ -319,7 +315,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
                 final Player player = cast.isPlayer() ? (Player) cast : null;
 
                 // Send message and effect timer to client
@@ -437,7 +433,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
                 final Player player = cast.isPlayer() ? (Player) cast : null;
 
                 if (player != null) {
@@ -491,7 +487,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
                 if (!(cast instanceof Player player)) {
                     return;
                 }
@@ -615,7 +611,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
                 if (!(cast instanceof Player player)) {
                     return;
                 }
@@ -739,7 +735,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
                 if (!(cast instanceof Player player)) {
                     return;
                 }
@@ -868,7 +864,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
                 final Player player = cast.isPlayer() ? (Player) cast : null;
 
                 if (player != null) {
@@ -936,7 +932,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
 
             }
 
@@ -986,7 +982,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
 
             }
 
@@ -1036,7 +1032,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
 
             }
 
@@ -1086,7 +1082,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
 
             }
 
@@ -1137,7 +1133,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
 
             }
 
@@ -1188,7 +1184,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
 
             }
 
@@ -1239,7 +1235,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
 
             }
 
@@ -1290,7 +1286,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
                 final Player player = cast.isPlayer() ? (Player) cast : null;
 
                 if (player != null) {
@@ -1350,7 +1346,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
             }
 
         }),
@@ -1392,7 +1388,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
             }
 
         }),
@@ -1434,7 +1430,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
                 final Player player = cast.isPlayer() ? (Player) cast : null;
 
                 if (player != null) {
@@ -1495,7 +1491,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
                 final Player player = cast.isPlayer() ? (Player) cast : null;
 
                 if (player != null) {
@@ -1565,7 +1561,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
             }
         }),
 
@@ -1610,7 +1606,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
             }
 
             @Override
@@ -1657,7 +1653,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
             }
 
             public boolean canCastOn(Player player, Player target) {
@@ -1711,7 +1707,7 @@ public class MagicClickSpells {
             }
 
             @Override
-            public void startCast(Entity cast, Entity castOn) {
+            public void cast(Entity cast, Entity castOn) {
                 final Player player = cast.isPlayer() ? (Player) cast : null;
 
                 // Send message and effect timer to client
@@ -1797,7 +1793,7 @@ public class MagicClickSpells {
                 if (!spell.canCast(player, null, spell.deleteRunes())) {
                     return false;
                 }
-                spell.startCast(player, null);
+                spell.cast(player, null);
                 return true;
             }
             default -> {
@@ -1824,7 +1820,7 @@ public class MagicClickSpells {
         }
 
         spell.deleteRequiredRunes(player, new HashMap<>());
-        spell.startCast(player, attacked);
+        spell.cast(player, attacked);
     }
 
     /**

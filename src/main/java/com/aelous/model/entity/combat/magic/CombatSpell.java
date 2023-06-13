@@ -44,7 +44,7 @@ import static com.aelous.utility.ItemIdentifiers.*;
 public abstract class CombatSpell extends Spell {
 
     @Override
-    public void startCast(Entity cast, Entity castOn) {
+    public void cast(Entity cast, Entity castOn) {
     }
 
 

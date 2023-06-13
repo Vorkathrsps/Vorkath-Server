@@ -356,5 +356,5 @@ public abstract class Spell {
      * @param cast   the entity casting the spell.
      * @param castOn the target of the spell.
      */
-    public abstract void startCast(Entity cast, Entity castOn);
+    public abstract void cast(Entity cast, Entity castOn);
 }

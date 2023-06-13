@@ -927,7 +927,9 @@ public class NPC extends Entity {
     public Predicate<Tile> skipReachCheck;
 
     public void remove() {
-        World.getWorld().unregisterNpc(this);
+        //Only remove if this npc is registered
+        if (isRegistered())
+            World.getWorld().unregisterNpc(this);
     }
 
     private boolean canAttack = true;

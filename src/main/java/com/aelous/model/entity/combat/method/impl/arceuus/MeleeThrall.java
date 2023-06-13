@@ -17,10 +17,7 @@ public class MeleeThrall extends NPC {
         this.canAttack(false);
         this.animate(9007);
         this.graphic(1905, GraphicHeight.LOW, 0);
-        Chain.bound(this).name("melee thrall").runFn(40, () -> {
-            clearList();
-            this.remove();
-        });
+        Chain.bound(this).name("melee thrall").runFn(40, this::clearList);
     }
 
     public void sendThrallAttack(Entity entity, Player player) {

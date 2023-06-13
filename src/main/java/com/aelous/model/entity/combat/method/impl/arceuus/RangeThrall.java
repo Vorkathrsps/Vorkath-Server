@@ -18,10 +18,7 @@ public class RangeThrall extends NPC {
         this.canAttack(false);
         this.animate(9048);
         this.graphic(1904);
-        Chain.bound(this).name("ranging thrall").runFn(40, () -> {
-            clearList();
-            this.remove();
-        });
+        Chain.bound(this).name("ranging thrall").runFn(40, this::clearList);
     }
 
     public void sendThrallAttack(Entity entity, Player player) {

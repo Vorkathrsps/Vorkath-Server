@@ -14,8 +14,8 @@ public enum MagicSpellbook {
 
     NORMAL(938),
     ANCIENT(838),
-    ARCEUUS(24794),
-    LUNAR(29999);
+    LUNAR(29999),
+    ARCEUUS(24794);
 
     /**
      * The MagicSpellBook constructor.

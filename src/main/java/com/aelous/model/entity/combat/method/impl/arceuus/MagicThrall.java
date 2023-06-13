@@ -17,10 +17,7 @@ public class MagicThrall extends NPC {
         this.canAttack(false);
         this.animate(9047);
         this.graphic(1903, GraphicHeight.LOW, 0);
-        Chain.bound(this).name("magic thrall").runFn(40, () -> {
-            clearList();
-            this.remove();
-        });
+        Chain.bound(this).name("magic thrall").runFn(40, this::clearList);
     }
 
     public void sendThrallAttack(Entity entity, Player player) {

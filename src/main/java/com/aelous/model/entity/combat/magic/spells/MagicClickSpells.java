@@ -544,7 +544,7 @@ public class MagicClickSpells {
 
                         canAttack.getAndSet(true);
 
-                        Chain.bound(thrall).repeatingTask(5, combatTick -> {
+                        Chain.bound(thrall).repeatingTask(4, combatTick -> {
                             if (npcRemoved.get() || player.getActiveThrall().isEmpty()) {
                                 combatTick.stop();
                                 return;
@@ -668,7 +668,7 @@ public class MagicClickSpells {
 
                         canAttack.getAndSet(true);
 
-                        Chain.bound(thrall).repeatingTask(5, combatTick -> {
+                        Chain.bound(thrall).repeatingTask(4, combatTick -> {
                             if (npcRemoved.get() || player.getActiveThrall().isEmpty()) {
                                 combatTick.stop();
                                 return;
@@ -792,7 +792,7 @@ public class MagicClickSpells {
 
                         canAttack.getAndSet(true);
 
-                        Chain.bound(thrall).repeatingTask(5, combatTick -> {
+                        Chain.bound(thrall).repeatingTask(4, combatTick -> {
                             if (npcRemoved.get() || player.getActiveThrall().isEmpty()) {
                                 combatTick.stop();
                                 return;

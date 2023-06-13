@@ -31,7 +31,6 @@ public class SpellbookCommand implements Command {
             default -> player.getSpellbook();
         };
         MagicSpellbook.changeSpellbook(player, book, true);
-        player.setSpellbook(book);
     }
 
     @Override

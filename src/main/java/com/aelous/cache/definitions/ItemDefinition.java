@@ -3,6 +3,7 @@ package com.aelous.cache.definitions;
 import com.aelous.model.content.consumables.FoodConsumable;
 import com.aelous.model.content.consumables.potions.Potions;
 import com.aelous.model.entity.combat.weapon.WeaponType;
+import com.aelous.model.entity.player.Player;
 import com.aelous.utility.loaders.BloodMoneyPrices;
 import com.aelous.model.items.Item;
 import com.aelous.network.codec.RSBuffer;

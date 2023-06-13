@@ -27,9 +27,11 @@ public class SpellbookCommand implements Command {
             case "0", "normal", "regular", "modern" -> MagicSpellbook.NORMAL;
             case "1", "ancients", "ancient" -> MagicSpellbook.ANCIENT;
             case "2", "lunar" -> MagicSpellbook.LUNAR;
+            case "3", "arc" -> MagicSpellbook.ARCEUUS;
             default -> player.getSpellbook();
         };
         MagicSpellbook.changeSpellbook(player, book, true);
+        player.setSpellbook(book);
     }
 
     @Override

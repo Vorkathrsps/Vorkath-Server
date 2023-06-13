@@ -9,7 +9,6 @@ import com.aelous.model.entity.npc.NPC;
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class AlchemicalHydraAttackScript extends CommonCombatMethod {
-
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         NPC mobAsNpc = (NPC) entity;

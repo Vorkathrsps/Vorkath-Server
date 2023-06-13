@@ -1,5 +1,6 @@
 package com.aelous.model.content.skill.impl.slayer.content;
 
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
@@ -12,6 +13,7 @@ public class SaturatedHeart extends PacketInteraction {
         if (item.getId() == ItemIdentifiers.SATURATED_HEART) {
             player.getTimers().register(TimerKey.SATURATED_HEART, 500);
             int boost = 4 + (player.getSkills().xpLevel(Skills.MAGIC) / 10);
+            player.graphic(2287, GraphicHeight.LOW, 0);
             if (player.getSkills().levels()[Skills.MAGIC] == player.getSkills().xpLevel(Skills.MAGIC)) {
                 player.getSkills().alterSkill(Skills.MAGIC, boost);
             }

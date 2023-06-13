@@ -5,22 +5,26 @@ import com.aelous.cache.definitions.NpcDefinition;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 import com.aelous.model.content.areas.theatre.ViturRoom;
-import com.aelous.model.content.instance.InstancedAreaManager;
 import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
+import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
+import com.aelous.model.entity.combat.method.impl.arceuus.MagicThrall;
 import com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
-import com.aelous.model.entity.combat.method.impl.npcs.hydra.AlchemicalHydra;
-import com.aelous.model.entity.combat.method.impl.npcs.verzik.nylocas.Athanatos;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Direction;
-import com.aelous.model.entity.npc.HealthHud;
+import com.aelous.model.entity.masks.Projectile;
+import com.aelous.model.entity.masks.impl.animations.Animation;
+import com.aelous.model.entity.masks.impl.animations.Priority;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.npc.droptables.ScalarLootTable;
 import com.aelous.model.entity.player.InputScript;
@@ -40,7 +44,6 @@ import com.aelous.model.items.Item;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.object.GameObject;
-import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.region.Region;
 import com.aelous.model.map.region.RegionManager;
@@ -48,6 +51,7 @@ import com.aelous.utility.Debugs;
 import com.aelous.utility.Utils;
 import com.aelous.utility.Varbit;
 import com.aelous.utility.chainedwork.Chain;
+import com.aelous.utility.timers.TimerKey;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -55,9 +59,10 @@ import org.apache.logging.log4j.util.TriConsumer;
 
 import java.security.SecureRandom;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.GREAT_OLM_7554;
-import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.NYLOCAS_ATHANATOS;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
 import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_ACTIVE;
 import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_UNLOCKED;
@@ -649,18 +654,44 @@ public class CommandManager {
             ((GreatOlm) olm.getCombatMethod()).flameWall(olm);
         });
         dev("c", (p, c, s) -> {
+            AtomicBoolean npcDespawned = new AtomicBoolean(false);
+            var player = p;
 
-            for (var t : p.getSurroundingRegions()) {
-                for (Tile activeTile : t.activeTiles) {
-                    if (activeTile.gameObjects != null) {
-                        for (int index = 0; index < activeTile.gameObjects.size(); index++) {
-                            if (activeTile.gameObjects.get(index) != null) {
-                                System.out.println("id= " + activeTile.gameObjects.get(index).getId());
-                            }
-                        }
-                    }
+            if (player.getTimers().left(TimerKey.THRALL_RESPAWN_TIMER) != 0) {
+                return;
+            }
+
+            player.getTimers().register(TimerKey.THRALL_RESPAWN_TIMER, 10);
+
+            for (var t : player.getActiveThrall()) {
+                if (t != null) {
+                    t.remove();
                 }
             }
+
+            player.getActiveThrall().clear();
+
+            MagicThrall thrall = new MagicThrall(10880, World.getWorld().randomTileAround(player.tile(), 2), true);
+            player.getActiveThrall().add(thrall);
+
+            thrall.animate(9047);
+            thrall.graphic(1903, GraphicHeight.LOW, 0);
+            player.getCombat().delayAttack(4);
+            player.animate(8973);
+            player.graphic(1873, GraphicHeight.LOW, 0);
+
+            thrall.repeatingTask(5, combatTick -> {
+                if (npcDespawned.get()) {
+                    combatTick.stop();
+                    return;
+                }
+
+                thrall.face(player.getCombat().getTarget());
+
+                if (player.dead()) {
+                    npcDespawned.getAndSet(true);
+                }
+            });
         });
         dev("curseoff", (p, c, s) -> {
             p.clearAttrib(AttributeKey.NIGHTMARE_CURSE);

@@ -18,6 +18,7 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
+import com.aelous.utility.timers.TimerKey;
 
 public class Artio extends CommonCombatMethod {
 
@@ -35,13 +36,13 @@ public class Artio extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         NPC npc = (NPC) entity;
 
-        //All attacks are melee
+
+        entity.getTimers().register(TimerKey.COMBAT_ATTACK, 6);
+
         if (CombatFactory.canReach(npc, CombatFactory.MELEE_COMBAT, target)) {
-            // At all times, callisto can initiate the heal.
             if (Utils.rollDie(18, 1)) {
                 prepareHeal(npc);
             }
-            // Determine if we do a special hit, or a regular hit.
             if (Utils.rollDie(18, 1)) {
                 fury(npc, target);
             } else if (Utils.rollDie(6, 1) && !npc.<Boolean>getAttribOr(AttributeKey.CALLISTO_ROAR, false)) {

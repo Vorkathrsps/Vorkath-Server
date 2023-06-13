@@ -1,8 +1,16 @@
 package com.aelous.model.entity.combat.magic.spells;
 
+import com.aelous.core.task.Task;
+import com.aelous.model.World;
+import com.aelous.model.entity.MovementQueue;
+import com.aelous.model.entity.combat.method.impl.arceuus.MagicThrall;
+import com.aelous.model.entity.combat.method.impl.arceuus.MeleeThrall;
+import com.aelous.model.entity.combat.method.impl.arceuus.RangeThrall;
 import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
+import com.aelous.utility.Utils;
+import com.aelous.utility.chainedwork.Chain;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.aelous.model.content.EffectTimer;
@@ -23,6 +31,8 @@ import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.timers.TimerKey;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BooleanSupplier;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.aelous.utility.ItemIdentifiers.*;
@@ -78,10 +88,10 @@ public class MagicClickSpells {
                     if (!player.locked()) {
                         Optional<Player> target = BountyHunter.getTargetfor(player);
                         if (target.isPresent()) {
-                            boolean targetInMulti = target.get().<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA,-1) == 1;
-                            if(targetInMulti) {
+                            boolean targetInMulti = target.get().<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) == 1;
+                            if (targetInMulti) {
                                 player.confirmDialogue(new String[]{"Are you sure you wish to teleport?", "Your target is inside a multiway area."}, "", "Proceed.", "Nevermind.", () -> {
-                                    if(!WildernessArea.inWilderness(target.get().tile())) {
+                                    if (!WildernessArea.inWilderness(target.get().tile())) {
                                         return;
                                     }
                                     Teleports.basicTeleport(player, new Tile(target.get().tile().getX(), target.get().tile().getY() - 1, target.get().tile().level));
@@ -127,7 +137,7 @@ public class MagicClickSpells {
                         return false;
                     }*/
 
-                    if(targetFor.get().tile().memberCave() && !player.getMemberRights().isSuperMemberOrGreater(player)) {
+                    if (targetFor.get().tile().memberCave() && !player.getMemberRights().isSuperMemberOrGreater(player)) {
                         player.message("Your target is currently in the member cave. You cannot teleport there because you are not a member.");
                         return false;
                     }
@@ -199,8 +209,8 @@ public class MagicClickSpells {
                     if (!player.locked()) {
                         Optional<Player> target = BountyHunter.getTargetfor(player);
                         if (target.isPresent()) {
-                            boolean targetInMulti = target.get().<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA,-1) == 1;
-                            if(targetInMulti) {
+                            boolean targetInMulti = target.get().<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) == 1;
+                            if (targetInMulti) {
                                 player.confirmDialogue(new String[]{"Are you sure you wish to teleport?", "Your target is inside a multiway area."}, "", "Proceed.", "Nevermind.", () -> {
                                     Teleports.teleportToTarget(player, target.get().tile());
                                     itemsRequired(player).forEach(player.inventory()::remove);
@@ -245,7 +255,7 @@ public class MagicClickSpells {
                         return false;
                     }*/
 
-                    if(targetFor.get().tile().memberCave() && !player.getMemberRights().isRegularMemberOrGreater(player)) {
+                    if (targetFor.get().tile().memberCave() && !player.getMemberRights().isRegularMemberOrGreater(player)) {
                         player.message("Your target is currently in the member cave. You cannot teleport there because you are not a member.");
                         return false;
                     }
@@ -317,8 +327,8 @@ public class MagicClickSpells {
                     if (!player.locked()) {
                         Optional<Player> target = BountyHunter.getTargetfor(player);
                         if (target.isPresent()) {
-                            boolean targetInMulti = target.get().<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA,-1) == 1;
-                            if(targetInMulti) {
+                            boolean targetInMulti = target.get().<Integer>getAttribOr(AttributeKey.MULTIWAY_AREA, -1) == 1;
+                            if (targetInMulti) {
                                 player.confirmDialogue(new String[]{"Are you sure you wish to teleport?", "Your target is inside a multiway area."}, "", "Proceed.", "Nevermind.", () -> {
                                     Teleports.teleportToTarget(player, target.get().tile());
                                     itemsRequired(player).forEach(player.inventory()::remove);
@@ -358,12 +368,12 @@ public class MagicClickSpells {
                         return false;
                     }
 
-                    if(targetFor.get().tile().insideRiskArea()) {
+                    if (targetFor.get().tile().insideRiskArea()) {
                         player.message("Your target is currently in the riskzone area, you cannot teleport there.");
                         return false;
                     }
 
-                    if(targetFor.get().tile().memberCave() && !player.getMemberRights().isSuperMemberOrGreater(player)) {
+                    if (targetFor.get().tile().memberCave() && !player.getMemberRights().isSuperMemberOrGreater(player)) {
                         player.message("Your target is currently in the member cave. You cannot teleport there because you are not a member.");
                         return false;
                     }
@@ -434,7 +444,7 @@ public class MagicClickSpells {
                     player.getTimers().register(TimerKey.CHARGE_SPELL, 200);
                     player.message("You feel charged with magic power.");
                     player.animate(811);
-                    player.getSkills().addXp(Skills.MAGIC,this.baseExperience());
+                    player.getSkills().addXp(Skills.MAGIC, this.baseExperience());
                     player.graphic(111, GraphicHeight.HIGH, 3);
                 }
             }
@@ -446,6 +456,378 @@ public class MagicClickSpells {
                     return false;
                 }
                 return super.canCast(player, target, delete);
+            }
+        }),
+
+        SUMMON_MELEE_THRALL(new Spell() {
+            @Override
+            public String name() {
+                return "Melee Thrall";
+            }
+
+            @Override
+            public int spellId() {
+                return 24798;
+            }
+
+            @Override
+            public int levelRequired() {
+                return 99;
+            }
+
+            @Override
+            public int baseExperience() {
+                return 1;
+            }
+
+            @Override
+            public List<Item> itemsRequired(Player player) {
+                return List.of(Item.of(BOOK_OF_THE_DEAD));
+            }
+
+            @Override
+            public List<Item> equipmentRequired(Player player) {
+                return List.of();
+            }
+
+            @Override
+            public void startCast(Entity cast, Entity castOn) {
+                if (!(cast instanceof Player player)) {
+                    return;
+                }
+
+                if (player.getTimers().left(TimerKey.THRALL_RESPAWN_TIMER) != 0) {
+                    return;
+                }
+
+                player.getTimers().register(TimerKey.THRALL_RESPAWN_TIMER, 10);
+
+                List<Tile> tileList = player.tile().area(2, f -> {
+                    if (!f.equals(player.tile()) && (player.getCombat().getTarget() == null || !f.equals(player.getCombat().getTarget().tile()))) {
+                        f.add(f.getX(), f.getY());
+                        return true;
+                    }
+                    return false;
+                });
+
+                Tile selectedTile = null;
+
+                if (!tileList.isEmpty()) {
+                    Random random = new Random();
+                    int randomIndex = random.nextInt(tileList.size());
+                    selectedTile = tileList.get(randomIndex);
+                }
+
+                for (var t : player.getActiveThrall()) {
+                    if (t != null) {
+                        t.remove();
+                    }
+                }
+
+                player.getActiveThrall().clear();
+
+                if (selectedTile != null) {
+                    MeleeThrall thrall = new MeleeThrall(10886, selectedTile, true);
+
+                    player.getActiveThrall().add(thrall);
+                    player.getCombat().delayAttack(4);
+                    player.animate(8973);
+                    player.graphic(1875, GraphicHeight.LOW, 0);
+
+                    thrall.setPositionToFace(player.tile());
+
+                    BooleanSupplier inCombatSupplier = () -> CombatFactory.inCombat(player);
+
+                    thrall.waitUntil(inCombatSupplier, () -> {
+                        AtomicBoolean npcRemoved = new AtomicBoolean(false);
+                        AtomicBoolean canAttack = new AtomicBoolean(false);
+
+                        canAttack.getAndSet(true);
+
+                        Chain.bound(thrall).repeatingTask(5, combatTick -> {
+                            if (npcRemoved.get() || player.getActiveThrall().isEmpty()) {
+                                combatTick.stop();
+                                return;
+                            }
+
+                            if (player.getCombat().inCombat()) {
+                                canAttack.getAndSet(true);
+                            } else {
+                                canAttack.getAndSet(false);
+                                return;
+                            }
+
+                            if (!canAttack.get()) {
+                                return;
+                            }
+
+                            if (player.getCombat().inCombat() && player.getCombat().getTarget().isNpc() || thrall.getCombat().getTarget() == null) {
+                                thrall.getCombat().setTarget(player.getCombat().getTarget());
+                            }
+
+                            if (player.getCombat().getTarget().isNpc()) {
+                                thrall.sendThrallAttack(thrall, player);
+                            } else {
+                                canAttack.getAndSet(false);
+                                return;
+                            }
+
+                            if (player.dead()) {
+                                combatTick.stop();
+                                npcRemoved.getAndSet(true);
+                                canAttack.getAndSet(false);
+                            }
+                        });
+                    });
+                }
+            }
+        }),
+
+        SUMMON_RANGING_THRALL(new Spell() {
+            @Override
+            public String name() {
+                return "Range Thrall";
+            }
+
+            @Override
+            public int spellId() {
+                return 24797;
+            }
+
+            @Override
+            public int levelRequired() {
+                return 99;
+            }
+
+            @Override
+            public int baseExperience() {
+                return 1;
+            }
+
+            @Override
+            public List<Item> itemsRequired(Player player) {
+                return List.of(Item.of(BOOK_OF_THE_DEAD));
+            }
+
+            @Override
+            public List<Item> equipmentRequired(Player player) {
+                return List.of();
+            }
+
+            @Override
+            public void startCast(Entity cast, Entity castOn) {
+                if (!(cast instanceof Player player)) {
+                    return;
+                }
+
+                if (player.getTimers().left(TimerKey.THRALL_RESPAWN_TIMER) != 0) {
+                    return;
+                }
+
+                player.getTimers().register(TimerKey.THRALL_RESPAWN_TIMER, 10);
+
+                List<Tile> tileList = player.tile().area(2, f -> {
+                    if (!f.equals(player.tile()) && (player.getCombat().getTarget() == null || !f.equals(player.getCombat().getTarget().tile()))) {
+                        f.add(f.getX(), f.getY());
+                        return true;
+                    }
+                    return false;
+                });
+
+                Tile selectedTile = null;
+
+                if (!tileList.isEmpty()) {
+                    Random random = new Random();
+                    int randomIndex = random.nextInt(tileList.size());
+                    selectedTile = tileList.get(randomIndex);
+                }
+
+                for (var t : player.getActiveThrall()) {
+                    if (t != null) {
+                        t.remove();
+                    }
+                }
+
+                player.getActiveThrall().clear();
+
+                if (selectedTile != null) {
+                    RangeThrall thrall = new RangeThrall(10883, selectedTile, true);
+
+                    player.getActiveThrall().add(thrall);
+                    player.getCombat().delayAttack(4);
+                    player.animate(8973);
+                    player.graphic(1874, GraphicHeight.LOW, 0);
+
+                    thrall.setPositionToFace(player.tile());
+
+                    BooleanSupplier inCombatSupplier = () -> CombatFactory.inCombat(player);
+
+                    thrall.waitUntil(inCombatSupplier, () -> {
+                        AtomicBoolean npcRemoved = new AtomicBoolean(false);
+                        AtomicBoolean canAttack = new AtomicBoolean(false);
+
+                        canAttack.getAndSet(true);
+
+                        Chain.bound(thrall).repeatingTask(5, combatTick -> {
+                            if (npcRemoved.get() || player.getActiveThrall().isEmpty()) {
+                                combatTick.stop();
+                                return;
+                            }
+
+                            if (player.getCombat().inCombat()) {
+                                canAttack.getAndSet(true);
+                            } else {
+                                canAttack.getAndSet(false);
+                                return;
+                            }
+
+                            if (!canAttack.get()) {
+                                return;
+                            }
+
+                            if (player.getCombat().inCombat() && player.getCombat().getTarget().isNpc() || thrall.getCombat().getTarget() == null) {
+                                thrall.getCombat().setTarget(player.getCombat().getTarget());
+                            }
+
+                            if (player.getCombat().getTarget().isNpc()) {
+                                thrall.sendThrallAttack(thrall, player);
+                            } else {
+                                canAttack.getAndSet(false);
+                                return;
+                            }
+
+                            if (player.dead()) {
+                                combatTick.stop();
+                                npcRemoved.getAndSet(true);
+                                canAttack.getAndSet(false);
+                            }
+                        });
+                    });
+                }
+            }
+        }),
+
+        SUMMON_MAGIC_THRALL(new Spell() {
+            @Override
+            public String name() {
+                return "Magic Thrall";
+            }
+
+            @Override
+            public int spellId() {
+                return 24796;
+            }
+
+            @Override
+            public int levelRequired() {
+                return 99;
+            }
+
+            @Override
+            public int baseExperience() {
+                return 1;
+            }
+
+            @Override
+            public List<Item> itemsRequired(Player player) {
+                return List.of(Item.of(BOOK_OF_THE_DEAD));
+            }
+
+            @Override
+            public List<Item> equipmentRequired(Player player) {
+                return List.of();
+            }
+
+            @Override
+            public void startCast(Entity cast, Entity castOn) {
+                if (!(cast instanceof Player player)) {
+                    return;
+                }
+
+                if (player.getTimers().left(TimerKey.THRALL_RESPAWN_TIMER) != 0) {
+                    return;
+                }
+
+                player.getTimers().register(TimerKey.THRALL_RESPAWN_TIMER, 10);
+
+                List<Tile> tileList = player.tile().area(2, f -> {
+                    if (!f.equals(player.tile()) && (player.getCombat().getTarget() == null || !f.equals(player.getCombat().getTarget().tile()))) {
+                        f.add(f.getX(), f.getY());
+                        return true;
+                    }
+                    return false;
+                });
+
+                Tile selectedTile = null;
+
+                if (!tileList.isEmpty()) {
+                    Random random = new Random();
+                    int randomIndex = random.nextInt(tileList.size());
+                    selectedTile = tileList.get(randomIndex);
+                }
+
+                for (var t : player.getActiveThrall()) {
+                    if (t != null) {
+                        t.remove();
+                    }
+                }
+
+                player.getActiveThrall().clear();
+
+                if (selectedTile != null) {
+                    MagicThrall thrall = new MagicThrall(10880, selectedTile, true);
+
+                    player.getActiveThrall().add(thrall);
+                    player.getCombat().delayAttack(4);
+                    player.animate(8973);
+                    player.graphic(1873, GraphicHeight.LOW, 0);
+
+                    thrall.setPositionToFace(player.tile());
+
+                    BooleanSupplier inCombatSupplier = () -> CombatFactory.inCombat(player);
+
+                    thrall.waitUntil(inCombatSupplier, () -> {
+                        AtomicBoolean npcRemoved = new AtomicBoolean(false);
+                        AtomicBoolean canAttack = new AtomicBoolean(false);
+
+                        canAttack.getAndSet(true);
+
+                        Chain.bound(thrall).repeatingTask(5, combatTick -> {
+                            if (npcRemoved.get() || player.getActiveThrall().isEmpty()) {
+                                combatTick.stop();
+                                return;
+                            }
+
+                            if (player.getCombat().inCombat()) {
+                                canAttack.getAndSet(true);
+                            } else {
+                                canAttack.getAndSet(false);
+                                return;
+                            }
+
+                            if (!canAttack.get()) {
+                                return;
+                            }
+
+                            if (player.getCombat().inCombat() && player.getCombat().getTarget().isNpc() || thrall.getCombat().getTarget() == null) {
+                                thrall.getCombat().setTarget(player.getCombat().getTarget());
+                            }
+
+                            if (player.getCombat().getTarget().isNpc()) {
+                                thrall.sendThrallAttack(thrall, player);
+                            } else {
+                                canAttack.getAndSet(false);
+                                return;
+                            }
+
+                            if (player.dead()) {
+                                combatTick.stop();
+                                npcRemoved.getAndSet(true);
+                                canAttack.getAndSet(false);
+                            }
+                        });
+                    });
+                }
             }
         }),
 
@@ -498,9 +880,9 @@ public class MagicClickSpells {
                             index++;
                         }
                     }
-                    player.graphic(141,GraphicHeight.HIGH,0);
+                    player.graphic(141, GraphicHeight.HIGH, 0);
                     player.animate(722);
-                    player.getSkills().addXp(Skills.MAGIC,this.baseExperience() * index);
+                    player.getSkills().addXp(Skills.MAGIC, this.baseExperience() * index);
                     player.getClickDelay().reset();
                 }
             }
@@ -915,7 +1297,7 @@ public class MagicClickSpells {
                     player.getCombat().reset();
                     player.action.clearNonWalkableActions();
                     player.animate(713);
-                    player.graphic(113,GraphicHeight.HIGH,15);
+                    player.graphic(113, GraphicHeight.HIGH, 15);
                     player.getSkills().addXp(Skills.MAGIC, this.baseExperience());
                     player.getClickDelay().reset();
                     player.getPacketSender().sendTab(6);
@@ -1059,7 +1441,7 @@ public class MagicClickSpells {
                     player.getCombat().reset();
                     player.action.clearNonWalkableActions();
                     player.animate(713);
-                    player.graphic(113,GraphicHeight.HIGH,15);
+                    player.graphic(113, GraphicHeight.HIGH, 15);
                     player.getSkills().addXp(Skills.MAGIC, this.baseExperience());
                     player.getClickDelay().reset();
                     player.getPacketSender().sendTab(6);
@@ -1125,9 +1507,9 @@ public class MagicClickSpells {
                             index++;
                         }
                     }
-                    player.graphic(141,GraphicHeight.HIGH,0);
+                    player.graphic(141, GraphicHeight.HIGH, 0);
                     player.animate(722);
-                    player.getSkills().addXp(Skills.MAGIC,this.baseExperience() * index);
+                    player.getSkills().addXp(Skills.MAGIC, this.baseExperience() * index);
                     player.getClickDelay().reset();
                 }
             }
@@ -1411,8 +1793,8 @@ public class MagicClickSpells {
         final Spell spell = magicSpell.get().getSpell();
 
         switch (magicSpell.get()) {
-            case TELEPORT_TO_TARGET_NORMAL, TELEPORT_TO_TARGET_ANCIENT, TELEPORT_TO_TARGET_LUNAR, CHARGE, VENGEANCE -> {
-                if (!spell.canCast(player,null, spell.deleteRunes())) {
+            case TELEPORT_TO_TARGET_NORMAL, TELEPORT_TO_TARGET_ANCIENT, TELEPORT_TO_TARGET_LUNAR, CHARGE, VENGEANCE, SUMMON_MAGIC_THRALL, SUMMON_MELEE_THRALL, SUMMON_RANGING_THRALL -> {
+                if (!spell.canCast(player, null, spell.deleteRunes())) {
                     return false;
                 }
                 spell.startCast(player, null);
@@ -1437,7 +1819,7 @@ public class MagicClickSpells {
             return;
         }
 
-        if (!spell.canCast(player, attacked,false)) {
+        if (!spell.canCast(player, attacked, false)) {
             return;
         }
 
@@ -1461,7 +1843,7 @@ public class MagicClickSpells {
             return false;
         }
 
-        if (!spell.get().getSpell().canCast(player, null,true)) {
+        if (!spell.get().getSpell().canCast(player, null, true)) {
             return false;
         }
         return true;

@@ -11,7 +11,7 @@ public class GFXCommand implements Command {
     public void execute(Player player, String command, String[] parts) {
         int startGfx = Integer.parseInt(parts[1]);
 
-        World.getWorld().tileGraphic(startGfx, new Tile(player.tile().getX() - 1, player.tile().getY() + 2, player.tile().getZ()), 50, 0);
+        player.graphic(startGfx);
     }
 
 

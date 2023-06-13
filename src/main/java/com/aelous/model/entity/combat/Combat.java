@@ -532,7 +532,6 @@ public class Combat {
         var target = ref.get();
 
         if (target != null)
-            //mob.setPositionToFace(target.tile().getX(), target.tile().getY());
             mob.setEntityInteraction(target);
 
         // If these conditions fail, we can't attack
@@ -584,7 +583,7 @@ public class Combat {
     public void setTarget(Entity target) {
         updateLastTarget(target);
         this.target = target;
-        mob.putAttrib(AttributeKey.TARGET, new WeakReference<Entity>(target));
+        mob.putAttrib(AttributeKey.TARGET, new WeakReference<>(target));
     }
 
     public Entity lastTarget;

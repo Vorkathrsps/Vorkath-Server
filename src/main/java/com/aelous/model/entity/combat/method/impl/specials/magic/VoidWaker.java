@@ -28,6 +28,7 @@ public class VoidWaker extends CommonCombatMethod {
         entity.animate(new Animation(1378));
 
         CombatType combatType = CombatType.MAGIC;
+
         if (isDummy) {
             hitDamage = maxHit * 1.5;
             combatType = CombatType.MELEE;
@@ -35,13 +36,11 @@ public class VoidWaker extends CommonCombatMethod {
 
         int finalDamage = (int) Math.floor(hitDamage);
 
-        Hit hit = target.hit(entity, finalDamage, 0, combatType).checkAccuracy();
+        Hit hit = target.hit(entity, finalDamage, 0, combatType).setAccurate(true);
 
         if (target instanceof NPC npc && npc.id() == NpcIdentifiers.CORPOREAL_BEAST) {
             hit = target.hit(entity, finalDamage, 0, CombatType.MAGIC).checkAccuracy();
         }
-
-        hit.setAccurate(true);
 
         if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {
             hit.setDamage(hit.getDamage() / 2);

@@ -51,6 +51,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -656,6 +657,10 @@ public abstract class Entity {
     public final void setResetMovementQueue(boolean resetMovementQueue) {
         this.resetMovementQueue = resetMovementQueue;
     }
+
+
+    @Getter
+    List<NPC> activeThrall = new ArrayList<>();
 
     public void setNeedsPlacement(boolean needsPlacement) {
         this.needsPlacement = needsPlacement;

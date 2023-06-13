@@ -49,6 +49,38 @@
     }
   },
   {
+    // magic thrall
+    "ids": [
+      10880
+    ],
+    "maxhit": 3,
+    "attackspeed": 4,
+    "deathlen": 2,
+    "stats": {
+      "attack": 0,
+      "strength": 0,
+      "magic": 0,
+      "ranged": 0,
+      "defence": 2,
+      "hitpoints": 10
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 5540,
+      "block": -1,
+      "death": -1
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.thralls.MagicThrall"
+    }
+  },
+  {
     // Range Summoned soul
     "ids": [
       5867

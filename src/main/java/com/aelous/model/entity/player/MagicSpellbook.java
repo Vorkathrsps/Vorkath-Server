@@ -14,6 +14,7 @@ public enum MagicSpellbook {
 
     NORMAL(938),
     ANCIENT(838),
+    ARCEUUS(24794),
     LUNAR(29999);
 
     /**
@@ -71,14 +72,11 @@ public enum MagicSpellbook {
             }
         }
 
-        //Update spellbook
         player.setSpellbook(book);
 
-        // Reset autocast
         Autocasting.setAutocast(player, null);
 
         if (notify) {
-            //Send notification message
             player.message("You have changed your magic spellbook.");
         }
 
@@ -86,7 +84,9 @@ public enum MagicSpellbook {
         player.getInterfaceManager().setSidebar(6, player.getSpellbook().getInterfaceId());
 
         int id = player.getSpellbook().getInterfaceId();
-        if (id == 29999) {
+        if (id == 24794) {
+            player.getPacketSender().updateTab(3, 0);
+        } else if (id == 29999) {
             player.getPacketSender().updateTab(2, 0);
         } else if (id == 838) {
             player.getPacketSender().updateTab(1, 0);

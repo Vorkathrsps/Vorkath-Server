@@ -24,14 +24,12 @@ public class AccursedSceptre extends CommonCombatMethod {
             var mlvl = target.getSkills().level(Skills.MAGIC);
             var dlvl = target.getSkills().level(Skills.DEFENCE);
             double drainPercentage = 0.15; // 15% drain
-            int minLevel = (int) Math.ceil(drainPercentage * mlvl); // Calculate minimum level based on 15% drain
+            int minLevel = (int) Math.ceil(drainPercentage * mlvl);
 
-            // Set cap to prevent levels from going below the minimum level
             if (dlvl - minLevel < 0) {
                 minLevel = dlvl;
             }
 
-            // Drain Defence and Magic levels
             target.getSkills().setLevel(Skills.DEFENCE, minLevel);
             target.getSkills().setLevel(Skills.MAGIC, minLevel);
         });

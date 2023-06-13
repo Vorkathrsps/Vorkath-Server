@@ -1,5 +1,6 @@
 package com.aelous.model.entity.combat.method.impl;
 
+import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
@@ -35,9 +36,11 @@ public class MagicCombatMethod extends CommonCombatMethod {
             }
         }
         LogManager.getLogger("dev").info("spell {}", spell);
+
         if (spell == null) {
             return false;
         }
+
         int spellID = spell.spellId();
 
         boolean modernSpells = player.getSpellbook() == MagicSpellbook.NORMAL;
@@ -45,7 +48,6 @@ public class MagicCombatMethod extends CommonCombatMethod {
         boolean isWearingPoweredStaff = player.getEquipment().containsAny(TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, SANGUINESTI_STAFF, TUMEKENS_SHADOW, DAWNBRINGER, ACCURSED_SCEPTRE_A);
         boolean canCast = spell.canCast(player, target, true);
         boolean hasTumeken = player.getEquipment().contains(TUMEKENS_SHADOW);
-        boolean hasSanguinestiStaff = player.getEquipment().contains(SANGUINESTI_STAFF);
 
         int projectile = -1;
         int startgraphic = -1;

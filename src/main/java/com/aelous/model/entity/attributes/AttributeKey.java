@@ -14,6 +14,8 @@ public enum AttributeKey {
 
     SHOWPLAYTIME,
 
+    ACTIVE_THRALL,
+
     LOOT_KEYS_CARRIED("loot_keys_carried", AttribType.INTEGER),
 
     // Withdraws the loot key items in noted form

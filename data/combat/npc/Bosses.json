@@ -78,6 +78,41 @@
     }
   },
   {
+    // Sotetseg
+    "ids": [
+      10865
+    ],
+    "maxhit": 45,
+    "attackspeed": 5,
+    "aggroradius": 14,
+    "aggressive": true,
+    "boss": true,
+    "stats": {
+      "attack": 250,
+      "strength": 250,
+      "magic": 250,
+      "ranged": 250,
+      "defence": 200,
+      "hitpoints": 4000
+    },
+    "bonuses": {
+      "ranged": -10,
+      "stabdefence": 70,
+      "slashdefence": 70,
+      "crushdefence": 70,
+      "rangeddefence": 150,
+      "magicdefence": 30
+    },
+    "animations": {
+      "attack": 6235,
+      "block": -1,
+      "death": 8140
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.theatre.SotetsegCombat"
+    }
+  },
+  {
     // Fragment of seren
     "ids": [
       8917

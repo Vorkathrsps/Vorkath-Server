@@ -129,7 +129,7 @@ public class Buttons {
                 player.getPacketSender().sendInterfaceDisplayState(21172, true);
                 player.getBank().open();
             }
-            case 19210, 21741 -> {
+            case 19210, 21741, 40301 -> {
                 if (player.getDueling().inDuel()) {
                     return;
                 }

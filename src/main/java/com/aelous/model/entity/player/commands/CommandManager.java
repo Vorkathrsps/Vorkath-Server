@@ -19,6 +19,7 @@ import com.aelous.model.entity.combat.method.impl.arceuus.MagicThrall;
 import com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
+import com.aelous.model.entity.combat.method.impl.theatre.Soteseg;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.masks.Projectile;
@@ -654,44 +655,7 @@ public class CommandManager {
             ((GreatOlm) olm.getCombatMethod()).flameWall(olm);
         });
         dev("c", (p, c, s) -> {
-            AtomicBoolean npcDespawned = new AtomicBoolean(false);
-            var player = p;
 
-            if (player.getTimers().left(TimerKey.THRALL_RESPAWN_TIMER) != 0) {
-                return;
-            }
-
-            player.getTimers().register(TimerKey.THRALL_RESPAWN_TIMER, 10);
-
-            for (var t : player.getActiveThrall()) {
-                if (t != null) {
-                    t.remove();
-                }
-            }
-
-            player.getActiveThrall().clear();
-
-            MagicThrall thrall = new MagicThrall(10880, World.getWorld().randomTileAround(player.tile(), 2), true);
-            player.getActiveThrall().add(thrall);
-
-            thrall.animate(9047);
-            thrall.graphic(1903, GraphicHeight.LOW, 0);
-            player.getCombat().delayAttack(4);
-            player.animate(8973);
-            player.graphic(1873, GraphicHeight.LOW, 0);
-
-            thrall.repeatingTask(5, combatTick -> {
-                if (npcDespawned.get()) {
-                    combatTick.stop();
-                    return;
-                }
-
-                thrall.face(player.getCombat().getTarget());
-
-                if (player.dead()) {
-                    npcDespawned.getAndSet(true);
-                }
-            });
         });
         dev("curseoff", (p, c, s) -> {
             p.clearAttrib(AttributeKey.NIGHTMARE_CURSE);

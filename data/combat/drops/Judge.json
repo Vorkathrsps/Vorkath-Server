@@ -2,7 +2,7 @@
   "npcs": [ 10938 ],
 
 "guaranteed": [
-{ "id": 13307, "min": 50000, "max": 100000 }, //BLOOD MONEY
+{ "id": 995, "min": 50000, "max": 100000 }, //coins
   { "id": 27604, "min": 1, "max": 2 } //Wilderness Casket
 ],
 "tables": [

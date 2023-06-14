@@ -56,7 +56,7 @@
       "name": "Other",
       "points": 3,
       "items": [
-        { "id": 13307, "min": 5, "max": 25, "points": 100 }, //Blood money
+        { "id": 995, "min": 5, "max": 25, "points": 100 }, //coins
         { "id": 379, "amount": 1, "points": 50 }, //Lobster
         { "id": 7937, "min": 60, "max": 60, "points": 50 }, //Pure essence (noted)
         { "id": 1454, "amount": 1, "points": 50 }, //Cosmic talisman

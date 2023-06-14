@@ -3,14 +3,14 @@
   "petItem": 12650,
   "petRarity": 1000,
   "guaranteed": [
-    { "id": 13307, "min": 250, "max": 1000 }   //blood money
+    { "id": 995, "min": 250, "max": 1000 }   //coins
   ],
   "tables": [
     {
-      "name": "Extra Blood Money",
+      "name": "Extra coins",
       "points": 50,
       "items": [
-        { "id": 13307, "min": 450, "max": 2103, "points": 45 },
+        { "id": 995, "min": 450, "max": 2103, "points": 45 },
         { "id": 1515, "min": 10, "max": 28, "points": 35 },//yew logs
         { "id": 2363, "min": 3, "max": 6, "points": 35 },//rune bar
         { "id": 1392, "min": 1, "max": 5, "points": 35 },//battlestaff

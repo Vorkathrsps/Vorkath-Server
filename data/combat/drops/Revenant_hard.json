@@ -1,7 +1,7 @@
 {
   "npcs": [ 7939, 7940, 7938 ],
   "guaranteed": [
-    { "id": 13307, "min": 50, "max": 250 },   //blood money
+    { "id": 995, "min": 50, "max": 250 },   //coins
     { "id": 21820, "min": 10, "max": 35 }   //Revenant ether
   ],
   "tables": [
@@ -38,7 +38,7 @@
       ]
     },
     {
-      "name": "Random Blood Money Items",
+      "name": "Random coins Items",
       "points": 75,
       "items": [
         { "id": 1163, "min": 1, "max": 1, "points": 60 },//Rune helm

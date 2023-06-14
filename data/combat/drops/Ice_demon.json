@@ -4,7 +4,7 @@
   "petRarity": 600,
   "guaranteed": [
 	{ "id": 32236, "min": 50, "max": 250 },
-    { "id": 13307, "min": 50, "max": 10000 }
+    { "id": 995, "min": 50, "max": 10000 }
   ],
   "tables": [
     {

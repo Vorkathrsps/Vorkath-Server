@@ -2,7 +2,7 @@
   "npcs": [ 6342 ],
   "guaranteed": [
     { "id": 532, "min": 1, "max": 1 },   //Big bones
-    { "id": 13307, "min": 5000, "max": 50000 }   //Blood money
+    { "id": 995, "min": 5000, "max": 50000 }   //coins
   ],
   "petItem": 23818,
   "petRarity": 1000,
@@ -16,7 +16,7 @@
         { "id": 12914, "min": 5, "max": 10, "points": 45 }, //Anti-venom+(4) (noted)
         { "id": 21979, "min": 2, "max": 10, "points": 45 }, //Super antifire potion(4) (noted)
         { "id": 6585, "min": 1, "max": 1, "points": 35 }, //Amulet of Fury
-        { "id": 13307, "min": 250, "max": 500, "points": 35 }, //Blood money
+        { "id": 995, "min": 250, "max": 500, "points": 35 }, //coins
         { "id": 12002, "min": 1, "max": 1, "points": 35 }, //Occult Necklace
         { "id": 11773, "min": 1, "max": 1, "points": 30 }, //Bring (i)
         { "id": 11771, "min": 1, "max": 1, "points": 30 }, //Aring (i)

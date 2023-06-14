@@ -2,7 +2,7 @@
   "npcs": [ 16000, 16001, 16002, 16003, 16004 ],
   "guaranteed": [
     { "id": 21820, "min": 15, "max": 35 },   //Revenant ether
-    { "id": 13307, "min": 500, "max": 50000 }   //blood money
+    { "id": 995, "min": 500, "max": 50000 }   //coins
   ],
   "tables": [
     {

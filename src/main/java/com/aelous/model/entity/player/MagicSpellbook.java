@@ -14,8 +14,8 @@ public enum MagicSpellbook {
 
     NORMAL(938),
     ANCIENT(838),
-    LUNAR(29999),
-    ARCEUUS(24794);
+    ARCEUUS(839),
+    LUNAR(29999);
 
     /**
      * The MagicSpellBook constructor.
@@ -84,14 +84,16 @@ public enum MagicSpellbook {
         player.getInterfaceManager().setSidebar(6, player.getSpellbook().getInterfaceId());
 
         int id = player.getSpellbook().getInterfaceId();
-        if (id == 24794) {
-            player.getPacketSender().updateTab(3, 0);
-        } else if (id == 29999) {
+
+
+        if (id == 29999) {
             player.getPacketSender().updateTab(2, 0);
         } else if (id == 838) {
             player.getPacketSender().updateTab(1, 0);
         } else if (id == 938) {
             player.getPacketSender().updateTab(0, 0);
+        } else if (id == 839) {
+            player.getPacketSender().updateTab(3, 0);
         } else {
             LogManager.getLogger(MagicSpellbook.class).error("For some reason, the spellbook interface ID for " + player.getUsername() + " is " + id);
         }

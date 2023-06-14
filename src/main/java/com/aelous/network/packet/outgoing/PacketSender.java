@@ -49,13 +49,13 @@ public final class PacketSender {
         PacketBuilder out = new PacketBuilder(210);
         if (player != null) {
             if (visible) {
-                if(walkableInterfaceList.contains(interfaceId)) {
+                if (walkableInterfaceList.contains(interfaceId)) {
                     return;
                 } else {
                     walkableInterfaceList.add(interfaceId);
                 }
             } else {
-                if(!walkableInterfaceList.contains(interfaceId)) {
+                if (!walkableInterfaceList.contains(interfaceId)) {
                     return;
                 }
             }
@@ -686,6 +686,8 @@ public final class PacketSender {
                     updateTab(1, 0);
                 } else if (id == 938) {
                     updateTab(0, 0);
+                } else if (id == 839) {
+                    updateTab(3, 0);
                 } else {
                     logger.error("For some reason, the spellbook interface ID for " + player.getUsername() + " is " + id);
                 }

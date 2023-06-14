@@ -14,7 +14,7 @@ public class SpellbookCommand implements Command {
             return;
         }
         if (parts.length < 2) {
-            player.message("Spellbook usage: ::spellbook 0-2 or ::spellbook modern, ancient, lunar");
+            player.message("Spellbook usage: ::spellbook 0-3 or ::spellbook modern, ancient, lunar, arc");
             return;
         }
 

@@ -1,7 +1,7 @@
 {
   "npcs": [ 3127, 6506 ],
   "guaranteed": [
-    { "id": 13307, "min": 25, "max": 100 } //Bones
+    { "id": 995, "min": 25, "max": 100 } //Bones
   ],
   "petItem": 13225,
   "petRarity": 1000,

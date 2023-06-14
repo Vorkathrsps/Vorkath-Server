@@ -2,7 +2,7 @@
   "npcs": [ 473, 474 ],
   "guaranteed": [
     { "id": 592, "min": 1, "max": 1 }, //Ashes
-    { "id": 13307, "min": 250, "max": 55300 }   //blood money
+    { "id": 995, "min": 250, "max": 55300 }   //coins
   ],
   "tables": [
     {

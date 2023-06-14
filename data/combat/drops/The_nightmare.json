@@ -3,7 +3,7 @@
   "petItem": 24491,
   "petRarity": 2500,
   "guaranteed": [
-    { "id": 13307, "min": 500, "max": 5500 } //Blood money
+    { "id": 995, "min": 500, "max": 5500 } //coins
   ],
   "tables": [
     {

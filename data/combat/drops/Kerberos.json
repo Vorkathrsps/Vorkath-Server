@@ -2,7 +2,7 @@
   "npcs": [ 16008 ],
   "guaranteed": [
     { "id": 592, "min": 1, "max": 1 }, //Ashes
-    { "id": 13307, "min": 1000, "max": 2000 } //Blood money
+    { "id": 995, "min": 1000, "max": 2000 } //coins
   ],
   "PVPWorld": true,
   "petItem": 27000,

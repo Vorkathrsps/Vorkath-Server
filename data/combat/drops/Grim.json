@@ -3,7 +3,7 @@
   "petItem": 12102,
   "petRarity": 1500,
   "guaranteed": [
-    { "id": 13307, "min": 250, "max": 2500 }
+    { "id": 995, "min": 250, "max": 2500 }
   ],
   "tables": [
     {

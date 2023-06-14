@@ -2,14 +2,14 @@
   "npcs": [ 8059, 8061 ],
   "guaranteed": [
     { "id": 22124, "min": 3, "max": 10 },   //Superior Bones
-    { "id": 13307, "min": 250, "max": 25300 }   //blood money
+    { "id": 995, "min": 250, "max": 25300 }   //coins
   ],
   "tables": [
     {
       "name": "Unique",
       "points": 1,
       "items": [
-        { "id": 13307, "min": 250, "max": 500, "points": 40 },   //Blood money
+        { "id": 995, "min": 250, "max": 500, "points": 40 },   //coins
         { "id": 21932, "min": 100, "max": 250, "points": 40 },   //Opal Dragon bolts
         { "id": 21948, "min": 100, "max": 250, "points": 40 } ,  //Dragonstone Dragon bolts
         { "id": 21902, "min": 1, "max": 1, "points": 20 } ,  //Dragon Cbow

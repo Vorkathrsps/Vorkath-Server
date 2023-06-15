@@ -19,42 +19,33 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BooleanSupplier;
 
 public class SotetsegCombat extends CommonCombatMethod {
-    @Getter
-    AtomicBoolean recentlyPerformedAttack = new AtomicBoolean(false);
+
     int magicAttackCount = 0;
-    List<Player> nearbyPlayerList = new ArrayList<>();
+
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        if (entity.getTimers().left(TimerKey.COMBAT_ATTACK) == 0) {
-            getRecentlyPerformedAttack().getAndSet(false);
-        } else {
+        if (!withinDistance(8))
             return false;
-        }
-
-        var player = (Player) target;
-        if (!getRecentlyPerformedAttack().get()) {
-            if (magicAttackCount == 10) {
-                sendSpecialMagicAttack(player);
+        if (magicAttackCount == 10) {
+            sendSpecialMagicAttack(target);
+        } else {
+            if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.percentageChance(50)) {
+                sendMeleeAttack(target);
             } else {
-                if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.percentageChance(50) && !recentlyPerformedAttack.get()) {
-                    sendMeleeAttack(player);
-                } else {
-                    sendRandomMageOrRange(player);
-                }
+                sendRandomMageOrRange(target);
             }
-            return true;
         }
-        return false;
+        return true;
     }
 
-    public void sendRandomMageOrRange(Player target) {
+    public void sendRandomMageOrRange(Entity target) {
         int[] projectileIds = new int[]{1606, 1607};
         var randomProjectile = Utils.randomElement(projectileIds);
         entity.animate(8139);
         int tileDist = entity.tile().distance(target.tile());
-        int duration = (80 + 35 + (20 * tileDist));
-        Projectile p = new Projectile(entity, target, randomProjectile, 80, duration, 43, 21, 25, target.getSize(), 10);
+        int duration = (30 + 35 + (20 * tileDist));
+        Projectile p = new Projectile(entity, target, randomProjectile, 30, duration, 43, 21, 25, target.getSize(), 10);
         final int delay = entity.executeProjectile(p);
         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, randomProjectile == 1606 ? CombatType.MAGIC : CombatType.RANGED), delay, randomProjectile == 1606 ? CombatType.MAGIC : CombatType.RANGED).checkAccuracy().postDamage(d -> {
             if (randomProjectile == 1606) {
@@ -77,24 +68,22 @@ public class SotetsegCombat extends CommonCombatMethod {
         hit.submit();
     }
 
-    public void sendSpecialMagicAttack(Player target) {
+    public void sendSpecialMagicAttack(Entity target) {
         magicAttackCount = 0;
         entity.animate(8139);
         int tileDist = entity.tile().distance(target.tile());
-        int duration = (51 + 25 + (25 * tileDist));
-        Projectile p = new Projectile(entity, target, 1604, 51, duration, 50, 0, 50, target.getSize(), 10);
+        int duration = (30 + 25 + (25 * tileDist));
+        Projectile p = new Projectile(entity, target, 1604, 30, duration, 50, 0, 50, target.getSize(), 10);
         final int delay = entity.executeProjectile(p);
         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
         hit.submit();
         entity.graphic(101, GraphicHeight.MIDDLE, p.getSpeed());
-        recentlyPerformedAttack.getAndSet(true);
     }
 
-    public void sendMeleeAttack(Player target) {
+    public void sendMeleeAttack(Entity target) {
         entity.animate(8138);
-        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy();
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy();
         hit.submit();
-        recentlyPerformedAttack.getAndSet(true);
     }
 
     @Override

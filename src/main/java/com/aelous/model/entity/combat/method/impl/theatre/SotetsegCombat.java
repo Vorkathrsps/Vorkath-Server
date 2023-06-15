@@ -13,6 +13,8 @@ import com.aelous.utility.Utils;
 import com.aelous.utility.timers.TimerKey;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BooleanSupplier;
 
@@ -20,6 +22,8 @@ public class SotetsegCombat extends CommonCombatMethod {
     @Getter
     AtomicBoolean recentlyPerformedAttack = new AtomicBoolean(false);
     int magicAttackCount = 0;
+    List<Player> nearbyPlayerList = new ArrayList<>();
+
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         if (entity.getTimers().left(TimerKey.COMBAT_ATTACK) == 0) {
@@ -32,7 +36,6 @@ public class SotetsegCombat extends CommonCombatMethod {
         if (!getRecentlyPerformedAttack().get()) {
             if (magicAttackCount == 10) {
                 sendSpecialMagicAttack(player);
-                magicAttackCount = 0;
             } else {
                 if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.percentageChance(50) && !recentlyPerformedAttack.get()) {
                     sendMeleeAttack(player);
@@ -40,8 +43,9 @@ public class SotetsegCombat extends CommonCombatMethod {
                     sendRandomMageOrRange(player);
                 }
             }
+            return true;
         }
-        return true;
+        return false;
     }
 
     public void sendRandomMageOrRange(Player target) {
@@ -71,12 +75,10 @@ public class SotetsegCombat extends CommonCombatMethod {
             }
         });
         hit.submit();
-        recentlyPerformedAttack.getAndSet(true);
-        entity.getCombat().delayAttack(6);
     }
 
     public void sendSpecialMagicAttack(Player target) {
-        magicAttackCount++;
+        magicAttackCount = 0;
         entity.animate(8139);
         int tileDist = entity.tile().distance(target.tile());
         int duration = (51 + 25 + (25 * tileDist));
@@ -86,27 +88,13 @@ public class SotetsegCombat extends CommonCombatMethod {
         hit.submit();
         entity.graphic(101, GraphicHeight.MIDDLE, p.getSpeed());
         recentlyPerformedAttack.getAndSet(true);
-        entity.getCombat().delayAttack(6);
     }
 
     public void sendMeleeAttack(Player target) {
-        if (recentlyPerformedAttack.get()) {
-            entity.getCombat().delayAttack(5);
-            BooleanSupplier tick = () -> entity.getTimers().left(TimerKey.COMBAT_ATTACK) == 0;
-            entity.waitUntil(tick, () -> {
-                entity.animate(8138);
-                Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy();
-                hit.submit();
-                recentlyPerformedAttack.getAndSet(true);
-                entity.getCombat().delayAttack(6);
-            });
-        } else {
-            entity.animate(8138);
-            Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 2, CombatType.MELEE).checkAccuracy();
-            hit.submit();
-            recentlyPerformedAttack.getAndSet(true);
-            entity.getCombat().delayAttack(6);
-        }
+        entity.animate(8138);
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy();
+        hit.submit();
+        recentlyPerformedAttack.getAndSet(true);
     }
 
     @Override

@@ -749,6 +749,9 @@ public class CommandManager {
         dev("vk1", (p, c, s) -> {
             p.getLocalNpcs().get(0).putAttrib(AttributeKey.VORKATH_CB_COOLDOWN, 0);
         });
+        dev("odef", (p, c, s) -> {
+            logger.info("{}", new GameObject(Integer.parseInt(s[1]), p.tile()).definition().toStringBig());
+        });
     }
 
     private static int rotateX(int x, int y, int angle) {

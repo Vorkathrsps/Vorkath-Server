@@ -191,8 +191,8 @@ public class InstancedArea {
         }
         for (GameObject gameobj : Lists.newArrayList(gameobjs)) {
             // shadowrs: must be custom for remove to work in instanceAreas.
-            if (gameobj.tile != null)
-                gameobj.tile.removeObject(gameobj);
+            if (gameobj.linkedTile() != null)
+                gameobj.linkedTile().removeObject(gameobj);
         }
         gameobjs.clear();
         regions.forEach(r -> {

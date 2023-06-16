@@ -50,7 +50,7 @@ public class GameObject {
     private boolean custom = false;
 
     @Nullable
-    public Tile tile;
+    private Tile tile;
 
     @Getter
     public final int x, y, z; // exact pos.
@@ -60,6 +60,10 @@ public class GameObject {
             throw new RuntimeException("You can't change the tile of a GameObject. Create a new one. "+this.tile+" -> "+tile);
         this.tile = tile; // ugly way of setting 'removed' state
         return this;
+    }
+
+    public @Nullable Tile linkedTile() {
+        return tile;
     }
 
     public static GameObject spawn(int i, int x, int y, int z, int i1, int i2) {

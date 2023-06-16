@@ -305,7 +305,10 @@ public final class GroundItem {
     }
 
     public GroundItem spawn() {
-        GroundItemHandler.createGroundItem(this);
+        var ok = GroundItemHandler.createGroundItem(this);
+        if (!ok) {
+            logger.debug("cannot add gitem {}", this);
+        }
         return this;
     }
 

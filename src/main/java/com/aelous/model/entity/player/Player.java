@@ -45,6 +45,7 @@ import com.aelous.model.content.raids.party.RaidsParty;
 import com.aelous.model.content.security.AccountPin;
 import com.aelous.model.content.sigils.SigilHandler;
 import com.aelous.model.content.skill.Skillable;
+import com.aelous.model.content.skill.impl.farming.Farming;
 import com.aelous.model.content.skill.impl.hunter.Hunter;
 import com.aelous.model.content.skill.impl.slayer.SlayerConstants;
 import com.aelous.model.content.skill.impl.slayer.SlayerRewards;
@@ -117,6 +118,8 @@ import com.aelous.network.Session;
 import com.aelous.network.SessionHandler;
 import com.aelous.network.SessionState;
 import com.aelous.network.packet.PacketBuilder;
+import com.aelous.network.packet.incoming.interaction.PacketInteraction;
+import com.aelous.network.packet.incoming.interaction.PacketInteractionManager;
 import com.aelous.network.packet.outgoing.PacketSender;
 import com.aelous.network.packet.outgoing.UnnecessaryPacketDropper;
 import com.aelous.services.database.transactions.*;
@@ -286,6 +289,12 @@ public class Player extends Entity {
 
     public void setSessionVarps(int[] varps) {
         this.sessionVarps = varps;
+    }
+
+    private final Farming farming = new Farming(this);
+
+    public Farming getFarming() {
+        return farming;
     }
 
     public static class TextData {
@@ -1454,6 +1463,7 @@ public class Player extends Entity {
             replaceItems();
 
             skills.update();
+            PacketInteractionManager.onLogin(this);
 
             inventory.refresh();
             equipment.refresh();
@@ -3118,6 +3128,7 @@ public class Player extends Entity {
         this.getTimers().cycle(this);
     }, actions = () -> {
         this.action.sequence();
+        PacketInteractionManager.onPlayerProcess(this);
     }, tasks = () -> {
         TaskManager.sequenceForMob(this);
     }, regions = () -> {

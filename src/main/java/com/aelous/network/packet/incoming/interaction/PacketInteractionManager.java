@@ -52,7 +52,18 @@ public class PacketInteractionManager {
     public static void onRegionChange(Player player) {
         for (PacketInteraction interaction : interactions) {
             interaction.onRegionChange(player);
-            //System.out.println("onRegionChange prints "+interaction.getClass().getSimpleName());
+        }
+    }
+
+    public static void onPlayerProcess(Player player) {
+        for (PacketInteraction interaction : interactions) {
+            interaction.onPlayerProcess(player);
+        }
+    }
+
+    public static void onLogin(Player player) {
+        for (PacketInteraction interaction : interactions) {
+            interaction.onLogin(player);
         }
     }
 

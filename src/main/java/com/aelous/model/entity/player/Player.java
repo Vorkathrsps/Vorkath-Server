@@ -1164,10 +1164,9 @@ public class Player extends Entity {
         // If player is using magic, attack speed is
         // Calculated in the MagicCombatMethod class.
         int speed;
-        double tick;
         Item weapon = this.getEquipment().get(EquipSlot.WEAPON);
         if (weapon == null) {
-            speed = 4; //Default is 4
+            speed = 4;
         } else {
             speed = World.getWorld().equipmentInfo().weaponSpeed(weapon.getId());
         }

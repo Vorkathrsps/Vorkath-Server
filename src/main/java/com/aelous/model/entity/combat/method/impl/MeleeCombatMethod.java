@@ -7,6 +7,8 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.weapon.WeaponType;
 import com.aelous.model.entity.masks.Direction;
+import com.aelous.model.entity.masks.impl.animations.Animation;
+import com.aelous.model.entity.masks.impl.animations.Priority;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
 
@@ -79,7 +81,7 @@ public class MeleeCombatMethod extends CommonCombatMethod {
         final Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy();
         hit.submit();
 
-        entity.animate(entity.attackAnimation());
+        entity.animate(new Animation(entity.attackAnimation(), Priority.HIGH));
         return true;
     }
 

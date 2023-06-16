@@ -22,7 +22,6 @@ private static final Logger logger = LogManager.getLogger(RegionChangePacketList
                 RegionManager.loadMapFiles(player.tile().getX(), player.tile().getY());
                 player.getPacketSender().deleteRegionalSpawns();
                 GroundItemHandler.updateRegionItems(player);
-                Barrows.onRegionChange(player);
                 ObjectManager.onRegionChange(player);
                 PacketInteractionManager.onRegionChange(player);
                 player.setAllowRegionChangePacket(false);

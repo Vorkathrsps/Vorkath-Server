@@ -13,7 +13,9 @@ import com.aelous.model.map.object.GameObject;
  */
 public abstract class PacketInteraction {
 
-    public boolean onRegionChange(Player player) { return false; }
+    public void onRegionChange(Player player) {
+
+    }
 
     public boolean handleEquipment(Player player, Item item) { return false;}
 

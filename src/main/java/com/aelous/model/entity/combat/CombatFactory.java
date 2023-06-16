@@ -754,6 +754,11 @@ public class CombatFactory {
             }
         }
 
+        if ((other.isNpc() && other.getAsNpc().getCombatMethod() != null && other.getAsNpc().getCombatMethod().canMultiAttackInSingleZones())
+                || (entity.isNpc() && entity.getAsNpc().getCombatMethod() != null && entity.getAsNpc().getCombatMethod().canMultiAttackInSingleZones())) {
+            return true;
+        }
+
         var isOpponentDead = myLastAttacker == null || myLastAttacker.dead();
 
         if (myLastAttackedTime < myTimeToPj && myLastAttacker != null && myLastAttacker != other && !isOpponentDead) {
@@ -792,10 +797,6 @@ public class CombatFactory {
             }
         }
 
-        if ((other.isNpc() && other.getAsNpc().getCombatMethod() != null && other.getAsNpc().getCombatMethod().canMultiAttackInSingleZones())
-            || (entity.isNpc() && entity.getAsNpc().getCombatMethod() != null && entity.getAsNpc().getCombatMethod().canMultiAttackInSingleZones())) {
-            return true;
-        }
 
         //if (other.isNpc() && entity.isPlayer() && entity.getAsPlayer().getWildernessKeys().isNpcLinked()) {
         //   return true;

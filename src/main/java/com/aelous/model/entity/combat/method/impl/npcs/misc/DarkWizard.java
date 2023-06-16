@@ -8,11 +8,15 @@ import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
+import com.aelous.model.map.route.routes.ProjectileRoute;
 
 public class DarkWizard extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
+        if (!ProjectileRoute.allow(entity, target)) {
+            return false;
+        }
         entity.performGraphic(new Graphic(96, GraphicHeight.HIGH));
         entity.animate(entity.attackAnimation());
         int tileDist = entity.tile().transform(1, 1).distance(target.tile());

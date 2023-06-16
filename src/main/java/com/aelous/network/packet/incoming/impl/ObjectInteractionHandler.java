@@ -147,10 +147,6 @@ public class ObjectInteractionHandler implements PacketListener {
             return;
         }
 
-        /** Farming handler **/
-        if (player.farming().handleObjectInteraction(object.getId(), object.getX(), object.getY(), option))
-            return;
-
         final boolean bank = object.getId() == OPEN_CHEST_3194 || name.equalsIgnoreCase("Bank booth") || name.equalsIgnoreCase("Bank chest") || name.equalsIgnoreCase("Grand Exchange booth");
 
         switch (option) {

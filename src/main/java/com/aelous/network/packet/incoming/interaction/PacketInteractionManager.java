@@ -49,6 +49,24 @@ public class PacketInteractionManager {
         clazzes.forEach(PacketInteractionManager::load);
     }
 
+    public static void onRegionChange(Player player) {
+        for (PacketInteraction interaction : interactions) {
+            interaction.onRegionChange(player);
+        }
+    }
+
+    public static void onPlayerProcess(Player player) {
+        for (PacketInteraction interaction : interactions) {
+            interaction.onPlayerProcess(player);
+        }
+    }
+
+    public static void onLogin(Player player) {
+        for (PacketInteraction interaction : interactions) {
+            interaction.onLogin(player);
+        }
+    }
+
     public static boolean onEquipItem(Player player, Item item) {
         for(PacketInteraction interaction : interactions) {
             if(interaction.handleEquipment(player, item)) {

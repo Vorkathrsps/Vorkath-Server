@@ -5,6 +5,8 @@ package com.aelous.model.entity.attributes;
  */
 public enum AttributeKey {
 
+    RAKING,
+
     MENACING_CURSE,
 
     SIGIL_OF_THE_FERAL_FIGHTER,

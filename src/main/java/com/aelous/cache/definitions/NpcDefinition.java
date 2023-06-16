@@ -340,7 +340,6 @@ public class NpcDefinition implements Definition {
     }
 
     public int getSize() {
-        System.out.println("size="+ size);
         return size;
     }
 

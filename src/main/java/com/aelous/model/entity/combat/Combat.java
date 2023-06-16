@@ -344,9 +344,6 @@ public class Combat {
             return;
         }
         updateLastTarget(target);
-        /*if (target.isNpc()) {
-            System.out.print("");
-        }*/
 
         final int attackSpeed = method.getAttackSpeed(mob);
 

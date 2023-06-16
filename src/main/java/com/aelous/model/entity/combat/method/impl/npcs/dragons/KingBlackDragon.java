@@ -53,7 +53,7 @@ public class KingBlackDragon extends CommonCombatMethod {
                 }
                 case 2 -> {
                     fire(entity, target, FireType.SHOCK, 12);
-                    if (target != null && Utils.rollDie(3, 1))
+                    if (Utils.rollDie(3, 1))
                         Arrays.stream(SHOCK_STATS).forEach(skill -> target.getSkills().alterSkill(skill, -2));
                 }
                 case 3 -> {

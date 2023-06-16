@@ -13,13 +13,14 @@ public class BloodMoneyPrices {
 
     public static final Map<Integer, BloodMoneyPrices> definitions = new HashMap<>();
 
-    private final int id;
-    private final int value;
+    public static final BloodMoneyPrices DEFAULT = new BloodMoneyPrices();
 
-    public BloodMoneyPrices(int id, int value) {
-        this.id = id;
-        this.value = value;
+    public static BloodMoneyPrices get(int item) {
+        return definitions.getOrDefault(item, DEFAULT);
     }
+
+    private int id;
+    private int value;
 
     public int id() {
         return id;

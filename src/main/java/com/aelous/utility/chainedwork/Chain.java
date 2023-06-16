@@ -98,6 +98,13 @@ public class Chain<T> {
         return bound(null);
     }
 
+    /**
+     * no context - same as {@link #unbound()}
+     */
+    public static Chain<?> noCtxRepeat() {
+        return bound(null).name("repeatingChain");
+    }
+
     private void findSource() {
         fromLocation = StackWalker.getInstance().walk(s -> s.dropWhile(e -> e.getClassName().toLowerCase().contains("chain"))
             .limit(4)

@@ -28,10 +28,6 @@ public class ItemOnObject {
             return;
         }
 
-        if (player.farming().handleItemOnObjectInteraction(object.getId(), item.getId(), object.getX(), object.getY())) {
-            return;
-        }
-
         if (PacketInteractionManager.checkItemOnObjectInteraction(player, item, object)) {
             return;
         }

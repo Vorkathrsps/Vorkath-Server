@@ -97,7 +97,7 @@ public class Cerberus extends CommonCombatMethod {
 
     @Override
     public void postAttack() {
-        System.out.printf("%s%n", comboAttackCooldown.remaining());
+        //System.out.printf("%s%n", comboAttackCooldown.remaining());
         if (comboAttackCooldown.remaining() == 66) // just happened
             entity.getTimers().extendOrRegister(TimerKey.COMBAT_ATTACK, 9); // account for combo attack 3 in 1
     }

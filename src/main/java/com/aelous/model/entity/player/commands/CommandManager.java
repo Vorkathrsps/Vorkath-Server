@@ -334,6 +334,10 @@ public class CommandManager {
         commands.put("bank", new BankCommandCommand());
         commands.put("mkn", new MassKillNpc());
         commands.put("massgfx", new LoopGFX());
+        commands.put("ancients", new SpellbookCommand());
+        commands.put("lunars", new SpellbookCommand());
+        commands.put("modern", new SpellbookCommand());
+        commands.put("book", new SpellbookCommand());
         commands.put("spellbook", new SpellbookCommand());
         commands.put("energy", new RunEnergyCommand());
         commands.put("toggledebug", new ToggleDebugCommand());

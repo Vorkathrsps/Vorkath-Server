@@ -13,6 +13,6 @@ public abstract class CombatNormalSpell extends CombatSpell {
      * @param damage
      */
     @Override
-    public final void finishCast(Entity cast, Entity castOn, boolean accurate, int damage) {
+    public final void finishCast(Entity cast, Entity castOn, boolean accurate, int damage) { // final means override not needed
     }
 }

@@ -284,6 +284,7 @@ public class Hit {
             }
         }
         this.damage = damage;
+        //System.out.printf("smack %s%n", damage);
     }
 
     public CombatType getCombatType() {

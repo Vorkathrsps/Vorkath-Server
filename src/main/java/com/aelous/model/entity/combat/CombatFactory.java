@@ -520,6 +520,9 @@ public class CombatFactory {
                 return false;
             }
         }
+        if (entity.isNpc(CORPOREAL_BEAST) && !(entity.tile().region() == 11844 && ((other.getX() >= 2972 || entity.getX() <= 2972) && (entity.getX() >= 2972 || other.getX() <= 2972)))) {
+            return false;
+        }
 
         if (other.isNpc() && other.getAsNpc().getBotHandler() != null) {
             if (!(WildernessArea.inWilderness(entity.tile())) || !(WildernessArea.inWilderness(other.tile()))) {

@@ -358,13 +358,13 @@ public class Farming extends PacketInteraction {
         return false;
     }
 
-    public void save(Player player) {
+    public void save(String username) { // Yes username never display name.
         try {
             File file = new File(SAVING_PATH);
             if (!file.exists()) {
                 Preconditions.checkState(file.mkdirs());
             }
-            BufferedWriter writer = new BufferedWriter(new FileWriter(SAVING_PATH + player.getUsername() + ".txt"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(SAVING_PATH + username + ".txt"));
             for (int i = 0; i < patches.length; i++) {
                 if (i >= Patch.values().length)
                     break;
@@ -409,9 +409,9 @@ public class Farming extends PacketInteraction {
         }
     }
 
-    public void load(Player player) {
+    public void load(String username) { // Yes username never display name.
         try {
-            File file = new File(SAVING_PATH + player.getUsername() + ".txt");
+            File file = new File(SAVING_PATH + username + ".txt");
             if (!file.exists())
                 return;
             BufferedReader r = new BufferedReader(new FileReader(file));

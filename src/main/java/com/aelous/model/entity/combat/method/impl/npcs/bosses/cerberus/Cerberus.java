@@ -20,6 +20,7 @@ import com.aelous.utility.TickDelay;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
@@ -249,7 +250,7 @@ public class Cerberus extends CommonCombatMethod {
     }
 
     @Override
-    public void onDeath() {
+    public void onDeath(@Nullable Player killer, NPC npc) {
         comboAttackCooldown.reset();
         spreadLavaCooldown.reset();
         spawnSoulCooldown.reset();

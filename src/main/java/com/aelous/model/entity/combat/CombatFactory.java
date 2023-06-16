@@ -1078,7 +1078,7 @@ public class CombatFactory {
         target.action.reset();
 
         if (attacker != null && attacker.isNpc() && hit.getCombatType() == CombatType.MAGIC && !target.getUpdateFlag().flagged(Flag.ANIMATION)) {
-            target.animate(new Animation(target.getBlockAnim(), Priority.MEDIUM));
+            target.animate(new Animation(target.getBlockAnim()));
         }
 
         // no need to process anything more

@@ -1,7 +1,6 @@
 package com.aelous.model.entity.player;
 
 import com.aelous.cache.definitions.VarbitDefinition;
-import com.aelous.model.content.skill.impl.farming.patch.Farmbit;
 import com.aelous.model.World;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.utility.Varp;
@@ -118,33 +117,5 @@ public class Varps {
             if (varps[i] != 0)
                 sync(i);
         }
-    }
-
-    public static int varbitGet(int varp, VarbitDefinition def) { // Temp to avoid merge conflicts
-        return (varp >> def.startbit) & BIT_SIZES[def.endbit - def.startbit];
-    }
-
-    public static int varbitSet(int varp, VarbitDefinition def, int v) { // Temp to avoid merge conflicts
-        int area = BIT_SIZES[def.endbit - def.startbit] << def.startbit;
-        return (varp & ~area) | (area & (v << def.startbit));
-    }
-
-    public boolean varpBool(int varp) {
-        return varp(varp) == 1;
-    }
-
-    //TODO need Jak
-    public int farmbit(Farmbit farmbit) {
-        var value = player().<Integer>getAttribOr(farmbit.attrib, 0);
-        return 0;/*value.shr(farmbit.bitStart).and(0xFF);*/
-    }
-
-     public void farmbit(Farmbit farmbit, int v) {
-        /*var value = player().<Integer>getAttribOr(farmbit.attrib, 0);
-         var newval = value.and(0xFF.shl(farmbit.bitStart).inv()).or(v.shl(farmbit.bitStart));
-        player().putAttrib(farmbit.attrib, newval);
-
-        // Synch that one. Only updates if in the correct region.
-        Farming.synch(player(), farmbit,false);*/
     }
 }

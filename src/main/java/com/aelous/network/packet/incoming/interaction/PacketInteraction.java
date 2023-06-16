@@ -13,6 +13,17 @@ import com.aelous.model.map.object.GameObject;
  */
 public abstract class PacketInteraction {
 
+    public void onRegionChange(Player player) {
+
+    }
+
+    public void onPlayerProcess(Player player) {
+
+    }
+
+    public void onLogin(Player player) {
+    }
+
     public boolean handleEquipment(Player player, Item item) { return false;}
 
     public boolean handleEquipmentAction(Player player, Item item, int slot) { return false;}

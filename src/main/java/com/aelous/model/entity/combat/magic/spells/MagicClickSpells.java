@@ -463,22 +463,25 @@ public class MagicClickSpells {
 
             @Override
             public int spellId() {
-                return 24798;
+                return 40338;
             }
 
             @Override
             public int levelRequired() {
-                return 99;
+                return 76;
             }
 
             @Override
             public int baseExperience() {
-                return 1;
+                return 88;
             }
 
             @Override
             public List<Item> itemsRequired(Player player) {
-                return List.of(Item.of(BOOK_OF_THE_DEAD));
+                if (player.getTimers().left(TimerKey.THRALL_RESPAWN_TIMER) != 0) {
+                    return List.of();
+                }
+                return List.of(new Item[]{new Item(FIRE_RUNE, 10), new Item(BLOOD_RUNE, 5), new Item(COSMIC_RUNE, 1)});
             }
 
             @Override
@@ -587,22 +590,25 @@ public class MagicClickSpells {
 
             @Override
             public int spellId() {
-                return 24797;
+                return 40337;
             }
 
             @Override
             public int levelRequired() {
-                return 99;
+                return 76;
             }
 
             @Override
             public int baseExperience() {
-                return 1;
+                return 88;
             }
 
             @Override
             public List<Item> itemsRequired(Player player) {
-                return List.of(Item.of(BOOK_OF_THE_DEAD));
+                if (player.getTimers().left(TimerKey.THRALL_RESPAWN_TIMER) != 0) {
+                    return List.of();
+                }
+                return List.of(new Item[]{new Item(FIRE_RUNE, 10), new Item(BLOOD_RUNE, 5), new Item(COSMIC_RUNE, 1)});
             }
 
             @Override
@@ -711,22 +717,25 @@ public class MagicClickSpells {
 
             @Override
             public int spellId() {
-                return 24796;
+                return 40336;
             }
 
             @Override
             public int levelRequired() {
-                return 99;
+                return 76;
             }
 
             @Override
             public int baseExperience() {
-                return 1;
+                return 88;
             }
 
             @Override
             public List<Item> itemsRequired(Player player) {
-                return List.of(Item.of(BOOK_OF_THE_DEAD));
+                if (player.getTimers().left(TimerKey.THRALL_RESPAWN_TIMER) != 0) {
+                    return List.of();
+                }
+                return List.of(new Item[]{new Item(FIRE_RUNE, 10), new Item(BLOOD_RUNE, 5), new Item(COSMIC_RUNE, 1)});
             }
 
             @Override

@@ -49,7 +49,8 @@ public class Barrows extends PacketInteraction {
             (int) player.getAttribOr(VERAC, 0);
     }
 
-    public static void onRegionChange(Player player) {
+    @Override
+    public void onRegionChange(Player player) {
         // Make it dark. Thou shalt not see.. a brother..
         if (player.tile().region() == 14231) {
             //When we enter a cave..

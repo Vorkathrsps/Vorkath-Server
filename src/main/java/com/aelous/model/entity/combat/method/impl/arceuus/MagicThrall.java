@@ -12,6 +12,7 @@ import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 
 public class MagicThrall extends NPC {
+
     public MagicThrall(int id, Tile tile, boolean spawn) {
         super(id, tile, spawn);
         this.canAttack(false);

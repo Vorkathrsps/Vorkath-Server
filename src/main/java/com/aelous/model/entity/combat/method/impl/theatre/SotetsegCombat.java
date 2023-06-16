@@ -9,6 +9,7 @@ import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.map.route.routes.ProjectileRoute;
 import com.aelous.utility.Utils;
 import com.aelous.utility.timers.TimerKey;
 import lombok.Getter;
@@ -16,7 +17,6 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.BooleanSupplier;
 
 public class SotetsegCombat extends CommonCombatMethod {
 
@@ -44,8 +44,8 @@ public class SotetsegCombat extends CommonCombatMethod {
         var randomProjectile = Utils.randomElement(projectileIds);
         entity.animate(8139);
         int tileDist = entity.tile().distance(target.tile());
-        int duration = (30 + 35 + (20 * tileDist));
-        Projectile p = new Projectile(entity, target, randomProjectile, 30, duration, 43, 21, 25, target.getSize(), 10);
+        int duration = (70 + 30 + (20 * tileDist));
+        Projectile p = new Projectile(entity, target, randomProjectile, 70, duration, 43, 21, 25, target.getSize(), 10);
         final int delay = entity.executeProjectile(p);
         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, randomProjectile == 1606 ? CombatType.MAGIC : CombatType.RANGED), delay, randomProjectile == 1606 ? CombatType.MAGIC : CombatType.RANGED).checkAccuracy().postDamage(d -> {
             if (randomProjectile == 1606) {
@@ -54,11 +54,11 @@ public class SotetsegCombat extends CommonCombatMethod {
             if (randomProjectile == 1606 && Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MISSILES)) {
                 Prayers.closeAllPrayers(target);
                 target.getTimers().register(TimerKey.OVERHEADS_BLOCKED, 2);
-                d.setDamage(Utils.random(1, 120));
+                d.setDamage(Utils.random(1, 50));
             } else if (randomProjectile == 1607 && Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {
                 Prayers.closeAllPrayers(target);
                 target.getTimers().register(TimerKey.OVERHEADS_BLOCKED, 2);
-                d.setDamage(Utils.random(1, 120));
+                d.setDamage(Utils.random(1, 50));
             } else {
                 if (d.getDamage() == 0) {
                     d.block();
@@ -72,10 +72,11 @@ public class SotetsegCombat extends CommonCombatMethod {
         magicAttackCount = 0;
         entity.animate(8139);
         int tileDist = entity.tile().distance(target.tile());
-        int duration = (30 + 25 + (25 * tileDist));
-        Projectile p = new Projectile(entity, target, 1604, 30, duration, 50, 0, 50, target.getSize(), 10);
+        int duration = (70 + 25 + (25 * tileDist));
+        Projectile p = new Projectile(entity, target, 1604, 70, duration, 50, 0, 50, target.getSize(), 10);
         final int delay = entity.executeProjectile(p);
-        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).setAccurate(true);
+        hit.setDamage(121);
         hit.submit();
         entity.graphic(101, GraphicHeight.MIDDLE, p.getSpeed());
     }

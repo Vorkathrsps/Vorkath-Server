@@ -214,7 +214,6 @@ public class Region {
 
     public HashMap<Integer, RegionZData> customZObjectTiles;
     public RegionZData baseZData = new RegionZData();
-
     public int recentCachedBaseZLevel;
     public RegionZData recentCachedBaseZData;
 

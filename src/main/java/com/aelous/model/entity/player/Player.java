@@ -46,8 +46,6 @@ import com.aelous.model.content.security.AccountPin;
 import com.aelous.model.content.sigils.SigilHandler;
 import com.aelous.model.content.skill.Skillable;
 import com.aelous.model.content.skill.impl.farming.Farming;
-import com.aelous.model.content.skill.impl.farming.patch.Farmbit;
-import com.aelous.model.content.skill.impl.farmingOld.FarmingOld;
 import com.aelous.model.content.skill.impl.hunter.Hunter;
 import com.aelous.model.content.skill.impl.slayer.SlayerConstants;
 import com.aelous.model.content.skill.impl.slayer.SlayerRewards;
@@ -120,6 +118,8 @@ import com.aelous.network.Session;
 import com.aelous.network.SessionHandler;
 import com.aelous.network.SessionState;
 import com.aelous.network.packet.PacketBuilder;
+import com.aelous.network.packet.incoming.interaction.PacketInteraction;
+import com.aelous.network.packet.incoming.interaction.PacketInteractionManager;
 import com.aelous.network.packet.outgoing.PacketSender;
 import com.aelous.network.packet.outgoing.UnnecessaryPacketDropper;
 import com.aelous.services.database.transactions.*;
@@ -290,6 +290,9 @@ public class Player extends Entity {
     public void setSessionVarps(int[] varps) {
         this.sessionVarps = varps;
     }
+
+    @Getter
+    private final Farming farming = new Farming();
 
     public static class TextData {
 
@@ -509,50 +512,6 @@ public class Player extends Entity {
 
     public boolean jailed() {
         return (int) getAttribOr(AttributeKey.JAILED, 0) == 1;
-    }
-
-    private int[] farmingSeedId = new int[FarmingOld.MAX_PATCHES], farmingTime = new int[FarmingOld.MAX_PATCHES],
-        farmingState = new int[FarmingOld.MAX_PATCHES], farmingHarvest = new int[FarmingOld.MAX_PATCHES];
-
-    public int getFarmingSeedId(int index) {
-        return farmingSeedId[index];
-    }
-
-    public void setFarmingSeedId(int index, int farmingSeedId) {
-        this.farmingSeedId[index] = farmingSeedId;
-    }
-
-    public int getFarmingTime(int index) {
-        return this.farmingTime[index];
-    }
-
-    public void setFarmingTime(int index, int farmingTime) {
-        this.farmingTime[index] = farmingTime;
-    }
-
-    public int getFarmingState(int index) {
-        return farmingState[index];
-    }
-
-    public void setFarmingState(int index, int farmingState) {
-        this.farmingState[index] = farmingState;
-    }
-
-    public int getFarmingHarvest(int index) {
-        return farmingHarvest[index];
-    }
-
-    public void setFarmingHarvest(int index, int farmingHarvest) {
-        this.farmingHarvest[index] = farmingHarvest;
-    }
-
-    private FarmingOld farmingOld = new FarmingOld(this);
-
-    public FarmingOld farming() {
-        if (farmingOld == null) {
-            farmingOld = new FarmingOld(this);
-        }
-        return farmingOld;
     }
 
     /**
@@ -1164,10 +1123,9 @@ public class Player extends Entity {
         // If player is using magic, attack speed is
         // Calculated in the MagicCombatMethod class.
         int speed;
-        double tick;
         Item weapon = this.getEquipment().get(EquipSlot.WEAPON);
         if (weapon == null) {
-            speed = 4; //Default is 4
+            speed = 4;
         } else {
             speed = World.getWorld().equipmentInfo().weaponSpeed(weapon.getId());
         }
@@ -1502,6 +1460,7 @@ public class Player extends Entity {
             replaceItems();
 
             skills.update();
+            PacketInteractionManager.onLogin(this);
 
             inventory.refresh();
             equipment.refresh();
@@ -3166,6 +3125,7 @@ public class Player extends Entity {
         this.getTimers().cycle(this);
     }, actions = () -> {
         this.action.sequence();
+        PacketInteractionManager.onPlayerProcess(this);
     }, tasks = () -> {
         TaskManager.sequenceForMob(this);
     }, regions = () -> {
@@ -3175,12 +3135,6 @@ public class Player extends Entity {
 
         if (lastregion != tile.region() || lastChunk != tile.chunk()) {
             MultiwayCombat.refresh(this, lastregion, lastChunk);
-            var uniqueRegions = Arrays.stream(Farmbit.values()).map(fb -> fb.visibleRegion).toList();
-            for (int region : uniqueRegions) {
-                if (lastregion == region) {
-                    Farming.synchRegion(this);
-                }
-            }
         }
 
         // Update last region and chunk ids
@@ -3242,10 +3196,6 @@ public class Player extends Entity {
                 this.decreaseStats.start((Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60));
             }
         }
-
-        //Section 15 process farming
-        section[15] = true;
-        this.farmingOld.farmingProcess();
     };
 
     private void replaceItems() {

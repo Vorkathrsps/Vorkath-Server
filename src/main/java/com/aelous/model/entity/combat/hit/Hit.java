@@ -242,25 +242,19 @@ public class Hit {
         if (target.isNpc() && target.npc().getCombatInfo() == null) {
             System.err.println("missing cbinfo for " + target.npc());
         }
+
         MagicAccuracy magicAccuracy = new MagicAccuracy(attacker, target, combatType);
         RangeAccuracy rangeAccuracy = new RangeAccuracy(attacker, target, combatType);
         MeleeAccuracy meleeAccuracy = new MeleeAccuracy(attacker, target, combatType);
 
         if (combatType != null && !(target.isNpc() && target.npc().getCombatInfo() == null) && !(attacker.isNpc() && attacker.npc().getCombatInfo() == null)) {
             switch (combatType) {
-                case MAGIC -> {
-                    success = magicAccuracy.doesHit();
-                }
-                case RANGED -> {
-                    success = rangeAccuracy.doesHit();
-                }
-                case MELEE -> {
-                    success = meleeAccuracy.doesHit();
-                }
+                case MAGIC -> success = magicAccuracy.doesHit();
+                case RANGED -> success = rangeAccuracy.doesHit();
+                case MELEE -> success = meleeAccuracy.doesHit();
             }
         }
 
-        //Was the hit accurate?
         accurate = !checkAccuracy || success;
 
         int damage;

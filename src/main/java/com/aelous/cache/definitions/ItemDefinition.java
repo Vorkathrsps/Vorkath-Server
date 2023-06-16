@@ -461,7 +461,7 @@ public class ItemDefinition implements Definition {
     }
 
     void postDecode(int id) {
-        bm = new BloodMoneyPrices(id, this.getKeptOnDeathValue());
+        bm = new BloodMoneyPrices();
 
         if (stackable()) {
             weight = 0;
@@ -500,56 +500,6 @@ public class ItemDefinition implements Definition {
     }
 
     public int getKeptOnDeathValue() {
-        if (nameToLowerCase("ancestral") || nameToLowerCase("masori")
-        || nameToLowerCase("eldritch") || nameToLowerCase("volatile nightmare staff")
-        || nameToLowerCase("harmonised nightmare staff") || nameToLowerCase("venator bow")
-        || nameToLowerCase("bow of faerdhinin")) {
-            cost = 2_000_000;
-        }
-        if (nameToLowerCase("vesta") || nameToLowerCase("morrigan") || nameToLowerCase("statius")) {
-            cost = 1_500_000;
-        }
-        if (nameToLowerCase("prayer scroll") && !nameToLowerCase("torn prayer scroll")
-        || nameToLowerCase("avernic")) {
-            cost = 1_250_000;
-        }
-        if (nameToLowerCase("twisted bow") || nameToLowerCase("elysian spirit shield")
-            || nameToLowerCase("voidwaker") || nameToLowerCase("scythe of vitur")) {
-            cost = 5_000_000;
-        }
-        if (nameToLowerCase("zaryte crossbow") || nameToLowerCase("ancient godsword")) {
-            cost = 1_800_000;
-        }
-        if (nameToLowerCase("zenyte") || nameToLowerCase("torture")
-            || nameToLowerCase("anguish") || nameToLowerCase("tormented bracelet")
-            || nameToLowerCase("crystal helm") || nameToLowerCase("crystal body")
-            || nameToLowerCase("crystal legs") || nameToLowerCase("dragon hunter lance")) {
-            cost = 1_000_000;
-        }
-        if (nameToLowerCase("pegasian") || nameToLowerCase("primordial")
-            || nameToLowerCase("eternal boots") || nameToLowerCase("dragon hunter crossbow")) {
-            cost = 980_000;
-        }
-        if (nameToLowerCase("armadyl") || nameToLowerCase("bandos") && !nameToLowerCase("godsword")) {
-            cost = 925_000;
-        }
-        if (nameToLowerCase("armadyl godsword") || nameToLowerCase("armadyl crossbow")
-            || nameToLowerCase("heavy ballista") || nameToLowerCase("ancient sceptre")
-            || nameToLowerCase("craws bow") || nameToLowerCase("viggoras")
-            || nameToLowerCase("ursine") || nameToLowerCase("webweaver")
-            || nameToLowerCase("dinhs bulwark") || nameToLowerCase("thammarons sceptre")) {
-            cost = 950_000;
-        }
-        if (nameToLowerCase("dragonfire ward") || nameToLowerCase("ancient wyvern shield")
-            || nameToLowerCase("toxic blowpipe") || nameToLowerCase("toxic staff of the dead")) {
-            cost = 925_000;
-        }
-        if (nameToLowerCase("staff of light") || nameToLowerCase("dragon crossbow")
-            || nameToLowerCase("ancient sceptre") || nameToLowerCase("brimstone ring")
-            || nameToLowerCase("bandos godsword") || nameToLowerCase("zamorak godsword")
-            || nameToLowerCase("saradomin godsword")) {
-            cost = 915_000;
-        }
         return cost;
     }
 

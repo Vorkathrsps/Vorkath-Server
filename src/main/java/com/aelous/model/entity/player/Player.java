@@ -291,11 +291,8 @@ public class Player extends Entity {
         this.sessionVarps = varps;
     }
 
-    private final Farming farming = new Farming(this);
-
-    public Farming getFarming() {
-        return farming;
-    }
+    @Getter
+    private final Farming farming = new Farming();
 
     public static class TextData {
 

@@ -227,4 +227,17 @@ public class Area {
     public String toString() {
         return "Area[" + x1 + ".." + y1 + ", " + x2 + ".." + y2 + ", level="+level+"]";
     }
+
+    public boolean nextTo(Tile destination) {
+        for (int x = x1; x <= x2; x++) {
+            for (int y = y1; y <= y2; y++) {
+                if ((x == destination.x + 1 && y == destination.y) ||
+                        (x == destination.x - 1 && y == destination.y) ||
+                        (x == destination.x && y == destination.y + 1) ||
+                        (x == destination.x && y == destination.y - 1))
+                    return true;
+            }
+        }
+        return false;
+    }
 }

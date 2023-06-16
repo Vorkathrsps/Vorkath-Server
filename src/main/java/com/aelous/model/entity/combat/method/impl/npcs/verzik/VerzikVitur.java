@@ -69,28 +69,30 @@ public class VerzikVitur extends CommonCombatMethod {
                     continue;
                 }
 
-                ploop: for (Tile pillarTile : ViturRoom.pillarTiles) {
+                for (Tile pillarTile : ViturRoom.pillarTiles) {
                     var pillar = MapObjects.get(o -> o.getId() == 32687 || o.getId() == 32688 || o.getId() == 32689, pillarTile.withHeight(t.getZ())).orElse(null);
-                    if (pillar == null) continue;
+                    if (pillar == null)
+                        continue;
                     // you have to be standing next to a pillar to be shielded from Verzik
-                   // LogManager.getLogger("dev").info("pillar {}", pillar);
-                    var bounds = pillar.bounds().expanded(1);
-                    if (bounds.contains(t.tile(), true)) {
-                        // find the NPC standing here
-                        var pillarNpc = pillars.stream().filter(n -> n.tile().equals(pillar.tile())).findFirst().orElse(null);
-                        // shield if pillar alive
-                        if (pillarNpc != null && !pillarNpc.dead()) {
-                            if (pillarNpc.getCombat().getHitQueue().size() >= 1) // pillar only hit ONCE, if 10 guys are cowering behind it like pussies
-                                continue tloop; // next target
-                            final Tile targetPos = pillarNpc.tile().copy();
-                            var tileDist = entity.tile().distance(targetPos);
-                            int duration = (85 + -5 + (10 * tileDist));
-                            Projectile p = new Projectile(entity, targetPos, 1580, 85, duration, 105, 0, 0, target.getSize(), 10);
-                            var delay = p.send(mob, targetPos);
-                            pillarNpc.hit(mob, 40, delay);
+                    boolean safeSpot = pillar.bounds().nextTo(t.tile()) && (pillar.getX() < 3168 ?
+                            (t.tile().isUnder(pillar.tile()) || t.tile().isLeft(pillar.tile()))
+                            : (t.tile().isUnder(pillar.tile()) || t.tile().isRight(pillar.tile())));
+                    if (!safeSpot) {
+                        continue; // test next pillar for nextTo
+                    }
+                    // find the NPC standing here
+                    var pillarNpc = pillars.stream().filter(n -> n.tile().equals(pillar.tile())).findFirst().orElse(null);
+                    // shield if pillar alive
+                    if (pillarNpc != null && !pillarNpc.dead()) {
+                        if (pillarNpc.getCombat().getHitQueue().size() >= 1) // pillar only hit ONCE, if 10 guys are cowering behind it like pussies
                             continue tloop; // next target
-                        }
-                        break; // target is behind an alive pillar, they're safe.
+                        final Tile targetPos = pillarNpc.tile().copy();
+                        var tileDist = entity.tile().distance(targetPos);
+                        int duration = (85 + -5 + (10 * tileDist));
+                        Projectile p = new Projectile(entity, targetPos, 1580, 85, duration, 105, 0, 0, target.getSize(), 10);
+                        var delay = p.send(mob, targetPos);
+                        pillarNpc.hit(mob, 40, delay);
+                        continue tloop; // next target
                     }
                 }
 

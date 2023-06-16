@@ -730,6 +730,9 @@ public class Combat {
 
         // npcs can have overridable logic
         if (target != null) {
+            // this section is known as retreating mechanic.
+            // purpose: stop players draggin NPCs accross the entire map.
+            // NPC walks backwards, requiring the player to get closer to attack.
             if (!target.tile().inArea(mob.npc().spawnTile().area(mob.getAttribOr(MAX_DISTANCE_FROM_SPAWN, 12)))) {
                 DumbRoute.route(mob, mob.npc().spawnTile().getX(), mob.npc().spawnTile().getY());
             }

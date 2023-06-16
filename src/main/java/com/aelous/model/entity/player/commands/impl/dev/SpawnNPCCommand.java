@@ -5,6 +5,8 @@ import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.commands.Command;
 
+import static com.aelous.model.entity.attributes.AttributeKey.MAX_DISTANCE_FROM_SPAWN;
+
 public class SpawnNPCCommand implements Command {
 
     @Override
@@ -18,6 +20,7 @@ public class SpawnNPCCommand implements Command {
                 npc.setHitpoints(Integer.parseInt(parts[2]));
                 npc.getCombatInfo().stats.hitpoints = npc.hp();
             }
+            npc.putAttrib(MAX_DISTANCE_FROM_SPAWN, 25); // follow for a long time
         }
     }
 

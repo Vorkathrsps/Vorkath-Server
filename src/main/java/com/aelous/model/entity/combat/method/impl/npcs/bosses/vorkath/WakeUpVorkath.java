@@ -50,7 +50,9 @@ public class WakeUpVorkath extends Task {
             npc.setPositionToFace(player.tile());
         } else if (ticks == 9) {
             //Remove sleeping vorkath from the world
-            npc.transmog(8061);
+            npc.transmog(VORKATH_8061);
+            npc.setCombatInfo(World.getWorld().combatInfo(npc.id()));
+            npc.setHitpoints(npc.getCombatInfo().stats.hitpoints);
             npc.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
             Chain.bound(null).name("VorkathWakeTask").runFn(3, () -> {
                 npc.getMovementQueue().setBlockMovement(true);

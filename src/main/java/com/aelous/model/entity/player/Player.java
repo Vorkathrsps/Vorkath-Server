@@ -45,9 +45,6 @@ import com.aelous.model.content.raids.party.RaidsParty;
 import com.aelous.model.content.security.AccountPin;
 import com.aelous.model.content.sigils.SigilHandler;
 import com.aelous.model.content.skill.Skillable;
-import com.aelous.model.content.skill.impl.farming.Farming;
-import com.aelous.model.content.skill.impl.farming.patch.Farmbit;
-import com.aelous.model.content.skill.impl.farmingOld.FarmingOld;
 import com.aelous.model.content.skill.impl.hunter.Hunter;
 import com.aelous.model.content.skill.impl.slayer.SlayerConstants;
 import com.aelous.model.content.skill.impl.slayer.SlayerRewards;
@@ -509,50 +506,6 @@ public class Player extends Entity {
 
     public boolean jailed() {
         return (int) getAttribOr(AttributeKey.JAILED, 0) == 1;
-    }
-
-    private int[] farmingSeedId = new int[FarmingOld.MAX_PATCHES], farmingTime = new int[FarmingOld.MAX_PATCHES],
-        farmingState = new int[FarmingOld.MAX_PATCHES], farmingHarvest = new int[FarmingOld.MAX_PATCHES];
-
-    public int getFarmingSeedId(int index) {
-        return farmingSeedId[index];
-    }
-
-    public void setFarmingSeedId(int index, int farmingSeedId) {
-        this.farmingSeedId[index] = farmingSeedId;
-    }
-
-    public int getFarmingTime(int index) {
-        return this.farmingTime[index];
-    }
-
-    public void setFarmingTime(int index, int farmingTime) {
-        this.farmingTime[index] = farmingTime;
-    }
-
-    public int getFarmingState(int index) {
-        return farmingState[index];
-    }
-
-    public void setFarmingState(int index, int farmingState) {
-        this.farmingState[index] = farmingState;
-    }
-
-    public int getFarmingHarvest(int index) {
-        return farmingHarvest[index];
-    }
-
-    public void setFarmingHarvest(int index, int farmingHarvest) {
-        this.farmingHarvest[index] = farmingHarvest;
-    }
-
-    private FarmingOld farmingOld = new FarmingOld(this);
-
-    public FarmingOld farming() {
-        if (farmingOld == null) {
-            farmingOld = new FarmingOld(this);
-        }
-        return farmingOld;
     }
 
     /**
@@ -3174,12 +3127,6 @@ public class Player extends Entity {
 
         if (lastregion != tile.region() || lastChunk != tile.chunk()) {
             MultiwayCombat.refresh(this, lastregion, lastChunk);
-            var uniqueRegions = Arrays.stream(Farmbit.values()).map(fb -> fb.visibleRegion).toList();
-            for (int region : uniqueRegions) {
-                if (lastregion == region) {
-                    Farming.synchRegion(this);
-                }
-            }
         }
 
         // Update last region and chunk ids
@@ -3241,10 +3188,6 @@ public class Player extends Entity {
                 this.decreaseStats.start((Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60));
             }
         }
-
-        //Section 15 process farming
-        section[15] = true;
-        this.farmingOld.farmingProcess();
     };
 
     private void replaceItems() {

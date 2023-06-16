@@ -23,7 +23,6 @@ private static final Logger logger = LogManager.getLogger(RegionChangePacketList
                 GroundItemHandler.updateRegionItems(player);
                 Barrows.onRegionChange(player);
                 ObjectManager.onRegionChange(player);
-                player.farming().updateObjects();
                 player.setAllowRegionChangePacket(false);
                 player.afkTimer.reset();
             } catch (Exception e) {

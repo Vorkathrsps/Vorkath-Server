@@ -164,7 +164,7 @@ public final class GroundItem {
     }
 
     /**
-     * Activates or disables ground items
+     * Activates or disables ground items. On next world cycle, items flagged as Removed are removed from the World GItem List.
      *
      * @param removed
      */

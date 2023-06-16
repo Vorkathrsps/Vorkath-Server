@@ -49,6 +49,13 @@ public class PacketInteractionManager {
         clazzes.forEach(PacketInteractionManager::load);
     }
 
+    public static void onRegionChange(Player player) {
+        for (PacketInteraction interaction : interactions) {
+            interaction.onRegionChange(player);
+            //System.out.println("onRegionChange prints "+interaction.getClass().getSimpleName());
+        }
+    }
+
     public static boolean onEquipItem(Player player, Item item) {
         for(PacketInteraction interaction : interactions) {
             if(interaction.handleEquipment(player, item)) {

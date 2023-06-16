@@ -7,15 +7,16 @@ import com.aelous.model.map.object.ObjectManager;
 import com.aelous.model.map.region.RegionManager;
 import com.aelous.network.packet.Packet;
 import com.aelous.network.packet.PacketListener;
+import com.aelous.network.packet.incoming.interaction.PacketInteractionManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class RegionChangePacketListener implements PacketListener {
+
 private static final Logger logger = LogManager.getLogger(RegionChangePacketListener.class);
 
     @Override
     public void handleMessage(Player player, Packet packet) {
-        int random = packet.readInt();
         if (player.isAllowRegionChangePacket()) {
             try {
                 RegionManager.loadMapFiles(player.tile().getX(), player.tile().getY());
@@ -23,6 +24,7 @@ private static final Logger logger = LogManager.getLogger(RegionChangePacketList
                 GroundItemHandler.updateRegionItems(player);
                 Barrows.onRegionChange(player);
                 ObjectManager.onRegionChange(player);
+                PacketInteractionManager.onRegionChange(player);
                 player.setAllowRegionChangePacket(false);
                 player.afkTimer.reset();
             } catch (Exception e) {

@@ -4,6 +4,7 @@ import com.aelous.cache.definitions.NpcDefinition;
 import com.aelous.core.task.Task;
 import com.aelous.core.task.TaskManager;
 import com.aelous.model.World;
+import com.aelous.model.content.areas.theatre.ViturRoom;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.attributes.AttributeKey;
@@ -19,10 +20,13 @@ import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
 import com.aelous.model.map.object.GameObject;
+import com.aelous.model.map.object.MapObjects;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
+import com.aelous.model.map.route.routes.DumbRoute;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +34,7 @@ import java.util.Objects;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.*;
+import static com.aelous.model.entity.attributes.AttributeKey.MINION_LIST;
 import static com.aelous.model.entity.combat.method.impl.npcs.verzik.VerzikPhase.INIT_PHASE_2;
 import static com.aelous.utility.ItemIdentifiers.DAWNBRINGER;
 
@@ -57,10 +62,39 @@ public class VerzikVitur extends CommonCombatMethod {
         Player[] targets = mob.closePlayers(32);
         if (mob.npc().id() == VERZIK_VITUR_8370) {
             mob.animate(CHAIR_ATTACK);
-            for (Player t : targets) {
+            var pillars = mob.<ArrayList<NPC>>getAttribOr(MINION_LIST, null);
+
+            tloop: for (Player t : targets) {
                 if (t.player().dead() || !t.tile().inArea(ARENA)) {
                     continue;
                 }
+
+                ploop: for (Tile pillarTile : ViturRoom.pillarTiles) {
+                    var pillar = MapObjects.get(o -> o.getId() == 32687 || o.getId() == 32688 || o.getId() == 32689, pillarTile.withHeight(t.getZ())).orElse(null);
+                    if (pillar == null) continue;
+                    // you have to be standing next to a pillar to be shielded from Verzik
+                   // LogManager.getLogger("dev").info("pillar {}", pillar);
+                    var bounds = pillar.bounds().expanded(1);
+                    if (bounds.contains(t.tile(), true)) {
+                        // find the NPC standing here
+                        var pillarNpc = pillars.stream().filter(n -> n.tile().equals(pillar.tile())).findFirst().orElse(null);
+                        // shield if pillar alive
+                        if (pillarNpc != null && !pillarNpc.dead()) {
+                            if (pillarNpc.getCombat().getHitQueue().size() >= 1) // pillar only hit ONCE, if 10 guys are cowering behind it like pussies
+                                continue tloop; // next target
+                            final Tile targetPos = pillarNpc.tile().copy();
+                            var tileDist = entity.tile().distance(targetPos);
+                            int duration = (85 + -5 + (10 * tileDist));
+                            Projectile p = new Projectile(entity, targetPos, 1580, 85, duration, 105, 0, 0, target.getSize(), 10);
+                            var delay = p.send(mob, targetPos);
+                            pillarNpc.hit(mob, 40, delay);
+                            continue tloop; // next target
+                        }
+                        break; // target is behind an alive pillar, they're safe.
+                    }
+                }
+
+
                 final Tile targetPos = t.tile().copy();
                 var tileDist = entity.tile().distance(targetPos);
                 int duration = (85 + -5 + (10 * tileDist));
@@ -286,6 +320,17 @@ public class VerzikVitur extends CommonCombatMethod {
             for (Player p : mob.closePlayers()) {
                 p.removeAll(new Item(DAWNBRINGER));
                 p.getCombat().reset();
+            }
+            for (Tile pillarTile : ViturRoom.pillarTiles) {
+                var ids = new int[] {32687, 32688, 32689};
+                for (int id : ids) {
+                    MapObjects.get(id, pillarTile.withHeight(mob.getZ())).ifPresent(pillar -> {
+                        // TODO fade out objAnim
+                        Chain.noCtx().delay(2, () -> {
+                            pillar.remove();
+                        });
+                    });
+                }
             }
             Chain.bound(null).runFn(4, () -> {
                 phase = INIT_PHASE_2;

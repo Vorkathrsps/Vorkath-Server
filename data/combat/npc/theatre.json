@@ -36,6 +36,42 @@
     }
   },
   {
+  // Verzik Vitur pillar
+  "ids": [
+    8379
+  ],
+  "maxhit": 0,
+  "deathlen": 1,
+  "aggressive": true,
+  "aggroradius": 0,
+  "stats": {
+    "attack": 400,
+    "strength": 400,
+    "magic": 400,
+    "ranged": 400,
+    "defence": 200,
+    "hitpoints": 1
+  },
+  "bonuses": {
+    "attack": 0,
+    "ranged": 80,
+    "magic": 80,
+    "stabdefence": 100,
+    "slashdefence": 60,
+    "crushdefence": 100,
+    "rangeddefence": 70,
+    "magicdefence": 250
+  },
+  "animations": {
+    "attack": -1,
+    "block": -1,
+    "death": -1
+  },
+  "scripts": {
+    "combat": "com.aelous.model.entity.combat.method.impl.npcs.verzik.VerzikPillar"
+  }
+},
+  {
     //Nylocas Ischyros
     "ids": [
       8345

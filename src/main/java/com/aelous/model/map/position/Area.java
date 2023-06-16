@@ -189,6 +189,10 @@ public class Area {
         return new Area(this.x1 + minX, this.y1 + minY, this.x2 + maxX, this.y2 + maxY, this.level + level);
     }
 
+    public Area expanded(int enlargedBy) {
+        return new Area(x1 - enlargedBy, y1 - enlargedBy, x2 + enlargedBy, y2 + enlargedBy, level);
+    }
+
     public boolean overlaps(Area other) {
         return Tile.overlaps(x1, y1, x2 - x1 + 1, y2 - y1 + 1, other.x1, other.y1, other.x2 - other.x1 + 1, other.y2 - other.y1 + 1);
     }

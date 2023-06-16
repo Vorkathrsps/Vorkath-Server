@@ -6,6 +6,8 @@ import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.method.impl.npcs.raids.cox.vasa.objects.Crystals;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.map.position.Area;
+import com.aelous.model.map.position.Boundary;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.route.ClipUtils;
 import com.aelous.utility.SecondsTimer;
@@ -544,5 +546,9 @@ public class GameObject {
             newobj.cloneAttribs(this);
         }
         return newobj;
+    }
+
+    public Area bounds() {
+        return new Area(tile().x, tile().y, tile().x + definition().sizeX - 1, tile().y + definition().sizeY - 1, tile().getZ());
     }
 }

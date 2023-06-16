@@ -9,19 +9,17 @@ import com.aelous.model.inter.dialogue.DialogueType;
 import com.aelous.model.inter.dialogue.Expression;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
-import com.aelous.network.packet.incoming.impl.ObjectInteractionHandler;
 import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.utility.Color;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.*;
-import static com.aelous.model.inter.dialogue.Dialogue.send;
 
 /**
  * @Author Origin
  * @Since October 29, 2021
  */
-public class Room extends PacketInteraction {
+public class RaidRoom extends PacketInteraction {
 
     @Override
     public boolean handleObjectInteraction(Player player, GameObject object, int option) {

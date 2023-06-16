@@ -746,6 +746,9 @@ public class CommandManager {
                 p.message("Done searching. Found " + found + " results for '" + s + "'.");
             }).start();
         });
+        dev("vk1", (p, c, s) -> {
+            p.getLocalNpcs().get(0).putAttrib(AttributeKey.VORKATH_CB_COOLDOWN, 0);
+        });
     }
 
     private static int rotateX(int x, int y, int angle) {

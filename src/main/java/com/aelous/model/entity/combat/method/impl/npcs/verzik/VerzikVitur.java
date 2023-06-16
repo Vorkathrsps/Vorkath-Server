@@ -274,7 +274,7 @@ public class VerzikVitur extends CommonCombatMethod {
 
     @Override
     public int getAttackDistance(Entity entity) {
-        return 12;
+        return 30;
     }
 
     @Override

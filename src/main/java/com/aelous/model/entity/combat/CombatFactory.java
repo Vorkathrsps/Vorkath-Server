@@ -374,7 +374,11 @@ public class CombatFactory {
         }
 
         // Check if teleporting away/teleported away
-        if (attacker.tile().distance(target.tile()) >= 16) {
+        var dist = attacker.tile().distance(target.tile());
+        if (attacker.isNpc() && attacker.npc().getCombatMethod() != null && attacker.npc().getCombatMethod().getAttackDistance(attacker) <= dist) {
+            attacker.getCombat().reset();
+            return false;
+        } else if (dist >= 32) {
             attacker.getCombat().reset();
             return false;
         }

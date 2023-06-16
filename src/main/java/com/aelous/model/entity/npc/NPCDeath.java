@@ -853,7 +853,7 @@ public class NPCDeath {
         if (npc.id() == KrakenBoss.KRAKEN_NPCID) {
             npc.transmog(KrakenBoss.KRAKEN_WHIRLPOOL);
             // Transmog kraken info after the drop table is done otherwise it'll look for the wrong table
-            npc.getCombatInfo(World.getWorld().combatInfo(KrakenBoss.KRAKEN_WHIRLPOOL));
+            npc.setCombatInfo(World.getWorld().combatInfo(KrakenBoss.KRAKEN_WHIRLPOOL));
         }
 
         if (npc.id() == KrakenBoss.TENTACLE_WHIRLPOOL || npc.id() == NpcIdentifiers.ENORMOUS_TENTACLE) {

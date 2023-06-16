@@ -19,7 +19,6 @@ import com.aelous.model.entity.combat.method.impl.arceuus.MagicThrall;
 import com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
-import com.aelous.model.entity.combat.method.impl.theatre.Soteseg;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.masks.Projectile;

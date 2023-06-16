@@ -67,7 +67,7 @@ public class ReloadCommand implements Command {
             // Reload npcs
             World.getWorld().getNpcs().forEach(n -> {
                 if (n != null) {
-                    n.getCombatInfo(World.getWorld().combatInfo(n.id()));
+                    n.setCombatInfo(World.getWorld().combatInfo(n.id()));
                 }
             });
             player.message("Finished.");

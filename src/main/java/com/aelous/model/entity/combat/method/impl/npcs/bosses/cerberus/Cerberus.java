@@ -8,7 +8,9 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
+import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.masks.Projectile;
+import com.aelous.model.entity.masks.UpdateFlag;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
@@ -19,6 +21,7 @@ import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.TickDelay;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
+import com.aelous.utility.timers.TimerKey;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,76 +38,68 @@ public class Cerberus extends CommonCombatMethod {
     private final TickDelay spreadLavaCooldown = new TickDelay();
     private final TickDelay spawnSoulCooldown = new TickDelay();
     private static final Area area = new Area(1358, 1257, 1378, 1257);
-    private boolean combatAttack = false;
+
 
     private void rangedAttack(Entity entity, Entity target) {
-        if (entity instanceof NPC npc) {
-            if (target instanceof Player player) {
-                if (npc.dead() || player.dead()) {
-                    return;
-                }
-                npc.animate(4492);
-                int tileDist = (int) entity.tile().getDistance(target.tile());
-                int duration = (30 + 11 + (10 * tileDist));
-                var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
-                Projectile p = new Projectile(tile, target, 1245, 30, duration, 70, 31, 0, target.getSize(), 15);
-                final int delay = entity.executeProjectile(p);
-                Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
-                hit.submit();
-                target.graphic(1244, GraphicHeight.HIGH, p.getSpeed());
-            }
-        }
+        if (entity.dead() || target.dead()) return; // because in combo attack, its called with a delay in which target can die.
+        if (comboAttackCooldown.remaining() < 60) // combo attack anim in progress!
+            entity.animate(4492);
+        int tileDist = (int) entity.tile().getDistance(target.tile());
+        int duration = (80 + 11 + (10 * tileDist));
+        var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
+        Projectile p = new Projectile(tile, target, 1245, 80, duration, 70, 31, 0, target.getSize(), 15);
+        final int delay = entity.executeProjectile(p);
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
+        hit.submit();
+        target.graphic(1244, GraphicHeight.HIGH, p.getSpeed());
     }
 
     private void magicAttack(Entity entity, Entity target) {
-        if (entity instanceof NPC npc) {
-            if (target instanceof Player player) {
-                if (player.dead() || player.getSkills().xpLevel(Skills.HITPOINTS) <= 0) {
-                    return;
-                }
-                npc.animate(4492);
-                int tileDist = (int) npc.tile().getDistance(player.tile());
-                int duration = (30 + 11 + (10 * tileDist));
-                var tile = npc.tile().translateAndCenterNpcPosition(npc, player);
-                Projectile p = new Projectile(tile, target, 1242, 30, duration, 70, 31, 0, target.getSize(), 15);
-                final int delay = npc.executeProjectile(p);
-                Hit hit = Hit.builder(npc, player, CombatFactory.calcDamageFromType(npc, player, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
-                hit.submit();
-                if (hit.getDamage() > 0) {
-                    target.graphic(1243, GraphicHeight.HIGH, p.getSpeed());
-                }
-            }
+        if (entity.dead() || target.dead()) return; // because in combo attack, its called with a delay in which target can die.
+        if (comboAttackCooldown.remaining() < 60) // combo attack anim in progress!
+            entity.animate(4492);
+        int tileDist = (int) entity.tile().getDistance(target.tile());
+        int duration = (80 + 11 + (10 * tileDist));
+        var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
+        Projectile p = new Projectile(tile, target, 1242, 80, duration, 70, 31, 0, target.getSize(), 15);
+        final int delay = entity.executeProjectile(p);
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        hit.submit();
+        if (hit.getDamage() > 0) {
+            target.graphic(1243, GraphicHeight.HIGH, p.getSpeed());
         }
     }
 
     private void meleeAttack() {
-        entity.animate(entity.attackAnimation());
+        if (entity.dead() || target.dead()) return; // because in combo attack, its called with a delay in which target can die.
+        if (comboAttackCooldown.remaining() < 60) // combo attack anim in progress!
+            entity.animate(entity.attackAnimation());
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy().submit();
     }
 
     private void comboAttack(Entity entity, Entity target) {
-        if (entity instanceof NPC npc) {
-            if (target instanceof Player player) {
-                if (player.dead() || player.getSkills().xpLevel(Skills.HITPOINTS) <= 0) {
-                    return;
-                }
-                npc.animate(4490); // triple attack
-                combatAttack = true;
-                //mob.forceChat("MAGIC COMBO");
-                npc.runFn(1, () -> {
-                    if (player.dead()) {
-                        return;
-                    }
-                    rangedAttack(npc, player);
-                }).then(1, () -> {
-                    magicAttack(npc, player);
-                }).then(1, () -> {
-                    combatAttack = true;
-                    meleeAttack();
-                });
-                comboAttackCooldown.delay(66); // ~40 seconds cooldown
-            }
-        }
+        // 1:06 https://www.youtube.com/watch?v=hRWrhYgoIbY
+        // funny the magic projectile sends before anim.
+
+        comboAttackCooldown.delay(66); // ~40 seconds cooldown
+
+        magicAttack(entity, target); // magic anim wont trigger since combo timer just started
+
+        entity.getUpdateFlag().set(Flag.ANIMATION, false); // overwrite magic anim that above method does
+
+        Chain.noCtx().runFn(2, () -> {
+            entity.animate(4490); // triple attack anim 2t after magic.
+            rangedAttack(entity, target);
+        }).then(2, () -> {
+            meleeAttack();
+        });
+    }
+
+    @Override
+    public void postAttack() {
+        System.out.printf("%s%n", comboAttackCooldown.remaining());
+        if (comboAttackCooldown.remaining() == 66) // just happened
+            entity.getTimers().extendOrRegister(TimerKey.COMBAT_ATTACK, 9); // account for combo attack 3 in 1
     }
 
     ArrayList<NPC> souls = new ArrayList<>();
@@ -258,26 +253,21 @@ public class Cerberus extends CommonCombatMethod {
     }
 
     @Override
-    public void preDefend(Hit hit) {
-
-        if (!comboAttackCooldown.isDelayed()) {
-            comboAttack(entity, target);
-        } else if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.rollDie(1, 4)) {
-            meleeAttack();
-        } else {
-            if (entity.hp() <= 200 && !spreadLavaCooldown.isDelayed() && comboAttackCooldown.isDelayed()) {
-                spreadLava();
-            }
-        }
-
-    }
-
-    @Override
     public boolean prepareAttack(@NotNull Entity entity, Entity target) {
-
-        if (Utils.rollDie(1, 2)) {
+        if (!comboAttackCooldown.isDelayed()) {
+           // entity.forceChat("combo");
+            comboAttack(entity, target);
+        } else if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.rollDie(4, 1)) {
+           // entity.forceChat("m1");
+            meleeAttack();
+        } else if (entity.hp() <= 200 && !spreadLavaCooldown.isDelayed() && comboAttackCooldown.isDelayed()) {
+           // entity.forceChat("lava");
+            spreadLava();
+        } else if (Utils.rollDie(1, 2)) {
+           // entity.forceChat("ra");
             rangedAttack(entity, target);
         } else if (Utils.rollDie(1, 4)) {
+           // entity.forceChat("mage");
             magicAttack(entity, target);
         } else {
             entity.forceChat("Arrrrroooooooooo!");

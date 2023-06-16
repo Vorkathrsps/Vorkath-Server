@@ -462,6 +462,7 @@ public class CommandManager {
         });
         dev("invis", (p, c, s) -> {
             p.looks().hide(!p.looks().hidden());
+            p.message("hidden %s", p.looks().hidden());
         });
         dev("hit1", (p, c, s) -> {
             p.hit(p, 1, SplatType.NPC_HEALING_HITSPLAT);

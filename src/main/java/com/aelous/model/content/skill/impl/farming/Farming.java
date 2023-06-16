@@ -88,7 +88,7 @@ public class Farming extends PacketInteraction {
 
     @Override
     public boolean handleItemOnObject(Player player, Item item, GameObject object) {
-        if (plant(player, item, object.tile))
+        if (plant(player, item, object.tile()))
             return true;
 
         if (item.getId() == RAKE) {

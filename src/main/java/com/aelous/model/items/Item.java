@@ -775,9 +775,9 @@ public class Item implements Cloneable {
             return 0;
         }
         if (def.noted()) {
-            return def.getKeptOnDeathValue();
+            return def.bm.value();
         }
-        return TradingPost.TRADING_POST_VALUE_ENABLED ? TradingPost.getProtectionPrice(id) : getBloodMoneyPrice() == null ? 0 :  def.getKeptOnDeathValue();
+        return TradingPost.TRADING_POST_VALUE_ENABLED ? TradingPost.getProtectionPrice(id) : getBloodMoneyPrice() == null ? 0 :  def.bm.value();
     }
 
     /**

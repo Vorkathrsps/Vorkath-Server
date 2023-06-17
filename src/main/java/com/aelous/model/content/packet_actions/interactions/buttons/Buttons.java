@@ -13,6 +13,7 @@ import com.aelous.model.content.skill.impl.smithing.Smelting;
 import com.aelous.model.content.teleport.OrnateJewelleryBox;
 import com.aelous.model.content.teleport.TeleportType;
 import com.aelous.model.content.teleport.Teleports;
+import com.aelous.model.content.tournaments.TournamentManager;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.magic.autocasting.Autocasting;
@@ -392,6 +393,9 @@ public class Buttons {
                     return;
                 }
                 if (player.getDueling().checkRule(button)) {
+                    return;
+                }
+                if (TournamentManager.handleWidgetButton(player, button)) {
                     return;
                 }
                 if (player.getPresetManager().handleButton(button, 0)) {

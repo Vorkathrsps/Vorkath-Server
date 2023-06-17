@@ -7,6 +7,7 @@ import com.aelous.model.content.daily_tasks.DailyTasks;
 import com.aelous.model.content.duel.Dueling;
 import com.aelous.model.content.mechanics.break_items.BreakItemsOnDeath;
 import com.aelous.model.World;
+import com.aelous.model.content.tournaments.TournamentManager;
 import com.aelous.model.entity.attributes.AttributeKey;
 
 import com.aelous.model.entity.Entity;
@@ -113,6 +114,7 @@ public class Death {
 
         var mostdmg = player.getCombat().getKiller();
         var killer = mostdmg.orElse(null);
+        var in_tournament = player.inActiveTournament() || player.isInTournamentLobby();
 
         player.animate(836); //Animate the player
 
@@ -174,7 +176,9 @@ public class Death {
             } else if (player.<Integer>getAttribOr(AttributeKey.JAILED, 0) == 1) {
                 player.message("You've died, but you cannot run from your jail sentence!");
                 player.teleport(player.tile());
-            } else if (player.getRaids() != null) {
+            } else if (in_tournament) {
+                TournamentManager.handleDeath(player);
+            }  else if (player.getRaids() != null) {
                 player.getRaids().death(player);
             } else {
                 player.teleport(GameServer.properties().defaultTile.tile()); //Teleport the player to Varrock square

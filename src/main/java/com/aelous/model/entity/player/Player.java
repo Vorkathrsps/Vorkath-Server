@@ -61,6 +61,8 @@ import com.aelous.model.content.title.TitleCategory;
 import com.aelous.model.content.title.TitleColour;
 import com.aelous.model.content.title.TitlePlugin;
 import com.aelous.model.content.title.req.impl.other.TitleUnlockRequirement;
+import com.aelous.model.content.tournaments.Tournament;
+import com.aelous.model.content.tournaments.TournamentManager;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.LockType;
 import com.aelous.model.entity.NodeType;
@@ -1462,6 +1464,7 @@ public class Player extends Entity {
             skills.update();
             farming.handleLogin();
             PacketInteractionManager.onLogin(this);
+            TournamentManager.onLogin1(this);
 
             inventory.refresh();
             equipment.refresh();
@@ -3353,4 +3356,47 @@ public class Player extends Entity {
             this.setRunningEnergy(newEnergy, true);
         }
     }
+
+    boolean inTournamentLobby, tournamentSpectating;
+
+    Tournament participatingTournament;
+
+    public boolean inActiveTournament() {
+        return participatingTournament != null;
+    }
+
+    Player tournamentOpponent;
+
+    public boolean isInTournamentLobby() {
+        return this.inTournamentLobby;
+    }
+
+    public boolean isTournamentSpectating() {
+        return this.tournamentSpectating;
+    }
+
+    public Tournament getParticipatingTournament() {
+        return this.participatingTournament;
+    }
+
+    public Player getTournamentOpponent() {
+        return this.tournamentOpponent;
+    }
+
+    public void setInTournamentLobby(boolean inTournamentLobby) {
+        this.inTournamentLobby = inTournamentLobby;
+    }
+
+    public void setTournamentSpectating(boolean tournamentSpectating) {
+        this.tournamentSpectating = tournamentSpectating;
+    }
+
+    public void setParticipatingTournament(Tournament participatingTournament) {
+        this.participatingTournament = participatingTournament;
+    }
+
+    public void setTournamentOpponent(Player tournamentOpponent) {
+        this.tournamentOpponent = tournamentOpponent;
+    }
+
 }

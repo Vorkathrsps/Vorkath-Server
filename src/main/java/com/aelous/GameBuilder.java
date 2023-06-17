@@ -2,6 +2,7 @@ package com.aelous;
 
 import com.aelous.model.content.areas.wilderness.content.activity.WildernessActivityManager;
 import com.aelous.model.content.items.mysterybox.MysteryBox;
+import com.aelous.model.content.tournaments.TournamentManager;
 import com.aelous.model.inter.clan.ClanRepository;
 
 import com.aelous.model.content.skill.impl.crafting.Crafting;
@@ -92,6 +93,7 @@ public class GameBuilder {
         if(GameServer.properties().pvpMode) {
             tasks.add(new PresetLoader());
         }
+        tasks.add(TournamentManager::initalizeTournaments);
         tasks.add(new DoorDefinitionLoader());
         tasks.add(World.getWorld()::postLoad);
         //tasks.add(DiscordBot::init);

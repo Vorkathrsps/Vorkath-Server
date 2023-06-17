@@ -354,7 +354,7 @@ public class TournamentManager extends PacketInteraction {
     static void bankEverything(Player player) {
         player.getBank().depositInventory();
         player.getBank().depositeEquipment();
-        if (player.getPet() != null) {
+        if (player.getPet().getCurrentPet() != null) {
             player.getPet().pickup(false);
         }
         //We don't have to bank runes, since they are spawnable

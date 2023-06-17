@@ -135,7 +135,8 @@ public class Pet {
     }
 
     public void pickup(boolean logout) {
-
+        if (currentPet == null)
+            return;
         World.getWorld().unregisterNpc(currentPet);
 
         if (logout) {

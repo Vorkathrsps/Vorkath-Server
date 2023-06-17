@@ -1417,6 +1417,7 @@ public class Player extends Entity {
             if (getClan() != null) {
                 ClanManager.leave(this, true);
             }
+            TournamentManager.leaveTourny(this, true);
         });
 
         runExceptionally(() -> {

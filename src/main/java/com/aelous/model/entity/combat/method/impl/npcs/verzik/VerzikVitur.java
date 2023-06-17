@@ -8,6 +8,7 @@ import com.aelous.model.content.areas.theatre.ViturRoom;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.hit.SplatType;
@@ -16,6 +17,7 @@ import com.aelous.model.entity.combat.method.impl.npcs.verzik.nylocas.Athanatos;
 import com.aelous.model.entity.combat.method.impl.npcs.verzik.nylocas.Matomenos;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Projectile;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
@@ -24,10 +26,8 @@ import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.object.MapObjects;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
-import com.aelous.model.map.route.routes.DumbRoute;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
-import org.apache.logging.log4j.LogManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,29 +88,30 @@ public class VerzikVitur extends CommonCombatMethod {
                     if (pillarNpc != null && !pillarNpc.dead()) {
                         if (pillarNpc.getCombat().getHitQueue().size() >= 1) // pillar only hit ONCE, if 10 guys are cowering behind it like pussies
                             continue tloop; // next target
-                        final Tile targetPos = pillarNpc.tile().copy();
-                        var tileDist = entity.tile().distance(targetPos);
+                        var tileDist = mob.tile().distance(pillarNpc.tile());
                         int duration = (85 + -5 + (10 * tileDist));
-                        Projectile p = new Projectile(entity, targetPos, 1580, 85, duration, 105, 0, 0, target.getSize(), 10);
-                        var delay = p.send(mob, targetPos);
-                        pillarNpc.hit(mob, 40, delay);
-                        continue tloop; // next target
+                        Projectile p = new Projectile(mob, pillarNpc, 1580, 85, duration, 105, 0, 0, target.getSize(), 10);
+                        var delay = mob.executeProjectile(p);
+                        Hit hit = Hit.builder(mob, pillarNpc, CombatFactory.calcDamageFromType(mob, target, CombatType.MAGIC), delay, CombatType.MAGIC).setAccurate(true);
+                        hit.submit();
+                        pillarNpc.graphic(1582, GraphicHeight.LOW, p.getSpeed());
+                        continue tloop;
                     }
                 }
 
 
                 final Tile targetPos = t.tile().copy();
-                var tileDist = entity.tile().distance(targetPos);
+                var tileDist = mob.tile().distance(targetPos);
                 int duration = (85 + -5 + (10 * tileDist));
-                Projectile p = new Projectile(entity, targetPos, 1580, 85, duration, 105, 0, 0, target.getSize(), 10);
-                int delay = p.send(mob, targetPos);
+                Projectile p = new Projectile(mob, t, 1580, 85, duration, 105, 0, 0, target.getSize(), 10);
+                int delay = mob.executeProjectile(p);
                 Chain.bound(mob).name("VerzikViturPrepareAttackTask1").runFn(delay, () -> {
                     if (t.tile().isWithinDistance(targetPos, 1)) {
                         int dmg = Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MAGIC) ? World.getWorld().random(1, 60) : World.getWorld().random(1, 137);
                         t.hit(mob, dmg);
                     }
                 });
-                World.getWorld().tileGraphic(1582, targetPos, 0, p.getSpeed());
+                target.graphic(1582, GraphicHeight.LOW, p.getSpeed());
             }
         }
         if (mob.npc().id() == VERZIK_VITUR_8372) {

@@ -18303,6 +18303,11 @@
     "type": 5,
     "showBeard": false
   },
+  "22516": { //Dawnbringer
+    "slot": 3,
+    "type": 0,
+    "showBeard": false
+  },
   "27610": { //venator bow
     "slot": 3,
     "type": 5,

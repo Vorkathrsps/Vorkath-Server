@@ -47,24 +47,23 @@ public class VerzikPillar extends CommonCombatMethod {
             var pillars = boss.<ArrayList<NPC>>getAttribOr(MINION_LIST, null);
             pillars.removeIf(n -> n == npc);
             MapObjects.get(32687, npc.tile()).ifPresent(pillar -> {
-                pillar.setId(32688); // falling
+                pillar.setId(32688);
                 Chain.noCtx().delay(2, () -> {
+                    pillar.setId(32689);
                     for (Player player : npc.closePlayers(1)) { // fall damage after pillar has fallen
                         player.hit(npc, 10);
                     }
-                    pillar.setId(32689); // fallen object
                     for (Player player : npc.closePlayers()) {
                         if (pillar.bounds().contains(player.tile())) {
-                            // overlapping, cant move, need to be forced moved
+                            player.hit(npc, 10);
                             Direction direction = Direction.of(player.tile().x - npc.tile().x, player.tile().y - npc.tile().y);
                             FaceDirection face = FaceDirection.forTargetTile(npc.tile(), player.tile());
                             ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(direction.x() , direction.y()), 30, 60, 1157, face.direction);
                             player.setForceMovement(forceMovement);
                         }
                     }
-                });
+                }).then(1, () -> pillar.animate(8104)).then(2, pillar::remove);
             });
-
         }
     }
 }

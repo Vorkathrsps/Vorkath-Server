@@ -521,9 +521,9 @@ public class RegionManager {
                 //System.err.println("missing clipping at region "+regionId);
                 return;
             }
-            if (oFileData != null) {
+            /*if (oFileData != null) {
                 logger.trace("clipmap region {} at {} in {} ns len:{} len:{} files {} {}", regionId, Tile.regionToTile(regionId), stopwatch.elapsed().toNanos(), oFileData.length, gFileData.length, r.getObjectFile(), r.getTerrainFile());
-            }
+            }*/
 
             // Read values using our streams..
             Buffer groundStream = new Buffer(gFileData);

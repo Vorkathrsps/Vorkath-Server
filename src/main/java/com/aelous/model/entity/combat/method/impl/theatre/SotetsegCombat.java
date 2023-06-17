@@ -19,27 +19,32 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SotetsegCombat extends CommonCombatMethod {
-
+    @Getter
+    AtomicBoolean recentlyPerformedAttack = new AtomicBoolean(false);
     int magicAttackCount = 0;
-
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         if (!withinDistance(8))
             return false;
-        if (magicAttackCount == 10) {
-            sendSpecialMagicAttack(target);
-        } else {
-            if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.percentageChance(50)) {
-                sendMeleeAttack(target);
+
+        var player = (Player) target;
+        if (!getRecentlyPerformedAttack().get()) {
+            if (magicAttackCount == 10) {
+                sendSpecialMagicAttack(player);
             } else {
-                sendRandomMageOrRange(target);
+                if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.percentageChance(50) && !recentlyPerformedAttack.get()) {
+                    sendMeleeAttack(player);
+                } else {
+                    sendRandomMageOrRange(player);
+                }
             }
+            return true;
         }
-        return true;
+        return false;
     }
 
-    public void sendRandomMageOrRange(Entity target) {
+    public void sendRandomMageOrRange(Player target) {
         int[] projectileIds = new int[]{1606, 1607};
         var randomProjectile = Utils.randomElement(projectileIds);
         entity.animate(8139);
@@ -68,7 +73,7 @@ public class SotetsegCombat extends CommonCombatMethod {
         hit.submit();
     }
 
-    public void sendSpecialMagicAttack(Entity target) {
+    public void sendSpecialMagicAttack(Player target) {
         magicAttackCount = 0;
         entity.animate(8139);
         int tileDist = entity.tile().distance(target.tile());
@@ -79,12 +84,14 @@ public class SotetsegCombat extends CommonCombatMethod {
         hit.setDamage(121);
         hit.submit();
         entity.graphic(101, GraphicHeight.MIDDLE, p.getSpeed());
+        recentlyPerformedAttack.getAndSet(true);
     }
 
-    public void sendMeleeAttack(Entity target) {
+    public void sendMeleeAttack(Player target) {
         entity.animate(8138);
-        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy();
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy();
         hit.submit();
+        recentlyPerformedAttack.getAndSet(true);
     }
 
     @Override
@@ -99,6 +106,6 @@ public class SotetsegCombat extends CommonCombatMethod {
 
     @Override
     public boolean canMultiAttackInSingleZones() {
-        return true;
+        return super.canMultiAttackInSingleZones();
     }
 }

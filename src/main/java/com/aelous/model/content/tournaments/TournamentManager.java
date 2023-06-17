@@ -33,6 +33,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -166,7 +167,7 @@ public class TournamentManager extends PacketInteraction {
     }
 
     static boolean canEnterLobby(Player player) {
-        if (player.getPet() != null) {
+        if (player.getPet().getCurrentPet() != null) {
             player.message("You can't bring any pets into the tournament.");
             return false;
         }
@@ -482,6 +483,7 @@ public class TournamentManager extends PacketInteraction {
      * Data classes
      */
     public static class TornSystemSettings {
+        public static String[] defaultStartTimes;
         int globalTimerSecs, lobbyTime;
 
         public TornConfig[] getTornConfigs() {
@@ -493,6 +495,8 @@ public class TournamentManager extends PacketInteraction {
         public String[] getStartTimes() {
             return startTimes;
         }
+
+        public boolean usingOverrideTimes;
 
         public void setStartTimes(String[] startTimes) {
             this.startTimes = startTimes;
@@ -641,6 +645,7 @@ public class TournamentManager extends PacketInteraction {
             lobbyTime,
             configs.toArray(new TornConfig[0]), startTimes
         );
+        settings.defaultStartTimes = startTimes;
         loadouts.clear();
 
         ConfigList loadoutList = config.getList("loadouts");
@@ -815,8 +820,19 @@ public class TournamentManager extends PacketInteraction {
     }
 
     public static void setNextTournyType() {
-        final ZonedDateTime nextEvent = nextEvent();
+        final ZonedDateTime nextEvent = getNextEventTime();
         if (nextEvent != null && nextTorn == null) {
+
+            // tomorrow, was using overrides, lets reset
+            if (nextEvent.getDayOfWeek() != ZonedDateTime.now(ZoneId.of("Europe/London")).getDayOfWeek() && settings.usingOverrideTimes) {
+                // times were overridden, but now they've been completed and the next due tourny is tomorrow, revert to default.
+                settings.usingOverrideTimes = false;
+                settings.setStartTimes(TornSystemSettings.defaultStartTimes);
+                logger.info("reverted back to default tournament times, discarding overrides");
+                setNextTournyType();
+                return;
+            }
+
             nextTorn = new Tournament(settings.tornConfigs[Utils.random(settings.tornConfigs.length)]);
             TournamentManager.nextTime = nextEvent.format(DateTimeFormatter.ofPattern("dd MMM YYYY h:mm:ss a"));
             //Check that we don't have back to back tournament types.
@@ -827,13 +843,54 @@ public class TournamentManager extends PacketInteraction {
 
                 while (++iterations < max && prevTorn.getTypeName().equals(nextTorn.getTypeName())) {
                     nextTorn = new Tournament(settings.tornConfigs[Utils.random(settings.tornConfigs.length)]);
-                }
+                } // this should stop them ever being the same
             }
-            Utils.sendDiscordInfoLog("Next torn (" + nextTorn.getTypeName() + ") scheduled for " + TournamentManager.nextTime, "tournaments");
-            logger.info("Next torn (" + nextTorn.getTypeName() + ") scheduled for " + TournamentManager.nextTime);
-        } else {
-            prevTorn = nextTorn;
+            if (waitingRoomTournament != null)
+                prevTorn = waitingRoomTournament;
+
+            //logger.info("Next torn (" + nextTorn.getTypeName() + ") scheduled for " + TournamentManager.nextTime);
         }
+    }
+
+    private static ZonedDateTime getNextEventTime() {
+        // today
+        for (String startTime : settings.getStartTimes()) {
+            try {
+                ZonedDateTime next = timeStringToDateTime(startTime);
+                // first one in list that is larger than current time
+                if (next.toEpochSecond() > ZonedDateTime.now(ZoneId.of("Europe/London")).toEpochSecond()) {
+                    return next;
+                }
+            } catch (ParseException e) {
+                logger.error("bad", e);
+            }
+        }
+        // tomorrow!
+        for (String startTime : settings.getStartTimes()) {
+            try {
+                ZonedDateTime next = timeStringToDateTime(startTime, true);
+                // first one in list that is larger than current time
+                if (next.toEpochSecond() > ZonedDateTime.now(ZoneId.of("Europe/London")).toEpochSecond()) {
+                    return next;
+                }
+            } catch (ParseException e) {
+                logger.error("bad", e);
+            }
+        }
+        return null;
+    }
+
+    public static ZonedDateTime timeStringToDateTime(String hhmm) throws ParseException {
+        return timeStringToDateTime(hhmm, false);
+    }
+
+    public static ZonedDateTime timeStringToDateTime(String hhmmTime, boolean transformToTomorrow) throws ParseException {
+        ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Europe/London"));
+        ZonedDateTime next = now.withHour(Integer.parseInt(hhmmTime.substring(0, 2))).withMinute(Integer.parseInt(hhmmTime.substring(3, 5))).withSecond(0);
+        if (transformToTomorrow)
+            next = next.plusDays(1);
+        //System.out.printf("%s -> %s from %s | %s < %s%n", hhmmTime, next, now, next.toEpochSecond(), now.toEpochSecond());
+        return next;
     }
 
     public static boolean checkAndOpenLobby(boolean force) {

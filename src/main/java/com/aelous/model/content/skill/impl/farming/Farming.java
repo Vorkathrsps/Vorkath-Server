@@ -360,10 +360,11 @@ public class Farming extends PacketInteraction {
 
     public void save(String username) { // Yes username never display name.
         try {
-            File file = new File(SAVING_PATH);
-            if (!file.exists()) {
-                Preconditions.checkState(file.mkdirs());
+            File directory = new File(SAVING_PATH);
+            if (!directory.getParentFile().exists()) {
+                Preconditions.checkState(directory.getParentFile().mkdirs());
             }
+
             BufferedWriter writer = new BufferedWriter(new FileWriter(SAVING_PATH + username + ".txt"));
             for (int i = 0; i < patches.length; i++) {
                 if (i >= Patch.values().length)
@@ -440,7 +441,7 @@ public class Farming extends PacketInteraction {
                     time = Long.parseLong(substring);
                 else if(line.equals("END PATCH") && patch >= 0) {
                     patches[patch].stage = (byte)stage;
-                    patches[patch].setTime(time);;
+                    patches[patch].setTime(time);
                     patch = -1;
                 }
                 else if(line.equals("END PLANT") && patch >= 0) {

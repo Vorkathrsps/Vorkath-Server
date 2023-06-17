@@ -170,11 +170,11 @@ public class ItemBloodMoneyValueTest {
                 if (!new Item(itemId).noted()) {
                     Item item = new Item(itemId);
                     Item notedItem = new Item(itemId).note();
-                    if (notedItem.getId() > 0 && item.getBloodMoneyPrice().id() != notedItem.getBloodMoneyPrice().id()) {
+                  //  if (notedItem.getId() > 0 != notedItem.getBloodMoneyPrice().id()) {
                         notedValuesCorrect = false;
                         itemsIncorrectValues.add(item);
                         System.err.println("The BM value for " + item.name() + " does not match the noted item value. Item (" + item.getId() + ") value: " + item.getBloodMoneyPrice().id() + " Noted (" + notedItem.getId() + ") value: " + notedItem.getBloodMoneyPrice().value());
-                    }
+                 //   }
                 }
             }
 

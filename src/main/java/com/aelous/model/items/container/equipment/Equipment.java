@@ -487,6 +487,8 @@ public final class Equipment extends ItemContainer {
             player.getCombat().setPoweredStaffSpell(CombatSpells.SANGUINESTI_STAFF.getSpell());
         } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
             player.getCombat().setPoweredStaffSpell(CombatSpells.TUMEKENS_SHADOW.getSpell());
+        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, DAWNBRINGER)) {
+            player.getCombat().setPoweredStaffSpell(CombatSpells.DAWNBRINGER.getSpell());
         } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, ACCURSED_SCEPTRE_A)) {
             player.getCombat().setPoweredStaffSpell(CombatSpells.ACCURSED_SCEPTRE.getSpell());
         } else {

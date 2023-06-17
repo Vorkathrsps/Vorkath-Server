@@ -2956,6 +2956,47 @@ CombatSpells {
             return MagicSpellbook.NORMAL;
         }
     }),
+    DAWNBRINGER(new CombatNormalSpell() {
+        @Override
+        public String name() {
+            return "Dawnbringer Spell";
+        }
+
+        @Override
+        public int baseMaxHit() {
+            return 150;
+        }
+
+        @Override
+        public int baseExperience() {
+            return 2;
+        }
+
+        @Override
+        public List<Item> equipmentRequired(Player player) {
+            return List.of();
+        }
+
+        @Override
+        public List<Item> itemsRequired(Player player) {
+            return List.of();
+        }
+
+        @Override
+        public int levelRequired() {
+            return 1;
+        }
+
+        @Override
+        public int spellId() {
+            return 15;
+        }
+
+        @Override
+        public MagicSpellbook spellbook() {
+            return MagicSpellbook.NORMAL;
+        }
+    }),
     ACCURSED_SCEPTRE(new CombatNormalSpell() {
         @Override
         public String name() {

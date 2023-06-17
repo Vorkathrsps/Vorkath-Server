@@ -134,6 +134,7 @@ public abstract class Spell {
                     combatSpell == CombatSpells.TRIDENT_OF_THE_SWAMP.getSpell() ||
                     combatSpell == CombatSpells.SANGUINESTI_STAFF.getSpell() ||
                     combatSpell == CombatSpells.TUMEKENS_SHADOW.getSpell() ||
+                    combatSpell == CombatSpells.DAWNBRINGER.getSpell() ||
                     combatSpell == CombatSpells.ACCURSED_SCEPTRE.getSpell();
 
             final CombatSpell finalCombatSpell = combatSpell;

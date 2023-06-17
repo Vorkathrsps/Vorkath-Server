@@ -93,8 +93,7 @@ public class Tournament {
         player.setInTournamentLobby(true);
         player.setParticipatingTournament(this);
         inLobby.add(player);
-        //We don't have to bank runes, since they are spawnable
-        //player.getRunePouch().bankRunesFromNothing();
+        // TODO store skills
         player.getRunePouch().clear();
         resetAllVars(player);
         player.getInterfaceManager().close();
@@ -296,6 +295,7 @@ public class Tournament {
         //Set new waiting timers
         player.getTimers().extendOrRegister(TimerKey.TOURNAMENT_FIGHT_IMMUNE, TournamentUtils.FIGHT_IMMUME_TIMER);
         player.getPacketSender().sendString(TournamentUtils.TOURNAMENT_WALK_TIMER, "00:30");
+        // TODO task uniquenness based on current round
         TaskManager.submit(new Task() {
             // does this repeat or is it a 1 time thing? Task one time thing
             @Override

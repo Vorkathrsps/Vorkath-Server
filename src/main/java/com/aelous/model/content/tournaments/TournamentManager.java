@@ -260,11 +260,13 @@ public class TournamentManager extends PacketInteraction {
             if (opp != null && !opp.dead()) {
                 opp.getCombat().getHitQueue().clear();
                 opp.message(logout ? "Your opponent has disconnected. You win the round!" : "Your opponent has forfeit. You win the round!");
+                torn.checkForWinner();
+                torn.resetAllVars(opp);
                 opp.setTournamentOpponent(null);
             }
             player.setTournamentOpponent(null);
             player.setParticipatingTournament(null);
-
+            // TODO skill restore
             Prayers.closeAllPrayers(player);
             restorePreTournyState(player, torn);
             player.getPacketSender().sendInteractionOption("null", 2, true); //Remove attack option
@@ -309,33 +311,35 @@ public class TournamentManager extends PacketInteraction {
     public static boolean handleDeath(Player player) {
         if (!player.inActiveTournament())
             return false;
-        Player killer = player.getTournamentOpponent();
-        Tournament torn = player.getParticipatingTournament();
         wipeLoadout(player);
-        torn.fighters.remove(player);
+        Player killer = player.getTournamentOpponent();
         player.setTournamentOpponent(null);
         player.getPacketSender().sendInteractionOption("null", 2, true);
         player.getPacketSender().sendEntityHintRemoval(true);
-        joinSpectating(player, torn);
-        if (killer != null && torn != null) {
+        Tournament torn = player.getParticipatingTournament();
+        if (torn != null) {
+            torn.fighters.remove(player);
+            joinSpectating(player, torn);
+        }
+        if (killer != null) {
             killer.setTournamentOpponent(null);
-            if (torn.fighters.size() > 1)
+            if (torn != null && torn.fighters.size() > 1)
                 killer.message("The next round of battles will start when the current round has finished.");
             killer.getParticipatingTournament().resetAllVars(killer);
             killer.getPacketSender().sendEntityHintRemoval(true);
-            torn.checkForWinner();
+            if (torn != null)
+                torn.checkForWinner();
         }
         return true;
     }
 
     static void wipeLoadout(Player player) {
-        if (!player.inActiveTournament())
-            return;
         final Tournament t = player.getParticipatingTournament();
+        if (t != null)
+            t.resetAllVars(player);
         player.inventory().clear();
         player.getEquipment().clear();
         player.getRunePouch().clear();
-        t.resetAllVars(player);
         player.setQueuedAppearanceUpdate(true);
         WeaponInterfaces.updateWeaponInterface(player);
     }

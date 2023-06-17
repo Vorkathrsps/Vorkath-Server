@@ -157,14 +157,14 @@ public final class Equipment extends ItemContainer {
         Item helm = player.getEquipment().get(EquipSlot.HEAD);
         Item chest = player.getEquipment().get(EquipSlot.BODY);
         Item legs = player.getEquipment().get(EquipSlot.LEGS);
-        return (helm == null || helm.getId() == 22326) && (chest == null || chest.getId() == 22327) && (legs == null || legs.getId() == 22328);
+        return (helm != null && helm.getId() == 22326) && (chest != null && chest.getId() == 22327) && (legs != null && legs.getId() == 22328);
     }
 
     public static boolean corruptedCrystalSet(Player player) {
         Item helm = player.getEquipment().get(EquipSlot.HEAD);
         Item chest = player.getEquipment().get(EquipSlot.BODY);
         Item legs = player.getEquipment().get(EquipSlot.LEGS);
-        return (helm == null || helm.getId() == 30032) && (chest == null || chest.getId() == 30030) && (legs == null || legs.getId() == 30031);
+        return (helm != null && helm.getId() == 30032) && (chest != null && chest.getId() == 30030) && (legs != null && legs.getId() == 30031);
     }
 
     public static boolean targetIsSlayerTask(Player player, Entity target) {
@@ -487,6 +487,8 @@ public final class Equipment extends ItemContainer {
             player.getCombat().setPoweredStaffSpell(CombatSpells.SANGUINESTI_STAFF.getSpell());
         } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
             player.getCombat().setPoweredStaffSpell(CombatSpells.TUMEKENS_SHADOW.getSpell());
+        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, DAWNBRINGER)) {
+            player.getCombat().setPoweredStaffSpell(CombatSpells.DAWNBRINGER.getSpell());
         } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, ACCURSED_SCEPTRE_A)) {
             player.getCombat().setPoweredStaffSpell(CombatSpells.ACCURSED_SCEPTRE.getSpell());
         } else {

@@ -89,7 +89,7 @@ public class KalphiteQueenFirstForm extends CommonCombatMethod {
             form1.animate(6270);
             form1.graphic(1055);
         }).then(13, () -> {
-            form1.getCombatInfo(World.getWorld().combatInfo(KALPHITE_QUEEN_6501));
+            form1.setCombatInfo(World.getWorld().combatInfo(KALPHITE_QUEEN_6501));
             form1.def(World.getWorld().definitions().get(NpcDefinition.class, KALPHITE_QUEEN_6501));
             form1.heal(form1.maxHp());
             form1.unlock();

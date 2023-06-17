@@ -89,12 +89,7 @@ public class Vorkath extends CommonCombatMethod {
         }
         entity.putAttrib(VORKATH_NORMAL_ATTACK_COUNT, count);
 
-
-        //mage();
-        //range();
-        //tripleOrdered();
-        acidSpitball();
-      /*  switch (attackType) {
+        switch (attackType) {
             case 1 -> melee();
             case 2 -> mage();
             case 3 -> range();
@@ -103,7 +98,7 @@ public class Vorkath extends CommonCombatMethod {
             case 7 -> {
                 bomb();
             }
-        }*/
+        }
         return true;
     }
 
@@ -352,24 +347,30 @@ public class Vorkath extends CommonCombatMethod {
         //mob.forceChat("speed spitball");
         final Area area = new Area(2257, 4053, 2286, 4077).transform(0, 0, 0, 0, target.tile().level);
         Optional<Player> first = World.getWorld().getPlayers().search(p -> p.tile().inAreaZ(area));
-        AtomicInteger loops = new AtomicInteger(25);
-        final int[] delay = new int[1];
-        AtomicReference<Projectile> projectile = new AtomicReference<>();
+        var ref = new Object() {
+            int loops = 25;
+        };
 
-        first.ifPresent(player -> Chain.bound(player).cancelWhen(() -> Vorkath.finished(entity)).runFn(1, () -> {
-            if (loops.getAndDecrement() > 0) {
+        first.ifPresent(player ->
+                Chain.noCtx().cancelWhen(() -> {
+                    boolean finished = Vorkath.finished(entity);
+                    if (finished) entity.putAttrib(AttributeKey.VORKATH_CB_COOLDOWN, 0);
+                    return finished;
+                }).repeatingTask(1, t -> {
+            if (ref.loops-- > 0) {
                 Tile landed = player.tile();
                 var tileDist = entity.tile().distance(target.tile());
-                int duration = (75 + 11 + (5 * tileDist));
+                int duration = (10 + 11 + (5 * tileDist));
                 var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
-                projectile.set(new Projectile(tile, target, 1482, 75, duration, 20, 20, 0, entity.getSize(), 10));
-                delay[0] = entity.executeProjectile(projectile.get());
+                var projectile = new Projectile(tile, target, 1482, 10, duration, 20, 20, 0, entity.getSize(), 10);
+                var delay = entity.executeProjectile(projectile);
                 entity.getCombat().delayAttack(0);
                 World.getWorld().getPlayers().forEachFiltered(p2 -> p2.tile().equals(landed),
                     p2 -> p2.hit(entity, World.getWorld().random(1, 15),
-                        delay[0]));
+                        delay));
                 return;
             }
+            t.stop();
             entity.animate(-1);
         }).then(1, () -> {
             entity.putAttrib(AttributeKey.VORKATH_CB_COOLDOWN, 0);

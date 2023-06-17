@@ -4,9 +4,11 @@ import com.aelous.cache.definitions.NpcDefinition;
 import com.aelous.core.task.Task;
 import com.aelous.core.task.TaskManager;
 import com.aelous.model.World;
+import com.aelous.model.content.areas.theatre.ViturRoom;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.hit.SplatType;
@@ -15,10 +17,12 @@ import com.aelous.model.entity.combat.method.impl.npcs.verzik.nylocas.Athanatos;
 import com.aelous.model.entity.combat.method.impl.npcs.verzik.nylocas.Matomenos;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Projectile;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
 import com.aelous.model.map.object.GameObject;
+import com.aelous.model.map.object.MapObjects;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Utils;
@@ -30,6 +34,7 @@ import java.util.Objects;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.*;
+import static com.aelous.model.entity.attributes.AttributeKey.MINION_LIST;
 import static com.aelous.model.entity.combat.method.impl.npcs.verzik.VerzikPhase.INIT_PHASE_2;
 import static com.aelous.utility.ItemIdentifiers.DAWNBRINGER;
 
@@ -57,22 +62,54 @@ public class VerzikVitur extends CommonCombatMethod {
         Player[] targets = mob.closePlayers(32);
         if (mob.npc().id() == VERZIK_VITUR_8370) {
             mob.animate(CHAIR_ATTACK);
-            for (Player t : targets) {
+            var pillars = mob.<ArrayList<NPC>>getAttribOr(MINION_LIST, null);
+
+            tloop: for (Player t : targets) {
                 if (t.player().dead() || !t.tile().inArea(ARENA)) {
                     continue;
                 }
+
+                for (Tile pillarTile : ViturRoom.pillarTiles) {
+                    var pillar = MapObjects.get(o -> o.getId() == 32687 || o.getId() == 32688 || o.getId() == 32689, pillarTile.withHeight(t.getZ())).orElse(null);
+                    if (pillar == null)
+                        continue;
+                    // you have to be standing next to a pillar to be shielded from Verzik
+                    boolean safeSpot = pillar.bounds().nextTo(t.tile()) && (pillar.getX() < 3168 ?
+                            (t.tile().isUnder(pillar.tile()) || t.tile().isLeft(pillar.tile()))
+                            : (t.tile().isUnder(pillar.tile()) || t.tile().isRight(pillar.tile())));
+                    if (!safeSpot) {
+                        continue; // test next pillar for nextTo
+                    }
+                    // find the NPC standing here
+                    var pillarNpc = pillars.stream().filter(n -> n.tile().equals(pillar.tile())).findFirst().orElse(null);
+                    // shield if pillar alive
+                    if (pillarNpc != null && !pillarNpc.dead()) {
+                        if (pillarNpc.getCombat().getHitQueue().size() >= 1) // pillar only hit ONCE, if 10 guys are cowering behind it like pussies
+                            continue tloop; // next target
+                        var tileDist = mob.tile().distance(pillarNpc.tile());
+                        int duration = (85 + -5 + (10 * tileDist));
+                        Projectile p = new Projectile(mob, pillarNpc, 1580, 85, duration, 105, 0, 0, target.getSize(), 10);
+                        var delay = mob.executeProjectile(p);
+                        Hit hit = Hit.builder(mob, pillarNpc, CombatFactory.calcDamageFromType(mob, target, CombatType.MAGIC), delay, CombatType.MAGIC).setAccurate(true);
+                        hit.submit();
+                        pillarNpc.graphic(1582, GraphicHeight.LOW, p.getSpeed());
+                        continue tloop;
+                    }
+                }
+
+
                 final Tile targetPos = t.tile().copy();
-                var tileDist = entity.tile().distance(targetPos);
+                var tileDist = mob.tile().distance(targetPos);
                 int duration = (85 + -5 + (10 * tileDist));
-                Projectile p = new Projectile(entity, targetPos, 1580, 85, duration, 105, 0, 0, target.getSize(), 10);
-                int delay = p.send(mob, targetPos);
+                Projectile p = new Projectile(mob, t, 1580, 85, duration, 105, 0, 0, target.getSize(), 10);
+                int delay = mob.executeProjectile(p);
                 Chain.bound(mob).name("VerzikViturPrepareAttackTask1").runFn(delay, () -> {
                     if (t.tile().isWithinDistance(targetPos, 1)) {
                         int dmg = Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MAGIC) ? World.getWorld().random(1, 60) : World.getWorld().random(1, 137);
                         t.hit(mob, dmg);
                     }
                 });
-                World.getWorld().tileGraphic(1582, targetPos, 0, p.getSpeed());
+                target.graphic(1582, GraphicHeight.LOW, p.getSpeed());
             }
         }
         if (mob.npc().id() == VERZIK_VITUR_8372) {
@@ -286,6 +323,17 @@ public class VerzikVitur extends CommonCombatMethod {
             for (Player p : mob.closePlayers()) {
                 p.removeAll(new Item(DAWNBRINGER));
                 p.getCombat().reset();
+            }
+            for (Tile pillarTile : ViturRoom.pillarTiles) {
+                var ids = new int[] {32687, 32688, 32689};
+                for (int id : ids) {
+                    MapObjects.get(id, pillarTile.withHeight(mob.getZ())).ifPresent(pillar -> {
+                        // TODO fade out objAnim
+                        Chain.noCtx().delay(2, () -> {
+                            pillar.remove();
+                        });
+                    });
+                }
             }
             Chain.bound(null).runFn(4, () -> {
                 phase = INIT_PHASE_2;

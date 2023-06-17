@@ -588,6 +588,7 @@ public class Item implements Cloneable {
             add(CRYSTAL_BODY);
             add(CRYSTAL_HELM);
             add(CRYSTAL_LEGS);
+            add(DAWNBRINGER);
         }
     };
 

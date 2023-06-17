@@ -189,6 +189,10 @@ public class Area {
         return new Area(this.x1 + minX, this.y1 + minY, this.x2 + maxX, this.y2 + maxY, this.level + level);
     }
 
+    public Area expanded(int enlargedBy) {
+        return new Area(x1 - enlargedBy, y1 - enlargedBy, x2 + enlargedBy, y2 + enlargedBy, level);
+    }
+
     public boolean overlaps(Area other) {
         return Tile.overlaps(x1, y1, x2 - x1 + 1, y2 - y1 + 1, other.x1, other.y1, other.x2 - other.x1 + 1, other.y2 - other.y1 + 1);
     }
@@ -222,5 +226,18 @@ public class Area {
     @Override
     public String toString() {
         return "Area[" + x1 + ".." + y1 + ", " + x2 + ".." + y2 + ", level="+level+"]";
+    }
+
+    public boolean nextTo(Tile destination) {
+        for (int x = x1; x <= x2; x++) {
+            for (int y = y1; y <= y2; y++) {
+                if ((x == destination.x + 1 && y == destination.y) ||
+                        (x == destination.x - 1 && y == destination.y) ||
+                        (x == destination.x && y == destination.y + 1) ||
+                        (x == destination.x && y == destination.y - 1))
+                    return true;
+            }
+        }
+        return false;
     }
 }

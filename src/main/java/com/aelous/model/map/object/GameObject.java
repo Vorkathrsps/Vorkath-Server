@@ -6,6 +6,8 @@ import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.method.impl.npcs.raids.cox.vasa.objects.Crystals;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.map.position.Area;
+import com.aelous.model.map.position.Boundary;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.route.ClipUtils;
 import com.aelous.utility.SecondsTimer;
@@ -48,7 +50,7 @@ public class GameObject {
     private boolean custom = false;
 
     @Nullable
-    public Tile tile;
+    private Tile tile;
 
     @Getter
     public final int x, y, z; // exact pos.
@@ -58,6 +60,10 @@ public class GameObject {
             throw new RuntimeException("You can't change the tile of a GameObject. Create a new one. "+this.tile+" -> "+tile);
         this.tile = tile; // ugly way of setting 'removed' state
         return this;
+    }
+
+    public @Nullable Tile linkedTile() {
+        return tile;
     }
 
     public static GameObject spawn(int i, int x, int y, int z, int i1, int i2) {
@@ -544,5 +550,9 @@ public class GameObject {
             newobj.cloneAttribs(this);
         }
         return newobj;
+    }
+
+    public Area bounds() {
+        return new Area(tile().x, tile().y, tile().x + definition().sizeX - 1, tile().y + definition().sizeY - 1, tile().getZ());
     }
 }

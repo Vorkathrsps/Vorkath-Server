@@ -326,6 +326,10 @@ public class CommandManager {
         commands.put("bank", new BankCommandCommand());
         commands.put("mkn", new MassKillNpc());
         commands.put("massgfx", new LoopGFX());
+        commands.put("ancients", new SpellbookCommand());
+        commands.put("lunars", new SpellbookCommand());
+        commands.put("modern", new SpellbookCommand());
+        commands.put("book", new SpellbookCommand());
         commands.put("spellbook", new SpellbookCommand());
         commands.put("energy", new RunEnergyCommand());
         commands.put("toggledebug", new ToggleDebugCommand());
@@ -454,6 +458,7 @@ public class CommandManager {
         });
         dev("invis", (p, c, s) -> {
             p.looks().hide(!p.looks().hidden());
+            p.message("hidden %s", p.looks().hidden());
         });
         dev("hit1", (p, c, s) -> {
             p.hit(p, 1, SplatType.NPC_HEALING_HITSPLAT);
@@ -737,6 +742,12 @@ public class CommandManager {
                 }
                 p.message("Done searching. Found " + found + " results for '" + s + "'.");
             }).start();
+        });
+        dev("vk1", (p, c, s) -> {
+            p.getLocalNpcs().get(0).putAttrib(AttributeKey.VORKATH_CB_COOLDOWN, 0);
+        });
+        dev("odef", (p, c, s) -> {
+            logger.info("{}", new GameObject(Integer.parseInt(s[1]), p.tile()).definition().toStringBig());
         });
     }
 

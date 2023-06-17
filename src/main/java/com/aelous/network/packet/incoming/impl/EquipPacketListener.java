@@ -120,7 +120,12 @@ public class EquipPacketListener implements PacketListener {
                             player.getCombat().setPoweredStaffSpell(null);
                         }
                         player.getCombat().setPoweredStaffSpell(CombatSpells.TUMEKENS_SHADOW.getSpell());
-                    } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, ACCURSED_SCEPTRE_A)) {
+                    } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, DAWNBRINGER)) {
+                        if (player.getCombat().getPoweredStaffSpell() != null) {
+                            player.getCombat().setPoweredStaffSpell(null);
+                        }
+                        player.getCombat().setPoweredStaffSpell(CombatSpells.DAWNBRINGER.getSpell());
+                } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, ACCURSED_SCEPTRE_A)) {
                         if (player.getCombat().getPoweredStaffSpell() != null) {
                             player.getCombat().setPoweredStaffSpell(null);
                         }

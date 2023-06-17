@@ -15,6 +15,7 @@ import com.aelous.model.inter.dialogue.DialogueManager;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.route.routes.DumbRoute;
 import com.aelous.utility.Debugs;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,8 +81,10 @@ public abstract class CommonCombatMethod implements CombatMethod {
      * player only
      */
     public void postAttack() {
-        entity.setEntityInteraction(null);
-        entity.getCombat().setCastSpell(null);
+        if (entity.isPlayer() && this == CombatFactory.MAGIC_COMBAT) {
+            entity.setEntityInteraction(null);
+            entity.getCombat().setCastSpell(null);
+        }
     }
 
     public void onHit(Entity entity, Entity target, Hit hit) {
@@ -91,14 +94,7 @@ public abstract class CommonCombatMethod implements CombatMethod {
     /**
      * npc only
      */
-    public void onDeath() {
-        entity.getCombat().reset();
-    }
-
-    /**
-     * npc only
-     */
-    public void onDeath(Player killer, NPC npc) {
+    public void onDeath(@Nullable Player killer, NPC npc) {
     }
 
     public void postDefend(Hit hit) {

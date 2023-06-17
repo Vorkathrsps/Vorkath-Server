@@ -380,7 +380,7 @@ public class NPC extends Entity {
         return combatInfo;
     }
 
-    public void getCombatInfo(NPCCombatInfo info) {
+    public void setCombatInfo(NPCCombatInfo info) {
         combatInfo = info;
     }
 

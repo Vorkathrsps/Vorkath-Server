@@ -41,7 +41,7 @@ public class LizardShaman extends CommonCombatMethod {
         NPC spawn = new NPC(6768, new Tile(target.tile().x + Utils.random(2), target.tile().y + Utils.random(2)));
         spawn.respawns(false);
         spawn.noRetaliation(true);
-        spawn.getCombatInfo(World.getWorld().combatInfo(6768));
+        spawn.setCombatInfo(World.getWorld().combatInfo(6768));
         spawn.getCombat().setTarget(target);
         spawn.setPositionToFace(target.tile());
         World.getWorld().registerNpc(spawn);

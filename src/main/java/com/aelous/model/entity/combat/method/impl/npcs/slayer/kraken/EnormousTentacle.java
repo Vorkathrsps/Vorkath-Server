@@ -55,7 +55,7 @@ public class EnormousTentacle extends CommonCombatMethod {
             npc.transmog(KrakenBoss.TENTACLE_NPCID);
             npc.animate(3860);
             npc.getTimers().extendOrRegister(TimerKey.COMBAT_ATTACK, 1);
-            npc.getCombatInfo(World.getWorld().combatInfo(5535));
+            npc.setCombatInfo(World.getWorld().combatInfo(5535));
             npc.setCombatMethod(World.getWorld().combatInfo(KrakenBoss.TENTACLE_NPCID).scripts.newCombatInstance());
             npc.putAttrib(AttributeKey.TARGET, new WeakReference<Entity>(player));
         }

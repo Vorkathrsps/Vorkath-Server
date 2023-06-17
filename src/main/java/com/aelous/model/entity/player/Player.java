@@ -1509,6 +1509,8 @@ public class Player extends Entity {
                 this.getCombat().setPoweredStaffSpell(CombatSpells.SANGUINESTI_STAFF.getSpell());
             } else if (getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
                 this.getCombat().setPoweredStaffSpell(CombatSpells.TUMEKENS_SHADOW.getSpell());
+            } else if (getEquipment().hasAt(EquipSlot.WEAPON, DAWNBRINGER)) {
+                this.getCombat().setPoweredStaffSpell(CombatSpells.DAWNBRINGER.getSpell());
             } else if (getEquipment().hasAt(EquipSlot.WEAPON, ACCURSED_SCEPTRE_A)) {
                 this.getCombat().setPoweredStaffSpell(CombatSpells.ACCURSED_SCEPTRE.getSpell());
             }

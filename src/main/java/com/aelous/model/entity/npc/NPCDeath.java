@@ -524,6 +524,11 @@ public class NPCDeath {
 
         int finalRespawnTimer = respawnTimer;
         Chain.bound(null).runFn(npc.getCombatInfo() != null ? npc.getCombatInfo().deathlen : 5, () -> {
+
+            // Npc died to npc.
+            if (killer == null && npc.getCombatMethod() instanceof CommonCombatMethod commonCombatMethod) {
+                commonCombatMethod.onDeath(null, npc); // make sure this is always called
+            }
             if (killer != null) {
                 //Do inferno minigame death here and fight caves
 
@@ -853,7 +858,7 @@ public class NPCDeath {
         if (npc.id() == KrakenBoss.KRAKEN_NPCID) {
             npc.transmog(KrakenBoss.KRAKEN_WHIRLPOOL);
             // Transmog kraken info after the drop table is done otherwise it'll look for the wrong table
-            npc.getCombatInfo(World.getWorld().combatInfo(KrakenBoss.KRAKEN_WHIRLPOOL));
+            npc.setCombatInfo(World.getWorld().combatInfo(KrakenBoss.KRAKEN_WHIRLPOOL));
         }
 
         if (npc.id() == KrakenBoss.TENTACLE_WHIRLPOOL || npc.id() == NpcIdentifiers.ENORMOUS_TENTACLE) {

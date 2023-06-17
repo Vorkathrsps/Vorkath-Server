@@ -6,6 +6,7 @@ import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.magic.impl.CombatEffectSpell;
 import com.aelous.model.entity.combat.magic.impl.CombatNormalSpell;
+import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
@@ -1587,7 +1588,9 @@ CombatSpells {
 
         @Override
         public void spellEffect(Entity cast, Entity castOn, Hit hit) {
-            //Dealt elsewhere
+            if (hit.isAccurate()) {
+                castOn.teleblock(castOn.isPlayer() && Prayers.usingPrayer(castOn.player(), Prayers.PROTECT_FROM_MAGIC) ? 250 : 500);
+            }
         }
 
         @Override
@@ -2946,6 +2949,47 @@ CombatSpells {
         @Override
         public int spellId() {
             return 6;
+        }
+
+        @Override
+        public MagicSpellbook spellbook() {
+            return MagicSpellbook.NORMAL;
+        }
+    }),
+    DAWNBRINGER(new CombatNormalSpell() {
+        @Override
+        public String name() {
+            return "Dawnbringer Spell";
+        }
+
+        @Override
+        public int baseMaxHit() {
+            return 150;
+        }
+
+        @Override
+        public int baseExperience() {
+            return 2;
+        }
+
+        @Override
+        public List<Item> equipmentRequired(Player player) {
+            return List.of();
+        }
+
+        @Override
+        public List<Item> itemsRequired(Player player) {
+            return List.of();
+        }
+
+        @Override
+        public int levelRequired() {
+            return 1;
+        }
+
+        @Override
+        public int spellId() {
+            return 15;
         }
 
         @Override

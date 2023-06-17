@@ -133,6 +133,8 @@ public class NPCCombatInfo {
                     combatMethodClass = (Class<CombatMethod>) Class.forName(combat);
                 droptable_ = (Droptable) resolveClass(droptable);
                 agro_ = (AggressionCheck) resolveClass(aggression);
+                if (death != null && death.length() > 0) // TODO resolve to class and call in npcDeath
+                    logger.warn("death script has no linking yet {}", death);
             } catch (ClassNotFoundException e) { // it could be one of the others not agro
                 System.err.println("missing script, no such class: "+e);
             } catch (Exception e) {

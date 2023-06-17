@@ -36,6 +36,7 @@ import com.aelous.model.items.Item;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.object.GameObject;
+import com.aelous.model.map.object.MapObjects;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.region.Region;
 import com.aelous.model.map.region.RegionManager;
@@ -507,6 +508,24 @@ public class CommandManager {
         });
         dev("vz1", (p, c, s) -> {
             GameObject throne = GameObject.spawn(VERZIKS_THRONE_32737, 3167, 4324, p.getZ(), 10, 0);
+        });
+        dev("zt1", (p, cmd, s) -> {
+            /*List<Tile> pillarTiles = List.of(new Tile(3161, 4318, 0),
+                    new Tile(3161, 4312, 0),
+                    new Tile(3161, 4306, 0),
+                    new Tile(3173, 4318, 0),
+                    new Tile(3173, 4312, 0),
+                    new Tile(3173, 4306, 0));
+            for (Tile pillarTile : pillarTiles) {
+                new GameObject(32687, pillarTile.withHeight(p.getZ()), 10, 0).spawn();
+            }*/
+           // GameObject.spawn(32687, p.tile(), 0, 10);
+            MapObjects.get(-1, p.tile()).ifPresent(pillar -> {
+                pillar.setId(32688);
+                Chain.noCtx().delay(2, () -> {
+                    pillar.setId(32689);
+                }).then(1, ()-> pillar.animate(8104)).then(2, () -> pillar.remove());
+            });
         });
         dev("tob", (p, c, s) -> {
             p.teleport(3678, 3216);

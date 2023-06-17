@@ -8,10 +8,6 @@ import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
-import com.aelous.model.map.object.GameObject;
-import com.aelous.model.map.position.Tile;
-import com.aelous.network.packet.incoming.interaction.PacketInteraction;
-import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 import com.google.common.base.Preconditions;
@@ -25,12 +21,12 @@ import static com.aelous.utility.ItemIdentifiers.*;
  * @author Sharky
  * @Since June 16, 2023
  */
-public class Farming extends PacketInteraction {
+public class Farming {
 
+    private final Player player;
     private final Planting[] plants = new Planting[50];
     private final FarmingPatch[] patches = new FarmingPatch[50];
     private static final int FARMING_CONFIG_ID = 529;
-    private static final String SAVING_PATH = "./data/saves/farming/";
 
     public static double xpBonus(Player player) {
         double multiplier = 1;
@@ -61,86 +57,41 @@ public class Farming extends PacketInteraction {
         return bonus;
     }
 
-    public Farming() {
-        for (int i = 0; i < patches.length; i++)
-            if (patches[i] == null)
-                patches[i] = new FarmingPatch();
-    }
-
-    @Override
-    public boolean handleObjectInteraction(Player player, GameObject object, int option) {
-        if(option == 1) {
-            int grass = getGrassyPatch(object.x, object.y);
-            if (grass != -1) {
-                patches[grass].rake(player);
-                return true;
+    public Farming(Player player) {
+        this.player = player;
+        for (int index = 0; index < patches.length; index++) {
+            if (patches[index] == null) {
+                patches[index] = new FarmingPatch();
             }
         }
-        if(option == 2) {
-            Planting plant = findPlantedPatch(object.x, object.y);
-            if (plant != null) {
-                plant.click(player, option);
-                return true;
-            }
-        }
-        return false;
     }
 
-    @Override
-    public boolean handleItemOnObject(Player player, Item item, GameObject object) {
-        if (plant(player, item, object.tile))
-            return true;
-
-        if (item.getId() == RAKE) {
-            int patch = getGrassyPatch(object.x, object.y);
-            if (patch != -1) {
-                patches[patch].rake(player);
-                return true;
+    public void handleLogin() {
+        varbitUpdate();
+        Chain.noCtxRepeat().repeatingTask(1, t -> {
+            if(player == null || !player.isRegistered()) {
+                t.stop();
+                return;
             }
-        }
-
-        Planting plant = findPlantedPatch(object.x, object.y);
-        if (plant != null) {
-            if (item.getId() == ItemIdentifiers.SPADE) {
-                player.animate(830);
-                removePlant(player,plant);
-                Chain.bound(player).runFn(2, () -> {
-                    player.message("You remove your plants from the plot.");
-                    player.resetAnimation();
-                });
-                return true;
-            }
-
-            if (item.getId() == PLANT_CURE) {
-                if (plant.isDead()) {
-                    player.message("Your plant is dead!");
-                } else if (plant.diseased()) {
-                    player.message("You cure the plant.");
-                    player.animate(2288);
-                    player.inventory().remove(PLANT_CURE);
-                    plant.setDisease((byte) -1);
-                    player.getFarming().updateVarpFor(player);
-                } else {
-                    player.message("Your plant does not need this.");
-                }
-                return true;
-            }
-
-            if (item.getId() >= WATERING_CAN && item.getId() <= WATERING_CAN8) {
-                plant.water(player, item);
-                return true;
-            }
-        }
-        return false;
+            sequence();
+        });
     }
 
-    @Override
-    public void onRegionChange(Player player) {
-        updateVarpFor(player);
+    public void handleObjectClick(int x, int y, int option) {
+        player.getFarming().click(player, x, y, option);
     }
 
-    @Override
-    public void onPlayerProcess(Player player) {
+    public void handleItemOnObject(int itemId, int objectX, int objectY) {
+        if (plant(itemId, objectX, objectY))
+            return;
+        useItemOnPlant(itemId, objectX, objectY);
+    }
+
+    public void regionChanged() {
+        player.getFarming().varbitUpdate();
+    }
+
+    public void sequence() {
         for (Planting plant : plants) {
             if (plant != null) {
                 plant.process(player);
@@ -155,31 +106,19 @@ public class Farming extends PacketInteraction {
         }
     }
 
-    @Override
-    public void onLogin(Player player) {
-        updateVarpFor(player);
-        Chain.noCtxRepeat().repeatingTask(1, t -> {
-            if(player == null || !player.isRegistered()) {
-                t.stop();
-                return;
-            }
-            super.onPlayerProcess(player);
-        });
-    }
-
-    private int findVarbit(Patch patch) {
+    public int findVarbit(Patch patch) {
         //System.out.println("search for patch found patch "+patch+" at  "+patches[patch.ordinal()]);
         if (inhabited(patch.bottomLeft.getX(), patch.bottomLeft.getY())) {
             for (Planting plant : plants) {
                 if (plant != null && plant.patchId() == patch) {
-                    return plant.config();
+                    return plant.getConfig();
                 }
             }
         }
         return patches[patch.ordinal()].stage;
     }
 
-    public void updateVarpFor(Player player) {
+    public void varbitUpdate() {
         Patch[] patches = {
             Patch.FALADOR_HERB,
             Patch.CATHERBY_HERB,
@@ -218,28 +157,28 @@ public class Farming extends PacketInteraction {
             default -> 0;
         };
 
-        //System.out.println("config state "+state+" of "+closest+" links to varbit value "+config(Patch.FALADOR_ALLOTMENT_SOUTH));
+        //System.out.println("config state "+state+" of "+closest+" links to varbit value "+config(FarmingPatches.FALADOR_ALLOTMENT_SOUTH));
 
         player.getPacketSender().sendConfig(FARMING_CONFIG_ID, state);
     }
 
     public void clear() {
         Arrays.fill(plants, null);
-        for (int i = 0; i < patches.length; i++) {
-            patches[i] = new FarmingPatch();
+        for (int index = 0; index < patches.length; index++) {
+            patches[index] = new FarmingPatch();
         }
     }
 
-    private void insert(Planting patch) {
-        for (int i = 0; i < plants.length; i++) {
-            if (plants[i] == null) {
-                plants[i] = patch;
+    public void insert(Planting patch) {
+        for (int index = 0; index < plants.length; index++) {
+            if (plants[index] == null) {
+                plants[index] = patch;
                 break;
             }
         }
     }
 
-    private boolean inhabited(int x, int y) {
+    public boolean inhabited(int x, int y) {
         for (Planting plant : plants) {
             if (plant != null) {
                 Patch patch = plant.patchId();
@@ -251,17 +190,19 @@ public class Farming extends PacketInteraction {
                 }
             }
         }
+
         return false;
     }
 
-    private int getGrassyPatch(int x, int y) {
-        for (int i = 0; i < Patch.values().length; i++) {
-            Patch patch = Patch.values()[i];
+    public int getGrassyPatch(int x, int y) {
+        for (int index = 0; index < Patch.values().length; index++) {
+            Patch patch = Patch.values()[index];
             if (x >= patch.bottomLeft.getX() && y >= patch.bottomLeft.getY() && x <= patch.topRight.getX() && y <= patch.topRight.getY()) {
                 if (!isPatchException(x, y, patch)) {
-                    if (inhabited(x, y) || patches[i] == null)
+                    if (inhabited(x, y) || patches[index] == null) {
                         break;
-                    return i;
+                    }
+                    return index;
                 }
             }
         }
@@ -269,9 +210,9 @@ public class Farming extends PacketInteraction {
         return -1;
     }
 
-    private Planting findPlantedPatch(int x, int y) {
-        for (int i = 0; i < Patch.values().length; i++) {
-            Patch patch = Patch.values()[i];
+    public Planting findPlantedPatch(int x, int y) {
+        for (int index = 0; index < Patch.values().length; index++) {
+            Patch patch = Patch.values()[index];
             if (x >= patch.bottomLeft.getX() && y >= patch.bottomLeft.getY() && x <= patch.topRight.getX() && y <= patch.topRight.getY()) {
                 if (!isPatchException(x, y, patch)) {
                     for (Planting plant : plants) {
@@ -282,7 +223,6 @@ public class Farming extends PacketInteraction {
                 }
             }
         }
-
         return null;
     }
 
@@ -292,36 +232,70 @@ public class Farming extends PacketInteraction {
         return x == 3601 && y == 3525 && patch != Patch.PHAS_FLOWER;
     }
 
-    public void removePlant(Player player, Planting plant) {
+    public boolean click(Player player, int x, int y, int option) {
+        int grass = getGrassyPatch(x, y);
+        if (grass != -1) {
+            if (option == 1) {
+                patches[grass].click(player, option);
+            }
+            return true;
+        } else {
+            Planting plant = findPlantedPatch(x, y);
+
+            if (plant != null) {
+                plant.click(player, option);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void removePlant(Planting plant) {
         for (int index = 0; index < plants.length; index++) {
             if ((plants[index] != null) && (plants[index] == plant)) {
                 patches[plants[index].patchId().ordinal()].setTime();
                 plants[index] = null;
-                updateVarpFor(player);
+                varbitUpdate();
                 return;
             }
         }
     }
 
-    private boolean plant(Player player, Item seed, Tile tile) {
-        if (!Plant.isSeed(seed.getId())) {
+    public void useItemOnPlant(int item, int x, int y) {
+        if (item == RAKE) {
+            int patch = getGrassyPatch(x, y);
+            if (patch != -1) {
+                patches[patch].rake(player);
+                return;
+            }
+        }
+
+        Planting planting = findPlantedPatch(x, y);
+        if (planting != null) {
+            planting.useItemOnPlant(player, item);
+        }
+    }
+
+    public boolean plant(int seed, int x, int y) {
+        if (!Plant.isSeed(seed)) {
             return false;
         }
 
         for (Patch patch : Patch.values()) {
-            if ((tile.x >= patch.bottomLeft.getX()) && (tile.y >= patch.bottomLeft.getY()) && (tile.x <= patch.topRight.getX()) && (tile.y <= patch.topRight.getY())) {
-                if (isPatchException(tile.x, tile.y, patch)) {
+            if ((x >= patch.bottomLeft.getX()) && (y >= patch.bottomLeft.getY()) && (x <= patch.topRight.getX()) && (y <= patch.topRight.getY())) {
+                if (isPatchException(x, y, patch)) {
                     continue;
                 }
-                if (!patches[patch.ordinal()].raked()) {
+                if (!patches[patch.ordinal()].isRaked()) {
                     player.message("This patch needs to be raked before anything can grow in it.");
                     return true;
                 }
 
                 for (Plant plant : Plant.values()) {
-                    if (plant.seed == seed.getId()) {
+                    if (plant.seed == seed) {
                         if (player.skills().level(Skills.FARMING) >= plant.level) {
-                            if (inhabited(tile.x, tile.y)) {
+                            if (inhabited(x, y)) {
                                 player.message("There are already seeds planted here.");
                                 return true;
                             }
@@ -338,8 +312,8 @@ public class Farming extends PacketInteraction {
                                 Planting planted = new Planting(patch.ordinal(), plant.ordinal());
                                 planted.setTime();
                                 insert(planted);
-                                updateVarpFor(player);
-                                player.skills().addXp(Skills.FARMING, (int)plant.plantExperience * xpBonus(player), true);
+                                varbitUpdate();
+                                player.skills().addXp(Skills.FARMING,plant.plantExperience * xpBonus(player), true);
                             } else {
                                 String name = World.getWorld().definitions().get(ItemDefinition.class, patch.planter).name;
                                 player.message("You need " + Utils.getAOrAn(name) + " " +name+ " to plant seeds.");
@@ -351,6 +325,7 @@ public class Farming extends PacketInteraction {
                         return true;
                     }
                 }
+
                 return false;
             }
         }
@@ -358,14 +333,20 @@ public class Farming extends PacketInteraction {
         return false;
     }
 
-    public void save(String username) { // Yes username never display name.
-        try {
-            File directory = new File(SAVING_PATH);
-            if (!directory.getParentFile().exists()) {
-                Preconditions.checkState(directory.getParentFile().mkdirs());
-            }
+    private String getDirectory() {
+        return "./data/saves/farming/";
+    }
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter(SAVING_PATH + username + ".txt"));
+    private String getFile() {
+        return getDirectory() + player.getUsername() + ".txt";
+    }
+
+    public void save() {
+        try {
+            if (!new File(getDirectory()).exists()) {
+                Preconditions.checkState(new File(getDirectory()).mkdirs());
+            }
+            BufferedWriter writer = new BufferedWriter(new FileWriter(getFile()));
             for (int i = 0; i < patches.length; i++) {
                 if (i >= Patch.values().length)
                     break;
@@ -376,28 +357,28 @@ public class Farming extends PacketInteraction {
                     writer.newLine();
                     writer.write("stage: "+patches[i].stage);
                     writer.newLine();
-                    writer.write("time: "+patches[i].getTime());
+                    writer.write("time: "+patches[i].time);
                     writer.newLine();
                     writer.write("END PATCH");
                     writer.newLine();
                     writer.newLine();
                 }
             }
-            for (Planting plant : plants) {
-                if (plant != null) {
+            for (Planting planting : plants) {
+                if (planting != null) {
                     writer.write("[PLANT]");
                     writer.newLine();
-                    writer.write("patch: " + plant.patchId);
+                    writer.write("patch: " + planting.patchId);
                     writer.newLine();
-                    writer.write("plant: " + plant.plantId);
+                    writer.write("plant: " + planting.plantId);
                     writer.newLine();
-                    writer.write("stage: " + plant.stage);
+                    writer.write("stage: " + planting.stage);
                     writer.newLine();
-                    writer.write("watered: " + plant.watered);
+                    writer.write("watered: " + planting.watered);
                     writer.newLine();
-                    writer.write("harvested: " + plant.harvested);
+                    writer.write("harvested: " + planting.harvested);
                     writer.newLine();
-                    writer.write("time: " + plant.time);
+                    writer.write("time: " + planting.time);
                     writer.newLine();
                     writer.write("END PLANT");
                     writer.newLine();
@@ -410,12 +391,11 @@ public class Farming extends PacketInteraction {
         }
     }
 
-    public void load(String username) { // Yes username never display name.
+    public void load() {
         try {
-            File file = new File(SAVING_PATH + username + ".txt");
-            if (!file.exists())
+            if (!new File(getFile()).exists())
                 return;
-            BufferedReader r = new BufferedReader(new FileReader(file));
+            BufferedReader r = new BufferedReader(new FileReader(getFile()));
             int stage = -1, patch = -1, plant = -1, watered = -1, harvested = -1;
             long time = -1;
             while(true) {
@@ -425,23 +405,21 @@ public class Farming extends PacketInteraction {
                 } else {
                     line = line.trim();
                 }
-                String substring = line.substring(line.indexOf(":") + 2);
-                int index = Integer.parseInt(substring);
                 if(line.startsWith("patch"))
-                    patch = index;
+                    patch = Integer.parseInt(line.substring(line.indexOf(":")+2));
                 else if(line.startsWith("stage"))
-                    stage = index;
+                    stage = Integer.parseInt(line.substring(line.indexOf(":")+2));
                 else if(line.startsWith("plant"))
-                    plant = index;
+                    plant = Integer.parseInt(line.substring(line.indexOf(":")+2));
                 else if(line.startsWith("watered"))
-                    watered = index;
+                    watered = Integer.parseInt(line.substring(line.indexOf(":")+2));
                 else if(line.startsWith("harvested"))
-                    harvested = index;
+                    harvested = Integer.parseInt(line.substring(line.indexOf(":")+2));
                 else if(line.startsWith("time"))
-                    time = Long.parseLong(substring);
+                    time = Long.parseLong(line.substring(line.indexOf(":")+2));
                 else if(line.equals("END PATCH") && patch >= 0) {
                     patches[patch].stage = (byte)stage;
-                    patches[patch].setTime(time);
+                    patches[patch].time = time;
                     patch = -1;
                 }
                 else if(line.equals("END PLANT") && patch >= 0) {

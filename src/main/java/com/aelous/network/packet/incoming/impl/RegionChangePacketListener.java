@@ -23,6 +23,7 @@ private static final Logger logger = LogManager.getLogger(RegionChangePacketList
                 player.getPacketSender().deleteRegionalSpawns();
                 GroundItemHandler.updateRegionItems(player);
                 ObjectManager.onRegionChange(player);
+                player.getFarming().regionChanged();
                 PacketInteractionManager.onRegionChange(player);
                 player.setAllowRegionChangePacket(false);
                 player.afkTimer.reset();

@@ -32,6 +32,8 @@ public class ItemOnObject {
             return;
         }
 
+        player.getFarming().handleItemOnObject(item.getId(), object.tile().x, object.tile().y);
+
         player.message("Nothing interesting happens.");
     }
 }

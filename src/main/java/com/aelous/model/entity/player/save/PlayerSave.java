@@ -85,7 +85,7 @@ public class PlayerSave {
      */
     public static boolean load(Player player) throws Exception {
         try {
-            player.getFarming().load(player.getUsername());
+            player.getFarming().load();
         } catch (Exception e) {
             logger.error("Error while loading farming {}", player.getUsername(), e);
             e.printStackTrace();
@@ -113,7 +113,7 @@ public class PlayerSave {
     public static boolean save(Player player) {
         try {
             new SaveDetails(player).parseDetails();
-            player.getFarming().save(player.getUsername());
+            player.getFarming().save();
             return true;
         } catch (final Exception e) {
             logger.error("save", e);

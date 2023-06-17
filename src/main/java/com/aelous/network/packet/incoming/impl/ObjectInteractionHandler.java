@@ -152,6 +152,7 @@ public class ObjectInteractionHandler implements PacketListener {
         switch (option) {
 
             case 1: {
+                player.getFarming().handleObjectClick(object.tile().x, object.tile().y, 1);
                 if (name.equalsIgnoreCase("anvil")) {
                     if (object.tile().equals(2794, 2793)) {
                         player.smartPathTo(object.tile());
@@ -191,6 +192,7 @@ public class ObjectInteractionHandler implements PacketListener {
             }
 
             case 2: {
+                player.getFarming().handleObjectClick(object.tile().x, object.tile().y, 2);
                 if (bank) {
                     player.getBank().open();
                     return;
@@ -211,6 +213,7 @@ public class ObjectInteractionHandler implements PacketListener {
             }
 
             case 3: {
+                player.getFarming().handleObjectClick(object.tile().x, object.tile().y, 3);
                 if (name.equalsIgnoreCase("Grand Exchange booth")) {
                     TradingPost.open(player);
                     return;

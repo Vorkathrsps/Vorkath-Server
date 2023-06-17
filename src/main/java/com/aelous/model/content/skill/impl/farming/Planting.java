@@ -10,7 +10,6 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
 import com.aelous.utility.Color;
-import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 import com.google.common.collect.Lists;
@@ -19,7 +18,6 @@ import lombok.Setter;
 
 import java.util.List;
 
-import static com.aelous.model.content.skill.impl.farming.Farming.xpBonus;
 import static com.aelous.utility.ItemIdentifiers.*;
 
 /**
@@ -35,10 +33,8 @@ public class Planting {
     @Setter
     public byte disease = -1;
     public byte watered = 0;
-
     @Getter
     private final boolean dead = false;
-
     public byte harvested = 0;
 
     public Planting(int patchId, int plantId) {
@@ -46,7 +42,7 @@ public class Planting {
         this.plantId = plantId;
     }
 
-    public void water(Player player, Item item) {
+    public void water(Player player, int item) {
         if (patchId().seed == Seed.HERB) {
             player.message("This patch doesn't need watering.");
             return;
@@ -57,7 +53,7 @@ public class Planting {
             return;
         }
 
-        if (item.getId() == WATERING_CAN) {
+        if (item == WATERING_CAN) {
             player.message("Your watering can is empty.");
             return;
         }
@@ -65,7 +61,7 @@ public class Planting {
         player.message("You water the plant.");
         player.animate(2293);
         watered = -1;
-        player.getFarming().updateVarpFor(player);
+        doConfig(player);
     }
 
     public void setTime() {
@@ -86,7 +82,7 @@ public class Planting {
     }
 
     private void statusMessage(Player player, Plant plant) {
-        if (isDead()) {
+        if (dead) {
             player.message("Oh dear, your plants have died!");
         } else if (diseased()) {
             player.message("Your plants are diseased!");
@@ -107,8 +103,8 @@ public class Planting {
     public void harvest(Player player) {
         List<Integer> harvestItemNeeded = Lists.newArrayList();
         harvestItemNeeded.add(patchId().harvestItem);
-        if (patchId().harvestItem == ItemIdentifiers.SECATEURS) {
-            harvestItemNeeded.add(ItemIdentifiers.MAGIC_SECATEURS);
+        if (patchId().harvestItem == SECATEURS) {
+            harvestItemNeeded.add(MAGIC_SECATEURS);
         }
 
         if (harvestItemNeeded.stream().anyMatch(item -> player.inventory().contains(item) || player.getEquipment().contains(item))) {
@@ -135,33 +131,63 @@ public class Planting {
                 }
 
                 Plant plant = Plant.values()[plantId];
+
                 def = World.getWorld().definitions().get(ItemDefinition.class, plant.harvest);
                 String name = def.name;
                 if (name.endsWith("s"))
                     name = name.substring(0, name.length() - 1);
                 player.message("You harvest " + Utils.getAOrAn(name) + " " + name + ".");
-                player.skills().addXp(Skills.FARMING,plant.harvestExperience * xpBonus(player));
+                player.skills().addXp(Skills.FARMING,plant.harvestExperience * Farming.xpBonus(player));
+
                 harvested++;
 
                 int min = 7;
-                if (player.getEquipment().hasAt(EquipSlot.WEAPON, ItemIdentifiers.MAGIC_SECATEURS))
+                if (player.getEquipment().hasAt(EquipSlot.WEAPON, MAGIC_SECATEURS))
                     min += 4;
 
                 if (id == LIMPWURT_ROOT) {
-                    player.getInventory().addOrDrop(new Item(LIMPWURT_ROOT,2));
-                    player.getFarming().removePlant(player, planting);
+                    player.getInventory().addOrDrop(new Item(LIMPWURT_ROOT, 2));
+                    player.getFarming().removePlant(planting);
                     t.stop();
                     return;
                 }
-
                 if (patchId().seed == Seed.FLOWER || harvested >= min && World.getWorld().random(4) <= 1) {
-                    player.getFarming().removePlant(player, planting);
+                    player.getFarming().removePlant(planting);
                     t.stop();
                 }
             });
         } else {
             ItemDefinition def = World.getWorld().definitions().get(ItemDefinition.class, Patch.values()[patchId].harvestItem);
             player.message("You need " + Utils.getAOrAn(def.name) + " " + def.name + " to harvest these plants.");
+        }
+    }
+
+    public void useItemOnPlant(final Player player, int item) {
+        if (item == SPADE) {
+            player.animate(830);
+            player.getFarming().removePlant(this);
+            Chain.bound(player).runFn(2, () -> {
+                player.message("You remove your plants from the plot.");
+                player.animate(65535);
+            });
+            return;
+        }
+        if (item == PLANT_CURE) {
+            if (dead) {
+                player.message("Your plant is dead!");
+            } else if (diseased()) {
+                player.message("You cure the plant.");
+                player.animate(2288);
+                player.inventory().remove(PLANT_CURE, 1);
+                disease = -1;
+                doConfig(player);
+            } else {
+                player.message("Your plant does not need this.");
+            }
+            return;
+        }
+        if (item >= WATERING_CAN && item <= WATERING_CAN8) {
+            water(player, item);
         }
     }
 
@@ -181,20 +207,25 @@ public class Planting {
             for (int i = 0; i < elapsed / grow; i++) {
                 if(watered() || patchId().seed == Seed.HERB) {
                     stage++;
-                    player.getFarming().updateVarpFor(player);
+                    player.getFarming().varbitUpdate();
                     if (stage >= plant.stages) {
                         player.message(Color.BLUE.wrap("A seed you planted has finished growing!"));
                         return;
                     }
                 }
+
             }
             setTime();
         }
     }
 
-    public int config() {
-        Plant plants = Plant.values()[plantId];
-        return (plants.healthy + stage + (watered() && stage == 0 ? 64 : 0));
+    public void doConfig(Player player) {
+        player.getFarming().varbitUpdate();
+    }
+
+    public int getConfig() {
+        Plant plant = Plant.values()[plantId];
+        return (plant.healthy + stage + (watered() && stage == 0 ? 64 : 0));
     }
 
     public Patch patchId() {

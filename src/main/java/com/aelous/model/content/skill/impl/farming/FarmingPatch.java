@@ -17,25 +17,13 @@ import static com.aelous.utility.ItemIdentifiers.WEEDS;
 public class FarmingPatch {
 
     public byte stage = 0;
-    private long time = System.currentTimeMillis();
-
-    public long getTime() {
-        return time;
-    }
-
-    /**
-     * Only used for saving.
-     * @param time The time being saved
-     */
-    public void setTime(long time) {
-        this.time = time;
-    }
+    long time = System.currentTimeMillis();
 
     public void setTime() {
         time = System.currentTimeMillis();
     }
 
-    public boolean raked() {
+    public boolean isRaked() {
         return stage == 3;
     }
 
@@ -46,51 +34,65 @@ public class FarmingPatch {
         int grow = 1;
 
         if (elapsed >= grow) {
-            for (int index = 0; index < elapsed / grow; index++) {
+            for (int i = 0; i < elapsed / grow; i++) {
                 if (stage == 0) {
-                    player.getFarming().updateVarpFor(player);
+                    player.getFarming().varbitUpdate();
                     return;
                 }
 
                 stage = ((byte) (stage - 1));
-                player.getFarming().updateVarpFor(player);
+                player.getFarming().varbitUpdate();
             }
             setTime();
         }
     }
 
-    public void rake(Player player) {
-        if(player.getAttribOr(RAKING, false))
-            return;
+    public void click(Player player, int option) {
+        if (option == 1)
+            rake(player);
+    }
 
-        if (raked()) {
-            player.message("This plot is fully raked. Try planting a seed.");
+    boolean raking = false;
+    public void rake(final Player p) {
+        if(raking)
+            return;
+        if (isRaked()) {
+            p.message("This plot is fully raked. Try planting a seed.");
             return;
         }
-        boolean hasRake = player.inventory().contains(RAKE);
-        if (!hasRake) {
-            player.message("This patch needs to be raked before anything can grow in it.");
-            player.message("You do not have a rake in your inventory.");
+        if (!p.inventory().contains(5341)) {
+            p.message("This patch needs to be raked before anything can grow in it.");
+            p.message("You do not have a rake in your inventory.");
             return;
         }
-        player.putAttrib(RAKING,true);
-        player.animate(2273);
-        Chain.bound(player).repeatingTask(3, t -> {
-            player.animate(2273);
+        raking = true;
+        p.animate(2273);
+        Chain.bound(p).repeatingTask(3, t -> {
+            if (!p.inventory().contains(5341)) {
+                p.message("This patch needs to be raked before anything can grow in it.");
+                p.message("You do not have a rake in your inventory.");
+                t.stop();
+                return;
+            }
+            p.animate(2273);
             setTime();
-            FarmingPatch grassyPatch = FarmingPatch.this;
-            grassyPatch.stage = ((byte) (grassyPatch.stage + 1));
-            player.getFarming().updateVarpFor(player);
-            player.skills().addXp(Skills.FARMING,4, true);
-            player.getInventory().addOrDrop(new Item(WEEDS,1));
-            if (raked()) {
-                player.message(Color.BLUE.wrap("Your patch is raked, no compost is required, just plant and water!"));
-                player.resetAnimation();
+            FarmingPatch farmingPatch = FarmingPatch.this;
+            farmingPatch.stage = ((byte) (farmingPatch.stage + 1));
+            doConfig(p);
+            p.skills().addXp(Skills.FARMING, 4);
+            p.getInventory().addOrDrop(new Item(6055, 1));
+            if (isRaked()) {
+                p.message("Your patch is raked, no compost is required, just plant and water!");
+                p.animate(65_535);
                 t.stop();
             }
         });
-        player.clearAttrib(RAKING);
-        player.resetAnimation();
+        raking = false;
+        p.animate(65535);
+    }
+
+    public static void doConfig(Player player) {
+        player.getFarming().varbitUpdate();
     }
 
     public int getStage() {

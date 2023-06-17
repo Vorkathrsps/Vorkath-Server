@@ -292,7 +292,7 @@ public class Player extends Entity {
     }
 
     @Getter
-    private final Farming farming = new Farming();
+    private final Farming farming = new Farming(this);
 
     public static class TextData {
 
@@ -1460,6 +1460,7 @@ public class Player extends Entity {
             replaceItems();
 
             skills.update();
+            farming.handleLogin();
             PacketInteractionManager.onLogin(this);
 
             inventory.refresh();

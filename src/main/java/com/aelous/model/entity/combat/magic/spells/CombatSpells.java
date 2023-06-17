@@ -434,8 +434,8 @@ CombatSpells {
                     count += 0.6;
                 if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HANDS, SWAMPBARK_GAUNTLETS))
                     count += 0.6;
-                castOn.freeze((int) (8 + count), cast);
             }
+            castOn.freeze((int) (8 + count), cast);
         }
 
         @Override
@@ -826,8 +826,8 @@ CombatSpells {
                     count += 0.6;
                 if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HANDS, SWAMPBARK_GAUNTLETS))
                     count += 0.6;
-                castOn.freeze((int) (16 + count), cast);
             }
+            castOn.freeze((int) (16 + count), cast);
         }
 
         @Override
@@ -1467,8 +1467,8 @@ CombatSpells {
                     count += 0.6D;
                 if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HANDS, SWAMPBARK_GAUNTLETS))
                     count += 0.6D;
-                castOn.freeze((int) (25 + count), cast); // 15 second freeze timer
             }
+            castOn.freeze((int) (25 + count), cast); // 15 second freeze timer
         }
 
         @Override

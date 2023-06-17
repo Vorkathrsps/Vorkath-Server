@@ -22,19 +22,11 @@ public class SotetsegCombat extends CommonCombatMethod {
     @Getter
     AtomicBoolean recentlyPerformedAttack = new AtomicBoolean(false);
     int magicAttackCount = 0;
-    List<Player> playerList = new ArrayList<>();
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-       if (!withinDistance(8)) {
+        if (!withinDistance(8))
             return false;
-       }
-
-        if (entity.getTimers().left(TimerKey.COMBAT_ATTACK) == 0) {
-            getRecentlyPerformedAttack().getAndSet(false);
-        } else {
-            return false;
-        }
 
         var player = (Player) target;
         if (!getRecentlyPerformedAttack().get()) {

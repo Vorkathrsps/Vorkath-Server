@@ -13,6 +13,7 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
+import com.aelous.model.map.route.routes.DumbRoute;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 import com.aelous.utility.timers.TimerKey;
@@ -34,11 +35,12 @@ public class CorporealBeast extends CommonCombatMethod {
     private Task stompTask;
 
     private void checkStompTask() {
+        var t = target;
         if (stompTask == null) {
             stompTask = new Task("checkStompTask", 7) {
                 @Override
                 protected void execute() {
-                    if (entity.dead() || !entity.isRegistered() || !target.tile().inArea(CORPOREAL_BEAST_AREA)) {
+                    if (entity.dead() || !entity.isRegistered() || !t.tile().inArea(CORPOREAL_BEAST_AREA)) {
                         stop();
                         return;
                     }
@@ -102,7 +104,7 @@ public class CorporealBeast extends CommonCombatMethod {
 
     @Override
     public int getAttackDistance(Entity entity) {
-        return 8;
+        return 64;
     }
 
     private void stat_draining_magic_attack(Entity target) {
@@ -125,6 +127,11 @@ public class CorporealBeast extends CommonCombatMethod {
                 player.message("Your Prayer has been slightly drained.");
             }
         }
+    }
+
+    @Override
+    public void doFollowLogic() {
+        DumbRoute.step(entity, target, 1);
     }
 
     private void splashing_magic_attack(NPC npc, Entity target) {

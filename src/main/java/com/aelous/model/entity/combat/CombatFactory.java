@@ -374,7 +374,11 @@ public class CombatFactory {
         }
 
         // Check if teleporting away/teleported away
-        if (attacker.tile().distance(target.tile()) >= 16) {
+        var dist = attacker.tile().distance(target.tile());
+        if (attacker.isNpc() && attacker.npc().getCombatMethod() != null && attacker.npc().getCombatMethod().getAttackDistance(attacker) <= dist) {
+            attacker.getCombat().reset();
+            return false;
+        } else if (dist >= 32) {
             attacker.getCombat().reset();
             return false;
         }
@@ -515,6 +519,9 @@ public class CombatFactory {
                 Debugs.CMB.debug(entity, "bots cannot attack outside of wilderness.", other, true);
                 return false;
             }
+        }
+        if (entity.isNpc(CORPOREAL_BEAST) && !(entity.tile().region() == 11844 && ((other.getX() >= 2972 || entity.getX() <= 2972) && (entity.getX() >= 2972 || other.getX() <= 2972)))) {
+            return false;
         }
 
         if (other.isNpc() && other.getAsNpc().getBotHandler() != null) {

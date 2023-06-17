@@ -505,7 +505,7 @@ public class IncomingHandler {
         PACKET_SIZES[207] = -3;
         PACKET_SIZES[208] = 5;
         PACKET_SIZES[209] = -3;
-        PACKET_SIZES[210] = 4;
+        PACKET_SIZES[210] = 0;
         PACKET_SIZES[211] = -3;
         PACKET_SIZES[212] = -3;
         PACKET_SIZES[213] = 5;

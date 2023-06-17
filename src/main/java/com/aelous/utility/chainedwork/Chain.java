@@ -266,7 +266,7 @@ public class Chain<T> {
                 @Override
                 public void onStop() {
                     if (interrupted) {
-                        logger.info("chain interrupted, wont continue to next. context: "+owner);
+                        logger.debug("chain interrupted, wont continue to next. context: "+owner);
                         return;
                     }
                     super.onStop();
@@ -296,7 +296,7 @@ public class Chain<T> {
 
     private void attemptWork() {
         if (interrupted) {
-            logger.info("chain interrupted, wont continue to next . context: "+owner);
+            logger.debug("chain interrupted, wont continue to next . context: "+owner);
             return;
         }
         if (cancelCondition != null && cancelCondition.getAsBoolean()) {

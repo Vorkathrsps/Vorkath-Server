@@ -21,6 +21,7 @@ import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.Item;
+import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.object.MapObjects;
 import com.aelous.model.map.position.Area;
@@ -31,6 +32,7 @@ import com.aelous.utility.chainedwork.Chain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.*;
@@ -273,7 +275,7 @@ public class VerzikVitur extends CommonCombatMethod {
 
     @Override
     public int getAttackDistance(Entity entity) {
-        return 12;
+        return 30;
     }
 
     @Override
@@ -324,6 +326,11 @@ public class VerzikVitur extends CommonCombatMethod {
                 p.removeAll(new Item(DAWNBRINGER));
                 p.getCombat().reset();
             }
+            var gitems = GroundItemHandler.getGroundItems().stream().filter(e -> e.getTile().getZ() == mob.getZ()).toList();
+            gitems.forEach(e -> {
+                if (e.getItem().getId() == DAWNBRINGER)
+                    GroundItemHandler.sendRemoveGroundItem(e);
+            });
             for (Tile pillarTile : ViturRoom.pillarTiles) {
                 var ids = new int[] {32687, 32688, 32689};
                 for (int id : ids) {

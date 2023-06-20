@@ -43,7 +43,7 @@ public class Tile implements Cloneable {
     public ArrayList<GameObject> gameObjects;
 
     public void addObject(GameObject gameObject) {
-        if(gameObjects == null) {
+        if (gameObjects == null) {
             gameObjects = new ArrayList<>(4);
         } else {
             // is gonna replace whatever was there previously visually on client so lets remove too
@@ -62,7 +62,7 @@ public class Tile implements Cloneable {
     }
 
     public void removeObject(GameObject gameObject) {
-        if(gameObjects == null) {
+        if (gameObjects == null) {
             /* this tile has been destroyed */
             return;
         }
@@ -71,6 +71,7 @@ public class Tile implements Cloneable {
         gameObjects.remove(gameObject);
         checkActive();
     }
+
     private boolean active;
     private Region region;
 
@@ -86,13 +87,14 @@ public class Tile implements Cloneable {
         var gameObjects = MapObjects.getAll(this);
        /* if(groundItems != null && groundItems.size() > 0)
             active = true;
-        else */if(gameObjects != null && gameObjects.size() > 0)
+        else */
+        if (gameObjects != null && gameObjects.size() > 0)
             active = gameObjects.stream().anyMatch(GameObject::isCustom);
-        if(this.active == active) {
+        if (this.active == active) {
             /* same active state */
             return;
         }
-        if((this.active = active))
+        if ((this.active = active))
             getRegion().activeTiles.add(this);
         else
             getRegion().activeTiles.remove(this);
@@ -131,9 +133,10 @@ public class Tile implements Cloneable {
 
     /**
      * The Position constructor.
-     * @param x        The x-type coordinate of the position.
-     * @param y        The y-type coordinate of the position.
-     * @param level        The height of the position.
+     *
+     * @param x     The x-type coordinate of the position.
+     * @param y     The y-type coordinate of the position.
+     * @param level The height of the position.
      */
     public Tile(int x, int y, int level) {
         this.x = x;
@@ -144,8 +147,9 @@ public class Tile implements Cloneable {
 
     /**
      * The Position constructor.
-     * @param x        The x-type coordinate of the position.
-     * @param y        The y-type coordinate of the position.
+     *
+     * @param x The x-type coordinate of the position.
+     * @param y The y-type coordinate of the position.
      */
     public Tile(int x, int y) {
         this(x, y, 0);
@@ -159,7 +163,8 @@ public class Tile implements Cloneable {
 
     /**
      * Gets the x coordinate of this position.
-     * @return    The associated x coordinate.
+     *
+     * @return The associated x coordinate.
      */
     public int getX() {
         return x;
@@ -172,7 +177,8 @@ public class Tile implements Cloneable {
 
     /**
      * Gets the y coordinate of this position.
-     * @return    The associated y coordinate.
+     *
+     * @return The associated y coordinate.
      */
     public int getY() {
         return y;
@@ -185,7 +191,8 @@ public class Tile implements Cloneable {
 
     /**
      * Gets the height level of this position.
-     * @return    The associated height level.
+     *
+     * @return The associated height level.
      */
     public int getLevel() {
         return level;
@@ -193,6 +200,7 @@ public class Tile implements Cloneable {
 
     /**
      * Sets the height level of this position.
+     *
      * @return The Position instance.
      */
     public Tile setLevel(int level) {
@@ -201,8 +209,8 @@ public class Tile implements Cloneable {
     }
 
     //public Tile getDelta(Tile position) {
-       // return new Tile(x - position.x, y - position.y);
-   // }
+    // return new Tile(x - position.x, y - position.y);
+    // }
 
     public Tile getDelta(Tile location, Tile other) {
         return new Tile(other.x - location.x, other.y - location.y, other.getZ() - location.getZ());
@@ -218,8 +226,9 @@ public class Tile implements Cloneable {
 
     /**
      * Gets the local x coordinate relative to a specific region.
-     * @param tile    The region the coordinate will be relative to.
-     * @return             The local x coordinate.
+     *
+     * @param tile The region the coordinate will be relative to.
+     * @return The local x coordinate.
      */
     public int getLocalX(Tile tile) {
         return x - 8 * tile.getRegionX();
@@ -227,8 +236,9 @@ public class Tile implements Cloneable {
 
     /**
      * Gets the local y coordinate relative to a specific region.
-     * @param tile     The region the coordinate will be relative to.
-     * @return             The local y coordinate.
+     *
+     * @param tile The region the coordinate will be relative to.
+     * @return The local y coordinate.
      */
     public int getLocalY(Tile tile) {
         return y - 8 * tile.getRegionY();
@@ -236,7 +246,8 @@ public class Tile implements Cloneable {
 
     /**
      * Gets the local x coordinate relative to a specific region.
-     * @return             The local x coordinate.
+     *
+     * @return The local x coordinate.
      */
     public int getLocalX() {
         return x - 8 * getRegionX();
@@ -244,7 +255,8 @@ public class Tile implements Cloneable {
 
     /**
      * Gets the local y coordinate relative to a specific region.
-     * @return             The local y coordinate.
+     *
+     * @return The local y coordinate.
      */
     public int getLocalY() {
         return y - 8 * getRegionY();
@@ -252,6 +264,7 @@ public class Tile implements Cloneable {
 
     /**
      * Gets the region x coordinate.
+     *
      * @return The region x coordinate.
      */
     public int getRegionX() {
@@ -260,6 +273,7 @@ public class Tile implements Cloneable {
 
     /**
      * Gets the region y coordinate.
+     *
      * @return The region y coordinate.
      */
     public int getRegionY() {
@@ -276,10 +290,9 @@ public class Tile implements Cloneable {
     /**
      * Checks if this location is within interaction range of another.
      *
-     * @param other
-     *            The other location.
+     * @param other The other location.
      * @return <code>true</code> if the location is in range, <code>false</code>
-     *         if not.
+     * if not.
      */
     public int distance(Tile other) {
         final int deltaX = other.getX() - getX(), deltaY = other.getY() - getY();
@@ -317,6 +330,7 @@ public class Tile implements Cloneable {
     public int getManHattanDist(Tile pos, Tile other) {
         return getManhattanDistance(pos.getX(), pos.getY(), other.getX(), other.getY());
     }
+
     public int getManHattanDist(int x, int y, int x2, int y2) {
         return Math.abs(x - x2) + Math.abs(y - y2);
     }
@@ -329,6 +343,7 @@ public class Tile implements Cloneable {
 
     /**
      * Checks if this location is within range of another.
+     *
      * @param other The other location.
      * @return <code>true</code> if the location is in range,
      * <code>false</code> if not.
@@ -341,9 +356,19 @@ public class Tile implements Cloneable {
         return deltaX <= 14 && deltaX >= -15 && deltaY <= 14 && deltaY >= -15;
     }
 
+    public Tile getSouthwestTile(Entity target) {
+        int x = target.getX();
+        int y = target.getY();
+        int z = target.getZ();
+        int newX = x - 1;
+        int newY = y + 1;
+        return new Tile(newX, newY, z);
+    }
+
     /**
      * Checks if the position is within distance of another.
-     * @param other The other position.
+     *
+     * @param other    The other position.
      * @param distance The distance.
      * @return {@code true} if so, {@code false} if not.
      */
@@ -426,6 +451,7 @@ public class Tile implements Cloneable {
 
     /**
      * Checks if this location is within interaction range of another.
+     *
      * @param other The other location.
      * @return <code>true</code> if the location is in range,
      * <code>false</code> if not.
@@ -440,8 +466,9 @@ public class Tile implements Cloneable {
 
     /**
      * Checks if {@code position} has the same values as this position.
-     * @param tile    The position to check.
-     * @return            The values of {@code position} are the same as this position's.
+     *
+     * @param tile The position to check.
+     * @return The values of {@code position} are the same as this position's.
      */
     public boolean sameAs(Tile tile) {
         return tile.x == x && tile.y == y && tile.level == level;
@@ -455,12 +482,9 @@ public class Tile implements Cloneable {
     /**
      * Creates a position.
      *
-     * @param x
-     *            The x coordinate.
-     * @param y
-     *            The y coordinate.
-     * @param z
-     *            The z coordinate.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @param z The z coordinate.
      * @return The location.
      */
     public static Tile create(int x, int y, int z) {
@@ -478,11 +502,11 @@ public class Tile implements Cloneable {
 
     @Override
     public String toString() {
-        return "[" + x + ", " + y + ", " + level + ", "+hcode()+"].";
+        return "[" + x + ", " + y + ", " + level + ", " + hcode() + "].";
     }
 
     public String hcode() {
-        return "Tile@"+Integer.toHexString(hashCode());
+        return "Tile@" + Integer.toHexString(hashCode());
     }
 
     public boolean isViewableFrom(Tile other) {
@@ -497,6 +521,7 @@ public class Tile implements Cloneable {
      * Returns the delta coordinates. Note that the returned position is not an
      * actual position, instead it's values represent the delta values between
      * the two arguments.
+     *
      * @param a the first position.
      * @param b the second position.
      * @return the delta coordinates contained within a position.
@@ -507,6 +532,7 @@ public class Tile implements Cloneable {
 
     /**
      * Gets the longest horizontal or vertical delta between the two positions.
+     *
      * @param other The other position.
      * @return The longest horizontal or vertical delta.
      */
@@ -537,9 +563,8 @@ public class Tile implements Cloneable {
     }
 
     /**
-     *
      * @param player The player object
-     * @param area The array of Area objects
+     * @param area   The array of Area objects
      * @return
      */
     public boolean inArea(Player player, Area[] area) {
@@ -804,12 +829,13 @@ public class Tile implements Cloneable {
         }
         return distanceFormula(x, y, other.x, other.y);
     }
+
     public static double distanceFormula(int x, int y, int x2, int y2) {
         return Math.sqrt(Math.pow(x2 - x, 2) + Math.pow(y2 - y, 2));
     }
 
     public List<Tile> area(int radius, Predicate<Tile> filter) {
-        List<Tile> list = new ArrayList<>((int)Math.pow((1 + radius), 2));
+        List<Tile> list = new ArrayList<>((int) Math.pow((1 + radius), 2));
         for (int x = -radius; x <= radius; x++) {
             for (int y = -radius; y <= +radius; y++) {
                 Tile pos = relative(x, y);
@@ -828,10 +854,10 @@ public class Tile implements Cloneable {
         if (inArea(2527, 4709, 2549, 4724)) { // Mage bank (inside)
             return true;
         }
-        if(homeRegion()) {
+        if (homeRegion()) {
             return true;
         }
-        if(memberZone()) {
+        if (memberZone()) {
             return true;
         }
         if (raidsPartyArea()) {
@@ -860,15 +886,15 @@ public class Tile implements Cloneable {
     }
 
     public Set<Tile> expandedBounds(int radius, Predicate<Tile> filter) {
-        Set<Tile> list = new HashSet<>((int)Math.pow((1 + radius), 2));
+        Set<Tile> list = new HashSet<>((int) Math.pow((1 + radius), 2));
         final Tile src = this;
         for (int x = -radius; x <= radius; x++) {
-            list.add(relative(x,  - radius));
-            list.add(relative(x,  + radius));
+            list.add(relative(x, -radius));
+            list.add(relative(x, +radius));
         }
         for (int y = -radius; y <= radius; y++) {
             list.add(relative(+radius, y));
-            list.add(relative( -radius, y));
+            list.add(relative(-radius, y));
         }
         return list;
     }
@@ -916,17 +942,18 @@ public class Tile implements Cloneable {
     }
 
     public static void occupy(Entity entity) {
-        if(entity.occupyingTiles) {
+        if (entity.occupyingTiles) {
             fill(entity, entity.getPreviousTile(), -1);
             entity.occupyingTiles = false;
         }
-        if(!(entity.isPlayer() && entity.player().looks().hidden())) {
-            if(entity.isNpc() && !entity.npc().def().occupyTiles)
+        if (!(entity.isPlayer() && entity.player().looks().hidden())) {
+            if (entity.isNpc() && !entity.npc().def().occupyTiles)
                 return;
             fill(entity, entity.tile(), 1);
             entity.occupyingTiles = true;
         }
     }
+
     public static void unoccupy(Entity mob) {
         if (mob.occupyingTiles) {
             fill(mob, mob.getPreviousTile(), -1);
@@ -939,11 +966,11 @@ public class Tile implements Cloneable {
         int absX = pos.getX();
         int absY = pos.getY();
         int z = pos.getZ();
-        for(int x = absX; x < (absX + size); x++) {
-            for(int y = absY; y < (absY + size); y++) {
+        for (int x = absX; x < (absX + size); x++) {
+            for (int y = absY; y < (absY + size); y++) {
                 Tile tile = Tile.get(x, y, z, true);
                 if (tile == null) continue;
-                if(entity.isPlayer())
+                if (entity.isPlayer())
                     tile.playerCount += increment;
                 else
                     tile.npcCount += increment;
@@ -960,7 +987,7 @@ public class Tile implements Cloneable {
     }
 
     public static @Nullable Tile get(Tile position, boolean create) {
-        return Region.get(position.getX(), position.getY()). getTile(position.getX(), position.getY(), position.getZ(), create);
+        return Region.get(position.getX(), position.getY()).getTile(position.getX(), position.getY(), position.getZ(), create);
     }
 
     public static @Nullable Tile get(int x, int y, int z, boolean create) {
@@ -974,15 +1001,15 @@ public class Tile implements Cloneable {
         int z = entity.getZ();
         int eastMostX = absX + (size - 1);
         int northMostY = absY + (size - 1);
-        for(int x = stepX; x < (stepX + size); x++) {
-            for(int y = stepY; y < (stepY + size); y++) {
-                if(x >= absX && x <= eastMostX && y >= absY && y <= northMostY) {
+        for (int x = stepX; x < (stepX + size); x++) {
+            for (int y = stepY; y < (stepY + size); y++) {
+                if (x >= absX && x <= eastMostX && y >= absY && y <= northMostY) {
                     /* stepping within itself, allow it */
                     continue;
                 }
                 Tile tile = Tile.get(x, y, z, true);
                 if (tile == null) continue;
-                if(tile.playerCount > 0 || tile.npcCount > 0)
+                if (tile.playerCount > 0 || tile.npcCount > 0)
                     return true;
             }
         }
@@ -1010,7 +1037,7 @@ public class Tile implements Cloneable {
     public static GameObject getObject(int id, int x, int y, int z, int type, int rot) {
         GameObject object = new Tile(x, y, z).getObject(id, type, rot);
         //if (object == null) {
-         //   LogManager.getLogger("GameObject").info("request {} {} {} {} {} {} found {}", id, x, y, z, type, rot, object);
+        //   LogManager.getLogger("GameObject").info("request {} {} {} {} {} {} found {}", id, x, y, z, type, rot, object);
         //}
         return object;
     }

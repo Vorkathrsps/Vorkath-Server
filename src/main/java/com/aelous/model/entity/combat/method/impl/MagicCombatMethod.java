@@ -1,6 +1,5 @@
 package com.aelous.model.entity.combat.method.impl;
 
-import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
@@ -109,8 +108,16 @@ public class MagicCombatMethod extends CommonCombatMethod {
         player.animate(new Animation(castAnimation));
         player.performGraphic(new Graphic(startgraphic, startGraphicHeight, 0));
 
-        Projectile p = new Projectile(player, target, projectile, startSpeed, duration, startHeight, endHeight, curve, entity.getSize(), stepMultiplier);
+        var source = spell.spellId() == AncientSpells.ICE_BARRAGE.spellID ? target.tile() : player.tile();
 
+        if (spell.spellId() == AncientSpells.ICE_BARRAGE.spellID) {
+            projectile = 368;
+            curve = 0;
+            startHeight = 0;
+            endHeight = 0;
+        }
+
+        Projectile p = new Projectile(source, target, projectile, startSpeed, duration, startHeight, endHeight, curve, entity.getSize(), stepMultiplier);
 
         final int delay = player.executeProjectile(p);
 
@@ -128,7 +135,6 @@ public class MagicCombatMethod extends CommonCombatMethod {
         }
 
         spell.finishCast(player, target, hit.isAccurate(), hit.getDamage());
-
         return true;
     }
 

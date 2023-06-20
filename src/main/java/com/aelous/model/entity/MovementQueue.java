@@ -373,6 +373,10 @@ public class MovementQueue {
         return stepsX;
     }
 
+    public boolean isCurrentlyMoving(Entity target) {
+        return !target.getMovement().isMovementBlocked() && this.stepsX.length > 0 && this.stepsY.length > 0;
+    }
+
     public int[] getStepsY() {
         if(stepsY == null)
             stepsY = new int[50];

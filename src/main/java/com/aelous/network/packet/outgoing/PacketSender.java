@@ -1203,7 +1203,7 @@ public final class PacketSender {
         out.putShort(time);
         out.putShort(speed);
         out.put(slope);
-        out.put((creatorSize * 64) + (startDistanceOffset * 64));
+        out.put(startDistanceOffset);
         player.getSession().write(out);
         return this;
     }

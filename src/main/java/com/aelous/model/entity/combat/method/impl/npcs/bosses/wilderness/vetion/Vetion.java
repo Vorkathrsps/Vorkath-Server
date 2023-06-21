@@ -8,9 +8,9 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.EntityCombatBuilder;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
+import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.NexCombat;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
-import com.aelous.model.entity.npc.HealthHud;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Area;
@@ -58,23 +58,13 @@ public class Vetion extends CommonCombatMethod {
 
     @Override
     public void preDefend(Hit hit) {
+        //if (target != null && target.isPlayer() && !target.tile().inArea(vetionArea)) {
+        //     playersInArea.remove(target.getAsPlayer());
+        //      System.out.println("removed: " + playersInArea.size());
+        //  }
         Player player = (Player) target;
         NPC vetion = (NPC) entity;
-        Arrays.stream(vetion.closePlayers()).forEach(p -> {
-            HealthHud.open(p, HealthHud.Type.REGULAR,"Vet'ion", 255);
-        });
         if (player != null) {
-            if (player.isPlayer() && player.tile().inArea(vetionArea)) {
-                if (!playersInArea.contains(player)) {
-                    playersInArea.add(player);
-                    return;
-                } else {
-                    playersInArea.remove(player);
-                }
-            }
-            if (vetion.isNpc() && playersInArea.size() == 0) {
-                vetion.heal(vetion.maxHp());
-            }
             if (VetionMinion.houndCount.size() == 0) {
                 vetion.message("My hounds! I'll make you pay for that!");
             }
@@ -124,9 +114,8 @@ public class Vetion extends CommonCombatMethod {
 
     @Override
     public int getAttackDistance(Entity entity) {
-        return 1;
+        return 10;
     }
-
     private void doMagicSwordRaise() {
         NPC vetion = (NPC) entity;
         var transformedTile = target.tile().transform(3, 3, 0);
@@ -325,7 +314,7 @@ public class Vetion extends CommonCombatMethod {
 
     @Override
     public boolean canMultiAttackInSingleZones() {
-        return true;
+        return super.canMultiAttackInSingleZones();
     }
 
     @Override

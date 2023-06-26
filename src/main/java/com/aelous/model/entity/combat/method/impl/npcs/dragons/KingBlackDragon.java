@@ -15,6 +15,7 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.Utils;
+import com.aelous.utility.timers.TimerKey;
 
 import java.util.Arrays;
 
@@ -39,7 +40,11 @@ public class KingBlackDragon extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.rollDie(4, 1))
+        if (!withinDistance(8)) {
+            return false;
+        }
+
+        if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && entity.getTimers().left(TimerKey.COMBAT_ATTACK) == 0 && Utils.rollDie(4, 1))
 
             basicAttack(entity, target);
         else {

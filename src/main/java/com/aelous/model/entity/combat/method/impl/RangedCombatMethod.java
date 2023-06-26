@@ -152,8 +152,8 @@ public class RangedCombatMethod extends CommonCombatMethod {
                     attacker.graphic(drawbackBowDouble.gfx, GraphicHeight.HIGH, 0);
                 int duration1 = (41 + 11 + (5 * distance));
                 int duration2 = (51 + 11 + (5 * distance));
-                Projectile p1 = new Projectile(attacker, target, graphic, 41, duration1, 41, 31, 0, target.getSize(), 5);
-                Projectile p2 = new Projectile(attacker, target, graphic, 51, duration2, 51, 41, 0, target.getSize(), 5);
+                Projectile p1 = new Projectile(attacker, target, graphic, 41, duration1, 41, 31, 16, target.getSize(), 5);
+                Projectile p2 = new Projectile(attacker, target, graphic, 51, duration2, 51, 41, 16, target.getSize(), 5);
                 final int d1 = attacker.executeProjectile(p1);
                 final int d2 = attacker.executeProjectile(p2);
                 Hit hit1 = Hit.builder(attacker, target, CombatFactory.calcDamageFromType(attacker, target, CombatType.RANGED), d1, CombatType.RANGED).checkAccuracy();

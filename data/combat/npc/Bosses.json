@@ -763,7 +763,7 @@
     "maxhit": 8,
     "slayerxp": 240,
     "slayerlvl": 93,
-    "attackspeed": 4,
+    "attackspeed": 2,
     "boss": true,
     "stats": {
       "attack": 230,

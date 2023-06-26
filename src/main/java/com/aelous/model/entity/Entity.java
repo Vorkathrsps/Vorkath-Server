@@ -499,13 +499,13 @@ public abstract class Entity {
         int offX = (entityY - target.getY()) * -1;
         int offY = (entityX - target.getX()) * -1;
 
-        Tile translatedTile = this.getCombat().getTarget() != null ? this.tile().translateAndCenterNpcPosition(this, this.getCombat().getTarget()) : this.tile();
+        Tile translatedTile = this.getCombat().getTarget() != null && creatorSize > 3 ? this.tile().translateAndCenterNpcPosition(this, this.getCombat().getTarget()) : this.tile();
 
-        int distance = translatedTile.getManhattanDistance(target);
+        Tile distance = translatedTile.getAxisDistances(this,target);
 
         Tile offset = new Tile(offX, offY, source.getZ());
 
-        if (distance <= 60) {
+        if (distance.getX() <= 64 && distance.getY() <= 64) {
             for (Player player : World.getWorld().getPlayers()) {
                 if (player == null) {
                     continue;
@@ -518,7 +518,7 @@ public abstract class Entity {
             }
         }
 
-        return projectile.getTime(distance);
+        return projectile.getTime(source, target);
     }
 
 

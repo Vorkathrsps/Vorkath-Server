@@ -1192,8 +1192,8 @@ public final class PacketSender {
                                        int angle, int speed, int gfxMoving, int startHeight, int endHeight,
                                        int lockon, int time, int slope, int creatorSize, int startDistanceOffset) {
         PacketBuilder out = new PacketBuilder(117);
-        out.put(angle);
         sendPosition(position);
+        out.put(angle);
         out.put(offset.getY());
         out.put(offset.getX());
         out.putShort(lockon);

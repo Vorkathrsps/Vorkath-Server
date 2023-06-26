@@ -275,7 +275,6 @@ public class CombatFactory {
         }
 
         if (type == CombatType.MELEE) {
-            // Do melee effects with the calculated damage..
 
         } else if (type == CombatType.RANGED) {
             if (attacker.isPlayer()) {

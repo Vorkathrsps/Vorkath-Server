@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class Cleaning {
 
-    private enum Herb {
+    public enum Herb {
         GUAM(1 /* Level 3, but on rs you do druidic ritual */, "guam leaf", 199, 249, 2.5, "a"),
         ARDIGAL(1, "ardigal", 1527, 1528, 2.5, "an"),
         SITO_FOIL(1, "sito foil", 1529, 1530, 2.5, "a"),
@@ -35,7 +35,7 @@ public class Cleaning {
         DRAWFWEED(70, "dwarf weed", 217, 267, 13.8, "a"),
         TORSTOL(75, "torstol", 219, 269, 15.0, "a");
 
-        private int level, grimy, clean;
+        public int level, grimy, clean;
         private double exp;
         private String herbName, AorAn;
 

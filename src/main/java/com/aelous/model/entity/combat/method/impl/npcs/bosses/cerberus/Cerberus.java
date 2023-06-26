@@ -254,6 +254,10 @@ public class Cerberus extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(@NotNull Entity entity, Entity target) {
+        if (!withinDistance(8)) {
+            return false;
+        }
+
         if (!comboAttackCooldown.isDelayed()) {
            // entity.forceChat("combo");
             comboAttack(entity, target);

@@ -51,10 +51,10 @@ public class DarkBow extends CommonCombatMethod {
         }
 
         int tileDist = entity.tile().transform(1, 1).getChevDistance(target.tile());
-        int duration1 = (41 + 11 + (5 * tileDist));
-        int duration2 = (51 + 11 + (5 * tileDist));
-        Projectile p1 = new Projectile(entity, target, gfx, 41, duration1, 40, 31, 0, target.getSize(), 5);
-        Projectile p2 = new Projectile(entity, target, gfx2, 51, duration2, 55, 31, 0, target.getSize(), 5);
+        int duration1 = (45 + 10 + (7 * tileDist));
+        int duration2 = (45 + 12 + (15 * tileDist));
+        Projectile p1 = new Projectile(entity, target, gfx, 45, duration1, 43, 38, 5, target.getSize(), 5);
+        Projectile p2 = new Projectile(entity, target, gfx2, 45, duration2, 49, 31, 15, target.getSize(), 5);
 
         final int delay1 = entity.executeProjectile(p1);
         final int delay2 = entity.executeProjectile(p2);

@@ -210,7 +210,7 @@ public class MovementQueue {
             return false;
         }
 
-        List<Integer> ALWAYS_LOCKED_FROM_MOVEMENT = Arrays.asList(GREAT_OLM_RIGHT_CLAW_7553, GREAT_OLM_LEFT_CLAW_7555, GREAT_OLM_7554, COMBAT_DUMMY, UNDEAD_COMBAT_DUMMY, FUMUS, UMBRA, CRUOR, GLACIES, AWAKENED_ALTAR, AWAKENED_ALTAR_7290, AWAKENED_ALTAR_7292, AWAKENED_ALTAR_7294);
+        List<Integer> ALWAYS_LOCKED_FROM_MOVEMENT = Arrays.asList(GREAT_OLM_RIGHT_CLAW_7553, GREAT_OLM_LEFT_CLAW_7555, GREAT_OLM_7554, COMBAT_DUMMY, UNDEAD_COMBAT_DUMMY, FUMUS, UMBRA, CRUOR, GLACIES, AWAKENED_ALTAR, AWAKENED_ALTAR_7290, AWAKENED_ALTAR_7292, AWAKENED_ALTAR_7294, VORKATH_8061);
         if(entity.isNpc()) {
             NPC npc = entity.getAsNpc();
             if(ALWAYS_LOCKED_FROM_MOVEMENT.stream().anyMatch(n -> n == npc.id()) || npc.completelyLockedFromMoving()) {
@@ -244,7 +244,6 @@ public class MovementQueue {
         if (!canMove()) {
             return false;
         }
-
         final Tile to = new Tile(entity.tile().getX() + deltaX,
             entity.tile().getY() + deltaY, entity.tile().getLevel());
         if (entity.tile().getLevel() == -1 && to.getLevel() == -1)

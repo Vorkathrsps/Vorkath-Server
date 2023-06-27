@@ -66,15 +66,10 @@ public class PotionBrewing {
         EXTENDED_SUPER_ANTIFIRE_POTION_2(-1, 21984, new Item(11994,2), 22215, -1, 98, 80.0, "N/A", "lava scale shards x2"),
         EXTENDED_SUPER_ANTIFIRE_POTION_1(-1, 21987, new Item(11994,1), 22218, -1, 98, 40.0, "N/A", "lava scale shards x1"),
         ANCIENT_BREW_4(-1, ItemIdentifiers.DWARF_WEED_POTION_UNF, new Item(ItemIdentifiers.NIHIL_DUST,1), 26340, -1, 85, 190.0, "Dwarf weed potion (unf)", "Nihil dust"),
-
         FORGOTTEN_BREW_4(-1, ItemIdentifiers.ANCIENT_BREW4, new Item(ItemIdentifiers.ANCIENT_ESSENCE,80), 27629, -1, 91, 145.0, "Ancient Brew (4)", "Ancient Essence"),
-
         FORGOTTEN_BREW_3(-1, ItemIdentifiers.ANCIENT_BREW3, new Item(ItemIdentifiers.ANCIENT_ESSENCE,40), 27632, -1, 91, 145.0, "Ancient Brew (3)", "Ancient Essence"),
-
         FORGOTTEN_BREW_2(-1, ItemIdentifiers.ANCIENT_BREW2, new Item(ItemIdentifiers.ANCIENT_ESSENCE,20), 27635, -1, 91, 145.0, "Ancient Brew (2)", "Ancient Essence"),
-
         FORGOTTEN_BREW_1(-1, ItemIdentifiers.ANCIENT_BREW1, new Item(ItemIdentifiers.ANCIENT_ESSENCE,10), 27638, -1, 91, 145.0, "Ancient Brew (1)", "Ancient Essence"),
-
         ;
 
         private final int herb;

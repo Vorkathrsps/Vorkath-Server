@@ -6,6 +6,7 @@ import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
+import com.aelous.model.entity.combat.hit.HitMark;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
@@ -38,7 +39,7 @@ public class Fumus extends CommonCombatMethod {
         Projectile projectile = new Projectile(entity, target, 390, 35, 20 * tileDist, 43, 31, 0);
         projectile.sendProjectile();
         if (World.getWorld().rollDie(100, 25)) {
-            target.hit(entity, 4, SplatType.POISON_HITSPLAT);
+            target.hit(entity, 4, HitMark.POISON);
         }
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC);
         hit.checkAccuracy().submit();

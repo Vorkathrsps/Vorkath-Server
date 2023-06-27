@@ -10,6 +10,7 @@ import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterfac
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.hit.HitMark;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion;
@@ -462,23 +463,23 @@ public class CommandManager {
             p.message("hidden %s", p.looks().hidden());
         });
         dev("hit1", (p, c, s) -> {
-            p.hit(p, 1, SplatType.NPC_HEALING_HITSPLAT);
+            p.hit(p, 1, HitMark.HEALED);
         });
         dev("hit2", (p, c, s) -> {
-            p.hit(p, 1, SplatType.POISON_HITSPLAT);
+            p.hit(p, 1, HitMark.POISON);
             ;
         });
         dev("hit3", (p, c, s) -> {
-            p.hit(p, 1, SplatType.VENOM_HITSPLAT);
+            p.hit(p, 1, HitMark.VENOM);
             ;
         });
         dev("hit4", (p, c, s) -> {
-            p.hit(p, 1, SplatType.MAX_HIT);
+            p.hit(p, 1, HitMark.MAX_HIT);
             ;
         });
         dev("hit5", (p, c, s) -> {
             var i = 1;
-            for (SplatType value : SplatType.values()) {
+            for (HitMark value : HitMark.values()) {
                 Chain.noCtx().delay(i++, () -> {
                     p.hit(p, 0, value);
                 });

@@ -8,6 +8,7 @@ import com.aelous.model.entity.combat.CombatConstants;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
+import com.aelous.model.entity.combat.hit.HitMark;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
@@ -317,7 +318,7 @@ public class Vorkath extends CommonCombatMethod {
                     for (Player p : yo) {
                         if (poisonTiles.contains(p.tile())) {
                             int hit = Utils.random(8);
-                            p.hit(entity, hit, SplatType.POISON_HITSPLAT);
+                            p.hit(entity, hit, HitMark.POISON);
                             entity.heal(hit);
                         }
                     }
@@ -366,8 +367,8 @@ public class Vorkath extends CommonCombatMethod {
                 var tileDist = entity.tile().distance(target.tile());
                 int duration = (10 + 11 + (5 * tileDist));
                 var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
-                var projectile = new Projectile(tile, target, 1482, 10, duration, 20, 20, 16, entity.getSize(), 10);
-                var delay = entity.executeProjectile(projectile);
+                var projectile = new Projectile(entity, target, 1482, 10, duration, 20, 20, 16, entity.getSize(), 10);
+                int delay = projectile.send(tile, target.tile());
                 entity.getCombat().delayAttack(0);
                 World.getWorld().getPlayers().forEachFiltered(p2 -> p2.tile().equals(landed),
                     p2 -> p2.hit(entity, World.getWorld().random(1, 15),

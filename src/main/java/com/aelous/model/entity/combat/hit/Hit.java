@@ -7,13 +7,19 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.aelous.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracy;
+import com.aelous.model.entity.combat.formula.maxhit.MeleeMaxHit;
+import com.aelous.model.entity.combat.formula.maxhit.RangeMaxHit;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.method.CombatMethod;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
+import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.PlayerStatus;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -42,17 +48,22 @@ public class Hit {
     /**
      * The attacker instance.
      */
-    private final Entity attacker;
+    private Entity attacker;
 
     /**
      * The victim instance.
      */
-    private final Entity target;
+    private Entity target;
 
     public CombatSpell spell;
 
     public Hit setSplatType(SplatType splatType) {
         this.splatType = splatType;
+        return this;
+    }
+
+    public Hit setHitMark(HitMark hitMark) {
+        this.hitMark = hitMark;
         return this;
     }
 
@@ -95,13 +106,21 @@ public class Hit {
      *
      * @return
      */
-    public Entity getDamageSource() {
-        return this.attacker;
-    }
 
     public Entity getSource() {
-        return this.attacker;
+        return attacker;
     }
+
+    public boolean maxHit(Player player) {
+        CombatType combatType = player.getCombat().getCombatType() != null ? player.getCombat().getCombatType() : null;
+        switch (Objects.requireNonNull(combatType)) {
+            case MELEE -> MeleeMaxHit.maxHit(player, false);
+            case RANGED -> RangeMaxHit.maxHit(player, target, true, false);
+            case MAGIC -> player.getCombat().getMaximumMagicDamage();
+        }
+        return false;
+    }
+
 
     /**
      * Adjusts the hit delay with the characters update index (PID).
@@ -133,10 +152,15 @@ public class Hit {
         }
     }
 
+    public Hit(Entity attacker, Entity target) {
+        this.attacker = attacker;
+        this.target = target;
+    }
+
     /**
      * Constructs a QueueableHit with a total of {hitCountToGenerate} hits.
      **/
-    public Hit(Entity attacker, Entity target, CombatMethod method, boolean checkAccuracy, int delay, int damage) {
+    public Hit(Entity attacker, Entity target, CombatMethod method, boolean checkAccuracy, int delay, int damage, HitMark hitMark) {
         this.attacker = attacker;
         this.target = target;
         if (method instanceof CommonCombatMethod commonCombatMethod) {
@@ -144,10 +168,9 @@ public class Hit {
         }
         this.checkAccuracy = checkAccuracy;
         this.damage = damage;
-        applyAccuracyToMiss();
         this.delay = delay;
-        this.adjustDelay();
-        this.splatType = damage < 1 ? SplatType.BLOCK_HITSPLAT : SplatType.HITSPLAT;
+        this.hitMark = hitMark;
+        applyAccuracyToMiss();
     }
 
     public Hit builder(Entity attacker, Entity target, int damage, int delay) {
@@ -155,7 +178,7 @@ public class Hit {
     }
 
     public static Hit builder(Entity attacker, Entity target, int damage, int delay, CombatType type) {
-        Hit hit = new Hit(attacker, target, null, false, delay, damage);
+        Hit hit = new Hit(attacker, target, null, false, delay, damage, damage > 0 ? HitMark.DEFAULT : HitMark.MISSED);
         hit.delay = delay;
         hit.combatType = type;
         return hit;
@@ -278,7 +301,6 @@ public class Hit {
             }
         }
         this.damage = damage;
-        //System.out.printf("smack %s%n", damage);
     }
 
     public CombatType getCombatType() {
@@ -337,9 +359,9 @@ public class Hit {
 
     public void playerSync() {
         if (target == null) return;
-        if (target.splats.size() >= 4)
+        if (target.nextHits.size() >= 4)
             return;
-        target.splats.add(new Splat(getDamage(), splatType));
+        target.nextHits.add(this);
         target.getUpdateFlag().flag(Flag.FIRST_SPLAT);
     }
 
@@ -357,6 +379,18 @@ public class Hit {
     public Hit clientDelay(int delay) {
         this.delay = delay;
         return this;
+    }
+
+    @Getter
+    @Setter
+    private HitMark hitMark;
+
+    public int getMark(Entity source, Entity target, Player observer) {
+        if (damage == 0) {
+            return HitMark.MISSED.getObservedType(false, source, target, observer);
+        }
+        //maxHit(observer)
+        return hitMark.getObservedType(false, source, target, observer);
     }
 }
 

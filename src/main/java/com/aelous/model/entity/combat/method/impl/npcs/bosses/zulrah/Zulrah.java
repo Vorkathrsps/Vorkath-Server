@@ -9,6 +9,7 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.hit.HitMark;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
@@ -558,7 +559,7 @@ public class Zulrah {
                         if (internalCounter-- > 0) {
                             if (area.contains(target, true)) {
                                 // just standing here causes damage, not only when venom ticker is applied
-                                target.hit(npc, 1 + Utils.getRandom(3), SplatType.VENOM_HITSPLAT);
+                                target.hit(npc, 1 + Utils.getRandom(3), HitMark.VENOM);
                                 target.venom(npc); // apply venom
                             }
                         } else {

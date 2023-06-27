@@ -7,6 +7,7 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
+import com.aelous.model.entity.combat.hit.HitMark;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
@@ -173,7 +174,7 @@ public class CorruptedHunleffCombatStrategy extends CommonCombatMethod {
             for (Tile spot : new ArrayList<>(spots)) {
                 final Tile curSpot = base.transform(spot.x, spot.y);
                 if (curSpot.equals(target.tile())) {
-                    target.hit(entity, World.getWorld().random(1, 35), SplatType.HITSPLAT);
+                    target.hit(entity, World.getWorld().random(1, 35), HitMark.DEFAULT);
                 } else {
                     final Direction direction = Direction.getDirection(curSpot, target.tile());
                     Tile newSpot = spot.transform(direction.x, direction.y);

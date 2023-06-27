@@ -6,6 +6,7 @@ import com.aelous.model.entity.attributes.AttributeKey;
 
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.Venom;
+import com.aelous.model.entity.combat.hit.HitMark;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.InfectionType;
@@ -71,7 +72,7 @@ public class Poison {
                     Entity poisoneBy = player; // TODO add poisonedBy attrib, default to self player
 
                     if (poisonTicks > 0) {
-                        player.hit(poisoneBy, Math.min(20, determineHit(poisonTicks)), SplatType.POISON_HITSPLAT);
+                        player.hit(poisoneBy, Math.min(20, determineHit(poisonTicks)), HitMark.POISON);
                         //player.hit(new PoisonOrigin(), Math.min(20, determineHit(poisonTicks)), Hitsplat.POISON_HITSPLAT);
                         player.putAttrib(AttributeKey.POISON_TICKS, poisonTicks - 1); // reduce as normal
                     } else if (poisonTicks < 0) {
@@ -83,7 +84,7 @@ public class Poison {
                     var poisonTicks = npc.<Integer>getAttribOr(AttributeKey.POISON_TICKS, 0);
 
                     if (poisonTicks > 0) {
-                        npc.hit(null, Math.min(20, determineHit(poisonTicks)), SplatType.POISON_HITSPLAT);
+                        npc.hit(null, Math.min(20, determineHit(poisonTicks)), HitMark.POISON);
                         //npc.hit(npc, Math.min(20, determineHit(poisonTicks)), Hitsplat.POISON_HITSPLAT);
                         npc.putAttrib(AttributeKey.POISON_TICKS, poisonTicks - 1);
                     } else if (poisonTicks < 0) {

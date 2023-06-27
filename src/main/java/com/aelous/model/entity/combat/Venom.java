@@ -5,6 +5,7 @@ import com.aelous.core.task.TaskManager;
 import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.combat.hit.HitMark;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.player.EquipSlot;
@@ -61,7 +62,7 @@ public class Venom {
                     mob.putAttrib(AttributeKey.VENOM_TICKS, Math.max(1, ticks - 1));
                     Entity attacker = mob.getAttribOr(AttributeKey.VENOMED_BY,null);
                     if(attacker != null) {
-                        mob.hit(attacker, calcHit(ticks), SplatType.VENOM_HITSPLAT);
+                        mob.hit(attacker, calcHit(ticks), HitMark.VENOM);
                     }
                     //System.out.println("current tick: "+ticks);
                 } else if (ticks < 0) {

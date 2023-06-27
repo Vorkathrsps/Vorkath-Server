@@ -61,6 +61,7 @@ public class Potions {
         EXTENDED_ANTIFIRE_POTION(-1, -1, -1, false, "extended antifire potion", 11951, 11953, 11955, 11957),
         GUTHIX_REST(-1, -1, -1, false, "guthix rest", 4417, 4419, 4421, 4423),
         FORGOTTEN_BREW(-1, -1, -1, false, "forgotten brew", 27629, 27632, 27635, 27638),
+        ANCIENT_BREW(-1, -1, -1, false, "ancient brew", 26340, 26342, 26344, 26346),
         ZAMORAK_BREW(-1, -1, -1, false, "the foul liquid", 2450, 189, 191, 193),
         SUPER_ANTIFIRE(-1, -1, -1, false, "super antifire", 21978, 21981, 21984, 21987),
         EXTENDED_SUPER_ANTIFIRE(-1, -1, -1, false, "extended super antifire", 22209, 22212, 22215, 22218),
@@ -455,10 +456,28 @@ public class Potions {
             int statDrainResult;
             for (int skillIndex : drainSkills) {
                 int skillLevel = player.skills().level(skillIndex);
-
                 statDrainResult = Math.max(0, (skillLevel - 10) / 10) * -1 - 1;
-
                 int drainedLevel = statDrainResult;
+                player.skills().alterSkill(skillIndex, drainedLevel);
+            }
+            player.skills().alterSkill(Skills.MAGIC, magicResult);
+            player.skills().alterSkill(Skills.PRAYER, prayerResult);
+        } else if (potion == Potion.ANCIENT_BREW) {
+            int prayerLevel = player.getSkills().level(Skills.PRAYER); // Replace 50 with the actual prayer level
+            int prayerResult = Math.max(0, (prayerLevel - 10) / 10) + 2;
+            int magicLevel = player.getSkills().level(Skills.MAGIC); // Replace 70 with the actual magic level
+            int magicResult = Math.max(0, (magicLevel - 20) / 20) + 2;
+            int[] skills = {Skills.ATTACK, Skills.STRENGTH, Skills.DEFENCE}; // Replace with actual skill levels
+            int drainAmount;
+            for (int skillIndex : skills) {
+                int currentLevel = player.skills().level(skillIndex);
+                int baseDrain = Math.floorDiv(currentLevel, 10);
+                int adjustedDrain = baseDrain + 2;
+                int[] drainTable = {0, -1, -2, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11, -12, -13, -14};
+                int maxLevel = drainTable.length - 1;
+                int index = Math.min(adjustedDrain, maxLevel);
+                drainAmount = drainTable[index];
+                int drainedLevel = drainAmount;
                 player.skills().alterSkill(skillIndex, drainedLevel);
             }
             player.skills().alterSkill(Skills.MAGIC, magicResult);

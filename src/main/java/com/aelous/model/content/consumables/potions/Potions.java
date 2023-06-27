@@ -60,6 +60,7 @@ public class Potions {
         ANTIFIRE_POTION(-1, -1, -1, false, "antifire potion", 2452, 2454, 2456, 2458),
         EXTENDED_ANTIFIRE_POTION(-1, -1, -1, false, "extended antifire potion", 11951, 11953, 11955, 11957),
         GUTHIX_REST(-1, -1, -1, false, "guthix rest", 4417, 4419, 4421, 4423),
+        FORGOTTEN_BREW(-1, -1, -1, false, "forgotten brew", 27629, 27632, 27635, 27638),
         ZAMORAK_BREW(-1, -1, -1, false, "the foul liquid", 2450, 189, 191, 193),
         SUPER_ANTIFIRE(-1, -1, -1, false, "super antifire", 21978, 21981, 21984, 21987),
         EXTENDED_SUPER_ANTIFIRE(-1, -1, -1, false, "extended super antifire", 22209, 22212, 22215, 22218),
@@ -443,6 +444,25 @@ public class Potions {
             player.setRunningEnergy((double) player.getAttribOr(AttributeKey.RUN_ENERGY, 100.0) + 10.0, true);
         } else if (potion == Potion.SUPER_ENERGY_POTION) {
             player.setRunningEnergy((double) player.getAttribOr(AttributeKey.RUN_ENERGY, 100.0) + 20.0, true);
+        } else if (potion == Potion.FORGOTTEN_BREW) {
+            int prayerLevel = player.getSkills().level(Skills.PRAYER); // Replace 50 with the actual prayer level
+            int prayerResult = (int) (Math.floor(prayerLevel * (1.0 / 10)) + 2);
+            int magicLevel = player.getSkills().level(Skills.MAGIC); // Replace 70 with the actual magic level
+            int magicResult = (int) (Math.floor(magicLevel * (8.0 / 100)) + 3);
+            int[] drainSkills = {
+                Skills.ATTACK, Skills.STRENGTH, Skills.DEFENCE
+            };
+            int statDrainResult;
+            for (int skillIndex : drainSkills) {
+                int skillLevel = player.skills().level(skillIndex);
+
+                statDrainResult = Math.max(0, (skillLevel - 10) / 10) * -1 - 1;
+
+                int drainedLevel = statDrainResult;
+                player.skills().alterSkill(skillIndex, drainedLevel);
+            }
+            player.skills().alterSkill(Skills.MAGIC, magicResult);
+            player.skills().alterSkill(Skills.PRAYER, prayerResult);
         } else if (potion == Potion.GUTHIX_REST) {
             player.message("You drink the herbal tea.");
             // Source: https://www.youtube.com/watch?v=IskZmEHfFtM

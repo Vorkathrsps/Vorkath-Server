@@ -110,8 +110,7 @@ public class ObjectInteractionHandler implements PacketListener {
         player.stopActions(false);
         player.putAttrib(AttributeKey.INTERACTION_OBJECT, object);
         player.putAttrib(AttributeKey.INTERACTION_OPTION, finalOption);
-        GameObject finalObject = object;
-        player.getRouteFinder().routeObject(object, () -> handleAction(player, finalObject, finalOption));
+        player.getRouteFinder().routeObject(object, () -> handleAction(player, object, finalOption));
             x = object.getX();
             y = object.getY();
             final int sizeX = object.definition().sizeX;

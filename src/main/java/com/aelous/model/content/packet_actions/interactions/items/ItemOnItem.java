@@ -2,6 +2,9 @@ package com.aelous.model.content.packet_actions.interactions.items;
 
 import com.aelous.model.content.consumables.potions.Potions;
 import com.aelous.model.content.items.combine.*;
+import com.aelous.model.content.items.combine.crystal.CrystalAxe;
+import com.aelous.model.content.items.combine.crystal.CrystalHarpoon;
+import com.aelous.model.content.items.combine.crystal.CrystalPickaxe;
 import com.aelous.model.content.skill.impl.firemaking.LogLighting;
 import com.aelous.model.content.skill.impl.herblore.HerbTar;
 import com.aelous.model.content.skill.impl.herblore.PestleAndMortar;
@@ -80,6 +83,21 @@ public class ItemOnItem {
 
         if ((use.getId() == ELDRITCH_ORB || with.getId() == ELDRITCH_ORB) && (use.getId() == NIGHTMARE_STAFF || with.getId() == NIGHTMARE_STAFF)) {
             player.getDialogueManager().start(new EldritchNightmareStaff());
+            return;
+        }
+
+        if ((use.getId() == CRYSTAL_TOOL_SEED || with.getId() == CRYSTAL_TOOL_SEED) && (use.getId() == DRAGON_PICKAXE || with.getId() == DRAGON_PICKAXE)) {
+            player.getDialogueManager().start(new CrystalPickaxe());
+            return;
+        }
+
+        if ((use.getId() == CRYSTAL_TOOL_SEED || with.getId() == CRYSTAL_TOOL_SEED) && (use.getId() == DRAGON_HARPOON || with.getId() == DRAGON_HARPOON)) {
+            player.getDialogueManager().start(new CrystalHarpoon());
+            return;
+        }
+
+        if ((use.getId() == CRYSTAL_TOOL_SEED || with.getId() == CRYSTAL_TOOL_SEED) && (use.getId() == DRAGON_AXE || with.getId() == DRAGON_AXE)) {
+            player.getDialogueManager().start(new CrystalAxe());
             return;
         }
 

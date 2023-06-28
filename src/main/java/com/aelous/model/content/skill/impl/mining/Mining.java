@@ -47,6 +47,7 @@ public class Mining extends PacketInteraction {
         LOVAKITE(13356, "lovakite", 65, 210, 10.0, 40, 1300),
         ADAMANT(449, "adamant", 70, 310, 95.0, 300, 1300),
         RUNE(451, "rune", 85, 380, 125.0, 1500, 1000),
+        GEM_ROCKS(9030, "gem", 40, 75, 80.0, 1500, 1500),
         JAIL_BLURITE(668, "blurite", 1, 320, 0.0, 3, 1000000);
 
         public final int ore;
@@ -80,7 +81,8 @@ public class Mining extends PacketInteraction {
         DRAGON(11920, 42, 7139, 61),
         THIRD_AGE(20014, 42, 7283, 61),
         DRAGON_OR(12797, 42, 642, 61),
-        INFERNAL(13243, 42, 4482, 61);
+        INFERNAL(13243, 42, 4482, 61),
+        CRYSTAL_PICAXE(23680, 51, 8329, 71);
 
         public int id;
         public int points;

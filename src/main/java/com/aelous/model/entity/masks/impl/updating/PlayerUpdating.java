@@ -520,29 +520,19 @@ public class PlayerUpdating {
      * @param target    The player to update the single hit for.
      * @return The PlayerUpdating instance.
      */
-
-    /**
-     * // Tinted hitsplat
-     * boolean tinted = true;
-     * if (hit.getSource() != null && hit.getSource().equals(player)) {
-     * tinted = false;
-     * }
-     * if (hit.getTarget() != null && hit.getTarget().equals(player)) {
-     * tinted = false;
-     * }
-     * packet.put((tinted ? 1 : 0));
-     */
     private static void writehit1(PacketBuilder builder, Player player, Player otherPlayer, Player observer) {
         int count = Math.min(player.nextHits.size(), 4); // count
         builder.put(count);
-        for (int i = 0; i < count; i++) {
-            Hit hit = player.nextHits.get(i);
+        int playerHp = player.hp();
+        int playerMaxHp = player.maxHp();
+        for (Hit hit : player.nextHits.subList(0, count)) {
             builder.putShort(hit.getDamage());
             builder.put(hit.getMark(hit.getSource(), otherPlayer, observer));
-            builder.putShort(player.hp());
-            builder.putShort(player.maxHp());
+            builder.putShort(playerHp);
+            builder.putShort(playerMaxHp);
         }
     }
+
 
     /**
      * This update block is used to update a player's double hit.

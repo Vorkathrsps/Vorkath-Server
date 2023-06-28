@@ -23,13 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FragmentOfSeren extends CommonCombatMethod {
-
     private int attacks = 0;
     private boolean tornadoAttack = false;
     private NpcDefinition def;
     private int hp;
     private NPCCombatInfo combatInfo;
-
     public int hp() {
         return hp;
     }
@@ -125,7 +123,7 @@ public class FragmentOfSeren extends CommonCombatMethod {
                 p.hit(entity, CombatFactory.calcDamageFromType(entity, p, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
             }
         }));
-        entity.setPositionToFace(target.tile()); // Go back to facing the target.
+        entity.setPositionToFace(target.tile());
     }
 
     private void hideAttack() {

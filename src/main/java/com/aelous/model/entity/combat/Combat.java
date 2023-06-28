@@ -6,6 +6,7 @@ import com.aelous.model.entity.combat.formula.accuracy.test.HitListener;
 import com.aelous.model.entity.combat.formula.maxhit.MagicMaxHit;
 import com.aelous.model.entity.combat.formula.maxhit.MeleeMaxHit;
 import com.aelous.model.entity.combat.formula.maxhit.RangeMaxHit;
+import com.aelous.model.entity.combat.formula.maxhit.RangedMaxHitFormula;
 import com.aelous.model.entity.combat.hit.HitDamageCache;
 import com.aelous.model.entity.combat.hit.HitQueue;
 import com.aelous.model.entity.combat.magic.CombatSpell;
@@ -145,32 +146,34 @@ public class Combat {
     }
 
     public int getMaximumMeleeDamage() {
-        //NPC have their own max hits
         if (mob.isNpc()) {
             return mob.getAsNpc().getCombatInfo() == null ? 0 : mob.getAsNpc().getCombatInfo().maxhit;
         }
-        //PvP max hit
+
         if (mob.isPlayer() && target != null && target.isNpc() && target.getAsNpc().id() == UNDEAD_COMBAT_DUMMY) {
             return MeleeMaxHit.maxHit(mob.getAsPlayer(), false);
         }
-        //PvM max hit
+
         return MeleeMaxHit.maxHit(mob.getAsPlayer(), true);
     }
 
     /**
      * The maximum range hit
      *
-     * @param ignoreArrowRangeStr Checks if we are ignoring arrows equipment
      * @return The max hit
      */
-    public int getMaximumRangedDamage(boolean ignoreArrowRangeStr) {
-        if (mob.isNpc()) {
-            return mob.getAsNpc().getCombatInfo() == null ? 0 : mob.getAsNpc().getCombatInfo().maxhit;
+    public int getMaximumRangedDamage() {
+        RangedMaxHitFormula maxHitFormula = new RangedMaxHitFormula();
+
+        if (mob instanceof NPC npc) {
+            return npc.getCombatInfo() != null ? npc.getCombatInfo().maxhit : 0;
         }
-        if (mob.isPlayer() && target.isNpc() && target.getAsNpc().id() == UNDEAD_COMBAT_DUMMY) {
-            return RangeMaxHit.maxHit(mob.getAsPlayer(), mob.getAsPlayer().getCombat().target, ignoreArrowRangeStr, false);
+
+        if (target instanceof NPC npc && mob instanceof Player player && npc.id() == UNDEAD_COMBAT_DUMMY) {
+            return maxHitFormula.calculateMaximumHit(player, player.isSpecialActivated());
         }
-        return RangeMaxHit.maxHit(mob.getAsPlayer(), mob.getAsPlayer().getCombat().target, ignoreArrowRangeStr, true);
+
+        return maxHitFormula.calculateMaximumHit(mob.getAsPlayer(), mob.getAsPlayer().isSpecialActivated());
     }
 
     private void applyTeleBlockImmunity() {

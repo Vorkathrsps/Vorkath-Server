@@ -119,7 +119,7 @@ public class ObjectInteractionHandler implements PacketListener {
     }
 
     private void handleAction(Player player, GameObject object, int option) {
-        
+
         if (object == null || object.definition() == null) {
             logger.error("ObjectDefinition for object {} is null for player " + player.toString() + ".", box(Objects.requireNonNull(object).getId()));
             return;

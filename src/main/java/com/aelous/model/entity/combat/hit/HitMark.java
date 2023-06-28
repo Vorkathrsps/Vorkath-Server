@@ -1,6 +1,7 @@
 package com.aelous.model.entity.combat.hit;
 
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.player.Player;
 import lombok.Getter;
 
@@ -16,7 +17,7 @@ public enum HitMark {
     VENOM(3, 3),
     HEALED(5, 5),
     VERZIK_SHIELD_HITSPLAT(6, 6),
-    MAX_HIT(18, 1),
+    MAX_HIT(18, 11),
     YELLOW_TINTED_UP(12, -1),
     PURPLE_DOWN(16, 17);
 
@@ -24,19 +25,24 @@ public enum HitMark {
     private final int primary_mark;
     @Getter
     private final int secondary_mark;
-    public static final HitMark[] values = values();
 
     HitMark(int primary_mark, int secondary_mark) {
         this.primary_mark = primary_mark;
         this.secondary_mark = secondary_mark;
     }
 
-    public int getObservedType(boolean maxHit, Entity source, Entity target, Player observer) {
-        if (maxHit && source == observer) {
-            return MAX_HIT.primary_mark;
-        } else if (source == observer || target == observer) {
+    public int getObservedType(Hit hit, Entity source, Entity target, Player observer, boolean isMaxHit) {
+        if (source == observer) {
+            if (isMaxHit) {
+                return MAX_HIT.primary_mark;
+            }
+        }
+        if (source == observer || target == observer) {
+            if (hit.getDamage() == 0) {
+                return MISSED.primary_mark;
+            }
             return primary_mark;
         }
-        return secondary_mark;
+        return hit.getDamage() == 0 ? MISSED.secondary_mark : secondary_mark;
     }
 }

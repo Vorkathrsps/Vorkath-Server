@@ -340,12 +340,13 @@ public class NPCUpdating {
     private static void updateSingleHit(PacketBuilder builder, NPC npc, Player player) {
         int count = Math.min(npc.nextHits.size(), 4); // count
         builder.put(count);
-        for (int i = 0; i < count; i++) {
-            Hit hit = npc.nextHits.get(i);
+        int npcHp = npc.hp();
+        int npcMaxHp = npc.getCombatInfo() == null ? 1 : npc.getCombatInfo().stats == null ? 1 : npc.getCombatInfo().stats.hitpoints;
+        for (Hit hit : npc.nextHits.subList(0, count)) {
             builder.putShort(hit.getDamage());
-            builder.put(hit.getMark(hit.getSource(), hit.getTarget(),player));
-            builder.putShort(npc.hp());
-            builder.putShort(npc.getCombatInfo() == null ? 1 : npc.getCombatInfo().stats == null ? 1 : npc.getCombatInfo().stats.hitpoints);
+            builder.put(hit.getMark(hit.getSource(), hit.getTarget(), player));
+            builder.putShort(npcHp);
+            builder.putShort(npcMaxHp);
         }
     }
 }

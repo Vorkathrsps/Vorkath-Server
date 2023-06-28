@@ -41,18 +41,21 @@ public class FormulaUtils {
         return false;
     }
 
+    static int[] undeadNpcs = new int[]{NpcIdentifiers.ABERRANT_SPECTRE, NpcIdentifiers.ABHORRENT_SPECTRE, NpcIdentifiers.ANKOU, NpcIdentifiers.ANKOU_2515, NpcIdentifiers.ANKOU_2516, NpcIdentifiers.ANKOU_2517, NpcIdentifiers.ANKOU_2518, NpcIdentifiers.ANKOU_2519, NpcIdentifiers.ANKOU_2516, NpcIdentifiers.ASYN_SHADE, NpcIdentifiers.ASYN_SHADOW, NpcIdentifiers.ASYN_SHADOW_5632, NpcIdentifiers.BANSHEE, NpcIdentifiers.VETION, NpcIdentifiers.VETION_REBORN, NpcIdentifiers.CRAWLING_HAND, NpcIdentifiers.CRAWLING_HAND_449, NpcIdentifiers.CRAWLING_HAND_448, NpcIdentifiers.CRAWLING_HAND_451, NpcIdentifiers.CRAWLING_HAND_453, NpcIdentifiers.CRAWLING_HAND_452, NpcIdentifiers.CRUSHING_HAND, NpcIdentifiers.DARK_ANKOU, NpcIdentifiers.DEVIANT_SPECTRE, NpcIdentifiers.FIYR_SHADE, NpcIdentifiers.FIYR_SHADOW, NpcIdentifiers.FORGOTTEN_SOUL, NpcIdentifiers.FORGOTTEN_SOUL_10524, NpcIdentifiers.FORGOTTEN_SOUL_10526, NpcIdentifiers.FORGOTTEN_SOUL_10525, NpcIdentifiers.GHOST, NpcIdentifiers.GHOST_86, NpcIdentifiers.GHOST_87, NpcIdentifiers.GHOST_88, NpcIdentifiers.GHOST_89, NpcIdentifiers.GHOST_90, NpcIdentifiers.GHOST_91, NpcIdentifiers.GHOST_92, NpcIdentifiers.GHOST_93, NpcIdentifiers.GIANT_SKELETON, NpcIdentifiers.GIANT_SKELETON_681, NpcIdentifiers.GIANT_SKELETON_6440, NpcIdentifiers.HEADLESS_BEAST, NpcIdentifiers.HEADLESS_BEAST_10506, NpcIdentifiers.HEADLESS_BEAST_HARD, NpcIdentifiers.LOAR_SHADE, NpcIdentifiers.LOAR_SHADOW, NpcIdentifiers.MONKEY_ZOMBIE, NpcIdentifiers.MONKEY_ZOMBIE_5283, NpcIdentifiers.MONKEY_ZOMBIE_5282, NpcIdentifiers.MUMMY, NpcIdentifiers.MUMMY_721, NpcIdentifiers.MUMMY_722, NpcIdentifiers.MUMMY_723, NpcIdentifiers.MUMMY_724, NpcIdentifiers.MUMMY_725, NpcIdentifiers.PESTILENT_BLOAT, NpcIdentifiers.PESTILENT_BLOAT_10812, NpcIdentifiers.PESTILENT_BLOAT_11184, NpcIdentifiers.PESTILENT_BLOAT_10813, NpcIdentifiers.PHRIN_SHADE, NpcIdentifiers.PHRIN_SHADOW, NpcIdentifiers.REPUGNANT_SPECTRE, NpcIdentifiers.REVENANT_CYCLOPS, NpcIdentifiers.REVENANT_DARK_BEAST, NpcIdentifiers.REVENANT_DEMON, NpcIdentifiers.REVENANT_DRAGON, NpcIdentifiers.REVENANT_GOBLIN, NpcIdentifiers.REVENANT_HELLHOUND, NpcIdentifiers.REVENANT_HOBGOBLIN, NpcIdentifiers.REVENANT_IMP, NpcIdentifiers.REVENANT_KNIGHT, NpcIdentifiers.REVENANT_MALEDICTUS, NpcIdentifiers.REVENANT_ORK, NpcIdentifiers.REVENANT_PYREFIEND, NpcIdentifiers.SKELETAL_MYSTIC, NpcIdentifiers.SKELETAL_MYSTIC_7605, NpcIdentifiers.SKELETAL_MYSTIC_7605, NpcIdentifiers.SKELETON_HELLHOUND, NpcIdentifiers.SKELETON_HELLHOUND_6387, NpcIdentifiers.SKELETON_HELLHOUND_6613, NpcIdentifiers.SKELETON_MAGE, NpcIdentifiers.SKELETON_MAGE_4312, NpcIdentifiers.SKELETON_MAGE_4318, NpcIdentifiers.SLASH_BASH, NpcIdentifiers.TARN, NpcIdentifiers.MUTANT_TARN, NpcIdentifiers.TARN_6476, NpcIdentifiers.UNDEAD_DRUID, NpcIdentifiers.ULFRIC, NpcIdentifiers.VORKATH, NpcIdentifiers.VORKATH_8059, NpcIdentifiers.VORKATH_8060, NpcIdentifiers.VORKATH_8061, NpcIdentifiers.VORKATH_8058, NpcIdentifiers.ZOMBIFIED_SPAWN, NpcIdentifiers.ZOMBIFIED_SPAWN_8063};
     public static boolean isUndead(Entity target) {
         if (target.isNpc()) {
             NPC npc = target.getAsNpc();
-            NpcDefinition def = npc.def();
-            String name = "";
-            if (def != null) {
-                name = def.name;
+            int npcId = npc.id();
+
+            for (int undead : undeadNpcs) {
+                if (npcId == undead) {
+                    return true;
+                }
             }
-            return name.equalsIgnoreCase("ancient revenant") || name.equalsIgnoreCase("revenant") || name.equalsIgnoreCase("Aberrant spectre") || name.equalsIgnoreCase("Ankou") || name.equalsIgnoreCase("Banshee") || name.equalsIgnoreCase("Crawling Hand") || name.equalsIgnoreCase("Ghast") || name.equalsIgnoreCase("Ghost") || name.equalsIgnoreCase("Mummy") || name.contains("revenant") || name.equalsIgnoreCase("Shade") || name.equalsIgnoreCase("Skeleton") || name.equalsIgnoreCase("Skogre") || name.equalsIgnoreCase("Summoned Zombie") || name.equalsIgnoreCase("Tortured soul") || name.equalsIgnoreCase("Undead chicken") || name.equalsIgnoreCase("Undead cow") || name.equalsIgnoreCase("Undead one") || name.equalsIgnoreCase("Zogre") || name.equalsIgnoreCase("Zombified Spawn") || name.equalsIgnoreCase("Zombie") || name.equalsIgnoreCase("Zombie rat") || name.equalsIgnoreCase("Vet'ion") || name.equalsIgnoreCase("Ahrim the Blighted") || name.equalsIgnoreCase("Dharok the Wretched") || name.equalsIgnoreCase("Guthan the Infested") || name.equalsIgnoreCase("Karil the Tainted") || name.equalsIgnoreCase("Torag the Corrupted") || name.equalsIgnoreCase("Verac the Defiled") || name.equalsIgnoreCase("Pestilent Bloat") || name.equalsIgnoreCase("Mi-Gor") || name.equalsIgnoreCase("Treus Dayth") || name.equalsIgnoreCase("Nazastarool") || name.equalsIgnoreCase("Slash Bash") || name.equalsIgnoreCase("Ulfric") || name.equalsIgnoreCase("Vorkath");
         }
         return false;
     }
+
 
     public static int[] isRevenant() {
         return new int[]{NpcIdentifiers.REVENANT_HELLHOUND, NpcIdentifiers.REVENANT_IMP,
@@ -166,6 +169,26 @@ public class FormulaUtils {
     public static boolean hasThammaronSceptre(Player player) {
         ItemContainer eq = player.getEquipment();
         return (eq.hasAt(EquipSlot.WEAPON, 22555) && (WildernessArea.inWild(player)));
+    }
+
+    public static boolean hasSlayerHelmet(Player player) {
+        return player.getEquipment().containsAny(SLAYER_HELMET, SLAYER_HELMET_I, SLAYER_HELMET_I_25177, SLAYER_HELMET_I_26674, BLACK_SLAYER_HELMET, GREEN_SLAYER_HELMET, BLACK_SLAYER_HELMET_I, PURPLE_SLAYER_HELMET, RED_SLAYER_HELMET, RED_SLAYER_HELMET_I, PURPLE_SLAYER_HELMET_I, TURQUOISE_SLAYER_HELMET, HYDRA_SLAYER_HELMET, TURQUOISE_SLAYER_HELMET_I, HYDRA_SLAYER_HELMET_I, TWISTED_SLAYER_HELMET, TWISTED_SLAYER_HELMET_I, TZKAL_SLAYER_HELMET, TZKAL_SLAYER_HELMET_I, TZTOK_SLAYER_HELMET, TZTOK_SLAYER_HELMET_I, VAMPYRIC_SLAYER_HELMET_I, VAMPYRIC_SLAYER_HELMET);
+    }
+
+    public static boolean hasSalveAmulet(Player player) {
+        return player.getEquipment().contains(SALVE_AMULET);
+    }
+
+    public static boolean hasSalveAmuletI(Player player) {
+        return player.getEquipment().containsAny(SALVE_AMULETI, SALVE_AMULETI_25250, SALVE_AMULETI_26763);
+    }
+
+    public static boolean hasSalveAmuletE(Player player) {
+        return player.getEquipment().contains(SALVE_AMULET_E);
+    }
+
+    public static boolean hasSalveAmuletEI(Player player) {
+        return player.getEquipment().containsAny(SALVE_AMULETEI, SALVE_AMULETEI_25278, SALVE_AMULETEI_26782);
     }
 
     public static boolean hasCrawsBow(Player player) {

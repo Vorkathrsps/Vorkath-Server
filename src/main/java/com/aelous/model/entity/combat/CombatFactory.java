@@ -231,10 +231,8 @@ public class CombatFactory {
      * @param type     the combat type being used.
      * @return the HitDamage.
      */
+    static int max_damage;
     public static int calcDamageFromType(Entity attacker, Entity target, CombatType type) {
-        int max_damage = 1;
-
-        //We have a null typ, ignore.
         if (type == null) {
             return 0;
         }
@@ -253,10 +251,12 @@ public class CombatFactory {
                     Player p = attacker.getAsPlayer();
                     RangedWeapon rangeWeapon = p.getCombat().getRangedWeapon();
                     boolean ignoreArrows = rangeWeapon != null && rangeWeapon.ignoreArrowsSlot();
-
-                    max_damage = p.getCombat().getMaximumRangedDamage(ignoreArrows);
+                    max_damage = p.getCombat().getMaximumRangedDamage();
+                    if (p.getCombat().getWeaponType() == WeaponType.CROSSBOW) {
+                        max_damage = ammunitionDamageListener.triggerAmmunitionDamageModification(p, target, type, max_damage);
+                    }
                 } else {
-                    max_damage = attacker.getCombat().getMaximumRangedDamage(true);
+                    max_damage = attacker.getCombat().getMaximumRangedDamage();
                 }
             }
             case MAGIC -> max_damage = attacker.getCombat().getMaximumMagicDamage();
@@ -272,19 +272,6 @@ public class CombatFactory {
         if (target != null && target.isNpc() && target.getAsNpc().isCombatDummy()) {
             CombatSpell spell = attacker.getCombat().getCastSpell() != null ? attacker.getCombat().getCastSpell() : attacker.getCombat().getAutoCastSpell() != null ? attacker.getCombat().getAutoCastSpell() : attacker.getCombat().getPoweredStaffSpell() != null ? attacker.getCombat().getPoweredStaffSpell() : null;
             damage = spell == CombatSpells.CRUMBLE_UNDEAD.getSpell() ? target.hp() : max_damage;
-        }
-
-        if (type == CombatType.MELEE) {
-
-        } else if (type == CombatType.RANGED) {
-            if (attacker.isPlayer()) {
-                Player player = attacker.getAsPlayer();
-                if (player.getCombat().getWeaponType() == WeaponType.CROSSBOW) {
-                    damage = ammunitionDamageListener.triggerAmmunitionDamageModification(player, target, type, damage);
-                }
-            }
-        } else if (type == CombatType.MAGIC) {
-
         }
 
         if (target != null && target.isNpc() && attacker.isPlayer()) {
@@ -761,7 +748,7 @@ public class CombatFactory {
         }
 
         if ((other.isNpc() && other.getAsNpc().getCombatMethod() != null && other.getAsNpc().getCombatMethod().canMultiAttackInSingleZones())
-                || (entity.isNpc() && entity.getAsNpc().getCombatMethod() != null && entity.getAsNpc().getCombatMethod().canMultiAttackInSingleZones())) {
+            || (entity.isNpc() && entity.getAsNpc().getCombatMethod() != null && entity.getAsNpc().getCombatMethod().canMultiAttackInSingleZones())) {
             return true;
         }
 
@@ -1070,9 +1057,6 @@ public class CombatFactory {
             target.getAsPlayer().getPacketSender().sendInterfaceRemoval();
         }
 
-        // Before target takes damage, manipulate the hit to handle
-        // last-second effects
-
         if (attacker instanceof Player a)
             triggerAttacker.triggerEffectForAttacker(a, combatType, hit);
         if (target instanceof Player t)
@@ -1131,6 +1115,7 @@ public class CombatFactory {
 
         if (hit.postDamage != null)
             hit.postDamage.accept(hit);
+
         CombatMethod method = CombatFactory.getMethod(target);
         if (method instanceof CommonCombatMethod o) {
             o.postDamage(hit);
@@ -1190,27 +1175,26 @@ public class CombatFactory {
                 }
 
                 if (npc.getMobName().contains("turoth") || npc.getMobName().contains("kurask")) {
-                    boolean block = false;
                     boolean leafbladedWeapon = attackerAsPlayer.getEquipment().contains(ItemIdentifiers.LEAFBLADED_SWORD) || attackerAsPlayer.getEquipment().contains(ItemIdentifiers.LEAFBLADED_BATTLEAXE) || attackerAsPlayer.getEquipment().contains(ItemIdentifiers.LEAFBLADED_SPEAR);
                     boolean leafbladedAmmo = attackerAsPlayer.getEquipment().getId(EquipSlot.AMMO) == BROAD_BOLTS || attackerAsPlayer.getEquipment().getId(EquipSlot.AMMO) == AMETHYST_BROAD_BOLTS || attackerAsPlayer.getEquipment().getId(EquipSlot.AMMO) == BROAD_ARROWS_4160;
                     boolean magicDart = attackerAsPlayer.getCombat().getCastSpell().spellId() == CombatSpells.MAGIC_DART.getSpell().spellId();
                     if (hit.getCombatType() == CombatType.MELEE && !leafbladedWeapon) {
-                        block = true;
+                        hit.block();
+                        attackerAsPlayer.message("This monster is only vulnerable to leaf-bladed melee weapons and broad ammunition.");
                     } else if (hit.getCombatType() == CombatType.RANGED && !leafbladedAmmo) {
-                        block = true;
+                        hit.block();
+                        attackerAsPlayer.message("This monster is only vulnerable to leaf-bladed melee weapons and broad ammunition.");
                     } else if (hit.getCombatType() == CombatType.MAGIC && !magicDart) {
-                        block = true;
-                    }
-
-                    if (block) {
-                        hit.setDamage(0);
+                        hit.block();
                         attackerAsPlayer.message("This monster is only vulnerable to leaf-bladed melee weapons and broad ammunition.");
                     }
+
                 }
 
                 //Dustdevil
                 if (npc.id() == NpcIdentifiers.DUST_DEVIL || npc.id() == NpcIdentifiers.DUST_DEVIL_7249 || npc.id() == NpcIdentifiers.CHOKE_DEVIL) {
                     if (attackerAsPlayer.getEquipment().getId(EquipSlot.HEAD) != FACEMASK && !attackerAsPlayer.getEquipment().wearingSlayerHelm()) {
+                        hit.block();
                         hit.setDamage(0);
                         attackerAsPlayer.message("Blinded by the monster's dust, you miss your attack!");
                     }
@@ -1373,6 +1357,9 @@ public class CombatFactory {
             AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_IV, hit.getDamage());
         }
 
+        if (damage >= max_damage) {
+            hit.setMaxHit(true);
+        }
         target.decrementHealth(hit);
     }
 

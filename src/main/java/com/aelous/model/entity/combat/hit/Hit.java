@@ -7,8 +7,6 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.aelous.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.aelous.model.entity.combat.formula.accuracy.RangeAccuracy;
-import com.aelous.model.entity.combat.formula.maxhit.MeleeMaxHit;
-import com.aelous.model.entity.combat.formula.maxhit.RangeMaxHit;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.method.CombatMethod;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
@@ -18,8 +16,6 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.PlayerStatus;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -111,15 +107,6 @@ public class Hit {
         return attacker;
     }
 
-    public boolean maxHit(Player player) {
-        CombatType combatType = player.getCombat().getCombatType() != null ? player.getCombat().getCombatType() : null;
-        switch (Objects.requireNonNull(combatType)) {
-            case MELEE -> MeleeMaxHit.maxHit(player, false);
-            case RANGED -> RangeMaxHit.maxHit(player, target, true, false);
-            case MAGIC -> player.getCombat().getMaximumMagicDamage();
-        }
-        return false;
-    }
 
 
     /**
@@ -203,7 +190,7 @@ public class Hit {
         return --delay;
     }
 
-    public int getDamage() {
+    public final int getDamage() {
         return damage;
     }
 
@@ -219,6 +206,8 @@ public class Hit {
     public void setDamage(int damage) {
         this.damage = damage;
     }
+
+    @Getter @Setter public static boolean isMaxHit;
 
     public Hit damageModifier(double damageModifier) {
         this.damage += damageModifier;
@@ -386,11 +375,7 @@ public class Hit {
     private HitMark hitMark;
 
     public int getMark(Entity source, Entity target, Player observer) {
-        if (damage == 0) {
-            return HitMark.MISSED.getObservedType(false, source, target, observer);
-        }
-        //maxHit(observer)
-        return hitMark.getObservedType(false, source, target, observer);
+        return hitMark.getObservedType(this, source, target, observer, this.isMaxHit);
     }
 }
 

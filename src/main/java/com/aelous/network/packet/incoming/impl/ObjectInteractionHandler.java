@@ -1,20 +1,14 @@
 package com.aelous.network.packet.incoming.impl;
 
 import com.aelous.GameServer;
-import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
-import com.aelous.model.World;
 import com.aelous.model.content.skill.impl.smithing.Bar;
 import com.aelous.model.content.skill.impl.smithing.EquipmentMaking;
-import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.masks.impl.animations.Animation;
-import com.aelous.model.entity.npc.impl.MaxHitDummyNpc;
 import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.tradingpost.TradingPost;
 import com.aelous.model.map.object.GameObject;
-import com.aelous.model.map.object.MapObjects;
-import com.aelous.model.map.object.ObjectManager;
 import com.aelous.model.map.position.Tile;
 import com.aelous.network.packet.Packet;
 import com.aelous.network.packet.PacketListener;
@@ -24,15 +18,10 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.Optional;
 
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.OPEN_CHEST_3194;
 import static org.apache.logging.log4j.util.Unbox.box;
 
-/**
- * @author Ynneh | 14/04/2022 - 00:18
- * <https://github.com/drhenny>
- */
 public class ObjectInteractionHandler implements PacketListener {
 
     private static final Logger logger = LogManager.getLogger(ObjectInteractionHandler.class);
@@ -42,51 +31,60 @@ public class ObjectInteractionHandler implements PacketListener {
 
         int opcode = packet.getOpcode();
 
-        int x = -1, y = -1, id = -1, option = -1;
-
-        if (opcode == 132) {
-            x = packet.readLEShortA();
-            id = packet.readInt();
-            y = packet.readUnsignedShortA();
-            option = 1;
-        }
-
-        if (opcode == 252) {
-            x = packet.readLEShortA();
-            id = packet.readInt();
-            y = packet.readUnsignedShortA();
-            option = 2;
-        }
-
-        if (opcode == 70) {
-            x = packet.readLEShort();
-            y = packet.readShort();
-            id = packet.readInt();
-            option = 3;
-        }
-
-        if (opcode == 228) {
-            x = packet.readLEShortA();
-            id = packet.readInt();
-            y = packet.readLEShortA();
-            option = 4;
-        }
-
-        if (opcode == -1)
+        if (opcode == -1) {
             return;
+        }
 
+        switch (opcode) {
+            case 132 -> handlePacket132(player, packet);
+            case 252 -> handlePacket252(player, packet);
+            case 70 -> handlePacket70(player, packet);
+            case 228 -> handlePacket228(player, packet);
+            default -> {
+            }
+        }
+    }
+
+    private void handlePacket132(Player player, Packet packet) {
+        int x = packet.readLEShortA();
+        int id = packet.readInt();
+        int y = packet.readUnsignedShortA();
+        int option = 1;
+        handleObjectInteraction(player, x, y, id, option);
+    }
+
+    private void handlePacket252(Player player, Packet packet) {
+        int x = packet.readLEShortA();
+        int id = packet.readInt();
+        int y = packet.readUnsignedShortA();
+        int option = 2;
+        handleObjectInteraction(player, x, y, id, option);
+    }
+
+    private void handlePacket70(Player player, Packet packet) {
+        int x = packet.readLEShort();
+        int y = packet.readShort();
+        int id = packet.readInt();
+        int option = 3;
+        handleObjectInteraction(player, x, y, id, option);
+    }
+
+    private void handlePacket228(Player player, Packet packet) {
+        int x = packet.readLEShortA();
+        int id = packet.readInt();
+        int y = packet.readLEShortA();
+        int option = 4;
+        handleObjectInteraction(player, x, y, id, option);
+    }
+
+    private void handleObjectInteraction(Player player, int x, int y, int id, int option) {
         int height = player.tile().getLevel();
-
         var tile = Tile.get(x, y, height);
         var object = tile == null ? null : tile.getObject(id, -1, -1);
 
         player.debug("click obj %s at %s option %d", tile, object, option);
 
-        if (tile == null)
-            return;
-
-
-        if (player.dead() || player.busy() || player.locked() || object == null)
+        if (tile == null || player.dead() || player.busy() || player.locked() || object == null)
             return;
 
         if (!player.getBankPin().hasEnteredPin() && GameServer.properties().requireBankPinOnLogin) {
@@ -101,44 +99,38 @@ public class ObjectInteractionHandler implements PacketListener {
 
         player.afkTimer.reset();
 
-        int finalOption = option;
-
         if (object.definition() == null) {
             logger.error("ObjectDefinition for object {} is null for player " + player.toString() + ".", box(id));
             return;
         }
+
         player.stopActions(false);
         player.putAttrib(AttributeKey.INTERACTION_OBJECT, object);
-        player.putAttrib(AttributeKey.INTERACTION_OPTION, finalOption);
-        player.getRouteFinder().routeObject(object, () -> handleAction(player, object, finalOption));
-            x = object.getX();
-            y = object.getY();
-            final int sizeX = object.definition().sizeX;
-            final int sizeY = object.definition().sizeY;
-            boolean inversed = (object.getRotation() & 0x1) != 0;
-            int faceCoordX = x * 2 + (inversed ? sizeY : sizeX);
-            int faceCoordY = y * 2 + (inversed ? sizeX : sizeY);
-            Tile position = new Tile(faceCoordX, faceCoordY);
-            player.getCombat().reset();
-            player.setPositionToFace(position);
+        player.putAttrib(AttributeKey.INTERACTION_OPTION, option);
+        player.getRouteFinder().routeObject(object, () -> handleAction(player, object, option));
+        int sizeX = object.definition().sizeX;
+        int sizeY = object.definition().sizeY;
+        boolean inversed = (object.getRotation() & 0x1) != 0;
+        int faceCoordX = x * 2 + (inversed ? sizeY : sizeX);
+        int faceCoordY = y * 2 + (inversed ? sizeX : sizeY);
+        Tile position = new Tile(faceCoordX, faceCoordY);
+        player.getCombat().reset();
+        player.setPositionToFace(position);
     }
 
     private void handleAction(Player player, GameObject object, int option) {
-        /** Definitions **/
+        
         if (object == null || object.definition() == null) {
             logger.error("ObjectDefinition for object {} is null for player " + player.toString() + ".", box(Objects.requireNonNull(object).getId()));
             return;
         }
 
-        /** Override handler **/
         if (PacketInteractionManager.checkObjectInteraction(player, object, option))
             return;
 
-        /** Controller **/
         if (player.getController() != null && player.getController().handleObjectClick(player, object, option))
             return;
 
-        /** Object name **/
         final String name = object.definition().name;
 
         if (object.definition().id == 10556 || object.definition().id == 21177) {

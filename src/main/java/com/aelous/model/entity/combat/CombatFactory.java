@@ -307,10 +307,10 @@ public class CombatFactory {
 
             if (attacker.isPlayer() && target.getAsNpc().id() == (NpcIdentifiers.CORPOREAL_BEAST)) {
                 if (!attacker.getAsPlayer().getCombat().getCombatType().equals(CombatType.MAGIC)) {
-                    if (!attacker.getCombat().getFightType().getAttackType().equals(AttackType.STAB) &&
-                        !FormulaUtils.wearingSpearsOrHalberds(player)) {
-                        damage = (int) Math.floor(damage * 0.5F);
-                    }
+                if (!attacker.getCombat().getFightType().getAttackType().equals(AttackType.STAB) &&
+                    !FormulaUtils.wearingSpearsOrHalberds(player)) {
+                    damage = (int) Math.floor(damage * 0.5F);
+                }
                 }
             }
         }
@@ -319,7 +319,6 @@ public class CombatFactory {
 
             if (target.isPlayer()) {
                 Player player = (Player) target;
-                // Under 10% hp, hit won't kill us
                 if (player.hp() - damage > 0 && player.hp() <= player.getSkills().xpLevel(Skills.HITPOINTS) / 10) {
                     boolean ring = player.getEquipment().contains(2570);
 
@@ -1358,6 +1357,7 @@ public class CombatFactory {
         if (damage >= hit.getMaximumHit()) {
             hit.setMaxHit(true);
         }
+
         target.decrementHealth(hit);
     }
 

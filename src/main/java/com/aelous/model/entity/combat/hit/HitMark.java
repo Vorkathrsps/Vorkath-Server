@@ -32,10 +32,8 @@ public enum HitMark {
     }
 
     public int getObservedType(Hit hit, Entity source, Entity target, Player observer, boolean isMaxHit) {
-        if (source == observer) {
-            if (isMaxHit) {
-                return MAX_HIT.primary_mark;
-            }
+        if (isMaxHit && source == observer) {
+            return MAX_HIT.primary_mark;
         }
         if (source == observer || target == observer) {
             if (hit.getDamage() == 0) {

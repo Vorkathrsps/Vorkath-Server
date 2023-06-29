@@ -13,6 +13,7 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
+import com.aelous.model.map.position.areas.impl.WildernessArea;
 
 import static com.aelous.utility.ItemIdentifiers.*;
 
@@ -92,6 +93,10 @@ public class RangedMaxHitFormula {
             otherBonus = 1.05;
         }
 
+        if (player.isSpecialActivated() && FormulaUtils.wearingDarkBowWithDragonArrows(player)) {
+            otherBonus *= 1.02;
+        }
+
         Item weapon = player.getEquipment().get(EquipSlot.WEAPON);
         Entity target = player.getCombat().getTarget();
 
@@ -109,6 +114,10 @@ public class RangedMaxHitFormula {
                 } else if (FormulaUtils.hasSalveAmuletE(player) || FormulaUtils.hasSalveAmuletEI(player) || FormulaUtils.hasSalveAmuletI(player)) {
                     otherBonus *= 1.20;
                 }
+            }
+
+            if (FormulaUtils.hasRangedWildernessWeapon(player) && WildernessArea.inWild(player)) {
+                otherBonus *= 1.50;
             }
         }
 

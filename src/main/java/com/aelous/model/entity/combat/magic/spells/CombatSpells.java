@@ -2786,7 +2786,7 @@ CombatSpells {
 
         @Override
         public int baseMaxHit() {
-            return 28;
+            return 20;
         }
 
         @Override
@@ -2827,7 +2827,7 @@ CombatSpells {
 
         @Override
         public int baseMaxHit() {
-            return 31;
+            return 24;
         }
 
         @Override
@@ -2868,7 +2868,7 @@ CombatSpells {
 
         @Override
         public int baseMaxHit() {
-            return 32;
+            return 26;
         }
 
         @Override
@@ -2923,7 +2923,7 @@ CombatSpells {
 
         @Override
         public int baseMaxHit() {
-            return 0;
+            return 29;
         }
 
         @Override
@@ -3005,7 +3005,7 @@ CombatSpells {
 
         @Override
         public int baseMaxHit() {
-            return 0;
+            return 17;
         }
 
         @Override

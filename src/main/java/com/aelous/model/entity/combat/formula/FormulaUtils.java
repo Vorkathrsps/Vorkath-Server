@@ -104,6 +104,10 @@ public class FormulaUtils {
         return player.getEquipment().containsAny(CRAWS_BOW, WEBWEAVER_BOW);
     }
 
+    public static boolean wearingDarkBowWithDragonArrows(Player player) {
+        return player.getEquipment().containsAll(DARK_BOW, DRAGON_ARROW) || player.getEquipment().containsAll(DARK_BOW_BH, DRAGON_ARROW);
+    }
+
     public static boolean hasMagicWildernessWeapon(Player player) {
         return player.getEquipment().containsAny(THAMMARONS_SCEPTRE, ACCURSED_SCEPTRE_A);
     }

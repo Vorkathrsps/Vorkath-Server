@@ -3,10 +3,7 @@ package com.aelous.model.entity.combat;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.formula.accuracy.test.HitListener;
-import com.aelous.model.entity.combat.formula.maxhit.MagicMaxHit;
-import com.aelous.model.entity.combat.formula.maxhit.MeleeMaxHit;
-import com.aelous.model.entity.combat.formula.maxhit.RangeMaxHit;
-import com.aelous.model.entity.combat.formula.maxhit.RangedMaxHitFormula;
+import com.aelous.model.entity.combat.formula.maxhit.*;
 import com.aelous.model.entity.combat.hit.HitDamageCache;
 import com.aelous.model.entity.combat.hit.HitQueue;
 import com.aelous.model.entity.combat.magic.CombatSpell;
@@ -44,6 +41,7 @@ import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.Map.Entry;
 
+import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.COMBAT_DUMMY;
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.UNDEAD_COMBAT_DUMMY;
 import static com.aelous.model.content.daily_tasks.DailyTaskUtility.DAILY_TASK_MANAGER_INTERFACE;
 import static com.aelous.model.entity.Entity.accumulateRuntimeTo;
@@ -131,19 +129,17 @@ public class Combat {
     public void delayAttack(int ticks) {
         mob.getTimers().extendOrRegister(TimerKey.COMBAT_ATTACK, ticks);
     }
-
     public int getMaximumMagicDamage() {
-        if (mob.isNpc()) {
-            return mob.getAsNpc().getCombatInfo() == null ? 0 : mob.getAsNpc().getCombatInfo().maxhit;
+        MagicMaxHitFormula magicMaxHitFormula = new MagicMaxHitFormula();
+        if (mob instanceof NPC npc) {
+            return npc.getCombatInfo() != null ? npc.getCombatInfo().maxhit : 0;
         }
-        Player player = mob.getAsPlayer();
-        if (target instanceof NPC) {
-            if (mob.isPlayer() && target.isNpc() && target.getAsNpc().id() == UNDEAD_COMBAT_DUMMY) {
-                return MagicMaxHit.maxHit(player, false);
-            }
+        if (target instanceof NPC npc && mob instanceof Player player && npc.id() == UNDEAD_COMBAT_DUMMY) {
+            return magicMaxHitFormula.calculateMaxMagicHit(player);
         }
-        return MagicMaxHit.maxHit(player, true);
+        return magicMaxHitFormula.calculateMaxMagicHit(mob.getAsPlayer());
     }
+
 
     public int getMaximumMeleeDamage() {
         if (mob.isNpc()) {

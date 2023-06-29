@@ -224,13 +224,17 @@ public class Hit {
     }
 
     public int getMaximumHit() {
-        var maxHit = 0;
-        if (combatType.isMelee()) {
-            maxHit = attacker.getCombat().getMaximumMeleeDamage();
-        } else if (combatType.isRanged()) {
-            maxHit = attacker.player().getCombat().getMaximumRangedDamage();
-        } else if (combatType.isMagic()) {
-            maxHit = attacker.getCombat().getMaximumMagicDamage();
+        int maxHit = -1;
+        if (attacker instanceof Player) {
+            if (this.getSource().getCombat().getCombatType() == CombatType.MELEE) {
+                maxHit = attacker.getCombat().getMaximumMeleeDamage();
+            }
+            if (this.getSource().getCombat().getCombatType() == CombatType.RANGED) {
+                maxHit = attacker.player().getCombat().getMaximumRangedDamage();
+            }
+            if (this.getSource().getCombat().getCombatType()  == CombatType.MAGIC) {
+                maxHit = attacker.getCombat().getMaximumMagicDamage();
+            }
         }
         return maxHit;
     }

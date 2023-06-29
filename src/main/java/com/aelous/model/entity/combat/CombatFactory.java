@@ -44,7 +44,6 @@ import com.aelous.model.entity.combat.method.impl.npcs.slayer.Gargoyle;
 import com.aelous.model.entity.combat.method.impl.npcs.slayer.kraken.EnormousTentacle;
 import com.aelous.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
-import com.aelous.model.entity.combat.ranged.RangedData;
 import com.aelous.model.entity.combat.ranged.RangedData.RangedWeapon;
 import com.aelous.model.entity.combat.ranged.RangedData.RangedWeaponType;
 import com.aelous.model.entity.combat.ranged.requirements.BowReqs;
@@ -55,7 +54,6 @@ import com.aelous.model.entity.combat.weapon.WeaponType;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.masks.impl.animations.Animation;
-import com.aelous.model.entity.masks.impl.animations.Priority;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.EquipSlot;
@@ -231,7 +229,6 @@ public class CombatFactory {
      * @param type     the combat type being used.
      * @return the HitDamage.
      */
-    static int max_damage;
     public static int calcDamageFromType(Entity attacker, Entity target, CombatType type) {
         if (type == null) {
             return 0;
@@ -243,6 +240,7 @@ public class CombatFactory {
             }
         }
 
+        var max_damage = 0;
         switch (type) {
             case MELEE ->
                 max_damage = attacker.isNpc() ? attacker.getAsNpc().getCombatInfo() == null ? 0 : attacker.getAsNpc().getCombatInfo().maxhit : attacker.getCombat().getMaximumMeleeDamage();
@@ -1357,7 +1355,7 @@ public class CombatFactory {
             AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_IV, hit.getDamage());
         }
 
-        if (damage >= max_damage) {
+        if (damage >= hit.getMaximumHit()) {
             hit.setMaxHit(true);
         }
         target.decrementHealth(hit);

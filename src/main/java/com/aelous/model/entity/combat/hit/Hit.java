@@ -207,7 +207,7 @@ public class Hit {
         this.damage = damage;
     }
 
-    @Getter @Setter public static boolean isMaxHit;
+    @Getter @Setter public boolean isMaxHit;
 
     public Hit damageModifier(double damageModifier) {
         this.damage += damageModifier;
@@ -221,6 +221,18 @@ public class Hit {
 
     public boolean invalid() {
         return target.locked() && !target.isDamageOkLocked() && !target.isDelayDamageLocked() && !target.isMoveLockedDamageOk();
+    }
+
+    public int getMaximumHit() {
+        var maxHit = 0;
+        if (combatType.isMelee()) {
+            maxHit = attacker.getCombat().getMaximumMeleeDamage();
+        } else if (combatType.isRanged()) {
+            maxHit = attacker.player().getCombat().getMaximumRangedDamage();
+        } else if (combatType.isMagic()) {
+            maxHit = attacker.getCombat().getMaximumMagicDamage();
+        }
+        return maxHit;
     }
 
     /**
@@ -375,7 +387,7 @@ public class Hit {
     private HitMark hitMark;
 
     public int getMark(Entity source, Entity target, Player observer) {
-        return hitMark.getObservedType(this, source, target, observer, this.isMaxHit);
+        return hitMark.getObservedType(this, source, target, observer, isMaxHit);
     }
 }
 

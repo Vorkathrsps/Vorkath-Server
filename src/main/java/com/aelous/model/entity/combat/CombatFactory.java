@@ -1010,6 +1010,10 @@ public class CombatFactory {
             return;
         }
 
+        if (hit.getDamage() >= hit.getMaximumHit()) {
+            hit.setMaxHit(true);
+        }
+
         target.getCombat().getHitQueue().add(hit);
     }
 
@@ -1353,11 +1357,6 @@ public class CombatFactory {
             AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_III, hit.getDamage());
             AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_IV, hit.getDamage());
         }
-
-        if (damage >= hit.getMaximumHit()) {
-            hit.setMaxHit(true);
-        }
-
         target.decrementHealth(hit);
     }
 

@@ -41,7 +41,6 @@ import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.Map.Entry;
 
-import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.COMBAT_DUMMY;
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.UNDEAD_COMBAT_DUMMY;
 import static com.aelous.model.content.daily_tasks.DailyTaskUtility.DAILY_TASK_MANAGER_INTERFACE;
 import static com.aelous.model.entity.Entity.accumulateRuntimeTo;
@@ -147,10 +146,10 @@ public class Combat {
         }
 
         if (mob.isPlayer() && target != null && target.isNpc() && target.getAsNpc().id() == UNDEAD_COMBAT_DUMMY) {
-            return MeleeMaxHit.maxHit(mob.getAsPlayer(), false);
+            return MeleeMaxHit.maxHit(mob.getAsPlayer());
         }
 
-        return MeleeMaxHit.maxHit(mob.getAsPlayer(), true);
+        return MeleeMaxHit.maxHit(mob.getAsPlayer());
     }
 
     /**

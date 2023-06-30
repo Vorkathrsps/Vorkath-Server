@@ -32,7 +32,7 @@ public class EldritchNMS extends CommonCombatMethod {
         entity.animate(8532);
 
         entity.getCombat().setCastSpell(CombatSpells.ELDRITCH_NIGHTMARE_STAFF.getSpell());
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 2, CombatType.MAGIC).checkAccuracy().postDamage(p -> {
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 3, CombatType.MAGIC).checkAccuracy().postDamage(p -> {
             if (target.isPlayer()) {
                 var drain = p.getDamage() * 35 / 100; // smite 35% of the damage dealt
                 target.getSkills().alterSkill(Skills.PRAYER, -drain);
@@ -40,7 +40,7 @@ public class EldritchNMS extends CommonCombatMethod {
             }
         });
 
-        target.graphic(1761, GraphicHeight.LOW, 30);
+        target.graphic(1761, GraphicHeight.LOW, 0);
 
         hit.submit();
 

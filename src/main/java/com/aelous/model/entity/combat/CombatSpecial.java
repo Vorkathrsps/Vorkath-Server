@@ -54,7 +54,7 @@ public enum CombatSpecial {
     TOXIC_STAFF_OF_THE_DEAD(new int[]{ItemIdentifiers.TOXIC_STAFF_OF_THE_DEAD}, 100, 1.0, 1.0, null, WeaponType.BLADED_STAFF),
     STAFF_OF_LIGHT(new int[]{ItemIdentifiers.STAFF_OF_LIGHT}, 100, 1.0, 1.0, null, WeaponType.BLADED_STAFF),
 
-    VOLATILE_NIGHTMARE_STAFF(new int[]{ItemIdentifiers.VOLATILE_NIGHTMARE_STAFF}, 55, 1.0, 1.50, new VolatileNMS(), WeaponType.MAGIC_STAFF),
+    VOLATILE_NIGHTMARE_STAFF(new int[]{ItemIdentifiers.VOLATILE_NIGHTMARE_STAFF}, 55, 1.06, 1.50, new VolatileNMS(), WeaponType.MAGIC_STAFF),
     ELDRITCH_NIGHTMARE_STAFF(new int[]{ItemIdentifiers.ELDRITCH_NIGHTMARE_STAFF}, 75, 1.0, 1.0, new EldritchNMS(), WeaponType.MAGIC_STAFF),
     ACCURSED_SCEPTRE(new int[]{ItemIdentifiers.ACCURSED_SCEPTRE_A}, 50, 1.0, 1.0, new AccursedSceptre(), WeaponType.POWERED_STAFF),
 

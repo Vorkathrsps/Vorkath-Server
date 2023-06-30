@@ -1307,14 +1307,13 @@ public class CombatFactory {
             }
         }
 
-        // Auto-retaliate
-        if (attacker != null && !CombatFactory.isAttacking(target) && !hit.reflected) { // is mob fighting someone?
+        if (attacker != null && !CombatFactory.isAttacking(target) && !hit.reflected) {
             if (attacker.isPlayer()) {
                 boolean mayAttack = true;
 
                 if (!canAttack(attacker, getMethod(attacker), target)) {
                     mayAttack = false;
-                    attacker.getCombat().reset();//Can't attack, reset combat
+                    attacker.getCombat().reset();
                 }
 
                 if (mayAttack) {
@@ -1338,12 +1337,10 @@ public class CombatFactory {
         }
 
         if (attacker != null) {
-            // Add damage to target damage map
             target.getCombat().addDamage(attacker, hit.getDamage());
 
             if (target.isPlayer()) {
                 target.getAsPlayer().setLastActiveOverhead();
-                //Store the latest damage being dealt to a player.
                 attacker.putAttrib(AttributeKey.LATEST_DAMAGE, hit.getDamage());
             }
 
@@ -1357,6 +1354,7 @@ public class CombatFactory {
             AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_III, hit.getDamage());
             AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_IV, hit.getDamage());
         }
+
         target.decrementHealth(hit);
     }
 

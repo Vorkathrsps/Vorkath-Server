@@ -18,15 +18,15 @@ public class MagicMaxHitFormula {
     public int calculateBaseMaxHitForPoweredStaves(Player player, int baseMaxHit) {
         int magicLevel = player.skills().level(Skills.MAGIC);
         if (player.getEquipment().contains(ItemIdentifiers.THAMMARONS_SCEPTRE)) {
-            baseMaxHit += (magicLevel - 60) / 3;
+            baseMaxHit += Math.min(baseMaxHit, (magicLevel - 60) / 3);
         } else if (player.getEquipment().contains(ItemIdentifiers.ACCURSED_SCEPTRE_A)) {
-            baseMaxHit += Math.min(20, (magicLevel - 69) / 3);
+            baseMaxHit += Math.min(baseMaxHit, (magicLevel - 69) / 3);
         } else if (player.getEquipment().contains(ItemIdentifiers.TRIDENT_OF_THE_SEAS)) {
-            baseMaxHit += Math.min(18, (magicLevel - 75) / 3);
+            baseMaxHit += Math.min(baseMaxHit, (magicLevel - 75) / 3);
         } else if (player.getEquipment().contains(ItemIdentifiers.TRIDENT_OF_THE_SWAMP)) {
-            baseMaxHit += Math.min(17, (magicLevel - 78) / 3);
+            baseMaxHit += Math.min(baseMaxHit, (magicLevel - 78) / 3);
         } else if (player.getEquipment().contains(ItemIdentifiers.SANGUINESTI_STAFF)) {
-            baseMaxHit += Math.min(15, (magicLevel - 81) / 3);
+            baseMaxHit += Math.min(baseMaxHit, (magicLevel - 81) / 3);
         } else if (player.getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
             baseMaxHit += Math.min(baseMaxHit, (magicLevel - 84) / 3);
         }
@@ -39,7 +39,6 @@ public class MagicMaxHitFormula {
         if (player.getCombat().getPoweredStaffSpell() != null && player.getCombat().getCastSpell() == null) {
             if (player.getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
                 mageStrength += Math.floor((double) (player.getSkills().level(Skills.MAGIC) - 1) / 3);
-                return mageStrength;
             }
         }
 
@@ -99,9 +98,12 @@ public class MagicMaxHitFormula {
                     player.getCombat().getPoweredStaffSpell() != null ? player.getCombat().getPoweredStaffSpell() : null;
 
         int baseMaxHit = spell != null ? spell.baseMaxHit() : 0;
+
         if (player.getCombat().getPoweredStaffSpell() != null) {
             baseMaxHit = calculateBaseMaxHitForPoweredStaves(player, baseMaxHit);
         }
+
+        int magicLevel = player.skills().level(Skills.MAGIC);
 
         if (FormulaUtils.hasMagicWildernessWeapon(player) && WildernessArea.inWild(player)) {
             baseMaxHit *= 1.50;
@@ -111,7 +113,12 @@ public class MagicMaxHitFormula {
             baseMaxHit += 3;
         }
 
+        if (player.getEquipment().contains(ItemIdentifiers.VOLATILE_NIGHTMARE_STAFF) && player.isSpecialActivated()) {
+            baseMaxHit = Math.min(58, 58 * magicLevel / 99 + 1);
+        }
+
         double magicDamageBonus = calculateMagicDamageBonus(player) / 100.0;
+
         baseMaxHit *= (1 + magicDamageBonus);
         baseMaxHit = (int) Math.floor(baseMaxHit);
 

@@ -30,7 +30,7 @@ public class VolatileNMS extends CommonCombatMethod {
 
         entity.getCombat().setCastSpell(CombatSpells.VOLATILE_NIGHTMARE_STAFF.getSpell());
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 3, CombatType.MAGIC).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 2, CombatType.MAGIC).checkAccuracy();
 
         hit.submit();
 

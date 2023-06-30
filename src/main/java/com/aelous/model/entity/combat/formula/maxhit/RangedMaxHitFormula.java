@@ -14,6 +14,7 @@ import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
+import lombok.NonNull;
 
 import static com.aelous.utility.ItemIdentifiers.*;
 
@@ -25,7 +26,7 @@ public class RangedMaxHitFormula {
     public RangedMaxHitFormula() {
     }
 
-    public int calculateMaximumHit(Player player, boolean isSpecialActivated) {
+    public int calculateMaximumHit(@NonNull final Player player, boolean isSpecialActivated) {
         double specialMultiplier = player.getCombatSpecial() == null ? 0 : player.getCombatSpecial().getSpecialMultiplier();
         double calculateMaxHit = 0.5 + (((double) calculateEffectiveRangedStrength(player, getRangedLevel(player), getPrayerBonus(player), getAttackStyleBonus(player)) * (getEquipmentRangedStrength(player) + 64)) / 640);
         calculateMaxHit *= this.getEquipmentBonus(player);
@@ -33,25 +34,25 @@ public class RangedMaxHitFormula {
         return isSpecialActivated ? (int) (specialMultiplier * maxHit) : maxHit;
     }
 
-    private int getEquipmentRangedStrength(Player player) {
+    private int getEquipmentRangedStrength(@NonNull final Player player) {
         RangedData.RangedWeapon rangeWeapon = player.getCombat().getRangedWeapon();
         boolean ignoreArrows = rangeWeapon != null && rangeWeapon.ignoreArrowsSlot();
         EquipmentInfo.Bonuses bonuses = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo(), !ignoreArrows);
         return bonuses.rangestr;
     }
 
-    private int calculateEffectiveRangedStrength(Player player, int rangedLevel, double prayerBonus, int atkStyle) {
+    private int calculateEffectiveRangedStrength(@NonNull final Player player, int rangedLevel, double prayerBonus, int atkStyle) {
         double innerCalculation = Math.floor(((rangedLevel + atkStyle + 8) * prayerBonus));
         double voidModifier = getVoidModifier(player);
         innerCalculation *= voidModifier;
         return (int) innerCalculation;
     }
 
-    private int getRangedLevel(Player player) {
+    private int getRangedLevel(@NonNull final Player player) {
         return player.skills().level(Skills.RANGED);
     }
 
-    private double getPrayerBonus(Player player) {
+    private double getPrayerBonus(@NonNull final Player player) {
         double prayerBonus = 1D;
         if (Prayers.usingPrayer(player, Prayers.SHARP_EYE)) {
             prayerBonus = 1.05D;
@@ -73,12 +74,12 @@ public class RangedMaxHitFormula {
         return prayerBonus;
     }
 
-    private int getAttackStyleBonus(Player player) {
+    private int getAttackStyleBonus(@NonNull final Player player) {
         FightStyle style = player.getCombat().getFightType().getStyle();
         return style.equals(FightStyle.ACCURATE) ? 3 : 0;
     }
 
-    private double getEquipmentBonus(Player player) {
+    private double getEquipmentBonus(@NonNull final Player player) {
         double otherBonus = 1.0;
 
         boolean hasCrystalHelm = player.getEquipment().hasAt(EquipSlot.HEAD, CRYSTAL_HELM);
@@ -140,7 +141,7 @@ public class RangedMaxHitFormula {
     }
 
 
-    private double getVoidModifier(Player player) {
+    private double getVoidModifier(@NonNull final Player player) {
         if (FormulaUtils.regularVoidEquipmentBaseRanged(player)) {
             return 1.10D;
         }

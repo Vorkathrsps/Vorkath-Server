@@ -14,6 +14,7 @@ import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.timers.TimerKey;
+import lombok.NonNull;
 import org.apache.commons.lang.ArrayUtils;
 
 /**
@@ -26,7 +27,7 @@ public class MagicMaxHitFormula {
     private static final int[] godSpells = new int[]{1191, 1192, 1190};
     private static final int[] boltSpells = new int[]{1160, 1163, 1166, 1166, 1169};
 
-    public int calculateBaseMaxHitForPoweredStaves(Player player, int baseMaxHit) {
+    public int calculateBaseMaxHitForPoweredStaves(@NonNull final Player player, int baseMaxHit) {
         int magicLevel = player.skills().level(Skills.MAGIC);
         if (player.getEquipment().contains(ItemIdentifiers.THAMMARONS_SCEPTRE)) {
             baseMaxHit += Math.min(baseMaxHit, (magicLevel - 60) / 3);
@@ -44,7 +45,7 @@ public class MagicMaxHitFormula {
         return baseMaxHit;
     }
 
-    public double calculateMagicDamageBonus(Player player) {
+    public double calculateMagicDamageBonus(@NonNull final Player player) {
         EquipmentInfo.Bonuses bonuses = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo());
         double mageStrength = bonuses.getMagestr();
         if (player.getCombat().getPoweredStaffSpell() != null && player.getCombat().getCastSpell() == null) {
@@ -72,7 +73,7 @@ public class MagicMaxHitFormula {
         return mageStrength;
     }
 
-    public double getTomeBonus(Player player, CombatSpell spell) {
+    public double getTomeBonus(@NonNull final Player player, CombatSpell spell) {
         if (spell == null) return 1;
         if (ArrayUtils.contains(waterSpells, spell.spellId())) {
             if (player.getEquipment().hasAt(EquipSlot.SHIELD, ItemIdentifiers.TOME_OF_WATER)) {
@@ -87,13 +88,13 @@ public class MagicMaxHitFormula {
         return 1;
     }
 
-    public double getSlayerBonus(Player player) {
+    public double getSlayerBonus(@NonNull final Player player) {
         Entity target = player.getCombat().getTarget();
         boolean isSlayerMatch = target instanceof NPC npc && Slayer.creatureMatches(player, npc.id()) || target instanceof NPC dummy && dummy.isCombatDummy();
         return isSlayerMatch && FormulaUtils.hasSlayerHelmet(player) ? 1.15 : 1;
     }
 
-    public int calculateMaxMagicHit(Player player) {
+    public int calculateMaxMagicHit(@NonNull final Player player) {
         CombatSpell spell =
             player.getCombat().getCastSpell() != null ? player.getCombat().getCastSpell() :
                 player.getCombat().getAutoCastSpell() != null ? player.getCombat().getAutoCastSpell() :

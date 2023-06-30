@@ -14,24 +14,29 @@ public class StarEvent {
     public static boolean ANNOUNCE_TIMER = false;
     private static final StarEvent instance = new StarEvent();
     private Optional<CrashedStar> activeStar = Optional.empty();
-    public LocalDateTime last = LocalDateTime.now().minus((long) (STAR_EVENT_INTERVAL * 0.6D), ChronoUnit.SECONDS);
-    public LocalDateTime next = LocalDateTime.now().plus((long) (STAR_EVENT_INTERVAL * 0.6D), ChronoUnit.SECONDS);
+    private LocalDateTime last = LocalDateTime.now().minus((long) (STAR_EVENT_INTERVAL * 0.6D), ChronoUnit.SECONDS);
+    private LocalDateTime next = LocalDateTime.now().plus((long) (STAR_EVENT_INTERVAL * 0.6D), ChronoUnit.SECONDS);
 
     private final Tile[] POSSIBLE_SPAWNS = {
-        new Tile(3104, 3509),//home
-        new Tile(3090, 3962), //mage bank
-        new Tile(2968, 3857) //44s
+        new Tile(3104, 3509), // Home
+        new Tile(3090, 3962), // Mage bank
+        new Tile(2968, 3857) // 44s
     };
-    public static Tile currentSpawnPos;
+    private static Tile currentSpawnPos;
+
+    private SecureRandom secureRandom = new SecureRandom();
+
+    private StarEvent() {
+    }
 
     public static StarEvent getInstance() {
         return instance;
     }
+
     public Optional<CrashedStar> getActiveStar() {
         return activeStar;
     }
 
-    SecureRandom secureRandom = new SecureRandom();
     public void startCrashedStarEvent() {
         if (activeStar.isPresent()) {
             terminateActiveStar();
@@ -45,7 +50,7 @@ public class StarEvent {
 
         CrashedStar star = new CrashedStar(41019, currentSpawnPos);
         star.spawn();
-        this.activeStar = Optional.of(star);
+        activeStar = Optional.of(star);
 
         Chain.noCtx().delay(2, () -> star.setId(41020));
 
@@ -54,11 +59,11 @@ public class StarEvent {
     }
 
     public String spawnLocation(Tile tile) {
-        if (tile.equals(new Tile(3104, 3509))) {
+        if (tile.equals(POSSIBLE_SPAWNS[0])) {
             return "Home";
-        } else if (tile.equals(new Tile(3090, 3962))) {
+        } else if (tile.equals(POSSIBLE_SPAWNS[1])) {
             return "Mage bank";
-        } else if (tile.equals(new Tile(2968, 3857))) {
+        } else if (tile.equals(POSSIBLE_SPAWNS[2])) {
             return "::44s";
         }
         return "Nothing";
@@ -67,10 +72,9 @@ public class StarEvent {
     public void terminateActiveStar() {
         ANNOUNCE_TIMER = false;
         activeStar.ifPresent(s -> {
-            activeStar.get().remove();
-            activeStar.get().setDustCount(0);
-            this.activeStar = Optional.empty();
+            s.remove();
+            s.setDustCount(0);
+            activeStar = Optional.empty();
         });
     }
-
 }

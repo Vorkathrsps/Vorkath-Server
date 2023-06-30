@@ -6,14 +6,21 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.npc.NPC;
+import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.container.equipment.EquipmentInfo;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.ItemIdentifiers;
+import com.aelous.utility.timers.TimerKey;
+import org.apache.commons.lang.ArrayUtils;
 
 public class MagicMaxHitFormula {
+    private static final int[] fireSpells = new int[]{1158, 1169, 1539, 1181, 1189, 22608};
+    private static final int[] waterSpells = new int[]{1154, 1163, 1175, 1185, 22658};
+    private static final int[] godSpells = new int[]{1191, 1192, 1190};
+    private static final int[] boltSpells = new int[]{1160, 1163, 1166, 1166, 1169};
 
     public int calculateBaseMaxHitForPoweredStaves(Player player, int baseMaxHit) {
         int magicLevel = player.skills().level(Skills.MAGIC);
@@ -62,24 +69,15 @@ public class MagicMaxHitFormula {
     }
 
     public double getTomeBonus(Player player, CombatSpell spell) {
-        int[] fireSpells = new int[]{1158, 1169, 1539, 1181, 1192, 1189, 22608};
-        int[] waterSpells = new int[]{1154, 1163, 1175, 1185, 22658};
-        for (var spells : waterSpells) {
-            if (spell != null) {
-                if (player.getEquipment().contains(ItemIdentifiers.TOME_OF_WATER)) {
-                    if (spells == spell.spellId()) {
-                        return 2.0;
-                    }
-                }
+        if (spell == null) return 1;
+        if (ArrayUtils.contains(waterSpells, spell.spellId())) {
+            if (player.getEquipment().hasAt(EquipSlot.SHIELD, ItemIdentifiers.TOME_OF_WATER)) {
+                return 2.0;
             }
         }
-        for (var spells : fireSpells) {
-            if (spell != null) {
-                if (player.getEquipment().contains(ItemIdentifiers.TOME_OF_FIRE)) {
-                    if (spells == spell.spellId()) {
-                        return 1.5;
-                    }
-                }
+        if (ArrayUtils.contains(fireSpells, spell.spellId())) {
+            if (player.getEquipment().hasAt(EquipSlot.SHIELD, ItemIdentifiers.TOME_OF_FIRE)) {
+                return 1.5;
             }
         }
         return 1;
@@ -113,6 +111,10 @@ public class MagicMaxHitFormula {
             baseMaxHit += 3;
         }
 
+        if (this.isCastingGodSpell(spell) && player.getTimers().has(TimerKey.CHARGE_SPELL)) {
+            baseMaxHit = 30;
+        }
+
         if (player.getEquipment().contains(ItemIdentifiers.VOLATILE_NIGHTMARE_STAFF) && player.isSpecialActivated()) {
             baseMaxHit = Math.min(58, 58 * magicLevel / 99 + 1);
         }
@@ -133,14 +135,18 @@ public class MagicMaxHitFormula {
         return baseMaxHit;
     }
 
-    private boolean isCastingBoltSpell(CombatSpell spell) {
-        int[] boltSpells = new int[]{1160, 1163, 1166, 1166, 1169};
-        for (var spells : boltSpells) {
-            if (spell.spellId() == spells) {
-                return true;
-            }
+    private boolean isCastingGodSpell(CombatSpell spell) {
+        if (spell == null) {
+            return false;
         }
-        return false;
+        return ArrayUtils.contains(godSpells, spell.spellId());
+    }
+
+    private boolean isCastingBoltSpell(CombatSpell spell) {
+        if (spell == null) {
+            return false;
+        }
+        return ArrayUtils.contains(boltSpells, spell.spellId());
     }
 }
 

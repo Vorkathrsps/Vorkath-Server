@@ -11,12 +11,13 @@ import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.HitMark;
-import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
+import com.aelous.model.entity.events.CrashedStar;
+import com.aelous.model.entity.events.StarEvent;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.npc.droptables.ScalarLootTable;
@@ -37,7 +38,6 @@ import com.aelous.model.items.Item;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.object.GameObject;
-import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.region.Region;
 import com.aelous.model.map.region.RegionManager;
@@ -45,7 +45,6 @@ import com.aelous.utility.Debugs;
 import com.aelous.utility.Utils;
 import com.aelous.utility.Varbit;
 import com.aelous.utility.chainedwork.Chain;
-import com.aelous.utility.timers.TimerKey;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -53,8 +52,6 @@ import org.apache.logging.log4j.util.TriConsumer;
 
 import java.security.SecureRandom;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.GREAT_OLM_7554;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
@@ -653,6 +650,12 @@ public class CommandManager {
             ((GreatOlm) olm.getCombatMethod()).flameWall(olm);
         });
         dev("c", (p, c, s) -> {
+
+            CrashedStar star = new CrashedStar(41019, new Tile(3112, 3960));
+            star.spawn();
+            Chain.noCtx().delay(2, () -> {
+                star.setId(41020);
+            });
         });
         dev("curseoff", (p, c, s) -> {
             p.clearAttrib(AttributeKey.NIGHTMARE_CURSE);

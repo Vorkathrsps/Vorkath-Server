@@ -1,10 +1,12 @@
 package com.aelous.model.content.skill.impl.mining;
 
+import com.aelous.cache.definitions.identifiers.ObjectIdentifiers;
 import com.aelous.model.content.achievements.Achievements;
 import com.aelous.model.content.achievements.AchievementsManager;
 import com.aelous.model.content.tasks.impl.Tasks;
+import com.aelous.model.entity.events.StarEvent;
+import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 import com.aelous.model.action.impl.UnwalkableAction;
@@ -27,6 +29,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.*;
+import static com.aelous.model.content.skill.impl.mining.Mining.Rock.*;
 
 /**
  * Created by Bart on 8/28/2015.
@@ -48,6 +51,16 @@ public class Mining extends PacketInteraction {
         ADAMANT(449, "adamant", 70, 310, 95.0, 300, 1300),
         RUNE(451, "rune", 85, 380, 125.0, 1500, 1000),
         GEM_ROCKS(9030, "gem", 40, 75, 80.0, 1500, 1500),
+        CRASHED_STAR_1(41020, "crashed star", 1, 0, 0, 0, 1500),
+        CRASHED_STAR_2(41021, "crashed star", 1, 0, 0, 0, 1500),
+        CRASHED_STAR_3(41223, "crashed star", 1, 0, 0, 0, 1500),
+        CRASHED_STAR_4(41224, "crashed star", 1, 0, 0, 0, 1500),
+        CRASHED_STAR_5(41225, "crashed star", 1, 0, 0, 0, 1500),
+        CRASHED_STAR_6(41226, "crashed star", 1, 0, 0, 0, 1500),
+        CRASHED_STAR_7(41227, "crashed star", 1, 0, 0, 0, 1500),
+        CRASHED_STAR_8(41228, "crashed star", 1, 0, 0, 0, 1500),
+        CRASHED_STAR_9(41229, "crashed star", 1, 0, 0, 0, 1500),
+
         JAIL_BLURITE(668, "blurite", 1, 320, 0.0, 3, 1000000);
 
         public final int ore;
@@ -118,11 +131,54 @@ public class Mining extends PacketInteraction {
 
     private static void interact(Player player, Rock rockType, int replId) {
         int option = player.getAttribOr(AttributeKey.INTERACTION_OPTION, 0);
+        GameObject obj = player.getAttribOr(AttributeKey.INTERACTION_OBJECT, null);
+        if (obj.getId() == ObjectIdentifiers.CRASHED_STAR && option == 1) {
+            if (StarEvent.getInstance().getActiveStar().isPresent()) {
+                mineCrashedStar(player, StarEvent.getInstance());
+                return;
+            }
+        }
         if (option == 1) {
             mine(player, rockType, replId);
         } else {
             prospect(player, rockType);
         }
+    }
+
+    private static void mineCrashedStar(Player player, StarEvent crashedStar) {
+        GameObject obj = player.getAttribOr(AttributeKey.INTERACTION_OBJECT, null);
+        Optional<Mining.Pickaxe> pick = Mining.findPickaxe(player);
+
+        if (pick.isEmpty()) {
+            DialogueManager.sendStatement(player, "You need a pickaxe to mine this rock.", "You do not have a pickaxe which " + "you have the Mining level to use.");
+            return;
+        }
+
+        Animation animation = new Animation(pick.get().anim);
+
+        player.animate(animation);
+        player.action.execute(new UnwalkableAction(player, 4) {
+            @Override
+            protected void execute() {
+                if (!ObjectManager.objWithTypeExists(10, obj.tile()) && !ObjectManager.objWithTypeExists(11, obj.tile())) {
+                    player.animate(-1);
+                    super.onStop();
+                    return;
+                }
+
+                player.animate(animation);
+                if (crashedStar.getActiveStar().isPresent()) {
+                    crashedStar.getActiveStar().get().calculateSuccess(player);
+                }
+            }
+
+            @Override
+            public void onStop() {
+                super.onStop();
+                player.animate(-1);
+                player.action.reset();
+            }
+        });
     }
 
     private static void mine(Player player, Rock rockType, int replId) {
@@ -207,7 +263,7 @@ public class Mining extends PacketInteraction {
                         }
                     }
 
-                    if(finalRock == Rock.RUNE) {
+                    if (finalRock == Rock.RUNE) {
                         player.getTaskMasterManager().increase(Tasks.MINE_RUNITE_ORE);
                     }
 
@@ -324,7 +380,7 @@ public class Mining extends PacketInteraction {
         Mining.Rock type = Mining.Rock.GOLD;
         DecimalFormat format = new DecimalFormat("###.##");
 
-        PrintStream out = new PrintStream(System.getProperty("user.home")+"\\Desktop\\mining_" + type.toString().toLowerCase() + ".csv");
+        PrintStream out = new PrintStream(System.getProperty("user.home") + "\\Desktop\\mining_" + type.toString().toLowerCase() + ".csv");
         out.print("lvl");
         for (Mining.Pickaxe h : Mining.Pickaxe.values())
             out.print("," + h);
@@ -385,7 +441,17 @@ public class Mining extends PacketInteraction {
             new RegisterableRock(ROCKS_11374, Mining.Rock.ADAMANT),
             new RegisterableRock(ROCKS_11375, Mining.Rock.ADAMANT, ROCKS_11391),
             new RegisterableRock(ROCKS_11376, Mining.Rock.RUNE),
-            new RegisterableRock(ROCKS_11377, Mining.Rock.RUNE, ROCKS_11391));
+            new RegisterableRock(ROCKS_11377, Mining.Rock.RUNE, ROCKS_11391),
+            new RegisterableRock(CRASHED_STAR, Mining.Rock.CRASHED_STAR_1),
+            new RegisterableRock(CRASHED_STAR_41021, Mining.Rock.CRASHED_STAR_2),
+            new RegisterableRock(CRASHED_STAR_41223, Mining.Rock.CRASHED_STAR_3),
+            new RegisterableRock(CRASHED_STAR_41224, Mining.Rock.CRASHED_STAR_4),
+            new RegisterableRock(CRASHED_STAR_41225, CRASHED_STAR_5),
+            new RegisterableRock(CRASHED_STAR_41226, Mining.Rock.CRASHED_STAR_6),
+            new RegisterableRock(CRASHED_STAR_41227, Mining.Rock.CRASHED_STAR_7),
+            new RegisterableRock(CRASHED_STAR_41228, Mining.Rock.CRASHED_STAR_8),
+            new RegisterableRock(CRASHED_STAR_41229, Mining.Rock.CRASHED_STAR_9)
+        );
     }
 
     @Override

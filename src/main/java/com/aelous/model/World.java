@@ -20,6 +20,8 @@ import com.aelous.model.entity.NodeType;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss;
 import com.aelous.model.entity.combat.skull.Skulling;
+import com.aelous.model.entity.events.StarEvent;
+import com.aelous.model.entity.events.task.StarEventTask;
 import com.aelous.model.entity.masks.impl.updating.NPCUpdating;
 import com.aelous.model.entity.masks.impl.updating.PlayerUpdating;
 import com.aelous.model.entity.npc.NPC;
@@ -52,6 +54,7 @@ import java.io.FileReader;
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
@@ -372,7 +375,10 @@ public class World {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }, games = MinigameManager::onTick;
+    }, games = () -> {
+        MinigameManager.onTick();
+        StarEventTask.checkDepletionTask();
+    };
 
 
     public int getTickCount() {

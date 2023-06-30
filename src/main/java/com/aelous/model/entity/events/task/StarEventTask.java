@@ -1,15 +1,17 @@
 package com.aelous.model.entity.events.task;
 
 import com.aelous.core.task.Task;
+import com.aelous.model.entity.events.CrashedStar;
 import com.aelous.model.entity.events.StarEvent;
 import com.aelous.model.entity.events.stage.StarStage;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 
 public class StarEventTask extends Task {
-    static private LocalDateTime lastDepletionTime;
-    static StarEvent starEvent = StarEvent.getInstance();
+    private static LocalDateTime lastDepletionTime;
+    private static StarEvent starEvent = StarEvent.getInstance();
 
     public StarEventTask() {
         super("StarEventTask", StarEvent.STAR_EVENT_INTERVAL, true);
@@ -23,22 +25,25 @@ public class StarEventTask extends Task {
 
     public static void checkDepletionTask() {
         LocalDateTime currentTime = LocalDateTime.now();
-        StarStage starStage = starEvent.getActiveStar().get().getStarStage();
-        StarStage nextStage = starStage.getNextStage();
+        Optional<StarStage> activeStarStage = starEvent.getActiveStar()
+            .map(CrashedStar::getStarStage);
+        Optional<StarStage> nextStage = activeStarStage.map(StarStage::getNextStage);
+
         if (starEvent.getActiveStar().isPresent()) {
-            if (starEvent.getActiveStar().get().getDustCount() == 325) {
-                if (nextStage != StarStage.ONE) {
-                    starEvent.getActiveStar().get().setStarStage(nextStage);
-                    starEvent.getActiveStar().get().depleteAndSetNextStage(nextStage.getObjectId());
+            int dustCount = starEvent.getActiveStar().get().getDustCount();
+            if (dustCount == 325) {
+                if (nextStage.isPresent() && nextStage.get() != StarStage.ONE) {
+                    starEvent.getActiveStar().get().setStarStage(nextStage.get());
+                    starEvent.getActiveStar().get().depleteAndSetNextStage(nextStage.get().getObjectId());
                 } else {
                     starEvent.terminateActiveStar();
                 }
                 lastDepletionTime = currentTime;
             } else {
                 if (lastDepletionTime.until(currentTime, ChronoUnit.MINUTES) >= 15) {
-                    if (nextStage != StarStage.ONE) {
-                        starEvent.getActiveStar().get().setStarStage(nextStage);
-                        starEvent.getActiveStar().get().depleteAndSetNextStage(nextStage.getObjectId());
+                    if (nextStage.isPresent() && nextStage.get() != StarStage.ONE) {
+                        starEvent.getActiveStar().get().setStarStage(nextStage.get());
+                        starEvent.getActiveStar().get().depleteAndSetNextStage(nextStage.get().getObjectId());
                     } else {
                         starEvent.terminateActiveStar();
                     }
@@ -48,4 +53,3 @@ public class StarEventTask extends Task {
         }
     }
 }
-

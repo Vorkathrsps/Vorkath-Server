@@ -19,20 +19,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CrashedStar extends GameObject {
-    @Getter
-    @Setter
-    private int dustCount = 0;
+    @Getter @Setter private int dustCount = 0;
     private static final List<Integer> miningLevels = Arrays.asList(10, 20, 30, 40, 50, 60, 70, 80, 90);
     private static final List<Integer> xpRates = Arrays.asList(3360, 6480, 4920, 5920, 8400, 7750, 11180, 15400, 16400);
     private static final List<Integer> additionalDustChance = Arrays.asList(2, 6, 12, 20, 30, 42, 56, 72, 90);
 
-    @Getter
-    @Setter
-    private boolean stopActions = false;
-
-    @Getter
-    @Setter
-    private StarStage starStage;
+    @Getter @Setter private boolean stopActions = false;
+    @Getter @Setter private StarStage starStage;
 
     public CrashedStar(int id, Tile tile) {
         super(id, tile);
@@ -117,14 +110,13 @@ public class CrashedStar extends GameObject {
                 }
             }
 
-            int interpolatedChance = (int) interpolateChance(skillLevel, lowerChance, upperChance) * 100;
+            int interpolatedChance = (int) (interpolateChance(skillLevel, lowerChance, upperChance) * 100);
 
             if (Utils.rollDie(interpolatedChance)) {
                 addRewardsToInventory(player);
             }
         }
     }
-
 
     public void addRewardsToInventory(@NonNull final Player player) {
         int skillLevel = player.skills().level(Skills.MINING);
@@ -138,14 +130,17 @@ public class CrashedStar extends GameObject {
 
             if (Utils.rollDie(127)) {
                 Item crystalShard = new Item(ItemIdentifiers.CRYSTAL_SHARD, 5);
+                String message = "";
 
                 if (!player.getInventory().isFull()) {
                     player.getInventory().add(crystalShard);
-                    player.message(Color.PURPLE.wrap("The crashed star rewards you with crystal shards."));
+                    message = "The crashed star rewards you with crystal shards.";
                 } else {
                     player.getInventory().addOrDrop(crystalShard);
-                    player.message(Color.PURPLE.wrap("The crashed star rewards you with crystal shards, they've been placed on the floor."));
+                    message = "The crashed star rewards you with crystal shards, they've been placed on the floor.";
                 }
+
+                player.message(Color.PURPLE.wrap(message));
             }
 
             dustCount += dustToAdd;
@@ -160,3 +155,4 @@ public class CrashedStar extends GameObject {
         }
     }
 }
+

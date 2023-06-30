@@ -17,6 +17,10 @@ import com.aelous.model.map.position.areas.impl.WildernessArea;
 
 import static com.aelous.utility.ItemIdentifiers.*;
 
+/**
+ * @Author: Origin
+ * @Date: 6/30/2023
+ */
 public class RangedMaxHitFormula {
     public RangedMaxHitFormula() {
     }

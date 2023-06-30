@@ -16,6 +16,10 @@ import com.aelous.utility.ItemIdentifiers;
 import com.aelous.utility.timers.TimerKey;
 import org.apache.commons.lang.ArrayUtils;
 
+/**
+ * @Author: Origin
+ * @Date: 6/30/2023
+ */
 public class MagicMaxHitFormula {
     private static final int[] fireSpells = new int[]{1158, 1169, 1539, 1181, 1189, 22608};
     private static final int[] waterSpells = new int[]{1154, 1163, 1175, 1185, 22658};

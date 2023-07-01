@@ -6,10 +6,9 @@ import com.aelous.core.task.TaskManager;
 import com.aelous.model.content.areas.wilderness.content.boss_event.WildernessBossEvent;
 import com.aelous.model.content.areas.wilderness.content.todays_top_pkers.TopPkers;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.GwdLogic;
-import com.aelous.model.entity.events.task.StarEventTask;
+import com.aelous.model.entity.events.star.StarEventTask;
 import com.aelous.model.items.Item;
 import com.aelous.network.security.HostBlacklist;
-import com.aelous.utility.chainedwork.Chain;
 
 /**
  * The bootstrap that will prepare the game, network, and various utilities.

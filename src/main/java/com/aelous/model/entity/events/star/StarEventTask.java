@@ -1,9 +1,6 @@
-package com.aelous.model.entity.events.task;
+package com.aelous.model.entity.events.star;
 
 import com.aelous.core.task.Task;
-import com.aelous.model.entity.events.CrashedStar;
-import com.aelous.model.entity.events.StarEvent;
-import com.aelous.model.entity.events.stage.StarStage;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;

@@ -1,4 +1,4 @@
-package com.aelous.model.entity.events;
+package com.aelous.model.entity.events.star;
 
 import com.aelous.model.World;
 import com.aelous.model.map.position.Tile;

@@ -1,6 +1,6 @@
-package com.aelous.model.entity.events;
+package com.aelous.model.entity.events.star;
 
-import com.aelous.model.entity.events.stage.StarStage;
+import com.aelous.model.entity.events.star.StarStage;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;

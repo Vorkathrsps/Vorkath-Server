@@ -16,8 +16,7 @@ import com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
-import com.aelous.model.entity.events.CrashedStar;
-import com.aelous.model.entity.events.StarEvent;
+import com.aelous.model.entity.events.star.CrashedStar;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.npc.droptables.ScalarLootTable;

@@ -1,4 +1,4 @@
-package com.aelous.model.entity.events.stage;
+package com.aelous.model.entity.events.star;
 
 import lombok.Getter;
 

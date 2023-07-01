@@ -4,7 +4,7 @@ import com.aelous.cache.definitions.identifiers.ObjectIdentifiers;
 import com.aelous.model.content.achievements.Achievements;
 import com.aelous.model.content.achievements.AchievementsManager;
 import com.aelous.model.content.tasks.impl.Tasks;
-import com.aelous.model.entity.events.StarEvent;
+import com.aelous.model.entity.events.star.StarEvent;
 import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.google.common.collect.ImmutableSet;
@@ -336,42 +336,34 @@ public class Mining extends PacketInteraction {
     }
 
     private static void addBar(Player player, Mining.Rock rock) {
-        boolean success = false;
         switch (rock) {
             case COPPER, TIN -> {
                 player.inventory().add(new Item(2349));
                 player.getSkills().addXp(Skills.SMITHING, 2.5);
-                success = true;
             }
             case IRON -> {
                 player.inventory().add(new Item(2351));
                 player.getSkills().addXp(Skills.SMITHING, 5.0);
-                success = true;
             }
             case SILVER -> {
                 player.inventory().add(new Item(2355));
                 player.getSkills().addXp(Skills.SMITHING, 5.5);
-                success = true;
             }
             case GOLD -> {
                 player.inventory().add(new Item(2357));
                 player.getSkills().addXp(Skills.SMITHING, 9.0);
-                success = true;
             }
             case MITHRIL -> {
                 player.inventory().add(new Item(2359));
                 player.getSkills().addXp(Skills.SMITHING, 12.0);
-                success = true;
             }
             case ADAMANT -> {
                 player.inventory().add(new Item(2361));
                 player.getSkills().addXp(Skills.SMITHING, 15.0);
-                success = true;
             }
             case RUNE -> {
                 player.inventory().add(new Item(2363));
                 player.getSkills().addXp(Skills.SMITHING, 20.0);
-                success = true;
             }
         }
     }
@@ -454,7 +446,7 @@ public class Mining extends PacketInteraction {
         );
     }
 
-    @Override
+  /*  @Override
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         for (RegisterableRock rock : rocks) {
             if (obj.getId() == rock.obj) {
@@ -468,6 +460,6 @@ public class Mining extends PacketInteraction {
             return true;
         }
         return false;
-    }
+    }*/
 
 }

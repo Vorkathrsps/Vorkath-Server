@@ -97,8 +97,8 @@ public class Mining extends PacketInteraction {
         player.message("You swing your pick at the rock.");
         player.animate(pick.get().anim);
 
-
-        Chain.bound(player).repeatingTask(pick.get().getDelay(), mine -> {
+        var delay = pick.get().getDelay();
+        player.repeatingTask(delay, mine -> {
             if (!ObjectManager.objWithTypeExists(10, obj.tile()) && !ObjectManager.objWithTypeExists(11, obj.tile()) && !ObjectManager.objWithTypeExists(0, obj.tile())) {
                 player.animate(-1);
                 mine.stop();
@@ -114,7 +114,7 @@ public class Mining extends PacketInteraction {
             player.animate(pick.get().anim);
 
             var success = SkillingSuccess.success(player.skills().level(Skills.MINING), rockType.level_req, rockType, pick.get());
-
+            System.out.println("success "+success);
             if (success) {
                 if (Utils.rollDie(20, 1)) {
                     player.inventory().addOrDrop(new Item(7956, 1));
@@ -160,6 +160,8 @@ public class Mining extends PacketInteraction {
                     ObjectManager.replace(original, spawned, Math.max(1, rockType.respawn_time - 1));
                     mine.stop();
                 }
+                player.animate(-1);
+                mine.stop();
             }
         });
     }

@@ -1,6 +1,7 @@
 package com.aelous.model.content.skill.impl.mining;
 
 import com.aelous.utility.Utils;
+import com.google.common.collect.ImmutableSortedSet;
 import lombok.Getter;
 
 public enum Ore {
@@ -16,7 +17,7 @@ public enum Ore {
     LOVAKITE(new int[]{}, 13356,11390,65, 4, 25, 10.0, 10, 3200, 745,"lovakite ore"),
     ADAMANT_ROCK(new int[]{11375}, 11390,449, 70, 2, 25, 95.0, 10, 3000, 349,"adamant ore"),
     RUNE_ROCK(new int[]{11377, 11376}, 11390,451, 70, 1, 18, 125.0, 10, 2500, 229,"rune ore"),
-    AMETHYST_ROCK(new int[]{11389, 11388}, 11390,21347, 92, -18, 10, 240.0, 10, 2000, 241,"amethyst ore");
+    AMETHYST_ROCK(new int[]{11389, 11388}, 11393,21347, 92, -18, 10, 240.0, 10, 2000, 241,"amethyst ore");
 
     @Getter public final int[] id;
     @Getter public final int replacement_id;
@@ -43,4 +44,6 @@ public enum Ore {
         this.pet_chance = pet_chance;
         this.name = name;
     }
+
+    public static final ImmutableSortedSet<Ore> VALUES = ImmutableSortedSet.copyOf(values()).descendingSet();
 }

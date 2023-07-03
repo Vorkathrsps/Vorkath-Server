@@ -75,8 +75,7 @@ public class MovementPacketListener implements PacketListener {
 
             if (player.frozen() && freezer.isPlayer()
                 && (!WildernessArea.inWilderness(player.tile()) && WildernessArea.inWilderness(freezer.tile()))
-                || (WildernessArea.inWilderness(player.tile()) && !WildernessArea.inWilderness(freezer.tile()))
-            ) {
+                || (WildernessArea.inWilderness(player.tile()) && !WildernessArea.inWilderness(freezer.tile()))) {
                 CombatFactory.unfreezeWhenOutOfRange(player);
             }
         }
@@ -97,6 +96,7 @@ public class MovementPacketListener implements PacketListener {
         if (packet.getOpcode() == IncomingHandler.MINIMAP_MOVEMENT_OPCODE || packet.getOpcode() == IncomingHandler.GAME_MOVEMENT_OPCODE) {
             player.getCombat().reset();//Reset combat when moving
             player.getCombat().setCastSpell(null);
+            player.action.cancel();
         }
 
         // Close dialogues
@@ -160,7 +160,7 @@ public class MovementPacketListener implements PacketListener {
         //System.out.println(shiftTeleport+" "+minimapClick+" "+Arrays.toString(Arrays.stream(tiles).toArray()));
 
         if (shiftTeleport == 1 && minimapClick && tiles.length > 0) {
-            player.teleport(tiles[tiles.length-1]);
+            player.teleport(tiles[tiles.length - 1]);
             return;
         }
 

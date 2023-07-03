@@ -28,15 +28,12 @@ public abstract class DefaultSkillable implements Skillable {
 
     @Override
     public void start(Player player) {
-        //Start animation loop..
         startAnimationLoop(player);
 
-        //Start main process task..
         Task task = new Task("SkillableProcessTask", 1, player, true) {
             int cycle = 0;
             @Override
             protected void execute() {
-                //Make sure we still have the requirements to keep skilling..
                 if (loopRequirements()) {
                     if (!hasRequirements(player)) {
                         cancel(player);
@@ -44,12 +41,8 @@ public abstract class DefaultSkillable implements Skillable {
                     }
                 }
 
-                //Every cycle, call the abstract method..
                 onCycle(player);
 
-                //Sequence the skill, reward players
-                //with items once the right amount
-                //of cycles have passed.
                 if (cycle++ >= cyclesRequired(player)) {
                     finishedCycle(player);
                     cycle = 0;
@@ -57,10 +50,8 @@ public abstract class DefaultSkillable implements Skillable {
             }
         };
 
-        //Submit it..
         TaskManager.submit(task);
 
-        //Add to our list of tasks..
         tasks.add(task);
     }
 

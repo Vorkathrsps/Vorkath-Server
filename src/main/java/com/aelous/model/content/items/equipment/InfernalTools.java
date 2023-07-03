@@ -1,6 +1,6 @@
 package com.aelous.model.content.items.equipment;
 
-import com.aelous.model.content.skill.impl.mining.Mining;
+import com.aelous.model.content.skill.impl.mining.Pickaxe;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.Player;
@@ -19,13 +19,13 @@ public class InfernalTools {
 
     public static boolean canUse(Player player, int id) {
         Item equipped = player.getEquipment().get(EquipSlot.WEAPON);
-        if (equipped != null && equipped.getId() == Mining.Pickaxe.INFERNAL.id) {
+        if (equipped != null && equipped.getId() == Pickaxe.INFERNAL.id) {
             return true;
         } else {
             // Loop through the inventory to find one with charges
             for (Item item : player.inventory()) {
                 int charges = player.getAttribOr(AttributeKey.INFERNAL_PICKAXE_CHARGES, 0);
-                if (item != null && item.getId() == Mining.Pickaxe.INFERNAL.id && charges > 0) {
+                if (item != null && item.getId() == Pickaxe.INFERNAL.id && charges > 0) {
                     return true;
                 }
             }

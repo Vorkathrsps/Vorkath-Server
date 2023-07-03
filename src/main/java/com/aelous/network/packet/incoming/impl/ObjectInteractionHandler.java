@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.function.BooleanSupplier;
 
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.OPEN_CHEST_3194;
 import static org.apache.logging.log4j.util.Unbox.box;
@@ -107,7 +108,8 @@ public class ObjectInteractionHandler implements PacketListener {
         player.stopActions(false);
         player.putAttrib(AttributeKey.INTERACTION_OBJECT, object);
         player.putAttrib(AttributeKey.INTERACTION_OPTION, option);
-        player.getRouteFinder().routeObject(object, () -> handleAction(player, object, option));
+        BooleanSupplier next_to_object = () -> player.tile().nextTo(object.tile());
+        player.getRouteFinder().routeObject(object, () -> player.waitUntil(next_to_object, () -> handleAction(player, object, option)));
         int sizeX = object.definition().sizeX;
         int sizeY = object.definition().sizeY;
         boolean inversed = (object.getRotation() & 0x1) != 0;
@@ -141,8 +143,7 @@ public class ObjectInteractionHandler implements PacketListener {
         final boolean bank = object.getId() == OPEN_CHEST_3194 || name.equalsIgnoreCase("Bank booth") || name.equalsIgnoreCase("Bank chest") || name.equalsIgnoreCase("Grand Exchange booth");
 
         switch (option) {
-
-            case 1: {
+            case 1 -> {
                 player.getFarming().handleObjectClick(object.tile().x, object.tile().y, 1);
                 if (name.equalsIgnoreCase("anvil")) {
                     if (object.tile().equals(2794, 2793)) {
@@ -179,10 +180,8 @@ public class ObjectInteractionHandler implements PacketListener {
                     return;
                 }
                 player.getPacketSender().sendMessage("Nothing interesting happens.");
-                break;
             }
-
-            case 2: {
+            case 2 -> {
                 player.getFarming().handleObjectClick(object.tile().x, object.tile().y, 2);
                 if (bank) {
                     player.getBank().open();
@@ -200,10 +199,8 @@ public class ObjectInteractionHandler implements PacketListener {
                     return;
                 }
                 player.getPacketSender().sendMessage("Nothing interesting happens.");
-                break;
             }
-
-            case 3: {
+            case 3 -> {
                 player.getFarming().handleObjectClick(object.tile().x, object.tile().y, 3);
                 if (name.equalsIgnoreCase("Grand Exchange booth")) {
                     TradingPost.open(player);
@@ -217,12 +214,9 @@ public class ObjectInteractionHandler implements PacketListener {
                 }
 
                 player.getPacketSender().sendMessage("Nothing interesting happens.");
-                break;
             }
-
-            case 4: {
+            case 4 -> {
                 player.getPacketSender().sendMessage("Nothing interesting happens.");
-                break;
             }
         }
     }

@@ -14,6 +14,8 @@ import static com.aelous.utility.ItemIdentifiers.*;
  */
 public class GameConstants {
 
+    public static final String PACKAGE = "com.aelous";
+
     public static final String VOTE_URL = "https://aelous.net/vote/";
     public static final String WEBSITE_URL = "https://aelous.net";
 

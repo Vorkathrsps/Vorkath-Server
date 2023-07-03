@@ -2775,7 +2775,6 @@ public class Player extends Entity {
 
         getMovementQueue().resetFollowing();
 
-        animate(-1);
     }
 
     public boolean muted() {

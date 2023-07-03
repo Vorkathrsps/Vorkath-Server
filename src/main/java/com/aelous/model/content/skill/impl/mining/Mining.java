@@ -97,86 +97,68 @@ public class Mining extends PacketInteraction {
         player.message("You swing your pick at the rock.");
         player.animate(pick.get().anim);
 
-        player.getSkills().startSkillable(new DefaultSkillable() {
-            @Override
-            public boolean loopRequirements() {
-                if (!ObjectManager.objWithTypeExists(10, obj.tile()) && !ObjectManager.objWithTypeExists(11, obj.tile()) && !ObjectManager.objWithTypeExists(0, obj.tile())) {
-                    player.animate(-1);
-                    return false;
+
+        Chain.bound(player).repeatingTask(pick.get().getDelay(), mine -> {
+            if (!ObjectManager.objWithTypeExists(10, obj.tile()) && !ObjectManager.objWithTypeExists(11, obj.tile()) && !ObjectManager.objWithTypeExists(0, obj.tile())) {
+                player.animate(-1);
+                mine.stop();
+                return;
+            }
+
+            if (player.getInventory().isFull()) {
+                player.animate(Animation.DEFAULT_RESET_ANIMATION);
+                mine.stop();
+                return;
+            }
+
+            player.animate(pick.get().anim);
+
+            var success = SkillingSuccess.success(player.skills().level(Skills.MINING), rockType.level_req, rockType, pick.get());
+
+            if (success) {
+                if (Utils.rollDie(20, 1)) {
+                    player.inventory().addOrDrop(new Item(7956, 1));
+                    player.message("The rock broke, inside you find a casket!");
                 }
 
-                if (player.getInventory().isFull()) {
+                if (Utils.rollDie(rockType.geode_chance / geode_multiplier, 1)) {
+                    player.getInventory().addOrDrop(new Item(Utils.randomElement(GEODES), 1));
+                    player.message("The rock broke, inside you find a geode!");
+                }
+
+                if (rockType != Ore.COAL_ROCK && pick.get() == Pickaxe.INFERNAL && Utils.random(2) == 0) {
+                    player.graphic(580, GraphicHeight.HIGH, 0);
+                    addBar(player, rockType);
+                    return;
+                }
+
+                if (Utils.rollDie(calculateGemOdds(player), 1)) {
+                    Utils.randomElement(GEMS);
+                    player.message("You manage to find gems in the rock you were mining.");
+                } else {
+                    player.getInventory().add(new Item(rockType.item));
+                    player.message("You manage to mine some " + rockType.name + ".");
+                }
+
+                player.getSkills().addXp(Skills.MINING, rockType.experience * experience_multiplier);
+
+                switch (rockType) {
+                    case COPPER_ROCK -> AchievementsManager.activate(player, Achievements.MINING_I, 1);
+                    case COAL_ROCK -> AchievementsManager.activate(player, Achievements.MINING_II, 1);
+                    case ADAMANT_ROCK -> AchievementsManager.activate(player, Achievements.MINING_III, 1);
+                    case RUNE_ROCK -> AchievementsManager.activate(player, Achievements.MINING_IV, 1);
+                }
+
+                if (rockType == Ore.RUNE_ROCK) {
+                    player.getTaskMasterManager().increase(Tasks.MINE_RUNITE_ORE);
+                }
+
+                if (Utils.percentageChance(33)) {
                     player.animate(Animation.DEFAULT_RESET_ANIMATION);
-                    return false;
-                }
-                return true;
-            }
-
-            @Override
-            public boolean allowFullInventory() {
-                return false;
-            }
-
-            @Override
-            public void startAnimationLoop(Player player) {
-                player.animate(pick.get().anim);
-            }
-
-            @Override
-            public int cyclesRequired(Player player) {
-                return pick.get().getDelay();
-            }
-
-            @Override
-            public void finishedCycle(Player player) {
-
-                var success = SkillingSuccess.success(player.skills().level(Skills.MINING), rockType.level_req, rockType, pick.get());
-
-                if (success) {
-                    if (Utils.rollDie(20, 1)) {
-                        player.inventory().addOrDrop(new Item(7956, 1));
-                        player.message("The rock broke, inside you find a casket!");
-                    }
-
-                    if (Utils.rollDie(rockType.geode_chance / geode_multiplier, 1)) {
-                        player.getInventory().addOrDrop(new Item(Utils.randomElement(GEODES), 1));
-                        player.message("The rock broke, inside you find a geode!");
-                    }
-
-                    if (rockType != Ore.COAL_ROCK && pick.get() == Pickaxe.INFERNAL && Utils.random(2) == 0) {
-                        player.graphic(580, GraphicHeight.HIGH, 0);
-                        addBar(player, rockType);
-                        return;
-                    }
-
-                    if (Utils.rollDie(calculateGemOdds(player), 1)) {
-                        Utils.randomElement(GEMS);
-                        player.message("You manage to find gems in the rock you were mining.");
-                    } else {
-                        player.getInventory().add(new Item(rockType.item));
-                        player.message("You manage to mine some " + rockType.name + ".");
-                    }
-
-                    player.getSkills().addXp(Skills.MINING, rockType.experience * experience_multiplier);
-
-                    switch (rockType) {
-                        case COPPER_ROCK -> AchievementsManager.activate(player, Achievements.MINING_I, 1);
-                        case COAL_ROCK -> AchievementsManager.activate(player, Achievements.MINING_II, 1);
-                        case ADAMANT_ROCK -> AchievementsManager.activate(player, Achievements.MINING_III, 1);
-                        case RUNE_ROCK -> AchievementsManager.activate(player, Achievements.MINING_IV, 1);
-                    }
-
-                    if (rockType == Ore.RUNE_ROCK) {
-                        player.getTaskMasterManager().increase(Tasks.MINE_RUNITE_ORE);
-                    }
-
-                    if (Utils.percentageChance(33)) {
-                        player.animate(Animation.DEFAULT_RESET_ANIMATION);
-                        GameObject original = new GameObject(obj.getId(), obj.tile(), obj.getType(), obj.getRotation());
-                        GameObject spawned = new GameObject(replId, obj.tile(), obj.getType(), obj.getRotation());
-                        ObjectManager.replace(original, spawned, Math.max(1, rockType.respawn_time - 1));
-                        super.cancel(player);
-                    }
+                    GameObject original = new GameObject(obj.getId(), obj.tile(), obj.getType(), obj.getRotation());
+                    GameObject spawned = new GameObject(replId, obj.tile(), obj.getType(), obj.getRotation());
+                    ObjectManager.replace(original, spawned, Math.max(1, rockType.respawn_time - 1));
+                    mine.stop();
                 }
             }
         });

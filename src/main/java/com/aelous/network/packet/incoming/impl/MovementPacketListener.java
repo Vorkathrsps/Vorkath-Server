@@ -9,6 +9,7 @@ import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.skull.SkullType;
 import com.aelous.model.entity.combat.skull.Skulling;
+import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.inter.dialogue.DialogueManager;
 import com.aelous.model.items.Item;

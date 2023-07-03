@@ -909,9 +909,9 @@ public class Tile implements Cloneable {
         int dy = Math.abs(y - destination.y);
         System.out.println(dx);
         System.out.println(dy);
-        return (dx <= 1 && dy <= 1 || dx >= 0 && dy >= 0);
+        return (dx <= 2 && dy <= 2 || dx >= 0 && dy >= 0);
     }
-    
+
     public int clip() {
         return RegionManager.getClipping(x, y, level);
     }

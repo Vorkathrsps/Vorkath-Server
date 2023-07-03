@@ -177,10 +177,13 @@ public class Player extends Entity {
     public transient ShopReference shopReference = ShopReference.DEFAULT;
 
     private final WildernessSlayerCasket wildernessSlayerCasket = new WildernessSlayerCasket(this);
+
     public WildernessSlayerCasket getWildernessSlayerCasket() {
         return wildernessSlayerCasket;
     }
+
     private final WildernessKeys wildernessKeys = new WildernessKeys(this, null);
+
     public WildernessKeys getWildernessKeys() {
         return wildernessKeys;
     }
@@ -1358,7 +1361,7 @@ public class Player extends Entity {
             this.getPet().pickup(true);
         }
 
-        if  (this.getWildernessKeys() != null) {
+        if (this.getWildernessKeys() != null) {
             if (this.getWildernessKeys().hasSpawnedNpc()) {
                 this.getWildernessKeys().onDeath();
             }
@@ -2556,7 +2559,7 @@ public class Player extends Entity {
         if (rights.isAdministrator(this)) {
             if (getAttribOr(AttributeKey.DEBUG_MESSAGES, false)) {//debug messages are on and I know whats wrong
                 getPacketSender().sendMessage(params.length > 0 ? String.format(format, (Object[]) params) : format);
-                System.out.println("[debug] "+String.format(format, params));
+                System.out.println("[debug] " + String.format(format, params));
             }
         }
     }
@@ -2592,6 +2595,7 @@ public class Player extends Entity {
     private Task distancedTask;
     public final Stopwatch afkTimer = new Stopwatch();
     public final Stopwatch prayerDrainTimer = new Stopwatch();
+
     public void setDistancedTask(Task task) {
         stopDistancedTask();
         this.distancedTask = task;
@@ -2770,6 +2774,8 @@ public class Player extends Entity {
         getSkills().stopSkillable();
 
         getMovementQueue().resetFollowing();
+
+        animate(-1);
     }
 
     public boolean muted() {

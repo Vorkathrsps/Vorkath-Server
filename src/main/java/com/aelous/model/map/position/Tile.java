@@ -796,38 +796,26 @@ public class Tile implements Cloneable {
         return false;
     }
 
-    public Tile getAxisDistances(Entity source, Tile other)
-    {
+    public Tile getAxisDistances(Entity source, Tile other) {
         Tile p1 = this.getComparisonPoint(source, other);
         Tile p2 = other.getComparisonPoint(source, this);
         return new Tile(Math.abs(p1.getX() - p2.getX()), Math.abs(p1.getY() - p2.getY()));
     }
 
-    private Tile getComparisonPoint(Entity source, Tile other)
-    {
+    private Tile getComparisonPoint(Entity source, Tile other) {
         int x, y;
-        if (other.x <= this.x)
-        {
+        if (other.x <= this.x) {
             x = this.x;
-        }
-        else if (other.x >= this.x + source.getSize() - 1)
-        {
+        } else if (other.x >= this.x + source.getSize() - 1) {
             x = this.x + source.getSize() - 1;
-        }
-        else
-        {
+        } else {
             x = other.x;
         }
-        if (other.y <= this.y)
-        {
+        if (other.y <= this.y) {
             y = this.y;
-        }
-        else if (other.y >= this.y + source.getSize() - 1)
-        {
+        } else if (other.y >= this.y + source.getSize() - 1) {
             y = this.y + source.getSize() - 1;
-        }
-        else
-        {
+        } else {
             y = other.y;
         }
         return new Tile(x, y);
@@ -917,12 +905,13 @@ public class Tile implements Cloneable {
     }
 
     public boolean nextTo(Tile destination) {
-        return (x == destination.x + 1 && y == destination.y) ||
-            (x == destination.x - 1 && y == destination.y) ||
-            (x == destination.x && y == destination.y + 1) ||
-            (x == destination.x && y == destination.y - 1);
+        int dx = Math.abs(x - destination.x);
+        int dy = Math.abs(y - destination.y);
+        System.out.println(dx);
+        System.out.println(dy);
+        return (dx <= 1 && dy <= 1 || dx >= 0 && dy >= 0);
     }
-
+    
     public int clip() {
         return RegionManager.getClipping(x, y, level);
     }

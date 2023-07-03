@@ -87,6 +87,8 @@ public class MovementPacketListener implements PacketListener {
             return;
         }
 
+       // player.interruptChains();
+
         // Stop our distanced action task because we reset the walking queue by walking
         player.stopDistancedTask();
 

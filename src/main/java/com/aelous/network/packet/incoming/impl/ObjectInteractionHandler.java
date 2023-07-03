@@ -108,7 +108,7 @@ public class ObjectInteractionHandler implements PacketListener {
         player.stopActions(false);
         player.putAttrib(AttributeKey.INTERACTION_OBJECT, object);
         player.putAttrib(AttributeKey.INTERACTION_OPTION, option);
-        BooleanSupplier next_to_object = () -> player.tile().nextTo(object.tile());
+        BooleanSupplier next_to_object = () -> player.tile().nextTo(new Tile(object.getX(), object.getY(), object.getZ()));
         player.getRouteFinder().routeObject(object, () -> player.waitUntil(next_to_object, () -> handleAction(player, object, option)));
         int sizeX = object.definition().sizeX;
         int sizeY = object.definition().sizeY;

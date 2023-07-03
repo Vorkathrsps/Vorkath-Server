@@ -1775,6 +1775,7 @@ public abstract class Entity {
         }
 
         this.animation = animation;
+        this.recentAnim = animation;
         getUpdateFlag().flag(Flag.ANIMATION);
     }
 
@@ -1809,6 +1810,7 @@ public abstract class Entity {
     private Direction walkingDirection = Direction.NONE, runningDirection = Direction.NONE;
     private final UpdateFlag updateFlag = new UpdateFlag();
     private Animation animation;
+    public Animation recentAnim;
     private Graphic graphic;
     private Tinting tinting;
     private Entity interactingEntity;

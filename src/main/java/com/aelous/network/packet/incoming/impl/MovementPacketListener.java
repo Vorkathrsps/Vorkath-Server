@@ -1,9 +1,11 @@
 package com.aelous.network.packet.incoming.impl;
 
 import com.aelous.GameServer;
+import com.aelous.annotate.Init;
 import com.aelous.core.task.Task;
 import com.aelous.model.content.EffectTimer;
 import com.aelous.model.content.duel.DuelRule;
+import com.aelous.model.content.skill.impl.mining.Pickaxe;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
@@ -28,6 +30,7 @@ import io.netty.buffer.Unpooled;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * This packet listener is called when a player has clicked on either the
@@ -76,7 +79,8 @@ public class MovementPacketListener implements PacketListener {
 
             if (player.frozen() && freezer.isPlayer()
                 && (!WildernessArea.inWilderness(player.tile()) && WildernessArea.inWilderness(freezer.tile()))
-                || (WildernessArea.inWilderness(player.tile()) && !WildernessArea.inWilderness(freezer.tile()))) {
+                || (WildernessArea.inWilderness(player.tile()) && !WildernessArea.inWilderness(freezer.tile()))
+            ) {
                 CombatFactory.unfreezeWhenOutOfRange(player);
             }
         }
@@ -88,8 +92,6 @@ public class MovementPacketListener implements PacketListener {
             return;
         }
 
-       // player.interruptChains();
-
         // Stop our distanced action task because we reset the walking queue by walking
         player.stopDistancedTask();
 
@@ -99,7 +101,6 @@ public class MovementPacketListener implements PacketListener {
         if (packet.getOpcode() == IncomingHandler.MINIMAP_MOVEMENT_OPCODE || packet.getOpcode() == IncomingHandler.GAME_MOVEMENT_OPCODE) {
             player.getCombat().reset();//Reset combat when moving
             player.getCombat().setCastSpell(null);
-            player.action.cancel();
         }
 
         // Close dialogues
@@ -163,7 +164,7 @@ public class MovementPacketListener implements PacketListener {
         //System.out.println(shiftTeleport+" "+minimapClick+" "+Arrays.toString(Arrays.stream(tiles).toArray()));
 
         if (shiftTeleport == 1 && minimapClick && tiles.length > 0) {
-            player.teleport(tiles[tiles.length - 1]);
+            player.teleport(tiles[tiles.length-1]);
             return;
         }
 
@@ -192,6 +193,15 @@ public class MovementPacketListener implements PacketListener {
         // very important to put this AFTER movement.clear is called otherwise attrib is overwritten
         player.putAttrib(AttributeKey.MOVEMENT_PACKET_STEPS, new ArrayDeque<>(Arrays.asList(tiles)));
 
+        if (player.recentAnim != null && ANIMS_TO_RESET.stream().anyMatch(e -> e == player.recentAnim.getId()))
+            player.animate(Animation.DEFAULT_RESET_ANIMATION);
+    }
+
+    static List<Integer> ANIMS_TO_RESET = new ArrayList<>();
+
+    @Init
+    public static void init() {
+        ANIMS_TO_RESET.addAll(Arrays.stream(Pickaxe.values()).map(e -> e.anim).toList());
     }
 
     private boolean checkReqs(Player player, int opcode) {

@@ -157,7 +157,6 @@ public class Hit {
         this.damage = damage;
         this.delay = delay;
         this.hitMark = hitMark;
-        applyAccuracyToMiss();
     }
 
     public Hit builder(Entity attacker, Entity target, int damage, int delay) {
@@ -242,7 +241,7 @@ public class Hit {
     /**
      * checks alwaysHit attrib and accuracy (depending on combat method+style). sets damage to 0 or maxhp or does no change at all, retaining existing {@link #damage} value set by {@link CombatFactory#calcDamageFromType(Entity, Entity, CombatType)}
      */
-    private void applyAccuracyToMiss() {
+    public void applyAccuracyToMiss() {
         if (attacker == null || target == null) {
             return;
         }
@@ -368,6 +367,7 @@ public class Hit {
             return;
         target.nextHits.add(this);
         target.getUpdateFlag().flag(Flag.FIRST_SPLAT);
+        adjustDelay();
     }
 
     public Hit block() {

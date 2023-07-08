@@ -116,7 +116,6 @@ public class Pet {
                 }
                 npc.faceEntity(player);
 
-                // path to the previous tick target
                 int[] thisTickTarget = {-1, -1};
 
                 DumbRoute.step(npc, player, 1);
@@ -125,7 +124,6 @@ public class Pet {
                 thisTickTarget[1] = npc.getRouteFinder().routeEntity.finishY;
                 npc.getMovement().reset();
 
-                // execute later route
                 DumbRoute.step(npc, thisTickTarget[0], thisTickTarget[1]);
             } else {
                 npc.remove();

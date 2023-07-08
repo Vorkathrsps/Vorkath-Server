@@ -84,6 +84,7 @@ import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.HealthHud;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.npc.pets.Pet;
+import com.aelous.model.entity.npc.pets.SpawnPet;
 import com.aelous.model.entity.player.commands.impl.staff.admin.UpdateServerCommand;
 import com.aelous.model.entity.player.relations.PlayerRelations;
 import com.aelous.model.entity.player.rights.MemberRights;
@@ -165,9 +166,11 @@ public class Player extends Entity {
         LOGOUT = Level.getLevel("LOGOUT");
     }
 
-    public int lastPetId;//ItemId?
+    public int lastPetId;
 
     private final Pet pet = new Pet(this);
+
+    @Getter private final SpawnPet spawnPet = new SpawnPet(this);
 
     public Pet getPet() {
         return pet;
@@ -1357,8 +1360,8 @@ public class Player extends Entity {
         if (getInstancedArea() != null) {
             getInstancedArea().removePlayer(this);
         }
-        if (this.getPet().hasPet()) {
-            this.getPet().pickup(true);
+        if (this.getSpawnPet() != null) {
+            this.getSpawnPet().removeOnLogout();
         }
 
         if (this.getWildernessKeys() != null) {
@@ -1418,7 +1421,7 @@ public class Player extends Entity {
             if (getClan() != null) {
                 ClanManager.leave(this, true);
             }
-        });
+        }); //hhhh
 
         runExceptionally(() -> {
             HealthHud.close(this);
@@ -1546,7 +1549,7 @@ public class Player extends Entity {
                 ClanManager.join(this, clanChat);
             }
 
-            this.getPet().onLogin();
+            this.getSpawnPet().spawnOnLogin();
 
             //QuestTab.refreshInfoTab(this);
         }).then(1, () -> {

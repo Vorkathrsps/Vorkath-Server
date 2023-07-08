@@ -113,7 +113,6 @@ public class Hit {
      * Adjusts the hit delay with the characters update index (PID).
      */
     private void adjustDelay() {
-
         if (target != null && target.isNpc()) {
             return;
         }
@@ -123,22 +122,16 @@ public class Hit {
             return;
         }
 
-        if (attacker != null) {
-
-            if (attacker.isNpc() || attacker.pidOrderIndex == -1) {
-                return;
-            }
-
+        if (attacker != null && attacker.pidOrderIndex != -1) {
             if (target != null && attacker.pidOrderIndex <= target.pidOrderIndex) {
                 delay -= 1;
             }
         }
 
-        if (delay < 1 && combatType != CombatType.MELEE) {
+        if (delay < 1 && !combatType.isMelee()) {
             delay = 1;
         }
     }
-
     public Hit(Entity attacker, Entity target) {
         this.attacker = attacker;
         this.target = target;

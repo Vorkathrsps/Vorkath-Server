@@ -67,8 +67,6 @@ public class Autocasting {
     public static final Set<Integer> SPECIAL_AUTOCAST_STAFFS = Set.of(TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP,
         SANGUINESTI_STAFF, HOLY_SANGUINESTI_STAFF, TUMEKENS_SHADOW, ACCURSED_SCEPTRE_A);
 
-    //TODO add checks if wearing when changing spellbooks etc, this seriously bugs shit out
-
     public static boolean toggleAutocast(final Player player, int actionButtonId) {
         final CombatSpell cbSpell = CombatSpells.getCombatSpell(actionButtonId);
 

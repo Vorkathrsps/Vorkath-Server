@@ -649,12 +649,7 @@ public class CommandManager {
             ((GreatOlm) olm.getCombatMethod()).flameWall(olm);
         });
         dev("c", (p, c, s) -> {
-
-            CrashedStar star = new CrashedStar(41019, new Tile(3112, 3960));
-            star.spawn();
-            Chain.noCtx().delay(2, () -> {
-                star.setId(41020);
-            });
+            p.message(String.valueOf(p.getAttrib(AttributeKey.LAST_PET_ID)));
         });
         dev("curseoff", (p, c, s) -> {
             p.clearAttrib(AttributeKey.NIGHTMARE_CURSE);

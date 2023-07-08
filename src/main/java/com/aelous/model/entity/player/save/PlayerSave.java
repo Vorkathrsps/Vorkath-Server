@@ -791,7 +791,7 @@ public class PlayerSave {
             player.putAttrib(HERB_BOX_CHARGES, details.herbBoxCharges);
             player.putAttrib(CLAIMED_DONATOR_REWARDS, details.claimedDonatorRewards);
             player.putAttrib(SNOW_MONSTER_TIMER, details.snowMonsterTimer);
-            player.lastPetId = details.lastPet;
+            player.putAttrib(LAST_PET_ID, details.lastPet);
             player.setInvulnerable(details.infhp);
             if (details.varps != null) {
                 int[] varps = new int[4000];
@@ -1946,7 +1946,7 @@ public class PlayerSave {
             herbBoxCharges = Player.getAttribIntOr(player, HERB_BOX_CHARGES, 0);
             claimedDonatorRewards = Player.getAttribBooleanOr(player, CLAIMED_DONATOR_REWARDS, false);
             snowMonsterTimer = Player.getAttribIntOr(player, SNOW_MONSTER_TIMER,500);
-            lastPet = player.getPet().getCurrentPetAsId();
+            lastPet = Player.getAttribIntOr(player, LAST_PET_ID,-1);
             infhp = player.isInvulnerable();
             varps = new HashMap<>() {
                 {

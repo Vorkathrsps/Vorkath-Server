@@ -128,8 +128,10 @@ public class Combat {
     public void delayAttack(int ticks) {
         mob.getTimers().extendOrRegister(TimerKey.COMBAT_ATTACK, ticks);
     }
+
+    MagicMaxHitFormula magicMaxHitFormula = new MagicMaxHitFormula();
+
     public int getMaximumMagicDamage() {
-        MagicMaxHitFormula magicMaxHitFormula = new MagicMaxHitFormula();
         if (mob instanceof NPC npc) {
             return npc.getCombatInfo() != null ? npc.getCombatInfo().maxhit : 0;
         }
@@ -157,8 +159,10 @@ public class Combat {
      *
      * @return The max hit
      */
+
+    RangedMaxHitFormula maxHitFormula = new RangedMaxHitFormula();
+
     public int getMaximumRangedDamage() {
-        RangedMaxHitFormula maxHitFormula = new RangedMaxHitFormula();
 
         if (mob instanceof NPC npc) {
             return npc.getCombatInfo() != null ? npc.getCombatInfo().maxhit : 0;
@@ -448,23 +452,19 @@ public class Combat {
      * @param entity the entity to add damage for.
      * @param amount the amount of damage to add for the argued entity.
      */
+    HitDamageCache hitDamageCache = null;
     public void addDamage(Entity entity, int amount) {
-
-        if (amount <= 0 || isNonCombatNpc(this.mob)) { // damage on npcs not tracked! makes sense for non-cb npcs,
-            // wil also be memory intensive unless we lazy-init (only create the new Map<> when actuall yneeded)
-            //System.out.println("yeet this guy "+entity.getMobName()+" by "+amount);
+        if (amount <= 0 || isNonCombatNpc(this.mob)) {
+            // Damage on non-combat NPCs is not tracked
             return;
         }
 
-        getDamageMap(); // make sure it exists
+        Map<Entity, HitDamageCache> damageMap = getDamageMap();
 
-        if (damageMap.containsKey(entity)) {
-            damageMap.get(entity).incrementDamage(amount);
-            return;
-        }
-
-        damageMap.put(entity, new HitDamageCache(amount));
+        hitDamageCache = damageMap.computeIfAbsent(entity, key -> new HitDamageCache(0));
+        hitDamageCache.incrementDamage(amount);
     }
+
 
     private boolean isNonCombatNpc(Entity entity) {
         if (!entity.isNpc()) return false;

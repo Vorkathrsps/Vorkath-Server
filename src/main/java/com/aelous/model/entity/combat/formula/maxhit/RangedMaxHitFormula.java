@@ -24,6 +24,7 @@ import static com.aelous.utility.ItemIdentifiers.*;
  */
 public class RangedMaxHitFormula {
     public RangedMaxHitFormula() {
+
     }
 
     public int calculateMaximumHit(@NonNull final Player player, boolean isSpecialActivated) {
@@ -139,7 +140,6 @@ public class RangedMaxHitFormula {
 
         return otherBonus;
     }
-
 
     private double getVoidModifier(@NonNull final Player player) {
         if (FormulaUtils.regularVoidEquipmentBaseRanged(player)) {

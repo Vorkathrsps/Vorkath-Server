@@ -2,6 +2,7 @@ package com.aelous.model.entity.npc.pets;
 
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.utility.*;
+import lombok.Getter;
 
 import java.util.*;
 
@@ -13,6 +14,7 @@ import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.LITTLE_NIG
  * <p>
  * UPDATE 14/10/2016 : npc_option ID no longer used in NPC Updating. See issue #557
  */
+@Getter
 public enum PetDefinitions {
 
     YOUNGLLEF(ItemIdentifiers.YOUNGLLEF, NpcIdentifiers.YOUNGLLEF, -1),
@@ -140,6 +142,15 @@ public enum PetDefinitions {
 
     public static PetDefinitions getByNpc(int npc) {
         return MAP_BY_NPC.get(npc);
+    }
+
+    public static PetDefinitions getItemByPet(int npc) {
+        for (PetDefinitions definitions : values()) {
+            if (definitions.npc == npc) {
+                return definitions;
+            }
+        }
+        return null;
     }
 
     public static PetDefinitions getPetByItem(int item) {

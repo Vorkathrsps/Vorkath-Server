@@ -63,21 +63,6 @@ public class SpawnPet {
         return false;
     }
 
-    public void spawnOnLogin() {
-        Optional<PetDefinitions> petDefinitions = Optional.ofNullable(PetDefinitions.getItemByPet(player.getAttribOr(AttributeKey.LAST_PET_ID, -1)));
-        if (petDefinitions.isPresent()) {
-            if (player.getAttribOr(AttributeKey.LAST_PET_ID, -1) == petDefinitions.get()) {
-                dropPet(Item.of(petDefinitions.get().getItem()));
-            }
-        }
-    }
-
-    public void removeOnLogout() {
-        if (player.getSpawnPet().getPet() != null) {
-            clearSpawnedPet();
-        }
-    }
-
     public void follow() {
         if (player.getSpawnPet().getPet() == null) {
             return;
@@ -85,7 +70,6 @@ public class SpawnPet {
         Chain.noCtxRepeat().repeatingTask(1, t -> {
             if (player.getSpawnPet().getPet() == null) {
                 t.stop();
-                player.message("null pet");
                 return;
             }
             if (player.isRegistered() && player.getSpawnPet().getPet().isRegistered()) {
@@ -104,11 +88,26 @@ public class SpawnPet {
                 player.getSpawnPet().getPet().getMovement().reset();
                 DumbRoute.step(player.getSpawnPet().getPet(), thisTick[0], thisTick[1]);
             } else {
-                player.message("stopping");
                 player.getSpawnPet().getPet().remove();
                 t.stop();
             }
         });
     }
+
+    public void spawnOnLogin() {
+        Optional<PetDefinitions> petDefinitions = Optional.ofNullable(PetDefinitions.getItemByPet(player.getAttribOr(AttributeKey.LAST_PET_ID, -1)));
+        if (petDefinitions.isPresent()) {
+            if (player.<Integer>getAttribOr(AttributeKey.LAST_PET_ID, -1) == petDefinitions.get().getNpc()) {
+                dropPet(Item.of(petDefinitions.get().getItem()));
+            }
+        }
+    }
+
+    public void removeOnLogout() {
+        if (player.getSpawnPet().getPet() != null) {
+            clearSpawnedPet();
+        }
+    }
+    
 }
 

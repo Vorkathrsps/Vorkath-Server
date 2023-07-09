@@ -453,6 +453,7 @@ public class Combat {
      * @param amount the amount of damage to add for the argued entity.
      */
     HitDamageCache hitDamageCache = null;
+
     public void addDamage(Entity entity, int amount) {
         if (amount <= 0 || isNonCombatNpc(this.mob)) {
             // Damage on non-combat NPCs is not tracked
@@ -736,6 +737,7 @@ public class Combat {
             else if (method instanceof CommonCombatMethod commonCombatMethod) {
                 commonCombatMethod.set(mob, target);
                 commonCombatMethod.doFollowLogic();
+                commonCombatMethod.process(mob, target);
             } else {
                 // fallback: the normal code for all mobs who dont have CommonCombat as their script
                 DumbRoute.step(mob, target, method.getAttackDistance(mob));

@@ -84,7 +84,6 @@ import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.HealthHud;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.npc.pets.Pet;
-import com.aelous.model.entity.npc.pets.SpawnPet;
 import com.aelous.model.entity.player.commands.impl.staff.admin.UpdateServerCommand;
 import com.aelous.model.entity.player.relations.PlayerRelations;
 import com.aelous.model.entity.player.rights.MemberRights;
@@ -119,7 +118,6 @@ import com.aelous.network.Session;
 import com.aelous.network.SessionHandler;
 import com.aelous.network.SessionState;
 import com.aelous.network.packet.PacketBuilder;
-import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.network.packet.incoming.interaction.PacketInteractionManager;
 import com.aelous.network.packet.outgoing.PacketSender;
 import com.aelous.network.packet.outgoing.UnnecessaryPacketDropper;
@@ -168,13 +166,7 @@ public class Player extends Entity {
 
     public int lastPetId;
 
-    private final Pet pet = new Pet(this);
-
-    @Getter private final SpawnPet spawnPet = new SpawnPet(this);
-
-    public Pet getPet() {
-        return pet;
-    }
+    @Getter private final Pet pet = new Pet(this);
 
     public RaidStage raidStage;
     public transient ShopReference shopReference = ShopReference.DEFAULT;
@@ -1360,8 +1352,8 @@ public class Player extends Entity {
         if (getInstancedArea() != null) {
             getInstancedArea().removePlayer(this);
         }
-        if (this.getSpawnPet() != null) {
-            this.getSpawnPet().removeOnLogout();
+        if (this.getPet() != null) {
+            this.getPet().removeOnLogout();
         }
 
         if (this.getWildernessKeys() != null) {
@@ -1549,7 +1541,9 @@ public class Player extends Entity {
                 ClanManager.join(this, clanChat);
             }
 
-            this.getSpawnPet().spawnOnLogin();
+            if (this.getPet() != null) {
+                this.getPet().spawnOnLogin();
+            }
 
             //QuestTab.refreshInfoTab(this);
         }).then(1, () -> {

@@ -25,6 +25,7 @@ import com.aelous.model.entity.masks.impl.updating.NPCUpdating;
 import com.aelous.model.entity.masks.impl.updating.PlayerUpdating;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.npc.NPCCombatInfo;
+import com.aelous.model.entity.npc.droptables.DropSystem;
 import com.aelous.model.entity.npc.droptables.ScalarLootTable;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.PlayerPerformanceTracker;

@@ -42,6 +42,9 @@ public class Tile implements Cloneable {
     private int npcCount;
     public ArrayList<GameObject> gameObjects;
 
+    public GameObject object(int objectID) {
+        return new GameObject(objectID, this, 10, 0);
+    }
     public void addObject(GameObject gameObject) {
         if (gameObjects == null) {
             gameObjects = new ArrayList<>(4);

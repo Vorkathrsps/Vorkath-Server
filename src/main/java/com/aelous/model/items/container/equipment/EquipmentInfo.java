@@ -131,6 +131,7 @@ public class EquipmentInfo {
                 bonuses.crush = i.attack;
                 bonuses.stab = i.attack;
                 bonuses.slash = i.attack;
+                bonuses.rangestr = i.rangestrength;
             }
         }
 

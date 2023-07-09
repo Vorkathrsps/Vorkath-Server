@@ -228,29 +228,33 @@
     ],
     "aggressive": true,
     "boss": true,
-    "maxhit": 38,
+    "maxhit": 55,
     "slayerlvl": 1,
     "slayerxp": 312,
     "respawntime": 50,
     "stats": {
       "attack": 350,
-      "strength": 370,
-      "defence": 100,
-      "hitpoints": 255
+      "strength": 300,
+      "defence": 225,
+      "magic": 1,
+      "ranged": 200,
+      "hitpoints": 1000
     },
     "bonuses": {
       "attack": 0,
       "strength": 0,
-      "stabdefence": 175,
-      "slashdefence": 175,
-      "crushdefence": 175,
-      "rangeddefence": 175,
-      "magicdefence": 900
+      "ranged": 100,
+      "rangestrength": 30,
+      "stabdefence": 150,
+      "slashdefence": 130,
+      "crushdefence": 125,
+      "rangeddefence": 50,
+      "magicdefence": 0
     },
     "animations": {
       "attack": 4925,
       "block": 4927,
-      "death": 4929
+      "death": 10017
     },
     "scripts": {
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.Callisto",

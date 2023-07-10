@@ -2374,7 +2374,7 @@
       "death": 6295
     },
     "scripts": {
-      "hit": "nl.bartpelle.veteres.content.minigames.wintertodt.WintertodtPyromancer.hit"
+      //"hit": "nl.bartpelle.veteres.content.minigames.wintertodt.WintertodtPyromancer.hit"
     }
   },
   {
@@ -2453,7 +2453,7 @@
       "death": 4521
     },
     "scripts": {
-      "death": "nl.bartpelle.veteres.content.npcs.bosses.abyssalsire.AbyssalSireRespiratorySystem.deathScript",
+      //"death": "nl.bartpelle.veteres.content.npcs.bosses.abyssalsire.AbyssalSireRespiratorySystem.deathScript",
       "hit": "nl.bartpelle.veteres.content.npcs.bosses.abyssalsire.AbyssalSireRespiratorySystem.hitScript"
     }
   },

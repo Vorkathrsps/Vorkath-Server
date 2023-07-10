@@ -3,12 +3,17 @@ package com.aelous.network.pipeline;
 import com.aelous.GameBuilder;
 import com.aelous.GameServer;
 import com.aelous.annotate.Init;
+import com.aelous.cache.definitions.NpcDefinition;
 import com.aelous.core.task.TaskManager;
+import com.aelous.model.World;
 import com.aelous.model.content.areas.wilderness.content.boss_event.WildernessBossEvent;
 import com.aelous.model.content.areas.wilderness.content.todays_top_pkers.TopPkers;
 import com.aelous.model.entity.combat.method.impl.npcs.godwars.GwdLogic;
 import com.aelous.model.entity.events.star.StarEventTask;
+import com.aelous.model.entity.npc.NPC;
+import com.aelous.model.entity.npc.pets.PetDefinitions;
 import com.aelous.model.items.Item;
+import com.aelous.model.map.position.Tile;
 import com.aelous.network.security.HostBlacklist;
 import com.aelous.utility.Reflection;
 import org.apache.logging.log4j.LogManager;
@@ -70,6 +75,12 @@ public final class Bootstrap {
         }
         TaskManager.submit(new StarEventTask());
         Item.onServerStart();
+
+        for (PetDefinitions value : PetDefinitions.values()) {
+            var n = World.getWorld().definitions().get(NpcDefinition.class, value.npc);
+            if (n != null)
+                n.ignoreOccupiedTiles = true;
+        }
     }
 
     public void scanInitMethods() {

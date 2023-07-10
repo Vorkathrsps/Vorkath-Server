@@ -708,15 +708,8 @@ public class Combat {
 
         method = CombatFactory.getMethod(mob);
 
-        if (method instanceof CommonCombatMethod ccm) {
-            ccm.set(mob, target);
-            if (target == null && ccm.isAggressive()) {
-                mob.npc().findAgroTargetTimed();
-                if (target != null) {
-                    mob.faceEntity(target);
-                }
-            }
-        }
+        mob.npc().findAgroTargetTimed();
+
         if (mob.isNpc(6609) && mob.tile().region() == 7092)
             System.out.printf("");
         if (target != null && method instanceof CommonCombatMethod ccm) {
@@ -733,7 +726,7 @@ public class Combat {
     private void checkRetreat() {
         // rely on aggroradius of NpcCombatInfo by default
         var hasAgroDistanceOverride = mob.hasAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE);
-        var fightArea = mob.npc().spawnTile().area(hasAgroDistanceOverride ? mob.getAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE) : mob.npc().getCombatInfo().aggroradius);
+        var fightArea = mob.npc().spawnTile().area(hasAgroDistanceOverride ? mob.getAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE) : 12);
         if (target != null && !target.tile().inArea(fightArea)) {
             DumbRoute.route(mob, mob.npc().spawnTile().getX(), mob.npc().spawnTile().getY());
             Debugs.CMB.debug(mob, "retreat", target);

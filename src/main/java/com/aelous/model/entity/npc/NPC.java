@@ -553,6 +553,10 @@ public class NPC extends Entity {
 
         Stopwatch stopwatch1 = Stopwatch.createStarted();
         boolean wilderness = (WildernessArea.wildernessLevel(tile()) >= 1) && !WildernessArea.inside_rouges_castle(tile()) && !Chinchompas.hunterNpc(id);
+        if (combatMethod instanceof CommonCombatMethod ccm) {
+            if (!ccm.isAggressive())
+                return;
+        }
         if (dead() || !inViewport || locked() || combatInfo == null || !(combatInfo.aggressive || (wilderness && getBotHandler() == null)))
             return;
 

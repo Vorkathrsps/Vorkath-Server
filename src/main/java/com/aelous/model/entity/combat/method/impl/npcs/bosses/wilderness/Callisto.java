@@ -4,6 +4,7 @@ import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
@@ -56,7 +57,8 @@ public class Callisto extends CommonCombatMethod {
     @Override
     public void init(NPC npc) {
         if (npc.tile().region() == 7092)
-            npc.getCombatInfo().aggroradius = 50; // override agro distance to cover the entire region
+            npc.getCombatInfo().aggroradius = 50; // override agro distance to cover the entire region, region specific
+        npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 50);
     }
 
     @Override

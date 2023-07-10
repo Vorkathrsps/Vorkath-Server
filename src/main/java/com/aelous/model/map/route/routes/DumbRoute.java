@@ -45,7 +45,9 @@ public class DumbRoute {
                         entity.getSize(),
                         destX,
                         destY);
-        if (stepDir != null) entity.step(stepDir.deltaX, stepDir.deltaY, MovementQueue.StepType.REGULAR);
+        if (stepDir != null) {
+            entity.step(stepDir.deltaX, stepDir.deltaY, MovementQueue.StepType.REGULAR);
+        }
     }
 
     public static void step(@NotNull Entity entity, @NotNull Entity target, int distance) { // this is probably used in uh agility and shit then as a forcewalk/interpolate from oss copy

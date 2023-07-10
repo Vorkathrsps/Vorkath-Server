@@ -127,6 +127,7 @@ public class Callisto extends CommonCombatMethod {
             var tile = target.tile().transform(1, 1, 0);
             entity.getMovement().step(tile.getX(), tile.getY(), MovementQueue.StepType.REGULAR);
         }
+        follow(1);
     }
 
     private void meleeAttack(@NonNull final Entity entity, @NonNull final Entity target) {

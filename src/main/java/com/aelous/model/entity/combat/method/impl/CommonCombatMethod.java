@@ -62,6 +62,10 @@ public abstract class CommonCombatMethod implements CombatMethod {
         DumbRoute.step(entity, target, getAttackDistance(entity));
     }
 
+    protected void follow(int distance) {
+        DumbRoute.step(entity, target, distance);
+    }
+
     /**
      * npc only
      */

@@ -195,18 +195,21 @@ public class TournamentManager extends PacketInteraction {
     }
 
     public static void onLogin1(Player player) {
-        //Wipe loadout
-        wipeLoadout(player);
-        //We're no longer participating
-        player.setInTournamentLobby(false);
-        player.setParticipatingTournament(null);
-        //Clear rune pouch
-        player.getRunePouch().clear();
-        //Reset attributes
-        player.getPacketSender().sendInteractionOption("null", 2, true); //Remove attack option
-        player.getPacketSender().sendEntityHintRemoval(true);
-        //Exit the area
-        player.teleport(EXIT_TILE);
+        boolean insideTournyArea = player.tile().region() == 13133;
+        if (insideTournyArea) {
+            //Wipe loadout
+            wipeLoadout(player);
+            //We're no longer participating
+            player.setInTournamentLobby(false);
+            player.setParticipatingTournament(null);
+            //Clear rune pouch
+            player.getRunePouch().clear();
+            //Reset attributes
+            player.getPacketSender().sendInteractionOption("null", 2, true); //Remove attack option
+            player.getPacketSender().sendEntityHintRemoval(true);
+            //Exit the area
+            player.teleport(EXIT_TILE);
+        }
     }
 
     public static void leaveTourny(Player player, boolean logout) {

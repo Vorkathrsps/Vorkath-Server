@@ -54,7 +54,7 @@ public class ArcherBot extends NPCBotHandler implements CombatMethod {
                 return;
             }
             //Are we in distance to the opponent?
-            final boolean inDistance = (npc.tile().distance(opponent.tile()) <= getMethod().getAttackDistance(npc));
+            final boolean inDistance = (npc.tile().distance(opponent.tile()) <= getMethod().moveCloseToTargetTileRange(npc));
 
             //Activate prayers..
             Prayers.activatePrayer(npc, Prayers.EAGLE_EYE);
@@ -144,7 +144,7 @@ public class ArcherBot extends NPCBotHandler implements CombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 7;
     }
 }

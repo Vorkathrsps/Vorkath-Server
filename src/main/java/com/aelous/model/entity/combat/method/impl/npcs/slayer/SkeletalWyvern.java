@@ -98,7 +98,7 @@ public class SkeletalWyvern extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return attackStyle == AttackStyle.MELEE ? 1 : attackStyle == AttackStyle.RANGED ? 6 : 5;
     }
 }

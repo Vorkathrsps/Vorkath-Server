@@ -22,7 +22,7 @@ public class KalphiteQueenSecondForm extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        int distance = getAttackDistance(target);
+        int distance = moveCloseToTargetTileRange(target);
         boolean inDistance = target.boundaryBounds().within(entity.tile(), entity.getSize(), distance);
         if (inDistance) {
             if (withinDistance(1) && Utils.rollDie(4, 1)) {
@@ -90,7 +90,7 @@ public class KalphiteQueenSecondForm extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 8;
     }
 }

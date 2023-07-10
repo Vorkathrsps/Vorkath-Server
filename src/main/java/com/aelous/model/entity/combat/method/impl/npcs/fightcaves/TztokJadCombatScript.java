@@ -67,7 +67,7 @@ public class TztokJadCombatScript extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return MAX_DISTANCE;
     }
 }

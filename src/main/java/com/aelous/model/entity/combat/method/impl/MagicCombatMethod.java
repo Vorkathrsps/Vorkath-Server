@@ -148,7 +148,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         if (entity.isPlayer()) {
             Player player = (Player) entity;
             if (player.getEquipment().containsAny(TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, SANGUINESTI_STAFF, TUMEKENS_SHADOW, DAWNBRINGER, ACCURSED_SCEPTRE_A)) {

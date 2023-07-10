@@ -23,7 +23,7 @@ import com.aelous.utility.timers.TimerKey;
 public class Artio extends CommonCombatMethod {
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 1;//Should be one because melee bear
     }
 

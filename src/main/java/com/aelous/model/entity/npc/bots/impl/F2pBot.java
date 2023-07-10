@@ -66,7 +66,7 @@ public class F2pBot extends NPCBotHandler implements CombatMethod {
                 return;
             }
             //Are we in distance to the opponent?
-            final boolean inDistance = (npc.tile().distance(opponent.tile()) <= getMethod().getAttackDistance(npc));
+            final boolean inDistance = (npc.tile().distance(opponent.tile()) <= getMethod().moveCloseToTargetTileRange(npc));
             //Eat whenever we need to.
             if (npc.hp() > 0) {
                 if (npc.hp() < 14 + Utils.getRandom(10)) {
@@ -145,7 +145,7 @@ public class F2pBot extends NPCBotHandler implements CombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 1;
     }
 

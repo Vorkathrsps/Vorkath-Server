@@ -20,8 +20,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.aelous.model.entity.combat.method.impl.npcs.bosses.CorporealBeast.CORPOREAL_BEAST_AREA;
-import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.CORPOREAL_BEAST;
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.VESPULA;
 
 /**
@@ -59,7 +57,7 @@ public abstract class CommonCombatMethod implements CombatMethod {
      */
     public void doFollowLogic() {
         // override me if you want any other logic
-        DumbRoute.step(entity, target, getAttackDistance(entity));
+        DumbRoute.step(entity, target, moveCloseToTargetTileRange(entity));
     }
 
     protected void follow(int distance) {

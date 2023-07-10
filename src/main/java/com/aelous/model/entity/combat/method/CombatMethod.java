@@ -9,7 +9,7 @@ import com.aelous.model.entity.combat.hit.Hit;
 public interface CombatMethod {
     boolean prepareAttack(Entity entity, Entity target);
     int getAttackSpeed(Entity entity);
-    int getAttackDistance(Entity entity);
+    int moveCloseToTargetTileRange(Entity entity);
     default boolean customOnDeath(Hit hit) {
         return false;
     }

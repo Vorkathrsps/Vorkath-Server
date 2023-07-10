@@ -56,7 +56,7 @@ public class Kerberos extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 10;
     }
 }

@@ -109,7 +109,7 @@ public class Vetion extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 10;
     }
     private void doMagicSwordRaise() {

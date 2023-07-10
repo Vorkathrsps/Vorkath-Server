@@ -112,7 +112,7 @@ public class GreatOlm extends CommonCombatMethod {
                 }
 
                 @Override
-                public int getAttackDistance(Entity entity) {
+                public int moveCloseToTargetTileRange(Entity entity) {
                     return 0;
                 }
 
@@ -147,7 +147,7 @@ public class GreatOlm extends CommonCombatMethod {
                 }
 
                 @Override
-                public int getAttackDistance(Entity entity) {
+                public int moveCloseToTargetTileRange(Entity entity) {
                     return 0;
                 }
 
@@ -270,7 +270,7 @@ public class GreatOlm extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 64;
     }
 

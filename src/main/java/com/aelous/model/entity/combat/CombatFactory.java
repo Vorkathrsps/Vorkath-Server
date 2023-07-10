@@ -67,7 +67,6 @@ import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.areas.ControllerManager;
 import com.aelous.model.map.position.areas.impl.WildernessArea;
-import com.aelous.model.map.route.routes.DumbRoute;
 import com.aelous.network.SessionState;
 import com.aelous.utility.Color;
 import com.aelous.utility.Debugs;
@@ -350,7 +349,7 @@ public class CombatFactory {
 
         // Check if teleporting away/teleported away
         var dist = attacker.tile().distance(target.tile());
-        if (attacker.isNpc() && attacker.npc().getCombatMethod() != null && attacker.npc().getCombatMethod().getAttackDistance(attacker) <= dist) {
+        if (attacker.isNpc() && attacker.npc().getCombatMethod() != null && attacker.npc().getCombatMethod().moveCloseToTargetTileRange(attacker) <= dist) {
             attacker.getCombat().reset();
             return false;
         } else if (dist >= 32) {

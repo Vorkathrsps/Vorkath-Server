@@ -30,7 +30,7 @@ public class KalphiteQueenFirstForm extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        int distance = getAttackDistance(target);
+        int distance = moveCloseToTargetTileRange(target);
         boolean inDistance = target.boundaryBounds().within(entity.tile(), entity.getSize(), distance);
         if (!withinDistance(8)) {
             return false;
@@ -111,7 +111,7 @@ public class KalphiteQueenFirstForm extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 8;
     }
 }

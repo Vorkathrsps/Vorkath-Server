@@ -91,7 +91,7 @@ public class MeleeCombatMethod extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         if (entity.getCombat().getWeaponType() == WeaponType.HALBERD) {
             return 2;
         }

@@ -44,7 +44,7 @@ public class Callisto extends CommonCombatMethod {
     private final Area ARTIO_AREA = new Area(1747, 11534, 1769, 11553);
 
     @Override
-    public int getAttackDistance(@NonNull final Entity entity) {
+    public int moveCloseToTargetTileRange(@NonNull final Entity entity) {
         return 10;
     }
 

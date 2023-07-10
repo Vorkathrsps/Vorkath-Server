@@ -92,8 +92,8 @@ return true;
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
-        return CombatFactory.RANGED_COMBAT.getAttackDistance(entity);
+    public int moveCloseToTargetTileRange(Entity entity) {
+        return CombatFactory.RANGED_COMBAT.moveCloseToTargetTileRange(entity);
     }
 
     public void handleAfterHit(Hit hit) {

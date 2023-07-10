@@ -29,7 +29,6 @@ import com.aelous.model.map.route.routes.DumbRoute;
 import com.aelous.model.map.route.routes.TargetRoute;
 import com.aelous.utility.Debugs;
 import com.aelous.utility.ItemIdentifiers;
-import com.aelous.utility.NpcPerformance;
 import com.aelous.utility.timers.TimerKey;
 import com.google.common.base.Stopwatch;
 import lombok.Getter;
@@ -43,7 +42,6 @@ import java.util.Map.Entry;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.UNDEAD_COMBAT_DUMMY;
 import static com.aelous.model.content.daily_tasks.DailyTaskUtility.DAILY_TASK_MANAGER_INTERFACE;
-import static com.aelous.model.entity.Entity.accumulateRuntimeTo;
 import static com.aelous.model.entity.attributes.AttributeKey.MAX_DISTANCE_FROM_SPAWN;
 
 /**
@@ -192,7 +190,7 @@ public class Combat {
             if (!CombatFactory.canAttack(mob, method, target))
                 reset();
             else if (target != null && (mob.isPlayer() || (mob.isNpc() && mob.getAsNpc().useSmartPath)))
-                TargetRoute.set(mob, target, method.getAttackDistance(mob));
+                TargetRoute.set(mob, target, method.moveCloseToTargetTileRange(mob));
         }
     }
 
@@ -728,7 +726,7 @@ public class Combat {
             ccm.process(mob, target);
         } else if (target != null) {
             // fallback: the normal code for all mobs who dont have CommonCombat as their script
-            DumbRoute.step(mob, target, method.getAttackDistance(mob));
+            DumbRoute.step(mob, target, method.moveCloseToTargetTileRange(mob));
         }
         checkRetreat();
     }

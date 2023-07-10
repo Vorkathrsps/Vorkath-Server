@@ -4,6 +4,7 @@ import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
@@ -44,13 +45,20 @@ public class Callisto extends CommonCombatMethod {
     private final Area ARTIO_AREA = new Area(1747, 11534, 1769, 11553);
 
     @Override
-    public int getAttackDistance(@NonNull final Entity entity) {
+    public int moveCloseToTargetTileRange(@NonNull final Entity entity) {
         return 10;
     }
 
     @Override
     public int getAttackSpeed(@NonNull final Entity entity) {
         return entity.getBaseAttackSpeed();
+    }
+
+    @Override
+    public void init(NPC npc) {
+        if (npc.tile().region() == 7092)
+            npc.getCombatInfo().aggroradius = 50; // override agro distance to cover the entire region, region specific
+        npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 50);
     }
 
     @Override
@@ -123,10 +131,11 @@ public class Callisto extends CommonCombatMethod {
         if (performingAnimation) {
             return;
         }
-        if (!CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && !entity.frozen()) {
+        if (!withinDistance(1) && !entity.frozen()) {
             var tile = target.tile().transform(1, 1, 0);
             entity.getMovement().step(tile.getX(), tile.getY(), MovementQueue.StepType.REGULAR);
         }
+        follow(1);
     }
 
     private void meleeAttack(@NonNull final Entity entity, @NonNull final Entity target) {

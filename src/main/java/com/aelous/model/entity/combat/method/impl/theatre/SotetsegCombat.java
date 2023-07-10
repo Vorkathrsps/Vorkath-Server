@@ -33,7 +33,7 @@ public class SotetsegCombat extends CommonCombatMethod {
             if (magicAttackCount == 10) {
                 sendSpecialMagicAttack(player);
             } else {
-                if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.percentageChance(50) && !recentlyPerformedAttack.get()) {
+                if (withinDistance(1) && Utils.percentageChance(50) && !recentlyPerformedAttack.get()) {
                     sendMeleeAttack(player);
                 } else {
                     sendRandomMageOrRange(player);
@@ -100,7 +100,7 @@ public class SotetsegCombat extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 14;
     }
 

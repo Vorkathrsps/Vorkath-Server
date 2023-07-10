@@ -98,8 +98,8 @@ public class CorruptedHunleff extends NPC {
         }
 
         @Override
-        public int getAttackDistance(Entity entity) {
-            return currentMethod.getAttackDistance(entity);
+        public int moveCloseToTargetTileRange(Entity entity) {
+            return currentMethod.moveCloseToTargetTileRange(entity);
         }
     }
 }

@@ -2,7 +2,6 @@ package com.aelous.model.entity.combat.method.impl.npcs.thralls;
 
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
-import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.player.Player;
@@ -38,8 +37,8 @@ public class MagicThrall extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
-        return CombatFactory.MAGIC_COMBAT.getAttackDistance(entity);
+    public int moveCloseToTargetTileRange(Entity entity) {
+        return CombatFactory.MAGIC_COMBAT.moveCloseToTargetTileRange(entity);
     }
 
     @Override

@@ -139,7 +139,7 @@ public class FightCavesMinigame extends Minigame {
             npcSet.add(monster);
             monster.walkRadius(200);
             monster.respawns(false);
-            monster.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, 100);
+            monster.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 100);
             World.getWorld().registerNpc(monster);
 
             //player.message(npc.tile().toString()+" vs "+player.tile().toString());

@@ -667,12 +667,12 @@ public class World {
                         KrakenBoss.onNpcSpawn(npc);
 
                         if (npc.id() == NpcIdentifiers.VENENATIS_6610) {
-                            npc.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, 30);
+                            npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
                         }
 
                         // Set the max return to spawnpoint distance for gwd room npcs
                         if (npc.def().gwdRoomNpc) {
-                            npc.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, 40);
+                            npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 40);
                         }
 
                         // successfully added to game world

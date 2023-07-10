@@ -39,7 +39,7 @@ public class Revenant extends CommonCombatMethod {
             }
         }
 
-        if (Utils.percentageChance(50) && CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
+        if (Utils.percentageChance(50) && withinDistance(1)) {
             meleeAttack(npc, target);
         } else if (Utils.percentageChance(50)) {
             magicAttack(npc, target);
@@ -56,7 +56,7 @@ public class Revenant extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 8;
     }
 

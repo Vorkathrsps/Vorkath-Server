@@ -87,7 +87,7 @@ public class Vanguard extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return entity.getAsNpc().id() == VANGUARD_7527 ? 1 : 8;
     }
 }

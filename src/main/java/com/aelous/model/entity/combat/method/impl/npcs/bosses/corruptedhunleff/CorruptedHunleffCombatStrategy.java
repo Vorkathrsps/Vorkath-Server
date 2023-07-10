@@ -63,7 +63,7 @@ public class CorruptedHunleffCombatStrategy extends CommonCombatMethod {
         checkStompTask(entity, target);
         attacks++;
 
-        if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
+        if (withinDistance(1)) {
             if(World.getWorld().rollDie(2,1)) {
                 entity.animate(8420);
                 entity.getAsNpc().getCombatInfo().maxhit = 50;
@@ -204,7 +204,7 @@ public class CorruptedHunleffCombatStrategy extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 10;
     }
 }

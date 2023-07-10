@@ -59,7 +59,7 @@ public class RuneMainBot extends NPCBotHandler implements CombatMethod {
             }
 
             //Are we in distance to the opponent?
-            final boolean inDistance = (npc.tile().distance(opponent.tile()) <= getMethod().getAttackDistance(npc));
+            final boolean inDistance = (npc.tile().distance(opponent.tile()) <= getMethod().moveCloseToTargetTileRange(npc));
 
             //Activate piety..
             Prayers.activatePrayer(npc, Prayers.PIETY);
@@ -156,7 +156,7 @@ public class RuneMainBot extends NPCBotHandler implements CombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 1;
     }
 }

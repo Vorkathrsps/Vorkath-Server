@@ -49,7 +49,7 @@ public class AbyssalDemon extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 2;
     }
 }

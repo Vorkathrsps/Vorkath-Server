@@ -88,7 +88,7 @@ public class Tekton extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return entity.getAsNpc().id() == TEKTON_ENRAGED_7544 ? 1 : 7;
     }
 }

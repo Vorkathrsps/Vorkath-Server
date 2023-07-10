@@ -61,7 +61,7 @@ public class MeleeAccuracy {
 
         double selectedChance = random.nextFloat();
 
-        System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
+       // System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
         return successfulRoll > selectedChance;
     }
@@ -159,7 +159,7 @@ public class MeleeAccuracy {
                 bonus = npcBonuses.crushdefence;
             else if (type == AttackType.SLASH)
                 bonus = npcBonuses.slashdefence;
-            System.out.println("npc=" + bonus);
+           // System.out.println("npc=" + bonus);
         } else {
             EquipmentInfo.Bonuses defenderBonus = EquipmentInfo.totalBonuses(this.defender, World.getWorld().equipmentInfo());
             if (type == AttackType.STAB)
@@ -168,7 +168,7 @@ public class MeleeAccuracy {
                 bonus = defenderBonus.crushdef;
             else if (type == AttackType.SLASH)
                 bonus = defenderBonus.slashdef;
-            System.out.println("player=" + bonus);
+            //System.out.println("player=" + bonus);
         }
 
         //System.out.println(bonus);
@@ -186,10 +186,10 @@ public class MeleeAccuracy {
                 bonus = attackerBonus.crush;
             else if (type == AttackType.SLASH)
                 bonus = attackerBonus.slash;
-            System.out.println("player=" + bonus);
+           // System.out.println("player=" + bonus);
         } else if (attacker instanceof NPC n) {
             bonus = n.getCombatInfo().getBonuses().getAttack();
-            System.out.println("npc=" + bonus);
+           // System.out.println("npc=" + bonus);
         }
 
 

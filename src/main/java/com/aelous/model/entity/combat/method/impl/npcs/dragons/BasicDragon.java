@@ -88,7 +88,7 @@ public class BasicDragon extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 1; //This may sound incorrect but 1 is the proper attack distance for combat following of basic dragons.
     }
 }

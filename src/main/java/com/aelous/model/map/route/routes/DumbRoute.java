@@ -9,6 +9,8 @@ import com.aelous.model.map.route.ClipUtils;
 import com.aelous.model.map.route.Direction;
 import com.aelous.model.map.route.RouteFinder;
 import com.aelous.model.map.route.RouteMisc;
+import lombok.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 public class DumbRoute {
 
@@ -43,10 +45,12 @@ public class DumbRoute {
                         entity.getSize(),
                         destX,
                         destY);
-        if (stepDir != null) entity.step(stepDir.deltaX, stepDir.deltaY, MovementQueue.StepType.REGULAR);
+        if (stepDir != null) {
+            entity.step(stepDir.deltaX, stepDir.deltaY, MovementQueue.StepType.REGULAR);
+        }
     }
 
-    public static void step(Entity entity, Entity target, int distance) { // this is probably used in uh agility and shit then as a forcewalk/interpolate from oss copy
+    public static void step(@NotNull Entity entity, @NotNull Entity target, int distance) { // this is probably used in uh agility and shit then as a forcewalk/interpolate from oss copy
         /** Use the route finder to find the exact x/y to walk to.. I know.. bad.. */
         RouteFinder rf = entity.getRouteFinder();
         rf.customClipUtils = ClipUtils.REGULAR;//i have the forcewalk and interpolate stuff

@@ -206,7 +206,7 @@ public class WildernessBossEvent {
             NPC boss = new NPC(activeEvent.npc, tile);
             boss.respawns(false);
             boss.walkRadius(1);
-            boss.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN,1);
+            boss.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE,1);
             World.getWorld().registerNpc(boss);
 
             Utils.sendDiscordInfoLog("The wilderness event boss has been spawned: " + boss.def().name + " at " + tile.toString() + ".");

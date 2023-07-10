@@ -93,7 +93,7 @@ public class TheNightmare extends CommonCombatMethod {
     }
 
     public void meleeClawAttack() {
-        if (!CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
+        if (!withinDistance(1)) {
             return;
         }
         entity.animate(8594);
@@ -337,7 +337,7 @@ public class TheNightmare extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 12;
     }
 

@@ -10,7 +10,6 @@ import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.hit.HitMark;
-import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.FaceDirection;
@@ -102,7 +101,7 @@ public class NexCombat extends CommonCombatMethod {
         nex.def().ignoreOccupiedTiles = true; // walk through minions
         nex.lockMoveDamageOk();
         nex.getMovement().reset();
-        nex.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, 30);
+        nex.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
         Chain.noCtx().repeatingTask(1, t -> {
             if (nex.dead()) {
                 t.stop();
@@ -767,7 +766,7 @@ public class NexCombat extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 30;
     }
 

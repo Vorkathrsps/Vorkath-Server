@@ -1,7 +1,5 @@
 package com.aelous.model.entity.attributes;
 
-import org.jdom.AttributeType;
-
 /**
  * Created by Bart on 8/13/2015.
  */
@@ -905,7 +903,7 @@ public enum AttributeKey {
      * The maximum distance that an entity can travel before they travel
      * back to their spawn location.
      */
-    MAX_DISTANCE_FROM_SPAWN,
+    ATTACKING_ZONE_RADIUS_OVERRIDE,
 
     // the key representing pest control points for the pest control minigame
     PEST_CONTROL_POINTS("pest_control_points", AttribType.INTEGER),

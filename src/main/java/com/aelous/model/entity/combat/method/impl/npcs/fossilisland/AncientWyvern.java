@@ -19,7 +19,7 @@ public class AncientWyvern extends CommonCombatMethod {
         if(roll == 1) {
             doMagic(wyvern, target);
         } else {
-            if (CombatFactory.canReach(wyvern, CombatFactory.MELEE_COMBAT, target)) {
+            if (withinDistance(1)) {
                 if (Utils.random(2) == 1) {
                     doMelee(wyvern, target);
                 } else {
@@ -59,7 +59,7 @@ public class AncientWyvern extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 6;
     }
 }

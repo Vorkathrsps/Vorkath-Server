@@ -4,6 +4,7 @@ import com.aelous.core.task.Task;
 import com.aelous.core.task.TaskManager;
 import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
@@ -26,6 +27,13 @@ public class CorporealBeast extends CommonCombatMethod {
     private final int splashing_magic_attack_damage = 30;
 
     public static final Area CORPOREAL_BEAST_AREA = new Area(2974, 4371, 2998, 4395);
+    @Override
+    public void init(NPC npc) {
+        if (npc.tile().region() == 11844)
+            npc.getCombatInfo().aggroradius = 50; // override agro distance to cover the entire region, region specific
+        npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 50);
+        npc.useSmartPath = true;
+    }
 
     /**
      * If the player steps under the Corporeal Beast, it may perform a stomp attack that will always deal 30–51 damage.
@@ -68,10 +76,12 @@ public class CorporealBeast extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
+        if (!withinDistance(15)) // only attacks when in view
+            return false;
 
         var tileDist = entity.tile().transform(1, 1, 0).distance(target.tile());
         checkStompTask();
-        if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && target.tile().equals(entity.tile()) && Utils.securedRandomChance(0.333D)) {
+        if (withinDistance(1) && target.tile().equals(entity.tile()) && Utils.securedRandomChance(0.333D)) {
             stompAttack((NPC) entity, (Player) target);
         } else if (Utils.securedRandomChance(0.5D)) {
             entity.animate(corporeal_beast_animation);
@@ -103,7 +113,7 @@ public class CorporealBeast extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 64;
     }
 
@@ -159,7 +169,7 @@ public class CorporealBeast extends CommonCombatMethod {
         entity.executeProjectile(p4);
         entity.executeProjectile(p5);
 
-        Chain.bound(null).name("initial_splash_distance_1_task").runFn(initial_splash_distance, () -> {
+        Chain.bound(null).name("initial_splash_distance_1_task").runFn(Math.max(1, initial_splash_distance), () -> {
             if (target.tile().inSqRadius(p2.getEnd(), 1) && target.tile().inArea(2974, 4371, 2998, 4395)) {
                 target.hit(entity, Utils.random(splashing_magic_attack_damage), p2.getSpeed(), CombatType.MAGIC).checkAccuracy().submit();
             }

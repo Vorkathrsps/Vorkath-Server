@@ -27,7 +27,7 @@ public class BrutalDragons extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.rollDie(5, 4))
+        if (withinDistance(1) && Utils.rollDie(5, 4))
             basicAttack(entity, target);
         else if (!fire && Utils.rollDie(2, 1))
             meleeDragonfire(entity, target);
@@ -41,7 +41,7 @@ public class BrutalDragons extends CommonCombatMethod {
         entity.animate(81);
         entity.graphic(1, GraphicHeight.HIGH, 0);
         if (target instanceof Player player) {
-            if (!CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
+            if (!withinDistance(1)) {
                 return;
             }
             double max = 50.0;
@@ -126,7 +126,7 @@ public class BrutalDragons extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 8;
     }
 }

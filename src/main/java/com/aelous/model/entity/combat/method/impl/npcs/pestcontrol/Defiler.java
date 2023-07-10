@@ -28,7 +28,7 @@ public class Defiler extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         NPC npc = (NPC) entity;
-        if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
+        if (withinDistance(1)) {
             melee(npc, target);
         } else {
             range(npc, target);
@@ -42,7 +42,7 @@ public class Defiler extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 10;
     }
 }

@@ -29,7 +29,6 @@ import com.aelous.model.map.route.routes.DumbRoute;
 import com.aelous.model.map.route.routes.TargetRoute;
 import com.aelous.utility.Debugs;
 import com.aelous.utility.ItemIdentifiers;
-import com.aelous.utility.NpcPerformance;
 import com.aelous.utility.timers.TimerKey;
 import com.google.common.base.Stopwatch;
 import lombok.Getter;
@@ -43,8 +42,6 @@ import java.util.Map.Entry;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.UNDEAD_COMBAT_DUMMY;
 import static com.aelous.model.content.daily_tasks.DailyTaskUtility.DAILY_TASK_MANAGER_INTERFACE;
-import static com.aelous.model.entity.Entity.accumulateRuntimeTo;
-import static com.aelous.model.entity.attributes.AttributeKey.MAX_DISTANCE_FROM_SPAWN;
 
 /**
  * My entity-based combat system. The main class of the system.
@@ -192,7 +189,7 @@ public class Combat {
             if (!CombatFactory.canAttack(mob, method, target))
                 reset();
             else if (target != null && (mob.isPlayer() || (mob.isNpc() && mob.getAsNpc().useSmartPath)))
-                TargetRoute.set(mob, target, method.getAttackDistance(mob));
+                TargetRoute.set(mob, target, method.moveCloseToTargetTileRange(mob));
         }
     }
 
@@ -707,41 +704,32 @@ public class Combat {
     /**
      * aka NPCCombat.follow0/follow in Runite
      */
-    public void npcPreAttackFolo() {
+    public void followTarget() {
 
         method = CombatFactory.getMethod(mob);
 
-        if (method instanceof CommonCombatMethod ccm) {
+        mob.npc().findAgroTargetTimed();
+
+        if (mob.isNpc(6609) && mob.tile().region() == 7092)
+            System.out.printf("");
+        if (target != null && method instanceof CommonCombatMethod ccm) {
             ccm.set(mob, target);
-
-            accumulateRuntimeTo(() -> {
-                if (target == null && ccm.isAggressive()) {
-                    mob.npc().findAgroTarget();
-                    if (target != null) {
-                        mob.faceEntity(target);
-                    }
-                }
-            }, d -> NpcPerformance.H += d.toNanos());
-
+            ccm.doFollowLogic();
+            ccm.process(mob, target);
+        } else if (target != null) {
+            // fallback: the normal code for all mobs who dont have CommonCombat as their script
+            DumbRoute.step(mob, target, method.moveCloseToTargetTileRange(mob));
         }
+        checkRetreat();
+    }
 
-        // npcs can have overridable logic
-        if (target != null) {
-            // this section is known as retreating mechanic.
-            // purpose: stop players draggin NPCs accross the entire map.
-            // NPC walks backwards, requiring the player to get closer to attack.
-            if (!target.tile().inArea(mob.npc().spawnTile().area(mob.getAttribOr(MAX_DISTANCE_FROM_SPAWN, 12)))) {
-                DumbRoute.route(mob, mob.npc().spawnTile().getX(), mob.npc().spawnTile().getY());
-            }
-            // delegate into a method you can override for npcs for special cases
-            else if (method instanceof CommonCombatMethod commonCombatMethod) {
-                commonCombatMethod.set(mob, target);
-                commonCombatMethod.doFollowLogic();
-                commonCombatMethod.process(mob, target);
-            } else {
-                // fallback: the normal code for all mobs who dont have CommonCombat as their script
-                DumbRoute.step(mob, target, method.getAttackDistance(mob));
-            }
+    private void checkRetreat() {
+        // rely on aggroradius of NpcCombatInfo by default
+        var hasAgroDistanceOverride = mob.hasAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE);
+        var fightArea = mob.npc().spawnTile().area(hasAgroDistanceOverride ? mob.getAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE) : 12);
+        if (target != null && !target.tile().inArea(fightArea)) {
+            DumbRoute.route(mob, mob.npc().spawnTile().getX(), mob.npc().spawnTile().getY());
+            Debugs.CMB.debug(mob, "retreat", target);
         }
     }
 

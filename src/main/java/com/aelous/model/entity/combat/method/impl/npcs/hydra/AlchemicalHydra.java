@@ -81,7 +81,7 @@ public class AlchemicalHydra extends NPC {
      */
     public AlchemicalHydra(Tile tile, Player owner) {
         super(8615, tile);
-        putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, 30);
+        putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
         respawns(false);
         baseLocation = tile.transform(-hydraSpawnLoc.x, -hydraSpawnLoc.y, 0);
         this.owner = owner;

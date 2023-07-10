@@ -1,6 +1,5 @@
 package com.aelous.model.entity.npc;
 
-import com.aelous.GameEngine;
 import com.aelous.model.content.areas.wilderness.wildernesskeys.WildernessKeys;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
@@ -174,7 +173,6 @@ public class NPC extends Entity {
         combatInfo = World.getWorld().combatInfo(id);
         hp = combatInfo == null ? 50 : combatInfo.stats.hitpoints;
         spawnArea = new Area(spawnTile, walkRadius);
-        putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, id == GIANT_MOLE ? 64 : 12);
         getCombat().setAutoRetaliate(true);
         ignoreOccupiedTiles = def.ignoreOccupiedTiles;
 
@@ -223,7 +221,6 @@ public class NPC extends Entity {
         combatInfo = World.getWorld().combatInfo(id);
         hp = combatInfo == null ? 50 : combatInfo.stats.hitpoints;
         spawnArea = new Area(spawnTile, walkRadius);
-        putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, id == GIANT_MOLE ? 64 : 12);
         getCombat().setAutoRetaliate(true);
 
         for (int types : venom_immunes) {
@@ -453,11 +450,11 @@ public class NPC extends Entity {
      * Processes this npc. Previously called onTick.
      */
     public final void sequence() {
-        if (NpcPerformance.PERF_CHECK_MODE_ENABLED) {
+       /* if (NpcPerformance.PERF_CHECK_MODE_ENABLED) {
             sequencePerformanceMode();
-        } else {
+        } else {*/
             sequenceNormal();
-        }
+       // }
         postSequence();
     }
 
@@ -470,11 +467,11 @@ public class NPC extends Entity {
 
     public boolean useSmartPath;
 
-    private final void sequenceNormal() {
+    private void sequenceNormal() {
         action.sequence();
         TaskManager.sequenceForMob(this);
         getTimers().cycle(this);
-        getCombat().npcPreAttackFolo();
+        getCombat().followTarget();
         if (useSmartPath)
             TargetRoute.beforeMovement(this);
         getMovementQueue().process();
@@ -487,7 +484,7 @@ public class NPC extends Entity {
         getCombat().process();
     }
 
-    private final void sequencePerformanceMode() {
+    /*private void sequencePerformanceMode() {
         performance.reset();
 
         // accumulateRuntimeTo(() -> {
@@ -514,7 +511,7 @@ public class NPC extends Entity {
             try {
                 accumulateRuntimeTo(() -> {
                     //Handles random walk and retreating from fights
-                    getCombat().npcPreAttackFolo();
+                    getCombat().followTarget();
                 }, to -> NpcPerformance.npcA += to.toNanos());
 
                 accumulateRuntimeTo(() -> {
@@ -544,11 +541,22 @@ public class NPC extends Entity {
             }
         }
         performance.assess(this);
+    }*/
+
+    public void findAgroTargetTimed() {
+        accumulateRuntimeTo(() -> {
+            findAgroTarget();
+        }, d -> NpcPerformance.H += d.toNanos());
     }
 
     public void findAgroTarget() {
+
         Stopwatch stopwatch1 = Stopwatch.createStarted();
         boolean wilderness = (WildernessArea.wildernessLevel(tile()) >= 1) && !WildernessArea.inside_rouges_castle(tile()) && !Chinchompas.hunterNpc(id);
+        if (combatMethod instanceof CommonCombatMethod ccm) {
+            if (!ccm.isAggressive())
+                return;
+        }
         if (dead() || !inViewport || locked() || combatInfo == null || !(combatInfo.aggressive || (wilderness && getBotHandler() == null)))
             return;
 

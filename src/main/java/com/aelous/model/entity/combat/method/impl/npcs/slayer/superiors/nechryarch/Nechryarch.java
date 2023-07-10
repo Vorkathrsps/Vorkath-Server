@@ -34,7 +34,7 @@ public class Nechryarch extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         boolean spawnsAlreadySpawned = entity.getAttribOr(AttributeKey.DEATH_SPAWNS_SPAWNED, false);
-        boolean canAttack = CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target);
+        boolean canAttack = withinDistance(1);
 
         entity.animate(entity.attackAnimation());
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target,CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
@@ -53,7 +53,7 @@ public class Nechryarch extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 2;
     }
 

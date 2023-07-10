@@ -39,7 +39,7 @@ public class Skotizo extends CommonCombatMethod {
             //System.out.println("rolled two, using magic attack.");
             magic_attack(npc, target);
         } else {
-            if (CombatFactory.canReach(npc, CombatFactory.MELEE_COMBAT, target)) {
+            if (withinDistance(1)) {
                 // System.out.println("melee distance, using melee attack.");
                 melee_attack(npc, target);
             } else if (Utils.rollDie(2, 1)) {
@@ -120,7 +120,7 @@ public class Skotizo extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 7;
     }
 }

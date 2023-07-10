@@ -38,7 +38,7 @@ public class Kerberos extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.rollPercent(25)) {
+        if (withinDistance(1) && Utils.rollPercent(25)) {
             meleeAttack();
         } else if (Utils.rollPercent(50)) {
             rangedAttack();
@@ -56,7 +56,7 @@ public class Kerberos extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 10;
     }
 }

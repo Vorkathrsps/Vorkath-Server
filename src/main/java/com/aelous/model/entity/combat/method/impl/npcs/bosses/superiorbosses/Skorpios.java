@@ -24,7 +24,7 @@ public class Skorpios extends CommonCombatMethod {
             return false;
         }
 
-        if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
+        if (withinDistance(1)) {
             if (World.getWorld().rollDie(4, 1)) {
                 target.poison(20);
             }
@@ -52,7 +52,7 @@ public class Skorpios extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 1;
     }
 }

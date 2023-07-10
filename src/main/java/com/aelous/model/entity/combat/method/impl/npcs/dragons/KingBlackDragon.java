@@ -44,7 +44,7 @@ public class KingBlackDragon extends CommonCombatMethod {
             return false;
         }
 
-        if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && entity.getTimers().left(TimerKey.COMBAT_ATTACK) == 0 && Utils.rollDie(4, 1))
+        if (withinDistance(1) && entity.getTimers().left(TimerKey.COMBAT_ATTACK) == 0 && Utils.rollDie(4, 1))
 
             basicAttack(entity, target);
         else {
@@ -160,7 +160,7 @@ public class KingBlackDragon extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackDistance(Entity entity) {
+    public int moveCloseToTargetTileRange(Entity entity) {
         return 8;
     }
 

@@ -335,7 +335,6 @@ public class VerzikVitur extends CommonCombatMethod {
                 var ids = new int[] {32687, 32688, 32689};
                 for (int id : ids) {
                     MapObjects.get(id, pillarTile.withHeight(mob.getZ())).ifPresent(pillar -> {
-                        // TODO fade out objAnim
                         Chain.noCtx().delay(2, () -> {
                             pillar.remove();
                         });

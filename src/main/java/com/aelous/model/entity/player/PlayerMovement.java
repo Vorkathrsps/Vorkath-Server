@@ -43,7 +43,6 @@ public class PlayerMovement extends MovementQueue {
         player.setWalkingDirection(Direction.NONE);
         player.setRunningDirection(Direction.NONE);
 
-        // TODO duplicate from runite
         if (following != null) {
             if (!following.isRegistered() || !following.tile().isWithinDistance(player.tile())) {
                 //player.setPositionToFace(null);

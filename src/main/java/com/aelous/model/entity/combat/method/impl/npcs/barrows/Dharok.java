@@ -5,9 +5,14 @@ import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
+import com.aelous.model.entity.npc.NPC;
 import com.aelous.utility.Utils;
 
 public class Dharok extends CommonCombatMethod {
+    @Override
+    public void init(NPC npc) {
+        npc.ignoreOccupiedTiles = true;
+    }
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
 

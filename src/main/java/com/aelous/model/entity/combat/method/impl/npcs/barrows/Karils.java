@@ -7,11 +7,16 @@ import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
+import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Skill;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.utility.Utils;
 
 public class Karils extends CommonCombatMethod {
+    @Override
+    public void init(NPC npc) {
+        npc.ignoreOccupiedTiles = true;
+    }
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {

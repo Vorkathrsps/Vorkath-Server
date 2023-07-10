@@ -7,8 +7,13 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
+import com.aelous.model.entity.npc.NPC;
 
 public class Lizardman extends CommonCombatMethod {
+    @Override
+    public void init(NPC npc) {
+        npc.ignoreOccupiedTiles = true;
+    }
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {

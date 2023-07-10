@@ -2741,7 +2741,7 @@ public class Player extends Entity {
 
     @Override
     public void autoRetaliate(Entity attacker) {
-        if (dead() || hp() < 1 /*|| !getMovementQueue().empty()*/) { // TODO
+        if (dead() || hp() < 1) {
             return;
         }
         super.autoRetaliate(attacker);

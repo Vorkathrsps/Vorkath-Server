@@ -51,11 +51,10 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.SKOTIZO;
+import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.aelous.utility.CustomNpcIdentifiers.BRUTAL_LAVA_DRAGON;
 import static com.aelous.utility.CustomNpcIdentifiers.CORRUPTED_NECHRYARCH;
 import static com.aelous.utility.ItemIdentifiers.BRACELET_OF_ETHEREUM;
-import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.GIANT_MOLE;
 import static org.apache.logging.log4j.util.Unbox.box;
 
 /**
@@ -209,7 +208,7 @@ public class NPC extends Entity {
         }
         if (tile().equals(3109, 3517))
             walkTo = tile.transform(1, 0);
-        if (this.getMobName().toLowerCase().contains("rock crab"))
+        if (this.getMobName().toLowerCase().contains("crab"))
             ignoreOccupiedTiles = true;
     }
 

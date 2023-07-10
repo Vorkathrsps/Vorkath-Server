@@ -1,6 +1,8 @@
 package com.aelous.model.entity.npc.pets;
 
+import com.aelous.annotate.Init;
 import com.aelous.model.World;
+import com.aelous.model.content.skill.impl.mining.Pickaxe;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.npc.NPC;
@@ -13,6 +15,7 @@ import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -105,6 +108,13 @@ public class Pet extends PacketInteraction {
     public void removeOnLogout() {
         if (player.getPet().getPet() != null) {
             clearSpawnedPet();
+        }
+    }
+
+    @Init
+    public static void init() {
+        for (PetDefinitions value : PetDefinitions.values()) {
+            new NPC(value.npc, null).def().ignoreOccupiedTiles = true;
         }
     }
 

@@ -20,7 +20,7 @@ public class WyrmCombatScript extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        var inMeleeDistance = CombatFactory.canReach(entity, MELEE_COMBAT, target);
+        var inMeleeDistance = withinDistance(1);
         if (inMeleeDistance && World.getWorld().rollDie(2, 1))
             basicAttack(entity, target);
         else

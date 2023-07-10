@@ -372,57 +372,6 @@ public class CombatFactory {
         return true;
     }
 
-    /**
-     * Checks if an entity can reach a target.
-     * <br> PERFORMANCE NOTE: this includes PROJECTILE PATH FINDING - try to only call it once per cycle!
-     *
-     * @param attacker The entity which wants to attack.
-     * @param method   The combat type the attacker is using.
-     * @param target   The victim.
-     * @return True if attacker has the proper distance to attack, otherwise false.
-     */
-    public static boolean canReach(Entity attacker, CombatMethod method, Entity target) {
-        Debugs.CB_FOLO.debug(attacker, "enter can reach via " + method + " vs " + target, target, true);
-        if (attacker == null || target == null || method == null) {
-            return false;
-        }
-
-        if (!validTarget(attacker, target)) {
-            if (attacker.isPlayer()) {
-                attacker.getAsPlayer().debugMessage("You do not have a valid target.");
-            }
-            return false;
-        }
-
-        if (target.getCombat() == null) {
-            System.out.println("combat = " + target.getCombat().toString());
-            return false;
-        }
-
-        if (target.dead()) {
-            return false;
-        }
-
-        if (attacker.isNpc()) {
-            if (attacker.getCombat().getTarget() == null) {
-                if (!attacker.tile().isWithinDistance(target.tile())) {
-                    return false;
-                }
-            }
-            if (method instanceof CommonCombatMethod commonCombatMethod) {
-                commonCombatMethod.set(attacker, target);
-                if (attacker.isNpc() && !commonCombatMethod.inAttackRange()) {
-                    DumbRoute.route(attacker, attacker.tile().getX(), attacker.tile().getY());
-                    return false;
-                }
-            } else {
-                DumbRoute.withinDistance(attacker, target, method.getAttackDistance(attacker));
-                return true;
-            }
-        }
-        return true;
-    }
-
     private static long pjTimerForArena() {
         return 4_600L;
     }

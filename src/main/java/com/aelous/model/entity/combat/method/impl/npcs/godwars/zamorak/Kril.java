@@ -57,7 +57,7 @@ public class Kril extends CommonCombatMethod {
         boolean melee_dist = entity.tile().distance(target.tile()) <= 1;
 
         // Attack the player
-        if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.rollDie(2, 1)) {
+        if (withinDistance(1) && Utils.rollDie(2, 1)) {
             entity.animate(6948);
             // If we're in melee distance it's actually classed as if the target hit us -- has an effect on auto-retal in gwd!
             if (GwdLogic.isBoss(entity.getAsNpc().id())) {

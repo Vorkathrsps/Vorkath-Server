@@ -39,7 +39,7 @@ public class Artio extends CommonCombatMethod {
 
         entity.getTimers().register(TimerKey.COMBAT_ATTACK, 6);
 
-        if (CombatFactory.canReach(npc, CombatFactory.MELEE_COMBAT, target)) {
+        if (withinDistance(1)) {
             if (Utils.rollDie(18, 1)) {
                 prepareHeal(npc);
             }

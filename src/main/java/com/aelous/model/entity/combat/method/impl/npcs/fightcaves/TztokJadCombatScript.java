@@ -33,7 +33,7 @@ public class TztokJadCombatScript extends CommonCombatMethod {
             jad.spawnHealers(player);
         }*/
 
-        if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
+        if (withinDistance(1)) {
             if (Utils.securedRandomChance(0.50D)) {
                 target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
                 entity.animate(entity.attackAnimation());

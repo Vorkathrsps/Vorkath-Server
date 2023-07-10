@@ -123,7 +123,7 @@ public class Callisto extends CommonCombatMethod {
         if (performingAnimation) {
             return;
         }
-        if (!CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && !entity.frozen()) {
+        if (!withinDistance(1) && !entity.frozen()) {
             var tile = target.tile().transform(1, 1, 0);
             entity.getMovement().step(tile.getX(), tile.getY(), MovementQueue.StepType.REGULAR);
         }

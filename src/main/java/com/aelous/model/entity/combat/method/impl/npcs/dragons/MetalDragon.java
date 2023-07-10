@@ -17,7 +17,7 @@ public class MetalDragon extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        if (!CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
+        if (!withinDistance(1)) {
             breathFire(entity, target);
         } else {
             basicAttack(entity, target);

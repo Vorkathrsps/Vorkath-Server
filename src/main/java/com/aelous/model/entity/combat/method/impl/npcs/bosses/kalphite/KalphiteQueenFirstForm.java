@@ -37,7 +37,7 @@ public class KalphiteQueenFirstForm extends CommonCombatMethod {
         }
 
         if (inDistance) {
-            if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.rollDie(4, 1)) {
+            if (withinDistance(1) && Utils.rollDie(4, 1)) {
                 attack(((NPC)entity), ((Player)target), CombatType.MELEE);
                 return true;
             } else {

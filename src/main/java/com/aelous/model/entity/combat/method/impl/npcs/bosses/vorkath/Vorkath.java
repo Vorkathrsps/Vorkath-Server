@@ -89,7 +89,7 @@ public class Vorkath extends CommonCombatMethod {
             if (entity.hasAttrib(VORKATH_LINEAR_ATTACKS)) // finish the remaining grouped triple attacks
                 attackType = 4;
             else {
-                attackType = !CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) ? 2 + RANDOM.nextInt(4) : 1 + RANDOM.nextInt(5);
+                attackType = !withinDistance(1) ? 2 + RANDOM.nextInt(4) : 1 + RANDOM.nextInt(5);
             }
         }
         entity.putAttrib(VORKATH_NORMAL_ATTACK_COUNT, count);

@@ -27,7 +27,7 @@ public class MarbleGargoyle extends CommonCombatMethod {
             entity.animate(7815);
             stoneAttack(entity, target);
             entity.getTimers().register(TimerKey.COMBAT_ATTACK, 6);
-        } else if (Utils.random(1) == 0 || !CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
+        } else if (Utils.random(1) == 0 || !withinDistance(1)) {
             entity.animate(7814);
             new Projectile(entity, target, 276, 35, 70, 50, 30, 0, 10,5).sendProjectile();
             target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), 2, CombatType.RANGED).checkAccuracy().submit();

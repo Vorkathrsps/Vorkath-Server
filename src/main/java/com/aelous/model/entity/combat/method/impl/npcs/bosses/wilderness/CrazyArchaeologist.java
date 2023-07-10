@@ -27,7 +27,7 @@ public class CrazyArchaeologist extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         NPC npc = (NPC) entity;
         //Check to see if we're able to melee the target..
-        if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
+        if (withinDistance(1)) {
             //Send the explosive books!
             if (Utils.rollDie(20, 1)) { // 5% chance the target sends explosive books
                 //Animate the NPC
@@ -46,7 +46,7 @@ public class CrazyArchaeologist extends CommonCombatMethod {
             entity.getTimers().register(TimerKey.COMBAT_ATTACK, 3);
 
             //Else we check if we can range the target..
-        } else if (CombatFactory.canReach(entity, CombatFactory.RANGED_COMBAT, target)) {
+        } else if (withinDistance(1)) {
 
             //Send the explosive books!
             if (Utils.rollDie(20, 1)) { // 5% chance the target sends explosive books

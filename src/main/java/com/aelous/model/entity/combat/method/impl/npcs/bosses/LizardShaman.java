@@ -29,7 +29,7 @@ public class LizardShaman extends CommonCombatMethod {
             case 2 -> spawn_destructive_minions(target);
             case 3 -> green_acidic_attack(npc, target);
             default -> {
-                if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target))
+                if (withinDistance(1))
                     primary_melee_attack(npc, target);
                 else primate_ranged_attack(npc, target);
             }

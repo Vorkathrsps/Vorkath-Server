@@ -39,7 +39,7 @@ public class AdamantDragon extends CommonCombatMethod {
         } else if (rand == 3) {
             doMagicBlast(npc, target, tileDist, delay);
         } else {
-            if (CombatFactory.canReach(dragon, CombatFactory.MELEE_COMBAT, target)) {
+            if (withinDistance(1)) {
                 doMelee(npc, target);
             } else {
                 int roll = Utils.random(3);

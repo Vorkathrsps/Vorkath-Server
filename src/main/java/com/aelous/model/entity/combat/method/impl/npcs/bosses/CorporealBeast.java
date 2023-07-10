@@ -71,7 +71,7 @@ public class CorporealBeast extends CommonCombatMethod {
 
         var tileDist = entity.tile().transform(1, 1, 0).distance(target.tile());
         checkStompTask();
-        if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && target.tile().equals(entity.tile()) && Utils.securedRandomChance(0.333D)) {
+        if (withinDistance(1) && target.tile().equals(entity.tile()) && Utils.securedRandomChance(0.333D)) {
             stompAttack((NPC) entity, (Player) target);
         } else if (Utils.securedRandomChance(0.5D)) {
             entity.animate(corporeal_beast_animation);

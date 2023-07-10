@@ -40,7 +40,7 @@ public class DrakeCombatScript extends CommonCombatMethod {
      * Sends the drakes's ranged or melee attack.
      */
     private void regularAttack(NPC drake, Entity target) {
-        var meleeAttack = CombatFactory.canReach(drake, MELEE_COMBAT, target);
+        var meleeAttack = withinDistance(1);
 
         if (meleeAttack && World.getWorld().rollDie(2,1)) {
             drake.animate(8275);

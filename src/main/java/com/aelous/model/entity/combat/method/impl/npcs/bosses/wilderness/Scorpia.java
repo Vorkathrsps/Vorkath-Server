@@ -27,7 +27,7 @@ public class Scorpia extends CommonCombatMethod {
             entity.putAttrib(AttributeKey.SCORPIA_GUARDIANS_SPAWNED, true);
         }
 
-        if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
+        if (withinDistance(1)) {
             if (World.getWorld().rollDie(4, 1)) {
                 target.poison(20);
             }

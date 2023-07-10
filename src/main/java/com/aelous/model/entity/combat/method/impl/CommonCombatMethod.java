@@ -67,25 +67,6 @@ public abstract class CommonCombatMethod implements CombatMethod {
     }
 
     /**
-     * npc only
-     */
-    public boolean inAttackRange() {
-        boolean instance = entity.tile().getZ() > 4;
-        // just a hard limit. might need to replace/override with special cases
-        //System.out.println(mob.tile().distance(target.tile()));
-        if (entity.isNpc() && entity.getAsNpc().id() == CORPOREAL_BEAST) {
-            if (!target.tile().inArea(CORPOREAL_BEAST_AREA)) {
-                entity.getCombat().reset();//Target out of distance reset combat
-            }
-        }
-        if (entity.tile().distance(target.tile()) >= 16 && !instance) {
-            entity.getCombat().reset();//Target out of distance reset combat
-            return false;
-        }
-        return DumbRoute.withinDistance(entity, target, getAttackDistance(entity));
-    }
-
-    /**
      * player only
      */
     public void postAttack() {

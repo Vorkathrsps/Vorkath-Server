@@ -39,7 +39,7 @@ public class Revenant extends CommonCombatMethod {
             }
         }
 
-        if (Utils.percentageChance(50) && CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
+        if (Utils.percentageChance(50) && withinDistance(1)) {
             meleeAttack(npc, target);
         } else if (Utils.percentageChance(50)) {
             magicAttack(npc, target);

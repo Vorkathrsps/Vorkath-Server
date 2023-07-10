@@ -25,7 +25,7 @@ public class KalphiteQueenSecondForm extends CommonCombatMethod {
         int distance = getAttackDistance(target);
         boolean inDistance = target.boundaryBounds().within(entity.tile(), entity.getSize(), distance);
         if (inDistance) {
-            if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.rollDie(4, 1)) {
+            if (withinDistance(1) && Utils.rollDie(4, 1)) {
                 attack(((NPC)entity), ((Player)target), CombatType.MELEE);
                 return true;
             } else {

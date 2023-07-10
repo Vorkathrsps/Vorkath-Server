@@ -37,7 +37,7 @@ public class Judge extends CommonCombatMethod {
             target.getAsPlayer().getPacketSender().sendEntityHint(entity);
         }
 
-        if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && World.getWorld().rollDie(2, 1)) {
+        if (withinDistance(1) && World.getWorld().rollDie(2, 1)) {
             Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MAGIC).checkAccuracy();
             hit.submit();
         }

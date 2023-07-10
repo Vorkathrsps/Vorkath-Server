@@ -23,13 +23,13 @@ public class MithrilDragon extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
+        if (withinDistance(1)) {
             if (Utils.rollDie(3, 1)) {
                 doMelee(entity, target);
             } else {
                 breathFire(entity, target);
             }
-        } else if (!CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
+        } else {
             if (Utils.rollDie(3, 1)) {
                 doMagic(entity, target);
             } else {

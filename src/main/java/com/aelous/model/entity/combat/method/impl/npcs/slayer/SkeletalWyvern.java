@@ -76,7 +76,7 @@ public class SkeletalWyvern extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
-        if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.rollDie(3, 2)) {
+        if (withinDistance(1) && Utils.rollDie(3, 2)) {
             attackStyle = AttackStyle.MELEE;
             basicAttack(entity, target);
         } else if (Utils.rollDie(5, 1)) {

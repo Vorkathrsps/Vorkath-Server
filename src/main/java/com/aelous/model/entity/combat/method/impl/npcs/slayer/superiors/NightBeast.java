@@ -29,7 +29,7 @@ public class NightBeast extends CommonCombatMethod {
         if (Utils.random(3) == 0) {
             sendGroupMagicAttack(entity, target);
             entity.getTimers().register(TimerKey.COMBAT_ATTACK, 6); //Cooldown
-        } else if (Utils.random(1) == 0 || !CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target)) {
+        } else if (Utils.random(1) == 0 || !withinDistance(1)) {
             new Projectile(entity, target, 130, 35, 70, 5, 38, 0, 10,5).sendProjectile();
             target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 2, CombatType.MAGIC).checkAccuracy().submit();
             entity.getTimers().register(TimerKey.COMBAT_ATTACK, 2); //Cooldown

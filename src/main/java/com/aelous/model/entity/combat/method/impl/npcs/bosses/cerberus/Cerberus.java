@@ -261,7 +261,7 @@ public class Cerberus extends CommonCombatMethod {
         if (!comboAttackCooldown.isDelayed()) {
            // entity.forceChat("combo");
             comboAttack(entity, target);
-        } else if (CombatFactory.canReach(entity, CombatFactory.MELEE_COMBAT, target) && Utils.rollDie(4, 1)) {
+        } else if (withinDistance(1) && Utils.rollDie(4, 1)) {
            // entity.forceChat("m1");
             meleeAttack();
         } else if (entity.hp() <= 200 && !spreadLavaCooldown.isDelayed() && comboAttackCooldown.isDelayed()) {

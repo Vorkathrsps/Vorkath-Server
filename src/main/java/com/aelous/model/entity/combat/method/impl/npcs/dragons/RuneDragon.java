@@ -39,7 +39,7 @@ public class RuneDragon extends CommonCombatMethod {
             sparkAttack = true;
             sparkAttack(npc, target);
         } else {
-            if (CombatFactory.canReach(dragon, CombatFactory.MELEE_COMBAT, target)) {
+            if (withinDistance(1)) {
                 doMelee(npc, target);
             } else {
                 int roll = Utils.random(3);

@@ -8,6 +8,7 @@ import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
+import com.aelous.model.entity.combat.hit.HitMark;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
@@ -725,7 +726,7 @@ public class GreatOlm extends CommonCombatMethod {
             if (npc.dead() || !npc.isRegistered()) t.stop();
             forAllTargets(p -> {
                 if (Tile.getObject(30032, p.getAbsX(), p.getAbsY(), p.getZ(), 10, -1) != null) {
-                    p.hit(npc, World.getWorld().random(3, 6), SplatType.POISON_HITSPLAT);
+                    p.hit(npc, World.getWorld().random(3, 6), HitMark.POISON);
                     p.poison(4);
                 }
             });
@@ -782,7 +783,7 @@ public class GreatOlm extends CommonCombatMethod {
                     player.hit(npc, damageDealt);
                 }
             }
-            npc.hit(npc, damageDealt * 3, SplatType.NPC_HEALING_HITSPLAT);
+            npc.hit(npc, damageDealt * 3, HitMark.HEALED);
         });
 
     }

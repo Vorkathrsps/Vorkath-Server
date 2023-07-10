@@ -1839,6 +1839,20 @@ public class Utils {
         return ThreadLocalRandom.current().nextLong();
     }
 
+    public static File get(String path) {
+        if(File.separator.equals("/"))
+            path = path.replace("\\", File.separator);
+        else
+            path = path.replace("/", File.separator);
+        path = path.replace("%HOME%", System.getProperty("user.home"));
+        try {
+            return new File(new File(path).getCanonicalPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new File(path);
+    }
+
     public static boolean rollDie(int maxRoll) {
         return rollDie(maxRoll, 1);
     }

@@ -6,6 +6,7 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatConstants;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.hit.HitMark;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
@@ -117,24 +118,24 @@ public class AdamantDragon extends CommonCombatMethod {
             new Projectile(npc.tile().transform(1, 1), targetTile, 0,1486, 20 * tileDist, 25, 40, 36, 0).sendProjectile();
         }).then(delay + 1, () -> {
             if (target.tile() == targetTile) {
-                target.hit(npc, 8, SplatType.POISON_HITSPLAT);
+                target.hit(npc, 8, HitMark.POISON);
             }
 
             World.getWorld().tileGraphic(1487, targetTile, 0, 0);
             new Projectile(targetTile, targetTile.transform(1, 0), 0,1486, 20 * tileDist, 25, 40, 36, 0).sendProjectile();
         }).then(1, () -> {
             if (target.tile() == targetTile) {
-                target.hit(npc, 8, CombatType.RANGED, SplatType.POISON_HITSPLAT);
+                target.hit(npc, 8, CombatType.RANGED, HitMark.POISON);
             }
         }).then(1, () -> {
             if (inBlastTile(target, targetTile.area(1))) {
-                target.hit(npc, 4, CombatType.RANGED, SplatType.POISON_HITSPLAT);
+                target.hit(npc, 4, CombatType.RANGED, HitMark.POISON);
             }
         }).then(1, () -> {
             World.getWorld().tileGraphic(1487, targetTile.transform(1, 0), 0, 0);
         }).then(1, () -> {
             if (inBlastTile(target, targetTile.area(1))) {
-                target.hit(npc, 4, CombatType.RANGED, SplatType.POISON_HITSPLAT);
+                target.hit(npc, 4, CombatType.RANGED, HitMark.POISON);
             }
         });
     }

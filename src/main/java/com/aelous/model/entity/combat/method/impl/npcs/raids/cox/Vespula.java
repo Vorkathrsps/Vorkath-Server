@@ -5,6 +5,7 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
+import com.aelous.model.entity.combat.hit.HitMark;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
@@ -116,7 +117,7 @@ public class Vespula extends CommonCombatMethod {
         Entity entity = hit.getTarget();
         if (World.getWorld().rollDie(5,1)) {
             if (!Equipment.venomHelm(target)) { // Serp helm stops poison.
-                target.hit(attacker, 20, SplatType.POISON_HITSPLAT);
+                target.hit(attacker, 20, HitMark.POISON);
             }
         }
     }

@@ -36,20 +36,20 @@ public class AbyssalDemon extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        if (Utils.rollDie(4, 1))
+      //  if (Utils.rollDie(4, 1))
             teleportAttack(entity, target);
-        else
-            basicAttack(entity, target);
+       // else
+       //     basicAttack(entity, target);
         return true;
     }
 
     @Override
     public int getAttackSpeed(Entity entity) {
-        return entity.getBaseAttackSpeed();
+        return 4;
     }
 
     @Override
     public int getAttackDistance(Entity entity) {
-        return 1;
+        return 2;
     }
 }

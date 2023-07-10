@@ -6,6 +6,7 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.hit.HitMark;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
@@ -22,13 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FragmentOfSeren extends CommonCombatMethod {
-
     private int attacks = 0;
     private boolean tornadoAttack = false;
     private NpcDefinition def;
     private int hp;
     private NPCCombatInfo combatInfo;
-
     public int hp() {
         return hp;
     }
@@ -124,7 +123,7 @@ public class FragmentOfSeren extends CommonCombatMethod {
                 p.hit(entity, CombatFactory.calcDamageFromType(entity, p, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
             }
         }));
-        entity.setPositionToFace(target.tile()); // Go back to facing the target.
+        entity.setPositionToFace(target.tile());
     }
 
     private void hideAttack() {
@@ -196,7 +195,7 @@ public class FragmentOfSeren extends CommonCombatMethod {
                     for (Tile spot : new ArrayList<>(spots)) {
                         final Tile curSpot = base.transform(spot.x, spot.y);
                         if (curSpot.equals(target.tile())) {
-                            target.hit(entity, World.getWorld().random(1, 5), SplatType.HITSPLAT);
+                            target.hit(entity, World.getWorld().random(1, 5), HitMark.DEFAULT);
                         } else {
                             final Direction direction = Direction.getDirection(curSpot, target.tile());
                             Tile newSpot = spot.transform(direction.x, direction.y);

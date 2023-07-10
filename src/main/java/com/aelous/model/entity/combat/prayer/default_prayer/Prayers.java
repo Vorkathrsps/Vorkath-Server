@@ -492,7 +492,6 @@ public class Prayers {
                 }
 
                 if (player.getSkills().level(Skills.PRAYER) < 1) {
-                    // Cant get smited when dead dead, you must be smited before like RS.
                     closeAllPrayers(player);
                     player.message("You have run out of prayer points, you must recharge at an altar.");
                 }

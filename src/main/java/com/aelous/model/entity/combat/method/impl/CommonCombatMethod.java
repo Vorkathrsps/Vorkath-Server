@@ -50,6 +50,10 @@ public abstract class CommonCombatMethod implements CombatMethod {
 
     }
 
+    public void process(Entity entity, @Nullable Entity target) {
+
+    }
+
     /**
      * npc only
      */
@@ -65,8 +69,8 @@ public abstract class CommonCombatMethod implements CombatMethod {
         boolean instance = entity.tile().getZ() > 4;
         // just a hard limit. might need to replace/override with special cases
         //System.out.println(mob.tile().distance(target.tile()));
-        if(entity.isNpc() && entity.getAsNpc().id() == CORPOREAL_BEAST) {
-            if(!target.tile().inArea(CORPOREAL_BEAST_AREA)) {
+        if (entity.isNpc() && entity.getAsNpc().id() == CORPOREAL_BEAST) {
+            if (!target.tile().inArea(CORPOREAL_BEAST_AREA)) {
                 entity.getCombat().reset();//Target out of distance reset combat
             }
         }
@@ -127,7 +131,7 @@ public abstract class CommonCombatMethod implements CombatMethod {
     }
 
     public List<Entity> getPossibleTargets(Entity entity) {
-        return getPossibleTargets(entity,14, true, false);
+        return getPossibleTargets(entity, 14, true, false);
     }
 
     public List<Entity> getPossibleTargets(Entity entity, int ratio, boolean players, boolean npcs) {
@@ -233,23 +237,21 @@ public abstract class CommonCombatMethod implements CombatMethod {
     }
 
     public CombatType styleOf() {
-        if (!entity.isPlayer()) // this mtd is players only
+        if (entity instanceof NPC) {
             return null;
-        if (this instanceof MagicCombatMethod)
-            return CombatType.MAGIC;
-        if (this instanceof RangedCombatMethod)
-            return CombatType.RANGED;
-        if (this instanceof MeleeCombatMethod)
-            return CombatType.MELEE;
-        if (this.getClass().getPackageName().contains("magic"))
-            return CombatType.MAGIC;
-        if (this.getClass().getPackageName().contains("melee"))
-            return CombatType.MELEE;
-        if (this.getClass().getPackageName().contains("range"))
-            return CombatType.RANGED;
-        System.err.println("unknown player styleOf combat script: " + this + " wep " + entity.getAsPlayer().getEquipment().getId(3));
+        } else {
+            if (this instanceof MagicCombatMethod || this.getClass().getPackageName().contains("magic"))
+                return CombatType.MAGIC;
+            if (this instanceof RangedCombatMethod || this.getClass().getPackageName().contains("range"))
+                return CombatType.RANGED;
+            if (this instanceof MeleeCombatMethod || this.getClass().getPackageName().contains("melee"))
+                return CombatType.MELEE;
+
+            System.err.println("Unknown player styleOf combat script: " + this + " wep " + entity.getAsPlayer().getEquipment().getId(3));
+        }
         return null;
     }
+
 
     public boolean isAggressive() {
         return entity.isNpc() && entity.npc().getCombatInfo() != null && entity.npc().getCombatInfo().aggressive && entity.npc().inViewport();

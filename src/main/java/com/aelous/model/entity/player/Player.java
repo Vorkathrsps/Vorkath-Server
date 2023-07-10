@@ -120,7 +120,6 @@ import com.aelous.network.Session;
 import com.aelous.network.SessionHandler;
 import com.aelous.network.SessionState;
 import com.aelous.network.packet.PacketBuilder;
-import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.network.packet.incoming.interaction.PacketInteractionManager;
 import com.aelous.network.packet.outgoing.PacketSender;
 import com.aelous.network.packet.outgoing.UnnecessaryPacketDropper;
@@ -167,22 +166,21 @@ public class Player extends Entity {
         LOGOUT = Level.getLevel("LOGOUT");
     }
 
-    public int lastPetId;//ItemId?
+    public int lastPetId;
 
-    private final Pet pet = new Pet(this);
-
-    public Pet getPet() {
-        return pet;
-    }
+    @Getter private final Pet pet = new Pet(this);
 
     public RaidStage raidStage;
     public transient ShopReference shopReference = ShopReference.DEFAULT;
 
     private final WildernessSlayerCasket wildernessSlayerCasket = new WildernessSlayerCasket(this);
+
     public WildernessSlayerCasket getWildernessSlayerCasket() {
         return wildernessSlayerCasket;
     }
+
     private final WildernessKeys wildernessKeys = new WildernessKeys(this, null);
+
     public WildernessKeys getWildernessKeys() {
         return wildernessKeys;
     }
@@ -1356,11 +1354,11 @@ public class Player extends Entity {
         if (getInstancedArea() != null) {
             getInstancedArea().removePlayer(this);
         }
-        if (this.getPet().hasPet()) {
-            this.getPet().pickup(true);
+        if (this.getPet() != null) {
+            this.getPet().removeOnLogout();
         }
 
-        if  (this.getWildernessKeys() != null) {
+        if (this.getWildernessKeys() != null) {
             if (this.getWildernessKeys().hasSpawnedNpc()) {
                 this.getWildernessKeys().onDeath();
             }
@@ -1547,7 +1545,9 @@ public class Player extends Entity {
                 ClanManager.join(this, clanChat);
             }
 
-            this.getPet().onLogin();
+            if (this.getPet() != null) {
+                this.getPet().spawnOnLogin();
+            }
 
             //QuestTab.refreshInfoTab(this);
         }).then(1, () -> {
@@ -2560,7 +2560,7 @@ public class Player extends Entity {
         if (rights.isAdministrator(this)) {
             if (getAttribOr(AttributeKey.DEBUG_MESSAGES, false)) {//debug messages are on and I know whats wrong
                 getPacketSender().sendMessage(params.length > 0 ? String.format(format, (Object[]) params) : format);
-                System.out.println("[debug] "+String.format(format, params));
+                System.out.println("[debug] " + String.format(format, params));
             }
         }
     }
@@ -2596,6 +2596,7 @@ public class Player extends Entity {
     private Task distancedTask;
     public final Stopwatch afkTimer = new Stopwatch();
     public final Stopwatch prayerDrainTimer = new Stopwatch();
+
     public void setDistancedTask(Task task) {
         stopDistancedTask();
         this.distancedTask = task;
@@ -2774,6 +2775,7 @@ public class Player extends Entity {
         getSkills().stopSkillable();
 
         getMovementQueue().resetFollowing();
+
     }
 
     public boolean muted() {

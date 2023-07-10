@@ -182,6 +182,7 @@ public class GameServer {
             }
             logger.info("Initializing the Bootstrap...");
             Bootstrap bootstrap = new Bootstrap(GameServer.properties().gamePort);
+            bootstrap.scanInitMethods();
             bootstrap.bind();
             initializeDatabase();
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {

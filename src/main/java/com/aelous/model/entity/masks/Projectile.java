@@ -4,6 +4,7 @@ import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
+import lombok.val;
 
 /**
  * A graphic propelled through the air by some sort of spell, weapon, or other
@@ -125,7 +126,7 @@ public final class Projectile {
                       int delay, int speed, int startHeight, int endHeight, int curve, int creatorSize, int stepMultiplier) {
         this(source.getCentrePosition(),
             victim.getCentrePosition(),
-            (victim.isPlayer() ? -victim.getIndex() - 1 : victim.getIndex() + 1),
+            victim.getProjectileLockonIndex(),
             projectileId, speed, delay,
             startHeight, endHeight, curve, creatorSize, 64, stepMultiplier);
     }
@@ -174,7 +175,7 @@ public final class Projectile {
     public Projectile(Tile source, Entity victim, int projectileId,
                       int delay, int speed, int startHeight, int endHeight, int curve, int creatorSize, int stepMultiplier) {
         this(source, victim.getCentrePosition(),
-            (victim.isPlayer() ? -victim.getIndex() - 1 : victim.getIndex() + 1), projectileId, speed, delay,
+            victim.getProjectileLockonIndex(), projectileId, speed, delay,
             startHeight, endHeight, curve, creatorSize, 64, stepMultiplier);
     }
 
@@ -193,8 +194,7 @@ public final class Projectile {
     public Projectile(Entity source, Entity victim, int projectileId,
                       int delay, int speed, int startHeight, int endHeight, int curve) {
         this(source.getCentrePosition(), victim.getCentrePosition(),
-            (victim.isPlayer() ? -victim.getIndex() - 1
-                : victim.getIndex() + 1), projectileId, speed, delay,
+            victim.getProjectileLockonIndex(), projectileId, speed, delay,
             startHeight, endHeight, curve, source.getSize(), 0, 0);
     }
 
@@ -359,16 +359,17 @@ public final class Projectile {
     }
 
     public static final float CYCLES_PER_TICK = 30;
-    public int getTime(int distance) {
-        float duration = getProjectileDuration(distance) / CYCLES_PER_TICK;
+    public int getTime(Tile from, Tile to) {
+        float duration = getProjectileDuration(from, to) / CYCLES_PER_TICK;
         if (duration - (int) duration > 0.5F) {
             duration++;
         }
-        return (int) duration - 1;
+        return Math.max(0, (int) duration - 1);
     }
 
-    public int getProjectileDuration(int distance) {
-        return this.delay + this.speed + distance;
+    public int getProjectileDuration(final Tile from, final Tile to) {
+        val flightDuration = Math.max(Math.abs(from.getX() - to.getX()), Math.abs(from.getY() - to.getY()));
+        return this.delay + this.speed + flightDuration;
     }
 
     public Tile getTarget() {
@@ -466,7 +467,7 @@ public final class Projectile {
             this.lockon, this.projectileId, this.speed, this.delay, this.startHeight, this.endHeight,
             this.slope, this.creatorSize, this.startDistanceOffset, this.stepMultiplier);
         projectile.sendProjectile();
-        return projectile.getTime(projectile.start.getChevDistance(projectile.getEnd()));
+        return projectile.getTime(projectile.getStart(), projectile.getEnd());
     }
 
     public Projectile sendMagicProjectile(Entity source, Entity victim, int projectileId) {

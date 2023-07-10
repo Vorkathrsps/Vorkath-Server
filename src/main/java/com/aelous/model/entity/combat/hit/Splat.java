@@ -2,7 +2,7 @@ package com.aelous.model.entity.combat.hit;
 
 /**
  * The container class that represents a hit.
- * 
+ *
  * @author lare96 <http://www.rune-server.org/members/lare96/>
  * @author Patrick van Elderen | 30 jan. 2019 : 13:03:32
  * @see <a href="https://www.rune-server.ee/members/_Patrick_/">Rune-Server profile</a>
@@ -40,7 +40,7 @@ public final class Splat {
 
     /**
      * Gets the amount of damage within this hit.
-     * 
+     *
      * @return the amount of damage within this hit.
      */
     public int getDamage() {
@@ -49,7 +49,7 @@ public final class Splat {
 
     /**
      * Gets the hit type represented by this hit.
-     * 
+     *
      * @return the hit type represented by this hit.
      */
     public SplatType getType() {

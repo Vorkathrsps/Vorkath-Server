@@ -9,6 +9,7 @@ import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
+import com.aelous.model.entity.combat.hit.HitMark;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
@@ -651,7 +652,7 @@ public class NexCombat extends CommonCombatMethod {
             t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), delay, CombatType.MAGIC).checkAccuracy().postDamage(h -> {
                 if (h.isAccurate()) {
                     if (World.getWorld().rollDie(100, 25)) {
-                        h.getTarget().hit(nex, 2, SplatType.POISON_HITSPLAT);
+                        h.getTarget().hit(nex, 2, HitMark.POISON);
                         h.getTarget().poison(2);
                     }
                     h.getTarget().graphic(1998, GraphicHeight.MIDDLE, p.getSpeed());

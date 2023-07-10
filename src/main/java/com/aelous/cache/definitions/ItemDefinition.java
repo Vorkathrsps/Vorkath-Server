@@ -408,6 +408,10 @@ public class ItemDefinition implements Definition {
         }
     }
 
+    public void get(int id) {
+        this.id = id;
+    }
+
     public String getWeaponCategory(WeaponType weaponType) {
         switch (category) {
             case 0 -> {

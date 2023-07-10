@@ -15,9 +15,7 @@ public class AbyssalDaggerBH extends CommonCombatMethod {
         entity.animate(3300);
         entity.graphic(1283, GraphicHeight.LOW, 0);
 
-        var isDummy = target.isNpc() && target.getAsNpc().isCombatDummy();
-
-        Hit hit = target.hit(entity, isDummy ? MeleeMaxHit.maxHit((Player) entity, false) : CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE) ,1, CombatType.MELEE).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE) ,1, CombatType.MELEE).checkAccuracy();
 
         for (int index = 0; index < 2; index++) {
             hit.submit();

@@ -17,6 +17,7 @@ import com.aelous.model.entity.combat.CombatSpecial;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.Venom;
 import com.aelous.model.entity.combat.hit.Hit;
+import com.aelous.model.entity.combat.hit.HitMark;
 import com.aelous.model.entity.combat.hit.Splat;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.AttackNpcListener;
@@ -45,6 +46,7 @@ import com.aelous.utility.timers.TimerRepository;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Stopwatch;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -321,7 +323,8 @@ public abstract class Entity {
         return Chain.bound(this).repeatingTask(tickBetweenLoop, work);
     }
 
-    public Hit hits;
+    @Getter
+    public Hit hits = new Hit(this, this);
 
     public Splat getSplat() {
         return splat;
@@ -499,13 +502,13 @@ public abstract class Entity {
         int offX = (entityY - target.getY()) * -1;
         int offY = (entityX - target.getX()) * -1;
 
-        Tile translatedTile = this.getCombat().getTarget() != null ? this.tile().translateAndCenterNpcPosition(this, this.getCombat().getTarget()) : this.tile();
+        Tile translatedTile = this.getCombat().getTarget() != null && creatorSize > 3 ? this.tile().translateAndCenterNpcPosition(this, this.getCombat().getTarget()) : this.tile();
 
-        int distance = translatedTile.getManhattanDistance(target);
+        Tile distance = translatedTile.getAxisDistances(this,target);
 
         Tile offset = new Tile(offX, offY, source.getZ());
 
-        if (distance <= 60) {
+        if (distance.getX() <= 64 && distance.getY() <= 64) {
             for (Player player : World.getWorld().getPlayers()) {
                 if (player == null) {
                     continue;
@@ -518,9 +521,12 @@ public abstract class Entity {
             }
         }
 
-        return projectile.getTime(distance);
+        return projectile.getTime(source, target);
     }
 
+    public Hit getHits(Entity attacker, Entity target) {
+        return new Hit(attacker, target);
+    }
 
     public UpdateFlag getUpdateFlag() {
         return updateFlag;
@@ -605,6 +611,9 @@ public abstract class Entity {
 
     public List<Splat> splats = new ArrayList<>(4);
 
+    public List<Hit> nextHits = new ArrayList<>(4);
+
+
     public void setWalkingDirection(Direction walkDirection) {
         this.walkingDirection = walkDirection;
     }
@@ -658,7 +667,8 @@ public abstract class Entity {
         this.resetMovementQueue = resetMovementQueue;
     }
 
-
+    @Getter @Setter
+    public int tinted = 0;
     @Getter
     List<NPC> activeThrall = new ArrayList<>();
 
@@ -912,27 +922,27 @@ public abstract class Entity {
      * doesnt return {@code Hit} instance because its immidiately submitted() so you cant change properties after.
      */
     public void hit(Entity attacker, int damage) {
-        hit(attacker, damage, SplatType.HITSPLAT);
+        hit(attacker, damage, HitMark.DEFAULT);
     }
 
     /**
      * doesnt return {@code Hit} instance because its immidiately submitted() so you cant change properties after.
      */
     public void hit(Entity attacker, int damage, int delay) {
-        hit(attacker, damage, SplatType.HITSPLAT);
+        hit(attacker, damage, HitMark.DEFAULT);
     }
 
     /**
      * doesnt return {@code Hit} instance because its immidiately submitted() so you cant change properties after.
      */
-    public void hit(Entity attacker, int damage, SplatType type) {
+    public void hit(Entity attacker, int damage, HitMark type) {
         hit(attacker, damage, 0, null, type);
     }
 
     /**
      * doesnt return {@code Hit} instance because its immidiately submitted() so you cant change properties after.
      */
-    public void hit(Entity attacker, int damage, CombatType combatType, SplatType type) {
+    public void hit(Entity attacker, int damage, CombatType combatType, HitMark type) {
         hit(attacker, damage, 0, combatType, type);
     }
 
@@ -956,21 +966,21 @@ public abstract class Entity {
      * doesn't return {@code Hit} instance because It's immediately submitted() so you can't change properties after.
      */
     public void healHit(Entity attacker, int heal) {
-        hit(attacker, heal, null, SplatType.NPC_HEALING_HITSPLAT);
+        hit(attacker, heal, null, HitMark.HEALED);
     }
 
     /**
      * doesn't return {@code Hit} instance because It's immediately submitted() so you can't change properties after.
      */
     public void healHit(Entity attacker, int heal, int delay) {
-        hit(attacker, heal, delay, null, SplatType.NPC_HEALING_HITSPLAT);
+        hit(attacker, heal, delay, null, HitMark.HEALED);
     }
 
     /**
      * doesn't return {@code Hit} instance because It's immediately submitted() so you can't change properties after.
      */
-    public void hit(Entity attacker, int damage, int delay, CombatType combatType, SplatType type) {
-        hit(attacker, damage, delay, combatType).setIsReflected().setSplatType(type).submit();
+    public void hit(Entity attacker, int damage, int delay, CombatType combatType, HitMark type) {
+        hit(attacker, damage, delay, combatType).setIsReflected().setHitMark(type).submit();
     }
 
     protected boolean noRetaliation = false;
@@ -1722,7 +1732,7 @@ public abstract class Entity {
         interactingEntity = null;
         animation = null;
         graphic = null;
-        splats.clear();
+        nextHits.clear();
     }
 
     public Entity forceChat(String message) {
@@ -1765,6 +1775,7 @@ public abstract class Entity {
         }
 
         this.animation = animation;
+        this.recentAnim = animation;
         getUpdateFlag().flag(Flag.ANIMATION);
     }
 
@@ -1799,6 +1810,7 @@ public abstract class Entity {
     private Direction walkingDirection = Direction.NONE, runningDirection = Direction.NONE;
     private final UpdateFlag updateFlag = new UpdateFlag();
     private Animation animation;
+    public Animation recentAnim;
     private Graphic graphic;
     private Tinting tinting;
     private Entity interactingEntity;

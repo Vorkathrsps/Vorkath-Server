@@ -2,10 +2,9 @@ package com.aelous.model.entity.masks.impl.updating;
 
 import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.combat.hit.Splat;
+import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.masks.UpdateFlag;
-import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
@@ -56,7 +55,7 @@ public class NPCUpdating {
                     updateMovement(npc, packet);
                     npc.inViewport(true); // Mark as in viewport
                     if (npc.getUpdateFlag().isUpdateRequired()) {
-                        appendUpdates(npc, update, false);
+                        appendUpdates(npc, player, update, false);
                     }
                 } else {
                     npcIterator.remove();
@@ -80,7 +79,7 @@ public class NPCUpdating {
                     addNPC(player, npc, packet);
                     npc.inViewport(true); // Mark as in viewport
                     if (npc.getUpdateFlag().isUpdateRequired() || sendNewNpcUpdates(npc)) {
-                        appendUpdates(npc, update, true);
+                        appendUpdates(npc, player, update, true);
                     }
                     localNpcCount++;
                 }
@@ -198,7 +197,7 @@ public class NPCUpdating {
      * @param newNpc
      * @return The NPCUpdating instance.
      */
-    private static void appendUpdates(NPC npc, PacketBuilder block, boolean newNpc) {
+    private static void appendUpdates(NPC npc, Player player, PacketBuilder block, boolean newNpc) {
         var sendFaceTile = newNpc && npc.getInteractingEntity() == null && npc.lastTileFaced != null;
         var sendLockon = newNpc && npc.getInteractingEntity() != null;
         int mask = 0;
@@ -238,7 +237,7 @@ public class NPCUpdating {
             updateGraphics(block, npc);
         }
         if (flag.flagged(Flag.FIRST_SPLAT)) {
-            updateSingleHit(block, npc);
+            updateSingleHit(block, npc, player);
         }
         if (flag.flagged(Flag.ENTITY_INTERACTION) || sendLockon) {
             Entity entity = npc.getInteractingEntity();
@@ -254,7 +253,7 @@ public class NPCUpdating {
             block.putShort(npc.transmog() <= 0 ? npc.id() : npc.transmog(), ValueType.A, ByteOrder.LITTLE);
         }
         if (flag.flagged(Flag.FORCED_MOVEMENT) && npc.getForceMovement() != null) {
-            updateForcedMovement(npc,block);
+            updateForcedMovement(npc, block);
         }
         if (flag.flagged(Flag.FACE_TILE) || sendFaceTile) {
             final Tile position = sendFaceTile ? npc.lastTileFaced : npc.getFaceTile();
@@ -337,14 +336,17 @@ public class NPCUpdating {
      * @param npc     The npc to update the single hit for.
      * @return The NPCUpdating instance.
      */
-    private static void updateSingleHit(PacketBuilder builder, NPC npc) {
-        builder.put(Math.min(npc.splats.size(), 4)); // count
-        for (int i = 0; i < Math.min(npc.splats.size(), 4); i++) {
-            Splat splat = npc.splats.get(i);
-            builder.putShort(splat.getDamage());
-            builder.put(splat.getType().getId());
-            builder.putShort(npc.hp());
-            builder.putShort(npc.getCombatInfo() == null ? 1 : npc.getCombatInfo().stats == null ? 1 : npc.getCombatInfo().stats.hitpoints);
+
+    private static void updateSingleHit(PacketBuilder builder, NPC npc, Player player) {
+        int count = Math.min(npc.nextHits.size(), 4); // count
+        builder.put(count);
+        int npcHp = npc.hp();
+        int npcMaxHp = npc.getCombatInfo() == null ? 1 : npc.getCombatInfo().stats == null ? 1 : npc.getCombatInfo().stats.hitpoints;
+        for (Hit hit : npc.nextHits.subList(0, count)) {
+            builder.putShort(hit.getDamage());
+            builder.put(hit.getMark(hit.getSource(), hit.getTarget(), player));
+            builder.putShort(npcHp);
+            builder.putShort(npcMaxHp);
         }
     }
 }

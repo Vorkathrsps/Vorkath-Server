@@ -42,6 +42,9 @@ public class Tile implements Cloneable {
     private int npcCount;
     public ArrayList<GameObject> gameObjects;
 
+    public GameObject object(int objectID) {
+        return new GameObject(objectID, this, 10, 0);
+    }
     public void addObject(GameObject gameObject) {
         if (gameObjects == null) {
             gameObjects = new ArrayList<>(4);
@@ -331,14 +334,20 @@ public class Tile implements Cloneable {
         return getManhattanDistance(pos.getX(), pos.getY(), other.getX(), other.getY());
     }
 
-    public int getManHattanDist(int x, int y, int x2, int y2) {
-        return Math.abs(x - x2) + Math.abs(y - y2);
-    }
-
     public int getDistance(int x1, int y1, int x2, int y2) {
         int diffX = Math.abs(x1 - x2);
         int diffY = Math.abs(y1 - y2);
         return Math.max(diffX, diffY);
+    }
+
+    public int getManhattan(Tile pos, Tile other) {
+        return calculateManhattanDistance(pos.getX(), pos.getY(), other.getX(), other.getY());
+    }
+
+    public int calculateManhattanDistance(int x1, int y1, int x2, int y2) {
+        int deltaX = Math.abs(x2 - x1);
+        int deltaY = Math.abs(y2 - y1);
+        return deltaX + deltaY;
     }
 
     /**
@@ -364,6 +373,13 @@ public class Tile implements Cloneable {
         int newY = y + 1;
         return new Tile(newX, newY, z);
     }
+
+    public double calculateDistance(int x1, int y1, int x2, int y2) {
+        int deltaX = x2 - x1;
+        int deltaY = y2 - y1;
+        return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    }
+
 
     /**
      * Checks if the position is within distance of another.
@@ -783,6 +799,31 @@ public class Tile implements Cloneable {
         return false;
     }
 
+    public Tile getAxisDistances(Entity source, Tile other) {
+        Tile p1 = this.getComparisonPoint(source, other);
+        Tile p2 = other.getComparisonPoint(source, this);
+        return new Tile(Math.abs(p1.getX() - p2.getX()), Math.abs(p1.getY() - p2.getY()));
+    }
+
+    private Tile getComparisonPoint(Entity source, Tile other) {
+        int x, y;
+        if (other.x <= this.x) {
+            x = this.x;
+        } else if (other.x >= this.x + source.getSize() - 1) {
+            x = this.x + source.getSize() - 1;
+        } else {
+            x = other.x;
+        }
+        if (other.y <= this.y) {
+            y = this.y;
+        } else if (other.y >= this.y + source.getSize() - 1) {
+            y = this.y + source.getSize() - 1;
+        } else {
+            y = other.y;
+        }
+        return new Tile(x, y);
+    }
+
     public Tile translateAndCenterNpcPosition(Entity source, Entity target) {
         var vectorX = (this.unitVectorX(target.getCentrePosition()) / 2);
         var vectorY = (this.unitVectorY(target.getCentrePosition()) / 2);
@@ -867,10 +908,11 @@ public class Tile implements Cloneable {
     }
 
     public boolean nextTo(Tile destination) {
-        return (x == destination.x + 1 && y == destination.y) ||
-            (x == destination.x - 1 && y == destination.y) ||
-            (x == destination.x && y == destination.y + 1) ||
-            (x == destination.x && y == destination.y - 1);
+        int dx = Math.abs(x - destination.x);
+        int dy = Math.abs(y - destination.y);
+        System.out.println(dx);
+        System.out.println(dy);
+        return (dx <= 2 && dy <= 2 || dx >= 0 && dy >= 0);
     }
 
     public int clip() {

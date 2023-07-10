@@ -74,7 +74,7 @@ public class ItemCreationSkillable extends DefaultSkillable {
 
     @Override
     public void startAnimationLoop(Player player) {
-        if (!animLoop.isPresent()) {
+        if (animLoop.isEmpty()) {
             return;
         }
         Task animLoopTask = new Task("ItemCreationAnimationTask", animLoop.get().getLoopDelay(), player, true) {

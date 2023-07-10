@@ -94,7 +94,7 @@ public class BrutalDragons extends CommonCombatMethod {
     private void magicAttack(NPC npc, Entity entity) {
         fire = false;
         npc.animate(6722);
-        entity.animate(81);
+        //entity.animate(81);
         var tileDist = entity.tile().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
         switch (npc.id()) {

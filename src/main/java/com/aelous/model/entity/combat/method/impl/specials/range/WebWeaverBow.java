@@ -24,7 +24,7 @@ public class WebWeaverBow extends CommonCombatMethod {
         RangedData.RangedWeapon rangeWeapon = entity.getCombat().getRangedWeapon();
         boolean ignoreArrows = rangeWeapon != null && rangeWeapon.ignoreArrowsSlot();
 
-        double maxHit = entity.getCombat().getMaximumRangedDamage(ignoreArrows);
+        double maxHit = entity.getCombat().getMaximumRangedDamage();
         double hitLogic = (maxHit * (secureRandom.nextDouble() * 0.4));
 
         boolean chanceToPoison = Utils.securedRandomChance(0.35D);

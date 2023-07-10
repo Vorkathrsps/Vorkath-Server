@@ -3,9 +3,7 @@ package com.aelous.model.entity.combat;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.formula.accuracy.test.HitListener;
-import com.aelous.model.entity.combat.formula.maxhit.MagicMaxHit;
-import com.aelous.model.entity.combat.formula.maxhit.MeleeMaxHit;
-import com.aelous.model.entity.combat.formula.maxhit.RangeMaxHit;
+import com.aelous.model.entity.combat.formula.maxhit.*;
 import com.aelous.model.entity.combat.hit.HitDamageCache;
 import com.aelous.model.entity.combat.hit.HitQueue;
 import com.aelous.model.entity.combat.magic.CombatSpell;
@@ -131,46 +129,50 @@ public class Combat {
         mob.getTimers().extendOrRegister(TimerKey.COMBAT_ATTACK, ticks);
     }
 
+    MagicMaxHitFormula magicMaxHitFormula = new MagicMaxHitFormula();
+
     public int getMaximumMagicDamage() {
-        if (mob.isNpc()) {
-            return mob.getAsNpc().getCombatInfo() == null ? 0 : mob.getAsNpc().getCombatInfo().maxhit;
+        if (mob instanceof NPC npc) {
+            return npc.getCombatInfo() != null ? npc.getCombatInfo().maxhit : 0;
         }
-        Player player = mob.getAsPlayer();
-        if (target instanceof NPC) {
-            if (mob.isPlayer() && target.isNpc() && target.getAsNpc().id() == UNDEAD_COMBAT_DUMMY) {
-                return MagicMaxHit.maxHit(player, false);
-            }
+        if (target instanceof NPC npc && mob instanceof Player player && npc.id() == UNDEAD_COMBAT_DUMMY) {
+            return magicMaxHitFormula.calculateMaxMagicHit(player);
         }
-        return MagicMaxHit.maxHit(player, true);
+        return magicMaxHitFormula.calculateMaxMagicHit(mob.getAsPlayer());
     }
 
+
     public int getMaximumMeleeDamage() {
-        //NPC have their own max hits
         if (mob.isNpc()) {
             return mob.getAsNpc().getCombatInfo() == null ? 0 : mob.getAsNpc().getCombatInfo().maxhit;
         }
-        //PvP max hit
+
         if (mob.isPlayer() && target != null && target.isNpc() && target.getAsNpc().id() == UNDEAD_COMBAT_DUMMY) {
-            return MeleeMaxHit.maxHit(mob.getAsPlayer(), false);
+            return MeleeMaxHit.maxHit(mob.getAsPlayer());
         }
-        //PvM max hit
-        return MeleeMaxHit.maxHit(mob.getAsPlayer(), true);
+
+        return MeleeMaxHit.maxHit(mob.getAsPlayer());
     }
 
     /**
      * The maximum range hit
      *
-     * @param ignoreArrowRangeStr Checks if we are ignoring arrows equipment
      * @return The max hit
      */
-    public int getMaximumRangedDamage(boolean ignoreArrowRangeStr) {
-        if (mob.isNpc()) {
-            return mob.getAsNpc().getCombatInfo() == null ? 0 : mob.getAsNpc().getCombatInfo().maxhit;
+
+    RangedMaxHitFormula maxHitFormula = new RangedMaxHitFormula();
+
+    public int getMaximumRangedDamage() {
+
+        if (mob instanceof NPC npc) {
+            return npc.getCombatInfo() != null ? npc.getCombatInfo().maxhit : 0;
         }
-        if (mob.isPlayer() && target.isNpc() && target.getAsNpc().id() == UNDEAD_COMBAT_DUMMY) {
-            return RangeMaxHit.maxHit(mob.getAsPlayer(), mob.getAsPlayer().getCombat().target, ignoreArrowRangeStr, false);
+
+        if (target instanceof NPC npc && mob instanceof Player player && npc.id() == UNDEAD_COMBAT_DUMMY) {
+            return maxHitFormula.calculateMaximumHit(player, player.isSpecialActivated());
         }
-        return RangeMaxHit.maxHit(mob.getAsPlayer(), mob.getAsPlayer().getCombat().target, ignoreArrowRangeStr, true);
+
+        return maxHitFormula.calculateMaximumHit(mob.getAsPlayer(), mob.getAsPlayer().isSpecialActivated());
     }
 
     private void applyTeleBlockImmunity() {
@@ -450,23 +452,20 @@ public class Combat {
      * @param entity the entity to add damage for.
      * @param amount the amount of damage to add for the argued entity.
      */
+    HitDamageCache hitDamageCache = null;
+
     public void addDamage(Entity entity, int amount) {
-
-        if (amount <= 0 || isNonCombatNpc(this.mob)) { // damage on npcs not tracked! makes sense for non-cb npcs,
-            // wil also be memory intensive unless we lazy-init (only create the new Map<> when actuall yneeded)
-            //System.out.println("yeet this guy "+entity.getMobName()+" by "+amount);
+        if (amount <= 0 || isNonCombatNpc(this.mob)) {
+            // Damage on non-combat NPCs is not tracked
             return;
         }
 
-        getDamageMap(); // make sure it exists
+        Map<Entity, HitDamageCache> damageMap = getDamageMap();
 
-        if (damageMap.containsKey(entity)) {
-            damageMap.get(entity).incrementDamage(amount);
-            return;
-        }
-
-        damageMap.put(entity, new HitDamageCache(amount));
+        hitDamageCache = damageMap.computeIfAbsent(entity, key -> new HitDamageCache(0));
+        hitDamageCache.incrementDamage(amount);
     }
+
 
     private boolean isNonCombatNpc(Entity entity) {
         if (!entity.isNpc()) return false;
@@ -738,6 +737,7 @@ public class Combat {
             else if (method instanceof CommonCombatMethod commonCombatMethod) {
                 commonCombatMethod.set(mob, target);
                 commonCombatMethod.doFollowLogic();
+                commonCombatMethod.process(mob, target);
             } else {
                 // fallback: the normal code for all mobs who dont have CommonCombat as their script
                 DumbRoute.step(mob, target, method.getAttackDistance(mob));

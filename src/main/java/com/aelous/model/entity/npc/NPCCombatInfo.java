@@ -86,6 +86,7 @@ public class NPCCombatInfo {
         public int crushdefence;
         public int rangeddefence;
         public int magicdefence;
+        public int rangestrength;
 
         public Bonuses clone() {
             Bonuses bonuses = new Bonuses();
@@ -98,6 +99,7 @@ public class NPCCombatInfo {
             bonuses.crushdefence = crushdefence;
             bonuses.rangeddefence = rangeddefence;
             bonuses.magicdefence = magicdefence;
+            bonuses.rangestrength = rangestrength;
             return bonuses;
         }
     }

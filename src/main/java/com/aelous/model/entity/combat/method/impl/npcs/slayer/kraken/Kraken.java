@@ -12,12 +12,15 @@ public class Kraken extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
+        if (!withinDistance(8)) {
+            return false;
+        }
         entity.animate(entity.attackAnimation());
         var tileDist = entity.tile().distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
-        Projectile p = new Projectile(entity, target, 156, 51, duration, 43, 31, 0, target.getSize(), 10);
+        Projectile p = new Projectile(entity, target, 156, 51, duration, 43, 31, 16, 2, 10);
         final int delay = entity.executeProjectile(p);
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
         hit.submit();
         if (hit.isAccurate()) {
             target.graphic(157, GraphicHeight.MIDDLE, p.getSpeed());

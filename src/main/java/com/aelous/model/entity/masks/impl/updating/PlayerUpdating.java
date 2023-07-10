@@ -2,7 +2,8 @@ package com.aelous.model.entity.masks.impl.updating;
 
 import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
-import com.aelous.model.entity.combat.hit.Splat;
+import com.aelous.model.entity.combat.hit.Hit;
+import com.aelous.model.entity.combat.hit.HitMark;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.masks.UpdateFlag;
 import com.aelous.model.entity.masks.impl.chat.ChatMessage;
@@ -46,41 +47,37 @@ public class PlayerUpdating {
         try (final PacketBuilder builder = new PacketBuilder()) {
             out.initializeAccess(AccessType.BIT);
             updateMovement(player, out);
-            appendUpdates(player, builder, player, false, true);
             out.putBits(8, player.getLocalPlayers().size());
-            for (Iterator<Player> playerIterator = player.getLocalPlayers().iterator(); playerIterator.hasNext(); ) {
+            appendUpdates(player, builder, player, false, true);
+            Iterator<Player> playerIterator = player.getLocalPlayers().iterator();
+            while (playerIterator.hasNext()) {
                 Player otherPlayer = playerIterator.next();
-                if (otherPlayer.getIndex() != -1 && World.getWorld().getPlayers().get(otherPlayer.getIndex()) != null && !otherPlayer.looks().hidden() && otherPlayer.tile().isWithinDistance(player.tile()) && !otherPlayer.isNeedsPlacement() && canSee(player, otherPlayer)) {
-                    updateOtherPlayerMovement(out, otherPlayer);
-                    if (otherPlayer.getUpdateFlag().isUpdateRequired()) {
-                        appendUpdates(player, builder, otherPlayer, false, false);
-                    }
+                if (shouldUpdatePlayer(player, otherPlayer)) {
+                    updateOtherPlayer(player, otherPlayer, out, builder);
                 } else {
                     playerIterator.remove();
                     out.putBits(1, 1);
                     out.putBits(2, 3);
                 }
             }
+
             List<Player> localPlayers = player.getLocalPlayers();
             int added = 0, count = localPlayers.size();
             for (Player otherPlayer : World.getWorld().getPlayers()) {
-                if (count >= MAXIMUM_LOCAL_PLAYERS) {
-                    break;
-                } else if (added >= NEW_PLAYERS_PER_CYCLE) {
+                if (count >= MAXIMUM_LOCAL_PLAYERS || added >= NEW_PLAYERS_PER_CYCLE) {
                     break;
                 }
 
-                if (otherPlayer == null || otherPlayer == player || player.getLocalPlayers().contains(otherPlayer) || !otherPlayer.tile().isWithinDistance(player.tile()) || otherPlayer.looks().hidden() || !canSee(player, otherPlayer)) {
-                    continue;
+                if (shouldAddNewPlayer(player, otherPlayer)) {
+                    localPlayers.add(otherPlayer);
+                    count++;
+                    added++;
+
+                    addPlayer(player, otherPlayer, out);
+                    appendUpdates(player, builder, otherPlayer, true, false);
                 }
-
-                localPlayers.add(otherPlayer);
-                count++;
-                added++;
-
-                addPlayer(player, otherPlayer, out);
-                appendUpdates(player, builder, otherPlayer, true, false);
             }
+
             if (builder.buffer().writerIndex() > 0) {
                 out.putBits(11, 2047);
                 out.initializeAccess(AccessType.BYTE);
@@ -88,11 +85,38 @@ public class PlayerUpdating {
             } else {
                 out.initializeAccess(AccessType.BYTE);
             }
+
             player.getSession().write(out);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    private static boolean shouldUpdatePlayer(Player player, Player otherPlayer) {
+        return otherPlayer.getIndex() != -1
+            && World.getWorld().getPlayers().get(otherPlayer.getIndex()) != null
+            && !otherPlayer.looks().hidden()
+            && otherPlayer.tile().isWithinDistance(player.tile())
+            && !otherPlayer.isNeedsPlacement()
+            && canSee(player, otherPlayer);
+    }
+
+    private static void updateOtherPlayer(Player player, Player otherPlayer, PacketBuilder out, PacketBuilder builder) {
+        updateOtherPlayerMovement(out, otherPlayer);
+        if (otherPlayer.getUpdateFlag().isUpdateRequired()) {
+            appendUpdates(player, builder, otherPlayer, false, false);
+        }
+    }
+
+    private static boolean shouldAddNewPlayer(Player player, Player otherPlayer) {
+        return otherPlayer != null
+            && otherPlayer != player
+            && !player.getLocalPlayers().contains(otherPlayer)
+            && otherPlayer.tile().isWithinDistance(player.tile())
+            && !otherPlayer.looks().hidden()
+            && canSee(player, otherPlayer);
+    }
+
 
 
     private static boolean canSee(Player player, Player otherPlayer) {
@@ -102,16 +126,16 @@ public class PlayerUpdating {
     /**
      * Adds a new player to the associated player's client.
      *
-     * @param target  The player to add to the other player's client.
+     * @param otherPlayer  The player to add to the other player's client.
      * @param builder The packet builder to write information on.
      * @return The PlayerUpdating instance.
      */
-    private static void addPlayer(Player player, Player target, PacketBuilder builder) {
-        builder.putBits(11, target.getIndex());
+    private static void addPlayer(Player player, Player otherPlayer, PacketBuilder builder) {
+        builder.putBits(11, otherPlayer.getIndex());
         builder.putBits(1, 1);
         builder.putBits(1, 1);
-        int yDiff = target.tile().getY() - player.tile().getY();
-        int xDiff = target.tile().getX() - player.tile().getX();
+        int yDiff = otherPlayer.tile().getY() - player.tile().getY();
+        int xDiff = otherPlayer.tile().getX() - player.tile().getX();
         builder.putBits(5, yDiff); // localized position relative to POV
         builder.putBits(5, xDiff);
     }
@@ -240,19 +264,19 @@ public class PlayerUpdating {
      * Updates another player's movement queue.
      *
      * @param builder The packet builder to write information on.
-     * @param target  The player to update movement for.
+     * @param player  The player to update movement for.
      * @return The PlayerUpdating instance.
      */
-    private static void updateOtherPlayerMovement(PacketBuilder builder, Player target) {
+    private static void updateOtherPlayerMovement(PacketBuilder builder, Player player) {
 
         /*
          * Check which type of movement took place.
          */
-        if (target.getWalkingDirection().toInteger() == -1) {
+        if (player.getWalkingDirection().toInteger() == -1) {
             /*
              * If no movement did, check if an update is required.
              */
-            if (target.getUpdateFlag().isUpdateRequired()) {
+            if (player.getUpdateFlag().isUpdateRequired()) {
                 /*
                  * Signify that an update happened.
                  */
@@ -268,7 +292,7 @@ public class PlayerUpdating {
                  */
                 builder.putBits(1, 0);
             }
-        } else if (target.getRunningDirection().toInteger() == -1) {
+        } else if (player.getRunningDirection().toInteger() == -1) {
             /*
              * The player moved but didn't run. Signify that an update is
              * required.
@@ -283,12 +307,12 @@ public class PlayerUpdating {
             /*
              * Write the primary sprite (i.e. walk direction).
              */
-            builder.putBits(3, target.getWalkingDirection().toInteger());
+            builder.putBits(3, player.getWalkingDirection().toInteger());
 
             /*
              * Write a flag indicating if a block update happened.
              */
-            builder.putBits(1, target.getUpdateFlag().isUpdateRequired() ? 1 : 0);
+            builder.putBits(1, player.getUpdateFlag().isUpdateRequired() ? 1 : 0);
         } else {
             /*
              * The player ran. Signify that an update happened.
@@ -303,17 +327,17 @@ public class PlayerUpdating {
             /*
              * Write the primary sprite (i.e. walk direction).
              */
-            builder.putBits(3, target.getWalkingDirection().toInteger());
+            builder.putBits(3, player.getWalkingDirection().toInteger());
 
             /*
              * Write the secondary sprite (i.e. run direction).
              */
-            builder.putBits(3, target.getRunningDirection().toInteger());
+            builder.putBits(3, player.getRunningDirection().toInteger());
 
             /*
              * Write a flag indicating if a block update happened.
              */
-            builder.putBits(1, target.getUpdateFlag().isUpdateRequired() ? 1 : 0);
+            builder.putBits(1, player.getUpdateFlag().isUpdateRequired() ? 1 : 0);
         }
     }
 
@@ -321,17 +345,17 @@ public class PlayerUpdating {
      * Appends a player's update mask blocks.
      *
      * @param builder          The packet builder to write information on.
-     * @param target           The player to update masks for.
+     * @param otherPlayer           The player to update masks for.
      * @param updateAppearance Update the player's appearance without the flag being set?
      * @param noChat           Do not allow player to chat?
      * @return The PlayerUpdating instance.
      */
-    private static void appendUpdates(Player player, PacketBuilder builder, Player target, boolean updateAppearance, boolean noChat) {
-        var sendFacing = updateAppearance && target != player && target.getInteractingEntity() == null && target.lastTileFaced != null;
-        var sendLockon = updateAppearance && target != player && target.getInteractingEntity() != null;
+    private static void appendUpdates(Player player, PacketBuilder builder, Player otherPlayer, boolean updateAppearance, boolean noChat) {
+        var sendFacing = updateAppearance && otherPlayer != player && otherPlayer.getInteractingEntity() == null && otherPlayer.lastTileFaced != null;
+        var sendLockon = updateAppearance && otherPlayer != player && otherPlayer.getInteractingEntity() != null;
 
         // no update?
-        if (!target.getUpdateFlag().isUpdateRequired() && !updateAppearance && !sendFacing && !sendLockon)
+        if (!otherPlayer.getUpdateFlag().isUpdateRequired() && !updateAppearance && !sendFacing && !sendLockon)
             return;
 
        /* if (player.getCachedUpdateBlock() != null && !player.equals(target) && !updateAppearance && !noChat) {
@@ -339,21 +363,21 @@ public class PlayerUpdating {
             return;
         }*/
 
-        final UpdateFlag flag = target.getUpdateFlag();
+        final UpdateFlag flag = otherPlayer.getUpdateFlag();
         int mask = 0;
-        if (flag.flagged(Flag.FORCED_MOVEMENT) && target.getForceMovement() != null) {
+        if (flag.flagged(Flag.FORCED_MOVEMENT) && otherPlayer.getForceMovement() != null) {
             mask |= 0x400;
         }
-        if (flag.flagged(Flag.GRAPHIC) && target.graphic() != null) {
+        if (flag.flagged(Flag.GRAPHIC) && otherPlayer.graphic() != null) {
             mask |= 0x100;
         }
-        if (flag.flagged(Flag.ANIMATION) && target.getAnimation() != null) {
+        if (flag.flagged(Flag.ANIMATION) && otherPlayer.getAnimation() != null) {
             mask |= 0x8;
         }
-        if (flag.flagged(Flag.FORCED_CHAT) && target.getForcedChat() != null) {
+        if (flag.flagged(Flag.FORCED_CHAT) && otherPlayer.getForcedChat() != null) {
             mask |= 0x4;
         }
-        if (flag.flagged(Flag.CHAT) && target.getCurrentChatMessage() != null && !noChat) {
+        if (flag.flagged(Flag.CHAT) && otherPlayer.getCurrentChatMessage() != null && !noChat) {
             mask |= 0x80;
         }
         if (flag.flagged(Flag.ENTITY_INTERACTION) || sendLockon) {
@@ -377,38 +401,38 @@ public class PlayerUpdating {
         } else {
             builder.put(mask);
         }
-        if (flag.flagged(Flag.FORCED_MOVEMENT) && target.getForceMovement() != null) {
-            updateForcedMovement(player, builder, target);
+        if (flag.flagged(Flag.FORCED_MOVEMENT) && otherPlayer.getForceMovement() != null) {
+            updateForcedMovement(player, builder, otherPlayer);
         }
-        if (flag.flagged(Flag.GRAPHIC) && target.graphic() != null) {
-            updateGraphics(builder, target);
+        if (flag.flagged(Flag.GRAPHIC) && otherPlayer.graphic() != null) {
+            updateGraphics(builder, otherPlayer);
         }
-        if (flag.flagged(Flag.ANIMATION) && target.getAnimation() != null) {
-            updateAnimation(builder, target);
+        if (flag.flagged(Flag.ANIMATION) && otherPlayer.getAnimation() != null) {
+            updateAnimation(builder, otherPlayer);
         }
-        if (flag.flagged(Flag.FORCED_CHAT) && target.getForcedChat() != null) {
-            updateForcedChat(builder, target);
+        if (flag.flagged(Flag.FORCED_CHAT) && otherPlayer.getForcedChat() != null) {
+            updateForcedChat(builder, otherPlayer);
         }
-        if (flag.flagged(Flag.CHAT) && target.getCurrentChatMessage() != null && !noChat) {
-            updateChat(builder, target);
+        if (flag.flagged(Flag.CHAT) && otherPlayer.getCurrentChatMessage() != null && !noChat) {
+            updateChat(builder, otherPlayer);
         }
         if (flag.flagged(Flag.ENTITY_INTERACTION) || sendLockon) {
-            updateEntityInteraction(builder, target);
+            updateEntityInteraction(builder, otherPlayer);
         }
         if (flag.flagged(Flag.APPEARANCE) || updateAppearance) {
-            target.looks().update(builder, target);
+            otherPlayer.looks().update(builder, otherPlayer);
         }
         if (flag.flagged(Flag.FACE_TILE) || sendFacing) {
-            var tile = sendFacing ? target.lastTileFaced : target.getFaceTile();
+            var tile = sendFacing ? otherPlayer.lastTileFaced : otherPlayer.getFaceTile();
             updateFacingPosition(builder, tile == null ? 0 : tile.getX(), tile == null ? 0 : tile.getY());
         }
         if (flag.flagged(Flag.FIRST_SPLAT)) {
-            writehit1(builder, target);
+            writehit1(builder, otherPlayer, otherPlayer, player);
         }
         if (flag.flagged(Flag.LUMINANCE)) {
-            writeLuminanceOverlay(builder, target);
+            writeLuminanceOverlay(builder, otherPlayer);
         }
-        if (!player.equals(target) && !updateAppearance && !noChat) {
+        if (!player.equals(otherPlayer) && !updateAppearance && !noChat) {
             player.setCachedUpdateBlock(builder.buffer());
         }
     }
@@ -496,28 +520,19 @@ public class PlayerUpdating {
      * @param target    The player to update the single hit for.
      * @return The PlayerUpdating instance.
      */
-
-    /**
-     * // Tinted hitsplat
-     * boolean tinted = true;
-     * if (hit.getSource() != null && hit.getSource().equals(player)) {
-     * tinted = false;
-     * }
-     * if (hit.getTarget() != null && hit.getTarget().equals(player)) {
-     * tinted = false;
-     * }
-     * packet.put((tinted ? 1 : 0));
-     */
-    private static void writehit1(PacketBuilder builder, Player target) {
-        builder.put(Math.min(target.splats.size(), 4)); // count
-        for (int i = 0; i < Math.min(target.splats.size(), 4); i++) {
-            Splat splat = target.splats.get(i);
-            builder.putShort(splat.getDamage());
-            builder.put(splat.getType().getId());
-            builder.putShort(target.hp());
-            builder.putShort(target.maxHp());
+    private static void writehit1(PacketBuilder builder, Player player, Player otherPlayer, Player observer) {
+        int count = Math.min(player.nextHits.size(), 4); // count
+        builder.put(count);
+        int playerHp = player.hp();
+        int playerMaxHp = player.maxHp();
+        for (Hit hit : player.nextHits.subList(0, count)) {
+            builder.putShort(hit.getDamage());
+            builder.put(hit.getMark(hit.getSource(), otherPlayer, observer));
+            builder.putShort(playerHp);
+            builder.putShort(playerMaxHp);
         }
     }
+
 
     /**
      * This update block is used to update a player's double hit.

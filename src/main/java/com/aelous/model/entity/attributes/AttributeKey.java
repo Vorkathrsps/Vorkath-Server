@@ -1,5 +1,7 @@
 package com.aelous.model.entity.attributes;
 
+import org.jdom.AttributeType;
+
 /**
  * Created by Bart on 8/13/2015.
  */
@@ -58,7 +60,7 @@ public enum AttributeKey {
 
     SNOW_MONSTER_TIMER("snow_mosnter_timer", AttribType.INTEGER),
 
-    LAST_PET,
+    LAST_PET_ID("last_pet_id", AttribType.INTEGER),
 
     /**
      * A list of items being held in the item sack

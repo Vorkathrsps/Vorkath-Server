@@ -12,8 +12,10 @@ import com.aelous.model.entity.combat.method.CombatMethod;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
+import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.PlayerStatus;
-
+import lombok.Getter;
+import lombok.Setter;
 import java.util.function.Consumer;
 
 /**
@@ -42,17 +44,22 @@ public class Hit {
     /**
      * The attacker instance.
      */
-    private final Entity attacker;
+    private Entity attacker;
 
     /**
      * The victim instance.
      */
-    private final Entity target;
+    private Entity target;
 
     public CombatSpell spell;
 
     public Hit setSplatType(SplatType splatType) {
         this.splatType = splatType;
+        return this;
+    }
+
+    public Hit setHitMark(HitMark hitMark) {
+        this.hitMark = hitMark;
         return this;
     }
 
@@ -95,19 +102,17 @@ public class Hit {
      *
      * @return
      */
-    public Entity getDamageSource() {
-        return this.attacker;
-    }
 
     public Entity getSource() {
-        return this.attacker;
+        return attacker;
     }
+
+
 
     /**
      * Adjusts the hit delay with the characters update index (PID).
      */
     private void adjustDelay() {
-
         if (target != null && target.isNpc()) {
             return;
         }
@@ -117,26 +122,25 @@ public class Hit {
             return;
         }
 
-        if (attacker != null) {
-
-            if (attacker.isNpc() || attacker.pidOrderIndex == -1) {
-                return;
-            }
-
+        if (attacker != null && attacker.pidOrderIndex != -1) {
             if (target != null && attacker.pidOrderIndex <= target.pidOrderIndex) {
                 delay -= 1;
             }
         }
 
-        if (delay < 1 && combatType != CombatType.MELEE) {
+        if (delay < 1 && !combatType.isMelee()) {
             delay = 1;
         }
+    }
+    public Hit(Entity attacker, Entity target) {
+        this.attacker = attacker;
+        this.target = target;
     }
 
     /**
      * Constructs a QueueableHit with a total of {hitCountToGenerate} hits.
      **/
-    public Hit(Entity attacker, Entity target, CombatMethod method, boolean checkAccuracy, int delay, int damage) {
+    public Hit(Entity attacker, Entity target, CombatMethod method, boolean checkAccuracy, int delay, int damage, HitMark hitMark) {
         this.attacker = attacker;
         this.target = target;
         if (method instanceof CommonCombatMethod commonCombatMethod) {
@@ -144,10 +148,8 @@ public class Hit {
         }
         this.checkAccuracy = checkAccuracy;
         this.damage = damage;
-        applyAccuracyToMiss();
         this.delay = delay;
-        this.adjustDelay();
-        this.splatType = damage < 1 ? SplatType.BLOCK_HITSPLAT : SplatType.HITSPLAT;
+        this.hitMark = hitMark;
     }
 
     public Hit builder(Entity attacker, Entity target, int damage, int delay) {
@@ -155,7 +157,7 @@ public class Hit {
     }
 
     public static Hit builder(Entity attacker, Entity target, int damage, int delay, CombatType type) {
-        Hit hit = new Hit(attacker, target, null, false, delay, damage);
+        Hit hit = new Hit(attacker, target, null, false, delay, damage, damage > 0 ? HitMark.DEFAULT : HitMark.MISSED);
         hit.delay = delay;
         hit.combatType = type;
         return hit;
@@ -180,7 +182,7 @@ public class Hit {
         return --delay;
     }
 
-    public int getDamage() {
+    public final int getDamage() {
         return damage;
     }
 
@@ -197,6 +199,8 @@ public class Hit {
         this.damage = damage;
     }
 
+    @Getter @Setter public boolean isMaxHit;
+
     public Hit damageModifier(double damageModifier) {
         this.damage += damageModifier;
         return this;
@@ -211,10 +215,26 @@ public class Hit {
         return target.locked() && !target.isDamageOkLocked() && !target.isDelayDamageLocked() && !target.isMoveLockedDamageOk();
     }
 
+    public int getMaximumHit() {
+        int maxHit = -1;
+        if (attacker instanceof Player) {
+            if (this.getSource().getCombat().getCombatType() == CombatType.MELEE) {
+                maxHit = attacker.getCombat().getMaximumMeleeDamage();
+            }
+            if (this.getSource().getCombat().getCombatType() == CombatType.RANGED) {
+                maxHit = attacker.player().getCombat().getMaximumRangedDamage();
+            }
+            if (this.getSource().getCombat().getCombatType()  == CombatType.MAGIC) {
+                maxHit = attacker.getCombat().getMaximumMagicDamage();
+            }
+        }
+        return maxHit;
+    }
+
     /**
      * checks alwaysHit attrib and accuracy (depending on combat method+style). sets damage to 0 or maxhp or does no change at all, retaining existing {@link #damage} value set by {@link CombatFactory#calcDamageFromType(Entity, Entity, CombatType)}
      */
-    private void applyAccuracyToMiss() {
+    public void applyAccuracyToMiss() {
         if (attacker == null || target == null) {
             return;
         }
@@ -278,7 +298,6 @@ public class Hit {
             }
         }
         this.damage = damage;
-        //System.out.printf("smack %s%n", damage);
     }
 
     public CombatType getCombatType() {
@@ -337,10 +356,11 @@ public class Hit {
 
     public void playerSync() {
         if (target == null) return;
-        if (target.splats.size() >= 4)
+        if (target.nextHits.size() >= 4)
             return;
-        target.splats.add(new Splat(getDamage(), splatType));
+        target.nextHits.add(this);
         target.getUpdateFlag().flag(Flag.FIRST_SPLAT);
+        adjustDelay();
     }
 
     public Hit block() {
@@ -357,6 +377,14 @@ public class Hit {
     public Hit clientDelay(int delay) {
         this.delay = delay;
         return this;
+    }
+
+    @Getter
+    @Setter
+    private HitMark hitMark;
+
+    public int getMark(Entity source, Entity target, Player observer) {
+        return hitMark.getObservedType(this, source, target, observer, isMaxHit);
     }
 }
 

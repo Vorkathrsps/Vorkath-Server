@@ -58,10 +58,6 @@ public class Vetion extends CommonCombatMethod {
 
     @Override
     public void preDefend(Hit hit) {
-        //if (target != null && target.isPlayer() && !target.tile().inArea(vetionArea)) {
-        //     playersInArea.remove(target.getAsPlayer());
-        //      System.out.println("removed: " + playersInArea.size());
-        //  }
         Player player = (Player) target;
         NPC vetion = (NPC) entity;
         if (player != null) {
@@ -239,11 +235,12 @@ public class Vetion extends CommonCombatMethod {
         }).then(2, () -> {
             vetion.animate(9974);
         }).then(1, () -> {
-            if (!tiles.contains(player.tile())) {
-                return;
-            }
-            if (!player.dead() && player.isRegistered() && !vetion.dead()) {
-                player.hit(vetion, Utils.random(15, 30), 0);
+            for (var t : tiles) {
+                if (t.equals(player.tile())) {
+                    if (!player.dead() && player.isRegistered() && !vetion.dead()) {
+                        player.hit(vetion, Utils.random(15, 30), 0);
+                    }
+                }
             }
         }).then(2, () -> {
             vetion.unlock();

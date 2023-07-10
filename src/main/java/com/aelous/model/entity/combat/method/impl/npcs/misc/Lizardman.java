@@ -12,6 +12,9 @@ public class Lizardman extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
+        if (!withinDistance(7)) {
+            return false;
+        }
         entity.animate(7193);
         int tileDist = entity.tile().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));

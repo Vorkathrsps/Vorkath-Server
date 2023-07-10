@@ -347,7 +347,7 @@ public class Bank extends ItemContainer {
         }
 
         setFiringEvents(false);
-        if (!new Item(id).stackable() && amount > player.getInventory().getFreeSlots()) {
+        if (!item.stackable() && amount > player.getInventory().getFreeSlots()) {
             amount = player.getInventory().getFreeSlots();
         } else if (item.stackable() && player.getInventory().getFreeSlots() == 0) {
             if (!player.getInventory().contains(id)) {

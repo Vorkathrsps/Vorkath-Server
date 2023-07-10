@@ -464,7 +464,9 @@ public class NPC extends Entity {
     /**
      * override me
      */
-    public void postSequence() {}
+    public void postSequence() {
+
+    }
 
     public boolean useSmartPath;
 

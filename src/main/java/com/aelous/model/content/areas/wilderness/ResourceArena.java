@@ -5,6 +5,8 @@ import com.aelous.model.content.skill.impl.mining.Mining;
 import com.aelous.core.task.Task;
 import com.aelous.core.task.TaskManager;
 import com.aelous.model.World;
+import com.aelous.model.content.skill.impl.mining.Ore;
+import com.aelous.model.content.skill.impl.mining.SkillingSuccess;
 import com.aelous.model.inter.dialogue.Dialogue;
 import com.aelous.model.inter.dialogue.DialogueManager;
 import com.aelous.model.inter.dialogue.DialogueType;
@@ -99,17 +101,17 @@ public class ResourceArena extends PacketInteraction {
                             player.animate(pick.get().anim);
 
                             if (internalTimer-- == 0) {
-                                var odds = Mining.chance(player.getSkills().level(Skills.MINING), Mining.Rock.RUNE, pick.get());
+                                boolean odds = SkillingSuccess.success(player.getSkills().level(Skills.MINING), Ore.RUNE_ROCK.level_req, Ore.RUNE_ROCK, pick.get());
                                 var roll = World.getWorld().random(100);
                                 //System.out.println("roll = "+roll);
                                 //System.out.println("odds: "+odds);
 
-                                if (roll <= odds) {
+                                if (odds) {
                                     player.message("You manage to mine some runite.");
                                     player.animate(-1);
 
-                                    player.inventory().addOrDrop(new Item(Mining.Rock.RUNE.ore));
-                                    player.getSkills().addXp(Skills.MINING, Mining.Rock.RUNE.xp);
+                                    player.inventory().addOrDrop(new Item(Ore.RUNE_ROCK.item));
+                                    player.getSkills().addXp(Skills.MINING, Ore.RUNE_ROCK.experience);
 
                                     //TODO achievement here runite golem
                                     World.getWorld().getNpcs().remove(npc);

@@ -45,7 +45,6 @@ import com.aelous.model.entity.combat.method.impl.npcs.slayer.Gargoyle;
 import com.aelous.model.entity.combat.method.impl.npcs.slayer.kraken.EnormousTentacle;
 import com.aelous.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
-import com.aelous.model.entity.combat.ranged.RangedData;
 import com.aelous.model.entity.combat.ranged.RangedData.RangedWeapon;
 import com.aelous.model.entity.combat.ranged.RangedData.RangedWeaponType;
 import com.aelous.model.entity.combat.ranged.requirements.BowReqs;
@@ -56,7 +55,6 @@ import com.aelous.model.entity.combat.weapon.WeaponType;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.masks.impl.animations.Animation;
-import com.aelous.model.entity.masks.impl.animations.Priority;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.EquipSlot;
@@ -233,37 +231,35 @@ public class CombatFactory {
      * @return the HitDamage.
      */
     public static int calcDamageFromType(Entity attacker, Entity target, CombatType type) {
-        int max_damage = 1;
-
-        //We have a null typ, ignore.
         if (type == null) {
             return 0;
         }
 
-        if (attacker instanceof NPC npc) {
-            if (Utils.collides(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize())) {
-                return 0;
-            }
+        if (attacker instanceof NPC npc && Utils.collides(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize())) {
+            return 0;
         }
+
+        int max_damage = 0;
 
         switch (type) {
             case MELEE ->
-                max_damage = attacker.isNpc() ? attacker.getAsNpc().getCombatInfo() == null ? 0 : attacker.getAsNpc().getCombatInfo().maxhit : attacker.getCombat().getMaximumMeleeDamage();
+                max_damage = attacker.isNpc() ? (attacker.getAsNpc().getCombatInfo() != null ? attacker.getAsNpc().getCombatInfo().maxhit : 0) : attacker.getCombat().getMaximumMeleeDamage();
             case RANGED -> {
                 if (attacker.isPlayer()) {
                     Player p = attacker.getAsPlayer();
                     RangedWeapon rangeWeapon = p.getCombat().getRangedWeapon();
                     boolean ignoreArrows = rangeWeapon != null && rangeWeapon.ignoreArrowsSlot();
-
-                    max_damage = p.getCombat().getMaximumRangedDamage(ignoreArrows);
+                    max_damage = p.getCombat().getMaximumRangedDamage();
+                    if (p.getCombat().getWeaponType() == WeaponType.CROSSBOW && max_damage > 0) {
+                        max_damage = ammunitionDamageListener.triggerAmmunitionDamageModification(p, target, type, max_damage);
+                    }
                 } else {
-                    max_damage = attacker.getCombat().getMaximumRangedDamage(true);
+                    max_damage = attacker.getCombat().getMaximumRangedDamage();
                 }
             }
             case MAGIC -> max_damage = attacker.getCombat().getMaximumMagicDamage();
         }
 
-        //Ability to override max hits
         if (attacker.isNpc() && attacker.<Integer>getAttribOr(MAXHIT_OVERRIDE, -1) != -1) {
             max_damage = attacker.<Integer>getAttribOr(MAXHIT_OVERRIDE, -1);
         }
@@ -272,21 +268,7 @@ public class CombatFactory {
 
         if (target != null && target.isNpc() && target.getAsNpc().isCombatDummy()) {
             CombatSpell spell = attacker.getCombat().getCastSpell() != null ? attacker.getCombat().getCastSpell() : attacker.getCombat().getAutoCastSpell() != null ? attacker.getCombat().getAutoCastSpell() : attacker.getCombat().getPoweredStaffSpell() != null ? attacker.getCombat().getPoweredStaffSpell() : null;
-            damage = spell == CombatSpells.CRUMBLE_UNDEAD.getSpell() ? target.hp() : max_damage;
-        }
-
-        if (type == CombatType.MELEE) {
-            // Do melee effects with the calculated damage..
-
-        } else if (type == CombatType.RANGED) {
-            if (attacker.isPlayer()) {
-                Player player = attacker.getAsPlayer();
-                if (player.getCombat().getWeaponType() == WeaponType.CROSSBOW) {
-                    damage = ammunitionDamageListener.triggerAmmunitionDamageModification(player, target, type, damage);
-                }
-            }
-        } else if (type == CombatType.MAGIC) {
-
+            damage = (spell == CombatSpells.CRUMBLE_UNDEAD.getSpell()) ? target.hp() : max_damage;
         }
 
         if (target != null && target.isNpc() && attacker.isPlayer()) {
@@ -294,7 +276,6 @@ public class CombatFactory {
             assert attacker instanceof Player;
             Player player = (Player) attacker;
 
-            //Disturb the whirlpools
             if (npc.id() == TENTACLE_WHIRLPOOL) {
                 EnormousTentacle.onHit(player, npc);
             }
@@ -304,62 +285,55 @@ public class CombatFactory {
                 KrakenBoss.onHit(player, npc);
             }
 
-            //Cave Kraken
             if (npc.id() == 493) {
                 npc.animate(7135);
                 npc.transmog(492);
-                npc.setHitpoints(125);//reset hp when disturbed
+                npc.setHitpoints(125);
                 npc.setHitpoints(target.hp() - damage);
                 npc.setCombatMethod(new CaveKraken());
             }
 
-            if (npc instanceof AlchemicalHydra hydra) {
-                if (!hydra.isEnraged()) {
-                    if (!hydra.getShieldDropped()) {
-                        player.message("The Alchemical Hydra's defences partially absorb your attack!");
-                        damage = Math.round(damage * 0.5F);
-                    }
-                }
+            if (npc instanceof AlchemicalHydra hydra && !hydra.isEnraged() && !hydra.getShieldDropped()) {
+                player.message("The Alchemical Hydra's defences partially absorb your attack!");
+                damage = Math.round(damage * 0.5F);
             }
 
-            if (attacker.isPlayer() && target.getAsNpc().id() == (NpcIdentifiers.CORPOREAL_BEAST)) {
+            if (attacker.isPlayer() && target.getAsNpc().id() == NpcIdentifiers.CORPOREAL_BEAST) {
                 if (!attacker.getAsPlayer().getCombat().getCombatType().equals(CombatType.MAGIC)) {
-                    if (!attacker.getCombat().getFightType().getAttackType().equals(AttackType.STAB) &&
-                        !FormulaUtils.wearingSpearsOrHalberds(player)) {
+                    if (!attacker.getCombat().getFightType().getAttackType().equals(AttackType.STAB) && !FormulaUtils.wearingSpearsOrHalberds(player)) {
                         damage = (int) Math.floor(damage * 0.5F);
                     }
                 }
             }
         }
 
-        if (target instanceof Player) {
+        if (target instanceof Player && target.isPlayer()) {
+            Player player = (Player) target;
+            if (player.hp() - damage > 0 && player.hp() <= player.getSkills().xpLevel(Skills.HITPOINTS) / 10) {
+                boolean ring = player.getEquipment().contains(2570);
+                boolean defenceCape = (int) player.getAttribOr(AttributeKey.DEFENCE_PERK_TOGGLE, 0) == 1 && player.getEquipment().contains(DEFENCE_CAPE);
 
-            if (target.isPlayer()) {
-                Player player = (Player) target;
-                // Under 10% hp, hit won't kill us
-                if (player.hp() - damage > 0 && player.hp() <= player.getSkills().xpLevel(Skills.HITPOINTS) / 10) {
-                    boolean ring = player.getEquipment().contains(2570);
-
-                    boolean defenceCape = (int) player.getAttribOr(AttributeKey.DEFENCE_PERK_TOGGLE, 0) == 1 && (player.getEquipment().contains(DEFENCE_CAPE));
-                    if (ring || (player.getEquipment().wearingMaxCape() && (int) player.getAttribOr(AttributeKey.MAXCAPE_ROL_ON, 0) == 1) || defenceCape) {
-
-                        if (Teleports.rolTeleport(player)) {
-                            Teleports.ringOfLifeTeleport(player);
-                            if (ring) {
-                                player.getEquipment().remove(new Item(RING_OF_LIFE), EquipSlot.RING, true);
-                                player.message("Your Ring of Life shatters as it teleports you to safety!");
-                            } else if (defenceCape) {
-                                player.message("Your Defence Cape's Ring of Life effects kicks in and teleports you to safety!");
-                            } else {
-                                player.message("Your Max Cape's Ring of Life effect kicks in and teleports you to safety!");
-                            }
+                if (ring || (player.getEquipment().wearingMaxCape() && (int) player.getAttribOr(AttributeKey.MAXCAPE_ROL_ON, 0) == 1) || defenceCape) {
+                    if (Teleports.rolTeleport(player)) {
+                        Teleports.ringOfLifeTeleport(player);
+                        if (ring) {
+                            player.getEquipment().remove(new Item(RING_OF_LIFE), EquipSlot.RING, true);
+                            player.message("Your Ring of Life shatters as it teleports you to safety!");
+                        } else if (defenceCape) {
+                            player.message("Your Defence Cape's Ring of Life effects kicks in and teleports you to safety!");
+                        } else {
+                            player.message("Your Max Cape's Ring of Life effect kicks in and teleports you to safety!");
                         }
                     }
                 }
             }
+        }
+
+        if (target != null) {
             target.takeHit();
         }
-        // Return our hitDamage that may have been modified slightly.
+
+        // Return the hit damage that may have been modified slightly.
         return damage;
     }
 
@@ -767,7 +741,7 @@ public class CombatFactory {
         }
 
         if ((other.isNpc() && other.getAsNpc().getCombatMethod() != null && other.getAsNpc().getCombatMethod().canMultiAttackInSingleZones())
-                || (entity.isNpc() && entity.getAsNpc().getCombatMethod() != null && entity.getAsNpc().getCombatMethod().canMultiAttackInSingleZones())) {
+            || (entity.isNpc() && entity.getAsNpc().getCombatMethod() != null && entity.getAsNpc().getCombatMethod().canMultiAttackInSingleZones())) {
             return true;
         }
 
@@ -1020,16 +994,17 @@ public class CombatFactory {
             if (attacker instanceof Player playerAttacker) {
                 // Reward the player experience for this attack (as long as it's not a combat dummy)..
                 if (!target.isNpc() || !target.getAsNpc().isCombatDummy()) {
-                    // while damage can appear visually higher than opponents HP, you cannot get that EXP (stops boosters)
                     addCombatXp(playerAttacker, target, Math.min(hit.getDamage(), target.hp()), hit.getCombatType(), playerAttacker.getCombat().getFightType().getStyle());
                 }
             }
         }
 
-        // If target is teleporting or needs placement
-        // Dont continue to add the hit.
         if (target.isNullifyDamageLock() || target.isNeedsPlacement()) {
             return;
+        }
+
+        if (hit.getDamage() >= hit.getMaximumHit()) {
+            hit.setMaxHit(true);
         }
 
         target.getCombat().getHitQueue().add(hit);
@@ -1075,9 +1050,6 @@ public class CombatFactory {
         if (target instanceof Player) {
             target.getAsPlayer().getPacketSender().sendInterfaceRemoval();
         }
-
-        // Before target takes damage, manipulate the hit to handle
-        // last-second effects
 
         if (attacker instanceof Player a)
             triggerAttacker.triggerEffectForAttacker(a, combatType, hit);
@@ -1137,6 +1109,7 @@ public class CombatFactory {
 
         if (hit.postDamage != null)
             hit.postDamage.accept(hit);
+
         CombatMethod method = CombatFactory.getMethod(target);
         if (method instanceof CommonCombatMethod o) {
             o.postDamage(hit);
@@ -1196,27 +1169,26 @@ public class CombatFactory {
                 }
 
                 if (npc.getMobName().contains("turoth") || npc.getMobName().contains("kurask")) {
-                    boolean block = false;
                     boolean leafbladedWeapon = attackerAsPlayer.getEquipment().contains(ItemIdentifiers.LEAFBLADED_SWORD) || attackerAsPlayer.getEquipment().contains(ItemIdentifiers.LEAFBLADED_BATTLEAXE) || attackerAsPlayer.getEquipment().contains(ItemIdentifiers.LEAFBLADED_SPEAR);
                     boolean leafbladedAmmo = attackerAsPlayer.getEquipment().getId(EquipSlot.AMMO) == BROAD_BOLTS || attackerAsPlayer.getEquipment().getId(EquipSlot.AMMO) == AMETHYST_BROAD_BOLTS || attackerAsPlayer.getEquipment().getId(EquipSlot.AMMO) == BROAD_ARROWS_4160;
                     boolean magicDart = attackerAsPlayer.getCombat().getCastSpell().spellId() == CombatSpells.MAGIC_DART.getSpell().spellId();
                     if (hit.getCombatType() == CombatType.MELEE && !leafbladedWeapon) {
-                        block = true;
+                        hit.block();
+                        attackerAsPlayer.message("This monster is only vulnerable to leaf-bladed melee weapons and broad ammunition.");
                     } else if (hit.getCombatType() == CombatType.RANGED && !leafbladedAmmo) {
-                        block = true;
+                        hit.block();
+                        attackerAsPlayer.message("This monster is only vulnerable to leaf-bladed melee weapons and broad ammunition.");
                     } else if (hit.getCombatType() == CombatType.MAGIC && !magicDart) {
-                        block = true;
-                    }
-
-                    if (block) {
-                        hit.setDamage(0);
+                        hit.block();
                         attackerAsPlayer.message("This monster is only vulnerable to leaf-bladed melee weapons and broad ammunition.");
                     }
+
                 }
 
                 //Dustdevil
                 if (npc.id() == NpcIdentifiers.DUST_DEVIL || npc.id() == NpcIdentifiers.DUST_DEVIL_7249 || npc.id() == NpcIdentifiers.CHOKE_DEVIL) {
                     if (attackerAsPlayer.getEquipment().getId(EquipSlot.HEAD) != FACEMASK && !attackerAsPlayer.getEquipment().wearingSlayerHelm()) {
+                        hit.block();
                         hit.setDamage(0);
                         attackerAsPlayer.message("Blinded by the monster's dust, you miss your attack!");
                     }
@@ -1328,14 +1300,13 @@ public class CombatFactory {
             }
         }
 
-        // Auto-retaliate
-        if (attacker != null && !CombatFactory.isAttacking(target) && !hit.reflected) { // is mob fighting someone?
+        if (attacker != null && !CombatFactory.isAttacking(target) && !hit.reflected) {
             if (attacker.isPlayer()) {
                 boolean mayAttack = true;
 
                 if (!canAttack(attacker, getMethod(attacker), target)) {
                     mayAttack = false;
-                    attacker.getCombat().reset();//Can't attack, reset combat
+                    attacker.getCombat().reset();
                 }
 
                 if (mayAttack) {
@@ -1359,12 +1330,10 @@ public class CombatFactory {
         }
 
         if (attacker != null) {
-            // Add damage to target damage map
             target.getCombat().addDamage(attacker, hit.getDamage());
 
             if (target.isPlayer()) {
                 target.getAsPlayer().setLastActiveOverhead();
-                //Store the latest damage being dealt to a player.
                 attacker.putAttrib(AttributeKey.LATEST_DAMAGE, hit.getDamage());
             }
 
@@ -1373,10 +1342,10 @@ public class CombatFactory {
         }
 
         if (attacker instanceof Player damageDealer) {
-            AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_I, hit.getDamage());
-            AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_II, hit.getDamage());
-            AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_III, hit.getDamage());
-            AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_IV, hit.getDamage());
+                AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_I, hit.getDamage());
+                AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_II, hit.getDamage());
+                AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_III, hit.getDamage());
+                AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_IV, hit.getDamage());
         }
 
         target.decrementHealth(hit);

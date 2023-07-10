@@ -5,6 +5,7 @@ import com.aelous.model.World;
 import com.aelous.model.content.mechanics.item_simulator.ItemSimulatorUtility;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatSpecial;
+import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.magic.autocasting.Autocasting;
 import com.aelous.model.entity.combat.magic.spells.CombatSpells;
 import com.aelous.model.entity.combat.weapon.WeaponInterfaces;
@@ -77,7 +78,6 @@ public class EquipPacketListener implements PacketListener {
             if (interfaceId == InterfaceConstants.INVENTORY_INTERFACE) {
                 player.debugMessage("Equip ItemId=" + id + " Slot=" + slot + " InterfaceId=" + interfaceId);
 
-                //Stop skilling..
                 player.getSkills().stopSkillable();
 
                 EquipmentInfo info = World.getWorld().equipmentInfo();
@@ -100,37 +100,29 @@ public class EquipPacketListener implements PacketListener {
                         player.getTimers().cancel(TimerKey.SOTD_DAMAGE_REDUCTION);
                         player.getPacketSender().sendMessage(Color.RED.wrap("Your Staff of the dead special de-activated because you unequipped the staff."));
                     }
-                    if (player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS) || player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS_FULL)) {
+
+                    CombatSpell poweredStaffSpell = null;
+                    Item weapon = player.getEquipment().get(EquipSlot.WEAPON);
+
+                    if (weapon != null) {
+                        switch (weapon.getId()) {
+                            case TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SEAS_FULL -> poweredStaffSpell = CombatSpells.TRIDENT_OF_THE_SEAS.getSpell();
+                            case TRIDENT_OF_THE_SWAMP -> poweredStaffSpell = CombatSpells.TRIDENT_OF_THE_SWAMP.getSpell();
+                            case SANGUINESTI_STAFF -> poweredStaffSpell = CombatSpells.SANGUINESTI_STAFF.getSpell();
+                            case TUMEKENS_SHADOW -> poweredStaffSpell = CombatSpells.TUMEKENS_SHADOW.getSpell();
+                            case DAWNBRINGER -> poweredStaffSpell = CombatSpells.DAWNBRINGER.getSpell();
+                            case ACCURSED_SCEPTRE_A -> poweredStaffSpell = CombatSpells.ACCURSED_SCEPTRE.getSpell();
+                        }
+                    }
+
+                    if (poweredStaffSpell != null) {
                         if (player.getCombat().getPoweredStaffSpell() != null) {
                             player.getCombat().setPoweredStaffSpell(null);
                         }
-                        player.getCombat().setPoweredStaffSpell(CombatSpells.TRIDENT_OF_THE_SEAS.getSpell());
-                    } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SWAMP)) {
-                        if (player.getCombat().getPoweredStaffSpell() != null) {
-                            player.getCombat().setPoweredStaffSpell(null);
-                        }
-                        player.getCombat().setPoweredStaffSpell(CombatSpells.TRIDENT_OF_THE_SWAMP.getSpell());
-                    } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, SANGUINESTI_STAFF)) {
-                        if (player.getCombat().getPoweredStaffSpell() != null) {
-                            player.getCombat().setPoweredStaffSpell(null);
-                        }
-                        player.getCombat().setPoweredStaffSpell(CombatSpells.SANGUINESTI_STAFF.getSpell());
-                    } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
-                        if (player.getCombat().getPoweredStaffSpell() != null) {
-                            player.getCombat().setPoweredStaffSpell(null);
-                        }
-                        player.getCombat().setPoweredStaffSpell(CombatSpells.TUMEKENS_SHADOW.getSpell());
-                    } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, DAWNBRINGER)) {
-                        if (player.getCombat().getPoweredStaffSpell() != null) {
-                            player.getCombat().setPoweredStaffSpell(null);
-                        }
-                        player.getCombat().setPoweredStaffSpell(CombatSpells.DAWNBRINGER.getSpell());
-                } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, ACCURSED_SCEPTRE_A)) {
-                        if (player.getCombat().getPoweredStaffSpell() != null) {
-                            player.getCombat().setPoweredStaffSpell(null);
-                        }
-                        player.getCombat().setPoweredStaffSpell(CombatSpells.ACCURSED_SCEPTRE.getSpell());
-                    } else if (player.getCombat().getAutoCastSpell() != null) {
+                        player.getCombat().setPoweredStaffSpell(poweredStaffSpell);
+                        return;
+                    }
+                    if (player.getCombat().getAutoCastSpell() != null) {
                         Autocasting.setAutocast(player, null);
                         player.getPacketSender().sendMessage("Autocast spell cleared.");
                     }

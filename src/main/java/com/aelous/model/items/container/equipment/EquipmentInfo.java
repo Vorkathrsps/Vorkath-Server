@@ -94,7 +94,6 @@ public class EquipmentInfo {
                 Item equipped = player.getEquipment().get(i);
                 if (equipped != null) {
                     if (i == EquipSlot.AMMO && ((wepid >= 4212 && wepid <= 4223) || wepid == TOXIC_BLOWPIPE)) { // crystal bow /blowpipe ignore ammo
-                        // these don't fucking factor ammo
                         continue;
                     }
 
@@ -132,6 +131,7 @@ public class EquipmentInfo {
                 bonuses.crush = i.attack;
                 bonuses.stab = i.attack;
                 bonuses.slash = i.attack;
+                bonuses.rangestr = i.rangestrength;
             }
         }
 

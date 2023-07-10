@@ -42,20 +42,8 @@ public class RuneEssenceMining extends PacketInteraction {
 
     private static final int EXIT_PORTAL = 7479;
 
-    private int power(Player player, Mining.Pickaxe pick) {
-        double points = ((player.getSkills().level(Skills.MINING) - 1) + 1 + pick.points);
-        return (int) Math.min(80, points);
-    }
-
-    private int ticks(int power) {
-        return 2 + power >= 0 && power <= 14 ? 3 // Total of 5 (3.0s)
-            : power >= 15 && power <= 29 ? 2 // Total of 4
-            : power >= 30 && power <= 50 ? 1 // Total of 3
-            : 0;// Total of 2 (1.2s)
-    }
-
     private void mineEssence(Player player) {
-        Optional<Mining.Pickaxe> pick = Mining.findPickaxe(player);
+        Optional<Pickaxe> pick = Mining.findPickaxe(player);
         
         if (pick.isEmpty()) {
             DialogueManager.sendStatement(player,"You need a pickaxe to mine this rock. You do not have a pickaxe", "which you have the Mining level to use.");
@@ -84,7 +72,7 @@ public class RuneEssenceMining extends PacketInteraction {
                     }
 
                     player.animate(pick.get().anim);
-                    Chain.bound(player).runFn(ticks(power(player, pick.get())), () -> {
+                    Chain.bound(player).runFn(pick.get().getDelay(), () -> {
                         player.inventory().add(new Item(player.getSkills().level(Skills.MINING) >= 30 ? 7936 : 1436));
                         player.getSkills().addXp(Skills.MINING, 5.0);
                     });

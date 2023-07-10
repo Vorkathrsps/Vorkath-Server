@@ -115,7 +115,7 @@ public class DropItemPacketListener implements PacketListener {
                         return;
                     }
 
-                    if (player.getPet().spawn(item.getId(), false)) {
+                    if (player.getPet().dropPet(item)) {
                         return;
                     }
 

@@ -5,6 +5,7 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
+import com.aelous.model.entity.combat.hit.HitMark;
 import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.Direction;
@@ -77,7 +78,7 @@ public enum HydraAttacks {
             Chain.noCtx().repeatingTask(1, acidTask -> {
                 for (Tile pool : pools) {
                     if (target.tile().equals(pool)) {
-                        target.hit(hydra, Utils.random(12), SplatType.POISON_HITSPLAT);
+                        target.hit(hydra, Utils.random(12), HitMark.POISON);
                     }
                 }
                 if (acidTask.getRunDuration() == 10) {
@@ -128,7 +129,7 @@ public enum HydraAttacks {
                     final Tile curSpot = base.transform(spot.x, spot.y);
 
                     if (target.tile().equals(curSpot)) {
-                        target.hit(hydra, Utils.random(20), SplatType.POISON_HITSPLAT);
+                        target.hit(hydra, Utils.random(20), HitMark.POISON);
                         if (target.isPlayer()) {
                             target.message("<col=ff0000>The electricity temporarily paralyzes you!");
                             target.stun(8);
@@ -260,7 +261,7 @@ public enum HydraAttacks {
             }).repeatingTask(1, t -> {
                 for (Tile pool : pools) {
                     if (pool == target.tile()) {
-                        target.hit(hydra, Utils.random(12), SplatType.POISON_HITSPLAT);
+                        target.hit(hydra, Utils.random(12), HitMark.POISON);
                     }
                 }
                 if (t.getRunDuration() == 10) {

@@ -1,156 +1,112 @@
 package com.aelous.model.entity.npc.pets;
 
 import com.aelous.model.World;
+import com.aelous.model.entity.attributes.AttributeKey;
+import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.items.Item;
 import com.aelous.model.map.route.routes.DumbRoute;
+import com.aelous.network.packet.incoming.interaction.PacketInteraction;
 import com.aelous.utility.chainedwork.Chain;
-import org.apache.commons.compress.utils.Lists;
+import lombok.Getter;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import javax.annotation.Nonnull;
+import java.util.Optional;
 
 /**
- * @author Ynneh | 20/04/2022 - 19:27
- * <https://github.com/drhenny>
+ * @Author: Origin
+ * @Date: 7/7/2023
  */
-public class Pet {
+@Getter
+public class Pet extends PacketInteraction {
+    @Nonnull private final Player player;
+    @Nullable private NPC pet;
+    Animation ANIMATION = new Animation(827);
 
-
-    /**
-     * Check The Pet
-     * Pet Type
-     * Does the pet have an owner
-     * who is the owner
-     * is the pet spawned
-     * did the player unlock the pet
-     */
-
-
-
-    /**
-     * References the pet for checking bonuses ect
-     * @param player
-     * @param defs
-     * @return
-     */
-    public static boolean isOut(Player player, PetDefinitions defs) {
-        return player.getPet().hasPet() && player.getPet().getCurrentPet().id() == defs.npc;
+    public Pet(@Nonnull final Player player) {
+        this.player = player;
     }
 
-    private final Player owner;
-
-    public List<Integer> unlockedPets = Lists.newArrayList();
-    private NPC currentPet;
-
-    public NPC getCurrentPet() {
-        return currentPet;
+    public boolean inventoryContainsItem(@Nonnull final Item item) {
+        PetDefinitions petDefinitions = PetDefinitions.getPetByItem(item.getId());
+        return petDefinitions != null && player.inventory().contains(petDefinitions.getItem());
     }
 
-    public int getCurrentPetAsId() {
-        if (!hasPet()) {
-            return -1;
+    public void clearSpawnedPet() {
+        if (player.getPet() != null && player.getPet().getPet() != null) {
+            Optional<PetDefinitions> petDefinitions = Optional.ofNullable(PetDefinitions.getItemByPet(player.getAttribOr(AttributeKey.LAST_PET_ID, -1)));
+            petDefinitions.ifPresent(definitions -> player.getInventory().add(definitions.getItem()));
+            World.getWorld().unregisterNpc(player.getPet().getPet());
         }
-        return PetDefinitions.getByNpc(currentPet.id()).item;
     }
 
-    public boolean hasPet() {
-        return currentPet != null;
+    public boolean dropPet(@Nonnull final Item item) {
+        Optional<PetDefinitions> petDefinitions = Optional.ofNullable(PetDefinitions.getPetByItem(item.getId()));
+        if (petDefinitions.isPresent()) {
+            player.animate(ANIMATION);
+            if (player.getPet().getPet() != null) {
+                clearSpawnedPet();
+            }
+            if (this.inventoryContainsItem(item)) {
+                player.getInventory().remove(petDefinitions.get().item);
+                pet = new NPC(petDefinitions.get().npc, player.tile()).walkRadius(-1);
+                player.putAttrib(AttributeKey.LAST_PET_ID, pet.id());
+                World.getWorld().registerNpc(pet);
+                follow();
+            }
+            return true;
+        }
+        return false;
     }
 
-    public Pet(Player owner) {
-        this.owner = owner;
-    }
-
-    public void onLogin() {
-        if (hasPet()) {
+    public void follow() {
+        if (player.getPet().getPet() == null) {
             return;
         }
-        if (!hasPet()) {
-            return;
-        }
-        spawn(owner.lastPetId, true);//TODO
-    }
-
-    public boolean spawn(int itemId, boolean login) {
-
-        PetDefinitions defs = PetDefinitions.getPetByItem(itemId);
-
-        if (defs == null || !owner.getInventory().contains(itemId) && !login) {
-            return false;
-        }
-
-        //if (!unlockedPets.contains(itemId)) {
-        //    owner.getPacketSender().sendMessage("hasn't unlocked.. TODO msg");
-        //    return;
-        //}
-
-        if (!login) {
-            owner.getInventory().remove(itemId);
-
-            /**
-             * TODO add pickup/drop animation for pet.
-             */
-        }
-
-        this.currentPet = new NPC(defs.npc, owner.tile(), true).walkRadius(-1);
-        this.followOwner();
-        return true;
-
-    }
-
-    public void followOwner() {
-        if (!hasPet()) {
-            System.err.println("owner doesn't have a pet..");
-            return;
-        }
-        var player = owner;
-        var npc = currentPet;
-        Chain.bound(null).name("petFollowTask").repeatingTask(1, t -> {
-            if (player.isRegistered() && npc.isRegistered()) {
-                if (player.dead() ) {
+        Chain.noCtxRepeat().repeatingTask(1, t -> {
+            if (player.getPet().getPet() == null) {
+                t.stop();
+                return;
+            }
+            if (player.isRegistered() && player.getPet().getPet().isRegistered()) {
+                if (player.dead()) {
                     return;
                 }
-                if (!npc.tile().isWithinDistance(player.tile(), 8)) {
-                    npc.teleport(player.getAbsX(), player.getAbsY(), player.getZ());
+                if (!player.getPet().getPet().tile().isWithinDistance(player.tile(), 8)) {
+                    player.getPet().getPet().teleport(player.getAbsX(), player.getAbsY(), player.getZ());
                     return;
                 }
-                npc.faceEntity(player);
-
-                // path to the previous tick target
-                int[] thisTickTarget = {-1, -1};
-
-                DumbRoute.step(npc, player, 1);
-
-                thisTickTarget[0] = npc.getRouteFinder().routeEntity.finishX;
-                thisTickTarget[1] = npc.getRouteFinder().routeEntity.finishY;
-                npc.getMovement().reset();
-
-                // execute later route
-                DumbRoute.step(npc, thisTickTarget[0], thisTickTarget[1]);
+                player.getPet().getPet().faceEntity(player);
+                int[] thisTick = {-1, -1};
+                DumbRoute.step(player.getPet().getPet(), player, 1);
+                thisTick[0] = player.getPet().getPet().getRouteFinder().routeEntity.finishX;
+                thisTick[1] = player.getPet().getPet().getRouteFinder().routeEntity.finishY;
+                player.getPet().getPet().getMovement().reset();
+                DumbRoute.step(player.getPet().getPet(), thisTick[0], thisTick[1]);
             } else {
-                npc.remove();
+                player.getPet().getPet().remove();
                 t.stop();
             }
         });
     }
 
-    public void pickup(boolean logout) {
-        if (currentPet == null)
-            return;
-        World.getWorld().unregisterNpc(currentPet);
 
-        if (logout) {
-            return;
+    public void spawnOnLogin() {
+        Optional<PetDefinitions> petDefinitions = Optional.ofNullable(PetDefinitions.getItemByPet(player.getAttribOr(AttributeKey.LAST_PET_ID, -1)));
+        if (petDefinitions.isPresent()) {
+            if (player.<Integer>getAttribOr(AttributeKey.LAST_PET_ID, -1) == petDefinitions.get().getNpc()) {
+                dropPet(Item.of(petDefinitions.get().getItem()));
+            }
         }
-        this.owner.getInventory().add(PetDefinitions.getByNpc(currentPet.id()).item, 1);
-        this.owner.getPacketSender().sendMessage("You pick up your pet.");
-        currentPet = null;
     }
 
-    public boolean unlock() {
-        /**
-         * TODO
-         */
-        return false;
+    public void removeOnLogout() {
+        if (player.getPet().getPet() != null) {
+            clearSpawnedPet();
+        }
     }
+
 }
+

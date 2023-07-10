@@ -28,11 +28,10 @@ public class MeleeMaxHit {
     /**
      * The max hit
      * @param player The player performing the hit
-     * @param includeNpcMax The npc is a PvP combat dummy
      * @return return the max hit based on the given calculations
      */
 
-    public static int maxHit(Player player, boolean includeNpcMax) {
+    public static int maxHit(Player player) {
 
         double specialMultiplier = player.getCombatSpecial() == null ? 1 : player.getCombatSpecial().getSpecialMultiplier();
         /**
@@ -41,7 +40,6 @@ public class MeleeMaxHit {
          */
 
         int maxHit = (int) Math.floor(getBaseDamage(player) * slayerPerkBonus(player));
-
         if (player.isSpecialActivated()) {
             maxHit = (int) (maxHit * specialMultiplier);
         }

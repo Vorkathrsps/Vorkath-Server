@@ -49234,50 +49234,50 @@
   "22625": {
     "stab": 3,
     "slash": 3,
-    "crush": 4,
+    "crush": 5,
     "range": -6,
     "mage": -2,
-    "stabdef": 65,
-    "slashdef": 70,
-    "crushdef": 63,
-    "rangedef": 71,
+    "stabdef": 52,
+    "slashdef": 50,
+    "crushdef": 47,
+    "rangedef": 55,
     "magedef": -1,
     "str": 3,
     "rangestr": 0,
     "magestr": 0,
-    "pray": 0
+    "pray": 1
   },
   "22628": {
     "stab": 5,
     "slash": 5,
     "crush": 7,
-    "range": -10,
-    "mage": -30,
-    "stabdef": 154,
-    "slashdef": 145,
-    "crushdef": 121,
-    "rangedef": 157,
-    "magedef": -6,
+    "range": -17,
+    "mage": -38,
+    "stabdef": 102,
+    "slashdef": 97,
+    "crushdef": 94,
+    "rangedef": 105,
+    "magedef": -16,
     "str": 5,
     "rangestr": 0,
     "magestr": 0,
-    "pray": 0
+    "pray": 1
   },
   "22631": {
     "stab": 3,
     "slash": 3,
     "crush": 5,
-    "range": -7,
-    "mage": -21,
-    "stabdef": 110,
-    "slashdef": 106,
-    "crushdef": 97,
-    "rangedef": 121,
-    "magedef": -4,
+    "range": -12,
+    "mage": -30,
+    "stabdef": 73,
+    "slashdef": 71,
+    "crushdef": 68,
+    "rangedef": 95,
+    "magedef": -14,
     "str": 3,
     "rangestr": 0,
     "magestr": 0,
-    "pray": 0
+    "pray": 1
   },
   "22622": {
     "stab": -4,
@@ -49404,7 +49404,7 @@
     "magedef": 8,
     "str": 0,
     "rangestr": 0,
-    "magestr": 1,
+    "magestr": 0,
     "pray": 0
   },
   "22653": {
@@ -49420,7 +49420,7 @@
     "magedef": 35,
     "str": 0,
     "rangestr": 0,
-    "magestr": 1,
+    "magestr": 0,
     "pray": 0
   },
   "22656": {
@@ -49436,7 +49436,7 @@
     "magedef": 25,
     "str": 0,
     "rangestr": 0,
-    "magestr": 1,
+    "magestr": 0,
     "pray": 0
   },
   "22647": {

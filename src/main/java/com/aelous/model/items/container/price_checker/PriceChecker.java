@@ -95,7 +95,7 @@ public class PriceChecker extends ItemContainer {
 
         int id = item.getId();
         setFiringEvents(false);
-        if (!new Item(id).stackable() && amount > player.inventory().getFreeSlots()) {
+        if (!item.stackable() && amount > player.inventory().getFreeSlots()) {
             amount = player.inventory().getFreeSlots();
         }
 

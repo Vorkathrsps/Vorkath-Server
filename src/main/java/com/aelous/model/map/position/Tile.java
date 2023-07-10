@@ -1097,10 +1097,10 @@ public class Tile implements Cloneable {
         return transform(n.x * 10, n.y * 10);
     }
 
-    public GroundItem showTempItem(int i) {
-        GroundItem gi = new GroundItem(new Item(i), this, null);
+    public GroundItem showTempItem(int itemId) {
+        GroundItem gi = new GroundItem(new Item(itemId), this, null);
         GroundItemHandler.createGroundItem(gi);
-        gi.setTimer(i);
+        gi.setTimer(itemId);
         return gi;
     }
 

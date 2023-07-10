@@ -55,8 +55,6 @@ public final class GameEngine implements Runnable {
     public static int totalPendingThresholdWarningMs = 250;
     public static int totalGroundThresholdWarningMs = 250;
     public static int totalTotalThresholdWarningMs = 250;
-    public static boolean autoEnableTimerDebug = true;
-    public static long lastAutoEnableDebugTriggered = System.currentTimeMillis() - (1000 * 60 * 60);
 
     /** A queue of synchronization tasks. */
     private final Queue<Runnable> syncTasks = new ConcurrentLinkedQueue<>();
@@ -331,13 +329,6 @@ public final class GameEngine implements Runnable {
                     c -> {
                         logger.info(c.COMPUTED_MSG);
                     });
-        }
-        // cycle was over 400 but npcperf was off, turn it on to log complex info next cycle
-        // hopefully next cycle is just as bad as this one otherwise this is useless
-        if (autoEnableTimerDebug && profile.total > 400 && !NpcPerformance.DETAL_LOG_ENABLED) {
-            NpcPerformance.DETAL_LOG_ENABLED = true;
-            NpcPerformance.PERF_CHECK_MODE_ENABLED = true;
-            lastAutoEnableDebugTriggered = System.currentTimeMillis();
         }
         if (profile.total > 600) {
             // a cycle 600 will result in visual lag (not fps lag) ingame - unresponsive

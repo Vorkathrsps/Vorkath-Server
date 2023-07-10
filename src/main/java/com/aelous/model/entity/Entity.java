@@ -47,6 +47,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Stopwatch;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -60,6 +61,7 @@ import java.util.function.Supplier;
 
 import static com.aelous.model.entity.attributes.AttributeKey.VENOMED_BY;
 
+@Slf4j
 public abstract class Entity {
 
     /**
@@ -1927,4 +1929,12 @@ public abstract class Entity {
         return surrounding;
     }
 
+    public void debug(int i, String s) {
+        if (isNpc() && isNpc(i)) {
+            if (s.length() > 0) {
+                forceChat(s);
+                log.debug(s);
+            }
+        }
+    }
 }

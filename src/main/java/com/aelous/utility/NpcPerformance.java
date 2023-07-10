@@ -21,9 +21,9 @@ import java.util.ArrayList;
 public class NpcPerformance {
 
     // tracked globally
-    public static boolean PERF_CHECK_MODE_ENABLED = true;
+    public static boolean PERF_CHECK_MODE_ENABLED = false;
     private static final Logger logger = LogManager.getLogger(NpcPerformance.class);
-    public static boolean DETAL_LOG_ENABLED = true;
+    public static boolean DETAL_LOG_ENABLED = false;
     public static long npcA, cumeNpcB, cumeNpcC, cumeNpcD, cumeNpcE, F, G, H;
 
     // tracked per npc

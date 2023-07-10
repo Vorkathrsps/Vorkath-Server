@@ -7,6 +7,8 @@ import com.aelous.model.World;
 import com.aelous.model.content.areas.theatre.ViturRoom;
 import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
+import com.aelous.model.content.tournaments.Tournament;
+import com.aelous.model.content.tournaments.TournamentManager;
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatType;
@@ -36,7 +38,7 @@ import com.aelous.model.items.Item;
 import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.object.GameObject;
-import com.aelous.model.map.position.Area;
+import com.aelous.model.map.object.MapObjects;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.region.Region;
 import com.aelous.model.map.region.RegionManager;
@@ -51,8 +53,6 @@ import org.apache.logging.log4j.util.TriConsumer;
 
 import java.security.SecureRandom;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.GREAT_OLM_7554;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
@@ -60,6 +60,7 @@ import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_ACTIVE;
 import static com.aelous.model.entity.attributes.AttributeKey.LOOT_KEYS_UNLOCKED;
 import static com.aelous.model.entity.masks.Direction.NORTH;
 import static com.aelous.utility.Debugs.CLIP;
+import static java.lang.String.format;
 
 public class CommandManager {
 
@@ -508,6 +509,24 @@ public class CommandManager {
         dev("vz1", (p, c, s) -> {
             GameObject throne = GameObject.spawn(VERZIKS_THRONE_32737, 3167, 4324, p.getZ(), 10, 0);
         });
+        dev("zt1", (p, cmd, s) -> {
+            /*List<Tile> pillarTiles = List.of(new Tile(3161, 4318, 0),
+                    new Tile(3161, 4312, 0),
+                    new Tile(3161, 4306, 0),
+                    new Tile(3173, 4318, 0),
+                    new Tile(3173, 4312, 0),
+                    new Tile(3173, 4306, 0));
+            for (Tile pillarTile : pillarTiles) {
+                new GameObject(32687, pillarTile.withHeight(p.getZ()), 10, 0).spawn();
+            }*/
+           // GameObject.spawn(32687, p.tile(), 0, 10);
+            MapObjects.get(-1, p.tile()).ifPresent(pillar -> {
+                pillar.setId(32688);
+                Chain.noCtx().delay(2, () -> {
+                    pillar.setId(32689);
+                }).then(1, ()-> pillar.animate(8104)).then(2, () -> pillar.remove());
+            });
+        });
         dev("tob", (p, c, s) -> {
             p.teleport(3678, 3216);
         });
@@ -751,6 +770,91 @@ public class CommandManager {
         dev("odef", (p, c, s) -> {
             logger.info("{}", new GameObject(Integer.parseInt(s[1]), p.tile()).definition().toStringBig());
         });
+        dev("settornlobbytime", (player, c, parts) -> {
+            if (TournamentManager.getSettings() == null) {
+                player.message("The tournament system must be initialized using the conf file first.");
+            } else {
+                if (parts.length != 2) {
+                    player.message("Invalid use of command.");
+                    player.message("Use: ::settornlobbytime 30");
+                    return;
+                }
+                int seconds = Integer.parseInt(parts[1]);
+                TournamentManager.getSettings().setLobbyTime(seconds);
+                player.message("New lobby wait time is: "+ seconds + " seconds");
+            }
+        });
+        dev("settorntype", (player, c, parts) -> {
+            if (TournamentManager.getSettings() == null) {
+                player.message("The tournament system must be initialized using the conf file first.");
+            } else {
+                if (parts.length != 2) {
+                    player.message("Invalid use of command.");
+                    player.message("Use: ::settorntype [0-4]");
+                    return;
+                }
+                int type = Integer.parseInt(parts[1]);
+                TournamentManager.setNextTorn(new Tournament(TournamentManager.settings.getTornConfigs()[type]));
+                player.message("New PvP tournament type is: "+ TournamentManager.getNextTorn().getConfig().key);
+            }
+        });
+        dev("settornhours", (player, c, parts) -> {
+            if (TournamentManager.getSettings() == null) {
+                player.message("The tournament system must be initialized using the conf file first.");
+                return;
+            }
+            try {
+                String[] hours = parts[1].split(",");
+                for (String hour : hours) {
+                    if (hour == null || hour.length() != 5)
+                        throw new HourFormatException(format("Hour input %s is null or not five characters. Format must be 12:34", hour));
+                    int hr = Integer.parseInt(hour.substring(0, 2));
+                    int sec = Integer.parseInt(hour.substring(3, 5));
+                    if (hr < 0 || sec < 0 || hr > 24 || sec > 59)
+                        throw new HourFormatException(format("Invalid range for input hour %s. Must be 00:00 - 23:59", hour));
+                }
+                TournamentManager.setNextTorn(null); // process will re-init next one
+                TournamentManager.getSettings().setStartTimes(hours);
+                TournamentManager.getSettings().usingOverrideTimes = true;
+                TournamentManager.checkAndOpenLobby(false);
+                player.getInterfaceManager().close();
+                player.message("New tournament system times are: "+ Arrays.toString(hours));
+            }
+            catch (HourFormatException e) {
+                player.message(e.getMessage());
+                e.printStackTrace();
+            }
+            catch (Exception e) {
+                player.message(format("Input could not be parsed: %s - %s", c, e));
+                player.message("Use format ::settornhours 00:00,05:00,14:00,14:30,23:59");
+                e.printStackTrace();
+            }
+        });
+    }
+
+    /**
+     * @author shadowrs
+     */
+    static class HourFormatException extends Exception {
+        public HourFormatException() {
+            super();
+        }
+
+        public HourFormatException(String message) {
+            super(message);
+        }
+
+        public HourFormatException(String message, Throwable cause) {
+            super(message, cause);
+        }
+
+        public HourFormatException(Throwable cause) {
+            super(cause);
+        }
+
+        protected HourFormatException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+            super(message, cause, enableSuppression, writableStackTrace);
+        }
     }
 
     private static int rotateX(int x, int y, int angle) {

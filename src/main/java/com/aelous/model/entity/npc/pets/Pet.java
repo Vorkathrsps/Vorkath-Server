@@ -92,6 +92,7 @@ public class Pet extends PacketInteraction {
         });
     }
 
+
     public void spawnOnLogin() {
         Optional<PetDefinitions> petDefinitions = Optional.ofNullable(PetDefinitions.getItemByPet(player.getAttribOr(AttributeKey.LAST_PET_ID, -1)));
         if (petDefinitions.isPresent()) {

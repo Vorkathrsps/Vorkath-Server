@@ -18,6 +18,7 @@ public class ControllerManager {
         CONTROLLERS.add(new WildernessArea());
         CONTROLLERS.add(new FightCaveArea());
         CONTROLLERS.add(new COXArea());
+        CONTROLLERS.add(new TournamentArea());
     }
 
     /**

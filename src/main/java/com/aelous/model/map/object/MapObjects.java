@@ -23,7 +23,7 @@ public class MapObjects {
      * @param tile
      */
     public static Optional<GameObject> get(int id, Tile tile) {
-        return get(obj -> id == obj.getId(), tile);
+        return get(obj -> id == obj.getId() || (id == -1 && obj.getType() == 10), tile);
     }
 
     public static Optional<GameObject> get(Predicate<GameObject> predicate, Tile tile) {

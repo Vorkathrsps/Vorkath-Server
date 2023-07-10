@@ -118,7 +118,8 @@ public class WildernessArea extends Controller {
      * Any area, such as Wilderness, dangerous Instances, FFA clan war arena which a Player can attack another Player
      */
     public static boolean inAttackableArea(Entity player) {
-        return WildernessArea.inWild((Player) player) || Dueling.in_duel(player);
+        boolean inTourny = player.getController() instanceof TournamentArea;
+        return WildernessArea.inWild((Player) player) || Dueling.in_duel(player) || inTourny;
     }
 
     public static boolean inside_pirates_hideout(Tile tile) {

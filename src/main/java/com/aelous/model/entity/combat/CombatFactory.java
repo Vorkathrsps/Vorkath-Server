@@ -14,6 +14,7 @@ import com.aelous.model.content.members.MemberZone;
 import com.aelous.model.content.skill.impl.slayer.SlayerConstants;
 import com.aelous.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.aelous.model.content.teleport.Teleports;
+import com.aelous.model.content.tournaments.TournamentManager;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.damagehandler.PreAmmunitionDamageEffectHandler;
@@ -576,6 +577,10 @@ public class CombatFactory {
             // For combat validity.
             if (entity.isPlayer() && !WildernessArea.inAttackableArea(them)) {
                 Debugs.CMB.debug(entity, "cant attack not in an attackable area", other, true);
+                return false;
+            }
+            if (!TournamentManager.canAttack(entity, other)) {
+                Debugs.CMB.debug(entity, "cant attack tourny", other, true);
                 return false;
             }
 

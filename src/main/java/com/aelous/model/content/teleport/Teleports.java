@@ -4,6 +4,7 @@ import com.aelous.GameServer;
 import com.aelous.model.content.duel.Dueling;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportData;
 import com.aelous.model.World;
+import com.aelous.model.content.tournaments.TournamentManager;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.animations.Priority;
@@ -222,6 +223,8 @@ public class Teleports {
             player.animate(new Animation(-1, Priority.HIGH));
             player.graphic(-1);
             player.unlock();
+            //remove from tournament when teleport is done
+            TournamentManager.leaveTourny(player, false, true);
         });
     }
 

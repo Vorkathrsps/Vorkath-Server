@@ -6,6 +6,8 @@ import com.aelous.network.packet.PacketListener;
 import com.aelous.network.packet.incoming.impl.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 
 import java.util.Arrays;
 
@@ -14,6 +16,7 @@ public class IncomingHandler {
     public static final PacketListener[] PACKETS = new PacketListener[257];
     public static final String[] PACKET_NAMES = new String[257];
     public static final int[] PACKET_SIZES = new int[256];
+    private static final Marker clientReport = MarkerManager.getMarker("ClientReport");
 
     public static final int MAGIC_ON_OBJECT_OPCODE = 35;
     public static final int WIDGET_SLOT_CHANGE = 177;
@@ -206,7 +209,7 @@ public class IncomingHandler {
             @Override
             public void handleMessage(Player player, Packet packet) {
                 final String text = packet.readString(); // this was just feedback reporting i added to client er doesnt really mean anything
-                logger.trace("player {}. Report is: '{}' ", player, text); // cant see issue at all guess we just print if its replicatable 100% of the time, is it? yeah pretty
+                logger.trace(clientReport, "player {}. Report is: '{}' ", player, text); // cant see issue at all guess we just print if its replicatable 100% of the time, is it? yeah pretty
                 //pretty sure everytime we login you can see the parse error
             }
         };

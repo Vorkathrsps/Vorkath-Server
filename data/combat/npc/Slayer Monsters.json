@@ -195,6 +195,7 @@
     "slayerxp": 50,
     "slayerlvl": 1,
     "deathlen": 2,
+    "aggressive": true,
     "stats": {
       "attack": 1,
       "strength": 1,
@@ -3532,6 +3533,7 @@
     "maxhit": 3,
     "attackspeed": 4,
     "deathlen": 2,
+    "aggressive": true,
     "stats": {
       "attack": 1,
       "strength": 1,

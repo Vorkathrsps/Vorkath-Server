@@ -1003,6 +1003,8 @@ public abstract class Entity {
         setEntityInteraction(attacker);
 
         startEvent(2, () -> {
+            if (attacker.dead() || dead())
+                return;
             // Override logic
             getCombat().setTarget(attacker);
             // this mob needs to hit the attacker, not vice versa

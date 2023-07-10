@@ -34,7 +34,7 @@
       },
       "scripts": {
         "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion",
-        "death": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.vetion.Vetion.death",
+       // "death": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.vetion.Vetion.death",
         "hit": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.vetion.Vetion.hit"
       }
     },
@@ -66,7 +66,7 @@
         "death": 6576
       },
       "scripts": {
-        "death": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.vetion.VetionMinion.death"
+       // "death": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.vetion.VetionMinion.death"
       }
     },
     {
@@ -514,8 +514,8 @@
       "death": 6256
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.Scorpia",
-      "death": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.Scorpia.deathScript"
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.Scorpia"
+     // "death": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.Scorpia.deathScript"
     }
   },
   {

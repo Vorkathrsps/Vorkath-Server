@@ -44,6 +44,7 @@ public class GwdLogic {
                 if(n.tile().inArea(a)) {
                     if (GwdLogic.isBoss(n.id())) {// Located boss.
                         boss = Optional.of(n);
+                        n.ignoreOccupiedTiles = true;
                     }
                 }
             }
@@ -56,6 +57,7 @@ public class GwdLogic {
                         continue;
                     if (n.tile().inArea(a) && !GwdLogic.isBoss(n.id())) {
                         minionList.add(n);
+                        n.ignoreOccupiedTiles = true;
                     }
                 }
 

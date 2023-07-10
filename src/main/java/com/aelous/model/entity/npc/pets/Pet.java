@@ -111,12 +111,5 @@ public class Pet extends PacketInteraction {
         }
     }
 
-    @Init
-    public static void init() {
-        for (PetDefinitions value : PetDefinitions.values()) {
-            new NPC(value.npc, null).def().ignoreOccupiedTiles = true;
-        }
-    }
-
 }
 

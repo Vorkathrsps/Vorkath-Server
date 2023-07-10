@@ -220,7 +220,7 @@
       ]
     },
     "scripts": {
-      "death": "nl.bartpelle.veteres.content.npcs.misc.RockCrab.deathScript"
+      //"death": "nl.bartpelle.veteres.content.npcs.misc.RockCrab.deathScript"
     }
   },
   {
@@ -3247,7 +3247,7 @@
     },
     "scripts": {
       "droptable": "com.aelous.model.entity.npc.droptables.impl.KrakenBossDrops",
-      "death": "nl.bartpelle.veteres.content.npcs.bosses.KrakenBoss.death",
+     // "death": "nl.bartpelle.veteres.content.npcs.bosses.KrakenBoss.death",
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.kraken.Kraken"
     }
   },
@@ -3580,7 +3580,7 @@
     },
     "scripts": {
       "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.Skotizo",
-      "death": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.WildernessEventController.bossDeathScript",
+      //"death": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.WildernessEventController.bossDeathScript",
       "hit": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.Skotizo.hitScript"
     }
   },

@@ -170,7 +170,7 @@
 	  "death": -1
 	},
 	"scripts": {
-	  "death": "nl.bartpelle.veteres.content.npcs.pestcontrol.Portal.deathScript"
+	 // "death": "nl.bartpelle.veteres.content.npcs.pestcontrol.Portal.deathScript"
 	}
   },
   {

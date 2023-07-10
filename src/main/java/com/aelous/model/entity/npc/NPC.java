@@ -1,6 +1,5 @@
 package com.aelous.model.entity.npc;
 
-import com.aelous.GameEngine;
 import com.aelous.model.content.areas.wilderness.wildernesskeys.WildernessKeys;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
@@ -174,7 +173,6 @@ public class NPC extends Entity {
         combatInfo = World.getWorld().combatInfo(id);
         hp = combatInfo == null ? 50 : combatInfo.stats.hitpoints;
         spawnArea = new Area(spawnTile, walkRadius);
-        putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, id == GIANT_MOLE ? 64 : 12);
         getCombat().setAutoRetaliate(true);
         ignoreOccupiedTiles = def.ignoreOccupiedTiles;
 
@@ -223,7 +221,6 @@ public class NPC extends Entity {
         combatInfo = World.getWorld().combatInfo(id);
         hp = combatInfo == null ? 50 : combatInfo.stats.hitpoints;
         spawnArea = new Area(spawnTile, walkRadius);
-        putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, id == GIANT_MOLE ? 64 : 12);
         getCombat().setAutoRetaliate(true);
 
         for (int types : venom_immunes) {

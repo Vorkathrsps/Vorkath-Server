@@ -26,6 +26,12 @@ public class CorporealBeast extends CommonCombatMethod {
     private final int splashing_magic_attack_damage = 30;
 
     public static final Area CORPOREAL_BEAST_AREA = new Area(2974, 4371, 2998, 4395);
+    @Override
+    public void init(NPC npc) {
+        if (npc.tile().region() == 11844)
+            npc.getCombatInfo().aggroradius = 50; // override agro distance to cover the entire region
+        npc.useSmartPath = true;
+    }
 
     /**
      * If the player steps under the Corporeal Beast, it may perform a stomp attack that will always deal 30–51 damage.
@@ -68,6 +74,8 @@ public class CorporealBeast extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
+        if (!withinDistance(15)) // only attacks when in view
+            return false;
 
         var tileDist = entity.tile().transform(1, 1, 0).distance(target.tile());
         checkStompTask();
@@ -159,7 +167,7 @@ public class CorporealBeast extends CommonCombatMethod {
         entity.executeProjectile(p4);
         entity.executeProjectile(p5);
 
-        Chain.bound(null).name("initial_splash_distance_1_task").runFn(initial_splash_distance, () -> {
+        Chain.bound(null).name("initial_splash_distance_1_task").runFn(Math.max(1, initial_splash_distance), () -> {
             if (target.tile().inSqRadius(p2.getEnd(), 1) && target.tile().inArea(2974, 4371, 2998, 4395)) {
                 target.hit(entity, Utils.random(splashing_magic_attack_damage), p2.getSpeed(), CombatType.MAGIC).checkAccuracy().submit();
             }

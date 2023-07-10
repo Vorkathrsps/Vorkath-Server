@@ -140,7 +140,7 @@ public class KaruulmSlayerDungeon extends PacketInteraction {
                 player.setInstance(instance);
                 player.teleport(ENTRANCE_POINT.transform(0, 0, instance.getzLevel()));
                 var hydra = new AlchemicalHydra(HYDRA_SPAWN_TILE.transform(0, 0, instance.getzLevel()), player);
-                        hydra.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN,25);
+                        hydra.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE,25);
                         Arrays.stream(hydra.closePlayers()).forEach(p -> {
                             HealthHud.open(p, HealthHud.Type.REGULAR,"Alchemical Hydra", 1100);
                 });

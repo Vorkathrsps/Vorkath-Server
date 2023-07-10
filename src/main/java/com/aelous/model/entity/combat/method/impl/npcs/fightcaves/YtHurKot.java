@@ -19,7 +19,7 @@ public class YtHurKot extends NPC {
         respawns(false);
         getCombatInfo().aggressive = false;
         walkRadius(5);
-        putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, 12);
+        putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 100);
     }
 
     @Override

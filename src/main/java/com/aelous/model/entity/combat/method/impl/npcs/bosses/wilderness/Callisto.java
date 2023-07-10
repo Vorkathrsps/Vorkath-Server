@@ -54,6 +54,12 @@ public class Callisto extends CommonCombatMethod {
     }
 
     @Override
+    public void init(NPC npc) {
+        if (npc.tile().region() == 7092)
+            npc.getCombatInfo().aggroradius = 50; // override agro distance to cover the entire region
+    }
+
+    @Override
     public boolean customOnDeath(Hit hit) {
         NPC entity = (NPC) this.entity;
         entity.die();

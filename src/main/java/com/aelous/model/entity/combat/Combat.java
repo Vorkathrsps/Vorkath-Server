@@ -42,7 +42,6 @@ import java.util.Map.Entry;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.UNDEAD_COMBAT_DUMMY;
 import static com.aelous.model.content.daily_tasks.DailyTaskUtility.DAILY_TASK_MANAGER_INTERFACE;
-import static com.aelous.model.entity.attributes.AttributeKey.MAX_DISTANCE_FROM_SPAWN;
 
 /**
  * My entity-based combat system. The main class of the system.
@@ -732,7 +731,10 @@ public class Combat {
     }
 
     private void checkRetreat() {
-        if (target != null && !target.tile().inArea(mob.npc().spawnTile().area(mob.getAttribOr(MAX_DISTANCE_FROM_SPAWN, 12)))) {
+        // rely on aggroradius of NpcCombatInfo by default
+        var hasAgroDistanceOverride = mob.hasAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE);
+        var fightArea = mob.npc().spawnTile().area(hasAgroDistanceOverride ? mob.getAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE) : mob.npc().getCombatInfo().aggroradius);
+        if (target != null && !target.tile().inArea(fightArea)) {
             DumbRoute.route(mob, mob.npc().spawnTile().getX(), mob.npc().spawnTile().getY());
             Debugs.CMB.debug(mob, "retreat", target);
         }

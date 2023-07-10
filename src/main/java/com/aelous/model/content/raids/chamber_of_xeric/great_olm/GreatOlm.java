@@ -83,7 +83,7 @@ public class GreatOlm extends CommonCombatMethod {
     public void init(NPC npc1) {
         World.getWorld().definitions().get(ObjectDefinition.class, FIRE_32297).clipType = 1; // force flame wall fire to clip tiles
         npc = entity.npc();
-        npc.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, 40);
+        npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 40);
         northTargetBounds = new Area(getTile(RIGHT.swX, RIGHT.swY), getTile(RIGHT.neX, RIGHT.neY), npc.getZ()); // no debug
         centerTargetBounds = new Area(getTile(CENTER.swX, CENTER.swY), getTile(CENTER.neX, CENTER.neY), npc.getZ()); // somehow this is null
         southTargetBounds = new Area(getTile(LEFT.swX, LEFT.swY), getTile(LEFT.neX, LEFT.neY), npc.getZ());
@@ -97,8 +97,8 @@ public class GreatOlm extends CommonCombatMethod {
             party = npc1.getAttrib(AttributeKey.RAID_PARTY);
             rightClaw = party.monsters.stream().filter(e -> e.id() == GREAT_OLM_RIGHT_CLAW_7553).findFirst().get();
             leftClaw = party.monsters.stream().filter(e -> e.id() == GREAT_OLM_LEFT_CLAW_7555).findFirst().get();
-            rightClaw.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, 40);
-            leftClaw.putAttrib(AttributeKey.MAX_DISTANCE_FROM_SPAWN, 40);
+            rightClaw.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 40);
+            leftClaw.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 40);
             rightClaw.setCombatMethod(new CommonCombatMethod() {
 
                 @Override

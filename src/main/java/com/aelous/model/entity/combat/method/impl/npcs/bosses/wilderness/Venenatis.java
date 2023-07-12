@@ -2,6 +2,7 @@ package com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness;
 
 import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
@@ -12,6 +13,8 @@ import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
+import com.aelous.utility.chainedwork.Chain;
+import lombok.NonNull;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -41,7 +44,9 @@ public class Venenatis extends CommonCombatMethod {
 
         entity.animate(9990);
 
-        var tileDist = entity.tile().distance(target.tile());
+        var tile = entity.tile().transform(4, 4, 0);
+
+        var tileDist = tile.distance(target.tile());
 
         var duration = (tileDist * 2) + 25;
 
@@ -59,9 +64,11 @@ public class Venenatis extends CommonCombatMethod {
     private void rangeAttack(@Nonnull final Entity entity, @Nonnull Entity target) {
         entity.animate(9989);
 
-        int tileDist = entity.tile().distance(target.tile());
+        var tile = entity.tile().transform(4, 4, 0);
 
-        var duration = (tileDist * 2) + 20 + 12;
+        var tileDist = tile.distance(target.tile());
+
+        var duration = (tileDist * 2) + 25;
 
         Projectile p = new Projectile(entity, target, 2356, 25, duration, 37, 22, 14, 4 * 64, 2);
 
@@ -201,6 +208,17 @@ public class Venenatis extends CommonCombatMethod {
             }
         }
 
+        for (var t : weblist) {
+            if (MovementQueue.dumbReachable(t.getX(), t.getY(), entity.tile())) {
+                gameObject.spawn();
+                GameObject finalGameObject = gameObject;
+                Chain.noCtx().delay(20, () -> {
+                    finalGameObject.remove();
+                    weblist.clear();
+                });
+            }
+        }
+
         weblist.forEach(GameObject::spawn);
 
     }
@@ -245,12 +263,12 @@ public class Venenatis extends CommonCombatMethod {
     }
 
     @Override
-    public int getAttackSpeed(Entity entity) {
+    public int getAttackSpeed(@NonNull final Entity entity) {
         return entity.getBaseAttackSpeed();
     }
 
     @Override
-    public int moveCloseToTargetTileRange(Entity entity) {
+    public int moveCloseToTargetTileRange(@NonNull final Entity entity) {
         return 10;
     }
 }

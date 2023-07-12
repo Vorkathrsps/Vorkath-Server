@@ -29,7 +29,7 @@ public class ArdougneRooftop extends PacketInteraction {
     @Override
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
 
-        if(obj.getId() == WOODEN_BEAMS) {
+        if (obj.getId() == WOODEN_BEAMS) {
             if (player.getSkills().level(Skills.AGILITY) >= 90) {
                 Chain.noCtx().runFn(1, () -> {
                     player.lockDamageOk();
@@ -54,7 +54,7 @@ public class ArdougneRooftop extends PacketInteraction {
             return true;
         }
 
-        if(obj.getId() == GAP_15609) {
+        if (obj.getId() == GAP_15609) {
             Chain.noCtx().runFn(1, () -> {
                 player.lockDamageOk();
                 player.animate(2586, 15);
@@ -79,7 +79,7 @@ public class ArdougneRooftop extends PacketInteraction {
             return true;
         }
 
-        if(obj.getId() == PLANK_26635) {
+        if (obj.getId() == PLANK_26635) {
 
             Chain.noCtx().runFn(1, () -> {
                 player.lock();
@@ -87,7 +87,9 @@ public class ArdougneRooftop extends PacketInteraction {
                 player.agilityWalk(false);
                 player.looks().render(763, 762, 762, 762, 762, 762, -1);
                 player.stepAbs(2656, 3318, MovementQueue.StepType.FORCED_WALK);
-            }).waitForTile(new Tile(2656, 3318), () -> {
+            });
+
+            player.waitForTile(new Tile(2656, 3318), () -> {
                 player.agilityWalk(true);
                 player.looks().resetRender();
                 player.getSkills().addXp(Skills.AGILITY, 50.0);
@@ -97,7 +99,7 @@ public class ArdougneRooftop extends PacketInteraction {
             return true;
         }
 
-        if(obj.getId() == GAP_15610) {
+        if (obj.getId() == GAP_15610) {
             Chain.noCtx().runFn(1, () -> {
                 player.lockDamageOk();
                 player.animate(2586, 15);
@@ -112,8 +114,9 @@ public class ArdougneRooftop extends PacketInteraction {
             return true;
         }
 
-        if(obj.getId() == GAP_15611) {
+        if (obj.getId() == GAP_15611) {
             Chain.noCtx().runFn(1, () -> {
+                player.lock();
                 player.animate(7133, 15);
             }).then(1, () -> {
                 player.animate(2588);
@@ -126,9 +129,9 @@ public class ArdougneRooftop extends PacketInteraction {
             return true;
         }
 
-        if(obj.getId() == STEEP_ROOF) {
+        if (obj.getId() == STEEP_ROOF) {
             if (!player.tile().equals(2653, 3300, 3))
-                return false; // Stop people doing it over and over from wrong side
+                return false;
             Chain.noCtx().runFn(1, () -> {
                 player.lockNoDamage();
                 player.animate(753);
@@ -136,8 +139,9 @@ public class ArdougneRooftop extends PacketInteraction {
             }).then(1, () -> {
                 player.agilityWalk(false);
                 player.getMovementQueue().clear();
-                player.stepAbs(2656, 2656, MovementQueue.StepType.FORCED_WALK);
-            }).waitForTile(new Tile(2656, 3297), () -> {
+                player.stepAbs(2656, 3297, MovementQueue.StepType.FORCED_WALK);
+            });
+            player.waitForTile(new Tile(2656, 3297), () -> {
                 player.agilityWalk(true);
                 player.looks().resetRender();
                 player.animate(759);
@@ -148,8 +152,9 @@ public class ArdougneRooftop extends PacketInteraction {
             return true;
         }
 
-        if(obj.getId() == GAP_15612) {
-            Chain.noCtx().runFn(1, () -> {
+        if (obj.getId() == GAP_15612) {
+            Chain.bound(player).name("ardougne_gap_walk").runFn(1, () -> {
+                player.lockNoDamage();
                 player.animate(2586, 15);
             }).then(1, () -> {
                 player.animate(2588);
@@ -158,7 +163,7 @@ public class ArdougneRooftop extends PacketInteraction {
                 player.agilityWalk(false);
                 player.stepAbs(2661, 3298, MovementQueue.StepType.FORCED_WALK);
             }).waitForTile(new Tile(2661, 3298), () -> {
-                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(2, -1), 15, 30, 741, 0);
+                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(2, -1), 15, 30, 741, 4);
                 player.setForceMovement(forceMovement);
             }).then(1, () -> {
                 player.teleport(2663, 3297, 1);
@@ -166,7 +171,7 @@ public class ArdougneRooftop extends PacketInteraction {
                 player.resetWalkSteps();
                 player.stepAbs(2666, 3297, MovementQueue.StepType.FORCED_WALK);
             }).waitForTile(new Tile(2666, 3297), () -> {
-                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(1, 0), 15, 30, 741, 0);
+                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(1, 0), 15, 30, 741, 4);
                 player.setForceMovement(forceMovement);
             }).then(1, () -> {
                 player.teleport(2667, 3297, 1);

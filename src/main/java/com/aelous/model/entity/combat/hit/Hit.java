@@ -12,6 +12,7 @@ import com.aelous.model.entity.combat.method.CombatMethod;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
+import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.PlayerStatus;
 import com.aelous.utility.Utils;
@@ -176,6 +177,9 @@ public class Hit {
     public boolean pidIgnored;
 
     public int decrementAndGetDelay() {
+        if (attacker != null && attacker instanceof NPC) {
+            return delay--;
+        }
         return --delay;
     }
 

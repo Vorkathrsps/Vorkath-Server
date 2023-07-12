@@ -506,7 +506,7 @@ public abstract class Entity {
 
         Tile translatedTile = this.getCombat().getTarget() != null && creatorSize > 3 ? this.tile().translateAndCenterNpcPosition(this, this.getCombat().getTarget()) : this.tile();
 
-        Tile distance = translatedTile.getAxisDistances(this,target);
+        Tile distance = translatedTile.getAxisDistances(this, target);
 
         Tile offset = new Tile(offX, offY, source.getZ());
 
@@ -669,7 +669,8 @@ public abstract class Entity {
         this.resetMovementQueue = resetMovementQueue;
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     public int tinted = 0;
     @Getter
     List<NPC> activeThrall = new ArrayList<>();
@@ -1483,7 +1484,9 @@ public abstract class Entity {
         getUpdateFlag().flag(Flag.FORCED_MOVEMENT);
         this.forceMovement = forceMovement;
         Chain.noCtx().delay(1 + (forceMovement.getSpeed() / 30), () -> {
-            teleport(tile().transform(forceMovement.getEnd()));
+            if (forceMovement.getEnd() != null) {
+                teleport(tile().transform(forceMovement.getEnd()));
+            }
             getMovementQueue().reset();
         });
         return this;
@@ -1604,6 +1607,10 @@ public abstract class Entity {
 
     public boolean frozen() {
         return timers.has(TimerKey.FROZEN);
+    }
+
+    public void removeFreeze() {
+        timers.cancel(TimerKey.FROZEN);
     }
 
     public boolean stunned() {

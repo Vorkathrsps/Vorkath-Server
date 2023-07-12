@@ -46,25 +46,36 @@ public class FaladorRooftop extends PacketInteraction {
             }
             player.lockDelayDamage();
             player.animate(828, 15);
-            Chain.bound(player).name("FaladorRooftopWallclimbTask").runFn(2, () -> {
+            Chain.noCtx().runFn(1, () -> {
                 player.teleport(3036, 3342, 3);
                 player.animate(-1);
                 player.getSkills().addXp(Skills.AGILITY, 8.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
                 player.unlock();
             });
+
             return true;
         }
 
         // Tightrope
         if (obj.getId() == TIGHTROPE_14899) {
             player.lockDelayDamage();
-            Chain.bound(player).name("FaladorTightrope1Task").runFn(1, () -> {
+            Chain.noCtx().runFn(1, () -> {
+                player.getMovementQueue().clear();
+                player.stepAbs(3040, 3343, MovementQueue.StepType.FORCED_WALK);
+            }).then(2, () -> {
+                int sizeX = obj.definition().sizeX;
+                int sizeY = obj.definition().sizeY;
+                boolean inversed = (obj.getRotation() & 0x1) != 0;
+                int faceCoordX = obj.x * 2 + (inversed ? sizeY : sizeX);
+                int faceCoordY = obj.y * 2 + (inversed ? sizeX : sizeY);
+                Tile position = new Tile(faceCoordX, faceCoordY);
+                player.getCombat().reset();
+                player.setPositionToFace(position);
                 player.looks().render(763, 762, 762, 762, 762, 762, -1);
-                player.agilityWalk(false);
                 player.stepAbs(3047, 3343, MovementQueue.StepType.FORCED_WALK);
-            }).waitForTile(new Tile(3047, 3343), () -> {
-                player.agilityWalk(true);
+            });
+            player.waitForTile(new Tile(3047, 3343), () -> {
                 player.looks().resetRender();
                 player.getSkills().addXp(Skills.AGILITY, 17.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
@@ -75,37 +86,34 @@ public class FaladorRooftop extends PacketInteraction {
 
         // Wall bricks
         if (obj.getId() == HAND_HOLDS_14901) {
-            Tile startPos = obj.tile().transform(0, -2);
-            player.smartPathTo(startPos);
-            //Jump position
-            player.waitForTile(startPos, player::lock).name("FaladorJumpposition1Task").then(() -> {
+            player.smartPathTo(new Tile(3050, 3349, 3));
+            Chain.bound(player).runFn(1, () -> {
                 player.teleport(3050, 3351, 2);
-                //1 tick later activates anim
+                player.lock();
+                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(1, 0), 5, 30, 1118, 0);
+                player.setForceMovement(forceMovement);
+            }).then(2, () -> {
+                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, 1), 5, 30, 1118, 3);
+                player.setForceMovement(forceMovement);
+            }).then(2, () -> {
+                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, 1), 5, 30, 1118, 4);
+                player.setForceMovement(forceMovement);
+            }).then(2, () -> {
+                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, 1), 5, 30, 1118, 4);
+                player.setForceMovement(forceMovement);
+            }).then(2, () -> {
+                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, 1), 5, 30, 1118, 4);
+                player.setForceMovement(forceMovement);
+            }).then(2, () -> {
+                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(-1, 1), 5, 30, 1118, 4);
+                player.setForceMovement(forceMovement);
             }).then(1, () -> {
-                player.animate(1118);
+                player.teleport(3049, 3358, 3);
+                ForceMovement forceMovement = new ForceMovement(player.tile(), null, 5, 30, -1, 4);
+                player.setForceMovement(forceMovement);
             }).then(1, () -> {
-                //Move to correct coords right side of wall. 3051 3352, 2
-                TaskManager.submit(new ForceMovementTask(player, 0, new ForceMovement(player.tile().clone(), new Tile(1, 1), 13, 22, Direction.WEST.toInteger())));
-            }).then(1, () -> {
-                //Move character 4 times each time we add up 1 to the y coord
-                player.setPositionToFace(player.tile().transform(0, 1));
-                for (int i = 0; i < 3; i++) {
-                    Chain.bound(player).name("FaladorJumpposition2Task").runFn(i * 2, () -> {
-                        player.animate(1118);
-                        TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, 1), 34, 52, Direction.WEST.toInteger())));
-                    });
-                }
-            });
-            Chain.bound(player).name("FaladorJumpposition3Task").waitForTile(new Tile(3051, 3355, 2), () -> {
-                player.animate(1120);
-                TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(-1, 2), 34, 60, Direction.WEST.toInteger())));
-                Chain.bound(player).name("FaladorJumpposition4Task").runFn(3, () -> {
-                    player.teleport(3050, 3357, 3);
-
-                    player.getSkills().addXp(Skills.AGILITY, 45.0);
-                    MarksOfGrace.trySpawn(player, MARK_SPOTS, 40, 50);
-                    player.unlock();
-                });
+                player.getSkills().addXp(Skills.AGILITY, 20.0);
+                player.unlock();
             });
             return true;
         }
@@ -113,52 +121,62 @@ public class FaladorRooftop extends PacketInteraction {
         // Gap jump
         if (obj.getId() == GAP_14903) {
             player.lockDelayDamage();
-            player.animate(741);
-            TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, 3), 15, 30, Direction.EAST.toInteger())));
-            Chain.bound(null).name("FaladorGapjump1Task").runFn(1, () -> {
+            Chain.noCtx().runFn(1, () -> {
+                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, 3), 15, 30, 741, 4);
+                player.setForceMovement(forceMovement);
+            }).then(1, () -> {
                 player.getSkills().addXp(Skills.AGILITY, 20.0);
-                MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
+                player.animate(-1);
                 player.unlock();
             });
-            /*Tile startPos = obj.tile().transform(0, -1);
-            player.smartPathTo(startPos, obj.getSize());
-            player.waitForTile(startPos, player::lock)
-                .name("FaladorGapjump1Task").then(1, () -> {
-                player.animate(741);
-                TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, 3), 15, 30, Direction.EAST.toInteger())));
-            }).then(1, () -> {
-                player.skills().addXp(Skills.AGILITY, 20.0);
-                MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
-                player.unlock();
-            });*/
             return true;
         }
 
         // Gap jump 2
         if (obj.getId() == GAP_14904) {
             player.lock();
-            Chain.bound(player).name("FaladorGapjump2Task").runFn(1, () -> {
-                player.animate(741);
-                TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(-5, 0), 15, 30, Direction.WEST.toInteger())));
-            }).then(1, () -> {
-                player.getSkills().addXp(Skills.AGILITY, 20.0);
-                MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
-                player.unlock();
+            player.smartPathTo(new Tile(3046, 3362, 3));
+            player.waitForTile(new Tile(3046, 3362, 3), () -> {
+                int sizeX = obj.definition().sizeX;
+                int sizeY = obj.definition().sizeY;
+                boolean inversed = (obj.getRotation() & 0x1) != 0;
+                int faceCoordX = obj.x * 2 + (inversed ? sizeY : sizeX);
+                int faceCoordY = obj.y * 2 + (inversed ? sizeX : sizeY);
+                Tile position = new Tile(faceCoordX, faceCoordY);
+                player.getCombat().reset();
+                player.setPositionToFace(position);
+                Chain.noCtx().runFn(2, () -> {
+                    ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(-5, 0), 15, 30, 741, 4);
+                    player.setForceMovement(forceMovement);
+                }).then(1, () -> {
+                    player.getSkills().addXp(Skills.AGILITY, 20.0);
+                    MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
+                    player.animate(-1);
+                    player.unlock();
+                });
             });
             return true;
         }
 
         // Tightrope
         if (obj.getId() == TIGHTROPE_14905) {
-            Chain.bound(player).name("FaladorTightrope2Task").runFn(1, () -> {
-                player.lock();
+            player.lock();
+            Chain.noCtx().runFn(1, () -> {
                 player.getMovementQueue().clear();
-                player.agilityWalk(false);
-                player.getMovementQueue().interpolate(3033, 3361, MovementQueue.StepType.FORCED_WALK);
-                player.getMovementQueue().interpolate(3028, 3356, MovementQueue.StepType.FORCED_WALK);
-                player.getMovementQueue().interpolate(3028, 3354, MovementQueue.StepType.FORCED_WALK);
-            }).then(1, () -> player.looks().render(763, 762, 762, 762, 762, 762, -1)).waitForTile(new Tile(3028, 3355), () -> {
-                player.agilityWalk(true);
+                player.stepAbs(3034, 3362, MovementQueue.StepType.FORCED_WALK);
+            }).then(2, () -> {
+                int sizeX = obj.definition().sizeX;
+                int sizeY = obj.definition().sizeY;
+                boolean inversed = (obj.getRotation() & 0x1) != 0;
+                int faceCoordX = obj.x * 2 + (inversed ? sizeY : sizeX);
+                int faceCoordY = obj.y * 2 + (inversed ? sizeX : sizeY);
+                Tile position = new Tile(faceCoordX, faceCoordY);
+                player.getCombat().reset();
+                player.setPositionToFace(position);
+                player.looks().render(763, 762, 762, 762, 762, 762, -1);
+                player.stepAbs(3027, 3355, MovementQueue.StepType.FORCED_WALK);
+            });
+            player.waitForTile(new Tile(3027, 3355), () -> {
                 player.looks().resetRender();
                 player.getSkills().addXp(Skills.AGILITY, 45.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
@@ -170,13 +188,15 @@ public class FaladorRooftop extends PacketInteraction {
         // Tightrope
         if (obj.getId() == TIGHTROPE_14911) {
             player.lock();
-            player.getMovementQueue().interpolate(3026, 3353, MovementQueue.StepType.FORCED_WALK);
-            Chain.bound(player).name("FaladorTightrope3Task").runFn(2, () -> {
-                player.animate(7134);
-                TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(-5, 0), 0, 89, Direction.WEST.toInteger())));
-            }).then(3, () -> {
-                player.getMovementQueue().step(3020, 3353, MovementQueue.StepType.FORCED_WALK);
-                player.animate(-1);
+            Chain.noCtx().runFn(1, () -> {
+                player.getMovementQueue().clear();
+                player.stepAbs(3026, 3353, MovementQueue.StepType.FORCED_WALK);
+            }).then(2, () -> {
+                player.looks().render(763, 762, 762, 762, 762, 762, -1);
+                player.stepAbs(3020, 3353, MovementQueue.StepType.FORCED_WALK);
+            });
+            player.waitForTile(new Tile(3020, 3353), () -> {
+                player.looks().resetRender();
                 player.getSkills().addXp(Skills.AGILITY, 40.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
                 player.unlock();
@@ -187,46 +207,46 @@ public class FaladorRooftop extends PacketInteraction {
         // Gap jump
         if (obj.getId() == GAP_14919) {
             player.lock();
-            Chain.bound(player).name("FaladorGapjump3Task").runFn(1, () -> {
-                player.animate(1603);
-                TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, -4), 15, 30, Direction.SOUTH.toInteger())));
-            }).then(1, () -> {
-                player.getSkills().addXp(Skills.AGILITY, 25.0);
-                MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
-                player.unlock();
+            player.stepAbs(3017, 3353, MovementQueue.StepType.FORCED_WALK);
+            player.waitForTile(new Tile(3017, 3353, 3), () -> {
+                Chain.noCtx().runFn(1, () -> {
+                    ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, -4), 15, 30, 1603, 2);
+                    player.setForceMovement(forceMovement);
+                }).then(2, () -> {
+                    player.getSkills().addXp(Skills.AGILITY, 25.0);
+                    MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
+                    player.unlock();
+                });
             });
             return true;
         }
 
-        // Gap jump
         if (obj.getId() == LEDGE_14920) {
-            Tile startPos = new Tile(3016, 3346, 3);
-            player.smartPathTo(startPos);
-            player.waitForTile(startPos, player::lock)
-                .name("FaladorGapjump4Task").then(1, () -> {
-                player.animate(1603);
-                TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(-2, 0, 3), 15, 30, Direction.WEST.toInteger())));
-            }).then(1, () -> {
-                player.animate(-1);
-                player.getSkills().addXp(Skills.AGILITY, 10.0);
-                MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
-                player.unlock();
+            player.smartPathTo(new Tile(3016, 3346, 3));
+            player.lock();
+            player.waitForTile(new Tile(3016, 3346, 3), () -> {
+                Chain.noCtx().runFn(1, () -> {
+                    ForceMovement forceMovement = new ForceMovement(player.tile(), null, 0, 15, 1603, 3);
+                    player.setForceMovement(forceMovement);
+                }).then(1, () -> {
+                    player.teleport(3014, 3346, 3);
+                }).then(2, () -> {
+                    player.getSkills().addXp(Skills.AGILITY, 10.0);
+                    MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
+                }).then(1, player::unlock);
             });
             return true;
         }
 
-        // Gap jump
         if (obj.getId() == LEDGE_14921) {
             player.lock();
-            Chain.bound(player).name("FaladorGapjump5Task").runFn(1, () -> {
-                player.animate(1603);
-                TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, -2), 15, 30, Direction.SOUTH.toInteger())));
-            }).then(1, () -> {
-                player.animate(-1);
+            Chain.noCtx().runFn(1, () -> {
+                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, -2), 15, 30, 1603, 2);
+                player.setForceMovement(forceMovement);
+            }).then(2, () -> {
                 player.getSkills().addXp(Skills.AGILITY, 10.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
-                player.unlock();
-            });
+            }).then(1, player::unlock);
             return true;
         }
 
@@ -234,12 +254,10 @@ public class FaladorRooftop extends PacketInteraction {
         if (obj.getId() == LEDGE_14922) {
             Tile startPos = new Tile(3013, 3335, 3);
             player.smartPathTo(startPos);
-            player.waitUntil(() -> player.tile().y == 3335, player::lock)
-                .name("FaladorGapjump6Task").then(1, () -> {
-                player.animate(1603);
-                TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(0, -2), 15, 30, Direction.SOUTH.toInteger())));
-            }).then(1, () -> {
-                player.animate(-1);
+            Chain.noCtx().runFn(1, () -> {
+                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, -2), 15, 30, 1603, 2);
+                player.setForceMovement(forceMovement);
+            }).then(2, () -> {
                 player.getSkills().addXp(Skills.AGILITY, 10.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
                 player.unlock();
@@ -252,11 +270,11 @@ public class FaladorRooftop extends PacketInteraction {
             if (!player.tile().equals(3017, 3333, 3))
                 return false; // Stop people doing it over and over from wrong side
             player.lock();
-            Chain.bound(player).name("FaladorGapjump7Task").runFn(1, () -> {
-                player.animate(1603);
-                TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(2, 0), 15, 30, Direction.EAST.toInteger())));
-            }).then(1, () -> {
-                player.animate(-1);
+
+            Chain.noCtx().runFn(1, () -> {
+                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(2, 0), 15, 30, 1603, 1);
+                player.setForceMovement(forceMovement);
+            }).then(2, () -> {
                 player.getSkills().addXp(Skills.AGILITY, 10.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 50, 50);
                 player.unlock();
@@ -264,19 +282,15 @@ public class FaladorRooftop extends PacketInteraction {
             return true;
         }
 
-        // Gap jump
         if (obj.getId() == EDGE_14925) {
             player.lock();
-            Chain.bound(player).name("FaladorGapjump8Task").runFn(1, () -> {
-                player.animate(1603);
-                TaskManager.submit(new ForceMovementTask(player, 1, new ForceMovement(player.tile().clone(), new Tile(3, 0), 15, 30, Direction.EAST.toInteger())));
-            }).then(1, () -> player.animate(-1)).then(1, () -> {
-                player.animate(2586, 15);
-            }).then(1, () -> {
+            Chain.noCtx().runFn(1, () -> {
+                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(3, 0), 15, 30, 1603, 1);
+                player.setForceMovement(forceMovement);
+            }).then(2, () -> player.animate(2586, 15)).then(1, () -> {
                 player.teleport(3029, 3333, 0);
                 player.getSkills().addXp(Skills.AGILITY, 180.0);
                 MarksOfGrace.trySpawn(player, MARK_SPOTS, 35, 50);
-
                 player.unlock();
             });
             return true;

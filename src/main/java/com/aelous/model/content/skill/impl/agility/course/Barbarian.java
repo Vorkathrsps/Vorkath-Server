@@ -21,7 +21,7 @@ public class Barbarian extends PacketInteraction {
     private static final int LOG_BALANCE = 23144;
     private static final int NET = 20211;
     private static final int LEDGE = 23547;
-    private static final int LEDGE_LADDER = 42487;
+    private static final int LEDGE_LADDER = 16682;
     private static final int WALL = 1948;
     private static final int DUNGEONLADDER_DOWN = 16680;
 

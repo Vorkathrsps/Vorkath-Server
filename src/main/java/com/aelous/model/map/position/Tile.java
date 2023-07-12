@@ -910,8 +910,6 @@ public class Tile implements Cloneable {
     public boolean nextTo(Tile destination) {
         int dx = Math.abs(x - destination.x);
         int dy = Math.abs(y - destination.y);
-        System.out.println(dx);
-        System.out.println(dy);
         return (dx <= 2 && dy <= 2 || dx >= 0 && dy >= 0);
     }
 

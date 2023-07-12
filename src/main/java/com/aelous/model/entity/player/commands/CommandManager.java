@@ -519,12 +519,12 @@ public class CommandManager {
             for (Tile pillarTile : pillarTiles) {
                 new GameObject(32687, pillarTile.withHeight(p.getZ()), 10, 0).spawn();
             }*/
-           // GameObject.spawn(32687, p.tile(), 0, 10);
+            // GameObject.spawn(32687, p.tile(), 0, 10);
             MapObjects.get(-1, p.tile()).ifPresent(pillar -> {
                 pillar.setId(32688);
                 Chain.noCtx().delay(2, () -> {
                     pillar.setId(32689);
-                }).then(1, ()-> pillar.animate(8104)).then(2, () -> pillar.remove());
+                }).then(1, () -> pillar.animate(8104)).then(2, () -> pillar.remove());
             });
         });
         dev("tob", (p, c, s) -> {
@@ -670,11 +670,97 @@ public class CommandManager {
             ((GreatOlm) olm.getCombatMethod()).flameWall(olm);
         });
         dev("c", (p, c, s) -> {
-            p.animate(10015);
-            p.graphic(2352);
+            var centerTile = p.tile();
+            int sideLength = 4;
+
+            int centerX = centerTile.getX();
+            int centerY = centerTile.getY();
+            int tileZ = centerTile.getZ();
+
+            final int CENTER_OBJECT_ID = 47084;
+            final int BORDER_OBJECT_ID = 47085;
+            final int CORNER_OBJECT_ID = 47086;
+            final int PARAM1 = 10;
+
+            int borderLength = sideLength + 2;
+            int borderStartX = centerX - borderLength / 2;
+            int borderStartY = centerY - borderLength / 2;
+            int borderEndX = centerX + borderLength / 2;
+            int borderEndY = centerY + borderLength / 2;
+
+            int centerRotation = p.getRotation(centerX, centerY, centerX, centerY, sideLength, sideLength);
+
+            int numObjects = sideLength * sideLength + 4 * sideLength + 4;
+
+            List<GameObject> weblist = new ArrayList<>(numObjects);
+
+            GameObject gameObject;
+
+            gameObject = new GameObject(CENTER_OBJECT_ID, new Tile(centerX, centerY, tileZ), PARAM1, centerRotation);
+            weblist.add(gameObject);
+
+            int topLeftCornerRotation = 1;
+            int leftCornerRotation = 2;
+            int topRightCornerRotation = 0;
+            int bottomRightCornerRotation = 3;
+
+            for (int x = borderStartX; x <= borderEndX; x++) {
+                for (int y = borderStartY; y <= borderEndY; y++) {
+                    boolean b = x == centerX || y == centerY || y == centerY - 1 || y == centerY + 1 || x == centerX - 1 || x == centerX + 1;
+
+                    int rotation;
+                    int objectId;
+                    int param;
+
+                    if (x >= centerX - sideLength / 2 && x <= centerX + sideLength / 2 &&
+                        y >= centerY - sideLength / 2 && y <= centerY + sideLength / 2) {
+
+                        if (b) {
+                            objectId = CENTER_OBJECT_ID;
+                            rotation = 0;
+                            param = PARAM1;
+                        } else if (y == centerY + 2 || y == centerY - 2) {
+                            objectId = CORNER_OBJECT_ID;
+                            param = PARAM1;
+
+                            if (x == centerX - sideLength / 2 && y == centerY - sideLength / 2) {
+                                rotation = topLeftCornerRotation;
+                            } else if (x < centerX && y >= centerY) {
+                                rotation = leftCornerRotation;
+                            } else if (x <= centerX - sideLength / 2 && y >= centerY + sideLength / 2) {
+                                rotation = leftCornerRotation;
+                            } else if (x >= centerX && y < centerY) {
+                                rotation = topRightCornerRotation;
+                            } else {
+                                rotation = bottomRightCornerRotation;
+                            }
+                        } else {
+                            objectId = -1;
+                            rotation = p.getRotation(x, y, centerX, centerY, sideLength, sideLength);
+                            param = PARAM1;
+                        }
+                    } else {
+                        if (b) {
+                            objectId = BORDER_OBJECT_ID;
+                            rotation = p.getBorderRotation(x, y, centerX, centerY, sideLength);
+                            param = PARAM1;
+                        } else {
+                            continue;
+                        }
+                    }
+
+                    gameObject = new GameObject(objectId, new Tile(x, y, tileZ), param, rotation);
+                    weblist.add(gameObject);
+                }
+            }
+
+            weblist.forEach(GameObject::spawn);
 
         });
-        dev("curseoff", (p, c, s) -> {
+
+        dev("curseoff", (p, c, s) ->
+
+        {
             p.clearAttrib(AttributeKey.NIGHTMARE_CURSE);
             p.message("curse off");
 
@@ -702,27 +788,48 @@ public class CommandManager {
             p.message(Arrays.toString(prayerMap.entrySet().toArray(new Map.Entry[0])));
 
         });
-        dev("varp", (p, c, s) -> {
+
+        dev("varp", (p, c, s) ->
+
+        {
             p.getPacketSender().sendConfig(Integer.parseInt(s[1]), Integer.parseInt(s[2]));
         });
-        dev("varbit", (p, c, s) -> {
+
+        dev("varbit", (p, c, s) ->
+
+        {
             p.varps().varbit(Integer.parseInt(s[1]), Integer.parseInt(s[2]));
         });
-        dev("ht1", (p, c, s) -> {
+
+        dev("ht1", (p, c, s) ->
+
+        {
             CommandManager.attempt(p, "oa 8280 34570");
         });
-        dev("ht2", (p, c, s) -> {
+
+        dev("ht2", (p, c, s) ->
+
+        {
             CommandManager.attempt(p, "oa 8278 34570");
         });
-        dev("tp1", (p, c, s) -> {
+
+        dev("tp1", (p, c, s) ->
+
+        {
             TeleportInterface.open(p);
         });
-        dev("tp2", (p, c, s) -> {
+
+        dev("tp2", (p, c, s) ->
+
+        {
             p.setCurrentTabIndex(3);
             p.getInterfaceManager().open(88000);
             p.getnewteleInterface().drawInterface(88005);
         });
-        dev("sim", (p, c, s) -> {
+
+        dev("sim", (p, c, s) ->
+
+        {
             var t = ScalarLootTable.registered.get(Integer.parseInt(s[1]));
             var kills = Integer.parseInt(s[2]);
             List<Item> simulate = t.simulate(new SecureRandom(), kills);
@@ -738,12 +845,18 @@ public class CommandManager {
                     new Item(item.getId()).unnote(World.getWorld().definitions()).getId()).name + " (1/" + indiv + ")");
             }
         });
-        dev("test12", (p, c, s) -> {
+
+        dev("test12", (p, c, s) ->
+
+        {
             for (NPC n : p.getLocalNpcs()) {
                 logger.info("{} face {}", n.getMobName(), n.getInteractingEntity());
             }
         });
-        dev("fn", (p, c, s) -> {
+
+        dev("fn", (p, c, s) ->
+
+        {
             new Thread(() -> {
                 int found = 0;
                 for (int i = 0; i < World.getWorld().definitions().total(NpcDefinition.class); i++) {
@@ -764,13 +877,22 @@ public class CommandManager {
                 p.message("Done searching. Found " + found + " results for '" + s + "'.");
             }).start();
         });
-        dev("vk1", (p, c, s) -> {
+
+        dev("vk1", (p, c, s) ->
+
+        {
             p.getLocalNpcs().get(0).putAttrib(AttributeKey.VORKATH_CB_COOLDOWN, 0);
         });
-        dev("odef", (p, c, s) -> {
+
+        dev("odef", (p, c, s) ->
+
+        {
             logger.info("{}", new GameObject(Integer.parseInt(s[1]), p.tile()).definition().toStringBig());
         });
-        dev("settornlobbytime", (player, c, parts) -> {
+
+        dev("settornlobbytime", (player, c, parts) ->
+
+        {
             if (TournamentManager.getSettings() == null) {
                 player.message("The tournament system must be initialized using the conf file first.");
             } else {
@@ -781,10 +903,13 @@ public class CommandManager {
                 }
                 int seconds = Integer.parseInt(parts[1]);
                 TournamentManager.getSettings().setLobbyTime(seconds);
-                player.message("New lobby wait time is: "+ seconds + " seconds");
+                player.message("New lobby wait time is: " + seconds + " seconds");
             }
         });
-        dev("settorntype", (player, c, parts) -> {
+
+        dev("settorntype", (player, c, parts) ->
+
+        {
             if (TournamentManager.getSettings() == null) {
                 player.message("The tournament system must be initialized using the conf file first.");
             } else {
@@ -795,10 +920,13 @@ public class CommandManager {
                 }
                 int type = Integer.parseInt(parts[1]);
                 TournamentManager.setNextTorn(new Tournament(TournamentManager.settings.getTornConfigs()[type]));
-                player.message("New PvP tournament type is: "+ TournamentManager.getNextTorn().getConfig().key);
+                player.message("New PvP tournament type is: " + TournamentManager.getNextTorn().getConfig().key);
             }
         });
-        dev("settornhours", (player, c, parts) -> {
+
+        dev("settornhours", (player, c, parts) ->
+
+        {
             if (TournamentManager.getSettings() == null) {
                 player.message("The tournament system must be initialized using the conf file first.");
                 return;
@@ -818,13 +946,11 @@ public class CommandManager {
                 TournamentManager.getSettings().usingOverrideTimes = true;
                 TournamentManager.checkAndOpenLobby(false);
                 player.getInterfaceManager().close();
-                player.message("New tournament system times are: "+ Arrays.toString(hours));
-            }
-            catch (HourFormatException e) {
+                player.message("New tournament system times are: " + Arrays.toString(hours));
+            } catch (HourFormatException e) {
                 player.message(e.getMessage());
                 e.printStackTrace();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 player.message(format("Input could not be parsed: %s - %s", c, e));
                 player.message("Use format ::settornhours 00:00,05:00,14:00,14:30,23:59");
                 e.printStackTrace();
@@ -855,6 +981,7 @@ public class CommandManager {
         protected HourFormatException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
             super(message, cause, enableSuppression, writableStackTrace);
         }
+
     }
 
     private static int rotateX(int x, int y, int angle) {

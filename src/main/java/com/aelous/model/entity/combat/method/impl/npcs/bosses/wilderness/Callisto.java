@@ -26,7 +26,9 @@ import com.aelous.utility.chainedwork.Chain;
 import lombok.Getter;
 import lombok.NonNull;
 
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BooleanSupplier;
 
 /**
@@ -34,8 +36,6 @@ import java.util.function.BooleanSupplier;
  * @Date: 7/9/2023
  */
 public class Callisto extends CommonCombatMethod {
-
-    //TODO if you run 2 tiles past traps you can avoid the damage
 
     private int roarCount = 0;
     private int trapState = 0;
@@ -74,6 +74,8 @@ public class Callisto extends CommonCombatMethod {
         return true;
     }
 
+    List<Tile> lastThreeTiles = new ArrayList<>();
+
     @Override
     public void process(Entity entity, Entity target) {
         var bear = NpcIdentifiers.CALLISTO;
@@ -82,12 +84,30 @@ public class Callisto extends CommonCombatMethod {
             return;
         }
         if (target != null) {
-            var targTile = target.tile().copy();
-            allActiveTrapObjects.stream().filter(o -> o.tile().equals(targTile)).findFirst().ifPresent(o -> {
+            var currentX = target.tile().getX();
+            var currentY = target.tile().getY();
+            var previousX = target.getPreviousTile().getX();
+            var previousY = target.getPreviousTile().getY();
+
+            var middleX = (currentX + previousX) / 2;
+            var middleY = (currentY + previousY) / 2;
+            for (var o : allActiveTrapObjects) {
+                if (o.tile().equals(middleX, middleY) && !target.tile().equals(o.tile())) {
+                    Chain.noCtx().runFn(1, () -> o.animate(9999)).then(1, () -> {
+                        o.remove();
+                        allActiveTrapObjects.remove(o);
+                    });
+                }
+            }
+            allActiveTrapObjects.stream().filter(o -> o.tile().equals(target.tile())).findFirst().ifPresent(o -> {
                 Chain.noCtx().runFn(1, () -> {
                     o.animate(9999);
                 }).then(1, () -> {
                     target.hit(entity, Utils.random(1, 15), 1);
+                    target.stun(3);
+                    if (entity.frozen()) {
+                        entity.removeFreeze();
+                    }
                     o.remove();
                     allActiveTrapObjects.remove(o);
                 });

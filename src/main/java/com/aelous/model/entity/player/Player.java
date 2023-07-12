@@ -168,7 +168,8 @@ public class Player extends Entity {
 
     public int lastPetId;
 
-    @Getter private final Pet pet = new Pet(this);
+    @Getter
+    private final Pet pet = new Pet(this);
 
     public RaidStage raidStage;
     public transient ShopReference shopReference = ShopReference.DEFAULT;
@@ -1582,7 +1583,46 @@ public class Player extends Entity {
         //logger.info("it took " + endTime + "ms for processing player login.");
     }
 
-    private static final Set<String> veteranGiftClaimedIP = new HashSet<>();
+    public int getBorderRotation(int x, int y, int centerX, int centerY, int sideLength) {
+        int rotation = 0;
+        if (y == centerY + sideLength / 2 + 1 && x >= centerX - sideLength / 2 && x <= centerX + sideLength / 2) {
+            // Object is in the northern direction
+            rotation = 3;
+        } else if (y == centerY - sideLength / 2 - 1 && x >= centerX - sideLength / 2 && x <= centerX + sideLength / 2) {
+            // Object is in the southern direction
+            rotation = 1;
+        } else if (x == centerX - sideLength / 2 - 1 && y >= centerY - sideLength / 2 && y <= centerY + sideLength / 2) {
+            // Object is in the western direction
+            rotation = 2;
+        } else if (x == centerX + sideLength / 2 + 1 && y >= centerY - sideLength / 2 && y <= centerY + sideLength / 2) {
+            // Object is in the eastern direction
+            rotation = 0;
+        }
+        return rotation;
+    }
+
+    public int getRotation(int tileX, int tileY, int startX, int startY, int squareWidth, int squareHeight) {
+        if (tileX == startX + squareWidth && tileY == startY - 1) {
+            return 0; // Bottom right corner - Rotate East
+        } else if (tileX == startX - 1 && tileY == startY + squareHeight) {
+            return 2; // Top left corner - Rotate West
+        } else if (tileX == startX + squareWidth && tileY == startY + squareHeight) {
+            return 3; // Bottom left corner - Rotate South
+        } else if (tileX == startX - 1 && tileY == startY - 1) {
+            return 1; // Top right corner - Rotate North
+        } else if (tileX == startX - 1) {
+            return 2; // West border outline - Rotate South
+        } else if (tileX == startX + squareWidth) {
+            return 0; // East border outline - Rotate North
+        } else if (tileY == startY - 1) {
+            return 1; // North border outline - Rotate West
+        } else if (tileY == startY + squareHeight) {
+            return 3; // South border outline - Rotate East
+        }
+        return 0;
+    }
+
+        private static final Set<String> veteranGiftClaimedIP = new HashSet<>();
     private static final Set<String> veteranGiftClaimedMAC = new HashSet<>();
 
     private static final Set<String> playtimeGiftClaimedIP = new HashSet<>();

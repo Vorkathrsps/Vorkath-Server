@@ -90,9 +90,9 @@ public class FaladorRooftop extends PacketInteraction {
             Chain.bound(player).runFn(1, () -> {
                 player.teleport(3050, 3351, 2);
                 player.lock();
-                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(1, 0), 5, 30, 1118, 0);
+                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(1, 0), 15, 30, 1118, 0);
                 player.setForceMovement(forceMovement);
-            }).then(2, () -> {
+            }).then(1, () -> {
                 ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(0, 1), 5, 30, 1118, 3);
                 player.setForceMovement(forceMovement);
             }).then(2, () -> {

@@ -7,17 +7,19 @@
     "direction": "NE"
   }, //vetion
   {
-    "id": 6609,
-    "x": 1759,
-    "y": 11544,
+    "id": 6611,
+    "x": 1886,
+    "y": 11545,
+    "z": 1,
     "walkRange": 5,
-    "direction": "NE"
+    "direction": "S"
   },  // Callisto
   {
     "id": 6610,
     "x": 3335,
     "y": 3743,
-    "walkRange": 8
+    "walkRange": 8,
+    "direction": "S"
   },
   // Venenatis
   {

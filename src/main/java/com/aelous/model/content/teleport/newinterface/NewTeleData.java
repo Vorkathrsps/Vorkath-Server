@@ -39,7 +39,7 @@ public enum NewTeleData {
     WILDERNESS_SLAYER_CAVE(new Tile(3385, 10053),"Wilderness Slayer Cave", "", SLAYING, MEDIUM),
 
     //Bossing teleports
-    CALLISTO(new Tile(3307, 3837), "Callisto", "@red@Dangerous Teleport Level:40 Multi-combat Wilderness", BOSSING, MEDIUM),
+    CALLISTO(new Tile(1758, 11533), "Callisto", "@red@Dangerous Teleport Level:40 Multi-combat Wilderness", BOSSING, MEDIUM),
     CHAOS_FAN(new Tile(2992, 3851), "Chaos Fanatic", "@red@Dangerous Teleport Level:42 Wilderness", BOSSING, MEDIUM),
     CRAZY_ARCH(new Tile(2976, 3694), "Crazy archaeologist", "@red@Dangerous Teleport Level:22 Wilderness", BOSSING, MEDIUM),
 
@@ -47,7 +47,7 @@ public enum NewTeleData {
 
     VENENATIS(new Tile(3319, 3745), "Venenatis", "@red@Dangerous Teleport Level:29 Multi-combat Wilderness", BOSSING, MEDIUM),
 
-    VETION(new Tile(3180, 3679), "Vet'ion", "@red@Dangerous Teleport Level:20 Wilderness", BOSSING, MEDIUM),
+    VETION(new Tile(1888, 11536), "Vet'ion", "@red@Dangerous Teleport Level:20 Wilderness", BOSSING, MEDIUM),
 
     SCORPIA(new Tile(3232, 3950), "Scorpia", "@red@Dangerous Teleport Level:54 Multi-combat Wilderness", BOSSING, MEDIUM),
 

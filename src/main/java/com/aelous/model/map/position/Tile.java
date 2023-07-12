@@ -302,6 +302,11 @@ public class Tile implements Cloneable {
         return Math.max(Math.abs(deltaX), Math.abs(deltaY));
     }
 
+    public Tile getDistanceTo(Tile other) {
+        final int deltaX = other.getX() - getX(), deltaY = other.getY() - getY();
+        return new Tile(Math.abs(deltaX), Math.abs(deltaY));
+    }
+
     public double getDistance(final Tile other) {
         final int xdiff = getX() - other.getX();
         final int ydiff = getY() - other.getY();

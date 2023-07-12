@@ -50,7 +50,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
             RangedData.RangedWeaponType weaponTypeSpecial = player.getCombat().getRangedWeapon().getType();
             int duration = 0;
             int stepMultiplier = 0;
-            int distance = attacker.tile().getChevDistance(target.tile());
+            int distance = attacker.tile().distance(target.tile());
             int endHeight = 0;
             int startHeight = 0;
             int startSpeed = 0;
@@ -74,7 +74,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                         startHeight = drawbackBow.startHeight;
                         endHeight = drawbackBow.endHeight;
                         stepMultiplier = drawbackBow.stepMultiplier;
-                        duration = startSpeed + 11 + (stepMultiplier * distance);
+                        duration = startSpeed + 5 + (stepMultiplier * distance);
                     }
                 }
                 case THROWN -> {
@@ -161,7 +161,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                 hit1.submit();
                 hit2.submit();
             } else {
-                Projectile projectile = new Projectile(attacker, target, graphic, startSpeed, duration, startHeight, endHeight, 16, target.getSize(), stepMultiplier);
+                Projectile projectile = new Projectile(attacker, target, graphic, startSpeed, duration, startHeight, endHeight, 16, 1, stepMultiplier);
 
                 final int hitDelay = attacker.executeProjectile(projectile);
 

@@ -14,6 +14,7 @@ import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.PlayerStatus;
+import com.aelous.utility.Utils;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.function.Consumer;
@@ -72,14 +73,10 @@ public class Hit {
      **/
     private int damage;
 
-    public int getDelay() {
-        return this.delay;
-    }
-
     /**
      * The delay of this hit
      **/
-    private int delay;
+    @Getter private int delay;
 
     /**
      * Check accuracy of the hit?
@@ -118,7 +115,7 @@ public class Hit {
         }
 
         if (pidIgnored) {
-            delay = 0;
+            delay = -1;
             return;
         }
 

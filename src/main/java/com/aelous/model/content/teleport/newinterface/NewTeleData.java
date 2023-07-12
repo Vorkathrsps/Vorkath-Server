@@ -47,7 +47,7 @@ public enum NewTeleData {
 
     VENENATIS(new Tile(3319, 3745), "Venenatis", "@red@Dangerous Teleport Level:29 Multi-combat Wilderness", BOSSING, MEDIUM),
 
-    VETION(new Tile(1888, 11536), "Vet'ion", "@red@Dangerous Teleport Level:20 Wilderness", BOSSING, MEDIUM),
+    VETION(new Tile(1888, 11536, 1), "Vet'ion", "@red@Dangerous Teleport Level:20 Wilderness", BOSSING, MEDIUM),
 
     SCORPIA(new Tile(3232, 3950), "Scorpia", "@red@Dangerous Teleport Level:54 Multi-combat Wilderness", BOSSING, MEDIUM),
 
@@ -81,9 +81,6 @@ public enum NewTeleData {
 
     ALCHEMICAL_HYDRA(new Tile(1354, 10258), "Alchemical Hydra", "", BOSSING, MEDIUM),
     NEX(new Tile(2903, 5203), "Nex", "", BOSSING, HARD),
-
-
-
     //Skilling Teleports
     GNOME_AGILITY(new Tile(2474, 3438),"Gnome Stronghold Agility Course", "", SKILLING, MEDIUM),
     BARB_AGILITY(new Tile(2552, 3563),"Barbarian Outpost Agility Course", "", SKILLING, MEDIUM),

@@ -77,7 +77,7 @@ public enum HydraAttacks {
 
             Chain.noCtx().repeatingTask(1, acidTask -> {
                 for (Tile pool : pools) {
-                    if (target.tile().equals(pool)) {
+                    if (pool.equals(target.tile())) {
                         target.hit(hydra, Utils.random(12), HitMark.POISON);
                     }
                 }

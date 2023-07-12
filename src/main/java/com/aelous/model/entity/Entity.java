@@ -48,6 +48,7 @@ import com.google.common.base.Stopwatch;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -496,19 +497,9 @@ public abstract class Entity {
             return 0;
         }
 
-        int entityX = source.getX();
-        int entityY = source.getY();
-
         int creatorSize = projectile.getCreatorSize() == -1 ? getSize() : projectile.getCreatorSize();
 
-        int offX = (entityY - target.getY()) * -1;
-        int offY = (entityX - target.getX()) * -1;
-
-        Tile translatedTile = this.getCombat().getTarget() != null && creatorSize > 3 ? this.tile().translateAndCenterNpcPosition(this, this.getCombat().getTarget()) : this.tile();
-
-        Tile distance = translatedTile.getAxisDistances(this, target);
-
-        Tile offset = new Tile(offX, offY, source.getZ());
+        Tile distance = source.getDistanceTo(target);
 
         if (distance.getX() <= 64 && distance.getY() <= 64) {
             for (Player player : World.getWorld().getPlayers()) {
@@ -518,12 +509,12 @@ public abstract class Entity {
 
                 if (source.isViewableFrom(player.getCentrePosition())) {
                     player.getPacketSender()
-                        .sendProjectile(source, offset, projectile.getAngle(), projectile.getSpeed(), projectile.getProjectileID(), projectile.getStartHeight(), projectile.getEndHeight(), projectile.getLockon(), projectile.getDelay(), projectile.getSlope(), creatorSize, projectile.getStartDistanceOffset());
+                        .sendProjectile(projectile.getStart(), projectile.getOffset(), projectile.getAngle(), projectile.getSpeed(), projectile.getProjectileID(), projectile.getStartHeight(), projectile.getEndHeight(), projectile.getLockon(), projectile.getDelay(), projectile.getSlope(), creatorSize, projectile.getStartDistanceOffset());
                 }
             }
         }
 
-        return projectile.getTime(source, target);
+        return projectile.getTime(projectile.getStart(), projectile.getEnd());
     }
 
     public Hit getHits(Entity attacker, Entity target) {
@@ -1032,6 +1023,7 @@ public abstract class Entity {
         }
     }
 
+    @Getter
     public long lockTime;
 
     public LockType getLock() {
@@ -1459,10 +1451,10 @@ public abstract class Entity {
         long startTime = System.nanoTime();
         task.run();
         long endTime = System.nanoTime();
-
         Duration elapsedDuration = Duration.ofNanos(endTime - startTime);
         consumer.accept(elapsedDuration);
     }
+
 
     private int graphicSwap;
 

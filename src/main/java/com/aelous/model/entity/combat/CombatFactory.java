@@ -1286,10 +1286,10 @@ public class CombatFactory {
         }
 
         if (attacker instanceof Player damageDealer) {
-                AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_I, hit.getDamage());
-                AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_II, hit.getDamage());
-                AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_III, hit.getDamage());
-                AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_IV, hit.getDamage());
+            AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_I, hit.getDamage());
+            AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_II, hit.getDamage());
+            AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_III, hit.getDamage());
+            AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_IV, hit.getDamage());
         }
 
         target.decrementHealth(hit);

@@ -252,7 +252,6 @@ public class Combat {
      */
     public void process() {
         hitQueue.process(mob);
-
         performNewAttack();
 
         if (mob.isPlayer() && target != null) {

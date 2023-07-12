@@ -4,6 +4,7 @@ import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
+import lombok.Getter;
 import lombok.val;
 
 /**
@@ -71,7 +72,7 @@ public final class Projectile {
      */
     public int radius;
 
-    private final int stepMultiplier;
+    @Getter public final int stepMultiplier;
 
     public Projectile(Tile start, Tile end, int lockon,
                       int projectileId, int speed, int delay, int startHeight, int endHeight,
@@ -129,6 +130,15 @@ public final class Projectile {
             victim.getProjectileLockonIndex(),
             projectileId, speed, delay,
             startHeight, endHeight, curve, creatorSize, 64, stepMultiplier);
+    }
+
+    public Projectile(Entity source, Entity victim, int projectileId,
+                      int delay, int speed, int startHeight, int endHeight, int curve, int creatorSize, int startDistanceOffset, int stepMultiplier) {
+        this(source.getCentrePosition(),
+            victim.getCentrePosition(),
+            victim.getProjectileLockonIndex(),
+            projectileId, speed, delay,
+            startHeight, endHeight, curve, creatorSize, startDistanceOffset, stepMultiplier);
     }
 
     public Projectile(Tile source, Tile victim, int projectileId,
@@ -355,11 +365,14 @@ public final class Projectile {
     }
 
     public int getHitDelay(int distance) {
-        return (int) Math.floor((getDuration(distance) / 30D) + 1);
+        return (int) Math.floor((getDuration(distance) / 30D));
     }
+    public static final float TICK = 600F;
 
-    public static final float CYCLES_PER_TICK = 30;
-    public int getTime(Tile from, Tile to) {
+    public static final float CLIENT_CYCLE = 20F;
+
+    public static final float CYCLES_PER_TICK = TICK / CLIENT_CYCLE;
+    public int getTime(final Tile from, final Tile to) {
         float duration = getProjectileDuration(from, to) / CYCLES_PER_TICK;
         if (duration - (int) duration > 0.5F) {
             duration++;
@@ -369,7 +382,7 @@ public final class Projectile {
 
     public int getProjectileDuration(final Tile from, final Tile to) {
         val flightDuration = Math.max(Math.abs(from.getX() - to.getX()), Math.abs(from.getY() - to.getY()));
-        return this.delay + this.speed + flightDuration;
+        return delay + speed + flightDuration;
     }
 
     public Tile getTarget() {

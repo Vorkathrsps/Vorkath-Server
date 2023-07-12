@@ -1,17 +1,19 @@
 package com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness;
 
-import com.aelous.model.content.mechanics.MultiwayCombat;
 import com.aelous.model.World;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
+import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.Projectile;
+import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,16 +27,50 @@ public class Venenatis extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         // Determine if we do a special hit, or a regular hit.
-        constructWeb(entity, target);
+        //constructWeb(entity, target);
+        magicAttack(entity, target);
+        //rangeAttack(entity, target);
         return true;
     }
 
-    private void magicAttack(Entity npc, Entity target) {
-        // Throw a magic projectile
-        var tileDist = npc.tile().transform(3, 3, 0).distance(target.tile());
-        new Projectile(npc, target,165, 20,12 * tileDist,30, 30, 0, true).sendProjectile();
-        var delay = Math.max(1, (20 + (tileDist * 12)) / 30);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+    private void spawnSpiderlings(@Nonnull Entity entity) {
+
+    }
+
+    public void magicAttack(@Nonnull final Entity entity, @Nonnull Entity target) {
+
+        entity.animate(9990);
+
+        var tileDist = entity.tile().distance(target.tile());
+
+        var duration = (tileDist * 2) + 25;
+
+        Projectile p = new Projectile(entity, target, 2358, 25, duration, 37, 22, 14, 4, 48, 2);
+        final int delay = entity.executeProjectile(p);
+
+        target.graphic(2359, GraphicHeight.MIDDLE, p.getSpeed());
+
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        hit.submit();
+
+        System.out.println("hit delay: " + hit.getDelay());
+    }
+
+    private void rangeAttack(@Nonnull final Entity entity, @Nonnull Entity target) {
+        entity.animate(9989);
+
+        int tileDist = entity.tile().distance(target.tile());
+
+        var duration = (tileDist * 2) + 20 + 12;
+
+        Projectile p = new Projectile(entity, target, 2356, 25, duration, 37, 22, 14, 4 * 64, 2);
+
+        final int delay = entity.executeProjectile(p);
+
+        target.graphic(2357, GraphicHeight.LOW, p.getSpeed());
+
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+
     }
 
     private void hurlWeb(NPC npc, Entity target) {

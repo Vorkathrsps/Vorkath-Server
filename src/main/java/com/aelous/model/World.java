@@ -280,89 +280,77 @@ public class World {
         }
     });
 
-    Runnable npcProcess = () -> npcRenderOrder.forEach(n -> {
-        NpcPerformance.resetWorldTime();
+    Runnable npcProcess = () -> npcRenderOrder.stream().filter(index -> checkIndex(index, NodeType.NPC)).forEach(n -> {
         try {
-            if (checkIndex(n, NodeType.NPC)) {
-                NPC npc = npcs.get(n);
-                if (npc != null && !npc.hidden()) {
-                    npc.processed = true;
-                    npc.sequence();
-                    npc.inViewport(false);
-                }
+            NpcPerformance.resetWorldTime();
+            NPC npc = npcs.get(n);
+            if (npc != null && !npc.hidden()) {
+                npc.sequence();
+                npc.inViewport(false);
+                npc.processed = true;
             }
         } catch (Throwable t) {
             t.printStackTrace();
         }
     });
 
-    Runnable packets = () -> playerRenderOrder.forEach(p -> {
-        if (checkIndex(p, NodeType.PLAYER)) {
-            try {
-                Player player = players.get(p);
-                player.getSession().read();
-                player.getSession().handleQueuedPackets();
-                player.syncContainers();
-            } catch (Throwable t) {
-                t.printStackTrace();
-            }
+    Runnable packets = () -> playerRenderOrder.stream().filter(index -> checkIndex(index, NodeType.PLAYER)).forEach(p -> {
+        try {
+            Player player = players.get(p);
+            player.getSession().read();
+            player.getSession().handleQueuedPackets();
+            player.syncContainers();
+        } catch (Throwable t) {
+            t.printStackTrace();
         }
     });
 
-    Runnable playerProcess = () -> playerRenderOrder.forEach(p -> {
-        if (checkIndex(p, NodeType.PLAYER)) {
-            try {
-                Player player = players.get(p);
-                player.processed = true;
-                player.sequence();
-                player.syncContainers();
-            } catch (Throwable t) {
-                t.printStackTrace();
-            }
+    Runnable playerProcess = () -> playerRenderOrder.stream().filter(index -> checkIndex(index, NodeType.PLAYER)).forEach(p -> {
+        try {
+            Player player = players.get(p);
+            player.sequence();
+            player.syncContainers();
+            player.processed = true;
+        } catch (Throwable t) {
+            t.printStackTrace();
         }
     });
 
-    Runnable gpi = () -> playerRenderOrder.forEach(p -> {
-        if (checkIndex(p, NodeType.PLAYER)) {
-            try {
-                Player player = players.get(p);
-                PlayerUpdating.update(player);
-                NPCUpdating.update(player);
-            } catch (Throwable t) {
-                t.printStackTrace();
-            }
+    Runnable gpi = () -> playerRenderOrder.stream().filter(index -> checkIndex(index, NodeType.PLAYER)).forEach(p -> {
+        try {
+            Player player = players.get(p);
+            PlayerUpdating.update(player);
+            NPCUpdating.update(player);
+        } catch (Throwable t) {
+            t.printStackTrace();
         }
     });
 
     Runnable flush = () -> {
-        playerRenderOrder.forEach(p -> {
-            if (checkIndex(p, NodeType.PLAYER)) {
-                Player player = players.get(p);
-                try {
-                    player.resetUpdating();
-                    player.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
-                    player.setCachedUpdateBlock(null);
-                    player.getSession().flush();
-                    player.perf.pulse();
-                    player.processed = false;
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                    World.getWorld().getPlayers().remove(player);
-                }
+        npcRenderOrder.stream().filter(index -> checkIndex(index, NodeType.NPC)).forEach(n -> {
+            NPC npc = npcs.get(n);
+            try {
+                npc.resetUpdating();
+                npc.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
+                npc.performance.reset();
+                npc.processed = false;
+            } catch (Throwable e) {
+                e.printStackTrace();
+                World.getWorld().getNpcs().remove(npc);
             }
         });
-        npcRenderOrder.forEach(n -> {
-            if (checkIndex(n, NodeType.NPC)) {
-                NPC npc = npcs.get(n);
-                try {
-                    npc.resetUpdating();
-                    npc.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
-                    npc.performance.reset();
-                    npc.processed = false;
-                } catch (Throwable e) {
-                    e.printStackTrace();
-                    World.getWorld().getNpcs().remove(npc);
-                }
+        playerRenderOrder.stream().filter(index -> checkIndex(index, NodeType.PLAYER)).forEach(p -> {
+            Player player = players.get(p);
+            try {
+                player.resetUpdating();
+                player.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
+                player.setCachedUpdateBlock(null);
+                player.getSession().flush();
+                player.perf.pulse();
+                player.processed = false;
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+                World.getWorld().getPlayers().remove(player);
             }
         });
     };
@@ -415,7 +403,6 @@ public class World {
         GameEngine.profile.world = System.currentTimeMillis() - startTime;
         elapsedTicks++;
     }
-
 
 
     /**

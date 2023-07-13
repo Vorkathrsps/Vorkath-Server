@@ -44,6 +44,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -108,11 +109,6 @@ public class World {
      * The collection of active {@link NPC}s. Be careful when adding NPCs directly to the list without using the queue, try not to bypass the queue.
      */
     private final EntityList<NPC> npcs = new EntityList<>(GameConstants.NPCS_LIMIT);
-
-    /**
-     * The manager for game synchronization.
-     */
-    private static final GameSyncExecutor executor = new GameSyncExecutor();
 
     /**
      * The sections of the World sequence, used for logging successful completion of the World sequence.
@@ -265,10 +261,8 @@ public class World {
     Runnable skull = () -> {
         try {
             for (Player player : players) {
-                if (player != null) {
-                    if (Skulling.skulled(player)) {
-                        Skulling.decrementSkullCycle(player);
-                    }
+                if (player != null && Skulling.skulled(player)) {
+                    Skulling.decrementSkullCycle(player);
                 }
             }
         } catch (Throwable t) {
@@ -278,117 +272,99 @@ public class World {
 
     Runnable tasks = TaskManager::sequence;
 
-    Runnable objs = () -> {
+    Runnable objs = () -> ownedObjects.values().forEach(o -> {
         try {
-            for (var object : ownedObjects.values()) {
-                try {
-                    object.tick();
-                } catch (Throwable t) {
-                    t.printStackTrace();
-                }
-            }
+            o.tick();
         } catch (Throwable t) {
             t.printStackTrace();
         }
-    };
+    });
 
-    Runnable npcProcess = () -> {
+    Runnable npcProcess = () -> npcRenderOrder.forEach(n -> {
+        NpcPerformance.resetWorldTime();
         try {
-            NpcPerformance.resetWorldTime();
-            for (int index : npcRenderOrder) {
-                if (checkIndex(index, NodeType.NPC)) {
-                    NPC npc = npcs.get(index);
-                    if (npc != null && !npc.hidden()) {
-                        npc.processed = true;
-                        npc.sequence();
-                        npc.inViewport(false);
-                    }
+            if (checkIndex(n, NodeType.NPC)) {
+                NPC npc = npcs.get(n);
+                if (npc != null && !npc.hidden()) {
+                    npc.processed = true;
+                    npc.sequence();
+                    npc.inViewport(false);
                 }
             }
         } catch (Throwable t) {
             t.printStackTrace();
         }
-    };
+    });
 
-    Runnable packets = () -> {
-        try {
-            for (int index : playerRenderOrder) {
-                if (checkIndex(index, NodeType.PLAYER)) {
-                    Player player = players.get(index);
-                    player.getSession().read();
-                    player.getSession().handleQueuedPackets();
-                    player.syncContainers();
-                }
+    Runnable packets = () -> playerRenderOrder.forEach(p -> {
+        if (checkIndex(p, NodeType.PLAYER)) {
+            try {
+                Player player = players.get(p);
+                player.getSession().read();
+                player.getSession().handleQueuedPackets();
+                player.syncContainers();
+            } catch (Throwable t) {
+                t.printStackTrace();
             }
-        } catch (Throwable t) {
-            t.printStackTrace();
         }
-    };
+    });
 
-    Runnable playerProcess = () -> {
-        try {
-            for (int index : playerRenderOrder) {
-                if (checkIndex(index, NodeType.PLAYER)) {
-                    Player player = players.get(index);
-                    player.processed = true;
-                    player.sequence();
-                    player.syncContainers();
-                }
+    Runnable playerProcess = () -> playerRenderOrder.forEach(p -> {
+        if (checkIndex(p, NodeType.PLAYER)) {
+            try {
+                Player player = players.get(p);
+                player.processed = true;
+                player.sequence();
+                player.syncContainers();
+            } catch (Throwable t) {
+                t.printStackTrace();
             }
-        } catch (Throwable t) {
-            t.printStackTrace();
         }
-    };
+    });
 
-    Runnable gpi = () -> {
-        try {
-            for (int index : playerRenderOrder) {
-                if (checkIndex(index, NodeType.PLAYER)) {
-                    Player player = players.get(index);
-                    PlayerUpdating.update(player);
-                    NPCUpdating.update(player);
-                }
+    Runnable gpi = () -> playerRenderOrder.forEach(p -> {
+        if (checkIndex(p, NodeType.PLAYER)) {
+            try {
+                Player player = players.get(p);
+                PlayerUpdating.update(player);
+                NPCUpdating.update(player);
+            } catch (Throwable t) {
+                t.printStackTrace();
             }
-        } catch (Throwable t) {
-            t.printStackTrace();
         }
-    };
+    });
 
     Runnable flush = () -> {
-        try {
-            for (int index : playerRenderOrder) {
-                if (checkIndex(index, NodeType.PLAYER)) {
-                    Player player = players.get(index);
-                    try {
-                        player.resetUpdating();
-                        player.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
-                        player.setCachedUpdateBlock(null);
-                        player.getSession().flush();
-                        player.perf.pulse();
-                        player.processed = false;
-                    } catch (Throwable throwable) {
-                        throwable.printStackTrace();
-                        World.getWorld().getPlayers().remove(player);
-                    }
+        playerRenderOrder.forEach(p -> {
+            if (checkIndex(p, NodeType.PLAYER)) {
+                Player player = players.get(p);
+                try {
+                    player.resetUpdating();
+                    player.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
+                    player.setCachedUpdateBlock(null);
+                    player.getSession().flush();
+                    player.perf.pulse();
+                    player.processed = false;
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                    World.getWorld().getPlayers().remove(player);
                 }
             }
-            for (var index : npcRenderOrder) {
-                if (checkIndex(index, NodeType.NPC)) {
-                    NPC npc = npcs.get(index);
-                    try {
-                        npc.resetUpdating();
-                        npc.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
-                        npc.performance.reset();
-                        npc.processed = false;
-                    } catch (Throwable e) {
-                        e.printStackTrace();
-                        World.getWorld().getNpcs().remove(npc);
-                    }
+        });
+        npcRenderOrder.forEach(n -> {
+            if (checkIndex(n, NodeType.NPC)) {
+                NPC npc = npcs.get(n);
+                try {
+                    npc.resetUpdating();
+                    npc.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
+                    npc.performance.reset();
+                    npc.processed = false;
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                    World.getWorld().getNpcs().remove(npc);
                 }
             }
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
+        });
     };
 
     Runnable games = () -> {
@@ -426,37 +402,19 @@ public class World {
             players.shuffleRenderOrder();
         }
 
-        Entity.time(t -> benchmark.skulls += t.toNanos(), skull);
-
-        Entity.time(t -> benchmark.tasks += t.toNanos(), tasks);
-
-        Entity.time(t -> benchmark.objects += t.toNanos(), objs);
-
-        // Process NPCs first
-        Entity.time(t -> {
-            benchmark.allNpcsProcess += t.toNanos();
-            GameEngine.profile.wp.npc_process = t.toMillis();
-        }, npcProcess);
-
-        // Process players after NPCs
-        Entity.time(t -> GameEngine.profile.wp.player_process += t.toMillis(), () -> {
-            Entity.time(t -> benchmark.packets += t.toNanos(), packets);
-            Entity.time(t -> benchmark.players += t.toNanos(), playerProcess);
-        });
-
-        Entity.time(t -> {
-            benchmark.gpi += t.toNanos();
-            GameEngine.profile.wp.player_npc_updating = t.toMillis();
-        }, gpi);
-
-        Entity.time(t -> benchmark.flush += t.toNanos(), flush);
-
-        Entity.time(t -> benchmark.games += t.toNanos(), games);
+        skull.run();
+        tasks.run();
+        objs.run();
+        npcProcess.run();
+        packets.run();
+        playerProcess.run();
+        gpi.run();
+        flush.run();
+        games.run();
 
         GameEngine.profile.world = System.currentTimeMillis() - startTime;
         elapsedTicks++;
     }
-
 
 
 

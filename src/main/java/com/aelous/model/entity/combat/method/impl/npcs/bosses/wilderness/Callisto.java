@@ -74,8 +74,6 @@ public class Callisto extends CommonCombatMethod {
         return true;
     }
 
-    List<Tile> lastThreeTiles = new ArrayList<>();
-
     @Override
     public void process(Entity entity, Entity target) {
         var bear = NpcIdentifiers.CALLISTO;

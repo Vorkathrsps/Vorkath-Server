@@ -3200,7 +3200,7 @@ public class Player extends Entity {
 
         //Section 8 Process Bounty Hunter
         section[9] = true;
-        BountyHunter.sequence(this);
+        //BountyHunter.sequence(this);
 
         //Section 10 Updates inventory if an update has been requested
         section[10] = true;

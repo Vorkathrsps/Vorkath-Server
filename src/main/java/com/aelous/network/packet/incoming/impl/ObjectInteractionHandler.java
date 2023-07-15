@@ -108,16 +108,18 @@ public class ObjectInteractionHandler implements PacketListener {
         player.stopActions(false);
         player.putAttrib(AttributeKey.INTERACTION_OBJECT, object);
         player.putAttrib(AttributeKey.INTERACTION_OPTION, option);
-        int sizeX = object.definition().sizeX;
-        int sizeY = object.definition().sizeY;
-        boolean inversed = (object.getRotation() & 0x1) != 0;
-        int faceCoordX = x * 2 + (inversed ? sizeY : sizeX);
-        int faceCoordY = y * 2 + (inversed ? sizeX : sizeY);
-        Tile position = new Tile(faceCoordX, faceCoordY);
-        player.getCombat().reset();
-        player.setPositionToFace(position);
         BooleanSupplier next_to_object = () -> player.tile().nextTo(new Tile(object.getX(), object.getY(), object.getZ()));
-        player.getRouteFinder().routeObject(object, () -> player.waitUntil(next_to_object, () -> handleAction(player, object, option)));
+        player.getRouteFinder().routeObject(object, () -> player.waitUntil(next_to_object, () -> {
+            int sizeX = object.definition().sizeX;
+            int sizeY = object.definition().sizeY;
+            boolean inversed = (object.getRotation() & 0x1) != 0;
+            int faceCoordX = x * 2 + (inversed ? sizeY : sizeX);
+            int faceCoordY = y * 2 + (inversed ? sizeX : sizeY);
+            Tile position = new Tile(faceCoordX, faceCoordY);
+            player.getCombat().reset();
+            player.setPositionToFace(position);
+            handleAction(player, object, option);
+        }));
     }
 
     private void handleAction(Player player, GameObject object, int option) {

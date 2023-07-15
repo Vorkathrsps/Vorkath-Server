@@ -190,8 +190,8 @@ public class Vetion extends CommonCombatMethod {
             usedTiles.add(finalDest);
 
             Player player = (Player) target;
-            Chain.noCtx()
-                .runFn(1, () -> {
+
+            Chain.noCtx().runFn(1, () -> {
                     vetion.forceChat(Utils.randomElement(VETION_QUOTES));
                     vetion.lockMoveDamageOk();
                     vetion.getMovementQueue().clear();

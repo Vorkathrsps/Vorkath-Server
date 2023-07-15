@@ -12,11 +12,11 @@ import com.aelous.model.entity.player.MagicSpellbook;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.items.Item;
-import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.Utils;
 import com.aelous.utility.Varbit;
 import com.aelous.utility.timers.TimerKey;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -1502,6 +1502,17 @@ CombatSpells {
         @Override
         public MagicSpellbook spellbook() {
             return MagicSpellbook.NORMAL;
+        }
+
+        @Override
+        public boolean canCast(@Nonnull Player player, @Nonnull Entity target, boolean delete) {
+            if (target.getTimers().has(TimerKey.FROZEN) || target.getTimers().has(TimerKey.FREEZE_IMMUNITY)) {
+                player.message("This entity is already being affected by this spell.");
+                player.getCombat().reset();
+                player.getCombat().setCastSpell(null);
+                return false;
+            }
+            return super.canCast(player, target, delete);
         }
     }),
     STUN(new CombatEffectSpell() {

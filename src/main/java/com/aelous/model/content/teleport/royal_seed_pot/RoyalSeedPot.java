@@ -26,7 +26,7 @@ public class RoyalSeedPot extends PacketInteraction {
                     player.looks().transmog(-1);
                     player.animate(-1);
                     player.getTimers().cancel(TimerKey.FROZEN);
-                    player.getTimers().cancel(TimerKey.REFREEZE);
+                    player.getTimers().cancel(TimerKey.FREEZE_IMMUNITY);
                     player.unlock();
                 });
                 return true;

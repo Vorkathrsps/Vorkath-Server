@@ -131,7 +131,7 @@ public enum TimerKey {
     /**
      * Key used to tell if they've had enough time in between freezes. Aka immunity.
      */
-    REFREEZE,
+    FREEZE_IMMUNITY,
 
     /**
      * Key used to indicate that the entity is currently stunned.

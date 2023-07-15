@@ -9,7 +9,6 @@ import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.hit.HitMark;
-import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Projectile;
@@ -30,8 +29,6 @@ import com.aelous.utility.timers.TimerKey;
 
 import java.security.SecureRandom;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.ZOMBIFIED_SPAWN_8063;
 import static com.aelous.model.entity.attributes.AttributeKey.*;
@@ -449,7 +446,7 @@ public class Vorkath extends CommonCombatMethod {
         }).onStop(() -> {
             resistance = null;
             target.getTimers().cancel(TimerKey.FROZEN);
-            target.getTimers().cancel(TimerKey.REFREEZE);
+            target.getTimers().cancel(TimerKey.FREEZE_IMMUNITY);
             entity.putAttrib(AttributeKey.VORKATH_CB_COOLDOWN, 0);
             entity.unlock();
             entity.getCombat().attack(target);

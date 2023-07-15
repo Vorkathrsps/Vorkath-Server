@@ -53,13 +53,16 @@ public class TztokJadCombatScript extends CommonCombatMethod {
             return;
         }
         entity.animate(2656);
+        entity.graphic(447, GraphicHeight.HIGH_10, 30);
         var tileDist = entity.tile().distance(target.tile());
-        int duration = (41 + 11 + (8 * tileDist));
+        int duration = (80 + 11 + (8 * tileDist));
+        int duration2 = (81 + 12 + (9 * tileDist));
+        int duration3 = (82 + 13 + (10 * tileDist));
 
         final Projectile[] projectileOrder = {
-            new Projectile(entity, target, 448, 41, duration, 128, 31, 12, 4, 8),
-            new Projectile(entity, target, 449, 45, duration + 15, 128, 31, 12, 4, 8),
-            new Projectile(entity, target, 450, 49, duration + 30, 128, 31, 12, 4, 8),
+            new Projectile(entity, target, 448, 80, duration, 128, 31, 12, 4, 8),
+            new Projectile(entity, target, 449, 81, duration2, 128, 31, 12, 4, 9),
+            new Projectile(entity, target, 450, 82, duration3, 128, 31, 12, 4, 10),
         };
 
         int delay = entity.executeProjectile(projectileOrder[0]);
@@ -69,7 +72,7 @@ public class TztokJadCombatScript extends CommonCombatMethod {
 
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
         hit.submit();
-        target.graphic(157, GraphicHeight.MIDDLE, projectileOrder[0].getSpeed());
+        target.graphic(157, GraphicHeight.MIDDLE, projectileOrder[2].getSpeed());
     }
 
     private void rangeAttack(@Nonnull Entity entity, @Nonnull Entity target) {

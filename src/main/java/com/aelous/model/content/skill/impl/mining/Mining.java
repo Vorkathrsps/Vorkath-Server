@@ -98,6 +98,7 @@ public class Mining extends PacketInteraction {
         player.animate(pick.get().anim);
 
         var delay = pick.get().getDelay();
+
         player.repeatingTask(delay, mine -> {
             if (!ObjectManager.objWithTypeExists(10, obj.tile()) && !ObjectManager.objWithTypeExists(11, obj.tile()) && !ObjectManager.objWithTypeExists(0, obj.tile())) {
                 player.animate(-1);
@@ -164,6 +165,7 @@ public class Mining extends PacketInteraction {
                 mine.stop();
             }
         });
+
     }
 
     private static void addBar(Player player, Ore rock) {

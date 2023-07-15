@@ -213,7 +213,7 @@ public class Death {
         player.getTimers().cancel(TimerKey.STUNNED); //Remove stunned timer key
         player.getTimers().cancel(TimerKey.TELEBLOCK); //Remove teleblock timer key
         player.getTimers().cancel(TimerKey.TELEBLOCK_IMMUNITY); //Remove the teleblock immunity timer key
-        player.getTimers().cancel(TimerKey.REFREEZE);
+        player.getTimers().cancel(TimerKey.FREEZE_IMMUNITY);
         player.clearAttrib(VETION_ENTRY_FEE);
         if (!(WildernessArea.wildernessLevel(player.tile()) <= 7) && !player.getTimers().has(TimerKey.RECHARGE_SPECIAL_ATTACK)) {
             player.restoreSpecialAttack(100); //Set energy to 100%

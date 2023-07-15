@@ -256,8 +256,8 @@
 	"ids": [
 	  3127
 	],
-	"maxhit": 49,
-	"attackspeed": 6,
+	"maxhit": 97,
+	"attackspeed": 8,
 	"deathlen": 3,
 	"unstacked": true,
 	"slayerxp": 1008,
@@ -265,7 +265,7 @@
 	"stats": {
 	  "attack": 640,
 	  "strength": 960,
-	  "magic": 240,
+	  "magic": 480,
 	  "ranged": 960,
 	  "defence": 480,
 	  "hitpoints": 250

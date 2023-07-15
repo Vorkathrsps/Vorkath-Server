@@ -1518,7 +1518,7 @@ public class CombatFactory {
         }
 
         entity.getTimers().cancel(TimerKey.FROZEN);
-        entity.getTimers().cancel(TimerKey.REFREEZE);
+        entity.getTimers().cancel(TimerKey.FREEZE_IMMUNITY);
 
         if (entity.isPlayer()) {
             Player player = entity.getAsPlayer();

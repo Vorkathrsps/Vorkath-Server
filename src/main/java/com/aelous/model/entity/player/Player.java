@@ -1995,7 +1995,7 @@ public class Player extends Entity {
         putAttrib(AttributeKey.TOTAL_PAYMENT_AMOUNT, 0D);
         //Cancel all timers
         getTimers().cancel(TimerKey.FROZEN); //Remove frozen timer key
-        getTimers().cancel(TimerKey.REFREEZE);
+        getTimers().cancel(TimerKey.FREEZE_IMMUNITY);
         getTimers().cancel(TimerKey.STUNNED); //Remove stunned timer key
         getTimers().cancel(TimerKey.TELEBLOCK); //Remove teleblock timer key
         getTimers().cancel(TimerKey.TELEBLOCK_IMMUNITY);//Remove the teleblock immunity timer key
@@ -2020,7 +2020,7 @@ public class Player extends Entity {
         clearAttrib(VENOMED_BY);
         getTimers().cancel(TimerKey.CHARGE_SPELL); //Removes the spell charge timer from the player
         getTimers().cancel(TimerKey.FROZEN); //Remove frozen timer key
-        getTimers().cancel(TimerKey.REFREEZE);
+        getTimers().cancel(TimerKey.FREEZE_IMMUNITY);
         getTimers().cancel(TimerKey.STUNNED); //Remove stunned timer key
         getTimers().cancel(TimerKey.TELEBLOCK); //Remove teleblock timer key
         getTimers().cancel(TimerKey.TELEBLOCK_IMMUNITY);//Remove the teleblock immunity timer key

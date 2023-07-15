@@ -86,7 +86,7 @@ public class SlayerRing {
         if (item == null) return;
 
         player.getTimers().cancel(TimerKey.FROZEN);
-        player.getTimers().cancel(TimerKey.REFREEZE);
+        player.getTimers().cancel(TimerKey.FREEZE_IMMUNITY);
         player.getPacketSender().sendEffectTimer(0, EffectTimer.FREEZE);
     }
 

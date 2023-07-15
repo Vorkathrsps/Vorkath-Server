@@ -14,6 +14,8 @@ public enum GraphicHeight {
     HIGH_5,
     HIGH_6,
     HIGH7,
-    HIGH8
+    HIGH8,
+    HIGH_9,
+    HIGH_10
     ;
 }

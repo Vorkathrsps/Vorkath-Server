@@ -39,6 +39,7 @@ public class VolatileNMS extends CommonCombatMethod {
         }
         //Reset spell
         entity.getCombat().setCastSpell(null);
+        entity.getCombat().setTarget(null);
 
         //Drain spec after the attack
         CombatSpecial.drain(entity, CombatSpecial.VOLATILE_NIGHTMARE_STAFF.getDrainAmount());

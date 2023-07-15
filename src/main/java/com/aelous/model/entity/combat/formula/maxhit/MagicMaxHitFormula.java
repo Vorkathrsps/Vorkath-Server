@@ -29,17 +29,17 @@ public class MagicMaxHitFormula {
 
     public int calculateBaseMaxHitForPoweredStaves(@NonNull final Player player, int baseMaxHit) {
         int magicLevel = player.skills().level(Skills.MAGIC);
-        if (player.getEquipment().contains(ItemIdentifiers.THAMMARONS_SCEPTRE)) {
+        if (player.getEquipment().hasAt(EquipSlot.WEAPON, ItemIdentifiers.THAMMARONS_SCEPTRE)) {
             baseMaxHit += Math.min(baseMaxHit, (magicLevel - 60) / 3);
-        } else if (player.getEquipment().contains(ItemIdentifiers.ACCURSED_SCEPTRE_A)) {
+        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, ItemIdentifiers.ACCURSED_SCEPTRE_A)) {
             baseMaxHit += Math.min(baseMaxHit, (magicLevel - 69) / 3);
-        } else if (player.getEquipment().contains(ItemIdentifiers.TRIDENT_OF_THE_SEAS)) {
+        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, ItemIdentifiers.TRIDENT_OF_THE_SEAS)) {
             baseMaxHit += Math.min(baseMaxHit, (magicLevel - 75) / 3);
-        } else if (player.getEquipment().contains(ItemIdentifiers.TRIDENT_OF_THE_SWAMP)) {
+        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, ItemIdentifiers.TRIDENT_OF_THE_SWAMP)) {
             baseMaxHit += Math.min(baseMaxHit, (magicLevel - 78) / 3);
-        } else if (player.getEquipment().contains(ItemIdentifiers.SANGUINESTI_STAFF)) {
+        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, ItemIdentifiers.SANGUINESTI_STAFF)) {
             baseMaxHit += Math.min(baseMaxHit, (magicLevel - 81) / 3);
-        } else if (player.getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
+        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, ItemIdentifiers.TUMEKENS_SHADOW)) {
             baseMaxHit += Math.min(baseMaxHit, (magicLevel - 84) / 3);
         }
         return baseMaxHit;
@@ -49,12 +49,12 @@ public class MagicMaxHitFormula {
         EquipmentInfo.Bonuses bonuses = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo());
         double mageStrength = bonuses.getMagestr();
         if (player.getCombat().getPoweredStaffSpell() != null && player.getCombat().getCastSpell() == null) {
-            if (player.getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
+            if (player.getEquipment().hasAt(EquipSlot.WEAPON, ItemIdentifiers.TUMEKENS_SHADOW)) {
                 mageStrength += Math.floor((double) (player.getSkills().level(Skills.MAGIC) - 1) / 3);
             }
         }
 
-        if (player.getEquipment().contains(ItemIdentifiers.SMOKE_BATTLESTAFF) && player.getSpellbook().equals(MagicSpellbook.NORMAL)) {
+        if (player.getEquipment().hasAt(EquipSlot.WEAPON, ItemIdentifiers.SMOKE_BATTLESTAFF) && player.getSpellbook().equals(MagicSpellbook.NORMAL)) {
             mageStrength += 10.0;
         }
 

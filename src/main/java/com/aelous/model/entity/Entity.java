@@ -46,16 +46,15 @@ import com.aelous.utility.timers.TimerRepository;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Stopwatch;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -1609,17 +1608,22 @@ public abstract class Entity {
         return timers.has(TimerKey.STUNNED);
     }
 
-    public void freeze(int time, Entity attacker) {
-        if (timers.has(TimerKey.REFREEZE)) {
+    public void freeze(int time, @NonNull Entity attacker) {
+        if (timers.has(TimerKey.FREEZE_IMMUNITY)) {
             return;
         }
+
         if (timers.has(TimerKey.FROZEN)) {
             return;
         }
 
         putAttrib(AttributeKey.FROZEN_BY, attacker);
         timers.extendOrRegister(TimerKey.FROZEN, time);
-        timers.extendOrRegister(TimerKey.REFREEZE, time + 3);
+        timers.extendOrRegister(TimerKey.FREEZE_IMMUNITY, time + 3);
+
+        if (attacker instanceof Player player && player.getCombat().getCastSpell().spellId() == 1592) {
+            attacker.message("");
+        }
 
         if (isPlayer()) {
             ((Player) this).getPacketSender().sendEffectTimer((int) Math.round(time * 0.6), EffectTimer.FREEZE).sendMessage("You have been frozen!");

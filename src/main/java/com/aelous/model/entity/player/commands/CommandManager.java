@@ -6,8 +6,8 @@ import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 import com.aelous.model.content.areas.theatre.ViturRoom;
 import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
-import com.aelous.model.content.raids.theatre.nylocas.VasiliasProcess;
-import com.aelous.model.content.raids.theatre.nylocas.pillars.PillarSpawn;
+import com.aelous.model.content.raids.theatre.Theatre;
+import com.aelous.model.content.raids.theatre.controller.TheatreController;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.aelous.model.content.tournaments.Tournament;
 import com.aelous.model.content.tournaments.TournamentManager;
@@ -672,24 +672,9 @@ public class CommandManager {
             ((GreatOlm) olm.getCombatMethod()).flameWall(olm);
         });
         dev("c", (p, c, s) -> {
-            PillarSpawn pillarSpawn1 = new PillarSpawn(8358, new Tile(3290, 4252, p.getZ()), new GameObject(32862, new Tile(3289, 4253, p.getZ()), 10, 1));
-            PillarSpawn pillarSpawn2 = new PillarSpawn(8358, new Tile(3299, 4252, p.getZ()), new GameObject(32862, new Tile(3300, 4253, p.getZ()), 10, 2));
-            PillarSpawn pillarSpawn3 = new PillarSpawn(8358, new Tile(3299, 4243, p.getZ()), new GameObject(32862, new Tile(3300, 4242, p.getZ()), 10, 3));
-            PillarSpawn pillarSpawn4 = new PillarSpawn(8358, new Tile(3290, 4243, p.getZ()), new GameObject(32862, new Tile(3289, 4242, p.getZ()), 10, 0));
-
-            pillarSpawn1.spawnPillarObject();
-            pillarSpawn1.spawnPillarNpc();
-
-            pillarSpawn2.spawnPillarObject();
-            pillarSpawn2.spawnPillarNpc();
-
-            pillarSpawn3.spawnPillarObject();
-            pillarSpawn3.spawnPillarNpc();
-
-            pillarSpawn4.spawnPillarObject();
-            pillarSpawn4.spawnPillarNpc();
-            VasiliasProcess vasiliasProcess = new VasiliasProcess();
-            vasiliasProcess.startSpiderSpawnTask();
+            Theatre theatre = new Theatre(p);
+            theatre.constructRoom();
+            theatre.start();
         });
 
         dev("curseoff", (p, c, s) ->

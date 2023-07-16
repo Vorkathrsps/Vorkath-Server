@@ -1,12 +1,15 @@
 package com.aelous.model.content.raids.theatre.nylocas.combat;
 
-import com.aelous.model.content.raids.theatre.nylocas.pillars.PillarSpawn;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.utility.Utils;
 
+/**
+ * @Author: Origin
+ * @Date: 7/16/2023
+ */
 public class VasiliasCombat extends CommonCombatMethod {
 
     @Override

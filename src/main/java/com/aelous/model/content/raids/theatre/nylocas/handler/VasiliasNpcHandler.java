@@ -1,51 +1,47 @@
-package com.aelous.model.content.raids.theatre.nylocas;
+package com.aelous.model.content.raids.theatre.nylocas.handler;
 
 import com.aelous.model.World;
-import com.aelous.model.content.raids.theatre.nylocas.pillars.PillarSpawn;
+import com.aelous.model.content.raids.theatre.nylocas.VasiliasListener;
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
-import lombok.Getter;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class VasiliasLogic extends NPC {
+/**
+ * @Author: Origin
+ * @Date: 7/16/2023
+ */
+public class VasiliasNpcHandler extends NPC {
 
-    @Getter
-    public List<NPC> spawns = new ArrayList<>();
-    List<NPC> pillars = PillarSpawn.getNpcs();
-    List<NPC> availablePillars = pillars.stream().filter(p -> !p.dead() && p.isRegistered()).toList();
-    int lifeLength = 30;
+    VasiliasListener vasiliasListener;
+    AtomicInteger vasiliasLifeLength = new AtomicInteger(50);
 
-    public VasiliasLogic(int id, Tile tile) {
+    public VasiliasNpcHandler(int id, Tile tile, VasiliasListener vasiliasListener) {
         super(id, tile);
-        spawns.add(this);
+        this.vasiliasListener = vasiliasListener;
+        vasiliasListener.vasiliasNpc.add(this);
         putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
+        System.out.println("instantiated vasilias npcs successfully");
     }
 
     @Override
     public void postSequence() {
         super.postSequence();
 
-        if (pillars.isEmpty()) {
-            for (var s : spawns) {
-                s.die();
-                spawns.clear();
-            }
-        }
-
         if (dead() || locked() || frozen()) {
             return;
         }
 
-        lifeLength--;
+        vasiliasLifeLength.getAndDecrement();
 
-        if (lifeLength == 0) {
+        if (vasiliasLifeLength.get() == 0) {
             this.die();
-            lifeLength = 120;
+            vasiliasLifeLength.getAndSet(50);
         }
 
         Tile[] finalTiles = new Tile[]{
@@ -59,8 +55,8 @@ public class VasiliasLogic extends NPC {
 
         Tile selectedTile;
         int matchingIndex = -1;
-        for (int i = 0; i < VasiliasProcess.getToSpawn().length; i++) {
-            selectedTile = VasiliasProcess.getToSpawn()[i].transform(0, 0, 0);
+        for (int i = 0; i < VasiliasListener.getToSpawn().length; i++) {
+            selectedTile = VasiliasListener.getToSpawn()[i].transform(0, 0, 0);
             if (selectedTile.equals(this.getX(), this.getY())) {
                 matchingIndex = i;
                 break;
@@ -68,13 +64,12 @@ public class VasiliasLogic extends NPC {
         }
 
         if (matchingIndex != -1) {
+            this.getMovementQueue().reset();
             Tile destinationTile = finalTiles[matchingIndex];
             this.setPositionToFace(destinationTile);
-            this.getMovementQueue().reset();
             this.stepAbs(destinationTile.getX(), destinationTile.getY(), MovementQueue.StepType.FORCED_WALK);
             this.waitForTile(destinationTile, () -> {
-                this.getMovementQueue().reset();
-
+                List<NPC> availablePillars = vasiliasListener.pillarNpc.stream().filter(p -> !p.dead() && p.isRegistered()).toList();
                 if (!availablePillars.isEmpty()) {
                     List<NPC> closestPillars = new ArrayList<>(availablePillars);
                     closestPillars.sort(Comparator.comparingDouble(pillar -> this.tile().distance(pillar.tile())));
@@ -94,14 +89,12 @@ public class VasiliasLogic extends NPC {
         var target = this.getCombat().getTarget();
         Chain.noCtx().delay(1, () -> {
             animate(7991);
-            if (tile() != null && getCombat().getTarget() != null) {
+            if (tile() != null && getCombat().getTarget() != null && getCombat().getTarget().tile() != null) {
                 if (this.tile().nextTo(target.tile())) {
                     target.hit(this, Utils.random(getCombatInfo().maxhit));
                 }
             }
-        }).then(2, () -> {
-            World.getWorld().unregisterNpc(this);
-        });
+        }).then(3, () -> World.getWorld().unregisterNpc(this));
     }
 
 }

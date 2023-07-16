@@ -13,7 +13,6 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
 
 /**
  * @Author: Origin
@@ -48,7 +47,6 @@ public class PillarObjectAndNpcSpawn extends NPC {
 
     public void spawnPillarNpc() {
         this.spawn(false);
-        World.getWorld().registerNpc(this);
         this.noRetaliation(true);
         this.getCombat().setAutoRetaliate(false);
     }

@@ -3,6 +3,7 @@ package com.aelous.model.content.raids.theatre.nylocas;
 import com.aelous.model.World;
 import com.aelous.model.content.raids.theatre.nylocas.pillars.PillarSpawn;
 import com.aelous.model.entity.MovementQueue;
+import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Utils;
@@ -22,6 +23,7 @@ public class VasiliasLogic extends NPC {
     public VasiliasLogic(int id, Tile tile) {
         super(id, tile);
         spawns.add(this);
+        putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
     }
 
     @Override

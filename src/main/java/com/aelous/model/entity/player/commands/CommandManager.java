@@ -890,6 +890,13 @@ public class CommandManager {
                 e.printStackTrace();
             }
         });
+
+        dev("t20", (player, c, parts) -> {
+            player.getMovementQueue().interpolate(player.tile().transform(1, 1));
+        });
+        dev("t21", (player, c, parts) -> {
+            player.getMovementQueue().step(1, 1, MovementQueue.StepType.REGULAR);
+        });
     }
 
     /**

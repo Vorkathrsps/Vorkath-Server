@@ -13,28 +13,29 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 
 /**
  * @Author: Origin
  * @Date: 7/16/2023
  */
 public class PillarObjectAndNpcSpawn extends NPC {
-    @Nonnull
     @Getter
     GameObject gameObject;
     @Nonnull
     Player player;
-    VasiliasListener vasiliasListener;
 
-    public PillarObjectAndNpcSpawn(int id, Tile tile, @NotNull GameObject gameObject, @NotNull Player player, VasiliasListener vasiliasListener) {
+    public PillarObjectAndNpcSpawn(int id, Tile tile, GameObject gameObject, @NotNull Player player, VasiliasListener vasiliasListener) {
         super(id, tile);
         this.gameObject = gameObject;
         this.player = player;
+        this.setSize(4);
         vasiliasListener.pillarNpc.add(this);
         vasiliasListener.pillarObject.add(gameObject);
     }
 
     public void clearPillarNpcsAndObjects() {
+        VasiliasListener vasiliasListener = new VasiliasListener(player);
         for (var v : vasiliasListener.pillarObject) {
             v.setId(32862);
         }
@@ -57,10 +58,8 @@ public class PillarObjectAndNpcSpawn extends NPC {
     }
 
     public void updatePillarObject(int newID) {
-        MapObjects.get(getGameObject().getId(), getGameObject().tile()).ifPresent(o -> {
+        MapObjects.get(this.getGameObject().getId(), this.getGameObject().tile()).ifPresent(o -> {
             o.setId(newID);
-            this.gameObject = o;
-            vasiliasListener.pillarObject.add(o);
         });
     }
 
@@ -78,13 +77,16 @@ public class PillarObjectAndNpcSpawn extends NPC {
 
     @Override
     public void die() {
-        Chain.bound(null).runFn(1, () -> {
-            getGameObject().animate(8074);
-        }).then(3, () -> {
-            updatePillarObject(32864);
+        VasiliasListener vasiliasListener = new VasiliasListener(player);
+        MapObjects.get(gameObject.getId(), gameObject.tile()).ifPresent(o -> {
+            vasiliasListener.pillarNpc.remove(this);
+            o.animate(8074);
+            Chain.noCtx().delay(4, () -> {
+                this.die();
+                World.getWorld().unregisterNpc(this);
+                o.setId(32864);
+            });
         });
-        World.getWorld().unregisterNpc(this);
-        vasiliasListener.pillarNpc.remove(this);
     }
 
 }

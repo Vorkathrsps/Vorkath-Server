@@ -44,6 +44,7 @@ import com.aelous.utility.NpcPerformance;
 import com.aelous.utility.SecondsTimer;
 import com.aelous.utility.Utils;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -65,7 +66,7 @@ import static org.apache.logging.log4j.util.Unbox.box;
 public class NPC extends Entity {
 
     private static final Logger logger = LogManager.getLogger(NPC.class);
-    public boolean ignoreOccupiedTiles;
+    @Setter public boolean ignoreOccupiedTiles;
 
     private boolean lockMovementCompletely;
 

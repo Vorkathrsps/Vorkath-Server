@@ -35,7 +35,7 @@ public class VasiliasListener extends TheatreController {
     public VasiliasListener(@NotNull Player player) {
         this.player = player;
     }
-    @Getter private static final Tile[] toSpawn = new Tile[]{
+    @Getter private static final Tile[] fromTile = new Tile[]{ // these are spawn points?
         new Tile(3282, 4249),
         new Tile(3295, 4235),
         new Tile(3309, 4248),
@@ -60,7 +60,7 @@ public class VasiliasListener extends TheatreController {
     }
 
     public Tile getRandomTile() {
-        Tile[] tileArray = toSpawn;
+        Tile[] tileArray = fromTile;
         if (tileArray.length == 0) {
             return null;
         }
@@ -68,22 +68,23 @@ public class VasiliasListener extends TheatreController {
         int randomIndex = random.nextInt(tileArray.length);
         return tileArray[randomIndex].transform(0, 0, 0);
     }
+    @Getter int finalInterpolatedTransmog;
     public int getRandomNPC() {
         Random random = new Random();
-        int randomIndex = random.nextInt(npcs.length);
-        return npcs[randomIndex];
+        finalInterpolatedTransmog = random.nextInt(npcs.length);
+        return npcs[finalInterpolatedTransmog];
     }
 
     public void startSpiderSpawnTask() {
-        Chain.noCtxRepeat().repeatingTask(20, t -> {
-            System.out.println("ticking");
+        Chain.noCtxRepeat().repeatingTask(5, t -> {
             VasiliasNpcHandler vasilias = new VasiliasNpcHandler(getRandomNPC(), getRandomTile(), this);
             vasilias.spawn(false);
             World.getWorld().registerNpc(vasilias);
-            if (this.wave.get() == 1) {
+            if (this.wave.get() == 60) {
                 Vasilias boss = new Vasilias(8355, new Tile(3294, 4247, 0), player);
                 boss.spawn(false);
                 World.getWorld().registerNpc(boss);
+                this.wave.getAndSet(0);
                 t.stop();
                 return;
             }
@@ -117,7 +118,6 @@ public class VasiliasListener extends TheatreController {
 
     @Override
     public void clearRoom() {
-        //clearListener();
-        System.out.println("clearing?");
+        clearListener();
     }
 }

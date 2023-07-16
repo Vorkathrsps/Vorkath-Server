@@ -24,4 +24,10 @@ public abstract class TheatreController {
     public void clearRoom() {
     }
 
+    /**
+     * Sequence any falling gfxs / damage
+     */
+    public void sequenceRoom() {
+    }
+
 }

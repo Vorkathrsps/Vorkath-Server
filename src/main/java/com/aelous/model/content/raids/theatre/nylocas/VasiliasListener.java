@@ -3,7 +3,8 @@ package com.aelous.model.content.raids.theatre.nylocas;
 import com.aelous.model.World;
 import com.aelous.model.content.raids.theatre.controller.TheatreController;
 import com.aelous.model.content.raids.theatre.nylocas.handler.VasiliasNpcHandler;
-import com.aelous.model.content.raids.theatre.nylocas.pillars.PillarObjectAndNpcSpawn;
+import com.aelous.model.content.raids.theatre.nylocas.pillars.PillarNpc;
+import com.aelous.model.content.raids.theatre.nylocas.pillars.PillarObject;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.object.GameObject;
@@ -28,14 +29,21 @@ public class VasiliasListener extends TheatreController {
     public List<NPC> pillarNpc = new ArrayList<>();
     public List<NPC> vasiliasNpc = new ArrayList<>();
     public List<GameObject> pillarObject = new ArrayList<>();
-    @Nonnull
-    Player player;
-    int[] npcs = new int[]{NYLOCAS_ISCHYROS_8342,NYLOCAS_TOXOBOLOS_8343,NYLOCAS_HAGIOS};
+    @Nonnull Player player;
+    int[] npcs = new int[]{NYLOCAS_ISCHYROS_8342, NYLOCAS_TOXOBOLOS_8343, NYLOCAS_HAGIOS};
     AtomicInteger wave = new AtomicInteger();
+    @Getter int finalInterpolatedTransmog;
+
+    public VasiliasListener() {
+
+    }
+
     public VasiliasListener(@NotNull Player player) {
         this.player = player;
     }
-    @Getter private static final Tile[] fromTile = new Tile[]{ // these are spawn points?
+
+    @Getter
+    private static final Tile[] fromTile = new Tile[]{ // these are spawn points?
         new Tile(3282, 4249),
         new Tile(3295, 4235),
         new Tile(3309, 4248),
@@ -68,7 +76,7 @@ public class VasiliasListener extends TheatreController {
         int randomIndex = random.nextInt(tileArray.length);
         return tileArray[randomIndex].transform(0, 0, 0);
     }
-    @Getter int finalInterpolatedTransmog;
+
     public int getRandomNPC() {
         Random random = new Random();
         finalInterpolatedTransmog = random.nextInt(npcs.length);
@@ -77,7 +85,7 @@ public class VasiliasListener extends TheatreController {
 
     public void startSpiderSpawnTask() {
         Chain.noCtxRepeat().repeatingTask(5, t -> {
-            VasiliasNpcHandler vasilias = new VasiliasNpcHandler(getRandomNPC(), getRandomTile(), this);
+            VasiliasNpcHandler vasilias = new VasiliasNpcHandler(getRandomNPC(), getRandomTile(), this, player);
             vasilias.spawn(false);
             World.getWorld().registerNpc(vasilias);
             if (this.wave.get() == 60) {
@@ -94,21 +102,18 @@ public class VasiliasListener extends TheatreController {
 
     @Override
     public void buildRoom() {
-        PillarObjectAndNpcSpawn pillarObjectAndNpcSpawn1 = new PillarObjectAndNpcSpawn(8358, new Tile(3290, 4252, player.getZ()), new GameObject(32862, new Tile(3289, 4253, player.getZ()), 10, 1), player, this);
-        PillarObjectAndNpcSpawn pillarObjectAndNpcSpawn2 = new PillarObjectAndNpcSpawn(8358, new Tile(3299, 4252, player.getZ()), new GameObject(32862, new Tile(3300, 4253, player.getZ()), 10, 2), player, this);
-        PillarObjectAndNpcSpawn pillarObjectAndNpcSpawn3 = new PillarObjectAndNpcSpawn(8358, new Tile(3299, 4243, player.getZ()), new GameObject(32862, new Tile(3300, 4242, player.getZ()), 10, 3), player, this);
-        PillarObjectAndNpcSpawn pillarObjectAndNpcSpawn4 = new PillarObjectAndNpcSpawn(8358, new Tile(3290, 4243, player.getZ()), new GameObject(32862, new Tile(3289, 4242, player.getZ()), 10, 0), player, this);
-        pillarObjectAndNpcSpawn1.spawnPillarObject();
-        pillarObjectAndNpcSpawn1.spawnPillarNpc();
-
-        pillarObjectAndNpcSpawn2.spawnPillarObject();
-        pillarObjectAndNpcSpawn2.spawnPillarNpc();
-
-        pillarObjectAndNpcSpawn3.spawnPillarObject();
-        pillarObjectAndNpcSpawn3.spawnPillarNpc();
-
-        pillarObjectAndNpcSpawn4.spawnPillarObject();
-        pillarObjectAndNpcSpawn4.spawnPillarNpc();
+        PillarNpc pillarNpc1 = new PillarNpc(8358, new Tile(3290, 4252, player.getZ()), new PillarObject(32862, new Tile(3289, 4253, player.getZ()), 10, 1, this), this);
+        PillarNpc pillarNpc2 = new PillarNpc(8358, new Tile(3299, 4252, player.getZ()), new PillarObject(32862, new Tile(3300, 4253, player.getZ()), 10, 2, this), this);
+        PillarNpc pillarNpc3 = new PillarNpc(8358, new Tile(3299, 4243, player.getZ()), new PillarObject(32862, new Tile(3300, 4242, player.getZ()), 10, 3, this), this);
+        PillarNpc pillarNpc4 = new PillarNpc(8358, new Tile(3290, 4243, player.getZ()), new PillarObject(32862, new Tile(3289, 4242, player.getZ()), 10, 0, this), this);
+        pillarNpc1.spawn(false);
+        pillarNpc1.spawnPillarObject();
+        pillarNpc2.spawn(false);
+        pillarNpc2.spawnPillarObject();
+        pillarNpc3.spawn(false);
+        pillarNpc3.spawnPillarObject();
+        pillarNpc4.spawn(false);
+        pillarNpc4.spawnPillarObject();
     }
 
     @Override

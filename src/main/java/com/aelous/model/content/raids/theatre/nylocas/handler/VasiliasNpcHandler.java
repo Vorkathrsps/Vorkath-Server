@@ -5,12 +5,14 @@ import com.aelous.model.content.raids.theatre.nylocas.VasiliasListener;
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.npc.NPC;
+import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -25,20 +27,18 @@ public class VasiliasNpcHandler extends NPC {
     AtomicInteger vasiliasLifeLength = new AtomicInteger(50);
 
     int[] npcs = new int[]{NYLOCAS_ISCHYROS_8342, NYLOCAS_TOXOBOLOS_8343, NYLOCAS_HAGIOS};
-    @Getter @Setter
-    int timer = 3;
-    @Getter @Setter
-    int transmogIdx;
-    @Getter @Setter
-    boolean pathingToTile;
-    public VasiliasNpcHandler(int id, Tile tile, VasiliasListener vasiliasListener) { //yes
+    @Getter @Setter int timer = 3;
+    @Getter @Setter int transmogIdx;
+    @Getter @Setter boolean pathingToTile;
+    @Nonnull Player player;
+    public VasiliasNpcHandler(int id, Tile tile, VasiliasListener vasiliasListener, @Nonnull Player player) { //yes
         super(id, tile);
         this.vasiliasListener = vasiliasListener;
+        this.player = player;
         this.setIgnoreOccupiedTiles(true);
         vasiliasListener.vasiliasNpc.add(this);
         putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
     }
-
 
     @Override
     public void postSequence() {
@@ -88,7 +88,7 @@ public class VasiliasNpcHandler extends NPC {
             }
         }
 
-        if (matchingIndex != -1) { // is this target reached
+        if (matchingIndex != -1) { 
             this.getMovementQueue().reset();
             setPathingToTile(true);
             Tile destinationTile = toTile[matchingIndex];
@@ -103,8 +103,8 @@ public class VasiliasNpcHandler extends NPC {
         if (!isPathingToTile() && getCombat().getTarget() == null) {
             attackClosestAlivePillar();
         }
-        if (!isPathingToTile() && vasiliasListener.pillarNpc.isEmpty()) {
-            this.getCombat().setTarget(player());
+        if (!isPathingToTile() && vasiliasListener.pillarNpc.isEmpty() && getCombat().getTarget() == null) {
+            this.getCombat().setTarget(player);
         }
     }
 

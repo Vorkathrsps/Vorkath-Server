@@ -1383,6 +1383,9 @@ public abstract class Entity {
     }
 
     public void stepAbs(int absX, int absY, MovementQueue.StepType stepType) {
+        if (absX < 64 || absY < 64) {
+            log.warn("attempted to step to coords {} {} -- maybe you meant to tile.translate({},{}) instead?", absX, absY, absX, absY);
+        }
         /* forces a step without route finding */
         MovementQueue movement = getMovement();
         movement.readOffset = 0;

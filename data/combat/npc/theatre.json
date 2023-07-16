@@ -2,7 +2,13 @@
   {
     // Verzik Vitur
     "ids": [
-      8369, 8370, 8371, 8372, 8373, 8374, 8375
+      8369,
+      8370,
+      8371,
+      8372,
+      8373,
+      8374,
+      8375
     ],
     "maxhit": 50,
     "deathlen": 2,
@@ -36,41 +42,110 @@
     }
   },
   {
-  // Verzik Vitur pillar
-  "ids": [
-    8379
-  ],
-  "maxhit": 0,
-  "deathlen": 1,
-  "aggressive": true,
-  "aggroradius": 0,
-  "stats": {
-    "attack": 400,
-    "strength": 400,
-    "magic": 400,
-    "ranged": 400,
-    "defence": 200,
-    "hitpoints": 1
+    // Verzik Vitur pillar
+    "ids": [
+      8379
+    ],
+    "maxhit": 0,
+    "deathlen": 1,
+    "aggressive": true,
+    "aggroradius": 0,
+    "stats": {
+      "attack": 400,
+      "strength": 400,
+      "magic": 400,
+      "ranged": 400,
+      "defence": 200,
+      "hitpoints": 1
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 80,
+      "magic": 80,
+      "stabdefence": 100,
+      "slashdefence": 60,
+      "crushdefence": 100,
+      "rangeddefence": 70,
+      "magicdefence": 250
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": -1
+    },
+    "scripts": {
+      "combat": "com.aelous.model.entity.combat.method.impl.npcs.verzik.VerzikPillar"
+    }
   },
-  "bonuses": {
-    "attack": 0,
-    "ranged": 80,
-    "magic": 80,
-    "stabdefence": 100,
-    "slashdefence": 60,
-    "crushdefence": 100,
-    "rangeddefence": 70,
-    "magicdefence": 250
+  {
+    // Nylocas Vasilas PILLAR
+    "ids": [
+      8358
+    ],
+    "maxhit": 0,
+    "deathlen": 1,
+    "aggressive": false,
+    "aggroradius": 0,
+    "stats": {
+      "attack": 0,
+      "strength": 0,
+      "magic": 0,
+      "ranged": 0,
+      "defence": 0,
+      "hitpoints": 1000
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 0,
+      "magic": 0,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": -1
+    }
   },
-  "animations": {
-    "attack": -1,
-    "block": -1,
-    "death": -1
+  {
+    // Nylocas Vasilas unaggressive
+    "ids": [
+      8342, 8343, 8344
+    ],
+    "maxhit": 17,
+    "deathlen": 3,
+    "aggressive": false,
+    "aggroradius": 1,
+    "stats": {
+      "attack": 200,
+      "strength": 160,
+      "magic": 1,
+      "ranged": 200,
+      "defence": 1,
+      "hitpoints": 11
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 0,
+      "magic": 1073,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 7990,
+      "block": -1,
+      "death": 7991
+    },
+    "scripts": {
+      "combat": "com.aelous.model.content.raids.theatre.nylocas.combat.VasiliasCombat"
+    }
   },
-  "scripts": {
-    "combat": "com.aelous.model.entity.combat.method.impl.npcs.verzik.VerzikPillar"
-  }
-},
   {
     //Nylocas Ischyros
     "ids": [
@@ -139,7 +214,6 @@
       "death": 7991
     },
     "scripts": {
-
     }
   },
   {
@@ -175,7 +249,6 @@
       "death": 7991
     },
     "scripts": {
-
     }
   },
   {
@@ -238,7 +311,6 @@
       "death": 7991
     },
     "scripts": {
-
     }
   }
 ]

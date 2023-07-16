@@ -6,6 +6,8 @@ import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 import com.aelous.model.content.areas.theatre.ViturRoom;
 import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
+import com.aelous.model.content.raids.theatre.nylocas.VasiliasProcess;
+import com.aelous.model.content.raids.theatre.nylocas.pillars.PillarSpawn;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.aelous.model.content.tournaments.Tournament;
 import com.aelous.model.content.tournaments.TournamentManager;
@@ -670,92 +672,24 @@ public class CommandManager {
             ((GreatOlm) olm.getCombatMethod()).flameWall(olm);
         });
         dev("c", (p, c, s) -> {
-            var centerTile = p.tile();
-            int sideLength = 4;
+            PillarSpawn pillarSpawn1 = new PillarSpawn(8358, new Tile(3290, 4252, p.getZ()), new GameObject(32862, new Tile(3289, 4253, p.getZ()), 10, 1));
+            PillarSpawn pillarSpawn2 = new PillarSpawn(8358, new Tile(3299, 4252, p.getZ()), new GameObject(32862, new Tile(3300, 4253, p.getZ()), 10, 2));
+            PillarSpawn pillarSpawn3 = new PillarSpawn(8358, new Tile(3299, 4243, p.getZ()), new GameObject(32862, new Tile(3300, 4242, p.getZ()), 10, 3));
+            PillarSpawn pillarSpawn4 = new PillarSpawn(8358, new Tile(3290, 4243, p.getZ()), new GameObject(32862, new Tile(3289, 4242, p.getZ()), 10, 0));
 
-            int centerX = centerTile.getX();
-            int centerY = centerTile.getY();
-            int tileZ = centerTile.getZ();
+            pillarSpawn1.spawnPillarObject();
+            pillarSpawn1.spawnPillarNpc();
 
-            final int CENTER_OBJECT_ID = 47084;
-            final int BORDER_OBJECT_ID = 47085;
-            final int CORNER_OBJECT_ID = 47086;
-            final int PARAM1 = 10;
+            pillarSpawn2.spawnPillarObject();
+            pillarSpawn2.spawnPillarNpc();
 
-            int borderLength = sideLength + 2;
-            int borderStartX = centerX - borderLength / 2;
-            int borderStartY = centerY - borderLength / 2;
-            int borderEndX = centerX + borderLength / 2;
-            int borderEndY = centerY + borderLength / 2;
+            pillarSpawn3.spawnPillarObject();
+            pillarSpawn3.spawnPillarNpc();
 
-            int centerRotation = p.getRotation(centerX, centerY, centerX, centerY, sideLength, sideLength);
-
-            int numObjects = sideLength * sideLength + 4 * sideLength + 4;
-
-            List<GameObject> weblist = new ArrayList<>(numObjects);
-
-            GameObject gameObject;
-
-            gameObject = new GameObject(CENTER_OBJECT_ID, new Tile(centerX, centerY, tileZ), PARAM1, centerRotation);
-            weblist.add(gameObject);
-
-            int topLeftCornerRotation = 1;
-            int leftCornerRotation = 2;
-            int topRightCornerRotation = 0;
-            int bottomRightCornerRotation = 3;
-
-            for (int x = borderStartX; x <= borderEndX; x++) {
-                for (int y = borderStartY; y <= borderEndY; y++) {
-                    boolean b = x == centerX || y == centerY || y == centerY - 1 || y == centerY + 1 || x == centerX - 1 || x == centerX + 1;
-
-                    int rotation;
-                    int objectId;
-                    int param;
-
-                    if (x >= centerX - sideLength / 2 && x <= centerX + sideLength / 2 &&
-                        y >= centerY - sideLength / 2 && y <= centerY + sideLength / 2) {
-
-                        if (b) {
-                            objectId = CENTER_OBJECT_ID;
-                            rotation = 0;
-                            param = PARAM1;
-                        } else if (y == centerY + 2 || y == centerY - 2) {
-                            objectId = CORNER_OBJECT_ID;
-                            param = PARAM1;
-
-                            if (x == centerX - sideLength / 2 && y == centerY - sideLength / 2) {
-                                rotation = topLeftCornerRotation;
-                            } else if (x < centerX && y >= centerY) {
-                                rotation = leftCornerRotation;
-                            } else if (x <= centerX - sideLength / 2 && y >= centerY + sideLength / 2) {
-                                rotation = leftCornerRotation;
-                            } else if (x >= centerX && y < centerY) {
-                                rotation = topRightCornerRotation;
-                            } else {
-                                rotation = bottomRightCornerRotation;
-                            }
-                        } else {
-                            objectId = -1;
-                            rotation = p.getRotation(x, y, centerX, centerY, sideLength, sideLength);
-                            param = PARAM1;
-                        }
-                    } else {
-                        if (b) {
-                            objectId = BORDER_OBJECT_ID;
-                            rotation = p.getBorderRotation(x, y, centerX, centerY, sideLength);
-                            param = PARAM1;
-                        } else {
-                            continue;
-                        }
-                    }
-
-                    gameObject = new GameObject(objectId, new Tile(x, y, tileZ), param, rotation);
-                    weblist.add(gameObject);
-                }
-            }
-
-            weblist.forEach(GameObject::spawn);
-
+            pillarSpawn4.spawnPillarObject();
+            pillarSpawn4.spawnPillarNpc();
+            VasiliasProcess vasiliasProcess = new VasiliasProcess();
+            vasiliasProcess.startSpiderSpawnTask();
         });
 
         dev("curseoff", (p, c, s) ->

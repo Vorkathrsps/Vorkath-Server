@@ -2,7 +2,7 @@ package com.aelous.model.content.raids.theatre.nylocas;
 
 import com.aelous.model.World;
 import com.aelous.model.content.raids.theatre.controller.TheatreController;
-import com.aelous.model.content.raids.theatre.nylocas.handler.VasiliasNpcHandler;
+import com.aelous.model.content.raids.theatre.nylocas.handler.VasiliasProcess;
 import com.aelous.model.content.raids.theatre.nylocas.pillars.PillarNpc;
 import com.aelous.model.content.raids.theatre.nylocas.pillars.PillarObject;
 import com.aelous.model.content.raids.theatre.nylocas.state.VasiliasState;
@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BooleanSupplier;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
 
@@ -88,18 +87,19 @@ public class VasiliasListener extends TheatreController {
     }
 
     public void startSpiderSpawnTask() {
+        VasiliasBoss boss = new VasiliasBoss(8355, new Tile(3294, 4247, 0), player, VasiliasState.ALIVE);
         Chain.noCtxRepeat().repeatingTask(5, t -> {
-            VasiliasNpcHandler vasilias = new VasiliasNpcHandler(getRandomNPC(), getRandomTile(), this, player);
+            VasiliasProcess vasilias = new VasiliasProcess(getRandomNPC(), getRandomTile(), this, player);
             vasilias.spawn(false);
             World.getWorld().registerNpc(vasilias);
-            if (this.wave.get() == 1) {
-                VasiliasBoss boss = new VasiliasBoss(8355, new Tile(3294, 4247, 0), player, VasiliasState.ALIVE);
+            if (this.wave.get() == 50) {
                 boss.spawn(false);
                 t.stop();
                 return;
             }
             this.wave.getAndIncrement();
         });
+        //Chain.noCtx().waitUntil(1, () -> boss.getVasiliasState().equals(VasiliasState.DEAD), this::clearRoom);
     }
 
     @Override

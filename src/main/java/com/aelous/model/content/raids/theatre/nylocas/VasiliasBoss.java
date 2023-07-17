@@ -9,7 +9,7 @@ import com.aelous.utility.chainedwork.Chain;
 import lombok.Getter;
 import lombok.Setter;
 
-public class VasiliasBoss extends NPC {
+public class VasiliasBoss extends NPC { //TODO add death animation sequence
     @Getter @Setter public VasiliasState vasiliasState;
 
     public VasiliasBoss(int id, Tile tile, Player player, VasiliasState vasiliasState) {

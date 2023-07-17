@@ -54,6 +54,7 @@ public class NPCUpdating {
                 if (npc.getIndex() != -1 && World.getWorld().getNpcs().contains(npc) && !npc.hidden() && playerTile.isWithinDistance(npc.tile()) && !npc.isNeedsPlacement()) {
                     updateMovement(npc, packet);
                     npc.inViewport(true); // Mark as in viewport
+                    if (npc.isNeedsPlacement())
                     if (npc.getUpdateFlag().isUpdateRequired()) {
                         appendUpdates(npc, player, update, false);
                     }
@@ -76,7 +77,7 @@ public class NPCUpdating {
                 if (npc.tile().isWithinDistance(playerTile)) {
                     added++;
                     localNpcs.add(npc);
-                    addNPC(player, npc, packet);
+                    addNPC(player, npc, packet, npc.isLegacyTeleport());
                     npc.inViewport(true); // Mark as in viewport
                     if (npc.getUpdateFlag().isUpdateRequired() || sendNewNpcUpdates(npc)) {
                         appendUpdates(npc, player, update, true);
@@ -109,13 +110,13 @@ public class NPCUpdating {
      * @param builder The packet builder to write information on.
      * @return The NPCUpdating instance.
      */
-    private static void addNPC(Player player, NPC npc, PacketBuilder builder) {
+    private static void addNPC(Player player, NPC npc, PacketBuilder builder, boolean legacyTeleport) {
         int yOffset = npc.tile().getY() - player.tile().getY();
         int xOffset = npc.tile().getX() - player.tile().getX();
         builder.putBits(14, npc.getIndex());
         builder.putBits(5, yOffset);
         builder.putBits(5, xOffset);
-        builder.putBits(1, 0);
+        builder.putBits(1, legacyTeleport ? 1 : 0);
         builder.putBits(14, npc.id());
         builder.putBits(1, npc.getUpdateFlag().isUpdateRequired() || sendNewNpcUpdates(npc) ? 1 : 0);
         boolean updateFacing = npc.walkRadius() == 0;

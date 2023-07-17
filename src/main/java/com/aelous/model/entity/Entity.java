@@ -1486,6 +1486,16 @@ public abstract class Entity {
         return this;
     }
 
+    public Entity setLegacyTeleport(int endX, int endY) {
+        getUpdateFlag().flagged(Flag.APPEARANCE);
+        Chain.noCtx().delay(1, () -> {
+            getMovementQueue().interpolate(endX, endY);
+            teleport(tile().transform(endX, endY));
+            getMovementQueue().reset();
+        });
+        return this;
+    }
+
     public ActionManager action = new ActionManager();
 
     public void heal(int amount) {

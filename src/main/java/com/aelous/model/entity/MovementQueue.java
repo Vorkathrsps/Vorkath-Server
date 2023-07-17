@@ -12,6 +12,7 @@ import com.aelous.utility.Debugs;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.aelous.model.entity.attributes.AttributeKey.MOVEMENT_PACKET_STEPS;
@@ -119,6 +120,10 @@ public class MovementQueue {
         entity.stepAbs(x, y, StepType.REGULAR);
     }
 
+    public void step(Tile tile) {
+        entity.stepAbs(tile.getX(), tile.getY(), StepType.REGULAR);
+    }
+
     public void interpolate(int destX, int destY, StepType stepType, int maxSteps) {
         if (stepType == StepType.REGULAR) {
             DumbRoute.route(entity, destX, destY);
@@ -139,7 +144,6 @@ public class MovementQueue {
             if (!entity.addStep(x, y) || (x == destX && y == destY))
                 return;
         }
-
     }
 
     public static boolean dumbReachable(int destX, int destY, Tile start) {

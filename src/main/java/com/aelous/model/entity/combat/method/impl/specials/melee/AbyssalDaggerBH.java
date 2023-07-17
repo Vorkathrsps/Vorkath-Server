@@ -4,11 +4,10 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatSpecial;
 import com.aelous.model.entity.combat.CombatType;
-import com.aelous.model.entity.combat.formula.maxhit.MeleeMaxHit;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
-import com.aelous.model.entity.player.Player;
+
 public class AbyssalDaggerBH extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {

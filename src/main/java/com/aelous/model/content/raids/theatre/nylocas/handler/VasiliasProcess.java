@@ -22,7 +22,7 @@ import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
  * @Author: Origin
  * @Date: 7/16/2023
  */
-public class VasiliasNpcHandler extends NPC {
+public class VasiliasProcess extends NPC {
     VasiliasListener vasiliasListener;
     AtomicInteger vasiliasLifeLength = new AtomicInteger(50);
 
@@ -31,7 +31,7 @@ public class VasiliasNpcHandler extends NPC {
     @Getter @Setter int transmogIdx;
     @Getter @Setter boolean pathingToTile;
     @Nonnull Player player;
-    public VasiliasNpcHandler(int id, Tile tile, VasiliasListener vasiliasListener, @Nonnull Player player) { //yes
+    public VasiliasProcess(int id, Tile tile, VasiliasListener vasiliasListener, @Nonnull Player player) { //yes
         super(id, tile);
         this.vasiliasListener = vasiliasListener;
         this.player = player;

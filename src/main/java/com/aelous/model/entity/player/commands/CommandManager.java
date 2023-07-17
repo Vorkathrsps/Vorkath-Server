@@ -7,6 +7,7 @@ import com.aelous.model.World;
 import com.aelous.model.content.areas.theatre.ViturRoom;
 import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.aelous.model.content.raids.theatre.Theatre;
+import com.aelous.model.content.raids.theatre.bloat.handler.BloatProcess;
 import com.aelous.model.content.raids.theatre.nylocas.VasiliasBoss;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.aelous.model.content.tournaments.Tournament;
@@ -673,9 +674,11 @@ public class CommandManager {
             ((GreatOlm) olm.getCombatMethod()).flameWall(olm);
         });
         dev("c", (p, c, s) -> {
-            Theatre theatre = new Theatre(p);
-            theatre.constructRoom();
-            theatre.start();
+            BloatProcess bloatProcess = new BloatProcess(8359, new Tile(3299, 4440, 0), p);
+            bloatProcess.spawn(false);
+            //NPC npc = new NPC(8359, new Tile(3299, 4440));
+            //npc.spawn(false);
+            //npc.queueLegacyTeleport(new Tile(3299, 4441));
             //theatre.clearRoom();
         });
 

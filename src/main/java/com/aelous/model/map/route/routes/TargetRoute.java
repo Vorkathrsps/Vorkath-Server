@@ -1,6 +1,8 @@
 package com.aelous.model.map.route.routes;
 
 import com.aelous.model.entity.Entity;
+import com.aelous.model.entity.npc.NPC;
+import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.route.RouteType;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.VERZIK_VITUR_8369;
@@ -187,11 +189,17 @@ public class TargetRoute {
     /**
      * Misc checks
      */
-    protected static boolean inTarget(
-        int absX, int absY, int size, int targetX, int targetY, int targetSize) {
+    protected static boolean inTarget(int absX, int absY, int size, int targetX, int targetY, int targetSize) {
         if (absX > (targetX + (targetSize - 1)) || absY > (targetY + (targetSize - 1)))
             return false;
         if (targetX > (absX + (size - 1)) || targetY > (absY + (size - 1))) return false;
+        return true;
+    }
+
+    public static boolean inTarget(NPC npc, Tile walkTo) {
+        if (npc.getAbsX() > (walkTo.getX() + (npc.getSize() - 1)) || npc.getAbsY() > (walkTo.getY() + (npc.getSize() - 1)))
+            return false;
+        if (walkTo.getX() > (npc.getAbsX() + (npc.getSize() - 1)) || walkTo.getY() > (npc.getAbsY() + (npc.getSize() - 1))) return false;
         return true;
     }
 

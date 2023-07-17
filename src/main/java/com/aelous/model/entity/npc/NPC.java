@@ -74,6 +74,17 @@ public class NPC extends Entity {
         return lockMovementCompletely;
     }
 
+    @Getter @Setter public boolean legacyTeleport;
+
+    public void setLegacyTeleport(boolean legacyTeleport) {
+        this.legacyTeleport = legacyTeleport;
+    }
+
+    public void queueLegacyTeleport(Tile tile) {
+        this.teleport(tile);
+        this.setLegacyTeleport(true);
+    }
+
     public void completelyLockedFromMoving(boolean lockMovementCompletely) {
         this.lockMovementCompletely = lockMovementCompletely;
     }

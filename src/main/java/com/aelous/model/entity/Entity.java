@@ -1624,10 +1624,6 @@ public abstract class Entity {
         timers.extendOrRegister(TimerKey.FROZEN, time);
         timers.extendOrRegister(TimerKey.FREEZE_IMMUNITY, time + 3);
 
-        if (attacker instanceof Player player && player.getCombat().getCastSpell().spellId() == 1592) {
-            attacker.message("");
-        }
-
         if (isPlayer()) {
             ((Player) this).getPacketSender().sendEffectTimer((int) Math.round(time * 0.6), EffectTimer.FREEZE).sendMessage("You have been frozen!");
         }

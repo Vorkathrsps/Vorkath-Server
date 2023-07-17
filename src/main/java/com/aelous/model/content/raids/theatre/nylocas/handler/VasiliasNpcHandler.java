@@ -88,7 +88,7 @@ public class VasiliasNpcHandler extends NPC {
             }
         }
 
-        if (matchingIndex != -1) { 
+        if (matchingIndex != -1) {
             this.getMovementQueue().reset();
             setPathingToTile(true);
             Tile destinationTile = toTile[matchingIndex];

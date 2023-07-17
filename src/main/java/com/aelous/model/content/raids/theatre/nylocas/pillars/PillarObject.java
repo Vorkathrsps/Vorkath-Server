@@ -2,7 +2,6 @@ package com.aelous.model.content.raids.theatre.nylocas.pillars;
 
 import com.aelous.model.content.raids.theatre.nylocas.VasiliasListener;
 import com.aelous.model.map.object.GameObject;
-import com.aelous.model.map.object.MapObjects;
 import com.aelous.model.map.position.Tile;
 
 /**

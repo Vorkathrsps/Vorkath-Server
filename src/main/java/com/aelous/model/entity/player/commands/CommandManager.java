@@ -7,7 +7,7 @@ import com.aelous.model.World;
 import com.aelous.model.content.areas.theatre.ViturRoom;
 import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.aelous.model.content.raids.theatre.Theatre;
-import com.aelous.model.content.raids.theatre.controller.TheatreController;
+import com.aelous.model.content.raids.theatre.nylocas.VasiliasBoss;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.aelous.model.content.tournaments.Tournament;
 import com.aelous.model.content.tournaments.TournamentManager;
@@ -55,6 +55,7 @@ import org.apache.logging.log4j.util.TriConsumer;
 
 import java.security.SecureRandom;
 import java.util.*;
+import java.util.function.BooleanSupplier;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.GREAT_OLM_7554;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
@@ -675,6 +676,7 @@ public class CommandManager {
             Theatre theatre = new Theatre(p);
             theatre.constructRoom();
             theatre.start();
+            //theatre.clearRoom();
         });
 
         dev("curseoff", (p, c, s) ->

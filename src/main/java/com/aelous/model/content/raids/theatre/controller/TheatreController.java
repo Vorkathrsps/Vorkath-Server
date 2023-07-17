@@ -22,12 +22,7 @@ public abstract class TheatreController {
      * Clear All Variables Related To The Room
      */
     public void clearRoom() {
-    }
 
-    /**
-     * Sequence any falling gfxs / damage
-     */
-    public void sequenceRoom() {
     }
 
 }

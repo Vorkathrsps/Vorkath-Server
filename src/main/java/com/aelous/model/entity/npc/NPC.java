@@ -81,8 +81,11 @@ public class NPC extends Entity {
     }
 
     public void queueLegacyTeleport(Tile tile) {
-        this.teleport(tile);
         this.setLegacyTeleport(true);
+        // we don't use teleport() because we avoid setting setPlacementPosisition() which is for Teleporting
+        // in Updating
+        setTile(tile);
+        Tile.occupy(this);
     }
 
     public void completelyLockedFromMoving(boolean lockMovementCompletely) {
@@ -740,7 +743,7 @@ public class NPC extends Entity {
         NPC[] targs = new NPC[maxCapacity];
 
         int caret = 0;
-        for (int idx = 0; idx < World.getWorld().getNpcs().size(); idx++) {
+        for (int idx = 0; idx < World.getWorld().getNpcs().capacity(); idx++) {
             NPC npc = World.getWorld().getNpcs().get(idx);
             if (npc == null || npc == this || tile().distance(npc.tile()) > 14 || npc.tile().level != tile().level || npc.finished()) {
                 continue;

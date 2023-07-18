@@ -887,6 +887,22 @@ public class CommandManager {
         dev("t21", (player, c, parts) -> {
             player.getMovementQueue().step(1, 1, MovementQueue.StepType.REGULAR);
         });
+        dev("t22", (player, c, parts) -> {
+            var n = new NPC(2007, player.tile());
+            var t = player.tile().transform(5, 5);
+            n.smartPathTo(t);
+            Chain.noCtx().waitForTile(t, () -> {
+                n.forceChat("reached");
+            });
+        });
+        dev("t23", (player, c, parts) -> {
+            var n = player.closeNpcs(5)[0];
+            n.queueLegacyTeleport(n.tile().transform(1, 1));
+        });
+        dev("t24", (player, c, parts) -> {
+            var n = player.closeNpcs(5)[0];
+            n.queueLegacyTeleport(n.tile().transform(Integer.parseInt(parts[1]), Integer.parseInt(parts[2])));
+        });
     }
 
     /**

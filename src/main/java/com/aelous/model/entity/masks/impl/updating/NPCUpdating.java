@@ -13,6 +13,7 @@ import com.aelous.network.packet.PacketBuilder;
 import com.aelous.network.packet.PacketBuilder.AccessType;
 import com.aelous.network.packet.PacketType;
 import com.aelous.network.packet.ValueType;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 
@@ -22,7 +23,7 @@ import java.util.*;
  *
  * @author Relex lawl
  */
-
+@Slf4j
 public class NPCUpdating {
 
     /**
@@ -54,7 +55,6 @@ public class NPCUpdating {
                 if (npc.getIndex() != -1 && World.getWorld().getNpcs().contains(npc) && !npc.hidden() && playerTile.isWithinDistance(npc.tile()) && !npc.isNeedsPlacement()) {
                     updateMovement(npc, packet);
                     npc.inViewport(true); // Mark as in viewport
-                    if (npc.isNeedsPlacement())
                     if (npc.getUpdateFlag().isUpdateRequired()) {
                         appendUpdates(npc, player, update, false);
                     }
@@ -72,17 +72,24 @@ public class NPCUpdating {
                 if (added >= NEW_NPCS_PER_CYCLE) {
                     break;
                 }
-                if (npc == null || localNpcs.contains(npc) || npc.hidden() || npc.isNeedsPlacement())
+                if (npc == null || npc.hidden() || npc.isNeedsPlacement())
+                    continue;
+                if (localNpcs.contains(npc) && !npc.legacyTeleport)
                     continue;
                 if (npc.tile().isWithinDistance(playerTile)) {
-                    added++;
-                    localNpcs.add(npc);
+                    if (!npc.legacyTeleport) { // this flag needs to send the addNpc block, but doesnt
+                        // actually re-add the npc internally because it was never removed (above block)
+                        added++;
+                        localNpcs.add(npc);
+                    }
+                    //log.info("{} says hi to {}", player.getMobName(), npc.getMobName());
                     addNPC(player, npc, packet, npc.isLegacyTeleport());
                     npc.inViewport(true); // Mark as in viewport
-                    if (npc.getUpdateFlag().isUpdateRequired() || sendNewNpcUpdates(npc)) {
+                    if (!npc.legacyTeleport && (npc.getUpdateFlag().isUpdateRequired() || sendNewNpcUpdates(npc))) {
                         appendUpdates(npc, player, update, true);
                     }
-                    localNpcCount++;
+                    if (!npc.legacyTeleport)
+                        localNpcCount++;
                 }
             }
             if (update.buffer().writerIndex() > 0) {
@@ -113,12 +120,19 @@ public class NPCUpdating {
     private static void addNPC(Player player, NPC npc, PacketBuilder builder, boolean legacyTeleport) {
         int yOffset = npc.tile().getY() - player.tile().getY();
         int xOffset = npc.tile().getX() - player.tile().getX();
+        if (npc.legacyTeleport) { // legacyTp is for tiles within 8x8 distance of old location and gigafast walk anim
+            yOffset = npc.tile().getY() - npc.getPreviousTile().getY();
+            xOffset = npc.tile().getX() - npc.getPreviousTile().getX();
+            npc.getPreviousTile().showTempItem(995);
+            npc.tile().showTempItem(995);
+        }
         builder.putBits(14, npc.getIndex());
         builder.putBits(5, yOffset);
         builder.putBits(5, xOffset);
-        builder.putBits(1, legacyTeleport ? 1 : 0);
+        builder.putBits(1, legacyTeleport ? 0 : 1); // 0 being use old path, client will speed up walk anim
+        // and interpolate positions
         builder.putBits(14, npc.id());
-        builder.putBits(1, npc.getUpdateFlag().isUpdateRequired() || sendNewNpcUpdates(npc) ? 1 : 0);
+        builder.putBits(1, !npc.legacyTeleport && (npc.getUpdateFlag().isUpdateRequired() || sendNewNpcUpdates(npc)) ? 1 : 0);
         boolean updateFacing = npc.walkRadius() == 0;
         builder.putBits(1, updateFacing ? 1 : 0);
         if (updateFacing) {

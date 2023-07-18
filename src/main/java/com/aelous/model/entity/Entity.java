@@ -1486,14 +1486,18 @@ public abstract class Entity {
         return this;
     }
 
-    public Entity setLegacyTeleport(int endX, int endY) {
-        getUpdateFlag().flagged(Flag.APPEARANCE);
-        Chain.noCtx().delay(1, () -> {
-            getMovementQueue().interpolate(endX, endY);
-            teleport(tile().transform(endX, endY));
-            getMovementQueue().reset();
-        });
-        return this;
+    @Getter @Setter public boolean legacyTeleport;
+
+    public void setLegacyTeleport(boolean legacyTeleport) {
+        this.legacyTeleport = legacyTeleport;
+    }
+
+    public void queueLegacyTeleport(Tile tile) {
+        this.setLegacyTeleport(true);
+        // we don't use teleport() because we avoid setting setPlacementPosisition() which is for Teleporting
+        // in Updating
+        setTile(tile);
+        Tile.occupy(this);
     }
 
     public ActionManager action = new ActionManager();
@@ -1740,6 +1744,7 @@ public abstract class Entity {
      */
     public void resetUpdating() {
         getUpdateFlag().reset();
+        this.setLegacyTeleport(false);
         walkingDirection = Direction.NONE;
         runningDirection = Direction.NONE;
         needsPlacement = false;

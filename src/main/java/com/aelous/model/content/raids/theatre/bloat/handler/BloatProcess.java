@@ -1,15 +1,11 @@
 package com.aelous.model.content.raids.theatre.bloat.handler;
 
 import com.aelous.model.World;
-import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
-import com.aelous.model.map.route.Direction;
-import com.aelous.model.map.route.routes.DumbRoute;
-import com.aelous.model.map.route.routes.TargetRoute;
-import com.aelous.utility.Utils;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,10 +19,10 @@ public class BloatProcess extends NPC {
     Tile startingPoint = new Tile(3299, 4444, 0);
     Tile[] tiles = new Tile[]
         {
-            new Tile(3301, 4453, 0),
-            new Tile(3290, 4453, 0),
-            new Tile(3290, 4442, 0),
-            new Tile(3301, 4442, 0)
+            new Tile(3301, 4440, 0),
+            new Tile(3301, 4450, 0),
+            new Tile(3290, 4450, 0),
+            new Tile(3290, 4440, 0)
         };
 
     public BloatProcess(int id, Tile tile, Player player) {
@@ -49,7 +45,9 @@ public class BloatProcess extends NPC {
     @Getter
     @Setter
     boolean walking;
-    int cycle = 0;
+    boolean running;
+    int sleepCycle;
+    int interpolateTiles = 0;
 
     private static Tile[] WALK_TILES = {
         new Tile(3288, 4440, 0), //tile4
@@ -65,19 +63,38 @@ public class BloatProcess extends NPC {
         new Area(3288, 4451, 3303, 4455, 0),
     };
 
-    @Override
-    public void postSequence() {
-        Tile step = this.getCentrePosition();
-        for (int index = 0; index < 1; index++) {
-            if (walkTo == null || Utils.collides(this.getX(), this.getY(), 5, walkTo.getX(), walkTo.getY(), 1)) {
-                cycle = (cycle + 1) & 0x3;
-                walkTo = WALK_TILES[cycle]; // new target?, yes
+    public void startBloatWalk() {
+        for (int index = 0; index < 2; index++) {
+            if (interpolateTiles == 4) {
+                interpolateTiles = 0;
+            }
+            Tile currentTile = this.tile();
+            Tile walkToTile = WALK_TILES[interpolateTiles];
+
+            int deltaX = walkToTile.getX() - currentTile.getX();
+            int deltaY = walkToTile.getY() - currentTile.getY();
+
+            int nextStepDeltaX = Integer.compare(deltaX, 0);
+            int nextStepDeltaY = Integer.compare(deltaY, 0);
+
+            if (nextStepDeltaX == 0 && nextStepDeltaY == 0) {
+                interpolateTiles++;
+                break;
             }
 
-            this.getMovementQueue().clear();
-           // System.out.printf("go to %s %n", walkTo);
-            this.queueLegacyTeleport(walkTo);
+            int nextX = currentTile.getX() + nextStepDeltaX;
+            int nextY = currentTile.getY() + nextStepDeltaY;
+
+            this.queueLegacyTeleport(new Tile(nextX, nextY, currentTile.getZ()));
+
         }
+    }
+
+
+    @Override
+    public void postSequence() {
+        startBloatWalk();
+
     }
 
     @Override

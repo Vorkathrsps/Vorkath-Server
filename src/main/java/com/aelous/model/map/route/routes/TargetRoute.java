@@ -196,13 +196,6 @@ public class TargetRoute {
         return true;
     }
 
-    public static boolean inTarget(NPC npc, Tile walkTo) {
-        if (npc.getAbsX() > (walkTo.getX() + (npc.getSize() - 1)) || npc.getAbsY() > (walkTo.getY() + (npc.getSize() - 1)))
-            return false;
-        if (walkTo.getX() > (npc.getAbsX() + (npc.getSize() - 1)) || walkTo.getY() > (npc.getAbsY() + (npc.getSize() - 1))) return false;
-        return true;
-    }
-
     public static boolean inRange(
         int absX, int absY, int size, int targetX, int targetY, int targetSize, int distance) {
         if (absX < targetX) {

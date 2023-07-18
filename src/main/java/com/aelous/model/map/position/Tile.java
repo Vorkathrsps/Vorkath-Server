@@ -45,6 +45,7 @@ public class Tile implements Cloneable {
     public GameObject object(int objectID) {
         return new GameObject(objectID, this, 10, 0);
     }
+
     public void addObject(GameObject gameObject) {
         if (gameObjects == null) {
             gameObjects = new ArrayList<>(4);
@@ -288,6 +289,10 @@ public class Tile implements Cloneable {
      */
     public Tile add(int x, int y) {
         return transform(x, y);
+    }
+
+    public Tile add(Direction direction) {
+        return transform(direction.x(), direction.y());
     }
 
     /**

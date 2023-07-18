@@ -81,8 +81,11 @@ public class NPC extends Entity {
     }
 
     public void queueLegacyTeleport(Tile tile) {
-        this.teleport(tile);
         this.setLegacyTeleport(true);
+        // we don't use teleport() because we avoid setting setPlacementPosisition() which is for Teleporting
+        // in Updating
+        setTile(tile);
+        Tile.occupy(this);
     }
 
     public void completelyLockedFromMoving(boolean lockMovementCompletely) {

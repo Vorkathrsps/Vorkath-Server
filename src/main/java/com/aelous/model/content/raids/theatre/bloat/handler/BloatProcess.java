@@ -42,6 +42,7 @@ public class BloatProcess extends NPC {
     @Getter boolean walkingCycleComplete = false;
     BooleanSupplier walkingCycleFinished = () -> walkingCycleComplete;
     List<Tile> graphicTiles = new ArrayList<>();
+    List<Player> players = new ArrayList<>();
 
     private static final Tile[] WALK_TILES = {
         new Tile(3288, 4440, 0),
@@ -79,6 +80,9 @@ public class BloatProcess extends NPC {
 
     protected void swarm() {
         if (ProjectileRoute.allow(this, player.tile())) {
+            if (this.isSleeping()) {
+                return;
+            }
             int tileDist = this.tile().distance(player.tile());
             int duration = (51 + -5 + (10 * tileDist));
             Projectile p = new Projectile(this, player, 1569, 51, duration, 0, 0, 12, 5, 10);
@@ -144,7 +148,7 @@ public class BloatProcess extends NPC {
         }
     }
 
-    public void clearGraphicTilesOnSleep() {
+    private void clearGraphicTilesOnSleep() {
         graphicTiles.clear();
     }
 

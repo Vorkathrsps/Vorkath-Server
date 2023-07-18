@@ -331,6 +331,7 @@ public class World {
             NPC npc = npcs.get(n);
             try {
                 npc.resetUpdating();
+                npc.setLegacyTeleport(false);
                 npc.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
                 npc.performance.reset();
                 npc.processed = false;

@@ -5,7 +5,7 @@ import com.aelous.model.content.raids.theatre.bloat.utils.BloatUtils;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
-import com.aelous.model.entity.masks.Flag;
+import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
@@ -13,6 +13,7 @@ import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 
 import com.aelous.model.map.region.RegionManager;
+import com.aelous.model.map.route.routes.ProjectileRoute;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 import lombok.Getter;
@@ -22,6 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BooleanSupplier;
 
+/**
+ * @Author: Origin
+ * @Date: 7/18/2023
+ */
 public class BloatProcess extends NPC {
     Player player;
     BloatUtils bloatUtils = new BloatUtils();
@@ -62,18 +67,26 @@ public class BloatProcess extends NPC {
     }
 
     public void sleep() {
-        //this.setPositionToFace(this.getCentrePosition());
-        this.waitUntil(1, walkingCycleFinished, () -> {
-           Chain.noCtx().runFn(2, () -> {
-               this.setSleeping(true);
-               this.lockDamageOk();
-               this.animate(new Animation(WALK_SLEEP));
-           }).then(32, () -> {
-               this.awaken();
-               this.unlock();
-           });
-        });
+        this.waitUntil(1, walkingCycleFinished, () -> Chain.noCtx().runFn(2, () -> {
+            this.setSleeping(true);
+            this.lockDamageOk();
+            this.animate(new Animation(WALK_SLEEP));
+        }).then(34, () -> {
+            this.awaken();
+            this.unlock();
+        }));
 
+    }
+
+    public void swarm() {
+        if (ProjectileRoute.allow(this, player.tile())) {
+            int tileDist = this.tile().distance(player.tile());
+            int duration = (51 + -5 + (10 * tileDist));
+            Projectile p = new Projectile(this, player, 1569, 51, duration, 0, 0, 12, 5, 10);
+            final int delay = this.executeProjectile(p);
+            Hit hit = Hit.builder(this, player, Utils.random(10, 20), delay, null).setAccurate(true);
+            hit.submit();
+        }
     }
 
     public void fallingLimbs() {
@@ -81,7 +94,7 @@ public class BloatProcess extends NPC {
 
         int randomStopInterval = Utils.random(7, 14);
 
-        if (this.getCyclesSinceRandomStop() == randomStopInterval) {
+        if (this.getCyclesSinceRandomStop() >= randomStopInterval) {
             sleep();
             this.setCyclesSinceRandomStop(0);
         }
@@ -146,6 +159,7 @@ public class BloatProcess extends NPC {
         if (!this.isSleeping()) {
             interpolateBloatWalk();
             fallingLimbs();
+            swarm();
         }
 
         for (var t : graphicTiles) {

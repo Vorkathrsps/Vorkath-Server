@@ -43,7 +43,7 @@ public class BloatProcess extends NPC {
     @Getter @Setter int cyclesSinceRandomStop = 0;
     @Getter boolean walkingCycleComplete = false;
     BooleanSupplier walkingCycleFinished = () -> walkingCycleComplete;
-    private List<Tile> graphicTiles = new ArrayList<>();
+    List<Tile> graphicTiles = new ArrayList<>();
 
     private static final Tile[] WALK_TILES = {
         new Tile(3288, 4440, 0), //tile4
@@ -140,18 +140,24 @@ public class BloatProcess extends NPC {
             int nextX = currentTile.getX() + nextStepDeltaX;
             int nextY = currentTile.getY() + nextStepDeltaY;
             this.queueTeleportJump(new Tile(nextX, nextY, currentTile.getZ()));
-            if (this.getFaceTile() != null) {
-                var faceTile = this.getFaceTile();
-                faceTile = new Tile(walkToTile.getX(), walkToTile.getY());
-                this.setFaceTile(faceTile);
-                if (this.getSize() > 1) {
-                    faceTile = this.tile().transform(this.getSize() / 2, this.getSize() / 2, 0);
-                }
-                this.setPositionToFace(faceTile);
-            }
+            this.updateFaceTile(walkToTile);
             this.walkingCycleComplete = true;
         }
     }
+
+    private void updateFaceTile(Tile walkToTile) {
+        if (this.getFaceTile() != null) {
+            Tile faceTile = new Tile(walkToTile.getX(), walkToTile.getY());
+            this.setFaceTile(faceTile);
+
+            if (this.getSize() > 1) {
+                faceTile = this.tile().transform(this.getSize() / 2, this.getSize() / 2, 0);
+            }
+
+            this.setPositionToFace(faceTile);
+        }
+    }
+
 
     @Override
     public void postSequence() {

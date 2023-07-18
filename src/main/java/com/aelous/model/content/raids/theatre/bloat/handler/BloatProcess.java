@@ -2,8 +2,6 @@ package com.aelous.model.content.raids.theatre.bloat.handler;
 
 import com.aelous.model.World;
 import com.aelous.model.content.raids.theatre.bloat.utils.BloatUtils;
-import com.aelous.model.entity.combat.CombatFactory;
-import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.animations.Animation;

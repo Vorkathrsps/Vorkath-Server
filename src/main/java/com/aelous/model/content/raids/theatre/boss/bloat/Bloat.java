@@ -1,4 +1,4 @@
-package com.aelous.model.content.raids.theatre.bloat;
+package com.aelous.model.content.raids.theatre.boss.bloat;
 
 import com.aelous.model.content.raids.theatre.controller.TheatreController;
 

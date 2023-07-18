@@ -1,4 +1,4 @@
-package com.aelous.model.content.raids.theatre.nylocas.combat;
+package com.aelous.model.content.raids.theatre.boss.nylocas.combat;
 
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.hit.Hit;

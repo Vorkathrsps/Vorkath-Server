@@ -1,6 +1,6 @@
 package com.aelous.model.content.raids.theatre;
 
-import com.aelous.model.content.raids.theatre.nylocas.VasiliasListener;
+import com.aelous.model.content.raids.theatre.boss.nylocas.VasiliasListener;
 import com.aelous.model.entity.player.Player;
 
 /**

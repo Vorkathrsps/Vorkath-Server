@@ -1,6 +1,6 @@
-package com.aelous.model.content.raids.theatre.nylocas.pillars;
+package com.aelous.model.content.raids.theatre.boss.nylocas.pillars;
 
-import com.aelous.model.content.raids.theatre.nylocas.VasiliasListener;
+import com.aelous.model.content.raids.theatre.boss.nylocas.VasiliasListener;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
 

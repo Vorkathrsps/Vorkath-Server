@@ -44,6 +44,39 @@
   {
     // Verzik Vitur pillar
     "ids": [
+      8359
+    ],
+    "maxhit": 0,
+    "deathlen": 3,
+    "aggressive": false,
+    "aggroradius": 0,
+    "stats": {
+      "attack": 250,
+      "strength": 340,
+      "magic": 150,
+      "ranged": 180,
+      "defence": 100,
+      "hitpoints": 2000
+    },
+    "bonuses": {
+      "attack": 150,
+      "ranged": 180,
+      "magic": 0,
+      "stabdefence": 40,
+      "slashdefence": 20,
+      "crushdefence": 40,
+      "rangeddefence": 800,
+      "magicdefence": 600
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": -1
+    }
+  },
+  {
+    // Verzik Vitur pillar
+    "ids": [
       8379
     ],
     "maxhit": 0,

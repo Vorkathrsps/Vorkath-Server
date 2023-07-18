@@ -1,7 +1,7 @@
-package com.aelous.model.content.raids.theatre.nylocas.handler;
+package com.aelous.model.content.raids.theatre.boss.nylocas.handler;
 
 import com.aelous.model.World;
-import com.aelous.model.content.raids.theatre.nylocas.VasiliasListener;
+import com.aelous.model.content.raids.theatre.boss.nylocas.VasiliasListener;
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.npc.NPC;

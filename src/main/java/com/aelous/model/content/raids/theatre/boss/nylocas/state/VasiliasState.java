@@ -1,4 +1,4 @@
-package com.aelous.model.content.raids.theatre.nylocas.state;
+package com.aelous.model.content.raids.theatre.boss.nylocas.state;
 
 public enum VasiliasState {
 

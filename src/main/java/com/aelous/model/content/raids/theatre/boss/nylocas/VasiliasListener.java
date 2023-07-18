@@ -1,11 +1,11 @@
-package com.aelous.model.content.raids.theatre.nylocas;
+package com.aelous.model.content.raids.theatre.boss.nylocas;
 
 import com.aelous.model.World;
+import com.aelous.model.content.raids.theatre.boss.nylocas.handler.VasiliasProcess;
 import com.aelous.model.content.raids.theatre.controller.TheatreController;
-import com.aelous.model.content.raids.theatre.nylocas.handler.VasiliasProcess;
-import com.aelous.model.content.raids.theatre.nylocas.pillars.PillarNpc;
-import com.aelous.model.content.raids.theatre.nylocas.pillars.PillarObject;
-import com.aelous.model.content.raids.theatre.nylocas.state.VasiliasState;
+import com.aelous.model.content.raids.theatre.boss.nylocas.pillars.PillarNpc;
+import com.aelous.model.content.raids.theatre.boss.nylocas.pillars.PillarObject;
+import com.aelous.model.content.raids.theatre.boss.nylocas.state.VasiliasState;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.object.GameObject;

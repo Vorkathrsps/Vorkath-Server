@@ -584,6 +584,10 @@ public class Tile implements Cloneable {
         return x >= area.x1 && y >= area.y1 && x <= area.x2 && y <= area.y2;
     }
 
+    public boolean withinArea(Area area) {
+        return x >= area.x2 && y >= area.y2 && x <= area.x1 && y <= area.y1;
+    }
+
     public boolean inAreaZ(Area area) {
         return x >= area.x1 && y >= area.y1 && x <= area.x2 && y <= area.y2 && level == area.level;
     }

@@ -1,13 +1,14 @@
-package com.aelous.model.content.raids.theatre.bloat.handler;
+package com.aelous.model.content.raids.theatre.boss.bloat.handler;
 
 import com.aelous.model.World;
-import com.aelous.model.content.raids.theatre.bloat.utils.BloatUtils;
+import com.aelous.model.content.raids.theatre.boss.bloat.utils.BloatUtils;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Area;
+import com.aelous.model.map.position.Boundary;
 import com.aelous.model.map.position.Tile;
 
 import com.aelous.model.map.region.RegionManager;
@@ -25,13 +26,13 @@ import java.util.function.BooleanSupplier;
  * @Author: Origin
  * @Date: 7/18/2023
  */
-public class BloatProcess extends NPC {
+public class BloatProcess extends NPC { //TODO make it so he only interpolates based on player list size in area,
     Player player;
     BloatUtils bloatUtils = new BloatUtils();
     int interpolateTiles = 0;
     int WALK_SLEEP = 8082;
     int DEATH_ANIM = 8085;
-    public static Area BLOAT_AREA = new Area(3288, 4455, 3303, 4440);
+    public static final Area BLOAT_AREA = new Area(3303, 4455, 3288, 4440);
     Area IGNORED_AREA = new Area(3298, 4445, 3293, 4450);
     public static final int[] LIMB_GRAPHICS = new int[]{1570, 1571, 1572, 1573};
     @Getter @Setter public boolean sleeping;
@@ -65,16 +66,13 @@ public class BloatProcess extends NPC {
         this.setSleeping(false);
     }
 
+    BooleanSupplier isDead = this::dead;
     protected void sleep() {
         this.waitUntil(1, walkingCycleFinished, () -> Chain.noCtx().runFn(2, () -> {
             this.clearGraphicTilesOnSleep();
             this.setSleeping(true);
-            this.lockDamageOk();
             this.animate(new Animation(WALK_SLEEP));
-        }).then(34, () -> {
-            this.awaken();
-            this.unlock();
-        }));
+        }).then(34, this::awaken).cancelWhen(isDead));
 
     }
 
@@ -168,11 +166,18 @@ public class BloatProcess extends NPC {
 
     @Override
     public void postSequence() {
+        if (!players.contains(player) && player.tile().withinArea(BLOAT_AREA)) {
+            players.add(player);
+        } else if (players.contains(player) && !player.tile().withinArea(BLOAT_AREA)) {
+            players.remove(player);
+        }
 
-        if (!this.isSleeping()) {
+        if (!this.isSleeping() && player.tile().withinArea(BLOAT_AREA)) {
             interpolateBloatWalk();
             fallingLimbs();
             swarm();
+        } else {
+            interpolateBloatWalk();
         }
 
         for (var t : graphicTiles) {
@@ -192,6 +197,11 @@ public class BloatProcess extends NPC {
         Chain.noCtx().runFn(1, () -> {
             this.animate(DEATH_ANIM);
         }).then(3, () -> {
+            if (this.isSleeping() || locked() || !this.graphicTiles.isEmpty()) {
+                graphicTiles.clear();
+                this.setSleeping(false);
+                this.unlock();
+            }
             World.getWorld().unregisterNpc(this);
         });
     }

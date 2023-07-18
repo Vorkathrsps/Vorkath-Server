@@ -740,7 +740,7 @@ public class NPC extends Entity {
         NPC[] targs = new NPC[maxCapacity];
 
         int caret = 0;
-        for (int idx = 0; idx < World.getWorld().getNpcs().size(); idx++) {
+        for (int idx = 0; idx < World.getWorld().getNpcs().capacity(); idx++) {
             NPC npc = World.getWorld().getNpcs().get(idx);
             if (npc == null || npc == this || tile().distance(npc.tile()) > 14 || npc.tile().level != tile().level || npc.finished()) {
                 continue;

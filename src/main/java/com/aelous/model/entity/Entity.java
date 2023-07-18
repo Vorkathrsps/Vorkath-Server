@@ -392,7 +392,7 @@ public abstract class Entity {
         NPC[] targs = new NPC[maxCapacity];
 
         int caret = 0;
-        for (int idx = 0; idx < World.getWorld().getNpcs().size(); idx++) {
+        for (int idx = 0; idx < World.getWorld().getNpcs().capacity(); idx++) {
             NPC npc = World.getWorld().getNpcs().get(idx);
             if (npc == null || npc == this || npc.tile() == null || npc.tile().level != tile().level || npc.finished()) {
                 continue;

@@ -3,10 +3,16 @@ package com.aelous.model.content.raids.theatre.bloat.combat;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 
+import javax.annotation.Nonnull;
+
 public class BloatCombat extends CommonCombatMethod {
     @Override
-    public boolean prepareAttack(Entity entity, Entity target) {
-        return false;
+    public boolean prepareAttack(@Nonnull Entity entity, @Nonnull Entity target) {
+        return true;
+    }
+
+    public void sendFlies(@Nonnull Entity entity, @Nonnull Entity target) {
+
     }
 
     @Override

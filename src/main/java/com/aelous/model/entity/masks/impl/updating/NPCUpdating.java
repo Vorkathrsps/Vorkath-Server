@@ -52,7 +52,7 @@ public class NPCUpdating {
             Iterator<NPC> npcIterator = localNpcs.iterator();
             while (npcIterator.hasNext()) {
                 NPC npc = npcIterator.next();
-                if (npc.getIndex() != -1 && World.getWorld().getNpcs().contains(npc) && !npc.hidden() && !npc.isLegacyTeleport() && playerTile.isWithinDistance(npc.tile()) && !npc.isNeedsPlacement()) {
+                if (npc.getIndex() != -1 && World.getWorld().getNpcs().contains(npc) && !npc.hidden() && !npc.isTeleportJump() && playerTile.isWithinDistance(npc.tile()) && !npc.isNeedsPlacement()) {
                     updateMovement(npc, packet);
                     npc.inViewport(true); // Mark as in viewport
                     if (npc.getUpdateFlag().isUpdateRequired()) {
@@ -79,7 +79,7 @@ public class NPCUpdating {
                 if (npc.tile().isWithinDistance(playerTile)) {
                     added++;
                     localNpcs.add(npc);
-                    addNPC(player, npc, packet, npc.isLegacyTeleport());
+                    addNPC(player, npc, packet, npc.isTeleportJump());
                     npc.inViewport(true);
                     if ((npc.getUpdateFlag().isUpdateRequired() || sendNewNpcUpdates(npc))) {
                         appendUpdates(npc, player, update, true);

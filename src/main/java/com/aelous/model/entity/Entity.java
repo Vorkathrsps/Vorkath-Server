@@ -463,7 +463,7 @@ public abstract class Entity {
         return animation;
     }
 
-    private Tile faceTile;
+    @Setter private Tile faceTile;
 
     /**
      * Gets the face tile.
@@ -1486,18 +1486,18 @@ public abstract class Entity {
         return this;
     }
 
-    @Getter @Setter public boolean legacyTeleport;
+    @Getter @Setter public boolean teleportJump;
 
-    public void setLegacyTeleport(boolean legacyTeleport) {
-        this.legacyTeleport = legacyTeleport;
+    public void setTeleportJump(boolean teleportJump) {
+        this.teleportJump = teleportJump;
     }
 
-    public void queueLegacyTeleport(Tile tile) {
-        this.setLegacyTeleport(true);
-        // we don't use teleport() because we avoid setting setPlacementPosisition() which is for Teleporting
-        // in Updating
-        setTile(tile);
+    public void queueTeleportJump(Tile newTile) {
+        this.setTeleportJump(true);
+        setTile(newTile);
         Tile.occupy(this);
+        this.faceTile = newTile;
+        this.tile = newTile;
     }
 
     public ActionManager action = new ActionManager();
@@ -1744,7 +1744,7 @@ public abstract class Entity {
      */
     public void resetUpdating() {
         getUpdateFlag().reset();
-        this.setLegacyTeleport(false);
+        this.setTeleportJump(false);
         walkingDirection = Direction.NONE;
         runningDirection = Direction.NONE;
         needsPlacement = false;

@@ -6,9 +6,7 @@ import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 import com.aelous.model.content.areas.theatre.ViturRoom;
 import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
-import com.aelous.model.content.raids.theatre.Theatre;
 import com.aelous.model.content.raids.theatre.bloat.handler.BloatProcess;
-import com.aelous.model.content.raids.theatre.nylocas.VasiliasBoss;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.aelous.model.content.tournaments.Tournament;
 import com.aelous.model.content.tournaments.TournamentManager;
@@ -56,7 +54,6 @@ import org.apache.logging.log4j.util.TriConsumer;
 
 import java.security.SecureRandom;
 import java.util.*;
-import java.util.function.BooleanSupplier;
 
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.GREAT_OLM_7554;
 import static com.aelous.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
@@ -897,11 +894,11 @@ public class CommandManager {
         });
         dev("t23", (player, c, parts) -> {
             var n = player.closeNpcs(5)[0];
-            n.queueLegacyTeleport(n.tile().transform(1, 1));
+          //  n.queueTeleportJump(n.tile().transform(1, 1));
         });
         dev("t24", (player, c, parts) -> {
             var n = player.closeNpcs(5)[0];
-            n.queueLegacyTeleport(n.tile().transform(Integer.parseInt(parts[1]), Integer.parseInt(parts[2])));
+           // n.queueTeleportJump(n.tile().transform(Integer.parseInt(parts[1]), Integer.parseInt(parts[2])));
         });
     }
 

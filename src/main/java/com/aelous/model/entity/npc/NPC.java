@@ -74,20 +74,6 @@ public class NPC extends Entity {
         return lockMovementCompletely;
     }
 
-    @Getter @Setter public boolean legacyTeleport;
-
-    public void setLegacyTeleport(boolean legacyTeleport) {
-        this.legacyTeleport = legacyTeleport;
-    }
-
-    public void queueLegacyTeleport(Tile tile) {
-        this.setLegacyTeleport(true);
-        // we don't use teleport() because we avoid setting setPlacementPosisition() which is for Teleporting
-        // in Updating
-        setTile(tile);
-        Tile.occupy(this);
-    }
-
     public void completelyLockedFromMoving(boolean lockMovementCompletely) {
         this.lockMovementCompletely = lockMovementCompletely;
     }

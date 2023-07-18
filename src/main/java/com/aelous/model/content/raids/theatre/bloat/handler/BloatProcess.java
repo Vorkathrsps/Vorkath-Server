@@ -44,10 +44,10 @@ public class BloatProcess extends NPC {
     List<Tile> graphicTiles = new ArrayList<>();
 
     private static final Tile[] WALK_TILES = {
-        new Tile(3288, 4440, 0), //tile4
-        new Tile(3288, 4451, 0), //tile1
-        new Tile(3299, 4451, 0), //tile2
-        new Tile(3299, 4440, 0), //tile3
+        new Tile(3288, 4440, 0),
+        new Tile(3288, 4451, 0),
+        new Tile(3299, 4451, 0),
+        new Tile(3299, 4440, 0),
     };
 
     public BloatProcess(int id, Tile tile, Player player) {
@@ -60,12 +60,13 @@ public class BloatProcess extends NPC {
         this.setIgnoreOccupiedTiles(true);
     }
 
-    public void awaken() {
+    protected void awaken() {
         this.setSleeping(false);
     }
 
-    public void sleep() {
+    protected void sleep() {
         this.waitUntil(1, walkingCycleFinished, () -> Chain.noCtx().runFn(2, () -> {
+            this.clearGraphicTilesOnSleep();
             this.setSleeping(true);
             this.lockDamageOk();
             this.animate(new Animation(WALK_SLEEP));
@@ -76,7 +77,7 @@ public class BloatProcess extends NPC {
 
     }
 
-    public void swarm() {
+    protected void swarm() {
         if (ProjectileRoute.allow(this, player.tile())) {
             int tileDist = this.tile().distance(player.tile());
             int duration = (51 + -5 + (10 * tileDist));
@@ -87,7 +88,7 @@ public class BloatProcess extends NPC {
         }
     }
 
-    public void fallingLimbs() {
+    protected void fallingLimbs() {
         dropCounter++;
 
         int randomStopInterval = Utils.random(7, 14);
@@ -117,7 +118,7 @@ public class BloatProcess extends NPC {
         }
     }
 
-    public void interpolateBloatWalk() {
+    protected void interpolateBloatWalk() {
         for (int index = 0; index < (running ? 2 : 1); index++) {
             this.walkingCycleComplete = false;
             Tile currentTile = this.tile();
@@ -141,6 +142,10 @@ public class BloatProcess extends NPC {
             this.updateFaceTile(walkToTile);
             this.walkingCycleComplete = true;
         }
+    }
+
+    public void clearGraphicTilesOnSleep() {
+        graphicTiles.clear();
     }
 
     private void updateFaceTile(Tile walkToTile) {

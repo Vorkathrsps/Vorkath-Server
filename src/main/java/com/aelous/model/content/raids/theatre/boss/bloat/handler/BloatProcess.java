@@ -26,7 +26,7 @@ import java.util.function.BooleanSupplier;
  * @Author: Origin
  * @Date: 7/18/2023
  */
-public class BloatProcess extends NPC { //TODO make it so he only interpolates based on player list size in area,
+public class BloatProcess extends NPC { //TODO make him reverse interpolate walk
     Player player;
     BloatUtils bloatUtils = new BloatUtils();
     int interpolateTiles = 0;
@@ -42,6 +42,7 @@ public class BloatProcess extends NPC { //TODO make it so he only interpolates b
     @Getter @Setter int cyclesSinceRandomStop = 0;
     @Getter boolean walkingCycleComplete = false;
     BooleanSupplier walkingCycleFinished = () -> walkingCycleComplete;
+    BooleanSupplier isDead = this::dead;
     List<Tile> graphicTiles = new ArrayList<>();
     List<Player> players = new ArrayList<>();
 
@@ -66,7 +67,6 @@ public class BloatProcess extends NPC { //TODO make it so he only interpolates b
         this.setSleeping(false);
     }
 
-    BooleanSupplier isDead = this::dead;
     protected void sleep() {
         this.waitUntil(1, walkingCycleFinished, () -> Chain.noCtx().runFn(2, () -> {
             this.clearGraphicTilesOnSleep();
@@ -172,12 +172,14 @@ public class BloatProcess extends NPC { //TODO make it so he only interpolates b
             players.remove(player);
         }
 
+        if (!player.tile().withinArea(BLOAT_AREA)) {
+            interpolateBloatWalk();
+        }
+
         if (!this.isSleeping() && player.tile().withinArea(BLOAT_AREA)) {
             interpolateBloatWalk();
             fallingLimbs();
             swarm();
-        } else {
-            interpolateBloatWalk();
         }
 
         for (var t : graphicTiles) {

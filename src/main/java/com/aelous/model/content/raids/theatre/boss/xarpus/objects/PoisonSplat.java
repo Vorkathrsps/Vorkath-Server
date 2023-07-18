@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PoisonSplat extends GameObject {
-    @Getter List<GameObject> splat = new ArrayList<>();
+    @Getter
+    List<GameObject> splat = new ArrayList<>();
+
     public PoisonSplat(int id, Tile tile) {
         super(id, tile);
         addToList();
@@ -22,8 +24,11 @@ public class PoisonSplat extends GameObject {
         return splat.remove(this);
     }
 
-    public void clearList() {
-        splat.clear();
+    public void clearAndDeleteObjectsFromList() {
+        for (var s : splat) {
+            s.remove();
+            splat.clear();
+        }
     }
 
 }

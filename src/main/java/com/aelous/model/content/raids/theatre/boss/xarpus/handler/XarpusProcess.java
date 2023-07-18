@@ -11,6 +11,8 @@ import com.aelous.utility.Utils;
 
 public class XarpusProcess extends NPC {
     Player player;
+    private int intervalCount = 0;
+    private int splatInterval = 5;
 
     public XarpusProcess(int id, Tile tile, Player player) {
         super(id, tile);
@@ -36,7 +38,7 @@ public class XarpusProcess extends NPC {
         return 1654;
     }
 
-    public void sendPoisonPoolToOtherPlayerTile() {
+    public void sendPoisonPool() {
         var tileDist = this.tile().distance(player.tile());
         int duration = (50 + -5 + (10 * tileDist));
         Projectile p = new Projectile(this, player.tile(), 1644, 50, duration, 105, 0, 0, 5, 10);
@@ -44,10 +46,24 @@ public class XarpusProcess extends NPC {
         World.getWorld().tileGraphic(1645, player.tile(), 0, p.getSpeed());
         var graphicId = getPoolGraphic(this, player.tile());
         World.getWorld().tileGraphic(graphicId, player.tile(), 0, p.getSpeed());
+
+
+        Projectile p2 = new Projectile(p.getEnd(), player.tile(), 1644, 50, p.getSpeed() * 2, 0, 0, 80, 5, 10);
+        p2.send(p2.getStart(), player.tile());
+        World.getWorld().tileGraphic(1645, player.tile(), 0, p2.getSpeed());
+        World.getWorld().tileGraphic(graphicId, player.tile(), 0, p2.getSpeed());
+    }
+
+    public void sendPoisonFromPoisonTile() {
+
     }
 
     @Override
     public void postSequence() {
+        intervalCount++;
+        if (intervalCount >= splatInterval) {
+            sendPoisonPool();
+        }
 
     }
 

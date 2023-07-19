@@ -23,7 +23,6 @@ import java.util.List;
  */
 public class XarpusProcess extends NPC {
     Player player;
-
     @Getter @Setter private boolean entranceAnimationStarted = false;
     @Getter @Setter private boolean initiated = false;
     private int intervalCount = 0;

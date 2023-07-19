@@ -7,6 +7,7 @@ import com.aelous.model.World;
 import com.aelous.model.content.areas.theatre.ViturRoom;
 import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.aelous.model.content.raids.theatre.boss.bloat.handler.BloatProcess;
+import com.aelous.model.content.raids.theatre.boss.xarpus.handler.XarpusProcess;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.aelous.model.content.tournaments.Tournament;
 import com.aelous.model.content.tournaments.TournamentManager;
@@ -673,10 +674,11 @@ public class CommandManager {
         dev("c", (p, c, s) -> {
             BloatProcess bloatProcess = new BloatProcess(8359, new Tile(3299, 4440, 0), p);
             bloatProcess.spawn(false);
-            //NPC npc = new NPC(8359, new Tile(3299, 4440));
-            //npc.spawn(false);
-            //npc.queueLegacyTeleport(new Tile(3299, 4441));
-            //theatre.clearRoom();
+        });
+
+        dev("x", (p, c, s) -> {
+            XarpusProcess xarpusProcess = new XarpusProcess(8340, new Tile(3167, 4385, 1), p);
+            xarpusProcess.spawn(false);
         });
 
         dev("curseoff", (p, c, s) ->

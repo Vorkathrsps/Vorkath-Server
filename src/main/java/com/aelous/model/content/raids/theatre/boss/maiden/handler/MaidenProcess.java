@@ -34,6 +34,7 @@ public class MaidenProcess extends NPC {
     @Getter @Setter private int randomBlood = 0;
     private int intervalCount = 0;
     private int attackInterval = 10;
+    boolean activeOrb = false;
 
     public MaidenProcess(int id, Tile tile, Player player) {
         super(id, tile);
@@ -61,8 +62,6 @@ public class MaidenProcess extends NPC {
         hit.submit();
     }
 
-    boolean activeOrb = false;
-
     public void throwBlood() {
         var tile = player.tile().copy();
         this.face(player);
@@ -73,9 +72,9 @@ public class MaidenProcess extends NPC {
         Projectile p = new Projectile(this, tile, 2002, 68, duration, 95, 0, 20, 5, 10);
         p.send(this, tile);
         World.getWorld().tileGraphic(1579, tile, 0, p.getSpeed());
-        orb = new BloodSpawn(10821, new Tile(p.getEnd().getX(), p.getEnd().getY()), player);
+        this.orb = new BloodSpawn(10821, new Tile(p.getEnd().getX(), p.getEnd().getY()), player);
         Chain.noCtx().runFn(16, () -> {
-            orb.spawn(false);
+            this.orb.spawn(false);
             this.activeOrb = true;
         });
     }

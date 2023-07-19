@@ -1,7 +1,6 @@
 package com.aelous.model.content.raids.theatre.boss.maiden.blood;
 
 import com.aelous.model.World;
-import com.aelous.model.content.raids.theatre.boss.maiden.objects.BloodSplat;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
@@ -26,7 +25,7 @@ public class BloodSpawn extends NPC {
 
     @Override
     public void die() {
-        orbSpawns.clear();
+        orbSpawns.remove(this);
         World.getWorld().unregisterNpc(this);
     }
 }

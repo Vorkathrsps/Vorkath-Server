@@ -17,6 +17,10 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @Author: Origin
+ * @Date: 7/18/2023
+ */
 public class XarpusProcess extends NPC {
     Player player;
 

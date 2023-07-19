@@ -7,6 +7,7 @@ import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.object.GameObject;
+import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.utility.chainedwork.Chain;
 
@@ -19,6 +20,8 @@ public class XarpusProcess extends NPC {
     private int splatInterval = 4;
     List<Tile> poisonTile = new ArrayList<>();
     List<GameObject> objects = new ArrayList<>();
+    List<Player> players = new ArrayList<>();
+    public static final Area XARPUS_AREA = new Area(3177, 4394, 3163, 4380);
     int HEALING_XARPUS = 10767;
 
     public XarpusProcess(int id, Tile tile, Player player) {
@@ -67,7 +70,12 @@ public class XarpusProcess extends NPC {
 
     @Override
     public void postSequence() {
-        if (this.dead()) {
+        if (!players.contains(player) && player.tile().withinArea(XARPUS_AREA)) {
+            players.add(player);
+        } else if (players.contains(player) && !player.tile().withinArea(XARPUS_AREA)) {
+            players.remove(player);
+        }
+        if (this.dead() || !player.tile().withinArea(XARPUS_AREA)) {
             return;
         }
         intervalCount++;
@@ -77,7 +85,6 @@ public class XarpusProcess extends NPC {
             intervalCount = 0;
             splatInterval = 5;
         }
-
     }
 
     @Override

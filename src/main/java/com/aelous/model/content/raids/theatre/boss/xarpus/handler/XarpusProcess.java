@@ -10,19 +10,23 @@ import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.utility.chainedwork.Chain;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class XarpusProcess extends NPC {
     Player player;
+
+    @Getter @Setter private boolean entranceAnimationStarted = false;
+    @Getter @Setter private boolean initiated = false;
     private int intervalCount = 0;
     private int splatInterval = 4;
     List<Tile> poisonTile = new ArrayList<>();
     List<GameObject> objects = new ArrayList<>();
     List<Player> players = new ArrayList<>();
     public static final Area XARPUS_AREA = new Area(3177, 4394, 3163, 4380);
-    int HEALING_XARPUS = 10767;
 
     public XarpusProcess(int id, Tile tile, Player player) {
         super(id, tile);
@@ -34,15 +38,7 @@ public class XarpusProcess extends NPC {
         this.setIgnoreOccupiedTiles(true);
     }
 
-    public void setHealingPhase() {
-        this.transmog(HEALING_XARPUS);
-    }
-
-    public void faceTarget() {
-        this.face(player);
-    }
-
-    public void sendPoisonPool() { //TODO add multiplayer support / projectile hopping
+    public void sendPoisonPool() { //TODO add multiplayer support / projectile richochet
         var tile = player.tile().copy();
         this.faceTarget();
         Chain.noCtx().runFn(1, () -> {
@@ -51,8 +47,9 @@ public class XarpusProcess extends NPC {
         this.animate(8059);
         var tileDist = this.tile().distance(tile);
         int duration = (68 + 25 + (10 * tileDist));
-        Projectile p = new Projectile(this, tile, 1555, 68, duration, 95, 0, 20, 5, 10);
-        p.send(this, tile);
+        var entityTile = this.tile().transform(1, 1, 0);
+        Projectile p = new Projectile(entityTile, tile, 1555, 68, duration, 95, 0, 20, 5, 10);
+        p.send(entityTile, tile);
         World.getWorld().tileGraphic(1556, tile, 0, p.getSpeed());
         PoisonSplat poisonSplat = new PoisonSplat(32744, p.getEnd(), 22, 0);
         Chain.noCtx().runFn((int) (p.getSpeed() / 30D), () -> {
@@ -64,9 +61,28 @@ public class XarpusProcess extends NPC {
         }).then(1, () -> poisonSplat.animate(8068));
     }
 
+    public void setOpeningTransmog() {
+        this.transmog(8340);
+    }
+
+    public void faceTarget() {
+        this.face(player);
+    }
+
     public void sendExhumed() { //TODO
 
     }
+
+    Runnable entranceAnimation = () -> {
+        this.lockNoDamage();
+        this.animate(8061);
+        Chain.noCtx().runFn(1, () -> {
+            this.animate(8058);
+        }).then(2, this::setOpeningTransmog).then(1, () -> {
+            this.unlock();
+            this.setInitiated(true);
+        });
+    };
 
     @Override
     public void postSequence() {
@@ -78,13 +94,33 @@ public class XarpusProcess extends NPC {
         if (this.dead() || !player.tile().withinArea(XARPUS_AREA)) {
             return;
         }
-        intervalCount++;
-        splatInterval--;
-        if (intervalCount >= 4 && splatInterval <= 0 && !this.dead()) {
-            sendPoisonPool();
-            intervalCount = 0;
-            splatInterval = 5;
+
+        if (player.tile().withinArea(XARPUS_AREA)) {
+            if (!entranceAnimationStarted) {
+                entranceAnimation.run();
+                this.setEntranceAnimationStarted(true);
+            }
+
+            if (this.isInitiated()) {
+                intervalCount++;
+                splatInterval--;
+                if (intervalCount >= 4 && splatInterval <= 0 && !this.dead()) {
+                    sendPoisonPool();
+                    intervalCount = 0;
+                    splatInterval = 5;
+                }
+            }
         }
+    }
+
+    public void clear() {
+        for (var o : objects) {
+            o.remove();
+            poisonTile.clear();
+        }
+        players.clear();
+        this.setInitiated(false);
+        this.setEntranceAnimationStarted(false);
     }
 
     @Override
@@ -93,11 +129,6 @@ public class XarpusProcess extends NPC {
             this.animate(8063);
         }).then(3, () -> {
             World.getWorld().unregisterNpc(this);
-        }).then(2, () -> {
-            for (var o : objects) {
-                o.remove();
-                poisonTile.clear();
-            }
-        });
+        }).then(2, this::clear);
     }
 }

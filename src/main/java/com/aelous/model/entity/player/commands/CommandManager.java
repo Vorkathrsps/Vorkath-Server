@@ -7,6 +7,8 @@ import com.aelous.model.World;
 import com.aelous.model.content.areas.theatre.ViturRoom;
 import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.aelous.model.content.raids.theatre.boss.bloat.handler.BloatProcess;
+import com.aelous.model.content.raids.theatre.boss.maiden.blood.BloodSpawn;
+import com.aelous.model.content.raids.theatre.boss.maiden.handler.MaidenProcess;
 import com.aelous.model.content.raids.theatre.boss.xarpus.handler.XarpusProcess;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.aelous.model.content.tournaments.Tournament;
@@ -677,8 +679,16 @@ public class CommandManager {
         });
 
         dev("x", (p, c, s) -> {
-            XarpusProcess xarpusProcess = new XarpusProcess(10767, new Tile(3169, 4386, 1), p);
-            xarpusProcess.spawn(false);
+           // XarpusProcess xarpusProcess = new XarpusProcess(10767, new Tile(3169, 4386, 1), p);
+            //xarpusProcess.spawn(false);
+
+           // BloodSpawn orb = new BloodSpawn(10821, new Tile(p.getX(), p.getY()));
+           // orb.spawn(false);
+        });
+
+        dev("m", (p, c, s) -> {
+            MaidenProcess maidenProcess = new MaidenProcess(8360, new Tile(3162, 4444, 0), p);
+            maidenProcess.spawn(false);
         });
 
         dev("curseoff", (p, c, s) ->

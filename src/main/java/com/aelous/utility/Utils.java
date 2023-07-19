@@ -87,6 +87,11 @@ public class Utils {
         return new int[][] { xs, xy };
     }
 
+    public static boolean sequenceRandomInterval(int count, int min, int max) {
+        int intervals = Utils.random(min, max);
+        return count >= intervals;
+    }
+
     public static String gameModeToString(Player player) {
         //Player is some sort of ironman
         if (player.getIronManStatus() != IronMode.NONE) {

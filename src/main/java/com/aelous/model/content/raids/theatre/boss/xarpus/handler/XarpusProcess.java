@@ -9,6 +9,7 @@ import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
+import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,8 +20,12 @@ import java.util.List;
 public class XarpusProcess extends NPC {
     Player player;
 
-    @Getter @Setter private boolean entranceAnimationStarted = false;
-    @Getter @Setter private boolean initiated = false;
+    @Getter
+    @Setter
+    private boolean entranceAnimationStarted = false;
+    @Getter
+    @Setter
+    private boolean initiated = false;
     private int intervalCount = 0;
     private int splatInterval = 4;
     List<Tile> poisonTile = new ArrayList<>();
@@ -28,7 +33,7 @@ public class XarpusProcess extends NPC {
     List<Player> players = new ArrayList<>();
     public static final Area XARPUS_AREA = new Area(3177, 4394, 3163, 4380);
 
-    public XarpusProcess(int id, Tile tile, Player player) {
+    public XarpusProcess(int id, Tile tile, Player player) { //TODO add exhumed
         super(id, tile);
         this.player = player;
         this.setSize(5);
@@ -69,10 +74,6 @@ public class XarpusProcess extends NPC {
         this.face(player);
     }
 
-    public void sendExhumed() { //TODO
-
-    }
-
     Runnable entranceAnimation = () -> {
         this.lockNoDamage();
         this.animate(8061);
@@ -83,6 +84,7 @@ public class XarpusProcess extends NPC {
             this.setInitiated(true);
         });
     };
+
 
     @Override
     public void postSequence() {
@@ -99,6 +101,19 @@ public class XarpusProcess extends NPC {
             if (!entranceAnimationStarted) {
                 entranceAnimation.run();
                 this.setEntranceAnimationStarted(true);
+            }
+
+            for (var t : poisonTile) {
+                var currentX = player.tile().getX();
+                var currentY = player.tile().getY();
+                var previousX = player.getPreviousTile().getX();
+                var previousY = player.getPreviousTile().getY();
+
+                var middleX = (currentX + previousX) / 2;
+                var middleY = (currentY + previousY) / 2;
+                if (t.equals(middleX, middleY) && !player.tile().equals(t) || t.equals(player.tile())) {
+                    player.hit(this, Utils.random(4, 8));
+                }
             }
 
             if (this.isInitiated()) {
@@ -119,6 +134,8 @@ public class XarpusProcess extends NPC {
             poisonTile.clear();
         }
         players.clear();
+        this.splatInterval = 0;
+        this.intervalCount = 0;
         this.setInitiated(false);
         this.setEntranceAnimationStarted(false);
     }

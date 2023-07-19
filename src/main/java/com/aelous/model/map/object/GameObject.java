@@ -62,6 +62,14 @@ public class GameObject {
         return this;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GameObject that = (GameObject) o;
+        return id == that.id && originalId == that.originalId && type == that.type && rotation == that.rotation && interactAble == that.interactAble && custom == that.custom && x == that.x && y == that.y && z == that.z && lastAnimationTick == that.lastAnimationTick && skipClipping == that.skipClipping && Objects.equals(tile, that.tile) && Objects.equals(spawnedFor, that.spawnedFor) && Objects.equals(timer, that.timer) && Objects.equals(changedTimestamps, that.changedTimestamps) && Objects.equals(attribs, that.attribs) && Objects.equals(walkTo, that.walkTo) && Objects.equals(skipReachCheck, that.skipReachCheck) && crystals == that.crystals;
+    }
+
     public @Nullable Tile linkedTile() {
         return tile;
     }

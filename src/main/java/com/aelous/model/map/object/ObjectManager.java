@@ -81,6 +81,8 @@ public class ObjectManager {
             .anyMatch(o -> o.getType() == type);
     }
 
+
+
     /**
      * Checks if a {@link GameObject} exists at the given location
      * with the given id.

@@ -682,8 +682,8 @@ public class CommandManager {
            // XarpusProcess xarpusProcess = new XarpusProcess(10767, new Tile(3169, 4386, 1), p);
             //xarpusProcess.spawn(false);
 
-           // BloodSpawn orb = new BloodSpawn(10821, new Tile(p.getX(), p.getY()));
-           // orb.spawn(false);
+            BloodSpawn orb = new BloodSpawn(10821, new Tile(p.getX(), p.getY()), p);
+            orb.spawn(false);
         });
 
         dev("m", (p, c, s) -> {

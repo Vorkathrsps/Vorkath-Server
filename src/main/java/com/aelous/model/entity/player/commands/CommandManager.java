@@ -677,7 +677,7 @@ public class CommandManager {
         });
 
         dev("x", (p, c, s) -> {
-            XarpusProcess xarpusProcess = new XarpusProcess(10767, new Tile(3169, 4385, 1), p);
+            XarpusProcess xarpusProcess = new XarpusProcess(10767, new Tile(3169, 4386, 1), p);
             xarpusProcess.spawn(false);
         });
 

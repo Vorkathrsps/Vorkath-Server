@@ -20,12 +20,8 @@ import java.util.List;
 public class XarpusProcess extends NPC {
     Player player;
 
-    @Getter
-    @Setter
-    private boolean entranceAnimationStarted = false;
-    @Getter
-    @Setter
-    private boolean initiated = false;
+    @Getter @Setter private boolean entranceAnimationStarted = false;
+    @Getter @Setter private boolean initiated = false;
     private int intervalCount = 0;
     private int splatInterval = 4;
     List<Tile> poisonTile = new ArrayList<>();
@@ -74,17 +70,17 @@ public class XarpusProcess extends NPC {
         this.face(player);
     }
 
-    Runnable entranceAnimation = () -> {
-        this.lockNoDamage();
-        this.animate(8061);
-        Chain.noCtx().runFn(1, () -> {
-            this.animate(8058);
-        }).then(2, this::setOpeningTransmog).then(1, () -> {
-            this.unlock();
-            this.setInitiated(true);
-        });
-    };
-
+    public void clear() {
+        for (var o : objects) {
+            o.remove();
+            poisonTile.clear();
+        }
+        players.clear();
+        this.splatInterval = 0;
+        this.intervalCount = 0;
+        this.setInitiated(false);
+        this.setEntranceAnimationStarted(false);
+    }
 
     @Override
     public void postSequence() {
@@ -128,24 +124,21 @@ public class XarpusProcess extends NPC {
         }
     }
 
-    public void clear() {
-        for (var o : objects) {
-            o.remove();
-            poisonTile.clear();
-        }
-        players.clear();
-        this.splatInterval = 0;
-        this.intervalCount = 0;
-        this.setInitiated(false);
-        this.setEntranceAnimationStarted(false);
-    }
-
     @Override
     public void die() {
-        Chain.noCtx().runFn(1, () -> {
-            this.animate(8063);
-        }).then(3, () -> {
+        Chain.noCtx().runFn(1, () -> this.animate(8063)).then(3, () -> {
             World.getWorld().unregisterNpc(this);
         }).then(2, this::clear);
     }
+
+    Runnable entranceAnimation = () -> {
+        this.lockNoDamage();
+        this.animate(8061);
+        Chain.noCtx().runFn(1, () -> {
+            this.animate(8058);
+        }).then(2, this::setOpeningTransmog).then(1, () -> {
+            this.unlock();
+            this.setInitiated(true);
+        });
+    };
 }

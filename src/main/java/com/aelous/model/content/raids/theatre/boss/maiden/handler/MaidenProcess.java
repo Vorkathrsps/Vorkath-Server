@@ -16,18 +16,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import static com.aelous.model.content.raids.theatre.boss.maiden.utils.MaidenUtils.*;
 
 public class MaidenProcess extends NPC {
-    Player player;
-    BloodSpawn orb;
-    List<Player> players = new ArrayList<>();
-    @Getter @Setter int randomBlood = 0;
-    int intervalCount = 0;
-    int attackInterval = 10;
+    private final Player player;
+    private BloodSpawn orb;
+    private final List<Player> players = new ArrayList<>();
+    @Getter @Setter private int randomBlood = 0;
+    private int intervalCount = 0;
+    private int attackInterval = 10;
 
     public MaidenProcess(int id, Tile tile, Player player) {
         super(id, tile);
@@ -67,17 +67,19 @@ public class MaidenProcess extends NPC {
         p.send(this, tile);
         World.getWorld().tileGraphic(1579, tile, 0, p.getSpeed());
         orb = new BloodSpawn(10821, new Tile(p.getEnd().getX(), p.getEnd().getY()), player);
-        Chain.noCtx().runFn(16, () -> orb.spawn(false));
+        Chain.noCtx().runFn(16, orb::spawn);
     }
 
     public void spawnNylocas() {
-
+      
     }
 
     public void heal() {
-        for (var d : orb.getDamage()) {
+        Iterator<Integer> iterator = orb.damage.iterator();
+        while (iterator.hasNext()) {
+            var d = iterator.next();
             this.healHit(this, d);
-            orb.getDamage().remove(d);
+            iterator.remove();
         }
     }
 
@@ -88,8 +90,7 @@ public class MaidenProcess extends NPC {
             return;
         }
 
-
-        if (IGNORED.contains(player.tile()) || !MAIDEN_AREA.contains(player.tile()) && IGNORED.contains(player.tile())) {
+        if (IGNORED.contains(player.tile()) || (!MAIDEN_AREA.contains(player.tile()) && IGNORED.contains(player.tile()))) {
             return;
         }
 
@@ -102,7 +103,7 @@ public class MaidenProcess extends NPC {
         }
 
         if (orb != null) {
-           heal();
+            heal();
         }
 
         intervalCount++;

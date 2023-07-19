@@ -23,11 +23,12 @@ public class BloodSpawn extends NPC {
     Player player;
     public List<Tile> bloodTiles = new ArrayList<>();
     public List<GameObject> bloodObjects = new ArrayList<>(); //TODO figure out why tiles are rendering dead after new bloodspawn is made
-    @Getter private List<Integer> damage = new ArrayList<>();
+    public List<Integer> damage = new ArrayList<>();
 
     public void addDamage(int damageValue) {
         damage.add(damageValue);
     }
+
     public BloodSpawn(int id, Tile tile, Player player) {
         super(id, tile);
         spawns.add(this);
@@ -44,17 +45,13 @@ public class BloodSpawn extends NPC {
     @Override
     public void postSequence() {
         BloodSplat bloodSplat = new BloodSplat(32984, new Tile(this.tile().getX(), this.tile().getY(), this.tile().getZ()), 10, 0);
-        if (!bloodTiles.contains(this.tile())) {
-            bloodTiles.add(this.tile());
+        if (!bloodObjects.contains(bloodSplat)) {
+            bloodObjects.add(bloodSplat);
+            bloodSplat.spawn();
+        }
 
-            if (!bloodObjects.contains(bloodSplat)) {
-                bloodObjects.add(bloodSplat);
-                bloodSplat.spawn();
-            }
-
-            if (!bloodTiles.contains(bloodSplat.tile()) && !bloodSplat.tile().equals(this.tile())) {
-                bloodTiles.add(bloodSplat.tile());
-            }
+        if (!bloodTiles.contains(bloodSplat.tile()) && !bloodSplat.tile().equals(this.tile())) {
+            bloodTiles.add(bloodSplat.tile());
         }
         Hit hit = player.hit(this, Utils.random(4, 8), 0, null);
         for (var o : bloodObjects) {
@@ -82,7 +79,6 @@ public class BloodSpawn extends NPC {
         bloodTiles.clear();
         World.getWorld().unregisterNpc(this);
     }
-
 
 
 }

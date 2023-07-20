@@ -9,6 +9,8 @@ import com.aelous.model.content.instance.InstanceConfiguration;
 import com.aelous.model.content.minigames.impl.tempoross.TemporossHandler;
 import com.aelous.model.content.minigames.impl.tempoross.area.TemporossArea;
 import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
+import com.aelous.model.content.raids.theatre.Theatre;
+import com.aelous.model.content.raids.theatre.area.TheatreArea;
 import com.aelous.model.content.raids.theatre.boss.bloat.handler.BloatProcess;
 import com.aelous.model.content.raids.theatre.boss.maiden.handler.MaidenProcess;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
@@ -686,9 +688,12 @@ public class CommandManager {
 
             //BloodSpawn orb = new BloodSpawn(10821, new Tile(p.getX(), p.getY()), p);
             //orb.spawn(false);
-            Area area = new Area(3003, 2943, 3063, 3010);
-            TemporossHandler temporossHandler = new TemporossHandler(p, new TemporossArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, area));
-            temporossHandler.startInstance();
+           // Area area = new Area(3003, 2943, 3063, 3010);
+            //TemporossHandler temporossHandler = new TemporossHandler(p, new TemporossArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, area));
+            //temporossHandler.startInstance();
+
+            Theatre theatre = new Theatre(p, null, new TheatreArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, Theatre.rooms));
+            theatre.startRaid();
 
         });
 

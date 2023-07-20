@@ -14,7 +14,6 @@ public class TemporossMinigameInteractions extends PacketInteraction {
     int water_pump_two = 41000;
     int hammers = 40964;
     int harpoons = 40967;
-    int harpoon_fish = 25565;
     int totem_pole = 41354;
     int cooking_shrine = 41236;
 

@@ -26,7 +26,7 @@ public class SpiritPoolsInteraciton extends PacketInteraction {
     public boolean handleNpcInteraction(Player player, NPC npc, int option) {
         for (var b : TemporossHandler.bossList) {
             if (npc.id() == b.getId()) {
-                if (player.getInventory().contains(ItemIdentifiers.HARPOON)) {
+                if (player.getInventory().contains(ItemIdentifiers.HARPOON) && !player.getInventory().isFull()) {
                     startSpiritPoolInteraction(player);
                     return true;
                 } else {
@@ -38,11 +38,15 @@ public class SpiritPoolsInteraciton extends PacketInteraction {
 
         for (var s : FishingSpots.fishingSpots) {
             if (npc.id() == s.getId()) {
-                if (player.getInventory().contains(ItemIdentifiers.HARPOON)) {
+                if (player.getInventory().contains(ItemIdentifiers.HARPOON) && !player.getInventory().isFull()) {
                     fish(player);
                     return true;
                 } else {
-                    player.message("You need a harpoon to perform this action.");
+                    if (player.getInventory().isFull()) {
+                        player.message("You do not have enough inventory space.");
+                    } else {
+                        player.message("You need a harpoon to perform this action.");
+                    }
                     return false;
                 }
             }
@@ -53,9 +57,8 @@ public class SpiritPoolsInteraciton extends PacketInteraction {
     public static void fish(Player player) {
         player.repeatingTask(randomDelay, t -> {
             Entity target = ((WeakReference<Entity>) player.getAttribOr(AttributeKey.TARGET, new WeakReference<>(null))).get();
-            if (target == null || !target.isNpc() || target.dead() || target.finished() || !Tempoross.isActivatePools()) {
+            if (target == null || !target.isNpc() || target.dead() || target.finished() || player.getInventory().isFull()) {
                 player.animate(-1);
-                System.out.println("random stop?");
                 t.stop();
                 return;
             }

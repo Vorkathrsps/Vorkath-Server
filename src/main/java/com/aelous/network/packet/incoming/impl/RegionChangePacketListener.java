@@ -1,6 +1,5 @@
 package com.aelous.network.packet.incoming.impl;
 
-import com.aelous.model.content.minigames.impl.Barrows;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.object.ObjectManager;

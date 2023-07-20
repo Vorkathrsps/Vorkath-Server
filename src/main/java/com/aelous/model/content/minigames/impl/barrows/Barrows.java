@@ -1,4 +1,4 @@
-package com.aelous.model.content.minigames.impl;
+package com.aelous.model.content.minigames.impl.barrows;
 
 import com.aelous.model.content.achievements.Achievements;
 import com.aelous.model.content.achievements.AchievementsManager;

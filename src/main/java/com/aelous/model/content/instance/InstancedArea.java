@@ -259,19 +259,6 @@ public class InstancedArea {
     }
 
     /**
-     * Get the {@link InstancedArea#zLevel} and adds the {@link InstanceConfiguration#getRelativeHeight()} to it.
-     *
-     * Use {@link InstancedArea#getReservedHeight} to get the height level reserved from {@link InstanceHeight}
-     * (or you're entered height if you used the {@link InstancedArea#InstancedArea(InstanceConfiguration, int, Area...)}
-     * constructor).)
-     *
-     * @return the height that all actions inside this instance will take place in
-     */
-    public int getZLevel() {
-        return zLevel + configuration.getRelativeHeight();
-    }
-
-    /**
      * If you used the {@link InstancedArea#InstancedArea(InstanceConfiguration, int, Area...)}
      * constructor this will return the height you supplied to that constructor. If you used the
      * {@link InstancedArea#InstancedArea(InstanceConfiguration, Area...)} constructor it will
@@ -331,11 +318,11 @@ public class InstancedArea {
         for (Area area : getAreas()) {
             if (area.contains(tile, false)) { // first, verify the x,y area
                 // now verify in the 4 allowed height levels
-                var remainder = getZLevel() % 4;
-                var z = getZLevel();
+                var remainder = getzLevel() % 4;
+                var z = getzLevel();
                 if (remainder != 0) {
                     // level 6 becomes 6-2 = 4. base z achieved.
-                    z = getZLevel() - remainder;
+                    z = getzLevel() - remainder;
                     logger.debug(markerZ, "normalized z level to {} via {}", z, remainder);
                 }
                 var inside = tile.getZ() >= z && tile.getZ() <= z + 3;

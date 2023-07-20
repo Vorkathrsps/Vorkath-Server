@@ -41,7 +41,7 @@ public class InstancedAreaManager {
 
     public InstancedArea createInstancedArea(Area area) {
         InstancedArea singleInstancedArea = new InstancedArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, area);
-        active.put(singleInstancedArea.getZLevel(), singleInstancedArea);
+        active.put(singleInstancedArea.getzLevel(), singleInstancedArea);
         return singleInstancedArea;
     }
 

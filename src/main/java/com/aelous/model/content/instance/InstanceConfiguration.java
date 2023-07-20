@@ -35,26 +35,12 @@ public class InstanceConfiguration {
     private final boolean npcsAreAgro;
 
     /**
-     * Relative height is the height that the instance would be if the base height level was zero.
-     *
-     * For instance, The Nightmare takes place on height
-     * level three. But when we get a height from {@link InstanceHeight} it returns a height
-     * level that will render as level zero. This "relative height" will offset that height
-     * level when you call {@link InstancedArea#getzLevel()}. So if you set this to 3, the
-     * height level returned when you call {@link InstancedArea#getzLevel()} will be the
-     * one reserved by {@link InstanceHeight} plus 3. Giving you a free height level but
-     * also setting the correct height level for the map you're using.
-     */
-    private final int relativeHeight;
-
-    /**
      * Create an {@link InstanceConfiguration}.
      */
-    public InstanceConfiguration(boolean closeOnPlayersEmpty, boolean respawnNpcs, boolean npcsAreAgro, int relativeHeight) {
+    public InstanceConfiguration(boolean closeOnPlayersEmpty, boolean respawnNpcs, boolean npcsAreAgro) {
         this.closeOnPlayersEmpty = closeOnPlayersEmpty;
         this.respawnNpcs = respawnNpcs;
         this.npcsAreAgro = npcsAreAgro;
-        this.relativeHeight = relativeHeight;
     }
 
     @Override
@@ -62,7 +48,6 @@ public class InstanceConfiguration {
         return "InstanceConfiguration{" +
             "closeOnPlayersEmpty=" + closeOnPlayersEmpty +
             ", respawnNpcs=" + respawnNpcs +
-            ", relativeHeight=" + relativeHeight +
             '}';
     }
 
@@ -78,7 +63,4 @@ public class InstanceConfiguration {
         return npcsAreAgro;
     }
 
-    public int getRelativeHeight() {
-        return relativeHeight;
-    }
 }

@@ -58,8 +58,8 @@ public class ViturRoom extends PacketInteraction {
 
                 var pillars = new ArrayList<NPC>();
                 for (Tile pillarTile : pillarTiles) {
-                    new GameObject(32687, pillarTile.withHeight(instance.getZLevel()), 10, 0).spawn();
-                    var pillarNpc = new NPC(8379, pillarTile.withHeight(instance.getZLevel()));
+                    new GameObject(32687, pillarTile.withHeight(instance.getzLevel()), 10, 0).spawn();
+                    var pillarNpc = new NPC(8379, pillarTile.withHeight(instance.getzLevel()));
                     pillarNpc.setInstance(instance);
                     pillarNpc.spawn(false);
                     pillarNpc.putAttrib(AttributeKey.BOSS_OWNER, verzik);

@@ -6,11 +6,14 @@ import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 import com.aelous.model.content.areas.theatre.ViturRoom;
 import com.aelous.model.content.instance.InstanceConfiguration;
+import com.aelous.model.content.instance.InstancedAreaManager;
 import com.aelous.model.content.minigames.impl.tempoross.TemporossHandler;
 import com.aelous.model.content.minigames.impl.tempoross.area.TemporossArea;
 import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
+import com.aelous.model.content.raids.theatre.Theatre;
 import com.aelous.model.content.raids.theatre.boss.bloat.handler.BloatProcess;
 import com.aelous.model.content.raids.theatre.boss.maiden.handler.MaidenProcess;
+import com.aelous.model.content.raids.theatre.boss.xarpus.handler.XarpusProcess;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.aelous.model.content.tournaments.Tournament;
 import com.aelous.model.content.tournaments.TournamentManager;
@@ -917,6 +920,29 @@ public class CommandManager {
         dev("t24", (player, c, parts) -> {
             var n = player.closeNpcs(5)[0];
            // n.queueTeleportJump(n.tile().transform(Integer.parseInt(parts[1]), Integer.parseInt(parts[2])));
+        });
+        dev("t25", (p, c, s) -> {
+            XarpusProcess xarpusProcess = new XarpusProcess(10767, new Tile(3169, 4386, 1), p);
+            xarpusProcess.spawn(false);
+        });
+        dev("t26", (p, c, s) -> {
+            var instance = InstancedAreaManager.getSingleton().createInstancedArea(new Area(3156, 4374, 3156 + 40, 4374 + 40));
+            p.setInstance(instance);
+            p.teleport(new Tile(3166, 4384, instance.getzLevel()));
+            XarpusProcess xarpusProcess = new XarpusProcess(10767, new Tile(3169, 4386, instance.getzLevel() + 1), p);
+            xarpusProcess.setInstance(instance);
+            xarpusProcess.spawn(false);
+        });
+        dev("t27", (p, c, s) -> {
+            var t = new Theatre(p);
+            t.constructRoom();
+            t.start(); // TODO flying bat version
+            var instance = InstancedAreaManager.getSingleton().createInstancedArea(new Area(3156, 4374, 3156 + 40, 4374 + 40));
+            p.setInstance(instance);
+            p.teleport(new Tile(3166, 4384, instance.getzLevel()));
+            XarpusProcess xarpusProcess = new XarpusProcess(10767, new Tile(3169, 4386, instance.getzLevel() + 1), p);
+            xarpusProcess.setInstance(instance);
+            xarpusProcess.spawn(false);
         });
     }
 

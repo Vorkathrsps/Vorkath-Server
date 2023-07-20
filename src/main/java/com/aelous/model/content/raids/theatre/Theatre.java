@@ -22,7 +22,7 @@ public class Theatre extends TheatreParty {
              new Area(3295, 4290, 3260, 4335),//sotetseg
              new Area(3326, 4423, 3263, 4467),//bloat
              new Area(3275, 4285, 3314, 4231),//nylo
-             new Area(3152, 4403, 3188, 4369, 1),//xarpus , transform z+1
+             new Area(3136, 4352, 3136 + 63, 4352 + 63),//xarpus , transform z+1
              new Area(3186, 4294, 3150, 4331) //verzik
          };
     public TheatreArea theatreArea;

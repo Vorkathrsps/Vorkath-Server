@@ -133,6 +133,7 @@ public class GameObject {
      * @param id   The new object's id.
      * @param tile The new object's position on the globe.
      */
+
     public GameObject(int id, Tile tile) {
         this.id = id;
         this.originalId = id;

@@ -15,6 +15,7 @@ import com.aelous.model.content.bank_pin.BankTeller;
 import com.aelous.model.content.bank_pin.dialogue.BankTellerDialogue;
 import com.aelous.model.content.items.RockCake;
 import com.aelous.model.content.mechanics.Poison;
+import com.aelous.model.content.minigames.impl.tempoross.skilling.SpiritPool;
 import com.aelous.model.content.skill.impl.fishing.Fishing;
 import com.aelous.model.content.skill.impl.hunter.HuntingExpert;
 import com.aelous.model.content.skill.impl.hunter.Impling;

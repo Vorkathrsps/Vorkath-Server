@@ -156,12 +156,7 @@ public class MovementPacketListener implements PacketListener {
             tiles[i + 1] = new Tile(path[i][0] + firstStepX, path[i][1] + firstStepY, player.tile().getLevel());
         }
 
-        // Get the ending position..
         Tile end = tiles[tiles.length - 1];
-        /*for (Tile tile : tiles) {
-            tile.showTempItem(995);
-        }*/
-        //System.out.println(shiftTeleport+" "+minimapClick+" "+Arrays.toString(Arrays.stream(tiles).toArray()));
 
         if (shiftTeleport == 1 && minimapClick && tiles.length > 0) {
             player.teleport(tiles[tiles.length-1]);
@@ -171,9 +166,6 @@ public class MovementPacketListener implements PacketListener {
         if (Debugs.MOB_STEPS.enabled) {
             ArrayList<GroundItem> markers = new ArrayList<>(tiles.length);
             for (Tile step : tiles) {
-                //if(debug)
-                //System.out.println("[adding steps to walk que] "+step.getX()+" "+step.getY());
-                //getMovementQueue().walkTo(new Position(step.getX(), step.getY()));
                 GroundItem marker = new GroundItem(new Item(ItemIdentifiers.BRONZE_ARROW, 1), new Tile(step.getX(), step.getY()), null);
                 GroundItemHandler.createGroundItem(marker);
                 markers.add(marker);
@@ -183,18 +175,21 @@ public class MovementPacketListener implements PacketListener {
             });
         }
 
-        // Validate positions.
         if (player.tile().distance(end) >= 64) {
             return;
         }
 
         player.smartPathTo(new Tile(end.x, end.y, player.getZ()));
 
-        // very important to put this AFTER movement.clear is called otherwise attrib is overwritten
         player.putAttrib(AttributeKey.MOVEMENT_PACKET_STEPS, new ArrayDeque<>(Arrays.asList(tiles)));
 
         if (player.recentAnim != null && ANIMS_TO_RESET.stream().anyMatch(e -> e == player.recentAnim.getId()))
             player.animate(Animation.DEFAULT_RESET_ANIMATION);
+
+        if (player.recentAnim != null && player.recentAnim.getId() == 618) {
+            player.animate(Animation.DEFAULT_RESET_ANIMATION);
+        }
+
     }
 
     static List<Integer> ANIMS_TO_RESET = new ArrayList<>();

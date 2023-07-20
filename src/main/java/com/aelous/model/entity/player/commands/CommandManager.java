@@ -5,11 +5,12 @@ import com.aelous.cache.definitions.NpcDefinition;
 import com.aelous.cache.definitions.identifiers.NpcIdentifiers;
 import com.aelous.model.World;
 import com.aelous.model.content.areas.theatre.ViturRoom;
+import com.aelous.model.content.instance.InstanceConfiguration;
+import com.aelous.model.content.minigames.impl.tempoross.TemporossHandler;
+import com.aelous.model.content.minigames.impl.tempoross.area.TemporossArea;
 import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.aelous.model.content.raids.theatre.boss.bloat.handler.BloatProcess;
-import com.aelous.model.content.raids.theatre.boss.maiden.blood.BloodSpawn;
 import com.aelous.model.content.raids.theatre.boss.maiden.handler.MaidenProcess;
-import com.aelous.model.content.raids.theatre.boss.xarpus.handler.XarpusProcess;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.aelous.model.content.tournaments.Tournament;
 import com.aelous.model.content.tournaments.TournamentManager;
@@ -43,6 +44,7 @@ import com.aelous.model.items.ground.GroundItem;
 import com.aelous.model.items.ground.GroundItemHandler;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.object.MapObjects;
+import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.map.region.Region;
 import com.aelous.model.map.region.RegionManager;
@@ -679,11 +681,15 @@ public class CommandManager {
         });
 
         dev("x", (p, c, s) -> {
-           // XarpusProcess xarpusProcess = new XarpusProcess(10767, new Tile(3169, 4386, 1), p);
-            //xarpusProcess.spawn(false);
+            //XarpusProcess xarpusProcess = new XarpusProcess(10767, new Tile(3169, 4386, 1), p);
+           // xarpusProcess.spawn(false);
 
-            BloodSpawn orb = new BloodSpawn(10821, new Tile(p.getX(), p.getY()), p);
-            orb.spawn(false);
+            //BloodSpawn orb = new BloodSpawn(10821, new Tile(p.getX(), p.getY()), p);
+            //orb.spawn(false);
+            Area area = new Area(3003, 2943, 3063, 3010);
+            TemporossHandler temporossHandler = new TemporossHandler(p, new TemporossArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, area));
+            temporossHandler.startInstance();
+
         });
 
         dev("m", (p, c, s) -> {

@@ -230,6 +230,41 @@
     }
   },
   {
+    // Tempoross
+    "ids": [
+      10572, 10574, 10575
+    ],
+    "attackspeed": 0,
+    "deathlen": 5,
+    "aggroradius": 0,
+    "aggressive": false,
+    "boss": true,
+    "stats": {
+      "attack": 0,
+      "strength": 0,
+      "magic": 0,
+      "ranged": 0,
+      "defence": 0,
+      "hitpoints": 255
+    },
+    "bonuses": {
+      "attack": 0,
+      "magic": 0,
+      "ranged": 0,
+      "strength": 0,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": -1
+    }
+  },
+  {
     // Kerberos
     "ids": [
       16008

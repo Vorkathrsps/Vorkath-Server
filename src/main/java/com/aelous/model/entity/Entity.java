@@ -1905,15 +1905,19 @@ public abstract class Entity {
 
     public void setInstance(InstancedArea instancedArea) {
         var prev = this.instancedArea;
-        this.instancedArea = instancedArea;
+        //log.info("setInstance {} --------------> {}", prev, instancedArea);
         if (prev == instancedArea)
             return;
-        if (prev != null && instancedArea == null) { // setting null probably removing
+        this.instancedArea = instancedArea;
+        // when new area is null or a new instance than previous, remove from old
+        if (prev != null && instancedArea != prev) {
             if (isPlayer())
                 prev.removePlayer(getAsPlayer());
             else
                 prev.removeNpc(npc());
-        } else if (instancedArea != null) { // add
+        }
+        // new instance isn't null and we're not already inside
+        if (instancedArea != null && prev != instancedArea) {
             if (isPlayer())
                 instancedArea.addPlayer(getAsPlayer());
             else

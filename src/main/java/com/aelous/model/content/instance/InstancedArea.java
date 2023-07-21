@@ -233,7 +233,8 @@ public class InstancedArea {
         if (!players.contains(player)) {
             players.add(player);
         }
-        player.setInstance(this);
+        if (player.getInstancedArea() != this)
+            player.setInstance(this);
         logger.trace(marker, "Add to instance player={}, instance={}", player, this);
     }
 
@@ -242,7 +243,8 @@ public class InstancedArea {
      */
     public void removePlayer(Player player) {
         players.remove(player);
-        player.setInstance(null);
+        if (player.getInstancedArea() == this)
+            player.setInstance(null);
         logger.trace(marker, "Remove from instance player={}, instance={}", player, this);
 
         if (!disposed && players.isEmpty() && configuration.isCloseOnPlayersEmpty()) {//probs needs this flag

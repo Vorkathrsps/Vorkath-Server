@@ -700,8 +700,7 @@ public class CommandManager {
         });
 
         dev("m", (p, c, s) -> {
-            MaidenProcess maidenProcess = new MaidenProcess(8360, new Tile(3162, 4444, 0), p);
-            maidenProcess.spawn(false);
+
         });
 
         dev("curseoff", (p, c, s) ->

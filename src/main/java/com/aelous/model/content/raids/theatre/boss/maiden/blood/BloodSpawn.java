@@ -14,7 +14,7 @@ public class BloodSpawn extends NPC {
         super(id, tile);
         orbSpawns.add(this);
         this.player = player;
-        this.walkRadius(4);
+        this.walkRadius(10);
         this.noRetaliation(true);
         this.getCombat().setAutoRetaliate(false);
     }

@@ -23,8 +23,9 @@ import java.util.List;
 public class Theatre extends TheatreParty { //TODO clear the raid upon completion or leave
     List<Raid> raids = new ArrayList<>();
     TheatreController theatreController = new TheatreController(raids);
-    public TheatreArea theatreArea;
     Tile entrance = new Tile(3219, 4454);
+    public TheatreArea theatreArea;
+
     public static final Area[] rooms = new Area[]
          {
              new Area(3152, 4415, 3231, 4464),
@@ -46,7 +47,7 @@ public class Theatre extends TheatreParty { //TODO clear the raid upon completio
         this.leader.teleport(entrance.transform(0, 0, theatreArea.getzLevel()));
     }
 
-    public void construct() {
+    protected void construct() {
         raids.add(new Maiden());
         raids.add(new Xarpus());
         raids.add(new Bloat());

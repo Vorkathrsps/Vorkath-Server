@@ -18,8 +18,8 @@ public class TheatreController {
     }
 
     public void build(Player player, TheatreArea theatreArea) {
-        for (Raid raidType : raid) {
-            raidType.buildRaid(player, theatreArea);
+        for (Raid r : raid) {
+            r.buildRaid(player, theatreArea);
             break;
         }
     }

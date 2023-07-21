@@ -1,7 +1,9 @@
 package com.aelous.model.content.raids.theatre.boss.maiden.handler;
 
 import com.aelous.model.World;
+import com.aelous.model.content.raids.theatre.area.TheatreArea;
 import com.aelous.model.content.raids.theatre.boss.maiden.blood.BloodSpawn;
+import com.aelous.model.content.raids.theatre.boss.maiden.nylos.MaidenNylo;
 import com.aelous.model.content.raids.theatre.boss.maiden.objects.BloodSplat;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
@@ -27,6 +29,7 @@ import static com.aelous.model.content.raids.theatre.boss.maiden.utils.MaidenUti
 public class MaidenProcess extends NPC {
     private final Player player;
     @Nonnull BloodSpawn orb;
+    @Nonnull MaidenNylo nylo;
     BloodSplat bloodSplat;
     private final List<Player> players = new ArrayList<>();
     public List<BloodSplat> bloodObjectList = new ArrayList<>();
@@ -35,10 +38,12 @@ public class MaidenProcess extends NPC {
     private int intervalCount = 0;
     private int attackInterval = 10;
     boolean activeOrb = false;
+    private final TheatreArea theatreArea;
 
-    public MaidenProcess(int id, Tile tile, Player player) {
+    public MaidenProcess(int id, Tile tile, Player player, TheatreArea theatreArea) {
         super(id, tile);
         this.player = player;
+        this.theatreArea = theatreArea;
         this.spawnDirection(Direction.EAST.toInteger());
         this.noRetaliation(true);
         this.getCombat().setAutoRetaliate(false);
@@ -72,11 +77,15 @@ public class MaidenProcess extends NPC {
         Projectile p = new Projectile(this, tile, 2002, 68, duration, 95, 0, 20, 5, 10);
         p.send(this, tile);
         World.getWorld().tileGraphic(1579, tile, 0, p.getSpeed());
-        this.orb = new BloodSpawn(10821, new Tile(p.getEnd().getX(), p.getEnd().getY()), player);
+        this.orb = new BloodSpawn(10821, new Tile(p.getEnd().getX(), p.getEnd().getY()).transform(0,0, theatreArea.getzLevel()), player);
         Chain.noCtx().runFn(16, () -> {
             this.orb.spawn(false);
             this.activeOrb = true;
         });
+    }
+
+    public void spawnNylocasMatemos() {
+       // nylo = new MaidenNylo()
     }
 
     public void heal() {
@@ -89,11 +98,11 @@ public class MaidenProcess extends NPC {
     }
 
     protected boolean insideBounds() {
-        if (IGNORED.contains(player.tile()) || (!MAIDEN_AREA.contains(player.tile()) && IGNORED.contains(player.tile()))) {
+        if (IGNORED.transform(0,0, 0,0, theatreArea.getzLevel()).contains(player.tile()) || (!MAIDEN_AREA.transform(0,0, 0,0, theatreArea.getzLevel()).contains(player.tile()) && IGNORED.transform(0,0, 0,0, theatreArea.getzLevel()).contains(player.tile()))) {
             return false;
         }
 
-        if (MAIDEN_AREA.contains(player.tile()) && !IGNORED.contains(player.tile())) {
+        if (MAIDEN_AREA.transform(0,0, 0,0, theatreArea.getzLevel()).contains(player.tile()) && !IGNORED.transform(0,0, 0,0, theatreArea.getzLevel()).contains(player.tile())) {
             if (!players.contains(player)) {
                 players.add(player);
                 return true;
@@ -113,12 +122,12 @@ public class MaidenProcess extends NPC {
 
         if (insideBounds()) {
             if (!orbSpawns.isEmpty() && this.activeOrb) {
-                bloodSplat = new BloodSplat(32984, orb.tile(), 10, 0);
+                bloodSplat = new BloodSplat(32984, new Tile(orb.tile().getX(), orb.tile().getY()).transform(0,0, theatreArea.getzLevel()), 10, 0);
                 if (!bloodObjectList.contains(bloodSplat)) {
                     bloodObjectList.add(bloodSplat);
                 }
                 for (var o : bloodObjectList) {
-                    if (!ObjectManager.objWithTypeExists(10, o.tile())) {
+                    if (!ObjectManager.objWithTypeExists(10, new Tile(o.getX(), o.getY()).transform(0,0,theatreArea.getzLevel()))) {
                         bloodSplat.spawn();
                     }
                 }

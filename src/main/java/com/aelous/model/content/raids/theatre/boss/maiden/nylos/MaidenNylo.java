@@ -44,15 +44,15 @@ public class MaidenNylo extends NPC {
                 die();
             }
         }
-
-        this.face(maiden);
-
-        this.getMovement().walkTo(maiden.getX(), maiden.getY());
+        if (maiden != null) {
+            this.face(maiden);
+            this.getMovement().walkTo(maiden.getX(), maiden.getY());
+        }
     }
 
     @Override
     public void die() {
-        this.timer = 15;
+        this.timer = 30;
         this.exploded = false;
         World.getWorld().unregisterNpc(this);
     }

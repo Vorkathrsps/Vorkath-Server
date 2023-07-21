@@ -7,7 +7,6 @@ import com.aelous.model.content.raids.theatre.area.TheatreArea;
 import com.aelous.model.content.raids.theatre.boss.maiden.blood.BloodSpawn;
 import com.aelous.model.content.raids.theatre.boss.maiden.nylos.MaidenNylo;
 import com.aelous.model.content.raids.theatre.boss.maiden.objects.BloodSplat;
-import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
@@ -32,21 +31,14 @@ import static com.aelous.model.content.raids.theatre.boss.maiden.utils.MaidenUti
  */
 public class MaidenProcess extends NPC { //TODO add multiplayer damage support
     private final Player player;
-    BloodSpawn orb;
+    BloodSpawn orb = null;
     MaidenNylo nylo = null;
-    BloodSplat bloodSplat;
     private final List<Player> players = new ArrayList<>();
-    public List<BloodSplat> bloodObjectList = new ArrayList<>();
-    public List<MaidenNylo> maidenNyloList = new ArrayList<>();
-    public List<BloodSpawn> bloodSpawnList = new ArrayList<>();
 
     public List<Integer> damage = new ArrayList<>();
-    @Getter
-    @Setter
-    private int randomBlood = 0;
+    @Getter @Setter private int randomBlood = 0;
     private int intervalCount = 0;
     private int attackInterval = 10;
-    boolean activeOrb = false;
     private boolean nyloSpawned70to50;
     private boolean nyloSpawned50to30;
     private boolean nyloSpawned30to0;
@@ -92,11 +84,14 @@ public class MaidenProcess extends NPC { //TODO add multiplayer damage support
         Projectile p = new Projectile(this, tile, 2002, 68, duration, 95, 0, 20, 5, 10);
         p.send(this, tile);
         World.getWorld().tileGraphic(1579, tile, 0, p.getSpeed());
-        this.orb = new BloodSpawn(10821, new Tile(p.getEnd().getX(), p.getEnd().getY()).transform(0, 0, theatreArea.getzLevel()), player);
+        this.orb = new BloodSpawn(10821, new Tile(p.getEnd().getX(), p.getEnd().getY()).transform(0, 0, theatreArea.getzLevel()), player, this, theatreArea);
         Chain.noCtx().runFn(16, () -> {
             this.orb.spawn(false);
-            this.activeOrb = true;
         });
+    }
+
+    private int getRandomNumberInRange(int min, int max) {
+        return (int) (Math.random() * (max - min + 1)) + min;
     }
 
     public void spawnNylocasMatomenos(int partySize) {
@@ -106,7 +101,7 @@ public class MaidenProcess extends NPC { //TODO add multiplayer damage support
         Collections.shuffle(availableTiles);
 
         if (partySize < 5) {
-            int numNpcsToSpawn = Utils.random(1, 10);
+            int numNpcsToSpawn = getRandomNumberInRange(1, 10);
 
             for (int i = 0; i < Math.min(numNpcsToSpawn, availableTiles.size()); i++) {
                 Tile tile = availableTiles.get(i);
@@ -156,21 +151,6 @@ public class MaidenProcess extends NPC { //TODO add multiplayer damage support
                 return;
             }
 
-            if (!orbSpawns.isEmpty() && this.activeOrb) {
-                bloodSplat = new BloodSplat(32984, new Tile(orb.tile().getX(), orb.tile().getY()).transform(0, 0, theatreArea.getzLevel()), 10, 0);
-                if (!bloodObjectList.contains(bloodSplat)) {
-                    bloodObjectList.add(bloodSplat);
-                }
-                for (var o : bloodObjectList) {
-                    if (!ObjectManager.objWithTypeExists(10, new Tile(o.getX(), o.getY()).transform(0, 0, theatreArea.getzLevel()))) {
-                        bloodSplat.spawn();
-                    }
-                }
-                verifyDamage();
-                heal();
-            } else {
-                clearOrbAndObjects();
-            }
             intervalCount++;
             attackInterval--;
             if (intervalCount >= 10 && attackInterval <= 0 && !this.dead()) {
@@ -183,33 +163,14 @@ public class MaidenProcess extends NPC { //TODO add multiplayer damage support
 
     @Override
     public void die() {
-        for (var o : bloodObjectList) {
-            o.remove();
-        }
-        if (!bloodOrbs.isEmpty()) {
-            clearOrbAndObjects();
-        }
         if (nylo != null) {
             nylo.die();
-        }
-        bloodObjectList.clear();
-        if (orb != null) {
-            orb.clear();
         }
         Chain.noCtx().runFn(1, () -> {
             this.animate(8094);
         }).then(3, () -> {
             World.getWorld().unregisterNpc(this);
         });
-    }
-
-    public void heal() {
-        Iterator<Integer> iterator = damage.iterator();
-        while (iterator.hasNext()) {
-            var d = iterator.next();
-            this.healHit(this, d);
-            iterator.remove();
-        }
     }
 
     public int partySize() {
@@ -233,31 +194,4 @@ public class MaidenProcess extends NPC { //TODO add multiplayer damage support
         return true;
     }
 
-    public void clearOrbAndObjects() {
-        for (var o : bloodObjectList) {
-            o.remove();
-        }
-        activeOrb = false;
-        bloodObjectList.clear();
-        for (var n : bloodOrbs) {
-            World.getWorld().unregisterNpc(n);
-        }
-    }
-
-    public void addDamage(int damageValue) {
-        damage.add(damageValue);
-    }
-
-    protected boolean verifyDamage() {
-        Hit hit = player.hit(orb, Utils.random(4, 8), 0, null);
-
-        for (var o : bloodObjectList) {
-            if (o.tile().equals(player.tile())) {
-                hit.submit();
-                addDamage(hit.getDamage());
-                return true;
-            }
-        }
-        return false;
-    }
 }

@@ -211,6 +211,7 @@ public class BloatProcess extends NPC { //TODO make him reverse interpolate walk
                 this.setSleeping(false);
                 this.unlock();
             }
+            players.clear();
             World.getWorld().unregisterNpc(this);
         });
     }

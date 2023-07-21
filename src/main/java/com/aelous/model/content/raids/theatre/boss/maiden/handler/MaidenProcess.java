@@ -32,8 +32,6 @@ public class MaidenProcess extends NPC {
     BloodSpawn orb = null;
     MaidenNylo nylo = null;
     private final List<Player> players = new ArrayList<>();
-
-    public List<Integer> damage = new ArrayList<>();
     @Getter @Setter private int randomBlood = 0;
     private int intervalCount = 0;
     private int attackInterval = 10;
@@ -164,6 +162,7 @@ public class MaidenProcess extends NPC {
         if (nylo != null) {
             nylo.die();
         }
+        players.clear();
         Chain.noCtx().runFn(1, () -> {
             this.animate(8094);
         }).then(3, () -> {

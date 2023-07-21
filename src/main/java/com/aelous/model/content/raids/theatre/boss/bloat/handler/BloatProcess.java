@@ -1,6 +1,8 @@
 package com.aelous.model.content.raids.theatre.boss.bloat.handler;
 
 import com.aelous.model.World;
+import com.aelous.model.content.raids.theatre.Theatre;
+import com.aelous.model.content.raids.theatre.area.TheatreArea;
 import com.aelous.model.content.raids.theatre.boss.bloat.utils.BloatUtils;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.masks.Projectile;
@@ -46,6 +48,9 @@ public class BloatProcess extends NPC { //TODO make him reverse interpolate walk
     List<Tile> graphicTiles = new ArrayList<>();
     List<Player> players = new ArrayList<>();
 
+    Theatre theatre;
+    TheatreArea theatreArea;
+
     private static final Tile[] WALK_TILES = {
         new Tile(3288, 4440, 0),
         new Tile(3288, 4451, 0),
@@ -53,9 +58,11 @@ public class BloatProcess extends NPC { //TODO make him reverse interpolate walk
         new Tile(3299, 4440, 0),
     };
 
-    public BloatProcess(int id, Tile tile, Player player) {
+    public BloatProcess(int id, Tile tile, Player player, Theatre theatre, TheatreArea theatreArea) {
         super(id, tile);
         this.player = player;
+        this.theatre = theatre;
+        this.theatreArea = theatreArea;
         this.spawnDirection(0);
         this.setSize(5);
         this.noRetaliation(true);
@@ -106,9 +113,9 @@ public class BloatProcess extends NPC { //TODO make him reverse interpolate walk
             }
             int numGraphics = Utils.random(12, 18);
             for (int i = 0; i < numGraphics; i++) {
-                Tile randomTile = bloatUtils.getRandomTile();
+                Tile randomTile = bloatUtils.getRandomTile().transform(0,0, theatreArea.getzLevel());
                 if (bloatUtils.isTileValid(tile, randomTile) && !RegionManager.blocked(randomTile)) {
-                    if (!IGNORED_AREA.contains(randomTile)) {
+                    if (!IGNORED_AREA.transform(0,0,0,0,theatreArea.getzLevel()).contains(randomTile)) {
                         World.getWorld().tileGraphic(bloatUtils.getRandomLimbGraphic(), randomTile, 0, 0);
                         graphicTiles.add(randomTile);
                     }
@@ -166,17 +173,17 @@ public class BloatProcess extends NPC { //TODO make him reverse interpolate walk
 
     @Override
     public void postSequence() {
-        if (!players.contains(player) && player.tile().withinArea(BLOAT_AREA)) {
+        if (!players.contains(player) && player.tile().withinArea(BLOAT_AREA.transform(0,0,0,0,theatreArea.getzLevel()))) {
             players.add(player);
-        } else if (players.contains(player) && !player.tile().withinArea(BLOAT_AREA)) {
+        } else if (players.contains(player) && !player.tile().withinArea(BLOAT_AREA.transform(0,0,0,0,theatreArea.getzLevel()))) {
             players.remove(player);
         }
 
-        if (!player.tile().withinArea(BLOAT_AREA)) {
+        if (!player.tile().withinArea(BLOAT_AREA.transform(0,0,0,0,theatreArea.getzLevel()))) {
             interpolateBloatWalk();
         }
 
-        if (!this.isSleeping() && player.tile().withinArea(BLOAT_AREA)) {
+        if (!this.isSleeping() && player.tile().withinArea(BLOAT_AREA.transform(0,0,0,0,theatreArea.getzLevel()))) {
             interpolateBloatWalk();
             fallingLimbs();
             swarm();

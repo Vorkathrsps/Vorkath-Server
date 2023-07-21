@@ -5,7 +5,6 @@ import com.aelous.model.content.raids.theatre.area.TheatreArea;
 import com.aelous.model.entity.player.Player;
 
 public interface Raid {
-
     void buildRaid(Player player, Theatre theatre, TheatreArea theatreArea);
 
 }

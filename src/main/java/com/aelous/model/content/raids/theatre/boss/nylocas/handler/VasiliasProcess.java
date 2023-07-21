@@ -1,6 +1,7 @@
 package com.aelous.model.content.raids.theatre.boss.nylocas.handler;
 
 import com.aelous.model.World;
+import com.aelous.model.content.raids.theatre.boss.maiden.nylos.MaidenNylo;
 import com.aelous.model.content.raids.theatre.boss.nylocas.VasiliasHandler;
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.attributes.AttributeKey;

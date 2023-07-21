@@ -25,16 +25,17 @@ public class Theatre extends TheatreParty { //TODO clear the raid upon completio
     TheatreController theatreController = new TheatreController(boss);
     Tile entrance = new Tile(3219, 4454);
     public TheatreArea theatreArea;
-
-    public static final Area[] rooms = new Area[]
-        {
-            new Area(3152, 4415, 3231, 4464),
-            new Area(3295, 4290, 3260, 4335),
-            new Area(3326, 4423, 3263, 4467),
-            new Area(3275, 4285, 3314, 4231),
-            new Area(3136, 4352, 3136 + 63, 4352 + 63),
-            new Area(3186, 4294, 3150, 4331)
-        };
+    public static final Area[] rooms() {
+        int[] regions = new int[] {12613, 12869, 13125, 12612, 12611, 12687, 13123, 13122};
+        var areas = new ArrayList<Area>();
+        for (int region : regions) {
+            areas.add(new Area(Tile.regionToTile(region).getX(),
+                Tile.regionToTile(region).getY(),
+                Tile.regionToTile(region).getX() + 63,
+                Tile.regionToTile(region).getY() + 63));
+        }
+        return areas.toArray(Area[]::new);
+    }
 
     public Theatre(@Nullable Player leader, @Nullable Player member, TheatreArea theatreArea) {
         super(leader, member);

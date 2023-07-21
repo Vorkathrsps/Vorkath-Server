@@ -350,6 +350,12 @@ public class Tile implements Cloneable {
         return Math.max(diffX, diffY);
     }
 
+    public double getDistanceToLargeNpc(int x1, int y1, int x2, int y2) {
+        int dx = x2 - x1;
+        int dy = y2 - y1;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
     public int getManhattan(Tile pos, Tile other) {
         return calculateManhattanDistance(pos.getX(), pos.getY(), other.getX(), other.getY());
     }

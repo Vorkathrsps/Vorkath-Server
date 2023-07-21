@@ -10,7 +10,7 @@ import com.aelous.model.map.position.Tile;
 public class Xarpus implements Raid {
     @Override
     public void buildRaid(Player player, Theatre theatre, TheatreArea theatreArea) {
-        XarpusProcess xarpus = (XarpusProcess) new XarpusProcess(10767, new Tile(3169, 4386, theatreArea.getzLevel()), player).spawn(false);
+        XarpusProcess xarpus = (XarpusProcess) new XarpusProcess(10767, new Tile(3169, 4386, theatreArea.getzLevel() + 1), player).spawn(false);
         xarpus.setInstance(theatreArea);
         xarpus.spawn(false);
     }

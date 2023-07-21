@@ -22,10 +22,7 @@ import com.aelous.utility.chainedwork.Chain;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static com.aelous.model.content.raids.theatre.boss.maiden.utils.MaidenUtils.*;
 
@@ -36,10 +33,13 @@ import static com.aelous.model.content.raids.theatre.boss.maiden.utils.MaidenUti
 public class MaidenProcess extends NPC { //TODO add multiplayer damage support
     private final Player player;
     BloodSpawn orb;
-    MaidenNylo nylo;
+    MaidenNylo nylo = null;
     BloodSplat bloodSplat;
     private final List<Player> players = new ArrayList<>();
     public List<BloodSplat> bloodObjectList = new ArrayList<>();
+    public List<MaidenNylo> maidenNyloList = new ArrayList<>();
+    public List<BloodSpawn> bloodSpawnList = new ArrayList<>();
+
     public List<Integer> damage = new ArrayList<>();
     @Getter
     @Setter
@@ -47,9 +47,9 @@ public class MaidenProcess extends NPC { //TODO add multiplayer damage support
     private int intervalCount = 0;
     private int attackInterval = 10;
     boolean activeOrb = false;
-    private boolean nyloSpawned70to50 = false;
-    private boolean nyloSpawned50to30 = false;
-    private boolean nyloSpawned30to0 = false;
+    private boolean nyloSpawned70to50;
+    private boolean nyloSpawned50to30;
+    private boolean nyloSpawned30to0;
     private final TheatreArea theatreArea;
     private final Theatre theatre;
 
@@ -100,19 +100,31 @@ public class MaidenProcess extends NPC { //TODO add multiplayer damage support
     }
 
     public void spawnNylocasMatomenos(int partySize) {
-        int randomSpawnCount = Utils.random(1, 10);
         int zLevel = theatreArea.getzLevel();
+        Set<Tile> selectedTiles = new HashSet<>();
+        List<Tile> availableTiles = new ArrayList<>(Arrays.asList(MaidenNylo.spawn_tiles));
+        Collections.shuffle(availableTiles);
 
         if (partySize < 5) {
-            Tile randomTile = getRandomTile().transform(0, 0, zLevel);
-            for (int i = 0; i < randomSpawnCount; i++) {
-                nylo = (MaidenNylo) new MaidenNylo(NpcIdentifiers.NYLOCAS_MATOMENOS, randomTile).spawn(false);
+            int numNpcsToSpawn = Utils.random(1, 10);
+
+            for (int i = 0; i < Math.min(numNpcsToSpawn, availableTiles.size()); i++) {
+                Tile tile = availableTiles.get(i);
+                if (!selectedTiles.contains(tile)) {
+                    nylo = (MaidenNylo) new MaidenNylo(NpcIdentifiers.NYLOCAS_MATOMENOS, new Tile(tile.getX(), tile.getY()).transform(0, 0, zLevel), this).spawn(false);
+                    selectedTiles.add(tile);
+                }
             }
         } else {
-            for (var tile : MaidenNylo.spawn_tiles) {
-                nylo = (MaidenNylo) new MaidenNylo(NpcIdentifiers.NYLOCAS_MATOMENOS, new Tile(tile.getX(), tile.getY()).transform(0, 0, zLevel)).spawn(false);
+            for (int i = 0; i < MaidenNylo.spawn_tiles.length; i++) {
+                Tile tile = MaidenNylo.spawn_tiles[i];
+                if (!selectedTiles.contains(tile)) {
+                    nylo = (MaidenNylo) new MaidenNylo(NpcIdentifiers.NYLOCAS_MATOMENOS, new Tile(tile.getX(), tile.getY()).transform(0, 0, zLevel), this).spawn(false);
+                    selectedTiles.add(tile);
+                }
             }
         }
+        selectedTiles.clear();
     }
 
     @Override
@@ -123,12 +135,25 @@ public class MaidenProcess extends NPC { //TODO add multiplayer damage support
 
         if (insideBounds()) {
 
-            if (nylo != null && !nylo.frozen()) {
-                nylo.stepAbs(this.getAbsX(), this.getAbsY(), MovementQueue.StepType.REGULAR);
-            }
+            double healthAmount = hp() * 1.0 / (maxHp() * 1.0);
 
-            if (nylo != null && nylo.isExploded()) {
-                this.healHit(nylo, nylo.hp());
+            if (healthAmount <= 0.70 && !nyloSpawned70to50) {
+                this.transmog(10815);
+                spawnNylocasMatomenos(this.partySize());
+                nyloSpawned70to50 = true;
+                return;
+            }
+            if (healthAmount <= 0.50 && !nyloSpawned50to30) {
+                this.transmog(10816);
+                spawnNylocasMatomenos(this.partySize());
+                nyloSpawned50to30 = true;
+                return;
+            }
+            if (healthAmount <= 0.30 && !nyloSpawned30to0) {
+                this.transmog(10817);
+                spawnNylocasMatomenos(this.partySize());
+                nyloSpawned30to0 = true;
+                return;
             }
 
             if (!orbSpawns.isEmpty() && this.activeOrb) {
@@ -168,7 +193,9 @@ public class MaidenProcess extends NPC { //TODO add multiplayer damage support
             nylo.die();
         }
         bloodObjectList.clear();
-        orb.clear();
+        if (orb != null) {
+            orb.clear();
+        }
         Chain.noCtx().runFn(1, () -> {
             this.animate(8094);
         }).then(3, () -> {
@@ -187,16 +214,6 @@ public class MaidenProcess extends NPC { //TODO add multiplayer damage support
 
     public int partySize() {
         return this.theatre.getParty().size();
-    }
-
-    public Tile getRandomTile() {
-        Tile[] tileArray = MaidenNylo.spawn_tiles;
-        if (tileArray.length == 0) {
-            return null;
-        }
-        Random random = new Random();
-        int randomIndex = random.nextInt(tileArray.length);
-        return tileArray[randomIndex].transform(0, 0, 0);
     }
 
     protected boolean insideBounds() {

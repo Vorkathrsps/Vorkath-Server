@@ -680,8 +680,8 @@ public class CommandManager {
             ((GreatOlm) olm.getCombatMethod()).flameWall(olm);
         });
         dev("c", (p, c, s) -> {
-            BloatProcess bloatProcess = new BloatProcess(8359, new Tile(3299, 4440, 0), p);
-            bloatProcess.spawn(false);
+            //BloatProcess bloatProcess = new BloatProcess(8359, new Tile(3299, 4440, 0), p);
+           // bloatProcess.spawn(false);
         });
 
         dev("x", (p, c, s) -> {
@@ -694,7 +694,7 @@ public class CommandManager {
             //TemporossHandler temporossHandler = new TemporossHandler(p, new TemporossArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, area));
             //temporossHandler.startInstance();
 
-            Theatre theatre = new Theatre(p, null, new TheatreArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, Theatre.rooms));
+            Theatre theatre = new Theatre(p, null, new TheatreArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, Theatre.rooms()));
             theatre.startRaid();
 
         });
@@ -937,7 +937,7 @@ public class CommandManager {
             xarpusProcess.spawn(false);
         });
         dev("t27", (p, c, s) -> {
-            Theatre theatre = new Theatre(p, null, new TheatreArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, Theatre.rooms));
+            Theatre theatre = new Theatre(p, null, new TheatreArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, Theatre.rooms()));
             theatre.startRaid();
             var instance = InstancedAreaManager.getSingleton().createInstancedArea(new Area(3156, 4374, 3156 + 40, 4374 + 40));
             p.setInstance(instance);

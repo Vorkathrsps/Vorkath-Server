@@ -21,8 +21,8 @@ import java.util.List;
  * @Date: 7/16/2023
  */
 public class Theatre extends TheatreParty { //TODO clear the raid upon completion or leave
-    List<Raid> raids = new ArrayList<>();
-    TheatreController theatreController = new TheatreController(raids);
+    List<Raid> boss = new ArrayList<>();
+    TheatreController theatreController = new TheatreController(boss);
     Tile entrance = new Tile(3219, 4454);
     public TheatreArea theatreArea;
 
@@ -48,15 +48,15 @@ public class Theatre extends TheatreParty { //TODO clear the raid upon completio
     }
 
     protected void construct() {
-        raids.add(new Maiden());
-        raids.add(new Xarpus());
-        raids.add(new Bloat());
-        raids.add(new VasiliasHandler());
+        boss.add(new Maiden());
+        boss.add(new Xarpus());
+        boss.add(new Bloat());
+        boss.add(new VasiliasHandler());
         theatreController.build(this.leader,this, this.theatreArea);
     }
 
     public void clearRaid() {
-        raids.clear();
+        boss.clear();
     }
 
 }

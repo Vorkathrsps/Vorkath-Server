@@ -21,7 +21,6 @@ public class TheatreController {
     public void build(Player player, Theatre theatre, TheatreArea theatreArea) {
         for (Raid r : raid) {
             r.buildRaid(player, theatre, theatreArea);
-            break;
         }
     }
 }

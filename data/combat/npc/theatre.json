@@ -215,6 +215,39 @@
     }
   },
   {
+    //maiden
+    "ids": [
+      10814, 10815, 10816, 10817
+    ],
+    "maxhit": 36,
+    "deathlen": 3,
+    "aggressive": true,
+    "aggroradius": 30,
+    "stats": {
+      "attack": 350,
+      "strength": 350,
+      "magic": 350,
+      "ranged": 350,
+      "defence": 200,
+      "hitpoints": 2450
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 0,
+      "magic": 300,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": -1
+    }
+  },
+  {
     //Nylocas toxobolos
     "ids": [
       8352

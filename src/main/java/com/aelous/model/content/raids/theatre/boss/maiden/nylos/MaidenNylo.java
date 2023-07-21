@@ -26,6 +26,7 @@ public class MaidenNylo extends NPC {
         super(id, tile);
         this.noRetaliation(true);
         this.getCombat().setAutoRetaliate(false);
+        this.setIgnoreOccupiedTiles(true);
     }
 
     @Override

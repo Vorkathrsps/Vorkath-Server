@@ -22,7 +22,6 @@ import com.aelous.utility.chainedwork.Chain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -30,7 +29,11 @@ import java.util.Random;
 
 import static com.aelous.model.content.raids.theatre.boss.maiden.utils.MaidenUtils.*;
 
-public class MaidenProcess extends NPC {
+/**
+ * @Author: Origin
+ * @Date: 7/21/2023
+ */
+public class MaidenProcess extends NPC { //TODO add multiplayer damage support
     private final Player player;
     BloodSpawn orb;
     MaidenNylo nylo;
@@ -58,6 +61,7 @@ public class MaidenProcess extends NPC {
         this.spawnDirection(Direction.EAST.toInteger());
         this.noRetaliation(true);
         this.getCombat().setAutoRetaliate(false);
+        this.getMovementQueue().setBlockMovement(true);
     }
 
     public void sequenceTornadoAndBlood() {
@@ -118,20 +122,6 @@ public class MaidenProcess extends NPC {
         }
 
         if (insideBounds()) {
-            double healthAmount = this.hp() * 1.0 / (this.maxHp() * 1.0);
-            if (healthAmount <= 70.0 && healthAmount > 50.0 && !nyloSpawned70to50) {
-                this.transmog(10815);
-                spawnNylocasMatomenos(this.partySize());
-                nyloSpawned70to50 = true;
-            } else if (healthAmount <= 50.0 && healthAmount > 30.0 && !nyloSpawned50to30) {
-                this.transmog(10816);
-                spawnNylocasMatomenos(this.partySize());
-                nyloSpawned50to30 = true;
-            } else if (healthAmount <= 30.0 && healthAmount > 0 && !nyloSpawned30to0) {
-                this.transmog(10817);
-                spawnNylocasMatomenos(this.partySize());
-                nyloSpawned50to30 = true;
-            }
 
             if (nylo != null && !nylo.frozen()) {
                 nylo.stepAbs(this.getAbsX(), this.getAbsY(), MovementQueue.StepType.REGULAR);
@@ -173,6 +163,9 @@ public class MaidenProcess extends NPC {
         }
         if (!bloodOrbs.isEmpty()) {
             clearOrbAndObjects();
+        }
+        if (nylo != null) {
+            nylo.die();
         }
         bloodObjectList.clear();
         orb.clear();

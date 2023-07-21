@@ -21,20 +21,20 @@ import java.util.List;
  * @Date: 7/16/2023
  */
 public class Theatre extends TheatreParty { //TODO clear the raid upon completion or leave
-    List<Raid> raids = new ArrayList<>();
-    TheatreController theatreController = new TheatreController(raids);
+    List<Raid> boss = new ArrayList<>();
+    TheatreController theatreController = new TheatreController(boss);
     Tile entrance = new Tile(3219, 4454);
     public TheatreArea theatreArea;
 
     public static final Area[] rooms = new Area[]
-         {
-             new Area(3152, 4415, 3231, 4464),
-             new Area(3295, 4290, 3260, 4335),
-             new Area(3326, 4423, 3263, 4467),
-             new Area(3275, 4285, 3314, 4231),
-             new Area(3136, 4352, 3136 + 63, 4352 + 63),
-             new Area(3186, 4294, 3150, 4331)
-         };
+        {
+            new Area(3152, 4415, 3231, 4464),
+            new Area(3295, 4290, 3260, 4335),
+            new Area(3326, 4423, 3263, 4467),
+            new Area(3275, 4285, 3314, 4231),
+            new Area(3136, 4352, 3136 + 63, 4352 + 63),
+            new Area(3186, 4294, 3150, 4331)
+        };
 
     public Theatre(@Nullable Player leader, @Nullable Player member, TheatreArea theatreArea) {
         super(leader, member);
@@ -48,14 +48,15 @@ public class Theatre extends TheatreParty { //TODO clear the raid upon completio
     }
 
     protected void construct() {
-        raids.add(new Maiden());
-        raids.add(new Xarpus());
-        raids.add(new Bloat());
-        raids.add(new VasiliasHandler());
-        theatreController.build(this.leader, this.theatreArea);
+        boss.add(new Maiden());
+        boss.add(new Xarpus());
+        boss.add(new Bloat());
+        boss.add(new VasiliasHandler());
+        theatreController.build(this.leader,this, this.theatreArea);
     }
 
     public void clearRaid() {
-        raids.clear();
+        boss.clear();
     }
+
 }

@@ -4,8 +4,7 @@ import com.aelous.model.World;
 import com.aelous.model.content.raids.theatre.Theatre;
 import com.aelous.model.content.raids.theatre.area.TheatreArea;
 import com.aelous.model.content.raids.theatre.boss.nylocas.handler.VasiliasProcess;
-import com.aelous.model.content.raids.theatre.controller.Raid;
-import com.aelous.model.content.raids.theatre.controller.TheatreController;
+import com.aelous.model.content.raids.theatre.controller.TheatreRaid;
 import com.aelous.model.content.raids.theatre.boss.nylocas.pillars.PillarNpc;
 import com.aelous.model.content.raids.theatre.boss.nylocas.pillars.PillarObject;
 import com.aelous.model.content.raids.theatre.boss.nylocas.state.VasiliasState;
@@ -15,7 +14,6 @@ import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
 import com.aelous.utility.chainedwork.Chain;
 import lombok.Getter;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -29,7 +27,7 @@ import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
  * @Author: Origin
  * @Date: 7/16/2023
  */
-public class VasiliasHandler implements Raid {
+public class VasiliasHandler implements TheatreRaid {
 
     public List<NPC> pillarNpc = new ArrayList<>();
     public List<NPC> vasiliasNpc = new ArrayList<>();

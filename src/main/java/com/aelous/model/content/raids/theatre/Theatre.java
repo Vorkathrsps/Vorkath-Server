@@ -5,7 +5,7 @@ import com.aelous.model.content.raids.theatre.boss.bloat.Bloat;
 import com.aelous.model.content.raids.theatre.boss.maiden.Maiden;
 import com.aelous.model.content.raids.theatre.boss.nylocas.VasiliasHandler;
 import com.aelous.model.content.raids.theatre.boss.xarpus.Xarpus;
-import com.aelous.model.content.raids.theatre.controller.Raid;
+import com.aelous.model.content.raids.theatre.controller.TheatreRaid;
 import com.aelous.model.content.raids.theatre.controller.TheatreController;
 import com.aelous.model.content.raids.theatre.party.TheatreParty;
 import com.aelous.model.entity.player.Player;
@@ -21,7 +21,7 @@ import java.util.List;
  * @Date: 7/16/2023
  */
 public class Theatre extends TheatreParty { //TODO clear the raid upon completion or leave
-    List<Raid> boss = new ArrayList<>();
+    List<TheatreRaid> boss = new ArrayList<>();
     TheatreController theatreController = new TheatreController(boss);
     Tile entrance = new Tile(3219, 4454);
     public TheatreArea theatreArea;

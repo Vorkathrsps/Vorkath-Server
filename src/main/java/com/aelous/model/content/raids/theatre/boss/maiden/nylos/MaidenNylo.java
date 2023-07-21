@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MaidenNylo extends NPC {
-    @Getter
-    public boolean exploded = false;
     MaidenProcess maiden;
     private int timer = 30;
     public static final Tile[] spawn_tiles = new Tile[]
@@ -36,24 +34,29 @@ public class MaidenNylo extends NPC {
 
     @Override
     public void postSequence() {
+        if (maiden.dead()) {
+            this.die();
+            return;
+        }
+
         if (timer > 0) {
             timer--;
             if (timer == 0) {
-                exploded = true;
                 maiden.healHit(this, this.hp());
                 die();
             }
         }
+
         if (maiden != null) {
             this.face(maiden);
             this.getMovement().walkTo(maiden.getX(), maiden.getY());
         }
+
     }
 
     @Override
     public void die() {
         this.timer = 30;
-        this.exploded = false;
         World.getWorld().unregisterNpc(this);
     }
 }

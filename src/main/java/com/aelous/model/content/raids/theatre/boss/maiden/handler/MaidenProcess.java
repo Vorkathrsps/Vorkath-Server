@@ -6,7 +6,6 @@ import com.aelous.model.content.raids.theatre.Theatre;
 import com.aelous.model.content.raids.theatre.area.TheatreArea;
 import com.aelous.model.content.raids.theatre.boss.maiden.blood.BloodSpawn;
 import com.aelous.model.content.raids.theatre.boss.maiden.nylos.MaidenNylo;
-import com.aelous.model.content.raids.theatre.boss.maiden.objects.BloodSplat;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
@@ -14,7 +13,6 @@ import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
-import com.aelous.model.map.object.ObjectManager;
 import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
@@ -29,7 +27,7 @@ import static com.aelous.model.content.raids.theatre.boss.maiden.utils.MaidenUti
  * @Author: Origin
  * @Date: 7/21/2023
  */
-public class MaidenProcess extends NPC { //TODO add multiplayer damage support
+public class MaidenProcess extends NPC {
     private final Player player;
     BloodSpawn orb = null;
     MaidenNylo nylo = null;

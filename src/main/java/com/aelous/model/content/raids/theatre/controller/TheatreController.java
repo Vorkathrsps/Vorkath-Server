@@ -12,14 +12,14 @@ import java.util.List;
  */
 public class TheatreController {
 
-    private final List<Raid> raid;
+    private final List<TheatreRaid> theatreRaid;
 
-    public TheatreController(List<Raid> raid) {
-        this.raid = raid;
+    public TheatreController(List<TheatreRaid> theatreRaid) {
+        this.theatreRaid = theatreRaid;
     }
 
     public void build(Player player, Theatre theatre, TheatreArea theatreArea) {
-        for (Raid r : raid) {
+        for (TheatreRaid r : theatreRaid) {
             r.buildRaid(player, theatre, theatreArea);
         }
     }

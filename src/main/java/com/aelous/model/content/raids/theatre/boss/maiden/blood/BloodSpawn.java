@@ -74,6 +74,19 @@ public class BloodSpawn extends NPC {
 
     @Override
     public void postSequence() {
+        if (maiden.dead()) {
+            for (var o : bloodObjectList) {
+                o.remove();
+            }
+            for (var n : orbList) {
+                n.remove();
+            }
+            this.damage.clear();
+            this.orbList.clear();
+            this.bloodObjectList.clear();
+            return;
+        }
+
         if (!orbList.isEmpty()) {
             bloodSplat = new BloodSplat(32984, new Tile(this.tile().getX(), this.tile().getY()).transform(0, 0, theatreArea.getzLevel()), 10, 0);
             if (!bloodObjectList.contains(bloodSplat)) {

@@ -295,7 +295,7 @@ public class MovementQueue {
     }
 
     public MovementQueue setBlockMovement(boolean blockMovement) {
-        if (entity.isNpc() && entity.getAsNpc().permaBlockedMovement()) {
+        if (entity.isNpc() && entity.getAsNpc().permaBlockedMovement() && !blockMovement) {
             return this;
         }
         this.blockMovement = blockMovement;

@@ -47,7 +47,6 @@ public class VorkathArea extends PacketInteraction {
                 instance.addNpc(sleepingVorkath);
 
             } else {
-                player.clearInstance(); // exit
                 player.teleport(2272, 4052, 0);
             }
             return true;

@@ -2793,13 +2793,6 @@ public class Player extends Entity {
             return;
     }
 
-    public void clearInstance() {
-        if (getInstancedArea() != null) {
-            getInstancedArea().removePlayer(this); // will dispose only when empty
-            setInstance(null);
-        }
-    }
-
     @Override
     public void stopActions(boolean cancelMoving) {
         super.stopActions(cancelMoving);

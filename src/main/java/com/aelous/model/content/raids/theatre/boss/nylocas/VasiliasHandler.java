@@ -1,7 +1,9 @@
 package com.aelous.model.content.raids.theatre.boss.nylocas;
 
 import com.aelous.model.World;
+import com.aelous.model.content.raids.theatre.area.TheatreArea;
 import com.aelous.model.content.raids.theatre.boss.nylocas.handler.VasiliasProcess;
+import com.aelous.model.content.raids.theatre.controller.Raid;
 import com.aelous.model.content.raids.theatre.controller.TheatreController;
 import com.aelous.model.content.raids.theatre.boss.nylocas.pillars.PillarNpc;
 import com.aelous.model.content.raids.theatre.boss.nylocas.pillars.PillarObject;
@@ -26,7 +28,7 @@ import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
  * @Author: Origin
  * @Date: 7/16/2023
  */
-public class VasiliasListener extends TheatreController {
+public class VasiliasHandler implements Raid {
 
     public List<NPC> pillarNpc = new ArrayList<>();
     public List<NPC> vasiliasNpc = new ArrayList<>();
@@ -35,14 +37,6 @@ public class VasiliasListener extends TheatreController {
     @Getter int[] npcs = new int[]{NYLOCAS_ISCHYROS_8342, NYLOCAS_TOXOBOLOS_8343, NYLOCAS_HAGIOS};
     AtomicInteger wave = new AtomicInteger();
     @Getter int finalInterpolatedTransmog;
-
-    public VasiliasListener() {
-
-    }
-
-    public VasiliasListener(@NotNull Player player) {
-        this.player = player;
-    }
 
     @Getter
     private static final Tile[] fromTile = new Tile[]{
@@ -99,15 +93,14 @@ public class VasiliasListener extends TheatreController {
             }
             this.wave.getAndIncrement();
         });
-        //Chain.noCtx().waitUntil(1, () -> boss.getVasiliasState().equals(VasiliasState.DEAD), this::clearRoom);
     }
 
     @Override
-    public void buildRoom() { //TODO rebuild room on completion
-        PillarNpc pillarNpc1 = new PillarNpc(8358, new Tile(3290, 4252, player.getZ()), new PillarObject(32862, new Tile(3289, 4253, player.getZ()), 10, 1, this), this);
-        PillarNpc pillarNpc2 = new PillarNpc(8358, new Tile(3299, 4252, player.getZ()), new PillarObject(32862, new Tile(3300, 4253, player.getZ()), 10, 2, this), this);
-        PillarNpc pillarNpc3 = new PillarNpc(8358, new Tile(3299, 4243, player.getZ()), new PillarObject(32862, new Tile(3300, 4242, player.getZ()), 10, 3, this), this);
-        PillarNpc pillarNpc4 = new PillarNpc(8358, new Tile(3290, 4243, player.getZ()), new PillarObject(32862, new Tile(3289, 4242, player.getZ()), 10, 0, this), this);
+    public void buildRaid(Player player, TheatreArea theatreArea) {
+        PillarNpc pillarNpc1 = new PillarNpc(8358, new Tile(3290, 4252, theatreArea.getzLevel()), new PillarObject(32862, new Tile(3289, 4253, theatreArea.getzLevel()), 10, 1, this), this);
+        PillarNpc pillarNpc2 = new PillarNpc(8358, new Tile(3299, 4252, theatreArea.getzLevel()), new PillarObject(32862, new Tile(3300, 4253, theatreArea.getzLevel()), 10, 2, this), this);
+        PillarNpc pillarNpc3 = new PillarNpc(8358, new Tile(3299, 4243, theatreArea.getzLevel()), new PillarObject(32862, new Tile(3300, 4242, theatreArea.getzLevel()), 10, 3, this), this);
+        PillarNpc pillarNpc4 = new PillarNpc(8358, new Tile(3290, 4243, theatreArea.getzLevel()), new PillarObject(32862, new Tile(3289, 4242, theatreArea.getzLevel()), 10, 0, this), this);
         pillarNpc1.spawn(false);
         pillarNpc1.spawnPillarObject();
         pillarNpc2.spawn(false);
@@ -116,15 +109,10 @@ public class VasiliasListener extends TheatreController {
         pillarNpc3.spawnPillarObject();
         pillarNpc4.spawn(false);
         pillarNpc4.spawnPillarObject();
+        pillarNpc1.setInstance(theatreArea);
+        pillarNpc2.setInstance(theatreArea);
+        pillarNpc3.setInstance(theatreArea);
+        pillarNpc4.setInstance(theatreArea);
     }
 
-    @Override
-    public void initiate() {
-        startSpiderSpawnTask();
-    }
-
-    @Override
-    public void clearRoom() {
-        clearListener();
-    }
 }

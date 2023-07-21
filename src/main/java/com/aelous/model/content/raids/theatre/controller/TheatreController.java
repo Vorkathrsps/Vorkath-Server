@@ -1,28 +1,27 @@
 package com.aelous.model.content.raids.theatre.controller;
 
+import com.aelous.model.content.raids.theatre.area.TheatreArea;
+import com.aelous.model.entity.player.Player;
+
+import java.util.List;
+
 /**
  * @Author: Origin
  * @Date: 7/16/2023
  */
-public abstract class TheatreController {
+public class TheatreController {
 
-    /**
-     * Construct The Room Objects / Object Npcs
-     */
-    public void buildRoom() {
+    private final List<Raid> raid;
+
+    public TheatreController(List<Raid> raid) {
+        this.raid = raid;
     }
 
-    /**
-     * Initiate The Room After It's Been Constructed
-     */
-    public void initiate() {
+    public void build(Player player, TheatreArea theatreArea) {
+        for (Raid raidType : raid) {
+            raidType.buildRaid(player, theatreArea);
+            break;
+        }
     }
-
-    /**
-     * Clear All Variables Related To The Room
-     */
-    public void clearRoom() {
-
-    }
-
 }
+

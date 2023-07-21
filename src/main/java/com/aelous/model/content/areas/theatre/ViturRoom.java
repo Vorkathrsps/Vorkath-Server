@@ -17,6 +17,7 @@ import com.aelous.utility.chainedwork.Chain;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.ROOSTER;
 import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.VERZIK_VITUR_8369;
 
 public class ViturRoom extends PacketInteraction {
@@ -40,7 +41,7 @@ public class ViturRoom extends PacketInteraction {
 
     @Override
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
-        if (obj != null && obj.getId() == THEATRE_ENTRACE) { // tob lobby 32653, 3678, 3216
+        if (obj != null && obj.getId() == ROOSTER) { // tob lobby 32653, 3678, 3216
             boolean insideCheck = player.getAbsX() >= 3138;
             player.lockMovement();
             Chain.bound(null).runFn(1, () -> {

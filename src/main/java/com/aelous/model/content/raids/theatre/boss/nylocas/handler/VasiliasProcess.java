@@ -1,7 +1,7 @@
 package com.aelous.model.content.raids.theatre.boss.nylocas.handler;
 
 import com.aelous.model.World;
-import com.aelous.model.content.raids.theatre.boss.nylocas.VasiliasListener;
+import com.aelous.model.content.raids.theatre.boss.nylocas.VasiliasHandler;
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.npc.NPC;
@@ -23,7 +23,7 @@ import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
  * @Date: 7/16/2023
  */
 public class VasiliasProcess extends NPC {
-    VasiliasListener vasiliasListener;
+    VasiliasHandler vasiliasHandler;
     AtomicInteger vasiliasLifeLength = new AtomicInteger(50);
 
     int[] npcs = new int[]{NYLOCAS_ISCHYROS_8342, NYLOCAS_TOXOBOLOS_8343, NYLOCAS_HAGIOS};
@@ -31,12 +31,12 @@ public class VasiliasProcess extends NPC {
     @Getter @Setter int transmogIdx;
     @Getter @Setter boolean pathingToTile;
     @Nonnull Player player;
-    public VasiliasProcess(int id, Tile tile, VasiliasListener vasiliasListener, @Nonnull Player player) { //yes
+    public VasiliasProcess(int id, Tile tile, VasiliasHandler vasiliasHandler, @Nonnull Player player) { //yes
         super(id, tile);
-        this.vasiliasListener = vasiliasListener;
+        this.vasiliasHandler = vasiliasHandler;
         this.player = player;
         this.setIgnoreOccupiedTiles(true);
-        vasiliasListener.vasiliasNpc.add(this);
+        vasiliasHandler.vasiliasNpc.add(this);
         putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
     }
 
@@ -51,13 +51,13 @@ public class VasiliasProcess extends NPC {
         if (getTimer() > 0) {
             timer--;
             if (transmogIdx == npcs.length - 1) {
-                int randomIndex = vasiliasListener.getRandomNPC();
+                int randomIndex = vasiliasHandler.getRandomNPC();
                 while (randomIndex == transmogIdx) {
-                    randomIndex = vasiliasListener.getRandomNPC();
+                    randomIndex = vasiliasHandler.getRandomNPC();
                 }
                 setTransmogIdx(randomIndex);
             }
-            this.transmog(vasiliasListener.getRandomNPC());
+            this.transmog(vasiliasHandler.getRandomNPC());
             transmogIdx = (transmogIdx + 1) % npcs.length;
             setTimer(3);
         }
@@ -80,8 +80,8 @@ public class VasiliasProcess extends NPC {
 
         Tile selectedTile;
         int matchingIndex = -1;
-        for (int i = 0; i < VasiliasListener.getFromTile().length; i++) {
-            selectedTile = VasiliasListener.getFromTile()[i].transform(0, 0, 0);
+        for (int i = 0; i < VasiliasHandler.getFromTile().length; i++) {
+            selectedTile = VasiliasHandler.getFromTile()[i].transform(0, 0, 0);
             if (selectedTile.equals(this.getX(), this.getY())) {
                 matchingIndex = i;
                 break;
@@ -103,13 +103,13 @@ public class VasiliasProcess extends NPC {
         if (!isPathingToTile() && getCombat().getTarget() == null) {
             attackClosestAlivePillar();
         }
-        if (!isPathingToTile() && vasiliasListener.pillarNpc.isEmpty() && getCombat().getTarget() == null) {
+        if (!isPathingToTile() && vasiliasHandler.pillarNpc.isEmpty() && getCombat().getTarget() == null) {
             this.getCombat().setTarget(player);
         }
     }
 
     private void attackClosestAlivePillar() {
-        List<NPC> availablePillars = vasiliasListener.pillarNpc.stream().filter(p -> !p.dead() && p.isRegistered()).toList();
+        List<NPC> availablePillars = vasiliasHandler.pillarNpc.stream().filter(p -> !p.dead() && p.isRegistered()).toList();
         if (!availablePillars.isEmpty()) {
             List<NPC> closestPillars = new ArrayList<>(availablePillars);
             closestPillars.sort(Comparator.comparingDouble(pillar -> this.tile().distance(pillar.tile())));

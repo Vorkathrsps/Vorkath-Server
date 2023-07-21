@@ -1,6 +1,7 @@
 package com.aelous.network.packet.incoming.impl;
 
 import com.aelous.GameServer;
+import com.aelous.model.content.raids.theatre.Theatre;
 import com.aelous.model.content.skill.impl.smithing.Bar;
 import com.aelous.model.content.skill.impl.smithing.EquipmentMaking;
 import com.aelous.model.entity.attributes.AttributeKey;

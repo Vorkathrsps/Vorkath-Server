@@ -1,6 +1,6 @@
 package com.aelous.model.content.raids.theatre.boss.nylocas.pillars;
 
-import com.aelous.model.content.raids.theatre.boss.nylocas.VasiliasListener;
+import com.aelous.model.content.raids.theatre.boss.nylocas.VasiliasHandler;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
 
@@ -9,11 +9,11 @@ import com.aelous.model.map.position.Tile;
  * @Date: 7/16/2023
  */
 public class PillarObject extends GameObject {
-    VasiliasListener vasiliasListener;
-    public PillarObject(int id, Tile tile, int type, int rotation, VasiliasListener vasiliasListener) {
+    VasiliasHandler vasiliasHandler;
+    public PillarObject(int id, Tile tile, int type, int rotation, VasiliasHandler vasiliasHandler) {
         super(id, tile, type, rotation);
-        this.vasiliasListener = vasiliasListener;
-        vasiliasListener.pillarObject.add(this);
+        this.vasiliasHandler = vasiliasHandler;
+        vasiliasHandler.pillarObject.add(this);
     }
 
 }

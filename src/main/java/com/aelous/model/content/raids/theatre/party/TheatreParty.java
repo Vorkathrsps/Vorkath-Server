@@ -1,11 +1,11 @@
 package com.aelous.model.content.raids.theatre.party;
 
 import com.aelous.model.entity.player.Player;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
 public class TheatreParty {
+
     public Player leader;
     public Player member;
     List<Player> party = new ArrayList<>();

@@ -1,6 +1,7 @@
 package com.aelous.model.content.raids.theatre.boss.nylocas;
 
 import com.aelous.model.World;
+import com.aelous.model.content.raids.theatre.Theatre;
 import com.aelous.model.content.raids.theatre.area.TheatreArea;
 import com.aelous.model.content.raids.theatre.boss.nylocas.handler.VasiliasProcess;
 import com.aelous.model.content.raids.theatre.controller.Raid;
@@ -96,7 +97,7 @@ public class VasiliasHandler implements Raid {
     }
 
     @Override
-    public void buildRaid(Player player, TheatreArea theatreArea) {
+    public void buildRaid(Player player, Theatre theatre, TheatreArea theatreArea) {
         PillarNpc pillarNpc1 = new PillarNpc(8358, new Tile(3290, 4252, theatreArea.getzLevel()), new PillarObject(32862, new Tile(3289, 4253, theatreArea.getzLevel()), 10, 1, this), this);
         PillarNpc pillarNpc2 = new PillarNpc(8358, new Tile(3299, 4252, theatreArea.getzLevel()), new PillarObject(32862, new Tile(3300, 4253, theatreArea.getzLevel()), 10, 2, this), this);
         PillarNpc pillarNpc3 = new PillarNpc(8358, new Tile(3299, 4243, theatreArea.getzLevel()), new PillarObject(32862, new Tile(3300, 4242, theatreArea.getzLevel()), 10, 3, this), this);

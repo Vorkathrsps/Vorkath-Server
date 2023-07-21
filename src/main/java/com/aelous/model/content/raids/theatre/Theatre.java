@@ -27,14 +27,14 @@ public class Theatre extends TheatreParty { //TODO clear the raid upon completio
     public TheatreArea theatreArea;
 
     public static final Area[] rooms = new Area[]
-         {
-             new Area(3152, 4415, 3231, 4464),
-             new Area(3295, 4290, 3260, 4335),
-             new Area(3326, 4423, 3263, 4467),
-             new Area(3275, 4285, 3314, 4231),
-             new Area(3136, 4352, 3136 + 63, 4352 + 63),
-             new Area(3186, 4294, 3150, 4331)
-         };
+        {
+            new Area(3152, 4415, 3231, 4464),
+            new Area(3295, 4290, 3260, 4335),
+            new Area(3326, 4423, 3263, 4467),
+            new Area(3275, 4285, 3314, 4231),
+            new Area(3136, 4352, 3136 + 63, 4352 + 63),
+            new Area(3186, 4294, 3150, 4331)
+        };
 
     public Theatre(@Nullable Player leader, @Nullable Player member, TheatreArea theatreArea) {
         super(leader, member);
@@ -52,10 +52,11 @@ public class Theatre extends TheatreParty { //TODO clear the raid upon completio
         raids.add(new Xarpus());
         raids.add(new Bloat());
         raids.add(new VasiliasHandler());
-        theatreController.build(this.leader, this.theatreArea);
+        theatreController.build(this.leader,this, this.theatreArea);
     }
 
     public void clearRaid() {
         raids.clear();
     }
+
 }

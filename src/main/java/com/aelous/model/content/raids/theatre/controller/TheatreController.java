@@ -1,5 +1,6 @@
 package com.aelous.model.content.raids.theatre.controller;
 
+import com.aelous.model.content.raids.theatre.Theatre;
 import com.aelous.model.content.raids.theatre.area.TheatreArea;
 import com.aelous.model.entity.player.Player;
 
@@ -17,9 +18,9 @@ public class TheatreController {
         this.raid = raid;
     }
 
-    public void build(Player player, TheatreArea theatreArea) {
+    public void build(Player player, Theatre theatre, TheatreArea theatreArea) {
         for (Raid r : raid) {
-            r.buildRaid(player, theatreArea);
+            r.buildRaid(player, theatre, theatreArea);
             break;
         }
     }

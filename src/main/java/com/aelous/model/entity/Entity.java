@@ -553,8 +553,12 @@ public abstract class Entity {
     }
 
     public void decrementHealth(Hit hit) {
-        if (dead() || hit.splatType == SplatType.NPC_HEALING_HITSPLAT)
+        if (dead())
             return;
+        if (hit.splatType == SplatType.NPC_HEALING_HITSPLAT) {
+            heal(hit.getDamage());
+            return;
+        }
         int outcome = hp() - hit.getDamage();
         if (outcome < 0) {
             outcome = 0;

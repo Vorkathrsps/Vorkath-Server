@@ -776,7 +776,9 @@ public class NPC extends Entity {
             ", walkTo=" + walkTo +
             ", skipReachCheck=" + skipReachCheck +
             ", canAttack=" + canAttack +
-            ", spawnStack='" + spawnStack + '\'' +
+            ", spawnStack='" + spawnStack +
+                ", canmove='" + movementQueue.canMove() +
+                ", moveBlocked='" + movementQueue.isMovementBlocked() +
             ", idx: "+getIndex()+
             '}';
     }

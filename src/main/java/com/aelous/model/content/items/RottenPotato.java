@@ -39,28 +39,36 @@ public class RottenPotato extends PacketInteraction {
     public static boolean onItemOnMob(Player player, Entity target) {
         // Give you the name and distance to a target
         if (player.getPlayerRights().isDeveloper(player)) {
+
+            logger.info("target {}", target);
             //Debugs.CMB.toggle();
-            if (target.isPlayer()) {
+
+            if (target instanceof Player opp) {
                 player.debugMessage(String.format("Distance to %s (%d) : %d. ", (target.getAsPlayer()).getUsername(), target.getIndex(), player.tile().distance(target.tile())));
-            } else {
+
+            } else if (target instanceof NPC npc) {
+
                 player.getPacketSender().sendPositionalHint(target.tile(), 2);
+
                 Debugs.CMB.debug(player, String.format("on %s %s", target, target.tile()), target, true);
                 //System.out.println(String.format("on %s %s", target, target.tile()));
-                player.getMovementQueue().clear();
+
                 //System.out.println("mob pid "+target.getIndex());
-                NPC npc = (NPC) target;
+
                 player.debugMessage(String.format("Distance to %s (%d) : %d size %d. ", npc.def().name, target.getIndex(), player.tile().distance(target.tile()), npc.getSize()));
-                potatoOnMob(player, npc);
+                potatoOnNpc(player, npc);
             }
             return true;
         }
         return false;
     }
 
-    private static void potatoOnMob(Player player, NPC npc) {
+    private static void potatoOnNpc(Player player, NPC npc) {
         npc.getAsNpc().cantInteract(false);
         npc.unlock();
-       // System.out.println(npc.getSize());
+        logger.info("npcdef {}", npc.def().toStringBig());
+
+
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {

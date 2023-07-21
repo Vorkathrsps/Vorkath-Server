@@ -374,4 +374,66 @@ public class NpcDefinition implements Definition {
     public boolean flightClipping, swimClipping;
 
     public boolean rotationFlag = true;
+
+    public String toStringBig() {
+        return "NpcDefinition{" +
+                "occupyTiles=" + occupyTiles +
+                ", models=" + Arrays.toString(models) +
+                ", name='" + name + '\'' +
+                ", size=" + size +
+                ", standingAnimation=" + standingAnimation +
+                ", walkingAnimation=" + walkingAnimation +
+                ", isFollower=" + isFollower +
+                ", turnLeftSequence=" + turnLeftSequence +
+                ", turnRightSequence=" + turnRightSequence +
+                ", rotate180Animation=" + rotate180Animation +
+                ", rotate90LeftAnimation=" + rotate90LeftAnimation +
+                ", rotate90RightAnimation=" + rotate90RightAnimation +
+                ", category=" + category +
+                ", isClickable=" + isClickable +
+                ", params=" + params +
+                ", recolorFrom=" + Arrays.toString(recolorFrom) +
+                ", recolorTo=" + Arrays.toString(recolorTo) +
+                ", retexture_from=" + Arrays.toString(retexture_from) +
+                ", retexture_to=" + Arrays.toString(retexture_to) +
+                ", additionalModels=" + Arrays.toString(additionalModels) +
+                ", mapdot=" + mapdot +
+                ", combatlevel=" + combatlevel +
+                ", width=" + width +
+                ", height=" + height +
+                ", renderPriority=" + renderPriority +
+                ", ambient=" + ambient +
+                ", contrast=" + contrast +
+                ", headIcon=" + headIcon +
+                ", turnValue=" + turnValue +
+                ", varbit=" + varbit +
+                ", rightclick=" + rightclick +
+                ", varp=" + varp +
+                ", aBool2227=" + aBool2227 +
+                ", altForms=" + Arrays.toString(altForms) +
+                ", isPet=" + isPet +
+                ", anInt2252=" + anInt2252 +
+                ", actions=" + Arrays.toString(actions) +
+                ", clientScriptData=" + clientScriptData +
+                ", id=" + id +
+                ", gwdRoomNpc=" + gwdRoomNpc +
+                ", inferno=" + inferno +
+                ", roomBoss=" + roomBoss +
+                ", headIconArchiveIds=" + Arrays.toString(headIconArchiveIds) +
+                ", headIconSpriteIndex=" + Arrays.toString(headIconSpriteIndex) +
+                ", runrender5=" + runrender5 +
+                ", runrender6=" + runrender6 +
+                ", runrender7=" + runrender7 +
+                ", crawlAnimation=" + crawlAnimation +
+                ", crawlrender5=" + crawlrender5 +
+                ", runAnimation=" + runAnimation +
+                ", crawlrender6=" + crawlrender6 +
+                ", crawlrender7=" + crawlrender7 +
+                ", isInteractable=" + isInteractable +
+                ", ignoreOccupiedTiles=" + ignoreOccupiedTiles +
+                ", flightClipping=" + flightClipping +
+                ", swimClipping=" + swimClipping +
+                ", rotationFlag=" + rotationFlag +
+                '}';
+    }
 }

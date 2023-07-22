@@ -11,7 +11,7 @@ import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
-import com.aelous.model.entity.combat.hit.SplatType;
+import com.aelous.model.entity.combat.hit.HitMark;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.method.impl.npcs.verzik.nylocas.Athanatos;
 import com.aelous.model.entity.combat.method.impl.npcs.verzik.nylocas.Matomenos;
@@ -287,11 +287,11 @@ public class VerzikVitur extends CommonCombatMethod {
     public void preDefend(Hit hit) {
         if (hit.getTarget().isNpc()) {
             if (phase == VerzikPhase.PHASE_1) {
-                hit.setSplatType(SplatType.VERZIK_SHIELD_HITSPLAT);
+                hit.setHitMark(HitMark.VERZIK_SHIELD_HITSPLAT);
             }
             if (hit.getTarget().npc().id() == VERZIK_VITUR_8371 || hit.getTarget().npc().id() == VERZIK_VITUR_8375) {
                 hit.setDamage(0);
-                hit.setSplatType(SplatType.BLOCK_HITSPLAT);
+                hit.setHitMark(HitMark.MISSED);
             }
         }
     }

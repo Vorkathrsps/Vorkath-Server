@@ -9,7 +9,6 @@ import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.hit.HitMark;
-import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
 import com.aelous.model.entity.masks.Direction;
@@ -177,7 +176,7 @@ public class GreatOlm extends CommonCombatMethod {
 
     @Override
     public void postDamage(Hit hit) {
-        if (hit.getDamage() == 0 || hit.splatType == SplatType.NPC_HEALING_HITSPLAT || entity.dead())
+        if (hit.getDamage() == 0 || hit.getHitMark() == HitMark.HEALED || entity.dead())
             return;
         if (currentPhase != lastPhase || !leftClaw.dead() || !rightClaw.dead()) {
             entity.healHit(entity, hit.getDamage(), 3);
@@ -792,7 +791,7 @@ public class GreatOlm extends CommonCombatMethod {
         if (clenched)
             hit.block();
         else if (clawHealing)
-            hit.setSplatType(SplatType.NPC_HEALING_HITSPLAT);
+            hit.setHitMark(HitMark.HEALED);
         else if (hit.getCombatType() != null && !hit.getCombatType().isMelee()) {
             if (hit.getSource() != null && hit.getSource().isPlayer())
                 hit.getSource().message("The claw resists your non-melee attack!");

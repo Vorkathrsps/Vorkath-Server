@@ -23,8 +23,7 @@ import com.aelous.model.entity.combat.damagehandler.impl.AmmunitionDamageEffect;
 import com.aelous.model.entity.combat.damagehandler.impl.EquipmentDamageEffect;
 import com.aelous.model.entity.combat.formula.FormulaUtils;
 import com.aelous.model.entity.combat.hit.Hit;
-import com.aelous.model.entity.combat.hit.Splat;
-import com.aelous.model.entity.combat.hit.SplatType;
+import com.aelous.model.entity.combat.hit.HitMark;
 import com.aelous.model.entity.combat.magic.CombatSpell;
 import com.aelous.model.entity.combat.magic.spells.CombatSpells;
 import com.aelous.model.entity.combat.method.CombatMethod;
@@ -1010,7 +1009,7 @@ public class CombatFactory {
         }
 
         // no need to process anything more
-        if (hit.splatType == SplatType.NPC_HEALING_HITSPLAT) {
+        if (hit.getHitMark() == HitMark.HEALED) {
             hit.getTarget().heal(damage, 0);
             return;
         }

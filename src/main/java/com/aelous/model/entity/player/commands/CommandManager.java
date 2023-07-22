@@ -944,6 +944,12 @@ public class CommandManager {
             xarpusProcess.setInstance(instance);
             xarpusProcess.spawn(false);
         });
+        dev("t28", (p, c, s) -> {
+            p.hit(null, 5);
+            Chain.noCtx().delay(2, () -> {
+                p.healHit(null, 5);
+            });
+        });
 
         dev("region", (p, c, s) -> {
            var t = Tile.regionToTile(Integer.parseInt(s[1]));

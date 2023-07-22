@@ -18,8 +18,6 @@ import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.Venom;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.hit.HitMark;
-import com.aelous.model.entity.combat.hit.Splat;
-import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.combat.method.impl.AttackNpcListener;
 import com.aelous.model.entity.masks.*;
 import com.aelous.model.entity.masks.impl.animations.Animation;
@@ -94,8 +92,6 @@ public abstract class Entity {
      * The entity's unique index.
      */
     private int index;
-
-    private Splat splat;
 
     /**
      * The entity's tile size.
@@ -328,14 +324,6 @@ public abstract class Entity {
     @Getter
     public Hit hits = new Hit(this, this);
 
-    public Splat getSplat() {
-        return splat;
-    }
-
-    public void setSplat(Splat hit) {
-        this.splat = hit;
-    }
-
     /**
      * a task that runs Once after {@code delay} ticks.
      */
@@ -555,7 +543,7 @@ public abstract class Entity {
     public void decrementHealth(Hit hit) {
         if (dead())
             return;
-        if (hit.splatType == SplatType.NPC_HEALING_HITSPLAT) {
+        if (hit.getHitMark() == HitMark.HEALED) {
             heal(hit.getDamage());
             return;
         }
@@ -604,8 +592,6 @@ public abstract class Entity {
     public Area bounds() {
         return new Area(tile.x, tile.y, tile.x + getSize() - 1, tile.y + getSize() - 1, tile.getZ());
     }
-
-    public List<Splat> splats = new ArrayList<>(4);
 
     public List<Hit> nextHits = new ArrayList<>(4);
 

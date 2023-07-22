@@ -6,7 +6,6 @@ import com.aelous.model.World;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.hit.HitMark;
-import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.player.EquipSlot;
 import com.aelous.model.entity.player.InfectionType;

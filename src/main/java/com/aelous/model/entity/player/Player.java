@@ -136,6 +136,7 @@ import org.apache.commons.compress.utils.Lists;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -1061,10 +1062,10 @@ public class Player extends Entity {
     }
 
     @Override
-    public Hit manipulateHit(Hit hit) {
+    public Hit manipulateHit(@Nullable Hit hit) {
         Entity attacker = hit.getAttacker();
 
-        if (attacker.isNpc()) {
+        if (attacker != null && attacker.isNpc()) {
             NPC npc = attacker.getAsNpc();
             if (npc.id() == NpcIdentifiers.TZTOKJAD) {
                 if (Prayers.usingPrayer(this, Prayers.getProtectingPrayer(hit.getCombatType(), this))) {
@@ -1102,6 +1103,7 @@ public class Player extends Entity {
     public Entity setHitpoints(int hitpoints) {
         if (invulnerable) {
             if (skills.level(Skills.HITPOINTS) > hitpoints) {
+                logger.trace("{} is infhp, no dmg taken", getMobName());
                 return this;
             }
         }

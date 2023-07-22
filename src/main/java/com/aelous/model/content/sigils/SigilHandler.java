@@ -7,7 +7,6 @@ import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
-import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.animations.Priority;
 import com.aelous.model.entity.masks.impl.graphics.Graphic;

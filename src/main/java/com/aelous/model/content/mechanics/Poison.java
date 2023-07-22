@@ -7,7 +7,6 @@ import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.Venom;
 import com.aelous.model.entity.combat.hit.HitMark;
-import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.InfectionType;
 import com.aelous.model.entity.player.Player;

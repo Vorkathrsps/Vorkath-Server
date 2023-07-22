@@ -9,7 +9,7 @@ import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
-import com.aelous.model.entity.combat.hit.SplatType;
+import com.aelous.model.entity.combat.hit.HitMark;
 import com.aelous.model.entity.combat.method.EntityCombatBuilder;
 import com.aelous.model.entity.combat.method.impl.CommonCombatMethod;
 import com.aelous.model.entity.combat.prayer.default_prayer.Prayers;
@@ -63,7 +63,7 @@ public class TheNightmare extends CommonCombatMethod {
 
     @Override
     public void preDefend(Hit hit) {
-        hit.setSplatType(SplatType.VERZIK_SHIELD_HITSPLAT);
+        hit.setHitMark(HitMark.VERZIK_SHIELD_HITSPLAT);
         Arrays.stream(entity.closePlayers()).forEach(p -> {
             HealthHud.open(p, HealthHud.Type.CYAN_SHIELD,"The Nightmare", 1100);
         });

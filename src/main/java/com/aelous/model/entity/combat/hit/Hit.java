@@ -55,19 +55,10 @@ public class Hit {
 
     public CombatSpell spell;
 
-    public Hit setSplatType(SplatType splatType) {
-        this.splatType = splatType;
-        return this;
-    }
-
     public Hit setHitMark(HitMark hitMark) {
         this.hitMark = hitMark;
         return this;
     }
-
-    public SplatType splatType;
-
-    public Splat splat;
 
     /**
      * The total damage this hit will deal
@@ -250,7 +241,7 @@ public class Hit {
             }
         }
 
-        if (splatType == SplatType.NPC_HEALING_HITSPLAT) {
+        if (hitMark == HitMark.HEALED) {
             return;
         }
 

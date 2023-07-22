@@ -6,7 +6,6 @@ import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.combat.hit.HitMark;
-import com.aelous.model.entity.combat.hit.SplatType;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.map.position.Tile;

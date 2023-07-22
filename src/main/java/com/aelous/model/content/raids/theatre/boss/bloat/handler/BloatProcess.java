@@ -4,6 +4,7 @@ import com.aelous.model.World;
 import com.aelous.model.content.raids.theatre.Theatre;
 import com.aelous.model.content.raids.theatre.area.TheatreArea;
 import com.aelous.model.content.raids.theatre.boss.bloat.utils.BloatUtils;
+import com.aelous.model.content.raids.theatre.stage.TheatreStage;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.animations.Animation;
@@ -212,6 +213,7 @@ public class BloatProcess extends NPC { //TODO make him reverse interpolate walk
                 this.unlock();
             }
             players.clear();
+            Theatre.theatrePhase.setStage(TheatreStage.THREE);
             World.getWorld().unregisterNpc(this);
         });
     }

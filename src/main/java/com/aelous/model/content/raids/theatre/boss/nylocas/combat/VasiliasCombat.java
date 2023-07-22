@@ -19,6 +19,7 @@ public class VasiliasCombat extends CommonCombatMethod {
 
     @Override
     public void preDefend(Hit hit) {
+
     }
 
     @Override

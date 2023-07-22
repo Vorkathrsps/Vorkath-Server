@@ -42,6 +42,7 @@ import com.aelous.model.content.raids.RaidStage;
 import com.aelous.model.content.raids.Raids;
 import com.aelous.model.content.raids.party.Party;
 import com.aelous.model.content.raids.party.RaidsParty;
+import com.aelous.model.content.raids.theatre.stage.TheatreStage;
 import com.aelous.model.content.security.AccountPin;
 import com.aelous.model.content.sigils.SigilHandler;
 import com.aelous.model.content.skill.Skillable;
@@ -492,6 +493,8 @@ public class Player extends Entity {
     public Party raidsParty;
 
     public RaidsParty chambersParty;
+
+    @Getter @Setter public TheatreStage theatreStage;
 
     private int multi_cannon_stage;
 

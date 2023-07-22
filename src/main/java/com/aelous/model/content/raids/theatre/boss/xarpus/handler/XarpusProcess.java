@@ -129,6 +129,7 @@ public class XarpusProcess extends NPC {
 
     @Override
     public void die() {
+        players.clear();
         Chain.noCtx().runFn(1, () -> this.animate(8063)).then(3, () -> {
             World.getWorld().unregisterNpc(this);
         }).then(2, this::clear);

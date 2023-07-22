@@ -3,10 +3,12 @@ package com.aelous.model.content.raids.theatre.interactions;
 import com.aelous.model.content.instance.InstanceConfiguration;
 import com.aelous.model.content.raids.theatre.Theatre;
 import com.aelous.model.content.raids.theatre.area.TheatreArea;
+import com.aelous.model.content.raids.theatre.stage.TheatreStage;
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.network.packet.incoming.interaction.PacketInteraction;
+import com.aelous.utility.Color;
 import com.aelous.utility.chainedwork.Chain;
 
 public class TheatreInteractions extends PacketInteraction {
@@ -38,21 +40,48 @@ public class TheatreInteractions extends PacketInteraction {
             }
         }
         if (obj.getId() == 33113) {
-            if (player.getClickDelay().elapsed(3000)) {
-                if (player.tile().region() == 12613) {
-                    player.teleport(3269, 4447, player.getInstancedArea().getzLevel());
-                    player.getClickDelay().reset();
-                } else if (player.tile().region() == 13125) {
-                    player.teleport(3295, 4283, player.getInstancedArea().getzLevel());
-                    player.getClickDelay().reset();
-                } else if (player.tile().region() == 13122) {
-                    player.teleport(3280, 4294, player.getInstancedArea().getzLevel());
-                    player.getClickDelay().reset();
-                } else if (player.tile().region() == 13123) {
-                    player.teleport(3170, 4377, player.getInstancedArea().getzLevel() + 1);
-                    player.getClickDelay().reset();
-                }
+
+            if (player.tile().region() == 12613 && Theatre.getTheatrePhase().getStage() == TheatreStage.TWO) {
+                player.teleport(3269, 4447, player.getInstancedArea().getzLevel());
+                player.getClickDelay().reset();
                 return true;
+            } else if (player.tile().region() == 12613 && !Theatre.theatrePhase.getStage().equals(TheatreStage.TWO)) {
+                player.message(Color.RED.wrap("You must complete this room before progressing further into this raid."));
+                player.message(Theatre.getTheatrePhase().getStage().toString());
+                player.getClickDelay().reset();
+                return false;
+            }
+
+            if (player.tile().region() == 13125 && Theatre.getTheatrePhase().getStage() == TheatreStage.THREE) {
+                player.teleport(3295, 4283, player.getInstancedArea().getzLevel());
+                player.getClickDelay().reset();
+                return true;
+            } else if (player.tile().region() == 12613 && !Theatre.theatrePhase.getStage().equals(TheatreStage.THREE)) {
+                player.message(Color.RED.wrap("You must complete this room before progressing further into this raid."));
+                player.message(Theatre.getTheatrePhase().getStage().toString());
+                player.getClickDelay().reset();
+                return false;
+            }
+
+            if (player.tile().region() == 13122 && Theatre.getTheatrePhase().getStage() == TheatreStage.FOUR) {
+                player.teleport(3280, 4294, player.getInstancedArea().getzLevel());
+                player.getClickDelay().reset();
+                return true;
+            } else if (player.tile().region() == 12613 && !Theatre.theatrePhase.getStage().equals(TheatreStage.FOUR)) {
+                player.message(Color.RED.wrap("You must complete this room before progressing further into this raid."));
+                player.message(Theatre.getTheatrePhase().getStage().toString());
+                player.getClickDelay().reset();
+                return false;
+            }
+
+            if (player.tile().region() == 13123 && Theatre.getTheatrePhase().getStage() == TheatreStage.FIVE) {
+                player.teleport(3170, 4377, player.getInstancedArea().getzLevel() + 1);
+                player.getClickDelay().reset();
+                return true;
+            } else if (player.tile().region() == 13123 && !Theatre.theatrePhase.getStage().equals(TheatreStage.FIVE)) {
+                player.message(Color.RED.wrap("You must complete this room before progressing further into this raid."));
+                player.getClickDelay().reset();
+                return false;
             }
         }
         return false;

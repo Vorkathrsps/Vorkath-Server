@@ -6,6 +6,7 @@ import com.aelous.model.content.raids.theatre.Theatre;
 import com.aelous.model.content.raids.theatre.area.TheatreArea;
 import com.aelous.model.content.raids.theatre.boss.maiden.blood.BloodSpawn;
 import com.aelous.model.content.raids.theatre.boss.maiden.nylos.MaidenNylo;
+import com.aelous.model.content.raids.theatre.stage.TheatreStage;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
@@ -46,6 +47,7 @@ public class MaidenProcess extends NPC {
         this.player = player;
         this.theatre = theatre;
         this.theatreArea = theatreArea;
+        this.setCombatMethod(null);
         this.spawnDirection(Direction.EAST.toInteger());
         this.noRetaliation(true);
         this.getCombat().setAutoRetaliate(false);
@@ -86,10 +88,6 @@ public class MaidenProcess extends NPC {
         });
     }
 
-    private int getRandomNumberInRange(int min, int max) {
-        return (int) (Math.random() * (max - min + 1)) + min;
-    }
-
     public void spawnNylocasMatomenos(int partySize) {
         int zLevel = theatreArea.getzLevel();
         Set<Tile> selectedTiles = new HashSet<>();
@@ -97,7 +95,7 @@ public class MaidenProcess extends NPC {
         Collections.shuffle(availableTiles);
 
         if (partySize < 5) {
-            int numNpcsToSpawn = getRandomNumberInRange(1, 10);
+            int numNpcsToSpawn = partySize * 2;
 
             for (int i = 0; i < Math.min(numNpcsToSpawn, availableTiles.size()); i++) {
                 Tile tile = availableTiles.get(i);
@@ -159,6 +157,7 @@ public class MaidenProcess extends NPC {
 
     @Override
     public void die() {
+        Theatre.theatrePhase.setStage(TheatreStage.TWO);
         if (nylo != null) {
             nylo.die();
         }

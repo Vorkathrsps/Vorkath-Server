@@ -41,26 +41,11 @@ public class SotetsegProcess extends NPC {
         this.player = player;
         this.theatre = theatre;
         this.theatreArea = theatreArea;
-        this.setHitpoints(scaleBossHitpoints(this.hp(), theatre.getParty().size()));
         this.setCombatMethod(null);
         this.spawnDirection(Direction.SOUTH.toInteger());
         this.noRetaliation(true);
         this.getCombat().setAutoRetaliate(false);
         this.getMovementQueue().setBlockMovement(true);
-    }
-
-    public int scaleBossHitpoints(int originalHitpoints, int teamSize) {
-        int scaledHitpoints;
-
-        if (teamSize <= 3) {
-            scaledHitpoints = (int) (originalHitpoints * 0.75);
-        } else if (teamSize == 4) {
-            scaledHitpoints = (int) (originalHitpoints * 0.875);
-        } else {
-            scaledHitpoints = originalHitpoints;
-        }
-
-        return scaledHitpoints;
     }
 
     public void sendRandomMageOrRange() {

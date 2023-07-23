@@ -55,4 +55,18 @@ public class Vasilias implements TheatreRaid {
         pillarNpc4.setInstance(theatreArea);
     }
 
+    @Override
+    public int scale(NPC npc, Theatre theatre) {
+        int scaledHitpoints;
+
+        if (theatre.getParty().size() <= 3) {
+            scaledHitpoints = (int) (npc.hp() * 0.75);
+        } else if (theatre.getParty().size() == 4) {
+            scaledHitpoints = (int) (npc.hp() * 0.875);
+        } else {
+            scaledHitpoints = npc.hp();
+        }
+        return scaledHitpoints;
+    }
+
 }

@@ -3,6 +3,7 @@ package com.aelous.model.content.raids.theatre.boss.sotetseg.handler;
 import com.aelous.model.World;
 import com.aelous.model.content.raids.theatre.Theatre;
 import com.aelous.model.content.raids.theatre.area.TheatreArea;
+import com.aelous.model.content.raids.theatre.party.TheatreParty;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
@@ -34,16 +35,32 @@ public class SotetsegProcess extends NPC {
     public static final Area SOTETSEG_AREA = new Area(3272, 4305, 3289, 4334);
     public static final Area IGNORED = new Area( 3277, 4303,3282, 4307);
 
+
     public SotetsegProcess(int id, Tile tile, Player player, Theatre theatre, TheatreArea theatreArea) {
         super(id, tile);
         this.player = player;
         this.theatre = theatre;
         this.theatreArea = theatreArea;
+        this.setHitpoints(scaleBossHitpoints(this.hp(), theatre.getParty().size()));
         this.setCombatMethod(null);
         this.spawnDirection(Direction.SOUTH.toInteger());
         this.noRetaliation(true);
         this.getCombat().setAutoRetaliate(false);
         this.getMovementQueue().setBlockMovement(true);
+    }
+
+    public int scaleBossHitpoints(int originalHitpoints, int teamSize) {
+        int scaledHitpoints;
+
+        if (teamSize <= 3) {
+            scaledHitpoints = (int) (originalHitpoints * 0.75);
+        } else if (teamSize == 4) {
+            scaledHitpoints = (int) (originalHitpoints * 0.875);
+        } else {
+            scaledHitpoints = originalHitpoints;
+        }
+
+        return scaledHitpoints;
     }
 
     public void sendRandomMageOrRange() {

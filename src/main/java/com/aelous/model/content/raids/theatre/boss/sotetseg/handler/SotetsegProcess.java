@@ -11,22 +11,19 @@ import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.masks.impl.graphics.GraphicHeight;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.map.route.routes.DumbRoute;
 import com.aelous.utility.Utils;
+import com.aelous.utility.chainedwork.Chain;
 import com.aelous.utility.timers.TimerKey;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SotetsegProcess extends NPC {
-    private static final int WIDTH = 14, HEIGHT = 15;
+    private final List<Player> players = new ArrayList<>();
     Player player;
     Theatre theatre;
     TheatreArea theatreArea;
@@ -34,6 +31,8 @@ public class SotetsegProcess extends NPC {
     private int intervalCount = 0;
     private int attackInterval = 5;
     private int randomAttack = 0;
+    public static final Area SOTETSEG_AREA = new Area(3272, 4305, 3289, 4334);
+    public static final Area IGNORED = new Area( 3277, 4303,3282, 4307);
 
     public SotetsegProcess(int id, Tile tile, Player player, Theatre theatre, TheatreArea theatreArea) {
         super(id, tile);
@@ -47,25 +46,13 @@ public class SotetsegProcess extends NPC {
         this.getMovementQueue().setBlockMovement(true);
     }
 
-    public void sequenceCombat() {
-        if (Utils.sequenceRandomInterval(randomAttack, 7, 14) && DumbRoute.withinDistance(this, player, 1)) {
-            this.sendMeleeAttack();
-        } else {
-            if (magicAttackCount == 10) {
-                this.sendSpecialMagicAttack();
-            } else {
-                this.sendRandomMageOrRange();
-            }
-        }
-    }
-
     public void sendRandomMageOrRange() {
         int[] projectileIds = new int[]{1606, 1607};
         var randomProjectile = Utils.randomElement(projectileIds);
         this.animate(8139);
         int tileDist = this.tile().distance(player.tile());
-        int duration = (70 + 30 + (20 * tileDist));
-        Projectile p = new Projectile(this, player, randomProjectile, 70, duration, 43, 21, 25, 5, 10);
+        int duration = (55 + 12 + (10 * tileDist));
+        Projectile p = new Projectile(this, player, randomProjectile, 55, duration, 43, 21, 25, 5, 10);
         final int delay = this.executeProjectile(p);
         Hit hit = Hit.builder(this, player, CombatFactory.calcDamageFromType(this, player, randomProjectile == 1606 ? CombatType.MAGIC : CombatType.RANGED), delay, randomProjectile == 1606 ? CombatType.MAGIC : CombatType.RANGED).checkAccuracy().postDamage(d -> {
             if (randomProjectile == 1606) {
@@ -92,8 +79,8 @@ public class SotetsegProcess extends NPC {
         magicAttackCount = 0;
         this.animate(8139);
         int tileDist = this.tile().distance(player.tile());
-        int duration = (70 + 25 + (25 * tileDist));
-        Projectile p = new Projectile(this, player, 1604, 70, duration, 50, 0, 50, 5, 10);
+        int duration = (55 + 25 + (10 * tileDist));
+        Projectile p = new Projectile(this, player, 1604, 55, duration, 50, 0, 50, 5, 10);
         final int delay = this.executeProjectile(p);
         Hit hit = Hit.builder(this, player, CombatFactory.calcDamageFromType(this, player, CombatType.MAGIC), delay, CombatType.MAGIC).setAccurate(true);
         hit.setDamage(121);
@@ -102,92 +89,75 @@ public class SotetsegProcess extends NPC {
     }
 
     public void sendMeleeAttack() {
+        if (!DumbRoute.withinDistance(this, player, 1)) {
+            return;
+        }
         this.animate(8138);
-        Hit hit = Hit.builder(this, player, CombatFactory.calcDamageFromType(this, player, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy();
-        hit.submit();
+        player.hit(this, CombatFactory.calcDamageFromType(this, player, CombatType.MELEE), 1);
     }
 
     @Override
     public void postSequence() {
-        intervalCount++;
-        attackInterval--;
-        if (intervalCount >= 5 && attackInterval <= 0 && !this.dead()) {
-            this.sequenceCombat();
-            intervalCount = 0;
-            attackInterval = 5;
+        super.postSequence();
+
+        if (this.dead()) {
+            return;
+        }
+
+        if (!insideBounds()) {
+            this.face(null);
+            this.setPositionToFace(new Tile(Direction.SOUTH.x, Direction.SOUTH.y));
+            return;
+        }
+
+        if (insideBounds() && !player.dead()) {
+            intervalCount++;
+            attackInterval--;
+            if (intervalCount >= 5 && attackInterval <= 0 && !this.dead()) {
+
+                if (magicAttackCount == 10) {
+                    this.sendSpecialMagicAttack();
+                    return;
+                }
+
+                if (Utils.sequenceRandomInterval(randomAttack, 7, 14) && DumbRoute.withinDistance(this, player, 1)) {
+                    this.sendMeleeAttack();
+                    return;
+                }
+
+                this.sendRandomMageOrRange();
+
+                intervalCount = 0;
+                attackInterval = 5;
+            }
         }
     }
 
     @Override
     public void die() {
-        World.getWorld().unregisterNpc(this);
+        players.clear();
+        Chain.noCtx().runFn(1, () -> {
+            this.animate(8139);
+        }).then(3, () -> {
+            World.getWorld().unregisterNpc(this);
+        });
     }
 
-    public void sendShadowRealm() {
-        for (var t : generateMazePath()) {
-
+    protected boolean insideBounds() {
+        if (IGNORED.transform(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()) || (!SOTETSEG_AREA.transform(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()) && IGNORED.transform(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()))) {
+            return false;
         }
-    }
 
-    public List<Tile> generateMazePath() {
-        final List<Tile> pathOffsets = new ArrayList<>();
-
-        // the minimum and maximum amount of tiles to go in one direction before being able to potentially change into another direction
-        final int minimumStreak = 2;
-        final int maximumStreak = 6;
-
-        //start at a random location on the x-axis
-        Tile last = Tile.create(Utils.random(1, WIDTH - 1), 0, theatreArea.getzLevel());
-        pathOffsets.add(last);
-
-        //System.out.println("Starting tile: " + last + ", " + (shadowMazeStart.transform(last)));
-
-        Direction lastDirection = Direction.NORTH;
-        int currentStreak = 1;
-        while (last.getY() < HEIGHT - 1) {
-            final Tile proposedLocation = last.transform(new Tile(lastDirection.x, lastDirection.y));
-
-            //check if we need to find a new direction to go instead
-            boolean changeDirections = false;
-            if (proposedLocation.getX() == 0 || proposedLocation.getX() == WIDTH - 1) {
-                //if we hit the borders of the maze
-                changeDirections = true;
-            } else if (currentStreak == maximumStreak) {
-                //if the streak is too long
-                changeDirections = true;
-            } else if (currentStreak >= minimumStreak && Utils.random(10) >= 4) {
-                //randomly change directions if we have the minimum streak
-                changeDirections = true;
+        if (SOTETSEG_AREA.transform(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()) && !IGNORED.transform(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile())) {
+            if (!players.contains(player)) {
+                players.add(player);
+                return true;
             }
-
-            if (changeDirections) {
-                //obtain a list of directions we can alternatively go in
-                final Direction lastDir = lastDirection;
-                final List<Direction> possibleDirections = Arrays.stream(Direction.ORTHOGONAL)
-                    .filter(dir -> dir != Direction.SOUTH && dir != lastDir && dir != lastDir.opposite())
-                    .collect(Collectors.toList());
-                //shuffle
-                Collections.shuffle(possibleDirections);
-                //iterate and check the validity of minimum future tiles in that direction
-                for (Direction direction : possibleDirections) {
-                    final Tile stretchTo = last.transform(direction.toInteger(), minimumStreak);
-                    if (stretchTo.getX() >= 1 && stretchTo.getX() <= WIDTH - 2) {
-                        lastDirection = direction;
-                        //System.out.println("--> SWITCHING DIRECTION TO " + direction.name());
-                        break;
-                    }
-                }
-
-                currentStreak = 1;
-            } else {
-                currentStreak++;
-            }
-
-            last = last.transform(new Tile(lastDirection.x, lastDirection.y));
-            //System.out.println("Moving in direction " + lastDirection.name() + " to " + shadowMazeStart.transform(last));
-            pathOffsets.add(last);
+        } else {
+            players.remove(player);
+            return false;
         }
-        return pathOffsets;
+        return true;
     }
 
 }

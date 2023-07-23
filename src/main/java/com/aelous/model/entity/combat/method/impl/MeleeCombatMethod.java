@@ -11,6 +11,7 @@ import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.animations.Priority;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
+import com.aelous.utility.timers.TimerKey;
 
 import static com.aelous.utility.ItemIdentifiers.*;
 
@@ -66,6 +67,15 @@ public class MeleeCombatMethod extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
+
+        if (entity.isNpc() && entity.getAsNpc().getId() == 10865) {
+            return false;
+        }
+
+        if (entity.isNpc() && entity.getAsNpc().getTimers().left(TimerKey.COMBAT_ATTACK) != 0) {
+            return false;
+        }
+
         if (target.isNpc() && entity.isPlayer()) {
             Player player = (Player) entity;
             if (player.getEquipment().containsAny(HOLY_SCYTHE_OF_VITUR, SANGUINE_SCYTHE_OF_VITUR, SCYTHE_OF_VITUR)) {
@@ -73,7 +83,7 @@ public class MeleeCombatMethod extends CommonCombatMethod {
                 return true;
             }
         }
-        if (entity.isNpc()) {
+        if (entity.isNpc() && entity.getCombat().getCombatType().isMelee()) {
             if (!withinDistance(1))
                 return false;
         }
@@ -88,6 +98,11 @@ public class MeleeCombatMethod extends CommonCombatMethod {
     @Override
     public int getAttackSpeed(Entity entity) {
         return entity.getBaseAttackSpeed();
+    }
+
+    @Override
+    public void doFollowLogic() {
+        follow(1);
     }
 
     @Override

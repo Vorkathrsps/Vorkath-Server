@@ -1,7 +1,7 @@
 package com.aelous.model.content.raids.theatre.boss.nylocas.pillars;
 
 import com.aelous.model.World;
-import com.aelous.model.content.raids.theatre.boss.nylocas.VasiliasHandler;
+import com.aelous.model.content.raids.theatre.boss.nylocas.Vasilias;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.object.MapObjects;
@@ -10,16 +10,16 @@ import com.aelous.utility.chainedwork.Chain;
 
 public class PillarNpc extends NPC {
     PillarObject pillarObject;
-    VasiliasHandler vasiliasHandler;
+    Vasilias vasilias;
 
-    public PillarNpc(int id, Tile tile, PillarObject pillarObject, VasiliasHandler vasiliasHandler) {
+    public PillarNpc(int id, Tile tile, PillarObject pillarObject, Vasilias vasilias) {
         super(id, tile);
         this.pillarObject = pillarObject;
-        this.vasiliasHandler = vasiliasHandler;
+        this.vasilias = vasilias;
         this.setSize(4);
         this.noRetaliation(true);
         this.getCombat().setAutoRetaliate(false);
-        vasiliasHandler.pillarNpc.add(this);
+        vasilias.pillarNpc.add(this);
     }
 
     public GameObject spawnPillarObject() {
@@ -44,9 +44,9 @@ public class PillarNpc extends NPC {
             Chain.noCtx().delay(4, () -> {
                 this.die();
                 World.getWorld().unregisterNpc(this);
-                vasiliasHandler.pillarNpc.remove(this);
+                vasilias.pillarNpc.remove(this);
                 o.setId(32864);
-                vasiliasHandler.pillarObject.remove(o);
+                vasilias.pillarObject.remove(o);
             });
         });
     }

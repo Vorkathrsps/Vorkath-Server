@@ -104,12 +104,9 @@
       "magicdefence": 30
     },
     "animations": {
-      "attack": 6235,
+      "attack": -1,
       "block": -1,
-      "death": 8140
-    },
-    "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.theatre.SotetsegCombat"
+      "death": -1
     }
   },
   {

@@ -3,7 +3,8 @@ package com.aelous.model.content.raids.theatre;
 import com.aelous.model.content.raids.theatre.area.TheatreArea;
 import com.aelous.model.content.raids.theatre.boss.bloat.Bloat;
 import com.aelous.model.content.raids.theatre.boss.maiden.Maiden;
-import com.aelous.model.content.raids.theatre.boss.nylocas.VasiliasHandler;
+import com.aelous.model.content.raids.theatre.boss.nylocas.Vasilias;
+import com.aelous.model.content.raids.theatre.boss.sotetseg.Sotetseg;
 import com.aelous.model.content.raids.theatre.boss.xarpus.Xarpus;
 import com.aelous.model.content.raids.theatre.controller.TheatreRaid;
 import com.aelous.model.content.raids.theatre.controller.TheatreController;
@@ -26,8 +27,10 @@ import java.util.List;
  */
 public class Theatre extends TheatreParty { //TODO clear the raid upon completion or leave
     List<TheatreRaid> boss = new ArrayList<>();
-    public TheatreController theatreController = new TheatreController(boss);
     Tile entrance = new Tile(3219, 4454);
+    Tile sotet = new Tile(3279, 4309);
+    public TheatreController theatreController = new TheatreController(boss);
+
     public TheatreArea theatreArea;
     @Getter public static TheatrePhase theatrePhase = new TheatrePhase(TheatreStage.ONE);
     public static final Area[] rooms() {
@@ -48,10 +51,11 @@ public class Theatre extends TheatreParty { //TODO clear the raid upon completio
         boss.add(new Maiden());
         boss.add(new Xarpus());
         boss.add(new Bloat());
-        boss.add(new VasiliasHandler());
+        boss.add(new Vasilias());
+        boss.add(new Sotetseg());
         theatreController.build(this.leader, this, this.theatreArea);
         this.leader.setInstance(theatreArea);
-        this.leader.teleport(entrance.transform(0, 0, theatreArea.getzLevel()));
+        this.leader.teleport(sotet.transform(0, 0, theatreArea.getzLevel()));
     }
 
     public void dispose() {

@@ -1,12 +1,14 @@
 package com.aelous.model.content.raids.theatre.boss.nylocas.handler;
 
 import com.aelous.model.World;
-import com.aelous.model.content.raids.theatre.boss.maiden.nylos.MaidenNylo;
-import com.aelous.model.content.raids.theatre.boss.nylocas.VasiliasHandler;
+import com.aelous.model.content.raids.theatre.boss.nylocas.VasiliasBoss;
+import com.aelous.model.content.raids.theatre.boss.nylocas.Vasilias;
+import com.aelous.model.content.raids.theatre.boss.nylocas.state.VasiliasState;
 import com.aelous.model.entity.MovementQueue;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
+import com.aelous.model.map.object.GameObject;
 import com.aelous.model.map.position.Tile;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
@@ -24,21 +26,62 @@ import static com.aelous.cache.definitions.identifiers.NpcIdentifiers.*;
  * @Date: 7/16/2023
  */
 public class VasiliasProcess extends NPC {
-    VasiliasHandler vasiliasHandler;
+    Vasilias vasilias;
     AtomicInteger vasiliasLifeLength = new AtomicInteger(50);
-
+    @Getter
+    private static final Tile[] fromTile = new Tile[]{
+        new Tile(3282, 4249),
+        new Tile(3295, 4235),
+        new Tile(3309, 4248),
+        new Tile(3282, 4248),
+        new Tile(3296, 4235),
+        new Tile(3309, 4249)
+    };
     int[] npcs = new int[]{NYLOCAS_ISCHYROS_8342, NYLOCAS_TOXOBOLOS_8343, NYLOCAS_HAGIOS};
     @Getter @Setter int timer = 3;
     @Getter @Setter int transmogIdx;
     @Getter @Setter boolean pathingToTile;
+    public List<NPC> pillarNpc = new ArrayList<>();
+    public List<NPC> vasiliasNpc = new ArrayList<>();
+    public List<GameObject> pillarObject = new ArrayList<>();
     @Nonnull Player player;
-    public VasiliasProcess(int id, Tile tile, VasiliasHandler vasiliasHandler, @Nonnull Player player) { //yes
+    AtomicInteger wave = new AtomicInteger();
+    @Getter int finalInterpolatedTransmog;
+    public VasiliasProcess(int id, Tile tile, @Nonnull Player player) {
         super(id, tile);
-        this.vasiliasHandler = vasiliasHandler;
         this.player = player;
         this.setIgnoreOccupiedTiles(true);
-        vasiliasHandler.vasiliasNpc.add(this);
+        vasilias.vasiliasNpc.add(this);
         putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
+    }
+
+    public Tile getRandomTile() {
+        Tile[] tileArray = fromTile;
+        if (tileArray.length == 0) {
+            return null;
+        }
+        Random random = new Random();
+        int randomIndex = random.nextInt(tileArray.length);
+        return tileArray[randomIndex].transform(0, 0, 0);
+    }
+
+    public int getRandomNPC() {
+        Random random = new Random();
+        finalInterpolatedTransmog = random.nextInt(npcs.length);
+        return npcs[finalInterpolatedTransmog];
+    }
+
+    public void startSpiderSpawnTask() {
+        VasiliasBoss boss = new VasiliasBoss(8355, new Tile(3294, 4247, 0), player, VasiliasState.ALIVE);
+        Chain.noCtxRepeat().repeatingTask(5, t -> {
+            this.spawn(false);
+            if (this.wave.get() == 50) {
+                boss.spawn(false);
+                t.stop();
+                return;
+            }
+            this.wave.getAndIncrement();
+        });
     }
 
     @Override
@@ -52,13 +95,13 @@ public class VasiliasProcess extends NPC {
         if (getTimer() > 0) {
             timer--;
             if (transmogIdx == npcs.length - 1) {
-                int randomIndex = vasiliasHandler.getRandomNPC();
+                int randomIndex = getRandomNPC();
                 while (randomIndex == transmogIdx) {
-                    randomIndex = vasiliasHandler.getRandomNPC();
+                    randomIndex = getRandomNPC();
                 }
                 setTransmogIdx(randomIndex);
             }
-            this.transmog(vasiliasHandler.getRandomNPC());
+            this.transmog(getRandomNPC());
             transmogIdx = (transmogIdx + 1) % npcs.length;
             setTimer(3);
         }
@@ -81,8 +124,8 @@ public class VasiliasProcess extends NPC {
 
         Tile selectedTile;
         int matchingIndex = -1;
-        for (int i = 0; i < VasiliasHandler.getFromTile().length; i++) {
-            selectedTile = VasiliasHandler.getFromTile()[i].transform(0, 0, 0);
+        for (int i = 0; i < getFromTile().length; i++) {
+            selectedTile = getFromTile()[i].transform(0, 0, 0);
             if (selectedTile.equals(this.getX(), this.getY())) {
                 matchingIndex = i;
                 break;
@@ -104,21 +147,8 @@ public class VasiliasProcess extends NPC {
         if (!isPathingToTile() && getCombat().getTarget() == null) {
             attackClosestAlivePillar();
         }
-        if (!isPathingToTile() && vasiliasHandler.pillarNpc.isEmpty() && getCombat().getTarget() == null) {
+        if (!isPathingToTile() && vasilias.pillarNpc.isEmpty() && getCombat().getTarget() == null) {
             this.getCombat().setTarget(player);
-        }
-    }
-
-    private void attackClosestAlivePillar() {
-        List<NPC> availablePillars = vasiliasHandler.pillarNpc.stream().filter(p -> !p.dead() && p.isRegistered()).toList();
-        if (!availablePillars.isEmpty()) {
-            List<NPC> closestPillars = new ArrayList<>(availablePillars);
-            closestPillars.sort(Comparator.comparingDouble(pillar -> this.tile().distance(pillar.tile())));
-
-            Random random = new Random();
-            int randomIndex = random.nextInt(Math.min(closestPillars.size(), 2));
-            NPC randomPillar = closestPillars.get(randomIndex);
-            this.getCombat().setTarget(randomPillar);
         }
     }
 
@@ -133,6 +163,19 @@ public class VasiliasProcess extends NPC {
                 }
             }
         }).then(3, () -> World.getWorld().unregisterNpc(this));
+    }
+
+    private void attackClosestAlivePillar() {
+        List<NPC> availablePillars = vasilias.pillarNpc.stream().filter(p -> !p.dead() && p.isRegistered()).toList();
+        if (!availablePillars.isEmpty()) {
+            List<NPC> closestPillars = new ArrayList<>(availablePillars);
+            closestPillars.sort(Comparator.comparingDouble(pillar -> this.tile().distance(pillar.tile())));
+
+            Random random = new Random();
+            int randomIndex = random.nextInt(Math.min(closestPillars.size(), 2));
+            NPC randomPillar = closestPillars.get(randomIndex);
+            this.getCombat().setTarget(randomPillar);
+        }
     }
 
 }

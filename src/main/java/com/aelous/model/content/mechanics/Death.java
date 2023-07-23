@@ -21,6 +21,7 @@ import com.aelous.model.entity.combat.skull.Skulling;
 import com.aelous.model.entity.combat.weapon.WeaponInterfaces;
 import com.aelous.model.entity.masks.Flag;
 import com.aelous.model.entity.npc.NPC;
+import com.aelous.model.entity.player.IronMode;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.entity.player.Skills;
 import com.aelous.model.inter.lootkeys.LootKey;
@@ -290,7 +291,6 @@ public class Death implements TheatreDeath {
     public static final Area XARPUS_AREA = new Area(Tile.regionToTile(12612).getX(), Tile.regionToTile(12612).getY(), Tile.regionToTile(12612).getX() + 63, Tile.regionToTile(12612).getY() + 63);
     public static final Area SOTETSEG_AREA = new Area(Tile.regionToTile(13123).getX(), Tile.regionToTile(13123).getY(), Tile.regionToTile(13123).getX() + 63, Tile.regionToTile(13123).getY() + 63);
     public static final Area VASILIAS_AREA = new Area(Tile.regionToTile(13122).getX(), Tile.regionToTile(13122).getY(), Tile.regionToTile(13122).getX() + 63, Tile.regionToTile(13122).getY() + 63);
-
     public final Tile[] VERZIK_DEATH_TILES = new Tile[]
         {
             new Tile(3161, 4325),
@@ -300,8 +300,6 @@ public class Death implements TheatreDeath {
             new Tile(3157, 4325)
 
         };
-
-
     public final Tile[] VASILIAS_DEATH_TILES = new Tile[]
         {
             new Tile(3290, 4257),
@@ -353,13 +351,19 @@ public class Death implements TheatreDeath {
         handleCompleted.run();
     }
 
-    Runnable handleWipe = () -> player.waitUntil(wiped, () -> {
+    Runnable handleWipe = () -> Chain.noCtx().cancelWhen(completed).waitUntil(1, wiped, () -> {
         occupiedList.clear();
         player.setRaidDeathState(RaidDeathState.WIPE);
         player.unlock();
         player.getTheatre().dispose();
+        if (player.getIronManStatus().isHardcoreIronman()) {
+            player.setIronmanStatus(IronMode.REGULAR);
+            player.getPacketSender().sendRights();
+            player.getUpdateFlag().flag(Flag.APPEARANCE);
+            World.getWorld().sendBroadcast("<img=504>" + player.getDisplayName() + " has lost their hardcore ironman status! Total Level: " + player.getSkills().totalLevel());
+        }
         player.message("Oh dear you are dead!");
-    }).cancelWhen(completed);
+    });
 
     Runnable handleCompleted = () -> player.waitUntil(completed, () -> {
         occupiedList.clear();

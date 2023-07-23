@@ -10,14 +10,14 @@ public class TheatreParty {
     public Player leader;
     public Player member;
     @Getter public List<Player> party = new ArrayList<>();
-
     public TheatreParty(Player leader, Player member) {
         this.leader = leader;
         this.member = member;
     }
 
-    public void create() {
+    public void createParty() {
         party.add(leader);
+        leader.setTheatreParty(this);
         leader.message("Your party has been successfully created.");
     }
 

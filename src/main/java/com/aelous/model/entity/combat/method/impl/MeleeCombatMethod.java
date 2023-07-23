@@ -68,7 +68,7 @@ public class MeleeCombatMethod extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
 
-        if (entity.isNpc() && entity.getAsNpc().getId() == 10865) {
+        if (entity.isNpc() && entity.getAsNpc().getId() == 10865 || entity.getAsNpc().getId() == 10814) {
             return false;
         }
 

@@ -48,7 +48,6 @@ import static com.aelous.model.entity.attributes.AttributeKey.VENOMED_BY;
  * @Since December 24, 2022
  */
 public class GreatOlm extends CommonCombatMethod {
-
     private static final Projectile CRYSTAL_DROP_PROJECTILE = new Projectile(1357, 150, 0, 0, 135, 0, 0, 0);
     private static final Projectile CRYSTAL_BOMB_PROJECTILE = new Projectile(1357, 100, 0, 30, 100, 0, 16, 0);
     private static final Projectile CRYSTAL_SPIKE_PROJECTILE = new Projectile(1352, 200, 0, 0, 60, 0, 0, 0);

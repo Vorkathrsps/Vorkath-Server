@@ -3,7 +3,6 @@ package com.aelous.model.content.raids.theatre.boss.sotetseg.handler;
 import com.aelous.model.World;
 import com.aelous.model.content.raids.theatre.Theatre;
 import com.aelous.model.content.raids.theatre.area.TheatreArea;
-import com.aelous.model.content.raids.theatre.party.TheatreParty;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
@@ -34,7 +33,6 @@ public class SotetsegProcess extends NPC {
     private int randomAttack = 0;
     public static final Area SOTETSEG_AREA = new Area(3272, 4305, 3289, 4334);
     public static final Area IGNORED = new Area( 3277, 4303,3282, 4307);
-
 
     public SotetsegProcess(int id, Tile tile, Player player, Theatre theatre, TheatreArea theatreArea) {
         super(id, tile);

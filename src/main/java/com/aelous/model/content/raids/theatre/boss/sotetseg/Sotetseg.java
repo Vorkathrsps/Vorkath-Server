@@ -30,4 +30,5 @@ public class Sotetseg implements TheatreRaid {
         }
         return scaledHitpoints;
     }
+
 }

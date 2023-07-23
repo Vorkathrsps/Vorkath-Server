@@ -42,7 +42,14 @@ import com.aelous.model.content.raids.RaidStage;
 import com.aelous.model.content.raids.Raids;
 import com.aelous.model.content.raids.party.Party;
 import com.aelous.model.content.raids.party.RaidsParty;
+import com.aelous.model.content.raids.theatre.Theatre;
+import com.aelous.model.content.raids.theatre.area.TheatreArea;
+import com.aelous.model.content.raids.theatre.controller.TheatreRaid;
+import com.aelous.model.content.raids.theatre.party.TheatreParty;
+import com.aelous.model.content.raids.theatre.stage.RaidDeathState;
+import com.aelous.model.content.raids.theatre.stage.RoomState;
 import com.aelous.model.content.raids.theatre.stage.TheatreStage;
+import com.aelous.model.content.raids.theatre.stage.TheatreState;
 import com.aelous.model.content.security.AccountPin;
 import com.aelous.model.content.sigils.SigilHandler;
 import com.aelous.model.content.skill.Skillable;
@@ -168,12 +175,16 @@ public class Player extends Entity {
         LOGOUT = Level.getLevel("LOGOUT");
     }
 
-    public int lastPetId;
-
     @Getter
     private final Pet pet = new Pet(this);
 
-    public RaidStage raidStage;
+    @Getter @Setter public TheatreParty theatreParty;
+    @Getter @Setter public RoomState roomState;
+    @Getter @Setter public TheatreState theatreState;
+
+    @Getter @Setter public RaidDeathState raidDeathState;
+
+    @Getter @Setter public Theatre theatre;
     public transient ShopReference shopReference = ShopReference.DEFAULT;
 
     private final WildernessSlayerCasket wildernessSlayerCasket = new WildernessSlayerCasket(this);
@@ -1077,10 +1088,12 @@ public class Player extends Entity {
         return hit;
     }
 
+    Death death = new Death(this);
+
     @Override
     public void die() {
         stopActions(true);
-        Death.death(this);
+        death.death(this);
     }
 
     @Override

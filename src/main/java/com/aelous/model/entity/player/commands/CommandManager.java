@@ -695,6 +695,8 @@ public class CommandManager {
             Theatre theatre = new Theatre(p, null, new TheatreArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, Theatre.rooms()));
             theatre.startRaid();
 
+            System.out.println(p.getTheatreState().toString());
+
         });
 
         dev("m", (p, c, s) -> {

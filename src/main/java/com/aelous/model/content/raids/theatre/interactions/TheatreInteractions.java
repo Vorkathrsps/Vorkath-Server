@@ -19,6 +19,12 @@ public class TheatreInteractions extends PacketInteraction {
             theatre.startRaid();
             return true;
         }
+
+        if (obj.getId() == 32996) {
+            theatre.dispose();
+            return true;
+        }
+
         if (obj.getId() == 32755) {
             if (player.getClickDelay().elapsed(3000)) {
                 if (player.tile().x < obj.tile().x) {

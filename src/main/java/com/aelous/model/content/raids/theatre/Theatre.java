@@ -9,8 +9,7 @@ import com.aelous.model.content.raids.theatre.boss.xarpus.Xarpus;
 import com.aelous.model.content.raids.theatre.controller.TheatreRaid;
 import com.aelous.model.content.raids.theatre.controller.TheatreController;
 import com.aelous.model.content.raids.theatre.party.TheatreParty;
-import com.aelous.model.content.raids.theatre.stage.TheatrePhase;
-import com.aelous.model.content.raids.theatre.stage.TheatreStage;
+import com.aelous.model.content.raids.theatre.stage.*;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Area;
 import com.aelous.model.map.position.Tile;
@@ -25,10 +24,9 @@ import java.util.List;
  * @Author: Origin
  * @Date: 7/16/2023
  */
-public class Theatre extends TheatreParty { //TODO clear the raid upon completion or leave
+public class Theatre extends TheatreParty {
     List<TheatreRaid> boss = new ArrayList<>();
     Tile entrance = new Tile(3219, 4454);
-    Tile sotet = new Tile(3279, 4309);
     public TheatreController theatreController = new TheatreController(boss);
 
     public TheatreArea theatreArea;
@@ -48,18 +46,28 @@ public class Theatre extends TheatreParty { //TODO clear the raid upon completio
     }
 
     public void startRaid() {
+        this.createParty();
         boss.add(new Maiden());
         boss.add(new Xarpus());
         boss.add(new Bloat());
         boss.add(new Vasilias());
         boss.add(new Sotetseg());
         theatreController.build(this.leader, this, this.theatreArea);
+        this.leader.setTheatre(this);
         this.leader.setInstance(theatreArea);
-        this.leader.teleport(sotet.transform(0, 0, theatreArea.getzLevel()));
+        this.leader.teleport(entrance.transform(0, 0, theatreArea.getzLevel()));
+        this.leader.setTheatreState(TheatreState.ACTIVE);
+        this.leader.setRaidDeathState(RaidDeathState.ALIVE);
+        this.leader.setRoomState(RoomState.INCOMPLETE);
     }
 
     public void dispose() {
-        boss.clear();
+        this.boss.clear();
+        this.leader.setTheatreState(null);
+        this.leader.setRaidDeathState(null);
+        this.leader.setRoomState(null);
+        this.leader.teleport(3670, 3218, 0);
+        this.theatreArea.dispose();
     }
 
 }

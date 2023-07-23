@@ -1,5 +1,6 @@
 package com.aelous.model.entity.combat.method;
 
+import com.aelous.model.content.raids.theatre.controller.TheatreRaid;
 import com.aelous.model.entity.Entity;
 import com.aelous.model.entity.combat.hit.Hit;
 

@@ -45,6 +45,7 @@ import com.aelous.model.content.raids.party.RaidsParty;
 import com.aelous.model.content.raids.theatre.Theatre;
 import com.aelous.model.content.raids.theatre.area.TheatreArea;
 import com.aelous.model.content.raids.theatre.controller.TheatreRaid;
+import com.aelous.model.content.raids.theatre.interactions.TheatreInterface;
 import com.aelous.model.content.raids.theatre.party.TheatreParty;
 import com.aelous.model.content.raids.theatre.stage.RaidDeathState;
 import com.aelous.model.content.raids.theatre.stage.RoomState;
@@ -179,6 +180,8 @@ public class Player extends Entity {
     private final Pet pet = new Pet(this);
 
     @Getter @Setter public TheatreParty theatreParty;
+
+    @Getter @Setter public TheatreInterface theatreInterface = new TheatreInterface(this);
     @Getter @Setter public RoomState roomState;
     @Getter @Setter public TheatreState theatreState;
 
@@ -1375,6 +1378,12 @@ public class Player extends Entity {
         }
         if (this.getPet() != null) {
             this.getPet().removeOnLogout();
+        }
+
+        if (this.theatreParty != null) {
+            this.theatreParty.leave();
+            this.theatreParty.clear();
+            this.setTheatreParty(null);
         }
 
         if (this.getWildernessKeys() != null) {

@@ -9,6 +9,7 @@ import com.aelous.model.entity.combat.weapon.WeaponType;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.masks.impl.animations.Animation;
 import com.aelous.model.entity.masks.impl.animations.Priority;
+import com.aelous.model.entity.npc.NPC;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Tile;
 import com.aelous.utility.timers.TimerKey;
@@ -67,25 +68,20 @@ public class MeleeCombatMethod extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-
-        if (entity.isNpc() && entity.getAsNpc().getId() == 10865 || entity.getAsNpc().getId() == 10814) {
-            return false;
+        if (entity instanceof NPC npc) {
+            if (npc.getId() == 10865 || npc.getId() == 10814) {
+                return false;
+            }
+            if (!withinDistance(1)) {
+                return false;
+            }
         }
 
-        if (entity.isNpc() && entity.getAsNpc().getTimers().left(TimerKey.COMBAT_ATTACK) != 0) {
-            return false;
-        }
-
-        if (target.isNpc() && entity.isPlayer()) {
-            Player player = (Player) entity;
+        if (target.isNpc() && entity instanceof Player player) {
             if (player.getEquipment().containsAny(HOLY_SCYTHE_OF_VITUR, SANGUINE_SCYTHE_OF_VITUR, SCYTHE_OF_VITUR)) {
                 attackWithScythe(target);
                 return true;
             }
-        }
-        if (entity.isNpc() && entity.getCombat().getCombatType().isMelee()) {
-            if (!withinDistance(1))
-                return false;
         }
 
         final Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy();

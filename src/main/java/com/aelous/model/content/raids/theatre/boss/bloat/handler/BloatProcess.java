@@ -4,6 +4,7 @@ import com.aelous.model.World;
 import com.aelous.model.content.raids.theatre.Theatre;
 import com.aelous.model.content.raids.theatre.area.TheatreArea;
 import com.aelous.model.content.raids.theatre.boss.bloat.utils.BloatUtils;
+import com.aelous.model.content.raids.theatre.stage.RoomState;
 import com.aelous.model.content.raids.theatre.stage.TheatreStage;
 import com.aelous.model.entity.combat.hit.Hit;
 import com.aelous.model.entity.masks.Projectile;
@@ -204,6 +205,7 @@ public class BloatProcess extends NPC { //TODO make him reverse interpolate walk
 
     @Override
     public void die() {
+        player.setRoomState(RoomState.COMPLETE);
         Chain.noCtx().runFn(1, () -> {
             this.animate(DEATH_ANIM);
         }).then(3, () -> {

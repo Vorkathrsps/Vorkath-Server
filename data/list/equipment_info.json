@@ -10389,6 +10389,31 @@
     "type": 0,
     "showBeard": false
   },
+  "26531": { //hat
+    "slot": 0,
+    "type": 0,
+    "showBeard": true
+  },
+  "26533": { //top
+    "slot": 4,
+    "type": 6,
+    "showBeard": false
+  },
+  "26535": { //bottoms
+    "slot": 7,
+    "type": 0,
+    "showBeard": false
+  },
+  "26537": { //gloves
+    "slot": 9,
+    "type": 0,
+    "showBeard": false
+  },
+  "26539": { //boots
+    "slot": 10,
+    "type": 0,
+    "showBeard": false
+  },
   "12289": {
     "slot": 7,
     "type": 0,

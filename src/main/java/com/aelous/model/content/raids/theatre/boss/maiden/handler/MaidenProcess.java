@@ -6,6 +6,7 @@ import com.aelous.model.content.raids.theatre.Theatre;
 import com.aelous.model.content.raids.theatre.area.TheatreArea;
 import com.aelous.model.content.raids.theatre.boss.maiden.blood.BloodSpawn;
 import com.aelous.model.content.raids.theatre.boss.maiden.nylos.MaidenNylo;
+import com.aelous.model.content.raids.theatre.stage.RoomState;
 import com.aelous.model.content.raids.theatre.stage.TheatreStage;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
@@ -158,6 +159,7 @@ public class MaidenProcess extends NPC {
     @Override
     public void die() {
         Theatre.theatrePhase.setStage(TheatreStage.TWO);
+        player.setRoomState(RoomState.COMPLETE);
         if (nylo != null) {
             nylo.die();
         }

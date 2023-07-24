@@ -2,6 +2,7 @@ package com.aelous.model.content.raids.theatre.boss.xarpus.handler;
 
 import com.aelous.model.World;
 import com.aelous.model.content.raids.theatre.boss.xarpus.objects.PoisonSplat;
+import com.aelous.model.content.raids.theatre.stage.RoomState;
 import com.aelous.model.entity.masks.Direction;
 import com.aelous.model.entity.masks.Projectile;
 import com.aelous.model.entity.npc.NPC;
@@ -130,6 +131,7 @@ public class XarpusProcess extends NPC {
     @Override
     public void die() {
         players.clear();
+        player.setRoomState(RoomState.COMPLETE);
         Chain.noCtx().runFn(1, () -> this.animate(8063)).then(3, () -> {
             World.getWorld().unregisterNpc(this);
         }).then(2, this::clear);

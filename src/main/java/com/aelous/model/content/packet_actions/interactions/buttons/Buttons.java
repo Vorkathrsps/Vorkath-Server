@@ -340,6 +340,15 @@ public class Buttons {
                 if (BonusesInterface.bonusesButtons(player, button)) {
                     return;
                 }
+                if (player.theatreInterface.close(player, button)) {
+                    return;
+                }
+                if (player.theatreInterface.create(player, button)) {
+                    return;
+                }
+                if (player.theatreInterface.abandon(player, button)) {
+                    return;
+                }
                 if (CollectionLogButtons.onButtonClick(player, button)) {
                     return;
                 }

@@ -84,26 +84,22 @@ public class RaidPartyActions extends PacketInteraction {
                 return true;
             }
 
-            player.setNameScript("Who would you like to invite?", new InputScript() {
+            player.setNameScript("Who would you like to invite?", value -> {
 
-                @Override
-                public boolean handle(Object value) {
+                String name = (String) value;
+                Optional<Player> target = World.getWorld().getPlayerByName(name);
 
-                    String name = (String) value;
-                    Optional<Player> target = World.getWorld().getPlayerByName(name);
-
-                    if (target.isPresent()) {
-                        if (target.get().tile().region() != 4919) {
-                            player.message(Utils.formatName(name) + " is nowhere near the raids area.");
-                            return false;
-                        }
-                        invite(player, target.get());
-                    } else {
-                        player.message(Utils.formatName(name) + " is not online and cannot join your party.");
-                        player.getInterfaceManager().closeDialogue();
+                if (target.isPresent()) {
+                    if (target.get().tile().region() != 4919) {
+                        player.message(Utils.formatName(name) + " is nowhere near the raids area.");
+                        return false;
                     }
-                    return true;
+                    invite(player, target.get());
+                } else {
+                    player.message(Utils.formatName(name) + " is not online and cannot join your party.");
+                    player.getInterfaceManager().closeDialogue();
                 }
+                return true;
             });
         }
 

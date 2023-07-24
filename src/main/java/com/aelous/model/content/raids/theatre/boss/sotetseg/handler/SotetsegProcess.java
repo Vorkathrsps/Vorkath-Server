@@ -3,6 +3,7 @@ package com.aelous.model.content.raids.theatre.boss.sotetseg.handler;
 import com.aelous.model.World;
 import com.aelous.model.content.raids.theatre.Theatre;
 import com.aelous.model.content.raids.theatre.area.TheatreArea;
+import com.aelous.model.content.raids.theatre.stage.RoomState;
 import com.aelous.model.entity.combat.CombatFactory;
 import com.aelous.model.entity.combat.CombatType;
 import com.aelous.model.entity.combat.hit.Hit;
@@ -136,6 +137,7 @@ public class SotetsegProcess extends NPC {
     @Override
     public void die() {
         players.clear();
+        player.setRoomState(RoomState.COMPLETE);
         Chain.noCtx().runFn(1, () -> {
             this.animate(8139);
         }).then(3, () -> {

@@ -11,7 +11,6 @@ import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.aelous.model.content.raids.theatre.Theatre;
 import com.aelous.model.content.raids.theatre.area.TheatreArea;
 import com.aelous.model.content.raids.theatre.boss.xarpus.handler.XarpusProcess;
-import com.aelous.model.content.raids.theatre.stage.TheatrePhase;
 import com.aelous.model.content.raids.theatre.stage.TheatreStage;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.aelous.model.content.tournaments.Tournament;
@@ -692,7 +691,7 @@ public class CommandManager {
             //TemporossHandler temporossHandler = new TemporossHandler(p, new TemporossArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, area));
             //temporossHandler.startInstance();
             TheatreStage theatreStage = TheatreStage.ONE;
-            Theatre theatre = new Theatre(p, null, new TheatreArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, Theatre.rooms()));
+            Theatre theatre = new Theatre(p, new TheatreArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, Theatre.rooms()));
             theatre.startRaid();
 
             System.out.println(p.getTheatreState().toString());
@@ -937,7 +936,7 @@ public class CommandManager {
             xarpusProcess.spawn(false);
         });
         dev("t27", (p, c, s) -> {
-            Theatre theatre = new Theatre(p, null, new TheatreArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, Theatre.rooms()));
+            Theatre theatre = new Theatre(p, new TheatreArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, Theatre.rooms()));
             theatre.startRaid();
             var instance = InstancedAreaManager.getSingleton().createInstancedArea(new Area(3156, 4374, 3156 + 40, 4374 + 40));
             p.setInstance(instance);

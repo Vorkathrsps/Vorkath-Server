@@ -31,7 +31,7 @@ public class Theatre extends TheatreParty {
 
     public TheatreArea theatreArea;
     @Getter public static TheatrePhase theatrePhase = new TheatrePhase(TheatreStage.ONE);
-    public static final Area[] rooms() {
+    public static Area[] rooms() {
         int[] regions = {12613, 12869, 13125, 12612, 12611, 12687, 13123, 13122};
         return Arrays.stream(regions).mapToObj(region -> new Area(
             Tile.regionToTile(region).getX(),
@@ -40,8 +40,8 @@ public class Theatre extends TheatreParty {
             Tile.regionToTile(region).getY() + 63)).toArray(Area[]::new);
     }
 
-    public Theatre(@Nullable Player leader, @Nullable Player member, TheatreArea theatreArea) {
-        super(leader, member);
+    public Theatre(@Nullable Player leader, TheatreArea theatreArea) {
+        super(leader);
         this.theatreArea = theatreArea;
     }
 
@@ -63,6 +63,7 @@ public class Theatre extends TheatreParty {
 
     public void dispose() {
         this.boss.clear();
+        this.leader.setTheatre(null);
         this.leader.setTheatreState(null);
         this.leader.setRaidDeathState(null);
         this.leader.setRoomState(null);

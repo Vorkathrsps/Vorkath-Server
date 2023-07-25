@@ -340,8 +340,10 @@ public class Buttons {
                 if (player.theatreInterface.close(player, button)) {
                     return;
                 }
-                if (player.theatreInterface.create(player, button)) {
-                    return;
+                if (player.tile().region() == 14642) {
+                    if (player.theatreInterface.create(player, button)) {
+                        return;
+                    }
                 }
                 if (player.theatreInterface.abandon(player, button)) {
                     return;

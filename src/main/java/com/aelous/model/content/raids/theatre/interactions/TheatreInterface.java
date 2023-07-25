@@ -9,7 +9,6 @@ import com.aelous.model.inter.dialogue.DialogueManager;
 import com.aelous.model.inter.dialogue.DialogueType;
 import com.aelous.utility.Color;
 import com.aelous.utility.Utils;
-import org.apache.commons.lang.ArrayUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -145,8 +144,14 @@ public class TheatreInterface extends TheatreParty {
 
     public void open(Player player) {
         if (player != null) {
-            player.getPacketSender().sendInterface(73050);
+            player.getInterfaceManager().open(73050);
             player.getPacketSender().sendString(73052, "Theatre Of Blood Party");
+            if (player.getTheatreParty() != null) {
+                var party = player.getTheatreParty();
+                refreshPartyUi(party);
+            } else {
+                clearInterface(player);
+            }
         }
     }
 
@@ -157,8 +162,6 @@ public class TheatreInterface extends TheatreParty {
         }
         return false;
     }
-
-    int[] buttons = new int[]{73083, 73092, 73101, 73110};
 
     public boolean kick(Player player, int button) {
         Map<Integer, Integer> buttonToPartyIndex = new HashMap<>();

@@ -17,9 +17,7 @@ public class TheatreParty {
 
     public void createParty() {
         if (leader != null && leader.getTheatreParty() == null) {
-            TheatreParty party = new TheatreParty(leader);
             this.party.add(leader);
-            leader.setTheatreParty(party);
             leader.message("Your party has been successfully created.");
         }
     }

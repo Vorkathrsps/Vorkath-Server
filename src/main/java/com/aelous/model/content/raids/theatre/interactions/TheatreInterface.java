@@ -16,6 +16,7 @@ public class TheatreInterface extends TheatreParty {
 
     public TheatreInterface(Player leader) {
         super(leader);
+        this.leader = leader;
     }
 
     public boolean create(Player player, int button) {
@@ -48,7 +49,7 @@ public class TheatreInterface extends TheatreParty {
             } else {
                 for (var p : party) {
                     if (p != null) {
-                        this.clearParty(p);
+                        this.clearStrings(p);
                         player.message("cleared");
                         p.setTheatreParty(null);
                     }
@@ -60,7 +61,7 @@ public class TheatreInterface extends TheatreParty {
         return false;
     }
 
-    private void clearParty(Player player) {
+    private void clearStrings(Player player) {
         String emptyString = "--------";
 
         for (int i = 0; i < 5; i++) {
@@ -84,8 +85,6 @@ public class TheatreInterface extends TheatreParty {
         }
     }
 
-
-
     public boolean request(Player player, int button) {
         if (leader != null) {
             if (leader == player) {
@@ -100,7 +99,6 @@ public class TheatreInterface extends TheatreParty {
 
     public void open(Player player) {
         if (player != null) {
-            player.setTheatreInterface(this);
             player.getPacketSender().sendInterface(73050);
             player.getPacketSender().sendString(73052, "Theatre Of Blood Party");
         }
@@ -108,7 +106,6 @@ public class TheatreInterface extends TheatreParty {
 
     public boolean close(Player player, int button) {
         if (player != null && button == 73053) {
-            //player.getPacketSender().sendInterfaceRemoval();
             player.getInterfaceManager().close();
             return true;
         }
@@ -190,7 +187,7 @@ public class TheatreInterface extends TheatreParty {
                         } else {
                             if (party != null) {
                                 party.add(member);
-                                //member.setTheatreParty(leader.getTheatreParty());
+                                member.setTheatreParty(leader.getTheatreParty());
                                 member.message("You've joined " + leader.getUsername() + "'s raid party.");
                                 DialogueManager.sendStatement(leader, member.getUsername() + " has joined your raid party.");
                                 update(leader, Integer.toString(leader.getSkills().combatLevel()), Integer.toString(leader.getSkills().level(Skills.ATTACK)), Integer.toString(leader.getSkills().level(Skills.STRENGTH)), Integer.toString(leader.getSkills().level(Skills.RANGED)), Integer.toString(leader.getSkills().level(Skills.MAGIC)), Integer.toString(leader.getSkills().level(Skills.DEFENCE)), Integer.toString(leader.getSkills().level(Skills.HITPOINTS)), Integer.toString(leader.getSkills().level(Skills.PRAYER)));
@@ -234,31 +231,4 @@ public class TheatreInterface extends TheatreParty {
         }
     }
 
-    public boolean createAndInvite(Player player, int button) {
-        if (player != null && player.getTheatreParty() != null && player.getTheatreParty().getLeader() == player && button == 73054) {
-            this.sendLeaderDialogue();
-            return true;
-        }
-        if (player != null && button == 73054) {
-            if (player.theatreParty == null) {
-                //  party.createParty();
-                player.getPacketSender().sendString(73054, "Invite");
-                player.getPacketSender().sendString(73074, Color.ORANGE.wrap(player.getDisplayName()));
-                this.update(player, Integer.toString(player.getSkills().combatLevel()), Integer.toString(player.getSkills().level(Skills.ATTACK)), Integer.toString(player.getSkills().level(Skills.STRENGTH)), Integer.toString(player.getSkills().level(Skills.RANGED)), Integer.toString(player.getSkills().level(Skills.MAGIC)), Integer.toString(player.getSkills().level(Skills.DEFENCE)), Integer.toString(player.getSkills().level(Skills.HITPOINTS)), Integer.toString(player.getSkills().level(Skills.PRAYER)));
-                player.getPacketSender().sendString(73083, "--------");
-                player.getPacketSender().sendString(73092, "--------");
-                player.getPacketSender().sendString(73101, "--------");
-                player.getPacketSender().sendString(73110, "--------");
-                return true;
-            } else {
-                player.message("You already have an existing party.");
-                return false;
-            }
-        }
-        return false;
-    }
-
-    public String greenString(String text) {
-        return "\u001B[32m" + text + "\u001B[0m";
-    }
 }

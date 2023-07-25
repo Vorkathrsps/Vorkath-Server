@@ -10,6 +10,7 @@ import com.aelous.model.inter.dialogue.DialogueType;
 import com.aelous.utility.Color;
 import com.aelous.utility.Utils;
 
+import java.util.List;
 import java.util.Optional;
 
 public class TheatreInterface extends TheatreParty {
@@ -43,45 +44,18 @@ public class TheatreInterface extends TheatreParty {
     }
 
     public boolean abandon(Player player, int button) {
-        if (button == 73055 && player.getTheatreParty() != null) {
-            if (player.getTheatreParty().getLeader() == player) { // Check if the player is the leader
-                // Disband the party
-                for (var p : party) {
-                    if (p != null) {
-                        this.clearStrings(p);
-                        p.setTheatreParty(null);
-                        p.message("The party has been disbanded.");
-                    }
-                }
-                party.clear();
-            } else {
-                // The player is not the leader, so they are leaving the party
-                clearStrings(player);
-                player.message(Color.RED.wrap("You have left the party."));
-                party.remove(player);
-
-                // Update the leader's information
-                Player leader = player.getTheatreParty().getLeader();
-                if (leader != null) {
-                    clearStrings(player);
-                    update(leader, Integer.toString(leader.getSkills().combatLevel()), Integer.toString(leader.getSkills().level(Skills.ATTACK)), Integer.toString(leader.getSkills().level(Skills.STRENGTH)), Integer.toString(leader.getSkills().level(Skills.RANGED)), Integer.toString(leader.getSkills().level(Skills.MAGIC)), Integer.toString(leader.getSkills().level(Skills.DEFENCE)), Integer.toString(leader.getSkills().level(Skills.HITPOINTS)), Integer.toString(leader.getSkills().level(Skills.PRAYER)));
-                    leader.message(Color.RED.wrap(player.getDisplayName() + " has left the party."));
-                    player.setTheatreParty(null);
-                }
-            }
-            return true;
+        if (button == 73055) {
+            clearStrings(player);
+            updateRemainingPlayersInterface(player);
         }
         return false;
     }
 
-
-    private void clearStrings(Player player) {
-        String emptyString = "--------";
-
+    private void clearInterface(Player player) {
         for (int i = 0; i < 5; i++) {
             int offset = i * 9;
-            player.getPacketSender().sendString(73054, "Create");
-            player.getPacketSender().sendString(73074 + offset, emptyString);
+            player.getPacketSender().sendString(73054 + offset, "--"); // Clear the "Create" string
+            player.getPacketSender().sendString(73074 + offset, "--"); // Clear the first emptyString
             player.getPacketSender().sendString(73075 + offset, "--");
             player.getPacketSender().sendString(73076 + offset, "--");
             player.getPacketSender().sendString(73077 + offset, "--");
@@ -91,11 +65,29 @@ public class TheatreInterface extends TheatreParty {
             player.getPacketSender().sendString(73081 + offset, "--");
             player.getPacketSender().sendString(73082 + offset, "--");
         }
+    }
 
-        if (!player.equals(leader)) {
-            player.message("Your party has been disbanded.");
-        } else {
-            player.message("You have left the party.");
+    private void updateRemainingPlayersInterface(Player player) {
+        if (player.getTheatreParty() != null) {
+            for (var p : player.getTheatreParty().getParty()) {
+                update(p, Integer.toString(p.getSkills().combatLevel()), Integer.toString(p.getSkills().level(Skills.ATTACK)), Integer.toString(p.getSkills().level(Skills.STRENGTH)), Integer.toString(p.getSkills().level(Skills.RANGED)), Integer.toString(p.getSkills().level(Skills.MAGIC)), Integer.toString(p.getSkills().level(Skills.DEFENCE)), Integer.toString(p.getSkills().level(Skills.HITPOINTS)), Integer.toString(p.getSkills().level(Skills.PRAYER)));
+            }
+        }
+    }
+
+    private void clearStrings(Player player) {
+        if (player.getTheatreParty() != null) {
+            if (player.getTheatreParty().getLeader().equals(leader)) {
+                for (Player p : party) {
+                    clearInterface(p);
+                    p.setTheatreParty(null);
+                }
+                party.clear();
+            } else {
+                player.getTheatreParty().getParty().remove(player);
+                clearInterface(player);
+                player.setTheatreParty(null);
+            }
         }
     }
 

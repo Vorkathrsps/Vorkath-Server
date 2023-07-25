@@ -10,7 +10,6 @@ import com.aelous.model.inter.dialogue.DialogueType;
 import com.aelous.utility.Color;
 import com.aelous.utility.Utils;
 
-import java.util.List;
 import java.util.Optional;
 
 public class TheatreInterface extends TheatreParty {
@@ -26,11 +25,11 @@ public class TheatreInterface extends TheatreParty {
                 leader.setTheatreParty(this);
                 leader.getPacketSender().sendString(73054, "Invite");
                 leader.getPacketSender().sendString(73074, Color.ORANGE.wrap(leader.getDisplayName()));
-                update(leader, Integer.toString(leader.getSkills().combatLevel()), Integer.toString(leader.getSkills().level(Skills.ATTACK)), Integer.toString(leader.getSkills().level(Skills.STRENGTH)), Integer.toString(leader.getSkills().level(Skills.RANGED)), Integer.toString(leader.getSkills().level(Skills.MAGIC)), Integer.toString(leader.getSkills().level(Skills.DEFENCE)), Integer.toString(leader.getSkills().level(Skills.HITPOINTS)), Integer.toString(leader.getSkills().level(Skills.PRAYER)));
-                leader.getPacketSender().sendString(73083, "--------");
-                leader.getPacketSender().sendString(73092, "--------");
-                leader.getPacketSender().sendString(73101, "--------");
-                leader.getPacketSender().sendString(73110, "--------");
+                refreshPartyUi(player.getTheatreParty());
+                leader.getPacketSender().sendString(73083, "--");
+                leader.getPacketSender().sendString(73092, "--");
+                leader.getPacketSender().sendString(73101, "--");
+                leader.getPacketSender().sendString(73110, "--");
             } else {
                 if (player.getTheatreParty().getLeader() == leader) {
                     request(player, button);
@@ -44,16 +43,31 @@ public class TheatreInterface extends TheatreParty {
     }
 
     public boolean abandon(Player player, int button) {
+        var party = player.getTheatreParty();
         if (button == 73055) {
-            clearStrings(player);
-            updateRemainingPlayersInterface(player);
+            clearInterface(player); // wipe UI of person that left
+
+            // we ownt he party, disband
+            if (party.getLeader().equals(player)) {
+                for (Player p : party.getParty()) {
+                    clearInterface(p);
+                    p.setTheatreParty(null);
+                }
+                player.setTheatreParty(null);
+                party.clear();
+            } else {
+                party.getParty().remove(player);
+                clearInterface(player);
+                player.setTheatreParty(null);
+            }
+            refreshPartyUi(party); // aah since they're left, no longer in, no need to update the slot, yeah you need to celar it
         }
         return false;
     }
 
-    private void clearInterface(Player player) {
-        for (int i = 0; i < 5; i++) {
-            int offset = i * 9;
+    public void clearInterface(Player player) { // loops 5 times and uses the offset to clear everything, ill show you
+        for (int memberSlot = 0; memberSlot < 5; memberSlot++) {
+            int offset = memberSlot * 9;
             player.getPacketSender().sendString(73054 + offset, "--"); // Clear the "Create" string
             player.getPacketSender().sendString(73074 + offset, "--"); // Clear the first emptyString
             player.getPacketSender().sendString(73075 + offset, "--");
@@ -67,30 +81,53 @@ public class TheatreInterface extends TheatreParty {
         }
     }
 
-    private void updateRemainingPlayersInterface(Player player) {
-        if (player.getTheatreParty() != null) {
-            for (var p : player.getTheatreParty().getParty()) {
-                update(p, Integer.toString(p.getSkills().combatLevel()), Integer.toString(p.getSkills().level(Skills.ATTACK)), Integer.toString(p.getSkills().level(Skills.STRENGTH)), Integer.toString(p.getSkills().level(Skills.RANGED)), Integer.toString(p.getSkills().level(Skills.MAGIC)), Integer.toString(p.getSkills().level(Skills.DEFENCE)), Integer.toString(p.getSkills().level(Skills.HITPOINTS)), Integer.toString(p.getSkills().level(Skills.PRAYER)));
-            }
-        }
+    public void wipeStatsForSlot(Player player, int i) {
+        int offset = i > 0 ? i * 9 : 0;
+      //  player.getPacketSender().sendString(73054 + offset, "--"); // Clear the "Create" string
+        player.getPacketSender().sendString(73074 + offset, "--");
+        player.getPacketSender().sendString(73075 + offset, "--");
+        player.getPacketSender().sendString(73076 + offset, "--");
+        player.getPacketSender().sendString(73077 + offset, "--");
+        player.getPacketSender().sendString(73078 + offset, "--");
+        player.getPacketSender().sendString(73079 + offset, "--");
+        player.getPacketSender().sendString(73080 + offset, "--");
+        player.getPacketSender().sendString(73081 + offset, "--");
+        player.getPacketSender().sendString(73082 + offset, "--");
     }
 
-    private void clearStrings(Player player) {
-        if (player.getTheatreParty() != null) {
-            if (player.getTheatreParty().getLeader().equals(leader)) {
-                for (Player p : party) {
-                    clearInterface(p);
-                    p.setTheatreParty(null);
+    public void refreshPartyUi(TheatreParty party) {
+        for (Player p2 : party.getParty()) {
+            for (int i = 0; i < 4; i++) { //leader has no offset
+                Player m = i == 0 ? party.leader : i >= party.getParty().size() ? null : party.getParty().get(i); // first stats is always leader's
+
+                if (m == null) {
+                    wipeStatsForSlot(p2, i);
+                    continue;
                 }
-                party.clear();
-            } else {
-                player.getTheatreParty().getParty().remove(player);
-                clearInterface(player);
-                player.setTheatreParty(null);
+                int offset = i > 0 ? i * 9 : i;
+                System.out.printf("%s sending info for %s%n", p2.getMobName(), m.getMobName());
+
+                p2.getPacketSender().sendString(73074 + offset, Color.ORANGE.wrap(m.getDisplayName()));
+                String combatLevel = Integer.toString(m.getSkills().combatLevel());
+                p2.getPacketSender().sendString(73075 + offset, combatLevel);
+                String attack = Integer.toString(m.getSkills().level(Skills.ATTACK));
+                p2.getPacketSender().sendString(73076 + offset, attack);
+                String strength = Integer.toString(m.getSkills().level(Skills.STRENGTH));
+                p2.getPacketSender().sendString(73077 + offset, strength);
+                String ranged = Integer.toString(m.getSkills().level(Skills.RANGED));
+                p2.getPacketSender().sendString(73078 + offset, ranged);
+                String magic = Integer.toString(m.getSkills().level(Skills.MAGIC));
+                p2.getPacketSender().sendString(73079 + offset, magic);
+                String defence = Integer.toString(m.getSkills().level(Skills.DEFENCE));
+                p2.getPacketSender().sendString(73080 + offset, defence);
+                String hitpoints = Integer.toString(m.getSkills().level(Skills.HITPOINTS));
+                p2.getPacketSender().sendString(73081 + offset, hitpoints);
+                String prayer = Integer.toString(m.getSkills().level(Skills.PRAYER));
+                p2.getPacketSender().sendString(73082 + offset, prayer);
+
             }
         }
     }
-
     public boolean request(Player player, int button) {
         if (button == 73054) {
             if (leader.equals(player.getTheatreParty().getLeader())) {
@@ -114,49 +151,6 @@ public class TheatreInterface extends TheatreParty {
             return true;
         }
         return false;
-    }
-
-    public void update(Player leader, String combatLevel, String attack, String strength, String ranged, String magic, String defence, String hitpoints, String prayer) {
-        if (leader != null && leader.getTheatreParty() != null) {
-            // Send the information for the party leader
-            leader.getPacketSender().sendString(73074, Color.ORANGE.wrap(leader.getDisplayName()));
-            leader.getPacketSender().sendString(73075, combatLevel);
-            leader.getPacketSender().sendString(73076, attack);
-            leader.getPacketSender().sendString(73077, strength);
-            leader.getPacketSender().sendString(73078, ranged);
-            leader.getPacketSender().sendString(73079, magic);
-            leader.getPacketSender().sendString(73080, defence);
-            leader.getPacketSender().sendString(73081, hitpoints);
-            leader.getPacketSender().sendString(73082, prayer);
-
-            // Send the information for other party members
-            for (int i = 0; i < party.size(); i++) {
-                if (!party.get(i).equals(leader)) {
-                    Player m = party.get(i);
-                    int offset = i * 9;
-
-                    m.getPacketSender().sendString(73074 + offset, Color.ORANGE.wrap(m.getDisplayName()));
-                    m.getPacketSender().sendString(73075 + offset, combatLevel);
-                    m.getPacketSender().sendString(73076 + offset, attack);
-                    m.getPacketSender().sendString(73077 + offset, strength);
-                    m.getPacketSender().sendString(73078 + offset, ranged);
-                    m.getPacketSender().sendString(73079 + offset, magic);
-                    m.getPacketSender().sendString(73080 + offset, defence);
-                    m.getPacketSender().sendString(73081 + offset, hitpoints);
-                    m.getPacketSender().sendString(73082 + offset, prayer);
-
-                    leader.getPacketSender().sendString(73074 + offset, Color.ORANGE.wrap(m.getDisplayName()));
-                    leader.getPacketSender().sendString(73075 + offset, combatLevel);
-                    leader.getPacketSender().sendString(73076 + offset, attack);
-                    leader.getPacketSender().sendString(73077 + offset, strength);
-                    leader.getPacketSender().sendString(73078 + offset, ranged);
-                    leader.getPacketSender().sendString(73079 + offset, magic);
-                    leader.getPacketSender().sendString(73080 + offset, defence);
-                    leader.getPacketSender().sendString(73081 + offset, hitpoints);
-                    leader.getPacketSender().sendString(73082 + offset, prayer);
-                }
-            }
-        }
     }
 
     public boolean kick(Player player, int button) {
@@ -201,8 +195,7 @@ public class TheatreInterface extends TheatreParty {
                                 member.message("You've joined " + leader.getUsername() + "'s raid party.");
                                 DialogueManager.sendStatement(leader, member.getUsername() + " has joined your raid party.");
                                 member.getPacketSender().sendString(73055, "Leave");
-                                update(leader, Integer.toString(leader.getSkills().combatLevel()), Integer.toString(leader.getSkills().level(Skills.ATTACK)), Integer.toString(leader.getSkills().level(Skills.STRENGTH)), Integer.toString(leader.getSkills().level(Skills.RANGED)), Integer.toString(leader.getSkills().level(Skills.MAGIC)), Integer.toString(leader.getSkills().level(Skills.DEFENCE)), Integer.toString(leader.getSkills().level(Skills.HITPOINTS)), Integer.toString(leader.getSkills().level(Skills.PRAYER)));
-                                update(member, Integer.toString(member.getSkills().combatLevel()), Integer.toString(member.getSkills().level(Skills.ATTACK)), Integer.toString(member.getSkills().level(Skills.STRENGTH)), Integer.toString(member.getSkills().level(Skills.RANGED)), Integer.toString(member.getSkills().level(Skills.MAGIC)), Integer.toString(member.getSkills().level(Skills.DEFENCE)), Integer.toString(member.getSkills().level(Skills.HITPOINTS)), Integer.toString(member.getSkills().level(Skills.PRAYER)));
+                                refreshPartyUi(member.getTheatreParty());
                             }
                             stop();
                         }

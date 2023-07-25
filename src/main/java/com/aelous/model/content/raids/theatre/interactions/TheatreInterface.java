@@ -16,7 +16,6 @@ public class TheatreInterface extends TheatreParty {
 
     public TheatreInterface(Player leader) {
         super(leader);
-        this.leader = leader;
     }
 
     public boolean create(Player player, int button) {
@@ -31,35 +30,50 @@ public class TheatreInterface extends TheatreParty {
                 leader.getPacketSender().sendString(73092, "--------");
                 leader.getPacketSender().sendString(73101, "--------");
                 leader.getPacketSender().sendString(73110, "--------");
-                return true;
             } else {
-                if (leader == player) {
-                    request(leader, button);
-                    return true;
+                if (player.getTheatreParty().getLeader() == leader) {
+                    request(player, button);
+                } else {
+                    player.message(Color.RED.wrap("You do not have permission to perform this action."));
                 }
-            }
-        }
-        return false;
-    }
-
-    public boolean abandon(Player player, int button) {
-        if (button == 73055) {
-            if (!player.equals(leader)) {
-                player.message("You cannot perform this action.");
-            } else {
-                for (var p : party) {
-                    if (p != null) {
-                        this.clearStrings(p);
-                        player.message("cleared");
-                        p.setTheatreParty(null);
-                    }
-                }
-                party.clear();
             }
             return true;
         }
         return false;
     }
+
+    public boolean abandon(Player player, int button) {
+        if (button == 73055 && player.getTheatreParty() != null) {
+            if (player.getTheatreParty().getLeader() == player) { // Check if the player is the leader
+                // Disband the party
+                for (var p : party) {
+                    if (p != null) {
+                        this.clearStrings(p);
+                        p.setTheatreParty(null);
+                        p.message("The party has been disbanded.");
+                    }
+                }
+                party.clear();
+            } else {
+                // The player is not the leader, so they are leaving the party
+                clearStrings(player);
+                player.message(Color.RED.wrap("You have left the party."));
+                party.remove(player);
+
+                // Update the leader's information
+                Player leader = player.getTheatreParty().getLeader();
+                if (leader != null) {
+                    clearStrings(player);
+                    update(leader, Integer.toString(leader.getSkills().combatLevel()), Integer.toString(leader.getSkills().level(Skills.ATTACK)), Integer.toString(leader.getSkills().level(Skills.STRENGTH)), Integer.toString(leader.getSkills().level(Skills.RANGED)), Integer.toString(leader.getSkills().level(Skills.MAGIC)), Integer.toString(leader.getSkills().level(Skills.DEFENCE)), Integer.toString(leader.getSkills().level(Skills.HITPOINTS)), Integer.toString(leader.getSkills().level(Skills.PRAYER)));
+                    leader.message(Color.RED.wrap(player.getDisplayName() + " has left the party."));
+                    player.setTheatreParty(null);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
 
     private void clearStrings(Player player) {
         String emptyString = "--------";
@@ -81,17 +95,15 @@ public class TheatreInterface extends TheatreParty {
         if (!player.equals(leader)) {
             player.message("Your party has been disbanded.");
         } else {
-            player.message("You have disbanded your party.");
+            player.message("You have left the party.");
         }
     }
 
     public boolean request(Player player, int button) {
-        if (leader != null) {
-            if (leader == player) {
-                if (button == 73054) {
-                    this.sendLeaderDialogue();
-                    return true;
-                }
+        if (button == 73054) {
+            if (leader.equals(player.getTheatreParty().getLeader())) {
+                this.sendLeaderDialogue();
+                return true;
             }
         }
         return false;
@@ -164,6 +176,12 @@ public class TheatreInterface extends TheatreParty {
     }
 
     public void invite(Player player, Player member) {
+        if (!player.getTheatreParty().getLeader().equals(leader)) {
+            // If the player is not the party leader, they should not be able to send invitations.
+            player.message("You are not the party leader and cannot invite members.");
+            return;
+        }
+
         if (member.getTheatreParty() != null) {
             leader.message(member.getUsername() + " is already in a party.");
             return;
@@ -190,6 +208,7 @@ public class TheatreInterface extends TheatreParty {
                                 member.setTheatreParty(leader.getTheatreParty());
                                 member.message("You've joined " + leader.getUsername() + "'s raid party.");
                                 DialogueManager.sendStatement(leader, member.getUsername() + " has joined your raid party.");
+                                member.getPacketSender().sendString(73055, "Leave");
                                 update(leader, Integer.toString(leader.getSkills().combatLevel()), Integer.toString(leader.getSkills().level(Skills.ATTACK)), Integer.toString(leader.getSkills().level(Skills.STRENGTH)), Integer.toString(leader.getSkills().level(Skills.RANGED)), Integer.toString(leader.getSkills().level(Skills.MAGIC)), Integer.toString(leader.getSkills().level(Skills.DEFENCE)), Integer.toString(leader.getSkills().level(Skills.HITPOINTS)), Integer.toString(leader.getSkills().level(Skills.PRAYER)));
                                 update(member, Integer.toString(member.getSkills().combatLevel()), Integer.toString(member.getSkills().level(Skills.ATTACK)), Integer.toString(member.getSkills().level(Skills.STRENGTH)), Integer.toString(member.getSkills().level(Skills.RANGED)), Integer.toString(member.getSkills().level(Skills.MAGIC)), Integer.toString(member.getSkills().level(Skills.DEFENCE)), Integer.toString(member.getSkills().level(Skills.HITPOINTS)), Integer.toString(member.getSkills().level(Skills.PRAYER)));
                             }
@@ -205,7 +224,6 @@ public class TheatreInterface extends TheatreParty {
             }
         });
     }
-
 
     public void sendLeaderDialogue() {
         if (leader != null && leader.getTheatreParty() != null) {

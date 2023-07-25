@@ -12,17 +12,17 @@ public class Bloat implements TheatreRaid {
     @Override
     public void buildRaid(Player player, Theatre theatre, TheatreArea theatreArea) {
         BloatProcess bloat = (BloatProcess) new BloatProcess(8359, new Tile(3299, 4440, theatreArea.getzLevel()), player, theatre, theatreArea).spawn(false);
-        bloat.setHitpoints(this.scale(bloat, theatre));
+        bloat.setHitpoints(this.scale(bloat, player));
         bloat.setInstance(theatreArea);
     }
 
     @Override
-    public int scale(NPC npc, Theatre theatre) {
+    public int scale(NPC npc, Player player) {
         int scaledHitpoints;
 
-        if (theatre.getParty().size() <= 3) {
+        if (player.getTheatreParty().getParty().size() <= 3) {
             scaledHitpoints = (int) (npc.hp() * 0.75);
-        } else if (theatre.getParty().size() == 4) {
+        } else if (player.getTheatreParty().getParty().size() == 4) {
             scaledHitpoints = (int) (npc.hp() * 0.875);
         } else {
             scaledHitpoints = npc.hp();

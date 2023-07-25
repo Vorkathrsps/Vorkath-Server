@@ -172,7 +172,7 @@ public class MaidenProcess extends NPC {
     }
 
     public int partySize() {
-        return this.theatre.getParty().size();
+        return player.getTheatreParty().getParty().size();
     }
 
     protected boolean insideBounds() {

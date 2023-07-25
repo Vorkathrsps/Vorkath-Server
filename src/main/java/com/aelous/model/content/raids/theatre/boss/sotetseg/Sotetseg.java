@@ -13,17 +13,17 @@ public class Sotetseg implements TheatreRaid {
     @Override
     public void buildRaid(Player player, Theatre theatre, TheatreArea theatreArea) {
         SotetsegProcess sotetsegProcess = (SotetsegProcess) new SotetsegProcess(NpcIdentifiers.SOTETSEG_10865, new Tile(3277, 4326, theatreArea.getzLevel()), player, theatre, theatreArea).spawn(false);
-        sotetsegProcess.setHitpoints(this.scale(sotetsegProcess, theatre));
+        sotetsegProcess.setHitpoints(this.scale(sotetsegProcess, player));
         sotetsegProcess.setInstance(theatreArea);
     }
 
     @Override
-    public int scale(NPC npc, Theatre theatre) {
+    public int scale(NPC npc, Player player) {
         int scaledHitpoints;
 
-        if (theatre.getParty().size() <= 3) {
+        if (player.getTheatreParty().getParty().size() <= 3) {
             scaledHitpoints = (int) (npc.hp() * 0.75);
-        } else if (theatre.getParty().size() == 4) {
+        } else if (player.getTheatreParty().getParty().size() == 4) {
             scaledHitpoints = (int) (npc.hp() * 0.875);
         } else {
             scaledHitpoints = npc.hp();

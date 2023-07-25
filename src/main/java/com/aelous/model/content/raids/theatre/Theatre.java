@@ -8,7 +8,6 @@ import com.aelous.model.content.raids.theatre.boss.sotetseg.Sotetseg;
 import com.aelous.model.content.raids.theatre.boss.xarpus.Xarpus;
 import com.aelous.model.content.raids.theatre.controller.TheatreRaid;
 import com.aelous.model.content.raids.theatre.controller.TheatreController;
-import com.aelous.model.content.raids.theatre.party.TheatreParty;
 import com.aelous.model.content.raids.theatre.stage.*;
 import com.aelous.model.entity.player.Player;
 import com.aelous.model.map.position.Area;
@@ -24,12 +23,13 @@ import java.util.List;
  * @Author: Origin
  * @Date: 7/16/2023
  */
-public class Theatre extends TheatreParty {
+public class Theatre {
     List<TheatreRaid> boss = new ArrayList<>();
     Tile entrance = new Tile(3219, 4454);
     public TheatreController theatreController = new TheatreController(boss);
 
     public TheatreArea theatreArea;
+    public Player player;
     @Getter public static TheatrePhase theatrePhase = new TheatrePhase(TheatreStage.ONE);
     public static Area[] rooms() {
         int[] regions = {12613, 12869, 13125, 12612, 12611, 12687, 13123, 13122};
@@ -40,34 +40,41 @@ public class Theatre extends TheatreParty {
             Tile.regionToTile(region).getY() + 63)).toArray(Area[]::new);
     }
 
-    public Theatre(@Nullable Player leader, TheatreArea theatreArea) {
-        super(leader);
+    public Theatre(@Nullable Player player, TheatreArea theatreArea) {
+        this.player = player;
         this.theatreArea = theatreArea;
     }
 
     public void startRaid() {
-        this.createParty();
         boss.add(new Maiden());
         boss.add(new Xarpus());
         boss.add(new Bloat());
         boss.add(new Vasilias());
         boss.add(new Sotetseg());
-        theatreController.build(this.leader, this, this.theatreArea);
-        this.leader.setTheatre(this);
-        this.leader.setInstance(theatreArea);
-        this.leader.teleport(entrance.transform(0, 0, theatreArea.getzLevel()));
-        this.leader.setTheatreState(TheatreState.ACTIVE);
-        this.leader.setRaidDeathState(RaidDeathState.ALIVE);
-        this.leader.setRoomState(RoomState.INCOMPLETE);
+        theatreController.build(this.player, this, this.theatreArea);
+        for (var p : player.getTheatreParty().getParty()) {
+            if (p != null) {
+                p.setTheatre(this);
+                p.setInstance(theatreArea);
+                p.teleport(entrance.transform(0, 0, theatreArea.getzLevel()));
+                p.setTheatreState(TheatreState.ACTIVE);
+                p.setRaidDeathState(RaidDeathState.ALIVE);
+                p.setRoomState(RoomState.INCOMPLETE);
+            }
+        }
     }
 
     public void dispose() {
+        for (var p : player.getTheatreParty().getParty()) {
+            if (p != null) {
+                p.setTheatre(null);
+                p.setTheatreState(null);
+                p.setRaidDeathState(null);
+                p.setRoomState(null);
+                p.teleport(3670, 3218, 0);
+            }
+        }
         this.boss.clear();
-        this.leader.setTheatre(null);
-        this.leader.setTheatreState(null);
-        this.leader.setRaidDeathState(null);
-        this.leader.setRoomState(null);
-        this.leader.teleport(3670, 3218, 0);
         this.theatreArea.dispose();
     }
 

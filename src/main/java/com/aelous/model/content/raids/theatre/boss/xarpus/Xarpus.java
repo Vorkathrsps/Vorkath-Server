@@ -12,17 +12,17 @@ public class Xarpus implements TheatreRaid {
     @Override
     public void buildRaid(Player player, Theatre theatre, TheatreArea theatreArea) {
         XarpusProcess xarpus = (XarpusProcess) new XarpusProcess(10767, new Tile(3169, 4386, theatreArea.getzLevel() + 1), player).spawn(false);
-        xarpus.setHitpoints(this.scale(xarpus, theatre));
+        xarpus.setHitpoints(this.scale(xarpus, player));
         xarpus.setInstance(theatreArea);
     }
 
     @Override
-    public int scale(NPC npc, Theatre theatre) {
+    public int scale(NPC npc, Player player) {
         int scaledHitpoints;
 
-        if (theatre.getParty().size() <= 3) {
+        if (player.getTheatreParty().getParty().size() <= 3) {
             scaledHitpoints = (int) (npc.hp() * 0.75);
-        } else if (theatre.getParty().size() == 4) {
+        } else if (player.getTheatreParty().getParty().size() == 4) {
             scaledHitpoints = (int) (npc.hp() * 0.875);
         } else {
             scaledHitpoints = npc.hp();

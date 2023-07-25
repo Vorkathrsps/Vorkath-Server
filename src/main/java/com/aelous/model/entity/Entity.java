@@ -1696,15 +1696,17 @@ public abstract class Entity {
             if (party != null) {
                 var playerRegion = player.tile().region();
 
-                if (!ArrayUtils.contains(Theatre.rooms(), playerRegion) || playerRegion != 14642) {
-                    party.getParty().stream()
-                        .filter(p -> p.equals(this))
-                        .findFirst()
-                        .ifPresent(p -> p.getTheatreInterface().handleLogoutOrTeleport(p));
+                if (!ArrayUtils.contains(Theatre.rooms(), playerRegion) && playerRegion != 14642) {
+                    var partyMembers = party.getParty();
+                    if (partyMembers != null) {
+                        partyMembers.stream()
+                            .filter(p -> p.equals(this))
+                            .findFirst()
+                            .ifPresent(p -> p.getTheatreInterface().handleLogoutOrTeleport(p));
+                    }
                 }
             }
         }
-
 
         setTile(teleportTarget);
         Tile.occupy(this);

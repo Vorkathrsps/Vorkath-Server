@@ -7,6 +7,6 @@ import com.aelous.model.entity.player.Player;
 
 public interface TheatreRaid {
     void buildRaid(Player player, Theatre theatre, TheatreArea theatreArea);
-    int scale(NPC npc, Theatre theatre);
+    int scale(NPC npc, Player player);
 
 }

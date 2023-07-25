@@ -11,6 +11,7 @@ import com.aelous.model.action.ActionManager;
 import com.aelous.model.content.EffectTimer;
 import com.aelous.model.content.instance.InstancedArea;
 import com.aelous.model.content.mechanics.Poison;
+import com.aelous.model.content.raids.theatre.Theatre;
 import com.aelous.model.entity.attributes.AttributeKey;
 import com.aelous.model.entity.combat.Combat;
 import com.aelous.model.entity.combat.CombatSpecial;
@@ -47,6 +48,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -451,7 +453,8 @@ public abstract class Entity {
         return animation;
     }
 
-    @Setter private Tile faceTile;
+    @Setter
+    private Tile faceTile;
 
     /**
      * Gets the face tile.
@@ -1476,7 +1479,9 @@ public abstract class Entity {
         return this;
     }
 
-    @Getter @Setter public boolean teleportJump;
+    @Getter
+    @Setter
+    public boolean teleportJump;
 
     public void setTeleportJump(boolean teleportJump) {
         this.teleportJump = teleportJump;
@@ -1679,9 +1684,27 @@ public abstract class Entity {
      * Teleports the mob to a target location
      */
     public void teleport(Tile teleportTarget) {
+
         if (isPlayer() && !getAsPlayer().getInterfaceManager().isClear()) {
             getAsPlayer().getInterfaceManager().close(false);
         }
+
+        if (isPlayer() && player() != null) {
+            var player = getAsPlayer();
+            var party = player.getTheatreParty();
+
+            if (party != null) {
+                var playerRegion = player.tile().region();
+
+                if (!ArrayUtils.contains(Theatre.rooms(), playerRegion) || playerRegion != 14642) {
+                    party.getParty().stream()
+                        .filter(p -> p.equals(this))
+                        .findFirst()
+                        .ifPresent(p -> p.getTheatreInterface().handleLogoutOrTeleport(p));
+                }
+            }
+        }
+
 
         setTile(teleportTarget);
         Tile.occupy(this);

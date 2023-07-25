@@ -38,13 +38,10 @@ import com.aelous.model.content.minigames.impl.fight_caves.FightCavesMinigame;
 import com.aelous.model.content.packet_actions.GlobalStrings;
 import com.aelous.model.content.presets.PresetManager;
 import com.aelous.model.content.presets.Presetable;
-import com.aelous.model.content.raids.RaidStage;
 import com.aelous.model.content.raids.Raids;
 import com.aelous.model.content.raids.party.Party;
 import com.aelous.model.content.raids.party.RaidsParty;
 import com.aelous.model.content.raids.theatre.Theatre;
-import com.aelous.model.content.raids.theatre.area.TheatreArea;
-import com.aelous.model.content.raids.theatre.controller.TheatreRaid;
 import com.aelous.model.content.raids.theatre.interactions.TheatreInterface;
 import com.aelous.model.content.raids.theatre.party.TheatreParty;
 import com.aelous.model.content.raids.theatre.stage.RaidDeathState;
@@ -179,15 +176,27 @@ public class Player extends Entity {
     @Getter
     private final Pet pet = new Pet(this);
 
-    @Getter @Setter public TheatreParty theatreParty;
+    @Getter
+    @Setter
+    public TheatreParty theatreParty;
 
-    @Getter @Setter public TheatreInterface theatreInterface = new TheatreInterface(this);
-    @Getter @Setter public RoomState roomState;
-    @Getter @Setter public TheatreState theatreState;
+    @Getter
+    @Setter
+    public TheatreInterface theatreInterface = new TheatreInterface(this);
+    @Getter
+    @Setter
+    public RoomState roomState;
+    @Getter
+    @Setter
+    public TheatreState theatreState;
 
-    @Getter @Setter public RaidDeathState raidDeathState;
+    @Getter
+    @Setter
+    public RaidDeathState raidDeathState;
 
-    @Getter @Setter public Theatre theatre;
+    @Getter
+    @Setter
+    public Theatre theatre;
     public transient ShopReference shopReference = ShopReference.DEFAULT;
 
     private final WildernessSlayerCasket wildernessSlayerCasket = new WildernessSlayerCasket(this);
@@ -282,12 +291,9 @@ public class Player extends Entity {
                 setSpecialActivated(false);
                 CombatSpecial.updateBar(this);
                 int time = 0;
-                if (memberRights.isRegularMemberOrGreater(this))
-                    time = 300;//3 minutes
-                if (memberRights.isSuperMemberOrGreater(this))
-                    time = 100;//1 minute
-                if (memberRights.isEliteMemberOrGreater(this))
-                    time = 0;//always
+                if (memberRights.isRegularMemberOrGreater(this)) time = 300;//3 minutes
+                if (memberRights.isSuperMemberOrGreater(this)) time = 100;//1 minute
+                if (memberRights.isEliteMemberOrGreater(this)) time = 0;//always
                 getTimers().register(TimerKey.RECHARGE_SPECIAL_ATTACK, time); //Set the value of the timer.
                 message("<col=" + Color.HOTPINK.getColorValue() + ">You have restored your special attack.");
             }
@@ -353,18 +359,12 @@ public class Player extends Entity {
 
     public int masterCasketMemberBonus() {
         var extraPercentageChance = 0;
-        if (getMemberRights().isSponsorOrGreater(this) && tile().memberCave())
-            extraPercentageChance = 25;
-        else if (getMemberRights().isVIPOrGreater(this) && tile().memberCave())
-            extraPercentageChance = 15;
-        else if (getMemberRights().isLegendaryMemberOrGreater(this) && tile().memberCave())
-            extraPercentageChance = 10;
-        else if (getMemberRights().isExtremeMemberOrGreater(this) && tile().memberCave())
-            extraPercentageChance = 7;
-        else if (getMemberRights().isEliteMemberOrGreater(this) && tile().memberCave())
-            extraPercentageChance = 4;
-        else if (getMemberRights().isSuperMemberOrGreater(this) && tile().memberCave())
-            extraPercentageChance = 2;
+        if (getMemberRights().isSponsorOrGreater(this) && tile().memberCave()) extraPercentageChance = 25;
+        else if (getMemberRights().isVIPOrGreater(this) && tile().memberCave()) extraPercentageChance = 15;
+        else if (getMemberRights().isLegendaryMemberOrGreater(this) && tile().memberCave()) extraPercentageChance = 10;
+        else if (getMemberRights().isExtremeMemberOrGreater(this) && tile().memberCave()) extraPercentageChance = 7;
+        else if (getMemberRights().isEliteMemberOrGreater(this) && tile().memberCave()) extraPercentageChance = 4;
+        else if (getMemberRights().isSuperMemberOrGreater(this) && tile().memberCave()) extraPercentageChance = 2;
 
         return extraPercentageChance;
     }
@@ -448,8 +448,7 @@ public class Player extends Entity {
         bm *= World.getWorld().bmMultiplier;
 
         //Being a trained account gives a +100 BM boost to the base value
-        if (getGameMode() == GameMode.TRAINED_ACCOUNT)
-            bm += 100;
+        if (getGameMode() == GameMode.TRAINED_ACCOUNT) bm += 100;
 
         //Slayer helm bonus
         Item helm = getEquipment().get(EquipSlot.HEAD);
@@ -509,7 +508,9 @@ public class Player extends Entity {
 
     public RaidsParty chambersParty;
 
-    @Getter @Setter public TheatreStage theatreStage;
+    @Getter
+    @Setter
+    public TheatreStage theatreStage;
 
     private int multi_cannon_stage;
 
@@ -666,8 +667,7 @@ public class Player extends Entity {
     }
 
     public void setUnlockedPets(ArrayList<Integer> unlockedPets) {
-        if (unlockedPets == null)
-            return;
+        if (unlockedPets == null) return;
         this.unlockedPets = unlockedPets;
     }
 
@@ -690,8 +690,7 @@ public class Player extends Entity {
 
     public void setInsuredPets(ArrayList<Integer> insuredPets) {
         // lets not set the array to null, list should always exist. If the player doesn't have pets when logging in, insuredPets is null in the PlayerSave class.
-        if (insuredPets == null)
-            return;
+        if (insuredPets == null) return;
         this.insuredPets = insuredPets;
     }
 
@@ -945,8 +944,7 @@ public class Player extends Entity {
     // Obtain the ItemContainer with our reward
     public ItemContainer clueScrollReward() {
         ItemContainer offer = getAttribOr(AttributeKey.CLUE_SCROLL_REWARD, null);
-        if (offer != null)
-            return offer;
+        if (offer != null) return offer;
 
         //This contain has a maximum size of 8
         ItemContainer container = new ItemContainer(8, ItemContainer.StackPolicy.ALWAYS);
@@ -987,27 +985,17 @@ public class Player extends Entity {
     }
 
     public void teleblockMessage() {
-        if (!getTimers().has(TimerKey.SPECIAL_TELEBLOCK))
-            return;
+        if (!getTimers().has(TimerKey.SPECIAL_TELEBLOCK)) return;
 
         long special_timer = getTimers().left(TimerKey.SPECIAL_TELEBLOCK) * 600L;
 
-        message(String.format("A teleport block has been cast on you. It should wear off in %d minutes, %d seconds.",
-            TimeUnit.MILLISECONDS.toMinutes(special_timer),
-            TimeUnit.MILLISECONDS.toSeconds(special_timer) -
-                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(special_timer))
-        ));
+        message(String.format("A teleport block has been cast on you. It should wear off in %d minutes, %d seconds.", TimeUnit.MILLISECONDS.toMinutes(special_timer), TimeUnit.MILLISECONDS.toSeconds(special_timer) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(special_timer))));
 
-        if (!getTimers().has(TimerKey.TELEBLOCK))
-            return;
+        if (!getTimers().has(TimerKey.TELEBLOCK)) return;
 
         long millis = getTimers().left(TimerKey.TELEBLOCK) * 600L;
 
-        message(String.format("A teleport block has been cast on you. It should wear off in %d minutes, %d seconds.",
-            TimeUnit.MILLISECONDS.toMinutes(millis),
-            TimeUnit.MILLISECONDS.toSeconds(millis) -
-                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
-        ));
+        message(String.format("A teleport block has been cast on you. It should wear off in %d minutes, %d seconds.", TimeUnit.MILLISECONDS.toMinutes(millis), TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))));
     }
 
     public boolean canSpawn() {
@@ -1174,8 +1162,7 @@ public class Player extends Entity {
             return false;
         }
         Player p = (Player) o;
-        if (p.username == null || username == null)
-            return false;
+        if (p.username == null || username == null) return false;
         return p.getUsername().equals(username);
     }
 
@@ -1198,8 +1185,7 @@ public class Player extends Entity {
     public PlayerPerformanceTracker perf = new PlayerPerformanceTracker();
 
     private void fireLogout() {
-        if (username == null || this.<Boolean>getAttribOr(IS_BOT, false))
-            return;
+        if (username == null || this.<Boolean>getAttribOr(IS_BOT, false)) return;
         // proactive checking of DC
         if (this.<Boolean>getAttribOr(LOGOUT_CLICKED, false) || !active()) {
             clearAttrib(LOGOUT_CLICKED);
@@ -1250,11 +1236,9 @@ public class Player extends Entity {
         boolean logCooldown = this.getAttribOr(AttributeKey.ALLOWED_TO_LOGOUT, true);
 
         // wait for forcemovement to finish, dont save players half on an agility obstacle they cant get out of
-        if (getForceMovement() != null && getMovementQueue().forcedStep())
-            return false;
+        if (getForceMovement() != null && getMovementQueue().forcedStep()) return false;
         // dont save dead/tping players. login with 0hp = POSSIBLE DUPES
-        if (dead() || isNeedsPlacement())
-            return false;
+        if (dead() || isNeedsPlacement()) return false;
         // extremely important only force logout via update AFTER isdead() check
         // otherwise dupes can occur.
         if (UpdateServerCommand.time < 1 || getForcedLogoutTimer().expiredAfterBeingRun()) {
@@ -1380,10 +1364,13 @@ public class Player extends Entity {
             this.getPet().removeOnLogout();
         }
 
-        if (this.theatreParty != null) {
-            this.theatreParty.leave();
-            this.theatreParty.clear();
-            this.setTheatreParty(null);
+        var party = this.getTheatreParty();
+        if (party != null) {
+            for (var p : party.getParty()) {
+                if (p.equals(this)) {
+                    p.getTheatreInterface().handleLogoutOrTeleport(p);
+                }
+            }
         }
 
         if (this.getWildernessKeys() != null) {
@@ -1393,6 +1380,7 @@ public class Player extends Entity {
         }
 
         this.getCombat().setAutoCastSpell(null);
+
         // Update session state
         getSession().setState(SessionState.LOGGING_OUT);
 
@@ -1400,32 +1388,46 @@ public class Player extends Entity {
 
         // the point of wrapping each line in code is so that as many as possible things
         // can run successfully without stopping the ones after.
-        runExceptionally(() -> stopActions(true));
-        runExceptionally(() -> onLogoutListeners.values().forEach(Runnable::run));
+        runExceptionally(() ->
+
+            stopActions(true));
+
+        runExceptionally(() -> onLogoutListeners.values().
+
+            forEach(Runnable::run));
 
         runExceptionally(() -> Party.onLogout(this));
 
-        runExceptionally(() -> {
+        runExceptionally(() ->
+
+        {
             var minigame = this.getMinigame();
             if (minigame != null) {
                 minigame.end(this);
             }
         });
 
-        runExceptionally(() -> {
+        runExceptionally(() ->
+
+        {
             // If we're in a duel, make sure to give us a loss for logging out.
             if (getDueling().inDuel()) {
                 getDueling().onDeath();
             }
         });
-        runExceptionally(() -> {
+
+        runExceptionally(() ->
+
+        {
             // Leave area
             if (getController() != null) {
                 getController().leave(this);
             }
         });
 
-        runExceptionally(() -> {
+        runExceptionally(() ->
+
+        {
             OwnedObject cannon = World.getWorld().getOwnedObject(this, DwarfCannon.IDENTIFIER);
             if (cannon != null) {
                 this.putAttrib(AttributeKey.LOST_CANNON, true);
@@ -1446,12 +1448,16 @@ public class Player extends Entity {
             TournamentManager.leaveTourny(this, true);
         });
 
-        runExceptionally(() -> {
+        runExceptionally(() ->
+
+        {
             HealthHud.close(this);
         });
 
         //Technically this is the last logout, but we'll use it as the last login so the last login doesn't get "overwritten" for the welcome screen when the player logs in.
-        setLastLogin(new Timestamp(new Date().getTime()));
+        setLastLogin(new Timestamp(new Date().
+
+            getTime()));
 
         if (GameServer.properties().enableSql) {
             GameServer.getDatabaseService().submit(new UpdateKillsDatabaseTransaction(getAttribOr(AttributeKey.PLAYER_KILLS, 0), username));
@@ -1462,6 +1468,7 @@ public class Player extends Entity {
             GameServer.getDatabaseService().submit(new UpdatePlayerInfoDatabaseTransaction(getAttribOr(DATABASE_PLAYER_ID, -1), getHostAddress() == null ? "invalid" : getHostAddress(), getAttribOr(MAC_ADDRESS, "invalid"), getAttribOr(GAME_TIME, 0L), getGameMode().toName()));
             GameServer.getDatabaseService().submit(new InsertPlayerIPDatabaseTransaction(this));
         }
+
     }
 
     /**
@@ -1649,7 +1656,7 @@ public class Player extends Entity {
         return 0;
     }
 
-        private static final Set<String> veteranGiftClaimedIP = new HashSet<>();
+    private static final Set<String> veteranGiftClaimedIP = new HashSet<>();
     private static final Set<String> veteranGiftClaimedMAC = new HashSet<>();
 
     private static final Set<String> playtimeGiftClaimedIP = new HashSet<>();
@@ -1757,13 +1764,11 @@ public class Player extends Entity {
                     for (int i = tabStartPos; i < tabStartPos + tabAmount; i++) {
                         Item item = bank.getItems()[i];
                         if (item == null) {
-                            logger.error("found null slot in middle of bank: player {} slot {} in tab {} tabsize {}",
-                                getMobName(), i, tab, tabAmount);
+                            logger.error("found null slot in middle of bank: player {} slot {} in tab {} tabsize {}", getMobName(), i, tab, tabAmount);
                             Item[] proximity = new Item[10];
                             int k = 0;
                             for (int j = Math.max(0, i - 5); j < i + 5; j++) {
-                                if (k >= proximity.length || j >= bank.getItems().length)
-                                    break;
+                                if (k >= proximity.length || j >= bank.getItems().length) break;
                                 proximity[k++] = bank.getItems()[j];
                             }
                             logger.error("closest items: " + Arrays.toString(Arrays.stream(proximity).map(i2 -> i2 == null ? "?" : i2.name()).toArray()));
@@ -1786,15 +1791,13 @@ public class Player extends Entity {
                     tabStartPos = tabStartPos + tabAmount;
                     tab++;
                 }
-                if (tab >= bank.tabAmounts.length)
-                    tab--; // dont throw AIOOB ex, use lower tab
+                if (tab >= bank.tabAmounts.length) tab--; // dont throw AIOOB ex, use lower tab
                 // start at the first available free slot, aka after all bank tabs finish
                 tab--;
                 int hiddenItems = 0;
                 for (int i = tabStartPos; i < bank.capacity(); i++) {
                     if (bank.getItems()[i] != null) {
-                        logger.error("Player {} tab {} size was {} but item {} exists after this caret, increasing tabsize to fix",
-                            getMobName(), tab, bank.tabAmounts[tab], bank.getItems()[i]);
+                        logger.error("Player {} tab {} size was {} but item {} exists after this caret, increasing tabsize to fix", getMobName(), tab, bank.tabAmounts[tab], bank.getItems()[i]);
                         hiddenItems++;
                     }
                 }
@@ -2588,14 +2591,12 @@ public class Player extends Entity {
     }
 
     public void message(String message) {
-        if (message == null)
-            return;
+        if (message == null) return;
         getPacketSender().sendMessage(message);
     }
 
     public void message(String format, Object... params) {
-        if (format == null)
-            return;
+        if (format == null) return;
         String message = params.length > 0 ? String.format(format, (Object[]) params) : format;
         getPacketSender().sendMessage(message);
     }
@@ -2816,16 +2817,14 @@ public class Player extends Entity {
 
     @Override
     public void takehitSound(Hit hit) {
-        if (hit == null)
-            return;
+        if (hit == null) return;
     }
 
     @Override
     public void stopActions(boolean cancelMoving) {
         super.stopActions(cancelMoving);
 
-        if (cancelMoving)
-            getMovementQueue().clear();
+        if (cancelMoving) getMovementQueue().clear();
 
         if (interfaceManager.getMain() > 0) {
             interfaceManager.close();
@@ -3129,54 +3128,53 @@ public class Player extends Entity {
         }
     }
 
-    Runnable logR = this::fireLogout,
-        qtStuff = () -> {
-            this.setPlayerQuestTabCycleCount(getPlayerQuestTabCycleCount() + 1);
-            //Update the players online regardless of the cycle count, this is the most important number, otherwise players might see "0" if they log in too soon. Can always remove this later.
-            GlobalStrings.PLAYERS_ONLINE.send(this, World.getWorld().getPlayers().size());
+    Runnable logR = this::fireLogout, qtStuff = () -> {
+        this.setPlayerQuestTabCycleCount(getPlayerQuestTabCycleCount() + 1);
+        //Update the players online regardless of the cycle count, this is the most important number, otherwise players might see "0" if they log in too soon. Can always remove this later.
+        GlobalStrings.PLAYERS_ONLINE.send(this, World.getWorld().getPlayers().size());
 
-            var gametime = this.<Long>getAttribOr(GAME_TIME, 0L) + 1;
-            this.putAttrib(GAME_TIME, gametime);// Increment ticks we've played for
+        var gametime = this.<Long>getAttribOr(GAME_TIME, 0L) + 1;
+        this.putAttrib(GAME_TIME, gametime);// Increment ticks we've played for
 
-            if (interfaceManager.isInterfaceOpen(DAILY_TASK_MANAGER_INTERFACE)) {
-                var dailyTask = this.<DailyTasks>getAttribOr(DAILY_TASK_SELECTED, null);
-                if (dailyTask != null)
-                    this.getPacketSender().sendString(TIME_FRAME_TEXT_ID, DailyTaskManager.timeLeft(this, dailyTask));
+        if (interfaceManager.isInterfaceOpen(DAILY_TASK_MANAGER_INTERFACE)) {
+            var dailyTask = this.<DailyTasks>getAttribOr(DAILY_TASK_SELECTED, null);
+            if (dailyTask != null)
+                this.getPacketSender().sendString(TIME_FRAME_TEXT_ID, DailyTaskManager.timeLeft(this, dailyTask));
+        }
+
+        var staminaTicks = this.<Integer>getAttribOr(STAMINA_POTION_TICKS, 0);
+        if (staminaTicks > 0) {
+            staminaTicks--;
+            this.putAttrib(STAMINA_POTION_TICKS, staminaTicks);
+            if (staminaTicks == 50) {
+                message("<col=8f4808>Your stamina potion is about to expire.");
+            } else if (staminaTicks == 0) {
+                message("<col=8f4808>Your stamina potion has expired.");
+                this.packetSender.sendStamina(false).sendEffectTimer(0, EffectTimer.STAMINA);
             }
+        }
 
-            var staminaTicks = this.<Integer>getAttribOr(STAMINA_POTION_TICKS, 0);
-            if (staminaTicks > 0) {
-                staminaTicks--;
-                this.putAttrib(STAMINA_POTION_TICKS, staminaTicks);
-                if (staminaTicks == 50) {
-                    message("<col=8f4808>Your stamina potion is about to expire.");
-                } else if (staminaTicks == 0) {
-                    message("<col=8f4808>Your stamina potion has expired.");
-                    this.packetSender.sendStamina(false).sendEffectTimer(0, EffectTimer.STAMINA);
+        LocalDateTime now = LocalDateTime.now();
+        long minutesTillWildyBoss = now.until(WildernessBossEvent.getINSTANCE().next, ChronoUnit.MINUTES);
+
+        // Refresh the quest tab every minute (every 100 ticks)
+        if (GameServer.properties().autoRefreshQuestTab && getPlayerQuestTabCycleCount() == GameServer.properties().refreshQuestTabCycles) {
+            setPlayerQuestTabCycleCount(0);
+
+            //We only have to update the uptime here, every other line is automatically updated.
+            this.getPacketSender().sendString(UPTIME.childId, QuestTab.InfoTab.INFO_TAB.get(UPTIME.childId).fetchLineData(this));
+
+            //Update the timer frames every minute.
+            this.getPacketSender().sendString(WORLD_BOSS_SPAWN.childId, QuestTab.InfoTab.INFO_TAB.get(WORLD_BOSS_SPAWN.childId).fetchLineData(this));
+
+            if (minutesTillWildyBoss == 5) {
+                if (!WildernessBossEvent.ANNOUNCE_5_MIN_TIMER) {
+                    WildernessBossEvent.ANNOUNCE_5_MIN_TIMER = true;
+                    World.getWorld().sendWorldMessage("<col=6a1a18><img=2012>The world boss will spawn in 5 minutes, gear up!");
                 }
             }
-
-            LocalDateTime now = LocalDateTime.now();
-            long minutesTillWildyBoss = now.until(WildernessBossEvent.getINSTANCE().next, ChronoUnit.MINUTES);
-
-            // Refresh the quest tab every minute (every 100 ticks)
-            if (GameServer.properties().autoRefreshQuestTab && getPlayerQuestTabCycleCount() == GameServer.properties().refreshQuestTabCycles) {
-                setPlayerQuestTabCycleCount(0);
-
-                //We only have to update the uptime here, every other line is automatically updated.
-                this.getPacketSender().sendString(UPTIME.childId, QuestTab.InfoTab.INFO_TAB.get(UPTIME.childId).fetchLineData(this));
-
-                //Update the timer frames every minute.
-                this.getPacketSender().sendString(WORLD_BOSS_SPAWN.childId, QuestTab.InfoTab.INFO_TAB.get(WORLD_BOSS_SPAWN.childId).fetchLineData(this));
-
-                if (minutesTillWildyBoss == 5) {
-                    if (!WildernessBossEvent.ANNOUNCE_5_MIN_TIMER) {
-                        WildernessBossEvent.ANNOUNCE_5_MIN_TIMER = true;
-                        World.getWorld().sendWorldMessage("<col=6a1a18><img=2012>The world boss will spawn in 5 minutes, gear up!");
-                    }
-                }
-            }
-        }, controllers = () -> {
+        }
+    }, controllers = () -> {
         if (this.<Boolean>getAttribOr(AttributeKey.NEW_ACCOUNT, false) && System.currentTimeMillis() - this.<Long>getAttribOr(LOGGED_IN_AT_TIME, System.currentTimeMillis()) > 1000 * 60 * 4) {
             this.requestLogout();
         }
@@ -3276,20 +3274,16 @@ public class Player extends Entity {
     public void setLastActiveOverhead() {
         boolean[] actives = getPrayerActive();
         int forLastActive = -1;
-        if (actives[16])
-            forLastActive = Prayers.PROTECT_FROM_MAGIC;
-        if (actives[17])
-            forLastActive = Prayers.PROTECT_FROM_MISSILES;
-        if (actives[18])
-            forLastActive = Prayers.PROTECT_FROM_MELEE;
+        if (actives[16]) forLastActive = Prayers.PROTECT_FROM_MAGIC;
+        if (actives[17]) forLastActive = Prayers.PROTECT_FROM_MISSILES;
+        if (actives[18]) forLastActive = Prayers.PROTECT_FROM_MELEE;
         lastActiveOverhead = forLastActive;
     }
 
     public transient long lastVoteClaim, lastSpellbookChange;
 
     public void switchSpellBook(MagicSpellbook book) {
-        if (lastSpellbookChange > System.currentTimeMillis())
-            return;
+        if (lastSpellbookChange > System.currentTimeMillis()) return;
         if (this.getSpellbook() == book) {
             this.getPacketSender().sendMessage("You already have wisdom of these magics.");
             return;
@@ -3327,8 +3321,7 @@ public class Player extends Entity {
     private InputScript inputScript;
 
     public void removeInputScript() {
-        if (inputScript == null)
-            return;
+        if (inputScript == null) return;
         inputScript = null;
     }
 
@@ -3368,14 +3361,7 @@ public class Player extends Entity {
 
     public boolean insideFeroxEnclaveSafe() {
         if (!this.getTimers().has(TimerKey.TELEBLOCK)) {
-            return this.tile().inArea(WildernessArea.getFeroxCenter) || this.tile().inArea(WildernessArea.getFeroxUpperNorth)
-                || this.tile().inArea(WildernessArea.getFeroxNorthEntrance)
-                || this.tile().inArea(WildernessArea.getFeroxNorthEdges)
-                || this.tile().inArea(WildernessArea.getFeroxEastEdges)
-                || this.tile().inArea(WildernessArea.getFeroxLowerSouth)
-                || this.tile().inArea(WildernessArea.getFeroxLowerSouthEdges)
-                || this.tile().inArea(WildernessArea.getFeroxSouthEntrance)
-                || this.tile().inArea(WildernessArea.getFeroxRandomLine);
+            return this.tile().inArea(WildernessArea.getFeroxCenter) || this.tile().inArea(WildernessArea.getFeroxUpperNorth) || this.tile().inArea(WildernessArea.getFeroxNorthEntrance) || this.tile().inArea(WildernessArea.getFeroxNorthEdges) || this.tile().inArea(WildernessArea.getFeroxEastEdges) || this.tile().inArea(WildernessArea.getFeroxLowerSouth) || this.tile().inArea(WildernessArea.getFeroxLowerSouthEdges) || this.tile().inArea(WildernessArea.getFeroxSouthEntrance) || this.tile().inArea(WildernessArea.getFeroxRandomLine);
         } else {
             return false;
         }

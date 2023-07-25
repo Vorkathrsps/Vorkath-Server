@@ -44,6 +44,27 @@ public class TheatreInterface extends TheatreParty {
         return false;
     }
 
+    public boolean handleLogoutOrTeleport(Player player) {
+        var party = player.getTheatreParty();
+        clearInterface(player);
+        if (party != null) {
+            if (party.getLeader().equals(player)) {
+                for (Player p : party.getParty()) {
+                    clearInterface(p);
+                    p.setTheatreParty(null);
+                }
+                player.setTheatreParty(null);
+                party.clear();
+            } else {
+                party.getParty().remove(player);
+                clearInterface(player);
+                player.setTheatreParty(null);
+            }
+            refreshPartyUi(party);
+        }
+        return false;
+    }
+
     public boolean abandon(Player player, int button) {
         var party = player.getTheatreParty();
         if (button == 73055) {
@@ -198,7 +219,6 @@ public class TheatreInterface extends TheatreParty {
     public boolean refresh(TheatreParty party, int button) {
         if (button == 73057) {
             refreshPartyUi(party);
-            System.out.println("refreshing");
             return true;
         }
         return false;

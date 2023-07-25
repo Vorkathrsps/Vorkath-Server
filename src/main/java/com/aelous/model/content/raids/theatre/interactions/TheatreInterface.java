@@ -9,7 +9,10 @@ import com.aelous.model.inter.dialogue.DialogueManager;
 import com.aelous.model.inter.dialogue.DialogueType;
 import com.aelous.utility.Color;
 import com.aelous.utility.Utils;
+import org.apache.commons.lang.ArrayUtils;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class TheatreInterface extends TheatreParty {
@@ -45,31 +48,32 @@ public class TheatreInterface extends TheatreParty {
     public boolean abandon(Player player, int button) {
         var party = player.getTheatreParty();
         if (button == 73055) {
-            clearInterface(player); // wipe UI of person that left
-
-            // we ownt he party, disband
-            if (party.getLeader().equals(player)) {
-                for (Player p : party.getParty()) {
-                    clearInterface(p);
-                    p.setTheatreParty(null);
+            clearInterface(player);
+            if (party != null) {
+                if (party.getLeader().equals(player)) {
+                    for (Player p : party.getParty()) {
+                        clearInterface(p);
+                        p.setTheatreParty(null);
+                    }
+                    player.setTheatreParty(null);
+                    party.clear();
+                } else {
+                    party.getParty().remove(player);
+                    clearInterface(player);
+                    player.setTheatreParty(null);
                 }
-                player.setTheatreParty(null);
-                party.clear();
-            } else {
-                party.getParty().remove(player);
-                clearInterface(player);
-                player.setTheatreParty(null);
+                refreshPartyUi(party);
             }
-            refreshPartyUi(party); // aah since they're left, no longer in, no need to update the slot, yeah you need to celar it
         }
         return false;
     }
 
-    public void clearInterface(Player player) { // loops 5 times and uses the offset to clear everything, ill show you
+    public void clearInterface(Player player) {
         for (int memberSlot = 0; memberSlot < 5; memberSlot++) {
-            int offset = memberSlot * 9;
-            player.getPacketSender().sendString(73054 + offset, "--"); // Clear the "Create" string
-            player.getPacketSender().sendString(73074 + offset, "--"); // Clear the first emptyString
+            int offset = memberSlot > 0 ? memberSlot * 9 : 0;
+            player.getPacketSender().sendString(73054, "Create");
+            player.getPacketSender().sendString(73055, "Disband");
+            player.getPacketSender().sendString(73074 + offset, "--");
             player.getPacketSender().sendString(73075 + offset, "--");
             player.getPacketSender().sendString(73076 + offset, "--");
             player.getPacketSender().sendString(73077 + offset, "--");
@@ -83,7 +87,8 @@ public class TheatreInterface extends TheatreParty {
 
     public void wipeStatsForSlot(Player player, int i) {
         int offset = i > 0 ? i * 9 : 0;
-      //  player.getPacketSender().sendString(73054 + offset, "--"); // Clear the "Create" string
+        player.getPacketSender().sendString(73054, "Create");
+        player.getPacketSender().sendString(73055, "Disband");
         player.getPacketSender().sendString(73074 + offset, "--");
         player.getPacketSender().sendString(73075 + offset, "--");
         player.getPacketSender().sendString(73076 + offset, "--");
@@ -97,15 +102,14 @@ public class TheatreInterface extends TheatreParty {
 
     public void refreshPartyUi(TheatreParty party) {
         for (Player p2 : party.getParty()) {
-            for (int i = 0; i < 4; i++) { //leader has no offset
-                Player m = i == 0 ? party.leader : i >= party.getParty().size() ? null : party.getParty().get(i); // first stats is always leader's
+            for (int i = 0; i < 4; i++) {
+                Player m = i == 0 ? party.leader : i >= party.getParty().size() ? null : party.getParty().get(i);
 
                 if (m == null) {
                     wipeStatsForSlot(p2, i);
                     continue;
                 }
                 int offset = i > 0 ? i * 9 : i;
-                System.out.printf("%s sending info for %s%n", p2.getMobName(), m.getMobName());
 
                 p2.getPacketSender().sendString(73074 + offset, Color.ORANGE.wrap(m.getDisplayName()));
                 String combatLevel = Integer.toString(m.getSkills().combatLevel());
@@ -128,6 +132,7 @@ public class TheatreInterface extends TheatreParty {
             }
         }
     }
+
     public boolean request(Player player, int button) {
         if (button == 73054) {
             if (leader.equals(player.getTheatreParty().getLeader())) {
@@ -153,17 +158,51 @@ public class TheatreInterface extends TheatreParty {
         return false;
     }
 
+    int[] buttons = new int[]{73083, 73092, 73101, 73110};
+
     public boolean kick(Player player, int button) {
+        Map<Integer, Integer> buttonToPartyIndex = new HashMap<>();
+        buttonToPartyIndex.put(73083, 1);
+        buttonToPartyIndex.put(73092, 2);
+        buttonToPartyIndex.put(73101, 3);
+        buttonToPartyIndex.put(73110, 4);
+
+        TheatreParty party = player.getTheatreParty();
+
+        if (!buttonToPartyIndex.containsKey(button)) {
+            return false;
+        }
+
+        if (!party.getLeader().equals(player)) {
+            return false;
+        }
+
+        int playerIndexToKick = buttonToPartyIndex.get(button);
+        if (playerIndexToKick >= 0 && playerIndexToKick < party.getParty().size()) {
+            Player playerToKick = party.getParty().get(playerIndexToKick);
+
+            party.getParty().remove(playerToKick);
+            clearInterface(playerToKick);
+            playerToKick.setTheatreParty(null);
+            refreshPartyUi(party);
+            return true;
+        }
+
         return false;
     }
 
-    public boolean refresh(Player player, int button) {
+
+    public boolean refresh(TheatreParty party, int button) {
+        if (button == 73057) {
+            refreshPartyUi(party);
+            System.out.println("refreshing");
+            return true;
+        }
         return false;
     }
 
     public void invite(Player player, Player member) {
         if (!player.getTheatreParty().getLeader().equals(leader)) {
-            // If the player is not the party leader, they should not be able to send invitations.
             player.message("You are not the party leader and cannot invite members.");
             return;
         }

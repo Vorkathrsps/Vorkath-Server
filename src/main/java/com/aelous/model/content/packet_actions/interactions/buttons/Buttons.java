@@ -118,7 +118,7 @@ public class Buttons {
         boolean onAncients = player.getSpellbook() == MagicSpellbook.ANCIENT;
         boolean onNormals = player.getSpellbook() == MagicSpellbook.NORMAL;
 
-        if(player.getMysteryBox().onButton(button)) {
+        if (player.getMysteryBox().onButton(button)) {
             return;
         }
 
@@ -149,23 +149,20 @@ public class Buttons {
             case 14921 -> player.getBankPinSettings().dontKnowPin();
             case 10407 -> QuestTab.updatePlayerPanel(player);
 
-            case OPEN_COMBAT_TASKS ->
-                AchievementWidget.openEasyJournal(player);
+            case OPEN_COMBAT_TASKS -> AchievementWidget.openEasyJournal(player);
 
-            case OPEN_COLLECTION_LOG ->
-                player.getCollectionLog().open(BOSSES);
+            case OPEN_COLLECTION_LOG -> player.getCollectionLog().open(BOSSES);
 
-            case OPEN_NPC_DROPS ->
-                DropsDisplay.start(player);
+            case OPEN_NPC_DROPS -> DropsDisplay.start(player);
 
             case 78904 -> {
                 boolean showplaytime = player.getAttribOr(AttributeKey.SHOWPLAYTIME, false);
 
-                if(!showplaytime) {
-                    player.getPacketSender().sendString(32578,"@lre@Time Played:@gre@"+ getTimeDHS(player));
+                if (!showplaytime) {
+                    player.getPacketSender().sendString(32578, "@lre@Time Played:@gre@" + getTimeDHS(player));
                     player.putAttrib(AttributeKey.SHOWPLAYTIME, true);
-                }	else {
-                    player.getPacketSender().sendString(32578,"Time played: Click to reveal.");
+                } else {
+                    player.getPacketSender().sendString(32578, "Time played: Click to reveal.");
                     player.putAttrib(AttributeKey.SHOWPLAYTIME, false);
                 }
             }
@@ -348,6 +345,14 @@ public class Buttons {
                 }
                 if (player.theatreInterface.abandon(player, button)) {
                     return;
+                }
+                if (player.getTheatreParty() != null && player.theatreInterface != null) {
+                    if (player.theatreInterface.refresh(player.getTheatreParty(), button)) {
+                        return;
+                    }
+                    if (player.theatreInterface.kick(player, button)) {
+                        return;
+                    }
                 }
                 if (CollectionLogButtons.onButtonClick(player, button)) {
                     return;

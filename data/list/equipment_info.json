@@ -18662,5 +18662,85 @@
     "slot": 10,
     "type": 0,
     "showBeard": false
+  },
+  "28289": {
+    "slot": 12,
+    "type": 0,
+    "showBeard": false
+  },
+  "28310": {
+    "slot": 12,
+    "type": 0,
+    "showBeard": false
+  },
+  "25485": {
+    "slot": 12,
+    "type": 0,
+    "showBeard": false
+  },
+  "28307": {
+    "slot": 12,
+    "type": 0,
+    "showBeard": false
+  },
+  "28293": {
+    "slot": 12,
+    "type": 0,
+    "showBeard": false
+  },
+  "28316": {
+    "slot": 12,
+    "type": 0,
+    "showBeard": false
+  },
+  "28313": {
+    "slot": 12,
+    "type": 0,
+    "showBeard": false
+  },
+  "28254": {
+    "slot": 0,
+    "type": 8,
+    "showBeard": false
+  },
+  "28256": {
+    "slot": 4,
+    "type": 6,
+    "showBeard": false
+  },
+  "28258": {
+    "slot": 7,
+    "type": 0,
+    "showBeard": false
+  },
+  "28338": {
+    "slot": 3,
+    "type": 5,
+    "showBeard": false
+  },
+  "28327": {
+    "slot": 12,
+    "type": 0,
+    "showBeard": false
+  },
+  "28260": {
+    "slot": 3,
+    "type": 0,
+    "showBeard": false
+  },
+  "28262": {
+    "slot": 3,
+    "type": 0,
+    "showBeard": false
+  },
+  "28264": {
+    "slot": 3,
+    "type": 0,
+    "showBeard": false
+  },
+  "28266": {
+    "slot": 3,
+    "type": 0,
+    "showBeard": false
   }
 }

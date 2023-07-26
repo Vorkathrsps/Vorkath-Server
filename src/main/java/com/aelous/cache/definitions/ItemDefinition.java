@@ -427,6 +427,9 @@ public class ItemDefinition implements Definition {
             case 24 -> {
                 return "Thrown";
             }
+            case 35 -> {
+                return "Axe";
+            }
             case 25 -> {
                 return "Stab Sword";
             }

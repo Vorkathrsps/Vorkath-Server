@@ -1691,20 +1691,17 @@ public abstract class Entity {
         }
 
         if (isPlayer() && player() != null) {
-            var player = getAsPlayer();
-            var party = player.getTheatreParty();
+            var party = player().getTheatreParty();
 
             if (party != null) {
-                var playerRegion = player.tile().region();
+                var playerRegion = player().tile().region();
 
                 if (!ArrayUtils.contains(Theatre.rooms(), playerRegion) && playerRegion != 14642) {
                     var partyMembers = party.getParty();
-                    if (partyMembers != null) {
-                        partyMembers.stream()
-                            .filter(p -> p.equals(this))
-                            .findFirst()
-                            .ifPresent(p -> p.getTheatreInterface().handleLogoutOrTeleport(p));
-                    }
+                    partyMembers.stream()
+                        .filter(p -> p.equals(player()))
+                        .findFirst()
+                        .ifPresent(p -> p.getTheatreInterface().handleLogoutOrTeleport(p));
                 }
             }
         }

@@ -7,6 +7,7 @@ import com.aelous.model.World;
 import com.aelous.model.content.areas.theatre.ViturRoom;
 import com.aelous.model.content.instance.InstanceConfiguration;
 import com.aelous.model.content.instance.InstancedAreaManager;
+import com.aelous.model.content.mechanics.Death;
 import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.aelous.model.content.raids.theatre.Theatre;
 import com.aelous.model.content.raids.theatre.area.TheatreArea;
@@ -690,11 +691,7 @@ public class CommandManager {
            // Area area = new Area(3003, 2943, 3063, 3010);
             //TemporossHandler temporossHandler = new TemporossHandler(p, new TemporossArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, area));
             //temporossHandler.startInstance();
-            TheatreStage theatreStage = TheatreStage.ONE;
-            Theatre theatre = new Theatre(p, new TheatreArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, Theatre.rooms()));
-            theatre.startRaid();
-
-            System.out.println(p.getTheatreState().toString());
+            System.out.println(Death.occupiedList.size());
 
         });
 

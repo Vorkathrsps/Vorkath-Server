@@ -399,6 +399,8 @@ public class EquipmentInfo {
         // Handle individual cases first
         if (weapon != 0) {
             switch (weapon) {
+                case 28338:
+                    return 2067;
                 case IVANDIS_FLAIL:
                 case BLISTERWOOD_FLAIL:
                     return 8010;

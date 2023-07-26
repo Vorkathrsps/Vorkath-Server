@@ -1360,9 +1360,9 @@ public class Player extends Entity {
         if (getInstancedArea() != null) {
             getInstancedArea().removePlayer(this);
         }
-        if (this.getPet() != null) {
-            this.getPet().removeOnLogout();
-        }
+        //if (this.getPet() != null) {
+          //  this.getPet().removeOnLogout();
+        // }
 
         var party = this.getTheatreParty();
         if (party != null) {

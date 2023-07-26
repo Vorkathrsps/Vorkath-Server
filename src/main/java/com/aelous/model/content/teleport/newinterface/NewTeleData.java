@@ -96,6 +96,8 @@ public enum NewTeleData {
 
     //Minigame teleports
     RAIDS_AREA(new Tile(1245, 3561),"Chambers of Xeric", "", MINIGAMES, MEDIUM),
+    TOB(new Tile(3667, 3219),"Theatre Of Blood", "", MINIGAMES, HARD),
+
     BARROWS(new Tile(3565, 3306),"Barrows", "", MINIGAMES, MEDIUM),
     FIGHT_CAVE(new Tile(2440, 5172),"Fight Cave", "", MINIGAMES, MEDIUM),
 

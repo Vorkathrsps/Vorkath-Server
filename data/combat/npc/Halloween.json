@@ -53,7 +53,7 @@
       "death": 836
     },
     "scripts": {
-      "combat": "com.aelous.model.content.seasonal_events.halloween.boss.GrimCombatScript"
+      "combat": "com.cryptic.model.content.seasonal_events.halloween.boss.GrimCombatScript"
     }
   }
 ]

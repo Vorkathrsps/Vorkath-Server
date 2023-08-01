@@ -378,7 +378,7 @@
 	  "death": 3922
 	},
 	"scripts": {
-	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.pestcontrol.Defiler"
+	  "combat": "com.cryptic.model.entity.combat.method.impl.npcs.pestcontrol.Defiler"
 	}
   },
   {
@@ -416,7 +416,7 @@
 	  "death": 3922
 	},
 	"scripts": {
-	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.pestcontrol.Defiler"
+	  "combat": "com.cryptic.model.entity.combat.method.impl.npcs.pestcontrol.Defiler"
 	}
   },
   {
@@ -454,7 +454,7 @@
 	  "death": 3922
 	},
 	"scripts": {
-	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.pestcontrol.Defiler"
+	  "combat": "com.cryptic.model.entity.combat.method.impl.npcs.pestcontrol.Defiler"
 	}
   },
   {
@@ -492,7 +492,7 @@
 	  "death": 3922
 	},
 	"scripts": {
-	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.pestcontrol.Defiler"
+	  "combat": "com.cryptic.model.entity.combat.method.impl.npcs.pestcontrol.Defiler"
 	}
   },
   {
@@ -530,7 +530,7 @@
 	  "death": 3922
 	},
 	"scripts": {
-	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.pestcontrol.Defiler"
+	  "combat": "com.cryptic.model.entity.combat.method.impl.npcs.pestcontrol.Defiler"
 	}
   },
   {
@@ -1253,7 +1253,7 @@
 	  "death": 3881
 	},
 	"scripts": {
-	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.pestcontrol.Torcher"
+	  "combat": "com.cryptic.model.entity.combat.method.impl.npcs.pestcontrol.Torcher"
 	}
   },
   {
@@ -1291,7 +1291,7 @@
 	  "death": 3881
 	},
 	"scripts": {
-	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.pestcontrol.Torcher"
+	  "combat": "com.cryptic.model.entity.combat.method.impl.npcs.pestcontrol.Torcher"
 	}
   },
   {
@@ -1329,7 +1329,7 @@
 	  "death": 3881
 	},
 	"scripts": {
-	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.pestcontrol.Torcher"
+	  "combat": "com.cryptic.model.entity.combat.method.impl.npcs.pestcontrol.Torcher"
 	}
   },
   {
@@ -1367,7 +1367,7 @@
 	  "death": 3881
 	},
 	"scripts": {
-	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.pestcontrol.Torcher"
+	  "combat": "com.cryptic.model.entity.combat.method.impl.npcs.pestcontrol.Torcher"
 	}
   },
   {
@@ -1405,7 +1405,7 @@
 	  "death": 3881
 	},
 	"scripts": {
-	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.pestcontrol.Torcher"
+	  "combat": "com.cryptic.model.entity.combat.method.impl.npcs.pestcontrol.Torcher"
 	}
   }
 ]

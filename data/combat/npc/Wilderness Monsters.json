@@ -40,7 +40,7 @@
       ]
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.dragons.BasicDragon"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.BasicDragon"
     }
   },
   {
@@ -264,7 +264,7 @@
       ]
     },
     "scripts": {
-      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   },
   {
@@ -305,7 +305,7 @@
       ]
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.DarkWizard"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.DarkWizard"
     }
   },
   {
@@ -346,7 +346,7 @@
       ]
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.DarkWizard"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.DarkWizard"
     }
   },
   {
@@ -381,7 +381,7 @@
       ]
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.ElderChaosDruid"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.ElderChaosDruid"
     }
   },
   {
@@ -425,7 +425,7 @@
       ]
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.dragons.BasicDragon"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.BasicDragon"
     }
   },
   {
@@ -603,7 +603,7 @@
       ]
     },
     "scripts": {
-      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   },
   {
@@ -644,7 +644,7 @@
       ]
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.DarkWizard"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.DarkWizard"
     }
   },
   {
@@ -685,7 +685,7 @@
       ]
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.DarkWizard"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.DarkWizard"
     }
   },
   {
@@ -720,7 +720,7 @@
       ]
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.ElderChaosDruid"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.ElderChaosDruid"
     }
   }
 ]

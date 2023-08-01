@@ -284,7 +284,7 @@
 	  "death": 2654
 	},
 	"scripts": {
-	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.fightcaves.TztokJadCombatScript"
+	  "combat": "com.cryptic.model.entity.combat.method.impl.npcs.fightcaves.TztokJadCombatScript"
 	}
   },
   {

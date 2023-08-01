@@ -3381,7 +3381,7 @@
     },
     "scripts": {
       "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDSaradominMinion",
-      //"combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.SpiritualRanger",
+      //"combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.SpiritualRanger",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.saradomin.SaradominAgro"
     }
   },
@@ -3411,7 +3411,7 @@
     },
     "scripts": {
       "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDBandosMinion",
-      //"combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.SpiritualRanger",
+      //"combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.SpiritualRanger",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
     }
   },
@@ -3441,7 +3441,7 @@
     },
     "scripts": {
       "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDZamorakMinion",
-      //"combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.SpiritualRanger",
+      //"combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.SpiritualRanger",
       "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
     }
   },

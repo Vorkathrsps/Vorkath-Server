@@ -143,13 +143,13 @@
             <AppenderRef ref="errfile"/>
             <AppenderRef ref="tracefile"/>
         </Root>
-        <logger name="com.aelous.model.entity.player.Player" level="ERROR" additivity="false">
+        <logger name="com.cryptic.model.entity.player.Player" level="ERROR" additivity="false">
         </logger>
-        <logger name="com.aelous.game.LoginService" level="WARN" additivity="false">
+        <logger name="com.cryptic.game.LoginService" level="WARN" additivity="false">
         </logger>
-        <logger name="com.aelous.game.LoginService" level="ERROR" additivity="false">
+        <logger name="com.cryptic.game.LoginService" level="ERROR" additivity="false">
         </logger>
-        <logger name="com.aelous.game.LogoutService" level="ERROR" additivity="false">
+        <logger name="com.cryptic.game.LogoutService" level="ERROR" additivity="false">
         </logger>
         <logger name="io.netty" level="ERROR" additivity="false">
         </logger>
@@ -211,7 +211,7 @@
             <AppenderRef ref="fpkmerkfile"/>
         </logger>
 
-        <logger name="com.aelous.GameEngine" level="trace" additivity="false">
+        <logger name="com.cryptic.GameEngine" level="trace" additivity="false">
             <AppenderRef ref="outconsole"/>
             <AppenderRef ref="outfile"/>
             <AppenderRef ref="tracefile"/>

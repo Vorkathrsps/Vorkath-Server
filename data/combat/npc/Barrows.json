@@ -27,7 +27,7 @@
       "death": 4167
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.barrows.Verac"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.barrows.Verac"
     }
   },
   {
@@ -86,7 +86,7 @@
       "death": 4167
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.barrows.Guthan"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.barrows.Guthan"
     }
   },
   {
@@ -117,7 +117,7 @@
       "death": 4167
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.barrows.Dharok"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.barrows.Dharok"
     }
   },
   {
@@ -149,7 +149,7 @@
       "death": 4167
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.barrows.Karils"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.barrows.Karils"
     }
   },
   {
@@ -182,7 +182,7 @@
       "death": 4167
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.barrows.Ahrims"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.barrows.Ahrims"
     }
   }
 ]

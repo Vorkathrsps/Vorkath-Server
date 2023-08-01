@@ -33,7 +33,7 @@
       "death": 7991
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.vasilas.NylocasVasilias"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.vasilas.NylocasVasilias"
     }
   }
 ]

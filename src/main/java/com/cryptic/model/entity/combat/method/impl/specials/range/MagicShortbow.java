@@ -1,0 +1,49 @@
+package com.cryptic.model.entity.combat.method.impl.specials.range;
+
+import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.combat.CombatFactory;
+import com.cryptic.model.entity.combat.CombatSpecial;
+import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.hit.Hit;
+import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
+import com.cryptic.model.entity.masks.Projectile;
+import com.cryptic.model.entity.player.Player;
+
+public class MagicShortbow extends CommonCombatMethod {
+
+    @Override
+    public boolean prepareAttack(Entity entity, Entity target) {
+        final Player player = entity.getAsPlayer();
+
+        entity.animate(1074);
+        int tileDist = entity.tile().transform(1, 1).getChevDistance(target.tile());
+        int duration1 = (21 + 11 + (3 * tileDist));
+        int duration2 = (41 + 11 + (3 * tileDist));
+        Projectile p1 = new Projectile(entity, target, 249, 21, duration1, 40, 30, 16, target.getSize(), 5);
+        Projectile p2 = new Projectile(entity, target, 249, 41, duration2, 40, 30, 16, target.getSize(), 5);
+
+        final int delay1 = entity.executeProjectile(p1);
+        final int delay2 = entity.executeProjectile(p2);
+
+        CombatFactory.decrementAmmo(player);
+        CombatFactory.decrementAmmo(player);
+
+        for (int i = 0; i < 2; i++) {
+            Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), i == 1 ? delay1 : delay2, CombatType.RANGED).checkAccuracy();
+            hit.submit();
+        }
+
+        CombatSpecial.drain(entity, CombatSpecial.MAGIC_SHORTBOW.getDrainAmount());
+        return true;
+    }
+
+    @Override
+    public int getAttackSpeed(Entity entity) {
+        return entity.getBaseAttackSpeed() + 1;
+    }
+
+    @Override
+    public int moveCloseToTargetTileRange(Entity entity) {
+        return 6;
+    }
+}

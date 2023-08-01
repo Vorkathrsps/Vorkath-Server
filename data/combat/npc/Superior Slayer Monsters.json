@@ -224,7 +224,7 @@
       "death": 7815
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.superiors.MarbleGargoyle"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.superiors.MarbleGargoyle"
     }
   },
   {
@@ -257,7 +257,7 @@
       "death": 2733
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.superiors.NightBeast"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.superiors.NightBeast"
     }
   },
   {
@@ -318,7 +318,7 @@
       "death": 3849
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.SmokeDevil"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.SmokeDevil"
     }
   },
   {
@@ -352,7 +352,7 @@
       "death": 1508
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.AberrantSpectre"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.AberrantSpectre"
     }
   },
   {

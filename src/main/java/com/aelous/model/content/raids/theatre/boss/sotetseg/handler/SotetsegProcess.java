@@ -138,6 +138,7 @@ public class SotetsegProcess extends NPC {
     public void die() {
         players.clear();
         player.setRoomState(RoomState.COMPLETE);
+        player.getTheatreParty().onRoomStateChanged(player.getRoomState());
         Chain.noCtx().runFn(1, () -> {
             this.animate(8139);
         }).then(3, () -> {

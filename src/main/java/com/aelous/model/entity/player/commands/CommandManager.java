@@ -12,7 +12,6 @@ import com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.aelous.model.content.raids.theatre.Theatre;
 import com.aelous.model.content.raids.theatre.area.TheatreArea;
 import com.aelous.model.content.raids.theatre.boss.xarpus.handler.XarpusProcess;
-import com.aelous.model.content.raids.theatre.stage.TheatreStage;
 import com.aelous.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.aelous.model.content.tournaments.Tournament;
 import com.aelous.model.content.tournaments.TournamentManager;
@@ -691,7 +690,7 @@ public class CommandManager {
            // Area area = new Area(3003, 2943, 3063, 3010);
             //TemporossHandler temporossHandler = new TemporossHandler(p, new TemporossArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, area));
             //temporossHandler.startInstance();
-            System.out.println(Death.occupiedList.size());
+            //System.out.println(Death.occupiedCageSpawnPointsList.size());
 
         });
 

@@ -31,6 +31,7 @@ import com.aelous.model.map.position.areas.impl.WildernessArea;
 import com.aelous.utility.Utils;
 import com.aelous.utility.chainedwork.Chain;
 import com.aelous.utility.timers.TimerKey;
+import com.google.gson.JsonArray;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -110,7 +111,7 @@ public class Death implements TheatreDeath {
     }
 
     public void death(Player player) {
-        if (this.inRaid(player)) {
+        if (this.inRaid(player)) { //check if raid death
             this.handleRaidDeath(player);
             return;
         }
@@ -309,10 +310,9 @@ public class Death implements TheatreDeath {
             new Tile(3304, 4254)
 
         };
-    public static List<Player> occupiedList = new ArrayList<>();
-    BooleanSupplier wiped = () -> occupiedList.size() == player.getTheatreParty().getParty().size();
-    BooleanSupplier completed = () -> player.getRoomState().equals(RoomState.COMPLETE);
-    public void handleOnDeath(Player player) {
+
+
+    public void resetPlayerInRaid(Player player) {
         Autocasting.setAutocast(player, null); // Set auto-cast to default; 0
         player.getCombat().setPoweredStaffSpell(null);
         WeaponInterfaces.updateWeaponInterface(player); //Update the weapon interface
@@ -347,45 +347,30 @@ public class Death implements TheatreDeath {
         player.clearAttrib(VENOMED_BY);
         player.looks().hide(false);
         player.getUpdateFlag().flag(Flag.APPEARANCE);
-        handleWipe.run();
-        handleCompleted.run();
+        var party = player.theatreParty;
+        if (party != null) {
+
+
+            boolean wholeTeamDead = party.occupiedCageSpawnPointsList.size() == player.getTheatreParty().getParty().size(); //so wouldnt you do player.gettheatreparty().getleader().gettheatreparty().getparty().getsize?
+            if (wholeTeamDead) {
+                for (Player p2 : party.getParty()) {
+                    if (p2.getIronManStatus().isHardcoreIronman()) {
+                        p2.setIronmanStatus(IronMode.REGULAR);
+                        p2.getPacketSender().sendRights();
+                        p2.getUpdateFlag().flag(Flag.APPEARANCE);
+                        World.getWorld().sendBroadcast("<img=504>" + p2.getDisplayName() + " has lost their hardcore ironman status! Total Level: " + p2.getSkills().totalLevel());
+                    }
+                }
+                party.occupiedCageSpawnPointsList.clear();
+                player.getTheatre().dispose(); // will dispose for all and TPs out
+            }
+        }
+
     }
 
-    Runnable handleWipe = () -> Chain.noCtx().cancelWhen(completed).waitUntil(1, wiped, () -> {
-        occupiedList.clear();
-        player.setRaidDeathState(RaidDeathState.WIPE);
-        player.unlock();
-        player.getTheatre().dispose();
-        if (player.getIronManStatus().isHardcoreIronman()) {
-            player.setIronmanStatus(IronMode.REGULAR);
-            player.getPacketSender().sendRights();
-            player.getUpdateFlag().flag(Flag.APPEARANCE);
-            World.getWorld().sendBroadcast("<img=504>" + player.getDisplayName() + " has lost their hardcore ironman status! Total Level: " + player.getSkills().totalLevel());
-        }
-        player.message("Oh dear you are dead!");
-    });
-
-    Runnable handleCompleted = () -> player.waitUntil(completed, () -> {
-        occupiedList.clear();
-        player.unlock();
-        player.setRaidDeathState(RaidDeathState.ALIVE);
-        if (player.tile().inArea(VERZIK_AREA)) {
-            player.teleport(3168, 4315, player.getTheatre().theatreArea.getzLevel());
-        } else if (player.tile().inArea(BLOAT_AREA)) {
-            player.teleport(3282, 4447, player.getTheatre().theatreArea.getzLevel());
-        } else if (player.tile().inArea(MAIDEN_AREA)) {
-            player.teleport(3180, 4447, player.getTheatre().theatreArea.getzLevel());
-        } else if (player.tile().inArea(XARPUS_AREA)) {
-            player.teleport(3170, 4389, player.getTheatre().theatreArea.getzLevel());
-        } else if (player.tile().inArea(VASILIAS_AREA)) {
-            player.teleport(3295, 4248, player.getTheatre().theatreArea.getzLevel());
-        } else if (player.tile().inArea(SOTETSEG_AREA)) {
-            player.teleport(3279, 4316, player.getTheatre().theatreArea.getzLevel());
-        }
-    }).cancelWhen(wiped);
-
     @Override
-    public void handleRaidDeath(Player player) { //TODO reset on server restart or crash
+    public void handleRaidDeath(Player player) { //check 2 handle the death state
+        var party = player.theatreParty;
         player.setRaidDeathState(RaidDeathState.DEAD);
 
         player.lock();
@@ -394,8 +379,9 @@ public class Death implements TheatreDeath {
 
         player.action.reset();
 
+        var occupiedCageSpawnPointsList = party.occupiedCageSpawnPointsList;
         if (player.tile().inArea(VERZIK_AREA)) {
-            occupiedList.add(player);
+            occupiedCageSpawnPointsList.add(player);
 
             Tile targetTile = null;
             for (var t : VERZIK_DEATH_TILES) {
@@ -405,26 +391,26 @@ public class Death implements TheatreDeath {
                 }
             }
 
-            for (var p : occupiedList) {
+            for (var p : occupiedCageSpawnPointsList) {
                 if (!p.tile().equals(targetTile)) {
                     p.teleport(targetTile);
                 }
             }
-            handleOnDeath(player);
+            resetPlayerInRaid(player);
         } else if (player.tile().inArea(BLOAT_AREA)) {
-            occupiedList.add(player);
+            occupiedCageSpawnPointsList.add(player);
             player.teleport(3295, 4459, player.theatre.theatreArea.getzLevel());
-            handleOnDeath(player);
+            resetPlayerInRaid(player);
         } else if (player.tile().inArea(MAIDEN_AREA)) {
-            occupiedList.add(player);
+            occupiedCageSpawnPointsList.add(player);
             player.teleport(3166, 4433, player.theatre.theatreArea.getzLevel());
-            handleOnDeath(player);
+            resetPlayerInRaid(player);
         } else if (player.tile().inArea(XARPUS_AREA)) {
-            occupiedList.add(player);
+            occupiedCageSpawnPointsList.add(player);
             player.teleport(3157, 4387, player.theatre.theatreArea.getzLevel());
-            handleOnDeath(player);
+            resetPlayerInRaid(player);
         } else if (player.tile().inArea(VASILIAS_AREA)) {
-            occupiedList.add(player);
+            occupiedCageSpawnPointsList.add(player);
 
             Tile targetTile = null;
             for (var t : VASILIAS_DEATH_TILES) {
@@ -434,21 +420,21 @@ public class Death implements TheatreDeath {
                 }
             }
 
-            for (var p : occupiedList) {
+            for (var p : occupiedCageSpawnPointsList) {
                 if (!p.tile().equals(targetTile)) {
                     p.teleport(targetTile);
                 }
             }
-            handleOnDeath(player);
+            resetPlayerInRaid(player);
         } else if (player.tile().inArea(SOTETSEG_AREA)) {
-            occupiedList.add(player);
+            occupiedCageSpawnPointsList.add(player);
             player.teleport(3270, 4313, player.theatre.theatreArea.getzLevel());
-            handleOnDeath(player);
+            resetPlayerInRaid(player);
         }
     }
 
     @Override
-    public boolean inRaid(Player player) {
+    public boolean inRaid(Player player) { //check 1, is player theatrestate / in raid active
         return player.getTheatreState().equals(TheatreState.ACTIVE);
     }
 }

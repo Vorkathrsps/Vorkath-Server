@@ -160,6 +160,7 @@ public class MaidenProcess extends NPC {
     public void die() {
         Theatre.theatrePhase.setStage(TheatreStage.TWO);
         player.setRoomState(RoomState.COMPLETE);
+        player.getTheatreParty().onRoomStateChanged(player.getRoomState());
         if (nylo != null) {
             nylo.die();
         }

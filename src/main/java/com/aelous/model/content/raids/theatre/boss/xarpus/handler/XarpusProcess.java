@@ -132,6 +132,7 @@ public class XarpusProcess extends NPC {
     public void die() {
         players.clear();
         player.setRoomState(RoomState.COMPLETE);
+        player.getTheatreParty().onRoomStateChanged(player.getRoomState());
         Chain.noCtx().runFn(1, () -> this.animate(8063)).then(3, () -> {
             World.getWorld().unregisterNpc(this);
         }).then(2, this::clear);

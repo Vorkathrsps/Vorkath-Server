@@ -206,6 +206,7 @@ public class BloatProcess extends NPC { //TODO make him reverse interpolate walk
     @Override
     public void die() {
         player.setRoomState(RoomState.COMPLETE);
+        player.getTheatreParty().onRoomStateChanged(player.getRoomState());
         Chain.noCtx().runFn(1, () -> {
             this.animate(DEATH_ANIM);
         }).then(3, () -> {

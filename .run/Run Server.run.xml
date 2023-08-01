@@ -4,7 +4,7 @@
       <entry path="C:\Users\2007z\OneDrive\Desktop\Aelous210\functions\functions-1.90.0.jar" />
     </classpathModifications>
     <option name="MAIN_CLASS_NAME" value="com.cryptic.GameServer" />
-    <module name="Aelous" />
+    <module name="Cryptic-GameServer" />
     <option name="VM_PARAMETERS" value="-Xmx4g -Xms4g --add-opens java.base/jdk.internal.misc=ALL-UNNAMED --add-opens java.base/java.time=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED" />
     <extension name="coverage">
       <pattern>

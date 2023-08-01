@@ -26,6 +26,13 @@ public class MagicMaxHitFormula {
     private static final int[] waterSpells = new int[]{1154, 1163, 1175, 1185, 22658};
     private static final int[] godSpells = new int[]{1191, 1192, 1190};
     private static final int[] boltSpells = new int[]{1160, 1163, 1166, 1166, 1169};
+    private static final int[] ancientSpells = new int[]
+        {
+            12939, 12987, 12901, 12861,
+            12963, 13011, 12919, 12881,
+            12951, 12999, 12911, 12871,
+            12975, 13023, 12929, 12891
+        };
 
     public int calculateBaseMaxHitForPoweredStaves(@NonNull final Player player, int baseMaxHit) {
         int magicLevel = player.skills().level(Skills.MAGIC);
@@ -68,6 +75,22 @@ public class MagicMaxHitFormula {
 
         if (FormulaUtils.hasSalveAmuletEI(player)) {
             mageStrength += 20.0;
+        }
+
+        if (player.getCombat().getCastSpell() != null || player.getCombat().getAutoCastSpell() != null) {
+            if (ArrayUtils.contains(ancientSpells, player.getCombat().getCastSpell().spellId())) {
+                if (player.getEquipment().hasAt(EquipSlot.HEAD, ItemIdentifiers.VIRTUS_MASK)) {
+                    mageStrength += 4.0;
+                }
+
+                if (player.getEquipment().hasAt(EquipSlot.BODY, ItemIdentifiers.VIRTUS_ROBE_TOP)) {
+                    mageStrength += 4.0;
+                }
+
+                if (player.getEquipment().hasAt(EquipSlot.LEGS, ItemIdentifiers.VIRTUS_ROBE_BOTTOMS)) {
+                    mageStrength += 4.0;
+                }
+            }
         }
 
         return mageStrength;

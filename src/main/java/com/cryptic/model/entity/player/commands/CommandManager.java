@@ -677,20 +677,24 @@ public class CommandManager {
         });
         dev("c", (p, c, s) -> {
             //BloatProcess bloatProcess = new BloatProcess(8359, new Tile(3299, 4440, 0), p);
-           // bloatProcess.spawn(false);
+            // bloatProcess.spawn(false);
         });
 
-        dev("x", (p, c, s) -> {
-            //XarpusProcess xarpusProcess = new XarpusProcess(10767, new Tile(3169, 4386, 1), p);
-           // xarpusProcess.spawn(false);
+        dev("ioi", (p, c, s) -> {
+            // Opening interface
+            // interface item container id
+            // item id1, item id2, item id3, etc.
+            int interfaceId = Integer.parseInt(s[0]);
+           // int containerId = Integer.parseInt(s[1]);
+            p.getInterfaceManager().open(interfaceId);
 
-            //BloodSpawn orb = new BloodSpawn(10821, new Tile(p.getX(), p.getY()), p);
-            //orb.spawn(false);
-           // Area area = new Area(3003, 2943, 3063, 3010);
-            //TemporossHandler temporossHandler = new TemporossHandler(p, new TemporossArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, area));
-            //temporossHandler.startInstance();
-            //System.out.println(Death.occupiedCageSpawnPointsList.size());
-
+            List<Item> items = new ArrayList<>();
+            for (int i = 2; i < s.length; i++) {
+                int itemId = Integer.parseInt(s[i]);
+                items.add(new Item(itemId));
+                p.getPacketSender().sendItemOnInterface(interfaceId, items);
+                items.clear();
+            }
         });
 
         dev("m", (p, c, s) -> {
@@ -912,11 +916,11 @@ public class CommandManager {
         });
         dev("t23", (player, c, parts) -> {
             var n = player.closeNpcs(5)[0];
-          //  n.queueTeleportJump(n.tile().transform(1, 1));
+            //  n.queueTeleportJump(n.tile().transform(1, 1));
         });
         dev("t24", (player, c, parts) -> {
             var n = player.closeNpcs(5)[0];
-           // n.queueTeleportJump(n.tile().transform(Integer.parseInt(parts[1]), Integer.parseInt(parts[2])));
+            // n.queueTeleportJump(n.tile().transform(Integer.parseInt(parts[1]), Integer.parseInt(parts[2])));
         });
         dev("t25", (p, c, s) -> {
             XarpusProcess xarpusProcess = new XarpusProcess(10767, new Tile(3169, 4386, 1), p);
@@ -948,9 +952,9 @@ public class CommandManager {
         });
 
         dev("region", (p, c, s) -> {
-           var t = Tile.regionToTile(Integer.parseInt(s[1]));
-           p.teleport(t);
-           p.message("region %s is %s", s[1], t);
+            var t = Tile.regionToTile(Integer.parseInt(s[1]));
+            p.teleport(t);
+            p.message("region %s is %s", s[1], t);
         });
     }
 

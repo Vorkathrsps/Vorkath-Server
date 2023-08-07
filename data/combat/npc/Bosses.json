@@ -143,7 +143,7 @@
       "death": 8384
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.seren.FragmentOfSeren"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.seren.FragmentOfSeren"
     }
   },
   {
@@ -223,7 +223,7 @@
       "death": 4495
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.cerberus.Cerberus"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.cerberus.Cerberus"
     }
   },
   {
@@ -299,7 +299,7 @@
       "death": 4495
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.superiorbosses.Kerberos"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.superiorbosses.Kerberos"
     }
   },
   //Zamorak God Wars
@@ -374,7 +374,7 @@
     },
     "scripts": {
       //"droptable": "droptables.GWDZamorakMinion",
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.Zakln"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.Zakln"
     }
   },
   {
@@ -412,7 +412,7 @@
     },
     "scripts": {
       //"droptable": "droptables.GWDZamorakMinion",
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.Balfrug"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.Balfrug"
     }
   },
   {
@@ -452,7 +452,7 @@
     },
     "scripts": {
       //"droptable": "droptables.GWDZamorakMinion",
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.Kril"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.Kril"
     }
   },
   {
@@ -488,7 +488,7 @@
       "death": 1676
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.CorporealBeast"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.CorporealBeast"
     }
   },
   {
@@ -525,8 +525,8 @@
       "death": 92
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.dragons.KingBlackDragon",
-      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.KingBlackDragon",
+      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   },
   {
@@ -593,7 +593,7 @@
       "death": 2856
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.DagannothSupreme"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.DagannothSupreme"
     }
   },
   {
@@ -629,7 +629,7 @@
       "death": 2856
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.DagannothPrime"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.DagannothPrime"
     }
   },
   {
@@ -662,7 +662,7 @@
       "death": 2865
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.Spinolyp"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.Spinolyp"
     }
   },
   {
@@ -699,7 +699,7 @@
     },
     "scripts": {
       //"droptable": "droptables.GWDBandosMinion",
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.bandos.Graardor"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.Graardor"
     }
   },
   {
@@ -756,7 +756,7 @@
     },
     "scripts": {
       //"droptable": "droptables.GWDBandosMinion",
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.bandos.Steelwill"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.Steelwill"
     }
   },
   {
@@ -784,7 +784,7 @@
     },
     "scripts": {
       //"droptable": "droptables.GWDBandosMinion",
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.bandos.Grimspike"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.Grimspike"
     }
   },
   {
@@ -818,7 +818,7 @@
       "death": 3849
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.ThermonuclearSmokeDevil"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.ThermonuclearSmokeDevil"
     }
   },
   {
@@ -852,7 +852,7 @@
       "death": 5072
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.ZulrahDeath"
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.ZulrahDeath"
     }
   },
   {
@@ -886,7 +886,7 @@
       "death": 5072
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.ZulrahDeath"
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.ZulrahDeath"
     }
   },
   {
@@ -920,7 +920,7 @@
       "death": 5072
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.ZulrahDeath"
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.ZulrahDeath"
     }
   },
   {
@@ -993,7 +993,7 @@
       "death": 7196
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.LizardShaman"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.LizardShaman"
     }
   },
   {
@@ -1095,7 +1095,7 @@
       "death": -1
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.vorkath.ZombifiedSpawn"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.vorkath.ZombifiedSpawn"
     }
   },
   {
@@ -1134,7 +1134,7 @@
       "death": 7949
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.vorkath.Vorkath"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.vorkath.Vorkath"
     }
   },
   {
@@ -1178,7 +1178,7 @@
       "death": 8262
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.hydra.AlchemicalHydraAttackScript"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.hydra.AlchemicalHydraAttackScript"
     }
   },
   {
@@ -1214,7 +1214,7 @@
       "death": 3310
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.GiantMole"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.GiantMole"
     }
   },
   {
@@ -1251,7 +1251,7 @@
       "death": 6369
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.CorruptedNechryarch"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.CorruptedNechryarch"
     }
   },
   {
@@ -1288,7 +1288,7 @@
       "death": 8581
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.TheNightmare"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.TheNightmare"
     }
   },
   {
@@ -1325,7 +1325,7 @@
       "death": 8566
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.nightmare.attacks.impl.Husks"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.attacks.impl.Husks"
     }
   },
   {
@@ -1431,7 +1431,7 @@
       "death": 9042
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.judgeofyama.Judge"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.judgeofyama.Judge"
     }
   }
 ]

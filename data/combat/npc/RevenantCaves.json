@@ -328,7 +328,7 @@
       ]
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.dragons.BasicDragon"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.BasicDragon"
     }
   },
   {
@@ -364,8 +364,8 @@
       "death": 172
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
-      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
+      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   },
   {
@@ -401,8 +401,8 @@
       "death": 1580
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
-      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
+      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   },
   {
@@ -441,8 +441,8 @@
       "death": 92
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
-      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
+      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   },
   {
@@ -481,8 +481,8 @@
       "death": 67
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
-      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
+      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   },
   {
@@ -521,8 +521,8 @@
       "death": 6576
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
-      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
+      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   },
   {
@@ -561,8 +561,8 @@
       "death": 836
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
-      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
+      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   },
   {
@@ -601,8 +601,8 @@
       "death": 4321
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
-      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
+      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   },
   {
@@ -641,8 +641,8 @@
       "death": 2733
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
-      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
+      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   },
   {
@@ -681,8 +681,8 @@
       "death": 4653
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
-      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
+      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   },
   {
@@ -721,8 +721,8 @@
       "death": 6182
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
-      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
+      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   },
   {
@@ -761,8 +761,8 @@
       "death": 167
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
-      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.revenants.Revenant",
+      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   }
 ]

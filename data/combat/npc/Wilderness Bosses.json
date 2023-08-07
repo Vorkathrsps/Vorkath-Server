@@ -33,7 +33,7 @@
         "death": 5509
       },
       "scripts": {
-        "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion",
+        "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion",
        // "death": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.vetion.Vetion.death",
         "hit": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.vetion.Vetion.hit"
       }
@@ -101,7 +101,7 @@
       "death": 92
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.custom.BrutalLavaDragon"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.custom.BrutalLavaDragon"
     }
   },
   {
@@ -137,7 +137,7 @@
       "death": 7679
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.LavaBeast"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.LavaBeast"
     }
   },
   {
@@ -182,7 +182,7 @@
       ]
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.dragons.KingBlackDragon"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.KingBlackDragon"
     }
   },
   {
@@ -219,7 +219,7 @@
       "death": 6949
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.Kril"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.Kril"
     }
   },
   {
@@ -257,8 +257,8 @@
       "death": 10017
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.Callisto",
-      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.Callisto",
+      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   },
   {
@@ -292,8 +292,8 @@
       "death": 4929
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.superiorbosses.Artio",
-      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.superiorbosses.Artio",
+      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   },
   {
@@ -329,8 +329,8 @@
       "death": 5321
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.Venenatis",
-      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.Venenatis",
+      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   },
   {
@@ -367,8 +367,8 @@
       "death": 5321
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.superiorbosses.Arachne",
-      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.superiorbosses.Arachne",
+      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   },
   {
@@ -403,7 +403,7 @@
       "death": 2304
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.ChaosFanatic"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.ChaosFanatic"
     }
   },
   {
@@ -441,7 +441,7 @@
       "death": 2304
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.DerangedArchaeologist"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.DerangedArchaeologist"
     }
   },
   {
@@ -479,7 +479,7 @@
       "death": 2304
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.CrazyArchaeologist"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.CrazyArchaeologist"
     }
   },
   {
@@ -514,7 +514,7 @@
       "death": 6256
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.Scorpia"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.Scorpia"
      // "death": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.Scorpia.deathScript"
     }
   },
@@ -550,7 +550,7 @@
       "death": 6256
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.superiorbosses.Skorpios"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.superiorbosses.Skorpios"
     }
   },
   {
@@ -598,7 +598,7 @@
       "death": 6256
     },
     "scripts": {
-      "aggression": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.ScorpiaOffspringAgro"
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.ScorpiaOffspringAgro"
     }
   },
   {
@@ -634,8 +634,8 @@
       "death": 3147
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.ChaosElemental",
-      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.ChaosElemental",
+      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   }
 ]

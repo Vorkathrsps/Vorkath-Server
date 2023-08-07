@@ -1112,9 +1112,9 @@
       "death": 836
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDSaradominMinion",
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.SpiritualMage",
-      "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.saradomin.SaradominAgro"
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDSaradominMinion",
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.SpiritualMage",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.saradomin.SaradominAgro"
     }
   },
   {
@@ -1144,9 +1144,9 @@
       "death": 836
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDSaradominMinion",
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.SpiritualMage",
-      "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.saradomin.SaradominAgro"
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDSaradominMinion",
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.SpiritualMage",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.saradomin.SaradominAgro"
     }
   },
   {
@@ -1175,7 +1175,7 @@
       "death": 6959
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDArmadylMinion"
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDArmadylMinion"
     }
   },
   {
@@ -1204,8 +1204,8 @@
       "death": 6959
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDArmadylMinion",
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.armadyl.WingmanSkree"
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDArmadylMinion",
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.armadyl.WingmanSkree"
     }
   },
   {
@@ -1234,8 +1234,8 @@
       "death": 6959
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDArmadylMinion",
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.armadyl.FlockleaderGeerin"
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDArmadylMinion",
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.armadyl.FlockleaderGeerin"
     }
   },
   {
@@ -1271,8 +1271,8 @@
       "death": 6979
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDArmadylMinion",
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.armadyl.KreeArra"
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDArmadylMinion",
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.armadyl.KreeArra"
     }
   }
 ]

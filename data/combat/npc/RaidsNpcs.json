@@ -34,9 +34,9 @@
       "death": 7432
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.Vanguard",
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.raids.VanguardDroptable",
-      "aggression": "com.aelous.model.entity.npc.aggressive.RaidsAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.Vanguard",
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.raids.VanguardDroptable",
+      "aggression": "com.cryptic.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -74,9 +74,9 @@
       "death": 7432
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.Vanguard",
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.raids.VanguardDroptable",
-      "aggression": "com.aelous.model.entity.npc.aggressive.RaidsAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.Vanguard",
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.raids.VanguardDroptable",
+      "aggression": "com.cryptic.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -114,9 +114,9 @@
       "death": 7432
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.Vanguard",
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.raids.VanguardDroptable",
-      "aggression": "com.aelous.model.entity.npc.aggressive.RaidsAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.Vanguard",
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.raids.VanguardDroptable",
+      "aggression": "com.cryptic.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -154,8 +154,8 @@
       "death": 7415
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.MuttadileInTheWater",
-      "aggression": "com.aelous.model.entity.npc.aggressive.RaidsAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.MuttadileInTheWater",
+      "aggression": "com.cryptic.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -193,9 +193,9 @@
       "death": 7426
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.Muttadile",
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.raids.BabyMuttadileDroptable",
-      "aggression": "com.aelous.model.entity.npc.aggressive.RaidsAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.Muttadile",
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.raids.BabyMuttadileDroptable",
+      "aggression": "com.cryptic.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -233,9 +233,9 @@
       "death": 7426
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.Muttadile",
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.raids.MommaMuttadileDroptable",
-      "aggression": "com.aelous.model.entity.npc.aggressive.RaidsAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.Muttadile",
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.raids.MommaMuttadileDroptable",
+      "aggression": "com.cryptic.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -273,9 +273,9 @@
       "death": 7415
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.vasa.VasaNistirio",
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.raids.VasaNistirioDroptable",
-      "aggression": "com.aelous.model.entity.npc.aggressive.RaidsAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.vasa.VasaNistirio",
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.raids.VasaNistirioDroptable",
+      "aggression": "com.cryptic.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -313,8 +313,8 @@
       "death": 7495
     },
 	"scripts": {
-	  "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.Tekton",
-      "aggression": "com.aelous.model.entity.npc.aggressive.RaidsAgro"
+	  "combat": "com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.Tekton",
+      "aggression": "com.cryptic.model.entity.npc.aggressive.RaidsAgro"
 	}
   },
   {
@@ -352,9 +352,9 @@
       "death": 7495
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.Tekton",
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.raids.TektonDroptable",
-      "aggression": "com.aelous.model.entity.npc.aggressive.RaidsAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.Tekton",
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.raids.TektonDroptable",
+      "aggression": "com.cryptic.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -392,9 +392,9 @@
       "death": 7459
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.Vespula",
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.raids.VespulaDroptable",
-      "aggression": "com.aelous.model.entity.npc.aggressive.RaidsAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.Vespula",
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.raids.VespulaDroptable",
+      "aggression": "com.cryptic.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -432,9 +432,9 @@
       "death": 7458
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.raids.cox.Vespula",
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.raids.VespulaDroptable",
-      "aggression": "com.aelous.model.entity.npc.aggressive.RaidsAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.Vespula",
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.raids.VespulaDroptable",
+      "aggression": "com.cryptic.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -471,7 +471,7 @@
       "death": -1
     },
     "scripts": {
-      "combat": "com.aelous.model.content.raids.chamber_of_xeric.great_olm.OlmRightClaw"
+      "combat": "com.cryptic.model.content.raids.chamber_of_xeric.great_olm.OlmRightClaw"
     }
   },
   {
@@ -509,7 +509,7 @@
       "death": 7348
     },
     "scripts": {
-      "combat": "com.aelous.model.content.raids.chamber_of_xeric.great_olm.GreatOlm"
+      "combat": "com.cryptic.model.content.raids.chamber_of_xeric.great_olm.GreatOlm"
     }
   },
   {
@@ -546,7 +546,7 @@
       "death": -1
     },
     "scripts": {
-      "combat": "com.aelous.model.content.raids.chamber_of_xeric.great_olm.OlmLeftClaw"
+      "combat": "com.cryptic.model.content.raids.chamber_of_xeric.great_olm.OlmLeftClaw"
     }
   }
 ]

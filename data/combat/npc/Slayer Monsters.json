@@ -91,7 +91,7 @@
       "death": 2778
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.DesertLizards"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.DesertLizards"
     }
   },
   {
@@ -123,7 +123,7 @@
       "death": 1538
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.AbyssalDemon"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.AbyssalDemon"
     }
   },
   {
@@ -967,7 +967,7 @@
       "death": 2987
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.SkeletalWyvern"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.SkeletalWyvern"
     }
   },
   {
@@ -1571,7 +1571,7 @@
       ]
     },
     "scripts": {
-      "aggression": "com.aelous.model.content.members.MemberCaveAgro"
+      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   },
   {
@@ -2097,7 +2097,7 @@
       "death": 1508
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.AberrantSpectre"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.AberrantSpectre"
     }
   },
   {
@@ -2131,7 +2131,7 @@
       "death": 1508
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.AberrantSpectre"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.AberrantSpectre"
     }
   },
   {
@@ -2296,8 +2296,8 @@
       ]
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDZamorakMinion",
-      "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDZamorakMinion",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
     }
   },
   {
@@ -2441,7 +2441,7 @@
       ]
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.dragons.MetalDragon"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.MetalDragon"
     }
   },
   {
@@ -2511,9 +2511,9 @@
       "death": 836
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDZamorakMinion",
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.SpiritualMage",
-      "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDZamorakMinion",
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.SpiritualMage",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
     }
   },
   {
@@ -2739,7 +2739,7 @@
       "death": 3849
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.SmokeDevil"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.SmokeDevil"
     }
   },
   {
@@ -3093,7 +3093,7 @@
       "death": 7196
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.Lizardman"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.Lizardman"
     }
   },
   {
@@ -3128,7 +3128,7 @@
       "death": 7196
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.LizardmanBrute"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.LizardmanBrute"
     }
   },
   {
@@ -3157,9 +3157,9 @@
       "death": 3993
     },
     "scripts": {
-      "hit": "com.aelous.model.entity.combat.method.impl.npcs.slayer.CaveKrakens.onhit",
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.CaveKrakenDeath",
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.CaveKraken"
+      "hit": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.CaveKrakens.onhit",
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.CaveKrakenDeath",
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.CaveKraken"
     }
   },
   {
@@ -3187,7 +3187,7 @@
       "death": 3620
     },
     "scripts": {
-      "hit": "com.aelous.model.entity.combat.method.impl.npcs.slayer.EnormousTentacle.onhit"
+      "hit": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.EnormousTentacle.onhit"
     }
   },
   {
@@ -3215,9 +3215,9 @@
       "death": 3620
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.EnormousTentacleDeath",
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.kraken.EnormousTentacle",
-      "death": "com.aelous.model.entity.combat.method.impl.npcs.slayer.EnormousTentacle.death"
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.EnormousTentacleDeath",
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.EnormousTentacle",
+      "death": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.EnormousTentacle.death"
     }
   },
   {
@@ -3246,9 +3246,9 @@
       "death": 3993
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.KrakenBossDrops",
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.KrakenBossDrops",
      // "death": "nl.bartpelle.veteres.content.npcs.bosses.KrakenBoss.death",
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.kraken.Kraken"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.Kraken"
     }
   },
   {
@@ -3276,7 +3276,7 @@
       "death": -1
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.KrakenBossDrops",
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.KrakenBossDrops",
       "hit": "nl.bartpelle.veteres.content.npcs.bosses.KrakenBoss.hit"
     }
   },
@@ -3352,7 +3352,7 @@
       "death": 2733
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.DarkBeasts"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.DarkBeasts"
     }
   },
   {
@@ -3380,9 +3380,9 @@
       "death": 836
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDSaradominMinion",
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDSaradominMinion",
       //"combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.SpiritualRanger",
-      "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.saradomin.SaradominAgro"
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.saradomin.SaradominAgro"
     }
   },
   {
@@ -3410,9 +3410,9 @@
       "death": 4321
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDBandosMinion",
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDBandosMinion",
       //"combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.SpiritualRanger",
-      "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.BandosAgro"
     }
   },
   {
@@ -3440,9 +3440,9 @@
       "death": 836
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDZamorakMinion",
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDZamorakMinion",
       //"combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.SpiritualRanger",
-      "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.ZammyAgro"
     }
   },
   {
@@ -3487,9 +3487,9 @@
       "death": 6959
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.GWDArmadylMinion",
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.godwars.armadyl.Aviansie",
-      "aggression": "com.aelous.model.entity.combat.method.impl.npcs.godwars.armadyl.ArmadylAgro"
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.GWDArmadylMinion",
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.armadyl.Aviansie",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.godwars.armadyl.ArmadylAgro"
     }
   },
   {
@@ -3579,7 +3579,7 @@
       "death": 4624
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.Skotizo",
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.Skotizo",
       //"death": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.WildernessEventController.bossDeathScript",
       "hit": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.Skotizo.hitScript"
     }
@@ -3693,7 +3693,7 @@
       "death": 1342
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.waterbirth.RangedDagannoth"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.waterbirth.RangedDagannoth"
     }
   },
   {
@@ -3820,7 +3820,7 @@
       "death": 836
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.InfernalMage"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.InfernalMage"
     }
   },
   {
@@ -3854,7 +3854,7 @@
       "death": 1524
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.Banshee"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.Banshee"
     }
   },
   {
@@ -3888,7 +3888,7 @@
       "death": 4233
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.CaveHorror"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.CaveHorror"
     }
   },
   {
@@ -3947,7 +3947,7 @@
       "death": 1524
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.Banshee"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.Banshee"
     }
   },
   {

@@ -55,6 +55,9 @@ public class MagicMaxHitFormula {
     public double calculateMagicDamageBonus(@NonNull final Player player) {
         EquipmentInfo.Bonuses bonuses = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo());
         double mageStrength = bonuses.getMagestr();
+        CombatSpell castSpell = player.getCombat().getCastSpell();
+        CombatSpell autoCastSpell = player.getCombat().getAutoCastSpell();
+
         if (player.getCombat().getPoweredStaffSpell() != null && player.getCombat().getCastSpell() == null) {
             if (player.getEquipment().hasAt(EquipSlot.WEAPON, ItemIdentifiers.TUMEKENS_SHADOW)) {
                 mageStrength += Math.floor((double) (player.getSkills().level(Skills.MAGIC) - 1) / 3);
@@ -77,21 +80,16 @@ public class MagicMaxHitFormula {
             mageStrength += 20.0;
         }
 
-        if (player.getCombat().getCastSpell() != null || player.getCombat().getAutoCastSpell() != null) {
-            if (ArrayUtils.contains(ancientSpells, player.getCombat().getCastSpell().spellId())) {
-                if (player.getEquipment().hasAt(EquipSlot.HEAD, ItemIdentifiers.VIRTUS_MASK)) {
-                    mageStrength += 4.0;
-                }
+        if ((castSpell != null && ArrayUtils.contains(ancientSpells, castSpell.spellId())) || (autoCastSpell != null && ArrayUtils.contains(ancientSpells, autoCastSpell.spellId()))) {
 
-                if (player.getEquipment().hasAt(EquipSlot.BODY, ItemIdentifiers.VIRTUS_ROBE_TOP)) {
-                    mageStrength += 4.0;
-                }
-
-                if (player.getEquipment().hasAt(EquipSlot.LEGS, ItemIdentifiers.VIRTUS_ROBE_BOTTOMS)) {
-                    mageStrength += 4.0;
-                }
+            if (player.getEquipment().hasAt(EquipSlot.HEAD, ItemIdentifiers.VIRTUS_MASK)
+                || player.getEquipment().hasAt(EquipSlot.BODY, ItemIdentifiers.VIRTUS_ROBE_TOP)
+                || player.getEquipment().hasAt(EquipSlot.LEGS, ItemIdentifiers.VIRTUS_ROBE_BOTTOMS)) {
+                mageStrength += 4.0;
             }
+
         }
+
 
         return mageStrength;
     }

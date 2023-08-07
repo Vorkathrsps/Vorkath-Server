@@ -218,7 +218,7 @@ public final class DefaultShop extends Shop {
 
         player.getPacketSender().sendScrollbarHeight(shopId == 7 ? 64015 : ShopUtility.SCROLL_BAR_INTERFACE_ID, scroll);
         player.getPacketSender().sendItemOnInterface(3823, player.inventory().toArray());
-        players.stream().filter(Objects::nonNull).forEach(p -> player.getPacketSender().sendItemOnInterface(shopId == 7 ? ShopUtility.SLAYER_BUY_ITEM_CHILD_ID : 3900, container.toArray()));
+        players.stream().filter(Objects::nonNull).forEach(p -> player.getPacketSender().sendItemOnInterface(73190, container.toArray()));
         if (restock) {
             if (!needsRestock()) {
                 return;

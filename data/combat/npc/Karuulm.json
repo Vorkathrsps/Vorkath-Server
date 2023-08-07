@@ -30,7 +30,7 @@
       "death": 8272
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.karuulm.WyrmCombatScript"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.karuulm.WyrmCombatScript"
     }
   },
   {
@@ -64,7 +64,7 @@
       "death": 8278
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.karuulm.DrakeCombatScript"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.karuulm.DrakeCombatScript"
     }
   },
   {
@@ -98,7 +98,7 @@
       "death": 8264
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.karuulm.HydraCombatScript"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.karuulm.HydraCombatScript"
     }
   }
 ]

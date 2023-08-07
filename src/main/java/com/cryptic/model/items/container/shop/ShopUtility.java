@@ -21,7 +21,7 @@ public class ShopUtility extends ItemIdentifiers {
     /**
      * The shop interface id.
      */
-    public static final int INTERFACE_ID = 3824;
+    public static final int INTERFACE_ID = 73150;
 
     /**
      * The starting interface child id of items.
@@ -41,13 +41,13 @@ public class ShopUtility extends ItemIdentifiers {
     /**
      * The scrollbar interface id
      */
-    public static final int SCROLL_BAR_INTERFACE_ID = 22995;
+    public static final int SCROLL_BAR_INTERFACE_ID = 73190;
     
     public static final int AMOUNT_STRING_ID = 22996;
 
     public static final int SLAYER_BUY_AMOUNT_STRING_ID = 64017;
 
-    public static final int SHOP_INTERFACE = 3824;
+    public static final int SHOP_INTERFACE = 73150;
 
     public static final int SLAYER_SHOP_INTERFACE = 64000;
 

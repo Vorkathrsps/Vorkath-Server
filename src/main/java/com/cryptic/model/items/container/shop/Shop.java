@@ -101,7 +101,7 @@ public abstract class Shop {
             return;
         }
 
-        player.debugMessage("Closing store for " + player.toString() + ".");
+        player.debugMessage("Closing store for " + player + ".");
         store.close(player);
     }
 
@@ -504,8 +504,7 @@ public abstract class Shop {
 
         Item item = find.get();
 
-        if (item instanceof StoreItem) {
-            StoreItem storeItem = (StoreItem) item;
+        if (item instanceof StoreItem storeItem) {
             int value = storeItem.getShopValue();
             String message = Color.RED.tag() + "The shop will sell this " + item.unnote().name() + " for " + (value <= 0 ? "free!" : Utils.formatValue(value) + storeItem.getShopCurrency(this).toString() + ".");
             if (shopId == 47) {
@@ -539,14 +538,10 @@ public abstract class Shop {
             return true;
         if (obj == null)
             return false;
-        if (!(obj instanceof Shop))
+        if (!(obj instanceof Shop other))
             return false;
-        Shop other = (Shop) obj;
         if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        return true;
+            return other.name == null;
+        } else return name.equals(other.name);
     }
 }

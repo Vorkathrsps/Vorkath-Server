@@ -26,7 +26,7 @@
       "death": 9979
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion"
     }
   },
   {
@@ -56,7 +56,7 @@
       "death": 9980
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion"
     }
   }
 ]

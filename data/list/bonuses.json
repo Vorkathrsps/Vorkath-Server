@@ -52092,7 +52092,7 @@
     "magedef": 6,
     "str": 0,
     "rangestr": 0,
-    "magestr": 0,
+    "magestr": 1,
     "pray": 1
   },
   "26243": {
@@ -52108,7 +52108,7 @@
     "magedef": 31,
     "str": 0,
     "rangestr": 0,
-    "magestr": 0,
+    "magestr": 1,
     "pray": 2
   },
   "26245": {
@@ -52124,7 +52124,7 @@
     "magedef": 22,
     "str": 0,
     "rangestr": 0,
-    "magestr": 0,
+    "magestr": 1,
     "pray": 1
   },
   "27867": {

@@ -16,7 +16,7 @@ public class PriceParser {
         try {
             JsonObject jsonObject = fetchData(apiUrl);
             JsonArray formattedObject = formatData(jsonObject);
-            writeToFile(formattedObject.toString(), "formatted_data.txt");
+            writeToFile(formattedObject.toString());
             System.out.println("Formatted data has been written to the file.");
         } catch (Exception e) {
             System.out.println("An error occurred while fetching, parsing, or writing the data.");
@@ -59,8 +59,8 @@ public class PriceParser {
     }
 
 
-    private static void writeToFile(String data, String fileName) throws IOException {
-        try (FileWriter writer = new FileWriter(fileName)) {
+    private static void writeToFile(String data) throws IOException {
+        try (FileWriter writer = new FileWriter("blood_money_prices.json")) {
             writer.write(data);
         }
     }

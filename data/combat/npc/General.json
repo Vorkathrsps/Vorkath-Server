@@ -77,7 +77,7 @@
       "death": -1
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.thralls.MagicThrall"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.thralls.MagicThrall"
     }
   },
   {
@@ -1718,7 +1718,7 @@
     },
     "scripts": {
       //"droptable": "droptables.ReanimatedMinion",
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.dragons.BasicDragon"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.BasicDragon"
     }
   },
   {
@@ -1749,7 +1749,7 @@
     },
     "scripts": {
       //"droptable": "droptables.ReanimatedMinion",
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.Dagannoths"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.Dagannoths"
     }
   },
   {
@@ -1969,7 +1969,7 @@
       "death": 156
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.RuniteGolem"
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.RuniteGolem"
     }
   },
   {
@@ -2110,7 +2110,7 @@
       ]
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.DarkWizard"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.DarkWizard"
     }
   },
   {
@@ -2153,7 +2153,7 @@
       ]
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.misc.DarkWizard"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.DarkWizard"
     }
   },
   {
@@ -2179,7 +2179,7 @@
       "death": 196
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.SpiritualMage"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.SpiritualMage"
     }
   },
   {
@@ -2206,7 +2206,7 @@
       "death": 836
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.SpiritualMage"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.SpiritualMage"
     }
   },
   {
@@ -2231,7 +2231,7 @@
       "death": 4653
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.WarriorsGuildCyclops"
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.WarriorsGuildCyclops"
     }
   },
   {
@@ -2256,7 +2256,7 @@
       "death": 4653
     },
     "scripts": {
-      "droptable": "com.aelous.model.entity.npc.droptables.impl.WarriorsGuildCyclops"
+      "droptable": "com.cryptic.model.entity.npc.droptables.impl.WarriorsGuildCyclops"
     }
   },
   {
@@ -2348,7 +2348,7 @@
       "death": 5898
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.Barrelchest"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.Barrelchest"
     }
   },
   {
@@ -2493,7 +2493,7 @@
       "block": 6482
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.MaxHitDummyCombatMethod"
+      "combat": "com.cryptic.model.entity.combat.method.impl.MaxHitDummyCombatMethod"
     }
   },
   {
@@ -2846,7 +2846,7 @@
       "death": 92
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.dragons.RuneDragon"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.RuneDragon"
     }
   },
   {
@@ -2885,7 +2885,7 @@
       "death": 92
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.dragons.AdamantDragon"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.AdamantDragon"
     }
   },
   {
@@ -2953,7 +2953,7 @@
       "death": 1541
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.DeathSpawn"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.DeathSpawn"
     }
   },
   {
@@ -2985,7 +2985,7 @@
       "death": 1541
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.superiors.nechryarch.ChaoticDeathSpawnMelee"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.superiors.nechryarch.ChaoticDeathSpawnMelee"
     }
   },
   {
@@ -3017,7 +3017,7 @@
       "death": 1541
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.superiors.nechryarch.ChaoticDeathSpawnRange"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.superiors.nechryarch.ChaoticDeathSpawnRange"
     }
   },
   {
@@ -3049,7 +3049,7 @@
       "death": 1541
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.slayer.superiors.nechryarch.ChaoticDeathSpawnMagic"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.superiors.nechryarch.ChaoticDeathSpawnMagic"
     }
   },
   {
@@ -3085,7 +3085,7 @@
       "death": 92
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.custom.BrutalLavaDragon"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.custom.BrutalLavaDragon"
     }
   },
   {
@@ -3121,7 +3121,7 @@
       "death": 92
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.custom.BrutalLavaDragon"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.custom.BrutalLavaDragon"
     }
   },
   {
@@ -3155,7 +3155,7 @@
       "death": 5575
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.bosses.custom.ZombiesChampion"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.custom.ZombiesChampion"
     }
   },
   {
@@ -3190,7 +3190,7 @@
       "death": 92
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.dragons.BrutalDragons"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.BrutalDragons"
     }
   },
   {
@@ -3225,7 +3225,7 @@
       "death": 92
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.dragons.BrutalDragons"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.BrutalDragons"
     }
   },
   {
@@ -3261,7 +3261,7 @@
       "death": 92
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.dragons.BrutalDragons"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.BrutalDragons"
     }
   },
   {
@@ -3296,7 +3296,7 @@
       "death": 92
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.dragons.BrutalDragons"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.BrutalDragons"
     }
   },
   {
@@ -3331,7 +3331,7 @@
       "death": 92
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.dragons.BrutalDragons"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.dragons.BrutalDragons"
     }
   },
   {
@@ -3366,7 +3366,7 @@
       "death": 2367
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.waterbirth.Wallasalki"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.waterbirth.Wallasalki"
     }
   },
   {

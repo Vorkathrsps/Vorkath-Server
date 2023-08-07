@@ -28,7 +28,7 @@
 	  "death": 4167
 	},
 	"scripts": {
-	  "droptable": "com.aelous.model.entity.npc.droptables.impl.AnimatedArmourDrops"
+	  "droptable": "com.cryptic.model.entity.npc.droptables.impl.AnimatedArmourDrops"
 	}
   },
   {
@@ -60,7 +60,7 @@
 	  "death": 4167
 	},
 	"scripts": {
-	  "droptable": "com.aelous.model.entity.npc.droptables.impl.AnimatedArmourDrops"
+	  "droptable": "com.cryptic.model.entity.npc.droptables.impl.AnimatedArmourDrops"
 	}
   },
   {
@@ -92,7 +92,7 @@
 	  "death": 4167
 	},
 	"scripts": {
-	  "droptable": "com.aelous.model.entity.npc.droptables.impl.AnimatedArmourDrops"
+	  "droptable": "com.cryptic.model.entity.npc.droptables.impl.AnimatedArmourDrops"
 	}
   },
   {
@@ -124,7 +124,7 @@
 	  "death": 4167
 	},
 	"scripts": {
-	  "droptable": "com.aelous.model.entity.npc.droptables.impl.AnimatedArmourDrops"
+	  "droptable": "com.cryptic.model.entity.npc.droptables.impl.AnimatedArmourDrops"
 	}
   },
   {
@@ -156,7 +156,7 @@
 	  "death": 4167
 	},
 	"scripts": {
-	  "droptable": "com.aelous.model.entity.npc.droptables.impl.AnimatedArmourDrops"
+	  "droptable": "com.cryptic.model.entity.npc.droptables.impl.AnimatedArmourDrops"
 	}
   },
   {
@@ -188,7 +188,7 @@
 	  "death": 4167
 	},
 	"scripts": {
-	  "droptable": "com.aelous.model.entity.npc.droptables.impl.AnimatedArmourDrops"
+	  "droptable": "com.cryptic.model.entity.npc.droptables.impl.AnimatedArmourDrops"
 	}
   },
   {
@@ -220,7 +220,7 @@
 	  "death": 4167
 	},
 	"scripts": {
-	  "droptable": "com.aelous.model.entity.npc.droptables.impl.AnimatedArmourDrops"
+	  "droptable": "com.cryptic.model.entity.npc.droptables.impl.AnimatedArmourDrops"
 	}
   }
 ]

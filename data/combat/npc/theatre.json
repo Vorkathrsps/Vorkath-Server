@@ -38,7 +38,7 @@
       "death": 4167
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.verzik.VerzikVitur"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.verzik.VerzikVitur"
     }
   },
   {
@@ -107,7 +107,7 @@
       "death": -1
     },
     "scripts": {
-      "combat": "com.aelous.model.entity.combat.method.impl.npcs.verzik.VerzikPillar"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.verzik.VerzikPillar"
     }
   },
   {
@@ -176,7 +176,7 @@
       "death": 7991
     },
     "scripts": {
-      "combat": "com.aelous.model.content.raids.theatre.nylocas.combat.VasiliasCombat"
+      "combat": "com.cryptic.model.content.raids.theatre.nylocas.combat.VasiliasCombat"
     }
   },
   {

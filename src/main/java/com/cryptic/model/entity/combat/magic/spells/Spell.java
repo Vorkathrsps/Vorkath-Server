@@ -210,12 +210,19 @@ public abstract class Spell {
                     }
                 }
 
-                //Check staff of the dead and don't delete runes at a rate of 1/8
-                if (Utils.percentageChance(12)) {
-                    if (player.getEquipment().hasAt(EquipSlot.WEAPON, STAFF_OF_THE_DEAD) || player.getEquipment().hasAt(EquipSlot.WEAPON, TOXIC_STAFF_OF_THE_DEAD) || player.getEquipment().hasAt(EquipSlot.WEAPON, STAFF_OF_LIGHT)) {
-                        player.message(Color.RED.wrap("Your staff negated your runes for this cast."));
-                        delete = false;
-                    }
+                //Check staff of the dead and don't delete runes at a rate of 1/8\
+                boolean isStaffEquipped = player.getEquipment().hasAt(EquipSlot.WEAPON, STAFF_OF_THE_DEAD) || player.getEquipment().hasAt(EquipSlot.WEAPON, TOXIC_STAFF_OF_THE_DEAD) || player.getEquipment().hasAt(EquipSlot.WEAPON, STAFF_OF_LIGHT);
+
+                if (target instanceof NPC npc && npc.isCombatDummy()) {
+                    delete = false;
+                }
+
+                if (target instanceof NPC npc && !npc.isCombatDummy() && Utils.percentageChance(12) && isStaffEquipped) {
+                    player.message(Color.RED.wrap("Your staff negated your runes for this cast."));
+                    delete = false;
+                } else if (target instanceof Player && Utils.percentageChance(12) && isStaffEquipped) {
+                    player.message(Color.RED.wrap("Your staff negated your runes for this cast."));
+                    delete = false;
                 }
 
                 // We've made it through the checks, so we have the items and can

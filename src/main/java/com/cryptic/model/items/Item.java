@@ -771,10 +771,6 @@ public class Item implements Cloneable {
      */
     public int getValue() {
         final ItemDefinition def = definition(World.getWorld());
-        if (def.pvpAllowed) {
-            System.out.println(this.unnote().name());//doubt it
-            return 0;
-        }
         if (def.noted()) {
             return def.bm.value();
         }

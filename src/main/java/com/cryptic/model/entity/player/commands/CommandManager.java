@@ -698,6 +698,32 @@ public class CommandManager {
         });
 
         dev("m", (p, c, s) -> {
+            int bigWave = 134;
+            int littleWave = 2034;
+
+            Tile centerTile = p.tile();
+
+            World.getWorld().tileGraphic(bigWave, centerTile, 0, 0);
+
+            for (int dx = -1; dx <= 1; dx += 2) {
+                for (int dy = -1; dy <= 1; dy += 2) {
+                    Tile cornerTile = new Tile(centerTile.x + dx, centerTile.y + dy, centerTile.level);
+
+                    World.getWorld().tileGraphic(littleWave, cornerTile, 0, 20);
+                }
+            }
+
+            World.getWorld().tileGraphic(bigWave, centerTile, 0, 40);
+
+            for (int dx = -2; dx <= 2; dx++) {
+                for (int dy = -2; dy <= 2; dy++) {
+                    if ((Math.abs(dx) == 2 || Math.abs(dy) == 2) && (dx != 2 || dy != 2) && (dx != 2 || dy != -2) && (dx != -2 || dy != 2) && (dx != -2 || dy != -2)) {
+                        Tile outlineTile = new Tile(centerTile.x + dx, centerTile.y + dy, centerTile.level);
+
+                        World.getWorld().tileGraphic(littleWave, outlineTile, 0, 40);
+                    }
+                }
+            }
 
         });
 

@@ -11,9 +11,7 @@ import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
  */
 public enum BossEvent {
 
-    CORRUPTED_NECH(CustomNpcIdentifiers.CORRUPTED_NECHRYARCH, "Corrupted Nechryarch"),
-    BRUTAL_LAVA_DRAGON(CustomNpcIdentifiers.BRUTAL_LAVA_DRAGON_FLYING, "Brutal lava dragon"),
-    SKOTIZO(NpcIdentifiers.SKOTIZO, "Skotizo"),
+    REVENANT_MALEDICTUS(11246, "Revenant Maledictus"),
     NOTHING(-1, "Nothing"); // Filler
 
     public final int npc;

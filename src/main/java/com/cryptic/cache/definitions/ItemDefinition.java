@@ -496,29 +496,6 @@ public class ItemDefinition implements Definition {
         return cost *= 0.65;
     }
 
-    public final static Item[] BANK_ITEMS = {
-      new Item(ANCESTRAL_ROBE_BOTTOM),
-      new Item(ANCESTRAL_ROBE_TOP)
-    };
-
-    private boolean nameToLowerCase(String name) {
-        return this.name.toLowerCase().contains(name);
-    }
-
-    public int getKeptOnDeathValue() {
-        return cost;
-    }
-
-    public static int method32(int var0) {
-        --var0;
-        var0 |= var0 >>> 1;
-        var0 |= var0 >>> 2;
-        var0 |= var0 >>> 4;
-        var0 |= var0 >>> 8;
-        var0 |= var0 >>> 16;
-        return var0 + 1;
-    }
-
     public Map<Integer, Object> clientScriptData;
 
     public boolean stackable() {

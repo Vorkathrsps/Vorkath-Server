@@ -12,6 +12,7 @@ import com.cryptic.model.entity.combat.magic.impl.CombatEffectSpell;
 import com.cryptic.model.entity.combat.magic.spells.CombatSpells;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
+import com.cryptic.model.entity.masks.impl.animations.Priority;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.player.MagicSpellbook;
@@ -27,13 +28,21 @@ public class MagicCombatMethod extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         Player player = (Player) entity;
+
         CombatSpell spell = player.getCombat().getCastSpell();
+
         if (spell == null) {
+
             spell = player.getCombat().getAutoCastSpell();
+
             if (spell == null) {
+
                 spell = player.getCombat().getPoweredStaffSpell();
+
             }
+
         }
+
         LogManager.getLogger("dev").info("spell {}", spell);
 
         if (spell == null) {
@@ -105,8 +114,8 @@ public class MagicCombatMethod extends CommonCombatMethod {
             endGraphicHeight = findAutoCastWeaponsData.endGraphicHeight;
         }
 
-        player.animate(new Animation(castAnimation));
-        player.performGraphic(new Graphic(startgraphic, startGraphicHeight, 0));
+        player.animate(new Animation(castAnimation, Priority.HIGH));
+        player.performGraphic(new Graphic(startgraphic, startGraphicHeight, 0, com.cryptic.model.entity.masks.impl.graphics.Priority.HIGH));
 
         var source = spell.spellId() == AncientSpells.ICE_BARRAGE.spellID ? target.tile() : player.tile();
 

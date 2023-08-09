@@ -71,7 +71,7 @@ public class PresetManager {
     /**
      * The presets interface id.
      */
-    private static final int INTERFACE_ID = 62500;
+    private static final int INTERFACE_ID = 73230;
 
     /**
      * Pre-made sets by the server which everyone can use.

@@ -38,6 +38,7 @@ import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.model.map.route.RouteFinder;
 import com.cryptic.model.map.route.routes.TargetRoute;
+import com.cryptic.utility.Color;
 import com.cryptic.utility.Debugs;
 import com.cryptic.utility.chainedwork.Chain;
 import com.cryptic.utility.timers.TimerKey;
@@ -475,6 +476,10 @@ public abstract class Entity {
         return this;
     }
 
+    /**
+     *
+     * @return GAME TICKS UNTIL PROJECTILE REACHES END TILE
+     */
     public int executeProjectile(Projectile projectile) {
         if (projectile == null) {
             return 0;
@@ -1634,7 +1639,7 @@ public abstract class Entity {
         timers.extendOrRegister(TimerKey.FREEZE_IMMUNITY, time + 3);
 
         if (isPlayer()) {
-            ((Player) this).getPacketSender().sendEffectTimer((int) Math.round(time * 0.6), EffectTimer.FREEZE).sendMessage("You have been frozen!");
+            ((Player) this).getPacketSender().sendEffectTimer((int) Math.round(time * 0.6), EffectTimer.FREEZE).sendMessage(Color.RED.wrap("You have been frozen!"));
         }
 
         if (!locked()) {

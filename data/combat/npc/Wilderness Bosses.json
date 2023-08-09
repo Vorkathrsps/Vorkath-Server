@@ -408,6 +408,42 @@
   },
   {
     "ids": [
+      11246
+    ],
+    "aggressive": true,
+    "boss": true,
+    "aggroradius": 4,
+    "maxhit": 30,
+    "slayerxp": 253,
+    "respawntime": 50,
+    "stats": {
+      "attack": 106,
+      "magic": 130,
+      "strength": 126,
+      "defence": 90,
+      "ranged": 130,
+      "hitpoints": 1250
+    },
+    "bonuses": {
+      "attack": 72,
+      "strength": 78,
+      "magic": 60,
+      "ranged": 265,
+      "stabdefence": 201,
+      "slashdefence": 206,
+      "crushdefence": 188,
+      "rangeddefence": 231,
+      "magicdefence": 101
+    },
+    "animations": {
+      "death": 9280
+    },
+    "scripts": {
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.revenants.RevenantMaledictus"
+    }
+  },
+  {
+    "ids": [
       7806
     ],
     "aggressive": true,

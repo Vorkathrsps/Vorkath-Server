@@ -732,17 +732,18 @@ public class Bank extends ItemContainer {
             return true;
         }
         switch (button) {
-            case 26102:
+            case 26102 -> {
                 return true;
-
-            case 26106:
+            }
+            case 26106 -> {
                 openSettings();
                 return true;
-
-            case 26119:
-                player.getInterfaceManager().open(15106);
+            }
+            case 26119 -> {
+                player.getInterfaceManager().open(73230);
                 player.getPacketSender().sendInterfaceDisplayState(15150, false);
                 return true;
+            }
 
            /* case 34035: player.putAttrib(FILLER_AMT, 1);
                 return true;
@@ -780,8 +781,7 @@ public class Bank extends ItemContainer {
                 return true;*/
 
             // Release Placeholders
-            case 26072:
-            case 34024:
+            case 26072, 34024 -> {
                 int count = 0;
                 boolean toggle = player.getBank().placeHolder;
                 player.getBank().placeHolder = false;
@@ -803,49 +803,50 @@ public class Bank extends ItemContainer {
                 player.message(count == 0 ? "You don't have any placeholders to release." : "You have released " + count + " placeholders.");
                 player.getPacketSender().sendString(34024, "Release all placeholders (" + player.getBank().placeHolderAmount + ")");
                 return true;
+            }
 
             // Placeholders
-            case 26101:
+            case 26101 -> {
                 boolean active = player.getBank().placeHolder = !player.getBank().placeHolder;
                 player.getPacketSender().setWidgetActive(26101, active);
                 return true;
+            }
 
             /* Deposit Inventory */
-            case 26103:
+            case 26103 -> {
                 depositInventory();
                 return true;
+            }
 
             /* Deposit Equipment */
-            case 26104:
+            case 26104 -> {
                 depositeEquipment();
                 return true;
-
-            case 5386:
+            }
+            case 5386 -> {
                 noting = true;
                 return true;
-
-            case 5387:
+            }
+            case 5387 -> {
                 noting = false;
                 return true;
-
-            case 8130:
+            }
+            case 8130 -> {
                 inserting = false;
                 return true;
-
-            case 8131:
+            }
+            case 8131 -> {
                 inserting = true;
                 return true;
+            }
 
             /* Close Bank */
-            case 26002:
+            case 26002 -> {
                 player.getInterfaceManager().close();
                 return true;
-
-            case 26905:
-                player.getLootingBag().depositLootingBag();
-                break;
-
-            case 26108: // Quantity all
+            }
+            case 26905 -> player.getLootingBag().depositLootingBag();
+            case 26108 -> { // Quantity all
                 quantityAll = true;
                 quantityOne = false;
                 quantityFive = false;
@@ -857,8 +858,8 @@ public class Bank extends ItemContainer {
                 player.getPacketSender().sendConfig(317, 0);
                 player.getPacketSender().sendConfig(320, 0);
                 return true;
-
-            case 26109: // Quantity X
+            }
+            case 26109 -> { // Quantity X
                 player.setAmountScript("How many would you like to deposit/withdraw?", new InputScript() {
 
                     @Override
@@ -880,9 +881,8 @@ public class Bank extends ItemContainer {
                 player.getPacketSender().sendConfig(316, 0);
                 player.getPacketSender().sendConfig(317, 0);
                 player.getPacketSender().sendConfig(320, 0);
-                break;
-
-            case 26110: // Quantity ten
+            }
+            case 26110 -> { // Quantity ten
                 quantityTen = true;
                 quantityOne = false;
                 quantityFive = false;
@@ -893,9 +893,8 @@ public class Bank extends ItemContainer {
                 player.getPacketSender().sendConfig(316, 1);
                 player.getPacketSender().sendConfig(317, 0);
                 player.getPacketSender().sendConfig(320, 0);
-                break;
-
-            case 26111: // Quantity five
+            }
+            case 26111 -> { // Quantity five
                 quantityFive = true;
                 quantityOne = false;
                 quantityTen = false;
@@ -906,9 +905,8 @@ public class Bank extends ItemContainer {
                 player.getPacketSender().sendConfig(316, 0);
                 player.getPacketSender().sendConfig(317, 1);
                 player.getPacketSender().sendConfig(320, 0);
-                break;
-
-            case 26112: //Quantity one
+            }
+            case 26112 -> { //Quantity one
                 quantityOne = true;
                 quantityFive = false;
                 quantityTen = false;
@@ -919,23 +917,10 @@ public class Bank extends ItemContainer {
                 player.getPacketSender().sendConfig(316, 0);
                 player.getPacketSender().sendConfig(317, 0);
                 player.getPacketSender().sendConfig(320, 1);
-                break;
-
-            case 34004:
-                player.getBank().open();
-                break;
-
-            case 34016:
-            case 34017:
-            case 34018:
-            case 34019:
-            case 34020:
-            case 34021:
-                player.message("This option is unavailable.");
-                break;
-
-            case 34008:
-            case 34009:
+            }
+            case 34004 -> player.getBank().open();
+            case 34016, 34017, 34018, 34019, 34020, 34021 -> player.message("This option is unavailable.");
+            case 34008, 34009 -> {
                 player.getBank().show_item_in_tab = !player.getBank().show_item_in_tab;
                 player.getPacketSender().sendConfig(750, show_item_in_tab ? 1 : 0);
 
@@ -944,10 +929,8 @@ public class Bank extends ItemContainer {
                 player.getPacketSender().sendConfig(751, 0);
                 player.getBank().show_roman_number_in_tab = false;
                 player.getPacketSender().sendConfig(752, 0);
-                break;
-
-            case 34010:
-            case 34011:
+            }
+            case 34010, 34011 -> {
                 player.getBank().show_number_in_tab = !player.getBank().show_number_in_tab;
                 player.getPacketSender().sendConfig(751, show_number_in_tab ? 1 : 0);
 
@@ -956,10 +939,8 @@ public class Bank extends ItemContainer {
                 player.getPacketSender().sendConfig(750, 0);
                 player.getBank().show_roman_number_in_tab = false;
                 player.getPacketSender().sendConfig(752, 0);
-                break;
-
-            case 34012:
-            case 34013:
+            }
+            case 34012, 34013 -> {
                 player.getBank().show_roman_number_in_tab = !player.getBank().show_roman_number_in_tab;
                 player.getPacketSender().sendConfig(752, show_roman_number_in_tab ? 1 : 0);
 
@@ -968,7 +949,7 @@ public class Bank extends ItemContainer {
                 player.getPacketSender().sendConfig(750, 0);
                 player.getBank().show_number_in_tab = false;
                 player.getPacketSender().sendConfig(751, 0);
-                break;
+            }
         }
 
         return false;

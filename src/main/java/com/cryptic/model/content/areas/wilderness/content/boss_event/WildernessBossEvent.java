@@ -60,7 +60,7 @@ public class WildernessBossEvent {
         new Tile(3166, 4788),//east of chins
         new Tile(3304, 3898),//gdz
         new Tile(3307, 3934),//52s
-        new Tile(3219,3661),//east of graves
+        new Tile(3219, 3661),//east of graves
     };
 
     public static Tile currentSpawnPos;
@@ -79,7 +79,7 @@ public class WildernessBossEvent {
     /**
      * The rotation of events, executed in sequence.
      */
-    private static final BossEvent[] EVENT_ROTATION = {BossEvent.CORRUPTED_NECH, BossEvent.SKOTIZO, BossEvent.BRUTAL_LAVA_DRAGON};
+    private static final BossEvent[] EVENT_ROTATION = {BossEvent.REVENANT_MALEDICTUS};
 
     public static boolean ANNOUNCE_5_MIN_TIMER = false;
 
@@ -94,7 +94,7 @@ public class WildernessBossEvent {
             player.message(Color.RED.wrap("You've dealt " + hits.getDamage() + " damage to the world boss!"));
             // Only people nearby are rewarded. This is to avoid people 'poking' the boss to do some damage
             // without really risking being there.
-            if (entity.tile().isWithinDistance(player.tile(),10) && hits.getDamage() >= 1) {
+            if (entity.tile().isWithinDistance(player.tile(), 10) && hits.getDamage() >= 1) {
                 NPC npc = null;
                 if (activeNpc.isPresent()) {
                     npc = activeNpc.get();
@@ -105,15 +105,15 @@ public class WildernessBossEvent {
                 }
 
                 //Always drops
-                if(npc.id() == SKOTIZO || npc.id() == TEKTON_7542) {
+                if (npc.id() == SKOTIZO || npc.id() == TEKTON_7542) {
                     GroundItemHandler.createGroundItem(new GroundItem(new Item(ASHES), npc.tile(), player));
                 }
 
-                if(npc.id() == CORRUPTED_NECHRYARCH) {
+                if (npc.id() == CORRUPTED_NECHRYARCH) {
                     GroundItemHandler.createGroundItem(new GroundItem(new Item(ASHES), npc.tile(), player));
                 }
 
-                if(npc.id() == BRUTAL_LAVA_DRAGON_FLYING) {
+                if (npc.id() == BRUTAL_LAVA_DRAGON_FLYING) {
                     GroundItemHandler.createGroundItem(new GroundItem(new Item(LAVA_DRAGON_BONES), npc.tile(), player));
                 }
 
@@ -165,34 +165,27 @@ public class WildernessBossEvent {
         LocalDateTime now = LocalDateTime.now();
         long difference = now.until(next, ChronoUnit.SECONDS);
         if (difference < 60 && displaySeconds) {
-            return difference+" seconds";
+            return difference + " seconds";
         }
         difference = now.until(next, ChronoUnit.MINUTES);
         if (difference <= 2) {
-            return 1+difference+" minutes";
+            return 1 + difference + " minutes";
         } else if (difference <= 59) {
-            return difference+" minutes";
+            return difference + " minutes";
         } else {
-            return (difference / 60)+"h "+difference % 60+"min";
+            return (difference / 60) + "h " + difference % 60 + "min";
         }
     }
 
-    boolean nextIsCorruptedNech;
     int lastEvent = 0;
 
     public void startBossEvent() {
         // First despawn the npc if existing
         terminateActiveEvent(true);
 
-        if (nextIsCorruptedNech) {
-            nextIsCorruptedNech = false;
-            activeEvent = BossEvent.CORRUPTED_NECH;
-        } else {
-            if (++lastEvent > EVENT_ROTATION.length - 1) // reset when its at the end
-                lastEvent = 0;
-            activeEvent = EVENT_ROTATION[lastEvent];
-            nextIsCorruptedNech = true;
-        }
+        if (++lastEvent > EVENT_ROTATION.length - 1)
+            lastEvent = 0;
+        activeEvent = EVENT_ROTATION[lastEvent];
 
         // Only if it's an actual boss we spawn an NPC.
         if (activeEvent != BossEvent.NOTHING) {
@@ -206,7 +199,7 @@ public class WildernessBossEvent {
             NPC boss = new NPC(activeEvent.npc, tile);
             boss.respawns(false);
             boss.walkRadius(1);
-            boss.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE,1);
+            boss.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 1);
             World.getWorld().registerNpc(boss);
 
             Utils.sendDiscordInfoLog("The wilderness event boss has been spawned: " + boss.def().name + " at " + tile.toString() + ".");

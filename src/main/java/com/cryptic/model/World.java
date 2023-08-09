@@ -832,12 +832,19 @@ public class World {
         return active.heightMap[tile.level % 4][tile.x & 63][tile.y & 63];
     }
 
-    public void tileGraphic(int id, Tile tile, int height, int delay) {
+    public void syncTileGraphic(int id, Tile tile, int height, int delay) {
         players.forEach(p -> {
             if (p.getZ() != tile.getZ()) return;
             // if (p.activeArea().contains(tile)) {
             p.getPacketSender().sendTileGraphic(id, tile, height, delay);
             //  }
+        });
+    }
+
+    public void tileGraphic(int id, Tile tile, int height, int delay) {
+        players.forEach(p -> {
+            if (p.getZ() != tile.getZ()) return;
+            p.getPacketSender().sendTileGraphic(id, tile, height, delay);
         });
     }
 

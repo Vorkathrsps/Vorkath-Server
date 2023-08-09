@@ -142,6 +142,22 @@ public final class Projectile {
     }
 
     public Projectile(Tile source, Tile victim, int projectileId,
+                      int delay, int speed, int startHeight, int endHeight, int curve, int creatorSize, int startDistanceOffset, int stepMultiplier) {
+        this(source,
+            victim,
+            0,
+            projectileId,
+            speed,
+            delay,
+            startHeight,
+            endHeight,
+            curve,
+            creatorSize,
+            startDistanceOffset,
+            stepMultiplier);
+    }
+
+    public Projectile(Tile source, Tile victim, int projectileId,
                       int delay, int speed, int startHeight, int endHeight, int curve, int creatorSize, int stepMultiplier) {
         this(source, victim,
             0, projectileId, speed, delay,
@@ -372,12 +388,17 @@ public final class Projectile {
     public static final float CLIENT_CYCLE = 20F;
 
     public static final float CYCLES_PER_TICK = TICK / CLIENT_CYCLE;
+
+    /**
+     *
+     * @return GAME TICKS UNTIL PROJECTILE REACHES END TILE
+     */
     public int getTime(final Tile from, final Tile to) {
         float duration = getProjectileDuration(from, to) / CYCLES_PER_TICK;
         if (duration - (int) duration > 0.5F) {
             duration++;
         }
-        return Math.max(0, (int) duration - 1);
+        return Math.max(0, (int) duration - 1); // this is in ticks right? yeah copied from zenyte
     }
 
     public int getProjectileDuration(final Tile from, final Tile to) {
@@ -446,10 +467,18 @@ public final class Projectile {
         this.offset = null; // set in send()
     }
 
+    /**
+     *
+     * @return GAME TICKS UNTIL PROJECTILE REACHES END TILE
+     */
     public int send(Entity mob, Tile pos) {
         return send(mob, pos.getX(), pos.getY());
     }
 
+    /**
+     *
+     * @return GAME TICKS UNTIL PROJECTILE REACHES END TILE
+     */
     public int send(Entity mob, int targetX, int targetY) {
         Projectile projectile = new Projectile(
             mob.getCentrePosition(),

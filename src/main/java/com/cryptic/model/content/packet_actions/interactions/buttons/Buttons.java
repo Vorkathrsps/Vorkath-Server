@@ -289,11 +289,12 @@ public class Buttons {
             }
             case TOGGLE_EXP_LOCK -> {
                 boolean locked = player.getAttribOr(AttributeKey.XP_LOCKED, false);
-                player.putAttrib(AttributeKey.XP_LOCKED, locked);
-                if (!locked) {
-                    player.message("Your experience is now <col=ca0d0d>locked.");
+                if (locked) {
+                    player.putAttrib(AttributeKey.XP_LOCKED, false);
+                    player.message("Your experience is now unlocked.");
                 } else {
-                    player.message("Your experience is now <col=65280>unlocked.");
+                    player.putAttrib(AttributeKey.XP_LOCKED, true);
+                    player.message("Your experience is now locked.");
                 }
             }
             default -> {

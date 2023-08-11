@@ -447,7 +447,9 @@ public final class PacketSender {
      */
     public PacketSender updateSkill(int skill, int level, int xp) {
         PacketBuilder out = new PacketBuilder(134);
-        out.put(skill).putInt(xp, ByteOrder.MIDDLE).put(level);
+        out.put(skill);
+        out.putInt(xp, ByteOrder.MIDDLE);
+        out.put(level);
         player.getSession().write(out);
         return this;
     }

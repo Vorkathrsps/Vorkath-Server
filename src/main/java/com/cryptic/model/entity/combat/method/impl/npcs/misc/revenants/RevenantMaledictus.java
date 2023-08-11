@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RevenantMaledictus extends CommonCombatMethod {
-    int[] rangeAnimations = new int[]{9278, 9279};
+    int[] animations = new int[]{9278, 9279};
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         if (entity == null || entity.dead()) {
@@ -100,7 +100,7 @@ public class RevenantMaledictus extends CommonCombatMethod {
     }
 
     void iceOrBlood(Entity npc, Entity target) {
-        var randomAnimation = Utils.randomElement(rangeAnimations);
+        var randomAnimation = Utils.randomElement(animations);
         npc.animate(randomAnimation);
         int tileDist = npc.tile().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
@@ -108,12 +108,12 @@ public class RevenantMaledictus extends CommonCombatMethod {
         Projectile p = new Projectile(tile, target, 2033, 41, duration, 40, 36, 15, 5, 5);
         final int delay = npc.executeProjectile(p);
         var damage = (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) ? Utils.random(1, 15) : Utils.random(1, 30);
-        if (npc.getAnimation().getId() == rangeAnimations[1]) {
+        if (npc.getAnimation().getId() == animations[1]) {
             target.hit(npc, damage, delay);
             if (damage > 1) {
                 npc.healHit(npc, damage / 2);
             }
-        } else if (npc.getAnimation().getId() == rangeAnimations[0]) {
+        } else if (npc.getAnimation().getId() == animations[0]) {
             target.hit(npc, damage, delay);
             if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC) && !target.frozen()) {
                 target.freeze(15, npc);

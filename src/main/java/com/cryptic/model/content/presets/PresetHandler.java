@@ -28,6 +28,11 @@ public class PresetHandler extends PacketInteraction {
     public ItemContainer container;
     private static final int PRESET_BUTTON_ID = 73235;
     private static final int EDIT_BUTTON_ID = 73234;
+    private static final int SPELLBOOK_STRING_ID = 73237;
+    private static final int EQUIPMENT_CONTAINER_ID = 73251;
+    private static final int INVENTORY_CONTAINER_ID = 73239;
+    private static final int PRE_MADE_PRESET_NAME_STRINGS = 73271;
+    private static final int PRAYER_STRING_ID = 73238;
     private static final int INVENTORY_SIZE = 28;
     int[] preMadeKitButtons = new int[]{73271, 73272, 73273, 73275, 73277, 73279, 73281, 73283, 73285};
     int[] createKitStrings = new int[]{73272, 73274, 73276, 73278, 73280, 73282, 73284, 73286};
@@ -173,8 +178,7 @@ public class PresetHandler extends PacketInteraction {
      */
     void resetContainers(Player player) {
         for (int index = 0; index < 11; index++) {
-            int id = 73251;
-            sendItemsToInterface(player, id, -1, index,  1);
+            sendItemsToInterface(player, EQUIPMENT_CONTAINER_ID, -1, index,  1);
         }
         if (container != null) {
             container.clear();
@@ -187,9 +191,8 @@ public class PresetHandler extends PacketInteraction {
      * @param player the player
      */
     void sendPreMadePresetStrings(Player player) {
-        for (int i = 0; i < presetNames.length; i++) {
-            int id = 73271;
-            player.getPacketSender().sendString(id + i, presetNames[i]);
+        for (int index = 0; index < presetNames.length; index++) {
+            player.getPacketSender().sendString(PRE_MADE_PRESET_NAME_STRINGS + index, presetNames[index]);
         }
     }
 
@@ -201,7 +204,7 @@ public class PresetHandler extends PacketInteraction {
     void sendInventoryContainer(Player player, PresetKits presetKits) {
         container = new ItemContainer(INVENTORY_SIZE, ItemContainer.StackPolicy.STANDARD);
         container.addAll(presetKits.getInventoryItemList());
-        player.getPacketSender().sendItemOnInterface(73239, container.toArray());
+        player.getPacketSender().sendItemOnInterface(INVENTORY_CONTAINER_ID, container.toArray());
     }
 
     /**
@@ -213,8 +216,7 @@ public class PresetHandler extends PacketInteraction {
         container = new ItemContainer(INVENTORY_SIZE, ItemContainer.StackPolicy.STANDARD);
         container.addAll(presetKits.getEquipmentItemList());
         for (int index = 0; index < 11; index++) {
-            int id = 73251;
-            sendItemsToInterface(player, id, container.get(index).getId(), index, container.get(index).getAmount());
+            sendItemsToInterface(player, EQUIPMENT_CONTAINER_ID, container.get(index).getId(), index, container.get(index).getAmount());
         }
     }
 
@@ -236,7 +238,7 @@ public class PresetHandler extends PacketInteraction {
      * @param player the player
      */
     void sendSpellbookString(Player player, PresetKits presetKits) {
-        player.getPacketSender().sendString(73237, presetKits.getSpellbook().name().toLowerCase());
+        player.getPacketSender().sendString(SPELLBOOK_STRING_ID, presetKits.getSpellbook().name().toLowerCase());
     }
 
     /**
@@ -245,7 +247,7 @@ public class PresetHandler extends PacketInteraction {
      * @param player the player
      */
     void sendPrayerString(Player player) {
-        player.getPacketSender().sendString(73238, "Regular");
+        player.getPacketSender().sendString(PRAYER_STRING_ID, "Regular");
     }
 
     /**

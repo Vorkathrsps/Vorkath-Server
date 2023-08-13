@@ -43,6 +43,7 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Handles Packet Interaction
+     *
      * @param player the player
      * @param button the button
      * @return true / false
@@ -79,6 +80,7 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Button Validation
+     *
      * @param player
      * @param button
      */
@@ -92,6 +94,7 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Preset Function Handler
+     *
      * @param player
      */
     void handlePresetFunction(Player player) {
@@ -103,6 +106,7 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Apply our preset
+     *
      * @param player
      * @param presetKits
      */
@@ -116,6 +120,7 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Clear the attributes that we're not currently matching with and apply / keep the correct one
+     *
      * @param player
      * @param attributeKeyToKeep
      */
@@ -127,6 +132,7 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Identify which unique button is tied to the button we're interacting with
+     *
      * @param button
      * @return
      */
@@ -136,6 +142,7 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Identify which preset we're currently on
+     *
      * @param player
      * @return
      */
@@ -145,6 +152,7 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Rebuilds the interface
+     *
      * @param player
      */
     void rebuildInterface(Player player, PresetKits presetKits) {
@@ -177,6 +185,7 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Sends the pre-made kit strings
+     *
      * @param player
      */
     void sendPreMadePresetStrings(Player player) {
@@ -188,6 +197,7 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Sends the inventory item container
+     *
      * @param player
      */
     void sendInventoryContainer(Player player, PresetKits presetKits) {
@@ -198,6 +208,7 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Sends the equipment item container
+     *
      * @param player
      */
     void sendEquipmentContainer(Player player, PresetKits presetKits) {
@@ -211,6 +222,7 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Sends The Spellbook String
+     *
      * @param player
      */
     void sendSpellbookString(Player player, PresetKits presetKits) {
@@ -219,6 +231,7 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Sends the prayers string
+     *
      * @param player
      */
     void sendPrayerString(Player player) {
@@ -227,19 +240,31 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Applys Experience To Designated Skills
+     *
      * @param player
      */
     void applyExperience(Player player, PresetKits presetKits) {
         int[] changeLevelsTo = presetKits.getAlterLevels();
         if (!WildernessArea.isInWilderness(player)) {
-            IntStream.range(0, presetKits.getCurrentLevels().length).forEachOrdered(i -> player.skills().alterSkillsArray(player, presetKits.getCurrentLevels()[i], changeLevelsTo[i]));
+            checkInclusivesFor(presetKits).forEachOrdered(i -> player.skills().alterSkillsArray(player, presetKits.getCurrentLevels()[i], changeLevelsTo[i]));
         } else {
             player.message(Color.RED.wrap("You cannot perform this action while in the wilderness."));
         }
     }
 
     /**
+     * a sequential IntStream for the range of int elements
+     *
+     * @param presetKits
+     * @return
+     */
+    IntStream checkInclusivesFor(PresetKits presetKits) {
+        return IntStream.range(0, presetKits.getCurrentLevels().length);
+    }
+
+    /**
      * Apply the Preset Equipment
+     *
      * @param player
      * @param presetKits
      */
@@ -261,6 +286,7 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Method to change our spellbook
+     *
      * @param player
      * @param presetKits
      */
@@ -273,6 +299,7 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Apply the preset inventory
+     *
      * @param player
      * @param presetKits
      */
@@ -295,6 +322,7 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Remove item from the players bank
+     *
      * @param player
      * @param item
      * @return
@@ -305,6 +333,7 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Returns true/false if player's bank contains an item
+     *
      * @param player
      * @param item
      * @return
@@ -315,6 +344,7 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Returns presets equipment list
+     *
      * @param presetKits
      * @return
      */
@@ -324,6 +354,7 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Streams inventory list
+     *
      * @param presetKits
      * @return
      */
@@ -333,6 +364,7 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Update Our Players Attributes
+     *
      * @param player
      */
     void updatePlayer(Player player) {

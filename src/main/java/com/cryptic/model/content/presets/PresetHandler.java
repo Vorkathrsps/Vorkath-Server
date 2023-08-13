@@ -2,6 +2,7 @@ package com.cryptic.model.content.presets;
 
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ItemWeight;
 import com.cryptic.model.items.container.ItemContainer;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
@@ -213,6 +214,7 @@ public class PresetHandler extends PacketInteraction {
                 if (!player.getBank().contains(item)) {
                     player.message(item.getAmount() == 0 ? "Item not found: " + Color.RED.wrap("" + item.name()) : "Item not found: " + Color.RED.wrap("" + item.name()) + " Amount: " + Color.RED.wrap("x" + item.getAmount()));
                 } else {
+                    player.getBank().remove(new Item(item, item.getAmount()));
                     player.getEquipment().manualWear(item, true, false);
                 }
             });
@@ -234,6 +236,7 @@ public class PresetHandler extends PacketInteraction {
                 if (!player.getBank().contains(i)) {
                     player.message(i.getAmount() == 0 ? "Item not found: " + Color.RED.wrap("" + i.name()) : "Item not found: " + Color.RED.wrap("" + i.name()) + " Amount: " + Color.RED.wrap("x" + i.getAmount()));
                 } else {
+                    player.getBank().remove(new Item(i, i.getAmount()));
                     player.getInventory().add(i);
                 }
             });

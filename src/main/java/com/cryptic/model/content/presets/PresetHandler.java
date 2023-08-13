@@ -23,8 +23,9 @@ import java.util.stream.IntStream;
 public class PresetHandler extends PacketInteraction {
 
     public ItemContainer container;
-    final int INVENTORY_SIZE = 28;
-    PresetKits[] kits = PresetKits.values();
+    private static final int PRESET_BUTTON_ID = 73235;
+    private static final int EDIT_BUTTON_ID = 73234;
+    private static final int INVENTORY_SIZE = 28;
     int[] preMadeKitButtons = new int[]{73271, 73272, 73273, 73275, 73277, 73279, 73281, 73283, 73285};
     int[] createKitStrings = new int[]{73272, 73274, 73276, 73278, 73280, 73282, 73284, 73286};
     int[] createKitButtons = new int[]{73296, 73297, 73298, 73299, 73300, 73301, 73302, 73303};
@@ -35,6 +36,8 @@ public class PresetHandler extends PacketInteraction {
         "Main - Hybrid", "Zerker - Hybrid"
     };
     AttributeKey[] attributeKeys = new AttributeKey[]{AttributeKey.PURE_MELEE_PRESET, AttributeKey.MAIN_MELEE_PRESET, AttributeKey.ZERKER_MELEE_PRESET};
+    PresetKits[] kits = PresetKits.values();
+    boolean canEdit = true;
 
     /**
      * Handles Packet Interaction
@@ -45,39 +48,72 @@ public class PresetHandler extends PacketInteraction {
      */
     @Override
     public boolean handleButtonInteraction(Player player, int button) {
-        if (!player.getTimers().has(TimerKey.ANTI_SPAM)) {
-            player.getTimers().register(TimerKey.ANTI_SPAM, 3);
-            if (ArrayUtils.contains(preMadeKitButtons, button)) {
-                findMatchingButtonIdentificationFor(button).ifPresent(p -> {
-                    clearAttributesExcept(player, p.getAttributeKey());
-                    player.putAttrib(p.getAttributeKey(), true);
-                    rebuildInterface(player, p);
-                });
-                return true;
-            }
-
-            if (button == 73235) {
-                findMatchingAttributeFor(player).ifPresent(presetKits -> {
-                    applyExperience(player, presetKits);
-                    applyEquipment(player, presetKits);
-                    applyInventory(player, presetKits);
-                    applySpellBook(player, presetKits);
-                    updatePlayer(player);
-                });
-                return true;
-            }
-
-            if (button == 73234) {
-                for (var a : attributeKeys) {
-                    if (player.hasAttrib(a)) {
-                        player.message(Color.RED.wrap("You cannot edit a pre-made preset."));
-                        return false;
-                    }
-                }
-                return true;
-            }
+        if (player.getTimers().has(TimerKey.ANTI_SPAM)) {
+            return false;
         }
+
+        player.getTimers().register(TimerKey.ANTI_SPAM, 3);
+
+        var isPreMadeKit = ArrayUtils.contains(preMadeKitButtons, button);
+
+        if (isPreMadeKit) {
+            handleButtonValidation(player, button);
+            return true;
+        } else if (button == PRESET_BUTTON_ID) {
+            handlePresetFunction(player);
+            return true;
+        } else if (button == EDIT_BUTTON_ID) {
+            for (var a : attributeKeys) {
+                if (player.hasAttrib(a)) {
+                    player.message(Color.RED.wrap("You cannot edit a pre-made preset."));
+                    canEdit = false;
+                    break;
+                }
+            }
+            return canEdit;
+        }
+
         return false;
+    }
+
+    /**
+     * Button Validation
+     *
+     * @param player
+     * @param button
+     */
+    void handleButtonValidation(Player player, int button) {
+        findMatchingButtonIdentificationFor(button).ifPresent(p -> {
+            clearAttributesExcept(player, p.getAttributeKey());
+            player.putAttrib(p.getAttributeKey(), true);
+            rebuildInterface(player, p);
+        });
+    }
+
+    /**
+     * Preset Function Handler
+     *
+     * @param player
+     */
+    void handlePresetFunction(Player player) {
+        findMatchingAttributeFor(player).ifPresent(presetKits -> {
+            applyPreset(player, presetKits);
+        });
+    }
+
+
+    /**
+     * Apply our preset
+     *
+     * @param player
+     * @param presetKits
+     */
+    void applyPreset(Player player, PresetKits presetKits) {
+        applyExperience(player, presetKits);
+        applyEquipment(player, presetKits);
+        applyInventory(player, presetKits);
+        applySpellBook(player, presetKits);
+        updatePlayer(player);
     }
 
     /**
@@ -86,7 +122,7 @@ public class PresetHandler extends PacketInteraction {
      * @param player
      * @param attributeKeyToKeep
      */
-    private void clearAttributesExcept(Player player, AttributeKey attributeKeyToKeep) {
+    void clearAttributesExcept(Player player, AttributeKey attributeKeyToKeep) {
         Arrays.stream(attributeKeys)
             .filter(a -> player.hasAttrib(a) && !a.equals(attributeKeyToKeep))
             .forEach(player::clearAttrib);
@@ -238,6 +274,7 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Method to change our spellbook
+     *
      * @param player
      * @param presetKits
      */

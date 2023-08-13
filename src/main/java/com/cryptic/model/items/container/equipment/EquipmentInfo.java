@@ -660,7 +660,7 @@ public class EquipmentInfo {
             case HAMMER -> 401;
             case BOW -> 426;
             case CROSSBOW -> 4230;
-            case LONGSWORD -> style == 2 ? 386 : 390;
+            case LONGSWORD, STABSWORD -> style == 2 ? 386 : 390;
             case TWOHANDED -> style == 2 ? 406 : 407;
             case PICKAXE, MACE -> style == 2 ? 400 : 401;
             case DAGGER -> style == 2 ? 377 : 376;

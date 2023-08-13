@@ -1,6 +1,7 @@
 package com.cryptic.model.content.presets;
 
 import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.model.entity.player.MagicSpellbook;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ItemWeight;
@@ -8,6 +9,7 @@ import com.cryptic.model.items.container.ItemContainer;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Color;
+import com.cryptic.utility.timers.TimerKey;
 import org.apache.commons.lang.ArrayUtils;
 
 import java.util.Arrays;
@@ -43,25 +45,38 @@ public class PresetHandler extends PacketInteraction {
      */
     @Override
     public boolean handleButtonInteraction(Player player, int button) {
-        if (ArrayUtils.contains(preMadeKitButtons, button)) {
-            findMatchingButtonIdentificationFor(button).ifPresent(p -> {
-                clearAttributesExcept(player, p.getAttributeKey());
-                player.putAttrib(p.getAttributeKey(), true);
-                rebuildInterface(player, p);
-            });
-            return true;
-        }
+        if (!player.getTimers().has(TimerKey.ANTI_SPAM)) {
+            player.getTimers().register(TimerKey.ANTI_SPAM, 5);
+            if (ArrayUtils.contains(preMadeKitButtons, button)) {
+                findMatchingButtonIdentificationFor(button).ifPresent(p -> {
+                    clearAttributesExcept(player, p.getAttributeKey());
+                    player.putAttrib(p.getAttributeKey(), true);
+                    rebuildInterface(player, p);
+                });
+                return true;
+            }
 
-        if (button == 73235) {
-            findMatchingAttributeFor(player).ifPresent(p -> {
-                applyExperience(player, p);
-                applyEquipment(player, p);
-                applyInventory(player, p);
-                updatePlayer(player);
-            });
-            return true;
-        }
+            if (button == 73235) {
+                findMatchingAttributeFor(player).ifPresent(presetKits -> {
+                    applyExperience(player, presetKits);
+                    applyEquipment(player, presetKits);
+                    applyInventory(player, presetKits);
+                    applySpellBook(player, presetKits);
+                    updatePlayer(player);
+                });
+                return true;
+            }
 
+            if (button == 73234) {
+                for (var a : attributeKeys) {
+                    if (player.hasAttrib(a)) {
+                        player.message(Color.RED.wrap("You cannot edit a pre-made preset."));
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
         return false;
     }
 
@@ -107,10 +122,10 @@ public class PresetHandler extends PacketInteraction {
             if (!WildernessArea.isInWilderness(player)) {
                 resetContainers(player);
                 sendPreMadePresetStrings(player);
-                sendInventory(player, presetKits);
-                sendEquipment(player, presetKits);
-                sendSpellbook(player, presetKits);
-                sendPrayers(player);
+                sendInventoryContainer(player, presetKits);
+                sendEquipmentContainer(player, presetKits);
+                sendSpellbookString(player, presetKits);
+                sendPrayerString(player);
             } else {
                 player.message(Color.RED.wrap("You cannot perform this action while in the wilderness."));
             }
@@ -147,7 +162,7 @@ public class PresetHandler extends PacketInteraction {
      *
      * @param player
      */
-    void sendInventory(Player player, PresetKits presetKits) {
+    void sendInventoryContainer(Player player, PresetKits presetKits) {
         container = new ItemContainer(INVENTORY_SIZE, ItemContainer.StackPolicy.STANDARD);
         container.addAll(presetKits.getInventoryItemList());
         player.getPacketSender().sendItemOnInterface(73239, container.toArray());
@@ -158,7 +173,7 @@ public class PresetHandler extends PacketInteraction {
      *
      * @param player
      */
-    void sendEquipment(Player player, PresetKits presetKits) {
+    void sendEquipmentContainer(Player player, PresetKits presetKits) {
         container = new ItemContainer(INVENTORY_SIZE, ItemContainer.StackPolicy.STANDARD);
         container.addAll(presetKits.getEquipmentItemList());
         for (int i = 0; i < 11; i++) {
@@ -172,8 +187,8 @@ public class PresetHandler extends PacketInteraction {
      *
      * @param player
      */
-    void sendSpellbook(Player player, PresetKits presetKits) {
-        player.getPacketSender().sendString(73237, presetKits.getSpellbook());
+    void sendSpellbookString(Player player, PresetKits presetKits) {
+        player.getPacketSender().sendString(73237, presetKits.getSpellbook().name().toLowerCase());
     }
 
     /**
@@ -181,7 +196,7 @@ public class PresetHandler extends PacketInteraction {
      *
      * @param player
      */
-    void sendPrayers(Player player) {
+    void sendPrayerString(Player player) {
         player.getPacketSender().sendString(73238, "Regular");
     }
 
@@ -222,7 +237,20 @@ public class PresetHandler extends PacketInteraction {
     }
 
     /**
+     * Method to change our spellbook
+     * @param player
+     * @param presetKits
+     */
+    void applySpellBook(Player player, PresetKits presetKits) {
+        if (!WildernessArea.isInWilderness(player)) {
+            sendSpellbookString(player, presetKits);
+            MagicSpellbook.changeSpellbook(player, presetKits.getSpellbook(), true);
+        }
+    }
+
+    /**
      * Apply the preset inventory
+     *
      * @param player
      * @param presetKits
      */
@@ -250,6 +278,7 @@ public class PresetHandler extends PacketInteraction {
      */
     void updatePlayer(Player player) {
         ItemWeight.calculateWeight(player);
+        player.getInterfaceManager().setSidebar(6, player.getSpellbook().getInterfaceId());
         player.getEquipment().refresh();
         player.inventory().refresh();
         player.heal();

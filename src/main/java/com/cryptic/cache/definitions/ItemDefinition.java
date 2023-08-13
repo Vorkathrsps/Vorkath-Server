@@ -429,6 +429,11 @@ public class ItemDefinition implements Definition {
             case 35 -> {
                 return "Axe";
             }
+            case 21 -> {
+                if (weaponType == WeaponType.LONGSWORD) {
+                    return "Longsword";
+                }
+            }
             case 25 -> {
                 return "Stab Sword";
             }

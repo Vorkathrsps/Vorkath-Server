@@ -70,7 +70,7 @@ public class WeaponInterfaces {
             case SWORD -> player.getPacketSender().sendString(24788, "Category: " + def.getWeaponCategory(weaponType));
             case WHIP -> player.getPacketSender().sendString(24792, "Category: " + def.getWeaponCategory(weaponType));
             case HALBERD -> player.getPacketSender().sendString(24791, "Category: " + def.getWeaponCategory(weaponType));
-            case CLAWS -> player.getPacketSender().sendString(24790, "Category: " + def.getWeaponCategory(weaponType));
+            case CLAWS -> player.getPacketSender().sendString(24790, "Category: " + def.getWeaponCategory(weaponType));//TODO stabsword
             case POWERED_STAFF -> player.getPacketSender().sendString(24793, "Category: " + def.getWeaponCategory(weaponType));
             //case -> player.getPacketSender().sendString(24782, "Category: " + def.getWeaponCategory()); polestaffs -> 24789 banner -> 24785 partisan -> 24782
         }

@@ -61,6 +61,7 @@ public enum TimerKey {
      * Key used to deduct micro-prayer points and process overhead logic
      */
     PRAYER_TICK,
+    ANTI_SPAM,
 
     /**
      * Timer used for refilling the players special attack from Surgeon General Tafani

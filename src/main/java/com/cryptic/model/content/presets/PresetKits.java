@@ -1,6 +1,7 @@
 package com.cryptic.model.content.presets;
 
 import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.model.entity.player.MagicSpellbook;
 import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.ItemIdentifiers;
@@ -53,7 +54,7 @@ public enum PresetKits {
             new Item(ItemIdentifiers.CLIMBING_BOOTS),
             new Item(ItemIdentifiers.RING_OF_RECOIL)
         ),
-        "Lunars",
+        MagicSpellbook.LUNAR,
         new Skill[]{
             Skill.fromId(Skill.ATTACK.getId()),
             Skill.fromId(Skill.STRENGTH.getId()),
@@ -112,7 +113,7 @@ public enum PresetKits {
             new Item(ItemIdentifiers.CLIMBING_BOOTS),
             new Item(ItemIdentifiers.RING_OF_RECOIL)
         ),
-        "Lunars",
+        MagicSpellbook.LUNAR,
         new Skill[]{
             Skill.fromId(Skill.ATTACK.getId()),
             Skill.fromId(Skill.STRENGTH.getId()),
@@ -171,7 +172,7 @@ public enum PresetKits {
             new Item(ItemIdentifiers.CLIMBING_BOOTS),
             new Item(ItemIdentifiers.RING_OF_RECOIL)
         ),
-        "Normals",
+        MagicSpellbook.NORMAL,
         new Skill[]{
             Skill.fromId(Skill.ATTACK.getId()),
             Skill.fromId(Skill.STRENGTH.getId()),
@@ -189,13 +190,14 @@ public enum PresetKits {
 
     @Getter Item[] inventoryItemList;
     @Getter List<Item> equipmentItemList;
-    @Getter String spellbook;
+    @Getter
+    MagicSpellbook spellbook;
     @Getter int[] alterLevels;
     @Getter Skill[] currentLevels;
     @Getter int buttonIdentification;
     @Getter AttributeKey attributeKey;
 
-    PresetKits(Item[] inventoryItemList, List<Item> equipmentItemList, String spellbook, Skill[] currentLevels, int[] alterLevels, int buttonIdentification, AttributeKey attributeKey) {
+    PresetKits(Item[] inventoryItemList, List<Item> equipmentItemList, MagicSpellbook spellbook, Skill[] currentLevels, int[] alterLevels, int buttonIdentification, AttributeKey attributeKey) {
         this.inventoryItemList = inventoryItemList;
         this.equipmentItemList = equipmentItemList;
         this.spellbook = spellbook;

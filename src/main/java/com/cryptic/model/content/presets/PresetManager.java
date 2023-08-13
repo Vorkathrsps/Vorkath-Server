@@ -11,14 +11,14 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ItemWeight;
 import com.cryptic.model.items.container.equipment.EquipmentInfo;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
+import com.cryptic.network.packet.outgoing.PacketSender;
 import com.cryptic.utility.Utils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.IntStream;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.VIEWING_RUNE_POUCH_I;
@@ -109,41 +109,98 @@ public class PresetManager {
         open(player.getCurrentPreset());
     }
 
+    int[] preMadeKitButtons = new int[]{73271, 73273, 73275, 73277, 73279, 73281, 73283, 73285};
+    int[] preMadeKitStringChild = new int[]{73272, 73274, 73276, 73278, 73280, 73282, 73284, 73286};
+    int[] createKitStrings = new int[]{73272, 73274, 73276, 73278, 73280, 73282, 73284, 73286};
+    int[] createKitButtons = new int[]{73296, 73297, 73298, 73299, 73300, 73301, 73302, 73303};
+
+    public boolean handleButtonInteractions(int button) {
+        var clickedOnPreMade = ArrayUtils.contains(preMadeKitButtons, button);
+        if (clickedOnPreMade) {
+            open();
+            return true;
+        }
+        return false;
+    }
+
+   /* public void loadPreMadePreset(int button) {
+        if (button == preMadeKitButtons[0]) {
+            displayItems(Kits.MAIN_MELEE);
+        } else if (button == preMadeKitButtons[1]) {
+            displayItems(Kits.ZERKER_MELEE);
+        } else if (button == preMadeKitButtons[2]) {
+            displayItems(Kits.PURE_MELEE);
+        } else if (button == preMadeKitButtons[3]) {
+            displayItems(Kits.MAIN_TRIBRID);
+        } else if (button == preMadeKitButtons[4]) {
+            displayItems(Kits.ZERKER_TRIBRID);
+        } else if (button == preMadeKitButtons[5]) {
+            displayItems(Kits.PURE_TRIBRID);
+        } else if (button == preMadeKitButtons[6]) {
+            displayItems(Kits.MAIN_HYBRID);
+        } else if (button == preMadeKitButtons[7]) {
+            displayItems(Kits.ZERKER_HYBRID);
+        }
+    }*/
+
+    public void sendPreMadePresetStrings() {
+        sendString(preMadeKitStringChild[0], "Main - Melee");
+        sendString(preMadeKitStringChild[1], "Zerker - Melee");
+        sendString(preMadeKitStringChild[2], "Pure - Melee");
+        sendString(preMadeKitStringChild[3], "Main - Tribrid");
+        sendString(preMadeKitStringChild[4], "Zerker - Tribrid");
+        sendString(preMadeKitStringChild[5], "Pure - Tribrid");
+        sendString(preMadeKitStringChild[6], "Main - Hybrid");
+        sendString(preMadeKitStringChild[7], "Zerker - Hybrid");
+    }
+
+    int[] equipmentChildIds = new int[]{73251, 73252, 73253, 73254, 73255, 73256, 73257, 73258, 73259, 73260, 73261};
+
+
+    void loadPreset() {
+
+    }
+
+    void savePreset() {
+
+    }
+
+    void sendItems() {
+
+    }
+
+    void sendEquipment() {
+
+    }
+
+    PacketSender sendString(int id, String text) {
+        return player.getPacketSender().sendString(id, text);
+    }
+
+    PacketSender sendItemToInterface(int interfaceid, List<Item> items) {
+        return player.getPacketSender().sendItemOnInterface(interfaceid, items);
+    }
+
     /**
      * Opens the specified preset for a player.
      */
     public void open(Presetable preset) {
         if (preset != null) {
-            // Send name
-            player.getPacketSender().sendString(62591, "Preset Name: " + preset.getName());
 
-            // Send stats
-            for (int i = 0; i < 7; i++) {
-                player.getPacketSender().sendString(62534 + i * 2, "" + preset.getStats()[i]);
-                player.getPacketSender().sendString(62535 + i * 2, "" + preset.getStats()[i]);
+            // Send name
+
+            sendPreMadePresetStrings();
+
+            for (var n : preMadeKitStringChild) {
+                player.getPacketSender().sendString(n, "Preset Name: " + preset.getName());
             }
 
             // Send spellbook
-            player.getPacketSender().sendString(62515, Utils.formatText(preset.getSpellbook().name().toLowerCase()));
-            String accountType = "Main";
+            player.getPacketSender().sendString(73238, Utils.formatText(preset.getSpellbook().name().toLowerCase()));
 
-            if (preset.getStats()[1] <= 45 && preset.getStats()[1] != 1) {
-                accountType = "Zerker";
-            } else if (preset.getStats()[1] == 1) {
-                accountType = "Pure";
-            }
-
-            // Stat text
-            player.getPacketSender().sendString(62549, accountType);
         } else {
             // Reset name
             player.getPacketSender().sendString(62591, "Presets Manager");
-
-            // Reset stats
-            for (int i = 0; i < 7; i++) {
-                player.getPacketSender().sendString(62534 + i * 2, "");
-                player.getPacketSender().sendString(62535 + i * 2, "");
-            }
 
             // Reset spellbook
             player.getPacketSender().sendString(62515, "Normal");
@@ -169,18 +226,23 @@ public class PresetManager {
                         player.getMobName(), item.getAmount(), item.getId(), item.name()));
                     item.setAmount(1);
                 }
-                player.getPacketSender().sendItemOnInterfaceSlot(62592 + i, item.getId(), item.getAmount(), 0);
+                player.getPacketSender().sendItemOnInterfaceSlot(73240, item.getId(), item.getAmount(), 0);
+                player.message("attempting");
             } else {
-                player.getPacketSender().sendItemOnInterfaceSlot(62592 + i, -1, 1, 0);
+                player.getPacketSender().sendItemOnInterfaceSlot(73240, -1, 1, 0);
+                player.message("null item");
             }
         }
 
         //Send equipment
-        for (int i = 0; i < 14; i++) {
-            player.getPacketSender().sendItemOnInterfaceSlot(62620 + i, -1, 1, 0);
+        for (var id : equipmentChildIds) {
+            if (ArrayUtils.contains(equipmentChildIds, id)) {
+                player.getPacketSender().sendItemOnInterfaceSlot(id, -1, 1, 0);
+            }
         }
 
         if (preset != null) {
+            System.out.println("not null");
             Arrays.stream(preset.getEquipment()).filter(t -> !Objects.isNull(t) && t.isValid())
                 .forEach(item -> {
 
@@ -191,7 +253,7 @@ public class PresetManager {
                         item.setAmount(1);
                     }
                     player.getPacketSender().sendItemOnInterfaceSlot(
-                        62620 + World.getWorld().equipmentInfo().slotFor(item.getId()),
+                        73251 + World.getWorld().equipmentInfo().slotFor(item.getId()),
                         item.getId(), item.getAmount(), 0);
                 });
         }
@@ -348,7 +410,7 @@ public class PresetManager {
             item = item.copy();
 
             //Skip an item if the slot was already occupied
-            if(player.inventory().isSlotOccupied(index)) {
+            if (player.inventory().isSlotOccupied(index)) {
                 continue;
             }
 
@@ -558,11 +620,11 @@ public class PresetManager {
 
         //When the preset is global auto bank
         player.getBank().depositInventory();
-        player.getBank().depositeEquipment();
+        player.getBank().depositEquipment();
 
         player.message("Loading preset...");
         //Only load levels when we have this enabled.
-        if(player.getPresetManager().saveLevels() && !preset.isGlobal()) {
+        if (player.getPresetManager().saveLevels() && !preset.isGlobal()) {
             IntStream.range(0, preset.getStats().length).forEach(i -> {
                 if (i < preset.getStats().length) {
                     int level = preset.getStats()[i];

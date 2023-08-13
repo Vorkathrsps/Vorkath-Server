@@ -46,7 +46,7 @@ public class PresetHandler extends PacketInteraction {
     @Override
     public boolean handleButtonInteraction(Player player, int button) {
         if (!player.getTimers().has(TimerKey.ANTI_SPAM)) {
-            player.getTimers().register(TimerKey.ANTI_SPAM, 5);
+            player.getTimers().register(TimerKey.ANTI_SPAM, 3);
             if (ArrayUtils.contains(preMadeKitButtons, button)) {
                 findMatchingButtonIdentificationFor(button).ifPresent(p -> {
                     clearAttributesExcept(player, p.getAttributeKey());

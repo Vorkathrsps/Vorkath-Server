@@ -156,7 +156,7 @@ public enum PresetKits {
             Item.of(ItemIdentifiers.SHARK),
             Item.of(ItemIdentifiers.SHARK),
             Item.of(ItemIdentifiers.SHARK),
-            Item.of(ItemIdentifiers.SHARK)
+            Item.of(ItemIdentifiers.PLATINUM_TOKEN, 100)
         },
         List.of(
             new Item(ItemIdentifiers.GHOSTLY_HOOD),

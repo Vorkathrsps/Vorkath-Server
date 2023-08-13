@@ -209,7 +209,13 @@ public class PresetHandler extends PacketInteraction {
             if (player.getEquipment() != null && !player.getEquipment().hasNoEquipment()) {
                 player.getBank().depositEquipment();
             }
-            presetKits.getEquipmentItemList().forEach(item -> player.getEquipment().manualWear(item, true, false));
+            presetKits.getEquipmentItemList().forEach(item -> {
+                if (!player.getBank().contains(item)) {
+                    player.message(item.getAmount() == 0 ? "Item not found: " + Color.RED.wrap("" + item.name()) : "Item not found: " + Color.RED.wrap("" + item.name()) + " Amount: " + Color.RED.wrap("x" + item.getAmount()));
+                } else {
+                    player.getEquipment().manualWear(item, true, false);
+                }
+            });
         }
     }
 
@@ -224,7 +230,13 @@ public class PresetHandler extends PacketInteraction {
             if (inventoryCheck) {
                 player.getBank().depositInventory();
             }
-            Arrays.stream(presetKits.getInventoryItemList()).forEach(i -> player.getInventory().add(i));
+            Arrays.stream(presetKits.getInventoryItemList()).forEach(i -> {
+                if (!player.getBank().contains(i)) {
+                    player.message(i.getAmount() == 0 ? "Item not found: " + Color.RED.wrap("" + i.name()) : "Item not found: " + Color.RED.wrap("" + i.name()) + " Amount: " + Color.RED.wrap("x" + i.getAmount()));
+                } else {
+                    player.getInventory().add(i);
+                }
+            });
         }
     }
 
@@ -239,6 +251,7 @@ public class PresetHandler extends PacketInteraction {
         player.inventory().refresh();
         player.heal();
         player.looks().update();
+        player.synchronousSave();
     }
 
 }

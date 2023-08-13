@@ -248,7 +248,7 @@ public class PresetHandler extends PacketInteraction {
             if (player.getEquipment() != null && !player.getEquipment().hasNoEquipment()) {
                 player.getBank().depositEquipment();
             }
-            getEquipmentListOf(presetKits).forEach(item -> {
+            getEquipmentItemsOf(presetKits).forEach(item -> {
                 if (!bankContains(player, item)) {
                     player.message(item.getAmount() == 0 ? "Item not found: " + Color.RED.wrap("" + item.name()) : "Item not found: " + Color.RED.wrap("" + item.name()) + " Amount: " + Color.RED.wrap("x" + item.getAmount()));
                 } else {
@@ -282,7 +282,7 @@ public class PresetHandler extends PacketInteraction {
             if (inventoryCheck) {
                 player.getBank().depositInventory();
             }
-            getInventoryListOf(presetKits).forEach(item -> {
+            getInventoryItemsOf(presetKits).forEach(item -> {
                 if (!bankContains(player, item)) {
                     player.message(item.getAmount() == 0 ? "Item not found: " + Color.RED.wrap("" + item.name()) : "Item not found: " + Color.RED.wrap("" + item.name()) + " Amount: " + Color.RED.wrap("x" + item.getAmount()));
                 } else {
@@ -318,7 +318,7 @@ public class PresetHandler extends PacketInteraction {
      * @param presetKits
      * @return
      */
-    List<Item> getEquipmentListOf(PresetKits presetKits) {
+    List<Item> getEquipmentItemsOf(PresetKits presetKits) {
         return presetKits.getEquipmentItemList();
     }
 
@@ -327,7 +327,7 @@ public class PresetHandler extends PacketInteraction {
      * @param presetKits
      * @return
      */
-    Stream<Item> getInventoryListOf(PresetKits presetKits) {
+    Stream<Item> getInventoryItemsOf(PresetKits presetKits) {
         return Arrays.stream(presetKits.getInventoryItemList());
     }
 

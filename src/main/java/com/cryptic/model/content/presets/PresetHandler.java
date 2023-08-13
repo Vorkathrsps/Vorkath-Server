@@ -140,7 +140,7 @@ public class PresetHandler extends PacketInteraction {
      * @return optional
      */
     Optional<PresetKits> findMatchingButtonIdentificationFor(int button) {
-        return Arrays.stream(kits).filter(f -> f.buttonIdentification == button).findAny();
+        return Arrays.stream(kits).filter(f -> f.getButtonIdentification() == button).findAny();
     }
 
     /**
@@ -178,7 +178,7 @@ public class PresetHandler extends PacketInteraction {
      */
     void resetContainers(Player player) {
         for (int index = 0; index < 11; index++) {
-            sendItemsToInterface(player, EQUIPMENT_CONTAINER_ID, -1, index,  1);
+            sendItemsToInterface(player, -1, index,  1);
         }
         if (container != null) {
             container.clear();
@@ -216,20 +216,20 @@ public class PresetHandler extends PacketInteraction {
         container = new ItemContainer(INVENTORY_SIZE, ItemContainer.StackPolicy.STANDARD);
         container.addAll(presetKits.getEquipmentItemList());
         for (int index = 0; index < 11; index++) {
-            sendItemsToInterface(player, EQUIPMENT_CONTAINER_ID, container.get(index).getId(), index, container.get(index).getAmount());
+            sendItemsToInterface(player, container.get(index).getId(), index, container.get(index).getAmount());
         }
     }
 
     /**
      * Sends items to an interface
+     *
      * @param player the player
-     * @param id the item id
-     * @param item the item instance
-     * @param index the item index
+     * @param item   the item instance
+     * @param index  the item index
      * @param amount the item amount
      */
-    void sendItemsToInterface(Player player, int id, int item, int index, int amount) {
-        player.getPacketSender().sendItemOnInterfaceSlot(id + index, item, amount, 0);
+    void sendItemsToInterface(Player player, int item, int index, int amount) {
+        player.getPacketSender().sendItemOnInterfaceSlot(EQUIPMENT_CONTAINER_ID + index, item, amount, 0);
     }
 
     /**

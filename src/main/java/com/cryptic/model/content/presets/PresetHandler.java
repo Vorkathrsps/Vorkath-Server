@@ -23,7 +23,7 @@ import java.util.stream.Stream;
  * @Date: 8/13/2023
  */
 @SuppressWarnings("unused")
-public class PresetHandler extends PacketInteraction {
+public class PresetHandler extends PacketInteraction { //TODO add region array for wildy checks
 
     public ItemContainer container;
     private static final int PRESET_BUTTON_ID = 73235;
@@ -57,6 +57,10 @@ public class PresetHandler extends PacketInteraction {
     @Override
     public boolean handleButtonInteraction(Player player, int button) {
         if (player.getTimers().has(TimerKey.ANTI_SPAM)) {
+            return false;
+        }
+
+        if (!player.getInterfaceManager().isInterfaceOpen(73230)) {
             return false;
         }
 

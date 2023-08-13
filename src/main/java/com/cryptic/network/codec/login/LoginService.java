@@ -7,6 +7,7 @@ import com.cryptic.model.entity.player.save.PlayerSave;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Sets;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -70,21 +71,20 @@ public class LoginService implements Service {
      * @param request
      * @return
      */
-    public boolean savePlayerFile(Player request) {
-        final Stopwatch stopwatch;
-        stopwatch = Stopwatch.createUnstarted();
+    public CompletableFuture<Boolean> savePlayerFile(Player request) {
+        final Stopwatch stopwatch = Stopwatch.createUnstarted();
         stopwatch.start();
+
         try {
-            // logger.trace("save to disk complete for {} : {}", b, request);
-            return PlayerSave.save(request);
+            return PlayerSave.saveAsync(request);
         } catch (Throwable t) {
-            // If we don't catch any possible errors, thread could die silently.
-            logger.error(
-                    "There was an error finishing the logout for " + request.getUsername() + ": ");
-            logger.error("shite", t);
+            // If we don't catch any possible errors, the thread could die silently.
+            logger.error("There was an error finishing the logout for " + request.getUsername() + ": ", t);
+            // Return a failed CompletableFuture to indicate the error.
+            return CompletableFuture.failedFuture(t);
         }
-        return false;
     }
+
 
     /**
      * runs on lowPrio executor

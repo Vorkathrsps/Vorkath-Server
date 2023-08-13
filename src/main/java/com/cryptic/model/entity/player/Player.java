@@ -151,7 +151,9 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
@@ -1293,41 +1295,95 @@ public class Player extends Entity {
             logger.error("Exception during logout => Channel closing for Player '{}'", getMobName(), e);
         }
         // remove from minigames etc, dont care about sending info to client since it'll logout anyway
-        onLogout();
 
         GameEngine.getInstance().addSyncTask(() -> {
-            // shadowrs warning: calling remove() when iterating over players() higher in the callstack (example in players.each.process()) = should trigger a ConcurrentModificationException .. but a deadlock occurs with no trace in log.
-            // calling this in a sync task solves this
-            World.getWorld().getPlayers().remove(this);
-            this.onRemove();
-            submitSave(new SaveAttempt());
+            try {
+                logger.info("Starting save and cleanup task for player: {}", this.getMobName());
+
+                // Perform the save operation asynchronously
+                submitSave(new SaveAttempt());
+
+                // Wait for the save operation to complete
+                try {
+                    saveFuture.get(); // Wait for the save operation to complete
+                } catch (InterruptedException | ExecutionException e) {
+                    logger.error("Error during save operation for player: {}", this.getMobName(), e);
+                }
+
+                // Perform player removal and cleanup
+                try {
+                    logger.info("Removing player: {}", this.getMobName());
+                    onLogout();
+                    World.getWorld().getPlayers().remove(this);
+                    this.onRemove();
+                    logger.info("Player removed successfully: {}", this.getMobName());
+                } catch (Exception e) {
+                    logger.error("Error during player removal and cleanup for player: {}", this.getMobName(), e);
+                }
+            } catch (Exception e) {
+                logger.error("Error in save and cleanup task for player: {}", this.getMobName(), e);
+            }
         });
+
+
     }
 
     public static class SaveAttempt {
         int attempts;
     }
 
+    CompletableFuture<Boolean> saveFuture;
+
     private void submitSave(SaveAttempt saveAttempt) {
         GameEngine.getInstance().submitLowPriority(() -> {
             if (!World.getWorld().ls.ONLINE.contains(getMobName().toUpperCase())) {
-                //logger.info("ignore save for {}", getMobName().toUpperCase());
                 return;
             }
-            final boolean success = World.getWorld().ls.savePlayerFile(this);
-            if (!success) {
-                try {
-                    Thread.sleep(50); // dont try to save straight away
-                } catch (InterruptedException e) {
-                    logger.error(e);
-                }
-                saveAttempt.attempts++;
-                submitSave(saveAttempt);
-            } else {
-                World.getWorld().ls.ONLINE.remove(getMobName().toUpperCase());
+
+            saveFuture = World.getWorld().ls.savePlayerFile(this);
+
+            try {
+                saveFuture.whenComplete((success, throwable) -> {
+                    if (throwable != null) {
+                        logger.error("Error during save attempt", throwable);
+                        retrySave(saveAttempt);
+                    } else if (!success) {
+                        retrySave(saveAttempt);
+                    } else {
+                        World.getWorld().ls.ONLINE.remove(getMobName().toUpperCase());
+                    }
+                });
+            } catch (Throwable t) {
+                logger.error("Error submitting save task", t);
+                retrySave(saveAttempt);
             }
         });
     }
+
+    private void retrySave(SaveAttempt saveAttempt) {
+        if (saveAttempt.attempts < 5) {
+            try {
+                Thread.sleep(calculateExponentialBackoffTime(saveAttempt.attempts));
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+
+            saveAttempt.attempts++;
+            submitSave(saveAttempt);
+        } else {
+            logger.error("Max retry attempts reached for save");
+        }
+    }
+
+    private long calculateExponentialBackoffTime(int attempts) {
+        int maxBackoffInterval = 5000;
+        int baseBackoffTime = 100;
+
+        long backoffTime = baseBackoffTime * (1 << attempts);
+
+        return Math.min(backoffTime, maxBackoffInterval);
+    }
+
 
     private final Map<String, Runnable> onLogoutListeners = new HashMap<>();
 
@@ -1361,7 +1417,7 @@ public class Player extends Entity {
             getInstancedArea().removePlayer(this);
         }
         //if (this.getPet() != null) {
-          //  this.getPet().removeOnLogout();
+        //  this.getPet().removeOnLogout();
         // }
 
         var party = this.getTheatreParty();

@@ -43,6 +43,9 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.model.inter.lootkeys.LootKey.LOOT_KEY_CONTAINER_SIZE;
@@ -121,6 +124,24 @@ public class PlayerSave {
         return false;
     }
 
+    private static final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
+    public static CompletableFuture<Boolean> saveAsync(Player player) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                logger.info("Starting save process for player: {}", player.getUsername());
+                new SaveDetails(player).parseDetails();
+                player.getFarming().save();
+                logger.info("Save process completed for player: {}", player.getUsername());
+                return true;
+            } catch (final Exception e) {
+                logger.error("Error during save process for player: " + player.getUsername(), e);
+                return false;
+            }
+        }, executor);
+    }
+
+
     /**
      * Handles saving and loading player's details.
      */
@@ -166,7 +187,7 @@ public class PlayerSave {
                 player.setIronmanStatus(details.ironMode);
             }
             player.putAttrib(DARK_LORD_LIVES, details.darkLordLives);
-            if(details.lastIP != null) {
+            if (details.lastIP != null) {
                 player.setHostAddress(details.lastIP);
             }
             player.getHostAddressMap().put(player.getHostAddress(), 1);
@@ -339,7 +360,7 @@ public class PlayerSave {
             if (details.nifflerItems != null) {
                 player.putAttrib(NIFFLER_ITEMS_STORED, details.nifflerItems);
             }
-            if(details.sackOfPresentItems != null) {
+            if (details.sackOfPresentItems != null) {
                 player.putAttrib(SACK_OF_PRESENTS_LIST, details.sackOfPresentItems);
             }
             if (details.newFriends == null)
@@ -1421,20 +1442,20 @@ public class PlayerSave {
             memberRights = player.getMemberRights().name();
             gameMode = player.getGameMode();
             ironMode = player.getIronManStatus();
-            darkLordLives = Player.getAttribIntOr(player, DARK_LORD_LIVES,3);
+            darkLordLives = Player.getAttribIntOr(player, DARK_LORD_LIVES, 3);
             lastIP = player.getHostAddress();
             mac = player.getAttribOr(MAC_ADDRESS, "invalid");
-            accountPin = Player.getAttribIntOr(player, ACCOUNT_PIN,0);
-            askAccountPin = Player.getAttribBooleanOr(player, ASK_FOR_ACCOUNT_PIN,false);
-            accountPinAttemptsLeft = Player.getAttribIntOr(player, ACCOUNT_PIN_ATTEMPTS_LEFT,5);
-            accountPinFrozenTicks = Player.getAttribIntOr(player, ACCOUNT_PIN_FREEZE_TICKS,0);
+            accountPin = Player.getAttribIntOr(player, ACCOUNT_PIN, 0);
+            askAccountPin = Player.getAttribBooleanOr(player, ASK_FOR_ACCOUNT_PIN, false);
+            accountPinAttemptsLeft = Player.getAttribIntOr(player, ACCOUNT_PIN_ATTEMPTS_LEFT, 5);
+            accountPinFrozenTicks = Player.getAttribIntOr(player, ACCOUNT_PIN_FREEZE_TICKS, 0);
             creationDate = player.getCreationDate();
             creationIp = player.getCreationIp();
             lastLogin = player.getLastLogin();
             muted = Player.getAttribBooleanOr(player, MUTED, false);
             isCombatMaxed = Player.getAttribBooleanOr(player, COMBAT_MAXED, false);
             lastBMClaim = Player.getAttribLongOr(player, YOUTUBER_BM_CLAIM, 0L);
-            starterWeaponDamage = Player.getAttribIntOr(player, STARTER_WEAPON_DAMAGE,0);
+            starterWeaponDamage = Player.getAttribIntOr(player, STARTER_WEAPON_DAMAGE, 0);
             newPlayer = Player.getAttribBooleanOr(player, NEW_ACCOUNT, false);
             isBetaTester = Player.getAttribBooleanOr(player, IS_BETA_TESTER, false);
             veteran = Player.getAttribBooleanOr(player, VETERAN, false);
@@ -1465,14 +1486,14 @@ public class PlayerSave {
                     }
                 }
             }
-            lootKeysCarried = Player.getAttribIntOr(player,LOOT_KEYS_CARRIED, 0);
-            lootKeysLooted = Player.getAttribIntOr(player,LOOT_KEYS_LOOTED, 0);
+            lootKeysCarried = Player.getAttribIntOr(player, LOOT_KEYS_CARRIED, 0);
+            lootKeysLooted = Player.getAttribIntOr(player, LOOT_KEYS_LOOTED, 0);
             totalLootKeysValue = Player.getAttribLongOr(player, TOTAL_LOOT_KEYS_VALUE, 0L);
-            lootKeysUnlocked = Player.getAttribBooleanOr(player,LOOT_KEYS_UNLOCKED, false);
-            lootKeysActive = Player.getAttribBooleanOr(player,LOOT_KEYS_ACTIVE, false);
-            lootKeysDropConsumables = Player.getAttribBooleanOr(player,LOOT_KEYS_DROP_CONSUMABLES, false);
-            sendValuablesToLootKey = Player.getAttribBooleanOr(player,SEND_VALUABLES_TO_LOOT_KEYS, false);
-            lootKeysValuableItemThreshold = Player.getAttribIntOr(player,LOOT_KEYS_VALUABLE_ITEM_THRESHOLD, 0);
+            lootKeysUnlocked = Player.getAttribBooleanOr(player, LOOT_KEYS_UNLOCKED, false);
+            lootKeysActive = Player.getAttribBooleanOr(player, LOOT_KEYS_ACTIVE, false);
+            lootKeysDropConsumables = Player.getAttribBooleanOr(player, LOOT_KEYS_DROP_CONSUMABLES, false);
+            sendValuablesToLootKey = Player.getAttribBooleanOr(player, SEND_VALUABLES_TO_LOOT_KEYS, false);
+            lootKeysValuableItemThreshold = Player.getAttribIntOr(player, LOOT_KEYS_VALUABLE_ITEM_THRESHOLD, 0);
             venomTicks = Player.getAttribIntOr(player, VENOM_TICKS, 0);
             poisonTicks = Player.getAttribIntOr(player, POISON_TICKS, 0);
             specPercentage = player.getSpecialAttackPercentage();
@@ -1763,13 +1784,13 @@ public class PlayerSave {
             raresFromMysteryBox = Player.getAttribIntOr(player, TOTAL_RARES_FROM_MYSTERY_BOX, 0);
             slayerKeysOpened = Player.getAttribIntOr(player, SLAYER_KEYS_OPENED, 0);
             slayerKeysReceived = Player.getAttribIntOr(player, SLAYER_KEYS_RECEIVED, 0);
-            doubleExpTicks = Player.getAttribIntOr(player, DOUBLE_EXP_TICKS,0);
+            doubleExpTicks = Player.getAttribIntOr(player, DOUBLE_EXP_TICKS, 0);
             dropRateLampTicks = Player.getAttribIntOr(player, DOUBLE_DROP_LAMP_TICKS, 0);
             ethereumAbsorption = Player.getAttribBooleanOr(player, ETHEREUM_ABSORPTION, false);
             jailed = Player.getAttribIntOr(player, JAILED, 0);
             jailOresToEscape = Player.getAttribIntOr(player, JAIL_ORES_TO_ESCAPE, 0);
             jailOresMined = Player.getAttribIntOr(player, JAIL_ORES_MINED, 0);
-            locBeforeJail = ((Tile)player.getAttribOr(LOC_BEFORE_JAIL, new Tile(3092, 3500))).toPlain();
+            locBeforeJail = ((Tile) player.getAttribOr(LOC_BEFORE_JAIL, new Tile(3092, 3500))).toPlain();
             tournamentWins = Player.getAttribIntOr(player, TOURNAMENT_WINS, 0);
             tournamentPoints = Player.getAttribIntOr(player, TOURNAMENT_POINTS, 0);
             lostCannon = Player.getAttribBooleanOr(player, LOST_CANNON, false);
@@ -1945,8 +1966,8 @@ public class PlayerSave {
             winterEventTokensSpent = Player.getAttribIntOr(player, WINTER_EVENT_TOKENS_SPENT, 0);
             herbBoxCharges = Player.getAttribIntOr(player, HERB_BOX_CHARGES, 0);
             claimedDonatorRewards = Player.getAttribBooleanOr(player, CLAIMED_DONATOR_REWARDS, false);
-            snowMonsterTimer = Player.getAttribIntOr(player, SNOW_MONSTER_TIMER,500);
-            lastPet = Player.getAttribIntOr(player, LAST_PET_ID,-1);
+            snowMonsterTimer = Player.getAttribIntOr(player, SNOW_MONSTER_TIMER, 500);
+            lastPet = Player.getAttribIntOr(player, LAST_PET_ID, -1);
             infhp = player.isInvulnerable();
             varps = new HashMap<>() {
                 {

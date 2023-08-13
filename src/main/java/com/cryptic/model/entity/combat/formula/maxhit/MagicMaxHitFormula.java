@@ -123,7 +123,7 @@ public class MagicMaxHitFormula {
 
         int magicLevel = player.skills().level(Skills.MAGIC);
 
-        if (FormulaUtils.hasMagicWildernessWeapon(player) && WildernessArea.inWild(player)) {
+        if (FormulaUtils.hasMagicWildernessWeapon(player) && WildernessArea.isInWilderness(player)) {
             baseMaxHit *= 1.50;
         }
 

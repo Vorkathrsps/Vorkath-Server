@@ -301,7 +301,7 @@ public class ScalarLootTable {
     }
 
     public void rollForLarransKey(NPC npc, Player player) {
-        var inWilderness = WildernessArea.inWild(player);
+        var inWilderness = WildernessArea.isInWilderness(player);
         if (inWilderness) {
             var larransLuck = player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.LARRANS_LUCK);
             var combatLvl = npc.def().combatlevel;

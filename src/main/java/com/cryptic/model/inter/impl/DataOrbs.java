@@ -14,7 +14,7 @@ public class DataOrbs extends PacketInteraction {
     @Override
     public boolean handleButtonInteraction(Player player, int button) {
         if (button == 1510) {
-            if(WildernessArea.inWild(player)) {
+            if(WildernessArea.isInWilderness(player)) {
                 player.message(Color.RED.wrap("What the hell are you thinking? That doesn't work in dangerous areas!"));
                 return true;
             }
@@ -30,12 +30,12 @@ public class DataOrbs extends PacketInteraction {
             }
             button_delay.start(5);
             player.getBank().depositInventory();
-            player.getBank().depositeEquipment();
+            player.getBank().depositEquipment();
             return true;
         }
 
         if (button == 1511) {
-            if(WildernessArea.inWild(player)) {
+            if(WildernessArea.isInWilderness(player)) {
                 player.message(Color.RED.wrap("What the hell are you thinking? That doesn't work in dangerous areas!"));
                 return true;
             }
@@ -55,7 +55,7 @@ public class DataOrbs extends PacketInteraction {
         }
 
         if (button == 1512) {
-            if(WildernessArea.inWild(player)) {
+            if(WildernessArea.isInWilderness(player)) {
                 player.message(Color.RED.wrap("What the hell are you thinking? That doesn't work in dangerous areas!"));
                 return true;
             }

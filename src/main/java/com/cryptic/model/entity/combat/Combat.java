@@ -361,7 +361,7 @@ public class Combat {
             if (!method.prepareAttack(mob, target))
                 return;
             if (mob.isPlayer() && target.isPlayer()) {
-                if (WildernessArea.inWild((Player) mob)) {
+                if (WildernessArea.isInWilderness((Player) mob)) {
                     Player player = mob.getAsPlayer();
 
                     Skulling.skull(player, target, SkullType.WHITE_SKULL);

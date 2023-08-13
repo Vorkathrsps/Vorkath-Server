@@ -179,7 +179,7 @@ public class WildernessCourse extends PacketInteraction {
                         if (stage == 5) {
                             player.getTaskMasterManager().increase(Tasks.WILDERNESS_COURSE);
                             DailyTaskManager.increase(DailyTasks.WILDY_AGLITY, player);
-                            if (WildernessArea.inWild(player)) {
+                            if (WildernessArea.isInWilderness(player)) {
                                 if (World.getWorld().rollDie(5, 1)) {
                                     if (player.inventory().add(new Item(13307, 5), true)) {
                                         player.message("You find 5 blood money coin on the ground.");

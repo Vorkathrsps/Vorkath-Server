@@ -113,13 +113,13 @@ public class MovementPacketListener implements PacketListener {
         }
 
         //Haha some friends thought they were smart, wield ammy of avarice type ::unskull and go in wild.
-        if (WildernessArea.inWild(player)) {
+        if (WildernessArea.isInWilderness(player)) {
             if (player.getEquipment().contains(ItemIdentifiers.AMULET_OF_AVARICE)) {
                 Skulling.assignSkullState(player, SkullType.WHITE_SKULL);
             }
         }
 
-        if (!WildernessArea.inWild(player)) {
+        if (!WildernessArea.isInWilderness(player)) {
 
             if (player.getTimers().has(TimerKey.TELEBLOCK) || player.getTimers().has(TimerKey.SPECIAL_TELEBLOCK)) {
                 player.getTimers().cancel(TimerKey.SPECIAL_TELEBLOCK);

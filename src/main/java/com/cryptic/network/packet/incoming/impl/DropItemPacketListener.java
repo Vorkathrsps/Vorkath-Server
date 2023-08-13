@@ -135,14 +135,14 @@ public class DropItemPacketListener implements PacketListener {
                             return;
                         }
 
-                        if (item.getId() == CustomItemIdentifiers.ESCAPE_KEY && WildernessArea.inWild(player)) {
+                        if (item.getId() == CustomItemIdentifiers.ESCAPE_KEY && WildernessArea.isInWilderness(player)) {
                             player.message("You can't drop this item.");
                             return;
                         }
 
                         int totalValueStack = item.getValue() * item.getAmount();
                         boolean stackableValuedItem = item.stackable() && totalValueStack > 10_000;
-                        if ((stackableValuedItem || item.getValue() > 10_000) && WildernessArea.inWild(player)) {
+                        if ((stackableValuedItem || item.getValue() > 10_000) && WildernessArea.isInWilderness(player)) {
                             if(!player.inventory().contains(item)) {
                                 return;
                             }
@@ -158,7 +158,7 @@ public class DropItemPacketListener implements PacketListener {
 
                         player.inventory().remove(item, true);
 
-                        if (item.getValue() == 0 && WildernessArea.inWild(player)) {
+                        if (item.getValue() == 0 && WildernessArea.isInWilderness(player)) {
                             player.message(Color.RED.wrap("You dropped a spawnable item in the wilderness, it disappears as it touches the ground."));
                             return;
                         }
@@ -182,7 +182,7 @@ public class DropItemPacketListener implements PacketListener {
         GroundItem groundItem = new GroundItem(item, player.tile(), player);
 
         //When dropping items in the wilderness everyone can instantly pick them up
-        if (WildernessArea.inWild(player)) {
+        if (WildernessArea.isInWilderness(player)) {
             groundItem.setState(State.SEEN_BY_EVERYONE);
         }
 

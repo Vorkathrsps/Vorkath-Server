@@ -26,7 +26,7 @@ public class ComboCommand implements Command {
             return;
         }
 
-        if(WildernessArea.inWild(player)) {
+        if(WildernessArea.isInWilderness(player)) {
             player.message("You can only use this command at safe zones.");
             return;
         }

@@ -71,7 +71,7 @@ public class AdamantDragon extends CommonCombatMethod {
             boolean hasShield = CombatConstants.hasAntiFireShield(player);
             boolean hasPotion = antifire_charges > 0;
 
-            boolean memberEffect = player.getMemberRights().isExtremeMemberOrGreater(player) && !WildernessArea.inWild(player);
+            boolean memberEffect = player.getMemberRights().isExtremeMemberOrGreater(player) && !WildernessArea.isInWilderness(player);
             if (max > 0 && player.<Boolean>getAttribOr(AttributeKey.SUPER_ANTIFIRE_POTION, false) || memberEffect) {
                 player.message("Your super antifire potion protects you completely from the heat of the dragon's breath!");
                 max = 0.0;

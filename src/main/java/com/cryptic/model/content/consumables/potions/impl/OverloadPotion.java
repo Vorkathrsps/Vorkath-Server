@@ -28,7 +28,7 @@ public class OverloadPotion {
             @Override
             protected void execute() {
 
-                if (!player.isRegistered() || player.dead() || ticks == 0 || WildernessArea.inWild(player)|| player.getDueling().inDuel()) {
+                if (!player.isRegistered() || player.dead() || ticks == 0 || WildernessArea.isInWilderness(player)|| player.getDueling().inDuel()) {
                     stop();
                     player.healPlayer();
                     player.getSkills().resetStats();

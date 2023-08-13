@@ -16,7 +16,7 @@ public class BankCommandCommand implements Command {
             return;
         }
 
-        if(!player.getPlayerRights().isDeveloper(player) && WildernessArea.inWild(player)) {
+        if(!player.getPlayerRights().isDeveloper(player) && WildernessArea.isInWilderness(player)) {
             player.message("<col="+ Color.RED.getColorValue()+">You can't use this command here.");
             return;
         }

@@ -359,7 +359,7 @@ public class TournamentManager extends PacketInteraction {
      */
     static void bankEverything(Player player) {
         player.getBank().depositInventory();
-        player.getBank().depositeEquipment();
+        player.getBank().depositEquipment();
         if (player.getPet().getPet() != null) {
             player.getPet().clearSpawnedPet();
         }

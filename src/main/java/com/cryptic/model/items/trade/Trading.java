@@ -112,7 +112,7 @@ public class Trading {
             return;
         }
 
-        if (player.inventory().contains(ESCAPE_KEY) && WildernessArea.inWild(player)) {
+        if (player.inventory().contains(ESCAPE_KEY) && WildernessArea.isInWilderness(player)) {
             player.message(Color.RED.wrap("You can't send trade requests when holding the Escape key."));
             return;
         }

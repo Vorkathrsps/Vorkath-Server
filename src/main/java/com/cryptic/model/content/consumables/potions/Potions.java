@@ -195,7 +195,7 @@ public class Potions {
                     return;
                 }
             }
-            if (WildernessArea.inWild(player)) {
+            if (WildernessArea.isInWilderness(player)) {
                 player.message("You can't use this potion in the wilderness.");
                 return;
             }

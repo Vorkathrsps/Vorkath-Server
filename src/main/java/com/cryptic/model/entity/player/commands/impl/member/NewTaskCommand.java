@@ -19,7 +19,7 @@ public class NewTaskCommand implements Command {
             return;
         }
 
-        if(WildernessArea.inWild(player)) {
+        if(WildernessArea.isInWilderness(player)) {
             player.message("You can't use that command here.");
             return;
         }

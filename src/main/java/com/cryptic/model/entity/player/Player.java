@@ -1819,7 +1819,7 @@ public class Player extends Entity {
      * Resets the player's skills to default.
      */
     public void resetSkills() {
-        getBank().depositeEquipment();
+        getBank().depositEquipment();
         getBank().depositInventory();
         for (int skillId = 0; skillId < Skills.SKILL_COUNT; skillId++) {
             skills.setXp(skillId, Skills.levelToXp(1));

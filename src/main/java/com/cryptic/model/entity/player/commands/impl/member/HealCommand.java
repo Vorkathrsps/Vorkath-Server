@@ -20,7 +20,7 @@ public class HealCommand implements Command {
             player.message("You need to be at least a elite member to use this command.");
             return;
         }
-        if(((!player.tile().inArea(Tile.EDGEVILE_HOME_AREA) || WildernessArea.inWild(player)))&& !player.getPlayerRights().isAdministrator(player)) {
+        if(((!player.tile().inArea(Tile.EDGEVILE_HOME_AREA) || WildernessArea.isInWilderness(player)))&& !player.getPlayerRights().isAdministrator(player)) {
             player.message("<col="+ Color.RED.getColorValue()+">You can only restore your health at home.");
             return;
         }

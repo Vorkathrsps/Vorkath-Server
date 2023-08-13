@@ -340,7 +340,7 @@ public final class GroundItemHandler {
                             return;
                         } else {
                             if (item.getId() == ESCAPE_KEY) {
-                                if (WildernessArea.inWild(player)) {
+                                if (WildernessArea.isInWilderness(player)) {
                                     player.confirmDialogue(new String[]{Color.RED.wrap("Are you sure you wish to pick up this key? You will be red"), Color.RED.wrap("skulled and all your items will be lost on death!")}, "", "Proceed.", "Cancel.", () -> {
                                         Optional<GroundItem> gItem = GroundItemHandler.getGroundItem(ESCAPE_KEY, tile, player);
                                         if (gItem.isEmpty()) {

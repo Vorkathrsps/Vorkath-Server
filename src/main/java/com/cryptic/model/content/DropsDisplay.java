@@ -222,7 +222,7 @@ public class DropsDisplay {
         var larransLuck = player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.LARRANS_LUCK);
         var combatLvl = def.combatlevel;
         var roll = combatLvl < 50 ? larransLuck ? 875 : 1000 : larransLuck ? 350 : 400;
-        if (WildernessArea.inWild(player)) {
+        if (WildernessArea.isInWilderness(player)) {
             drops.add(petId != -1 ? 1 : 0, new Integer[]{ItemIdentifiers.LARRANS_KEY, 1, 1, roll});
         }
 

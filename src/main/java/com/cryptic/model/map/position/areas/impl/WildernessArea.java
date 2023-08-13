@@ -50,7 +50,7 @@ public class WildernessArea extends Controller {
         return wildernessLevel(tile) > 0;
     }
 
-    public static boolean inWild(Player player) {
+    public static boolean isInWilderness(Player player) {
         return inWilderness(player.tile());
     }
 
@@ -119,7 +119,7 @@ public class WildernessArea extends Controller {
      */
     public static boolean inAttackableArea(Entity player) {
         boolean inTourny = player.getController() instanceof TournamentArea;
-        return WildernessArea.inWild((Player) player) || Dueling.in_duel(player) || inTourny;
+        return WildernessArea.isInWilderness((Player) player) || Dueling.in_duel(player) || inTourny;
     }
 
     public static boolean inside_pirates_hideout(Tile tile) {

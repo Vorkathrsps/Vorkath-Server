@@ -16,7 +16,7 @@ public class UnskullCommand implements Command {
             player.message("You need to be at least a regular member to use this command.");
             return;
         }
-        if (CombatFactory.inCombat(player) || WildernessArea.inWild(player)) {
+        if (CombatFactory.inCombat(player) || WildernessArea.isInWilderness(player)) {
             player.message("You can't do that right now.");
             return;
         }

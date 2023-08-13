@@ -122,7 +122,7 @@ public class RangedMaxHitFormula {
                 }
             }
 
-            if (FormulaUtils.hasRangedWildernessWeapon(player) && WildernessArea.inWild(player)) {
+            if (FormulaUtils.hasRangedWildernessWeapon(player) && WildernessArea.isInWilderness(player)) {
                 otherBonus *= 1.50;
             }
         }

@@ -122,7 +122,7 @@ public enum WildernessLocations {
      */
     public boolean isInArea(Player player) {
         for (int region : regionIds()) {
-            if (player.tile().region() == region && WildernessArea.inWild(player)) {
+            if (player.tile().region() == region && WildernessArea.isInWilderness(player)) {
                 return true;
             }
         }

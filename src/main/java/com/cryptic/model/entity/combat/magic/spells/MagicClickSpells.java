@@ -111,7 +111,7 @@ public class MagicClickSpells {
                     return false;
                 }
 
-                if (!WildernessArea.inWild(player)) {
+                if (!WildernessArea.isInWilderness(player)) {
                     player.message("You must be in the Wilderness to use this spell.");
                     return false;
                 }
@@ -229,7 +229,7 @@ public class MagicClickSpells {
                     return false;
                 }
 
-                if (!WildernessArea.inWild(player)) {
+                if (!WildernessArea.isInWilderness(player)) {
                     player.message("You must be in the Wilderness to use this spell.");
                     return false;
                 }
@@ -347,7 +347,7 @@ public class MagicClickSpells {
                     return false;
                 }
 
-                if (!WildernessArea.inWild(player)) {
+                if (!WildernessArea.isInWilderness(player)) {
                     player.message("You must be in the Wilderness to use this spell.");
                     return false;
                 }

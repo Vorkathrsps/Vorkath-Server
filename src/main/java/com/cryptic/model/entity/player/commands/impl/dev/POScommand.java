@@ -8,7 +8,7 @@ public class POScommand implements Command {
 
     @Override
     public void execute(Player player, String command, String[] parts) {
-        player.message(player.tile().toString()+" region: "+player.tile().region()+". wild: "+ WildernessArea.inWild(player)+". Chunk: " +player.tile().chunk()+" local "+(player.getX() & 63)+" "+(player.getAbsY() & 63));
+        player.message(player.tile().toString()+" region: "+player.tile().region()+". wild: "+ WildernessArea.isInWilderness(player)+". Chunk: " +player.tile().chunk()+" local "+(player.getX() & 63)+" "+(player.getAbsY() & 63));
     }
 
     @Override

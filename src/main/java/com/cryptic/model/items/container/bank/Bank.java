@@ -546,7 +546,7 @@ public class Bank extends ItemContainer {
     /**
      * Handles depositing all the equipment.
      */
-    public void depositeEquipment() {
+    public void depositEquipment() {
         for (int i = 0; i <= 13; i++) {
             var itemAt = player.getEquipment().get(i);
             if(itemAt == null) continue; // Get item or continue
@@ -820,7 +820,7 @@ public class Bank extends ItemContainer {
 
             /* Deposit Equipment */
             case 26104 -> {
-                depositeEquipment();
+                depositEquipment();
                 return true;
             }
             case 5386 -> {

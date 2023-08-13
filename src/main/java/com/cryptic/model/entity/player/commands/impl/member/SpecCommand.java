@@ -16,7 +16,7 @@ public class SpecCommand implements Command {
 
     @Override
     public void execute(Player player, String command, String[] parts) {
-        if(!player.getPlayerRights().isAdministrator(player) && ((!player.tile().inArea(Tile.EDGEVILE_HOME_AREA) || WildernessArea.inWild(player)))) {
+        if(!player.getPlayerRights().isAdministrator(player) && ((!player.tile().inArea(Tile.EDGEVILE_HOME_AREA) || WildernessArea.isInWilderness(player)))) {
             player.message("<col="+ Color.RED.getColorValue()+">You can only restore your special attack at home.");
             return;
         }

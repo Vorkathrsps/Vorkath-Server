@@ -402,9 +402,9 @@
         <dependency>
             <groupId>com.dev</groupId>
             <artifactId>functions</artifactId>
-            <version>1.91.0</version>
+            <version>1.90.0</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/functions/functions-1.91.0.jar</systemPath>
+            <systemPath>${project.basedir}/functions/functions-1.90.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>

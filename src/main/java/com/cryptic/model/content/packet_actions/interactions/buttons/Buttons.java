@@ -124,7 +124,7 @@ public class Buttons {
 
         switch (button) {
             case 15151 -> {
-                if (WildernessArea.inWild(player)) {
+                if (WildernessArea.isInWilderness(player)) {
                     return;
                 }
                 player.getPacketSender().sendInterfaceDisplayState(21172, true);

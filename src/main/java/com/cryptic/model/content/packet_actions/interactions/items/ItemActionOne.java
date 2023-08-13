@@ -125,7 +125,7 @@ public class ItemActionOne {
                 return;
             }
 
-            if (WildernessArea.inWild(player)) {
+            if (WildernessArea.isInWilderness(player)) {
                 player.message("You cannot exchange vote points in the wilderness.");
                 return;
             }

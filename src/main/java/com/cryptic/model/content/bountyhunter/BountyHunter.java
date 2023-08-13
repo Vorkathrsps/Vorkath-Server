@@ -68,7 +68,7 @@ public class BountyHunter {
         });
 
         //Is player in the wilderness?
-        if (WildernessArea.inWild(player)) {
+        if (WildernessArea.isInWilderness(player)) {
             //Check if the player has a target.
             //If not, search for a new one.
             if (target.isEmpty()) {

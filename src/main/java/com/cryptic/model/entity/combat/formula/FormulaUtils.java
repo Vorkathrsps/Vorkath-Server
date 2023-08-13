@@ -172,7 +172,7 @@ public class FormulaUtils {
 
     public static boolean hasThammaronSceptre(Player player) {
         ItemContainer eq = player.getEquipment();
-        return (eq.hasAt(EquipSlot.WEAPON, 22555) && (WildernessArea.inWild(player)));
+        return (eq.hasAt(EquipSlot.WEAPON, 22555) && (WildernessArea.isInWilderness(player)));
     }
 
     public static boolean hasSlayerHelmet(Player player) {
@@ -196,12 +196,12 @@ public class FormulaUtils {
     }
 
     public static boolean hasCrawsBow(Player player) {
-        return ((player.getEquipment().hasAt(EquipSlot.WEAPON, CRAWS_BOW) && WildernessArea.inWild(player)));
+        return ((player.getEquipment().hasAt(EquipSlot.WEAPON, CRAWS_BOW) && WildernessArea.isInWilderness(player)));
     }
 
     public static boolean hasAmuletOfAvarice(Player player) {
         ItemContainer eq = player.getEquipment();
-        return (eq.hasAt(EquipSlot.WEAPON, 22557) && WildernessArea.inWild(player));
+        return (eq.hasAt(EquipSlot.WEAPON, 22557) && WildernessArea.isInWilderness(player));
     }
 
     public static boolean berserkerNecklace(Player player) {

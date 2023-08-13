@@ -13,8 +13,10 @@ import com.cryptic.utility.timers.TimerKey;
 import org.apache.commons.lang.ArrayUtils;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * @Author: Origin
@@ -41,7 +43,6 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Handles Packet Interaction
-     *
      * @param player the player
      * @param button the button
      * @return true / false
@@ -78,7 +79,6 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Button Validation
-     *
      * @param player
      * @param button
      */
@@ -92,7 +92,6 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Preset Function Handler
-     *
      * @param player
      */
     void handlePresetFunction(Player player) {
@@ -104,7 +103,6 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Apply our preset
-     *
      * @param player
      * @param presetKits
      */
@@ -118,7 +116,6 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Clear the attributes that we're not currently matching with and apply / keep the correct one
-     *
      * @param player
      * @param attributeKeyToKeep
      */
@@ -130,7 +127,6 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Identify which unique button is tied to the button we're interacting with
-     *
      * @param button
      * @return
      */
@@ -140,7 +136,6 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Identify which preset we're currently on
-     *
      * @param player
      * @return
      */
@@ -150,7 +145,6 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Rebuilds the interface
-     *
      * @param player
      */
     void rebuildInterface(Player player, PresetKits presetKits) {
@@ -183,7 +177,6 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Sends the pre-made kit strings
-     *
      * @param player
      */
     void sendPreMadePresetStrings(Player player) {
@@ -195,7 +188,6 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Sends the inventory item container
-     *
      * @param player
      */
     void sendInventoryContainer(Player player, PresetKits presetKits) {
@@ -206,7 +198,6 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Sends the equipment item container
-     *
      * @param player
      */
     void sendEquipmentContainer(Player player, PresetKits presetKits) {
@@ -220,7 +211,6 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Sends The Spellbook String
-     *
      * @param player
      */
     void sendSpellbookString(Player player, PresetKits presetKits) {
@@ -229,7 +219,6 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Sends the prayers string
-     *
      * @param player
      */
     void sendPrayerString(Player player) {
@@ -238,7 +227,6 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Applys Experience To Designated Skills
-     *
      * @param player
      */
     void applyExperience(Player player, PresetKits presetKits) {
@@ -252,7 +240,6 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Apply the Preset Equipment
-     *
      * @param player
      * @param presetKits
      */
@@ -261,11 +248,11 @@ public class PresetHandler extends PacketInteraction {
             if (player.getEquipment() != null && !player.getEquipment().hasNoEquipment()) {
                 player.getBank().depositEquipment();
             }
-            presetKits.getEquipmentItemList().forEach(item -> {
-                if (!player.getBank().contains(item)) {
+            getEquipmentListOf(presetKits).forEach(item -> {
+                if (!bankContains(player, item)) {
                     player.message(item.getAmount() == 0 ? "Item not found: " + Color.RED.wrap("" + item.name()) : "Item not found: " + Color.RED.wrap("" + item.name()) + " Amount: " + Color.RED.wrap("x" + item.getAmount()));
                 } else {
-                    player.getBank().remove(new Item(item, item.getAmount()));
+                    removeFromBank(player, item);
                     player.getEquipment().manualWear(item, true, false);
                 }
             });
@@ -274,7 +261,6 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Method to change our spellbook
-     *
      * @param player
      * @param presetKits
      */
@@ -287,7 +273,6 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Apply the preset inventory
-     *
      * @param player
      * @param presetKits
      */
@@ -297,20 +282,57 @@ public class PresetHandler extends PacketInteraction {
             if (inventoryCheck) {
                 player.getBank().depositInventory();
             }
-            Arrays.stream(presetKits.getInventoryItemList()).forEach(i -> {
-                if (!player.getBank().contains(i)) {
-                    player.message(i.getAmount() == 0 ? "Item not found: " + Color.RED.wrap("" + i.name()) : "Item not found: " + Color.RED.wrap("" + i.name()) + " Amount: " + Color.RED.wrap("x" + i.getAmount()));
+            getInventoryListOf(presetKits).forEach(item -> {
+                if (!bankContains(player, item)) {
+                    player.message(item.getAmount() == 0 ? "Item not found: " + Color.RED.wrap("" + item.name()) : "Item not found: " + Color.RED.wrap("" + item.name()) + " Amount: " + Color.RED.wrap("x" + item.getAmount()));
                 } else {
-                    player.getBank().remove(new Item(i, i.getAmount()));
-                    player.getInventory().add(i);
+                    removeFromBank(player, item);
+                    player.getInventory().add(item);
                 }
             });
         }
     }
 
     /**
+     * Remove item from the players bank
+     * @param player
+     * @param item
+     * @return
+     */
+    boolean removeFromBank(Player player, Item item) {
+        return player.getBank().remove(new Item(item, item.getAmount()));
+    }
+
+    /**
+     * Returns true/false if player's bank contains an item
+     * @param player
+     * @param item
+     * @return
+     */
+    boolean bankContains(Player player, Item item) {
+        return player.getBank().contains(item);
+    }
+
+    /**
+     * Returns presets equipment list
+     * @param presetKits
+     * @return
+     */
+    List<Item> getEquipmentListOf(PresetKits presetKits) {
+        return presetKits.getEquipmentItemList();
+    }
+
+    /**
+     * Streams inventory list
+     * @param presetKits
+     * @return
+     */
+    Stream<Item> getInventoryListOf(PresetKits presetKits) {
+        return Arrays.stream(presetKits.getInventoryItemList());
+    }
+
+    /**
      * Update Our Players Attributes
-     *
      * @param player
      */
     void updatePlayer(Player player) {

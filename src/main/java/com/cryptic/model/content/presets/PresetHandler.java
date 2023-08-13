@@ -22,6 +22,7 @@ import java.util.stream.Stream;
  * @Author: Origin
  * @Date: 8/13/2023
  */
+@SuppressWarnings("unused")
 public class PresetHandler extends PacketInteraction {
 
     public ItemContainer container;
@@ -42,11 +43,11 @@ public class PresetHandler extends PacketInteraction {
     boolean canEdit = true;
 
     /**
-     * Handles Packet Interaction
+     * Handles the interaction when a button is clicked.
      *
      * @param player the player
      * @param button the button
-     * @return true / false
+     * @return true if interaction is handled, false otherwise
      */
     @Override
     public boolean handleButtonInteraction(Player player, int button) {
@@ -79,10 +80,10 @@ public class PresetHandler extends PacketInteraction {
     }
 
     /**
-     * Button Validation
+     * Validates the clicked button and applies the corresponding action.
      *
-     * @param player
-     * @param button
+     * @param player the player
+     * @param button the button
      */
     void handleButtonValidation(Player player, int button) {
         findMatchingButtonIdentificationFor(button).ifPresent(p -> {
@@ -93,22 +94,19 @@ public class PresetHandler extends PacketInteraction {
     }
 
     /**
-     * Preset Function Handler
+     * Handles the action when a preset button is clicked.
      *
-     * @param player
+     * @param player the player
      */
     void handlePresetFunction(Player player) {
-        findMatchingAttributeFor(player).ifPresent(presetKits -> {
-            applyPreset(player, presetKits);
-        });
+        findMatchingAttributeFor(player).ifPresent(presetKits -> applyPreset(player, presetKits));
     }
 
-
     /**
-     * Apply our preset
+     * Applies the selected preset to the player's attributes and inventory.
      *
-     * @param player
-     * @param presetKits
+     * @param player     the player
+     * @param presetKits the selected preset
      */
     void applyPreset(Player player, PresetKits presetKits) {
         applyExperience(player, presetKits);
@@ -121,8 +119,8 @@ public class PresetHandler extends PacketInteraction {
     /**
      * Clear the attributes that we're not currently matching with and apply / keep the correct one
      *
-     * @param player
-     * @param attributeKeyToKeep
+     * @param player the player
+     * @param attributeKeyToKeep the attributekey
      */
     void clearAttributesExcept(Player player, AttributeKey attributeKeyToKeep) {
         Arrays.stream(attributeKeys)
@@ -133,8 +131,8 @@ public class PresetHandler extends PacketInteraction {
     /**
      * Identify which unique button is tied to the button we're interacting with
      *
-     * @param button
-     * @return
+     * @param button the button
+     * @return optional
      */
     Optional<PresetKits> findMatchingButtonIdentificationFor(int button) {
         return Arrays.stream(kits).filter(f -> f.buttonIdentification == button).findAny();
@@ -143,8 +141,8 @@ public class PresetHandler extends PacketInteraction {
     /**
      * Identify which preset we're currently on
      *
-     * @param player
-     * @return
+     * @param player the player
+     * @return optional
      */
     Optional<PresetKits> findMatchingAttributeFor(Player player) {
         return Arrays.stream(kits).filter(f -> player.hasAttrib(f.getAttributeKey())).findFirst();
@@ -153,7 +151,7 @@ public class PresetHandler extends PacketInteraction {
     /**
      * Rebuilds the interface
      *
-     * @param player
+     * @param player the player
      */
     void rebuildInterface(Player player, PresetKits presetKits) {
         if (presetKits != null) {
@@ -186,7 +184,7 @@ public class PresetHandler extends PacketInteraction {
     /**
      * Sends the pre-made kit strings
      *
-     * @param player
+     * @param player the player
      */
     void sendPreMadePresetStrings(Player player) {
         for (int i = 0; i < presetNames.length; i++) {
@@ -198,7 +196,7 @@ public class PresetHandler extends PacketInteraction {
     /**
      * Sends the inventory item container
      *
-     * @param player
+     * @param player the player
      */
     void sendInventoryContainer(Player player, PresetKits presetKits) {
         container = new ItemContainer(INVENTORY_SIZE, ItemContainer.StackPolicy.STANDARD);
@@ -209,7 +207,7 @@ public class PresetHandler extends PacketInteraction {
     /**
      * Sends the equipment item container
      *
-     * @param player
+     * @param player the player
      */
     void sendEquipmentContainer(Player player, PresetKits presetKits) {
         container = new ItemContainer(INVENTORY_SIZE, ItemContainer.StackPolicy.STANDARD);
@@ -222,11 +220,11 @@ public class PresetHandler extends PacketInteraction {
 
     /**
      * Sends items to an interface
-     * @param player
-     * @param id
-     * @param item
-     * @param index
-     * @param amount
+     * @param player the player
+     * @param id the item id
+     * @param item the item instance
+     * @param index the item index
+     * @param amount the item amount
      */
     void sendItemsToInterface(Player player, int id, int item, int index, int amount) {
         player.getPacketSender().sendItemOnInterfaceSlot(id + index, item, amount, 0);
@@ -235,7 +233,7 @@ public class PresetHandler extends PacketInteraction {
     /**
      * Sends The Spellbook String
      *
-     * @param player
+     * @param player the player
      */
     void sendSpellbookString(Player player, PresetKits presetKits) {
         player.getPacketSender().sendString(73237, presetKits.getSpellbook().name().toLowerCase());
@@ -244,7 +242,7 @@ public class PresetHandler extends PacketInteraction {
     /**
      * Sends the prayers string
      *
-     * @param player
+     * @param player the player
      */
     void sendPrayerString(Player player) {
         player.getPacketSender().sendString(73238, "Regular");
@@ -253,7 +251,7 @@ public class PresetHandler extends PacketInteraction {
     /**
      * Applys Experience To Designated Skills
      *
-     * @param player
+     * @param player the player
      */
     void applyExperience(Player player, PresetKits presetKits) {
         int[] changeLevelsTo = presetKits.getAlterLevels();
@@ -267,8 +265,8 @@ public class PresetHandler extends PacketInteraction {
     /**
      * a sequential IntStream for the range of int elements
      *
-     * @param presetKits
-     * @return
+     * @param presetKits the presetkit instance
+     * @return inclusive
      */
     IntStream checkInclusivesFor(PresetKits presetKits) {
         return IntStream.range(0, presetKits.getCurrentLevels().length);
@@ -277,8 +275,8 @@ public class PresetHandler extends PacketInteraction {
     /**
      * Apply the Preset Equipment
      *
-     * @param player
-     * @param presetKits
+     * @param player the player
+     * @param presetKits the presetkit instance
      */
     void applyEquipment(Player player, PresetKits presetKits) {
         if (!WildernessArea.isInWilderness(player)) {
@@ -286,7 +284,7 @@ public class PresetHandler extends PacketInteraction {
                 player.getBank().depositEquipment();
             }
             getEquipmentItemsOf(presetKits).forEach(item -> {
-                if (!bankContains(player, item)) {
+                if (bankDoesntContain(player, item)) {
                     player.message(item.getAmount() == 0 ? "Item not found: " + Color.RED.wrap("" + item.name()) : "Item not found: " + Color.RED.wrap("" + item.name()) + " Amount: " + Color.RED.wrap("x" + item.getAmount()));
                 } else {
                     removeFromBank(player, item);
@@ -299,8 +297,8 @@ public class PresetHandler extends PacketInteraction {
     /**
      * Method to change our spellbook
      *
-     * @param player
-     * @param presetKits
+     * @param player the player
+     * @param presetKits the presetkit instance
      */
     void applySpellBook(Player player, PresetKits presetKits) {
         if (!WildernessArea.isInWilderness(player)) {
@@ -312,8 +310,8 @@ public class PresetHandler extends PacketInteraction {
     /**
      * Apply the preset inventory
      *
-     * @param player
-     * @param presetKits
+     * @param player the player
+     * @param presetKits the presetkit instance
      */
     void applyInventory(Player player, PresetKits presetKits) {
         boolean inventoryCheck = player.getInventory().getFreeSlots() > -1;
@@ -322,7 +320,7 @@ public class PresetHandler extends PacketInteraction {
                 player.getBank().depositInventory();
             }
             getInventoryItemsOf(presetKits).forEach(item -> {
-                if (!bankContains(player, item)) {
+                if (bankDoesntContain(player, item)) {
                     player.message(item.getAmount() == 0 ? "Item not found: " + Color.RED.wrap("" + item.name()) : "Item not found: " + Color.RED.wrap("" + item.name()) + " Amount: " + Color.RED.wrap("x" + item.getAmount()));
                 } else {
                     removeFromBank(player, item);
@@ -335,30 +333,29 @@ public class PresetHandler extends PacketInteraction {
     /**
      * Remove item from the players bank
      *
-     * @param player
-     * @param item
-     * @return
+     * @param player the player
+     * @param item   the item
      */
-    boolean removeFromBank(Player player, Item item) {
-        return player.getBank().remove(new Item(item, item.getAmount()));
+    void removeFromBank(Player player, Item item) {
+        player.getBank().remove(new Item(item, item.getAmount()));
     }
 
     /**
      * Returns true/false if player's bank contains an item
      *
-     * @param player
-     * @param item
-     * @return
+     * @param player the player
+     * @param item the item
+     * @return true/false
      */
-    boolean bankContains(Player player, Item item) {
-        return player.getBank().contains(item);
+    boolean bankDoesntContain(Player player, Item item) {
+        return !player.getBank().contains(item);
     }
 
     /**
      * Returns presets equipment list
      *
-     * @param presetKits
-     * @return
+     * @param presetKits the presetkit instance
+     * @return equipment items
      */
     List<Item> getEquipmentItemsOf(PresetKits presetKits) {
         return presetKits.getEquipmentItemList();
@@ -367,17 +364,17 @@ public class PresetHandler extends PacketInteraction {
     /**
      * Streams inventory list
      *
-     * @param presetKits
-     * @return
+     * @param presetKits the presetkits instance
+     * @return inventory items
      */
     Stream<Item> getInventoryItemsOf(PresetKits presetKits) {
         return Arrays.stream(presetKits.getInventoryItemList());
     }
 
     /**
-     * Update Our Players Attributes
+     * Updates the player's attributes and equipment after applying the preset.
      *
-     * @param player
+     * @param player the player
      */
     void updatePlayer(Player player) {
         ItemWeight.calculateWeight(player);

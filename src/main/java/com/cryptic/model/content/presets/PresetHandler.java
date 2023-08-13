@@ -176,7 +176,7 @@ public class PresetHandler extends PacketInteraction {
     void resetContainers(Player player) {
         for (int index = 0; index < 11; index++) {
             int id = 73251;
-            player.getPacketSender().sendItemOnInterfaceSlot(id + index, -1, 0, 0);
+            sendItemsToInterface(player, id, -1, index,  1);
         }
         if (container != null) {
             container.clear();
@@ -214,10 +214,22 @@ public class PresetHandler extends PacketInteraction {
     void sendEquipmentContainer(Player player, PresetKits presetKits) {
         container = new ItemContainer(INVENTORY_SIZE, ItemContainer.StackPolicy.STANDARD);
         container.addAll(presetKits.getEquipmentItemList());
-        for (int i = 0; i < 11; i++) {
+        for (int index = 0; index < 11; index++) {
             int id = 73251;
-            player.getPacketSender().sendItemOnInterfaceSlot(id + i, container.get(i).getId(), 1, 0);
+            sendItemsToInterface(player, id, container.get(index).getId(), index, container.get(index).getAmount());
         }
+    }
+
+    /**
+     * Sends items to an interface
+     * @param player
+     * @param id
+     * @param item
+     * @param index
+     * @param amount
+     */
+    void sendItemsToInterface(Player player, int id, int item, int index, int amount) {
+        player.getPacketSender().sendItemOnInterfaceSlot(id + index, item, amount, 0);
     }
 
     /**

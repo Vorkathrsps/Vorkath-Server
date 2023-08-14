@@ -1,8 +1,11 @@
-package com.cryptic.model.content.presets;
+package com.cryptic.model.content.presets.newpreset;
 
+import com.cryptic.model.World;
+import com.cryptic.model.content.presets.PresetKits;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.MagicSpellbook;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ItemWeight;
 import com.cryptic.model.items.container.ItemContainer;
@@ -12,9 +15,7 @@ import com.cryptic.utility.Color;
 import com.cryptic.utility.timers.TimerKey;
 import org.apache.commons.lang.ArrayUtils;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -26,6 +27,9 @@ import java.util.stream.Stream;
 public class PresetHandler extends PacketInteraction { //TODO add region array for wildy checks
 
     public ItemContainer container;
+
+    ItemContainer equipmentContainer;
+    ItemContainer inventoryContainer;
     private static final int PRESET_BUTTON_ID = 73235;
     private static final int EDIT_BUTTON_ID = 73234;
     private static final int SPELLBOOK_STRING_ID = 73237;
@@ -34,18 +38,18 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     private static final int PRE_MADE_PRESET_NAME_STRINGS = 73271;
     private static final int PRAYER_STRING_ID = 73238;
     private static final int INVENTORY_SIZE = 28;
-    int[] preMadeKitButtons = new int[]{73271, 73272, 73273, 73275, 73277, 73279, 73281, 73283, 73285};
+    private static final int EQUIPMENT_SIZE = 11;
+    int[] preMadeKitButtons = new int[]{73274, 73275, 73276, 73277, 73277, 73279, 73281, 73283, 73285};
     int[] createKitStrings = new int[]{73272, 73274, 73276, 73278, 73280, 73282, 73284, 73286};
     int[] createKitButtons = new int[]{73296, 73297, 73298, 73299, 73300, 73301, 73302, 73303};
     int[] equipmentChildIds = new int[]{73251, 73252, 73253, 73254, 73255, 73256, 73257, 73258, 73259, 73260, 73261};
-    String[] presetNames = {
-        "Main - Melee", "Zerker - Melee", "Pure - Melee",
-        "Main - Tribrid", "Zerker - Tribrid", "Pure - Tribrid",
-        "Main - Hybrid", "Zerker - Hybrid"
-    };
+    String[] presetNames = {"Main - Melee", "Zerker - Melee", "Pure - Melee", "Main - Tribrid", "Zerker - Tribrid", "Pure - Tribrid", "Main - Hybrid", "Zerker - Hybrid"};
     AttributeKey[] attributeKeys = new AttributeKey[]{AttributeKey.PURE_MELEE_PRESET, AttributeKey.MAIN_MELEE_PRESET, AttributeKey.ZERKER_MELEE_PRESET};
     PresetKits[] kits = PresetKits.values();
+    CreatePreset create;
     boolean canEdit = true;
+    List<Skill> savedPresetSkills = new ArrayList<>(24);
+    HashMap<Integer, Integer> itemAmounts = new HashMap<>();
 
     /**
      * Handles the interaction when a button is clicked.
@@ -69,11 +73,15 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         var isPreMadeKit = ArrayUtils.contains(preMadeKitButtons, button);
 
         if (isPreMadeKit) {
+            player.message("is pre-made");
             handleButtonValidation(player, button);
             return true;
         } else if (button == PRESET_BUTTON_ID) {
             handlePresetFunction(player);
             return true;
+        } else if (button == 73291) {
+            player.message("attempting save");
+            create(player);
         } else if (button == EDIT_BUTTON_ID) {
             for (var a : attributeKeys) {
                 if (player.hasAttrib(a)) {
@@ -88,6 +96,103 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         return false;
     }
 
+    void create(Player player) {
+
+        if (!savedPresetSkills.isEmpty()) {
+            savedPresetSkills.clear();
+        }
+
+        for (int i = 0; i < player.getSkills().levels.length; i++) {
+            savedPresetSkills.add(Skill.fromId(i));
+        }
+
+        //create = new CreatePreset("presetName", savedPresetInventoryItems, savedPresetEquipment, savedPresetSkills);
+
+        //create.appendToJsonFile(create, player);
+
+        resetContainers(player);
+
+        equipmentContainer = new ItemContainer(EQUIPMENT_SIZE, ItemContainer.StackPolicy.STANDARD);
+        inventoryContainer = new ItemContainer(INVENTORY_SIZE, ItemContainer.StackPolicy.STANDARD);
+
+        populateCreatedEquipmentContainer(player, equipmentContainer);
+        handleCreatedEquipmentContainer(player, equipmentContainer);
+        populateCreatedInventoryContainer(player, inventoryContainer);
+        handleCreatedInventoryContainer(player, inventoryContainer);
+
+    }
+
+    void handleCreatedEquipmentContainer(Player player, ItemContainer equipmentContainer) {
+        equipmentContainer.forEach(item -> {
+            if (item != null) {
+                var slot = World.getWorld().equipmentInfo().slotFor(item.getId());
+                player.getPacketSender().sendItemOnInterfaceSlot(EQUIPMENT_CONTAINER_ID + slot, item, 0);
+            }
+        });
+    }
+
+    void populateCreatedEquipmentContainer(Player player, ItemContainer equipmentContainer) {
+        if (equipmentContainer != null) {
+            if (!equipmentContainer.isEmpty()) {
+                equipmentContainer.clear();
+            }
+
+            for (int index = 0; index < INVENTORY_SIZE; index++) {
+                player.getPacketSender().sendItemOnInterfaceSlot(INVENTORY_CONTAINER_ID, -1, 0, index);
+            }
+
+            for (var e : player.getEquipment()) {
+                if (e != null) {
+                    equipmentContainer.add(e);
+                }
+            }
+        }
+    }
+
+    void handleCreatedInventoryContainer(Player player, ItemContainer inventoryContainer) {
+        itemAmounts.clear();
+
+        if (player == null) {
+            return;
+        }
+
+        for (Item item : player.getInventory()) {
+            if (item != null) {
+                itemAmounts.put(item.getId(), item.getAmount());
+            }
+        }
+
+        for (int index = 0; index < player.getInventory().capacity(); index++) {
+            Item item = player.getInventory().get(index);
+
+            if (item != null) {
+                if (!item.stackable() || (!item.noted() && item.getAmount() > 1)) {
+                    int amount = itemAmounts.get(item.getId());
+                    for (int i = 0; i < amount; i++) {
+                        player.getPacketSender().sendItemOnInterfaceSlot(INVENTORY_CONTAINER_ID, item, index);
+                    }
+                } else {
+                    player.getPacketSender().sendItemOnInterfaceSlot(INVENTORY_CONTAINER_ID, item, index);
+                }
+            }
+        }
+    }
+
+    void populateCreatedInventoryContainer(Player player, ItemContainer inventoryContainer) {
+        if (inventoryContainer != null) {
+            if (!inventoryContainer.isEmpty()) {
+                inventoryContainer.clear();
+            }
+
+            for (var items : player.getInventory()) {
+                if (items != null) {
+                    inventoryContainer.add(items);
+                }
+            }
+        }
+    }
+
+
     /**
      * Validates the clicked button and applies the corresponding action.
      *
@@ -96,6 +201,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      */
     void handleButtonValidation(Player player, int button) {
         findMatchingButtonIdentificationFor(button).ifPresent(p -> {
+            player.message("present");
             clearAttributesExcept(player, p.getAttributeKey());
             player.putAttrib(p.getAttributeKey(), true);
             rebuildInterface(player, p);
@@ -128,13 +234,11 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     /**
      * Clear the attributes that we're not currently matching with and apply / keep the correct one
      *
-     * @param player the player
+     * @param player             the player
      * @param attributeKeyToKeep the attributekey
      */
     void clearAttributesExcept(Player player, AttributeKey attributeKeyToKeep) {
-        Arrays.stream(attributeKeys)
-            .filter(a -> player.hasAttrib(a) && !a.equals(attributeKeyToKeep))
-            .forEach(player::clearAttrib);
+        Arrays.stream(attributeKeys).filter(a -> player.hasAttrib(a) && !a.equals(attributeKeyToKeep)).forEach(player::clearAttrib);
     }
 
     /**
@@ -181,11 +285,8 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * Clears The Item Containers
      */
     void resetContainers(Player player) {
-        for (int index = 0; index < 11; index++) {
-            sendItemsToInterface(player, -1, index,  1);
-        }
-        if (container != null) {
-            container.clear();
+        for (int index = 0; index < 13; index++) {
+            sendItemsToInterface(player, -1, index, 1);
         }
     }
 
@@ -206,8 +307,9 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * @param player the player
      */
     void sendInventoryContainer(Player player, PresetKits presetKits) {
-        container = new ItemContainer(INVENTORY_SIZE, ItemContainer.StackPolicy.STANDARD);
-        container.addAll(presetKits.getInventoryItemList());
+        inventoryContainer.clear();
+        inventoryContainer = new ItemContainer(INVENTORY_SIZE, ItemContainer.StackPolicy.STANDARD);
+        inventoryContainer.addAll(presetKits.getInventoryItemList());
         player.getPacketSender().sendItemOnInterface(INVENTORY_CONTAINER_ID, container.toArray());
     }
 
@@ -217,11 +319,15 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * @param player the player
      */
     void sendEquipmentContainer(Player player, PresetKits presetKits) {
-        container = new ItemContainer(INVENTORY_SIZE, ItemContainer.StackPolicy.STANDARD);
-        container.addAll(presetKits.getEquipmentItemList());
-        for (int index = 0; index < 11; index++) {
-            sendItemsToInterface(player, container.get(index).getId(), index, container.get(index).getAmount());
-        }
+        equipmentContainer.clear();
+        equipmentContainer = new ItemContainer(EQUIPMENT_SIZE, ItemContainer.StackPolicy.STANDARD);
+        equipmentContainer.addAll(presetKits.getEquipmentItemList());
+        equipmentContainer.forEach(item -> {
+            if (item != null) {
+                var slot = World.getWorld().equipmentInfo().slotFor(item.getId());
+                player.getPacketSender().sendItemOnInterfaceSlot(EQUIPMENT_CONTAINER_ID + slot, item, 0);
+            }
+        });
     }
 
     /**
@@ -281,7 +387,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     /**
      * Apply the Preset Equipment
      *
-     * @param player the player
+     * @param player     the player
      * @param presetKits the presetkit instance
      */
     void applyEquipment(Player player, PresetKits presetKits) {
@@ -303,7 +409,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     /**
      * Method to change our spellbook
      *
-     * @param player the player
+     * @param player     the player
      * @param presetKits the presetkit instance
      */
     void applySpellBook(Player player, PresetKits presetKits) {
@@ -316,7 +422,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     /**
      * Apply the preset inventory
      *
-     * @param player the player
+     * @param player     the player
      * @param presetKits the presetkit instance
      */
     void applyInventory(Player player, PresetKits presetKits) {
@@ -350,7 +456,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * Returns true/false if player's bank contains an item
      *
      * @param player the player
-     * @param item the item
+     * @param item   the item
      * @return true/false
      */
     boolean bankDoesntContain(Player player, Item item) {

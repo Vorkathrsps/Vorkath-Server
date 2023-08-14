@@ -14,8 +14,7 @@ public class EquipSlot {
     public static final int LEGS = 7;
     public static final int HANDS = 9;
     public static final int FEET = 10;
-    //public static final int BEARD = 11;
+    public static final int BEARD = 11;
     public static final int RING = 12;
     public static final int AMMO = 13;
-    public static final int ICON = 14;
 }

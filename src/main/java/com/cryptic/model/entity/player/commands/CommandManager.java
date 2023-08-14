@@ -40,6 +40,7 @@ import com.cryptic.model.entity.player.commands.impl.staff.moderator.VanishComma
 import com.cryptic.model.entity.player.commands.impl.staff.server_support.StaffZoneCommand;
 import com.cryptic.model.entity.player.commands.impl.super_member.YellColourCommand;
 import com.cryptic.model.items.Item;
+import com.cryptic.model.items.container.ItemContainer;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.object.GameObject;
@@ -49,6 +50,7 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.utility.Debugs;
+import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.Varbit;
 import com.cryptic.utility.chainedwork.Chain;
@@ -62,8 +64,7 @@ import java.util.*;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.GREAT_OLM_7554;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
-import static com.cryptic.model.entity.attributes.AttributeKey.LOOT_KEYS_ACTIVE;
-import static com.cryptic.model.entity.attributes.AttributeKey.LOOT_KEYS_UNLOCKED;
+import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.model.entity.masks.Direction.NORTH;
 import static com.cryptic.utility.Debugs.CLIP;
 import static java.lang.String.format;
@@ -676,8 +677,9 @@ public class CommandManager {
             ((GreatOlm) olm.getCombatMethod()).flameWall(olm);
         });
         dev("c", (p, c, s) -> {
-            //BloatProcess bloatProcess = new BloatProcess(8359, new Tile(3299, 4440, 0), p);
-            // bloatProcess.spawn(false);
+            ItemContainer container = new ItemContainer(11, ItemContainer.StackPolicy.STANDARD);
+            Item[] items = new Item[]{new Item(ItemIdentifiers.DRAGON_BOOTS, 5), new Item(ItemIdentifiers.DRAGON_BOOTS, 5)};
+            container.addAll();
         });
 
         dev("ioi", (p, c, s) -> {

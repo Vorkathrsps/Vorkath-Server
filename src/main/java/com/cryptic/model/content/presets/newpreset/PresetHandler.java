@@ -23,6 +23,7 @@ import java.util.stream.IntStream;
  */
 @SuppressWarnings("unused")
 public class PresetHandler extends PacketInteraction { //TODO add region array for wildy checks
+    //TODO add support for degrading items to replace the item in the container with the degradable if they have that available in their bank / inventory
 
     public ItemContainer container;
     ItemContainer equipmentContainer = new ItemContainer(EQUIPMENT_SIZE, ItemContainer.StackPolicy.STANDARD);

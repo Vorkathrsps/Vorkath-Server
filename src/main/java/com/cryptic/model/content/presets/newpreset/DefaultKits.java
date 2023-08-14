@@ -1,15 +1,16 @@
-package com.cryptic.model.content.presets;
+package com.cryptic.model.content.presets.newpreset;
 
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.MagicSpellbook;
 import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.ItemIdentifiers;
-import lombok.Getter;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public enum PresetKits {
+public enum DefaultKits implements Kit {
     MAIN_MELEE(
         new Item[]{
             Item.of(ItemIdentifiers.SUPER_ATTACK4),
@@ -45,7 +46,7 @@ public enum PresetKits {
             new Item(ItemIdentifiers.HELM_OF_NEITIZNOT),
             new Item(ItemIdentifiers.FIRE_CAPE),
             new Item(ItemIdentifiers.AMULET_OF_GLORY6),
-            new Item(ItemIdentifiers.HOLY_BLESSING),
+            new Item(ItemIdentifiers.BRONZE_ARROW),
             new Item(ItemIdentifiers.DRAGON_SCIMITAR),
             new Item(ItemIdentifiers.RUNE_PLATEBODY),
             new Item(ItemIdentifiers.RUNE_KITESHIELD),
@@ -68,7 +69,7 @@ public enum PresetKits {
             {
                 99, 99, 99, 99, 99, 99, 99
             },
-        73271, AttributeKey.MAIN_MELEE_PRESET),
+        73274, AttributeKey.MAIN_MELEE_PRESET),
     ZERKER_MELEE(
         new Item[]{
             Item.of(ItemIdentifiers.SUPER_ATTACK4),
@@ -188,22 +189,64 @@ public enum PresetKits {
             },
         73273, AttributeKey.PURE_MELEE_PRESET);
 
-    @Getter Item[] inventoryItemList;
-    @Getter List<Item> equipmentItemList;
-    @Getter
+    Item[] inventoryItemList;
+    List<Item> equipmentItemList;
     MagicSpellbook spellbook;
-    @Getter int[] alterLevels;
-    @Getter Skill[] currentLevels;
-    @Getter int buttonIdentification;
-    @Getter AttributeKey attributeKey;
+    int[] alteredLevels;
+    Skill[] currentLevels;
+    int buttonIdentification;
+    AttributeKey attributeKey;
 
-    PresetKits(Item[] inventoryItemList, List<Item> equipmentItemList, MagicSpellbook spellbook, Skill[] currentLevels, int[] alterLevels, int buttonIdentification, AttributeKey attributeKey) {
+    DefaultKits(Item[] inventoryItemList, List<Item> equipmentItemList, MagicSpellbook spellbook, Skill[] currentLevels, int[] alteredLevels, int buttonIdentification, AttributeKey attributeKey) {
         this.inventoryItemList = inventoryItemList;
         this.equipmentItemList = equipmentItemList;
         this.spellbook = spellbook;
         this.currentLevels = currentLevels;
-        this.alterLevels = alterLevels;
+        this.alteredLevels = alteredLevels;
         this.buttonIdentification = buttonIdentification;
         this.attributeKey = attributeKey;
     }
+
+    @Override
+    public List<Item> getInventoryItemList() {
+        logger.info("Getting inventory item list For DefaultKits");
+        return Arrays.stream(inventoryItemList).collect(Collectors.toList());
+    }
+
+    @Override
+    public MagicSpellbook getSpellbook() {
+        logger.info("Getting spellbook For DefaultKits");
+        return spellbook;
+    }
+
+    @Override
+    public AttributeKey getAttributeKey() {
+        logger.info("Getting attribute key For DefaultKits");
+        return attributeKey;
+    }
+
+    @Override
+    public int getButtonIdentification() {
+        logger.info("Getting button identification For DefaultKits");
+        return buttonIdentification;
+    }
+
+    @Override
+    public Skill[] getCurrentLevels() {
+        logger.info("Getting current levels For DefaultKits");
+        return currentLevels;
+    }
+
+    @Override
+    public int[] getAlteredLevels() {
+        logger.info("Getting altered levels For DefaultKits");
+        return alteredLevels;
+    }
+
+    @Override
+    public List<Item> getEquipmentList() {
+        logger.info("Getting equipment list For DefaultKits");
+        return equipmentItemList;
+    }
+
 }

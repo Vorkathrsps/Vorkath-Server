@@ -1,7 +1,6 @@
 package com.cryptic.model.content.presets.newpreset;
 
 import com.cryptic.model.World;
-import com.cryptic.model.content.presets.PresetKits;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.MagicSpellbook;
 import com.cryptic.model.entity.player.Player;
@@ -17,7 +16,6 @@ import org.apache.commons.lang.ArrayUtils;
 
 import java.util.*;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 /**
  * @Author: Origin
@@ -27,9 +25,8 @@ import java.util.stream.Stream;
 public class PresetHandler extends PacketInteraction { //TODO add region array for wildy checks
 
     public ItemContainer container;
-
-    ItemContainer equipmentContainer;
-    ItemContainer inventoryContainer;
+    ItemContainer equipmentContainer = new ItemContainer(EQUIPMENT_SIZE, ItemContainer.StackPolicy.STANDARD);
+    ItemContainer inventoryContainer = new ItemContainer(INVENTORY_SIZE, ItemContainer.StackPolicy.STANDARD);
     private static final int PRESET_BUTTON_ID = 73235;
     private static final int EDIT_BUTTON_ID = 73234;
     private static final int SPELLBOOK_STRING_ID = 73237;
@@ -40,12 +37,13 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     private static final int INVENTORY_SIZE = 28;
     private static final int EQUIPMENT_SIZE = 11;
     int[] preMadeKitButtons = new int[]{73274, 73275, 73276, 73277, 73277, 73279, 73281, 73283, 73285};
-    int[] createKitStrings = new int[]{73272, 73274, 73276, 73278, 73280, 73282, 73284, 73286};
+    int[] createKitStrings = new int[]{73291, 73274, 73276, 73278, 73280, 73282, 73284, 73286};
     int[] createKitButtons = new int[]{73296, 73297, 73298, 73299, 73300, 73301, 73302, 73303};
     int[] equipmentChildIds = new int[]{73251, 73252, 73253, 73254, 73255, 73256, 73257, 73258, 73259, 73260, 73261};
     String[] presetNames = {"Main - Melee", "Zerker - Melee", "Pure - Melee", "Main - Tribrid", "Zerker - Tribrid", "Pure - Tribrid", "Main - Hybrid", "Zerker - Hybrid"};
     AttributeKey[] attributeKeys = new AttributeKey[]{AttributeKey.PURE_MELEE_PRESET, AttributeKey.MAIN_MELEE_PRESET, AttributeKey.ZERKER_MELEE_PRESET};
-    PresetKits[] kits = PresetKits.values();
+    DefaultKits[] defaultKits = DefaultKits.values();
+    SavedKits[] savedKits = SavedKits.values();
     CreatePreset create;
     boolean canEdit = true;
     List<Skill> savedPresetSkills = new ArrayList<>(24);
@@ -72,16 +70,13 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
 
         var isPreMadeKit = ArrayUtils.contains(preMadeKitButtons, button);
 
-        if (isPreMadeKit) {
+        if (button == 73274 || button == 73291) {
             player.message("is pre-made");
             handleButtonValidation(player, button);
             return true;
         } else if (button == PRESET_BUTTON_ID) {
             handlePresetFunction(player);
             return true;
-        } else if (button == 73291) {
-            player.message("attempting save");
-            create(player);
         } else if (button == EDIT_BUTTON_ID) {
             for (var a : attributeKeys) {
                 if (player.hasAttrib(a)) {
@@ -96,74 +91,67 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         return false;
     }
 
-    void create(Player player) {
-
-        if (!savedPresetSkills.isEmpty()) {
-            savedPresetSkills.clear();
-        }
-
-        for (int i = 0; i < player.getSkills().levels.length; i++) {
-            savedPresetSkills.add(Skill.fromId(i));
-        }
-
-        //create = new CreatePreset("presetName", savedPresetInventoryItems, savedPresetEquipment, savedPresetSkills);
-
-        //create.appendToJsonFile(create, player);
-
+    void load(Player player, ItemContainer equipmentContainer, ItemContainer inventoryContainer, Kit kits) {
         resetContainers(player);
-
-        equipmentContainer = new ItemContainer(EQUIPMENT_SIZE, ItemContainer.StackPolicy.STANDARD);
-        inventoryContainer = new ItemContainer(INVENTORY_SIZE, ItemContainer.StackPolicy.STANDARD);
-
-        populateCreatedEquipmentContainer(player, equipmentContainer);
-        handleCreatedEquipmentContainer(player, equipmentContainer);
-        populateCreatedInventoryContainer(player, inventoryContainer);
-        handleCreatedInventoryContainer(player, inventoryContainer);
-
+        submitEquipment(player, equipmentContainer, kits);
+        submitItems(player, inventoryContainer, kits);
     }
 
-    void handleCreatedEquipmentContainer(Player player, ItemContainer equipmentContainer) {
-        equipmentContainer.forEach(item -> {
+    void handleEquipmentContainer(Player player, ItemContainer equipmentContainer, Kit kit) {
+        if (equipmentContainer == null) {
+            return;
+        }
+
+        var size = (kit instanceof SavedKits) ? EQUIPMENT_SIZE : 14;
+        for (int index = 0; index < size; index++) {
+            Item item = equipmentContainer.get(index);
             if (item != null) {
-                var slot = World.getWorld().equipmentInfo().slotFor(item.getId());
-                player.getPacketSender().sendItemOnInterfaceSlot(EQUIPMENT_CONTAINER_ID + slot, item, 0);
-            }
-        });
-    }
-
-    void populateCreatedEquipmentContainer(Player player, ItemContainer equipmentContainer) {
-        if (equipmentContainer != null) {
-            if (!equipmentContainer.isEmpty()) {
-                equipmentContainer.clear();
-            }
-
-            for (int index = 0; index < INVENTORY_SIZE; index++) {
-                player.getPacketSender().sendItemOnInterfaceSlot(INVENTORY_CONTAINER_ID, -1, 0, index);
-            }
-
-            for (var e : player.getEquipment()) {
-                if (e != null) {
-                    equipmentContainer.add(e);
-                }
+                int slot = World.getWorld().equipmentInfo().slotFor(item.getId());
+                int amount = item.getAmount();
+                int interfaceID = (kit instanceof SavedKits) ? EQUIPMENT_CONTAINER_ID + slot : EQUIPMENT_CONTAINER_ID + index;
+                player.getPacketSender().sendItemOnInterfaceSlot(EQUIPMENT_CONTAINER_ID + slot, item.getId(), amount, 0);
             }
         }
     }
 
-    void handleCreatedInventoryContainer(Player player, ItemContainer inventoryContainer) {
+    void populateEquipmentContainer(Player player, ItemContainer equipmentContainer, Kit kits) {
+        if (equipmentContainer == null) {
+            return;
+        }
+
+        equipmentContainer.clear(true);
+
+        var itemList = (kits instanceof SavedKits) ? player.getEquipment() : kits.getEquipmentList();
+
+        for (var e : itemList) {
+            if (e != null) {
+                equipmentContainer.add(e);
+            }
+        }
+    }
+
+    void handleInventoryContainer(Player player, ItemContainer inventoryContainer, Kit kits) {
         itemAmounts.clear();
 
         if (player == null) {
             return;
         }
 
-        for (Item item : player.getInventory()) {
-            if (item != null) {
-                itemAmounts.put(item.getId(), item.getAmount());
+        var itemList = (kits instanceof SavedKits) ? player.getInventory() : kits.getInventoryItemList();
+
+        if (itemList != null) {
+            for (Item item : itemList) {
+                if (item != null) {
+                    itemAmounts.put(item.getId(), item.getAmount());
+                }
             }
         }
 
-        for (int index = 0; index < player.getInventory().capacity(); index++) {
-            Item item = player.getInventory().get(index);
+        var itemCapacity = (kits instanceof SavedKits) ? player.getInventory().capacity() : kits.getInventoryItemList().size();
+
+        for (int index = 0; index < itemCapacity; index++) {
+
+            var item = (kits instanceof SavedKits) ? player.getInventory().get(index) : kits.getInventoryItemList().get(index);
 
             if (item != null) {
                 if (!item.stackable() || (!item.noted() && item.getAmount() > 1)) {
@@ -178,11 +166,13 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         }
     }
 
-    void populateCreatedInventoryContainer(Player player, ItemContainer inventoryContainer) {
+    void populateInventoryContainer(Player player, ItemContainer inventoryContainer, Kit kits) {
         if (inventoryContainer != null) {
             if (!inventoryContainer.isEmpty()) {
-                inventoryContainer.clear();
+                inventoryContainer.clear(true);
             }
+
+            var itemList = (kits instanceof SavedKits) ? player.getInventory() : kits.getEquipmentList();
 
             for (var items : player.getInventory()) {
                 if (items != null) {
@@ -200,13 +190,22 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * @param button the button
      */
     void handleButtonValidation(Player player, int button) {
-        findMatchingButtonIdentificationFor(button).ifPresent(p -> {
-            player.message("present");
-            clearAttributesExcept(player, p.getAttributeKey());
-            player.putAttrib(p.getAttributeKey(), true);
-            rebuildInterface(player, p);
+        findMatchingButtonIdentificationFor(defaultKits, savedKits, button).ifPresent(kit -> {
+            clearAttributesExcept(player, kit.getAttributeKey());
+
+            if (kit instanceof DefaultKits) {
+                player.message("Matched with DefaultKits instance");
+                // player.putAttrib(kit.getAttributeKey(), true);
+                // rebuildInterface(player, equipmentContainer, inventoryContainer, kit);
+            } else if (kit instanceof SavedKits) {
+                player.message("Matched with SavedKits instance");
+                //  rebuildInterface(player, equipmentContainer, inventoryContainer, kit);
+            }
+
+            rebuildInterface(player, equipmentContainer, inventoryContainer, kit);
         });
     }
+
 
     /**
      * Handles the action when a preset button is clicked.
@@ -214,20 +213,20 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * @param player the player
      */
     void handlePresetFunction(Player player) {
-        findMatchingAttributeFor(player).ifPresent(presetKits -> applyPreset(player, presetKits));
+        findMatchingAttributeFor(player, defaultKits, savedKits).ifPresent(defaultKits -> applyPreset(player, (DefaultKits) defaultKits));
     }
 
     /**
      * Applies the selected preset to the player's attributes and inventory.
      *
-     * @param player     the player
-     * @param presetKits the selected preset
+     * @param player      the player
+     * @param defaultKits the selected preset
      */
-    void applyPreset(Player player, PresetKits presetKits) {
-        applyExperience(player, presetKits);
-        applyEquipment(player, presetKits);
-        applyInventory(player, presetKits);
-        applySpellBook(player, presetKits);
+    void applyPreset(Player player, DefaultKits defaultKits) {
+        applyExperience(player, defaultKits);
+        applyEquipment(player, defaultKits);
+        applyInventory(player, defaultKits);
+        applySpellBook(player, defaultKits);
         updatePlayer(player);
     }
 
@@ -247,9 +246,22 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * @param button the button
      * @return optional
      */
-    Optional<PresetKits> findMatchingButtonIdentificationFor(int button) {
-        return Arrays.stream(kits).filter(f -> f.getButtonIdentification() == button).findAny();
+    Optional<Kit> findMatchingButtonIdentificationFor(DefaultKits[] kits, SavedKits[] savedKits, int button) {
+        for (DefaultKits kit : kits) {
+            if (kit.getButtonIdentification() == button) {
+                return Optional.of(kit);
+            }
+        }
+
+        for (SavedKits kit : savedKits) {
+            if (kit.getButtonIdentification() == button) {
+                return Optional.of(kit);
+            }
+        }
+
+        return Optional.empty();
     }
+
 
     /**
      * Identify which preset we're currently on
@@ -257,8 +269,20 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * @param player the player
      * @return optional
      */
-    Optional<PresetKits> findMatchingAttributeFor(Player player) {
-        return Arrays.stream(kits).filter(f -> player.hasAttrib(f.getAttributeKey())).findFirst();
+    Optional<Kit> findMatchingAttributeFor(Player player, DefaultKits[] defaultKits, SavedKits[] savedKits) {
+        for (DefaultKits kit : defaultKits) {
+            if (kit.getAttributeKey() == player.getAttrib(kit.getAttributeKey())) {
+                return Optional.of(kit);
+            }
+        }
+
+        for (SavedKits kit : savedKits) {
+            if (kit.getAttributeKey() == player.getAttrib(kit.getAttributeKey())) {
+                return Optional.of(kit);
+            }
+        }
+
+        return Optional.empty();
     }
 
     /**
@@ -266,15 +290,13 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      *
      * @param player the player
      */
-    void rebuildInterface(Player player, PresetKits presetKits) {
-        if (presetKits != null) {
+    void rebuildInterface(Player player, ItemContainer equipmentContainer, ItemContainer inventoryContainer, Kit kits) {
+        if (kits != null) {
             if (!WildernessArea.isInWilderness(player)) {
-                resetContainers(player);
-                sendPreMadePresetStrings(player);
-                sendInventoryContainer(player, presetKits);
-                sendEquipmentContainer(player, presetKits);
-                sendSpellbookString(player, presetKits);
-                sendPrayerString(player);
+                //sendPreMadePresetStrings(player);
+                load(player, equipmentContainer, inventoryContainer, kits);
+                /// sendSpellbookString(player, kits);
+                // sendPrayerString(player);
             } else {
                 player.message(Color.RED.wrap("You cannot perform this action while in the wilderness."));
             }
@@ -285,8 +307,11 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * Clears The Item Containers
      */
     void resetContainers(Player player) {
-        for (int index = 0; index < 13; index++) {
-            sendItemsToInterface(player, -1, index, 1);
+        for (int index = 0; index < EQUIPMENT_SIZE; index++) {
+            player.getPacketSender().sendItemOnInterfaceSlot(EQUIPMENT_CONTAINER_ID, -1, 0, index);
+        }
+        for (int index = 0; index < INVENTORY_SIZE; index++) {
+            player.getPacketSender().sendItemOnInterfaceSlot(INVENTORY_CONTAINER_ID, -1, 0, index);
         }
     }
 
@@ -306,11 +331,9 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      *
      * @param player the player
      */
-    void sendInventoryContainer(Player player, PresetKits presetKits) {
-        inventoryContainer.clear();
-        inventoryContainer = new ItemContainer(INVENTORY_SIZE, ItemContainer.StackPolicy.STANDARD);
-        inventoryContainer.addAll(presetKits.getInventoryItemList());
-        player.getPacketSender().sendItemOnInterface(INVENTORY_CONTAINER_ID, container.toArray());
+    void submitItems(Player player, ItemContainer inventoryContainer, Kit kits) {
+        populateInventoryContainer(player, inventoryContainer, kits);
+        handleInventoryContainer(player, inventoryContainer, kits);
     }
 
     /**
@@ -318,16 +341,9 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      *
      * @param player the player
      */
-    void sendEquipmentContainer(Player player, PresetKits presetKits) {
-        equipmentContainer.clear();
-        equipmentContainer = new ItemContainer(EQUIPMENT_SIZE, ItemContainer.StackPolicy.STANDARD);
-        equipmentContainer.addAll(presetKits.getEquipmentItemList());
-        equipmentContainer.forEach(item -> {
-            if (item != null) {
-                var slot = World.getWorld().equipmentInfo().slotFor(item.getId());
-                player.getPacketSender().sendItemOnInterfaceSlot(EQUIPMENT_CONTAINER_ID + slot, item, 0);
-            }
-        });
+    void submitEquipment(Player player, ItemContainer container, Kit kits) {
+        populateEquipmentContainer(player, container, kits);
+        handleEquipmentContainer(player, container, kits);
     }
 
     /**
@@ -347,8 +363,8 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      *
      * @param player the player
      */
-    void sendSpellbookString(Player player, PresetKits presetKits) {
-        player.getPacketSender().sendString(SPELLBOOK_STRING_ID, presetKits.getSpellbook().name().toLowerCase());
+    void sendSpellbookString(Player player, Kit kits) {
+        player.getPacketSender().sendString(SPELLBOOK_STRING_ID, kits instanceof SavedKits ? player.getSpellbook().name().toLowerCase() : kits.getSpellbook().name().toLowerCase());
     }
 
     /**
@@ -365,10 +381,10 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      *
      * @param player the player
      */
-    void applyExperience(Player player, PresetKits presetKits) {
-        int[] changeLevelsTo = presetKits.getAlterLevels();
+    void applyExperience(Player player, DefaultKits defaultKits) {
+        int[] changeLevelsTo = defaultKits.getAlteredLevels();
         if (!WildernessArea.isInWilderness(player)) {
-            checkInclusivesFor(presetKits).forEachOrdered(i -> player.skills().alterSkillsArray(player, presetKits.getCurrentLevels()[i], changeLevelsTo[i]));
+            checkInclusivesFor(defaultKits).forEachOrdered(i -> player.skills().alterSkillsArray(player, defaultKits.getCurrentLevels()[i], changeLevelsTo[i]));
         } else {
             player.message(Color.RED.wrap("You cannot perform this action while in the wilderness."));
         }
@@ -377,25 +393,25 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     /**
      * a sequential IntStream for the range of int elements
      *
-     * @param presetKits the presetkit instance
+     * @param defaultKits the presetkit instance
      * @return inclusive
      */
-    IntStream checkInclusivesFor(PresetKits presetKits) {
-        return IntStream.range(0, presetKits.getCurrentLevels().length);
+    IntStream checkInclusivesFor(DefaultKits defaultKits) {
+        return IntStream.range(0, defaultKits.getCurrentLevels().length);
     }
 
     /**
      * Apply the Preset Equipment
      *
-     * @param player     the player
-     * @param presetKits the presetkit instance
+     * @param player      the player
+     * @param defaultKits the presetkit instance
      */
-    void applyEquipment(Player player, PresetKits presetKits) {
+    void applyEquipment(Player player, DefaultKits defaultKits) {
         if (!WildernessArea.isInWilderness(player)) {
             if (player.getEquipment() != null && !player.getEquipment().hasNoEquipment()) {
                 player.getBank().depositEquipment();
             }
-            getEquipmentItemsOf(presetKits).forEach(item -> {
+            defaultKits.getEquipmentList().forEach(item -> {
                 if (bankDoesntContain(player, item)) {
                     player.message(item.getAmount() == 0 ? "Item not found: " + Color.RED.wrap("" + item.name()) : "Item not found: " + Color.RED.wrap("" + item.name()) + " Amount: " + Color.RED.wrap("x" + item.getAmount()));
                 } else {
@@ -409,29 +425,29 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     /**
      * Method to change our spellbook
      *
-     * @param player     the player
-     * @param presetKits the presetkit instance
+     * @param player      the player
+     * @param defaultKits the presetkit instance
      */
-    void applySpellBook(Player player, PresetKits presetKits) {
+    void applySpellBook(Player player, DefaultKits defaultKits) {
         if (!WildernessArea.isInWilderness(player)) {
-            sendSpellbookString(player, presetKits);
-            MagicSpellbook.changeSpellbook(player, presetKits.getSpellbook(), true);
+            sendSpellbookString(player, defaultKits);
+            MagicSpellbook.changeSpellbook(player, defaultKits.getSpellbook(), true);
         }
     }
 
     /**
      * Apply the preset inventory
      *
-     * @param player     the player
-     * @param presetKits the presetkit instance
+     * @param player      the player
+     * @param defaultKits the presetkit instance
      */
-    void applyInventory(Player player, PresetKits presetKits) {
+    void applyInventory(Player player, DefaultKits defaultKits) {
         boolean inventoryCheck = player.getInventory().getFreeSlots() > -1;
         if (!WildernessArea.isInWilderness(player)) {
             if (inventoryCheck) {
                 player.getBank().depositInventory();
             }
-            getInventoryItemsOf(presetKits).forEach(item -> {
+            defaultKits.getInventoryItemList().forEach(item -> {
                 if (bankDoesntContain(player, item)) {
                     player.message(item.getAmount() == 0 ? "Item not found: " + Color.RED.wrap("" + item.name()) : "Item not found: " + Color.RED.wrap("" + item.name()) + " Amount: " + Color.RED.wrap("x" + item.getAmount()));
                 } else {
@@ -461,26 +477,6 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      */
     boolean bankDoesntContain(Player player, Item item) {
         return !player.getBank().contains(item);
-    }
-
-    /**
-     * Returns presets equipment list
-     *
-     * @param presetKits the presetkit instance
-     * @return equipment items
-     */
-    List<Item> getEquipmentItemsOf(PresetKits presetKits) {
-        return presetKits.getEquipmentItemList();
-    }
-
-    /**
-     * Streams inventory list
-     *
-     * @param presetKits the presetkits instance
-     * @return inventory items
-     */
-    Stream<Item> getInventoryItemsOf(PresetKits presetKits) {
-        return Arrays.stream(presetKits.getInventoryItemList());
     }
 
     /**

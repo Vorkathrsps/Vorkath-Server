@@ -10,12 +10,14 @@ import java.util.List;
 
 public enum SavedKits implements Kit {
 
-    ONE(73291);
+    ONE(73291, AttributeKey.PRESET_SAVE_ONE);
 
     @Getter final int buttonIdentification;
+    AttributeKey attributeKey;
 
-    SavedKits(int buttonIdentification) {
+    SavedKits(int buttonIdentification, AttributeKey attributeKey) {
         this.buttonIdentification = buttonIdentification;
+        this.attributeKey = attributeKey;
     }
 
     @Override
@@ -57,7 +59,7 @@ public enum SavedKits implements Kit {
     @Override
     public AttributeKey getAttributeKey() {
         logger.info("Getting attribute key For SavedKits");
-        return null;
+        return attributeKey;
     }
 
 }

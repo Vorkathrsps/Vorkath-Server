@@ -74,7 +74,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         if (button == 73274 || button == 73291) {
             player.message("is pre-made");
             clearInterfaceAndContainers(player);
-            handleButtonValidation(player, button);
+            validateAndBuildPreset(player, button);
             return true;
         } else if (button == PRESET_BUTTON_ID) {
             handlePresetFunction(player);
@@ -95,10 +95,10 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
 
     /**
      * Loads the container submissions
-     * @param player
-     * @param equipmentContainer
-     * @param inventoryContainer
-     * @param kits
+     * @param player the player
+     * @param equipmentContainer the equipment container
+     * @param inventoryContainer the inventory container
+     * @param kits the preset kit
      */
     void load(Player player, ItemContainer equipmentContainer, ItemContainer inventoryContainer, Kit kits) {
         submitEquipment(player, equipmentContainer, kits);
@@ -220,7 +220,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * @param player the player
      * @param button the button
      */
-    void handleButtonValidation(Player player, int button) {
+    void validateAndBuildPreset(Player player, int button) {
         findMatchingButtonIdentificationFor(defaultKits, savedKits, button).ifPresent(kit -> {
             clearAttributesExcept(player, kit.getAttributeKey());
 

@@ -92,11 +92,24 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         return false;
     }
 
+    /**
+     * Loads the container submissions
+     * @param player
+     * @param equipmentContainer
+     * @param inventoryContainer
+     * @param kits
+     */
     void load(Player player, ItemContainer equipmentContainer, ItemContainer inventoryContainer, Kit kits) {
         submitEquipment(player, equipmentContainer, kits);
         submitItems(player, inventoryContainer, kits);
     }
 
+    /**
+     * Handles the equipment container
+     * @param player the player
+     * @param equipmentContainer the equipment container
+     * @param kit the preset kit
+     */
     void handleEquipmentContainer(Player player, ItemContainer equipmentContainer, Kit kit) {
         if (equipmentContainer == null) {
             return;
@@ -114,6 +127,12 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         }
     }
 
+    /**
+     * Populates the equipment container
+     * @param player the player
+     * @param equipmentContainer the item container
+     * @param kits the preset kit
+     */
     void populateEquipmentContainer(Player player, ItemContainer equipmentContainer, Kit kits) {
         if (equipmentContainer == null) {
             return;
@@ -129,6 +148,12 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         }
     }
 
+    /**
+     * Handles the inventory container
+     * @param player the player
+     * @param inventoryContainer the item container
+     * @param kits the preset kit
+     */
     void handleInventoryContainer(Player player, ItemContainer inventoryContainer, Kit kits) {
         itemAmounts.clear();
 
@@ -165,6 +190,12 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         }
     }
 
+    /**
+     * Populates the inventory container
+     * @param player the player
+     * @param inventoryContainer the item container
+     * @param kits the preset kit
+     */
     void populateInventoryContainer(Player player, ItemContainer inventoryContainer, Kit kits) {
         if (inventoryContainer != null) {
             if (!inventoryContainer.isEmpty()) {
@@ -332,9 +363,10 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     }
 
     /**
-     * Sends the inventory item container
-     *
+     * Submits the items for loading
      * @param player the player
+     * @param inventoryContainer the inventory container
+     * @param kits the preset kit
      */
     void submitItems(Player player, ItemContainer inventoryContainer, Kit kits) {
         populateInventoryContainer(player, inventoryContainer, kits);
@@ -342,13 +374,14 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     }
 
     /**
-     * Sends the equipment item container
-     *
+     * Submits the equipment for loading
      * @param player the player
+     * @param equipmentContainer the equipment container
+     * @param kits the preset kit
      */
-    void submitEquipment(Player player, ItemContainer container, Kit kits) {
-        populateEquipmentContainer(player, container, kits);
-        handleEquipmentContainer(player, container, kits);
+    void submitEquipment(Player player, ItemContainer equipmentContainer, Kit kits) {
+        populateEquipmentContainer(player, equipmentContainer, kits);
+        handleEquipmentContainer(player, equipmentContainer, kits);
     }
 
     /**

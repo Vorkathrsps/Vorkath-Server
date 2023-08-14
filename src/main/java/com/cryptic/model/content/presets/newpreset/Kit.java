@@ -11,9 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public interface Kit {
-
     Logger logger = LogManager.getLogger(Kit.class);
-
     int getButtonIdentification();
     Skill[] getCurrentLevels();
     int[] getAlteredLevels();

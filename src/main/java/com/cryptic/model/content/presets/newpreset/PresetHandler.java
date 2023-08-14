@@ -72,6 +72,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
 
         if (button == 73274 || button == 73291) {
             player.message("is pre-made");
+            clearInterfaceAndContainers(player);
             handleButtonValidation(player, button);
             return true;
         } else if (button == PRESET_BUTTON_ID) {
@@ -92,7 +93,6 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     }
 
     void load(Player player, ItemContainer equipmentContainer, ItemContainer inventoryContainer, Kit kits) {
-        resetContainers(player);
         submitEquipment(player, equipmentContainer, kits);
         submitItems(player, inventoryContainer, kits);
     }
@@ -103,13 +103,13 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         }
 
         var size = (kit instanceof SavedKits) ? EQUIPMENT_SIZE : 14;
-        for (int index = 0; index < size; index++) {
+        for (int index = 0; index < EQUIPMENT_SIZE; index++) {
             Item item = equipmentContainer.get(index);
             if (item != null) {
                 int slot = World.getWorld().equipmentInfo().slotFor(item.getId());
                 int amount = item.getAmount();
                 int interfaceID = (kit instanceof SavedKits) ? EQUIPMENT_CONTAINER_ID + slot : EQUIPMENT_CONTAINER_ID + index;
-                player.getPacketSender().sendItemOnInterfaceSlot(EQUIPMENT_CONTAINER_ID + slot, item.getId(), amount, 0);
+                player.getPacketSender().sendItemOnInterfaceSlot(EQUIPMENT_CONTAINER_ID + slot, item, 0);
             }
         }
     }
@@ -119,14 +119,13 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
             return;
         }
 
-        equipmentContainer.clear(true);
-
         var itemList = (kits instanceof SavedKits) ? player.getEquipment() : kits.getEquipmentList();
 
-        for (var e : itemList) {
-            if (e != null) {
-                equipmentContainer.add(e);
+        for (var equipment : itemList) {
+            if (equipment == null) {
+                continue;
             }
+            equipmentContainer.add0(equipment);
         }
     }
 
@@ -176,7 +175,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
 
             for (var items : player.getInventory()) {
                 if (items != null) {
-                    inventoryContainer.add(items);
+                    inventoryContainer.add0(items);
                 }
             }
         }
@@ -306,9 +305,15 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     /**
      * Clears The Item Containers
      */
-    void resetContainers(Player player) {
-        for (int index = 0; index < EQUIPMENT_SIZE; index++) {
-            player.getPacketSender().sendItemOnInterfaceSlot(EQUIPMENT_CONTAINER_ID, -1, 0, index);
+    void clearInterfaceAndContainers(Player player) {
+        if (equipmentContainer != null) {
+            equipmentContainer.clear(true);
+        }
+        if (inventoryContainer != null) {
+            inventoryContainer.clear(true);
+        }
+        for (int index = 0; index < 14; index++) {
+            player.getPacketSender().sendItemOnInterfaceSlot(EQUIPMENT_CONTAINER_ID + index, -1, 0, 0);
         }
         for (int index = 0; index < INVENTORY_SIZE; index++) {
             player.getPacketSender().sendItemOnInterfaceSlot(INVENTORY_CONTAINER_ID, -1, 0, index);

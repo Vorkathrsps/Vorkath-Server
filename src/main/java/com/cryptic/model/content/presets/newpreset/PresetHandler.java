@@ -68,13 +68,12 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         player.getTimers().register(TimerKey.ANTI_SPAM, 3);
 
         var isPreMadeKit = ArrayUtils.contains(preMadeKitButtons, button);
-        player.putAttrib(LAST_PRESET_BUTTON_CLICKED, button);//i assigned uhm, individual preset attributes & it differentiated off that
-        // like 1  sec ill show you
 
         if (isPreMadeKit) {
             player.message("is pre-made");
             clearInterfaceAndContainers(player);
             validateAndBuildPreset(player, button);
+            player.putAttrib(LAST_PRESET_BUTTON_CLICKED, button);
             return true;
         } else if (button == PRESET_BUTTON_ID) {
             loadViewedPreset(player);
@@ -114,7 +113,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      */
     void load(Player player, ItemContainer equipmentContainer, ItemContainer inventoryContainer, PresetData kits) {
 
-        if (player == null || equipmentContainer == null || kits ==  null) {
+        if (player == null || equipmentContainer == null || kits == null) {
             return;
         }
 
@@ -245,30 +244,26 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
             return;
         }
 
-        try {
-            var kit =
-                Arrays.stream(defaultKits)
-                    .filter(e -> e.button == player.<Integer>getAttrib(LAST_PRESET_BUTTON_CLICKED))
-                    .findFirst()
-                    .orElse(player.<PresetData>getAttribOr(AttributeKey.CUSTOM_PRESETS, null));
-            player.message("" + LAST_PRESET_BUTTON_CLICKED.describeConstable());
-            applyPreset(player, kit);
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
+        var kit =
+            Arrays.stream(defaultKits)
+                .filter(e -> e.button == player.<Integer>getAttrib(LAST_PRESET_BUTTON_CLICKED))
+                .findFirst()
+                .orElse(player.<PresetData>getAttribOr(AttributeKey.CUSTOM_PRESETS, null));
+
+        player.message("" + LAST_PRESET_BUTTON_CLICKED.describeConstable());
+        applyPreset(player, kit);
     }
 
     /**
      * Applies the selected preset to the player's attributes and inventory.
      *
-     * @param player      the player
-     * @param kits the selected preset
+     * @param player the player
+     * @param kits   the selected preset
      */
     void applyPreset(Player player, PresetData kits) {
         if (player == null || kits == null) {
             return;
         }
-        //applyExperience(player, defaultKits);
         applyEquipment(player, kits);
         applyInventory(player, kits);
         applySpellBook(player, kits);
@@ -300,10 +295,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         }
 
         if (!WildernessArea.isInWilderness(player)) {
-            //sendPreMadePresetStrings(player);
             load(player, equipmentContainer, inventoryContainer, kits);
-            /// sendSpellbookString(player, kits);
-            // sendPrayerString(player);
         } else {
             player.message(Color.RED.wrap("You cannot perform this action while in the wilderness."));
         }
@@ -396,15 +388,15 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     /**
      * Apply the Preset Equipment
      *
-     * @param player      the player
-     * @param kits the presetkit instance
+     * @param player the player
+     * @param kits   the presetkit instance
      */
     void applyEquipment(Player player, PresetData kits) {
         if (player == null || kits == null) {
             return;
         }
 
-        Arrays.stream(kits.getEquipment()).filter(f -> !WildernessArea.isInWilderness(player)).map(i -> new Item(i, 1)).forEach(item -> {
+        Arrays.stream(kits.getEquipment()).filter(f -> !WildernessArea.isInWilderness(player)).map(item -> new Item(item.getId(), item.getAmount())).forEach(item -> {
             if (player.getEquipment() != null && !player.getEquipment().hasNoEquipment()) {
                 player.getBank().depositEquipment();
             }
@@ -420,8 +412,8 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     /**
      * Method to change our spellbook
      *
-     * @param player      the player
-     * @param kits the presetkit instance
+     * @param player the player
+     * @param kits   the presetkit instance
      */
     void applySpellBook(Player player, PresetData kits) {
         if (player == null || kits == null) {
@@ -437,8 +429,8 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     /**
      * Apply the preset inventory
      *
-     * @param player      the player
-     * @param kits the presetkit instance
+     * @param player the player
+     * @param kits   the presetkit instance
      */
     void applyInventory(Player player, PresetData kits) {
         if (player == null || kits == null) {
@@ -446,11 +438,15 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         }
 
         boolean inventoryCheck = player.getInventory().getFreeSlots() > -1;
-        if (!WildernessArea.isInWilderness(player)) {
+
             if (inventoryCheck) {
                 player.getBank().depositInventory();
             }
-            Arrays.stream(kits.getInventory()).map(i -> new Item(i, 1)).forEach(item -> {
+
+            Arrays.stream(kits.getInventory())
+                .filter(f -> !WildernessArea.isInWilderness(player))
+                .map(item -> new Item(item.getId(), item.getAmount()))
+                .forEach(item -> {
                 if (bankDoesntContain(player, item)) {
                     player.message(item.getAmount() == 0 ? "Item not found: " + Color.RED.wrap("" + item.name()) : "Item not found: " + Color.RED.wrap("" + item.name()) + " Amount: " + Color.RED.wrap("x" + item.getAmount()));
                 } else {
@@ -458,7 +454,6 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
                     player.getInventory().add(item);
                 }
             });
-        }
     }
 
     /**

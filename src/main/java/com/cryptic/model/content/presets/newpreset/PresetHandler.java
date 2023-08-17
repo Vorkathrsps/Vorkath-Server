@@ -17,6 +17,8 @@ import org.apache.commons.lang.ArrayUtils;
 
 import java.util.*;
 
+import static com.cryptic.model.entity.attributes.AttributeKey.LAST_PRESET_BUTTON_CLICKED;
+
 /**
  * @Author: Origin
  * @Date: 8/13/2023
@@ -66,7 +68,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         player.getTimers().register(TimerKey.ANTI_SPAM, 3);
 
         var isPreMadeKit = ArrayUtils.contains(preMadeKitButtons, button);
-        player.putAttrib(AttributeKey.LAST_PRESET_BTN_CLICKED, button);//i assigned uhm, individual preset attributes & it differentiated off that
+        player.putAttrib(LAST_PRESET_BUTTON_CLICKED, button);//i assigned uhm, individual preset attributes & it differentiated off that
         // like 1  sec ill show you
 
         if (isPreMadeKit) {
@@ -246,9 +248,10 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         try {
             var kit =
                 Arrays.stream(defaultKits)
-                    .filter(e -> e.button == player.<Integer>getAttrib(AttributeKey.LAST_PRESET_BTN_CLICKED))
+                    .filter(e -> e.button == player.<Integer>getAttrib(LAST_PRESET_BUTTON_CLICKED))
                     .findFirst()
                     .orElse(player.<PresetData>getAttribOr(AttributeKey.CUSTOM_PRESETS, null));
+            player.message("" + LAST_PRESET_BUTTON_CLICKED.describeConstable());
             applyPreset(player, kit);
         } catch (Throwable t) {
             t.printStackTrace();

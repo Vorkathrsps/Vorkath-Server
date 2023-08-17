@@ -162,15 +162,63 @@
       }
     ],
     "spellbook": 3,
-    "button": 73291,
-    "attribute": 828
+    "button": 73274,
+    "attribute": "MAIN_MELEE"
   },
   {
     "id": 2,
     "inventory": [],
     "equipment": [],
     "spellbook": 3,
-    "button": 73274,
-    "attribute": 826
+    "button": 73275,
+    "attribute": "MAIN_MELEE"
+  },
+  {
+    "id": 2,
+    "inventory": [],
+    "equipment": [],
+    "spellbook": 3,
+    "button": 73276,
+    "attribute": "MAIN_MELEE"
+  },
+  {
+    "id": 2,
+    "inventory": [],
+    "equipment": [],
+    "spellbook": 3,
+    "button": 73277,
+    "attribute": "MAIN_MELEE"
+  },
+  {
+    "id": 2,
+    "inventory": [],
+    "equipment": [],
+    "spellbook": 3,
+    "button": 73278,
+    "attribute": "MAIN_MELEE"
+  },
+  {
+    "id": 2,
+    "inventory": [],
+    "equipment": [],
+    "spellbook": 3,
+    "button": 73279,
+    "attribute": "MAIN_MELEE"
+  },
+  {
+    "id": 2,
+    "inventory": [],
+    "equipment": [],
+    "spellbook": 3,
+    "button": 73280,
+    "attribute": "MAIN_MELEE"
+  },
+  {
+    "id": 2,
+    "inventory": [],
+    "equipment": [],
+    "spellbook": 3,
+    "button": 73281,
+    "attribute": "MAIN_MELEE"
   }
 ]

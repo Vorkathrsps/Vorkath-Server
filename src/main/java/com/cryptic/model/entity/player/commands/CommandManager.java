@@ -677,9 +677,7 @@ public class CommandManager {
             ((GreatOlm) olm.getCombatMethod()).flameWall(olm);
         });
         dev("c", (p, c, s) -> {
-            ItemContainer container = new ItemContainer(11, ItemContainer.StackPolicy.STANDARD);
-            Item[] items = new Item[]{new Item(ItemIdentifiers.DRAGON_BOOTS, 5), new Item(ItemIdentifiers.DRAGON_BOOTS, 5)};
-            container.addAll();
+
         });
 
         dev("ioi", (p, c, s) -> {

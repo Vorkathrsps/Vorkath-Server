@@ -23,6 +23,7 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.Utils;
+import lombok.Getter;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
@@ -40,6 +41,7 @@ public class Skills {
     private static final int[] XP_TABLE = new int[100];
     public static boolean USE_EXPERIMENTAL_PERFORMANCE = false;
     public double[] xps = new double[SKILL_COUNT];
+    @Getter
     public int[] levels = new int[SKILL_COUNT];
     private final Player player;
     private int combat;
@@ -489,9 +491,9 @@ public class Skills {
         return player.getSkills().levels[skill.getId()];
     }
 
-    public void alterSkillsArray(Player player, Skill skillFrom, int skillTo) {
-            var experienceChange = Skills.levelToXp(skillTo);
-            player.getSkills().setXp(skillFrom.getId(), experienceChange);
+    public void alterSkillsArray(Player player, int changeFrom, int changeTo) {
+            var experienceChange = Skills.levelToXp(changeTo);
+            player.getSkills().setXp(changeFrom, experienceChange);
             player.getSkills().update();
             player.getSkills().recalculateCombat();
     }

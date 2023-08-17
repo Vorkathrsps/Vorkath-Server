@@ -1,0 +1,61 @@
+package com.cryptic.model.items.container.presets;
+
+import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.model.entity.player.MagicSpellbook;
+import com.cryptic.model.items.Item;
+import com.cryptic.utility.JGson;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import lombok.Data;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
+@Data
+public class PresetData {
+    private static final Logger logger = LogManager.getLogger(PresetData.class);
+    private static final Gson gson = JGson.buildTypeAdapter();
+    public int id;
+    public Item[] inventory;
+    public Item[] equipment;
+    public MagicSpellbook spellbook;
+    public int button;
+    public AttributeKey attribute;
+    public static List<PresetData> loadPresets(File file) throws IOException {
+        try (FileReader fileReader = new FileReader(file)) {
+            TypeToken<List<PresetData>> typeToken = new TypeToken<>() {};
+            List<PresetData> presets = gson.fromJson(fileReader, typeToken.getType());
+
+            logger.info("Parsed presets from JSON:");
+
+            for (PresetData preset : presets) {
+                logger.info("Preset ID: {}", preset.getId());
+                logger.info("Inventory: {}", (Object) preset.getInventory());
+                logger.info("Equipment: {}", (Object) preset.getEquipment());
+                logger.info("Spellbook: {}", preset.getSpellbook());
+                logger.info("Button: {}", preset.getButton());
+                logger.info("Attribute: {}", preset.getAttribute());
+            }
+
+            return presets;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "PresetData{" +
+            ", id=" + id +
+            ", inventory=" + Arrays.toString(inventory) +
+            ", equipment=" + Arrays.toString(equipment) +
+            ", spellbook=" + spellbook +
+            ", button=" + button +
+            ", attribute=" + attribute +
+            '}';
+    }
+
+}

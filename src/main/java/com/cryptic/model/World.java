@@ -11,6 +11,7 @@ import com.cryptic.core.task.TaskManager;
 import com.cryptic.model.content.areas.burthope.warriors_guild.dialogue.Shanomi;
 import com.cryptic.model.content.bountyhunter.BountyHunter;
 import com.cryptic.model.content.minigames.MinigameManager;
+import com.cryptic.model.content.presets.newpreset.PresetHandler;
 import com.cryptic.model.content.skill.impl.fishing.Fishing;
 import com.cryptic.model.entity.EntityList;
 import com.cryptic.model.entity.NodeType;
@@ -27,6 +28,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.PlayerPerformanceTracker;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.equipment.EquipmentInfo;
+import com.cryptic.model.items.container.presets.PresetData;
 import com.cryptic.model.items.container.shop.Shop;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
@@ -41,6 +43,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
+import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -670,6 +673,12 @@ public class World {
             loadEquipmentInfo();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        try {
+            PresetHandler.defaultKits = PresetData.loadPresets(new File("data/list/presets.json")).toArray(new PresetData[0]);
+        } catch (Throwable t) {
+            t.printStackTrace();
         }
 
         try {

@@ -1,0 +1,176 @@
+[
+  {
+    "id": 1,
+    "inventory": [
+      {
+        "id": 2436,
+        "amount": 1
+      },
+      {
+        "id": 2440,
+        "amount": 1
+      },
+      {
+        "id": 6685,
+        "amount": 1
+      },
+      {
+        "id": 3024,
+        "amount": 1
+      },
+      {
+        "id": 1215,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 3144,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 3144,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 3144,
+        "amount": 1
+      },
+      {
+        "id": 3144,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 385,
+        "amount": 1
+      },
+      {
+        "id": 557,
+        "amount": 100
+      },
+      {
+        "id": 560,
+        "amount": 50
+      },
+      {
+        "id": 9075,
+        "amount": 80
+      }
+    ],
+    "equipment": [
+      {
+        "id": 10828,
+        "amount": 1
+      },
+      {
+        "id": 6570,
+        "amount": 1
+      },
+      {
+        "id": 11978,
+        "amount": 1
+      },
+      {
+        "id": -1,
+        "amount": 0
+      },
+      {
+        "id": 4587,
+        "amount": 1
+      },
+      {
+        "id": 1127,
+        "amount": 1
+      },
+      {
+        "id": 1201,
+        "amount": 1
+      },
+      {
+        "id": 1079,
+        "amount": 1
+      },
+      {
+        "id": 7462,
+        "amount": 1
+      },
+      {
+        "id": 3105,
+        "amount": 1
+      },
+      {
+        "id": 2550,
+        "amount": 1
+      }
+    ],
+    "spellbook": 3,
+    "button": 73291,
+    "attribute": 828
+  },
+  {
+    "id": 2,
+    "inventory": [],
+    "equipment": [],
+    "spellbook": 3,
+    "button": 73272,
+    "attribute": 826
+  }
+]

@@ -38,7 +38,6 @@ public class EquipmentInfo {
     public static final int[] DEFAULT_RENDERPAIR = {808, 823, 819, 820, 821, 822, 824};
     private static final int[] DEFAULT_WEAPON_RENDERPAIR = {809, 823, 819, 820, 821, 822, 824};
     private static final Bonuses DEFAULT_BONUSES = new Bonuses();
-
     private final Map<Integer, int[]> renderMap = new LinkedHashMap<>();
     private static Map<Integer, Bonuses> bonuses = new LinkedHashMap<>();
     private final Map<Integer, WeaponType> weaponTypes = new LinkedHashMap<>();

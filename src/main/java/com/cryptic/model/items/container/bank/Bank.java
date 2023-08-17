@@ -3,6 +3,7 @@ package com.cryptic.model.items.container.bank;
 import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.model.World;
 import com.cryptic.model.content.duel.Dueling;
+import com.cryptic.model.content.presets.newpreset.PresetHandler;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.magic.autocasting.Autocasting;
 import com.cryptic.model.entity.player.InputScript;
@@ -740,7 +741,7 @@ public class Bank extends ItemContainer {
                 return true;
             }
             case 26119 -> {
-                player.getInterfaceManager().open(73230);
+                PresetHandler.open(player);
                 player.getPacketSender().sendInterfaceDisplayState(15150, false);
                 return true;
             }

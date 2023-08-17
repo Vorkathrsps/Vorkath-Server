@@ -160,6 +160,8 @@ import java.util.stream.IntStream;
 import static com.cryptic.model.content.areas.wilderness.content.EloRating.DEFAULT_ELO_RATING;
 import static com.cryptic.model.content.daily_tasks.DailyTaskUtility.DAILY_TASK_MANAGER_INTERFACE;
 import static com.cryptic.model.content.daily_tasks.DailyTaskUtility.TIME_FRAME_TEXT_ID;
+import static com.cryptic.model.content.presets.newpreset.PresetHandler.EQUIPMENT_SIZE;
+import static com.cryptic.model.content.presets.newpreset.PresetHandler.INVENTORY_SIZE;
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.NexCombat.NEX_AREA;
 import static com.cryptic.model.entity.player.QuestTab.InfoTab.UPTIME;
@@ -2516,6 +2518,10 @@ public class Player extends Entity {
     }
 
     private final PresetManager presetManager = new PresetManager(this);
+
+    // these can go into their own class later
+    public ItemContainer presetUiequipmentContainer = new ItemContainer(EQUIPMENT_SIZE, ItemContainer.StackPolicy.STANDARD);
+    public ItemContainer presetUiinventoryContainer = new ItemContainer(INVENTORY_SIZE, ItemContainer.StackPolicy.STANDARD);
 
     public final PresetManager getPresetManager() {
         return presetManager;

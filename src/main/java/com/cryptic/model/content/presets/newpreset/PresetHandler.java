@@ -69,7 +69,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         player.putAttrib(AttributeKey.LAST_PRESET_BTN_CLICKED, button);//i assigned uhm, individual preset attributes & it differentiated off that
         // like 1  sec ill show you
 
-        if (button == 73274 || button == 73291) {
+        if (isPreMadeKit) {
             player.message("is pre-made");
             clearInterfaceAndContainers(player);
             validateAndBuildPreset(player, button);
@@ -92,6 +92,10 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     }
 
     public static void open(Player player) {
+        if (player == null) {
+            return;
+        }
+
         sendStrings(player);
         clearInterfaceAndContainers(player);
         player.getInterfaceManager().open(73230);
@@ -107,6 +111,11 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * @param kits               the preset kit
      */
     void load(Player player, ItemContainer equipmentContainer, ItemContainer inventoryContainer, PresetData kits) {
+
+        if (player == null || equipmentContainer == null || kits ==  null) {
+            return;
+        }
+
         submitEquipment(player, equipmentContainer, kits);
         submitItems(player, inventoryContainer, kits);
     }
@@ -119,11 +128,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * @param kit                the preset kit
      */
     void handleEquipmentContainer(Player player, ItemContainer equipmentContainer, PresetData kit) {
-        if (equipmentContainer == null) {
-            return;
-        }
-
-        if (kit == null) {
+        if (player == null || equipmentContainer == null || kit == null) {
             return;
         }
 
@@ -147,7 +152,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      */
     void populateEquipmentContainer(Player player, ItemContainer equipmentContainer, PresetData kits) {
 
-        if (kits == null) {
+        if (player == null || kits == null) {
             return;
         }
 
@@ -164,15 +169,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * @param kits               the preset kit
      */
     void handleInventoryContainer(Player player, ItemContainer inventoryContainer, PresetData kits) {
-        if (inventoryContainer == null) {
-            return;
-        }
-
-        if (player == null) {
-            return;
-        }
-
-        if (kits == null) {
+        if (player == null || inventoryContainer == null || kits == null) {
             return;
         }
 
@@ -203,15 +200,11 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      */
     void populateInventoryContainer(Player player, ItemContainer inventoryContainer, PresetData kits) {
 
+        if (player == null || kits == null) {
+            return;
+        }
+
         itemAmounts.clear();
-
-        if (player == null) {
-            return;
-        }
-
-        if (kits == null) {
-            return;
-        }
 
         Arrays.stream(kits.getInventory()).map(item -> new Item(item.getId(), item.getAmount())).forEach(inventoryContainer::add0);
     }
@@ -224,6 +217,10 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * @param button the button
      */
     void validateAndBuildPreset(Player player, int button) {
+        if (player == null) {
+            return;
+        }
+
         var kit =
             Arrays.stream(defaultKits).filter(e -> e.button == button)
                 .findFirst()
@@ -242,6 +239,10 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * @param player the player
      */
     void loadViewedPreset(Player player) {
+        if (player == null) {
+            return;
+        }
+
         try {
             var kit =
                 Arrays.stream(defaultKits)
@@ -258,13 +259,16 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * Applies the selected preset to the player's attributes and inventory.
      *
      * @param player      the player
-     * @param defaultKits the selected preset
+     * @param kits the selected preset
      */
-    void applyPreset(Player player, PresetData defaultKits) {
+    void applyPreset(Player player, PresetData kits) {
+        if (player == null || kits == null) {
+            return;
+        }
         //applyExperience(player, defaultKits);
-        applyEquipment(player, defaultKits);
-        applyInventory(player, defaultKits);
-        applySpellBook(player, defaultKits);
+        applyEquipment(player, kits);
+        applyInventory(player, kits);
+        applySpellBook(player, kits);
         updatePlayer(player);
     }
 
@@ -275,6 +279,10 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * @param attributeKeyToKeep the attributekey
      */
     void clearAttributesExcept(Player player, AttributeKey attributeKeyToKeep) {
+        if (player == null) {
+            return;
+        }
+
         Arrays.stream(attributeKeys).filter(a -> player.hasAttrib(a) && !a.equals(attributeKeyToKeep)).forEach(player::clearAttrib);
     }
 
@@ -284,6 +292,10 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * @param player the player
      */
     void rebuildInterface(Player player, ItemContainer equipmentContainer, ItemContainer inventoryContainer, PresetData kits) {
+        if (player == null) {
+            return;
+        }
+
         if (!WildernessArea.isInWilderness(player)) {
             //sendPreMadePresetStrings(player);
             load(player, equipmentContainer, inventoryContainer, kits);
@@ -298,6 +310,10 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * Clears The Item Containers
      */
     static void clearInterfaceAndContainers(Player player) {
+        if (player == null) {
+            return;
+        }
+
         if (player.presetUiequipmentContainer != null) {
             player.presetUiequipmentContainer.clear(true);
         }
@@ -320,6 +336,10 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * @param player the player
      */
     static void sendStrings(Player player) {
+        if (player == null) {
+            return;
+        }
+
         for (int index = 0; index < presetNames.length; index++) {
             player.getPacketSender().sendString(PRE_MADE_PRESET_NAME_STRINGS + index, presetNames[index]);
         }
@@ -333,6 +353,10 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * @param kits               the preset kit
      */
     void submitItems(Player player, ItemContainer inventoryContainer, PresetData kits) {
+        if (player == null || inventoryContainer == null || kits == null) {
+            return;
+        }
+
         populateInventoryContainer(player, inventoryContainer, kits);
         handleInventoryContainer(player, inventoryContainer, kits);
     }
@@ -345,6 +369,10 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * @param kits               the preset kit
      */
     void submitEquipment(Player player, ItemContainer equipmentContainer, PresetData kits) {
+        if (player == null || equipmentContainer == null || kits == null) {
+            return;
+        }
+
         populateEquipmentContainer(player, equipmentContainer, kits);
         handleEquipmentContainer(player, equipmentContainer, kits);
     }
@@ -355,6 +383,10 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * @param player the player
      */
     void sendSpellbookString(Player player, PresetData kits) {
+        if (player == null || kits == null) {
+            return;
+        }
+
         player.getPacketSender().sendString(SPELLBOOK_STRING_ID, kits.getSpellbook().name().toLowerCase());
     }
 
@@ -365,6 +397,10 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * @param kits the presetkit instance
      */
     void applyEquipment(Player player, PresetData kits) {
+        if (player == null || kits == null) {
+            return;
+        }
+
         Arrays.stream(kits.getEquipment()).filter(f -> !WildernessArea.isInWilderness(player)).map(i -> new Item(i, 1)).forEach(item -> {
             if (player.getEquipment() != null && !player.getEquipment().hasNoEquipment()) {
                 player.getBank().depositEquipment();
@@ -382,12 +418,16 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * Method to change our spellbook
      *
      * @param player      the player
-     * @param defaultKits the presetkit instance
+     * @param kits the presetkit instance
      */
-    void applySpellBook(Player player, PresetData defaultKits) {
+    void applySpellBook(Player player, PresetData kits) {
+        if (player == null || kits == null) {
+            return;
+        }
+
         if (!WildernessArea.isInWilderness(player)) {
-            sendSpellbookString(player, defaultKits);
-            MagicSpellbook.changeSpellbook(player, defaultKits.getSpellbook(), true);
+            sendSpellbookString(player, kits);
+            MagicSpellbook.changeSpellbook(player, kits.getSpellbook(), true);
         }
     }
 
@@ -398,6 +438,10 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * @param kits the presetkit instance
      */
     void applyInventory(Player player, PresetData kits) {
+        if (player == null || kits == null) {
+            return;
+        }
+
         boolean inventoryCheck = player.getInventory().getFreeSlots() > -1;
         if (!WildernessArea.isInWilderness(player)) {
             if (inventoryCheck) {
@@ -443,6 +487,10 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
      * @param player the player
      */
     void updatePlayer(Player player) {
+        if (player == null) {
+            return;
+        }
+
         ItemWeight.calculateWeight(player);
         player.getInterfaceManager().setSidebar(6, player.getSpellbook().getInterfaceId());
         player.getEquipment().refresh();

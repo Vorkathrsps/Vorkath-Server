@@ -3,6 +3,8 @@ package com.cryptic.model.items;
 import com.cryptic.cache.definitions.DefinitionRepository;
 import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.model.content.areas.wilderness.content.revenant_caves.AncientArtifacts;
+import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.items.container.bank.Bank;
 import com.cryptic.model.items.tradingpost.TradingPost;
 import com.cryptic.model.World;
 import com.cryptic.utility.loaders.BloodMoneyPrices;
@@ -148,6 +150,24 @@ public class Item implements Cloneable {
         id = item.id;
         this.amount = Math.max(amount, 0);
     }
+
+    public Item toNote(Player player, boolean isNoting) {
+        if (player == null) {
+            throw new IllegalArgumentException("Player at toNote cannot be null");
+        }
+
+        if (!isNoting) {
+            return this;
+        }
+
+        if (!this.noteable()) {
+            player.message("This item cannot be withdrawn as a note.");
+            return this;
+        }
+
+        return this.note();
+    }
+
 
     /**
      * An Item object constructor.
@@ -774,7 +794,7 @@ public class Item implements Cloneable {
         if (def.noted()) {
             return def.bm.value();
         }
-        return TradingPost.TRADING_POST_VALUE_ENABLED ? TradingPost.getProtectionPrice(id) : getBloodMoneyPrice() == null ? 0 :  def.bm.value();
+        return TradingPost.TRADING_POST_VALUE_ENABLED ? TradingPost.getProtectionPrice(id) : getBloodMoneyPrice() == null ? 0 : def.bm.value();
     }
 
     /**

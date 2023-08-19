@@ -369,12 +369,7 @@ public class Bank extends ItemContainer {
         }
 
         var def = World.getWorld().definitions().get(ItemDefinition.class, unnoted.getId());
-        //if (def.clueType != null && player.getInventory().containsAny(ClueType.EASY.clueId, ClueType.MEDIUM.clueId, ClueType.HARD.clueId, ClueType.ELITE.clueId, ClueType.MASTER.clueId)) {
-           // player.message("You already have one of those in your inventory!");
-          //  return;
-      //  }
 
-        //Since we are dealing with noted items here, we need to create a temporary item instance.
         var noted = unnoted;
 
         if (noting) {
@@ -384,8 +379,6 @@ public class Bank extends ItemContainer {
                 noted = unnoted.note();
             }
         }
-
-        //Moving forward we will continue to use the noted logic
 
         setFiringEvents(false);
         var stackable = noted.stackable();
@@ -775,7 +768,7 @@ public class Bank extends ItemContainer {
                 return true;
 
             case 26119:
-                player.getInterfaceManager().open(15106);
+                player.getInterfaceManager().open(73230);
                 player.getPacketSender().sendInterfaceDisplayState(15150, false);
                 return true;
 

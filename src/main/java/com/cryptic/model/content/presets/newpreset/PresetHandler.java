@@ -76,7 +76,6 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
             display(player, button);
             return true;
         } else if (button == PRESET_BUTTON_ID) {
-            clearInterfaceAndContainers(player);
             loadPreset(player);
             return true;
         } else if (button == EDIT_BUTTON_ID) {
@@ -140,6 +139,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
                 attributeKey = kit.getAttribute();
             }
 
+            sendStrings(player);
             if (kit != null) {
                 load(player, kit, attributeKey, button, index);
             } else {
@@ -378,10 +378,9 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         var equipment = player.getPresetEquipment();
 
         interruptDialogue(player);
-        System.out.printf("%s vs %s%n", kit.button, button);
 
-        // button didn't match, returns null and doesnt do
-        //oh uhh, the button should be setting via display? i believe
+        sendStrings(player);
+
         return kit.getButton() == button ? validate(player, kit, attributeKey, button, index) : null;
     }
 
@@ -408,10 +407,6 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
                         .findFirst()
                         .ifPresent(k -> applyPreset(player, k));
                 });
-    }
-
-    PresetHandler builder() {
-        return this;
     }
 
     void applyPreset(Player player, PresetData kits) {
@@ -461,6 +456,14 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
 
         for (int index = 0; index < presetNames.length; index++) {
             player.getPacketSender().sendString(PRE_MADE_PRESET_NAME_STRINGS + index, presetNames[index]);
+        }
+
+        for (int index = 0; index < player.getPresetData().length; index++) {
+            if (player.getPresetData()[index] != null) {
+                player.getPacketSender().sendString(73291 + index, player.getPresetData()[index].getName());
+            } else {
+                player.getPacketSender().sendString(73291 + index, "Click to create");
+            }
         }
     }
 
@@ -534,12 +537,12 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         Arrays.stream(kits.getEquipment())
             .forEach(item -> {
                 if (item != null)
-                if (bankDoesntContain(player, item)) {
-                    player.message(item.getAmount() == 0 ? "Item not found: " + Color.RED.wrap("" + item.name()) : "Item not found: " + Color.RED.wrap("" + item.name()) + " Amount: " + Color.RED.wrap("x" + item.getAmount()));
-                } else {
-                    removeFromBank(player, item);
-                    player.getEquipment().manualWear(item, true, false);
-                }
+                   // if (bankDoesntContain(player, item)) {
+                   //     player.message(item.getAmount() == 0 ? "Item not found: " + Color.RED.wrap("" + item.name()) : "Item not found: " + Color.RED.wrap("" + item.name()) + " Amount: " + Color.RED.wrap("x" + item.getAmount()));
+                  //  } else {
+                  //      removeFromBank(player, item);
+                        player.getEquipment().manualWear(item, true, false);
+                 //   }
             });
     }
 
@@ -574,18 +577,18 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         for (int index = 0; index < items.length; index++) {
             Item item = items[index];
             if (item != null) {
-                if (bankDoesntContain(player, item)) {
-                    player.message(item.getAmount() == 0 ? "Item not found: " + Color.RED.wrap("" + item.name()) : "Item not found: " + Color.RED.wrap("" + item.name()) + " Amount: " + Color.RED.wrap("x" + item.getAmount()));
-                } else {
-                    removeFromBank(player, item);
-                    if (!item.noted()) {
+                //if (bankDoesntContain(player, item)) {
+                //    player.message(item.getAmount() == 0 ? "Item not found: " + Color.RED.wrap("" + item.name()) : "Item not found: " + Color.RED.wrap("" + item.name()) + " Amount: " + Color.RED.wrap("x" + item.getAmount()));
+               // } else {
+                //    removeFromBank(player, item);
+                //    if (!item.noted()) {
                         player.getInventory().add(item, index, false);
-                    } else {
-                        player.getInventory().add(item.note(), index, false);
-                    }
+               //     } else {
+                      //  player.getInventory().add(item.note(), index, false);
+               //     }
                 }
             }
-        }
+      //  }
     }
 
     void removeFromBank(Player player, Item item) {

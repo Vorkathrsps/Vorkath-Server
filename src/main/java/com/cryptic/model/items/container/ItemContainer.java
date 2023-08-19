@@ -615,7 +615,7 @@ public class ItemContainer implements Iterable<Item> {
     public final int getSlot(int id) {
         for (int index = 0; index < items.length; index++) {
             if (items[index] != null && items[index].getId() == id) {
-                return index;
+                        return index;
             }
         }
         return -1;

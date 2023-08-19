@@ -3,7 +3,6 @@ package com.cryptic.model.items.container.bank;
 import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.model.World;
 import com.cryptic.model.content.duel.Dueling;
-import com.cryptic.model.content.presets.newpreset.PresetHandler;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.magic.autocasting.Autocasting;
 import com.cryptic.model.entity.player.InputScript;
@@ -14,6 +13,7 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ItemWeight;
 import com.cryptic.model.items.container.ItemContainer;
 import com.cryptic.model.items.container.ItemContainerAdapter;
+import com.cryptic.utility.Color;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -307,6 +307,29 @@ public class Bank extends ItemContainer {
         refresh();
     }
 
+    void withdrawItems(int id, int slot, int amount) {
+        if (!player.getInterfaceManager().isInterfaceOpen(InterfaceConstants.BANK_WIDGET)) {
+            return;
+        }
+
+        if (id < 0 || slot < 0 || slot > capacity()) {
+            return;
+        }
+
+        Item item = get(slot);
+
+        if (item == null) {
+            return;
+        }
+
+        if (item.getAmount() == 0) {
+            return;
+        }
+    }
+
+    /**
+     * Withdraws item from bank.
+     */
     /**
      * Withdraws item from bank.
      */
@@ -314,17 +337,26 @@ public class Bank extends ItemContainer {
         if (!player.getInterfaceManager().isInterfaceOpen(InterfaceConstants.BANK_WIDGET)) {
             return;
         }
-        if (itemId < 0 || slot < 0 || slot > capacity()) return;
-        Item item = get(slot);
-        if (item == null || itemId != item.getId())
+
+        if((player.inActiveTournament() || player.isInTournamentLobby()) && !player.getPlayerRights().isDeveloper(player)) {
+            player.message(Color.RED.wrap("You can't bank here."));
             return;
-        if (item.getAmount() == 0) {//Releasing place holders
-            boolean hold = placeHolder;
+        }
+
+        if (itemId < 0 || slot < 0 || slot > capacity())
+            return;
+
+        var unnoted = get(slot);
+        if (unnoted == null || itemId != unnoted.getId())
+            return;
+
+        if (unnoted.getAmount() == 0) {//Releasing placeholders
+            var hold = placeHolder;
             placeHolder = false;
-            int tabSlot = getSlot(item.getId());
-            int tab = tabForSlot(tabSlot);
+            var tabSlot = getSlot(unnoted.getId());
+            var tab = tabForSlot(tabSlot);
             changeTabAmount(tab, -1);
-            remove(item);
+            remove(unnoted);
             shift();
             placeHolder = hold;
             placeHolderAmount--;
@@ -332,29 +364,40 @@ public class Bank extends ItemContainer {
             return;
         }
 
-        if (item.getAmount() < amount) {
-            amount = item.getAmount();
+        if (unnoted.getAmount() < amount) {
+            amount = unnoted.getAmount();
         }
 
-        int id = item.getId();
-        //System.out.println("withdraw <"+id+"> - "+item);
+        var def = World.getWorld().definitions().get(ItemDefinition.class, unnoted.getId());
+        //if (def.clueType != null && player.getInventory().containsAny(ClueType.EASY.clueId, ClueType.MEDIUM.clueId, ClueType.HARD.clueId, ClueType.ELITE.clueId, ClueType.MASTER.clueId)) {
+           // player.message("You already have one of those in your inventory!");
+          //  return;
+      //  }
+
+        //Since we are dealing with noted items here, we need to create a temporary item instance.
+        var noted = unnoted;
+
         if (noting) {
-            //System.out.println("We are noting");
-            if (!item.noteable()) {
+            if (!unnoted.noteable()) {
                 player.message("This item cannot be withdrawn as a note.");
             } else {
-                id = item.note().getId();
+                noted = unnoted.note();
             }
         }
 
+        //Moving forward we will continue to use the noted logic
+
         setFiringEvents(false);
-        if (!item.stackable() && amount > player.getInventory().getFreeSlots()) {
-            amount = player.getInventory().getFreeSlots();
-        } else if (item.stackable() && player.getInventory().getFreeSlots() == 0) {
-            if (!player.getInventory().contains(id)) {
+        var stackable = noted.stackable();
+        var freeInventorySlots = player.getInventory().getFreeSlots();
+
+        if (!stackable && amount > freeInventorySlots) {
+            amount = freeInventorySlots;
+        } else if (stackable && freeInventorySlots == 0) {
+            if (!player.getInventory().contains(noted)) {
                 amount = 0;
-            } else if (player.getInventory().count(id) + amount > Integer.MAX_VALUE) {
-                amount = Integer.MAX_VALUE - player.getInventory().count(id);
+            } else if (player.getInventory().count(noted.getId()) + amount > Integer.MAX_VALUE) {
+                amount = Integer.MAX_VALUE - player.getInventory().count(noted.getId());
             }
         }
 
@@ -363,14 +406,7 @@ public class Bank extends ItemContainer {
             return;
         }
 
-        //We have to add a check for these buttons, otherwise it's going to delete items!
-        boolean pressedAnyWithdrawButtons = player.getBank().quantityOne || player.getBank().quantityFive || player.getBank().quantityTen || player.getBank().quantityX || player.getBank().quantityAll;
-        if(pressedAnyWithdrawButtons && player.getInventory().isFull()) {
-            player.message("You do not have enough inventory spaces to withdraw this item.");
-            return;
-        }
-
-        int withdrawSlot = player.getInventory().getSlot(id);
+        var withdrawSlot = player.getInventory().getSlot(noted.getId()); // Check for noted form
         if (withdrawSlot != -1) {
             Item withdrawItem = player.getInventory().get(withdrawSlot);
             if (withdrawItem == null) return;
@@ -380,11 +416,10 @@ public class Bank extends ItemContainer {
             }
         }
 
-        // the normal removal method, by id and amount
-        if (remove(item.getId(), amount)) {
-            player.getInventory().add(new Item(id, amount));
+        if (remove(unnoted.getId(), amount)) { // Original item, always unnoted in the bank.
+            player.getInventory().add(noted.getId(), amount);//Noted form is added to the bank, temporary item.
             // when an item is taken out of the bank completely, it removes one amount from the tab amounts array
-            if (!contains(item.getId())) {
+            if (!contains(unnoted.getId())) { // Again check the bank item, always unnoted
                 int tab = tabForSlot(slot);
                 changeTabAmount(tab, -1);
                 shift();
@@ -474,14 +509,13 @@ public class Bank extends ItemContainer {
      * <br> With this count, you should write some new code to deal with any remaining leftovers or bank them.
      * <br> see {@link Dueling#onDeath()} for an example of dropping the remainder to the ground
      * <p>
-     *
      */
     public Result depositFromNothing(Item item) {
         //if (player.getGameMode(GameMode.TRAINED_ACCOUNT).isUltimateIronman()) {
-         //   return new Result(item.getAmount(), 0, 0);
+        //   return new Result(item.getAmount(), 0, 0);
         //}
         ItemDefinition def = World.getWorld().definitions().get(ItemDefinition.class, item.getId());
-        if(def == null) {
+        if (def == null) {
             return new Result(item.getAmount(), 0, 0);
         }
 
@@ -528,7 +562,7 @@ public class Bank extends ItemContainer {
             } else {
                 existing.incrementAmountBy(item.getAmount());
                 setFiringEvents(true);
-                return new Result(item.getAmount(), item.getAmount(),0); // full amount successfully banked
+                return new Result(item.getAmount(), item.getAmount(), 0); // full amount successfully banked
             }
         }
     }
@@ -539,23 +573,23 @@ public class Bank extends ItemContainer {
     public void depositInventory() {
         for (int i = 0; i <= 27; i++) {
             var itemAt = player.inventory().get(i);
-            if(itemAt == null) continue; // Get item or continue
-                deposit(i, itemAt.getAmount(), player.inventory());
+            if (itemAt == null) continue; // Get item or continue
+            deposit(i, itemAt.getAmount(), player.inventory());
         }
     }
 
     /**
      * Handles depositing all the equipment.
      */
-    public void depositEquipment() {
+    public void depositeEquipment() {
         for (int i = 0; i <= 13; i++) {
             var itemAt = player.getEquipment().get(i);
-            if(itemAt == null) continue; // Get item or continue
+            if (itemAt == null) continue; // Get item or continue
             deposit(i, itemAt.getAmount(), player.getEquipment());
         }
 
         //Cancel auto cast spells
-        Autocasting.setAutocast(player,null);
+        Autocasting.setAutocast(player, null);
         player.getCombat().setRangedWeapon(null);
         player.getEquipment().login();
     }
@@ -733,18 +767,17 @@ public class Bank extends ItemContainer {
             return true;
         }
         switch (button) {
-            case 26102 -> {
+            case 26102:
                 return true;
-            }
-            case 26106 -> {
+
+            case 26106:
                 openSettings();
                 return true;
-            }
-            case 26119 -> {
-                PresetHandler.open(player);
+
+            case 26119:
+                player.getInterfaceManager().open(15106);
                 player.getPacketSender().sendInterfaceDisplayState(15150, false);
                 return true;
-            }
 
            /* case 34035: player.putAttrib(FILLER_AMT, 1);
                 return true;
@@ -782,7 +815,8 @@ public class Bank extends ItemContainer {
                 return true;*/
 
             // Release Placeholders
-            case 26072, 34024 -> {
+            case 26072:
+            case 34024:
                 int count = 0;
                 boolean toggle = player.getBank().placeHolder;
                 player.getBank().placeHolder = false;
@@ -804,50 +838,49 @@ public class Bank extends ItemContainer {
                 player.message(count == 0 ? "You don't have any placeholders to release." : "You have released " + count + " placeholders.");
                 player.getPacketSender().sendString(34024, "Release all placeholders (" + player.getBank().placeHolderAmount + ")");
                 return true;
-            }
 
             // Placeholders
-            case 26101 -> {
+            case 26101:
                 boolean active = player.getBank().placeHolder = !player.getBank().placeHolder;
                 player.getPacketSender().setWidgetActive(26101, active);
                 return true;
-            }
 
             /* Deposit Inventory */
-            case 26103 -> {
+            case 26103:
                 depositInventory();
                 return true;
-            }
 
             /* Deposit Equipment */
-            case 26104 -> {
-                depositEquipment();
+            case 26104:
+                depositeEquipment();
                 return true;
-            }
-            case 5386 -> {
+
+            case 5386:
                 noting = true;
                 return true;
-            }
-            case 5387 -> {
+
+            case 5387:
                 noting = false;
                 return true;
-            }
-            case 8130 -> {
+
+            case 8130:
                 inserting = false;
                 return true;
-            }
-            case 8131 -> {
+
+            case 8131:
                 inserting = true;
                 return true;
-            }
 
             /* Close Bank */
-            case 26002 -> {
+            case 26002:
                 player.getInterfaceManager().close();
                 return true;
-            }
-            case 26905 -> player.getLootingBag().depositLootingBag();
-            case 26108 -> { // Quantity all
+
+            case 26905:
+                player.getLootingBag().depositLootingBag();
+                break;
+
+            case 26108: // Quantity all
                 quantityAll = true;
                 quantityOne = false;
                 quantityFive = false;
@@ -859,14 +892,18 @@ public class Bank extends ItemContainer {
                 player.getPacketSender().sendConfig(317, 0);
                 player.getPacketSender().sendConfig(320, 0);
                 return true;
-            }
-            case 26109 -> { // Quantity X
-                player.setAmountScript("How many would you like to deposit/withdraw?", value -> {
-                    int input = (Integer) value;
-                    player.getBank().currentQuantityX = input == 0 ? 1 : (int) input;
-                    player.getPacketSender().updateWidgetTooltipText(26109, "Default quantity: " + player.getBank().currentQuantityX);
 
-                    return true;
+            case 26109: // Quantity X
+                player.setAmountScript("How many would you like to deposit/withdraw?", new InputScript() {
+
+                    @Override
+                    public boolean handle(Object value) {
+                        int input = (Integer) value;
+                        player.getBank().currentQuantityX = input == 0 ? 1 : (int) Math.min(input, Integer.MAX_VALUE);
+                        player.getPacketSender().updateWidgetTooltipText(26109, "Default quantity: " + player.getBank().currentQuantityX);
+
+                        return true;
+                    }
                 });
                 quantityX = true;
                 quantityOne = false;
@@ -878,8 +915,9 @@ public class Bank extends ItemContainer {
                 player.getPacketSender().sendConfig(316, 0);
                 player.getPacketSender().sendConfig(317, 0);
                 player.getPacketSender().sendConfig(320, 0);
-            }
-            case 26110 -> { // Quantity ten
+                break;
+
+            case 26110: // Quantity ten
                 quantityTen = true;
                 quantityOne = false;
                 quantityFive = false;
@@ -890,8 +928,9 @@ public class Bank extends ItemContainer {
                 player.getPacketSender().sendConfig(316, 1);
                 player.getPacketSender().sendConfig(317, 0);
                 player.getPacketSender().sendConfig(320, 0);
-            }
-            case 26111 -> { // Quantity five
+                break;
+
+            case 26111: // Quantity five
                 quantityFive = true;
                 quantityOne = false;
                 quantityTen = false;
@@ -902,8 +941,9 @@ public class Bank extends ItemContainer {
                 player.getPacketSender().sendConfig(316, 0);
                 player.getPacketSender().sendConfig(317, 1);
                 player.getPacketSender().sendConfig(320, 0);
-            }
-            case 26112 -> { //Quantity one
+                break;
+
+            case 26112: //Quantity one
                 quantityOne = true;
                 quantityFive = false;
                 quantityTen = false;
@@ -914,10 +954,23 @@ public class Bank extends ItemContainer {
                 player.getPacketSender().sendConfig(316, 0);
                 player.getPacketSender().sendConfig(317, 0);
                 player.getPacketSender().sendConfig(320, 1);
-            }
-            case 34004 -> player.getBank().open();
-            case 34016, 34017, 34018, 34019, 34020, 34021 -> player.message("This option is unavailable.");
-            case 34008, 34009 -> {
+                break;
+
+            case 34004:
+                player.getBank().open();
+                break;
+
+            case 34016:
+            case 34017:
+            case 34018:
+            case 34019:
+            case 34020:
+            case 34021:
+                player.message("This option is unavailable.");
+                break;
+
+            case 34008:
+            case 34009:
                 player.getBank().show_item_in_tab = !player.getBank().show_item_in_tab;
                 player.getPacketSender().sendConfig(750, show_item_in_tab ? 1 : 0);
 
@@ -926,8 +979,10 @@ public class Bank extends ItemContainer {
                 player.getPacketSender().sendConfig(751, 0);
                 player.getBank().show_roman_number_in_tab = false;
                 player.getPacketSender().sendConfig(752, 0);
-            }
-            case 34010, 34011 -> {
+                break;
+
+            case 34010:
+            case 34011:
                 player.getBank().show_number_in_tab = !player.getBank().show_number_in_tab;
                 player.getPacketSender().sendConfig(751, show_number_in_tab ? 1 : 0);
 
@@ -936,8 +991,10 @@ public class Bank extends ItemContainer {
                 player.getPacketSender().sendConfig(750, 0);
                 player.getBank().show_roman_number_in_tab = false;
                 player.getPacketSender().sendConfig(752, 0);
-            }
-            case 34012, 34013 -> {
+                break;
+
+            case 34012:
+            case 34013:
                 player.getBank().show_roman_number_in_tab = !player.getBank().show_roman_number_in_tab;
                 player.getPacketSender().sendConfig(752, show_roman_number_in_tab ? 1 : 0);
 
@@ -946,7 +1003,7 @@ public class Bank extends ItemContainer {
                 player.getPacketSender().sendConfig(750, 0);
                 player.getBank().show_number_in_tab = false;
                 player.getPacketSender().sendConfig(751, 0);
-            }
+                break;
         }
 
         return false;

@@ -30,7 +30,7 @@ public class DataOrbs extends PacketInteraction {
             }
             button_delay.start(5);
             player.getBank().depositInventory();
-            player.getBank().depositEquipment();
+            player.getBank().depositeEquipment();
             return true;
         }
 

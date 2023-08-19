@@ -76,6 +76,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
             display(player, button);
             return true;
         } else if (button == PRESET_BUTTON_ID) {
+            clearInterfaceAndContainers(player);
             loadPreset(player);
             return true;
         } else if (button == EDIT_BUTTON_ID) {
@@ -528,7 +529,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
             return;
         }
 
-        player.getBank().depositEquipment();
+        player.getBank().depositeEquipment();
 
         Arrays.stream(kits.getEquipment())
             .forEach(item -> {

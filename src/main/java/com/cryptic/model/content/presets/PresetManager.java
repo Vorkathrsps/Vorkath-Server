@@ -620,7 +620,7 @@ public class PresetManager {
 
         //When the preset is global auto bank
         player.getBank().depositInventory();
-        player.getBank().depositEquipment();
+        player.getBank().depositeEquipment();
 
         player.message("Loading preset...");
         //Only load levels when we have this enabled.

@@ -782,7 +782,7 @@ public final class PacketSender {
         out.putShort(items.length);
         for (final Item item : items) {
             if (item != null) {
-                if (item.getAmount() > 254) {
+                if (item.getAmount() > 255) {
                     out.put(255).putInt(item.getAmount(), ByteOrder.INVERSE_MIDDLE);
                 } else {
                     out.put(item.getAmount());

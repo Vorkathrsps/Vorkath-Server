@@ -178,11 +178,8 @@ public final class PacketSender {
 
     public PacketSender setWidgetActive(int child, boolean active) {
         PacketBuilder out = new PacketBuilder(143);
-        out.put(active ? 1 : 0); // fyi im counting the bytes , put=1 byte
-        out.putShort(child); // short= 2 bytes u following? just adding and should
-        // match the total on the right
-        //always had ynneh do packets bcuz i suck at keeping count hahaha all good bro
-        //System.out.println("Widget active: "+active+" child: "+child);
+        out.put(active ? 1 : 0);
+        out.putShort(child);
         player.getSession().write(out);
         return this;
     }
@@ -222,11 +219,8 @@ public final class PacketSender {
     }
 
     public PacketSender sendHitPredictor(int hit) {
-        //if (!player.hitDrops)
-        // return this;
         PacketBuilder out = new PacketBuilder(135);
         out.putShort(hit);
-        //System.out.println("Sending hit "+ hit);
         player.getSession().write(out);
         return this;
     }
@@ -695,7 +689,7 @@ public final class PacketSender {
             }
             player.getInterfaceManager().setSidebar(tab, id);
         }
-        player.getInterfaceManager().setSidebar(2, 74000);
+        player.getInterfaceManager().setSidebar(2, 70000);
        // player.getInterfaceManager().setSidebar(2, 74030);
         return this;
     }

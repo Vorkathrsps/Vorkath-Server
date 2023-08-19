@@ -111,7 +111,7 @@ public class Teleports {
             //Modern spells
             player.animate(714);
             player.graphic(111, GraphicHeight.HIGH, 0);
-        } else if (player.getSpellbook() == MagicSpellbook.ANCIENT) {
+        } else if (player.getSpellbook() == MagicSpellbook.ANCIENTS) {
             //Ancient spells
             player.animate(1979);
             player.graphic(392);

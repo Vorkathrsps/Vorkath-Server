@@ -43,7 +43,6 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
-import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -676,7 +675,7 @@ public class World {
         }
 
         try {
-            PresetHandler.defaultKits = PresetData.loadPresets(new File("data/list/presets.json")).toArray(new PresetData[0]);
+            PresetHandler.defaultKits = PresetData.loadDefaultPresets(new File("data/list/presets.json")).toArray(new PresetData[0]);
         } catch (Throwable t) {
             t.printStackTrace();
         }

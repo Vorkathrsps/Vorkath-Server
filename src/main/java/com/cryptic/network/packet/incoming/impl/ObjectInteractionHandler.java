@@ -192,7 +192,7 @@ public class ObjectInteractionHandler implements PacketListener {
 
                 if (object.getId() == 31858) {
                     player.animate(new Animation(645));
-                    MagicSpellbook.changeSpellbook(player, MagicSpellbook.ANCIENT, true);
+                    MagicSpellbook.changeSpellbook(player, MagicSpellbook.ANCIENTS, true);
                 }
 
                 if (name.equalsIgnoreCase("furnace")) {

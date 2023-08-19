@@ -83,7 +83,7 @@ public class ReloadCommand implements Command {
             player.message("Finished.");
         } else if (reload.equalsIgnoreCase("presets")) {
             player.message("Reloading presets...");
-            new PresetLoader().run();
+           // new PresetLoader().run();
             player.message("Finished.");
         }
     }

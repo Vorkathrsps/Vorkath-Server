@@ -115,7 +115,7 @@ public class Buttons {
 
         Item staff = player.getEquipment().get(EquipSlot.WEAPON);
         boolean full_ahrim_effect = CombatFactory.fullAhrims(player) && Equipment.hasAmmyOfDamned(player);
-        boolean onAncients = player.getSpellbook() == MagicSpellbook.ANCIENT;
+        boolean onAncients = player.getSpellbook() == MagicSpellbook.ANCIENTS;
         boolean onNormals = player.getSpellbook() == MagicSpellbook.NORMAL;
 
         if (player.getMysteryBox().onButton(button)) {
@@ -221,7 +221,7 @@ public class Buttons {
                     }
 
                     if (staff != null && ANCIENT_SPELL_AUTOCAST_STAFFS.contains(staff.getId()) && !full_ahrim_effect) {
-                        if (player.getSpellbook() == MagicSpellbook.ANCIENT) {
+                        if (player.getSpellbook() == MagicSpellbook.ANCIENTS) {
                             //It can autocast offensive standard spells, but cannot autocast Ancient Magicks unlike its other variants.
                             if (player.getEquipment().getWeapon().getId() != HARMONISED_NIGHTMARE_STAFF) {
                                 player.getInterfaceManager().setSidebar(0, 1689);
@@ -286,6 +286,7 @@ public class Buttons {
                 }
                 player.inventory().remove(itemToDestroy, true);
                 player.getInterfaceManager().close();
+                return;
             }
             case TOGGLE_EXP_LOCK -> {
                 boolean locked = player.getAttribOr(AttributeKey.XP_LOCKED, false);
@@ -300,6 +301,7 @@ public class Buttons {
             default -> {
                 if (Arrays.stream(CLOSE_BUTTONS).anyMatch(b -> b == button)) {
                     player.getInterfaceManager().close();
+                    return;
                 }
                 if (button == LOGOUT) {
                     // Handle this here and not in canLogout() so that x-logging doesn't "break" the

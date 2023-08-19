@@ -363,7 +363,7 @@ public class Edgeville extends PacketInteraction {
             }
 
             if (obj.getId() == 29150) {
-                player.switchSpellBook(MagicSpellbook.ANCIENT);
+                player.switchSpellBook(MagicSpellbook.ANCIENTS);
                 return true;
             }
         } else if (option == 3) {

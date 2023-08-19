@@ -152,9 +152,9 @@ public class WildernessArea extends Controller {
         //53732
         //53733
         if (kd) {
-            player.getPacketSender().sendString(53731, "Kills: " + player.getAttribOr(AttributeKey.PLAYER_KILLS, 0));
-            player.getPacketSender().sendString(53732, "Deaths: " + player.getAttribOr(AttributeKey.PLAYER_DEATHS, 0));
-            player.getPacketSender().sendString(53733, "K/D Ratio: " + player.getKillDeathRatio());
+            //player.getPacketSender().sendString(53731, "Kills: " + player.getAttribOr(AttributeKey.PLAYER_KILLS, 0));
+           // player.getPacketSender().sendString(53732, "Deaths: " + player.getAttribOr(AttributeKey.PLAYER_DEATHS, 0));
+           // player.getPacketSender().sendString(53733, "K/D Ratio: " + player.getKillDeathRatio());
         }
         //53723 - target name
         //53724 - loc/combat level
@@ -169,7 +169,7 @@ public class WildernessArea extends Controller {
     @Override
     public void enter(Player player) {
         player.getPacketSender().sendInteractionOption("Attack", 2, true);
-        player.getInterfaceManager().sendOverlay(InterfaceID.BOUNTY_HUNTER);
+        player.getInterfaceManager().sendOverlay(196 );
         refreshWildernessLevel(player);
         player.putAttrib(AttributeKey.INWILD, World.getWorld().cycleCount());
         if (!BountyHunter.PLAYERS_IN_WILD.contains(player)) {
@@ -206,7 +206,7 @@ public class WildernessArea extends Controller {
         int wildLevel = wildernessLevel(player.tile());
 
         if (wildLevel > 0) {
-            player.getPacketSender().sendString(53730, "Level: " + wildLevel);
+            player.getPacketSender().sendString(195, "Level: " + wildLevel);
         }
     }
 

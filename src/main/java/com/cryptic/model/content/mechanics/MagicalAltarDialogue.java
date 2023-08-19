@@ -25,7 +25,7 @@ public class MagicalAltarDialogue extends Dialogue {
                 }
                 case 2 -> {
                     stop();
-                    MagicSpellbook.changeSpellbook(player, MagicSpellbook.ANCIENT, true);
+                    MagicSpellbook.changeSpellbook(player, MagicSpellbook.ANCIENTS, true);
                 }
                 case 3 -> {
                     stop();

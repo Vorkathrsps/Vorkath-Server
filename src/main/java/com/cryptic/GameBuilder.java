@@ -91,7 +91,7 @@ public class GameBuilder {
         tasks.add(new ShopLoader());
         tasks.add(new ObjectSpawnDefinitionLoader());
         if(GameServer.properties().pvpMode) {
-            tasks.add(new PresetLoader());
+           // tasks.add(new PresetLoader());
         }
         tasks.add(TournamentManager::initalizeTournaments);
         tasks.add(new DoorDefinitionLoader());

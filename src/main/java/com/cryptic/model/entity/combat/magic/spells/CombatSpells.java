@@ -1884,7 +1884,7 @@ CombatSpells {
 
         @Override
         public MagicSpellbook spellbook() {
-            return MagicSpellbook.ANCIENT;
+            return MagicSpellbook.ANCIENTS;
         }
     }),
     SHADOW_RUSH(new CombatEffectSpell() {
@@ -1945,7 +1945,7 @@ CombatSpells {
 
         @Override
         public MagicSpellbook spellbook() {
-            return MagicSpellbook.ANCIENT;
+            return MagicSpellbook.ANCIENTS;
         }
     }),
     BLOOD_RUSH(new CombatEffectSpell() {
@@ -2009,7 +2009,7 @@ CombatSpells {
 
         @Override
         public MagicSpellbook spellbook() {
-            return MagicSpellbook.ANCIENT;
+            return MagicSpellbook.ANCIENTS;
         }
     }),
     ICE_RUSH(new CombatEffectSpell() {
@@ -2041,7 +2041,7 @@ CombatSpells {
         @Override
         public List<Item> itemsRequired(Player player) {
             boolean spellSack = player.inventory().contains(BLIGHTED_ANCIENT_ICE_SACK);
-            boolean onAncientsSpellbook = player.getSpellbook().equals(MagicSpellbook.ANCIENT);
+            boolean onAncientsSpellbook = player.getSpellbook().equals(MagicSpellbook.ANCIENTS);
             if (spellSack && onAncientsSpellbook && player.varps().varbit(Varbit.IN_WILDERNESS) != 0) {
                 return List.of(Item.of(BLIGHTED_ANCIENT_ICE_SACK, 1));
             }
@@ -2064,7 +2064,7 @@ CombatSpells {
 
         @Override
         public MagicSpellbook spellbook() {
-            return MagicSpellbook.ANCIENT;
+            return MagicSpellbook.ANCIENTS;
         }
     }),
     SMOKE_BURST(new CombatEffectSpell() {
@@ -2125,7 +2125,7 @@ CombatSpells {
 
         @Override
         public MagicSpellbook spellbook() {
-            return MagicSpellbook.ANCIENT;
+            return MagicSpellbook.ANCIENTS;
         }
     }),
     SHADOW_BURST(new CombatEffectSpell() {
@@ -2186,7 +2186,7 @@ CombatSpells {
 
         @Override
         public MagicSpellbook spellbook() {
-            return MagicSpellbook.ANCIENT;
+            return MagicSpellbook.ANCIENTS;
         }
     }),
     BLOOD_BURST(new CombatEffectSpell() {
@@ -2250,7 +2250,7 @@ CombatSpells {
 
         @Override
         public MagicSpellbook spellbook() {
-            return MagicSpellbook.ANCIENT;
+            return MagicSpellbook.ANCIENTS;
         }
     }),
     ICE_BURST(new CombatEffectSpell() {
@@ -2282,7 +2282,7 @@ CombatSpells {
         @Override
         public List<Item> itemsRequired(Player player) {
             boolean spellSack = player.inventory().contains(BLIGHTED_ANCIENT_ICE_SACK);
-            boolean onAncientsSpellbook = player.getSpellbook().equals(MagicSpellbook.ANCIENT);
+            boolean onAncientsSpellbook = player.getSpellbook().equals(MagicSpellbook.ANCIENTS);
             if (spellSack && onAncientsSpellbook && player.varps().varbit(Varbit.IN_WILDERNESS) != 0) {
                 return List.of(Item.of(BLIGHTED_ANCIENT_ICE_SACK, 1));
             }
@@ -2305,7 +2305,7 @@ CombatSpells {
 
         @Override
         public MagicSpellbook spellbook() {
-            return MagicSpellbook.ANCIENT;
+            return MagicSpellbook.ANCIENTS;
         }
     }),
     SMOKE_BLITZ(new CombatEffectSpell() {
@@ -2366,7 +2366,7 @@ CombatSpells {
 
         @Override
         public MagicSpellbook spellbook() {
-            return MagicSpellbook.ANCIENT;
+            return MagicSpellbook.ANCIENTS;
         }
     }),
     SHADOW_BLITZ(new CombatEffectSpell() {
@@ -2427,7 +2427,7 @@ CombatSpells {
 
         @Override
         public MagicSpellbook spellbook() {
-            return MagicSpellbook.ANCIENT;
+            return MagicSpellbook.ANCIENTS;
         }
     }),
     BLOOD_BLITZ(new CombatEffectSpell() {
@@ -2490,7 +2490,7 @@ CombatSpells {
 
         @Override
         public MagicSpellbook spellbook() {
-            return MagicSpellbook.ANCIENT;
+            return MagicSpellbook.ANCIENTS;
         }
     }),
     ICE_BLITZ(new CombatEffectSpell() {
@@ -2522,7 +2522,7 @@ CombatSpells {
         @Override
         public List<Item> itemsRequired(Player player) {
             boolean spellSack = player.inventory().contains(BLIGHTED_ANCIENT_ICE_SACK);
-            boolean onAncientsSpellbook = player.getSpellbook().equals(MagicSpellbook.ANCIENT);
+            boolean onAncientsSpellbook = player.getSpellbook().equals(MagicSpellbook.ANCIENTS);
             if (spellSack && onAncientsSpellbook && player.varps().varbit(Varbit.IN_WILDERNESS) != 0) {
                 return List.of(Item.of(BLIGHTED_ANCIENT_ICE_SACK, 1));
             }
@@ -2545,7 +2545,7 @@ CombatSpells {
 
         @Override
         public MagicSpellbook spellbook() {
-            return MagicSpellbook.ANCIENT;
+            return MagicSpellbook.ANCIENTS;
         }
     }),
     SMOKE_BARRAGE(new CombatEffectSpell() {
@@ -2606,7 +2606,7 @@ CombatSpells {
 
         @Override
         public MagicSpellbook spellbook() {
-            return MagicSpellbook.ANCIENT;
+            return MagicSpellbook.ANCIENTS;
         }
     }),
     SHADOW_BARRAGE(new CombatEffectSpell() {
@@ -2667,7 +2667,7 @@ CombatSpells {
 
         @Override
         public MagicSpellbook spellbook() {
-            return MagicSpellbook.ANCIENT;
+            return MagicSpellbook.ANCIENTS;
         }
     }),
     BLOOD_BARRAGE(new CombatEffectSpell() {
@@ -2731,7 +2731,7 @@ CombatSpells {
 
         @Override
         public MagicSpellbook spellbook() {
-            return MagicSpellbook.ANCIENT;
+            return MagicSpellbook.ANCIENTS;
         }
     }),
     ICE_BARRAGE(new CombatEffectSpell() {
@@ -2763,7 +2763,7 @@ CombatSpells {
         @Override
         public List<Item> itemsRequired(Player player) {
             boolean spellSack = player.inventory().contains(BLIGHTED_ANCIENT_ICE_SACK);
-            boolean onAncientsSpellbook = player.getSpellbook().equals(MagicSpellbook.ANCIENT);
+            boolean onAncientsSpellbook = player.getSpellbook().equals(MagicSpellbook.ANCIENTS);
             if (spellSack && onAncientsSpellbook && player.varps().varbit(Varbit.IN_WILDERNESS) != 0) {
                 return List.of(Item.of(BLIGHTED_ANCIENT_ICE_SACK, 1));
             }
@@ -2786,7 +2786,7 @@ CombatSpells {
 
         @Override
         public MagicSpellbook spellbook() {
-            return MagicSpellbook.ANCIENT;
+            return MagicSpellbook.ANCIENTS;
         }
     }),
     TRIDENT_OF_THE_SEAS(new CombatNormalSpell() {

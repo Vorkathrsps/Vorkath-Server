@@ -132,7 +132,7 @@ public abstract class CombatEffectSpell extends CombatSpell {
                 spellEffect(cast, target, hit);
             }
             boolean modernSpells = cast.isPlayer() && cast.player().getSpellbook() == MagicSpellbook.NORMAL;
-            boolean ancientSpells = cast.isPlayer() && cast.player().getSpellbook() == MagicSpellbook.ANCIENT;
+            boolean ancientSpells = cast.isPlayer() && cast.player().getSpellbook() == MagicSpellbook.ANCIENTS;
             boolean isWearingPoweredStaff = cast.isPlayer() && cast.player().getEquipment().containsAny(TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, SANGUINESTI_STAFF, TUMEKENS_SHADOW, DAWNBRINGER, ACCURSED_SCEPTRE_A);
             AutoCastWeaponSpells data = AutoCastWeaponSpells.findSpellProjectileData(spellId(), GraphicHeight.HIGH);
             int projectile = -1;

@@ -12,11 +12,11 @@ import com.google.gson.*;
 import java.io.FileReader;
 import java.security.InvalidParameterException;
 
-public class PresetLoader extends DefinitionLoader {
+public class PresetLoader {
 
     public static int PRESETS_LOADED;
 
-    @Override
+    /*@Override
     public void load() throws Exception {
         try (FileReader in = new FileReader(file())) {
             JsonArray array = (JsonArray) JsonParser.parseReader(in);
@@ -48,5 +48,5 @@ public class PresetLoader extends DefinitionLoader {
     @Override
     public String file() {
         return GameServer.properties().definitionsDirectory + "presets.json";
-    }
+    }*/
 }

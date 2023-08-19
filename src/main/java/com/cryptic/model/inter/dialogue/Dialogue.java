@@ -110,18 +110,18 @@ public abstract class Dialogue {
                 player.getPacketSender().sendInterfaceModel(4883, 150, (Item) parameters[0]);
                 player.getPacketSender().sendChatboxInterface(4882);
             } else if (parameters.length == 4) {
-                player.getPacketSender().sendString(4889, (String) parameters[1]);
-                player.getPacketSender().sendString(4890, (String) parameters[2]);
-                player.getPacketSender().sendString(4891, (String) parameters[3]);
-                player.getPacketSender().sendInterfaceModel(4888, 175, (Item) parameters[0]);
-                player.getPacketSender().sendChatboxInterface(4887);
+                player.getPacketSender().sendString(4884, (String) parameters[1]);
+                player.getPacketSender().sendString(4885, (String) parameters[2]);
+                //player.getPacketSender().sendString(4886, (String) parameters[3]);
+                player.getPacketSender().sendInterfaceModel(4883, 250, (Item) parameters[0]);
+                player.getPacketSender().sendChatboxInterface(4882); //4887
             } else if (parameters.length == 5) {
                 player.getPacketSender().sendString(4895, (String) parameters[1]);
                 player.getPacketSender().sendString(4896, (String) parameters[2]);
                 player.getPacketSender().sendString(4897, (String) parameters[3]);
                 player.getPacketSender().sendString(4898, (String) parameters[4]);
                 player.getPacketSender().sendInterfaceModel(4894, 175, (Item) parameters[0]);
-                player.getPacketSender().sendChatboxInterface(4893);
+                player.getPacketSender().sendChatboxInterface(4882); //4893
             } else if (parameters.length == 6) {
                 player.getPacketSender().sendString(4902, (String) parameters[1]);
                 player.getPacketSender().sendString(4903, (String) parameters[2]);

@@ -8,7 +8,6 @@ import java.util.Deque;
 import java.util.LinkedList;
 
 /**
- *
  * Handles the {@link Player}s current {@link Dialogue}
  *
  * @author Erik Eide
@@ -54,6 +53,13 @@ public class DialogueManager {
         }
     }
 
+    public void remove() {
+        if (dialogue != null) {
+            dialogue.stop();
+            dialogue = null;
+        }
+    }
+
     public boolean isActive() {
         return dialogue != null;
     }
@@ -72,19 +78,15 @@ public class DialogueManager {
             dialogue.select(index);
             return true;
         }
-        if (dialogue==null){
-           System.out.println("missing chat: "+dialogue);
-}
+
         return false;
     }
 
     /**
      * Starts a dialogue with a new dialogue block instead of repository.
      *
-     * @param dialogue
-     *            The dialogue to start for the player
-     * @param parameters
-     *            Parameters to pass on to the dialogue
+     * @param dialogue   The dialogue to start for the player
+     * @param parameters Parameters to pass on to the dialogue
      */
     public void start(Dialogue dialogue, Object... parameters) {
         this.dialogue = dialogue;
@@ -99,8 +101,7 @@ public class DialogueManager {
     /**
      * Starts a new {@link Dialogue} without any parameters
      *
-     * @param dialogue
-     *            The {@link Dialogue} to start
+     * @param dialogue The {@link Dialogue} to start
      */
     public void start(Dialogue dialogue) {
         start(dialogue, 0);
@@ -136,7 +137,7 @@ public class DialogueManager {
 
             @Override
             public void next() {
-                if(getPhase() == 0) {
+                if (getPhase() == 0) {
                     stop();
                 }
             }

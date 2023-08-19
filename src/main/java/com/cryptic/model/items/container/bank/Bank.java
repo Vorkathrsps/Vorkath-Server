@@ -861,16 +861,12 @@ public class Bank extends ItemContainer {
                 return true;
             }
             case 26109 -> { // Quantity X
-                player.setAmountScript("How many would you like to deposit/withdraw?", new InputScript() {
+                player.setAmountScript("How many would you like to deposit/withdraw?", value -> {
+                    int input = (Integer) value;
+                    player.getBank().currentQuantityX = input == 0 ? 1 : (int) input;
+                    player.getPacketSender().updateWidgetTooltipText(26109, "Default quantity: " + player.getBank().currentQuantityX);
 
-                    @Override
-                    public boolean handle(Object value) {
-                        int input = (Integer) value;
-                        player.getBank().currentQuantityX = input == 0 ? 1 : (int) Math.min(input, Integer.MAX_VALUE);
-                        player.getPacketSender().updateWidgetTooltipText(26109, "Default quantity: " + player.getBank().currentQuantityX);
-
-                        return true;
-                    }
+                    return true;
                 });
                 quantityX = true;
                 quantityOne = false;

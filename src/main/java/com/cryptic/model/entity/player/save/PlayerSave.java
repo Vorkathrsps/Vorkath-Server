@@ -21,6 +21,7 @@ import com.cryptic.model.entity.player.rights.PlayerRights;
 import com.cryptic.model.inter.lootkeys.LootKey;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.ItemContainer;
+import com.cryptic.model.items.container.presets.PresetData;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.services.database.transactions.UpdatePasswordDatabaseTransaction;
 import com.cryptic.utility.Varp;
@@ -271,6 +272,9 @@ public class PlayerSave {
             }
             if (details.lastPreset != null) {
                 player.setLastPreset(details.lastPreset);
+            }
+            if (details.presetsv2 != null) {
+                player.setPresetData(details.presetsv2);
             }
             player.getTimers().register(TimerKey.SPECIAL_TELEBLOCK, details.specialTeleblockTimer);
             player.putAttrib(TOTAL_PAYMENT_AMOUNT, details.totalAmountPaid);
@@ -895,6 +899,7 @@ public class PlayerSave {
         private final SkullType skullType;
         private final DefaultPrayerData[] quickPrayers;
         private final Presetable[] presets;
+        private final PresetData[] presetsv2;
         private final Object[] lastPreset;
         private final int specialTeleblockTimer;
 
@@ -1503,7 +1508,9 @@ public class PlayerSave {
             skullTimer = Player.getAttribIntOr(player, SKULL_CYCLES, 0);
             skullType = player.getSkullType();
             quickPrayers = player.getQuickPrayers().getPrayers();
-            presets = player.getPresets();
+            presets = player.getPresets();//so rest is just writing? like how do oyu write the data from presetdata in logic, you get what im saying? like how would i send it to the player? just setpresetdata in presethandler?
+            // its already on player, player.presetsv2
+            presetsv2 = player.getPresetData();
             lastPreset = player.getLastPreset();
             specialTeleblockTimer = player.getTimers().left(TimerKey.SPECIAL_TELEBLOCK);
             totalAmountPaid = Player.getAttribDoubleOr(player, TOTAL_PAYMENT_AMOUNT, 0D);

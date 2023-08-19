@@ -110,6 +110,7 @@ import com.cryptic.model.items.container.equipment.Equipment;
 import com.cryptic.model.items.container.equipment.EquipmentInfo;
 import com.cryptic.model.items.container.inventory.Inventory;
 import com.cryptic.model.items.container.looting_bag.LootingBag;
+import com.cryptic.model.items.container.presets.PresetData;
 import com.cryptic.model.items.container.price_checker.PriceChecker;
 import com.cryptic.model.items.container.rune_pouch.RunePouch;
 import com.cryptic.model.items.container.shop.impl.ShopReference;
@@ -204,6 +205,7 @@ public class Player extends Entity {
     public transient ShopReference shopReference = ShopReference.DEFAULT;
 
     private final WildernessSlayerCasket wildernessSlayerCasket = new WildernessSlayerCasket(this);
+    private PresetData[] presetData = new PresetData[8];
 
     public WildernessSlayerCasket getWildernessSlayerCasket() {
         return wildernessSlayerCasket;
@@ -2520,8 +2522,8 @@ public class Player extends Entity {
     private final PresetManager presetManager = new PresetManager(this);
 
     // these can go into their own class later
-    public ItemContainer presetUiequipmentContainer = new ItemContainer(EQUIPMENT_SIZE, ItemContainer.StackPolicy.STANDARD);
-    public ItemContainer presetUiinventoryContainer = new ItemContainer(INVENTORY_SIZE, ItemContainer.StackPolicy.STANDARD);
+    @Getter public ItemContainer presetEquipment = new ItemContainer(EQUIPMENT_SIZE, ItemContainer.StackPolicy.STANDARD);
+    @Getter public ItemContainer presetInventory = new ItemContainer(INVENTORY_SIZE, ItemContainer.StackPolicy.STANDARD);
 
     public final PresetManager getPresetManager() {
         return presetManager;
@@ -2547,12 +2549,20 @@ public class Player extends Entity {
         return trading;
     }
 
-    public Presetable[] getPresets() {
+    public Presetable[] getPresets() { // old i guess?
         return presets;
     }
 
     public void setPresets(Presetable[] sets) {
         this.presets = sets;
+    }
+
+    public PresetData[] getPresetData() {
+        return presetData;
+    }
+
+    public void setPresetData(PresetData[] presetData) {
+        this.presetData = presetData;
     }
 
     public Presetable getCurrentPreset() {
@@ -2571,7 +2581,7 @@ public class Player extends Entity {
 
     public void setLastPreset(final Object[] lastPresetData) {
         this.lastPreset = lastPresetData;
-    }
+    } //old yeye
 
     public Queue<ChatMessage> getChatMessageQueue() {
         return chatMessageQueue;
@@ -3191,7 +3201,8 @@ public class Player extends Entity {
     }
 
     Runnable logR = this::fireLogout, qtStuff = () -> {
-        this.setPlayerQuestTabCycleCount(getPlayerQuestTabCycleCount() + 1);
+        //this.setPlayerQuestTabCycleCount(getPlayerQuestTabCycleCount() + 1);
+        updateQuestTab();
         //Update the players online regardless of the cycle count, this is the most important number, otherwise players might see "0" if they log in too soon. Can always remove this later.
         GlobalStrings.PLAYERS_ONLINE.send(this, World.getWorld().getPlayers().size());
 
@@ -3340,6 +3351,13 @@ public class Player extends Entity {
         if (actives[17]) forLastActive = Prayers.PROTECT_FROM_MISSILES;
         if (actives[18]) forLastActive = Prayers.PROTECT_FROM_MELEE;
         lastActiveOverhead = forLastActive;
+    }
+
+    void updateQuestTab() {
+        getPacketSender().sendString(70005, Utils.capitalizeJustFirst(getDisplayName()));
+        getPacketSender().sendString(70008, Integer.toString(getSkills().combatLevel()));
+        getPacketSender().sendString(70011, Integer.toString(skills().totalLevel()));
+        getPacketSender().sendString(70014, "Total XP: " + Color.GREEN.wrap(Utils.insertCommasToNumber(Long.toString(skills().getTotalExperience()))));
     }
 
     public transient long lastVoteClaim, lastSpellbookChange;

@@ -18,7 +18,6 @@ public class AttributeKeyTypeAdapter extends TypeAdapter<AttributeKey> {
         }
     }
 
-
     @Override
     public AttributeKey read(JsonReader in) throws IOException {
         String enumName = in.nextString();

@@ -40,7 +40,7 @@ public class Skills {
     public static final int SKILL_COUNT = 23;
     private static final int[] XP_TABLE = new int[100];
     public static boolean USE_EXPERIMENTAL_PERFORMANCE = false;
-    public double[] xps = new double[SKILL_COUNT];
+    @Getter public double[] xps = new double[SKILL_COUNT];
     @Getter
     public int[] levels = new int[SKILL_COUNT];
     private final Player player;

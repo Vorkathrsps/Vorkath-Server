@@ -52,7 +52,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
         int spellID = spell.spellId();
 
         boolean modernSpells = player.getSpellbook() == MagicSpellbook.NORMAL;
-        boolean ancientSpells = player.getSpellbook() == MagicSpellbook.ANCIENT;
+        boolean ancientSpells = player.getSpellbook() == MagicSpellbook.ANCIENTS;
         boolean isWearingPoweredStaff = player.getEquipment().containsAny(TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, SANGUINESTI_STAFF, TUMEKENS_SHADOW, DAWNBRINGER, ACCURSED_SCEPTRE_A);
         boolean canCast = spell.canCast(player, target, true);
         boolean hasTumeken = player.getEquipment().contains(TUMEKENS_SHADOW);

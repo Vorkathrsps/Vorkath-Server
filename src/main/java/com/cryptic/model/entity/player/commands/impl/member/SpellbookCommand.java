@@ -25,7 +25,7 @@ public class SpellbookCommand implements Command {
 
         MagicSpellbook book = switch (parts[1].toLowerCase()) {
             case "0", "normal", "regular", "modern" -> MagicSpellbook.NORMAL;
-            case "1", "ancients", "ancient" -> MagicSpellbook.ANCIENT;
+            case "1", "ancients", "ancient" -> MagicSpellbook.ANCIENTS;
             case "2", "lunar" -> MagicSpellbook.LUNAR;
             case "3", "arc" -> MagicSpellbook.ARCEUUS;
             default -> player.getSpellbook();

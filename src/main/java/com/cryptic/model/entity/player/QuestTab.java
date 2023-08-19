@@ -364,9 +364,9 @@ public final class QuestTab {
     public static void updatePlayerPanel(Player player) {
 
         player.getPacketSender().sendString(32580,  Utils.capitalizeJustFirst(player.getUsername()));
-        player.getPacketSender().sendString(32572,"@gre@"+ player.skills().combatLevel());
-        player.getPacketSender().sendString(32573,"@gre@"+ player.skills().totalLevel());
-        player.getPacketSender().sendString(32574,"@gre@"+ Utils.insertCommasToNumber(Long.toString(player.skills().getTotalExperience())));
+        player.getPacketSender().sendString(70009,"@gre@"+ player.skills().combatLevel());
+        player.getPacketSender().sendString(70012,"@gre@"+ player.skills().totalLevel());
+        player.getPacketSender().sendString(70015,"@gre@"+ Utils.insertCommasToNumber(Long.toString(player.skills().getTotalExperience())));
         player.getPacketSender().sendString(32575,"@gre@0/253");//quests completed
         //    DropsDisplay.howmanydrops(player, " ", DropsDisplay.Type.NPC);
         player.getPacketSender().sendString(32590,"@gre@"+DropsDisplay.howmanydrops(player, " ", DropsDisplay.Type.NPC));//amount of drops - opens drop table

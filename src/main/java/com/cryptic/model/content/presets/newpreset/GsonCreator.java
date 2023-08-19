@@ -1,5 +1,6 @@
 package com.cryptic.model.content.presets.newpreset;
 
+import com.cryptic.model.items.container.presets.PresetData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -13,8 +14,8 @@ public class GsonCreator {
         List<PresetData> presetList = new ArrayList<>();
 
         // Create and add presets to the list
-        presetList.add(new PresetData(1, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "NORMAL", 123, 456));
-        presetList.add(new PresetData(2, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "LUNAR", 789, 123));
+       // presetList.add(new PresetData(1, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "NORMAL", 123, 456));
+       // presetList.add(new PresetData(2, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "LUNAR", 789, 123));
 
         // Serialize the list to JSON
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

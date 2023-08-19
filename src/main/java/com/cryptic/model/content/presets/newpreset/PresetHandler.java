@@ -249,14 +249,20 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         });
     }
 
-    PresetData build(Player player, ItemContainer equipmentContainer, ItemContainer inventoryContainer, PresetData data, AttributeKey attributeKey, int button, int index) {
-        if (player == null || data == null) { // something not happy here
-            logger.info("{} {} {} {}", equipmentContainer, inventoryContainer, data, attributeKey); // attribkey null.
-            return null;
+    void build(Player player, ItemContainer equipmentContainer, ItemContainer inventoryContainer, PresetData data, AttributeKey attributeKey, int button, int index) {
+        if (player == null || data == null) {
+            logger.info("{} {} {} {}", equipmentContainer, inventoryContainer, data, attributeKey);
+            return;
         }
 
-        return data.build().id(index).inventory(sendInventory(player, inventoryContainer, data)).equipment(sendEquipment(player, equipmentContainer, data)) //understand the pattern now? yep ty
-            .spellBook(sendSpellbook(player, data)).attribute(sendAttribute(player, data, attributeKey)).button(sendButton(player, data, button));
+        data
+            .build()
+            .id(index)
+            .inventory(sendInventory(player, inventoryContainer, data))
+            .equipment(sendEquipment(player, equipmentContainer, data))
+            .spellBook(sendSpellbook(player, data))
+            .attribute(sendAttribute(player, data, attributeKey))
+            .button(sendButton(player, data, button));
     }
 
     Integer sendId(Player player, PresetData kits, int index) {
@@ -359,19 +365,19 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         inventoryContainer.addAll(itemList);
     }
 
-    PresetData validate(Player player, PresetData data, AttributeKey attributeKey, int button, int index) {
+    void validate(Player player, PresetData data, AttributeKey attributeKey, int button, int index) {
         var equipment = player.getPresetEquipment();
         var inventory = player.getPresetInventory();
         if (WildernessArea.isInWilderness(player)) {
             player.message(Color.RED.wrap("You cannot perform this action while in the wilderness."));
-            return null;
+            return;
         }
-        return build(player, equipment, inventory, data, data.getAttribute(), data.getButton(), data.getId());
+        build(player, equipment, inventory, data, data.getAttribute(), data.getButton(), data.getId());
     }
 
-    PresetData load(Player player, PresetData kit, AttributeKey attributeKey, int button, int index) {
+    void load(Player player, PresetData kit, AttributeKey attributeKey, int button, int index) {
         if (player == null || kit == null) {
-            return null;
+            return;
         }
 
         var inventory = player.getPresetInventory();
@@ -381,7 +387,9 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
 
         sendStrings(player);
 
-        return kit.getButton() == button ? validate(player, kit, attributeKey, button, index) : null;
+        if (kit.getButton() == button) {
+            validate(player, kit, attributeKey, button, index);
+        }
     }
 
     void interruptDialogue(@NotNull Player player) {
@@ -475,7 +483,6 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         populateInventoryContainer(player, inventoryContainer, kits);
         handleInventoryContainer(player, inventoryContainer, kits);
 
-        // yeah logic struggles here, inv is always no null
         if (kits.getInventory() != null) {
             logger.info("inventory found: " + Arrays.toString(kits.getInventory()));
         }
@@ -537,12 +544,12 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         Arrays.stream(kits.getEquipment())
             .forEach(item -> {
                 if (item != null)
-                   // if (bankDoesntContain(player, item)) {
-                   //     player.message(item.getAmount() == 0 ? "Item not found: " + Color.RED.wrap("" + item.name()) : "Item not found: " + Color.RED.wrap("" + item.name()) + " Amount: " + Color.RED.wrap("x" + item.getAmount()));
-                  //  } else {
-                  //      removeFromBank(player, item);
+                    if (doesBankContain(player, item)) {
+                        player.message(item.getAmount() == 0 ? "Item not found: " + Color.RED.wrap("" + item.name()) : "Item not found: " + Color.RED.wrap("" + item.name()) + " Amount: " + Color.RED.wrap("x" + item.getAmount()));
+                    } else {
+                        removeFromBank(player, item);
                         player.getEquipment().manualWear(item, true, false);
-                 //   }
+                   }
             });
     }
 
@@ -577,18 +584,18 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         for (int index = 0; index < items.length; index++) {
             Item item = items[index];
             if (item != null) {
-                //if (bankDoesntContain(player, item)) {
-                //    player.message(item.getAmount() == 0 ? "Item not found: " + Color.RED.wrap("" + item.name()) : "Item not found: " + Color.RED.wrap("" + item.name()) + " Amount: " + Color.RED.wrap("x" + item.getAmount()));
-               // } else {
-                //    removeFromBank(player, item);
-                //    if (!item.noted()) {
+                if (doesBankContain(player, item)) {
+                    player.message(item.getAmount() == 0 ? "Item not found: " + Color.RED.wrap("" + item.name()) : "Item not found: " + Color.RED.wrap("" + item.name()) + " Amount: " + Color.RED.wrap("x" + item.getAmount()));
+                } else {
+                    removeFromBank(player, item);
+                    if (!item.noted()) {
                         player.getInventory().add(item, index, false);
-               //     } else {
+                    } else {
                       //  player.getInventory().add(item.note(), index, false);
-               //     }
+                    }
                 }
             }
-      //  }
+        }
     }
 
     void removeFromBank(Player player, Item item) {
@@ -597,7 +604,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         }
     }
 
-    boolean bankDoesntContain(Player player, Item item) {
+    boolean doesBankContain(Player player, Item item) {
         return player != null && !player.getBank().contains(item);
     }
 

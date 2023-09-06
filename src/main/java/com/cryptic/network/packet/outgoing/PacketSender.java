@@ -689,8 +689,6 @@ public final class PacketSender {
             }
             player.getInterfaceManager().setSidebar(tab, id);
         }
-        player.getInterfaceManager().setSidebar(2, 70000);
-       // player.getInterfaceManager().setSidebar(2, 74030);
         return this;
     }
 

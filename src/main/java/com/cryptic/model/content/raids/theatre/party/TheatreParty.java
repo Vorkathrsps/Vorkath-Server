@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import java.util.*;
 
-import static com.cryptic.model.content.mechanics.Death.*;
+import static com.cryptic.model.content.mechanics.DeathProcess.*;
 
 public class TheatreParty {
 

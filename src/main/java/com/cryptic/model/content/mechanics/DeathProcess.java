@@ -42,9 +42,9 @@ import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.RETR
  * Created by Bart on 8/15/2015.
  * Retribution by Jak 12/16/2015
  */
-public class Death implements TheatreDeath {
+public class DeathProcess implements TheatreDeath {
 
-    private static final Logger logger = LogManager.getLogger(Death.class);
+    private static final Logger logger = LogManager.getLogger(DeathProcess.class);
 
     private static final String[] KILL_MESSAGES = {
         "%s will probably tell you he wanted a free teleport after that performance.",
@@ -61,7 +61,7 @@ public class Death implements TheatreDeath {
         "%s should take lessons from you. You're clearly too good for him."
     };
 
-    public Death() {
+    public DeathProcess() {
     }
 
     public static String randomKillMessage() {
@@ -102,7 +102,7 @@ public class Death implements TheatreDeath {
         }
     }
 
-    public void death(Player player) {
+    public void handleDeath(Player player) {
         if (player.getTheatreParty() != null && this.inRaid(player)) {
             this.handleRaidDeath(player);
             return;
@@ -124,7 +124,7 @@ public class Death implements TheatreDeath {
         player.stopActions(true);
         player.action.reset();
 
-        Death.retrib(player);
+        DeathProcess.retrib(player);
 
         var mostdmg = player.getCombat().getKiller();
         var killer = mostdmg.orElse(null);

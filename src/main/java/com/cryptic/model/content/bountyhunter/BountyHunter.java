@@ -7,7 +7,7 @@ import com.cryptic.model.content.areas.wilderness.content.PlayerKillingRewards;
 import com.cryptic.model.content.areas.wilderness.content.todays_top_pkers.TopPkers;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
-import com.cryptic.model.content.mechanics.Death;
+import com.cryptic.model.content.mechanics.DeathProcess;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.content.bountyhunter.emblem.BountyHunterEmblem;
 import com.cryptic.model.entity.player.GameMode;
@@ -321,7 +321,7 @@ public class BountyHunter {
             }
         }
 
-        killer.message(String.format(Death.randomKillMessage(), killed.getUsername()));
+        killer.message(String.format(DeathProcess.randomKillMessage(), killed.getUsername()));
     }
 
     /**

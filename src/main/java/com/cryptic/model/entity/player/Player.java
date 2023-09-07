@@ -27,7 +27,7 @@ import com.cryptic.model.content.items.mysterybox.MysteryBoxManager;
 import com.cryptic.model.content.kill_logs.BossKillLog;
 import com.cryptic.model.content.kill_logs.SlayerKillLog;
 import com.cryptic.model.content.mechanics.BossTimers;
-import com.cryptic.model.content.mechanics.Death;
+import com.cryptic.model.content.mechanics.DeathProcess;
 import com.cryptic.model.content.mechanics.MultiwayCombat;
 import com.cryptic.model.content.mechanics.Poison;
 import com.cryptic.model.content.mechanics.promo.PaymentPromo;
@@ -1088,8 +1088,8 @@ public class Player extends Entity {
     @Override
     public void die() {
         stopActions(true);
-        Death death = new Death();
-        death.death(this);
+        DeathProcess deathProcess = new DeathProcess();
+        deathProcess.handleDeath(this);
     }
 
     @Override

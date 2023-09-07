@@ -14,6 +14,7 @@ import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
+import com.cryptic.utility.Utils;
 import com.cryptic.utility.timers.TimerKey;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
@@ -140,10 +141,11 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
             }
 
             sendStrings(player);
+            sendCreatedStrings(player);
             if (kit != null) {
                 load(player, kit, attributeKey, button, index);
             } else {
-                display(player, data, index, button);
+                dialogue(player, data, index, button);
             }
         }
 
@@ -155,7 +157,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     }
 
 
-    void display(Player player, PresetData[] presetData, int presetIndex, int button) {
+    void dialogue(Player player, PresetData[] presetData, int presetIndex, int button) {
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
@@ -386,6 +388,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         interruptDialogue(player);
 
         sendStrings(player);
+        sendCreatedStrings(player);
 
         if (kit.getButton() == button) {
             validate(player, kit, attributeKey, button, index);
@@ -422,6 +425,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
             return;
         }
 
+        sendCreatedStrings(player);
         applyEquipment(player, kits);
         applyInventory(player, kits);
         applySpellBook(player, kits);
@@ -457,6 +461,16 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         }
     }
 
+    void sendCreatedStrings(Player player) {
+        for (int index = 0; index < player.getPresetData().length; index++) {
+            if (player.getPresetData()[index] != null) {
+                player.getPacketSender().sendString(73291 + index, player.getPresetData()[index].getName());
+            } else {
+                player.getPacketSender().sendString(73291 + index, "Click to create");
+            }
+        }
+    }
+
     static void sendStrings(Player player) {
         if (player == null) {
             return;
@@ -464,14 +478,6 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
 
         for (int index = 0; index < presetNames.length; index++) {
             player.getPacketSender().sendString(PRE_MADE_PRESET_NAME_STRINGS + index, presetNames[index]);
-        }
-
-        for (int index = 0; index < player.getPresetData().length; index++) {
-            if (player.getPresetData()[index] != null) {
-                player.getPacketSender().sendString(73291 + index, player.getPresetData()[index].getName());
-            } else {
-                player.getPacketSender().sendString(73291 + index, "Click to create");
-            }
         }
     }
 
@@ -527,7 +533,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
             return;
         }
 
-        player.getPacketSender().sendString(SPELLBOOK_STRING_ID, kits.getSpellbook().name());
+        player.getPacketSender().sendString(SPELLBOOK_STRING_ID, Utils.capitalizeFirst(kits.getSpellbook().name()));
     }
 
     void applyEquipment(Player player, PresetData kits) {
@@ -549,7 +555,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
                     } else {
                         removeFromBank(player, item);
                         player.getEquipment().manualWear(item, true, false);
-                   }
+                    }
             });
     }
 
@@ -571,15 +577,9 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
 
         boolean inventoryCheck = player.getInventory().getFreeSlots() > -1;
 
-        if (inventoryCheck) {
-            player.getBank().depositInventory();
-        }
+        player.getBank().depositInventory();
 
         Item[] items = kits.getInventory();
-
-        if (inventoryCheck) {
-            player.getBank().depositInventory();
-        }
 
         for (int index = 0; index < items.length; index++) {
             Item item = items[index];
@@ -591,7 +591,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
                     if (!item.noted()) {
                         player.getInventory().add(item, index, false);
                     } else {
-                      //  player.getInventory().add(item.note(), index, false);
+                        player.getInventory().add(item.note(), index, false);
                     }
                 }
             }

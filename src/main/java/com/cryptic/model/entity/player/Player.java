@@ -1085,11 +1085,10 @@ public class Player extends Entity {
         return hit;
     }
 
-    Death death = new Death(this);
-
     @Override
     public void die() {
         stopActions(true);
+        Death death = new Death();
         death.death(this);
     }
 

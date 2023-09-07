@@ -20,8 +20,7 @@ public class InputListener implements PacketListener {
         if (player == null || player.dead())
             return;
 
-        player.afkTimer.reset();//i think ynnneh did this packet for like ahk detection & shit not sure
-        // its uh just entering text input its fine
+        player.afkTimer.reset();
 
         int opcode = packet.getOpcode();
 

@@ -61,10 +61,7 @@ public class Death implements TheatreDeath {
         "%s should take lessons from you. You're clearly too good for him."
     };
 
-    Player player;
-
-    public Death(Player player) {
-        this.player = player;
+    public Death() {
     }
 
     public static String randomKillMessage() {
@@ -106,7 +103,7 @@ public class Death implements TheatreDeath {
     }
 
     public void death(Player player) {
-        if (this.inRaid(player)) { //check if raid death
+        if (player.getTheatreParty() != null && this.inRaid(player)) {
             this.handleRaidDeath(player);
             return;
         }
@@ -116,7 +113,7 @@ public class Death implements TheatreDeath {
         player.putAttrib(DEATH_TICK, World.getWorld().cycleCount());
         player.putAttrib(DEATH_TILE, player.tile());
 
-        Chain.bound(null).name("check_double_death_task").runFn(3, () -> {// Finish the proper delay after death (2 ticks)
+        Chain.bound(null).name("check_double_death_task").runFn(3, () -> {
             try {
                 Dueling.check_double_death(player); // must be checked after damage shows (because of PID you can't do it on the same cycle!)
             } catch (Exception e) {
@@ -429,7 +426,8 @@ public class Death implements TheatreDeath {
     }
 
     @Override
-    public boolean inRaid(Player player) { //check 1, is player theatrestate / in raid active
+    public boolean inRaid(Player player) {
         return player.getTheatreState().equals(TheatreState.ACTIVE);
     }
+
 }

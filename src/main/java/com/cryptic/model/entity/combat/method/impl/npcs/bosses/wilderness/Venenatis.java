@@ -31,8 +31,8 @@ public class Venenatis extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         // Determine if we do a special hit, or a regular hit.
         //constructWeb(entity, target);
-        magicAttack(entity, target);
-        //rangeAttack(entity, target);
+        //magicAttack(entity, target);
+        rangeAttack(entity, target);
         return true;
     }
 

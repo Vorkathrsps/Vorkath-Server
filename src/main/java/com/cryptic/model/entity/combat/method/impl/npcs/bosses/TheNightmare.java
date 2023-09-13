@@ -62,7 +62,7 @@ public class TheNightmare extends CommonCombatMethod {
 
     @Override
     public void preDefend(Hit hit) {
-        hit.setHitMark(HitMark.VERZIK_SHIELD_HITSPLAT);
+        hit.setHitMark(HitMark.SHIELD_HITSPLAT);
         Arrays.stream(entity.closePlayers()).forEach(p -> {
             HealthHud.open(p, HealthHud.Type.CYAN_SHIELD,"The Nightmare", 1100);
         });
@@ -99,6 +99,8 @@ public class TheNightmare extends CommonCombatMethod {
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 3, CombatType.MELEE);
         hit.submit();
     }
+
+    //8607, 8610
 
     private void sleepWalker() {
         this.setSleepWalking(true);

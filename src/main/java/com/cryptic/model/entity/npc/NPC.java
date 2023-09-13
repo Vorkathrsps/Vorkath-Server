@@ -165,6 +165,55 @@ public class NPC extends Entity {
         return this;
     }
 
+    public NPC(int id, Tile tile, int spawnDirection) {
+        super(NodeType.NPC, tile);
+        this.id = id;
+        this.spawnDirection(spawnDirection);
+        spawnTile = tile;
+        def = World.getWorld().definitions().get(NpcDefinition.class, id);
+        combatInfo = World.getWorld().combatInfo(id);
+        hp = combatInfo == null ? 50 : combatInfo.stats.hitpoints;
+        spawnArea = new Area(spawnTile, walkRadius);
+        getCombat().setAutoRetaliate(true);
+        ignoreOccupiedTiles = def.ignoreOccupiedTiles;
+
+        for (int types : venom_immunes) {
+            if (id == types) {
+                setVenomImmune(true);
+            }
+        }
+        for (int types : poison_immunes) {
+            if (id == types) {
+                setPoisonImmune(true);
+            }
+        }
+
+        try {
+            NPCBotHandler.assignBotHandler(this);
+        } catch (Exception e) {
+            logger.error("sadge", e);
+            logger.error("NPC {} might not have an NPC definition entry.", box(id));
+        }
+
+        if (getCombatInfo() != null && getCombatInfo().scripts != null && getCombatInfo().scripts.combat_ != null) {
+            if (id == NpcIdentifiers.ZULRAH || id == NpcIdentifiers.ZULRAH_2043 || id == NpcIdentifiers.ZULRAH_2044) {
+                setCombatMethod(Zulrah.EmptyCombatMethod.make());
+            }
+            setCombatMethod(getCombatInfo().scripts.newCombatInstance());
+        }
+
+        if (getMobName().toLowerCase().contains("clerk") || getMobName().toLowerCase().contains("banker") || getMobName().toLowerCase().contains("aubury") || getMobName().toLowerCase().contains("wise old man") || getMobName().toLowerCase().contains("mac") || getMobName().toLowerCase().contains("shop keeper")) {
+            skipReachCheck = t -> {
+                Direction current = Direction.fromDeltas(getX() - t.getX(), getY() - t.getY());
+                return current.isDiagonal || t.distance(tile()) == 1;
+            };
+        }
+        if (tile().equals(3109, 3517))
+            walkTo = tile.transform(1, 0);
+        if (this.getMobName().toLowerCase().contains("crab"))
+            ignoreOccupiedTiles = true;
+    }
+
     public NPC(int id, Tile tile) {
         super(NodeType.NPC, tile);
         this.id = id;

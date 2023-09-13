@@ -116,7 +116,7 @@ public class BloatProcess extends NPC { //TODO make him reverse interpolate walk
             for (int i = 0; i < numGraphics; i++) {
                 Tile randomTile = bloatUtils.getRandomTile().transform(0,0, theatreArea.getzLevel());
                 if (bloatUtils.isTileValid(tile, randomTile) && !RegionManager.blocked(randomTile)) {
-                    if (!IGNORED_AREA.transform(0,0,0,0,theatreArea.getzLevel()).contains(randomTile)) {
+                    if (!IGNORED_AREA.transformArea(0,0,0,0,theatreArea.getzLevel()).contains(randomTile)) {
                         World.getWorld().tileGraphic(bloatUtils.getRandomLimbGraphic(), randomTile, 0, 0);
                         graphicTiles.add(randomTile);
                     }
@@ -174,17 +174,17 @@ public class BloatProcess extends NPC { //TODO make him reverse interpolate walk
 
     @Override
     public void postSequence() {
-        if (!players.contains(player) && player.tile().withinArea(BLOAT_AREA.transform(0,0,0,0,theatreArea.getzLevel()))) {
+        if (!players.contains(player) && player.tile().withinArea(BLOAT_AREA.transformArea(0,0,0,0,theatreArea.getzLevel()))) {
             players.add(player);
-        } else if (players.contains(player) && !player.tile().withinArea(BLOAT_AREA.transform(0,0,0,0,theatreArea.getzLevel()))) {
+        } else if (players.contains(player) && !player.tile().withinArea(BLOAT_AREA.transformArea(0,0,0,0,theatreArea.getzLevel()))) {
             players.remove(player);
         }
 
-        if (!player.tile().withinArea(BLOAT_AREA.transform(0,0,0,0,theatreArea.getzLevel()))) {
+        if (!player.tile().withinArea(BLOAT_AREA.transformArea(0,0,0,0,theatreArea.getzLevel()))) {
             interpolateBloatWalk();
         }
 
-        if (!this.isSleeping() && player.tile().withinArea(BLOAT_AREA.transform(0,0,0,0,theatreArea.getzLevel()))) {
+        if (!this.isSleeping() && player.tile().withinArea(BLOAT_AREA.transformArea(0,0,0,0,theatreArea.getzLevel()))) {
             interpolateBloatWalk();
             fallingLimbs();
             swarm();

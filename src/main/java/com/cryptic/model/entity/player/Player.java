@@ -1639,9 +1639,9 @@ public class Player extends Entity {
                 ClanManager.join(this, clanChat);
             }
 
-            if (this.getPet() != null) {
-                this.getPet().spawnOnLogin();
-            }
+           // if (this.getPet() != null) {
+            //    this.getPet().spawnOnLogin();
+          //  }
 
             //QuestTab.refreshInfoTab(this);
         }).then(1, () -> {

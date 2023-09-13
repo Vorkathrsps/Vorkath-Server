@@ -600,10 +600,7 @@ public abstract class Entity {
     public Area bounds() {
         return new Area(tile.x, tile.y, tile.x + getSize() - 1, tile.y + getSize() - 1, tile.getZ());
     }
-
     public List<Hit> nextHits = new ArrayList<>(4);
-
-
     public void setWalkingDirection(Direction walkDirection) {
         this.walkingDirection = walkDirection;
     }

@@ -1274,7 +1274,7 @@
       "hitpoints": 2400
     },
     "bonuses": {
-      "attack": 420,
+      "attack": 150,
       "strength": 128,
       "stabdefence": 120,
       "slashdefence": 180,
@@ -1288,7 +1288,44 @@
       "death": 8581
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.TheNightmare"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.Ashihama"
+    }
+  },
+  {
+    // The nightmare
+    "ids": [
+      9425
+    ],
+    "maxhit": 50,
+    "attackspeed": 6,
+    "aggroradius": 0,
+    "respawntime": 50,
+    "deathlen": 4,
+    "aggressive": false,
+    "stats": {
+      "attack": 150,
+      "strength": 150,
+      "magic": 150,
+      "ranged": 150,
+      "defence": 150,
+      "hitpoints": 400
+    },
+    "bonuses": {
+      "attack": 140,
+      "strength": 128,
+      "stabdefence": 120,
+      "slashdefence": 180,
+      "crushdefence": 40,
+      "rangeddefence": 600,
+      "magicdefence": 600
+    },
+    "animations": {
+      "attack": -1,
+      "block": -1,
+      "death": 8581
+    },
+    "scripts": {
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.Ashihama"
     }
   },
   {
@@ -1296,7 +1333,7 @@
     "ids": [
       9454
     ],
-    "maxhit": 26,
+    "maxhit": 14,
     "attackspeed": 4,
     "aggroradius": 0,
     "respawntime": 50,
@@ -1325,7 +1362,151 @@
       "death": 8566
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.attacks.impl.Husks"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.husk.Husk"
+    }
+  },
+  {
+    "ids": [
+      9435
+    ],
+    "maxhit": 14,
+    "attackspeed": 4,
+    "aggroradius": 0,
+    "respawntime": 50,
+    "deathlen": 2,
+    "aggressive": false,
+    "stats": {
+      "attack": 1,
+      "strength": 1,
+      "magic": 1,
+      "ranged": 1,
+      "defence": 1,
+      "hitpoints": 100
+    },
+    "bonuses": {
+      "attack": 1,
+      "strength": 1,
+      "stabdefence": 20,
+      "slashdefence": 20,
+      "crushdefence": 20,
+      "rangeddefence": 80,
+      "magicdefence": 80
+    },
+    "animations": {
+      "attack": 8565,
+      "block": -1,
+      "death": 8566
+    },
+    "scripts": {
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.totems.SouthWestTotem"
+    }
+  },
+  {
+    "ids": [
+      9438
+    ],
+    "maxhit": 14,
+    "attackspeed": 4,
+    "aggroradius": 0,
+    "respawntime": 50,
+    "deathlen": 2,
+    "aggressive": false,
+    "stats": {
+      "attack": 1,
+      "strength": 1,
+      "magic": 1,
+      "ranged": 1,
+      "defence": 1,
+      "hitpoints": 100
+    },
+    "bonuses": {
+      "attack": 1,
+      "strength": 1,
+      "stabdefence": 20,
+      "slashdefence": 20,
+      "crushdefence": 20,
+      "rangeddefence": 80,
+      "magicdefence": 80
+    },
+    "animations": {
+      "attack": 8565,
+      "block": -1,
+      "death": 8566
+    },
+    "scripts": {
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.totems.SouthEastTotem"
+    }
+  },
+  {
+    "ids": [
+      9441
+    ],
+    "maxhit": 14,
+    "attackspeed": 4,
+    "aggroradius": 0,
+    "respawntime": 50,
+    "deathlen": 2,
+    "aggressive": false,
+    "stats": {
+      "attack": 1,
+      "strength": 1,
+      "magic": 1,
+      "ranged": 1,
+      "defence": 1,
+      "hitpoints": 100
+    },
+    "bonuses": {
+      "attack": 1,
+      "strength": 1,
+      "stabdefence": 20,
+      "slashdefence": 20,
+      "crushdefence": 20,
+      "rangeddefence": 80,
+      "magicdefence": 80
+    },
+    "animations": {
+      "attack": 8565,
+      "block": -1,
+      "death": 8566
+    },
+    "scripts": {
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.totems.NorthWestTotem"
+    }
+  },
+  {
+    "ids": [
+      9444
+    ],
+    "maxhit": 14,
+    "attackspeed": 4,
+    "aggroradius": 0,
+    "respawntime": 50,
+    "deathlen": 2,
+    "aggressive": false,
+    "stats": {
+      "attack": 1,
+      "strength": 1,
+      "magic": 1,
+      "ranged": 1,
+      "defence": 1,
+      "hitpoints": 100
+    },
+    "bonuses": {
+      "attack": 1,
+      "strength": 1,
+      "stabdefence": 20,
+      "slashdefence": 20,
+      "crushdefence": 20,
+      "rangeddefence": 80,
+      "magicdefence": 80
+    },
+    "animations": {
+      "attack": 8565,
+      "block": -1,
+      "death": 8566
+    },
+    "scripts": {
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.totems.NorthEastTotem"
     }
   },
   {

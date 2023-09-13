@@ -147,11 +147,11 @@ public class SotetsegProcess extends NPC {
     }
 
     protected boolean insideBounds() {
-        if (IGNORED.transform(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()) || (!SOTETSEG_AREA.transform(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()) && IGNORED.transform(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()))) {
+        if (IGNORED.transformArea(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()) || (!SOTETSEG_AREA.transformArea(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()) && IGNORED.transformArea(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()))) {
             return false;
         }
 
-        if (SOTETSEG_AREA.transform(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()) && !IGNORED.transform(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile())) {
+        if (SOTETSEG_AREA.transformArea(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()) && !IGNORED.transformArea(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile())) {
             if (!players.contains(player)) {
                 players.add(player);
                 return true;

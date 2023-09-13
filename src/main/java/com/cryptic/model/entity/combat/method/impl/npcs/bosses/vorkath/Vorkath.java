@@ -347,7 +347,7 @@ public class Vorkath extends CommonCombatMethod {
 
     private void startSpitball() {
         //mob.forceChat("speed spitball");
-        final Area area = new Area(2257, 4053, 2286, 4077).transform(0, 0, 0, 0, target.tile().level);
+        final Area area = new Area(2257, 4053, 2286, 4077).transformArea(0, 0, 0, 0, target.tile().level);
         Optional<Player> first = World.getWorld().getPlayers().search(p -> p.tile().inAreaZ(area));
         var ref = new Object() {
             int loops = 25;

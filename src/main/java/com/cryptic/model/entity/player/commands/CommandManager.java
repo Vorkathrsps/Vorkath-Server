@@ -19,6 +19,9 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.totems.SouthWestTotem;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.instance.NightmareArea;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.instance.NightmareInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
@@ -40,7 +43,6 @@ import com.cryptic.model.entity.player.commands.impl.staff.moderator.VanishComma
 import com.cryptic.model.entity.player.commands.impl.staff.server_support.StaffZoneCommand;
 import com.cryptic.model.entity.player.commands.impl.super_member.YellColourCommand;
 import com.cryptic.model.items.Item;
-import com.cryptic.model.items.container.ItemContainer;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.object.GameObject;
@@ -50,7 +52,6 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.utility.Debugs;
-import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.Varbit;
 import com.cryptic.utility.chainedwork.Chain;
@@ -672,11 +673,14 @@ public class CommandManager {
             ((GreatOlm) olm.getCombatMethod()).crystalMark(olm);
         });
         dev("olm4", (p, c, s) -> {
-            var olm = p.raidsParty.monsters.stream().filter(n -> n.id() == GREAT_OLM_7554).findFirst().get();
-            olm.getCombat().delayAttack(30);
-            ((GreatOlm) olm.getCombatMethod()).flameWall(olm);
+            final Area NIGHTMARE_ROOM = new Area(3863, 9942,3881, 9660);
+
+
         });
         dev("c", (p, c, s) -> {
+            List<Player> players = new ArrayList<>();
+            NightmareInstance nightmareInstance = new NightmareInstance(p, players, new NightmareArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, NightmareInstance.room()));
+            nightmareInstance.build(p);
 
         });
 

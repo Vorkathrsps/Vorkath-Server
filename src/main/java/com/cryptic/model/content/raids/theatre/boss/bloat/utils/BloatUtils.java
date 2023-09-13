@@ -37,6 +37,7 @@ public class BloatUtils {
 
         return new Tile(randomX, randomY);
     }
+
     public boolean isTileValid(Tile tile, Tile randomTile) {
         return MovementQueue.dumbReachable(tile.getX(), tile.getY(), randomTile) && !RegionManager.blocked(randomTile);
     }

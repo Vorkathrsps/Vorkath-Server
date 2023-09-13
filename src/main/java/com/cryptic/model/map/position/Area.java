@@ -185,7 +185,7 @@ public class Area {
         return new Area(x1, y1, x2, y2, level);
     }
 
-    public Area transform(int minX, int minY, int maxX, int maxY, int level) {
+    public Area transformArea(int minX, int minY, int maxX, int maxY, int level) {
         return new Area(this.x1 + minX, this.y1 + minY, this.x2 + maxX, this.y2 + maxY, this.level + level);
     }
 

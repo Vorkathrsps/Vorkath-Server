@@ -286,7 +286,7 @@ public class VerzikVitur extends CommonCombatMethod {
     public void preDefend(Hit hit) {
         if (hit.getTarget().isNpc()) {
             if (phase == VerzikPhase.PHASE_1) {
-                hit.setHitMark(HitMark.VERZIK_SHIELD_HITSPLAT);
+                hit.setHitMark(HitMark.SHIELD_HITSPLAT);
             }
             if (hit.getTarget().npc().id() == VERZIK_VITUR_8371 || hit.getTarget().npc().id() == VERZIK_VITUR_8375) {
                 hit.setDamage(0);

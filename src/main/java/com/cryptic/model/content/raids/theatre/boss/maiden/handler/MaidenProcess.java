@@ -177,11 +177,11 @@ public class MaidenProcess extends NPC {
     }
 
     protected boolean insideBounds() {
-        if (IGNORED.transform(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()) || (!MAIDEN_AREA.transform(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()) && IGNORED.transform(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()))) {
+        if (IGNORED.transformArea(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()) || (!MAIDEN_AREA.transformArea(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()) && IGNORED.transformArea(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()))) {
             return false;
         }
 
-        if (MAIDEN_AREA.transform(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()) && !IGNORED.transform(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile())) {
+        if (MAIDEN_AREA.transformArea(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()) && !IGNORED.transformArea(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile())) {
             if (!players.contains(player)) {
                 players.add(player);
                 return true;

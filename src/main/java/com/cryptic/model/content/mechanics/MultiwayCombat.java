@@ -140,6 +140,7 @@ public class MultiwayCombat {
         6812, 6813, 6556, 6557, //Catacombs
         10536, //Pest Control
         11827, 11828, 11829, //Falador
+        15515,
         12341, //Barbarian Village
         8253, 8252, 8508, 8509, 8254, //Lunar Isle:
         9273, 9017, //Piscatoris Fishing Colony

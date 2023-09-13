@@ -3,7 +3,6 @@ package com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.instan
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.Ashihama;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.npc.Totem;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Area;

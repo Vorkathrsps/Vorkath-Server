@@ -100,11 +100,11 @@ public class TheNightmare extends CommonCombatMethod {
         hit.submit();
     }
 
-    //8607, 8610
-
     private void sleepWalker() {
         this.setSleepWalking(true);
+
         entity.lockDamageOk();
+
         NPC[] sleepwalkerArray = {
             new NPC(9446, new Tile(3865, 9958, 3)),
             new NPC(9446, new Tile(3865, 9944, 3)),
@@ -118,7 +118,9 @@ public class TheNightmare extends CommonCombatMethod {
         world.definitions().get(NpcDefinition.class, 100);
 
         for (NPC sleepy : sleepwalkerCount) {
+
             world.registerNpc(sleepy);
+
             sleepy.respawns(false);
             sleepy.setHitpoints(10);
             sleepy.getMovementQueue().step(entity.getCentrePosition().getX(), entity.getCentrePosition().getY(), MovementQueue.StepType.FORCED_WALK);

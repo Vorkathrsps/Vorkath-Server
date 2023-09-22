@@ -25,11 +25,13 @@ import lombok.Setter;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
 public class Vetion extends CommonCombatMethod {
     boolean hasAttacked = false;
     Set<Tile> usedTiles = new HashSet<>();
     public static List<Player> playersInArea = new ArrayList<>();
-    @Getter @Setter
+    @Getter
+    @Setter
     public Phase phase = new Phase(PhaseStage.ONE);
     public static final Area vetionArea = new Area(1879, 11553, 1895, 11559, 1); //block this when tb'd
     Set<Tile> tiles = new HashSet<>(12);
@@ -77,13 +79,14 @@ public class Vetion extends CommonCombatMethod {
             spawnHellhounds((NPC) entity, target);
         }
 
-        if (Utils.percentageChance(50)) {
-            doMagicSwordRaise();
-        } else if (Utils.percentageChance(50)) {
-            doMagicSwordSlash();
-        } else {
-            doShieldBash();
-        }
+        //if (Utils.percentageChance(50)) {
+        //magicSwordRaise();
+        // } else if (Utils.percentageChance(50)) {
+        //    doMagicSwordSlash();
+        magicSwordSlash();
+        // } else {
+        //     doShieldBash();
+        //  }
 
         return true;
     }
@@ -111,114 +114,125 @@ public class Vetion extends CommonCombatMethod {
     public int moveCloseToTargetTileRange(Entity entity) {
         return 10;
     }
-    private void doMagicSwordRaise() {
+
+    void magicSwordRaise() {
         NPC vetion = (NPC) entity;
-        var transformedTile = target.tile().transform(3, 3, 0);
-        List<Tile> tiles = transformedTile.area(9, pos -> World.getWorld().clipAt(pos.x, pos.y, pos.level) == 0 && !pos.equals(transformedTile) && !ProjectileRoute.allow(target, pos));
-        Tile destination = Utils.randomElement(tiles);
-        if (tiles.isEmpty() || destination == null) {
-            return;
+        Player player = (Player) target;
+
+        //create list for tiles to store
+        List<Tile> tileList = new ArrayList<>();
+        var targetTile = player.tile();
+
+        //add the players tile
+        tileList.add(targetTile);
+
+        //add the player tile to the used tile
+        usedTiles.add(targetTile);
+
+        for (int tileIndex = 0; tileIndex < 4; tileIndex++) {
+            //create field to find tiles around
+            var tilesAround = World.getWorld().randomTileAround(targetTile, 4);
+
+            //add used tiles to not create duplicates
+            usedTiles.add(tilesAround);
+            tileList.add(tilesAround);
         }
 
-        for (int i = 0; i < 6; i++) {
-            Tile finalDest = World.getWorld().randomTileAround(destination, 9);
+        //handle the list
+        tileList
+            .stream()
+            .filter(tile -> World.getWorld().clipAt(tile.x, tile.y, tile.level) == 0)
+            .filter(tile -> !tile.equals(vetion.tile()))
+            .forEach(tile ->
+                Chain.noCtx()
+                    .runFn(1, () -> {
+                        vetion.forceChat(Utils.randomElement(VETION_QUOTES));
+                        vetion.lockMoveDamageOk();
+                        vetion.getMovementQueue().clear();
+                    })
+                    .then(1, () -> {
+                        vetion.animate(9969);
+                        vetion.graphic(vetion.id() == 6612 ? 2345 : 2344, GraphicHeight.MIDDLE, 0);
+                        World.getWorld().tileGraphic(vetion.id() == 6612 ? 2347 : 2346, tile, 0, 0);
+                    })
+                    .then(3, () -> {
+                        if (!player.tile().equals(tile) && !player.tile().inSqRadius(tile, 1)) {
+                            return;
+                        }
+                        if (!player.dead() && player.isRegistered() && !vetion.dead() && player.tile().equals(tile)) {
+                            player.hit(vetion, Utils.random(15, 30), 0);
+                        } else if (player.tile().inSqRadius(tile, 1)) {
+                            player.hit(vetion, Utils.random(15, 30) / 2, 0);
+                        }
+                    })
+                    .then(2, () -> {
+                        vetion.unlock();
+                        vetion.getCombat().setTarget(player);
+                        vetion.face(null);
+                        hasAttacked = true;
+                        usedTiles.clear();
+                        tiles.clear();
+                    }));
 
-            if (finalDest != null && usedTiles.contains(finalDest)) {
-                continue;
-            }
-
-            if (finalDest == null) {
-                return;
-            }
-
-            usedTiles.add(finalDest);
-
-            Player player = (Player) target;
-            Chain.noCtx()
-                .runFn(1, () -> {
-                    vetion.forceChat(Utils.randomElement(VETION_QUOTES));
-                    vetion.lockMoveDamageOk();
-                    vetion.getMovementQueue().clear();
-                })
-                .then(1, () -> {
-                    vetion.animate(9969);
-                    vetion.graphic(vetion.id() == 6612 ? 2345 : 2344, GraphicHeight.MIDDLE, 0);
-                    World.getWorld().tileGraphic(vetion.id() == 6612 ? 2347 : 2346, finalDest, 0, 0);
-                })
-                .then(3, () -> {
-                    if (!player.tile().equals(finalDest) && !player.tile().inSqRadius(finalDest, 1)) {
-                        return;
-                    }
-                    if (!player.dead() && player.isRegistered() && !vetion.dead() && player.tile().equals(finalDest)) {
-                        player.hit(vetion, Utils.random(15, 30), 0);
-                    } else if (player.tile().inSqRadius(finalDest, 1)) {
-                        player.hit(vetion, Utils.random(15, 30) / 2, 0);
-                    }
-                })
-                .then(2, () -> {
-                    vetion.unlock();
-                    vetion.getCombat().setTarget(player);
-                    vetion.face(null);
-                    hasAttacked = true;
-                    usedTiles.clear();
-                    tiles.clear();
-                });
-        }
     }
 
-    private void doMagicSwordSlash() {
+    void magicSwordSlash() {
         NPC vetion = (NPC) entity;
-        var transformedTile = target.tile().transform(3, 3, 0);
-        List<Tile> tiles = transformedTile.area(9, pos -> World.getWorld().clipAt(pos.x, pos.y, pos.level) == 0 && !pos.equals(transformedTile) && !ProjectileRoute.allow(target, pos));
-        Tile destination = Utils.randomElement(tiles);
-        if (tiles.isEmpty() || destination == null) {
-            return;
+        Player player = (Player) target;
+
+        //create list for tiles to store
+        List<Tile> tileList = new ArrayList<>();
+        var targetTile = player.tile();
+
+        //add the players tile
+        tileList.add(targetTile);
+
+        //add the player tile to the used tile
+        usedTiles.add(targetTile);
+
+        for (int tileIndex = 0; tileIndex < 4; tileIndex++) {
+            //create field to find tiles around
+            var tilesAround = World.getWorld().randomTileAround(targetTile, 4);
+
+            //add used tiles to not create duplicates
+            usedTiles.add(tilesAround);
+            tileList.add(tilesAround);
         }
 
-        for (int i = 0; i < 6; i++) {
-            Tile finalDest = World.getWorld().randomTileAround(destination, 9);
-
-            if (finalDest != null && usedTiles.contains(finalDest)) {
-                continue;
-            }
-
-            if (finalDest == null) {
-                return;
-            }
-
-            usedTiles.add(finalDest);
-
-            Player player = (Player) target;
-
-            Chain.noCtx().runFn(1, () -> {
-                    vetion.forceChat(Utils.randomElement(VETION_QUOTES));
-                    vetion.lockMoveDamageOk();
-                    vetion.getMovementQueue().clear();
-                })
-                .then(1, () -> {
-                    vetion.animate(9972);
-                    vetion.graphic(2348);
-                    World.getWorld().tileGraphic(vetion.id() == 6612 ? 2347 : 2346, finalDest, 0, 0);
-                })
-                .then(3, () -> {
-                    if (!player.tile().equals(finalDest) && !player.tile().inSqRadius(finalDest, 1)) {
-                        return;
-                    }
-                    if (!player.dead() && player.isRegistered() && !vetion.dead() && player.tile().equals(finalDest)) {
-                        player.hit(vetion, Utils.random(15, 30), 0);
-                    } else if (player.tile().inSqRadius(finalDest, 1)) {
-                        player.hit(vetion, Utils.random(15, 30) / 2, 0);
-                    }
-                })
-                .then(2, () -> {
-                    vetion.unlock();
-                    vetion.getCombat().setTarget(player);
-                    vetion.face(null);
-                    hasAttacked = true;
-                    usedTiles.clear();
-                    tiles.clear();
-                });
-        }
+        //handle the list
+        tileList
+            .stream()
+            .filter(tile -> World.getWorld().clipAt(tile.x, tile.y, tile.level) == 0)
+            .filter(tile -> !tile.equals(vetion.tile()))
+            .forEach(tile ->
+                Chain.noCtx().runFn(1, () -> {
+                        vetion.forceChat(Utils.randomElement(VETION_QUOTES));
+                        vetion.lockMoveDamageOk();
+                        vetion.getMovementQueue().clear();
+                    })
+                    .then(1, () -> {
+                        vetion.animate(9972);
+                        vetion.graphic(2348);
+                        World.getWorld().tileGraphic(vetion.id() == 6612 ? 2347 : 2346, tile, 0, 0);
+                    })
+                    .then(3, () -> {
+                        if (!player.tile().equals(tile) && !player.tile().inSqRadius(tile, 1)) {
+                            return;
+                        }
+                        if (!player.dead() && player.isRegistered() && !vetion.dead() && player.tile().equals(tile)) {
+                            player.hit(vetion, Utils.random(15, 30), 0);
+                        } else if (player.tile().inSqRadius(tile, 1)) {
+                            player.hit(vetion, Utils.random(15, 30) / 2, 0);
+                        }
+                    })
+                    .then(2, () -> {
+                        vetion.unlock();
+                        vetion.getCombat().setTarget(player);
+                        vetion.face(null);
+                        hasAttacked = true;
+                        usedTiles.clear();
+                        tiles.clear();
+                    }));
     }
 
     private void doShieldBash() {

@@ -323,6 +323,31 @@ public class NPCUpdating {
         builder.put(npc.getForceMovement().getDirection(), ValueType.S);
     }
 
+    private static void updateForcedMovement(Player player, NPC npc, PacketBuilder builder) {
+        int startX = npc.getForceMovement().getStart().getLocalX(player.getLastKnownRegion());
+        int startY = npc.getForceMovement().getStart().getLocalY(player.getLastKnownRegion());
+
+        builder.put(startX, ValueType.S);
+        builder.put(startY, ValueType.S);
+
+        if (npc.getForceMovement().getEnd() == null) {
+            builder.put(0, ValueType.S);
+            builder.put(0, ValueType.S);
+        }
+        else if (npc.getForceMovement().getEnd().x < 64 || npc.getForceMovement().getEnd().y < 64) {
+            // expect a delta like 1,1
+            builder.put(startX + npc.getForceMovement().getEnd().x, ValueType.S);
+            builder.put(startY + npc.getForceMovement().getEnd().y, ValueType.S);
+        } else {
+            // expect an absolute coordinate, like 3200 3200
+            builder.put(npc.getForceMovement().getEnd().getLocalX(player.getLastKnownRegion()), ValueType.S);
+            builder.put(npc.getForceMovement().getEnd().getLocalY(player.getLastKnownRegion()), ValueType.S);
+        }
+        builder.putShort(npc.getForceMovement().getSpeed(), ValueType.A, ByteOrder.LITTLE);
+        builder.putShort(npc.getForceMovement().getReverseSpeed(), ValueType.A, ByteOrder.BIG);
+        builder.put(npc.getForceMovement().getDirection(), ValueType.S);
+    }
+
     private static void writeLuminanceOverlay(PacketBuilder builder, NPC npc) {
         builder.putShort(npc.tinting().delay());
         builder.putShort(npc.tinting().duration() + npc.tinting().delay());

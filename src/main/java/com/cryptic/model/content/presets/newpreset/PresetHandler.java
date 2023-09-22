@@ -348,7 +348,6 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         }
     }
 
-
     void populateInventoryContainer(Player player, ItemContainer inventoryContainer, PresetData kits) {
 
         if (player == null || kits == null) {

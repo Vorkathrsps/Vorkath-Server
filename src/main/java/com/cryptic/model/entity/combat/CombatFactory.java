@@ -305,8 +305,7 @@ public class CombatFactory {
             }
         }
 
-        if (target instanceof Player && target.isPlayer()) {
-            Player player = (Player) target;
+        if (target instanceof Player player && target.isPlayer()) {
             if (player.hp() - damage > 0 && player.hp() <= player.getSkills().xpLevel(Skills.HITPOINTS) / 10) {
                 boolean ring = player.getEquipment().contains(2570);
                 boolean defenceCape = (int) player.getAttribOr(AttributeKey.DEFENCE_PERK_TOGGLE, 0) == 1 && player.getEquipment().contains(DEFENCE_CAPE);
@@ -1054,6 +1053,7 @@ public class CombatFactory {
             hit.postDamage.accept(hit);
 
         CombatMethod method = CombatFactory.getMethod(target);
+
         if (method instanceof CommonCombatMethod o) {
             o.postDamage(hit);
         }

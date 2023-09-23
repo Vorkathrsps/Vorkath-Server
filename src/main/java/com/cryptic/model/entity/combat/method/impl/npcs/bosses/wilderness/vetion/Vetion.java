@@ -75,6 +75,10 @@ public class Vetion extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.face(null);
 
+        if (!withinDistance(8)) {
+            return false;
+        }
+
         if (entity.hp() <= 125 && !entity.hasAttrib(AttributeKey.VETION_HELLHOUND_SPAWNED)) {
             spawnHellhounds((NPC) entity, target);
         }

@@ -488,7 +488,7 @@
       "death": 1676
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.CorporealBeast"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.corporeal.CorporealBeast"
     }
   },
   {

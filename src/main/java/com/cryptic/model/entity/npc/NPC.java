@@ -66,7 +66,8 @@ import static org.apache.logging.log4j.util.Unbox.box;
 public class NPC extends Entity {
 
     private static final Logger logger = LogManager.getLogger(NPC.class);
-    @Setter public boolean ignoreOccupiedTiles;
+    @Setter
+    public boolean ignoreOccupiedTiles;
 
     private boolean lockMovementCompletely;
 
@@ -79,6 +80,7 @@ public class NPC extends Entity {
     }
 
     public WildernessKeys wildernessKeys = new WildernessKeys(null, this);
+
     public WildernessKeys getWildernessKeys() {
         return wildernessKeys;
     }
@@ -108,8 +110,8 @@ public class NPC extends Entity {
             spawnArea != null
             && !hidden()
             && getMovement().isAtDestination()
-                && !locked()
-                && !isMovementBlocked(false, false);
+            && !locked()
+            && !isMovementBlocked(false, false);
     }
 
     public boolean isWorldBoss() {
@@ -212,6 +214,8 @@ public class NPC extends Entity {
             walkTo = tile.transform(1, 0);
         if (this.getMobName().toLowerCase().contains("crab"))
             ignoreOccupiedTiles = true;
+        if (this.getMobName().toLowerCase().contains("monkey"))
+            ignoreOccupiedTiles = true;
     }
 
     public NPC(int id, Tile tile) {
@@ -259,6 +263,8 @@ public class NPC extends Entity {
         if (tile().equals(3109, 3517))
             walkTo = tile.transform(1, 0);
         if (this.getMobName().toLowerCase().contains("crab"))
+            ignoreOccupiedTiles = true;
+        if (this.getMobName().toLowerCase().contains("monkey"))
             ignoreOccupiedTiles = true;
     }
 
@@ -502,8 +508,8 @@ public class NPC extends Entity {
        /* if (NpcPerformance.PERF_CHECK_MODE_ENABLED) {
             sequencePerformanceMode();
         } else {*/
-            sequenceNormal();
-       // }
+        sequenceNormal();
+        // }
         postSequence();
     }
 
@@ -797,7 +803,7 @@ public class NPC extends Entity {
 
     @Override
     public String toString() {
-        return "NPC{" + getMobName()+
+        return "NPC{" + getMobName() +
             ", id=" + id +
             ", hp=" + hp +
             ", tile=" + tile +
@@ -811,8 +817,8 @@ public class NPC extends Entity {
             ", ancientSpawn=" + ancientSpawn +
             ", lastDirection=" + lastDirection +
             ", inViewport=" + inViewport +
-            ", def=" + (def==null?"?":"def") +
-            ", combatInfo=" + (combatInfo == null? "?":combatInfo) +
+            ", def=" + (def == null ? "?" : "def") +
+            ", combatInfo=" + (combatInfo == null ? "?" : combatInfo) +
             ", hidden=" + hidden +
             ", respawns=" + respawns +
             ", venomImmune=" + venomImmune +
@@ -826,9 +832,9 @@ public class NPC extends Entity {
             ", skipReachCheck=" + skipReachCheck +
             ", canAttack=" + canAttack +
             ", spawnStack='" + spawnStack +
-                ", canmove='" + movementQueue.canMove() +
-                ", moveBlocked='" + movementQueue.isMovementBlocked() +
-            ", idx: "+getIndex()+
+            ", canmove='" + movementQueue.canMove() +
+            ", moveBlocked='" + movementQueue.isMovementBlocked() +
+            ", idx: " + getIndex() +
             '}';
     }
 
@@ -875,7 +881,9 @@ public class NPC extends Entity {
     public void die() {
         try {
             NPCDeath.execute(this);
-        } catch (Exception e1) {e1.printStackTrace(); }
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
     }
 
     @Override
@@ -920,6 +928,7 @@ public class NPC extends Entity {
     }
 
     private final NpcMovement movementQueue = new NpcMovement(this);
+
     @Override
     public NpcMovement getMovementQueue() {
         return movementQueue;

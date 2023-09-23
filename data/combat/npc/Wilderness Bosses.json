@@ -5,6 +5,8 @@
         6612
       ],
       "aggressive": true,
+      "retaliates": true,
+      "unstacked": false,
       "boss": true,
       "maxhit": 44,
       "attackspeed": 4,
@@ -34,7 +36,6 @@
       },
       "scripts": {
         "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion",
-       // "death": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.vetion.Vetion.death",
         "hit": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.vetion.Vetion.hit"
       }
     },
@@ -231,7 +232,7 @@
     "maxhit": 55,
     "slayerlvl": 1,
     "slayerxp": 312,
-    "respawntime": 50,
+    "respawntime": 33,
     "stats": {
       "attack": 350,
       "strength": 300,
@@ -306,7 +307,7 @@
     "slayerlvl": 1,
     "slayerxp": 388,
     "aggroradius": 4,
-    "respawntime": 50,
+    "respawntime": 33,
     "stats": {
       "attack": 400,
       "magic": 400,
@@ -329,8 +330,7 @@
       "death": 5321
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.Venenatis",
-      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.Venenatis"
     }
   },
   {

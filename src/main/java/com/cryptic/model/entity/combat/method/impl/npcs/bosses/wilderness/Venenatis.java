@@ -13,6 +13,7 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 import lombok.NonNull;
 
@@ -29,15 +30,25 @@ public class Venenatis extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        // Determine if we do a special hit, or a regular hit.
-        //constructWeb(entity, target);
-        //magicAttack(entity, target);
-        rangeAttack(entity, target);
+        if (!withinDistance(1)) {
+            if (Utils.rollDie(3, 1)) {
+                rangeAttack(entity, target);
+            } else {
+                magicAttack(entity, target);
+            }
+        } else {
+            meleeAttack(entity, target);
+        }
         return true;
     }
 
     private void spawnSpiderlings(@Nonnull Entity entity) {
 
+    }
+
+    public void meleeAttack(@NonNull final Entity entity, @NonNull Entity target) {
+        entity.animate(9991);
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy().submit();
     }
 
     public void magicAttack(@Nonnull final Entity entity, @Nonnull Entity target) {
@@ -80,18 +91,7 @@ public class Venenatis extends CommonCombatMethod {
 
     }
 
-    private void hurlWeb(NPC npc, Entity target) {
-        //npc.forceChat("WEB");
-        var tileDist = npc.tile().transform(3, 3, 0).distance(target.tile());
-        new Projectile(npc, target,1254, 20,12 * tileDist,20, 5, 0, true).sendProjectile();
-        var delay = Math.max(1, (20 + (tileDist * 12)) / 30);
-        target.message("Venenatis hurls her web at you, sticking you to the ground.");
-        target.stun(6, false,true,true);
-        target.hit(npc, npc.getCombatInfo().maxhit, delay);// Cannot protect from this.
-    }
-
     private void drainPrayer(Entity npc, Entity target) {
-        //npc.forceChat("PRAYER");
         if (target.isPlayer()) {
             var tileDist = npc.tile().transform(3, 3, 0).distance(target.tile());
             new Projectile(npc, target,171, 30,12 * tileDist,25, 25, 0, true).sendProjectile();
@@ -271,4 +271,5 @@ public class Venenatis extends CommonCombatMethod {
     public int moveCloseToTargetTileRange(@NonNull final Entity entity) {
         return 10;
     }
+
 }

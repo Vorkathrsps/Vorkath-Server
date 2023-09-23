@@ -145,16 +145,16 @@ public class CorporealBeast extends CommonCombatMethod {
         var prayerDrain = target.getSkills().level(Skills.PRAYER) - reduction;
         if (Utils.rollDie(50, 1)) {
             if (target.getSkills().level(Skills.MAGIC) < reduction) {
-                target.getSkills().setLevel(Skills.MAGIC, 0);
+                target.getSkills().alterSkill(Skills.MAGIC, 0);
             } else {
-                target.getSkills().setLevel(Skills.MAGIC, magicDrain);
+                target.getSkills().alterSkill(Skills.MAGIC, magicDrain);
                 target.message("Your Magic has been slightly drained.");
             }
 
             if (target.getSkills().level(Skills.PRAYER) < reduction) {
-                target.getSkills().setLevel(Skills.PRAYER, 0);
+                target.getSkills().alterSkill(Skills.PRAYER, 0);
             } else {
-                target.getSkills().setLevel(Skills.PRAYER, prayerDrain);
+                target.getSkills().alterSkill(Skills.PRAYER, prayerDrain);
                 target.message("Your Prayer has been slightly drained.");
             }
         }

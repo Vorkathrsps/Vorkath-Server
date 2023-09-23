@@ -1,0 +1,33 @@
+[
+  {
+    "ids": [
+      7118
+    ],
+    "maxhit": 18,
+    "attackspeed": 4,
+    "aggressive": true,
+    "retaliates": true,
+    "unstacked": false,
+    "boss": false,
+    "respawntime": 50,
+    "aggroradius": 10,
+    "stats": {
+      "attack": 200,
+      "strength": 175,
+      "defence": 10,
+      "magic": 1,
+      "ranged": 1,
+      "hitpoints": 65
+    },
+    "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 1383
+    }
+  }
+]

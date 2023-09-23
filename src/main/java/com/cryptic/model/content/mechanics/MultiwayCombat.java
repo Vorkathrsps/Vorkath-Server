@@ -166,6 +166,7 @@ public class MultiwayCombat {
         9619, 9363, //new thermo room
         8023, //Gnome Stronghold crash site (monkey madness)
         13972, // Kalphite queen lair
+        9871,
 
         /* Wildy: (uses 8x8 chunks for some sections as well as chunks) **/
         5789,

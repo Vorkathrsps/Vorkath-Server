@@ -755,15 +755,7 @@ public class EquipmentInfo {
             }
             case DRAGON_HASTA, TOXIC_BLOWPIPE, 4910, 4911, 4912, 4913, 4914 -> {
                 return 430;
-            } // Torag's hamers
-            // Torag's hamers
-            // Torag's hamers
-            // Torag's hamers
-            // Torag's hamers
-            // Dharok's greataxe
-            // Dharok's greataxe
-            // Dharok's greataxe
-            // Dharok's greataxe
+            }
             case DRAGON_CLAWS, BRONZE_CROSSBOW, IRON_CROSSBOW, STEEL_CROSSBOW, ADAMANT_CROSSBOW, RUNE_CROSSBOW, DRAGON_CROSSBOW, DRAGON_HUNTER_CROSSBOW, KARILS_CROSSBOW, ZARYTE_CROSSBOW, 4747, 4958, 4959, 4960, 4961, 4718, 4886, 4887, 4888, 4889 -> { // Dharok's greataxe
                 return 424;
             }

@@ -46,15 +46,15 @@ public class CorporealBeast extends CommonCombatMethod {
         var corp = (NPC) entity;
         var player = (Player) target;
 
-        BooleanSupplier withinTile = () -> withinDistance(2);
+        BooleanSupplier withinTile = () -> withinDistance(1);
         BooleanSupplier nullTarget = () -> corp.getCombat().getTarget() == null;
 
         if (attackCount >= Utils.random(3, 6)) {
             magic(corp, player);
             attackCount = 0;
         } else {
-            if (withinDistance(2) || Utils.rollDie(5, 1)) {
-                if (!withinDistance(2)) {
+            if (withinDistance(1) && Utils.rollDie(5, 1)) {
+                if (!withinDistance(1)) {
                     corp.step(player.tile().getX(), player.tile().getY(), MovementQueue.StepType.REGULAR);
                     corp.waitUntil(withinTile, () -> melee(corp, player)).cancelWhen(nullTarget);
                 } else {
@@ -107,10 +107,13 @@ public class CorporealBeast extends CommonCombatMethod {
 
         final Projectile[] blast = {null};
 
+        Chain.noCtx().runFn(delay, () -> {
+            if (target.tile().equals(p.getEnd())) {
+                target.hit(corp, CombatFactory.calcDamageFromType(corp, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+            }
+        });
 
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
-
-        Chain.noCtx().runFn(delay / 20 + 2, () ->
+        Chain.noCtx().runFn(delay / 20 + 2, () -> {
             radius
                 .stream()
                 .filter(tile -> World.getWorld().clipAt(tile.x, tile.y, tile.level) == 0)
@@ -128,8 +131,8 @@ public class CorporealBeast extends CommonCombatMethod {
                         }
                         radius.clear();
                     });
-                }));
-
+                });
+        });
     }
 
     void core(NPC corp, NPC core, Player target) {

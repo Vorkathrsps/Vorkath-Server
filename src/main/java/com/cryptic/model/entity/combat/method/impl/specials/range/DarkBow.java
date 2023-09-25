@@ -25,7 +25,7 @@ public class DarkBow extends CommonCombatMethod {
         final Player player = entity.getAsPlayer();
 
         Item ammo = player.getEquipment().get(EquipSlot.AMMO);
-        if(ammo == null || ammo.getAmount() < 2) {
+        if (ammo == null || ammo.getAmount() < 2) {
             player.message("You need at least two arrows in your quiver to use this special attack.");
             return false;
         }
@@ -51,10 +51,10 @@ public class DarkBow extends CommonCombatMethod {
         }
 
         int tileDist = entity.tile().transform(1, 1).getChevDistance(target.tile());
-        int duration1 = (45 + 10 + (7 * tileDist));
-        int duration2 = (45 + 12 + (15 * tileDist));
-        Projectile p1 = new Projectile(entity, target, gfx, 45, duration1, 43, 38, 5, target.getSize(), 5);
-        Projectile p2 = new Projectile(entity, target, gfx2, 45, duration2, 49, 31, 15, target.getSize(), 5);
+        int duration1 = (41 + 11 + (5 * tileDist));
+        int duration2 = (41 + 11 + (10 * tileDist));
+        Projectile p1 = new Projectile(entity, target, gfx, 41, duration1, 40, 36, 5, 1, 5);
+        Projectile p2 = new Projectile(entity, target, gfx2, 41, duration2, 40, 36, 25, 1, 10);
 
         final int delay1 = entity.executeProjectile(p1);
         final int delay2 = entity.executeProjectile(p2);
@@ -65,25 +65,27 @@ public class DarkBow extends CommonCombatMethod {
         // Note: Dark bow first hit does have PID applied, but the delay varies (not always delay-1) depending on dist. It's custom.
         Hit hit1 = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay1, CombatType.RANGED).checkAccuracy();
 
-        hit1.submit();
-        target.graphic(endgfx, GraphicHeight.MIDDLE, p1.getSpeed());
-
         // Minimum damages depending on arrow type
         if (hit1.getDamage() < min) {
             hit1.setDamage(min);
         }
 
+        hit1.submit();
+        target.graphic(endgfx, GraphicHeight.MIDDLE, p1.getSpeed());
+
         // The second hit is pid adjusted.
-        Hit hit2 = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED),delay2, CombatType.RANGED).checkAccuracy();
+        Hit hit2 = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay2, CombatType.RANGED).checkAccuracy();
+
         if (hit2.getDamage() < min) {
             hit2.setDamage(min);
         }
+
         hit2.submit();
 
         target.graphic(endgfx, GraphicHeight.MIDDLE, p2.getSpeed());
 
         CombatSpecial.drain(entity, CombatSpecial.DARK_BOW.getDrainAmount());
-return true;
+        return true;
     }
 
     @Override

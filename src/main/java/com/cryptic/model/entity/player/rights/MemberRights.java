@@ -5,6 +5,7 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.Color;
+import lombok.Data;
 
 import java.util.Collections;
 import java.util.EnumSet;

@@ -157,7 +157,7 @@ public class FormulaUtils {
             ItemIdentifiers.CRYSTAL_HALBERD_FULL, ItemIdentifiers.NEW_CRYSTAL_HALBERD_FULL, ItemIdentifiers.DRAGON_HALBERD);
     }
 
-    public static boolean isWearingPoisonEquipmentOrWeapon(Player player) {
+    public static boolean isWearingPoisonEquipmentOrWeapon(Player player) { //add any extra poison weapons here
         return player.getEquipment().containsAny(
             SERPENTINE_HELM, MAGMA_HELM, TANZANITE_HELM, TOXIC_BLOWPIPE, DRAGON_DAGGERP, DRAGON_DAGGERP_5680, DRAGON_DAGGER_20407);
     }

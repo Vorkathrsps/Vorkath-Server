@@ -4,6 +4,7 @@ package com.cryptic.model.entity.player;
  * @author Origin
  * juni 21, 2020
  */
+
 public enum GameMode {
 
     TRAINED_ACCOUNT("Normal account",1, 150),

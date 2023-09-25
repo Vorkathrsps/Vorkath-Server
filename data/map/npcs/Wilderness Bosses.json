@@ -1,26 +1,24 @@
 [
   {
     "id": 6611,
-    "x": 3231,
-    "y": 3807,
-    "walkRange": 5,
-    "direction": "NE"
+    "x": 3293,
+    "y": 10200,
+    "z": 1,
+    "direction": "S"
   }, //vetion
   {
-    "id": 6611,
-    "x": 1756,
-    "y": 11542,
-    "walkRange": 5,
+    "id": 6609,
+    "x": 3357,
+    "y": 10326,
     "direction": "S"
   },  // Callisto
   {
     "id": 6610,
     "x": 3421,
-    "y": 10200,
+    "y": 10202,
     "z": 2,
     "direction": "S"
-  },
-  // Venenatis
+  }, // Venenatis
   {
     "id": 6619,
     "x": 2980,

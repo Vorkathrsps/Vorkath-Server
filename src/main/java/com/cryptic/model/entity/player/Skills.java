@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.DOUBLE_EXP_TICKS;
+import static com.cryptic.model.entity.attributes.AttributeKey.valueOf;
 
 /**
  * Created by Bart Pelle on 8/23/2014.
@@ -40,7 +41,8 @@ public class Skills {
     public static final int SKILL_COUNT = 23;
     private static final int[] XP_TABLE = new int[100];
     public static boolean USE_EXPERIMENTAL_PERFORMANCE = false;
-    @Getter public double[] xps = new double[SKILL_COUNT];
+    @Getter
+    public double[] xps = new double[SKILL_COUNT];
     @Getter
     public int[] levels = new int[SKILL_COUNT];
     private final Player player;
@@ -260,15 +262,104 @@ public class Skills {
     }
 
     public boolean addXp(int skill, double amt) {
-        return addXp(skill, amt, true, true);
+        return addExperience(skill, amt, 1, true);
+        //    return addXp(skill, amt, true, true);
     }
 
     public boolean addXp(int skill, double amt, boolean multiplied) {
-        return addXp(skill, amt, multiplied, true);
+        return addExperience(skill, amt, 1, true);
+        // return addXp(skill, amt, multiplied, true);
     }
 
     public boolean isCombatSkill(int skillId) {
         return Arrays.asList(0, 1, 2, 4, 6).stream().anyMatch(s -> s.intValue() == skillId);
+    }
+
+    public boolean addExperience(int skill, double amount, double multiplier, boolean counter) {
+        WeakReference<? extends Entity> weakEntityRef = player.getAttribOr(AttributeKey.TARGET, new WeakReference<>(null));
+        Entity target = weakEntityRef.get();
+
+        boolean isCombatExperience = skill == ATTACK || skill == STRENGTH || skill == DEFENCE || skill == HITPOINTS || skill == MAGIC || skill == RANGED;
+        boolean isExperienceLocked = player.getAttribOr(AttributeKey.XP_LOCKED, false);
+        boolean inWilderness = WildernessArea.inWilderness(player.tile());
+        boolean isNpc = target instanceof NPC;
+        boolean isMember = player.getMemberRights().isRegularMemberOrGreater(player);
+
+        if (target == null) {
+            return false;
+        }
+
+        if (isCombatExperience && isNpc) {
+            NPC npc = (NPC) target;
+            if (!npc.isDamageOkLocked()) {
+                if (npc.hidden() || npc.locked()) {
+                    return false;
+                }
+            }
+        }
+
+        if (isExperienceLocked) {
+            player.getPacketSender().sendFakeXPDrop(skill, amount);
+            return false;
+        }
+
+        if (isMember) {
+            switch (player.getMemberRights()) {
+                case RUBY_MEMBER -> amount *= 1.05;
+                case SAPPHIRE_MEMBER -> amount *= 1.10;
+                case EMERALD_MEMBER -> amount *= 1.15;
+                case DIAMOND_MEMBER -> amount *= 1.20;
+                case DRAGONSTONE_MEMBER -> amount *= 1.25;
+                case ONYX_MEMBER -> amount *= 1.30;
+                case ZENYTE_MEMBER -> amount *= 1.35;
+            }
+        }
+
+        if (multiplier >= 1.0) {
+            amount *= multiplier;
+        }
+
+        if (inWilderness) {
+            amount *= 1.33;
+        }
+
+        int oldLevel = xpToLevel((int) xps[skill]);
+        xps[skill] = Math.min(200000000, xps[skill] + amount);
+        int newLevel = xpToLevel((int) xps[skill]);
+
+        if (newLevel > oldLevel) {
+            if (levels[skill] < newLevel)
+                levels[skill] += newLevel - oldLevel;
+            player.graphic(199, GraphicHeight.HIGH, 0);
+        }
+
+        if (oldLevel != newLevel) {
+            int levels = newLevel - oldLevel;
+            if (levels == 1) {
+                player.message("Congratulations, you just advanced %s %s level.", SKILL_INDEFINITES[skill], SKILL_NAMES[skill]);
+            } else {
+                player.message("Congratulations, you just advanced %d %s levels.", levels, SKILL_NAMES[skill]);
+            }
+
+            if (newLevel == 99) {
+                player.graphic(1388, GraphicHeight.HIGH, 0);
+                player.message(Color.ORANGE_RED.tag() + "Congratulations on achieving level 99 in " + SKILL_NAMES[skill] + "!");
+                player.message(Color.ORANGE_RED.tag() + "You may now purchase a skillcape from Mac who can be found at home.");
+                World.getWorld().sendWorldMessage("<img=2017> <col=" + Color.HOTPINK.getColorValue() + ">" + player.getUsername() + "</col> has just achieved level 99 in " + Color.BLUE.tag() + "" + SKILL_NAMES[skill] + "</col> on a " + Color.BLUE.tag() + " " + Utils.gameModeToString(player) + "</col>!");
+            }
+
+            if (totalLevel() >= Mac.TOTAL_LEVEL_FOR_MAXED) {
+                World.getWorld().sendWorldMessage("<img=2017> <col=" + Color.HOTPINK.getColorValue() + ">" + player.getUsername() + "</col> has just maxed out on a " + Color.BLUE.tag() + " " + Utils.gameModeToString(player) + "</col>!");
+            }
+
+            recalculateCombat();
+        }
+
+        player.getPacketSender().sendXPDrop(skill, amount, counter);
+        player.getPacketSender().sendString(10121, "" + totalLevel());
+        makeDirty(skill);
+        update();
+        return oldLevel != newLevel;
     }
 
     public boolean addXp(int skill, double amount, boolean multiplied, boolean counter) {
@@ -449,10 +540,10 @@ public class Skills {
         {4277, 4278, 4279},
         {4261, 4263, 4264},
         {12122, 12123, 12124},
-        {8267, 4268, 4269}, //farming
-        {4267, 4268, 4269}, //rc
-        {8267, 4268, 4269}, //construction
-        {8267, 4268, 4269}}; //hunter
+        {8267, 4268, 4269},
+        {4267, 4268, 4269},
+        {8267, 4268, 4269},
+        {8267, 4268, 4269}};
 
     /**
      * Checks if the player is maxed in all combat skills.
@@ -492,10 +583,10 @@ public class Skills {
     }
 
     public void alterSkillsArray(Player player, int changeFrom, int changeTo) {
-            var experienceChange = Skills.levelToXp(changeTo);
-            player.getSkills().setXp(changeFrom, experienceChange);
-            player.getSkills().update();
-            player.getSkills().recalculateCombat();
+        var experienceChange = Skills.levelToXp(changeTo);
+        player.getSkills().setXp(changeFrom, experienceChange);
+        player.getSkills().update();
+        player.getSkills().recalculateCombat();
     }
 
     public void hpEventLevel(int increaseBy) {

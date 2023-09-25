@@ -61,7 +61,7 @@ public class VoidEquipment implements DamageEffectListener {
             rangeAccuracy.setModifier(1.10F);
             return true;
         }
-        if (FormulaUtils.eliteVoidEquipmentRanged(attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseRanged((Player) attacker)) {
+        if (FormulaUtils.eliteVoidEquipmentRanged(attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseRanged(attacker)) {
             rangeAccuracy.setModifier(1.125F);
             return true;
         }

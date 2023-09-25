@@ -9,12 +9,19 @@ import com.cryptic.model.entity.combat.magic.autocasting.Autocasting;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.weapon.WeaponInterfaces;
 import com.cryptic.model.entity.masks.Projectile;
+import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.Utils;
+import com.cryptic.utility.chainedwork.Chain;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class ChaosFanatic extends CommonCombatMethod {
 
@@ -32,11 +39,15 @@ public class ChaosFanatic extends CommonCombatMethod {
         if (!entity.isNpc() || !target.isPlayer())
             return false;
 
+        if (!withinDistance(15)) {
+            return false;
+        }
+
         entity.forceChat(QUOTES[Utils.getRandom(QUOTES.length)]);
 
         NPC npc = (NPC) entity;
         if (Utils.securedRandomChance(0.10)) {
-            explosives(entity, target);
+            explosion(entity, target);
         } else if (Utils.securedRandomChance(0.05)) {
             disarm(target);
         } else {
@@ -47,7 +58,7 @@ public class ChaosFanatic extends CommonCombatMethod {
 
     @Override
     public int getAttackSpeed(Entity entity) {
-        return entity.getBaseAttackSpeed();
+        return 2;
     }
 
     @Override
@@ -57,17 +68,19 @@ public class ChaosFanatic extends CommonCombatMethod {
 
     private void attack(NPC npc, Entity target) {
         var tileDist = npc.tile().distance(target.tile());
-        int duration = (64 + 11 + (10 * tileDist));
+        int duration = (41 + 5 + (5 * tileDist));
 
-        Projectile p = new Projectile(entity, target, 554, 64, duration, 43, 31, 0, target.getSize(), 10);
+        Projectile p = new Projectile(npc, target, 554, 41, duration, 40, 36, 15, 1, 5);
 
-        final int delay = entity.executeProjectile(p);
+        final int delay = npc.executeProjectile(p);
 
         npc.animate(811);
 
-        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        Hit hit = Hit.builder(npc, target, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
 
         hit.submit();
+
+        target.graphic(305, GraphicHeight.MIDDLE, p.getSpeed());
     }
 
     private void disarm(Entity target) {
@@ -88,17 +101,46 @@ public class ChaosFanatic extends CommonCombatMethod {
         }
     }
 
-    private void explosives(Entity npc, Entity target) {
-        var x = target.tile().x; //The target's x tile
-        var z = target.tile().y; //The target's z tile
-        var tileDist = npc.tile().distance(target.tile());
-        int duration = (64 + 11 + (10 * tileDist));
+    private void explosion(Entity npc, Entity target) {
+        var tile = target.tile().copy();
+        var distance = npc.tile().distance(target.tile());
+        int duration1 = 41 + 11 + (4 * distance);
+        int duration2 = 41 + 11 + (8 * distance);
+        int duration3 = 41 + 11 + (12 * distance);
+
         npc.animate(811);
-        var explosive_one = new Tile(x + World.getWorld().random(2), z);
-        Projectile p1 = new Projectile(entity, target, 551, 64, duration, 43, 0, 0, target.getSize(), 10);
-        final int delay1 = entity.executeProjectile(p1);
-        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay1, CombatType.MAGIC).checkAccuracy();
-        hit.submit();
-        World.getWorld().tileGraphic(157, explosive_one, 0, p1.getSpeed());
+
+        Tile randomTile;
+
+        List<Tile> tileList = new ArrayList<>();
+
+        for (int index = 0; index < 2; index++) {
+            randomTile = World.getWorld().randomTileAround(tile, 1);
+            if (randomTile != null) {
+                tileList.add(randomTile);
+            }
+        }
+
+        Collections.shuffle(tileList);
+
+        Projectile[] projectiles = new Projectile[]
+            {
+                new Projectile(npc, tile, 551, 41, duration1, 40, 2, 40, 1, 5),
+                new Projectile(npc, Utils.randomElement(tileList), 551, 43, duration2, 40, 2, 40, 1, 10),
+                new Projectile(npc, Utils.randomElement(tileList), 551, 45, duration3, 40, 2, 40, 1, 10)
+            };
+
+        Arrays.stream(projectiles).forEach(p -> {
+            final int delay = npc.executeProjectile(p);
+            World.getWorld().tileGraphic(157, p.getEnd(), 0, p.getSpeed());
+
+            Chain.noCtx().runFn((int) (p.getSpeed() / 30D), () -> {
+                if (target.tile().equals(p.getEnd())) {
+                    Hit hit = Hit.builder(npc, target, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+                    hit.submit();
+                }
+                tileList.clear();
+            });
+        });
     }
 }

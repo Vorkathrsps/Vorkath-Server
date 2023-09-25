@@ -477,11 +477,11 @@ public class CommandManager {
             ;
         });
         dev("hit3", (p, c, s) -> {
-            p.hit(p, 1, HitMark.VENOM);
+            p.hit(p, 1, HitMark.POISON.ordinal());
             ;
         });
         dev("hit4", (p, c, s) -> {
-            p.hit(p, 1, HitMark.MAX_HIT);
+            p.hit(p, 1, HitMark.DEFAULT.getMax_hit());
             ;
         });
         dev("hit5", (p, c, s) -> {

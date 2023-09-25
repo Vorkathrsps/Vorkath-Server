@@ -23,9 +23,9 @@ public class ToxicBlowpipeSpecialAttack extends CommonCombatMethod {
 
         player.animate(player.getEquipment().hasAt(EquipSlot.WEAPON, TOXIC_BLOWPIPE) ? 5061 : 11901);
 
-        int duration = 41 + 11 + (5 * distance);
+        int duration = 32 + (7 * distance);
 
-        Projectile projectile = new Projectile(entity, target, 1043, 41, duration, 38, 28, 0, target.getSize(), 5);
+        Projectile projectile = new Projectile(entity, target, 1043, 32, duration, 35, 36, 15, 1, 7);
 
         final int hitDelay = entity.executeProjectile(projectile);
 

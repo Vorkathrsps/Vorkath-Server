@@ -57,6 +57,7 @@ import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.EquipSlot;
+import com.cryptic.model.entity.player.GameMode;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
@@ -1296,49 +1297,52 @@ public class CombatFactory {
 
     private static void addCombatXp(Player player, Entity target, int hitDamage, CombatType style, FightStyle mode) {
         var hit = hitDamage;
-        // Rather than putting hooks into every style of attacking a target, centralize it and stop giving XP
-        // when certain styles can't damage an opponent.
+
         if (target.isNpc()) {
             var ntarg = target.getAsNpc();
             var id = ntarg.id();
-            if (id == 5534) hit = 0; // Can't damage tentacles much
+            if (id == 5534) hit = 0;
             if (id == 496) {
-                if (ntarg.transmog() != 494) // Whirlpool as kraken
+                if (ntarg.transmog() != 494)
                     hit = 0;
                 else if (style != CombatType.MAGIC)
                     hit = 0;
             }
-            if (id == 319) { // Corp beast
+            if (id == 319) {
 
             }
         }
 
         if (style == null)
             return;
+
+        var gameModeMultiplier = player.getGameMode().equals(GameMode.REALISM) ? 10.0 : 50.0;
+        var gameModeDivider = player.getGameMode().equals(GameMode.REALISM) ? 4.0 : 3.0;
+
         switch (style) {
             case MELEE -> {
                 switch (mode) {
                     case ACCURATE -> {
-                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
-                        player.getSkills().addXp(Skills.ATTACK, (hit * 4.0), !target.isPlayer());
+                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / gameModeDivider)), !target.isPlayer());
+                        player.getSkills().addXp(Skills.ATTACK, (hit * gameModeMultiplier), !target.isPlayer());
                     }
 
                     case AGGRESSIVE -> {
-                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
-                        player.getSkills().addXp(Skills.STRENGTH, (hit * 4.0), !target.isPlayer());
+                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / gameModeDivider)), !target.isPlayer());
+                        player.getSkills().addXp(Skills.STRENGTH, (hit * gameModeMultiplier), !target.isPlayer());
                     }
 
                     case DEFENSIVE -> {
-                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
-                        player.getSkills().addXp(Skills.DEFENCE, (hit * 4.0), !target.isPlayer());
+                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / gameModeDivider)), !target.isPlayer());
+                        player.getSkills().addXp(Skills.DEFENCE, (hit * gameModeMultiplier), !target.isPlayer());
                     }
 
                     case CONTROLLED -> {
-                        var xp = (hit * 4.0);
-                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
-                        player.getSkills().addXp(Skills.ATTACK, xp / 3.0, !target.isPlayer());
-                        player.getSkills().addXp(Skills.STRENGTH, xp / 3.0, !target.isPlayer());
-                        player.getSkills().addXp(Skills.DEFENCE, xp / 3.0, !target.isPlayer());
+                        var xp = (hit * gameModeMultiplier);
+                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / gameModeDivider)), !target.isPlayer());
+                        player.getSkills().addXp(Skills.ATTACK, xp / gameModeDivider, !target.isPlayer());
+                        player.getSkills().addXp(Skills.STRENGTH, xp / gameModeDivider, !target.isPlayer());
+                        player.getSkills().addXp(Skills.DEFENCE, xp / gameModeDivider, !target.isPlayer());
                     }
                 }
             }
@@ -1346,14 +1350,14 @@ public class CombatFactory {
             case RANGED -> {
                 switch (mode) {
                     case ACCURATE, AGGRESSIVE -> {
-                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
-                        player.getSkills().addXp(Skills.RANGED, (hit * 4.0), !target.isPlayer());
+                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / gameModeDivider)), !target.isPlayer());
+                        player.getSkills().addXp(Skills.RANGED, (hit * gameModeMultiplier), !target.isPlayer());
                     }
 
                     case DEFENSIVE -> {
-                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
-                        player.getSkills().addXp(Skills.RANGED, (hit * 2.0), !target.isPlayer());
-                        player.getSkills().addXp(Skills.DEFENCE, (hit * 2.0), !target.isPlayer());
+                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / gameModeDivider)), !target.isPlayer());
+                        player.getSkills().addXp(Skills.RANGED, (hit * gameModeDivider), !target.isPlayer());
+                        player.getSkills().addXp(Skills.DEFENCE, (hit * gameModeDivider), !target.isPlayer());
                     }
                 }
             }
@@ -1362,19 +1366,16 @@ public class CombatFactory {
                 CombatSpell spell = player.getCombat().getCastSpell() != null ? player.getCombat().getCastSpell() : player.getCombat().getAutoCastSpell() != null ? player.getCombat().getAutoCastSpell() : player.getCombat().getPoweredStaffSpell() != null ? player.getCombat().getPoweredStaffSpell() : null;
                 if (spell != null) {
                     if (hit > 0) {
-                        // Accurate? Or normal autocast? aka non defensive
                         if (!player.<Boolean>getAttribOr(AttributeKey.DEFENSIVE_AUTOCAST, false)) {
-                            player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
+                            player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / gameModeDivider)), !target.isPlayer());
                             player.getSkills().addXp(Skills.MAGIC, (hit * 2.0 + spell.baseExperience()), !target.isPlayer());
                         } else {
-                            // Defensive autocast...
-                            player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / 3.0)), !target.isPlayer());
-                            player.getSkills().addXp(Skills.MAGIC, (hit + spell.baseExperience() + (hit / 3.0)), !target.isPlayer());
+                            player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / gameModeDivider)), !target.isPlayer());
+                            player.getSkills().addXp(Skills.MAGIC, (hit + spell.baseExperience() + (hit / gameModeDivider)), !target.isPlayer());
                             player.getSkills().addXp(Skills.DEFENCE, hit + spell.baseExperience(), !target.isPlayer());
                         }
                     } else {
-                        //Splash should only give 52 exp..
-                        player.getSkills().addXp(Skills.MAGIC, 1);
+                        player.getSkills().addXp(Skills.MAGIC, spell.baseExperience());
                     }
                 }
             }

@@ -83,14 +83,13 @@ public class Vetion extends CommonCombatMethod {
             spawnHellhounds((NPC) entity, target);
         }
 
-        //if (Utils.percentageChance(50)) {
-        //magicSwordRaise();
-        // } else if (Utils.percentageChance(50)) {
-        //    doMagicSwordSlash();
-        magicSwordSlash();
-        // } else {
-        //     doShieldBash();
-        //  }
+        if (Utils.percentageChance(50)) {
+            magicSwordRaise();
+        } else if (Utils.percentageChance(50)) {
+            magicSwordSlash();
+        } else {
+            doShieldBash();
+        }
 
         return true;
     }

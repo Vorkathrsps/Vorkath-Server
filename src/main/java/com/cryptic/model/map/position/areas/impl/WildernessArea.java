@@ -15,6 +15,7 @@ import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.Controller;
+import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.utility.Varbit;
 import com.cryptic.utility.chainedwork.Chain;
 import com.cryptic.utility.timers.TimerKey;
@@ -79,8 +80,10 @@ public class WildernessArea extends Controller {
         if (region == 13623) {
             return 0;
         }
-        if (region == 7604)
-            return 21;
+
+        if (region == 13473 || region == 13472 || region == 13727 || region == 13215) {
+            return 35;
+        }
 
         if (x >= 2944 && x <= 3391 && y >= 3520 && y <= 4351) {
             return ((y - 3520) >> 3) + 1;
@@ -89,6 +92,7 @@ public class WildernessArea extends Controller {
         } else if (x >= 2944 && x <= 3391 && y >= 9920 && y <= 10879) {
             return ((y - 9920) >> 3) + 1;
         }
+
         return 0;
     }
 
@@ -104,6 +108,18 @@ public class WildernessArea extends Controller {
             return true;
 
         if (region == 7604)
+            return true;
+
+        if (region == 13473)
+            return true;
+
+        if (region == 13472)
+            return true;
+
+        if (region == 13727)
+            return true;
+
+        if (region == 13215)
             return true;
 
         return region == 12192 || region == 12193 || region == 12961 || region == 11937 || region == 12443 || region == 12190;

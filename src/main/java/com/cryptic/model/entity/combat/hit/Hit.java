@@ -226,11 +226,7 @@ public class Hit {
      * checks alwaysHit attrib and accuracy (depending on combat method+style). sets damage to 0 or maxhp or does no change at all, retaining existing {@link #damage} value set by {@link CombatFactory#calcDamageFromType(Entity, Entity, CombatType)}
      */
     public void applyAccuracyToMiss() {
-        if (attacker == null || target == null) {
-            return;
-        }
-
-        if (target.dead()) {
+        if (attacker == null || target == null || target.dead()) {
             return;
         }
 

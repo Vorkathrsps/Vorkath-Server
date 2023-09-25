@@ -13,6 +13,7 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.route.routes.ProjectileRoute;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 import lombok.NonNull;
@@ -39,6 +40,8 @@ public class Venenatis extends CommonCombatMethod {
         } else {
             meleeAttack(entity, target);
         }
+
+        //constructWeb(entity, target);
         return true;
     }
 
@@ -94,7 +97,7 @@ public class Venenatis extends CommonCombatMethod {
     private void drainPrayer(Entity npc, Entity target) {
         if (target.isPlayer()) {
             var tileDist = npc.tile().transform(3, 3, 0).distance(target.tile());
-            new Projectile(npc, target,171, 30,12 * tileDist,25, 25, 0, true).sendProjectile();
+            new Projectile(npc, target, 171, 30, 12 * tileDist, 25, 25, 0, true).sendProjectile();
             var player = target.getAsPlayer();
             var curpray = player.getSkills().level(Skills.PRAYER);
             var add = curpray / 5 + 1;
@@ -121,7 +124,7 @@ public class Venenatis extends CommonCombatMethod {
 
         p.send(entity, finalTile);
 
-        World.getWorld().tileGraphic(2361, finalTile, 0,p.getSpeed());
+        World.getWorld().tileGraphic(2361, finalTile, 0, p.getSpeed());
 
         var webTile = p.getTarget().copy();
 
@@ -211,7 +214,7 @@ public class Venenatis extends CommonCombatMethod {
         for (var t : weblist) {
             if (MovementQueue.dumbReachable(t.getX(), t.getY(), entity.tile())) {
                 gameObject.spawn();
-                GameObject finalGameObject = gameObject;
+        GameObject finalGameObject = gameObject;
                 Chain.noCtx().delay(20, () -> {
                     finalGameObject.remove();
                     weblist.clear();

@@ -150,10 +150,10 @@ public class RangedCombatMethod extends CommonCombatMethod {
             if (player.getEquipment().contains(ItemIdentifiers.DARK_BOW) || player.getEquipment().contains(ItemIdentifiers.DARK_BOW_BH)) {
                 if (drawbackBowDouble != null)
                     attacker.graphic(drawbackBowDouble.gfx, GraphicHeight.HIGH, 0);
-                int duration1 = (41 + 11 + (5 * distance));
-                int duration2 = (51 + 11 + (5 * distance));
-                Projectile p1 = new Projectile(attacker, target, graphic, 41, duration1, 41, 31, 16, target.getSize(), 5);
-                Projectile p2 = new Projectile(attacker, target, graphic, 51, duration2, 51, 41, 16, target.getSize(), 5);
+                int duration1 = 41 + 5 + (5 * distance);
+                int duration2 = 41 + 14 + (10 * distance);
+                Projectile p1 = new Projectile(attacker, target, graphic, 41, duration1, 40, 36, 5, target.getSize(), 5);
+                Projectile p2 = new Projectile(attacker, target, graphic, 41, duration2, 40, 36, 25, target.getSize(), 10);
                 final int d1 = attacker.executeProjectile(p1);
                 final int d2 = attacker.executeProjectile(p2);
                 Hit hit1 = Hit.builder(attacker, target, CombatFactory.calcDamageFromType(attacker, target, CombatType.RANGED), d1, CombatType.RANGED).checkAccuracy();

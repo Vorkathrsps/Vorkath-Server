@@ -13,6 +13,7 @@ public class Verac extends CommonCombatMethod {
     public void init(NPC npc) {
         npc.ignoreOccupiedTiles = true;
     }
+
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
 
@@ -27,9 +28,10 @@ public class Verac extends CommonCombatMethod {
         if (Utils.rollPercent(25)) {
             hit.setAccurate(true);
             hit.setDamage(hit.getDamage() + 1);
+            hit.submit();
+        } else {
+            hit.submit();
         }
-
-        hit.submit();
 
         return true;
     }

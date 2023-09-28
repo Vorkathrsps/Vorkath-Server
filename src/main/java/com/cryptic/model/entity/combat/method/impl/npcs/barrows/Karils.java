@@ -29,19 +29,19 @@ public class Karils extends CommonCombatMethod {
 
         var tileDist = entity.tile().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
-        Projectile p = new Projectile(entity, target, 27, 41, duration, 43, 31, 0, target.getSize(), 5);
+        Projectile p = new Projectile(entity, target, 27, 41, duration, 43, 31, 6, 1, 5);
         final int delay = entity.executeProjectile(p);
 
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
 
-        if (Utils.rollPercent(25)) {
-            if (hit.isAccurate()) {
+        hit.submit();
+
+        if (hit.isAccurate()) {
+            if (Utils.rollPercent(25)) {
                 taintedShot();
-                hit.submit();
             }
-        } else {
-            hit.submit();
         }
+
         return true;
     }
 

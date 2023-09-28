@@ -13,6 +13,7 @@ public class Dharok extends CommonCombatMethod {
     public void init(NPC npc) {
         npc.ignoreOccupiedTiles = true;
     }
+
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
 
@@ -26,9 +27,10 @@ public class Dharok extends CommonCombatMethod {
 
         if (Utils.rollDie(4)) {
             hit.damageModifier((int) (entity.getAsNpc().maxHp() - entity.getAsNpc().hp() * 0.01));
-        } else {
-            hit.submit();
         }
+
+        hit.submit();
+
         return true;
     }
 

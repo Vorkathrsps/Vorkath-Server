@@ -26,30 +26,35 @@ public class Ahrims extends CommonCombatMethod {
 
         entity.animate(entity.attackAnimation());
 
-        //var tileDist = entity.tile().transform(3, 3, 0).distance(target.tile());
-
         var tileDist = entity.tile().distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
-        Projectile p = new Projectile(entity, target, 156, 51, duration, 43, 31, 0, target.getSize(), 10);
+        Projectile p = new Projectile(entity, target, 156, 51, duration, 43, 31, 6, 1, 10);
         final int delay = entity.executeProjectile(p);
 
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
 
+        hit.submit();
+
         if (hit.isAccurate()) {
             if (Utils.rollPercent(20)) {
                 blightedAura();
-                hit.submit();
             }
         } else {
-            hit.submit();
+            target.graphic(85, GraphicHeight.MIDDLE, p.getSpeed());
         }
+
         return true;
     }
 
     private void blightedAura() {
+        var reduction = 5;
         if (target != null) {
             target.graphic(400, GraphicHeight.HIGH, 0);
-            target.getSkills().setLevel(Skills.STRENGTH, (target.getSkills().level(Skills.STRENGTH) - 5));
+            if (target.getSkills().level(Skills.STRENGTH) < reduction) {
+                target.getSkills().alterSkill(Skills.STRENGTH, 0);
+            } else {
+                target.getSkills().alterSkill(Skills.STRENGTH, (target.getSkills().level(Skills.STRENGTH) - 5));
+            }
         }
     }
 

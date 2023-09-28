@@ -13,6 +13,7 @@ public class Guthan extends CommonCombatMethod {
     public void init(NPC npc) {
         npc.ignoreOccupiedTiles = true;
     }
+
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         if (!withinDistance(1)) {

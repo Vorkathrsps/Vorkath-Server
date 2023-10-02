@@ -17,19 +17,31 @@ public class DragonWarhammer extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1378);
         entity.graphic(1292, GraphicHeight.LOW, 0);
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy();
         hit.submit();
 
         // Nerf a player's def if it's a player
         if (target.isPlayer()) {
             Player playerTarget = (Player) target;
-            playerTarget.getSkills().alterSkill(Skills.DEFENCE, (int) -(playerTarget.getSkills().level(Skills.DEFENCE) * 0.3));
+            if (hit.isAccurate()) {
+                playerTarget.getSkills().alterSkill(Skills.DEFENCE, (int) -(playerTarget.getSkills().level(Skills.DEFENCE) * 0.3));
+            } else {
+                playerTarget.getSkills().alterSkill(Skills.DEFENCE, (int) -(playerTarget.getSkills().level(Skills.DEFENCE) * 0.05));
+            }
         } else if (target.isNpc()) {
             NPC npcTarget = (NPC) target;
-            npcTarget.getCombatInfo().stats.defence = (int) Math.max(0, npcTarget.getCombatInfo().stats.defence - (npcTarget.getCombatInfo().stats.defence * 0.3));
+            int currentDefence = npcTarget.getCombatInfo().stats.defence;
+            System.out.println(currentDefence);
+            int newDefence;
+            if (hit.isAccurate()) {
+                npcTarget.getCombatInfo().stats.defence = (int) Math.max(0, npcTarget.getCombatInfo().stats.defence - (npcTarget.getCombatInfo().stats.defence * 0.3));
+            } else {
+                npcTarget.getCombatInfo().stats.defence = (int) Math.max(0, npcTarget.getCombatInfo().stats.defence - (npcTarget.getCombatInfo().stats.defence * 0.05));
+            }
         }
+
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_WARHAMMER.getDrainAmount());
-return true;
+        return true;
     }
 
     @Override

@@ -252,7 +252,7 @@ public class ScalarLootTable {
     }
 
 
-    static int random(Random random, int min, int max) {
+    static int random(SecureRandom random, int min, int max) {
         final int n = Math.abs(max - min);
         return Math.min(min, max) + (n == 0 ? 0 : random.nextInt(n + 1));
     }

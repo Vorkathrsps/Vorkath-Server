@@ -657,7 +657,7 @@ public class NPCDeath {
                                 Item finalReward = reward;
                                 World.getWorld().getPlayers().forEachInArea(new Area(2944, 4352, 3007, 4415), p -> {
                                     String amtString = finalReward.unnote().getAmount() == 1 ? finalReward.unnote().name() : "" + finalReward.getAmount() + " x " + finalReward.unnote().getAmount() + ".";
-                                    p.message("<col=0B610B>" + killer.getUsername() + " received a drop: " + amtString);
+                                    p.message("<img=2010><col=0B610B>" + " " + killer.getUsername() + " received a drop: " + amtString);
                                 });
                             }
                         }

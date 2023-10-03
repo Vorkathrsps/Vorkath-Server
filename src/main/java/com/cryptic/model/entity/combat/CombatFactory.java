@@ -304,6 +304,7 @@ public class CombatFactory {
                     }
                 }
             }
+
         }
 
         if (target instanceof Player player && target.isPlayer()) {
@@ -1720,6 +1721,9 @@ public class CombatFactory {
                             GroundItemHandler.createGroundItem(new GroundItem(new Item(ammo.getId(), 1), player.tile(), player));
                         } else {
                             if (!skipAmmo)
+                                if (World.getWorld().clipAt(player.getCombat().getTarget().tile()) != 0) {
+                                    return;
+                                }
                                 GroundItemHandler.createGroundItem(new GroundItem(new Item(ammo.getId(), 1), player.getCombat().getTarget().tile(), player));
                         }
                         if (weapon != null && Equipment.darkbow(weapon.getId())) {// support dropping 2nd arrow as well

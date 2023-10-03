@@ -254,9 +254,9 @@ public class Zulrah {
     private static void doMagicAttack(NPC npc, Entity target) {
         npc.animate(5069);
         var tileDist = npc.tile().distance(target.tile());
-        int duration = (51 + -5 + (10 * tileDist));
+        int duration = (40 + 50 + (5 * tileDist));
         var tile = npc.tile().translateAndCenterNpcPosition(npc, target);
-        Projectile p = new Projectile(tile, target, 1046, 51, duration, 65, 31, 0, target.getSize(), 10);
+        Projectile p = new Projectile(tile, target, 1046, 40, duration, 92, 12, 0, 5, 5);
         final int delay = npc.executeProjectile(p);
         target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
         target.venom(npc);
@@ -538,8 +538,8 @@ public class Zulrah {
         Area area = tile.transform(1, 1).area(1); // Center, 3x3
 
         var tileDist = npc.tile().distance(obj.tile());
-        int duration = (41 + 11 + (5 * tileDist));
-        new Projectile(npc.tile().transform(2, 2, 0), tile.transform(1, 1), 1045, 41, duration, 65, 0, 0, 0, 5).sendProjectile();
+        int duration = (40 + (5 * tileDist));
+        new Projectile(npc.tile().transform(2, 2, 0), tile.transform(1, 1), 1045, 40, duration, 92, 5, 10, 5, 5).sendProjectile();
 
         TaskManager.submit(new TickAndStop(delay) {
             @Override
@@ -572,7 +572,7 @@ public class Zulrah {
     }
 
     private static void createSnakeling(NPC npc, Tile tile, int delay, Entity target) {
-        new Projectile(npc.tile().transform(2, 2, 0), tile, 0, 1047, 12 + (16 * 6), 20, 65, 0, 10).sendProjectile();
+        new Projectile(npc.tile().transform(2, 2, 0), tile, 0, 1047, 12 + (16 * 6), 40, 92, 5, 0).sendProjectile();
 
         TaskManager.submit(new TickAndStop(delay) {
             @Override

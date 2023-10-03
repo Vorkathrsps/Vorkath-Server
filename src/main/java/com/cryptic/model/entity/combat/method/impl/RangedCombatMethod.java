@@ -54,6 +54,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
             int endHeight = 0;
             int startHeight = 0;
             int startSpeed = 0;
+            int curve = 0;
             var graphic = -1;
             var weaponId = player.getEquipment().getId(EquipSlot.WEAPON);
             var ammoId = player.getEquipment().getId(EquipSlot.AMMO);
@@ -74,6 +75,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                         startHeight = drawbackBow.startHeight;
                         endHeight = drawbackBow.endHeight;
                         stepMultiplier = drawbackBow.stepMultiplier;
+                        curve = 15;
                         duration = startSpeed + 5 + (stepMultiplier * distance);
                     }
                 }
@@ -85,6 +87,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                         startHeight = drawBackKnife.startHeight;
                         endHeight = drawBackKnife.endHeight;
                         stepMultiplier = drawBackKnife.stepMultiplier;
+                        curve = 15;
                         duration = startSpeed + 11 + (stepMultiplier * distance);
                     }
                 }
@@ -96,6 +99,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                         startHeight = boltDrawBack.startHeight;
                         endHeight = boltDrawBack.endHeight;
                         stepMultiplier = boltDrawBack.stepMultiplier;
+                        curve = 5;
                         duration = startSpeed + 11 + (stepMultiplier * distance);
                     }
                 }
@@ -106,6 +110,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                         startHeight = chinChompaDrawBack.startHeight;
                         endHeight = chinChompaDrawBack.endHeight;
                         stepMultiplier = chinChompaDrawBack.stepMultiplier;
+                        curve = 15;
                         duration = startSpeed + 11 + (stepMultiplier * distance);
                     }
                 }
@@ -121,6 +126,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                         startHeight = drawbackBow.startHeight;
                         endHeight = drawbackBow.endHeight;
                         stepMultiplier = drawbackBow.stepMultiplier;
+                        curve = 15;
                         duration = startSpeed + 11 + (stepMultiplier * distance);
                     }
                 }
@@ -132,6 +138,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                         startHeight = thrownDrawBack.startHeight;
                         endHeight = thrownDrawBack.endHeight;
                         stepMultiplier = thrownDrawBack.stepMultiplier;
+                        curve = 15;
                         duration = startSpeed + 11 + (stepMultiplier * distance);
                     }
                 }
@@ -142,6 +149,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                         startHeight = drawbackDart.startHeight;
                         endHeight = drawbackDart.endHeight;
                         stepMultiplier = drawbackDart.stepMultiplier;
+                        curve = 5;
                         duration = startSpeed + 11 + (stepMultiplier * distance);
                     }
                 }
@@ -152,8 +160,8 @@ public class RangedCombatMethod extends CommonCombatMethod {
                     attacker.graphic(drawbackBowDouble.gfx, GraphicHeight.HIGH, 0);
                 int duration1 = 41 + 5 + (5 * distance);
                 int duration2 = 41 + 14 + (10 * distance);
-                Projectile p1 = new Projectile(attacker, target, graphic, 41, duration1, 40, 36, 5, target.getSize(), 5);
-                Projectile p2 = new Projectile(attacker, target, graphic, 41, duration2, 40, 36, 25, target.getSize(), 10);
+                Projectile p1 = new Projectile(attacker, target, graphic, 41, duration1, 40, 36, 5, 1, 5);
+                Projectile p2 = new Projectile(attacker, target, graphic, 41, duration2, 40, 36, 25, 1, 10);
                 final int d1 = attacker.executeProjectile(p1);
                 final int d2 = attacker.executeProjectile(p2);
                 Hit hit1 = Hit.builder(attacker, target, CombatFactory.calcDamageFromType(attacker, target, CombatType.RANGED), d1, CombatType.RANGED).checkAccuracy();
@@ -161,16 +169,11 @@ public class RangedCombatMethod extends CommonCombatMethod {
                 hit1.submit();
                 hit2.submit();
             } else {
-                Projectile projectile = new Projectile(attacker, target, graphic, startSpeed, duration, startHeight, endHeight, 16, 1, stepMultiplier);
+                Projectile projectile = new Projectile(attacker, target, graphic, startSpeed, duration, startHeight, endHeight, curve, 1, stepMultiplier);
 
                 final int hitDelay = attacker.executeProjectile(projectile);
 
                 Hit hit = Hit.builder(attacker, target, CombatFactory.calcDamageFromType(attacker, target, CombatType.RANGED), hitDelay, CombatType.RANGED).checkAccuracy();
-                if (player.getCombat().getAttackType() == AttackType.BOLT || player.getCombat().getAttackType() == AttackType.ARROW) {
-                    if (hit.isAccurate()) {
-                        //TODO ammo effects
-                    }
-                }
 
                 hit.submit();
 

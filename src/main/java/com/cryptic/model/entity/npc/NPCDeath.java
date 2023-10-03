@@ -625,7 +625,7 @@ public class NPCDeath {
                     }
 
                     for (int i = 0; i < dropRolls; i++) {
-                        Item reward = table.randomItem(World.getWorld().random());
+                        Item reward = table.randomItem(World.getWorld().random(), killer.getDropRateBonus());
                         if (reward != null) {
                             if (doubleDropsLampActive) {
                                 if (rolledDoubleDrop) {
@@ -947,7 +947,7 @@ public class NPCDeath {
                     //Random drop from the table
                     ScalarLootTable table = ScalarLootTable.forNPC(npc.id());
                     if (table != null) {
-                        Item reward = table.randomItem(World.getWorld().random());
+                        Item reward = table.randomItem(World.getWorld().random(), player.getDropRateBonus());
                         if (reward != null) {
 
                             // bosses, find npc ID, find item ID
@@ -986,7 +986,7 @@ public class NPCDeath {
                     //Random drop from the table
                     ScalarLootTable table = ScalarLootTable.forNPC(npc.id());
                     if (table != null) {
-                        Item reward = table.randomItem(World.getWorld().random());
+                        Item reward = table.randomItem(World.getWorld().random(), player.getDropRateBonus());
                         if (reward != null) {
 
                             // bosses, find npc ID, find item ID

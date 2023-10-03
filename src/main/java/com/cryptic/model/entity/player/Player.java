@@ -179,7 +179,7 @@ public class Player extends Entity {
     }
 
     @Getter
-    private final Pet pet = new Pet(this);
+    private final Pet petEntity = new Pet(this);
 
     @Getter
     @Setter
@@ -375,39 +375,53 @@ public class Player extends Entity {
         return extraPercentageChance;
     }
 
-    public int dropRateBonus() {
+    public int getPetDamageBonus(int damage) {
+        int[] PETS = new int[]
+            {
+                NpcIdentifiers.CORPOREAL_CRITTER
+            };
+
+        if (this.getPetEntity() != null) {
+            if (this.getPetEntity().getPet() != null) {
+                var identification = this.getPetEntity().getPet().getId();
+                if (identification == PETS[0]) {
+                    damage += 15.0;
+                }
+            }
+        }
+        return damage;
+    }
+
+    public double getDropRateBonus() {
         var percent = switch (getMemberRights()) {
             case NONE -> 0;
-            case RUBY_MEMBER -> 1;
-            case SAPPHIRE_MEMBER -> 3;
-            case EMERALD_MEMBER -> 5;
-            case DIAMOND_MEMBER -> 7;
-            case DRAGONSTONE_MEMBER -> 9;
-            case ONYX_MEMBER -> 11;
-            case ZENYTE_MEMBER -> 13;
+            case RUBY_MEMBER -> 1.0;
+            case SAPPHIRE_MEMBER -> 3.0;
+            case EMERALD_MEMBER -> 5.0;
+            case DIAMOND_MEMBER -> 7.0;
+            case DRAGONSTONE_MEMBER -> 9.0;
+            case ONYX_MEMBER -> 11.0;
+            case ZENYTE_MEMBER -> 15.0;
         };
 
         if (getDropRatePerk()) {
-            percent += 3;
+            percent += 3.0;
         }
 
-        if (getIronManStatus() == IronMode.REGULAR || getIronManStatus() == IronMode.REGULAR) {
-            percent += 5;
+        if (getIronManStatus() == IronMode.REGULAR || getIronManStatus() == IronMode.HARDCORE) {
+            percent += 5.0;
+        }
+
+        if (this.getGameMode().equals(GameMode.REALISM)) {
+            percent += 5.0;
         }
 
         if (Skulling.skulled(player()) && player().tile.insideRevCave()) {
-            percent += 15;
+            percent += 15.0;
         }
 
         if (getEquipment().contains(RING_OF_WEALTH_I)) {
-            percent += 7;
-        }
-
-        var cap = 50;
-
-        //Drop rate percentage boost can't go over cap%
-        if (percent > cap) {
-            percent = cap;
+            percent += 5.0;
         }
 
         return percent;
@@ -1639,9 +1653,9 @@ public class Player extends Entity {
                 ClanManager.join(this, clanChat);
             }
 
-           // if (this.getPet() != null) {
+            // if (this.getPet() != null) {
             //    this.getPet().spawnOnLogin();
-          //  }
+            //  }
 
             //QuestTab.refreshInfoTab(this);
         }).then(1, () -> {
@@ -2521,8 +2535,10 @@ public class Player extends Entity {
     private final PresetManager presetManager = new PresetManager(this);
 
     // these can go into their own class later
-    @Getter public ItemContainer presetEquipment = new ItemContainer(EQUIPMENT_SIZE, ItemContainer.StackPolicy.STANDARD);
-    @Getter public ItemContainer presetInventory = new ItemContainer(INVENTORY_SIZE, ItemContainer.StackPolicy.STANDARD);
+    @Getter
+    public ItemContainer presetEquipment = new ItemContainer(EQUIPMENT_SIZE, ItemContainer.StackPolicy.STANDARD);
+    @Getter
+    public ItemContainer presetInventory = new ItemContainer(INVENTORY_SIZE, ItemContainer.StackPolicy.STANDARD);
 
     public final PresetManager getPresetManager() {
         return presetManager;

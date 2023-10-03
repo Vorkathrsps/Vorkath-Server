@@ -209,7 +209,7 @@ public class DropsDisplay {
         petId = dropTable.petItem == 0 ? -1 : dropTable.petItem;
         petAverage = dropTable.petRarity;
 
-        var reduction = petAverage * player.dropRateBonus() / 100;
+        var reduction = petAverage * player.getDropRateBonus() / 100;
         petAverage -= reduction;
 
         if (petId != -1)
@@ -270,7 +270,7 @@ public class DropsDisplay {
             int maxAmount = drop[2];
             int average = drop[3];
 
-            reduction = average * player.dropRateBonus() / 100;
+            reduction = average * player.getDropRateBonus() / 100;
             average -= reduction;
 
             int colorIndex;

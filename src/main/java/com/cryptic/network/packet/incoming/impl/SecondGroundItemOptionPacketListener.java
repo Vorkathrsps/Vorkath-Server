@@ -46,6 +46,7 @@ public class SecondGroundItemOptionPacketListener implements PacketListener {
             player.sendAccountPinMessage();
             return;
         }
+
         //Get ground item..
         Optional<GroundItem> item = GroundItemHandler.getGroundItem(itemId, tile, player);
 

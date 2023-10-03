@@ -805,7 +805,7 @@ public class CommandManager {
         {
             var t = ScalarLootTable.registered.get(Integer.parseInt(s[1]));
             var kills = Integer.parseInt(s[2]);
-            List<Item> simulate = t.simulate(new SecureRandom(), kills);
+            List<Item> simulate = t.simulate(new SecureRandom(), kills, p.getDropRateBonus());
             simulate.sort((o1, o2) -> {
                 int oo1 = kills / Math.max(1, o1.getAmount());
                 int oo2 = kills / Math.max(1, o2.getAmount());

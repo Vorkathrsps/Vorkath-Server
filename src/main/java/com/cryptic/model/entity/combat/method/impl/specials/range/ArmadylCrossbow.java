@@ -44,7 +44,7 @@ public class ArmadylCrossbow extends CommonCombatMethod {
             duration = startSpeed + 11 + (stepMultiplier * distance);
         }
 
-        Projectile projectile = new Projectile(entity, target, 301, startSpeed, duration, startHeight, endHeight, 0, target.getSize(), stepMultiplier);
+        Projectile projectile = new Projectile(entity, target, 301, startSpeed, duration, startHeight, endHeight, 5, 1, stepMultiplier);
 
         final int hitDelay = entity.executeProjectile(projectile);
 

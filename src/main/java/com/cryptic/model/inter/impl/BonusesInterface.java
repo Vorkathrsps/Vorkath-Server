@@ -42,7 +42,7 @@ public class BonusesInterface {
 
     public static void sendBonuses(Player player) {
         EquipmentInfo.Bonuses b = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo());
-        var dropRateBonus = player.dropRateBonus();
+        var dropRateBonus = player.getDropRateBonus();
 
         player.getPacketSender().sendString(1675, "Stab: " + plusify(b.stab));
         player.getPacketSender().sendString(1676, "Slash: " + plusify(b.slash));

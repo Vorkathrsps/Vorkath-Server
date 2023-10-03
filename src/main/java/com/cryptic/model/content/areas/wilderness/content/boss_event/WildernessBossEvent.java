@@ -131,7 +131,7 @@ public class WildernessBossEvent {
                 //Random drop from the table
                 ScalarLootTable table = ScalarLootTable.forNPC(npc.id());
                 if (table != null) {
-                    Item reward = table.randomItem(World.getWorld().random());
+                    Item reward = table.randomItem(World.getWorld().random(), player.getDropRateBonus());
                     if (reward != null) {
                         player.message("You received a drop roll from the table for dealing more then 100 damage!");
                         //System.out.println("Drop roll for "+player.getUsername()+" for killing world boss "+npc.def().name);

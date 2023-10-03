@@ -22,7 +22,7 @@ import java.util.Optional;
 @Getter
 public class Pet extends PacketInteraction {
     @Nonnull private final Player player;
-    @Nullable private NPC pet;
+    @Nullable public NPC pet;
     Animation ANIMATION = new Animation(827);
 
     public Pet(@Nonnull final Player player) {
@@ -35,10 +35,10 @@ public class Pet extends PacketInteraction {
     }
 
     public void clearSpawnedPet() {
-        if (player.getPet() != null && player.getPet().getPet() != null) {
+        if (player.getPetEntity() != null && player.getPetEntity().getPet() != null) {
             Optional<PetDefinitions> petDefinitions = Optional.ofNullable(PetDefinitions.getItemByPet(player.getAttribOr(AttributeKey.LAST_PET_ID, -1)));
             petDefinitions.ifPresent(definitions -> player.getInventory().add(definitions.getItem()));
-            World.getWorld().unregisterNpc(player.getPet().getPet());
+            World.getWorld().unregisterNpc(player.getPetEntity().getPet());
         }
     }
 
@@ -46,7 +46,7 @@ public class Pet extends PacketInteraction {
         Optional<PetDefinitions> petDefinitions = Optional.ofNullable(PetDefinitions.getPetByItem(item.getId()));
         if (petDefinitions.isPresent()) {
             player.animate(ANIMATION);
-            if (player.getPet().getPet() != null) {
+            if (player.getPetEntity().getPet() != null) {
                 clearSpawnedPet();
             }
             if (this.inventoryContainsItem(item)) {
@@ -62,31 +62,31 @@ public class Pet extends PacketInteraction {
     }
 
     public void follow() {
-        if (player.getPet().getPet() == null) {
+        if (player.getPetEntity().getPet() == null) {
             return;
         }
         Chain.noCtxRepeat().repeatingTask(1, t -> {
-            if (player.getPet().getPet() == null) {
+            if (player.getPetEntity().getPet() == null) {
                 t.stop();
                 return;
             }
-            if (player.isRegistered() && player.getPet().getPet().isRegistered()) {
+            if (player.isRegistered() && player.getPetEntity().getPet().isRegistered()) {
                 if (player.dead()) {
                     return;
                 }
-                if (!player.getPet().getPet().tile().isWithinDistance(player.tile(), 8)) {
-                    player.getPet().getPet().teleport(player.getAbsX(), player.getAbsY(), player.getZ());
+                if (!player.getPetEntity().getPet().tile().isWithinDistance(player.tile(), 8)) {
+                    player.getPetEntity().getPet().teleport(player.getAbsX(), player.getAbsY(), player.getZ());
                     return;
                 }
-                player.getPet().getPet().faceEntity(player);
+                player.getPetEntity().getPet().faceEntity(player);
                 int[] thisTick = {-1, -1};
-                DumbRoute.step(player.getPet().getPet(), player, 1);
-                thisTick[0] = player.getPet().getPet().getRouteFinder().routeEntity.finishX;
-                thisTick[1] = player.getPet().getPet().getRouteFinder().routeEntity.finishY;
-                player.getPet().getPet().getMovement().reset();
-                DumbRoute.step(player.getPet().getPet(), thisTick[0], thisTick[1]);
+                DumbRoute.step(player.getPetEntity().getPet(), player, 1);
+                thisTick[0] = player.getPetEntity().getPet().getRouteFinder().routeEntity.finishX;
+                thisTick[1] = player.getPetEntity().getPet().getRouteFinder().routeEntity.finishY;
+                player.getPetEntity().getPet().getMovement().reset();
+                DumbRoute.step(player.getPetEntity().getPet(), thisTick[0], thisTick[1]);
             } else {
-                player.getPet().getPet().remove();
+                player.getPetEntity().getPet().remove();
                 t.stop();
             }
         });
@@ -103,7 +103,7 @@ public class Pet extends PacketInteraction {
     }
 
     public void removeOnLogout() {
-        if (player.getPet().getPet() != null) {
+        if (player.getPetEntity().getPet() != null) {
             clearSpawnedPet();
         }
     }

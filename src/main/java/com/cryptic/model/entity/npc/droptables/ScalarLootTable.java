@@ -217,14 +217,15 @@ public class ScalarLootTable {
         return null;
     }
 
-    public Item randomItem(SecureRandom random) {
+    public Item randomItem(SecureRandom random, double dropRateModifier) {
 
         if (rndcap < 1) {
             return null;
         }
 
         int drop = random.nextInt(rndcap);
-        
+        drop = (int) (drop / dropRateModifier);
+
         if (items != null) {
             for (TableItem item : items) {
                 if (drop >= item.from && drop < item.from + item.points) {
@@ -241,7 +242,7 @@ public class ScalarLootTable {
         if (tables != null && tables.length > 0) {
             for (ScalarLootTable table : tables) {
                 if (drop >= table.from && drop < table.from + table.points) {
-                    return table.randomItem(random);
+                    return table.randomItem(random, drop);
                 }
             }
         }
@@ -258,12 +259,12 @@ public class ScalarLootTable {
         return guaranteed == null ? Collections.emptyList() : Arrays.asList(guaranteed);
     }
 
-    public List<Item> simulate(SecureRandom r, int samples) {
+    public List<Item> simulate(SecureRandom r, int samples, double dropRateModifier) {
         List<Item> list = new LinkedList<>();
         Map<Integer, Integer> state = new HashMap<>();
 
         for (int i = 0; i < samples; i++) {
-            Item random = randomItem(r);
+            Item random = randomItem(r, dropRateModifier);
             if (random != null)
                 state.compute(random.getId(), (key, value) -> value == null ? random.getAmount() : (value + random.getAmount()));
         }
@@ -328,7 +329,7 @@ public class ScalarLootTable {
 
         ScalarLootTable root = load(new File("./data/combat/" + file));
 
-        List<Item> simulate = root.simulate(rand, kills);
+        List<Item> simulate = root.simulate(rand, kills, 5.0);
         simulate.sort((o1, o2) -> {
             int oo1 = kills / Math.max(1, o1.getAmount());
             int oo2 = kills / Math.max(1, o2.getAmount());

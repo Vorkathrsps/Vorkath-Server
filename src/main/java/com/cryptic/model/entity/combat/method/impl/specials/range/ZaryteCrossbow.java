@@ -19,7 +19,7 @@ public class ZaryteCrossbow extends CommonCombatMethod {
         player.animate(9166);
 
         int duration = 41 + 11 + (5 * distance);
-        Projectile projectile = new Projectile(entity, target, 1995, 41, duration, 38, 36, 0, target.getSize(), 5);
+        Projectile projectile = new Projectile(entity, target, 1995, 41, duration, 38, 36, 5, 1, 5);
 
         final int hitDelay = entity.executeProjectile(projectile);
 

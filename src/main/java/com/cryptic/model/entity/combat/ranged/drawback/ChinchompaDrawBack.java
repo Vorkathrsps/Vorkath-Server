@@ -1,9 +1,9 @@
 package com.cryptic.model.entity.combat.ranged.drawback;
 
 public enum ChinchompaDrawBack {
-    CHINCHOMPA(10033, 157, 908,41,38,36, 5),
-    RED_CHINCHOMPA(10034, 157, 909,41,38,36, 5),
-    BLACK_CHINCHOMPA(11959, 157, 1272,41,38,36, 5);
+    CHINCHOMPA(10033, 157, 908,21,40,36, 5),
+    RED_CHINCHOMPA(10034, 157, 909,21,40,36, 5),
+    BLACK_CHINCHOMPA(11959, 157, 1272,21,40,36, 5);
 
     public final int id, gfx, projectile, startSpeed, startHeight, endHeight, stepMultiplier;
 

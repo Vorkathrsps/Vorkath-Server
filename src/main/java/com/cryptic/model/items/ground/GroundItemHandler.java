@@ -57,11 +57,16 @@ public final class GroundItemHandler {
      * @param id The ground item being checked
      */
     public static Optional<GroundItem> getGroundItem(int id, Tile tile, Player owner) {
-        return groundItems.stream().filter(item -> item.getItem().getId() == id
-            && item.getTile().getX() == tile.getX()
-            && item.getTile().getY() == tile.getY()
-            && (item.getState() == State.SEEN_BY_EVERYONE || item.getOwnerHash() == -1 || owner.getLongUsername() == item.getOwnerHash())
-        ).findFirst();
+        return groundItems
+            .stream()
+            .filter(item ->
+                item.getItem().getId() == id
+                    && item.getTile().getX() == tile.getX()
+                    && item.getTile().getY() == tile.getY()
+                    &&
+                    (item.getState() == State.SEEN_BY_EVERYONE
+                        || item.getOwnerHash() == -1
+                        || owner.getLongUsername() == item.getOwnerHash())).findFirst();
     }
 
     /**
@@ -325,7 +330,7 @@ public final class GroundItemHandler {
                     Item item = groundItem.getItem();
 
                     boolean lootingBagOpened = player.getLootingBag().lootbagOpen();
-                    if (player.tile().isWithinDistance(groundItem.getTile(),1)) {
+                    if (player.tile().isWithinDistance(groundItem.getTile(), 1)) {
                         // Add to looting bag if open.
                         if (lootingBagOpened && player.getLootingBag().deposit(item, item.getAmount(), groundItem)) {
                             sendRemoveGroundItem(groundItem);
@@ -358,7 +363,8 @@ public final class GroundItemHandler {
                                 stop();
                                 return;
                             }
-                        } {
+                        }
+                        {
 
                             boolean added = player.inventory().add(item);
                             if (!added) {
@@ -375,8 +381,8 @@ public final class GroundItemHandler {
                         // If we've made it here then it added to the inventory.
                         sendRemoveGroundItem(groundItem);
                         player.getRisk().update();
-                        pickupLogs.log(PICKUPS, "Player " + player.getUsername() + " picked up item " + item.getAmount() + "x " + item.unnote().name() + " (id " + item.getId() + ") at X: "+groundItem.getTile().x+" Y: "+groundItem.getTile().y);
-                        Utils.sendDiscordInfoLog("Player " + player.getUsername() + " picked up item " + item.getAmount() + "x " + item.unnote().name() + " (id " + item.getId() + ") at X: "+groundItem.getTile().x+" Y: "+groundItem.getTile().y, "pickups");
+                        pickupLogs.log(PICKUPS, "Player " + player.getUsername() + " picked up item " + item.getAmount() + "x " + item.unnote().name() + " (id " + item.getId() + ") at X: " + groundItem.getTile().x + " Y: " + groundItem.getTile().y);
+                        Utils.sendDiscordInfoLog("Player " + player.getUsername() + " picked up item " + item.getAmount() + "x " + item.unnote().name() + " (id " + item.getId() + ") at X: " + groundItem.getTile().x + " Y: " + groundItem.getTile().y, "pickups");
                         player.getInventory().refresh();
                         stop();
 

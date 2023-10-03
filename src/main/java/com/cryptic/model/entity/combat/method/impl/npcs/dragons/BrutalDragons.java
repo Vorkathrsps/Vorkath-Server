@@ -27,6 +27,10 @@ public class BrutalDragons extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
+        if (!withinDistance(1)) {
+            return false;
+        }
+
         if (withinDistance(1) && Utils.rollDie(5, 4))
             basicAttack(entity, target);
         else if (!fire && Utils.rollDie(2, 1))

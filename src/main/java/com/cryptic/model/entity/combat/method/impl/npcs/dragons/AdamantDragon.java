@@ -31,6 +31,10 @@ public class AdamantDragon extends CommonCombatMethod {
         var rand = Utils.random(4);
         NPC npc = (NPC) dragon;
 
+        if (!withinDistance(1)) {
+            return false;
+        }
+
         if (rand == 1) {
             doDragonBreath(npc, target, tileDist, delay);
         } else if (rand == 2) {

@@ -1,16 +1,19 @@
 package com.cryptic.model.entity.combat.method.impl.npcs.dragons;
 
+import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatConstants;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
+import com.cryptic.model.map.route.routes.DumbRoute;
 import com.cryptic.utility.Utils;
 
 public class BasicDragon extends CommonCombatMethod {
@@ -19,26 +22,45 @@ public class BasicDragon extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        if (!withinDistance(1))
+        if (!withinDistance(1)) {
+            System.out.println("true");
             return false;
-        if (!fire && Utils.rollDie(6, 1)) { // don't do dragon fire twice in a row
-            breathFire(entity, target);
-        } else {
-            basicAttack(entity, target);
         }
+
+        if (entity == null || target == null) {
+            return false;
+        }
+
+        if (withinDistance(1)) {
+            if (!fire && Utils.rollDie(6, 1)) {
+                breathFire(entity, target);
+            } else {
+                basicAttack(entity, target);
+            }
+        }
+
         return true;
     }
 
     private void basicAttack(Entity entity, Entity target) {
-        fire = false;
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
+        if (!withinDistance(1)) {
+            return;
+        }
+
         entity.animate(entity.attackAnimation());
+
+        fire = false;
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy().submit();
     }
 
     private void breathFire(Entity entity, Entity target) {
         fire = true;
-        if(target instanceof Player) {
-            Player player = (Player) target;
+
+        if (World.getWorld().clipAt(entity.tile()) != 0) {
+            return;
+        }
+
+        if (target instanceof Player player) {
             double max = 50.0;
             int antifire_charges = player.getAttribOr(AttributeKey.ANTIFIRE_POTION, 0);
             boolean hasShield = CombatConstants.hasAntiFireShield(player);
@@ -80,6 +102,11 @@ public class BasicDragon extends CommonCombatMethod {
             entity.animate(81);
             entity.graphic(1, GraphicHeight.HIGH, 0);
         }
+    }
+
+    @Override
+    public void doFollowLogic() {
+        follow(1);
     }
 
     @Override

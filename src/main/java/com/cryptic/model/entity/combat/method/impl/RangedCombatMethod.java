@@ -44,9 +44,12 @@ public class RangedCombatMethod extends CommonCombatMethod {
         if (attacker.isPlayer()) {
             Player player = attacker.getAsPlayer();
 
-            CombatFactory.decrementAmmo(player);
-
             WeaponType weaponType = player.getCombat().getWeaponType();
+
+            if (player.getCombat().getWeaponType() == null) {
+                return false;
+            }
+
             RangedData.RangedWeaponType weaponTypeSpecial = player.getCombat().getRangedWeapon().getType();
             int duration = 0;
             int stepMultiplier = 0;
@@ -193,6 +196,9 @@ public class RangedCombatMethod extends CommonCombatMethod {
                     }
                 }
             }
+
+            CombatFactory.decrementAmmo(player);
+
         }
         return true;
     }
@@ -244,7 +250,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                     continue;
                 }
             }
-            if (!CombatFactory.canAttack(source,this, targ)) { // Validate they're in an attackable location
+            if (!CombatFactory.canAttack(source, this, targ)) { // Validate they're in an attackable location
                 continue;
             }
 

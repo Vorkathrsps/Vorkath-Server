@@ -42,6 +42,7 @@ public class FormulaUtils {
     }
 
     static int[] undeadNpcs = new int[]{NpcIdentifiers.ABERRANT_SPECTRE, NpcIdentifiers.ABHORRENT_SPECTRE, NpcIdentifiers.ANKOU, NpcIdentifiers.ANKOU_2515, NpcIdentifiers.ANKOU_2516, NpcIdentifiers.ANKOU_2517, NpcIdentifiers.ANKOU_2518, NpcIdentifiers.ANKOU_2519, NpcIdentifiers.ANKOU_2516, NpcIdentifiers.ASYN_SHADE, NpcIdentifiers.ASYN_SHADOW, NpcIdentifiers.ASYN_SHADOW_5632, NpcIdentifiers.BANSHEE, NpcIdentifiers.VETION, NpcIdentifiers.VETION_REBORN, NpcIdentifiers.CRAWLING_HAND, NpcIdentifiers.CRAWLING_HAND_449, NpcIdentifiers.CRAWLING_HAND_448, NpcIdentifiers.CRAWLING_HAND_451, NpcIdentifiers.CRAWLING_HAND_453, NpcIdentifiers.CRAWLING_HAND_452, NpcIdentifiers.CRUSHING_HAND, NpcIdentifiers.DARK_ANKOU, NpcIdentifiers.DEVIANT_SPECTRE, NpcIdentifiers.FIYR_SHADE, NpcIdentifiers.FIYR_SHADOW, NpcIdentifiers.FORGOTTEN_SOUL, NpcIdentifiers.FORGOTTEN_SOUL_10524, NpcIdentifiers.FORGOTTEN_SOUL_10526, NpcIdentifiers.FORGOTTEN_SOUL_10525, NpcIdentifiers.GHOST, NpcIdentifiers.GHOST_86, NpcIdentifiers.GHOST_87, NpcIdentifiers.GHOST_88, NpcIdentifiers.GHOST_89, NpcIdentifiers.GHOST_90, NpcIdentifiers.GHOST_91, NpcIdentifiers.GHOST_92, NpcIdentifiers.GHOST_93, NpcIdentifiers.GIANT_SKELETON, NpcIdentifiers.GIANT_SKELETON_681, NpcIdentifiers.GIANT_SKELETON_6440, NpcIdentifiers.HEADLESS_BEAST, NpcIdentifiers.HEADLESS_BEAST_10506, NpcIdentifiers.HEADLESS_BEAST_HARD, NpcIdentifiers.LOAR_SHADE, NpcIdentifiers.LOAR_SHADOW, NpcIdentifiers.MONKEY_ZOMBIE, NpcIdentifiers.MONKEY_ZOMBIE_5283, NpcIdentifiers.MONKEY_ZOMBIE_5282, NpcIdentifiers.MUMMY, NpcIdentifiers.MUMMY_721, NpcIdentifiers.MUMMY_722, NpcIdentifiers.MUMMY_723, NpcIdentifiers.MUMMY_724, NpcIdentifiers.MUMMY_725, NpcIdentifiers.PESTILENT_BLOAT, NpcIdentifiers.PESTILENT_BLOAT_10812, NpcIdentifiers.PESTILENT_BLOAT_11184, NpcIdentifiers.PESTILENT_BLOAT_10813, NpcIdentifiers.PHRIN_SHADE, NpcIdentifiers.PHRIN_SHADOW, NpcIdentifiers.REPUGNANT_SPECTRE, NpcIdentifiers.REVENANT_CYCLOPS, NpcIdentifiers.REVENANT_DARK_BEAST, NpcIdentifiers.REVENANT_DEMON, NpcIdentifiers.REVENANT_DRAGON, NpcIdentifiers.REVENANT_GOBLIN, NpcIdentifiers.REVENANT_HELLHOUND, NpcIdentifiers.REVENANT_HOBGOBLIN, NpcIdentifiers.REVENANT_IMP, NpcIdentifiers.REVENANT_KNIGHT, NpcIdentifiers.REVENANT_MALEDICTUS, NpcIdentifiers.REVENANT_ORK, NpcIdentifiers.REVENANT_PYREFIEND, NpcIdentifiers.SKELETAL_MYSTIC, NpcIdentifiers.SKELETAL_MYSTIC_7605, NpcIdentifiers.SKELETAL_MYSTIC_7605, NpcIdentifiers.SKELETON_HELLHOUND, NpcIdentifiers.SKELETON_HELLHOUND_6387, NpcIdentifiers.SKELETON_HELLHOUND_6613, NpcIdentifiers.SKELETON_MAGE, NpcIdentifiers.SKELETON_MAGE_4312, NpcIdentifiers.SKELETON_MAGE_4318, NpcIdentifiers.SLASH_BASH, NpcIdentifiers.TARN, NpcIdentifiers.MUTANT_TARN, NpcIdentifiers.TARN_6476, NpcIdentifiers.UNDEAD_DRUID, NpcIdentifiers.ULFRIC, NpcIdentifiers.VORKATH, NpcIdentifiers.VORKATH_8059, NpcIdentifiers.VORKATH_8060, NpcIdentifiers.VORKATH_8061, NpcIdentifiers.VORKATH_8058, NpcIdentifiers.ZOMBIFIED_SPAWN, NpcIdentifiers.ZOMBIFIED_SPAWN_8063};
+
     public static boolean isUndead(Entity target) {
         if (target.isNpc()) {
             NPC npc = target.getAsNpc();
@@ -151,16 +152,27 @@ public class FormulaUtils {
 
     public static boolean wearingSpearsOrHalberds(Player player) {
         return player.getEquipment().containsAny(
-            ItemIdentifiers.VESTAS_SPEAR, ItemIdentifiers.LEAFBLADED_SPEAR,
-            ItemIdentifiers.GUTHANS_WARSPEAR, ItemIdentifiers.ZAMORAKIAN_SPEAR,
-            ItemIdentifiers.ZAMORAKIAN_HASTA, ItemIdentifiers.OSMUMTENS_FANG,
-            ItemIdentifiers.OSMUMTENS_FANG_OR, ItemIdentifiers.CRYSTAL_HALBERD,
-            ItemIdentifiers.CRYSTAL_HALBERD_FULL, ItemIdentifiers.NEW_CRYSTAL_HALBERD_FULL, ItemIdentifiers.DRAGON_HALBERD);
+            VESTAS_SPEAR, LEAFBLADED_SPEAR,
+            GUTHANS_WARSPEAR, ZAMORAKIAN_SPEAR,
+            ZAMORAKIAN_HASTA, OSMUMTENS_FANG,
+            OSMUMTENS_FANG_OR, CRYSTAL_HALBERD,
+            CRYSTAL_HALBERD_FULL, NEW_CRYSTAL_HALBERD_FULL,
+            DRAGON_HALBERD, DRAGON_DAGGER, DRAGON_DAGGERP,
+            DRAGON_DAGGERP_5680, DRAGON_DAGGER_20407,
+            DRAGON_DAGGERP_5698, ABYSSAL_DAGGER,
+            ABYSSAL_DAGGER_P_13271, ABYSSAL_DAGGER_P_13269,
+            ABYSSAL_DAGGER_BH, ABYSSAL_DAGGER_BHP,
+            ABYSSAL_DAGGER_BHP_27867, ABYSSAL_DAGGER_BHP_27865);
     }
 
     public static boolean isWearingPoisonEquipmentOrWeapon(Player player) { //add any extra poison weapons here
         return player.getEquipment().containsAny(
-            SERPENTINE_HELM, MAGMA_HELM, TANZANITE_HELM, TOXIC_BLOWPIPE, DRAGON_DAGGERP, DRAGON_DAGGERP_5680, DRAGON_DAGGER_20407);
+            SERPENTINE_HELM, MAGMA_HELM,
+            TANZANITE_HELM, TOXIC_BLOWPIPE,
+            DRAGON_DAGGERP, DRAGON_DAGGERP_5680,
+            ABYSSAL_DAGGER_BHP, ABYSSAL_DAGGER_P,
+            ABYSSAL_DAGGER_BHP_27867, ABYSSAL_DAGGER_BHP_27865,
+            ABYSSAL_TENTACLE, EMERALD_BOLTS_E, EMERALD_DRAGON_BOLTS_E);
     }
 
     public static boolean isWearingDamageReductionStaff(Player player) {

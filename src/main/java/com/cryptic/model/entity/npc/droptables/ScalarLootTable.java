@@ -218,22 +218,22 @@ public class ScalarLootTable {
     }
 
     public Item randomItem(SecureRandom random, double dropRateModifier) {
-
         if (rndcap < 1) {
             return null;
         }
 
         int drop = random.nextInt(rndcap);
-        drop = (int) (drop / dropRateModifier);
 
+        if (dropRateModifier > 0) {
+            drop = (int) (drop / dropRateModifier);
+        }
+
+        // Check items
         if (items != null) {
             for (TableItem item : items) {
                 if (drop >= item.from && drop < item.from + item.points) {
-                    if (item.min == 0) {
-                        return new Item(item.id, item.amount);
-                    } else {
-                        return new Item(item.id, random(random, item.min, item.max));
-                    }
+                    int amount = (item.min == 0) ? item.amount : random(random, item.min, item.max);
+                    return new Item(item.id, amount);
                 }
             }
         }
@@ -241,6 +241,7 @@ public class ScalarLootTable {
         // Try a table now
         if (tables != null && tables.length > 0) {
             for (ScalarLootTable table : tables) {
+                System.out.println("drop rate: " + drop);
                 if (drop >= table.from && drop < table.from + table.points) {
                     return table.randomItem(random, drop);
                 }
@@ -249,6 +250,7 @@ public class ScalarLootTable {
 
         return null;
     }
+
 
     static int random(Random random, int min, int max) {
         final int n = Math.abs(max - min);

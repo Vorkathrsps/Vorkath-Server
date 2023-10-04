@@ -29,6 +29,7 @@ import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
+import com.google.common.primitives.Booleans;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -75,6 +76,11 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
 
         if (player.getInstancedArea() == null || nightmare.getId() != NpcIdentifiers.THE_NIGHTMARE_9430) {
             return;
+        }
+
+        BooleanSupplier isEmpty = player.getNightmareInstance().getHusks()::isEmpty;
+        if (!player.getNightmareInstance().getHusks().isEmpty()) {
+            player.waitUntil(isEmpty, () -> player.getMovement().setBlockMovement(false));
         }
 
         AshihamaState currentState = this.getAshihamaState();
@@ -186,7 +192,6 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
         if (attackCount >= Utils.random(7, 12)) {
             attackCount = 0;
             sequenceSpecialAttack(nightmare, target);
-            target.forceChat("special incoming");
         } else {
             sequenceNormalCombat(nightmare, target);
         }
@@ -308,9 +313,7 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
                     target.hit(nightmare, World.getWorld().random(50));
                 }
             }
-        }).then(1, () -> {
-            tiles.clear();
-        });
+        }).then(1, () -> tiles.clear());
 
         usedTiles.clear();
     }
@@ -387,8 +390,8 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
 
         nightmare.animate(8600);
 
-        Tile t1 = target.tile().copy();
-        Tile t2 = target.tile().copy();
+        Tile t1 = target.tile().transform(0, 1).copy();
+        Tile t2 = target.tile().transform(0, -1).copy();
 
         var distanceTo = nightmare.tile().distance(target.tile());
 
@@ -396,13 +399,16 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
 
         Projectile projectileOne = new Projectile(nightmare, t1.transform(0, 1), 1781, 80, duration, 90, 0, 0, 4, 10);
         projectileOne.send(nightmare, t1);
-        Projectile projectileTwo = new Projectile(nightmare, t2.transform(0,-1), 1781, 80, duration, 90, 0, 0, 4, 10);
+        Projectile projectileTwo = new Projectile(nightmare, t2.transform(0, -1), 1781, 80, duration, 90, 0, 0, 4, 10);
         projectileTwo.send(nightmare, t2);
+
+        player.getMovement().setBlockMovement(true);
 
         Chain.noCtx().runFn(projectileOne.getSpeed() / 30 + 1, () -> {
             createHusk(new NPC(9454, new Tile(target.tile().getX(), target.tile().getY() + 1, target.tile().getZ())), target);
             createHusk(new NPC(9454, new Tile(target.tile().getX(), target.tile().getY() - 1, target.tile().getZ())), target);
         }).then(1, () -> this.setSpawningHusks(false));
+
     }
 
     private void createHusk(NPC husk, Entity target) {

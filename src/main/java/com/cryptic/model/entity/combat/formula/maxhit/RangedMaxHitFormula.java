@@ -23,9 +23,6 @@ import static com.cryptic.utility.ItemIdentifiers.*;
  * @Date: 6/30/2023
  */
 public class RangedMaxHitFormula {
-    public RangedMaxHitFormula() {
-
-    }
 
     public int calculateMaximumHit(@NonNull final Player player, boolean isSpecialActivated) {
         double specialMultiplier = player.getCombatSpecial() == null ? 0 : player.getCombatSpecial().getSpecialMultiplier();

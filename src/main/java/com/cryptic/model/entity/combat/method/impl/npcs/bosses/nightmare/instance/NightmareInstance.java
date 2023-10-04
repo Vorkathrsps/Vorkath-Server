@@ -31,7 +31,6 @@ public class NightmareInstance extends NightmareArea {
         this.owner = owner;
         this.players = players;
     }
-
     public void join(Player member) {
         if (owner == null) {
             return;

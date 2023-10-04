@@ -1688,6 +1688,7 @@ public abstract class Entity {
     public void teleport(Tile teleportTarget) {
 
         if (isPlayer() && !getAsPlayer().getInterfaceManager().isClear()) {
+            getAsPlayer().getInterfaceManager().removeOverlay();
             getAsPlayer().getInterfaceManager().close(false);
         }
 
@@ -1719,6 +1720,7 @@ public abstract class Entity {
         if (isPlayer()) {
             getAsPlayer().getAsPlayer().getMovementQueue().handleRegionChange();
         }
+
         getMovementQueue().clear();
 
         getMovementQueue().lastFollowX = teleportTarget.x;

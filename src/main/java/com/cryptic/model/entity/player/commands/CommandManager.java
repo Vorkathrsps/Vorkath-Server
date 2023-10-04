@@ -673,15 +673,11 @@ public class CommandManager {
             ((GreatOlm) olm.getCombatMethod()).crystalMark(olm);
         });
         dev("olm4", (p, c, s) -> {
-            final Area NIGHTMARE_ROOM = new Area(3863, 9942,3881, 9660);
-
 
         });
         dev("c", (p, c, s) -> {
             List<Player> players = new ArrayList<>();
-            NightmareInstance nightmareInstance = new NightmareInstance(p, players, new NightmareArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, NightmareInstance.room()));
-            nightmareInstance.build(p);
-
+            p.setNightmareInstance(new NightmareInstance(p, players).build(p));
         });
 
         dev("ioi", (p, c, s) -> {

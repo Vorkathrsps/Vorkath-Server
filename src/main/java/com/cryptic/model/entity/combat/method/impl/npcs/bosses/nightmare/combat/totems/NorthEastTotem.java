@@ -5,16 +5,12 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.Ashihama;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.state.AshihamaState;
 import com.cryptic.model.entity.npc.NPC;
 import lombok.Getter;
 import lombok.Setter;
 
 public class NorthEastTotem extends CommonCombatMethod {
-    @Getter
-    @Setter
-    int damageCount = 0;
+    @Getter @Setter int damageCount = 0;
     @Override
     public void init(NPC npc) {
         npc.noRetaliation(true);
@@ -49,8 +45,17 @@ public class NorthEastTotem extends CommonCombatMethod {
     public boolean customOnDeath(Hit hit) {
         var player = hit.getAttacker().getAsPlayer();
         var totem = (NPC) this.entity;
+
+        if (player == null || totem == null) {
+            return false;
+        }
+
+        var totems = player.getNightmareInstance().getTotems();
+
+        totems.remove(totem);
+
         setDamageCount(0);
-        Ashihama.totems.remove(totem);
+
         totem.transmog(9445);
         totem.setCombatInfo(World.getWorld().combatInfo(9445));
         totem.setHitpoints(totem.maxHp());

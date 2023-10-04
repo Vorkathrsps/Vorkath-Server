@@ -43,10 +43,6 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
     AtomicInteger cursedCount = new AtomicInteger();
     AtomicBoolean cursed = new AtomicBoolean(false);
     AtomicInteger sleepWalkerDamage = new AtomicInteger(5);
-    @Getter
-    public static List<NPC> husks = new ArrayList<>();
-    @Getter
-    public static List<NPC> totems = new ArrayList<>();
     List<Tile> tiles = new ArrayList<>();
     @Getter
     List<NPC> sleepWalkers = new ArrayList<>();
@@ -84,6 +80,8 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
         AshihamaState currentState = this.getAshihamaState();
         AtomicInteger delay = new AtomicInteger();
         BooleanSupplier middleTile = () -> nightmare.tile().equals(3870, 9949);
+
+        var totems = player.getNightmareInstance().getTotems();
 
         if (currentState == AshihamaState.TOTEM && totems.isEmpty()) {
             this.setAshihamaState(AshihamaState.NO_SHIELD);
@@ -199,6 +197,8 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
     void sequenceSpecialAttack(NPC nightmare, Entity target) {
         Random rand = new Random();
         int randomValue = rand.nextInt(4);
+        Player player = (Player) target;
+        var husks = player.getNightmareInstance().getHusks();
 
         nightmare.face(target);
 
@@ -368,11 +368,14 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
     }
 
     private void spawnHusk(NPC nightmare, Entity target) {
-        if (nightmare == null || target == null) {
+        Player player = (Player) target;
+        var husks = player.getNightmareInstance().getHusks();
+
+        if (nightmare == null) {
             return;
         }
 
-        if (getHusks().size() == 2) {
+        if (husks.size() == 2) {
             return;
         }
 
@@ -403,9 +406,8 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
     }
 
     private void createHusk(NPC husk, Entity target) {
-        if (target == null) {
-            return;
-        }
+        Player player = (Player) target;
+        var husks = player.getNightmareInstance().getHusks();
 
         husks.add(husk);
 
@@ -429,7 +431,7 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
 
         BooleanSupplier removeFromList = husk::dead;
 
-        husk.waitUntil(removeFromList, () -> getHusks().remove(husk));
+        husk.waitUntil(removeFromList, () -> husks.remove(husk));
     }
 
     private void magicAttack(NPC nightmare, Entity target) {
@@ -529,6 +531,7 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
     public boolean customOnDeath(Hit hit) {
         NPC nightmare = (NPC) this.entity;
         Player player = (Player) this.target;
+        var totems = player.getNightmareInstance().getTotems();
 
         if (this.getAshihamaPhase().equals(AshihamaPhase.ONE)) {
 

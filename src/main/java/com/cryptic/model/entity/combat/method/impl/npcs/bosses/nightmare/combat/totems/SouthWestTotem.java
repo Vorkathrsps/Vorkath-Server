@@ -57,8 +57,16 @@ public class SouthWestTotem extends CommonCombatMethod {
     public boolean customOnDeath(Hit hit) {
         var player = hit.getAttacker().getAsPlayer();
         var totem = (NPC) this.entity;
+
+        if (player == null || totem == null) {
+            return false;
+        }
+
+        var totems = player.getNightmareInstance().getTotems();
+
+        totems.remove(totem);
+
         setDamageCount(0);
-        Ashihama.getTotems().remove(totem);
         totem.transmog(9436);
         totem.setCombatInfo(World.getWorld().combatInfo(9436));
         totem.setHitpoints(totem.maxHp());

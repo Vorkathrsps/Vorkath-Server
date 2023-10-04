@@ -5,7 +5,6 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.Ashihama;
 import com.cryptic.model.entity.npc.NPC;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,8 +47,16 @@ public class SouthEastTotem extends CommonCombatMethod {
     public boolean customOnDeath(Hit hit) {
         var player = hit.getAttacker().getAsPlayer();
         var totem = (NPC) this.entity;
+
+        if (player == null || totem == null) {
+            return false;
+        }
+
+        var totems = player.getNightmareInstance().getTotems();
+
+        totems.remove(totem);
+
         setDamageCount(0);
-        Ashihama.getTotems().remove(totem);
         totem.transmog(9439);
         totem.setCombatInfo(World.getWorld().combatInfo(9439));
         totem.setHitpoints(totem.maxHp());

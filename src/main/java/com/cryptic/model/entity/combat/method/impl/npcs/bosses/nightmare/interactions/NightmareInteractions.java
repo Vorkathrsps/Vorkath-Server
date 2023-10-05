@@ -75,6 +75,12 @@ public class NightmareInteractions extends PacketInteraction {
                                         return false;
                                     }
 
+                                    if (!target.get().getNightmareInstance().isJoinable()) {
+                                        player.message(Color.DARK_RED.wrap("You can no longer join this instance."));
+                                        stop();
+                                        return false;
+                                    }
+
                                     player.setNightmareInstance(target.get().getNightmareInstance());
                                     player.getNightmareInstance().join(player);
                                     player.getInterfaceManager().closeDialogue();

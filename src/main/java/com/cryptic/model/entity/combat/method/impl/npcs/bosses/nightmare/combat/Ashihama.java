@@ -278,6 +278,7 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
     }
 
     private void graspingClaws(NPC nightmare, Entity target) {
+        Player player = (Player) target;
         if (nightmare == null || target == null) {
             return;
         }
@@ -300,6 +301,10 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
 
         numTiles = Math.min(numTiles, tiles.size());
 
+        if (!player.getNightmareInstance().getHusks().isEmpty()) {
+            tiles.remove(player.tile());
+        }
+
         for (int i = 0; i < numTiles; i++) {
             Tile t = tiles.get(i);
             if (!usedTiles.contains(t)) {
@@ -309,17 +314,20 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
         }
 
         Chain.noCtx().runFn(6, () -> {
-            for (var t : tiles) {
-                if (target.tile().equals(t.getX(), t.getY(), t.getZ())) {
-                    target.hit(nightmare, World.getWorld().random(50));
+            for (var t : usedTiles) {
+                if (player.tile().equals(t.getX(), t.getY(), t.getZ())) {
+                    player.forceChat("success");
+                    player.hit(nightmare, World.getWorld().random(50));
                 }
             }
-        }).then(1, () -> tiles.clear());
+        }).then(1, () -> {
+            tiles.clear();
+            usedTiles.clear();
+        });
 
-        usedTiles.clear();
     }
 
-    private void spawnSleepWalker(NPC nightmare, Entity target) {
+    private void spawnSleepWalker(NPC nightmare, Entity target) { //TODO make it so venom doesnt constantly stay attached to pillars & nightmare
         var player = (Player) target;
 
         if (nightmare == null || target == null) {

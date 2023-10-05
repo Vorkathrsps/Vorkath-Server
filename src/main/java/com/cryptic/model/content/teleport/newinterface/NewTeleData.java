@@ -55,7 +55,7 @@ public enum NewTeleData {
 
     BARRELCHEST(new Tile(3287, 3884), "Barrelchest", "@red@Dangerous Teleport Level:46 Multi-combat Wilderness", BOSSING, MEDIUM),
     WORLD_BOSS(new Tile(1,1), "Wilderness Event Boss", "@red@This teleport has different wilderness locations BEWARE!", BOSSING, MEDIUM),
-    NIGHTMARE(new Tile(3808, 9752, 1), "", "The Nightmare", BOSSING, MEDIUM),
+    NIGHTMARE(new Tile(3808, 9752, 1), "The Nightmare", "", BOSSING, MEDIUM),
     CERBERUS(new Tile(1315, 1251), "Cerberus", "", BOSSING, MEDIUM),
     CORP_BEAST(new Tile(2969, 4382, 2), "Corporal Beast", "", BOSSING, MEDIUM),
     DAGG_KINGS(new Tile(1912, 4367), "Dagannoth Kings", "", BOSSING, MEDIUM),

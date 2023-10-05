@@ -81,8 +81,7 @@ public class NightmareInteractions extends PacketInteraction {
                                         return false;
                                     }
 
-                                    player.setNightmareInstance(target.get().getNightmareInstance());
-                                    player.getNightmareInstance().join(player);
+                                    player.setNightmareInstance(target.get().getNightmareInstance().join(player));
                                     player.getInterfaceManager().closeDialogue();
                                     stop();
                                     return true;

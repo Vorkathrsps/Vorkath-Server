@@ -5,7 +5,6 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.Ashihama;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.instance.NightmareInstance;
 import com.cryptic.model.entity.npc.NPC;
 import lombok.Getter;

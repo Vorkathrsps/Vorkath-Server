@@ -3,7 +3,7 @@ package com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.instan
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.model.World;
 import com.cryptic.model.content.instance.InstanceConfiguration;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.Ashihama;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.Nightmare;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Area;
@@ -38,23 +38,25 @@ public class NightmareInstance extends NightmareArea {
         this.players = players;
     }
 
-    public void join(Player member) {
+    public NightmareInstance join(Player member) {
         if (owner == null) {
-            return;
+            return null;
         }
 
         if (!this.isJoinable()) {
-            return;
+            return null;
         }
 
         member.setInstance(owner.getNightmareInstance());
         member.teleport(new Tile(3872, 9958, owner.getNightmareInstance().getzLevel() + 3));
         addPlayerToList(member);
+        return this;
     }
 
     public NightmareInstance build() {
 
         NPC nightmare = new NPC(9432, new Tile(3870, 9949, this.getzLevel() + 3)).spawn(false);
+        nightmare.noRetaliation(true);
         World.getWorld().definitions().get(NpcDefinition.class, nightmare.id());
         nightmare.setInstance(this);
 
@@ -85,7 +87,7 @@ public class NightmareInstance extends NightmareArea {
             nightmare.transmog(9425);
             nightmare.setCombatInfo(World.getWorld().combatInfo(9430));
             nightmare.setHitpoints(nightmare.maxHp());
-            nightmare.setCombatMethod(new Ashihama());
+            nightmare.setCombatMethod(new Nightmare());
             this.getPlayers().stream().findAny().ifPresent(p -> nightmare.getCombat().setTarget(p));
         });
 

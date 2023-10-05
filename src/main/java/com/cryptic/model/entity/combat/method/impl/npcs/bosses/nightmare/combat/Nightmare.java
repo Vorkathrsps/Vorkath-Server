@@ -1,7 +1,6 @@
 package com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat;
 
 import com.cryptic.cache.definitions.NpcDefinition;
-import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.core.task.Task;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
@@ -25,12 +24,10 @@ import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
-import com.google.common.primitives.Booleans;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,7 +39,7 @@ import java.util.function.BooleanSupplier;
 import static com.cryptic.model.entity.attributes.AttributeKey.NIGHTMARE_CURSE;
 import static com.cryptic.model.entity.attributes.AttributeKey.NO_MOVEMENT_NIGHTMARE;
 
-public class Ashihama extends CommonCombatMethod { //TODO increase max hit based on wrong protection prayer
+public class Nightmare extends CommonCombatMethod { //TODO increase max hit based on wrong protection prayer
     AtomicInteger cursedCount = new AtomicInteger();
     AtomicBoolean cursed = new AtomicBoolean(false);
     AtomicInteger sleepWalkerDamage = new AtomicInteger(5);
@@ -171,6 +168,12 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
             hit.block();
         }
 
+        if (attackCount >= Utils.random(4, 6)) {
+            var randomTarget = Utils.randomElement(player.getNightmareInstance().getPlayers());
+            nightmare.face(randomTarget);
+            nightmare.getCombat().setTarget(randomTarget);
+        }
+
     }
 
     @Override
@@ -210,13 +213,13 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
         nightmare.face(target);
 
         switch (randomValue) {
-            case 1 -> graspingClaws(nightmare, target);
+            case 1 -> graspingClaws(nightmare, player);
             case 2 -> {
                 if (!this.getAshihamaPhase().equals(AshihamaPhase.ONE)) {
                     return;
                 }
                 if (husks.isEmpty()) {
-                    spawnHusk(nightmare, target);
+                    spawnHusk(nightmare, player);
                 }
             }
             case 3 -> {
@@ -235,7 +238,7 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
         nightmare.face(target);
 
         switch (randomValue) {
-            case 0 -> meleeAttack(nightmare, target);
+            case 0 -> meleeAttack(nightmare, (Player) target);
             case 1 -> rangeAttack(nightmare, target);
             case 2 -> magicAttack(nightmare, target);
             default -> {
@@ -279,6 +282,7 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
 
     private void graspingClaws(NPC nightmare, Entity target) {
         Player player = (Player) target;
+
         if (nightmare == null || target == null) {
             return;
         }
@@ -300,29 +304,36 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
 
         numTiles = Math.min(numTiles, tiles.size());
 
-        if (!player.getNightmareInstance().getHusks().isEmpty()) {
-            tiles.remove(player.tile());
-        }
+        for (var member : player.getNightmareInstance().getPlayers()) {
 
-        for (int i = 0; i < numTiles; i++) {
-            Tile t = tiles.get(i);
-            if (!usedTiles.contains(t)) {
-                World.getWorld().tileGraphic(1767, t, 0, 20);
-                usedTiles.add(t);
+            if (member == null) {
+                return;
             }
-        }
 
-        Chain.noCtx().runFn(6, () -> {
-            for (var t : usedTiles) {
-                if (player.tile().equals(t.getX(), t.getY(), t.getZ())) {
-                    player.hit(nightmare, World.getWorld().random(50));
+            if (!member.getNightmareInstance().getHusks().isEmpty()) {
+                tiles.remove(player.tile());
+            }
+
+            for (int i = 0; i < numTiles; i++) {
+                Tile t = tiles.get(i);
+                if (!usedTiles.contains(t)) {
+                    World.getWorld().tileGraphic(1767, t, 0, 20);
+                    usedTiles.add(t);
                 }
             }
-        }).then(1, () -> {
-            tiles.clear();
-            usedTiles.clear();
-        });
 
+            Chain.noCtx().runFn(6, () -> {
+                for (var t : usedTiles) {
+                    if (member.tile().equals(t.getX(), t.getY(), t.getZ())) {
+                        member.hit(nightmare, World.getWorld().random(50));
+                    }
+                }
+            }).then(1, () -> {
+                tiles.clear();
+                usedTiles.clear();
+            });
+
+        }
     }
 
     private void spawnSleepWalker(NPC nightmare, Entity target) {
@@ -395,43 +406,45 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
 
     private void spawnHusk(NPC nightmare, Entity target) {
         Player player = (Player) target;
-        var husks = player.getNightmareInstance().getHusks();
 
-        if (nightmare == null) {
-            return;
+        for (var t : player.getNightmareInstance().getPlayers()) {
+            var husks = t.getNightmareInstance().getHusks();
+
+            if (nightmare == null) {
+                return;
+            }
+
+            if (husks.size() == 2) {
+                return;
+            }
+
+            if (this.isSpawningHusks()) {
+                return;
+            }
+
+            this.setSpawningHusks(true);
+
+            nightmare.animate(8600);
+
+            Tile t1 = t.tile().transform(0, 1).copy();
+            Tile t2 = t.tile().transform(0, -1).copy();
+
+            var distanceTo = nightmare.tile().distance(t.tile());
+
+            int duration = (80 + 15 + (10 * distanceTo));
+
+            Projectile projectileOne = new Projectile(nightmare, t1.transform(0, 1), 1781, 80, duration, 90, 0, 0, 4, 10);
+            projectileOne.send(nightmare, t1);
+            Projectile projectileTwo = new Projectile(nightmare, t2.transform(0, -1), 1781, 80, duration, 90, 0, 0, 4, 10);
+            projectileTwo.send(nightmare, t2);
+
+            t.putAttrib(AttributeKey.NO_MOVEMENT_NIGHTMARE, true);
+
+            Chain.noCtx().runFn(projectileOne.getSpeed() / 30 + 1, () -> {
+                createHusk(new NPC(9454, new Tile(t.tile().getX(), t.tile().getY() + 1, t.tile().getZ())), t);
+                createHusk(new NPC(9454, new Tile(t.tile().getX(), t.tile().getY() - 1, t.tile().getZ())), t);
+            }).then(1, () -> this.setSpawningHusks(false));
         }
-
-        if (husks.size() == 2) {
-            return;
-        }
-
-        if (this.isSpawningHusks()) {
-            return;
-        }
-
-        this.setSpawningHusks(true);
-
-        nightmare.animate(8600);
-
-        Tile t1 = target.tile().transform(0, 1).copy();
-        Tile t2 = target.tile().transform(0, -1).copy();
-
-        var distanceTo = nightmare.tile().distance(target.tile());
-
-        int duration = (80 + 15 + (10 * distanceTo));
-
-        Projectile projectileOne = new Projectile(nightmare, t1.transform(0, 1), 1781, 80, duration, 90, 0, 0, 4, 10);
-        projectileOne.send(nightmare, t1);
-        Projectile projectileTwo = new Projectile(nightmare, t2.transform(0, -1), 1781, 80, duration, 90, 0, 0, 4, 10);
-        projectileTwo.send(nightmare, t2);
-
-        player.putAttrib(AttributeKey.NO_MOVEMENT_NIGHTMARE, true);
-
-        Chain.noCtx().runFn(projectileOne.getSpeed() / 30 + 1, () -> {
-            createHusk(new NPC(9454, new Tile(target.tile().getX(), target.tile().getY() + 1, target.tile().getZ())), target);
-            createHusk(new NPC(9454, new Tile(target.tile().getX(), target.tile().getY() - 1, target.tile().getZ())), target);
-        }).then(1, () -> this.setSpawningHusks(false));
-
     }
 
     private void createHusk(NPC husk, Entity target) {
@@ -465,71 +478,89 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
     }
 
     private void magicAttack(NPC nightmare, Entity target) {
-        if (nightmare == null || target == null) {
-            return;
-        }
+        Player player = (Player) target;
 
         nightmare.animate(8595);
 
-        var tileDist = nightmare.tile().getChevDistance(target.tile());
+        for (var t : player.getNightmareInstance().getPlayers()) {
 
-        int duration = (80 + -15 + (10 * tileDist));
+            if (t == null) {
+                return;
+            }
 
-        Projectile p = new Projectile(nightmare, target, 1764, 80, duration, 90, 30, 0, target.getSize(), 10);
+            var tileDist = nightmare.tile().getChevDistance(t.tile());
 
-        int delay = nightmare.executeProjectile(p);
+            int duration = (80 + -15 + (10 * tileDist));
 
-        Hit hit = Hit.builder(nightmare, target, CombatFactory.calcDamageFromType(nightmare, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
 
-        if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {
-            var damage = hit.getDamage();
-            hit.setDamage((int) (damage * 1.20));
-            hit.submit();
-        } else {
-            hit.submit();
+            Projectile p = new Projectile(nightmare, t, 1764, 80, duration, 90, 30, 0, 5, 10);
+
+            int delay = nightmare.executeProjectile(p);
+
+            Hit hit = Hit.builder(nightmare, t, CombatFactory.calcDamageFromType(nightmare, t, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+
+            if (Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MAGIC)) {
+                var damage = hit.getDamage();
+                hit.setDamage((int) (damage * 1.20));
+                hit.submit();
+            } else {
+                hit.submit();
+            }
+
+            t.graphic(1765, GraphicHeight.HIGH_3, p.getSpeed());
+
         }
-
-        target.graphic(1765, GraphicHeight.HIGH_3, p.getSpeed());
     }
 
     private void rangeAttack(NPC nightmare, Entity target) {
-        if (nightmare == null || target == null) {
+        Player player = (Player) target;
+
+        if (target == null) {
             return;
         }
 
         nightmare.animate(8596);
 
-        int tileDist = nightmare.tile().getChevDistance(target.tile());
+        for (var t : player.getNightmareInstance().getPlayers()) {
 
-        int duration = (90 + 15 + (5 * tileDist));
+            if (t == null) {
+                return;
+            }
 
-        Projectile p = new Projectile(nightmare, target, 1766, 90, duration, 90, 30, 0, target.getSize(), 10);
+            int tileDist = nightmare.tile().getChevDistance(t.tile());
 
-        final int delay = nightmare.executeProjectile(p);
+            int duration = (90 + 15 + (5 * tileDist));
 
-        Hit hit = target.hit(nightmare, CombatFactory.calcDamageFromType(nightmare, target, CombatType.MAGIC), delay, CombatType.MAGIC);
+            Projectile p = new Projectile(nightmare, t, 1766, 90, duration, 90, 30, 0, 5, 10);
 
-        if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MISSILES)) {
-            var damage = hit.getDamage();
-            hit.setDamage((int) (damage * 1.20));
-            hit.submit();
-        } else {
-            hit.submit();
+            final int delay = nightmare.executeProjectile(p);
+
+            Hit hit = t.hit(nightmare, CombatFactory.calcDamageFromType(nightmare, t, CombatType.MAGIC), delay, CombatType.MAGIC);
+
+            if (Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MISSILES)) {
+                var damage = hit.getDamage();
+                hit.setDamage((int) (damage * 1.20));
+                hit.submit();
+            } else {
+                hit.submit();
+            }
         }
     }
 
-    void meleeAttack(NPC nightmare, Entity target) {
-        if (nightmare == null || target == null) {
+    void meleeAttack(NPC nightmare, Player target) {
+        Entity player = Utils.randomElement(target.getNightmareInstance().getPlayers());
+
+        if (player == null) {
             return;
         }
 
         nightmare.animate(8594);
 
-        Hit hit = target.hit(nightmare, CombatFactory.calcDamageFromType(nightmare, target, CombatType.MELEE), 3, CombatType.MELEE);
+        Hit hit = player.hit(nightmare, CombatFactory.calcDamageFromType(nightmare, player, CombatType.MELEE), 3, CombatType.MELEE);
 
         hit.setAccurate(true);
 
-        if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MELEE)) {
+        if (Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MELEE)) {
             var damage = hit.getDamage();
             hit.setDamage((int) (damage * 1.20));
             hit.submit();
@@ -665,4 +696,5 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
     public int moveCloseToTargetTileRange(Entity entity) {
         return 5;
     }
+
 }

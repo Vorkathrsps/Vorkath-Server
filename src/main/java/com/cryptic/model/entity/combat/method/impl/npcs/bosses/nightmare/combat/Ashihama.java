@@ -334,6 +334,10 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
 
         var numberOfWalkers = player.getNightmareInstance().getPlayers().size() + 1;
 
+        if (numberOfWalkers > 24) {
+            numberOfWalkers = 24;
+        }
+
         NightmareInstance.room().transformArea(0, 0, 0, 0, player.getNightmareInstance().getzLevel() + 3).forEachPos(pos ->
             Arrays.stream(QUADS).forEach(t -> {
                 if (pos.inArea(t) && World.getWorld().clipAt(pos) == 0) {
@@ -344,6 +348,7 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
         Collections.shuffle(tiles);
 
         NPC sleep_walker;
+
         for (int index = 0; index < numberOfWalkers; index++) {
             Tile t = tiles.get(index);
             sleep_walker = new NPC(9446, new Tile(t.getX(), t.getY(), player.getInstancedArea().getzLevel() + 3));

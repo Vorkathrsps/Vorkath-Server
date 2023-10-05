@@ -25,6 +25,7 @@ import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.Utils;
@@ -209,8 +210,7 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
         nightmare.face(target);
 
         switch (randomValue) {
-            case 1 ->
-                graspingClaws(nightmare, target);
+            case 1 -> graspingClaws(nightmare, target);
             case 2 -> {
                 if (!this.getAshihamaPhase().equals(AshihamaPhase.ONE)) {
                     return;
@@ -289,13 +289,12 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
 
         int numTiles = 50;
 
-        NightmareInstance.room().transformArea(0, 0, 0, 0, target.getInstancedArea().getzLevel() + 3).forEachPos(pos -> {
+        NightmareInstance.room().transformArea(0, 0, 0, 0, player.getNightmareInstance().getzLevel() + 3).forEachPos(pos ->
             Arrays.stream(QUADS).forEach(t -> {
                 if (pos.inArea(t) && World.getWorld().clipAt(pos) == 0) {
                     tiles.add(pos);
                 }
-            });
-        });
+            }));
 
         Collections.shuffle(tiles);
 
@@ -326,20 +325,30 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
 
     }
 
-    private void spawnSleepWalker(NPC nightmare, Entity target) { //TODO make it so venom doesnt constantly stay attached to pillars & nightmare
+    private void spawnSleepWalker(NPC nightmare, Entity target) {
         var player = (Player) target;
 
         if (nightmare == null || target == null) {
             return;
         }
 
-        createSleepWalker(new NPC(9446, new Tile(3879, 9944, player.getInstancedArea().getzLevel() + 3)), nightmare, target);
+        var numberOfWalkers = player.getNightmareInstance().getPlayers().size() + 1;
 
-        createSleepWalker(new NPC(9446, new Tile(3879, 9958, player.getInstancedArea().getzLevel() + 3)), nightmare, target);
+        NightmareInstance.room().transformArea(0, 0, 0, 0, player.getNightmareInstance().getzLevel() + 3).forEachPos(pos ->
+            Arrays.stream(QUADS).forEach(t -> {
+                if (pos.inArea(t) && World.getWorld().clipAt(pos) == 0) {
+                    tiles.add(pos);
+                }
+            }));
 
-        createSleepWalker(new NPC(9446, new Tile(3865, 9958, player.getInstancedArea().getzLevel() + 3)), nightmare, target);
+        Collections.shuffle(tiles);
 
-        createSleepWalker(new NPC(9446, new Tile(3865, 9944, player.getInstancedArea().getzLevel() + 3)), nightmare, target);
+        NPC sleep_walker;
+        for (int index = 0; index < numberOfWalkers; index++) {
+            Tile t = tiles.get(index);
+            sleep_walker = new NPC(9446, new Tile(t.getX(), t.getY(), player.getInstancedArea().getzLevel() + 3));
+            createSleepWalker(sleep_walker, nightmare, target);
+        }
     }
 
     private void createSleepWalker(NPC sleepWalker, NPC nightmare, Entity target) {
@@ -370,6 +379,7 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
 
         sleepWalker.waitUntil(conditions, () -> {
             sleepWalker.die();
+            tiles.remove(sleepWalker.tile());
             sleepWalkers.remove(sleepWalker);
             if (removeAddDamage.getAsBoolean()) {
                 sleepWalkerDamage.getAndAdd(5);

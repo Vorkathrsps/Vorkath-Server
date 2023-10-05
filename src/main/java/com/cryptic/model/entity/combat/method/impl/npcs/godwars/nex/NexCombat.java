@@ -928,7 +928,7 @@ public class NexCombat extends CommonCombatMethod {
     @Override
     public ArrayList<Entity> getPossibleTargets(Entity mob) {
         if (inNexArea(mob.tile())) {
-            return Arrays.stream(mob.closePlayers(64)).filter(p -> NEX_AREA.contains(p)).collect(Collectors.toCollection(ArrayList::new));
+            return Arrays.stream(mob.closePlayers(64)).filter(NEX_AREA::contains).collect(Collectors.toCollection(ArrayList::new));
         }
         return null;
     }

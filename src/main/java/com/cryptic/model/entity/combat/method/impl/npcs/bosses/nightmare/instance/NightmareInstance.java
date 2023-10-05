@@ -16,21 +16,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NightmareInstance extends NightmareArea {
-    @Getter Player owner;
-    @Getter private final List<Player> players;
-    @Getter @Setter boolean joinable = true;
     @Getter
-    private final List<NPC> husks = new ArrayList<>();
+    Player owner;
     @Getter
-    private final List<NPC> totems = new ArrayList<>();
+    private final List<Player> players;
+    @Getter
+    @Setter
+    boolean joinable = true;
+    @Getter
+    public List<NPC> husks = new ArrayList<>();
+    @Getter
+    public List<NPC> totems = new ArrayList<>();
+
     public static Area room() {
         return new Area(Tile.regionToTile(15515).getX(), Tile.regionToTile(15515).getY(), Tile.regionToTile(15515).getX() + 63, Tile.regionToTile(15515).getY() + 63);
     }
+
     public NightmareInstance(Player owner, List<Player> players) {
         super(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, room());
         this.owner = owner;
         this.players = players;
     }
+
     public void join(Player member) {
         if (owner == null) {
             return;
@@ -45,10 +52,7 @@ public class NightmareInstance extends NightmareArea {
         addPlayerToList(member);
     }
 
-    public NightmareInstance build(Player player) {
-        if (!this.isJoinable()) {
-            return null;
-        }
+    public NightmareInstance build() {
 
         NPC nightmare = new NPC(9432, new Tile(3870, 9949, this.getzLevel() + 3)).spawn(false);
         World.getWorld().definitions().get(NpcDefinition.class, nightmare.id());
@@ -70,10 +74,8 @@ public class NightmareInstance extends NightmareArea {
         World.getWorld().definitions().get(NpcDefinition.class, bottomLeftTotem.id());
         bottomLeftTotem.setInstance(this);
 
-        if (this.isJoinable()) {
-            setPlayerInstance(player);
-            player.face(nightmare);
-        }
+        setInstance();
+        owner.face(nightmare);
 
         Chain.noCtx().runFn(30, () -> {
             this.setJoinable(false);
@@ -90,10 +92,10 @@ public class NightmareInstance extends NightmareArea {
         return this;
     }
 
-    private void setPlayerInstance(Player player) {
-        addPlayerToList(player);
-        player.setInstance(this);
-        player.teleport(new Tile(3872, 9958, this.getzLevel() + 3));
+    private void setInstance() {
+        addPlayerToList(owner);
+        owner.setInstance(this);
+        owner.teleport(new Tile(3872, 9958, this.getzLevel() + 3));
     }
 
     void addPlayerToList(Player player) {

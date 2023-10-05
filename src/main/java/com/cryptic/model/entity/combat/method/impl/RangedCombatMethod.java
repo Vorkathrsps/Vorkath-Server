@@ -36,7 +36,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
         if (attacker.isNpc()) {
             int tileDist = attacker.tile().transform(3, 3).distance(target.tile());
             int duration = (41 + 11 + (5 * tileDist));
-            Projectile p = new Projectile(attacker, target, attacker.getAsNpc().getCombatInfo().projectile, 41, duration, 43, 31, 0, target.getSize(), 5);
+            Projectile p = new Projectile(attacker, target, attacker.getAsNpc().getCombatInfo().projectile, 41, duration, 43, 31, 0, 1, 5);
             attacker.executeProjectile(p);
             return true;
         }

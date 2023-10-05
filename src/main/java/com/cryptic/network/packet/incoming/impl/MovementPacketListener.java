@@ -231,7 +231,7 @@ public class MovementPacketListener implements PacketListener {
             return false;
         }
 
-        if (player.isNeedsPlacement() || player.getMovementQueue().isMovementBlocked()) {
+        if (player.isNeedsPlacement() || player.getMovementQueue().isMovementBlocked() || player.hasAttrib(AttributeKey.NO_MOVEMENT_NIGHTMARE)) {
             player.debugMessage("cant walk: " + (player.isNeedsPlacement() ? "tping" : "movelocked"));
             return false;
         }

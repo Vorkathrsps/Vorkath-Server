@@ -677,7 +677,7 @@ public class CommandManager {
         });
         dev("c", (p, c, s) -> {
             List<Player> players = new ArrayList<>();
-            p.setNightmareInstance(new NightmareInstance(p, players).build(p));
+            p.setNightmareInstance(new NightmareInstance(p, players).build());
         });
 
         dev("ioi", (p, c, s) -> {

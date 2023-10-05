@@ -87,8 +87,8 @@ public class EquipPacketListener implements PacketListener {
                     player.getCombat().setRangedWeapon(null);
                     Autocasting.setAutocast(player, null);
                     player.getCombat().setCastSpell(null);
-                    player.getCombat().setPoweredStaffSpell(null);
-                    player.getTimers().cancel(TimerKey.SOTD_DAMAGE_REDUCTION);
+                        player.getCombat().setPoweredStaffSpell(null);
+                        player.getTimers().cancel(TimerKey.SOTD_DAMAGE_REDUCTION);
                     player.setSpecialActivated(false);
                     player.putAttrib(AttributeKey.GRANITE_MAUL_SPECIALS, 0);
                     player.getCombat().reset();
@@ -122,10 +122,12 @@ public class EquipPacketListener implements PacketListener {
                         player.getCombat().setPoweredStaffSpell(poweredStaffSpell);
                         return;
                     }
+
                     if (player.getCombat().getAutoCastSpell() != null) {
                         Autocasting.setAutocast(player, null);
                         player.getPacketSender().sendMessage("Autocast spell cleared.");
                     }
+
                 }
             }
         }

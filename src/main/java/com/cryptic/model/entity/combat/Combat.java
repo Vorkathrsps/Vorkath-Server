@@ -710,7 +710,7 @@ public class Combat {
         mob.npc().findAgroTargetTimed();
 
         if (mob.isNpc(6609) && mob.tile().region() == 7092)
-            System.out.printf("");
+            System.out.print("");
         if (target != null && method instanceof CommonCombatMethod ccm) {
             ccm.set(mob, target);
             ccm.doFollowLogic();

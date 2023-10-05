@@ -60,6 +60,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import static com.cryptic.model.entity.attributes.AttributeKey.NO_MOVEMENT_NIGHTMARE;
 import static com.cryptic.model.entity.attributes.AttributeKey.VENOMED_BY;
 
 @Slf4j
@@ -477,7 +478,6 @@ public abstract class Entity {
     }
 
     /**
-     *
      * @return GAME TICKS UNTIL PROJECTILE REACHES END TILE
      */
     public int executeProjectile(Projectile projectile) {
@@ -600,7 +600,9 @@ public abstract class Entity {
     public Area bounds() {
         return new Area(tile.x, tile.y, tile.x + getSize() - 1, tile.y + getSize() - 1, tile.getZ());
     }
+
     public List<Hit> nextHits = new ArrayList<>(4);
+
     public void setWalkingDirection(Direction walkDirection) {
         this.walkingDirection = walkDirection;
     }
@@ -1690,6 +1692,13 @@ public abstract class Entity {
         if (isPlayer() && !getAsPlayer().getInterfaceManager().isClear()) {
             getAsPlayer().getInterfaceManager().removeOverlay();
             getAsPlayer().getInterfaceManager().close(false);
+        }
+
+        if (isPlayer()) {
+            if (player().hasAttrib(NO_MOVEMENT_NIGHTMARE)) {
+                player().clearAttrib(NO_MOVEMENT_NIGHTMARE);
+                player().forceChat("removing attribute");
+            }
         }
 
         if (isPlayer() && player() != null) {

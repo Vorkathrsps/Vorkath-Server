@@ -39,6 +39,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BooleanSupplier;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.NIGHTMARE_CURSE;
+import static com.cryptic.model.entity.attributes.AttributeKey.NO_MOVEMENT_NIGHTMARE;
 
 public class Ashihama extends CommonCombatMethod { //TODO increase max hit based on wrong protection prayer
     AtomicInteger cursedCount = new AtomicInteger();
@@ -74,13 +75,13 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
             return;
         }
 
-        if (player.getInstancedArea() == null || nightmare.getId() != NpcIdentifiers.THE_NIGHTMARE_9430) {
+        if (player.getInstancedArea() == null) {
             return;
         }
 
-        BooleanSupplier isEmpty = player.getNightmareInstance().getHusks()::isEmpty;
         if (!player.getNightmareInstance().getHusks().isEmpty()) {
-            player.waitUntil(isEmpty, () -> player.getMovement().setBlockMovement(false));
+            BooleanSupplier isEmpty = () -> player.getNightmareInstance().getHusks().isEmpty();
+            player.waitUntil(isEmpty, () -> player.clearAttrib(NO_MOVEMENT_NIGHTMARE));
         }
 
         AshihamaState currentState = this.getAshihamaState();
@@ -111,8 +112,8 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
                     totem.getCombat().setAutoRetaliate(false);
                 }).then(1, () -> {
                     nightmare.hit(totem, 800, delay.get(), CombatType.MAGIC);
+                    nightmare.graphic(1769, GraphicHeight.HIGH, p.getSpeed());
                 });
-                nightmare.graphic(1769, GraphicHeight.HIGH, p.getSpeed());
             }));
 
             Chain.noCtx().runFn(1, () -> {
@@ -309,7 +310,7 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
 
         Chain.noCtx().runFn(6, () -> {
             for (var t : tiles) {
-                if (target.tile().equals(t)) {
+                if (target.tile().equals(t.getX(), t.getY(), t.getZ())) {
                     target.hit(nightmare, World.getWorld().random(50));
                 }
             }
@@ -402,7 +403,7 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
         Projectile projectileTwo = new Projectile(nightmare, t2.transform(0, -1), 1781, 80, duration, 90, 0, 0, 4, 10);
         projectileTwo.send(nightmare, t2);
 
-        player.getMovement().setBlockMovement(true);
+        player.putAttrib(AttributeKey.NO_MOVEMENT_NIGHTMARE, true);
 
         Chain.noCtx().runFn(projectileOne.getSpeed() / 30 + 1, () -> {
             createHusk(new NPC(9454, new Tile(target.tile().getX(), target.tile().getY() + 1, target.tile().getZ())), target);
@@ -438,6 +439,7 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
         BooleanSupplier removeFromList = husk::dead;
 
         husk.waitUntil(removeFromList, () -> husks.remove(husk));
+
     }
 
     private void magicAttack(NPC nightmare, Entity target) {

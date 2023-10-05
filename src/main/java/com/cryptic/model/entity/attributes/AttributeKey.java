@@ -634,6 +634,8 @@ public enum AttributeKey {
 
     NIFFLER_ITEMS_STORED,
 
+    NO_MOVEMENT_NIGHTMARE,
+
     /**
      * Is Barrelchest in his jump state?
      */

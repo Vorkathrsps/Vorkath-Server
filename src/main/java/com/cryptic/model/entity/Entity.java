@@ -1244,7 +1244,7 @@ public abstract class Entity {
         return true;
     }
 
-    private final int[] NPCS_IMMUNE_TO_VENOM = new int[]
+    private static final int[] NPCS_IMMUNE_TO_VENOM = new int[]
         {
             NpcIdentifiers.CORPOREAL_BEAST,
             NpcIdentifiers.THE_NIGHTMARE_9425,

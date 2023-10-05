@@ -210,7 +210,7 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
 
         switch (randomValue) {
             case 1 ->
-                graspingClaws(nightmare, target); //TODO make it so grasping claw portals dont spawn on players that have husks
+                graspingClaws(nightmare, target);
             case 2 -> {
                 if (!this.getAshihamaPhase().equals(AshihamaPhase.ONE)) {
                     return;
@@ -316,7 +316,6 @@ public class Ashihama extends CommonCombatMethod { //TODO increase max hit based
         Chain.noCtx().runFn(6, () -> {
             for (var t : usedTiles) {
                 if (player.tile().equals(t.getX(), t.getY(), t.getZ())) {
-                    player.forceChat("success");
                     player.hit(nightmare, World.getWorld().random(50));
                 }
             }

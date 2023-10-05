@@ -47,8 +47,8 @@ public class NightmareInstance extends NightmareArea {
             return;
         }
 
-        member.setInstance(owner.getInstancedArea());
-        member.teleport(new Tile(3872, 9958, owner.getInstancedArea().getzLevel() + 3));
+        member.setInstance(owner.getNightmareInstance());
+        member.teleport(new Tile(3872, 9958, owner.getNightmareInstance().getzLevel() + 3));
         addPlayerToList(member);
     }
 

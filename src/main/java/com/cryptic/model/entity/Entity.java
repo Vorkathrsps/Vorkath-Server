@@ -1,6 +1,7 @@
 package com.cryptic.model.entity;
 
 import com.cryptic.GameServer;
+import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.core.TimesCycle;
 import com.cryptic.core.task.Task;
 import com.cryptic.core.task.TaskManager;
@@ -1243,9 +1244,153 @@ public abstract class Entity {
         return true;
     }
 
+    private final int[] NPCS_IMMUNE_TO_VENOM = new int[]
+        {
+            NpcIdentifiers.CORPOREAL_BEAST,
+            NpcIdentifiers.THE_NIGHTMARE_9425,
+            NpcIdentifiers.THE_NIGHTMARE_9430,
+            NpcIdentifiers.TOTEM,
+            NpcIdentifiers.TOTEM_9435,
+            NpcIdentifiers.TOTEM_9436,
+            NpcIdentifiers.TOTEM_9437,
+            NpcIdentifiers.TOTEM_9438,
+            NpcIdentifiers.TOTEM_9439,
+            NpcIdentifiers.TOTEM_9440,
+            NpcIdentifiers.TOTEM_9441,
+            NpcIdentifiers.TOTEM_9442,
+            NpcIdentifiers.TOTEM_9443,
+            NpcIdentifiers.TOTEM_9444,
+            NpcIdentifiers.TOTEM_9445,
+            NpcIdentifiers.CHAOS_ELEMENTAL,
+            NpcIdentifiers.DAGANNOTH_PRIME,
+            NpcIdentifiers.DAGANNOTH_REX,
+            NpcIdentifiers.DAGANNOTH_SUPREME,
+            NpcIdentifiers.DEMONIC_GORILLA,
+            NpcIdentifiers.DEMONIC_GORILLA_7145,
+            NpcIdentifiers.DEMONIC_GORILLA_7146,
+            NpcIdentifiers.DEMONIC_GORILLA_7147,
+            NpcIdentifiers.DEMONIC_GORILLA_7148,
+            NpcIdentifiers.DEMONIC_GORILLA_7149,
+            NpcIdentifiers.DEMONIC_GORILLA_7152,
+            NpcIdentifiers.GIANT_MOLE,
+            NpcIdentifiers.KALPHITE_QUEEN,
+            NpcIdentifiers.KALPHITE_QUEEN_6501,
+            NpcIdentifiers.KALPHITE_QUEEN_6500,
+            NpcIdentifiers.KALPHITE_QUEEN_963,
+            NpcIdentifiers.KALPHITE_QUEEN_965,
+            NpcIdentifiers.KALPHITE_QUEEN_4303,
+            NpcIdentifiers.KALPHITE_QUEEN_4304,
+            NpcIdentifiers.KRAKEN,
+            NpcIdentifiers.KRAKEN_6640,
+            NpcIdentifiers.KRAKEN_6656,
+            NpcIdentifiers.OBOR,
+            NpcIdentifiers.TZTOKJAD,
+            NpcIdentifiers.TZTOKJAD_6506,
+            NpcIdentifiers.VETION,
+            NpcIdentifiers.VETION_REBORN,
+            NpcIdentifiers.ABYSSAL_SIRE,
+            NpcIdentifiers.ABYSSAL_SIRE_5887,
+            NpcIdentifiers.ABYSSAL_SIRE_5888,
+            NpcIdentifiers.ABYSSAL_SIRE_5889,
+            NpcIdentifiers.ABYSSAL_SIRE_5890,
+            NpcIdentifiers.ABYSSAL_SIRE_5891,
+            NpcIdentifiers.ABYSSAL_SIRE_11961,
+            NpcIdentifiers.COMMANDER_ZILYANA,
+            NpcIdentifiers.COMMANDER_ZILYANA_6493,
+            NpcIdentifiers.CALLISTO,
+            NpcIdentifiers.CALLISTO_6609,
+            NpcIdentifiers.VENENATIS,
+            NpcIdentifiers.VENENATIS_6610,
+            NpcIdentifiers.COW,
+            NpcIdentifiers.DAWN,
+            NpcIdentifiers.DAWN_7852,
+            NpcIdentifiers.DAWN_7853,
+            NpcIdentifiers.DAWN_7884,
+            NpcIdentifiers.DAWN_7885,
+            NpcIdentifiers.GENERAL_GRAARDOR,
+            NpcIdentifiers.GENERAL_GRAARDOR_6494,
+            NpcIdentifiers.KREEARRA,
+            NpcIdentifiers.KREEARRA_6492,
+            NpcIdentifiers.KRIL_TSUTSAROTH,
+            NpcIdentifiers.KRIL_TSUTSAROTH_6495,
+            NpcIdentifiers.LIZARDMAN,
+            NpcIdentifiers.MITHRIL_DRAGON,
+            NpcIdentifiers.MITHRIL_DRAGON_8088,
+            NpcIdentifiers.MITHRIL_DRAGON_8089,
+            NpcIdentifiers.GREAT_OLM,
+            NpcIdentifiers.GREAT_OLM_7554,
+            NpcIdentifiers.GREAT_OLM_LEFT_CLAW,
+            NpcIdentifiers.GREAT_OLM_LEFT_CLAW_7555,
+            NpcIdentifiers.GREAT_OLM_RIGHT_CLAW,
+            NpcIdentifiers.GREAT_OLM_RIGHT_CLAW_7553,
+            NpcIdentifiers.LIZARDMAN_SHAMAN,
+            NpcIdentifiers.LIZARDMAN_SHAMAN_6767,
+            NpcIdentifiers.LIZARDMAN_SHAMAN_7573,
+            NpcIdentifiers.LIZARDMAN_SHAMAN_7574,
+            NpcIdentifiers.LIZARDMAN_SHAMAN_7744,
+            NpcIdentifiers.LIZARDMAN_SHAMAN_8565,
+            NpcIdentifiers.ZULRAH,
+            NpcIdentifiers.ZULRAH_2044,
+            NpcIdentifiers.ZULRAH_2043,
+            NpcIdentifiers.THERMONUCLEAR_SMOKE_DEVIL,
+            NpcIdentifiers.TZKALZUK,
+            NpcIdentifiers.VORKATH,
+            NpcIdentifiers.VORKATH_8061,
+            NpcIdentifiers.VORKATH_8059,
+            NpcIdentifiers.VORKATH_8058,
+            NpcIdentifiers.VORKATH_8060,
+            NpcIdentifiers.VORKATH_11959,
+            NpcIdentifiers.WYRM,
+            NpcIdentifiers.WYRM_8611,
+            NpcIdentifiers.SNAKELING,
+            NpcIdentifiers.SNAKELING_2127,
+            NpcIdentifiers.SNAKELING_2128,
+            NpcIdentifiers.SNAKELING_2129,
+            NpcIdentifiers.SNAKELING_2130,
+            NpcIdentifiers.SNAKELING_2131,
+            NpcIdentifiers.LIZARDMAN_BRUTE,
+            NpcIdentifiers.LIZARDMAN_BRUTE_6919,
+            NpcIdentifiers.LIZARDMAN_BRUTE_8564,
+            NpcIdentifiers.LIZARDMAN_BRUTE_10947,
+            NpcIdentifiers.DRAKE,
+            NpcIdentifiers.DRAKE_8612,
+            NpcIdentifiers.DRAKE_8613,
+            NpcIdentifiers.DUSK,
+            NpcIdentifiers.DUSK_7851,
+            NpcIdentifiers.DUSK_7854,
+            NpcIdentifiers.DUSK_7855,
+            NpcIdentifiers.DUSK_7882,
+            NpcIdentifiers.DUSK_7883,
+            NpcIdentifiers.DUSK_7887,
+            NpcIdentifiers.DUSK_7888,
+            NpcIdentifiers.DUSK_7886,
+            NpcIdentifiers.DUSK_7889,
+            NpcIdentifiers.BASILISK_KNIGHT,
+            NpcIdentifiers.RUNE_DRAGON,
+            NpcIdentifiers.ADAMANT_DRAGON,
+            NpcIdentifiers.CERBERUS,
+            NpcIdentifiers.CERBERUS_5863,
+            NpcIdentifiers.CERBERUS_5866,
+            NpcIdentifiers.BRUTAL_BLACK_DRAGON,
+            NpcIdentifiers.BRUTAL_GREEN_DRAGON,
+            NpcIdentifiers.BRUTAL_RED_DRAGON,
+            NpcIdentifiers.BRUTAL_BLACK_DRAGON_8092,
+            NpcIdentifiers.BRUTAL_BLACK_DRAGON_8093,
+            NpcIdentifiers.BRUTAL_GREEN_DRAGON,
+            NpcIdentifiers.BRUTAL_GREEN_DRAGON_8081,
+            NpcIdentifiers.BRUTAL_RED_DRAGON_8087,
+            NpcIdentifiers.COMBAT_DUMMY
+        };
+
     public void venom(Entity source) {
         if (source == null || source == this)
             return;
+
+        if (source instanceof Player player) {
+            if (player.getCombat().getTarget() == npc() && ArrayUtils.contains(NPCS_IMMUNE_TO_VENOM, npc().id())) {
+                return;
+            }
+        }
 
         if (Venom.venomed(source))
             return;
@@ -1258,6 +1403,7 @@ public abstract class Entity {
             }
             boolean admin_bypass = false;
             if (source.isPlayer()) {
+                assert source instanceof Player;
                 boolean fromAdmin = ((Player) source).getPlayerRights().isAdministrator(p);
                 if (fromAdmin && GameServer.properties().venomFromAdminsOn) {
                     admin_bypass = true;

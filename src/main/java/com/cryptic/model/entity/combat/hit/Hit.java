@@ -204,11 +204,11 @@ public class Hit {
         return target.locked() && !target.isDamageOkLocked() && !target.isDelayDamageLocked() && !target.isMoveLockedDamageOk();
     }
 
-    @Getter boolean invalidate = false;
+    @Getter boolean invalidated = false;
 
     public Hit invalidate() {
         this.accurate = false;
-        this.invalidate = true;
+        this.invalidated = true;
         return this;
     }
 
@@ -298,7 +298,7 @@ public class Hit {
     }
 
     public void submit() {
-        if (target != null && !isLocked() && !isInvalidate()) {
+        if (target != null && !isLocked() && !isInvalidated()) {
             CombatFactory.addPendingHit(this);
         }
     }

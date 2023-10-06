@@ -12,7 +12,6 @@ import com.cryptic.model.action.ActionManager;
 import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.instance.InstancedArea;
 import com.cryptic.model.content.mechanics.Poison;
-import com.cryptic.model.content.raids.theatre.Theatre;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.*;
 import com.cryptic.model.entity.combat.hit.Hit;
@@ -320,7 +319,11 @@ public abstract class Entity {
     }
 
     public Chain<Entity> repeatingTask(int tickBetweenLoop, Consumer<Task> work) {
-        return Chain.bound(this).repeatingTask(tickBetweenLoop, work);
+        return Chain.<Entity>noCtx().repeatingTask(tickBetweenLoop, work);
+    }
+
+    public Chain<Entity> conditionalRepeatingTask(String name, BooleanSupplier condition, int tickBetweenLoop, Consumer<Task> work) {
+        return Chain.<Entity>noCtx().repeatingTask(tickBetweenLoop, work).name(name).cancelWhen(condition);
     }
 
     @Getter
@@ -1830,7 +1833,7 @@ public abstract class Entity {
     /**
      * Teleports the mob to a target location
      */
-    public void teleport(Tile teleportTarget) { //TODO add damage invalidation on teleport for players
+    public void teleport(Tile teleportTarget) {
 
         if (isPlayer() && !getAsPlayer().getInterfaceManager().isClear()) {
             getAsPlayer().getInterfaceManager().removeOverlay();
@@ -1853,18 +1856,11 @@ public abstract class Entity {
         }
 
         if (isPlayer() && player() != null) {
-            var party = player().getTheatreParty();
+            var party = player().getTheatreInstance();
 
             if (party != null) {
                 var playerRegion = player().tile().region();
 
-                if (!ArrayUtils.contains(Theatre.rooms(), playerRegion) && playerRegion != 14642) {
-                    var partyMembers = party.getParty();
-                    partyMembers.stream()
-                        .filter(p -> p.equals(player()))
-                        .findFirst()
-                        .ifPresent(p -> p.getTheatreInterface().handleLogoutOrTeleport(p));
-                }
             }
         }
 

@@ -61,6 +61,11 @@ public class HitQueue {
                         continue;
                     }
 
+                    if (hit.isInvalidated()) {
+                        hit.toremove = true;
+                        continue;
+                    }
+
                     if (hit.decrementAndGetDelay() <= 0) {
                         CombatFactory.executeHit(hit);
                         hit.toremove = true;

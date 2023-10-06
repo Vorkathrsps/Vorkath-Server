@@ -1,7 +1,7 @@
 package com.cryptic.model.content.raids.theatre.boss.bloat.handler;
 
 import com.cryptic.model.World;
-import com.cryptic.model.content.raids.theatre.Theatre;
+import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.area.TheatreArea;
 import com.cryptic.model.content.raids.theatre.boss.bloat.utils.BloatUtils;
 import com.cryptic.model.content.raids.theatre.stage.RoomState;
@@ -49,8 +49,7 @@ public class BloatProcess extends NPC { //TODO make him reverse interpolate walk
     List<Tile> graphicTiles = new ArrayList<>();
     List<Player> players = new ArrayList<>();
 
-    Theatre theatre;
-    TheatreArea theatreArea;
+    TheatreInstance theatreInstance;
 
     private static final Tile[] WALK_TILES = {
         new Tile(3288, 4440, 0),
@@ -59,11 +58,10 @@ public class BloatProcess extends NPC { //TODO make him reverse interpolate walk
         new Tile(3299, 4440, 0),
     };
 
-    public BloatProcess(int id, Tile tile, Player player, Theatre theatre, TheatreArea theatreArea) {
+    public BloatProcess(int id, Tile tile, Player player, TheatreInstance theatreInstance) {
         super(id, tile);
         this.player = player;
-        this.theatre = theatre;
-        this.theatreArea = theatreArea;
+        this.theatreInstance = theatreInstance;
         this.spawnDirection(0);
         this.setSize(5);
         this.noRetaliation(true);
@@ -114,9 +112,9 @@ public class BloatProcess extends NPC { //TODO make him reverse interpolate walk
             }
             int numGraphics = Utils.random(12, 18);
             for (int i = 0; i < numGraphics; i++) {
-                Tile randomTile = bloatUtils.getRandomTile().transform(0,0, theatreArea.getzLevel());
+                Tile randomTile = bloatUtils.getRandomTile().transform(0,0, theatreInstance.getzLevel());
                 if (bloatUtils.isTileValid(tile, randomTile) && !RegionManager.blocked(randomTile)) {
-                    if (!IGNORED_AREA.transformArea(0,0,0,0,theatreArea.getzLevel()).contains(randomTile)) {
+                    if (!IGNORED_AREA.transformArea(0,0,0,0,theatreInstance.getzLevel()).contains(randomTile)) {
                         World.getWorld().tileGraphic(bloatUtils.getRandomLimbGraphic(), randomTile, 0, 0);
                         graphicTiles.add(randomTile);
                     }
@@ -174,17 +172,17 @@ public class BloatProcess extends NPC { //TODO make him reverse interpolate walk
 
     @Override
     public void postSequence() {
-        if (!players.contains(player) && player.tile().withinArea(BLOAT_AREA.transformArea(0,0,0,0,theatreArea.getzLevel()))) {
+        if (!players.contains(player) && player.tile().withinArea(BLOAT_AREA.transformArea(0,0,0,0,theatreInstance.getzLevel()))) {
             players.add(player);
-        } else if (players.contains(player) && !player.tile().withinArea(BLOAT_AREA.transformArea(0,0,0,0,theatreArea.getzLevel()))) {
+        } else if (players.contains(player) && !player.tile().withinArea(BLOAT_AREA.transformArea(0,0,0,0,theatreInstance.getzLevel()))) {
             players.remove(player);
         }
 
-        if (!player.tile().withinArea(BLOAT_AREA.transformArea(0,0,0,0,theatreArea.getzLevel()))) {
+        if (!player.tile().withinArea(BLOAT_AREA.transformArea(0,0,0,0,theatreInstance.getzLevel()))) {
             interpolateBloatWalk();
         }
 
-        if (!this.isSleeping() && player.tile().withinArea(BLOAT_AREA.transformArea(0,0,0,0,theatreArea.getzLevel()))) {
+        if (!this.isSleeping() && player.tile().withinArea(BLOAT_AREA.transformArea(0,0,0,0,theatreInstance.getzLevel()))) {
             interpolateBloatWalk();
             fallingLimbs();
             swarm();
@@ -205,7 +203,7 @@ public class BloatProcess extends NPC { //TODO make him reverse interpolate walk
     @Override
     public void die() {
         player.setRoomState(RoomState.COMPLETE);
-        player.getTheatreParty().onRoomStateChanged(player.getRoomState());
+        player.getTheatreInstance().onRoomStateChanged(player.getRoomState());
         Chain.noCtx().runFn(1, () -> {
             this.animate(DEATH_ANIM);
         }).then(3, () -> {
@@ -215,7 +213,7 @@ public class BloatProcess extends NPC { //TODO make him reverse interpolate walk
                 this.unlock();
             }
             players.clear();
-            Theatre.theatrePhase.setStage(TheatreStage.THREE);
+            TheatreInstance.theatrePhase.setStage(TheatreStage.THREE);
             World.getWorld().unregisterNpc(this);
         });
     }

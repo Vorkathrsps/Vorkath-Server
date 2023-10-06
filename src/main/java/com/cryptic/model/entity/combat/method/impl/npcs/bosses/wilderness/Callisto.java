@@ -37,7 +37,7 @@ public class Callisto extends CommonCombatMethod {
     public boolean performingAnimation = false;
     private ArrayList<Tile> allActiveTraps = new ArrayList<>();
     private ArrayList<GameObject> allActiveTrapObjects = new ArrayList<>();
-    private final Area ARTIO_AREA = new Area(1747, 11534, 1769, 11553);
+    private final Area ARTIO_AREA = new Area(3349, 10316, 3369, 10338);
 
     @Override
     public int moveCloseToTargetTileRange(@NonNull final Entity entity) {

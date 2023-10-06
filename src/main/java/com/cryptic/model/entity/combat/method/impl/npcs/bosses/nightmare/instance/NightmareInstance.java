@@ -15,6 +15,10 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @Author: Origin
+ * @Date: 10/5/2023
+ */
 public class NightmareInstance extends NightmareArea {
     @Getter Player owner;
     @Getter public List<Player> players;

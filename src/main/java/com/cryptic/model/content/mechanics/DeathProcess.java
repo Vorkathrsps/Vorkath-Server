@@ -103,7 +103,7 @@ public class DeathProcess implements TheatreDeath {
     }
 
     public void handleDeath(Player player) {
-        if (player.getTheatreParty() != null && this.inRaid(player)) {
+        if (player.getTheatreInstance() != null && this.inRaid(player)) {
             this.handleRaidDeath(player);
             return;
         }
@@ -339,13 +339,13 @@ public class DeathProcess implements TheatreDeath {
         player.clearAttrib(VENOMED_BY);
         player.looks().hide(false);
         player.getUpdateFlag().flag(Flag.APPEARANCE);
-        var party = player.theatreParty;
+        var party = player.getTheatreInstance();
         if (party != null) {
 
 
-            boolean wholeTeamDead = party.occupiedCageSpawnPointsList.size() == player.getTheatreParty().getParty().size(); //so wouldnt you do player.gettheatreparty().getleader().gettheatreparty().getparty().getsize?
+            boolean wholeTeamDead = party.occupiedCageSpawnPointsList.size() == player.getTheatreInstance().getPlayers().size(); //so wouldnt you do player.gettheatreparty().getleader().gettheatreparty().getparty().getsize?
             if (wholeTeamDead) {
-                for (Player p2 : party.getParty()) {
+                for (Player p2 : party.getPlayers()) {
                     if (p2.getIronManStatus().isHardcoreIronman()) {
                         p2.setIronmanStatus(IronMode.REGULAR);
                         p2.getPacketSender().sendRights();
@@ -354,7 +354,7 @@ public class DeathProcess implements TheatreDeath {
                     }
                 }
                 party.occupiedCageSpawnPointsList.clear();
-                player.getTheatre().dispose(); // will dispose for all and TPs out
+                player.getTheatreInstance().dispose(); // will dispose for all and TPs out
             }
         }
 
@@ -362,7 +362,7 @@ public class DeathProcess implements TheatreDeath {
 
     @Override
     public void handleRaidDeath(Player player) { //check 2 handle the death state
-        var party = player.theatreParty;
+        var party = player.getTheatreInstance();
         player.setRaidDeathState(RaidDeathState.DEAD);
 
         player.lock();
@@ -378,7 +378,7 @@ public class DeathProcess implements TheatreDeath {
             Tile targetTile = null;
             for (var t : VERZIK_DEATH_TILES) {
                 if (!player.tile().equals(t)) {
-                    targetTile = t.transform(0,0,player.theatre.theatreArea.getzLevel());
+                    targetTile = t.transform(0,0,player.getTheatreInstance().getzLevel());
                     break;
                 }
             }
@@ -391,15 +391,15 @@ public class DeathProcess implements TheatreDeath {
             resetPlayerInRaid(player);
         } else if (player.tile().inArea(BLOAT_AREA)) {
             occupiedCageSpawnPointsList.add(player);
-            player.teleport(3295, 4459, player.theatre.theatreArea.getzLevel());
+            player.teleport(3295, 4459, player.getTheatreInstance().getzLevel());
             resetPlayerInRaid(player);
         } else if (player.tile().inArea(MAIDEN_AREA)) {
             occupiedCageSpawnPointsList.add(player);
-            player.teleport(3166, 4433, player.theatre.theatreArea.getzLevel());
+            player.teleport(3166, 4433, player.getTheatreInstance().getzLevel());
             resetPlayerInRaid(player);
         } else if (player.tile().inArea(XARPUS_AREA)) {
             occupiedCageSpawnPointsList.add(player);
-            player.teleport(3157, 4387, player.theatre.theatreArea.getzLevel());
+            player.teleport(3157, 4387, player.getTheatreInstance().getzLevel());
             resetPlayerInRaid(player);
         } else if (player.tile().inArea(VASILIAS_AREA)) {
             occupiedCageSpawnPointsList.add(player);
@@ -420,7 +420,7 @@ public class DeathProcess implements TheatreDeath {
             resetPlayerInRaid(player);
         } else if (player.tile().inArea(SOTETSEG_AREA)) {
             occupiedCageSpawnPointsList.add(player);
-            player.teleport(3270, 4313, player.theatre.theatreArea.getzLevel());
+            player.teleport(3270, 4313, player.getTheatreInstance().getzLevel());
             resetPlayerInRaid(player);
         }
     }

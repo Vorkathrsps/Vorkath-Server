@@ -41,7 +41,7 @@ import com.cryptic.model.content.presets.Presetable;
 import com.cryptic.model.content.raids.Raids;
 import com.cryptic.model.content.raids.party.Party;
 import com.cryptic.model.content.raids.party.RaidsParty;
-import com.cryptic.model.content.raids.theatre.Theatre;
+import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.interactions.TheatreInterface;
 import com.cryptic.model.content.raids.theatre.party.TheatreParty;
 import com.cryptic.model.content.raids.theatre.stage.RaidDeathState;
@@ -181,14 +181,7 @@ public class Player extends Entity {
 
     @Getter
     private final Pet petEntity = new Pet(this);
-
-    @Getter
-    @Setter
-    public TheatreParty theatreParty;
-
-    @Getter
-    @Setter
-    public TheatreInterface theatreInterface = new TheatreInterface(this);
+    @Getter @Setter public TheatreInterface theatreInterface;
     @Getter
     @Setter
     public RoomState roomState;
@@ -202,9 +195,7 @@ public class Player extends Entity {
 
     @Getter @Setter private NightmareInstance nightmareInstance;
 
-    @Getter
-    @Setter
-    public Theatre theatre;
+    @Getter @Setter private TheatreInstance theatreInstance;
     public transient ShopReference shopReference = ShopReference.DEFAULT;
 
     private final WildernessSlayerCasket wildernessSlayerCasket = new WildernessSlayerCasket(this);
@@ -265,6 +256,8 @@ public class Player extends Entity {
     public void setRaids(Raids raids) {
         this.raids = raids;
     }
+
+    @Getter @Setter TheatreParty theatreParty;
 
     /**
      * depending on pid, two dying players, one might respawn before other's death code runs. this introduces some leway.
@@ -1436,15 +1429,13 @@ public class Player extends Entity {
         if (getInstancedArea() != null) {
             getInstancedArea().removePlayer(this);
         }
-        //if (this.getPet() != null) {
-        //  this.getPet().removeOnLogout();
-        // }
 
         var party = this.getTheatreParty();
+
         if (party != null) {
-            for (var p : party.getParty()) {
+            for (var p : party.getPlayers()) {
                 if (p.equals(this)) {
-                    p.getTheatreInterface().handleLogoutOrTeleport(p);
+                    p.getTheatreInterface().handleLogout(p);
                 }
             }
         }

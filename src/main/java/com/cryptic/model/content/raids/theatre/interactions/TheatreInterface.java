@@ -11,74 +11,102 @@ import com.cryptic.utility.Color;
 import com.cryptic.utility.Utils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TheatreInterface extends TheatreParty {
 
-    public TheatreInterface(Player leader) {
-        super(leader);
+    public TheatreInterface(Player owner, List<Player> players) {
+        super(owner, players);
     }
 
     public boolean create(Player player, int button) {
-        if (button == 73054) {
+        if (button == 76004) {
             if (player.getTheatreParty() == null) {
-                createParty();
-                leader.setTheatreParty(this);
-                leader.getPacketSender().sendString(73054, "Invite");
-                leader.getPacketSender().sendString(73074, Color.ORANGE.wrap(leader.getDisplayName()));
+                player.setTheatreParty(this);
+                player.getTheatreParty().addOwner();
+                player.getPacketSender().sendString(76004, "Invite");
+                player.getPacketSender().sendString(76024, Color.ORANGE.wrap(player.getDisplayName()));
                 refreshPartyUi(player.getTheatreParty());
-                leader.getPacketSender().sendString(73083, "--");
-                leader.getPacketSender().sendString(73092, "--");
-                leader.getPacketSender().sendString(73101, "--");
-                leader.getPacketSender().sendString(73110, "--");
+                player.getPacketSender().sendString(76033, "--");
+                player.getPacketSender().sendString(76042, "--");
+                player.getPacketSender().sendString(76051, "--");
+                player.getPacketSender().sendString(76060, "--");
             } else {
-                if (player.getTheatreParty().getLeader() == leader) {
+                if (player.getTheatreParty().getOwner() == player) {
                     request(player, button);
                 } else {
                     player.message(Color.RED.wrap("You do not have permission to perform this action."));
                 }
             }
             return true;
+        } else if (button == 76007) {
+            refresh(player.getTheatreParty());
+            return true;
         }
         return false;
     }
 
-    public boolean handleLogoutOrTeleport(Player player) {
-        var party = player.getTheatreParty();
-        clearInterface(player);
-        if (party != null) {
-            if (party.getLeader().equals(player)) {
-                for (Player p : party.getParty()) {
-                    clearInterface(p);
-                    p.setTheatreParty(null);
+    private static final Logger DEBUG = Logger.getLogger(TheatreInterface.class.getName());
+
+    public void handleLogout(Player player) {
+        try {
+            DEBUG.info("Handling logout for player: " + player.getUsername());
+
+            var party = player.getTheatreParty();
+            DEBUG.info("Party: " + party);
+
+            clearInterface(getOwner());
+
+            if (party != null) {
+                DEBUG.info("Party owner: " + party.getOwner().getUsername());
+                if (party.getOwner().equals(getOwner())) {
+                    DEBUG.info("Player is party owner.");
+                    for (Player p : party.getPlayers()) {
+                        clearInterface(p);
+                        p.message(Color.RED.wrap("The raiding party has been disbanded."));
+                        p.setTheatreParty(null);
+                        DEBUG.info("Cleared interface and set TheatreParty to null for player: " + p.getUsername());
+                    }
+                    party.clear();
+                    DEBUG.info("Cleared the party.");
+                } else {
+                    party.getPlayers().remove(player);
+                    clearInterface(player);
+                    player.setTheatreParty(null);
+                    DEBUG.info("Removed player from the party and cleared interface. Set TheatreParty to null for player: " + player.getUsername());
                 }
-                player.setTheatreParty(null);
-                party.clear();
-            } else {
-                party.getParty().remove(player);
-                clearInterface(player);
-                player.setTheatreParty(null);
+                refreshPartyUi(party);
+                DEBUG.info("Refreshed party UI.");
             }
-            refreshPartyUi(party);
+
+            DEBUG.info("Logout handling complete for player: " + player.getUsername());
+        } catch (Throwable t) {
+            DEBUG.log(Level.SEVERE, "An error occurred during logout handling in " + getClass().getName() +  "for player: " + player.getUsername(), t);
         }
-        return false;
     }
+
 
     public boolean abandon(Player player, int button) {
         var party = player.getTheatreParty();
-        if (button == 73055) {
+        if (button == 76005) {
             clearInterface(player);
             if (party != null) {
-                if (party.getLeader().equals(player)) {
-                    for (Player p : party.getParty()) {
+                if (party.getOwner() == null) {
+                    return false;
+                }
+                if (party.getOwner().equals(player)) {
+                    for (Player p : party.getPlayers()) {
                         clearInterface(p);
                         p.setTheatreParty(null);
                     }
                     player.setTheatreParty(null);
                     party.clear();
                 } else {
-                    party.getParty().remove(player);
+                    party.getPlayers().remove(player);
                     clearInterface(player);
                     player.setTheatreParty(null);
                 }
@@ -91,71 +119,83 @@ public class TheatreInterface extends TheatreParty {
     public void clearInterface(Player player) {
         for (int memberSlot = 0; memberSlot < 5; memberSlot++) {
             int offset = memberSlot > 0 ? memberSlot * 9 : 0;
-            player.getPacketSender().sendString(73054, "Create");
-            player.getPacketSender().sendString(73055, "Disband");
-            player.getPacketSender().sendString(73074 + offset, "--");
-            player.getPacketSender().sendString(73075 + offset, "--");
-            player.getPacketSender().sendString(73076 + offset, "--");
-            player.getPacketSender().sendString(73077 + offset, "--");
-            player.getPacketSender().sendString(73078 + offset, "--");
-            player.getPacketSender().sendString(73079 + offset, "--");
-            player.getPacketSender().sendString(73080 + offset, "--");
-            player.getPacketSender().sendString(73081 + offset, "--");
-            player.getPacketSender().sendString(73082 + offset, "--");
+            player.getPacketSender().sendString(76004, "Create/Invite");
+            player.getPacketSender().sendString(76005, "Disband/Leave");
+            player.getPacketSender().sendString(76024 + offset, "--"); //name
+            player.getPacketSender().sendString(76033 + offset, "--");
+            player.getPacketSender().sendString(76025 + offset, "--");
+            player.getPacketSender().sendString(76026 + offset, "--");
+            player.getPacketSender().sendString(76027 + offset, "--");
+            player.getPacketSender().sendString(76028 + offset, "--");
+            player.getPacketSender().sendString(76029 + offset, "--");
+            player.getPacketSender().sendString(76030 + offset, "--");
+            player.getPacketSender().sendString(76031 + offset, "--");
+            player.getPacketSender().sendString(76032 + offset, "--"); //party names
         }
     }
 
     public void wipeStatsForSlot(Player player, int i) {
         int offset = i > 0 ? i * 9 : 0;
-        player.getPacketSender().sendString(73054, "Create");
-        player.getPacketSender().sendString(73055, "Disband");
-        player.getPacketSender().sendString(73074 + offset, "--");
-        player.getPacketSender().sendString(73075 + offset, "--");
-        player.getPacketSender().sendString(73076 + offset, "--");
-        player.getPacketSender().sendString(73077 + offset, "--");
-        player.getPacketSender().sendString(73078 + offset, "--");
-        player.getPacketSender().sendString(73079 + offset, "--");
-        player.getPacketSender().sendString(73080 + offset, "--");
-        player.getPacketSender().sendString(73081 + offset, "--");
-        player.getPacketSender().sendString(73082 + offset, "--");
+        player.getPacketSender().sendString(76004, "Create/Invite");
+        player.getPacketSender().sendString(76005, "Disband/Leave");
+        player.getPacketSender().sendString(76024 + offset, "--"); //name
+        player.getPacketSender().sendString(76033 + offset, "--");
+        player.getPacketSender().sendString(76025 + offset, "--");
+        player.getPacketSender().sendString(76026 + offset, "--");
+        player.getPacketSender().sendString(76027 + offset, "--");
+        player.getPacketSender().sendString(76028 + offset, "--");
+        player.getPacketSender().sendString(76029 + offset, "--");
+        player.getPacketSender().sendString(76030 + offset, "--");
+        player.getPacketSender().sendString(76031 + offset, "--");
+        player.getPacketSender().sendString(76032 + offset, "--"); //party names
+    }
+
+    public void refresh(TheatreParty party) {
+        refreshPartyUi(party);
     }
 
     public void refreshPartyUi(TheatreParty party) {
-        for (Player p2 : party.getParty()) {
+        if (party == null) {
+            return;
+        }
+
+        for (Player p2 : party.getPlayers()) {
+
             for (int i = 0; i < 4; i++) {
-                Player m = i == 0 ? party.leader : i >= party.getParty().size() ? null : party.getParty().get(i);
+                Player m = i == 0 ? party.getOwner() : i >= party.getPlayers().size() ? null : party.getPlayers().get(i);
 
                 if (m == null) {
                     wipeStatsForSlot(p2, i);
                     continue;
                 }
+
                 int offset = i > 0 ? i * 9 : i;
 
-                p2.getPacketSender().sendString(73074 + offset, Color.ORANGE.wrap(m.getDisplayName()));
+                p2.getPacketSender().sendString(76024 + offset, Color.ORANGE.wrap(m.getUsername()));
                 String combatLevel = Integer.toString(m.getSkills().combatLevel());
-                p2.getPacketSender().sendString(73075 + offset, combatLevel);
+                p2.getPacketSender().sendString(76025 + offset, combatLevel);
                 String attack = Integer.toString(m.getSkills().level(Skills.ATTACK));
-                p2.getPacketSender().sendString(73076 + offset, attack);
+                p2.getPacketSender().sendString(76026 + offset, attack);
                 String strength = Integer.toString(m.getSkills().level(Skills.STRENGTH));
-                p2.getPacketSender().sendString(73077 + offset, strength);
+                p2.getPacketSender().sendString(76027 + offset, strength);
                 String ranged = Integer.toString(m.getSkills().level(Skills.RANGED));
-                p2.getPacketSender().sendString(73078 + offset, ranged);
+                p2.getPacketSender().sendString(76028 + offset, ranged);
                 String magic = Integer.toString(m.getSkills().level(Skills.MAGIC));
-                p2.getPacketSender().sendString(73079 + offset, magic);
+                p2.getPacketSender().sendString(76029 + offset, magic);
                 String defence = Integer.toString(m.getSkills().level(Skills.DEFENCE));
-                p2.getPacketSender().sendString(73080 + offset, defence);
+                p2.getPacketSender().sendString(76030 + offset, defence);
                 String hitpoints = Integer.toString(m.getSkills().level(Skills.HITPOINTS));
-                p2.getPacketSender().sendString(73081 + offset, hitpoints);
+                p2.getPacketSender().sendString(76031 + offset, hitpoints);
                 String prayer = Integer.toString(m.getSkills().level(Skills.PRAYER));
-                p2.getPacketSender().sendString(73082 + offset, prayer);
+                p2.getPacketSender().sendString(76032 + offset, prayer);
 
             }
         }
     }
 
     public boolean request(Player player, int button) {
-        if (button == 73054) {
-            if (leader.equals(player.getTheatreParty().getLeader())) {
+        if (button == 76004) {
+            if (player.equals(player.getTheatreParty().getOwner())) {
                 this.sendLeaderDialogue();
                 return true;
             }
@@ -163,10 +203,10 @@ public class TheatreInterface extends TheatreParty {
         return false;
     }
 
-    public void open(Player player) {
+    public TheatreInterface open(Player player) {
         if (player != null) {
-            player.getInterfaceManager().open(73050);
-            player.getPacketSender().sendString(73052, "Theatre Of Blood Party");
+            player.getInterfaceManager().open(76000);
+            player.getPacketSender().sendString(76002, "Theatre Of Blood Party");
             if (player.getTheatreParty() != null) {
                 var party = player.getTheatreParty();
                 refreshPartyUi(party);
@@ -174,10 +214,11 @@ public class TheatreInterface extends TheatreParty {
                 clearInterface(player);
             }
         }
+        return this;
     }
 
     public boolean close(Player player, int button) {
-        if (player != null && button == 73053) {
+        if (player != null && button == 76003) {
             player.getInterfaceManager().close();
             return true;
         }
@@ -197,15 +238,15 @@ public class TheatreInterface extends TheatreParty {
             return false;
         }
 
-        if (!party.getLeader().equals(player)) {
+        if (!party.getOwner().equals(player)) {
             return false;
         }
 
         int playerIndexToKick = buttonToPartyIndex.get(button);
-        if (playerIndexToKick >= 0 && playerIndexToKick < party.getParty().size()) {
-            Player playerToKick = party.getParty().get(playerIndexToKick);
+        if (playerIndexToKick >= 0 && playerIndexToKick < party.getPlayers().size()) {
+            Player playerToKick = party.getPlayers().get(playerIndexToKick);
 
-            party.getParty().remove(playerToKick);
+            party.getPlayers().remove(playerToKick);
             clearInterface(playerToKick);
             playerToKick.setTheatreParty(null);
             refreshPartyUi(party);
@@ -215,81 +256,78 @@ public class TheatreInterface extends TheatreParty {
         return false;
     }
 
-
-    public boolean refresh(TheatreParty party, int button) {
-        if (button == 73057) {
-            refreshPartyUi(party);
-            return true;
-        }
-        return false;
-    }
-
     public void invite(Player player, Player member) {
-        if (!player.getTheatreParty().getLeader().equals(leader)) {
-            player.message("You are not the party leader and cannot invite members.");
-            return;
-        }
-
-        if (member.getTheatreParty() != null) {
-            leader.message(member.getUsername() + " is already in a party.");
-            return;
-        }
-
-        DialogueManager.sendStatement(player, "Requesting..");
-        member.getDialogueManager().start(new Dialogue() {
-            @Override
-            protected void start(Object... parameters) {
-                send(DialogueType.OPTION, player.getUsername() + " has invited you to join their party.", "Accept", "Decline");
-                setPhase(0);
+        try {
+            if (!player.getTheatreParty().getOwner().equals(player)) {
+                player.message("You are not the party leader and cannot invite members.");
+                DEBUG.warning("Player " + player.getUsername() + " attempted to invite a member without being the party leader.");
+                return;
             }
 
-            @Override
-            protected void select(int option) {
-                if (isPhase(0)) {
-                    if (option == 1) {
-                        if (member.getTheatreParty() != null) {
-                            DialogueManager.sendStatement(leader, member.getUsername() + " is already in a party.");
-                            return;
-                        } else {
-                            if (party != null) {
-                                party.add(member);
-                                member.setTheatreParty(leader.getTheatreParty());
-                                member.message("You've joined " + leader.getUsername() + "'s raid party.");
-                                DialogueManager.sendStatement(leader, member.getUsername() + " has joined your raid party.");
-                                member.getPacketSender().sendString(73055, "Leave");
-                                refreshPartyUi(member.getTheatreParty());
+            if (member.getTheatreParty() != null) {
+                player.getTheatreParty().getOwner().message(member.getUsername() + " is already in a party.");
+                DEBUG.warning("Player " + player.getUsername() + " attempted to invite " + member.getUsername() + " who is already in a party.");
+                return;
+            }
+
+            DialogueManager.sendStatement(player, "Requesting..");
+            member.getDialogueManager().start(new Dialogue() {
+                @Override
+                protected void start(Object... parameters) {
+                    send(DialogueType.OPTION, getOwner().getUsername() + " has invited you to join their party.", "Accept", "Decline");
+                    setPhase(0);
+                }
+
+                @Override
+                protected void select(int option) {
+                    if (isPhase(0)) {
+                        if (option == 1) {
+                            if (member.getTheatreParty() != null) {
+                                DialogueManager.sendStatement(getOwner(), member.getUsername() + " is already in a party.");
+                                return;
+                            } else {
+                                if (getOwner().getTheatreParty() != null) {
+                                    getPlayers().add(member);
+                                    member.setTheatreParty(getOwner().getTheatreParty());
+                                    member.message("You've joined " + getOwner().getUsername() + "'s raid party.");
+                                    DialogueManager.sendStatement(getOwner(), member.getUsername() + " has joined your raid party.");
+                                    member.getPacketSender().sendString(73055, "Leave");
+                                    refreshPartyUi(member.getTheatreParty());
+                                }
+                                stop();
                             }
+                        }
+                        if (option == 2) {
+                            DialogueManager.sendStatement(player, member.getUsername() + " has declined your request to join your raid party.");
+                            member.message("You decline " + player.getUsername() + "'s request to join their party.");
                             stop();
                         }
                     }
-                    if (option == 2) {
-                        DialogueManager.sendStatement(player, member.getUsername() + " has declined your request to join your raid party.");
-                        member.message("You decline " + player.getUsername() + "'s request to join their party.");
-                        stop();
-                    }
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            DEBUG.log(Level.SEVERE, "An error occurred during invitation.", e);
+        }
     }
 
     public void sendLeaderDialogue() {
-        if (leader != null && leader.getTheatreParty() != null) {
-            leader.setNameScript("Who would you like to invite?", value -> {
+        if (getOwner() != null && getOwner().getTheatreParty() != null) {
+            getOwner().setNameScript("Who would you like to invite?", value -> {
 
                 String name = (String) value;
                 Optional<Player> target = World.getWorld().getPlayerByName(name);
 
                 if (target.isPresent()) {
                     if (target.get().tile().region() != 14642) {
-                        leader.message(Utils.formatName(name) + " is nowhere near the raids area.");
+                        getOwner().message(Utils.formatName(name) + " is nowhere near the raids area.");
                         return false;
                     }
 
-                    this.invite(leader, target.get());
+                    this.invite(getOwner(), target.get());
 
                 } else {
-                    leader.message(Utils.formatName(name) + " is not online and cannot join your party.");
-                    leader.getInterfaceManager().closeDialogue();
+                    getOwner().message(Utils.formatName(name) + " is not online and cannot join your party.");
+                    getOwner().getInterfaceManager().closeDialogue();
                 }
                 return true;
             });

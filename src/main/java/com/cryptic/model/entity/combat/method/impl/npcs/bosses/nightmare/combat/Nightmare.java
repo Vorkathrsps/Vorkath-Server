@@ -86,6 +86,7 @@ public class Nightmare extends CommonCombatMethod { //TODO increase max hit base
             }
         }
 
+
         AshihamaState currentState = this.getAshihamaState();
         AtomicInteger delay = new AtomicInteger();
         BooleanSupplier middleTile = () -> nightmare.tile().equals(3870, 9949);

@@ -1,7 +1,7 @@
 package com.cryptic.model.content.raids.theatre.boss.sotetseg.handler;
 
 import com.cryptic.model.World;
-import com.cryptic.model.content.raids.theatre.Theatre;
+import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.area.TheatreArea;
 import com.cryptic.model.content.raids.theatre.stage.RoomState;
 import com.cryptic.model.entity.combat.CombatFactory;
@@ -26,8 +26,7 @@ import java.util.List;
 public class SotetsegProcess extends NPC {
     private final List<Player> players = new ArrayList<>();
     Player player;
-    Theatre theatre;
-    TheatreArea theatreArea;
+    TheatreInstance theatreInstance;
     int magicAttackCount = 0;
     private int intervalCount = 0;
     private int attackInterval = 5;
@@ -35,11 +34,10 @@ public class SotetsegProcess extends NPC {
     public static final Area SOTETSEG_AREA = new Area(3272, 4305, 3289, 4334);
     public static final Area IGNORED = new Area( 3277, 4303,3282, 4307);
 
-    public SotetsegProcess(int id, Tile tile, Player player, Theatre theatre, TheatreArea theatreArea) {
+    public SotetsegProcess(int id, Tile tile, Player player, TheatreInstance theatreInstance) {
         super(id, tile);
         this.player = player;
-        this.theatre = theatre;
-        this.theatreArea = theatreArea;
+        this.theatreInstance = theatreInstance;
         this.setCombatMethod(null);
         this.spawnDirection(Direction.SOUTH.toInteger());
         this.noRetaliation(true);
@@ -138,7 +136,7 @@ public class SotetsegProcess extends NPC {
     public void die() {
         players.clear();
         player.setRoomState(RoomState.COMPLETE);
-        player.getTheatreParty().onRoomStateChanged(player.getRoomState());
+        player.getTheatreInstance().onRoomStateChanged(player.getRoomState());
         Chain.noCtx().runFn(1, () -> {
             this.animate(8139);
         }).then(3, () -> {
@@ -147,11 +145,11 @@ public class SotetsegProcess extends NPC {
     }
 
     protected boolean insideBounds() {
-        if (IGNORED.transformArea(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()) || (!SOTETSEG_AREA.transformArea(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()) && IGNORED.transformArea(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()))) {
+        if (IGNORED.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(player.tile()) || (!SOTETSEG_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(player.tile()) && IGNORED.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(player.tile()))) {
             return false;
         }
 
-        if (SOTETSEG_AREA.transformArea(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()) && !IGNORED.transformArea(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile())) {
+        if (SOTETSEG_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(player.tile()) && !IGNORED.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(player.tile())) {
             if (!players.contains(player)) {
                 players.add(player);
                 return true;

@@ -2,7 +2,7 @@ package com.cryptic.model.content.raids.theatre.boss.maiden.handler;
 
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
-import com.cryptic.model.content.raids.theatre.Theatre;
+import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.area.TheatreArea;
 import com.cryptic.model.content.raids.theatre.boss.maiden.blood.BloodSpawn;
 import com.cryptic.model.content.raids.theatre.boss.maiden.nylos.MaidenNylo;
@@ -40,14 +40,12 @@ public class MaidenProcess extends NPC {
     private boolean nyloSpawned70to50;
     private boolean nyloSpawned50to30;
     private boolean nyloSpawned30to0;
-    private final TheatreArea theatreArea;
-    private final Theatre theatre;
+    private final TheatreInstance theatreInstance;
 
-    public MaidenProcess(int id, Tile tile, Player player, Theatre theatre, TheatreArea theatreArea) {
+    public MaidenProcess(int id, Tile tile, Player player, TheatreInstance theatreInstance) {
         super(id, tile);
         this.player = player;
-        this.theatre = theatre;
-        this.theatreArea = theatreArea;
+        this.theatreInstance = theatreInstance;
         this.setCombatMethod(null);
         this.spawnDirection(Direction.EAST.toInteger());
         this.noRetaliation(true);
@@ -83,14 +81,14 @@ public class MaidenProcess extends NPC {
         Projectile p = new Projectile(this, tile, 2002, 68, duration, 95, 0, 20, 5, 10);
         p.send(this, tile);
         World.getWorld().tileGraphic(1579, tile, 0, p.getSpeed());
-        this.orb = new BloodSpawn(10821, new Tile(p.getEnd().getX(), p.getEnd().getY()).transform(0, 0, theatreArea.getzLevel()), player, this, theatreArea);
+        this.orb = new BloodSpawn(10821, new Tile(p.getEnd().getX(), p.getEnd().getY()).transform(0, 0, theatreInstance.getzLevel()), player, this, theatreInstance);
         Chain.noCtx().runFn(16, () -> {
             this.orb.spawn(false);
         });
     }
 
     public void spawnNylocasMatomenos(int partySize) {
-        int zLevel = theatreArea.getzLevel();
+        int zLevel = theatreInstance.getzLevel();
         Set<Tile> selectedTiles = new HashSet<>();
         List<Tile> availableTiles = new ArrayList<>(Arrays.asList(MaidenNylo.spawn_tiles));
         Collections.shuffle(availableTiles);
@@ -158,9 +156,9 @@ public class MaidenProcess extends NPC {
 
     @Override
     public void die() {
-        Theatre.theatrePhase.setStage(TheatreStage.TWO);
+        TheatreInstance.theatrePhase.setStage(TheatreStage.TWO);
         player.setRoomState(RoomState.COMPLETE);
-        player.getTheatreParty().onRoomStateChanged(player.getRoomState());
+        player.getTheatreInstance().onRoomStateChanged(player.getRoomState());
         if (nylo != null) {
             nylo.die();
         }
@@ -173,15 +171,15 @@ public class MaidenProcess extends NPC {
     }
 
     public int partySize() {
-        return player.getTheatreParty().getParty().size();
+        return player.getTheatreInstance().getPlayers().size();
     }
 
     protected boolean insideBounds() {
-        if (IGNORED.transformArea(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()) || (!MAIDEN_AREA.transformArea(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()) && IGNORED.transformArea(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()))) {
+        if (IGNORED.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(player.tile()) || (!MAIDEN_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(player.tile()) && IGNORED.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(player.tile()))) {
             return false;
         }
 
-        if (MAIDEN_AREA.transformArea(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile()) && !IGNORED.transformArea(0, 0, 0, 0, theatreArea.getzLevel()).contains(player.tile())) {
+        if (MAIDEN_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(player.tile()) && !IGNORED.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(player.tile())) {
             if (!players.contains(player)) {
                 players.add(player);
                 return true;

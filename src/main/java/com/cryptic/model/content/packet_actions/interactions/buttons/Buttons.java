@@ -340,23 +340,22 @@ public class Buttons {
                 if (BonusesInterface.bonusesButtons(player, button)) {
                     return;
                 }
-                if (player.theatreInterface.close(player, button)) {
-                    return;
-                }
-                if (player.tile().region() == 14642) {
-                    if (player.theatreInterface.create(player, button)) {
+                if (player.getTheatreInterface() != null) {
+                    if (player.getTheatreInterface().close(player, button)) {
                         return;
                     }
-                }
-                if (player.theatreInterface.abandon(player, button)) {
-                    return;
-                }
-                if (player.getTheatreParty() != null && player.theatreInterface != null) {
-                    if (player.theatreInterface.refresh(player.getTheatreParty(), button)) {
+                    if (player.tile().region() == 14642) {
+                        if (player.getTheatreInterface().create(player, button)) {
+                            return;
+                        }
+                    }
+                    if (player.getTheatreInterface().abandon(player, button)) {
                         return;
                     }
-                    if (player.theatreInterface.kick(player, button)) {
-                        return;
+                    if (player.getTheatreParty() != null && player.getTheatreInterface() != null) {
+                        if (player.getTheatreInterface().kick(player, button)) {
+                            return;
+                        }
                     }
                 }
                 if (CollectionLogButtons.onButtonClick(player, button)) {

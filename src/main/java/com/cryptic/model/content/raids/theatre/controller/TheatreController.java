@@ -1,7 +1,6 @@
 package com.cryptic.model.content.raids.theatre.controller;
 
-import com.cryptic.model.content.raids.theatre.Theatre;
-import com.cryptic.model.content.raids.theatre.area.TheatreArea;
+import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.entity.player.Player;
 
 import java.util.List;
@@ -12,16 +11,16 @@ import java.util.List;
  */
 public class TheatreController {
 
-    private final List<TheatreRaid> theatreRaid;
+    private final List<TheatreHandler> npcs;
 
-    public TheatreController(List<TheatreRaid> theatreRaid) {
+    public TheatreController(List<TheatreHandler> npcs) {
         super();
-        this.theatreRaid = theatreRaid;
+        this.npcs = npcs;
     }
 
-    public void build(Player player, Theatre theatre, TheatreArea theatreArea) {
-        for (TheatreRaid r : theatreRaid) {
-            r.buildRaid(player, theatre, theatreArea);
+    public void build(Player player, TheatreInstance theatreInstance) {
+        for (TheatreHandler r : npcs) {
+            r.build(player, theatreInstance);
         }
     }
 

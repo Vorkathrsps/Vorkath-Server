@@ -5,11 +5,9 @@ import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.content.areas.theatre.ViturRoom;
-import com.cryptic.model.content.instance.InstanceConfiguration;
 import com.cryptic.model.content.instance.InstancedAreaManager;
 import com.cryptic.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
-import com.cryptic.model.content.raids.theatre.Theatre;
-import com.cryptic.model.content.raids.theatre.area.TheatreArea;
+import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.handler.XarpusProcess;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.cryptic.model.content.tournaments.Tournament;
@@ -19,9 +17,6 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.totems.SouthWestTotem;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.instance.NightmareArea;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.instance.NightmareInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
@@ -676,8 +671,7 @@ public class CommandManager {
 
         });
         dev("c", (p, c, s) -> {
-            List<Player> players = new ArrayList<>();
-            p.setNightmareInstance(new NightmareInstance(p, players).build());
+          //  p.setTheatreInstance(new TheatreInstance(p, new ArrayList<>()).buildParty().startRaid());
         });
 
         dev("ioi", (p, c, s) -> {
@@ -961,8 +955,8 @@ public class CommandManager {
             xarpusProcess.spawn(false);
         });
         dev("t27", (p, c, s) -> {
-            Theatre theatre = new Theatre(p, new TheatreArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, Theatre.rooms()));
-            theatre.startRaid();
+            //TheatreInstance theatreInstance = new TheatreInstance(p, new TheatreArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, TheatreInstance.rooms()));
+           // theatreInstance.startRaid();
             var instance = InstancedAreaManager.getSingleton().createInstancedArea(new Area(3156, 4374, 3156 + 40, 4374 + 40));
             p.setInstance(instance);
             p.teleport(new Tile(3166, 4384, instance.getzLevel()));

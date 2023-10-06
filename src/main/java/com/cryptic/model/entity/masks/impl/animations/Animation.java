@@ -46,6 +46,12 @@ public class Animation {
         this.priority = Priority.LOW;
     }
 
+    public Animation(int id, int delay, Priority priority) {
+        this.id = id;
+        this.delay = delay;
+        this.priority = priority;
+    }
+
     /**
      * The animation's id.
      */

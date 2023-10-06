@@ -639,7 +639,8 @@ public class EquipmentInfo {
                 case DRAGON_CROSSBOW:
                 case ARMADYL_CROSSBOW:
                 case DRAGON_HUNTER_CROSSBOW:
-                    return WildernessArea.inWilderness(player.tile()) ? 4230 : 7552;
+                    var entity = player.getCombat().getTarget();
+                    return entity instanceof Player ? 4230 : 7552;
                 case ZARYTE_CROSSBOW:
                     return 9166;
             }

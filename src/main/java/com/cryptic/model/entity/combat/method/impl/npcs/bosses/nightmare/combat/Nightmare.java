@@ -77,9 +77,13 @@ public class Nightmare extends CommonCombatMethod { //TODO increase max hit base
             return;
         }
 
-        if (!player.getNightmareInstance().getHusks().isEmpty()) {
-            BooleanSupplier isEmpty = () -> player.getNightmareInstance().getHusks().isEmpty();
-            player.waitUntil(isEmpty, () -> player.clearAttrib(NO_MOVEMENT_NIGHTMARE));
+        for (var t : player.getNightmareInstance().getPlayers()) {
+            if (t == player) {
+                if (!player.getNightmareInstance().getHusks().isEmpty()) {
+                    BooleanSupplier isEmpty = () -> t.getNightmareInstance().getHusks().isEmpty();
+                    t.waitUntil(isEmpty, () -> t.clearAttrib(NO_MOVEMENT_NIGHTMARE));
+                }
+            }
         }
 
         AshihamaState currentState = this.getAshihamaState();
@@ -592,6 +596,7 @@ public class Nightmare extends CommonCombatMethod { //TODO increase max hit base
     public boolean customOnDeath(Hit hit) {
         NPC nightmare = (NPC) this.entity;
         Player player = (Player) this.target;
+
         var totems = player.getNightmareInstance().getTotems();
 
         if (this.getAshihamaPhase().equals(AshihamaPhase.ONE)) {

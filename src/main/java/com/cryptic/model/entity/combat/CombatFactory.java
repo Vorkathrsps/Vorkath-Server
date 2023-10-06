@@ -1287,6 +1287,11 @@ public class CombatFactory {
         }
 
         if (attacker instanceof Player damageDealer) {
+            if (target instanceof NPC npc) {
+                if (npc.isCombatDummy()) {
+                    return;
+                }
+            }
             AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_I, hit.getDamage());
             AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_II, hit.getDamage());
             AchievementsManager.activate(damageDealer, Achievements.DAMAGE_DEALER_III, hit.getDamage());

@@ -14,10 +14,7 @@ import com.cryptic.model.content.instance.InstancedArea;
 import com.cryptic.model.content.mechanics.Poison;
 import com.cryptic.model.content.raids.theatre.Theatre;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.entity.combat.Combat;
-import com.cryptic.model.entity.combat.CombatSpecial;
-import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.Venom;
+import com.cryptic.model.entity.combat.*;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.AttackNpcListener;
@@ -1833,7 +1830,7 @@ public abstract class Entity {
     /**
      * Teleports the mob to a target location
      */
-    public void teleport(Tile teleportTarget) {
+    public void teleport(Tile teleportTarget) { //TODO add damage invalidation on teleport for players
 
         if (isPlayer() && !getAsPlayer().getInterfaceManager().isClear()) {
             getAsPlayer().getInterfaceManager().removeOverlay();
@@ -1841,10 +1838,18 @@ public abstract class Entity {
         }
 
         if (isPlayer()) {
+            if (player().getNightmareInstance() != null) {
+                player().getNightmareInstance().getPlayers().remove(player());
+            }
+
             if (player().hasAttrib(NO_MOVEMENT_NIGHTMARE)) {
                 player().clearAttrib(NO_MOVEMENT_NIGHTMARE);
-                player().forceChat("removing attribute");
             }
+
+            if (player().getHits() != null) {
+                player().getHits().invalidate();
+            }
+
         }
 
         if (isPlayer() && player() != null) {

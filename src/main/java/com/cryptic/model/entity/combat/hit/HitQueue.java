@@ -56,7 +56,7 @@ public class HitQueue {
                         continue;
                     }
 
-                    if (hit.invalid()) {
+                    if (hit.isLocked()) {
                         hit.toremove = true;
                         continue;
                     }

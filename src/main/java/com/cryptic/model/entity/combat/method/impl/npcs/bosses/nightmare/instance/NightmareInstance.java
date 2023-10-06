@@ -16,17 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NightmareInstance extends NightmareArea {
-    @Getter
-    Player owner;
-    @Getter
-    private final List<Player> players;
-    @Getter
-    @Setter
-    boolean joinable = true;
-    @Getter
-    public List<NPC> husks = new ArrayList<>();
-    @Getter
-    public List<NPC> totems = new ArrayList<>();
+    @Getter Player owner;
+    @Getter public List<Player> players;
+    @Getter @Setter boolean joinable = true;
+    @Getter public List<NPC> husks = new ArrayList<>();
+    @Getter public List<NPC> totems = new ArrayList<>();
 
     public static Area room() {
         return new Area(Tile.regionToTile(15515).getX(), Tile.regionToTile(15515).getY(), Tile.regionToTile(15515).getX() + 63, Tile.regionToTile(15515).getY() + 63);

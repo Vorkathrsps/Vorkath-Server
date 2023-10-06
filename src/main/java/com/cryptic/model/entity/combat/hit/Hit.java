@@ -95,8 +95,6 @@ public class Hit {
         return attacker;
     }
 
-
-
     /**
      * Adjusts the hit delay with the characters update index (PID).
      */
@@ -202,8 +200,16 @@ public class Hit {
         return this;
     }
 
-    public boolean invalid() {
+    public boolean isLocked() {
         return target.locked() && !target.isDamageOkLocked() && !target.isDelayDamageLocked() && !target.isMoveLockedDamageOk();
+    }
+
+    @Getter boolean invalidate = false;
+
+    public Hit invalidate() {
+        this.accurate = false;
+        this.invalidate = true;
+        return this;
     }
 
     public int getMaximumHit() {
@@ -292,7 +298,7 @@ public class Hit {
     }
 
     public void submit() {
-        if (target != null && !invalid()) {
+        if (target != null && !isLocked() && !isInvalidate()) {
             CombatFactory.addPendingHit(this);
         }
     }

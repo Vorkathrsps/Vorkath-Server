@@ -7,8 +7,9 @@ import com.cryptic.model.World;
 import com.cryptic.model.content.areas.theatre.ViturRoom;
 import com.cryptic.model.content.instance.InstancedAreaManager;
 import com.cryptic.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
-import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.handler.XarpusProcess;
+import com.cryptic.model.content.skill.impl.woodcutting.impl.Axe;
+import com.cryptic.model.content.skill.impl.woodcutting.impl.Trees;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.cryptic.model.content.tournaments.Tournament;
 import com.cryptic.model.content.tournaments.TournamentManager;
@@ -671,7 +672,31 @@ public class CommandManager {
 
         });
         dev("c", (p, c, s) -> {
-          //  p.setTheatreInstance(new TheatreInstance(p, new ArrayList<>()).buildParty().startRaid());
+            final Map<Trees, int[]> treeTypeToLow = new HashMap<>();
+            final Map<Trees, int[]> treeTypeToHigh = new HashMap<>();
+
+            for (Trees trees : Trees.values()) {
+                Axe axe = Axe.BRONZE;  // Get the preferred hatchet for the tree
+                int[][] hatchetValues = axe.getValues();  // Get the values from the preferred hatchet
+                int[] treeLowValues = new int[trees.objects.length];
+                int[] treeHighValues = new int[trees.objects.length];
+
+                for (int i = 0; i < trees.objects.length; i++) {
+                    int index = axe.ordinal();  // Get the index of the hatchet in the enum
+                    treeLowValues[i] = hatchetValues[index][0];  // Get the low value for the tree
+                    treeHighValues[i] = hatchetValues[index][1];  // Get the high value for the tree
+                }
+
+                treeTypeToLow.put(trees, treeLowValues);
+                treeTypeToHigh.put(trees, treeHighValues);
+            }
+
+            // Print the mappings for validation
+            for (Trees trees : Trees.values()) {
+                System.out.println("Tree: " + trees);
+                System.out.println("Low values: " + Arrays.toString(treeTypeToLow.get(trees)));
+                System.out.println("High values: " + Arrays.toString(treeTypeToHigh.get(trees)));
+            }
         });
 
         dev("ioi", (p, c, s) -> {
@@ -679,7 +704,7 @@ public class CommandManager {
             // interface item container id
             // item id1, item id2, item id3, etc.
             int interfaceId = Integer.parseInt(s[0]);
-           // int containerId = Integer.parseInt(s[1]);
+            // int containerId = Integer.parseInt(s[1]);
             p.getInterfaceManager().open(interfaceId);
 
             List<Item> items = new ArrayList<>();
@@ -956,7 +981,7 @@ public class CommandManager {
         });
         dev("t27", (p, c, s) -> {
             //TheatreInstance theatreInstance = new TheatreInstance(p, new TheatreArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, TheatreInstance.rooms()));
-           // theatreInstance.startRaid();
+            // theatreInstance.startRaid();
             var instance = InstancedAreaManager.getSingleton().createInstancedArea(new Area(3156, 4374, 3156 + 40, 4374 + 40));
             p.setInstance(instance);
             p.teleport(new Tile(3166, 4384, instance.getzLevel()));

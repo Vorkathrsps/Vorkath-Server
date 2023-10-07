@@ -1,8 +1,8 @@
 package com.cryptic.model.content.areas.dungeons.brimhaven;
 
-import com.cryptic.model.content.skill.impl.woodcutting.Woodcutting;
 import com.cryptic.core.task.Task;
 import com.cryptic.core.task.TaskManager;
+import com.cryptic.model.content.skill.impl.woodcutting.impl.Axe;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.inter.dialogue.Dialogue;
 import com.cryptic.model.inter.dialogue.DialogueType;
@@ -23,7 +23,7 @@ import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
 public class BrimhavenDungeon extends PacketInteraction {
 
     private static void chopDown(Player player, GameObject vines) {
-        Woodcutting.Hatchet axe = Woodcutting.findAxe(player).orElse(null);
+        Axe axe = Axe.findAxe(player).orElse(null);
         if (axe == null) {
             player.message("You need an axe to chop down these vines.");
             player.message("You do not have an axe which you have the Woodcutting level to use.");

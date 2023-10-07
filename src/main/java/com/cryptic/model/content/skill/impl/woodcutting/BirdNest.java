@@ -91,7 +91,7 @@ public enum BirdNest {
         return false;
     }
 
-    public static Item getRandomNest(Woodcutting.Tree tree) {
+    public static Item getRandomNest() {
         int randomNest;
         randomNest = Utils.random(BirdNest.values().length - 1);
         return new Item(BirdNest.values()[randomNest].itemId);

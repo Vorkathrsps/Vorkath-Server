@@ -11,7 +11,7 @@ import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 
-import static com.cryptic.utility.ItemIdentifiers.DRAGON_HUNTER_CROSSBOW;
+import static com.cryptic.utility.ItemIdentifiers.*;
 
 public class DragonHunterCrossbow implements DamageEffectListener {
     @Override
@@ -38,7 +38,7 @@ public class DragonHunterCrossbow implements DamageEffectListener {
     public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
         var attacker = (Player) entity;
         var target = rangeAccuracy.getDefender().getCombat().getTarget();
-        if (attacker.getEquipment().contains(DRAGON_HUNTER_CROSSBOW)) {
+        if (attacker.getEquipment().containsAny(DRAGON_HUNTER_CROSSBOW, DRAGON_HUNTER_CROSSBOW_T, DRAGON_HUNTER_CROSSBOW_B)) {
             if (target instanceof NPC && FormulaUtils.isDragon(target)) {
                 rangeAccuracy.setModifier(1.25F);
             } else {

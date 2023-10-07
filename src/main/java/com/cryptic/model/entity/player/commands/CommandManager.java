@@ -7,7 +7,10 @@ import com.cryptic.model.World;
 import com.cryptic.model.content.areas.theatre.ViturRoom;
 import com.cryptic.model.content.instance.InstancedAreaManager;
 import com.cryptic.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
+import com.cryptic.model.content.raids.theatre.TheatreInstance;
+import com.cryptic.model.content.raids.theatre.boss.nylocas.Vasilias;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.handler.XarpusProcess;
+import com.cryptic.model.content.raids.theatre.party.TheatreParty;
 import com.cryptic.model.content.skill.impl.woodcutting.impl.Axe;
 import com.cryptic.model.content.skill.impl.woodcutting.impl.Trees;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportInterface;
@@ -672,31 +675,12 @@ public class CommandManager {
 
         });
         dev("c", (p, c, s) -> {
-            final Map<Trees, int[]> treeTypeToLow = new HashMap<>();
-            final Map<Trees, int[]> treeTypeToHigh = new HashMap<>();
-
-            for (Trees trees : Trees.values()) {
-                Axe axe = Axe.BRONZE;  // Get the preferred hatchet for the tree
-                int[][] hatchetValues = axe.getValues();  // Get the values from the preferred hatchet
-                int[] treeLowValues = new int[trees.objects.length];
-                int[] treeHighValues = new int[trees.objects.length];
-
-                for (int i = 0; i < trees.objects.length; i++) {
-                    int index = axe.ordinal();  // Get the index of the hatchet in the enum
-                    treeLowValues[i] = hatchetValues[index][0];  // Get the low value for the tree
-                    treeHighValues[i] = hatchetValues[index][1];  // Get the high value for the tree
-                }
-
-                treeTypeToLow.put(trees, treeLowValues);
-                treeTypeToHigh.put(trees, treeHighValues);
-            }
-
-            // Print the mappings for validation
-            for (Trees trees : Trees.values()) {
-                System.out.println("Tree: " + trees);
-                System.out.println("Low values: " + Arrays.toString(treeTypeToLow.get(trees)));
-                System.out.println("High values: " + Arrays.toString(treeTypeToHigh.get(trees)));
-            }
+           Vasilias vasilias = new Vasilias();
+           var instance = new TheatreInstance(p, new ArrayList<>());
+           p.setTheatreInstance(instance);
+           p.setInstance(instance);
+           vasilias.build(p, instance);
+           p.teleport(new Tile(3294, 4249, p.getTheatreInstance().getzLevel()));
         });
 
         dev("ioi", (p, c, s) -> {

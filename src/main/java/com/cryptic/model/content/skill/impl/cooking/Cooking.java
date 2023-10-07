@@ -27,7 +27,7 @@ import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
 /**
  * Created by Situations on 11/20/2015.
  */
-public class Cooking extends PacketInteraction {
+public class Cooking extends PacketInteraction { //TODO add gauntles
 
     private static int cookingChance(Player player, Cookable type) {
         int points = 60;
@@ -215,9 +215,7 @@ public class Cooking extends PacketInteraction {
                 }
 
                 // Cooking skillcape stops burning all food.
-                if (player.getEquipment().containsAny(9801, 9802, 10658)
-                    || player.getEquipment().wearingMaxCape()
-                    || Utils.rollDie(100, cookingChance(player, food))
+                if (player.getEquipment().containsAny(9801, 9802, 10658) || player.getEquipment().wearingMaxCape() || Utils.rollDie(100, cookingChance(player, food))
                     || food == Cookable.SEAWEED) {
                     if (!dry_out_meat) {
                         player.inventory().add(new Item(food.cooked), true);

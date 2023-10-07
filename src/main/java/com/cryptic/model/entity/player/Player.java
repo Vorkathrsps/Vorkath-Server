@@ -56,6 +56,8 @@ import com.cryptic.model.content.skill.impl.hunter.Hunter;
 import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.content.skill.impl.slayer.SlayerRewards;
 import com.cryptic.model.content.skill.impl.slayer.slayer_partner.SlayerPartner;
+import com.cryptic.model.content.skill.perks.SkillingItems;
+import com.cryptic.model.content.skill.perks.SkillingSets;
 import com.cryptic.model.content.tasks.TaskMasterManager;
 import com.cryptic.model.content.teleport.Teleports;
 import com.cryptic.model.content.teleport.newinterface.NewTeleportInterface;
@@ -3462,6 +3464,8 @@ public class Player extends Entity {
         double change = this.getEnergyDeprecation();
         int stamina = this.getAttribOr(AttributeKey.STAMINA_POTION_TICKS, 0);
 
+        var skillingItems = SkillingItems.values();
+
         if (this.getEquipment().containsAny(AGILITY_CAPET, AGILITY_CAPE)) {
             return;
         }
@@ -3481,9 +3485,11 @@ public class Player extends Entity {
             // Calculate the modified change based on hamstrung state
             double modifiedChange = hamstrung ? change * 6 : change;
 
-            // Adjust the energy drain rate if the player has the Ring of Endurance
-            if (this.getEquipment().contains(RING_OF_ENDURANCE)) {
-                modifiedChange *= 0.85;  // Reduce energy drain by 15%
+            for (var s : skillingItems) {
+                if (this.getEquipment().hasAt(EquipSlot.RING, RING_OF_ENDURANCE)) {
+                    modifiedChange *= s.getBoost();
+                    break;
+                }
             }
 
             // Calculate the new energy level after draining

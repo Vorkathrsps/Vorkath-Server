@@ -192,7 +192,7 @@ public class Woodcutting extends PacketInteraction {
 
                 var chance = chance(modifiedLevel, tree, axe);
 
-                double rand = random.nextDouble(1.0, 200.0);
+                double rand = random.nextDouble(1.0, 500.0);
 
                 if (chance > rand) {
                     if (axe == Hatchet.INFERNAL && tree.logs > 0) {

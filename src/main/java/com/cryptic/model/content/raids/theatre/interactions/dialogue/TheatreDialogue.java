@@ -50,7 +50,6 @@ public class TheatreDialogue extends Dialogue {
                 TheatreInstance theatreInstance = new TheatreInstance(player, players);
                 player.setTheatreInstance(theatreInstance);
                 player.getTheatreInstance().buildParty().startRaid();
-                player.forceChat("Theatre instance players size: " + theatreInstance.getPlayers().size());
                 stop();
             } else if (option == 2) {
                 stop();

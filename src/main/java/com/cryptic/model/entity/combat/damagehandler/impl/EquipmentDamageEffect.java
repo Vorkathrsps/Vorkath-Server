@@ -71,6 +71,7 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         listeners.add(new CrystalSet());
         listeners.add(new TwistedBow());
         listeners.add(new DragonHunterCrossbow());
+        listeners.add(new VoidEquipment());
         return listeners;
     }
 
@@ -80,6 +81,7 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         listeners.add(new VestaLongsword());
         listeners.add(new ObsidianArmor());
         listeners.add(new DragonMace());
+        listeners.add(new DragonHunterLance());
         return listeners;
     }
 

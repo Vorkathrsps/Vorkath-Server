@@ -27,7 +27,7 @@ import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.*;
 public class MeleeAccuracy {
     @Getter
     @Setter
-    float modifier;
+    public float modifier;
     @Getter
     @Setter
     Entity attacker, defender;

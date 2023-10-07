@@ -36,7 +36,7 @@ public class BrimstoneRing implements DamageEffectListener {
             if (attacker.getEquipment().contains(ItemIdentifiers.BRIMSTONE_RING)) {
                 if (Utils.securedRandomChance(0.25F)) {
                     attacker.message(Color.RED.wrap("Your attack ignored 10% of your opponent's magic defence."));
-                    magicAccuracy.setModifier(1.10F);//1.10
+                    magicAccuracy.modifier += 1.10F;
                     return true;
                 }
             }

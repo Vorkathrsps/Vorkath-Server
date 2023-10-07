@@ -34,11 +34,11 @@ public class SalveAmulet implements DamageEffectListener {
         var attacker = (Player) entity;
         if (attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getEquipment().contains(SALVE_AMULET_E) || attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
             if (magicAccuracy.getDefender().isNpc() && FormulaUtils.isUndead(magicAccuracy.getDefender().getAsNpc())) {
-                magicAccuracy.setModifier(1.20F);
+                magicAccuracy.modifier += 1.20F;
                 return true;
             }
         } else if (attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULET) && magicAccuracy.getDefender().isNpc() && FormulaUtils.isUndead(magicAccuracy.getDefender().getAsNpc())) {
-            magicAccuracy.setModifier(1.15F);
+            magicAccuracy.modifier += 1.15F;
             return true;
         }
         return false;
@@ -50,11 +50,11 @@ public class SalveAmulet implements DamageEffectListener {
         var target = attacker.getCombat().getTarget();
         if (target.isNpc() && FormulaUtils.isUndead(target)) {
             if (attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getEquipment().contains(SALVE_AMULET_E) || attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
-                meleeAccuracy.setModifier(1.20F);
+                meleeAccuracy.modifier += 1.20F;
                 return true;
             }
             if (attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
-                meleeAccuracy.setModifier(1.15F);
+                meleeAccuracy.modifier += 1.15F;
                 return true;
             }
         }
@@ -67,11 +67,11 @@ public class SalveAmulet implements DamageEffectListener {
         var target = rangeAccuracy.getDefender().getCombat().getTarget();
         if (target.isNpc() && FormulaUtils.isUndead(target)) {
             if (attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getEquipment().contains(SALVE_AMULET_E) || attacker.getAsPlayer().getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
-                rangeAccuracy.setModifier(1.20F);
+                rangeAccuracy.modifier += 1.20F;
                 return true;
             }
             if (attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
-                rangeAccuracy.setModifier(1.15F);
+                rangeAccuracy.modifier += 1.15F;
                 return true;
             }
         }

@@ -8,6 +8,7 @@ import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.damagehandler.listener.DamageEffectListener;
+import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 
@@ -27,7 +28,7 @@ public class WildernessWeapon implements DamageEffectListener {
         var attacker = (Player) entity;
         if (combatType == CombatType.MAGIC) {
             if (FormulaUtils.hasMagicWildernessWeapon(attacker) && magicAccuracy.getDefender().isNpc() && WildernessArea.inWilderness(magicAccuracy.getDefender().getAsNpc().tile())) {
-                magicAccuracy.setModifier(1.50F);
+                magicAccuracy.modifier += 1.50F;
                 return true;
             }
         }
@@ -36,8 +37,10 @@ public class WildernessWeapon implements DamageEffectListener {
     @Override
     public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
         var attacker = (Player) entity;
+        var defender = (NPC) meleeAccuracy.getDefender() instanceof NPC;
+        if (defender)
         if (FormulaUtils.hasMeleeWildernessWeapon(attacker) && meleeAccuracy.getDefender().isNpc() && WildernessArea.inWilderness(meleeAccuracy.getDefender().getAsNpc().tile())) {
-            meleeAccuracy.setModifier(1.50F);
+            meleeAccuracy.modifier += 1.50F;
             return true;
         }
         return false;
@@ -48,7 +51,7 @@ public class WildernessWeapon implements DamageEffectListener {
         var target = rangeAccuracy.getDefender().getCombat().getTarget();
         if (target.isNpc() && WildernessArea.inWilderness(target.tile())) {
             if (FormulaUtils.hasRangedWildernessWeapon(attacker.getAsPlayer())) {
-                rangeAccuracy.setModifier(1.50F);
+                rangeAccuracy.modifier += 1.50F;
                 return true;
             }
         }

@@ -1,9 +1,7 @@
 package com.cryptic.model.content.raids.theatre.interactions;
 
-import com.cryptic.model.content.raids.theatre.boss.maiden.utils.MaidenUtils;
 import com.cryptic.model.content.raids.theatre.interactions.dialogue.TheatreDialogue;
 import com.cryptic.model.content.raids.theatre.stage.RoomState;
-import com.cryptic.model.content.raids.theatre.stage.TheatreState;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
@@ -35,6 +33,49 @@ public class TheatreInteractions extends PacketInteraction {
                     Chain.noCtx().runFn(1, () -> {
                         player.agilityWalk(false);
                         player.lock();
+                        var t = new Tile(player.tile().getX(), player.tile().getY()).transform(-2, 0);
+                        player.stepAbs(t.getX(), t.getY(), MovementQueue.StepType.FORCED_WALK);
+                    }).then(2, () -> {
+                        player.unlock();
+                        player.agilityWalk(true);
+                    });
+                } else {
+                    Chain.noCtx().runFn(1, () -> {
+                        player.agilityWalk(false);
+                        player.lock();
+                        var t = new Tile(player.tile().getX(), player.tile().getY()).transform(2, 0);
+                        player.stepAbs(t.getX(), t.getY(), MovementQueue.StepType.FORCED_WALK);
+                    }).then(3, () -> {
+                        player.unlock();
+                        player.agilityWalk(true);
+                    });
+                }
+                return true;
+            } else if (player.tile().region() == 13125) {
+                if (player.tile().getX() < 3288) {
+                    Chain.noCtx().runFn(1, () -> {
+                        player.agilityWalk(false);
+                        player.lock();
+                        var t = new Tile(player.tile().getX(), player.tile().getY()).transform(2, 0);
+                        player.stepAbs(t.getX(), t.getY(), MovementQueue.StepType.FORCED_WALK);
+                    }).then(2, () -> {
+                        player.unlock();
+                        player.agilityWalk(true);
+                    });
+                } else if (player.tile().getX() < 3303 && player.tile().getX() > 3286) {
+                    Chain.noCtx().runFn(1, () -> {
+                        player.agilityWalk(false);
+                        player.lock();
+                        var t = new Tile(player.tile().getX(), player.tile().getY()).transform(-2, 0);
+                        player.stepAbs(t.getX(), t.getY(), MovementQueue.StepType.FORCED_WALK);
+                    }).then(3, () -> {
+                        player.unlock();
+                        player.agilityWalk(true);
+                    });
+                } else if (player.tile().getX() < 3305 && player.tile().getX() > 3302) {
+                    Chain.noCtx().runFn(1, () -> {
+                        player.agilityWalk(false);
+                        player.lock();
                         var t = new Tile(player.tile().getX(), player.tile().getY()).transform(2, 0);
                         player.stepAbs(t.getX(), t.getY(), MovementQueue.StepType.FORCED_WALK);
                     }).then(2, () -> {
@@ -53,22 +94,22 @@ public class TheatreInteractions extends PacketInteraction {
                     });
                 }
                 return true;
-            } else if (player.tile().region() == 13125) {
-                if (player.tile().getX() < 3288 && player.tile().getX() < 3303) {
+            } else if (player.tile().region() == 13122) {
+                if (player.tile().getY() >= 4256) {
                     Chain.noCtx().runFn(1, () -> {
                         player.agilityWalk(false);
                         player.lock();
-                        var t = new Tile(player.tile().getX(), player.tile().getY()).transform(-2, 0);
+                        var t = new Tile(player.tile().getX(), player.tile().getY()).transform(0, -2);
                         player.stepAbs(t.getX(), t.getY(), MovementQueue.StepType.FORCED_WALK);
-                    }).then(2, () -> {
+                    }).then(3, () -> {
                         player.unlock();
                         player.agilityWalk(true);
                     });
-                } else {
+                } else if (player.tile().getY() <= 4254) {
                     Chain.noCtx().runFn(1, () -> {
                         player.agilityWalk(false);
                         player.lock();
-                        var t = new Tile(player.tile().getX(), player.tile().getY()).transform(2, 0);
+                        var t = new Tile(player.tile().getX(), player.tile().getY()).transform(0, 2);
                         player.stepAbs(t.getX(), t.getY(), MovementQueue.StepType.FORCED_WALK);
                     }).then(3, () -> {
                         player.unlock();
@@ -78,11 +119,17 @@ public class TheatreInteractions extends PacketInteraction {
                 return true;
             }
         } else if (obj.getId() == 33113) {
+            var party = player.getTheatreInstance().getPlayers();
             if (player.getRoomState().equals(RoomState.COMPLETE)) {
                 if (player.tile().region() == 12613) {
-                    var party = player.getTheatreInstance().getPlayers();
                     for (var p : party) {
                         p.teleport(new Tile(3271, 4448, player.getTheatreInstance().getzLevel()));
+                        p.setRoomState(RoomState.INCOMPLETE);
+                    }
+                } else if (player.tile().region() == 13125) {
+                    for (var p : party) {
+                        p.teleport(new Tile(3300, 4276, player.getTheatreInstance().getzLevel()));
+                        p.setRoomState(RoomState.INCOMPLETE);
                     }
                 }
             } else {

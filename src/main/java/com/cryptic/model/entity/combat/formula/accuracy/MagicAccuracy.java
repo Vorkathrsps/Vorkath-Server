@@ -28,7 +28,7 @@ public final class MagicAccuracy {
 
     @Getter
     @Setter
-    private float modifier;
+    public float modifier;
 
     @Getter
     private final Entity attacker;

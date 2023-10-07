@@ -34,15 +34,15 @@ public class SlayerHelmets implements DamageEffectListener {
             if (Slayer.creatureMatches(attacker, magicAccuracy.getDefender().getAsNpc().id())) {
                 if (combatType == CombatType.MAGIC) {
                     if (attacker.getEquipment().contains(ItemIdentifiers.SLAYER_HELMET)) {
-                        magicAccuracy.setModifier(1.15F);
+                        magicAccuracy.modifier += 1.15F;
                         return true;
                     } else if (attacker.getEquipment().contains(ItemIdentifiers.SLAYER_HELMET_I)) {
-                        magicAccuracy.setModifier(1.18F);
+                        magicAccuracy.modifier += 1.18F;
                     } else if (attacker.getEquipment().contains(ItemIdentifiers.BLACK_SLAYER_HELMET) || attacker.getEquipment().contains(ItemIdentifiers.GREEN_SLAYER_HELMET) || attacker.getEquipment().contains(ItemIdentifiers.HYDRA_SLAYER_HELMET) || attacker.getEquipment().contains(ItemIdentifiers.PURPLE_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.RED_SLAYER_HELMET) || ((Player) attacker).getEquipment().contains(ItemIdentifiers.TURQUOISE_SLAYER_HELMET)) {
-                        magicAccuracy.setModifier(1.20F);
+                        magicAccuracy.modifier += 1.20F;
                         return true;
                     } else if (attacker.getEquipment().contains(ItemIdentifiers.TWISTED_SLAYER_HELMET) || attacker.getEquipment().contains(ItemIdentifiers.TZKAL_SLAYER_HELMET)) {
-                        magicAccuracy.setModifier(1.25F);
+                        magicAccuracy.modifier += 1.25F;
                         return true;
                     }
                 }

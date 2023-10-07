@@ -31,7 +31,7 @@ public class TumekensShadow implements DamageEffectListener {
         if (combatType == CombatType.MAGIC) {
             if (attacker.getEquipment().contains(ItemIdentifiers.TUMEKENS_SHADOW)) {
                 bonus = attackerBonus.mage += Math.min(attackerBonus.mage * 3, attackerBonus.mage * attackerBonus.mage);
-                magicAccuracy.setModifier(bonus);
+                magicAccuracy.modifier += bonus;
                 return true;
             }
         }

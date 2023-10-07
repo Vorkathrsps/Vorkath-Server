@@ -19,6 +19,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
 import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.*;
@@ -29,9 +31,7 @@ import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.EAGL
  */
 public class RangeAccuracy {
 
-    @Getter
-    @Setter
-    float modifier;
+    @Getter @Setter public float modifier;
     @Getter
     @Setter
     Entity attacker, defender;
@@ -133,6 +133,8 @@ public class RangeAccuracy {
         }
 
         effectiveLevel = modification > 0 ? Math.floor(effectiveLevel * modification) : effectiveLevel;
+
+        System.out.println("modifier " + modification);
 
         effectiveLevel = (int) Math.floor(effectiveLevel + 8);
 

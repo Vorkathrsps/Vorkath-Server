@@ -40,9 +40,9 @@ public class DragonHunterCrossbow implements DamageEffectListener {
         var target = rangeAccuracy.getDefender().getCombat().getTarget();
         if (attacker.getEquipment().containsAny(DRAGON_HUNTER_CROSSBOW, DRAGON_HUNTER_CROSSBOW_T, DRAGON_HUNTER_CROSSBOW_B)) {
             if (target instanceof NPC && FormulaUtils.isDragon(target)) {
-                rangeAccuracy.setModifier(1.25F);
+                rangeAccuracy.modifier += 1.25F;
             } else {
-                rangeAccuracy.setModifier(1.30F);
+                rangeAccuracy.modifier += 1.30F;
             }
             return true;
         }

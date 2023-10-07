@@ -31,10 +31,10 @@ public class VoidEquipment implements DamageEffectListener {
     public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
         if (combatType == CombatType.MAGIC) {
             if (FormulaUtils.regularVoidEquipmentBaseMagic((Player) entity)) {
-                magicAccuracy.setModifier(1.45F);
+                magicAccuracy.modifier += 1.45F;
                 return true;
             } else if (FormulaUtils.eliteVoidEquipmentBaseMagic((Player) entity) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMagic((Player) entity)) {
-                magicAccuracy.setModifier(1.70F);
+                magicAccuracy.modifier += 1.70F;
                 return true;
             }
         }
@@ -45,10 +45,10 @@ public class VoidEquipment implements DamageEffectListener {
     public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
         var attacker = (Player) entity;
         if (FormulaUtils.regularVoidEquipmentBaseMelee(attacker)) {
-            meleeAccuracy.setModifier(1.10F);
+            meleeAccuracy.modifier += 1.10F;
             return true;
         } else if (FormulaUtils.eliteVoidEquipmentMelee(attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMelee(attacker)) {
-            meleeAccuracy.setModifier(1.125F);
+            meleeAccuracy.modifier += 1.125F;
             return true;
         }
         return false;
@@ -58,11 +58,11 @@ public class VoidEquipment implements DamageEffectListener {
     public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
         var attacker = (Player) entity;
         if (FormulaUtils.regularVoidEquipmentBaseRanged(attacker)) {
-            rangeAccuracy.setModifier(1.10F);
+            rangeAccuracy.modifier += 1.10F;
             return true;
         }
         if (FormulaUtils.eliteVoidEquipmentRanged(attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseRanged(attacker)) {
-            rangeAccuracy.setModifier(1.125F);
+            rangeAccuracy.modifier += 1.125F;
             return true;
         }
         return false;

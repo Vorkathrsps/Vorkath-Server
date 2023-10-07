@@ -41,6 +41,7 @@ public class TwistedBow implements DamageEffectListener {
         if (!entity.getCombat().getTarget().isNpc()) {
             return false;
         }
+
         var attacker = (Player) entity;
         var target = rangeAccuracy.getDefender().getAsNpc();
         if (attacker.isPlayer() && target.isNpc()) {
@@ -60,7 +61,7 @@ public class TwistedBow implements DamageEffectListener {
                     bonus = 2.4f;
 
                 if (attacker.isPlayer() && target.isNpc()) {
-                    rangeAccuracy.setModifier(bonus);
+                    rangeAccuracy.modifier += bonus;
                 }
             }
             return true;

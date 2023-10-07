@@ -31,7 +31,7 @@ public class ZurielStaff implements DamageEffectListener {
         var attacker = (Player) entity;
         if (combatType == CombatType.MAGIC) {
             if (attacker.getSpellbook().equals(MagicSpellbook.ANCIENTS) && FormulaUtils.hasZurielStaff(attacker)) {
-                magicAccuracy.setModifier(1.10F);
+                magicAccuracy.modifier += 1.10F;
                 return true;
             }
         }

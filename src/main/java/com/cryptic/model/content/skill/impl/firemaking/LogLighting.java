@@ -2,6 +2,7 @@ package com.cryptic.model.content.skill.impl.firemaking;
 
 import com.cryptic.model.content.achievements.Achievements;
 import com.cryptic.model.content.achievements.AchievementsManager;
+import com.cryptic.model.content.skill.perks.SkillingSets;
 import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.core.task.TaskManager;
 import com.cryptic.core.task.impl.TimedObjectSpawnTask;
@@ -97,6 +98,8 @@ public class LogLighting {
             this.anim = anim;
         }
     }
+
+    static double experienceMultiplier = 15;
 
     public static boolean onItemOnItem(Player player, Item use, Item with) {
         for (LightableLog log : LightableLog.values()) {
@@ -257,7 +260,7 @@ public class LogLighting {
             }
 
             // Give us some xp now, because.. dialogue.
-            player.getSkills().addXp(Skills.FIREMAKING, log.xp * pyromancerOutfitBonus(player));
+            player.getSkills().addExperience(Skills.FIREMAKING, log.xp, experienceMultiplier, true);
 
             AchievementsManager.activate(player, Achievements.FIREMAKING_I, 1);
             AchievementsManager.activate(player, Achievements.FIREMAKING_II, 1);
@@ -420,27 +423,4 @@ public class LogLighting {
         return -1;
     }
 
-    public static double pyromancerOutfitBonus(Player player) {
-        double bonus = 1.0;
-
-        Item hat = player.getEquipment().get(EquipSlot.HEAD);
-        Item top = player.getEquipment().get(EquipSlot.BODY);
-        Item legs = player.getEquipment().get(EquipSlot.LEGS);
-        Item boots = player.getEquipment().get(EquipSlot.FEET);
-
-        if (hat != null && hat.getId() == PYROMANCER_HOOD)
-            bonus += 0.4;
-        if (top != null && top.getId() == PYROMANCER_GARB)
-            bonus += 0.8;
-        if (legs != null && legs.getId() == PYROMANCER_ROBE)
-            bonus += 0.6;
-        if (boots != null && boots.getId() == PYROMANCER_BOOTS)
-            bonus += 0.2;
-
-        //If we've got the whole set, it's an additional 0.5% exp bonus
-        if (bonus >= 2.0)
-            bonus += 0.5;
-
-        return bonus;
-    }
 }

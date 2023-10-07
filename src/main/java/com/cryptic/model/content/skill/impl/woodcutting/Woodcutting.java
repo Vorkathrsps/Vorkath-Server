@@ -97,6 +97,8 @@ public class Woodcutting extends PacketInteraction {
         public static final ImmutableSet<Hatchet> VALUES = ImmutableSortedSet.copyOf(values()).descendingSet();
     }
 
+    static double experienceMultiplier = 15;
+
     public static int chance(int level, Tree type, Hatchet axe) {
         double points = ((level - type.level) + 1 + axe.points);
         double denom = type.difficulty;
@@ -150,12 +152,13 @@ public class Woodcutting extends PacketInteraction {
         GameObject old = new GameObject(obj.getId(), obj.tile(), obj.getType(), obj.getRotation());
         GameObject spawned = new GameObject(trunkObjectId, obj.tile(), obj.getType(), obj.getRotation());
         ObjectManager.replace(old, spawned, tree.respawnTime);
-        player.getSkills().addXp(Skills.WOODCUTTING, tree.xp);
+        player.getSkills().addExperience(Skills.WOODCUTTING, tree.xp, experienceMultiplier, true);
         return true;
     }
 
     static Random random = new Random();
     static int[] birdNest = new int[]{5070, 5071, 5072, 5073, 5074, 5075};
+
     private static Action<Player> cut(Player player, Hatchet axe, Tree tree, int trunkObjectId) {
         return new Action<>(player, 2, true) {
 
@@ -189,7 +192,7 @@ public class Woodcutting extends PacketInteraction {
 
                 var chance = chance(modifiedLevel, tree, axe);
 
-                int rand = random.nextInt(1, 100);
+                double rand = random.nextDouble(1.0, 200.0);
 
                 if (chance > rand) {
                     if (axe == Hatchet.INFERNAL && tree.logs > 0) {
@@ -197,12 +200,12 @@ public class Woodcutting extends PacketInteraction {
 
                         if (log != null) {
                             player.graphic(580, GraphicHeight.MIDDLE, 0);
-                            player.getSkills().addXp(Skills.FIREMAKING, (log.xp * LogLighting.pyromancerOutfitBonus(player)) / 2);
+                            player.getSkills().addExperience(Skills.FIREMAKING, log.xp / 2, experienceMultiplier, true);
                         }
-                    } else {
-                        player.inventory().add(new Item(tree.logs));
-                        player.getSkills().addXp(Skills.WOODCUTTING, tree.xp);
                     }
+                } else {
+                    player.getSkills().addExperience(Skills.WOODCUTTING, tree.xp, experienceMultiplier, true);
+                    player.inventory().add(new Item(tree.logs));
                 }
 
                 //Finding a casket Money, money, money..
@@ -245,7 +248,9 @@ public class Woodcutting extends PacketInteraction {
                 super.onStop();
                 player.animate(-1);
             }
-        };
+        }
+
+            ;
     }
 
     @Override

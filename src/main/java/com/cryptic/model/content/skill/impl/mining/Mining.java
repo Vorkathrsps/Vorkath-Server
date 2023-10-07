@@ -27,7 +27,7 @@ import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.ROCKS_
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.ROCKS_11391;
 
 public class Mining extends PacketInteraction {
-    private static final int experience_multiplier = 100;
+    private static final int experience_multiplier = 15;
     private static final int geode_multiplier = 50;
     private static final Set<Integer> GEMS = new HashSet<>(Arrays.asList(
         ItemIdentifiers.UNCUT_SAPPHIRE,
@@ -101,7 +101,7 @@ public class Mining extends PacketInteraction {
 
         BooleanSupplier isMoving = () -> player.getMovementQueue().isMoving();
 
-        player.conditionalRepeatingTask("mining", isMoving, delay, mine -> {
+        player.repeatingTask(delay, mine -> {
             if (!ObjectManager.objWithTypeExists(10, obj.tile()) && !ObjectManager.objWithTypeExists(11, obj.tile()) && !ObjectManager.objWithTypeExists(0, obj.tile())) {
                 player.animate(-1);
                 mine.stop();
@@ -117,7 +117,7 @@ public class Mining extends PacketInteraction {
             player.animate(pick.get().anim);
 
             var success = SkillingSuccess.success(player.skills().level(Skills.MINING), rockType.level_req, rockType, pick.get());
-            System.out.println("success "+success);
+
             if (success) {
                 if (Utils.rollDie(20, 1)) {
                     player.inventory().addOrDrop(new Item(7956, 1));
@@ -143,7 +143,7 @@ public class Mining extends PacketInteraction {
                     player.message("You manage to mine some " + rockType.name + ".");
                 }
 
-                player.getSkills().addXp(Skills.MINING, rockType.experience * experience_multiplier);
+                player.getSkills().addExperience(Skills.MINING, rockType.experience, experience_multiplier, true);
 
                 switch (rockType) {
                     case COPPER_ROCK -> AchievementsManager.activate(player, Achievements.MINING_I, 1);
@@ -174,27 +174,27 @@ public class Mining extends PacketInteraction {
         switch (rock) {
             case COPPER_ROCK, TIN_ROCK -> {
                 player.inventory().add(new Item(2349));
-                player.getSkills().addXp(Skills.SMITHING, 2.5);
+                player.getSkills().addExperience(Skills.SMITHING, 2.5, experience_multiplier, true);
             }
             case IRON_ROCK -> {
                 player.inventory().add(new Item(2351));
-                player.getSkills().addXp(Skills.SMITHING, 5.0);
+                player.getSkills().addExperience(Skills.SMITHING, 5.0, experience_multiplier, true);
             }
             case SILVER_ROCK -> {
                 player.inventory().add(new Item(2355));
-                player.getSkills().addXp(Skills.SMITHING, 5.5);
+                player.getSkills().addExperience(Skills.SMITHING, 5.5, experience_multiplier, true);
             }
             case GOLD_ROCK -> {
                 player.inventory().add(new Item(2357));
-                player.getSkills().addXp(Skills.SMITHING, 9.0);
+                player.getSkills().addExperience(Skills.SMITHING, 9.0, experience_multiplier, true);
             }
             case MITHRIL -> {
                 player.inventory().add(new Item(2359));
-                player.getSkills().addXp(Skills.SMITHING, 12.0);
+                player.getSkills().addExperience(Skills.SMITHING, 12.0, experience_multiplier, true);
             }
             case ADAMANT_ROCK -> {
                 player.inventory().add(new Item(2361));
-                player.getSkills().addXp(Skills.SMITHING, 15.0);
+                player.getSkills().addExperience(Skills.SMITHING, 15.0, experience_multiplier, true);
             }
             case RUNE_ROCK -> {
                 player.inventory().add(new Item(2363));

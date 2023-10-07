@@ -105,9 +105,9 @@
     "showBeard": false
   },
   "30259": {
-  "slot": 5,
-  "type": 0,
-  "showBeard": false
+    "slot": 5,
+    "type": 0,
+    "showBeard": false
   },
   "35": {
     "slot": 3,
@@ -10389,27 +10389,32 @@
     "type": 0,
     "showBeard": false
   },
-  "26531": { //hat
+  "26531": {
+    //hat
     "slot": 0,
     "type": 0,
     "showBeard": true
   },
-  "26533": { //top
+  "26533": {
+    //top
     "slot": 4,
     "type": 6,
     "showBeard": false
   },
-  "26535": { //bottoms
+  "26535": {
+    //bottoms
     "slot": 7,
     "type": 0,
     "showBeard": false
   },
-  "26537": { //gloves
+  "26537": {
+    //gloves
     "slot": 9,
     "type": 0,
     "showBeard": false
   },
-  "26539": { //boots
+  "26539": {
+    //boots
     "slot": 10,
     "type": 0,
     "showBeard": false
@@ -17140,16 +17145,15 @@
     "showBeard": false
   },
   "23267": {
-  "slot": 7,
-  "type": 0,
-  "showBeard": false
+    "slot": 7,
+    "type": 0,
+    "showBeard": false
   },
-
   "23261": {
-  "slot": 9,
-  "type": 0,
-  "showBeard": false
-},
+    "slot": 9,
+    "type": 0,
+    "showBeard": false
+  },
   "22327": {
     "slot": 4,
     "type": 6,
@@ -18268,117 +18272,140 @@
     "type": 0,
     "showBeard": false
   },
-  "27226": { //massori mask
+  "27226": {
+    //massori mask
     "slot": 0,
     "type": 8,
     "showBeard": false
   },
-  "27229": { //massori body
+  "27229": {
+    //massori body
     "slot": 4,
     "type": 6,
     "showBeard": false
   },
-  "27232": { //massori legs
+  "27232": {
+    //massori legs
     "slot": 7,
     "type": 0,
     "showBeard": false
   },
-  "27235": { //massori mask f
+  "27235": {
+    //massori mask f
     "slot": 0,
     "type": 8,
     "showBeard": false
   },
-  "27238": { //massori body f
+  "27238": {
+    //massori body f
     "slot": 4,
     "type": 6,
     "showBeard": false
   },
-  "27241": { //massori legs f
+  "27241": {
+    //massori legs f
     "slot": 7,
     "type": 0,
     "showBeard": false
   },
-  "27660": { //ursine chainmace
+  "27660": {
+    //ursine chainmace
     "slot": 3,
     "type": 0,
     "showBeard": false
   },
-  "26219": { //osmumtens fang
+  "26219": {
+    //osmumtens fang
     "slot": 3,
     "type": 0,
     "showBeard": false
   },
-  "27655": { //webweaver bow
+  "27655": {
+    //webweaver bow
     "slot": 3,
     "type": 5,
     "showBeard": false
   },
-  "27679": { //accursed sceptre
+  "27679": {
+    //accursed sceptre
     "slot": 3,
     "type": 0,
     "showBeard": false
   },
-  "27690": { //voidwaker
+  "27690": {
+    //voidwaker
     "slot": 3,
     "type": 0,
     "showBeard": false
   },
-  "27275": { //tumekkens shadow
+  "27275": {
+    //tumekkens shadow
     "slot": 3,
     "type": 5,
     "showBeard": false
   },
-  "22516": { //Dawnbringer
+  "22516": {
+    //Dawnbringer
     "slot": 3,
     "type": 0,
     "showBeard": false
   },
-  "27610": { //venator bow
+  "27610": {
+    //venator bow
     "slot": 3,
     "type": 5,
     "showBeard": false
   },
-  "27006": { //void (or) helm range
+  "27006": {
+    //void (or) helm range
     "slot": 0,
     "type": 8,
     "showBeard": false
   },
-  "27007": { //void (or) melee
+  "27007": {
+    //void (or) melee
     "slot": 0,
     "type": 8,
     "showBeard": false
   },
-  "27005": { //void (or) helm mage
+  "27005": {
+    //void (or) helm mage
     "slot": 0,
     "type": 8,
     "showBeard": false
   },
-  "27003": { //void (or) body
+  "27003": {
+    //void (or) body
     "slot": 4,
     "type": 6,
     "showBeard": false
   },
-  "27004": { //void (or) legs
+  "27004": {
+    //void (or) legs
     "slot": 7,
     "type": 0,
     "showBeard": false
   },
-  "25975": { //lightbearer
+  "25975": {
+    //lightbearer
     "slot": 12,
     "type": 0,
     "showBeard": false
   },
-  "26770": { //berseker ring i
+  "26770": {
+    //berseker ring i
     "slot": 12,
     "type": 0,
     "showBeard": false
   },
-  "26767": { //seer
+  "26767": {
+    //seer
     "slot": 12,
     "type": 0,
     "showBeard": false
   },
-  "25260": { //archer
+  "25260": {
+    //archer
     "slot": 12,
     "type": 0,
     "showBeard": false
@@ -18573,62 +18600,74 @@
     "type": 0,
     "showBeard": false
   },
-  "26241": { //virtus mask
+  "26241": {
+    //virtus mask
     "slot": 0,
     "type": 8,
     "showBeard": false
   },
-  "26243": { //virtus top
+  "26243": {
+    //virtus top
     "slot": 4,
     "type": 6,
     "showBeard": false
   },
-  "26245": { //virtus legs
+  "26245": {
+    //virtus legs
     "slot": 7,
     "type": 0,
     "showBeard": false
   },
-  "27867": { //abby dag bh
+  "27867": {
+    //abby dag bh
     "slot": 3,
     "type": 0,
     "showBeard": false
   },
-  "27857": { //dmace bh
+  "27857": {
+    //dmace bh
     "slot": 3,
     "type": 0,
     "showBeard": false
   },
-  "28027": { //dmace cr
+  "28027": {
+    //dmace cr
     "slot": 3,
     "type": 0,
     "showBeard": false
   },
-  "27859": { //dl bh
+  "27859": {
+    //dl bh
     "slot": 3,
     "type": 0,
     "showBeard": false
   },
-  "28033": { //dl cr
+  "28033": {
+    //dl cr
     "slot": 3,
     "type": 0,
     "showBeard": false
   },
-  "28067": { //fighter torso or
+  "28067": {
+    //fighter torso or
     "slot": 4,
     "type": 6,
     "showBeard": false
   },
-  "27828": { //siilver phat
+  "27828": {
+    //siilver phat
     "slot": 0,
     "type": 0,
     "showBeard": true
   },
-  "27853": { //dbow bh
+  "27853": {
+    //dbow bh
     "slot": 3,
     "type": 5,
     "showBeard": false
   },
-  "27855": { //ancher bh
+  "27855": {
+    //ancher bh
     "slot": 3,
     "type": 5,
     "showBeard": false
@@ -18638,17 +18677,20 @@
     "type": 5,
     "showBeard": false
   },
-  "25398": { //swamp helm
+  "25398": {
+    //swamp helm
     "slot": 0,
     "type": 0,
     "showBeard": true
   },
-  "25389": { //swamp body
+  "25389": {
+    //swamp body
     "slot": 4,
     "type": 6,
     "showBeard": false
   },
-  "25401": { //swamp legs
+  "25401": {
+    //swamp legs
     "slot": 7,
     "type": 0,
     "showBeard": false
@@ -18658,7 +18700,8 @@
     "type": 0,
     "showBeard": false
   },
-  "25395": { //swamp boots
+  "25395": {
+    //swamp boots
     "slot": 10,
     "type": 0,
     "showBeard": false
@@ -18740,6 +18783,90 @@
   },
   "28266": {
     "slot": 3,
+    "type": 0,
+    "showBeard": false
+  },
+  "28173": {
+    //helmet
+    "slot": 0,
+    "type": 8,
+    "showBeard": false
+  },
+  "28169": {
+    //top
+    "slot": 4,
+    "type": 6,
+    "showBeard": false
+  },
+  "28171": {
+    //legs
+    "slot": 7,
+    "type": 0,
+    "showBeard": false
+  },
+  "28175": {
+    //boots
+    "slot": 10,
+    "type": 0,
+    "showBeard": false
+  },
+  "26850": { //helmet
+    "slot": 0,
+    "type": 8,
+    "showBeard": false
+  },
+  "26852": { //top
+    "slot": 4,
+    "type": 6,
+    "showBeard": false
+  },
+  "26854": { //legs
+    "slot": 7,
+    "type": 0,
+    "showBeard": false
+  },
+  "26856": { //boots
+    "slot": 10,
+    "type": 0,
+    "showBeard": false
+  },
+  "25438": { //helmet
+    "slot": 0,
+    "type": 8,
+    "showBeard": true
+  },
+  "25434": { //top
+    "slot": 4,
+    "type": 6,
+    "showBeard": false
+  },
+  "25436": { //legs
+    "slot": 7,
+    "type": 0,
+    "showBeard": false
+  },
+  "25440": { //boots
+    "slot": 10,
+    "type": 0,
+    "showBeard": false
+  },
+  "13646": { //helmet
+    "slot": 0,
+    "type": 8,
+    "showBeard": true
+  },
+  "13643": { //top
+    "slot": 4,
+    "type": 6,
+    "showBeard": false
+  },
+  "13640": { //legs
+    "slot": 7,
+    "type": 0,
+    "showBeard": false
+  },
+  "13644": { //boots
+    "slot": 10,
     "type": 0,
     "showBeard": false
   }

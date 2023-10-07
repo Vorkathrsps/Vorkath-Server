@@ -8,6 +8,7 @@ import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.content.areas.edgevile.Mac;
 import com.cryptic.model.content.bountyhunter.BountyHunter;
 import com.cryptic.model.content.skill.Skillable;
+import com.cryptic.model.content.skill.perks.SkillingSets;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
@@ -23,15 +24,17 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.Utils;
+import com.google.common.util.concurrent.AtomicDouble;
 import lombok.Getter;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.cryptic.model.entity.attributes.AttributeKey.DOUBLE_EXP_TICKS;
-import static com.cryptic.model.entity.attributes.AttributeKey.valueOf;
+import static com.cryptic.model.entity.attributes.AttributeKey.*;
 
 /**
  * Created by Bart Pelle on 8/23/2014.
@@ -285,7 +288,7 @@ public class Skills {
         boolean isNpc = target instanceof NPC;
         boolean isMember = player.getMemberRights().isRegularMemberOrGreater(player);
 
-        if (target == null) {
+        if (target == null && isCombatExperience) {
             return false;
         }
 
@@ -322,6 +325,15 @@ public class Skills {
         if (inWilderness) {
             amount *= 1.33;
         }
+
+        var skillingSets = SkillingSets.values();
+        final AtomicDouble[] boost = {new AtomicDouble(1.0)};
+        Arrays.stream(skillingSets)
+            .filter(s -> player.getEquipment().containsAll(s.getSet()))
+            .filter(s -> s.getSkillType().getId() == skill).findFirst()
+            .ifPresent(s -> boost[0].set(s.getExperienceBoost()));
+
+        amount *= boost[0].get();
 
         int oldLevel = xpToLevel((int) xps[skill]);
         xps[skill] = Math.min(200000000, xps[skill] + amount);

@@ -3462,6 +3462,10 @@ public class Player extends Entity {
         double change = this.getEnergyDeprecation();
         int stamina = this.getAttribOr(AttributeKey.STAMINA_POTION_TICKS, 0);
 
+        if (this.getEquipment().containsAny(AGILITY_CAPET, AGILITY_CAPE)) {
+            return;
+        }
+
         // Apply stamina potion effect
         if (stamina > 0) {
             change *= 0.3;

@@ -29,10 +29,8 @@ public class WildernessWeapon implements DamageEffectListener {
         if (FormulaUtils.hasMagicWildernessWeapon(attacker)) {
             if (attacker.getCombat().getTarget() instanceof NPC npc) {
                 if (WildernessArea.inWilderness(npc.tile())) {
-                    if (FormulaUtils.hasMagicWildernessWeapon(attacker) && magicAccuracy.getDefender().isNpc() && WildernessArea.inWilderness(magicAccuracy.getDefender().getAsNpc().tile())) {
-                        magicAccuracy.modifier += 1.50F;
-                        return true;
-                    }
+                    magicAccuracy.modifier += 1.50F;
+                    return true;
                 }
             }
         }
@@ -60,6 +58,7 @@ public class WildernessWeapon implements DamageEffectListener {
             if (attacker.getCombat().getTarget() instanceof NPC npc) {
                 if (WildernessArea.inWilderness(npc.tile())) {
                     rangeAccuracy.modifier += 1.50F;
+                    System.out.println("its def wworking " + rangeAccuracy.modifier);
                     return true;
                 }
             }

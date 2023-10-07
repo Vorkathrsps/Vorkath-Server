@@ -327,13 +327,13 @@ public class Skills {
         }
 
         var skillingSets = SkillingSets.values();
-        final AtomicDouble[] boost = {new AtomicDouble(1.0)};
-        Arrays.stream(skillingSets)
-            .filter(s -> player.getEquipment().containsAll(s.getSet()))
-            .filter(s -> s.getSkillType().getId() == skill).findFirst()
-            .ifPresent(s -> boost[0].set(s.getExperienceBoost()));
 
-        amount *= boost[0].get();
+        for (var s : skillingSets) {
+            if (s.getSkillType().getId() == skill && player.getEquipment().containsAll(s.getSet())) {
+                amount *= s.getExperienceBoost();
+                break;
+            }
+        }
 
         int oldLevel = xpToLevel((int) xps[skill]);
         xps[skill] = Math.min(200000000, xps[skill] + amount);

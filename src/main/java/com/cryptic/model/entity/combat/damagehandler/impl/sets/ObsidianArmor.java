@@ -30,7 +30,7 @@ public class ObsidianArmor implements DamageEffectListener {
     public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
         var attacker = (Player) entity;
         if (FormulaUtils.obbyArmour(attacker) && FormulaUtils.hasObbyWeapon(attacker)) {
-            meleeAccuracy.setModifier(1.10F);
+            meleeAccuracy.modifier += 1.10F;
             return true;
         }
         return false;

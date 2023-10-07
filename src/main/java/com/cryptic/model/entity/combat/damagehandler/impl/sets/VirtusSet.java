@@ -81,7 +81,7 @@ public class VirtusSet implements DamageEffectListener {
                 if (isFrozen) {
                     for (var s : this.getIce_spells()) {
                         if (player.getCombat().getCastSpell().spellId() == s) {
-                            magicAccuracy.setModifier(0.010F);
+                            magicAccuracy.modifier += 0.010F;
                         }
                     }
                 }

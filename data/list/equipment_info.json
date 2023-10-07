@@ -18869,5 +18869,10 @@
     "slot": 10,
     "type": 0,
     "showBeard": false
+  },
+  "23862": {
+    "slot": 3,
+    "type": 0,
+    "showBeard": false
   }
 }

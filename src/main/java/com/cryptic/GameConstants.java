@@ -266,7 +266,7 @@ public class GameConstants {
         new Item(ItemIdentifiers.ANCESTRAL_ROBE_BOTTOM, 20000000), // Mystic
         new Item(VIRTUS_MASK, 20000000), // Scim
         new Item(VIRTUS_ROBE_TOP, 20000000), // Dagger
-        new Item(VIRTUS_ROBE_BOTTOMS, 20000000), // Mystic
+        new Item(VIRTUS_ROBE_BOTTOM, 20000000), // Mystic
         new Item(AHRIMS_HOOD, 20000000), // dagger
         new Item(AHRIMS_ROBETOP, 20000000), // avas
         new Item(AHRIMS_ROBESKIRT, 20000000), // avas

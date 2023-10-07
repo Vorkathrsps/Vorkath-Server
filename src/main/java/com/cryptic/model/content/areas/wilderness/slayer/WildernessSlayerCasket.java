@@ -141,7 +141,7 @@ public class WildernessSlayerCasket {
         new Item(6686, World.getWorld().random(1, 10)),
         new Item(3025, World.getWorld().random(1, 5)),
         new Item(BLIGHTED_ANCIENT_ICE_SACK, 150),
-        new Item(BLIGHTED_SNARE_SACK, 150),
+        new Item(BLIGHTED_ENTANGLE_SACK, 150),
         new Item(BLIGHTED_TELEPORT_SPELL_SACK, 150),
         new Item(BLIGHTED_SURGE_SACK, 50),
         new Item(1618, 10),

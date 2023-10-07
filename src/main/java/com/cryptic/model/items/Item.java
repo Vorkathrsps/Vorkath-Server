@@ -459,10 +459,10 @@ public class Item implements Cloneable {
             add(SARADOMINS_BLESSED_SWORD);
             add(BLIGHTED_ANCIENT_ICE_SACK);
             add(BLIGHTED_ENTANGLE_SACK);
-            add(BLIGHTED_BIND_SACK);
+            add(BLIGHTED_ENTANGLE_SACK);
             add(BLIGHTED_TELEPORT_SPELL_SACK);
             add(BLIGHTED_VENGEANCE_SACK);
-            add(BLIGHTED_SNARE_SACK);
+            add(BLIGHTED_ENTANGLE_SACK);
             //add(ZENYTE_MYSTERY_BOX);
             add(RAIDS_MYSTERY_BOX);
             add(AMULET_OF_BLOOD_FURY);

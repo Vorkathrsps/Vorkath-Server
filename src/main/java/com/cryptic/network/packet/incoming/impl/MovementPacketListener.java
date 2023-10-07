@@ -184,6 +184,14 @@ public class MovementPacketListener implements PacketListener {
 
         player.putAttrib(AttributeKey.MOVEMENT_PACKET_STEPS, new ArrayDeque<>(Arrays.asList(tiles)));
 
+        if (player.recentAnim != null && ANIMS_TO_RESET.stream().anyMatch(e -> e == player.recentAnim.getId()))
+            player.animate(Animation.DEFAULT_RESET_ANIMATION);
+    }
+    static List<Integer> ANIMS_TO_RESET = new ArrayList<>();
+
+    @Init
+    public static void init() {
+        ANIMS_TO_RESET.addAll(Arrays.stream(Pickaxe.values()).map(e -> e.anim).toList());
     }
 
     private boolean checkReqs(Player player, int opcode) {

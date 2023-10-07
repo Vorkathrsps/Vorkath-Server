@@ -319,7 +319,7 @@ public abstract class Entity {
     }
 
     public Chain<Entity> repeatingTask(int tickBetweenLoop, Consumer<Task> work) {
-        return Chain.<Entity>noCtx().repeatingTask(tickBetweenLoop, work);
+        return Chain.bound(this).repeatingTask(tickBetweenLoop, work);
     }
 
     public Chain<Entity> conditionalRepeatingTask(String name, BooleanSupplier condition, int tickBetweenLoop, Consumer<Task> work) {

@@ -1,17 +1,24 @@
 package com.cryptic.model.content.skill.impl.woodcutting;
 
 import com.cryptic.model.content.areas.zeah.woodcutting_guild.WoodcuttingGuild;
+import com.cryptic.model.content.skill.impl.firemaking.LogLighting;
 import com.cryptic.model.content.skill.impl.woodcutting.impl.Axe;
 import com.cryptic.model.content.skill.impl.woodcutting.impl.Trees;
+import com.cryptic.model.content.skill.perks.SkillingItems;
 import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.model.entity.combat.formula.FormulaUtils;
+import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
+import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.object.ObjectManager;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
+import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Random;
 
@@ -22,8 +29,8 @@ import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
  * @Date: 10/7/2023
  */
 public class Woodcutting extends PacketInteraction {
-    double experienceMultiplier = 15;
-    Random random = new Random();
+    static double experienceMultiplier = 15;
+    static Random random = new Random();
     int[] birdNest = new int[]{5070, 5071, 5072, 5073, 5074, 5075};
     private final Map<Trees, Integer> TREE_MAP = Map.of(
         Trees.LOGS, TREE_STUMP_1342,
@@ -37,15 +44,13 @@ public class Woodcutting extends PacketInteraction {
         Trees.REDWOOD, REDWOOD_29671
     );
 
-    boolean success(int woodcuttingLevel, Trees tree, Axe axe) {
-
+    public static boolean success(int woodcuttingLevel, Trees tree, Axe axe) {
         double successChance = calculateSuccessChance(woodcuttingLevel, tree, axe);
         double randomValue = random.nextDouble();
-
         return successChance > randomValue;
     }
 
-    double calculateSuccessChance(int level, Trees tree, Axe type) {
+    public static double calculateSuccessChance(int level, Trees tree, Axe type) {
         int[][] hatchetValues = type.getValues();
         final int[] l = {0};
         final int[] h = {0};
@@ -54,10 +59,12 @@ public class Woodcutting extends PacketInteraction {
             l[0] = hatchetValues[treeOrdinal][0];
             h[0] = hatchetValues[treeOrdinal][1];
         }
+        System.out.println(Arrays.toString(l));
+        System.out.println(Arrays.toString(h));
         return (1D + (Math.floor((l[0] * (99D - level)) / 98D) + Math.floor((h[0] * (level - 1D)) / 98D))) / 256D;
     }
 
-    boolean collapseTree(Player player, Trees tree, int trunkObjectId) {
+    public static boolean collapseTree(Player player, Trees tree, int trunkObjectId) {
         GameObject obj = player.getAttribOr(AttributeKey.INTERACTION_OBJECT, null);
         GameObject old = new GameObject(obj.getId(), obj.tile(), obj.getType(), obj.getRotation());
         GameObject spawned = new GameObject(trunkObjectId, obj.tile(), obj.getType(), obj.getRotation());
@@ -66,7 +73,8 @@ public class Woodcutting extends PacketInteraction {
         return true;
     }
 
-    void cut(Player player, Trees tree, int trunkObjectId) {
+    public static void cut(Player player, Trees tree, int trunkObjectId) {
+
         Axe axe = Axe.findAxe(player).orElse(null);
 
         if (axe == null) {
@@ -86,27 +94,40 @@ public class Woodcutting extends PacketInteraction {
         }
 
         player.message("You swing your axe at the tree.");
-        player.stopActions(false);
+
         player.animate(axe.anim);
 
-        player.repeatingTask(4, work -> {
-            if (player.getMovement().isMoving() || player.inventory().isFull()) {
-                player.looks().resetRender();
-                player.message("Your inventory is too full to hold any more logs.");
-                work.stop();
+        player.repeatingTask(4, t -> {
+            if (player.getMovementQueue().hasMoved()) {
+                player.stopActions(false);
+                t.stop();
                 return;
             }
 
-            if (Utils.percentageChance((int) 12.5D)) {
+            if (player.inventory().isFull()) {
+                player.looks().resetRender();
+                player.stopActions(false);
+                player.message("Your inventory is too full to hold any more logs.");
+                t.stop();
+                return;
+            }
+
+            if (Utils.rollDie(12, 1)) {
+                player.stopActions(false);
                 player.inventory().add(new Item(tree.item));
                 collapseTree(player, tree, trunkObjectId);
-                work.stop();
+                t.stop();
                 return;
             }
 
             player.animate(axe.anim);
 
             int modifiedLevel = woodcuttingLevel;
+
+            if (player.getEquipment().containsAny(SkillingItems.WOODCUTTING_CAPE.getId())) {
+                modifiedLevel += 1;
+            }
+
             if (player.tile().inArea(WoodcuttingGuild.AREA_EAST) || player.tile().inArea(WoodcuttingGuild.AREA_WEST)) {
                 modifiedLevel += 7;
             }
@@ -114,7 +135,32 @@ public class Woodcutting extends PacketInteraction {
             var success = success(modifiedLevel, tree, axe);
 
             if (success) {
+                if (FormulaUtils.hasInfernalAxe(player)) {
+                    if (Utils.rollDie(3, 1)) {
+                        LogLighting.LightableLog log = LogLighting.LightableLog.logForId(tree.item);
+                        if (log != null) {
+                            player.graphic(580, GraphicHeight.MIDDLE, 0);
+                            player.getSkills().addExperience(Skills.FIREMAKING, log.xp / 2, experienceMultiplier, true);
+                            return;
+                        }
+                    }
+                }
+
                 player.getSkills().addExperience(Skills.WOODCUTTING, tree.experience, experienceMultiplier, true);
+
+                if (player.getEquipment().containsAny(SkillingItems.KANDARIN_HELM.getId())) {
+                    if (Utils.rollDie(10, 1)) {
+                        player.inventory().add(new Item(tree.item, 2));
+                        return;
+                    }
+                } else if (player.getInventory().contains(ItemIdentifiers.NATURE_OFFERINGS)) {
+                    if (Utils.rollDie(100, Utils.random(60,80))) {
+                        player.inventory().add(new Item(tree.item, 2));
+                        player.getInventory().remove(ItemIdentifiers.NATURE_OFFERINGS, 1);
+                        return;
+                    }
+                }
+
                 player.inventory().add(new Item(tree.item));
             }
         });
@@ -124,11 +170,17 @@ public class Woodcutting extends PacketInteraction {
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         if (option == 1) {
             for (var tree : Trees.values()) {
+                if (tree == null) {
+                    break;
+                }
                 for (var object : tree.getObjects()) {
+                    if (object == -1) {
+                        break;
+                    }
                     if (obj.getId() == object) {
                         var trunk = TREE_MAP.get(tree);
                         if (trunk != null) {
-                            player.waitUntil(1, () -> !player.getMovementQueue().isMoving(), () -> cut(player, tree, trunk));
+                            cut(player, tree, trunk);
                             return true;
                         }
                     }

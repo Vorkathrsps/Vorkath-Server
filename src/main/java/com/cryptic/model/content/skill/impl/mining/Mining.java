@@ -20,7 +20,6 @@ import com.cryptic.utility.chainedwork.Chain;
 import org.apache.commons.lang.ArrayUtils;
 
 import java.util.*;
-import java.util.function.BooleanSupplier;
 import java.util.stream.Stream;
 
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.ROCKS_11390;
@@ -98,8 +97,6 @@ public class Mining extends PacketInteraction {
         player.animate(pick.get().anim);
 
         var delay = pick.get().getDelay();
-
-        BooleanSupplier isMoving = () -> player.getMovementQueue().isMoving();
 
         player.repeatingTask(delay, mine -> {
             if (!ObjectManager.objWithTypeExists(10, obj.tile()) && !ObjectManager.objWithTypeExists(11, obj.tile()) && !ObjectManager.objWithTypeExists(0, obj.tile())) {

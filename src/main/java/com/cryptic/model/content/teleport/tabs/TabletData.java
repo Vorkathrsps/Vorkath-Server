@@ -37,7 +37,7 @@ public enum TabletData {
     YANILLE(new Item(YANILLE_TELEPORT), new Tile(2544, 3092, 0), false),
     TROLLHEIM(new Item(TROLLHEIM_TELEPORT), new Tile(2890, 3676, 0), false),
     ANNAKARL(new Item(ANNAKARL_TELEPORT), new Tile(3288, 3886, 0), false),
-    CARRALLANGAR(new Item(CARRALLANGAR_TELEPORT), new Tile(3156, 3666, 0), false),
+    CARRALLANGAR(new Item(CARRALLANGER_TELEPORT), new Tile(3156, 3666, 0), false),
     DAREEYAK(new Item(DAREEYAK_TELEPORT), new Tile(2966, 3695, 0), false),
     GHORROCK(new Item(GHORROCK_TELEPORT), new Tile(2977, 3873, 0), false),
     KHARYRLL(new Item(KHARYRLL_TELEPORT), new Tile(3492, 3471, 0), false),

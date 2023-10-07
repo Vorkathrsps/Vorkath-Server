@@ -445,9 +445,9 @@ CombatSpells {
 
         @Override
         public List<Item> itemsRequired(Player player) {
-            boolean spellSack = player.inventory().contains(BLIGHTED_BIND_SACK);
+            boolean spellSack = player.inventory().contains(BLIGHTED_ENTANGLE_SACK);
             if (spellSack) {
-                return List.of(Item.of(BLIGHTED_BIND_SACK, 1));
+                return List.of(Item.of(BLIGHTED_ENTANGLE_SACK, 1));
             }
             return List.of(
                 Item.of(WATER_RUNE, 3),
@@ -837,9 +837,9 @@ CombatSpells {
 
         @Override
         public List<Item> itemsRequired(Player player) {
-            boolean spellSack = player.inventory().contains(BLIGHTED_SNARE_SACK);
+            boolean spellSack = player.inventory().contains(BLIGHTED_ENTANGLE_SACK);
             if (spellSack) {
-                return List.of(Item.of(BLIGHTED_SNARE_SACK, 1));
+                return List.of(Item.of(BLIGHTED_ENTANGLE_SACK, 1));
             }
             return List.of(
                 Item.of(WATER_RUNE, 3),

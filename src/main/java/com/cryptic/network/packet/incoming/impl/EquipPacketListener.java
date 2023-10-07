@@ -81,6 +81,7 @@ public class EquipPacketListener implements PacketListener {
                 player.getSkills().stopSkillable();
 
                 EquipmentInfo info = World.getWorld().equipmentInfo();
+
                 if (info != null) {
                     player.getEquipment().equip(slot);
                     BonusesInterface.sendBonuses(player);
@@ -127,7 +128,6 @@ public class EquipPacketListener implements PacketListener {
                         Autocasting.setAutocast(player, null);
                         player.getPacketSender().sendMessage("Autocast spell cleared.");
                     }
-
                 }
             }
         }

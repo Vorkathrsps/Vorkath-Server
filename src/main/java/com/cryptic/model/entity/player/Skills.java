@@ -309,12 +309,12 @@ public class Skills {
         if (isMember) {
             switch (player.getMemberRights()) {
                 case RUBY_MEMBER -> amount *= 1.05;
-                case SAPPHIRE_MEMBER -> amount *= 1.10;
-                case EMERALD_MEMBER -> amount *= 1.15;
-                case DIAMOND_MEMBER -> amount *= 1.20;
-                case DRAGONSTONE_MEMBER -> amount *= 1.25;
-                case ONYX_MEMBER -> amount *= 1.30;
-                case ZENYTE_MEMBER -> amount *= 1.35;
+                case SAPPHIRE_MEMBER -> amount *= 1.08;
+                case EMERALD_MEMBER -> amount *= 1.10;
+                case DIAMOND_MEMBER -> amount *= 1.12;
+                case DRAGONSTONE_MEMBER -> amount *= 1.15;
+                case ONYX_MEMBER -> amount *= 1.18;
+                case ZENYTE_MEMBER -> amount *= 1.20;
             }
         }
 
@@ -323,7 +323,7 @@ public class Skills {
         }
 
         if (inWilderness) {
-            amount *= 1.33;
+            amount *= 1.12;
         }
 
         var skillingSets = SkillingSets.values();

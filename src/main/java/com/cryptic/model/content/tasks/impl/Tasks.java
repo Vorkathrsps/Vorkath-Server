@@ -40,8 +40,8 @@ public enum Tasks {
     CATCH_SHARKS(false,true,false,100,"Catch 100 sharks.","- Level 76 Fishing"),
     COOK_SHARKS(false,true,false,200,"Cook 200 sharks.","- Level 80 Cooking"),
     BURN_MAGIC_LOGS(false,true,false,100,"Burn 100 magic logs.","- Level 75 Firemaking"),
-    CUT_MAGIC_TREES(false,true,false,100,"Cut down 100 Magic trees.","- Level 75 Woodcutting"),
-    CUT_YEW_TREES(false,true,false,100,"Cut down 100 Yew trees.","- Level 60 Woodcutting"),
+    CUT_MAGIC_TREES(false,true,false,100,"Cut down 100 Magic impl.","- Level 75 Woodcutting"),
+    CUT_YEW_TREES(false,true,false,100,"Cut down 100 Yew impl.","- Level 60 Woodcutting"),
     PLANT_TORSTOL_SEED(false,true,false,25,"Plant 25 Torstol seeds.","- Level 85 Farming"),
 
     //#PVM tasks

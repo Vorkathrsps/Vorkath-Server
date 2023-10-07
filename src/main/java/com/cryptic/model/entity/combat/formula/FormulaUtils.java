@@ -69,7 +69,7 @@ public class FormulaUtils {
     }
 
     public static boolean wearingFullVirtus(Player player) {
-        return player.getEquipment().containsAll(ItemIdentifiers.VIRTUS_MASK, ItemIdentifiers.VIRTUS_ROBE_TOP, ItemIdentifiers.VIRTUS_ROBE_BOTTOMS);
+        return player.getEquipment().containsAll(ItemIdentifiers.VIRTUS_MASK, ItemIdentifiers.VIRTUS_ROBE_TOP, VIRTUS_ROBE_BOTTOM);
     }
 
     /**
@@ -292,6 +292,14 @@ public class FormulaUtils {
 
     public static boolean wearingBlackMask(Player player) {
         return Arrays.stream(BLACK_MASK).anyMatch(mask -> player.getEquipment().hasAt(EquipSlot.HEAD, mask));
+    }
+
+    public static boolean hasInfernalAxe(Player player) {
+        return player.getEquipment().hasAt(EquipSlot.WEAPON, INFERNAL_AXE);
+    }
+
+    public static boolean hasRingOfWealthImbued(Player player) {
+        return player.getEquipment().hasAt(EquipSlot.RING, RING_OF_WEALTH_I);
     }
 
     public static boolean sigilList(Player player) {

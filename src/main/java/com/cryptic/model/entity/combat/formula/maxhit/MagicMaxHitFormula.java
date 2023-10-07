@@ -78,7 +78,7 @@ public class MagicMaxHitFormula {
 
             if (player.getEquipment().hasAt(EquipSlot.HEAD, ItemIdentifiers.VIRTUS_MASK)
                 || player.getEquipment().hasAt(EquipSlot.BODY, ItemIdentifiers.VIRTUS_ROBE_TOP)
-                || player.getEquipment().hasAt(EquipSlot.LEGS, ItemIdentifiers.VIRTUS_ROBE_BOTTOMS)) {
+                || player.getEquipment().hasAt(EquipSlot.LEGS, ItemIdentifiers.VIRTUS_ROBE_BOTTOM)) {
                 mageStrength += 4.0;
             }
 

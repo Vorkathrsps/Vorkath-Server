@@ -247,6 +247,7 @@ public enum AttributeKey {
     WHIP_ONLY,
 
     WHIP_AND_DDS,
+    WOODCUTTING_ACTIVE,
 
     STARTER_BOX_CLAIMED("starter_box_claimed", AttribType.BOOLEAN),
 

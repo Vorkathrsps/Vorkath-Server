@@ -13,12 +13,12 @@ import static com.cryptic.utility.ItemIdentifiers.COINS_995;
 public class AchievementUtility {
 
     public static final int ACHIEVEMENT_NAME_ID = 39405;
-    public static final int ACHIEVEMENT_PROGRESS_ID = 39416;
+    public static final int ACHIEVEMENT_PROGRESS_ID = 80210;
     public static final int ACHIEVEMENT_DESCRIPTION_ID = 39417;
     public static final int CONTAINER_ID = 39414;
-    public static final int PROGRESS_BAR_CHILD = 39415;
+    public static final int PROGRESS_BAR_CHILD = 80211;
     public static final int ACHIEVEMENT_SCROLL_BAR = 39430;
-    public static final int ACHIEVEMENTS_LIST_START_ID = 39431;
+    public static final int ACHIEVEMENTS_LIST_START_ID = 80209;
     public static final int ACHIEVEMENTS_COMPLETED = 39404;
     public static final int REWARD_STRING = 39418;
     public static final String RED = "<col=FF0000>";

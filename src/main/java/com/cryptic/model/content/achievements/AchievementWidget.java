@@ -4,7 +4,10 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.Utils;
 
+import java.util.Arrays;
 import java.util.List;
+
+import static com.cryptic.model.content.achievements.AchievementUtility.ACHIEVEMENTS_LIST_START_ID;
 
 /**
  * @author PVE
@@ -15,6 +18,7 @@ public class AchievementWidget {
     public static void sendInterfaceForAchievement(final Player player, Achievements achievement) {
         final int completed = player.achievements().get(achievement);
         final int progress = (int) (completed * 100 / (double) achievement.getCompleteAmount());
+
         player.getPacketSender().sendString(AchievementUtility.ACHIEVEMENT_NAME_ID, "<col=ff9040>" + achievement.getName());
         player.getPacketSender().sendString(AchievementUtility.ACHIEVEMENT_PROGRESS_ID, "<col=ffffff>Progress:</col><col=ffffff>" + " (" + progress + "%) " + Utils.format(completed) + " / " + Utils.format(achievement.getCompleteAmount()));
         player.getPacketSender().sendProgressBar(AchievementUtility.PROGRESS_BAR_CHILD, progress);
@@ -29,7 +33,7 @@ public class AchievementWidget {
     }
 
     public static void open(Player player, Difficulty difficulty) {
-        final List<Achievements> list = Achievements.asList(difficulty);
+        final List<Achievements> list = Arrays.stream(Achievements.values()).toList();
 
         int totalAchievements = list.size();
 
@@ -39,19 +43,25 @@ public class AchievementWidget {
             case HARD -> player.getPacketSender().sendScrollbarHeight(AchievementUtility.ACHIEVEMENT_SCROLL_BAR, 1160);
         }
 
-        player.getPacketSender().sendString(AchievementUtility.ACHIEVEMENTS_COMPLETED, "Achievements Completed (" + player.achievementsCompleted() + "/" + Achievements.getTotal() + ")");
+        //player.getPacketSender().sendString(AchievementUtility.ACHIEVEMENTS_COMPLETED, "Achievements Completed (" + player.achievementsCompleted() + "/" + Achievements.getTotal() + ")");
         //Clear out old achievements
-        for (int index = 0; index < 100; index++) {
-            player.getPacketSender().sendString(AchievementUtility.ACHIEVEMENTS_LIST_START_ID + index, "");
+        for (int index = 0; index < 100; index += 4) {
+            player.getPacketSender().sendString(ACHIEVEMENTS_LIST_START_ID + index, "");
         }
+
+        int step = 0;
         for (int index = 0; index < totalAchievements; index++) {
             final Achievements achievement = list.get(index);
             int completed = player.achievements().get(achievement);
+            final int progress = (int) (completed * 100 / (double) achievement.getCompleteAmount());
             if (completed > achievement.getCompleteAmount()) {
                 completed = achievement.getCompleteAmount();
             }
             int totalAmount = achievement.getCompleteAmount();
-            player.getPacketSender().sendString(AchievementUtility.ACHIEVEMENTS_LIST_START_ID + index, "" + getColor(completed, totalAmount) + achievement.getName());
+            player.getPacketSender().sendString(ACHIEVEMENTS_LIST_START_ID + step, getColor(completed, totalAmount) + achievement.getName());
+            player.getPacketSender().sendString(AchievementUtility.ACHIEVEMENT_PROGRESS_ID + step, progress + "%");
+            player.getPacketSender().sendProgressBar(AchievementUtility.PROGRESS_BAR_CHILD + step, progress);
+            step += 4;
         }
     }
 

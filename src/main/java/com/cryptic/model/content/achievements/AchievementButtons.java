@@ -33,9 +33,13 @@ public class AchievementButtons {
     }
 
     public static boolean handleButtons(Player player, int buttonId) {
+        if(buttonId == 80003 || buttonId == 80053 || buttonId == 80203) {
+            AchievementWidget.open(player, Difficulty.EASY);
+            return true;
+        }
         if (buttonId == 39408) {
             AchievementWidget.open(player, Difficulty.EASY);
-            AchievementWidget.sendInterfaceForAchievement(player, Achievements.AMPUTEE_ANNIHILATION_I);
+            //AchievementWidget.sendInterfaceForAchievement(player, Achievements.AMPUTEE_ANNIHILATION_I);
             player.putAttrib(AttributeKey.ACHIEVEMENT_DIFFICULTY, Difficulty.EASY);
             player.getPacketSender().sendConfig(1160, 1);
             player.getPacketSender().sendConfig(1161, 0);
@@ -47,7 +51,7 @@ public class AchievementButtons {
 
         if (buttonId == 39409) {
             AchievementWidget.open(player, Difficulty.MED);
-            AchievementWidget.sendInterfaceForAchievement(player, Achievements.AMPUTEE_ANNIHILATION_II);
+            //AchievementWidget.sendInterfaceForAchievement(player, Achievements.AMPUTEE_ANNIHILATION_II);
             player.putAttrib(AttributeKey.ACHIEVEMENT_DIFFICULTY, Difficulty.MED);
             player.getPacketSender().sendConfig(1160, 0);
             player.getPacketSender().sendConfig(1161, 1);
@@ -59,7 +63,7 @@ public class AchievementButtons {
 
         if (buttonId == 39410) {
             AchievementWidget.open(player, Difficulty.HARD);
-            AchievementWidget.sendInterfaceForAchievement(player, Achievements.AMPUTEE_ANNIHILATION_III);
+            //AchievementWidget.sendInterfaceForAchievement(player, Achievements.AMPUTEE_ANNIHILATION_III);
             player.putAttrib(AttributeKey.ACHIEVEMENT_DIFFICULTY, Difficulty.HARD);
             player.getPacketSender().sendConfig(1160, 0);
             player.getPacketSender().sendConfig(1161, 0);
@@ -69,19 +73,19 @@ public class AchievementButtons {
             return true;
         }
         if (player.getAttribOr(AttributeKey.ACHIEVEMENT_DIFFICULTY, null) == Difficulty.EASY && BUTTONS_1.containsKey(buttonId)) {
-            AchievementWidget.sendInterfaceForAchievement(player, BUTTONS_1.get(buttonId));
+            //AchievementWidget.sendInterfaceForAchievement(player, BUTTONS_1.get(buttonId));
             player.getPacketSender().setClickedText(buttonId, true);
             return true;
         }
 
         if (player.getAttribOr(AttributeKey.ACHIEVEMENT_DIFFICULTY, null) == Difficulty.MED && BUTTONS_2.containsKey(buttonId)) {
-            AchievementWidget.sendInterfaceForAchievement(player, BUTTONS_2.get(buttonId));
+            //AchievementWidget.sendInterfaceForAchievement(player, BUTTONS_2.get(buttonId));
             player.getPacketSender().setClickedText(buttonId, true);
             return true;
         }
 
         if (player.getAttribOr(AttributeKey.ACHIEVEMENT_DIFFICULTY, null) == Difficulty.HARD && BUTTONS_3.containsKey(buttonId)) {
-            AchievementWidget.sendInterfaceForAchievement(player, BUTTONS_3.get(buttonId));
+            //AchievementWidget.sendInterfaceForAchievement(player, BUTTONS_3.get(buttonId));
             player.getPacketSender().setClickedText(buttonId, true);
             return true;
         }

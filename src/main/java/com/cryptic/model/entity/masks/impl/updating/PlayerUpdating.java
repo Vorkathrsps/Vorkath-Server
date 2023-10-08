@@ -499,7 +499,6 @@ public class PlayerUpdating {
     private static void updateAnimation(PacketBuilder builder, Player target) {
         builder.putShort(target.getAnimation().getId(), ByteOrder.LITTLE);
         builder.put(target.getAnimation().getDelay(), ValueType.C);
-        System.out.println(target.getAnimation().getDelay());
     }
 
     /**

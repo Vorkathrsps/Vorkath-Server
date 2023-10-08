@@ -9,16 +9,14 @@ import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.damagehandler.listener.DamageEffectListener;
 import com.cryptic.model.entity.combat.damagehandler.registery.ListenerRegistry;
+import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.ItemIdentifiers;
 
+import static com.cryptic.utility.ItemIdentifiers.SALVE_AMULETEI;
 import static com.cryptic.utility.ItemIdentifiers.SALVE_AMULET_E;
 
 public class SalveAmulet implements DamageEffectListener {
-
-    public SalveAmulet() {
-        ListenerRegistry.registerListener(this);
-    }
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         return false;
@@ -32,14 +30,17 @@ public class SalveAmulet implements DamageEffectListener {
     @Override
     public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
         var attacker = (Player) entity;
-        if (attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getEquipment().contains(SALVE_AMULET_E) || attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
-            if (magicAccuracy.getDefender().isNpc() && FormulaUtils.isUndead(magicAccuracy.getDefender().getAsNpc())) {
-                magicAccuracy.modifier += 1.20F;
+        var targetIsNpc = attacker.getCombat().getTarget() instanceof NPC;
+        if (attacker.getEquipment().containsAny(SALVE_AMULETEI, SALVE_AMULET_E)) {
+            if (targetIsNpc && FormulaUtils.isUndead(attacker.getCombat().getTarget())) {
+                magicAccuracy.modifier += 1.20;
                 return true;
             }
-        } else if (attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULET) && magicAccuracy.getDefender().isNpc() && FormulaUtils.isUndead(magicAccuracy.getDefender().getAsNpc())) {
-            magicAccuracy.modifier += 1.15F;
-            return true;
+        } else if (attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
+            if (targetIsNpc && FormulaUtils.isUndead(attacker.getCombat().getTarget())) {
+                magicAccuracy.modifier += 1.15F;
+                return true;
+            }
         }
         return false;
     }
@@ -47,13 +48,14 @@ public class SalveAmulet implements DamageEffectListener {
     @Override
     public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
         var attacker = (Player) entity;
-        var target = attacker.getCombat().getTarget();
-        if (target.isNpc() && FormulaUtils.isUndead(target)) {
-            if (attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getEquipment().contains(SALVE_AMULET_E) || attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
+        var targetIsNpc = attacker.getCombat().getTarget() instanceof NPC;
+        if (attacker.getEquipment().containsAny(SALVE_AMULETEI, SALVE_AMULET_E)) {
+            if (targetIsNpc && FormulaUtils.isUndead(attacker.getCombat().getTarget())) {
                 meleeAccuracy.modifier += 1.20F;
                 return true;
             }
-            if (attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
+        } else if (attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
+            if (targetIsNpc && FormulaUtils.isUndead(attacker.getCombat().getTarget())) {
                 meleeAccuracy.modifier += 1.15F;
                 return true;
             }
@@ -62,19 +64,22 @@ public class SalveAmulet implements DamageEffectListener {
     }
 
     @Override
-    public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
+    public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy
+        rangeAccuracy) {
         var attacker = (Player) entity;
-        var target = rangeAccuracy.getDefender().getCombat().getTarget();
-        if (target.isNpc() && FormulaUtils.isUndead(target)) {
-            if (attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI) || attacker.getEquipment().contains(SALVE_AMULET_E) || attacker.getAsPlayer().getEquipment().contains(ItemIdentifiers.SALVE_AMULETEI)) {
+        var targetIsNpc = attacker.getCombat().getTarget() instanceof NPC;
+        if (attacker.getEquipment().containsAny(SALVE_AMULETEI, SALVE_AMULET_E)) {
+            if (targetIsNpc && FormulaUtils.isUndead(attacker.getCombat().getTarget())) {
                 rangeAccuracy.modifier += 1.20F;
                 return true;
             }
-            if (attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
+        } else if (attacker.getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
+            if (targetIsNpc && FormulaUtils.isUndead(attacker.getCombat().getTarget())) {
                 rangeAccuracy.modifier += 1.15F;
                 return true;
             }
         }
         return false;
     }
+
 }

@@ -33,7 +33,7 @@ public class TheatreInteractions extends PacketInteraction {
                     Chain.noCtx().runFn(1, () -> {
                         player.agilityWalk(false);
                         player.lock();
-                        var t = new Tile(player.tile().getX(), player.tile().getY()).transform(-2, 0);
+                        var t = new Tile(player.tile().getX(), player.tile().getY()).transform(2, 0);
                         player.stepAbs(t.getX(), t.getY(), MovementQueue.StepType.FORCED_WALK);
                     }).then(2, () -> {
                         player.unlock();
@@ -43,7 +43,7 @@ public class TheatreInteractions extends PacketInteraction {
                     Chain.noCtx().runFn(1, () -> {
                         player.agilityWalk(false);
                         player.lock();
-                        var t = new Tile(player.tile().getX(), player.tile().getY()).transform(2, 0);
+                        var t = new Tile(player.tile().getX(), player.tile().getY()).transform(-2, 0);
                         player.stepAbs(t.getX(), t.getY(), MovementQueue.StepType.FORCED_WALK);
                     }).then(3, () -> {
                         player.unlock();

@@ -44,9 +44,9 @@ public class VirtusSet implements DamageEffectListener {
             for (var s : this.getBlood_spells()) {
                 if (player.getCombat().getCastSpell().spellId() == s) {
                     player.heal(hit.getDamage() / 4, (int) (hit.getDamage() * 0.20));
+                    return true;
                 }
             }
-            return true;
         }
         return false;
     }
@@ -82,11 +82,11 @@ public class VirtusSet implements DamageEffectListener {
                     for (var s : this.getIce_spells()) {
                         if (player.getCombat().getCastSpell().spellId() == s) {
                             magicAccuracy.modifier += 0.010F;
+                            return true;
                         }
                     }
                 }
             }
-            return true;
         }
         return false;
     }

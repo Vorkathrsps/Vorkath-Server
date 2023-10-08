@@ -40,6 +40,7 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         listeners.add(new VirtusSet());
         listeners.add(new JusticiarSet());
         listeners.add(new DinhBulwark());
+        listeners.add(new SalveAmulet());
         return listeners;
     }
 
@@ -70,6 +71,7 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         List<DamageEffectListener> listeners = new ArrayList<>();
         listeners.add(new CrystalSet());
         listeners.add(new TwistedBow());
+        listeners.add(new SalveAmulet());
         listeners.add(new DragonHunterCrossbow());
         listeners.add(new VoidEquipment());
         listeners.add(new WildernessWeapon());
@@ -82,6 +84,7 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         listeners.add(new VestaLongsword());
         listeners.add(new ObsidianArmor());
         listeners.add(new DragonMace());
+        listeners.add(new SalveAmulet());
         listeners.add(new DragonHunterLance());
         listeners.add(new WildernessWeapon());
         return listeners;

@@ -241,7 +241,6 @@ public class ScalarLootTable {
         // Try a table now
         if (tables != null && tables.length > 0) {
             for (ScalarLootTable table : tables) {
-                System.out.println("drop rate: " + drop);
                 if (drop >= table.from && drop < table.from + table.points) {
                     return table.randomItem(random, drop);
                 }

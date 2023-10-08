@@ -27,8 +27,8 @@ public class DragonThrownaxe extends CommonCombatMethod {
         player.performGraphic(GRAPHIC);
 
         int tileDist = entity.tile().transform(1, 1).getChevDistance(target.tile());
-        int duration = (36 +  11 + (2 * tileDist));
-        Projectile p1 = new Projectile(entity, target, 1318, 36, duration, 40, 30, 0, target.getSize(), 5);
+        int duration = (32 + (7 * tileDist));
+        Projectile p1 = new Projectile(entity, target, 1318, 32, duration, 40, 30, 6, 1, 7);
         final int delay = entity.executeProjectile(p1);
 
         CombatFactory.decrementAmmo(player);

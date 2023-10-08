@@ -110,7 +110,7 @@ public class Hit {
 
         if (attacker != null && attacker.pidOrderIndex != -1) {
             if (target != null && attacker.pidOrderIndex <= target.pidOrderIndex) {
-                delay -= 1;
+                delay--;
             }
         }
 

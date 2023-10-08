@@ -135,7 +135,7 @@ public class TournamentManager extends PacketInteraction {
         return tournament.getFighters().size();
     }
 
-    private static long timeTillNext() {
+    public static long timeTillNext() {
         final ZonedDateTime next = nextEvent();
         if (next == null)
             return -1;

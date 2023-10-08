@@ -835,11 +835,14 @@ public class CombatFactory {
             return;
         }
 
+        if (attacker instanceof Player a)
+            triggerAttacker.triggerEffectForAttacker(a, combatType, hit);
         if (target instanceof Player t)
             triggerDefender.triggerEffectForDefender(t, combatType, hit);
 
         if (target.isNpc() && attacker != null && attacker.isPlayer()) {
             if (target instanceof NPC npc) {
+                assert attacker instanceof Player;
                 Player player = (Player) attacker;
                 if (player.getCombat() == null)
                     return; // should never happen lol
@@ -994,11 +997,6 @@ public class CombatFactory {
         if (target instanceof Player) {
             target.getAsPlayer().getPacketSender().sendInterfaceRemoval();
         }
-
-        if (attacker instanceof Player a)
-            triggerAttacker.triggerEffectForAttacker(a, combatType, hit);
-        if (target instanceof Player t)
-            triggerDefender.triggerEffectForDefender(t, combatType, hit);
 
         hit = target.manipulateHit(hit);
 

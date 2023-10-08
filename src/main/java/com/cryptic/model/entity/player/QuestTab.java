@@ -7,7 +7,9 @@ import com.cryptic.model.content.achievements.AchievementWidget;
 import com.cryptic.model.content.achievements.Achievements;
 import com.cryptic.model.content.areas.wilderness.content.EloRating;
 import com.cryptic.model.content.areas.wilderness.content.boss_event.WildernessBossEvent;
+import com.cryptic.model.content.collection_logs.Collection;
 import com.cryptic.model.content.collection_logs.LogType;
+import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.items_kept_on_death.ItemsKeptOnDeath;
 import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -347,8 +349,8 @@ public final class QuestTab {
                 }
             });
 
-            case 12754 -> {
-                QuestTab.refreshInfoTab(player);
+            case 80001 -> {
+                //QuestTab.refreshInfoTab(player);
                 return true;
             }
         }
@@ -359,25 +361,10 @@ public final class QuestTab {
         InfoTab.INFO_TAB.forEach((childId, lineInfo) -> {
             player.getPacketSender().sendString(childId, lineInfo.fetchLineData(player));
         });
-        updatePlayerPanel(player);
+      //  updatePlayerPanel(player);
     }
-    public static void updatePlayerPanel(Player player) {
-
-        player.getPacketSender().sendString(32580,  Utils.capitalizeJustFirst(player.getUsername()));
-        player.getPacketSender().sendString(70009,"@gre@"+ player.skills().combatLevel());
-        player.getPacketSender().sendString(70012,"@gre@"+ player.skills().totalLevel());
-        player.getPacketSender().sendString(70015,"@gre@"+ Utils.insertCommasToNumber(Long.toString(player.skills().getTotalExperience())));
-        player.getPacketSender().sendString(32575,"@gre@0/253");//quests completed
-        //    DropsDisplay.howmanydrops(player, " ", DropsDisplay.Type.NPC);
-        player.getPacketSender().sendString(32590,"@gre@"+DropsDisplay.howmanydrops(player, " ", DropsDisplay.Type.NPC));//amount of drops - opens drop table
-        //  player.getPacketSender().sendString(29469,"Diaries Completed: "+player.getDiariesCompleted()+"/"+player.getDiariesTotal());//diaries completed
-        player.getPacketSender().sendString(32577,   "@gre@ "+player.achievementsCompleted() + "/" + Achievements.getTotal());//achievements completed - opens achievements
 
 
-        player.getPacketSender().sendString(32576,   "@gre@"+player.getCollectionLog().totalAmountToCollect() + "/" + player.getCollectionLog().sumTotalObtained());//collection log completed - opens collection log
-
-
-    }
     public static String fetchUpTime() {
         final long upTime = System.currentTimeMillis() - GameServer.startTime;
         return String.format("%d hrs, %d mins",

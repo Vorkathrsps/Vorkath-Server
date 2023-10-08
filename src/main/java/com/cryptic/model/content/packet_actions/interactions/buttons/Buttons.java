@@ -147,7 +147,9 @@ public class Buttons {
             case CLOSE_LOOTING_BAG_OPEN, CLOSE_LOOTING_BAG_ADD, CLOSE_LOOTING_BAG_BANK ->
                 player.getLootingBag().close();
             case 14921 -> player.getBankPinSettings().dontKnowPin();
-            case 10407 -> QuestTab.updatePlayerPanel(player);
+            case 80001 -> {
+                //QuestTab.updatePlayerPanel(player);
+            }
 
             case OPEN_COMBAT_TASKS -> AchievementWidget.openEasyJournal(player);
 

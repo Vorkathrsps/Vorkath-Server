@@ -11,6 +11,9 @@ import com.cryptic.model.World;
 import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.achievements.Achievements;
 import com.cryptic.model.content.areas.wilderness.content.RiskManagement;
+import com.cryptic.model.content.areas.wilderness.content.activity.WildernessActivity;
+import com.cryptic.model.content.areas.wilderness.content.activity.WildernessActivityManager;
+import com.cryptic.model.content.areas.wilderness.content.activity.impl.MysteriousActivity;
 import com.cryptic.model.content.areas.wilderness.content.boss_event.WildernessBossEvent;
 import com.cryptic.model.content.areas.wilderness.content.todays_top_pkers.TopPkers;
 import com.cryptic.model.content.areas.wilderness.slayer.WildernessSlayerCasket;
@@ -24,6 +27,7 @@ import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.duel.Dueling;
 import com.cryptic.model.content.items.mysterybox.MysteryBoxManager;
+import com.cryptic.model.content.items_kept_on_death.ItemsKeptOnDeath;
 import com.cryptic.model.content.kill_logs.BossKillLog;
 import com.cryptic.model.content.kill_logs.SlayerKillLog;
 import com.cryptic.model.content.mechanics.BossTimers;
@@ -56,8 +60,8 @@ import com.cryptic.model.content.skill.impl.hunter.Hunter;
 import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.content.skill.impl.slayer.SlayerRewards;
 import com.cryptic.model.content.skill.impl.slayer.slayer_partner.SlayerPartner;
+import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.cryptic.model.content.skill.perks.SkillingItems;
-import com.cryptic.model.content.skill.perks.SkillingSets;
 import com.cryptic.model.content.tasks.TaskMasterManager;
 import com.cryptic.model.content.teleport.Teleports;
 import com.cryptic.model.content.teleport.newinterface.NewTeleportInterface;
@@ -88,6 +92,7 @@ import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.combat.skull.SkullType;
 import com.cryptic.model.entity.combat.skull.Skulling;
 import com.cryptic.model.entity.combat.weapon.WeaponInterfaces;
+import com.cryptic.model.entity.events.star.CrashedStar;
 import com.cryptic.model.entity.masks.Appearance;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.masks.impl.chat.ChatMessage;
@@ -152,6 +157,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serial;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -168,7 +174,6 @@ import static com.cryptic.model.content.presets.newpreset.PresetHandler.EQUIPMEN
 import static com.cryptic.model.content.presets.newpreset.PresetHandler.INVENTORY_SIZE;
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.NexCombat.NEX_AREA;
-import static com.cryptic.model.entity.player.QuestTab.InfoTab.UPTIME;
 import static com.cryptic.model.entity.player.QuestTab.InfoTab.WORLD_BOSS_SPAWN;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
@@ -183,7 +188,9 @@ public class Player extends Entity {
 
     @Getter
     private final Pet petEntity = new Pet(this);
-    @Getter @Setter public TheatreInterface theatreInterface;
+    @Getter
+    @Setter
+    public TheatreInterface theatreInterface;
     @Getter
     @Setter
     public RoomState roomState;
@@ -195,9 +202,13 @@ public class Player extends Entity {
     @Setter
     public RaidDeathState raidDeathState;
 
-    @Getter @Setter private NightmareInstance nightmareInstance;
+    @Getter
+    @Setter
+    private NightmareInstance nightmareInstance;
 
-    @Getter @Setter private TheatreInstance theatreInstance;
+    @Getter
+    @Setter
+    private TheatreInstance theatreInstance;
     public transient ShopReference shopReference = ShopReference.DEFAULT;
 
     private final WildernessSlayerCasket wildernessSlayerCasket = new WildernessSlayerCasket(this);
@@ -259,7 +270,9 @@ public class Player extends Entity {
         this.raids = raids;
     }
 
-    @Getter @Setter TheatreParty theatreParty;
+    @Getter
+    @Setter
+    TheatreParty theatreParty;
 
     /**
      * depending on pid, two dying players, one might respawn before other's death code runs. this introduces some leway.
@@ -491,6 +504,34 @@ public class Player extends Entity {
             bm *= 2;
         }
         return bm;
+    }
+
+    public void updatePlayerPanel(Player player) {
+        player.getPacketSender().sendString(80005, Utils.capitalizeJustFirst(player.getUsername()));
+        player.getPacketSender().sendString(80008, "@gre@" + player.skills().combatLevel());
+        player.getPacketSender().sendString(80011, "@gre@" + player.skills().totalLevel());
+        player.getPacketSender().sendString(80014, "@Ora@" + "Total XP: " + "@gre@" + Utils.insertCommasToNumber(Long.toString(player.skills().getTotalExperience())));
+        player.getPacketSender().sendString(80017, "@gre@" + "0/5");
+        player.getPacketSender().sendString(80021, "@gre@" + player.achievementsCompleted() + "/" + player.achievements().entrySet().size());
+        player.getPacketSender().sendString(80026, "@gre@" + player.getCollectionLog().totalAmountToCollect() + "/" + player.getCollectionLog().sumTotalObtained());
+        player.getPacketSender().sendString(80028, "Time Played: " + QuestTabUtils.getTimeDHS(player));
+    }
+
+    static void updateServerInformation(Player player) {
+        LocalDateTime now = LocalDateTime.now();
+        long minutesTillWildyBoss = now.until(WildernessBossEvent.getINSTANCE().next, ChronoUnit.MINUTES);
+        long risked = ItemsKeptOnDeath.getLostItemsValue();
+        String formatted = QuestTabUtils.formatNumberWithSuffix(risked);
+        player.getPacketSender().sendString(80055, "Cryptic Information");
+        player.getPacketSender().sendString(80059, "Players Online: " + "@whi@" + World.getWorld().getPlayers().size());
+        player.getPacketSender().sendString(80060, "Players In Wild: " + "@whi@" + World.getWorld().getPlayersInWild());
+        player.getPacketSender().sendString(80061, "Server Time: " + "@whi@" + QuestTabUtils.getFormattedServerTime());
+        player.getPacketSender().sendString(80062, "Server Uptime: " + "@whi@" + QuestTabUtils.fetchUpTime());
+        player.getPacketSender().sendString(80063, "Total Risk: " + "@whi@" + formatted);
+        player.getPacketSender().sendString(80064, "Drop Rate: " + "@whi@" + player.getDropRateBonus() + "%");
+        player.getPacketSender().sendString(80065, "Tournament: " + "@whi@" + QuestTabUtils.getFormattedTournamentTime());
+        player.getPacketSender().sendString(80066, "Wild Activity: " + "@whi@" + WildernessActivityManager.getSingleton().getActivityDescription());
+        player.getPacketSender().sendString(80067, "Wilderness Boss: " + "@whi@" + minutesTillWildyBoss + " Minutes");
     }
 
     public void healPlayer() {
@@ -1639,6 +1680,8 @@ public class Player extends Entity {
                 // message("<col=" + Color.DARK_RED.getColorValue() + ">PLEASE BE PATIENT UNTIL WE FIX!");
             }
 
+            updatePlayerPanel(this);
+
             message("Welcome " + (newAccount ? "" : "back") + " to " + GameConstants.SERVER_NAME + ".");
 
             TaskManager.submit(new SaveTask(this));
@@ -1649,11 +1692,6 @@ public class Player extends Entity {
                 ClanManager.join(this, clanChat);
             }
 
-            // if (this.getPet() != null) {
-            //    this.getPet().spawnOnLogin();
-            //  }
-
-            //QuestTab.refreshInfoTab(this);
         }).then(1, () -> {
 
             // Send friends and ignored players lists...
@@ -3212,8 +3250,8 @@ public class Player extends Entity {
     }
 
     Runnable logR = this::fireLogout, qtStuff = () -> {
-        //this.setPlayerQuestTabCycleCount(getPlayerQuestTabCycleCount() + 1);
-        updateQuestTab();
+        this.setPlayerQuestTabCycleCount(getPlayerQuestTabCycleCount() + 1);
+        updateServerInformation(this);
         //Update the players online regardless of the cycle count, this is the most important number, otherwise players might see "0" if they log in too soon. Can always remove this later.
         GlobalStrings.PLAYERS_ONLINE.send(this, World.getWorld().getPlayers().size());
 
@@ -3244,9 +3282,11 @@ public class Player extends Entity {
         // Refresh the quest tab every minute (every 100 ticks)
         if (GameServer.properties().autoRefreshQuestTab && getPlayerQuestTabCycleCount() == GameServer.properties().refreshQuestTabCycles) {
             setPlayerQuestTabCycleCount(0);
+            updatePlayerPanel(this);
 
             //We only have to update the uptime here, every other line is automatically updated.
-            this.getPacketSender().sendString(UPTIME.childId, QuestTab.InfoTab.INFO_TAB.get(UPTIME.childId).fetchLineData(this));
+            //this.getPacketSender().sendString(UPTIME.childId, QuestTab.InfoTab.INFO_TAB.get(UPTIME.childId).fetchLineData(this));
+
 
             //Update the timer frames every minute.
             this.getPacketSender().sendString(WORLD_BOSS_SPAWN.childId, QuestTab.InfoTab.INFO_TAB.get(WORLD_BOSS_SPAWN.childId).fetchLineData(this));

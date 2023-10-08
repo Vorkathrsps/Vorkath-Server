@@ -134,8 +134,6 @@ public class RangeAccuracy {
 
         effectiveLevel = modification > 0 ? Math.floor(effectiveLevel * modification) : effectiveLevel;
 
-        System.out.println("modifier " + modification);
-
         effectiveLevel = (int) Math.floor(effectiveLevel + 8);
 
         return (int) Math.floor(effectiveLevel);

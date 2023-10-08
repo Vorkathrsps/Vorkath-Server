@@ -5,7 +5,7 @@
   "debugMode": true,
   "autoRefreshQuestTab": true,
   "refreshQuestTabCycles": 100,
-  "enableLeakDetection": false,
+  "enableLeakDetection": true,
   "queuedLoopThreshold": 45,
   "packetProcessLimit": 100,
   "defaultClanChat": "help",

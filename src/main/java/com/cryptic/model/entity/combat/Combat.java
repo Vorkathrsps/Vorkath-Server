@@ -100,11 +100,7 @@ public class Combat {
     private CombatSpell castSpell;
     private ModernSpells spellID;
     private CombatSpell autoCastSpell;
-
-    @Getter
-    @Setter
-    private CombatSpell poweredStaffSpell;
-
+    @Getter @Setter private CombatSpell poweredStaffSpell;
     public Combat(Entity mob) {
         this.mob = mob;
         this.hitQueue = new HitQueue();
@@ -127,7 +123,6 @@ public class Combat {
     }
 
     MagicMaxHitFormula magicMaxHitFormula = new MagicMaxHitFormula();
-
     public int getMaximumMagicDamage() {
         if (mob instanceof NPC npc) {
             return npc.getCombatInfo() != null ? npc.getCombatInfo().maxhit : 0;

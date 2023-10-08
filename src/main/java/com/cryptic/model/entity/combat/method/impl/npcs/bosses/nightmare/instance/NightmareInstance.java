@@ -25,11 +25,9 @@ public class NightmareInstance extends NightmareArea {
     @Getter @Setter boolean joinable = true;
     @Getter public List<NPC> husks = new ArrayList<>();
     @Getter public List<NPC> totems = new ArrayList<>();
-
     public static Area room() {
         return new Area(Tile.regionToTile(15515).getX(), Tile.regionToTile(15515).getY(), Tile.regionToTile(15515).getX() + 63, Tile.regionToTile(15515).getY() + 63);
     }
-
     public NightmareInstance(Player owner, List<Player> players) {
         super(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, room());
         this.owner = owner;
@@ -52,7 +50,6 @@ public class NightmareInstance extends NightmareArea {
     }
 
     public NightmareInstance build() {
-
         NPC nightmare = new NPC(9432, new Tile(3870, 9949, this.getzLevel() + 3)).spawn(false);
         nightmare.noRetaliation(true);
         World.getWorld().definitions().get(NpcDefinition.class, nightmare.id());

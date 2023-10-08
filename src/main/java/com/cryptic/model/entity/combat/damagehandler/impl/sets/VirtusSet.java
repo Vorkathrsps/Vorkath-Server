@@ -14,20 +14,17 @@ import lombok.Getter;
 import java.util.List;
 
 public class VirtusSet implements DamageEffectListener {
-
     @Getter
     private final List<Integer> blood_spells = List.of(12901,
         12919,
         12911,
         12929);
-
     @Getter
     private final List<Integer> ice_spells = List.of(
         12861,
         12881,
         12871,
         12891);
-
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         if (combatType != null) {

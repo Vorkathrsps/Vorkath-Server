@@ -109,7 +109,7 @@ public final class ServerProperties {
         clippingDirectory = "./data/map/clipping/";
         debugMode = true;
         autoRefreshQuestTab = true;
-        enableLeakDetection = false;
+        enableLeakDetection = true; //dont leave this on
         concurrency = false; //(Runtime.getRuntime().availableProcessors() > 1);
         queuedLoopThreshold = 45;
         packetProcessLimit = 25;

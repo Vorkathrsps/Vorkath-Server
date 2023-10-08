@@ -66,7 +66,6 @@ public class Nightmare extends CommonCombatMethod { //TODO increase max hit base
     private static final int[] UNCHARGED_TOTEMS = {9434, 9440, 9437, 9443};
     private static final int[] CHARGED_TOTEMS = {9436, 9442, 9439, 9445};
     private static final int[] PROGRESS_BARS = {75004, 75006, 75008, 75010};
-
     @Override
     public void process(Entity entity, Entity target) {
         if (!(entity instanceof NPC nightmare) || !(target instanceof Player player)) {

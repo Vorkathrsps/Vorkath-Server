@@ -1184,8 +1184,8 @@ public final class PacketSender {
     private final Player player;
 
     public PacketSender sendProjectile(Tile position, Tile offset,
-                                       int angle, int speed, int gfxMoving, int startHeight, int endHeight,
-                                       int lockon, int time, int slope, int creatorSize, int startDistanceOffset) {
+                                       int angle, int duration, int gfxMoving, int startHeight, int endHeight,
+                                       int lockon, int startDelay, int slope, int creatorSize, int startDistanceOffset) {
         PacketBuilder out = new PacketBuilder(117);
         sendPosition(position);
         out.put(angle);
@@ -1195,8 +1195,8 @@ public final class PacketSender {
         out.putShort(gfxMoving);
         out.put(startHeight);
         out.put(endHeight);
-        out.putShort(time);
-        out.putShort(speed);
+        out.putShort(startDelay);
+        out.putShort(duration);
         out.put(slope);
         out.put(startDistanceOffset);
         player.getSession().write(out);

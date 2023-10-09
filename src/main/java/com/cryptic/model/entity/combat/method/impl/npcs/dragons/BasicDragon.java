@@ -23,7 +23,7 @@ public class BasicDragon extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         if (!withinDistance(1)) {
-            System.out.println("true");
+
             return false;
         }
 
@@ -37,9 +37,10 @@ public class BasicDragon extends CommonCombatMethod {
             } else {
                 basicAttack(entity, target);
             }
+            return true; //shouldnt even reach here if within distance oh just saw true rght
         }
 
-        return true;
+        return false;
     }
 
     private void basicAttack(Entity entity, Entity target) {

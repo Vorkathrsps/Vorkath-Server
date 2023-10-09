@@ -58,6 +58,7 @@ public class RottenPotato extends PacketInteraction {
                 player.debugMessage(String.format("Distance to %s (%d) : %d size %d. ", npc.def().name, target.getIndex(), player.tile().distance(target.tile()), npc.getSize()));
                 potatoOnNpc(player, npc);
             }
+            player.getMovement().reset();
             return true;
         }
         return false;

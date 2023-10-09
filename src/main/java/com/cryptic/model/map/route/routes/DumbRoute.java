@@ -9,8 +9,10 @@ import com.cryptic.model.map.route.ClipUtils;
 import com.cryptic.model.map.route.Direction;
 import com.cryptic.model.map.route.RouteFinder;
 import com.cryptic.model.map.route.RouteMisc;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
+@Slf4j
 public class DumbRoute {
 
     public static void route(Entity entity, int destX, int destY) {
@@ -52,7 +54,7 @@ public class DumbRoute {
     public static void step(@NotNull Entity entity, @NotNull Entity target, int distance) { // this is probably used in uh agility and shit then as a forcewalk/interpolate from oss copy
         /** Use the route finder to find the exact x/y to walk to.. I know.. bad.. */
         RouteFinder rf = entity.getRouteFinder();
-        rf.customClipUtils = ClipUtils.REGULAR;//i have the forcewalk and interpolate stuff
+        rf.customClipUtils = ClipUtils.NONE;
         rf.routeEntity(target);
         rf.customClipUtils = null;
         entity.getMovement().reset();

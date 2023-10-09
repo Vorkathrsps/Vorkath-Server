@@ -8,12 +8,14 @@ import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.route.RouteFinder;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Deque;
 import java.util.Optional;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.MOVEMENT_PACKET_STEPS;
 
+@Slf4j
 public class PlayerMovement extends MovementQueue {
 
     public Player player;

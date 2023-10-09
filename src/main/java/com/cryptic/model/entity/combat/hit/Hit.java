@@ -353,7 +353,6 @@ public class Hit {
             return;
         target.nextHits.add(this);
         target.getUpdateFlag().flag(Flag.FIRST_SPLAT);
-        adjustDelay();
     }
 
     public Hit block() {

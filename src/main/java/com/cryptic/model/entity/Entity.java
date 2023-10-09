@@ -1879,8 +1879,8 @@ public abstract class Entity {
 
         getMovementQueue().clear();
 
-        getMovementQueue().lastFollowX = teleportTarget.x;
-        getMovementQueue().lastFollowY = teleportTarget.y;
+        getMovementQueue().lastFollowX = getMovement().followX = -1;
+        getMovementQueue().lastFollowY = getMovement().followY = -1;
 
         if (getInstancedArea() != null) { // make sure this is after tile set
             if (!getInstancedArea().inInstanceArea(this)) {

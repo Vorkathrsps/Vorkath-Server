@@ -572,6 +572,9 @@ public class Combat {
         updateLastTarget(target);
         this.target = target;
         mob.putAttrib(AttributeKey.TARGET, new WeakReference<>(target));
+        if (mob.isPlayer()) {
+            System.out.printf("");
+        }
     }
 
     public Entity lastTarget;

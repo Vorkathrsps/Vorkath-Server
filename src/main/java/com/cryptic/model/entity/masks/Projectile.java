@@ -398,7 +398,7 @@ public final class Projectile {
         if (duration - (int) duration > 0.5F) {
             duration++;
         }
-        return Math.max(0, (int) duration - 1); // this is in ticks right? yeah copied from zenyte
+        return Math.max(0, (int) duration - 1);
     }
 
     public int getProjectileDuration(final Tile from, final Tile to) {

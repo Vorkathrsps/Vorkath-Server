@@ -1,6 +1,6 @@
 package com.cryptic.model.content.raids.theatre.boss.bloat.utils;
 
-import com.cryptic.model.content.raids.theatre.boss.bloat.handler.BloatProcess;
+import com.cryptic.model.content.raids.theatre.boss.bloat.Bloat;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.RegionManager;
@@ -10,19 +10,19 @@ import java.util.Random;
 public class BloatUtils {
 
     private int getMinX() {
-        return Math.min(BloatProcess.BLOAT_AREA.x1(), BloatProcess.BLOAT_AREA.x2());
+        return Math.min(Bloat.BLOAT_AREA.x1(), Bloat.BLOAT_AREA.x2());
     }
 
     private int getMinY() {
-        return Math.min(BloatProcess.BLOAT_AREA.y1, BloatProcess.BLOAT_AREA.y2);
+        return Math.min(Bloat.BLOAT_AREA.y1, Bloat.BLOAT_AREA.y2);
     }
 
     private int getMaxX() {
-        return Math.max(BloatProcess.BLOAT_AREA.x1, BloatProcess.BLOAT_AREA.x2);
+        return Math.max(Bloat.BLOAT_AREA.x1, Bloat.BLOAT_AREA.x2);
     }
 
     private int getMaxY() {
-        return Math.max(BloatProcess.BLOAT_AREA.y1, BloatProcess.BLOAT_AREA.y2);
+        return Math.max(Bloat.BLOAT_AREA.y1, Bloat.BLOAT_AREA.y2);
     }
 
     public Tile getRandomTile() {
@@ -44,8 +44,8 @@ public class BloatUtils {
 
     public int getRandomLimbGraphic() {
         Random random = new Random();
-        int randomIndex = random.nextInt(BloatProcess.LIMB_GRAPHICS.length);
-        return BloatProcess.LIMB_GRAPHICS[randomIndex];
+        int randomIndex = random.nextInt(Bloat.LIMB_GRAPHICS.length);
+        return Bloat.LIMB_GRAPHICS[randomIndex];
     }
 
 }

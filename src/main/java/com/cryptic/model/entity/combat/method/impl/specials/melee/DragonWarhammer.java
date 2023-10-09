@@ -20,7 +20,6 @@ public class DragonWarhammer extends CommonCombatMethod {
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy();
         hit.submit();
 
-        // Nerf a player's def if it's a player
         if (target.isPlayer()) {
             Player playerTarget = (Player) target;
             if (hit.isAccurate()) {
@@ -30,9 +29,6 @@ public class DragonWarhammer extends CommonCombatMethod {
             }
         } else if (target.isNpc()) {
             NPC npcTarget = (NPC) target;
-            int currentDefence = npcTarget.getCombatInfo().stats.defence;
-            System.out.println(currentDefence);
-            int newDefence;
             if (hit.isAccurate()) {
                 npcTarget.getCombatInfo().stats.defence = (int) Math.max(0, npcTarget.getCombatInfo().stats.defence - (npcTarget.getCombatInfo().stats.defence * 0.3));
             } else {

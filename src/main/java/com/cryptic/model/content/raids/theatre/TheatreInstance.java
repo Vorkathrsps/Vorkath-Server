@@ -2,15 +2,17 @@ package com.cryptic.model.content.raids.theatre;
 
 import com.cryptic.model.content.instance.InstanceConfiguration;
 import com.cryptic.model.content.raids.theatre.area.TheatreArea;
-import com.cryptic.model.content.raids.theatre.boss.bloat.Bloat;
-import com.cryptic.model.content.raids.theatre.boss.maiden.Maiden;
-import com.cryptic.model.content.raids.theatre.boss.nylocas.Vasilias;
-import com.cryptic.model.content.raids.theatre.boss.sotetseg.Sotetseg;
-import com.cryptic.model.content.raids.theatre.boss.xarpus.Xarpus;
+import com.cryptic.model.content.raids.theatre.boss.bloat.handler.BloatHandler;
+import com.cryptic.model.content.raids.theatre.boss.maiden.handler.MaidenHandler;
+import com.cryptic.model.content.raids.theatre.boss.nylocas.handler.VasiliasHandler;
+import com.cryptic.model.content.raids.theatre.boss.sotetseg.handler.SotetsegHandler;
+import com.cryptic.model.content.raids.theatre.boss.xarpus.handler.XarpusHandler;
 import com.cryptic.model.content.raids.theatre.controller.TheatreHandler;
 import com.cryptic.model.content.raids.theatre.controller.TheatreController;
 import com.cryptic.model.content.raids.theatre.stage.*;
+import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import lombok.Getter;
@@ -18,6 +20,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.cryptic.model.content.mechanics.DeathProcess.*;
 import static com.cryptic.model.content.mechanics.DeathProcess.SOTETSEG_AREA;
@@ -29,13 +32,16 @@ import static com.cryptic.model.content.mechanics.DeathProcess.SOTETSEG_AREA;
 public class TheatreInstance extends TheatreArea {
 
     @Getter public Player owner;
-    @Getter List<TheatreHandler> npcList = new ArrayList<>();
-    @Getter public TheatreController theatreController = new TheatreController(npcList);
-    @Getter public List<Player> occupiedCageSpawnPointsList = new ArrayList<>();
     @Getter public List<Player> players;
-    @Getter public static TheatrePhase theatrePhase = new TheatrePhase(TheatreStage.ONE);
-    Tile entrance = new Tile(3219, 4454);
-
+    public AtomicInteger wave = new AtomicInteger();
+    @Getter public List<Player> occupiedCageSpawnPointsList = new ArrayList<>();
+    @Getter List<TheatreHandler> bosses = new ArrayList<>();
+    @Getter public List<NPC> pillarList = new ArrayList<>();
+    @Getter public List<NPC> nylocas = new ArrayList<>();
+    @Getter public List<GameObject> pillarObject = new ArrayList<>();
+    @Getter public TheatreController theatreController = new TheatreController(bosses);
+    @Getter public TheatrePhase theatrePhase = new TheatrePhase(TheatreStage.ONE);
+    Tile entrance = new Tile(3296, 4257);
     public static Area[] rooms() {
         int[] regions = {12613, 12869, 13125, 12612, 12611, 12687, 13123, 13122};
         return Arrays.stream(regions).mapToObj(region -> new Area(
@@ -72,11 +78,11 @@ public class TheatreInstance extends TheatreArea {
     }
 
     public void startRaid() {
-        npcList.add(new Maiden());
-        npcList.add(new Xarpus());
-        npcList.add(new Bloat());
-        npcList.add(new Vasilias());
-        npcList.add(new Sotetseg());
+        bosses.add(new MaidenHandler());
+        bosses.add(new XarpusHandler());
+        bosses.add(new BloatHandler());
+        bosses.add(new VasiliasHandler());
+        bosses.add(new SotetsegHandler());
         theatreController.build(this.owner, this);
     }
 
@@ -108,7 +114,9 @@ public class TheatreInstance extends TheatreArea {
                 .ifPresent(p -> member.teleport(new Tile(3670, 3219, 0)));
             member.setTheatreParty(null);
         }
-        this.getNpcList().clear();
+        this.getPillarObject().clear();
+        this.getPillarList().clear();
+        this.getBosses().clear();
         this.getPlayers().clear();
     }
 

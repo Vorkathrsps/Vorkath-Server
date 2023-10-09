@@ -1,12 +1,12 @@
 package com.cryptic.model.content.raids.theatre.boss.maiden.nylos;
 
 import com.cryptic.model.World;
-import com.cryptic.model.content.raids.theatre.boss.maiden.handler.MaidenProcess;
+import com.cryptic.model.content.raids.theatre.boss.maiden.Maiden;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.map.position.Tile;
 
 public class MaidenNylo extends NPC {
-    MaidenProcess maiden;
+    Maiden maiden;
     private int timer = 30;
     public static final Tile[] spawn_tiles = new Tile[]
         {
@@ -20,7 +20,7 @@ public class MaidenNylo extends NPC {
             new Tile(3174, 4457)
         };
 
-    public MaidenNylo(int id, Tile tile, MaidenProcess maiden) {
+    public MaidenNylo(int id, Tile tile, Maiden maiden) {
         super(id, tile);
         this.maiden = maiden;
         this.noRetaliation(true);

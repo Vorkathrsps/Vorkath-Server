@@ -4,7 +4,6 @@ public enum VasiliasState {
 
     ALIVE,
     DEAD;
-
     VasiliasState() {
 
     }

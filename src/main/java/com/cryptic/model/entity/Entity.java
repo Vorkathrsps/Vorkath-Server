@@ -1589,7 +1589,11 @@ public abstract class Entity {
 
     public static void time(Consumer<Duration> consumer, Runnable task) {
         if (!TimesCycle.BENCHMARKING_ENABLED) {
-            task.run();
+            try {
+                task.run();
+            } catch (Exception e) {
+                log.error("kys", e);
+            }
             return;
         }
 
@@ -1836,7 +1840,9 @@ public abstract class Entity {
     public void teleport(Tile teleportTarget) {
 
         if (isPlayer() && !getAsPlayer().getInterfaceManager().isClear()) {
-            getAsPlayer().getInterfaceManager().removeOverlay();
+            if (getAsPlayer().getInterfaceManager().getWalkable() != 196) {
+                getAsPlayer().getInterfaceManager().close(true);
+            }
             getAsPlayer().getInterfaceManager().close(false);
         }
 

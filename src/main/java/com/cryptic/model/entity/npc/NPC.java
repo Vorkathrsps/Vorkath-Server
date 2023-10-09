@@ -520,6 +520,13 @@ public class NPC extends Entity {
 
     }
 
+    /**
+     * Override For Generic Combat Scripts
+     */
+    public void sequenceCombat() {
+
+    }
+
     public boolean useSmartPath;
 
     private void sequenceNormal() {

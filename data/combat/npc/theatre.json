@@ -146,7 +146,73 @@
   {
     // Nylocas Vasilas unaggressive
     "ids": [
-      8342, 8343, 8344
+      8343
+    ],
+    "maxhit": 17,
+    "deathlen": 3,
+    "aggressive": false,
+    "aggroradius": 1,
+    "stats": {
+      "attack": 200,
+      "strength": 160,
+      "magic": 1,
+      "ranged": 200,
+      "defence": 1,
+      "hitpoints": 11
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 0,
+      "magic": 1073,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 8001,
+      "block": -1,
+      "death": 7991
+    }
+  },
+  {
+    // Nylocas Vasilas unaggressive
+    "ids": [
+      8342
+    ],
+    "maxhit": 17,
+    "deathlen": 3,
+    "aggressive": false,
+    "aggroradius": 1,
+    "stats": {
+      "attack": 200,
+      "strength": 160,
+      "magic": 1,
+      "ranged": 200,
+      "defence": 1,
+      "hitpoints": 11
+    },
+    "bonuses": {
+      "attack": 0,
+      "ranged": 0,
+      "magic": 1073,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 9140,
+      "block": -1,
+      "death": 8426
+    }
+  },
+  {
+    // Nylocas Vasilas unaggressive
+    "ids": [
+      8344
     ],
     "maxhit": 17,
     "deathlen": 3,
@@ -173,10 +239,7 @@
     "animations": {
       "attack": 7990,
       "block": -1,
-      "death": 7991
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.content.raids.theatre.nylocas.combat.VasiliasCombat"
+      "death": 7992
     }
   },
   {
@@ -207,9 +270,9 @@
       "magicdefence": 0
     },
     "animations": {
-      "attack": 7990,
+      "attack": 9140,
       "block": -1,
-      "death": 7991
+      "death": 8426
     },
     "scripts": {
     }
@@ -382,9 +445,9 @@
       "magicdefence": 0
     },
     "animations": {
-      "attack": 7990,
+      "attack": 8001,
       "block": -1,
-      "death": 7991
+      "death": 8000
     },
     "scripts": {
     }
@@ -419,7 +482,7 @@
     "animations": {
       "attack": 7990,
       "block": -1,
-      "death": 7991
+      "death": 7992
     },
     "scripts": {
     }

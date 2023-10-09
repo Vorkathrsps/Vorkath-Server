@@ -1,5 +1,6 @@
 package com.cryptic.model.map.position.areas;
 
+import com.cryptic.model.content.raids.theatre.area.TheatreAreaController;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Area;
@@ -19,6 +20,7 @@ public class ControllerManager {
         CONTROLLERS.add(new FightCaveArea());
         CONTROLLERS.add(new COXArea());
         CONTROLLERS.add(new TournamentArea());
+        CONTROLLERS.add(new TheatreAreaController());
     }
 
     /**

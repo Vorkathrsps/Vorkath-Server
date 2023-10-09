@@ -91,23 +91,26 @@ public class MaidenProcess extends NPC {
         int zLevel = theatreInstance.getzLevel();
         Set<Tile> selectedTiles = new HashSet<>();
         List<Tile> availableTiles = new ArrayList<>(Arrays.asList(MaidenNylo.spawn_tiles));
-        Collections.shuffle(availableTiles);
 
         if (partySize < 5) {
             int numNpcsToSpawn = partySize * 2;
 
             for (int i = 0; i < Math.min(numNpcsToSpawn, availableTiles.size()); i++) {
+                Collections.shuffle(availableTiles);
                 Tile tile = availableTiles.get(i);
+                var finalTile = Utils.randomElement(availableTiles);
                 if (!selectedTiles.contains(tile)) {
-                    nylo = (MaidenNylo) new MaidenNylo(NpcIdentifiers.NYLOCAS_MATOMENOS, new Tile(tile.getX(), tile.getY()).transform(0, 0, zLevel), this).spawn(false);
+                    nylo = (MaidenNylo) new MaidenNylo(NpcIdentifiers.NYLOCAS_MATOMENOS, finalTile.transform(0, 0, zLevel), this).spawn(false);
                     selectedTiles.add(tile);
                 }
             }
         } else {
             for (int i = 0; i < MaidenNylo.spawn_tiles.length; i++) {
+                Collections.shuffle(availableTiles);
                 Tile tile = MaidenNylo.spawn_tiles[i];
+                var finalTile = Utils.randomElement(availableTiles);
                 if (!selectedTiles.contains(tile)) {
-                    nylo = (MaidenNylo) new MaidenNylo(NpcIdentifiers.NYLOCAS_MATOMENOS, new Tile(tile.getX(), tile.getY()).transform(0, 0, zLevel), this).spawn(false);
+                    nylo = (MaidenNylo) new MaidenNylo(NpcIdentifiers.NYLOCAS_MATOMENOS, finalTile.transform(0, 0, zLevel), this).spawn(false);
                     selectedTiles.add(tile);
                 }
             }

@@ -15,22 +15,26 @@ import com.cryptic.model.map.position.Tile;
 public class VasiliasHandler implements TheatreHandler {
     @Override
     public void build(Player player, TheatreInstance theatreInstance) {
-        PillarNpc pillarNpc1 = (PillarNpc) new PillarNpc(8358, new Tile(3290, 4252, theatreInstance.getzLevel()), new PillarObject(32862, new Tile(3289, 4253, theatreInstance.getzLevel()), 10, 1, theatreInstance), theatreInstance).spawn(false);
-        PillarNpc pillarNpc2 = (PillarNpc) new PillarNpc(8358, new Tile(3299, 4252, theatreInstance.getzLevel()), new PillarObject(32862, new Tile(3300, 4253, theatreInstance.getzLevel()), 10, 2, theatreInstance), theatreInstance).spawn(false);
-        PillarNpc pillarNpc3 = (PillarNpc) new PillarNpc(8358, new Tile(3299, 4243, theatreInstance.getzLevel()), new PillarObject(32862, new Tile(3300, 4242, theatreInstance.getzLevel()), 10, 3, theatreInstance), theatreInstance).spawn(false);
-        PillarNpc pillarNpc4 = (PillarNpc) new PillarNpc(8358, new Tile(3290, 4243, theatreInstance.getzLevel()), new PillarObject(32862, new Tile(3289, 4242, theatreInstance.getzLevel()), 10, 0, theatreInstance), theatreInstance).spawn(false);
-        pillarNpc1.spawnPillarObject();
-        pillarNpc2.spawnPillarObject();
-        pillarNpc3.spawnPillarObject();
-        pillarNpc4.spawnPillarObject();
+        PillarNpc pillarNpc1 = new PillarNpc(8358, new Tile(3290, 4252, theatreInstance.getzLevel()), new PillarObject(32862, new Tile(3289, 4253, theatreInstance.getzLevel()), 10, 1, theatreInstance), theatreInstance);
+        PillarNpc pillarNpc2 = new PillarNpc(8358, new Tile(3299, 4252, theatreInstance.getzLevel()), new PillarObject(32862, new Tile(3300, 4253, theatreInstance.getzLevel()), 10, 2, theatreInstance), theatreInstance);
+        PillarNpc pillarNpc3 = new PillarNpc(8358, new Tile(3299, 4243, theatreInstance.getzLevel()), new PillarObject(32862, new Tile(3300, 4242, theatreInstance.getzLevel()), 10, 3, theatreInstance), theatreInstance);
+        PillarNpc pillarNpc4 = new PillarNpc(8358, new Tile(3290, 4243, theatreInstance.getzLevel()), new PillarObject(32862, new Tile(3289, 4242, theatreInstance.getzLevel()), 10, 0, theatreInstance), theatreInstance);
         pillarNpc1.setInstance(theatreInstance);
         pillarNpc2.setInstance(theatreInstance);
         pillarNpc3.setInstance(theatreInstance);
         pillarNpc4.setInstance(theatreInstance);
+        pillarNpc1.spawnPillarObject();
+        pillarNpc2.spawnPillarObject();
+        pillarNpc3.spawnPillarObject();
+        pillarNpc4.spawnPillarObject(); //i just discovered fire fax
+        pillarNpc1.spawn(false);
+        pillarNpc2.spawn(false);
+        pillarNpc3.spawn(false);//how the fuck i do that i hold ALT and mouse drag
+        pillarNpc4.spawn(false);
     }
 
     @Override
-    public int scale(NPC npc, Player player) {
+    public int scale(NPC npc, Player player, boolean hardMode) {
         int scaledHitpoints;
 
         if (player.getTheatreInstance().getPlayers().size() <= 3) {

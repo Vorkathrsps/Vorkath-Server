@@ -1,12 +1,15 @@
 package com.cryptic.model.content.raids.theatre.boss.xarpus;
 
 import com.cryptic.model.World;
+import com.cryptic.model.content.mechanics.Poison;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.objects.PoisonSplat;
 import com.cryptic.model.content.raids.theatre.stage.RoomState;
+import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.npc.NPC;
+import com.cryptic.model.entity.npc.NPCCombatInfo;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
@@ -17,6 +20,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -38,40 +42,45 @@ public class Xarpus extends NPC {
     List<Player> players = new ArrayList<>();
     public static final Area XARPUS_AREA = new Area(3177, 4394, 3163, 4380);
 
-    public Xarpus(int id, Tile tile, TheatreInstance theatreInstance) { //TODO add exhumed
+    public Xarpus(int id, Tile tile, TheatreInstance theatreInstance) {
         super(id, tile);
         this.theatreInstance = theatreInstance;
         this.setSize(5);
+        this.setCombatMethod(null);
         this.spawnDirection(Direction.SOUTH.toInteger());
         this.noRetaliation(true);
         this.getCombat().setAutoRetaliate(false);
         this.setIgnoreOccupiedTiles(true);
     }
 
-    public void sendPoisonPool() { //TODO add multiplayer support / projectile richochet
-        var randomTarget = Utils.randomElement(theatreInstance.getPlayers());
-        var tile = randomTarget.tile().copy();
-        this.faceTarget(randomTarget);
-        Chain.noCtx().runFn(1, () -> this.face(null));
-        this.animate(8059);
-        var tileDist = this.tile().distance(tile);
-        int duration = (68 + 25 + (10 * tileDist));
-        var entityTile = this.tile().transform(1, 1, 0);
-        Projectile p = new Projectile(entityTile, tile, 1555, 68, duration, 95, 0, 20, 5, 10);
-        p.send(entityTile, tile);
-        World.getWorld().tileGraphic(1556, tile, 0, p.getSpeed());
-        PoisonSplat poisonSplat = new PoisonSplat(32744, p.getEnd(), 22, 0);
-        Chain.noCtx().runFn((int) (p.getSpeed() / 30D), () -> {
-            if (!poisonTile.contains(poisonSplat.tile()) && !objects.contains(poisonSplat)) {
-                poisonTile.add(poisonSplat.tile());
-                objects.add(poisonSplat);
-                poisonSplat.spawn();
+    public void sendPoisonPool() { //TODO projectile richochet
+        for (var t : theatreInstance.getPlayers()) {
+            if (t == null) {
+                continue;
             }
-        }).then(1, () -> poisonSplat.animate(8068));
-    }
-
-    public void setOpeningTransmog() {
-        this.transmog(8340);
+            var tile = t.tile().copy();
+            this.faceTarget(t);
+            Chain.noCtx().runFn(1, () -> this.face(null));
+            this.animate(8059);
+            var tileDist = this.tile().distance(tile);
+            int duration = (68 + 25 + (10 * tileDist));
+            var entityTile = this.tile().transform(1, 1);
+            Projectile p = new Projectile(entityTile, tile, 1555, 68, duration, 95, 0, 20, 5, 10);
+            p.send(entityTile, tile);
+            World.getWorld().tileGraphic(1556, tile, 0, p.getSpeed());
+            PoisonSplat poisonSplat = new PoisonSplat(32744, tile, 22, 0);
+            Chain.noCtx().runFn(p.getSpeed() / 30 + 1, () -> {
+                if (!poisonTile.contains(poisonSplat.tile())) {
+                    poisonSplat.spawn();
+                    poisonTile.add(poisonSplat.tile());
+                    if (!objects.contains(poisonSplat)) {
+                        objects.add(poisonSplat);
+                    }
+                }
+            }).then(1, () -> {
+                poisonSplat.animate(8068);
+            });
+        }
     }
 
     public void faceTarget(Player player) {
@@ -92,42 +101,26 @@ public class Xarpus extends NPC {
 
     @Override
     public void postSequence() {
-        var randomTarget = Utils.randomElement(theatreInstance.getPlayers());
+        var owner = theatreInstance.getOwner();
 
-        if (randomTarget == null) {
+        if (!players.contains(owner) && owner.tile().withinArea(XARPUS_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()))) {
+            players.add(owner);
+        } else if (players.contains(owner) && !owner.tile().withinArea(XARPUS_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()))) {
+            players.remove(owner);
+        }
+
+        if (this.dead() || !owner.tile().withinArea(XARPUS_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()))) {
             return;
         }
 
-        Player player = null;
-
-        for (var p : theatreInstance.getPlayers()) {
-            if (p == null) {
-                return;
-            }
-            player = p;
-        }
-
-        if (player == null) {
-            return;
-        }
-
-        if (!players.contains(player) && player.tile().withinArea(XARPUS_AREA)) {
-            players.add(player);
-        } else if (players.contains(player) && !player.tile().withinArea(XARPUS_AREA)) {
-            players.remove(player);
-        }
-        if (this.dead() || !player.tile().withinArea(XARPUS_AREA)) {
-            return;
-        }
-
-        if (player.tile().withinArea(XARPUS_AREA)) {
+        if (owner.tile().withinArea(XARPUS_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()))) {
             if (!entranceAnimationStarted) {
                 entranceAnimation.run();
                 this.setEntranceAnimationStarted(true);
             }
 
-            for (var t : poisonTile) {
-                for (var p : theatreInstance.getPlayers()) {
+            for (var p : theatreInstance.getPlayers()) {
+                for (var t : poisonTile) {
                     var currentX = p.tile().getX();
                     var currentY = p.tile().getY();
                     var previousX = p.getPreviousTile().getX();
@@ -136,7 +129,10 @@ public class Xarpus extends NPC {
                     var middleX = (currentX + previousX) / 2;
                     var middleY = (currentY + previousY) / 2;
                     if (t.equals(middleX, middleY) && !p.tile().equals(t) || t.equals(p.tile())) {
-                        p.hit(this, Utils.random(4, 8));
+                        p.hit(this, Utils.random(4, 8), HitMark.POISON);
+                        if (!Poison.poisoned(p)) {
+                            p.poison(Utils.random(4, 6), true);
+                        }
                     }
                 }
             }
@@ -147,7 +143,7 @@ public class Xarpus extends NPC {
                 if (intervalCount >= 4 && splatInterval <= 0 && !this.dead()) {
                     sendPoisonPool();
                     intervalCount = 0;
-                    splatInterval = 5;
+                    splatInterval = 4;
                 }
             }
         }
@@ -170,7 +166,13 @@ public class Xarpus extends NPC {
         this.animate(8061);
         Chain.noCtx().runFn(1, () -> {
             this.animate(8058);
-        }).then(2, this::setOpeningTransmog).then(1, () -> {
+        }).then(2, () -> {
+            this.transmog(8340);
+            this.setInstance(theatreInstance);
+            this.setCombatInfo(World.getWorld().combatInfo(8340));
+            this.setHitpoints(this.maxHp());
+            this.noRetaliation(true);
+        }).then(1, () -> {
             this.unlock();
             this.setInitiated(true);
         });

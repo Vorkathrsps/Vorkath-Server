@@ -73,8 +73,9 @@ public class VasiliasCombat extends CommonCombatMethod {
                 }
             }
             case MELEE -> {
-                if (player.isPlayer()) {
-                    if (!withinDistance(1)) {
+                if (player.isPlayer()) { // wheres the new what? instance?n npc
+                    if (!withinDistance(2)) {
+                        follow(2);
                         return false;
                     }
                     int animationId = form == null ? combatInfo.animations.attack : form.getAttackAnims()[0];

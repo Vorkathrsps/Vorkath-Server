@@ -673,8 +673,8 @@ public class CommandManager {
         });
         dev("c", (p, c, s) -> {
             TheatreParty theatreParty = new TheatreParty(p, new ArrayList<>());
-            TheatreInstance theatreInstance = new TheatreInstance(p, theatreParty.getPlayers());
-            p.setTheatreInstance(theatreInstance);
+            TheatreInstance theatreInstance = new TheatreInstance(p, p.getTheatreParty().getPlayers());
+            p.setInstance(theatreInstance);
             theatreInstance.buildParty().startRaid();
         });
 

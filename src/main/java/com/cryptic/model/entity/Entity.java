@@ -2082,25 +2082,21 @@ public abstract class Entity {
     @Getter
     private InstancedArea instancedArea;
 
-    public void setInstance(InstancedArea instancedArea) {
+    public void setInstance(InstancedArea instance) {
         var prev = this.instancedArea;
-        //log.info("setInstance {} --------------> {}", prev, instancedArea);
-        if (prev == instancedArea)
+        this.instancedArea = instance;
+        if (prev == instance)
             return;
-        this.instancedArea = instancedArea;
-        // when new area is null or a new instance than previous, remove from old
-        if (prev != null && instancedArea != prev) {
+        if (prev != null && instance == null) { // setting null probably removing
             if (isPlayer())
                 prev.removePlayer(getAsPlayer());
             else
                 prev.removeNpc(npc());
-        }
-        // new instance isn't null and we're not already inside
-        if (instancedArea != null && prev != instancedArea) {
+        } else if (instance != null) { // add
             if (isPlayer())
-                instancedArea.addPlayer(getAsPlayer());
+                instance.addPlayer(getAsPlayer());
             else
-                instancedArea.addNpc(npc());
+                instance.addNpc(npc());
         }
     }
 

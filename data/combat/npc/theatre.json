@@ -1,6 +1,5 @@
 [
   {
-    // Verzik Vitur
     "ids": [
       8369,
       8370,
@@ -42,7 +41,6 @@
     }
   },
   {
-    // Verzik Vitur pillar
     "ids": [
       8359
     ],
@@ -75,7 +73,6 @@
     }
   },
   {
-    // Verzik Vitur pillar
     "ids": [
       8379
     ],
@@ -111,7 +108,6 @@
     }
   },
   {
-    // Nylocas Vasilas PILLAR
     "ids": [
       8358
     ],
@@ -144,7 +140,6 @@
     }
   },
   {
-    // Nylocas Vasilas unaggressive
     "ids": [
       8343
     ],
@@ -177,40 +172,29 @@
     }
   },
   {
-    // Nylocas Vasilas unaggressive
     "ids": [
-      8342
+      8340,
+      10767
     ],
     "maxhit": 17,
     "deathlen": 3,
-    "aggressive": false,
+    "aggressive": true,
     "aggroradius": 1,
     "stats": {
-      "attack": 200,
-      "strength": 160,
-      "magic": 1,
-      "ranged": 200,
-      "defence": 1,
-      "hitpoints": 11
-    },
-    "bonuses": {
-      "attack": 0,
-      "ranged": 0,
-      "magic": 1073,
-      "stabdefence": 0,
-      "slashdefence": 0,
-      "crushdefence": 0,
-      "rangeddefence": 0,
-      "magicdefence": 0
+      "attack": 1,
+      "strength": 1,
+      "magic": 80,
+      "ranged": 50,
+      "defence": 100,
+      "hitpoints": 3400
     },
     "animations": {
-      "attack": 9140,
+      "attack": -1,
       "block": -1,
-      "death": 8426
+      "death": -1
     }
   },
   {
-    // Nylocas Vasilas unaggressive
     "ids": [
       8344
     ],
@@ -243,7 +227,6 @@
     }
   },
   {
-    //Nylocas Ischyros
     "ids": [
       8345
     ],
@@ -278,7 +261,6 @@
     }
   },
   {
-    //maiden
     "ids": [
       10814
     ],
@@ -313,7 +295,6 @@
     }
   },
   {
-    //maiden
     "ids": [
       10815
     ],
@@ -348,7 +329,6 @@
     }
   },
   {
-    //maiden
     "ids": [
       10816
     ],
@@ -383,7 +363,6 @@
     }
   },
   {
-    //maiden
     "ids": [
       10817
     ],
@@ -418,7 +397,6 @@
     }
   },
   {
-    //Nylocas toxobolos
     "ids": [
       8352
     ],
@@ -453,7 +431,6 @@
     }
   },
   {
-    //Nylocas hagios
     "ids": [
       8347
     ],
@@ -488,7 +465,6 @@
     }
   },
   {
-    // Hellhound (revenant cave)
     "ids": [
       10862
     ],
@@ -516,7 +492,6 @@
     }
   },
   {
-    //Nylocas matomenos
     "ids": [
       8384
     ],

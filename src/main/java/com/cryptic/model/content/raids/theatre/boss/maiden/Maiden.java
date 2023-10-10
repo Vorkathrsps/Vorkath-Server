@@ -29,7 +29,6 @@ import static com.cryptic.model.content.raids.theatre.boss.maiden.utils.MaidenUt
  * @Date: 7/21/2023
  */
 public class Maiden extends NPC {
-    private final Player player;
     BloodSpawn orb = null;
     MaidenNylo nylo = null;
     private final List<Player> players = new ArrayList<>();
@@ -41,9 +40,8 @@ public class Maiden extends NPC {
     private boolean nyloSpawned30to0;
     private final TheatreInstance theatreInstance;
 
-    public Maiden(int id, Tile tile, Player player, TheatreInstance theatreInstance) {
+    public Maiden(int id, Tile tile, TheatreInstance theatreInstance) {
         super(id, tile);
-        this.player = player;
         this.theatreInstance = theatreInstance;
         this.setCombatMethod(null);
         this.spawnDirection(Direction.EAST.toInteger());
@@ -53,6 +51,7 @@ public class Maiden extends NPC {
     }
 
     public void sequenceTornadoAndBlood() {
+        var player = theatreInstance.getOwner();
         if (Utils.sequenceRandomInterval(randomBlood, 7, 14)) {
             throwBlood();
             this.setRandomBlood(0);
@@ -71,6 +70,7 @@ public class Maiden extends NPC {
     }
 
     public void throwBlood() {
+        var player = theatreInstance.getOwner();
         var tile = player.tile().copy();
         this.face(player);
         this.animate(8091);
@@ -158,6 +158,7 @@ public class Maiden extends NPC {
 
     @Override
     public void die() {
+        var player = theatreInstance.getOwner();
         theatreInstance.theatrePhase.setStage(TheatreStage.TWO);
         player.setRoomState(RoomState.COMPLETE);
         player.getTheatreInstance().onRoomStateChanged(player.getRoomState());
@@ -173,10 +174,12 @@ public class Maiden extends NPC {
     }
 
     public int partySize() {
+        var player = theatreInstance.getOwner();
         return player.getTheatreInstance().getPlayers().size();
     }
 
     protected boolean insideBounds() {
+        var player = theatreInstance.getOwner();
         if (IGNORED.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(player.tile()) || (!MAIDEN_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(player.tile()) && IGNORED.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(player.tile()))) {
             return false;
         }

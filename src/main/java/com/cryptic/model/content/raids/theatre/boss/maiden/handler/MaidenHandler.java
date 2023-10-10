@@ -10,13 +10,14 @@ import com.cryptic.model.map.position.Tile;
 public class MaidenHandler implements TheatreHandler {
     @Override
     public void build(Player player, TheatreInstance theatreInstance) {
-        Maiden maiden = (Maiden) new Maiden(10814, new Tile(3162, 4444, theatreInstance.getzLevel()), player, theatreInstance).spawn(false);
-        maiden.setHitpoints(this.scale(maiden, player));
+        Maiden maiden = new Maiden(10814, new Tile(3162, 4444, theatreInstance.getzLevel()), theatreInstance);
+        maiden.setHitpoints(this.scale(maiden, player, false));
         maiden.setInstance(theatreInstance);
+        maiden.spawn(false);
     }
 
     @Override
-    public int scale(NPC npc, Player player) {
+    public int scale(NPC npc, Player player, boolean hardMode) {
         int scaledHitpoints;
 
         if (player.getTheatreInstance().getPlayers().size() <= 3) {

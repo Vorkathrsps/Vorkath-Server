@@ -44,47 +44,34 @@ public class NylocasMinions extends NPC {
     @Getter @Setter boolean pathingToTile;
     @Getter int finalInterpolatedTransmog;
     TheatreInstance theatreInstance;
-    public List<NPC> vasiliasNpc = new ArrayList<>();
     public NylocasMinions(int id, Tile tile, TheatreInstance theatreInstance) {
         super(id, tile);
         this.theatreInstance = theatreInstance;
         this.setIgnoreOccupiedTiles(true);
         this.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
-        vasiliasNpc.add(this);
     }
-
     public int getRandomNPC() {
         Random random = new Random();
         finalInterpolatedTransmog = random.nextInt(npcs.length);
         return npcs[finalInterpolatedTransmog];
     }
-
     @Override
     public void postSequence() {
         if (getTimer() > 0) {
             timer--;
 
-            // Check if transmogrification is needed
+            int randomIndex;
             if (transmogIdx == npcs.length - 1) {
-                // Generate a random index different from transmogIdx
-                int randomIndex = getRandomNPC();
+                randomIndex = getRandomNPC();
+
                 while (randomIndex == transmogIdx) {
                     randomIndex = getRandomNPC();
                 }
-                // Update the transmog index
+
                 setTransmogIdx(randomIndex);
             }
-
-            // Transmogrify the NPC with a new random NPC
             this.transmog(getRandomNPC());
-
-            // Update the transmog index for the next iteration
-            transmogIdx = (transmogIdx + 1) % npcs.length;
-
-            // Spawn the NPC (assuming this handles the spawning logic correctly)
-            this.spawn(false);
-
-            // Reset the timer for the next iteration
+            transmogIdx = (transmogIdx + 1) % npcs.length;// we dont need that. i just realized, but test now ye
             setTimer(3);
         }
 
@@ -131,11 +118,17 @@ public class NylocasMinions extends NPC {
         Chain.noCtx().delay(1, () -> {
             animate(7991);
             if (this.tile() != null && this.getCombat().getTarget() != null && this.getCombat().getTarget().tile() != null) {
+                if (target == null) {
+                    return;
+                }
                 if (this.tile().nextTo(target.tile())) {
                     target.hit(this, Utils.random(getCombatInfo().maxhit));
                 }
             }
-        }).then(3, () -> World.getWorld().unregisterNpc(this));
+        }).then(3, () -> {
+            theatreInstance.removeNpc(this);
+            World.getWorld().unregisterNpc(this);
+        });
     }
 
     private void attackClosestAlivePillar() {
@@ -143,7 +136,6 @@ public class NylocasMinions extends NPC {
         if (!availablePillars.isEmpty()) {
             List<NPC> closestPillars = new ArrayList<>(availablePillars);
             closestPillars.sort(Comparator.comparingDouble(pillar -> this.tile().distance(pillar.tile())));
-
             Random random = new Random();
             int randomIndex = random.nextInt(Math.min(closestPillars.size(), 2));
             NPC randomPillar = closestPillars.get(randomIndex);

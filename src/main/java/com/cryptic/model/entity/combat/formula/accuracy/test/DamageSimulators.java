@@ -568,7 +568,7 @@ public class DamageSimulators {
                     if (FormulaUtils.eliteVoidEquipmentMelee((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMelee((Player) attacker)) {
                         effectiveLevel = (int) Math.floor(effectiveLevel * 1.125F);
                     }
-                    if (FormulaUtils.obbyArmour(attacker.getAsPlayer()) && FormulaUtils.hasObbyWeapon(attacker.getAsPlayer())) {
+                    if (FormulaUtils.isWearingObsidianArmour(attacker.getAsPlayer()) && FormulaUtils.hasObbyWeapon(attacker.getAsPlayer())) {
                         effectiveLevel = (int) Math.floor(effectiveLevel * 1.1F);
                     }
                     if (defender instanceof NPC) {

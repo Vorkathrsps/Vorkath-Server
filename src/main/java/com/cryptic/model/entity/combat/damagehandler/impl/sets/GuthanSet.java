@@ -16,15 +16,18 @@ import com.cryptic.utility.Utils;
 public class GuthanSet implements DamageEffectListener {
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
-        var player = (Player) entity;
-        if (player.getCombat().getTarget() != null) {
-            if (hit.isAccurate() && combatType == CombatType.MELEE) {
-                if (FormulaUtils.wearingFullGuthan(player)) {
-                    if (Utils.securedRandomChance(0.25F)) {
-                        if (hit.getDamage() > 0 && !hit.reflected) {
-                            player.getCombat().getTarget().graphic(398, GraphicHeight.LOW, 0);
-                            player.heal(hit.getDamage(), Equipment.hasAmmyOfDamned(player) ? 10 : 0);
-                            return true;
+        if (entity instanceof Player player) {
+            if (player.getCombat().getTarget() != null) {
+                if (combatType == CombatType.MELEE) {
+                    if (FormulaUtils.wearingFullGuthan(player)) {
+                        if (hit.isAccurate()) {
+                            if (hit.getDamage() > 0 && !hit.reflected) {
+                                if (Utils.rollDie(25, 1)) {
+                                    player.getCombat().getTarget().graphic(398, GraphicHeight.LOW, 0);
+                                    player.heal(hit.getDamage(), Equipment.hasAmmyOfDamned(player) ? 10 : 0);
+                                    return true;
+                                }
+                            }
                         }
                     }
                 }

@@ -1387,8 +1387,11 @@ public abstract class Entity {
             return;
 
         if (source instanceof Player player) {
-            if (player.getCombat().getTarget() == npc() && ArrayUtils.contains(NPCS_IMMUNE_TO_VENOM, npc().id())) {
-                return;
+            var target = player.getCombat().getTarget();
+            if (target instanceof NPC npc) {
+                if (ArrayUtils.contains(NPCS_IMMUNE_TO_VENOM, npc.id())) {
+                    return;
+                }
             }
         }
 

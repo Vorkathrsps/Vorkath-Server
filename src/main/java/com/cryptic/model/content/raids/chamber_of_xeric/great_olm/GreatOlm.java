@@ -415,7 +415,7 @@ public class GreatOlm extends CommonCombatMethod {
             targets.forEach(p -> {
                 var tileDist = entity.tile().distance(target.tile());
                 int duration = lastBasicAttackStyle == CombatType.RANGED ? (41 + 11 + (5 * tileDist)) : (51 + -5 + (10 * tileDist));
-                Projectile projectile = new Projectile(npc, p, lastBasicAttackStyle == CombatType.RANGED ? 1340 : 1339, lastBasicAttackStyle == CombatType.RANGED ? 41 : 51, duration, 80, 31, 16, npc.getSize(), lastBasicAttackStyle == CombatType.RANGED ? 5 : 10);
+                Projectile projectile = new Projectile(npc, p, lastBasicAttackStyle == CombatType.RANGED ? 1340 : 1339, 25, duration, 80, 31, 12, npc.getSize(), 48, lastBasicAttackStyle == CombatType.RANGED ? 5 : 10);
                 final int delay = entity.executeProjectile(projectile);
                 int maxDamage = npc.getCombatInfo().maxhit;
                 if (Prayers.usingPrayer(p, lastBasicAttackStyle == CombatType.RANGED ? Prayers.PROTECT_FROM_MISSILES : Prayers.PROTECT_FROM_MAGIC))
@@ -441,19 +441,19 @@ public class GreatOlm extends CommonCombatMethod {
             switch (style) {
                 case MAGIC -> {
                     message = Color.PURPLE.wrap("The Great Olm fires a sphere of magical power your way.");
-                    projectile = new Projectile(npc, target, 1341, 51, duration, 80, 43, 16, npc.getSize(), 10);
+                    projectile = new Projectile(npc, target, 1341, 51, duration, 80, 43, 12, npc.getSize(), 48, 10);
                     hitGfx = 1342;
                     prayer = Prayers.PROTECT_FROM_MAGIC;
                 }
                 case RANGED -> {
                     message = Color.DARK_GREEN.wrap("The Great Olm fires a sphere of accuracy and dexterity your way.");
-                    projectile = new Projectile(npc, target, 1343, 51, duration, 80, 43, 16, npc.getSize(), 10);
+                    projectile = new Projectile(npc, target, 1343, 51, duration, 80, 43, 12, npc.getSize(), 48, 10);
                     hitGfx = 1344;
                     prayer = Prayers.PROTECT_FROM_MISSILES;
                 }
                 case MELEE -> {
                     message = Color.RED.wrap("The Great Olm fires a sphere of aggression your way.");
-                    projectile = new Projectile(npc, target, 1345, 51, duration, 80, 43, 16, npc.getSize(), 10);
+                    projectile = new Projectile(npc, target, 1345, 51, duration, 80, 43, 12, npc.getSize(), 48, 10);
                     hitGfx = 1346;
                     prayer = Prayers.PROTECT_FROM_MELEE;
                 }
@@ -926,9 +926,7 @@ public class GreatOlm extends CommonCombatMethod {
     }
 
     public void ceilingCrystals(NPC npc, int delay, int duration) {
-
         forAllTargets(p -> p.getPacketSender().shakeCamera(0, 6, 0, 6));
-
         Chain.noCtx().delay(delay, () -> {
             AtomicInteger ticks = new AtomicInteger();
             Chain.noCtx().repeatingTask(2, t -> {
@@ -1026,9 +1024,9 @@ public class GreatOlm extends CommonCombatMethod {
         npc.lock();
         rightClaw.lock();
         leftClaw.lock();
-        Arrays.stream(npc.closePlayers()).forEach(p -> {
-            HealthHud.open(p, HealthHud.Type.REGULAR, "Great Olm", 1600);
-        });
+        for (var p : party.getMembers()) {
+            HealthHud.open(p, HealthHud.Type.REGULAR, "Great Olm", npc.hp());
+        }
         getObject(rightClaw).setId(CRYSTALLINE_STRUCTURE);
         getObject(npc).setId(LARGE_HOLE);
         getObject(leftClaw).setId(LARGE_ROCK_29883);

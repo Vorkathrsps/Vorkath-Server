@@ -835,10 +835,11 @@ public class CombatFactory {
             return;
         }
 
-        if (attacker instanceof Player a)
-            triggerAttacker.triggerEffectForAttacker(a, combatType, hit);
-        if (target instanceof Player t)
-            triggerDefender.triggerEffectForDefender(t, combatType, hit);
+        if (attacker instanceof Player player) {
+            triggerAttacker.triggerEffectForAttacker(player, combatType, hit);
+        } else if (attacker instanceof NPC npc) {
+            triggerAttacker.triggerEffectForAttacker(npc, combatType, hit);
+        }
 
         if (target.isNpc() && attacker != null && attacker.isPlayer()) {
             if (target instanceof NPC npc) {
@@ -996,6 +997,12 @@ public class CombatFactory {
 
         if (target instanceof Player) {
             target.getAsPlayer().getPacketSender().sendInterfaceRemoval();
+        }
+
+        if (target instanceof Player player) {
+            triggerDefender.triggerEffectForDefender(player, combatType, hit);
+        } else if (target instanceof NPC npc) {
+            triggerDefender.triggerEffectForDefender(npc, combatType, hit);
         }
 
         hit = target.manipulateHit(hit);
@@ -1207,6 +1214,7 @@ public class CombatFactory {
 
         // Handle ring of recoil for target
         // Also handle vengeance for target
+
         if (attacker != null && hit.getDamage() > 0) {
 
             if (!hit.reflected) {

@@ -31,12 +31,17 @@ public class DragonHunterLance implements DamageEffectListener {
 
     @Override
     public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
-        var attacker = (Player) entity;
-        var target = meleeAccuracy.getDefender().getCombat().getTarget();
-        if (attacker.getEquipment().contains(DRAGON_HUNTER_LANCE)) {
-            if (target instanceof NPC && FormulaUtils.isDragon(target)) {
-                meleeAccuracy.modifier += 1.20F;
-                return true;
+        if (entity instanceof Player player) {
+            var target = player.getCombat().getTarget();
+            if (target instanceof NPC npc) {
+                if (player.getEquipment().contains(DRAGON_HUNTER_LANCE)) {
+                    if (combatType == CombatType.MELEE) {
+                        if (FormulaUtils.isDragon(npc)) {
+                            meleeAccuracy.modifier += 1.20F;
+                            return true;
+                        }
+                    }
+                }
             }
         }
         return false;

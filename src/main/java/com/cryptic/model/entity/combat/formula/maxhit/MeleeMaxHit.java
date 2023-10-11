@@ -172,7 +172,7 @@ public class MeleeMaxHit {
             }
         }
 
-        if (FormulaUtils.obbyArmour(player) && FormulaUtils.hasObbyWeapon(player)) {
+        if (FormulaUtils.isWearingObsidianArmour(player) && FormulaUtils.hasObbyWeapon(player)) {
             otherBonus *= 1.10;
         }
 

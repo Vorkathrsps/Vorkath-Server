@@ -10,6 +10,10 @@ import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.utility.ItemIdentifiers;
+import org.apache.commons.lang.ArrayUtils;
+
+import static com.cryptic.utility.ItemIdentifiers.BRACELET_OF_ETHEREUM;
 
 public class BraceletOfEthereum implements DamageEffectListener {
     @Override
@@ -20,17 +24,15 @@ public class BraceletOfEthereum implements DamageEffectListener {
     @Override
     public boolean prepareDamageEffectForDefender(Entity entity, CombatType combatType, Hit hit) {
         if (entity instanceof Player player) {
-            final Entity attacker = hit.getAttacker();
-            if (attacker instanceof NPC npc) {
-                if (player.getEquipment().contains(21816)) {
-                    for (var n : FormulaUtils.isRevenant()) {
-                        if (n == npc.id()) {
-                            if (hit.isAccurate()) {
-                                int damage = hit.getDamage();
-                                damage = ((damage * 25) / 100);
-                                hit.setDamage(damage);
-                                return true;
-                            }
+            var target = player.getCombat().getTarget();
+            if (target instanceof NPC npc) {
+                if (player.getEquipment().contains(BRACELET_OF_ETHEREUM)) {
+                    if (ArrayUtils.contains(FormulaUtils.isRevenant(), npc.id())) {
+                        if (hit.isAccurate()) {
+                            int damage = hit.getDamage();
+                            damage = ((damage * 25) / 100);
+                            hit.setDamage(damage);
+                            return true;
                         }
                     }
                 }

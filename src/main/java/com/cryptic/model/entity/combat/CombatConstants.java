@@ -21,7 +21,7 @@ public class CombatConstants {
     /**
      * The amount of damage that will be drained by combat protection prayer.
      */
-    public static final double ELYSIAN_DAMAGE_REDUCTION = 0.17;
+    public static final double ELYSIAN_DAMAGE_REDUCTION = 0.25;
     public static final double DINHS_BULWARK_REDUCTION = .2; // 20% damage reduction
     public static final double TSTOD_DAMAGE_REDUCTION = .5; //50% damage reduction
 

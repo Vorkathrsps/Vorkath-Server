@@ -217,10 +217,10 @@ public abstract class Spell {
                     delete = false;
                 }
 
-                if (target instanceof NPC npc && !npc.isCombatDummy() && Utils.percentageChance(12) && isStaffEquipped) {
+                if (target instanceof NPC npc && !npc.isCombatDummy() && Utils.rollDice(12) && isStaffEquipped) {
                     player.message(Color.RED.wrap("Your staff negated your runes for this cast."));
                     delete = false;
-                } else if (target instanceof Player && Utils.percentageChance(12) && isStaffEquipped) {
+                } else if (target instanceof Player && Utils.rollDice(12) && isStaffEquipped) {
                     player.message(Color.RED.wrap("Your staff negated your runes for this cast."));
                     delete = false;
                 }

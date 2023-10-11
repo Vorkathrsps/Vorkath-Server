@@ -17,7 +17,7 @@ import java.util.Random;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 
-public class TheatreAreaController extends Controller {
+public class NylocasAreaController extends Controller {
     private final Tile[] fromTile = new Tile[]{
         new Tile(3282, 4249),
         new Tile(3295, 4235),
@@ -30,7 +30,7 @@ public class TheatreAreaController extends Controller {
     public static int finalIndex;
     public static final Area ROOM = new Area(3290, 4243, 3301, 4254);
 
-    public TheatreAreaController() {
+    public NylocasAreaController() {
         super(Collections.emptyList());
     }
 

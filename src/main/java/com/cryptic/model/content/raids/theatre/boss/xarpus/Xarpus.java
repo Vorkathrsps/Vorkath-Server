@@ -5,22 +5,22 @@ import com.cryptic.model.content.mechanics.Poison;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.objects.PoisonSplat;
 import com.cryptic.model.content.raids.theatre.stage.RoomState;
+import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.npc.NPC;
-import com.cryptic.model.entity.npc.NPCCombatInfo;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,10 +37,32 @@ public class Xarpus extends NPC {
     private boolean initiated = false;
     private int intervalCount = 0;
     private int splatInterval = 4;
+    private int interpolatedDirections = 0;
     List<Tile> poisonTile = new ArrayList<>();
     List<GameObject> objects = new ArrayList<>();
     List<Player> players = new ArrayList<>();
+    Tile currentDirection;
     public static final Area XARPUS_AREA = new Area(3177, 4394, 3163, 4380);
+    Tile[] tiles_to_face = new Tile[]{
+        new Tile(3170, 4394),
+        new Tile(3177, 4394),
+        new Tile(3177, 4387),
+        new Tile(3178, 4379),
+        new Tile(3170, 4380),
+        new Tile(3163, 4380),
+        new Tile(3163, 4387),
+        new Tile(3163, 4394)
+    };
+    Direction[] directions = new Direction[]{
+        Direction.SOUTH,
+        Direction.SOUTH_WEST,
+        Direction.WEST,
+        Direction.NORTH_WEST,
+        Direction.NORTH,
+        Direction.NORTH_EAST,
+        Direction.EAST,
+        Direction.SOUTH_EAST
+    };
 
     public Xarpus(int id, Tile tile, TheatreInstance theatreInstance) {
         super(id, tile);
@@ -51,9 +73,25 @@ public class Xarpus extends NPC {
         this.noRetaliation(true);
         this.getCombat().setAutoRetaliate(false);
         this.setIgnoreOccupiedTiles(true);
+        this.getMovementQueue().setBlockMovement(true);
     }
 
-    public void sendPoisonPool() { //TODO projectile richochet
+    public void interpolateQuadrants() { //TODO discover some way to find LOS via deltas
+        if (interpolatedDirections >= directions.length) {
+            interpolatedDirections = 0;
+        }
+        var nextDirection = directions[interpolatedDirections++];
+        var direction = this.getCentrePosition().tileToDir(nextDirection);
+        this.setPositionToFace(direction);
+        for (var p : theatreInstance.getPlayers()) {
+            if (direction.inFrontOf(p.tile()) && CombatFactory.isAttacking(this)) {
+                p.hit(this, Utils.random(60, 75), HitMark.POISON);
+                p.forceChat("recoil damage");
+            }
+        }
+    }
+
+    public void sendPoisonPool() {
         for (var t : theatreInstance.getPlayers()) {
             if (t == null) {
                 continue;
@@ -142,6 +180,7 @@ public class Xarpus extends NPC {
                 splatInterval--;
                 if (intervalCount >= 4 && splatInterval <= 0 && !this.dead()) {
                     sendPoisonPool();
+                    //interpolateQuadrants();
                     intervalCount = 0;
                     splatInterval = 4;
                 }

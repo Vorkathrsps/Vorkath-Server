@@ -617,6 +617,14 @@ public class Tile implements Cloneable {
         return false;
     }
 
+    public int getDeltaX(Tile otherTile) {
+        return otherTile.getX() - this.x;
+    }
+
+    public int getDeltaY(Tile otherTile) {
+        return otherTile.getY() - this.y;
+    }
+
     public boolean inBounds(Area boundary) {
         return boundary.inBounds(x, y, level, 0);
     }
@@ -931,6 +939,14 @@ public class Tile implements Cloneable {
         int dx = Math.abs(x - destination.x);
         int dy = Math.abs(y - destination.y);
         return (dx <= 2 && dy <= 2 || dx >= 0 && dy >= 0);
+    }
+
+    public boolean inFrontOf(Tile destination) {
+        int dx = Math.abs(destination.x - x);
+        int dy = Math.abs(destination.y - y);
+
+        // Check if the destination tile is within a 3-tile wide column horizontally or diagonally
+        return (dx <= 3 && dy <= 3);
     }
 
     public int clip() {

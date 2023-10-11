@@ -178,7 +178,7 @@
     ],
     "maxhit": 17,
     "deathlen": 3,
-    "aggressive": true,
+    "aggressive": false,
     "aggroradius": 1,
     "stats": {
       "attack": 1,

@@ -34,11 +34,6 @@ public class MeleeMaxHit {
     public static int maxHit(Player player) {
 
         double specialMultiplier = player.getCombatSpecial() == null ? 1 : player.getCombatSpecial().getSpecialMultiplier();
-        /**
-         * Max Hit
-         *
-         */
-
         int maxHit = (int) Math.floor(getBaseDamage(player) * slayerPerkBonus(player));
         if (player.isSpecialActivated()) {
             maxHit = (int) (maxHit * specialMultiplier);
@@ -61,10 +56,6 @@ public class MeleeMaxHit {
     }
 
     private static double getPrayerBonus(Player player) {
-        /**
-         * Prayer Bonus
-         *
-         */
         double prayerBonus = 1;
         if (Prayers.usingPrayer(player, Prayers.BURST_OF_STRENGTH)) {
             prayerBonus *= 1.05;
@@ -99,28 +90,16 @@ public class MeleeMaxHit {
         return slayerPerkBonus;
     }
 
-    public static double getPetBonus(Player player, boolean includeNpcMax) {
+    public static double getPetBonus(Player player) {
         double petBonus = 1;
         Entity target = player.getCombat().getTarget();
-        /**
-         * PetDefinitions bonuses
-         *
-         */
-
         return petBonus;
     }
 
     public static double getOtherBonus(Player player, boolean includeNpcMax) {
-
         FightStyle style = player.getCombat().getFightType().getStyle();
         double otherBonus = 1;
-
         Entity target = player.getCombat().getTarget();
-
-        /**
-         * Other bonuses
-         *
-         */
         if (FormulaUtils.regularVoidEquipmentBaseMelee(player)) {
             otherBonus *= 1.10;
         }
@@ -217,7 +196,6 @@ public class MeleeMaxHit {
             }
         }
 
-        //• Gadderhammer: 1.25 or 2.0 vs shades
         if(player.getEquipment().hasAt(EquipSlot.WEAPON, GADDERHAMMER)) {
             if(target != null && target.isNpc()) {
                 NPC npc = target.getAsNpc();
@@ -235,6 +213,6 @@ public class MeleeMaxHit {
     }
 
     public static int getEffectiveStrength(Player player) {
-        return (int) (Math.floor(((((getStrengthLevel(player)) * getPrayerBonus(player)) + getStyleBonus(player)) + 8) * getOtherBonus(player, true)) * getPetBonus(player, true));
+        return (int) (Math.floor(((((getStrengthLevel(player)) * getPrayerBonus(player)) + getStyleBonus(player)) + 8) * getOtherBonus(player, true)) * getPetBonus(player));
     }
 }

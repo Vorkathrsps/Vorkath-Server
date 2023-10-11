@@ -89,7 +89,7 @@ public class GreatOlm extends CommonCombatMethod {
         lastPhase = 2; //0,1,2  = 3 phases default
         Chain.noCtx().repeatingTask(5, t -> {
             List<Player> allTargets = getAllTargets(); // wait until a player is available
-            if (allTargets.size() == 0) {
+            if (allTargets.isEmpty()) {
                 return;
             }
             party = npc1.getAttrib(AttributeKey.RAID_PARTY);
@@ -846,32 +846,40 @@ public class GreatOlm extends CommonCombatMethod {
     public void olmDeathEnd(Party party) {
         forAllTargets(p -> p.getPacketSender().sendCameraNeutrality());
         getObject(npc).setId(LARGE_HOLE_29882);
-        party.greatOlmRewardCrystal.setId(ANCIENT_CHEST); // reward chest
-        party.greatOlmCrystal.animate(7506);
-        if (party.getLeader().getRaids() != null) {
-            party.getLeader().getRaids().complete(party);
+        for (var o : party.objects) {
+            if (o != null) {
+                if (o.getId() == CRYSTAL_30027) {
+                    o.setId(ANCIENT_CHEST);
+                } else if (o.getId() == getObject(npc).getId()) {
+                    o.setId(LARGE_HOLE_29882);
+                } else if (o.getId() == CRYSTAL_30018) {
+                    o.animate(7506);
+                    Chain.noCtx().delay(2, o::remove);
+                }
+            }
         }
-        Chain.noCtx().delay(2, () -> {
-            party.greatOlmCrystal.remove();
-        });
-
-        npc.remove();
-        leftClaw.remove();
-        rightClaw.remove();
-        getObject(npc).remove();
-        getObject(leftClaw).remove();
-        getObject(rightClaw).remove();
-
-        for (Player p : this.npc.closePlayers(32)) {
-            HealthHud.close(p);
+        if (leftClaw != null) {
+            clawDeathStart(leftClaw);
+            Chain.noCtx().runFn(2, () -> getObject(leftClaw).setId(LARGE_ROCK_29885)).then(1, () -> leftClaw.remove());
+        }
+        if (rightClaw != null) {
+            clawDeathStart(rightClaw);
+            Chain.noCtx().runFn(2, () -> getObject(rightClaw).setId(CRYSTAL_STRUCTURE)).then(1, () -> rightClaw.remove());
+        }
+        if (npc != null) {
+            npc.remove();
+        }
+        if (party.getLeader().getRaids() != null) {
+            party.getMembers().forEach(p -> {
+                HealthHud.close(p);
+                party.getLeader().getRaids().complete(party);
+            });
         }
     }
 
     public void clawDeathStart(NPC claw) {
-        // make hand object do dying (falling underground) anim
         animate(claw, claw == leftClaw ? 7370 : 7352);
         Chain.noCtx().delay(2, () -> {
-            // set object ID to empty hole
             getObject(claw).setId(claw == leftClaw ? LARGE_ROCK_29885 : CRYSTAL_STRUCTURE);
         });
     }
@@ -1019,7 +1027,7 @@ public class GreatOlm extends CommonCombatMethod {
         rightClaw.lock();
         leftClaw.lock();
         Arrays.stream(npc.closePlayers()).forEach(p -> {
-            HealthHud.open(p, HealthHud.Type.REGULAR,"Great Olm", 1600);
+            HealthHud.open(p, HealthHud.Type.REGULAR, "Great Olm", 1600);
         });
         getObject(rightClaw).setId(CRYSTALLINE_STRUCTURE);
         getObject(npc).setId(LARGE_HOLE);

@@ -682,19 +682,22 @@ public class EquipmentInfo {
     public static int blockAnimationFor(Player player) {
         int weapon = player.getEquipment().hasAt(EquipSlot.WEAPON) ? player.getEquipment().get(EquipSlot.WEAPON).getId() : 0;
         int shield = player.getEquipment().hasAt(EquipSlot.SHIELD) ? player.getEquipment().get(EquipSlot.SHIELD).getId() : 0;
+        var hasShield = player.getEquipment().hasShield();
         ItemDefinition shielddef = World.getWorld().definitions().get(ItemDefinition.class, shield);
         boolean godbook = shield != 0 && shielddef.name != null && shielddef.name.toLowerCase().contains("book");
 
         if (weapon == 4084) { // Sled
             return 1466;
         }
-        if (shield != 0) {
+        if (hasShield) {
             // Defender?
-            if ((shield >= 8844 && shield <= 8850) || shield == 12954 || shield == 19722) {
-                return 4177;
-            }
-            if (shield == ELYSIAN_SPIRIT_SHIELD) {
-                return 1156;
+            switch (shield) {
+                case 8844, 8850, 12954, 19722, 22322 -> {
+                    return 4177;
+                }
+                case ELYSIAN_SPIRIT_SHIELD -> {
+                    return 1156;
+                }
             }
             // Metal shields prioritise over weapons. Not books though. Weapons can prioritise over those.
             if (!godbook)
@@ -706,10 +709,12 @@ public class EquipmentInfo {
             return 424;
         }
 
-        // Individual cases here.
         switch (weapon) {
             case INQUISITORS_MACE -> {
                 return 403;
+            }
+            case DRAGON_DAGGER, DRAGON_DAGGER_20407, DRAGON_DAGGER_CR, DRAGON_DAGGER_PCR, DRAGON_DAGGER_PCR_28023,DRAGON_DAGGER_PCR_28025,DRAGON_DAGGERP,DRAGON_DAGGERP_5680,DRAGON_DAGGERP_5698 -> {
+                return 404;
             }
             case VIGGORAS_CHAINMACE, VIGGORAS_CHAINMACE_U, URSINE_CHAINMACE -> {
                 return 7200;

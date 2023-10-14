@@ -62,10 +62,10 @@ public final class MagicAccuracy {
 
         double selectedChance = random.nextDouble();
 
-        System.out.println("PlayerStats - Attack=" + attackRoll + " Def=" + defenceRoll + " chanceOfSucess="
-            + new DecimalFormat("0.000").format(chance) + " rolledChance="
-            + new DecimalFormat("0.000").format(selectedChance) + " successful="
-            + (chance > selectedChance ? "YES" : "NO"));
+       // System.out.println("PlayerStats - Attack=" + attackRoll + " Def=" + defenceRoll + " chanceOfSucess="
+           // + new DecimalFormat("0.000").format(chance) + " rolledChance="
+           // + new DecimalFormat("0.000").format(selectedChance) + " successful="
+           // + (chance > selectedChance ? "YES" : "NO"));
 
         return chance > selectedChance;
     }

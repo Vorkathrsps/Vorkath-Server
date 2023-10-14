@@ -14,6 +14,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.ItemIdentifiers;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
+import static com.cryptic.utility.ItemIdentifiers.*;
 
 public class SlayerHelmets implements DamageEffectListener {
     @Override
@@ -37,15 +38,16 @@ public class SlayerHelmets implements DamageEffectListener {
                 if (task != null) {
                     if (Slayer.creatureMatches(player, npc.id())) {
                         if (combatType == CombatType.MAGIC) {
-                            if (equipment.contains(ItemIdentifiers.SLAYER_HELMET)) {
+                            if (equipment.contains(SLAYER_HELMET)) {
                                 magicAccuracy.modifier += 1.15F;
                                 return true;
-                            } else if (equipment.contains(ItemIdentifiers.SLAYER_HELMET_I)) {
+                            } else if (equipment.contains(SLAYER_HELMET_I)) {
                                 magicAccuracy.modifier += 1.18F;
-                            } else if (equipment.contains(ItemIdentifiers.BLACK_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.GREEN_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.HYDRA_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.PURPLE_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.RED_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.TURQUOISE_SLAYER_HELMET)) {
+                                return true;
+                            } else if (equipment.contains(BLACK_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.GREEN_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.HYDRA_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.PURPLE_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.RED_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.TURQUOISE_SLAYER_HELMET)) {
                                 magicAccuracy.modifier += 1.20F;
                                 return true;
-                            } else if (equipment.contains(ItemIdentifiers.TWISTED_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.TZKAL_SLAYER_HELMET)) {
+                            } else if (equipment.contains(TWISTED_SLAYER_HELMET) || equipment.contains(ItemIdentifiers.TZKAL_SLAYER_HELMET)) {
                                 magicAccuracy.modifier += 1.25F;
                                 return true;
                             }

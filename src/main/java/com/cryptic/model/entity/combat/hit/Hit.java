@@ -138,6 +138,17 @@ public class Hit {
         this.hitMark = hitMark;
     }
 
+    public Hit(Entity attacker, Entity target, CombatMethod method, int delay, int damage) {
+        if (method instanceof CommonCombatMethod commonCombatMethod) {
+            combatType = commonCombatMethod.styleOf();
+        }
+        this.attacker = attacker;
+        this.target = target;
+        this.delay = delay;
+        this.damage = damage;
+        this.hitMark = damage > 0 ? HitMark.DEFAULT : HitMark.MISSED;
+    }
+
     public Hit builder(Entity attacker, Entity target, int damage, int delay) {
         return builder(attacker, target, damage, delay, this.combatType);
     }

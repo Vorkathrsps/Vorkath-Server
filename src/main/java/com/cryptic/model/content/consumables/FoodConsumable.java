@@ -4,6 +4,8 @@ import com.cryptic.model.content.duel.DuelRule;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
+import com.cryptic.model.entity.masks.impl.animations.Animation;
+import com.cryptic.model.entity.masks.impl.animations.Priority;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
@@ -224,7 +226,7 @@ public class FoodConsumable {
         else
             eatAnim = 829;
 
-        player.animate(eatAnim);
+        player.animate(new Animation(eatAnim, Priority.HIGH));
 
         if (!food.effect) {
             if (fullpizza) {

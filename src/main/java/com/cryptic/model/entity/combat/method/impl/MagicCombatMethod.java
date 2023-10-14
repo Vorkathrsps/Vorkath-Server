@@ -115,7 +115,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
         }
 
         player.animate(new Animation(castAnimation, Priority.HIGH));
-        player.performGraphic(new Graphic(startgraphic, startGraphicHeight, 0, com.cryptic.model.entity.masks.impl.graphics.Priority.HIGH));
+        player.performGraphic(new Graphic(startgraphic, startGraphicHeight, 0, com.cryptic.model.entity.masks.impl.graphics.Priority.LOW));
 
         var source = spell.spellId() == AncientSpells.ICE_BARRAGE.spellID ? target.tile() : player.tile();
 

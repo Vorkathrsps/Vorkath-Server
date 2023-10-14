@@ -22,25 +22,25 @@ public enum Plant {
     RANARR(5295, 207, 32, 173, 170, 32, 80, Seed.HERB, 26, 30, 4), //35957
     TOADFLAX(5296, ItemIdentifiers.GRIMY_TOADFLAX, 39, 173, 170, 36, 80, Seed.HERB, 34, 38, 4), //5296
     IRIT(5297, 209, 46, 173, 170, 44, 80, Seed.HERB, 43, 48, 4), //89
-    AVANTOE(5298, 211, 53, 173, 170, 50, 80,	Seed.HERB, 54, 61, 4), //805
+    AVANTOE(5298, 211, 53, 173, 170, 50, 80, Seed.HERB, 54, 61, 4), //805
     KWUARM(5299, 213, 68, 173, 170, 56, 80, Seed.HERB, 69, 78, 4), //1425
     SNAPDRAGON(5300, ItemIdentifiers.GRIMY_SNAPDRAGON, 75, 173, 170, 62, 80, Seed.HERB, 87, 98, 4), //43585
-    CADANTINE(5301,	215, 82, 173, 170, 67, 80, Seed.HERB, 106, 120, 4), //285
-    LANTADYME(5302, ItemIdentifiers.GRIMY_LANTADYME, 89, 173, 170, 73, 80,	Seed.HERB, 134, 151, 4), //967
-    DWARF_WEED(5303, 217, 96, 173, 170, 79, 80, Seed.HERB, 170,	192, 4), //268
+    CADANTINE(5301, 215, 82, 173, 170, 67, 80, Seed.HERB, 106, 120, 4), //285
+    LANTADYME(5302, ItemIdentifiers.GRIMY_LANTADYME, 89, 173, 170, 73, 80, Seed.HERB, 134, 151, 4), //967
+    DWARF_WEED(5303, 217, 96, 173, 170, 79, 80, Seed.HERB, 170, 192, 4), //268
     TORSTOL(5304, 219, 103, 173, 170, 85, 80, Seed.HERB, 199, 224, 4), //19813
 
     POTATO(5318, 1942, 6, 0, 0, 1, 40, Seed.ALLOTMENT, 8, 9, 4),
-    ONION(5319, 1957, 13, 0, 0, 5, 40,Seed.ALLOTMENT,  9, 10, 4),
-    CABBAGE(5324, 1967, 20, 0, 0, 7, 40, Seed.ALLOTMENT, 10, 11,4),
+    ONION(5319, 1957, 13, 0, 0, 5, 40, Seed.ALLOTMENT, 9, 10, 4),
+    CABBAGE(5324, 1967, 20, 0, 0, 7, 40, Seed.ALLOTMENT, 10, 11, 4),
     TOMATO(5322, 1982, 27, 0, 0, 12, 40, Seed.ALLOTMENT, 12, 14, 4),
-    SWEETCORN(5320, 5986, 34, 0,0, 20, 40, Seed.ALLOTMENT, 17, 19, 6),
+    SWEETCORN(5320, 5986, 34, 0, 0, 20, 40, Seed.ALLOTMENT, 17, 19, 6),
     STRAWBERRY(5323, 5504, 43, 0, 0, 31, 40, Seed.ALLOTMENT, 26, 29, 6),
     WATERMELON(5321, 5982, 52, 0, 0, 47, 40, Seed.ALLOTMENT, 48, 54, 8),
 
     MARIGOLD(5096, 6010, 8, 0, 0, 2, 60, Seed.FLOWER, 8, 47, 4),
     ROSEMARY(5097, 6014, 13, 0, 0, 11, 60, Seed.FLOWER, 12, 66, 4),
-    NASTURTIUM(5098, 6012, 18, 0, 0, 24, 60, Seed.FLOWER, 19, 111,4),
+    NASTURTIUM(5098, 6012, 18, 0, 0, 24, 60, Seed.FLOWER, 19, 111, 4),
     WOAD(5099, 5738, 23, 0, 0, 25, 60, Seed.FLOWER, 20, 115, 4),
     LIMPWURT(5100, 225, 28, 0, 0, 26, 60, Seed.FLOWER, 21, 120, 4),
     ;
@@ -90,7 +90,7 @@ public enum Plant {
     }
 
     Plant(int seed, int harvest, int config, int diseased, int dead, int level, int minutes, Seed type,
-           double plantExperience, double harvestExperience, int stages) {
+          double plantExperience, double harvestExperience, int stages) {
         this.seed = seed;
         this.harvest = harvest;
         this.healthy = config;
@@ -108,7 +108,7 @@ public enum Plant {
     }
 
     Plant(int seed, int harvest, int config, int diseased, int dead, int treeStump, int checkHealth, int level, int minutes, Seed type,
-           double plantExperience, double checkHealthExperience, double harvestExperience, int stages) {
+          double plantExperience, double checkHealthExperience, double harvestExperience, int stages) {
         this.seed = seed;
         this.harvest = harvest;
         this.healthy = config;

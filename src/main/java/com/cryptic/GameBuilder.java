@@ -90,9 +90,6 @@ public class GameBuilder {
         tasks.add(Fletching::load);
         tasks.add(new ShopLoader());
         tasks.add(new ObjectSpawnDefinitionLoader());
-        if(GameServer.properties().pvpMode) {
-           // tasks.add(new PresetLoader());
-        }
         tasks.add(TournamentManager::initalizeTournaments);
         tasks.add(new DoorDefinitionLoader());
         tasks.add(World.getWorld()::postLoad);

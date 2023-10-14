@@ -11,7 +11,6 @@ import static com.cryptic.model.entity.attributes.AttributeKey.GWD_ZAMORAK_KC;
  * @see <a href="https://github.com/PVE95">Github profile</a>
  */
 public class GWDZamorakMinion implements Droptable {
-
     @Override
     public void reward(NPC npc, Player killer) {
         var current = killer.<Integer>getAttribOr(GWD_ZAMORAK_KC, 0) + 1;

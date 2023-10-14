@@ -66,7 +66,7 @@ public class MagicOnPlayerPacketListener implements PacketListener {
                     }
                     player.setEntityInteraction(other);
                     player.getCombat().setCastSpell(spell);
-                    if (player.getCombat().getPoweredStaffSpell() != null) {
+                    if (player.getCombat().getCastSpell() == null && player.getCombat().getPoweredStaffSpell() != null) {
                         player.message(Color.RED.wrap("You cannot attack players in the wilderness with this weapon."));
                         return;
                     }

@@ -63,9 +63,9 @@ public final class BackgroundLoader {
     public void init(Collection<Runnable> backgroundTasks) {
         Preconditions.checkState(!shutdown && !service.isShutdown(), "This background loader has been shutdown!");
         tasks.addAll(backgroundTasks);
-        Runnable t;
-        while ((t = tasks.poll()) != null)
-            service.execute(t);
+        for (Runnable task : tasks) {
+            service.execute(task);
+        }
         service.shutdown();
     }
 
@@ -87,12 +87,13 @@ public final class BackgroundLoader {
     public boolean awaitCompletion() {
         Preconditions.checkState(!shutdown, "This background loader has been shutdown!");
         try {
-            service.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
+            return service.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             logger.warn("The background service loader was interrupted.", e);
             return false;
+        } finally {
+            shutdown = true;
         }
-        shutdown = true;
-        return true;
     }
 }

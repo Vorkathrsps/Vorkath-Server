@@ -29,11 +29,8 @@ public enum Patch {
     PHAS_FLOWER(new Tile(3601, 3525), new Tile(3602, 3526), new Animation(2275), ItemIdentifiers.SEED_DIBBER, ItemIdentifiers.SECATEURS, Seed.FLOWER),
     PHAS_ALLOTMENT_WEST(new Tile(3597, 3525), new Tile(3601, 3530), new Animation(2275), ItemIdentifiers.SEED_DIBBER, ItemIdentifiers.SECATEURS, Seed.ALLOTMENT),
     PHAS_ALLOTMENT_EAST(new Tile(3602, 3521), new Tile(3606, 3526), new Animation(2275), ItemIdentifiers.SEED_DIBBER, ItemIdentifiers.SECATEURS, Seed.ALLOTMENT),
-
-    //TODO add tree farming
-
     LUMBRIDGE_TREE(new Tile(3191, 3229, 0), new Tile(3195, 3233, 0), new Animation(-1), -2, -2, Seed.TREE),
-    VARROCK_TREE(new Tile(3227, 3457, 0), new Tile(3231, 3461, 0), new Animation(-1), -2, -2, Seed.TREE),
+    VARROCK_TREE(new Tile(3227, 3457, 0), new Tile(3231, 3461, 0), new Animation(-1), ItemIdentifiers.SEED_DIBBER, -2, Seed.TREE),
     FALADOR_TREE(new Tile(3002, 3371, 0), new Tile(3006, 3375, 0), new Animation(-1), -2, -2, Seed.TREE),
     TAVERLY_TREE(new Tile(2934, 3436, 0), new Tile(2938, 3440, 0), new Animation(-1), -2, -2, Seed.TREE),
     STRONGHOLD_TREE(new Tile(2434, 3413, 0), new Tile(2438, 3417, 0), new Animation(-1), -2, -2, Seed.TREE),

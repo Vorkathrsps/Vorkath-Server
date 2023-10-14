@@ -45,7 +45,7 @@ public class DiscordBot {
             final DiscordClient client = DiscordClient.create(KEY_ID);
             bot = client.login().block();
             logger.log(Level.INFO, "Loading init login..");
-            bot.updatePresence(Presence.doNotDisturb(Activity.watching("Aelous"))).block();
+            ///bot.updatePresence(Presence.doNotDisturb(Activity.watching("Aelous"))).block();
             logger.log(Level.INFO, "Loading presense..");
             loadListeners(bot.getEventDispatcher());
             logger.log(Level.INFO, "DiscordBOT is now online!");
@@ -69,7 +69,7 @@ public class DiscordBot {
     }
 
     public static void updateStatus(String status) {
-        bot.updatePresence(Presence.doNotDisturb(Activity.watching(status))).block();
+        //bot.updatePresence(Presence.doNotDisturb(Activity.watching(status))).block();
     }
 
     private static void loadListeners(EventDispatcher eventDispatcher) {

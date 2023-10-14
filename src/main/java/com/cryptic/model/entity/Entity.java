@@ -552,15 +552,18 @@ public abstract class Entity {
     public void decrementHealth(Hit hit) {
         if (dead())
             return;
+
         if (hit.getHitMark() == HitMark.HEALED) {
             heal(hit.getDamage());
             return;
         }
+
         int outcome = hp() - hit.getDamage();
         if (outcome < 0) {
             outcome = 0;
             putAttrib(AttributeKey.KILLING_BLOW_HIT, hit);
         }
+
         setHitpoints(outcome);
 
         if (isNpc() && hp() <= 0) {
@@ -1777,26 +1780,41 @@ public abstract class Entity {
         return timers.has(TimerKey.STUNNED);
     }
 
+    int[] npcs_immune_to_freeze = new int[]
+        {
+
+        };
+
     public void freeze(int time, @NonNull Entity attacker) {
-        if (timers.has(TimerKey.FREEZE_IMMUNITY)) {
-            return;
+        if (attacker instanceof Player player) {
+            var target = player.getCombat().getTarget();
+            if (target instanceof Player enemy) {
+                if (enemy.getTimers().has(TimerKey.FREEZE_IMMUNITY) || enemy.getTimers().has(TimerKey.FROZEN)) {
+                    return;
+                }
+                if (!enemy.locked()) {
+                    enemy.getMovementQueue().clear();
+                }
+                enemy.putAttrib(AttributeKey.FROZEN_BY, player);
+                enemy.getTimers().extendOrRegister(TimerKey.FROZEN, time);
+                enemy.getTimers().extendOrRegister(TimerKey.FREEZE_IMMUNITY, time + 5);
+                enemy.getPacketSender().sendEffectTimer((int) Math.round(time * 0.6), EffectTimer.FREEZE).sendMessage(Color.RED.wrap("You have been frozen!"));
+            } else if (target instanceof NPC npc) {
+                if (ArrayUtils.contains(npcs_immune_to_freeze, npc.id())) {
+                    return;
+                }
+                if (npc.getTimers().has(TimerKey.FREEZE_IMMUNITY) || npc.getTimers().has(TimerKey.FROZEN)) {
+                    return;
+                }
+                if (!npc.locked()) {
+                    npc.getMovementQueue().clear();
+                }
+                npc.putAttrib(AttributeKey.FROZEN_BY, player);
+                npc.getTimers().extendOrRegister(TimerKey.FROZEN, time);
+                npc.getTimers().extendOrRegister(TimerKey.FREEZE_IMMUNITY, time + 5);
+            }
         }
 
-        if (timers.has(TimerKey.FROZEN)) {
-            return;
-        }
-
-        putAttrib(AttributeKey.FROZEN_BY, attacker);
-        timers.extendOrRegister(TimerKey.FROZEN, time);
-        timers.extendOrRegister(TimerKey.FREEZE_IMMUNITY, time + 3);
-
-        if (isPlayer()) {
-            ((Player) this).getPacketSender().sendEffectTimer((int) Math.round(time * 0.6), EffectTimer.FREEZE).sendMessage(Color.RED.wrap("You have been frozen!"));
-        }
-
-        if (!locked()) {
-            getMovementQueue().clear();
-        }
     }
 
     public void stopActions(boolean cancelMoving) {

@@ -100,7 +100,8 @@ public class Farming {
             Patch.FALADOR_HERB,
             Patch.CATHERBY_HERB,
             Patch.ARDOUGNE_HERB,
-            Patch.PHAS_HERB
+            Patch.PHAS_HERB,
+            Patch.VARROCK_TREE
         };
 
         Patch closest = null;

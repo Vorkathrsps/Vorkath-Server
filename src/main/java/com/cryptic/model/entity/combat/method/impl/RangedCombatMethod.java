@@ -14,6 +14,7 @@ import com.cryptic.model.entity.combat.weapon.AttackType;
 import com.cryptic.model.entity.combat.weapon.WeaponType;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
+import com.cryptic.model.entity.masks.impl.animations.Priority;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.player.EquipSlot;
@@ -31,7 +32,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity attacker, Entity target) {
-        attacker.animate(new Animation(attacker.attackAnimation()));
+        attacker.animate(new Animation(attacker.attackAnimation(), Priority.HIGH));
 
         if (attacker.isNpc()) {
             int tileDist = attacker.tile().transform(3, 3).distance(target.tile());

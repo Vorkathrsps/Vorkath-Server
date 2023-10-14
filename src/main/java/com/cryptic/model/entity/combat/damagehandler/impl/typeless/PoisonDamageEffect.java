@@ -12,16 +12,19 @@ import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 
+import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.NYLOCAS_ATHANATOS;
+
 public class PoisonDamageEffect implements DamageEffectListener {
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
-        var attacker = (Player) hit.getAttacker();
-        var defender = (NPC) hit.getTarget();
-        if (defender != null && defender.id() == NpcIdentifiers.NYLOCAS_ATHANATOS) {
-            if (FormulaUtils.isWearingPoisonEquipmentOrWeapon(attacker)) {
-                var hp = defender.maxHp();
-                hit.setDamage(hp);
-                return true;
+        if (entity instanceof Player player) {
+            var target = player.getCombat().getTarget();
+            if (target instanceof NPC npc) {
+                if (npc.id() == NYLOCAS_ATHANATOS) {
+                    var hp = npc.maxHp();
+                    hit.setDamage(hp);
+                    return true;
+                }
             }
         }
         return false;

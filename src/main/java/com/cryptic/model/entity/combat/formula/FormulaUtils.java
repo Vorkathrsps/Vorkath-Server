@@ -87,12 +87,12 @@ public class FormulaUtils {
                 name = def.name;
             }
             boolean exceptions = name.contains("Elvarg") || name.contains("Revenant dragon");
-            return name.contains("The Great Olm") || name.contains("El Fuego") || name.contains("Hungarian horntail") || name.contains("Wyvern") || name.contains("Basilisk (Right claw)") || name.contains("Basilisk (Left claw)") || name.contains("Basilisk") || name.contains("Great Olm") || name.contains("Wyrm") || name.contains("Drake") || name.contains("Hydra") || name.contains("Vorkath") || name.contains("Galvek") || name.contains("dragon") || name.contains("Dragon") && !exceptions;
+            return name.contains("Corporeal Beast") || name.contains("The Great Olm") || name.contains("El Fuego") || name.contains("Hungarian horntail") || name.contains("Wyvern") || name.contains("Basilisk (Right claw)") || name.contains("Basilisk (Left claw)") || name.contains("Basilisk") || name.contains("Great Olm") || name.contains("Wyrm") || name.contains("Drake") || name.contains("Hydra") || name.contains("Vorkath") || name.contains("Galvek") || name.contains("dragon") || name.contains("Dragon") && !exceptions;
         }
         return false;
     }
 
-    public static boolean obbyArmour(Player player) {
+    public static boolean isWearingObsidianArmour(Player player) {
         ItemContainer eq = player.getEquipment();
         return ((eq.hasAt(EquipSlot.HEAD, 21298) && eq.hasAt(EquipSlot.BODY, 21301) && eq.hasAt(EquipSlot.LEGS, 21304)));
     }

@@ -54,6 +54,7 @@ import com.cryptic.model.entity.combat.weapon.WeaponType;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
+import com.cryptic.model.entity.masks.impl.animations.Priority;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.EquipSlot;
@@ -163,8 +164,7 @@ public class CombatFactory {
             // Update player data..
 
             // Update ranged ammo / weapon
-            if (p.getEquipment().getWeapon() != null)
-                p.getCombat().setRangedWeapon(RangedWeapon.getFor(p));
+            if (p.getEquipment().getWeapon() != null) p.getCombat().setRangedWeapon(RangedWeapon.getFor(p));
 
             /**
              * KINDA COMPLEX ORDERING:
@@ -612,11 +612,9 @@ public class CombatFactory {
 
         var myTimeToPj = me_edgepk ? 10_000L : 10_000L;
         var areaPjTimer = pjTimerForArena();
-        if (areaPjTimer != 10_000L)
-            myTimeToPj = areaPjTimer;
+        if (areaPjTimer != 10_000L) myTimeToPj = areaPjTimer;
         var targTimeToPj = targ_edgepk ? 10_000L : 10_000L;
-        if (areaPjTimer != 10_000L)
-            targTimeToPj = areaPjTimer;
+        if (areaPjTimer != 10_000L) targTimeToPj = areaPjTimer;
 
         if (entity.isPlayer() && other.isPlayer()) {
             Player playerAttacker = entity.getAsPlayer();
@@ -665,16 +663,14 @@ public class CombatFactory {
             // FFA Clan wars does not make any checks for levels. Free for all :)
             if (!inArena) {
 
-                var oppWithinLvl = entity.getSkills().combatLevel() >= getLowestLevel(other, entity) &&
-                    entity.getSkills().combatLevel() <= getHighestLevel(other, entity);
+                var oppWithinLvl = entity.getSkills().combatLevel() >= getLowestLevel(other, entity) && entity.getSkills().combatLevel() <= getHighestLevel(other, entity);
 
                 if (!oppWithinLvl) {
                     entity.message((!WildernessArea.inWilderness(entity.tile())) ? "Your level difference is too great! You need to move deeper into the Wilderness." : "Your level difference is too great.");
                     Debugs.CMB.debug(entity, "lvldif", other, true);
                     return false;
                 } else {
-                    var withinLvl = (other.getSkills().combatLevel() >= getLowestLevel(entity, other) &&
-                        other.getSkills().combatLevel() <= getHighestLevel(entity, other));
+                    var withinLvl = (other.getSkills().combatLevel() >= getLowestLevel(entity, other) && other.getSkills().combatLevel() <= getHighestLevel(entity, other));
                     if (!withinLvl) {
                         entity.message((!WildernessArea.inWilderness(entity.tile())) ? "Your level difference is too great! You need to move deeper into the Wilderness." : "Your level difference is too great.");
                         Debugs.CMB.debug(entity, "lvldif2", other, true);
@@ -684,8 +680,7 @@ public class CombatFactory {
             }
         }
 
-        if ((other.isNpc() && other.getAsNpc().getCombatMethod() != null && other.getAsNpc().getCombatMethod().canMultiAttackInSingleZones())
-            || (entity.isNpc() && entity.getAsNpc().getCombatMethod() != null && entity.getAsNpc().getCombatMethod().canMultiAttackInSingleZones())) {
+        if ((other.isNpc() && other.getAsNpc().getCombatMethod() != null && other.getAsNpc().getCombatMethod().canMultiAttackInSingleZones()) || (entity.isNpc() && entity.getAsNpc().getCombatMethod() != null && entity.getAsNpc().getCombatMethod().canMultiAttackInSingleZones())) {
             return true;
         }
 
@@ -742,8 +737,7 @@ public class CombatFactory {
                 NPC npc = (NPC) other;
                 if (npc.getBotHandler() != null) {
                     if (entity.isPlayer()) {
-                        var oppWithinLvl = entity.getSkills().combatLevel() >= getLowestLevel(entity, npc) &&
-                            entity.getSkills().combatLevel() <= getHighestLevel(entity, npc);
+                        var oppWithinLvl = entity.getSkills().combatLevel() >= getLowestLevel(entity, npc) && entity.getSkills().combatLevel() <= getHighestLevel(entity, npc);
 
                         if (!oppWithinLvl) {
                             entity.message((!WildernessArea.inWilderness(entity.tile())) ? "Your level difference is too great! You need to move deeper into the Wilderness." : "Your level difference is too great.");
@@ -789,8 +783,7 @@ public class CombatFactory {
      */
     public static void debug(Entity attacker, String s, @Nullable Entity victim, boolean debugMessage) {
         debugMessage = true;
-        boolean print = !GameServer.properties().production && (attacker != null && attacker.isPlayer() && attacker.getAsPlayer().getPlayerRights().isDeveloper(attacker.getAsPlayer())) ||
-            (victim != null && victim.isPlayer() && victim.getAsPlayer().getPlayerRights().isDeveloper(victim.getAsPlayer()));
+        boolean print = !GameServer.properties().production && (attacker != null && attacker.isPlayer() && attacker.getAsPlayer().getPlayerRights().isDeveloper(attacker.getAsPlayer())) || (victim != null && victim.isPlayer() && victim.getAsPlayer().getPlayerRights().isDeveloper(victim.getAsPlayer()));
         boolean debug = false;
         Player player = null;
         if (attacker != null && attacker.isPlayer()) {
@@ -835,17 +828,17 @@ public class CombatFactory {
             return;
         }
 
-        if (attacker instanceof Player a)
-            triggerAttacker.triggerEffectForAttacker(a, combatType, hit);
-        if (target instanceof Player t)
-            triggerDefender.triggerEffectForDefender(t, combatType, hit);
+        if (attacker instanceof Player player) {
+            triggerAttacker.triggerEffectForAttacker(player, combatType, hit);
+        } else if (attacker instanceof NPC npc) {
+            triggerAttacker.triggerEffectForAttacker(npc, combatType, hit);
+        }
 
         if (target.isNpc() && attacker != null && attacker.isPlayer()) {
             if (target instanceof NPC npc) {
                 assert attacker instanceof Player;
                 Player player = (Player) attacker;
-                if (player.getCombat() == null)
-                    return; // should never happen lol
+                if (player.getCombat() == null) return; // should never happen lol
 
                 if (npc.capDamage() != -1 && hit.getDamage() > npc.capDamage()) {
                     hit.setDamage(npc.capDamage());
@@ -972,14 +965,23 @@ public class CombatFactory {
             NPC npc = (NPC) target;
 
             if (npc.getCombatInfo() == null) {
-                //logger.info("Missing combat attributes for npc {}", npc.id());
                 Utils.sendDiscordInfoLog("Missing combat attributes for npc " + npc.id());
                 return;
             }
         }
 
-        if (target.dead())
+        if (target.dead()) {
+            if (target instanceof Player a) {
+                boolean hasVengeance = a.getAttribOr(AttributeKey.VENGEANCE_ACTIVE, false);
+                if (a.dead() && hasVengeance && !hit.reflected) {
+                    a.getCombat().addDamage(attacker, hit.getDamage());
+                    handleVengeance(a, attacker, hit.getDamage());
+                    attacker.decrementHealth(hit);
+                    return;
+                }
+            }
             return;
+        }
 
         // If target/attacker is dead, don't continue.
         // hits with no type and method are probably recoil, retribution, wrath, which can apply when the source is of course death
@@ -987,21 +989,30 @@ public class CombatFactory {
             return;
         }
 
+        if (target instanceof Player player) {
+            if (!player.getInterfaceManager().isClear()) {
+                player.getPacketSender().sendInterfaceRemoval();
+            }
+        }
 
-        // If target is teleporting or needs placement
-        // Don't continue to add the hit.
         if (target.isNullifyDamageLock() || target.isNeedsPlacement()) {
             return;
         }
 
-        if (target instanceof Player) {
-            target.getAsPlayer().getPacketSender().sendInterfaceRemoval();
+        if (target instanceof Player player) {
+            triggerDefender.triggerEffectForDefender(player, combatType, hit);
+        } else if (target instanceof NPC npc) {
+            triggerDefender.triggerEffectForDefender(npc, combatType, hit);
         }
 
-        hit = target.manipulateHit(hit);
+        target.action.reset();
 
         // Do block animation
-        target.action.reset();
+        if (!hit.reflected || hit.getCombatType() != null) {
+            if (target instanceof Player player) {
+                target.animate(target.getBlockAnim());
+            }
+        }
 
         if (attacker != null && attacker.isNpc() && hit.getCombatType() == CombatType.MAGIC && !target.getUpdateFlag().flagged(Flag.ANIMATION)) {
             target.animate(new Animation(target.getBlockAnim()));
@@ -1207,6 +1218,7 @@ public class CombatFactory {
 
         // Handle ring of recoil for target
         // Also handle vengeance for target
+
         if (attacker != null && hit.getDamage() > 0) {
 
             if (!hit.reflected) {
@@ -1307,18 +1319,15 @@ public class CombatFactory {
             var id = ntarg.id();
             if (id == 5534) hit = 0;
             if (id == 496) {
-                if (ntarg.transmog() != 494)
-                    hit = 0;
-                else if (style != CombatType.MAGIC)
-                    hit = 0;
+                if (ntarg.transmog() != 494) hit = 0;
+                else if (style != CombatType.MAGIC) hit = 0;
             }
             if (id == 319) {
 
             }
         }
 
-        if (style == null)
-            return;
+        if (style == null) return;
 
         var gameModeMultiplier = player.getGameMode().equals(GameMode.REALISM) ? 10.0 : 50.0;
         var gameModeDivider = player.getGameMode().equals(GameMode.REALISM) ? 4.0 : 3.0;
@@ -1432,15 +1441,13 @@ public class CombatFactory {
     }
 
     public static void disableProtectionPrayers(Entity player, boolean sendMsg, boolean block) {
-        if (block)
-            player.getTimers().register(TimerKey.OVERHEADS_BLOCKED, 9);
+        if (block) player.getTimers().register(TimerKey.OVERHEADS_BLOCKED, 9);
         Prayers.deactivatePrayer(player, PROTECT_FROM_MAGIC);
         Prayers.deactivatePrayer(player, PROTECT_FROM_MISSILES);
         Prayers.deactivatePrayer(player, PROTECT_FROM_MELEE);
         Prayers.deactivatePrayer(player, RETRIBUTION);
         Prayers.deactivatePrayer(player, REDEMPTION);
-        if (sendMsg)
-            player.message("You have been disabled and can no longer use protection prayers.");
+        if (sendMsg) player.message("You have been disabled and can no longer use protection prayers.");
     }
 
     /**
@@ -1539,15 +1546,13 @@ public class CombatFactory {
      */
     protected static void handlePrayerEffects(Entity attacker, Entity target, int damage, CombatType combatType) {
         // note : code on death wont work here. victim.hp will be its value BEFORE damage is actually taken
-        if (attacker == null || target == null)
-            return;
+        if (attacker == null || target == null) return;
         // Prayer effects can only be done with victims that are players.
         if (target.isPlayer() && damage > 0) {
             Player victim = (Player) target;
 
             // The redemption (HEALING) prayer effect.
-            if (Prayers.usingPrayer(victim, Prayers.REDEMPTION)
-                && victim.hp() <= (victim.getSkills().xpLevel(Skills.HITPOINTS) / 10)) {
+            if (Prayers.usingPrayer(victim, Prayers.REDEMPTION) && victim.hp() <= (victim.getSkills().xpLevel(Skills.HITPOINTS) / 10)) {
                 int amountToHeal = (int) (victim.getSkills().xpLevel(Skills.PRAYER) * .25);
                 victim.graphic(436, GraphicHeight.HIGH, 0);
                 victim.getSkills().setLevel(Skills.PRAYER, 0);
@@ -1665,8 +1670,7 @@ public class CombatFactory {
         // Get the ranged weapon data
         final RangedWeapon rangedWeapon = player.getCombat().getRangedWeapon();
 
-        if (rangedWeapon == null)
-            return;
+        if (rangedWeapon == null) return;
 
         Entity target = player.getCombat().getTarget();
 
@@ -1723,11 +1727,10 @@ public class CombatFactory {
                         if (player.tile().inArea(2269, 10023, 2302, 10046)) {
                             GroundItemHandler.createGroundItem(new GroundItem(new Item(ammo.getId(), 1), player.tile(), player));
                         } else {
-                            if (!skipAmmo)
-                                if (World.getWorld().clipAt(player.getCombat().getTarget().tile()) != 0) {
-                                    return;
-                                }
-                                GroundItemHandler.createGroundItem(new GroundItem(new Item(ammo.getId(), 1), player.getCombat().getTarget().tile(), player));
+                            if (!skipAmmo) if (World.getWorld().clipAt(player.getCombat().getTarget().tile()) != 0) {
+                                return;
+                            }
+                            GroundItemHandler.createGroundItem(new GroundItem(new Item(ammo.getId(), 1), player.getCombat().getTarget().tile(), player));
                         }
                         if (weapon != null && Equipment.darkbow(weapon.getId())) {// support dropping 2nd arrow as well
                             if (player.tile().inArea(2269, 10023, 2302, 10046)) {
@@ -1754,8 +1757,7 @@ public class CombatFactory {
      * @return true if the player is wearing full veracs.
      */
     public static boolean fullVeracs(Entity entity) {
-        return entity.isNpc() ? entity.getAsNpc().id() == NpcIdentifiers.VERAC_THE_DEFILED
-            : entity.getAsPlayer().getEquipment().containsAll(4753, 4757, 4759, 4755);
+        return entity.isNpc() ? entity.getAsNpc().id() == NpcIdentifiers.VERAC_THE_DEFILED : entity.getAsPlayer().getEquipment().containsAll(4753, 4757, 4759, 4755);
     }
 
     /**
@@ -1765,8 +1767,7 @@ public class CombatFactory {
      * @return true if the player is wearing full dharoks.
      */
     public static boolean fullDharoks(Entity entity) {
-        return entity.isNpc() ? entity.getAsNpc().id() == NpcIdentifiers.DHAROK_THE_WRETCHED
-            : entity.getAsPlayer().getEquipment().containsAll(4716, 4720, 4722, 4718);
+        return entity.isNpc() ? entity.getAsNpc().id() == NpcIdentifiers.DHAROK_THE_WRETCHED : entity.getAsPlayer().getEquipment().containsAll(4716, 4720, 4722, 4718);
     }
 
     /**
@@ -1776,8 +1777,7 @@ public class CombatFactory {
      * @return true if the player is wearing full karils.
      */
     public static boolean fullKarils(Entity entity) {
-        return entity.isNpc() ? entity.getAsNpc().id() == NpcIdentifiers.KARIL_THE_TAINTED
-            : entity.getAsPlayer().getEquipment().containsAll(4732, 4736, 4738, 4734);
+        return entity.isNpc() ? entity.getAsNpc().id() == NpcIdentifiers.KARIL_THE_TAINTED : entity.getAsPlayer().getEquipment().containsAll(4732, 4736, 4738, 4734);
     }
 
     /**
@@ -1787,8 +1787,7 @@ public class CombatFactory {
      * @return true if the player is wearing full ahrims.
      */
     public static boolean fullAhrims(Entity entity) {
-        return entity.isNpc() ? entity.getAsNpc().id() == NpcIdentifiers.AHRIM_THE_BLIGHTED
-            : entity.getAsPlayer().getEquipment().containsAll(4708, 4712, 4714, 4710);
+        return entity.isNpc() ? entity.getAsNpc().id() == NpcIdentifiers.AHRIM_THE_BLIGHTED : entity.getAsPlayer().getEquipment().containsAll(4708, 4712, 4714, 4710);
     }
 
     public static boolean fullShayzien(Entity entity) {
@@ -1802,8 +1801,7 @@ public class CombatFactory {
      * @return true if the player is wearing full torags.
      */
     public static boolean fullTorags(Entity entity) {
-        return entity.isNpc() ? entity.getAsNpc().def().name.equals("Torag the Corrupted")
-            : entity.getAsPlayer().getEquipment().containsAll(4745, 4749, 4751, 4747);
+        return entity.isNpc() ? entity.getAsNpc().def().name.equals("Torag the Corrupted") : entity.getAsPlayer().getEquipment().containsAll(4745, 4749, 4751, 4747);
     }
 
     /**
@@ -1813,8 +1811,7 @@ public class CombatFactory {
      * @return true if the player is wearing full guthans.
      */
     public static boolean fullGuthans(Entity entity) {
-        return entity.isNpc() ? entity.getAsNpc().def().name.equals("Guthan the Infested")
-            : entity.getAsPlayer().getEquipment().containsAll(4724, 4728, 4730, 4726);
+        return entity.isNpc() ? entity.getAsNpc().def().name.equals("Guthan the Infested") : entity.getAsPlayer().getEquipment().containsAll(4724, 4728, 4730, 4726);
     }
 
     public static int getLowestLevel(Entity entity, Entity target) {

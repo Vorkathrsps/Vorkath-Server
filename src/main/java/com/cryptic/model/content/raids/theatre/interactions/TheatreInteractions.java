@@ -94,6 +94,28 @@ public class TheatreInteractions extends PacketInteraction {
                     });
                 }
                 return true;
+            } else if (player.tile().region() == 12612) {
+                if (player.tile().getY() >= 4380) {
+                    Chain.noCtx().runFn(1, () -> {
+                        player.agilityWalk(false);
+                        player.lock();
+                        var t = new Tile(player.tile().getX(), player.tile().getY()).transform(0, -2);
+                        player.stepAbs(t.getX(), t.getY(), MovementQueue.StepType.FORCED_WALK);
+                    }).then(3, () -> {
+                        player.unlock();
+                        player.agilityWalk(true);
+                    });
+                } else if (player.tile().getY() <= 4379) {
+                    Chain.noCtx().runFn(1, () -> {
+                        player.agilityWalk(false);
+                        player.lock();
+                        var t = new Tile(player.tile().getX(), player.tile().getY()).transform(0, 2);
+                        player.stepAbs(t.getX(), t.getY(), MovementQueue.StepType.FORCED_WALK);
+                    }).then(3, () -> {
+                        player.unlock();
+                        player.agilityWalk(true);
+                    });
+                }
             } else if (player.tile().region() == 13122) {
                 if (player.tile().getY() >= 4256) {
                     Chain.noCtx().runFn(1, () -> {

@@ -10,25 +10,22 @@ import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.map.position.Area;
+import com.cryptic.utility.Utils;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
-/**
- * @author Patrick van Elderen <<a href="https://github.com/PVE95">...</a>>
- * @Since January 07, 2022
- */
-public class NylocasVasilias extends CommonCombatMethod {
-
+public class VasiliasCombat extends CommonCombatMethod {
     private static final Projectile RANGED_PROJECTILE = new Projectile(1560, 70, 20, 51, 56, 10, 16, 96);
     private static final Projectile MAGIC_PROJECTILE = new Projectile(1580, 70, 20, 51, 56, 10, 16, 96);
-
     private boolean isTransforming;
     private NylocasSize size;
     private Form[] forms;
     private Queue<Form> transformationsQueue;
     private Form form;
+    private static final Area room = new Area(3290, 4243, 3301, 4254);
 
     @Override
     public void init(NPC npc) {
@@ -59,40 +56,45 @@ public class NylocasVasilias extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity mob, Entity target) {
         var combatInfo = mob.npc().getCombatInfo();
+        var player = (Player) target;
         if (isTransforming) {
             return false;
         }
         switch (form.getCombatType()) {
-            case MAGIC:
-                if (target.isPlayer()) {
+            case MAGIC -> {
+                if (player.isPlayer()) {
                     Arrays.stream(mob.closePlayers(9)).forEach(p -> {
                         int animationId = form == null ? combatInfo.animations.attack : form.getAttackAnims()[0];
                         mob.animate(animationId);
-                        int delay = MAGIC_PROJECTILE.send(mob, target);
+                        int delay = MAGIC_PROJECTILE.send(mob, player);
                         Hit hit = p.hit(mob, World.getWorld().random(combatInfo.maxhit), CombatType.MAGIC).clientDelay(delay).checkAccuracy();
                         hit.submit();
                     });
                 }
-                break;
-            case MELEE:
-                if (target.isPlayer()) {
+            }
+            case MELEE -> {
+                if (player.isPlayer()) { // wheres the new what? instance?n npc
+                    if (!withinDistance(2)) {
+                        follow(2);
+                        return false;
+                    }
                     int animationId = form == null ? combatInfo.animations.attack : form.getAttackAnims()[0];
                     mob.animate(animationId);
-                    Hit hit = target.hit(mob, World.getWorld().random(combatInfo.maxhit), 2, CombatType.MELEE).checkAccuracy();
+                    Hit hit = player.hit(mob, World.getWorld().random(combatInfo.maxhit), 2, CombatType.MELEE).checkAccuracy();
                     hit.submit();
                 }
-                break;
-            case RANGED:
-                if (target.isPlayer()) {
+            }
+            case RANGED -> {
+                if (player.isPlayer()) {
                     Arrays.stream(mob.closePlayers(9)).forEach(p -> {
                         int animationId = form == null ? combatInfo.animations.attack : form.getAttackAnims()[0];
                         mob.animate(animationId);
-                        int delay = RANGED_PROJECTILE.send(mob, target);
+                        int delay = RANGED_PROJECTILE.send(mob, player);
                         Hit hit = p.hit(mob, World.getWorld().random(combatInfo.maxhit), CombatType.RANGED).clientDelay(delay).checkAccuracy();
                         hit.submit();
                     });
                 }
-                break;
+            }
         }
         return true;
     }
@@ -119,8 +121,6 @@ public class NylocasVasilias extends CommonCombatMethod {
 
     @Override
     public void doFollowLogic() {
-        // Prevents Nylocas from following
-
         //It will change every 10 ticks (6 seconds), and it will always change to one of the other two styles (meaning it will not stay on one style twice in a row).
         if (World.getWorld().cycleCount() % 10 == 0) {
             if (forms != null && forms.length > 0) {

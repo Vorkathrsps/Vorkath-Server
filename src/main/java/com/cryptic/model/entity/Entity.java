@@ -552,15 +552,18 @@ public abstract class Entity {
     public void decrementHealth(Hit hit) {
         if (dead())
             return;
+
         if (hit.getHitMark() == HitMark.HEALED) {
             heal(hit.getDamage());
             return;
         }
+
         int outcome = hp() - hit.getDamage();
         if (outcome < 0) {
             outcome = 0;
             putAttrib(AttributeKey.KILLING_BLOW_HIT, hit);
         }
+
         setHitpoints(outcome);
 
         if (isNpc() && hp() <= 0) {
@@ -1387,8 +1390,11 @@ public abstract class Entity {
             return;
 
         if (source instanceof Player player) {
-            if (player.getCombat().getTarget() == npc() && ArrayUtils.contains(NPCS_IMMUNE_TO_VENOM, npc().id())) {
-                return;
+            var target = player.getCombat().getTarget();
+            if (target instanceof NPC npc) {
+                if (ArrayUtils.contains(NPCS_IMMUNE_TO_VENOM, npc.id())) {
+                    return;
+                }
             }
         }
 
@@ -1589,7 +1595,11 @@ public abstract class Entity {
 
     public static void time(Consumer<Duration> consumer, Runnable task) {
         if (!TimesCycle.BENCHMARKING_ENABLED) {
-            task.run();
+            try {
+                task.run();
+            } catch (Exception e) {
+                log.error("kys", e);
+            }
             return;
         }
 
@@ -1770,26 +1780,41 @@ public abstract class Entity {
         return timers.has(TimerKey.STUNNED);
     }
 
+    int[] npcs_immune_to_freeze = new int[]
+        {
+
+        };
+
     public void freeze(int time, @NonNull Entity attacker) {
-        if (timers.has(TimerKey.FREEZE_IMMUNITY)) {
-            return;
+        if (attacker instanceof Player player) {
+            var target = player.getCombat().getTarget();
+            if (target instanceof Player enemy) {
+                if (enemy.getTimers().has(TimerKey.FREEZE_IMMUNITY) || enemy.getTimers().has(TimerKey.FROZEN)) {
+                    return;
+                }
+                if (!enemy.locked()) {
+                    enemy.getMovementQueue().clear();
+                }
+                enemy.putAttrib(AttributeKey.FROZEN_BY, player);
+                enemy.getTimers().extendOrRegister(TimerKey.FROZEN, time);
+                enemy.getTimers().extendOrRegister(TimerKey.FREEZE_IMMUNITY, time + 5);
+                enemy.getPacketSender().sendEffectTimer((int) Math.round(time * 0.6), EffectTimer.FREEZE).sendMessage(Color.RED.wrap("You have been frozen!"));
+            } else if (target instanceof NPC npc) {
+                if (ArrayUtils.contains(npcs_immune_to_freeze, npc.id())) {
+                    return;
+                }
+                if (npc.getTimers().has(TimerKey.FREEZE_IMMUNITY) || npc.getTimers().has(TimerKey.FROZEN)) {
+                    return;
+                }
+                if (!npc.locked()) {
+                    npc.getMovementQueue().clear();
+                }
+                npc.putAttrib(AttributeKey.FROZEN_BY, player);
+                npc.getTimers().extendOrRegister(TimerKey.FROZEN, time);
+                npc.getTimers().extendOrRegister(TimerKey.FREEZE_IMMUNITY, time + 5);
+            }
         }
 
-        if (timers.has(TimerKey.FROZEN)) {
-            return;
-        }
-
-        putAttrib(AttributeKey.FROZEN_BY, attacker);
-        timers.extendOrRegister(TimerKey.FROZEN, time);
-        timers.extendOrRegister(TimerKey.FREEZE_IMMUNITY, time + 3);
-
-        if (isPlayer()) {
-            ((Player) this).getPacketSender().sendEffectTimer((int) Math.round(time * 0.6), EffectTimer.FREEZE).sendMessage(Color.RED.wrap("You have been frozen!"));
-        }
-
-        if (!locked()) {
-            getMovementQueue().clear();
-        }
     }
 
     public void stopActions(boolean cancelMoving) {
@@ -1836,7 +1861,9 @@ public abstract class Entity {
     public void teleport(Tile teleportTarget) {
 
         if (isPlayer() && !getAsPlayer().getInterfaceManager().isClear()) {
-            getAsPlayer().getInterfaceManager().removeOverlay();
+            if (getAsPlayer().getInterfaceManager().getWalkable() != 196) {
+                getAsPlayer().getInterfaceManager().close(true);
+            }
             getAsPlayer().getInterfaceManager().close(false);
         }
 
@@ -2076,25 +2103,21 @@ public abstract class Entity {
     @Getter
     private InstancedArea instancedArea;
 
-    public void setInstance(InstancedArea instancedArea) {
+    public void setInstance(InstancedArea instance) {
         var prev = this.instancedArea;
-        //log.info("setInstance {} --------------> {}", prev, instancedArea);
-        if (prev == instancedArea)
+        this.instancedArea = instance;
+        if (prev == instance)
             return;
-        this.instancedArea = instancedArea;
-        // when new area is null or a new instance than previous, remove from old
-        if (prev != null && instancedArea != prev) {
+        if (prev != null && instance == null) { // setting null probably removing
             if (isPlayer())
                 prev.removePlayer(getAsPlayer());
             else
                 prev.removeNpc(npc());
-        }
-        // new instance isn't null and we're not already inside
-        if (instancedArea != null && prev != instancedArea) {
+        } else if (instance != null) { // add
             if (isPlayer())
-                instancedArea.addPlayer(getAsPlayer());
+                instance.addPlayer(getAsPlayer());
             else
-                instancedArea.addNpc(npc());
+                instance.addNpc(npc());
         }
     }
 

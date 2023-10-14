@@ -50,26 +50,27 @@ public class NightmareInstance extends NightmareArea {
     }
 
     public NightmareInstance build() {
-        NPC nightmare = new NPC(9432, new Tile(3870, 9949, this.getzLevel() + 3)).spawn(false);
-        nightmare.noRetaliation(true);
-        World.getWorld().definitions().get(NpcDefinition.class, nightmare.id());
+        NPC nightmare = new NPC(9432, new Tile(3870, 9949, this.getzLevel() + 3));
         nightmare.setInstance(this);
+        nightmare.spawn(false);
+        nightmare.noRetaliation(true);
 
-        NPC topRightTotem = new NPC(9443, new Tile(3879, 9958, this.getzLevel() + 3)).spawn(false);
-        World.getWorld().definitions().get(NpcDefinition.class, topRightTotem.id());
+        NPC topRightTotem = new NPC(9443, new Tile(3879, 9958, this.getzLevel() + 3));
         topRightTotem.setInstance(this);
+        topRightTotem.spawn(false);
+        World.getWorld().definitions().get(NpcDefinition.class, topRightTotem.id());
 
-        NPC bottomRightTotem = new NPC(9437, new Tile(3879, 9942, this.getzLevel() + 3)).spawn(false);
-        World.getWorld().definitions().get(NpcDefinition.class, bottomRightTotem.id());
+        NPC bottomRightTotem = new NPC(9437, new Tile(3879, 9942, this.getzLevel() + 3));
         bottomRightTotem.setInstance(this);
+        bottomRightTotem.spawn(false);
 
-        NPC topLeftTotem = new NPC(9440, new Tile(3863, 9958, this.getzLevel() + 3)).spawn(false);
-        World.getWorld().definitions().get(NpcDefinition.class, topLeftTotem.id());
+        NPC topLeftTotem = new NPC(9440, new Tile(3863, 9958, this.getzLevel() + 3));
         topLeftTotem.setInstance(this);
+        topLeftTotem.spawn(false);
 
-        NPC bottomLeftTotem = new NPC(9434, new Tile(3863, 9942, this.getzLevel() + 3)).spawn(false);
-        World.getWorld().definitions().get(NpcDefinition.class, bottomLeftTotem.id());
+        NPC bottomLeftTotem = new NPC(9434, new Tile(3863, 9942, this.getzLevel() + 3));
         bottomLeftTotem.setInstance(this);
+        bottomLeftTotem.spawn(false);
 
         setInstance();
         owner.face(nightmare);

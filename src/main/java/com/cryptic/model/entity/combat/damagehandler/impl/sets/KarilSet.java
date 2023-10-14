@@ -8,7 +8,6 @@ import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.damagehandler.listener.DamageEffectListener;
-import com.cryptic.model.entity.combat.damagehandler.registery.ListenerRegistry;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
@@ -16,20 +15,21 @@ import com.cryptic.utility.Utils;
 
 public class KarilSet implements DamageEffectListener {
 
-    public KarilSet() {
-        ListenerRegistry.registerListener(this);
-    }
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
-        var player = (Player) entity;
-        var getTarget = player.getCombat().getTarget();
-        if (hit.isAccurate() && combatType == CombatType.RANGED) {
-            if (FormulaUtils.wearingFullKarils(player)) {
-                if (Utils.securedRandomChance(0.25F)) {
-                    if (getTarget.getSkills().level(Skills.AGILITY) > 20) {
-                        getTarget.graphic(401, GraphicHeight.HIGH, 0);
-                        getTarget.getSkills().setLevel(Skills.AGILITY, getTarget.getSkills().level(Skills.AGILITY) - 20);
-                        return true;
+        if (entity instanceof Player player) {
+            if (player.getCombat().getTarget() != null) {
+                if (combatType == CombatType.RANGED) {
+                    if (FormulaUtils.wearingFullKarils(player)) {
+                        if (hit.isAccurate()) {
+                            if (Utils.rollDie(25, 1)) {
+                                if (player.getCombat().getTarget().getSkills().level(Skills.AGILITY) > 20) {
+                                    player.getCombat().getTarget().graphic(401, GraphicHeight.HIGH, 0);
+                                    player.getCombat().getTarget().getSkills().alterSkill(Skills.AGILITY, player.getCombat().getTarget().getSkills().level(Skills.AGILITY) - 20);
+                                    return true;
+                                }
+                            }
+                        }
                     }
                 }
             }

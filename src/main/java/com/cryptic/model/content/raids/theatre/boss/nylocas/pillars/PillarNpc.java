@@ -1,7 +1,7 @@
 package com.cryptic.model.content.raids.theatre.boss.nylocas.pillars;
 
 import com.cryptic.model.World;
-import com.cryptic.model.content.raids.theatre.boss.nylocas.Vasilias;
+import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.object.MapObjects;
@@ -10,16 +10,16 @@ import com.cryptic.utility.chainedwork.Chain;
 
 public class PillarNpc extends NPC {
     PillarObject pillarObject;
-    Vasilias vasilias;
+    TheatreInstance theatreInstance;
 
-    public PillarNpc(int id, Tile tile, PillarObject pillarObject, Vasilias vasilias) {
+    public PillarNpc(int id, Tile tile, PillarObject pillarObject, TheatreInstance theatreInstance) {
         super(id, tile);
         this.pillarObject = pillarObject;
-        this.vasilias = vasilias;
+        this.theatreInstance = theatreInstance;
         this.setSize(4);
         this.noRetaliation(true);
         this.getCombat().setAutoRetaliate(false);
-        vasilias.pillarNpc.add(this);
+        theatreInstance.getPillarList().add(this);
     }
 
     public GameObject spawnPillarObject() {
@@ -44,9 +44,9 @@ public class PillarNpc extends NPC {
             Chain.noCtx().delay(4, () -> {
                 this.die();
                 World.getWorld().unregisterNpc(this);
-                vasilias.pillarNpc.remove(this);
+                theatreInstance.pillarList.remove(this);
                 o.setId(32864);
-                vasilias.pillarObject.remove(o);
+                theatreInstance.getPillarObject().remove(o);
             });
         });
     }

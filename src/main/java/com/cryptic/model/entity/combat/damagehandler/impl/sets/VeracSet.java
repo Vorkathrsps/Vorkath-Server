@@ -14,12 +14,15 @@ import com.cryptic.utility.Utils;
 public class VeracSet implements DamageEffectListener {
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
-        var attacker = (Player) entity;
-        if (hit.isAccurate() && combatType == CombatType.MELEE) {
-            if (FormulaUtils.wearingFullVerac(attacker)) {
-                if (Utils.securedRandomChance(0.25F)) {
-                    hit.ignorePrayer();
-                    return true;
+        if (entity instanceof Player player) {
+            if (player.getCombat().getTarget() != null) {
+                if (combatType == CombatType.MELEE) {
+                    if (FormulaUtils.wearingFullVerac(player)) {
+                        if (Utils.rollDie(25, 1)) {
+                            hit.ignorePrayer();
+                            return true;
+                        }
+                    }
                 }
             }
         }

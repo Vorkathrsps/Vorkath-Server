@@ -1866,6 +1866,10 @@ public class Utils {
         return get(1, sides) <= chance;
     }
 
+    public static boolean rollDice(int chance) {
+        return get(1, 100) <= chance;
+    }
+
     public static boolean rollPercent(int percent) {
         return get() <= (percent * 0.01);
     }

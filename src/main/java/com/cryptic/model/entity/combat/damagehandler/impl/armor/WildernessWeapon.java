@@ -11,6 +11,7 @@ import com.cryptic.model.entity.combat.damagehandler.listener.DamageEffectListen
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
+import com.cryptic.utility.ItemIdentifiers;
 
 public class WildernessWeapon implements DamageEffectListener {
     @Override
@@ -25,12 +26,16 @@ public class WildernessWeapon implements DamageEffectListener {
 
     @Override
     public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
-        var attacker = (Player) entity;
-        if (FormulaUtils.hasMagicWildernessWeapon(attacker)) {
-            if (attacker.getCombat().getTarget() instanceof NPC npc) {
-                if (WildernessArea.inWilderness(npc.tile())) {
-                    magicAccuracy.modifier += 1.50F;
-                    return true;
+        if (entity instanceof Player player) {
+            var target = player.getCombat().getTarget();
+            if (target instanceof NPC npc) {
+                if (combatType == CombatType.MAGIC) {
+                    if (FormulaUtils.hasMagicWildernessWeapon(player)) {
+                        if (WildernessArea.inWilderness(npc.tile())) {
+                            magicAccuracy.modifier += 1.50F;
+                            return true;
+                        }
+                    }
                 }
             }
         }
@@ -39,12 +44,16 @@ public class WildernessWeapon implements DamageEffectListener {
 
     @Override
     public boolean prepareMeleeAccuracyModification(Entity entity, CombatType combatType, MeleeAccuracy meleeAccuracy) {
-        var attacker = (Player) entity;
-        if (FormulaUtils.hasMeleeWildernessWeapon(attacker)) {
-            if (attacker.getCombat().getTarget() instanceof NPC npc) {
-                if (WildernessArea.inWilderness(npc.tile())) {
-                    meleeAccuracy.modifier += 1.50F;
-                    return true;
+        if (entity instanceof Player player) {
+            var target = player.getCombat().getTarget();
+            if (target instanceof NPC npc) {
+                if (combatType == CombatType.MELEE) {
+                    if (FormulaUtils.hasMeleeWildernessWeapon(player)) {
+                        if (WildernessArea.inWilderness(npc.tile())) {
+                            meleeAccuracy.modifier += 1.50F;
+                            return true;
+                        }
+                    }
                 }
             }
         }
@@ -53,13 +62,16 @@ public class WildernessWeapon implements DamageEffectListener {
 
     @Override
     public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
-        var attacker = (Player) entity;
-        if (FormulaUtils.hasRangedWildernessWeapon(attacker)) {
-            if (attacker.getCombat().getTarget() instanceof NPC npc) {
-                if (WildernessArea.inWilderness(npc.tile())) {
-                    rangeAccuracy.modifier += 1.50F;
-                    System.out.println("its def wworking " + rangeAccuracy.modifier);
-                    return true;
+        if (entity instanceof Player player) {
+            var target = player.getCombat().getTarget();
+            if (target instanceof NPC npc) {
+                if (combatType == CombatType.RANGED) {
+                    if (FormulaUtils.hasRangedWildernessWeapon(player)) {
+                        if (WildernessArea.inWilderness(npc.tile())) {
+                            rangeAccuracy.modifier += 1.50F;
+                            return true;
+                        }
+                    }
                 }
             }
         }

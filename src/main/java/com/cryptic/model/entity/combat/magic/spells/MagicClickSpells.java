@@ -4,6 +4,7 @@ import com.cryptic.model.entity.combat.method.impl.arceuus.MagicThrall;
 import com.cryptic.model.entity.combat.method.impl.arceuus.MeleeThrall;
 import com.cryptic.model.entity.combat.method.impl.arceuus.RangeThrall;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
+import com.cryptic.model.entity.masks.impl.animations.Priority;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.utility.chainedwork.Chain;
@@ -1717,19 +1718,14 @@ public class MagicClickSpells {
 
             @Override
             public void cast(Entity cast, Entity castOn) {
-                final Player player = cast.isPlayer() ? (Player) cast : null;
-
-                // Send message and effect timer to client
-                if (player != null) {
+                if (cast instanceof Player player) {
                     if (!player.locked()) {
                         if (!player.getTimers().has(TimerKey.VENGEANCE_COOLDOWN)) {
-                            player.getMovementQueue().reset();
                             player.getTimers().register(TimerKey.VENGEANCE_COOLDOWN, 50);
                             player.putAttrib(AttributeKey.VENGEANCE_ACTIVE, true);
                             itemsRequired(player).forEach(player.inventory()::remove);
-                            player.animate(new Animation(8316));
-                            player.performGraphic(new Graphic(726, GraphicHeight.HIGH, 0));
-                            player.sendSound(2907, 0);
+                            player.animate(new Animation(8317, Priority.HIGH));
+                            player.performGraphic(new Graphic(726, GraphicHeight.HIGH, 0, com.cryptic.model.entity.masks.impl.graphics.Priority.HIGH));
                             player.getSkills().addXp(Skills.MAGIC, 112);
                             player.getPacketSender().sendEffectTimer(30, EffectTimer.VENGEANCE).sendMessage("You now have Vengeance's effect.");
                         } else {

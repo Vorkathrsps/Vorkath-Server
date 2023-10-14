@@ -7,17 +7,14 @@ import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.damagehandler.listener.DamageEffectListener;
-import com.cryptic.model.entity.combat.damagehandler.registery.ListenerRegistry;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 
-public class BrimstoneRing implements DamageEffectListener {
+import static com.cryptic.utility.ItemIdentifiers.BRIMSTONE_RING;
 
-    public BrimstoneRing() {
-        ListenerRegistry.registerListener(this);
-    }
+public class BrimstoneRing implements DamageEffectListener {
 
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
@@ -31,13 +28,14 @@ public class BrimstoneRing implements DamageEffectListener {
 
     @Override
     public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
-        var attacker = (Player) entity;
-        if (combatType == CombatType.MAGIC) {
-            if (attacker.getEquipment().contains(ItemIdentifiers.BRIMSTONE_RING)) {
-                if (Utils.securedRandomChance(0.25F)) {
-                    attacker.message(Color.RED.wrap("Your attack ignored 10% of your opponent's magic defence."));
-                    magicAccuracy.modifier += 1.10F;
-                    return true;
+        if (entity instanceof Player player) {
+            if (player.getEquipment().contains(BRIMSTONE_RING)) {
+                if (combatType == CombatType.MAGIC) {
+                    if (Utils.rollDice(25)) {
+                        player.message(Color.RED.wrap("Your attack ignored 10% of your opponent's magic defence."));
+                        magicAccuracy.modifier += 1.10F;
+                        return true;
+                    }
                 }
             }
         }

@@ -31,12 +31,12 @@ public class Area {
         this.level = level;
     }
 
-    public Area(int rid) {
-        x1 = (rid >> 8) * 64;
-        x2 = x1 + 63;
-        y1 = (rid & 0xFF) * 64;
-        y2 = x1 + 63;
-        level = 0;
+    public Area(int regionId) {
+        this.x1 = (regionId >> 8) * 64;
+        this.x2 = x1 + 63;
+        this.y1 = (regionId & 0xFF) * 64;
+        this.y2 = x1 + 63;
+        this.level = 0;
     }
 
     public Area(Tile spawnTile, int radius) {

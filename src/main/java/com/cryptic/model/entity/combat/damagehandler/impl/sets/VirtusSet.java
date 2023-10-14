@@ -59,9 +59,11 @@ public class VirtusSet implements DamageEffectListener {
             if (!(entity instanceof Player player) || !combatType.isMagic()) {
                 return false;
             }
+
             if (!FormulaUtils.wearingFullVirtus(player)) {
                 return false;
             }
+
             if (player.getCombat().getCastSpell() == null) {
                 return false;
             }

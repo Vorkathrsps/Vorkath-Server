@@ -2,22 +2,26 @@ package com.cryptic.model.content.raids.theatre;
 
 import com.cryptic.model.content.instance.InstanceConfiguration;
 import com.cryptic.model.content.raids.theatre.area.TheatreArea;
-import com.cryptic.model.content.raids.theatre.boss.bloat.Bloat;
-import com.cryptic.model.content.raids.theatre.boss.maiden.Maiden;
-import com.cryptic.model.content.raids.theatre.boss.nylocas.Vasilias;
-import com.cryptic.model.content.raids.theatre.boss.sotetseg.Sotetseg;
-import com.cryptic.model.content.raids.theatre.boss.xarpus.Xarpus;
+import com.cryptic.model.content.raids.theatre.boss.bloat.handler.BloatHandler;
+import com.cryptic.model.content.raids.theatre.boss.maiden.handler.MaidenHandler;
+import com.cryptic.model.content.raids.theatre.boss.nylocas.handler.VasiliasHandler;
+import com.cryptic.model.content.raids.theatre.boss.sotetseg.handler.SotetsegHandler;
+import com.cryptic.model.content.raids.theatre.boss.xarpus.handler.XarpusHandler;
 import com.cryptic.model.content.raids.theatre.controller.TheatreHandler;
 import com.cryptic.model.content.raids.theatre.controller.TheatreController;
 import com.cryptic.model.content.raids.theatre.stage.*;
+import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.cryptic.model.content.mechanics.DeathProcess.*;
 import static com.cryptic.model.content.mechanics.DeathProcess.SOTETSEG_AREA;
@@ -26,16 +30,20 @@ import static com.cryptic.model.content.mechanics.DeathProcess.SOTETSEG_AREA;
  * @Author: Origin
  * @Date: 10/5/2023
  */
-public class TheatreInstance extends TheatreArea {
+public class TheatreInstance extends TheatreArea { //TODO make sure we're cleaning up all garbage collections & verzik
 
     @Getter public Player owner;
-    @Getter List<TheatreHandler> npcList = new ArrayList<>();
-    @Getter public TheatreController theatreController = new TheatreController(npcList);
-    @Getter public List<Player> occupiedCageSpawnPointsList = new ArrayList<>();
     @Getter public List<Player> players;
-    @Getter public static TheatrePhase theatrePhase = new TheatrePhase(TheatreStage.ONE);
-    Tile entrance = new Tile(3219, 4454);
-
+    public AtomicInteger wave = new AtomicInteger();
+    @Getter public List<Player> occupiedCageSpawnPointsList = new ArrayList<>();
+    @Getter List<TheatreHandler> bosses = new ArrayList<>();
+    @Getter public List<NPC> pillarList = new ArrayList<>();
+    @Getter public List<NPC> nylocas = new ArrayList<>();
+    @Getter public List<GameObject> pillarObject = new ArrayList<>();
+    @Getter public TheatreController theatreController = new TheatreController(bosses);
+    @Getter public TheatrePhase theatrePhase = new TheatrePhase(TheatreStage.ONE);
+    Tile entrance = new Tile(3170, 4378);
+    @Getter @Setter public boolean hasInitiatedNylocasVasilias = false;
     public static Area[] rooms() {
         int[] regions = {12613, 12869, 13125, 12612, 12611, 12687, 13123, 13122};
         return Arrays.stream(regions).mapToObj(region -> new Area(
@@ -44,7 +52,6 @@ public class TheatreInstance extends TheatreArea {
             Tile.regionToTile(region).getX() + 63,
             Tile.regionToTile(region).getY() + 63)).toArray(Area[]::new);
     }
-
     public TheatreInstance(Player owner, List<Player> players) {
         super(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, rooms());
         this.owner = owner;
@@ -53,7 +60,7 @@ public class TheatreInstance extends TheatreArea {
 
     public TheatreInstance buildParty() {
         owner.setInstance(this);
-        owner.teleport(entrance.transform(0, 0, this.getzLevel()));
+        owner.teleport(entrance.transform(0, 0, this.getzLevel() + 1));
         owner.setTheatreState(TheatreState.ACTIVE);
         owner.setRaidDeathState(RaidDeathState.ALIVE);
         owner.setRoomState(RoomState.INCOMPLETE);
@@ -61,7 +68,7 @@ public class TheatreInstance extends TheatreArea {
             if (p != owner) {
                 if (p != null) {
                     p.setInstance(owner.getTheatreInstance());
-                    p.teleport(entrance.transform(0, 0, owner.getTheatreInstance().getzLevel()));
+                    p.teleport(entrance.transform(0, 0, owner.getTheatreInstance().getzLevel() + 1));
                     p.setTheatreState(TheatreState.ACTIVE);
                     p.setRaidDeathState(RaidDeathState.ALIVE);
                     p.setRoomState(RoomState.INCOMPLETE);
@@ -70,16 +77,14 @@ public class TheatreInstance extends TheatreArea {
         }
         return this;
     }
-
     public void startRaid() {
-        npcList.add(new Maiden());
-        npcList.add(new Xarpus());
-        npcList.add(new Bloat());
-        npcList.add(new Vasilias());
-        npcList.add(new Sotetseg());
+        bosses.add(new MaidenHandler());
+        bosses.add(new XarpusHandler());
+        bosses.add(new BloatHandler());
+        bosses.add(new VasiliasHandler());
+        bosses.add(new SotetsegHandler());
         theatreController.build(this.owner, this);
     }
-
     public void onRoomStateChanged(RoomState roomState) {
         if (roomState == RoomState.COMPLETE) {
             players.forEach(p -> {
@@ -99,7 +104,6 @@ public class TheatreInstance extends TheatreArea {
             });
         }
     }
-
     public void clear() {
         for (var member : players) {
             Arrays.stream(rooms())//fail safe
@@ -108,10 +112,12 @@ public class TheatreInstance extends TheatreArea {
                 .ifPresent(p -> member.teleport(new Tile(3670, 3219, 0)));
             member.setTheatreParty(null);
         }
-        this.getNpcList().clear();
+        this.getPillarObject().clear();
+        this.getPillarList().clear();
+        this.getBosses().clear();
         this.getPlayers().clear();
+        this.setHasInitiatedNylocasVasilias(false);
     }
-
     @Override
     public void dispose() {
         super.dispose();

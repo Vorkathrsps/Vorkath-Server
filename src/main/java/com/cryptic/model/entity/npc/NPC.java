@@ -152,6 +152,9 @@ public class NPC extends Entity {
 
     public NPC spawn(boolean respawns) {
         World.getWorld().registerNpc(this);
+        if (getZ() > 3 && getInstancedArea() == null ) {
+            throw new RuntimeException("spawnedv1  YOU CALLED SPAWN() BEFORE NPC.SETINSTANCE() PLS CHANGE. npc at z="+getZ()+" but no instance attached. Will not be removed on cleanup. "+this);
+        }
         respawns(respawns);
         return this;
     }
@@ -159,11 +162,17 @@ public class NPC extends Entity {
     public NPC spawn(Tile location) {
         this.spawnTile = location;
         World.getWorld().registerNpc(this);
+        if (getZ() > 3 && getInstancedArea() == null ) {
+            throw new RuntimeException("spawnedv2  YOU CALLED SPAWN() BEFORE NPC.SETINSTANCE() PLS CHANGE. npc at z="+getZ()+" but no instance attached. Will not be removed on cleanup. "+this);
+        }
         return this;
     }
 
     public NPC spawn() {
         World.getWorld().registerNpc(this);
+        if (getZ() > 3 && getInstancedArea() == null ) {
+            throw new RuntimeException("spawnedv3 YOU CALLED SPAWN() BEFORE NPC.SETINSTANCE() PLS CHANGE. npc at z="+getZ()+" but no instance attached. Will not be removed on cleanup. "+this);
+        }
         return this;
     }
 
@@ -520,6 +529,13 @@ public class NPC extends Entity {
 
     }
 
+    /**
+     * Override For Generic Combat Scripts
+     */
+    public void sequenceCombat() {
+
+    }
+
     public boolean useSmartPath;
 
     private void sequenceNormal() {
@@ -769,7 +785,8 @@ public class NPC extends Entity {
 
 
     static final int[] PERMANENT_MOVEMENT_BLOCKED = {
-        NpcIdentifiers.VORKATH_8061, 10814, 10815, 10816, 10817, NpcIdentifiers.SOTETSEG_10865, NpcIdentifiers.PORTAL_1747, NpcIdentifiers.PORTAL_1748, NpcIdentifiers.PORTAL_1749, NpcIdentifiers.PORTAL_1750, NpcIdentifiers.VOID_KNIGHT_2950, NpcIdentifiers.VOID_KNIGHT_2951, NpcIdentifiers.VOID_KNIGHT_2952
+        NpcIdentifiers.VORKATH_8061, 10814, 10815, 10816, 10817, NpcIdentifiers.SOTETSEG_10865, NpcIdentifiers.PORTAL_1747, NpcIdentifiers.PORTAL_1748, NpcIdentifiers.PORTAL_1749, NpcIdentifiers.PORTAL_1750, NpcIdentifiers.VOID_KNIGHT_2950, NpcIdentifiers.VOID_KNIGHT_2951, NpcIdentifiers.VOID_KNIGHT_2952,
+        XARPUS, XARPUS_8340, XARPUS_10767, XARPUS_8339, XARPUS_8341
     };
 
     public boolean permaBlockedMovement() {

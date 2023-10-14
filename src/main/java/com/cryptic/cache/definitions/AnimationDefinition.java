@@ -2,6 +2,7 @@ package com.cryptic.cache.definitions;
 
 import com.cryptic.network.codec.RSBuffer;
 import io.netty.buffer.Unpooled;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,13 +15,13 @@ public class AnimationDefinition implements Definition {
     private int id;
     public int framestep = -1;
     public boolean oneSq = false;
-    public int forcePrio = 5;
+  public int forcePrio = 5;
     public int leftHandItem = -1;
     public int rightHandItem = -1;
     public int maxSound = 99;
     public int walkResets = -1;
     public int priority = -1;
-    public int delayType = 2;
+   public int delayType = 2;
     public int[] delays;
     int[] flowdata;
     public int[] skeletonSets;

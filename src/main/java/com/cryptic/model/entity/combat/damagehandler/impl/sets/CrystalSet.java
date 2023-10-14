@@ -36,23 +36,24 @@ public class CrystalSet implements DamageEffectListener {
 
     @Override
     public boolean prepareRangeAccuracyModification(Entity entity, CombatType combatType, RangeAccuracy rangeAccuracy) {
-        var attacker = (Player) entity;
         var modifier = rangeAccuracy.getModifier();
-
-        if ((FormulaUtils.hasBowOfFaerdhenin(attacker))) {
-            if (attacker.getEquipment().contains(ItemIdentifiers.CRYSTAL_HELM) || attacker.getEquipment().contains(CRYSTAL_HELM_27705) || attacker.getEquipment().contains(CRYSTAL_HELM_27717) || attacker.getEquipment().contains(CRYSTAL_HELM_27729) || attacker.getEquipment().contains(CRYSTAL_HELM_27741) || attacker.getEquipment().contains(CRYSTAL_HELM_27753) || ((Player) attacker).getEquipment().contains(CRYSTAL_HELM_27765) || attacker.getEquipment().contains(CRYSTAL_HELM_27777)) {
-                modifier += 1.05F;
+        if (entity instanceof Player player) {
+            if (combatType == CombatType.RANGED) {
+                if ((FormulaUtils.hasBowOfFaerdhenin(player))) {
+                    if (player.getEquipment().contains(ItemIdentifiers.CRYSTAL_HELM) || player.getEquipment().contains(CRYSTAL_HELM_27705) || player.getEquipment().contains(CRYSTAL_HELM_27717) || player.getEquipment().contains(CRYSTAL_HELM_27729) || player.getEquipment().contains(CRYSTAL_HELM_27741) || player.getEquipment().contains(CRYSTAL_HELM_27753) || player.getEquipment().contains(CRYSTAL_HELM_27765) || player.getEquipment().contains(CRYSTAL_HELM_27777)) {
+                        modifier += 1.05F;
+                    }
+                    if (player.getEquipment().contains(ItemIdentifiers.CRYSTAL_BODY) || player.getEquipment().contains(CRYSTAL_BODY_27697) || player.getEquipment().contains(CRYSTAL_BODY_27709) || player.getEquipment().contains(CRYSTAL_BODY_27721) || player.getEquipment().contains(CRYSTAL_BODY_27733) || player.getEquipment().contains(CRYSTAL_BODY_27745) || player.getEquipment().contains(CRYSTAL_BODY_27757) || player.getEquipment().contains(CRYSTAL_BODY_27769)) {
+                        modifier += 1.15F;
+                    }
+                    if (player.getEquipment().contains(ItemIdentifiers.CRYSTAL_LEGS) || player.getEquipment().contains(CRYSTAL_LEGS_27701) || player.getEquipment().contains(CRYSTAL_LEGS_27713) || player.getEquipment().contains(CRYSTAL_LEGS_27725) || player.getEquipment().contains(CRYSTAL_LEGS_27737) || player.getEquipment().contains(CRYSTAL_LEGS_27749) || player.getEquipment().contains(CRYSTAL_LEGS_27761) || player.getEquipment().contains(CRYSTAL_LEGS_27773)) {
+                        modifier += 1.10F;
+                    }
+                    rangeAccuracy.modifier += modifier;
+                    return true;
+                }
             }
-            if (attacker.getEquipment().contains(ItemIdentifiers.CRYSTAL_BODY) || attacker.getEquipment().contains(CRYSTAL_BODY_27697) || attacker.getEquipment().contains(CRYSTAL_BODY_27709) || attacker.getEquipment().contains(CRYSTAL_BODY_27721) || attacker.getEquipment().contains(CRYSTAL_BODY_27733) || attacker.getEquipment().contains(CRYSTAL_BODY_27745) || ((Player) attacker).getEquipment().contains(CRYSTAL_BODY_27757) || attacker.getEquipment().contains(CRYSTAL_BODY_27769)) {
-                modifier += 1.15F;
-            }
-            if (attacker.getEquipment().contains(ItemIdentifiers.CRYSTAL_LEGS) || attacker.getEquipment().contains(CRYSTAL_LEGS_27701) || attacker.getEquipment().contains(CRYSTAL_LEGS_27713) || attacker.getEquipment().contains(CRYSTAL_LEGS_27725) || attacker.getEquipment().contains(CRYSTAL_LEGS_27737) || attacker.getEquipment().contains(CRYSTAL_LEGS_27749) || ((Player) attacker).getEquipment().contains(CRYSTAL_LEGS_27761) || attacker.getEquipment().contains(CRYSTAL_LEGS_27773)) {
-                modifier += 1.10F;
-            }
-            rangeAccuracy.modifier += modifier;
-            return true;
         }
-
         return false;
     }
 

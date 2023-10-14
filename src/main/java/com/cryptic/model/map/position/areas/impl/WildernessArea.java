@@ -10,18 +10,17 @@ import com.cryptic.model.entity.combat.skull.Skulling;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.QuestTab;
-import com.cryptic.model.inter.InterfaceID;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.Controller;
-import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.utility.Varbit;
 import com.cryptic.utility.chainedwork.Chain;
 import com.cryptic.utility.timers.TimerKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import static com.cryptic.model.entity.player.QuestTab.InfoTab.PLAYERS_PKING;
@@ -48,11 +47,43 @@ public class WildernessArea extends Controller {
     public static final Area getFeroxRandomLine = new Area(3120, 3635, 3154, 3635, 0); //block this when tb'd
 
     public static boolean inWilderness(Tile tile) {
-        return wildernessLevel(tile) > 0;
+        return getWildernessLevel(tile) > 0;
     }
 
     public static boolean isInWilderness(Player player) {
         return inWilderness(player.tile());
+    }
+
+    private static final Area WILDERNESS_OVERWORLD = new Area(2946, 3520, 3391, 3967);
+    private static final Area GODWARS_DUNGEON = new Area(3008, 10112, 3071, 10175);
+    private static final Area ESCAPE_CAVES = new Area(3328, 10240, 3391, 10303);
+    private static final Area WILDERNESS_SLAYER_CAVES = new Area(3328, 10048, 3455, 10175);
+    private static final Area REVENANT_CAVES = new Area(3136, 10047, 3263, 10303);
+    public static int getWildernessLevel(Tile tile) {
+        final int region = tile.region();
+        final int y = tile.getY();
+        final int x = tile.getX();
+        int level = 0;
+        if (!(tile.x > 2941 && tile.x < 3392 && tile.y > 3524 && tile.y < 3968) && !inUndergroundWilderness(tile))
+            return 0;
+        if (x >= 2944 && x <= 3391 && y >= 3520 && y <= 4351) {
+            level = ((y - 3520) >> 3) + 1;
+        } else if (x >= 3008 && x <= 3071 && y >= 10112 && y <= 10175) {
+            level = ((y - 9920) >> 3) - 1;
+        } else if (x >= 2944 && x <= 3391 && y >= 9920 && y <= 10879) {
+            level = ((y - 9920) >> 3) + 1;
+        } else if (ESCAPE_CAVES.containsClosed(tile)) {
+            level = 35;
+        } else if (region == 13473) {
+            level = 40;
+        } else if (region == 13727 || region == 13215) {
+            level = 35;
+        } else if (region == 7604 || region == 7092) {
+            level = 21;
+        } else if (region == 6580) {
+            level = 29;
+        }
+        return level;
     }
 
     public static int wildernessLevel(Tile tile) {
@@ -169,8 +200,8 @@ public class WildernessArea extends Controller {
         //53733
         if (kd) {
             //player.getPacketSender().sendString(53731, "Kills: " + player.getAttribOr(AttributeKey.PLAYER_KILLS, 0));
-           // player.getPacketSender().sendString(53732, "Deaths: " + player.getAttribOr(AttributeKey.PLAYER_DEATHS, 0));
-           // player.getPacketSender().sendString(53733, "K/D Ratio: " + player.getKillDeathRatio());
+            // player.getPacketSender().sendString(53732, "Deaths: " + player.getAttribOr(AttributeKey.PLAYER_DEATHS, 0));
+            // player.getPacketSender().sendString(53733, "K/D Ratio: " + player.getKillDeathRatio());
         }
         //53723 - target name
         //53724 - loc/combat level
@@ -185,7 +216,7 @@ public class WildernessArea extends Controller {
     @Override
     public void enter(Player player) {
         player.getPacketSender().sendInteractionOption("Attack", 2, true);
-        player.getInterfaceManager().sendOverlay(196 );
+        player.getInterfaceManager().sendOverlay(196);
         refreshWildernessLevel(player);
         player.putAttrib(AttributeKey.INWILD, World.getWorld().cycleCount());
         if (!BountyHunter.PLAYERS_IN_WILD.contains(player)) {
@@ -196,7 +227,7 @@ public class WildernessArea extends Controller {
         player.getRisk().update();
         refreshInterface(player, true);
         player.varps().varbit(Varbit.IN_WILDERNESS, 1);
-       // System.out.println(player.varps().varbit(Varbit.IN_WILDERNESS));
+        // System.out.println(player.varps().varbit(Varbit.IN_WILDERNESS));
     }
 
     @Override
@@ -219,7 +250,7 @@ public class WildernessArea extends Controller {
     }
 
     private void refreshWildernessLevel(Player player) {
-        int wildLevel = wildernessLevel(player.tile());
+        int wildLevel = getWildernessLevel(player.tile());
 
         if (wildLevel > 0) {
             player.getPacketSender().sendString(195, "Level: " + wildLevel);
@@ -333,7 +364,7 @@ public class WildernessArea extends Controller {
         if (entity.getAsPlayer().insideFeroxEnclaveSafe()) {
             return false;
         }
-        return wildernessLevel(entity.tile()) > 0;
+        return getWildernessLevel(entity.tile()) > 0;
     }
 
     @Override

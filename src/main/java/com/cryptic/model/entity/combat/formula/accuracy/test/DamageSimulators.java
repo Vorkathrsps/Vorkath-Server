@@ -484,7 +484,7 @@ public class DamageSimulators {
 
             double selectedChance = random.nextFloat();
 
-            out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
+           // out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
             return String.valueOf(successfulRoll > selectedChance);
         }
@@ -568,7 +568,7 @@ public class DamageSimulators {
                     if (FormulaUtils.eliteVoidEquipmentMelee((Player) attacker) || FormulaUtils.eliteTrimmedVoidEquipmentBaseMelee((Player) attacker)) {
                         effectiveLevel = (int) Math.floor(effectiveLevel * 1.125F);
                     }
-                    if (FormulaUtils.obbyArmour(attacker.getAsPlayer()) && FormulaUtils.hasObbyWeapon(attacker.getAsPlayer())) {
+                    if (FormulaUtils.isWearingObsidianArmour(attacker.getAsPlayer()) && FormulaUtils.hasObbyWeapon(attacker.getAsPlayer())) {
                         effectiveLevel = (int) Math.floor(effectiveLevel * 1.1F);
                     }
                     if (defender instanceof NPC) {

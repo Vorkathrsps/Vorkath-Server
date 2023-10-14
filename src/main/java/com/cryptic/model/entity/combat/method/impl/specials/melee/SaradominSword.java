@@ -5,7 +5,6 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatSpecial;
 import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.formula.accuracy.AccuracyFormula;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
@@ -25,10 +24,10 @@ public class SaradominSword extends CommonCombatMethod {
         entity.animate(1132);
         entity.graphic(1213, GraphicHeight.HIGH, 0);
 
-        boolean accurate = AccuracyFormula.doesHit(entity, target, CombatType.MELEE);
+        //boolean accurate = AccuracyFormula.doesHit(entity, target, CombatType.MELEE);
         int meleeHit = CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE);
         int magicHit = CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC);
-        if (accurate) {
+        if (true) {
             if (meleeHit > 0) {
                 magicHit = World.getWorld().random(1, 16);
             }

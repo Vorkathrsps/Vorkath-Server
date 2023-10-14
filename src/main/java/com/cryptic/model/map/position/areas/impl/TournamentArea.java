@@ -31,11 +31,10 @@ public class TournamentArea extends Controller {
     @Override
     public void leave(Player mob) {
         if (mob.isPlayer()) {
-            Player player = (Player) mob;
-            player.getInterfaceManager().sendOverlay(-1);
+            mob.getInterfaceManager().sendOverlay(-1);
 
             //Clear all items when leaving the area, players could use reflection run out and bank.
-            TournamentManager.leaveTourny(player, false, false);
+            TournamentManager.leaveTourny(mob, false, false);
         }
     }
 

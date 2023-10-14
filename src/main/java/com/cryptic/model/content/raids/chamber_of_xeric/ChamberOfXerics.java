@@ -25,6 +25,8 @@ import com.cryptic.utility.Color;
 import com.google.common.collect.Lists;
 import org.apache.logging.log4j.LogManager;
 
+import java.util.Arrays;
+
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
 import static com.cryptic.model.entity.attributes.AttributeKey.PERSONAL_POINTS;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
@@ -56,8 +58,7 @@ public class ChamberOfXerics extends Raids {
         //Clear npcs that somehow survived first
         clearParty(player);
 
-        //Spawn all monsters
-        spawnMonsters(player);
+        build(party);
     }
 
     @Override
@@ -70,7 +71,7 @@ public class ChamberOfXerics extends Raids {
         if(party != null) {
             party.removeMember(player);
             //Last player in the party leaves clear the whole thing
-            if(party.getMembers().size() == 0) {
+            if(party.getMembers().isEmpty()) {
                 //Clear all party members that are left
                 party.getMembers().clear();
                 clearParty(player);
@@ -124,7 +125,13 @@ public class ChamberOfXerics extends Raids {
                 World.getWorld().unregisterNpc(npc);
             }
         }
+        for (var o : party.objects) {
+            if (o != null) {
+                o.remove();
+            }
+        }
         party.monsters.clear();
+        party.objects.clear();
     }
 
     @Override
@@ -133,10 +140,9 @@ public class ChamberOfXerics extends Raids {
         if (party == null) return false;
         player.teleport(respawnTile(party, player.tile().level));
         int pointsLost = (int) (player.<Integer>getAttribOr(PERSONAL_POINTS, 0) * 0.4);
-        if (pointsLost > 0)
+        if (pointsLost > 0) {
             addPoints(player, -pointsLost);
-
-        //Make sure to heal
+        }
         player.healPlayer();
         return true;
     }
@@ -172,91 +178,20 @@ public class ChamberOfXerics extends Raids {
         addPoints(player, points);
     }
 
-    private void spawnMonsters(Player player) {
-        Party party = player.raidsParty;
-
-        //Create
-        NPC vasa = new RaidsNpc(7565, new Tile(3308, 5293, party.getHeight()), party.getSize());
-        NPC vanguard1 = new RaidsNpc(VANGUARD_7527, new Tile(3316,5326, party.getHeight()), party.getSize());
-        NPC vanguard2 = new RaidsNpc(VANGUARD_7528, new Tile(3313,5332, party.getHeight()), party.getSize());
-        NPC vanguard3 = new RaidsNpc(VANGUARD_7529, new Tile(3308,5329, party.getHeight()), party.getSize());
-        NPC tekton = new RaidsNpc(TEKTON_ENRAGED_7544, new Tile(3313, 5295, party.getHeight()+1), party.getSize());
-        NPC babyMuttadile = new RaidsNpc(MUTTADILE_7562, new Tile(3308,5326,party.getHeight()+1), party.getSize());
-        NPC mommaMuttadile = new RaidsNpc(MUTTADILE, new Tile(3312,5330, party.getHeight()+1), party.getSize());
-        party.setMommaMuttadile(mommaMuttadile);
-        GameObject meatTree = new RaidsObjects(30013, new Tile(3301,5320,party.getHeight()+1));
-        party.setMeatTree(meatTree);
-        ObjectManager.addObj(meatTree);
-        NPC vespula = new RaidsNpc(VESPULA, new Tile(3308,5295, party.getHeight()+2), party.getSize());
-
-        //Spawn
-        World.getWorld().registerNpc(vasa);
-        World.getWorld().registerNpc(vanguard1);
-        World.getWorld().registerNpc(vanguard2);
-        World.getWorld().registerNpc(vanguard3);
-        World.getWorld().registerNpc(tekton);
-        World.getWorld().registerNpc(babyMuttadile);
-        World.getWorld().registerNpc(mommaMuttadile);
-        World.getWorld().registerNpc(vespula);
-
-        //Add to list
-        party.monsters.add(vasa);
-        party.monsters.add(vanguard1);
-        party.monsters.add(vanguard2);
-        party.monsters.add(vanguard3);
-        party.monsters.add(tekton);
-        party.monsters.add(babyMuttadile);
-        party.monsters.add(mommaMuttadile);
-        party.monsters.add(vespula);
-
-        olm(party);
-        for (NPC monster : party.monsters) {
-            monster.setInstance(party.getLeader().getInstancedArea());
-            monster.putAttrib(AttributeKey.RAID_PARTY, party);
+    /***
+     * @Author: Origin
+     * @param party
+     */
+    public void build(Party party) {
+        GameObject[] objects = new GameObject[]{GameObject.spawn(CRYSTAL_30018, 3232, 5749, party.getHeight(), 10, 0), GameObject.spawn(CRYSTAL_30027, 3233, 5751, party.getHeight(), 10, 0), GameObject.spawn(LARGE_HOLE, 3238, 5738, party.getHeight(), 10, 1), GameObject.spawn(LARGE_ROCK_29883, 3238, 5733, party.getHeight(), 10, 1), GameObject.spawn(CRYSTALLINE_STRUCTURE, 3238, 5743, party.getHeight(), 10, 1), new GameObject(29888, new Tile(3238, 5743, party.getHeight()), 10, 1), new GameObject(29882, new Tile(3238, 5738, party.getHeight()), 10, 1), new GameObject(29885, new Tile(3238, 5733, party.getHeight()), 10, 1), new GameObject(29888, new Tile(3220, 5733, party.getHeight()), 10, 3), new GameObject(29882, new Tile(3220, 5738, party.getHeight()), 10, 3), new GameObject(29885, new Tile(3220, 5743, party.getHeight()), 10, 3)};
+        NPC[] entity = new NPC[]{new RaidsNpc(GREAT_OLM_7554, new Tile(3238, 5738, party.getHeight()), Direction.WEST, party.getSize(), true), new RaidsNpc(GREAT_OLM_LEFT_CLAW_7555, new Tile(3238, 5733, party.getHeight()), Direction.WEST, party.getSize(), true), new RaidsNpc(GREAT_OLM_RIGHT_CLAW_7553, new Tile(3238, 5743, party.getHeight()), Direction.WEST, party.getSize(), true)};
+        party.objects.addAll(Arrays.asList(objects));
+        party.monsters.addAll(Arrays.asList(entity));
+        for (var n : party.monsters) {
+            n.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, true);
+            n.setInstance(party.getLeader().getInstancedArea());
+            n.putAttrib(AttributeKey.RAID_PARTY, party);
+            n.spawn(false);
         }
-    }
-
-    private void olm(Party party) {
-        party.greatOlmCrystal = GameObject.spawn(CRYSTAL_30018, 3232, 5749, party.getHeight(), 10, 0);
-
-        party.greatOlmRewardCrystal = GameObject.spawn(CRYSTAL_30027, 3233, 5751, party.getHeight(), 10, 0);
-
-        GameObject o2 = GameObject.spawn(LARGE_HOLE, 3238, 5738, party.getHeight(), 10, 1);
-
-        GameObject o3 = GameObject.spawn(LARGE_ROCK_29883, 3238, 5733, party.getHeight(), 10, 1);
-
-        GameObject o1 = GameObject.spawn(CRYSTALLINE_STRUCTURE, 3238, 5743, party.getHeight(), 10, 1);
-
-        party.objects.addAll(Lists.newArrayList(o1, o2, o3));
-
-        var o4 = new GameObject(29888, new Tile(3238, 5743, party.getHeight()), 10, 1);
-        var o5 = new GameObject(29882, new Tile(3238, 5738, party.getHeight()), 10, 1);
-        var o6 = new GameObject(29885, new Tile(3238, 5733, party.getHeight()), 10, 1);
-
-        // left side
-        var o7 = new GameObject(29888, new Tile(3220, 5733, party.getHeight()), 10, 3);
-        var o8 = new GameObject(29882, new Tile(3220, 5738, party.getHeight()), 10, 3);
-        var o9 = new GameObject(29885, new Tile(3220, 5743, party.getHeight()), 10, 3);
-
-        var cacheLandscapeObjects = Lists.newArrayList(o4,o5,o6,o7,o8,o9);
-        party.objects.addAll(cacheLandscapeObjects);
-        LogManager.getLogger("cox").info("adding {}", cacheLandscapeObjects);
-
-        NPC spawn = new RaidsNpc(GREAT_OLM_7554, new Tile(3238, 5738, party.getHeight()), Direction.WEST, party.getSize(), true);
-
-        NPC spawn1 = new RaidsNpc(GREAT_OLM_LEFT_CLAW_7555, new Tile(3238, 5733, party.getHeight()), Direction.WEST, party.getSize(), true);
-
-        NPC spawn2 = new RaidsNpc(GREAT_OLM_RIGHT_CLAW_7553, new Tile(3238, 5743, party.getHeight()), Direction.WEST, party.getSize(), true);
-
-        spawn.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, true);
-        spawn1.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, true);
-        spawn2.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, true);
-
-        var mobs = Lists.newArrayList(spawn, spawn1, spawn2);
-        party.monsters.addAll(mobs);
-        for (NPC mob : mobs) {
-            mob.spawn(false);
-        }
-
     }
 }

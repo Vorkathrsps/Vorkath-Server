@@ -1,6 +1,6 @@
 package com.cryptic.model.content.raids.theatre.boss.nylocas.pillars;
 
-import com.cryptic.model.content.raids.theatre.boss.nylocas.Vasilias;
+import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
 
@@ -9,11 +9,11 @@ import com.cryptic.model.map.position.Tile;
  * @Date: 7/16/2023
  */
 public class PillarObject extends GameObject {
-    Vasilias vasilias;
-    public PillarObject(int id, Tile tile, int type, int rotation, Vasilias vasilias) {
+    TheatreInstance theatreInstance;
+    public PillarObject(int id, Tile tile, int type, int rotation, TheatreInstance theatreInstance) {
         super(id, tile, type, rotation);
-        this.vasilias = vasilias;
-        vasilias.pillarObject.add(this);
+        this.theatreInstance = theatreInstance;
+        theatreInstance.getPillarObject().add(this);
     }
 
 }

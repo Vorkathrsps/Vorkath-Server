@@ -84,7 +84,7 @@ public class Venenatis extends CommonCombatMethod {
 
         var duration = (tileDist * 2) + 25;
 
-        Projectile p = new Projectile(entity, target, 2356, 25, duration, 37, 22, 14, 4 * 64, 2);
+        Projectile p = new Projectile(entity, target, 2356, 25, duration, 37, 22, 14, 4, 2);
 
         final int delay = entity.executeProjectile(p);
 

@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.security.SecureRandom;
+import java.text.DecimalFormat;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
 import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.*;
@@ -60,7 +61,7 @@ public class MeleeAccuracy {
 
         double selectedChance = random.nextFloat();
 
-       // System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
+        System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
         return successfulRoll > selectedChance;
     }
@@ -158,15 +159,19 @@ public class MeleeAccuracy {
                 bonus = npcBonuses.crushdefence;
             else if (type == AttackType.SLASH)
                 bonus = npcBonuses.slashdefence;
-           // System.out.println("npc=" + bonus);
+            // System.out.println("npc=" + bonus);
         } else {
             EquipmentInfo.Bonuses defenderBonus = EquipmentInfo.totalBonuses(this.defender, World.getWorld().equipmentInfo());
-            if (type == AttackType.STAB)
+            if (type == AttackType.STAB) {
                 bonus = defenderBonus.stabdef;
-            else if (type == AttackType.CRUSH)
+                System.out.println("stabdef bonus: " + bonus);
+            } else if (type == AttackType.CRUSH) {
                 bonus = defenderBonus.crushdef;
-            else if (type == AttackType.SLASH)
+                System.out.println("crushdef bonus: " + bonus);
+            } else if (type == AttackType.SLASH) {
                 bonus = defenderBonus.slashdef;
+                System.out.println("slashdef bonus: " + bonus);
+            }
             //System.out.println("player=" + bonus);
         }
 
@@ -179,18 +184,22 @@ public class MeleeAccuracy {
         if (attacker instanceof Player) {
             EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
             final AttackType type = attacker.getCombat().getFightType().getAttackType();
-            if (type == AttackType.STAB)
+            if (type == AttackType.STAB) {
                 bonus = attackerBonus.stab;
-            else if (type == AttackType.CRUSH)
+                System.out.println("stab: " + bonus);
+                System.out.println("type: " + type);
+            } else if (type == AttackType.CRUSH) {
                 bonus = attackerBonus.crush;
-            else if (type == AttackType.SLASH)
+                System.out.println("crush: " + bonus);
+                System.out.println("type: " + type);
+            } else if (type == AttackType.SLASH) {
                 bonus = attackerBonus.slash;
-           // System.out.println("player=" + bonus);
-        } else if (attacker instanceof NPC n) {
-            bonus = n.getCombatInfo().getBonuses().getAttack();
-           // System.out.println("npc=" + bonus);
+                System.out.println("slash: " + bonus);
+            } else if (attacker instanceof NPC n) {
+                bonus = n.getCombatInfo().getBonuses().getAttack();
+                // System.out.println("npc=" + bonus);
+            }
         }
-
 
         return bonus;
     }

@@ -41,7 +41,8 @@ public final class LoginHandler extends ChannelInboundHandlerAdapter {
                 logger.debug("Channel disconnected due to read timeout (30s): {}.", ctx.channel());
                 ctx.channel().close();
             } else {
-                logger.error("An exception has been caused in the pipeline: ", throwable);
+                logger.error("An exception has been caused in the pipeline: {} {}", ctx, throwable);
+
             }
         } catch (Exception e) {
             logger.error("Uncaught server exception!", e);

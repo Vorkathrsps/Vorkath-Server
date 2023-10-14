@@ -6,6 +6,6 @@ import com.cryptic.model.entity.player.Player;
 
 public interface TheatreHandler {
     void build(Player player, TheatreInstance theatreInstance);
-    int scale(NPC npc, Player player);
+    int scale(NPC npc, Player player, boolean hardMode);
 
 }

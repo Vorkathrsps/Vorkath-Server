@@ -37,6 +37,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -1991,25 +1992,36 @@ public class PlayerSave {
             final Path path = SAVE_DIR.resolve(fileName);
             Path parent = path.getParent();
             if (parent == null) {
-                throw new UnsupportedOperationException("Path must have a parent " + path);
-            }
-            if (!Files.exists(parent)) {
-                parent = Files.createDirectories(parent);
+                throw new UnsupportedOperationException("Path must have a parent: " + path);
             }
 
-            final String json = PlayerSave.SERIALIZE.toJson(this);
+            try {
+                if (!Files.exists(parent)) {
+                    Files.createDirectories(parent);
+                }
 
-            final Path tempFile = Files.createTempFile(parent, fileName, ".tmp");
-            Files.writeString(tempFile, json, StandardCharsets.UTF_8);
+                final String json = PlayerSave.SERIALIZE.toJson(this);
 
-            Files.move(tempFile, path, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+                final Path tempFile = Files.createTempFile(parent, fileName, ".tmp");
+
+                try {
+                    Files.writeString(tempFile, json, StandardCharsets.UTF_8);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                Files.move(tempFile, path, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                // Handle the exception (e.g., log the error)
+                throw new RuntimeException("Error during file save: " + e.getMessage(), e);
+            }
         }
     }
 
-    public static boolean playerExists(String name) {
-        return Files.exists(SAVE_DIR.resolve(name + ".json"));
+        public static boolean playerExists(String name) {
+            return Files.exists(SAVE_DIR.resolve(name + ".json"));
+        }
+
+        public static final Path SAVE_DIR = Path.of("data", "saves", "characters");
+
     }
-
-    public static final Path SAVE_DIR = Path.of("data", "saves", "characters");
-
-}

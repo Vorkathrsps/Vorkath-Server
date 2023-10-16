@@ -706,12 +706,6 @@ public class World {
         }
 
         try {
-            //ItemWeight.init();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
             loadDrops();
         } catch (Exception e) {
             e.printStackTrace();

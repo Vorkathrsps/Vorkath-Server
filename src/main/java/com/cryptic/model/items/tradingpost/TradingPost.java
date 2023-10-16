@@ -28,6 +28,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.utility.CustomItemIdentifiers.BLOODY_TOKEN;
@@ -189,6 +190,8 @@ public class TradingPost {
         });
     }
 
+    public static AtomicBoolean saved = new AtomicBoolean(false);
+
     public static void save() {
         GameEngine.getInstance().submitLowPriority(() -> {
             try {
@@ -196,6 +199,8 @@ public class TradingPost {
                 for (Map.Entry<String, PlayerListing> entry : objects) {
                     try (FileWriter fw = new FileWriter("./data/saves/tradingpost/listings/" + entry.getKey() + ".json")) {
                         gson.toJson(entry.getValue(), fw);
+                        saved.getAndSet(true);
+                        logger.info("Trading Post Repository Saved.");
                     } catch (IOException e) {
                         logger.error("sadge", e);
                     }

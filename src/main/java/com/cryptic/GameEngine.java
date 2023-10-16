@@ -10,6 +10,7 @@ import com.cryptic.core.task.TaskManager;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.ground.GroundItemHandler;
+import com.cryptic.utility.chainedwork.Chain;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -19,6 +20,10 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import java.util.Deque;
 import java.util.Queue;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BooleanSupplier;
+import java.util.logging.Level;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
@@ -38,14 +43,16 @@ public final class GameEngine implements Runnable {
     public static boolean successfulTasks = false;
     public static boolean successfulWorld = false;
     public static boolean successfulGroundItem = false;
-    public static volatile boolean shutdown;
+    public static AtomicBoolean shutdown = new AtomicBoolean(false);
     private static final int GAME_TICK_DURATION = 600;
     public static final int IGNORE_LAG_TIME =
-            GameServer.properties().ignoreGameLagDetectionMilliseconds;
+        GameServer.properties().ignoreGameLagDetectionMilliseconds;
     private static final Logger logger = LogManager.getLogger(GameEngine.class);
     private static final Marker markPerf = MarkerManager.getMarker("perf");
 
-    /** ticks between printing debug info */
+    /**
+     * ticks between printing debug info
+     */
     private static int infoTickCountdown = 0;
 
     public static int gameTicksIncrementor;
@@ -55,15 +62,19 @@ public final class GameEngine implements Runnable {
     public static int totalGroundThresholdWarningMs = 250;
     public static int totalTotalThresholdWarningMs = 250;
 
-    /** A queue of synchronization tasks. */
+    /**
+     * A queue of synchronization tasks.
+     */
     private final Queue<Runnable> syncTasks = new ConcurrentLinkedQueue<>();
 
-    /** The game thread. */
+    /**
+     * The game thread.
+     */
     private final ScheduledExecutorService gameThread =
-            Executors.newSingleThreadScheduledExecutor(
-                    new ThreadFactoryBuilder()
-                            .setNameFormat(GameConstants.SERVER_NAME + " GameThread")
-                            .build());
+        Executors.newSingleThreadScheduledExecutor(
+            new ThreadFactoryBuilder()
+                .setNameFormat(GameConstants.SERVER_NAME + " GameThread")
+                .build());
 
     /**
      * A thread pool that will handle low-priority asynchronous tasks. This thread pool has threads
@@ -71,34 +82,40 @@ public final class GameEngine implements Runnable {
      */
     private final ListeningExecutorService lowPriorityThreadPool;
 
-    /** A thread pool that will handle discord HTTP requests. */
+    /**
+     * A thread pool that will handle discord HTTP requests.
+     */
     private final ListeningExecutorService discordThreadPool;
 
-    /** Creates this game engine. */
+    /**
+     * Creates this game engine.
+     */
     private GameEngine() {
         int nWorkers =
-                Math.max(
-                        Runtime.getRuntime().availableProcessors() / 2,
-                        2); // Workers should be cores / 2 not * 2 since we don't want to peg the
+            Math.max(
+                Runtime.getRuntime().availableProcessors() / 2,
+                2); // Workers should be cores / 2 not * 2 since we don't want to peg the
         // CPU and lag in-game.
         ThreadPoolExecutor executor =
-                new ThreadPoolExecutor(
-                        nWorkers, nWorkers, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
+            new ThreadPoolExecutor(
+                nWorkers, nWorkers, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
         executor.allowCoreThreadTimeOut(false);
         executor.setThreadFactory(
-                new CountingThreadFactory("" + GameConstants.SERVER_NAME + "WorkerThread"));
+            new CountingThreadFactory("" + GameConstants.SERVER_NAME + "WorkerThread"));
         lowPriorityThreadPool = MoreExecutors.listeningDecorator(executor);
 
         ThreadPoolExecutor discordExecutor =
-                new ThreadPoolExecutor(
-                        1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
+            new ThreadPoolExecutor(
+                1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
         discordExecutor.allowCoreThreadTimeOut(false);
         discordExecutor.setThreadFactory(
-                new SingleThreadFactory("" + GameConstants.SERVER_NAME + "DiscordThread"));
+            new SingleThreadFactory("" + GameConstants.SERVER_NAME + "DiscordThread"));
         discordThreadPool = MoreExecutors.listeningDecorator(discordExecutor);
     }
 
-    /** Initializes this {@link GameEngine}. */
+    /**
+     * Initializes this {@link GameEngine}.
+     */
     public void start() {
         // Start game engine..
         gameThread.scheduleAtFixedRate(this, 0, GAME_TICK_DURATION, TimeUnit.MILLISECONDS);
@@ -119,7 +136,7 @@ public final class GameEngine implements Runnable {
      * the game thread running as fast as possible (slower game thread = more lag!).
      *
      * @return A listenable future that essentially lets you track the completion of the task (and
-     *     add a completion listener, obviously).
+     * add a completion listener, obviously).
      */
     public ListenableFuture<?> submitLowPriority(Runnable runnable) {
         return lowPriorityThreadPool.submit(runnable);
@@ -135,7 +152,7 @@ public final class GameEngine implements Runnable {
      * the game thread running as fast as possible (slower game thread = more lag!).
      *
      * @return A listenable future that essentially lets you track the completion of the task (and
-     *     add a completion listener, obviously).
+     * add a completion listener, obviously).
      */
     public <V> ListenableFuture<V> submitLowPriority(Callable<V> callable) {
         return lowPriorityThreadPool.submit(callable);
@@ -145,59 +162,50 @@ public final class GameEngine implements Runnable {
         return discordThreadPool.submit(callable);
     }
 
-    /** Gracefully shuts down the server. */
+    /**
+     * Gracefully shuts down the server.
+     */
     public void shutdown() {
-        if (shutdown) {
+        if (shutdown.get()) {
             System.err.println("Shutdown already called");
             return;
         }
-        shutdown = true;
+
+        shutdown.getAndSet(true);
+
         logger.info("Starting graceful shutdown...");
 
-        logger.info("Stopping login service....");
-        World.getWorld().ls.stop();
-
-        // Run all pending tasks.
-        logger.info("Running all pending tasks...");
-        runPendingTasks();
-
-        // Save miscellaneous important things (databases, clans, tradingpost etc.)
-        logger.info("Saving misc. services...");
-        ClanRepository.save();
-
         try {
-            TradingPost.save();
-        } catch (Exception e) {
-            e.printStackTrace();
+            logger.info("Stopping login service....");
+            World.getWorld().ls.stop();
+        } finally {
+            try {
+                logger.info("Stopping Pending Tasks...");
+                runPendingTasks();
+            } finally {
+                try {
+                    BooleanSupplier emptyWorld = () -> World.getWorld().getPlayers().size() == 0 && World.getWorld().ls.ONLINE.isEmpty();
+                    BooleanSupplier repositoriesSaved = () -> TradingPost.saved.get() && ClanRepository.saved.get();
+                    BooleanSupplier readyForShutdown = () -> emptyWorld.getAsBoolean() && repositoriesSaved.getAsBoolean();
+                    Chain.noCtx().name("GameEngineShutDownTask").runFn(1, () -> {
+                        logger.info("Waiting for all players to logout...");
+                        World.getWorld().getPlayers().forEach(Player::requestLogout);
+                    }).waitUntil(1, emptyWorld, () -> {
+                        logger.info("All players removed and saved. The shutdown hook is now" + " shutting down remaining services...");
+                        ClanRepository.save();
+                        TradingPost.save();
+                        logger.info("Saving Repository Services...");
+                    }).waitUntil(1, readyForShutdown, () -> {
+                        gameThread.shutdown();
+                        logger.info("Game Thread ShutDown Complete.");
+                        System.exit(0);
+                    });
+                } catch (Exception e) {
+                    logger.info((Marker) Level.SEVERE, "Error in shutdown task.");
+                    e.printStackTrace();
+                }
+            }
         }
-
-        // First, logout all players.
-        logger.info("Waiting for all players to logout...");
-        World.getWorld().getPlayers().forEach(Player::requestLogout);
-
-        TaskManager.submit(
-                new Task("GameEngineGracefulShutdownTask", 1, true) {
-                    @Override
-                    protected void execute() {
-
-                        // Keep checking until all players have disconnected, and the logout service
-                        // completes.
-                        if (World.getWorld().getPlayers().size() == 0
-                                && World.getWorld().ls.ONLINE.isEmpty()) {
-
-                            logger.info(
-                                    "All players removed and saved. The shutdown hook is now"
-                                            + " shutting down remaining services...");
-                            // Waits for logout service to finish queued actions, but beware logout
-                            // code isn't run soley on the executor! isEmpty must be enforced too.
-
-                            // World.getWorld().getLogoutService().stopAsync().awaitTerminated();
-
-                            logger.info("Server down complete.");
-                            System.exit(0);
-                        }
-                    }
-                });
     }
 
     public static TimesCycle profile;
@@ -263,25 +271,25 @@ public final class GameEngine implements Runnable {
                 for (int counter = 0; counter < World.getWorld().section.length; counter++) {
                     if (!World.getWorld().section[counter]) {
                         logger.fatal(
-                                "Game Engine World section " + counter + " was not successful.");
+                            "Game Engine World section " + counter + " was not successful.");
                         // Player sequencing went wrong, let's find out what happened.
                         if (counter == 5) {
                             for (int counter2 = 1;
-                                    counter2 < World.getWorld().getPlayers().size() + 1;
-                                    counter2++) {
+                                 counter2 < World.getWorld().getPlayers().size() + 1;
+                                 counter2++) {
                                 Player player = World.getWorld().getPlayers().get(counter2);
                                 if (player != null) {
-                                        logger.info("Player was not null when logging");
+                                    logger.info("Player was not null when logging");
                                     for (int counter3 = 0;
-                                            counter3 < player.section.length;
-                                            counter3++) {
+                                         counter3 < player.section.length;
+                                         counter3++) {
                                         if (!player.section[counter3]) {
                                             logger.fatal(
-                                                    "Player "
-                                                            + player.getUsername()
-                                                            + " section "
-                                                            + counter3
-                                                            + " was not successful.");
+                                                "Player "
+                                                    + player.getUsername()
+                                                    + " section "
+                                                    + counter3
+                                                    + " was not successful.");
                                         }
                                     }
                                 }
@@ -298,22 +306,22 @@ public final class GameEngine implements Runnable {
 
     private void lagChecks(long uptime, long totalPending, long totalGround, String osNameMatch) {
         boolean printTime =
-                GameServer.properties().displayCycleLag
-                        && uptime > IGNORE_LAG_TIME
-                        && (!GameServer.properties().linuxOnlyDisplayCycleLag
-                                || osNameMatch.contains("linux"));
+            GameServer.properties().displayCycleLag
+                && uptime > IGNORE_LAG_TIME
+                && (!GameServer.properties().linuxOnlyDisplayCycleLag
+                || osNameMatch.contains("linux"));
         if (printTime && totalPending > totalPendingThresholdWarningMs) {
             logger.trace(
-                    "Pending Tasks cycle time greater than {} ms. Pending Tasks cycle time was: {}"
-                            + " ms.",
-                    totalPendingThresholdWarningMs,
-                    profile.total);
+                "Pending Tasks cycle time greater than {} ms. Pending Tasks cycle time was: {}"
+                    + " ms.",
+                totalPendingThresholdWarningMs,
+                profile.total);
         }
         if (printTime && totalGround > totalGroundThresholdWarningMs) {
             logger.trace(
-                    "GroundItem cycle time greater than {} ms. GroundItem cycle time was: {} ms.",
-                    totalGroundThresholdWarningMs,
-                    profile.total);
+                "GroundItem cycle time greater than {} ms. GroundItem cycle time was: {} ms.",
+                totalGroundThresholdWarningMs,
+                profile.total);
         }
         // We only want to calculate the cycle lag if the uptime is greater than X number of
         // seconds.
@@ -322,12 +330,12 @@ public final class GameEngine implements Runnable {
             profile.computeAnd(c -> logger.trace(c.COMPUTED_MSG));
         }
         if (!GameServer.properties().useInformationCycle
-                || infoTickCountdown++ == GameServer.properties().informationCycleCount) {
+            || infoTickCountdown++ == GameServer.properties().informationCycleCount) {
             infoTickCountdown = 0;
             profile.computeAnd(
-                    c -> {
-                        logger.info(c.COMPUTED_MSG);
-                    });
+                c -> {
+                    logger.info(c.COMPUTED_MSG);
+                });
         }
         if (profile.total > 600) {
             // a cycle 600 will result in visual lag (not fps lag) ingame - unresponsive

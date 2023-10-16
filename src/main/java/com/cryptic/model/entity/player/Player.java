@@ -1357,12 +1357,18 @@ public class Player extends Entity {
                 logger.info("Starting save and cleanup task for player: {}", this.getMobName());
 
                 // Perform the save operation asynchronously
-                submitSave(new SaveAttempt());
+                try {
+                    submitSave(new SaveAttempt());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 // Wait for the save operation to complete
                 try {
-                    saveFuture.get(); // Wait for the save operation to complete
-                } catch (InterruptedException | ExecutionException e) {
+                    if (saveFuture != null) {
+                        saveFuture.get();
+                    }
+                } catch (InterruptedException e) {
                     logger.error("Error during save operation for player: {}", this.getMobName(), e);
                 }
 

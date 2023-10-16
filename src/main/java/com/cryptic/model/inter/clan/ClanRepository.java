@@ -13,6 +13,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * This class handles the saving and loading of all clan chat channels.
@@ -76,11 +77,14 @@ public class ClanRepository {
     /**
      * Saves all clans into a json file.
      */
+    public static AtomicBoolean saved = new AtomicBoolean(false);
     public static void save() {
         GameEngine.getInstance().submitLowPriority(() -> {
             try {
                 try (FileWriter fileWriter = new FileWriter("./data/saves/clans/world_clan_list.json")) {
                     fileWriter.write(SAVER.toJson(CLANS));
+                    saved.getAndSet(true);
+                    logger.info("Clan Repository Saved.");
                 } catch (final Exception e) {
                     logger.error("sadge", e);
                 }

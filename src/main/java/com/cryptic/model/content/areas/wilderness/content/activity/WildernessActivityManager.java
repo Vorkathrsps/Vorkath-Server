@@ -59,7 +59,7 @@ public class WildernessActivityManager {
         try {
             //We can't run any activity when the server isn't connected yet, we can't run a activity when
             // there is 0 players online and when the server is in its shutdown state.
-            if (GameServer.startTime == -1 || World.getWorld().getPlayers().size() == 0 || GameEngine.shutdown) {
+            if (GameServer.startTime == -1 || World.getWorld().getPlayers().size() == 0 || GameEngine.shutdown.get()) {
                 return;
             }
             if (System.currentTimeMillis() >= nextActivityTime) {

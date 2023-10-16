@@ -224,8 +224,13 @@ public class Edgeville extends PacketInteraction {
             }
 
             if (obj.getId() == LEVER_26761) {
-                player.setPositionToFace(obj.tile());
-
+                int sizeX = obj.definition().sizeX;
+                int sizeY = obj.definition().sizeY;
+                boolean inversed = (obj.getRotation() & 0x1) != 0;
+                int faceCoordX = obj.x * 2 + (inversed ? sizeY : sizeX);
+                int faceCoordY = obj.y * 2 + (inversed ? sizeX : sizeY);
+                Tile position = new Tile(faceCoordX, faceCoordY);
+                player.setPositionToFace(position);
                 //Check to see if the player is teleblocked
                 if (player.getTimers().has(TimerKey.TELEBLOCK) || player.getTimers().has(TimerKey.SPECIAL_TELEBLOCK)) {
                     player.teleblockMessage();

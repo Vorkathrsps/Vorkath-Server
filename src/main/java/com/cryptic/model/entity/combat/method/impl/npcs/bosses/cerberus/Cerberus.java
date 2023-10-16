@@ -89,9 +89,7 @@ public class Cerberus extends CommonCombatMethod {
         Chain.noCtx().runFn(2, () -> {
             entity.animate(4490); // triple attack anim 2t after magic.
             rangedAttack(entity, target);
-        }).then(2, () -> {
-            meleeAttack();
-        });
+        }).then(2, this::meleeAttack);
     }
 
     @Override

@@ -325,9 +325,7 @@
       "magicdefence": 850
     },
     "animations": {
-      "attack": 5319,
-      "block": 5320,
-      "death": 5321
+      "death": 9992
     },
     "scripts": {
       "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.Venenatis"

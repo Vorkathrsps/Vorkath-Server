@@ -71,8 +71,6 @@ public class Venenatis extends CommonCombatMethod {
 
         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
         hit.submit();
-
-        System.out.println("hit delay: " + hit.getDelay());
     }
 
     private void rangeAttack(@Nonnull final Entity entity, @Nonnull Entity target) {

@@ -876,6 +876,7 @@ public class NexCombat extends CommonCombatMethod {
                     }
                     re.remove();
                 }
+
                 ZarosGodwars.clear();
 
                 Arrays.stream(npc.closePlayers()).forEach(close -> {
@@ -885,7 +886,7 @@ public class NexCombat extends CommonCombatMethod {
                 new GameObject(42967, new Tile(2909, 5202, 0), 10, 1).spawn(); // spawn purple
                 drop();
                 //Respawn nex
-            }).then(20, () -> ZarosGodwars.startEvent());
+            }).then(20, ZarosGodwars::startEvent);
         }
         return true;
     }

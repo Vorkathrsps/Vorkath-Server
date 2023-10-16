@@ -5,6 +5,7 @@ import com.cryptic.core.task.TaskManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.Region;
+import com.cryptic.utility.chainedwork.Chain;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -128,15 +129,9 @@ public class ObjectManager {
         original.setId(replacement != null ? replacement.getId() : -1);
         if (cycles < 0)
             return;
-        TaskManager.submit(new Task("ObjectReplaceTask", cycles) {
-            @Override
-            public void execute() {
-                original.setId(original.originalId);
-                stop();
-            }
-        });
+        Chain.bound("lever_replacement_task").runFn(cycles, () -> original.setId(original.originalId));
 
-        //System.out.println("Replacing: "+original.toString());
+        System.out.println("Replacing: " + original);
     }
 
 }

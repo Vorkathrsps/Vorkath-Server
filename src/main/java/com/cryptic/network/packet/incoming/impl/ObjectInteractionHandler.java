@@ -101,8 +101,14 @@ public class ObjectInteractionHandler implements PacketListener {
         player.afkTimer.reset();
 
         if (object.definition() == null) {
-            logger.error("ObjectDefinition for object {} is null for player " + player.toString() + ".", box(id));
+            logger.error("ObjectDefinition for object {} is null for player " + player + ".", box(id));
             return;
+        }
+
+        if (player.getCombat() != null) {
+            if (player.getCombat().inCombat()) {
+                player.getCombat().reset();
+            }
         }
 
         player.stopActions(false);

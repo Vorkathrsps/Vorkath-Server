@@ -39,7 +39,7 @@ public class CrystalSet implements DamageEffectListener {
         var modifier = rangeAccuracy.getModifier();
         if (entity instanceof Player player) {
             if (combatType == CombatType.RANGED) {
-                if ((FormulaUtils.hasBowOfFaerdhenin(player))) {
+                if ((FormulaUtils.hasBowOfFaerdhenin(player)) || (FormulaUtils.hasCrystalBow(player))) {
                     if (player.getEquipment().contains(ItemIdentifiers.CRYSTAL_HELM) || player.getEquipment().contains(CRYSTAL_HELM_27705) || player.getEquipment().contains(CRYSTAL_HELM_27717) || player.getEquipment().contains(CRYSTAL_HELM_27729) || player.getEquipment().contains(CRYSTAL_HELM_27741) || player.getEquipment().contains(CRYSTAL_HELM_27753) || player.getEquipment().contains(CRYSTAL_HELM_27765) || player.getEquipment().contains(CRYSTAL_HELM_27777)) {
                         modifier += 1.05F;
                     }

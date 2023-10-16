@@ -131,33 +131,18 @@ public class NPCUpdating {
     }
 
     public static Tile face(NPC npc) {
-        Tile dir = npc.tile();
-        switch (npc.spawnDirection()) {
-            case 1:
-                dir = npc.tile().transform(0, 10);
-                break; // n
-            case 6:
-                dir = npc.tile().transform(0, -10);
-                break; // s
-            case 4:
-                dir = npc.tile().transform(10, 0);
-                break; // e
-            case 3:
-                dir = npc.tile().transform(-10, 0);
-                break; // w
-            case 0:
-                dir = npc.tile().transform(-10, 10);
-                break; // se
-            case 2:
-                dir = npc.tile().transform(10, 10);
-                break; // ne
-            case 5:
-                dir = npc.tile().transform(-10, -10);
-                break; // sw
-            case 7:
-                dir = npc.tile().transform(10, -10);
-                break; // nw
-        }
+        npc.tile();
+        Tile dir = switch (npc.spawnDirection()) {
+            case 1 -> npc.tile().transform(0, 10); // n
+            case 6 -> npc.tile().transform(0, -10); // s
+            case 4 -> npc.tile().transform(10, 0); // e
+            case 3 -> npc.tile().transform(-10, 0); // w
+            case 0 -> npc.tile().transform(-10, 10); // se
+            case 2 -> npc.tile().transform(10, 10); // ne
+            case 5 -> npc.tile().transform(-10, -10); // sw
+            case 7 -> npc.tile().transform(10, -10);
+            default -> npc.tile(); // nw
+        };
         return dir;
     }
 
@@ -226,9 +211,9 @@ public class NPCUpdating {
         if (flag.flagged(Flag.TRANSFORM)) {
             mask |= 0x2;
         }
-        if (flag.flagged(Flag.FORCED_MOVEMENT) && npc.getForcedChat() != null) {
-            mask |= 0x160;
-        }
+        //if (flag.flagged(Flag.FORCED_MOVEMENT) && npc.getForcedChat() != null) {
+      //   //   mask |= 0x160;
+       // }
         if (sendFaceTile || (flag.flagged(Flag.FACE_TILE) && npc.getFaceTile() != null)) {
             mask |= 0x4;
         }
@@ -255,9 +240,9 @@ public class NPCUpdating {
         if (flag.flagged(Flag.TRANSFORM)) {
             block.putShort(npc.transmog() <= 0 ? npc.id() : npc.transmog(), ValueType.A, ByteOrder.LITTLE);
         }
-        if (flag.flagged(Flag.FORCED_MOVEMENT) && npc.getForceMovement() != null) {
-            updateForcedMovement(npc, block);
-        }
+       // if (flag.flagged(Flag.FORCED_MOVEMENT) && npc.getForceMovement() != null) {
+       //     updateForcedMovement(npc, block);
+      //  }
         if (flag.flagged(Flag.FACE_TILE) || sendFaceTile) {
             final Tile position = sendFaceTile ? npc.lastTileFaced : npc.getFaceTile();
             int x = position == null ? 0 : position.getX();
@@ -333,8 +318,7 @@ public class NPCUpdating {
         if (npc.getForceMovement().getEnd() == null) {
             builder.put(0, ValueType.S);
             builder.put(0, ValueType.S);
-        }
-        else if (npc.getForceMovement().getEnd().x < 64 || npc.getForceMovement().getEnd().y < 64) {
+        } else if (npc.getForceMovement().getEnd().x < 64 || npc.getForceMovement().getEnd().y < 64) {
             // expect a delta like 1,1
             builder.put(startX + npc.getForceMovement().getEnd().x, ValueType.S);
             builder.put(startY + npc.getForceMovement().getEnd().y, ValueType.S);

@@ -81,6 +81,7 @@ public final class PacketEncoder extends MessageToByteEncoder<Packet> {
         // Write packet
         out.writeBytes(packet.getBuffer());
 
+        //logger.debug("Opcode: {} - Size: {} - Type: {} - CurrentSize: {} - Expected Size: {} ", opcode, size, type, currSize, expectedSize);
         //logger.debug("Encoded packet with opcode {} and size {} (type={})", opcode, size, type);
     }
 

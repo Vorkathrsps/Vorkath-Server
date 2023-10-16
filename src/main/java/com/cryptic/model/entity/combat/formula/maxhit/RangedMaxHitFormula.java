@@ -85,15 +85,15 @@ public class RangedMaxHitFormula {
         boolean hasCrystalLegs = player.getEquipment().hasAt(EquipSlot.LEGS, CRYSTAL_LEGS);
 
         if (hasCrystalHelm) {
-            otherBonus = 1.025;
+            otherBonus *= 1.025;
         }
 
         if (hasCrystalBody) {
-            otherBonus = 1.075;
+            otherBonus *= 1.075;
         }
 
         if (hasCrystalLegs) {
-            otherBonus = 1.05;
+            otherBonus *= 1.05;
         }
 
         if (player.isSpecialActivated() && FormulaUtils.wearingDarkBowWithDragonArrows(player)) {

@@ -11,6 +11,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.logging.Level;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -71,18 +73,10 @@ public class LoginService implements Service {
      * @param request
      * @return
      */
-    public CompletableFuture<Boolean> savePlayerFile(Player request) {
+    public CompletableFuture<Boolean> savePlayerFile(Player request) throws Throwable {
         final Stopwatch stopwatch = Stopwatch.createUnstarted();
         stopwatch.start();
-
-        try {
-            return PlayerSave.saveAsync(request);
-        } catch (Throwable t) {
-            // If we don't catch any possible errors, the thread could die silently.
-            logger.error("There was an error finishing the logout for " + request.getUsername() + ": ", t);
-            // Return a failed CompletableFuture to indicate the error.
-            return CompletableFuture.failedFuture(t);
-        }
+        return PlayerSave.saveAsync(request);
     }
 
 
@@ -93,7 +87,13 @@ public class LoginService implements Service {
      * @return
      */
     public void savePlayerAsync(Player player) {
-        GameEngine.getInstance().submitLowPriority(() -> savePlayerFile(player));
+        GameEngine.getInstance().submitLowPriority(() -> {
+            try {
+                return savePlayerFile(player);
+            } catch (Throwable e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     public void saveAllAsync() {

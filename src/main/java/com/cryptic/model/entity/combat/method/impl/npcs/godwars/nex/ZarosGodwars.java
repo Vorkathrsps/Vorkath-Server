@@ -149,7 +149,7 @@ public class ZarosGodwars {
         }).thenCancellable(3, () -> {
             nex.forceChat("Fill my soul with smoke!");
         }).thenCancellable(2, () -> {
-            nex.setPositionToFace(null);
+         //   nex.setPositionToFace(null);
             nex.cantInteract(false);
             nex.unlock();
             Entity target = Utils.randomElement(nex.getCombatMethod().getPossibleTargets(nex));

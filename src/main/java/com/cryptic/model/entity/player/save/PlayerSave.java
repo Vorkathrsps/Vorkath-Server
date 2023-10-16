@@ -1984,7 +1984,6 @@ public class PlayerSave {
                     }
                 }
             };
-            //System.err.println("saving info = "+lastPet);
         }
 
         public void parseDetails() throws Exception {

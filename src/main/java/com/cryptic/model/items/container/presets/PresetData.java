@@ -74,17 +74,6 @@ public class PresetData { //create data can be shared here
             List<PresetData> presets = gson.fromJson(fileReader, typeToken.getType());
 
             logger.info("Parsed presets from JSON:");
-
-            for (PresetData preset : presets) {
-                logger.info("Preset ID: {}", preset.getId());
-                logger.info("Inventory: {}", (Object) preset.getInventory());
-                logger.info("Equipment: {}", (Object) preset.getEquipment());
-                logger.info("Spellbook: {}", preset.getSpellbook());
-                logger.info("Button: {}", preset.getButton());
-                logger.info("Attribute: {}", preset.getAttribute());
-                logger.info("Cost: {}", preset.getCost());
-            }
-
             return presets;
         }
     }

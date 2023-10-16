@@ -1402,7 +1402,11 @@ public class Player extends Entity {
                 return;
             }
 
-            saveFuture = World.getWorld().ls.savePlayerFile(this);
+            try {
+                saveFuture = World.getWorld().ls.savePlayerFile(this);
+            } catch (Throwable e) {
+                throw new RuntimeException(e);
+            }
 
             try {
                 saveFuture.whenComplete((success, throwable) -> {

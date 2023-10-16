@@ -237,6 +237,10 @@ public class FormulaUtils {
         return player.getEquipment().containsAny(BOW_OF_FAERDHINEN, BOW_OF_FAERDHINEN_27187, BOW_OF_FAERDHINEN_C, BOW_OF_FAERDHINEN_C_25869, BOW_OF_FAERDHINEN_C_25884, BOW_OF_FAERDHINEN_C_25886, BOW_OF_FAERDHINEN_C_25888, BOW_OF_FAERDHINEN_C_25890, BOW_OF_FAERDHINEN_C_25892, BOW_OF_FAERDHINEN_C_25892, BOW_OF_FAERDHINEN_C_25896, BOW_OF_FAERDHINEN_C_25896);
     }
 
+    public static boolean hasCrystalBow(Player player) {
+        return player.getEquipment().containsAny(CRYSTAL_BOW, NEW_CRYSTAL_BOW);
+    }
+
     public static boolean hasZurielStaff(Player player) {
         return player.getEquipment().containsAny(ZURIELS_STAFF, ZURIELS_STAFF_23617);
     }

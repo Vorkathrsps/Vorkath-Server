@@ -495,7 +495,6 @@ public class NexCombat extends CommonCombatMethod {
         lastAttack = 1;
         nex.lastNoEscape = Utils.currentTimeMillis() + 30000;
         nex.forceChat("There is...");
-        nex.setPositionToFace(null);
         //nex.cantInteract(true); // rsps friendly
         nex.getCombat().reset();
         final int idx = Utils.random(NO_ESCAPE_TELEPORTS.length);

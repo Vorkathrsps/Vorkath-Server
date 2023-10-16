@@ -122,7 +122,6 @@ public class ObjectInteractionHandler implements PacketListener {
             int faceCoordX = x * 2 + (inversed ? sizeY : sizeX);
             int faceCoordY = y * 2 + (inversed ? sizeX : sizeY);
             Tile position = new Tile(faceCoordX, faceCoordY);
-            player.getCombat().reset();
             player.setPositionToFace(position);
             handleAction(player, object, option);
         }));

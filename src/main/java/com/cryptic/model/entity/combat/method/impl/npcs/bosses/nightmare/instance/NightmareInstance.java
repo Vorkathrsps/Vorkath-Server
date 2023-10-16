@@ -1,6 +1,5 @@
 package com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.instance;
 
-import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.model.World;
 import com.cryptic.model.content.instance.InstanceConfiguration;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.Nightmare;
@@ -58,7 +57,6 @@ public class NightmareInstance extends NightmareArea {
         NPC topRightTotem = new NPC(9443, new Tile(3879, 9958, this.getzLevel() + 3));
         topRightTotem.setInstance(this);
         topRightTotem.spawn(false);
-        World.getWorld().definitions().get(NpcDefinition.class, topRightTotem.id());
 
         NPC bottomRightTotem = new NPC(9437, new Tile(3879, 9942, this.getzLevel() + 3));
         bottomRightTotem.setInstance(this);
@@ -72,7 +70,7 @@ public class NightmareInstance extends NightmareArea {
         bottomLeftTotem.setInstance(this);
         bottomLeftTotem.spawn(false);
 
-        setInstance();
+        buildInstance();
         owner.face(nightmare);
 
         Chain.noCtx().runFn(30, () -> {
@@ -90,7 +88,7 @@ public class NightmareInstance extends NightmareArea {
         return this;
     }
 
-    private void setInstance() {
+    private void buildInstance() {
         addPlayerToList(owner);
         owner.setInstance(this);
         owner.teleport(new Tile(3872, 9958, this.getzLevel() + 3));

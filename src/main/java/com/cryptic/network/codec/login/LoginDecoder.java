@@ -7,6 +7,7 @@ import com.cryptic.network.security.IsaacRandom;
 import com.cryptic.utility.Utils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import org.apache.logging.log4j.LogManager;
@@ -50,15 +51,10 @@ public final class LoginDecoder extends ByteToMessageDecoder {
      * @param response The response code to send.
      */
     public static void sendLoginResponse(ChannelHandlerContext ctx, int response) {
-        ByteBuf channelBuffer = ctx.alloc().buffer(Byte.BYTES); //create the allocator
-        try {
+            ByteBuf channelBuffer = ctx.alloc().buffer(Byte.BYTES); //create the allocator
             channelBuffer.writeByte(response); //write the response to the buffer
-            ctx.channel().writeAndFlush(channelBuffer); //read the response and flush
-        } finally {
+            ctx.channel().writeAndFlush(channelBuffer).addListener(ChannelFutureListener.CLOSE); //read the response and flush
             channelBuffer.release(); //release the buffer to recycle back into pool
-            ctx.close(); //close the channel
-            logger.info("releasing channel buffer {}, closing channel from pipeline {}", channelBuffer, ctx);
-        }
     }
 
     @Override

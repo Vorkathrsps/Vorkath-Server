@@ -588,7 +588,7 @@ public class RegionManager {
             }
             stopwatch.stop();
             if (GameEngine.gameTicksIncrementor > 10) {
-                logger.trace("clipmap region {} at {} loaded in {} ns", regionId, Tile.regionToTile(regionId), stopwatch.elapsed().toNanos());
+                //logger.trace("clipmap region {} at {} loaded in {} ns", regionId, Tile.regionToTile(regionId), stopwatch.elapsed().toNanos());
             }
         } catch (Exception e) {
             logger.error("?", e);

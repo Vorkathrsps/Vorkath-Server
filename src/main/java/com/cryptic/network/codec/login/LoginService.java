@@ -38,7 +38,9 @@ public class LoginService implements Service {
     public Executor executor;
 
     @Override
-    public void setup() {}
+    public void setup() {
+
+    }
 
     public void enqueue(LoginRequest message) {
         messages.add(message);

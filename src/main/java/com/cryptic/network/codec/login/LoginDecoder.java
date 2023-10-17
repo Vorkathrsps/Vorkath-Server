@@ -7,7 +7,6 @@ import com.cryptic.network.security.IsaacRandom;
 import com.cryptic.utility.Utils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import org.apache.logging.log4j.LogManager;
@@ -50,10 +49,16 @@ public final class LoginDecoder extends ByteToMessageDecoder {
      * @param ctx The context of the channel handler.
      * @param response The response code to send.
      */
-    public static void sendCodeAndClose(ChannelHandlerContext ctx, int response) {
-        ByteBuf buffer = ctx.alloc().buffer(Byte.BYTES);
-        buffer.writeByte(response);
-        ctx.writeAndFlush(buffer).addListener(ChannelFutureListener.CLOSE);
+    public static void sendLoginResponse(ChannelHandlerContext ctx, int response) {
+        ByteBuf channelBuffer = ctx.alloc().buffer(Byte.BYTES); //create the allocator
+        try {
+            channelBuffer.writeByte(response); //write the response to the buffer
+            ctx.channel().writeAndFlush(channelBuffer); //read the response and flush
+        } finally {
+            channelBuffer.release(); //release the buffer to recycle back into pool
+            ctx.close(); //close the channel
+            logger.info("releasing channel buffer {}, closing channel from pipeline {}", channelBuffer, ctx);
+        }
     }
 
     @Override
@@ -72,7 +77,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 
         int request = buffer.readUnsignedByte();
         if (request != NetworkUtils.LOGIN_REQUEST_OPCODE) {
-            sendCodeAndClose(ctx, LoginResponses.LOGIN_BAD_SESSION_ID);
+            sendLoginResponse(ctx, LoginResponses.LOGIN_BAD_SESSION_ID);
             return;
         }
 
@@ -93,7 +98,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
         if (connectionType != NetworkUtils.NEW_CONNECTION_OPCODE
             && connectionType != NetworkUtils.RECONNECTION_OPCODE) {
             //logger.error("Session rejected for bad connection type id: {}", box(connectionType));
-            sendCodeAndClose(ctx, LoginResponses.LOGIN_BAD_SESSION_ID);
+            sendLoginResponse(ctx, LoginResponses.LOGIN_BAD_SESSION_ID);
             return;
         }
 
@@ -111,14 +116,14 @@ public final class LoginDecoder extends ByteToMessageDecoder {
         int magicId = buffer.readUnsignedByte();
         if (magicId != 0xFF) {
             //logger.error(String.format("[host= %s] [magic= %d] was rejected for the wrong magic value.", ctx.channel().remoteAddress(), magicId));
-            sendCodeAndClose(ctx, LoginResponses.LOGIN_REJECT_SESSION);
+            sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
             return;
         }
 
         int memory = buffer.readByte();
         if (memory != 0 && memory != 1) {
             //logger.error("[host={}] was rejected for having the memory setting.", ctx.channel().remoteAddress());
-            sendCodeAndClose(ctx, LoginResponses.LOGIN_REJECT_SESSION);
+            sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
             return;
         }
 
@@ -130,7 +135,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
 
         int securityId = rsaBuffer.readByte();
         if (securityId != 10) {
-            sendCodeAndClose(ctx, LoginResponses.LOGIN_REJECT_SESSION);
+            sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
             return;
         }
 
@@ -149,14 +154,14 @@ public final class LoginDecoder extends ByteToMessageDecoder {
         String mac = ByteBufUtils.readString(rsaBuffer);
 
         if (username.length() < 1 || username.length() > 12 || password.length() < 3 || password.length() > 20) {
-            sendCodeAndClose(ctx, LoginResponses.INVALID_CREDENTIALS_COMBINATION);
+            sendLoginResponse(ctx, LoginResponses.INVALID_CREDENTIALS_COMBINATION);
             return;
         }
 
         String hostName = ((InetSocketAddress) ctx.channel().remoteAddress()).getAddress().getHostName();
 
         if(HostBlacklist.isBlocked(hostName)) {
-            sendCodeAndClose(ctx, LoginResponses.LOGIN_REJECT_SESSION);
+            sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
             return;
         }
 

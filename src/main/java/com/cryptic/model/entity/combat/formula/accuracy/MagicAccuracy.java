@@ -51,8 +51,8 @@ public final class MagicAccuracy {
     }
 
     private boolean successful() {
-        final double attackRoll = getAttackRoll();
-        final double defenceRoll = getDefenceRoll();
+        final double attackRoll = getAttackRoll(this.attacker);
+        final double defenceRoll = getDefenceRoll(this.defender);
 
         double chance;
         if (attackRoll > defenceRoll)
@@ -62,23 +62,16 @@ public final class MagicAccuracy {
 
         double selectedChance = random.nextDouble();
 
-       // System.out.println("PlayerStats - Attack=" + attackRoll + " Def=" + defenceRoll + " chanceOfSucess="
-           // + new DecimalFormat("0.000").format(chance) + " rolledChance="
-           // + new DecimalFormat("0.000").format(selectedChance) + " successful="
-           // + (chance > selectedChance ? "YES" : "NO"));
+   //     System.out.println("PlayerStats - Attack=" + attackRoll + " Def=" + defenceRoll + " chanceOfSucess="
+        //    + new DecimalFormat("0.000").format(chance) + " rolledChance="
+        //    + new DecimalFormat("0.000").format(selectedChance) + " successful="
+        //    + (chance > selectedChance ? "YES" : "NO"));
 
         return chance > selectedChance;
     }
 
-    private int getEquipmentBonusAttacker() {
-        EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
-        int bonus = 0;
-        if (attacker instanceof Player) {
-            bonus = attackerBonus.mage;
-        } else if (attacker instanceof NPC) {
-            bonus = attacker.getAsNpc().getCombatInfo().getBonuses().getMagic();
-        }
-        return bonus;
+    private int getEquipmentBonusAttacker(Entity attacker) {
+        return attacker instanceof Player ? EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo()).mage  : attacker.getAsNpc().getCombatInfo().getBonuses().getMagic();
     }
 
     private int getMagicLevel(Entity entity) {
@@ -87,36 +80,42 @@ public final class MagicAccuracy {
             : entity.getSkills().level(Skills.MAGIC);
     }
 
-    private double getPrayerBonus() {
+    private double getPrayerBonus(Entity attacker) {
         double prayerBonus = 1F;
-        if (Prayers.usingPrayer(attacker, MYSTIC_WILL))
-            prayerBonus *= 1.05F; // 5% magic level boost
-        else if (Prayers.usingPrayer(attacker, MYSTIC_LORE))
-            prayerBonus *= 1.10F; // 10% magic level boost
-        else if (Prayers.usingPrayer(attacker, MYSTIC_MIGHT))
-            prayerBonus *= 1.15F; // 15% magic level boost
-        else if (Prayers.usingPrayer(attacker, AUGURY))
-            prayerBonus *= 1.25F; // 25% magic level boost
+        if (attacker instanceof Player) {
+            if (Prayers.usingPrayer(attacker, MYSTIC_WILL))
+                prayerBonus *= 1.05F; // 5% magic level boost
+            else if (Prayers.usingPrayer(attacker, MYSTIC_LORE))
+                prayerBonus *= 1.10F; // 10% magic level boost
+            else if (Prayers.usingPrayer(attacker, MYSTIC_MIGHT))
+                prayerBonus *= 1.15F; // 15% magic level boost
+            else if (Prayers.usingPrayer(attacker, AUGURY))
+                prayerBonus *= 1.25F; // 25% magic level boost
+        }
         return prayerBonus;
     }
 
-    private double getPrayerBonusDefender() {
+    private double getPrayerBonusDefender(Entity defender) {
         double prayerBonus = 1F;
-        if (Prayers.usingPrayer(defender, AUGURY))
-            prayerBonus *= 1.25F; //
+        if (defender instanceof Player) {
+            if (Prayers.usingPrayer(defender, AUGURY))
+                prayerBonus *= 1.25F;
+        }
         return prayerBonus;
     }
 
-    public double getAttackRoll() {
+    public double getAttackRoll(Entity attacker) {
         double magicLevel = getMagicLevel(attacker);
-        double attackBonus = getEquipmentBonusAttacker();
+        double attackBonus = getEquipmentBonusAttacker(attacker);
 
         double effectiveLevel;
         if (attacker instanceof Player a) {
-            effectiveLevel = magicLevel * getPrayerBonus() + 8;
+            effectiveLevel = magicLevel * getPrayerBonus(a) + 8;
 
             handler.triggerMagicAccuracyModificationAttacker(a, combatType, this);
+
             float modification = modifier;
+
             if (modification > 0) {
                 effectiveLevel *= modification;
             }
@@ -132,19 +131,19 @@ public final class MagicAccuracy {
         return effectiveLevel * (attackBonus + 64);
     }
 
-    private int getEquipmentBonusDefender() {
+    private int getEquipmentBonusDefender(Entity defender) {
         return defender instanceof NPC
             ? defender.getAsNpc().getCombatInfo().bonuses.magicdefence
             : EquipmentInfo.totalBonuses(defender, World.getWorld().equipmentInfo()).magedef;
     }
 
-    public double getDefenceRoll() {
+    public double getDefenceRoll(Entity defender) {
         double magicLevel = getMagicLevel(defender);
-        double defenceBonus = getEquipmentBonusDefender();
+        double defenceBonus = getEquipmentBonusDefender(defender);
 
         double effectiveLevel;
         if (defender instanceof Player) {
-            magicLevel *= getPrayerBonusDefender();
+            magicLevel *= getPrayerBonusDefender(defender);
 
             double defenceLevel = defender.getSkills().level(Skill.DEFENCE.getId());
             switch (defender.getCombat().getFightType().getStyle()) {

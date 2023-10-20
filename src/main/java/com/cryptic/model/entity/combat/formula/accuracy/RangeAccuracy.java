@@ -19,6 +19,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.security.SecureRandom;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,13 +32,14 @@ import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.EAGL
  */
 public class RangeAccuracy {
 
-    @Getter @Setter public float modifier;
+    @Getter
+    @Setter
+    public float modifier;
     @Getter
     @Setter
     Entity attacker, defender;
     CombatType combatType;
-    byte[] seed = new byte[16];
-    SecureRandom random = new SecureRandom(seed);
+    SecureRandom random = new SecureRandom();
 
     public RangeAccuracy(Entity attacker, Entity defender, CombatType combatType) {
         this.attacker = attacker;
@@ -46,15 +48,13 @@ public class RangeAccuracy {
     }
 
     public boolean doesHit() {
-        return successful();//doesHit(entity, enemy, style, 1);
+        return successful();
     }
 
     private boolean successful() {
-        final int attackBonus = getAttackRoll();
-        final int defenceBonus = getDefenceRoll();
+        final int attackBonus = getAttackRoll(this.attacker);
+        final int defenceBonus = getDefenceRoll(this.defender);
         double successfulRoll;
-
-        random.nextBytes(seed);
 
         if (attackBonus > defenceBonus) {
             successfulRoll = 1F - ((defenceBonus + 2F) / (2F * (attackBonus + 1F)));
@@ -62,35 +62,41 @@ public class RangeAccuracy {
             successfulRoll = attackBonus / (2F * (defenceBonus + 1F));
         }
 
-        double selectedChance = random.nextFloat();
+        double selectedChance = random.nextDouble();
+
+        System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
         return successfulRoll > selectedChance;
     }
 
-    private double getPrayerAttackBonus() {
+    private double getPrayerAttackBonus(Entity attacker) {
         double prayerBonus = 1D;
-        if (Prayers.usingPrayer(attacker, SHARP_EYE))
-            prayerBonus *= 1.05D; // 5% range level boost
-        else if (Prayers.usingPrayer(attacker, HAWK_EYE))
-            prayerBonus *= 1.10D; // 10% range level boost
-        else if (Prayers.usingPrayer(attacker, EAGLE_EYE))
-            prayerBonus *= 1.15D; // 15% range level boost
-        else if (Prayers.usingPrayer(attacker, RIGOUR))
-            prayerBonus *= 1.20D; // 20% range level boost
-        return prayerBonus;
-    }
-
-    private double getPrayerDefenseBonus() {
-        double prayerBonus = 1D;
-        if (Prayers.usingPrayer(defender, RIGOUR)) {
-            prayerBonus *= 1.25D;
+        if (attacker instanceof Player) {
+            if (Prayers.usingPrayer(attacker, SHARP_EYE))
+                prayerBonus *= 1.05D; // 5% range level boost
+            else if (Prayers.usingPrayer(attacker, HAWK_EYE))
+                prayerBonus *= 1.10D; // 10% range level boost
+            else if (Prayers.usingPrayer(attacker, EAGLE_EYE))
+                prayerBonus *= 1.15D; // 15% range level boost
+            else if (Prayers.usingPrayer(attacker, RIGOUR))
+                prayerBonus *= 1.20D; // 20% range level boost
         }
         return prayerBonus;
     }
 
-    private int getEffectiveDefence() {
+    private double getPrayerDefenseBonus(Entity defender) {
+        double prayerBonus = 1D;
+        if (defender instanceof Player) {
+            if (Prayers.usingPrayer(defender, RIGOUR)) {
+                prayerBonus *= 1.25D;
+            }
+        }
+        return prayerBonus;
+    }
+
+    private int getEffectiveDefence(Entity defender) {
         FightStyle fightStyle = defender.getCombat().getFightType().getStyle();
-        int effectiveLevel = (int) Math.floor(getRangeLevel() * getPrayerDefenseBonus());
+        int effectiveLevel = (int) Math.floor(getRangeLevel(defender) * getPrayerDefenseBonus(defender));
 
         switch (fightStyle) {
             case DEFENSIVE -> effectiveLevel = (int) Math.floor(effectiveLevel + 3);
@@ -104,32 +110,27 @@ public class RangeAccuracy {
 
     PreDamageEffectHandler handler = new PreDamageEffectHandler(new EquipmentDamageEffect());
 
-    private int getEffectiveRanged() {
-        var task_id = attacker.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
-        final Item weapon = attacker.isPlayer() ? attacker.getAsPlayer().getEquipment().get(EquipSlot.WEAPON) : null;
-        var task = SlayerCreature.lookup(task_id);
+    private int getEffectiveRanged(Entity attacker) {
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
-        double effectiveLevel = (int) Math.floor(getRangeLevel() * getPrayerAttackBonus());
-        double specialMultiplier = 1;
-
-        if (attacker instanceof Player a)
-            handler.triggerRangeAccuracyModificationAttacker(a, combatType, this);
+        double effectiveLevel = (int) Math.floor(getRangeLevel(attacker) * getPrayerAttackBonus(attacker));
+        double specialMultiplier;
 
         float modification = modifier;
 
-        if (fightStyle == FightStyle.ACCURATE) {
-            effectiveLevel = (int) Math.floor(effectiveLevel + 3);
-        }
+        if (attacker instanceof Player player) {
+            handler.triggerRangeAccuracyModificationAttacker(player, combatType, this);
 
-        if (attacker.isPlayer()) {
-            Player player = attacker.getAsPlayer();
             if (player.getCombatSpecial() != null) {
                 specialMultiplier = player.getCombatSpecial().getAccuracyMultiplier();
-            }
-        }
 
-        if (attacker.isPlayer() && attacker.getAsPlayer().isSpecialActivated()) {
-            effectiveLevel *= specialMultiplier;
+                if (player.isSpecialActivated()) {
+                    effectiveLevel *= specialMultiplier;
+                }
+            }
+
+            if (fightStyle == FightStyle.ACCURATE) {
+                effectiveLevel = (int) Math.floor(effectiveLevel + 3);
+            }
         }
 
         effectiveLevel = modification > 0 ? Math.floor(effectiveLevel * modification) : effectiveLevel;
@@ -139,40 +140,27 @@ public class RangeAccuracy {
         return (int) Math.floor(effectiveLevel);
     }
 
-    private int getRangeLevel() {
-        int rangeLevel = 1;
-        if (attacker instanceof NPC npc) {
-            if (npc.getCombatInfo() != null && npc.getCombatInfo().stats != null)
-                rangeLevel = npc.getCombatInfo().stats.ranged;
-        } else {
-            rangeLevel = attacker.getSkills().level(Skills.RANGED);
-        }
-        return rangeLevel;
+    private int getRangeLevel(Entity attacker) {
+        return attacker instanceof NPC npc && npc.getCombatInfo() != null && npc.getCombatInfo().stats != null ? npc.getCombatInfo().stats.ranged : attacker.getSkills().level(Skills.RANGED);
     }
 
-    private int getGearAttackBonus() {
-        EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
-        int bonus;
-        bonus = attackerBonus.range;
-        return bonus;
+    private int getGearAttackBonus(Entity attacker) {
+        return attacker instanceof Player ? EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo()).range : attacker.getAsNpc().getCombatInfo().getBonuses().ranged;
     }
 
-    private int getGearDefenceBonus() {
-        EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(defender, World.getWorld().equipmentInfo());
-        int bonus;
-        bonus = attackerBonus.rangedef;
-        return bonus;
+    private int getGearDefenceBonus(Entity defender) {
+        return defender instanceof Player ? EquipmentInfo.totalBonuses(defender, World.getWorld().equipmentInfo()).rangedef : defender.getAsNpc().getCombatInfo().getBonuses().rangeddefence;
     }
 
-    private int getAttackRoll() {
-        int effectiveRangeLevel = (int) Math.floor(getEffectiveRanged());
-        int equipmentRangeBonus = getGearAttackBonus();
+    private int getAttackRoll(Entity attacker) {
+        int effectiveRangeLevel = (int) Math.floor(getEffectiveRanged(attacker));
+        int equipmentRangeBonus = getGearAttackBonus(attacker);
         return (int) Math.floor(effectiveRangeLevel * (equipmentRangeBonus + 64));
     }
 
-    private int getDefenceRoll() {
-        int effectiveDefenceLevel = (int) Math.floor(getEffectiveDefence());
-        int equipmentRangeBonus = getGearDefenceBonus();
+    private int getDefenceRoll(Entity defender) {
+        int effectiveDefenceLevel = (int) Math.floor(getEffectiveDefence(defender));
+        int equipmentRangeBonus = getGearDefenceBonus(defender);
         return (int) Math.floor(effectiveDefenceLevel * (equipmentRangeBonus + 64));
     }
 }

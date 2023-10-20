@@ -13,6 +13,8 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.region.Region;
+import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.network.packet.ByteOrder;
 import com.cryptic.network.packet.PacketBuilder;
 import com.cryptic.network.packet.PacketType;
@@ -22,6 +24,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -292,7 +295,6 @@ public final class PacketSender {
 
     public PacketSender sendInfection(InfectionType infection) {
         PacketBuilder out = new PacketBuilder(6);
-
         out.put(infection.ordinal(), ValueType.C);
         player.getSession().write(out);
         return this;
@@ -804,6 +806,34 @@ public final class PacketSender {
             // just cover the case when the above two for some reason dont trigger
             for (final int amount : new int[10]) {
                 out.put(amount >> 8).putShort(amount & 0xFF);
+            }
+        }
+        player.getSession().write(out);
+        return this;
+    }
+
+    public PacketSender sendItemUpdate(int interfaceId, Item[] items) {
+        PacketBuilder out = new PacketBuilder(53, PacketType.VARIABLE_SHORT);
+        if (interfaceId != -1 || items != null) {
+            out.putInt(interfaceId);
+            out.putShort(items.length);
+            for (var item : items) {
+                if (item == null) {
+                    continue;
+                }
+                var id = item != null ? item.getId() : -1;
+                var amount = item != null ? item.getAmount() : -1;
+                if (id == -1 || amount == -1) {
+                    out.put(0);
+                    out.putShort(0);
+                    continue;
+                }
+                if (amount >= 255) {
+                    out.put(255).putInt(amount, ByteOrder.INVERSE_MIDDLE);
+                } else {
+                    out.put(amount);
+                }
+                out.putShort(item.getId() + 1, ValueType.A, ByteOrder.LITTLE);
             }
         }
         player.getSession().write(out);

@@ -33,8 +33,7 @@ public class MeleeAccuracy {
     @Setter
     Entity attacker, defender;
     CombatType combatType;
-    byte[] seed = new byte[16];
-    SecureRandom random = new SecureRandom(seed);
+    SecureRandom random = new SecureRandom();
 
     public MeleeAccuracy(Entity attacker, Entity defender, CombatType combatType) {
         this.attacker = attacker;
@@ -47,11 +46,9 @@ public class MeleeAccuracy {
     }
 
     private boolean successful() {
-        final double attackBonus = getAttackRoll();
-        final double defenceBonus = getDefenceRoll();
+        final double attackBonus = getAttackRoll(this.attacker);
+        final double defenceBonus = getDefenceRoll(this.defender);
         double successfulRoll;
-
-        random.nextBytes(seed);
 
         if (attackBonus > defenceBonus) {
             successfulRoll = 1F - ((defenceBonus + 2F) / (2F * (attackBonus + 1F)));
@@ -59,7 +56,7 @@ public class MeleeAccuracy {
             successfulRoll = attackBonus / (2F * (defenceBonus + 1F));
         }
 
-        double selectedChance = random.nextFloat();
+        double selectedChance = random.nextDouble();
 
         System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
 
@@ -98,18 +95,15 @@ public class MeleeAccuracy {
 
     PreDamageEffectHandler handler = new PreDamageEffectHandler(new EquipmentDamageEffect());
 
-    private double getEffectiveAttack() {
-        var task_id = attacker.<Integer>getAttribOr(SLAYER_TASK_ID, 0);
-        var task = SlayerCreature.lookup(task_id);
+    private double getEffectiveAttack(Entity attacker) {
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
         double effectiveLevel = getAttackLevel(attacker) * getPrayerAttackBonus(attacker);
+        float modification = modifier;
 
         if (attacker instanceof Player a) {
             effectiveLevel = Math.floor(effectiveLevel);
 
             handler.triggerMeleeAccuracyModificationAttacker(a, combatType, this);
-
-            float modification = modifier;
 
             switch (fightStyle) {
                 case ACCURATE -> effectiveLevel += 3;
@@ -119,11 +113,7 @@ public class MeleeAccuracy {
             if (modification > 0) {
                 effectiveLevel *= modification;
             }
-        }
 
-        effectiveLevel += 8;
-
-        if (attacker instanceof Player a) {
             if (a.getCombatSpecial() != null) {
                 double specialMultiplier = a.getCombatSpecial().getAccuracyMultiplier();
                 if (a.isSpecialActivated()) {
@@ -132,6 +122,8 @@ public class MeleeAccuracy {
             }
         }
 
+        effectiveLevel += 8;
+
         return Math.floor(effectiveLevel);
     }
 
@@ -139,7 +131,7 @@ public class MeleeAccuracy {
         return attacker instanceof NPC && attacker.getAsNpc().getCombatInfo().stats != null ? attacker.getAsNpc().getCombatInfo().stats.attack : attacker.getSkills().level(Skills.ATTACK);
     }
 
-    private int getDefenceLevel() {
+    private int getDefenceLevel(Entity defender) {
         return defender instanceof NPC && defender.getAsNpc().getCombatInfo().stats != null ? defender.getAsNpc().getCombatInfo().stats.defence : defender.getSkills().level(Skills.DEFENCE);
     }
 
@@ -149,72 +141,59 @@ public class MeleeAccuracy {
 
     private int getGearDefenceBonus() {
         int bonus = 0;
-        AttackType type = defender instanceof NPC ? AttackType.SLASH : defender.getCombat().getFightType().getAttackType();
+        AttackType type = defender instanceof NPC npc && npc.getCombat().getAttackType() != null ? npc.getCombat().getAttackType() : defender.getCombat().getFightType().getAttackType();
 
         if (defender instanceof NPC npc) {
-            var npcBonuses = npc.getCombatInfo().bonuses;
-            if (type == AttackType.STAB)
-                bonus = npcBonuses.stabdefence;
-            else if (type == AttackType.CRUSH)
-                bonus = npcBonuses.crushdefence;
-            else if (type == AttackType.SLASH)
-                bonus = npcBonuses.slashdefence;
-            // System.out.println("npc=" + bonus);
-        } else {
-            EquipmentInfo.Bonuses defenderBonus = EquipmentInfo.totalBonuses(this.defender, World.getWorld().equipmentInfo());
-            if (type == AttackType.STAB) {
-                bonus = defenderBonus.stabdef;
-                System.out.println("stabdef bonus: " + bonus);
-            } else if (type == AttackType.CRUSH) {
-                bonus = defenderBonus.crushdef;
-                System.out.println("crushdef bonus: " + bonus);
-            } else if (type == AttackType.SLASH) {
-                bonus = defenderBonus.slashdef;
-                System.out.println("slashdef bonus: " + bonus);
+            var stats = npc.getCombatInfo().bonuses;
+            if (npc.getCombatInfo() != null) {
+                if (npc.getCombatInfo().stats != null) {
+                    switch (type) {
+                        case STAB -> bonus = stats.stabdefence;
+                        case CRUSH -> bonus = stats.crushdefence;
+                        case SLASH -> bonus = stats.slashdefence;
+                    }
+                }
             }
-            //System.out.println("player=" + bonus);
+        } else if (defender instanceof Player player) {
+            var stats = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo());
+            switch (type) {
+                case STAB -> bonus = stats.stabdef;
+                case CRUSH -> bonus = stats.crushdef;
+                case SLASH -> bonus = stats.slashdef;
+            }
         }
 
-        //System.out.println(bonus);
         return bonus;
     }
 
-    public int getGearAttackBonus() {
+    public int getGearAttackBonus(Entity attacker) {
         int bonus = 0;
-        if (attacker instanceof Player) {
-            EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo());
-            final AttackType type = attacker.getCombat().getFightType().getAttackType();
-            if (type == AttackType.STAB) {
-                bonus = attackerBonus.stab;
-                System.out.println("stab: " + bonus);
-                System.out.println("type: " + type);
-            } else if (type == AttackType.CRUSH) {
-                bonus = attackerBonus.crush;
-                System.out.println("crush: " + bonus);
-                System.out.println("type: " + type);
-            } else if (type == AttackType.SLASH) {
-                bonus = attackerBonus.slash;
-                System.out.println("slash: " + bonus);
-            } else if (attacker instanceof NPC n) {
-                bonus = n.getCombatInfo().getBonuses().getAttack();
-                // System.out.println("npc=" + bonus);
+        if (attacker instanceof Player player) {
+            EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo());
+            final AttackType type = player.getCombat().getFightType().getAttackType();
+            switch (type) {
+                case STAB -> bonus = attackerBonus.stab;
+                case CRUSH -> bonus = attackerBonus.crush;
+                case SLASH -> bonus = attackerBonus.slash;
             }
+        } else if (attacker instanceof NPC npc) {
+            bonus = npc.getCombatInfo().getBonuses().getAttack();
         }
 
         return bonus;
     }
 
-    public double getAttackRoll() {
-        double effectiveLevel = getEffectiveAttack();
-        double attackBonus = getGearAttackBonus();
+    public double getAttackRoll(Entity attacker) {
+        double effectiveLevel = getEffectiveAttack(attacker);
+        double attackBonus = getGearAttackBonus(attacker);
 
         double roll = effectiveLevel * (attackBonus + 64);
 
         return Math.floor(roll);
     }
 
-    public double getDefenceRoll() {
-        double defenceLevel = getDefenceLevel();
+    public double getDefenceRoll(Entity defender) {
+        double defenceLevel = getDefenceLevel(defender);
         double defenceBonus = getGearDefenceBonus();
 
         if (defender instanceof Player) {

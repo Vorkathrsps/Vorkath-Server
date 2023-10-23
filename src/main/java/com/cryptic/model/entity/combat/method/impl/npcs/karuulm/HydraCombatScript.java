@@ -76,7 +76,7 @@ public class HydraCombatScript extends CommonCombatMethod {
         List<Tile> targets = new LinkedList<>();
         targets.add(target.tile().copy());
         Area hydraBounds = hydra.bounds();
-        List<Tile> positions = target.tile().area(3, pos -> !pos.inArea(hydraBounds) && ProjectileRoute.allow(hydra, pos));
+        List<Tile> positions = target.tile().area(3, pos -> !pos.inArea(hydraBounds) && ProjectileRoute.hasLineOfSight(hydra, pos));
         for (int i = 0; i < 2; i++)
             targets.add(Utils.randomElement(positions));
         targets.forEach(pos -> hydra.runFn(1, () -> {

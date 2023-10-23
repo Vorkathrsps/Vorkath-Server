@@ -19,7 +19,7 @@ public class AbyssalDemon extends CommonCombatMethod {
 
     private void teleportAttack(Entity entity, Entity target) {
         Entity e = Utils.rollDie(2, 1) ? entity : target;
-        List<Tile> tiles = target.tile().area(1, pos -> World.getWorld().clipAt(pos) == 0 && !pos.equals(entity.tile()) && !ProjectileRoute.allow(entity, pos));
+        List<Tile> tiles = target.tile().area(1, pos -> World.getWorld().clipAt(pos) == 0 && !pos.equals(entity.tile()) && !ProjectileRoute.hasLineOfSight(entity, pos));
         Tile destination = Utils.randomElement(tiles);
         if(destination == null)
             return;

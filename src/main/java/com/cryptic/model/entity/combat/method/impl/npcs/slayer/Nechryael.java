@@ -86,7 +86,7 @@ public class Nechryael extends CommonCombatMethod {
         for (int x = -radius; x <= radius; x++) {
             for (int y = -radius; y <= radius; y++) {
                 Region tile = RegionManager.getRegion(target.getX() + x, target.getY() + y);
-                if (tile == null || ProjectileRoute.allow(target, target.getX() + x, target.getY() + y)) {
+                if (tile == null || ProjectileRoute.hasLineOfSight(target, target.getX() + x, target.getY() + y)) {
                     tiles.add(new Tile(target.getX() + x, target.getY(), target.getZ()));
                 }
             }

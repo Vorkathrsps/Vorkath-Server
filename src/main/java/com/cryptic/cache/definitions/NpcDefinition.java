@@ -13,9 +13,7 @@ import java.util.*;
  * Created by Bart Pelle on 10/4/2014.
  */
 public class NpcDefinition implements Definition {
-
     public boolean occupyTiles = true;
-
     public int getOption(String... searchOptions) {
         if (actions != null) {
             for (String s : searchOptions) {

@@ -1,5 +1,6 @@
 package com.cryptic.model.entity.combat.method.impl;
 
+import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatFactory;
@@ -83,7 +84,7 @@ public class MeleeCombatMethod extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         if (entity instanceof NPC npc) {
-            if (npc.getId() == 10865 || npc.getId() == 10814 || npc.getId() == 8340) {
+            if (npc.getId() == 10865 || npc.getId() == 10814 || npc.getId() == 8340 || npc.getId() == NpcIdentifiers.VERZIK_VITUR || npc.getId() == NpcIdentifiers.VERZIK_VITUR_8372) {
                 return false;
             }
             if (!withinDistance(1)) {

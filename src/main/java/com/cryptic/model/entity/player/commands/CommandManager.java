@@ -672,10 +672,11 @@ public class CommandManager {
 
         });
         dev("c", (p, c, s) -> {
-            TheatreParty theatreParty = new TheatreParty(p, new ArrayList<>());
-            TheatreInstance theatreInstance = new TheatreInstance(p, theatreParty.getPlayers());
-            p.setInstance(theatreInstance);
-            theatreInstance.buildParty().startRaid();
+            NPC npc = new NPC(8371, new Tile(p.tile().getX(), p.tile().getY()));
+            npc.spawn(false);
+            Chain.noCtx().runFn(2, () -> {
+                npc.transmog(8372);
+            });
         });
 
         dev("ioi", (p, c, s) -> {

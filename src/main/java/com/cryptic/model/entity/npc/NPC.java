@@ -360,9 +360,12 @@ public class NPC extends Entity {
         this.transmog = id;
         this.id = id;
         this.def(World.getWorld().definitions().get(NpcDefinition.class, id));
+        this.setCombatInfo(World.getWorld().combatInfo(id));
+        this.setHitpoints(this.maxHp());
         NpcDefinition def = def();
-        setSize(def.size);
-        this.getUpdateFlag().flag(Flag.TRANSFORM);
+        setSize(def.getSize());
+        World.getWorld().registerNpc(this);
+        getUpdateFlag().flag(Flag.TRANSFORM);
     }
 
     public void inViewport(boolean b) {
@@ -615,9 +618,7 @@ public class NPC extends Entity {
     }*/
 
     public void findAgroTargetTimed() {
-        accumulateRuntimeTo(() -> {
-            findAgroTarget();
-        }, d -> NpcPerformance.H += d.toNanos());
+        accumulateRuntimeTo(this::findAgroTarget, d -> NpcPerformance.H += d.toNanos());
     }
 
     public void findAgroTarget() {
@@ -786,7 +787,7 @@ public class NPC extends Entity {
 
     static final int[] PERMANENT_MOVEMENT_BLOCKED = {
         NpcIdentifiers.VORKATH_8061, 10814, 10815, 10816, 10817, NpcIdentifiers.SOTETSEG_10865, NpcIdentifiers.PORTAL_1747, NpcIdentifiers.PORTAL_1748, NpcIdentifiers.PORTAL_1749, NpcIdentifiers.PORTAL_1750, NpcIdentifiers.VOID_KNIGHT_2950, NpcIdentifiers.VOID_KNIGHT_2951, NpcIdentifiers.VOID_KNIGHT_2952,
-        XARPUS, XARPUS_8340, XARPUS_10767, XARPUS_8339, XARPUS_8341
+        XARPUS, XARPUS_8340, XARPUS_10767, XARPUS_8339, XARPUS_8341, SPINOLYP, SPINOLYP_5961, SPINOLYP_5963
     };
 
     public boolean permaBlockedMovement() {

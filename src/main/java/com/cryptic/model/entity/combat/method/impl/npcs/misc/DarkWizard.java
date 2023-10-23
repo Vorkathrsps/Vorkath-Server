@@ -14,7 +14,7 @@ public class DarkWizard extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        if (!ProjectileRoute.allow(entity, target)) {
+        if (!ProjectileRoute.hasLineOfSight(entity, target)) {
             return false;
         }
         entity.performGraphic(new Graphic(96, GraphicHeight.HIGH));

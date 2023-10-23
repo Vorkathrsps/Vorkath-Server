@@ -14,6 +14,7 @@ import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.equipment.EquipmentInfo;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
+import com.cryptic.utility.ItemIdentifiers;
 import lombok.NonNull;
 
 import static com.cryptic.utility.ItemIdentifiers.*;
@@ -78,34 +79,32 @@ public class RangedMaxHitFormula {
     }
 
     private double getEquipmentBonus(@NonNull final Player player) {
-        double otherBonus = 1.0;
-
-        boolean hasCrystalHelm = player.getEquipment().hasAt(EquipSlot.HEAD, CRYSTAL_HELM);
-        boolean hasCrystalBody = player.getEquipment().hasAt(EquipSlot.BODY, CRYSTAL_BODY);
-        boolean hasCrystalLegs = player.getEquipment().hasAt(EquipSlot.LEGS, CRYSTAL_LEGS);
-
-        if (hasCrystalHelm) {
-            otherBonus *= 1.025;
-        }
-
-        if (hasCrystalBody) {
-            otherBonus *= 1.075;
-        }
-
-        if (hasCrystalLegs) {
-            otherBonus *= 1.05;
-        }
+        double otherBonus = 1.0D;
+        Entity target = player.getCombat().getTarget();
+        Item weapon = player.getEquipment().get(EquipSlot.WEAPON);
+        var hasCrystalHelm = player.getEquipment().hasAt(EquipSlot.HEAD, ItemIdentifiers.CRYSTAL_HELM) || player.getEquipment().hasAt(EquipSlot.HEAD, CRYSTAL_HELM_27705) || player.getEquipment().hasAt(EquipSlot.HEAD, CRYSTAL_HELM_27717) || player.getEquipment().hasAt(EquipSlot.HEAD, CRYSTAL_HELM_27729) || player.getEquipment().hasAt(EquipSlot.HEAD, CRYSTAL_HELM_27741) || player.getEquipment().hasAt(EquipSlot.HEAD, CRYSTAL_HELM_27753) || player.getEquipment().hasAt(EquipSlot.HEAD, CRYSTAL_HELM_27765) || player.getEquipment().hasAt(EquipSlot.HEAD, CRYSTAL_HELM_27777);
+        var hasCrystalBody = player.getEquipment().hasAt(EquipSlot.BODY, ItemIdentifiers.CRYSTAL_BODY) || player.getEquipment().hasAt(EquipSlot.BODY, CRYSTAL_BODY_27697) || player.getEquipment().hasAt(EquipSlot.BODY, CRYSTAL_BODY_27709) || player.getEquipment().hasAt(EquipSlot.BODY, CRYSTAL_BODY_27721) || player.getEquipment().hasAt(EquipSlot.BODY, CRYSTAL_BODY_27733) || player.getEquipment().hasAt(EquipSlot.BODY, CRYSTAL_BODY_27745) || player.getEquipment().hasAt(EquipSlot.BODY, CRYSTAL_BODY_27757) || player.getEquipment().hasAt(EquipSlot.BODY, CRYSTAL_BODY_27769);
+        var hasCrystalLegs = player.getEquipment().hasAt(EquipSlot.LEGS, ItemIdentifiers.CRYSTAL_LEGS) || player.getEquipment().hasAt(EquipSlot.LEGS, CRYSTAL_LEGS_27701) || player.getEquipment().hasAt(EquipSlot.LEGS, CRYSTAL_LEGS_27713) || player.getEquipment().hasAt(EquipSlot.LEGS, CRYSTAL_LEGS_27725) || player.getEquipment().hasAt(EquipSlot.LEGS, CRYSTAL_LEGS_27737) || player.getEquipment().hasAt(EquipSlot.LEGS, CRYSTAL_LEGS_27749) || player.getEquipment().hasAt(EquipSlot.LEGS, CRYSTAL_LEGS_27761) || player.getEquipment().hasAt(EquipSlot.LEGS, CRYSTAL_LEGS_27773);
 
         if (player.isSpecialActivated() && FormulaUtils.wearingDarkBowWithDragonArrows(player)) {
             otherBonus *= 1.02;
         }
 
-        Item weapon = player.getEquipment().get(EquipSlot.WEAPON);
-        Entity target = player.getCombat().getTarget();
+        if (FormulaUtils.hasBowOfFaerdhenin(player) || FormulaUtils.hasCrystalBow(player)) {
+            if (hasCrystalHelm) {
+                otherBonus *= 1.0025D;
+            }
+            if (hasCrystalBody) {
+                otherBonus *= 1.075D;
+            }
+            if (hasCrystalLegs) {
+                otherBonus *= 1.05D;
+            }
+        }
 
         if (target instanceof NPC npc) {
-            boolean isSlayerMatch = Slayer.creatureMatches(player, npc.id()) || npc.isCombatDummy();
-            boolean isUndead = FormulaUtils.isUndead(npc) || npc.isCombatDummy();
+            boolean isSlayerMatch = Slayer.creatureMatches(player, npc.id());
+            boolean isUndead = FormulaUtils.isUndead(npc);
 
             if (isSlayerMatch && hasCrystalBody && hasCrystalLegs) {
                 otherBonus *= (1.15) * (1.075) * (1.05);
@@ -122,17 +121,17 @@ public class RangedMaxHitFormula {
             if (FormulaUtils.hasRangedWildernessWeapon(player) && WildernessArea.isInWilderness(player)) {
                 otherBonus *= 1.50;
             }
-        }
 
-        if (weapon != null && weapon.getId() == TWISTED_BOW && target instanceof NPC npcTarget) {
-            int magicLevel = npcTarget.getCombatInfo() != null && npcTarget.getCombatInfo().stats != null
-                ? npcTarget.getCombatInfo().stats.magic
-                : 0;
+            if (weapon != null && weapon.getId() == TWISTED_BOW) {
+                int magicLevel = npc.getCombatInfo() != null && npc.getCombatInfo().stats != null
+                    ? npc.getCombatInfo().stats.magic
+                    : 0;
 
-            double damage = 250D + (((10 * 3 * magicLevel) / 10D) - 14) - (Math.floor((3 * magicLevel / 10D) - 140) * 2);
-            damage /= 100;
-            damage = Math.min(250D, damage);
-            otherBonus *= Math.min(2D, 1D + damage);
+                double damage = 250D + (((10 * 3 * magicLevel) / 10D) - 14) - (Math.floor((3 * magicLevel / 10D) - 140) * 2);
+                damage /= 100;
+                damage = Math.min(250D, damage);
+                otherBonus *= Math.min(2D, 1D + damage);
+            }
         }
 
         return otherBonus;

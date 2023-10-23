@@ -9,9 +9,17 @@ public class DagannothRex extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
+        if (!withinDistance(8)) {
+            return false;
+        }
         entity.animate(2851);
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
         return true;
+    }
+
+    @Override
+    public void doFollowLogic() {
+        follow(1);
     }
 
     @Override

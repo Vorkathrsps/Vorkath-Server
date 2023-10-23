@@ -1,76 +1,104 @@
 [
-    {
-      "ids": [
-        6611,
-        6612
-      ],
-      "aggressive": true,
-      "retaliates": true,
-      "unstacked": false,
-      "boss": true,
-      "maxhit": 44,
-      "attackspeed": 4,
-      "slayerlvl": 1,
-      "slayerxp": 312,
-      "respawntime": 33,
-      "stats": {
-        "attack": 430,
-        "strength": 430,
-        "defence": 395,
-        "hitpoints": 255,
-        "magic": 300
-      },
-      "bonuses": {
-        "attack": 0,
-        "strength": 0,
-        "stabdefence": 201,
-        "slashdefence": 200,
-        "crushdefence": -10,
-        "rangeddefence": 270,
-        "magicdefence": 250
-      },
-      "animations": {
-        "attack": 5507,
-        "block": 5508,
-        "death": 5509
-      },
-      "scripts": {
-        "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion",
-        "hit": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.vetion.Vetion.hit"
-      }
+  {
+    "ids": [
+      6611
+    ],
+    "aggressive": true,
+    "retaliates": true,
+    "unstacked": false,
+    "boss": true,
+    "maxhit": 44,
+    "attackspeed": 4,
+    "slayerlvl": 1,
+    "slayerxp": 312,
+    "respawntime": 33,
+    "stats": {
+      "attack": 430,
+      "strength": 430,
+      "defence": 395,
+      "hitpoints": 255,
+      "magic": 300
     },
-    {
-      "ids": [
-        6613
-      ],
-      "aggressive": true,
-      "maxhit": 12,
-      "attackspeed": 4,
-      "stats": {
-        "attack": 70,
-        "strength": 110,
-        "defence": 100,
-        "hitpoints": 100
-      },
-      "bonuses": {
-        "attack": 0,
-        "strength": 0,
-        "stabdefence": 0,
-        "slashdefence": 0,
-        "crushdefence": 0,
-        "rangeddefence": 0,
-        "magicdefence": 0
-      },
-      "animations": {
-        "attack": 6581,
-        "block": 6578,
-        "death": 6576
-      },
-      "scripts": {
-       // "death": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.vetion.VetionMinion.death"
-      }
+    "bonuses": {
+      "attack": 0,
+      "strength": 0,
+      "stabdefence": 201,
+      "slashdefence": 200,
+      "crushdefence": -10,
+      "rangeddefence": 270,
+      "magicdefence": 250
     },
-    {
+    "animations": {
+      "death": 9979
+    },
+    "scripts": {
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion"
+    }
+  },
+  {
+    "ids": [
+      6612
+    ],
+    "aggressive": true,
+    "retaliates": true,
+    "unstacked": false,
+    "boss": true,
+    "maxhit": 44,
+    "attackspeed": 4,
+    "slayerlvl": 1,
+    "slayerxp": 312,
+    "stats": {
+      "attack": 430,
+      "strength": 430,
+      "defence": 395,
+      "hitpoints": 255,
+      "magic": 300
+    },
+    "bonuses": {
+      "attack": 0,
+      "strength": 0,
+      "stabdefence": 201,
+      "slashdefence": 200,
+      "crushdefence": -10,
+      "rangeddefence": 270,
+      "magicdefence": 250
+    },
+    "animations": {
+      "death": 9980
+    },
+    "scripts": {
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion"
+    }
+  },
+  {
+    "ids": [
+      6613
+    ],
+    "aggressive": true,
+    "maxhit": 12,
+    "attackspeed": 4,
+    "stats": {
+      "attack": 70,
+      "strength": 110,
+      "defence": 100,
+      "hitpoints": 100
+    },
+    "bonuses": {
+      "attack": 0,
+      "strength": 0,
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
+    },
+    "animations": {
+      "attack": 6581,
+      "block": 6578,
+      "death": 6576
+    }
+  },
+  {
     "ids": [
       11113
     ],
@@ -549,7 +577,7 @@
     },
     "scripts": {
       "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.Scorpia"
-     // "death": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.Scorpia.deathScript"
+      // "death": "nl.bartpelle.veteres.content.npcs.bosses.wilderness.Scorpia.deathScript"
     }
   },
   {
@@ -637,7 +665,8 @@
   },
   {
     "ids": [
-      2054, 16007
+      2054,
+      16007
     ],
     "aggressive": true,
     "boss": true,

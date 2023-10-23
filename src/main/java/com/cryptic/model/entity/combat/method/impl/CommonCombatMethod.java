@@ -44,7 +44,7 @@ public abstract class CommonCombatMethod implements CombatMethod {
         return new EntityCombatBuilder(entity, target);
     }
 
-    public void onRespawn() {
+    public void onRespawn(NPC npc) {
 
     }
 

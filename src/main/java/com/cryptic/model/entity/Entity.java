@@ -97,7 +97,7 @@ public abstract class Entity {
     /**
      * The entity's tile size.
      */
-    private int size = 1;
+    @Setter private int size;
 
     protected Tile tile;
 
@@ -266,16 +266,6 @@ public abstract class Entity {
      */
     public int getSize() {
         return size;
-    }
-
-    /**
-     * Sets the entity's tile size
-     *
-     * @return The Entity instance.
-     */
-    public Entity setSize(int size) {
-        this.size = size;
-        return this;
     }
 
     public boolean isNpc() {

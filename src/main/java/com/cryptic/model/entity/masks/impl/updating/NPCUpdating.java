@@ -211,9 +211,6 @@ public class NPCUpdating {
         if (flag.flagged(Flag.TRANSFORM)) {
             mask |= 0x2;
         }
-        //if (flag.flagged(Flag.FORCED_MOVEMENT) && npc.getForcedChat() != null) {
-      //   //   mask |= 0x160;
-       // }
         if (sendFaceTile || (flag.flagged(Flag.FACE_TILE) && npc.getFaceTile() != null)) {
             mask |= 0x4;
         }
@@ -238,11 +235,8 @@ public class NPCUpdating {
             writeLuminanceOverlay(block, npc);
         }
         if (flag.flagged(Flag.TRANSFORM)) {
-            block.putShort(npc.transmog() <= 0 ? npc.id() : npc.transmog(), ValueType.A, ByteOrder.LITTLE);
+            block.putShort(npc.id(), ByteOrder.LITTLE);
         }
-       // if (flag.flagged(Flag.FORCED_MOVEMENT) && npc.getForceMovement() != null) {
-       //     updateForcedMovement(npc, block);
-      //  }
         if (flag.flagged(Flag.FACE_TILE) || sendFaceTile) {
             final Tile position = sendFaceTile ? npc.lastTileFaced : npc.getFaceTile();
             int x = position == null ? 0 : position.getX();

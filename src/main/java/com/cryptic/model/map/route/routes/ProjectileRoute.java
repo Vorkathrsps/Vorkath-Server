@@ -8,8 +8,8 @@ import com.cryptic.model.map.region.RegionManager;
 
 public class ProjectileRoute {
 
-    public static boolean allow(Entity entity, Entity target) {
-        return allow(
+    public static boolean hasLineOfSight(Entity entity, Entity target) {
+        return hasLineOfSight(
             entity.getAbsX(),
             entity.getAbsY(),
             entity.getZ(),
@@ -19,8 +19,8 @@ public class ProjectileRoute {
             target.getSize());
     }
 
-    public static boolean allow(Entity entity, Tile dest) {
-        return allow(
+    public static boolean hasLineOfSight(Entity entity, Tile dest) {
+        return hasLineOfSight(
             entity.getAbsX(),
             entity.getAbsY(),
             entity.getZ(),
@@ -30,8 +30,8 @@ public class ProjectileRoute {
             1);
     }
 
-    public static boolean allow(Entity entity, int destX, int destY) {
-        return allow(
+    public static boolean hasLineOfSight(Entity entity, int destX, int destY) {
+        return hasLineOfSight(
             entity.getAbsX(),
             entity.getAbsY(),
             entity.getZ(),
@@ -41,7 +41,7 @@ public class ProjectileRoute {
             1);
     }
 
-    public static boolean allow(
+    public static boolean hasLineOfSight(
         int absX, int absY, int z, int size, int targetX, int targetY, int targetSize) {
         targetX = targetX * 2 + targetSize - 1;
         targetY = targetY * 2 + targetSize - 1;
@@ -55,10 +55,10 @@ public class ProjectileRoute {
         if ((absX & 0x1) != 0) absX += absX > targetX ? -1 : 1;
         if ((absY & 0x1) != 0) absY += absY > targetY ? -1 : 1;
 
-        return allow(absX >> 1, absY >> 1, z, targetX >> 1, targetY >> 1);
+        return hasLineOfSight(absX >> 1, absY >> 1, z, targetX >> 1, targetY >> 1);
     }
 
-    public static boolean allow(int absX, int absY, int z, int destX, int destY) {
+    public static boolean hasLineOfSight(int absX, int absY, int z, int destX, int destY) {
         int dx = Math.abs(destX - absX);
         int dy = Math.abs(destY - absY);
         int sx = absX < destX ? 1 : -1;

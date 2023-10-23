@@ -1,12 +1,7 @@
 [
   {
     "ids": [
-      8369,
-      8370,
-      8371,
-      8372,
       8373,
-      8374,
       8375
     ],
     "maxhit": 50,
@@ -38,6 +33,34 @@
     },
     "scripts": {
       "combat": "com.cryptic.model.entity.combat.method.impl.npcs.verzik.VerzikVitur"
+    }
+  },
+  {
+    "ids": [
+      8372
+    ],
+    "maxhit": 47,
+    "deathlen": 2,
+    "aggressive": true,
+    "aggroradius": 30,
+    "stats": {
+      "attack": 400,
+      "strength": 400,
+      "magic": 400,
+      "ranged": 400,
+      "defence": 200,
+      "hitpoints": 3250
+    },
+    "bonuses": {
+      "attack": 0,
+      "strength": 0,
+      "ranged": 80,
+      "magic": 80,
+      "stabdefence": 100,
+      "slashdefence": 60,
+      "crushdefence": 100,
+      "rangeddefence": 70,
+      "magicdefence": 250
     }
   },
   {

@@ -10,6 +10,7 @@ import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.npc.HealthHud;
+import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
@@ -29,10 +30,10 @@ public class KingBlackDragon extends CommonCombatMethod {
     };
 
     @Override
-    public void onRespawn() {
-        if (entity != null && entity.isNpc()) {
-            for (Player p : entity.closePlayers(32)) {
-                HealthHud.open(p, HealthHud.Type.REGULAR, "King Black Dragon", entity.hp());
+    public void onRespawn(NPC npc) {
+        if (npc != null) {
+            for (Player p : npc.closePlayers(32)) {
+                HealthHud.open(p, HealthHud.Type.REGULAR, "King Black Dragon", npc.maxHp());
             }
         }
     }

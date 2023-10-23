@@ -100,7 +100,7 @@ public class TargetRoute {
             if (!inTarget(absX, absY, size, targetX, targetY, targetSize))
                 if (inRange(absX, absY, size, targetX, targetY, targetSize, distance))
                 if ((skipClipCheck()
-                || ProjectileRoute.allow(
+                || ProjectileRoute.hasLineOfSight(
                 absX,
                 absY,
                 entity.getZ(),
@@ -147,7 +147,7 @@ public class TargetRoute {
                 return true;
             }
             if (inRange(stepX, stepY, size, targetX, targetY, targetSize, distance)
-                && ProjectileRoute.allow(
+                && ProjectileRoute.hasLineOfSight(
                 stepX, stepY, entity.getZ(), size, targetX, targetY, targetSize)) {
                 withinDistance = true;
                 entity.getMovement().reset();

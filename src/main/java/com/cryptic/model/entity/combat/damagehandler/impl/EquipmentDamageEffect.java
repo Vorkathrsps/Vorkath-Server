@@ -41,6 +41,7 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         listeners.add(new JusticiarSet());
         listeners.add(new DinhBulwark());
         listeners.add(new SalveAmulet());
+        listeners.add(new LeafBladedBattleAxe());
         return listeners;
     }
 
@@ -75,6 +76,7 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         listeners.add(new DragonHunterCrossbow());
         listeners.add(new VoidEquipment());
         listeners.add(new WildernessWeapon());
+        listeners.add(new SlayerHelmets());
         return listeners;
     }
 
@@ -87,6 +89,7 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         listeners.add(new SalveAmulet());
         listeners.add(new DragonHunterLance());
         listeners.add(new WildernessWeapon());
+        listeners.add(new SlayerHelmets());
         return listeners;
     }
 
@@ -143,9 +146,6 @@ public class EquipmentDamageEffect implements DamageEffectListener {
             }
         }
         return affectsApplied;
-    }
-
-    public EquipmentDamageEffect() {
     }
 
 }

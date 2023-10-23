@@ -7,6 +7,7 @@ import java.util.Objects;
 
 @RequiredArgsConstructor
 public class PlainTile {
+
     public final int x, y, z;
 
     public PlainTile(int x, int y) {

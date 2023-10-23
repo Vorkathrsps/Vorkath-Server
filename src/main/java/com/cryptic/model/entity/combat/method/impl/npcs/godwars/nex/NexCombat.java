@@ -327,7 +327,7 @@ public class NexCombat extends CommonCombatMethod {
             }
             if (maxMinions != 0) {
                 for (int i = 0; i < maxMinions; i++) {
-                    List<Tile> tiles = nex.tile().area(7, pos -> World.getWorld().clipAt(pos) == 0 && !pos.equals(entity.tile()) && !ProjectileRoute.allow(entity, pos));
+                    List<Tile> tiles = nex.tile().area(7, pos -> World.getWorld().clipAt(pos) == 0 && !pos.equals(entity.tile()) && !ProjectileRoute.hasLineOfSight(entity, pos));
                     tiles.removeIf(t -> t.x <= 2909);
                     Tile destination = Utils.randomElement(tiles);
                     NPC bloodReaver = new NPC(BLOOD_REAVER, destination);

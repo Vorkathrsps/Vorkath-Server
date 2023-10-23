@@ -49,8 +49,8 @@ public class Sotetseg extends NPC {
         var randomProjectile = Utils.randomElement(projectileIds);
         this.animate(8139);
         int tileDist = this.tile().distance(player.tile());
-        int duration = (55 + 12 + (10 * tileDist));
-        Projectile p = new Projectile(this, player, randomProjectile, 55, duration, 43, 21, 25, 5, 10);
+        int duration = (23 + 64 + (2 * tileDist));
+        Projectile p = new Projectile(this, player, randomProjectile, 23, duration, 26, 31, 16, 5, 64, 2);
         final int delay = this.executeProjectile(p);
         Hit hit = Hit.builder(this, player, CombatFactory.calcDamageFromType(this, player, randomProjectile == 1606 ? CombatType.MAGIC : CombatType.RANGED), delay, randomProjectile == 1606 ? CombatType.MAGIC : CombatType.RANGED).checkAccuracy().postDamage(d -> {
             if (randomProjectile == 1606) {
@@ -77,8 +77,8 @@ public class Sotetseg extends NPC {
         magicAttackCount = 0;
         this.animate(8139);
         int tileDist = this.tile().distance(player.tile());
-        int duration = (55 + 25 + (10 * tileDist));
-        Projectile p = new Projectile(this, player, 1604, 55, duration, 50, 0, 50, 5, 10);
+        int duration = (23 + 64 + (10 * tileDist));
+        Projectile p = new Projectile(this, player, 1604, 23, duration, 26, 31, 40, 5, 64, 10);
         final int delay = this.executeProjectile(p);
         Hit hit = Hit.builder(this, player, CombatFactory.calcDamageFromType(this, player, CombatType.MAGIC), delay, CombatType.MAGIC).setAccurate(true);
         hit.setDamage(121);

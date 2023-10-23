@@ -32,6 +32,6 @@ public class DagannothSupreme extends CommonCombatMethod {
 
     @Override
     public int moveCloseToTargetTileRange(Entity entity) {
-        return 8;
+        return 6;
     }
 }

@@ -6,6 +6,7 @@ import com.cryptic.model.content.raids.theatre.boss.bloat.handler.BloatHandler;
 import com.cryptic.model.content.raids.theatre.boss.maiden.handler.MaidenHandler;
 import com.cryptic.model.content.raids.theatre.boss.nylocas.handler.VasiliasHandler;
 import com.cryptic.model.content.raids.theatre.boss.sotetseg.handler.SotetsegHandler;
+import com.cryptic.model.content.raids.theatre.boss.verzik.handler.VerzikHandler;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.handler.XarpusHandler;
 import com.cryptic.model.content.raids.theatre.controller.TheatreHandler;
 import com.cryptic.model.content.raids.theatre.controller.TheatreController;
@@ -15,6 +16,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.utility.ItemIdentifiers;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,13 +41,21 @@ public class TheatreInstance extends TheatreArea { //TODO make sure we're cleani
     @Getter List<TheatreHandler> bosses = new ArrayList<>();
     @Getter public List<NPC> pillarList = new ArrayList<>();
     @Getter public List<NPC> nylocas = new ArrayList<>();
+    @Getter public List<NPC> verzikPillarNpcs = new ArrayList<>();
     @Getter public List<GameObject> pillarObject = new ArrayList<>();
+    @Getter public List<GameObject> verzikPillarObjects = new ArrayList<>();
     @Getter public TheatreController theatreController = new TheatreController(bosses);
     @Getter public TheatrePhase theatrePhase = new TheatrePhase(TheatreStage.ONE);
-    Tile entrance = new Tile(3170, 4378);
+    @Getter public Tile entrance = new Tile(3168, 4304);
+    @Getter public final List<Tile> verzikPillarTiles = List.of(new Tile(3161, 4318, 0),
+        new Tile(3161, 4312, 0),
+        new Tile(3161, 4306, 0),
+        new Tile(3173, 4318, 0),
+        new Tile(3173, 4312, 0),
+        new Tile(3173, 4306, 0));
     @Getter @Setter public boolean hasInitiatedNylocasVasilias = false;
     public static Area[] rooms() {
-        int[] regions = {12613, 12869, 13125, 12612, 12611, 12687, 13123, 13122};
+        int[] regions = {12613, 12869, 13125, 12612, 12611, 12687, 13123, 13122, 12867};
         return Arrays.stream(regions).mapToObj(region -> new Area(
             Tile.regionToTile(region).getX(),
             Tile.regionToTile(region).getY(),
@@ -60,7 +70,7 @@ public class TheatreInstance extends TheatreArea { //TODO make sure we're cleani
 
     public TheatreInstance buildParty() {
         owner.setInstance(this);
-        owner.teleport(entrance.transform(0, 0, this.getzLevel() + 1));
+        owner.teleport(entrance.transform(0, 0, this.getzLevel()));
         owner.setTheatreState(TheatreState.ACTIVE);
         owner.setRaidDeathState(RaidDeathState.ALIVE);
         owner.setRoomState(RoomState.INCOMPLETE);
@@ -68,7 +78,7 @@ public class TheatreInstance extends TheatreArea { //TODO make sure we're cleani
             if (p != owner) {
                 if (p != null) {
                     p.setInstance(owner.getTheatreInstance());
-                    p.teleport(entrance.transform(0, 0, owner.getTheatreInstance().getzLevel() + 1));
+                    p.teleport(entrance.transform(0, 0, owner.getTheatreInstance().getzLevel()));
                     p.setTheatreState(TheatreState.ACTIVE);
                     p.setRaidDeathState(RaidDeathState.ALIVE);
                     p.setRoomState(RoomState.INCOMPLETE);
@@ -83,6 +93,7 @@ public class TheatreInstance extends TheatreArea { //TODO make sure we're cleani
         bosses.add(new BloatHandler());
         bosses.add(new VasiliasHandler());
         bosses.add(new SotetsegHandler());
+        bosses.add(new VerzikHandler());
         theatreController.build(this.owner, this);
     }
     public void onRoomStateChanged(RoomState roomState) {
@@ -106,7 +117,12 @@ public class TheatreInstance extends TheatreArea { //TODO make sure we're cleani
     }
     public void clear() {
         for (var member : players) {
-            Arrays.stream(rooms())//fail safe
+            if (member.getEquipment().contains(ItemIdentifiers.DAWNBRINGER)) {
+                member.getEquipment().remove(member.getEquipment().getWeapon());
+            } else if (member.getInventory().contains(ItemIdentifiers.DAWNBRINGER)) {
+                member.getInventory().remove(ItemIdentifiers.DAWNBRINGER);
+            }
+            Arrays.stream(rooms())
                 .findFirst()
                 .filter(p -> p.contains(member.tile()))
                 .ifPresent(p -> member.teleport(new Tile(3670, 3219, 0)));

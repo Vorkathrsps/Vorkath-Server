@@ -111,7 +111,7 @@ public class VasaNistirio extends CommonCombatMethod {
     private void fallingRocks() {
         target.getAsNpc().getLocalPlayers().forEach(p -> {
             if (entity.getAsPlayer().dead() || RouteMisc.getEffectiveDistance(target.getAsNpc(), entity) >= 10
-                || !ProjectileRoute.allow(target.getAsNpc(), entity))
+                || !ProjectileRoute.hasLineOfSight(target.getAsNpc(), entity))
                 return;
         });
         final var tile = target.tile().copy();
@@ -172,7 +172,7 @@ public class VasaNistirio extends CommonCombatMethod {
             return;
         }
 
-        if (target.dead() || RouteMisc.getEffectiveDistance(entity, target) >= 10 || !ProjectileRoute.allow(entity, target)) {
+        if (target.dead() || RouteMisc.getEffectiveDistance(entity, target) >= 10 || !ProjectileRoute.hasLineOfSight(entity, target)) {
             return;
         }
 

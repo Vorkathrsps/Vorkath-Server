@@ -214,7 +214,7 @@ public class DwarfCannon extends OwnedObject {
                                                         npc.tile()))
                                 .filter(
                                         npc ->
-                                                ProjectileRoute.allow(
+                                                ProjectileRoute.hasLineOfSight(
                                                         getCorrectedTile(tile()).getX(),
                                                         getCorrectedTile(tile()).getY(),
                                                         getCorrectedTile(tile()).getZ(),

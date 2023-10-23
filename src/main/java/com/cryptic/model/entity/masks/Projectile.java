@@ -123,8 +123,7 @@ public final class Projectile {
      * @param creatorSize
      * @param stepMultiplier
      */
-    public Projectile(Entity source, Entity victim, int projectileId,
-                      int delay, int speed, int startHeight, int endHeight, int curve, int creatorSize, int stepMultiplier) {
+    public Projectile(Entity source, Entity victim, int projectileId, int delay, int speed, int startHeight, int endHeight, int curve, int creatorSize, int stepMultiplier) {
         this(source.getCentrePosition(),
             victim.getCentrePosition(),
             victim.getProjectileLockonIndex(),

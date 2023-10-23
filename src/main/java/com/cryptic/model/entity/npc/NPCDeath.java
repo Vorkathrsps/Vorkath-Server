@@ -523,6 +523,10 @@ public class NPCDeath {
             npc.animate(npc.getCombatInfo() != null ? npc.getCombatInfo().animations.death : -1);
         }
 
+        if (npc.id() == 6612) {
+            npc.animate(9980);
+        }
+
         int finalRespawnTimer = respawnTimer;
         Chain.bound(null).runFn(npc.getCombatInfo() != null ? npc.getCombatInfo().deathlen : 5, () -> {
 
@@ -703,12 +707,6 @@ public class NPCDeath {
                 KalphiteQueenSecondForm.death(npc);
             }
 
-            if (npc.id() == VETION_REBORN) {
-                npc.putAttrib(AttributeKey.VETION_REBORN_ACTIVE, false);
-                npc.clearAttrib(AttributeKey.VETION_HELLHOUND_SPAWNED);
-                npc.transmog(VETION);
-            }
-
             if (npc.id() == 6613) {
                 VetionMinion.death(npc); //Do Vetíon minion death
             }
@@ -874,13 +872,8 @@ public class NPCDeath {
             Gargoyle.onDeath(npc);
         }
 
-        if (npc.id() == NpcIdentifiers.VETION) {//Just do it again for extra safety
-            npc.clearAttrib(AttributeKey.VETION_HELLHOUND_SPAWNED);
-            npc.putAttrib(AttributeKey.VETION_REBORN_ACTIVE, false);
-        }
-
         if (npc.getCombatMethod() instanceof CommonCombatMethod commonCombatMethod) {
-            commonCombatMethod.onRespawn();
+            commonCombatMethod.onRespawn(npc);
         }
 
         if (npc.hidden()) { // not respawned yet. we do this check incase it was force-respawned by .. group spawning (gwd)

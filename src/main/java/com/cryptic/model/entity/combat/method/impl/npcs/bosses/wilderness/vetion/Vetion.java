@@ -42,22 +42,6 @@ public class Vetion extends CommonCombatMethod {
         "Filthy whelps!", "Time to die, mortal!", "You call that a weapon?!", "Now i've got you!");
 
     @Override
-    public void init(NPC npc) {
-        if (phase.getStage() == PhaseStage.ONE && entity.npc().id() == 6611 && entity.npc().hp() == entity.npc().maxHp()) {
-            Chain.noCtx().runFn(1, () -> {
-                entity.npc().canAttack(false);
-                entity.lockNoDamage();
-                entity.animate(9977);
-            }).then(2, () -> {
-                entity.unlock();
-                phase.setStage(PhaseStage.TWO);
-                entity.npc().canAttack(true);
-                entity.getCombat().setTarget(target);
-            });
-        }
-    }
-
-    @Override
     public void preDefend(Hit hit) {
         Player player = (Player) target;
         NPC vetion = (NPC) entity;
@@ -254,7 +238,7 @@ public class Vetion extends CommonCombatMethod {
             for (var t : tiles) {
                 if (t.equals(player.tile())) {
                     if (!player.dead() && player.isRegistered() && !vetion.dead()) {
-                        player.hit(vetion, Utils.random(15, 30), 0);
+                        player.hit(vetion, Utils.random(15, 30));
                     }
                 }
             }
@@ -284,50 +268,48 @@ public class Vetion extends CommonCombatMethod {
         vetion.putAttrib(AttributeKey.MINION_LIST, minions);
     }
 
-    public boolean transform(Entity entity) {
-        NPC purpleVetion = (NPC) entity;
-        if (purpleVetion.npc().id() == 6611) {
-            if (purpleVetion.hp() == 0 || purpleVetion.dead() && !purpleVetion.<Boolean>getAttribOr(AttributeKey.VETION_REBORN_ACTIVE, false)) {
-                Chain.noCtx().runFn(2, () -> {
-                    purpleVetion.lockNoDamage();
-                    purpleVetion.canAttack(false);
-                    purpleVetion.message("Now.. DO IT AGAIN!!!");
-                    purpleVetion.transmog(6612);
-                    purpleVetion.animate(9979);
-                    purpleVetion.npc().def(World.getWorld().definitions().get(NpcDefinition.class, 6612));
-                    purpleVetion.heal(purpleVetion.maxHp());
-                    purpleVetion.getTimers().register(TimerKey.VETION_REBORN_TIMER, 500);
-                    purpleVetion.putAttrib(AttributeKey.VETION_REBORN_ACTIVE, true);
-                }).then(1, () -> {
-                    purpleVetion.unlock();
-                    purpleVetion.canAttack(true);
-                });
-                return true;
-            }
-        } else if (purpleVetion.npc().id() == 6612) {
-            purpleVetion.animate(9980);
-            purpleVetion.getTimers().cancel(TimerKey.VETION_REBORN_TIMER);
-            purpleVetion.clearAttrib(AttributeKey.VETION_REBORN_ACTIVE);
-            Chain.noCtx().runFn(5, () -> {
-                purpleVetion.animate(-1);
-                purpleVetion.remove();
-            });
-            return true;
-        }
-        return false;
+    @Override
+    public void onRespawn(NPC npc) {
+        npc.spawnDirection(Direction.SOUTH.toInteger());
+        npc.getCombat().setTarget(null);
+        npc.canAttack(false);
+        npc.transmog(6611);
+        Chain.noCtx().runFn(1, () -> {
+            npc.canAttack(true);
+            npc.getCombat().setTarget(target);
+        });
     }
 
     @Override
     public boolean customOnDeath(Hit hit) {
-        if (hit.getTarget().isNpc()) {
-            return transform(hit.getTarget());
+        if (entity instanceof NPC npc) {
+            if (npc.id() == 6611) {
+                Chain.noCtx().runFn(1, () -> {
+                    npc.lockNoDamage();
+                    npc.canAttack(false);
+                    npc.message("Now.. DO IT AGAIN!!!");
+                    npc.transmog(6612);
+                    npc.animate(9979);
+                    npc.heal(npc.maxHp());
+                    npc.getTimers().register(TimerKey.VETION_REBORN_TIMER, 500);
+                    npc.putAttrib(AttributeKey.VETION_REBORN_ACTIVE, true);
+                }).then(1, () -> {
+                    npc.unlock();
+                    npc.canAttack(true);
+                });
+            } else if (npc.id() == 6612) {
+                npc.getTimers().cancel(TimerKey.VETION_REBORN_TIMER);
+                npc.putAttrib(AttributeKey.VETION_REBORN_ACTIVE, false);
+                npc.clearAttrib(AttributeKey.VETION_HELLHOUND_SPAWNED);
+                npc.die();
+            }
         }
         return true;
     }
 
     @Override
     public boolean canMultiAttackInSingleZones() {
-        return super.canMultiAttackInSingleZones();
+        return true;
     }
 
     @Override

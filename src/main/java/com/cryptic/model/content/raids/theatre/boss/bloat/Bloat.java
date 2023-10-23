@@ -82,7 +82,7 @@ public class Bloat extends NPC { //TODO make him reverse interpolate walk
     }
 
     protected void swarm() {
-        if (ProjectileRoute.allow(this, player.tile())) {
+        if (ProjectileRoute.hasLineOfSight(this, player.tile())) {
             if (this.isSleeping()) {
                 return;
             }

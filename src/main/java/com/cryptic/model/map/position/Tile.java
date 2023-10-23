@@ -390,6 +390,16 @@ public class Tile implements Cloneable {
         return new Tile(newX, newY, z);
     }
 
+    public Tile getSouthEastTile(Entity target) {
+        int x = target.getX();
+        int y = target.getY();
+        int z = target.getZ();
+        int newX = x + 1;  // Move one tile to the east
+        int newY = y + 1;  // Move one tile to the south
+        return new Tile(newX, newY, z);
+    }
+
+
     public double calculateDistance(int x1, int y1, int x2, int y2) {
         int deltaX = x2 - x1;
         int deltaY = y2 - y1;

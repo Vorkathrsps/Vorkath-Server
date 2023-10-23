@@ -13,14 +13,12 @@ import java.lang.reflect.InvocationTargetException;
  * Created by Bart on 10/6/2015.
  */
 public class NPCCombatInfo {
-
     private static final Logger logger = LogManager.getLogger(NPCCombatInfo.class);
 
     public int[] ids;
 
     @Getter public Bonuses bonuses = new Bonuses();
     public Bonuses originalBonuses;
-
     public Stats originalStats;
     @Getter public Stats stats;
     public Animations animations;

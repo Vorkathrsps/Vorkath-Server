@@ -36,17 +36,30 @@ import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.TREASU
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
 
 public class Verzik extends NPC {
-    @Getter TheatreInstance theatreInstance;
-    @Setter VerzikPhase phase;
-    @Getter @Setter AtomicInteger walkCount = new AtomicInteger(0);
-    @Getter @Setter AtomicInteger intervalCount = new AtomicInteger(0);
-    @Getter @Setter AtomicInteger intervals = new AtomicInteger(0);
-    @Getter AtomicInteger sequenceRandomIntervalTick = new AtomicInteger(0);
+    @Getter
+    TheatreInstance theatreInstance;
+    @Setter
+    VerzikPhase phase;
+    @Getter
+    @Setter
+    AtomicInteger walkCount = new AtomicInteger(0);
+    @Getter
+    @Setter
+    AtomicInteger intervalCount = new AtomicInteger(0);
+    @Getter
+    @Setter
+    AtomicInteger intervals = new AtomicInteger(0);
+    @Getter
+    AtomicInteger sequenceRandomIntervalTick = new AtomicInteger(0);
     int value = (this.phase == VerzikPhase.ONE) ? 12 : 4;
-    @Getter AtomicInteger attackCount = new AtomicInteger(0);
+    @Getter
+    AtomicInteger attackCount = new AtomicInteger(0);
     final int direction = Direction.SOUTH.toInteger();
-    @Getter Tile destination = new Tile(3166, 4311);
-    @Getter @Setter boolean pathing = false;
+    @Getter
+    Tile destination = new Tile(3166, 4311);
+    @Getter
+    @Setter
+    boolean pathing = false;
     List<Player> players = new ArrayList<>();
     GameObject throne;
 
@@ -252,6 +265,12 @@ public class Verzik extends NPC {
             int nyloDelay = purpleNylocas.get().executeProjectile(nyloProjectile);
             this.healHit(purpleNylocas.get(), 50, nyloDelay);
         }).repeatingTask(6, heal -> {
+            if (this.getTheatreInstance() == null) {
+                purpleNylocas.get().remove();
+                heal.stop();
+                return;
+            }
+
             int dist = (int) purpleNylocas.get().tile().distanceTo(this.tile);
             int dur = 3 + 21 + dist;
 
@@ -342,7 +361,15 @@ public class Verzik extends NPC {
                 case TWO -> sequenceSlamAndElectricity();
             }
         }
+    }
 
+    @Override
+    public void die() {
+        switch (phase) {
+            case ONE -> transitionPhaseOne();
+            case TWO -> transitionPhaseTwo();
+            case THREE -> transitionPhaseThree();
+        }
     }
 
     public void transitionPhaseOne() {
@@ -417,14 +444,5 @@ public class Verzik extends NPC {
             throne.replaceWith(throne_two, false);
             this.setPhase(VerzikPhase.DEAD);
         });
-    }
-
-    @Override
-    public void die() {
-        switch (phase) {
-            case ONE -> transitionPhaseOne();
-            case TWO -> transitionPhaseTwo();
-            case THREE -> transitionPhaseThree();
-        }
     }
 }

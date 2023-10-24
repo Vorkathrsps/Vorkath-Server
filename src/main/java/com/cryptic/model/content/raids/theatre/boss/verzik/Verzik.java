@@ -38,6 +38,7 @@ import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.VERZIK
 public class Verzik extends NPC {
     @Getter
     TheatreInstance theatreInstance;
+    @Getter
     @Setter
     VerzikPhase phase;
     @Getter
@@ -74,7 +75,7 @@ public class Verzik extends NPC {
     }
 
     public void sendMagicSphere() {
-        if (!this.phase.equals(VerzikPhase.ONE)) {
+        if (!this.getPhase().equals(VerzikPhase.ONE)) {
             return;
         }
         this.face(null);
@@ -123,7 +124,7 @@ public class Verzik extends NPC {
     }
 
     public void sendKnockBack(Player p) {
-        if (!this.phase.equals(VerzikPhase.TWO)) {
+        if (!this.getPhase().equals(VerzikPhase.TWO)) {
             return;
         }
         int vecX = (p.getAbsX() - Utils.getClosestX(this, p.tile()));
@@ -163,10 +164,10 @@ public class Verzik extends NPC {
     }
 
     public void sequenceSlamAndElectricity() {
-        if (!this.phase.equals(VerzikPhase.TWO)) {
+        if (!this.getPhase().equals(VerzikPhase.TWO)) {
             return;
         }
-        attackCount.getAndIncrement();
+        this.getAttackCount().getAndIncrement();
         var target = Utils.randomElement(this.getTheatreInstance().getPlayers());
         var tile = target.tile();
         this.getCombat().setTarget(target);
@@ -178,10 +179,10 @@ public class Verzik extends NPC {
                 sendKnockBack(p);
                 break;
             }
-            if (attackCount.get() <= 4) {
+            if (this.getAttackCount().get() <= 4) {
                 sendToxicBlast(p);
             } else {
-                attackCount.getAndSet(0);
+                this.getAttackCount().getAndSet(0);
                 this.getSequenceRandomIntervalTick().getAndIncrement();
                 if (this.getSequenceRandomIntervalTick().get() >= 6) {
                     this.getSequenceRandomIntervalTick().getAndSet(0);
@@ -196,7 +197,7 @@ public class Verzik extends NPC {
     }
 
     public void sendToxicBlast(Player p) {
-        if (!this.phase.equals(VerzikPhase.TWO)) {
+        if (!this.getPhase().equals(VerzikPhase.TWO)) {
             return;
         }
         var tileDist = this.tile().distanceTo(p.getCentrePosition());
@@ -214,7 +215,7 @@ public class Verzik extends NPC {
     }
 
     public void sendAthanatos() {
-        if (!this.phase.equals(VerzikPhase.TWO)) {
+        if (!this.getPhase().equals(VerzikPhase.TWO)) {
             return;
         }
 
@@ -289,10 +290,10 @@ public class Verzik extends NPC {
     }
 
     public void sendElectricity() {
-        if (!this.phase.equals(VerzikPhase.TWO)) {
+        if (!this.getPhase().equals(VerzikPhase.TWO)) {
             return;
         }
-        attackCount.getAndSet(0);
+        this.getAttackCount().getAndSet(0);
         var target = Utils.randomElement(this.getTheatreInstance().getPlayers());
         if (target != null) {
             var tile = target.tile();
@@ -347,16 +348,16 @@ public class Verzik extends NPC {
             return;
         }
 
-        if (this.phase == VerzikPhase.TRANSITIONING) {
+        if (this.getPhase().equals(VerzikPhase.TRANSITIONING)) {
             return;
         }
 
         this.getIntervalCount().getAndIncrement();
         this.getIntervals().getAndDecrement();
-        if (this.getIntervalCount().get() >= (this.phase == VerzikPhase.ONE ? 12 : 4) && this.getIntervals().get() <= 0 && !this.dead()) {
+        if (this.getIntervalCount().get() >= (this.getPhase() == VerzikPhase.ONE ? 12 : 4) && this.getIntervals().get() <= 0 && !this.dead()) {
             this.getIntervalCount().getAndSet(0);
             this.getIntervals().getAndSet(value);
-            switch (this.phase) {
+            switch (this.getPhase()) {
                 case ONE -> sendMagicSphere();
                 case TWO -> sequenceSlamAndElectricity();
             }
@@ -365,7 +366,7 @@ public class Verzik extends NPC {
 
     @Override
     public void die() {
-        switch (phase) {
+        switch (this.getPhase()) {
             case ONE -> transitionPhaseOne();
             case TWO -> transitionPhaseTwo();
             case THREE -> transitionPhaseThree();

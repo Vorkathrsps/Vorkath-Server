@@ -674,8 +674,26 @@ public class CommandManager {
         dev("c", (p, c, s) -> {
             NPC npc = new NPC(8371, new Tile(p.tile().getX(), p.tile().getY()));
             npc.spawn(false);
-            Chain.noCtx().runFn(2, () -> {
-                npc.transmog(8372);
+            p.repeatingTask(2, walk -> {
+                for (int index = 0; index < 2; index++) {
+                    Tile currentTile = npc.tile();
+                    var tile = new Tile(3094, 3534);
+                    int deltaX = tile.getX() - currentTile.getX();
+                    int deltaY = tile.getY() - currentTile.getY();
+                    int nextStepDeltaX = Integer.compare(deltaX, 0);
+                    int nextStepDeltaY = Integer.compare(deltaY, 0);
+
+                    if (nextStepDeltaX == 0 && nextStepDeltaY == 0) {
+                        System.out.println("reached");
+                        npc.transmog(8372);
+                        walk.stop();
+                        return;
+                    }
+
+                    int nextX = currentTile.getX() + nextStepDeltaX;
+                    int nextY = currentTile.getY() + nextStepDeltaY;
+                    npc.queueTeleportJump(new Tile(nextX, nextY, currentTile.getZ()));
+                }
             });
         });
 

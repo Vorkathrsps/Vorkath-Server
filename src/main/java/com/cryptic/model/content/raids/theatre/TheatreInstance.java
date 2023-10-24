@@ -7,6 +7,7 @@ import com.cryptic.model.content.raids.theatre.boss.maiden.handler.MaidenHandler
 import com.cryptic.model.content.raids.theatre.boss.nylocas.handler.VasiliasHandler;
 import com.cryptic.model.content.raids.theatre.boss.sotetseg.handler.SotetsegHandler;
 import com.cryptic.model.content.raids.theatre.boss.verzik.handler.VerzikHandler;
+import com.cryptic.model.content.raids.theatre.boss.verzik.nylocas.PurpleNylocas;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.handler.XarpusHandler;
 import com.cryptic.model.content.raids.theatre.controller.TheatreHandler;
 import com.cryptic.model.content.raids.theatre.controller.TheatreController;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static com.cryptic.model.content.mechanics.DeathProcess.*;
 import static com.cryptic.model.content.mechanics.DeathProcess.SOTETSEG_AREA;
@@ -41,6 +43,7 @@ public class TheatreInstance extends TheatreArea { //TODO make sure we're cleani
     @Getter List<TheatreHandler> bosses = new ArrayList<>();
     @Getter public List<NPC> pillarList = new ArrayList<>();
     @Getter public List<NPC> nylocas = new ArrayList<>();
+    @Getter ArrayList<PurpleNylocas> verzikNylocasList = new ArrayList<>();
     @Getter public List<NPC> verzikPillarNpcs = new ArrayList<>();
     @Getter public List<GameObject> pillarObject = new ArrayList<>();
     @Getter public List<GameObject> verzikPillarObjects = new ArrayList<>();
@@ -128,6 +131,12 @@ public class TheatreInstance extends TheatreArea { //TODO make sure we're cleani
                 .ifPresent(p -> member.teleport(new Tile(3670, 3219, 0)));
             member.setTheatreParty(null);
         }
+        for (var n : verzikNylocasList) {
+            if (n != null) {
+                n.remove();
+            }
+        }
+        this.getVerzikNylocasList().clear();
         this.getPillarObject().clear();
         this.getPillarList().clear();
         this.getBosses().clear();

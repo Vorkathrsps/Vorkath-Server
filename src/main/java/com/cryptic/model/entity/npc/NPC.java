@@ -364,7 +364,6 @@ public class NPC extends Entity {
         this.setHitpoints(this.maxHp());
         NpcDefinition def = def();
         setSize(def.getSize());
-        World.getWorld().registerNpc(this);
         getUpdateFlag().flag(Flag.TRANSFORM);
     }
 

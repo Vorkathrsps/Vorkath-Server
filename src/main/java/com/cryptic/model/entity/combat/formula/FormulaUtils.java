@@ -169,6 +169,7 @@ public class FormulaUtils {
         return player.getEquipment().containsAny(
             SERPENTINE_HELM, MAGMA_HELM,
             TANZANITE_HELM, TOXIC_BLOWPIPE,
+            ABYSSAL_TENTACLE, ABYSSAL_TENTACLE_OR,
             DRAGON_DAGGERP, DRAGON_DAGGERP_5680,
             ABYSSAL_DAGGER_BHP, ABYSSAL_DAGGER_P,
             ABYSSAL_DAGGER_BHP_27867, ABYSSAL_DAGGER_BHP_27865,

@@ -21,9 +21,11 @@ public class PoisonDamageEffect implements DamageEffectListener {
             var target = player.getCombat().getTarget();
             if (target instanceof NPC npc) {
                 if (npc.id() == NYLOCAS_ATHANATOS) {
-                    var hp = npc.maxHp();
-                    hit.setDamage(hp);
-                    return true;
+                    if (FormulaUtils.isWearingPoisonEquipmentOrWeapon(player)) {
+                        var hp = npc.maxHp();
+                        hit.setDamage(hp);
+                        return true;
+                    }
                 }
             }
         }

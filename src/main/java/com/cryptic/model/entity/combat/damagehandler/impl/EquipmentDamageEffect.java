@@ -42,6 +42,7 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         listeners.add(new DinhBulwark());
         listeners.add(new SalveAmulet());
         listeners.add(new LeafBladedBattleAxe());
+        listeners.add(new PoisonDamageEffect());
         return listeners;
     }
 
@@ -50,7 +51,6 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         listeners.add(new ToxicStaffOfTheDead());
         listeners.add(new ElysianSpiritShield());
         listeners.add(new PrayerDamage());
-        listeners.add(new PoisonDamageEffect());
         listeners.add(new BraceletOfEthereum());
         return listeners;
     }

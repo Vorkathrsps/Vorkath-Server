@@ -39,6 +39,15 @@ public class ForceMovement {
         this.direction = direction;
     }
 
+    public ForceMovement(Tile start, Tile end, int cycleDelay, int cycleEnd, int animation, Direction direction) {
+        this.start = start;
+        this.end = end;
+        this.speed = cycleDelay;
+        this.reverseSpeed = cycleEnd;
+        this.animation = animation;
+        this.direction = direction.toInteger();
+    }
+
     public ForceMovement(Tile start, @Nullable Tile end, int speed, int reverseSpeed, int direction) {
         this.setStart(start);
         this.setEnd(end);

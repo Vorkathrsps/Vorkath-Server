@@ -42,6 +42,7 @@ public class Verzik extends NPC {
     TheatreInstance theatreInstance;
     @Getter
     @Setter
+    private
     VerzikPhase phase;
     @Getter
     @Setter
@@ -55,7 +56,7 @@ public class Verzik extends NPC {
     @Getter
     @Setter
     int sequenceRandomIntervalTick = 0;
-    int value = (this.phase == VerzikPhase.ONE) ? 12 : 4;
+    int value = (this.getPhase() == VerzikPhase.ONE) ? 12 : 4;
     @Getter
     @Setter
     int attackCount = 0;
@@ -195,18 +196,23 @@ public class Verzik extends NPC {
     }
 
     private void sendPhaseTwoAttacks() {
-        for (var p : this.getTheatreInstance().getPlayers()) {
-            if (p == null) continue;
-            if (isInMeleeRange(p)) break;
+        var players = this.getTheatreInstance().getPlayers();
+        for (var player : players) {
+            if (player == null) continue;
+            if (isInMeleeRange(player)) break;
             if (spawnNylo()) return;
             if (this.getAttackCount() <= 4) {
-                sendToxicBlast(p);
+                sendToxicBlast(player);
             } else {
-                this.sequenceRandomIntervalTick++;
-                this.setAttackCount(0);
-                sendElectricShock();
+                handleElectricShock();
             }
         }
+    }
+
+    private void handleElectricShock() {
+        this.sequenceRandomIntervalTick++;
+        this.setAttackCount(0);
+        sendElectricShock();
     }
 
     private boolean isInMeleeRange(Player p) {
@@ -418,24 +424,34 @@ public class Verzik extends NPC {
 
     public void transitionPhaseOne() {
         this.setPhase(VerzikPhase.TRANSITIONING);
+        this.animate(8111);
         var pillarObjects = this.getTheatreInstance().getVerzikPillarObjects();
         var pillarNpcs = this.getTheatreInstance().getVerzikPillarNpcs();
         replaceObjects(pillarObjects);
+        clearLists(pillarObjects, pillarNpcs);
+        Direction direction = Direction.SOUTH;
+        Chain
+            .noCtx()
+            .delay(4, () -> transitionAndReplace(direction))
+            .then(2, this::animateAndSetPath);
+    }
+
+    private void animateAndSetPath() {
+        this.animate(-1);
+        this.setPathing(true);
+    }
+
+    private void transitionAndReplace(Direction direction) {
+        throne = new GameObject(VERZIKS_THRONE_32737, new Tile(3167, 4324, this.getTheatreInstance().getzLevel()), 10, 0);
+        throne.spawn();
+        animateAndTransmog(8112, 8371);
+        this.setPositionToFace(this.getDestination().center(5).tileToDir(direction));
+    }
+
+    private void clearLists(List<GameObject> pillarObjects, List<NPC> pillarNpcs) {
         pillarObjects.clear();
         pillarNpcs.forEach(NPC::remove);
         pillarNpcs.clear();
-        Direction direction = Direction.SOUTH;
-        this.animate(8111);
-        Chain.noCtx().delay(4, () -> {
-            throne = new GameObject(VERZIKS_THRONE_32737, new Tile(3167, 4324, this.getTheatreInstance().getzLevel()), 10, 0);
-            throne.spawn();
-            this.animate(8112);
-            this.transmog(8371);
-            this.setPositionToFace(this.getDestination().center(5).tileToDir(direction));
-        }).then(2, () -> {
-            this.animate(-1);
-            this.setPathing(true);
-        });
     }
 
     private void replaceObjects(List<GameObject> pillarObjects) {
@@ -457,45 +473,58 @@ public class Verzik extends NPC {
             .stream()
             .filter(Objects::nonNull)
             .filter(player -> player.tile().isWithinDistance(this.tile(), 1) || o.tile().isWithinDistance(player.tile(), 1))
-            .forEach(player -> {
-                player.hit(this, 10);
-                Direction direction = Direction.SOUTH;
-                ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(direction.x(), direction.y()), 30, 60, 1114, 0);
-                player.setForceMovement(forceMovement);
-            });
+            .forEach(this::forceMove);
+    }
+
+    private void forceMove(Player player) {
+        player.hit(this, 10);
+        Direction direction = Direction.SOUTH;
+        ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(direction.x(), direction.y()), 30, 60, 1114, 0);
+        player.setForceMovement(forceMovement);
     }
 
     public void transitionPhaseTwo() {
         this.setPhase(VerzikPhase.TRANSITIONING);
         this.canAttack(false);
         this.animate(8118);
-        Chain.noCtx().runFn(2, () -> {
-            this.animate(8119);
-            this.transmog(8373);
-        }).then(4, () -> {
-            this.canAttack(true);
-            this.animate(-1);
-            this.transmog(8374);
-            this.heal(this.maxHp());
-            this.forceChat("Behold my true nature!");
-            this.queueTeleportJump(this.getDestination().transform(-1, -1, this.getTheatreInstance().getzLevel()));
-            this.setPhase(VerzikPhase.THREE);
-        });
+        Chain
+            .noCtx()
+            .runFn(2, () -> animateAndTransmog(8119, 8373))
+            .then(4, this::finalizePhaseTwo);
+    }
+
+    private void animateAndTransmog(int animation, int id) {
+        this.animate(animation);
+        this.transmog(id);
+    }
+
+    private void finalizePhaseTwo() {
+        this.canAttack(true);
+        animateAndTransmog(-1, 8374);
+        this.heal(this.maxHp());
+        this.forceChat("Behold my true nature!");
+        this.queueTeleportJump(this.getDestination().transform(-1, -1, this.getTheatreInstance().getzLevel()));
+        this.setPhase(VerzikPhase.THREE);
     }
 
     public void transitionPhaseThree() {
         this.setPhase(VerzikPhase.TRANSITIONING);
         this.animate(8128);
-        Chain.noCtx().delay(2, () -> {
-            this.animate(-1);
-            this.transmog(8375);
-        }).then(6, () -> {
-            throne.animate(8108);
-            this.remove();
-        }).then(4, () -> {
-            GameObject throne_two = new GameObject(TREASURE_ROOM, new Tile(throne.getX(), throne.getY(), this.getTheatreInstance().getzLevel()), 10, 0);
-            throne.replaceWith(throne_two, false);
-            this.setPhase(VerzikPhase.DEAD);
-        });
+        Chain
+            .noCtx()
+            .delay(2, () -> animateAndTransmog(-1, 8375))
+            .then(6, this::animateThrone)
+            .then(4, this::openTreasureRoom);
+    }
+
+    private void animateThrone() {
+        throne.animate(8108);
+        this.remove();
+    }
+
+    private void openTreasureRoom() {
+        GameObject throne_two = new GameObject(TREASURE_ROOM, new Tile(throne.getX(), throne.getY(), this.getTheatreInstance().getzLevel()), 10, 0);
+        throne.replaceWith(throne_two, false);
+        this.setPhase(VerzikPhase.DEAD);
     }
 }

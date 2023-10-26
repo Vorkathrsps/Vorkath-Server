@@ -9,6 +9,7 @@ import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.chainedwork.Chain;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -61,12 +62,7 @@ public class FaladorRooftop extends PacketInteraction {
                 player.getMovementQueue().clear();
                 player.stepAbs(3040, 3343, MovementQueue.StepType.FORCED_WALK);
             }).then(2, () -> {
-                int sizeX = obj.definition().sizeX;
-                int sizeY = obj.definition().sizeY;
-                boolean inversed = (obj.getRotation() & 0x1) != 0;
-                int faceCoordX = obj.x * 2 + (inversed ? sizeY : sizeX);
-                int faceCoordY = obj.y * 2 + (inversed ? sizeX : sizeY);
-                Tile position = new Tile(faceCoordX, faceCoordY);
+                Tile position = getFaceTile(obj);
                 player.getCombat().reset();
                 player.setPositionToFace(position);
                 player.looks().render(763, 762, 762, 762, 762, 762, -1);
@@ -134,12 +130,7 @@ public class FaladorRooftop extends PacketInteraction {
             player.lock();
             player.smartPathTo(new Tile(3046, 3362, 3));
             player.waitForTile(new Tile(3046, 3362, 3), () -> {
-                int sizeX = obj.definition().sizeX;
-                int sizeY = obj.definition().sizeY;
-                boolean inversed = (obj.getRotation() & 0x1) != 0;
-                int faceCoordX = obj.x * 2 + (inversed ? sizeY : sizeX);
-                int faceCoordY = obj.y * 2 + (inversed ? sizeX : sizeY);
-                Tile position = new Tile(faceCoordX, faceCoordY);
+                Tile position = getFaceTile(obj);
                 player.getCombat().reset();
                 player.setPositionToFace(position);
                 Chain.noCtx().runFn(2, () -> {
@@ -162,12 +153,7 @@ public class FaladorRooftop extends PacketInteraction {
                 player.getMovementQueue().clear();
                 player.stepAbs(3034, 3362, MovementQueue.StepType.FORCED_WALK);
             }).then(2, () -> {
-                int sizeX = obj.definition().sizeX;
-                int sizeY = obj.definition().sizeY;
-                boolean inversed = (obj.getRotation() & 0x1) != 0;
-                int faceCoordX = obj.x * 2 + (inversed ? sizeY : sizeX);
-                int faceCoordY = obj.y * 2 + (inversed ? sizeX : sizeY);
-                Tile position = new Tile(faceCoordX, faceCoordY);
+                Tile position = getFaceTile(obj);
                 player.getCombat().reset();
                 player.setPositionToFace(position);
                 player.looks().render(763, 762, 762, 762, 762, 762, -1);
@@ -293,6 +279,17 @@ public class FaladorRooftop extends PacketInteraction {
             return true;
         }
         return false;
+    }
+
+    @NotNull
+    private static Tile getFaceTile(GameObject obj) {
+        int sizeX = obj.definition().sizeX;
+        int sizeY = obj.definition().sizeY;
+        boolean inversed = (obj.getRotation() & 0x1) != 0;
+        int faceCoordX = obj.x * 2 + (inversed ? sizeY : sizeX);
+        int faceCoordY = obj.y * 2 + (inversed ? sizeX : sizeY);
+        Tile position = new Tile(faceCoordX, faceCoordY);
+        return position;
     }
 
 }

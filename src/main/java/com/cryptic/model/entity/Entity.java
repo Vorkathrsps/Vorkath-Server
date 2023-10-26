@@ -1542,6 +1542,21 @@ public abstract class Entity {
         movement.stepType = stepType;
     }
 
+    public void stepAbs(Tile tile, MovementQueue.StepType stepType) {
+        var absX = tile.getX();
+        var absY = tile.getY();
+        if (absX < 64 || absY < 64) {
+            log.warn("attempted to step to coords {} {} -- maybe you meant to tile.translate({},{}) instead?", absX, absY, absX, absY);
+        }
+        /* forces a step without route finding */
+        MovementQueue movement = getMovement();
+        movement.readOffset = 0;
+        movement.getStepsX()[0] = absX;
+        movement.getStepsY()[0] = absY;
+        movement.writeOffset = 1;
+        movement.stepType = stepType;
+    }
+
     public void resetSteps() {
         MovementQueue movement = getMovement();
         movement.readOffset = 0;

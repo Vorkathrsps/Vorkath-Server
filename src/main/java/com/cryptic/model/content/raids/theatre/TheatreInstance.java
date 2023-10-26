@@ -24,6 +24,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -36,27 +37,44 @@ import static com.cryptic.model.content.mechanics.DeathProcess.SOTETSEG_AREA;
  */
 public class TheatreInstance extends TheatreArea { //TODO make sure we're cleaning up all garbage collections & verzik
 
-    @Getter public Player owner;
-    @Getter public List<Player> players;
+    @Getter
+    public Player owner;
+    @Getter
+    public List<Player> players;
     public AtomicInteger wave = new AtomicInteger();
-    @Getter public List<Player> occupiedCageSpawnPointsList = new ArrayList<>();
-    @Getter List<TheatreHandler> bosses = new ArrayList<>();
-    @Getter public List<NPC> pillarList = new ArrayList<>();
-    @Getter public List<NPC> nylocas = new ArrayList<>();
-    @Getter ArrayList<PurpleNylocas> verzikNylocasList = new ArrayList<>();
-    @Getter public List<NPC> verzikPillarNpcs = new ArrayList<>();
-    @Getter public List<GameObject> pillarObject = new ArrayList<>();
-    @Getter public List<GameObject> verzikPillarObjects = new ArrayList<>();
-    @Getter public TheatreController theatreController = new TheatreController(bosses);
-    @Getter public TheatrePhase theatrePhase = new TheatrePhase(TheatreStage.ONE);
-    @Getter public Tile entrance = new Tile(3168, 4304);
-    @Getter public final List<Tile> verzikPillarTiles = List.of(new Tile(3161, 4318, 0),
+    @Getter
+    public List<Player> occupiedCageSpawnPointsList = new ArrayList<>();
+    @Getter
+    List<TheatreHandler> bosses = new ArrayList<>();
+    @Getter
+    public List<NPC> pillarList = new ArrayList<>();
+    @Getter
+    public List<NPC> nylocas = new ArrayList<>();
+    @Getter
+    ArrayList<PurpleNylocas> verzikNylocasList = new ArrayList<>();
+    @Getter
+    public List<NPC> verzikPillarNpcs = new ArrayList<>();
+    @Getter
+    public List<GameObject> pillarObject = new ArrayList<>();
+    @Getter
+    public List<GameObject> verzikPillarObjects = new ArrayList<>();
+    @Getter
+    public TheatreController theatreController = new TheatreController(bosses);
+    @Getter
+    public TheatrePhase theatrePhase = new TheatrePhase(TheatreStage.ONE);
+    @Getter
+    public Tile entrance = new Tile(3168, 4304);
+    @Getter
+    public final List<Tile> verzikPillarTiles = List.of(new Tile(3161, 4318, 0),
         new Tile(3161, 4312, 0),
         new Tile(3161, 4306, 0),
         new Tile(3173, 4318, 0),
         new Tile(3173, 4312, 0),
         new Tile(3173, 4306, 0));
-    @Getter @Setter public boolean hasInitiatedNylocasVasilias = false;
+    @Getter
+    @Setter
+    public boolean hasInitiatedNylocasVasilias = false;
+
     public static Area[] rooms() {
         int[] regions = {12613, 12869, 13125, 12612, 12611, 12687, 13123, 13122, 12867};
         return Arrays.stream(regions).mapToObj(region -> new Area(
@@ -65,6 +83,7 @@ public class TheatreInstance extends TheatreArea { //TODO make sure we're cleani
             Tile.regionToTile(region).getX() + 63,
             Tile.regionToTile(region).getY() + 63)).toArray(Area[]::new);
     }
+
     public TheatreInstance(Player owner, List<Player> players) {
         super(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, rooms());
         this.owner = owner;
@@ -90,6 +109,7 @@ public class TheatreInstance extends TheatreArea { //TODO make sure we're cleani
         }
         return this;
     }
+
     public void startRaid() {
         bosses.add(new MaidenHandler());
         bosses.add(new XarpusHandler());
@@ -99,6 +119,7 @@ public class TheatreInstance extends TheatreArea { //TODO make sure we're cleani
         bosses.add(new VerzikHandler());
         theatreController.build(this.owner, this);
     }
+
     public void onRoomStateChanged(RoomState roomState) {
         if (roomState == RoomState.COMPLETE) {
             players.forEach(p -> {
@@ -118,6 +139,7 @@ public class TheatreInstance extends TheatreArea { //TODO make sure we're cleani
             });
         }
     }
+
     public void clear() {
         for (var member : players) {
             if (member.getEquipment().contains(ItemIdentifiers.DAWNBRINGER)) {
@@ -143,6 +165,42 @@ public class TheatreInstance extends TheatreArea { //TODO make sure we're cleani
         this.getPlayers().clear();
         this.setHasInitiatedNylocasVasilias(false);
     }
+
+    Tile[] treasure_spawns = new Tile[]
+        {
+            new Tile(3233, 4330),
+            new Tile(3227, 4324),
+            new Tile(3241, 4327)
+        };
+
+    public void spawnTreasure(boolean isRare) {
+        int numPlayers = players.size();
+        int numTreasureSpawns = treasure_spawns.length;
+
+        for (int i = 0; i < numPlayers; i++) {
+            Player p = players.get(i);
+
+            if (p == null) continue;
+
+            Tile t = treasure_spawns[i % numTreasureSpawns];
+            Tile finalTile = t.transform(0, 0, p.getTheatreInstance().getzLevel());
+
+            int treasureId = isRare ? 32993 : 32992;
+
+            int rotation = switch (i % numTreasureSpawns) {
+                case 0 -> 0;
+                case 1 -> 1;
+                case 2 -> 3;
+                default -> 0;
+            };
+
+            GameObject treasure = new GameObject(Optional.of(p), treasureId, finalTile);
+            treasure.setRotation(rotation);
+            treasure.spawn();
+            treasure.animate(8106);
+        }
+    }
+
     @Override
     public void dispose() {
         super.dispose();

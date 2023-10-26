@@ -175,7 +175,6 @@ public class Combat {
         }
     }
 
-
     public void preAttack() {
         method = CombatFactory.getMethod(mob);
         checkLastTarget();

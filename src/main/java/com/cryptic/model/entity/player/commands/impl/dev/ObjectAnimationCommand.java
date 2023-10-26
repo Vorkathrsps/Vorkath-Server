@@ -16,7 +16,7 @@ public class ObjectAnimationCommand implements Command {
         gameObject.spawn();
 
         Chain.noCtx().runFn(1, () -> gameObject.animate(animation));
-        Chain.noCtx().runFn(5, gameObject::remove);
+        Chain.noCtx().runFn(30, gameObject::remove);
 
     }
 

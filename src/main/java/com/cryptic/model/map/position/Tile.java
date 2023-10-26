@@ -307,6 +307,15 @@ public class Tile implements Cloneable {
         return Math.max(Math.abs(deltaX), Math.abs(deltaY));
     }
 
+    public void faceObjectTile(GameObject obj) {
+        int sizeX = obj.definition().sizeX;
+        int sizeY = obj.definition().sizeY;
+        boolean inversed = (obj.getRotation() & 0x1) != 0;
+        int faceCoordX = obj.x * 2 + (inversed ? sizeY : sizeX);
+        int faceCoordY = obj.y * 2 + (inversed ? sizeX : sizeY);
+        new Tile(faceCoordX, faceCoordY);
+    }
+
     public Tile getDistanceTo(Tile other) {
         final int deltaX = other.getX() - getX(), deltaY = other.getY() - getY();
         return new Tile(Math.abs(deltaX), Math.abs(deltaY));

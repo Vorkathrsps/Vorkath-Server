@@ -442,7 +442,6 @@ public class Skills {
 
         makeDirty(skill);
 
-        //Send total level
         player.getPacketSender().sendString(10121, "" + totalLevel());
 
         if (oldLevel != newLevel) {

@@ -7,9 +7,7 @@ import com.cryptic.model.World;
 import com.cryptic.model.content.areas.theatre.ViturRoom;
 import com.cryptic.model.content.instance.InstancedAreaManager;
 import com.cryptic.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
-import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.Xarpus;
-import com.cryptic.model.content.raids.theatre.party.TheatreParty;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.cryptic.model.content.tournaments.Tournament;
 import com.cryptic.model.content.tournaments.TournamentManager;
@@ -672,29 +670,41 @@ public class CommandManager {
 
         });
         dev("c", (p, c, s) -> {
-            NPC npc = new NPC(8371, new Tile(p.tile().getX(), p.tile().getY()));
-            npc.spawn(false);
-            p.repeatingTask(2, walk -> {
-                for (int index = 0; index < 2; index++) {
-                    Tile currentTile = npc.tile();
-                    var tile = new Tile(3094, 3534);
-                    int deltaX = tile.getX() - currentTile.getX();
-                    int deltaY = tile.getY() - currentTile.getY();
-                    int nextStepDeltaX = Integer.compare(deltaX, 0);
-                    int nextStepDeltaY = Integer.compare(deltaY, 0);
+            Tile[] treasure_spawns = new Tile[]
+                {
+                    new Tile(3233, 4330),
+                    new Tile(3226, 4324),
+                    new Tile(3241, 4327)
+                };
 
-                    if (nextStepDeltaX == 0 && nextStepDeltaY == 0) {
-                        System.out.println("reached");
-                        npc.transmog(8372);
-                        walk.stop();
-                        return;
-                    }
+            boolean isRare = true;
+            int numPlayers = 1;
+            int numTreasureSpawns = treasure_spawns.length;
 
-                    int nextX = currentTile.getX() + nextStepDeltaX;
-                    int nextY = currentTile.getY() + nextStepDeltaY;
-                    npc.queueTeleportJump(new Tile(nextX, nextY, currentTile.getZ()));
+            HashMap<Optional<Player>, Integer> linked_chest = new HashMap<>();
+            for (int i = 0; i < numPlayers; i++) {
+
+                if (p == null) continue;
+
+                Tile t = treasure_spawns[i % numTreasureSpawns]; // Cycle through the treasure spawns
+                Tile finalTile = t;
+
+                var owner = Optional.of(p);
+                int treasureId;
+                if (owner.isPresent()) {
+                    treasureId = isRare ? 32993 : 32992; // Owner gets rare or non-rare treasure
+                } else {
+                    treasureId = 33088; // Non-owner gets a different treasure
                 }
-            });
+
+                linked_chest.put(owner, treasureId);
+                GameObject treasure = new GameObject(owner, treasureId, finalTile);
+                treasure.setRotation(Direction.SOUTH.toInteger()); // Rotate based on the treasure spawn index
+                treasure.spawn();
+                Chain.noCtx().runFn(1, () -> {
+                    treasure.animate(8106);
+                });
+            }
         });
 
         dev("ioi", (p, c, s) -> {

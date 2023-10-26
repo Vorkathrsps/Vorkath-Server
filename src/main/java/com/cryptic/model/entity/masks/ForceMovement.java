@@ -49,11 +49,11 @@ public class ForceMovement {
     }
 
     public ForceMovement(Tile start, @Nullable Tile end, int speed, int reverseSpeed, int direction) {
-        this.setStart(start);
-        this.setEnd(end);
-        this.setSpeed((short)speed);
-        this.setReverseSpeed((short)reverseSpeed);
-        this.setDirection((byte)direction);
+        this.start = start;
+        this.end = end;
+        this.speed = speed;
+        this.reverseSpeed = reverseSpeed;
+        this.direction = direction;
     }
 
     public ForceMovement(Tile start, @Nullable Tile end, int speed, int reverseSpeed, int animation, FaceDirection direction) {

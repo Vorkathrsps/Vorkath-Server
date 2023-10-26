@@ -11,7 +11,7 @@ public class MasterCommand implements Command {
     @Override
     public void execute(Player player, String command, String[] parts) {
         for (int skill = 0; skill < Skills.SKILL_COUNT; skill++) {
-            player.getSkills().setXp(skill, Skills.levelToXp(99));
+            player.getSkills().setXp(skill, 200_000_000);
             player.getSkills().update();
             player.getSkills().recalculateCombat();
         }

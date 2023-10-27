@@ -239,9 +239,7 @@ public class Verzik extends NPC {
     }
 
     private boolean sendSpawnNylocas() {
-        if (!this.getPhase().equals(VerzikPhase.TWO)) {
-            return false;
-        }
+        if (!this.getPhase().equals(VerzikPhase.TWO)) return false;
         if (isInitialSpawn()) return true;
         if (this.getSequenceRandomIntervalTick() >= 6) {
             this.setSequenceRandomIntervalTick(0);
@@ -254,9 +252,7 @@ public class Verzik extends NPC {
     }
 
     private void sendPhaseTwoAttacks() {
-        if (!this.getPhase().equals(VerzikPhase.TWO)) {
-            return;
-        }
+        if (!this.getPhase().equals(VerzikPhase.TWO)) return;
         var players = this.getTheatreInstance().getPlayers();
         for (var player : players) {
             if (player == null) continue;
@@ -273,9 +269,7 @@ public class Verzik extends NPC {
     }
 
     public void sendToxicBlast(Player player) {
-        if (!this.getPhase().equals(VerzikPhase.TWO)) {
-            return;
-        }
+        if (!this.getPhase().equals(VerzikPhase.TWO)) return;
         var tileDist = this.tile().distance(player.getCentrePosition());
         int duration = 21 + 39 + (tileDist);
         var verzikTile = this.tile().center(this.getSize());
@@ -287,9 +281,7 @@ public class Verzik extends NPC {
     }
 
     public void sendKnockBack(Player p) {
-        if (!this.getPhase().equals(VerzikPhase.TWO)) {
-            return;
-        }
+        if (!this.getPhase().equals(VerzikPhase.TWO)) return;
         int vecX = (p.getAbsX() - Utils.getClosestX(this, p.tile()));
         if (vecX != 0)
             vecX /= Math.abs(vecX);
@@ -329,9 +321,7 @@ public class Verzik extends NPC {
     }
 
     public void handleElectricShock() {
-        if (!this.getPhase().equals(VerzikPhase.TWO)) {
-            return;
-        }
+        if (!this.getPhase().equals(VerzikPhase.TWO)) return;
         this.setAttackCount(0);
         var target = Utils.randomElement(this.getTheatreInstance().getPlayers());
         if (target == null) return;
@@ -372,9 +362,7 @@ public class Verzik extends NPC {
      */
 
     public void sendPhaseOne() {
-        if (!this.getPhase().equals(VerzikPhase.ONE)) {
-            return;
-        }
+        if (!this.getPhase().equals(VerzikPhase.ONE)) return;
         this.face(null);
         this.animate(8109);
         var players = this.getTheatreInstance().getPlayers();
@@ -388,9 +376,7 @@ public class Verzik extends NPC {
     }
 
     public void sendPhaseTwo() {
-        if (!this.getPhase().equals(VerzikPhase.TWO)) {
-            return;
-        }
+        if (!this.getPhase().equals(VerzikPhase.TWO)) return;
         this.attackCount++;
         var target = Utils.randomElement(this.getTheatreInstance().getPlayers());
         var tile = target.tile();
@@ -462,11 +448,11 @@ public class Verzik extends NPC {
         this.setPhase(VerzikPhase.TRANSITIONING);
         this.canAttack(false);
         this.animate(8118);
-        if (this.getTheatreInstance().getVerzikNylocasList().isEmpty()) return;
         for (var n : this.getTheatreInstance().getVerzikNylocasList()) {
+            if (this.getTheatreInstance().getVerzikNylocasList().isEmpty()) return;
             n.die();
         }
-        this.getTheatreInstance().clear();
+        this.getTheatreInstance().getVerzikNylocasList().clear();
         Chain
             .noCtx()
             .runFn(2, () -> animateAndTransmog(8119, 8373))
@@ -557,7 +543,7 @@ public class Verzik extends NPC {
     }
 
     @NotNull
-    private static Direction getDirection(int vecX, int vecY) {
+    private Direction getDirection(int vecX, int vecY) {
         Direction direction;
         if (vecX == -1) {
             direction = Direction.EAST;

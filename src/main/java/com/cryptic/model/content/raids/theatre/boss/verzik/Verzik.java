@@ -159,7 +159,7 @@ public class Verzik extends NPC {
     /**
      * MatoMenos
      */
-    private void initialNylocasMatomenosSpawn(double healthPercentage) {
+    private void sendInitialNylocas(double healthPercentage) {
         if (healthPercentage <= 0.35 && !this.isSpawnedInitialNylo() && !this.isProcessedNylocasInitialSpawn()) {
             this.setProcessedNylocasInitialSpawn(true);
             this.setSpawnedInitialNylo(true);
@@ -234,7 +234,7 @@ public class Verzik extends NPC {
         return true;
     }
 
-    private boolean spawnNylo() {
+    private boolean sendSpawnNylocas() {
         if (isInitialSpawn()) return true;
         if (this.getSequenceRandomIntervalTick() >= 6) {
             this.setSequenceRandomIntervalTick(0);
@@ -252,13 +252,13 @@ public class Verzik extends NPC {
             if (player == null) continue;
             if (isInMeleeRange(player)) break;
             double healthPercentage = (double) hp() / maxHp();
-            initialNylocasMatomenosSpawn(healthPercentage);
-            if (spawnNylo()) return;
+            sendInitialNylocas(healthPercentage);
+            if (sendSpawnNylocas()) return;
             if (this.getAttackCount() <= 4) {
                 sendToxicBlast(player);
                 return;
             }
-            handleElectricShock();
+            sendElectricShock();
         }
     }
 
@@ -301,7 +301,24 @@ public class Verzik extends NPC {
         }
     }
 
-    public void sendElectricShock() {
+    public void handlePhaseTwoRangeAttack() {
+        var target = Utils.randomElement(this.getTheatreInstance().getPlayers());
+        var tileDist = this.tile().distance(target.tile());
+        int duration = (20 + (10 * tileDist));
+        Projectile projectile = new Projectile(this, target, 1591, 21, duration, 70, 0, 12, this.getSize(), 128, 0);
+        int delay = projectile.send(this, target);
+        Hit hit = Hit.builder(this, target, CombatFactory.calcDamageFromType(this, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        var damage = hit.getDamage();
+        if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {
+            hit.setDamage(0);
+        }
+        if (target.getEquipment().hasAt(EquipSlot.FEET, ItemIdentifiers.INSULATED_BOOTS)) {
+            hit.setDamage(damage / 50);
+        }
+        hit.submit();
+    }
+
+    public void handleElectricShock() {
         if (!this.getPhase().equals(VerzikPhase.TWO)) {
             return;
         }
@@ -667,10 +684,14 @@ public class Verzik extends NPC {
             });
     }
 
-    private void handleElectricShock() {
+    private void sendElectricShock() {
         this.sequenceRandomIntervalTick++;
         this.setAttackCount(0);
-        sendElectricShock();
+        if (this.isProcessedNylocasInitialSpawn()) {
+            handlePhaseTwoRangeAttack();
+            return;
+        }
+        handleElectricShock();
     }
 
     private boolean isInMeleeRange(Player player) {

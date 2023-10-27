@@ -81,13 +81,6 @@ public class Verzik extends NPC {
     @Setter
     boolean processedNylocasInitialSpawn = false;
 
-    /**
-     * var tileDist = this.tile().distance(nylocas.tile());
-     * int duration = (20 + (10 * tileDist));
-     * Projectile projectile = new Projectile(verzikTile, nylocas.tile(), 1591, 21, duration, 70, 0, 12, this.getSize(), 128, 0);
-     * int delay = projectile.send(this, nylocas.tile());
-     */
-
     public Verzik(int id, Tile tile, TheatreInstance theatreInstance) {
         super(id, tile);
         this.theatreInstance = theatreInstance;
@@ -96,19 +89,6 @@ public class Verzik extends NPC {
         this.noRetaliation(true);
         this.getCombat().setAutoRetaliate(false);
         this.setPhase(VerzikPhase.ONE);
-    }
-
-    private void sendSphere(@NotNull Player player, int duration) {
-        Entity target = player;
-        boolean lineOfSight = ProjectileRoute.hasLineOfSight(this, player.tile());
-        target = getEntity(player, target, lineOfSight);
-        Projectile projectile = new Projectile(this, target, 1580, 20, duration, 100, 25, 20, 0, 5, 10);
-        int delay = this.executeProjectile(projectile);
-        boolean isUsingPrayer = Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MAGIC);
-        var damage = Utils.random(10, 137);
-        Hit hit = Hit.builder(this, target, isUsingPrayer ? (int) (damage * .50) : damage, delay, CombatType.MAGIC).setAccurate(true);
-        hit.submit();
-        target.graphic(1582, GraphicHeight.LOW, projectile.getSpeed());
     }
 
 
@@ -318,6 +298,19 @@ public class Verzik extends NPC {
             hit.setDamage((int) (damage * 0.5));
         }
         hit.submit();
+    }
+
+    private void sendSphere(@NotNull Player player, int duration) {
+        Entity target = player;
+        boolean lineOfSight = ProjectileRoute.hasLineOfSight(this, player.tile());
+        target = getEntity(player, target, lineOfSight);
+        Projectile projectile = new Projectile(this, target, 1580, 20, duration, 100, 25, 20, 0, 5, 10);
+        int delay = this.executeProjectile(projectile);
+        boolean isUsingPrayer = Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MAGIC);
+        var damage = Utils.random(10, 137);
+        Hit hit = Hit.builder(this, target, isUsingPrayer ? (int) (damage * .50) : damage, delay, CombatType.MAGIC).setAccurate(true);
+        hit.submit();
+        target.graphic(1582, GraphicHeight.LOW, projectile.getSpeed());
     }
 
     public void handleElectricShock() {

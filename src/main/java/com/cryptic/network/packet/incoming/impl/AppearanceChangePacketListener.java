@@ -21,19 +21,19 @@ public class AppearanceChangePacketListener implements PacketListener {
 
         try {
 
-            final boolean gender = packet.readByte() == 1;
-            final int head = packet.readByte();
-            final int jaw = packet.readByte();
-            final int torso = packet.readByte();
-            final int arms = packet.readByte();
-            final int hands = packet.readByte();
-            final int legs = packet.readByte();
-            final int feet = packet.readByte();
-            final int hairColor = packet.readByte();
-            final int torsoColor = packet.readByte();
-            final int legsColor = packet.readByte();
-            final int feetColor = packet.readByte();
-            final int skinColor = packet.readByte();
+            final boolean gender = packet.readUnsignedByte() == 1;
+            final int head = packet.readUnsignedByte();
+            final int jaw = packet.readUnsignedByte();
+            final int torso = packet.readUnsignedByte();
+            final int arms = packet.readUnsignedByte();
+            final int hands = packet.readUnsignedByte();
+            final int legs = packet.readUnsignedByte();
+            final int feet = packet.readUnsignedByte();
+            final short hairColor = (short) packet.readUnsignedByte();
+            final short torsoColor = (short) packet.readUnsignedByte();
+            final short legsColor = (short) packet.readUnsignedByte();
+            final short feetColor = (short) packet.readUnsignedByte();
+            final short skinColor = (short) packet.readUnsignedByte();
 
             if (skinColor == 10 && !player.getMemberRights().isRegularMemberOrGreater(player)) {
                 player.message("You need to be a Ruby member to use this skin!");
@@ -72,7 +72,7 @@ public class AppearanceChangePacketListener implements PacketListener {
 
             player.looks().female(gender);
             player.looks().looks(new int[] {head, jaw, torso, arms, hands, legs, feet});
-            player.looks().colors(new int[] {hairColor, torsoColor, legsColor, feetColor, skinColor});
+            player.looks().colors(new short[] {hairColor, torsoColor, legsColor, feetColor, skinColor});
             player.getUpdateFlag().flag(Flag.APPEARANCE);
             player.stopActions(true);
             player.getInterfaceManager().close();

@@ -23,13 +23,12 @@ public class Appearance {
     private static final int[] TRANSLATION_TABLE_BACK = new int[]{-1, -1, -1, -1, 2, -1, 3, 5, 0, 4, 6, 1};
     private static final int[] WRONG_LOOKS = {18, 26, 36, 7, 33, 42, 10};
     public static final int[] GOOD_LOOKS = {0, 10, 18, 26, 33, 36, 42};
-
     private int[] renderpairOverride;
     private boolean female;
     private int transmog = -1;
     private boolean hide;
     private int[] looks = {0, 10, 18, 26, 33, 36, 42};
-    private int[] colors = new int[5];
+    private short[] colors = new short[6];
 
     public Appearance(Player player) {
         this.player = player;
@@ -40,7 +39,7 @@ public class Appearance {
         player.getUpdateFlag().flag(Flag.APPEARANCE);
     }
 
-    public void colors(int[] c) {
+    public void colors(short[] c) {
         colors = c;
     }
 
@@ -64,7 +63,7 @@ public class Appearance {
         return looks;
     }
 
-    public int[] colors() {
+    public short[] colors() {
         return colors;
     }
 
@@ -126,7 +125,7 @@ public class Appearance {
                 default -> target.getSkullType().getCode();
             };
             packetBuilder.put(skullType);
-            //Some sort of headhint (arrow over head)
+
             packetBuilder.put(0);
 
             if (transmog >= 0) {
@@ -230,9 +229,9 @@ public class Appearance {
 
             int[] renderpair = renderpairOverride != null ? renderpairOverride : World.getWorld().equipmentInfo().renderPair(weapon);
             // Stand, walk sideways, walk, turn 180, turn 90 cw, turn 90 ccw, run
-            for (int
-                renderAnim : renderpair)
+            for (int renderAnim : renderpair) {
                 packetBuilder.putShort(renderAnim); // Renderanim
+            }
             //System.out.printf("%s %s %s %s%n", weapon, Arrays.toString(renderpair), target.getEquipment().get(EquipSlot.WEAPON), target.getEquipment().hasAt(EquipSlot.WEAPON));
 
             packetBuilder.putString(target.getUsername());

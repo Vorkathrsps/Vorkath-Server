@@ -239,6 +239,9 @@ public class Verzik extends NPC {
     }
 
     private boolean sendSpawnNylocas() {
+        if (!this.getPhase().equals(VerzikPhase.TWO)) {
+            return false;
+        }
         if (isInitialSpawn()) return true;
         if (this.getSequenceRandomIntervalTick() >= 6) {
             this.setSequenceRandomIntervalTick(0);
@@ -251,6 +254,9 @@ public class Verzik extends NPC {
     }
 
     private void sendPhaseTwoAttacks() {
+        if (!this.getPhase().equals(VerzikPhase.TWO)) {
+            return;
+        }
         var players = this.getTheatreInstance().getPlayers();
         for (var player : players) {
             if (player == null) continue;
@@ -317,7 +323,7 @@ public class Verzik extends NPC {
             hit.setDamage(0);
         }
         if (target.getEquipment().hasAt(EquipSlot.FEET, ItemIdentifiers.INSULATED_BOOTS)) {
-            hit.setDamage(damage / 50);
+            hit.setDamage((int) (damage * 0.5));
         }
         hit.submit();
     }
@@ -343,7 +349,7 @@ public class Verzik extends NPC {
             hit.setDamage(0);
         }
         if (target.getEquipment().hasAt(EquipSlot.FEET, ItemIdentifiers.INSULATED_BOOTS)) {
-            hit.setDamage(damage / 50);
+            hit.setDamage((int) (damage * 0.5));
         }
         hit.submit();
     }
@@ -353,7 +359,7 @@ public class Verzik extends NPC {
             if (player.tile().equals(projectile.getEnd())) {
                 var damage = Utils.random(1, 47);
                 if (Prayers.usingPrayer(player, Prayers.PROTECT_FROM_MISSILES)) {
-                    player.hit(this, damage / 50);
+                    player.hit(this, (int) (damage * 0.5));
                     return;
                 }
                 player.hit(this, damage);

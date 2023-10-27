@@ -7,7 +7,6 @@ import com.cryptic.model.content.raids.theatre.boss.maiden.handler.MaidenHandler
 import com.cryptic.model.content.raids.theatre.boss.nylocas.handler.VasiliasHandler;
 import com.cryptic.model.content.raids.theatre.boss.sotetseg.handler.SotetsegHandler;
 import com.cryptic.model.content.raids.theatre.boss.verzik.handler.VerzikHandler;
-import com.cryptic.model.content.raids.theatre.boss.verzik.nylocas.PurpleNylocas;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.handler.XarpusHandler;
 import com.cryptic.model.content.raids.theatre.controller.TheatreHandler;
 import com.cryptic.model.content.raids.theatre.controller.TheatreController;
@@ -26,7 +25,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static com.cryptic.model.content.mechanics.DeathProcess.*;
 import static com.cryptic.model.content.mechanics.DeathProcess.SOTETSEG_AREA;
@@ -51,7 +49,7 @@ public class TheatreInstance extends TheatreArea { //TODO make sure we're cleani
     @Getter
     public List<NPC> nylocas = new ArrayList<>();
     @Getter
-    ArrayList<PurpleNylocas> verzikNylocasList = new ArrayList<>();
+    ArrayList<NPC> verzikNylocasList = new ArrayList<>();
     @Getter
     public List<NPC> verzikPillarNpcs = new ArrayList<>();
     @Getter

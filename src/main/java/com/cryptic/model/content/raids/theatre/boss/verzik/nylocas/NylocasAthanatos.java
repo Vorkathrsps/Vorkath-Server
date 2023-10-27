@@ -5,9 +5,9 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.chainedwork.Chain;
 
-public class PurpleNylocas extends NPC {
+public class NylocasAthanatos extends NPC {
     TheatreInstance theatreInstance;
-    public PurpleNylocas(int id, Tile tile, TheatreInstance theatreInstance) {
+    public NylocasAthanatos(int id, Tile tile, TheatreInstance theatreInstance) {
         super(id, tile);
         this.theatreInstance = theatreInstance;
     }

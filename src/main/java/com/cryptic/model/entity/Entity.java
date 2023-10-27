@@ -1757,7 +1757,9 @@ public abstract class Entity {
         timers.extendOrRegister(TimerKey.STUNNED, time);
 
         //In addition to this, players are given a (3.0 seconds) period of immunity after a stun wears off in which they cannot be stunned again.
-        timers.extendOrRegister(TimerKey.STUN_IMMUNITY, time + 5);
+        if (!npcStun) {
+            timers.extendOrRegister(TimerKey.STUN_IMMUNITY, time + 5);
+        }
 
         if (message) {
             message("You have been stunned!");

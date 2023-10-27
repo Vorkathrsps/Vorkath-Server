@@ -199,21 +199,25 @@ public class Verzik extends NPC {
         this.setSpawningMatomenos(true);
         this.animate(-1);
         this.animate(8117);
-        for (var nylocas : matomenosArray) {
-            if (this.getTheatreInstance().getPlayers().size() <= 2) {
-                addToNylocasList(nylocas);
-                setNpcInstance(nylocas);
-                spawnNylocasNpc(nylocas);
-                nylocas.animate(8098);
-                nylocas.noRetaliation(true);
-                break;
-            }
-            addToNylocasList(nylocas);
-            setNpcInstance(nylocas);
-            spawnNylocasNpc(nylocas);
-            nylocas.animate(8098);
-            nylocas.noRetaliation(true);
-        }
+        Chain
+            .noCtx()
+            .runFn(2, () -> {
+                for (var nylocas : matomenosArray) {
+                    if (this.getTheatreInstance().getPlayers().size() <= 2) {
+                        addToNylocasList(nylocas);
+                        setNpcInstance(nylocas);
+                        spawnNylocasNpc(nylocas);
+                        nylocas.animate(8098);
+                        nylocas.noRetaliation(true);
+                        break;
+                    }
+                    addToNylocasList(nylocas);
+                    setNpcInstance(nylocas);
+                    spawnNylocasNpc(nylocas);
+                    nylocas.animate(8098);
+                    nylocas.noRetaliation(true);
+                }
+            });
     }
 
     private boolean isInitialSpawn() {
@@ -301,11 +305,11 @@ public class Verzik extends NPC {
         }
     }
 
-    public void handlePhaseTwoRangeAttack() {
+    public void handlePhaseTwoMagicAttack() {
         var target = Utils.randomElement(this.getTheatreInstance().getPlayers());
         var tileDist = this.tile().distance(target.tile());
         int duration = (20 + (10 * tileDist));
-        Projectile projectile = new Projectile(this, target, 1591, 21, duration, 70, 0, 12, this.getSize(), 128, 0);
+        Projectile projectile = new Projectile(this, target, 1591, 21, duration, 70, 24, 8, this.getSize(), 128, 0);
         int delay = projectile.send(this, target);
         Hit hit = Hit.builder(this, target, CombatFactory.calcDamageFromType(this, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
         var damage = hit.getDamage();
@@ -688,7 +692,7 @@ public class Verzik extends NPC {
         this.sequenceRandomIntervalTick++;
         this.setAttackCount(0);
         if (this.isProcessedNylocasInitialSpawn()) {
-            handlePhaseTwoRangeAttack();
+            handlePhaseTwoMagicAttack();
             return;
         }
         handleElectricShock();

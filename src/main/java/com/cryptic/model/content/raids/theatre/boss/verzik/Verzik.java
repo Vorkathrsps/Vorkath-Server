@@ -59,7 +59,7 @@ public class Verzik extends NPC {
     @Getter
     @Setter
     int sequenceRandomIntervalTick = 0;
-    int value = (this.getPhase() == VerzikPhase.ONE) ? 12 : 4;
+    int value = this.getPhase() == VerzikPhase.ONE ? 12 : this.getPhase() == VerzikPhase.TWO ? 4 : this.getPhase() == VerzikPhase.THREE ? 7 : 0;
     @Getter
     @Setter
     int attackCount = 0;
@@ -380,11 +380,68 @@ public class Verzik extends NPC {
     }
 
     public void sendPhaseThree() {
+        sequenceRangeAndMagic();
+    }
 
+    private void sequenceRangeAndMagic() {
+        int random = World.getWorld().random(0, 2);
+        if (random == 1) {
+            sendRangePhaseThree();
+        } else {
+            sendMagicPhaseThree();
+        }
+    }
+
+
+    private void sendMagicPhaseThree() {
+        this.animate(8124);
+        var target = Utils.randomElement(theatreInstance.getPlayers());
+        this.getCombat().setTarget(target);
+        for (var p : theatreInstance.getPlayers()) {
+            var tileDist = this.tile().distance(p.tile());
+            int duration = (53 + 45 + (7 * tileDist));
+            Projectile projectile = new Projectile(this, p, 1594, 53, duration, 100, 25, 20, this.getSize(), 100, 7);
+            int delay = projectile.send(this, p);
+            Hit hit = Hit.builder(this, target, CombatFactory.calcDamageFromType(this, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+            if (Prayers.usingPrayer(p, Prayers.PROTECT_FROM_MAGIC)) {
+                hit.setDamage(0);
+            }
+            hit.submit();
+            p.graphic(1581, GraphicHeight.LOW, projectile.getSpeed());
+        }
+    }
+
+    private void sendRangePhaseThree() {
+        this.animate(8125);
+        var target = Utils.randomElement(theatreInstance.getPlayers());
+        this.getCombat().setTarget(target);
+        for (var p : theatreInstance.getPlayers()) {
+            var tileDist = this.tile().distance(p.tile());
+            int duration = (62 + 45 + (7 * tileDist));
+            Projectile projectile = new Projectile(this, p, 1593, 62, duration, 100, 25, 20, this.getSize(), 100, 7);
+            int delay = projectile.send(this, p);
+            Hit hit = Hit.builder(this, target, CombatFactory.calcDamageFromType(this, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
+            if (Prayers.usingPrayer(p, Prayers.PROTECT_FROM_MISSILES)) {
+                hit.setDamage(0);
+            }
+            hit.submit();
+        }
+    }
+
+    private void sendWebs() { //projectile 1601
+        if (!this.tile().equals(destination.getX(), destination.getY())) {
+            this.setPhase(VerzikPhase.TRANSITIONING);
+            this.setPathing(true);
+        }
+        this.animate(8127);
+    }
+
+    private void sendHealOrb() {
+        this.animate(8126);
     }
 
     private void sendSequences() {
-        if (this.getIntervalCount() >= (this.getPhase() == VerzikPhase.ONE ? 12 : 4) && this.getIntervals() <= 0 && !this.dead()) {
+        if (this.getIntervalCount() >= (this.getPhase() == VerzikPhase.ONE ? 12 : this.getPhase() == VerzikPhase.TWO ? 4 : 7) && this.getIntervals() <= 0 && !this.dead()) {
             this.setIntervalCount(0);
             this.setIntervals(value);
             switch (this.getPhase()) {
@@ -665,8 +722,7 @@ public class Verzik extends NPC {
             .forEach(o -> {
                 o.setId(32688);
                 Chain.noCtx()
-                    .delay(1, () ->
-                        checkForceMovement(o))
+                    .delay(1, () -> checkForceMovement(o))
                     .then(2, () -> o.setId(32689))
                     .then(1, () -> o.animate(8104))
                     .then(2, o::remove);

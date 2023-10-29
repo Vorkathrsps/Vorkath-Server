@@ -1,5 +1,6 @@
 package com.cryptic.model.content.skill.impl.woodcutting;
 
+import com.cryptic.core.task.Task;
 import com.cryptic.model.content.areas.zeah.woodcutting_guild.WoodcuttingGuild;
 import com.cryptic.model.content.skill.impl.firemaking.LogLighting;
 import com.cryptic.model.content.skill.impl.woodcutting.impl.Axe;
@@ -58,18 +59,15 @@ public class Woodcutting extends PacketInteraction {
             l[0] = hatchetValues[treeOrdinal][0];
             h[0] = hatchetValues[treeOrdinal][1];
         }
-        System.out.println(Arrays.toString(l));
-        System.out.println(Arrays.toString(h));
         return (1D + (Math.floor((l[0] * (99D - level)) / 98D) + Math.floor((h[0] * (level - 1D)) / 98D))) / 256D;
     }
 
-    public static boolean collapseTree(Player player, Trees tree, int trunkObjectId) {
+    public static void collapseTree(Player player, Trees tree, int trunkObjectId) {
         GameObject obj = player.getAttribOr(AttributeKey.INTERACTION_OBJECT, null);
         GameObject old = new GameObject(obj.getId(), obj.tile(), obj.getType(), obj.getRotation());
         GameObject spawned = new GameObject(trunkObjectId, obj.tile(), obj.getType(), obj.getRotation());
         ObjectManager.replace(old, spawned, tree.cycle);
         player.getSkills().addExperience(Skills.WOODCUTTING, tree.experience, experienceMultiplier, true);
-        return true;
     }
 
     public static void cut(Player player, Trees tree, int trunkObjectId) {
@@ -97,27 +95,7 @@ public class Woodcutting extends PacketInteraction {
         player.animate(axe.anim);
 
         player.repeatingTask(4, t -> {
-            if (player.getMovementQueue().hasMoved()) {
-                player.stopActions(false);
-                t.stop();
-                return;
-            }
-
-            if (player.inventory().isFull()) {
-                player.looks().resetRender();
-                player.stopActions(false);
-                player.message("Your inventory is too full to hold any more logs.");
-                t.stop();
-                return;
-            }
-
-            if (Utils.rollDie(12, 1)) {
-                player.stopActions(false);
-                player.inventory().add(new Item(tree.item));
-                collapseTree(player, tree, trunkObjectId);
-                t.stop();
-                return;
-            }
+            if (stopTask(player, tree, trunkObjectId, t)) return;
 
             player.animate(axe.anim);
 
@@ -134,54 +112,91 @@ public class Woodcutting extends PacketInteraction {
             var success = success(modifiedLevel, tree, axe);
 
             if (success) {
-                if (FormulaUtils.hasInfernalAxe(player)) {
-                    if (Utils.rollDie(3, 1)) {
-                        LogLighting.LightableLog log = LogLighting.LightableLog.logForId(tree.item);
-                        if (log != null) {
-                            player.graphic(580, GraphicHeight.MIDDLE, 0);
-                            player.getSkills().addExperience(Skills.FIREMAKING, log.xp / 2, experienceMultiplier, true);
-                            return;
-                        }
-                    }
-                }
-
+                if (hasInfernalAxe(player, tree)) return;
                 player.getSkills().addExperience(Skills.WOODCUTTING, tree.experience, experienceMultiplier, true);
-
-                if (player.getEquipment().containsAny(SkillingItems.KANDARIN_HELM.getId())) {
-                    if (Utils.rollDie(10, 1)) {
-                        player.inventory().add(new Item(tree.item, 2));
-                        return;
-                    }
-                } else if (player.getInventory().contains(ItemIdentifiers.NATURE_OFFERINGS)) {
-                    if (Utils.rollDie(100, Utils.random(60,80))) {
-                        player.inventory().add(new Item(tree.item, 2));
-                        player.getInventory().remove(ItemIdentifiers.NATURE_OFFERINGS, 1);
-                        return;
-                    }
-                }
-
+                if (applyBonus(player, tree)) return;
                 player.inventory().add(new Item(tree.item));
             }
         });
     }
 
+    private static boolean stopTask(Player player, Trees tree, int trunkObjectId, Task t) {
+        if (player.getMovementQueue().hasMoved()) {
+            player.stopActions(false);
+            t.stop();
+            return true;
+        }
+
+        if (player.inventory().isFull()) {
+            player.looks().resetRender();
+            player.stopActions(false);
+            player.message("Your inventory is too full to hold any more logs.");
+            t.stop();
+            return true;
+        }
+
+        if (Utils.rollDie(12, 1)) {
+            player.stopActions(false);
+            player.inventory().add(new Item(tree.item));
+            collapseTree(player, tree, trunkObjectId);
+            t.stop();
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean hasInfernalAxe(Player player, Trees tree) {
+        if (FormulaUtils.hasInfernalAxe(player)) {
+            if (Utils.rollDie(3, 1)) {
+                LogLighting.LightableLog log = LogLighting.LightableLog.logForId(tree.item);
+                if (log != null) {
+                    player.graphic(580, GraphicHeight.MIDDLE, 0);
+                    player.getSkills().addExperience(Skills.FIREMAKING, log.xp / 2, experienceMultiplier, true);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean applyBonus(Player player, Trees tree) {
+        if (player.getEquipment().containsAny(SkillingItems.KANDARIN_HELM.getId())) {
+            if (Utils.rollDie(10, 1)) {
+                player.inventory().add(new Item(tree.item, 2));
+                return true;
+            }
+        } else if (player.getInventory().contains(ItemIdentifiers.NATURE_OFFERINGS)) {
+            if (Utils.rollDie(100, Utils.random(60,80))) {
+                player.inventory().add(new Item(tree.item, 2));
+                player.getInventory().remove(ItemIdentifiers.NATURE_OFFERINGS, 1);
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         if (option == 1) {
-            for (var tree : Trees.values()) {
-                if (tree == null) {
+            return cut(player, obj);
+        }
+        return false;
+    }
+
+    private boolean cut(Player player, GameObject obj) {
+        for (var tree : Trees.values()) {
+            if (tree == null) {
+                break;
+            }
+            for (var object : tree.getObjects()) {
+                if (object == -1) {
                     break;
                 }
-                for (var object : tree.getObjects()) {
-                    if (object == -1) {
-                        break;
-                    }
-                    if (obj.getId() == object) {
-                        var trunk = TREE_MAP.get(tree);
-                        if (trunk != null) {
-                            cut(player, tree, trunk);
-                            return true;
-                        }
+                if (obj.getId() == object) {
+                    var trunk = TREE_MAP.get(tree);
+                    if (trunk != null) {
+                        cut(player, tree, trunk);
+                        return true;
                     }
                 }
             }

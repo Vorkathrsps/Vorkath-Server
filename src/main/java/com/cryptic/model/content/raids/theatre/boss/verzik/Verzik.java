@@ -7,6 +7,7 @@ import com.cryptic.model.content.raids.theatre.boss.verzik.nylocas.NylocasAthana
 import com.cryptic.model.content.raids.theatre.boss.verzik.nylocas.NylocasMatomenos;
 import com.cryptic.model.content.raids.theatre.boss.verzik.phase.VerzikPhase;
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
@@ -19,7 +20,9 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
+import com.cryptic.model.map.object.MapObjects;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.model.map.route.RouteMisc;
 import com.cryptic.model.map.route.routes.DumbRoute;
 import com.cryptic.model.map.route.routes.ProjectileRoute;
@@ -80,6 +83,7 @@ public class Verzik extends NPC {
     @Getter
     @Setter
     boolean processedNylocasInitialSpawn = false;
+    @Getter @Setter private int randomMelee = 0;
 
     public Verzik(int id, Tile tile, TheatreInstance theatreInstance) {
         super(id, tile);
@@ -90,8 +94,6 @@ public class Verzik extends NPC {
         this.getCombat().setAutoRetaliate(false);
         this.setPhase(VerzikPhase.ONE);
     }
-
-
     /**
      * Athanatos
      */
@@ -380,16 +382,23 @@ public class Verzik extends NPC {
     }
 
     public void sendPhaseThree() {
-        sequenceRangeAndMagic();
+        sequencePhaseThree();
     }
 
-    private void sequenceRangeAndMagic() {
-        int random = World.getWorld().random(0, 2);
-        if (random == 1) {
-            sendRangePhaseThree();
-        } else {
-            sendMagicPhaseThree();
+    private void sequencePhaseThree() {
+        /*int random = World.getWorld().random(1, 2);
+        if (Utils.sequenceRandomInterval(randomMelee, 7, 14)) {
+            sendMeleePhaseThree();
+            this.setRandomMelee(0);
+            return;
         }
+        randomMelee++;
+        if (random == 1) {
+            sendMagicPhaseThree();
+        } else if (random == 2) {
+            sendRangePhaseThree();
+        }*/
+        sendHealOrb();
     }
 
 
@@ -402,12 +411,26 @@ public class Verzik extends NPC {
             int duration = (53 + 45 + (7 * tileDist));
             Projectile projectile = new Projectile(this, p, 1594, 53, duration, 100, 25, 20, this.getSize(), 100, 7);
             int delay = projectile.send(this, p);
-            Hit hit = Hit.builder(this, target, CombatFactory.calcDamageFromType(this, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
-            if (Prayers.usingPrayer(p, Prayers.PROTECT_FROM_MAGIC)) {
-                hit.setDamage(0);
-            }
+            Hit hit = Hit.builder(this, target, Utils.random(0, 33), delay, CombatType.MAGIC).checkAccuracy();
             hit.submit();
+            if (Prayers.usingPrayer(p, Prayers.PROTECT_FROM_MAGIC)) {
+                hit.block();
+            }
             p.graphic(1581, GraphicHeight.LOW, projectile.getSpeed());
+        }
+    }
+
+    private void sendMeleePhaseThree() {
+        var target = Utils.randomElement(theatreInstance.getPlayers());
+        this.getCombat().setTarget(target);
+        if (!DumbRoute.withinDistance(this, target, 1)) {
+            return;
+        }
+        this.animate(8123);
+        Hit hit = Hit.builder(this, target, Utils.random(0, 63), 3, CombatType.MELEE).checkAccuracy();
+        hit.submit();
+        if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MELEE)) {
+            hit.block();
         }
     }
 
@@ -420,11 +443,11 @@ public class Verzik extends NPC {
             int duration = (62 + 45 + (7 * tileDist));
             Projectile projectile = new Projectile(this, p, 1593, 62, duration, 100, 25, 20, this.getSize(), 100, 7);
             int delay = projectile.send(this, p);
-            Hit hit = Hit.builder(this, target, CombatFactory.calcDamageFromType(this, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
-            if (Prayers.usingPrayer(p, Prayers.PROTECT_FROM_MISSILES)) {
-                hit.setDamage(0);
-            }
+            Hit hit = Hit.builder(this, target, Utils.random(0, 33), delay, CombatType.RANGED).checkAccuracy();
             hit.submit();
+            if (Prayers.usingPrayer(p, Prayers.PROTECT_FROM_MISSILES)) {
+                hit.block();
+            }
         }
     }
 
@@ -438,6 +461,18 @@ public class Verzik extends NPC {
 
     private void sendHealOrb() {
         this.animate(8126);
+        for (int index = 0; index < this.getTheatreInstance().getPlayers().size(); index++) {
+            var randomTile = World.getWorld().randomTileAround(this.tile, 10);
+            if (RegionManager.blocked(randomTile)) continue;
+            World.getWorld().tileGraphic(1595, randomTile, 0, 0);
+        }
+        for (var p : theatreInstance.getPlayers()) {
+            var tileDist = this.tile().distance(p.tile());
+            int duration = (261 + 144 + (1 * tileDist));
+            Projectile projectile = new Projectile(this, p, 1595, 261, duration, 250, 30, 50, this.getSize(), 0, 1);
+            int delay = projectile.send(this, p);
+            p.graphic(1597, GraphicHeight.LOW, projectile.getSpeed());
+        }
     }
 
     private void sendSequences() {
@@ -450,7 +485,9 @@ public class Verzik extends NPC {
                     if (isSpawningMatomenos()) return;
                     sendPhaseTwo();
                 }
-                case THREE -> sendPhaseThree();
+                case THREE -> {
+                    sendPhaseThree();
+                }
             }
         }
     }
@@ -485,7 +522,7 @@ public class Verzik extends NPC {
         this.animate(8111);
         var pillarObjects = this.getTheatreInstance().getVerzikPillarObjects();
         var pillarNpcs = this.getTheatreInstance().getVerzikPillarNpcs();
-        replaceObjects(pillarObjects);
+        replaceObjects();
         clearLists(pillarObjects, pillarNpcs);
         Direction direction = Direction.SOUTH;
         Chain
@@ -549,6 +586,7 @@ public class Verzik extends NPC {
     private void animateAndTransmog(int animation, int id) {
         this.animate(animation);
         this.transmog(id);
+        this.setInstance(this.getTheatreInstance());
     }
 
     private void checkForceMovement(GameObject o) {
@@ -693,6 +731,8 @@ public class Verzik extends NPC {
         this.canAttack(true);
         animateAndTransmog(-1, 8374);
         this.heal(this.maxHp());
+        this.setIgnoreOccupiedTiles(true);
+        this.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 40);
         this.forceChat("Behold my true nature!");
         this.queueTeleportJump(this.getDestination().transform(-1, -1, this.getTheatreInstance().getzLevel()));
         this.setPhase(VerzikPhase.THREE);
@@ -716,17 +756,20 @@ public class Verzik extends NPC {
         pillarNpcs.clear();
     }
 
-    private void replaceObjects(@NotNull List<GameObject> pillarObjects) {
-        pillarObjects.stream()
-            .filter(o -> o.getId() == 32687)
-            .forEach(o -> {
-                o.setId(32688);
-                Chain.noCtx()
-                    .delay(1, () -> checkForceMovement(o))
-                    .then(2, () -> o.setId(32689))
-                    .then(1, () -> o.animate(8104))
-                    .then(2, o::remove);
-            });
+    private void replaceObjects() {
+        this
+            .getTheatreInstance()
+            .getVerzikPillarNpcs()
+            .forEach(n ->
+                MapObjects
+                    .get(32687, n.tile())
+                    .ifPresent(pillar -> {
+                        pillar.setId(32688);
+                        Chain.noCtx().delay(2, () -> {
+                            pillar.setId(32689);
+                            checkForceMovement(pillar);
+                        }).then(1, () -> pillar.animate(8104)).then(2, pillar::remove);
+                    }));
     }
 
     private void sendElectricShock() {

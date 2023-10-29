@@ -26,10 +26,10 @@ public class VasiliasHandler implements TheatreHandler {
         pillarNpc1.spawnPillarObject();
         pillarNpc2.spawnPillarObject();
         pillarNpc3.spawnPillarObject();
-        pillarNpc4.spawnPillarObject(); //i just discovered fire fax
+        pillarNpc4.spawnPillarObject();
         pillarNpc1.spawn(false);
         pillarNpc2.spawn(false);
-        pillarNpc3.spawn(false);//how the fuck i do that i hold ALT and mouse drag
+        pillarNpc3.spawn(false);
         pillarNpc4.spawn(false);
     }
 

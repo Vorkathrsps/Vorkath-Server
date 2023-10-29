@@ -53,11 +53,6 @@ public class VerzikVitur extends CommonCombatMethod {
     private VerzikPhase phase = VerzikPhase.PHASE_1;
 
     @Override
-    public void init(NPC npc) {
-        npc.getCombatInfo().scripts.agro_ = (n, t) -> phase != INIT_PHASE_2;
-    }
-
-    @Override
     public boolean prepareAttack(Entity mob, Entity target) {
         mob.faceEntity(target);
         Player[] targets = mob.closePlayers(32);

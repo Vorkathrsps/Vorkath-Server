@@ -516,11 +516,7 @@ public class NPC extends Entity {
      * Processes this npc. Previously called onTick.
      */
     public final void sequence() {
-       /* if (NpcPerformance.PERF_CHECK_MODE_ENABLED) {
-            sequencePerformanceMode();
-        } else {*/
         sequenceNormal();
-        // }
         postSequence();
     }
 

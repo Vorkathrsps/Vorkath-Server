@@ -212,12 +212,14 @@ public class MovementQueue {
         }
 
         List<Integer> ALWAYS_LOCKED_FROM_MOVEMENT = Arrays.asList(GREAT_OLM_RIGHT_CLAW_7553, GREAT_OLM_LEFT_CLAW_7555, GREAT_OLM_7554, COMBAT_DUMMY, UNDEAD_COMBAT_DUMMY, FUMUS, UMBRA, CRUOR, GLACIES, AWAKENED_ALTAR, AWAKENED_ALTAR_7290, AWAKENED_ALTAR_7292, AWAKENED_ALTAR_7294, VORKATH_8061, VERZIK_VITUR_8370, VERZIK_VITUR_8369, VERZIK_VITUR_8372);
+
         if(entity.isNpc()) {
             NPC npc = entity.getAsNpc();
             if(ALWAYS_LOCKED_FROM_MOVEMENT.stream().anyMatch(n -> n == npc.id()) || npc.completelyLockedFromMoving()) {
                 return false;
             }
         }
+
         if (entity.<Boolean>getAttribOr(AttributeKey.LOCKED_FROM_MOVEMENT, false) || entity.isMoveLocked()) {
             return false;
         }
@@ -236,13 +238,18 @@ public class MovementQueue {
             }
             return false;
         }
+
         if (entity.dead())
             return false;
+
         return true;
     }
 
     public boolean canWalk(int deltaX, int deltaY) {
         if (!canMove()) {
+            if (entity.isNpc(8374)) {
+                System.out.println("aslkdjf");
+            }
             return false;
         }
         final Tile to = new Tile(entity.tile().getX() + deltaX,
@@ -352,8 +359,9 @@ public class MovementQueue {
         int newX = absX + diffX;
         int newY = absY + diffY;
 
-        if(!entity.getRouteFinder().allowStep(newX, newY))
+        if(!entity.getRouteFinder().allowStep(newX, newY)) {
             return false;
+        }
         var dirMoved = Direction.getDirection(diffX, diffY);
         var nt = entity.tile().transform(dirMoved.x == 0 ? 0 : (dirMoved.x * 10), dirMoved.y == 0 ? 0 : (dirMoved.y * 10));
         entity.lastTileFaced = entity.tile.transform(nt.x * 2 + 1, nt.y * 2 + 1);

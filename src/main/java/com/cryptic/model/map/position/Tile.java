@@ -18,6 +18,7 @@ import com.cryptic.utility.Utils;
 import com.google.common.collect.Lists;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -1089,7 +1090,7 @@ public class Tile implements Cloneable {
         return Region.get(x, y).getTile(x, y, z, create);
     }
 
-    public static boolean isOccupied(Entity entity, int stepX, int stepY) {
+    public static boolean isOccupied(@NotNull Entity entity, int stepX, int stepY) {
         int size = entity.getSize();
         int absX = entity.getAbsX();
         int absY = entity.getAbsY();
@@ -1104,7 +1105,8 @@ public class Tile implements Cloneable {
                 }
                 Tile tile = Tile.get(x, y, z, true);
                 if (tile == null) continue;
-                if (tile.playerCount > 0 || tile.npcCount > 0)
+                var npcCount = tile.npcCount; if (entity.isNpc() && entity.tile().equals(tile)) npcCount--;
+                if (tile.playerCount > 0 || npcCount > 0)
                     return true;
             }
         }

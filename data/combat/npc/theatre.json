@@ -1,41 +1,6 @@
 [
   {
     "ids": [
-      8375
-    ],
-    "maxhit": 50,
-    "deathlen": 2,
-    "aggressive": true,
-    "aggroradius": 30,
-    "stats": {
-      "attack": 400,
-      "strength": 400,
-      "magic": 400,
-      "ranged": 400,
-      "defence": 200,
-      "hitpoints": 2000
-    },
-    "bonuses": {
-      "attack": 0,
-      "ranged": 80,
-      "magic": 80,
-      "stabdefence": 100,
-      "slashdefence": 60,
-      "crushdefence": 100,
-      "rangeddefence": 70,
-      "magicdefence": 250
-    },
-    "animations": {
-      "attack": 8114,
-      "block": -1,
-      "death": 4167
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.verzik.VerzikVitur"
-    }
-  },
-  {
-    "ids": [
       8372
     ],
     "maxhit": 47,
@@ -60,6 +25,62 @@
       "crushdefence": 100,
       "rangeddefence": 70,
       "magicdefence": 250
+    }
+  },
+  {
+    "ids": [
+      8370
+    ],
+    "maxhit": 47,
+    "deathlen": 2,
+    "aggressive": true,
+    "aggroradius": 30,
+    "stats": {
+      "attack": 400,
+      "strength": 400,
+      "magic": 400,
+      "ranged": 400,
+      "defence": 20,
+      "hitpoints": 2000
+    },
+    "bonuses": {
+      "attack": 0,
+      "strength": 0,
+      "ranged": 80,
+      "magic": 80,
+      "stabdefence": 20,
+      "slashdefence": 20,
+      "crushdefence": 20,
+      "rangeddefence": 20,
+      "magicdefence": 20
+    }
+  },
+  {
+    "ids": [
+      8374
+    ],
+    "maxhit": 63,
+    "deathlen": 2,
+    "aggressive": true,
+    "aggroradius": 40,
+    "stats": {
+      "attack": 400,
+      "strength": 400,
+      "magic": 300,
+      "ranged": 300,
+      "defence": 150,
+      "hitpoints": 3250
+    },
+    "bonuses": {
+      "attack": 80,
+      "strength": 30,
+      "ranged": 80,
+      "magic": 80,
+      "stabdefence": 70,
+      "slashdefence": 30,
+      "crushdefence": 70,
+      "rangeddefence": 230,
+      "magicdefence": 100
     }
   },
   {

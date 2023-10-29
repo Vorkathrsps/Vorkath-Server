@@ -400,32 +400,32 @@ public class RouteFinder {
     /**
      * Step check
      */
-    public boolean allowStep(int stepX, int stepY) {
+    public boolean allowStep(int stepX, int stepY) { //issue here for verzik pathing
         if (targetRoute != null && !targetRoute.allowStep(entity, stepX, stepY)) {
             entity.getMovement().reset();
+            if (entity.isNpc(8374)) {
+                System.out.println("aa "+Tile.isOccupied(entity, stepX, stepY));
+            }
             return false;
         }
         if (entity.getMovement().stepType == MovementQueue.StepType.REGULAR) {
-            if (!entity.getMovement().canMove(!entity.isNpc() && entity.getAsPlayer().getMovementQueue().movementPacketThisCycle()))
-                return false;
-            if (entity.isNpc()
-                && !entity.getAsNpc().ignoreOccupiedTiles
-                && Tile.isOccupied(entity, stepX, stepY)) {
-                entity.getMovement()
-                    .reset(); // let's reset the movement so the occupied check isn't spammed
-                // (Unless ofc it's combat, it will be spammed regardless)
+            if (!entity.getMovement().canMove(!entity.isNpc() && entity.getAsPlayer().getMovementQueue().movementPacketThisCycle())) {
                 return false;
             }
-            if (DumbRoute.getDirection(
-                entity.getRouteFinder().getClipUtils(),
-                entity.getAbsX(),
-                entity.getAbsY(),
-                entity.getZ(),
-                entity.getSize(),
-                stepX,
-                stepY)
-                == null) {
+            if (entity.isNpc() && !entity.getAsNpc().ignoreOccupiedTiles && Tile.isOccupied(entity, stepX, stepY)) {
+                entity.getMovement().reset();
+                // let's reset the movement so the occupied check isn't spammed
+                // (Unless ofc it's combat, it will be spammed regardless)
+                if (entity.isNpc(8374)) {
+                    System.out.println("bb "+Tile.isOccupied(entity, stepX, stepY));
+                }
+                return false;
+            }
+            if (DumbRoute.getDirection(entity.getRouteFinder().getClipUtils(), entity.getAbsX(), entity.getAbsY(), entity.getZ(), entity.getSize(), stepX, stepY) == null) {
                 // movement stays "queued" as long as you stay still.
+                if (entity.isNpc(8374)) {
+                    System.out.println("cc "+Tile.isOccupied(entity, stepX, stepY));
+                }
                 return false;
             }
         }

@@ -1155,7 +1155,7 @@ public class Tile implements Cloneable {
     public GroundItem showTempItem(int itemId) {
         GroundItem gi = new GroundItem(new Item(itemId), this, null);
         GroundItemHandler.createGroundItem(gi);
-        gi.setTimer(itemId);
+        gi.setTimer(1);
         return gi;
     }
 

@@ -7,7 +7,10 @@ import com.cryptic.model.World;
 import com.cryptic.model.content.areas.theatre.ViturRoom;
 import com.cryptic.model.content.instance.InstancedAreaManager;
 import com.cryptic.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
+import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.Xarpus;
+import com.cryptic.model.content.raids.theatre.interactions.TheatreInterface;
+import com.cryptic.model.content.raids.theatre.interactions.dialogue.TheatreDialogue;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.cryptic.model.content.tournaments.Tournament;
 import com.cryptic.model.content.tournaments.TournamentManager;
@@ -1008,6 +1011,27 @@ public class CommandManager {
             var t = Tile.regionToTile(Integer.parseInt(s[1]));
             p.teleport(t);
             p.message("region %s is %s", s[1], t);
+        });
+        dev("test13", (player, c, s) -> {
+            player.setTheatreInterface(new TheatreInterface(player, new ArrayList<>()).open(player));
+                    if (player.getTheatreParty() == null) {
+                        player.setTheatreParty(player.getTheatreInterface());
+                        player.getTheatreParty().addOwner();
+                    }
+
+            TheatreInstance theatreInstance = new TheatreInstance(player, player.getTheatreParty().getPlayers());
+            player.setTheatreInstance(theatreInstance);
+            player.getTheatreInstance().buildParty().startRaid();
+        });
+        dev("test14", (player, c, s) -> {
+            for (NPC localNpc : player.getLocalNpcs()) {
+                localNpc.setIgnoreOccupiedTiles(!localNpc.ignoreOccupiedTiles);
+            }
+        });
+        dev("teles", (player, c, s) -> {
+            player.setCurrentTabIndex(3);
+            player.getInterfaceManager().open(88000);
+            player.getnewteleInterface().drawInterface(88005);
         });
     }
 

@@ -719,11 +719,50 @@ public class Combat {
         checkRetreat();
     }
 
+    /**
+     * while {@link com.cryptic.model.entity.npc.NPCCombatInfo#aggroradius} is based on the NPCs current position, they could be
+     * at a corner of their Walkable Area and attack. For NPCs with attack distance 1 (melee) you don't want players to safe-spot them
+     * from outside their Attack/Walkable Area. to Solve this, 07 npcs walk away from the player, causing the player to move into the Attackable Box:
+     * Acceptable:
+     * |========================|
+     * |---------------NPC------|
+     * |------------------------|
+     * |------------------------|
+     * |------------------------|
+     * |------------------------|
+     * |------------------------|
+     * |---PLAYER---------------|
+     * |========================|
+     *
+     * vs
+     * Safe spotable:
+     * |========================|
+     * |------------------------|
+     * |------------------------|
+     * |------------------------|
+     * |------------------------|
+     * |------------------------|
+     * |----NPC-----------------|
+     * |------------------------|
+     * |========================|
+     * .........................
+     * .........................
+     * ..PLAYER-................
+     * .........................
+     * .........................
+     */
     private void checkRetreat() {
+        if (target == null && !CombatFactory.wasRecentlyAttacked(mob)) {
+            //System.out.println("hi "+mob.getMobName());
+            return;
+        }
         // rely on aggroradius of NpcCombatInfo by default
         var hasAgroDistanceOverride = mob.hasAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE);
-        var fightArea = mob.npc().spawnTile().area(hasAgroDistanceOverride ? mob.getAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE) : 12);
+        var expand = hasAgroDistanceOverride ? mob.<Integer>getAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE) : 16;
+        //logger.info("zone {}", expand);
+        var fightArea = mob.npc().spawnTile().area(expand);
         if (target != null && !target.tile().inArea(fightArea)) {
+            fightArea.forEachPos(t -> t.showTempItem(995));
             DumbRoute.route(mob, mob.npc().spawnTile().getX(), mob.npc().spawnTile().getY());
             Debugs.CMB.debug(mob, "retreat", target);
         }

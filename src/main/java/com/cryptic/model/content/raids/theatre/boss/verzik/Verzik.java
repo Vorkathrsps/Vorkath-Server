@@ -6,6 +6,7 @@ import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.boss.verzik.nylocas.NylocasAthanatos;
 import com.cryptic.model.content.raids.theatre.boss.verzik.nylocas.NylocasMatomenos;
 import com.cryptic.model.content.raids.theatre.boss.verzik.phase.VerzikPhase;
+import com.cryptic.model.content.raids.theatre.boss.verzik.tornado.Tornado;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
@@ -38,8 +39,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.VERZIK_VITUR_8369;
-import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.VERZIK_VITUR_8371;
+import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.TREASURE_ROOM;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
 
@@ -88,7 +88,11 @@ public class Verzik extends NPC {
     boolean sendingChargedShot = false;
     @Getter
     @Setter
+    boolean hasSentChargedShot = false;
+    @Getter
+    @Setter
     boolean adjustAttackSpeed = false;
+
     public Verzik(int id, Tile tile, TheatreInstance theatreInstance) {
         super(id, tile);
         this.theatreInstance = theatreInstance;
@@ -98,6 +102,7 @@ public class Verzik extends NPC {
         this.getCombat().setAutoRetaliate(false);
         this.setPhase(VerzikPhase.ONE);
     }
+
     public void sendAthanatos() {
         if (!this.getPhase().equals(VerzikPhase.TWO)) return;
         Tile randomTile = World.getWorld().randomTileAround(this.tile, 8);
@@ -110,6 +115,7 @@ public class Verzik extends NPC {
         final MutableObject<NylocasAthanatos> nylocasMutableObject = new MutableObject<>();
         processNylocasAthanatos(randomTile, projectileDelay, nylocasMutableObject);
     }
+
     private void processNylocasAthanatos(Tile randomTile, int projectileDelay, MutableObject<NylocasAthanatos> nylocasMutableObject) {
         Chain
             .noCtx()
@@ -117,6 +123,7 @@ public class Verzik extends NPC {
             .then(5, () -> sendInitialProjectile(nylocasMutableObject))
             .repeatingTask(6, heal -> cycleHealTask(nylocasMutableObject, heal));
     }
+
     private void handleNylocasSpawn(@NotNull Tile randomTile, MutableObject<NylocasAthanatos> nylocasMutableObject) {
         Tile finalTile = new Tile(randomTile.getX(), randomTile.getY()).transform(0, 0, this.getTheatreInstance().getzLevel());
 
@@ -136,12 +143,14 @@ public class Verzik extends NPC {
         nylocas.graphic(1590);
         addToNylocasList(nylocas);
     }
+
     private void sendInitialNylocas(double healthPercentage) {
         if (healthPercentage <= 0.35 && !this.isSpawnedInitialNylo() && !this.isProcessedNylocasInitialSpawn()) {
             this.setProcessedNylocasInitialSpawn(true);
             this.setSpawnedInitialNylo(true);
         }
     }
+
     private void sendMatomenos() {
         if (!this.getTheatreInstance().getVerzikNylocasList().isEmpty()) {
             return;
@@ -157,18 +166,20 @@ public class Verzik extends NPC {
             .runFn(10, () -> this.setSpawningMatomenos(false))
             .then(35, this::handleNylocasMatomenosHeal);
     }
+
     private void handleNylocasMatomenosHeal() {
-        if (this.theatreInstance.getVerzikNylocasList().isEmpty()) return;
-        for (var n : theatreInstance.getVerzikNylocasList()) {
+        if (this.getTheatreInstance().getVerzikNylocasList().isEmpty()) return;
+        for (var n : getTheatreInstance().getVerzikNylocasList()) {
             if (n == null) return;
             if (n.dead()) return;
             this.healHit(n, n.hp());
             n.die();
         }
-        if (theatreInstance.getVerzikNylocasList() != null) {
-            theatreInstance.getVerzikNylocasList().clear();
+        if (this.getTheatreInstance().getVerzikNylocasList() != null) {
+            this.getTheatreInstance().getVerzikNylocasList().clear();
         }
     }
+
     private void handleNylocasMatomenosSpawn(NPC[] matomenosArray) {
         this.setSpawningMatomenos(true);
         this.animate(-1);
@@ -193,6 +204,7 @@ public class Verzik extends NPC {
                 }
             });
     }
+
     private boolean isInitialSpawn() {
         if (this.isSpawnedInitialNylo()) {
             this.setSpawnedInitialNylo(false);
@@ -201,6 +213,7 @@ public class Verzik extends NPC {
         }
         return false;
     }
+
     private boolean isAthanatosOrMatomenos(double healthPercentage) {
         if (healthPercentage <= 0.35 || this.isProcessedNylocasInitialSpawn()) {
             sendMatomenos();
@@ -209,6 +222,7 @@ public class Verzik extends NPC {
         sendAthanatos();
         return true;
     }
+
     private boolean sendSpawnNylocas() {
         if (!this.getPhase().equals(VerzikPhase.TWO)) return false;
         if (isInitialSpawn()) return true;
@@ -221,6 +235,7 @@ public class Verzik extends NPC {
         }
         return false;
     }
+
     private void sendPhaseTwoAttacks() {
         if (!this.getPhase().equals(VerzikPhase.TWO)) return;
         var players = this.getTheatreInstance().getPlayers();
@@ -237,6 +252,7 @@ public class Verzik extends NPC {
             sendElectricShock();
         }
     }
+
     public void sendToxicBlast(Player player) {
         if (!this.getPhase().equals(VerzikPhase.TWO)) return;
         var tileDist = this.tile().distance(player.getCentrePosition());
@@ -248,6 +264,7 @@ public class Verzik extends NPC {
         runToxicBlastTask(player, projectile, delay);
         World.getWorld().tileGraphic(1584, player.tile(), 0, projectile.getSpeed());
     }
+
     public void sendKnockBack(Player p) {
         if (!this.getPhase().equals(VerzikPhase.TWO)) return;
         int vecX = (p.getAbsX() - Utils.getClosestX(this, p.tile()));
@@ -270,6 +287,7 @@ public class Verzik extends NPC {
             sendForceMovement(p, endX, endY, direction);
         }
     }
+
     public void handlePhaseTwoMagicAttack() {
         var target = Utils.randomElement(this.getTheatreInstance().getPlayers());
         var tileDist = this.tile().distance(target.tile());
@@ -286,6 +304,7 @@ public class Verzik extends NPC {
         }
         hit.submit();
     }
+
     private void sendSphere(@NotNull Player player, int duration) {
         Entity target = player;
         boolean lineOfSight = ProjectileRoute.hasLineOfSight(this, player.tile());
@@ -298,6 +317,7 @@ public class Verzik extends NPC {
         hit.submit();
         target.graphic(1582, GraphicHeight.LOW, projectile.getSpeed());
     }
+
     public void handleElectricShock() {
         if (!this.getPhase().equals(VerzikPhase.TWO)) return;
         this.setAttackCount(0);
@@ -321,6 +341,7 @@ public class Verzik extends NPC {
         }
         hit.submit();
     }
+
     private void runToxicBlastTask(Player player, Projectile projectile, int delay) {
         Chain.bound(this).name("VerzikToxicBlastTask").runFn(delay, () -> {
             if (player.tile().equals(projectile.getEnd())) {
@@ -333,6 +354,7 @@ public class Verzik extends NPC {
             }
         });
     }
+
     public void sendPhaseOne() {
         if (!this.getPhase().equals(VerzikPhase.ONE)) return;
         this.face(null);
@@ -346,6 +368,7 @@ public class Verzik extends NPC {
             Chain.noCtx().delay(2, () -> sendSphere(player, duration));
         }
     }
+
     public void sendPhaseTwo() {
         if (!this.getPhase().equals(VerzikPhase.TWO)) return;
         this.attackCount++;
@@ -356,6 +379,7 @@ public class Verzik extends NPC {
         this.animate(8114);
         sendPhaseTwoAttacks();
     }
+
     private void sendMagicPhaseThree() {
         this.animate(8124);
         var target = Utils.randomElement(theatreInstance.getPlayers());
@@ -373,6 +397,7 @@ public class Verzik extends NPC {
             p.graphic(1581, GraphicHeight.LOW, projectile.getSpeed());
         }
     }
+
     private void sendMeleePhaseThree(Player target) {
         this.animate(8123);
         Hit hit = Hit.builder(this, target, Utils.random(0, 63), 3, CombatType.MELEE).checkAccuracy();
@@ -381,6 +406,7 @@ public class Verzik extends NPC {
             hit.block();
         }
     }
+
     private void sendRangePhaseThree() {
         this.animate(8125);
         var target = Utils.randomElement(theatreInstance.getPlayers());
@@ -397,6 +423,7 @@ public class Verzik extends NPC {
             }
         }
     }
+
     private void sendWebs() { //projectile 1601
         if (!this.tile().equals(destination.getX(), destination.getY())) {
             this.setPhase(VerzikPhase.TRANSITIONING);
@@ -404,21 +431,18 @@ public class Verzik extends NPC {
         }
         this.animate(8127);
     }
+
     private void sendChargedShot() {
         this.animate(8126);
+        this.lockMovement();
         MutableObject<Tile> randomTile = new MutableObject<>();
-        for (int index = 0; index < this.getTheatreInstance().getPlayers().size(); index++) {
-            var randomTileAround = World.getWorld().randomTileAround(this.tile, 10);
-            randomTile.setValue(randomTileAround);
-            if (RegionManager.blocked(randomTile.getValue())) continue;
-            World.getWorld().tileGraphic(1595, randomTile.getValue(), 0, 0);
-        }
+        findValidTile(randomTile);
         for (var p : theatreInstance.getPlayers()) {
             var tileDist = this.tile().distance(p.tile());
             int duration = (261 + 144 + (tileDist));
             Projectile projectile = new Projectile(this, p, 1596, 261, duration, 250, 30, 50, this.getSize(), 0, 0);
             int delay = this.executeProjectile(projectile);
-            Chain.noCtx().runFn(delay, () -> {
+            Chain.noCtx().runFn((int) (projectile.getSpeed() / 20D + 1), () -> {
                 if (!p.tile().equals(randomTile.getValue())) {
                     var damage = Utils.random(1, 80);
                     Hit hit = Hit.builder(this, p, damage, delay, CombatType.MAGIC).setAccurate(true);
@@ -427,12 +451,32 @@ public class Verzik extends NPC {
                     p.graphic(1597, GraphicHeight.LOW, 0);
                 }
                 this.setSendingChargedShot(false);
-            }).then(2, this::sequenceTornado);
+            }).then(1, () -> {
+                this.unlock();
+                sequenceTornado();
+            });
         }
     }
-    private void sequenceTornado() { //TODO
 
+    private void findValidTile(MutableObject<Tile> randomTile) {
+        for (int index = 0; index < this.getTheatreInstance().getPlayers().size(); index++) {
+            var randomTileAround = World.getWorld().randomTileAround(this.tile, 10);
+            randomTile.setValue(randomTileAround);
+            if (RegionManager.blocked(randomTile.getValue())) continue;
+            World.getWorld().tileGraphic(1595, randomTile.getValue(), 0, 0);
+        }
     }
+
+    private void sequenceTornado() {
+        for (var p : theatreInstance.getPlayers()) {
+            Tornado tornado = new Tornado(8386, p.tile().transform(-1, 0), this.getTheatreInstance());
+            tornado.setInstance(this.getTheatreInstance());
+            tornado.spawn(false);
+            tornado.getCombat().setTarget(p);
+            this.getTheatreInstance().getTornados().add(tornado);
+        }
+    }
+
     private void sendSequences() {
         if (this.getIntervalCount() >= (this.getPhase() == VerzikPhase.ONE ? 12 : this.getPhase() == VerzikPhase.TWO ? 4 : this.getPhase() == VerzikPhase.THREE && !this.isAdjustAttackSpeed() ? 7 : 5) && this.getIntervals() <= 0 && !this.dead()) {
             this.setIntervalCount(0);
@@ -450,6 +494,7 @@ public class Verzik extends NPC {
             }
         }
     }
+
     private void sequenceThirdPhase() {
         meleeAttackCount++;
         if (meleeAttackCount >= 4) {
@@ -461,11 +506,12 @@ public class Verzik extends NPC {
         }
         var healthPercentage = (double) hp() / maxHp();
         var random = World.getWorld().random(1, 2);
-        if (healthPercentage <= 0.20) {
+        if (healthPercentage <= 0.20 && !this.isHasSentChargedShot()) {
             this.forceChat("I'm not finished with you just yet!");
             this.sendChargedShot();
-            this.setSendingChargedShot(true);
             this.setAdjustAttackSpeed(true);
+            this.setSendingChargedShot(true);
+            this.setHasSentChargedShot(true);
             return;
         }
         if (random == 1) {
@@ -477,6 +523,7 @@ public class Verzik extends NPC {
             return;
         }
     }
+
     @Nullable
     private Player validate() {
         var target = Utils.randomElement(theatreInstance.getPlayers());
@@ -486,6 +533,7 @@ public class Verzik extends NPC {
         }
         return target;
     }
+
     @Override
     public void postSequence() {
         if (this.id() == VERZIK_VITUR_8369) return;
@@ -494,6 +542,7 @@ public class Verzik extends NPC {
         this.intervals--;
         sendSequences();
     }
+
     @Override
     public void die() {
         switch (this.getPhase()) {
@@ -502,6 +551,7 @@ public class Verzik extends NPC {
             case THREE -> transitionPhaseThree();
         }
     }
+
     public void transitionPhaseOne() {
         this.setPhase(VerzikPhase.TRANSITIONING);
         this.animate(8111);
@@ -515,6 +565,7 @@ public class Verzik extends NPC {
             .delay(4, () -> transitionAndReplace(direction))
             .then(2, this::animateAndSetPath);
     }
+
     public void transitionPhaseTwo() {
         this.setPhase(VerzikPhase.TRANSITIONING);
         this.canAttack(false);
@@ -529,40 +580,52 @@ public class Verzik extends NPC {
             .runFn(2, () -> animateAndTransmog(8119, 8373))
             .then(4, this::finalizePhaseTwo);
     }
+
     public void transitionPhaseThree() {
         this.setPhase(VerzikPhase.TRANSITIONING);
         this.animate(8128);
         this.getTheatreInstance().spawnTreasure(true);
         this.setAdjustAttackSpeed(false);
+        for (var n : this.getTheatreInstance().getTornados()) {
+            n.remove();
+        }
+        this.getTheatreInstance().getTornados().clear();
         Chain
             .noCtx()
             .delay(2, () -> animateAndTransmog(-1, 8375))
             .then(6, this::animateThrone)
             .then(4, this::openTreasureRoom);
     }
+
     private void setNpcInstance(NPC nylocas) {
         nylocas.setInstance(theatreInstance);
     }
+
     private void spawnNylocasNpc(NPC nylocas) {
         nylocas.spawn(false);
     }
+
     private void addToNylocasList(NPC nylocas) {
         this.getTheatreInstance().getVerzikNylocasList().add(nylocas);
     }
+
     private void animateThrone() {
         throne.animate(8108);
         this.remove();
     }
+
     private void openTreasureRoom() {
         GameObject throne_two = new GameObject(TREASURE_ROOM, new Tile(throne.getX(), throne.getY(), this.getTheatreInstance().getzLevel()), 10, 0);
         throne.replaceWith(throne_two, false);
         this.setPhase(VerzikPhase.DEAD);
     }
+
     private void animateAndTransmog(int animation, int id) {
         this.animate(animation);
         this.transmog(id);
         this.setInstance(this.getTheatreInstance());
     }
+
     private void checkForceMovement(GameObject o) {
         theatreInstance
             .getPlayers()
@@ -571,12 +634,14 @@ public class Verzik extends NPC {
             .filter(player -> player.tile().isWithinDistance(this.tile(), 1) || o.tile().isWithinDistance(player.tile(), 1))
             .forEach(this::forceMove);
     }
+
     private void forceMove(@NotNull Player player) {
         player.hit(this, 10);
         Direction direction = Direction.SOUTH;
         ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(direction.x(), direction.y()), 30, 60, 1114, 0);
         player.setForceMovement(forceMovement);
     }
+
     public void interpolatePhaseTwoTransition() {
         for (int index = 0; index < 2; index++) {
             Tile currentTile = this.tile();
@@ -594,6 +659,7 @@ public class Verzik extends NPC {
             this.queueTeleportJump(new Tile(nextX, nextY, this.getTheatreInstance().getzLevel()));
         }
     }
+
     private void finalizeTransmog() {
         this.queueTeleportJump(this.getDestination().transform(1, 1, this.getTheatreInstance().getzLevel()));
         this.transmog(8372);
@@ -601,6 +667,7 @@ public class Verzik extends NPC {
         this.setPathing(false);
         this.setPhase(VerzikPhase.TWO);
     }
+
     @NotNull
     private Direction getDirection(int vecX, int vecY) {
         Direction direction;
@@ -615,6 +682,7 @@ public class Verzik extends NPC {
         }
         return direction;
     }
+
     private void sendForceMovement(@NotNull Player player, int endX, int endY, Direction direction) {
         int diffX = endX - player.getAbsX();
         int diffY = endY - player.getAbsY();
@@ -627,6 +695,7 @@ public class Verzik extends NPC {
         }
         player.stun(8);
     }
+
     private void cycleHealTask(@NotNull MutableObject<NylocasAthanatos> nylocasMutableObject, Task heal) {
         int distance = (int) nylocasMutableObject.getValue().tile().distanceTo(this.tile);
         int duration = 3 + 21 + distance;
@@ -637,6 +706,7 @@ public class Verzik extends NPC {
         int nyloDelay = nylocasMutableObject.getValue().executeProjectile(nyloProjectile);
         this.healHit(nylocasMutableObject.getValue(), Utils.random(9, 10), nyloDelay);
     }
+
     private boolean stopHealingTask(MutableObject<NylocasAthanatos> nylocasMutableObject, Task heal, int dur) {
         if (this.getTheatreInstance() == null) {
             nylocasMutableObject.getValue().remove();
@@ -653,6 +723,7 @@ public class Verzik extends NPC {
         }
         return false;
     }
+
     private void sendInitialProjectile(@NotNull MutableObject<NylocasAthanatos> nylocasMutableObject) {
         int dist = (int) nylocasMutableObject.getValue().tile().distanceTo(this.tile);
         int dur = 3 + 21 + dist;
@@ -668,6 +739,7 @@ public class Verzik extends NPC {
         int nyloDelay = nylocasMutableObject.getValue().executeProjectile(nyloProjectile);
         this.healHit(nylocasMutableObject.getValue(), 50, nyloDelay);
     }
+
     private Entity getEntity(Player player, Entity target, boolean lineOfSight) {
         for (var npc : this.getTheatreInstance().getVerzikPillarNpcs()) {
             var playerSwTile = player.getCentrePosition().getSouthwestTile(npc);
@@ -692,6 +764,7 @@ public class Verzik extends NPC {
         }
         return target;
     }
+
     private void finalizePhaseTwo() {
         this.canAttack(true);
         animateAndTransmog(-1, 8374);
@@ -702,21 +775,25 @@ public class Verzik extends NPC {
         this.queueTeleportJump(this.getDestination().transform(-1, -1, this.getTheatreInstance().getzLevel()));
         this.setPhase(VerzikPhase.THREE);
     }
+
     private void animateAndSetPath() {
         this.animate(-1);
         this.setPathing(true);
     }
+
     private void transitionAndReplace(Direction direction) {
         throne = new GameObject(VERZIKS_THRONE_32737, new Tile(3167, 4324, this.getTheatreInstance().getzLevel()), 10, 0);
         throne.spawn();
         animateAndTransmog(8112, 8371);
         this.setPositionToFace(this.getDestination().center(5).tileToDir(direction));
     }
+
     private void clearLists(@NotNull List<GameObject> pillarObjects, @NotNull List<NPC> pillarNpcs) {
         pillarObjects.clear();
         pillarNpcs.forEach(NPC::remove);
         pillarNpcs.clear();
     }
+
     private void replaceObjects() {
         this
             .getTheatreInstance()
@@ -742,6 +819,7 @@ public class Verzik extends NPC {
         }
         handleElectricShock();
     }
+
     private boolean isInMeleeRange(Player player) {
         if (RouteMisc.getEffectiveDistance(player, this) <= 1) {
             sendKnockBack(player);
@@ -749,6 +827,7 @@ public class Verzik extends NPC {
         }
         return false;
     }
+
     private boolean transitionBetweenPhase() {
         if (this.id() == VERZIK_VITUR_8371 && this.isPathing()) {
             this.walkCount++;

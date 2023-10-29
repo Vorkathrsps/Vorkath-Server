@@ -61,6 +61,8 @@ public class TheatreInstance extends TheatreArea { //TODO make sure we're cleani
     @Getter
     public TheatrePhase theatrePhase = new TheatrePhase(TheatreStage.ONE);
     @Getter
+    public List<NPC> tornados = new ArrayList<>();
+    @Getter
     public Tile entrance = new Tile(3168, 4304);
     @Getter
     public final List<Tile> verzikPillarTiles = List.of(new Tile(3161, 4318, 0),

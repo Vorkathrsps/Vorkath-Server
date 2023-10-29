@@ -84,7 +84,7 @@ public class MeleeCombatMethod extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         if (entity instanceof NPC npc) {
-            if (npc.getId() == 10865 || npc.getId() == 10814 || npc.getId() == 8340 || npc.getId() == NpcIdentifiers.VERZIK_VITUR || npc.getId() == NpcIdentifiers.VERZIK_VITUR_8372 || npc.getId() == NpcIdentifiers.VERZIK_VITUR_8373 || npc.getId() == NpcIdentifiers.VERZIK_VITUR_8374 || npc.getId() == NpcIdentifiers.VERZIK_VITUR_8375) {
+            if (npc.getId() == 10865 || npc.getId() == 10814 || npc.getId() == 8340 || npc.getId() == NpcIdentifiers.VERZIK_VITUR || npc.getId() == NpcIdentifiers.VERZIK_VITUR_8372 || npc.getId() == NpcIdentifiers.VERZIK_VITUR_8373 || npc.getId() == NpcIdentifiers.VERZIK_VITUR_8374 || npc.getId() == NpcIdentifiers.VERZIK_VITUR_8375 || npc.getId() == 8386) {
                 return false;
             }
             if (!withinDistance(1)) {

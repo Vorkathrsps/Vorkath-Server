@@ -444,13 +444,13 @@ public class Verzik extends NPC {
                     sendPhaseTwo();
                 }
                 case THREE -> {
+                    if (this.isSendingChargedShot()) return;
                     sequenceThirdPhase();
                 }
             }
         }
     }
     private void sequenceThirdPhase() {
-        if (this.isSendingChargedShot()) return;
         meleeAttackCount++;
         if (meleeAttackCount >= 4) {
             meleeAttackCount = 0;

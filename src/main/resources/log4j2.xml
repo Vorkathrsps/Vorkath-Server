@@ -25,6 +25,7 @@
         <Console name="outconsole" target="SYSTEM_OUT">
             <Filters>
                 <MarkerFilter marker="perf" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <MarkerFilter marker="InstanceAreaMarkerZ" onMatch="DENY" onMismatch="NEUTRAL"/>
                 <LevelRangeFilter minLevel="INFO" maxLevel="ALL" onMatch="ACCEPT" onMismatch="ACCEPT"/>
             </Filters>
             <PatternLayout

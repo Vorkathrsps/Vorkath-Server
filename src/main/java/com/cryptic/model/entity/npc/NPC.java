@@ -53,6 +53,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
+import static com.cryptic.model.entity.attributes.AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE;
 import static com.cryptic.utility.CustomNpcIdentifiers.BRUTAL_LAVA_DRAGON;
 import static com.cryptic.utility.CustomNpcIdentifiers.CORRUPTED_NECHRYARCH;
 import static com.cryptic.utility.ItemIdentifiers.BRACELET_OF_ETHEREUM;
@@ -184,6 +185,9 @@ public class NPC extends Entity {
         def = World.getWorld().definitions().get(NpcDefinition.class, id);
         combatInfo = World.getWorld().combatInfo(id);
         hp = combatInfo == null ? 50 : combatInfo.stats.hitpoints;
+        if (combatInfo != null && combatInfo.aggroradius > 16) {
+            putAttrib(ATTACKING_ZONE_RADIUS_OVERRIDE, combatInfo.aggroradius);
+        }
         spawnArea = new Area(spawnTile, walkRadius);
         getCombat().setAutoRetaliate(true);
         ignoreOccupiedTiles = def.ignoreOccupiedTiles;
@@ -234,6 +238,9 @@ public class NPC extends Entity {
         def = World.getWorld().definitions().get(NpcDefinition.class, id);
         combatInfo = World.getWorld().combatInfo(id);
         hp = combatInfo == null ? 50 : combatInfo.stats.hitpoints;
+        if (combatInfo != null && combatInfo.aggroradius > 16) {
+            putAttrib(ATTACKING_ZONE_RADIUS_OVERRIDE, combatInfo.aggroradius);
+        }
         spawnArea = new Area(spawnTile, walkRadius);
         getCombat().setAutoRetaliate(true);
         ignoreOccupiedTiles = def.ignoreOccupiedTiles;
@@ -284,6 +291,9 @@ public class NPC extends Entity {
         def = World.getWorld().definitions().get(NpcDefinition.class, id);
         combatInfo = World.getWorld().combatInfo(id);
         hp = combatInfo == null ? 50 : combatInfo.stats.hitpoints;
+        if (combatInfo != null && combatInfo.aggroradius > 16) {
+            putAttrib(ATTACKING_ZONE_RADIUS_OVERRIDE, combatInfo.aggroradius);
+        }
         spawnArea = new Area(spawnTile, walkRadius);
         getCombat().setAutoRetaliate(true);
 
@@ -362,6 +372,9 @@ public class NPC extends Entity {
         this.def(World.getWorld().definitions().get(NpcDefinition.class, id));
         this.setCombatInfo(World.getWorld().combatInfo(id));
         this.setHitpoints(this.maxHp());
+        if (combatInfo != null && combatInfo.aggroradius > 16) {
+            putAttrib(ATTACKING_ZONE_RADIUS_OVERRIDE, combatInfo.aggroradius);
+        }
         NpcDefinition def = def();
         setSize(def.getSize());
         getUpdateFlag().flag(Flag.TRANSFORM);

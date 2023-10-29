@@ -39,8 +39,8 @@ public class Tile implements Cloneable {
     private static final Logger log = LogManager.getLogger(Tile.class);
 
     public static final Area GAMBLING_ZONE = new Area(2338, 4934, 2381, 4993);
-    private int playerCount;
-    private int npcCount;
+    public int playerCount;
+    public int npcCount;
     public ArrayList<GameObject> gameObjects;
 
     public GameObject object(int objectID) {
@@ -1155,7 +1155,7 @@ public class Tile implements Cloneable {
     public GroundItem showTempItem(int itemId) {
         GroundItem gi = new GroundItem(new Item(itemId), this, null);
         GroundItemHandler.createGroundItem(gi);
-        gi.setTimer(itemId);
+        gi.setTimer(1);
         return gi;
     }
 

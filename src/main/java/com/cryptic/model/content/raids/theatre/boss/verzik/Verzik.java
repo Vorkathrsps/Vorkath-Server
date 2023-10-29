@@ -770,7 +770,6 @@ public class Verzik extends NPC {
         animateAndTransmog(-1, 8374);
         this.heal(this.maxHp());
         this.setIgnoreOccupiedTiles(true);
-        this.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 40);
         this.forceChat("Behold my true nature!");
         this.queueTeleportJump(this.getDestination().transform(-1, -1, this.getTheatreInstance().getzLevel()));
         this.setPhase(VerzikPhase.THREE);

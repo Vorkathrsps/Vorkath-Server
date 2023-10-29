@@ -1033,6 +1033,14 @@ public class CommandManager {
             player.getInterfaceManager().open(88000);
             player.getnewteleInterface().drawInterface(88005);
         });
+        dev("test15", (player, c, s) -> {
+            player.tile().area(20).forEachPos(t -> {
+                var t2 = Tile.get(t, false);
+                if (t2 == null) return;
+                if (t2.npcCount > 0)
+                    t2.showTempItem(995);
+            });
+        });
     }
 
     /**

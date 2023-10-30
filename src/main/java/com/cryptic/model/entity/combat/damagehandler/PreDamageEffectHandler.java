@@ -19,9 +19,6 @@ public class PreDamageEffectHandler {
     public void triggerEffectForAttacker(Entity entity, CombatType type, Hit hit) {
         ability.prepareDamageEffectForAttacker(entity, type, hit);
     }
-    public void triggerEffectForDefender(Entity entity, CombatType type, Hit hit) {
-        ability.prepareDamageEffectForDefender(entity, type, hit);
-    }
     public void triggerMagicAccuracyModificationAttacker(Entity entity, CombatType type, MagicAccuracy magicAccuracy) {
         ability.prepareMagicAccuracyModification(entity, type, magicAccuracy);
     }

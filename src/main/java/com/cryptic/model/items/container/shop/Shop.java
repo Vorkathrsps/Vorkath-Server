@@ -256,28 +256,6 @@ public abstract class Shop {
             player.putAttrib(AttributeKey.HERB_BOX_CHARGES,20);
         }
 
-        if(shopId == 4) {
-            if (item.getId() == ANGLERFISH) {
-                item.setId(ANGLERFISH + 1);
-                item.setAmount(100);
-            }
-
-            if (item.getId() == SUPER_COMBAT_POTION4) {
-                item.setId(SUPER_COMBAT_POTION4 + 1);
-                item.setAmount(100);
-            }
-
-            if (item.getId() == OVERLOAD_4) {
-                item.setAmount(100);
-            }
-        }
-
-        if(shopId == 47) {
-            if (item.getId() == CANNONBALL) {
-                item.setAmount(1000);
-            }
-        }
-
         for (SkillcapeHoods skillcapeHoods : SkillcapeHoods.values()) {
             //Check if the item being purchased is a cape with hood.
             if (Arrays.stream(skillcapeHoods.getCapes()).anyMatch(id -> id == item.getId())) {
@@ -326,11 +304,6 @@ public abstract class Shop {
                 return;
             }
         }
-
-/*        if (item.unnote().definition(World.getWorld()).pvpAllowed) {
-            player.message("You can't trade spawnable items.");
-            return;
-        }*/
 
         if (Arrays.stream(GameConstants.DONATOR_ITEMS).anyMatch(id -> id == item.getId())) {
             player.message("You can't sell this item.");

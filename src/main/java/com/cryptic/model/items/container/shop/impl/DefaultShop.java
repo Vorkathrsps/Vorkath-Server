@@ -75,13 +75,12 @@ public final class DefaultShop extends Shop {
      * @return {@code true} if the items need to be restocked, {@code false}
      * otherwise.
      */
-    protected boolean needsRestock() {
+    private boolean needsRestock() {
         return container.stream().filter(Objects::nonNull).anyMatch(i -> !itemCache.containsKey(i.getId()) || (itemCache.containsKey(i.getId()) && i.getAmount() < itemCache.get(i.getId())));
     }
 
     @Override
     public void itemContainerAction(Player player, int id, int slot, int action, boolean purchase) {
-        //System.out.println("Current shop action: "+action);
         if (action == 1) {
             if (purchase) {
                 this.sendPurchaseValue(player, slot);
@@ -153,30 +152,9 @@ public final class DefaultShop extends Shop {
 
         int rewardPoints = player.getAttribOr(AttributeKey.SLAYER_REWARD_POINTS, 0);
         player.getPacketSender().sendString(64014, "Reward Points: " + Utils.formatNumber(rewardPoints));
-        var showButtons = shopId == 4 || shopId == 5 || shopId == 18 || shopId == 43 || shopId == 44 || shopId == 45 || shopId == 12 || shopId == 10 || shopId == 11;
-        player.getPacketSender().sendInterfaceDisplayState(28060, !showButtons);
         player.getPacketSender().sendString(shopId == 7 ? 64005 : ShopUtility.NAME_INTERFACE_CHILD_ID, name);
         player.getInterfaceManager().openInventory(shopId == 7 ? 64000 : ShopUtility.INTERFACE_ID, InterfaceConstants.SHOP_INVENTORY - 1);
 
-        if(shopId == 4 || shopId == 5 || shopId == 18) {
-            player.putAttrib(AttributeKey.CUSTOM_SHOP_ACTION,1);
-            player.getPacketSender().sendString(28064, "BM Wares");
-            player.getPacketSender().sendString(28065, "Barrows");
-            player.getPacketSender().sendString(28066, "Other");
-        } else if(shopId == 43 || shopId == 44 || shopId == 45) {
-            player.putAttrib(AttributeKey.CUSTOM_SHOP_ACTION,2);
-            player.getPacketSender().sendString(28064, "General");
-            player.getPacketSender().sendString(28065, "Cosmetic");
-            player.getPacketSender().sendString(28066, "Other");
-        }
-        else if(shopId == 12 || shopId == 10 || shopId == 11) {
-            player.putAttrib(AttributeKey.CUSTOM_SHOP_ACTION,4);
-            player.getPacketSender().sendString(28064, "  Melee");
-            player.getPacketSender().sendString(28065, "  Range");
-            player.getPacketSender().sendString(28066, "Magic");
-        } else {
-            player.putAttrib(AttributeKey.CUSTOM_SHOP_ACTION,0);
-        }
     }
 
 
@@ -185,11 +163,11 @@ public final class DefaultShop extends Shop {
         players.remove(player);
         player.shopReference = ShopReference.DEFAULT;
         player.clearAttrib(AttributeKey.SHOP);
+        player.getInterfaceManager().close();
     }
 
     @Override
     public void refresh(Player player, boolean redrawStrings) {
-        //Empty out the cost strings here at the top, that way it's cleared if it should be, and can be overwritten down below if necessary.
         if (redrawStrings) {
             for (int index = 0; index < MAX_SHOP_ITEMS; index++) {
                 player.getPacketSender().sendString(AMOUNT_STRING_ID + index, "");
@@ -205,7 +183,7 @@ public final class DefaultShop extends Shop {
 
             if (item instanceof StoreItem) {
                 if (redrawStrings) {
-                    // Write the item cost string
+
                     final StoreItem storeItem = (StoreItem) items[index];
 
                     if (storeItem != null) {
@@ -218,7 +196,7 @@ public final class DefaultShop extends Shop {
 
         player.getPacketSender().sendScrollbarHeight(shopId == 7 ? 64015 : ShopUtility.SCROLL_BAR_INTERFACE_ID, scroll);//73190
         player.getPacketSender().sendItemOnInterface(3823, player.inventory().toArray());
-        players.stream().filter(Objects::nonNull).forEach(p -> player.getPacketSender().sendItemOnInterface(73190, container.toArray()));
+        players.stream().filter(Objects::nonNull).forEach(p -> player.getPacketSender().sendItemOnInterface(73190, items));
         if (restock) {
             if (!needsRestock()) {
                 return;

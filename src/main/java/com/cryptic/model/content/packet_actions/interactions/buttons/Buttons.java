@@ -1,6 +1,7 @@
 package com.cryptic.model.content.packet_actions.interactions.buttons;
 
 import com.cryptic.GameServer;
+import com.cryptic.model.World;
 import com.cryptic.model.content.DropsDisplay;
 import com.cryptic.model.content.achievements.AchievementButtons;
 import com.cryptic.model.content.achievements.AchievementWidget;
@@ -29,6 +30,7 @@ import com.cryptic.model.inter.dialogue.ItemActionDialogue;
 import com.cryptic.model.inter.impl.BonusesInterface;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.equipment.Equipment;
+import com.cryptic.model.items.container.shop.Shop;
 import com.cryptic.model.items.tradingpost.TradingPost;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
@@ -39,6 +41,7 @@ import java.util.Arrays;
 import static com.cryptic.model.content.areas.lumbridge.dialogue.Hans.getTimeDHS;
 import static com.cryptic.model.content.collection_logs.LogType.BOSSES;
 import static com.cryptic.model.entity.combat.magic.autocasting.Autocasting.ANCIENT_SPELL_AUTOCAST_STAFFS;
+import static com.cryptic.model.items.container.shop.ShopUtility.*;
 import static com.cryptic.network.packet.incoming.impl.ButtonClickPacketListener.LOGOUT;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
@@ -104,6 +107,12 @@ public class Buttons {
     private static final int OPEN_KEYBINDINGS = 42552;
 
     private static final int[] CLOSE_BUTTONS = {CLOSE_BUTTON_1, CLOSE_BUTTON_2, CLOSE_BUTTON_3, CLOSE_BUTTON_4, CLOSE_BUTTON_5, CLOSE_BUTTON_6};
+    private static int WEAPON_SHOP_BUTTON;
+    private static int ARMOR_SHOP_BUTTON;
+    private static int RANGED_SHOP;
+    private static int SHOP_CLOSE_BUTTON;
+    private static int POTION_SHOP;
+    private static int MAGIC_SHOP_BUTTON_ID;
 
     /**
      * Handles the button click for a player.
@@ -361,6 +370,36 @@ public class Buttons {
                     }
                 }
                 if (CollectionLogButtons.onButtonClick(player, button)) {
+                    return;
+                }
+                WEAPON_SHOP_BUTTON = 73156;
+                if (button == WEAPON_SHOP_BUTTON) {
+                    World.getWorld().shop(5004).open(player);
+                    return;
+                }
+                ARMOR_SHOP_BUTTON = 73157;
+                if (button == ARMOR_SHOP_BUTTON) {
+                    World.getWorld().shop(5003).open(player);
+                    return;
+                }
+                MAGIC_SHOP_BUTTON_ID = 73159;
+                if (button == MAGIC_SHOP_BUTTON_ID) {
+                    World.getWorld().shop(AUBURYS_MAGIC_SHOP_ID).open(player);
+                    return;
+                }
+                RANGED_SHOP = 73158;
+                if (button == RANGED_SHOP) {
+                    World.getWorld().shop(LOWES_ARCHERY_SHOP_ID).open(player);
+                    return;
+                }
+                POTION_SHOP = 73160;
+                if (button == POTION_SHOP) {
+                    World.getWorld().shop(KAQEMEEX_POTIONS_SHOP_ID).open(player);
+                    return;
+                }
+                SHOP_CLOSE_BUTTON = 73153;
+                if (button == SHOP_CLOSE_BUTTON) {
+                    Shop.closeShop(player);
                     return;
                 }
                 if (OrnateJewelleryBox.teleport(player, button)) {

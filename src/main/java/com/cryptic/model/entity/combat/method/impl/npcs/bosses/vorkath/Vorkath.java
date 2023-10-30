@@ -22,10 +22,12 @@ import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Boundary;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.utility.Tuple;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 import com.cryptic.utility.timers.TimerKey;
+import org.apache.commons.lang3.mutable.MutableObject;
 
 import java.security.SecureRandom;
 import java.util.*;
@@ -273,66 +275,74 @@ public class Vorkath extends CommonCombatMethod {
         }
     }
 
-    private void poisonPools() {
-        //mob.forceChat("Poison pools");
+    private void setPoison() {
         if (!poison) {
             resistance = Resistance.PARTIAL;
             poison = true;
             entity.lockNoDamage();
             Boundary npcBounds = entity.boundaryBounds();
-            Boundary poisonBounds = entity.boundaryBounds(6);
-            List<GameObject> poisons = new ArrayList<>();
-            List<Tile> poisonTiles = new ArrayList<>();
-            for (int x = poisonBounds.getMinimumX(); x < poisonBounds.getMaximumX(); x++) {
-                for (int y = poisonBounds.getMinimumY(); y < poisonBounds.getMaximumY(); y++) {
-                    if (Utils.random(3) == 2) {
-                        Tile tile = new Tile(x, y, entity.tile().getLevel());
-                        if (!npcBounds.inside(tile)) {
-                            GameObject obj = new GameObject(32000, tile, 10, Utils.random(3)).setSpawnedfor(Optional.of(target.getAsPlayer()));
-                            poisons.add(obj);
-                            poisonTiles.add(tile);
-                        }
-                    }
-                }
-            }
-            Player[] yo = entity.closePlayers(64);
-            for (GameObject object : poisons) {
-                for (Player player : yo) {
-                    player.getPacketSender().sendObject(object);
-                }
+            Set<Tile> usedTiles = new HashSet<>(100);
+            List<GameObject> poisons = new ArrayList<>(100);
+            List<Tile> poisonTiles = new ArrayList<>(100);
+            Area INVALID = new Area(2260, 4054, 2284, 4077).transformArea(0, 0, 0, 0, target.getInstancedArea().getzLevel());
+            while (usedTiles.size() < 100) {
+                var randomTile = INVALID.randomTile();
+                if (RegionManager.blocked(randomTile) || npcBounds.inside(randomTile)) continue;
+                usedTiles.add(randomTile);
             }
 
+            Player[] players = entity.closePlayers(64);
+
+            for (var tile : usedTiles) {
+                GameObject obj = new GameObject(32000, tile, 10, Utils.random(3)).setSpawnedfor(Optional.of(target.getAsPlayer()));
+                poisons.add(obj);
+                poisonTiles.add(obj.tile());
+            }
+
+            MutableObject<Projectile> projectileMutableObject = new MutableObject<>();
             for (Tile poisonTile : poisonTiles) {
-                for (Player player : yo) {
-                    new Projectile(entity.getCentrePosition(), poisonTile, 1, 1483, 50, 20, 30, 0, 25).sendFor(player);
-                }
+                var tileDist = entity.tile().distance(poisonTile);
+                int duration = (50 + 25 + (2 * tileDist));
+                Projectile p = new Projectile(entity, poisonTile, 1483, 50, duration, 80, 0, 25, entity.getSize(), 2);
+                projectileMutableObject.setValue(p);
+                p.send(entity, poisonTile);
             }
 
-            Task.repeatingTask(t -> {
-                if (finished(entity) || t.tick >= 23) {
-                    t.stop();
-                } else {
-                    for (Player p : yo) {
-                        if (poisonTiles.contains(p.tile())) {
-                            int hit = Utils.random(8);
-                            p.hit(entity, hit, HitMark.POISON);
-                            entity.heal(hit);
+            Chain
+                .noCtx()
+                .delay((int) (projectileMutableObject.getValue().getSpeed() / 30D + 1), () -> {
+                    for (GameObject object : poisons) {
+                        for (Player player : players) {
+                            player.getPacketSender().sendObject(object);
                         }
                     }
-                }
-            });
+                }).repeatingTask(1, t -> {
+                    if (finished(entity) || t.getRunDuration() >= 23) {
+                        t.stop();
+                    } else {
+                        for (Player p : players) {
+                            if (poisonTiles.contains(p.tile())) {
+                                int hit = Utils.random(1, 8);
+                                p.hit(entity, hit, HitMark.POISON);
+                                entity.healHit(entity, hit);
+                            }
+                        }
+                    }
+                });
 
             Chain.bound(null).runFn(1 + 23 + 1, () -> {
                 resistance = null;
                 poison = false;
                 poisons.forEach(object -> {
-                    for (Player player : yo) {
+                    for (Player player : players) {
                         player.getPacketSender().sendObjectRemoval(object);
                     }
                 });
                 poisons.clear();
+                usedTiles.clear();
                 poisonTiles.clear();
             });
+
             entity.unlock();
             Chain.bound(null).runFn(23, () -> entity.setEntityInteraction(target));
         }
@@ -340,44 +350,45 @@ public class Vorkath extends CommonCombatMethod {
 
     private void acidSpitball() {
         entity.animate(FIREBALL_SPIT_ATTACK_ANIMATION);
-        poisonPools();
+        setPoison();
         entity.putAttrib(AttributeKey.VORKATH_CB_COOLDOWN, 27);
-        entity.runUninterruptable(2, this::startSpitball);
+        entity.runUninterruptable(3, this::startSpitBall);
     }
 
-    private void startSpitball() {
-        //mob.forceChat("speed spitball");
-        final Area area = new Area(2257, 4053, 2286, 4077).transformArea(0, 0, 0, 0, target.tile().level);
-        Optional<Player> first = World.getWorld().getPlayers().search(p -> p.tile().inAreaZ(area));
+    private void startSpitBall() {
         var ref = new Object() {
             int loops = 25;
         };
-
-        first.ifPresent(player ->
-                Chain.noCtx().cancelWhen(() -> {
-                    boolean finished = Vorkath.finished(entity);
-                    if (finished) entity.putAttrib(AttributeKey.VORKATH_CB_COOLDOWN, 0);
-                    return finished;
-                }).repeatingTask(1, t -> {
-            if (ref.loops-- > 0) {
-                Tile landed = player.tile();
-                var tileDist = entity.tile().distance(target.tile());
-                int duration = (10 + 11 + (5 * tileDist));
-                var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
-                var projectile = new Projectile(entity, target, 1482, 10, duration, 20, 20, 16, entity.getSize(), 10);
-                int delay = projectile.send(tile, target.tile());
-                entity.getCombat().delayAttack(0);
-                World.getWorld().getPlayers().forEachFiltered(p2 -> p2.tile().equals(landed),
-                    p2 -> p2.hit(entity, World.getWorld().random(1, 15),
-                        delay));
+        MutableObject<Player> playerMutableObject = new MutableObject<>();
+        playerMutableObject.setValue((Player) target);
+        Chain.noCtx().cancelWhen(() -> {
+            boolean finished = Vorkath.finished(entity);
+            if (finished) entity.putAttrib(VORKATH_CB_COOLDOWN, 0);
+            return finished;
+        }).repeatingTask(1, t -> {
+            Player target = playerMutableObject.getValue();
+            ref.loops--;
+            if (ref.loops == 0 || target.getInstancedArea() == null || entity.dead()) {
+                entity.animate(-1);
+                t.stop();
                 return;
             }
-            t.stop();
-            entity.animate(-1);
+            Tile cloneTile = target.tile().clone();
+            var tileDist = entity.tile().distance(cloneTile);
+            int duration = (10 + 11 + (5 * tileDist));
+            var projectile = new Projectile(entity, cloneTile, 1482, 10, duration, 20, 20, 16, entity.getSize(), 10);
+            int delay = projectile.send(entity, cloneTile);
+            World.getWorld().tileGraphic(131, cloneTile, 0, projectile.getSpeed());
+            entity.getCombat().delayAttack(0);
+            Chain.bound(target).name("VorkathTileCheckTask").runFn(1, () -> {
+                if (target.tile().equals(cloneTile)) {
+                    target.hit(entity, World.getWorld().random(1, 15), delay);
+                }
+            });
         }).then(1, () -> {
             entity.putAttrib(AttributeKey.VORKATH_CB_COOLDOWN, 0);
             entity.setEntityInteraction(target);
-        }));
+        });
     }
 
     public NPC spawn = null;

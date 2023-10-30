@@ -10,6 +10,8 @@ import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
+import com.cryptic.model.entity.npc.NPC;
+import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
@@ -19,14 +21,10 @@ import static com.cryptic.utility.ItemIdentifiers.ELYSIAN_SPIRIT_SHIELD;
 public class ElysianSpiritShield implements DamageEffectListener {
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
-        return false;
-    }
-
-    @Override
-    public boolean prepareDamageEffectForDefender(Entity entity, CombatType combatType, Hit hit) {
-        if (entity instanceof Player player) {
-            var setIgnoreElysianReduction = hit.reflected ? 1 : CombatConstants.ELYSIAN_DAMAGE_REDUCTION;
-            if (player.getEquipment().contains(ELYSIAN_SPIRIT_SHIELD)) {
+        var target = entity.getCombat().getTarget();
+        var setIgnoreElysianReduction = hit.reflected ? 1 : CombatConstants.ELYSIAN_DAMAGE_REDUCTION;
+        if (target instanceof Player player) {
+            if (player.getEquipment().hasAt(EquipSlot.SHIELD, ELYSIAN_SPIRIT_SHIELD)) {
                 if (hit.isAccurate()) {
                     if (Utils.rollDice(70)) {
                         int damage = hit.getDamage();
@@ -38,6 +36,11 @@ public class ElysianSpiritShield implements DamageEffectListener {
                 }
             }
         }
+        return false;
+    }
+
+    @Override
+    public boolean prepareDamageEffectForDefender(Entity entity, CombatType combatType, Hit hit) {
         return false;
     }
 

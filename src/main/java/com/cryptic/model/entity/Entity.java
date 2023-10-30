@@ -583,6 +583,11 @@ public abstract class Entity {
             (tile().getY() + getSize() - 1) + enlarge, tile().getLevel());
     }
 
+    public Boundary exactBoundsEnlarged(int enlarge) {
+        return new Boundary(tile().getX() - enlarge, tile().getY() - enlarge, (tile().getX() + getSize()) + enlarge,
+            (tile().getY() + getSize()) + enlarge, tile().getLevel());
+    }
+
     public Boundary getBounds() {
         return new Boundary(tile().getX(), tile().getY(), tile().getX() + getSize() - 1, tile().getY() + getSize() - 1, tile().getLevel());
     }

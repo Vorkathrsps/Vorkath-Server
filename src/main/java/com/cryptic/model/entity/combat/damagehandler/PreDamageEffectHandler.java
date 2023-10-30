@@ -1,5 +1,6 @@
 package com.cryptic.model.entity.combat.damagehandler;
 
+import com.cryptic.cache.definitions.DefinitionRepository;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.damagehandler.listener.DamageEffectListener;
@@ -7,6 +8,8 @@ import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class PreDamageEffectHandler {
     private final DamageEffectListener ability;

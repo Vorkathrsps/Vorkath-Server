@@ -2,6 +2,7 @@ package com.cryptic.model.entity.combat.damagehandler.impl;
 
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.damagehandler.PreDamageEffectHandler;
 import com.cryptic.model.entity.combat.damagehandler.impl.armor.*;
 import com.cryptic.model.entity.combat.damagehandler.impl.sets.*;
 import com.cryptic.model.entity.combat.damagehandler.impl.typeless.PoisonDamageEffect;
@@ -11,11 +12,14 @@ import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EquipmentDamageEffect implements DamageEffectListener {
+    private static final Logger logger = LogManager.getLogger(EquipmentDamageEffect.class);
     private static final List<DamageEffectListener> damageEffectListenersAttacker;
     private static final List<DamageEffectListener> damageEffectListenersDefender;
     private static final List<DamageEffectListener> magicAccuracyModificationListenerAttacker;
@@ -43,15 +47,15 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         listeners.add(new SalveAmulet());
         listeners.add(new LeafBladedBattleAxe());
         listeners.add(new PoisonDamageEffect());
+        listeners.add(new ElysianSpiritShield());
+        listeners.add(new BraceletOfEthereum());
+        listeners.add(new ToxicStaffOfTheDead());
         return listeners;
     }
 
     private static List<DamageEffectListener> initializeDamageEffectListenersDefender() {
         List<DamageEffectListener> listeners = new ArrayList<>();
-        listeners.add(new ToxicStaffOfTheDead());
-        listeners.add(new ElysianSpiritShield());
         listeners.add(new PrayerDamage());
-        listeners.add(new BraceletOfEthereum());
         return listeners;
     }
 
@@ -99,6 +103,7 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         for (DamageEffectListener listener : damageEffectListenersAttacker) {
             if (listener.prepareDamageEffectForAttacker(entity, combatType, hit)) {
                 affectsApplied = true;
+                logger.debug("Attack Effect {} Damage Effect {}", listener.getClass().getSimpleName(), hit.getDamage());
             }
         }
         return affectsApplied;

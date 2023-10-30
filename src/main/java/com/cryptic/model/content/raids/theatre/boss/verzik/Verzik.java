@@ -442,7 +442,7 @@ public class Verzik extends NPC {
             int duration = (261 + 144 + (tileDist));
             Projectile projectile = new Projectile(this, p, 1596, 261, duration, 250, 30, 50, this.getSize(), 0, 0);
             int delay = this.executeProjectile(projectile);
-            Chain.noCtx().runFn((int) (projectile.getSpeed() / 20D + 1), () -> {
+            Chain.noCtx().runFn((int) (projectile.getSpeed() / 30D + 1), () -> {
                 if (!p.tile().equals(randomTile.getValue())) {
                     var damage = Utils.random(1, 80);
                     Hit hit = Hit.builder(this, p, damage, delay, CombatType.MAGIC).setAccurate(true);
@@ -478,7 +478,7 @@ public class Verzik extends NPC {
     }
 
     private void sendSequences() {
-        if (this.getIntervalCount() >= (this.getPhase() == VerzikPhase.ONE ? 12 : this.getPhase() == VerzikPhase.TWO ? 4 : this.getPhase() == VerzikPhase.THREE && !this.isAdjustAttackSpeed() ? 7 : 5) && this.getIntervals() <= 0 && !this.dead()) {
+        if (this.getIntervalCount() >= attackSpeed() && this.getIntervals() <= 0 && !this.dead()) {
             this.setIntervalCount(0);
             this.setIntervals(value);
             switch (this.getPhase()) {
@@ -493,6 +493,10 @@ public class Verzik extends NPC {
                 }
             }
         }
+    }
+
+    private int attackSpeed() {
+        return this.getPhase() == VerzikPhase.ONE ? 12 : this.getPhase() == VerzikPhase.TWO ? 4 : this.getPhase() == VerzikPhase.THREE && !this.isAdjustAttackSpeed() ? 7 : 5;
     }
 
     private void sequenceThirdPhase() {

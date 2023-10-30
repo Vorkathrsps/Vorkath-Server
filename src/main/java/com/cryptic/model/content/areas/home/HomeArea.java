@@ -3,6 +3,7 @@ package com.cryptic.model.content.areas.home;
 import com.cryptic.model.content.packet_actions.interactions.objects.Ladders;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.cryptic.model.entity.MovementQueue;
+import com.cryptic.model.items.container.shop.ShopUtility;
 import com.cryptic.model.items.tradingpost.TradingPost;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.npc.NPC;
@@ -16,6 +17,7 @@ import com.cryptic.utility.chainedwork.Chain;
 //import static net.cryptic.util.CustomItemIdentifiers.LARRANS_KEY_TIER_III;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
+import static com.cryptic.model.items.container.shop.ShopUtility.*;
 
 /**
  * @author Patrick van Elderen | April, 23, 2021, 10:49
@@ -79,14 +81,39 @@ public class HomeArea extends PacketInteraction {
     @Override
     public boolean handleNpcInteraction(Player player, NPC npc, int option) {
         if(option == 1) {
-            /**
-             * IronMan Shops
-             */
+            if(npc.id() == GUNNJORN) {
+                World.getWorld().shop(GUNJORN_WEAPON_SHOP_ID).open(player);
+                player.getPacketSender().sendConfig(ShopUtility.SHOP_CONFIG_FRAME_ID, 0);
+                return true;
+            }
+            if(npc.id() == HORVIK) {
+                World.getWorld().shop(HORVIKS_ARMOR_SHOP_ID).open(player);
+                player.getPacketSender().sendConfig(ShopUtility.SHOP_CONFIG_FRAME_ID, 1);
+                return true;
+            }
+            if(npc.id() == LOWE) {
+                World.getWorld().shop(LOWES_ARCHERY_SHOP_ID).open(player);
+                player.getPacketSender().sendConfig(ShopUtility.SHOP_CONFIG_FRAME_ID, 2);
+                return true;
+            }
             if (npc.id() == AUBURY_11434) {
-                World.getWorld().shop(5004).open(player);
+                World.getWorld().shop(AUBURYS_MAGIC_SHOP_ID).open(player);
+                player.getPacketSender().sendConfig(ShopUtility.SHOP_CONFIG_FRAME_ID, 3);
+                return true;
+            }
+            if (npc.id() == KAQEMEEX) {
+                World.getWorld().shop(KAQEMEEX_POTIONS_SHOP_ID).open(player);
+                player.getPacketSender().sendConfig(ShopUtility.SHOP_CONFIG_FRAME_ID, 4);
+                return true;
+            }
+            if (npc.id() == WISE_OLD_MAN) {
+                World.getWorld().shop(DONATOR_STORE_ID).open(player);
+                player.getPacketSender().sendConfig(ShopUtility.SHOP_CONFIG_FRAME_ID, 8);
+                return true;
             }
             if (npc.id() == SHOP_KEEPER_2884) {
                 World.getWorld().shop(5005).open(player);
+                return true;
             }
             /**
              * End
@@ -97,10 +124,6 @@ public class HomeArea extends PacketInteraction {
             }
             if(npc.id() == GRAND_EXCHANGE_CLERK) {
                 TradingPost.open(player);
-                return true;
-            }
-            if(npc.id() == GUNNJORN) {
-                World.getWorld().shop(33).open(player);
                 return true;
             }
             if(npc.id() == RADIGAD_PONFIT) {

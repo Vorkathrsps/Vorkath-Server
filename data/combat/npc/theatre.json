@@ -1,6 +1,15 @@
 [
   {
     "ids": [
+      8369, 8371
+    ],
+    "deathlen": 2,
+    "stats": {
+      "hitpoints": 3250
+    }
+  },
+  {
+    "ids": [
       8372
     ],
     "maxhit": 47,

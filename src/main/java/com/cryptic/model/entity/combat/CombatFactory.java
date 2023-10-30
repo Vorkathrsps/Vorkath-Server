@@ -54,7 +54,6 @@ import com.cryptic.model.entity.combat.weapon.WeaponType;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
-import com.cryptic.model.entity.masks.impl.animations.Priority;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.EquipSlot;
@@ -809,8 +808,7 @@ public class CombatFactory {
         }
     }
 
-    static PreDamageEffectHandler triggerAttacker = new PreDamageEffectHandler(new EquipmentDamageEffect());
-    static PreDamageEffectHandler triggerDefender = new PreDamageEffectHandler(new EquipmentDamageEffect());
+    static PreDamageEffectHandler triggerDamageEffects = new PreDamageEffectHandler(new EquipmentDamageEffect());
     static PreAmmunitionDamageEffectHandler ammunitionDamageListener = new PreAmmunitionDamageEffectHandler(new AmmunitionDamageEffect());
 
 
@@ -829,9 +827,15 @@ public class CombatFactory {
         }
 
         if (attacker instanceof Player player) {
-            triggerAttacker.triggerEffectForAttacker(player, combatType, hit);
+            triggerDamageEffects.triggerEffectForAttacker(player, combatType, hit);
         } else if (attacker instanceof NPC npc) {
-            triggerAttacker.triggerEffectForAttacker(npc, combatType, hit);
+            triggerDamageEffects.triggerEffectForAttacker(npc, combatType, hit);
+        }
+
+        if (target instanceof Player player) {
+            triggerDamageEffects.triggerEffectForDefender(player, combatType, hit);
+        } else if (target instanceof NPC npc) {
+            triggerDamageEffects.triggerEffectForDefender(npc, combatType, hit);
         }
 
         if (target.isNpc() && attacker != null && attacker.isPlayer()) {
@@ -997,12 +1001,6 @@ public class CombatFactory {
 
         if (target.isNullifyDamageLock() || target.isNeedsPlacement()) {
             return;
-        }
-
-        if (target instanceof Player player) {
-            triggerDefender.triggerEffectForDefender(player, combatType, hit);
-        } else if (target instanceof NPC npc) {
-            triggerDefender.triggerEffectForDefender(npc, combatType, hit);
         }
 
         target.action.reset();

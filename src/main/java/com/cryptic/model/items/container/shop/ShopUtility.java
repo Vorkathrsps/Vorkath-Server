@@ -26,7 +26,7 @@ public class ShopUtility extends ItemIdentifiers {
     /**
      * The starting interface child id of items.
      */
-    public static final int ITEM_CHILD_ID = 3900;
+    public static final int ITEM_CHILD_ID = 73190;
 
     /**
      * The starting slayer buy interface child id of items.
@@ -51,4 +51,14 @@ public class ShopUtility extends ItemIdentifiers {
 
     public static final int SLAYER_SHOP_INTERFACE = 64000;
 
+    /**
+     * Modern Shops
+     */
+    public static int SHOP_CONFIG_FRAME_ID = 1206;
+    public static int GUNJORN_WEAPON_SHOP_ID = 33;
+    public static int AUBURYS_MAGIC_SHOP_ID = 23;
+    public static int HORVIKS_ARMOR_SHOP_ID = 32;
+    public static int LOWES_ARCHERY_SHOP_ID = 35;
+    public static int DONATOR_STORE_ID = 44;
+    public static int KAQEMEEX_POTIONS_SHOP_ID = 36;
 }

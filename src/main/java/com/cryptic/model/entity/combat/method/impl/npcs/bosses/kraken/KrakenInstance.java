@@ -47,13 +47,13 @@ public class KrakenInstance extends KrakenArea {
                 nonAwakenedTentacles.add(n);
                 n.setCombatMethod(new Tentacles());
                 n.setInstance(this);
-                n.spawn(true);
+                n.spawn(false);
                 n.noRetaliation(true);
             } else {
+                n.setCombatMethod(new Kraken());
                 n.setInstance(this);
                 n.spawn(true);
                 n.noRetaliation(true);
-                n.setCombatMethod(new Kraken());
             }
         }
         this.create();

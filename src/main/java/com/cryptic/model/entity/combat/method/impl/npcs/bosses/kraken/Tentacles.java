@@ -14,19 +14,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Tentacles extends CommonCombatMethod {
-    @Getter @Setter
+    @Getter
+    @Setter
     boolean awakened = false;
-    @Override
-    public void onRespawn(NPC npc) {
-        npc.transmog(5534);
-        npc.setCombatMethod(new Tentacles());
-        var player = (Player) target;
-        if (player.getKrakenInstance() == null) return;
-        if (player.getKrakenInstance().getKrakenState().equals(KrakenState.ALIVE)) {
-            player.getKrakenInstance().getNonAwakenedTentacles().add(npc);
-        }
-        npc.setInstance(player.getKrakenInstance());
-    }
+
     @Override
     public void preDefend(Hit hit) {
         var player = (Player) hit.getAttacker();
@@ -36,19 +27,21 @@ public class Tentacles extends CommonCombatMethod {
         if (player.getKrakenInstance().getNonAwakenedTentacles().isEmpty()) return;
         if (!player.getKrakenInstance().getNonAwakenedTentacles().contains(tentacle)) return;
         if (hit.getAttacker() == player && hit.getDamage() > 0) hit.setDamage(0);
-        player.getKrakenInstance().getNonAwakenedTentacles().remove(tentacle);
-        tentacle.transmog(5535);
-        tentacle.animate(3729);
-        tentacle.setCombatMethod(this);
-        tentacle.setInstance(player.getKrakenInstance());
-        player.getKrakenInstance().getAwakenedTentacles().add(tentacle);
-        Chain.noCtx().runFn(4, () -> {
-            tentacle.animate(-1);
-            tentacle.getCombat().setTarget(player);
-            this.setAwakened(true);
+        hit.postDamage(d -> {
+            player.getKrakenInstance().getNonAwakenedTentacles().remove(tentacle);
+            tentacle.transmog(5535);
+            tentacle.animate(3729);
+            tentacle.setCombatMethod(this);
+            tentacle.setInstance(player.getKrakenInstance());
+            player.getKrakenInstance().getAwakenedTentacles().add(tentacle);
+            Chain.noCtx().runFn(4, () -> {
+                tentacle.animate(-1);
+                tentacle.getCombat().setTarget(player);
+                this.setAwakened(true);
+            });
         });
-        this.setAwakened(true);
     }
+
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         if (!this.isAwakened()) return false;

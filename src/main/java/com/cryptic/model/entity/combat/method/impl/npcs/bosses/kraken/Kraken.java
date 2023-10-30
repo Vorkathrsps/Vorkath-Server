@@ -10,6 +10,7 @@ import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.chainedwork.Chain;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,11 +23,20 @@ public class Kraken extends CommonCombatMethod {
     public void onRespawn(NPC npc) {
         var player = (Player) target;
         if (player.getKrakenInstance() == null) return;
-        player.getKrakenInstance().setKrakenState(KrakenState.ALIVE);
+        NPC[] npcs = new NPC[]{new NPC(5534, new Tile(2275, 10034, player.getKrakenInstance().getzLevel())), new NPC(5534, new Tile(2284, 10034, player.getKrakenInstance().getzLevel())), new NPC(5534, new Tile(2284, 10038, player.getKrakenInstance().getzLevel())), new NPC(5534, new Tile(2275, 10038, player.getKrakenInstance().getzLevel()))};
+        for (var n : npcs) {
+            n.setInstance(player.getKrakenInstance());
+            n.spawn(false);
+            n.noRetaliation(true);
+            n.setCombatMethod(new Tentacles());
+            player.getKrakenInstance().getNonAwakenedTentacles().add(n);
+        }
         if (npc.id() == KrakenBoss.KRAKEN_NPCID) {
             npc.transmog(KrakenBoss.KRAKEN_WHIRLPOOL);
             npc.setCombatMethod(new Kraken());
+            player.getKrakenInstance().setKrakenState(KrakenState.ALIVE);
         }
+
     }
 
     @Override
@@ -37,16 +47,19 @@ public class Kraken extends CommonCombatMethod {
         if (player.getKrakenInstance() == null) return;
         if (this.isAwakened()) return;
         if (hit.getAttacker() == player && hit.getDamage() > 0) hit.setDamage(0);
-        if (player.getKrakenInstance().getNonAwakenedTentacles().isEmpty()) {
-            kraken.transmog(494);
-            kraken.animate(7135);
-            kraken.setCombatMethod(this);
-            kraken.setInstance(player.getKrakenInstance());
-            Chain.noCtx().runFn(4, () -> {
-                kraken.getCombat().setTarget(player);
-                this.setAwakened(true);
-            });
-        }
+        hit.postDamage(d -> {
+            if (player.getKrakenInstance().getNonAwakenedTentacles().isEmpty()) {
+                kraken.transmog(494);
+                kraken.animate(7135);
+                kraken.setCombatMethod(this);
+                kraken.setInstance(player.getKrakenInstance());
+                player.getKrakenInstance().setKrakenState(KrakenState.ALIVE);
+                Chain.noCtx().runFn(4, () -> {
+                    kraken.getCombat().setTarget(player);
+                    this.setAwakened(true);
+                });
+            }
+        });
     }
 
     @Override
@@ -95,6 +108,10 @@ public class Kraken extends CommonCombatMethod {
         var kraken = (NPC) entity;
         for (var n : player.getKrakenInstance().getAwakenedTentacles()) {
             if (n == null) continue;
+            n.die();
+        }
+        for (var n : player.getKrakenInstance().getNonAwakenedTentacles()) {
+            if (n  == null) continue;
             n.die();
         }
         player.getKrakenInstance().getAwakenedTentacles().clear();

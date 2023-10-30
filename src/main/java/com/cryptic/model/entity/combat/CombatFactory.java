@@ -41,7 +41,6 @@ import com.cryptic.model.entity.combat.method.impl.npcs.hydra.AlchemicalHydra;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.CaveKraken;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.DesertLizards;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.Gargoyle;
-import com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.EnormousTentacle;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.combat.ranged.RangedData.RangedWeapon;
@@ -273,23 +272,6 @@ public class CombatFactory {
             NPC npc = target.getAsNpc();
             assert attacker instanceof Player;
             Player player = (Player) attacker;
-
-            if (npc.id() == TENTACLE_WHIRLPOOL) {
-                EnormousTentacle.onHit(player, npc);
-            }
-
-            if (npc.id() == KRAKEN_WHIRLPOOL) {
-                damage = 0;
-                KrakenBoss.onHit(player, npc);
-            }
-
-            if (npc.id() == 493) {
-                npc.animate(7135);
-                npc.transmog(492);
-                npc.setHitpoints(125);
-                npc.setHitpoints(target.hp() - damage);
-                npc.setCombatMethod(new CaveKraken());
-            }
 
             if (npc instanceof AlchemicalHydra hydra && !hydra.isEnraged() && !hydra.getShieldDropped()) {
                 player.message("The Alchemical Hydra's defences partially absorb your attack!");

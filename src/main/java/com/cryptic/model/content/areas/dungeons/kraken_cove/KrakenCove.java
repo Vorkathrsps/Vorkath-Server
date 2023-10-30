@@ -4,6 +4,8 @@ import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.cryptic.model.entity.combat.CombatFactory;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.KrakenInstance;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.KrakenState;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenInstanceD;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.inter.dialogue.Dialogue;
@@ -35,11 +37,11 @@ public class KrakenCove extends PacketInteraction {
                     player.message("You can't go in here when under attack.");
                     return false;
                 }
-                if (task == null) {
-                    player.message(Color.RED.wrap("You need a slayer task to enter the kraken's cave."));
-                    return false;
-                }
-                if (!Slayer.creatureMatches(player, 494)) {
+               // if (task == null) {
+                   // player.message(Color.RED.wrap("You need a slayer task to enter the kraken's cave."));
+                  //  return false;
+              //  }
+               /* if (!Slayer.creatureMatches(player, 494)) {
                     if (!task.matches(task_id)) {
                         player.message(Color.RED.wrap("You need a slayer task to enter the kraken's cave."));
                         return false;
@@ -47,7 +49,9 @@ public class KrakenCove extends PacketInteraction {
                 } else {
                     player.teleport(new Tile(2280, 10022));
                     return true;
-                }
+                }*/
+                var krakenInstance = new KrakenInstance(player, KrakenState.ALIVE);
+                krakenInstance.build();
             }
             if (obj.getId() == CREVICE_538) {
                 if (player.getInstancedArea() != null) {

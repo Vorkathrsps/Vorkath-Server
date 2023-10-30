@@ -22,6 +22,8 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kalphite.KalphiteQueenFirstForm;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kalphite.KalphiteQueenSecondForm;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.Kraken;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.Tentacles;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.VetionMinion;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.zulrah.Zulrah;
 import com.cryptic.model.entity.combat.method.impl.npcs.fightcaves.TzTokJad;
@@ -537,11 +539,6 @@ public class NPCDeath {
             if (killer != null) {
                 //Do inferno minigame death here and fight caves
 
-                //Do death scripts
-                if (npc.id() == KRAKEN) {
-                    KrakenBoss.onDeath(npc); //Kraken uses its own death script
-                }
-
                 if (npc.getCombatMethod() instanceof CommonCombatMethod commonCombatMethod) {
                     commonCombatMethod.set(npc, killer);
                     commonCombatMethod.onDeath(killer, npc);
@@ -853,12 +850,6 @@ public class NPCDeath {
     }
 
     public static void respawn(NPC npc) {
-
-        if (npc.id() == KrakenBoss.KRAKEN_NPCID) {
-            npc.transmog(KrakenBoss.KRAKEN_WHIRLPOOL);
-            // Transmog kraken info after the drop table is done otherwise it'll look for the wrong table
-            npc.setCombatInfo(World.getWorld().combatInfo(KrakenBoss.KRAKEN_WHIRLPOOL));
-        }
 
         if (npc.id() == KrakenBoss.TENTACLE_WHIRLPOOL || npc.id() == NpcIdentifiers.ENORMOUS_TENTACLE) {
             NPC boss = npc.getAttrib(AttributeKey.BOSS_OWNER);

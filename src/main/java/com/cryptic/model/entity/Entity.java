@@ -17,6 +17,7 @@ import com.cryptic.model.entity.combat.*;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.AttackNpcListener;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.KrakenInstance;
 import com.cryptic.model.entity.masks.*;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
@@ -315,6 +316,10 @@ public abstract class Entity {
     public Chain<Entity> conditionalRepeatingTask(String name, BooleanSupplier condition, int tickBetweenLoop, Consumer<Task> work) {
         return Chain.<Entity>noCtx().repeatingTask(tickBetweenLoop, work).name(name).cancelWhen(condition);
     }
+
+    @Getter
+    @Setter
+    private KrakenInstance krakenInstance;
 
     @Getter
     public Hit hits = new Hit(this, this);
@@ -1244,6 +1249,12 @@ public abstract class Entity {
 
     private static final int[] NPCS_IMMUNE_TO_VENOM = new int[]
         {
+            NpcIdentifiers.WHIRLPOOL,
+            NpcIdentifiers.WHIRLPOOL_496,
+            NpcIdentifiers.WHIRLPOOL_5534,
+            NpcIdentifiers.ENORMOUS_TENTACLE,
+            NpcIdentifiers.ENORMOUS_TENTACLE_10708,
+            NpcIdentifiers.ENORMOUS_TENTACLE_10709,
             NpcIdentifiers.CORPOREAL_BEAST,
             NpcIdentifiers.THE_NIGHTMARE_9425,
             NpcIdentifiers.THE_NIGHTMARE_9430,

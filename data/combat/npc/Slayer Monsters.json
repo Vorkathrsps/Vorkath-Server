@@ -3162,37 +3162,9 @@
     }
   },
   {
-    // Enormous Tentacle Whirlpool
-    "ids": [
-      5534
-    ],
-    "maxhit": 2,
-    "attackspeed": 4,
-    "retaliates": true,
-    "respawntime": 10,
-    "slayerxp": 0,
-    "slayerlvl": 87,
-    "stats": {
-      "magic": 150,
-      "hitpoints": 120
-    },
-    "bonuses": {
-      "magic": 270,
-      "magicdefence": -15
-    },
-    "animations": {
-      "attack": 3618,
-      "block": 3617,
-      "death": 3620
-    },
-    "scripts": {
-      "hit": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.EnormousTentacle.onhit"
-    }
-  },
-  {
     // Enormous Tentacle
     "ids": [
-      5535
+      5535, 5534
     ],
     "maxhit": 2,
     "attackspeed": 4,
@@ -3215,7 +3187,7 @@
     },
     "scripts": {
       "droptable": "com.cryptic.model.entity.npc.droptables.impl.EnormousTentacleDeath",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.EnormousTentacle",
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.Tentacles",
       "death": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.EnormousTentacle.death"
     }
   },
@@ -3247,7 +3219,7 @@
     "scripts": {
       "droptable": "com.cryptic.model.entity.npc.droptables.impl.KrakenBossDrops",
      // "death": "nl.bartpelle.veteres.content.npcs.bosses.KrakenBoss.death",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.Kraken"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.Kraken"
     }
   },
   {

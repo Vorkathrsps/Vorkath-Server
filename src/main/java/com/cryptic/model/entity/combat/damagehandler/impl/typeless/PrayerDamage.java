@@ -54,7 +54,7 @@ public class PrayerDamage implements DamageEffectListener {
                             return true;
                         }
                     }
-                    hit.setDamage(0);
+                    hit.block();
                     return true;
                 }
             }

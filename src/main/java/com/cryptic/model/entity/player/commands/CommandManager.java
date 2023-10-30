@@ -19,6 +19,8 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.KrakenInstance;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.KrakenState;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
@@ -673,41 +675,9 @@ public class CommandManager {
 
         });
         dev("c", (p, c, s) -> {
-            Tile[] treasure_spawns = new Tile[]
-                {
-                    new Tile(3233, 4330),
-                    new Tile(3226, 4324),
-                    new Tile(3241, 4327)
-                };
-
-            boolean isRare = true;
-            int numPlayers = 1;
-            int numTreasureSpawns = treasure_spawns.length;
-
-            HashMap<Optional<Player>, Integer> linked_chest = new HashMap<>();
-            for (int i = 0; i < numPlayers; i++) {
-
-                if (p == null) continue;
-
-                Tile t = treasure_spawns[i % numTreasureSpawns]; // Cycle through the treasure spawns
-                Tile finalTile = t;
-
-                var owner = Optional.of(p);
-                int treasureId;
-                if (owner.isPresent()) {
-                    treasureId = isRare ? 32993 : 32992; // Owner gets rare or non-rare treasure
-                } else {
-                    treasureId = 33088; // Non-owner gets a different treasure
-                }
-
-                linked_chest.put(owner, treasureId);
-                GameObject treasure = new GameObject(owner, treasureId, finalTile);
-                treasure.setRotation(Direction.SOUTH.toInteger()); // Rotate based on the treasure spawn index
-                treasure.spawn();
-                Chain.noCtx().runFn(1, () -> {
-                    treasure.animate(8106);
-                });
-            }
+            var instance = new KrakenInstance(p, KrakenState.ALIVE);
+            p.setKrakenInstance(instance);
+            instance.build();
         });
 
         dev("ioi", (p, c, s) -> {

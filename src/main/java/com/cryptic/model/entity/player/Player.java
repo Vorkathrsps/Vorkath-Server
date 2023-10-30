@@ -84,6 +84,7 @@ import com.cryptic.model.entity.combat.CombatSpecial;
 import com.cryptic.model.entity.combat.Venom;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.magic.spells.CombatSpells;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.KrakenInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.instance.NightmareInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.cryptic.model.entity.combat.prayer.QuickPrayers;
@@ -205,7 +206,6 @@ public class Player extends Entity {
     @Getter
     @Setter
     private NightmareInstance nightmareInstance;
-
     @Getter
     @Setter
     private TheatreInstance theatreInstance;

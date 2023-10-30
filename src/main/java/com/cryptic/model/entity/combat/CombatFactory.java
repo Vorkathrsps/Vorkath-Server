@@ -826,18 +826,6 @@ public class CombatFactory {
             return;
         }
 
-        if (attacker instanceof Player player) {
-            triggerDamageEffects.triggerEffectForAttacker(player, combatType, hit);
-        } else if (attacker instanceof NPC npc) {
-            triggerDamageEffects.triggerEffectForAttacker(npc, combatType, hit);
-        }
-
-        if (target instanceof Player player) {
-            triggerDamageEffects.triggerEffectForDefender(player, combatType, hit);
-        } else if (target instanceof NPC npc) {
-            triggerDamageEffects.triggerEffectForDefender(npc, combatType, hit);
-        }
-
         if (target.isNpc() && attacker != null && attacker.isPlayer()) {
             if (target instanceof NPC npc) {
                 assert attacker instanceof Player;
@@ -964,6 +952,12 @@ public class CombatFactory {
         final Entity target = hit.getTarget();
         final CombatType combatType = hit.getCombatType();
         int damage = hit.getDamage();
+
+        if (attacker instanceof Player player) {
+            triggerDamageEffects.triggerEffectForAttacker(player, combatType, hit);
+        } else if (attacker instanceof NPC npc) {
+            triggerDamageEffects.triggerEffectForAttacker(npc, combatType, hit);
+        }
 
         if (target.isNpc()) {
             NPC npc = (NPC) target;

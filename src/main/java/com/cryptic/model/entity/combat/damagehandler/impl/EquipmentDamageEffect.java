@@ -21,7 +21,6 @@ import java.util.List;
 public class EquipmentDamageEffect implements DamageEffectListener {
     private static final Logger logger = LogManager.getLogger(EquipmentDamageEffect.class);
     private static final List<DamageEffectListener> damageEffectListenersAttacker;
-    private static final List<DamageEffectListener> damageEffectListenersDefender;
     private static final List<DamageEffectListener> magicAccuracyModificationListenerAttacker;
 
     private static final List<DamageEffectListener> rangeAccuracyModificationListenerAttacker;
@@ -29,7 +28,6 @@ public class EquipmentDamageEffect implements DamageEffectListener {
 
     static {
         damageEffectListenersAttacker = initializeDamageEffectListenersAttacker();
-        damageEffectListenersDefender = initializeDamageEffectListenersDefender();
         magicAccuracyModificationListenerAttacker = initializeMagicAccuracyModificationListenerAttacker();
         rangeAccuracyModificationListenerAttacker = initializeRangeAccuracyModificationListenerAttacker();
         meleeAccuracyModificationListenerAttacker = initializeMeleeAccuracyModificationListenerAttacker();
@@ -50,11 +48,6 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         listeners.add(new ElysianSpiritShield());
         listeners.add(new BraceletOfEthereum());
         listeners.add(new ToxicStaffOfTheDead());
-        return listeners;
-    }
-
-    private static List<DamageEffectListener> initializeDamageEffectListenersDefender() {
-        List<DamageEffectListener> listeners = new ArrayList<>();
         listeners.add(new PrayerDamage());
         return listeners;
     }
@@ -104,17 +97,6 @@ public class EquipmentDamageEffect implements DamageEffectListener {
             if (listener.prepareDamageEffectForAttacker(entity, combatType, hit)) {
                 affectsApplied = true;
                 logger.debug("Attack Effect {} Damage Effect {}", listener.getClass().getSimpleName(), hit.getDamage());
-            }
-        }
-        return affectsApplied;
-    }
-
-    @Override
-    public boolean prepareDamageEffectForDefender(Entity entity, CombatType combatType, Hit hit) {
-        var affectsApplied = false;
-        for (DamageEffectListener listener : damageEffectListenersDefender) {
-            if (listener.prepareDamageEffectForDefender(entity, combatType, hit)) {
-                affectsApplied = true;
             }
         }
         return affectsApplied;

@@ -38,11 +38,6 @@ public class KarilSet implements DamageEffectListener {
     }
 
     @Override
-    public boolean prepareDamageEffectForDefender(Entity entity, CombatType combatType, Hit hit) {
-        return false;
-    }
-
-    @Override
     public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
         return false;
     }

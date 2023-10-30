@@ -99,30 +99,26 @@ public class Vorkath extends CommonCombatMethod {
             case 3 -> range();
             case 4 -> tripleOrdered();
             case 6 -> acidSpitball();
-            case 7 -> {
-                bomb();
-            }
+            case 7 -> bomb();
         }
         return true;
     }
 
     private void bomb() {
         entity.animate(FIREBALL_ATTACK_ANIMATION);
-        final Tile targetPos = target.tile().copy();
+        final Tile targetPos = target.tile().clone();
         var tileDist = entity.tile().getChevDistance(targetPos);
         int duration = (85 + -5 + (10 * tileDist));
         var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
         Projectile p1 = new Projectile(tile, targetPos, 1491, 85, duration, 150, 0, 16, entity.getSize(), 10);
-        int delay = p1.send(tile, targetPos);
-        Task.runOnceTask(delay, t -> {
+        final int delay = p1.send(tile, targetPos);
+        Chain.noCtx().runFn(delay, () -> {
             if (target.tile().equals(targetPos)) {
-                target.hit(entity, Utils.random(121), delay);
-                t.stop();
-            } else if (target.tile().nextTo(targetPos)) {
-                target.hit(entity, Utils.random(60), delay);
-                t.stop();
-            } else {
-                t.stop();
+                target.hit(entity, Utils.random(1, 121), 0);
+                return;
+            }
+            if (target.tile().nextTo(targetPos)) {
+                target.hit(entity, Utils.random(1, 60), 0);
             }
         });
         World.getWorld().tileGraphic(1466, targetPos, GraphicHeight.LOW.ordinal(), p1.getSpeed());
@@ -380,7 +376,7 @@ public class Vorkath extends CommonCombatMethod {
             int delay = projectile.send(entity, cloneTile);
             World.getWorld().tileGraphic(131, cloneTile, 0, projectile.getSpeed());
             entity.getCombat().delayAttack(0);
-            Chain.bound(target).name("VorkathTileCheckTask").runFn(1, () -> {
+            Chain.noCtx().runFn(1, () -> {
                 if (target.tile().equals(cloneTile)) {
                     target.hit(entity, World.getWorld().random(1, 15), delay);
                 }

@@ -19,11 +19,6 @@ public class ZurielStaff implements DamageEffectListener {
     }
 
     @Override
-    public boolean prepareDamageEffectForDefender(Entity entity, CombatType combatType, Hit hit) {
-        return false;
-    }
-
-    @Override
     public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
         if (entity instanceof Player player) {
             if (combatType == CombatType.MAGIC) {

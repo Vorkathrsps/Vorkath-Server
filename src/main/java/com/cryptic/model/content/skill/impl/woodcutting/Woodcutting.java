@@ -144,12 +144,13 @@ public class Woodcutting extends PacketInteraction {
                             addExperience(player, tree);
                             return;
                         }
-                        if (tree.leaves != null) player.getInventory().add(new Item(tree.leaves, tree.leaves.getAmount()));
+                        if (tree.leaves != null) player.getInventory().add(new Item(tree.leaves.getId(), tree.leaves.getAmount()));
                         checkBonus(player, tree);
                         addExperience(player, tree);
                         return;
                     }
                 }
+                if (tree.leaves != null) player.getInventory().add(new Item(tree.leaves.getId(), tree.leaves.getAmount()));
                 addLog(player, tree);
                 checkBonus(player, tree);
                 addExperience(player, tree);

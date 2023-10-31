@@ -16,7 +16,7 @@ public class StaffZoneCommand implements Command {
             return;
         }
         if (Teleports.canTeleport(player,true, TeleportType.GENERIC)) {
-            Teleports.basicTeleport(player, new Tile(3032, 6121));
+            Teleports.basicTeleport(player, new Tile(3032, 6121, 1));
         }
     }
 

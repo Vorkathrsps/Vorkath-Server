@@ -144,7 +144,7 @@ public class Woodcutting extends PacketInteraction {
                             addExperience(player, tree);
                             return;
                         }
-                        if (tree.leaves != -1) player.getInventory().add(new Item(tree.leaves, Utils.random(1, 10)));
+                        if (tree.leaves != null) player.getInventory().add(new Item(tree.leaves, tree.leaves.getAmount()));
                         checkBonus(player, tree);
                         addExperience(player, tree);
                         return;

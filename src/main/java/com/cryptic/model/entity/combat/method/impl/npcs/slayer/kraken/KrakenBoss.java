@@ -166,7 +166,7 @@ public class KrakenBoss {
             npc.getTimers().addOrSet(TimerKey.COMBAT_ATTACK, 1);
             npc.getCombat().attack(player);
 
-            npc.transmog(KRAKEN_NPCID);
+            npc.transmog(KRAKEN_NPCID, false);
             npc.def(World.getWorld().definitions().get(NpcDefinition.class, KRAKEN_NPCID));
             npc.setCombatInfo(World.getWorld().combatInfo(KRAKEN_NPCID)); // Quickly replace scripts for retaliation before Java finishes processing.
             npc.setCombatMethod(World.getWorld().combatInfo(KRAKEN_NPCID).scripts.newCombatInstance());
@@ -191,7 +191,7 @@ public class KrakenBoss {
             // Hide them
             for (NPC minion : minions) {
                 minion.hidden(true);
-                minion.transmog(TENTACLE_WHIRLPOOL); // Set it back to the whirlpool
+                minion.transmog(TENTACLE_WHIRLPOOL, false); // Set it back to the whirlpool
                 minion.setCombatInfo(World.getWorld().combatInfo(TENTACLE_WHIRLPOOL));
                 minion.hp(minion.maxHp(), 0);
             }

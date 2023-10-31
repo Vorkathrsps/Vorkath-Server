@@ -138,7 +138,7 @@ public class VasaNistirio extends CommonCombatMethod {
         entity.startEvent(0, () -> {
             if (entity.getAsNpc().dead() || target == null) {
                 setVasaState(true);
-                entity.getAsNpc().transmog(7566);
+                entity.getAsNpc().transmog(7566, false);
             }
         });
         entity.getAsNpc().lock();
@@ -152,7 +152,7 @@ public class VasaNistirio extends CommonCombatMethod {
         target.startEvent(1, () -> {
         });
         entity.animate(7412);
-        entity.getAsNpc().transmog(7567);
+        entity.getAsNpc().transmog(7567, false);
     }
 
     public List<Player> getList() {
@@ -201,7 +201,7 @@ public class VasaNistirio extends CommonCombatMethod {
 
     private void awaken(NPC npc) {
         if (npc.getId() == 7565) {
-            npc.startEvent(0, () -> npc.animate(7408), 5, () -> npc.transmog(7566));
+            npc.startEvent(0, () -> npc.animate(7408), 5, () -> npc.transmog(7566, false));
         }
     }
 

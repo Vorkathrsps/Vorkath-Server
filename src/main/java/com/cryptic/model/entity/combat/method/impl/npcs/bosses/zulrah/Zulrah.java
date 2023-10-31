@@ -145,7 +145,7 @@ public class Zulrah {
             npc.teleport(targetTile);
             runFn(npc, 1, () -> {
                 //npc.forceChat("emerge from pool");
-                npc.transmog(phase.getForm().getId());
+                npc.transmog(phase.getForm().getId(), false);
                 npc.setPositionToFace(targetTile.transform(2, 2, 0).transform(phase.getZulrahPosition().getDirection().x,
                     phase.getZulrahPosition().getDirection().y, phase.getZulrahPosition().getDirection().level));
                 npc.animate(5073);

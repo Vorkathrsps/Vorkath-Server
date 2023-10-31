@@ -29,7 +29,7 @@ public class Tentacles extends CommonCombatMethod {
         if (hit.getAttacker() == player && hit.getDamage() > 0) hit.setDamage(0);
         hit.postDamage(d -> {
             player.getKrakenInstance().getNonAwakenedTentacles().remove(tentacle);
-            tentacle.transmog(5535);
+            tentacle.transmog(5535, true);
             tentacle.animate(3729);
             tentacle.setCombatMethod(this);
             tentacle.setInstance(player.getKrakenInstance());

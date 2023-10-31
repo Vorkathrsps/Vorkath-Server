@@ -56,7 +56,7 @@ public class NorthEastTotem extends CommonCombatMethod {
 
         setDamageCount(0);
 
-        totem.transmog(9445);
+        totem.transmog(9445, false);
         totem.setCombatInfo(World.getWorld().combatInfo(9445));
         totem.setHitpoints(totem.maxHp());
         totem.noRetaliation(true);

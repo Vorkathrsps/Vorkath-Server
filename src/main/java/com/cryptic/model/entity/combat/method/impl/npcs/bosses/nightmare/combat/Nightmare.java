@@ -107,7 +107,7 @@ public class Nightmare extends CommonCombatMethod { //TODO increase max hit base
                 delay.set(totem.executeProjectile(p));
 
                 Chain.noCtx().runFn(p.getSpeed() / 30 + 1, () -> {
-                    totem.transmog(id - 2);
+                    totem.transmog(id - 2, false);
                     totem.setCombatInfo(World.getWorld().combatInfo(id - 2));
                     totem.setHitpoints(totem.maxHp());
                     totem.noRetaliation(true);
@@ -127,7 +127,7 @@ public class Nightmare extends CommonCombatMethod { //TODO increase max hit base
                 Direction direction = Direction.SOUTH;
                 nightmare.setPositionToFace(new Tile(3870, 9948).center(5).tileToDir(direction));
             }).waitUntil(1, middleTile, () -> {
-                nightmare.transmog(9431);
+                nightmare.transmog(9431, false);
                 nightmare.setCombatInfo(World.getWorld().combatInfo(9431));
                 nightmare.setHitpoints(nightmare.maxHp());
                 nightmare.setCombatMethod(null);
@@ -144,7 +144,7 @@ public class Nightmare extends CommonCombatMethod { //TODO increase max hit base
                 sleepWalkerDamage.getAndSet(0);
             }).then(9, () -> {
                 nightmare.unlock();
-                nightmare.transmog(9425);
+                nightmare.transmog(9425, false);
                 nightmare.setCombatInfo(World.getWorld().combatInfo(9425));
                 nightmare.setHitpoints(nightmare.maxHp());
                 nightmare.setCombatMethod(this);
@@ -615,13 +615,13 @@ public class Nightmare extends CommonCombatMethod { //TODO increase max hit base
 
             setAshihamaState(AshihamaState.TOTEM);
 
-            nightmare.transmog(9430);
+            nightmare.transmog(9430, false);
             nightmare.setCombatInfo(World.getWorld().combatInfo(9430));
             nightmare.setHitpoints(this.getNightmareHitpoints());
             nightmare.setCombatMethod(this);
 
             Arrays.stream(UNCHARGED_TOTEMS).boxed().forEach(id -> player.getInstancedArea().getNpcs().stream().filter(totem -> totem.id() == id).findFirst().ifPresent(totem -> {
-                totem.transmog(id + TOTEM_TRANSFORMATION_OFFSET);
+                totem.transmog(id + TOTEM_TRANSFORMATION_OFFSET, false);
 
                 CommonCombatMethod combatMethod = npcCombatMethodMap.get(id);
                 totem.setCombatMethod(combatMethod);
@@ -657,13 +657,13 @@ public class Nightmare extends CommonCombatMethod { //TODO increase max hit base
 
             setAshihamaState(AshihamaState.TOTEM);
 
-            nightmare.transmog(9430);
+            nightmare.transmog(9430, false);
             nightmare.setCombatInfo(World.getWorld().combatInfo(9430));
             nightmare.setHitpoints(this.getNightmareHitpoints());
             nightmare.setCombatMethod(this);
 
             Arrays.stream(UNCHARGED_TOTEMS).boxed().forEach(id -> player.getInstancedArea().getNpcs().stream().filter(totem -> totem.id() == id).findFirst().ifPresent(totem -> {
-                totem.transmog(id + TOTEM_TRANSFORMATION_OFFSET);
+                totem.transmog(id + TOTEM_TRANSFORMATION_OFFSET, false);
 
                 CommonCombatMethod combatMethod = npcCombatMethodMap.get(id);
                 totem.setCombatMethod(combatMethod);

@@ -74,8 +74,8 @@ public class EquipmentInfo {
             /**
              * Dihns Bulwark
              */
-          //  FightStyle style = player.getCombat().getFightType().getStyle();
-          //  FightType type = player.getCombat().getFightType();
+            //  FightStyle style = player.getCombat().getFightType().getStyle();
+            //  FightType type = player.getCombat().getFightType();
 
             /*if (player.getEquipment().hasAt(EquipSlot.WEAPON, DINHS_BULWARK)) {
             if (type.equals(FightType.DINHS_PUMMEL)) {
@@ -461,6 +461,17 @@ public class EquipmentInfo {
                 case ABYSSAL_DAGGER_P_13269:
                 case ABYSSAL_DAGGER_P_13271:
                     return style == 2 ? 3294 : 3297;
+                case 28196:
+                case 28199:
+                case 28202:
+                case 28205:
+                case 28208:
+                case 28211:
+                case 28214:
+                case 28217:
+                case 28220:
+                case 28226:
+                    return style == 2 || style == 1 ? 10078 : 10079;
                 case 20593:
                 case 14487:
                 case 30003: // gs
@@ -497,7 +508,7 @@ public class EquipmentInfo {
                 case VESTAS_SPEAR:
                     if (style == 1) {
                         return 2081;
-                    } else if  (style == 2) {
+                    } else if (style == 2) {
                         return 2082;
                     } else {
                         return 2080;
@@ -713,11 +724,14 @@ public class EquipmentInfo {
             case INQUISITORS_MACE -> {
                 return 403;
             }
-            case DRAGON_DAGGER, DRAGON_DAGGER_20407, DRAGON_DAGGER_CR, DRAGON_DAGGER_PCR, DRAGON_DAGGER_PCR_28023,DRAGON_DAGGER_PCR_28025,DRAGON_DAGGERP,DRAGON_DAGGERP_5680,DRAGON_DAGGERP_5698 -> {
+            case DRAGON_DAGGER, DRAGON_DAGGER_20407, DRAGON_DAGGER_CR, DRAGON_DAGGER_PCR, DRAGON_DAGGER_PCR_28023, DRAGON_DAGGER_PCR_28025, DRAGON_DAGGERP, DRAGON_DAGGERP_5680, DRAGON_DAGGERP_5698 -> {
                 return 404;
             }
             case VIGGORAS_CHAINMACE, VIGGORAS_CHAINMACE_U, URSINE_CHAINMACE -> {
                 return 7200;
+            }
+            case 28196, 28199, 28202, 28205, 28208, 28211, 28214, 28217, 28220, 28226 -> {
+                return 10080;
             }
             case KODAI_WAND, KODAI_WAND_23626, _3RD_AGE_WAND -> {
                 return 415;

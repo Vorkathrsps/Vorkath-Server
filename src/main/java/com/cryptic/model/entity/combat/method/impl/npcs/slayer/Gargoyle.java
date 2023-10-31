@@ -23,7 +23,7 @@ public class Gargoyle extends CommonCombatMethod {
     }
 
     public static void onDeath(NPC npc) {
-        npc.transmog(getNormalId());
+        npc.transmog(getNormalId(), false);
     }
 
     public static void smash(Player player, NPC npc, boolean manual) {
@@ -41,7 +41,7 @@ public class Gargoyle extends CommonCombatMethod {
         player.message("You smash the Gargoyle with the "+plural+".");
         npc.hp(0, 0);
         npc.die();
-        npc.transmog(getCrumblingId());
+        npc.transmog(getCrumblingId(), false);
         npc.animate(1520);
     }
 

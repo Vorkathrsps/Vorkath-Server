@@ -206,7 +206,7 @@ public class Xarpus extends NPC {
         Chain.noCtx().runFn(1, () -> {
             this.animate(8058);
         }).then(2, () -> {
-            this.transmog(8340);
+            this.transmog(8340, true);
             this.setInstance(theatreInstance);
             this.setCombatInfo(World.getWorld().combatInfo(8340));
             this.setHitpoints(this.maxHp());

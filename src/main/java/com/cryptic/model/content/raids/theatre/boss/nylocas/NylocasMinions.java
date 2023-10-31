@@ -70,7 +70,7 @@ public class NylocasMinions extends NPC {
 
                 setTransmogIdx(randomIndex);
             }
-            this.transmog(getRandomNPC());
+            this.transmog(getRandomNPC(), false);
             transmogIdx = (transmogIdx + 1) % npcs.length;// we dont need that. i just realized, but test now ye
             setTimer(3);
         }

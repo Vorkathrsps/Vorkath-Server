@@ -60,11 +60,11 @@ public class VorkathArea extends PacketInteraction {
                 player.animate(POKE_ANIMATION);
                 player.message("You poke the dragon..");
             }).then(1, () -> {
-                npc.transmog(VORKATH_8058);
+                npc.transmog(VORKATH_8058, false);
             }).then(1, () -> {
                 npc.animate(WAKE_ANIMATION);
             }).then(7, () -> {
-                npc.transmog(VORKATH_8061);
+                npc.transmog(VORKATH_8061, false);
                 npc.setPositionToFace(player.tile());
                 npc.setCombatInfo(World.getWorld().combatInfo(npc.id()));
                 npc.setHitpoints(npc.getCombatInfo().stats.hitpoints);

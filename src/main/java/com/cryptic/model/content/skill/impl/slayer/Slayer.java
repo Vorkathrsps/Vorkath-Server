@@ -33,9 +33,7 @@ import static com.cryptic.utility.ItemIdentifiers.BLOOD_MONEY;
  * @Since juli 20, 2020
  */
 public class Slayer {
-
     private static final Logger logger = LogManager.getLogger(Slayer.class);
-
     private static List<SlayerMaster> masters = new ArrayList<>();
 
     public static SlayerMaster master(int npc) {

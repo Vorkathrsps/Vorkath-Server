@@ -104,7 +104,7 @@ public class RottenPotato extends PacketInteraction {
                         @Override
                         public boolean handle(Object value) {
                             int id = (Integer) value;
-                            npc.transmog(id == 0 ? -1 : id);
+                            npc.transmog(id == 0 ? -1 : id, false);
                             return true;
                         }
                     });

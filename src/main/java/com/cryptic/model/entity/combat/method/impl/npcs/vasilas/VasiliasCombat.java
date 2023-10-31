@@ -50,7 +50,7 @@ public class VasiliasCombat extends CommonCombatMethod {
 
     private void setTransformation(NPC npc, Form form) {
         this.form = form;
-        npc.transmog(form.getNpcIdBySize(size));
+        npc.transmog(form.getNpcIdBySize(size), false);
     }
 
     @Override

@@ -116,7 +116,7 @@ public class RaidRoom extends PacketInteraction {
                     @Override
                     protected void next() {
                         if(isPhase(0)) {
-                            npc.transmog(VERZIK_VITUR_8370);
+                            npc.transmog(VERZIK_VITUR_8370, true);
                             stop();
                         }
                     }

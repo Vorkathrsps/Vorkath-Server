@@ -100,7 +100,7 @@ public class DemonicGorilla extends NPC {
         void updatePhase(Phase phase) {
             demonic.phase = phase;
             currentMethod = phase.method;
-            demonic.transmog(phase.npcId);
+            demonic.transmog(phase.npcId, false);
             demonic.setHeadHint(phase.headHintID);
             demonic.getCombat().delayAttack(1);
         }

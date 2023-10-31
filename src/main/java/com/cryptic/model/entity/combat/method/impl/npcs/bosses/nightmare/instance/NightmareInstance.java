@@ -78,7 +78,7 @@ public class NightmareInstance extends NightmareArea {
             nightmare.animate(8611);
         }).then(8, () -> {
             nightmare.animate(-1);
-            nightmare.transmog(9425);
+            nightmare.transmog(9425, true);
             nightmare.setCombatInfo(World.getWorld().combatInfo(9430));
             nightmare.setHitpoints(nightmare.maxHp());
             nightmare.setCombatMethod(new Nightmare());

@@ -64,7 +64,7 @@ public class CorruptedHunleff extends NPC {
         void updatePhase(CorruptedHunleff.Phase phase) {
             corruptedHunleff.phase = phase;
             currentMethod = phase.method;
-            corruptedHunleff.transmog(phase.npcId);
+            corruptedHunleff.transmog(phase.npcId, false);
             corruptedHunleff.getCombat().delayAttack(1);
             target.putAttrib(AttributeKey.HUNLESS_PREVIOUS_STYLE, phase);
         }

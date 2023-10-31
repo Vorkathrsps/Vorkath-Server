@@ -57,7 +57,7 @@ public class SouthEastTotem extends CommonCombatMethod {
         totems.remove(totem);
 
         setDamageCount(0);
-        totem.transmog(9439);
+        totem.transmog(9439, false);
         totem.setCombatInfo(World.getWorld().combatInfo(9439));
         totem.setHitpoints(totem.maxHp());
         totem.noRetaliation(true);

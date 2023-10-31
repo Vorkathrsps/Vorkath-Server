@@ -366,12 +366,12 @@ public class NPC extends Entity {
         return transmog;
     }
 
-    public void transmog(int id) {
+    public void transmog(int id, boolean maxHp) {
         this.transmog = id;
         this.id = id;
         this.def(World.getWorld().definitions().get(NpcDefinition.class, id));
         this.setCombatInfo(World.getWorld().combatInfo(id));
-        this.setHitpoints(this.maxHp());
+        this.setHitpoints(maxHp ? this.maxHp() : this.hp());
         if (combatInfo != null && combatInfo.aggroradius > 16) {
             putAttrib(ATTACKING_ZONE_RADIUS_OVERRIDE, combatInfo.aggroradius);
         }

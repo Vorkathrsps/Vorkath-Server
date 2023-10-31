@@ -23,7 +23,7 @@ public class Wyrm extends NPC {
 
         var target = getCombat().getTarget();
         if (id() == ACTIVE && !getTimers().has(TimerKey.COMBAT_LOGOUT) && target == null) {
-            transmog(IDLE);
+            transmog(IDLE, false);
             animate(8269);
             getTimers().register(TimerKey.COMBAT_ATTACK,3);
         }
@@ -36,7 +36,7 @@ public class Wyrm extends NPC {
         }
 
         animate(8268);
-        transmog(ACTIVE);
+        transmog(ACTIVE, false);
         getTimers().register(TimerKey.COMBAT_ATTACK,3);
     }
 }

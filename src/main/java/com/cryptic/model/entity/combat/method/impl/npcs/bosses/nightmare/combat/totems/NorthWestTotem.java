@@ -60,7 +60,7 @@ public class NorthWestTotem extends CommonCombatMethod {
         totems.remove(totem);
 
         setDamageCount(0);
-        totem.transmog(9442);
+        totem.transmog(9442, false);
         totem.setCombatInfo(World.getWorld().combatInfo(9442));
         totem.setHitpoints(totem.maxHp());
         totem.noRetaliation(true);

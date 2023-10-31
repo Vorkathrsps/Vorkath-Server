@@ -51,6 +51,7 @@ public class KrakenCove extends PacketInteraction {
                     return true;
                 }*/
                 var krakenInstance = new KrakenInstance(player, KrakenState.ALIVE);
+                player.setKrakenInstance(krakenInstance);
                 krakenInstance.build();
             }
             if (obj.getId() == CREVICE_538) {

@@ -47,17 +47,17 @@ public class Tempoross extends NPC {
         if (this.getId() == NpcIdentifiers.TEMPOROSS_10574) {
             setActivatePools(false);
             setState(TemporossState.ONE);
-            this.transmog(NpcIdentifiers.TEMPOROSS_10572);
+            this.transmog(NpcIdentifiers.TEMPOROSS_10572, false);
             this.spawnDirection(Direction.WEST.toInteger());
         } else if (this.getId() == NpcIdentifiers.TEMPOROSS_10572 && state.equals(TemporossState.ONE)) {
             setActivatePools(true);
             setState(TemporossState.TWO);
-            this.transmog(NpcIdentifiers.TEMPOROSS_10574);
+            this.transmog(NpcIdentifiers.TEMPOROSS_10574, false);
             this.spawnDirection(Direction.WEST.toInteger());
         } else if (this.getId() == NpcIdentifiers.TEMPOROSS_10574 && state.equals(TemporossState.TWO)) {
             setActivatePools(false);
             setState(TemporossState.THREE);
-            this.transmog(NpcIdentifiers.TEMPOROSS_10575);
+            this.transmog(NpcIdentifiers.TEMPOROSS_10575, false);
             this.spawnDirection(Direction.WEST.toInteger());
         } else if (this.getId() == NpcIdentifiers.TEMPOROSS_10575 && state.equals(TemporossState.THREE)) {
             World.getWorld().unregisterNpc(this);

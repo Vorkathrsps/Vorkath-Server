@@ -214,6 +214,11 @@ public class ObjectInteractionHandler implements PacketListener {
                     return;
                 }
 
+                if (object.getId() == 49927) {
+                    player.animate(10083);
+                    return;
+                }
+
                 if (object.getId() == 31858) {
                     player.animate(new Animation(645));
                     MagicSpellbook.changeSpellbook(player, MagicSpellbook.LUNAR, true);

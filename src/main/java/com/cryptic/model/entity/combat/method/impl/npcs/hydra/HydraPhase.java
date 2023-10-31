@@ -16,11 +16,11 @@ public enum HydraPhase {
         @Override
         public void switchPhase(AlchemicalHydra hydra) {
             hydra.lock();
-            hydra.transmog(phaseSwitchID);
+            hydra.transmog(phaseSwitchID, false);
             hydra.animate(phaseSwitchAnimID);
             Chain.bound(hydra).runFn(3, () -> {
                 hydra.animate(phaseSwitchAnimID + 1);
-                hydra.transmog(BLUE.phaseID);
+                hydra.transmog(BLUE.phaseID, false);
             }).then(2, hydra::unlock);
         }
     },
@@ -32,11 +32,11 @@ public enum HydraPhase {
         @Override
         public void switchPhase(AlchemicalHydra hydra) {
             hydra.lock();
-            hydra.transmog(phaseSwitchID);
+            hydra.transmog(phaseSwitchID, false);
             hydra.animate(phaseSwitchAnimID);
             Chain.bound(hydra).runFn(2, () -> {
                 hydra.animate(phaseSwitchAnimID + 1);
-                hydra.transmog(RED.phaseID);
+                hydra.transmog(RED.phaseID, false);
             }).then(2, hydra::unlock);
         }
     },
@@ -48,11 +48,11 @@ public enum HydraPhase {
         @Override
         public void switchPhase(AlchemicalHydra hydra) {
             hydra.lock();
-            hydra.transmog(phaseSwitchID);
+            hydra.transmog(phaseSwitchID, false);
             hydra.animate(phaseSwitchAnimID);
             Chain.bound(hydra).runFn(3, () -> {
                 hydra.animate(phaseSwitchAnimID + 1);
-                hydra.transmog(ENRAGED.phaseID);
+                hydra.transmog(ENRAGED.phaseID, false);
             }).then(2, hydra::unlock);
         }
     },

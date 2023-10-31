@@ -89,7 +89,7 @@ public class KalphiteQueenFirstForm extends CommonCombatMethod {
         form1.lock();
         var targ = form1.<WeakReference<Entity>>getAttribOr(AttributeKey.TARGET, new WeakReference<Entity>(null)).get();
         Chain.bound(null).runFn(4, () -> {
-            form1.transmog(6501);
+            form1.transmog(6501, false);
             form1.animate(6270);
             form1.graphic(1055);
         }).then(13, () -> {

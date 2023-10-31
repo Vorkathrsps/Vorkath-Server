@@ -21,7 +21,7 @@ public class SpiritPool extends NPC {
     }
     @Override
     public void die() {
-        this.transmog(10570);
+        this.transmog(10570, false);
     }
 
 }

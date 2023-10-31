@@ -843,7 +843,7 @@ public class NexCombat extends CommonCombatMethod {
         if (hit.getTarget().isNpc()) {
             NPC npc = hit.getTarget().npc();
             Player player = hit.getSource().player();
-            npc.transmog(NEX_11282);
+            npc.transmog(NEX_11282, false);
             final NPCCombatInfo combatInfo = npc.getCombatInfo();
             npc.animate(combatInfo.animations.death);
             Chain.bound(null).runFn(combatInfo.deathlen, () -> {

@@ -510,13 +510,13 @@ public class NPCDeath {
         if (npc instanceof AlchemicalHydra) {
             npc.animate(8257);
             Chain.bound(null).runFn(2, () -> {
-                npc.transmog(8622);
+                npc.transmog(8622, false);
                 npc.animate(8258);
             });
         } else if (npc instanceof Drake) {
             npc.animate(8277);
             Chain.bound(null).runFn(1, () -> {
-                npc.transmog(8613);
+                npc.transmog(8613, false);
                 npc.animate(8278);
             });
         } else if (npc instanceof TzTokJad) {
@@ -547,8 +547,8 @@ public class NPCDeath {
                 //Rock crabs
                 if (npc.id() == 101 || npc.id() == 103) {
                     switch (npc.id()) {
-                        case 101 -> npc.transmog(101);
-                        case 103 -> npc.transmog(103);
+                        case 101 -> npc.transmog(101, false);
+                        case 103 -> npc.transmog(103, false);
                     }
                     npc.walkRadius(0);
                 }
@@ -881,11 +881,11 @@ public class NPCDeath {
             npc.animate(-1); // Reset death animation
             npc.unlock();
             if (npc instanceof Drake) {
-                npc.transmog(DRAKE_8612);
+                npc.transmog(DRAKE_8612, false);
             }
 
             if (npc instanceof Wyrm) {
-                npc.transmog(Wyrm.IDLE);
+                npc.transmog(Wyrm.IDLE, false);
             }
         }
     }

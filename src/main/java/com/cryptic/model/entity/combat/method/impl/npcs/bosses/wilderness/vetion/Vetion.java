@@ -273,7 +273,7 @@ public class Vetion extends CommonCombatMethod {
         npc.spawnDirection(Direction.SOUTH.toInteger());
         npc.getCombat().setTarget(null);
         npc.canAttack(false);
-        npc.transmog(6611);
+        npc.transmog(6611, false);
         Chain.noCtx().runFn(1, () -> {
             npc.canAttack(true);
             npc.getCombat().setTarget(target);
@@ -288,9 +288,8 @@ public class Vetion extends CommonCombatMethod {
                     npc.lockNoDamage();
                     npc.canAttack(false);
                     npc.message("Now.. DO IT AGAIN!!!");
-                    npc.transmog(6612);
+                    npc.transmog(6612, true);
                     npc.animate(9979);
-                    npc.heal(npc.maxHp());
                     npc.getTimers().register(TimerKey.VETION_REBORN_TIMER, 500);
                     npc.putAttrib(AttributeKey.VETION_REBORN_ACTIVE, true);
                 }).then(1, () -> {

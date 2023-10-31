@@ -38,7 +38,7 @@ public class BabyMuttadileDroptable implements Droptable {
             mommaMuttadile.lockNoDamage();
             var targ = mommaMuttadile.<WeakReference<Entity>>getAttribOr(AttributeKey.TARGET, new WeakReference<Entity>(null)).get();
             Chain.bound(null).runFn(1, () -> {
-                mommaMuttadile.transmog(MUTTADILE_7563);
+                mommaMuttadile.transmog(MUTTADILE_7563, false);
                 mommaMuttadile.setCombatInfo(World.getWorld().combatInfo(MUTTADILE_7563));
                 mommaMuttadile.def(World.getWorld().definitions().get(NpcDefinition.class, MUTTADILE_7563));
                 mommaMuttadile.setCombatMethod(new Muttadile());

@@ -762,7 +762,7 @@ public class Combat {
         //logger.info("zone {}", expand);
         var fightArea = mob.npc().spawnTile().area(expand);
         if (target != null && !target.tile().inArea(fightArea)) {
-            fightArea.forEachPos(t -> t.showTempItem(995));
+           // fightArea.forEachPos(t -> t.showTempItem(995));
             DumbRoute.route(mob, mob.npc().spawnTile().getX(), mob.npc().spawnTile().getY());
             Debugs.CMB.debug(mob, "retreat", target);
         }

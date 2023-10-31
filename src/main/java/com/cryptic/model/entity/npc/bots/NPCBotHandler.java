@@ -270,7 +270,7 @@ public abstract class NPCBotHandler {
         }
 
         //Set the transformation id.
-        npc.transmog(id);
+        npc.transmog(id, false);
     }
 
     public int getEatCounter() {

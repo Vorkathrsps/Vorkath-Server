@@ -52,7 +52,7 @@ public class WakeUpVorkath extends Task {
             }).then(2, () -> {
                 npc.animate(WAKE_ANIMATION);
             }).then(9, () -> {
-                npc.transmog(VORKATH_8061);
+                npc.transmog(VORKATH_8061, false);
                 npc.setPositionToFace(player.tile());
                 npc.setCombatInfo(World.getWorld().combatInfo(npc.id()));
                 npc.setHitpoints(npc.getCombatInfo().stats.hitpoints);

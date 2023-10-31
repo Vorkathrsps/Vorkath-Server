@@ -40,6 +40,8 @@ import java.util.List;
  */
 public class MovementPacketListener implements PacketListener {
 
+    private static int REST_ANIMATION;
+
     public static void main(String[] args) {
         final Packet packet = new Packet(-1, Unpooled.copiedBuffer(new byte[]{(byte) 0, (byte) 28, (byte) 5, (byte) -1, (byte) -1, (byte) -128, (byte) 14, (byte) 0}));
         int size = packet.getSize();
@@ -190,6 +192,8 @@ public class MovementPacketListener implements PacketListener {
 
     @Init
     public static void init() {
+        REST_ANIMATION = 10083;
+        ANIMS_TO_RESET.add(REST_ANIMATION);
         ANIMS_TO_RESET.addAll(Arrays.stream(Pickaxe.values()).map(e -> e.anim).toList());
     }
 

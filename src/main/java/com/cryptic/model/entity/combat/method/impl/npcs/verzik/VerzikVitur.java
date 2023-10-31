@@ -338,9 +338,8 @@ public class VerzikVitur extends CommonCombatMethod {
             Chain.bound(null).runFn(4, () -> {
                 phase = INIT_PHASE_2;
                 mob.getCombat().reset();
-                mob.npc().transmog(VERZIK_VITUR_8371);
+                mob.npc().transmog(VERZIK_VITUR_8371, true);
                 mob.npc().def(World.getWorld().definitions().get(NpcDefinition.class, VERZIK_VITUR_8371));
-                mob.heal(mob.maxHp());
                 mob.npc().animate(-1);
                 mob.npc().canAttack(true);
             }).waitUntil(1, () -> {
@@ -350,7 +349,7 @@ public class VerzikVitur extends CommonCombatMethod {
                 return mob.tile().equals(3167, 4311, mob.getZ());
             }, () -> {
                 phase = VerzikPhase.PHASE_2;
-                mob.npc().transmog(VERZIK_VITUR_8372);
+                mob.npc().transmog(VERZIK_VITUR_8372, true);
                 mob.npc().def(World.getWorld().definitions().get(NpcDefinition.class, VERZIK_VITUR_8372));
             });
             return true;
@@ -358,7 +357,7 @@ public class VerzikVitur extends CommonCombatMethod {
             mob.getCombat().reset();
             mob.npc().canAttack(false);
             mob.animate(8119);
-            mob.npc().transmog(VERZIK_VITUR_8374);
+            mob.npc().transmog(VERZIK_VITUR_8374, true);
             mob.npc().def(World.getWorld().definitions().get(NpcDefinition.class, VERZIK_VITUR_8374));
             mob.heal(mob.maxHp());
             phase = VerzikPhase.PHASE_3;
@@ -373,7 +372,7 @@ public class VerzikVitur extends CommonCombatMethod {
             GameObject treasure = new GameObject(TREASURE_ROOM, new Tile(3167, 4324, mob.getZ()), 10, 0);
             Chain.noCtx().runFn(2, () -> {
                 mob.animate(-1);
-                mob.npc().transmog(VERZIK_VITUR_8375);
+                mob.npc().transmog(VERZIK_VITUR_8375, true);
             }).then(6, () -> {
                 List<NPC> npcsToRemove = new ArrayList<>();
                 for (NPC npc : mob.getInstancedArea().getNpcs()) {

@@ -128,19 +128,19 @@ public class Maiden extends NPC {
             double healthAmount = hp() * 1.0 / (maxHp() * 1.0);
 
             if (healthAmount <= 0.70 && !nyloSpawned70to50) {
-                this.transmog(10815);
+                this.transmog(10815, false);
                 spawnNylocasMatomenos(this.partySize());
                 nyloSpawned70to50 = true;
                 return;
             }
             if (healthAmount <= 0.50 && !nyloSpawned50to30) {
-                this.transmog(10816);
+                this.transmog(10816, false);
                 spawnNylocasMatomenos(this.partySize());
                 nyloSpawned50to30 = true;
                 return;
             }
             if (healthAmount <= 0.30 && !nyloSpawned30to0) {
-                this.transmog(10817);
+                this.transmog(10817, false);
                 spawnNylocasMatomenos(this.partySize());
                 nyloSpawned30to0 = true;
                 return;

@@ -626,7 +626,7 @@ public class Verzik extends NPC {
 
     private void animateAndTransmog(int animation, int id) {
         this.animate(animation);
-        this.transmog(id);
+        this.transmog(id, true);
         this.setInstance(this.getTheatreInstance());
     }
 
@@ -666,7 +666,7 @@ public class Verzik extends NPC {
 
     private void finalizeTransmog() {
         this.queueTeleportJump(this.getDestination().transform(1, 1, this.getTheatreInstance().getzLevel()));
-        this.transmog(8372);
+        this.transmog(8372, true);
         this.heal(this.maxHp());
         this.setPathing(false);
         this.setPhase(VerzikPhase.TWO);

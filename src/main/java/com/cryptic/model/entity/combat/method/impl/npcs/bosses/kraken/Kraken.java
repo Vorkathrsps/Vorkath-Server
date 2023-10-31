@@ -32,7 +32,7 @@ public class Kraken extends CommonCombatMethod {
             player.getKrakenInstance().getNonAwakenedTentacles().add(n);
         }
         if (npc.id() == KrakenBoss.KRAKEN_NPCID) {
-            npc.transmog(KrakenBoss.KRAKEN_WHIRLPOOL);
+            npc.transmog(KrakenBoss.KRAKEN_WHIRLPOOL, true);
             npc.setCombatMethod(new Kraken());
             player.getKrakenInstance().setKrakenState(KrakenState.ALIVE);
         }
@@ -49,7 +49,7 @@ public class Kraken extends CommonCombatMethod {
         if (hit.getAttacker() == player && hit.getDamage() > 0) hit.setDamage(0);
         hit.postDamage(d -> {
             if (player.getKrakenInstance().getNonAwakenedTentacles().isEmpty()) {
-                kraken.transmog(494);
+                kraken.transmog(494, true);
                 kraken.animate(7135);
                 kraken.setCombatMethod(this);
                 kraken.setInstance(player.getKrakenInstance());

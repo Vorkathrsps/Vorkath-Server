@@ -145,10 +145,10 @@ public class Nex extends NPC {
         if (phase.getStage() == PhaseStage.FIVE) {
             if (World.getWorld().getTickCount() % 41 == 0) {
                 if (soulsplit) {
-                    transmog(NEX_11280);
+                    transmog(NEX_11280, false);
                     soulsplit = false;
                 } else {
-                    transmog(NEX_11281);
+                    transmog(NEX_11281, false);
                     soulsplit = true;
                 }
             }

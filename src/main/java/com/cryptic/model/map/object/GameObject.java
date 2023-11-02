@@ -469,7 +469,7 @@ public class GameObject {
         } else {
             // there is no tile.remove because we keep the object, but change ID to a new one.
             // replacing, unclip old and reclip new
-            //   System.out.println("replace "+this);
+            // System.out.println("replace "+this);
             clip(true);
             id = newId;
             Tile.get(x, y, z, true).checkActive();

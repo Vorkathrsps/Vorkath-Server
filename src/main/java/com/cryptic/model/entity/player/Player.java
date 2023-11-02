@@ -405,13 +405,13 @@ public class Player extends Entity {
 
     public double getDropRateBonus() {
         var percent = switch (getMemberRights()) {
-            case NONE -> 0;
-            case RUBY_MEMBER -> 1.0;
-            case SAPPHIRE_MEMBER -> 3.0;
-            case EMERALD_MEMBER -> 5.0;
-            case DIAMOND_MEMBER -> 7.0;
+            case NONE -> 1.0;
+            case RUBY_MEMBER -> 5.0;
+            case SAPPHIRE_MEMBER -> 6.0;
+            case EMERALD_MEMBER -> 7.0;
+            case DIAMOND_MEMBER -> 8.0;
             case DRAGONSTONE_MEMBER -> 9.0;
-            case ONYX_MEMBER -> 11.0;
+            case ONYX_MEMBER -> 10.0;
             case ZENYTE_MEMBER -> 15.0;
         };
 
@@ -510,7 +510,7 @@ public class Player extends Entity {
         player.getPacketSender().sendString(80005, Utils.capitalizeJustFirst(player.getUsername()));
         player.getPacketSender().sendString(80008, "@gre@" + player.skills().combatLevel());
         player.getPacketSender().sendString(80011, "@gre@" + player.skills().totalLevel());
-        player.getPacketSender().sendString(80014, "@Ora@" + "Total XP: " + "@gre@" + Utils.insertCommasToNumber(Long.toString(player.skills().getTotalExperience())));
+        player.getPacketSender().sendString(80014, "Total XP: " + "@gre@" + Utils.insertCommasToNumber(Long.toString(player.skills().getTotalExperience())));
         player.getPacketSender().sendString(80017, "@gre@" + "0/5");
         player.getPacketSender().sendString(80021, "@gre@" + player.achievementsCompleted() + "/" + player.achievements().entrySet().size());
         player.getPacketSender().sendString(80026, "@gre@" + player.getCollectionLog().totalAmountToCollect() + "/" + player.getCollectionLog().sumTotalObtained());

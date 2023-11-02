@@ -1,11 +1,13 @@
 package com.cryptic.model.entity.combat.damagehandler.impl.bolts;
 
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.combat.CombatSpecial;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.damagehandler.listener.AmmunitionDamageEffectListener;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
+import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.utility.ItemIdentifiers;
@@ -30,6 +32,10 @@ public class RubyBolts implements AmmunitionDamageEffectListener {
         if (player.getEquipment().containsAny(ItemIdentifiers.RUBY_DRAGON_BOLTS_E, ItemIdentifiers.RUBY_BOLTS_E)) {
             if (Utils.percentageChance(boltSpecialChance(alwaysSpec))) {
                 int cap = 100;
+                if (player.getEquipment().hasAt(EquipSlot.WEAPON, ItemIdentifiers.ZARYTE_CROSSBOW) && player.isSpecialActivated() && player.getCombatSpecial() == CombatSpecial.ZARYTE_CROSSBOW)
+                {
+                    cap = 110;
+                }
 
                 target.performGraphic(new Graphic(754, GraphicHeight.LOW, 55 + 5));
 

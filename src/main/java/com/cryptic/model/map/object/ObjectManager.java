@@ -129,7 +129,7 @@ public class ObjectManager {
         original.setId(replacement != null ? replacement.getId() : -1);
         if (cycles < 0)
             return;
-        Chain.bound("lever_replacement_task").runFn(cycles, () -> original.setId(original.originalId));
+        Chain.noCtx().runFn(cycles, () -> original.setId(original.originalId));
 
         System.out.println("Replacing: " + original);
     }

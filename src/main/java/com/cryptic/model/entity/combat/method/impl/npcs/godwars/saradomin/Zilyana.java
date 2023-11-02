@@ -20,25 +20,10 @@ import java.util.List;
 import java.util.Map;
 
 public class Zilyana extends CommonCombatMethod {
-
-    public static boolean isMinion(NPC n) {
-        return n.id() >= 2206 && n.id() <= 2208;
-    }
-
     private static final Area ENCAMPMENT = new Area(2888, 5257, 2908, 5276);
 
     public static Area getENCAMPMENT() {
         return ENCAMPMENT;
-    }
-
-    private static Entity lastBossDamager = null;
-
-    public static Entity getLastBossDamager() {
-        return lastBossDamager;
-    }
-
-    public static void setLastBossDamager(Entity lastBossDamager) {
-        Zilyana.lastBossDamager = lastBossDamager;
     }
 
     private final List<String> QUOTES = Arrays.asList("Death to the enemies of the light!",
@@ -54,33 +39,38 @@ public class Zilyana extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        if (entity.isNpc()) {
-            NPC npc = (NPC) entity;
-            Player player = (Player) target;
-            int melee_distance = entity.tile().distance(target.tile());
-            boolean canMelee = melee_distance <= 1;
-            if (Utils.rollDie(3, 1)) {
-                npc.forceChat(Utils.randomElement(QUOTES));
-            }
+        if (!withinDistance(1)) return false;
 
-            if (canMelee) {
-                entity.animate(6967);
-                target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
-                // If we're in melee distance it's actually classed as if the target hit us -- has an effect on auto-retal in gwd!
-                if (GwdLogic.isBoss(npc.id())) {
-                    Map<Entity, Long> last_attacked_map = npc.getAttribOr(AttributeKey.LAST_ATTACKED_MAP, new HashMap<Entity, Long>());
-                    last_attacked_map.put(target, System.currentTimeMillis());
-                    npc.putAttrib(AttributeKey.LAST_ATTACKED_MAP, last_attacked_map);
-                }
-            } else {
-                entity.animate(6970);
-                npc.getTimers().extendOrRegister(TimerKey.ZILY_SPEC_COOLDOWN, 7);
-                npc.getMovementQueue().clear();
-                player.graphic(1221, GraphicHeight.LOW, 30);
-                target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 1, CombatType.MAGIC).checkAccuracy().submit();
-            }
+        NPC npc = (NPC) entity;
+
+        if (GwdLogic.isBoss(npc.id())) {
+            Map<Entity, Long> last_attacked_map = npc.getAttribOr(AttributeKey.LAST_ATTACKED_MAP, new HashMap<Entity, Long>());
+            last_attacked_map.put(target, System.currentTimeMillis());
+            npc.putAttrib(AttributeKey.LAST_ATTACKED_MAP, last_attacked_map);
+        }
+
+        if (Utils.rollDie(3, 1)) npc.forceChat(Utils.randomElement(QUOTES));
+
+        if (Utils.rollDice(50)) {
+            if (entity.getTimers().left(TimerKey.ZILY_SPEC_COOLDOWN) > 0) return false;
+            magic();
+        } else {
+            melee();
         }
         return true;
+    }
+
+    public void melee() {
+        entity.animate(6967);
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy().submit();
+    }
+
+    public void magic() {
+        entity.animate(6970);
+        entity.getTimers().extendOrRegister(TimerKey.ZILY_SPEC_COOLDOWN, 7);
+        entity.getMovementQueue().clear();
+        target.graphic(1221, GraphicHeight.LOW, 30);
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 1, CombatType.MAGIC).checkAccuracy().submit();
     }
 
     @Override
@@ -90,6 +80,11 @@ public class Zilyana extends CommonCombatMethod {
 
     @Override
     public int moveCloseToTargetTileRange(Entity entity) {
-        return 10;
+        return 1;
+    }
+
+    @Override
+    public void doFollowLogic() {
+        follow(1);
     }
 }

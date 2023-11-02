@@ -25,20 +25,6 @@ public class Graardor extends CommonCombatMethod {
         return BANDOS_AREA;
     }
 
-    public static boolean isMinion(NPC n) {
-        return n.id() >= 2216 && n.id() <= 2218;
-    }
-
-    private static Entity lastBossDamager = null;
-
-    public static Entity getLastBossDamager() {
-        return lastBossDamager;
-    }
-
-    public static void setLastBossDamager(Entity lastBossDamager) {
-        Graardor.lastBossDamager = lastBossDamager;
-    }
-
     private final List<String> QUOTES = Arrays.asList("Death to our enemies!",
         "Brargh!",
         "Break their bones!",
@@ -53,45 +39,40 @@ public class Graardor extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
+        if (!withinDistance(8)) return false;
 
-        if (!withinDistance(8))
-            return false;
-
-        if (Utils.rollDie(6, 1))
-            entity.forceChat(Utils.randomElement(QUOTES));
+        if (Utils.rollDie(6, 1)) entity.forceChat(Utils.randomElement(QUOTES));
 
         if (withinDistance(1) && Utils.rollPercent(65))
             meleeAttack();
         else
             rangedAttack();
+
         return true;
 
     }
 
     private void rangedAttack() {
+        if (!withinDistance(8)) return;
         entity.animate(7021);
-        if (target != null) {
-            if (entity.getLocalPlayers().stream().anyMatch(p -> p.tile().distance(entity.tile()) < 10)) {
-                if (ProjectileRoute.hasLineOfSight(entity.getAsNpc(), target.getAsPlayer())) {
-                    var tileDist = entity.tile().distance(target.tile());
-                    int duration = (41 + 11 + (5 * tileDist));
-                    Projectile p = new Projectile(entity, target, 1202, 41, duration, 43, 31, 0, target.getSize(), 5);
-                    final int delay = entity.executeProjectile(p);
-                    target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
-                }
-            }
-        }
+        if (target == null) return;
+        if (!ProjectileRoute.hasLineOfSight(entity, target)) return;
+        var tileDist = entity.tile().distance(target.tile());
+        int duration = (41 + 11 + (5 * tileDist));
+        Projectile p = new Projectile(entity, target, 1202, 41, duration, 43, 31, 8, entity.getSize(), 5);
+        final int delay = entity.executeProjectile(p);
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
     }
 
     private void meleeAttack() {
+        if (!withinDistance(1)) return;
         entity.animate(7018);
-        if (target != null) {
-            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
-            if (GwdLogic.isBoss(entity.getAsNpc().id())) {
-                Map<Entity, Long> last_attacked_map = entity.getAttribOr(AttributeKey.LAST_ATTACKED_MAP, new HashMap<Entity, Long>());
-                last_attacked_map.put(target, System.currentTimeMillis());
-                entity.putAttrib(AttributeKey.LAST_ATTACKED_MAP, last_attacked_map);
-            }
+        if (target == null) return;
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
+        if (GwdLogic.isBoss(entity.getAsNpc().id())) {
+            Map<Entity, Long> last_attacked_map = entity.getAttribOr(AttributeKey.LAST_ATTACKED_MAP, new HashMap<Entity, Long>());
+            last_attacked_map.put(target, System.currentTimeMillis());
+            entity.putAttrib(AttributeKey.LAST_ATTACKED_MAP, last_attacked_map);
         }
     }
 
@@ -103,6 +84,11 @@ public class Graardor extends CommonCombatMethod {
 
     @Override
     public int moveCloseToTargetTileRange(Entity entity) {
-        return 10;
+        return 1;
+    }
+
+    @Override
+    public void doFollowLogic() {
+        follow(1);
     }
 }

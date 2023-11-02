@@ -33,7 +33,8 @@ public class PrayerDamage implements DamageEffectListener {
             COMMANDER_ZILYANA,
             COMMANDER_ZILYANA_6493,
             KRIL_TSUTSAROTH,
-            KRIL_TSUTSAROTH_6495
+            KRIL_TSUTSAROTH_6495,
+            ENORMOUS_TENTACLE
         };
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {

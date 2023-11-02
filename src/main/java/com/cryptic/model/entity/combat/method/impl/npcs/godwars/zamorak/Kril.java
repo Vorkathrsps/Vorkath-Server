@@ -10,6 +10,7 @@ import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.map.position.Area;
+import com.cryptic.model.map.route.routes.ProjectileRoute;
 import com.cryptic.utility.Utils;
 
 import java.util.Arrays;
@@ -18,25 +19,10 @@ import java.util.List;
 import java.util.Map;
 
 public class Kril extends CommonCombatMethod {
-
-    public static boolean isMinion(NPC n) {
-        return n.id() >= 3129 && n.id() <= 3132;
-    }
-
     private static final Area ENCAMPMENT = new Area(2918, 5318, 2936, 5331);
 
     public static Area getENCAMPMENT() {
         return ENCAMPMENT;
-    }
-
-    private static Entity lastBossDamager = null;
-
-    public static Entity getLastBossDamager() {
-        return lastBossDamager;
-    }
-
-    public static void setLastBossDamager(Entity lastBossDamager) {
-        Kril.lastBossDamager = lastBossDamager;
     }
 
     private final List<String> QUOTES = Arrays.asList("Attack them, you dogs!",
@@ -50,45 +36,47 @@ public class Kril extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        if (Utils.rollDie(3, 1)) {
-            entity.forceChat(Utils.randomElement(QUOTES));
+        if (GwdLogic.isBoss(entity.getAsNpc().id())) {
+            Map<Entity, Long> last_attacked_map = entity.getAttribOr(AttributeKey.LAST_ATTACKED_MAP, new HashMap<Entity, Long>());
+            last_attacked_map.put(target, System.currentTimeMillis());
+            entity.putAttrib(AttributeKey.LAST_ATTACKED_MAP, last_attacked_map);
         }
 
-        boolean melee_dist = entity.tile().distance(target.tile()) <= 1;
+        if (Utils.rollDie(3, 1)) entity.forceChat(Utils.randomElement(QUOTES));
 
-        // Attack the player
-        if (withinDistance(1) && Utils.rollDie(2, 1)) {
-            entity.animate(6948);
-            // If we're in melee distance it's actually classed as if the target hit us -- has an effect on auto-retal in gwd!
-            if (GwdLogic.isBoss(entity.getAsNpc().id())) {
-                Map<Entity, Long> last_attacked_map = entity.getAttribOr(AttributeKey.LAST_ATTACKED_MAP, new HashMap<Entity, Long>());
-                last_attacked_map.put(target, System.currentTimeMillis());
-                entity.putAttrib(AttributeKey.LAST_ATTACKED_MAP, last_attacked_map);
-            }
+        if (Utils.rollDice(10)) target.poison(16);
 
-            if (Utils.rollDie(5, 1)) {
-                int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE);
-                entity.forceChat("YARRRRRRR!"); // Overrides previous quote
-                target.hit(entity, hit, CombatType.MELEE).submit();
-                target.message("K'ril Tsutsaroth slams through your protection prayer, leaving you feeling drained.");
-                target.getSkills().alterSkill(Skills.PRAYER,-20);
-            } else {
-                target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
-            }
+        if (Utils.rollDice(50)) {
+            if (!withinDistance(8)) return false;
+            magic();
         } else {
-            entity.animate(6950);
-            var tileDist = entity.tile().distance(target.tile());
-            int durationMagic = (51 + -5 + (10 * tileDist));
-            Projectile p = new Projectile(entity, target, 1227, 51, durationMagic, 1, 5, 0, target.getSize(), 5);
-            final int delay = entity.executeProjectile(p);
-            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
-        }
-
-        // Slight chance of poison
-        if (Utils.rollDie(10, 1)) {
-            target.poison(16);
+            if (!withinDistance(1)) return false;
+            melee();
         }
         return true;
+    }
+
+    public void melee() {
+        entity.animate(6948);
+        if (Utils.rollDie(5, 1)) {
+            int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE);
+            entity.forceChat("YARRRRRRR!");
+            target.hit(entity, hit, CombatType.MELEE).submit();
+            target.message("K'ril Tsutsaroth slams through your protection prayer, leaving you feeling drained.");
+            target.getSkills().alterSkill(Skills.PRAYER, -20);
+        } else {
+            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy().submit();
+        }
+    }
+
+    public void magic() {
+        if (!ProjectileRoute.hasLineOfSight(entity, target)) return;
+        entity.animate(6950);
+        var tileDist = entity.tile().distance(target.tile());
+        int durationMagic = (51 + -5 + (10 * tileDist));
+        Projectile p = new Projectile(entity, target, 1227, 51, durationMagic, 60, 30, 6, entity.getSize(), 5);
+        final int delay = entity.executeProjectile(p);
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
     }
 
     @Override
@@ -98,6 +86,11 @@ public class Kril extends CommonCombatMethod {
 
     @Override
     public int moveCloseToTargetTileRange(Entity entity) {
-        return 10;
+        return 1;
+    }
+
+    @Override
+    public void doFollowLogic() {
+        follow(1);
     }
 }

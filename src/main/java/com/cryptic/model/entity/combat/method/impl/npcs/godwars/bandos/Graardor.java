@@ -47,9 +47,7 @@ public class Graardor extends CommonCombatMethod {
             meleeAttack();
         else
             rangedAttack();
-
         return true;
-
     }
 
     private void rangedAttack() {

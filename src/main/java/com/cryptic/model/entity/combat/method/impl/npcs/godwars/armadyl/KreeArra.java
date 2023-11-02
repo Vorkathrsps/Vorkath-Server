@@ -8,53 +8,60 @@ import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.map.position.Area;
+import com.cryptic.model.map.route.routes.ProjectileRoute;
 import com.cryptic.utility.Utils;
 
 public class KreeArra extends CommonCombatMethod {
-
-    public static boolean isMinion(NPC n) {
-        return n.id() >= 3164 && n.id() <= 3163;
-    }
-
     private static final Area ENCAMPMENT = new Area(2823, 5295, 2843, 5309);
 
     public static Area getENCAMPMENT() {
         return ENCAMPMENT;
     }
-
-    private static Entity lastBossDamager = null;
-
-    public static Entity getLastBossDamager() {
-        return lastBossDamager;
-    }
-
-    public static void setLastBossDamager(Entity lastBossDamager) {
-        KreeArra.lastBossDamager = lastBossDamager;
-    }
-
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
+        if (!withinDistance(8)) return false;
+
         int roll = Utils.random(2);
-        int melee_distance = entity.tile().distance(target.tile());
-        boolean melee_range = melee_distance <= 1;
         var tileDist = entity.tile().distance(target.tile());
-        int duration = (43 + 11 + (5 * tileDist));
+        int durationRanged = (43 + 11 + (5 * tileDist));
         int durationMagic = (51 + -5 + (10 * tileDist));
-        if (melee_range && roll == 0) {
-            entity.animate(6981);
-            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
-        } else if (roll == 1) {
-            entity.animate(6980);
-            Projectile p = new Projectile(entity, target, 1200, 51, durationMagic, 0, 0, 0, target.getSize(), 5);
-            final int delay = entity.executeProjectile(p);
-            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
-        } else {
-            entity.animate(6980);
-            Projectile p = new Projectile(entity, target, 1199, 43, duration, 0, 0, 0, target.getSize(), 5);
-            final int delay = entity.executeProjectile(p);
-            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+
+        switch (roll) {
+            case 0 -> {
+                if (!withinDistance(1)) return false;
+                melee();
+            }
+            case 1 -> {
+                if (!withinDistance(8)) return false;
+                ranged(durationRanged);
+            }
+            case 2 -> {
+                if (!withinDistance(8)) return false;
+                magic(durationMagic);
+            }
         }
         return true;
+    }
+
+    public void melee() {
+        entity.animate(6981);
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
+    }
+
+    public void ranged(int durationRanged) {
+        if (!ProjectileRoute.hasLineOfSight(entity, target)) return;
+        entity.animate(6980);
+        Projectile p = new Projectile(entity, target, 1199, 43, durationRanged, 0, 0, 0, entity.getSize(), 5);
+        final int delay = entity.executeProjectile(p);
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+    }
+
+    public void magic(int durationMagic) {
+        if (!ProjectileRoute.hasLineOfSight(entity, target)) return;
+        entity.animate(6980);
+        Projectile p = new Projectile(entity, target, 1200, 51, durationMagic, 0, 0, 0, entity.getSize(), 5);
+        final int delay = entity.executeProjectile(p);
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
     }
 
     @Override
@@ -64,6 +71,11 @@ public class KreeArra extends CommonCombatMethod {
 
     @Override
     public int moveCloseToTargetTileRange(Entity entity) {
-        return 10;
+        return 8;
+    }
+
+    @Override
+    public void doFollowLogic() {
+        follow(1);
     }
 }

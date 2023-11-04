@@ -273,51 +273,9 @@ public class Hit {
         if (checkAccuracy && combatType != null && !(target.isNpc() && target.npc().getCombatInfo() == null) && !(attacker.isNpc() && attacker.npc().getCombatInfo() == null)) {
             var chance = Utils.THREAD_LOCAL_RANDOM.get().nextDouble();
             switch (combatType) {
-                case MAGIC -> {
-                    accurate = magicAccuracy.successful(chance);
-                    if (attacker instanceof Player) {
-                        logger.debug("Magic Accuracy - Attack Roll = ["
-                            + magicAccuracy.attackRoll
-                            + "] Defence Roll = ["
-                            + magicAccuracy.defenceRoll
-                            + "] COS = ["
-                            + new DecimalFormat("0.000").format(magicAccuracy.chance)
-                            + "] Selected Chance = ["
-                            + chance
-                            + "] successful = "
-                            + (accurate ? "YES" : "NO"));
-                    }
-                }
-                case RANGED -> {
-                    accurate = rangeAccuracy.successful(chance);
-                    if (attacker instanceof Player) {
-                        logger.debug("Range Accuracy - Attack Roll = ["
-                            + rangeAccuracy.attackRoll
-                            + "] Defence Roll = ["
-                            + rangeAccuracy.defenceRoll
-                            + "] COS = ["
-                            + new DecimalFormat("0.000").format(rangeAccuracy.chance)
-                            + "] Selected Chance = ["
-                            + chance
-                            + "] successful = "
-                            + (accurate ? "YES" : "NO"));
-                    }
-                }
-                case MELEE -> {
-                    accurate = meleeAccuracy.successful(chance);
-                    if (attacker instanceof Player) {
-                        logger.debug("Melee Accuracy - Attack Roll = ["
-                            + meleeAccuracy.attackRoll
-                            + "] Defence Roll = ["
-                            + meleeAccuracy.defenceRoll
-                            + "] COS = ["
-                            + new DecimalFormat("0.000").format(meleeAccuracy.chance)
-                            + "] Selected Chance = ["
-                            + chance
-                            + "] successful = "
-                            + (accurate ? "YES" : "NO"));
-                    }
-                }
+                case MAGIC -> accurate = magicAccuracy.successful(chance);
+                case RANGED -> accurate = rangeAccuracy.successful(chance);
+                case MELEE -> accurate = meleeAccuracy.successful(chance);
             }
         }
         final int alwaysHitDamage = getTarget() != attacker ? attacker.getAttribOr(AttributeKey.ALWAYS_HIT, 0) : 0;

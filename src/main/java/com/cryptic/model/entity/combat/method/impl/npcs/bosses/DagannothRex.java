@@ -13,7 +13,7 @@ public class DagannothRex extends CommonCombatMethod {
             return false;
         }
         entity.animate(2851);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy(true).submit();
         return true;
     }
 

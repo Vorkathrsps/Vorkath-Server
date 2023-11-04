@@ -72,7 +72,7 @@ public class CorporealBeast extends CommonCombatMethod {
         int[] animations = new int[]{1682, 1683};
         var randomAnimation = Utils.randomElement(animations);
         corp.animate(randomAnimation);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     void magic(NPC corp, Player target) {
@@ -81,7 +81,7 @@ public class CorporealBeast extends CommonCombatMethod {
         var duration = (21 + -5 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, 314, 21, duration, 47, 31, 10, 5 * 64, 10);
         final int delay = entity.executeProjectile(p);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
         drainStats(target);
     }
 
@@ -109,7 +109,7 @@ public class CorporealBeast extends CommonCombatMethod {
 
         Chain.noCtx().runFn(delay, () -> {
             if (target.tile().equals(p.getEnd())) {
-                target.hit(corp, CombatFactory.calcDamageFromType(corp, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+                target.hit(corp, CombatFactory.calcDamageFromType(corp, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
             }
         });
 

@@ -30,7 +30,7 @@ public class Cruor extends CommonCombatMethod {
         }
         mob.animate(mob.attackAnimation());
         Hit hit = target.hit(mob, CombatFactory.calcDamageFromType(mob, target, CombatType.MAGIC), 1, CombatType.MAGIC);
-        hit.checkAccuracy().postDamage(h -> {
+        hit.checkAccuracy(true).postDamage(h -> {
             if(h.isAccurate()) {
                 target.graphic(377);
                 mob.heal(hit.getDamage() / 4);

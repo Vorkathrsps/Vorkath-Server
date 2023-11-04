@@ -36,7 +36,7 @@ public class Judge extends CommonCombatMethod {
         }
 
         if (withinDistance(1) && World.getWorld().rollDie(2, 1)) {
-            Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MAGIC).checkAccuracy();
+            Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MAGIC).checkAccuracy(true);
             hit.submit();
         }
 
@@ -55,7 +55,7 @@ public class Judge extends CommonCombatMethod {
         double delay = (int) (1 + Math.floor(3 + dist) / 6D);
         World.getWorld().getPlayers().forEach(p -> {
             //entity.executeProjectile(new Projectile(entity, target, 1223, (int) (dist * 5), (int) (dist + delay), 70, 35, 0, 10));
-            Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), (int) delay, CombatType.MAGIC).checkAccuracy();
+            Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), (int) delay, CombatType.MAGIC).checkAccuracy(true);
             hit.submit();
         });
     }
@@ -67,7 +67,7 @@ public class Judge extends CommonCombatMethod {
         double delay = entity.getCombat().magicSpellDelay(target);
         World.getWorld().getPlayers().forEach(p -> {
             //entity.executeProjectile(new Projectile(entity, target, 1227, (int) dist * 5, (int) (dist + delay), 70, 40, 0, 10));
-            Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), (int) delay, CombatType.MAGIC).checkAccuracy();
+            Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), (int) delay, CombatType.MAGIC).checkAccuracy(true);
             target.performGraphic(new Graphic(156, GraphicHeight.HIGH, (int) (delay + 1)));
             hit.submit();
         });

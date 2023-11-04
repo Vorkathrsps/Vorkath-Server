@@ -65,7 +65,7 @@ public class HydraCombatScript extends CommonCombatMethod {
             hydra, target, hydra.currentAttack ==
             HydraAttacks.MAGIC ? CombatType.MAGIC : CombatType.RANGED),
             hydra.currentAttack == HydraAttacks.MAGIC ? CombatType.MAGIC : CombatType.RANGED)
-            .checkAccuracy().submit());
+            .checkAccuracy(true).submit());
     }
 
     /**
@@ -92,7 +92,7 @@ public class HydraCombatScript extends CommonCombatMethod {
             Chain.bound(hydra).runFn(3, () -> {
                 for (int i = 0; i < 15; i++) {
                     if (target.tile().equals(pos)) {
-                        Hit hit = Hit.builder(hydra, target, World.getWorld().random(1, 4), delay, CombatType.RANGED).checkAccuracy();
+                        Hit hit = Hit.builder(hydra, target, World.getWorld().random(1, 4), delay, CombatType.RANGED).checkAccuracy(true);
                         hit.submit();
 
                     }

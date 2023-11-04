@@ -26,7 +26,7 @@ public class SpiritualRanger extends CommonCombatMethod {
             var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
             Projectile p = new Projectile(tile, target, 1192, 41, duration, 43, 31, 0, entity.getSize(), 10);
             final int delay = entity.executeProjectile(p);
-            Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.MAGIC).checkAccuracy();
+            Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.MAGIC).checkAccuracy(true);
             hit.submit();
         }
         return true;

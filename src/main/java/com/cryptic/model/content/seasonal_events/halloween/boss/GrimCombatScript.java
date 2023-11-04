@@ -47,8 +47,8 @@ public class GrimCombatScript extends CommonCombatMethod {
                         fearRepearTwo.setPositionToFace(p.tile());
                         new Projectile(fearRepearOne, p, 1403, 45, 140, 50, 33, 0).sendProjectile();
                         new Projectile(fearRepearTwo, p, 1404, 45, 120, 50, 33, 0).sendProjectile();
-                        target.hit(fearRepearOne, CombatFactory.calcDamageFromType(fearRepearOne, p, CombatType.MAGIC), 3, CombatType.MAGIC).checkAccuracy().submit();
-                        target.hit(fearRepearTwo, CombatFactory.calcDamageFromType(fearRepearTwo, p, CombatType.RANGED), 4, CombatType.RANGED).checkAccuracy().submit();
+                        target.hit(fearRepearOne, CombatFactory.calcDamageFromType(fearRepearOne, p, CombatType.MAGIC), 3, CombatType.MAGIC).checkAccuracy(true).submit();
+                        target.hit(fearRepearTwo, CombatFactory.calcDamageFromType(fearRepearTwo, p, CombatType.RANGED), 4, CombatType.RANGED).checkAccuracy(true).submit();
                     }
                 });
             }).then(5, () -> {
@@ -80,7 +80,7 @@ public class GrimCombatScript extends CommonCombatMethod {
         npc.setPositionToFace(null); // Stop facing the target
         World.getWorld().getPlayers().forEach(p -> {
             if (p != null && target.tile().inSqRadius(p.tile(), 12)) {
-                p.hit(npc, CombatFactory.calcDamageFromType(npc, p, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy().submit();
+                p.hit(npc, CombatFactory.calcDamageFromType(npc, p, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy(true).submit();
             }
         });
         npc.setPositionToFace(target.tile()); // Go back to facing the target.

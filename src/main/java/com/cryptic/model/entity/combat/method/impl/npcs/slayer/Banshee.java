@@ -29,7 +29,7 @@ public class Banshee extends CommonCombatMethod {
             }
             player.message("The banshee's deafening scream drains your stats!");
         } else {
-            player.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
+            player.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy(true).submit();
         }
         return true;
     }

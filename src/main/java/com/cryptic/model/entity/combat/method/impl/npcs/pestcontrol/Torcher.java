@@ -18,7 +18,7 @@ public class Torcher extends CommonCombatMethod {
     private void magic(NPC npc, Entity entity) {
         npc.animate(npc.attackAnimation());
         new Projectile(npc, target, 647, 50, 80, 50, 30, 0).sendProjectile();
-        Chain.bound(target).name("TorcherMagicTask").runFn(2, () -> target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), CombatType.MAGIC).checkAccuracy().submit());
+        Chain.bound(target).name("TorcherMagicTask").runFn(2, () -> target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), CombatType.MAGIC).checkAccuracy(true).submit());
     }
 
     @Override

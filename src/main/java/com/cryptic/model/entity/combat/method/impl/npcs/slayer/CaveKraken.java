@@ -20,7 +20,7 @@ public class CaveKraken extends CommonCombatMethod {
         int duration = (51 + -5 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, 162, 51, duration, 43, 31, 12, 2, 10);
         final int delay = entity.executeProjectile(p);
-        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
         hit.submit();
         if (hit.isAccurate()) {
             target.graphic(163, GraphicHeight.MIDDLE, p.getSpeed());

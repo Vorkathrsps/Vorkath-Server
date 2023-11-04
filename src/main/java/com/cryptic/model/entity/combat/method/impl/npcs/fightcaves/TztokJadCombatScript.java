@@ -27,7 +27,7 @@ public class TztokJadCombatScript extends CommonCombatMethod {
         }
         if (withinDistance(1)) {
             if (Utils.rollDie(4, 1)) {
-                target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
+                target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy(true).submit();
                 entity.animate(entity.attackAnimation());
             } else if (Utils.rollDie(2, 1)) {
                 magicAttack(entity, target);
@@ -67,7 +67,7 @@ public class TztokJadCombatScript extends CommonCombatMethod {
             entity.executeProjectile(projectileOrder[i]);
         }
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
         hit.submit();
         target.graphic(157, GraphicHeight.MIDDLE, projectileOrder[2].getSpeed());
     }
@@ -78,7 +78,7 @@ public class TztokJadCombatScript extends CommonCombatMethod {
         }
         entity.animate(2652);
         World.getWorld().tileGraphic(451, target.tile(), 0, 60);
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), 4, CombatType.RANGED).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), 4, CombatType.RANGED).checkAccuracy(true);
         hit.submit();
         target.graphic(157, GraphicHeight.LOW, 120);
     }

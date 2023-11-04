@@ -45,7 +45,7 @@ public class KreeArra extends CommonCombatMethod {
 
     public void melee() {
         entity.animate(6981);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     public void ranged(int durationRanged) {
@@ -53,7 +53,7 @@ public class KreeArra extends CommonCombatMethod {
         entity.animate(6980);
         Projectile p = new Projectile(entity, target, 1199, 43, durationRanged, 0, 0, 0, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
     }
 
     public void magic(int durationMagic) {
@@ -61,7 +61,7 @@ public class KreeArra extends CommonCombatMethod {
         entity.animate(6980);
         Projectile p = new Projectile(entity, target, 1200, 51, durationMagic, 0, 0, 0, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
     }
 
     @Override

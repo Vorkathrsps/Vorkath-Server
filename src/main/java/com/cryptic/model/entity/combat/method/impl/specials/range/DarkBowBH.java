@@ -52,7 +52,7 @@ public class DarkBowBH extends CommonCombatMethod {
 
 
 
-        Hit hit1 = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay1, CombatType.RANGED).checkAccuracy();
+        Hit hit1 = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay1, CombatType.RANGED).checkAccuracy(true);
 
         hit1.submit();
         target.graphic(endgfx, GraphicHeight.MIDDLE, p1.getSpeed());
@@ -63,7 +63,7 @@ public class DarkBowBH extends CommonCombatMethod {
         }
 
         // The second hit is pid adjusted.
-        Hit hit2 = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED),delay2, CombatType.RANGED).checkAccuracy();
+        Hit hit2 = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED),delay2, CombatType.RANGED).checkAccuracy(true);
         if (hit2.getDamage() < min) {
             hit2.setDamage(min);
         }

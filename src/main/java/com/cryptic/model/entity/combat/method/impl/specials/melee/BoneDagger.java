@@ -18,7 +18,7 @@ public class BoneDagger extends CommonCombatMethod {
         entity.animate(4198);
         entity.graphic(704);
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy(true);
         hit.submit();
         return true;
     }

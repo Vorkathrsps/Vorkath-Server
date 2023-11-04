@@ -34,7 +34,7 @@ public class Umbra extends CommonCombatMethod {
         entity.animate(entity.attackAnimation());
         if (target.isPlayer()) {
             Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 2, CombatType.MAGIC);
-            hit.checkAccuracy().postDamage(h -> {
+            hit.checkAccuracy(true).postDamage(h -> {
                 if (h.isAccurate()) {
                     target.graphic(383);
 

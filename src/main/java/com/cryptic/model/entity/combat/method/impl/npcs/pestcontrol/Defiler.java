@@ -16,13 +16,13 @@ import com.cryptic.utility.chainedwork.Chain;
 public class Defiler extends CommonCombatMethod {
 
     private void melee(NPC npc, Entity entity) {
-        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     private void range(NPC npc, Entity entity) {
         npc.animate(npc.attackAnimation());
         new Projectile(npc, target, 657, 50, 80, 50, 30, 0).sendProjectile();
-        Chain.bound(null).name("DefilerRangeTask").runFn(2, () -> target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), CombatType.RANGED).checkAccuracy().submit());
+        Chain.bound(null).name("DefilerRangeTask").runFn(2, () -> target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), CombatType.RANGED).checkAccuracy(true).submit());
     }
 
     @Override

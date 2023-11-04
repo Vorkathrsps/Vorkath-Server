@@ -18,7 +18,7 @@ public class UrsineMace extends CommonCombatMethod {
         entity.performGraphic(new Graphic(2341, GraphicHeight.HIGH, 0));
         entity.performGraphic(new Graphic(2342, GraphicHeight.HIGH, 0));
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),2, CombatType.MELEE).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),2, CombatType.MELEE).checkAccuracy(true);
 
         if (hit.isAccurate()) {
             if (target.isPlayer()) {
@@ -27,7 +27,7 @@ public class UrsineMace extends CommonCombatMethod {
                 Chain.bound(null).runFn(2, () -> {
                     for (int index = 0; index < 4; index++) {
                         Chain.bound(null).name("ursinebleed").runFn(index * 2, () -> {
-                            Hit bleed = target.hit(entity, 4, 1, CombatType.MELEE).checkAccuracy();
+                            Hit bleed = target.hit(entity, 4, 1, CombatType.MELEE).checkAccuracy(true);
                             bleed.submit();
                         });
                     }
@@ -37,7 +37,7 @@ public class UrsineMace extends CommonCombatMethod {
                     Chain.bound(null).runFn(2, () -> {
                         for (int index = 0; index < 4; index++) {
                             Chain.bound(null).name("ursinebleed").runFn(index * 2, () -> {
-                                Hit bleed = target.hit(entity, 4, 1, CombatType.MELEE).checkAccuracy();
+                                Hit bleed = target.hit(entity, 4, 1, CombatType.MELEE).checkAccuracy(true);
                                 bleed.submit();
                             });
                         }

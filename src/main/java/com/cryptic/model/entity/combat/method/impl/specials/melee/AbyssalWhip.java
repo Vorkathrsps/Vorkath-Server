@@ -16,7 +16,7 @@ public class AbyssalWhip extends CommonCombatMethod {
     public boolean prepareAttack(Entity mob, Entity target) {
         entity.animate(1658);
         //todo it.player().world().spawnSound(it.player().tile(), 2713, 0, 10)
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy(true);
         hit.submit();
 
         target.graphic(341, GraphicHeight.LOW, 0);

@@ -65,7 +65,7 @@ public class Zilyana extends CommonCombatMethod {
 
     public void melee() {
         entity.animate(6967);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     public void magic() {
@@ -73,7 +73,7 @@ public class Zilyana extends CommonCombatMethod {
         entity.getTimers().extendOrRegister(TimerKey.ZILY_SPEC_COOLDOWN, 7);
         entity.getMovementQueue().clear();
         target.graphic(1221, GraphicHeight.LOW, 30);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 1, CombatType.MAGIC).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 1, CombatType.MAGIC).checkAccuracy(true).submit();
     }
 
     @Override

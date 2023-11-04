@@ -17,7 +17,7 @@ public class StatiusWarhammer extends CommonCombatMethod {
         entity.animate(1378);
         entity.graphic(844);
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy(true);
         hit.submit();
 
         // Nerf a player's def if it's a player

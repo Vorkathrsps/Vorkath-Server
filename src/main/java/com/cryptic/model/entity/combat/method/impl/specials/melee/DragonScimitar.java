@@ -16,7 +16,7 @@ public class DragonScimitar extends CommonCombatMethod {
         entity.animate(1872);
         entity.graphic(347, GraphicHeight.HIGH, 0);
         //TODO it.sound(2540)
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy(true);
         hit.submit();
 
         if(target.isPlayer()) {

@@ -38,7 +38,7 @@ public class Glacies extends CommonCombatMethod {
         Projectile projectile = new Projectile(entity, target, 368, 0, 66, 43, 0, 0);
         projectile.sendProjectile();
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC);
-        hit.checkAccuracy().postDamage(h -> {
+        hit.checkAccuracy(true).postDamage(h -> {
             if(h.isAccurate() && World.getWorld().rollDie(2,1)) {
                 target.graphic(369);
                 target.freeze(33, entity);

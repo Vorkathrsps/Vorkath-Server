@@ -42,11 +42,11 @@ public class DrakeCombatScript extends CommonCombatMethod {
 
         if (meleeAttack && World.getWorld().rollDie(2,1)) {
             drake.animate(8275);
-            target.hit(drake, CombatFactory.calcDamageFromType(drake, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
+            target.hit(drake, CombatFactory.calcDamageFromType(drake, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy(true).submit();
         } else {
             drake.animate(8276);
             new Projectile(drake, target,1636,40, 68, 25, 31,0,16,96).sendProjectile();
-            target.hit(drake, CombatFactory.calcDamageFromType(drake, target, CombatType.RANGED), 2, CombatType.RANGED).checkAccuracy().submit();
+            target.hit(drake, CombatFactory.calcDamageFromType(drake, target, CombatType.RANGED), 2, CombatType.RANGED).checkAccuracy(true).submit();
         }
     }
 

@@ -14,7 +14,7 @@ public class AbyssalDaggerBH extends CommonCombatMethod {
         entity.animate(3300);
         entity.graphic(1283, GraphicHeight.LOW, 0);
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE) ,1, CombatType.MELEE).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE) ,1, CombatType.MELEE).checkAccuracy(true);
 
         for (int index = 0; index < 2; index++) {
             hit.submit();

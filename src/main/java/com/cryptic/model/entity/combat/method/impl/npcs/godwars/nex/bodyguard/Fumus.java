@@ -41,7 +41,7 @@ public class Fumus extends CommonCombatMethod {
             target.hit(entity, 4, HitMark.POISON);
         }
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC);
-        hit.checkAccuracy().submit();
+        hit.checkAccuracy(true).submit();
         if(hit.isAccurate()) {
             target.graphic(391);
         }

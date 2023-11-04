@@ -244,7 +244,7 @@ public class VasaNistirio extends CommonCombatMethod {
                         }
                     });
 
-                    Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 0, CombatType.MAGIC).checkAccuracy();
+                    Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 0, CombatType.MAGIC).checkAccuracy(true);
 
                     for (Player p : World.getWorld().getPlayers()) {
                         if (p != null && p.tile().inSqRadius(entity.tile(), 3)) {

@@ -87,7 +87,7 @@ public class DragonfireShield extends PacketInteraction {
             target.freeze(25, attacker);
         }
 
-        Hit hit = target.hit(attacker, dmg, delay, null).checkAccuracy().postDamage(p -> {
+        Hit hit = target.hit(attacker, dmg, delay, null).checkAccuracy(true).postDamage(p -> {
             if (target.dead() || attacker.dead()) {
                 return;
             }
@@ -114,7 +114,7 @@ public class DragonfireShield extends PacketInteraction {
         int duration = (80 + 11 + (5 * tileDist));
         Projectile p1 = new Projectile(attacker, target, 1166, 80, duration, 40, 30, 0, target.getSize(), 5);
         final int delay = attacker.executeProjectile(p1);
-        Hit hit = target.hit(attacker, dmg, delay, null).checkAccuracy().postDamage(p -> {
+        Hit hit = target.hit(attacker, dmg, delay, null).checkAccuracy(true).postDamage(p -> {
             if (target.dead() || attacker.dead()) {
                 return;
             }

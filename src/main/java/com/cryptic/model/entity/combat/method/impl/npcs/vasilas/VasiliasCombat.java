@@ -67,7 +67,7 @@ public class VasiliasCombat extends CommonCombatMethod {
                         int animationId = form == null ? combatInfo.animations.attack : form.getAttackAnims()[0];
                         mob.animate(animationId);
                         int delay = MAGIC_PROJECTILE.send(mob, player);
-                        Hit hit = p.hit(mob, World.getWorld().random(combatInfo.maxhit), CombatType.MAGIC).clientDelay(delay).checkAccuracy();
+                        Hit hit = p.hit(mob, World.getWorld().random(combatInfo.maxhit), CombatType.MAGIC).clientDelay(delay).checkAccuracy(true);
                         hit.submit();
                     });
                 }
@@ -80,7 +80,7 @@ public class VasiliasCombat extends CommonCombatMethod {
                     }
                     int animationId = form == null ? combatInfo.animations.attack : form.getAttackAnims()[0];
                     mob.animate(animationId);
-                    Hit hit = player.hit(mob, World.getWorld().random(combatInfo.maxhit), 2, CombatType.MELEE).checkAccuracy();
+                    Hit hit = player.hit(mob, World.getWorld().random(combatInfo.maxhit), 2, CombatType.MELEE).checkAccuracy(true);
                     hit.submit();
                 }
             }
@@ -90,7 +90,7 @@ public class VasiliasCombat extends CommonCombatMethod {
                         int animationId = form == null ? combatInfo.animations.attack : form.getAttackAnims()[0];
                         mob.animate(animationId);
                         int delay = RANGED_PROJECTILE.send(mob, player);
-                        Hit hit = p.hit(mob, World.getWorld().random(combatInfo.maxhit), CombatType.RANGED).clientDelay(delay).checkAccuracy();
+                        Hit hit = p.hit(mob, World.getWorld().random(combatInfo.maxhit), CombatType.RANGED).clientDelay(delay).checkAccuracy(true);
                         hit.submit();
                     });
                 }

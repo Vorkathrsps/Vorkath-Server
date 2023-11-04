@@ -48,7 +48,7 @@ public class Artio extends CommonCombatMethod {
             } else if (Utils.rollDie(6, 1) && !npc.<Boolean>getAttribOr(AttributeKey.CALLISTO_ROAR, false)) {
                 roar(npc, target);
             } else {
-                target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
+                target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true).submit();
                 npc.animate(npc.attackAnimation());
             }
         }
@@ -65,7 +65,7 @@ public class Artio extends CommonCombatMethod {
         new Projectile(npc, target, 395, 40, 60, 31, 43, 0).sendProjectile();
 
         Chain.bound(null).name("CallistoFuryTask").runFn(2, () -> {
-            target.hit(npc, Utils.random(60), CombatType.MELEE).checkAccuracy().submit();
+            target.hit(npc, Utils.random(60), CombatType.MELEE).checkAccuracy(true).submit();
             ((Player)target).message("Callisto's fury sends an almighty shockwave through you.");
             target.stun(4);
             target.graphic(245, GraphicHeight.HIGH, 0);
@@ -108,7 +108,7 @@ public class Artio extends CommonCombatMethod {
             ((Player)target).message("Callisto's roar throws you backwards.");
             target.animate(846);
             TaskManager.submit(new ForceMovementTask(target.getAsPlayer(), 3, new ForceMovement(target.getAsPlayer().tile().clone(), new Tile(direction.x() * 3, direction.y() * 3), 0, 15, face.direction)));
-            Chain.bound(null).name("CallistoRoarTask").runFn(3, () -> target.hit(npc, 3, CombatType.MELEE).checkAccuracy().submit());
+            Chain.bound(null).name("CallistoRoarTask").runFn(3, () -> target.hit(npc, 3, CombatType.MELEE).checkAccuracy(true).submit());
         }
         npc.clearAttrib(AttributeKey.CALLISTO_ROAR);
     }

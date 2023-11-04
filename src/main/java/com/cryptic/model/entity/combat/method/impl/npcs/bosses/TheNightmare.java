@@ -230,7 +230,7 @@ public class TheNightmare extends CommonCombatMethod {
         int duration = (80 + -15 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, 1764, 80, duration, 90, 30, 0, target.getSize(), 10);
         int delay = entity.executeProjectile(p);
-        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
         hit.submit();
         target.graphic(1765, GraphicHeight.HIGH_3, p.getSpeed());
     }

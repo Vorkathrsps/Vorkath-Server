@@ -33,7 +33,7 @@ public class MuttadileInTheWater extends CommonCombatMethod {
                 var tileDist = npc.tile().transform(1, 1, 0).distance(target.tile());
                 var delay = Math.max(1, (50 + (tileDist * 12)) / 30);
                 new Projectile(npc, target, 393, 20, 12 * tileDist, 0, 30, 0).sendProjectile();
-                target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+                target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
             }
         }
     }

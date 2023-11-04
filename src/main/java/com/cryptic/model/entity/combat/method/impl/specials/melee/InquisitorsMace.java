@@ -15,14 +15,14 @@ public class InquisitorsMace extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1060);
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy(true);
         hit.submit();
 
         for (int index = 0; index < 6; index++) {
             Chain.bound(null).name("ele_bow_freeze_effect").cancelWhen(() -> {
                 return !entity.tile().isWithinDistance(target.tile()) || target.dead(); // cancels as expected
             }).runFn(index * 4, () -> {
-                Hit bleed = target.hit(entity, World.getWorld().random(1, 5),4, CombatType.MELEE).checkAccuracy();
+                Hit bleed = target.hit(entity, World.getWorld().random(1, 5),4, CombatType.MELEE).checkAccuracy(true);
                 bleed.submit();
             });
         }

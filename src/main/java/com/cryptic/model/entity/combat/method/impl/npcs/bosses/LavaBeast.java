@@ -25,7 +25,7 @@ public class LavaBeast extends CommonCombatMethod {
 
         entity.animate(7678);
         new Projectile(entity, target, 1403, 20, 60, 30, 30, 0,10,14).sendProjectile();
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 1, CombatType.MAGIC).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 1, CombatType.MAGIC).checkAccuracy(true).submit();
             return true;
     }
 

@@ -40,7 +40,7 @@ public class Tekton extends CommonCombatMethod {
                 //entity.setPositionToFace(null); // Stop facing the target
                 World.getWorld().getPlayers().forEach(p -> {
                     if (p != null && target.tile().inSqRadius(p.tile(), 12)) {
-                        p.hit(entity, CombatFactory.calcDamageFromType(entity, p, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy().submit();
+                        p.hit(entity, CombatFactory.calcDamageFromType(entity, p, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy(true).submit();
                     }
                 });
 
@@ -73,7 +73,7 @@ public class Tekton extends CommonCombatMethod {
             npc.setPositionToFace(p1);
         }).then(4, () -> {
             if (p1.area(1).contains(target)) {
-                target.hit(npc, Utils.random(41), 0, CombatType.MELEE).checkAccuracy().submit();
+                target.hit(npc, Utils.random(41), 0, CombatType.MELEE).checkAccuracy(true).submit();
             }
         }).then(2, () -> {
             npc.setEntityInteraction(target);

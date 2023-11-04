@@ -36,7 +36,7 @@ public class WebWeaverBow extends CommonCombatMethod {
             target.poison(4);
         }
 
-        Hit hit = target.hit(entity, (int) hitLogic,  delay, CombatType.RANGED).checkAccuracy();
+        Hit hit = target.hit(entity, (int) hitLogic,  delay, CombatType.RANGED).checkAccuracy(true);
         hit.submit();
 
         Chain.bound(null).runFn(delay, () -> target.performGraphic(new Graphic(2355, GraphicHeight.LOW, delay))).then(0, () -> {

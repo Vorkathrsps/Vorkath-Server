@@ -19,7 +19,7 @@ public class DemonicGorillaRangedStrategy extends CommonCombatMethod {
         int duration = (41 + 11 + (5 * tileDist));
         Projectile p = new Projectile(entity, target, 1302, 41, duration, 45, 31, 0, target.getSize(), 5);
         final int delay = entity.executeProjectile(p);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().postDamage(h -> ((DemonicGorilla)entity).getCombatAI().handleAfterHit(h)).submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).postDamage(h -> ((DemonicGorilla)entity).getCombatAI().handleAfterHit(h)).submit();
         return true;
     }
 

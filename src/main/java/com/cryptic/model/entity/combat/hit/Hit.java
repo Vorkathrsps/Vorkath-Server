@@ -7,12 +7,10 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
-import com.cryptic.model.entity.combat.magic.CombatSpell;
 import com.cryptic.model.entity.combat.method.CombatMethod;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.vorkath.Vorkath;
 import com.cryptic.model.entity.masks.Flag;
-import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.Utils;
@@ -32,6 +30,7 @@ public class Hit {
 
     public boolean toremove;
     public boolean showSplat;
+    @Getter private HitMark hitMark;
     /**
      * if its a veng/recoil ring type of hit, in this case. this stops infinite loops of vengeance hits/recoil ring
      * repeating on reflected damage.
@@ -40,65 +39,25 @@ public class Hit {
 
     public boolean forceShowSplashWhenMissMagic;
     public boolean prayerIgnored = false;
-
-    public Hit forceShowSplashWhenMissMagic() {
-        forceShowSplashWhenMissMagic = true;
-        return this;
-    }
-
     private static final Logger logger = LogManager.getLogger(Hit.class);
-
-    /**
-     * The attacker instance.
-     */
     private Entity attacker;
-
-    /**
-     * The victim instance.
-     */
     private Entity target;
+    private int damage;
+    @Getter private int delay;
+    @Getter public boolean checkAccuracy;
+    private boolean accurate;
+    @Getter public CombatType combatType;
+    @Getter @Setter public boolean isMaxHit;
+    @Getter public boolean pidIgnored;
 
-    public CombatSpell spell;
+    @Getter boolean invalidated = false;
+    public Entity getSource() {
+        return attacker;
+    }
 
     public Hit setHitMark(HitMark hitMark) {
         this.hitMark = hitMark;
         return this;
-    }
-
-    /**
-     * The total damage this hit will deal
-     **/
-    private int damage;
-
-    /**
-     * The delay of this hit
-     **/
-    @Getter private int delay;
-
-    /**
-     * Check accuracy of the hit?
-     **/
-    private boolean checkAccuracy;
-
-    /**
-     * Was the hit accurate?
-     **/
-    private boolean accurate;
-
-    /**
-     * Cache the combat type
-     */
-    private CombatType combatType;
-
-
-    /**
-     * Damage Src Finder
-     *
-     * @return
-     */
-
-    public Entity getSource() {
-        return attacker;
     }
 
     public Hit(Entity attacker, Entity target) {
@@ -106,9 +65,6 @@ public class Hit {
         this.target = target;
     }
 
-    /**
-     * Constructs a QueueableHit with a total of {hitCountToGenerate} hits.
-     **/
     public Hit(Entity attacker, Entity target, CombatMethod method, boolean checkAccuracy, int delay, int damage, HitMark hitMark) {
         this.attacker = attacker;
         this.target = target;
@@ -128,17 +84,11 @@ public class Hit {
         this.hitMark = damage > 0 ? HitMark.DEFAULT : HitMark.MISSED;
     }
 
-    public Hit(Entity attacker, Entity target, int delay, boolean checkAccuracy, CombatType combatType, CombatMethod method) {
+    public Hit(Entity attacker, Entity target, int delay, CombatMethod method) {
         this.attacker = attacker;
         this.target = target;
         this.delay = delay;
-        this.checkAccuracy = checkAccuracy;
-        this.combatType = combatType;
-        if (this.combatType == null && method instanceof CommonCombatMethod commonCombatMethod) this.combatType = commonCombatMethod.styleOf();
-    }
-
-    public Hit builder(Entity attacker, Entity target, int damage, int delay) {
-        return builder(attacker, target, damage, delay, this.combatType);
+        if (method instanceof CommonCombatMethod commonCombatMethod) this.combatType = commonCombatMethod.styleOf();
     }
 
     public static Hit builder(Entity attacker, Entity target, int damage, int delay, CombatType type) {
@@ -161,8 +111,6 @@ public class Hit {
         return this.target;
     }
 
-    @Getter public boolean pidIgnored;
-
     public int decrementAndGetDelay() {
         if (attacker != null && attacker instanceof NPC) {
             return delay--;
@@ -183,13 +131,10 @@ public class Hit {
         return accurate;
     }
 
-    public void setDamage(int damage) {
+    public Hit setDamage(int damage) {
         this.damage = damage;
+        return this;
     }
-
-    @Getter
-    @Setter
-    public boolean isMaxHit;
 
     public void damageModifier(double damageModifier) {
         this.damage += damageModifier;
@@ -203,8 +148,6 @@ public class Hit {
     public boolean isLocked() {
         return target.locked() && !target.isDamageOkLocked() && !target.isDelayDamageLocked() && !target.isMoveLockedDamageOk();
     }
-
-    @Getter boolean invalidated = false;
 
     public void invalidate() {
         this.accurate = false;
@@ -227,7 +170,7 @@ public class Hit {
         return maxHit;
     }
 
-    public Hit rollAccuracyAndDamage() {
+    public Hit roll() {
         if (attacker == null || target == null || hitMark == HitMark.HEALED) return null;
         MagicAccuracy magicAccuracy = new MagicAccuracy(attacker, target, combatType);
         RangeAccuracy rangeAccuracy = new RangeAccuracy(attacker, target, combatType);
@@ -237,12 +180,9 @@ public class Hit {
                 logger.warn("Missing combat information for {} {} {}", npc, npc.getMobName(), npc.id());
                 return null;
             }
-            if (npc.isCombatDummy()) {
-                checkAccuracy = false;
-                accurate = true;
-            }
+            if (npc.isCombatDummy()) checkAccuracy = false;
         }
-        if (checkAccuracy && combatType != null && !(target.isNpc() && target.npc().getCombatInfo() == null) && !(attacker.isNpc() && attacker.npc().getCombatInfo() == null)) {
+        if (this.checkAccuracy && this.combatType != null && !(target.isNpc() && target.npc().getCombatInfo() == null) && !(attacker.isNpc() && attacker.npc().getCombatInfo() == null)) {
             var chance = Utils.THREAD_LOCAL_RANDOM.get().nextDouble();
             switch (combatType) {
                 case MAGIC -> accurate = magicAccuracy.successful(chance);
@@ -254,18 +194,14 @@ public class Hit {
         final boolean alwaysHitActive = alwaysHitDamage > 0;
         final boolean oneHitActive = attacker.getAttribOr(AttributeKey.ONE_HIT_MOB, false);
         if (alwaysHitActive || oneHitActive) accurate = true;
-        if (!checkAccuracy) accurate = true;
-        if (!accurate) this.damage = 0;
+        if (!checkAccuracy) this.accurate = true;
+        if (!this.accurate) this.damage = 0;
         else this.damage = CombatFactory.calcDamageFromType(attacker, target, combatType);
         if (oneHitActive) this.damage = target.hp();
         if (alwaysHitActive) this.damage = alwaysHitDamage;
-        if (this.damage == 0) this.hitMark = HitMark.MISSED;
+        if (!this.accurate && this.damage == 0) this.hitMark = HitMark.MISSED;
         else this.hitMark = HitMark.DEFAULT;
         return this;
-    }
-
-    public CombatType getCombatType() {
-        return combatType;
     }
 
     public Hit submit() {
@@ -287,59 +223,29 @@ public class Hit {
         return this;
     }
 
-    @Override
-    public String toString() {
-        return "PendingHit{" +
-            "attacker=" + attacker +
-            ", target=" + target +
-            ", dmg=" + damage +
-            ", delay=" + delay +
-            ", checkAccuracy=" + checkAccuracy +
-            ", accurate=" + accurate +
-            ", combatType=" + combatType +
-            '}';
-    }
-
     public Hit setIsReflected() {
-        reflected = true;
+        this.reflected = true;
         return this;
     }
 
-    public Hit checkAccuracy() {
-        checkAccuracy = true;
-        return this;
-    }
-
-    public Hit spell(CombatSpell spell) {
-        this.spell = spell;
-        return this;
-    }
-
-    public Hit graphic(Graphic graphic) {
-        this.target.graphic(graphic.id(), graphic.getHeight(), graphic.delay());
-        return this;
+    public Hit checkAccuracy(boolean checkAccuracy) {
+        this.checkAccuracy = checkAccuracy;
+        return this.roll();
     }
 
     /**
      * called after a hit has been executed and appears visually. will be finalized and damage cannot change.
      */
     public Consumer<Hit> postDamage;
-    public Consumer<Hit> conditions;
 
     public Hit postDamage(Consumer<Hit> postDamage) {
         this.postDamage = postDamage;
         return this;
     }
 
-    public Hit conditions(Consumer<Hit> mutatedHit) {
-        this.conditions = mutatedHit;
-        return this;
-    }
-
     public void playerSync() {
         if (target == null) return;
-        if (target.nextHits.size() >= 4)
-            return;
+        if (target.nextHits.size() >= 4) return;
         target.nextHits.add(this);
         target.getUpdateFlag().flag(Flag.FIRST_SPLAT);
     }
@@ -360,11 +266,21 @@ public class Hit {
         return this;
     }
 
-    @Getter
-    private HitMark hitMark;
-
     public int getMark(Entity source, Entity target, Player observer) {
         return hitMark.getObservedType(this, source, target, observer, isMaxHit);
+    }
+
+    @Override
+    public String toString() {
+        return "PendingHit{" +
+            "attacker=" + attacker +
+            ", target=" + target +
+            ", dmg=" + damage +
+            ", delay=" + delay +
+            ", checkAccuracy=" + checkAccuracy +
+            ", accurate=" + accurate +
+            ", combatType=" + combatType +
+            '}';
     }
 }
 

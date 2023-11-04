@@ -18,7 +18,7 @@ public class Arachne extends CommonCombatMethod {
         Projectile projectile = new Projectile(entity, target, 1379, 20,12 * tileDist, 10, 10, 0);
         projectile.sendProjectile();
         var delay = Math.max(1, (20 + (tileDist * 12)) / 30);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
     }
 
     private void magicAttack() {
@@ -28,12 +28,12 @@ public class Arachne extends CommonCombatMethod {
         Projectile projectile = new Projectile(entity, target, 1380, 20,12 * tileDist, 10, 10, 0);
         projectile.sendProjectile();
         var delay = Math.max(1, (20 + (tileDist * 12)) / 30);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
     }
 
     private void meleeAttack() {
         entity.animate(entity.attackAnimation());
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     private void webAttack() {

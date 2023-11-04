@@ -32,7 +32,7 @@ public class Scorpia extends CommonCombatMethod {
                 target.poison(20);
             }
 
-            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
+            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy(true).submit();
             entity.animate(entity.attackAnimation());
         }
         return true;

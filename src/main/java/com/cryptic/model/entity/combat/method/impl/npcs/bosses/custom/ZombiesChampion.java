@@ -44,7 +44,7 @@ public class ZombiesChampion extends CommonCombatMethod {
             if(p != null && target.tile().inSqRadius(p.tile(),12)) {
                 var delay = entity.getProjectileHitDelay(target);
                 new Projectile(npc, p, 298, 32, entity.projectileSpeed(target), 30, 30, 0).sendProjectile();
-                p.hit(npc, CombatFactory.calcDamageFromType(npc, p, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+                p.hit(npc, CombatFactory.calcDamageFromType(npc, p, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
             }
         });
 
@@ -57,7 +57,7 @@ public class ZombiesChampion extends CommonCombatMethod {
             if(p != null && target.tile().inSqRadius(p.tile(),12)) {
                 new Projectile(npc, p, 448, 32, entity.projectileSpeed(target), 30, 30, 0).sendProjectile();
                 var delay = entity.getProjectileHitDelay(target);
-                p.hit(npc, CombatFactory.calcDamageFromType(npc, p, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+                p.hit(npc, CombatFactory.calcDamageFromType(npc, p, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
             }
         });
 

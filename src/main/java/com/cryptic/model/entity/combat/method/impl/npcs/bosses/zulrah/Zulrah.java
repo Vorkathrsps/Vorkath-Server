@@ -258,7 +258,7 @@ public class Zulrah {
         var tile = npc.tile().translateAndCenterNpcPosition(npc, target);
         Projectile p = new Projectile(tile, target, 1046, 40, duration, 92, 12, 0, 5, 5);
         final int delay = npc.executeProjectile(p);
-        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
         target.venom(npc);
     }
 
@@ -271,7 +271,7 @@ public class Zulrah {
         Projectile p = new Projectile(tile, target, 1044, 41, duration, 65, 31, 0, target.getSize(), 5);
         final int delay = npc.executeProjectile(p);
         int max = npc.getCombatInfo().maxhit;
-        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
         target.venom(npc);
     }
 
@@ -292,7 +292,7 @@ public class Zulrah {
         }).then(4, () -> {
             if (p1.area(1).contains(target) && !isMeleeSafespot(npc, target.tile())) {
                 target.stun(4);
-                target.hit(npc, Utils.random(41), 0, CombatType.MELEE).checkAccuracy().submit();
+                target.hit(npc, Utils.random(41), 0, CombatType.MELEE).checkAccuracy(true).submit();
             }
         }).then(2, () -> {
             npc.setEntityInteraction(target);

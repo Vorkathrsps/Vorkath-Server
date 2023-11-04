@@ -501,7 +501,7 @@ public class Nightmare extends CommonCombatMethod { //TODO increase max hit base
 
             int delay = nightmare.executeProjectile(p);
 
-            Hit hit = Hit.builder(nightmare, t, CombatFactory.calcDamageFromType(nightmare, t, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+            Hit hit = Hit.builder(nightmare, t, CombatFactory.calcDamageFromType(nightmare, t, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
 
             if (Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MAGIC)) {
                 var damage = hit.getDamage();

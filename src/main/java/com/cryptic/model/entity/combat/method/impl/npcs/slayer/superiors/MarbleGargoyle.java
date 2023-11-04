@@ -30,10 +30,10 @@ public class MarbleGargoyle extends CommonCombatMethod {
         } else if (Utils.random(1) == 0 || !withinDistance(1)) {
             entity.animate(7814);
             new Projectile(entity, target, 276, 35, 70, 50, 30, 0, 10,5).sendProjectile();
-            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), 2, CombatType.RANGED).checkAccuracy().submit();
+            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), 2, CombatType.RANGED).checkAccuracy(true).submit();
         } else {
             entity.animate(7814);
-            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
+            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true).submit();
         }
         return true;
     }

@@ -31,7 +31,7 @@ public class AncientGodsword extends CommonCombatMethod {
 
         player.graphic(1996);
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy(true);
 
         hit.submit();
 

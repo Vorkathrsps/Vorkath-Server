@@ -89,7 +89,7 @@ public class CorruptedNechryarch extends CommonCombatMethod {
         entity.animate(4672);
         World.getWorld().getPlayers().forEach(p -> {
             if (p != null && p.tile().isWithinDistance(entity.tile(), 2)) {
-                p.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
+                p.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy(true).submit();
             }
         });
     }
@@ -101,7 +101,7 @@ public class CorruptedNechryarch extends CommonCombatMethod {
                 var tileDist = entity.tile().transform(3, 3, 0).distance(p.tile());
                 var delay = Math.max(1, (20 + (tileDist * 12)) / 30);
                 new Projectile(entity, target, 5000, 30, 12 * tileDist, 120, 43, 0, 16, 64).sendProjectile();
-                p.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+                p.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
                 if (World.getWorld().rollDie(10)) {
                     Chain.bound(null).runFn(delay + 2, () -> {
                         //after hit effects

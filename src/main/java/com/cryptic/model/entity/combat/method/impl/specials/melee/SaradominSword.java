@@ -36,9 +36,9 @@ public class SaradominSword extends CommonCombatMethod {
             magicHit = 0;
         }
 
-        Hit hit = target.hit(entity, meleeHit,1, CombatType.MELEE).checkAccuracy();
+        Hit hit = target.hit(entity, meleeHit,1, CombatType.MELEE).checkAccuracy(true);
         hit.submit();
-        Hit hit2 = target.hit(entity, magicHit,1, CombatType.MAGIC).checkAccuracy();
+        Hit hit2 = target.hit(entity, magicHit,1, CombatType.MAGIC).checkAccuracy(true);
         hit2.submit();
         CombatSpecial.drain(entity, CombatSpecial.SARADOMIN_SWORD.getDrainAmount());
 return true;

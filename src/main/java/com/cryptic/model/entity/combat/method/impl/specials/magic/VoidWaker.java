@@ -39,7 +39,7 @@ public class VoidWaker extends CommonCombatMethod {
         Hit hit = target.hit(entity, finalDamage, 0, combatType).setAccurate(true);
 
         if (target instanceof NPC npc && npc.id() == NpcIdentifiers.CORPOREAL_BEAST) {
-            hit = target.hit(entity, finalDamage, 0, CombatType.MAGIC).checkAccuracy();
+            hit = target.hit(entity, finalDamage, 0, CombatType.MAGIC).checkAccuracy(true);
         }
 
         if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {

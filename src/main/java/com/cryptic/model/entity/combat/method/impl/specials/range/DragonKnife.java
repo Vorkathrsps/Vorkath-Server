@@ -32,7 +32,7 @@ public class DragonKnife extends CommonCombatMethod {
         Projectile p1 = new Projectile(entity, target, projectileId, 40, duration, 40, 30, 0, target.getSize(), 5);
         final int delay = entity.executeProjectile(p1);
         for (int i = 0; i < 2; i++) {
-            Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
+            Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true);
             hit.submit();
         }
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_KNIFE.getDrainAmount());

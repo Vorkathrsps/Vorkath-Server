@@ -23,7 +23,7 @@ public class Verac extends CommonCombatMethod {
 
         entity.animate(entity.attackAnimation());
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true);
 
         if (Utils.rollPercent(25)) {
             hit.setAccurate(true);

@@ -33,7 +33,7 @@ public class SmokeDevil extends CommonCombatMethod {
         int duration = (51 + -5 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, 643, 51, duration, 43, 0, 0, target.getSize(), 10);
         final int delay = entity.executeProjectile(p);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
         target.graphic(643, GraphicHeight.LOW, p.getSpeed());
     }
 

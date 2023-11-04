@@ -32,7 +32,7 @@ public class Karils extends CommonCombatMethod {
         Projectile p = new Projectile(entity, target, 27, 41, duration, 43, 31, 6, 1, 5);
         final int delay = entity.executeProjectile(p);
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true);
 
         hit.submit();
 

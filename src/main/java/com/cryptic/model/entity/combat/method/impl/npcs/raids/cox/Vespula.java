@@ -54,7 +54,7 @@ public class Vespula extends CommonCombatMethod {
                         } else {
                             new Projectile(npc, target, 1486, 20, 12 * tileDist, 40, 43, 0).sendProjectile();
                         }
-                        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().postDamage(this::handleAfterHit).submit();
+                        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).postDamage(this::handleAfterHit).submit();
 
                         //echo projectile
                         Direction echoDir = World.getWorld().random(Direction.values());
@@ -67,7 +67,7 @@ public class Vespula extends CommonCombatMethod {
 
                         Chain.bound(null).runFn(4, () -> {
                             if (p.isAt(echoTile)) {
-                                target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().postDamage(this::handleAfterHit).submit();
+                                target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).postDamage(this::handleAfterHit).submit();
                             }
                         });
                     }
@@ -78,7 +78,7 @@ public class Vespula extends CommonCombatMethod {
 
     private void meleeAttack(NPC npc, Entity entity) {
         npc.animate(7454);
-        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
+        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     public static void onHit(NPC npc, int damage) {

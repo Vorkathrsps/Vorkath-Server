@@ -20,7 +20,7 @@ public class VestaLongsword extends CommonCombatMethod {
 
         int damage = Utils.random(minhit, maxHit);
 
-        Hit hit = target.hit(entity, isDummy ? maxHit : damage,1, CombatType.MELEE).checkAccuracy();
+        Hit hit = target.hit(entity, isDummy ? maxHit : damage,1, CombatType.MELEE).checkAccuracy(true);
 
         hit.submit();
 

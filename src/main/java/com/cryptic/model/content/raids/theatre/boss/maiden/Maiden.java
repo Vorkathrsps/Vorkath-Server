@@ -65,7 +65,7 @@ public class Maiden extends NPC {
         int duration = (80 + -5 + (8 * tileDist));
         Projectile p = new Projectile(this, player, 1577, 80, duration, 0, 0, 0, 6, 8);
         final int delay = this.executeProjectile(p);
-        Hit hit = Hit.builder(this, player, CombatFactory.calcDamageFromType(this, player, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        Hit hit = Hit.builder(this, player, CombatFactory.calcDamageFromType(this, player, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
         hit.submit();
     }
 

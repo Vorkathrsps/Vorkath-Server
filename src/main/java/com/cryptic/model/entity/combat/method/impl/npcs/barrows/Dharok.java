@@ -23,7 +23,7 @@ public class Dharok extends CommonCombatMethod {
 
         entity.animate(entity.attackAnimation());
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true);
 
         if (Utils.rollDie(4)) {
             hit.damageModifier((int) (entity.getAsNpc().maxHp() - entity.getAsNpc().hp() * 0.01));

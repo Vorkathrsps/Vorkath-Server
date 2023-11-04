@@ -51,7 +51,7 @@ public class Venenatis extends CommonCombatMethod {
 
     public void meleeAttack(@NonNull final Entity entity, @NonNull Entity target) {
         entity.animate(9991);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     public void magicAttack(@Nonnull final Entity entity, @Nonnull Entity target) {
@@ -69,7 +69,7 @@ public class Venenatis extends CommonCombatMethod {
 
         target.graphic(2359, GraphicHeight.MIDDLE, p.getSpeed());
 
-        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
         hit.submit();
     }
 
@@ -88,7 +88,7 @@ public class Venenatis extends CommonCombatMethod {
 
         target.graphic(2357, GraphicHeight.LOW, p.getSpeed());
 
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
 
     }
 

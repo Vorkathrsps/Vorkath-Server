@@ -20,7 +20,7 @@ public class AbyssalBludgeon extends CommonCombatMethod {
 
         int damage = CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE);
         damage *= 1 + (((entity.getSkills().xpLevel(Skills.PRAYER) - entity.getSkills().level(Skills.PRAYER)) * 0.5) / 100.0);
-        Hit hit = target.hit(entity, damage,1, CombatType.MELEE).checkAccuracy();
+        Hit hit = target.hit(entity, damage,1, CombatType.MELEE).checkAccuracy(true);
         hit.submit();
         target.graphic(1284, GraphicHeight.LOW, 15);
         CombatSpecial.drain(entity, CombatSpecial.ABYSSAL_BLUDGEON.getDrainAmount());

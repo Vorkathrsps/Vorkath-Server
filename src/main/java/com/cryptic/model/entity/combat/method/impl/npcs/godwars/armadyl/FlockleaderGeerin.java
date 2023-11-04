@@ -16,7 +16,7 @@ public class FlockleaderGeerin extends CommonCombatMethod {
         int duration = (43 + 11 + (5 * tileDist));
         Projectile p = new Projectile(entity, target, 1192, 29, duration, 95, 33, 0, target.getSize(), 5);
         final int delay = entity.executeProjectile(p);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
         return true;
     }
 

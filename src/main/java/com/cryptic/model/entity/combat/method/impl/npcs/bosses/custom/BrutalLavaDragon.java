@@ -139,7 +139,7 @@ public class BrutalLavaDragon extends CommonCombatMethod {
                 entity.animate(FLYING_DRAGONFIRE);
                 entity.getAsNpc().getCombatInfo().maxhit = dragon_fire ? 58 : 21;
 
-                p.hit(entity, CombatFactory.calcDamageFromType(entity, p, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+                p.hit(entity, CombatFactory.calcDamageFromType(entity, p, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
                 headbutt = false;
             }
         });

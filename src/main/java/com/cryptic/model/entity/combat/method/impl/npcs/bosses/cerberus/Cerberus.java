@@ -48,7 +48,7 @@ public class Cerberus extends CommonCombatMethod {
         var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
         Projectile p = new Projectile(tile, target, 1245, 80, duration, 70, 31, 0, target.getSize(), 15);
         final int delay = entity.executeProjectile(p);
-        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true);
         hit.submit();
         target.graphic(1244, GraphicHeight.HIGH, p.getSpeed());
     }
@@ -62,7 +62,7 @@ public class Cerberus extends CommonCombatMethod {
         var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
         Projectile p = new Projectile(tile, target, 1242, 80, duration, 70, 31, 0, target.getSize(), 15);
         final int delay = entity.executeProjectile(p);
-        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
         hit.submit();
         if (hit.getDamage() > 0) {
             target.graphic(1243, GraphicHeight.HIGH, p.getSpeed());
@@ -73,7 +73,7 @@ public class Cerberus extends CommonCombatMethod {
         if (entity.dead() || target.dead()) return; // because in combo attack, its called with a delay in which target can die.
         if (comboAttackCooldown.remaining() < 60) // combo attack anim in progress!
             entity.animate(entity.attackAnimation());
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     private void comboAttack(Entity entity, Entity target) {

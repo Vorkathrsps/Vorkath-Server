@@ -71,7 +71,7 @@ public class CorporealBeast extends CommonCombatMethod {
     public void stompAttack(NPC corp, Player player) {
         int maxHit = Utils.random(31, 51);
         corp.animate(1686);
-        player.hit(corp, maxHit, 0, CombatType.MELEE).checkAccuracy().submit();
+        player.hit(corp, maxHit, 0, CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     @Override
@@ -89,7 +89,7 @@ public class CorporealBeast extends CommonCombatMethod {
             int duration = (60 + -5 + (10 * tileDist));
             Projectile p = new Projectile(entity, target, 314, 60, duration, 43, 31, 0, target.getSize(), 10);
             final int delay = entity.executeProjectile(p);
-            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
             stat_draining_magic_attack(target);
         } else if (Utils.securedRandomChance(0.5D)) {
             entity.animate(corporeal_beast_animation);
@@ -102,7 +102,7 @@ public class CorporealBeast extends CommonCombatMethod {
             int duration = (60 + -5 + (10 * tileDist));
             Projectile p = new Projectile(entity, target, 316, 60, duration, 40, 25, 0, target.getSize(), 10);
             final int delay = entity.executeProjectile(p);
-            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
         }
         return true;
     }
@@ -171,19 +171,19 @@ public class CorporealBeast extends CommonCombatMethod {
 
         Chain.bound(null).name("initial_splash_distance_1_task").runFn(Math.max(1, initial_splash_distance), () -> {
             if (target.tile().inSqRadius(p2.getEnd(), 1) && target.tile().inArea(2974, 4371, 2998, 4395)) {
-                target.hit(entity, Utils.random(splashing_magic_attack_damage), p2.getSpeed(), CombatType.MAGIC).checkAccuracy().submit();
+                target.hit(entity, Utils.random(splashing_magic_attack_damage), p2.getSpeed(), CombatType.MAGIC).checkAccuracy(true).submit();
             }
             if (target.tile().inSqRadius(p3.getEnd(), 1) && target.tile().inArea(2974, 4371, 2998, 4395)) {
-                target.hit(entity, Utils.random(splashing_magic_attack_damage), p2.getSpeed(), CombatType.MAGIC).checkAccuracy().submit();
+                target.hit(entity, Utils.random(splashing_magic_attack_damage), p2.getSpeed(), CombatType.MAGIC).checkAccuracy(true).submit();
             }
             if (target.tile().inSqRadius(p4.getEnd(), 1) && target.tile().inArea(2974, 4371, 2998, 4395)) {
-                target.hit(entity, Utils.random(splashing_magic_attack_damage), p2.getSpeed(), CombatType.MAGIC).checkAccuracy().submit();
+                target.hit(entity, Utils.random(splashing_magic_attack_damage), p2.getSpeed(), CombatType.MAGIC).checkAccuracy(true).submit();
             }
             if (target.tile().inSqRadius(p5.getEnd(), 1) && target.tile().inArea(2974, 4371, 2998, 4395)) {
-                target.hit(entity, Utils.random(splashing_magic_attack_damage), p2.getSpeed(), CombatType.MAGIC).checkAccuracy().submit();
+                target.hit(entity, Utils.random(splashing_magic_attack_damage), p2.getSpeed(), CombatType.MAGIC).checkAccuracy(true).submit();
             }
         });
 
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
     }
 }

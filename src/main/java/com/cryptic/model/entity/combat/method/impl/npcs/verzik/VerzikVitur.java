@@ -142,7 +142,7 @@ public class VerzikVitur extends CommonCombatMethod {
                             var tile = mob.tile().translateAndCenterNpcPosition(mob, target);
                             Projectile p = new Projectile(tile, targetPos, 1594, 51, duration, 70, 20, 0, target.getSize(), 10);
                             int delay = p.send(mob, t);
-                            t.hit(mob, World.getWorld().random(1, 40), delay, CombatType.MAGIC).checkAccuracy().submit();
+                            t.hit(mob, World.getWorld().random(1, 40), delay, CombatType.MAGIC).checkAccuracy(true).submit();
                         } else {
                             var targetPos = t.tile().copy();
                             var translateTile = entity.tile().translateAndCenterNpcPosition(mob, target);
@@ -151,7 +151,7 @@ public class VerzikVitur extends CommonCombatMethod {
                             var tile = mob.tile().translateAndCenterNpcPosition(mob, target);
                             Projectile p = new Projectile(tile, targetPos, 1593, 41, duration, 43, 31, 0, target.getSize(), 10);
                             int delay = p.send(mob, t);
-                            t.hit(mob, World.getWorld().random(1, 40), delay, CombatType.RANGED).checkAccuracy().submit();
+                            t.hit(mob, World.getWorld().random(1, 40), delay, CombatType.RANGED).checkAccuracy(true).submit();
                         }
                     }
                     electricCount++;
@@ -165,7 +165,7 @@ public class VerzikVitur extends CommonCombatMethod {
                     Projectile p = new Projectile(tile, targetPos, 1586, 41, duration, 43, 31, 0, target.getSize(), 10);
                     int delay = p.send(mob.getCentrePosition(), target.getCentrePosition());
                     if (target.tile().equals(targetPos)) {
-                        Hit hit = target.hit(mob, World.getWorld().random(1, 60), delay, null).checkAccuracy();
+                        Hit hit = target.hit(mob, World.getWorld().random(1, 60), delay, null).checkAccuracy(true);
                         hit.submit();
                     }
                     Task task = new Task("VerzikViturPrepareAttackTask3", 1) {
@@ -193,7 +193,7 @@ public class VerzikVitur extends CommonCombatMethod {
                                     bomber.face(target);
                                 }).then(5, () -> {
                                     if (bomber.tile().equals(target.tile())) {
-                                        Hit hit = target.hit(bomber, World.getWorld().random(1, 60), delay, null).checkAccuracy();
+                                        Hit hit = target.hit(bomber, World.getWorld().random(1, 60), delay, null).checkAccuracy(true);
                                         hit.submit();
                                     }
                                 });
@@ -242,7 +242,7 @@ public class VerzikVitur extends CommonCombatMethod {
                     int duration = (45 + -5 + (10 * tileDist));
                     Projectile p = new Projectile(entity, t, 1594, 45, duration, 70, 20, 0, target.getSize(), 10);
                     int delay = p.send(mob, t);
-                    t.hit(mob, World.getWorld().random(1, 40), delay, CombatType.MAGIC).checkAccuracy().submit();
+                    t.hit(mob, World.getWorld().random(1, 40), delay, CombatType.MAGIC).checkAccuracy(true).submit();
                 }
             } else if (random == 2) {
                 mob.animate(8125);
@@ -255,7 +255,7 @@ public class VerzikVitur extends CommonCombatMethod {
                     int duration = (75 + -5 + (10 * tileDist));
                     Projectile p = new Projectile(entity, t, 1593, 75, duration, 43, 31, 0, target.getSize(), 10);
                     int delay = p.send(mob, t);
-                    t.hit(mob, World.getWorld().random(1, 40), delay, CombatType.RANGED).checkAccuracy().submit();
+                    t.hit(mob, World.getWorld().random(1, 40), delay, CombatType.RANGED).checkAccuracy(true).submit();
                 }
             }
         }

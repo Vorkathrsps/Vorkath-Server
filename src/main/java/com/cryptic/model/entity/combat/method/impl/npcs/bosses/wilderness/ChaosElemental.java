@@ -76,7 +76,7 @@ public class ChaosElemental extends CommonCombatMethod {
         int duration = (51 + -5 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, projectile, 51, duration, 43, 31, 0, target.getSize(), 10);
         final int delay = entity.executeProjectile(p);
-        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, combat_style), delay, combat_style).checkAccuracy().submit();
+        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, combat_style), delay, combat_style).checkAccuracy(true).submit();
         target.graphic(end_graphic, GraphicHeight.HIGH, p.getSpeed());
     }
 

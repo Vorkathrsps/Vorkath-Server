@@ -22,9 +22,9 @@ public class AbyssalDagger extends CommonCombatMethod {
         int h2 = CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE);
 
         if(h1 > 0) {
-            Hit hit = target.hit(entity, h1,1, CombatType.MELEE).checkAccuracy();
+            Hit hit = target.hit(entity, h1,1, CombatType.MELEE).checkAccuracy(true);
             hit.submit();
-            Hit hit2 = target.hit(entity, h2,target.isNpc() ? 1 : 1, CombatType.MELEE).checkAccuracy();
+            Hit hit2 = target.hit(entity, h2,target.isNpc() ? 1 : 1, CombatType.MELEE).checkAccuracy(true);
             hit2.submit();
         } else {
             //Blocked

@@ -62,7 +62,7 @@ public class LizardShaman extends CommonCombatMethod {
     }
 
     private void primary_melee_attack(NPC npc, Entity target) {
-        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true).submit();
         npc.animate(npc.attackAnimation());
         npc.getTimers().register(TimerKey.COMBAT_ATTACK, npc.getCombatInfo().attackspeed);
     }
@@ -73,7 +73,7 @@ public class LizardShaman extends CommonCombatMethod {
         npc.animate(7193);
         Projectile p1 = new Projectile(entity, target, 1291, 41, duration, 80, 36, 0, target.getSize(), 5);
         final int delay = entity.executeProjectile(p1);
-        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true);
         hit.submit();
         npc.getTimers().register(TimerKey.COMBAT_ATTACK, npc.getCombatInfo().attackspeed);
     }
@@ -105,7 +105,7 @@ public class LizardShaman extends CommonCombatMethod {
         npc.animate(7193);
         Projectile p1 = new Projectile(entity, target, 1293, 51, duration, 43, 0, 0, target.getSize(), 10);
         final int delay1 = entity.executeProjectile(p1);
-        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay1, CombatType.MAGIC).checkAccuracy();
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay1, CombatType.MAGIC).checkAccuracy(true);
         hit.submit();
 
         Chain.bound(entity).runFn(4, () -> {

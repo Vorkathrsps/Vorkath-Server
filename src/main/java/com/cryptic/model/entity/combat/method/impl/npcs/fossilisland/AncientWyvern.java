@@ -39,17 +39,17 @@ public class AncientWyvern extends CommonCombatMethod {
         //Projectile p = new Projectile(wyvern, entity, 162, 51, duration, 43, 31, 0, target.getSize(), 10);
         int delay = wyvern.executeProjectile(project);
         target.performGraphic(new Graphic(137, GraphicHeight.HIGH, p.getSpeed()));
-        target.hit(wyvern, Utils.random(25), delay, CombatType.MAGIC).checkAccuracy().submit();
+        target.hit(wyvern, Utils.random(25), delay, CombatType.MAGIC).checkAccuracy(true).submit();
     }
 
     private void doTailWhip(Entity wyvern, Entity entity) {
         wyvern.animate(wyvern.attackAnimation());
-        target.hit(wyvern, Utils.random(wyvern.getAsNpc().getCombatInfo().maxhit), 1, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(wyvern, Utils.random(wyvern.getAsNpc().getCombatInfo().maxhit), 1, CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     private void doMelee(Entity wyvern, Entity entity) {
         wyvern.animate(7658);
-        target.hit(wyvern, Utils.random(wyvern.getAsNpc().getCombatInfo().maxhit), 1, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(wyvern, Utils.random(wyvern.getAsNpc().getCombatInfo().maxhit), 1, CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     @Override

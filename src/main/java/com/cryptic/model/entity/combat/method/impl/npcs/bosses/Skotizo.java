@@ -61,7 +61,7 @@ public class Skotizo extends CommonCombatMethod {
         World.getWorld().getPlayers().forEach(player -> {
             if (tile.inSqRadius(player.tile(), 2)) {
                 //Wild boss, should deal damage regardless of prayer and don't check attack accuracy makes it harder!
-                target.hit(npc, CombatFactory.calcDamageFromType(npc, player, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
+                target.hit(npc, CombatFactory.calcDamageFromType(npc, player, CombatType.MELEE), CombatType.MELEE).checkAccuracy(true).submit();
             }
         });
 
@@ -81,9 +81,9 @@ public class Skotizo extends CommonCombatMethod {
                 int duration = (51 + -5 + (10 * tileDist));
                 Projectile p = new Projectile(entity, target, 165, 51, duration, 80, 30, 0, target.getSize(), 10);
                 final int delay = entity.executeProjectile(p);
-                Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+                Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
                 hit.submit();
-                target.hit(npc, CombatFactory.calcDamageFromType(npc, player, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+                target.hit(npc, CombatFactory.calcDamageFromType(npc, player, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
                 player.graphic(166, GraphicHeight.HIGH, p.getSpeed());
             }
         });
@@ -104,7 +104,7 @@ public class Skotizo extends CommonCombatMethod {
                 int duration = (41 + 11 + (5 * tileDist));
                 Projectile p = new Projectile(npc, player, 1242, 41, duration, 43, 31, 0, player.getSize(), 5);
                 final int delay = npc.executeProjectile(p);
-                target.hit(npc, CombatFactory.calcDamageFromType(npc, player, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+                target.hit(npc, CombatFactory.calcDamageFromType(npc, player, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
                 player.graphic(1243, GraphicHeight.HIGH, p.getSpeed());
             }
         });

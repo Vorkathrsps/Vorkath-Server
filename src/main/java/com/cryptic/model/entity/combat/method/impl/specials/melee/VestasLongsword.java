@@ -13,7 +13,7 @@ public class VestasLongsword extends CommonCombatMethod {
         final Player player = (Player) entity;
         int animation = 7515;
         player.animate(animation);
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy(true);
         hit.submit();
         return true;
     }

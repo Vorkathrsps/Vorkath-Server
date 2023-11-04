@@ -58,7 +58,7 @@ public class Revenant extends CommonCombatMethod {
     }
 
     private void meleeAttack(NPC npc, Entity target) {
-        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy(true).submit();
         npc.animate(npc.attackAnimation());
     }
 
@@ -68,7 +68,7 @@ public class Revenant extends CommonCombatMethod {
         Projectile p = new Projectile(entity, target, 206, 41, duration, 43, 31, 16, target.getSize(), 5);
         final int delay = entity.executeProjectile(p);
         npc.animate(npc.attackAnimation());
-        Hit hit = target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
+        Hit hit = target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true);
         hit.submit();
     }
 
@@ -79,7 +79,7 @@ public class Revenant extends CommonCombatMethod {
         Projectile p = new Projectile(npc, target, 1415, 51, duration, 43, 31, 16, target.getSize(), 10);
         final int delay = npc.executeProjectile(p);
         int damage = CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC);
-        target.hit(npc, damage, delay, CombatType.MAGIC).checkAccuracy().submit();
+        target.hit(npc, damage, delay, CombatType.MAGIC).checkAccuracy(true).submit();
         target.performGraphic(damage > 0 ? new Graphic(1454, GraphicHeight.HIGH, p.getSpeed()) : new Graphic(85, GraphicHeight.HIGH, p.getSpeed()));
         npc.freeze(8, target);
     }

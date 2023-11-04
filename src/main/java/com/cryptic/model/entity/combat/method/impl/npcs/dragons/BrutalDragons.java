@@ -91,7 +91,7 @@ public class BrutalDragons extends CommonCombatMethod {
 
     private void basicAttack(Entity entity, Entity target) {
         fire = false;
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true).submit();
         entity.animate(entity.attackAnimation());
     }
 

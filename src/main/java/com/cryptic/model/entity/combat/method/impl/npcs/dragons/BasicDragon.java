@@ -51,7 +51,7 @@ public class BasicDragon extends CommonCombatMethod {
         entity.animate(entity.attackAnimation());
 
         fire = false;
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     private void breathFire(Entity entity, Entity target) {

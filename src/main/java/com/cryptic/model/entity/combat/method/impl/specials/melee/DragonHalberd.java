@@ -20,12 +20,12 @@ public class DragonHalberd extends CommonCombatMethod {
         int h2 = CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE);
 
         if(target.getSize() == 1) {
-            Hit hit = target.hit(entity, h1,1, CombatType.MELEE).checkAccuracy();
+            Hit hit = target.hit(entity, h1,1, CombatType.MELEE).checkAccuracy(true);
             hit.submit();
         } else {
-            Hit hit = target.hit(entity, h1,1, CombatType.MELEE).checkAccuracy();
+            Hit hit = target.hit(entity, h1,1, CombatType.MELEE).checkAccuracy(true);
             hit.submit();
-            Hit hit2 = target.hit(entity, h2,1, CombatType.MELEE).checkAccuracy();
+            Hit hit2 = target.hit(entity, h2,1, CombatType.MELEE).checkAccuracy(true);
             hit2.submit();
         }
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_HALBERD.getDrainAmount());

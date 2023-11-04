@@ -26,7 +26,7 @@ import java.util.List;
 public class Nechryael extends CommonCombatMethod {
 
     private void basicAttack(Entity entity, Entity target) {
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true).submit();
         entity.animate(entity.attackAnimation());
     }
 

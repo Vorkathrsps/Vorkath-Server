@@ -131,7 +131,7 @@ public class Vorkath extends CommonCombatMethod {
         var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
         Projectile p = new Projectile(tile, target, 1477, 41, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 16, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);
-        target.hit(entity, Utils.random(32), delay, CombatType.RANGED).checkAccuracy().submit();
+        target.hit(entity, Utils.random(32), delay, CombatType.RANGED).checkAccuracy(true).submit();
         target.graphic(1478, GraphicHeight.MIDDLE, p.getSpeed());
         Chain.bound(null).runFn(1, () -> entity.setEntityInteraction(target));
     }
@@ -143,14 +143,14 @@ public class Vorkath extends CommonCombatMethod {
         var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
         Projectile p = new Projectile(tile, target, 1479, 51, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 16, entity.getSize(), 10);
         final int delay = entity.executeProjectile(p);
-        target.hit(entity, Utils.random(30), delay, CombatType.MAGIC).checkAccuracy().submit();
+        target.hit(entity, Utils.random(30), delay, CombatType.MAGIC).checkAccuracy(true).submit();
         target.graphic(1480, GraphicHeight.MIDDLE, p.getSpeed());
         Chain.bound(null).runFn(1, () -> entity.setEntityInteraction(target));
     }
 
     private void melee() {
         entity.animate(MELEE_ATTACK_ANIMATION_2);
-        target.hit(entity, Utils.random(32), CombatType.MELEE).checkAccuracy().submit();
+        target.hit(entity, Utils.random(32), CombatType.MELEE).checkAccuracy(true).submit();
         Chain.bound(null).runFn(1, () -> entity.setEntityInteraction(target));
     }
 
@@ -173,7 +173,7 @@ public class Vorkath extends CommonCombatMethod {
                 target.graphic(1472, GraphicHeight.MIDDLE, p.getSpeed());
                 if (Utils.random(4) <= 3)
                     target.venom(entity);
-                Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+                Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
                 fireDamage(hit);
             }
             case 1 -> {
@@ -184,7 +184,7 @@ public class Vorkath extends CommonCombatMethod {
                 Projectile p = new Projectile(tile, target, 1471, BREATH_DELAY, duration, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 16, entity.getSize(), 10);
                 final int delay = entity.executeProjectile(p);
                 target.graphic(1473, GraphicHeight.MIDDLE, p.getSpeed());
-                Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+                Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
                 fireDamage(hit);
                 if (target.isPlayer()) {
                     for (int i = 0; i < target.getAsPlayer().getPrayerActive().length; i++) {
@@ -201,7 +201,7 @@ public class Vorkath extends CommonCombatMethod {
                 final int delay = entity.executeProjectile(p);
                 target.graphic(157, GraphicHeight.MIDDLE, p.getSpeed());
                 entity.animate(ATTACK_ANIMATION);
-                Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+                Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
                 fireDamage(hit);
             }
         }

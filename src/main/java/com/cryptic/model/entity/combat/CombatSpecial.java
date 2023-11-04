@@ -90,7 +90,7 @@ public enum CombatSpecial {
     URSINE_CHAINMACE(new int[]{ItemIdentifiers.URSINE_CHAINMACE}, 50, 1.0, 2.0, new UrsineMace(), WeaponType.MACE),
     DRAGON_WARHAMMER(new int[]{ItemIdentifiers.DRAGON_WARHAMMER, ItemIdentifiers.DRAGON_WARHAMMER_20785}, 50, 1.50D, 1.50F, new DragonWarhammer(), WeaponType.HAMMER),
     STATIUS_WARHAMMER(new int[]{ItemIdentifiers.STATIUSS_WARHAMMER, ItemIdentifiers.STATIUSS_WARHAMMER_23620}, 35, 1.25D, 1.50F, new StatiusWarhammer(), WeaponType.HAMMER),
-    DRAGON_CLAWS(new int[]{ItemIdentifiers.DRAGON_CLAWS}, 50, 1.00, 3.00, new DragonClaws(), WeaponType.CLAWS),
+    DRAGON_CLAWS(new int[]{ItemIdentifiers.DRAGON_CLAWS}, 50, 1.00, 1.00, new DragonClaws(), WeaponType.CLAWS),
     DRAGON_HALBERD(new int[]{ItemIdentifiers.DRAGON_HALBERD}, 30, 1.10, 1.35, new DragonHalberd(), WeaponType.HALBERD),
     CRYSTAL_HALBERD(new int[]{13080, 13081, 13082, 13083, 13084, 13085, 13086, 13087, 13088, 13089, 13090, 13091, 13092, 13093, 13094, 13095, 13096, 13097, 13098, 13099, 13100, 13101}, 30, 1.10, 1.35, new CrystalHalberd(), WeaponType.HALBERD),
     ABYSSAL_BLUDGEON(new int[]{ItemIdentifiers.ABYSSAL_BLUDGEON}, 50, 1.0, 1.0, new AbyssalBludgeon(), WeaponType.HAMMER),

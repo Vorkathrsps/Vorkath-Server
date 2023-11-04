@@ -23,7 +23,7 @@ public class ArmadylGodsword extends CommonCombatMethod {
         player.graphic(gfx_gold ? 1747 : 1211);
         //TODO it.player().world().spawnSound(it.player().tile(), 3869, 0, 10)
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy(true);
         hit.submit();
         CombatSpecial.drain(entity, CombatSpecial.ARMADYL_GODSWORD.getDrainAmount());
         return true;

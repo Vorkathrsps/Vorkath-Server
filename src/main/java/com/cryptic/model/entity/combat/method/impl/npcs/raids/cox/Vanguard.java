@@ -36,7 +36,7 @@ public class Vanguard extends CommonCombatMethod {
 
     private void meleeAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     private void rangeAttack(Entity entity, Entity target) {
@@ -45,7 +45,7 @@ public class Vanguard extends CommonCombatMethod {
         var delay = Math.max(1, (50 + (tileDist * 12)) / 30);
         //First attack always targets the player
         new Projectile(entity, target, 1332, 20, 12 * tileDist, 35, 30, 0).sendProjectile();
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
        // target.delayedGraphics(305, GraphicHeight.HIGH, delay);
 
         //Handle the second projectile
@@ -55,7 +55,7 @@ public class Vanguard extends CommonCombatMethod {
         Chain.bound(null).runFn(7, () -> {
             World.getWorld().tileGraphic(305, proj_two, 5, 0);
             if (target.tile().equals(proj_two)) {
-                target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), 0, CombatType.RANGED).checkAccuracy().submit();
+                target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), 0, CombatType.RANGED).checkAccuracy(true).submit();
             }
         });
     }
@@ -66,7 +66,7 @@ public class Vanguard extends CommonCombatMethod {
         var delay = Math.max(1, (50 + (tileDist * 12)) / 30);
         //First attack always targets the player
         new Projectile(entity, target, 1331, 20, 12 * tileDist, 35, 30, 0).sendProjectile();
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
       //  target.delayedGraphics(659, GraphicHeight.HIGH, delay);
 
         //Handle the second projectile
@@ -76,7 +76,7 @@ public class Vanguard extends CommonCombatMethod {
         Chain.bound(null).runFn(7, () -> {
             World.getWorld().tileGraphic(659, proj_two, 5, 0);
             if (target.tile().equals(proj_two)) {
-                target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 0, CombatType.MAGIC).checkAccuracy().submit();
+                target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 0, CombatType.MAGIC).checkAccuracy(true).submit();
             }
         });
     }

@@ -52,7 +52,7 @@ public class Sotetseg extends NPC {
         int duration = (23 + 64 + (2 * tileDist));
         Projectile p = new Projectile(this, player, randomProjectile, 23, duration, 26, 31, 16, 5, 64, 2);
         final int delay = this.executeProjectile(p);
-        Hit hit = Hit.builder(this, player, CombatFactory.calcDamageFromType(this, player, randomProjectile == 1606 ? CombatType.MAGIC : CombatType.RANGED), delay, randomProjectile == 1606 ? CombatType.MAGIC : CombatType.RANGED).checkAccuracy().postDamage(d -> {
+        Hit hit = Hit.builder(this, player, CombatFactory.calcDamageFromType(this, player, randomProjectile == 1606 ? CombatType.MAGIC : CombatType.RANGED), delay, randomProjectile == 1606 ? CombatType.MAGIC : CombatType.RANGED).checkAccuracy(true).postDamage(d -> {
             if (randomProjectile == 1606) {
                 magicAttackCount++;
             }

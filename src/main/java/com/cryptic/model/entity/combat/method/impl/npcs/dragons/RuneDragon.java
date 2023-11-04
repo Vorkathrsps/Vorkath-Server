@@ -82,7 +82,7 @@ public class RuneDragon extends CommonCombatMethod {
 
     private void doMelee(NPC npc, Entity target) {
         npc.animate(npc.attackAnimation());
-        target.hit(npc, Utils.random(npc.getCombatInfo().maxhit), CombatType.MELEE).checkAccuracy().submit();
+        target.hit(npc, Utils.random(npc.getCombatInfo().maxhit), CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     private void doRangedAttack(NPC npc, Entity target) {
@@ -96,7 +96,7 @@ public class RuneDragon extends CommonCombatMethod {
             target.hit(npc, damage, delay, CombatType.RANGED).submit();
             npc.heal(damage, npc.maxHp());
         } else {
-            target.hit(npc, damage, delay, CombatType.RANGED).checkAccuracy().submit();
+            target.hit(npc, damage, delay, CombatType.RANGED).checkAccuracy(true).submit();
         }
     }
 
@@ -106,7 +106,7 @@ public class RuneDragon extends CommonCombatMethod {
         int duration = (51 + -5 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, 162, 51, duration, 43, 31, 16, target.getSize(), 10);
         final int delay = entity.executeProjectile(p);
-        target.hit(npc, Utils.random(npc.getCombatInfo().maxhit), delay, CombatType.MAGIC).checkAccuracy().submit();
+        target.hit(npc, Utils.random(npc.getCombatInfo().maxhit), delay, CombatType.MAGIC).checkAccuracy(true).submit();
     }
 
     private void doDragonBreath(NPC npc, Entity target) {

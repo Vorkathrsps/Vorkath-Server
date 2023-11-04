@@ -31,7 +31,7 @@ public class AbyssalDemon extends CommonCombatMethod {
 
     private void basicAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     @Override

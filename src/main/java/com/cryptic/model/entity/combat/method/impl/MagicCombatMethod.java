@@ -1,7 +1,6 @@
 package com.cryptic.model.entity.combat.method.impl;
 
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.magic.CombatSpell;
@@ -130,7 +129,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
 
         final int delay = player.executeProjectile(p);
 
-        Hit hit = new Hit(player, target, delay, true, CombatType.MAGIC, this).rollAccuracyAndDamage().submit();
+        Hit hit = new Hit(player, target, delay, this).checkAccuracy(true).submit();
         if (hit.isAccurate()) {
             target.performGraphic(new Graphic(endGraphic, endGraphicHeight, p.getSpeed()));
             if (spell instanceof CombatEffectSpell combatEffectSpell) {

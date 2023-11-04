@@ -43,7 +43,7 @@ public class GraniteMaul extends CommonCombatMethod {
             delay = renderIndexOf > renderIndexOf2 ? 1 : 0;
         }
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), delay, CombatType.MELEE).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), delay, CombatType.MELEE).checkAccuracy(true);
 
         if (hit.getDamage() > 49) {
             hit.setDamage(entity.getAsPlayer().getEquipment().hasAt(EquipSlot.WEAPON, GRANITE_MAUL_12848) ? 50 : 49);

@@ -220,7 +220,7 @@ public class NexCombat extends CommonCombatMethod {
     }
 
     private void basicAttack(Entity entity, Entity target) {
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true).submit();
         entity.animate(entity.attackAnimation());
     }
 
@@ -230,11 +230,11 @@ public class NexCombat extends CommonCombatMethod {
         if (nex.turmoil) damage *= 1.50;
 
         if (World.getWorld().rollDie(10, 2) && nex.turmoil) {
-            target.hit(nex, World.getWorld().random(1, 8), 1, CombatType.MELEE).checkAccuracy().submit();
+            target.hit(nex, World.getWorld().random(1, 8), 1, CombatType.MELEE).checkAccuracy(true).submit();
             return;
         }
 
-        target.hit(nex, World.getWorld().random(damage), 1, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(nex, World.getWorld().random(damage), 1, CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     private void magic() {
@@ -248,7 +248,7 @@ public class NexCombat extends CommonCombatMethod {
             int duration = (51 + -5 + (10 * tileDist));
             Projectile p = new Projectile(nex, target, 2007, 51, duration, 43, 31, 0, target.getSize(), 10);
             final int delay = entity.executeProjectile(p);
-            Hit hit = t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), delay, CombatType.MAGIC).checkAccuracy().postDamage(h -> {
+            Hit hit = t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), delay, CombatType.MAGIC).checkAccuracy(true).postDamage(h -> {
                 if (h.isAccurate()) {
                     h.getTarget().graphic(2008, GraphicHeight.MIDDLE, p.getSpeed());
                     h.getTarget().skills().alterSkill(Skills.PRAYER, -5);
@@ -355,7 +355,7 @@ public class NexCombat extends CommonCombatMethod {
             if (!inNexArea(t.tile())) {
                 continue;
             }
-            t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), delay, CombatType.MAGIC).checkAccuracy().postDamage(h -> {
+            t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), delay, CombatType.MAGIC).checkAccuracy(true).postDamage(h -> {
                 if (h.isAccurate()) {
                     int heal = h.getDamage() / 4;
                     if (heal <= 0) {
@@ -478,7 +478,7 @@ public class NexCombat extends CommonCombatMethod {
             if (Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MISSILES)) {
                 damage = damage / 2;
             }
-            t.hit(nex, World.getWorld().random(damage), delay, CombatType.RANGED).ignorePrayer().checkAccuracy().postDamage(h -> {
+            t.hit(nex, World.getWorld().random(damage), delay, CombatType.RANGED).ignorePrayer().checkAccuracy(true).postDamage(h -> {
                 // Successful hits can drain prayer points slightly, which can be reduced by the spectral spirit shield.
                 if (h.isAccurate()) {
                     t.skills().alterSkill(Skills.PRAYER, t.player().getEquipment().hasAt(EquipSlot.SHIELD, SPECTRAL_SPIRIT_SHIELD) ? -2 : -3);
@@ -647,7 +647,7 @@ public class NexCombat extends CommonCombatMethod {
             }
             Projectile p = new Projectile(nex, t, 384, 51, duration, 43, 35, 0, t.getSize(), 10);
             final int delay = nex.executeProjectile(p);
-            t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), delay, CombatType.MAGIC).checkAccuracy().postDamage(h -> {
+            t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), delay, CombatType.MAGIC).checkAccuracy(true).postDamage(h -> {
                 if (h.isAccurate()) {
                     if (World.getWorld().rollDie(100, 25)) {
                         h.getTarget().hit(nex, 2, HitMark.POISON);
@@ -671,7 +671,7 @@ public class NexCombat extends CommonCombatMethod {
             }
             Projectile p = new Projectile(nex, t, 362, 51, duration, 43, 31, 0, t.getSize(), 10);
             final int delay = entity.executeProjectile(p);
-            t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), delay, CombatType.MAGIC).checkAccuracy().postDamage(h -> {
+            t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), delay, CombatType.MAGIC).checkAccuracy(true).postDamage(h -> {
                 if (h.isAccurate() && !Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MAGIC)) {
                     h.getTarget().graphic(2005, GraphicHeight.MIDDLE, p.getSpeed());
                     h.getTarget().freeze(33, nex);

@@ -100,7 +100,7 @@ public class CorruptedHunleffCombatStrategy extends CommonCombatMethod {
         var tileDist = entity.tile().transform(1, 1, 0).getChevDistance(target.tile());
         var delay = Math.max(1, (50 + (tileDist * 12)) / 30);
         new Projectile(entity, target,1705, 35,20 * tileDist,45, 30, 0, true).sendProjectile();
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
     }
 
     private void magicAttack(Entity entity, Entity target) {
@@ -112,7 +112,7 @@ public class CorruptedHunleffCombatStrategy extends CommonCombatMethod {
             var tileDist = entity.tile().transform(1, 1, 0).getChevDistance(target.tile());
             var delay = Math.max(1, (50 + (tileDist * 12)) / 30);
             new Projectile(entity, target,1713, 35,20 * tileDist,45, 30, 0, true).sendProjectile();
-            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
             target.performGraphic(new Graphic(1709, GraphicHeight.HIGH, delay));
         }
     }
@@ -125,7 +125,7 @@ public class CorruptedHunleffCombatStrategy extends CommonCombatMethod {
         var tileDist = entity.tile().transform(1, 1, 0).getChevDistance(target.tile());
         var delay = Math.max(1, (50 + (tileDist * 12)) / 30);
         new Projectile(entity, target,1708, 35,20 * tileDist,45, 30, 0, true).sendProjectile();
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
         hit.submit();
         if(hit.isAccurate()) {
             Prayers.closeAllPrayers(target);

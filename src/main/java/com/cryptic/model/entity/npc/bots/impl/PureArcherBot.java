@@ -172,7 +172,7 @@ public class PureArcherBot extends NPCBotHandler implements CombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED),1, CombatType.RANGED).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED),1, CombatType.RANGED).checkAccuracy(true);
         hit.submit();
         return true;
     }

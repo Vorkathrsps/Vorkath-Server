@@ -15,20 +15,20 @@ public class Kerberos extends CommonCombatMethod {
     private void rangedAttack() {
         new Projectile(entity, target, 1381, 25, 106, 125, 31, 0, 15, 220).sendProjectile();
         entity.animate(4492);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), 4, CombatType.RANGED).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), 4, CombatType.RANGED).checkAccuracy(true).submit();
         target.performGraphic(new Graphic(1715, GraphicHeight.HIGH, 4));
     }
 
     private void magicAttack() {
         new Projectile(entity, target, 1382, 25, 106, 125, 31, 0, 15, 220).sendProjectile();
         entity.animate(4492);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 4, CombatType.RANGED).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 4, CombatType.RANGED).checkAccuracy(true).submit();
         target.performGraphic(new Graphic(1710, GraphicHeight.HIGH, 4));
     }
 
     private void meleeAttack() {
         entity.animate(entity.attackAnimation());
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     private void doubleAttack() {

@@ -32,7 +32,7 @@ public class SkeletalWyvern extends CommonCombatMethod {
     private final int[] DRAIN = { Skills.ATTACK, Skills.STRENGTH, Skills.DEFENCE, Skills.RANGED, Skills.MAGIC};
 
     private void basicAttack(Entity entity, Entity target) {
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true).submit();
         entity.animate(entity.attackAnimation());
     }
 
@@ -43,7 +43,7 @@ public class SkeletalWyvern extends CommonCombatMethod {
         int duration = (41 + 11 + (5 * tileDist));
         Projectile p = new Projectile(entity, target, 500, 41, duration, 43, 31, 0, target.getSize(), 5);
         final int delay = entity.executeProjectile(p);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
     }
 
     private void rangedAttack(Entity entity, Entity target) {
@@ -53,7 +53,7 @@ public class SkeletalWyvern extends CommonCombatMethod {
         Projectile p = new Projectile(entity, target, 500, 41, duration, 43, 31, 0, target.getSize(), 5);
         final int delay = entity.executeProjectile(p);
         target.performGraphic(new Graphic(502, GraphicHeight.LOW, delay));
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
     }
 
     private void iceBreath(Entity entity, Entity target) {

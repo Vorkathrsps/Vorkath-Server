@@ -123,7 +123,7 @@ public abstract class CombatEffectSpell extends CombatSpell {
         }
 
         for (Entity target : targets) {
-            Hit hit = target.hit(cast, CombatFactory.calcDamageFromType(cast, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+            Hit hit = target.hit(cast, CombatFactory.calcDamageFromType(cast, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
             if (cast.isPlayer() && target.isPlayer() && WildernessArea.inWilderness(target.tile())) {
                 Skulling.skull(cast.getAsPlayer(), target.getAsPlayer(), SkullType.WHITE_SKULL);
             }

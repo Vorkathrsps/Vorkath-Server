@@ -294,7 +294,7 @@ public class Verzik extends NPC {
         int duration = (20 + (10 * tileDist));
         Projectile projectile = new Projectile(this, target, 1591, 21, duration, 70, 24, 8, this.getSize(), 128, 0);
         int delay = projectile.send(this, target);
-        Hit hit = Hit.builder(this, target, CombatFactory.calcDamageFromType(this, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        Hit hit = Hit.builder(this, target, CombatFactory.calcDamageFromType(this, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
         var damage = hit.getDamage();
         if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {
             hit.setDamage(0);
@@ -331,7 +331,7 @@ public class Verzik extends NPC {
         int duration = (21 + 39 + (5 * tileDist));
         Projectile projectile = new Projectile(this, target, 1585, 21, duration, 70, 24, 12, this.getSize(), 128, 5);
         int delay = projectile.send(this, target);
-        Hit hit = Hit.builder(this, target, CombatFactory.calcDamageFromType(this, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        Hit hit = Hit.builder(this, target, CombatFactory.calcDamageFromType(this, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
         var damage = hit.getDamage();
         if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {
             hit.setDamage(0);
@@ -389,7 +389,7 @@ public class Verzik extends NPC {
             int duration = (53 + 45 + (7 * tileDist));
             Projectile projectile = new Projectile(this, p, 1594, 53, duration, 100, 25, 20, this.getSize(), 100, 7);
             int delay = projectile.send(this, p);
-            Hit hit = Hit.builder(this, target, Utils.random(0, 33), delay, CombatType.MAGIC).checkAccuracy();
+            Hit hit = Hit.builder(this, target, Utils.random(0, 33), delay, CombatType.MAGIC).checkAccuracy(true);
             hit.submit();
             if (Prayers.usingPrayer(p, Prayers.PROTECT_FROM_MAGIC)) {
                 hit.block();
@@ -400,7 +400,7 @@ public class Verzik extends NPC {
 
     private void sendMeleePhaseThree(Player target) {
         this.animate(8123);
-        Hit hit = Hit.builder(this, target, Utils.random(0, 63), 3, CombatType.MELEE).checkAccuracy();
+        Hit hit = Hit.builder(this, target, Utils.random(0, 63), 3, CombatType.MELEE).checkAccuracy(true);
         hit.submit();
         if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MELEE)) {
             hit.block();
@@ -416,7 +416,7 @@ public class Verzik extends NPC {
             int duration = (62 + 45 + (7 * tileDist));
             Projectile projectile = new Projectile(this, p, 1593, 62, duration, 100, 25, 20, this.getSize(), 100, 7);
             int delay = projectile.send(this, p);
-            Hit hit = Hit.builder(this, target, Utils.random(0, 33), delay, CombatType.RANGED).checkAccuracy();
+            Hit hit = Hit.builder(this, target, Utils.random(0, 33), delay, CombatType.RANGED).checkAccuracy(true);
             hit.submit();
             if (Prayers.usingPrayer(p, Prayers.PROTECT_FROM_MISSILES)) {
                 hit.block();

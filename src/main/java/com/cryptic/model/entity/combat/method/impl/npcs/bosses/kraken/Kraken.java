@@ -78,7 +78,7 @@ public class Kraken extends CommonCombatMethod {
         int duration = (51 + -5 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, 156, 51, duration, 43, 31, 16, 2, 10);
         final int delay = entity.executeProjectile(p);
-        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
         hit.submit();
         if (hit.isAccurate()) {
             target.graphic(157, GraphicHeight.MIDDLE, p.getSpeed());

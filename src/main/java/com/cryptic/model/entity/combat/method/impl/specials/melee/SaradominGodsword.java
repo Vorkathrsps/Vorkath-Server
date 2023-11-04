@@ -20,7 +20,7 @@ public class SaradominGodsword extends CommonCombatMethod {
         boolean gfx_gold = player.getAttribOr(AttributeKey.SGS_GFX_GOLD, false);
         player.graphic(gfx_gold ? 1745 : 1209);
         //TODO it.player().world().spawnSound(it.player().tile(), 3869, 0, 10)
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy(true);
         hit.submit();
 
         // Heal the player & restore prayer and hit the enemy

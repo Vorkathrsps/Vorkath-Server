@@ -67,7 +67,6 @@ public class HitQueue {
                     }
 
                     if (hit.decrementAndGetDelay() <= 0) {
-                        if (hit.conditions != null) hit.conditions.accept(hit);
                         CombatFactory.executeHit(hit);
                         hit.toremove = true;
                         if (shouldShowSplat(hit))

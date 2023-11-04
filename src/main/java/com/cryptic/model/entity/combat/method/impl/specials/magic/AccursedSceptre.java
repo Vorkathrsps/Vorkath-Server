@@ -18,7 +18,7 @@ public class AccursedSceptre extends CommonCombatMethod {
         entity.graphic(2338, GraphicHeight.HIGH, 0);
         Projectile p = new Projectile(entity, target, 2339, 51, duration, 30, 0, 0, target.getSize(), 10);
         final int delay = entity.executeProjectile(p);
-        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
         hit.submit();
         hit.postDamage(t -> {
             var mlvl = target.getSkills().level(Skills.MAGIC);

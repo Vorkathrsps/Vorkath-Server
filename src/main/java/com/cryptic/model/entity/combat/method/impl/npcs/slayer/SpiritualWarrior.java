@@ -11,7 +11,7 @@ public class SpiritualWarrior extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(entity.attackAnimation());
         int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE);
-        target.hit(entity, hit, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(entity, hit, CombatType.MELEE).checkAccuracy(true).submit();
         return true;
     }
 

@@ -33,7 +33,7 @@ public class GreaterAbyssalDemon extends CommonCombatMethod {
             teleportAttack(entity, target);
             entity.getTimers().register(TimerKey.COMBAT_ATTACK, 17);//Set attack timer to 17 ticks, because that's how long this attack lasts for.
         } else {
-            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
+            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true).submit();
             if (Utils.random(4) == 0) {
                 final byte[] offsets = BASIC_OFFSETS[Utils.random(3)];
                 target.teleport(target.getX() + offsets[0], target.getY() + offsets[1],target.getZ());
@@ -56,28 +56,28 @@ public class GreaterAbyssalDemon extends CommonCombatMethod {
             entity.graphic(409);
             entity.setPositionToFace(target.tile());
             entity.animate(entity.attackAnimation());
-            target.hit(entity, Utils.random(31), CombatType.MELEE).checkAccuracy().submit();
+            target.hit(entity, Utils.random(31), CombatType.MELEE).checkAccuracy(true).submit();
         }).then(2, () -> {
             entity.teleport(new Tile(target.getX() + offsets[0], target.getY() + offsets[1], entity.getZ()));
         }).then(2, () -> {// Second attack
             entity.graphic(409);
             entity.setPositionToFace(target.tile());
             entity.animate(entity.attackAnimation());
-            target.hit(entity, Utils.random(31), CombatType.MELEE).checkAccuracy().submit();
+            target.hit(entity, Utils.random(31), CombatType.MELEE).checkAccuracy(true).submit();
         }).then(2, () -> {
             entity.teleport(new Tile(target.getX() + offsets[0], target.getY() + offsets[1], entity.getZ()));
         }).then(2, () -> { // Third attack
             entity.graphic(409);
             entity.setPositionToFace(target.tile());
             entity.animate(entity.attackAnimation());
-            target.hit(entity, Utils.random(31), CombatType.MELEE).checkAccuracy().submit();
+            target.hit(entity, Utils.random(31), CombatType.MELEE).checkAccuracy(true).submit();
         }).then(2, () -> {
             entity.teleport(new Tile(target.getX() + offsets[0], target.getY() + offsets[1], entity.getZ()));
         }).then(2, () -> {// Fourth attack
             entity.graphic(409);
             entity.setPositionToFace(target.tile());
             entity.animate(entity.attackAnimation());
-            target.hit(entity, Utils.random(31), CombatType.MELEE).checkAccuracy().submit();
+            target.hit(entity, Utils.random(31), CombatType.MELEE).checkAccuracy(true).submit();
         });
     }
 

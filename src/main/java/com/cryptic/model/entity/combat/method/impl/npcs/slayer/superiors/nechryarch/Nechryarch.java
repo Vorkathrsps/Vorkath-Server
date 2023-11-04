@@ -37,7 +37,7 @@ public class Nechryarch extends CommonCombatMethod {
         boolean canAttack = withinDistance(1);
 
         entity.animate(entity.attackAnimation());
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target,CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target,CombatType.MELEE), CombatType.MELEE).checkAccuracy(true).submit();
 
         if (Utils.random(5) == 0 && !spawnsAlreadySpawned && canAttack) {
             entity.animate(SPECIAL_ATTACK_ANIMATION);

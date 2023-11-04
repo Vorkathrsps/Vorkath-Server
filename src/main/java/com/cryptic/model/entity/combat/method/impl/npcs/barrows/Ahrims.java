@@ -31,7 +31,7 @@ public class Ahrims extends CommonCombatMethod {
         Projectile p = new Projectile(entity, target, 156, 51, duration, 43, 31, 6, 1, 10);
         final int delay = entity.executeProjectile(p);
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
 
         hit.submit();
 

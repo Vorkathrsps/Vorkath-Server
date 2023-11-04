@@ -22,7 +22,7 @@ public class InfernalMage extends CommonCombatMethod {
         Projectile p = new Projectile(entity, target, 130, 51, duration, 43, 31, 0, target.getSize(), 10);
         final int delay = entity.executeProjectile(p);
         int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC);
-        target.hit(entity, hit, delay, CombatType.MAGIC).checkAccuracy().submit();
+        target.hit(entity, hit, delay, CombatType.MAGIC).checkAccuracy(true).submit();
 
         if(hit > 0) {
             target.graphic(131, GraphicHeight.HIGH, p.getSpeed());

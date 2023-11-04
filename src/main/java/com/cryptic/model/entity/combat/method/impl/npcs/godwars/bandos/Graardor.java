@@ -59,14 +59,14 @@ public class Graardor extends CommonCombatMethod {
         int duration = (41 + 11 + (5 * tileDist));
         Projectile p = new Projectile(entity, target, 1202, 41, duration, 43, 31, 8, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
     }
 
     private void meleeAttack() {
         if (!withinDistance(1)) return;
         entity.animate(7018);
         if (target == null) return;
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy(true).submit();
         if (GwdLogic.isBoss(entity.getAsNpc().id())) {
             Map<Entity, Long> last_attacked_map = entity.getAttribOr(AttributeKey.LAST_ATTACKED_MAP, new HashMap<Entity, Long>());
             last_attacked_map.put(target, System.currentTimeMillis());

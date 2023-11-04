@@ -95,7 +95,7 @@ public class Muttadile extends CommonCombatMethod {
     private void meleeAttack(NPC npc, Entity entity) {
         npc.getCombatInfo().maxhit = 78;
         npc.animate(npc.attackAnimation());
-        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
+        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     private void rangeAttack(NPC npc, Entity entity) {
@@ -112,7 +112,7 @@ public class Muttadile extends CommonCombatMethod {
                     var tileDist = npc.tile().transform(1, 1, 0).distance(member.tile());
                     var delay = Math.max(1, (50 + (tileDist * 12)) / 30);
                     new Projectile(npc, member, 1291, 20, 12 * tileDist, npc.id() == MUTTADILE_7562 ? 15 : 35, 30, 0).sendProjectile();
-                    member.hit(npc, CombatFactory.calcDamageFromType(npc, member, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+                    member.hit(npc, CombatFactory.calcDamageFromType(npc, member, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
                 }
             }
         }
@@ -132,7 +132,7 @@ public class Muttadile extends CommonCombatMethod {
                     var tileDist = npc.tile().transform(1, 1, 0).distance(member.tile());
                     var delay = Math.max(1, (50 + (tileDist * 12)) / 30);
                     new Projectile(npc, member, 393, 20, 12 * tileDist, 35, 30, 0).sendProjectile();
-                    member.hit(npc, CombatFactory.calcDamageFromType(npc, member, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+                    member.hit(npc, CombatFactory.calcDamageFromType(npc, member, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
                 }
             }
         }
@@ -141,7 +141,7 @@ public class Muttadile extends CommonCombatMethod {
     private void shockwaveAttack(NPC npc, Entity entity) {
         npc.getCombatInfo().maxhit = 118;
         npc.animate(7424);
-        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy().submit();
+        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy(true).submit();
         target.message(Color.RED.wrap("You have been hit by the Muttadiles stomp attack!"));
     }
 

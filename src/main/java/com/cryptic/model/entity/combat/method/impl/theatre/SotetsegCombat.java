@@ -49,7 +49,7 @@ public class SotetsegCombat extends CommonCombatMethod {
         int duration = (70 + 30 + (20 * tileDist));
         Projectile p = new Projectile(entity, target, randomProjectile, 70, duration, 43, 21, 25, target.getSize(), 10);
         final int delay = entity.executeProjectile(p);
-        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, randomProjectile == 1606 ? CombatType.MAGIC : CombatType.RANGED), delay, randomProjectile == 1606 ? CombatType.MAGIC : CombatType.RANGED).checkAccuracy().postDamage(d -> {
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, randomProjectile == 1606 ? CombatType.MAGIC : CombatType.RANGED), delay, randomProjectile == 1606 ? CombatType.MAGIC : CombatType.RANGED).checkAccuracy(true).postDamage(d -> {
             if (randomProjectile == 1606) {
                 magicAttackCount++;
             }
@@ -86,7 +86,7 @@ public class SotetsegCombat extends CommonCombatMethod {
 
     public void sendMeleeAttack(Player target) {
         entity.animate(8138);
-        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy();
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy(true);
         hit.submit();
         recentlyPerformedAttack.getAndSet(true);
     }

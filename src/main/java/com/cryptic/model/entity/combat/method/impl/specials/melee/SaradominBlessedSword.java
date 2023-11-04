@@ -15,7 +15,7 @@ public class SaradominBlessedSword extends CommonCombatMethod {
         entity.animate(1133);
         entity.graphic(1213, GraphicHeight.HIGH, 0);
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC),1, CombatType.MAGIC).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC),1, CombatType.MAGIC).checkAccuracy(true);
         hit.submit();
 
         target.graphic(1196, GraphicHeight.MIDDLE, 0);

@@ -31,7 +31,7 @@ public class ToxicBlowpipeSpecialAttack extends CommonCombatMethod {
 
         CombatFactory.decrementAmmo(player);
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), hitDelay, CombatType.RANGED).checkAccuracy();
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), hitDelay, CombatType.RANGED).checkAccuracy(true);
         hit.submit();
 
         if (hit.getDamage() > 0) {

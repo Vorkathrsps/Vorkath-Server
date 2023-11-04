@@ -60,7 +60,7 @@ public class AdamantDragon extends CommonCombatMethod {
 
     private void doMelee(NPC npc, Entity entity) {
         npc.animate(npc.attackAnimation());
-        target.hit(npc, Utils.random(npc.getCombatInfo().maxhit), 1, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(npc, Utils.random(npc.getCombatInfo().maxhit), 1, CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     private void doDragonBreath(NPC npc, Entity entity, int tileDist, int delay) {
@@ -147,7 +147,7 @@ public class AdamantDragon extends CommonCombatMethod {
         npc.animate(81);
         Chain.bound(null).runFn(1, () -> {
             new Projectile(npc, target, 165, 25, 20 * tileDist, 40, 36, 0, 16, 127).sendProjectile();
-            target.hit(npc, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay + 1, CombatType.MAGIC).checkAccuracy().submit();
+            target.hit(npc, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay + 1, CombatType.MAGIC).checkAccuracy(true).submit();
         });
     }
 

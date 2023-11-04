@@ -76,7 +76,7 @@ public class ChaosFanatic extends CommonCombatMethod {
 
         npc.animate(811);
 
-        Hit hit = Hit.builder(npc, target, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        Hit hit = Hit.builder(npc, target, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
 
         hit.submit();
 
@@ -136,7 +136,7 @@ public class ChaosFanatic extends CommonCombatMethod {
 
             Chain.noCtx().runFn((int) (p.getSpeed() / 30D), () -> {
                 if (target.tile().equals(p.getEnd())) {
-                    Hit hit = Hit.builder(npc, target, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+                    Hit hit = Hit.builder(npc, target, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
                     hit.submit();
                 }
                 tileList.clear();

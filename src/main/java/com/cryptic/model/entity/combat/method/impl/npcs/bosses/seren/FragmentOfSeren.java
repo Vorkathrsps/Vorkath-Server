@@ -88,7 +88,7 @@ public class FragmentOfSeren extends CommonCombatMethod {
         World.getWorld().getPlayers().forEach(p -> Chain.bound(null).runFn(3, () -> {
             if (p != null && target.tile().inSqRadius(p.tile(), 12)) {
                 new Projectile(entity, p, 1702, entity.getProjectileHitDelay(target), entity.projectileSpeed(target), 50, 43, 0, 14, 5).sendProjectile();
-                p.hit(entity, CombatFactory.calcDamageFromType(entity, p, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+                p.hit(entity, CombatFactory.calcDamageFromType(entity, p, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
                 target.performGraphic(new Graphic(1704, GraphicHeight.MIDDLE, delay + 1));
             }
         }));
@@ -108,7 +108,7 @@ public class FragmentOfSeren extends CommonCombatMethod {
 
                 new Projectile(entity, p, 1712, entity.getProjectileHitDelay(target), entity.projectileSpeed(target), 50, 43, 0, 14, 0).sendProjectile();
 
-                p.hit(entity, CombatFactory.calcDamageFromType(entity, p, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+                p.hit(entity, CombatFactory.calcDamageFromType(entity, p, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
             }
         }));
         World.getWorld().getPlayers().forEach(p -> Chain.bound(null).runFn(3, () -> {
@@ -118,7 +118,7 @@ public class FragmentOfSeren extends CommonCombatMethod {
 
                 new Projectile(entity, p, 1712, entity.getProjectileHitDelay(target), entity.projectileSpeed(target), 50, 43, 0, 14, 0).sendProjectile();
 
-                p.hit(entity, CombatFactory.calcDamageFromType(entity, p, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+                p.hit(entity, CombatFactory.calcDamageFromType(entity, p, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
             }
         }));
         entity.setPositionToFace(target.tile());

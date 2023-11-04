@@ -393,7 +393,7 @@ public class DamageSimulators {
                  * from {@link com.cryptic.game.world.entity.combat.Combat#performNewAttack(boolean)}
                  */
                 mtd.prepareAttack(p1.getAsPlayer(), p2.getAsPlayer());
-                Hit hit = p2.hit(p1.getAsPlayer(), CombatFactory.calcDamageFromType(p1.getAsPlayer(), p2.getAsPlayer(), CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy();
+                Hit hit = p2.hit(p1.getAsPlayer(), CombatFactory.calcDamageFromType(p1.getAsPlayer(), p2.getAsPlayer(), CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true);
                 hit.submit();
                 hitSim.addHit(hit.getDamage());
             }

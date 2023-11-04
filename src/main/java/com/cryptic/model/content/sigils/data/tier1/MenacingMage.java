@@ -32,7 +32,7 @@ public class MenacingMage extends SigilHandler {
                 player.putAttrib(AttributeKey.MENACING_CURSE, true);
                 for (int i = 0; i < 12; i++) {
                     Chain.bound(null).runFn(i * 2, () -> {
-                        Hit bleed = target.hit(player, 2, 0, CombatType.MAGIC).checkAccuracy();
+                        Hit bleed = target.hit(player, 2, 0, CombatType.MAGIC).checkAccuracy(true);
                         bleed.submit();
                     });
                 }

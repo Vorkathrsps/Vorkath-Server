@@ -32,7 +32,7 @@ public class AberrantSpectre extends CommonCombatMethod {
             player.message("<col=ff0000>The aberrant spectre's stench disorients you!");
             player.message("<col=ff0000>A nose peg can protect you from this attack.");
         } else {
-            player.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+            player.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
         }
         return true;
     }

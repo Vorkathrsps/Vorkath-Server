@@ -6,7 +6,6 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
-import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.weapon.WeaponType;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
@@ -14,10 +13,6 @@ import com.cryptic.model.entity.masks.impl.animations.Priority;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
-import com.cryptic.utility.Utils;
-
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import static com.cryptic.utility.ItemIdentifiers.*;
 
@@ -68,10 +63,10 @@ public class MeleeCombatMethod extends CommonCombatMethod {
                 new Hit(entity, target, this, 0, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE))
             };
 
-        hit[0].checkAccuracy().submit();
+        hit[0].checkAccuracy(true).submit();
         if (target.getAsNpc().getSize() > 2 || target.getAsNpc().isCombatDummy()) {
-            hit[1].checkAccuracy().submit();
-            hit[2].checkAccuracy().submit();
+            hit[1].checkAccuracy(true).submit();
+            hit[2].checkAccuracy(true).submit();
             if (hit[0].isAccurate() && hit[1].isAccurate()) {
                 hit[1].setDamage(hit[0].getDamage() / 2);
             }
@@ -100,7 +95,7 @@ public class MeleeCombatMethod extends CommonCombatMethod {
         }
 
         entity.animate(new Animation(entity.attackAnimation(), Priority.HIGH));
-        new Hit(entity, target, 0, true, CombatType.MELEE, this).rollAccuracyAndDamage().submit();
+        new Hit(entity, target, 0, this).checkAccuracy(true).submit();
         return true;
     }
 

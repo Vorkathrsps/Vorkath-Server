@@ -70,7 +70,7 @@ public class CrazyArchaeologist extends CommonCombatMethod {
 
     //Handle the melee attack
     private void melee_attack(NPC npc, Entity target) {
-        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy(true).submit();
 
         //Shout!
         npc.forceChat(misc_shout[Utils.random(5)]);
@@ -93,7 +93,7 @@ public class CrazyArchaeologist extends CommonCombatMethod {
         npc.animate(3353);
 
         //Determine the damage dealt to the target
-        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy().submit();
+        target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
 
         //Roll a die to see if we send the target graphic
         if (Utils.rollDie(3, 1))

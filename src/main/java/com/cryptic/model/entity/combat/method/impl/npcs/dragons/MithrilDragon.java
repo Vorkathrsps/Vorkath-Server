@@ -40,19 +40,19 @@ public class MithrilDragon extends CommonCombatMethod {
 
     private void doMelee(Entity entity, Entity target) {
         entity.animate(80);
-        target.hit(entity, Utils.random(28), 1, CombatType.MELEE).checkAccuracy().submit();
+        target.hit(entity, Utils.random(28), 1, CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     private void doMagic(Entity entity, Entity target) {
         entity.animate(6722);
         new Projectile(entity, target, 136, 40, entity.projectileSpeed(target), 20, 31, 0, 10, 36).sendProjectile();
-        target.hit(entity, Utils.random(18), entity.getProjectileHitDelay(target), CombatType.MAGIC).checkAccuracy().submit();
+        target.hit(entity, Utils.random(18), entity.getProjectileHitDelay(target), CombatType.MAGIC).checkAccuracy(true).submit();
     }
 
     private void doRanged(Entity entity, Entity target) {
         entity.animate(6722);
         new Projectile(entity, target, 16, 40, entity.projectileSpeed(target), 20, 31, 0, 10, 36).sendProjectile();
-        target.hit(entity, Utils.random(22), entity.getProjectileHitDelay(target), CombatType.RANGED).checkAccuracy().submit();
+        target.hit(entity, Utils.random(22), entity.getProjectileHitDelay(target), CombatType.RANGED).checkAccuracy(true).submit();
     }
 
     private void breathFire(Entity entity, Entity target) {

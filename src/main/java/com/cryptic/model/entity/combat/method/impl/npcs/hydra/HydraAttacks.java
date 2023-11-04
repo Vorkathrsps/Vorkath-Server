@@ -33,7 +33,7 @@ public enum HydraAttacks {
             int duration = (50 + 11 + (5 * tileDist));
             Projectile p = new Projectile(hydra, target, 1663, 50, duration, 43, 31, 0, target.getSize(), 5);
             final int delay = hydra.executeProjectile(p);
-            Hit hit = Hit.builder(hydra, target, CombatFactory.calcDamageFromType(hydra, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy();
+            Hit hit = Hit.builder(hydra, target, CombatFactory.calcDamageFromType(hydra, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true);
             hit.submit();
         }
     },
@@ -49,7 +49,7 @@ public enum HydraAttacks {
             int duration = (50 + 11 + (5 * tileDist));
             Projectile p = new Projectile(hydra, target, 1662, 50, duration, 43, 0, 0, 1, 5);
             final int delay = hydra.executeProjectile(p);
-            Hit hit = Hit.builder(hydra, target, CombatFactory.calcDamageFromType(hydra, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+            Hit hit = Hit.builder(hydra, target, CombatFactory.calcDamageFromType(hydra, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
             hit.submit();
         }
     },

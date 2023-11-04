@@ -31,10 +31,10 @@ public class NightBeast extends CommonCombatMethod {
             entity.getTimers().register(TimerKey.COMBAT_ATTACK, 6); //Cooldown
         } else if (Utils.random(1) == 0 || !withinDistance(1)) {
             new Projectile(entity, target, 130, 35, 70, 5, 38, 0, 10,5).sendProjectile();
-            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 2, CombatType.MAGIC).checkAccuracy().submit();
+            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), 2, CombatType.MAGIC).checkAccuracy(true).submit();
             entity.getTimers().register(TimerKey.COMBAT_ATTACK, 2); //Cooldown
         } else {
-            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy().submit();
+            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true).submit();
         }
         return true;
     }
@@ -51,7 +51,7 @@ public class NightBeast extends CommonCombatMethod {
             }
         }
         if (target.tile().isWithinDistance(groupAttackTile, 1)) {
-            target.hit(entity, CombatFactory.calcDamageFromType(entity,target,CombatType.MAGIC), 2, CombatType.MAGIC).checkAccuracy().submit();
+            target.hit(entity, CombatFactory.calcDamageFromType(entity,target,CombatType.MAGIC), 2, CombatType.MAGIC).checkAccuracy(true).submit();
             target.graphic(131);
         }
     }

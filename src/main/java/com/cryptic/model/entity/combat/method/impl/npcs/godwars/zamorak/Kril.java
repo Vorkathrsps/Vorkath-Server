@@ -65,7 +65,7 @@ public class Kril extends CommonCombatMethod {
             target.message("K'ril Tsutsaroth slams through your protection prayer, leaving you feeling drained.");
             target.getSkills().alterSkill(Skills.PRAYER, -20);
         } else {
-            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy().submit();
+            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy(true).submit();
         }
     }
 
@@ -76,7 +76,7 @@ public class Kril extends CommonCombatMethod {
         int durationMagic = (51 + -5 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, 1227, 51, durationMagic, 60, 30, 6, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);
-        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy().submit();
+        target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
     }
 
     @Override

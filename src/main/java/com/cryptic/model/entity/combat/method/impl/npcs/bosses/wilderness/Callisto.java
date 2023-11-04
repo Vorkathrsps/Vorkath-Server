@@ -156,7 +156,7 @@ public class Callisto extends CommonCombatMethod {
             return;
         }
         entity.animate(10012);
-        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 3, CombatType.MELEE).checkAccuracy();
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 3, CombatType.MELEE).checkAccuracy(true);
         hit.submit();
     }
 
@@ -171,7 +171,7 @@ public class Callisto extends CommonCombatMethod {
         Projectile p = new Projectile(entity, target, 2350, 25, duration, 20, 20, 0, 5, 10);
         final int delay = entity.executeProjectile(p);
         var dmg = CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED);
-        Hit hit = Hit.builder(entity, target, dmg, delay, CombatType.RANGED).checkAccuracy();
+        Hit hit = Hit.builder(entity, target, dmg, delay, CombatType.RANGED).checkAccuracy(true);
         hit.submit();
         target.graphic(2351, GraphicHeight.LOW, p.getSpeed());
     }
@@ -185,7 +185,7 @@ public class Callisto extends CommonCombatMethod {
         int duration = (55 + 10 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, 133, 55, duration, 50, 31, 0, 5, 10);
         final int delay = entity.executeProjectile(p);
-        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
         hit.submit();
         if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {
             knockBack(entity, target);

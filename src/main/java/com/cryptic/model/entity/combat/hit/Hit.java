@@ -14,9 +14,14 @@ import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.entity.player.PlayerStatus;
+import com.cryptic.model.items.ground.GroundItem;
+import com.cryptic.utility.Utils;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.text.DecimalFormat;
 import java.util.function.Consumer;
 
 /**
@@ -98,14 +103,13 @@ public class Hit {
     /**
      * Adjusts the hit delay with the characters update index (PID).
      */
-    private void adjustDelay() {
+    public int adjustDelay() {
         if (target != null && target.isNpc()) {
-            return;
+            return 0;
         }
 
         if (pidIgnored) {
             delay = -1;
-            return;
         }
 
         if (attacker != null && attacker.pidOrderIndex != -1) {
@@ -117,6 +121,8 @@ public class Hit {
         if (delay < 1 && !combatType.isMelee()) {
             delay = 1;
         }
+
+        return delay;
     }
     public Hit(Entity attacker, Entity target) {
         this.attacker = attacker;
@@ -147,6 +153,14 @@ public class Hit {
         this.delay = delay;
         this.damage = damage;
         this.hitMark = damage > 0 ? HitMark.DEFAULT : HitMark.MISSED;
+    }
+
+    public Hit(Entity attacker, Entity target, int delay, boolean checkAccuracy, CombatMethod method) {
+        this.attacker = attacker;
+        this.target = target;
+        this.delay = delay;
+        this.checkAccuracy = checkAccuracy;
+        if (method instanceof CommonCombatMethod commonCombatMethod) combatType = commonCombatMethod.styleOf();
     }
 
     public Hit builder(Entity attacker, Entity target, int damage, int delay) {
@@ -239,69 +253,87 @@ public class Hit {
         return maxHit;
     }
 
-    /**
-     * checks alwaysHit attrib and accuracy (depending on combat method+style). sets damage to 0 or maxhp or does no change at all, retaining existing {@link #damage} value set by {@link CombatFactory#calcDamageFromType(Entity, Entity, CombatType)}
-     */
-    public void applyAccuracyToMiss() {
-        if (attacker == null || target == null || target.dead()) {
-            return;
-        }
+    private static final Logger logger = LogManager.getLogger(Hit.class);
 
-        if (attacker.isPlayer() && target.isPlayer()) {
-            if (target.getAsPlayer().getStatus() == PlayerStatus.TRADING) {
-                target.getAsPlayer().getTrading().abortTrading();
-            }
-        }
-
-        if (hitMark == HitMark.HEALED) {
-            return;
-        }
-
-        if (target.isNpc() && target.getAsNpc().isCombatDummy()) {
-            checkAccuracy = false;
-        }
-
-        var success = false;
-
-        if (target.isNpc() && target.npc().getCombatInfo() == null) {
-            System.err.println("missing cbinfo for " + target.npc());
-        }
-
+    public Hit rollAccuracyAndDamage() {
+        if (attacker == null || target == null || hitMark == HitMark.HEALED) return null;
         MagicAccuracy magicAccuracy = new MagicAccuracy(attacker, target, combatType);
         RangeAccuracy rangeAccuracy = new RangeAccuracy(attacker, target, combatType);
         MeleeAccuracy meleeAccuracy = new MeleeAccuracy(attacker, target, combatType);
-
-        if (combatType != null && !(target.isNpc() && target.npc().getCombatInfo() == null) && !(attacker.isNpc() && attacker.npc().getCombatInfo() == null)) {
-            switch (combatType) {
-                case MAGIC -> success = magicAccuracy.doesHit();
-                case RANGED -> success = rangeAccuracy.doesHit();
-                case MELEE -> success = meleeAccuracy.doesHit();
+        if (target instanceof NPC npc) {
+            if (npc.getCombatInfo() == null) {
+                logger.warn("Missing combat information for {} {} {}", npc, npc.getMobName(), npc.id());
+                return null;
+            }
+            if (npc.isCombatDummy()) {
+                checkAccuracy = false;
+                accurate = true;
             }
         }
-
-        accurate = !checkAccuracy || success;
-
-        int damage;
-
+        if (checkAccuracy && combatType != null && !(target.isNpc() && target.npc().getCombatInfo() == null) && !(attacker.isNpc() && attacker.npc().getCombatInfo() == null)) {
+            var chance = Utils.THREAD_LOCAL_RANDOM.get().nextDouble();
+            switch (combatType) {
+                case MAGIC -> {
+                    accurate = magicAccuracy.successful(chance);
+                    if (attacker instanceof Player) {
+                        logger.debug("Magic Accuracy - Attack Roll = ["
+                            + magicAccuracy.attackRoll
+                            + "] Defence Roll = ["
+                            + magicAccuracy.defenceRoll
+                            + "] COS = ["
+                            + new DecimalFormat("0.000").format(magicAccuracy.chance)
+                            + "] Selected Chance = ["
+                            + chance
+                            + "] successful = "
+                            + (accurate ? "YES" : "NO"));
+                    }
+                }
+                case RANGED -> {
+                    accurate = rangeAccuracy.successful(chance);
+                    if (attacker instanceof Player) {
+                        logger.debug("Range Accuracy - Attack Roll = ["
+                            + rangeAccuracy.attackRoll
+                            + "] Defence Roll = ["
+                            + rangeAccuracy.defenceRoll
+                            + "] COS = ["
+                            + new DecimalFormat("0.000").format(rangeAccuracy.chance)
+                            + "] Selected Chance = ["
+                            + chance
+                            + "] successful = "
+                            + (accurate ? "YES" : "NO"));
+                    }
+                }
+                case MELEE -> {
+                    accurate = meleeAccuracy.successful(chance);
+                    if (attacker instanceof Player) {
+                        logger.debug("Melee Accuracy - Attack Roll = ["
+                            + meleeAccuracy.attackRoll
+                            + "] Defence Roll = ["
+                            + meleeAccuracy.defenceRoll
+                            + "] COS = ["
+                            + new DecimalFormat("0.000").format(meleeAccuracy.chance)
+                            + "] Selected Chance = ["
+                            + chance
+                            + "] successful = "
+                            + (accurate ? "YES" : "NO"));
+                    }
+                }
+            }
+        }
+        int damageRoll = CombatFactory.calcDamageFromType(attacker, target, combatType);
         final int alwaysHitDamage = getTarget() != attacker ? attacker.getAttribOr(AttributeKey.ALWAYS_HIT, 0) : 0;
         final boolean alwaysHitActive = alwaysHitDamage > 0;
         final boolean oneHitActive = attacker.getAttribOr(AttributeKey.ONE_HIT_MOB, false);
-
-        if (alwaysHitActive || oneHitActive)
-            accurate = true;
-
-        if (!accurate) {
-            damage = 0;
-        } else {
-            if (oneHitActive) {
-                damage = target.hp();
-            } else if (alwaysHitActive) {
-                damage = alwaysHitDamage;
-            } else {
-                damage = this.damage;
-            }
-        }
-        this.damage = damage;
+        if (alwaysHitActive || oneHitActive) accurate = true;
+        if (oneHitActive) damageRoll = target.hp();
+        if (alwaysHitActive) damageRoll = alwaysHitDamage;
+        if (!checkAccuracy) accurate = true;
+        if (!accurate) this.damage = 0;
+        else this.damage = damageRoll;
+        if (this.damage == 0) this.hitMark = HitMark.MISSED;
+        else this.hitMark = HitMark.DEFAULT;
+        logger.debug("Calculating Damage For Type {} Damage Roll {} Damage Output {}", damageRoll, this.combatType, this.damage);
+        return this;
     }
 
     public CombatType getCombatType() {
@@ -334,7 +366,6 @@ public class Hit {
 
     public Hit checkAccuracy() {
         checkAccuracy = true;
-        applyAccuracyToMiss();
         return this;
     }
 

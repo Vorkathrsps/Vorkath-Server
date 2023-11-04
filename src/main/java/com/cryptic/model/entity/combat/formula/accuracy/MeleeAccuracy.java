@@ -33,7 +33,10 @@ public class MeleeAccuracy {
     @Setter
     Entity attacker, defender;
     CombatType combatType;
-    SecureRandom random = new SecureRandom();
+    @Getter public double attackRoll = 0;
+    @Getter public double defenceRoll = 0;
+    @Getter public double chance = 0;
+    PreDamageEffectHandler handler = new PreDamageEffectHandler(new EquipmentDamageEffect());
 
     public MeleeAccuracy(Entity attacker, Entity defender, CombatType combatType) {
         this.attacker = attacker;
@@ -41,89 +44,50 @@ public class MeleeAccuracy {
         this.combatType = combatType;
     }
 
-    public boolean doesHit() {
-        return successful();
-    }
-
-    private boolean successful() {
-        final double attackBonus = getAttackRoll(this.attacker);
-        final double defenceBonus = getDefenceRoll(this.defender);
-        double successfulRoll;
-
-        if (attackBonus > defenceBonus) {
-            successfulRoll = 1F - ((defenceBonus + 2F) / (2F * (attackBonus + 1F)));
-        } else {
-            successfulRoll = attackBonus / (2F * (defenceBonus + 1F));
-        }
-
-        double selectedChance = random.nextDouble();
-
-        System.out.println("PlayerStats - Attack=" + attackBonus + " Def=" + defenceBonus + " chanceOfSucess=" + new DecimalFormat("0.000").format(successfulRoll) + " rolledChance=" + new DecimalFormat("0.000").format(selectedChance) + " successful=" + (successfulRoll > selectedChance ? "YES" : "NO"));
-
-        return successfulRoll > selectedChance;
+    public boolean successful(double selectedChance) {
+        attackRoll = getAttackRoll(this.attacker);
+        defenceRoll = getDefenceRoll(this.defender);
+        if (attackRoll > defenceRoll) chance = 1F - ((defenceRoll + 2F) / (2F * (attackRoll + 1F)));
+        else chance = attackRoll / (2F * (defenceRoll + 1F));
+        return chance > selectedChance;
     }
 
     private double getPrayerDefenseBonus(final Entity defender) {
         double prayerBonus = 1F;
-        if (Prayers.usingPrayer(defender, THICK_SKIN))
-            prayerBonus *= 1.05F; // 5% def level boost
-        else if (Prayers.usingPrayer(defender, ROCK_SKIN))
-            prayerBonus *= 1.10F; // 10% def level boost
-        else if (Prayers.usingPrayer(defender, STEEL_SKIN))
-            prayerBonus *= 1.15F; // 15% def level boost
-        if (Prayers.usingPrayer(defender, CHIVALRY))
-            prayerBonus *= 1.20F; // 20% def level boost
-        else if (Prayers.usingPrayer(defender, PIETY))
-            prayerBonus *= 1.25F; // 25% def level boost
+        if (Prayers.usingPrayer(defender, THICK_SKIN)) prayerBonus *= 1.05F; // 5% def level boost
+        else if (Prayers.usingPrayer(defender, ROCK_SKIN)) prayerBonus *= 1.10F; // 10% def level boost
+        else if (Prayers.usingPrayer(defender, STEEL_SKIN)) prayerBonus *= 1.15F; // 15% def level boost
+        if (Prayers.usingPrayer(defender, CHIVALRY)) prayerBonus *= 1.20F; // 20% def level boost
+        else if (Prayers.usingPrayer(defender, PIETY)) prayerBonus *= 1.25F; // 25% def level boost
         return prayerBonus;
     }
 
     private double getPrayerAttackBonus(final Entity attacker) {
         double prayerBonus = 1F;
-        if (Prayers.usingPrayer(attacker, CLARITY_OF_THOUGHT))
-            prayerBonus *= 1.05F; // 5% attack level boost
-        else if (Prayers.usingPrayer(attacker, IMPROVED_REFLEXES))
-            prayerBonus *= 1.10F; // 10% attack level boost
-        else if (Prayers.usingPrayer(attacker, INCREDIBLE_REFLEXES))
-            prayerBonus *= 1.15F; // 15% attack level boost
-        else if (Prayers.usingPrayer(attacker, CHIVALRY))
-            prayerBonus *= 1.15F; // 15% attack level boost
-        else if (Prayers.usingPrayer(attacker, PIETY))
-            prayerBonus *= 1.20F; // 20% attack level boost
+        if (Prayers.usingPrayer(attacker, CLARITY_OF_THOUGHT)) prayerBonus *= 1.05F; // 5% attack level boost
+        else if (Prayers.usingPrayer(attacker, IMPROVED_REFLEXES)) prayerBonus *= 1.10F; // 10% attack level boost
+        else if (Prayers.usingPrayer(attacker, INCREDIBLE_REFLEXES)) prayerBonus *= 1.15F; // 15% attack level boost
+        else if (Prayers.usingPrayer(attacker, CHIVALRY)) prayerBonus *= 1.15F; // 15% attack level boost
+        else if (Prayers.usingPrayer(attacker, PIETY)) prayerBonus *= 1.20F; // 20% attack level boost
         return prayerBonus;
     }
-
-    PreDamageEffectHandler handler = new PreDamageEffectHandler(new EquipmentDamageEffect());
 
     private double getEffectiveAttack(Entity attacker) {
         FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
         double effectiveLevel = getAttackLevel(attacker) * getPrayerAttackBonus(attacker);
         float modification = modifier;
-
         if (attacker instanceof Player a) {
             effectiveLevel = Math.floor(effectiveLevel);
-
             handler.triggerMeleeAccuracyModificationAttacker(a, combatType, this);
-
             switch (fightStyle) {
                 case ACCURATE -> effectiveLevel += 3;
                 case CONTROLLED -> effectiveLevel += 1;
             }
-
-            if (modification > 0) {
-                effectiveLevel *= modification;
-            }
-
-            if (a.getCombatSpecial() != null) {
-                double specialMultiplier = a.getCombatSpecial().getAccuracyMultiplier();
-                if (a.isSpecialActivated()) {
-                    effectiveLevel *= specialMultiplier;
-                }
-            }
+            if (modification > 0) effectiveLevel *= modification;
+            double specialMultiplier = a.getCombatSpecial().getAccuracyMultiplier();
+            if (a.getCombatSpecial() != null && a.isSpecialActivated()) effectiveLevel *= specialMultiplier;
         }
-
         effectiveLevel += 8;
-
         return Math.floor(effectiveLevel);
     }
 
@@ -195,10 +159,8 @@ public class MeleeAccuracy {
     public double getDefenceRoll(Entity defender) {
         double defenceLevel = getDefenceLevel(defender);
         double defenceBonus = getGearDefenceBonus();
-
         if (defender instanceof Player) {
             defenceLevel *= getPrayerDefenseBonus(defender);
-
             switch (defender.getCombat().getFightType().getStyle()) {
                 case DEFENSIVE -> defenceLevel += 3;
                 case CONTROLLED -> defenceLevel += 1;
@@ -206,7 +168,6 @@ public class MeleeAccuracy {
         } else {
             defenceLevel += 9;
         }
-
         return defenceLevel * (defenceBonus + 64);
     }
 

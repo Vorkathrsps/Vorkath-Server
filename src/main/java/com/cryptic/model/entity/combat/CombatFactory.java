@@ -227,7 +227,11 @@ public class CombatFactory {
      * @param type     the combat type being used.
      * @return the HitDamage.
      */
+    static int count = 0;
     public static int calcDamageFromType(Entity attacker, Entity target, CombatType type) {
+        count++;
+        logger.debug("Called {}", count);
+        count = 0;
         if (type == null) {
             return 0;
         }

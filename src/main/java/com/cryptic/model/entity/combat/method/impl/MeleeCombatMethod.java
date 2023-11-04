@@ -99,10 +99,8 @@ public class MeleeCombatMethod extends CommonCombatMethod {
             }
         }
 
-        final Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy();
-        hit.submit();
-
         entity.animate(new Animation(entity.attackAnimation(), Priority.HIGH));
+        new Hit(entity, target, 0, true, this).rollAccuracyAndDamage().submit();
         return true;
     }
 

@@ -687,7 +687,7 @@ public class Utils {
      */
     public static final SecureRandom RANDOM_GEN = new SecureRandom();
 
-    public static final RandomGen RANDOM_GEN2 = new RandomGen();
+    public static final RandomGen THREAD_LOCAL_RANDOM = new RandomGen();
 
     /**
      * The random instance.
@@ -729,7 +729,7 @@ public class Utils {
     }
 
     public static int inclusive(int min, int max) {
-        return RANDOM_GEN2.inclusive(min, max);
+        return THREAD_LOCAL_RANDOM.inclusive(min, max);
     }
 
     public static int randomInclusive(int min, int max) {

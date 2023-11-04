@@ -96,8 +96,10 @@ public class RangeAccuracy {
         if (attacker instanceof Player player) {
             handler.triggerRangeAccuracyModificationAttacker(player, combatType, this);
             if (fightStyle == FightStyle.ACCURATE) effectiveLevel = (int) Math.floor(effectiveLevel + 3);
-            specialMultiplier = player.getCombatSpecial().getAccuracyMultiplier();
-            if (player.getCombatSpecial() != null && player.isSpecialActivated()) effectiveLevel *= specialMultiplier;
+            if (player.getCombatSpecial() != null && player.isSpecialActivated()) {
+                specialMultiplier = player.getCombatSpecial().getAccuracyMultiplier();
+                effectiveLevel *= specialMultiplier;
+            }
         }
         effectiveLevel = modification > 0 ? Math.floor(effectiveLevel * modification) : effectiveLevel;
         effectiveLevel = (int) Math.floor(effectiveLevel + 8);

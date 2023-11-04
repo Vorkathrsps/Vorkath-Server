@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class HitQueue {
 
     private static final Logger logger = LogManager.getLogger(HitQueue.class);
-    private final List<Hit> hits = new ArrayList<Hit>();
+    private final List<Hit> hits = new ArrayList<>();
 
     public void clear() {
         hits.clear();
@@ -67,6 +67,7 @@ public class HitQueue {
                     }
 
                     if (hit.decrementAndGetDelay() <= 0) {
+                        if (hit.conditions != null) hit.conditions.accept(hit);
                         CombatFactory.executeHit(hit);
                         hit.toremove = true;
                         if (shouldShowSplat(hit))
@@ -81,8 +82,7 @@ public class HitQueue {
         }
         List<Hit> toShow = hits.stream().filter(e -> e.showSplat).collect(Collectors.toList());
         hits.removeIf(o -> o.toremove);
-        if (toShow.size() == 0)
-            return;
+        if (toShow.size() == 0) return;
         for (Hit hit : toShow) {
             hit.playerSync();
         }

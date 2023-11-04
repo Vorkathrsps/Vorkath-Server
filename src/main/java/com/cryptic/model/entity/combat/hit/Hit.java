@@ -10,6 +10,7 @@ import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.combat.magic.CombatSpell;
 import com.cryptic.model.entity.combat.method.CombatMethod;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
+import com.cryptic.model.entity.combat.method.impl.npcs.bosses.vorkath.Vorkath;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.npc.NPC;
@@ -20,7 +21,6 @@ import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.text.DecimalFormat;
 import java.util.function.Consumer;
 
 /**
@@ -101,29 +101,6 @@ public class Hit {
         return attacker;
     }
 
-    /**
-     * Adjusts the hit delay with the characters update index (PID).
-     */
-    public Hit adjustDelayToPID() {
-        if (attacker instanceof NPC) {
-            return this;
-        }
-
-        if (this.isPidIgnored()) {
-            this.delay = -1;
-        }
-
-        if (this.attacker != null && this.attacker.getCombat().getTarget() != null && this.attacker.pidOrderIndex != -1) {
-            if (this.attacker.getCombat().getTarget() != null && this.attacker.pidOrderIndex <= this.attacker.getCombat().getTarget().pidOrderIndex) {
-                this.delay--;
-                if (this.delay < 1 && this.attacker.getCombat().getCombatType() != CombatType.MELEE)
-                    this.delay = 1;
-            }
-        }
-
-        return this;
-    }
-
     public Hit(Entity attacker, Entity target) {
         this.attacker = attacker;
         this.target = target;
@@ -135,9 +112,7 @@ public class Hit {
     public Hit(Entity attacker, Entity target, CombatMethod method, boolean checkAccuracy, int delay, int damage, HitMark hitMark) {
         this.attacker = attacker;
         this.target = target;
-        if (method instanceof CommonCombatMethod commonCombatMethod) {
-            combatType = commonCombatMethod.styleOf();
-        }
+        if (method instanceof CommonCombatMethod commonCombatMethod) combatType = commonCombatMethod.styleOf();
         this.checkAccuracy = checkAccuracy;
         this.damage = damage;
         this.delay = delay;
@@ -145,9 +120,7 @@ public class Hit {
     }
 
     public Hit(Entity attacker, Entity target, CombatMethod method, int delay, int damage) {
-        if (method instanceof CommonCombatMethod commonCombatMethod) {
-            combatType = commonCombatMethod.styleOf();
-        }
+        if (method instanceof CommonCombatMethod commonCombatMethod) combatType = commonCombatMethod.styleOf();
         this.attacker = attacker;
         this.target = target;
         this.delay = delay;
@@ -214,11 +187,12 @@ public class Hit {
         this.damage = damage;
     }
 
-    @Getter @Setter public boolean isMaxHit;
+    @Getter
+    @Setter
+    public boolean isMaxHit;
 
-    public Hit damageModifier(double damageModifier) {
+    public void damageModifier(double damageModifier) {
         this.damage += damageModifier;
-        return this;
     }
 
     public Hit setCombatType(CombatType type) {
@@ -232,10 +206,9 @@ public class Hit {
 
     @Getter boolean invalidated = false;
 
-    public Hit invalidate() {
+    public void invalidate() {
         this.accurate = false;
         this.invalidated = true;
-        return this;
     }
 
     public int getMaximumHit() {
@@ -247,7 +220,7 @@ public class Hit {
             if (this.getSource().getCombat().getCombatType() == CombatType.RANGED) {
                 maxHit = attacker.player().getCombat().getMaximumRangedDamage();
             }
-            if (this.getSource().getCombat().getCombatType()  == CombatType.MAGIC) {
+            if (this.getSource().getCombat().getCombatType() == CombatType.MAGIC) {
                 maxHit = attacker.getCombat().getMaximumMagicDamage();
             }
         }
@@ -269,7 +242,6 @@ public class Hit {
                 accurate = true;
             }
         }
-
         if (checkAccuracy && combatType != null && !(target.isNpc() && target.npc().getCombatInfo() == null) && !(attacker.isNpc() && attacker.npc().getCombatInfo() == null)) {
             var chance = Utils.THREAD_LOCAL_RANDOM.get().nextDouble();
             switch (combatType) {
@@ -282,11 +254,11 @@ public class Hit {
         final boolean alwaysHitActive = alwaysHitDamage > 0;
         final boolean oneHitActive = attacker.getAttribOr(AttributeKey.ONE_HIT_MOB, false);
         if (alwaysHitActive || oneHitActive) accurate = true;
-        if (oneHitActive) this.damage = target.hp();
-        if (alwaysHitActive) this.damage = alwaysHitDamage;
         if (!checkAccuracy) accurate = true;
         if (!accurate) this.damage = 0;
         else this.damage = CombatFactory.calcDamageFromType(attacker, target, combatType);
+        if (oneHitActive) this.damage = target.hp();
+        if (alwaysHitActive) this.damage = alwaysHitDamage;
         if (this.damage == 0) this.hitMark = HitMark.MISSED;
         else this.hitMark = HitMark.DEFAULT;
         return this;
@@ -297,11 +269,22 @@ public class Hit {
     }
 
     public Hit submit() {
-        if (target != null && !isLocked() && !isInvalidated()) {
-            CombatFactory.addPendingHit(this);
-            return this;
+        if (this.target == null && isLocked() || isInvalidated() || target.isNullifyDamageLock() || target.isNeedsPlacement())
+            return null;
+        if (this.target.dead()) return null;
+        if (this.attacker instanceof Player && this.target instanceof NPC npc) {
+            CombatMethod method = CombatFactory.getMethod(npc);
+            if (method instanceof CommonCombatMethod commonCombatMethod) commonCombatMethod.preDefend(this);
+            if (method instanceof Vorkath vorkath) { //TODO
+                switch (vorkath.resistance) {
+                    case PARTIAL -> this.setDamage((int) (this.getDamage() * 0.5D));
+                    case FULL -> this.setDamage(0);
+                }
+            }
         }
-        return null;
+        if (this.damage >= this.getMaximumHit()) this.setMaxHit(true);
+        target.getCombat().getHitQueue().add(this);
+        return this;
     }
 
     @Override
@@ -341,15 +324,15 @@ public class Hit {
      * called after a hit has been executed and appears visually. will be finalized and damage cannot change.
      */
     public Consumer<Hit> postDamage;
-    public Consumer<Hit> mutate;
+    public Consumer<Hit> conditions;
 
     public Hit postDamage(Consumer<Hit> postDamage) {
         this.postDamage = postDamage;
         return this;
     }
 
-    public Hit conditions(Consumer<Hit> mutate) {
-        this.mutate = mutate;
+    public Hit conditions(Consumer<Hit> mutatedHit) {
+        this.conditions = mutatedHit;
         return this;
     }
 
@@ -378,7 +361,6 @@ public class Hit {
     }
 
     @Getter
-    @Setter
     private HitMark hitMark;
 
     public int getMark(Entity source, Entity target, Player observer) {

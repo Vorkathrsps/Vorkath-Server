@@ -52,7 +52,10 @@ public class Zilyana extends CommonCombatMethod {
         if (Utils.rollDie(3, 1)) npc.forceChat(Utils.randomElement(QUOTES));
 
         if (Utils.rollDice(50)) {
-            if (entity.getTimers().left(TimerKey.ZILY_SPEC_COOLDOWN) > 0) return false;
+            if (entity.getTimers().left(TimerKey.ZILY_SPEC_COOLDOWN) > 0) {
+                melee();
+                return true;
+            }
             magic();
         } else {
             melee();

@@ -84,8 +84,10 @@ public class MeleeAccuracy {
                 case CONTROLLED -> effectiveLevel += 1;
             }
             if (modification > 0) effectiveLevel *= modification;
-            double specialMultiplier = a.getCombatSpecial().getAccuracyMultiplier();
-            if (a.getCombatSpecial() != null && a.isSpecialActivated()) effectiveLevel *= specialMultiplier;
+            if (a.getCombatSpecial() != null && a.isSpecialActivated()) {
+                double specialMultiplier = a.getCombatSpecial().getAccuracyMultiplier();
+                effectiveLevel *= specialMultiplier;
+            }
         }
         effectiveLevel += 8;
         return Math.floor(effectiveLevel);

@@ -5,6 +5,7 @@ import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatSpecial;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
+import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.ranged.drawback.DblArrowDrawBack;
 import com.cryptic.model.entity.masks.Projectile;
@@ -31,11 +32,9 @@ public class DarkBow extends CommonCombatMethod {
         var gfx = 1101;
         var gfx2 = 1102; //non drag arrow 2nd arrow has another graphic id
         int endgfx = 1103; // small puff
-        var ref = new Object()
-            {
-                int min = 5;
-            };
-        ref.min = 5;
+        var ref = new Object() {
+            int min = 5;
+        };
         if (ammo.getId() == DRAGON_ARROW) {
             gfx = 1099;
             gfx2 = 1099;
@@ -49,11 +48,18 @@ public class DarkBow extends CommonCombatMethod {
         Projectile p2 = new Projectile(player, target, gfx2, 41, duration2, 40, 36, 25, 1, 10);
         final int delay1 = player.executeProjectile(p1);
         final int delay2 = player.executeProjectile(p2);
-        for (int index = 0; index < 2; index++) {
-            new Hit(player, target, delay1, true, CombatType.RANGED, this)
-                .rollAccuracyAndDamage()
-                .submit();
-        }
+        new Hit(player, target, delay1, true, CombatType.RANGED, this)
+            .rollAccuracyAndDamage()
+            .submit()
+            .conditions(hit -> {
+                if (hit.isAccurate() && hit.getDamage() == 0) hit.setAccurate(true).setHitMark(HitMark.DEFAULT).setDamage(ref.min);
+            });
+        new Hit(player, target, delay2, true, CombatType.RANGED, this)
+            .rollAccuracyAndDamage()
+            .submit()
+            .conditions(hit -> {
+                if (hit.isAccurate() && hit.getDamage() == 0) hit.setAccurate(true).setHitMark(HitMark.DEFAULT).setDamage(ref.min);
+            });
         target.graphic(endgfx, GraphicHeight.MIDDLE, p1.getSpeed());
         target.graphic(endgfx, GraphicHeight.MIDDLE, p2.getSpeed());
         CombatFactory.decrementAmmo(player);

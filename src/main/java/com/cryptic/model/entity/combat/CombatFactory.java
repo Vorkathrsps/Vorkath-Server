@@ -38,7 +38,6 @@ import com.cryptic.model.entity.combat.method.impl.npcs.godwars.bandos.Graardor;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.saradomin.Zilyana;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.zamorak.Kril;
 import com.cryptic.model.entity.combat.method.impl.npcs.hydra.AlchemicalHydra;
-import com.cryptic.model.entity.combat.method.impl.npcs.slayer.CaveKraken;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.DesertLizards;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.Gargoyle;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss;
@@ -914,10 +913,6 @@ public class CombatFactory {
 
         if (target.isNullifyDamageLock() || target.isNeedsPlacement()) return;
         if (hit.getDamage() >= hit.getMaximumHit()) hit.setMaxHit(true);
-        if (hit.mutate != null) {
-            hit.mutate.accept(hit);
-            System.out.println("damage mutation not null");
-        }
         target.getCombat().getHitQueue().add(hit);
     }
 

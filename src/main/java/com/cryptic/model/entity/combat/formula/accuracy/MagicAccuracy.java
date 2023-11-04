@@ -80,6 +80,12 @@ public final class MagicAccuracy {
         double magicLevel = getMagicLevel(attacker);
         double attackBonus = getEquipmentBonusAttacker(attacker);
         double effectiveLevel;
+        effectiveLevel = getEffectiveLevel(attacker, magicLevel);
+        return effectiveLevel * (attackBonus + 64);
+    }
+
+    private double getEffectiveLevel(Entity attacker,double magicLevel) {
+        double effectiveLevel;
         if (attacker instanceof Player a) {
             effectiveLevel = magicLevel * getPrayerBonus(a) + 8;
             handler.triggerMagicAccuracyModificationAttacker(a, combatType, this);
@@ -92,7 +98,7 @@ public final class MagicAccuracy {
         } else {
             effectiveLevel = magicLevel + 9;
         }
-        return effectiveLevel * (attackBonus + 64);
+        return effectiveLevel;
     }
 
     private int getEquipmentBonusDefender(Entity defender) {

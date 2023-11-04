@@ -227,11 +227,7 @@ public class CombatFactory {
      * @param type     the combat type being used.
      * @return the HitDamage.
      */
-    static int count = 0;
     public static int calcDamageFromType(Entity attacker, Entity target, CombatType type) {
-        count++;
-        logger.debug("Called {}", count);
-        count = 0;
         if (type == null) {
             return 0;
         }
@@ -806,7 +802,6 @@ public class CombatFactory {
     public static void addPendingHit(Hit hit) {
         Entity attacker = hit.getAttacker();
         Entity target = hit.getTarget();
-        final CombatType combatType = hit.getCombatType();
 
         if (target.dead()) {
             return;
@@ -917,14 +912,12 @@ public class CombatFactory {
             }
         }
 
-        if (target.isNullifyDamageLock() || target.isNeedsPlacement()) {
-            return;
+        if (target.isNullifyDamageLock() || target.isNeedsPlacement()) return;
+        if (hit.getDamage() >= hit.getMaximumHit()) hit.setMaxHit(true);
+        if (hit.mutate != null) {
+            hit.mutate.accept(hit);
+            System.out.println("damage mutation not null");
         }
-
-        if (hit.getDamage() >= hit.getMaximumHit()) {
-            hit.setMaxHit(true);
-        }
-
         target.getCombat().getHitQueue().add(hit);
     }
 

@@ -349,15 +349,12 @@ public class Combat {
 
         int combatAttackTicksRemaining = mob.getTimers().left(TimerKey.COMBAT_ATTACK);
 
-        //TODO add wildernesskey damage authentication
-
         if (combatAttackTicksRemaining <= 0) {
             if (!method.prepareAttack(mob, target))
                 return;
             if (mob.isPlayer() && target.isPlayer()) {
                 if (WildernessArea.isInWilderness((Player) mob)) {
                     Player player = mob.getAsPlayer();
-
                     Skulling.skull(player, target, SkullType.WHITE_SKULL);
                 }
             }
@@ -376,13 +373,9 @@ public class Combat {
                     }
                 }
             }
-            if (!graniteMaulSpecial) {
-                mob.getTimers().register(TimerKey.COMBAT_ATTACK, attackSpeed);
-            }
+            if (!graniteMaulSpecial) mob.getTimers().register(TimerKey.COMBAT_ATTACK, attackSpeed);
             if (mob.isPlayer() && method == CombatFactory.MAGIC_COMBAT) {
-                if (method instanceof CommonCombatMethod o) {
-                    o.postAttack();
-                }
+                if (method instanceof CommonCombatMethod o) o.postAttack();
             }
         }
     }

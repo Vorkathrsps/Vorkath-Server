@@ -14,7 +14,6 @@ import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.utility.Utils;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,6 +45,8 @@ public class Hit {
         forceShowSplashWhenMissMagic = true;
         return this;
     }
+
+    private static final Logger logger = LogManager.getLogger(Hit.class);
 
     /**
      * The attacker instance.
@@ -103,27 +104,26 @@ public class Hit {
     /**
      * Adjusts the hit delay with the characters update index (PID).
      */
-    public int adjustDelay() {
-        if (target != null && target.isNpc()) {
-            return 0;
+    public Hit adjustDelayToPID() {
+        if (attacker instanceof NPC) {
+            return this;
         }
 
-        if (pidIgnored) {
-            delay = -1;
+        if (this.isPidIgnored()) {
+            this.delay = -1;
         }
 
-        if (attacker != null && attacker.pidOrderIndex != -1) {
-            if (target != null && attacker.pidOrderIndex <= target.pidOrderIndex) {
-                delay--;
+        if (this.attacker != null && this.attacker.getCombat().getTarget() != null && this.attacker.pidOrderIndex != -1) {
+            if (this.attacker.getCombat().getTarget() != null && this.attacker.pidOrderIndex <= this.attacker.getCombat().getTarget().pidOrderIndex) {
+                this.delay--;
+                if (this.delay < 1 && this.attacker.getCombat().getCombatType() != CombatType.MELEE)
+                    this.delay = 1;
             }
         }
 
-        if (delay < 1 && !combatType.isMelee()) {
-            delay = 1;
-        }
-
-        return delay;
+        return this;
     }
+
     public Hit(Entity attacker, Entity target) {
         this.attacker = attacker;
         this.target = target;
@@ -160,8 +160,8 @@ public class Hit {
         this.target = target;
         this.delay = delay;
         this.checkAccuracy = checkAccuracy;
-        if (method instanceof CommonCombatMethod commonCombatMethod) this.combatType = commonCombatMethod.styleOf();
-        else this.combatType = combatType;
+        this.combatType = combatType;
+        if (this.combatType == null && method instanceof CommonCombatMethod commonCombatMethod) this.combatType = commonCombatMethod.styleOf();
     }
 
     public Hit builder(Entity attacker, Entity target, int damage, int delay) {
@@ -188,7 +188,7 @@ public class Hit {
         return this.target;
     }
 
-    public boolean pidIgnored;
+    @Getter public boolean pidIgnored;
 
     public int decrementAndGetDelay() {
         if (attacker != null && attacker instanceof NPC) {
@@ -254,8 +254,6 @@ public class Hit {
         return maxHit;
     }
 
-    private static final Logger logger = LogManager.getLogger(Hit.class);
-
     public Hit rollAccuracyAndDamage() {
         if (attacker == null || target == null || hitMark == HitMark.HEALED) return null;
         MagicAccuracy magicAccuracy = new MagicAccuracy(attacker, target, combatType);
@@ -271,6 +269,7 @@ public class Hit {
                 accurate = true;
             }
         }
+
         if (checkAccuracy && combatType != null && !(target.isNpc() && target.npc().getCombatInfo() == null) && !(attacker.isNpc() && attacker.npc().getCombatInfo() == null)) {
             var chance = Utils.THREAD_LOCAL_RANDOM.get().nextDouble();
             switch (combatType) {
@@ -321,19 +320,17 @@ public class Hit {
                 }
             }
         }
-        int damageRoll = CombatFactory.calcDamageFromType(attacker, target, combatType);
         final int alwaysHitDamage = getTarget() != attacker ? attacker.getAttribOr(AttributeKey.ALWAYS_HIT, 0) : 0;
         final boolean alwaysHitActive = alwaysHitDamage > 0;
         final boolean oneHitActive = attacker.getAttribOr(AttributeKey.ONE_HIT_MOB, false);
         if (alwaysHitActive || oneHitActive) accurate = true;
-        if (oneHitActive) damageRoll = target.hp();
-        if (alwaysHitActive) damageRoll = alwaysHitDamage;
+        if (oneHitActive) this.damage = target.hp();
+        if (alwaysHitActive) this.damage = alwaysHitDamage;
         if (!checkAccuracy) accurate = true;
         if (!accurate) this.damage = 0;
-        else this.damage = damageRoll;
+        else this.damage = CombatFactory.calcDamageFromType(attacker, target, combatType);
         if (this.damage == 0) this.hitMark = HitMark.MISSED;
         else this.hitMark = HitMark.DEFAULT;
-        logger.debug("Calculating Damage For Type {} Damage Roll {} Damage Output {}", damageRoll, this.combatType, this.damage);
         return this;
     }
 
@@ -341,10 +338,12 @@ public class Hit {
         return combatType;
     }
 
-    public void submit() {
+    public Hit submit() {
         if (target != null && !isLocked() && !isInvalidated()) {
             CombatFactory.addPendingHit(this);
+            return this;
         }
+        return null;
     }
 
     @Override
@@ -384,9 +383,15 @@ public class Hit {
      * called after a hit has been executed and appears visually. will be finalized and damage cannot change.
      */
     public Consumer<Hit> postDamage;
+    public Consumer<Hit> mutate;
 
     public Hit postDamage(Consumer<Hit> postDamage) {
         this.postDamage = postDamage;
+        return this;
+    }
+
+    public Hit conditions(Consumer<Hit> mutate) {
+        this.mutate = mutate;
         return this;
     }
 

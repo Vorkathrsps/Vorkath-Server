@@ -168,21 +168,16 @@ public class RangedCombatMethod extends CommonCombatMethod {
                 Projectile p2 = new Projectile(attacker, target, graphic, 41, duration2, 40, 36, 25, 1, 10);
                 final int d1 = attacker.executeProjectile(p1);
                 final int d2 = attacker.executeProjectile(p2);
-                Hit hit1 = Hit.builder(attacker, target, CombatFactory.calcDamageFromType(attacker, target, CombatType.RANGED), d1, CombatType.RANGED).checkAccuracy();
-                Hit hit2 = Hit.builder(attacker, target, CombatFactory.calcDamageFromType(attacker, target, CombatType.RANGED), d2, CombatType.RANGED).checkAccuracy();
+                Hit hit1 = new Hit(attacker, target, d1, true, CombatType.RANGED, this).rollAccuracyAndDamage();
                 hit1.submit();
+                Hit hit2 = new Hit(attacker, target, d2, true, CombatType.RANGED, this).rollAccuracyAndDamage();
                 hit2.submit();
             } else {
                 Projectile projectile = new Projectile(attacker, target, graphic, startSpeed, duration, startHeight, endHeight, curve, 1, stepMultiplier);
-
                 final int hitDelay = attacker.executeProjectile(projectile);
-
-                Hit hit = Hit.builder(attacker, target, CombatFactory.calcDamageFromType(attacker, target, CombatType.RANGED), hitDelay, CombatType.RANGED).checkAccuracy();
-
+                Hit hit = new Hit(attacker, target, hitDelay, true, CombatType.RANGED, this).rollAccuracyAndDamage();
                 hit.submit();
-
                 if (graphic != -1) {
-
                     if (weaponType == WeaponType.CHINCHOMPA) {
                         if (chinChompaDrawBack != null) {
                             chinChompa(hit.getSource(), hit.getTarget(), hit.getDelay());

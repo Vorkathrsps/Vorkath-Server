@@ -155,12 +155,13 @@ public class Hit {
         this.hitMark = damage > 0 ? HitMark.DEFAULT : HitMark.MISSED;
     }
 
-    public Hit(Entity attacker, Entity target, int delay, boolean checkAccuracy, CombatMethod method) {
+    public Hit(Entity attacker, Entity target, int delay, boolean checkAccuracy, CombatType combatType, CombatMethod method) {
         this.attacker = attacker;
         this.target = target;
         this.delay = delay;
         this.checkAccuracy = checkAccuracy;
-        if (method instanceof CommonCombatMethod commonCombatMethod) combatType = commonCombatMethod.styleOf();
+        if (method instanceof CommonCombatMethod commonCombatMethod) this.combatType = commonCombatMethod.styleOf();
+        else this.combatType = combatType;
     }
 
     public Hit builder(Entity attacker, Entity target, int damage, int delay) {

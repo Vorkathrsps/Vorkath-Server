@@ -5,6 +5,7 @@ import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatSpecial;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
+import com.cryptic.model.entity.combat.method.CombatMethod;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.ranged.drawback.DblArrowDrawBack;
 import com.cryptic.model.entity.masks.Projectile;
@@ -22,26 +23,21 @@ public class DarkBow extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        final Player player = entity.getAsPlayer();
-
+        if (!(entity instanceof Player player)) return false;
         Item ammo = player.getEquipment().get(EquipSlot.AMMO);
         if (ammo == null || ammo.getAmount() < 2) {
             player.message("You need at least two arrows in your quiver to use this special attack.");
             return false;
         }
-
         player.animate(426);
-
         var db2 = DblArrowDrawBack.find(ammo.getId());
         if (db2 != null) {
             player.graphic(db2.gfx, GraphicHeight.HIGH, 0);
         }
-
         var gfx = 1101;
         var gfx2 = 1102; //non drag arrow 2nd arrow has another graphic id
         endgfx = 1103; // small puff
         var min = 5;
-
         if (ammo.getId() == DRAGON_ARROW) {
             // dragon arrows
             gfx = 1099; // dragon spec
@@ -49,42 +45,23 @@ public class DarkBow extends CommonCombatMethod {
             endgfx = 1100; // large puff
             min = 8;
         }
-
         int tileDist = entity.tile().transform(1, 1).getChevDistance(target.tile());
         int duration1 = (41 + 11 + (5 * tileDist));
         int duration2 = (41 + 11 + (10 * tileDist));
-        Projectile p1 = new Projectile(entity, target, gfx, 41, duration1, 40, 36, 5, 1, 5);
-        Projectile p2 = new Projectile(entity, target, gfx2, 41, duration2, 40, 36, 25, 1, 10);
-
-        final int delay1 = entity.executeProjectile(p1);
-        final int delay2 = entity.executeProjectile(p2);
-
-        // Decrement 2 arrows from ammunition
+        Projectile p1 = new Projectile(player, target, gfx, 41, duration1, 40, 36, 5, 1, 5);
+        Projectile p2 = new Projectile(player, target, gfx2, 41, duration2, 40, 36, 25, 1, 10);
+        final int delay1 = player.executeProjectile(p1);
+        final int delay2 = player.executeProjectile(p2);
         CombatFactory.decrementAmmo(player);
-
-        // Note: Dark bow first hit does have PID applied, but the delay varies (not always delay-1) depending on dist. It's custom.
-        Hit hit1 = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay1, CombatType.RANGED).checkAccuracy();
-
-        // Minimum damages depending on arrow type
-        if (hit1.getDamage() < min) {
-            hit1.setDamage(min);
-        }
-
+        Hit hit1 = new Hit(player, target, delay1, true, CombatType.RANGED, this).rollAccuracyAndDamage();
         hit1.submit();
-        target.graphic(endgfx, GraphicHeight.MIDDLE, p1.getSpeed());
-
-        // The second hit is pid adjusted.
-        Hit hit2 = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay2, CombatType.RANGED).checkAccuracy();
-
-        if (hit2.getDamage() < min) {
-            hit2.setDamage(min);
-        }
-
+        if (hit1.getDamage() < min) hit1.setDamage(min);
+        Hit hit2 = new Hit(player, target, delay2, true, CombatType.RANGED, this).rollAccuracyAndDamage();
         hit2.submit();
-
+        if (hit2.getDamage() < min) hit2.setDamage(min);
+        target.graphic(endgfx, GraphicHeight.MIDDLE, p1.getSpeed());
         target.graphic(endgfx, GraphicHeight.MIDDLE, p2.getSpeed());
-
-        CombatSpecial.drain(entity, CombatSpecial.DARK_BOW.getDrainAmount());
+        CombatSpecial.drain(player, CombatSpecial.DARK_BOW.getDrainAmount());
         return true;
     }
 

@@ -100,7 +100,7 @@ public class MeleeCombatMethod extends CommonCombatMethod {
         }
 
         entity.animate(new Animation(entity.attackAnimation(), Priority.HIGH));
-        new Hit(entity, target, 0, true, this).rollAccuracyAndDamage().submit();
+        new Hit(entity, target, 0, true, CombatType.MELEE, this).rollAccuracyAndDamage().submit();
         return true;
     }
 

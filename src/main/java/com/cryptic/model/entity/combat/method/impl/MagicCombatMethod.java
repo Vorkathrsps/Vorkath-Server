@@ -130,7 +130,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
 
         final int delay = player.executeProjectile(p);
 
-        Hit hit = Hit.builder(player, target, CombatFactory.calcDamageFromType(player, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy();
+        Hit hit = new Hit(player, target, delay, true, CombatType.MAGIC, this).rollAccuracyAndDamage();
         hit.submit();
 
         if (hit.isAccurate()) {

@@ -7,12 +7,17 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
+import com.cryptic.model.entity.combat.magic.CombatSpell;
 import com.cryptic.model.entity.combat.method.CombatMethod;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.vorkath.Vorkath;
+import com.cryptic.model.entity.combat.weapon.FightStyle;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.npc.NPC;
+import com.cryptic.model.entity.player.GameMode;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.entity.player.Skills;
+import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Utils;
 import lombok.Getter;
 import lombok.Setter;
@@ -210,14 +215,127 @@ public class Hit {
         if (alwaysHitActive) this.damage = alwaysHitDamage;
         if (!this.accurate && this.damage == 0) this.hitMark = HitMark.MISSED;
         else this.hitMark = HitMark.DEFAULT;
-        logger.debug("Accurate {} Chance: {} Roll: {}", accurate, magicAccuracy.chance, chance);
+        //logger.debug("Accurate {} Chance: {} Roll: {} CombatType: {}", accurate, magicAccuracy.chance, chance, combatType);
         return this;
+    }
+
+    public void addCombatXp(Player player, Entity target, CombatType style, FightStyle mode) {
+        if (combatType == null) return;
+        var gameModeMultiplier = player.getGameMode().equals(GameMode.REALISM) ? 10.0 : 50.0;
+        var nonPvpEXP = (this.attacker instanceof Player && (WildernessArea.inWilderness(player.tile()) || !WildernessArea.inWilderness(player.tile())) && this.target instanceof NPC);
+        double hXP = calculateHitpointsExperience();
+        double rmXP = calculateRangedOrMeleeXP();
+        double hitpointsXP = nonPvpEXP ? hXP * gameModeMultiplier : hXP;
+        double rangedMeleeXP = nonPvpEXP ? rmXP * gameModeMultiplier : rmXP;
+        switch (style) {
+            case MELEE -> {
+                switch (mode) {
+                    case ACCURATE -> {
+                        if (this.damage > 0) {
+                            player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
+                            player.getSkills().addXp(Skills.ATTACK, rangedMeleeXP);
+                        }
+                    }
+
+                    case AGGRESSIVE -> {
+                        if (this.damage > 0) {
+                            player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
+                            player.getSkills().addXp(Skills.STRENGTH, rangedMeleeXP);
+                        }
+                    }
+
+                    case DEFENSIVE -> {
+                        if (this.damage > 0) {
+                            player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
+                            player.getSkills().addXp(Skills.DEFENCE, rangedMeleeXP);
+                        }
+                    }
+
+                    case CONTROLLED -> {
+                        if (this.damage > 0) {
+                            player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
+                            player.getSkills().addXp(Skills.ATTACK, rangedMeleeXP / 1.33);
+                            player.getSkills().addXp(Skills.STRENGTH, rangedMeleeXP / 1.33);
+                            player.getSkills().addXp(Skills.DEFENCE, rangedMeleeXP / 1.33);
+                        }
+                    }
+                }
+            }
+
+            case RANGED -> {
+                switch (mode) {
+                    case ACCURATE, AGGRESSIVE -> {
+                        player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP, !target.isPlayer());
+                        player.getSkills().addXp(Skills.RANGED, rangedMeleeXP, !target.isPlayer());
+                    }
+
+                    case DEFENSIVE -> {
+                        player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP, !target.isPlayer());
+                        player.getSkills().addXp(Skills.RANGED, rangedMeleeXP / 1.33, !target.isPlayer());
+                        player.getSkills().addXp(Skills.DEFENCE, rangedMeleeXP / 1.33, !target.isPlayer());
+                    }
+                }
+            }
+
+            case MAGIC -> {
+                CombatSpell spell = player.getCombat().getCastSpell() != null ? player.getCombat().getCastSpell() : player.getCombat().getAutoCastSpell() != null ? player.getCombat().getAutoCastSpell() : player.getCombat().getPoweredStaffSpell() != null ? player.getCombat().getPoweredStaffSpell() : null;
+                if (spell != null) {
+                    int magicXPIndex;
+                    int defenceXpIndex;
+                    double mXP = 1;
+                    double dXP = 1;
+                    double mXPMultiplier = player.<Boolean>getAttribOr(AttributeKey.DEFENSIVE_AUTOCAST, false) ? 1.33 : 2.0;
+                    for (magicXPIndex = 0; magicXPIndex < this.damage; magicXPIndex++) {
+                        mXP = ((magicXPIndex + 1) * mXPMultiplier);
+                    }
+                    for (defenceXpIndex = 0; defenceXpIndex < this.damage; defenceXpIndex++) {
+                        dXP = (defenceXpIndex);
+                    }
+                    double spellBaseXP = nonPvpEXP ? spell.baseExperience() * gameModeMultiplier : spell.baseExperience();
+                    double magicXP = nonPvpEXP ? mXP * gameModeMultiplier : mXP + spellBaseXP;
+                    double defenceXP = nonPvpEXP ? dXP * gameModeMultiplier : dXP;
+                    if (this.damage > 0) {
+                        if (player.<Boolean>getAttribOr(AttributeKey.DEFENSIVE_AUTOCAST, false)) {
+                            player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
+                            player.getSkills().addXp(Skills.MAGIC, magicXP);
+                            player.getSkills().addXp(Skills.DEFENCE, defenceXP);
+                        } else {
+                            player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
+                            player.getSkills().addXp(Skills.MAGIC, magicXP);
+                        }
+                        return;
+                    }
+                    player.getSkills().addXp(Skills.MAGIC, spellBaseXP);
+                }
+            }
+        }
+    }
+
+    private double calculateRangedOrMeleeXP() {
+        int rangedXPIndex;
+        double r_m_XP = 1;
+        for (rangedXPIndex = 0; rangedXPIndex < this.damage; rangedXPIndex++) {
+            r_m_XP = (rangedXPIndex * 4.0);
+        }
+        return r_m_XP;
+    }
+
+    private double calculateHitpointsExperience() {
+        int hitpointsXPIndex;
+        double hXP = 1;
+        for (hitpointsXPIndex = 0; hitpointsXPIndex < this.damage; hitpointsXPIndex++) {
+            hXP = (hitpointsXPIndex * 1.33);
+        }
+        return hXP;
     }
 
     public Hit submit() {
         if (this.target == null && isLocked() || isInvalidated() || target.isNullifyDamageLock() || target.isNeedsPlacement())
             return null;
         if (this.target.dead()) return null;
+        if (this.attacker instanceof Player) {
+            addCombatXp((Player) this.attacker, this.target, this.combatType, this.attacker.getCombat().getFightType().getStyle());
+        }
         if (this.attacker instanceof Player && this.target instanceof NPC npc) {
             CombatMethod method = CombatFactory.getMethod(npc);
             if (method instanceof CommonCombatMethod commonCombatMethod) commonCombatMethod.preDefend(this);

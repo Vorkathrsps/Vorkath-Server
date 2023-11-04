@@ -306,7 +306,7 @@ public class Skills {
             return false;
         }
 
-        if (isMember) {
+        if (isMember && target instanceof NPC) {
             switch (player.getMemberRights()) {
                 case RUBY_MEMBER -> amount *= 1.05;
                 case SAPPHIRE_MEMBER -> amount *= 1.08;
@@ -322,7 +322,7 @@ public class Skills {
             amount *= multiplier;
         }
 
-        if (inWilderness) {
+        if (inWilderness && target instanceof NPC) {
             amount *= 1.12;
         }
 

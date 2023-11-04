@@ -1,55 +1,36 @@
-package com.cryptic.model.entity.combat.method.impl.specials.magic;
+package com.cryptic.model.entity.combat.method.impl.specials.melee;
 
-import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatSpecial;
-import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
-import com.cryptic.model.entity.npc.NPC;
-
-import java.security.SecureRandom;
-
+import com.cryptic.model.entity.player.Player;
+import com.cryptic.utility.Utils;
 public class VoidWaker extends CommonCombatMethod {
-
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        SecureRandom random = new SecureRandom();
-
         boolean isDummy = target.isNpc() && target.getAsNpc().isCombatDummy();
         double maxHit = entity.getCombat().getMaximumMeleeDamage();
         double minHit = maxHit * 0.5;
-        double hitDamage = minHit + random.nextInt((int) (maxHit * 1.5 + 1 - minHit));
-
+        double random = Utils.THREAD_LOCAL_RANDOM.get().nextInt((int) (maxHit * 1.5 + 1 - minHit));
+        double hitDamage = minHit + random;
         entity.animate(new Animation(1378));
-
-        CombatType combatType = CombatType.MAGIC;
-
-        if (isDummy) {
-            hitDamage = maxHit * 1.5;
-            combatType = CombatType.MELEE;
-        }
-
-        int finalDamage = (int) Math.floor(hitDamage);
-
-        Hit hit = target.hit(entity, finalDamage, 0, combatType).setAccurate(true);
-
-        if (target instanceof NPC npc && npc.id() == NpcIdentifiers.CORPOREAL_BEAST) {
-            hit = target.hit(entity, finalDamage, 0, CombatType.MAGIC).checkAccuracy(true);
-        }
-
-        if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {
-            hit.setDamage(hit.getDamage() / 2);
-        }
-
-        hit.submit();
-
         target.performGraphic(new Graphic(2363, GraphicHeight.LOW, 0));
-
+        if (isDummy) hitDamage = maxHit * 1.5;
+        int finalDamage = (int) Math.floor(hitDamage);
+        new Hit(entity, target, 0, this)
+            .checkAccuracy(false)
+            .setDamage(finalDamage)
+            .submit()
+            .postDamage(h -> {
+                if (target instanceof Player) {
+                    if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) h.setDamage(h.getDamage() / 2);
+                }
+            });
         CombatSpecial.drain(entity, CombatSpecial.VOIDWAKER.getDrainAmount());
         return true;
     }

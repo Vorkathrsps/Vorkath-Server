@@ -106,7 +106,6 @@ public final class MagicAccuracy {
 
     public double getDefenceRoll() {
         double magicLevel = getMagicLevelDefender();
-        System.out.println("defender magic level: " + magicLevel);
         double defenceBonus = getEquipmentBonusDefender();
         double effectiveLevel;
         if (this.defender instanceof Player player) {

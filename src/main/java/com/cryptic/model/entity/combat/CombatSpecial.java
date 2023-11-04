@@ -9,7 +9,7 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.method.CombatMethod;
 import com.cryptic.model.entity.combat.method.impl.specials.magic.AccursedSceptre;
 import com.cryptic.model.entity.combat.method.impl.specials.magic.EldritchNMS;
-import com.cryptic.model.entity.combat.method.impl.specials.magic.VoidWaker;
+import com.cryptic.model.entity.combat.method.impl.specials.melee.VoidWaker;
 import com.cryptic.model.entity.combat.method.impl.specials.magic.VolatileNMS;
 import com.cryptic.model.entity.combat.method.impl.specials.melee.*;
 import com.cryptic.model.entity.combat.method.impl.specials.range.*;

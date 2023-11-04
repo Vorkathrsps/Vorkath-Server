@@ -902,15 +902,6 @@ public class CombatFactory {
             }
         }
 
-        if (attacker != null && attacker.isPlayer() && !hit.reflected && hit.getCombatType() != null) {
-            if (attacker instanceof Player playerAttacker) {
-                // Reward the player experience for this attack (as long as it's not a combat dummy)..
-                if (!target.isNpc() || !target.getAsNpc().isCombatDummy()) {
-                    addCombatXp(playerAttacker, target, Math.min(hit.getDamage(), target.hp()), hit.getCombatType(), playerAttacker.getCombat().getFightType().getStyle());
-                }
-            }
-        }
-
         if (target.isNullifyDamageLock() || target.isNeedsPlacement()) return;
         if (hit.getDamage() >= hit.getMaximumHit()) hit.setMaxHit(true);
         target.getCombat().getHitQueue().add(hit);
@@ -1275,90 +1266,6 @@ public class CombatFactory {
         }
 
         target.decrementHealth(hit);
-    }
-
-    private static void addCombatXp(Player player, Entity target, int hitDamage, CombatType style, FightStyle mode) {
-        var hit = hitDamage;
-
-        if (target.isNpc()) {
-            var ntarg = target.getAsNpc();
-            var id = ntarg.id();
-            if (id == 5534) hit = 0;
-            if (id == 496) {
-                if (ntarg.transmog() != 494) hit = 0;
-                else if (style != CombatType.MAGIC) hit = 0;
-            }
-            if (id == 319) {
-
-            }
-        }
-
-        if (style == null) return;
-
-        var gameModeMultiplier = player.getGameMode().equals(GameMode.REALISM) ? 10.0 : 50.0;
-        var gameModeDivider = player.getGameMode().equals(GameMode.REALISM) ? 4.0 : 3.0;
-
-        switch (style) {
-            case MELEE -> {
-                switch (mode) {
-                    case ACCURATE -> {
-                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / gameModeDivider)), !target.isPlayer());
-                        player.getSkills().addXp(Skills.ATTACK, (hit * gameModeMultiplier), !target.isPlayer());
-                    }
-
-                    case AGGRESSIVE -> {
-                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / gameModeDivider)), !target.isPlayer());
-                        player.getSkills().addXp(Skills.STRENGTH, (hit * gameModeMultiplier), !target.isPlayer());
-                    }
-
-                    case DEFENSIVE -> {
-                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / gameModeDivider)), !target.isPlayer());
-                        player.getSkills().addXp(Skills.DEFENCE, (hit * gameModeMultiplier), !target.isPlayer());
-                    }
-
-                    case CONTROLLED -> {
-                        var xp = (hit * gameModeMultiplier);
-                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / gameModeDivider)), !target.isPlayer());
-                        player.getSkills().addXp(Skills.ATTACK, xp / gameModeDivider, !target.isPlayer());
-                        player.getSkills().addXp(Skills.STRENGTH, xp / gameModeDivider, !target.isPlayer());
-                        player.getSkills().addXp(Skills.DEFENCE, xp / gameModeDivider, !target.isPlayer());
-                    }
-                }
-            }
-
-            case RANGED -> {
-                switch (mode) {
-                    case ACCURATE, AGGRESSIVE -> {
-                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / gameModeDivider)), !target.isPlayer());
-                        player.getSkills().addXp(Skills.RANGED, (hit * gameModeMultiplier), !target.isPlayer());
-                    }
-
-                    case DEFENSIVE -> {
-                        player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / gameModeDivider)), !target.isPlayer());
-                        player.getSkills().addXp(Skills.RANGED, (hit * gameModeDivider), !target.isPlayer());
-                        player.getSkills().addXp(Skills.DEFENCE, (hit * gameModeDivider), !target.isPlayer());
-                    }
-                }
-            }
-
-            case MAGIC -> {
-                CombatSpell spell = player.getCombat().getCastSpell() != null ? player.getCombat().getCastSpell() : player.getCombat().getAutoCastSpell() != null ? player.getCombat().getAutoCastSpell() : player.getCombat().getPoweredStaffSpell() != null ? player.getCombat().getPoweredStaffSpell() : null;
-                if (spell != null) {
-                    if (hit > 0) {
-                        if (!player.<Boolean>getAttribOr(AttributeKey.DEFENSIVE_AUTOCAST, false)) {
-                            player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / gameModeDivider)), !target.isPlayer());
-                            player.getSkills().addXp(Skills.MAGIC, (hit * 2.0 + spell.baseExperience()), !target.isPlayer());
-                        } else {
-                            player.getSkills().addXp(Skills.HITPOINTS, (hit + (hit / gameModeDivider)), !target.isPlayer());
-                            player.getSkills().addXp(Skills.MAGIC, (hit + spell.baseExperience() + (hit / gameModeDivider)), !target.isPlayer());
-                            player.getSkills().addXp(Skills.DEFENCE, hit + spell.baseExperience(), !target.isPlayer());
-                        }
-                    } else {
-                        player.getSkills().addXp(Skills.MAGIC, spell.baseExperience());
-                    }
-                }
-            }
-        }
     }
 
     /**

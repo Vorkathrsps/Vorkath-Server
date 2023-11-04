@@ -15,26 +15,15 @@ public class AbyssalDagger extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(3300);
         entity.graphic(1283, GraphicHeight.LOW, 0);
-        //TODO mob.sound(2537);
-        //TODO mob.sound(2537); // yes same sound twice on 07
-
-        int h1 = CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE);
-        int h2 = CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE);
-
-        if(h1 > 0) {
-            Hit hit = target.hit(entity, h1,1, CombatType.MELEE).checkAccuracy(true);
-            hit.submit();
-            Hit hit2 = target.hit(entity, h2,target.isNpc() ? 1 : 1, CombatType.MELEE).checkAccuracy(true);
-            hit2.submit();
-        } else {
-            //Blocked
-            Hit hit = target.hit(entity, 0,1, CombatType.MELEE).setAccurate(false);
-            hit.submit();
-            Hit hit2 = target.hit(entity, 0,target.isNpc() ? 1 : 1, CombatType.MELEE).setAccurate(false);
-            hit2.submit();
-        }
+        Hit h1 = new Hit(entity, target, 0, this).checkAccuracy(true).submit();
+        new Hit(entity, target, 0, this)
+            .checkAccuracy(true)
+            .submit()
+            .postDamage(hit -> {
+                if (!h1.isAccurate()) hit.block();
+            });
         CombatSpecial.drain(entity, CombatSpecial.ABYSSAL_DAGGER.getDrainAmount());
-return true;
+        return true;
     }
 
     @Override

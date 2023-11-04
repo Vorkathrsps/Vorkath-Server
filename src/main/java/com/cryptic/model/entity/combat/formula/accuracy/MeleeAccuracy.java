@@ -1,7 +1,6 @@
 package com.cryptic.model.entity.combat.formula.accuracy;
 
 import com.cryptic.model.World;
-import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.damagehandler.PreDamageEffectHandler;
@@ -16,10 +15,6 @@ import com.cryptic.model.items.container.equipment.EquipmentInfo;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.security.SecureRandom;
-import java.text.DecimalFormat;
-
-import static com.cryptic.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
 import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.*;
 
 /**
@@ -37,7 +32,6 @@ public class MeleeAccuracy {
     @Getter public double defenceRoll = 0;
     @Getter public double chance = 0;
     PreDamageEffectHandler handler = new PreDamageEffectHandler(new EquipmentDamageEffect());
-
     public MeleeAccuracy(Entity attacker, Entity defender, CombatType combatType) {
         this.attacker = attacker;
         this.defender = defender;
@@ -45,40 +39,44 @@ public class MeleeAccuracy {
     }
 
     public boolean successful(double selectedChance) {
-        attackRoll = getAttackRoll(this.attacker);
-        defenceRoll = getDefenceRoll(this.defender);
-        if (attackRoll > defenceRoll) chance = 1F - ((defenceRoll + 2F) / (2F * (attackRoll + 1F)));
-        else chance = attackRoll / (2F * (defenceRoll + 1F));
-        return chance > selectedChance;
+        this.attackRoll = getAttackRoll();
+        this.defenceRoll = getDefenceRoll();
+        if (this.attackRoll > this.defenceRoll) this.chance = 1D - ((this.defenceRoll + 2D) / (2D * (this.attackRoll + 1D)));
+        else this.chance = this.attackRoll / (2D * (this.defenceRoll + 1D));
+        return this.chance > selectedChance;
     }
 
-    private double getPrayerDefenseBonus(final Entity defender) {
+    private double getPrayerDefenseBonus() {
         double prayerBonus = 1F;
-        if (Prayers.usingPrayer(defender, THICK_SKIN)) prayerBonus *= 1.05F; // 5% def level boost
-        else if (Prayers.usingPrayer(defender, ROCK_SKIN)) prayerBonus *= 1.10F; // 10% def level boost
-        else if (Prayers.usingPrayer(defender, STEEL_SKIN)) prayerBonus *= 1.15F; // 15% def level boost
-        if (Prayers.usingPrayer(defender, CHIVALRY)) prayerBonus *= 1.20F; // 20% def level boost
-        else if (Prayers.usingPrayer(defender, PIETY)) prayerBonus *= 1.25F; // 25% def level boost
+        if (this.attacker instanceof Player) {
+            if (Prayers.usingPrayer(this.defender, THICK_SKIN)) prayerBonus *= 1.05F; // 5% def level boost
+            else if (Prayers.usingPrayer(this.defender, ROCK_SKIN)) prayerBonus *= 1.10F; // 10% def level boost
+            else if (Prayers.usingPrayer(this.defender, STEEL_SKIN)) prayerBonus *= 1.15F; // 15% def level boost
+            else if (Prayers.usingPrayer(this.defender, CHIVALRY)) prayerBonus *= 1.20F; // 20% def level boost
+            else if (Prayers.usingPrayer(this.defender, PIETY)) prayerBonus *= 1.25F; // 25% def level boost
+        }
         return prayerBonus;
     }
 
-    private double getPrayerAttackBonus(final Entity attacker) {
+    private double getPrayerAttackBonus() {
         double prayerBonus = 1F;
-        if (Prayers.usingPrayer(attacker, CLARITY_OF_THOUGHT)) prayerBonus *= 1.05F; // 5% attack level boost
-        else if (Prayers.usingPrayer(attacker, IMPROVED_REFLEXES)) prayerBonus *= 1.10F; // 10% attack level boost
-        else if (Prayers.usingPrayer(attacker, INCREDIBLE_REFLEXES)) prayerBonus *= 1.15F; // 15% attack level boost
-        else if (Prayers.usingPrayer(attacker, CHIVALRY)) prayerBonus *= 1.15F; // 15% attack level boost
-        else if (Prayers.usingPrayer(attacker, PIETY)) prayerBonus *= 1.20F; // 20% attack level boost
+        if (this.attacker instanceof Player) {
+            if (Prayers.usingPrayer(this.attacker, CLARITY_OF_THOUGHT)) prayerBonus *= 1.05F; // 5% attack level boost
+            else if (Prayers.usingPrayer(this.attacker, IMPROVED_REFLEXES)) prayerBonus *= 1.10F; // 10% attack level boost
+            else if (Prayers.usingPrayer(this.attacker, INCREDIBLE_REFLEXES)) prayerBonus *= 1.15F; // 15% attack level boost
+            else if (Prayers.usingPrayer(this.attacker, CHIVALRY)) prayerBonus *= 1.15F; // 15% attack level boost
+            else if (Prayers.usingPrayer(this.attacker, PIETY)) prayerBonus *= 1.20F; // 20% attack level boost
+        }
         return prayerBonus;
     }
 
-    private double getEffectiveAttack(Entity attacker) {
-        FightStyle fightStyle = attacker.getCombat().getFightType().getStyle();
-        double effectiveLevel = getAttackLevel(attacker) * getPrayerAttackBonus(attacker);
-        float modification = modifier;
-        if (attacker instanceof Player a) {
+    private double getEffectiveAttack() {
+        FightStyle fightStyle = this.attacker.getCombat().getFightType().getStyle();
+        double effectiveLevel = getAttackLevel() * getPrayerAttackBonus();
+        float modification = this.modifier;
+        if (this.attacker instanceof Player a) {
             effectiveLevel = Math.floor(effectiveLevel);
-            handler.triggerMeleeAccuracyModificationAttacker(a, combatType, this);
+            this.handler.triggerMeleeAccuracyModificationAttacker(a, this.combatType, this);
             switch (fightStyle) {
                 case ACCURATE -> effectiveLevel += 3;
                 case CONTROLLED -> effectiveLevel += 1;
@@ -97,12 +95,12 @@ public class MeleeAccuracy {
         return Math.floor(effectiveLevel);
     }
 
-    private int getAttackLevel(final Entity attacker) {
-        return attacker instanceof NPC && attacker.getAsNpc().getCombatInfo().stats != null ? attacker.getAsNpc().getCombatInfo().stats.attack : attacker.getSkills().level(Skills.ATTACK);
+    private int getAttackLevel() {
+        return this.attacker instanceof NPC npc && npc.getCombatInfo().stats != null ? npc.getCombatInfo().getStats().attack : this.attacker.getSkills().level(Skills.ATTACK);
     }
 
-    private int getDefenceLevel(Entity defender) {
-        return defender instanceof NPC && defender.getAsNpc().getCombatInfo().stats != null ? defender.getAsNpc().getCombatInfo().stats.defence : defender.getSkills().level(Skills.DEFENCE);
+    private int getDefenceLevel() {
+        return this.defender instanceof NPC npc && npc.getCombatInfo().stats != null ? npc.getCombatInfo().getStats().defence : this.defender.getSkills().level(Skills.DEFENCE);
     }
 
     @Getter
@@ -111,9 +109,9 @@ public class MeleeAccuracy {
 
     private int getGearDefenceBonus() {
         int bonus = 0;
-        AttackType type = defender instanceof NPC npc && npc.getCombat().getAttackType() != null ? npc.getCombat().getAttackType() : defender.getCombat().getFightType().getAttackType();
+        AttackType type = this.defender instanceof NPC npc && npc.getCombat().getAttackType() != null ? npc.getCombat().getAttackType() : this.defender.getCombat().getFightType().getAttackType();
 
-        if (defender instanceof NPC npc) {
+        if (this.defender instanceof NPC npc) {
             var stats = npc.getCombatInfo().bonuses;
             if (npc.getCombatInfo() != null) {
                 if (npc.getCombatInfo().stats != null) {
@@ -124,8 +122,8 @@ public class MeleeAccuracy {
                     }
                 }
             }
-        } else if (defender instanceof Player player) {
-            var stats = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo());
+        } else if (this.defender instanceof Player) {
+            var stats = EquipmentInfo.totalBonuses(this.attacker, World.getWorld().equipmentInfo());
             switch (type) {
                 case STAB -> bonus = stats.stabdef;
                 case CRUSH -> bonus = stats.crushdef;
@@ -136,38 +134,36 @@ public class MeleeAccuracy {
         return bonus;
     }
 
-    public int getGearAttackBonus(Entity attacker) {
+    public int getGearAttackBonus() {
         int bonus = 0;
-        if (attacker instanceof Player player) {
-            EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo());
-            final AttackType type = player.getCombat().getFightType().getAttackType();
+        if (this.attacker instanceof Player) {
+            EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(this.attacker, World.getWorld().equipmentInfo());
+            final AttackType type = this.attacker.getCombat().getFightType().getAttackType();
             switch (type) {
                 case STAB -> bonus = attackerBonus.stab;
                 case CRUSH -> bonus = attackerBonus.crush;
                 case SLASH -> bonus = attackerBonus.slash;
             }
-        } else if (attacker instanceof NPC npc) {
+        } else if (this.attacker instanceof NPC npc) {
             bonus = npc.getCombatInfo().getBonuses().getAttack();
         }
 
         return bonus;
     }
 
-    public double getAttackRoll(Entity attacker) {
-        double effectiveLevel = getEffectiveAttack(attacker);
-        double attackBonus = getGearAttackBonus(attacker);
-
+    public double getAttackRoll() {
+        double effectiveLevel = getEffectiveAttack();
+        double attackBonus = getGearAttackBonus();
         double roll = effectiveLevel * (attackBonus + 64);
-
         return Math.floor(roll);
     }
 
-    public double getDefenceRoll(Entity defender) {
-        double defenceLevel = getDefenceLevel(defender);
+    public double getDefenceRoll() {
+        double defenceLevel = getDefenceLevel();
         double defenceBonus = getGearDefenceBonus();
-        if (defender instanceof Player) {
-            defenceLevel *= getPrayerDefenseBonus(defender);
-            switch (defender.getCombat().getFightType().getStyle()) {
+        if (this.defender instanceof Player) {
+            defenceLevel *= getPrayerDefenseBonus();
+            switch (this.defender.getCombat().getFightType().getStyle()) {
                 case DEFENSIVE -> defenceLevel += 3;
                 case CONTROLLED -> defenceLevel += 1;
             }

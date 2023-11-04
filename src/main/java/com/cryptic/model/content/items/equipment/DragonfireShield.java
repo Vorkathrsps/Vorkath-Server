@@ -84,7 +84,7 @@ public class DragonfireShield extends PacketInteraction {
         final int delay = attacker.executeProjectile(p1);
 
         if (dmg > 0) {
-            target.freeze(25, attacker);
+            target.freeze(25, attacker, true);
         }
 
         Hit hit = target.hit(attacker, dmg, delay, null).checkAccuracy(true).postDamage(p -> {

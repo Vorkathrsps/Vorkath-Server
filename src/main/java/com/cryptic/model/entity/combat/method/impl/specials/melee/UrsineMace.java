@@ -22,7 +22,7 @@ public class UrsineMace extends CommonCombatMethod {
 
         if (hit.isAccurate()) {
             if (target.isPlayer()) {
-                target.freeze(6, target);
+                target.freeze(6, target, true);
                 target.getSkills().setLevel(Skills.AGILITY, target.getSkills().level(Skills.AGILITY) - 20);
                 Chain.bound(null).runFn(2, () -> {
                     for (int index = 0; index < 4; index++) {

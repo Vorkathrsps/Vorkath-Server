@@ -54,7 +54,7 @@ public class KingBlackDragon extends CommonCombatMethod {
                 case 1 -> {
                     fire(entity, target, FireType.FREEZE, 10);
                     if (Utils.rollDie(3, 1))
-                        target.freeze(3, entity);
+                        target.freeze(3, entity, true);
                 }
                 case 2 -> {
                     fire(entity, target, FireType.SHOCK, 12);

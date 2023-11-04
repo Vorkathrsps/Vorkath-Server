@@ -30,7 +30,8 @@ public class Hit {
 
     public boolean toremove;
     public boolean showSplat;
-    @Getter private HitMark hitMark;
+    @Getter
+    private HitMark hitMark;
     /**
      * if its a veng/recoil ring type of hit, in this case. this stops infinite loops of vengeance hits/recoil ring
      * repeating on reflected damage.
@@ -43,14 +44,22 @@ public class Hit {
     private Entity attacker;
     private Entity target;
     private int damage;
-    @Getter private int delay;
-    @Getter public boolean checkAccuracy;
+    @Getter
+    private int delay;
+    @Getter
+    public boolean checkAccuracy;
     private boolean accurate;
-    @Getter public CombatType combatType;
-    @Getter @Setter public boolean isMaxHit;
-    @Getter public boolean pidIgnored;
+    @Getter
+    public CombatType combatType;
+    @Getter
+    @Setter
+    public boolean isMaxHit;
+    @Getter
+    public boolean pidIgnored;
 
-    @Getter boolean invalidated = false;
+    @Getter
+    boolean invalidated = false;
+
     public Entity getSource() {
         return attacker;
     }
@@ -172,18 +181,18 @@ public class Hit {
 
     public Hit roll() {
         if (attacker == null || target == null || hitMark == HitMark.HEALED) return null;
-        MagicAccuracy magicAccuracy = new MagicAccuracy(attacker, target, combatType);
-        RangeAccuracy rangeAccuracy = new RangeAccuracy(attacker, target, combatType);
-        MeleeAccuracy meleeAccuracy = new MeleeAccuracy(attacker, target, combatType);
+        MagicAccuracy magicAccuracy = new MagicAccuracy(this.attacker, this.target, this.combatType);
+        RangeAccuracy rangeAccuracy = new RangeAccuracy(this.attacker, this.target, this.combatType);
+        MeleeAccuracy meleeAccuracy = new MeleeAccuracy(this.attacker, this.target, this.combatType);
         if (target instanceof NPC npc) {
             if (npc.getCombatInfo() == null) {
                 logger.warn("Missing combat information for {} {} {}", npc, npc.getMobName(), npc.id());
                 return null;
             }
-            if (npc.isCombatDummy()) checkAccuracy = false;
+            if (npc.isCombatDummy()) this.checkAccuracy = false;
         }
+        double chance = Utils.THREAD_LOCAL_RANDOM.get().nextDouble();
         if (this.checkAccuracy && this.combatType != null && !(target.isNpc() && target.npc().getCombatInfo() == null) && !(attacker.isNpc() && attacker.npc().getCombatInfo() == null)) {
-            var chance = Utils.THREAD_LOCAL_RANDOM.get().nextDouble();
             switch (combatType) {
                 case MAGIC -> accurate = magicAccuracy.successful(chance);
                 case RANGED -> accurate = rangeAccuracy.successful(chance);
@@ -201,6 +210,7 @@ public class Hit {
         if (alwaysHitActive) this.damage = alwaysHitDamage;
         if (!this.accurate && this.damage == 0) this.hitMark = HitMark.MISSED;
         else this.hitMark = HitMark.DEFAULT;
+        logger.debug("Accurate {} Chance: {} Roll: {}", accurate, magicAccuracy.chance, chance);
         return this;
     }
 
@@ -239,6 +249,7 @@ public class Hit {
     public Consumer<Hit> postDamage;
 
     public Hit postDamage(Consumer<Hit> postDamage) {
+        if (attacker.dead() || target.dead()) return null;
         this.postDamage = postDamage;
         return this;
     }

@@ -83,10 +83,10 @@ public class Judge extends CommonCombatMethod {
         entity.stopActions(true);
         entity.animate(new Animation(6950, Priority.HIGH));
         entity.forceChat("I WILL CONSUME YOUR SOUL!");
-        entity.setTinting(new Tinting(delay, duration, (byte) 0, (byte) 0, (byte) 0, (byte) 100), target);
+        entity.setTinting(new Tinting(delay, duration, (byte) 0, (byte) 0, (byte) 0, (byte) 100));
         World.getWorld().getPlayers().forEach(p -> Chain.bound(null).runFn(0, () -> {
             if (entity.isRegistered() && !entity.dead() && target.tile().inSqRadius(entity.tile(), 8)) {
-                target.setTinting(new Tinting(delay, duration, hue, sat, lum, opac), target);
+                target.setTinting(new Tinting(delay, duration, hue, sat, lum, opac));
                 Hit hit = target.hit(entity, 40, delay, CombatType.MAGIC).setAccurate(true);
                 if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {
                     hit.setDamage(20);

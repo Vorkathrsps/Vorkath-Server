@@ -285,7 +285,7 @@ public class NexCombat extends CommonCombatMethod {
         player.message("Nex has marked you as a sacrifice, RUN!");
 
         for (final Entity selectedTarget : getPossibleTargets(nex)) {
-            selectedTarget.setTinting(new Tinting(delay, duration, hue, sat, lum, opac), target);
+            selectedTarget.setTinting(new Tinting(delay, duration, hue, sat, lum, opac));
         }
 
         Chain.bound(null).name("bloodsacrifice").cancelWhen(() -> {
@@ -674,7 +674,7 @@ public class NexCombat extends CommonCombatMethod {
             t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), delay, CombatType.MAGIC).checkAccuracy(true).postDamage(h -> {
                 if (h.isAccurate() && !Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MAGIC)) {
                     h.getTarget().graphic(2005, GraphicHeight.MIDDLE, p.getSpeed());
-                    h.getTarget().freeze(33, nex);
+                    h.getTarget().freeze(33, nex, true);
                     int drain = t.player().getEquipment().hasAt(EquipSlot.SHIELD, SPECTRAL_SPIRIT_SHIELD) ? h.getDamage() / 3 : h.getDamage() / 2;
                     h.getTarget().skills().alterSkill(Skills.PRAYER, -drain);
                 }
@@ -724,7 +724,7 @@ public class NexCombat extends CommonCombatMethod {
         nex.forceChat("Die now, in a prison of ice!");
         nex.animate(SHADOW_SMASH_ATTACK_ANIM);
 
-        target.freeze(5, nex);
+        target.freeze(5, nex, true);
 
         Set<Tile> tiles = target.tile().expandedBounds(1);// radius 1 is 3x3
         Chain.bound(null).runFn(4, () -> {

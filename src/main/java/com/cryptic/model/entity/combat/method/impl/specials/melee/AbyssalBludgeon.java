@@ -15,14 +15,17 @@ public class AbyssalBludgeon extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(3299);
-        //TODO it.player().sound(2715, 10)
-        //TODO it.player().sound(1930, 30)
-
-        int damage = CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE);
-        damage *= 1 + (((entity.getSkills().xpLevel(Skills.PRAYER) - entity.getSkills().level(Skills.PRAYER)) * 0.5) / 100.0);
-        Hit hit = target.hit(entity, damage,1, CombatType.MELEE).checkAccuracy(true);
-        hit.submit();
-        target.graphic(1284, GraphicHeight.LOW, 15);
+        new Hit(entity, target, 0, this)
+            .checkAccuracy(true)
+            .submit()
+            .postDamage(hit -> {
+                if (!hit.isAccurate()) {
+                    hit.block();
+                    return;
+                }
+                hit.setDamage((int) (hit.getDamage() * (1 + (((entity.getSkills().xpLevel(Skills.PRAYER) - entity.getSkills().level(Skills.PRAYER)) * 0.5)) / 100)));
+                target.graphic(1284, GraphicHeight.LOW, 0);
+            });
         CombatSpecial.drain(entity, CombatSpecial.ABYSSAL_BLUDGEON.getDrainAmount());
         return true;
     }

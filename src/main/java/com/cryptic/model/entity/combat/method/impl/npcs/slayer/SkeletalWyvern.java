@@ -69,7 +69,7 @@ public class SkeletalWyvern extends CommonCombatMethod {
             target.getAsPlayer().message("The wyvern's ice breath drains your stats!");
         }
         if (Utils.rollDie(3, 1))
-            target.freeze(3, entity);
+            target.freeze(3, entity, true);
         target.hit(entity, World.getWorld().random(maxDamage), CombatType.MAGIC).submit();
     }
 

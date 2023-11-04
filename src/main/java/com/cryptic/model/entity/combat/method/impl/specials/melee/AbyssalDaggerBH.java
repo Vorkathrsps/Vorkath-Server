@@ -13,13 +13,7 @@ public class AbyssalDaggerBH extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(3300);
         entity.graphic(1283, GraphicHeight.LOW, 0);
-
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE) ,1, CombatType.MELEE).checkAccuracy(true);
-
-        for (int index = 0; index < 2; index++) {
-            hit.submit();
-        }
-
+        for (int index = 0; index < 2; index++) new Hit(entity, target, 0, this).checkAccuracy(true).submit();
         CombatSpecial.drain(entity, CombatSpecial.ABYSSAL_DAGGER_BH.getDrainAmount());
         return true;
     }

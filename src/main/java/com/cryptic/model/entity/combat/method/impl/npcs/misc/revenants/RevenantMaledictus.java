@@ -116,7 +116,7 @@ public class RevenantMaledictus extends CommonCombatMethod {
         } else if (npc.getAnimation().getId() == animations[0]) {
             target.hit(npc, damage, delay);
             if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC) && !target.frozen()) {
-                target.freeze(15, npc);
+                target.freeze(15, npc, false);
             }
         }
     }

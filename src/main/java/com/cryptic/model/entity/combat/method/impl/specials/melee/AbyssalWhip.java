@@ -15,26 +15,31 @@ public class AbyssalWhip extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity mob, Entity target) {
         entity.animate(1658);
-        //todo it.player().world().spawnSound(it.player().tile(), 2713, 0, 10)
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy(true);
-        hit.submit();
-
-        target.graphic(341, GraphicHeight.LOW, 0);
-        if (target.isPlayer()) {
-            Player t = (Player) target;
-            Player player = (Player) entity;
-            double target_cur_energy = t.getAttribOr(AttributeKey.RUN_ENERGY, 100.0);
-            double player_cur_energy = player.getAttribOr(AttributeKey.RUN_ENERGY, 100.0);
-            if (target_cur_energy > 0.0) {
-                double drain = target_cur_energy / 10;
-                if (drain > 0) {
-                    t.setRunningEnergy((target_cur_energy - drain), true);
-                    player.setRunningEnergy((player_cur_energy + drain), true);
-                }
+        new Hit(entity, target, 0, this).checkAccuracy(true).submit().postDamage(h -> {
+            if (!h.isAccurate()) {
+                h.block();
+                return;
             }
-        }
+            if (target instanceof Player player) {
+                if (player.dead()) return;
+                var attacker = (Player) entity;
+                if (attacker.dead()) return;
+                drainEnergy(target, player, attacker);
+            }
+        });
         CombatSpecial.drain(entity, CombatSpecial.ABYSSAL_WHIP.getDrainAmount());
         return true;
+    }
+
+    private static void drainEnergy(Entity target, Player player, Player attacker) {
+        double a_run = attacker.getAttribOr(AttributeKey.RUN_ENERGY, 100.0);
+        double t_run = player.getAttribOr(AttributeKey.RUN_ENERGY, 100.0);
+        if (!(t_run > 0.0)) return;
+        double drain = t_run / 10;
+        if (!(drain > 0.0)) return;
+        player.setRunningEnergy((t_run - drain), true);
+        attacker.setRunningEnergy((a_run + drain), true);
+        target.graphic(341, GraphicHeight.LOW, 0);
     }
 
     @Override

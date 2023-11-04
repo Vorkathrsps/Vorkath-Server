@@ -9,26 +9,32 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
+import com.cryptic.utility.Utils;
+import org.jetbrains.annotations.NotNull;
 
 public class AbyssalTentacle extends CommonCombatMethod {
 
     @Override
-    public boolean prepareAttack(Entity entity, Entity target) {
+    public boolean prepareAttack(@NotNull Entity entity, Entity target) {
         entity.animate(1658);
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy(true);
-        hit.submit();
-
-        target.graphic(341, GraphicHeight.HIGH, 0);
-        target.freeze(8, entity);// 5 second freeze timer
-        if (World.getWorld().rollDie(100, 25)) {
-            target.poison(4);
-        }
+        new Hit(entity, target, 0, this)
+            .checkAccuracy(true)
+            .submit()
+            .postDamage(h -> {
+                if (!h.isAccurate()) {
+                    h.block();
+                    return;
+                }
+                target.graphic(341, GraphicHeight.HIGH, 0);
+                target.freeze(8, entity, true);
+                if (Utils.rollDice(25)) target.poison(4);
+            });
         CombatSpecial.drain(entity, CombatSpecial.ABYSSAL_TENTACLE.getDrainAmount());
         return true;
     }
 
     @Override
-    public int getAttackSpeed(Entity entity) {
+    public int getAttackSpeed(@NotNull Entity entity) {
         return entity.getBaseAttackSpeed();
     }
 

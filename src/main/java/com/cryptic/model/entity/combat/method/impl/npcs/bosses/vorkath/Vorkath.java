@@ -394,7 +394,7 @@ public class Vorkath extends CommonCombatMethod {
         entity.lockNoDamage();
         entity.animate(7960);
         new Projectile(entity, target, 395, BREATH_DELAY, 60, BREATH_START_HEIGHT, BREATH_END_HEIGHT, 1, true).sendProjectile();
-        target.freeze(30, entity);
+        target.freeze(30, entity, true);
         target.graphic(369, GraphicHeight.LOW, 30);
         Tile pos = Utils.randomElement(entity.getCentrePosition().area(7, t ->
             World.getWorld().meleeClip(t.x, t.y, t.level) == 0

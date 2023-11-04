@@ -41,7 +41,7 @@ public class Glacies extends CommonCombatMethod {
         hit.checkAccuracy(true).postDamage(h -> {
             if(h.isAccurate() && World.getWorld().rollDie(2,1)) {
                 target.graphic(369);
-                target.freeze(33, entity);
+                target.freeze(33, entity, true);
             }
         }).submit();
         return true;

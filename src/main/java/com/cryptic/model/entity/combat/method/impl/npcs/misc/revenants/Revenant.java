@@ -81,6 +81,6 @@ public class Revenant extends CommonCombatMethod {
         int damage = CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC);
         target.hit(npc, damage, delay, CombatType.MAGIC).checkAccuracy(true).submit();
         target.performGraphic(damage > 0 ? new Graphic(1454, GraphicHeight.HIGH, p.getSpeed()) : new Graphic(85, GraphicHeight.HIGH, p.getSpeed()));
-        npc.freeze(8, target);
+        npc.freeze(8, target, false);
     }
 }

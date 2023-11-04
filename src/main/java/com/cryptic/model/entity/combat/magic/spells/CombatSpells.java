@@ -435,7 +435,7 @@ CombatSpells {
                 if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HANDS, SWAMPBARK_GAUNTLETS))
                     count += 0.6;
             }
-            castOn.freeze((int) (8 + count), cast);
+            castOn.freeze((int) (8 + count), cast, false);
         }
 
         @Override
@@ -827,7 +827,7 @@ CombatSpells {
                 if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HANDS, SWAMPBARK_GAUNTLETS))
                     count += 0.6;
             }
-            castOn.freeze((int) (16 + count), cast);
+            castOn.freeze((int) (16 + count), cast, false);
         }
 
         @Override
@@ -1468,7 +1468,7 @@ CombatSpells {
                 if (cast.getAsPlayer().getEquipment().hasAt(EquipSlot.HANDS, SWAMPBARK_GAUNTLETS))
                     count += 0.6D;
             }
-            castOn.freeze((int) (25 + count), cast); // 15 second freeze timer
+            castOn.freeze((int) (25 + count), cast, false); // 15 second freeze timer
         }
 
         @Override
@@ -2020,7 +2020,7 @@ CombatSpells {
 
         @Override
         public void spellEffect(Entity cast, Entity castOn, Hit hit) {
-            castOn.freeze(8, cast);
+            castOn.freeze(8, cast, false);
         }
 
         @Override
@@ -2261,7 +2261,7 @@ CombatSpells {
 
         @Override
         public void spellEffect(Entity cast, Entity castOn, Hit hit) {
-            castOn.freeze(16, cast);
+            castOn.freeze(16, cast, false);
         }
 
         @Override
@@ -2501,7 +2501,7 @@ CombatSpells {
 
         @Override
         public void spellEffect(Entity cast, Entity castOn, Hit hit) {
-            castOn.freeze(25, cast); // 15 second freeze timer
+            castOn.freeze(25, cast, false); // 15 second freeze timer
         }
 
         @Override
@@ -2742,7 +2742,7 @@ CombatSpells {
 
         @Override
         public void spellEffect(Entity cast, Entity castOn, Hit hit) {
-            castOn.freeze(32, cast);
+            castOn.freeze(32, cast, false);
         }
 
         @Override

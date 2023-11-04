@@ -13,7 +13,7 @@ public class TintingTest implements Command {
         byte opac = 112;
 
         Tinting tinting = new Tinting((short) 100, (short) 100, hue, sat, lum, opac);
-        player.setTinting(tinting, player);
+        player.setTinting(tinting);
     }
 
     @Override

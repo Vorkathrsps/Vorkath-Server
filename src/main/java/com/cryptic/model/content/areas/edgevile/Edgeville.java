@@ -238,12 +238,11 @@ public class Edgeville extends PacketInteraction {
                 }
 
                 player.lockNoDamage();
-                GameObject spawned = new GameObject(88, obj.tile(), obj.getType(), obj.getRotation());
                 player.runFn(1, () -> {
                     player.animate(2140);
                     player.message("You pull the lever...");
                 }).then(1, () -> {
-                    ObjectManager.addObj(spawned);
+                    GameObject spawned = new GameObject(5961, obj.tile(), obj.getType(), obj.getRotation());
                     ObjectManager.replace(obj, spawned, 5);
                 }).then(1, () -> {
                     player.animate(714);

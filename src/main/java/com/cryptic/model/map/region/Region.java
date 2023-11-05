@@ -1,6 +1,7 @@
 package com.cryptic.model.map.region;
 
 import com.cryptic.model.map.position.Tile;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
@@ -208,7 +209,7 @@ public class Region {
         }
     };
 
-    public HashMap<Integer, RegionZData> customZObjectTiles;
+    public Object2ObjectOpenHashMap<Integer, RegionZData> customZObjectTiles;
     public RegionZData baseZData = new RegionZData();
     public int recentCachedBaseZLevel;
     public RegionZData recentCachedBaseZData;

@@ -3,6 +3,7 @@ package com.cryptic.model.entity;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Boundary;
 import com.cryptic.model.map.position.areas.impl.DuelArenaArea;
+import it.unimi.dsi.fastutil.ints.*;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -27,19 +28,20 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
     /**
      * The backing array of {@link Entity}s within this collection.
      */
-    public E[] entities;
+
+    public Int2ObjectOpenHashMap<E> entities;
 
     /**
      * The queue containing all of the cached slots that can be assigned to
      * {@link Entity}s to prevent expensive lookups.
      */
-    private final Queue<Integer> slotQueue = new ArrayDeque<>();
+    private final IntPriorityQueue slotQueue = new IntArrayPriorityQueue();
 
     /**
      * A list of integers that individually represent slots that are occupied. This list determines
      * the order in which a mob is processed without modifying the underlying array.
      */
-    private final List<Integer> renderOrder = new ArrayList<>();
+    private final IntList renderOrder = new IntArrayList();
 
     /**
      * The finite capacity of this collection.
@@ -59,9 +61,9 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
     @SuppressWarnings("unchecked")
     public EntityList(int capacity) {
         this.capacity = ++capacity;
-        this.entities = (E[]) new Entity[capacity];
+        this.entities = new Int2ObjectOpenHashMap<>(capacity);
         this.size = 0;
-        IntStream.rangeClosed(1, capacity - 1).forEach(slotQueue::add);
+        IntStream.rangeClosed(1, capacity - 1).forEach(slotQueue::enqueue);
     }
 
     /**
@@ -74,7 +76,7 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
         }
         Collections.shuffle(renderOrder);
         for (int i = 0; i < renderOrder.size(); i++) {
-            final E e = get(renderOrder.get(i));
+            final E e = get(renderOrder.getInt(i));
             if (e != null && e.isPlayer() && e.getController() instanceof DuelArenaArea)
                 continue;
             if (e != null)
@@ -98,13 +100,13 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
 
         if (!e.isRegistered()) {
             //System.out.println("[add] Slot was: " + slotQueue.size());
-            int slot = slotQueue.remove();
+            int slot = slotQueue.dequeueInt();
             renderOrder.add(slot);
             e.pidOrderIndex = renderOrder.indexOf(slot);
             e.setRegistered(true);
             e.setIndex(slot);
             //System.out.println("[add] Slot is: " + slot);
-            entities[slot] = e;
+            entities.put(slot, e);
             e.onAdd();
             size++;
             return true;
@@ -123,18 +125,18 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
     public boolean remove(E e) {
         Objects.requireNonNull(e);
 
-        if (e.getIndex() != -1 && entities[e.getIndex()] != null) {
+        if (e.getIndex() != -1 && entities.get(e.getIndex()) != null) {
             int renderIndexOf = renderOrder.indexOf(e.getIndex());
             //System.out.println("Removing npc");
             if (renderIndexOf != -1) {
-                renderOrder.remove(renderIndexOf);
+                renderOrder.removeInt(renderIndexOf);
             }
             e.pidOrderIndex = -1;
             e.setRegistered(false);
-            entities[e.getIndex()] = null;
-            //System.out.println("[remove] Slot queue was " + slotQueue.size());
-            slotQueue.add(e.getIndex());
-            //System.out.println("[remove] Slot queue is " + slotQueue.size());
+            entities.remove(e.getIndex());
+            System.out.println("[remove] Slot queue was " + slotQueue.size());
+            slotQueue.enqueue(e.getIndex());
+            System.out.println("[remove] Slot queue is " + slotQueue.size());
             e.setIndex(-1);
             if (!e.isPlayer())
                 e.onRemove();
@@ -154,7 +156,7 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
      */
     public boolean contains(E e) {
         Objects.requireNonNull(e);
-        return entities[e.getIndex()] != null;
+        return entities.get(e.getIndex()) != null;
     }
 
     /**
@@ -173,7 +175,7 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
      */
     @Override
     public void forEach(Consumer<? super E> action) {
-        for (E e : entities) {
+        for (E e : entities.values()) {
             if (e == null) {
                 continue;
             }
@@ -184,11 +186,10 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
     @SuppressWarnings("unchecked")
     @SafeVarargs
     public final void forEachInArea(Area area, Consumer<? super E>... actions) {
-        int size = entities.length;
-
+        int size = entities.size();
         for (Consumer<? super E> a : actions) {
             for (int i = 0; i < size; i++) {
-                Entity e = entities[i];
+                Entity e = entities.get(i);
                 if (e != null && area.contains(e.tile(),false))
                     ((Consumer<? super Entity>) a).accept(e);
             }
@@ -198,7 +199,7 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
     @SafeVarargs
     public final void forEachInRegion(int region, Consumer<? super E>... actions) {
         for (Consumer<? super E> a : actions) {
-            for (Entity e : entities) {
+            for (Entity e : entities.values()) {
                 if (e != null && e.tile().region() == region)
                     ((Consumer<? super Entity>) a).accept(e);
             }
@@ -207,10 +208,10 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
 
     @SuppressWarnings("unchecked")
     public final void forEachInBoundary(Boundary boundary, Consumer<? super E> action) {
-        int size = entities.length;
+        int size = entities.size();
 
         for (int i = 0; i < size; i++) {
-            Entity e = entities[i];
+            Entity e = entities.get(i);
             if (e != null && boundary.inside(e.tile()))
                 ((Consumer<? super Entity>) action).accept(e);
         }
@@ -223,7 +224,7 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
      * @return
      */
     public Stream<E> filter(Predicate<? super Entity> predicate) {
-        return Arrays.stream(entities).filter(mob -> Objects.nonNull(mob) && predicate.test(mob));
+        return entities.values().stream().filter(mob -> Objects.nonNull(mob) && predicate.test(mob));
     }
 
     /**
@@ -233,12 +234,12 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
      * @return
      */
     public void forEachFiltered(Predicate<E> predicate, Consumer<E> consumer) {
-        Arrays.stream(entities).filter(mob -> Objects.nonNull(mob) && predicate.test(mob)).forEach(consumer);
+        entities.values().stream().filter(mob -> Objects.nonNull(mob) && predicate.test(mob)).forEach(consumer);
     }
 
     @Override
     public Spliterator<E> spliterator() {
-        return Spliterators.spliterator(entities, Spliterator.ORDERED);
+        return Spliterators.spliterator(entities.values(), Spliterator.ORDERED);
     }
 
     /**
@@ -251,7 +252,7 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
      * element was found.
      */
     public Optional<E> search(Predicate<? super E> filter) {
-        for (E e : entities) {
+        for (E e : entities.values()) {
             if (e == null)
                 continue;
             if (filter.test(e))
@@ -273,7 +274,7 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
      * the spot.
      */
     public E get(int slot) {
-        return entities[slot];
+        return entities.get(slot);
     }
 
     /**
@@ -318,7 +319,7 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
      * @return a sequential stream over the elements in this collection.
      */
     public Stream<E> stream() {
-        return Arrays.stream(entities);
+        return entities.values().stream();
     }
 
     /**
@@ -328,7 +329,7 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
     @SuppressWarnings("unchecked")
     public void clear() {
         forEach(this::remove);
-        entities = (E[]) new Entity[capacity];
+        entities = new Int2ObjectOpenHashMap<>(capacity);
         size = 0;
     }
 
@@ -337,16 +338,16 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
      *
      * @return this returns a copy of the list of slots that are rendered. Order is important.
      */
-    public List<Integer> getRenderOrder() {
-        return new ArrayList<>(renderOrder);
+    public IntList getRenderOrder() {
+        return new IntArrayList(renderOrder);
     }
 
-    public List<Integer> getRenderOrderInternal() {
+    public IntList getRenderOrderInternal() {
         return renderOrder;
     }
 
     public Stream<E> nonNullStream() {
-        return Stream.of(entities).filter(Objects::nonNull);
+        return entities.values().stream().filter(Objects::nonNull);
     }
 
     /**
@@ -394,7 +395,7 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
             }
             lastIndex = index;
             index++;
-            return list.entities[lastIndex];
+            return list.entities.get(lastIndex);
         }
 
         @Override
@@ -402,7 +403,7 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
             if (lastIndex == -1) {
                 throw new IllegalStateException("This method can only be " + "called once after \"next\".");
             }
-            list.remove(list.entities[lastIndex]);
+            list.remove(list.entities.get(lastIndex));
             lastIndex = -1;
         }
 

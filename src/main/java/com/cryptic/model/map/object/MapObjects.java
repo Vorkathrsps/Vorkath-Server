@@ -2,6 +2,7 @@ package com.cryptic.model.map.object;
 
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.RegionManager;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -33,7 +34,7 @@ public class MapObjects {
             return Optional.empty();
 
         //Go through the objects in the list..
-        ArrayList<GameObject> list = t.gameObjects;
+        ObjectArrayList<GameObject> list = t.gameObjects;
         if (list != null) {
             Iterator<GameObject> it = list.iterator();
             for (; it.hasNext(); ) {

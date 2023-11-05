@@ -902,7 +902,7 @@ public class World {
                     return player;
             }
         } else {
-            for (Player player : players.entities) {
+            for (Player player : players.entities.values()) {
                 if (player != null && player.getIndex() == userId)
                     return player;
             }

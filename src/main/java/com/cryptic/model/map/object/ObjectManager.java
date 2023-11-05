@@ -127,10 +127,8 @@ public class ObjectManager {
      */
     public static void replace(final GameObject original, final GameObject replacement, int cycles) {
         original.setId(replacement != null ? replacement.getId() : -1);
-        if (cycles < 0)
-            return;
+        if (cycles < 0) return;
         Chain.noCtx().runFn(cycles, () -> original.setId(original.originalId));
-
         System.out.println("Replacing: " + original);
     }
 

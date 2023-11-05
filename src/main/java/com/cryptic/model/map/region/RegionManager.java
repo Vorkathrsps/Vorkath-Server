@@ -601,7 +601,7 @@ public class RegionManager {
     }
 
     public static BiFunction<IntOpenHashSet, Integer, ObjectCollection<GameObject>> loadGroupMapFiles = (i, i2) -> ObjectArrayList.of();
-    public static Function<Area[], ObjectOpenHashSet> areasToRegions = areas -> ObjectOpenHashSet.of();
+    public static Function<Area[], IntSet> areasToRegions = areas -> IntSet.of();
 
     public static final class MapDecodeEx extends RuntimeException {
         public MapDecodeEx(String mapDecode, Exception e) {

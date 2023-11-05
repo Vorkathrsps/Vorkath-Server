@@ -16,6 +16,7 @@ import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.utility.Utils;
 import com.google.common.collect.Lists;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -30,18 +31,11 @@ import java.util.function.Predicate;
 
 import static com.cryptic.model.map.route.RouteFinder.*;
 
-/**
- * Represents a single world tile position.
- *
- * @author relex lawl
- */
 public class Tile implements Cloneable {
     private static final Logger log = LogManager.getLogger(Tile.class);
-
-    public static final Area GAMBLING_ZONE = new Area(2338, 4934, 2381, 4993);
     public int playerCount;
     public int npcCount;
-    public ArrayList<GameObject> gameObjects;
+    public ObjectArrayList<GameObject> gameObjects;
 
     public GameObject object(int objectID) {
         return new GameObject(objectID, this, 10, 0);
@@ -49,7 +43,7 @@ public class Tile implements Cloneable {
 
     public void addObject(GameObject gameObject) {
         if (gameObjects == null) {
-            gameObjects = new ArrayList<>(4);
+            gameObjects = new ObjectArrayList<>(4);
         } else {
             // is gonna replace whatever was there previously visually on client so lets remove too
             for (GameObject object : Lists.newArrayList(gameObjects)) {
@@ -60,6 +54,7 @@ public class Tile implements Cloneable {
                 }
             }
         }
+
         gameObject.setTile(this);
         gameObject.clip(false);
         gameObjects.add(gameObject);

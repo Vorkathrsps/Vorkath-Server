@@ -193,7 +193,6 @@ public final class LoginResponses {
 
         if (player.getAttribOr(AttributeKey.NEW_ACCOUNT, false)) {
             // save the profile immediately
-            //PlayerSave.save(player);
             PlayerSave.saveAsync(player);
         }
         return LOGIN_SUCCESSFUL;

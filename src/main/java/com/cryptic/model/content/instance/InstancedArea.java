@@ -13,6 +13,7 @@ import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.utility.chainedwork.Chain;
 import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
 import it.unimi.dsi.fastutil.objects.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

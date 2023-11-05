@@ -42,7 +42,7 @@ public class NightmareInstance extends NightmareArea {
             return null;
         }
 
-        member.setInstance(owner.getNightmareInstance());
+        member.setInstancedArea(owner.getNightmareInstance());
         member.teleport(new Tile(3872, 9958, owner.getNightmareInstance().getzLevel() + 3));
         addPlayerToList(member);
         return this;
@@ -50,24 +50,24 @@ public class NightmareInstance extends NightmareArea {
 
     public NightmareInstance build() {
         NPC nightmare = new NPC(9432, new Tile(3870, 9949, this.getzLevel() + 3));
-        nightmare.setInstance(this);
+        nightmare.setInstancedArea(this);
         nightmare.spawn(false);
         nightmare.noRetaliation(true);
 
         NPC topRightTotem = new NPC(9443, new Tile(3879, 9958, this.getzLevel() + 3));
-        topRightTotem.setInstance(this);
+        topRightTotem.setInstancedArea(this);
         topRightTotem.spawn(false);
 
         NPC bottomRightTotem = new NPC(9437, new Tile(3879, 9942, this.getzLevel() + 3));
-        bottomRightTotem.setInstance(this);
+        bottomRightTotem.setInstancedArea(this);
         bottomRightTotem.spawn(false);
 
         NPC topLeftTotem = new NPC(9440, new Tile(3863, 9958, this.getzLevel() + 3));
-        topLeftTotem.setInstance(this);
+        topLeftTotem.setInstancedArea(this);
         topLeftTotem.spawn(false);
 
         NPC bottomLeftTotem = new NPC(9434, new Tile(3863, 9942, this.getzLevel() + 3));
-        bottomLeftTotem.setInstance(this);
+        bottomLeftTotem.setInstancedArea(this);
         bottomLeftTotem.spawn(false);
 
         buildInstance();
@@ -90,7 +90,7 @@ public class NightmareInstance extends NightmareArea {
 
     private void buildInstance() {
         addPlayerToList(owner);
-        owner.setInstance(this);
+        owner.setInstancedArea(this);
         owner.teleport(new Tile(3872, 9958, this.getzLevel() + 3));
     }
 

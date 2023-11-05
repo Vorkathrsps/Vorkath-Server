@@ -2133,21 +2133,21 @@ public abstract class Entity {
     @Getter
     private InstancedArea instancedArea;
 
-    public void setInstance(InstancedArea instance) {
+    public void setInstancedArea(InstancedArea instancedArea) {
         var prev = this.instancedArea;
-        this.instancedArea = instance;
-        if (prev == instance)
+        this.instancedArea = instancedArea;
+        if (prev == instancedArea)
             return;
-        if (prev != null && instance == null) { // setting null probably removing
+        if (prev != null && instancedArea == null) { // setting null probably removing
             if (isPlayer())
                 prev.removePlayer(getAsPlayer());
             else
                 prev.removeNpc(npc());
-        } else if (instance != null) { // add
+        } else if (instancedArea != null) { // add
             if (isPlayer())
-                instance.addPlayer(getAsPlayer());
+                instancedArea.addPlayer(getAsPlayer());
             else
-                instance.addNpc(npc());
+                instancedArea.addNpc(npc());
         }
     }
 

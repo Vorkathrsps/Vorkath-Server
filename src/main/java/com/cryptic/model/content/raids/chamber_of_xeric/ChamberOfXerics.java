@@ -7,7 +7,6 @@ import com.cryptic.model.content.instance.InstancedArea;
 import com.cryptic.model.content.mechanics.Poison;
 import com.cryptic.model.content.raids.Raids;
 import com.cryptic.model.content.raids.RaidsNpc;
-import com.cryptic.model.content.raids.RaidsObjects;
 import com.cryptic.model.content.raids.chamber_of_xeric.reward.ChamberOfXericReward;
 import com.cryptic.model.content.raids.party.Party;
 import com.cryptic.model.World;
@@ -18,12 +17,9 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.map.object.GameObject;
-import com.cryptic.model.map.object.ObjectManager;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.Color;
-import com.google.common.collect.Lists;
-import org.apache.logging.log4j.LogManager;
 
 import java.util.Arrays;
 
@@ -49,7 +45,7 @@ public class ChamberOfXerics extends Raids {
         for (Player member : party.getMembers()) {
             member.setRaids(this);
             member.teleport(new Tile(3232, 5721, height)); // straight to olm
-            member.setInstance(instance);
+            member.setInstancedArea(instance);
         }
 
         //Clear kills
@@ -189,7 +185,7 @@ public class ChamberOfXerics extends Raids {
         party.monsters.addAll(Arrays.asList(entity));
         for (var n : party.monsters) {
             n.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, true);
-            n.setInstance(party.getLeader().getInstancedArea());
+            n.setInstancedArea(party.getLeader().getInstancedArea());
             n.putAttrib(AttributeKey.RAID_PARTY, party);
             n.spawn(false);
         }

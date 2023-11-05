@@ -12,7 +12,7 @@ public class MaidenHandler implements TheatreHandler {
     public void build(Player player, TheatreInstance theatreInstance) {
         Maiden maiden = new Maiden(10814, new Tile(3162, 4444, theatreInstance.getzLevel()), theatreInstance);
         maiden.setHitpoints(this.scale(maiden, player, false));
-        maiden.setInstance(theatreInstance);
+        maiden.setInstancedArea(theatreInstance);
         maiden.spawn(false);
     }
 

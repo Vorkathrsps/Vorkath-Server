@@ -181,13 +181,13 @@ public class VerzikVitur extends CommonCombatMethod {
                                 nylocasAthanatos.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, true);
                                 nylocasAthanatos.canAttack(false);
                                 nylocasAthanatos.face(mob);
-                                nylocasAthanatos.setInstance(mob.getInstancedArea());
+                                nylocasAthanatos.setInstancedArea(mob.getInstancedArea());
                                 nylocasAthanatos.getInstancedArea().addNpc(nylocasAthanatos);
                                 bomber = new Matomenos(NYLOCAS_MATOMENOS_8385, SPIDER_SPAWN.transform(0, 0, target.getZ()), true);
                                 bomber.getCombat().setTarget(target);
                                 bomber.stepAbs(target.getAbsX(), target.getAbsY(), MovementQueue.StepType.FORCED_WALK);
                                 bomber.animate(8098);
-                                bomber.setInstance(mob.getInstancedArea());
+                                bomber.setInstancedArea(mob.getInstancedArea());
                                 bomber.getInstancedArea().addNpc(bomber);
                                 Chain.noCtx().runFn(2, () -> {
                                     bomber.face(target);

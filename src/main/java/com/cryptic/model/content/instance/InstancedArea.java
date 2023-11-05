@@ -13,6 +13,9 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.utility.chainedwork.Chain;
 import com.google.common.collect.Lists;
+import it.unimi.dsi.fastutil.ints.IntConsumer;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
@@ -70,7 +73,6 @@ public class InstancedArea {
 
     /**
      * Creates a {@link InstancedArea}.
-     *
      * This will create a new instance and also reserve a free height level using {@link InstanceHeight}.
      * You can choose your own height level using the other constructor but it's recommended you use
      * this constructor because it will automatically handle the height level reserving and freeing.
@@ -86,10 +88,9 @@ public class InstancedArea {
     }
 
     public Chain<?> listener;
-
     private final List<GameObject> gameobjs;
-
     private Set<Integer> regions;
+    private IntOpenHashSet regionIds;
 
     /**
      * Creates a {@link InstancedArea}.
@@ -106,10 +107,9 @@ public class InstancedArea {
         this.zLevel = height;
         this.freeHeightLevel = false;
         this.gameobjs = new ArrayList<>();
-        regions = RegionManager.areasToRegions.apply(areas);
-        gameobjs.addAll(RegionManager.loadGroupMapFiles.apply(regions, height));
+        regionIds = RegionManager.areasToRegions.apply(areas);
+        gameobjs.addAll(RegionManager.loadGroupMapFiles.apply(regionIds, height));
         listenAfter();
-
     }
 
     public void listenAfter() {
@@ -135,7 +135,7 @@ public class InstancedArea {
     }
 
     /**
-     * Add an {@link NPC} to the instance and calls {@link Entity#setInstance(InstancedArea)} on the npc.
+     * Add an {@link NPC} to the instance and calls {@link Entity#setInstancedArea(InstancedArea)} on the npc.
      * This is the method that's called when you spawn a npc to place into the instance.
      */
     public void addNpc(NPC npc) {
@@ -146,7 +146,7 @@ public class InstancedArea {
 
         if (!npcs.contains(npc))
             npcs.add(npc);
-        npc.setInstance(this);
+        npc.setInstancedArea(this);
         logger.trace(marker, "Add to instance npc={}, instance={}", npc, this);
     }
 
@@ -194,7 +194,7 @@ public class InstancedArea {
                 gameobj.linkedTile().removeObject(gameobj);
         }
         gameobjs.clear();
-        regions.forEach(r -> {
+        regionIds.forEach(r -> {
             var reg = RegionManager.getRegion(r);
             if (reg.customZObjectTiles != null)
                 reg.customZObjectTiles.remove(zLevel);
@@ -208,7 +208,7 @@ public class InstancedArea {
      */
     public void removeNpc(NPC npc) {
         npcs.remove(npc);
-        npc.setInstance(null);
+        npc.setInstancedArea(null);
         logger.trace(marker, "Remove from instance npc={}, instance={}", npc, this);
     }
 
@@ -228,12 +228,8 @@ public class InstancedArea {
             logger.error(marker, "Attempting to add player to instance after diposed {} {}", player, this);
             return;
         }
-
-        if (!players.contains(player)) {
-            players.add(player);
-        }
-        if (player.getInstancedArea() != this)
-            player.setInstance(this);
+        if (!players.contains(player)) players.add(player);
+        if (player.getInstancedArea() != this) player.setInstancedArea(this);
         logger.trace(marker, "Add to instance player={}, instance={}", player, this);
     }
 
@@ -242,10 +238,8 @@ public class InstancedArea {
      */
     public void removePlayer(Player player) {
         players.remove(player);
-        if (player.getInstancedArea() == this)
-            player.setInstance(null);
+        if (player.getInstancedArea() == this) player.setInstancedArea(null);
         logger.trace(marker, "Remove from instance player={}, instance={}", player, this);
-
         if (!disposed && players.isEmpty() && configuration.isCloseOnPlayersEmpty()) {//probs needs this flag
             logger.trace(marker, "Players list is empty, closing instance {}", this);
             dispose();

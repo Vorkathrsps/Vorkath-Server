@@ -44,10 +44,10 @@ public class TemporossHandler {
         pool_one.spawn(false);
         pool_two.spawn(false);
         spawnFishingSpots(temporossArea);
-        player.setInstance(temporossArea);
-        boss.setInstance(temporossArea);
-        pool_one.setInstance(temporossArea);
-        pool_two.setInstance(temporossArea);
+        player.setInstancedArea(temporossArea);
+        boss.setInstancedArea(temporossArea);
+        pool_one.setInstancedArea(temporossArea);
+        pool_two.setInstancedArea(temporossArea);
         bossList.add(boss);
         bossList.add(pool_one);
         bossList.add(pool_two);

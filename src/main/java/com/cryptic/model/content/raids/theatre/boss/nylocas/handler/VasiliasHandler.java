@@ -19,10 +19,10 @@ public class VasiliasHandler implements TheatreHandler {
         PillarNpc pillarNpc2 = new PillarNpc(8358, new Tile(3299, 4252, theatreInstance.getzLevel()), new PillarObject(32862, new Tile(3300, 4253, theatreInstance.getzLevel()), 10, 2, theatreInstance), theatreInstance);
         PillarNpc pillarNpc3 = new PillarNpc(8358, new Tile(3299, 4243, theatreInstance.getzLevel()), new PillarObject(32862, new Tile(3300, 4242, theatreInstance.getzLevel()), 10, 3, theatreInstance), theatreInstance);
         PillarNpc pillarNpc4 = new PillarNpc(8358, new Tile(3290, 4243, theatreInstance.getzLevel()), new PillarObject(32862, new Tile(3289, 4242, theatreInstance.getzLevel()), 10, 0, theatreInstance), theatreInstance);
-        pillarNpc1.setInstance(theatreInstance);
-        pillarNpc2.setInstance(theatreInstance);
-        pillarNpc3.setInstance(theatreInstance);
-        pillarNpc4.setInstance(theatreInstance);
+        pillarNpc1.setInstancedArea(theatreInstance);
+        pillarNpc2.setInstancedArea(theatreInstance);
+        pillarNpc3.setInstancedArea(theatreInstance);
+        pillarNpc4.setInstancedArea(theatreInstance);
         pillarNpc1.spawnPillarObject();
         pillarNpc2.spawnPillarObject();
         pillarNpc3.spawnPillarObject();

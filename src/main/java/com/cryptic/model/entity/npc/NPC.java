@@ -554,12 +554,9 @@ public class NPC extends Entity {
         TaskManager.sequenceForMob(this);
         getTimers().cycle(this);
         getCombat().followTarget();
-        if (useSmartPath)
-            TargetRoute.beforeMovement(this);
+        if (useSmartPath) TargetRoute.beforeMovement(this);
         getMovementQueue().process();
-        if (useSmartPath)
-            TargetRoute.afterMovement(this);
-        //Process the bot handler!
+        if (useSmartPath) TargetRoute.afterMovement(this);
         if (getBotHandler() != null) {
             getBotHandler().process();
         }

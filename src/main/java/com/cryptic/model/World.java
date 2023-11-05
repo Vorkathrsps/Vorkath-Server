@@ -508,7 +508,8 @@ public class World {
     public void unregisterNpc(NPC npc) {
         npcs.remove(npc);
         Tile.unoccupy(npc);
-        npc.setInstance(null);
+        if (npc.getInstancedArea() != null) npc.getInstancedArea().removeNpc(npc);
+        npc.setInstancedArea(null);
     }
 
     private EquipmentInfo equipmentInfo;

@@ -59,7 +59,7 @@ public class KrakenInstanceD extends Dialogue {
 
                 player.message("You pay " + currencyReq + " " + currency + " to enter an instance room.");
                 var instance = InstancedAreaManager.getSingleton().createInstancedArea(new Area(2269, 10022, 2302, 10046));
-                player.setInstance(instance);
+                player.setInstancedArea(instance);
                 player.teleport(new Tile(2280, 10022, instance.getzLevel()));
                 NPC kraken = new NPC(KrakenBoss.KRAKEN_WHIRLPOOL, new Tile(2278, 10034, instance.getzLevel()));
                 instance.addNpc(kraken);

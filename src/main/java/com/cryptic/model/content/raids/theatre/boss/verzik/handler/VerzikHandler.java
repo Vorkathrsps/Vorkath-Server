@@ -18,7 +18,7 @@ public class VerzikHandler implements TheatreHandler {
     public void build(Player player, TheatreInstance theatreInstance) {
         Verzik verzik = new Verzik(NpcIdentifiers.VERZIK_VITUR_8369, new Tile(3166, 4323, theatreInstance.getzLevel()), theatreInstance);
         verzik.setHitpoints(this.scale(verzik, player, false));
-        verzik.setInstance(theatreInstance);
+        verzik.setInstancedArea(theatreInstance);
         verzik.spawn(false);
         GroundItem groundItem = new GroundItem(new Item(ItemIdentifiers.DAWNBRINGER), theatreInstance.getEntrance().transform(0,0,theatreInstance.getzLevel()), theatreInstance.getOwner()).setState(GroundItem.State.SEEN_BY_EVERYONE);
         groundItem.setInstance(theatreInstance);
@@ -26,7 +26,7 @@ public class VerzikHandler implements TheatreHandler {
         for (Tile pillarTile : theatreInstance.getVerzikPillarTiles()) {
             var object = new GameObject(32687, pillarTile.withHeight(theatreInstance.getzLevel()), 10, 0).spawn();
             var npc = new Pillar(8379, pillarTile.withHeight(theatreInstance.getzLevel()), theatreInstance);
-            npc.setInstance(theatreInstance);
+            npc.setInstancedArea(theatreInstance);
             npc.spawn(false);
             theatreInstance.getVerzikPillarNpcs().add(npc);
             theatreInstance.getVerzikPillarObjects().add(object);

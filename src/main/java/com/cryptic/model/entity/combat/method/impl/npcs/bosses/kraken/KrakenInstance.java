@@ -46,12 +46,12 @@ public class KrakenInstance extends KrakenArea {
             if (n.id() == 5534) {
                 nonAwakenedTentacles.add(n);
                 n.setCombatMethod(new Tentacles());
-                n.setInstance(this);
+                n.setInstancedArea(this);
                 n.spawn(false);
                 n.noRetaliation(true);
             } else {
                 n.setCombatMethod(new Kraken());
-                n.setInstance(this);
+                n.setInstancedArea(this);
                 n.spawn(true);
                 n.noRetaliation(true);
             }
@@ -60,7 +60,7 @@ public class KrakenInstance extends KrakenArea {
     }
 
     public void create() {
-        owner.setInstance(this);
+        owner.setInstancedArea(this);
         owner.teleport(entrance.transform(0, 0, this.getzLevel()));
     }
 

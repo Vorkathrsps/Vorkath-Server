@@ -15,16 +15,13 @@ public class ArmadylGodsword extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         final Player player = (Player) entity;
-        int animation = 7644;
-        if (player.getEquipment().contains(ItemIdentifiers.ARMADYL_GODSWORD_OR))
-            animation = 7645;
+        int animation;
+        if (player.getEquipment().contains(ItemIdentifiers.ARMADYL_GODSWORD_OR)) animation = 7645;
+        else animation = 7644;
         player.animate(animation);
         boolean gfx_gold = player.getAttribOr(AttributeKey.AGS_GFX_GOLD, false);
         player.graphic(gfx_gold ? 1747 : 1211);
-        //TODO it.player().world().spawnSound(it.player().tile(), 3869, 0, 10)
-
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy(true);
-        hit.submit();
+        new Hit(entity, target, 0, this).checkAccuracy(true).submit();
         CombatSpecial.drain(entity, CombatSpecial.ARMADYL_GODSWORD.getDrainAmount());
         return true;
     }

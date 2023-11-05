@@ -215,11 +215,10 @@ public class Hit {
         if (alwaysHitActive) this.damage = alwaysHitDamage;
         if (!this.accurate && this.damage == 0) this.hitMark = HitMark.MISSED;
         else this.hitMark = HitMark.DEFAULT;
-        //logger.debug("Accurate {} Chance: {} Roll: {} CombatType: {}", accurate, magicAccuracy.chance, chance, combatType);
         return this;
     }
 
-    public void addCombatXp(Player player, Entity target, CombatType style, FightStyle mode) {
+    public void addCombatXp(Player player, CombatType style, FightStyle mode) {
         if (combatType == null) return;
         var gameModeMultiplier = player.getGameMode().equals(GameMode.REALISM) ? 10.0 : 50.0;
         var nonPvpEXP = (this.attacker instanceof Player && (WildernessArea.inWilderness(player.tile()) || !WildernessArea.inWilderness(player.tile())) && this.target instanceof NPC);
@@ -265,14 +264,14 @@ public class Hit {
             case RANGED -> {
                 switch (mode) {
                     case ACCURATE, AGGRESSIVE -> {
-                        player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP, !target.isPlayer());
-                        player.getSkills().addXp(Skills.RANGED, rangedMeleeXP, !target.isPlayer());
+                        player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
+                        player.getSkills().addXp(Skills.RANGED, rangedMeleeXP);
                     }
 
                     case DEFENSIVE -> {
-                        player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP, !target.isPlayer());
-                        player.getSkills().addXp(Skills.RANGED, rangedMeleeXP / 1.33, !target.isPlayer());
-                        player.getSkills().addXp(Skills.DEFENCE, rangedMeleeXP / 1.33, !target.isPlayer());
+                        player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
+                        player.getSkills().addXp(Skills.RANGED, rangedMeleeXP / 1.33);
+                        player.getSkills().addXp(Skills.DEFENCE, rangedMeleeXP / 1.33);
                     }
                 }
             }
@@ -334,12 +333,12 @@ public class Hit {
             return null;
         if (this.target.dead()) return null;
         if (this.attacker instanceof Player) {
-            addCombatXp((Player) this.attacker, this.target, this.combatType, this.attacker.getCombat().getFightType().getStyle());
+            addCombatXp((Player) this.attacker, this.combatType, this.attacker.getCombat().getFightType().getStyle());
         }
         if (this.attacker instanceof Player && this.target instanceof NPC npc) {
             CombatMethod method = CombatFactory.getMethod(npc);
             if (method instanceof CommonCombatMethod commonCombatMethod) commonCombatMethod.preDefend(this);
-            if (method instanceof Vorkath vorkath) { //TODO
+            if (method instanceof Vorkath vorkath) {
                 switch (vorkath.resistance) {
                     case PARTIAL -> this.setDamage((int) (this.getDamage() * 0.5D));
                     case FULL -> this.setDamage(0);

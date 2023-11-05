@@ -2,6 +2,7 @@ package com.cryptic.model.map.position;
 
 import com.cryptic.model.entity.Entity;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -142,6 +143,19 @@ public class Area {
 
     public Tile topRight() {
         return new Tile(x2, y2, level);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Area area = (Area) o;
+        return x1 == area.x1 && x2 == area.x2 && y1 == area.y1 && y2 == area.y2 && level == area.level && largeViewPort == area.largeViewPort;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x1, x2, y1, y2, level, largeViewPort);
     }
 
     public Tile topLeft() {

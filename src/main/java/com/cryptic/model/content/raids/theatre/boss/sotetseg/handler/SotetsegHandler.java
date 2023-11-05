@@ -13,7 +13,7 @@ public class SotetsegHandler implements TheatreHandler {
     public void build(Player player, TheatreInstance theatreInstance) {
         Sotetseg sotetseg = new Sotetseg(NpcIdentifiers.SOTETSEG_10865, new Tile(3277, 4326, theatreInstance.getzLevel()), player, theatreInstance);
         sotetseg.setHitpoints(this.scale(sotetseg, player, false));
-        sotetseg.setInstance(theatreInstance);
+        sotetseg.setInstancedArea(theatreInstance);
         sotetseg.spawn(false);
     }
 

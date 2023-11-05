@@ -7,6 +7,8 @@ import com.cryptic.GameEngine;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.*;
+import it.unimi.dsi.fastutil.Function;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,7 +18,6 @@ import java.io.File;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 /**
  * This manager handles all regions and their related functions, such as
@@ -597,7 +598,7 @@ public class RegionManager {
     }
 
     public static BiFunction<Set<Integer>, Integer, List<GameObject>> loadGroupMapFiles = (i, i2) -> List.of();
-    public static Function<Area[], Set<Integer>> areasToRegions = areas -> Set.of();
+    public static Function<Area[], IntOpenHashSet> areasToRegions = areas -> IntOpenHashSet.of();
 
     public static final class MapDecodeEx extends RuntimeException {
 

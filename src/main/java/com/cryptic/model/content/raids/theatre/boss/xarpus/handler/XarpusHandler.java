@@ -12,7 +12,7 @@ public class XarpusHandler implements TheatreHandler {
     public void build(Player player, TheatreInstance theatreInstance) {
         Xarpus xarpus = new Xarpus(10767, new Tile(3169, 4386, theatreInstance.getzLevel() + 1), theatreInstance);
         xarpus.setHitpoints(this.scale(xarpus, player, false));
-        xarpus.setInstance(theatreInstance);
+        xarpus.setInstancedArea(theatreInstance);
         xarpus.spawn(false);
     }
 

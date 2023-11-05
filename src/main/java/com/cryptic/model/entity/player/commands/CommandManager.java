@@ -10,7 +10,6 @@ import com.cryptic.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.Xarpus;
 import com.cryptic.model.content.raids.theatre.interactions.TheatreInterface;
-import com.cryptic.model.content.raids.theatre.interactions.dialogue.TheatreDialogue;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.cryptic.model.content.tournaments.Tournament;
 import com.cryptic.model.content.tournaments.TournamentManager;
@@ -559,9 +558,9 @@ public class CommandManager {
             dev(s, (p, cmd, parts) -> {
                 int c = RegionManager.getClipping(p.tile().x, p.tile().y, p.tile().level);
 
-                p.message("cur clip %s %s = %s", p.tile(), c, World.getWorld().clipstr(c));
-                p.message(String.format("%s", World.getWorld().clipstrMethods(p.tile())));
-                CLIP.debug(p, String.format("%s", World.getWorld().clipstrMethods(p.tile())));
+                p.message("cur clip %s %s = %s", p.tile(), c, World.clipstr(c));
+                p.message(String.format("%s", World.clipstrMethods(p.tile())));
+                CLIP.debug(p, String.format("%s", World.clipstrMethods(p.tile())));
             });
         dev("scm", (player, c, parts) -> {
             ArrayList<GroundItem> gis = new ArrayList<>();
@@ -954,20 +953,20 @@ public class CommandManager {
         });
         dev("t26", (p, c, s) -> {
             var instance = InstancedAreaManager.getSingleton().createInstancedArea(new Area(3156, 4374, 3156 + 40, 4374 + 40));
-            p.setInstance(instance);
+            p.setInstancedArea(instance);
             p.teleport(new Tile(3166, 4384, instance.getzLevel()));
             Xarpus xarpus = new Xarpus(10767, new Tile(3169, 4386, instance.getzLevel() + 1), null);
-            xarpus.setInstance(instance);
+            xarpus.setInstancedArea(instance);
             xarpus.spawn(false);
         });
         dev("t27", (p, c, s) -> {
             //TheatreInstance theatreInstance = new TheatreInstance(p, new TheatreArea(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, TheatreInstance.rooms()));
             // theatreInstance.startRaid();
             var instance = InstancedAreaManager.getSingleton().createInstancedArea(new Area(3156, 4374, 3156 + 40, 4374 + 40));
-            p.setInstance(instance);
+            p.setInstancedArea(instance);
             p.teleport(new Tile(3166, 4384, instance.getzLevel()));
             Xarpus xarpus = new Xarpus(10767, new Tile(3169, 4386, instance.getzLevel() + 1), null);
-            xarpus.setInstance(instance);
+            xarpus.setInstancedArea(instance);
             xarpus.spawn(false);
         });
         dev("t28", (p, c, s) -> {

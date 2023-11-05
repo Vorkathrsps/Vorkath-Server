@@ -32,7 +32,7 @@ public class Tentacles extends CommonCombatMethod {
             tentacle.transmog(5535, true);
             tentacle.animate(3729);
             tentacle.setCombatMethod(this);
-            tentacle.setInstance(player.getKrakenInstance());
+            tentacle.setInstancedArea(player.getKrakenInstance());
             player.getKrakenInstance().getAwakenedTentacles().add(tentacle);
             Chain.noCtx().runFn(4, () -> {
                 tentacle.animate(-1);

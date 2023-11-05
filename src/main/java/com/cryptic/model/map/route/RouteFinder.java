@@ -23,13 +23,9 @@ import java.util.function.Consumer;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
 
 public class RouteFinder {
-
     public static final int OBJECT_MASK = 0x100;
-
     public static final int UNMOVABLE_MASK = 0x200000;
-
     public static final int DECORATION_MASK = 0x40000;
-
     public static final int WEST_MASK = 0x1240108, EAST_MASK = 0x1240180;
     public static final int SOUTH_MASK = 0x1240102, NORTH_MASK = 0x1240120;
     public static final int SOUTH_WEST_MASK = 0x124010e, NORTH_WEST_MASK = 0x1240138;

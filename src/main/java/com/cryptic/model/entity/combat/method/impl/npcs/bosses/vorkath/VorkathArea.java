@@ -31,7 +31,7 @@ public class VorkathArea extends PacketInteraction {
             if (player.tile().y == 4052) {
                 var instance = InstancedAreaManager.getSingleton().createInstancedArea(VORKATH_AREA);
                 player.teleport(ENTRANCE_POINT.transform(0, 0, instance.getzLevel()));
-                player.setInstance(instance);
+                player.setInstancedArea(instance);
                 instance.addPlayer(player);
 
                 //Create a Vorkath instance

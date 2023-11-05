@@ -98,14 +98,14 @@ public class ZulAndra extends PacketInteraction {
         Chain.bound(null).name("ZulAndraBoatTask").runFn(9, () -> {
             var instance = InstancedAreaManager.getSingleton().createInstancedArea(ZULRAH_AREA);
             NPC zulrah = new NPC(NpcIdentifiers.ZULRAH, ZULRAH_PLAYER_START_TILE.transform(-2, 3, instance.getzLevel()));
-            player.setInstance(instance);
+            player.setInstancedArea(instance);
             instance.addNpc(zulrah);
             instance.addPlayer(player);
             player.getMovementQueue().clear();
             player.teleport(ZULRAH_PLAYER_START_TILE.x, ZULRAH_PLAYER_START_TILE.y, instance.getzLevel());
             player.unlock();
 
-            zulrah.setInstance(instance);
+            zulrah.setInstancedArea(instance);
             zulrah.respawns(false);
             zulrah.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
             zulrah.setPositionToFace(null);

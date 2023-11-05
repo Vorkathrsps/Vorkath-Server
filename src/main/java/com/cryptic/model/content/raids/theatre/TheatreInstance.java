@@ -91,7 +91,7 @@ public class TheatreInstance extends TheatreArea { //TODO make sure we're cleani
     }
 
     public TheatreInstance buildParty() {
-        owner.setInstance(this);
+        owner.setInstancedArea(this);
         owner.teleport(entrance.transform(0, 0, this.getzLevel()));
         owner.setTheatreState(TheatreState.ACTIVE);
         owner.setRaidDeathState(RaidDeathState.ALIVE);
@@ -99,7 +99,7 @@ public class TheatreInstance extends TheatreArea { //TODO make sure we're cleani
         for (var p : players) {
             if (p != owner) {
                 if (p != null) {
-                    p.setInstance(owner.getTheatreInstance());
+                    p.setInstancedArea(owner.getTheatreInstance());
                     p.teleport(entrance.transform(0, 0, owner.getTheatreInstance().getzLevel()));
                     p.setTheatreState(TheatreState.ACTIVE);
                     p.setRaidDeathState(RaidDeathState.ALIVE);

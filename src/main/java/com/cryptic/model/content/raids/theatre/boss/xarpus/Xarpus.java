@@ -14,7 +14,6 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
-import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 import lombok.Getter;
@@ -207,7 +206,7 @@ public class Xarpus extends NPC {
             this.animate(8058);
         }).then(2, () -> {
             this.transmog(8340, true);
-            this.setInstance(theatreInstance);
+            this.setInstancedArea(theatreInstance);
             this.setCombatInfo(World.getWorld().combatInfo(8340));
             this.setHitpoints(this.maxHp());
             this.noRetaliation(true);

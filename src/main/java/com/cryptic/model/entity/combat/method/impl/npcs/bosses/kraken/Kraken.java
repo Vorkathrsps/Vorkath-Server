@@ -25,7 +25,7 @@ public class Kraken extends CommonCombatMethod {
         if (player.getKrakenInstance() == null) return;
         NPC[] npcs = new NPC[]{new NPC(5534, new Tile(2275, 10034, player.getKrakenInstance().getzLevel())), new NPC(5534, new Tile(2284, 10034, player.getKrakenInstance().getzLevel())), new NPC(5534, new Tile(2284, 10038, player.getKrakenInstance().getzLevel())), new NPC(5534, new Tile(2275, 10038, player.getKrakenInstance().getzLevel()))};
         for (var n : npcs) {
-            n.setInstance(player.getKrakenInstance());
+            n.setInstancedArea(player.getKrakenInstance());
             n.spawn(false);
             n.noRetaliation(true);
             n.setCombatMethod(new Tentacles());
@@ -52,7 +52,7 @@ public class Kraken extends CommonCombatMethod {
                 kraken.transmog(494, true);
                 kraken.animate(7135);
                 kraken.setCombatMethod(this);
-                kraken.setInstance(player.getKrakenInstance());
+                kraken.setInstancedArea(player.getKrakenInstance());
                 player.getKrakenInstance().setKrakenState(KrakenState.ALIVE);
                 Chain.noCtx().runFn(4, () -> {
                     kraken.getCombat().setTarget(player);

@@ -41,16 +41,11 @@ public class NpcMovement extends MovementQueue {
 
 
     private void randomWalk() {
-        if(!npc.isRandomWalkAllowed())
-            return;
-        if(!World.getWorld().rollDie(4, 1))
-            return;
-        if (npc.closePlayers(15).length == 0)
-            return;
+        if(!npc.isRandomWalkAllowed()) return;
+        if(!World.getWorld().rollDie(4, 1)) return;
+        if (npc.closePlayers(15).length == 0) return;
         Combat combat = npc.getCombat();
-        if(combat != null && (npc.dead() || combat.getTarget() != null))
-            return;
-
+        if(combat != null && (npc.dead() || combat.getTarget() != null)) return;
         var t = npc.getSpawnArea().randomTile();
         int x = t.x;
         int y = t.y;

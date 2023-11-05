@@ -82,7 +82,7 @@ public class NylocasAreaController extends Controller {
     private void spawnNylocasVasilias(Player player) {
         var theatreInstance = player.getTheatreInstance();
         NylocasVasilias nylocasVasilias = new NylocasVasilias(8355, new Tile(3294, 4247, theatreInstance.getzLevel()), theatreInstance);
-        nylocasVasilias.setInstance(theatreInstance);
+        nylocasVasilias.setInstancedArea(theatreInstance);
         nylocasVasilias.spawn(false);
         theatreInstance.wave.getAndSet(0);
     }
@@ -90,7 +90,7 @@ public class NylocasAreaController extends Controller {
     private void spawnNylocasMinions(Player player) {
         var theatreInstance = player.getTheatreInstance();
         NylocasMinions nylocasMinions = new NylocasMinions(getRandomNPC(), getRandomTile().transform(0, 0, theatreInstance.getzLevel()), theatreInstance);
-        nylocasMinions.setInstance(theatreInstance);
+        nylocasMinions.setInstancedArea(theatreInstance);
         nylocasMinions.spawn(false);
         theatreInstance.getNylocas().add(nylocasMinions);
     }

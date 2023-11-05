@@ -8,7 +8,6 @@ import com.cryptic.model.content.raids.theatre.boss.verzik.nylocas.NylocasMatome
 import com.cryptic.model.content.raids.theatre.boss.verzik.phase.VerzikPhase;
 import com.cryptic.model.content.raids.theatre.boss.verzik.tornado.Tornado;
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
@@ -470,7 +469,7 @@ public class Verzik extends NPC {
     private void sequenceTornado() {
         for (var p : theatreInstance.getPlayers()) {
             Tornado tornado = new Tornado(8386, p.tile().transform(-1, 0), this.getTheatreInstance());
-            tornado.setInstance(this.getTheatreInstance());
+            tornado.setInstancedArea(this.getTheatreInstance());
             tornado.spawn(false);
             tornado.getCombat().setTarget(p);
             this.getTheatreInstance().getTornados().add(tornado);
@@ -602,7 +601,7 @@ public class Verzik extends NPC {
     }
 
     private void setNpcInstance(NPC nylocas) {
-        nylocas.setInstance(theatreInstance);
+        nylocas.setInstancedArea(theatreInstance);
     }
 
     private void spawnNylocasNpc(NPC nylocas) {
@@ -627,7 +626,7 @@ public class Verzik extends NPC {
     private void animateAndTransmog(int animation, int id) {
         this.animate(animation);
         this.transmog(id, true);
-        this.setInstance(this.getTheatreInstance());
+        this.setInstancedArea(this.getTheatreInstance());
     }
 
     private void checkForceMovement(GameObject o) {

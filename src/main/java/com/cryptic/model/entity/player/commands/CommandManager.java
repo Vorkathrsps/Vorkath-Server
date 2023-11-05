@@ -53,6 +53,7 @@ import com.cryptic.utility.Debugs;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.Varbit;
 import com.cryptic.utility.chainedwork.Chain;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -677,7 +678,6 @@ public class CommandManager {
             var instance = new KrakenInstance(p, KrakenState.ALIVE);
             p.setKrakenInstance(instance);
             instance.build();
-            System.out.println("areas: " + p.getInstancedArea().getAreas().toString());
         });
 
         dev("ioi", (p, c, s) -> {
@@ -984,10 +984,10 @@ public class CommandManager {
         });
         dev("test13", (player, c, s) -> {
             player.setTheatreInterface(new TheatreInterface(player, new ArrayList<>()).open(player));
-                    if (player.getTheatreParty() == null) {
-                        player.setTheatreParty(player.getTheatreInterface());
-                        player.getTheatreParty().addOwner();
-                    }
+            if (player.getTheatreParty() == null) {
+                player.setTheatreParty(player.getTheatreInterface());
+                player.getTheatreParty().addOwner();
+            }
 
             TheatreInstance theatreInstance = new TheatreInstance(player, player.getTheatreParty().getPlayers());
             player.setTheatreInstance(theatreInstance);

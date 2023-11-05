@@ -850,10 +850,8 @@ public class World {
         });
     }
 
-    private final SecureRandom random = new SecureRandom();
-
-    public SecureRandom random() {
-        return random;
+    public Random random() {
+        return Utils.THREAD_LOCAL_RANDOM.get();
     }
 
     /**
@@ -865,24 +863,24 @@ public class World {
             return 0;
         }
 
-        return random.nextInt(i + 1);
+        return this.random().nextInt(i + 1);
     }
 
     public int random(final int min, final int max) {
         final int n = Math.abs(max - min);
-        return Math.min(min, max) + (n == 0 ? 0 : random.nextInt(n + 1));
+        return Math.min(min, max) + (n == 0 ? 0 : this.random().nextInt(n + 1));
     }
 
     public double randomDouble() {
-        return random.nextDouble();
+        return this.random().nextDouble();
     }
 
     public <T> T random(T[] i) {
-        return i[random.nextInt(i.length)];
+        return i[this.random().nextInt(i.length)];
     }
 
     public int random(int[] i) {
-        return i[random.nextInt(i.length)];
+        return i[this.random().nextInt(i.length)];
     }
 
     public boolean rollDie(int dieSides, int chance) {

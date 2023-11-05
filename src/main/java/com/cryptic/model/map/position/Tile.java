@@ -88,30 +88,31 @@ public class Tile implements Cloneable {
     }
 
     public void checkActive() {
-        boolean active = false;
-        var gameObjects = MapObjects.getAll(this);
-       /* if(groundItems != null && groundItems.size() > 0)
-            active = true;
-        else */
-        if (gameObjects != null && gameObjects.size() > 0)
-            active = gameObjects.stream().anyMatch(GameObject::isCustom);
-        if (this.active == active) {
-            /* same active state */
-            return;
+        boolean newActive = isAnyCustomGameObjectNearby();
+
+        if (newActive != this.active) {
+            this.active = newActive;
+            updateRegionActiveTiles();
         }
-        if ((this.active = active))
-            getRegion().activeTiles.add(this);
-        else
-            getRegion().activeTiles.remove(this);
+    }
+
+    private boolean isAnyCustomGameObjectNearby() {
+        var gameObjects = MapObjects.getAll(this);
+        return gameObjects.stream().anyMatch(GameObject::isCustom);
+    }
+
+    private void updateRegionActiveTiles() {
+        Region region = getRegion();
+        if (this.active) region.activeTiles.add(this);
+        else region.activeTiles.remove(this);
     }
 
     public void update(Player player) {
         var gameObjects = MapObjects.getAll(this);
-        if (gameObjects != null) {
-            for (GameObject gameObject : gameObjects) {
-                if (gameObject.isCustom())
-                    gameObject.send(player);
-            }
+        if (gameObjects.isEmpty()) return;
+        for (GameObject gameObject : gameObjects) {
+            if (gameObject == null) continue;
+            if (gameObject.isCustom()) gameObject.send(player);
         }
         // log.info("sync {} has {}", this, gameObjects.size());
     }
@@ -1105,7 +1106,8 @@ public class Tile implements Cloneable {
                 }
                 Tile tile = Tile.get(x, y, z, true);
                 if (tile == null) continue;
-                var npcCount = tile.npcCount; if (entity.isNpc() && entity.tile().equals(tile)) npcCount--;
+                var npcCount = tile.npcCount;
+                if (entity.isNpc() && entity.tile().equals(tile)) npcCount--;
                 if (tile.playerCount > 0 || npcCount > 0)
                     return true;
             }

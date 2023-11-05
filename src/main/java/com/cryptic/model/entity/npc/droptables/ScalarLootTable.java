@@ -217,7 +217,7 @@ public class ScalarLootTable {
         return null;
     }
 
-    public Item randomItem(SecureRandom random, double dropRateModifier) {
+    public Item randomItem(Random random, double dropRateModifier) {
         if (rndcap < 1) {
             return null;
         }
@@ -251,7 +251,7 @@ public class ScalarLootTable {
     }
 
 
-    static int random(SecureRandom random, int min, int max) {
+    static int random(Random random, int min, int max) {
         final int n = Math.abs(max - min);
         return Math.min(min, max) + (n == 0 ? 0 : random.nextInt(n + 1));
     }

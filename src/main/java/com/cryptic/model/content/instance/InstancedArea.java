@@ -1,6 +1,5 @@
 package com.cryptic.model.content.instance;
 
-import com.cryptic.model.World;
 import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.npc.NPC;
@@ -13,12 +12,15 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.utility.chainedwork.Chain;
 import com.google.common.collect.Lists;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.objects.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("ALL")
 public class InstancedArea {
@@ -31,7 +33,7 @@ public class InstancedArea {
      * The areas for this instanced area.
      * When a player leaves these areas they are removed from the instance.
      */
-    private final List<Area> areas = Lists.newArrayList();
+    private final ObjectArrayList<Area> areas = ObjectArrayList.of();
 
     /**
      * The {@link Player}s contained in this instance.
@@ -70,15 +72,15 @@ public class InstancedArea {
 
     /**
      * Creates a {@link InstancedArea}.
-     *
+     * <p>
      * This will create a new instance and also reserve a free height level using {@link InstanceHeight}.
      * You can choose your own height level using the other constructor but it's recommended you use
      * this constructor because it will automatically handle the height level reserving and freeing.
      *
      * @param configuration the {@link InstanceConfiguration}.
-     * @param areas a varargs of {@link Area} which will contain the players.
-     *                   If a player leaves this area they are automatically removed
-     *                   from the instance.
+     * @param areas         a varargs of {@link Area} which will contain the players.
+     *                      If a player leaves this area they are automatically removed
+     *                      from the instance.
      */
     public InstancedArea(InstanceConfiguration configuration, Area... areas) {
         this(configuration, InstanceHeight.getFreeAndReserve(), areas);
@@ -87,29 +89,26 @@ public class InstancedArea {
 
     public Chain<?> listener;
 
-    private final List<GameObject> gameobjs;
-
-    private Set<Integer> regions;
+    private final ObjectArrayList<GameObject> gameobjs = ObjectArrayList.of();
+    private IntOpenHashSet regions = IntOpenHashSet.of();
 
     /**
      * Creates a {@link InstancedArea}.
      *
      * @param configuration the {@link InstanceConfiguration}.
-     * @param height The height level this instance takes place on.
-     * @param areas a varargs of {@link Area} which will contain the players.
-     *                   If a player leaves this area they are automatically removed
-     *                   from the instance.
+     * @param height        The height level this instance takes place on.
+     * @param areas         a varargs of {@link Area} which will contain the players.
+     *                      If a player leaves this area they are automatically removed
+     *                      from the instance.
      */
     public InstancedArea(InstanceConfiguration configuration, int height, Area... areas) {
         this.configuration = configuration;
         this.areas.addAll(Arrays.stream(areas).map(area -> new Area(area, height)).toList());
         this.zLevel = height;
         this.freeHeightLevel = false;
-        this.gameobjs = new ArrayList<>();
-        regions = RegionManager.areasToRegions.apply(areas);
+        regions.addAll(RegionManager.areasToRegions.apply(areas));
         gameobjs.addAll(RegionManager.loadGroupMapFiles.apply(regions, height));
         listenAfter();
-
     }
 
     public void listenAfter() {
@@ -161,46 +160,44 @@ public class InstancedArea {
             logger.trace(marker, "Trying to dispose instance that is already disposed {}", this);
             return;
         }
-
         logger.trace(marker, "Disposing instance {}", this);
         disposed = true;
-
-        if (freeHeightLevel) {
-            InstanceHeight.free(zLevel);
-        }
-
-        //all this works problem is list is empty for bot player and npc
-        logger.trace("dispose {} npcs ", npcs.size());
-        Lists.newArrayList(getNpcs()).forEach(npc -> {
-            World.getWorld().unregisterNpc(npc);
-            removeNpc(npc);
-        });
-
-        //System.out.println("dispose players "+getPlayers());
-        Lists.newArrayList(getPlayers()).forEach(player -> {
-            player.getPacketSender().sendEffectTimer(0, EffectTimer.MONSTER_RESPAWN);
-            this.removePlayer(player);
-        });
-
+        if (freeHeightLevel) InstanceHeight.free(zLevel);
         for (GroundItem gi : GroundItemHandler.getGroundItems()) {
-            if (!inInstanceArea(gi.getTile()))
-                continue;
-
+            if (!inInstanceArea(gi.getTile())) continue;
             GroundItemHandler.sendRemoveGroundItem(gi);
         }
-        for (GameObject gameobj : Lists.newArrayList(gameobjs)) {
-            // shadowrs: must be custom for remove to work in instanceAreas.
-            if (gameobj.linkedTile() != null)
-                gameobj.linkedTile().removeObject(gameobj);
-        }
+        if (players != null)
+            players.stream().filter(Objects::nonNull).collect(Collectors.toList()).forEach(p -> {
+                if (p == null) return;
+                p.getPacketSender().sendEffectTimer(0, EffectTimer.MONSTER_RESPAWN);
+                this.removePlayer(p);
+            });
+        if (npcs != null)
+            npcs.stream().filter(Objects::nonNull).collect(Collectors.toList()).forEach(n -> {
+                if (n == null) return;
+                n.remove();
+            });
+        if (gameobjs != null)
+            gameobjs.stream().filter(Objects::nonNull).collect(Collectors.toList()).forEach(o -> {
+                if (o.linkedTile() == null) return;
+                o.linkedTile().removeObject(o);
+            });
+        if (regions != null)
+            regions.stream().filter(Objects::nonNull).collect(Collectors.toList()).forEach(r -> {
+                if (r == null) return;
+                var reg = RegionManager.getRegion(r);
+                if (reg.customZObjectTiles != null) reg.customZObjectTiles.remove(zLevel);
+                reg.recentCachedBaseZData = null;
+                reg.recentCachedBaseZLevel = -1;
+            });
+        logger.trace(marker, "disposing regions {} disposing game objs {} disposing npcs {} disposing players {} ", regions.size(), gameobjs.size(), npcs.size(), players.size());
+        areas.clear();
+        npcs.clear();
+        players.clear();
+        regions.clear();
         gameobjs.clear();
-        regions.forEach(r -> {
-            var reg = RegionManager.getRegion(r);
-            if (reg.customZObjectTiles != null)
-                reg.customZObjectTiles.remove(zLevel);
-            reg.recentCachedBaseZData = null;
-            reg.recentCachedBaseZLevel = -1;
-        });
+        logger.trace(marker, "players size {} npcs size {} game object size {} region size {} ", players.size(), npcs.size(), gameobjs.size(), regions.size());
     }
 
     /**
@@ -264,6 +261,7 @@ public class InstancedArea {
      * constructor this will return the height you supplied to that constructor. If you used the
      * {@link InstancedArea#InstancedArea(InstanceConfiguration, Area...)} constructor it will
      * return the height level reserved by {@link InstanceHeight}.
+     *
      * @return the height level.
      */
     public int getReservedHeight() {
@@ -275,12 +273,13 @@ public class InstancedArea {
      *
      * @return the area
      */
-    public List<Area> getAreas() {
+    public ObjectArrayList<Area> getAreas() {
         return areas;
     }
 
     /**
      * Check if an instance is disposed.
+     *
      * @return <code>true</code> if the instance is disposed.
      */
     public boolean isDisposed() {
@@ -289,13 +288,15 @@ public class InstancedArea {
 
     /**
      * Get the {@link InstanceConfiguration}.
+     *
      * @return the {@link InstanceConfiguration}
      */
     public InstanceConfiguration getConfiguration() {
         return configuration;
     }
 
-    public void tick(Entity mob) { }
+    public void tick(Entity mob) {
+    }
 
     public boolean handleDeath(Player player) {
         return false;
@@ -327,7 +328,7 @@ public class InstancedArea {
                     logger.debug(markerZ, "normalized z level to {} via {}", z, remainder);
                 }
                 var inside = tile.getZ() >= z && tile.getZ() <= z + 3;
-                logger.debug(markerZ, "inside={} check {} z range{}-{} for {}", inside, area, z, z+3, tile);
+                logger.debug(markerZ, "inside={} check {} z range{}-{} for {}", inside, area, z, z + 3, tile);
                 if (inside) {
                     return true;
                 }

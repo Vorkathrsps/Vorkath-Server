@@ -509,7 +509,6 @@ public class World {
         npcs.remove(npc);
         Tile.unoccupy(npc);
         if (npc.getInstancedArea() != null) npc.getInstancedArea().removeNpc(npc);
-        npc.setInstancedArea(null);
     }
 
     private EquipmentInfo equipmentInfo;

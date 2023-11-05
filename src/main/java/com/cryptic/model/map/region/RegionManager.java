@@ -7,8 +7,6 @@ import com.cryptic.GameEngine;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.*;
-import it.unimi.dsi.fastutil.Function;
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,6 +16,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * This manager handles all regions and their related functions, such as
@@ -501,10 +500,10 @@ public class RegionManager {
             // Attempt to create streams..
             if (r.getObjectFile() != -1)
                 oFileData = CompressionUtil.gunzip(
-                FileUtil.readFile(GameServer.properties().clippingDirectory + "maps/" + r.getObjectFile() + ".gz"));
+                    FileUtil.readFile(GameServer.properties().clippingDirectory + "maps/" + r.getObjectFile() + ".gz"));
             if (r.getTerrainFile() != -1)
                 gFileData = CompressionUtil.gunzip(
-                FileUtil.readFile(GameServer.properties().clippingDirectory + "maps/" + r.getTerrainFile() + ".gz"));
+                    FileUtil.readFile(GameServer.properties().clippingDirectory + "maps/" + r.getTerrainFile() + ".gz"));
 
             // Don't allow ground file to be invalid..
             if (gFileData == null) {
@@ -598,7 +597,7 @@ public class RegionManager {
     }
 
     public static BiFunction<Set<Integer>, Integer, List<GameObject>> loadGroupMapFiles = (i, i2) -> List.of();
-    public static Function<Area[], IntOpenHashSet> areasToRegions = areas -> IntOpenHashSet.of();
+    public static Function<Area[], Set<Integer>> areasToRegions = areas -> Set.of();
 
     public static final class MapDecodeEx extends RuntimeException {
 

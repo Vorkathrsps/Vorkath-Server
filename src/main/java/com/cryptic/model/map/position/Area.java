@@ -145,19 +145,6 @@ public class Area {
         return new Tile(x2, y2, level);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Area area = (Area) o;
-        return x1 == area.x1 && x2 == area.x2 && y1 == area.y1 && y2 == area.y2 && level == area.level && largeViewPort == area.largeViewPort;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(x1, x2, y1, y2, level, largeViewPort);
-    }
-
     public Tile topLeft() {
         return new Tile(x1, y2, level);
     }
@@ -170,6 +157,12 @@ public class Area {
         double wx = x2 - x1;
         double wz = y2 - y1;
         return new Tile(x1 + (int) Math.round(wx * Math.random()), y1 + (int) Math.round(wz * Math.random()), level);
+    }
+
+    public Tile middleTile() {
+        int middleX = x1 + (x2 - x1) / 2;
+        int middleY = y1 + (y2 - y1) / 2;
+        return new Tile(middleX, middleY, level);
     }
 
     public boolean within(Tile other, int size, int distance) {

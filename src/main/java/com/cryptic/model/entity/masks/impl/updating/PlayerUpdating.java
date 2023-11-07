@@ -7,6 +7,7 @@ import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.masks.UpdateFlag;
 import com.cryptic.model.entity.masks.impl.chat.ChatMessage;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.map.region.Region;
 import com.cryptic.network.packet.ByteOrder;
 import com.cryptic.network.packet.PacketBuilder;
 import com.cryptic.network.packet.PacketBuilder.AccessType;
@@ -117,7 +118,6 @@ public class PlayerUpdating {
     }
 
 
-
     private static boolean canSee(Player player, Player otherPlayer) {
         return true;
     }
@@ -125,8 +125,8 @@ public class PlayerUpdating {
     /**
      * Adds a new player to the associated player's client.
      *
-     * @param otherPlayer  The player to add to the other player's client.
-     * @param builder The packet builder to write information on.
+     * @param otherPlayer The player to add to the other player's client.
+     * @param builder     The packet builder to write information on.
      * @return The PlayerUpdating instance.
      */
     private static void addPlayer(Player player, Player otherPlayer, PacketBuilder builder) {
@@ -179,10 +179,8 @@ public class PlayerUpdating {
             /*
              * These are the positions.
              */
-            builder.putBits(7,
-                player.tile().getLocalY(player.getLastKnownRegion()));
-            builder.putBits(7,
-                player.tile().getLocalX(player.getLastKnownRegion()));
+            builder.putBits(7, player.tile().getLocalY(player.getLastKnownRegion()));
+            builder.putBits(7, player.tile().getLocalX(player.getLastKnownRegion()));
         } else
             /*
              * Otherwise, check if the player moved.
@@ -344,7 +342,7 @@ public class PlayerUpdating {
      * Appends a player's update mask blocks.
      *
      * @param builder          The packet builder to write information on.
-     * @param otherPlayer           The player to update masks for.
+     * @param otherPlayer      The player to update masks for.
      * @param updateAppearance Update the player's appearance without the flag being set?
      * @param noChat           Do not allow player to chat?
      * @return The PlayerUpdating instance.
@@ -515,8 +513,9 @@ public class PlayerUpdating {
 
     /**
      * This update block is used to update a player's single hit.
-     * @param builder    The packet builder used to write information on.
-     * @param target    The player to update the single hit for.
+     *
+     * @param builder The packet builder used to write information on.
+     * @param target  The player to update the single hit for.
      * @return The PlayerUpdating instance.
      */
     private static void writehit1(PacketBuilder builder, Player player, Player otherPlayer, Player observer) {

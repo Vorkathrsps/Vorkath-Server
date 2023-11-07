@@ -18,6 +18,9 @@ public class HealthHud {
      */
     public static final int WIDGET_ID = 19_000;
 
+    public static boolean needsUpdate;
+    public static boolean updated;
+
     /**
      * The varp which controls the type of the hud.
      */
@@ -56,11 +59,13 @@ public class HealthHud {
      * @param maxHealth     The maximum health.
      */
     public static void open(Player player, Type type, String name, int currentHealth, int maxHealth) {
+        updated = true;
+        needsUpdate = false;
         ClientInstruction instruction = ClientInstruction.of(13);
         instruction.addIntArg(type.ordinal());
         instruction.addStringArg(name);
         instruction.send(player);
-        update(player, currentHealth, maxHealth);
+        update(player, type, currentHealth, maxHealth);
         player.getPacketSender().sendParallelInterfaceVisibility(WIDGET_ID, true);
     }
 
@@ -85,6 +90,7 @@ public class HealthHud {
      * @param max    The maximum health.
      */
     public static void update(Player player, int health, int max) {
+        if (!updated) needsUpdate = true;
         VARP.set(player, max << 16 | health);
     }
 
@@ -94,7 +100,10 @@ public class HealthHud {
      * @param player The player.
      */
     public static void close(Player player) {
+        updated = false;
+        needsUpdate = true;
         player.getPacketSender().sendParallelInterfaceVisibility(WIDGET_ID, false);
+        player.getPacketSender().resetParallelInterfaces();
     }
 
 }

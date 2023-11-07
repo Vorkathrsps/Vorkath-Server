@@ -131,6 +131,7 @@ import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.ControllerManager;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
+import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.route.routes.TargetRoute;
 import com.cryptic.network.Session;
 import com.cryptic.network.SessionHandler;
@@ -1101,17 +1102,13 @@ public class Player extends Entity {
     @Override
     public void onAdd() {
         World.getWorld().ls.ONLINE.add(getMobName().toUpperCase());
-        // Update session state
         session.setState(SessionState.LOGGED_IN);
-
-        // This has to be the first packet!
         setNeedsPlacement(true);
         packetSender.sendMapRegion().sendDetails().sendRights().sendTabs();
-
+        Region.update(this);
         Tile.occupy(this);
-
-        //Actions done for the player on login
         onLogin();
+        System.out.println(this.tile.getRegion().getNpcs().size());
     }
 
     /**
@@ -1482,6 +1479,8 @@ public class Player extends Entity {
         if (getInstancedArea() != null) {
             getInstancedArea().removePlayer(this);
         }
+
+        removeFromRegions();
 
         var party = this.getTheatreParty();
 
@@ -2672,6 +2671,27 @@ public class Player extends Entity {
             kc = ((double) kills / deaths);
         }
         return String.valueOf(Math.round(kc * 100) / 100.0);
+    }
+    public Region lastRegion;
+    private ArrayList<Region> mapRegions = new ArrayList<>();
+
+    public void addRegion(Region region) {
+        if (!region.players.contains(this)) region.players.add(this);
+        for (var r : this.getSurroundingRegions()) {
+            if (mapRegions.contains(r)) continue;
+            mapRegions.add(r);
+        }
+    }
+
+    public void removeFromRegions() {
+        mapRegions.removeIf(region -> {
+            region.players.remove(this);
+            return true;
+        });
+    }
+
+    public ArrayList<Region> getRegions() {
+        return mapRegions;
     }
 
     public List<String> getRecentKills() {

@@ -6,6 +6,7 @@ import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.route.RouteFinder;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +44,6 @@ public class PlayerMovement extends MovementQueue {
         final Tile beforeWalk = player.tile();
         player.setWalkingDirection(Direction.NONE);
         player.setRunningDirection(Direction.NONE);
-
         if (following != null) {
             if (!following.isRegistered() || !following.tile().isWithinDistance(player.tile())) {
                 //player.setPositionToFace(null);
@@ -147,10 +147,11 @@ public class PlayerMovement extends MovementQueue {
             regionChanged = true;
         if (regionChanged || player.getRegionHeight() != player.tile().getLevel()) {
             //System.out.println("Region changed for " + player.toString());
+            player.removeFromRegions();
             player.getPacketSender().sendMapRegion();
             player.setRegionHeight(player.tile().getLevel());
             player.setActiveMap(new Tile(player.tile().x, player.tile().y, player.tile().level));
+            Region.update(player);
         }
-
     }
 }

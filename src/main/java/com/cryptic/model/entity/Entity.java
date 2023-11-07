@@ -1466,11 +1466,9 @@ public abstract class Entity {
 
     private final List<Player> localPlayers = new LinkedList<>();
     private final List<NPC> localNpcs = new LinkedList<>();
-
     public List<Player> getLocalPlayers() {
         return localPlayers;
     }
-
     public List<NPC> getLocalNpcs() {
         return localNpcs;
     }
@@ -1925,15 +1923,6 @@ public abstract class Entity {
 
         }
 
-        if (isPlayer() && player() != null) {
-            var party = player().getTheatreInstance();
-
-            if (party != null) {
-                var playerRegion = player().tile().region();
-
-            }
-        }
-
 
         setTile(teleportTarget);
         Tile.occupy(this);
@@ -1943,8 +1932,9 @@ public abstract class Entity {
         setEntityInteraction(null);
         //getAsPlayer().isNullifyDamageLock(); //we nullfiy the damage taken when teleporting
 
-        if (isPlayer()) {
-            getAsPlayer().getAsPlayer().getMovementQueue().handleRegionChange();
+        if (this instanceof Player player) {
+            System.out.println("handling region change?");
+            player.getMovementQueue().handleRegionChange();
         }
 
         getMovementQueue().clear();

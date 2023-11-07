@@ -20,6 +20,7 @@ import com.cryptic.network.packet.PacketBuilder;
 import com.cryptic.network.packet.PacketType;
 import com.cryptic.network.packet.ValueType;
 import com.cryptic.network.packet.outgoing.message.ComponentVisibility;
+import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -47,6 +48,9 @@ public final class PacketSender {
     public void resetParallelInterfaces() {
         walkableInterfaceList.clear();
     }
+
+    @Getter
+    public boolean updateRegions;
 
     public void sendParallelInterfaceVisibility(int interfaceId, boolean visible) {
         PacketBuilder out = new PacketBuilder(210);
@@ -346,12 +350,13 @@ public final class PacketSender {
      */
     public PacketSender sendMapRegion() {
         player.setRegionHeight(player.tile().getLevel());
-        //player.setNeedsPlacement(true);//Need to figure out how other rsps do this flag.
         player.setAllowRegionChangePacket(true);
         player.setLastKnownRegion(player.tile().copy());
         PacketBuilder out = new PacketBuilder(73);
         out.putShort(player.tile().getRegionX() + 6, ValueType.A);
         out.putShort(player.tile().getRegionY() + 6);
+        if (!player.getRegions().contains(player.tile().getRegion()))
+            player.addRegion(player.tile().getRegion());
         player.getSession().write(out);
         return this;
     }
@@ -1227,7 +1232,8 @@ public final class PacketSender {
         int targetLocalY = y - chunkAbsY;
         int playerLocalX = x - 8 * other.getRegionX();
         int playerLocalY = y - 8 * other.getRegionY();
-        if (playerLocalX >= 0 && playerLocalX < 104 && playerLocalY >= 0 && playerLocalY < 104) player.getSession().write(new PacketBuilder(85).put(playerLocalY, ValueType.C).put(playerLocalX, ValueType.C));
+        if (playerLocalX >= 0 && playerLocalX < 104 && playerLocalY >= 0 && playerLocalY < 104)
+            player.getSession().write(new PacketBuilder(85).put(playerLocalY, ValueType.C).put(playerLocalX, ValueType.C));
         return this;
     }
 

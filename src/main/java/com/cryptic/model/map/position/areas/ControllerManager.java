@@ -2,6 +2,8 @@ package com.cryptic.model.map.position.areas;
 
 import com.cryptic.model.content.raids.theatre.area.NylocasAreaController;
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.combat.method.impl.npcs.dragons.area.KingBlackDragonLair;
+import com.cryptic.model.entity.combat.method.impl.npcs.dragons.area.KrakenArea;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
@@ -21,6 +23,8 @@ public class ControllerManager {
         CONTROLLERS.add(new COXArea());
         CONTROLLERS.add(new TournamentArea());
         CONTROLLERS.add(new NylocasAreaController());
+        CONTROLLERS.add(new KingBlackDragonLair());
+        CONTROLLERS.add(new KrakenArea());
     }
 
     /**

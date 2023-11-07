@@ -30,15 +30,6 @@ public class KingBlackDragon extends CommonCombatMethod {
     };
 
     @Override
-    public void onRespawn(NPC npc) {
-        if (npc != null) {
-            for (Player p : npc.closePlayers(32)) {
-                HealthHud.open(p, HealthHud.Type.REGULAR, "King Black Dragon", npc.maxHp());
-            }
-        }
-    }
-
-    @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         if (!withinDistance(8)) {
             return false;
@@ -144,14 +135,6 @@ public class KingBlackDragon extends CommonCombatMethod {
                 }
             }
         }
-    }
-
-    @Override
-    public boolean customOnDeath(Hit hit) {
-        for (Player p : entity.closePlayers(32)) {
-            HealthHud.close(p);
-        }
-        return false;
     }
 
     @Override

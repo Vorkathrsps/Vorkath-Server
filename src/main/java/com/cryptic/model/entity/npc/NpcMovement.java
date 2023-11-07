@@ -26,15 +26,21 @@ public class NpcMovement extends MovementQueue {
         final Tile beforeWalk = npc.tile();
         npc.setWalkingDirection(Direction.NONE);
         npc.setRunningDirection(Direction.NONE);
-
         if (step(npc)) {
             final Tile afterWalk = npc.tile();
             npc.setWalkingDirection(Direction.getDirection(beforeWalk, afterWalk));
             npc.setRunningDirection(Direction.getDirection(afterWalk, npc.tile()));
-            Tile.occupy(npc); // should be in step block
-
+            Tile.occupy(npc);
             if (beforeWalk.region() != npc.tile().region()) {
                 npc.setLastKnownRegion(beforeWalk);
+            }
+            if (!npc.getLastKnownRegion().equals(npc.tile())) {
+                var lastRegion = npc.getLastKnownRegion().getRegion();
+                var currentRegion = npc.tile().getRegion();
+                if (lastRegion != currentRegion) {
+                    lastRegion.getNpcs().remove(npc);
+                    currentRegion.getNpcs().add(npc);
+                }
             }
         }
     }

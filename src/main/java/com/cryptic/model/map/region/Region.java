@@ -1,7 +1,11 @@
 package com.cryptic.model.map.region;
 
+import com.cryptic.model.entity.npc.NPC;
+import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.map.position.Boundary;
 import com.cryptic.model.map.position.Tile;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
@@ -44,6 +48,9 @@ public class Region {
      * Has this region been loaded?
      */
     private boolean loaded;
+    @Getter public ArrayList<NPC> npcs;
+    @Getter public final ArrayList<Player> players;
+    public final Boundary bounds;
 
     /**
      * Creates a new region.
@@ -59,6 +66,9 @@ public class Region {
         this.baseX = (regionId >> 8) * 64;
         this.baseY = (regionId & 0xff) * 64;
         this.activeTiles = new ArrayList<>();
+        this.npcs = new ArrayList<>();
+        this.players = new ArrayList<>();
+        this.bounds = Boundary.fromRegion(regionId);
     }
 
     public int getRegionId() {
@@ -150,6 +160,14 @@ public class Region {
     }
 
     public final ArrayList<Tile> activeTiles;
+
+    public static void update(Player player) {
+        for(Region region : player.getRegions()) {
+            for(Tile tile : region.activeTiles) {
+                tile.update(player);
+            }
+        }
+    }
 
     public static @Nonnull Region get(int absX, int absY) {
         return RegionManager.getRegion(absX, absY);

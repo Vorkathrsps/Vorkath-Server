@@ -36,7 +36,6 @@ public class Tile implements Cloneable {
     public int playerCount;
     public int npcCount;
     public ObjectArrayList<GameObject> gameObjects;
-
     public GameObject object(int objectID) {
         return new GameObject(objectID, this, 10, 0);
     }

@@ -501,11 +501,13 @@ public class World {
     public boolean registerNpc(NPC npc) {
         npcs.add(npc);
         Tile.occupy(npc);
+        npc.tile().getRegion().getNpcs().add(npc);
         npc.spawnStack = new Throwable().getStackTrace()[1].toString();
         return true;
     }
 
     public void unregisterNpc(NPC npc) {
+        npc.tile().getRegion().getNpcs().remove(npc);
         npcs.remove(npc);
         Tile.unoccupy(npc);
         if (npc.getInstancedArea() != null) npc.getInstancedArea().removeNpc(npc);

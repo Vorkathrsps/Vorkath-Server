@@ -87,6 +87,15 @@ public class Boundary {
         }
     }
 
+    public static Boundary fromRegion(int regionId) {
+        return fromRegion(regionId, -1);
+    }
+
+    public static Boundary fromRegion(int regionId, int z) {
+        int baseRegionX = (regionId >> 8) * 64, baseRegionY = (regionId & 0xff) * 64;
+        return new Boundary(baseRegionX, baseRegionY, baseRegionX + 63, baseRegionY + 63, z);
+    }
+
     public int getMinimumX() {
         return minX;
     }

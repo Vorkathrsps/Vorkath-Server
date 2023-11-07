@@ -5,6 +5,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.corruptedhunleff.CorruptedHunleff;
 import com.cryptic.model.entity.combat.method.impl.npcs.karuulm.Wyrm;
+import com.cryptic.model.map.region.Region;
 import com.cryptic.utility.Debugs;
 import com.google.common.base.Stopwatch;
 import com.cryptic.cache.definitions.NpcDefinition;
@@ -634,6 +635,7 @@ public class NPC extends Entity {
             if (!ccm.isAggressive())
                 return;
         }
+
         if (dead() || !inViewport || locked() || combatInfo == null || !(combatInfo.aggressive || (wilderness && getBotHandler() == null)))
             return;
 
@@ -888,11 +890,15 @@ public class NPC extends Entity {
 
     @Override
     public void onAdd() {
+        setNeedsPlacement(true);
+        if (!this.tile.getRegion().getNpcs().contains(this)) this.tile().getRegion().getNpcs().add(this);
+        Tile.occupy(this);
     }
 
     @Override
     public void onRemove() {
         TaskManager.cancelTasks(this);
+        this.tile().getRegion().getNpcs().remove(this);
     }
 
     @Override

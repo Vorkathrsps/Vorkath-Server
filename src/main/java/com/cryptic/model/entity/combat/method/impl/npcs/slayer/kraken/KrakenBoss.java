@@ -174,35 +174,4 @@ public class KrakenBoss {
         }
     }
 
-    public static void onDeath(NPC npc) {
-        // Then do the death anim on all tentacles
-        List<NPC> minions = npc.<ArrayList<NPC>>getAttribOr(AttributeKey.MINION_LIST, new ArrayList<NPC>());
-        for (NPC minion : minions) {
-            if (!minion.hidden()) { // Already dead maybe from recoil/venom
-                minion.stopActions(false);
-                minion.getCombat().reset();
-                NPCDeath.deathReset(minion);
-                minion.animate(minion.getCombatInfo().animations.death);
-            }
-        }
-
-        // Wait 2 for tents to die
-        Chain.bound(null).runFn(2, () -> {
-            // Hide them
-            for (NPC minion : minions) {
-                minion.hidden(true);
-                minion.transmog(TENTACLE_WHIRLPOOL, false); // Set it back to the whirlpool
-                minion.setCombatInfo(World.getWorld().combatInfo(TENTACLE_WHIRLPOOL));
-                minion.hp(minion.maxHp(), 0);
-            }
-        }).then(11, () -> {
-            // Wait some seconds - during this time the default NPCDeath script will respawn the Kraken boss
-
-            // Respawn the minions
-            for (NPC m : minions) {
-                NPCDeath.respawn(m);
-            }
-        });
-    }
-
 }

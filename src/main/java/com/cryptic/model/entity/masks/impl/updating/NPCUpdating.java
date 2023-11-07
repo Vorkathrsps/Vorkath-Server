@@ -64,27 +64,18 @@ public class NPCUpdating {
                     packet.putBits(2, 3);
                 }
             }
-            int localNpcCount = localNpcs.size();
-            int added = 0;
-            for (NPC npc : World.getWorld().getNpcs()) {
-                if (localNpcCount >= MAXIMUM_LOCAL_NPCS)
-                    break;
-                if (added >= NEW_NPCS_PER_CYCLE) {
-                    break;
-                }
-                if (npc == null || npc.hidden() || npc.isNeedsPlacement())
-                    continue;
-                if (localNpcs.contains(npc))
-                    continue;
-                if (npc.tile().isWithinDistance(playerTile)) {
-                    added++;
-                    localNpcs.add(npc);
-                    addNPC(player, npc, packet, npc.isTeleportJump());
-                    npc.inViewport(true);
-                    if ((npc.getUpdateFlag().isUpdateRequired() || sendNewNpcUpdates(npc))) {
-                        appendUpdates(npc, player, update, true);
+            for (var region : player.getRegions()) {
+                for (var npc : region.getNpcs()) {
+                    if (npc == null || npc.hidden() || npc.isNeedsPlacement()) continue;
+                    if (localNpcs.contains(npc)) continue;
+                    if (player.tile().isWithinDistance(npc.tile(), 14)) {
+                        localNpcs.add(npc);
+                        addNPC(player, npc, packet, npc.isTeleportJump());
+                        npc.inViewport(true);
+                        if ((npc.getUpdateFlag().isUpdateRequired() || sendNewNpcUpdates(npc))) {
+                            appendUpdates(npc, player, update, true);
+                        }
                     }
-                    localNpcCount++;
                 }
             }
             if (update.buffer().writerIndex() > 0) {
@@ -95,9 +86,11 @@ public class NPCUpdating {
                 packet.initializeAccess(AccessType.BYTE);
             }
             player.getSession().write(packet);
-        } catch (Exception e) {
+        } catch (
+            Exception e) {
             e.printStackTrace();
         }
+
     }
 
     private static boolean sendNewNpcUpdates(NPC npc) {

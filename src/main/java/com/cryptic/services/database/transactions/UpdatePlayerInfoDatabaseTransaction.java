@@ -9,8 +9,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * @author Patrick van Elderen | July, 17, 2021, 16:18
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | July, 17, 2021, 16:18
+ * 
  */
 public class UpdatePlayerInfoDatabaseTransaction extends VoidDatabaseTransaction {
 

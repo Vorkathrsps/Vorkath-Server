@@ -19,7 +19,7 @@ import static com.cryptic.model.inter.lootkeys.LootKey.infoForPlayer;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen <<a href="https://github.com/PVE95">...</a>>
+ * @author Origin <<a href="https://github.com/PVE95">...</a>>
  * @Since March 29, 2022
  */
 public class LootChest extends PacketInteraction {

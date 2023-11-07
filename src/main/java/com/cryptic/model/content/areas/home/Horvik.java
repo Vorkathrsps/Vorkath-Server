@@ -13,8 +13,8 @@ import static com.cryptic.utility.ItemIdentifiers.*;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.HORVIK;
 
 /**
- * @author Patrick van Elderen | April, 23, 2021, 13:34
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 23, 2021, 13:34
+ * 
  */
 public class Horvik extends PacketInteraction {
 

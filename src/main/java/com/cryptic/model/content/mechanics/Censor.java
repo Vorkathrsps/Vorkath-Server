@@ -3,7 +3,7 @@ package com.cryptic.model.content.mechanics;
 import java.util.List;
 
 /**
- * @author Patrick van Elderen | March, 03, 2021, 12:28
+ * @author Origin | March, 03, 2021, 12:28
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class Censor {

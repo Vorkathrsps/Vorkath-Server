@@ -16,7 +16,7 @@ import com.cryptic.model.entity.player.Player;
  * NPC id = 3359
  * A custom boss which spawns random in the wild by the {@link WildernessBossEvent}
  *
- * @author Patrick van Elderen | Zerikoth (PVE) | 06 feb. 2020 : 11:13
+ * @author Origin | Zerikoth (PVE) | 06 feb. 2020 : 11:13
  * @see <a href="https://github.com/Patrick9-10-1995">Github profile</a>
  */
 public class ZombiesChampion extends CommonCombatMethod {

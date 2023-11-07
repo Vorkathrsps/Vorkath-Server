@@ -7,8 +7,8 @@ import com.cryptic.model.map.position.Tile;
 /**
  * An NPC with raids attributes.
  *
- * @author Patrick van Elderen | May, 10, 2021, 16:16
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | May, 10, 2021, 16:16
+ * 
  */
 public class RaidsNpc extends NPC {
 

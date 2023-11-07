@@ -13,11 +13,10 @@ import com.cryptic.cache.definitions.identifiers.ObjectIdentifiers;
 import com.cryptic.utility.chainedwork.Chain;
 
 /**
- * @author Patrick van Elderen | April, 18, 2021, 18:34
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 18, 2021, 18:34
+ * 
  */
 public class DwarfCannonActions extends PacketInteraction {
-
     @Override
     public boolean handleItemInteraction(Player player, Item item, int option) {
         if (option == 1) {
@@ -75,7 +74,7 @@ public class DwarfCannonActions extends PacketInteraction {
                             .then(
                                     2,
                                     () -> {
-                                        for (int index = 0; index < 3; index++) {
+                                        for (int index = 1; index < 4; index++) {
                                             // add new Tasks @ instantly (0*2=0), 2 4, 6
                                             Chain.bound(player)
                                                     .runFn(

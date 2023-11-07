@@ -8,6 +8,7 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
+import com.cryptic.model.entity.npc.NPC;
 
 /**
  * The Saradomin sword has a special attack, Saradomin's Lightning, that deals 10% more melee damage and 1-16 extra Magic damage.
@@ -23,25 +24,10 @@ public class SaradominSword extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1132);
         entity.graphic(1213, GraphicHeight.HIGH, 0);
-
-        //boolean accurate = AccuracyFormula.doesHit(entity, target, CombatType.MELEE);
-        int meleeHit = CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE);
-        int magicHit = CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC);
-        if (true) {
-            if (meleeHit > 0) {
-                magicHit = World.getWorld().random(1, 16);
-            }
-        } else {
-            meleeHit = 0;
-            magicHit = 0;
-        }
-
-        Hit hit = target.hit(entity, meleeHit,1, CombatType.MELEE).checkAccuracy(true);
-        hit.submit();
-        Hit hit2 = target.hit(entity, magicHit,1, CombatType.MAGIC).checkAccuracy(true);
-        hit2.submit();
+        new Hit(entity, target, 1, CombatType.MELEE).checkAccuracy(true).submit();
+        new Hit(entity, target, 1, CombatType.MELEE).checkAccuracy(false).submit();
         CombatSpecial.drain(entity, CombatSpecial.SARADOMIN_SWORD.getDrainAmount());
-return true;
+        return true;
     }
 
     @Override

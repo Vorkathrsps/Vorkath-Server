@@ -5,7 +5,7 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 
 /**
- * @author Patrick van Elderen | February, 15, 2021, 18:02
+ * @author Origin | February, 15, 2021, 18:02
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class RockyBalboaRequirement extends TitleRequirement {

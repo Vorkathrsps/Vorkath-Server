@@ -19,8 +19,8 @@ import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.utility.Utils;
 
 /**
- * @author Patrick van Elderen | June, 17, 2021, 17:13
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | June, 17, 2021, 17:13
+ * 
  */
 public class PureBot extends NPCBotHandler implements CombatMethod {
 

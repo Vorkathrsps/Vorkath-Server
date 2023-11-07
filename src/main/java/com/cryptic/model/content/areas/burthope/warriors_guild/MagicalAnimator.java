@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.MAGICAL_ANIMATOR;
 
 /**
- * @author Patrick van Elderen | March, 26, 2021, 09:51
+ * @author Origin | March, 26, 2021, 09:51
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class MagicalAnimator extends PacketInteraction {

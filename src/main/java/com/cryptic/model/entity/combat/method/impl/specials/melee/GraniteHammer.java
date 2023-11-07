@@ -8,7 +8,7 @@ import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 
 /**
- * @author Patrick van Elderen | November, 28, 2020, 19:19
+ * @author Origin | November, 28, 2020, 19:19
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class GraniteHammer extends CommonCombatMethod {
@@ -17,11 +17,9 @@ public class GraniteHammer extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1378);
         entity.graphic(1450);
-
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE) + 5,1, CombatType.MELEE).checkAccuracy(true);
-        hit.submit();
+        new Hit(entity, target, 1, this).checkAccuracy(true).submit();
         CombatSpecial.drain(entity, CombatSpecial.GRANITE_HAMMER.getDrainAmount());
-return true;
+        return true;
     }
 
     @Override

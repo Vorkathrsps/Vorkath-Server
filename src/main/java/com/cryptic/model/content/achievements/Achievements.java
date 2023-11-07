@@ -13,8 +13,8 @@ import static com.cryptic.utility.CustomItemIdentifiers.*;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | April, 14, 2021, 16:26
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 14, 2021, 16:26
+ * 
  */
 public enum Achievements {
 

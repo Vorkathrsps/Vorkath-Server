@@ -6,7 +6,7 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 
 /**
- * @author Patrick van Elderen | February, 14, 2021, 12:10
+ * @author Origin | February, 14, 2021, 12:10
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class MaxHitDummyNpc extends NPC {

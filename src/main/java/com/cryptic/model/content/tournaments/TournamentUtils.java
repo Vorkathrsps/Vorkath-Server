@@ -5,7 +5,7 @@ import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.map.position.Tile;
 
 /**
- * @author Patrick van Elderen | Zerkikoth | PVE
+ * @author Origin | Zerkikoth | PVE
  */
 public class TournamentUtils {
 

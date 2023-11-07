@@ -4,7 +4,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.commands.Command;
 
 /**
- * @author Patrick van Elderen | Zerikoth | PVE
+ * @author Origin | Zerikoth | PVE
  * @date maart 21, 2020 22:38
  */
 public class WalkableInterfaceCommand implements Command {

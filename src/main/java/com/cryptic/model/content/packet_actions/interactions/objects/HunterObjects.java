@@ -8,7 +8,7 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import java.util.stream.IntStream;
 
 /**
- * @author Patrick van Elderen | Zerikoth | PVE
+ * @author Origin | Zerikoth | PVE
  * @date februari 21, 2020 21:17
  */
 public class HunterObjects extends PacketInteraction {

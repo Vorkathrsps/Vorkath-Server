@@ -16,7 +16,7 @@ import com.cryptic.utility.Utils;
  * This class represents the "wealth risk" you bring to the wilderness for bonus
  * rewards.
  *
- * @author Patrick van Elderen | Zerikoth (PVE) | 30 aug. 2019 : 07:27
+ * @author Origin | Zerikoth (PVE) | 30 aug. 2019 : 07:27
  * @see <a href="https://github.com/Patrick9-10-1995">Github profile</a>
  */
 public class RiskManagement {

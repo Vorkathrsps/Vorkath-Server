@@ -19,16 +19,16 @@ public class SaradominGodsword extends CommonCombatMethod {
         player.animate(player.getEquipment().contains(ItemIdentifiers.SARADOMIN_GODSWORD_OR) ? 7641 : 7640);
         boolean gfx_gold = player.getAttribOr(AttributeKey.SGS_GFX_GOLD, false);
         player.graphic(gfx_gold ? 1745 : 1209);
-        //TODO it.player().world().spawnSound(it.player().tile(), 3869, 0, 10)
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy(true);
-        hit.submit();
-
-        // Heal the player & restore prayer and hit the enemy
-        player.heal(Math.max(10, hit.getDamage() / 2)); // Min heal is 10
-
-        player.getSkills().alterSkill(Skills.PRAYER, Math.max(5, hit.getDamage() / 4)); // Min heal is 5 for prayer
+        new Hit(entity, target, 1, this).checkAccuracy(true).submit().postDamage(hit -> {
+            if (!hit.isAccurate()) {
+                hit.block();
+                return;
+            }
+            player.heal(Math.max(10, hit.getDamage() / 2));
+            player.getSkills().alterSkill(Skills.PRAYER, Math.max(5, hit.getDamage() / 4));
+        });
         CombatSpecial.drain(entity, CombatSpecial.SARADOMIN_GODSWORD.getDrainAmount());
-return true;
+        return true;
     }
 
     @Override

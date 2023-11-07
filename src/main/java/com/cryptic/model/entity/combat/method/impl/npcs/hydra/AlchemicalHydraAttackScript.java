@@ -5,7 +5,7 @@ import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.npc.NPC;
 
 /**
- * @author Patrick van Elderen | March, 20, 2021, 18:41
+ * @author Origin | March, 20, 2021, 18:41
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class AlchemicalHydraAttackScript extends CommonCombatMethod {

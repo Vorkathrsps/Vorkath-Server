@@ -24,7 +24,7 @@ import static com.cryptic.utility.ItemIdentifiers.LOOTING_BAG_22586;
 /**
  * This class handles the functionality of the looting bag.
  *
- * @author Patrick van Elderen | 19:49 : vrijdag 5 juli 2019 (CEST)
+ * @author Origin | 19:49 : vrijdag 5 juli 2019 (CEST)
  * @author Adam_#6723 For references, credits are given where due.
  * @see <a href="https://github.com/Patrick9-10-1995">Github profile</a>
  */

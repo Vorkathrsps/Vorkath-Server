@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * @author Patrick van Elderen | February, 21, 2021, 16:53
+ * @author Origin | February, 21, 2021, 16:53
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class EcoResetCommand implements Command {

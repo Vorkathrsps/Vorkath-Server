@@ -24,7 +24,7 @@ import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.model.entity.player.QuestTab.InfoTab.SLAYER_POINTS;
 
 /**
- * @author Patrick van Elderen | December, 21, 2020, 13:20
+ * @author Origin | December, 21, 2020, 13:20
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class SlayerRewards {

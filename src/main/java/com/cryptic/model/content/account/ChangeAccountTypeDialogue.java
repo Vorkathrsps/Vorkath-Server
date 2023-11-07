@@ -13,8 +13,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * @author Patrick van Elderen | May, 30, 2021, 12:11
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | May, 30, 2021, 12:11
+ * 
  */
 public class ChangeAccountTypeDialogue extends Dialogue {
 

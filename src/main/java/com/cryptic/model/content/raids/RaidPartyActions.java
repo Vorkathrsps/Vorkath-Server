@@ -19,8 +19,8 @@ import static com.cryptic.model.content.raids.party.Party.*;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.RECRUITING_BOARD;
 
 /**
- * @author Patrick van Elderen | April, 26, 2021, 17:25
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 26, 2021, 17:25
+ * 
  */
 public class RaidPartyActions extends PacketInteraction {
 

@@ -7,8 +7,8 @@ import com.cryptic.model.entity.player.commands.Command;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 
 /**
- * @author Patrick van Elderen | June, 10, 2021, 22:27
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | June, 10, 2021, 22:27
+ * 
  */
 public class NewTaskCommand implements Command {
 

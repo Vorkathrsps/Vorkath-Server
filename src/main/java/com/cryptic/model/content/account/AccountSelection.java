@@ -18,7 +18,7 @@ import static com.cryptic.utility.ItemIdentifiers.*;
 /**
  * The class which represents functionality for selecting your account type.
  *
- * @author Patrick van Elderen | 24 sep. 2021 : 19:56:14
+ * @author Origin | 24 sep. 2021 : 19:56:14
  * @see <a href="https://github.com/PVE95/">Github profile</a>
  */
 public class AccountSelection extends PacketInteraction {

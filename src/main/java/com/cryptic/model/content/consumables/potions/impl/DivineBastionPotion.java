@@ -9,7 +9,7 @@ import com.cryptic.utility.Color;
 import com.cryptic.utility.Utils;
 
 /**
- * @author Patrick van Elderen | January, 25, 2021, 10:36
+ * @author Origin | January, 25, 2021, 10:36
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class DivineBastionPotion {

@@ -8,8 +8,8 @@ import com.cryptic.cache.definitions.identifiers.ObjectIdentifiers;
 import com.cryptic.utility.chainedwork.Chain;
 
 /**
- * @author Patrick van Elderen | April, 14, 2021, 19:18
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 14, 2021, 19:18
+ * 
  */
 public class Castle extends PacketInteraction {
 

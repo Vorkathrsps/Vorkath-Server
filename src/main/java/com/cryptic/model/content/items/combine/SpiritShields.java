@@ -11,7 +11,7 @@ import com.cryptic.utility.chainedwork.Chain;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | March, 16, 2021, 15:04
+ * @author Origin | March, 16, 2021, 15:04
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class SpiritShields extends PacketInteraction {

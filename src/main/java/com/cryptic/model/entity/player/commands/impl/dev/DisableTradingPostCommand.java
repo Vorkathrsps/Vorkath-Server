@@ -5,8 +5,8 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.commands.Command;
 
 /**
- * @author Patrick van Elderen | July, 06, 2021, 02:30
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | July, 06, 2021, 02:30
+ * 
  */
 public class DisableTradingPostCommand implements Command {
 

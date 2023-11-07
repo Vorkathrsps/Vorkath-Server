@@ -10,7 +10,7 @@ import com.cryptic.model.map.position.areas.Controller;
 import java.util.Collections;
 
 /**
- * @author Patrick van Elderen | December, 23, 2020, 15:49
+ * @author Origin | December, 23, 2020, 15:49
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class FightCaveArea extends Controller {

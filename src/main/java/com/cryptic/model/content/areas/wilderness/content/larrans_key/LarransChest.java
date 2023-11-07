@@ -16,7 +16,7 @@ import com.cryptic.utility.chainedwork.Chain;
 import static com.cryptic.model.content.collection_logs.LogType.KEYS;
 
 /**
- * @author Patrick van Elderen | February, 17, 2021, 14:17
+ * @author Origin | February, 17, 2021, 14:17
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class LarransChest extends PacketInteraction {

@@ -5,8 +5,8 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.commands.Command;
 
 /**
- * @author Patrick van Elderen | May, 12, 2021, 14:04
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | May, 12, 2021, 14:04
+ * 
  */
 public class SaveAllTPCommand implements Command {
 

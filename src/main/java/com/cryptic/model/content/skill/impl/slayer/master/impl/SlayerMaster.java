@@ -8,8 +8,8 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.THORODIN_5526;
 
 /**
- * @author Patrick van Elderen | April, 24, 2021, 13:46
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 24, 2021, 13:46
+ * 
  */
 public class SlayerMaster extends PacketInteraction {
 

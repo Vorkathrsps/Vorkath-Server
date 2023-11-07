@@ -1,6 +1,6 @@
 package com.cryptic.model.entity.player;
 /**
- * @author Patrick van Elderen | March, 06, 2021, 14:46
+ * @author Origin | March, 06, 2021, 14:46
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public enum IronMode {

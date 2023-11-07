@@ -7,7 +7,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * @author Patrick van Elderen | January, 16, 2021, 10:18
+ * @author Origin | January, 16, 2021, 10:18
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class PlayerPunishment {

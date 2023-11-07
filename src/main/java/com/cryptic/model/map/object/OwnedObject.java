@@ -7,8 +7,8 @@ import com.cryptic.model.map.position.Tile;
 import java.util.Optional;
 
 /**
- * @author Patrick van Elderen | April, 18, 2021, 14:46
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 18, 2021, 14:46
+ * 
  */
 public abstract class OwnedObject extends GameObject {
 

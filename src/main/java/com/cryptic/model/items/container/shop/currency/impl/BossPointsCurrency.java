@@ -5,8 +5,8 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.container.shop.currency.Currency;
 
 /**
- * @author Patrick van Elderen | June, 10, 2021, 19:10
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | June, 10, 2021, 19:10
+ * 
  */
 public class BossPointsCurrency implements Currency {
 

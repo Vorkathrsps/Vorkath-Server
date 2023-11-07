@@ -24,8 +24,8 @@ import static com.cryptic.utility.ItemIdentifiers.SUPER_ANTIFIRE_POTION4;
 /**
  * This class represents the slayer key. The slayer key is a random drop during a slayer task.
  * The key has various rewards including armour, supplies and weaponry.
- * @author Patrick van Elderen | May, 18, 2021, 14:44
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | May, 18, 2021, 14:44
+ * 
  */
 public class SlayerKey {
 

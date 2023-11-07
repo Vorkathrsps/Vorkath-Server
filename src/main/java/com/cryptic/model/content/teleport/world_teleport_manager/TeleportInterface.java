@@ -20,7 +20,7 @@ import java.util.*;
 import static com.cryptic.model.content.teleport.world_teleport_manager.TeleportData.*;
 
 /**
- * @author Patrick van Elderen | February, 20, 2021, 21:08 <--- DOGSHIT
+ * @author Origin | February, 20, 2021, 21:08 <--- DOGSHIT
  * @author Ynneh (re-wrote this dogshit)
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */

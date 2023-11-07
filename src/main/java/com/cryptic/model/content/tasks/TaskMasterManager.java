@@ -12,7 +12,7 @@ import com.cryptic.utility.Utils;
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 
 /**
- * @author Patrick van Elderen | April, 08, 2021, 21:55
+ * @author Origin | April, 08, 2021, 21:55
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class TaskMasterManager {

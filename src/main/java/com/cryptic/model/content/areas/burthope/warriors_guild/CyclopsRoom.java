@@ -9,7 +9,7 @@ import com.cryptic.model.map.position.Tile;
 import static com.cryptic.utility.ItemIdentifiers.WARRIOR_GUILD_TOKEN;
 
 /**
- * @author Patrick van Elderen | March, 26, 2021, 09:48
+ * @author Origin | March, 26, 2021, 09:48
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class CyclopsRoom {

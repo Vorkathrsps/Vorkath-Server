@@ -9,7 +9,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * @author Patrick van Elderen | November, 12, 2020, 18:39
+ * @author Origin | November, 12, 2020, 18:39
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class RetrievePlayerPasswordDatabaseTransaction extends DatabaseTransaction<String> {

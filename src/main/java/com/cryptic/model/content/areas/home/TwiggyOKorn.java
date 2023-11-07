@@ -9,8 +9,8 @@ import com.cryptic.model.inter.dialogue.Expression;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.TWIGGY_OKORN;
 
 /**
- * @author Patrick van Elderen | April, 23, 2021, 13:03
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 23, 2021, 13:03
+ * 
  */
 public class TwiggyOKorn extends Dialogue {
 

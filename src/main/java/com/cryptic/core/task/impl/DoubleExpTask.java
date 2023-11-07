@@ -7,8 +7,8 @@ import com.cryptic.utility.Color;
 import static com.cryptic.model.entity.attributes.AttributeKey.DOUBLE_EXP_TICKS;
 
 /**
- * @author Patrick van Elderen | April, 21, 2021, 15:10
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 21, 2021, 15:10
+ * 
  */
 public class DoubleExpTask extends Task {
 

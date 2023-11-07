@@ -5,8 +5,8 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.commands.Command;
 
 /**
- * @author Patrick van Elderen | April, 14, 2021, 13:24
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 14, 2021, 13:24
+ * 
  */
 public class TradingPostCommand implements Command {
 

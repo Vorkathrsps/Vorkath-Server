@@ -14,7 +14,7 @@ import java.util.List;
 import static com.cryptic.model.entity.masks.Direction.*;
 
 /**
- * @author Patrick van Elderen | December, 22, 2020, 18:06
+ * @author Origin | December, 22, 2020, 18:06
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class HydraChamber {

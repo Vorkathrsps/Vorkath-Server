@@ -4,8 +4,8 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
 
 /**
- * @author Patrick van Elderen | June, 28, 2021, 15:02
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | June, 28, 2021, 15:02
+ * 
  */
 @FunctionalInterface
 public interface OnTele {

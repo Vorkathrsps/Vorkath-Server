@@ -14,7 +14,7 @@ import com.cryptic.model.entity.player.Player;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | January, 08, 2021, 08:48
+ * @author Origin | January, 08, 2021, 08:48
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class SpiritualMage extends CommonCombatMethod {

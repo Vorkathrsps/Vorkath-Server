@@ -12,7 +12,7 @@ import java.util.List;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | April, 08, 2021, 21:57
+ * @author Origin | April, 08, 2021, 21:57
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class TaskReward {

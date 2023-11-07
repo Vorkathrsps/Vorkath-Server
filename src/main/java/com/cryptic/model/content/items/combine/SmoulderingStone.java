@@ -8,7 +8,7 @@ import com.cryptic.model.items.Item;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 
 /**
- * @author Patrick van Elderen | March, 16, 2021, 14:47
+ * @author Origin | March, 16, 2021, 14:47
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class SmoulderingStone extends PacketInteraction {

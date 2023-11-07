@@ -14,13 +14,10 @@ public class SaradominBlessedSword extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1133);
         entity.graphic(1213, GraphicHeight.HIGH, 0);
-
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC),1, CombatType.MAGIC).checkAccuracy(true);
-        hit.submit();
-
+        new Hit(entity, target, 1, this).checkAccuracy(true).submit();
         target.graphic(1196, GraphicHeight.MIDDLE, 0);
         CombatSpecial.drain(entity, CombatSpecial.BLESSED_SARADOMIN_SWORD.getDrainAmount());
-return true;
+        return true;
     }
 
     @Override

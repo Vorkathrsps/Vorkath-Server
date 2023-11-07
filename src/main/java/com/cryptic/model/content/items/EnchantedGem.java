@@ -11,7 +11,7 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import static com.cryptic.utility.ItemIdentifiers.ENCHANTED_GEM;
 
 /**
- * @author Patrick van Elderen | December, 24, 2020, 13:05
+ * @author Origin | December, 24, 2020, 13:05
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class EnchantedGem extends PacketInteraction {

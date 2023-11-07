@@ -7,8 +7,8 @@ import com.cryptic.model.entity.player.commands.Command;
 import com.cryptic.model.map.position.Tile;
 
 /**
- * @author Patrick van Elderen | June, 11, 2021, 10:23
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | June, 11, 2021, 10:23
+ * 
  */
 public class RaidsTeleportCommand implements Command {
 

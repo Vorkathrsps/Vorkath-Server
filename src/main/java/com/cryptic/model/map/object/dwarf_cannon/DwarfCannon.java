@@ -4,12 +4,14 @@ import com.cryptic.model.content.mechanics.MultiwayCombat;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
+import com.cryptic.model.items.container.equipment.EquipmentInfo;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.object.ObjectManager;
@@ -18,7 +20,10 @@ import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.route.routes.ProjectileRoute;
 import com.cryptic.utility.Color;
+import com.cryptic.utility.Utils;
 import com.google.common.base.Stopwatch;
+
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -26,8 +31,8 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
- * @author Patrick van Elderen | April, 16, 2021, 13:39
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 16, 2021, 13:39
+ * 
  */
 public class DwarfCannon extends OwnedObject {
 
@@ -39,7 +44,6 @@ public class DwarfCannon extends OwnedObject {
     public static final int SETUP_ANIM = 827;
     private static int MAX_AMMO = 30;
     private static final int CANNON_RANGE = 8;
-    private static final int MAX_HIT = 30;
     private static final int DECAY_TIME = 20;
     private static final int BROKEN_TIME = 25;
 
@@ -137,11 +141,11 @@ public class DwarfCannon extends OwnedObject {
             if (needed > 0) {
                 getOwner().inventory().remove(CANNON_BALL, needed);
                 getOwner()
-                        .message(
-                                "You load the cannon with "
-                                        + (needed == 1 ? "one" : needed)
-                                        + " cannonball"
-                                        + ((needed > 1) ? "s." : "."));
+                    .message(
+                        "You load the cannon with "
+                            + (needed == 1 ? "one" : needed)
+                            + " cannonball"
+                            + ((needed > 1) ? "s." : "."));
                 setAmmo(getAmmo() + needed);
             }
 
@@ -156,8 +160,8 @@ public class DwarfCannon extends OwnedObject {
         }
         if (getOwner().inventory().getFreeSlots() > spaces) {
             IntStream.of(getStage().getParts())
-                    .mapToObj(Item::new)
-                    .forEach(getOwner().inventory()::add);
+                .mapToObj(Item::new)
+                .forEach(getOwner().inventory()::add);
             if (getAmmo() > 0) getOwner().inventory().add(CANNON_BALL, getAmmo());
             getOwner().animate(SETUP_ANIM);
             destroy();
@@ -175,54 +179,27 @@ public class DwarfCannon extends OwnedObject {
         boolean ownerOnline = getOwnerOpt().isPresent();
         Optional<NPC> target = Optional.empty();
         if (ownerOnline && getStage().equals(CannonStage.FIRING)) {
-            if (!MultiwayCombat.includes(getOwner())
-                    && Objects.nonNull(getOwner().getCombat().getTarget())) {
+            if (!MultiwayCombat.includes(getOwner()) && Objects.nonNull(getOwner().getCombat().getTarget())) {
                 Entity combatTarget = getOwner().getCombat().getTarget();
                 if (combatTarget.isNpc()) {
                     target = Optional.ofNullable(combatTarget.getAsNpc());
                     if (target.isPresent()) {
-                        if (!cannonDirection.validArea(
-                                tile(),
-                                target.get()
-                                        .tile()
-                                        .copy()
-                                        .center(
-                                                target.get()
-                                                        .getSize()))) { // this changes the tile..
+                        if (!cannonDirection.validArea(tile(), target.get().tile().copy().center(target.get().getSize()))) { // this changes the tile..
                             target = Optional.empty();
                         }
                     }
                 }
             } else {
                 target =
-                        World.getWorld()
-                                .getNpcs()
-                                .nonNullStream()
-                                .filter(
-                                        npc ->
-                                                npc.tile()
-                                                        .isWithinDistance(
-                                                                getCorrectedTile(tile()),
-                                                                CANNON_RANGE))
-                                .filter(npc -> npc.def().combatlevel > 0 && npc.hp() > 0)
-                                .filter(npc -> !npc.dead())
-                                .filter(npc -> !npc.def().isPet)
-                                .filter(
-                                        npc ->
-                                                cannonDirection.validArea(
-                                                        getCorrectedTile(tile()).transform(1, 1, 0),
-                                                        npc.tile()))
-                                .filter(
-                                        npc ->
-                                                ProjectileRoute.hasLineOfSight(
-                                                        getCorrectedTile(tile()).getX(),
-                                                        getCorrectedTile(tile()).getY(),
-                                                        getCorrectedTile(tile()).getZ(),
-                                                        1,
-                                                        npc.tile().getX(),
-                                                        npc.tile().getY(),
-                                                        npc.getSize()))
-                                .findAny();
+                    Arrays.stream(getOwner().closeNpcs(48))
+                        .filter(Objects::nonNull)
+                        .filter(npc -> MultiwayCombat.includes(getOwner().tile()) && MultiwayCombat.includes(npc.tile()))
+                        .filter(npc -> ProjectileRoute.hasLineOfSight(getCorrectedTile(tile()).getX(), getCorrectedTile(tile()).getY(), getCorrectedTile(tile()).getZ(), 1, npc.tile().getX(), npc.tile().getY(), npc.getSize()))
+                        .filter(npc -> npc.tile().isWithinDistance(getCorrectedTile(tile()), CANNON_RANGE))
+                        .filter(npc -> npc.def().combatlevel > 0 && !npc.dead())
+                        .filter(npc -> !npc.def().isPet)
+                        .filter(npc -> cannonDirection.validArea(getCorrectedTile(tile()).transform(1, 1, 0), npc.tile()))
+                        .findAny();
             }
             if (tile().inArea(new Area(2240, 4672, 2303, 4735, -1))) { // king black dragon
                 getOwner().message("Your cannon has been destroyed for placing it in this area.");
@@ -236,73 +213,68 @@ public class DwarfCannon extends OwnedObject {
             animate(cannonDirection.getAnimationId());
             cannonDirection = cannonDirection.next();
         } else if (getStage().equals(CannonStage.FURNACE)
-                && getAmmo() <= 0
-                && getCannonDirection() != CannonDirection.NORTH) {
+            && getAmmo() <= 0
+            && getCannonDirection() != CannonDirection.NORTH) {
             animate(cannonDirection.getAnimationId());
             cannonDirection = cannonDirection.next();
         }
 
         target.ifPresent(
-                npc -> {
-                    Player owner = getOwnerOpt().get();
-                    var center = getCorrectedTile(tile());
-                    var targetTile = npc.getSize() > 1 ? npc.tile().transform(1, 1, 0) : npc.tile();
-                    var distance = owner.tile().distance(npc.tile());
-                    var duration = (41 - 5 + (5 * distance));
-                    Projectile p1 = new Projectile(center, targetTile, 53, 0, duration, 40, 30, 16, npc.getSize(), 5);
-                    final int delay = p1.send(center, targetTile);
-
-                    Hit hit = npc.hit(owner, World.getWorld().random(MAX_HIT), delay, null).postDamage(d -> {
-                        owner.getSkills().addXp(Skills.RANGED, d.getDamage() * 4);
-                    });
-                    hit.submit();
+            npc -> getOwnerOpt().ifPresent(owner -> {
+                var center = getCorrectedTile(tile());
+                var distance = center.distance(npc.tile());
+                var duration = (41 - 5 + (5 * distance));
+                Projectile p1 = new Projectile(center, npc.tile(), 53, 0, duration, 40, 30, 16, 1, 5);
+                final int delay = p1.send(center, npc.tile());
+                new Hit(owner, npc, delay, CombatType.RANGED).checkAccuracy(false).submit().postDamage(hit -> {
+                    hit.setDamage(Utils.random(1, owner.getCombat().getMaximumRangedDamage()));
+                    if (hit.getDamage() > 30) hit.setDamage(30);
+                    getOwner().getSkills().addExperience(Skills.RANGED, hit.getDamage(), 4.0, true);
                     setAmmo(getAmmo() - 1);
                     if (getAmmo() <= 0) {
                         owner.message("Your cannon is out of ammo!");
                         setStage(CannonStage.FURNACE, true);
                     }
                 });
+            }));
     }
 
     public void checkDecayTimer() {
         if (needsDecaying() && !getStage().equals(CannonStage.BROKEN)) {
-            getOwnerOpt()
-                    .ifPresent(
-                            player -> player.message("<col=ff0000>Your cannon has broken.</col>"));
+            getOwnerOpt().ifPresent(player -> player.message("<col=ff0000>Your cannon has broken.</col>"));
             setStage(CannonStage.BROKEN, true);
         }
         if (needsDestroyed()) {
             getOwnerOpt()
-                    .ifPresent(
-                            player -> {
-                                player.message(
-                                        "<col=ff0000>Your cannon has decayed. Speak to Drunken"
-                                                + " dwarf to get a new one!</col>");
-                                player.putAttrib(AttributeKey.LOST_CANNON, true);
-                                GroundItemHandler.createGroundItem(
-                                        new GroundItem(
-                                                new Item(CANNON_BALL, getAmmo()),
-                                                player.tile(),
-                                                player));
-                                setAmmo(0);
-                                destroy();
-                            });
+                .ifPresent(
+                    player -> {
+                        player.message(
+                            "<col=ff0000>Your cannon has decayed. Speak to Drunken"
+                                + " dwarf to get a new one!</col>");
+                        player.putAttrib(AttributeKey.LOST_CANNON, true);
+                        GroundItemHandler.createGroundItem(
+                            new GroundItem(
+                                new Item(CANNON_BALL, getAmmo()),
+                                player.tile(),
+                                player));
+                        setAmmo(0);
+                        destroy();
+                    });
         }
     }
 
     public boolean needsDecaying() {
         return decayTimer.elapsed(TimeUnit.MINUTES) > DECAY_TIME
-                && !getStage().equals(CannonStage.BROKEN);
+            && !getStage().equals(CannonStage.BROKEN);
     }
 
     public boolean needsDestroyed() {
         return decayTimer.elapsed(TimeUnit.MINUTES) > BROKEN_TIME
-                && getStage().equals(CannonStage.BROKEN);
+            && getStage().equals(CannonStage.BROKEN);
     }
 
-    public CannonStage incrementSetupStage() {
+    public void incrementSetupStage() {
         setStage(this.stage.next(), true);
-        return stage;
     }
 
     public boolean isValidSpot() {
@@ -326,9 +298,9 @@ public class DwarfCannon extends OwnedObject {
         Player player = getOwnerOpt().get();
 
         if (ObjectManager.objWithTypeExists(
-                        10, new Tile(player.tile().x, player.tile().y, player.tile().level))
-                || ObjectManager.objWithTypeExists(
-                        11, new Tile(player.tile().x, player.tile().y, player.tile().level))) {
+            10, new Tile(player.tile().x, player.tile().y, player.tile().level))
+            || ObjectManager.objWithTypeExists(
+            11, new Tile(player.tile().x, player.tile().y, player.tile().level))) {
             player.message("You can't place a cannon here.");
             return false;
         }
@@ -347,12 +319,12 @@ public class DwarfCannon extends OwnedObject {
 
         if (player.tile().inArea(new Area(2944, 4736, 3135, 4927, 0))) {
             player.message(
-                    "That horrible slime on the ground makes this area unsuitable for a cannon.");
+                "That horrible slime on the ground makes this area unsuitable for a cannon.");
             return false;
         }
         if (player.tile().inArea(new Area(2999, 3501, 3034, 3523, 0))) {
             player.message(
-                    "It is not permitted to set up a cannon this close to the Dwarf Black Guard.");
+                "It is not permitted to set up a cannon this close to the Dwarf Black Guard.");
             return false;
         }
         if (player.tile().inArea(new Area(2688, 9984, 2815, 10047, 0))) {
@@ -361,20 +333,20 @@ public class DwarfCannon extends OwnedObject {
         }
         if (player.tile().inArea(new Area(3138, 3468, 3189, 3516, 0))) {
             player.message(
-                    "The Grand Exchange staff prefer not to have heavy artillery operated around"
-                            + " their premises.");
+                "The Grand Exchange staff prefer not to have heavy artillery operated around"
+                    + " their premises.");
             return false;
         }
         if (player.tile().inArea(new Area(3136, 4544, 3199, 4671, 0))) {
             player.message(
-                    "This temple is ancient and would probably collapse if you started firing a"
-                            + " cannon.");
+                "This temple is ancient and would probably collapse if you started firing a"
+                    + " cannon.");
             return false;
         }
         if (player.tile().inArea(new Area(1280, 9920, 1343, 9983, 0))) {
             player.message(
-                    "This temple is ancient and would probably collapse if you started firing a"
-                            + " cannon.");
+                "This temple is ancient and would probably collapse if you started firing a"
+                    + " cannon.");
             return false;
         }
         if (player.tile().region() == 9007) {
@@ -393,9 +365,9 @@ public class DwarfCannon extends OwnedObject {
         var reclaim = player.<Boolean>getAttribOr(AttributeKey.LOST_CANNON, false);
         if (reclaim) {
             player.message(
-                    Color.RED.wrap(
-                            "Your cannon has been destoryed, you can reclaim it from the Drunken"
-                                    + " Dwarf at home."));
+                Color.RED.wrap(
+                    "Your cannon has been destoryed, you can reclaim it from the Drunken"
+                        + " Dwarf at home."));
         }
     }
 

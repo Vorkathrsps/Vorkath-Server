@@ -1,8 +1,8 @@
 package com.cryptic.model.content.daily_tasks;
 
 /**
- * @author Patrick van Elderen | June, 15, 2021, 16:07
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | June, 15, 2021, 16:07
+ * 
  */
 public enum TaskCategory {
 

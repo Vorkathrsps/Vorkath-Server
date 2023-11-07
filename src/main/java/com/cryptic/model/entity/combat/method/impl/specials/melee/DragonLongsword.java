@@ -15,9 +15,7 @@ public class DragonLongsword extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1058);
         entity.graphic(248, GraphicHeight.HIGH, 0);
-
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy(true);
-        hit.submit();
+        new Hit(entity, target, 1, this).checkAccuracy(true).submit();
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_LONGSWORD.getDrainAmount());
         return true;
     }

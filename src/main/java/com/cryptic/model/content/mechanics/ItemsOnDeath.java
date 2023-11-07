@@ -38,8 +38,8 @@ import java.util.List;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | June, 27, 2021, 12:56
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | June, 27, 2021, 12:56
+ * 
  */
 public class ItemsOnDeath {
 

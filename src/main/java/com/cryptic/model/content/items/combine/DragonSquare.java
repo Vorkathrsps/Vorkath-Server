@@ -12,7 +12,7 @@ import static com.cryptic.utility.ItemIdentifiers.SHIELD_LEFT_HALF;
 import static com.cryptic.utility.ItemIdentifiers.SHIELD_RIGHT_HALF;
 
 /**
- * @author Patrick van Elderen | March, 16, 2021, 14:24
+ * @author Origin | March, 16, 2021, 14:24
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class DragonSquare extends PacketInteraction {

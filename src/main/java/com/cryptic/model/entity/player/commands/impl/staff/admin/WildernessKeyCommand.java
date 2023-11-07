@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author Patrick van Elderen | November, 25, 2020, 18:56
+ * @author Origin | November, 25, 2020, 18:56
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class WildernessKeyCommand implements Command {

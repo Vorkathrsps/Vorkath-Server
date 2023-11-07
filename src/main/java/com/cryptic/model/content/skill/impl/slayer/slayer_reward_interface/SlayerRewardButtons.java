@@ -6,7 +6,7 @@ import com.cryptic.utility.Utils;
 import java.util.HashMap;
 
 /**
- * @author Patrick van Elderen | December, 21, 2020, 13:19
+ * @author Origin | December, 21, 2020, 13:19
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public enum SlayerRewardButtons {

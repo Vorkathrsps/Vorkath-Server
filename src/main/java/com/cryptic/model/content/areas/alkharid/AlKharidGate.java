@@ -16,8 +16,8 @@ import com.cryptic.utility.chainedwork.Chain;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.BORDER_GUARD;
 
 /**
- * @author Patrick van Elderen | April, 14, 2021, 18:16
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 14, 2021, 18:16
+ * 
  */
 public class AlKharidGate extends PacketInteraction {
 

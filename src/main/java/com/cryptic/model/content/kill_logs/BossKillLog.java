@@ -14,7 +14,7 @@ import static com.cryptic.model.entity.attributes.AttributeKey.BOSS_POINTS;
 import static com.cryptic.utility.CustomNpcIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | Zerikoth | PVE
+ * @author Origin | Zerikoth | PVE
  * @date februari 09, 2020 11:14
  */
 public class BossKillLog {

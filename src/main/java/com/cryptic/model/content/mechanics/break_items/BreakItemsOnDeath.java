@@ -10,7 +10,7 @@ import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.PERDU;
 
 /**
  * This class will handle all the enchanted items that break.
- * @author Patrick van Elderen | February, 01, 2021, 14:20
+ * @author Origin | February, 01, 2021, 14:20
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class BreakItemsOnDeath {

@@ -8,8 +8,8 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.FAIRY_FIXIT_7333;
 
 /**
- * @author Patrick van Elderen | April, 23, 2021, 13:52
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 23, 2021, 13:52
+ * 
  */
 public class FairyFixit extends PacketInteraction {
 

@@ -8,7 +8,7 @@ import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.Projectile;
 
 /**
- * @author Patrick van Elderen | March, 04, 2021, 17:05
+ * @author Origin | March, 04, 2021, 17:05
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class RangedDagannoth extends CommonCombatMethod {

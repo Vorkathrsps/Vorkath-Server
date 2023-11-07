@@ -6,8 +6,8 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.cache.definitions.identifiers.ObjectIdentifiers;
 
 /**
- * @author Patrick van Elderen | April, 14, 2021, 19:19
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 14, 2021, 19:19
+ * 
  */
 public class Cage extends PacketInteraction {
 

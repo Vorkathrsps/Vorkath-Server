@@ -10,7 +10,7 @@ import com.cryptic.model.entity.player.commands.Command;
 import com.cryptic.utility.Utils;
 
 /**
- * @author Patrick van Elderen | Zerikoth | PVE
+ * @author Origin | Zerikoth | PVE
  * @date februari 09, 2020 11:29
  */
 public class MassKillNpc implements Command {

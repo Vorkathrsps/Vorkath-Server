@@ -4,7 +4,7 @@ import com.cryptic.model.content.title.req.TitleRequirement;
 import com.cryptic.model.entity.player.Player;
 
 /**
- * @author Patrick van Elderen | January, 20, 2021, 13:04
+ * @author Origin | January, 20, 2021, 13:04
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class CustomRequirement extends TitleRequirement {

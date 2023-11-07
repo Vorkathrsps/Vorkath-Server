@@ -4,7 +4,7 @@ import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.utility.Utils;
 
 /**
- * @author Patrick van Elderen | January, 27, 2021, 21:39
+ * @author Origin | January, 27, 2021, 21:39
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public enum DuelRule {

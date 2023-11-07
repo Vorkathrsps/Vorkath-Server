@@ -6,7 +6,7 @@ import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 
 /**
  * Boss event data. Contains all the types of boss events that can occur - sequentially - across the server.
- * @author Patrick van Elderen | February, 13, 2021, 09:09
+ * @author Origin | February, 13, 2021, 09:09
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public enum BossEvent {

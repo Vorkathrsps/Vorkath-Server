@@ -5,8 +5,8 @@ import com.cryptic.model.entity.npc.droptables.Droptable;
 import com.cryptic.model.entity.player.Player;
 
 /**
- * @author Patrick van Elderen | May, 13, 2021, 11:57
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | May, 13, 2021, 11:57
+ * 
  */
 public class HungarianHorntailDroptable implements Droptable {
 

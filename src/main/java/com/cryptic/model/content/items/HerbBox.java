@@ -11,7 +11,7 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | April, 02, 2021, 12:04
+ * @author Origin | April, 02, 2021, 12:04
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class HerbBox extends PacketInteraction {

@@ -11,7 +11,7 @@ import com.cryptic.utility.chainedwork.Chain;
 import com.cryptic.utility.timers.TimerKey;
 
 /**
- * @author Patrick van Elderen | January, 27, 2021, 15:58
+ * @author Origin | January, 27, 2021, 15:58
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class MageBankLever extends PacketInteraction {

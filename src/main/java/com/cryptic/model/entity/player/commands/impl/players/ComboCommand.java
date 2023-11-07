@@ -9,8 +9,8 @@ import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import static com.cryptic.utility.ItemIdentifiers.COOKED_KARAMBWAN;
 
 /**
- * @author Patrick van Elderen | June, 21, 2021, 14:30
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | June, 21, 2021, 14:30
+ * 
  */
 public class ComboCommand implements Command {
 

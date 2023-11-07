@@ -11,7 +11,7 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.ItemIdentifiers;
 
 /**
- * @author Patrick van Elderen | December, 28, 2020, 15:28
+ * @author Origin | December, 28, 2020, 15:28
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class AchievementCape extends PacketInteraction {

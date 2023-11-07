@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @author Patrick van Elderen | June, 28, 2021, 10:41
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | June, 28, 2021, 10:41
+ * 
  */
 public class CheckMultiLoggers implements Command {
 

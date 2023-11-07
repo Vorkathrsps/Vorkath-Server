@@ -10,7 +10,7 @@ import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.utility.Utils;
 
 /**
- * @author Patrick van Elderen | December, 23, 2020, 15:33
+ * @author Origin | December, 23, 2020, 15:33
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class TzHaarMejJalDialogue extends Dialogue {

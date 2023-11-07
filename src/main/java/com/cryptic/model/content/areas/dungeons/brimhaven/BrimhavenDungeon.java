@@ -17,7 +17,7 @@ import com.cryptic.utility.chainedwork.Chain;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | Zerikoth | PVE
+ * @author Origin | Zerikoth | PVE
  * @date maart 07, 2020 17:14
  */
 public class BrimhavenDungeon extends PacketInteraction {

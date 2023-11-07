@@ -11,7 +11,7 @@ import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 
 /**
  * The combat script for the wyrm.
- * @author Patrick van Elderen | December, 22, 2020, 14:16
+ * @author Origin | December, 22, 2020, 14:16
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class WyrmCombatScript extends CommonCombatMethod {

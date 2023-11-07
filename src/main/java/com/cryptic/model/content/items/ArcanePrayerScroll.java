@@ -11,8 +11,8 @@ import static com.cryptic.model.entity.attributes.AttributeKey.AUGURY;
 import static com.cryptic.utility.ItemIdentifiers.ARCANE_PRAYER_SCROLL;
 
 /**
- * @author Patrick van Elderen | April, 29, 2021, 13:56
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 29, 2021, 13:56
+ * 
  */
 public class ArcanePrayerScroll extends PacketInteraction {
 

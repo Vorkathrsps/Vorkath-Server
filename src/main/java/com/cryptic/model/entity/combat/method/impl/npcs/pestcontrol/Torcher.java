@@ -10,8 +10,8 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.utility.chainedwork.Chain;
 
 /**
- * @author Patrick van Elderen | May, 05, 2021, 13:40
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | May, 05, 2021, 13:40
+ * 
  */
 public class Torcher extends CommonCombatMethod {
 

@@ -9,7 +9,7 @@ import com.cryptic.utility.Utils;
 import java.util.Arrays;
 
 /**
- * @author Patrick van Elderen | Zerikoth | PVE
+ * @author Origin | Zerikoth | PVE
  * @date februari 09, 2020 11:14
  */
 public class SlayerKillLog {

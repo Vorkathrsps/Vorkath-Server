@@ -11,8 +11,8 @@ import com.cryptic.model.inter.clan.ClanMember;
 import com.cryptic.model.map.position.Tile;
 
 /**
- * @author Patrick van Elderen | May, 16, 2021, 22:37
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | May, 16, 2021, 22:37
+ * 
  */
 public class StartOlmScriptCommand implements Command {
 

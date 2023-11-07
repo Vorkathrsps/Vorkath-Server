@@ -10,7 +10,7 @@ import com.cryptic.model.entity.player.commands.Command;
 import com.cryptic.model.map.position.Tile;
 
 /**
- * @author Patrick van Elderen | January, 11, 2021, 18:08
+ * @author Origin | January, 11, 2021, 18:08
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class RevsCommand implements Command {

@@ -20,8 +20,8 @@ import com.cryptic.model.map.route.routes.DumbRoute;
 import com.cryptic.utility.chainedwork.Chain;
 
 /**
- * @author Patrick van Elderen | June, 14, 2021, 14:44
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | June, 14, 2021, 14:44
+ * 
  */
 public class BrutalLavaDragon extends CommonCombatMethod {
 

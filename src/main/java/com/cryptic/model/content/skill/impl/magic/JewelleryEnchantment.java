@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Patrick van Elderen | March, 07, 2021, 12:40
+ * @author Origin | March, 07, 2021, 12:40
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class JewelleryEnchantment {

@@ -2,7 +2,7 @@ package com.cryptic.model.entity.combat.weapon;
 
 /**
  * @author Savions Sw, the legendary.
- * @author Patrick van Elderen | Zerikoth | PVE
+ * @author Origin | Zerikoth | PVE
  * @date februari 06, 2020 20:29
  */
 public enum AttackType {

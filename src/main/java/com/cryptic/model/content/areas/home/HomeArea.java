@@ -20,8 +20,8 @@ import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
 import static com.cryptic.model.items.container.shop.ShopUtility.*;
 
 /**
- * @author Patrick van Elderen | April, 23, 2021, 10:49
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 23, 2021, 10:49
+ * 
  */
 public class HomeArea extends PacketInteraction {
 

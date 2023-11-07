@@ -8,8 +8,8 @@ import com.cryptic.model.items.Item;
 import com.cryptic.utility.Color;
 
 /**
- * @author Patrick van Elderen | May, 29, 2021, 03:14
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | May, 29, 2021, 03:14
+ * 
  */
 public class SpawnTab {
 

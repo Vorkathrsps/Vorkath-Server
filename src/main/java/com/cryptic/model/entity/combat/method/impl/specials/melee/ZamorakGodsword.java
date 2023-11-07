@@ -18,17 +18,16 @@ public class ZamorakGodsword extends CommonCombatMethod {
         player.animate(player.getEquipment().contains(ItemIdentifiers.SARADOMIN_GODSWORD_OR) ? 7639 : 7638);
         boolean gfx_gold = player.getAttribOr(AttributeKey.ZGS_GFX_GOLD, false);
         player.graphic(gfx_gold ? 1746 : 1210);
-        //TODO it.player().world().spawnSound(it.player().tile(), 3869, 0, 10)
-
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy(true);
-        hit.submit();
-
-        if (hit.getDamage() > 0) {
+        new Hit(entity, target, 1, this).checkAccuracy(true).submit().postDamage(hit -> {
+            if (!hit.isAccurate()) {
+                hit.block();
+                return;
+            }
             target.graphic(369);
             target.freeze(33, entity, true);
-        }
+        });
         CombatSpecial.drain(entity, CombatSpecial.ZAMORAK_GODSWORD.getDrainAmount());
-return true;
+        return true;
     }
 
     @Override

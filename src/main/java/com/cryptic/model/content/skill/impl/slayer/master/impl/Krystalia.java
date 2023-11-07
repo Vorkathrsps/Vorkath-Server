@@ -19,8 +19,8 @@ import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.DURADEL;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.KRYSTILIA;
 
 /**
- * @author Patrick van Elderen | May, 30, 2021, 18:43
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | May, 30, 2021, 18:43
+ * 
  */
 public class Krystalia extends PacketInteraction {
 

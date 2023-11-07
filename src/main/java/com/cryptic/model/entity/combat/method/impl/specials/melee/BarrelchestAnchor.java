@@ -17,30 +17,24 @@ public class BarrelchestAnchor extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(5870);
         entity.graphic(1027);
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy(true);
-        hit.submit();
-
-        if (target.isPlayer()) {
-            Player playerTarget = (Player) target;
-
+        new Hit(entity, target, 1, this).checkAccuracy(true).submit().postDamage(hit -> {
+            if (!hit.isAccurate()) {
+                hit.block();
+                return;
+            }
+            if (!(target instanceof Player)) return;
             int roll = Utils.random(4);
             int skill;
             int deduceVal = (int) (hit.getDamage() * 0.10);
+            if (roll == 1) skill = Skills.ATTACK;
+            else if (roll == 2) skill = Skills.DEFENCE;
+            else if (roll == 3) skill = Skills.RANGED;
+            else skill = Skills.MAGIC;
+            if (skill > deduceVal) target.getSkills().alterSkill(skill, -deduceVal);
+        });
 
-            if (roll == 1) {
-                skill = Skills.ATTACK;
-            } else if (roll == 2) {
-                skill = Skills.DEFENCE;
-            } else if (roll == 3) {
-                skill = Skills.RANGED;
-            } else {
-                skill = Skills.MAGIC;
-            }
-
-            playerTarget.getSkills().alterSkill(skill, -deduceVal);
-        }
         CombatSpecial.drain(entity, CombatSpecial.BARRELSCHEST_ANCHOR.getDrainAmount());
-return true;
+        return true;
     }
 
     @Override

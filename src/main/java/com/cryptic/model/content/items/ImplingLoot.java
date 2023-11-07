@@ -10,7 +10,7 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import static com.cryptic.utility.ItemIdentifiers.IMPLING_JAR;
 
 /**
- * @author Patrick van Elderen | March, 08, 2021, 09:03
+ * @author Origin | March, 08, 2021, 09:03
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class ImplingLoot extends PacketInteraction {

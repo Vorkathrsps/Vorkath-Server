@@ -9,7 +9,7 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | March, 16, 2021, 14:39
+ * @author Origin | March, 16, 2021, 14:39
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class KrakenTentacle extends PacketInteraction {

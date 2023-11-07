@@ -9,7 +9,7 @@ import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 
 /**
- * @author Patrick van Elderen | November, 28, 2020, 19:13
+ * @author Origin | November, 28, 2020, 19:13
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class Dragon2HSword extends CommonCombatMethod {
@@ -17,11 +17,9 @@ public class Dragon2HSword extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(3157);
-
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy(true);
-        hit.submit();
+        new Hit(entity, target, 1, this).checkAccuracy(true).submit();
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_2H_SWORD.getDrainAmount());
-return true;
+        return true;
     }
 
     @Override

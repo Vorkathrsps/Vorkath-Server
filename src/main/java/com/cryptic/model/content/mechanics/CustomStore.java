@@ -9,8 +9,8 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import java.util.stream.IntStream;
 
 /**
- * @author Patrick van Elderen | May, 24, 2021, 12:34
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | May, 24, 2021, 12:34
+ * 
  */
 public class CustomStore extends PacketInteraction {
 

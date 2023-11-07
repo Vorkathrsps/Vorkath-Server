@@ -13,7 +13,7 @@ import static com.cryptic.utility.ItemIdentifiers.BLOOD_MONEY;
  * ethereum, the emblem is always lost on death, even if it is the only item in
  * the player's inventory.
  * 
- * @author Patrick van Elderen | Zerikoth (PVE) | 23 sep. 2019 : 14:33
+ * @author Origin | Zerikoth (PVE) | 23 sep. 2019 : 14:33
  * @see <a href="https://github.com/Patrick9-10-1995">Github profile</a>
  * @version 1.0
  */

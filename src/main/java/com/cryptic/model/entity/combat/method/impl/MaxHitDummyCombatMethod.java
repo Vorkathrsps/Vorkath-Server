@@ -3,7 +3,7 @@ package com.cryptic.model.entity.combat.method.impl;
 import com.cryptic.model.entity.Entity;
 
 /**
- * @author Patrick van Elderen | February, 14, 2021, 12:08
+ * @author Origin | February, 14, 2021, 12:08
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class MaxHitDummyCombatMethod extends CommonCombatMethod {

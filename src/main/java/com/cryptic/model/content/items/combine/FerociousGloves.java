@@ -8,7 +8,7 @@ import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
  *
- * @author Patrick van Elderen | Zerikoth | PVE
+ * @author Origin | Zerikoth | PVE
  * @date maart 23, 2021 13:35
  */
 public class FerociousGloves extends PacketInteraction {

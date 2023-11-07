@@ -9,8 +9,8 @@ import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 
 /**
- * @author Patrick van Elderen | May, 26, 2021, 08:50
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | May, 26, 2021, 08:50
+ * 
  */
 public class Flax extends PacketInteraction {
 

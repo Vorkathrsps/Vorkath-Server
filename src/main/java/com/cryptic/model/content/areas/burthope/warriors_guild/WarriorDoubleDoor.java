@@ -20,7 +20,7 @@ import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.DOOR_2
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.DOOR_24309;
 
 /**
- * @author Patrick van Elderen | March, 26, 2021, 09:54
+ * @author Origin | March, 26, 2021, 09:54
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class WarriorDoubleDoor extends PacketInteraction {

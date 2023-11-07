@@ -15,7 +15,7 @@ import com.cryptic.utility.Utils;
 
 
 /**
- * @author Patrick van Elderen | Zerikoth | PVE
+ * @author Origin | Zerikoth | PVE
  * @date maart 14, 2020 09:50
  */
 public class MithrilDragon extends CommonCombatMethod {

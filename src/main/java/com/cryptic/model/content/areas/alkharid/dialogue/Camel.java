@@ -14,8 +14,8 @@ import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.CAMEL;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.OLLIE_THE_CAMEL;
 
 /**
- * @author Patrick van Elderen | April, 14, 2021, 18:20
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 14, 2021, 18:20
+ * 
  */
 public class Camel extends PacketInteraction {
 

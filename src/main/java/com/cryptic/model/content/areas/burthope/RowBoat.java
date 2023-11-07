@@ -9,7 +9,7 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.ROW_BOAT_27066;
 
 /**
- * @author Patrick van Elderen | March, 26, 2021, 09:30
+ * @author Origin | March, 26, 2021, 09:30
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class RowBoat extends PacketInteraction {

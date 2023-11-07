@@ -8,7 +8,7 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Utils;
 
 /**
- * @author Patrick van Elderen | December, 09, 2020, 14:11
+ * @author Origin | December, 09, 2020, 14:11
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class WildernessStatisticsBoard extends PacketInteraction {

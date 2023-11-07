@@ -5,7 +5,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.container.shop.currency.Currency;
 
 /**
- * @author Patrick van Elderen | March, 18, 2021, 14:47
+ * @author Origin | March, 18, 2021, 14:47
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class TargetPointsCurrency implements Currency {

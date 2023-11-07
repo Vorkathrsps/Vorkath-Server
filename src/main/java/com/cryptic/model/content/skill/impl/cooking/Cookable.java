@@ -3,7 +3,7 @@ package com.cryptic.model.content.skill.impl.cooking;
 import com.cryptic.utility.ItemIdentifiers;
 
 /**
- * @author Patrick van Elderen | February, 07, 2021, 09:26
+ * @author Origin | February, 07, 2021, 09:26
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public enum Cookable {

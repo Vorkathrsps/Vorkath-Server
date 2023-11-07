@@ -1,7 +1,7 @@
 package com.cryptic.model.content.skill.impl.prayer;
 
 /**
- * @author Patrick van Elderen | February, 03, 2021, 10:07
+ * @author Origin | February, 03, 2021, 10:07
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public enum Bone {

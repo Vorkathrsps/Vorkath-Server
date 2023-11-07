@@ -8,8 +8,8 @@ import static com.cryptic.model.entity.attributes.AttributeKey.ACCOUNT_PIN_ATTEM
 import static com.cryptic.model.entity.attributes.AttributeKey.ACCOUNT_PIN_FREEZE_TICKS;
 
 /**
- * @author Patrick van Elderen | May, 01, 2021, 15:34
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | May, 01, 2021, 15:34
+ * 
  */
 public class AccountPinFrozenTask extends Task {
 

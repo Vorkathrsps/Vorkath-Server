@@ -19,7 +19,7 @@ import java.util.Arrays;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | March, 08, 2021, 09:00
+ * @author Origin | March, 08, 2021, 09:00
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public enum Impling {

@@ -10,7 +10,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * @author Patrick van Elderen | November, 12, 2020, 18:44
+ * @author Origin | November, 12, 2020, 18:44
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public final class UpdatePasswordDatabaseTransaction extends VoidDatabaseTransaction {

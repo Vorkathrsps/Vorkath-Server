@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author Patrick van Elderen | April, 08, 2021, 21:53
+ * @author Origin | April, 08, 2021, 21:53
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public enum Tasks {

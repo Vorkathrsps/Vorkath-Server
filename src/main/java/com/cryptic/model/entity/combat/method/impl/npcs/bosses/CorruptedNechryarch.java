@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Patrick van Elderen | May, 03, 2021, 16:19
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | May, 03, 2021, 16:19
+ * 
  */
 public class CorruptedNechryarch extends CommonCombatMethod {
 

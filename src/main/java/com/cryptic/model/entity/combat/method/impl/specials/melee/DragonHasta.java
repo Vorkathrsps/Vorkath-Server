@@ -8,7 +8,7 @@ import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 
 /**
- * @author Patrick van Elderen | January, 30, 2021, 11:55
+ * @author Origin | January, 30, 2021, 11:55
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class DragonHasta extends CommonCombatMethod {
@@ -17,8 +17,7 @@ public class DragonHasta extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(7515);
         entity.graphic(1369);
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy(true);
-        hit.submit();
+        new Hit(entity, target, 1, this).checkAccuracy(true).submit();
         return true;
     }
 

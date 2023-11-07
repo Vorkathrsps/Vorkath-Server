@@ -8,7 +8,7 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.Color;
 
 /**
- * @author Patrick van Elderen | December, 16, 2020, 15:20
+ * @author Origin | December, 16, 2020, 15:20
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class SkillingAreaHuntingExpertDialogue extends Dialogue {

@@ -7,8 +7,8 @@ import com.cryptic.model.inter.dialogue.Expression;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.VANNAKA;
 
 /**
- * @author Patrick van Elderen | April, 12, 2021, 12:33
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 12, 2021, 12:33
+ * 
  */
 public class TaskMasterD extends Dialogue {
 

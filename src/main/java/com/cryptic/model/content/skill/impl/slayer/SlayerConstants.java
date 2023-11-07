@@ -1,7 +1,7 @@
 package com.cryptic.model.content.skill.impl.slayer;
 
 /**
- * @author Patrick van Elderen | December, 21, 2020, 13:21
+ * @author Origin | December, 21, 2020, 13:21
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class SlayerConstants {

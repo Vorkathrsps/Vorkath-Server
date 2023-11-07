@@ -16,7 +16,7 @@ import static com.cryptic.utility.ItemIdentifiers.BLURITE_ORE;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.THE_NIGHTMARE_9430;
 
 /**
- * @author Patrick van Elderen | January, 26, 2021, 14:22
+ * @author Origin | January, 26, 2021, 14:22
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class MultiwayCombat {

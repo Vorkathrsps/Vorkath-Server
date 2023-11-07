@@ -5,8 +5,8 @@ import com.cryptic.model.inter.dialogue.Dialogue;
 import com.cryptic.model.inter.dialogue.DialogueType;
 
 /**
- * @author Patrick van Elderen | April, 27, 2021, 10:17
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 27, 2021, 10:17
+ * 
  */
 public class PartyDialogue extends Dialogue {
 

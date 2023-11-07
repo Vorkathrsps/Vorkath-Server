@@ -17,7 +17,7 @@ import java.util.Map;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | March, 07, 2021, 00:05
+ * @author Origin | March, 07, 2021, 00:05
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class BoltEnchantment extends PacketInteraction {

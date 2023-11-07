@@ -17,25 +17,20 @@ public class DragonWarhammer extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1378);
         entity.graphic(1292, GraphicHeight.LOW, 0);
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy(true);
-        hit.submit();
-
-        if (target.isPlayer()) {
-            Player playerTarget = (Player) target;
-            if (hit.isAccurate()) {
-                playerTarget.getSkills().alterSkill(Skills.DEFENCE, (int) -(playerTarget.getSkills().level(Skills.DEFENCE) * 0.3));
-            } else {
-                playerTarget.getSkills().alterSkill(Skills.DEFENCE, (int) -(playerTarget.getSkills().level(Skills.DEFENCE) * 0.05));
+        new Hit(entity, target, 1, this).checkAccuracy(true).submit().postDamage(hit -> {
+            if (!hit.isAccurate()) {
+                if (target instanceof Player player)
+                    player.getSkills().alterSkill(Skills.DEFENCE, (int) -(player.getSkills().level(Skills.DEFENCE) * 0.05));
+                else
+                    target.getAsNpc().getCombatInfo().stats.defence = (int) Math.max(0, target.getAsNpc().getCombatInfo().stats.defence - (target.getAsNpc().getCombatInfo().stats.defence * 0.05));
+                hit.block();
+                return;
             }
-        } else if (target.isNpc()) {
-            NPC npcTarget = (NPC) target;
-            if (hit.isAccurate()) {
-                npcTarget.getCombatInfo().stats.defence = (int) Math.max(0, npcTarget.getCombatInfo().stats.defence - (npcTarget.getCombatInfo().stats.defence * 0.3));
-            } else {
-                npcTarget.getCombatInfo().stats.defence = (int) Math.max(0, npcTarget.getCombatInfo().stats.defence - (npcTarget.getCombatInfo().stats.defence * 0.05));
-            }
-        }
-
+            if (target instanceof Player player)
+                player.getSkills().alterSkill(Skills.DEFENCE, (int) -(player.getSkills().level(Skills.DEFENCE) * 0.3));
+            else
+                target.getAsNpc().getCombatInfo().stats.defence = (int) Math.max(0, target.getAsNpc().getCombatInfo().stats.defence - (target.getAsNpc().getCombatInfo().stats.defence * 0.3));
+        });
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_WARHAMMER.getDrainAmount());
         return true;
     }

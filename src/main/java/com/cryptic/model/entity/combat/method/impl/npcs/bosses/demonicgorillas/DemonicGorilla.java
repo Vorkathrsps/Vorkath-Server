@@ -13,7 +13,7 @@ import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 
 /**
- * @author Patrick van Elderen | March, 13, 2021, 22:08
+ * @author Origin | March, 13, 2021, 22:08
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class DemonicGorilla extends NPC {

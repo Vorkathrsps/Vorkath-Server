@@ -5,8 +5,8 @@ import com.cryptic.model.entity.npc.droptables.Droptable;
 import com.cryptic.model.entity.player.Player;
 
 /**
- * @author Patrick van Elderen | May, 12, 2021, 11:27
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | May, 12, 2021, 11:27
+ * 
  */
 public class DementorsDroptable implements Droptable {
 

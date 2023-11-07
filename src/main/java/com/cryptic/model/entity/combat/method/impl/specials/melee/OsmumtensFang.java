@@ -21,9 +21,7 @@ public class OsmumtensFang extends CommonCombatMethod {
              *
              */
 
-            Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),0, CombatType.MELEE).checkAccuracy(true);
-
-            hit.submit();
+            new Hit(entity, target, 1, this).checkAccuracy(true).submit();
         return true;
 
     }

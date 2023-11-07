@@ -8,7 +8,7 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | April, 08, 2021, 16:35
+ * @author Origin | April, 08, 2021, 16:35
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class NeitiznotFaceguard extends PacketInteraction {

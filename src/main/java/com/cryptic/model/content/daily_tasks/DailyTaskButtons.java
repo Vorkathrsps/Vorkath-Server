@@ -11,8 +11,8 @@ import static com.cryptic.model.entity.attributes.AttributeKey.DAILY_TASK_CATEGO
 import static com.cryptic.model.entity.attributes.AttributeKey.DAILY_TASK_SELECTED;
 
 /**
- * @author Patrick van Elderen | June, 15, 2021, 16:05
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | June, 15, 2021, 16:05
+ * 
  */
 public class DailyTaskButtons extends PacketInteraction {
 

@@ -11,7 +11,7 @@ import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.DOOR_8963;
 
 /**
- * @author Patrick van Elderen | March, 04, 2021, 13:08
+ * @author Origin | March, 04, 2021, 13:08
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class WaterbirthDungeon extends PacketInteraction {

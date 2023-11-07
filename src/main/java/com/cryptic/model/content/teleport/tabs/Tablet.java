@@ -13,7 +13,7 @@ import java.util.Optional;
 /**
  * Teletabs and scrolls are the teleportation methods to travel accross the world.
  *
- * @author Patrick van Elderen | Zerikoth (PVE) | 23 sep. 2019 : 13:42
+ * @author Origin | Zerikoth (PVE) | 23 sep. 2019 : 13:42
  * @version 1.0
  * @see <a href="https://github.com/Patrick9-10-1995">Github profile</a>
  */

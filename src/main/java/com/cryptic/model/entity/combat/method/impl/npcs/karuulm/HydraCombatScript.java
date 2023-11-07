@@ -20,7 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @author Patrick van Elderen | December, 22, 2020, 22:49
+ * @author Origin | December, 22, 2020, 22:49
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class HydraCombatScript extends CommonCombatMethod {

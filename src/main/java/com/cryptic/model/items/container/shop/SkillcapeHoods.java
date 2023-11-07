@@ -6,7 +6,7 @@ import com.cryptic.utility.ItemIdentifiers;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | March, 23, 2021, 23:18
+ * @author Origin | March, 23, 2021, 23:18
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public enum SkillcapeHoods {

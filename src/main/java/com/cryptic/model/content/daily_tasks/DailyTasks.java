@@ -14,8 +14,8 @@ import static com.cryptic.utility.CustomItemIdentifiers.*;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | June, 15, 2021, 16:06
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | June, 15, 2021, 16:06
+ * 
  */
 public enum DailyTasks {
     EDGEVILE_KILLS("Edge PvP", "Kill 15 players in Edgeville.", 15, EDGE_PVP_DAILY_TASK_COMPLETION_AMOUNT, EDGE_PVP_DAILY_TASK_COMPLETED, EDGE_PVP_DAILY_TASK_REWARD_CLAIMED, TaskCategory.PVP, new Item(BLOOD_MONEY, 50_000)) {

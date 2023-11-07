@@ -5,7 +5,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.npc.AggressionCheck;
 
 /**
- * @author Patrick van Elderen | February, 24, 2021, 19:03
+ * @author Origin | February, 24, 2021, 19:03
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class ScorpiaOffspringAgro implements AggressionCheck {

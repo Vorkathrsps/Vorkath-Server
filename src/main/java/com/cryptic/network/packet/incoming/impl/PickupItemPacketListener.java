@@ -22,7 +22,7 @@ import static com.cryptic.utility.CustomItemIdentifiers.ESCAPE_KEY;
  * This packet listener is used to pick up ground items
  * that exist in the world.
  *
- * @author Patrick van Elderen | 13 feb. 2019 : 12:57:23
+ * @author Origin | 13 feb. 2019 : 12:57:23
  * @see <a href="https://www.rune-server.ee/members/_Patrick_/">Rune-Server profile</a>
  */
 public class PickupItemPacketListener implements PacketListener {

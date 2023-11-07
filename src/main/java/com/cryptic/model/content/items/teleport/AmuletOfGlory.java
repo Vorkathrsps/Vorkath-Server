@@ -14,7 +14,7 @@ import java.util.stream.IntStream;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | December, 28, 2020, 13:48
+ * @author Origin | December, 28, 2020, 13:48
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class AmuletOfGlory extends PacketInteraction {

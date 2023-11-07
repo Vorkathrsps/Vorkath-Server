@@ -10,7 +10,7 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.STATUE_27785;
 
 /**
- * @author Patrick van Elderen | Zerikoth | PVE
+ * @author Origin | Zerikoth | PVE
  * @date februari 29, 2020 22:03
  */
 public class Statue extends PacketInteraction {

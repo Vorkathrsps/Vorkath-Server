@@ -12,7 +12,7 @@ import com.cryptic.utility.chainedwork.Chain;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | Zerikoth | PVE
+ * @author Origin | Zerikoth | PVE
  * @date maart 17, 2020 16:19
  */
 public class RevenantsCave extends PacketInteraction {

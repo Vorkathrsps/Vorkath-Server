@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
  * An instance of a ground item (items shown on the floor when they are
  * dropped).
  *
- * @author Patrick van Elderen
+ * @author Origin
  *
  */
 public final class GroundItem {

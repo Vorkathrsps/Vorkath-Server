@@ -15,7 +15,7 @@ import static com.cryptic.utility.ItemIdentifiers.*;
 /**
  * The teleportation data for teletabs and teleportation scrolls.
  *
- * @author Patrick van Elderen | Zerikoth (PVE) | 23 sep. 2019 : 13:42
+ * @author Origin | Zerikoth (PVE) | 23 sep. 2019 : 13:42
  * @see <a href="https://github.com/Patrick9-10-1995">Github profile</a>
  * @version 1.0
  *

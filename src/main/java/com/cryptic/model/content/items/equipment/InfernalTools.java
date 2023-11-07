@@ -7,7 +7,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 
 /**
- * @author Patrick van Elderen | March, 16, 2021, 15:19
+ * @author Origin | March, 16, 2021, 15:19
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class InfernalTools {

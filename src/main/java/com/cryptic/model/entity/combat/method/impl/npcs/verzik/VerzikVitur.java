@@ -40,7 +40,7 @@ import static com.cryptic.model.entity.combat.method.impl.npcs.verzik.VerzikPhas
 import static com.cryptic.utility.ItemIdentifiers.DAWNBRINGER;
 
 /**
- * @author Patrick van Elderen <<a href="https://github.com/PVE95">...</a>>
+ * @author Origin <<a href="https://github.com/PVE95">...</a>>
  * @Since January 07, 2022
  */
 public class VerzikVitur extends CommonCombatMethod {

@@ -19,8 +19,8 @@ import com.cryptic.utility.chainedwork.Chain;
 import static com.cryptic.utility.ItemIdentifiers.BLOOD_MONEY;
 
 /**
- * @author Patrick van Elderen | April, 21, 2021, 11:44
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 21, 2021, 11:44
+ * 
  */
 public class Stalls extends PacketInteraction {
 

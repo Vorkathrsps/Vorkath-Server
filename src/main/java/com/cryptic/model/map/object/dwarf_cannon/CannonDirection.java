@@ -5,8 +5,8 @@ import com.cryptic.model.map.position.Tile;
 /**
  * Rotations for cannons.
  *
- * @author Patrick van Elderen | April, 16, 2021, 13:37
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 16, 2021, 13:37
+ * 
  */
 public enum CannonDirection {
     NORTH(0, 515),

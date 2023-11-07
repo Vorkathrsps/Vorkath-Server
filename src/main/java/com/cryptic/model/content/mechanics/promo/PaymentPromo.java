@@ -10,7 +10,7 @@ import static com.cryptic.model.entity.attributes.AttributeKey.*;
 /**
  * This class represents the server wide promo's for reaching X amount of donations.
  *
- * @author Patrick van Elderen | January, 19, 2021, 18:36
+ * @author Origin | January, 19, 2021, 18:36
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class PaymentPromo {

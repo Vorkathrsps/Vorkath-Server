@@ -6,8 +6,8 @@ import java.util.Scanner;
 import java.util.Set;
 
 /**
- * @author Patrick van Elderen | June, 11, 2021, 11:37
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | June, 11, 2021, 11:37
+ * 
  */
 public class DeletingDuplicateLines {
 

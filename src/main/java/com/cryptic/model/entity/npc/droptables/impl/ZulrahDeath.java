@@ -14,7 +14,7 @@ import static com.cryptic.model.entity.attributes.AttributeKey.DOUBLE_DROP_LAMP_
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | January, 03, 2021, 14:37
+ * @author Origin | January, 03, 2021, 14:37
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class ZulrahDeath implements Droptable {

@@ -13,7 +13,7 @@ import java.util.Objects;
 /**
  * The dialogue for creating a new preset
  *
- * @author Patrick van Elderen | dinsdag 21 mei 2019 (CEST) : 09:12
+ * @author Origin | dinsdag 21 mei 2019 (CEST) : 09:12
  * @see <a href="https://github.com/Patrick9-10-1995">Github profile</a>
  */
 public class PresetCreateDialogue extends Dialogue {

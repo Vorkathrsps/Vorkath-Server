@@ -11,8 +11,8 @@ import static com.cryptic.model.entity.attributes.AttributeKey.RIGOUR;
 import static com.cryptic.utility.ItemIdentifiers.DEXTEROUS_PRAYER_SCROLL;
 
 /**
- * @author Patrick van Elderen | April, 29, 2021, 13:55
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 29, 2021, 13:55
+ * 
  */
 public class DexterousPrayerScroll extends PacketInteraction {
 

@@ -1,7 +1,7 @@
 package com.cryptic.model.content.duel;
 
 /**
- * @author Patrick van Elderen | January, 27, 2021, 21:45
+ * @author Origin | January, 27, 2021, 21:45
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public enum DuelState {

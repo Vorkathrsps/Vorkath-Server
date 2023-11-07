@@ -23,7 +23,7 @@ import static com.cryptic.utility.ItemIdentifiers.DRAGONFIRE_WARD;
 /**
  * This class represents all the dragonfire shield actions.
  *
- * @author Patrick van Elderen | Zerikoth | PVE
+ * @author Origin | Zerikoth | PVE
  * @date januari 31, 2020 09:41
  */
 public class DragonfireShield extends PacketInteraction {

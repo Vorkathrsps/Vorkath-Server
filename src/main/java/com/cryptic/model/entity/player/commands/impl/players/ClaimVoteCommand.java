@@ -5,8 +5,8 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.commands.Command;
 
 /**
- * @author Patrick van Elderen | May, 29, 2021, 11:13
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | May, 29, 2021, 11:13
+ * 
  */
 public class ClaimVoteCommand implements Command {
 

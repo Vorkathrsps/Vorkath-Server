@@ -9,7 +9,7 @@ import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 
 /**
- * @author Patrick van Elderen | March, 04, 2021, 17:06
+ * @author Origin | March, 04, 2021, 17:06
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class Wallasalki extends CommonCombatMethod {

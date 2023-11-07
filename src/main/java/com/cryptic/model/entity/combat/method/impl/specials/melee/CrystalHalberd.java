@@ -14,21 +14,15 @@ public class CrystalHalberd extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1203);
         entity.graphic(1235, GraphicHeight.HIGH, 0);
-
-        int h1 = CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE);
-        int h2 = CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE);
-
-        if(target.getSize() == 1) {
-            Hit hit = target.hit(entity, h1,1, CombatType.MELEE).checkAccuracy(true);
-            hit.submit();
+        if (target.getSize() == 1) {
+            new Hit(entity, target, 1, this).checkAccuracy(true).submit();
         } else {
-            Hit hit = target.hit(entity, h1,1, CombatType.MELEE).checkAccuracy(true);
-            hit.submit();
-            Hit hit2 = target.hit(entity, h2,1, CombatType.MELEE).checkAccuracy(true);
-            hit2.submit();
+            for (int index = 0; index < 2; index++) {
+                new Hit(entity, target, 1, this).checkAccuracy(true).submit();
+            }
         }
         CombatSpecial.drain(entity, CombatSpecial.CRYSTAL_HALBERD.getDrainAmount());
-return true;
+        return true;
     }
 
     @Override

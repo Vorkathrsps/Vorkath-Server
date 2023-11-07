@@ -16,7 +16,7 @@ import java.lang.ref.WeakReference;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.AUBURY;
 
 /**
- * @author Patrick van Elderen | March, 26, 2021, 10:43
+ * @author Origin | March, 26, 2021, 10:43
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class AuburyDialogue extends Dialogue {

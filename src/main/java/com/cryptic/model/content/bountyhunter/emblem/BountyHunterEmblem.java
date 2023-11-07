@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * @author Patrick van Elderen | December, 07, 2020, 10:14
+ * @author Origin | December, 07, 2020, 10:14
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public enum BountyHunterEmblem {

@@ -8,7 +8,7 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.CREVICE_19043;
 
 /**
- * @author Patrick van Elderen | January, 17, 2021, 19:16
+ * @author Origin | January, 17, 2021, 19:16
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class DeepWildDungeon extends PacketInteraction {

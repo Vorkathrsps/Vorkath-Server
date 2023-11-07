@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Patrick van Elderen | December, 21, 2020, 13:17
+ * @author Origin | December, 21, 2020, 13:17
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public enum SlayerExtendable {

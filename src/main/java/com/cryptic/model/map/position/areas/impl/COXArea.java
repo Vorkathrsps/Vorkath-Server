@@ -13,8 +13,8 @@ import static com.cryptic.model.content.raids.party.Party.*;
 import static com.cryptic.model.entity.attributes.AttributeKey.PERSONAL_POINTS;
 
 /**
- * @author Patrick van Elderen | May, 10, 2021, 18:44
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | May, 10, 2021, 18:44
+ * 
  */
 public class COXArea extends Controller {
 

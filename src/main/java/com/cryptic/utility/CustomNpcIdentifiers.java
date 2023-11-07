@@ -1,7 +1,7 @@
 package com.cryptic.utility;
 
 /**
- * @author Patrick van Elderen | November, 25, 2020, 14:46
+ * @author Origin | November, 25, 2020, 14:46
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class CustomNpcIdentifiers {

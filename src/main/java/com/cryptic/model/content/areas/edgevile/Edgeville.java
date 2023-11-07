@@ -43,7 +43,7 @@ import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.ALTAR;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | Zerikoth | PVE
+ * @author Origin | Zerikoth | PVE
  * @date februari 21, 2020 17:06
  */
 public class Edgeville extends PacketInteraction {

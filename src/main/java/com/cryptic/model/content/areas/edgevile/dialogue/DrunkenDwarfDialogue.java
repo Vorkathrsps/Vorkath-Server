@@ -10,8 +10,8 @@ import static com.cryptic.model.map.object.dwarf_cannon.DwarfCannon.*;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.DRUNKEN_DWARF_2408;
 
 /**
- * @author Patrick van Elderen | April, 17, 2021, 15:21
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 17, 2021, 15:21
+ * 
  */
 public class DrunkenDwarfDialogue extends Dialogue {
 

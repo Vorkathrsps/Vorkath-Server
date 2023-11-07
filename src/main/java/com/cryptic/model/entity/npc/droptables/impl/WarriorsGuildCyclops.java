@@ -12,7 +12,7 @@ import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.utility.Utils;
 
 /**
- * @author Patrick van Elderen | March, 26, 2021, 18:59
+ * @author Origin | March, 26, 2021, 18:59
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class WarriorsGuildCyclops implements Droptable {

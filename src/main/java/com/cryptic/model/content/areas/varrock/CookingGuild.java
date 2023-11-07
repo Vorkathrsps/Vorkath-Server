@@ -16,8 +16,8 @@ import com.cryptic.utility.chainedwork.Chain;
 import static com.cryptic.model.map.object.doors.Doors.CACHE;
 
 /**
- * @author Patrick van Elderen | April, 14, 2021, 19:20
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 14, 2021, 19:20
+ * 
  */
 public class CookingGuild extends PacketInteraction {
 

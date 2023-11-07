@@ -24,7 +24,7 @@ import java.util.List;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | March, 04, 2021, 20:12
+ * @author Origin | March, 04, 2021, 20:12
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class KaruulmSlayerDungeon extends PacketInteraction {

@@ -13,7 +13,7 @@ import com.cryptic.model.map.position.Area;
 import java.util.*;
 
 /**
- * @author Patrick van Elderen | Zerikoth | PVE
+ * @author Origin | Zerikoth | PVE
  * @date februari 15, 2020 13:54
  */
 public class GwdLogic {

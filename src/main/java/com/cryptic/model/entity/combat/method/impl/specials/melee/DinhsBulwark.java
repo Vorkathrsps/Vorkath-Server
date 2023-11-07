@@ -13,10 +13,7 @@ public class DinhsBulwark extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(7511);
         entity.graphic(1336);
-
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy(true);
-        hit.submit();
-
+        new Hit(entity, target, 1, this).checkAccuracy(true).submit();
         //TODO effect Dinh's bulwark has a special attack, Shield Bash, which hits up to 10 enemies in a 11x11 area around the player (thus up to five tiles away from the player)
         // The targeted monster gets hit twice by the attack, while all other monsters get hit once.
         CombatSpecial.drain(entity, CombatSpecial.DINHS_BULWARK.getDrainAmount());

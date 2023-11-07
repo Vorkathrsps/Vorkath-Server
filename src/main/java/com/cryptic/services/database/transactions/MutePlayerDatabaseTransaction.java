@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 /**
- * @author Patrick van Elderen | November, 12, 2020, 18:11
+ * @author Origin | November, 12, 2020, 18:11
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class MutePlayerDatabaseTransaction extends VoidDatabaseTransaction {

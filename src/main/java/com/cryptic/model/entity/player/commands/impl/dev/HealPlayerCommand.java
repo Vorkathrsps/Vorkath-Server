@@ -11,8 +11,8 @@ import com.cryptic.utility.Utils;
 import java.util.Optional;
 
 /**
- * @author Patrick van Elderen | June, 12, 2021, 14:25
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | June, 12, 2021, 14:25
+ * 
  */
 public class HealPlayerCommand implements Command {
 

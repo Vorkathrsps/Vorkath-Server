@@ -7,7 +7,7 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 
 /**
- * @author Patrick van Elderen | March, 27, 2021, 11:18
+ * @author Origin | March, 27, 2021, 11:18
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class LummyGates extends PacketInteraction {

@@ -9,8 +9,8 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | April, 14, 2021, 18:30
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 14, 2021, 18:30
+ * 
  */
 public class WarriorsGuildNpcInteractions extends PacketInteraction {
 

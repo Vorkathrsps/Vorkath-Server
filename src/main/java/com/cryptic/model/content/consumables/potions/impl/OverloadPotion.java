@@ -11,7 +11,7 @@ import com.cryptic.utility.Color;
 
 /**
  * @author Origin
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * 
  */
 public class OverloadPotion {
 

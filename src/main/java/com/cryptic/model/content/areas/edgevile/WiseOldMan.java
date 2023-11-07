@@ -11,8 +11,8 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.WISE_OLD_MAN;
 
 /**
- * @author Patrick van Elderen | April, 22, 2021, 11:46
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 22, 2021, 11:46
+ * 
  */
 public class WiseOldMan extends PacketInteraction {
 

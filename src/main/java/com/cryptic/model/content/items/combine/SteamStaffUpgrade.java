@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author Patrick van Elderen | March, 16, 2021, 15:06
+ * @author Origin | March, 16, 2021, 15:06
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class SteamStaffUpgrade extends PacketInteraction {

@@ -9,7 +9,7 @@ import java.util.List;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | February, 17, 2021, 14:19
+ * @author Origin | February, 17, 2021, 14:19
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class LarransKeyLootTable {

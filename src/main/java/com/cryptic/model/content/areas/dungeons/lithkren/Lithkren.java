@@ -10,7 +10,7 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.cache.definitions.identifiers.NumberUtils;
 
 /**
- * @author Patrick van Elderen | March, 06, 2021, 12:12
+ * @author Origin | March, 06, 2021, 12:12
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class Lithkren extends PacketInteraction {

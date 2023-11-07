@@ -10,11 +10,8 @@ import com.cryptic.model.entity.player.Player;
 public class VestasLongsword extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        final Player player = (Player) entity;
-        int animation = 7515;
-        player.animate(animation);
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy(true);
-        hit.submit();
+        entity.animate(7515);
+        new Hit(entity, target, 1, this).checkAccuracy(true).submit();
         return true;
     }
 
@@ -25,6 +22,6 @@ public class VestasLongsword extends CommonCombatMethod {
 
     @Override
     public int moveCloseToTargetTileRange(Entity entity) {
-        return 0;
+        return 1;
     }
 }

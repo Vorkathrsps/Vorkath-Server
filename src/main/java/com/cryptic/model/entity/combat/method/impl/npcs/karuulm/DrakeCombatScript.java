@@ -11,7 +11,7 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.utility.chainedwork.Chain;
 
 /**
- * @author Patrick van Elderen | December, 22, 2020, 14:57
+ * @author Origin | December, 22, 2020, 14:57
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class DrakeCombatScript extends CommonCombatMethod {

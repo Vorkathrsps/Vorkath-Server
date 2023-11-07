@@ -1,8 +1,8 @@
 package com.cryptic.model.entity.player.commands.impl.owner;
 
 /**
- * @author Patrick van Elderen | June, 03, 2021, 13:17
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | June, 03, 2021, 13:17
+ * 
  */
 
 import com.cryptic.GameEngine;

@@ -7,8 +7,8 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 
 /**
- * @author Patrick van Elderen | April, 14, 2021, 18:18
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 14, 2021, 18:18
+ * 
  */
 public class PalaceDoors extends PacketInteraction {
 

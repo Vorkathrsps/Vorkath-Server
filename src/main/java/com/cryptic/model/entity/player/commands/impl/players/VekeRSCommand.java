@@ -4,8 +4,8 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.commands.Command;
 
 /**
- * @author Patrick van Elderen | June, 21, 2021, 14:33
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | June, 21, 2021, 14:33
+ * 
  */
 public class VekeRSCommand implements Command {
 

@@ -8,7 +8,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.timers.TimerKey;
 
 /**
- * @author Patrick van Elderen | December, 21, 2020, 13:06
+ * @author Origin | December, 21, 2020, 13:06
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class RemoveSuperiorTask extends Task {

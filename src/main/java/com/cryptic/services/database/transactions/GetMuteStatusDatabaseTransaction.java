@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
- * @author Patrick van Elderen | November, 12, 2020, 18:09
+ * @author Origin | November, 12, 2020, 18:09
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public final class GetMuteStatusDatabaseTransaction extends DatabaseTransaction<Boolean> {

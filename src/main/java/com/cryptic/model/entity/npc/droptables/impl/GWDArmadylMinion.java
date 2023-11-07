@@ -7,8 +7,8 @@ import com.cryptic.model.entity.player.Player;
 import static com.cryptic.model.entity.attributes.AttributeKey.GWD_ARMADYL_KC;
 
 /**
- * @author Patrick van Elderen | April, 29, 2021, 14:21
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 29, 2021, 14:21
+ * 
  */
 public class GWDArmadylMinion implements Droptable {
 

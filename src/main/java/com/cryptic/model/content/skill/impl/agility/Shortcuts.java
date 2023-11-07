@@ -14,7 +14,7 @@ import com.cryptic.utility.chainedwork.Chain;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | Zerikoth | PVE
+ * @author Origin | Zerikoth | PVE
  * @date march 07, 2020 16:42
  */
 public class Shortcuts extends PacketInteraction {

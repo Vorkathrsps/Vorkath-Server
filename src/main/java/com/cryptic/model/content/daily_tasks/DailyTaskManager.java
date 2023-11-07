@@ -16,8 +16,8 @@ import static com.cryptic.model.content.daily_tasks.DailyTaskUtility.*;
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 
 /**
- * @author Patrick van Elderen | June, 15, 2021, 16:15
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | June, 15, 2021, 16:15
+ * 
  */
 public class DailyTaskManager {
 

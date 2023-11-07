@@ -57,7 +57,7 @@ import static com.cryptic.model.inter.lootkeys.LootKey.LOOT_KEY_CONTAINER_SIZE;
  * <br><br>
  * Type safety enforced when using OSS's {@link AttributeKey} by Shadowrs/Jak on 06/06/2020
  *
- * @author Patrick van Elderen | 28 feb. 2019 : 12:16:21
+ * @author Origin | 28 feb. 2019 : 12:16:21
  * @see <a href="https://www.rune-server.ee/members/_Patrick_/">Rune-Server profile</a>
  */
 public class PlayerSave {

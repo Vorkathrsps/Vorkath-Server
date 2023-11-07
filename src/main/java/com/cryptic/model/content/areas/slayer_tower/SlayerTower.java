@@ -15,7 +15,7 @@ import com.cryptic.utility.ItemIdentifiers;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | Zerikoth | PVE
+ * @author Origin | Zerikoth | PVE
  * @date februari 29, 2020 19:45
  */
 public class SlayerTower extends PacketInteraction {

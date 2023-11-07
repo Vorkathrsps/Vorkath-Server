@@ -10,7 +10,7 @@ import java.util.List;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | March, 26, 2021, 09:44
+ * @author Origin | March, 26, 2021, 09:44
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class Soldiers extends PacketInteraction {

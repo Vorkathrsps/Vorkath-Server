@@ -6,7 +6,7 @@ import java.util.function.Consumer;
  * Represents a rectangular boundary.
  *
  * @author Professor Oak
- * @author Patrick van Elderen
+ * @author Origin
  * @see <a href="https://github.com/Patrick9-10-1995">Github profile</a>
  */
 public class Boundary {

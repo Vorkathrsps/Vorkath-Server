@@ -19,7 +19,7 @@ import java.util.List;
  * Obelisks are the objects that exist in the wilderness that aid player teleportation.
  * Once activated, any player within the obelisk boundary is moved to another obelisk.
 
- * @author Patrick van Elderen
+ * @author Origin
  * @date March 15, 2020, 20:52:24 PM
  */
 public class Obelisks extends PacketInteraction {

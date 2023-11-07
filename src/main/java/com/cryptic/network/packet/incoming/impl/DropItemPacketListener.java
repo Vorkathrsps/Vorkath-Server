@@ -34,7 +34,7 @@ import static com.cryptic.utility.ItemIdentifiers.*;
  * <p>
  * Redo packet as of : 2 augustus. 2019 : 15:05
  *
- * @author Patrick van Elderen | 2 augustus. 2019 : 15:05
+ * @author Origin | 2 augustus. 2019 : 15:05
  * @see <a href="https://github.com/Patrick9-10-1995">Github profile</a>
  */
 public class DropItemPacketListener implements PacketListener {

@@ -21,20 +21,17 @@ public class GraniteMaul extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        double vigour = 0;
+        int specPercentage = entity.getSpecialAttackPercentage();
 
-        int specPercentage = (int) (entity.getSpecialAttackPercentage() + vigour);
-
-        //Make sure the player has enough special attack
         if (specPercentage < entity.getAsPlayer().getCombatSpecial().getDrainAmount()) {
             entity.message("You do not have enough special attack energy left!");
             entity.setSpecialActivated(false);
             CombatSpecial.updateBar(entity.getAsPlayer());
             return false;
         }
+        
         entity.animate(1667);
         entity.graphic(340, GraphicHeight.HIGH, 0);
-        //TODO mob.world().spawnSound(mob.tile(), 2715, 0, 10)
 
         int delay = 0;
         if (entity.isPlayer() && target.isPlayer()) {
@@ -43,13 +40,7 @@ public class GraniteMaul extends CommonCombatMethod {
             delay = renderIndexOf > renderIndexOf2 ? 1 : 0;
         }
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), delay, CombatType.MELEE).checkAccuracy(true);
-
-        if (hit.getDamage() > 49) {
-            hit.setDamage(entity.getAsPlayer().getEquipment().hasAt(EquipSlot.WEAPON, GRANITE_MAUL_12848) ? 50 : 49);
-        }
-
-        hit.submit();
+        new Hit(entity, target, delay, this).checkAccuracy(true).submit();
         CombatSpecial.drain(entity, entity.getAsPlayer().getCombatSpecial().getDrainAmount());
         return true;
     }

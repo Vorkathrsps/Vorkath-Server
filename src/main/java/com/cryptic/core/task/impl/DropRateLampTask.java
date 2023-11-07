@@ -7,7 +7,7 @@ import com.cryptic.utility.Color;
 import static com.cryptic.model.entity.attributes.AttributeKey.DOUBLE_DROP_LAMP_TICKS;
 
 /**
- * @author Patrick van Elderen | December, 07, 2020, 09:40
+ * @author Origin | December, 07, 2020, 09:40
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class DropRateLampTask extends Task {

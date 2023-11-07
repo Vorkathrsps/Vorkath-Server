@@ -13,8 +13,8 @@ import static com.cryptic.model.entity.attributes.AttributeKey.ACCOUNT_PIN;
 import static com.cryptic.model.entity.attributes.AttributeKey.ASK_FOR_ACCOUNT_PIN;
 
 /**
- * @author Patrick van Elderen | April, 29, 2021, 18:18
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 29, 2021, 18:18
+ * 
  */
 public class SecurityAdvisorDialogue extends Dialogue {
 

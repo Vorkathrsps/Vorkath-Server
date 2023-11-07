@@ -12,7 +12,7 @@ import com.cryptic.utility.Utils;
 import java.util.Optional;
 
 /**
- * @author Patrick van Elderen | November, 12, 2020, 18:40
+ * @author Origin | November, 12, 2020, 18:40
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class UpdatePasswordCommand implements Command {

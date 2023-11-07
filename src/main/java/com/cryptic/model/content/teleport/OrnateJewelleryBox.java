@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * @author Patrick van Elderen | February, 20, 2021, 22:19
+ * @author Origin | February, 20, 2021, 22:19
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class OrnateJewelleryBox {

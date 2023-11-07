@@ -18,7 +18,7 @@ public class UrsineMace extends CommonCombatMethod {
         entity.performGraphic(new Graphic(2341, GraphicHeight.HIGH, 0));
         entity.performGraphic(new Graphic(2342, GraphicHeight.HIGH, 0));
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),2, CombatType.MELEE).checkAccuracy(true);
+        Hit hit = new Hit(entity, target, 1, this).checkAccuracy(true).submit();
 
         if (hit.isAccurate()) {
             if (target.isPlayer()) {

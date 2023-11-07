@@ -35,7 +35,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | March, 17, 2021, 14:03
+ * @author Origin | March, 17, 2021, 14:03
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class MagicClickSpells {

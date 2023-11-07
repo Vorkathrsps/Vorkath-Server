@@ -1,7 +1,7 @@
 package com.cryptic.model.content.items.combine;
 
 /**
- * @author Patrick van Elderen | March, 16, 2021, 14:43
+ * @author Origin | March, 16, 2021, 14:43
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 /*public class PvPCombining extends PacketInteraction {

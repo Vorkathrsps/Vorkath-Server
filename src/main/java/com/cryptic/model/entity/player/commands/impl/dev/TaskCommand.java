@@ -7,7 +7,7 @@ import com.cryptic.model.entity.player.commands.Command;
 import static com.cryptic.model.entity.attributes.AttributeKey.TASK;
 
 /**
- * @author Patrick van Elderen | November, 15, 2020, 15:36
+ * @author Origin | November, 15, 2020, 15:36
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class TaskCommand implements Command {

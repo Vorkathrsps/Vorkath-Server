@@ -3,7 +3,7 @@ package com.cryptic.utility;
 import com.cryptic.model.World;
 
 /**
- * @author Patrick van Elderen | March, 10, 2021, 09:45
+ * @author Origin | March, 10, 2021, 09:45
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class TickDelay {

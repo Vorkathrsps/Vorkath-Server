@@ -18,7 +18,7 @@ import static com.cryptic.utility.ItemIdentifiers.COINS_995;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.WALL_SAFE;
 
 /**
- * @author Patrick van Elderen | March, 26, 2021, 10:56
+ * @author Origin | March, 26, 2021, 10:56
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class WallSafe extends PacketInteraction {

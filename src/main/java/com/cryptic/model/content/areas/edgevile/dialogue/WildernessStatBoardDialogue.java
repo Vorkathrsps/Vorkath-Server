@@ -9,7 +9,7 @@ import com.cryptic.model.inter.dialogue.DialogueType;
 import static com.cryptic.utility.ItemIdentifiers.BLOOD_MONEY;
 
 /**
- * @author Patrick van Elderen | December, 09, 2020, 14:14
+ * @author Origin | December, 09, 2020, 14:14
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class WildernessStatBoardDialogue extends Dialogue {

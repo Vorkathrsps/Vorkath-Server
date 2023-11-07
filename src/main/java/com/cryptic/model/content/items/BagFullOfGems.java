@@ -13,7 +13,7 @@ import com.cryptic.utility.Color;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | April, 02, 2021, 11:19
+ * @author Origin | April, 02, 2021, 11:19
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class BagFullOfGems extends PacketInteraction {

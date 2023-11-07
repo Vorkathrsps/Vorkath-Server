@@ -12,7 +12,7 @@ import com.cryptic.model.map.position.areas.Controller;
 import java.util.List;
 
 /**
- * @author Patrick van Elderen | Zerikoth | PVE
+ * @author Origin | Zerikoth | PVE
  * @date maart 23, 2020 13:19
  */
 public class TournamentArea extends Controller {

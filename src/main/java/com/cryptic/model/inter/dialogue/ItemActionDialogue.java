@@ -8,7 +8,7 @@ import com.cryptic.model.entity.player.Player;
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 
 /**
- * @author Patrick van Elderen | December, 16, 2020, 18:28
+ * @author Origin | December, 16, 2020, 18:28
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class ItemActionDialogue {

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Patrick van Elderen | November, 21, 2020, 10:15
+ * @author Origin | November, 21, 2020, 10:15
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class ZerkerActivity extends WildernessActivity {

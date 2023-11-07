@@ -292,6 +292,13 @@ public class Skills {
             return false;
         }
 
+        if (target instanceof NPC npc && isCombatExperience) {
+            if (npc.isCombatDummy()) {
+                player.getPacketSender().sendFakeXPDrop(skill, amount);
+                return false;
+            }
+        }
+
         if (isCombatExperience && isNpc) {
             NPC npc = (NPC) target;
             if (!npc.isDamageOkLocked()) {

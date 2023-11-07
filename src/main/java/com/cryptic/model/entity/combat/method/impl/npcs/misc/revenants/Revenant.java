@@ -12,7 +12,7 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.utility.Utils;
 
 /**
- * @author Patrick van Elderen | Zerikoth
+ * @author Origin | Zerikoth
  * <p>
  * Revenants use all three forms of attack.
  * Their attacks have very high if not 100% accuracy, and will often deal high damage.

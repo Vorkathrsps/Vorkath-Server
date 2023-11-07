@@ -17,7 +17,7 @@ import static com.cryptic.utility.ItemIdentifiers.*;
 /**
  * This class handles the functionality of the rune pouch
  * 
- * @author Patrick van Elderen | 12 mrt. 2019 : 15:13:40
+ * @author Origin | 12 mrt. 2019 : 15:13:40
  * @see <a href="https://github.com/Patrick9-10-1995">Github profile</a>
  */
 public class RunePouch extends ItemContainer {

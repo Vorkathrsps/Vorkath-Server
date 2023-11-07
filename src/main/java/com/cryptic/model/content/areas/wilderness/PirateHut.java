@@ -15,8 +15,8 @@ import com.cryptic.utility.chainedwork.Chain;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.DOOR_11727;
 
 /**
- * @author Patrick van Elderen | June, 19, 2021, 18:58
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | June, 19, 2021, 18:58
+ * 
  */
 public class PirateHut extends PacketInteraction {
 

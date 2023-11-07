@@ -9,8 +9,8 @@ import com.cryptic.model.items.Item;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | May, 12, 2021, 14:04
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | May, 12, 2021, 14:04
+ * 
  */
 public class SaveTPCommand implements Command {
 

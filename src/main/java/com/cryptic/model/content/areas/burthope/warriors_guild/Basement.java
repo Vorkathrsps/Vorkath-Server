@@ -14,7 +14,7 @@ import static com.cryptic.utility.ItemIdentifiers.*;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | March, 26, 2021, 09:45
+ * @author Origin | March, 26, 2021, 09:45
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class Basement extends PacketInteraction {

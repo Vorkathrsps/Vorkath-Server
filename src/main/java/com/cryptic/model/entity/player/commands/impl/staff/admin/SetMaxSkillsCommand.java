@@ -10,7 +10,7 @@ import com.cryptic.utility.Utils;
 import java.util.Optional;
 
 /**
- * @author Patrick van Elderen | March, 16, 2021, 08:55
+ * @author Origin | March, 16, 2021, 08:55
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class SetMaxSkillsCommand implements Command {

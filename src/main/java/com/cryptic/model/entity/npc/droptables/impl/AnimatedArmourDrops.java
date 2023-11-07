@@ -9,7 +9,7 @@ import com.cryptic.model.items.Item;
 import static com.cryptic.utility.ItemIdentifiers.WARRIOR_GUILD_TOKEN;
 
 /**
- * @author Patrick van Elderen | March, 26, 2021, 18:55
+ * @author Origin | March, 26, 2021, 18:55
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class AnimatedArmourDrops implements Droptable {

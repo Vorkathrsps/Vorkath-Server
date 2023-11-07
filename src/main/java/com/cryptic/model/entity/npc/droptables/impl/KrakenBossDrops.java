@@ -12,7 +12,7 @@ import com.cryptic.utility.Utils;
 import java.util.ArrayList;
 
 /**
- * @author Patrick van Elderen | January, 03, 2021, 14:56
+ * @author Origin | January, 03, 2021, 14:56
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class KrakenBossDrops implements Droptable {

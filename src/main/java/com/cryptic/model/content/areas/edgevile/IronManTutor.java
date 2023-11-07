@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | January, 19, 2021, 13:41
+ * @author Origin | January, 19, 2021, 13:41
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class IronManTutor extends Dialogue {

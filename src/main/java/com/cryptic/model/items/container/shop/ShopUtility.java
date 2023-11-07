@@ -6,7 +6,7 @@ import com.cryptic.utility.ItemIdentifiers;
  * This class represents all of the utility methods and variables for the shop
  * system.
  * 
- * @author Patrick van Elderen
+ * @author Origin
  * @date 17-09-2019
  * @version 1.0
  *

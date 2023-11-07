@@ -7,8 +7,8 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.SECURITY_GUARD;
 
 /**
- * @author Patrick van Elderen | April, 29, 2021, 18:16
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 29, 2021, 18:16
+ * 
  */
 public class SecurityAdvisor extends PacketInteraction {
 

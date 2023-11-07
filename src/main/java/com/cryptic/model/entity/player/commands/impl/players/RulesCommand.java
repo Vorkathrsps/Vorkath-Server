@@ -4,7 +4,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.commands.Command;
 
 /**
- * @author Patrick van Elderen | January, 20, 2021, 14:21
+ * @author Origin | January, 20, 2021, 14:21
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class RulesCommand implements Command {

@@ -15,7 +15,7 @@ import static com.cryptic.model.content.presets.PresetManager.ILLEGAL_ITEMS;
 /**
  * Description
  *
- * @author Patrick van Elderen | dinsdag 21 mei 2019 (CEST) : 10:14
+ * @author Origin | dinsdag 21 mei 2019 (CEST) : 10:14
  * @see <a href="https://github.com/Patrick9-10-1995">Github profile</a>
  */
 public class PresetEditDialogue extends Dialogue {

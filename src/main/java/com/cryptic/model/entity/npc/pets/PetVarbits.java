@@ -1,7 +1,7 @@
 package com.cryptic.model.entity.npc.pets;
 
 /**
- * @author Patrick van Elderen | January, 04, 2021, 15:16
+ * @author Origin | January, 04, 2021, 15:16
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class PetVarbits {

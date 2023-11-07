@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author Patrick van Elderen | July, 05, 2021, 22:10
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | July, 05, 2021, 22:10
+ * 
  */
 public class StaffCommand implements Command {
 

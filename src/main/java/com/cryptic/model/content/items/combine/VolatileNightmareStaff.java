@@ -12,7 +12,7 @@ import static com.cryptic.utility.ItemIdentifiers.*;
  * The volatile nightmare staff is a staff that is created by attaching a volatile orb to the Nightmare staff.
  * Requiring level 75 Magic and 50 Hitpoints to wield, it can autocast offensive standard spells as well as Ancient Magicks.
  *
- * @author Patrick van Elderen | Zerikoth | PVE
+ * @author Origin | Zerikoth | PVE
  * @date februari 10, 2020 13:09
  */
 public class VolatileNightmareStaff extends Dialogue {

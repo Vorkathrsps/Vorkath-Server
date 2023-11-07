@@ -16,7 +16,7 @@ import static com.cryptic.utility.ItemIdentifiers.*;
  * When casting offensive spells from the standard spellbook, the harmonised nightmare staff's attack speed is increased to 4
  * and has no initial delay when autocasting, similarly to powered staves.
  *
- * @author Patrick van Elderen | Zerikoth | PVE
+ * @author Origin | Zerikoth | PVE
  * @date februari 10, 2020 13:09
  */
 public class HarmonisedNightmareStaff extends Dialogue {

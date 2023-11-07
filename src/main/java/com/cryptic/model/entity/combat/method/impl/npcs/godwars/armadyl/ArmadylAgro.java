@@ -8,8 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author Patrick van Elderen | April, 29, 2021, 14:16
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 29, 2021, 14:16
+ * 
  */
 public class ArmadylAgro implements AggressionCheck {
 

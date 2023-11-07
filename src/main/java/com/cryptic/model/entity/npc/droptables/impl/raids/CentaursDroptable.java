@@ -5,8 +5,8 @@ import com.cryptic.model.entity.npc.droptables.Droptable;
 import com.cryptic.model.entity.player.Player;
 
 /**
- * @author Patrick van Elderen | May, 10, 2021, 18:36
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | May, 10, 2021, 18:36
+ * 
  */
 public class CentaursDroptable implements Droptable {
 

@@ -7,7 +7,7 @@ import com.cryptic.model.items.Item;
 import com.cryptic.utility.ItemIdentifiers;
 
 /**
- * @author Patrick van Elderen | December, 25, 2020, 18:18
+ * @author Origin | December, 25, 2020, 18:18
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class TeleportToTargetScrollD extends Dialogue {

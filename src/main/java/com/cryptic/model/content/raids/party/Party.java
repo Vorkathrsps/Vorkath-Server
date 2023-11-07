@@ -19,8 +19,8 @@ import static com.cryptic.model.entity.attributes.AttributeKey.PERSONAL_POINTS;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
- * @author Patrick van Elderen | April, 26, 2021, 16:56
- * @see <a href="https://github.com/PVE95">Github profile</a>
+ * @author Origin | April, 26, 2021, 16:56
+ * 
  */
 public class Party {
 

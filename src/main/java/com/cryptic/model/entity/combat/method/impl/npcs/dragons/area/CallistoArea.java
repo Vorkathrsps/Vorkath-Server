@@ -10,18 +10,19 @@ import com.cryptic.model.map.position.areas.Controller;
 
 import java.util.List;
 
-public class VenenatisArea extends Controller {
-    final Area ROOM = new Area(3408, 10182, 3442, 10222);
-    public VenenatisArea() {
-        super(List.of(new Area(3408, 10182, 3442, 10222)));
+public class CallistoArea extends Controller {
+    final Area ROOM = new Area(3341, 10311, 3378, 10346);
+    public CallistoArea() {
+        super(List.of(new Area(3341, 10311, 3378, 10346)));
     }
+
     @Override
     public void enter(Player player) {
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {
-                if (npc.id() == 6610) {
+                if (npc.id() == 6609) {
                     if (!npc.dead()) {
-                        HealthHud.open(player, HealthHud.Type.REGULAR, "Venenatis", npc.hp());
+                        HealthHud.open(player, HealthHud.Type.REGULAR, "Callisto", npc.hp());
                         if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
                     }
                 }
@@ -38,14 +39,14 @@ public class VenenatisArea extends Controller {
     public void process(Player player) {
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {
-                if (npc.id() == 6610) {
+                if (npc.id() == 6609) {
                     if (npc.dead()) {
                         player.getPacketSender().darkenScreen(0);
                         HealthHud.close(player);
                     } else {
                         if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
                         else if (!HealthHud.updated && HealthHud.needsUpdate) {
-                            HealthHud.open(player, HealthHud.Type.REGULAR, "Venenatis", npc.hp());
+                            HealthHud.open(player, HealthHud.Type.REGULAR, "Callisto", npc.hp());
                         }
                     }
                 }

@@ -159,8 +159,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
             }
 
             if (player.getEquipment().contains(ItemIdentifiers.DARK_BOW) || player.getEquipment().contains(ItemIdentifiers.DARK_BOW_BH)) {
-                if (drawbackBowDouble != null)
-                    attacker.graphic(drawbackBowDouble.gfx, GraphicHeight.HIGH, 0);
+                if (drawbackBowDouble != null) attacker.graphic(drawbackBowDouble.gfx, GraphicHeight.HIGH, 0);
                 int duration1 = 41 + 5 + (5 * distance);
                 int duration2 = 41 + 14 + (10 * distance);
                 Projectile p1 = new Projectile(attacker, target, graphic, 41, duration1, 40, 36, 5, 1, 5);

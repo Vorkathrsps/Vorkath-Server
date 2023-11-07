@@ -25,6 +25,7 @@ import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.Direction;
+import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.ScalarLootTable;
 import com.cryptic.model.entity.player.InputScript;
@@ -675,9 +676,13 @@ public class CommandManager {
 
         });
         dev("c", (p, c, s) -> {
-            var instance = new KrakenInstance(p, KrakenState.ALIVE);
-            p.setKrakenInstance(instance);
-            instance.build();
+            //var instance = new KrakenInstance(p, KrakenState.ALIVE);
+            //p.setKrakenInstance(instance);
+            //instance.build();
+            NPC n = new NPC(100, p.tile().transform(-6, 0));
+            n.spawn(false);
+            int tileDist = p.tile().distance(n.tile());
+            int duration = (51 + -5 + (10 * tileDist));
         });
 
         dev("ioi", (p, c, s) -> {

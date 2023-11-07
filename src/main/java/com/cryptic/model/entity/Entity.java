@@ -494,13 +494,25 @@ public abstract class Entity {
 
         if (distance.getX() <= 64 && distance.getY() <= 64) {
             for (Player player : World.getWorld().getPlayers()) {
-                if (player == null) {
-                    continue;
-                }
+                if (player == null) continue;
 
                 if (source.isViewableFrom(player.getCentrePosition())) {
                     player.getPacketSender()
-                        .sendProjectile(projectile.getStart(), projectile.getOffset(), projectile.getAngle(), projectile.getSpeed(), projectile.getProjectileID(), projectile.getStartHeight(), projectile.getEndHeight(), projectile.getLockon(), projectile.getDelay(), projectile.getSlope(), creatorSize, projectile.getStartDistanceOffset());
+                        .sendProjectile(
+                            projectile.getStart().getX(),
+                            projectile.getStart().getY(),
+                            projectile.getOffset().getX(),
+                            projectile.getOffset().getY(),
+                            projectile.getAngle(),
+                            projectile.getSpeed(),
+                            projectile.getProjectileID(),
+                            projectile.getStartHeight(),
+                            projectile.getEndHeight(),
+                            projectile.getLockon(),
+                            projectile.getDelay(),
+                            projectile.getSlope(),
+                            creatorSize,
+                            projectile.getStartDistanceOffset());
                 }
             }
         }

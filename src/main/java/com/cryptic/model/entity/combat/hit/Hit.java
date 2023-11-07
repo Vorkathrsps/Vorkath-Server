@@ -337,7 +337,9 @@ public class Hit {
         }
         if (this.attacker instanceof Player && this.target instanceof NPC npc) {
             CombatMethod method = CombatFactory.getMethod(npc);
-            if (method instanceof CommonCombatMethod commonCombatMethod) commonCombatMethod.preDefend(this);
+            if (method instanceof CommonCombatMethod commonCombatMethod) {
+                commonCombatMethod.preDefend(this);
+            }
             if (method instanceof Vorkath vorkath) {
                 switch (vorkath.resistance) {
                     case PARTIAL -> this.setDamage((int) (this.getDamage() * 0.5D));

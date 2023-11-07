@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -1102,7 +1103,7 @@ public final class PacketSender {
     }
 
     public PacketSender sendTileGraphic(int id, Tile tile, int height, int delay) {
-        sendPosition(tile);
+        sendMapPacket(tile.x, tile.y, tile.level);
         PacketBuilder out = new PacketBuilder(4);
         out.put(0);
         out.putShort(id);
@@ -1113,7 +1114,7 @@ public final class PacketSender {
     }
 
     public PacketSender sendObject(GameObject object) {
-        sendPosition(object.tile());
+        sendMapPacket(object.tile().x, object.tile().y, object.tile().level);
         PacketBuilder out = new PacketBuilder(151);
         out.put(0, ValueType.A); //Don't send offset, we don't actually use it client-side cause we sendPosition first.
         out.putShort(object.getId(), ByteOrder.LITTLE);
@@ -1124,8 +1125,7 @@ public final class PacketSender {
     }
 
     public PacketSender sendObjectRemoval(GameObject object) {
-        //System.out.println("Object details: " + object.toString());
-        sendPosition(object.tile());
+        sendMapPacket(object.tile().x, object.tile().y, object.tile().level);
         PacketBuilder out = new PacketBuilder(101);
         out.put((object.getType() << 2) + (object.getRotation() & 3), ValueType.C);
         //System.out.println("Sending value" + (((object.getX() & 0x7) << 4) | (object.getY() & 0x7)));
@@ -1136,7 +1136,7 @@ public final class PacketSender {
     }
 
     public PacketSender sendObjectAnimation(GameObject object, int anim) {
-        sendPosition(object.tile());
+        sendMapPacket(object.tile().x, object.tile().y, object.tile().level);
         PacketBuilder out = new PacketBuilder(160);
         out.put(0, ValueType.S);
         out.put((object.getType() << 2) + (object.getRotation() & 3), ValueType.S);
@@ -1146,7 +1146,7 @@ public final class PacketSender {
     }
 
     public PacketSender createGroundItem(GroundItem groundItem) {
-        sendPosition(groundItem.getTile());
+        sendMapPacket(groundItem.getTile().x, groundItem.getTile().y, groundItem.getTile().level);
         PacketBuilder out = new PacketBuilder(44);
         out.putShort(groundItem.getItem().getId(), ValueType.A, ByteOrder.LITTLE);
         //ken comment, also changed this in Client.java opcode == IncomingHandler.CREATE_GROUND_ITEMS to allow for interfaces greater than 80000.
@@ -1158,7 +1158,7 @@ public final class PacketSender {
     }
 
     public PacketSender deleteGroundItem(GroundItem groundItem) {
-        sendPosition(groundItem.getTile());
+        sendMapPacket(groundItem.getTile().getX(), groundItem.getTile().getY(), groundItem.getTile().getZ());
         PacketBuilder out = new PacketBuilder(156);
         out.put(0, ValueType.S);
         out.putShort(groundItem.getItem().getId());
@@ -1167,7 +1167,7 @@ public final class PacketSender {
     }
 
     public PacketSender updateGroundItemAmount(int oldAmt, GroundItem groundItem) {
-        sendPosition(groundItem.getTile());
+        sendMapPacket(groundItem.getTile().getX(), groundItem.getTile().getY(), groundItem.getTile().getZ());
         PacketBuilder out = new PacketBuilder(84);
         out.put(groundItem.getTile().getLevel(), ValueType.STANDARD);
         out.putShort(groundItem.getItem().getId());
@@ -1199,11 +1199,16 @@ public final class PacketSender {
     }
 
     public PacketSender sendPosition(final Tile tile) {
-        final Tile other = player.getLastKnownRegion();
         PacketBuilder out = new PacketBuilder(85);
-        out.put(tile.getY() - 8 * other.getRegionY(), ValueType.C);
-        out.put(tile.getX() - 8 * other.getRegionX(), ValueType.C);
-        player.getSession().write(out);
+        if (player.getZ() != tile.getZ()) return null;
+        final Tile other = player.getLastKnownRegion();
+        var playerLocalX = tile.getX() - 8 * other.getRegionX();
+        var playerLocalY = tile.getY() - 8 * other.getRegionY();
+        if (playerLocalX >= 0 && playerLocalX < 104 && playerLocalY >= 0 && playerLocalY < 104) {
+            out.put(playerLocalY, ValueType.C);
+            out.put(playerLocalX, ValueType.C);
+            player.getSession().write(out);
+        }
         return this;
     }
 
@@ -1213,23 +1218,22 @@ public final class PacketSender {
 
     private final Player player;
 
-    public PacketSender sendProjectile(Tile position, Tile offset,
-                                       int angle, int duration, int gfxMoving, int startHeight, int endHeight,
-                                       int lockon, int startDelay, int slope, int creatorSize, int startDistanceOffset) {
-        PacketBuilder out = new PacketBuilder(117);
-        sendPosition(position);
-        out.put(angle);
-        out.put(offset.getY());
-        out.put(offset.getX());
-        out.putShort(lockon);
-        out.putShort(gfxMoving);
-        out.put(startHeight);
-        out.put(endHeight);
-        out.putShort(startDelay);
-        out.putShort(duration);
-        out.put(slope);
-        out.put(startDistanceOffset);
-        player.getSession().write(out);
+    private PacketSender sendMapPacket(int x, int y, int z) {
+        if (player.getZ() != z) return null;
+        final Tile other = player.getLastKnownRegion();
+        int chunkAbsX = (x >> 3) << 3;
+        int chunkAbsY = (y >> 3) << 3;
+        int targetLocalX = x - chunkAbsX;
+        int targetLocalY = y - chunkAbsY;
+        int playerLocalX = x - 8 * other.getRegionX();
+        int playerLocalY = y - 8 * other.getRegionY();
+        if (playerLocalX >= 0 && playerLocalX < 104 && playerLocalY >= 0 && playerLocalY < 104) player.getSession().write(new PacketBuilder(85).put(playerLocalY, ValueType.C).put(playerLocalX, ValueType.C));
+        return this;
+    }
+
+    public PacketSender sendProjectile(int startX, int startY, int destX, int destY, int angle, int duration, int gfxMoving, int startHeight, int endHeight, int lockon, int startDelay, int slope, int creatorSize, int startDistanceOffset) {
+        sendMapPacket(startX, startY, player.getZ());
+        player.getSession().write(new PacketBuilder(117).put(angle).put(destY).put(destX).putShort(lockon).putShort(gfxMoving).put(startHeight).put(endHeight).putShort(startDelay).putShort(duration).put(slope).put(startDistanceOffset));
         return this;
     }
 

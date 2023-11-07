@@ -247,7 +247,7 @@ public final class Projectile {
                 continue;
             }
 
-            player.getPacketSender().sendProjectile(start, offset, 0,
+            player.getPacketSender().sendProjectile(start.x, start.y, offset.x, offset.y, 0,
                 speed, projectileId, startHeight, endHeight, lockon, delay, slope,
                 creatorSize, startDistanceOffset);
         }
@@ -260,7 +260,7 @@ public final class Projectile {
                 continue;
             }
 
-            player.getPacketSender().sendProjectile(start, offset, 0,
+            player.getPacketSender().sendProjectile(start.x, start.y, offset.x, offset.y, 0,
                 speed, projectileId, startHeight, endHeight, lockon, delay, slope,
                 creatorSize, startDistanceOffset);
         }
@@ -268,7 +268,7 @@ public final class Projectile {
 
     public void sendFor(Player player) {
         if (start.isViewableFrom(player.tile())) {
-            player.getPacketSender().sendProjectile(start, offset, 0,
+            player.getPacketSender().sendProjectile(start.x, start.y, offset.x, offset.y, 0,
                 speed, projectileId, startHeight, endHeight, lockon, delay, slope,
                 creatorSize, startDistanceOffset);
         }

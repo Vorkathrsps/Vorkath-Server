@@ -354,7 +354,9 @@ public class Hit {
             return null;
         if (this.target.dead()) return null;
         if (this.attacker instanceof Player) {
-            addCombatXp((Player) this.attacker, this.combatType, this.attacker.getCombat().getFightType().getStyle());
+            if (this.isAccurate() && this.getDamage() > 0) {
+                addCombatXp((Player) this.attacker, this.combatType, this.attacker.getCombat().getFightType().getStyle());
+            }
         }
         if (this.attacker instanceof Player && this.target instanceof NPC npc) {
             CombatMethod method = CombatFactory.getMethod(npc);

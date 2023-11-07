@@ -28,17 +28,6 @@ import java.util.*;
 public class NPCUpdating {
 
     /**
-     * The maximum amount of local npcs.
-     */
-    private static final int MAXIMUM_LOCAL_NPCS = 255;
-
-    /**
-     * The maximum number of npcs to load per cycle. This prevents the update packet from becoming too large (the
-     * client uses a 5000 byte buffer) and also stops old spec PCs from crashing when they login or teleport.
-     */
-    private static final int NEW_NPCS_PER_CYCLE = 20;
-
-    /**
      * Handles the actual npc updating for the associated player.
      *
      * @return The NPCUpdating instance.
@@ -87,6 +76,7 @@ public class NPCUpdating {
                 packet.putBits(14, 16383);
                 packet.initializeAccess(AccessType.BYTE);
                 packet.writeBuffer(update.buffer());
+                update.buffer().clear();
             } else {
                 packet.initializeAccess(AccessType.BYTE);
             }

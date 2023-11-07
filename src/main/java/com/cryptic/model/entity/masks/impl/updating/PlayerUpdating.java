@@ -82,6 +82,7 @@ public class PlayerUpdating {
                 out.putBits(11, 2047);
                 out.initializeAccess(AccessType.BYTE);
                 out.puts(builder.buffer());
+                builder.buffer().clear();
             } else {
                 out.initializeAccess(AccessType.BYTE);
             }

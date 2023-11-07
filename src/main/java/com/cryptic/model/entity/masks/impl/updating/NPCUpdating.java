@@ -14,6 +14,7 @@ import com.cryptic.network.packet.PacketBuilder.AccessType;
 import com.cryptic.network.packet.PacketType;
 import com.cryptic.network.packet.ValueType;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.compress.utils.Lists;
 
 import java.util.*;
 
@@ -49,20 +50,24 @@ public class NPCUpdating {
             List<NPC> localNpcs = player.getLocalNpcs();
             Tile playerTile = player.tile();
             packet.putBits(8, localNpcs.size());
-            Iterator<NPC> npcIterator = localNpcs.iterator();
-            while (npcIterator.hasNext()) {
-                NPC npc = npcIterator.next();
-                if (npc.getIndex() != -1 && World.getWorld().getNpcs().contains(npc) && !npc.hidden() && !npc.isTeleportJump() && playerTile.isWithinDistance(npc.tile()) && !npc.isNeedsPlacement()) {
-                    updateMovement(npc, packet);
-                    npc.inViewport(true); // Mark as in viewport
-                    if (npc.getUpdateFlag().isUpdateRequired()) {
-                        appendUpdates(npc, player, update, false);
+            if (localNpcs.size() > 0) {
+                List<NPC> updatedNpcs = new ArrayList<>();
+                for (NPC npc : localNpcs) {
+                    if (npc == null) continue;
+                    if (npc.getIndex() != -1 && World.getWorld().getNpcs().contains(npc) && !npc.hidden() && !npc.isTeleportJump() && playerTile.isWithinDistance(npc.tile()) && !npc.isNeedsPlacement()) {
+                        updateMovement(npc, packet);
+                        npc.inViewport(true);
+                        if (npc.getUpdateFlag().isUpdateRequired()) {
+                            appendUpdates(npc, player, update, false);
+                        }
+                    } else {
+                        updatedNpcs.add(npc);
+                        packet.putBits(1, 1);
+                        packet.putBits(2, 3);
                     }
-                } else {
-                    npcIterator.remove();
-                    packet.putBits(1, 1);
-                    packet.putBits(2, 3);
                 }
+                localNpcs.removeAll(updatedNpcs);
+                updatedNpcs.clear();
             }
             for (var region : player.getRegions()) {
                 for (var npc : region.getNpcs()) {

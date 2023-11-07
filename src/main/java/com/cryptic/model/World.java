@@ -277,7 +277,7 @@ public class World {
         }
     });
 
-    Runnable npcProcess = () -> npcRenderOrder.stream().filter(index -> checkIndex(index, NodeType.NPC)).forEach(n -> {
+    Runnable npcProcess = () -> npcRenderOrder.stream().filter(Objects::nonNull).filter(index -> checkIndex(index, NodeType.NPC)).forEach(n -> {
         try {
             NpcPerformance.resetWorldTime();
             NPC npc = npcs.get(n);
@@ -291,7 +291,7 @@ public class World {
         }
     });
 
-    Runnable packets = () -> playerRenderOrder.stream().filter(index -> checkIndex(index, NodeType.PLAYER)).forEach(p -> {
+    Runnable packets = () -> playerRenderOrder.stream().filter(Objects::nonNull).filter(index -> checkIndex(index, NodeType.PLAYER)).forEach(p -> {
         try {
             Player player = players.get(p);
             player.getSession().read();
@@ -302,7 +302,7 @@ public class World {
         }
     });
 
-    Runnable playerProcess = () -> playerRenderOrder.stream().filter(index -> checkIndex(index, NodeType.PLAYER)).forEach(p -> {
+    Runnable playerProcess = () -> playerRenderOrder.stream().filter(Objects::nonNull).filter(index -> checkIndex(index, NodeType.PLAYER)).forEach(p -> {
         try {
             Player player = players.get(p);
             player.sequence();
@@ -313,7 +313,7 @@ public class World {
         }
     });
 
-    Runnable gpi = () -> playerRenderOrder.stream().filter(index -> checkIndex(index, NodeType.PLAYER)).forEach(p -> {
+    Runnable gpi = () -> playerRenderOrder.stream().filter(Objects::nonNull).filter(index -> checkIndex(index, NodeType.PLAYER)).forEach(p -> {
         try {
             Player player = players.get(p);
             PlayerUpdating.update(player);
@@ -324,7 +324,7 @@ public class World {
     });
 
     Runnable flush = () -> {
-        npcRenderOrder.stream().filter(index -> checkIndex(index, NodeType.NPC)).forEach(n -> {
+        npcRenderOrder.stream().filter(Objects::nonNull).filter(index -> checkIndex(index, NodeType.NPC)).forEach(n -> {
             NPC npc = npcs.get(n);
             try {
                 npc.resetUpdating();
@@ -336,7 +336,7 @@ public class World {
                 World.getWorld().getNpcs().remove(npc);
             }
         });
-        playerRenderOrder.stream().filter(index -> checkIndex(index, NodeType.PLAYER)).forEach(p -> {
+        playerRenderOrder.stream().filter(Objects::nonNull).filter(index -> checkIndex(index, NodeType.PLAYER)).forEach(p -> {
             Player player = players.get(p);
             try {
                 player.resetUpdating();

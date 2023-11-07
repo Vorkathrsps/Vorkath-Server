@@ -22,7 +22,7 @@ public class Kraken extends CommonCombatMethod {
     @Override
     public void onRespawn(NPC npc) {
         var player = (Player) target;
-        if (player.getKrakenInstance() == null) return;
+        if (player.getKrakenInstance() == null || player.getInstancedArea() == null) return;
         NPC[] npcs = new NPC[]{new NPC(5534, new Tile(2275, 10034, player.getKrakenInstance().getzLevel())), new NPC(5534, new Tile(2284, 10034, player.getKrakenInstance().getzLevel())), new NPC(5534, new Tile(2284, 10038, player.getKrakenInstance().getzLevel())), new NPC(5534, new Tile(2275, 10038, player.getKrakenInstance().getzLevel()))};
         for (var n : npcs) {
             n.setInstancedArea(player.getKrakenInstance());
@@ -36,7 +36,6 @@ public class Kraken extends CommonCombatMethod {
             npc.setCombatMethod(new Kraken());
             player.getKrakenInstance().setKrakenState(KrakenState.ALIVE);
         }
-
     }
 
     @Override

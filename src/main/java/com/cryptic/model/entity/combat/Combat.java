@@ -248,13 +248,7 @@ public class Combat {
         hitQueue.process(mob);
         performNewAttack();
 
-        if (mob.isPlayer() && target != null) {
-            if (target.isNpc()) {
-                for (Player p : target.closePlayers(32)) {
-                    HealthHud.update(p, HealthHud.Type.REGULAR, (target.dead() ? 0 : target.hp()), target.maxHp());
-                }
-            }
-        } else if (mob.isPlayer() && target == null) {
+         if (mob.isPlayer() && target == null) {
             //No target found reset fight time
             if (fightTimer.isRunning()) {
                 fightTimer.reset();

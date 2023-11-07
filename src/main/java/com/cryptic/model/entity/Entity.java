@@ -1933,7 +1933,6 @@ public abstract class Entity {
         //getAsPlayer().isNullifyDamageLock(); //we nullfiy the damage taken when teleporting
 
         if (this instanceof Player player) {
-            System.out.println("handling region change?");
             player.getMovementQueue().handleRegionChange();
         }
 

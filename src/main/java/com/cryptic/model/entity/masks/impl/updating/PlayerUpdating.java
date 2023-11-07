@@ -531,7 +531,6 @@ public class PlayerUpdating {
         }
     }
 
-
     /**
      * This update block is used to update a player's double hit.
      *

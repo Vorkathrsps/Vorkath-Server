@@ -48,6 +48,7 @@ import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.object.MapObjects;
 import com.cryptic.model.map.position.Area;
+import com.cryptic.model.map.position.Boundary;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.region.RegionManager;
@@ -677,9 +678,13 @@ public class CommandManager {
 
         });
         dev("c", (p, c, s) -> {
-           var instance = new KrakenInstance(p, KrakenState.ALIVE);
-           p.setKrakenInstance(instance);
-           instance.build();
+         //  var instance = new KrakenInstance(p, KrakenState.ALIVE);
+         //  p.setKrakenInstance(instance);
+         //  instance.build();
+
+            final Area ROOM = new Area(3408, 10182, 3442, 10222);
+
+           p.message("" + p.tile().inArea(ROOM) + " region: " + p.tile().getRegion().regionId);
         });
 
         dev("ioi", (p, c, s) -> {

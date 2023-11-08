@@ -681,16 +681,12 @@ public class CommandManager {
          //  var instance = new KrakenInstance(p, KrakenState.ALIVE);
          //  p.setKrakenInstance(instance);
          //  instance.build();
-
-            final Area ROOM = new Area(3408, 10182, 3442, 10222);
-
-           p.message("" + p.tile().inArea(ROOM) + " region: " + p.tile().getRegion().regionId);
         });
 
         dev("ioi", (p, c, s) -> {
             // Opening interface
             // interface item container id
-            // item id1, item id2, item id3, etc.
+            // item id1,  item id2, item id3, etc.
             int interfaceId = Integer.parseInt(s[0]);
             // int containerId = Integer.parseInt(s[1]);
             p.getInterfaceManager().open(interfaceId);

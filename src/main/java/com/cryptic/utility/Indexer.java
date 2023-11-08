@@ -1,5 +1,6 @@
 package com.cryptic.utility;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -44,8 +45,7 @@ public final class Indexer<E> implements Iterable<E> {
     }
 
     public void clear() {
-        for (int i = 0; i < arr.length; i++)
-            arr[i] = null;
+        Arrays.fill(arr, null);
     }
 
     public int size() {

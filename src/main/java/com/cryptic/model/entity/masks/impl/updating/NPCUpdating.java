@@ -43,7 +43,7 @@ public class NPCUpdating {
                 List<NPC> updatedNpcs = new ArrayList<>();
                 for (NPC npc : localNpcs) {
                     if (npc == null) continue;
-                    if (npc.getIndex() != -1 && World.getWorld().getNpcs().contains(npc) && !npc.hidden() && !npc.isTeleportJump() && playerTile.isWithinDistance(npc.tile()) && !npc.isNeedsPlacement()) {
+                    if (npc.getIndex() != -1 && World.getWorld().getNpcs().contains(npc) && !npc.hidden() && !npc.isTeleportJump() && playerTile.isViewableFrom(npc.tile())) {
                         updateMovement(npc, packet);
                         npc.inViewport(true);
                         if (npc.getUpdateFlag().isUpdateRequired()) {
@@ -60,9 +60,9 @@ public class NPCUpdating {
             }
             for (var region : player.getRegions()) {
                 for (var npc : region.getNpcs()) {
-                    if (npc == null || npc.hidden() || npc.isNeedsPlacement()) continue;
+                    if (npc == null || npc.hidden()) continue;
                     if (localNpcs.contains(npc)) continue;
-                    if (player.tile().isWithinDistance(npc.tile(), 14)) {
+                    if (player.tile().isViewableFrom(npc.tile())) {
                         localNpcs.add(npc);
                         addNPC(player, npc, packet, npc.isTeleportJump());
                         npc.inViewport(true);
@@ -76,7 +76,6 @@ public class NPCUpdating {
                 packet.putBits(14, 16383);
                 packet.initializeAccess(AccessType.BYTE);
                 packet.writeBuffer(update.buffer());
-                update.buffer().clear();
             } else {
                 packet.initializeAccess(AccessType.BYTE);
             }

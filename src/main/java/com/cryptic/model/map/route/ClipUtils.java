@@ -6,13 +6,17 @@ import com.cryptic.model.map.region.RegionManager;
 public class ClipUtils {
 
     public static final ClipUtils NONE =
-            new ClipUtils(); // always returns 0.. this isn't reliable at all but I need it for
-    // now..
+            new ClipUtils();
 
     public static final ClipUtils REGULAR =
             new ClipUtils() {
                 @Override
                 public int getAbs(int absX, int absY, int z) {
+                    for (var r : RegionManager.regions.int2ObjectEntrySet()) {
+                        if (r.getValue() != null) {
+                            return r.getValue().getClip(absX, absY, z);
+                        }
+                    }
                     Region region = RegionManager.getRegion(absX, absY);
                     return region.getClip(absX, absY, z);
                 }

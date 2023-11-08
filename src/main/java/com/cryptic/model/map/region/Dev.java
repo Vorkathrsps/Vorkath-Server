@@ -3,6 +3,7 @@ package com.cryptic.model.map.region;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -22,7 +23,7 @@ public class Dev {
             return regions;
         };
         RegionManager.loadGroupMapFiles = (regions, customZ) -> {
-            var objects = new Object2ObjectOpenHashMap<Integer, ObjectArrayList<GameObject>>();
+            var objects = new Int2ObjectOpenHashMap<ObjectArrayList<GameObject>>();
             final int[] objCount = {0};
             for (int regionId : regions) {
                 var r = RegionManager.getRegion(regionId);
@@ -44,7 +45,7 @@ public class Dev {
             }
             if (objCount[0] == 0)
                 return ObjectArrayList.of();
-            return objects.object2ObjectEntrySet().stream().flatMap(entry -> entry.getValue().stream()).collect(ObjectArrayList::new, ObjectArrayList::add, ObjectArrayList::addAll);
+            return objects.int2ObjectEntrySet().stream().flatMap(entry -> entry.getValue().stream()).collect(ObjectArrayList::new, ObjectArrayList::add, ObjectArrayList::addAll);
         };
 
         Region.provider = new Region.RegionProvider() {
@@ -60,7 +61,7 @@ public class Dev {
                     if (r.customZObjectTiles == null) {
                         if (!create)
                             return null;
-                        r.customZObjectTiles = new Object2ObjectOpenHashMap<>();
+                        r.customZObjectTiles = new Int2ObjectOpenHashMap<>();
                     }
                     var realLvl = z % 4;
                     var baseZ = z;
@@ -188,7 +189,7 @@ public class Dev {
                     height = 0;
                 if (height > 3) {
                     if (r.customZObjectTiles == null) {
-                        r.customZObjectTiles = new Object2ObjectOpenHashMap<>();
+                        r.customZObjectTiles = new Int2ObjectOpenHashMap<>();
                         // logger.trace("region {} z {} created hashmap for clip+object storage. ", r.regionId, height, new Exception("how did you get herre?"));
                     }
                     var realLvl = height % 4;
@@ -235,7 +236,7 @@ public class Dev {
                     height = 0;
                 if (height > 3) {
                     if (r.customZObjectTiles == null) {
-                        r.customZObjectTiles = new Object2ObjectOpenHashMap<>();
+                        r.customZObjectTiles = new Int2ObjectOpenHashMap<>();
                         logger.trace("region {} z {} created hashmap for clip+object storage. ", r.regionId, height, new Exception("how did you get herre?"));
                     }
                     var realLvl = height % 4;

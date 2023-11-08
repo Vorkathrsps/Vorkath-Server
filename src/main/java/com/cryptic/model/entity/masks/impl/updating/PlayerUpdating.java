@@ -62,19 +62,14 @@ public class PlayerUpdating {
             }
 
             List<Player> localPlayers = player.getLocalPlayers();
-            int added = 0, count = localPlayers.size();
-            for (Player otherPlayer : World.getWorld().getPlayers()) {
-                if (count >= MAXIMUM_LOCAL_PLAYERS || added >= NEW_PLAYERS_PER_CYCLE) {
-                    break;
-                }
+            for (var region : player.getRegions()) {
+                for (var p : region.getPlayers()) {
+                    if (shouldAddNewPlayer(player, p)) {
+                        localPlayers.add(p);
 
-                if (shouldAddNewPlayer(player, otherPlayer)) {
-                    localPlayers.add(otherPlayer);
-                    count++;
-                    added++;
-
-                    addPlayer(player, otherPlayer, out);
-                    appendUpdates(player, builder, otherPlayer, true, false);
+                        addPlayer(player, p, out);
+                        appendUpdates(player, builder, p, true, false);
+                    }
                 }
             }
 
@@ -82,7 +77,6 @@ public class PlayerUpdating {
                 out.putBits(11, 2047);
                 out.initializeAccess(AccessType.BYTE);
                 out.puts(builder.buffer());
-                builder.buffer().clear();
             } else {
                 out.initializeAccess(AccessType.BYTE);
             }
@@ -113,7 +107,7 @@ public class PlayerUpdating {
         return otherPlayer != null
             && otherPlayer != player
             && !player.getLocalPlayers().contains(otherPlayer)
-            && otherPlayer.tile().isWithinDistance(player.tile())
+            && otherPlayer.tile().isViewableFrom(player.tile())
             && !otherPlayer.looks().hidden()
             && canSee(player, otherPlayer);
     }

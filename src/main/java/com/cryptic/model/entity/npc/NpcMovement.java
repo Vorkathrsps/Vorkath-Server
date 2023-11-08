@@ -6,6 +6,7 @@ import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.combat.Combat;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.utility.Utils;
 
 public class NpcMovement extends MovementQueue {
 
@@ -34,12 +35,14 @@ public class NpcMovement extends MovementQueue {
             if (beforeWalk.region() != npc.tile().region()) {
                 npc.setLastKnownRegion(beforeWalk);
             }
-            if (!npc.getLastKnownRegion().equals(npc.tile())) {
-                var lastRegion = npc.getLastKnownRegion().getRegion();
-                var currentRegion = npc.tile().getRegion();
-                if (lastRegion != currentRegion) {
-                    lastRegion.getNpcs().remove(npc);
-                    currentRegion.getNpcs().add(npc);
+            if (npc.getLastKnownRegion() != null) {
+                if (!npc.getLastKnownRegion().equals(npc.tile())) {
+                    var lastRegion = npc.getLastKnownRegion().getRegion();
+                    var currentRegion = npc.tile().getRegion();
+                    if (lastRegion != currentRegion) {
+                        lastRegion.getNpcs().remove(npc);
+                        currentRegion.getNpcs().add(npc);
+                    }
                 }
             }
         }
@@ -49,7 +52,6 @@ public class NpcMovement extends MovementQueue {
     private void randomWalk() {
         if(!npc.isRandomWalkAllowed()) return;
         if(!World.getWorld().rollDie(4, 1)) return;
-        if (npc.closePlayers(15).length == 0) return;
         Combat combat = npc.getCombat();
         if(combat != null && (npc.dead() || combat.getTarget() != null)) return;
         var t = npc.getSpawnArea().randomTile();

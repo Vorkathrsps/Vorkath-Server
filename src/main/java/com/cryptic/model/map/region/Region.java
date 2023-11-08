@@ -4,7 +4,10 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Boundary;
 import com.cryptic.model.map.position.Tile;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -227,7 +230,7 @@ public class Region {
         }
     };
 
-    public Object2ObjectOpenHashMap<Integer, RegionZData> customZObjectTiles;
+    public Int2ObjectOpenHashMap<RegionZData> customZObjectTiles;
     public RegionZData baseZData = new RegionZData();
     public int recentCachedBaseZLevel;
     public RegionZData recentCachedBaseZData;

@@ -54,7 +54,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -99,7 +98,8 @@ public abstract class Entity {
     /**
      * The entity's tile size.
      */
-    @Setter private int size;
+    @Setter
+    private int size;
 
     protected Tile tile;
 
@@ -357,8 +357,8 @@ public abstract class Entity {
         for (int idx = 0; idx < 2048; idx++) {
             Player p = World.getWorld().getPlayers().get(idx);
             if (p == null || p == this || p.tile() == null || p.tile().level != tile().level || p.looks().hidden() || p.finished()) {
-                continue;
-            }
+                        continue;
+                }
             if (tile().distance(p.tile()) > span)
                 continue;
             if (p.tile().inSqRadius(tile, span)) {
@@ -366,7 +366,7 @@ public abstract class Entity {
             }
             if (caret >= targs.length) {
                 break;
-            }
+        }
         }
         Player[] set = new Player[caret];
         System.arraycopy(targs, 0, set, 0, caret);

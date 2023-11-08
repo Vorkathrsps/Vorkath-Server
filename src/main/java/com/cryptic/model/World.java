@@ -502,6 +502,7 @@ public class World {
         npcs.add(npc);
         Tile.occupy(npc);
         npc.tile().getRegion().getNpcs().add(npc);
+        npc.setNeedsPlacement(true);
         npc.spawnStack = new Throwable().getStackTrace()[1].toString();
         return true;
     }

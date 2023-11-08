@@ -108,12 +108,21 @@ public class NPC extends Entity {
     }
 
     public boolean isRandomWalkAllowed() {
-        return walkRadius > 0 &&
+        boolean canwalk = walkRadius > 0 &&
             spawnArea != null
             && !hidden()
             && getMovement().isAtDestination()
             && !locked()
             && !isMovementBlocked(false, false);
+        if (canwalk) {
+            for (Region surroundingRegion : this.getSurroundingRegions()) {
+                for (Player player : surroundingRegion.getPlayers()) {
+                    if (player.tile().isViewableFrom(this.tile()))
+                        return true;
+                }
+            }
+        }
+        return canwalk;
     }
 
     public boolean isWorldBoss() {
@@ -154,8 +163,8 @@ public class NPC extends Entity {
 
     public NPC spawn(boolean respawns) {
         World.getWorld().registerNpc(this);
-        if (getZ() > 3 && getInstancedArea() == null ) {
-            throw new RuntimeException("spawnedv1  YOU CALLED SPAWN() BEFORE NPC.SETINSTANCE() PLS CHANGE. npc at z="+getZ()+" but no instance attached. Will not be removed on cleanup. "+this);
+        if (getZ() > 3 && getInstancedArea() == null) {
+            throw new RuntimeException("spawnedv1  YOU CALLED SPAWN() BEFORE NPC.SETINSTANCE() PLS CHANGE. npc at z=" + getZ() + " but no instance attached. Will not be removed on cleanup. " + this);
         }
         respawns(respawns);
         return this;
@@ -164,16 +173,16 @@ public class NPC extends Entity {
     public NPC spawn(Tile location) {
         this.spawnTile = location;
         World.getWorld().registerNpc(this);
-        if (getZ() > 3 && getInstancedArea() == null ) {
-            throw new RuntimeException("spawnedv2  YOU CALLED SPAWN() BEFORE NPC.SETINSTANCE() PLS CHANGE. npc at z="+getZ()+" but no instance attached. Will not be removed on cleanup. "+this);
+        if (getZ() > 3 && getInstancedArea() == null) {
+            throw new RuntimeException("spawnedv2  YOU CALLED SPAWN() BEFORE NPC.SETINSTANCE() PLS CHANGE. npc at z=" + getZ() + " but no instance attached. Will not be removed on cleanup. " + this);
         }
         return this;
     }
 
     public NPC spawn() {
         World.getWorld().registerNpc(this);
-        if (getZ() > 3 && getInstancedArea() == null ) {
-            throw new RuntimeException("spawnedv3 YOU CALLED SPAWN() BEFORE NPC.SETINSTANCE() PLS CHANGE. npc at z="+getZ()+" but no instance attached. Will not be removed on cleanup. "+this);
+        if (getZ() > 3 && getInstancedArea() == null) {
+            throw new RuntimeException("spawnedv3 YOU CALLED SPAWN() BEFORE NPC.SETINSTANCE() PLS CHANGE. npc at z=" + getZ() + " but no instance attached. Will not be removed on cleanup. " + this);
         }
         return this;
     }

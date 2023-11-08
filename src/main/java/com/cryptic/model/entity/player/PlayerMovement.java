@@ -151,7 +151,6 @@ public class PlayerMovement extends MovementQueue {
             player.getPacketSender().sendMapRegion();
             player.setRegionHeight(player.tile().getLevel());
             player.setActiveMap(new Tile(player.tile().x, player.tile().y, player.tile().level));
-            Region.update(player);
         }
     }
 }

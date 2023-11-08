@@ -132,6 +132,7 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.ControllerManager;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.model.map.region.Region;
+import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.model.map.route.routes.TargetRoute;
 import com.cryptic.network.Session;
 import com.cryptic.network.SessionHandler;
@@ -1105,7 +1106,6 @@ public class Player extends Entity {
         session.setState(SessionState.LOGGED_IN);
         setNeedsPlacement(true);
         packetSender.sendMapRegion().sendDetails().sendRights().sendTabs();
-        Region.update(this);
         Tile.occupy(this);
         onLogin();
         System.out.println(this.tile.getRegion().getNpcs().size());
@@ -2672,9 +2672,9 @@ public class Player extends Entity {
         }
         return String.valueOf(Math.round(kc * 100) / 100.0);
     }
+
     public Region lastRegion;
     private ArrayList<Region> mapRegions = new ArrayList<>();
-
     public void addRegion(Region region) {
         if (!region.players.contains(this)) region.players.add(this);
         for (var r : this.getSurroundingRegions()) {

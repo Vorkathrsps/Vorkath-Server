@@ -49,7 +49,7 @@ public class RegionManager {
     /**
      * The map with all of our regions.
      */
-    public static Map<Integer, Region> regions = new HashMap<>();
+    public static Int2ObjectOpenHashMap<Region> regions = new Int2ObjectOpenHashMap<>();
 
     /**
      * Loads the client's map_index file and constructs new regions based on the
@@ -70,7 +70,7 @@ public class RegionManager {
             int regionId = stream.getUShort();
             int terrainFile = stream.getUShort();
             int objectFile = stream.getUShort();
-            RegionManager.regions.put(regionId, new Region(regionId, terrainFile, objectFile));
+            regions.put(regionId, new Region(regionId, terrainFile, objectFile));
         }
     }
 
@@ -509,18 +509,13 @@ public class RegionManager {
                 gFileData = CompressionUtil.gunzip(
                     FileUtil.readFile(GameServer.properties().clippingDirectory + "maps/" + r.getTerrainFile() + ".gz"));
 
-            // Don't allow ground file to be invalid..
             if (gFileData == null) {
                 stopwatch.stop();
                 logger.trace("ungzipped clipmap region {} at {} in {} ns but Disregarding Data!", regionId, Tile.regionToTile(regionId), stopwatch.elapsed().toNanos());
                 //System.err.println("missing clipping at region "+regionId);
                 return;
             }
-            /*if (oFileData != null) {
-                logger.trace("clipmap region {} at {} in {} ns len:{} len:{} files {} {}", regionId, Tile.regionToTile(regionId), stopwatch.elapsed().toNanos(), oFileData.length, gFileData.length, r.getObjectFile(), r.getTerrainFile());
-            }*/
 
-            // Read values using our streams..
             Buffer groundStream = new Buffer(gFileData);
             int absX = (r.getRegionId() >> 8) * 64;
             int absY = (r.getRegionId() & 0xff) * 64;

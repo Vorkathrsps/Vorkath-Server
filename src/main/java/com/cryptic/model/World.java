@@ -27,7 +27,7 @@ import com.cryptic.model.entity.npc.droptables.ScalarLootTable;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.PlayerPerformanceTracker;
 import com.cryptic.model.items.Item;
-import com.cryptic.model.items.container.equipment.EquipmentInfo;
+import com.cryptic.model.items.container.def.EquipmentLoader;
 import com.cryptic.model.items.container.presets.PresetData;
 import com.cryptic.model.items.container.shop.Shop;
 import com.cryptic.model.items.ground.GroundItem;
@@ -43,13 +43,14 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
+import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.security.SecureRandom;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.*;
@@ -514,14 +515,14 @@ public class World {
         if (npc.getInstancedArea() != null) npc.getInstancedArea().removeNpc(npc);
     }
 
-    private EquipmentInfo equipmentInfo;
+    private com.cryptic.model.items.container.equipment.EquipmentInfo equipmentInfo;
 
-    public EquipmentInfo equipmentInfo() {
+    public com.cryptic.model.items.container.equipment.EquipmentInfo equipmentInfo() {
         return equipmentInfo;
     }
 
     public void loadEquipmentInfo() {
-        equipmentInfo = new EquipmentInfo(
+        equipmentInfo = new com.cryptic.model.items.container.equipment.EquipmentInfo(
             new File("data/list/equipment_info.json"),
             new File("data/list/renderpairs.txt"),
             new File("data/list/bonuses.json"),
@@ -669,7 +670,7 @@ public class World {
         long elapsed = System.currentTimeMillis() - start;
         logger.info("  Loaded definitions for ./data/map/npcs. It took {}ms.", elapsed);
     }
-
+    @Getter EquipmentLoader equipmentLoader = new EquipmentLoader();
     public void postLoad() {
         try {
             loadEquipmentInfo();
@@ -681,6 +682,12 @@ public class World {
             PresetHandler.defaultKits = PresetData.loadDefaultPresets(new File("data/list/presets.json")).toArray(new PresetData[0]);
         } catch (Throwable t) {
             t.printStackTrace();
+        }
+
+        try {
+            equipmentLoader.loadEquipmentDefinitions(new File("data/def/Stats.json"));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         try {

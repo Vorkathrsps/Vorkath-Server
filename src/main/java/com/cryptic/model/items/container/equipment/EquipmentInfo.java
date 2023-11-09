@@ -37,11 +37,8 @@ public class EquipmentInfo {
     // Stand, turn, walk, turn, sidestep, sidestep, run
     public static final int[] DEFAULT_RENDERPAIR = {808, 823, 819, 820, 821, 822, 824};
     private static final int[] DEFAULT_WEAPON_RENDERPAIR = {809, 823, 819, 820, 821, 822, 824};
-    private static final Bonuses DEFAULT_BONUSES = new Bonuses();
     private final Map<Integer, int[]> renderMap = new LinkedHashMap<>();
-    private static Map<Integer, Bonuses> bonuses = new LinkedHashMap<>();
     private final Map<Integer, WeaponType> weaponTypes = new LinkedHashMap<>();
-    private final Map<Integer, Integer> weaponSpeeds = new LinkedHashMap<>();
     private final Map<Integer, Map<Integer, Integer>> itemRequirements = new LinkedHashMap<>();
     private Map<Integer, EquipmentDefinition> equipmentDefinitions = new LinkedHashMap<>();
 
@@ -51,9 +48,7 @@ public class EquipmentInfo {
         //// 5=shield, 6=full body (no arms), 8/11 = showing/hiding beard, hair
         loadEquipmentDefinitions(equipmentDefinitions);
         loadRenderPairs(renderPairs);
-        loadBonuses(bonuses);
         loadWeaponTypes(weaponTypes);
-        loadWeaponSpeeds(weaponSpeeds);
         loadEquipmentRequirements(new File("data/list/requirements.txt"));
     }
 
@@ -67,23 +62,6 @@ public class EquipmentInfo {
         if (entity instanceof Player player) {
             Item wep = player.getEquipment().get(EquipSlot.WEAPON);
             int wepid = wep != null ? wep.getId() : -1;
-            //if (Equipment.hasAmmyOfDamned(entity.getAsPlayer()) && Equipment.hasVerac(entity.getAsPlayer())) {
-            //  bonuses.pray += 4;
-            //}
-
-            /**
-             * Dihns Bulwark
-             */
-            //  FightStyle style = player.getCombat().getFightType().getStyle();
-            //  FightType type = player.getCombat().getFightType();
-
-            /*if (player.getEquipment().hasAt(EquipSlot.WEAPON, DINHS_BULWARK)) {
-            if (type.equals(FightType.DINHS_PUMMEL)) {
-                    int formula2 = (int) (((bonuses.stabdef + bonuses.slashdef + bonuses.crushdef + bonuses.rangedef) / 12) - 104.66D);
-                    bonuses.str += formula2;
-                   // System.out.println(formula2);
-                }
-            }*/
 
             for (int i = 0; i < 14; i++) {
                 if (i == EquipSlot.AMMO && ignoreAmmo) {
@@ -96,24 +74,22 @@ public class EquipmentInfo {
                         continue;
                     }
 
-                    Bonuses equip = info.bonuses(equipped.getId());
+                    var equipmentBonuses = World.getWorld().getEquipmentLoader().getInfo(equipped.getId()).getEquipment();
+                    bonuses.stab += equipmentBonuses.getAstab();
+                    bonuses.slash += equipmentBonuses.getAslash();
+                    bonuses.crush += equipmentBonuses.getAcrush();
+                    bonuses.range += equipmentBonuses.getArange();
+                    bonuses.mage += equipmentBonuses.getAmagic();
+                    bonuses.stabdef += equipmentBonuses.getDstab();
+                    bonuses.slashdef += equipmentBonuses.getDslash();
+                    bonuses.crushdef += equipmentBonuses.getDcrush();
+                    bonuses.rangedef += equipmentBonuses.getDrange();
+                    bonuses.magedef += equipmentBonuses.getDmagic();
+                    bonuses.str += equipmentBonuses.getStr();
+                    bonuses.rangestr += equipmentBonuses.getRstr();
+                    bonuses.magestr += equipmentBonuses.getMdmg();
+                    bonuses.pray += equipmentBonuses.getPrayer();
 
-                    bonuses.stab += equip.stab;
-                    bonuses.slash += equip.slash;
-                    bonuses.crush += equip.crush;
-                    bonuses.range += equip.range;
-                    bonuses.mage += equip.mage;
-
-                    bonuses.stabdef += equip.stabdef;
-                    bonuses.slashdef += equip.slashdef;
-                    bonuses.crushdef += equip.crushdef;
-                    bonuses.rangedef += equip.rangedef;
-                    bonuses.magedef += equip.magedef;
-
-                    bonuses.str += equip.str;
-                    bonuses.rangestr += equip.rangestr;
-                    bonuses.magestr += equip.magestr;
-                    bonuses.pray += equip.pray;
                 }
             }
         } else {
@@ -134,35 +110,6 @@ public class EquipmentInfo {
             }
         }
 
-        return bonuses;
-    }
-
-    public static Bonuses criticalBonuses(Player player) {
-        EquipmentInfo info = World.getWorld().equipmentInfo();
-        Bonuses bonuses = new Bonuses();
-        for (int i : new int[]{EquipSlot.BODY, EquipSlot.LEGS, EquipSlot.SHIELD, EquipSlot.HEAD}) {
-            Item equipped = player.getEquipment().get(i);
-            if (equipped != null) {
-                Bonuses equip = info.bonuses(equipped.getId());
-
-                bonuses.stab += equip.stab;
-                bonuses.slash += equip.slash;
-                bonuses.crush += equip.crush;
-                bonuses.range += equip.range;
-                bonuses.mage += equip.mage;
-
-                bonuses.stabdef += equip.stabdef;
-                bonuses.slashdef += equip.slashdef;
-                bonuses.crushdef += equip.crushdef;
-                bonuses.rangedef += equip.rangedef;
-                bonuses.magedef += equip.magedef;
-
-                bonuses.str += equip.str;
-                bonuses.rangestr += equip.rangestr;
-                bonuses.magestr += equip.magestr;
-                bonuses.pray += equip.pray;
-            }
-        }
         return bonuses;
     }
 
@@ -218,17 +165,6 @@ public class EquipmentInfo {
         }
     }
 
-    public static void loadBonuses(File file) {
-        try {
-            bonuses = gson.fromJson(new FileReader(file), new TypeToken<HashMap<Integer, Bonuses>>() {
-            }.getType());
-
-            logger.info("Loaded {} equipment bonuses.", bonuses.size());
-        } catch (FileNotFoundException e) {
-            logger.error("Could not load bonuses", e);
-        }
-    }
-
     private void loadWeaponTypes(File file) {
         try (Scanner scanner = new Scanner(file)) {
             int numdef = 0;
@@ -244,24 +180,6 @@ public class EquipmentInfo {
             logger.info("Loaded {} weapon types.", numdef);
         } catch (FileNotFoundException e) {
             logger.error("Could not load weapon types.", e);
-        }
-    }
-
-    private void loadWeaponSpeeds(File file) {
-        try (Scanner scanner = new Scanner(file)) {
-            int numdef = 0;
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                int id = Integer.parseInt(line.split(":")[0]);
-                int type = Integer.parseInt(line.split(":")[1]);
-
-                weaponSpeeds.put(id, type);
-                numdef++;
-            }
-
-            logger.info("Loaded {} weapon speeds.", numdef);
-        } catch (FileNotFoundException e) {
-            logger.error("Could not load weapon speeds.", e);
         }
     }
 
@@ -291,11 +209,10 @@ public class EquipmentInfo {
     }
 
     public int slotFor(int id) {
-        EquipmentDefinition def = equipmentDefinitions.get(id);
+        var def = World.getWorld().getEquipmentLoader().getInfo(id).getEquipment();
         if (def == null)
             return -1;
-
-        return def.slot;
+        return def.getSlot();
     }
 
     public int typeFor(int id) {
@@ -319,14 +236,6 @@ public class EquipmentInfo {
         if (id == -1)
             return DEFAULT_RENDERPAIR;
         return renderMap.getOrDefault(id, DEFAULT_WEAPON_RENDERPAIR);
-    }
-
-    public Bonuses bonuses(int id) {
-        return bonuses.getOrDefault(id, DEFAULT_BONUSES);
-    }
-
-    public int weaponSpeed(int id) {
-        return weaponSpeeds.getOrDefault(id, 4);
     }
 
     public Map<Integer, Integer> requirementsFor(int id) {

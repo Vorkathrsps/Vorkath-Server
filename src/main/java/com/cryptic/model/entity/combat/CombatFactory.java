@@ -1044,7 +1044,7 @@ public class CombatFactory {
 
             Player attackerAsPlayer = attacker.getAsPlayer();
 
-            if (attackerAsPlayer.getEquipment().wearingBeginnerWeapon()) {
+            if (attackerAsPlayer.getEquipment().wearingBeginnerWeapon()) { //TODO re-add
                 var hitsLeft = attackerAsPlayer.<Integer>getAttribOr(STARTER_WEAPON_DAMAGE, 500) - 1;
                 attackerAsPlayer.putAttrib(STARTER_WEAPON_DAMAGE, hitsLeft);
 

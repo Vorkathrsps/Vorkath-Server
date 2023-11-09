@@ -115,6 +115,7 @@ import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.ItemContainer;
 import com.cryptic.model.items.container.bank.Bank;
+import com.cryptic.model.items.container.def.EquipmentLoader;
 import com.cryptic.model.items.container.equipment.Equipment;
 import com.cryptic.model.items.container.equipment.EquipmentInfo;
 import com.cryptic.model.items.container.inventory.Inventory;
@@ -1183,16 +1184,16 @@ public class Player extends Entity {
 
     @Override
     public int getBaseAttackSpeed() {
-
-        // Gets attack speed for player's weapon
-        // If player is using magic, attack speed is
-        // Calculated in the MagicCombatMethod class.
         int speed;
         Item weapon = this.getEquipment().get(EquipSlot.WEAPON);
         if (weapon == null) {
             speed = 4;
         } else {
-            speed = World.getWorld().equipmentInfo().weaponSpeed(weapon.getId());
+            speed = World.getWorld()
+                .getEquipmentLoader()
+                .getInfo(weapon.getId())
+                .getEquipment()
+                .getAspeed();
         }
 
         if (getCombat().getTarget() instanceof NPC && (getEquipment().contains(ItemIdentifiers.TOXIC_BLOWPIPE))) {

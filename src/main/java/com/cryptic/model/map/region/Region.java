@@ -5,9 +5,6 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Boundary;
 import com.cryptic.model.map.position.Tile;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +14,8 @@ import org.apache.logging.log4j.MarkerManager;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Represents a region.
@@ -89,6 +87,25 @@ public class Region {
     @Nullable
     public Tile getTile(int x, int y, final int z, boolean create) {
         return provider.getTile(x, y, z, create, this);
+    }
+
+    public int getId(int regionId) {
+        return this.regionId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Region region = (Region) o;
+        return regionId == region.regionId && terrainFile == region.terrainFile && objectFile == region.objectFile && baseX == region.baseX && baseY == region.baseY && loaded == region.loaded && recentCachedBaseZLevel == region.recentCachedBaseZLevel && Arrays.equals(heightMap, region.heightMap) && npcs.equals(region.npcs) && players.equals(region.players) && bounds.equals(region.bounds) && activeTiles.equals(region.activeTiles) && customZObjectTiles.equals(region.customZObjectTiles) && baseZData.equals(region.baseZData) && recentCachedBaseZData.equals(region.recentCachedBaseZData);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(regionId, terrainFile, objectFile, baseX, baseY, loaded, npcs, players, bounds, activeTiles, customZObjectTiles, baseZData, recentCachedBaseZLevel, recentCachedBaseZData);
+        result = 31 * result + Arrays.hashCode(heightMap);
+        return result;
     }
 
     /**

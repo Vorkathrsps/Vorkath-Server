@@ -19,7 +19,6 @@ import java.nio.file.Files;
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -72,6 +71,8 @@ public class RegionManager {
             int objectFile = stream.getUShort();
             regions.put(regionId, new Region(regionId, terrainFile, objectFile));
         }
+
+        System.out.println("preloaded regions: " + regions.size());
     }
 
     /**
@@ -81,10 +82,9 @@ public class RegionManager {
      * @return
      */
     public static @Nonnull Region getRegion(int regionId) {
-        Region region = regions.get(regionId);
+        var region = regions.get(regionId);
         if (region == null) {
             region = new Region(regionId, -1, -1);
-            logger.debug("Region not found in 317 dump {}", regionId );
             regions.put(regionId, region);
         }
         return region;
@@ -93,7 +93,8 @@ public class RegionManager {
     /**
      * Attempts to get a {@link Region} based on coordinates.
      */
-    public @Nonnull static Region getRegion(int x, int y) {
+    public @Nonnull
+    static Region getRegion(int x, int y) {
         loadMapFiles(x, y);
         int regionX = x >> 3;
         int regionY = y >> 3;
@@ -187,7 +188,8 @@ public class RegionManager {
             }
 
             switch (objectId) {
-                case 1393, 1123, 1391, 29716, 1088, 1015, 1016, 1017, 1018, 307, 356, 357, 358, 1521, 1524 -> objectId = -1;
+                case 1393, 1123, 1391, 29716, 1088, 1015, 1016, 1017, 1018, 307, 356, 357, 358, 1521, 1524 ->
+                    objectId = -1;
             }
         }
 
@@ -201,10 +203,10 @@ public class RegionManager {
         if (objectId == -1) {
             final Tile tile = Tile.get(x, y, zLevel, true);
             //System.out.println("ignoring cache-object on server-side "+ObjectDefinition.forId(oldid).name+" at "+position);
-            new GameObject(oldid, new Tile(x,y,zLevel), type, direction).remove();
+            new GameObject(oldid, new Tile(x, y, zLevel), type, direction).remove();
         } else {
             final Tile tile = Tile.get(x, y, zLevel, true);
-            new GameObject(oldid, new Tile(x,y,zLevel), type, direction).spawn();
+            new GameObject(oldid, new Tile(x, y, zLevel), type, direction).spawn();
         }
     }
 
@@ -493,9 +495,11 @@ public class RegionManager {
             int regionY = y >> 3;
             int regionId = ((regionX / 8) << 8) + (regionY / 8);
             Region r = getRegion(regionId);
+
             if (r.isLoaded() && !force) {
                 return;
             }
+
             r.setLoaded(true);
 
             Stopwatch stopwatch = Stopwatch.createStarted();
@@ -511,7 +515,7 @@ public class RegionManager {
 
             if (gFileData == null) {
                 stopwatch.stop();
-                logger.trace("ungzipped clipmap region {} at {} in {} ns but Disregarding Data!", regionId, Tile.regionToTile(regionId), stopwatch.elapsed().toNanos());
+                //logger.trace("ungzipped clipmap region {} at {} in {} ns but Disregarding Data!", regionId, Tile.regionToTile(regionId), stopwatch.elapsed().toNanos());
                 //System.err.println("missing clipping at region "+regionId);
                 return;
             }
@@ -570,9 +574,11 @@ public class RegionManager {
                         int hash = objectStream.getUByte();
                         int type = hash >> 2;
                         int direction = hash & 0x3;
+
                         if (localX < 0 || localX >= 64 || localY < 0 || localY >= 64) {
                             continue;
                         }
+
                         if ((r.heightMap[1][localX][localY] & 2) == 2) {
                             zLevel--;
                         }
@@ -583,7 +589,7 @@ public class RegionManager {
                     }
                 }
             } else {
-                System.err.println("missing mapobjs at region "+regionId);
+                System.err.println("missing mapobjs at region " + regionId);
             }
             stopwatch.stop();
             if (GameEngine.gameTicksIncrementor > 10) {
@@ -595,7 +601,7 @@ public class RegionManager {
         }
     }
 
-    public static BiFunction<IntOpenHashSet, Integer, ObjectCollection<GameObject>> loadGroupMapFiles = (i, i2) -> ObjectArrayList.of();
+    public static BiFunction<IntOpenHashSet, Integer, ArrayList<GameObject>> loadGroupMapFiles = (i, i2) -> new ArrayList<>();
     public static Function<Area[], IntSet> areasToRegions = areas -> IntSet.of();
 
     public static final class MapDecodeEx extends RuntimeException {

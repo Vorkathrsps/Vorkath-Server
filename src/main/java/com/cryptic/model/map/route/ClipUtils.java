@@ -3,45 +3,44 @@ package com.cryptic.model.map.route;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.region.RegionManager;
 
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 public class ClipUtils {
 
     public static final ClipUtils NONE =
-            new ClipUtils();
+        new ClipUtils();
 
     public static final ClipUtils REGULAR =
-            new ClipUtils() {
-                @Override
-                public int getAbs(int absX, int absY, int z) {
-                    for (var r : RegionManager.regions.int2ObjectEntrySet()) {
-                        if (r.getValue() != null) {
-                            return r.getValue().getClip(absX, absY, z);
-                        }
-                    }
+        new ClipUtils() {
+            @Override
+            public int getAbs(int absX, int absY, int z) {
                     Region region = RegionManager.getRegion(absX, absY);
                     return region.getClip(absX, absY, z);
-                }
-            };
+            }
+        };
 
     public static final ClipUtils FLIGHT =
-            new ClipUtils() {
-                @Override
-                public int getAbs(int absX, int absY, int z) {
-                    Region region = RegionManager.getRegion(absX, absY);
-                    return region.getClip(absX, absY, z);
-                }
-            };
+        new ClipUtils() {
+            @Override
+            public int getAbs(int absX, int absY, int z) {
+                Region region = RegionManager.getRegion(absX, absY);
+                return region.getClip(absX, absY, z);
+            }
+        };
 
     public static final ClipUtils SWIM =
-            new ClipUtils() {
-                @Override
-                public int getAbs(int absX, int absY, int z) {
-                    Region region = RegionManager.getRegion(absX, absY);
-                    int clipping = region.getClip(absX, absY, z);
-                    return (clipping == 0 || (clipping & RouteFinder.UNMOVABLE_MASK) == 0)
-                            ? RouteFinder.UNMOVABLE_MASK
-                            : (clipping & ~RouteFinder.UNMOVABLE_MASK);
-                }
-            };
+        new ClipUtils() {
+            @Override
+            public int getAbs(int absX, int absY, int z) {
+                Region region = RegionManager.getRegion(absX, absY);
+                int clipping = region.getClip(absX, absY, z);
+                return (clipping == 0 || (clipping & RouteFinder.UNMOVABLE_MASK) == 0)
+                    ? RouteFinder.UNMOVABLE_MASK
+                    : (clipping & ~RouteFinder.UNMOVABLE_MASK);
+            }
+        };
 
     public int baseX, baseY, z;
 
@@ -60,14 +59,16 @@ public class ClipUtils {
         return 0;
     }
 
-    /** Clipping */
+    /**
+     * Clipping
+     */
     public static void addClipping(int x, int y, int z, int mask, boolean projectile) {
         if (projectile) RegionManager.addClippingProj(x, y, z, mask);
         else RegionManager.addClipping(x, y, z, mask);
     }
 
     public static void addClipping(
-            int x, int y, int z, int xLength, int yLength, boolean solid, boolean projectile) {
+        int x, int y, int z, int xLength, int yLength, boolean solid, boolean projectile) {
         int mask = 256;
         if (solid) mask |= 0x20000;
         for (int a = x; a < x + xLength; a++) {
@@ -81,7 +82,7 @@ public class ClipUtils {
     }
 
     public static void removeClipping(
-            int x, int y, int z, int xLength, int yLength, boolean solid, boolean projectile) {
+        int x, int y, int z, int xLength, int yLength, boolean solid, boolean projectile) {
         int mask = 256;
         if (solid) mask |= 0x20000;
         for (int a = x; a < x + xLength; a++) {
@@ -90,7 +91,7 @@ public class ClipUtils {
     }
 
     public static void addVariableClipping(
-            int x, int y, int z, int type, int direction, boolean solid, boolean projectile) {
+        int x, int y, int z, int type, int direction, boolean solid, boolean projectile) {
         if (type == 0) {
             if (direction == 0) {
                 addClipping(x, y, z, 128, projectile);
@@ -212,7 +213,7 @@ public class ClipUtils {
     }
 
     public static void removeVariableClipping(
-            int x, int y, int z, int type, int direction, boolean solid, boolean projectile) {
+        int x, int y, int z, int type, int direction, boolean solid, boolean projectile) {
         if (type == 0) {
             if (direction == 0) {
                 removeClipping(x, y, z, 128, projectile);
@@ -333,49 +334,51 @@ public class ClipUtils {
         }
     }
 
-    /** Misc */
+    /**
+     * Misc
+     */
     public boolean method3065(
-            int startX, int startY, int size, int checkX, int checkY, int type, int direction) {
+        int startX, int startY, int size, int checkX, int checkY, int type, int direction) {
         if (1 == size) {
             if (startX == checkX && startY == checkY) return true;
         } else if (checkX >= startX
-                && checkX <= size + startX - 1
-                && checkY >= checkY
-                && checkY <= size + checkY - 1) return true;
+            && checkX <= size + startX - 1
+            && checkY >= checkY
+            && checkY <= size + checkY - 1) return true;
         if (size == 1) {
             if (type == 0) {
                 if (direction == 0) {
                     if (checkX - 1 == startX && startY == checkY) return true;
                     if (startX == checkX
-                            && 1 + checkY == startY
-                            && 0 == (get(startX, startY) & RouteFinder.NORTH_MASK)) return true;
+                        && 1 + checkY == startY
+                        && 0 == (get(startX, startY) & RouteFinder.NORTH_MASK)) return true;
                     if (startX == checkX
-                            && checkY - 1 == startY
-                            && 0 == (get(startX, startY) & RouteFinder.SOUTH_MASK)) return true;
+                        && checkY - 1 == startY
+                        && 0 == (get(startX, startY) & RouteFinder.SOUTH_MASK)) return true;
                 } else if (direction == 1) {
                     if (checkX == startX && 1 + checkY == startY) return true;
                     if (checkX - 1 == startX
-                            && checkY == startY
-                            && (get(startX, startY) & RouteFinder.WEST_MASK) == 0) return true;
+                        && checkY == startY
+                        && (get(startX, startY) & RouteFinder.WEST_MASK) == 0) return true;
                     if (checkX + 1 == startX
-                            && startY == checkY
-                            && 0 == (get(startX, startY) & RouteFinder.EAST_MASK)) return true;
+                        && startY == checkY
+                        && 0 == (get(startX, startY) & RouteFinder.EAST_MASK)) return true;
                 } else if (direction == 2) {
                     if (startX == checkX + 1 && checkY == startY) return true;
                     if (checkX == startX
-                            && 1 + checkY == startY
-                            && 0 == (get(startX, startY) & RouteFinder.NORTH_MASK)) return true;
+                        && 1 + checkY == startY
+                        && 0 == (get(startX, startY) & RouteFinder.NORTH_MASK)) return true;
                     if (checkX == startX
-                            && checkY - 1 == startY
-                            && (get(startX, startY) & RouteFinder.SOUTH_MASK) == 0) return true;
+                        && checkY - 1 == startY
+                        && (get(startX, startY) & RouteFinder.SOUTH_MASK) == 0) return true;
                 } else if (3 == direction) {
                     if (startX == checkX && startY == checkY - 1) return true;
                     if (startX == checkX - 1
-                            && checkY == startY
-                            && (get(startX, startY) & RouteFinder.WEST_MASK) == 0) return true;
+                        && checkY == startY
+                        && (get(startX, startY) & RouteFinder.WEST_MASK) == 0) return true;
                     if (startX == 1 + checkX
-                            && startY == checkY
-                            && (get(startX, startY) & RouteFinder.EAST_MASK) == 0) return true;
+                        && startY == checkY
+                        && (get(startX, startY) & RouteFinder.EAST_MASK) == 0) return true;
                 }
             }
             if (2 == type) {
@@ -383,37 +386,37 @@ public class ClipUtils {
                     if (startX == checkX - 1 && checkY == startY) return true;
                     if (checkX == startX && startY == 1 + checkY) return true;
                     if (checkX + 1 == startX
-                            && checkY == startY
-                            && (get(startX, startY) & RouteFinder.EAST_MASK) == 0) return true;
+                        && checkY == startY
+                        && (get(startX, startY) & RouteFinder.EAST_MASK) == 0) return true;
                     if (startX == checkX
-                            && startY == checkY - 1
-                            && 0 == (get(startX, startY) & RouteFinder.SOUTH_MASK)) return true;
+                        && startY == checkY - 1
+                        && 0 == (get(startX, startY) & RouteFinder.SOUTH_MASK)) return true;
                 } else if (1 == direction) {
                     if (checkX - 1 == startX
-                            && startY == checkY
-                            && 0 == (get(startX, startY) & RouteFinder.WEST_MASK)) return true;
+                        && startY == checkY
+                        && 0 == (get(startX, startY) & RouteFinder.WEST_MASK)) return true;
                     if (startX == checkX && 1 + checkY == startY) return true;
                     if (startX == checkX + 1 && checkY == startY) return true;
                     if (checkX == startX
-                            && startY == checkY - 1
-                            && (get(startX, startY) & RouteFinder.SOUTH_MASK) == 0) return true;
+                        && startY == checkY - 1
+                        && (get(startX, startY) & RouteFinder.SOUTH_MASK) == 0) return true;
                 } else if (direction == 2) {
                     if (checkX - 1 == startX
-                            && checkY == startY
-                            && (get(startX, startY) & RouteFinder.WEST_MASK) == 0) return true;
+                        && checkY == startY
+                        && (get(startX, startY) & RouteFinder.WEST_MASK) == 0) return true;
                     if (startX == checkX
-                            && startY == 1 + checkY
-                            && 0 == (get(startX, startY) & RouteFinder.NORTH_MASK)) return true;
+                        && startY == 1 + checkY
+                        && 0 == (get(startX, startY) & RouteFinder.NORTH_MASK)) return true;
                     if (startX == 1 + checkX && startY == checkY) return true;
                     if (checkX == startX && startY == checkY - 1) return true;
                 } else if (direction == 3) {
                     if (startX == checkX - 1 && checkY == startY) return true;
                     if (startX == checkX
-                            && 1 + checkY == startY
-                            && (get(startX, startY) & RouteFinder.NORTH_MASK) == 0) return true;
+                        && 1 + checkY == startY
+                        && (get(startX, startY) & RouteFinder.NORTH_MASK) == 0) return true;
                     if (1 + checkX == startX
-                            && checkY == startY
-                            && (get(startX, startY) & RouteFinder.EAST_MASK) == 0) return true;
+                        && checkY == startY
+                        && (get(startX, startY) & RouteFinder.EAST_MASK) == 0) return true;
                     if (startX == checkX && startY == checkY - 1) return true;
                 }
             }
@@ -434,43 +437,43 @@ public class ClipUtils {
                 if (0 == direction) {
                     if (startX == checkX - size && checkY >= startY && checkY <= i_45_) return true;
                     if (checkX >= startX
-                            && checkX <= i_44_
-                            && startY == 1 + checkY
-                            && ((get(checkX, startY) & RouteFinder.NORTH_MASK) == 0)) return true;
+                        && checkX <= i_44_
+                        && startY == 1 + checkY
+                        && ((get(checkX, startY) & RouteFinder.NORTH_MASK) == 0)) return true;
                     if (checkX >= startX
-                            && checkX <= i_44_
-                            && startY == checkY - size
-                            && ((get(checkX, i_45_) & RouteFinder.SOUTH_MASK) == 0)) return true;
+                        && checkX <= i_44_
+                        && startY == checkY - size
+                        && ((get(checkX, i_45_) & RouteFinder.SOUTH_MASK) == 0)) return true;
                 } else if (1 == direction) {
                     if (checkX >= startX && checkX <= i_44_ && startY == 1 + checkY) return true;
                     if (startX == checkX - size
-                            && checkY >= startY
-                            && checkY <= i_45_
-                            && ((get(i_44_, checkY) & RouteFinder.WEST_MASK) == 0)) return true;
+                        && checkY >= startY
+                        && checkY <= i_45_
+                        && ((get(i_44_, checkY) & RouteFinder.WEST_MASK) == 0)) return true;
                     if (startX == 1 + checkX
-                            && checkY >= startY
-                            && checkY <= i_45_
-                            && (get(startX, checkY) & RouteFinder.EAST_MASK) == 0) return true;
+                        && checkY >= startY
+                        && checkY <= i_45_
+                        && (get(startX, checkY) & RouteFinder.EAST_MASK) == 0) return true;
                 } else if (2 == direction) {
                     if (1 + checkX == startX && checkY >= startY && checkY <= i_45_) return true;
                     if (checkX >= startX
-                            && checkX <= i_44_
-                            && startY == checkY + 1
-                            && 0 == (get(checkX, startY) & RouteFinder.NORTH_MASK)) return true;
+                        && checkX <= i_44_
+                        && startY == checkY + 1
+                        && 0 == (get(checkX, startY) & RouteFinder.NORTH_MASK)) return true;
                     if (checkX >= startX
-                            && checkX <= i_44_
-                            && checkY - size == startY
-                            && 0 == (get(checkX, i_45_) & RouteFinder.SOUTH_MASK)) return true;
+                        && checkX <= i_44_
+                        && checkY - size == startY
+                        && 0 == (get(checkX, i_45_) & RouteFinder.SOUTH_MASK)) return true;
                 } else if (direction == 3) {
                     if (checkX >= startX && checkX <= i_44_ && startY == checkY - size) return true;
                     if (startX == checkX - size
-                            && checkY >= startY
-                            && checkY <= i_45_
-                            && 0 == (get(i_44_, checkY) & RouteFinder.WEST_MASK)) return true;
+                        && checkY >= startY
+                        && checkY <= i_45_
+                        && 0 == (get(i_44_, checkY) & RouteFinder.WEST_MASK)) return true;
                     if (startX == checkX + 1
-                            && checkY >= startY
-                            && checkY <= i_45_
-                            && 0 == (get(startX, checkY) & RouteFinder.EAST_MASK)) return true;
+                        && checkY >= startY
+                        && checkY <= i_45_
+                        && 0 == (get(startX, checkY) & RouteFinder.EAST_MASK)) return true;
                 }
             }
             if (2 == type) {
@@ -478,79 +481,79 @@ public class ClipUtils {
                     if (startX == checkX - size && checkY >= startY && checkY <= i_45_) return true;
                     if (checkX >= startX && checkX <= i_44_ && 1 + checkY == startY) return true;
                     if (1 + checkX == startX
-                            && checkY >= startY
-                            && checkY <= i_45_
-                            && 0 == (get(startX, checkY) & RouteFinder.EAST_MASK)) return true;
+                        && checkY >= startY
+                        && checkY <= i_45_
+                        && 0 == (get(startX, checkY) & RouteFinder.EAST_MASK)) return true;
                     if (checkX >= startX
-                            && checkX <= i_44_
-                            && checkY - size == startY
-                            && ((get(checkX, i_45_) & RouteFinder.SOUTH_MASK) == 0)) return true;
+                        && checkX <= i_44_
+                        && checkY - size == startY
+                        && ((get(checkX, i_45_) & RouteFinder.SOUTH_MASK) == 0)) return true;
                 } else if (1 == direction) {
                     if (startX == checkX - size
-                            && checkY >= startY
-                            && checkY <= i_45_
-                            && 0 == (get(i_44_, checkY) & RouteFinder.WEST_MASK)) return true;
+                        && checkY >= startY
+                        && checkY <= i_45_
+                        && 0 == (get(i_44_, checkY) & RouteFinder.WEST_MASK)) return true;
                     if (checkX >= startX && checkX <= i_44_ && startY == checkY + 1) return true;
                     if (startX == checkX + 1 && checkY >= startY && checkY <= i_45_) return true;
                     if (checkX >= startX
-                            && checkX <= i_44_
-                            && startY == checkY - size
-                            && ((get(checkX, i_45_) & RouteFinder.SOUTH_MASK) == 0)) return true;
+                        && checkX <= i_44_
+                        && startY == checkY - size
+                        && ((get(checkX, i_45_) & RouteFinder.SOUTH_MASK) == 0)) return true;
                 } else if (direction == 2) {
                     if (startX == checkX - size
-                            && checkY >= startY
-                            && checkY <= i_45_
-                            && ((get(i_44_, checkY) & RouteFinder.WEST_MASK) == 0)) return true;
+                        && checkY >= startY
+                        && checkY <= i_45_
+                        && ((get(i_44_, checkY) & RouteFinder.WEST_MASK) == 0)) return true;
                     if (checkX >= startX
-                            && checkX <= i_44_
-                            && startY == checkY + 1
-                            && 0 == (get(checkX, startY) & RouteFinder.NORTH_MASK)) return true;
+                        && checkX <= i_44_
+                        && startY == checkY + 1
+                        && 0 == (get(checkX, startY) & RouteFinder.NORTH_MASK)) return true;
                     if (startX == 1 + checkX && checkY >= startY && checkY <= i_45_) return true;
                     if (checkX >= startX && checkX <= i_44_ && startY == checkY - size) return true;
                 } else if (3 == direction) {
                     if (checkX - size == startX && checkY >= startY && checkY <= i_45_) return true;
                     if (checkX >= startX
-                            && checkX <= i_44_
-                            && checkY + 1 == startY
-                            && 0 == (get(checkX, startY) & RouteFinder.NORTH_MASK)) return true;
+                        && checkX <= i_44_
+                        && checkY + 1 == startY
+                        && 0 == (get(checkX, startY) & RouteFinder.NORTH_MASK)) return true;
                     if (startX == checkX + 1
-                            && checkY >= startY
-                            && checkY <= i_45_
-                            && 0 == (get(startX, checkY) & RouteFinder.EAST_MASK)) return true;
+                        && checkY >= startY
+                        && checkY <= i_45_
+                        && 0 == (get(startX, checkY) & RouteFinder.EAST_MASK)) return true;
                     if (checkX >= startX && checkX <= i_44_ && startY == checkY - size) return true;
                 }
             }
             if (9 == type) {
                 if (checkX >= startX
-                        && checkX <= i_44_
-                        && startY == checkY + 1
-                        && (get(checkX, startY) & RouteFinder.NORTH_MASK) == 0) return true;
+                    && checkX <= i_44_
+                    && startY == checkY + 1
+                    && (get(checkX, startY) & RouteFinder.NORTH_MASK) == 0) return true;
                 if (checkX >= startX
-                        && checkX <= i_44_
-                        && checkY - size == startY
-                        && 0 == (get(checkX, i_45_) & RouteFinder.SOUTH_MASK)) return true;
+                    && checkX <= i_44_
+                    && checkY - size == startY
+                    && 0 == (get(checkX, i_45_) & RouteFinder.SOUTH_MASK)) return true;
                 if (checkX - size == startX
-                        && checkY >= startY
-                        && checkY <= i_45_
-                        && (get(i_44_, checkY) & RouteFinder.WEST_MASK) == 0) return true;
+                    && checkY >= startY
+                    && checkY <= i_45_
+                    && (get(i_44_, checkY) & RouteFinder.WEST_MASK) == 0) return true;
                 if (1 + checkX == startX
-                        && checkY >= startY
-                        && checkY <= i_45_
-                        && (get(startX, checkY) & RouteFinder.EAST_MASK) == 0) return true;
+                    && checkY >= startY
+                    && checkY <= i_45_
+                    && (get(startX, checkY) & RouteFinder.EAST_MASK) == 0) return true;
             }
         }
         return false;
     }
 
     public boolean method3066(
-            int x,
-            int y,
-            int size,
-            int destX,
-            int destY,
-            int xLength,
-            int yLength,
-            int objectDirectionClip) {
+        int x,
+        int y,
+        int size,
+        int destX,
+        int destY,
+        int xLength,
+        int yLength,
+        int objectDirectionClip) {
         if (size > 1) {
             if (withDistance(x, y, destX, destY, size, size, xLength, yLength)) return true;
             return canStep(x, y, size, size, destX, destY, xLength, yLength, objectDirectionClip);
@@ -559,38 +562,38 @@ public class ClipUtils {
         int yAndLength = destY + yLength - 1;
         if (x >= destX && x <= xAndLength && y >= destY && y <= yAndLength) return true;
         if (x == destX - 1
-                && y >= destY
-                && y <= yAndLength
-                && ((get(x, y)) & 0x8) == 0
-                && 0 == (objectDirectionClip & 0x8)) return true;
+            && y >= destY
+            && y <= yAndLength
+            && ((get(x, y)) & 0x8) == 0
+            && 0 == (objectDirectionClip & 0x8)) return true;
         if (xAndLength + 1 == x
-                && y >= destY
-                && y <= yAndLength
-                && ((get(x, y)) & 0x80) == 0
-                && (objectDirectionClip & 0x2) == 0) return true;
+            && y >= destY
+            && y <= yAndLength
+            && ((get(x, y)) & 0x80) == 0
+            && (objectDirectionClip & 0x2) == 0) return true;
         if (destY - 1 == y
-                && x >= destX
-                && x <= xAndLength
-                && 0 == ((get(x, y)) & 0x2)
-                && (objectDirectionClip & 0x4) == 0) return true;
+            && x >= destX
+            && x <= xAndLength
+            && 0 == ((get(x, y)) & 0x2)
+            && (objectDirectionClip & 0x4) == 0) return true;
         if (y == 1 + yAndLength
-                && x >= destX
-                && x <= xAndLength
-                && 0 == ((get(x, y)) & 0x20)
-                && (objectDirectionClip & 0x1) == 0) return true;
+            && x >= destX
+            && x <= xAndLength
+            && 0 == ((get(x, y)) & 0x20)
+            && (objectDirectionClip & 0x1) == 0) return true;
         return false;
     }
 
     public boolean canStep(
-            int checkX,
-            int checkY,
-            int xLength,
-            int yLength,
-            int startX,
-            int startY,
-            int i_65_,
-            int i_66_,
-            int objectDirectionClip) {
+        int checkX,
+        int checkY,
+        int xLength,
+        int yLength,
+        int startX,
+        int startY,
+        int i_65_,
+        int i_66_,
+        int objectDirectionClip) {
         int i_69_ = checkX + xLength;
         int i_70_ = yLength + checkY;
         int i_71_ = startX + i_65_;
@@ -620,14 +623,14 @@ public class ClipUtils {
     }
 
     public static boolean withDistance(
-            int fromMapX,
-            int fromMapY,
-            int toMapX,
-            int toMapY,
-            int fromSizeX,
-            int fromSizeY,
-            int targetSizeX,
-            int targetSizeY) {
+        int fromMapX,
+        int fromMapY,
+        int toMapX,
+        int toMapY,
+        int fromSizeX,
+        int fromSizeY,
+        int targetSizeX,
+        int targetSizeY) {
         if (fromMapX >= toMapX + targetSizeX || toMapX >= fromSizeX + fromMapX) return false;
         if (fromMapY >= toMapY + targetSizeY || toMapY >= fromSizeY + fromMapY) return false;
         return true;

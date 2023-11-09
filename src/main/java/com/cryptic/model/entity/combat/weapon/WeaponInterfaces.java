@@ -50,9 +50,7 @@ public class WeaponInterfaces {
 
         //Set the tab and send the string
         player.getInterfaceManager().setSidebar(0, weaponType.getInterfaceId());
-        player.getPacketSender().sendString(weaponType.getNameLineId(), (weaponType == WeaponType.UNARMED ? "Unarmed" : equippedWeapon.name()));
-
-        //player.getPacketSender().sendString(24776, "Category: " + def.category);
+        player.getPacketSender().sendString(weaponType.getNameLineId(), (weaponType == WeaponType.UNARMED ? "Unarmed" : World.getWorld().getEquipmentLoader().getInfo(def.id).getName()));
 
         switch (weaponType) {
             case UNARMED -> player.getPacketSender().sendString(24776, "Category: " + def.getWeaponCategory(weaponType));

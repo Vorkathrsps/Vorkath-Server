@@ -39,8 +39,8 @@ public class TzHaarCityPlugin extends PacketInteraction {
 
     @Override
     public boolean handleObjectInteraction(Player player, GameObject object, int type) {
-        if (object.getId() == 11833) { //Fight caves entrance
-            MinigameManager.playMinigame(player, new FightCavesMinigame(63));
+        if (object.getId() == 11833) { //Fight caves entrance\
+            new FightCavesInstance(player).build();
             return true;
         } else if (object.getId() == 11834) { //Fight caves leaving
             if(player.getMinigame() != null) {

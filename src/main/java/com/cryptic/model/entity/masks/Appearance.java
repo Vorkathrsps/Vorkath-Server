@@ -124,6 +124,7 @@ public class Appearance {
                 case 5 -> 6;
                 default -> target.getSkullType().getCode();
             };
+            
             packetBuilder.put(skullType);
 
             packetBuilder.put(0);

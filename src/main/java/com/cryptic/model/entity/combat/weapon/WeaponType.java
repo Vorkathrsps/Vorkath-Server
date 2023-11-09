@@ -15,11 +15,8 @@ public enum WeaponType {
     THROWN(4446,4449, new FightType[]{FightType.THROWING_ACCURATE, FightType.THROWING_RAPID, FightType.THROWING_LONGRANGE}, 7649, 7661),
     CHINCHOMPA(24899,428, new FightType[]{FightType.SHORT_FUSE, FightType.MEDIUM_FUSE, FightType.LONG_FUSE}),
     SALAMANDER(22899, 428, new FightType[]{FightType.SALAMANDER_SCORCH, FightType.SALAMANDER_FLARE, FightType.SALAMANDER_BLAZE}),
-
-
     //Magic
     MAGIC_STAFF(328, 355, new FightType[]{FightType.STAFF_BASH, FightType.STAFF_POUND, FightType.STAFF_FOCUS}, 7474, 7486),
-    BLADED_STAFF(328, 355, new FightType[]{FightType.STAFF_BASH, FightType.STAFF_POUND, FightType.STAFF_FOCUS}, 7474, 7486),
     //Melee
     UNARMED(5855, 5857, new FightType[]{FightType.UNARMED_PUNCH, FightType.UNARMED_KICK, FightType.UNARMED_BLOCK}),
     FIXED_DEVICE(-1, -1, new FightType[]{}),//TODO
@@ -29,7 +26,6 @@ public enum WeaponType {
     DAGGER(2276, 2279, new FightType[]{FightType.DAGGER_STAB, FightType.DAGGER_LUNGE, FightType.DAGGER_SLASH, FightType.DAGGER_BLOCK}, 7574, 7586),
     SWORD(2276, 2279, new FightType[]{FightType.SWORD_STAB, FightType.SWORD_LUNGE, FightType.SWORD_SLASH, FightType.SWORD_BLOCK}, 7574, 7586),
     LONGSWORD(2423, 2426, new FightType[]{FightType.LONGSWORD_CHOP, FightType.LONGSWORD_SLASH, FightType.LONGSWORD_LUNGE, FightType.LONGSWORD_BLOCK}, 7599, 7611),
-    STABSWORD(2423, 2426, new FightType[]{FightType.LONGSWORD_CHOP, FightType.LONGSWORD_SLASH, FightType.LONGSWORD_LUNGE, FightType.LONGSWORD_BLOCK}, 7599, 7611),
 
     MACE(3796, 3799, new FightType[]{FightType.MACE_POUND, FightType.MACE_PUMMEL, FightType.MACE_SPIKE, FightType.MACE_BLOCK}, 7624, 7636),
     SPEAR(4679, 4682, new FightType[]{FightType.SPEAR_LUNGE, FightType.SPEAR_SWIPE, FightType.SPEAR_POUND, FightType.SPEAR_BLOCK}, 7674, 7686),
@@ -41,6 +37,8 @@ public enum WeaponType {
     DINHS_BULWARK(11799, 428, new FightType[]{FightType.DINHS_PUMMEL, FightType.DINHS_BLOCK}, 7474, 7486),
     GHRAZI_RAPIER(2276, 2279, new FightType[]{FightType.RAPIER_STAB, FightType.RAPIER_LUNGE, FightType.RAPIER_SLASH, FightType.RAPIER_BLOCK}, 7574, 7586),
     POWERED_STAFF(24496, 24497, new FightType[]{FightType.POWERED_STAFF_ACCURATE_1, FightType.POWERED_STAFF_ACCURATE_2, FightType.POWERED_STAFF_LONGRANGE}),
+    BLADED_STAFF(328, 355, new FightType[]{FightType.STAFF_BASH, FightType.STAFF_POUND, FightType.STAFF_FOCUS}, 7474, 7486),
+    STABSWORD(2423, 2426, new FightType[]{FightType.LONGSWORD_CHOP, FightType.LONGSWORD_SLASH, FightType.LONGSWORD_LUNGE, FightType.LONGSWORD_BLOCK}, 7599, 7611),
     MJOLNIR(-1, -1, new FightType[]{});
 
     /**

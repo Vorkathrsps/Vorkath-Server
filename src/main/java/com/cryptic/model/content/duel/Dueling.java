@@ -915,7 +915,7 @@ public class Dueling {
 
         if (rules[DuelRule.NO_WEAPON.ordinal()] || rules[DuelRule.NO_SHIELD.ordinal()]) {
             if (player.getEquipment().get(EquipSlot.WEAPON) != null && player.getEquipment().get(EquipSlot.WEAPON).getId() > 0) {
-                if (player.getEquipment().get(EquipSlot.WEAPON).isTwoHanded()) {
+                if (player.getEquipment().get(EquipSlot.WEAPON).isTwoHanded(player.getEquipment().get(EquipSlot.WEAPON).getId())) {
                     Item item = new Item(player.getEquipment().get(EquipSlot.WEAPON).getId(), player.getEquipment().get(EquipSlot.WEAPON).getAmount());
                     player.getEquipment().remove(item);
                     player.inventory().addOrBank(item);

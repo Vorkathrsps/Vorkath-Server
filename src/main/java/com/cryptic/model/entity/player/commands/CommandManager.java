@@ -18,15 +18,11 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.KrakenInstance;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.KrakenState;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.Direction;
-import com.cryptic.model.entity.masks.Projectile;
-import com.cryptic.model.entity.npc.HealthHud;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.ScalarLootTable;
 import com.cryptic.model.entity.player.InputScript;
@@ -43,12 +39,12 @@ import com.cryptic.model.entity.player.commands.impl.staff.moderator.VanishComma
 import com.cryptic.model.entity.player.commands.impl.staff.server_support.StaffZoneCommand;
 import com.cryptic.model.entity.player.commands.impl.super_member.YellColourCommand;
 import com.cryptic.model.items.Item;
+import com.cryptic.model.items.container.def.EquipmentLoader;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.object.MapObjects;
 import com.cryptic.model.map.position.Area;
-import com.cryptic.model.map.position.Boundary;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.region.RegionManager;
@@ -56,7 +52,6 @@ import com.cryptic.utility.Debugs;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.Varbit;
 import com.cryptic.utility.chainedwork.Chain;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -681,6 +676,9 @@ public class CommandManager {
          //  var instance = new KrakenInstance(p, KrakenState.ALIVE);
          //  p.setKrakenInstance(instance);
          //  instance.build();
+
+            EquipmentLoader equipmentLoader = new EquipmentLoader();
+            System.out.println(equipmentLoader.getInfo(4151).getEquipment().getStr());
         });
 
         dev("ioi", (p, c, s) -> {

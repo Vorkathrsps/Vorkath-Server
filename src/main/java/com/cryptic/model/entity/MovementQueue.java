@@ -247,9 +247,6 @@ public class MovementQueue {
 
     public boolean canWalk(int deltaX, int deltaY) {
         if (!canMove()) {
-            if (entity.isNpc(8374)) {
-                System.out.println("aslkdjf");
-            }
             return false;
         }
         final Tile to = new Tile(entity.tile().getX() + deltaX,

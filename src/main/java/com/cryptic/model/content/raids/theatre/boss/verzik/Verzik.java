@@ -253,6 +253,8 @@ public class Verzik extends NPC {
     }
 
     public void sendToxicBlast(Player player) {
+        boolean lineOfSight = ProjectileRoute.hasLineOfSight(this, player.tile());
+        if (!lineOfSight) return;
         if (!this.getPhase().equals(VerzikPhase.TWO)) return;
         var tileDist = this.tile().distance(player.getCentrePosition());
         int duration = 21 + 39 + (tileDist);

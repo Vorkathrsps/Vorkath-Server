@@ -495,6 +495,18 @@ public class ItemDefinition implements Definition {
         }
     }
 
+    public int getWearPos1() {
+        return wearPos1;
+    }
+
+    public int getWearPos2() {
+        return wearPos2;
+    }
+
+    public int getWearPos3() {
+        return wearPos3;
+    }
+
     public int highAlchValue() {
         if (cost <= 0)
             return 0;

@@ -5,12 +5,12 @@ import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
+
+import java.util.*;
 
 public class Dev {
     private static final Logger logger = LogManager.getLogger("RegionManager");
@@ -23,33 +23,24 @@ public class Dev {
             return regions;
         };
         RegionManager.loadGroupMapFiles = (regions, customZ) -> {
-            var objects = new Int2ObjectOpenHashMap<ObjectArrayList<GameObject>>();
-            final int[] objCount = {0};
+            var objects = new Int2ObjectOpenHashMap<ArrayList<GameObject>>();
             for (int regionId : regions) {
-                var r = RegionManager.getRegion(regionId);
-                ObjectArrayList<GameObject> objList = objects.compute(regionId, (k, v) -> {
-                    if (v == null) v = new ObjectArrayList<>();
-                    return v;
-                });
+                var region = RegionManager.getRegion(regionId);
+                var objectList = objects.computeIfAbsent(regionId, k -> new ArrayList<>());
                 long start = System.currentTimeMillis();
-                RegionManager.loadMapFiles(r.baseX, r.baseY, true, (objectId, x, y, z, type, direction, r1) -> {
-                    var newObj = new GameObject(objectId, new Tile(x, y, customZ + z), type, direction);
-                    objList.add(newObj);
-                    objCount[0]++;
-                    var newTile = r.getTile(newObj.x, newObj.y, newObj.z, true);
-                    assert newTile != null;
-                    newTile.addObject(newObj);
-                    newObj.setTile(newTile);
+                RegionManager.loadMapFiles(region.baseX, region.baseY, true, (objectId, x, y, z, type, direction, r1) -> {
+                    var object = new GameObject(objectId, new Tile(x, y, customZ + z), type, direction);
+                    objectList.add(object);
+                    var customZTile = region.getTile(object.x, object.y, object.z, true);
+                    assert customZTile != null;
+                    customZTile.addObject(object);
+                    object.setTile(customZTile);
                 }, (x, y, z, r1) -> r1.addClip(x, y, customZ + z, 0x200000));
-                logger.info("load {} {} {} in {}ms", r.baseX, r.baseY, regionId, System.currentTimeMillis() - start);
+                logger.info("Region Data Loaded: [Objects Loaded: {}] [Region BaseX: {}] [Region BaseY: {}] [Region ID: {}] in [Time: {} MS]", objectList.size(), region.baseX, region.baseY, regionId, System.currentTimeMillis() - start);
             }
-            if (objCount[0] == 0)
-                return ObjectArrayList.of();
-            return objects.int2ObjectEntrySet().stream().flatMap(entry -> entry.getValue().stream()).collect(ObjectArrayList::new, ObjectArrayList::add, ObjectArrayList::addAll);
+            return objects.int2ObjectEntrySet().fastIterator().next().getValue().stream().collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
         };
-
         Region.provider = new Region.RegionProvider() {
-
             @Override
             public Tile getTile(int x, int y, final int z, boolean create, Region r) {
                 int localX = x - r.baseX;
@@ -200,13 +191,8 @@ public class Dev {
                     RegionZData data = r.recentCachedBaseZData;
                     if (r.recentCachedBaseZLevel != baseZ || data == null) {
                         r.recentCachedBaseZLevel = baseZ;
-                        r.recentCachedBaseZData = data = r.customZObjectTiles.compute(baseZ, (k, v) -> {
-                            if (v == null) {
-                                v = new RegionZData();
-                            }
-                            return v;
-                        });
-                        //logger.info("compute z:{} to base:{} z:{}, data:{}", height, baseZ, realLvl, data);
+                        r.recentCachedBaseZData = data = r.customZObjectTiles.computeIfAbsent(baseZ, k -> new RegionZData());
+                        logger.info("compute z:{} to base:{} z:{}, data:{}", height, baseZ, realLvl, data);
                     }
                     // logger.info("addClip z:{} to base:{} z:{} cachedZ:{} found:{}", height, baseZ, realLvl, r.recentCachedBaseZLevel, data);
                     if (data.clips[realLvl] == null) {
@@ -219,12 +205,6 @@ public class Dev {
                     r.baseZData.clips[height] = new int[64][64];
                 }
                 // assuming xy is abs xy
-        /*if (x >= 2944 && x<= 3330 && y >= 3521 && y <= 3522) {
-            //System.out.println("clip change "+x+", "+y+", "+height+" by "+shift);
-            if (shift == 262144 || shift == 256) {
-                return; // fuck wildy ditch
-            }
-        }*/
                 r.baseZData.clips[height][x - regionAbsX][y - regionAbsY] |= shift;
             }
 
@@ -247,12 +227,7 @@ public class Dev {
                     RegionZData data = r.recentCachedBaseZData;
                     if (r.recentCachedBaseZLevel != baseZ || data == null) {
                         r.recentCachedBaseZLevel = baseZ;
-                        r.recentCachedBaseZData = data = r.customZObjectTiles.compute(baseZ, (k, v) -> {
-                            if (v == null) {
-                                v = new RegionZData();
-                            }
-                            return v;
-                        });
+                        r.recentCachedBaseZData = data = r.customZObjectTiles.computeIfAbsent(baseZ, k -> new RegionZData());
                     }
                     if (data.projectileClip[realLvl] == null) {
                         data.projectileClip[realLvl] = new int[64][64];
@@ -285,12 +260,7 @@ public class Dev {
                     RegionZData data = r.recentCachedBaseZData;
                     if (r.recentCachedBaseZLevel != baseZ) {
                         r.recentCachedBaseZLevel = baseZ;
-                        r.recentCachedBaseZData = data = r.customZObjectTiles.compute(baseZ, (k, v) -> {
-                            if (v == null) {
-                                v = new RegionZData();
-                            }
-                            return v;
-                        });
+                        r.recentCachedBaseZData = data = r.customZObjectTiles.computeIfAbsent(baseZ, k -> new RegionZData());
                     }
                     if (data.clips[realLvl] == null) {
                         data.clips[realLvl] = new int[64][64];
@@ -323,12 +293,7 @@ public class Dev {
                     RegionZData data = r.recentCachedBaseZData;
                     if (r.recentCachedBaseZLevel != baseZ) {
                         r.recentCachedBaseZLevel = baseZ;
-                        r.recentCachedBaseZData = data = r.customZObjectTiles.compute(baseZ, (k, v) -> {
-                            if (v == null) {
-                                v = new RegionZData();
-                            }
-                            return v;
-                        });
+                        r.recentCachedBaseZData = data = r.customZObjectTiles.computeIfAbsent(baseZ, k -> new RegionZData());
                     }
                     if (data.projectileClip[realLvl] == null) {
                         data.projectileClip[realLvl] = new int[64][64];
@@ -357,12 +322,7 @@ public class Dev {
                     RegionZData data = r.recentCachedBaseZData;
                     if (r.recentCachedBaseZLevel != baseZ) {
                         r.recentCachedBaseZLevel = baseZ;
-                        r.recentCachedBaseZData = data = r.customZObjectTiles.compute(baseZ, (k, v) -> {
-                            if (v == null) {
-                                v = new RegionZData();
-                            }
-                            return v;
-                        });
+                        r.recentCachedBaseZData = data = r.customZObjectTiles.computeIfAbsent(baseZ, k -> new RegionZData());
                     }
                     if (data.clips[realLvl] == null) {
                         data.clips[realLvl] = new int[64][64];

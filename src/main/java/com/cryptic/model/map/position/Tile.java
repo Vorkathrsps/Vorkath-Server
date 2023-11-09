@@ -48,7 +48,7 @@ public class Tile implements Cloneable {
             for (GameObject object : Lists.newArrayList(gameObjects)) {
                 if ((object.getType() == 10 && gameObject.getType() == 10) ||
                     (object.getType() == 4 && gameObject.getType() == 4 && object.getRotation() == gameObject.getRotation())) {
-                    log.trace("replacing a matching object-type {} with {}", object, gameObject);
+                    //log.trace("replacing a matching object-type {} with {}", object, gameObject);
                     removeObject(object);
                 }
             }

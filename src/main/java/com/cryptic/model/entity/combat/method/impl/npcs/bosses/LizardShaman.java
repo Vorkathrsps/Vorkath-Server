@@ -11,11 +11,13 @@ import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.route.routes.DumbRoute;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 import com.cryptic.utility.timers.TimerKey;
 
 import java.security.SecureRandom;
+import java.util.function.BooleanSupplier;
 
 public class LizardShaman extends CommonCombatMethod {
 
@@ -23,6 +25,7 @@ public class LizardShaman extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         var random = new SecureRandom().nextInt(5);
         NPC npc = (NPC) entity;
+
 
         switch (random) {
             case 1 -> jump_attack(npc, target);
@@ -39,26 +42,25 @@ public class LizardShaman extends CommonCombatMethod {
 
     private void spawn_destructive_minions(Entity target) {
         NPC spawn = new NPC(6768, new Tile(target.tile().x + Utils.random(2), target.tile().y + Utils.random(2)));
-        spawn.respawns(false);
-        spawn.noRetaliation(true);
+        spawn.respawns(false).noRetaliation(true);
         spawn.setCombatInfo(World.getWorld().combatInfo(6768));
-        spawn.getCombat().setTarget(target);
-        spawn.setPositionToFace(target.tile());
-        World.getWorld().registerNpc(spawn);
-
-        Chain.runGlobal(4, () -> {
+        spawn
+            .spawn(false)
+            .setPositionToFace(target.tile())
+            .getCombat()
+            .setTarget(target);
+        BooleanSupplier isViewable = () -> !target.tile().isViewableFrom(spawn.tile());
+        Chain.noCtx().runFn(4, () -> {
             spawn.animate(7159);
             spawn.stopActions(true);
-        }).then(2, () -> {
+        }).then(3, () -> {
             spawn.getMovementQueue().clear();
-            spawn.hidden(true);
-            World.getWorld().tileGraphic(1295, spawn.tile(), 1, 30);
-
-            World.getWorld().getPlayers().forEach(p -> {
-                if (p.tile().inSqRadius(spawn.tile(), 1))
-                    p.hit(spawn, Utils.random(10));
-            });
-        }).then(2, () -> World.getWorld().unregisterNpc(spawn));
+            spawn.remove();
+            World.getWorld().tileGraphic(1295, spawn.tile(), 1, 0);
+            if (target.tile().inSqRadius(spawn.tile(), 1)) {
+                target.hit(entity, Utils.random(1, 10));
+            }
+        }).cancelWhen(isViewable).then(1, spawn::remove);
     }
 
     private void primary_melee_attack(NPC npc, Entity target) {
@@ -79,49 +81,60 @@ public class LizardShaman extends CommonCombatMethod {
     }
 
     private void jump_attack(NPC npc, Entity target) {
-        var jump_destination = target.tile();
+        var jump_destination = target.tile().copy();
 
         npc.animate(7152);
         npc.lockNoDamage();
-        Chain.bound(null).name("LizardShamanJumpAttackTask").runFn(3, () -> {
-            npc.hidden(true);// removes from client view
-            npc.teleport(jump_destination);// just sets new location, doesn't do any npc updating changes (npc doesn't support TELEPORT like players do)
+        BooleanSupplier notViewableFromTile = () -> !jump_destination.isViewableFrom(entity.tile());
+        Chain.noCtx().runFn(2, () -> {
+            npc.hidden(true);
+            npc.teleport(jump_destination);
         }).then(2, () -> {
-            npc.animate(6946);
             npc.hidden(false);
+            npc.animate(6946);
             npc.setPositionToFace(target.tile());
             npc.unlock();
-            npc.getCombat().attack(target);
-            if (target.tile().inSqRadius(jump_destination, 3))
-                target.hit(npc, World.getWorld().random(25));
+            npc.getCombat().setTarget(target);
+            if (target.tile().inSqRadius(jump_destination, 1))
+                new Hit(entity, target, 1, this)
+                    .checkAccuracy(false)
+                    .setDamage(Utils.random(1, 25))
+                    .submit();
+        }).cancelWhen(notViewableFromTile).then(1, () -> {
+            npc.hidden(false);
+            npc.unlock();
         });
     }
 
     private void green_acidic_attack(NPC npc, Entity target) {
         var green_acidic_orb = new Tile(target.tile().x, target.tile().y);
-        var tileDist = npc.tile().distance(target.tile());
+        var copiedTile = target.tile().copy();
+        var tileDist = npc.tile().distance(copiedTile);
         int duration = (51 + 11 + (10 * tileDist));
-
         npc.animate(7193);
-        Projectile p1 = new Projectile(entity, target, 1293, 51, duration, 43, 0, 0, target.getSize(), 10);
-        final int delay1 = entity.executeProjectile(p1);
-        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay1, CombatType.MAGIC).checkAccuracy(true);
-        hit.submit();
-
-        Chain.bound(entity).runFn(4, () -> {
-            if (target.tile().inSqRadius(green_acidic_orb, 1)) {
-                target.hit(npc, Utils.random(30), CombatType.RANGED).submit();
-                if (!Poison.poisoned(target)) {
-                    if (!CombatFactory.fullShayzien(target)) {
-                        if (Utils.securedRandomChance(0.50)) {
-                            target.poison(10);
+        Projectile projectile = new Projectile(entity, copiedTile, 1293, 51, duration, 43, 0, 0, target.getSize(), 10);
+        final int delay = entity.executeProjectile(projectile);
+        Chain.noCtx().runFn(delay, () -> {
+            if (!target.tile().equals(copiedTile)) return;
+            new Hit(entity, target, 0, this)
+                .checkAccuracy(false)
+                .setDamage(Utils.random(1, 30))
+                .submit()
+                .postDamage(hit -> {
+                    if (!hit.isAccurate()) {
+                        hit.block();
+                        return;
+                    }
+                    if (!Poison.poisoned(target)) {
+                        if (!CombatFactory.fullShayzien(target)) {
+                            if (Utils.securedRandomChance(0.50)) {
+                                target.poison(10);
+                            }
                         }
                     }
-                }
-            }
+                });
         });
-        npc.getTimers().register(TimerKey.COMBAT_ATTACK, npc.getCombatInfo().attackspeed);
-        World.getWorld().tileGraphic(1294, green_acidic_orb, GraphicHeight.LOW.ordinal(), p1.getSpeed());
+        World.getWorld().tileGraphic(1294, green_acidic_orb, GraphicHeight.LOW.ordinal(), projectile.getSpeed());
     }
 
     @Override

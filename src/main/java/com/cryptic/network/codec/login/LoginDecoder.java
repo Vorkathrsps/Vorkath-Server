@@ -130,20 +130,20 @@ public final class LoginDecoder extends ByteToMessageDecoder {
         ByteBuf rsaBuffer = Unpooled.wrappedBuffer(new BigInteger(rsaBytes).modPow(NetworkUtils.RSA_EXPONENT, NetworkUtils.RSA_MODULUS).toByteArray());
 
         int securityId = rsaBuffer.readByte();
+
         if (securityId != 10) {
             sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
             return;
         }
 
-        long clientSeed = rsaBuffer.readLong();
-        long seedReceived = rsaBuffer.readLong();
-
-        int[] seed = {(int) (clientSeed >> 32), (int) clientSeed, (int) (seedReceived >> 32), (int) seedReceived};
-        IsaacRandom decodingRandom = new IsaacRandom(seed);
-        for (int i = 0; i < seed.length; i++) {
-            seed[i] += 50;
+        int[] clientseed = {rsaBuffer.readInt(), rsaBuffer.readInt(), rsaBuffer.readInt(), (int) rsaBuffer.readInt()};
+        int[] serverKeys = new int[4];
+        rsaBuffer.readLong(); //read server seed
+        IsaacRandom cipher = new IsaacRandom(clientseed);
+        for (int i = 0; i < serverKeys.length; i++) {
+            serverKeys[i] += 50 + clientseed[i];
         }
-
+        IsaacRandom encryption = new IsaacRandom(serverKeys);
         String uid = ByteBufUtils.readString(rsaBuffer);
         String username = Utils.formatText(ByteBufUtils.readString(rsaBuffer));
         String password = ByteBufUtils.readString(rsaBuffer);
@@ -161,7 +161,7 @@ public final class LoginDecoder extends ByteToMessageDecoder {
             return;
         }
 
-        out.add(new LoginDetailsMessage(ctx, username, password, ByteBufUtils.getHost(ctx.channel()), mac, uid, new IsaacRandom(seed), decodingRandom));
+        out.add(new LoginDetailsMessage(ctx, username, password, ByteBufUtils.getHost(ctx.channel()), mac, uid, encryption, cipher));
     }
 
     private enum LoginDecoderState {

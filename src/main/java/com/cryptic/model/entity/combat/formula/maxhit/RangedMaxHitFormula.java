@@ -16,6 +16,7 @@ import com.cryptic.model.items.container.equipment.EquipmentInfo;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.ItemIdentifiers;
 import lombok.NonNull;
+import org.apache.commons.lang.ArrayUtils;
 
 import static com.cryptic.utility.ItemIdentifiers.*;
 
@@ -122,10 +123,9 @@ public class RangedMaxHitFormula {
                 otherBonus *= 1.50;
             }
 
-            if (weapon != null && weapon.getId() == TWISTED_BOW) {
-                int magicLevel = npc.getCombatInfo() != null && npc.getCombatInfo().stats != null
-                    ? npc.getCombatInfo().stats.magic
-                    : 0;
+            int[] twisted_bows = new int[] {TWISTED_BOW, CORRUPTED_TWISTED_BOW};
+            if (weapon != null && ArrayUtils.contains(twisted_bows, weapon.getId())) {
+                int magicLevel = npc.getCombatInfo() != null && npc.getCombatInfo().stats != null ? npc.getCombatInfo().stats.magic : 0;
 
                 double damage = 250D + (((10 * 3 * magicLevel) / 10D) - 14) - (Math.floor((3 * magicLevel / 10D) - 140) * 2);
                 damage /= 100;

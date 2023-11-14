@@ -7,14 +7,14 @@
   "tables": [
     {
       "name": "Other drops",
-      "points": 1,
+      "tableweight": 1,
       "items": [
 
-        { "id": 1778, "min": 10, "max": 10, "points": 6 }, //Bow string (noted)
-        { "id": 849, "min": 1, "max": 1, "points": 3 }, //Willow shortbow
-        { "id": 886, "min": 10, "max": 10, "points": 3 }, //Steel arrow
-        { "id": 847, "min": 1, "max": 1, "points": 1 }, //Willow longbow
-        { "id": 888, "min": 20, "max": 20, "points": 1 } //Mithril arrow
+        { "id": 1778, "min": 10, "max": 10, "weight": 6 }, //Bow string (noted)
+        { "id": 849, "min": 1, "max": 1, "weight": 3 }, //Willow shortbow
+        { "id": 886, "min": 10, "max": 10, "weight": 3 }, //Steel arrow
+        { "id": 847, "min": 1, "max": 1, "weight": 1 }, //Willow longbow
+        { "id": 888, "min": 20, "max": 20, "weight": 1 } //Mithril arrow
       ]
     }
   ]

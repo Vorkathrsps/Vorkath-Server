@@ -40,18 +40,12 @@ import java.util.stream.Collectors;
  * @author relex lawl & Gabbe
  */
 public final class PacketSender {
-
     private static final Logger logger = LogManager.getLogger(PacketSender.class);
-
     private final ArrayList<Integer> walkableInterfaceList = new ArrayList<>();
-
     public void resetParallelInterfaces() {
         walkableInterfaceList.clear();
     }
-
-    @Getter
-    public boolean updateRegions;
-
+    @Getter public boolean updateRegions;
     public void sendParallelInterfaceVisibility(int interfaceId, boolean visible) {
         PacketBuilder out = new PacketBuilder(210);
         if (player != null) {
@@ -74,15 +68,10 @@ public final class PacketSender {
 
     public void sendClientInstruction(int instruction, Object... args) {
         PacketBuilder bldr = new PacketBuilder(245, PacketType.VARIABLE_SHORT);
-
-        // Write the instruction id
         bldr.putShort(instruction);
-
         StringBuilder argBuilder = new StringBuilder();
         final int argumentSize = args.length;
         Object[] arguments = new Object[argumentSize];
-
-        // Write the arg types.
         int intVals = 0;
         int stringVals = 0;
         for (int index = args.length - 1; index >= 0; index--) {
@@ -96,15 +85,11 @@ public final class PacketSender {
                 intVals++;
             }
         }
-
         String argTypes = argBuilder.toString();
         char[] typeArray = argTypes.toCharArray();
         bldr.putString(argTypes);
-
-        // Write the arg lengths
         bldr.putShort(intVals);
         bldr.putShort(stringVals);
-
         for (int index = 0; index < typeArray.length; index++) {
             char type = typeArray[index];
             if (type == 's') {
@@ -113,7 +98,6 @@ public final class PacketSender {
                 bldr.putInt((int) arguments[index]);
             }
         }
-
         player.getSession().write(bldr);
     }
 

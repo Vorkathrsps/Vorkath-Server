@@ -9,59 +9,59 @@
   "tables": [
     {
       "name": "Ammunition",
-      "points": 140,
+      "tableweight": 140,
       "items": [
-        { "id": 995, "min": 503, "max": 632, "points": 140 }, //coins
-        { "id": 5281, "min": 1, "max": 1, "points": 140 }, //Belladonna seed
-        { "id": 5280, "min": 1, "max": 1, "points": 140 }, //Cactus seed
-        { "id": 5106, "min": 1, "max": 1, "points": 140 }, //Poison ivy seed
-        { "id": 5297, "min": 1, "max": 1, "points": 140 }, //Irit seed
-        { "id": 5296, "min": 1, "max": 1, "points": 140 }, //Toadflax seed
-        { "id": 5298, "min": 1, "max": 1, "points": 140 }, //Avantoe seed
-        { "id": 5299, "min": 1, "max": 1, "points": 140 }, //Kwuarm seed
-        { "id": 5301, "min": 1, "max": 1, "points": 140 }, //Cadantine seed
-        { "id": 5302, "min": 1, "max": 1, "points": 140 }, //Lantadyme seed
-        { "id": 5303, "min": 1, "max": 1, "points": 140 }, //Dwarf weed seed
-        { "id": 5304, "min": 1, "max": 1, "points": 140 }, //Torstol seed
-        { "id": 1516, "min": 94, "max": 140, "points": 125 }, //Yew logs (noted)
-        { "id": 1518, "min": 25, "max": 140, "points": 125 }, //Maple logs (noted)
-        { "id": 207, "min": 1, "max": 1, "points": 125 }, //Grimy ranarr weed
-        { "id": 13493, "min": 1, "max": 1, "points": 125 }, //Ensouled dagannoth head
-        { "id": 314, "min": 1, "max": 453, "points": 125 }, //Feather
-        { "id": 9431, "min": 1, "max": 1, "points": 125 }, //Runite limbs
-        { "id": 884, "min": 218, "max": 590, "points": 125 }, //Iron arrow
-        { "id": 886, "min": 54, "max": 98, "points": 125 }, //Steel arrow
-        { "id": 863, "min": 214, "max": 500, "points": 125 }, //Iron knife
-        { "id": 865, "min": 54, "max": 132, "points": 125 }, //Steel knife
-        { "id": 866, "min": 31, "max": 69, "points": 125 }, //Mithril knife
-        { "id": 805, "min": 5, "max": 8, "points": 125 }, //Rune thrownaxe
-        { "id": 830, "min": 1, "max": 10, "points": 125 }, //Rune javelin
-        { "id": 9144, "min": 2, "max": 14, "points": 125 }, //Runite bolts
-        { "id": 45, "min": 1, "max": 24, "points": 125 }, //Opal bolt tips
-        { "id": 413, "min": 1, "max": 1, "points": 110 }, //Oyster pearls
-        { "id": 385, "min": 5, "max": 5, "points": 110 }, //Shark
-        { "id": 1357, "min": 1, "max": 1, "points": 110 }, //Adamant axe
-        { "id": 2489, "min": 1, "max": 1, "points": 80 }, //Red d'hide vamb
-        { "id": 3758, "min": 1, "max": 1, "points": 80 }, //Fremennik shield
-        { "id": 3748, "min": 1, "max": 1, "points": 80 }, //Fremennik helm
-        { "id": 6133, "min": 1, "max": 1, "points": 80 }, //Spined body
-        { "id": 6135, "min": 1, "max": 1, "points": 80 }, //Spined chaps
-        { "id": 3749, "min": 1, "max": 1, "points": 80 }, //Archer helm
-        { "id": 989, "min": 1, "max": 1, "points": 70 }, //crystal key
-        { "id": 6724, "min": 1, "max": 1, "points": 50 }, //Seercull
-        { "id": 6739, "min": 1, "max": 1, "points": 50 }, //Dragon axe
-        { "id": 6733, "min": 1, "max": 1, "points": 45 } //Archers ring
+        { "id": 995, "min": 503, "max": 632, "weight": 140 }, //coins
+        { "id": 5281, "min": 1, "max": 1, "weight": 140 }, //Belladonna seed
+        { "id": 5280, "min": 1, "max": 1, "weight": 140 }, //Cactus seed
+        { "id": 5106, "min": 1, "max": 1, "weight": 140 }, //Poison ivy seed
+        { "id": 5297, "min": 1, "max": 1, "weight": 140 }, //Irit seed
+        { "id": 5296, "min": 1, "max": 1, "weight": 140 }, //Toadflax seed
+        { "id": 5298, "min": 1, "max": 1, "weight": 140 }, //Avantoe seed
+        { "id": 5299, "min": 1, "max": 1, "weight": 140 }, //Kwuarm seed
+        { "id": 5301, "min": 1, "max": 1, "weight": 140 }, //Cadantine seed
+        { "id": 5302, "min": 1, "max": 1, "weight": 140 }, //Lantadyme seed
+        { "id": 5303, "min": 1, "max": 1, "weight": 140 }, //Dwarf weed seed
+        { "id": 5304, "min": 1, "max": 1, "weight": 140 }, //Torstol seed
+        { "id": 1516, "min": 94, "max": 140, "weight": 125 }, //Yew logs (noted)
+        { "id": 1518, "min": 25, "max": 140, "weight": 125 }, //Maple logs (noted)
+        { "id": 207, "min": 1, "max": 1, "weight": 125 }, //Grimy ranarr weed
+        { "id": 13493, "min": 1, "max": 1, "weight": 125 }, //Ensouled dagannoth head
+        { "id": 314, "min": 1, "max": 453, "weight": 125 }, //Feather
+        { "id": 9431, "min": 1, "max": 1, "weight": 125 }, //Runite limbs
+        { "id": 884, "min": 218, "max": 590, "weight": 125 }, //Iron arrow
+        { "id": 886, "min": 54, "max": 98, "weight": 125 }, //Steel arrow
+        { "id": 863, "min": 214, "max": 500, "weight": 125 }, //Iron knife
+        { "id": 865, "min": 54, "max": 132, "weight": 125 }, //Steel knife
+        { "id": 866, "min": 31, "max": 69, "weight": 125 }, //Mithril knife
+        { "id": 805, "min": 5, "max": 8, "weight": 125 }, //Rune thrownaxe
+        { "id": 830, "min": 1, "max": 10, "weight": 125 }, //Rune javelin
+        { "id": 9144, "min": 2, "max": 14, "weight": 125 }, //Runite bolts
+        { "id": 45, "min": 1, "max": 24, "weight": 125 }, //Opal bolt tips
+        { "id": 413, "min": 1, "max": 1, "weight": 110 }, //Oyster pearls
+        { "id": 385, "min": 5, "max": 5, "weight": 110 }, //Shark
+        { "id": 1357, "min": 1, "max": 1, "weight": 110 }, //Adamant axe
+        { "id": 2489, "min": 1, "max": 1, "weight": 80 }, //Red d'hide vamb
+        { "id": 3758, "min": 1, "max": 1, "weight": 80 }, //Fremennik shield
+        { "id": 3748, "min": 1, "max": 1, "weight": 80 }, //Fremennik helm
+        { "id": 6133, "min": 1, "max": 1, "weight": 80 }, //Spined body
+        { "id": 6135, "min": 1, "max": 1, "weight": 80 }, //Spined chaps
+        { "id": 3749, "min": 1, "max": 1, "weight": 80 }, //Archer helm
+        { "id": 989, "min": 1, "max": 1, "weight": 70 }, //crystal key
+        { "id": 6724, "min": 1, "max": 1, "weight": 50 }, //Seercull
+        { "id": 6739, "min": 1, "max": 1, "weight": 50 }, //Dragon axe
+        { "id": 6733, "min": 1, "max": 1, "weight": 45 } //Archers ring
       ]
     },
     {
       "name": "Armour",
-      "points": 135,
+      "tableweight": 135,
       "items": [
       ]
     },
     {
       "name": "Others",
-      "points": 7,
+      "tableweight": 7,
       "items": [
       ]
     }

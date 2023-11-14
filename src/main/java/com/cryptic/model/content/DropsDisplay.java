@@ -203,7 +203,7 @@ public class DropsDisplay {
         player.getPacketSender().sendString(55154, "<col=" + Color.LIGHTORANGE.getColorValue() + ">Viewing drop table for: " + tableName + "</col>");
 
         List<Integer[]> drops = new ArrayList<>();
-        double totalTablesWeight = dropTable.ptsTotal();
+        double totalTablesWeight = dropTable.getTotalWeight();
         int petId, petAverage;
 
         petId = dropTable.petItem == 0 ? -1 : dropTable.petItem;
@@ -240,7 +240,7 @@ public class DropsDisplay {
         if (dropTable.tables != null) {
             for (ScalarLootTable table : dropTable.tables) {
                 if (table != null) {
-                    double tableChance = table.points / totalTablesWeight;
+                    double tableChance = table.tableWeight / totalTablesWeight;
                     // this check isnt in the code i ported we need to port it
                     if (table.items.length == 0) {
                         //Nothing!
@@ -251,7 +251,7 @@ public class DropsDisplay {
                             drop[0] = item.id;
                             drop[1] = item.min;
                             drop[2] = item.max;
-                            if (item.points == 0)
+                            if (item.weight == 0)
                                 drop[3] = (int) (1D / tableChance);
                             else
                                 drop[3] = (int) (1D / (item.computedFraction.doubleValue()));

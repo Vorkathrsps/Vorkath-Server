@@ -117,6 +117,7 @@ public class Appearance {
             //Skull icon
             var lootKeysCarried = target.<Integer>getAttribOr(LOOT_KEYS_CARRIED, 0);
             var skullType = switch (lootKeysCarried) {
+
                 case 1 -> 2;
                 case 2 -> 3;
                 case 3 -> 4;
@@ -124,7 +125,7 @@ public class Appearance {
                 case 5 -> 6;
                 default -> target.getSkullType().getCode();
             };
-            
+
             packetBuilder.put(skullType);
 
             packetBuilder.put(0);

@@ -41,7 +41,6 @@ public final class PacketEncoder extends MessageToByteEncoder<Packet> {
 
         final PacketType type = packet.getType();
 
-        // Used for finding incorrect client pkt sizes
         final int currSize = PACKET_SIZES[opcode];
         final int expectedSize = type == PacketType.VARIABLE ? -1
             : type == PacketType.VARIABLE_SHORT ? -2
@@ -84,7 +83,6 @@ public final class PacketEncoder extends MessageToByteEncoder<Packet> {
         //logger.debug("Opcode: {} - Size: {} - Type: {} - CurrentSize: {} - Expected Size: {} ", opcode, size, type, currSize, expectedSize);
         //logger.debug("Encoded packet with opcode {} and size {} (type={})", opcode, size, type);
     }
-
 
     public static final int[] PACKET_SIZES = new int[256];
     //The server PacketEncoder class PACKET_SIZES array should match the Client ServerToClientPackets class PACKET_SIZES array.

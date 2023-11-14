@@ -7,14 +7,14 @@
   "tables": [
     {
       "name": "Other",
-      "points": 50,
+      "tableweight": 50,
       "from": 1,
       "items": [
-        { "id": 6918, "min": 1, "max": 1, "points": 50}, //Infinity hat
-        { "id": 6916, "min": 1, "max": 1, "points": 50}, //Infinity top
-        { "id": 6924, "min": 1, "max": 1, "points": 50}, //Infinity bottoms
-        { "id": 6920, "min": 1, "max": 1, "points": 50}, //Infinity boots
-        { "id": 6922, "min": 1, "max": 1, "points": 50} //Infinity gloves
+        { "id": 6918, "min": 1, "max": 1, "weight": 50}, //Infinity hat
+        { "id": 6916, "min": 1, "max": 1, "weight": 50}, //Infinity top
+        { "id": 6924, "min": 1, "max": 1, "weight": 50}, //Infinity bottoms
+        { "id": 6920, "min": 1, "max": 1, "weight": 50}, //Infinity boots
+        { "id": 6922, "min": 1, "max": 1, "weight": 50} //Infinity gloves
       ]
     }
   ]

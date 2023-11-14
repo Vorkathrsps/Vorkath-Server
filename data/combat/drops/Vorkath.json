@@ -7,23 +7,23 @@
   "tables": [
     {
       "name": "Unique",
-      "points": 1,
+      "tableweight": 1,
       "items": [
-        { "id": 995, "min": 250, "max": 500, "points": 40 },   //coins
-        { "id": 21932, "min": 100, "max": 250, "points": 40 },   //Opal Dragon bolts
-        { "id": 21948, "min": 100, "max": 250, "points": 40 } ,  //Dragonstone Dragon bolts
-        { "id": 21902, "min": 1, "max": 1, "points": 20 } ,  //Dragon Cbow
-        { "id": 11283, "min": 1, "max": 1, "points": 10 },   //DFS
-        { "id": 22002, "min": 1, "max": 1, "points": 10 },   //Dragonfire Ward
-        { "id": 21907, "min": 1, "max": 1, "points": 9 },   //Vorkath head
-        { "id": 11785, "min": 1, "max": 1, "points": 9 } ,  //Armadyl Cbow
-        { "id": 21012, "min": 1, "max": 1, "points": 5 } ,  //Dragon Hunter Cbow
-        { "id": 2944, "min": 1, "max": 1, "points": 3 }   //Key of Drops
+        { "id": 995, "min": 250, "max": 500, "weight": 40 },   //coins
+        { "id": 21932, "min": 100, "max": 250, "weight": 40 },   //Opal Dragon bolts
+        { "id": 21948, "min": 100, "max": 250, "weight": 40 } ,  //Dragonstone Dragon bolts
+        { "id": 21902, "min": 1, "max": 1, "weight": 20 } ,  //Dragon Cbow
+        { "id": 11283, "min": 1, "max": 1, "weight": 10 },   //DFS
+        { "id": 22002, "min": 1, "max": 1, "weight": 10 },   //Dragonfire Ward
+        { "id": 21907, "min": 1, "max": 1, "weight": 9 },   //Vorkath head
+        { "id": 11785, "min": 1, "max": 1, "weight": 9 } ,  //Armadyl Cbow
+        { "id": 21012, "min": 1, "max": 1, "weight": 5 } ,  //Dragon Hunter Cbow
+        { "id": 2944, "min": 1, "max": 1, "weight": 3 }   //Key of Drops
         ]
     },
     {
       "name": "Other",
-      "points": 8,
+      "tableweight": 8,
       "items": [
       ]
     }

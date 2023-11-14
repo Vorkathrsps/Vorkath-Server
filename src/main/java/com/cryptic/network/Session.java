@@ -21,11 +21,14 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.traffic.ChannelTrafficShapingHandler;
+import io.netty.handler.traffic.TrafficCounter;
 import io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue;
 import io.netty.util.internal.shaded.org.jctools.queues.MpscArrayQueue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
+import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.pbkdf2.Pack;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
@@ -110,7 +113,7 @@ public class Session {
     /**
      * Processes a packet immediately to be sent to the client.
      *
-     * @param builder 	the packet to send.
+     * @param builder the packet to send.
      */
     public void writeAndFlush(PacketBuilder builder) {
         channel.writeAndFlush(builder.toPacket());
@@ -138,7 +141,7 @@ public class Session {
      * polling the internal queue, and then handling them via the handleInputMessage.
      * This method is called EACH GAME CYCLE.
      */
-    public void handleQueuedPackets() {
+    public void handleQueuedPackets() { //TODO optimize & FIX
         for (int i = 0; i < GameServer.properties().packetProcessLimit; i++) {
             Packet packet = packetsQueue.poll();
             if (packet == null) {
@@ -152,7 +155,7 @@ public class Session {
                 PacketListener listener = IncomingHandler.PACKETS[opcode];
 
                 if (listener == null) {
-                    String errorMsg = "Error processing Opcode=" + opcode + " Size=" + size + " doesn't have a handler.";
+                    String errorMsg = "Error processing Opcode: [" + opcode + "] Size: [" + size + "] doesn't have a handler.";
                     if (PlayerRights.is(player, PlayerRights.ADMINISTRATOR)) {
                         player.getPacketSender().sendMessage("<col=ff0000>" + errorMsg);
                     }
@@ -160,9 +163,7 @@ public class Session {
                     continue; // Continue processing other packets
                 }
 
-                if (GameServer.broadcast != null) {
-                    player.getPacketSender().sendBroadcast(GameServer.broadcast);
-                }
+                if (GameServer.broadcast != null) player.getPacketSender().sendBroadcast(GameServer.broadcast);
 
                 Entity.accumulateRuntimeTo(() -> {
                     try {
@@ -192,8 +193,6 @@ public class Session {
             }
         }
     }
-
-
 
     /**
      * Queues the {@code msg} for this session to be encoded and sent to the

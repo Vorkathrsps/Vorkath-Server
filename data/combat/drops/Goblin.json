@@ -6,48 +6,48 @@
   "tables": [
     {
       "name": "Armour/Weapons",
-      "points": 1,
+      "tableweight": 1,
       "items": [
-        { "id": 1173, "min": 1, "max": 1, "points": 9 }, //Bronze sq shield
-        { "id": 877, "min": 2, "max": 2, "points": 6 }, //Bronze bolts
-        { "id": 877, "min": 4, "max": 4, "points": 6 }, //Bronze bolts
-        { "id": 877, "min": 8, "max": 8, "points": 6 }, //Bronze bolts
-        { "id": 1321, "min": 1, "max": 1, "points": 3 }, //Bronze scimitar
-        { "id": 1237, "min": 1, "max": 1, "points": 3 }, //Bronze spear
-        { "id": 825, "min": 1, "max": 1, "points": 1 }, //Bronze javelin
-        { "id": 1009, "min": 1, "max": 1, "points": 1 }, //Brass necklace
-        { "id": 1189, "min": 1, "max": 1, "points": 1 } //Bronze kiteshield
+        { "id": 1173, "min": 1, "max": 1, "weight": 9 }, //Bronze sq shield
+        { "id": 877, "min": 2, "max": 2, "weight": 6 }, //Bronze bolts
+        { "id": 877, "min": 4, "max": 4, "weight": 6 }, //Bronze bolts
+        { "id": 877, "min": 8, "max": 8, "weight": 6 }, //Bronze bolts
+        { "id": 1321, "min": 1, "max": 1, "weight": 3 }, //Bronze scimitar
+        { "id": 1237, "min": 1, "max": 1, "weight": 3 }, //Bronze spear
+        { "id": 825, "min": 1, "max": 1, "weight": 1 }, //Bronze javelin
+        { "id": 1009, "min": 1, "max": 1, "weight": 1 }, //Brass necklace
+        { "id": 1189, "min": 1, "max": 1, "weight": 1 } //Bronze kiteshield
       ]
     },
     {
       "name": "Runes",
-      "points": 1,
+      "tableweight": 1,
       "items": [
-        { "id": 555, "min": 6, "max": 6, "points": 3 }, //Water rune
-        { "id": 558, "min": 1, "max": 2, "points": 3 }, //Mind rune
-        { "id": 559, "min": 2, "max": 2, "points": 3 }, //Body rune
-        { "id": 559, "min": 7, "max": 7, "points": 3 }, //Body rune
-        { "id": 557, "min": 4, "max": 4, "points": 3 }, //Earth rune
-        { "id": 562, "min": 1, "max": 1, "points": 1 }, //Chaos rune
-        { "id": 561, "min": 1, "max": 1, "points": 1 } //Nature rune
+        { "id": 555, "min": 6, "max": 6, "weight": 3 }, //Water rune
+        { "id": 558, "min": 1, "max": 2, "weight": 3 }, //Mind rune
+        { "id": 559, "min": 2, "max": 2, "weight": 3 }, //Body rune
+        { "id": 559, "min": 7, "max": 7, "weight": 3 }, //Body rune
+        { "id": 557, "min": 4, "max": 4, "weight": 3 }, //Earth rune
+        { "id": 562, "min": 1, "max": 1, "weight": 1 }, //Chaos rune
+        { "id": 561, "min": 1, "max": 1, "weight": 1 } //Nature rune
       ]
     },
     {
       "name": "Other",
-      "points": 1,
+      "tableweight": 1,
       "items": [
 
-        { "id": 2347, "min": 1, "max": 1, "points": 9 }, //Hammer
-        { "id": 1351, "min": 1, "max": 1, "points": 9 }, //Bronze axe
-        { "id": 1438, "min": 1, "max": 1, "points": 6 }, //Air talisman
-        { "id": 1925, "min": 1, "max": 1, "points": 6 }, //Bucket
-        { "id": 1007, "min": 1, "max": 1, "points": 6 }, //Red cape
-        { "id": 1949, "min": 1, "max": 1, "points": 3 }, //Chef's hat
-        { "id": 1987, "min": 1, "max": 1, "points": 3 }, //Grapes
-        { "id": 1917, "min": 1, "max": 1, "points": 3 }, //Beer
-        { "id": 288, "min": 1, "max": 1, "points": 3 }, //Goblin mail
-        { "id": 10999, "min": 1, "max": 1, "points": 1 }, //Goblin book
-        { "id": 13448, "min": 1, "max": 1, "points": 1 } //Ensouled goblin head
+        { "id": 2347, "min": 1, "max": 1, "weight": 9 }, //Hammer
+        { "id": 1351, "min": 1, "max": 1, "weight": 9 }, //Bronze axe
+        { "id": 1438, "min": 1, "max": 1, "weight": 6 }, //Air talisman
+        { "id": 1925, "min": 1, "max": 1, "weight": 6 }, //Bucket
+        { "id": 1007, "min": 1, "max": 1, "weight": 6 }, //Red cape
+        { "id": 1949, "min": 1, "max": 1, "weight": 3 }, //Chef's hat
+        { "id": 1987, "min": 1, "max": 1, "weight": 3 }, //Grapes
+        { "id": 1917, "min": 1, "max": 1, "weight": 3 }, //Beer
+        { "id": 288, "min": 1, "max": 1, "weight": 3 }, //Goblin mail
+        { "id": 10999, "min": 1, "max": 1, "weight": 1 }, //Goblin book
+        { "id": 13448, "min": 1, "max": 1, "weight": 1 } //Ensouled goblin head
       ]
     }
   ]

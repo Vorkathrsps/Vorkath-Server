@@ -10,27 +10,27 @@
   "tables": [
     {
       "name": "Unique",
-      "points": 1,
+      "tableweight": 1,
       "items": [
-        { "id": 23686, "min": 2, "max": 10, "points": 50 }, //Divine super combat potion(4) (noted)
-        { "id": 12914, "min": 5, "max": 10, "points": 45 }, //Anti-venom+(4) (noted)
-        { "id": 21979, "min": 2, "max": 10, "points": 45 }, //Super antifire potion(4) (noted)
-        { "id": 6585, "min": 1, "max": 1, "points": 35 }, //Amulet of Fury
-        { "id": 995, "min": 250, "max": 500, "points": 35 }, //coins
-        { "id": 12002, "min": 1, "max": 1, "points": 35 }, //Occult Necklace
-        { "id": 11773, "min": 1, "max": 1, "points": 30 }, //Bring (i)
-        { "id": 11771, "min": 1, "max": 1, "points": 30 }, //Aring (i)
-        { "id": 11770, "min": 1, "max": 1, "points": 30 }, //Sring (i)
-        { "id": 11772, "min": 1, "max": 1, "points": 30 }, //Wring (i)
-        { "id": 7806, "min": 1, "max": 1, "points": 2 }, //Ancient warrior sword
-        { "id": 7807, "min": 1, "max": 1, "points": 2 }, //Ancient warrior axe
-        { "id": 7808, "min": 1, "max": 1, "points": 2 }, //Ancient warrior maul
-        { "id": 2944, "min": 1, "max": 1, "points": 2 } //Key of drops
+        { "id": 23686, "min": 2, "max": 10, "weight": 50 }, //Divine super combat potion(4) (noted)
+        { "id": 12914, "min": 5, "max": 10, "weight": 45 }, //Anti-venom+(4) (noted)
+        { "id": 21979, "min": 2, "max": 10, "weight": 45 }, //Super antifire potion(4) (noted)
+        { "id": 6585, "min": 1, "max": 1, "weight": 35 }, //Amulet of Fury
+        { "id": 995, "min": 250, "max": 500, "weight": 35 }, //coins
+        { "id": 12002, "min": 1, "max": 1, "weight": 35 }, //Occult Necklace
+        { "id": 11773, "min": 1, "max": 1, "weight": 30 }, //Bring (i)
+        { "id": 11771, "min": 1, "max": 1, "weight": 30 }, //Aring (i)
+        { "id": 11770, "min": 1, "max": 1, "weight": 30 }, //Sring (i)
+        { "id": 11772, "min": 1, "max": 1, "weight": 30 }, //Wring (i)
+        { "id": 7806, "min": 1, "max": 1, "weight": 2 }, //Ancient warrior sword
+        { "id": 7807, "min": 1, "max": 1, "weight": 2 }, //Ancient warrior axe
+        { "id": 7808, "min": 1, "max": 1, "weight": 2 }, //Ancient warrior maul
+        { "id": 2944, "min": 1, "max": 1, "weight": 2 } //Key of drops
       ]
     },
     {
       "name": "Other",
-      "points": 4,
+      "tableweight": 4,
       "items": []
     }
   ]

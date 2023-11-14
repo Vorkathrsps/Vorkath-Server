@@ -8,18 +8,18 @@
   "tables": [
     {
       "name": "Unique",
-      "points": 1,
+      "tableweight": 1,
       "items": [
-        { "id": 989, "min": 1, "max": 1, "points": 70 },
-        { "id": 619, "min": 10, "max": 10, "points": 20 },
-        { "id": 12436, "min": 1, "max": 1, "points": 12 },
-        { "id": 2944, "min": 1, "max": 1, "points": 3 },
-		{ "id": 16265, "min": 1, "max": 1, "points": 2 }
+        { "id": 989, "min": 1, "max": 1, "weight": 70 },
+        { "id": 619, "min": 10, "max": 10, "weight": 20 },
+        { "id": 12436, "min": 1, "max": 1, "weight": 12 },
+        { "id": 2944, "min": 1, "max": 1, "weight": 3 },
+		{ "id": 16265, "min": 1, "max": 1, "weight": 2 }
       ]
     },
     {
       "name": "Empty",
-      "points": 7,
+      "tableweight": 7,
       "items": []
     }
   ]

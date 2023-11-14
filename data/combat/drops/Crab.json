@@ -7,11 +7,11 @@
   "tables": [
     {
       "name": "Other",
-      "points": 1,
+      "tableweight": 1,
       "items": [
-        { "id": 7536, "min": 1, "max": 1, "points": 12 }, //Fresh crab claw
-        { "id": 7538, "min": 1, "max": 1, "points": 12 }, //Fresh crab shell
-        { "id": 407, "min": 1, "max": 2, "points": 1 } //Oyster
+        { "id": 7536, "min": 1, "max": 1, "weight": 12 }, //Fresh crab claw
+        { "id": 7538, "min": 1, "max": 1, "weight": 12 }, //Fresh crab shell
+        { "id": 407, "min": 1, "max": 2, "weight": 1 } //Oyster
       ]
     }
   ]

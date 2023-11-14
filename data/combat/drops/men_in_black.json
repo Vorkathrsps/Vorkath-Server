@@ -7,19 +7,19 @@
   "tables": [
     {
       "name": "Drops",
-      "points": 1,
+      "tableweight": 1,
       "items": [
       ]
     },
     {
       "name": "Empty",
-      "points": 0,
+      "tableweight": 0,
       "items": [
       ]
     },
     {
       "name": "Empty",
-      "points": 0,
+      "tableweight": 0,
       "items": [
       ]
     }

@@ -9,27 +9,27 @@
   "tables": [
     {
       "name": "Unique",
-      "points": 1,
+      "tableweight": 1,
       "items": [
-        { "id": 13442, "min": 10, "max": 30, "points": 55 }, //Anglerfish (noted)
-        { "id": 23686, "min": 2, "max": 10, "points": 50 }, //Divine super combat potion(4) (noted)
-        { "id": 12914, "min": 5, "max": 10, "points": 45 }, //Anti-venom+(4) (noted)
-        { "id": 21979, "min": 2, "max": 10, "points": 45 }, //Super antifire potion(4) (noted)
-        { "id": 6920, "min": 1, "max": 1, "points": 35 }, //Infintiy boots
-        { "id": 6914, "min": 1, "max": 1, "points": 35 }, //Master wand
-        { "id": 6585, "min": 1, "max": 1, "points": 35 }, //Amulet of fury
-        { "id": 12873, "min": 1, "max": 1, "points": 30 }, //Guthan set
-        { "id": 12875, "min": 1, "max": 1, "points": 30 }, //Verac set
-        { "id": 12877, "min": 1, "max": 1, "points": 30 }, //DH set
-        { "id": 12879, "min": 1, "max": 1, "points": 30 }, //Torag set
-        { "id": 12881, "min": 1, "max": 1, "points": 30 }, //Ahrim set
-        { "id": 12883, "min": 1, "max": 1, "points": 30 }, //Karil set
-        { "id": 6199, "min": 1, "max": 1, "points": 4 }// Mystery Box
+        { "id": 13442, "min": 10, "max": 30, "weight": 55 }, //Anglerfish (noted)
+        { "id": 23686, "min": 2, "max": 10, "weight": 50 }, //Divine super combat potion(4) (noted)
+        { "id": 12914, "min": 5, "max": 10, "weight": 45 }, //Anti-venom+(4) (noted)
+        { "id": 21979, "min": 2, "max": 10, "weight": 45 }, //Super antifire potion(4) (noted)
+        { "id": 6920, "min": 1, "max": 1, "weight": 35 }, //Infintiy boots
+        { "id": 6914, "min": 1, "max": 1, "weight": 35 }, //Master wand
+        { "id": 6585, "min": 1, "max": 1, "weight": 35 }, //Amulet of fury
+        { "id": 12873, "min": 1, "max": 1, "weight": 30 }, //Guthan set
+        { "id": 12875, "min": 1, "max": 1, "weight": 30 }, //Verac set
+        { "id": 12877, "min": 1, "max": 1, "weight": 30 }, //DH set
+        { "id": 12879, "min": 1, "max": 1, "weight": 30 }, //Torag set
+        { "id": 12881, "min": 1, "max": 1, "weight": 30 }, //Ahrim set
+        { "id": 12883, "min": 1, "max": 1, "weight": 30 }, //Karil set
+        { "id": 6199, "min": 1, "max": 1, "weight": 4 }// Mystery Box
       ]
     },
     {
       "name": "Other",
-      "points": 4,
+      "tableweight": 4,
       "items": []
     }
   ]

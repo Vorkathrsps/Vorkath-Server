@@ -6,48 +6,48 @@
   "tables": [
     {
       "name": "Weapons",
-      "points": 1,
+      "tableweight": 1,
       "items": [
-        { "id": 1213, "min": 1, "max": 1, "points": 1 } //Rune dagger
+        { "id": 1213, "min": 1, "max": 1, "weight": 1 } //Rune dagger
       ]
     },
     {
       "name": "Runes/Ammunition",
-      "points": 1,
+      "tableweight": 1,
       "items": [
-        { "id": 555, "min": 70, "max": 70, "points": 1 }, //Water rune
-        { "id": 554, "min": 37, "max": 37, "points": 1 }, //Fire rune
-        { "id": 561, "min": 12, "max": 12, "points": 1 }, //Nature rune
-        { "id": 563, "min": 2, "max": 2, "points": 1 } //Law rune
+        { "id": 555, "min": 70, "max": 70, "weight": 1 }, //Water rune
+        { "id": 554, "min": 37, "max": 37, "weight": 1 }, //Fire rune
+        { "id": 561, "min": 12, "max": 12, "weight": 1 }, //Nature rune
+        { "id": 563, "min": 2, "max": 2, "weight": 1 } //Law rune
       ]
     },
     {
       "name": "Armour",
-      "points": 1,
+      "tableweight": 1,
       "items": [
-        { "id": 1161, "min": 1, "max": 1, "points": 1 }, //Adamant full helm
-        { "id": 1135, "min": 1, "max": 1, "points": 1 }, //Green d'hide body
-        { "id": 1099, "min": 1, "max": 1, "points": 1 }, //Green d'hide chaps
-        { "id": 1197, "min": 1, "max": 1, "points": 1 } //Mithril kiteshield
+        { "id": 1161, "min": 1, "max": 1, "weight": 1 }, //Adamant full helm
+        { "id": 1135, "min": 1, "max": 1, "weight": 1 }, //Green d'hide body
+        { "id": 1099, "min": 1, "max": 1, "weight": 1 }, //Green d'hide chaps
+        { "id": 1197, "min": 1, "max": 1, "weight": 1 } //Mithril kiteshield
       ]
     },
     {
       "name": "Herbs",
-      "points": 1,
+      "tableweight": 1,
       "items": [
-        { "id": 199, "min": 1, "max": 1, "points": 1 }, //Grimy guam leaf
-        { "id": 203, "min": 1, "max": 1, "points": 1 }, //Grimy tarromin
-        { "id": 201, "min": 1, "max": 1, "points": 1 }, //Grimy marrentill
-        { "id": 211, "min": 1, "max": 1, "points": 1 }, //Grimy avantoe
-        { "id": 213, "min": 1, "max": 1, "points": 1 }, //Grimy kwuarm
-        { "id": 207, "min": 1, "max": 1, "points": 1 } //Grimy ranarr weed
+        { "id": 199, "min": 1, "max": 1, "weight": 1 }, //Grimy guam leaf
+        { "id": 203, "min": 1, "max": 1, "weight": 1 }, //Grimy tarromin
+        { "id": 201, "min": 1, "max": 1, "weight": 1 }, //Grimy marrentill
+        { "id": 211, "min": 1, "max": 1, "weight": 1 }, //Grimy avantoe
+        { "id": 213, "min": 1, "max": 1, "weight": 1 }, //Grimy kwuarm
+        { "id": 207, "min": 1, "max": 1, "weight": 1 } //Grimy ranarr weed
       ]
     },
     {
       "name": "Other",
-      "points": 1,
+      "tableweight": 1,
       "items": [
-        { "id": 385, "min": 1, "max": 1, "points": 1 } //Shark
+        { "id": 385, "min": 1, "max": 1, "weight": 1 } //Shark
       ]
     }
   ]

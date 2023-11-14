@@ -7,42 +7,42 @@
   "tables": [
     {
       "name": "Armour & Weapons",
-      "points": 1,
+      "tableweight": 1,
       "items": [
 
-        { "id": 9194, "min": 10, "max": 10, "points": 25 }, //Onyx bolt tips
-        { "id": 1618, "min": 15, "max": 15, "points": 25 }, //Uncut diamond (noted)
-        { "id": 5522, "min": 25, "max": 25, "points": 25 }, //Binding necklace (noted)
-        { "id": 1938, "min": 254, "max": 350, "points": 25 }, //Jug of water (noted)
-        { "id": 2, "min": 300, "max": 300, "points": 25 }, //Cannonball
-        { "id": 7937, "min": 600, "max": 600, "points": 25 }, //Pure essence (noted)
-        { "id": 454, "min": 380, "max": 420, "points": 25 }, //Coal (noted)
-        { "id": 1514, "min": 51, "max": 70, "points": 25 }, //Magic logs (noted)
-        { "id": 576, "min": 47, "max": 53, "points": 25 }, //Earth orb (noted)
-        { "id": 2364, "min": 5, "max": 5, "points": 25 }, //Runite bar (noted)
-        { "id": 452, "min": 6, "max": 6, "points": 25 }, //Runite ore (noted)
-        { "id": 214, "min": 25, "max": 25, "points": 25 }, //Grimy kwuarm (noted)
-        { "id": 2486, "min": 25, "max": 25, "points": 25 }, //Grimy lantadyme (noted)
-        { "id": 216, "min": 25, "max": 25, "points": 25 }, //Grimy cadantine (noted)
-        { "id": 218, "min": 25, "max": 25, "points": 25 }, //Grimy dwarf weed (noted)
-        { "id": 7054, "min": 10, "max": 10, "points": 25 }, //Chilli potato
-        { "id": 6687, "min": 6, "max": 6, "points": 25 }, //Saradomin brew(3)
-        { "id": 3024, "min": 4, "max": 4, "points": 25 }, //Super restore(4)
-        { "id": 564, "min": 350, "max": 350, "points": 25 }, //Cosmic rune
-        { "id": 563, "min": 250, "max": 250, "points": 25 }, //Law rune
-        { "id": 560, "min": 300, "max": 370, "points": 25 }, //Death rune
-        { "id": 566, "min": 225, "max": 275, "points": 25 }, //Soul rune
-        { "id": 565, "min": 160, "max": 210, "points": 25 }, //Blood rune
-        { "id": 1128, "min": 2, "max": 2, "points": 15 }, //Rune platebody (noted)
-        { "id": 1290, "min": 3, "max": 3, "points": 15 }, //Rune sword (noted)
-        { "id": 1164, "min": 3, "max": 3, "points": 15 }, //Rune full helm (noted)
-        { "id": 1202, "min": 2, "max": 2, "points": 15 }, //Rune kiteshield (noted)
-        { "id": 1392, "min": 10, "max": 10, "points": 15 }, //Battlestaff (noted)
-        { "id": 1398, "min": 6, "max": 6, "points": 15 }, //Air battlestaff (noted)
-        { "id": 1406, "min": 2, "max": 2, "points": 15 }, //Mystic air staff (noted)
-        { "id": 3056, "min": 2, "max": 2, "points": 15 }, //Mystic lava staff (noted)
-        { "id": 13273, "min": 1, "max": 1, "points": 1 }, //Unsired
-        { "id": 13265, "min": 1, "max": 1, "points": 1 } //Abyssal dagger
+        { "id": 9194, "min": 10, "max": 10, "weight": 25 }, //Onyx bolt tips
+        { "id": 1618, "min": 15, "max": 15, "weight": 25 }, //Uncut diamond (noted)
+        { "id": 5522, "min": 25, "max": 25, "weight": 25 }, //Binding necklace (noted)
+        { "id": 1938, "min": 254, "max": 350, "weight": 25 }, //Jug of water (noted)
+        { "id": 2, "min": 300, "max": 300, "weight": 25 }, //Cannonball
+        { "id": 7937, "min": 600, "max": 600, "weight": 25 }, //Pure essence (noted)
+        { "id": 454, "min": 380, "max": 420, "weight": 25 }, //Coal (noted)
+        { "id": 1514, "min": 51, "max": 70, "weight": 25 }, //Magic logs (noted)
+        { "id": 576, "min": 47, "max": 53, "weight": 25 }, //Earth orb (noted)
+        { "id": 2364, "min": 5, "max": 5, "weight": 25 }, //Runite bar (noted)
+        { "id": 452, "min": 6, "max": 6, "weight": 25 }, //Runite ore (noted)
+        { "id": 214, "min": 25, "max": 25, "weight": 25 }, //Grimy kwuarm (noted)
+        { "id": 2486, "min": 25, "max": 25, "weight": 25 }, //Grimy lantadyme (noted)
+        { "id": 216, "min": 25, "max": 25, "weight": 25 }, //Grimy cadantine (noted)
+        { "id": 218, "min": 25, "max": 25, "weight": 25 }, //Grimy dwarf weed (noted)
+        { "id": 7054, "min": 10, "max": 10, "weight": 25 }, //Chilli potato
+        { "id": 6687, "min": 6, "max": 6, "weight": 25 }, //Saradomin brew(3)
+        { "id": 3024, "min": 4, "max": 4, "weight": 25 }, //Super restore(4)
+        { "id": 564, "min": 350, "max": 350, "weight": 25 }, //Cosmic rune
+        { "id": 563, "min": 250, "max": 250, "weight": 25 }, //Law rune
+        { "id": 560, "min": 300, "max": 370, "weight": 25 }, //Death rune
+        { "id": 566, "min": 225, "max": 275, "weight": 25 }, //Soul rune
+        { "id": 565, "min": 160, "max": 210, "weight": 25 }, //Blood rune
+        { "id": 1128, "min": 2, "max": 2, "weight": 15 }, //Rune platebody (noted)
+        { "id": 1290, "min": 3, "max": 3, "weight": 15 }, //Rune sword (noted)
+        { "id": 1164, "min": 3, "max": 3, "weight": 15 }, //Rune full helm (noted)
+        { "id": 1202, "min": 2, "max": 2, "weight": 15 }, //Rune kiteshield (noted)
+        { "id": 1392, "min": 10, "max": 10, "weight": 15 }, //Battlestaff (noted)
+        { "id": 1398, "min": 6, "max": 6, "weight": 15 }, //Air battlestaff (noted)
+        { "id": 1406, "min": 2, "max": 2, "weight": 15 }, //Mystic air staff (noted)
+        { "id": 3056, "min": 2, "max": 2, "weight": 15 }, //Mystic lava staff (noted)
+        { "id": 13273, "min": 1, "max": 1, "weight": 1 }, //Unsired
+        { "id": 13265, "min": 1, "max": 1, "weight": 1 } //Abyssal dagger
       ]
     }
   ]

@@ -1,5 +1,4 @@
 package com.cryptic.utility.flood;
-
 public class PacketBuilder {
 
     private final int opcode;

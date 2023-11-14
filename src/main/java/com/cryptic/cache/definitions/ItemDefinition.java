@@ -7,6 +7,7 @@ import com.cryptic.utility.loaders.BloodMoneyPrices;
 import com.cryptic.model.items.Item;
 import com.cryptic.network.codec.RSBuffer;
 import com.cryptic.utility.ItemIdentifiers;
+import com.google.common.collect.Maps;
 import io.netty.buffer.Unpooled;
 
 import java.util.Arrays;
@@ -103,6 +104,11 @@ public class ItemDefinition implements Definition {
         custom();
     }
 
+    public static Map<Integer, ItemDefinition> cached = Maps.newConcurrentMap();
+    public static ItemDefinition getInstance(int id) {
+        return cached.get(id);
+    }
+
     void decode(RSBuffer buffer) {
         while (true) {
             int op = buffer.readUByte();
@@ -111,6 +117,7 @@ public class ItemDefinition implements Definition {
             decodeValues(buffer, op);
         }
         postDecode(id);
+        cached.put(id, this);
     }
 
     void custom() {
@@ -430,9 +437,10 @@ public class ItemDefinition implements Definition {
                 return "Axe";
             }
             case 21 -> {
-                if (weaponType == WeaponType.LONGSWORD) {
-                    return "Longsword";
-                }
+                return "Slash Sword";
+            }
+            case 64 -> {
+                return "Longbow";
             }
             case 25 -> {
                 return "Stab Sword";

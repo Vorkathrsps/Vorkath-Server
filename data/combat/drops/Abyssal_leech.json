@@ -6,23 +6,23 @@
   "tables": [
     {
       "name": "Talismans",
-      "points": 1,
+      "tableweight": 1,
       "items": [
-        { "id": 1438, "min": 1, "max": 1, "points": 20 }, //Air talisman
-        { "id": 1448, "min": 1, "max": 1, "points": 20 }, //Mind talisman
-        { "id": 1440, "min": 1, "max": 1, "points": 20 }, //Earth talisman
-        { "id": 1444, "min": 1, "max": 1, "points": 20 }, //Water talisman
-        { "id": 1442, "min": 1, "max": 1, "points": 20}, //Fire talisman
-        { "id": 1446, "min": 1, "max": 1, "points": 20 }, //Body talisman
-        { "id": 1452, "min": 1, "max": 1, "points": 20 }, //Chaos talisman
-        { "id": 1462, "min": 1, "max": 1, "points": 20 }, //Nature talisman
-        { "id": 1454, "min": 1, "max": 1, "points": 20 }, //Cosmic talisman
-        { "id": 1458, "min": 1, "max": 1, "points": 20 }, //Law talisman
-        { "id": 5516, "min": 1, "max": 1, "points": 20 }, //Elemental talisman
-        { "id": 7937, "min": 1, "max": 10, "points": 10 }, //Pure essence
-        { "id": 7937, "min": 5, "max": 50, "points": 10 }, //Pure essence
-        { "id": 7937, "min": 25, "max": 150, "points": 10 }, //Pure essence (noted)
-        { "id": 5521, "min": 1, "max": 1, "points": 5 } //Binding necklace
+        { "id": 1438, "min": 1, "max": 1, "weight": 20 }, //Air talisman
+        { "id": 1448, "min": 1, "max": 1, "weight": 20 }, //Mind talisman
+        { "id": 1440, "min": 1, "max": 1, "weight": 20 }, //Earth talisman
+        { "id": 1444, "min": 1, "max": 1, "weight": 20 }, //Water talisman
+        { "id": 1442, "min": 1, "max": 1, "weight": 20}, //Fire talisman
+        { "id": 1446, "min": 1, "max": 1, "weight": 20 }, //Body talisman
+        { "id": 1452, "min": 1, "max": 1, "weight": 20 }, //Chaos talisman
+        { "id": 1462, "min": 1, "max": 1, "weight": 20 }, //Nature talisman
+        { "id": 1454, "min": 1, "max": 1, "weight": 20 }, //Cosmic talisman
+        { "id": 1458, "min": 1, "max": 1, "weight": 20 }, //Law talisman
+        { "id": 5516, "min": 1, "max": 1, "weight": 20 }, //Elemental talisman
+        { "id": 7937, "min": 1, "max": 10, "weight": 10 }, //Pure essence
+        { "id": 7937, "min": 5, "max": 50, "weight": 10 }, //Pure essence
+        { "id": 7937, "min": 25, "max": 150, "weight": 10 }, //Pure essence (noted)
+        { "id": 5521, "min": 1, "max": 1, "weight": 5 } //Binding necklace
       ]
     }
   ]

@@ -3,16 +3,16 @@
   "tables": [
     {
       "name": "Other",
-      "points": 1,
+      "tableweight": 1,
       "items": [
-        { "id": 1755, "min": 1, "max": 1, "points": 12 }, //Chisel
-        { "id": 2347, "min": 1, "max": 1, "points": 12 }, //Hammer
-        { "id": 1935, "min": 1, "max": 1, "points": 12 }, //Jug
-        { "id": 946, "min": 1, "max": 1, "points": 6 }, //Knife
-        { "id": 1931, "min": 1, "max": 1, "points": 6 }, //Pot
-        { "id": 6529, "min": 1, "max": 16, "points": 3 }, //Tokkul
-        { "id": 1623, "min": 1, "max": 1, "points": 3 }, //Uncut sapphire
-        { "id": 1619, "min": 1, "max": 1, "points": 1 } //Uncut ruby
+        { "id": 1755, "min": 1, "max": 1, "weight": 12 }, //Chisel
+        { "id": 2347, "min": 1, "max": 1, "weight": 12 }, //Hammer
+        { "id": 1935, "min": 1, "max": 1, "weight": 12 }, //Jug
+        { "id": 946, "min": 1, "max": 1, "weight": 6 }, //Knife
+        { "id": 1931, "min": 1, "max": 1, "weight": 6 }, //Pot
+        { "id": 6529, "min": 1, "max": 16, "weight": 3 }, //Tokkul
+        { "id": 1623, "min": 1, "max": 1, "weight": 3 }, //Uncut sapphire
+        { "id": 1619, "min": 1, "max": 1, "weight": 1 } //Uncut ruby
       ]
     }
   ]

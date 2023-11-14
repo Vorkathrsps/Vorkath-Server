@@ -6,9 +6,9 @@
   "tables": [
     {
       "name": "Runes/Ammunition",
-      "points": 1,
+      "tableweight": 1,
       "items": [
-        { "id": 877, "min": 7, "max": 10, "points": 1 } //Bronze bolts
+        { "id": 877, "min": 7, "max": 10, "weight": 1 } //Bronze bolts
       ]
     }
   ]

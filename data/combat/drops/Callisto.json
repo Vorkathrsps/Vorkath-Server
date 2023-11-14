@@ -15,169 +15,169 @@
     {
       "id": 1275,
       "amount": 1,
-      "points": 3
+      "tableweight": 3
     },
     {
       "id": 1319,
       "amount": 1,
-      "points": 1
+      "tableweight": 1
     },
     {
       "id": 566,
       "amount": 250,
-      "points": 1
+      "tableweight": 1
     },
     {
       "id": 560,
       "amount": 300,
-      "points": 1
+      "tableweight": 1
     },
     {
       "id": 562,
       "amount": 400,
-      "points": 1
+      "tableweight": 1
     },
     {
       "id": 565,
       "amount": 200,
-      "points": 1
+      "tableweight": 1
     },
     {
       "id": 5300,
       "amount": 3,
-      "points": 1
+      "tableweight": 1
     },
     {
       "id": 5295,
       "amount": 5,
-      "points": 1
+      "tableweight": 1
     },
     {
       "id": 995,
       "min": 12000,
       "max": 20000,
-      "points": 5
+      "tableweight": 5
     },
     {
       "id": 11937,
       "amount": 8,
-      "points": 4
+      "tableweight": 4
     },
     {
       "id": 3025,
       "amount": 3,
-      "points": 4
+      "tableweight": 4
     },
     {
       "id": 1620,
       "amount": 20,
-      "points": 1
+      "tableweight": 1
     },
     {
       "id": 1618,
       "amount": 10,
-      "points": 1
+      "tableweight": 1
     },
     {
       "id": 5975,
       "amount": 60,
-      "points": 1
+      "tableweight": 1
     },
     {
       "id": 6035,
       "amount": 100,
-      "points": 1
+      "tableweight": 1
     },
     {
       "id": 1634,
       "amount": 75,
-      "points": 1
+      "tableweight": 1
     },
     {
       "id": 2,
       "amount": 250,
-      "points": 1
+      "tableweight": 1
     },
     {
       "id": 1514,
       "amount": 100,
-      "points": 1
+      "tableweight": 1
     },
     {
       "id": 12746,
       "amount": 1,
-      "points": 1
+      "tableweight": 1
     },
     {
       "id": 226,
       "amount": 50,
-      "points": 1
+      "tableweight": 1
     },
     {
       "id": 1750,
       "amount": 75,
-      "points": 1
+      "tableweight": 1
     },
     {
       "id": 6334,
       "amount": 200,
-      "points": 1
+      "tableweight": 1
     }
   ],
   "tables": [
     {
       "name": "Rares",
-      "points": 2,
+      "tableweight": 2,
       "items": [
         {
           "id": 11920,
           "amount": 1,
-          "points": 2
+          "weight": 2
         },
         {
           "id": 7158,
           "amount": 1,
-          "points": 2
+          "weight": 2
         },
         {
           "id": 12603,
           "amount": 1,
-          "points": 1
+          "weight": 1
         },
         {
           "id": 5315,
           "amount": 1,
-          "points": 4
+          "weight": 4
         },
         {
           "id": 5316,
           "amount": 1,
-          "points": 4
+          "weight": 4
         },
         {
           "id": 5289,
           "amount": 1,
-          "points": 4
+          "weight": 4
         },
         {
           "id": 1631,
           "amount": 1,
-          "points": 4
+          "weight": 4
         },
         {
           "id": 3049,
           "amount": 1,
-          "points": 4
+          "weight": 4
         },
         {
           "id": 11940,
           "amount": 375,
-          "points": 4
+          "weight": 4
         },
         {
           "id": 12603,
           "amount": 1,
-          "points": 1
+          "weight": 1
         }
       ],
       "tables": []

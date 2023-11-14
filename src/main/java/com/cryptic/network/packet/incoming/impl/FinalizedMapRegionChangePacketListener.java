@@ -13,7 +13,6 @@ public class FinalizedMapRegionChangePacketListener implements PacketListener {
 
     @Override
     public void handleMessage(Player player, Packet packet) {
-
         if (player == null || player.dead()) {
             return;
         }

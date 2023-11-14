@@ -616,7 +616,7 @@ public class World {
     }
 
     public void loadDrops() {
-        ScalarLootTable.loadAll(new File("data/combat/drops"));
+        ScalarLootTable.loadAll(new File("data/combat/drops/"));
         System.out.println(ScalarLootTable.registered.size() + " loaded drops");
     }
 

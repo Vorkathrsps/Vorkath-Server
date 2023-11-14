@@ -7,11 +7,11 @@
   "tables": [
     {
       "name": "Other drops",
-      "points": 1,
+      "tableweight": 1,
       "items": [
-        { "id": 9079, "min": 1, "max": 1, "points": 1 }, //Suqah tooth
-        { "id": 199, "min": 1, "max": 1, "points": 20 }, //Grimy guam leaf
-        { "id": 201, "min": 1, "max": 1, "points": 20 } //Grimy marrentill
+        { "id": 9079, "min": 1, "max": 1, "weight": 1 }, //Suqah tooth
+        { "id": 199, "min": 1, "max": 1, "weight": 20 }, //Grimy guam leaf
+        { "id": 201, "min": 1, "max": 1, "weight": 20 } //Grimy marrentill
       ]
     }
   ]

@@ -3,6 +3,7 @@ package com.cryptic.cache.definitions;
 import com.cryptic.cache.DataStore;
 import com.cryptic.model.entity.npc.pets.PetDefinitions;
 import com.cryptic.network.codec.RSBuffer;
+import com.google.common.collect.Maps;
 import io.netty.buffer.Unpooled;
 import lombok.Getter;
 import org.apache.commons.lang3.ArrayUtils;
@@ -42,6 +43,8 @@ public class NpcDefinition implements Definition {
     public boolean isClickable;
 
     public Map<Integer, Object> params;
+    public static Map<Integer, NpcDefinition> cached = Maps.newConcurrentMap();
+
     short[] recolorFrom;
     short[] recolorTo;
     short[] retexture_from;
@@ -133,6 +136,12 @@ public class NpcDefinition implements Definition {
         gwdRoomNpc = ArrayUtils.contains(GWD_ROOM_NPCIDS, id);
         inferno = id >= 7677 && id <= 7710;
         roomBoss = name != null && ((id >= 2042 && id <= 2044 || inferno) || gwdRoomNpc);
+
+        cached.put(id, this);
+    }
+
+    public static NpcDefinition get(int id) {
+        return cached.get(id);
     }
 
     void decode(RSBuffer buffer) {

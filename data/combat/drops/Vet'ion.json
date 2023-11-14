@@ -8,22 +8,22 @@
   "tables": [
     {
       "name": "Unique",
-      "points": 1,
+      "tableweight": 1,
       "items": [
-        { "id": 12914, "min": 5, "max": 10, "points": 45 }, //Anti-venom+(4) (noted)
-        { "id": 21979, "min": 2, "max": 10, "points": 45 }, //Super antifire potion(4) (noted)
-        { "id": 995, "min": 250, "max": 400, "points": 40 }, //coins
-        { "id": 11840, "min": 1, "max": 1, "points": 35 }, //Dragon Boots
-        { "id": 11920, "min": 1, "max": 1, "points": 15 }, //Dragon Pickaxe
-        { "id": 12601, "min": 1, "max": 1, "points": 13 }, //Ring of the gods
-        { "id": 24271, "min": 1, "max": 1, "points": 3 },//Faceguard
-        { "id": 2944, "min": 1, "max": 1, "points": 2 } //Key of drops
+        { "id": 12914, "min": 5, "max": 10, "weight": 45 }, //Anti-venom+(4) (noted)
+        { "id": 21979, "min": 2, "max": 10, "weight": 45 }, //Super antifire potion(4) (noted)
+        { "id": 995, "min": 250, "max": 400, "weight": 40 }, //coins
+        { "id": 11840, "min": 1, "max": 1, "weight": 35 }, //Dragon Boots
+        { "id": 11920, "min": 1, "max": 1, "weight": 15 }, //Dragon Pickaxe
+        { "id": 12601, "min": 1, "max": 1, "weight": 13 }, //Ring of the gods
+        { "id": 24271, "min": 1, "max": 1, "weight": 3 },//Faceguard
+        { "id": 2944, "min": 1, "max": 1, "weight": 2 } //Key of drops
 
       ]
     },
     {
       "name": "Other",
-      "points": 5,
+      "tableweight": 5,
       "items": []
     }
   ]

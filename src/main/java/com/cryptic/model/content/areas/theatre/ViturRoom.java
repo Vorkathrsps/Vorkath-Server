@@ -20,17 +20,10 @@ import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.ROOSTER;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.VERZIK_VITUR_8369;
 
 public class ViturRoom extends PacketInteraction {
-
     private final int THEATRE_ENTRACE = 32653;
-
     public static final Area VERZIK_AREA = new Area(3135, 4288, 3263, 4351);
-
-    //32653, 3678, 3216
-
     public static final Tile ENTRANCE_POINT = new Tile(3168, 4303);
-
     public static final Tile VERZIK_SPAWN_TILE = new Tile(3168, 4316);
-
     public static final List<Tile> pillarTiles = List.of(new Tile(3161, 4318, 0),
             new Tile(3161, 4312, 0),
             new Tile(3161, 4306, 0),

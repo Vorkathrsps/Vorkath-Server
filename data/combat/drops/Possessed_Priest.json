@@ -12,7 +12,7 @@
   "tables": [
     {
       "name": "Other",
-      "points": 1,
+      "tableweight": 1,
       "items": [
 
       ]

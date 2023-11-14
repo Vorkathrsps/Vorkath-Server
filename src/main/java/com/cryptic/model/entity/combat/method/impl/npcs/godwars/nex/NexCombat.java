@@ -910,7 +910,7 @@ public class NexCombat extends CommonCombatMethod {
                 ScalarLootTable table = ScalarLootTable.forNPC(nex.id());
                 if (table != null) {
 
-                    Item reward = table.randomItem(World.getWorld().random(), player.getDropRateBonus());
+                    Item reward = table.rollItem();
                     if (reward != null) {
 
                         // bosses, find npc ID, find item ID

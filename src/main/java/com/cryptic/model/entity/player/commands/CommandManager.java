@@ -38,6 +38,7 @@ import com.cryptic.model.entity.player.commands.impl.staff.moderator.UnVanishCom
 import com.cryptic.model.entity.player.commands.impl.staff.moderator.VanishCommand;
 import com.cryptic.model.entity.player.commands.impl.staff.server_support.StaffZoneCommand;
 import com.cryptic.model.entity.player.commands.impl.super_member.YellColourCommand;
+import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.def.EquipmentLoader;
 import com.cryptic.model.items.ground.GroundItem;
@@ -57,13 +58,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.TriConsumer;
 
-import java.security.SecureRandom;
 import java.util.*;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.GREAT_OLM_7554;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.model.entity.masks.Direction.NORTH;
+import static com.cryptic.model.inter.InterfaceConstants.*;
 import static com.cryptic.utility.Debugs.CLIP;
 import static java.lang.String.format;
 
@@ -802,7 +803,7 @@ public class CommandManager {
         {
             var t = ScalarLootTable.registered.get(Integer.parseInt(s[1]));
             var kills = Integer.parseInt(s[2]);
-            List<Item> simulate = t.simulate(new SecureRandom(), kills, 0);
+            List<Item> simulate = t.simulate(Utils.RANDOM, kills);
             simulate.sort((o1, o2) -> {
                 int oo1 = kills / Math.max(1, o1.getAmount());
                 int oo2 = kills / Math.max(1, o2.getAmount());
@@ -814,6 +815,10 @@ public class CommandManager {
                 System.out.println(item.getAmount() + " x " + World.getWorld().definitions().get(ItemDefinition.class,
                     new Item(item.getId()).unnote(World.getWorld().definitions()).getId()).name + " (1/" + indiv + ")");
             }
+
+            p.getPacketSender().sendInterface(BANK_WIDGET);
+            p.getPacketSender().sendItemOnInterface(InterfaceConstants.WITHDRAW_BANK, simulate);
+            p.getPacketSender().sendBanktabs();
         });
 
         dev("test12", (p, c, s) ->

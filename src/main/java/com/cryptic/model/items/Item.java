@@ -346,8 +346,9 @@ public class Item implements Cloneable {
         return definition(World.getWorld()).bm;
     }
 
-    public boolean isTwoHanded(int id) {
-        return World.getWorld().getEquipmentLoader().getInfo(id).getEquipment().is2h();// If type is 5 it is a two-handed weapon
+    public boolean isTwoHanded() {
+        EquipmentInfo info = World.getWorld().equipmentInfo();
+        return info.typeFor(this.getId()) == 5 || World.getWorld().getEquipmentLoader().getInfo(this.getId()).getEquipment().is2h();// If type is 5 it is a two-handed weapon
     }
 
     public boolean isWeapon() {

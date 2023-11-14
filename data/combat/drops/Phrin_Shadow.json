@@ -3,9 +3,9 @@
   "tables": [
     {
       "name": "Drops",
-      "points": 1,
+      "tableweight": 1,
       "items": [
-        { "id": 3398, "min": 1, "max": 1, "points": 1 } //Phrin remains
+        { "id": 3398, "min": 1, "max": 1, "weight": 1 } //Phrin remains
       ]
     }
   ]

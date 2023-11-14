@@ -6,23 +6,23 @@
   "tables": [
     {
       "name": "Extra coins",
-      "points": 4,
+      "tableweight": 4,
       "items": [
-        { "id": 995, "min": 150, "max": 300, "points": 1 }
+        { "id": 995, "min": 150, "max": 300, "weight": 1 }
       ]
     },
     {
       "name": "Unique",
-      "points": 1,
+      "tableweight": 1,
       "items": [
-        { "id": 11838, "min": 1, "max": 1, "points": 15 },
-        { "id": 11806, "min": 1, "max": 1, "points": 6 },
-        { "id": 11785, "min": 1, "max": 1, "points": 4 }
+        { "id": 11838, "min": 1, "max": 1, "weight": 15 },
+        { "id": 11806, "min": 1, "max": 1, "weight": 6 },
+        { "id": 11785, "min": 1, "max": 1, "weight": 4 }
       ]
     },
     {
       "name": "Other",
-      "points": 15,
+      "tableweight": 15,
       "items": []
     }
   ]

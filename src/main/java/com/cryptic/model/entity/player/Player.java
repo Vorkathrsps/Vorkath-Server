@@ -409,33 +409,33 @@ public class Player extends Entity {
     public double getDropRateBonus() {
         var percent = switch (getMemberRights()) {
             case NONE -> 1.0;
-            case RUBY_MEMBER -> 5.0;
-            case SAPPHIRE_MEMBER -> 6.0;
-            case EMERALD_MEMBER -> 7.0;
-            case DIAMOND_MEMBER -> 8.0;
-            case DRAGONSTONE_MEMBER -> 9.0;
-            case ONYX_MEMBER -> 10.0;
-            case ZENYTE_MEMBER -> 15.0;
+            case RUBY_MEMBER -> 1.05;
+            case SAPPHIRE_MEMBER -> 1.06;
+            case EMERALD_MEMBER -> 1.07;
+            case DIAMOND_MEMBER -> 1.08;
+            case DRAGONSTONE_MEMBER -> 1.09;
+            case ONYX_MEMBER -> 1.10;
+            case ZENYTE_MEMBER -> 1.15;
         };
 
         if (getDropRatePerk()) {
-            percent += 3.0;
+            percent += 1.03;
         }
 
         if (getIronManStatus() == IronMode.REGULAR || getIronManStatus() == IronMode.HARDCORE) {
-            percent += 5.0;
+            percent += 1.05;
         }
 
         if (this.getGameMode().equals(GameMode.REALISM)) {
-            percent += 5.0;
+            percent += 1.05;
         }
 
         if (Skulling.skulled(player()) && player().tile.insideRevCave()) {
-            percent += 15.0;
+            percent += 1.05;
         }
 
         if (getEquipment().contains(RING_OF_WEALTH_I)) {
-            percent += 5.0;
+            percent += 1.05;
         }
 
         return percent;

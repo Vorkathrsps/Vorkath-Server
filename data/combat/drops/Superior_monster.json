@@ -6,17 +6,17 @@
   "tables": [
     {
       "name": "Weapons",
-      "points": 1,
+      "tableweight": 1,
       "items": [
-        { "id": 556, "min": 1, "max": 150, "points": 10 }, //Air Rune
-        {"id": 565, "min": 1, "max": 150, "points": 10 }, //Blood Rune
-        {"id": 258, "min": 1, "max": 10 , "points": 10 }, //Rannar Noted
-        { "id": 214, "min": 1, "max": 5, "points": 10 }, //Grimy kwuarm
-        { "id": 216, "min": 1, "max": 3,"points": 10 }, //Grimy cadantine
-        { "id": 995, "min": 25000, "max": 15000, "points": 5 },   //coins
-        { "id": 989, "min": 1, "max": 2, "points": 5 },  //Crystal Key
-        { "id": 23490, "min": 1, "max": 1, "points": 5 } , //Larrans Key
-        { "id": 20724, "min": 1, "max": 1, "points": 1 }   //Imbued Heart
+        { "id": 556, "min": 1, "max": 150, "weight": 10 }, //Air Rune
+        {"id": 565, "min": 1, "max": 150, "weight": 10 }, //Blood Rune
+        {"id": 258, "min": 1, "max": 10 , "weight": 10 }, //Rannar Noted
+        { "id": 214, "min": 1, "max": 5, "weight": 10 }, //Grimy kwuarm
+        { "id": 216, "min": 1, "max": 3,"weight": 10 }, //Grimy cadantine
+        { "id": 995, "min": 25000, "max": 15000, "weight": 5 },   //coins
+        { "id": 989, "min": 1, "max": 2, "weight": 5 },  //Crystal Key
+        { "id": 23490, "min": 1, "max": 1, "weight": 5 } , //Larrans Key
+        { "id": 20724, "min": 1, "max": 1, "weight": 1 }   //Imbued Heart
           ]
         }
       ]

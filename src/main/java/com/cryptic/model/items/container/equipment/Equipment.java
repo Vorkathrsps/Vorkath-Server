@@ -20,7 +20,6 @@ import com.cryptic.model.entity.combat.magic.spells.CombatSpells;
 import com.cryptic.model.entity.combat.skull.SkullType;
 import com.cryptic.model.entity.combat.skull.Skulling;
 import com.cryptic.model.entity.combat.weapon.WeaponInterfaces;
-import com.cryptic.model.entity.combat.weapon.WeaponType;
 import com.cryptic.model.inter.dialogue.DialogueManager;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.masks.Flag;
@@ -378,13 +377,13 @@ public final class Equipment extends ItemContainer {
                     DuelRule duelRule = DuelRule.forId(i);
                     if (duelRule == null)
                         return false;
-                    if (equipmentSlot == duelRule.getEquipmentSlot() || duelRule == DuelRule.NO_SHIELD && equip.isTwoHanded(id)) {
+                    if (equipmentSlot == duelRule.getEquipmentSlot() || duelRule == DuelRule.NO_SHIELD && equip.isTwoHanded()) {
                         DialogueManager.sendStatement(player, "The rules that were set do not allow this item to be equipped.");
                         return false;
                     }
                 }
             }
-            if (equipmentSlot == EquipSlot.WEAPON || equip.isTwoHanded(id)) {
+            if (equipmentSlot == EquipSlot.WEAPON || equip.isTwoHanded()) {
                 boolean isDDSOrWhip = equip.name().toLowerCase().contains("dragon dagger") || equip.name().toLowerCase().contains("abyssal whip");
                 boolean isWhip = equip.name().toLowerCase().contains("abyssal whip");
                 var whipAndDDS = player.<Boolean>getAttribOr(AttributeKey.WHIP_AND_DDS, false);
@@ -507,20 +506,20 @@ public final class Equipment extends ItemContainer {
         }
 
         if (hasWeapon() && equipmentSlot == EquipSlot.SHIELD) {
-            if (equip.isTwoHanded(id) || getWeapon().isTwoHanded(id)) {
+            if (equip.isTwoHanded() || getWeapon().isTwoHanded()) {
                 secondaryItemToUnequip = getWeapon();
             }
         }
 
         if (hasShield() && equipmentSlot == EquipSlot.WEAPON) {
-            if (equip.isTwoHanded(id) || getShield().isTwoHanded(id)) {
+            if (equip.isTwoHanded() || getShield().isTwoHanded()) {
                 secondaryItemToUnequip = getShield();
             }
         }
 
         boolean oneForOneSwap =
-            (equipmentSlot == EquipSlot.SHIELD && (!hasWeapon() || !hasShield() || getWeapon().isTwoHanded(id)))
-                || (equipmentSlot == EquipSlot.WEAPON && (!hasShield() || !hasWeapon() || getShield().isTwoHanded(id)));
+            (equipmentSlot == EquipSlot.SHIELD && (!hasWeapon() || !hasShield() || getWeapon().isTwoHanded()))
+                || (equipmentSlot == EquipSlot.WEAPON && (!hasShield() || !hasWeapon() || getShield().isTwoHanded()));
 
         if (secondaryItemToUnequip != null && !inventory.hasCapacity(secondaryItemToUnequip) && !oneForOneSwap) {
             player.message("You do not have enough space in your inventory.");
@@ -589,7 +588,7 @@ public final class Equipment extends ItemContainer {
         if (unequip == null)
             return false;
 
-        if (equipmentIndex == EquipSlot.WEAPON || unequip.isTwoHanded(unequip.getId())) {
+        if (equipmentIndex == EquipSlot.WEAPON || unequip.isTwoHanded()) {
             if (player.getDueling().getRules()[DuelRule.LOCK_WEAPON.ordinal()]) {
                 DialogueManager.sendStatement(player, "Weapons have been locked in this duel!");
                 return false;

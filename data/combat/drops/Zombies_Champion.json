@@ -21,286 +21,286 @@
   "tables": [
     {
       "name": "Unique",
-      "points": 1,
+      "tableweight": 1,
       "items": [
         {
           "id": 12922,
           "amount": 1,
-          "points": 1
+          "weight": 1
         },
         {
           "id": 12932,
           "amount": 1,
-          "points": 1
+          "weight": 1
         },
         {
           "id": 12927,
           "amount": 1,
-          "points": 1
+          "weight": 1
         },
         {
           "id": 6571,
           "amount": 1,
-          "points": 1
+          "weight": 1
         }
       ],
       "tables": []
     },
     {
       "name": "Armour",
-      "points": 7,
+      "tableweight": 7,
       "items": [
         {
           "id": 1149,
           "amount": 1,
-          "points": 1
+          "weight": 1
         },
         {
           "id": 3204,
           "amount": 1,
-          "points": 1
+          "weight": 1
         }
       ],
       "tables": []
     },
     {
       "name": "Runes",
-      "points": 32,
+      "tableweight": 32,
       "items": [
         {
           "id": 563,
           "amount": 200,
-          "points": 3
+          "weight": 3
         },
         {
           "id": 560,
           "amount": 300,
-          "points": 1
+          "weight": 1
         },
         {
           "id": 562,
           "amount": 500,
-          "points": 1
+          "weight": 1
         },
         {
           "id": 7937,
           "amount": 1500,
-          "points": 1
+          "weight": 1
         }
       ],
       "tables": []
     },
     {
       "name": "Herbs",
-      "points": 8,
+      "tableweight": 8,
       "items": [
         {
           "id": 2999,
           "amount": 25,
-          "points": 1
+          "weight": 1
         },
         {
           "id": 3001,
           "amount": 10,
-          "points": 1
+          "weight": 1
         },
         {
           "id": 268,
           "amount": 30,
-          "points": 1
+          "weight": 1
         },
         {
           "id": 270,
           "amount": 10,
-          "points": 1
+          "weight": 1
         }
       ],
       "tables": []
     },
     {
       "name": "Materials",
-      "points": 51,
+      "tableweight": 51,
       "items": [
         {
           "id": 1780,
           "amount": 1000,
-          "points": 3
+          "weight": 3
         },
         {
           "id": 6290,
           "amount": 35,
-          "points": 3
+          "weight": 3
         },
         {
           "id": 9193,
           "amount": 12,
-          "points": 3
+          "weight": 3
         },
         {
           "id": 1516,
           "amount": 35,
-          "points": 3
+          "weight": 3
         },
         {
           "id": 454,
           "amount": 200,
-          "points": 1
+          "weight": 1
         },
         {
           "id": 452,
           "amount": 2,
-          "points": 1
+          "weight": 1
         }
       ],
       "tables": []
     },
     {
       "name": "Seeds",
-      "points": 21,
+      "tableweight": 21,
       "items": [
         {
           "id": 5316,
           "amount": 1,
-          "points": 4
+          "weight": 4
         },
         {
           "id": 5290,
           "amount": 2,
-          "points": 4
+          "weight": 4
         },
         {
           "id": 5288,
           "amount": 3,
-          "points": 4
+          "weight": 4
         },
         {
           "id": 5289,
           "amount": 1,
-          "points": 4
+          "weight": 4
         },
         {
           "id": 5296,
           "amount": 2,
-          "points": 2
+          "weight": 2
         },
         {
           "id": 5300,
           "amount": 1,
-          "points": 2
+          "weight": 2
         },
         {
           "id": 5303,
           "amount": 2,
-          "points": 3
+          "weight": 3
         },
         {
           "id": 5304,
           "amount": 1,
-          "points": 2
+          "weight": 2
         },
         {
           "id": 5317,
           "amount": 1,
-          "points": 1
+          "weight": 1
         },
         {
           "id": 4207,
           "amount": 1,
-          "points": 1
+          "weight": 1
         }
       ],
       "tables": []
     },
     {
       "name": "Other",
-      "points": 46,
+      "tableweight": 46,
       "items": [],
       "tables": [
         {
           "name": "Normal",
-          "points": 500,
+          "weight": 500,
           "items": [
             {
               "id": 12938,
               "amount": 1,
-              "points": 5
+              "weight": 5
             },
             {
               "id": 537,
               "amount": 12,
-              "points": 5
+              "weight": 5
             },
             {
               "id": 5975,
               "amount": 20,
-              "points": 5
+              "weight": 5
             },
             {
               "id": 1988,
               "amount": 250,
-              "points": 5
+              "weight": 5
             },
             {
               "id": 12934,
               "amount": 500,
-              "points": 3
+              "weight": 3
             },
             {
               "id": 1392,
               "amount": 10,
-              "points": 3
+              "weight": 3
             },
             {
               "id": 5953,
               "amount": 10,
-              "points": 3
+              "weight": 3
             },
             {
               "id": 392,
               "amount": 35,
-              "points": 3
+              "weight": 3
             },
             {
               "id": 6333,
               "amount": 50,
-              "points": 3
+              "weight": 3
             },
             {
               "id": 1939,
               "amount": 1000,
-              "points": 3
+              "weight": 3
             },
             {
               "id": 5075,
               "amount": 10,
-              "points": 3
+              "weight": 3
             },
             {
               "id": 2362,
               "amount": 20,
-              "points": 3
+              "weight": 3
             }
           ],
           "tables": []
         },
         {
           "name": "Fkn rare",
-          "points": 1,
+          "weight": 1,
           "items": [
             {
               "id": 12936,
               "amount": 1,
-              "points": 4
+              "weight": 4
             },
             {
               "id": 13200,
               "amount": 1,
-              "points": 1
+              "weight": 1
             },
             {
               "id": 13201,
               "amount": 1,
-              "points": 1
+              "weight": 1
             }
           ],
           "tables": []

@@ -9,6 +9,7 @@ import com.cryptic.model.entity.combat.magic.CombatSpell;
 import com.cryptic.model.entity.combat.magic.autocasting.Autocasting;
 import com.cryptic.model.entity.combat.magic.spells.CombatSpells;
 import com.cryptic.model.entity.combat.weapon.WeaponInterfaces;
+import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.inter.InterfaceConstants;
@@ -59,8 +60,6 @@ public class EquipPacketListener implements PacketListener {
         if (slot < 0 || slot > 27)
             return;
 
-        if (player.getCombat() != null) player.getCombat().reset();
-
         Item item = player.inventory().get(slot);
 
         if (item != null && item.getId() == id && !player.locked() && !player.dead()) {
@@ -78,6 +77,8 @@ public class EquipPacketListener implements PacketListener {
                 player.getLootingBag().open();
                 return;
             }
+
+            player.getUpdateFlag().flag(Flag.APPEARANCE);
 
             if (interfaceId == InterfaceConstants.INVENTORY_INTERFACE) {
                 player.debugMessage("Equip ItemId=" + id + " Slot=" + slot + " InterfaceId=" + interfaceId);

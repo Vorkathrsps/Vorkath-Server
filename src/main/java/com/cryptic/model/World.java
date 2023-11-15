@@ -388,11 +388,11 @@ public class World {
             players.shuffleRenderOrder();
         }
 
-        skull.run();
+        packets.run();
         tasks.run();
         objs.run();
+        skull.run();
         npcProcess.run();
-        packets.run();
         playerProcess.run();
         gpi.run();
         flush.run();

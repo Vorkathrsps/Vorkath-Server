@@ -284,7 +284,7 @@ public final class Equipment extends ItemContainer {
     public boolean remove(Item item, int preferredIndex, boolean refresh) {
         boolean removed = super.remove(item, preferredIndex, refresh);
         if (removed && !contains(item)) {
-            this.appearanceForIndex(World.getWorld().equipmentInfo().slotFor(item.getId()));
+            player.getUpdateFlag().flag(Flag.APPEARANCE);
         }
         return removed;
     }
@@ -330,7 +330,7 @@ public final class Equipment extends ItemContainer {
             return;
         set(targetSlot, toWear, false);
         player.inventory().remove(toWear);
-        appearanceForIndex(targetSlot);
+        player.getUpdateFlag().flag(Flag.APPEARANCE);
         WeaponInterfaces.updateWeaponInterface(player);
         if (refresh)
             player.getEquipment().refresh();
@@ -540,7 +540,7 @@ public final class Equipment extends ItemContainer {
         if (current != null)
             player.inventory().add(current, inventoryIndex, true); // add to inv
         player.getEquipment().set(equipmentSlot, equip, true); // add new to equip. use SET instead of ADD to use special equip index.
-        appearanceForIndex(equipmentSlot);
+        player.getUpdateFlag().flag(Flag.APPEARANCE);
         player.setSpecialActivated(false);
         CombatSpecial.updateBar(player);
 
@@ -558,7 +558,7 @@ public final class Equipment extends ItemContainer {
             Item newItem = new Item(new_id, secondaryItemToUnequip.getAmount());
             int slot = info.slotFor(newItem.getId());
             set(slot, null, true);
-            appearanceForIndex(slot);
+            player.getUpdateFlag().flag(Flag.APPEARANCE);
             inventory.add(newItem, inventoryIndex, true);
         }
 
@@ -613,7 +613,7 @@ public final class Equipment extends ItemContainer {
 
         player.getEquipment().remove(new Item(unequip.getId(), unequip.getAmount()), true);
 
-        appearanceForIndex(equipmentIndex);
+        player.getUpdateFlag().flag(Flag.APPEARANCE);
 
         if (unequip.getId() == ItemIdentifiers.AMULET_OF_AVARICE) {
             // Skull..
@@ -647,14 +647,6 @@ public final class Equipment extends ItemContainer {
      * Flags the {@code APPEARANCE} update block, only if the equipment piece on
      * {@code equipmentIndex} requires an appearance update.
      */
-    private void appearanceForIndex(int equipmentIndex) {
-        if (!NO_APPEARANCE.contains(equipmentIndex)) {
-            player.getUpdateFlag().flag(Flag.APPEARANCE);
-        }
-        if (dirty) {
-            player.setQueuedAppearanceUpdate(true);
-        }
-    }
 
     public boolean hasHead() {
         return get(EquipSlot.HEAD) != null;

@@ -1,6 +1,7 @@
 package com.cryptic.network.packet.incoming.impl;
 
 import com.cryptic.GameServer;
+import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.smithing.Bar;
 import com.cryptic.model.content.skill.impl.smithing.EquipmentMaking;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -152,6 +153,7 @@ public class ObjectInteractionHandler implements PacketListener {
         switch (option) {
             case 1 -> {
                 player.getFarming().handleObjectClick(object.tile().x, object.tile().y, 1);
+
                 if (name.equalsIgnoreCase("anvil")) {
                     if (object.tile().equals(2794, 2793)) {
                         player.smartPathTo(object.tile());
@@ -179,6 +181,7 @@ public class ObjectInteractionHandler implements PacketListener {
                 if (object.getId() == 31858) {
                     player.animate(new Animation(645));
                     MagicSpellbook.changeSpellbook(player, MagicSpellbook.NORMAL, true);
+                    return;
                 }
 
                 if (name.equalsIgnoreCase("furnace")) {
@@ -186,6 +189,7 @@ public class ObjectInteractionHandler implements PacketListener {
                     player.getPacketSender().sendChatboxInterface(2400);
                     return;
                 }
+
                 player.getPacketSender().sendMessage("Nothing interesting happens.");
             }
             case 2 -> {
@@ -198,6 +202,7 @@ public class ObjectInteractionHandler implements PacketListener {
                 if (object.getId() == 31858) {
                     player.animate(new Animation(645));
                     MagicSpellbook.changeSpellbook(player, MagicSpellbook.ANCIENTS, true);
+                    return;
                 }
 
                 if (name.equalsIgnoreCase("furnace")) {
@@ -205,6 +210,7 @@ public class ObjectInteractionHandler implements PacketListener {
                     player.getPacketSender().sendChatboxInterface(2400);
                     return;
                 }
+
                 player.getPacketSender().sendMessage("Nothing interesting happens.");
             }
             case 3 -> {

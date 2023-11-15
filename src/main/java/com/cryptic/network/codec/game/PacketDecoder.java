@@ -61,22 +61,23 @@ public final class PacketDecoder extends ByteToMessageDecoder {
 
         if (state == State.LENGTH) {
             switch (size) {
-                case -1:
+                case -1 -> {
                     if (!buffer.isReadable()) {
                         return;
                     }
                     size = buffer.readUnsignedByte();
-                    break;
-                case -2:
+                }
+                case -2 -> {
                     if (!buffer.isReadable(2)) {
                         return;
                     }
                     size = buffer.readUnsignedShort();
-                    break;
-                case -3:
+                }
+                case -3 -> {
                     logger.error("Unhandled size for OpCode=" + opcode + " size=" + size + " Info=" + player);
                     ctx.close();
                     return;
+                }
             }
 
             state = State.PAYLOAD;

@@ -148,6 +148,7 @@ public class IncomingHandler {
         PACKETS[135] = new FifthItemContainerActionPacketListener();
         PACKETS[140] = new WithdrawAllButOnePacketListener();
         PACKETS[141] = new ModifiableXPacketListener();
+        PACKETS[143] = new ObjectExaminePacketListener();
 
         PACKETS[153] = new AttackPlayerPacketListener();
         PACKETS[128] = new PlayerOptionOnePacketListener();
@@ -441,7 +442,7 @@ public class IncomingHandler {
         PACKET_SIZES[140] = 6;
         PACKET_SIZES[141] = 10;
         PACKET_SIZES[142] = -1;
-        PACKET_SIZES[143] = -3;
+        PACKET_SIZES[143] = 2;
         PACKET_SIZES[144] = -3;
         PACKET_SIZES[145] = 8;
         PACKET_SIZES[146] = -3;

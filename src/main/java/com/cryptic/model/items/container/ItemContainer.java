@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -159,7 +160,7 @@ public class ItemContainer implements Iterable<Item> {
     }
 
     @Override
-    public final Iterator<Item> iterator() {
+    public final @NotNull Iterator<Item> iterator() {
         return new ItemContainerIterator(this);
     }
 

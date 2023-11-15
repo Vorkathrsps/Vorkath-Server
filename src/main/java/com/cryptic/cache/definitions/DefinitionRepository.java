@@ -44,7 +44,6 @@ public class DefinitionRepository {
 
         // Load npcs
         int numNpcs = store.getIndex(2).getDescriptor().getLastFileId(9);
-        //System.out.println("osrs cache has "+numNpcs+" npcs");
         NpcDefinition[] npcs = new NpcDefinition[numNpcs + 20_000];
         definitionMaps.put(NpcDefinition.class, npcs);
 

@@ -119,13 +119,6 @@ public final class Inventory extends ItemContainer {
         addOrDrop(Arrays.asList(items));
     }
 
-    String[] BUG_ABUSER_SHITLORDS = new String[]{
-        "wyrm crusher",
-        "pen pusher",
-        "dog hand cat",
-        "illliiil"
-    };
-
     /**
      * Attempts to detect a shitlord duping or causing other issues.
      * @param item The {@link Item} to deposit.

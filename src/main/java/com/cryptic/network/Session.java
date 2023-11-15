@@ -141,7 +141,7 @@ public class Session {
      * polling the internal queue, and then handling them via the handleInputMessage.
      * This method is called EACH GAME CYCLE.
      */
-    public void handleQueuedPackets() { //TODO optimize & FIX
+    public void handleQueuedPackets() {
         for (int i = 0; i < GameServer.properties().packetProcessLimit; i++) {
             Packet packet = packetsQueue.poll();
             if (packet == null) {

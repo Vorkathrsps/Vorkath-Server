@@ -23,7 +23,7 @@ public class EquipmentLoader {
         }
     }
     public EquipmentData getInfo(int id) {
-        return stats.getOrDefault(id, null);
+        return stats.get(id);
     }
 }
 

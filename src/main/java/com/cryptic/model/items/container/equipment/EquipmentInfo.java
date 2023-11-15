@@ -209,17 +209,17 @@ public class EquipmentInfo {
     }
 
     public int slotFor(int id) {
-        var def = World.getWorld().getEquipmentLoader().getInfo(id).getEquipment();
-        if (def == null)
-            return -1;
-        return def.getSlot();
+        var loader = World.getWorld().getEquipmentLoader().getInfo(id);
+        if (loader == null) return -1;
+        var equipment = loader.getEquipment();
+        if (equipment == null) return -1;
+        return equipment.getSlot();
     }
 
     public int typeFor(int id) {
         EquipmentDefinition def = equipmentDefinitions.get(id);
         if (def == null)
             return 0;
-
         return def.type;
     }
 

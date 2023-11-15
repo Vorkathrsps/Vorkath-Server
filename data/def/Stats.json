@@ -84459,5 +84459,23 @@
     "equipment": {
       "slot": 1
     }
+  },
+  "28682": {
+    "name": "Dinh's blazing bulwark",
+    "weight": 30,
+    "equipable": true,
+    "equipment": {
+      "slot": 3,
+      "is2h": true,
+      "acrush": 124,
+      "dstab": 106,
+      "dslash": 109,
+      "dcrush": 109,
+      "dmagic": -10,
+      "drange": 148,
+      "str": 38,
+      "aspeed": 5
+    },
+    "ge_limit": 8
   }
 }

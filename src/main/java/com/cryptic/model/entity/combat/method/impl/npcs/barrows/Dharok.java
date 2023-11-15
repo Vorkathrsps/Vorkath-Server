@@ -16,21 +16,14 @@ public class Dharok extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-
-        if (!withinDistance(1)) {
-            return false;
-        }
-
+        if (!withinDistance(1)) return false;
         entity.animate(entity.attackAnimation());
-
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true);
-
-        if (Utils.rollDie(4)) {
-            hit.damageModifier((int) (entity.getAsNpc().maxHp() - entity.getAsNpc().hp() * 0.01));
-        }
-
+        Hit hit = new Hit(entity, target, 0, this);
+        int maxHp = entity.getAsNpc().maxHp();
+        int currentHp = entity.getAsNpc().hp();
+        double multiplier = (double) 1 + (double) (maxHp - currentHp) / 100 * ((double) maxHp / 100);
+        hit.damageModifier(multiplier);
         hit.submit();
-
         return true;
     }
 

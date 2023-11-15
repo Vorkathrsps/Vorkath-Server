@@ -160,13 +160,6 @@ public class Edgeville extends PacketInteraction {
     @Override
     public boolean handleObjectInteraction(Player player, GameObject obj, int option) {
         if (obj.getId() == SUPPLIES) {
-/*            if (option == 1) {
-                World.getWorld().shop(4).open(player);
-                player.getPacketSender().sendConfig(1125, 1);
-                player.getPacketSender().sendConfig(1126, 0);
-                player.getPacketSender().sendConfig(1127, 0);
-                return true;
-            }*/
             if (option == 1) {
                 World.getWorld().shop(6).open(player);
                 return true;
@@ -284,17 +277,18 @@ public class Edgeville extends PacketInteraction {
                     ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(diffX, diffY), 30, 60, 6132, crossDitch.getY() == 3 ? 0 : 2);
                     player.setForceMovement(forceMovement);
                 }).then(2, player::unlock);
+                return true;
+            }
 
-                if (obj.getId() == ALTAR) {
-                    if (player.getSkills().level(Skills.PRAYER) < player.getSkills().xpLevel(Skills.PRAYER)) {
-                        player.animate(new Animation(645));
-                        player.getSkills().replenishSkill(5, player.getSkills().xpLevel(5));
-                        player.message("You recharge your Prayer points.");
-                    } else {
-                        player.message("You already have full prayer points.");
-                    }
-                    return true;
+            if (obj.getId() == ALTAR) {
+                if (player.getSkills().level(Skills.PRAYER) < player.getSkills().xpLevel(Skills.PRAYER)) {
+                    player.animate(new Animation(645));
+                    player.getSkills().replenishSkill(5, player.getSkills().xpLevel(5));
+                    player.message("You recharge your Prayer points.");
+                } else {
+                    player.message("You already have full prayer points.");
                 }
+                return true;
             }
 
             if (obj.getId() == DOOR_1536) {
@@ -371,7 +365,6 @@ public class Edgeville extends PacketInteraction {
                 return true;
             }
         } else if (option == 3) {
-
             if (obj.getId() == 29150) {
                 player.switchSpellBook(MagicSpellbook.LUNAR);
                 return true;

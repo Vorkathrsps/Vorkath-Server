@@ -5,6 +5,7 @@ import com.cryptic.model.content.areas.edgevile.Mac;
 import com.cryptic.model.content.duel.DuelRule;
 import com.cryptic.model.content.items.equipment.max_cape.MaxCape;
 import com.cryptic.model.content.skill.impl.slayer.Slayer;
+import com.cryptic.model.entity.combat.magic.autocasting.Autocasting;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.player.EquipSlot;
@@ -442,6 +443,12 @@ public final class Equipment extends ItemContainer {
                 player.message("<col=FF0000>You have not completed all the achievements yet.");
                 return false;
             }
+        }
+
+        if (info.slotFor(equip.getId()) == EquipSlot.WEAPON) {
+            Autocasting.setAutocast(player, null);
+            player.getCombat().setCastSpell(null);
+            player.getCombat().setPoweredStaffSpell(null);
         }
 
         if (MAX_CAPES.contains(equip.getId()) || MAX_HOODES.contains(equip.getId())) {

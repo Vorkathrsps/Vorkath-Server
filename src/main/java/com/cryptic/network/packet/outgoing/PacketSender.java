@@ -42,10 +42,14 @@ import java.util.stream.Collectors;
 public final class PacketSender {
     private static final Logger logger = LogManager.getLogger(PacketSender.class);
     private final ArrayList<Integer> walkableInterfaceList = new ArrayList<>();
+
     public void resetParallelInterfaces() {
         walkableInterfaceList.clear();
     }
-    @Getter public boolean updateRegions;
+
+    @Getter
+    public boolean updateRegions;
+
     public void sendParallelInterfaceVisibility(int interfaceId, boolean visible) {
         PacketBuilder out = new PacketBuilder(210);
         if (player != null) {
@@ -768,18 +772,55 @@ public final class PacketSender {
 
     public PacketSender sendItemOnInterface(int interfaceId, Item... items) {
         PacketBuilder out = new PacketBuilder(53, PacketType.VARIABLE_SHORT);
-        out.putInt(interfaceId);
-        out.putShort(items.length);
-        for (final Item item : items) {
-            if (item != null) {
-                if (item.getAmount() > 255) {
-                    out.put(255).putInt(item.getAmount(), ByteOrder.INVERSE_MIDDLE);
-                } else {
-                    out.put(item.getAmount());
+        var totalItems = items.length;
+        out.putInt(interfaceId).putShort(totalItems);
+        for (int index = 0; index < items.length; index++) {
+            if (items[index] == null) {
+                out.putInt(0, ByteOrder.INVERSE_MIDDLE).putShort(0, ValueType.A, ByteOrder.LITTLE);
+                continue;
+            }
+            out.putInt(items[index].getAmount(), ByteOrder.INVERSE_MIDDLE);
+            out.putShort(items[index].getId() + 1, ValueType.A, ByteOrder.LITTLE);
+        }
+        var tabs = player.getBank().tabAmounts;
+        if (tabs != null) {
+            var tabamounts = player.getBank().tabAmounts.length;
+            for (int index = 0; index < tabamounts; index++) {
+                var amount = player.getBank().tabAmounts[index];
+                if (player.getBank().tabAmounts == null) {
+                    out.put(0 >> 8).putShort(0);
+                    continue;
                 }
-                out.putShort(item.getId() + 1, ValueType.A, ByteOrder.LITTLE);
-            } else {
-                out.put(0).putShort(0, ValueType.A, ByteOrder.LITTLE);
+                out.put(amount >> 8).putShort(amount & 0xFF);
+            }
+        }
+        player.getSession().write(out);
+        return this;
+    }
+
+    public PacketSender sendItemOnInterface(int interfaceId, List<Item> items) {
+        PacketBuilder out = new PacketBuilder(53, PacketType.VARIABLE_SHORT);
+        out.putInt(interfaceId).putShort(items.size());
+        var totalItems = items.size();
+        out.putInt(interfaceId).putShort(totalItems);
+        for (int index = 0; index < items.size(); index++) {
+            if (items.get(index) == null) {
+                out.putInt(0, ByteOrder.INVERSE_MIDDLE).putShort(0, ValueType.A, ByteOrder.LITTLE);
+                continue;
+            }
+            out.putInt(items.get(index).getAmount(), ByteOrder.INVERSE_MIDDLE);
+            out.putShort(items.get(index).getId() + 1, ValueType.A, ByteOrder.LITTLE);
+        }
+        var tabs = player.getBank().tabAmounts;
+        if (tabs != null) {
+            var tabamounts = player.getBank().tabAmounts.length;
+            for (int index = 0; index < tabamounts; index++) {
+                var amount = player.getBank().tabAmounts[index];
+                if (player.getBank().tabAmounts == null) {
+                    out.put(0 >> 8).putShort(0);
+                    continue;
+                }
+                out.put(amount >> 8).putShort(amount & 0xFF);
             }
         }
         player.getSession().write(out);
@@ -796,79 +837,6 @@ public final class PacketSender {
             // just cover the case when the above two for some reason dont trigger
             for (final int amount : new int[10]) {
                 out.put(amount >> 8).putShort(amount & 0xFF);
-            }
-        }
-        player.getSession().write(out);
-        return this;
-    }
-
-    public PacketSender sendItemUpdate(int interfaceId, Item[] items) {
-        PacketBuilder out = new PacketBuilder(53, PacketType.VARIABLE_SHORT);
-        if (interfaceId != -1 || items != null) {
-            out.putInt(interfaceId);
-            out.putShort(items.length);
-            for (var item : items) {
-                if (item == null) {
-                    continue;
-                }
-                var id = item != null ? item.getId() : -1;
-                var amount = item != null ? item.getAmount() : -1;
-                if (id == -1 || amount == -1) {
-                    out.put(0);
-                    out.putShort(0);
-                    continue;
-                }
-                if (amount >= 255) {
-                    out.put(255).putInt(amount, ByteOrder.INVERSE_MIDDLE);
-                } else {
-                    out.put(amount);
-                }
-                out.putShort(item.getId() + 1, ValueType.A, ByteOrder.LITTLE);
-            }
-        }
-        player.getSession().write(out);
-        return this;
-    }
-
-    public PacketSender sendItemOnInterface(int interfaceId, List<Item> items) {
-        PacketBuilder out = new PacketBuilder(53, PacketType.VARIABLE_SHORT);
-        out.putInt(interfaceId).putShort(items.size());
-        for (final Item item : items) {
-            if (item != null) {
-                if (item.getAmount() > 254) {
-                    out.put(255).putInt(item.getAmount(), ByteOrder.INVERSE_MIDDLE);
-                } else {
-                    out.put(item.getAmount());
-                }
-                out.putShort(item.getId() + 1, ValueType.A, ByteOrder.LITTLE);
-            } else {
-                out.put(0).putShort(0, ValueType.A, ByteOrder.LITTLE);
-            }
-        }
-        player.getSession().write(out);
-        return this;
-    }
-
-    /**
-     * Sends the given collection of items on the specified frameId.
-     *
-     * @param interfaceId The client interface frame id that the items are being sent
-     *                    to.
-     * @param items       The collection of items that is being sent.
-     */
-    public PacketSender sendItemOnInterface(final int interfaceId, final Collection<Item> items) {
-        PacketBuilder out = new PacketBuilder(53, PacketType.VARIABLE_SHORT);
-        out.putInt(interfaceId).putShort(items.size());
-        for (final Item item : items) {
-            if (item != null) {
-                if (item.getAmount() > 254) {
-                    out.put(255).putInt(item.getAmount(), ByteOrder.INVERSE_MIDDLE);
-                } else {
-                    out.put(item.getAmount());
-                }
-                out.putShort(item.getId() + 1, ValueType.A, ByteOrder.LITTLE);
-            } else {
-                out.put(0).putShort(0, ValueType.A, ByteOrder.LITTLE);
             }
         }
         player.getSession().write(out);

@@ -31,6 +31,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
@@ -1043,7 +1044,7 @@ public class Dueling {
             heal_player(opponent);
 
             //Send winnings onto interface
-            opponent.getPacketSender().sendItemOnInterface(SCOREBOARD_CONTAINER, winnings);
+                opponent.getPacketSender().sendItemOnInterface(SCOREBOARD_CONTAINER, winnings);
 
             //Send the scoreboard interface
             opponent.getInterfaceManager().open(SCOREBOARD_INTERFACE_ID);

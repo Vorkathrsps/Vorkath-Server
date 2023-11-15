@@ -82,13 +82,11 @@ public class WildernessSlayerCasket {
      * The Roll For The Casket Drop Rate While On Task
      *
      * @param npc
-     * @return
      */
-    public boolean rollForCasket(NPC npc) {
+    public void rollForCasket(NPC npc) {
         if (Utils.rollDie(50, 1)) {
             dropCasket(npc);
         }
-        return false;
     }
 
     /**

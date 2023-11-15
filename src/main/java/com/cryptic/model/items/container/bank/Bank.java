@@ -192,8 +192,7 @@ public class Bank extends ItemContainer {
     @Override
     public void sync() {
         player.inventory().refresh(player, InterfaceConstants.INVENTORY_STORE);
-        player.getPacketSender().sendItemUpdate(InterfaceConstants.WITHDRAW_BANK, toArray());
-        player.getPacketSender().sendBanktabs();
+        player.getPacketSender().sendItemOnInterface(InterfaceConstants.WITHDRAW_BANK, toArray());
         player.inventory().refresh();
         player.getEquipment().refresh();
         player.getRunePouch().refresh();

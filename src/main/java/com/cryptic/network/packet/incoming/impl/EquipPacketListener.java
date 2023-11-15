@@ -86,10 +86,7 @@ public class EquipPacketListener implements PacketListener {
                     player.getEquipment().equip(slot);
                     BonusesInterface.sendBonuses(player);
                     player.getCombat().setRangedWeapon(null);
-                    Autocasting.setAutocast(player, null);
-                    player.getCombat().setCastSpell(null);
-                        player.getCombat().setPoweredStaffSpell(null);
-                        player.getTimers().cancel(TimerKey.SOTD_DAMAGE_REDUCTION);
+                    player.getTimers().cancel(TimerKey.SOTD_DAMAGE_REDUCTION);
                     player.setSpecialActivated(false);
                     player.putAttrib(AttributeKey.GRANITE_MAUL_SPECIALS, 0);
                     player.getCombat().reset();
@@ -101,14 +98,15 @@ public class EquipPacketListener implements PacketListener {
                         player.getTimers().cancel(TimerKey.SOTD_DAMAGE_REDUCTION);
                         player.getPacketSender().sendMessage(Color.RED.wrap("Your Staff of the dead special de-activated because you unequipped the staff."));
                     }
-
                     CombatSpell poweredStaffSpell = null;
                     Item weapon = player.getEquipment().get(EquipSlot.WEAPON);
 
                     if (weapon != null) {
                         switch (weapon.getId()) {
-                            case TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SEAS_FULL -> poweredStaffSpell = CombatSpells.TRIDENT_OF_THE_SEAS.getSpell();
-                            case TRIDENT_OF_THE_SWAMP -> poweredStaffSpell = CombatSpells.TRIDENT_OF_THE_SWAMP.getSpell();
+                            case TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SEAS_FULL ->
+                                poweredStaffSpell = CombatSpells.TRIDENT_OF_THE_SEAS.getSpell();
+                            case TRIDENT_OF_THE_SWAMP ->
+                                poweredStaffSpell = CombatSpells.TRIDENT_OF_THE_SWAMP.getSpell();
                             case SANGUINESTI_STAFF -> poweredStaffSpell = CombatSpells.SANGUINESTI_STAFF.getSpell();
                             case TUMEKENS_SHADOW -> poweredStaffSpell = CombatSpells.TUMEKENS_SHADOW.getSpell();
                             case DAWNBRINGER -> poweredStaffSpell = CombatSpells.DAWNBRINGER.getSpell();

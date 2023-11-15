@@ -217,12 +217,6 @@ public class NPCDeath {
                 AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_II, 1);
                 AchievementsManager.activate(killer, Achievements.DRAGON_SLAYER_III, 1);
                 killer.getTaskMasterManager().increase(Tasks.KING_BLACK_DRAGON);
-
-                if (World.getWorld().rollDie(10, 1)) {
-                    npc.respawns(false);//King black dragon can no longer spawn his ancient version spawns.
-                    var ancientKingBlackDragon = new NPC(ANCIENT_KING_BLACK_DRAGON, npc.spawnTile()).respawns(false);
-                    World.getWorld().getNpcs().add(ancientKingBlackDragon);
-                }
             }
 
             if (npc.id() == ANCIENT_KING_BLACK_DRAGON) {
@@ -256,12 +250,6 @@ public class NPCDeath {
                 AchievementsManager.activate(killer, Achievements.ULTIMATE_CHAOS_II, 1);
                 AchievementsManager.activate(killer, Achievements.ULTIMATE_CHAOS_III, 1);
                 DailyTaskManager.increase(DailyTasks.WILDERNESS_BOSS, killer);
-
-                if (World.getWorld().rollDie(10, 1)) {
-                    npc.respawns(false);//Chaos elemental can no longer spawn his ancient version spawns.
-                    var ancientChaosEle = new NPC(ANCIENT_CHAOS_ELEMENTAL, npc.spawnTile()).respawns(false);
-                    World.getWorld().getNpcs().add(ancientChaosEle);
-                }
             }
 
             if (npc.def().name.contains("Zulrah")) {
@@ -297,12 +285,6 @@ public class NPCDeath {
 
             if (npc.def().name.equalsIgnoreCase("Barrelchest")) {
                 DailyTaskManager.increase(DailyTasks.WILDERNESS_BOSS, killer);
-
-                if (World.getWorld().rollDie(10, 1)) {
-                    npc.respawns(false);//Barrelchest can no longer spawn his ancient version spawns.
-                    var ancientBarrelchest = new NPC(ANCIENT_BARRELCHEST, npc.spawnTile()).respawns(false);
-                    World.getWorld().getNpcs().add(ancientBarrelchest);
-                }
             }
 
             Slayer.reward(killer, npc);
@@ -360,18 +342,7 @@ public class NPCDeath {
                     killer.getTaskMasterManager().increase(Tasks.CERBERUS);
                     AchievementsManager.activate(killer, Achievements.FLUFFY_I, 1);
                     AchievementsManager.activate(killer, Achievements.FLUFFY_II, 1);
-
-                    if (World.getWorld().rollDie(superiorSpawnRoll, 1)) {
-                        npc.respawns(false);//Cerberus can no longer spawn his superior spawns in 1 minute.
-                        var kerberos = new NPC(KERBEROS, npc.spawnTile()).respawns(false);
-                        World.getWorld().getNpcs().add(kerberos);
-                    }
                 }
-
-                case KERBEROS -> Chain.bound(null).runFn(30, () -> {
-                    var cerberus = new NPC(CERBERUS, npc.spawnTile());
-                    World.getWorld().getNpcs().add(cerberus);
-                });
 
                 case KALPHITE_QUEEN_6501 -> {
                     AchievementsManager.activate(killer, Achievements.BUG_EXTERMINATOR_I, 1);
@@ -403,12 +374,6 @@ public class NPCDeath {
                     AchievementsManager.activate(killer, Achievements.BABY_ARAGOG_II, 1);
                     AchievementsManager.activate(killer, Achievements.BABY_ARAGOG_III, 1);
                     DailyTaskManager.increase(DailyTasks.WILDERNESS_BOSS, killer);
-
-                    if (World.getWorld().rollDie(superiorSpawnRoll, 1)) {
-                        npc.respawns(false);//Venenatis can no longer spawn his superior spawns in 1 minute.
-                        var arachne = new NPC(CustomNpcIdentifiers.ARACHNE, npc.spawnTile()).respawns(false);
-                        World.getWorld().getNpcs().add(arachne);
-                    }
                 }
 
                 case CALLISTO_6609 -> {
@@ -460,25 +425,6 @@ public class NPCDeath {
                     if (n.id() == SCORPIAS_GUARDIAN) {
                         World.getWorld().unregisterNpc(n);
                     }
-                });
-
-                if (World.getWorld().rollDie(superiorSpawnRoll, 1)) {
-                    npc.respawns(false);//Cerberus can no longer spawn his superior spawns in 1 minute.
-                    var skorpios = new NPC(SKORPIOS, npc.spawnTile()).respawns(false);
-                    World.getWorld().getNpcs().add(skorpios);
-                }
-            }
-
-            if (npc.id() == SKORPIOS) {
-                World.getWorld().getNpcs().forEachInArea(new Area(3219, 3248, 10329, 10353), n -> {
-                    if (n.id() == SCORPIAS_GUARDIAN) {
-                        World.getWorld().unregisterNpc(n);
-                    }
-                });
-
-                Chain.bound(null).runFn(30, () -> {
-                    var scorpia = new NPC(SCORPIA, npc.spawnTile());
-                    World.getWorld().getNpcs().add(scorpia);
                 });
             }
 
@@ -692,10 +638,7 @@ public class NPCDeath {
                 if (npc.getCombatInfo() != null && npc.getCombatInfo().scripts != null && npc.getCombatInfo().scripts.droptable_ != null) {
                     npc.getCombatInfo().scripts.droptable_.reward(npc, killer);
                 }
-
             }
-
-            // Post-death scripts
 
             if (npc.id() == KALPHITE_QUEEN_6500) {
                 KalphiteQueenFirstForm.death(npc);
@@ -724,12 +667,9 @@ public class NPCDeath {
                 }
             }
 
-            if (npc.id() == CORPOREAL_BEAST) { // Corp beast
-                // Reset damage counter
-
+            if (npc.id() == CORPOREAL_BEAST) {
                 NPC corp = npc.getAttribOr(AttributeKey.BOSS_OWNER, null);
                 if (corp != null) {
-                    //Check for any minions.
                     List<NPC> minList = corp.getAttribOr(AttributeKey.MINION_LIST, null);
                     if (minList != null) {
                         minList.remove(npc);
@@ -737,7 +677,6 @@ public class NPCDeath {
                 }
             }
 
-            //Forgot to say its ALL npcs, happens to bots, kraken any npc
             if (killer != null) {
                 if (npc.respawns() && !npc.isBot())
                     killer.getPacketSender().sendEffectTimer((int) Utils.ticksToSeconds(finalRespawnTimer), EffectTimer.MONSTER_RESPAWN);
@@ -747,8 +686,6 @@ public class NPCDeath {
             if (npc.respawns()) {
                 npc.teleport(npc.spawnTile());
                 npc.hidden(true);
-                //System.out.println("respawn in "+finalRespawnTimer);
-
                 Chain.bound(null).runFn(finalRespawnTimer, () -> {
                     GwdLogic.onRespawn(npc);
                     respawn(npc);

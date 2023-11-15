@@ -525,9 +525,7 @@ public class World {
         equipmentInfo = new com.cryptic.model.items.container.equipment.EquipmentInfo(
             new File("data/list/equipment_info.json"),
             new File("data/list/renderpairs.txt"),
-            new File("data/list/bonuses.json"),
-            new File("data/list/weapon_types.txt"),
-            new File("data/list/weapon_speeds.txt"));
+            new File("data/list/weapon_types.txt"));
     }
 
     public NPCCombatInfo combatInfo(int id) {

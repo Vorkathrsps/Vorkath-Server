@@ -44,7 +44,7 @@ public class EquipmentInfo {
 
     private static final Gson gson = JGson.get();
 
-    public EquipmentInfo(File equipmentDefinitions, File renderPairs, File bonuses, File weaponTypes, File weaponSpeeds) {
+    public EquipmentInfo(File equipmentDefinitions, File renderPairs, File weaponTypes) {
         //// 5=shield, 6=full body (no arms), 8/11 = showing/hiding beard, hair
         loadEquipmentDefinitions(equipmentDefinitions);
         loadRenderPairs(renderPairs);
@@ -70,7 +70,7 @@ public class EquipmentInfo {
 
                 Item equipped = player.getEquipment().get(i);
                 if (equipped != null) {
-                    if (i == EquipSlot.AMMO && ((wepid >= 4212 && wepid <= 4223) || wepid == TOXIC_BLOWPIPE)) { // crystal bow /blowpipe ignore ammo
+                    if (i == EquipSlot.AMMO && ((wepid >= 4212 && wepid <= 4223) || wepid == TOXIC_BLOWPIPE || wepid == 28688)) { // crystal bow /blowpipe ignore ammo
                         continue;
                     }
 
@@ -487,6 +487,7 @@ public class EquipmentInfo {
                     return 2066;
 
                 case 21015: // Dinh's Bulwark
+                case 28682:
                     return 7511;
 
                 case DRAGON_HUNTER_LANCE:
@@ -680,10 +681,10 @@ public class EquipmentInfo {
             case 21003, 27100, 30005, 21205 -> {
                 return 7517;
             }
-            case 21015 -> {
+            case 21015, 28682 -> {
                 return 7512;
             }
-            case DRAGON_HASTA, TOXIC_BLOWPIPE, 4910, 4911, 4912, 4913, 4914 -> {
+            case DRAGON_HASTA, TOXIC_BLOWPIPE, 28688, 4910, 4911, 4912, 4913, 4914 -> {
                 return 430;
             }
             case DRAGON_CLAWS, BRONZE_CROSSBOW, IRON_CROSSBOW, STEEL_CROSSBOW, ADAMANT_CROSSBOW, RUNE_CROSSBOW, DRAGON_CROSSBOW, DRAGON_HUNTER_CROSSBOW, KARILS_CROSSBOW, ZARYTE_CROSSBOW, 4747, 4958, 4959, 4960, 4961, 4718, 4886, 4887, 4888, 4889 -> { // Dharok's greataxe

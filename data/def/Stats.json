@@ -84477,5 +84477,17 @@
       "aspeed": 5
     },
     "ge_limit": 8
+  },
+  "28688": {
+    "name": "Toxic blowpipe",
+    "weight": 0.5,
+    "equipable": true,
+    "equipment": {
+      "slot": 3,
+      "is2h": true,
+      "arange": 30,
+      "rstr": 20,
+      "aspeed": 3
+    }
   }
 }

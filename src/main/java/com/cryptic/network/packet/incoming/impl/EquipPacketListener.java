@@ -58,7 +58,11 @@ public class EquipPacketListener implements PacketListener {
 
         if (slot < 0 || slot > 27)
             return;
+
+        if (player.getCombat() != null) player.getCombat().reset();
+
         Item item = player.inventory().get(slot);
+
         if (item != null && item.getId() == id && !player.locked() && !player.dead()) {
             if (player.getInterfaceManager().isInterfaceOpen(ItemSimulatorUtility.WIDGET_ID)) {
                 player.message("Close this interface before trying to equip your " + item.unnote().name() + ".");

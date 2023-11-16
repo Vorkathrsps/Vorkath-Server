@@ -21,14 +21,11 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.traffic.ChannelTrafficShapingHandler;
-import io.netty.handler.traffic.TrafficCounter;
 import io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue;
 import io.netty.util.internal.shaded.org.jctools.queues.MpscArrayQueue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
-import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.pbkdf2.Pack;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
@@ -124,13 +121,8 @@ public class Session {
      *
      * @param msg The packet that should be queued.
      */
-    public boolean queuePacket(Packet msg) {
-        if (!packetsQueue.offer(msg)) {
-            logger.warn("Packet limit reached for " + getPlayer().getUsername() + " (Packet limit: " + GameServer.properties().packetProcessLimit + " )");
-            //getPlayer().requestLogout();
-            return false;
-        }
-        return true;
+    public void queuePacket(Packet msg) {
+        packetsQueue.offer(msg);
     }
 
     private static final DecimalFormat df = new DecimalFormat("#.##");
@@ -142,12 +134,10 @@ public class Session {
      * This method is called EACH GAME CYCLE.
      */
     public void handleQueuedPackets() {
-        for (int i = 0; i < GameServer.properties().packetProcessLimit; i++) {
+        int counter = 0;
+        while (!packetsQueue.isEmpty() && counter < 100) {
             Packet packet = packetsQueue.poll();
-            if (packet == null) {
-                break;
-            }
-
+            if (packet == null) break;
             try {
                 int opcode = packet.getOpcode();
                 int size = packet.getSize();
@@ -187,10 +177,11 @@ public class Session {
                     }
                 });
             } catch (Throwable t) {
-                logger.error("shite", t);
+                logger.error("Packet processing error", t);
             } finally {
                 packet.getBuffer().release();
             }
+            counter++;
         }
     }
 

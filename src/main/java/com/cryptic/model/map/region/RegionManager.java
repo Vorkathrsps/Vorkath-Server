@@ -1,25 +1,25 @@
 package com.cryptic.model.map.region;
 
 import com.cryptic.model.map.position.Area;
-import com.google.common.base.Stopwatch;
+import com.cryptic.utility.CompressionUtil;
+import com.cryptic.utility.FileUtil;
+import com.displee.cache.CacheLibrary;
 import com.cryptic.GameServer;
 import com.cryptic.GameEngine;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
-import com.cryptic.utility.*;
 import it.unimi.dsi.fastutil.ints.*;
-import it.unimi.dsi.fastutil.objects.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import javax.naming.OperationNotSupportedException;
 import java.io.File;
-import java.nio.file.Files;
+import java.nio.ByteBuffer;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.stream.IntStream;
 
 /**
  * This manager handles all regions and their related functions, such as
@@ -56,24 +56,23 @@ public class RegionManager {
      *
      * @throws Exception
      */
-    public static void init() throws Exception {
-        // Load regions..
-        File map_index = new File(GameServer.properties().clippingDirectory + "map_index.dat");
-        if (!map_index.exists()) {
-            throw new OperationNotSupportedException("map_index was not found!");
-        }
-        byte[] data = Files.readAllBytes(map_index.toPath());
-        Buffer stream = new Buffer(data);
-        int size = stream.getUShort();
-        for (int i = 0; i < size; i++) {
-            int regionId = stream.getUShort();
-            int terrainFile = stream.getUShort();
-            int objectFile = stream.getUShort();
-            regions.put(regionId, new Region(regionId, terrainFile, objectFile));
-        }
+    public static final Path OSRS = Path.of("data", "cache");
+    static CacheLibrary cache = CacheLibrary.create(String.valueOf(OSRS));
 
-        System.out.println("preloaded regions: " + regions.size());
+    public static void init() throws Exception {
+        for (int x = 0; x < 255; x++) {
+            for (int y = 0; y < 255; y++) {
+                var index = cache.index(5);
+                int mapArchiveId = index.archiveId("m" + x + "_" + y);
+                int landArchiveId = index.archiveId("l" + x + "_" + y);
+                var regionId = x << 8 | y;
+                if (landArchiveId != -1) {
+                    regions.put(regionId, new Region(regionId, landArchiveId, mapArchiveId));
+                }
+            }
+        }
     }
+
 
     /**
      * Attempts to get a {@link Region} based on an id.
@@ -489,109 +488,105 @@ public class RegionManager {
         loadMapFiles(x, y, force, OBJECT_CONSUMER, CLIP_CONSUMER);
     }
 
+    private static byte[] getMapData(int baseX, int baseY, CacheLibrary library) {
+        var index = library.index(5);
+        int mapArchiveId = index.archiveId("m" + ((baseX >> 3) / 8) + "_" + ((baseY >> 3) / 8));
+        return mapArchiveId == -1 ? null : library.data(5, mapArchiveId);
+    }
+
+    public static byte[] getLandscapeData(int baseX, int baseY, CacheLibrary library) {
+        var index = library.index(5);
+        int landArchiveId = index.archiveId("l" + ((baseX >> 3) / 8) + "_" + ((baseY >> 3) / 8));
+        return landArchiveId == -1 ? null : library.data(5, landArchiveId);
+    }
+
     public static void loadMapFiles(int x, int y, boolean force, ObjectConsumer consumer, ClipConsumer clipConsumer) {
         try {
             int regionX = x >> 3;
             int regionY = y >> 3;
             int regionId = ((regionX / 8) << 8) + (regionY / 8);
             Region r = getRegion(regionId);
-
-            if (r.isLoaded() && !force) {
-                return;
-            }
-
+            if (r.isLoaded() && !force) return;
             r.setLoaded(true);
-
-            Stopwatch stopwatch = Stopwatch.createStarted();
             byte[] oFileData = null;
             byte[] gFileData = null;
-            // Attempt to create streams..
+
             if (r.getObjectFile() != -1)
-                oFileData = CompressionUtil.gunzip(
-                    FileUtil.readFile(GameServer.properties().clippingDirectory + "maps/" + r.getObjectFile() + ".gz"));
+                gFileData = getMapData(r.baseX, r.baseY, cache);
             if (r.getTerrainFile() != -1)
-                gFileData = CompressionUtil.gunzip(
-                    FileUtil.readFile(GameServer.properties().clippingDirectory + "maps/" + r.getTerrainFile() + ".gz"));
+                oFileData = getLandscapeData(r.baseX, r.baseY, cache);
 
-            if (gFileData == null) {
-                stopwatch.stop();
-                //logger.trace("ungzipped clipmap region {} at {} in {} ns but Disregarding Data!", regionId, Tile.regionToTile(regionId), stopwatch.elapsed().toNanos());
-                //System.err.println("missing clipping at region "+regionId);
-                return;
-            }
-
-            Buffer groundStream = new Buffer(gFileData);
-            int absX = (r.getRegionId() >> 8) * 64;
-            int absY = (r.getRegionId() & 0xff) * 64;
-            r.heightMap = new int[4][64][64];
-            for (int z = 0; z < 4; z++) {
-                for (int tileX = 0; tileX < 64; tileX++) {
-                    for (int tileY = 0; tileY < 64; tileY++) {
-                        while (true) {
-                            var tileType = groundStream.getUShort();
-                            if (tileType == 0) {
-                                break;
-                            } else if (tileType == 1) {
-                                groundStream.getByte();
-                                break;
-                            } else if (tileType <= 49) {
-                                groundStream.getShort();
-                            } else if (tileType <= 81) {
-                                r.heightMap[z][tileX][tileY] = (byte) (tileType - 49);
+            if (gFileData != null) {
+                Buffer groundStream = new Buffer(gFileData);
+                int absX = (r.getRegionId() >> 8) * 64;
+                int absY = (r.getRegionId() & 0xff) * 64;
+                r.heightMap = new int[4][64][64];
+                for (int z = 0; z < 4; z++) {
+                    for (int tileX = 0; tileX < 64; tileX++) {
+                        for (int tileY = 0; tileY < 64; tileY++) {
+                            while (true) {
+                                var tileType = groundStream.getUShort();
+                                if (tileType == 0) {
+                                    break;
+                                } else if (tileType == 1) {
+                                    groundStream.getByte();
+                                    break;
+                                } else if (tileType <= 49) {
+                                    groundStream.getShort();
+                                } else if (tileType <= 81) {
+                                    r.heightMap[z][tileX][tileY] = (byte) (tileType - 49);
+                                }
                             }
                         }
                     }
                 }
-            }
-            for (int i = 0; i < 4; i++) {
-                for (int i2 = 0; i2 < 64; i2++) {
-                    for (int i3 = 0; i3 < 64; i3++) {
-                        if ((r.heightMap[i][i2][i3] & 1) == 1) {
-                            int zLevel = i;
-                            if ((r.heightMap[1][i2][i3] & 2) == 2) {
+                for (int i = 0; i < 4; i++) {
+                    for (int i2 = 0; i2 < 64; i2++) {
+                        for (int i3 = 0; i3 < 64; i3++) {
+                            if ((r.heightMap[i][i2][i3] & 1) == 1) {
+                                int zLevel = i;
+                                if ((r.heightMap[1][i2][i3] & 2) == 2) {
+                                    zLevel--;
+                                }
+                                if (zLevel >= 0 && zLevel <= 3) {
+                                    clipConsumer.accept(absX + i2, absY + i3, zLevel, r);
+                                }
+                            }
+                        }
+                    }
+                }
+                if (oFileData != null) {
+                    Buffer objectStream = new Buffer(oFileData);
+                    int objectId = -1;
+                    int incr;
+                    while ((incr = objectStream.readUnsignedIntSmartShortCompat()) != 0) {
+                        objectId += incr;
+                        int location = 0;
+                        int incr2;
+                        while ((incr2 = objectStream.readUnsignedShortSmart()) != 0) {
+                            location += incr2 - 1;
+                            int localX = (location >> 6 & 0x3f);
+                            int localY = (location & 0x3f);
+                            int zLevel = location >> 12;
+                            int hash = objectStream.getUByte();
+                            int type = hash >> 2;
+                            int direction = hash & 0x3;
+
+                            if (localX < 0 || localX >= 64 || localY < 0 || localY >= 64) {
+                                continue;
+                            }
+
+                            if ((r.heightMap[1][localX][localY] & 2) == 2) {
                                 zLevel--;
                             }
+
                             if (zLevel >= 0 && zLevel <= 3) {
-                                clipConsumer.accept(absX + i2, absY + i3, zLevel, r);
+                                consumer.accept(objectId, absX + localX, absY + localY, zLevel, type, direction, r);
                             }
                         }
                     }
                 }
             }
-            if (oFileData != null) {
-                Buffer objectStream = new Buffer(oFileData);
-                int objectId = -1;
-                int incr;
-                while ((incr = objectStream.readUnsignedIntSmartShortCompat()) != 0) {
-                    objectId += incr;
-                    int location = 0;
-                    int incr2;
-                    while ((incr2 = objectStream.readUnsignedShortSmart()) != 0) {
-                        location += incr2 - 1;
-                        int localX = (location >> 6 & 0x3f);
-                        int localY = (location & 0x3f);
-                        int zLevel = location >> 12;
-                        int hash = objectStream.getUByte();
-                        int type = hash >> 2;
-                        int direction = hash & 0x3;
-
-                        if (localX < 0 || localX >= 64 || localY < 0 || localY >= 64) {
-                            continue;
-                        }
-
-                        if ((r.heightMap[1][localX][localY] & 2) == 2) {
-                            zLevel--;
-                        }
-
-                        if (zLevel >= 0 && zLevel <= 3) {
-                            consumer.accept(objectId, absX + localX, absY + localY, zLevel, type, direction, r);
-                        }
-                    }
-                }
-            } else {
-                System.err.println("missing mapobjs at region " + regionId);
-            }
-            stopwatch.stop();
             if (GameEngine.gameTicksIncrementor > 10) {
                 //logger.trace("clipmap region {} at {} loaded in {} ns", regionId, Tile.regionToTile(regionId), stopwatch.elapsed().toNanos());
             }

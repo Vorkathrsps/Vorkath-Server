@@ -319,14 +319,12 @@ public class IndexTable {
 
     public void clearMemory() {
         this.whirlpool = null;
-        Iterator var1 = this.containerCache.values().iterator();
-
-        while(var1.hasNext()) {
-            Container c = (Container)var1.next();
+        for (Container c : this.containerCache.values()) {
             if (c != null) {
                 c.clearMemory();
             }
         }
-
     }
+
+
 }

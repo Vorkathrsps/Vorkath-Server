@@ -19,6 +19,7 @@ public class Kraken extends CommonCombatMethod {
     @Getter
     @Setter
     boolean awakened = false;
+
     @Override
     public void onRespawn(NPC npc) {
         var player = (Player) target;
@@ -42,10 +43,10 @@ public class Kraken extends CommonCombatMethod {
     public void preDefend(Hit hit) {
         var player = (Player) hit.getAttacker();
         var kraken = (NPC) entity;
-        if (hit.getAttacker() == player && hit.getCombatType() != CombatType.MAGIC) hit.setDamage(0);
+        if (hit.getAttacker() == player && hit.getCombatType() != CombatType.MAGIC) hit.block();
         if (player.getKrakenInstance() == null) return;
         if (this.isAwakened()) return;
-        if (hit.getAttacker() == player && hit.getDamage() > 0) hit.setDamage(0);
+        if (hit.getAttacker() == player && hit.getDamage() > 0) hit.block();
         hit.postDamage(d -> {
             if (player.getKrakenInstance().getNonAwakenedTentacles().isEmpty()) {
                 kraken.transmog(494, true);
@@ -110,7 +111,7 @@ public class Kraken extends CommonCombatMethod {
             n.die();
         }
         for (var n : player.getKrakenInstance().getNonAwakenedTentacles()) {
-            if (n  == null) continue;
+            if (n == null) continue;
             n.die();
         }
         player.getKrakenInstance().getAwakenedTentacles().clear();

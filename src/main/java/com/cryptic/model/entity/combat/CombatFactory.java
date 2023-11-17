@@ -1100,7 +1100,6 @@ public class CombatFactory {
                 if (npc.id() == NpcIdentifiers.DUST_DEVIL || npc.id() == NpcIdentifiers.DUST_DEVIL_7249 || npc.id() == NpcIdentifiers.CHOKE_DEVIL) {
                     if (attackerAsPlayer.getEquipment().getId(EquipSlot.HEAD) != FACEMASK && !attackerAsPlayer.getEquipment().wearingSlayerHelm()) {
                         hit.block();
-                        hit.setDamage(0);
                         attackerAsPlayer.message("Blinded by the monster's dust, you miss your attack!");
                     }
                 }

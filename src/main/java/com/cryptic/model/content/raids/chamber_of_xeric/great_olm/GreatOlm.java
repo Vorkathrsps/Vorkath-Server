@@ -174,6 +174,16 @@ public class GreatOlm extends CommonCombatMethod {
     }
 
     @Override
+    public void preDefend(Hit hit) {
+        var player = (Player) hit.getAttacker();
+        if (hit.getAttacker() == player) {
+            if (this.currentPhase != lastPhase && !leftClaw.dead() && !rightClaw.dead()) {
+                hit.block();
+            }
+        }
+    }
+
+    @Override
     public void postDamage(Hit hit) {
         if (hit.getDamage() == 0 || hit.getHitMark() == HitMark.HEALED || entity.dead())
             return;

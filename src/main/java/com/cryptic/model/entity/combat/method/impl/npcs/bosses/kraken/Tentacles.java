@@ -22,11 +22,11 @@ public class Tentacles extends CommonCombatMethod {
     public void preDefend(Hit hit) {
         var player = (Player) hit.getAttacker();
         var tentacle = (NPC) entity;
-        if (hit.getAttacker() == player && hit.getCombatType() != CombatType.MAGIC) hit.setDamage(0);
+        if (hit.getAttacker() == player && hit.getCombatType() != CombatType.MAGIC) hit.block();
         if (player.getKrakenInstance() == null) return;
         if (player.getKrakenInstance().getNonAwakenedTentacles().isEmpty()) return;
         if (!player.getKrakenInstance().getNonAwakenedTentacles().contains(tentacle)) return;
-        if (hit.getAttacker() == player && hit.getDamage() > 0) hit.setDamage(0);
+        if (hit.getAttacker() == player && hit.getDamage() > 0) hit.block();
         hit.postDamage(d -> {
             player.getKrakenInstance().getNonAwakenedTentacles().remove(tentacle);
             tentacle.transmog(5535, true);
@@ -62,7 +62,7 @@ public class Tentacles extends CommonCombatMethod {
         if (hit.isAccurate()) {
             target.graphic(163, GraphicHeight.MIDDLE, p.getSpeed());
         } else {
-            hit.setDamage(0);
+            hit.block();
             target.graphic(85, GraphicHeight.LOW, p.getSpeed());
         }
     }

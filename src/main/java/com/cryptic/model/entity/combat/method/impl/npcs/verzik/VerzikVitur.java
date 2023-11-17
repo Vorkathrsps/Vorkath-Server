@@ -284,7 +284,7 @@ public class VerzikVitur extends CommonCombatMethod {
                 hit.setHitMark(HitMark.SHIELD_HITSPLAT);
             }
             if (hit.getTarget().npc().id() == VERZIK_VITUR_8371 || hit.getTarget().npc().id() == VERZIK_VITUR_8375) {
-                hit.setDamage(0);
+                hit.block();
                 hit.setHitMark(HitMark.MISSED);
             }
         }

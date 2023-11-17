@@ -587,9 +587,6 @@ public class RegionManager {
                     }
                 }
             }
-            if (GameEngine.gameTicksIncrementor > 10) {
-                //logger.trace("clipmap region {} at {} loaded in {} ns", regionId, Tile.regionToTile(regionId), stopwatch.elapsed().toNanos());
-            }
         } catch (Exception e) {
             logger.error("?", e);
             throw new MapDecodeEx("map decode", e);
@@ -598,7 +595,6 @@ public class RegionManager {
 
     public static BiFunction<IntOpenHashSet, Integer, ArrayList<GameObject>> loadGroupMapFiles = (i, i2) -> new ArrayList<>();
     public static Function<Area[], IntSet> areasToRegions = areas -> IntSet.of();
-
     public static final class MapDecodeEx extends RuntimeException {
         public MapDecodeEx(String mapDecode, Exception e) {
             super(mapDecode, e);

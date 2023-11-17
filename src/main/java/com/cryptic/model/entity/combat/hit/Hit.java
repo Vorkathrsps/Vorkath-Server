@@ -37,12 +37,7 @@ public class Hit {
     public boolean showSplat;
     @Getter
     private HitMark hitMark;
-    /**
-     * if its a veng/recoil ring type of hit, in this case. this stops infinite loops of vengeance hits/recoil ring
-     * repeating on reflected damage.
-     */
     public boolean reflected;
-
     public boolean forceShowSplashWhenMissMagic;
     public boolean prayerIgnored = false;
     private static final Logger logger = LogManager.getLogger(Hit.class);
@@ -63,6 +58,7 @@ public class Hit {
     public boolean pidIgnored;
 
     @Getter
+    @Setter
     boolean invalidated = false;
 
     public Entity getSource() {
@@ -100,6 +96,7 @@ public class Hit {
 
     /**
      * (Method) Has Type
+     *
      * @param attacker
      * @param target
      * @param delay
@@ -114,6 +111,7 @@ public class Hit {
 
     /**
      * (Method) Typeless
+     *
      * @param attacker
      * @param target
      * @param delay
@@ -239,7 +237,7 @@ public class Hit {
         return this;
     }
 
-    public void addCombatXp(Player player, CombatType style, FightStyle mode) {
+    public void addCombatXp(Player player, CombatType style, FightStyle mode, boolean isAccurate) {
         if (combatType == null) return;
         var gameModeMultiplier = player.getGameMode().equals(GameMode.REALISM) ? 10.0 : 50.0;
         var nonPvpEXP = (this.attacker instanceof Player && (WildernessArea.inWilderness(player.tile()) || !WildernessArea.inWilderness(player.tile())) && this.target instanceof NPC);
@@ -251,28 +249,28 @@ public class Hit {
             case MELEE -> {
                 switch (mode) {
                     case ACCURATE -> {
-                        if (this.damage > 0) {
+                        if (isAccurate) {
                             player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
                             player.getSkills().addXp(Skills.ATTACK, rangedMeleeXP);
                         }
                     }
 
                     case AGGRESSIVE -> {
-                        if (this.damage > 0) {
+                        if (isAccurate) {
                             player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
                             player.getSkills().addXp(Skills.STRENGTH, rangedMeleeXP);
                         }
                     }
 
                     case DEFENSIVE -> {
-                        if (this.damage > 0) {
+                        if (isAccurate) {
                             player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
                             player.getSkills().addXp(Skills.DEFENCE, rangedMeleeXP);
                         }
                     }
 
                     case CONTROLLED -> {
-                        if (this.damage > 0) {
+                        if (isAccurate) {
                             player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
                             player.getSkills().addXp(Skills.ATTACK, rangedMeleeXP / 1.33);
                             player.getSkills().addXp(Skills.STRENGTH, rangedMeleeXP / 1.33);
@@ -285,14 +283,18 @@ public class Hit {
             case RANGED -> {
                 switch (mode) {
                     case ACCURATE, AGGRESSIVE -> {
-                        player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
-                        player.getSkills().addXp(Skills.RANGED, rangedMeleeXP);
+                        if (isAccurate) {
+                            player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
+                            player.getSkills().addXp(Skills.RANGED, rangedMeleeXP);
+                        }
                     }
 
                     case DEFENSIVE -> {
-                        player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
-                        player.getSkills().addXp(Skills.RANGED, rangedMeleeXP / 1.33);
-                        player.getSkills().addXp(Skills.DEFENCE, rangedMeleeXP / 1.33);
+                        if (isAccurate) {
+                            player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
+                            player.getSkills().addXp(Skills.RANGED, rangedMeleeXP / 1.33);
+                            player.getSkills().addXp(Skills.DEFENCE, rangedMeleeXP / 1.33);
+                        }
                     }
                 }
             }
@@ -314,7 +316,7 @@ public class Hit {
                     double spellBaseXP = nonPvpEXP ? spell.baseExperience() * gameModeMultiplier : spell.baseExperience();
                     double magicXP = nonPvpEXP ? mXP * gameModeMultiplier : mXP + spellBaseXP;
                     double defenceXP = nonPvpEXP ? dXP * gameModeMultiplier : dXP;
-                    if (this.damage > 0) {
+                    if (isAccurate) {
                         if (player.<Boolean>getAttribOr(AttributeKey.DEFENSIVE_AUTOCAST, false)) {
                             player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
                             player.getSkills().addXp(Skills.MAGIC, magicXP);
@@ -353,24 +355,23 @@ public class Hit {
         if (this.target == null && isLocked() || isInvalidated() || target.isNullifyDamageLock() || target.isNeedsPlacement())
             return null;
         if (this.target.dead()) return null;
-        if (this.attacker instanceof Player) {
-            if (this.isAccurate() && this.getDamage() > 0) {
-                addCombatXp((Player) this.attacker, this.combatType, this.attacker.getCombat().getFightType().getStyle());
-            }
-        }
         if (this.attacker instanceof Player && this.target instanceof NPC npc) {
             CombatMethod method = CombatFactory.getMethod(npc);
             if (method instanceof CommonCombatMethod commonCombatMethod) {
                 commonCombatMethod.preDefend(this);
             }
-            if (method instanceof Vorkath vorkath) {
+            if (npc.getCombatMethod() instanceof Vorkath vorkath) {
                 switch (vorkath.resistance) {
                     case PARTIAL -> this.setDamage((int) (this.getDamage() * 0.5D));
-                    case FULL -> this.setDamage(0);
+                    case FULL -> this.block();
                 }
             }
         }
         if (this.damage >= this.getMaximumHit()) this.setMaxHit(true);
+        if (this.attacker instanceof Player player) {
+            System.out.println(this.accurate);
+            this.addCombatXp(player, this.combatType, player.getCombat().getFightType().getStyle(), this.accurate);
+        }
         target.getCombat().getHitQueue().add(this);
         return this;
     }

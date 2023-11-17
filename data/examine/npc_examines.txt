@@ -710,7 +710,7 @@
 727:A victim of poor first aid.
 728:But who's the daddy?
 729:I think they're some kind of beetle...
-730:A Mahjarrat warrior.
+730:A mysterious ghostly figure.
 731:A Sheep?
 732:A well fed looking farmer.
 733:Leads the Bandits.
@@ -3949,7 +3949,7 @@
 4180:Looks suspiciously like a fisherman.
 4181:Nice hair.
 4182:Looks young.
-4183:It's a tree gnome
+4183:He seems to be in a spot of bother.
 4184:Never smile at a...
 4185:He has had his day.
 4186:An obnoxious, overgrown insect.
@@ -4357,7 +4357,7 @@
 4642:He's in control of the Shantay pass.
 4643:He patrols the Shantay Pass.
 4644:Can he build it? Yes he can!
-4645:A weasly, shifty-looking Gnome Mage.
+4645:A weasly, shifty-looking gnome mage.
 4646:The greatest Gnome King of them all.
 4647:A familiar looking young gnome.
 4648:He patrols the Shantay Pass.
@@ -4666,7 +4666,7 @@
 4960:A dark-hearted knight.
 4961:A Ranger of the Temple Knights.
 4962:A powerful warrior mage.
-4963:It's a gnome.  He looks important.
+4963:He looks important.
 4964:It's a tree gnome.
 4965:It's a tree gnome.
 4966:It's a tree gnome.
@@ -5108,7 +5108,7 @@
 5439:The brother of Miles and Giles.
 5440:The brother of Niles and Giles.
 5441:The brother of Niles and Miles.
-5442:The Old School RuneScape Security Guard.
+5442:A retired Security Guard.
 5443:A well dressed nobleman.
 5444:Swashbuckled his way across the seven seas.
 5445:A well dressed nobleman.
@@ -5477,10 +5477,10 @@
 5820:I can see fish swimming in the water.
 5821:I can see fish swimming in the water.
 5822:An impressive-looking troll.
-5823:An ice troll youngling.
-5824:A male troll wielding a large club.
-5825:An ice troll with a bag of rocks.
-5826:A large ice troll.
+5823:An ice troll youngling. All brawn and no loot.
+5824:A male troll wielding a large club. All brawn and no loot.
+5825:An ice troll with a bag of rocks. All brawn and no loot.
+5826:A large ice troll. All brawn and no loot.
 5827:Physician to Neitiznot's militia.
 5828:An ice troll youngling.
 5829:A male troll wielding a large club.
@@ -5979,7 +5979,7 @@
 6481:A dodgy guy with a sack. Doesn't say much.
 6482:Looks heavy...
 6483:Perhaps our oldest relatives?
-6484:A more than usually eccentric insurance broker.
+6484:A retired insurance broker.
 6485:A mistress of the arcane arts - aka finance.
 6488:It looks like something's moving under here.
 6490:
@@ -6173,7 +6173,7 @@
 6721:Fluffy and cute, keep away from fire!
 6722:A long-legged bird that likes to fish.
 6723:A chaotic death spawn.
-6724:Looks like it's gotten through a lot of wood.
+6724:He's at home in the forests.
 6725:Rock with attitude.
 6726:Rock with attitude.
 6727:Rock with attitude.
@@ -6796,7 +6796,7 @@
 7411:The arch demon of death.
 7412:A pirate, a seemingly intoxicated one.
 7413:This dummy is very susceptible to any sort of combat, and functions as any slayer task.
-7414:Has a couple of points to make about security.
+7414:Count Check checks accounts for security.
 7415:The apple fell far from the tree.
 7416:He looks very dangerous.
 7417:The Master Carpenter who runs Mahogany Homes.
@@ -8590,7 +8590,7 @@
 9501:Don't be hasty.
 9502:I don't want to get on the wrong side of him.
 9503:I don't want to get on the wrong side of her.
-9504:A top notch security guard, here to talk to you about account security.
+9504:These bees don't look very happy.
 9505:A jester from the west.
 9506:Without any doubt, a rogue, a rascal, a villain, a thief and a scoundrel.
 9511:Xeric's former artisan's former helper.
@@ -9792,7 +9792,7 @@
 11423:
 11424:
 11425:
-11427:A prideful looking apprentice.
+11427:He's at home in the forests.
 11428:Not quite as great as the Great Guardian, but pretty close.
 11429:Your own personal abyssal horror.
 11430:Small but wise, he is.
@@ -10372,6 +10372,7 @@
 12116:Anyone fancy a trim?
 12117:A sweet girl who doesn't speak much.
 12118:A corrupted warrior of Fort Daimon - a place of cut-throat hand-to-hand combat.
+12120:A strange bush with pollen-rich flowers.
 12121:A white knight sent to oversee the construction of the Oldschool Museum.
 12122:A white knight sent to oversee the construction of the Oldschool Museum.
 12123:A deadly predator formed from crystal.
@@ -10384,7 +10385,418 @@
 12130:An ancient automaton imbued with the power of Tumeken.
 12131:An ancient automaton imbued with the power of Elidinis.
 12132:An ancient body of power.
+12133:A strange, fruit producting bush.
+12134:A strange bush with pollen-rich flowers.
+12135:A strange, fruit producting bush.
 12137:A researcher from the Varrock Museum.
 12138:Formerly Robert the Strong, now a cat.
 12139:This can't end well.
 12140:The shadow of a dragon flying above.
+12141:A strange bush with pollen-rich flowers.
+12142:A strange, fruit producting bush.
+12143:A strange bush with pollen-rich flowers.
+12144:A strange, fruit producting bush.
+12145:A strange bush with pollen-rich flowers.
+12146:A strange, fruit producting bush.
+12147:A strange bush with pollen-rich flowers.
+12148:A strange, fruit producting bush.
+12149:A strange bush with pollen-rich flowers.
+12150:A strange, fruit producting bush.
+12151:A strange bush with pollen-rich flowers.
+12152:A strange, fruit producting bush.
+12153:Born in the shadows.
+12154:A tiny headless executioner.
+12155:Better keep an eye on this one.
+12156:A small creature deformed by the Abyss.
+12157:Born in the shadows.
+12158:A tiny headless executioner.
+12159:Better keep an eye on this one.
+12160:A small creature deformed by the Abyss.
+12161:Who could this be?
+12162:Hardened by the cutthroat world of archaeology.
+12163:Helps foresters bank.
+12164:Sapling nutrients
+12165:Sapling nutrients
+12166:He seems to be asleep.
+12167:He seems to be asleep.
+12168:A group of friendly bees helping to spread pollen around.
+12169:Looks like it's gotten through a lot of wood.
+12170:Looks like it's gotten through a lot of wood.
+12171:Looks like it's gotten through a lot of wood.
+12172:Looks like it's gotten through a lot of wood.
+12173:Looks like it's gotten through a lot of wood.
+12174:Looks like it's gotten through a lot of wood.
+12175:Looks like it's gotten through a lot of wood.
+12176:Looks like it's gotten through a lot of wood.
+12177:Looks like it's gotten through a lot of wood.
+12178:Looks like it's gotten through a lot of wood.
+12179:A prideful looking apprentice.
+12180:A prideful looking apprentice.
+12181:Looks like it's gotten through a lot of wood.
+12182:Looks like it's gotten through a lot of wood.
+12183:Looks like it's gotten through a lot of wood.
+12184:Looks like it's gotten through a lot of wood.
+12185:Looks like it's gotten through a lot of wood.
+12186:Looks like it's gotten through a lot of wood.
+12187:Looks like it's gotten through a lot of wood.
+12188:Looks like it's gotten through a lot of wood.
+12189:Looks like it's gotten through a lot of wood.
+12190:Looks like it's gotten through a lot of wood.
+12191:That's a lot of eyes...
+12192:Is he dead?
+12193:He seems to be asleep.
+12194:He seems to be asleep.
+12195:That's a lot of eyes...
+12196:Is he dead?
+12203:Who is that?
+12204:Dare you face the shadows?
+12205:Dare you face the shadows?
+12206:Dare you face the shadows?
+12207:Dare you face the shadows?
+12208:Looks slimy.
+12209:Looks... safe?
+12210:Looks... safe?
+12211:Where did this soul come from?
+12212:Where did this soul come from?
+12213:Who is that?
+12214:An unfathomably huge sea creature.
+12215:An unfathomably huge sea creature.
+12216:Is this many or one?
+12217:Is this many or one?
+12218:Is this many or one?
+12219:An unfathomably huge sea creature.
+12220:Has an aura around it that seems to be safe.
+12221:Is that really it?
+12223:How does he suck blood now?
+12224:How does he suck blood now?
+12225:What in sweet goodness grief?
+12226:What in sweet goodness grief?
+12228:How does he suck blood now?
+12230:An archaeologist.
+12231:An archaeologist.
+12232:An isolated dwarf.
+12233:An isolated dwarf.
+12234:Spooky.
+12235:How in the...
+12236:How in the...
+12237:Who could this be?
+12238:Who could this be?
+12239:Who could this be?
+12240:Who could this be?
+12241:Who could this be?
+12242:Who could this be?
+12243:Who could this be?
+12244:Who could this be?
+12245:Who could this be?
+12246:Who could this be?
+12247:Who could this be?
+12248:Protector of shadows.
+12249:Yuck!
+12250:What is that?!
+12251:What is that?!
+12252:What is that?!
+12253:What is that?!
+12254:A spooky ghost.
+12255:A jolly-looking dwarf.
+12256:He looks to be a bit of a mess.
+12257:He looks to be a bit of a mess.
+12258:He looks to be a bit of a mess.
+12259:He looks to be a bit of a mess.
+12260:He looks to be a bit of a mess.
+12261:He looks to be a bit of a mess.
+12262:The Strangler has started to change him.
+12263:The Strangler has started to change him.
+12264:The Strangler has started to change him.
+12267:I can see something swimming in the water.
+12268:A victim of the Strangler.
+12269:A victim of the Strangler.
+12270:A victim of the Strangler.
+12271:A victim of the Strangler.
+12272:A victim of the Strangler.
+12273:A victim of the Strangler.
+12274:A victim of the Strangler.
+12275:A victim of the Strangler.
+12276:A victim of the Strangler.
+12277:A victim of the Strangler.
+12278:A victim of the Strangler.
+12279:A victim of the Strangler.
+12280:A victim of the Strangler.
+12281:A victim of the Strangler.
+12282:A victim of the Strangler.
+12283:A victim of the Strangler.
+12284:A victim of the Strangler.
+12285:A victim of the Strangler.
+12286:A victim of the Strangler.
+12287:A victim of the Strangler.
+12288:It doesn't look too healthy.
+12289:That's one infected looking piggy.
+12290:Who's an infected kitty?
+12291:Hardened by the cutthroat world of archaeology.
+12292:Hardened by the cutthroat world of archaeology.
+12293:A mysterious archaeologist.
+12294:A mysterious archaeologist.
+12295:Who's this?
+12297:She looks dangerous.
+12298:She looks dangerous.
+12299:The sandwich lady.
+12300:She looks dangerous.
+12301:She looks dangerous.
+12302:A dangerous-looking Mahjarrat.
+12303:A dangerous-looking Mahjarrat.
+12304:A dangerous-looking Mahjarrat.
+12305:A devout Zarosian Mahjarrat.
+12306:A devout Zarosian Mahjarrat.
+12307:A devout Zarosian Mahjarrat.
+12308:A devout Zarosian Mahjarrat.
+12309:A dangerous Mahjarrat.
+12310:A dangerous Mahjarrat.
+12311:A camel-loving Mahjarrat.
+12312:A camel-loving Mahjarrat.
+12313:A camel-loving Mahjarrat.
+12314:The one pulling the strings.
+12315:The one pulling the strings.
+12316:A vengeful spirit corrupted by dark magic.
+12317:A vengeful spirit corrupted by dark magic.
+12318:A vengeful spirit corrupted by dark magic.
+12319:A vengeful spirit corrupted by dark magic.
+12320:A vengeful spirit corrupted by dark magic.
+12321:A vengeful spirit corrupted by dark magic.
+12322:A vengeful spirit corrupted by dark magic.
+12323:A vengeful spirit corrupted by dark magic.
+12324:A vengeful spirit corrupted by dark magic.
+12325:A vengeful spirit corrupted by dark magic.
+12326:A vengeful spirit corrupted by dark magic.
+12327:A vengeful spirit corrupted by dark magic.
+12328:A vengeful spirit corrupted by dark magic.
+12329:A vengeful spirit corrupted by dark magic.
+12330:A vengeful spirit corrupted by dark magic.
+12331:A vengeful spirit corrupted by dark magic.
+12332:A vengeful spirit corrupted by dark magic.
+12333:A vengeful spirit corrupted by dark magic.
+12334:Nothing friendly will come out of this...
+12335:I should avoid this at all costs.
+12336:The guardian of this ancient ruin.
+12337:The guardian of this ancient ruin.
+12338:Looks to have been heavily modified.
+12339:An ancient totem of smoke.
+12340:An ancient totem of smoke.
+12341:An ancient totem of shadow.
+12342:An ancient totem of shadow.
+12343:An ancient totem of blood.
+12344:An ancient totem of blood.
+12345:An ancient totem of ice.
+12346:An ancient totem of ice.
+12347:A shifty-looking chap.
+12348:A stealthy assassin.
+12349:A stealthy assassin.
+12350:A stealthy assassin.
+12351:A stealthy assassin.
+12352:Who could this be?
+12353:He's not what you'd call attractive.
+12354:He's not what you'd call attractive.
+12355:He's not what you'd call attractive.
+12356:Has an aura around it that seems to be safe.
+12357:Has an aura around it that seems to be safe.
+12358:They're performing some sort of ritual.
+12359:Drawing power from the Abyss.
+12360:The power of the Scar has changed them somehow.
+12361:Lesser, but still pretty big.
+12362:The power of the Scar has changed them somehow.
+12363:Lesser, but still pretty big.
+12364:The power of the Scar has changed them somehow.
+12365:Lesser, but still pretty big.
+12366:A blood-drinking denizen of the Abyss.
+12367:Seems to be glowing...
+12368:Seems to be glowing...
+12369:A moving ball of goo.
+12370:A moving ball of goo.
+12371:Looking a little worse for wear.
+12372:Its only purpose is to protect and repair.
+12373:The power of the Abyss has taken its toll on them.
+12374:Corrupted by the Abyss.
+12375:Has an aura around it that seems to be safe.
+12376:A particularly weak demon that's trying to harness power from the Abyss.
+12377:The Abyss has not been kind to them.
+12378:The power of the Abyss has taken its toll on them.
+12379:Corrupted by the Abyss.
+12380:An expert on teleportation magic.
+12381:An expert on teleportation magic.
+12382:An expert on teleportation magic.
+12383:A catalytic rune guardian.
+12384:A catalytic rune guardian.
+12385:A big, scary, jet-black demon.
+12386:The power of the Scar has changed them somehow.
+12387:Big, red, and incredibly evil.
+12388:The power of the Scar has changed them somehow.
+12389:Lesser, but still pretty big.
+12390:The power of the Scar has changed them somehow.
+12391:A blood-drinking denizen of the Abyss.
+12392:Apparently walks the Abyss.
+12393:A blood-drinking denizen of the Abyss.
+12394:Apparently walks the Abyss.
+12395:A mysterious hooded woman.
+12397:He's been freed from the boneguard.
+12398:Just who is he, anyway?
+12418:An isolated dwarf.
+12419:He looks to be a bit of a mess.
+12420:A devout Zarosian Mahjarrat.
+12421:The one pulling the strings.
+12422:A stealthy assassin.
+12423:An expert on teleportation magic.
+12424:Looks far stronger than the rest of them.
+12425:How does he suck blood now?
+12426:How does he suck blood now?
+12429:A victim of the Strangler.
+12430:A victim of the Strangler.
+12431:A victim of the Strangler.
+12432:A victim of the Strangler.
+12433:A victim of the Strangler.
+12434:A victim of the Strangler.
+12435:A victim of the Strangler.
+12436:Is this many or one?
+12437:Is this many or one?
+12438:Is this many or one?
+12439:Firstborn of the legendary dagannoth kings.
+12440:One of the biggest, meanest dragons around.
+12441:The dagannoth king responsible for the death of the Bukalla.
+12442:A legendary dagannoth king, rumoured to fly on the North winds.
+12443:Graceful avatar of Armadyl.
+12444:A huge war chief.
+12445:Commander of Saradomin's forces.
+12446:A servant of the god Zamorak.
+12447:A vengeful spirit corrupted by dark magic.
+12448:A rage-filled Zamorakian Demon.
+12449:A powerful Saradominist justiciar.
+12450:An ancient Guthixian Ent.
+12451:A greater denizen of the Abyss.
+12452:An ugly green creature.
+12453:A large demonic being of fire.
+12454:An extremely dangerous, emaciated ape like creature with beady red eyes.
+12455:Those are some powerful claws.
+12456:The evil that men do lives on and on.
+12457:I don't think you're ready for this jelly.
+12458:A cold-blooded creature, partial to warmth.
+12459:I don't want to ever visit that darker dimension...
+12460:Keeps the peace... kind of.
+12461:Keeps the peace... kind of.
+12464:Looks even nastier than the normal ones.
+12465:Looks even nastier than the normal ones.
+12466:He'll go anywhere as long as it's forward.
+12468:A young, sentient tree.
+12469:A young, sentient tree.
+12470:Can he copy it? Yes he can.
+12471:An ambitious gnome.
+12472:An ambitious gnome.
+12473:An ancient-looking gnome.
+12474:Bolrie's advisor.
+12475:Son of the greatest gnome king of them all.
+12476:Ahhh, isn't it cute?
+12477:What is that thing?
+12478:Ahhh, isn't it cute?
+12479:What is that thing?
+12480:She looks bored.
+12481:He looks bored.
+12482:She looks bored.
+12483:He looks bored.
+12484:She looks panicked.
+12485:He looks panicked.
+12486:Just getting in the way...
+12487:No one ever puts these in the right place.
+12488:Just getting in the way...
+12489:No one ever puts these in the right place.
+12490:What a horrible looking thing.
+12491:What a horrible looking thing.
+12492:What a horrible looking thing.
+12493:What a horrible looking thing.
+12494:What a horrible looking thing.
+12495:What a horrible looking thing.
+12496:What a horrible looking thing.
+12497:What a horrible looking thing.
+12498:What a horrible looking thing.
+12499:What a horrible looking thing.
+12500:What a horrible looking thing.
+12501:What a horrible looking thing.
+12502:What a horrible looking thing.
+12503:What a horrible looking thing.
+12504:What a horrible looking thing.
+12512:Looks to have been in here for a very long time.
+12513:Trick or dog treats!
+12514:A Bee keeper.
+12515:An unfinished beehive, add some logs to help.
+12516:An unfinished beehive, add some logs to help.
+12517:A finished beehive.
+12518:A wild beehive.
+12519:Twiggy.
+12520:A Ritual Circle.
+12521:A Ritual Circle.
+12522:A Ritual Circle.
+12523:A Ritual Circle.
+12524:A Ritual Circle.
+12525:A Ritual Circle.
+12526:A Ritual Circle.
+12527:A Ritual Circle.
+12528:A Ritual Circle.
+12529:A Ritual Circle.
+12530:A Ritual Circle.
+12531:A Ritual Circle.
+12532:A Ritual Circle.
+12533:A Ritual Circle.
+12534:A Ritual Circle.
+12535:A Ritual Circle.
+12536:He's at home in the forests.
+12537:A brightly coloured game bird.
+12538:That is quite some-thing.
+12539:A dangerous looking beast.
+12540:Scream if you want to go faster.
+12541:A nasty trap used to hurt foxes.
+12542:A tortured, twisted and screaming soul.
+12543:The joyful spawn of an ent out for a trim.
+12544:The joyful spawn of an ent with a snazzy haircut.
+12545:Out with its children.
+12546:Out with its children.
+12547:A brightly coloured game bird.
+12548:Foxy.
+12549:A brightly coloured game bird.
+12550:Foxy.
+12551:Count Check checks accounts for security.
+12552:Count Check checks accounts for security.
+12553:A threat to the wildlife.
+12554:A threat to the wildlife.
+12555:A threat to the wildlife.
+12556:A threat to the wildlife.
+12557:A threat to the wildlife.
+12558:A threat to the wildlife.
+12559:Trying to avoid poachers.
+12560:Trying to avoid poachers.
+12561:The slime of greater evil.
+12562:Careful where he puts that beak!
+12563:A large demonic being of fire.
+12564:A huge demonic being of fire.
+12565:Let's hope I have some phoenix tears.
+12566:Even phoenix tears won't help here.
+12567:The evil that men do lives on and on.
+12568:I wouldn't want to get near that tongue.
+12569:I wouldn't want to get near that tongue.
+12570:I don't think you're ready for this jelly.
+12571:I don't think you're ready for this jelly.
+12572:An extremely dangerous, emaciated ape like creature with beady red eyes.
+12573:I'd smell better after completing 3145 laps of an agility course dressed as a monkey.
+12574:I'd smell better after completing 3145 laps of an agility course dressed as a monkey.
+12575:Hold your breath!
+12576:Head honcho for the Kurask.
+12577:I don't think he is good for my lungs.
+12578:Am I losing my marbles?
+12579:Am I losing my marbles?
+12580:I don't want to ever visit that darker dimension...
+12581:A greater denizen of the Abyss.
+12582:The arch demon of death.
+12583:He's one huge leg short!
+12584:Is it wyrm in here or is it just me?
+12585:Is it wyrm in here or is it just me?
+12586:It's really winging the whole dragon thing, isn't it?
+12587:It's really winging the whole dragon thing, isn't it?
+12588:Don't forget to hydra-te.
+12589:A mighty protector.
+12592:A mysterious hooded figure coursing with power.
+12593:A disciple of the Sage sent to represent Leagues.
+12594:Those are some powerful claws.

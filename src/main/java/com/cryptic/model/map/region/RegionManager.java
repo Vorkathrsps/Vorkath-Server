@@ -1,11 +1,7 @@
 package com.cryptic.model.map.region;
 
 import com.cryptic.model.map.position.Area;
-import com.cryptic.utility.CompressionUtil;
-import com.cryptic.utility.FileUtil;
 import com.displee.cache.CacheLibrary;
-import com.cryptic.GameServer;
-import com.cryptic.GameEngine;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
 import it.unimi.dsi.fastutil.ints.*;
@@ -13,9 +9,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
-import javax.naming.OperationNotSupportedException;
-import java.io.File;
-import java.nio.ByteBuffer;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.BiFunction;
@@ -57,11 +50,10 @@ public class RegionManager {
      * @throws Exception
      */
     public static final Path OSRS = Path.of("data", "cache");
-    static CacheLibrary cache = CacheLibrary.create(String.valueOf(OSRS));
-
+    public static CacheLibrary cache = CacheLibrary.create(String.valueOf(OSRS));
     public static void init() throws Exception {
-        for (int x = 0; x < 255; x++) {
-            for (int y = 0; y < 255; y++) {
+        for (int x = 0; x < 100; x++) {
+            for (int y = 0; y < 256; y++) {
                 var index = cache.index(5);
                 int mapArchiveId = index.archiveId("m" + x + "_" + y);
                 int landArchiveId = index.archiveId("l" + x + "_" + y);
@@ -71,6 +63,18 @@ public class RegionManager {
                 }
             }
         }
+    }
+
+    private static byte[] getMapData(int baseX, int baseY, CacheLibrary library) {
+        var index = library.index(5);
+        int mapArchiveId = index.archiveId("m" + ((baseX >> 3) / 8) + "_" + ((baseY >> 3) / 8));
+        return mapArchiveId == -1 ? null : library.data(5, mapArchiveId);
+    }
+
+    public static byte[] getLandscapeData(int baseX, int baseY, CacheLibrary library) {
+        var index = library.index(5);
+        int landArchiveId = index.archiveId("l" + ((baseX >> 3) / 8) + "_" + ((baseY >> 3) / 8));
+        return landArchiveId == -1 ? null : library.data(5, landArchiveId);
     }
 
 
@@ -488,18 +492,6 @@ public class RegionManager {
         loadMapFiles(x, y, force, OBJECT_CONSUMER, CLIP_CONSUMER);
     }
 
-    private static byte[] getMapData(int baseX, int baseY, CacheLibrary library) {
-        var index = library.index(5);
-        int mapArchiveId = index.archiveId("m" + ((baseX >> 3) / 8) + "_" + ((baseY >> 3) / 8));
-        return mapArchiveId == -1 ? null : library.data(5, mapArchiveId);
-    }
-
-    public static byte[] getLandscapeData(int baseX, int baseY, CacheLibrary library) {
-        var index = library.index(5);
-        int landArchiveId = index.archiveId("l" + ((baseX >> 3) / 8) + "_" + ((baseY >> 3) / 8));
-        return landArchiveId == -1 ? null : library.data(5, landArchiveId);
-    }
-
     public static void loadMapFiles(int x, int y, boolean force, ObjectConsumer consumer, ClipConsumer clipConsumer) {
         try {
             int regionX = x >> 3;
@@ -571,18 +563,9 @@ public class RegionManager {
                             int hash = objectStream.getUByte();
                             int type = hash >> 2;
                             int direction = hash & 0x3;
-
-                            if (localX < 0 || localX >= 64 || localY < 0 || localY >= 64) {
-                                continue;
-                            }
-
-                            if ((r.heightMap[1][localX][localY] & 2) == 2) {
-                                zLevel--;
-                            }
-
-                            if (zLevel >= 0 && zLevel <= 3) {
-                                consumer.accept(objectId, absX + localX, absY + localY, zLevel, type, direction, r);
-                            }
+                            if (localX < 0 || localX >= 64 || localY < 0 || localY >= 64) continue;
+                            if ((r.heightMap[1][localX][localY] & 2) == 2) zLevel--;
+                            if (zLevel >= 0 && zLevel <= 3) consumer.accept(objectId, absX + localX, absY + localY, zLevel, type, direction, r);
                         }
                     }
                 }
@@ -595,6 +578,7 @@ public class RegionManager {
 
     public static BiFunction<IntOpenHashSet, Integer, ArrayList<GameObject>> loadGroupMapFiles = (i, i2) -> new ArrayList<>();
     public static Function<Area[], IntSet> areasToRegions = areas -> IntSet.of();
+
     public static final class MapDecodeEx extends RuntimeException {
         public MapDecodeEx(String mapDecode, Exception e) {
             super(mapDecode, e);

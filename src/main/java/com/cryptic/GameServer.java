@@ -1,5 +1,6 @@
 package com.cryptic;
 
+import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.network.pipeline.Bootstrap;
 import com.cryptic.services.database.DatabaseService;
 import com.cryptic.services.database.DatabaseServiceBuilder;

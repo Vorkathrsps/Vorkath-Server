@@ -6,10 +6,11 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
-public class ObjectParser {
+
+public class NpcExamineDumper {
     public static void main(String[] args) {
-        String csvUrl = "https://raw.githubusercontent.com/Joshua-F/osrs-examines/master/objs.csv";
-        String outputFile = "objectexamines.txt";
+        String csvUrl = "https://raw.githubusercontent.com/Joshua-F/osrs-examines/master/npcs.csv";
+        String outputFile = "npcexamines.txt";
 
         try {
             String csvContent = fetchCsvContent(csvUrl);
@@ -44,12 +45,12 @@ public class ObjectParser {
 
         for (int i = 1; i < lines.length; i++) {
             String line = lines[i];
-            String[] parts = line.split(",", 3);
+            String[] parts = line.split(",", 2);
 
-            if (parts.length == 3) {
-                int objectId = Integer.parseInt(parts[0].trim());
-                String examine = parts[2].trim().replaceAll("\"", "");
-                String parsedOutput = objectId + ":" + examine;
+            if (parts.length == 2) {
+                int npcId = Integer.parseInt(parts[0].trim());
+                String examine = parts[1].trim().replaceAll("\"", "");
+                String parsedOutput = npcId + ":" + examine;
                 parsedDataBuilder.append(parsedOutput);
                 parsedDataBuilder.append(System.lineSeparator());
             }
@@ -64,4 +65,3 @@ public class ObjectParser {
         writer.close();
     }
 }
-

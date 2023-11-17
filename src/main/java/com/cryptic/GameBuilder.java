@@ -45,18 +45,11 @@ public class GameBuilder {
         try {
             Class.forName("com.cryptic.model.map.region.Dev").getDeclaredConstructor().newInstance();
         } catch (Exception e) { /*ignored on purpose*/}
-        //Start background tasks..
-        backgroundLoader.init(createBackgroundTasks());
 
-        //Start prioritized tasks...
         RegionManager.init();
-
-        System.gc(); // Some init scripts allocate a ton to parse
-
-        //Start game engine..
+        backgroundLoader.init(createBackgroundTasks());
+        System.gc();
         GameEngine.getInstance().start();
-
-        //Make sure the background tasks loaded properly..
         if (!backgroundLoader.awaitCompletion())
             throw new IllegalStateException("Background load did not complete normally!");
     }

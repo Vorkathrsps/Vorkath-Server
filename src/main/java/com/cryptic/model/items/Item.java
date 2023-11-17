@@ -7,6 +7,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.container.bank.Bank;
 import com.cryptic.model.items.tradingpost.TradingPost;
 import com.cryptic.model.World;
+import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.utility.loaders.BloodMoneyPrices;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.player.EquipSlot;
@@ -76,6 +77,7 @@ public class Item implements Cloneable {
     public static void onServerStart() {
         Entity.accumulateRuntimeTo(() -> {
             checkDefs();
+
         }, t -> {
             System.out.println("itemdef special fields took " + t.toMillis() + " ms");
         });

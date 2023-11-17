@@ -10,7 +10,7 @@ import java.net.URL;
 public class ExamineParser {
     public static void main(String[] args) {
         String csvUrl = "https://raw.githubusercontent.com/Joshua-F/osrs-examines/master/locs.csv";
-        String outputFile = "locationexamines.txt";
+        String outputFile = "object_examines.txt";
 
         try {
             String csvContent = fetchCsvContent(csvUrl);

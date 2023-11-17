@@ -249,28 +249,28 @@ public class Hit {
             case MELEE -> {
                 switch (mode) {
                     case ACCURATE -> {
-                        if (isAccurate) {
+                        if (isAccurate && this.damage > 0) {
                             player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
                             player.getSkills().addXp(Skills.ATTACK, rangedMeleeXP);
                         }
                     }
 
                     case AGGRESSIVE -> {
-                        if (isAccurate) {
+                        if (isAccurate && this.damage > 0) {
                             player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
                             player.getSkills().addXp(Skills.STRENGTH, rangedMeleeXP);
                         }
                     }
 
                     case DEFENSIVE -> {
-                        if (isAccurate) {
+                        if (isAccurate && this.damage > 0) {
                             player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
                             player.getSkills().addXp(Skills.DEFENCE, rangedMeleeXP);
                         }
                     }
 
                     case CONTROLLED -> {
-                        if (isAccurate) {
+                        if (isAccurate && this.damage > 0) {
                             player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
                             player.getSkills().addXp(Skills.ATTACK, rangedMeleeXP / 1.33);
                             player.getSkills().addXp(Skills.STRENGTH, rangedMeleeXP / 1.33);
@@ -283,14 +283,14 @@ public class Hit {
             case RANGED -> {
                 switch (mode) {
                     case ACCURATE, AGGRESSIVE -> {
-                        if (isAccurate) {
+                        if (isAccurate && this.damage > 0) {
                             player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
                             player.getSkills().addXp(Skills.RANGED, rangedMeleeXP);
                         }
                     }
 
                     case DEFENSIVE -> {
-                        if (isAccurate) {
+                        if (isAccurate && this.damage > 0) {
                             player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
                             player.getSkills().addXp(Skills.RANGED, rangedMeleeXP / 1.33);
                             player.getSkills().addXp(Skills.DEFENCE, rangedMeleeXP / 1.33);
@@ -316,7 +316,7 @@ public class Hit {
                     double spellBaseXP = nonPvpEXP ? spell.baseExperience() * gameModeMultiplier : spell.baseExperience();
                     double magicXP = nonPvpEXP ? mXP * gameModeMultiplier : mXP + spellBaseXP;
                     double defenceXP = nonPvpEXP ? dXP * gameModeMultiplier : dXP;
-                    if (isAccurate) {
+                    if (isAccurate && this.damage > 0) {
                         if (player.<Boolean>getAttribOr(AttributeKey.DEFENSIVE_AUTOCAST, false)) {
                             player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
                             player.getSkills().addXp(Skills.MAGIC, magicXP);
@@ -369,7 +369,6 @@ public class Hit {
         }
         if (this.damage >= this.getMaximumHit()) this.setMaxHit(true);
         if (this.attacker instanceof Player player) {
-            System.out.println(this.accurate);
             this.addCombatXp(player, this.combatType, player.getCombat().getFightType().getStyle(), this.accurate);
         }
         target.getCombat().getHitQueue().add(this);

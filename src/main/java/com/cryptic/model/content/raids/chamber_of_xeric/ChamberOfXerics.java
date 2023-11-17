@@ -32,7 +32,9 @@ import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
  * @Since October 29, 2021
  */
 public class ChamberOfXerics extends Raids {
-
+    public static Area room() {
+        return new Area(Tile.regionToTile(12889).getX(), Tile.regionToTile(12889).getY(), Tile.regionToTile(12889).getX() + 63, Tile.regionToTile(12889).getY() + 63);
+    }
     @Override
     public void startup(Player player) {
         Party party = player.raidsParty;

@@ -17,9 +17,20 @@ public class Dev {
     private static final Marker marker = MarkerManager.getMarker("Region");
 
     public Dev() {
-        RegionManager.areasToRegions = areas -> {
+        RegionManager.areasToRegions = (areas) -> {
             IntOpenHashSet regions = IntOpenHashSet.of();
-            for (Area area : areas) regions.add(area.middleTile().region());
+            for (Area area : areas) {
+                if (area.width() > 63 || area.length() > 63) {
+                    for (int x = area.x1; x < area.x2; x += 8) {
+                        for (int y = area.y1; y < area.y2; y += 8) {
+                            int id = Region.get(x, y).getRegionId();
+                            regions.add(id);
+                        }
+                    }
+                }
+                regions.add(Region.get(area.x1, area.y1).getRegionId());
+                regions.add(Region.get(area.x2, area.y2).getRegionId());
+            }
             return regions;
         };
         RegionManager.loadGroupMapFiles = (regions, customZ) -> {

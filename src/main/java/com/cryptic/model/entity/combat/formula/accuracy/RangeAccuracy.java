@@ -110,8 +110,7 @@ public class RangeAccuracy {
     }
 
     private int getGearAttackBonus() {
-        return
-            this.attacker instanceof Player ? EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo()).getRange() : this.attacker.getAsNpc().getCombatInfo().getBonuses().getRanged();
+        return this.attacker instanceof Player ? EquipmentInfo.totalBonuses(attacker, World.getWorld().equipmentInfo()).getRange() : this.attacker.getAsNpc().getCombatInfo().getBonuses().getRanged();
     }
 
     private int getGearDefenceBonus() {
@@ -119,14 +118,14 @@ public class RangeAccuracy {
     }
 
     private int getAttackRoll() {
-        int effectiveRangeLevel = (int) Math.floor(getEffectiveRanged());
+        int effectiveRangeLevel = getEffectiveRanged();
         int equipmentRangeBonus = getGearAttackBonus();
-        return (int) Math.floor(effectiveRangeLevel * (equipmentRangeBonus + 64));
+        return effectiveRangeLevel * (equipmentRangeBonus + 64);
     }
 
     private int getDefenceRoll() {
-        int effectiveDefenceLevel = (int) Math.floor(getEffectiveDefence());
+        int effectiveDefenceLevel = getEffectiveDefence();
         int equipmentRangeBonus = getGearDefenceBonus();
-        return (int) Math.floor(effectiveDefenceLevel * (equipmentRangeBonus + 64));
+        return effectiveDefenceLevel * (equipmentRangeBonus + 64);
     }
 }

@@ -174,8 +174,6 @@ public class MeleeAccuracy {
         } else {
             defenceLevel += 9;
         }
-
-        System.out.println(defenceBonus);
         return defenceLevel * (defenceBonus + 64);
     }
 

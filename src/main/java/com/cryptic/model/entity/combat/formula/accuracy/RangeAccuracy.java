@@ -40,8 +40,8 @@ public class RangeAccuracy {
     @Setter
     Entity attacker, defender;
     CombatType combatType;
-    @Getter public double attackRoll = 0;
-    @Getter public double defenceRoll = 0;
+    public double attackRoll = 0;
+    public double defenceRoll = 0;
     @Getter public double chance = 0;
     PreDamageEffectHandler handler = new PreDamageEffectHandler(new EquipmentDamageEffect());
 

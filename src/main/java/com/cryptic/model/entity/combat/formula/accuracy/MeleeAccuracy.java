@@ -28,8 +28,8 @@ public class MeleeAccuracy {
     @Setter
     Entity attacker, defender;
     CombatType combatType;
-    @Getter public double attackRoll = 0;
-    @Getter public double defenceRoll = 0;
+    public double attackRoll = 0;
+    public double defenceRoll = 0;
     @Getter public double chance = 0;
     PreDamageEffectHandler handler = new PreDamageEffectHandler(new EquipmentDamageEffect());
     public MeleeAccuracy(Entity attacker, Entity defender, CombatType combatType) {
@@ -49,23 +49,23 @@ public class MeleeAccuracy {
     private double getPrayerDefenseBonus() {
         double prayerBonus = 1F;
         if (this.attacker instanceof Player) {
-            if (Prayers.usingPrayer(this.defender, THICK_SKIN)) prayerBonus *= 1.05F; // 5% def level boost
-            else if (Prayers.usingPrayer(this.defender, ROCK_SKIN)) prayerBonus *= 1.10F; // 10% def level boost
-            else if (Prayers.usingPrayer(this.defender, STEEL_SKIN)) prayerBonus *= 1.15F; // 15% def level boost
-            else if (Prayers.usingPrayer(this.defender, CHIVALRY)) prayerBonus *= 1.20F; // 20% def level boost
-            else if (Prayers.usingPrayer(this.defender, PIETY)) prayerBonus *= 1.25F; // 25% def level boost
+            if (Prayers.usingPrayer(this.defender, THICK_SKIN)) prayerBonus *= 1.05D; // 5% def level boost
+            else if (Prayers.usingPrayer(this.defender, ROCK_SKIN)) prayerBonus *= 1.10D; // 10% def level boost
+            else if (Prayers.usingPrayer(this.defender, STEEL_SKIN)) prayerBonus *= 1.15D; // 15% def level boost
+            else if (Prayers.usingPrayer(this.defender, CHIVALRY)) prayerBonus *= 1.20D; // 20% def level boost
+            else if (Prayers.usingPrayer(this.defender, PIETY)) prayerBonus *= 1.25D; // 25% def level boost
         }
         return prayerBonus;
     }
 
     private double getPrayerAttackBonus() {
-        double prayerBonus = 1F;
+        double prayerBonus = 1D;
         if (this.attacker instanceof Player) {
-            if (Prayers.usingPrayer(this.attacker, CLARITY_OF_THOUGHT)) prayerBonus *= 1.05F; // 5% attack level boost
-            else if (Prayers.usingPrayer(this.attacker, IMPROVED_REFLEXES)) prayerBonus *= 1.10F; // 10% attack level boost
-            else if (Prayers.usingPrayer(this.attacker, INCREDIBLE_REFLEXES)) prayerBonus *= 1.15F; // 15% attack level boost
-            else if (Prayers.usingPrayer(this.attacker, CHIVALRY)) prayerBonus *= 1.15F; // 15% attack level boost
-            else if (Prayers.usingPrayer(this.attacker, PIETY)) prayerBonus *= 1.20F; // 20% attack level boost
+            if (Prayers.usingPrayer(this.attacker, CLARITY_OF_THOUGHT)) prayerBonus *= 1.05D; // 5% attack level boost
+            else if (Prayers.usingPrayer(this.attacker, IMPROVED_REFLEXES)) prayerBonus *= 1.10D; // 10% attack level boost
+            else if (Prayers.usingPrayer(this.attacker, INCREDIBLE_REFLEXES)) prayerBonus *= 1.15D; // 15% attack level boost
+            else if (Prayers.usingPrayer(this.attacker, CHIVALRY)) prayerBonus *= 1.15D; // 15% attack level boost
+            else if (Prayers.usingPrayer(this.attacker, PIETY)) prayerBonus *= 1.20D; // 20% attack level boost
         }
         return prayerBonus;
     }
@@ -109,28 +109,33 @@ public class MeleeAccuracy {
 
     private int getGearDefenceBonus() {
         int bonus = 0;
-        AttackType type = this.defender instanceof NPC npc && npc.getCombat().getAttackType() != null ? npc.getCombat().getAttackType() : this.defender.getCombat().getFightType().getAttackType();
+        AttackType type;
 
         if (this.defender instanceof NPC npc) {
             var stats = npc.getCombatInfo().bonuses;
-            if (npc.getCombatInfo() != null) {
-                if (npc.getCombatInfo().stats != null) {
-                    switch (type) {
-                        case STAB -> bonus = stats.stabdefence;
-                        case CRUSH -> bonus = stats.crushdefence;
-                        case SLASH -> bonus = stats.slashdefence;
+            type = this.attacker instanceof Player player ? player.getCombat().getAttackType() : npc.getCombat().getAttackType();
+            if (type != null) {
+                if (npc.getCombatInfo() != null) {
+                    if (npc.getCombatInfo().stats != null) {
+                        switch (type) {
+                            case STAB -> bonus = stats.stabdefence;
+                            case CRUSH -> bonus = stats.crushdefence;
+                            case SLASH -> bonus = stats.slashdefence;
+                        }
                     }
                 }
             }
         } else if (this.defender instanceof Player) {
-            var stats = EquipmentInfo.totalBonuses(this.attacker, World.getWorld().equipmentInfo());
-            switch (type) {
-                case STAB -> bonus = stats.stabdef;
-                case CRUSH -> bonus = stats.crushdef;
-                case SLASH -> bonus = stats.slashdef;
+            var stats = EquipmentInfo.totalBonuses(this.defender, World.getWorld().equipmentInfo());
+            type = this.defender.getCombat().getAttackType();
+            if (type != null) {
+                switch (type) {
+                    case STAB -> bonus = stats.stabdef;
+                    case CRUSH -> bonus = stats.crushdef;
+                    case SLASH -> bonus = stats.slashdef;
+                }
             }
         }
-
         return bonus;
     }
 
@@ -147,7 +152,6 @@ public class MeleeAccuracy {
         } else if (this.attacker instanceof NPC npc) {
             bonus = npc.getCombatInfo().getBonuses().getAttack();
         }
-
         return bonus;
     }
 
@@ -170,6 +174,8 @@ public class MeleeAccuracy {
         } else {
             defenceLevel += 9;
         }
+
+        System.out.println(defenceBonus);
         return defenceLevel * (defenceBonus + 64);
     }
 

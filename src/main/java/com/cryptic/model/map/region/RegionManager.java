@@ -13,13 +13,6 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-
-/**
- * This manager handles all regions and their related functions, such as
- * clipping.
- *
- * @author Professor Oak
- */
 @SuppressWarnings("ALL")
 public class RegionManager {
 
@@ -76,7 +69,6 @@ public class RegionManager {
         int landArchiveId = index.archiveId("l" + ((baseX >> 3) / 8) + "_" + ((baseY >> 3) / 8));
         return landArchiveId == -1 ? null : library.data(5, landArchiveId);
     }
-
 
     /**
      * Attempts to get a {@link Region} based on an id.

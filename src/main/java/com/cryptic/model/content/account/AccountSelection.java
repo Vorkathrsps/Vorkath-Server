@@ -1,6 +1,7 @@
 package com.cryptic.model.content.account;
 
 import com.cryptic.GameConstants;
+import com.cryptic.model.content.title.TitleColour;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.player.GameMode;
@@ -196,6 +197,7 @@ public class AccountSelection extends PacketInteraction {
                 player.getUpdateFlag().flag(Flag.APPEARANCE);
                 player.getInterfaceManager().close();
                 player.putAttrib(AttributeKey.NEW_ACCOUNT, false);
+                player.getPacketSender().sendRights();
                 player.looks().hide(false);
                 return true;
             }
@@ -204,6 +206,7 @@ public class AccountSelection extends PacketInteraction {
                 player.getUpdateFlag().flag(Flag.APPEARANCE);
                 player.getInterfaceManager().close();
                 player.putAttrib(AttributeKey.NEW_ACCOUNT, false);
+                player.getPacketSender().sendRights();
                 player.looks().hide(false);
                 return true;
             }
@@ -212,6 +215,7 @@ public class AccountSelection extends PacketInteraction {
                 player.getUpdateFlag().flag(Flag.APPEARANCE);
                 player.getInterfaceManager().close();
                 player.putAttrib(AttributeKey.NEW_ACCOUNT, false);
+                player.getPacketSender().sendRights();
                 player.looks().hide(false);
                 return true;
             }
@@ -220,6 +224,9 @@ public class AccountSelection extends PacketInteraction {
                 player.getUpdateFlag().flag(Flag.APPEARANCE);
                 player.getInterfaceManager().close();
                 player.putAttrib(AttributeKey.NEW_ACCOUNT, false);
+                player.putAttrib(AttributeKey.TITLE, "Realism");
+                player.putAttrib(AttributeKey.TITLE_COLOR, new TitleColour("Orange", "<col=ff7000>").getFormat());
+                player.getPacketSender().sendRights();
                 player.looks().hide(false);
                 return true;
             }
@@ -228,6 +235,7 @@ public class AccountSelection extends PacketInteraction {
                 player.getUpdateFlag().flag(Flag.APPEARANCE);
                 player.getInterfaceManager().close();
                 player.putAttrib(AttributeKey.NEW_ACCOUNT, false);
+                player.getPacketSender().sendRights();
                 player.looks().hide(false);
                 return true;
             }

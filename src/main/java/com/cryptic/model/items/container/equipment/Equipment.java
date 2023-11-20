@@ -260,7 +260,7 @@ public final class Equipment extends ItemContainer {
             set(index, get(index), true);
         }
         ItemWeight.calculateWeight(player);
-       // System.out.println(ItemWeight.calculateWeight(player));
+        // System.out.println(ItemWeight.calculateWeight(player));
         WeaponInterfaces.updateWeaponInterface(player);
         refresh();
     }
@@ -479,22 +479,6 @@ public final class Equipment extends ItemContainer {
             }
         }
 
-        if (player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS) || player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS_FULL)) {
-            player.getCombat().setPoweredStaffSpell(CombatSpells.TRIDENT_OF_THE_SEAS.getSpell());
-        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SWAMP)) {
-            player.getCombat().setPoweredStaffSpell(CombatSpells.TRIDENT_OF_THE_SWAMP.getSpell());
-        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, SANGUINESTI_STAFF)) {
-            player.getCombat().setPoweredStaffSpell(CombatSpells.SANGUINESTI_STAFF.getSpell());
-        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
-            player.getCombat().setPoweredStaffSpell(CombatSpells.TUMEKENS_SHADOW.getSpell());
-        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, DAWNBRINGER)) {
-            player.getCombat().setPoweredStaffSpell(CombatSpells.DAWNBRINGER.getSpell());
-        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, ACCURSED_SCEPTRE_A)) {
-            player.getCombat().setPoweredStaffSpell(CombatSpells.ACCURSED_SCEPTRE.getSpell());
-        } else {
-            player.getCombat().setPoweredStaffSpell(null);
-        }
-
         Item current;
 
         current = get(equipmentSlot);
@@ -544,13 +528,8 @@ public final class Equipment extends ItemContainer {
         player.setSpecialActivated(false);
         CombatSpecial.updateBar(player);
 
-
         //Update weapon interface
         WeaponInterfaces.updateWeaponInterface(player);
-
-        //OSRS resets target and interaction
-        player.getCombat().setTarget(null);
-        player.setEntityInteraction(null);
 
         if (secondaryItemToUnequip != null) {
             // On 07 there are two max capes, one has right-click equipment options and the other does not!
@@ -562,6 +541,26 @@ public final class Equipment extends ItemContainer {
             inventory.add(newItem, inventoryIndex, true);
         }
 
+        if (equipmentSlot == 3) {
+            if (player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS) || player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS_FULL)) {
+                player.getCombat().setPoweredStaffSpell(CombatSpells.TRIDENT_OF_THE_SEAS.getSpell());
+            } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SWAMP)) {
+                player.getCombat().setPoweredStaffSpell(CombatSpells.TRIDENT_OF_THE_SWAMP.getSpell());
+            } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, SANGUINESTI_STAFF)) {
+                player.getCombat().setPoweredStaffSpell(CombatSpells.SANGUINESTI_STAFF.getSpell());
+            } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
+                player.getCombat().setPoweredStaffSpell(CombatSpells.TUMEKENS_SHADOW.getSpell());
+            } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, DAWNBRINGER)) {
+                player.getCombat().setPoweredStaffSpell(CombatSpells.DAWNBRINGER.getSpell());
+            } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, ACCURSED_SCEPTRE_A)) {
+                player.getCombat().setPoweredStaffSpell(CombatSpells.ACCURSED_SCEPTRE.getSpell());
+            } else {
+                player.getCombat().setPoweredStaffSpell(null);
+            }
+        }
+
+        player.getCombat().setTarget(null);
+        player.setEntityInteraction(null);
         return true;
     }
 
@@ -592,6 +591,7 @@ public final class Equipment extends ItemContainer {
         if (equipmentIndex == -1)
             return false;
         Item unequip = get(equipmentIndex);
+
         if (unequip == null)
             return false;
 
@@ -624,10 +624,9 @@ public final class Equipment extends ItemContainer {
             player.getInterfaceManager().close(false);
         }
 
-        player.getCombat().setCastSpell(null);
-
-        if (player.getCombat().getPoweredStaffSpell() != null) {
-            player.getCombat().setPoweredStaffSpell(null);
+        if (equipmentIndex == 3) {
+            player.getCombat().setCastSpell(null);
+            if (player.getCombat().getPoweredStaffSpell() != null) player.getCombat().setPoweredStaffSpell(null);
         }
 
         //Always reset ranged weapon when unequipping weapon
@@ -695,9 +694,11 @@ public final class Equipment extends ItemContainer {
     public Item getHelmet() {
         return get(EquipSlot.HEAD);
     }
+
     public Item getBody() {
         return get(EquipSlot.BODY);
     }
+
     public Item getAmmo() {
         return get(EquipSlot.AMMO);
     }

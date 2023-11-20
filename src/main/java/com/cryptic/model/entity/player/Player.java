@@ -1629,7 +1629,7 @@ public class Player extends Entity {
                 putAttrib(MULTIWAY_AREA, 0);
             }
 
-            getUpdateFlag().flag(Flag.APPEARANCE); //Update the players appearance
+            this.getUpdateFlag().flag(Flag.APPEARANCE); //Update the players appearance
 
             if (this.<Boolean>getAttribOr(ASK_FOR_ACCOUNT_PIN, false)) {
                 askForAccountPin();

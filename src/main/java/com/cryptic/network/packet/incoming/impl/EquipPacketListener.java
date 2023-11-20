@@ -103,29 +103,6 @@ public class EquipPacketListener implements PacketListener {
                         player.getTimers().cancel(TimerKey.SOTD_DAMAGE_REDUCTION);
                         player.getPacketSender().sendMessage(Color.RED.wrap("Your Staff of the dead special de-activated because you unequipped the staff."));
                     }
-                    CombatSpell poweredStaffSpell = null;
-                    Item weapon = player.getEquipment().get(EquipSlot.WEAPON);
-
-                    if (weapon != null) {
-                        switch (weapon.getId()) {
-                            case TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SEAS_FULL ->
-                                poweredStaffSpell = CombatSpells.TRIDENT_OF_THE_SEAS.getSpell();
-                            case TRIDENT_OF_THE_SWAMP ->
-                                poweredStaffSpell = CombatSpells.TRIDENT_OF_THE_SWAMP.getSpell();
-                            case SANGUINESTI_STAFF -> poweredStaffSpell = CombatSpells.SANGUINESTI_STAFF.getSpell();
-                            case TUMEKENS_SHADOW -> poweredStaffSpell = CombatSpells.TUMEKENS_SHADOW.getSpell();
-                            case DAWNBRINGER -> poweredStaffSpell = CombatSpells.DAWNBRINGER.getSpell();
-                            case ACCURSED_SCEPTRE_A -> poweredStaffSpell = CombatSpells.ACCURSED_SCEPTRE.getSpell();
-                        }
-                    }
-
-                    if (poweredStaffSpell != null) {
-                        if (player.getCombat().getPoweredStaffSpell() != null) {
-                            player.getCombat().setPoweredStaffSpell(null);
-                        }
-                        player.getCombat().setPoweredStaffSpell(poweredStaffSpell);
-                        return;
-                    }
 
                     if (player.getCombat().getAutoCastSpell() != null) {
                         Autocasting.setAutocast(player, null);

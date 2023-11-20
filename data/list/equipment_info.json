@@ -18618,6 +18618,11 @@
     "type": 0,
     "showBeard": false
   },
+  "26454": {
+    //shattered top
+    "type": 6,
+    "showBeard": false
+  },
   "27867": {
     //abby dag bh
     "slot": 3,

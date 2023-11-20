@@ -49,12 +49,6 @@ GetItemIdCommand implements Command {
 
     @Override
     public boolean canUse(Player player) {
-        if(ALLOW_SPAWN) {
-            return true;
-        }
-        if(GameServer.properties().test) {
-            return true;
-        }
-        return (player.getPlayerRights().isAdministrator(player));
+        return true;
     }
 }

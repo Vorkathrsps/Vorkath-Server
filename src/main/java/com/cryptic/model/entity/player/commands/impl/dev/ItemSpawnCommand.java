@@ -48,9 +48,6 @@ public class ItemSpawnCommand implements Command {
 
     @Override
     public boolean canUse(Player player) {
-        if (!GameServer.properties().pvpMode) {
-            return (player.getPlayerRights().isAdministrator(player));
-        }
         return true;
     }
 }

@@ -237,40 +237,40 @@ public class Hit {
         return this;
     }
 
-    public void addCombatXp(Player player, CombatType style, FightStyle mode, boolean isAccurate) {
+    public void addCombatXp(Player player, CombatType style, FightStyle mode, boolean isAccurate, int damage) {
         if (combatType == null) return;
         var gameModeMultiplier = player.getGameMode().equals(GameMode.REALISM) ? 10.0 : 50.0;
         var nonPvpEXP = (this.attacker instanceof Player && (WildernessArea.inWilderness(player.tile()) || !WildernessArea.inWilderness(player.tile())) && this.target instanceof NPC);
-        double hXP = calculateHitpointsExperience();
-        double rmXP = calculateRangedOrMeleeXP();
-        double hitpointsXP = nonPvpEXP ? hXP * gameModeMultiplier : hXP;
-        double rangedMeleeXP = nonPvpEXP ? rmXP * gameModeMultiplier : rmXP;
+        double hXP = calculateHitpointsExperience(damage);
+        double rmXP = calculateRangedOrMeleeXP(damage);
+        double hitpointsXP = nonPvpEXP ? (int) (hXP * gameModeMultiplier) : hXP;
+        double rangedMeleeXP = nonPvpEXP ? (int) (rmXP * gameModeMultiplier) : rmXP;
         switch (style) {
             case MELEE -> {
                 switch (mode) {
                     case ACCURATE -> {
-                        if (isAccurate && this.damage > 0) {
+                        if (isAccurate && damage > 0) {
                             player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
                             player.getSkills().addXp(Skills.ATTACK, rangedMeleeXP);
                         }
                     }
 
                     case AGGRESSIVE -> {
-                        if (isAccurate && this.damage > 0) {
+                        if (isAccurate && damage > 0) {
                             player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
                             player.getSkills().addXp(Skills.STRENGTH, rangedMeleeXP);
                         }
                     }
 
                     case DEFENSIVE -> {
-                        if (isAccurate && this.damage > 0) {
+                        if (isAccurate && damage > 0) {
                             player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
                             player.getSkills().addXp(Skills.DEFENCE, rangedMeleeXP);
                         }
                     }
 
                     case CONTROLLED -> {
-                        if (isAccurate && this.damage > 0) {
+                        if (isAccurate && damage > 0) {
                             player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
                             player.getSkills().addXp(Skills.ATTACK, rangedMeleeXP / 1.33);
                             player.getSkills().addXp(Skills.STRENGTH, rangedMeleeXP / 1.33);
@@ -283,14 +283,14 @@ public class Hit {
             case RANGED -> {
                 switch (mode) {
                     case ACCURATE, AGGRESSIVE -> {
-                        if (isAccurate && this.damage > 0) {
+                        if (isAccurate && damage > 0) {
                             player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
                             player.getSkills().addXp(Skills.RANGED, rangedMeleeXP);
                         }
                     }
 
                     case DEFENSIVE -> {
-                        if (isAccurate && this.damage > 0) {
+                        if (isAccurate && damage > 0) {
                             player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
                             player.getSkills().addXp(Skills.RANGED, rangedMeleeXP / 1.33);
                             player.getSkills().addXp(Skills.DEFENCE, rangedMeleeXP / 1.33);
@@ -307,16 +307,16 @@ public class Hit {
                     double mXP = 1;
                     double dXP = 1;
                     double mXPMultiplier = player.<Boolean>getAttribOr(AttributeKey.DEFENSIVE_AUTOCAST, false) ? 1.33 : 2.0;
-                    for (magicXPIndex = 0; magicXPIndex < this.damage; magicXPIndex++) {
-                        mXP = ((magicXPIndex + 1) * mXPMultiplier);
+                    for (magicXPIndex = 0; magicXPIndex < damage; magicXPIndex++) {
+                        mXP += ((magicXPIndex + 1) * mXPMultiplier);
                     }
-                    for (defenceXpIndex = 0; defenceXpIndex < this.damage; defenceXpIndex++) {
-                        dXP = (defenceXpIndex);
+                    for (defenceXpIndex = 0; defenceXpIndex < damage; defenceXpIndex++) {
+                        dXP += (defenceXpIndex);
                     }
                     double spellBaseXP = nonPvpEXP ? spell.baseExperience() * gameModeMultiplier : spell.baseExperience();
                     double magicXP = nonPvpEXP ? mXP * gameModeMultiplier : mXP + spellBaseXP;
                     double defenceXP = nonPvpEXP ? dXP * gameModeMultiplier : dXP;
-                    if (isAccurate && this.damage > 0) {
+                    if (isAccurate && damage > 0) {
                         if (player.<Boolean>getAttribOr(AttributeKey.DEFENSIVE_AUTOCAST, false)) {
                             player.getSkills().addXp(Skills.HITPOINTS, hitpointsXP);
                             player.getSkills().addXp(Skills.MAGIC, magicXP);
@@ -333,20 +333,20 @@ public class Hit {
         }
     }
 
-    private double calculateRangedOrMeleeXP() {
+    private double calculateRangedOrMeleeXP(int damage) {
         int rangedXPIndex;
-        double r_m_XP = 1;
-        for (rangedXPIndex = 0; rangedXPIndex < this.damage; rangedXPIndex++) {
-            r_m_XP = (rangedXPIndex * 4.0);
+        double r_m_XP = 1.0D;
+        for (rangedXPIndex = 0; rangedXPIndex < damage; rangedXPIndex++) {
+            r_m_XP += (int) (rangedXPIndex * 4.0D);
         }
         return r_m_XP;
     }
 
-    private double calculateHitpointsExperience() {
+    private double calculateHitpointsExperience(int damage) {
         int hitpointsXPIndex;
-        double hXP = 1;
-        for (hitpointsXPIndex = 0; hitpointsXPIndex < this.damage; hitpointsXPIndex++) {
-            hXP = (hitpointsXPIndex * 1.33);
+        double hXP = 1.0D;
+        for (hitpointsXPIndex = 0; hitpointsXPIndex < damage; hitpointsXPIndex++) {
+            hXP += (int) (hitpointsXPIndex * 1.33D);
         }
         return hXP;
     }
@@ -366,7 +366,7 @@ public class Hit {
             }
         }
         if (this.damage >= this.getMaximumHit()) this.setMaxHit(true);
-        if (this.attacker instanceof Player player) this.addCombatXp(player, this.combatType, player.getCombat().getFightType().getStyle(), this.accurate);
+        if (this.attacker instanceof Player player) this.addCombatXp(player, this.combatType, player.getCombat().getFightType().getStyle(), this.accurate, this.damage);
         target.getCombat().getHitQueue().add(this);
         return this;
     }

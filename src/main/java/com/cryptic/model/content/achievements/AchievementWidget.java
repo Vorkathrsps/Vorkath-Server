@@ -6,6 +6,7 @@ import com.cryptic.utility.Utils;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static com.cryptic.model.content.achievements.AchievementUtility.ACHIEVEMENTS_LIST_START_ID;
 
@@ -33,7 +34,7 @@ public class AchievementWidget {
     }
 
     public static void open(Player player, Difficulty difficulty) {
-        final List<Achievements> list = Arrays.stream(Achievements.values()).toList();
+        final List<Achievements> list = Arrays.stream(Achievements.values()).filter(Objects::nonNull).toList();
 
         int totalAchievements = list.size();
 
@@ -43,15 +44,12 @@ public class AchievementWidget {
             case HARD -> player.getPacketSender().sendScrollbarHeight(AchievementUtility.ACHIEVEMENT_SCROLL_BAR, 1160);
         }
 
-        //player.getPacketSender().sendString(AchievementUtility.ACHIEVEMENTS_COMPLETED, "Achievements Completed (" + player.achievementsCompleted() + "/" + Achievements.getTotal() + ")");
-        //Clear out old achievements
-        for (int index = 0; index < 100; index += 4) {
+        for (int index = 0; index < totalAchievements; index += 4) {
             player.getPacketSender().sendString(ACHIEVEMENTS_LIST_START_ID + index, "");
         }
 
         int step = 0;
-        for (int index = 0; index < totalAchievements; index++) {
-            final Achievements achievement = list.get(index);
+        for (final Achievements achievement : list) {
             int completed = player.achievements().get(achievement);
             final int progress = (int) (completed * 100 / (double) achievement.getCompleteAmount());
             if (completed > achievement.getCompleteAmount()) {

@@ -6,7 +6,9 @@ import com.cryptic.utility.CustomItemIdentifiers;
 import com.cryptic.utility.ItemIdentifiers;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.cryptic.utility.CustomItemIdentifiers.*;
@@ -230,7 +232,7 @@ public enum Achievements {
     ;
 
     public static List<Achievements> asList(Difficulty difficulty) {
-        return Arrays.stream(values()).filter(a -> a.difficulty == difficulty).sorted((a, b) -> a.name().compareTo(b.name())).collect(Collectors.toList());
+        return Arrays.stream(values()).filter(Objects::nonNull).filter(a -> a.difficulty == difficulty).sorted(Comparator.comparing(Enum::name)).collect(Collectors.toList());
     }
 
     private final String name;

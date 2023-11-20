@@ -746,7 +746,6 @@ public final class PacketSender {
         PacketBuilder out = new PacketBuilder(10);
         out.putInt(interfaceId);
         out.putShort(scrollMax);
-        //System.out.printf("interfaceId= %d scrollMax=%d %n", interfaceId, scrollMax);
         player.getSession().write(out);
         return this;
     }

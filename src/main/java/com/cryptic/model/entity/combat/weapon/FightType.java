@@ -10,10 +10,8 @@ public enum FightType {
     SALAMANDER_SCORCH(43, 1, FightStyle.AGGRESSIVE, AttackType.NONE),
     SALAMANDER_FLARE(43, 1, FightStyle.AGGRESSIVE, AttackType.NONE),
     SALAMANDER_BLAZE(43, 1, FightStyle.AGGRESSIVE, AttackType.NONE),
-
     DINHS_PUMMEL(43, 1, FightStyle.AGGRESSIVE, AttackType.CRUSH),
     DINHS_BLOCK(43, 2, FightStyle.DEFENSIVE, AttackType.CRUSH),
-
     STAFF_BASH(43, 0, FightStyle.ACCURATE, AttackType.CRUSH),
     STAFF_POUND(43, 1, FightStyle.AGGRESSIVE, AttackType.CRUSH),
     STAFF_FOCUS(43, 2, FightStyle.DEFENSIVE, AttackType.CRUSH),
@@ -86,19 +84,15 @@ public enum FightType {
     CLAWS_SLASH(43, 1, FightStyle.AGGRESSIVE, AttackType.SLASH),
     CLAWS_LUNGE(43, 2, FightStyle.CONTROLLED, AttackType.STAB),
     CLAWS_BLOCK(43, 3, FightStyle.DEFENSIVE, AttackType.SLASH),
-
     HALBERD_JAB(43, 0, FightStyle.CONTROLLED, AttackType.SLASH),
     HALBERD_SWIPE(43, 1, FightStyle.AGGRESSIVE, AttackType.SLASH),
     HALBERD_FEND(43, 2, FightStyle.DEFENSIVE, AttackType.SLASH),
-
     UNARMED_PUNCH(43, 0, FightStyle.ACCURATE, AttackType.NONE),
     UNARMED_KICK(43, 1, FightStyle.AGGRESSIVE, AttackType.NONE),
     UNARMED_BLOCK(43, 2, FightStyle.DEFENSIVE, AttackType.NONE),
-
     WHIP_FLICK(43, 0, FightStyle.ACCURATE, AttackType.SLASH),
     WHIP_LASH(43, 1, FightStyle.CONTROLLED, AttackType.SLASH),
     WHIP_DEFLECT(43, 2, FightStyle.DEFENSIVE, AttackType.SLASH),
-
     BOLT_ACCURATE(43, 0, FightStyle.ACCURATE, AttackType.BOLT),
     BOLT_RAPID(43, 1, FightStyle.AGGRESSIVE, AttackType.BOLT),
     BOLT_LONGRANGE(43, 2, FightStyle.DEFENSIVE, AttackType.BOLT),

@@ -160,6 +160,7 @@ public class CommandManager {
         commands.put("clearbank", new ClearBankCommand());
         //render -> client command
         //viewrender -> client command
+        commands.put("gdz", new GdzCommand());
         commands.put("togglevialsmash", new ToggleVialSmashCommand());
         commands.put("levelup", new ToggleLevelUpCommand());
         commands.put("commands", new CommandsCommand());

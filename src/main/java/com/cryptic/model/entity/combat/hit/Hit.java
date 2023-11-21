@@ -359,9 +359,11 @@ public class Hit {
             CombatMethod method = CombatFactory.getMethod(npc);
             if (method instanceof CommonCombatMethod commonCombatMethod) commonCombatMethod.preDefend(this);
             if (npc.getCombatMethod() instanceof Vorkath vorkath) {
-                switch (vorkath.resistance) {
-                    case PARTIAL -> this.setDamage((int) (this.getDamage() * 0.5D));
-                    case FULL -> this.block();
+                if (vorkath.resistance != null) {
+                    switch (vorkath.resistance) {
+                        case PARTIAL -> this.setDamage((int) (this.getDamage() * 0.5D));
+                        case FULL -> this.block();
+                    }
                 }
             }
         }

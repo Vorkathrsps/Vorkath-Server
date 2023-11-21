@@ -12,7 +12,7 @@ import com.cryptic.model.map.position.Tile;
 public class ShopsCommand implements Command {
 
     public void execute(Player player, String command, String[] parts) {
-        Tile tile = new Tile(3079, 3493, 0);
+        Tile tile = new Tile(3080, 3511, 0);
 
         if (Teleports.canTeleport(player,true, TeleportType.GENERIC)) {
             Teleports.basicTeleport(player, tile);

@@ -26,7 +26,6 @@ import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
  * Created by Carl on 2015-08-12.
  */
 public class BoneBurying extends PacketInteraction {
-    public static final double multiplier = 30.0D;
     @Override
     public boolean handleItemInteraction(Player player, Item item, int option) {
         if (option == 1) {
@@ -70,6 +69,8 @@ public class BoneBurying extends PacketInteraction {
         player.message("You dig a hole in the ground...");
 
         var xp = bone.xp * multiplier;
+
+        xp /= 2;
 
         // Lava drag isle check
         if (bone.itemId == 11943 && player.tile().inArea(3172, 3799, 3232, 3857)) {

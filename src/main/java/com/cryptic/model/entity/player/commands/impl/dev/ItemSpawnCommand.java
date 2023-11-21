@@ -26,6 +26,7 @@ public class ItemSpawnCommand implements Command {
         if (parts.length > 2) {
             amount = Integer.parseInt(parts[2]);
         }
+
         int id = Integer.parseInt(parts[1]);
 
        Item item = new Item(id);
@@ -40,7 +41,7 @@ public class ItemSpawnCommand implements Command {
             return;
         }
 
-        if (Item.valid(item) && (player.getPlayerRights().isAdministrator(player) || GameServer.properties().test || item.definition(World.getWorld()).pvpAllowed)) {
+        if (Item.valid(item)) {
             player.getInventory().add(new Item(id, amount));
             player.message("You have just spawned x"+amount+" "+new Item(Integer.parseInt(parts[1])).unnote().name()+".");
         }

@@ -52,7 +52,7 @@ public class COXArea extends Controller {
 
     @Override
     public boolean canTeleport(Player player) {
-        return false;
+        return true;
     }
 
     @Override

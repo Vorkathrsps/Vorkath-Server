@@ -8,6 +8,9 @@ import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
+import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.items.Item;
+import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 
 import javax.annotation.Nonnull;
@@ -17,7 +20,6 @@ import javax.annotation.Nonnull;
  * @Date: 7/14/2023
  */
 public class TztokJadCombatScript extends CommonCombatMethod {
-
     private static final int MAX_DISTANCE = 10;
 
     @Override
@@ -81,6 +83,17 @@ public class TztokJadCombatScript extends CommonCombatMethod {
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), 4, CombatType.RANGED).checkAccuracy(true);
         hit.submit();
         target.graphic(157, GraphicHeight.LOW, 120);
+    }
+
+    @Override
+    public boolean customOnDeath(Hit hit) {
+        var player = (Player) hit.getAttacker();
+        if (player.getInstancedArea() != null) {
+            player.getInstancedArea().dispose();
+            player.teleport(2439, 5169, 0);
+            player.getInventory().addOrDrop(new Item(ItemIdentifiers.FIRE_CAPE, 1));
+        }
+        return true;
     }
 
     @Override

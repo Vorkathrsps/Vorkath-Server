@@ -23,7 +23,7 @@ public class RevenantMaledictus extends CommonCombatMethod {
             return false;
         }
 
-        if (!withinDistance(5)) {
+        if (!withinDistance(10)) {
             return false;
         }
 

@@ -266,12 +266,10 @@ public class Skills {
 
     public boolean addXp(int skill, double amt) {
         return addExperience(skill, amt, 1, true);
-        //    return addXp(skill, amt, true, true);
     }
 
     public boolean addXp(int skill, double amt, boolean multiplied) {
         return addExperience(skill, amt, 1, true);
-        // return addXp(skill, amt, multiplied, true);
     }
 
     public boolean isCombatSkill(int skillId) {

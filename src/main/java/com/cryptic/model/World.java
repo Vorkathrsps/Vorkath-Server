@@ -279,9 +279,8 @@ public class World {
     });
 
     Runnable npcProcess = () -> npcRenderOrder.stream().filter(Objects::nonNull).filter(index -> checkIndex(index, NodeType.NPC)).forEach(n -> {
+        NPC npc = npcs.get(n);
         try {
-            NpcPerformance.resetWorldTime();
-            NPC npc = npcs.get(n);
             if (npc != null && !npc.hidden()) {
                 npc.sequence();
                 npc.inViewport(false);
@@ -289,38 +288,42 @@ public class World {
             }
         } catch (Throwable t) {
             t.printStackTrace();
+            World.getWorld().getNpcs().remove(npc);
         }
     });
 
     Runnable packets = () -> playerRenderOrder.stream().filter(Objects::nonNull).filter(index -> checkIndex(index, NodeType.PLAYER)).forEach(p -> {
+        Player player = players.get(p);
         try {
-            Player player = players.get(p);
-            player.getSession().read();
-            player.getSession().handleQueuedPackets();
-            player.syncContainers();
+                player.getSession().read();
+                player.getSession().handleQueuedPackets();
+                player.syncContainers();
         } catch (Throwable t) {
             t.printStackTrace();
+            World.getWorld().getPlayers().remove(player);
         }
     });
 
     Runnable playerProcess = () -> playerRenderOrder.stream().filter(Objects::nonNull).filter(index -> checkIndex(index, NodeType.PLAYER)).forEach(p -> {
+        Player player = players.get(p);
         try {
-            Player player = players.get(p);
-            player.sequence();
-            player.syncContainers();
-            player.processed = true;
+                player.sequence();
+                player.syncContainers();
+                player.processed = true;
         } catch (Throwable t) {
             t.printStackTrace();
+            World.getWorld().getPlayers().remove(player);
         }
     });
 
     Runnable gpi = () -> playerRenderOrder.stream().filter(Objects::nonNull).filter(index -> checkIndex(index, NodeType.PLAYER)).forEach(p -> {
+        Player player = players.get(p);
         try {
-            Player player = players.get(p);
-            PlayerUpdating.update(player);
-            NPCUpdating.update(player);
+                PlayerUpdating.update(player);
+                NPCUpdating.update(player);
         } catch (Throwable t) {
             t.printStackTrace();
+            World.getWorld().getPlayers().remove(player);
         }
     });
 
@@ -340,12 +343,12 @@ public class World {
         playerRenderOrder.stream().filter(Objects::nonNull).filter(index -> checkIndex(index, NodeType.PLAYER)).forEach(p -> {
             Player player = players.get(p);
             try {
-                player.resetUpdating();
-                player.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
-                player.setCachedUpdateBlock(null);
-                player.getSession().flush();
-                player.perf.pulse();
-                player.processed = false;
+                    player.resetUpdating();
+                    player.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
+                    player.setCachedUpdateBlock(null);
+                    player.getSession().flush();
+                    player.perf.pulse();
+                    player.processed = false;
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
                 World.getWorld().getPlayers().remove(player);
@@ -388,10 +391,10 @@ public class World {
             players.shuffleRenderOrder();
         }
 
-        packets.run();
         tasks.run();
         objs.run();
         skull.run();
+        packets.run();
         npcProcess.run();
         playerProcess.run();
         gpi.run();
@@ -668,7 +671,10 @@ public class World {
         long elapsed = System.currentTimeMillis() - start;
         logger.info("  Loaded definitions for ./data/map/npcs. It took {}ms.", elapsed);
     }
-    @Getter EquipmentLoader equipmentLoader = new EquipmentLoader();
+
+    @Getter
+    EquipmentLoader equipmentLoader = new EquipmentLoader();
+
     public void postLoad() {
         try {
             loadEquipmentInfo();

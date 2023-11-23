@@ -1,12 +1,7 @@
 package com.cryptic.model.content.skill.impl.prayer;
 
-import com.cryptic.model.action.Action;
-import com.cryptic.model.action.policy.WalkablePolicy;
-import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.World;
-import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.GameMode;
-import com.cryptic.model.entity.player.InputScript;
 import com.cryptic.model.inter.dialogue.ChatBoxItemDialogue;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
@@ -22,17 +17,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
 
-/**
- * Created by Carl on 2015-08-12.
- */
 public class BoneBurying extends PacketInteraction {
     @Override
     public boolean handleItemInteraction(Player player, Item item, int option) {
+        int id = item.getId();
+        Bone bones = Bone.get(id);
+        var gameModeMultiplier = player.getGameMode().equals(GameMode.REALISM) ? 10.0 : 50.0;
         if (option == 1) {
-            for (Bone bone : Bone.values()) {
-                if (item.getId() == bone.itemId) {
-                    var gameModeMultiplier = player.getGameMode().equals(GameMode.REALISM) ? 10.0 : 50.0;
-                    bury(player, bone, gameModeMultiplier);
+            if (bones != null) {
+                if (item.getId() == bones.itemId) {
+                    bury(player, bones, gameModeMultiplier);
                     return true;
                 }
             }
@@ -43,45 +37,30 @@ public class BoneBurying extends PacketInteraction {
     @Override
     public boolean handleItemOnObject(Player player, Item item, GameObject object) {
         int[] altars = new int[]{ALTAR_14860, ALTAR, ALTAR_2640, CHAOS_ALTAR_411};
-        for (int altar : altars) {
-            if (object.getId() == altar) {
-                int bone = player.getAttribOr(AttributeKey.ITEM_ID, -1);
-                GameObject obj = player.getAttribOr(AttributeKey.INTERACTION_OBJECT, null);
-                Bone bones = Bone.get(bone);
-
+        int id = item.getId();
+        Bone bones = Bone.get(id);
+        for (var a : altars) {
+            if (object.getId() == a) {
                 if (bones != null) {
-                    startBonesOnAltar(player, bones, obj);
+                    startBonesOnAltar(player, bones, object);
+                    return true;
                 }
-                return true;
             }
         }
         return false;
     }
 
     private void bury(Player player, Bone bone, double multiplier) {
-        if (player.getTimers().has(TimerKey.BONE_BURYING))
-            return;
-
+        if (player.getTimers().has(TimerKey.BONE_BURYING)) return;
         player.getMovementQueue().clear();
         player.getTimers().extendOrRegister(TimerKey.BONE_BURYING, 2);
-        player.inventory().remove(new Item(bone.itemId), player.getAttribOr(AttributeKey.ITEM_SLOT, 0), true);
+        player.getInventory().remove(bone.itemId);
         player.animate(827);
         player.message("You dig a hole in the ground...");
-
-        var xp = bone.xp * multiplier;
-
-        xp /= 2;
-
-        // Lava drag isle check
-        if (bone.itemId == 11943 && player.tile().inArea(3172, 3799, 3232, 3857)) {
-            xp *= 4;
-        }
-
-        String mes = "You bury the bones.";
-
+        var xp = (bone.xp * multiplier) / 2;
+        if (bone.itemId == 11943 && player.tile().inArea(3172, 3799, 3232, 3857)) xp *= 4;
         player.getSkills().addXp(Skills.PRAYER, xp);
-        player.playSound(380);
-        Chain.bound(player).runFn(1, () -> player.message(mes));
+        Chain.bound(player).runFn(1, () -> player.message("You bury the bones."));
     }
 
     private void startBonesOnAltar(Player player, Bone bones, GameObject obj) {
@@ -159,7 +138,7 @@ public class BoneBurying extends PacketInteraction {
 
         if (object.getId() == CHAOS_ALTAR_411 && object.tile().equals(2947, 3820, 0)) {
             if (World.getWorld().rollDie(2, 1)) {
-                removeBone = false; // 50% chance that your bone is not removed.
+                removeBone = false;
             }
         }
 

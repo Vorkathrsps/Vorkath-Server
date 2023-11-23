@@ -36,6 +36,7 @@ public class PrayerDamage implements DamageEffectListener {
             KRIL_TSUTSAROTH_6495,
             ENORMOUS_TENTACLE
         };
+
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
         var target = hit.getTarget();

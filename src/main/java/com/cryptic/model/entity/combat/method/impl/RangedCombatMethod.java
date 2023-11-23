@@ -22,11 +22,6 @@ import com.cryptic.utility.ItemIdentifiers;
 
 import java.util.ArrayList;
 
-/**
- * Represents the combat method for ranged attacks.
- *
- * @author Professor Oak
- */
 public class RangedCombatMethod extends CommonCombatMethod {
 
     @Override
@@ -69,7 +64,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
             var boltDrawBack = BoltDrawBack.find(weaponId, graphic);
             var chinChompaDrawBack = ChinchompaDrawBack.find(weaponId, graphic);
 
-            switch (weaponType) {
+            switch (weaponType) { //TODO convert these to store the data inside of a readable object like toml or json
                 case BOW -> {
                     if (drawbackBow != null) {
                         attacker.performGraphic(new Graphic(drawbackBow.gfx, player.getEquipment().contains(ItemIdentifiers.VENATOR_BOW) ? GraphicHeight.LOW : GraphicHeight.HIGH, 0));

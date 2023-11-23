@@ -1,5 +1,6 @@
 package com.cryptic.model.entity;
 
+import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Boundary;
 import com.cryptic.model.map.position.areas.impl.DuelArenaArea;
@@ -71,16 +72,13 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
      * will change the way that a player is rendered or updated.
      */
     public void shuffleRenderOrder() {
-        if (size == 0) {
-            return;
-        }
+        if (size == 0) return;
         Collections.shuffle(renderOrder);
         for (int i = 0; i < renderOrder.size(); i++) {
-            final E e = get(renderOrder.getInt(i));
-            if (e != null && e.isPlayer() && e.getController() instanceof DuelArenaArea)
-                continue;
-            if (e != null)
-                e.pidOrderIndex = i;
+            E e = get(renderOrder.getInt(i));
+            if (e == null) continue;
+            if (e instanceof Player player && player.getController() instanceof DuelArenaArea) continue; //skip players inside duel arena shuffling
+            e.pidOrderIndex = i;
         }
     }
 
@@ -93,19 +91,14 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
      */
     public boolean add(E e) {
         Objects.requireNonNull(e);
-
-        if (isFull()) {
-            return false;
-        }
-
+        if (isFull()) return false;
         if (!e.isRegistered()) {
-            //System.out.println("[add] Slot was: " + slotQueue.size());
             int slot = slotQueue.dequeueInt();
-            renderOrder.add(slot);
-            e.pidOrderIndex = renderOrder.indexOf(slot);
+            // Check if the slot is already in renderOrder
+            if (!renderOrder.contains(slot)) renderOrder.add(slot);
+            e.pidOrderIndex = renderOrder.indexOf(slot); // Alternatively, use the index directly from dequeueInt()
             e.setRegistered(true);
             e.setIndex(slot);
-            //System.out.println("[add] Slot is: " + slot);
             entities.put(slot, e);
             e.onAdd();
             size++;

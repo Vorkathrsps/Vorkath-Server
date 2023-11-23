@@ -256,116 +256,6 @@ public class World {
 
     public WorldPerfTracker benchmark = new WorldPerfTracker();
 
-    Runnable skull = () -> {
-        try {
-            for (Player player : players) {
-                if (player != null && Skulling.skulled(player)) {
-                    Skulling.decrementSkullCycle(player);
-                }
-            }
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
-    };
-
-    Runnable tasks = TaskManager::sequence;
-
-    Runnable objs = () -> ownedObjects.values().forEach(o -> {
-        try {
-            o.tick();
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
-    });
-
-    Runnable npcProcess = () -> npcRenderOrder.stream().filter(Objects::nonNull).filter(index -> checkIndex(index, NodeType.NPC)).forEach(n -> {
-        NPC npc = npcs.get(n);
-        try {
-            if (npc != null && !npc.hidden()) {
-                npc.sequence();
-                npc.inViewport(false);
-                npc.processed = true;
-            }
-        } catch (Throwable t) {
-            t.printStackTrace();
-            World.getWorld().getNpcs().remove(npc);
-        }
-    });
-
-    Runnable packets = () -> playerRenderOrder.stream().filter(Objects::nonNull).filter(index -> checkIndex(index, NodeType.PLAYER)).forEach(p -> {
-        Player player = players.get(p);
-        try {
-                player.getSession().read();
-                player.getSession().handleQueuedPackets();
-                player.syncContainers();
-        } catch (Throwable t) {
-            t.printStackTrace();
-            World.getWorld().getPlayers().remove(player);
-        }
-    });
-
-    Runnable playerProcess = () -> playerRenderOrder.stream().filter(Objects::nonNull).filter(index -> checkIndex(index, NodeType.PLAYER)).forEach(p -> {
-        Player player = players.get(p);
-        try {
-                player.sequence();
-                player.syncContainers();
-                player.processed = true;
-        } catch (Throwable t) {
-            t.printStackTrace();
-            World.getWorld().getPlayers().remove(player);
-        }
-    });
-
-    Runnable gpi = () -> playerRenderOrder.stream().filter(Objects::nonNull).filter(index -> checkIndex(index, NodeType.PLAYER)).forEach(p -> {
-        Player player = players.get(p);
-        try {
-                PlayerUpdating.update(player);
-                NPCUpdating.update(player);
-        } catch (Throwable t) {
-            t.printStackTrace();
-            World.getWorld().getPlayers().remove(player);
-        }
-    });
-
-    Runnable flush = () -> {
-        npcRenderOrder.stream().filter(Objects::nonNull).filter(index -> checkIndex(index, NodeType.NPC)).forEach(n -> {
-            NPC npc = npcs.get(n);
-            try {
-                npc.resetUpdating();
-                npc.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
-                npc.performance.reset();
-                npc.processed = false;
-            } catch (Throwable e) {
-                e.printStackTrace();
-                World.getWorld().getNpcs().remove(npc);
-            }
-        });
-        playerRenderOrder.stream().filter(Objects::nonNull).filter(index -> checkIndex(index, NodeType.PLAYER)).forEach(p -> {
-            Player player = players.get(p);
-            try {
-                    player.resetUpdating();
-                    player.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
-                    player.setCachedUpdateBlock(null);
-                    player.getSession().flush();
-                    player.perf.pulse();
-                    player.processed = false;
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-                World.getWorld().getPlayers().remove(player);
-            }
-        });
-    };
-
-    Runnable games = () -> {
-        try {
-            MinigameManager.onTick();
-            StarEventTask.checkDepletionTask();
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
-    };
-
-
     protected boolean checkIndex(int index, NodeType type) {
         return type == NodeType.PLAYER ? World.getWorld().getPlayers().get(index) != null : World.getWorld().getNpcs().get(index) != null;
     }
@@ -375,36 +265,149 @@ public class World {
         return elapsedTicks;
     }
 
-    /**
-     * Processes the world.
-     */
     public void sequence() {
         Arrays.fill(section, false);
-
-        long startTime = System.currentTimeMillis();
-
         npcRenderOrder = npcs.getRenderOrder();
         playerRenderOrder = players.getRenderOrder();
-
-        if (GameServer.properties().enablePidShuffling && (lastPidUpdateTick == 0 || elapsedTicks - lastPidUpdateTick >= GameServer.properties().pidIntervalTicks)) {
-            lastPidUpdateTick = elapsedTicks;
-            players.shuffleRenderOrder();
-        }
-
-        tasks.run();
-        objs.run();
-        skull.run();
-        packets.run();
-        npcProcess.run();
-        playerProcess.run();
-        gpi.run();
-        flush.run();
-        games.run();
-
-        GameEngine.profile.world = System.currentTimeMillis() - startTime;
+        shufflePid();
+        processTasks();
+        processObjects();
+        readPackets();
+        readNpcs();
+        readPlayers();
+        processGpi();
+        flush();
         elapsedTicks++;
     }
-
+    private void shufflePid() {
+        long pidShuffleCounter = this.random().nextInt(100);
+        if (GameServer.properties().enablePidShuffling) {
+            long pidIntervalTicks = GameServer.properties().pidIntervalTicks;
+            System.out.println("shuffle random: " + pidShuffleCounter);
+            if (pidShuffleCounter % pidIntervalTicks == 0) {
+                players.shuffleRenderOrder();
+                System.out.println("shuffling");
+            }
+        }
+    }
+    private static void processTasks() {
+        try {
+            TaskManager.sequence();
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        try {
+            MinigameManager.onTick();
+            StarEventTask.checkDepletionTask();
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+    private void flush() {
+        for (var n : npcRenderOrder) {
+            if (n != null && checkIndex(n, NodeType.NPC)) {
+                NPC npc = npcs.get(n);
+                try {
+                    npc.resetUpdating();
+                    npc.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
+                    npc.performance.reset();
+                    npc.processed = false;
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                    World.getWorld().unregisterNpc(npc);
+                }
+            }
+        }
+        for (var p : playerRenderOrder) {
+            if (p != null && checkIndex(p, NodeType.PLAYER)) {
+                Player player = players.get(p);
+                try {
+                    player.resetUpdating();
+                    player.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
+                    player.setCachedUpdateBlock(null);
+                    player.getSession().flush();
+                    player.perf.pulse();
+                    player.processed = false;
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                    World.getWorld().getPlayers().remove(player);
+                }
+            }
+        }
+    }
+    private void processGpi() {
+        for (var p : playerRenderOrder) {
+            if (p != null && checkIndex(p, NodeType.PLAYER)) {
+                Player player = players.get(p);
+                try {
+                    PlayerUpdating.update(player);
+                    NPCUpdating.update(player);
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                    World.getWorld().getPlayers().remove(player);
+                }
+            }
+        }
+    }
+    private void readPlayers() {
+        for (var p : playerRenderOrder) {
+            if (p != null && checkIndex(p, NodeType.PLAYER)) {
+                Player player = players.get(p);
+                try {
+                    player.sequence();
+                    player.syncContainers();
+                    player.processed = true;
+                } catch (
+                    Throwable t) {
+                    t.printStackTrace();
+                    World.getWorld().getPlayers().remove(player);
+                }
+            }
+        }
+    }
+    private void readNpcs() {
+        for (var n : npcRenderOrder) {
+            if (n != null && checkIndex(n, NodeType.NPC)) {
+                NPC npc = npcs.get(n);
+                try {
+                    if (npc != null && !npc.hidden()) {
+                        npc.sequence();
+                        npc.inViewport(false);
+                        npc.processed = true;
+                    }
+                } catch (Throwable t) {
+                    t.printStackTrace();
+                    World.getWorld().getNpcs().remove(npc);
+                }
+            }
+        }
+    }
+    private void processObjects() {
+        for (var o : ownedObjects.values()) {
+            if (o != null) {
+                try {
+                    o.tick();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+        }
+    }
+    private void readPackets() {
+        for (var p : playerRenderOrder) {
+            if (p != null && checkIndex(p, NodeType.PLAYER)) {
+                Player player = players.get(p);
+                try {
+                    player.getSession().read();
+                    player.getSession().handleQueuedPackets();
+                    player.syncContainers();
+                } catch (Throwable t) {
+                    t.printStackTrace();
+                    World.getWorld().getPlayers().remove(player);
+                }
+            }
+        }
+    }
 
     /**
      * Gets a player by their username, using {@link String#equalsIgnoreCase(String)}. case-sensitive usercase Does Not enforce uniqueness.

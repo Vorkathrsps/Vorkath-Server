@@ -8764,6 +8764,16 @@
     "type": 0,
     "showBeard": false
   },
+  "26718": {
+    "slot": 4,
+    "type": 6,
+    "showBeard": false
+  },
+  "26719": {
+    "slot": 7,
+    "type": 0,
+    "showBeard": false
+  },
   "26500": {
     "slot": 4,
     "type": 6,

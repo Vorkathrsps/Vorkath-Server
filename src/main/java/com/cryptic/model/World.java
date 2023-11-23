@@ -260,7 +260,6 @@ public class World {
         return type == NodeType.PLAYER ? World.getWorld().getPlayers().get(index) != null : World.getWorld().getNpcs().get(index) != null;
     }
 
-
     public int getTickCount() {
         return elapsedTicks;
     }
@@ -283,10 +282,8 @@ public class World {
         long pidShuffleCounter = this.random().nextInt(100);
         if (GameServer.properties().enablePidShuffling) {
             long pidIntervalTicks = GameServer.properties().pidIntervalTicks;
-            System.out.println("shuffle random: " + pidShuffleCounter);
             if (pidShuffleCounter % pidIntervalTicks == 0) {
                 players.shuffleRenderOrder();
-                System.out.println("shuffling");
             }
         }
     }

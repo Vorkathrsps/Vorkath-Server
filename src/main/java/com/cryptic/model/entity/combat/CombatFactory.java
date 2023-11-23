@@ -1037,8 +1037,6 @@ public class CombatFactory {
             }
         }
 
-        // Check for poisonous weapons..
-        // And do other effects, such as barrows effects..
         if (attacker != null && attacker.isPlayer()) {
 
 
@@ -1424,7 +1422,8 @@ public class CombatFactory {
             Player victim = (Player) target;
 
             // The redemption (HEALING) prayer effect.
-            if (Prayers.usingPrayer(victim, Prayers.REDEMPTION) && victim.hp() <= (victim.getSkills().xpLevel(Skills.HITPOINTS) / 10)) {
+            double healthAmount = victim.hp() * 1.0 / (victim.maxHp() * 1.0);
+            if (Prayers.usingPrayer(victim, Prayers.REDEMPTION) && (healthAmount <= 0.10D)) {
                 int amountToHeal = (int) (victim.getSkills().xpLevel(Skills.PRAYER) * .25);
                 victim.graphic(436, GraphicHeight.HIGH, 0);
                 victim.getSkills().setLevel(Skills.PRAYER, 0);

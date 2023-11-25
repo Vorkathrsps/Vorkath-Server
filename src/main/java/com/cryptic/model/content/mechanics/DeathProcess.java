@@ -7,6 +7,7 @@ import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.duel.Dueling;
 import com.cryptic.model.content.mechanics.break_items.BreakItemsOnDeath;
 import com.cryptic.model.World;
+import com.cryptic.model.content.mechanics.death.DeathResult;
 import com.cryptic.model.content.raids.theatre.controller.TheatreDeath;
 import com.cryptic.model.content.raids.theatre.stage.RaidDeathState;
 import com.cryptic.model.content.raids.theatre.stage.TheatreState;
@@ -33,6 +34,7 @@ import com.cryptic.utility.timers.TimerKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
@@ -153,18 +155,34 @@ public class DeathProcess implements TheatreDeath {
                 World.getWorld().unregisterNpc(barrowsBro);
             }
 
-            //BH death logic
-            // if (killer != null && killer.isPlayer()) {
-            //    BountyHunter.onDeath(killer, player);
-            // }
-
             if (killer != null && player.getController() != null) {
                 player.getController().defeated(killer, player);
             }
 
             player.clearAttrib(AttributeKey.LASTDEATH_VALUE);
             try {
-                ItemsOnDeath.droplootToKiller(player, killer);
+                var isSkulled = Skulling.skulled(player);
+                var result = DeathResult.create(player, killer, isSkulled, new ArrayList<>(), new ArrayList<>());
+                var lootingBag = player.getLootingBag().getItems();
+                var runePouch = player.getRunePouch().getItems();
+                var inventory = player.getInventory().getItems().clone();
+                var equipment = player.getEquipment().getItems().clone();
+
+                result
+                    .addBones()
+                    .processItems(inventory)
+                    .processItems(equipment)
+                    .withLootingBag(lootingBag)
+                    .processLootingBag()
+                    .withRunePouch(runePouch)
+                    .processRunePouch()
+                    .clearItems()
+                    .sortValue()
+                    .calculateItemsKept()
+                    .checkIronManStatus()
+                    .process();
+
+                DeathResult.logger.debug("DeathResult created with player: {}, skulled: {}, drop: {}, brokenItems: {}", result.player, result.skulled, result.itemList, result.untradeables);
 
                 mostdmg.ifPresent(value -> LootKey.handleDeath(player, value));
             } catch (Exception e) {
@@ -303,7 +321,6 @@ public class DeathProcess implements TheatreDeath {
 
         };
 
-
     public void resetPlayerInRaid(Player player) {
         Autocasting.setAutocast(player, null); // Set auto-cast to default; 0
         player.getCombat().setPoweredStaffSpell(null);
@@ -341,8 +358,6 @@ public class DeathProcess implements TheatreDeath {
         player.getUpdateFlag().flag(Flag.APPEARANCE);
         var party = player.getTheatreInstance();
         if (party != null) {
-
-
             boolean wholeTeamDead = party.occupiedCageSpawnPointsList.size() == player.getTheatreInstance().getPlayers().size(); //so wouldnt you do player.gettheatreparty().getleader().gettheatreparty().getparty().getsize?
             if (wholeTeamDead) {
                 for (Player p2 : party.getPlayers()) {
@@ -357,7 +372,6 @@ public class DeathProcess implements TheatreDeath {
                 player.getTheatreInstance().dispose(); // will dispose for all and TPs out
             }
         }
-
     }
 
     @Override

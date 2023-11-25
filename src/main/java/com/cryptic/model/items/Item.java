@@ -419,7 +419,7 @@ public class Item implements Cloneable {
 
     public boolean rawtradable() {
         ItemDefinition def = definition(World.getWorld());
-        return (def == null || id == ItemIdentifiers.PLATINUM_TOKEN || id == COINS_995 || def.grandexchange || def.noteModel > 0 || def.notelink > 0 || TRADABLES.contains(id));
+        return (def == null || id == ItemIdentifiers.PLATINUM_TOKEN || id == COINS_995 || def.grandexchange || def.noteModel > 0 || def.notelink > 0);
     }
 
     public int getInventoryModelID(int id) {

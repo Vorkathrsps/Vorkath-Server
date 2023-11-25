@@ -6,6 +6,7 @@ import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.content.areas.theatre.ViturRoom;
 import com.cryptic.model.content.instance.InstancedAreaManager;
+import com.cryptic.model.content.mechanics.death.DeathResult;
 import com.cryptic.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.Xarpus;
@@ -22,6 +23,7 @@ import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.skull.Skulling;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.ScalarLootTable;
@@ -40,7 +42,6 @@ import com.cryptic.model.entity.player.commands.impl.staff.server_support.StaffZ
 import com.cryptic.model.entity.player.commands.impl.super_member.YellColourCommand;
 import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.items.Item;
-import com.cryptic.model.items.container.def.EquipmentLoader;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.object.GameObject;
@@ -675,12 +676,7 @@ public class CommandManager {
 
         });
         dev("c", (p, c, s) -> {
-         //  var instance = new KrakenInstance(p, KrakenState.ALIVE);
-         //  p.setKrakenInstance(instance);
-         //  instance.build();
 
-            EquipmentLoader equipmentLoader = new EquipmentLoader();
-            System.out.println(equipmentLoader.getInfo(4151).getEquipment().getStr());
         });
 
         dev("ioi", (p, c, s) -> {

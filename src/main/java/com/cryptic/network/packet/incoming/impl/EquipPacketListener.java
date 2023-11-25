@@ -2,15 +2,11 @@ package com.cryptic.network.packet.incoming.impl;
 
 import com.cryptic.GameServer;
 import com.cryptic.model.World;
-import com.cryptic.model.content.mechanics.item_simulator.ItemSimulatorUtility;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatSpecial;
-import com.cryptic.model.entity.combat.magic.CombatSpell;
 import com.cryptic.model.entity.combat.magic.autocasting.Autocasting;
-import com.cryptic.model.entity.combat.magic.spells.CombatSpells;
 import com.cryptic.model.entity.combat.weapon.WeaponInterfaces;
 import com.cryptic.model.entity.masks.Flag;
-import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.inter.impl.BonusesInterface;
@@ -22,8 +18,6 @@ import com.cryptic.network.packet.PacketListener;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.timers.TimerKey;
-
-import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
  * This packet listener manages the equip action a player
@@ -63,7 +57,7 @@ public class EquipPacketListener implements PacketListener {
         Item item = player.inventory().get(slot);
 
         if (item != null && item.getId() == id && !player.locked() && !player.dead()) {
-            if (player.getInterfaceManager().isInterfaceOpen(ItemSimulatorUtility.WIDGET_ID)) {
+            if (player.getInterfaceManager().isInterfaceOpen(27200)) {
                 player.message("Close this interface before trying to equip your " + item.unnote().name() + ".");
                 return;
             }

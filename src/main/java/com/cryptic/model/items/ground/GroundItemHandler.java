@@ -150,7 +150,6 @@ public final class GroundItemHandler {
      * The ground item task, removes the ticks
      */
     public static void pulse() {
-        long start = System.currentTimeMillis();
         Iterator<GroundItem> iterator = groundItems.iterator();
         while (iterator.hasNext()) {
             GroundItem item = iterator.next();
@@ -174,8 +173,6 @@ public final class GroundItemHandler {
                 }
             }
         }
-        GameEngine.profile.gitems = (System.currentTimeMillis() - start);
-        //logger.info("it took "+end+"ms for processing GroundItems.");
     }
 
     /**

@@ -61,8 +61,7 @@ public final class TaskManager {
         } catch(Exception e) {
             logger.error("task error", e);
         }
-        long end = (System.currentTimeMillis() - start);
-        GameEngine.profile.tasks = end;
+
         //logger.info("it took "+end+"ms for processing tasks.");
     }
 

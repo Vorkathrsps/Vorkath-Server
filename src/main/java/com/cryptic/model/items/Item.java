@@ -19,7 +19,6 @@ import org.apache.logging.log4j.Logger;
 import java.util.*;
 
 import static com.cryptic.GameConstants.PVP_ALLOWED_SPAWNS;
-import static com.cryptic.model.content.mechanics.break_items.BreakItemsOnDeath.*;
 import static com.cryptic.utility.CustomItemIdentifiers.*;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
@@ -626,14 +625,6 @@ public class Item implements Cloneable {
     public static final int[] AUTO_KEPT_LIST = new int[]{
         SACK_OF_PRESENTS,
         KILLERS_KNIFE_21059,
-        RUNE_POUCH_I_BROKEN,
-        AMULET_OF_FURY_OR_BROKEN,
-        OCCULT_NECKLACE_OR_BROKEN,
-        AMULET_OF_TORTURE_OR_BROKEN,
-        NECKLACE_OF_ANGUISH_OR_BROKEN,
-        TORMENTED_BRACELET_OR_BROKEN,
-        DRAGON_DEFENDER_T_BROKEN,
-        DRAGON_BOOTS_G_BROKEN,
         AVERNIC_DEFENDER,
         ELDER_MAUL_21205,
         BRIMSTONE_RING,

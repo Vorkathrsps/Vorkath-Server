@@ -5,7 +5,6 @@ import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.duel.Dueling;
-import com.cryptic.model.content.mechanics.break_items.BreakItemsOnDeath;
 import com.cryptic.model.World;
 import com.cryptic.model.content.mechanics.death.DeathResult;
 import com.cryptic.model.content.raids.theatre.controller.TheatreDeath;
@@ -290,9 +289,6 @@ public class DeathProcess implements TheatreDeath {
 
         //Auto repair broken items if enabled
         var autoRepairOnDeath = player.<Boolean>getAttribOr(AttributeKey.REPAIR_BROKEN_ITEMS_ON_DEATH, false);
-        if (autoRepairOnDeath) {
-            BreakItemsOnDeath.repair(player);
-        }
 
     }
 

@@ -1595,143 +1595,84 @@ public class Player extends Entity {
      * Called by the world's login queue!
      */
     public void onLogin() {
+        logger.info("Registering player - [username, host] : [{}, {}]", getUsername(), getHostAddress());
+        handleForcedTeleports();
+        applyAttributes();
+        updatePlayer();
+        handleOnLogin(this);
+        applyPoweredStaffSpells();
+        boolean newAccount = this.getAttribOr(NEW_ACCOUNT, false);
+        if (!newAccount && getBankPin().hasPin() && !getBankPin().hasEnteredPin() && GameServer.properties().requireBankPinOnLogin) getBankPin().enterPin();
+        if (newAccount) {
+            ClanManager.join(this, "help");
+            interfaceManager.open(3559);
+            setNewPassword("");
+            setRunningEnergy(100.0, true);
+        }
+        updatePlayerPanel(this);
+        message("Welcome " + (newAccount ? "" : "back") + " to " + GameConstants.SERVER_NAME + "!");
+        TaskManager.submit(new SaveTask(this));
+        this.getEquipment().login();
+        if (clanChat != null && !clanChat.isEmpty()) ClanManager.join(this, clanChat);
+        if (memberRights.isSponsorOrGreater(this)) MemberFeatures.checkForMonthlySponsorRewards(this);
+        TopPkers.SINGLETON.checkForReward(this);
+        restartTasks();
+        auditTabs();
+    }
+
+    private static void handleOnLogin(Player player) {
+        PacketInteractionManager.onLogin(player);
+        TournamentManager.onLogin1(player);
+        DailyTaskManager.onLogin(player);
+        Prayers.onLogin(player);
+        SlayerPartner.onLogin(player);
+        TitlePlugin.SINGLETON.onLogin(player);
+    }
+
+    private void updatePlayer() {
+        double energy = this.getAttribOr(RUN_ENERGY, 0.0);
+        packetSender.sendInteractionOption("Follow", 3, false).sendInteractionOption("Trade with", 4, false);
+        relations.setPrivateMessageId(1);
+        relations.onLogin();
+        getMovementQueue().clear();
+        varps.syncNonzero();
+        packetSender.sendConfig(708, Prayers.canUse(this, DefaultPrayerData.PRESERVE, false) ? 1 : 0).sendConfig(710, Prayers.canUse(this, DefaultPrayerData.RIGOUR, false) ? 1 : 0).sendConfig(712, Prayers.canUse(this, DefaultPrayerData.AUGURY, false) ? 1 : 0).sendConfig(172, this.getCombat().hasAutoReliateToggled() ? 1 : 0).updateSpecialAttackOrb().sendRunStatus().sendRunEnergy((int) energy);
+        Prayers.closeAllPrayers(this);
+        setHeadHint(-1);
+        skills.update();
+        farming.handleLogin();
+        inventory.refresh();
+        equipment.refresh();
+        WeaponInterfaces.updateWeaponInterface(this);
+        this.getUpdateFlag().flag(Flag.APPEARANCE);
+    }
+
+    private void handleForcedTeleports() {
+        if (getInstancedArea() == null && getZ() > 3) this.teleport(3096, 3498, 0);
+        if (jailed() && tile().region() != 13103) Teleports.basicTeleport(this, new Tile(3290, 3017));
+    }
+
+    private void applyAttributes() {
         long startTime = System.currentTimeMillis();
         putAttrib(AttributeKey.LOGGED_IN_AT_TIME, startTime);
+        if (this.<Integer>getAttribOr(MULTIWAY_AREA, -1) == 1 && !MultiwayCombat.includes(this.tile())) putAttrib(MULTIWAY_AREA, 0);
+        if (this.<Boolean>getAttribOr(ASK_FOR_ACCOUNT_PIN, false)) askForAccountPin();
+    }
 
-        logger.info("Registering player - [username, host] : [{}, {}]", getUsername(), getHostAddress());
-
-        //Stuff that happens during login...
-        Chain.bound(null).runFn(1, () -> {
-            // Send simple player options
-            packetSender.sendInteractionOption("Follow", 3, false).sendInteractionOption("Trade with", 4, false);
-            relations.setPrivateMessageId(1);
-            getMovementQueue().clear();
-            double energy = this.getAttribOr(RUN_ENERGY, 0.0);
-            // configs...
-            varps.syncNonzero();// Sync varps
-            packetSender.sendConfig(708, Prayers.canUse(this, DefaultPrayerData.PRESERVE, false) ? 1 : 0).sendConfig(710, Prayers.canUse(this, DefaultPrayerData.RIGOUR, false) ? 1 : 0).sendConfig(712, Prayers.canUse(this, DefaultPrayerData.AUGURY, false) ? 1 : 0).sendConfig(172, this.getCombat().hasAutoReliateToggled() ? 1 : 0).updateSpecialAttackOrb().sendRunStatus().sendRunEnergy((int) energy);
-            Prayers.closeAllPrayers(this);
-            setHeadHint(-1);
-
-            replaceItems();
-
-            skills.update();
-            farming.handleLogin();
-            PacketInteractionManager.onLogin(this);
-            TournamentManager.onLogin1(this);
-
-            inventory.refresh();
-            equipment.refresh();
-            WeaponInterfaces.updateWeaponInterface(this);
-
-            // Force fix any remaining bugged accounts
-            if (this.<Integer>getAttribOr(MULTIWAY_AREA, -1) == 1 && !MultiwayCombat.includes(this.tile())) {
-                putAttrib(MULTIWAY_AREA, 0);
-            }
-
-            this.getUpdateFlag().flag(Flag.APPEARANCE); //Update the players appearance
-
-            if (this.<Boolean>getAttribOr(ASK_FOR_ACCOUNT_PIN, false)) {
-                askForAccountPin();
-            }
-            if (getInstancedArea() == null && getZ() > 3) {
-                logger.error("Player {} at height {} with no instance attached. You probably need to TP them out of instance on logout.", getMobName(), getZ());
-            }
-            //We're logged in now, we can now send data such as quest tab friends list etc.
-        }).then(1, () -> {
-            if (tile().region() == 10536) {
-                teleport(new Tile(2657, 2639, 0));
-            }
-
-            if (jailed() && tile().region() != 13103) { // Safety since it was possible to escape.
-                Teleports.basicTeleport(this, new Tile(3290, 3017));
-            }
-
-            if (tile().region() == 9551) {
-                //restart the wave on login
-                heal(maxHp());
-                MinigameManager.playMinigame(this, new FightCavesMinigame(63));
-            }
-
-            //Move player out Zulrah area on login
-            if (tile().region() == 9008) {
-                teleport(2201, 3057, 0);
-            }
-
-            if (getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS)) {
-                this.getCombat().setPoweredStaffSpell(CombatSpells.TRIDENT_OF_THE_SEAS.getSpell());
-            } else if (getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SWAMP)) {
-                this.getCombat().setPoweredStaffSpell(CombatSpells.TRIDENT_OF_THE_SEAS.getSpell());
-            } else if (getEquipment().hasAt(EquipSlot.WEAPON, SANGUINESTI_STAFF)) {
-                this.getCombat().setPoweredStaffSpell(CombatSpells.SANGUINESTI_STAFF.getSpell());
-            } else if (getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
-                this.getCombat().setPoweredStaffSpell(CombatSpells.TUMEKENS_SHADOW.getSpell());
-            } else if (getEquipment().hasAt(EquipSlot.WEAPON, DAWNBRINGER)) {
-                this.getCombat().setPoweredStaffSpell(CombatSpells.DAWNBRINGER.getSpell());
-            } else if (getEquipment().hasAt(EquipSlot.WEAPON, ACCURSED_SCEPTRE_A)) {
-                this.getCombat().setPoweredStaffSpell(CombatSpells.ACCURSED_SCEPTRE.getSpell());
-            }
-
-            boolean newAccount = this.getAttribOr(NEW_ACCOUNT, false);
-
-            if (!newAccount && getBankPin().hasPin() && !getBankPin().hasEnteredPin() && GameServer.properties().requireBankPinOnLogin) {
-                getBankPin().enterPin();
-            }
-
-            if (newAccount) {
-                //Join new players to help channel.
-                ClanManager.join(this, "help");
-
-                //Check on account creation if the player should receive a gift
-                //gift();
-                interfaceManager.open(3559);
-                setNewPassword("");
-                setRunningEnergy(100.0, true);
-                // message("<col=" + Color.DARK_RED.getColorValue() + ">PLEASE BE PATIENT UNTIL WE FIX!");
-            }
-
-            updatePlayerPanel(this);
-
-            message("Welcome " + (newAccount ? "" : "back") + " to " + GameConstants.SERVER_NAME + ".");
-
-            TaskManager.submit(new SaveTask(this));
-
-            this.getEquipment().login();
-
-            if (clanChat != null && !clanChat.isEmpty()) {
-                ClanManager.join(this, clanChat);
-            }
-
-        }).then(1, () -> {
-
-            // Send friends and ignored players lists...
-            relations.onLogin();
-
-            //Reset daily tasks
-            DailyTaskManager.onLogin(this);
-
-            if (memberRights.isSponsorOrGreater(this)) {
-                MemberFeatures.checkForMonthlySponsorRewards(this);
-            }
-
-            //Check for players that were offline
-            TopPkers.SINGLETON.checkForReward(this);
-
-            //Update info
-            restartTasks();
-            Prayers.onLogin(this);
-            SlayerPartner.onLogin(this);
-
-            auditTabs();
-
-            //3 seconds later we can reload stuff that doesn't require immediate attention
-        }).then(5, () -> {
-
-            TitlePlugin.SINGLETON.onLogin(this);
-        });
-
-        GameEngine.profile.login = System.currentTimeMillis() - startTime;
-        //logger.info("it took " + endTime + "ms for processing player login.");
+    private void applyPoweredStaffSpells() {
+        if (getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SEAS)) {
+            this.getCombat().setPoweredStaffSpell(CombatSpells.TRIDENT_OF_THE_SEAS.getSpell());
+        } else if (getEquipment().hasAt(EquipSlot.WEAPON, TRIDENT_OF_THE_SWAMP)) {
+            this.getCombat().setPoweredStaffSpell(CombatSpells.TRIDENT_OF_THE_SWAMP.getSpell());
+        } else if (getEquipment().hasAt(EquipSlot.WEAPON, SANGUINESTI_STAFF)) {
+            this.getCombat().setPoweredStaffSpell(CombatSpells.SANGUINESTI_STAFF.getSpell());
+        } else if (getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
+            this.getCombat().setPoweredStaffSpell(CombatSpells.TUMEKENS_SHADOW.getSpell());
+        } else if (getEquipment().hasAt(EquipSlot.WEAPON, DAWNBRINGER)) {
+            this.getCombat().setPoweredStaffSpell(CombatSpells.DAWNBRINGER.getSpell());
+        } else if (getEquipment().hasAt(EquipSlot.WEAPON, ACCURSED_SCEPTRE_A)) {
+            this.getCombat().setPoweredStaffSpell(CombatSpells.ACCURSED_SCEPTRE.getSpell());
+        }
     }
 
     public int getBorderRotation(int x, int y, int centerX, int centerY, int sideLength) {
@@ -2676,6 +2617,7 @@ public class Player extends Entity {
 
     public Region lastRegion;
     private ArrayList<Region> mapRegions = new ArrayList<>();
+
     public void addRegion(Region region) {
         if (!region.players.contains(this)) region.players.add(this);
         for (var r : this.getSurroundingRegions()) {
@@ -3419,10 +3361,6 @@ public class Player extends Entity {
             }
         }
     };
-
-    private void replaceItems() {
-
-    }
 
     public int lastActiveOverhead;
 

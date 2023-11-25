@@ -119,7 +119,6 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
         Objects.requireNonNull(e);
         if (e.getIndex() != -1 && entities.get(e.getIndex()) != null) {
             int renderIndexOf = renderOrder.indexOf(e.getIndex());
-            System.out.println("Removing npc");
             if (renderIndexOf != -1) {
                 renderOrder.removeInt(renderIndexOf);
             }

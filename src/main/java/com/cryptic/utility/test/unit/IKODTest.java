@@ -2,7 +2,6 @@ package com.cryptic.utility.test.unit;
 
 import com.cryptic.GameServer;
 import com.cryptic.model.inter.impl.BonusesInterface;
-import com.cryptic.model.content.mechanics.ItemsOnDeath;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.content.areas.wilderness.content.revenant_caves.AncientArtifacts;
 import com.cryptic.model.entity.combat.skull.SkullType;
@@ -24,7 +23,6 @@ import static com.cryptic.utility.ItemIdentifiers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * see {@link ItemsOnDeath#droplootToKiller(Player, Mob)}
  * and {@link com.cryptic.model.content.items_kept_on_death.ItemsKeptOnDeath#calculateItems(Player)}
  * @author Jak |Shadowrs
  */
@@ -166,7 +164,7 @@ public class IKODTest {
             p1.getRunePouch().deposit(new Item(i, 1_000));
         }
 
-        PlayerDeathDropResult p1d = ItemsOnDeath.droplootToKiller(p1, killer);
+        PlayerDeathDropResult p1d = null;
         debug(p1d);
         ItemContainer kept = new ItemContainer(100, ItemContainer.StackPolicy.ALWAYS, p1d.outKeep.stream().filter(Objects::nonNull).toArray(Item[]::new));
         ItemContainer del = new ItemContainer(100, ItemContainer.StackPolicy.ALWAYS, p1d.outDel.toArray(new Item[0]));
@@ -198,7 +196,7 @@ public class IKODTest {
         p1.inventory().add(RUNE_POUCH, 1);
         p1.inventory().add(LOOTING_BAG, 1);
         // doesnt matter if not skulled, not in wild, both are always lost
-        PlayerDeathDropResult p1d = ItemsOnDeath.droplootToKiller(p1, null);
+        PlayerDeathDropResult p1d = null;
         debug(p1d);
         ItemContainer del = new ItemContainer(100, ItemContainer.StackPolicy.ALWAYS, p1d.outDel.toArray(new Item[0]));
         int match = 0;

@@ -18939,5 +18939,65 @@
     "slot": 3,
     "type": 5,
     "showBeard": false
+  },
+  "26715": { //chest
+    "slot": 4,
+    "type": 6,
+    "showBeard": false
+  },
+  "26716": { //skirt
+    "slot": 7,
+    "type": 0,
+    "showBeard": false
+  },
+  "26714": { //helmet
+    "slot": 0,
+    "type": 8,
+    "showBeard": true
+  },
+  "25007": {
+    "slot": 7,
+    "type": 0,
+    "showBeard": false
+  },
+  "25001": {
+    "slot": 0,
+    "type": 8,
+    "showBeard": true
+  },
+  "25004": {
+    "slot": 4,
+    "type": 6,
+    "showBeard": false
+  },
+  "25016": {
+    "slot": 0,
+    "type": 8,
+    "showBeard": true
+  },
+  "25019": {
+    "slot": 4,
+    "type": 6,
+    "showBeard": false
+  },
+  "25022": {
+    "slot": 7,
+    "type": 0,
+    "showBeard": false
+  },
+  "25028": {
+    "slot": 0,
+    "type": 8,
+    "showBeard": true
+  },
+  "25031": {
+    "slot": 4,
+    "type": 6,
+    "showBeard": false
+  },
+  "25034": {
+    "slot": 7,
+    "type": 0,
+    "showBeard": false
   }
 }

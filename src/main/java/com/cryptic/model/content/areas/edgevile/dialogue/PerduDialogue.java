@@ -1,6 +1,5 @@
 package com.cryptic.model.content.areas.edgevile.dialogue;
 
-import com.cryptic.model.content.mechanics.break_items.BreakItemsOnDeath;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.inter.dialogue.Dialogue;
 import com.cryptic.model.inter.dialogue.DialogueType;
@@ -30,7 +29,7 @@ public class PerduDialogue extends Dialogue {
     public void select(int option) {
         if(isPhase(0)) {
             if (option == 1) {
-                int cost = BreakItemsOnDeath.getRepairCost(player);
+                int cost = -1;
                 if(cost > 0) {
                     send(DialogueType.NPC_STATEMENT, player.getInteractingNpcId(), Expression.HAPPY, "It will cost you " + Color.RED.tag() + "" + Utils.insertCommasToNumber(Integer.toString(cost)) + "</col> BM to fix your", "broken items.");
                     setPhase(2);
@@ -52,7 +51,6 @@ public class PerduDialogue extends Dialogue {
         } else if (isPhase(3)) {
             if (option == 1) {
                 stop();//Break the dialogue
-                BreakItemsOnDeath.repair(player);
             } else if (option == 2) {
                 stop();
             }

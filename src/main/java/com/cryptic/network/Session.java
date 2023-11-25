@@ -155,27 +155,17 @@ public class Session {
 
                 if (GameServer.broadcast != null) player.getPacketSender().sendBroadcast(GameServer.broadcast);
 
-                Entity.accumulateRuntimeTo(() -> {
-                    try {
-                        listener.handleMessage(player, packet);
-                    } catch (Throwable t) {
-                        logger.error("shite", t);
-                    }
+                try {
+                    listener.handleMessage(player, packet);
+                } catch (Throwable t) {
+                    logger.error("Failed to handle packet message during queue'd handling.", t);
+                }
 
-                    if (player.getCurrentTask() instanceof PlayerTask task) {
-                        if (task.stops(listener.getClass())) {
-                            task.stop();
-                        }
+                if (player.getCurrentTask() instanceof PlayerTask task) {
+                    if (task.stops(listener.getClass())) {
+                        task.stop();
                     }
-                }, taken -> {
-                    if (TimesCycle.BENCHMARKING_ENABLED && taken.toNanos() > threshold) {
-                        double taken2 = taken.toNanos() / 1_000_000.0;
-                        String time = df.format(taken2);
-                        String name = IncomingHandler.PACKETS[packet.getOpcode()].getClass().getSimpleName();
-                        String data = Arrays.toString(packet.getBuffer().array());
-                        System.err.println(time + " ms to process packet id " + name + " warning");
-                    }
-                });
+                }
             } catch (Throwable t) {
                 logger.error("Packet processing error", t);
             } finally {

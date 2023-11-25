@@ -207,8 +207,6 @@ public final class GameEngine implements Runnable {
             }
         }
     }
-
-    public static TimesCycle profile;
     public Deque<Long> recentTicks = Queues.newArrayDeque();
 
     @Override
@@ -219,43 +217,29 @@ public final class GameEngine implements Runnable {
             successfulWorld = false;
             successfulGroundItem = false;
 
-            profile = new TimesCycle();
             long start = System.currentTimeMillis();
 
-            // The uptime equals the server start time minus the cycle start time, displayed in ms.
-            long uptime = start - GameServer.startTime;
-
-            // Process everything related to the game!
-            long startPending = System.currentTimeMillis();
             runPendingTasks();
-            long totalPending = System.currentTimeMillis() - startPending;
             successfulTasks = true;
 
             World.getWorld().sequence();
             successfulWorld = true;
 
-            long startGround = System.currentTimeMillis();
             GroundItemHandler.pulse();
-            long totalGround = System.currentTimeMillis() - startGround;
             successfulGroundItem = true;
 
             var pastTime = (System.currentTimeMillis() - start);
-            String osName = System.getProperty("os.name");
-            String osNameMatch = osName.toLowerCase();
-            profile.total = pastTime;
+
             recentTicks.add(pastTime);
             if (recentTicks.size() > 10)
                 recentTicks.removeFirst();
-            //logger.info("average-cycle-last-10-ticks: " + (recentTicks.stream().mapToLong(l ->l).sum() / 10L) + "ms");
 
-            if (profile.total > 50)
-                profile.computeAnd(c -> logger.trace(markPerf, c.COMPUTED_MSG));
-            lagChecks(uptime, totalPending, totalGround, osNameMatch);
+            //logger.info("average-cycle-last-10-ticks: " + (recentTicks.stream().mapToLong(l ->l).sum() / 10L) + "ms");
 
             World.getWorld().benchmark.reset();
             successfulCycle = true;
             gameTicksIncrementor++;
-            totalCycleTime += profile.total;
+
         } catch (Throwable t) {
             logger.error("help", t);
             World.getWorld().getPlayers().forEach(Player::synchronousSave);
@@ -301,46 +285,6 @@ public final class GameEngine implements Runnable {
             if (!successfulGroundItem) {
                 logger.fatal("Game Engine Ground Item was not successful.");
             }
-        }
-    }
-
-    private void lagChecks(long uptime, long totalPending, long totalGround, String osNameMatch) {
-        boolean printTime =
-            GameServer.properties().displayCycleLag
-                && uptime > IGNORE_LAG_TIME
-                && (!GameServer.properties().linuxOnlyDisplayCycleLag
-                || osNameMatch.contains("linux"));
-        if (printTime && totalPending > totalPendingThresholdWarningMs) {
-            logger.trace(
-                "Pending Tasks cycle time greater than {} ms. Pending Tasks cycle time was: {}"
-                    + " ms.",
-                totalPendingThresholdWarningMs,
-                profile.total);
-        }
-        if (printTime && totalGround > totalGroundThresholdWarningMs) {
-            logger.trace(
-                "GroundItem cycle time greater than {} ms. GroundItem cycle time was: {} ms.",
-                totalGroundThresholdWarningMs,
-                profile.total);
-        }
-        // We only want to calculate the cycle lag if the uptime is greater than X number of
-        // seconds.
-        // In other words, only calculate the cycle lag after the GameServer is done loading.
-        if (printTime && profile.total > totalTotalThresholdWarningMs) {
-            profile.computeAnd(c -> logger.trace(c.COMPUTED_MSG));
-        }
-        if (!GameServer.properties().useInformationCycle
-            || infoTickCountdown++ == GameServer.properties().informationCycleCount) {
-            infoTickCountdown = 0;
-            profile.computeAnd(
-                c -> {
-                    logger.info(c.COMPUTED_MSG);
-                });
-        }
-        if (profile.total > 600) {
-            // a cycle 600 will result in visual lag (not fps lag) ingame - unresponsive
-            // movement/actions.
-            profile.computeAnd(c -> logger.trace(profile.COMPUTED_MSG));
         }
     }
 

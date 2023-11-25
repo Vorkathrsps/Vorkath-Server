@@ -1,4 +1,4 @@
-package com.cryptic.model.content.mechanics.death;
+package com.cryptic.model.content.mechanics.death.ornaments;
 
 import com.cryptic.utility.ItemIdentifiers;
 
@@ -57,8 +57,8 @@ public enum OrnamentKits {
     ELDER_CHAOS_BOTTOMS_OR(ItemIdentifiers.ELDER_CHAOS_ROBE_OR, new int[]{ItemIdentifiers.ELDER_CHAOS_ROBE, ItemIdentifiers.ELDER_CHAOS_ROBES_ORNAMENT_KIT}),
     ELDER_MAUL_OR(ItemIdentifiers.ELDER_MAUL_OR, new int[]{ItemIdentifiers.ELDER_MAUL, ItemIdentifiers.ELDER_MAUL_ORNAMENT_KIT});
 
-    final int id;
-    final int[] conversion;
+    public final int id;
+    public final int[] conversion;
 
     OrnamentKits(int id, int[] conversion) {
         this.id = id;

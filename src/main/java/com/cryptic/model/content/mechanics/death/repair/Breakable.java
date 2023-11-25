@@ -1,6 +1,8 @@
-package com.cryptic.model.content.mechanics.death;
+package com.cryptic.model.content.mechanics.death.repair;
 
 import com.cryptic.utility.ItemIdentifiers;
+
+import java.text.NumberFormat;
 
 public enum Breakable {
     FIRE_CAPE(ItemIdentifiers.FIRE_CAPE, ItemIdentifiers.FIRE_CAPE_BROKEN, 150000, -1),
@@ -50,16 +52,26 @@ public enum Breakable {
     HEFIN_BOWFA(ItemIdentifiers.BOW_OF_FAERDHINEN_C, ItemIdentifiers.CRYSTAL_OF_HEFIN, -1, ItemIdentifiers.BOW_OF_FAERDHINEN_INACTIVE),
     AMLODD_BOWFA(ItemIdentifiers.BOW_OF_FAERDHINEN_C_25896, ItemIdentifiers.CRYSTAL_OF_AMLODD, -1, ItemIdentifiers.BOW_OF_FAERDHINEN_INACTIVE);
 
-    final int id;
-    final int brokenId;
-    final int coinAmount;
-    final int itemConversion;
+    public final int id;
+    public final int brokenId;
+    public final int coinAmount;
+    public final int itemConversion;
 
     Breakable(int id, int brokenId, int coinAmount, int itemConversion) {
         this.id = id;
         this.brokenId = brokenId;
         this.coinAmount = coinAmount;
         this.itemConversion = itemConversion;
+    }
+
+    public int getRepairCost() {
+        return (int) (coinAmount * 1.50);
+    }
+
+    public String getFormattedRepairCost() {
+        int repairCost = getRepairCost();
+        NumberFormat numberFormat = NumberFormat.getInstance();
+        return numberFormat.format(repairCost);
     }
 
 }

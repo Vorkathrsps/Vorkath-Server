@@ -169,6 +169,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 import static com.cryptic.model.content.areas.wilderness.content.EloRating.DEFAULT_ELO_RATING;
@@ -3155,74 +3156,29 @@ public class Player extends Entity {
     public final void sequence() {
         try {
             Arrays.fill(section, false);
-
-            Runnable total = () -> {
-                time(t -> {
-                    perf.logout += t.toNanos();
-                    World.getWorld().benchmark.allPlayers.logout += t.toNanos();
-                }, logR);
-                time(t -> {
-                    perf.qtStuffs += t.toNanos();
-                    World.getWorld().benchmark.allPlayers.qtStuffs += t.toNanos();
-                }, qtStuff);
-                time(t -> {
-                    perf.controllers += t.toNanos();
-                    World.getWorld().benchmark.allPlayers.controllers += t.toNanos();
-                }, controllers);
-                time(t -> {
-                    perf.timers += t.toNanos();
-                    World.getWorld().benchmark.allPlayers.timers += t.toNanos();
-                }, timers);
-                time(t -> {
-                    perf.actions += t.toNanos();
-                    World.getWorld().benchmark.allPlayers.actions += t.toNanos();
-                }, actions);
-                time(t -> {
-                    perf.tasks += t.toNanos();
-                    World.getWorld().benchmark.allPlayers.tasks += t.toNanos();
-                }, tasks);
-                time(t -> {
-                    perf.regions += t.toNanos();
-                    World.getWorld().benchmark.allPlayers.regions += t.toNanos();
-                }, regions);
-                time(t -> {
-                    perf.bmove += t.toNanos();
-                    World.getWorld().benchmark.allPlayers.bmove += t.toNanos();
-                }, beforemove);
-                time(t -> {
-                    perf.move += t.toNanos();
-                    World.getWorld().benchmark.allPlayers.move += t.toNanos();
-                }, movement);
-                time(t -> {
-                    perf.cbBountyFlush += t.toNanos();
-                    World.getWorld().benchmark.allPlayers.cbBountyFlush += t.toNanos();
-                }, cbBountyFlush);
-                time(t -> {
-                    perf.prayers += t.toNanos();
-                    World.getWorld().benchmark.allPlayers.cbBountyFlush += t.toNanos();
-                }, prayers);
-                time(t -> {
-                    perf.end += t.toNanos();
-                    World.getWorld().benchmark.allPlayers.end += t.toNanos();
-                }, end);
-            };
-            time(t -> {
-                perf.total += t.toNanos();
-                World.getWorld().benchmark.allPlayers.total += t.toNanos();
-            }, total);
-
-            if ((int) (1. * perf.total / 1_000_000.) > warnTimeMs) {
-                logger.trace("Player {} sequence took {}ms : {}", getMobName(), (int) (1. * perf.total / 1_000_000.), perf.toString());
-            }
+            logR.run();
+            qtStuff.run();
+            controllers.run();
+            timers.run();
+            actions.run();
+            tasks.run();
+            regions.run();
+            beforemove.run();
+            movement.run();
+            cbBountyFlush.run();
+            prayers.run();
+            end.run();
 
         } catch (Exception e) {
-            logger.error("Error processing logic for Player: {}.", this);
-            logger.error(captureState());
-            logger.error(e);
+            System.err.println("Error processing logic for Player: " + this);
+            System.err.println(captureState());
+            e.printStackTrace();
         }
     }
 
-    Runnable logR = this::fireLogout, qtStuff = () -> {
+    Runnable logR = () -> {
+        fireLogout();
+    }, qtStuff = () -> {
         this.setPlayerQuestTabCycleCount(getPlayerQuestTabCycleCount() + 1);
         updateServerInformation(this);
         //Update the players online regardless of the cycle count, this is the most important number, otherwise players might see "0" if they log in too soon. Can always remove this later.

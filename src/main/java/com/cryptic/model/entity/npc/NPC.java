@@ -567,9 +567,6 @@ public class NPC extends Entity {
         if (useSmartPath) TargetRoute.beforeMovement(this);
         getMovementQueue().process();
         if (useSmartPath) TargetRoute.afterMovement(this);
-        if (getBotHandler() != null) {
-            getBotHandler().process();
-        }
         getCombat().process();
     }
 

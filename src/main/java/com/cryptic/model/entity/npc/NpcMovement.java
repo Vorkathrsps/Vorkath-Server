@@ -6,6 +6,7 @@ import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.combat.Combat;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.route.routes.DumbRoute;
 import com.cryptic.utility.Utils;
 
 public class NpcMovement extends MovementQueue {
@@ -48,16 +49,23 @@ public class NpcMovement extends MovementQueue {
         }
     }
 
-
     private void randomWalk() {
-        if(!npc.isRandomWalkAllowed()) return;
-        if(!World.getWorld().rollDie(4, 1)) return;
+        if(!npc.isRandomWalkAllowed())
+            return;
+        if(npc.def().walkingAnimation == npc.def().standingAnimation)
+            return;
+        if(npc.def().walkingAnimation == -1)
+            return;
+        if (!npc.getMovement().isAtDestination())
+            return;
+        if(!World.getWorld().rollDie(8, 1))
+            return;
         Combat combat = npc.getCombat();
         if(combat != null && (npc.dead() || combat.getTarget() != null)) return;
         var t = npc.getSpawnArea().randomTile();
         int x = t.x;
         int y = t.y;
-        npc.getRouteFinder().routeAbsolute(x,y);
+        DumbRoute.route(npc, x, y);
     }
 
 }

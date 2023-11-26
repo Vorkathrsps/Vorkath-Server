@@ -44,7 +44,7 @@ public final class GameEngine implements Runnable {
     public static boolean successfulWorld = false;
     public static boolean successfulGroundItem = false;
     public static AtomicBoolean shutdown = new AtomicBoolean(false);
-    private static final int GAME_TICK_DURATION = 600;
+    private static final long GAME_TICK_DURATION = 600L;
     public static final int IGNORE_LAG_TIME =
         GameServer.properties().ignoreGameLagDetectionMilliseconds;
     private static final Logger logger = LogManager.getLogger(GameEngine.class);
@@ -58,9 +58,6 @@ public final class GameEngine implements Runnable {
     public static int gameTicksIncrementor;
 
     public static long totalCycleTime;
-    public static int totalPendingThresholdWarningMs = 250;
-    public static int totalGroundThresholdWarningMs = 250;
-    public static int totalTotalThresholdWarningMs = 250;
 
     /**
      * A queue of synchronization tasks.
@@ -207,6 +204,7 @@ public final class GameEngine implements Runnable {
             }
         }
     }
+
     public Deque<Long> recentTicks = Queues.newArrayDeque();
 
     @Override
@@ -234,9 +232,6 @@ public final class GameEngine implements Runnable {
             if (recentTicks.size() > 10)
                 recentTicks.removeFirst();
 
-            //logger.info("average-cycle-last-10-ticks: " + (recentTicks.stream().mapToLong(l ->l).sum() / 10L) + "ms");
-
-            World.getWorld().benchmark.reset();
             successfulCycle = true;
             gameTicksIncrementor++;
 

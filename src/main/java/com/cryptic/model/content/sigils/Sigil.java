@@ -30,15 +30,12 @@ public class Sigil extends PacketInteraction implements SigilListener {
     }
 
     @Override
-    public boolean prepare(Player player, Entity target) {
-        var affectsApplied = false;
+    public void prepare(Player player, Entity target) {
         for (var sigil : handler) {
             if (sigil.attuned(player)) {
                 sigil.process(player, target);
-                affectsApplied = true;
             }
         }
-        return affectsApplied;
     }
 
     @Override

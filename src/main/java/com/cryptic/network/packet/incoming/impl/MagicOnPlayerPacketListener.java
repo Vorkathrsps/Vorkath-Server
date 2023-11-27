@@ -37,6 +37,7 @@ public class MagicOnPlayerPacketListener implements PacketListener {
         }
 
         Player other = World.getWorld().getPlayers().get(targetIndex);
+
         if (other == null) {
             player.message("Unable to find player.");
         } else {

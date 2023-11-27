@@ -5,6 +5,8 @@ import com.cryptic.GameConstants;
 import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.mechanics.Poison;
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.combat.magic.autocasting.Autocasting;
+import com.cryptic.model.entity.combat.weapon.WeaponInterfaces;
 import com.cryptic.model.entity.player.*;
 import com.cryptic.model.items.trade.Trading;
 import com.cryptic.model.inter.InterfaceConstants;
@@ -31,11 +33,13 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
+import static com.cryptic.model.content.EffectTimer.*;
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
-import static com.cryptic.utility.ItemIdentifiers.BLOOD_MONEY;
+import static com.cryptic.utility.ItemIdentifiers.*;
+import static com.cryptic.utility.timers.TimerKey.*;
+import static com.cryptic.utility.timers.TimerKey.TELEBLOCK;
 
 /**
  * Handles the dueling system.
@@ -269,7 +273,7 @@ public class Dueling {
             }
 
             //Initiate duel for both players with eachother?
-            if (initiateDuel && opponent.<Boolean>getAttribOr(SEND_DUEL_REQUEST,false)) {
+            if (initiateDuel && opponent.<Boolean>getAttribOr(SEND_DUEL_REQUEST, false)) {
                 player.getDueling().initiateDuel();
                 t_.getDueling().initiateDuel();
             } else {
@@ -428,7 +432,7 @@ public class Dueling {
             }
 
             //Only allow blood money stakes
-            if(stakeItem.getId() != BLOOD_MONEY) {
+            if (stakeItem.getId() != BLOOD_MONEY) {
                 player.message("You cannot stake that item.");
                 return;
             }
@@ -697,28 +701,48 @@ public class Dueling {
             protected void select(int option) {
                 if (isPhase(0)) {
                     if (option == 1) {
+                        if (!(player.getEquipment().containsAny(ABYSSAL_WHIP, ABYSSAL_WHIP_OR) || player.getEquipment().containsAny(DRAGON_DAGGER, DRAGON_DAGGER_20407, DRAGON_DAGGERP, DRAGON_DAGGERP_5680, DRAGON_DAGGERP_5698))) {
+                            player.message(Color.RED.wrap("You need to be wearing an abyssal whip or dds to use this dueling option."));
+                            stop();
+                            return;
+                        }
                         player.putAttrib(SEND_DUEL_REQUEST, true);
                         player.putAttrib(CUSTOM_DUEL_RULE, 1);
+                        if (!(opponent.getEquipment().containsAny(ABYSSAL_WHIP, ABYSSAL_WHIP_OR) || opponent.getEquipment().containsAny(DRAGON_DAGGER, DRAGON_DAGGER_20407, DRAGON_DAGGERP, DRAGON_DAGGERP_5680, DRAGON_DAGGERP_5698))) {
+                            player.message(Color.RED.wrap("Your opponent needs to be wearing an abyssal whip or dds to use this dueling option."));
+                            stop();
+                            return;
+                        }
                         player.message("You've sent a duel challenge to " + opponent.getUsername() + "...");
                         opponent.getInterfaceManager().closeDialogue();
                         opponent.getPacketSender().sendMessage(player.getUsername() + ":duelreqddswhiponly:");
                     }
-                    if (option == 2) {
-                        player.putAttrib(SEND_DUEL_REQUEST, true);
-                        player.putAttrib(CUSTOM_DUEL_RULE, 2);
-                        player.message("You've sent a duel challenge to " + opponent.getUsername() + "...");
-                        opponent.getInterfaceManager().closeDialogue();
-                        opponent.getPacketSender().sendMessage(player.getUsername() + ":duelreqwhiponly:");
-                    }
-                    if (option == 3) {
-                        player.putAttrib(SEND_DUEL_REQUEST, true);
-                        player.putAttrib(CUSTOM_DUEL_RULE, 3);
-                        player.message("You've sent a duel challenge to " + opponent.getUsername() + "...");
-                        opponent.getInterfaceManager().closeDialogue();
-                        opponent.getPacketSender().sendMessage(player.getUsername() + ":duelreqnormal:");
-                    }
-                    stop();
                 }
+                if (option == 2) {
+                    if (!player.getEquipment().containsAny(ABYSSAL_WHIP, ABYSSAL_WHIP_OR)) {
+                        player.message(Color.RED.wrap("You need to be wearing an abyssal whip to use this dueling option."));
+                        stop();
+                        return;
+                    }
+                    player.putAttrib(SEND_DUEL_REQUEST, true);
+                    player.putAttrib(CUSTOM_DUEL_RULE, 2);
+                    if (!opponent.getEquipment().containsAny(ABYSSAL_WHIP, ABYSSAL_WHIP_OR)) {
+                        player.message(Color.RED.wrap("Your opponent needs to be wearing an abyssal whip to use this dueling option."));
+                        stop();
+                        return;
+                    }
+                    player.message("You've sent a duel challenge to " + opponent.getUsername() + "...");
+                    opponent.getInterfaceManager().closeDialogue();
+                    opponent.getPacketSender().sendMessage(player.getUsername() + ":duelreqwhiponly:");
+                }
+                if (option == 3) {
+                    player.putAttrib(SEND_DUEL_REQUEST, true);
+                    player.putAttrib(CUSTOM_DUEL_RULE, 3);
+                    player.message("You've sent a duel challenge to " + opponent.getUsername() + "...");
+                    opponent.getInterfaceManager().closeDialogue();
+                    opponent.getPacketSender().sendMessage(player.getUsername() + ":duelreqnormal:");
+                }
+                stop();
             }
         });
     }
@@ -830,7 +854,7 @@ public class Dueling {
         Venom.cure(2, player);
         player.getTimers().cancel(TimerKey.FROZEN); //Remove frozen timer key
         player.getTimers().cancel(TimerKey.STUNNED); //Remove stunned timer key
-        player.getTimers().cancel(TimerKey.TELEBLOCK); //Remove teleblock timer key
+        player.getTimers().cancel(TELEBLOCK); //Remove teleblock timer key
         player.getTimers().cancel(TimerKey.TELEBLOCK_IMMUNITY); //Remove the teleblock immunity timer key
         player.setRunningEnergy(100.0, true); //Set energy to 100%
         player.setSpecialActivated(false); //Disable special attack
@@ -868,31 +892,8 @@ public class Dueling {
     private void startDuel(Tile telePos) {
         checkCustomRuleEquipment();
 
-        //Let's start the duel!
-        boolean playerHasVengeance = player.getAttribOr(AttributeKey.VENGEANCE_ACTIVE, false);
-        boolean playerHasOverload = player.getAttribOr(OVERLOAD_TASK_RUNNING, false);
-        boolean opponentHasOverload = player.getAttribOr(OVERLOAD_TASK_RUNNING, false);
-
-        if (playerHasOverload) {
-            player.clearAttrib(AttributeKey.OVERLOAD_TASK_RUNNING);
-            player.getTimers().cancel(TimerKey.POTION);
-            player.getSkills().resetStats();
-            player.getPacketSender().sendEffectTimer(0, EffectTimer.OVERLOAD);
-            player.message("Your overload potion effect has diminished upon entering the duel arena.");
-        }
-
-        boolean opponentHasVengeance = opponent.getAttribOr(AttributeKey.VENGEANCE_ACTIVE, false);
-        if (opponentHasVengeance) {
-            opponent.clearAttrib(AttributeKey.VENGEANCE_ACTIVE);
-            opponent.message("Your Vengeance has been cleared.");
-        }
-
-        player.putAttrib(AttributeKey.MAGEBANK_MAGIC_ONLY, false);
-        opponent.putAttrib(AttributeKey.MAGEBANK_MAGIC_ONLY, false);
-
-        // Disable SOTD special
-        player.getTimers().cancel(TimerKey.SOTD_DAMAGE_REDUCTION);
-        opponent.getTimers().cancel(TimerKey.SOTD_DAMAGE_REDUCTION);
+        reset(player);
+        reset(opponent);
 
         //Set current duel state
         setState(DuelState.STARTING_DUEL);
@@ -980,6 +981,40 @@ public class Dueling {
         });
     }
 
+    private void reset(Player player) {
+        Autocasting.setAutocast(player, null);
+        Poison.cure(player);
+        WeaponInterfaces.updateWeaponInterface(player);
+        Skulling.unskull(player);
+        Prayers.closeAllPrayers(player);
+        player.getSkills().resetStats();
+        player.getCombat().setPoweredStaffSpell(null);
+        player.getCombat().setRangedWeapon(null);
+        player.getTimers().cancel(FROZEN);
+        player.getTimers().cancel(STUNNED);
+        player.getTimers().cancel(TELEBLOCK);
+        player.getTimers().cancel(TELEBLOCK_IMMUNITY);
+        player.getTimers().cancel(FREEZE_IMMUNITY);
+        player.getTimers().cancel(CHARGE_SPELL);
+        player.getTimers().cancel(SOTD_DAMAGE_REDUCTION);
+        player.getTimers().cancel(TimerKey.POTION);
+        player.restoreSpecialAttack(100);
+        player.getPacketSender().sendEffectTimer(0, FREEZE);
+        player.getPacketSender().sendEffectTimer(0, EffectTimer.TELEBLOCK);
+        player.getPacketSender().sendEffectTimer(0, VENGEANCE);
+        player.getPacketSender().sendEffectTimer(0, ANTIFIRE);
+        player.getPacketSender().sendEffectTimer(0, VENOM);
+        player.getPacketSender().sendEffectTimer(0, STAMINA);
+        player.getCombat().clearDamagers();
+        player.setRunningEnergy(100.0, true);
+        player.hp(100, 0);
+        player.clearAttrib(VENOM_TICKS);
+        player.clearAttrib(VENOMED_BY);
+        player.putAttrib(MAGEBANK_MAGIC_ONLY, false);
+        player.clearAttrib(VENGEANCE_ACTIVE);
+        player.clearAttrib(OVERLOAD_TASK_RUNNING);
+    }
+
     public void onDeath() {
         //Make sure both players are in a duel..
         if (validate(player, opponent, null, DuelState.STARTING_DUEL, DuelState.IN_DUEL)) {
@@ -1044,7 +1079,7 @@ public class Dueling {
             heal_player(opponent);
 
             //Send winnings onto interface
-                opponent.getPacketSender().sendItemOnInterface(SCOREBOARD_CONTAINER, winnings);
+            opponent.getPacketSender().sendItemOnInterface(SCOREBOARD_CONTAINER, winnings);
 
             //Send the scoreboard interface
             opponent.getInterfaceManager().open(SCOREBOARD_INTERFACE_ID);

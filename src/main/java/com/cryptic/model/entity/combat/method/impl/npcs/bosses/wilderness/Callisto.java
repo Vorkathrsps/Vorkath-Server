@@ -41,7 +41,7 @@ public class Callisto extends CommonCombatMethod {
 
     @Override
     public int moveCloseToTargetTileRange(@NonNull final Entity entity) {
-        return 10;
+        return 2;
     }
 
     @Override
@@ -51,9 +51,11 @@ public class Callisto extends CommonCombatMethod {
 
     @Override
     public void init(NPC npc) {
-        if (npc.tile().region() == 7092)
+        if (npc.tile().region() == 7092 || npc.tile().regionX() == 13473)
             npc.getCombatInfo().aggroradius = 50; // override agro distance to cover the entire region, region specific
         npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 50);
+        npc.ignoreOccupiedTiles = true;
+        npc.useSmartPath = true;
     }
 
     @Override
@@ -143,10 +145,6 @@ public class Callisto extends CommonCombatMethod {
     public void doFollowLogic() {
         if (performingAnimation) {
             return;
-        }
-        if (!withinDistance(1) && !entity.frozen()) {
-            var tile = target.tile().transform(1, 1, 0);
-            entity.getMovement().step(tile.getX(), tile.getY(), MovementQueue.StepType.REGULAR);
         }
         follow(1);
     }

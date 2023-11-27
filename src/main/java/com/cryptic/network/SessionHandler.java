@@ -83,8 +83,8 @@ public final class SessionHandler extends ChannelInboundHandlerAdapter {
             if (throwable instanceof ReadTimeoutException) {
                 logger.debug("Channel disconnected due to read timeout (30s): {}.", ctx.channel());
                 ctx.channel().close();
-            }
-            else {
+            } else {
+                throwable.printStackTrace();
                 logger.error("An exception has been caused in the pipeline: {} {}", session, throwable);
             }
         } catch (Exception e) {

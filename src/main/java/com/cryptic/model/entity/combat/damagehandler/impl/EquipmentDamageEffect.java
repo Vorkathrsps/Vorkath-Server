@@ -2,7 +2,6 @@ package com.cryptic.model.entity.combat.damagehandler.impl;
 
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.damagehandler.PreDamageEffectHandler;
 import com.cryptic.model.entity.combat.damagehandler.impl.armor.*;
 import com.cryptic.model.entity.combat.damagehandler.impl.sets.*;
 import com.cryptic.model.entity.combat.damagehandler.impl.typeless.PoisonDamageEffect;
@@ -27,13 +26,13 @@ public class EquipmentDamageEffect implements DamageEffectListener {
     private static final List<DamageEffectListener> meleeAccuracyModificationListenerAttacker;
 
     static {
-        damageEffectListenersAttacker = initializeDamageEffectListenersAttacker();
-        magicAccuracyModificationListenerAttacker = initializeMagicAccuracyModificationListenerAttacker();
-        rangeAccuracyModificationListenerAttacker = initializeRangeAccuracyModificationListenerAttacker();
-        meleeAccuracyModificationListenerAttacker = initializeMeleeAccuracyModificationListenerAttacker();
+        damageEffectListenersAttacker = initializeDamageEffects();
+        magicAccuracyModificationListenerAttacker = initializeMagicAccuracyModifications();
+        rangeAccuracyModificationListenerAttacker = initializeRangeAccuracyModifications();
+        meleeAccuracyModificationListenerAttacker = initializeMeleeAccuracyModifications();
     }
 
-    private static List<DamageEffectListener> initializeDamageEffectListenersAttacker() {
+    private static List<DamageEffectListener> initializeDamageEffects() {
         List<DamageEffectListener> listeners = new ArrayList<>();
         listeners.add(new AmuletOfBloodFury());
         listeners.add(new VeracSet());
@@ -52,7 +51,7 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         return listeners;
     }
 
-    private static List<DamageEffectListener> initializeMagicAccuracyModificationListenerAttacker() {
+    private static List<DamageEffectListener> initializeMagicAccuracyModifications() {
         List<DamageEffectListener> listeners = new ArrayList<>();
         listeners.add(new BrimstoneRing());
         listeners.add(new TumekensShadow());
@@ -65,7 +64,7 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         return listeners;
     }
 
-    private static List<DamageEffectListener> initializeRangeAccuracyModificationListenerAttacker() {
+    private static List<DamageEffectListener> initializeRangeAccuracyModifications() {
         List<DamageEffectListener> listeners = new ArrayList<>();
         listeners.add(new CrystalSet());
         listeners.add(new TwistedBow());
@@ -77,7 +76,7 @@ public class EquipmentDamageEffect implements DamageEffectListener {
         return listeners;
     }
 
-    private static List<DamageEffectListener> initializeMeleeAccuracyModificationListenerAttacker() {
+    private static List<DamageEffectListener> initializeMeleeAccuracyModifications() {
         List<DamageEffectListener> listeners = new ArrayList<>();
         listeners.add(new VoidEquipment());
         listeners.add(new VestaLongsword());

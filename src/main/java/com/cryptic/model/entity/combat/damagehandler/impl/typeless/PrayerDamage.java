@@ -19,7 +19,6 @@ import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.*;
 
 public class PrayerDamage implements DamageEffectListener {
-    private static final Logger logger = LogManager.getLogger(PrayerDamage.class);
     private final int[] ignoreFullNegatedDamage = new int[]
         {
             CORPOREAL_BEAST,
@@ -51,12 +50,13 @@ public class PrayerDamage implements DamageEffectListener {
                 if (meleePrayer || rangedPrayer || magicPrayer) {
                     if (entity instanceof NPC npc) {
                         if (ArrayUtils.contains(ignoreFullNegatedDamage, npc.id())) {
-                            damage = (int) Math.floor(damage * 0.66F);
+                            damage = (int) (1 + (damage * 0.66D));
                             hit.setDamage(damage);
                             return true;
                         }
                     }
-                    hit.block();
+                    damage = (int) (1 + (damage * 0.4));
+                    hit.setDamage(damage);
                     return true;
                 }
             }

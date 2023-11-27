@@ -12,11 +12,7 @@ import com.cryptic.utility.Utils;
 public class NpcMovement extends MovementQueue {
 
     public NPC npc;
-    /**
-     * Creates a walking queue for the specified mob.
-     *
-     * @param entity The mob.
-     */
+
     public NpcMovement(Entity entity) {
         super(entity);
         this.npc = entity.getAsNpc();

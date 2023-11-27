@@ -95,6 +95,7 @@ public enum NewTeleData {
 
     BARROWS(new Tile(3565, 3306),"Barrows", "", MINIGAMES, MEDIUM),
     FIGHT_CAVE(new Tile(2440, 5172),"Fight Cave", "", MINIGAMES, MEDIUM),
+    DUEL_ARENA(new Tile(3367, 3266), "Duel Arena", "", MINIGAMES, MEDIUM),
 
     //Wilderness teleports
     MAGEBANK_WILD(new Tile(2539, 4715),"Magebank", "", WILDERNESS, MEDIUM),

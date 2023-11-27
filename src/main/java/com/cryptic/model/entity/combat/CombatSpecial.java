@@ -76,8 +76,8 @@ public enum CombatSpecial {
 
     DRAGON_SPEAR(new int[]{ItemIdentifiers.DRAGON_SPEAR, ItemIdentifiers.DRAGON_SPEARP, ItemIdentifiers.DRAGON_SPEARP_5716, ItemIdentifiers.DRAGON_SPEARP_5730}, 25, 1.0, 1.0, new DragonSpear(), WeaponType.SPEAR),
     ZAMORAKIAN_SPEAR(new int[]{ItemIdentifiers.ZAMORAKIAN_SPEAR}, 25, 1.0, 1.0, new ZamorakianSpear(), WeaponType.SPEAR),
-    ABYSSAL_TENTACLE(new int[]{ItemIdentifiers.ABYSSAL_TENTACLE}, 50, 1.0, 1.0, new AbyssalTentacle(), WeaponType.WHIP),
-    ABYSSAL_WHIP(new int[]{ItemIdentifiers.ABYSSAL_WHIP, ItemIdentifiers.VOLCANIC_ABYSSAL_WHIP, ItemIdentifiers.FROZEN_ABYSSAL_WHIP}, 50, 1.0, 1.25F, new AbyssalWhip(), WeaponType.WHIP),
+    ABYSSAL_TENTACLE(new int[]{ItemIdentifiers.ABYSSAL_TENTACLE, ItemIdentifiers.ABYSSAL_TENTACLE_OR}, 50, 1.0, 1.0, new AbyssalTentacle(), WeaponType.WHIP),
+    ABYSSAL_WHIP(new int[]{ItemIdentifiers.ABYSSAL_WHIP, ItemIdentifiers.VOLCANIC_ABYSSAL_WHIP, ItemIdentifiers.FROZEN_ABYSSAL_WHIP, ItemIdentifiers.ABYSSAL_WHIP_OR}, 50, 1.0, 1.25F, new AbyssalWhip(), WeaponType.WHIP),
     BLESSED_SARADOMIN_SWORD(new int[]{ItemIdentifiers.SARADOMINS_BLESSED_SWORD, ItemIdentifiers.SARAS_BLESSED_SWORD_FULL}, 65, 1.25, 1.0, new SaradominBlessedSword(), WeaponType.TWOHANDED),
     SARADOMIN_SWORD(new int[]{ItemIdentifiers.SARADOMIN_SWORD}, 100, 1.0, 1.0, new SaradominSword(), WeaponType.TWOHANDED),
     ANCIENT_MACE(new int[]{ItemIdentifiers.ANCIENT_MACE}, 100, 1.0, 1.0, new AncientMace(), WeaponType.MACE),

@@ -100,7 +100,7 @@ public class RangedData {
         MORRIGANS_THROWING_AXE(new int[]{ItemIdentifiers.MORRIGANS_THROWING_AXE}, RangedWeaponType.THROWING_AXES, false),
         MORRIGANS_JAVALIN(new int[]{MORRIGANS_JAVELIN}, RangedWeaponType.THROWING_AXES, false),
 
-        BALLISTA(new int[]{LIGHT_BALLISTA, HEAVY_BALLISTA}, RangedWeaponType.BALLISTA, true),
+        BALLISTA(new int[]{LIGHT_BALLISTA, HEAVY_BALLISTA, HEAVY_BALLISTA_OR}, RangedWeaponType.BALLISTA, true),
 
         TOXIC_BLOWPIPE(new int[]{ItemIdentifiers.TOXIC_BLOWPIPE}, RangedWeaponType.TOXIC_BLOWPIPE, false),
 

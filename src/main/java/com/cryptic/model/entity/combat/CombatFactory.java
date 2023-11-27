@@ -1478,7 +1478,7 @@ public class CombatFactory {
                 player.message("You can't use that ammo with your crossbow.");
                 return false;
             }
-        } else if (weaponId == 19478 || weaponId == 19481) { // Light & heavy ballista
+        } else if (weaponId == 19478 || weaponId == 19481 || weaponId == 26712) { // Light & heavy ballista
             if (!(ammoId >= 825 && ammoId <= 830) && !(ammoId >= 19484 && ammoId <= 19490)) {
                 player.message("You can't use that ammo with your Ballista.");
                 return false;
@@ -1508,6 +1508,7 @@ public class CombatFactory {
                 for (int ammo2 : bow.ammo) {
                     if (ammo == ammo2) {
                         ok = true;
+                        break;
                     }
                 }
             }
@@ -1524,6 +1525,7 @@ public class CombatFactory {
                     compatibleBolt = compatibleBolt.replaceAll("]", "").replaceAll("\\[", "");
                     if (ammo.toLowerCase().contains(compatibleBolt.toLowerCase())) {
                         ok = true;
+                        break;
                     }
                 }
             }
@@ -1585,7 +1587,9 @@ public class CombatFactory {
                 double roll = Math.random();
 
                 if (saveChance == 0.0 || roll >= saveChance) {
+
                     ammo.decrementAmountBy(ammoToRemove);
+
                     if (ammo.getAmount() == 0) {
                         player.getEquipment().remove(ammo, equipSlot, true);
                         player.getCombat().setRangedWeapon(null);

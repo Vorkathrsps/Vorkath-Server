@@ -475,6 +475,7 @@ public class EquipmentInfo {
                 case 20779: // H'ween 2016 hunting knife
                     return 7328;
                 case 21003: // Elder maul
+                case 27100:
                 case 30005: // Elder ice maul
                 case 21205:
                 case 7808: // Ancient warrior maul

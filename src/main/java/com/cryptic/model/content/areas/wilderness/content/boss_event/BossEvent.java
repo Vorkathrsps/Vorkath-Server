@@ -23,7 +23,7 @@ public enum BossEvent {
     }
 
     public String spawnLocation(Tile tile) {
-        if (tile.equals(new Tile(3166, 4788))) {
+        if (tile.equals(new Tile(3181, 3791))) {
             return "east of ::chins";
         } else if (tile.equals(new Tile(3304, 3898))) {
             return "north east of ::gdz";

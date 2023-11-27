@@ -537,6 +537,7 @@ public class EquipmentInfo {
 
                 case LIGHT_BALLISTA:
                 case HEAVY_BALLISTA:
+                case HEAVY_BALLISTA_OR:
                     return 7555;
 
                 case VIGGORAS_CHAINMACE:
@@ -669,7 +670,7 @@ public class EquipmentInfo {
             case 20593, 14487, 30003, 11802, 11804, 11806, 11808, 20368, 20370, 20372, 20374, 26233, 11838, 12808, 12809 -> { // blessed ss
                 return 7056;
             }
-            case LIGHT_BALLISTA, HEAVY_BALLISTA -> {
+            case LIGHT_BALLISTA, HEAVY_BALLISTA, HEAVY_BALLISTA_OR -> {
                 return 7219;
             }
             case 11824, TUMEKENS_SHADOW -> {

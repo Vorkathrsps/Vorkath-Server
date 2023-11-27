@@ -42,7 +42,7 @@ public enum CombatSpecial {
     ZARYTE_CROSSBOW(new int[]{ItemIdentifiers.ZARYTE_CROSSBOW}, 75, 1.10, 2.0, new ZaryteCrossbow(), WeaponType.CROSSBOW),
     ZARYTE_I(new int[]{ItemIdentifiers.ZARYTE_CROSSBOW}, 50, 1.40, 5.0, new ZaryteCrossbow(), WeaponType.CROSSBOW),
     DRAGON_CROSSBOW(new int[]{ItemIdentifiers.DRAGON_CROSSBOW}, 60, 1.30, 2.0, new DragonCrossbow(), WeaponType.CROSSBOW),
-    BALLISTA(new int[]{ItemIdentifiers.LIGHT_BALLISTA, ItemIdentifiers.HEAVY_BALLISTA, ItemIdentifiers.HEAVY_BALLISTA_23630}, 65, 1.25, 1.25, new Ballista(), WeaponType.THROWN),
+    BALLISTA(new int[]{ItemIdentifiers.LIGHT_BALLISTA, ItemIdentifiers.HEAVY_BALLISTA, ItemIdentifiers.HEAVY_BALLISTA_23630, ItemIdentifiers.HEAVY_BALLISTA_OR}, 65, 1.25, 1.25, new Ballista(), WeaponType.THROWN),
     DRAGON_THROWNAXE(new int[]{ItemIdentifiers.DRAGON_THROWNAXE, ItemIdentifiers.DRAGON_THROWNAXE_21207}, 25, 1.0, 1.0, new DragonThrownaxe(), WeaponType.THROWN),
     DRAGON_KNIFE(new int[]{ItemIdentifiers.DRAGON_KNIFE, ItemIdentifiers.DRAGON_KNIFEP, ItemIdentifiers.DRAGON_KNIFEP_22808, ItemIdentifiers.DRAGON_KNIFEP_22810}, 25, 1.0, 1.0, new DragonKnife(), WeaponType.THROWN),
     TOXIC_BLOWPIPE(new int[]{ItemIdentifiers.TOXIC_BLOWPIPE}, 50, 1.50, 1.50, new ToxicBlowpipeSpecialAttack(), WeaponType.THROWN),

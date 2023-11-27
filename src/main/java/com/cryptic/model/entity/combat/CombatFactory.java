@@ -11,6 +11,7 @@ import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.content.duel.Dueling;
 import com.cryptic.model.content.mechanics.MultiwayCombat;
 import com.cryptic.model.content.members.MemberZone;
+import com.cryptic.model.content.sigils.Sigil;
 import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.cryptic.model.content.teleport.Teleports;
@@ -789,6 +790,7 @@ public class CombatFactory {
         }
     }
 
+    static Sigil sigils = new Sigil();
     static PreDamageEffectHandler triggerDamageEffects = new PreDamageEffectHandler(new EquipmentDamageEffect());
     static PreAmmunitionDamageEffectHandler ammunitionDamageListener = new PreAmmunitionDamageEffectHandler(new AmmunitionDamageEffect());
 
@@ -919,6 +921,7 @@ public class CombatFactory {
         int damage = hit.getDamage();
 
         if (attacker instanceof Player player) {
+            sigils.prepare(player, target);
             triggerDamageEffects.triggerEffectForAttacker(player, combatType, hit);
         } else if (attacker instanceof NPC npc) {
             triggerDamageEffects.triggerEffectForAttacker(npc, combatType, hit);

@@ -11,9 +11,7 @@ import com.cryptic.model.World;
 import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.achievements.Achievements;
 import com.cryptic.model.content.areas.wilderness.content.RiskManagement;
-import com.cryptic.model.content.areas.wilderness.content.activity.WildernessActivity;
 import com.cryptic.model.content.areas.wilderness.content.activity.WildernessActivityManager;
-import com.cryptic.model.content.areas.wilderness.content.activity.impl.MysteriousActivity;
 import com.cryptic.model.content.areas.wilderness.content.boss_event.WildernessBossEvent;
 import com.cryptic.model.content.areas.wilderness.content.todays_top_pkers.TopPkers;
 import com.cryptic.model.content.areas.wilderness.slayer.WildernessSlayerCasket;
@@ -38,7 +36,6 @@ import com.cryptic.model.content.mechanics.promo.PaymentPromo;
 import com.cryptic.model.content.members.MemberFeatures;
 import com.cryptic.model.content.minigames.Minigame;
 import com.cryptic.model.content.minigames.MinigameManager;
-import com.cryptic.model.content.minigames.impl.fight_caves.FightCavesMinigame;
 import com.cryptic.model.content.packet_actions.GlobalStrings;
 import com.cryptic.model.content.presets.PresetManager;
 import com.cryptic.model.content.presets.Presetable;
@@ -53,14 +50,12 @@ import com.cryptic.model.content.raids.theatre.stage.RoomState;
 import com.cryptic.model.content.raids.theatre.stage.TheatreStage;
 import com.cryptic.model.content.raids.theatre.stage.TheatreState;
 import com.cryptic.model.content.security.AccountPin;
-import com.cryptic.model.content.sigils.SigilHandler;
 import com.cryptic.model.content.skill.Skillable;
 import com.cryptic.model.content.skill.impl.farming.Farming;
 import com.cryptic.model.content.skill.impl.hunter.Hunter;
 import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.content.skill.impl.slayer.SlayerRewards;
 import com.cryptic.model.content.skill.impl.slayer.slayer_partner.SlayerPartner;
-import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.cryptic.model.content.skill.perks.SkillingItems;
 import com.cryptic.model.content.tasks.TaskMasterManager;
 import com.cryptic.model.content.teleport.Teleports;
@@ -84,7 +79,6 @@ import com.cryptic.model.entity.combat.CombatSpecial;
 import com.cryptic.model.entity.combat.Venom;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.magic.spells.CombatSpells;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.KrakenInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.instance.NightmareInstance;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.cryptic.model.entity.combat.prayer.QuickPrayers;
@@ -93,7 +87,6 @@ import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.combat.skull.SkullType;
 import com.cryptic.model.entity.combat.skull.Skulling;
 import com.cryptic.model.entity.combat.weapon.WeaponInterfaces;
-import com.cryptic.model.entity.events.star.CrashedStar;
 import com.cryptic.model.entity.masks.Appearance;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.masks.impl.chat.ChatMessage;
@@ -115,7 +108,6 @@ import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.ItemContainer;
 import com.cryptic.model.items.container.bank.Bank;
-import com.cryptic.model.items.container.def.EquipmentLoader;
 import com.cryptic.model.items.container.equipment.Equipment;
 import com.cryptic.model.items.container.equipment.EquipmentInfo;
 import com.cryptic.model.items.container.inventory.Inventory;
@@ -133,7 +125,6 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.ControllerManager;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.model.map.region.Region;
-import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.model.map.route.routes.TargetRoute;
 import com.cryptic.network.Session;
 import com.cryptic.network.SessionHandler;
@@ -144,7 +135,6 @@ import com.cryptic.network.packet.outgoing.PacketSender;
 import com.cryptic.network.packet.outgoing.UnnecessaryPacketDropper;
 import com.cryptic.services.database.transactions.*;
 import com.cryptic.utility.*;
-import com.cryptic.utility.chainedwork.Chain;
 import com.cryptic.utility.timers.TimerKey;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFutureListener;
@@ -161,15 +151,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serial;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 import static com.cryptic.model.content.areas.wilderness.content.EloRating.DEFAULT_ELO_RATING;
@@ -1185,27 +1172,31 @@ public class Player extends Entity {
 
     @Override
     public int getBaseAttackSpeed() {
-        int speed;
+        int attackSpeed;
         Item weapon = this.getEquipment().get(EquipSlot.WEAPON);
         if (weapon == null) {
-            speed = 4;
+            attackSpeed = 4;
         } else {
-            speed = World.getWorld()
+            attackSpeed = World.getWorld()
                 .getEquipmentLoader()
                 .getInfo(weapon.getId())
                 .getEquipment()
                 .getAspeed();
         }
 
+        if (player().hasAttrib(FERAL_FIGHTER_ATTACKS_SPEED)) {
+            attackSpeed--;
+        }
+
         if (getCombat().getTarget() instanceof NPC && (getEquipment().contains(ItemIdentifiers.TOXIC_BLOWPIPE))) {
-            speed--;
+            attackSpeed--;
         }
 
         if (getCombat().getFightType().toString().toLowerCase().contains("rapid")) {
-            speed--;
+            attackSpeed--;
         }
 
-        return speed;
+        return attackSpeed;
     }
 
     @Override
@@ -3359,12 +3350,6 @@ public class Player extends Entity {
     }
 
     public boolean hitDrops;
-
-    public List<SigilHandler> activeSigils = Lists.newArrayList();
-
-    public List<SigilHandler> getActiveSigils() {
-        return activeSigils;
-    }
 
     public Tile recentTeleport;
 

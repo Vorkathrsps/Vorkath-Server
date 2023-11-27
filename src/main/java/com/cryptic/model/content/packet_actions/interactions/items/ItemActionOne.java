@@ -8,7 +8,7 @@ import com.cryptic.model.content.consumables.potions.Potions;
 import com.cryptic.model.content.duel.DuelRule;
 import com.cryptic.model.content.items.RockCake;
 import com.cryptic.model.content.items.tools.ItemPacks;
-import com.cryptic.model.content.sigils.SigilHandler;
+import com.cryptic.model.content.sigils.Sigil;
 import com.cryptic.model.content.skill.impl.herblore.Cleaning;
 import com.cryptic.model.content.skill.impl.hunter.Hunter;
 import com.cryptic.model.content.skill.impl.hunter.HunterItemPacks;
@@ -115,6 +115,10 @@ public class ItemActionOne {
             return;
         }
 
+        if (id == SIGIL_OF_THE_FERAL_FIGHTER_26075) {
+            return;
+        }
+
         if (id == ItemIdentifiers.IMBUED_HEART) {
             ImbuedHeart.activate(player);
             return;
@@ -178,11 +182,6 @@ public class ItemActionOne {
 
         if (id == 10008) {
             Hunter.lay(player, new Chinchompas(player));
-            return;
-        }
-
-        if (SigilHandler.isSigil(item.getId())) {
-            SigilHandler.handle(player, item.getId(), true, false);
             return;
         }
 

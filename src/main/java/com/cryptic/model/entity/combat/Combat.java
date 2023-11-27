@@ -323,6 +323,7 @@ public class Combat {
          * Set our common combat method
          */
         method = CombatFactory.getMethod(mob);
+
         if (method instanceof CommonCombatMethod) {
             ((CommonCombatMethod) method).set(mob, target);
         }

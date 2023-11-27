@@ -116,19 +116,15 @@ public class EquipmentInfo {
     public static int prayerBonuses(Player player) {
         int pray = 0;
 
-        EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo());
-
         if (Equipment.hasAmmyOfDamned(player) && Equipment.hasVerac(player)) {
             pray += 4;
         }
 
         for (int i = 0; i < 14; i++) {
             Item equipped = player.getEquipment().get(i);
+            var attackerBonus = World.getWorld().getEquipmentLoader().getInfo(equipped.getId()).getEquipment();
 
-            if (equipped != null) {
-
-                pray += attackerBonus.pray;
-            }
+            pray += attackerBonus.getPrayer();
         }
 
         return pray;
@@ -262,10 +258,6 @@ public class EquipmentInfo {
 
         public int[] bonuses() {
             return new int[]{stab, slash, crush, range, mage};
-        }
-
-        public String[] bonusesAtk() {
-            return new String[]{"Stab", "Slash", "Crush", "Range", "Mage"};
         }
 
         @Override

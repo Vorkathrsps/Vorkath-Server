@@ -52,10 +52,6 @@ public class NpcMovement extends MovementQueue {
     private void randomWalk() {
         if(!npc.isRandomWalkAllowed())
             return;
-        if(npc.def().walkingAnimation == npc.def().standingAnimation)
-            return;
-        if(npc.def().walkingAnimation == -1)
-            return;
         if (!npc.getMovement().isAtDestination())
             return;
         if(!World.getWorld().rollDie(8, 1))

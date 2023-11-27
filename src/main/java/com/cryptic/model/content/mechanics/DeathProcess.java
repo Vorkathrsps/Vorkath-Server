@@ -159,6 +159,7 @@ public class DeathProcess implements TheatreDeath {
             }
 
             player.clearAttrib(AttributeKey.LASTDEATH_VALUE);
+
             try {
                 var isSkulled = Skulling.skulled(player);
                 var result = DeathResult.create(player, killer, isSkulled, new ArrayList<>(), new ArrayList<>());
@@ -167,23 +168,23 @@ public class DeathProcess implements TheatreDeath {
                 var inventory = player.getInventory().getItems().clone();
                 var equipment = player.getEquipment().getItems().clone();
 
-                result
-                    .addBones()
-                    .processItems(inventory)
-                    .processItems(equipment)
-                    .withLootingBag(lootingBag)
-                    .processLootingBag()
-                    .withRunePouch(runePouch)
-                    .processRunePouch()
-                    .clearItems()
-                    .sortValue()
-                    .calculateItemsKept()
-                    .checkIronManStatus()
-                    .process();
+                if (!Dueling.in_duel(player)) {
+                    result
+                        .addBones()
+                        .processItems(inventory)
+                        .processItems(equipment)
+                        .withLootingBag(lootingBag)
+                        .processLootingBag()
+                        .withRunePouch(runePouch)
+                        .processRunePouch()
+                        .clearItems()
+                        .sortValue()
+                        .calculateItemsKept()
+                        .checkIronManStatus()
+                        .process();
 
-                DeathResult.logger.debug("DeathResult created with player: {}, skulled: {}, drop: {}, brokenItems: {}", result.player, result.skulled, result.itemList, result.untradeables);
-
-                mostdmg.ifPresent(value -> LootKey.handleDeath(player, value));
+                    mostdmg.ifPresent(value -> LootKey.handleDeath(player, value));
+                }
             } catch (Exception e) {
                 logger.error("Error dropping items and loot!", e);
             }

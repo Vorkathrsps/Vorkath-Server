@@ -265,23 +265,20 @@ public class World {
     }
 
     public void sequence() {
-        long start, end;
-        start = System.currentTimeMillis();
         Arrays.fill(section, false);
         npcRenderOrder = npcs.getRenderOrder();
         playerRenderOrder = players.getRenderOrder();
         shufflePid();
+        readPackets();
         processTasks();
         processObjects();
-        readPackets();
         readNpcs();
         readPlayers();
         processGpi();
         flush();
         elapsedTicks++;
-        end = System.currentTimeMillis();
-        System.out.println(end - start);
     }
+
     private void shufflePid() {
         long pidShuffleCounter = this.random().nextInt(100);
         if (GameServer.properties().enablePidShuffling) {

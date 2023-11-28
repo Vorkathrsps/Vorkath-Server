@@ -130,17 +130,19 @@ public class MagicCombatMethod extends CommonCombatMethod {
         final int delay = player.executeProjectile(p);
 
         Hit hit = new Hit(player, target, delay, this).checkAccuracy(true).submit();
-        if (hit.isAccurate()) {
-            target.performGraphic(new Graphic(endGraphic, endGraphicHeight, p.getSpeed()));
-            if (spell instanceof CombatEffectSpell combatEffectSpell) {
-                combatEffectSpell.whenSpellCast(player, target);
-                combatEffectSpell.spellEffect(player, target, hit);
+        if (hit != null) {
+            if (hit.isAccurate()) {
+                target.performGraphic(new Graphic(endGraphic, endGraphicHeight, p.getSpeed()));
+                if (spell instanceof CombatEffectSpell combatEffectSpell) {
+                    combatEffectSpell.whenSpellCast(player, target);
+                    combatEffectSpell.spellEffect(player, target, hit);
+                }
+            } else {
+                target.performGraphic(new Graphic(85, GraphicHeight.HIGH, p.getSpeed()));
             }
-        } else {
-            target.performGraphic(new Graphic(85, GraphicHeight.HIGH, p.getSpeed()));
-        }
 
-        spell.finishCast(player, target, hit.isAccurate(), hit.getDamage());
+            spell.finishCast(player, target, hit.isAccurate(), hit.getDamage());
+        }
         return true;
     }
 

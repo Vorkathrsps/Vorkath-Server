@@ -1,10 +1,7 @@
 package com.cryptic.model.content.sigils;
 
 import com.cryptic.model.content.sigils.data.SigilData;
-import com.cryptic.model.content.sigils.io.DeftStrikes;
-import com.cryptic.model.content.sigils.io.FeralFighter;
-import com.cryptic.model.content.sigils.io.MenacingMage;
-import com.cryptic.model.content.sigils.io.RuthlessRanger;
+import com.cryptic.model.content.sigils.io.*;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
@@ -16,7 +13,6 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Color;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Sigil extends PacketInteraction implements SigilListener {
@@ -32,6 +28,7 @@ public class Sigil extends PacketInteraction implements SigilListener {
         sigils.add(new MenacingMage());
         sigils.add(new RuthlessRanger());
         sigils.add(new DeftStrikes());
+        sigils.add(new MeticulousMage());
         return sigils;
     }
 

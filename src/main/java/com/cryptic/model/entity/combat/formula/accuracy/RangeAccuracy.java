@@ -105,7 +105,6 @@ public class RangeAccuracy {
                 effectiveLevel *= specialMultiplier;
             }
         }
-        System.out.println(modifier);
         effectiveLevel = modification > 0 ? Math.floor(effectiveLevel * modification) : effectiveLevel;
         effectiveLevel = (int) Math.floor(effectiveLevel + 8);
         return (int) Math.floor(effectiveLevel);

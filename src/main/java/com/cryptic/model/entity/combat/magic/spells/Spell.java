@@ -225,6 +225,14 @@ public abstract class Spell {
                     delete = false;
                 }
 
+
+                if (player.hasAttrib(AttributeKey.METICULOUS_MAGE) && target instanceof NPC) {
+                    if (Utils.rollDie(50, 1)) {
+                        player.message(Color.RED.wrap("Your sigil negated your runes for this cast."));
+                        delete = false;
+                    }
+                }
+
                 // We've made it through the checks, so we have the items and can
                 // remove them now.
                 if (delete) {

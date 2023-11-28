@@ -3,6 +3,7 @@ package com.cryptic.model.content.sigils;
 import com.cryptic.model.content.sigils.data.SigilData;
 import com.cryptic.model.content.sigils.io.*;
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
@@ -52,6 +53,12 @@ public class Sigil extends PacketInteraction implements SigilListener {
 
     @Override
     public boolean handleItemInteraction(Player player, Item item, int option) {
+        var total = player.<Integer>getAttribOr(AttributeKey.TOTAL_SIGILS_ACTIVATED, 0);
+        int activationCap = 3;
+        switch (player.getMemberRights()) {
+            case DIAMOND_MEMBER, DRAGONSTONE_MEMBER -> activationCap = 4;
+            case ONYX_MEMBER, ZENYTE_MEMBER -> activationCap = 5;
+        }
         if (option == 1) {
             for (var sigil : SigilData.values()) {
                 if (item.getId() == sigil.unattuned) {
@@ -59,7 +66,13 @@ public class Sigil extends PacketInteraction implements SigilListener {
                         player.message(Color.RED.wrap("You cannot have more than one of the same sigil activated."));
                         return false;
                     }
+                    if (total == activationCap) {
+                        player.message(Color.RED.wrap("You can only have " + activationCap + " sigil's activated at one time."));
+                        return false;
+                    }
+                    total += 1;
                     player.putAttrib(sigil.attributeKey, true);
+                    player.putAttrib(AttributeKey.TOTAL_SIGILS_ACTIVATED, total);
                     player.animate(713);
                     player.graphic(1970, GraphicHeight.HIGH, 20);
                     player.getInventory().replace(sigil.unattuned, sigil.attuned, true);
@@ -69,6 +82,8 @@ public class Sigil extends PacketInteraction implements SigilListener {
         } else if (option == 2) {
             for (var sigil : SigilData.values()) {
                 if (item.getId() == sigil.attuned) {
+                    total -= 1;
+                    player.putAttrib(AttributeKey.TOTAL_SIGILS_ACTIVATED, total);
                     player.clearAttrib(sigil.attributeKey);
                     player.getInventory().replace(sigil.attuned, sigil.unattuned, true);
                     return true;

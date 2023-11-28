@@ -19,7 +19,17 @@ public class MeticulousMage extends AbstractSigilHandler {
     protected void applyBoost(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy) {
         if (!attuned(player)) return;
         if (!(target instanceof NPC)) return;
-        magicAccuracy.modifier += 1.20;
+        var boost = 1.20;
+        switch (player.getMemberRights()) {
+            case RUBY_MEMBER -> boost = 1.21;
+            case SAPPHIRE_MEMBER -> boost = 1.22;
+            case EMERALD_MEMBER -> boost = 1.23;
+            case DIAMOND_MEMBER -> boost = 1.24;
+            case DRAGONSTONE_MEMBER -> boost = 1.25;
+            case ONYX_MEMBER -> boost = 1.26;
+            case ZENYTE_MEMBER -> boost = 1.27;
+        }
+        magicAccuracy.modifier += boost;
     }
 
     @Override

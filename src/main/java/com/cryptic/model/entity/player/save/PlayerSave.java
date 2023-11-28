@@ -254,6 +254,7 @@ public class PlayerSave {
                 }
             }
             player.putAttrib(LOOT_KEYS_CARRIED, details.lootKeysCarried);
+            player.putAttrib(TOTAL_SIGILS_ACTIVATED, details.totalSigilsActivated);
             player.putAttrib(LOOT_KEYS_LOOTED, details.lootKeysLooted);
             player.putAttrib(TOTAL_LOOT_KEYS_VALUE, details.totalLootKeysValue);
             player.putAttrib(LOOT_KEYS_UNLOCKED, details.lootKeysUnlocked);
@@ -890,7 +891,8 @@ public class PlayerSave {
         @Expose
         private final HashMap<Integer, Item[]> lootKeys;
         private int lootKeysCarried;
-        private final List<AttributeKey> sigils;
+        @Expose private final List<AttributeKey> sigils;
+        private int totalSigilsActivated;
         private int lootKeysLooted;
         private long totalLootKeysValue;
         private boolean lootKeysUnlocked;
@@ -1497,6 +1499,7 @@ public class PlayerSave {
                     sigils.add(s.attributeKey);
                 }
             }
+            totalSigilsActivated = Player.getAttribIntOr(player, TOTAL_SIGILS_ACTIVATED, 0);
             lootKeys = new HashMap<>();
             if (LootKey.infoForPlayer(player) != null) {
                 for (int i = 0; i < LootKey.infoForPlayer(player).keys.length; i++) {

@@ -19,6 +19,7 @@ public enum AttributeKey {
     ACTIVE_THRALL,
 
     LOOT_KEYS_CARRIED("loot_keys_carried", AttribType.INTEGER),
+    TOTAL_SIGILS_ACTIVATED("sigils_activated", AttribType.INTEGER),
 
     // Withdraws the loot key items in noted form
     LOOT_KEY_WITHDRAW_LOOT_TYPE,

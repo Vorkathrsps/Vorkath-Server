@@ -122,9 +122,11 @@ public class EquipmentInfo {
 
         for (int i = 0; i < 14; i++) {
             Item equipped = player.getEquipment().get(i);
-            var attackerBonus = World.getWorld().getEquipmentLoader().getInfo(equipped.getId()).getEquipment();
+            if (equipped != null) {
+                var attackerBonus = World.getWorld().getEquipmentLoader().getInfo(equipped.getId()).getEquipment();
 
-            pray += attackerBonus.getPrayer();
+                pray += attackerBonus.getPrayer();
+            }
         }
 
         return pray;

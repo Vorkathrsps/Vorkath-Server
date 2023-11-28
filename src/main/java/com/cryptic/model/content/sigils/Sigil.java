@@ -1,10 +1,14 @@
 package com.cryptic.model.content.sigils;
 
 import com.cryptic.model.content.sigils.data.SigilData;
+import com.cryptic.model.content.sigils.io.DeftStrikes;
 import com.cryptic.model.content.sigils.io.FeralFighter;
 import com.cryptic.model.content.sigils.io.MenacingMage;
 import com.cryptic.model.content.sigils.io.RuthlessRanger;
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
+import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
+import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
@@ -12,6 +16,7 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Color;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Sigil extends PacketInteraction implements SigilListener {
@@ -26,6 +31,7 @@ public class Sigil extends PacketInteraction implements SigilListener {
         sigils.add(new FeralFighter());
         sigils.add(new MenacingMage());
         sigils.add(new RuthlessRanger());
+        sigils.add(new DeftStrikes());
         return sigils;
     }
 
@@ -39,28 +45,35 @@ public class Sigil extends PacketInteraction implements SigilListener {
     }
 
     @Override
+    public void sigilAccuracyBonus(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy) {
+        for (var sigil : handler) {
+            if (sigil.attuned(player)) {
+                sigil.applyBoost(player, target, rangeAccuracy, magicAccuracy, meleeAccuracy);
+            }
+        }
+    }
+
+    @Override
     public boolean handleItemInteraction(Player player, Item item, int option) {
         if (option == 1) {
-            for (var s : SigilData.values()) {
-                if (player.hasAttrib(s.attributeKey)) {
-                    player.message(Color.RED.wrap("You cannot have more than one of the same sigil activated."));
-                    return false;
-                }
-                if (item.getId() == s.unattuned) {
-                    player.putAttrib(s.attributeKey, true);
+            for (var sigil : SigilData.values()) {
+                if (item.getId() == sigil.unattuned) {
+                    if (player.hasAttrib(sigil.attributeKey)) {
+                        player.message(Color.RED.wrap("You cannot have more than one of the same sigil activated."));
+                        return false;
+                    }
+                    player.putAttrib(sigil.attributeKey, true);
                     player.animate(713);
                     player.graphic(1970, GraphicHeight.HIGH, 20);
-                    player.getInventory().remove(s.unattuned);
-                    player.getInventory().add(s.attuned);
+                    player.getInventory().replace(sigil.unattuned, sigil.attuned, true);
                     return true;
                 }
             }
         } else if (option == 2) {
-            for (var s : SigilData.values()) {
-                if (item.getId() == s.attuned) {
-                    player.clearAttrib(s.attributeKey);
-                    player.getInventory().remove(s.attuned);
-                    player.getInventory().add(s.unattuned);
+            for (var sigil : SigilData.values()) {
+                if (item.getId() == sigil.attuned) {
+                    player.clearAttrib(sigil.attributeKey);
+                    player.getInventory().replace(sigil.attuned, sigil.unattuned, true);
                     return true;
                 }
             }

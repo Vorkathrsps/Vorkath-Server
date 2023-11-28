@@ -2,8 +2,11 @@ package com.cryptic.model.entity.combat.formula.accuracy;
 
 import com.cryptic.model.World;
 
+import com.cryptic.model.content.sigils.Sigil;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.damagehandler.PreDamageEffectHandler;
 import com.cryptic.model.entity.combat.damagehandler.impl.EquipmentDamageEffect;
@@ -18,6 +21,7 @@ import com.cryptic.model.items.container.equipment.EquipmentInfo;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.management.Attribute;
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -95,11 +99,13 @@ public class RangeAccuracy {
         if (this.attacker instanceof Player player) {
             this.handler.triggerRangeAccuracyModificationAttacker(player, this.combatType, this);
             if (fightStyle == FightStyle.ACCURATE) effectiveLevel = (int) Math.floor(effectiveLevel + 3);
+
             if (player.getCombatSpecial() != null && player.isSpecialActivated()) {
                 specialMultiplier = player.getCombatSpecial().getAccuracyMultiplier();
                 effectiveLevel *= specialMultiplier;
             }
         }
+        System.out.println(modifier);
         effectiveLevel = modification > 0 ? Math.floor(effectiveLevel * modification) : effectiveLevel;
         effectiveLevel = (int) Math.floor(effectiveLevel + 8);
         return (int) Math.floor(effectiveLevel);

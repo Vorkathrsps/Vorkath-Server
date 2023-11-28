@@ -6,6 +6,7 @@ import com.cryptic.model.content.achievements.Achievements;
 import com.cryptic.model.content.bank_pin.BankPinModification;
 import com.cryptic.model.content.collection_logs.Collection;
 import com.cryptic.model.content.presets.Presetable;
+import com.cryptic.model.content.sigils.data.SigilData;
 import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportData;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -245,6 +246,11 @@ public class PlayerSave {
                         ic.addAll(integerEntry.getValue());
                         LootKey.infoForPlayer(player).keys[integerEntry.getKey()] = new LootKey(ic, ic.containerValue());
                     }
+                }
+            }
+            if (details.sigils != null) {
+                for (var s : details.sigils) {
+                    player.putAttrib(s, true);
                 }
             }
             player.putAttrib(LOOT_KEYS_CARRIED, details.lootKeysCarried);
@@ -884,6 +890,7 @@ public class PlayerSave {
         @Expose
         private final HashMap<Integer, Item[]> lootKeys;
         private int lootKeysCarried;
+        private final List<AttributeKey> sigils;
         private int lootKeysLooted;
         private long totalLootKeysValue;
         private boolean lootKeysUnlocked;
@@ -1484,6 +1491,12 @@ public class PlayerSave {
             fightTypeVarpState = player.getCombat().getFightType().getChildId();
             autoRetaliate = player.getCombat().hasAutoReliateToggled();
             previousSpellbook = player.getPreviousSpellbook();
+            sigils = new ArrayList<>();
+            for (var s : SigilData.values()) {
+                if (player.hasAttrib(s.attributeKey)) {
+                    sigils.add(s.attributeKey);
+                }
+            }
             lootKeys = new HashMap<>();
             if (LootKey.infoForPlayer(player) != null) {
                 for (int i = 0; i < LootKey.infoForPlayer(player).keys.length; i++) {

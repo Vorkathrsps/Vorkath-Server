@@ -3,9 +3,11 @@ package com.cryptic.model.content.sigils.io;
 import com.cryptic.model.content.sigils.AbstractSigilHandler;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
+import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
+import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
-import com.cryptic.model.entity.combat.method.impl.MagicCombatMethod;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
@@ -48,6 +50,10 @@ public class MenacingMage extends AbstractSigilHandler {
     }
 
     @Override
+    protected void applyBoost(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy) {
+    }
+
+    @Override
     protected boolean attuned(Player player) {
         return player.hasAttrib(AttributeKey.MENACING_MAGE);
     }
@@ -56,4 +62,5 @@ public class MenacingMage extends AbstractSigilHandler {
     protected boolean activated(Player player) {
         return player.hasAttrib(AttributeKey.MENACING_CURSE);
     }
+
 }

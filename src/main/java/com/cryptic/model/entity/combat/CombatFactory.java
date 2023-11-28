@@ -790,7 +790,7 @@ public class CombatFactory {
         }
     }
 
-    static Sigil sigils = new Sigil();
+    public static Sigil sigils = new Sigil();
     static PreDamageEffectHandler triggerDamageEffects = new PreDamageEffectHandler(new EquipmentDamageEffect());
     static PreAmmunitionDamageEffectHandler ammunitionDamageListener = new PreAmmunitionDamageEffectHandler(new AmmunitionDamageEffect());
 

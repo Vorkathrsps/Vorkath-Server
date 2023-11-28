@@ -3,6 +3,9 @@ package com.cryptic.model.content.sigils.io;
 import com.cryptic.model.content.sigils.AbstractSigilHandler;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
+import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
+import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
@@ -34,6 +37,11 @@ public class FeralFighter extends AbstractSigilHandler {
     }
 
     @Override
+    protected void applyBoost(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy) {
+
+    }
+
+    @Override
     protected boolean attuned(Player player) {
         return player.hasAttrib(AttributeKey.FERAL_FIGHTER);
     }
@@ -42,4 +50,5 @@ public class FeralFighter extends AbstractSigilHandler {
     protected boolean activated(Player player) {
         return player.hasAttrib(AttributeKey.FERAL_FIGHTER_ATTACKS_SPEED);
     }
+
 }

@@ -32,6 +32,7 @@ import com.cryptic.model.items.container.presets.PresetData;
 import com.cryptic.model.items.container.shop.Shop;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
+import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.object.OwnedObject;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.Flags;
@@ -264,61 +265,181 @@ public class World {
         return elapsedTicks;
     }
 
+    /**
+     * Executes the game sequence.
+     */
     public void sequence() {
-        Arrays.fill(section, false);
-        npcRenderOrder = npcs.getRenderOrder();
-        playerRenderOrder = players.getRenderOrder();
-        shufflePid();
-        readPackets();
+        resetSection();
+        shufflePlayerRenderOrder();
+        readPlayerPackets();
         processTasks();
         processObjects();
         readNpcs();
         readPlayers();
         processGpi();
-        flush();
-        elapsedTicks++;
+        flushEntities();
+        incrementElapsedTicks();
     }
 
-    private void shufflePid() {
-        long pidShuffleCounter = this.random().nextInt(100);
+    /**
+     * Resets the section array to false.
+     */
+    private void resetSection() {
+        Arrays.fill(section, false);
+    }
+
+    /**
+     * Shuffles the player render order if enabled in the server properties.
+     */
+    private void shufflePlayerRenderOrder() {
         if (GameServer.properties().enablePidShuffling) {
+            long pidShuffleCounter = World.getWorld().random().nextInt(100);
             long pidIntervalTicks = GameServer.properties().pidIntervalTicks;
             if (pidShuffleCounter % pidIntervalTicks == 0) {
                 players.shuffleRenderOrder();
             }
         }
     }
+
+    /**
+     * Processes all scheduled tasks.
+     */
     private static void processTasks() {
         try {
             TaskManager.sequence();
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
-        try {
             MinigameManager.onTick();
             StarEventTask.checkDepletionTask();
-        } catch (Throwable t) {
-            t.printStackTrace();
+        } catch (Exception e) {
+            logger.error("Error occurred while processing tasks: " + e.getMessage());
+            e.printStackTrace();
         }
     }
-    private void flush() {
-        for (var n : npcRenderOrder) {
-            if (n != null && checkIndex(n, NodeType.NPC)) {
-                NPC npc = npcs.get(n);
+
+    /**
+     * Processes all objects owned by the game.
+     */
+    private void processObjects() {
+        for (OwnedObject object : ownedObjects.values()) {
+            if (object != null) {
+                try {
+                    object.tick();
+                } catch (Exception e) {
+                    logger.error("Error occurred while processing object: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * Reads packets from all connected players.
+     */
+    private void readPlayerPackets() {
+        for (Player player : players) {
+            if (player != null) {
+                try {
+                    player.getSession().read();
+                    player.getSession().handleQueuedPackets();
+                    player.syncContainers();
+                } catch (Exception e) {
+                    logger.error("Error occurred while reading player packets: " + e.getMessage());
+                    e.printStackTrace();
+                    World.getWorld().getPlayers().remove(player);
+                }
+            }
+        }
+    }
+
+    /**
+     * Reads and processes all NPCs in the game.
+     */
+    private void readNpcs() {
+        for (NPC npc : npcs) {
+            if (npc != null && !npc.hidden() && checkIndex(npc.getIndex(), NodeType.NPC)) {
+                try {
+                    npc.sequence();
+                    npc.inViewport(false);
+                    npc.processed = true;
+                } catch (Exception e) {
+                    logger.error("Error occurred while processing NPC: " + e.getMessage());
+                    e.printStackTrace();
+                    World.getWorld().unregisterNpc(npc);
+                }
+            }
+        }
+    }
+
+    /**
+     * Reads and processes all players in the game.
+     */
+    private void readPlayers() {
+        for (Player player : players) {
+            if (player != null && checkIndex(player.getIndex(), NodeType.PLAYER)) {
+                try {
+                    player.sequence();
+                    player.syncContainers();
+                    player.processed = true;
+                } catch (Exception e) {
+                    logger.error("Error occurred while processing player: " + e.getMessage());
+                    e.printStackTrace();
+                    World.getWorld().getPlayers().remove(player);
+                }
+            }
+        }
+    }
+
+    /**
+     * Processes game packet updates for all players and NPCs.
+     */
+    private void processGpi() {
+        for (Player player : players) {
+            if (player != null && checkIndex(player.getIndex(), NodeType.PLAYER)) {
+                try {
+                    PlayerUpdating.update(player);
+                    NPCUpdating.update(player);
+                } catch (Exception e) {
+                    logger.error("Error occurred while processing GPI: " + e.getMessage());
+                    e.printStackTrace();
+                    World.getWorld().getPlayers().remove(player);
+                }
+            }
+        }
+    }
+
+    /**
+     * Flushes all entities that need to be updated.
+     */
+    private void flushEntities() {
+        flushNpcs();
+        flushPlayers();
+    }
+
+    /**
+     * Flushes all NPCs that need to be updated.
+     */
+    private void flushNpcs() {
+        for (NPC npc : npcs) {
+            if (npc != null && checkIndex(npc.getIndex(), NodeType.NPC)) {
                 try {
                     npc.resetUpdating();
                     npc.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
                     npc.performance.reset();
                     npc.processed = false;
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
+                } catch (Exception e) {
+                    logger.error("Error occurred while flushing NPC: " + e.getMessage());
+                    e.printStackTrace();
                     World.getWorld().unregisterNpc(npc);
                 }
             }
         }
-        for (var p : playerRenderOrder) {
-            if (p != null && checkIndex(p, NodeType.PLAYER)) {
-                Player player = players.get(p);
+    }
+
+    /**
+     * Flushes all players that need to be updated.
+     */
+    private void flushPlayers() {
+        for (Player player : players) {
+            if (player != null && checkIndex(player.getIndex(), NodeType.PLAYER)) {
                 try {
                     player.resetUpdating();
                     player.clearAttrib(AttributeKey.CACHED_PROJECTILE_STATE);
@@ -326,85 +447,20 @@ public class World {
                     player.getSession().flush();
                     player.perf.pulse();
                     player.processed = false;
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
+                } catch (Exception e) {
+                    logger.error("Error occurred while flushing player: " + e.getMessage());
+                    e.printStackTrace();
                     World.getWorld().getPlayers().remove(player);
                 }
             }
         }
     }
-    private void processGpi() {
-        for (var p : playerRenderOrder) {
-            if (p != null && checkIndex(p, NodeType.PLAYER)) {
-                Player player = players.get(p);
-                try {
-                    PlayerUpdating.update(player);
-                    NPCUpdating.update(player);
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                    World.getWorld().getPlayers().remove(player);
-                }
-            }
-        }
-    }
-    private void readPlayers() {
-        for (var p : playerRenderOrder) {
-            if (p != null && checkIndex(p, NodeType.PLAYER)) {
-                Player player = players.get(p);
-                try {
-                    player.sequence();
-                    player.syncContainers();
-                    player.processed = true;
-                } catch (
-                    Throwable t) {
-                    t.printStackTrace();
-                    World.getWorld().getPlayers().remove(player);
-                }
-            }
-        }
-    }
-    private void readNpcs() {
-        for (var n : npcRenderOrder) {
-            if (n != null && checkIndex(n, NodeType.NPC)) {
-                NPC npc = npcs.get(n);
-                try {
-                    if (npc != null && !npc.hidden()) {
-                        npc.sequence();
-                        npc.inViewport(false);
-                        npc.processed = true;
-                    }
-                } catch (Throwable t) {
-                    t.printStackTrace();
-                    World.getWorld().getNpcs().remove(npc);
-                }
-            }
-        }
-    }
-    private void processObjects() {
-        for (var o : ownedObjects.values()) {
-            if (o != null) {
-                try {
-                    o.tick();
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
-            }
-        }
-    }
-    private void readPackets() {
-        for (var p : playerRenderOrder) {
-            if (p != null && checkIndex(p, NodeType.PLAYER)) {
-                Player player = players.get(p);
-                try {
-                    player.getSession().read();
-                    player.getSession().handleQueuedPackets();
-                    player.syncContainers();
-                } catch (Throwable t) {
-                    t.printStackTrace();
-                    World.getWorld().getPlayers().remove(player);
-                }
-            }
-        }
+
+    /**
+     * Increments the elapsed ticks counter.
+     */
+    private void incrementElapsedTicks() {
+        elapsedTicks++;
     }
 
     /**

@@ -118,17 +118,18 @@ public class NPCUpdating {
     }
 
     public static Tile face(NPC npc) {
-        npc.tile();
-        Tile dir = switch (npc.spawnDirection()) {
-            case 1 -> npc.tile().transform(0, 10); // n
-            case 6 -> npc.tile().transform(0, -10); // s
-            case 4 -> npc.tile().transform(10, 0); // e
-            case 3 -> npc.tile().transform(-10, 0); // w
-            case 0 -> npc.tile().transform(-10, 10); // se
-            case 2 -> npc.tile().transform(10, 10); // ne
-            case 5 -> npc.tile().transform(-10, -10); // sw
-            case 7 -> npc.tile().transform(10, -10);
-            default -> npc.tile(); // nw
+        Tile currentTile = npc.tile();
+        int spawnDirection = npc.spawnDirection();
+        Tile dir = switch (spawnDirection) {
+            case 1 -> currentTile.transform(0, 10); // n
+            case 6 -> currentTile.transform(0, -10); // s
+            case 4 -> currentTile.transform(10, 0); // e
+            case 3 -> currentTile.transform(-10, 0); // w
+            case 0 -> currentTile.transform(-10, 10); // se
+            case 2 -> currentTile.transform(10, 10); // ne
+            case 5 -> currentTile.transform(-10, -10); // sw
+            case 7 -> currentTile.transform(10, -10); // nw
+            default -> currentTile; // default case
         };
         return dir;
     }

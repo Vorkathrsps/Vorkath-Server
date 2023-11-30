@@ -141,7 +141,21 @@ public class PlayerSave {
                 logger.error("Error during save process for player: " + player.getUsername(), e);
                 return false;
             }
-        }, executor);
+        }, executor).handle((result, exception) -> {
+            if (exception != null) {
+                if (exception instanceof RuntimeException && exception.getMessage().contains("The process cannot access the file")) {
+                    // Retry the save process after a delay
+                    try {
+                        Thread.sleep(1000); // Wait for 1 second before retrying
+                    } catch (InterruptedException ignored) {
+                    }
+                    return saveAsync(player).join();
+                } else {
+                    throw new RuntimeException("Error during file save: " + exception.getMessage(), exception);
+                }
+            }
+            return result;
+        });
     }
 
 
@@ -2024,7 +2038,9 @@ public class PlayerSave {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
+                if (Files.exists(path)) {
+                    Files.delete(path);
+                }
                 Files.move(tempFile, path, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
                 // Handle the exception (e.g., log the error)

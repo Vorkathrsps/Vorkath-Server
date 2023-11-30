@@ -14,6 +14,7 @@ public class FeralFighter extends AbstractSigilHandler {
     @Override
     protected void process(Player player, Entity target) {
         if (!attuned(player)) return;
+        if (player.getCombat().getCombatType() == null) return;
         if (!player.getCombat().getCombatType().isMelee()) return;
         if (player.getCombat().getTarget() instanceof Player) return;
         var delay = 12;

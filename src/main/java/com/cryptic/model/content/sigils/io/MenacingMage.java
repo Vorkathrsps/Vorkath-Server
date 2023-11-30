@@ -18,6 +18,7 @@ public class MenacingMage extends AbstractSigilHandler {
     @Override
     protected void process(Player player, Entity target) {
         if (!attuned(player)) return;
+        if (player.getCombat().getCombatType() == null) return;
         if (!player.getCombat().getCombatType().isMagic()) return;
         if (player.getCombat().getTarget() instanceof Player) return;
         var damage = 2;

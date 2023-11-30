@@ -109,7 +109,7 @@ public class NPC extends Entity {
 
     public boolean isRandomWalkAllowed() {
         boolean canwalk = walkRadius > 0 &&
-            spawnArea != null
+            spawnArea != null && inViewport
             && !hidden()
             && getMovement().isAtDestination()
             && !locked()

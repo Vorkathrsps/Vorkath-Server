@@ -174,7 +174,7 @@ public class PriceChecker extends ItemContainer {
                 int price = getItems()[index].noted() ? getItems()[index].unnote().getValue() : getItems()[index].getValue();
                 int amount = getItems()[index].getAmount();
 
-                value = getItems()[index].stackable() ? Utils.format(amount) + " x " + Utils.formatPrice(price) + "<br>" + "= " + Utils.formatPrice(price * amount) : Utils.formatPrice(price);
+                value = getItems()[index].stackable() ? Utils.formatPrice(price * amount) : Utils.formatPrice(price);
             }
 
             player.getPacketSender().sendString(STRINGS[index], value);

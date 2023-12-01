@@ -5,8 +5,12 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.areas.Controller;
+import com.cryptic.utility.Color;
+import com.cryptic.utility.TimeClock;
 import com.cryptic.utility.Utils;
 
+import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.Collections;
 
 import static com.cryptic.model.content.raids.party.Party.*;
@@ -14,11 +18,12 @@ import static com.cryptic.model.entity.attributes.AttributeKey.PERSONAL_POINTS;
 
 /**
  * @author Origin | May, 10, 2021, 18:44
- * 
  */
 public class COXArea extends Controller {
 
-    private static final int POINTS_WIDGET = 12000;
+    public static final int POINTS_WIDGET = 12000;
+    TimeClock timeClock = new TimeClock();
+
 
     public COXArea() {
         super(Collections.emptyList());
@@ -26,7 +31,6 @@ public class COXArea extends Controller {
 
     @Override
     public void enter(Player player) {
-
     }
 
     @Override
@@ -37,9 +41,9 @@ public class COXArea extends Controller {
     public void process(Player player) {
         var party = player.raidsParty;
         if (party != null) {
-            player.getPacketSender().sendString(NAME_FRAME, player.getUsername() + ":");
-            player.getPacketSender().sendString(TOTAL_POINTS, "" + Utils.formatNumber(party.totalPoints()));
-            player.getPacketSender().sendString(POINTS, "" + Utils.formatNumber(player.<Integer>getAttribOr(PERSONAL_POINTS, 0)));
+            player.getPacketSender().sendString(TOTAL_POINTS, Color.WHITE.wrap("Total: " + Utils.formatNumber(party.totalPoints())));
+            player.getPacketSender().sendString(POINTS, Color.WHITE.wrap(player.getUsername() + ": " + Utils.formatNumber(player.<Integer>getAttribOr(PERSONAL_POINTS, 0))));
+            player.getPacketSender().sendString(12005, Color.WHITE.wrap("Time: " + timeClock.currentTimeClock()));
         }
         player.getInterfaceManager().sendOverlay(POINTS_WIDGET);
 

@@ -25,10 +25,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.SecureRandom;
 import java.text.*;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -43,10 +40,14 @@ public class Utils {
 
     private static final Logger logger = LogManager.getLogger(Utils.class);
 
-    /** The time correction. */
+    /**
+     * The time correction.
+     */
     private static long timeCorrection;
 
-    /** The last time update. */
+    /**
+     * The last time update.
+     */
     private static long lastTimeUpdate;
 
     public static synchronized long currentTimeMillis() {
@@ -84,7 +85,7 @@ public class Utils {
             xs[(4 + ((size - fakeSize) * 4)) + 3] = -fakeSize + 1;
             xy[(4 + ((size - fakeSize) * 4)) + 3] = -size;
         }
-        return new int[][] { xs, xy };
+        return new int[][]{xs, xy};
     }
 
     public static boolean sequenceRandomInterval(int count, int min, int max) {
@@ -486,6 +487,7 @@ public class Utils {
         SecureRandom srand = new SecureRandom();
         return srand.nextDouble() <= chance;
     }
+
     public static boolean percentageChance(int chance) {
         return RANDOM_GEN.nextInt(100) < chance;
     }
@@ -983,8 +985,18 @@ public class Utils {
      * @return
      */
     public static String format(final int amount) {
-        String string = Integer.toString(amount);
-        return string;
+        if (amount >= 1_000_000_000) {
+            double billions = amount / 1_000_000_000D;
+            return String.format("%.1fb", billions);
+        } else if (amount >= 1_000_000) {
+            double millions = amount / 1_000_000D;
+            return String.format("%.1fm", millions);
+        } else if (amount >= 1_000) {
+            double thousands = amount / 1_000D;
+            return String.format("%.1fk", thousands);
+        } else {
+            return Integer.toString(amount);
+        }
     }
 
     /**
@@ -1502,7 +1514,7 @@ public class Utils {
         "n3t", "c  0 m", "c 0 m", "C 0  m",
         "c  o  m", "runeinsanity", "runeinsanit", "runeinsan",
         "rune-insanity", "rune-insanit", ".c0", ".c0m",
-        "legendsdomain", "createaforum", "vampirez", "-scape",  "os-base",
+        "legendsdomain", "createaforum", "vampirez", "-scape", "os-base",
         "rswebclients", "pvplegacy", "junglepk", ".n3t",
         "n3t", ".tk", ",net", ",runescape", "pvpmaster", "pvpmasters",
         "PvPMasters.", ",org", ",com", ",be", ",nl", ",info", "dspk",
@@ -1513,7 +1525,7 @@ public class Utils {
         ".e u", ".d e", ".c c", ".(c)om", "kandarin", "o r g", "www",
         "w w w", "w.w.w", "voidrsps", "void-ps", "desolace", "ikov", "soulsplit",
         "soulspawn", "atiloc", "@cr", "@red", "@whi", "@bla", "@blu",
-        "@or1", "@yel", "@gre", "@dre", "@pur", "@cya","i k o v", "ik0v", "<img=", "@cr", ":tradereq:", ":duelreq:",
+        "@or1", "@yel", "@gre", "@dre", "@pur", "@cya", "i k o v", "ik0v", "<img=", "@cr", ":tradereq:", ":duelreq:",
         "<trans", "<str", "<shad=", "hostilityps", "hostilityp", "hostility ps"
         , "0s-base", "os -base", "os - base", "o s b a s e", "o s - b a s e", "spawnpk", "runex"};
 
@@ -1845,7 +1857,7 @@ public class Utils {
     }
 
     public static File get(String path) {
-        if(File.separator.equals("/"))
+        if (File.separator.equals("/"))
             path = path.replace("\\", File.separator);
         else
             path = path.replace("/", File.separator);

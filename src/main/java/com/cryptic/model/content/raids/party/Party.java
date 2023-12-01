@@ -30,7 +30,7 @@ public class Party {
     public static final int REWARDS_CONTAINER_ID = 12137;
     public static final int TOTAL_POINTS = 12003;
     public static final int NAME_FRAME = 12004;
-    public static final int POINTS = 12005;
+    public static final int POINTS = 12004;
     public static final int COS_CONFIG_ID = 1123;
     public static final int TOB_CONFIG_ID = 1124;
     public static final int HP_CONFIG_ID = 1125;

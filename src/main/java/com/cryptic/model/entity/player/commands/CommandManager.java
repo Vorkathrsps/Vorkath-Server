@@ -50,6 +50,7 @@ import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.region.RegionManager;
+import com.cryptic.utility.Color;
 import com.cryptic.utility.Debugs;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.Varbit;
@@ -63,9 +64,11 @@ import java.util.*;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.GREAT_OLM_7554;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
+import static com.cryptic.model.content.raids.party.Party.*;
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.model.entity.masks.Direction.NORTH;
 import static com.cryptic.model.inter.InterfaceConstants.*;
+import static com.cryptic.model.map.position.areas.impl.COXArea.POINTS_WIDGET;
 import static com.cryptic.utility.Debugs.CLIP;
 import static java.lang.String.format;
 
@@ -676,7 +679,9 @@ public class CommandManager {
 
         });
         dev("c", (p, c, s) -> {
-
+            p.getInterfaceManager().sendOverlay(POINTS_WIDGET);
+            p.getPacketSender().sendString(TOTAL_POINTS, p.getUsername() + ": " + Color.WHITE.wrap(Utils.formatNumber(0)));
+            p.getPacketSender().sendString(POINTS, p.getUsername() + ": " + Color.WHITE.wrap(Utils.formatNumber(p.<Integer>getAttribOr(PERSONAL_POINTS, 0))));
         });
 
         dev("ioi", (p, c, s) -> {

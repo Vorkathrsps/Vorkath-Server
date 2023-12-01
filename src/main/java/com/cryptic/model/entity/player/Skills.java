@@ -284,7 +284,7 @@ public class Skills {
                 player.getPacketSender().sendFakeXPDrop(skill, amount * multiplier);
                 return false;
             }
-            if (!npc.isDamageOkLocked() && !npc.hidden() && !npc.locked()) {
+            if (!npc.isDamageOkLocked() && npc.hidden() || npc.locked()) {
                 return false;
             }
         }

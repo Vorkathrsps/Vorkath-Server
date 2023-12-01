@@ -72,7 +72,7 @@ public class Pickpocketing extends PacketInteraction {
                     player.message("You pick the " + pickpocket.identifier + " pocket.");
 
                     player.inventory().add(pickpocket.lootTable.rollItem());
-                    player.getSkills().addXp(Skills.THIEVING, pickpocket.exp, true);
+                    player.getSkills().addXp(Skills.THIEVING, pickpocket.exp);
                 });
             } else {
                 player.runFn(1, () -> {

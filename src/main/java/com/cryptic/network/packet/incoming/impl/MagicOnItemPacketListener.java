@@ -113,8 +113,8 @@ public class MagicOnItemPacketListener implements PacketListener {
                             player.inventory().removeAll(requiredItem.getItem());
                         }
                         player.inventory().addAll(new Item(data.get().getBar()));
-                        player.getSkills().addXp(Skills.MAGIC, spell.baseExperience(), true);
-                        player.getSkills().addXp(Skills.SMITHING, data.get().getXpReward(), true);
+                        player.getSkills().addXp(Skills.MAGIC, spell.baseExperience());
+                        player.getSkills().addXp(Skills.SMITHING, data.get().getXpReward());
                         player.getClickDelay().reset();
                         return;
                     case ENCHANT_SAPPHIRE:

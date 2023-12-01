@@ -3,6 +3,7 @@ package com.cryptic.model.content.sigils.io;
 import com.cryptic.model.content.sigils.AbstractSigilHandler;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
@@ -14,9 +15,8 @@ public class FeralFighter extends AbstractSigilHandler {
     @Override
     protected void process(Player player, Entity target) {
         if (!attuned(player)) return;
-        if (player.getCombat().getCombatType() == null) return;
-        if (!player.getCombat().getCombatType().isMelee()) return;
         if (player.getCombat().getTarget() instanceof Player) return;
+        if (player.getCombat().getCombatType() != CombatType.MELEE) return;
         var delay = 12;
         switch (player.getMemberRights()) {
             case RUBY_MEMBER -> delay = 13;

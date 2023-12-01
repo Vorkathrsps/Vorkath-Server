@@ -24,7 +24,7 @@ public class MarksOfGrace {
         int odds = switch (player.getGameMode()) {
             case REALISM -> 0;
             case HARDCORE_REALISM -> 0;
-            case TRAINED_ACCOUNT, DARK_LORD -> 4;
+            case TRAINED_ACCOUNT -> 4;
         };
 
         if(!GameServer.properties().pvpMode) {

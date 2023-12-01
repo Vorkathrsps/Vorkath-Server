@@ -1441,25 +1441,25 @@ public class MagicClickSpells {
 
             @Override
             public void cast(Entity cast, Entity castOn) {
-                final Player player = cast.isPlayer() ? (Player) cast : null;
-
-                if (player != null) {
+                if (cast instanceof Player player) {
+                    player.resetAnimation();
+                    player.graphic(-1, GraphicHeight.HIGH, 0);
+                    player.animate(new Animation(713));
+                    player.graphic(113, GraphicHeight.HIGH, 15);
                     player.getCombat().reset();
                     player.action.clearNonWalkableActions();
-                    player.animate(713);
-                    player.graphic(113, GraphicHeight.HIGH, 15);
                     player.getSkills().addXp(Skills.MAGIC, this.baseExperience());
-                    player.getClickDelay().reset();
                     player.getPacketSender().sendTab(6);
+                    player.getClickDelay().reset();
                 }
             }
 
             @Override
             public boolean canCast(Player player, Entity target, boolean delete) {
-                if (!player.getClickDelay().elapsed(2400)) {
-                    return false;
+                if (player.getClickDelay().elapsed(1400)) {
+                    return super.canCast(player, target, delete);
                 }
-                return super.canCast(player, target, delete);
+                return false;
             }
 
         }),

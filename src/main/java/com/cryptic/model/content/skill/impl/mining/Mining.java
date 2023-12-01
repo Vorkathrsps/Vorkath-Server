@@ -140,7 +140,7 @@ public class Mining extends PacketInteraction {
                     player.message("You manage to mine some " + rockType.name + ".");
                 }
 
-                player.getSkills().addExperience(Skills.MINING, rockType.experience, experience_multiplier, true);
+                player.getSkills().addXp(Skills.MINING, rockType.experience);
 
                 switch (rockType) {
                     case COPPER_ROCK -> AchievementsManager.activate(player, Achievements.MINING_I, 1);
@@ -171,27 +171,27 @@ public class Mining extends PacketInteraction {
         switch (rock) {
             case COPPER_ROCK, TIN_ROCK -> {
                 player.inventory().add(new Item(2349));
-                player.getSkills().addExperience(Skills.SMITHING, 2.5, experience_multiplier, true);
+                player.getSkills().addXp(Skills.SMITHING, 2.5);
             }
             case IRON_ROCK -> {
                 player.inventory().add(new Item(2351));
-                player.getSkills().addExperience(Skills.SMITHING, 5.0, experience_multiplier, true);
+                player.getSkills().addXp(Skills.SMITHING, 5.0);
             }
             case SILVER_ROCK -> {
                 player.inventory().add(new Item(2355));
-                player.getSkills().addExperience(Skills.SMITHING, 5.5, experience_multiplier, true);
+                player.getSkills().addXp(Skills.SMITHING, 5.5);
             }
             case GOLD_ROCK -> {
                 player.inventory().add(new Item(2357));
-                player.getSkills().addExperience(Skills.SMITHING, 9.0, experience_multiplier, true);
+                player.getSkills().addXp(Skills.SMITHING, 9.0);
             }
             case MITHRIL -> {
                 player.inventory().add(new Item(2359));
-                player.getSkills().addExperience(Skills.SMITHING, 12.0, experience_multiplier, true);
+                player.getSkills().addXp(Skills.SMITHING, 12.0);
             }
             case ADAMANT_ROCK -> {
                 player.inventory().add(new Item(2361));
-                player.getSkills().addExperience(Skills.SMITHING, 15.0, experience_multiplier, true);
+                player.getSkills().addXp(Skills.SMITHING, 15.0);
             }
             case RUNE_ROCK -> {
                 player.inventory().add(new Item(2363));

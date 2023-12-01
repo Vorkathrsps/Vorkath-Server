@@ -3,6 +3,7 @@ package com.cryptic.model.content.sigils.io;
 import com.cryptic.model.content.sigils.AbstractSigilHandler;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
@@ -19,6 +20,7 @@ public class MeticulousMage extends AbstractSigilHandler {
     protected void applyBoost(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy) {
         if (!attuned(player)) return;
         if (!(target instanceof NPC)) return;
+        if (player.getCombat().getCombatType() != CombatType.MAGIC) return;
         var boost = 1.20;
         switch (player.getMemberRights()) {
             case RUBY_MEMBER -> boost = 1.21;

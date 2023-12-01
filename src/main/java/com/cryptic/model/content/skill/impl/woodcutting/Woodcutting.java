@@ -163,7 +163,7 @@ public class Woodcutting extends PacketInteraction {
     }
 
     private static void addExperience(Player player, Trees tree) {
-        player.getSkills().addExperience(Skills.WOODCUTTING, tree.experience, experienceMultiplier, true);
+        player.getSkills().addXp(Skills.WOODCUTTING, tree.experience);
     }
 
     private static boolean stopTask(Player player, Trees tree, int trunkObjectId, Task t) {
@@ -197,7 +197,7 @@ public class Woodcutting extends PacketInteraction {
                 LogLighting.LightableLog log = LogLighting.LightableLog.logForId(tree.item);
                 if (log != null) {
                     player.graphic(580, GraphicHeight.MIDDLE, 0);
-                    player.getSkills().addExperience(Skills.FIREMAKING, log.xp / 2, experienceMultiplier, true);
+                    player.getSkills().addXp(Skills.FIREMAKING, log.xp / 2);
                     return true;
                 }
             }

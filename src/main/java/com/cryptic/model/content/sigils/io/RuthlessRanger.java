@@ -3,6 +3,7 @@ package com.cryptic.model.content.sigils.io;
 import com.cryptic.model.content.sigils.AbstractSigilHandler;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
@@ -18,9 +19,8 @@ public class RuthlessRanger extends AbstractSigilHandler {
     @Override
     protected void process(Player player, Entity target) {
         if (!attuned(player)) return;
-        if (player.getCombat().getCombatType() == null) return;
-        if (!player.getCombat().getCombatType().isRanged()) return;
         if (player.getCombat().getTarget() instanceof Player) return;
+        if (player.getCombat().getCombatType() != CombatType.RANGED) return;
         var damage = 1;
         switch (player.getMemberRights()) {
             case RUBY_MEMBER -> damage = 2;

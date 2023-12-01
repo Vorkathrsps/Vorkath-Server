@@ -1,6 +1,5 @@
 package com.cryptic.model.content.skill.impl.thieving;
 
-import com.cryptic.GameServer;
 import com.cryptic.model.World;
 import com.cryptic.model.content.achievements.Achievements;
 import com.cryptic.model.content.achievements.AchievementsManager;
@@ -16,7 +15,6 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 
-import static com.cryptic.utility.ItemIdentifiers.BLOOD_MONEY;
 import static com.cryptic.utility.ItemIdentifiers.COINS_995;
 
 /**
@@ -176,7 +174,7 @@ public class Stalls extends PacketInteraction {
                 player.stun(3);
             }
 
-            player.getSkills().addXp(Skills.THIEVING, stall.experience, false);
+            player.getSkills().addXp(Skills.THIEVING, stall.experience);
             player.unlock();
         });
     }

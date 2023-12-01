@@ -35,7 +35,7 @@ public class Sigil extends PacketInteraction implements SigilListener {
 
     @Override
     public void prepare(Player player, Entity target) {
-        for (var sigil : handler) {
+        for (AbstractSigilHandler sigil : handler) {
             if (sigil.attuned(player)) {
                 sigil.process(player, target);
             }
@@ -44,7 +44,7 @@ public class Sigil extends PacketInteraction implements SigilListener {
 
     @Override
     public void sigilAccuracyBonus(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy) {
-        for (var sigil : handler) {
+        for (AbstractSigilHandler sigil : handler) {
             if (sigil.attuned(player)) {
                 sigil.applyBoost(player, target, rangeAccuracy, magicAccuracy, meleeAccuracy);
             }

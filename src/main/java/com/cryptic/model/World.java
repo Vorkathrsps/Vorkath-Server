@@ -340,7 +340,6 @@ public class World {
                 try {
                     player.getSession().read();
                     player.getSession().handleQueuedPackets();
-                    player.syncContainers();
                 } catch (Exception e) {
                     logger.error("Error occurred while reading player packets: " + e.getMessage());
                     e.printStackTrace();
@@ -377,7 +376,7 @@ public class World {
             if (player != null && checkIndex(player.getIndex(), NodeType.PLAYER)) {
                 try {
                     player.sequence();
-                    player.syncContainers();
+                    //player.syncContainers();
                     player.processed = true;
                 } catch (Exception e) {
                     logger.error("Error occurred while processing player: " + e.getMessage());

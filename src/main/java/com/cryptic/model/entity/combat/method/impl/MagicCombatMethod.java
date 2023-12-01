@@ -72,6 +72,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
         if (!canCast || target.dead() || player.dead()) {
             return false;
         }
+
         GraphicHeight startGraphicHeight = (hasTumeken && spell.spellId() == 6) ? GraphicHeight.LOW : GraphicHeight.HIGH;
         GraphicHeight endGraphicHeight = GraphicHeight.HIGH;
         ModernSpells findProjectileDataModern = ModernSpells.findSpellProjectileData(spellID, endGraphicHeight);

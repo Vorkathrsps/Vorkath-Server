@@ -204,7 +204,7 @@ public class Slayer {
                         var doublePointsUnlocked = killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.DOUBLE_SLAYER_POINTS);
                         var weekendBonus = World.getWorld().slayerRewardPointsMultiplier > 1;
                         var trainedAccount = killer.getGameMode() == GameMode.TRAINED_ACCOUNT;
-                        var darklordAccount = killer.getGameMode() == GameMode.DARK_LORD;
+
                         int base = 30;
 
                         if(taskdef.bossTask) {
@@ -219,11 +219,6 @@ public class Slayer {
                         //Trained accounts get + 30 slayer points on the total points reward
                         if (trainedAccount) {
                             base += 30;
-                        }
-
-                        //Dark lord accounts get + 40 slayer points on the total points reward
-                        if (darklordAccount) {
-                            base += 40;
                         }
 
                         //Legendary account bonus

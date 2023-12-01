@@ -4,11 +4,8 @@ import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.farming.impl.Patch;
 import com.cryptic.model.content.skill.impl.farming.impl.Plant;
-import com.cryptic.model.content.skill.perks.SkillingSets;
-import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
-import com.cryptic.model.items.Item;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 import com.google.common.base.Preconditions;
@@ -291,7 +288,7 @@ public class Farming {
                                 planted.setTime();
                                 insert(planted);
                                 varbitUpdate();
-                                player.skills().addXp(Skills.FARMING,plant.plantExperience * xpBonus(player), true);
+                                player.skills().addXp(Skills.FARMING,plant.plantExperience * xpBonus(player));
                             } else {
                                 String name = World.getWorld().definitions().get(ItemDefinition.class, patch.planter).name;
                                 player.message("You need " + Utils.getAOrAn(name) + " " +name+ " to plant seeds.");

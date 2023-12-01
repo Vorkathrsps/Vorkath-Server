@@ -229,7 +229,7 @@ public class DwarfCannon extends OwnedObject {
                 new Hit(owner, npc, delay, CombatType.RANGED).checkAccuracy(false).submit().postDamage(hit -> {
                     hit.setDamage(Utils.random(1, owner.getCombat().getMaximumRangedDamage()));
                     if (hit.getDamage() > 30) hit.setDamage(30);
-                    getOwner().getSkills().addExperience(Skills.RANGED, hit.getDamage(), 4.0, true);
+                    getOwner().getSkills().addXp(Skills.RANGED, hit.getDamage());
                     setAmmo(getAmmo() - 1);
                     if (getAmmo() <= 0) {
                         owner.message("Your cannon is out of ammo!");

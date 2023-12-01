@@ -69,7 +69,7 @@ public class WallSafe extends PacketInteraction {
                 player.animate(2248);
                 Chain.bound(player).runFn(2, () -> {
                     player.message("You get some loot.");
-                    player.getSkills().addXp(Skills.THIEVING,70,true);
+                    player.getSkills().addXp(Skills.THIEVING,70);
                     player.inventory().add(getLoot(player));
                     openSafe(wallSafe);
                 });

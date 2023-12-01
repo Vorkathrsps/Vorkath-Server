@@ -96,13 +96,6 @@ public class Tutorial extends Dialogue {
             }
         } else if (getPhase() == 6) {
             if (option == 1) {
-                if (accountType == GameMode.DARK_LORD) {
-                    player.getPacketSender().sendRights();
-                    player.getUpdateFlag().flag(Flag.APPEARANCE);
-                    player.putAttrib(AttributeKey.DARK_LORD_LIVES, 3);
-                } else if (accountType == GameMode.TRAINED_ACCOUNT) {
-                    player.setGameMode(GameMode.TRAINED_ACCOUNT);
-                }
 
                 player.getBank().addAll(BANK_ITEMS);
                 System.arraycopy(TAB_AMOUNT, 0, player.getBank().tabAmounts, 0, TAB_AMOUNT.length);
@@ -117,11 +110,7 @@ public class Tutorial extends Dialogue {
                 }
             }
         } else if (isPhase(8)) {
-            if (option == 1) {
-                accountType = GameMode.DARK_LORD;
-                send(DialogueType.NPC_STATEMENT, NpcIdentifiers.COMBAT_INSTRUCTOR, Expression.DEFAULT, "Are you sure you wish to play as a Dark Lord (3 lives)?");
-                setPhase(5);
-            }
+
         }
     }
 }

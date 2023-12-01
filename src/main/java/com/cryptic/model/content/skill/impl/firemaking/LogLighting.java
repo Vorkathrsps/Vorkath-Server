@@ -260,7 +260,7 @@ public class LogLighting {
             }
 
             // Give us some xp now, because.. dialogue.
-            player.getSkills().addExperience(Skills.FIREMAKING, log.xp, experienceMultiplier, true);
+            player.getSkills().addXp(Skills.FIREMAKING, log.xp);
 
             AchievementsManager.activate(player, Achievements.FIREMAKING_I, 1);
             AchievementsManager.activate(player, Achievements.FIREMAKING_II, 1);

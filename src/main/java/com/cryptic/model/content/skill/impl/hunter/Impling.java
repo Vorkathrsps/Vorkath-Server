@@ -97,7 +97,7 @@ public enum Impling {
                     }
 
                     despawnImpling(npc);
-                    player.getSkills().addXp(Skills.HUNTER, player.tile().inArea(PURO_PURO) ? impling.puroExp : impling.worldExp,true);
+                    player.getSkills().addXp(Skills.HUNTER, player.tile().inArea(PURO_PURO) ? impling.puroExp : impling.worldExp);
                     var counter = player.<Integer>getAttribOr(AttributeKey.IMPLINGS_CAUGHT, 0) + 1;
                     player.putAttrib(AttributeKey.IMPLINGS_CAUGHT, counter);
                 }

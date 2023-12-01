@@ -7,20 +7,21 @@ package com.cryptic.model.entity.player;
 
 public enum GameMode {
 
-    TRAINED_ACCOUNT("Normal account",1, 150),
-    REALISM("realism", 2, 25),
-    HARDCORE_REALISM("hardcore realism", 3, 20),
-    DARK_LORD("Dark lord", 4,125);
+    TRAINED_ACCOUNT("Normal account",1, 150, 50),
+    REALISM("realism", 2, 25, 10),
+    HARDCORE_REALISM("hardcore realism", 3, 20, 15);
 
     private final String name;
     private final int uid;
     private final int combatExp;
+    public final int multiplier;
     private static GameMode[] cache;
 
-    GameMode(String name, int uid, int combatExp) {
+    GameMode(String name, int uid, int combatExp, int multiplier) {
         this.name = name;
         this.uid = uid;
         this.combatExp = combatExp;
+        this.multiplier = multiplier;
     }
 
     public int uid() {
@@ -44,11 +45,6 @@ public enum GameMode {
         return null;
     }
 
-    /**
-     * Determines if the {@link #name} is equal to {@link GameMode#DARK_LORD}
-     *
-     * @return {@code true} if the player is of this type, otherwise {@code false}
-     */
     public boolean isDarklord() {
         return name.equals("Ironman");
     }

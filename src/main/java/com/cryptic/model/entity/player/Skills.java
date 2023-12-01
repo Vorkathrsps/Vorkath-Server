@@ -3,8 +3,6 @@ package com.cryptic.model.entity.player;
 import com.cryptic.GameServer;
 import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.model.World;
-import com.cryptic.model.content.achievements.Achievements;
-import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.content.areas.edgevile.Mac;
 import com.cryptic.model.content.bountyhunter.BountyHunter;
 import com.cryptic.model.content.skill.Skillable;
@@ -17,6 +15,7 @@ import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
+import com.cryptic.model.entity.player.rights.MemberRights;
 import com.cryptic.model.inter.dialogue.Dialogue;
 import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.items.Item;
@@ -24,7 +23,6 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.Utils;
-import com.google.common.util.concurrent.AtomicDouble;
 import lombok.Getter;
 
 import java.lang.ref.WeakReference;
@@ -32,9 +30,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import static com.cryptic.model.entity.attributes.AttributeKey.*;
 
 /**
  * Created by Bart Pelle on 8/23/2014.
@@ -265,62 +260,43 @@ public class Skills {
     }
 
     public boolean addXp(int skill, double amt) {
-        return addExperience(skill, amt, 1, true);
-    }
-
-    public boolean addXp(int skill, double amt, boolean multiplied) {
-        return addExperience(skill, amt, 1, true);
-    }
-
-    public boolean isCombatSkill(int skillId) {
-        return Arrays.asList(0, 1, 2, 4, 6).stream().anyMatch(s -> s.intValue() == skillId);
+        var multiply = ((WildernessArea.inWilderness(player.tile()) || !WildernessArea.inWilderness(player.tile())) && player.getCombat().getTarget() instanceof NPC);
+        for (GameMode mode : GameMode.values()) {
+            if (player.getGameMode().equals(mode)) {
+                return addExperience(skill, amt, mode.multiplier, true);
+            }
+        }
+        return false;
     }
 
     public boolean addExperience(int skill, double amount, double multiplier, boolean counter) {
         WeakReference<? extends Entity> weakEntityRef = player.getAttribOr(AttributeKey.TARGET, new WeakReference<>(null));
         Entity target = weakEntityRef.get();
-
         boolean isCombatExperience = skill == ATTACK || skill == STRENGTH || skill == DEFENCE || skill == HITPOINTS || skill == MAGIC || skill == RANGED;
         boolean isExperienceLocked = player.getAttribOr(AttributeKey.XP_LOCKED, false);
         boolean inWilderness = WildernessArea.inWilderness(player.tile());
         boolean isNpc = target instanceof NPC;
         boolean isMember = player.getMemberRights().isRegularMemberOrGreater(player);
 
-        if (target == null && isCombatExperience) {
-            return false;
-        }
-
-        if (target instanceof NPC npc && isCombatExperience) {
+        if (isCombatExperience && isNpc) {
+            NPC npc = (NPC) target;
             if (npc.isCombatDummy()) {
-                player.getPacketSender().sendFakeXPDrop(skill, amount);
+                player.getPacketSender().sendFakeXPDrop(skill, amount * multiplier);
+                return false;
+            }
+            if (!npc.isDamageOkLocked() && !npc.hidden() && !npc.locked()) {
                 return false;
             }
         }
 
-        if (isCombatExperience && isNpc) {
-            NPC npc = (NPC) target;
-            if (!npc.isDamageOkLocked()) {
-                if (npc.hidden() || npc.locked()) {
-                    return false;
-                }
-            }
-        }
-
         if (isExperienceLocked) {
-            player.getPacketSender().sendFakeXPDrop(skill, amount);
+            player.getPacketSender().sendFakeXPDrop(skill, amount * multiplier);
             return false;
         }
 
         if (isMember && target instanceof NPC) {
-            switch (player.getMemberRights()) {
-                case RUBY_MEMBER -> amount *= 1.05;
-                case SAPPHIRE_MEMBER -> amount *= 1.08;
-                case EMERALD_MEMBER -> amount *= 1.10;
-                case DIAMOND_MEMBER -> amount *= 1.12;
-                case DRAGONSTONE_MEMBER -> amount *= 1.15;
-                case ONYX_MEMBER -> amount *= 1.18;
-                case ZENYTE_MEMBER -> amount *= 1.20;
-            }
+            double memberMultiplier = getDonatorRankMultiplier(player.getMemberRights());
+            amount *= memberMultiplier;
         }
 
         if (multiplier >= 1.0) {
@@ -331,13 +307,10 @@ public class Skills {
             amount *= 1.12;
         }
 
-        var skillingSets = SkillingSets.values();
-
-        for (var s : skillingSets) {
-            if (s.getSkillType().getId() == skill && player.getEquipment().containsAll(s.getSet())) {
-                amount *= s.getExperienceBoost();
-                break;
-            }
+        Map<Integer, SkillingSets> sets = getSkillingSets();
+        SkillingSets set = sets.get(skill);
+        if (set != null && player.getEquipment().containsAll(set.getSet())) {
+            amount *= set.getExperienceBoost();
         }
 
         int oldLevel = xpToLevel((int) xps[skill]);
@@ -345,30 +318,26 @@ public class Skills {
         int newLevel = xpToLevel((int) xps[skill]);
 
         if (newLevel > oldLevel) {
-            if (levels[skill] < newLevel)
-                levels[skill] += newLevel - oldLevel;
+            levels[skill] += newLevel - oldLevel;
             player.graphic(199, GraphicHeight.HIGH, 0);
         }
 
         if (oldLevel != newLevel) {
-            int levels = newLevel - oldLevel;
-            if (levels == 1) {
+            int levelDifference = newLevel - oldLevel;
+            if (levelDifference == 1) {
                 player.message("Congratulations, you just advanced %s %s level.", SKILL_INDEFINITES[skill], SKILL_NAMES[skill]);
             } else {
-                player.message("Congratulations, you just advanced %d %s levels.", levels, SKILL_NAMES[skill]);
+                player.message("Congratulations, you just advanced %d %s levels.", levelDifference, SKILL_NAMES[skill]);
             }
-
             if (newLevel == 99) {
                 player.graphic(1388, GraphicHeight.HIGH, 0);
                 player.message(Color.ORANGE_RED.tag() + "Congratulations on achieving level 99 in " + SKILL_NAMES[skill] + "!");
                 player.message(Color.ORANGE_RED.tag() + "You may now purchase a skillcape from Mac who can be found at home.");
                 World.getWorld().sendWorldMessage("<img=2017> <col=" + Color.HOTPINK.getColorValue() + ">" + player.getUsername() + "</col> has just achieved level 99 in " + Color.BLUE.tag() + "" + SKILL_NAMES[skill] + "</col> on a " + Color.BLUE.tag() + " " + Utils.gameModeToString(player) + "</col>!");
             }
-
             if (totalLevel() >= Mac.TOTAL_LEVEL_FOR_MAXED) {
                 World.getWorld().sendWorldMessage("<img=2017> <col=" + Color.HOTPINK.getColorValue() + ">" + player.getUsername() + "</col> has just maxed out on a " + Color.BLUE.tag() + " " + Utils.gameModeToString(player) + "</col>!");
             }
-
             recalculateCombat();
         }
 
@@ -376,7 +345,29 @@ public class Skills {
         player.getPacketSender().sendString(10121, "" + totalLevel());
         makeDirty(skill);
         update();
+
         return oldLevel != newLevel;
+    }
+
+    private double getDonatorRankMultiplier(MemberRights memberRights) {
+        return switch (memberRights) {
+            case RUBY_MEMBER -> 1.05;
+            case SAPPHIRE_MEMBER -> 1.08;
+            case EMERALD_MEMBER -> 1.10;
+            case DIAMOND_MEMBER -> 1.12;
+            case DRAGONSTONE_MEMBER -> 1.15;
+            case ONYX_MEMBER -> 1.18;
+            case ZENYTE_MEMBER -> 1.20;
+            default -> 1.0;
+        };
+    }
+
+    private Map<Integer, SkillingSets> getSkillingSets() {
+        Map<Integer, SkillingSets> skillingSets = new HashMap<>();
+        for (SkillingSets skillingSet : SkillingSets.values()) {
+            skillingSets.put(skillingSet.getSkillType().getId(), skillingSet);
+        }
+        return skillingSets;
     }
 
     private static final int[][] LEVEL_UP = {

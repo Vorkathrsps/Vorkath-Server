@@ -158,7 +158,7 @@ public class WildernessActivityManager {
      */
     public String getActivityDescription() {
         if (currentActivity == null) {
-            return null;
+            return "N/A";
         }
         try {
             return currentActivity.description();

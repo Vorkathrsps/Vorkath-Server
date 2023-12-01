@@ -26,7 +26,6 @@ public class Party {
 
     public static final List<Item> COX_REWARDS = Arrays.asList(new Item(DEXTEROUS_PRAYER_SCROLL), new Item(ARCANE_PRAYER_SCROLL), new Item(TWISTED_BUCKLER), new Item(DRAGON_HUNTER_CROSSBOW), new Item(DINHS_BULWARK), new Item(ANCESTRAL_HAT), new Item(ANCESTRAL_ROBE_TOP), new Item(ANCESTRAL_ROBE_BOTTOM), new Item(DRAGON_CLAWS), new Item(ELDER_MAUL), new Item(KODAI_WAND), new Item(TWISTED_BOW));
     public static final List<Item> TOB_REWARDS = Arrays.asList(new Item(AVERNIC_DEFENDER), new Item(GHRAZI_RAPIER), new Item(SANGUINESTI_STAFF), new Item(JUSTICIAR_FACEGUARD), new Item(JUSTICIAR_LEGGUARDS), new Item(JUSTICIAR_CHESTGUARD), new Item(SCYTHE_OF_VITUR));
-
     public static final int REWARDS_CONTAINER_ID = 12137;
     public static final int TOTAL_POINTS = 12003;
     public static final int NAME_FRAME = 12004;

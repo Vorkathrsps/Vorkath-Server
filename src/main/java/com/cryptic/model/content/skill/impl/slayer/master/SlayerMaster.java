@@ -56,6 +56,7 @@ public class SlayerMaster {
         var master = Slayer.master(id);
         if (master == null) return;
         SlayerTaskDef def = master.randomTask(player);
+
         if(def == null) {
             System.out.println("no task available.");
             return;

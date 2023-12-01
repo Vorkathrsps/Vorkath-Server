@@ -25,62 +25,62 @@ public class Stalls extends PacketInteraction {
     public enum Stall {
 
         //Normal stalls
-        CRAFTING_STALL(1, 3, 38.8, 49000, "crafting stall",
+        CRAFTING_STALL(1, 3, 16, 49000, "crafting stall",
             new int[][]
                 {
                     {4874, 4797},
                     {6166, 6984},
                     {630, 634}
                 }),
-        BAKERS_STALL(5, 3, 204.1, 48000, "bakers stall",
+        BAKERS_STALL(5, 3, 16, 48000, "bakers stall",
             new int[][]
                 {
                     {11730, 634},
                     {6945, 6984}
                 }),
-        SILK_STALL(20, 3, 397.86, 47000, "silk stall",
+        SILK_STALL(20, 3, 24, 47000, "silk stall",
             new int[][]
                 {
                     {11729, 634},
                     {629, 634}
                 }),
-        FUR_STALL(35, 3, 1578.54, 43000, "fur stall",
+        FUR_STALL(35, 3, 36, 43000, "fur stall",
             new int[][]
                 {
                     {11732, 634},
                     {4278, 634}
                 }),
-        SILVER_STALL(50, 3, 3480.95, 40000, "silver stall",
+        SILVER_STALL(50, 3, 54, 40000, "silver stall",
             new int[][]
                 {
                     {11734, 634},
                     {628, 634}
                 }),
-        SPICE_STALL(65, 3, 7609, 30000, "spice stall",
+        SPICE_STALL(65, 3, 81, 30000, "spice stall",
             new int[][]
                 {
                     {6572, 6573},
                     {11733, 634},
                     {20348, 20349}
                 }),
-        GEM_STALL(75, 3, 23648, 20000, "gem stall",
+        GEM_STALL(75, 3, 160, 20000, "gem stall",
             new int[][]
                 {
                     {6162, 6984},
                     {11731, 634},
                     {631, 634}
                 }),
-        MONKEY_GENERAL_STALL(5, 2, 20.0, 49000, "general stall",
+        MONKEY_GENERAL_STALL(5, 2, 16, 49000, "general stall",
             new int[][]
                 {
                     {4876, 4797},
                 }),
-        MAGIC_STALL(65, 2, 50, 12000, "magic stall",
+        MAGIC_STALL(65, 2, 100, 12000, "magic stall",
             new int[][]
                 {
                     {4877, 4797},
                 }),
-        SCIMITAR_STALL(65, 2, 50.0, 1000, "scimitar stall",
+        SCIMITAR_STALL(65, 2, 160, 1000, "scimitar stall",
             new int[][]
                 {
                     {4878, 4797},

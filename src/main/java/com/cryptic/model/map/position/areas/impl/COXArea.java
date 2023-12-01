@@ -9,8 +9,6 @@ import com.cryptic.utility.Color;
 import com.cryptic.utility.TimeClock;
 import com.cryptic.utility.Utils;
 
-import java.time.Duration;
-import java.time.ZonedDateTime;
 import java.util.Collections;
 
 import static com.cryptic.model.content.raids.party.Party.*;
@@ -20,10 +18,8 @@ import static com.cryptic.model.entity.attributes.AttributeKey.PERSONAL_POINTS;
  * @author Origin | May, 10, 2021, 18:44
  */
 public class COXArea extends Controller {
-
     public static final int POINTS_WIDGET = 12000;
     TimeClock timeClock = new TimeClock();
-
 
     public COXArea() {
         super(Collections.emptyList());
@@ -46,7 +42,6 @@ public class COXArea extends Controller {
             player.getPacketSender().sendString(12005, Color.WHITE.wrap("Time: " + timeClock.currentTimeClock()));
         }
         player.getInterfaceManager().sendOverlay(POINTS_WIDGET);
-
     }
 
     @Override

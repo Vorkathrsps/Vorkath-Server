@@ -508,6 +508,11 @@ public class Player extends Entity {
         player.getPacketSender().sendString(80028, "Time Played: " + QuestTabUtils.getTimeDHS(player));
     }
 
+    static void updateAccountStatus(Player player) {
+        player.getPacketSender().sendString(73005, "Donator Rank: " + player.getMemberRights().getName());
+        player.getPacketSender().sendString(73015, "Name: " + player.getUsername());
+    }
+
     static void updateServerInformation(Player player) {
         LocalDateTime now = LocalDateTime.now();
         long minutesTillWildyBoss = now.until(WildernessBossEvent.getINSTANCE().next, ChronoUnit.MINUTES);
@@ -3172,6 +3177,7 @@ public class Player extends Entity {
     }, qtStuff = () -> {
         this.setPlayerQuestTabCycleCount(getPlayerQuestTabCycleCount() + 1);
         updateServerInformation(this);
+        updateAccountStatus(this);
         //Update the players online regardless of the cycle count, this is the most important number, otherwise players might see "0" if they log in too soon. Can always remove this later.
         GlobalStrings.PLAYERS_ONLINE.send(this, World.getWorld().getPlayers().size());
 

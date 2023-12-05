@@ -1,0 +1,767 @@
+{
+  "4151": {
+    "styles": {
+      "WHIP_FLICK": 2720,
+      "WHIP_LASH": 2720,
+      "WHIP_DEFLECT": 2720
+    }
+  },
+  "12773": {
+    "styles": {
+      "WHIP_FLICK": 2720,
+      "WHIP_LASH": 2720,
+      "WHIP_DEFLECT": 2720
+    }
+  },
+  "12774": {
+    "styles": {
+      "WHIP_FLICK": 2720,
+      "WHIP_LASH": 2720,
+      "WHIP_DEFLECT": 2720
+    }
+  },
+  "26482": {
+    "styles": {
+      "WHIP_FLICK": 2720,
+      "WHIP_LASH": 2720,
+      "WHIP_DEFLECT": 2720
+    }
+  },
+  "4718": {
+    "styles": {
+      "BATTLEAXE_CHOP": 1321,
+      "BATTLEAXE_HACK": 1321,
+      "BATTLEAXE_SMASH": 1316,
+      "BATTLEAXE_BLOCK": 1321
+    }
+  },
+  "11802": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 3847,
+      "TWOHANDEDSWORD_SLASH": 3847,
+      "TWOHANDEDSWORD_SMASH": 3846,
+      "TWOHANDEDSWORD_BLOCK": 3847
+    }
+  },
+  "11804": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 3847,
+      "TWOHANDEDSWORD_SLASH": 3847,
+      "TWOHANDEDSWORD_SMASH": 3846,
+      "TWOHANDEDSWORD_BLOCK": 3847
+    }
+  },
+  "11806": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 3847,
+      "TWOHANDEDSWORD_SLASH": 3847,
+      "TWOHANDEDSWORD_SMASH": 3846,
+      "TWOHANDEDSWORD_BLOCK": 3847
+    }
+  },
+  "11808": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 3847,
+      "TWOHANDEDSWORD_SLASH": 3847,
+      "TWOHANDEDSWORD_SMASH": 3846,
+      "TWOHANDEDSWORD_BLOCK": 3847
+    }
+  },
+  "26233": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 3847,
+      "TWOHANDEDSWORD_SLASH": 3847,
+      "TWOHANDEDSWORD_SMASH": 3846,
+      "TWOHANDEDSWORD_BLOCK": 3847
+    }
+  },
+  "22325": {
+    "styles": {
+      "SCYTHE_REAP": 2524,
+      "SCYTHE_CHOP": 2525,
+      "SCYTHE_JAB": 2525,
+      "SCYTHE_BLOCK": 2524
+    }
+  },
+  "6528": {
+    "styles": {
+      "HAMMER_POUND": 2520,
+      "HAMMER_PUMMEL": 2520,
+      "HAMMER_BLOCK": 2520
+    }
+  },
+  "23235": {
+    "styles": {
+      "HAMMER_POUND": 2520,
+      "HAMMER_PUMMEL": 2520,
+      "HAMMER_BLOCK": 2520
+    }
+  },
+  "6526": {
+    "styles": {
+      "STAFF_BASH": 2558,
+      "STAFF_POUND": 2558,
+      "STAFF_FOCUS": 2558
+    }
+  },
+  "25865": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "25867": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "25869": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "25884": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "25886": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "25888": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "25890": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "25892": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "25894": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "25896": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "27187": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "859": {
+    "styles": {
+      "ARROW_ACCURATE": 2700,
+      "ARROW_RAPID": 2700,
+      "ARROW_LONGRANGE": 2700
+    }
+  },
+  "839": {
+    "styles": {
+      "ARROW_ACCURATE": 2700,
+      "ARROW_RAPID": 2700,
+      "ARROW_LONGRANGE": 2700
+    }
+  },
+  "845": {
+    "styles": {
+      "ARROW_ACCURATE": 2700,
+      "ARROW_RAPID": 2700,
+      "ARROW_LONGRANGE": 2700
+    }
+  },
+  "847": {
+    "styles": {
+      "ARROW_ACCURATE": 2700,
+      "ARROW_RAPID": 2700,
+      "ARROW_LONGRANGE": 2700
+    }
+  },
+  "851": {
+    "styles": {
+      "ARROW_ACCURATE": 2700,
+      "ARROW_RAPID": 2700,
+      "ARROW_LONGRANGE": 2700
+    }
+  },
+  "855": {
+    "styles": {
+      "ARROW_ACCURATE": 2700,
+      "ARROW_RAPID": 2700,
+      "ARROW_LONGRANGE": 2700
+    }
+  },
+  "20997": {
+    "styles": {
+      "ARROW_ACCURATE": 2700,
+      "ARROW_RAPID": 2700,
+      "ARROW_LONGRANGE": 2700
+    }
+  },
+  "28540": {
+    "styles": {
+      "ARROW_ACCURATE": 2700,
+      "ARROW_RAPID": 2700,
+      "ARROW_LONGRANGE": 2700
+    }
+  },
+  "11235": {
+    "styles": {
+      "ARROW_ACCURATE": 2700,
+      "ARROW_RAPID": 2700,
+      "ARROW_LONGRANGE": 2700
+    }
+  },
+  "12765": {
+    "styles": {
+      "ARROW_ACCURATE": 2700,
+      "ARROW_RAPID": 2700,
+      "ARROW_LONGRANGE": 2700
+    }
+  },
+  "12766": {
+    "styles": {
+      "ARROW_ACCURATE": 2700,
+      "ARROW_RAPID": 2700,
+      "ARROW_LONGRANGE": 2700
+    }
+  },
+  "12767": {
+    "styles": {
+      "ARROW_ACCURATE": 2700,
+      "ARROW_RAPID": 2700,
+      "ARROW_LONGRANGE": 2700
+    }
+  },
+  "12768": {
+    "styles": {
+      "ARROW_ACCURATE": 2700,
+      "ARROW_RAPID": 2700,
+      "ARROW_LONGRANGE": 2700
+    }
+  },
+  "20408": {
+    "styles": {
+      "ARROW_ACCURATE": 2700,
+      "ARROW_RAPID": 2700,
+      "ARROW_LONGRANGE": 2700
+    }
+  },
+  "11708": {
+    "styles": {
+      "ARROW_ACCURATE": 2700,
+      "ARROW_RAPID": 2700,
+      "ARROW_LONGRANGE": 2700
+    }
+  },
+  "27853": {
+    "styles": {
+      "ARROW_ACCURATE": 2700,
+      "ARROW_RAPID": 2700,
+      "ARROW_LONGRANGE": 2700
+    }
+  },
+  "22550": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "22547": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "26237": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "26239": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "767": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "837": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "4734": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "8880": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "9174": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "9176": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "9177": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "9179": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "9181": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "9183": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "9185": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "11785": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "21012": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "21902": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "23601": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "23611": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "25916": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "25918": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "28128": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "27186": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "26374": {
+    "styles": {
+      "BOLT_ACCURATE": 2695,
+      "BOLT_RAPID": 2695,
+      "BOLT_LONGRANGE": 2695
+    }
+  },
+  "6739": {
+    "styles": {
+      "BATTLEAXE_CHOP": 2498,
+      "BATTLEAXE_HACK": 2498,
+      "BATTLEAXE_SMASH": 2497,
+      "BATTLEAXE_BLOCK": 2498
+    }
+  },
+  "25378": {
+    "styles": {
+      "BATTLEAXE_CHOP": 2498,
+      "BATTLEAXE_HACK": 2498,
+      "BATTLEAXE_SMASH": 2497,
+      "BATTLEAXE_BLOCK": 2498
+    }
+  },
+  "1215": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1231": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "5680": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "5698": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "20407": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "28019": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "28021": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "28023": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "28025": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1275": {
+    "styles": {
+      "PICKAXE_SPIKE": 2498,
+      "PICKAXE_IMPALE": 2498,
+      "PICKAXE_SMASH": 2497,
+      "PICKAXE_BLOCK": 2498
+    }
+  },
+  "1267": {
+    "styles": {
+      "PICKAXE_SPIKE": 2498,
+      "PICKAXE_IMPALE": 2498,
+      "PICKAXE_SMASH": 2497,
+      "PICKAXE_BLOCK": 2498
+    }
+  },
+  "1269": {
+    "styles": {
+      "PICKAXE_SPIKE": 2498,
+      "PICKAXE_IMPALE": 2498,
+      "PICKAXE_SMASH": 2497,
+      "PICKAXE_BLOCK": 2498
+    }
+  },
+  "1271": {
+    "styles": {
+      "PICKAXE_SPIKE": 2498,
+      "PICKAXE_IMPALE": 2498,
+      "PICKAXE_SMASH": 2497,
+      "PICKAXE_BLOCK": 2498
+    }
+  },
+  "1273": {
+    "styles": {
+      "PICKAXE_SPIKE": 2498,
+      "PICKAXE_IMPALE": 2498,
+      "PICKAXE_SMASH": 2497,
+      "PICKAXE_BLOCK": 2498
+    }
+  },
+  "11920": {
+    "styles": {
+      "PICKAXE_SPIKE": 2498,
+      "PICKAXE_IMPALE": 2498,
+      "PICKAXE_SMASH": 2497,
+      "PICKAXE_BLOCK": 2498
+    }
+  },
+  "12297": {
+    "styles": {
+      "PICKAXE_SPIKE": 2498,
+      "PICKAXE_IMPALE": 2498,
+      "PICKAXE_SMASH": 2497,
+      "PICKAXE_BLOCK": 2498
+    }
+  },
+  "12797": {
+    "styles": {
+      "PICKAXE_SPIKE": 2498,
+      "PICKAXE_IMPALE": 2498,
+      "PICKAXE_SMASH": 2497,
+      "PICKAXE_BLOCK": 2498
+    }
+  },
+  "13243": {
+    "styles": {
+      "PICKAXE_SPIKE": 2498,
+      "PICKAXE_IMPALE": 2498,
+      "PICKAXE_SMASH": 2497,
+      "PICKAXE_BLOCK": 2498
+    }
+  },
+  "20014": {
+    "styles": {
+      "PICKAXE_SPIKE": 2498,
+      "PICKAXE_IMPALE": 2498,
+      "PICKAXE_SMASH": 2497,
+      "PICKAXE_BLOCK": 2498
+    }
+  },
+  "23276": {
+    "styles": {
+      "PICKAXE_SPIKE": 2498,
+      "PICKAXE_IMPALE": 2498,
+      "PICKAXE_SMASH": 2497,
+      "PICKAXE_BLOCK": 2498
+    }
+  },
+  "23680": {
+    "styles": {
+      "PICKAXE_SPIKE": 2498,
+      "PICKAXE_IMPALE": 2498,
+      "PICKAXE_SMASH": 2497,
+      "PICKAXE_BLOCK": 2498
+    }
+  },
+  "23677": {
+    "styles": {
+      "PICKAXE_SPIKE": 2498,
+      "PICKAXE_IMPALE": 2498,
+      "PICKAXE_SMASH": 2497,
+      "PICKAXE_BLOCK": 2498
+    }
+  },
+  "23822": {
+    "styles": {
+      "PICKAXE_SPIKE": 2498,
+      "PICKAXE_IMPALE": 2498,
+      "PICKAXE_SMASH": 2497,
+      "PICKAXE_BLOCK": 2498
+    }
+  },
+  "23863": {
+    "styles": {
+      "PICKAXE_SPIKE": 2498,
+      "PICKAXE_IMPALE": 2498,
+      "PICKAXE_SMASH": 2497,
+      "PICKAXE_BLOCK": 2498
+    }
+  },
+  "25063": {
+    "styles": {
+      "PICKAXE_SPIKE": 2498,
+      "PICKAXE_IMPALE": 2498,
+      "PICKAXE_SMASH": 2497,
+      "PICKAXE_BLOCK": 2498
+    }
+  },
+  "25112": {
+    "styles": {
+      "PICKAXE_SPIKE": 2498,
+      "PICKAXE_IMPALE": 2498,
+      "PICKAXE_SMASH": 2497,
+      "PICKAXE_BLOCK": 2498
+    }
+  },
+  "25376": {
+    "styles": {
+      "PICKAXE_SPIKE": 2498,
+      "PICKAXE_IMPALE": 2498,
+      "PICKAXE_SMASH": 2497,
+      "PICKAXE_BLOCK": 2498
+    }
+  },
+  "25369": {
+    "styles": {
+      "PICKAXE_SPIKE": 2498,
+      "PICKAXE_IMPALE": 2498,
+      "PICKAXE_SMASH": 2497,
+      "PICKAXE_BLOCK": 2498
+    }
+  },
+  "1349": {
+    "styles": {
+      "BATTLEAXE_CHOP": 2498,
+      "BATTLEAXE_HACK": 2498,
+      "BATTLEAXE_SMASH": 2497,
+      "BATTLEAXE_BLOCK": 2498
+    }
+  },
+  "1351": {
+    "styles": {
+      "BATTLEAXE_CHOP": 2498,
+      "BATTLEAXE_HACK": 2498,
+      "BATTLEAXE_SMASH": 2497,
+      "BATTLEAXE_BLOCK": 2498
+    }
+  },
+  "1353": {
+    "styles": {
+      "BATTLEAXE_CHOP": 2498,
+      "BATTLEAXE_HACK": 2498,
+      "BATTLEAXE_SMASH": 2497,
+      "BATTLEAXE_BLOCK": 2498
+    }
+  },
+  "1355": {
+    "styles": {
+      "BATTLEAXE_CHOP": 2498,
+      "BATTLEAXE_HACK": 2498,
+      "BATTLEAXE_SMASH": 2497,
+      "BATTLEAXE_BLOCK": 2498
+    }
+  },
+  "1357": {
+    "styles": {
+      "BATTLEAXE_CHOP": 2498,
+      "BATTLEAXE_HACK": 2498,
+      "BATTLEAXE_SMASH": 2497,
+      "BATTLEAXE_BLOCK": 2498
+    }
+  },
+  "1359": {
+    "styles": {
+      "BATTLEAXE_CHOP": 2498,
+      "BATTLEAXE_HACK": 2498,
+      "BATTLEAXE_SMASH": 2497,
+      "BATTLEAXE_BLOCK": 2498
+    }
+  },
+  "1361": {
+    "styles": {
+      "BATTLEAXE_CHOP": 2498,
+      "BATTLEAXE_HACK": 2498,
+      "BATTLEAXE_SMASH": 2497,
+      "BATTLEAXE_BLOCK": 2498
+    }
+  }
+}

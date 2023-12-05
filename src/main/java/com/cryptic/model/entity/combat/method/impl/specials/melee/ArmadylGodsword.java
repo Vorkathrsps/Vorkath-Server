@@ -18,7 +18,8 @@ public class ArmadylGodsword extends CommonCombatMethod {
         player.animate(animation);
         boolean gfx_gold = player.getAttribOr(AttributeKey.AGS_GFX_GOLD, false);
         player.graphic(gfx_gold ? 1747 : 1211);
-         entity.submitHit(target, 0, this);
+        var hit = entity.submitHit(target, 0, this);
+        entity.sendSound(3869, hit.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.ARMADYL_GODSWORD.getDrainAmount());
         return true;
     }

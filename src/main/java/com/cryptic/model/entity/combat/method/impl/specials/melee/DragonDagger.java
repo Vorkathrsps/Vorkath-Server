@@ -12,7 +12,9 @@ public class DragonDagger extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1062);
         entity.graphic(252, GraphicHeight.HIGH, 0);
-        for (int index = 0; index < 2; index++)  entity.submitHit(target, 0, this);
+        var hit = entity.submitHit(target, 0, this);
+        entity.submitHit(target, 0, this);
+        entity.sendSound(2537, hit.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_DAGGER.getDrainAmount());
         return true;
     }

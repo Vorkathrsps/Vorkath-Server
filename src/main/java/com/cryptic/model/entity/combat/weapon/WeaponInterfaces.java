@@ -53,23 +53,32 @@ public class WeaponInterfaces {
         player.getPacketSender().sendString(weaponType.getNameLineId(), (weaponType == WeaponType.UNARMED ? "Unarmed" : World.getWorld().getEquipmentLoader().getInfo(def.id).getName()));
 
         switch (weaponType) {
-            case UNARMED -> player.getPacketSender().sendString(24776, "Category: " + def.getWeaponCategory(weaponType));
+            case UNARMED ->
+                player.getPacketSender().sendString(24776, "Category: " + def.getWeaponCategory(weaponType));
             case HAMMER -> player.getPacketSender().sendString(24777, "Category: " + def.getWeaponCategory(weaponType));
             case SCYTHE -> player.getPacketSender().sendString(24778, "Category: " + def.getWeaponCategory(weaponType));
-            case MAGIC_STAFF, BLADED_STAFF -> player.getPacketSender().sendString(24779, "Category: " + def.getWeaponCategory(weaponType));
+            case MAGIC_STAFF, BLADED_STAFF ->
+                player.getPacketSender().sendString(24779, "Category: " + def.getWeaponCategory(weaponType));
             case AXE -> player.getPacketSender().sendString(24780, "Category: " + def.getWeaponCategory(weaponType));
-            case PICKAXE -> player.getPacketSender().sendString(24783, "Category: " + def.getWeaponCategory(weaponType));
-            case TWOHANDED -> player.getPacketSender().sendString(24784, "Category: " + def.getWeaponCategory(weaponType));
-            case BOW, CROSSBOW -> player.getPacketSender().sendString(24781, "Category: " + def.getWeaponCategory(weaponType));
+            case PICKAXE ->
+                player.getPacketSender().sendString(24783, "Category: " + def.getWeaponCategory(weaponType));
+            case TWOHANDED ->
+                player.getPacketSender().sendString(24784, "Category: " + def.getWeaponCategory(weaponType));
+            case BOW, CROSSBOW ->
+                player.getPacketSender().sendString(24781, "Category: " + def.getWeaponCategory(weaponType));
             case DAGGER -> player.getPacketSender().sendString(24782, "Category: " + def.getWeaponCategory(weaponType));
             case THROWN -> player.getPacketSender().sendString(24786, "Category: " + def.getWeaponCategory(weaponType));
-            case SPEAR ->  player.getPacketSender().sendString(24785, "Category: " + def.getWeaponCategory(weaponType));
+            case SPEAR -> player.getPacketSender().sendString(24785, "Category: " + def.getWeaponCategory(weaponType));
             case MACE -> player.getPacketSender().sendString(24787, "Category: " + def.getWeaponCategory(weaponType));
-            case SWORD, LONGSWORD -> player.getPacketSender().sendString(24788, "Category: " + def.getWeaponCategory(weaponType));
+            case SWORD, LONGSWORD ->
+                player.getPacketSender().sendString(24788, "Category: " + def.getWeaponCategory(weaponType));
             case WHIP -> player.getPacketSender().sendString(24792, "Category: " + def.getWeaponCategory(weaponType));
-            case HALBERD -> player.getPacketSender().sendString(24791, "Category: " + def.getWeaponCategory(weaponType));
-            case CLAWS -> player.getPacketSender().sendString(24790, "Category: " + def.getWeaponCategory(weaponType));//TODO stabsword
-            case POWERED_STAFF -> player.getPacketSender().sendString(24793, "Category: " + def.getWeaponCategory(weaponType));
+            case HALBERD ->
+                player.getPacketSender().sendString(24791, "Category: " + def.getWeaponCategory(weaponType));
+            case CLAWS ->
+                player.getPacketSender().sendString(24790, "Category: " + def.getWeaponCategory(weaponType));//TODO stabsword
+            case POWERED_STAFF ->
+                player.getPacketSender().sendString(24793, "Category: " + def.getWeaponCategory(weaponType));
 
             //case -> player.getPacketSender().sendString(24782, "Category: " + def.getWeaponCategory()); polestaffs -> 24789 banner -> 24785 partisan -> 24782
         }
@@ -115,15 +124,27 @@ public class WeaponInterfaces {
         switch (button) {
             // shortbow & longbow
             case 1772 -> {
-                player.getCombat().setFightType(FightType.ARROW_ACCURATE);
+                if (player.getCombat().getWeaponType() == WeaponType.BOW) {
+                    player.getCombat().setFightType(FightType.ARROW_ACCURATE);
+                } else if (player.getCombat().getWeaponType() == WeaponType.CROSSBOW) {
+                    player.getCombat().setFightType(FightType.BOLT_ACCURATE);
+                }
                 return true;
             }
             case 1771 -> {
-                player.getCombat().setFightType(FightType.ARROW_RAPID);
+                if (player.getCombat().getWeaponType() == WeaponType.BOW) {
+                    player.getCombat().setFightType(FightType.ARROW_RAPID);
+                } else if (player.getCombat().getWeaponType() == WeaponType.CROSSBOW) {
+                    player.getCombat().setFightType(FightType.BOLT_RAPID);
+                }
                 return true;
             }
             case 1770 -> {
-                player.getCombat().setFightType(FightType.ARROW_LONGRANGE);
+                if (player.getCombat().getWeaponType() == WeaponType.BOW) {
+                    player.getCombat().setFightType(FightType.ARROW_LONGRANGE);
+                } else if (player.getCombat().getWeaponType() == WeaponType.CROSSBOW) {
+                    player.getCombat().setFightType(FightType.BOLT_LONGRANGE);
+                }
                 return true;
             }
             // dagger & sword

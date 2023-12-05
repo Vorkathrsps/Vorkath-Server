@@ -15,10 +15,7 @@ import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.region.RegionManager;
-import com.cryptic.network.packet.ByteOrder;
-import com.cryptic.network.packet.PacketBuilder;
-import com.cryptic.network.packet.PacketType;
-import com.cryptic.network.packet.ValueType;
+import com.cryptic.network.packet.*;
 import com.cryptic.network.packet.outgoing.message.ComponentVisibility;
 import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
@@ -150,24 +147,26 @@ public final class PacketSender {
         return this;
     }
 
-    public PacketSender sendSound(int id, int delay) {
+    public PacketSender sendJingle(int id) {
         PacketBuilder out = new PacketBuilder(174);
-        out.putShort(id);
         out.put(0);
-        out.putShort(delay * 600);//done via ticks
-        out.putShort(0);
+        out.putShort(id);
         player.getSession().write(out);
         return this;
     }
 
-    /**
-     * Global sounds??
-     **/
-    public PacketSender sendMusic(int trackId, int other, int unknown) {
+    public PacketSender sendSong(int id) {
+        PacketBuilder out = new PacketBuilder(74);
+        out.putShort(id);
+        player.getSession().write(out);
+        return this;
+    }
+
+    public PacketSender sendSoundEffect(int trackId, int repeat, int delay) {
         PacketBuilder out = new PacketBuilder(105);
-        out.put(other);
         out.putShort(trackId);
-        out.put(unknown);
+        out.put(repeat);
+        out.putShort(delay);
         player.getSession().write(out);
         return this;
     }
@@ -372,14 +371,6 @@ public final class PacketSender {
         player.getSession().write(out);
         return this;
     }
-
-    public PacketSender sendSong(int id) {
-        PacketBuilder out = new PacketBuilder(74);
-        out.putShort(id, ByteOrder.LITTLE);
-        player.getSession().write(out);
-        return this;
-    }
-
     public PacketSender sendAutocastId(int id) {
         PacketBuilder out = new PacketBuilder(38);
         out.putShort(id);

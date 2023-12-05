@@ -129,8 +129,9 @@ public class Prayers {
             if (!canUse(player, pd, true)) {
                 return;
             }
-            if (pd.soundId != -1)
-                player.playSound(pd.soundId);
+            if (pd.soundId != -1) {
+
+            }
         }
 
         switch (prayerId) {
@@ -210,14 +211,12 @@ public class Prayers {
         if (player.getSkills().xpLevel(Skills.PRAYER) < (prayer.getRequirement())) {
             if (msg) {
                 player.getPacketSender().sendConfig(prayer.getConfigId(), 0);
-                player.playSound(CANNOT_USE);
                 player.message("You need a Prayer level of at least " + prayer.getRequirement() + " to use " + prayer.getPrayerName() + ".");
             }
             return false;
         }
         if (prayer == DefaultPrayerData.CHIVALRY && player.getSkills().xpLevel(Skills.DEFENCE) < 60) {
             if (msg) {
-                player.playSound(CANNOT_USE);
                 player.getPacketSender().sendConfig(prayer.getConfigId(), 0);
                 player.message("You need a Defence level of at least 60 to use Chivalry.");
             }
@@ -225,7 +224,6 @@ public class Prayers {
         }
         if (prayer == DefaultPrayerData.PIETY && player.getSkills().xpLevel(Skills.DEFENCE) < 70) {
             if (msg) {
-                player.playSound(CANNOT_USE);
                 player.getPacketSender().sendConfig(prayer.getConfigId(), 0);
                 player.message("You need a Defence level of at least 70 to use Piety.");
             }
@@ -233,7 +231,6 @@ public class Prayers {
         }
         if ((prayer == DefaultPrayerData.RIGOUR || prayer == DefaultPrayerData.AUGURY) && player.getSkills().xpLevel(Skills.DEFENCE) < 70) {
             if (msg) {
-                player.playSound(CANNOT_USE);
                 player.getPacketSender().sendConfig(prayer.getConfigId(), 0);
                 player.message("You need a Defence level of at least 70 to use that prayer.");
             }
@@ -242,7 +239,6 @@ public class Prayers {
         if (prayer == DefaultPrayerData.PROTECT_ITEM) {
             if (player.getIronManStatus() == IronMode.ULTIMATE) {
                 if (msg) {
-                    player.playSound(CANNOT_USE);
                     player.getPacketSender().sendConfig(prayer.getConfigId(), 0);
                     player.message("As an Ultimate Iron Man, you cannot use the protect item prayer.");
                 }
@@ -251,7 +247,6 @@ public class Prayers {
 
             if (Skulling.skulled(player) && player.getSkullType() == SkullType.RED_SKULL) {
                 if (msg) {
-                    player.playSound(CANNOT_USE);
                     player.getPacketSender().sendConfig(prayer.getConfigId(), 0);
                     DialogueManager.sendStatement(player, "You cannot use the Protect Item prayer with a red skull!");
                 }
@@ -263,7 +258,6 @@ public class Prayers {
             if (prayer == DefaultPrayerData.PROTECT_FROM_MELEE || prayer == DefaultPrayerData.PROTECT_FROM_MISSILES || prayer == DefaultPrayerData.PROTECT_FROM_MAGIC) {
                 if (msg) {
                     player.getPacketSender().sendConfig(prayer.getConfigId(), 0);
-                    player.playSound(CANNOT_USE);
                     player.message("You cannot use overhead prayers right now.");
                 }
                 return false;
@@ -286,7 +280,6 @@ public class Prayers {
         if (locked) {
             if (msg) {
                 player.message("You have not unlocked that Prayer yet.");
-                player.playSound(CANNOT_USE);
                 player.getPacketSender().sendConfig(prayer.getConfigId(), 0);
             }
             return false;
@@ -296,7 +289,6 @@ public class Prayers {
         if (player.getDueling().inDuel() && player.getDueling().getRules()[DuelRule.NO_PRAYER.ordinal()]) {
             if (msg) {
                 DialogueManager.sendStatement(player, "Prayer has been disabled in this duel!");
-                player.playSound(CANNOT_USE);
                 player.getPacketSender().sendConfig(prayer.getConfigId(), 0);
             }
             return false;

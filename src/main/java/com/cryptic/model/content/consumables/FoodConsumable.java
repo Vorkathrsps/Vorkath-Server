@@ -280,6 +280,6 @@ public class FoodConsumable {
                 player.message("The sugary goodness heals some energy.");
             }
         }
-        player.playSound(317);
+
     }
 }

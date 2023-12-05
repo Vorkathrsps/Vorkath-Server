@@ -24,6 +24,10 @@ import java.util.List;
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public class HydraCombatScript extends CommonCombatMethod {
+    @Override
+    public void init(NPC npc) {
+        npc.ignoreOccupiedTiles = true;
+    }
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
@@ -116,16 +120,6 @@ public class HydraCombatScript extends CommonCombatMethod {
     };
 
     /**
-     * Fires a projectile from the hydra to a tile.
-     */
-    private void fireProjectileToLocation(NPC hydra, Tile tile) {
-        var center = Utils.getCenterLocation(hydra);
-        var dir = Direction.of(tile.x - center.x, tile.y - center.y);
-        var from = center.transform(dir.x * 2, dir.y * 2);
-       // new Projectile(from, tile, 1, 1644, 90, 50, 55, 0, 0, 0, 5).sendProjectile();
-    }
-
-    /**
      * The hydra's attack animations.
      */
     private final List<Integer> hydraAttacks = List.of(8261, 8262, 8263);
@@ -137,6 +131,11 @@ public class HydraCombatScript extends CommonCombatMethod {
 
     @Override
     public int moveCloseToTargetTileRange(Entity entity) {
-        return 1;
+        return 2;
+    }
+
+    @Override
+    public void doFollowLogic() {
+        follow(2);
     }
 }

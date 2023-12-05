@@ -205,7 +205,7 @@ public class Potions {
             player.message("You're currently stunned and cannot use potions.");
             return;
         }
-        player.playSound(334);
+
         player.getTimers().register(TimerKey.POTION, 3);
         player.getTimers().register(TimerKey.FOOD, 3);
         int eatAnim;

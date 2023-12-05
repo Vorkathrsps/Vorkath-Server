@@ -558,6 +558,10 @@ public abstract class Entity {
         return this;
     }
 
+    public void sendSound(int id, int delay) {
+        this.getAsPlayer().getPacketSender().sendSoundEffect(id, 1, delay);
+    }
+
     public void decrementHealth(Hit hit) {
         if (dead())
             return;
@@ -1935,7 +1939,6 @@ public abstract class Entity {
             }
 
         }
-
 
         setTile(teleportTarget);
         Tile.occupy(this);

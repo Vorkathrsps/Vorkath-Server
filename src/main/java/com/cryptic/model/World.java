@@ -30,6 +30,7 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.def.EquipmentLoader;
 import com.cryptic.model.items.container.presets.PresetData;
 import com.cryptic.model.items.container.shop.Shop;
+import com.cryptic.model.items.container.sounds.SoundLoader;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.object.GameObject;
@@ -730,6 +731,7 @@ public class World {
 
     @Getter
     EquipmentLoader equipmentLoader = new EquipmentLoader();
+    @Getter SoundLoader soundLoader = new SoundLoader();
 
     public void postLoad() {
         try {
@@ -746,6 +748,12 @@ public class World {
 
         try {
             equipmentLoader.loadEquipmentDefinitions(new File("data/def/Stats.json"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            soundLoader.loadSounds(new File("data/list/sounds.json"));
         } catch (IOException e) {
             e.printStackTrace();
         }

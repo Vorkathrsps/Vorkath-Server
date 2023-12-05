@@ -215,7 +215,6 @@ public class Teleports {
 
         player.lockNoDamage();
         player.animate(anim);
-        player.sendSound(202, 0);
         player.graphic(gfx.id(), gfx.getHeight(), gfx.delay());
         Chain.bound(null).runFn(3, () -> {
             HealthHud.close(player);

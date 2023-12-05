@@ -28,8 +28,13 @@ public class VolatileNMS extends CommonCombatMethod {
         entity.graphic(1760);
         entity.animate(8532);
         entity.getCombat().setCastSpell(CombatSpells.VOLATILE_NIGHTMARE_STAFF.getSpell());
-        Hit hit = new Hit(entity, target, 2, this).checkAccuracy(true).submit();
-        if (hit.isAccurate()) target.graphic(1759, GraphicHeight.LOW, 0);
+        entity.submitHit(target, 2, this).postDamage(d -> {
+            if (!d.isAccurate()) {
+                d.block();
+                return;
+            }
+            target.graphic(1759, GraphicHeight.LOW, 0);
+        });
         entity.getCombat().setCastSpell(null);
         entity.getCombat().setTarget(null);
         CombatSpecial.drain(entity, CombatSpecial.VOLATILE_NIGHTMARE_STAFF.getDrainAmount());

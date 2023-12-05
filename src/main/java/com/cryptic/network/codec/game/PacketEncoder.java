@@ -192,7 +192,7 @@ public final class PacketEncoder extends MessageToByteEncoder<Packet> {
         PACKET_SIZES[102] = -3;
         PACKET_SIZES[103] = -3;
         PACKET_SIZES[104] = -1;
-        PACKET_SIZES[105] = 4;
+        PACKET_SIZES[105] = 5;
         PACKET_SIZES[106] = 1;
         PACKET_SIZES[107] = 0;
         PACKET_SIZES[108] = -3;

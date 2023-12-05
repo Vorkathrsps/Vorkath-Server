@@ -60,7 +60,7 @@ public class KeyPressedListener implements PacketListener {
 
         if (player.soundmode) {
             if (key == 112) {
-                player.sendSound(player.lastSoundId, 1);
+               // player.sendSound(player.lastSoundId, 1);
                 player.getPacketSender().sendMessage("Playing SoundId: <col=ff0000>" + player.lastSoundId);
                 player.lastSoundId++;
                 return;
@@ -70,7 +70,7 @@ public class KeyPressedListener implements PacketListener {
                     player.getPacketSender().sendMessage("Cannot go back! at first id: 0");
                     return;
                 }
-                player.sendSound(player.lastSoundId, 1);
+               // player.sendSound(player.lastSoundId, 1);
                 player.getPacketSender().sendMessage("Playing SoundId: <col=0000ff>" + player.lastSoundId);
                 player.lastSoundId--;
                 return;

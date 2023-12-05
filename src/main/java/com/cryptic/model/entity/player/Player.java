@@ -2391,6 +2391,10 @@ public class Player extends Entity {
         return packetSender;
     }
 
+    public void sendSound(int id, int delay) {
+        this.getPacketSender().sendSoundEffect(id, 1, delay);
+    }
+
     public SecondsTimer getForcedLogoutTimer() {
         return forcedLogoutTimer;
     }
@@ -2738,14 +2742,6 @@ public class Player extends Entity {
             this.putAttrib(AttributeKey.IS_RUNNING, false);
         }
         this.getPacketSender().sendRunStatus();
-    }
-
-    public void playSound(int id) {
-        sendSound(id, 0);
-    }
-
-    public void sendSound(int id, int tickDelay) {
-        getPacketSender().sendSound(id, tickDelay);
     }
 
     private Task distancedTask;

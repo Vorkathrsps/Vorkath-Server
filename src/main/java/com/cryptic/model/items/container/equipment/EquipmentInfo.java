@@ -295,6 +295,28 @@ public class EquipmentInfo {
         return attackAnimationFor(player, player.getEquipment().hasAt(EquipSlot.WEAPON) ? player.getEquipment().get(EquipSlot.WEAPON).getId() : 0);
     }
 
+    public static int soundFor(Player player) {
+        return soundFor(player, player.getEquipment().hasAt(EquipSlot.WEAPON) ? player.getEquipment().get(EquipSlot.WEAPON).getId() : 0);
+    }
+
+    public static int soundFor(Player player, int weapon) {
+        int style = player.getCombat().getFightType().getChildId();
+        int sound = -1;
+        switch (weapon) {
+            case ABYSSAL_WHIP, ABYSSAL_TENTACLE, ABYSSAL_TENTACLE_OR, ABYSSAL_WHIP_OR -> sound = 2720;
+            case SCYTHE_OF_VITUR, SCYTHE_OF_VITUR_22664, CORRUPTED_SCYTHE_OF_VITUR, HOLY_SCYTHE_OF_VITUR, SANGUINE_SCYTHE_OF_VITUR ->
+                sound = 2523;
+            case SILVER_SICKLE -> {
+                if (style == 1) {
+                    sound = 2526;
+                } else if (style == 0 || style == 2 || style == 3) {
+                    sound = 2527;
+                }
+            }
+        }
+        return sound;
+    }
+
     public static int attackAnimationFor(Player player, int weapon) {
         int style = player.getCombat().getFightType().getChildId();
 

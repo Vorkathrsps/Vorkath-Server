@@ -167,6 +167,10 @@ public class RangedCombatMethod extends CommonCombatMethod {
                 Projectile projectile = new Projectile(attacker, target, graphic, startSpeed, duration, startHeight, endHeight, curve, 1, stepMultiplier);
                 final int hitDelay = attacker.executeProjectile(projectile);
                 Hit hit = player.submitHit(target, hitDelay, this);
+                var sound = World.getWorld().getSoundLoader().getInfo(player.getEquipment().getWeapon().getId());
+                if (sound != null) {
+                    player.sendSound(sound.forFightType(player.getCombat().getFightType()), hit.getDelay());
+                }
                 if (graphic != -1) {
                     if (weaponType == WeaponType.CHINCHOMPA) {
                         if (chinChompaDrawBack != null) {

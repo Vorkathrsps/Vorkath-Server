@@ -57,12 +57,12 @@ public class Flames extends PacketInteraction {
             player.setPositionToFace(null);
             player.getMovementQueue().clear();
             player.getMovementQueue().interpolate(x, y + 2);
-            player.hit(player,5);
+            player.hit(null,5);
         } else {
             player.setPositionToFace(null);
             player.getMovementQueue().clear();
             player.getMovementQueue().interpolate(x, y - 2);
-            player.hit(player,5);
+            player.hit(null,5);
         }
     }
 }

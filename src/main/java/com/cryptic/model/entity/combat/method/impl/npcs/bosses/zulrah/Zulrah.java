@@ -359,6 +359,7 @@ public class Zulrah {
     }
 
     private static void fillToxicFumes(NPC npc, Entity target) {
+
         Tile spawnTile = npc.spawnTile();
 
         Chain.bound(null).cancelWhen(() -> instanceFinished(npc)).runFn(1, () -> {

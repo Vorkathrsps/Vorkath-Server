@@ -51,9 +51,9 @@ public class Ahrims extends CommonCombatMethod {
         if (target != null) {
             target.graphic(400, GraphicHeight.HIGH, 0);
             if (target.getSkills().level(Skills.STRENGTH) < reduction) {
-                target.getSkills().alterSkill(Skills.STRENGTH, 0);
+                target.getSkills().setLevel(Skills.STRENGTH, 0);
             } else {
-                target.getSkills().alterSkill(Skills.STRENGTH, (target.getSkills().level(Skills.STRENGTH) - 5));
+                target.getSkills().setLevel(Skills.STRENGTH, (target.getSkills().level(Skills.STRENGTH) - 5));
             }
         }
     }

@@ -2,7 +2,6 @@ package com.cryptic.model.entity.combat.method.impl.specials.melee;
 
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatSpecial;
-import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.player.Player;
@@ -15,7 +14,7 @@ public class AncientMace extends CommonCombatMethod {
     public boolean prepareAttack(@NotNull Entity entity, Entity target) {
         entity.animate(6147);
         entity.graphic(1052, GraphicHeight.HIGH, 0);
-        new Hit(entity, target, 0, this).checkAccuracy(true).submit().ignorePrayer().postDamage(h -> {
+         entity.submitHit(target, 0, this).ignorePrayer().postDamage(h -> {
             if (!h.isAccurate()) {
                 h.block();
                 return;

@@ -170,7 +170,7 @@ public class Stalls extends PacketInteraction {
             player.inventory().add(new Item(COINS_995, coins), true);
 
             if (Utils.percentageChance(5)) {
-                player.hit(player, Utils.random(3));
+                player.hit(null, Utils.random(3));
                 player.stun(3);
             }
 

@@ -16,6 +16,7 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.*;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
+import com.cryptic.model.entity.combat.method.CombatMethod;
 import com.cryptic.model.entity.combat.method.impl.AttackNpcListener;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.KrakenInstance;
 import com.cryptic.model.entity.masks.*;
@@ -1767,6 +1768,18 @@ public abstract class Entity {
         }
     }
 
+    public Hit submitHit(Entity target, int delay, CombatMethod combatMethod) {
+        return new Hit(this, target, delay, combatMethod).checkAccuracy(true).submit();
+    }
+
+    public Hit submitAccurateHit(Entity target, int delay, int damage, CombatMethod combatMethod) {
+        return new Hit(this, target, delay, combatMethod).checkAccuracy(false).setDamage(damage).submit();
+    }
+
+    public Hit submitHit(Entity target, int delay, int damage, HitMark hitMark) {
+        return new Hit(this, target, null, false, delay, damage, hitMark).submit();
+    }
+
     public void stun(int time) {
         stun(time, true);
     }
@@ -1832,15 +1845,15 @@ public abstract class Entity {
             var target = player.getCombat().getTarget();
             if (target instanceof Player enemy) {
                 if (!ignoreImmunity) {
-                    enemy.getTimers().extendOrRegister(TimerKey.FREEZE_IMMUNITY, time + 5);
                     if (enemy.getTimers().has(TimerKey.FREEZE_IMMUNITY) || enemy.getTimers().has(TimerKey.FROZEN)) {
                         return;
                     }
+                    enemy.getTimers().extendOrRegister(TimerKey.FREEZE_IMMUNITY, time + 5);
+                    player.stopActions(true);
+                    enemy.putAttrib(AttributeKey.FROZEN_BY, player);
+                    enemy.getTimers().extendOrRegister(TimerKey.FROZEN, time);
+                    enemy.getPacketSender().sendEffectTimer((int) Math.round(time * 0.6), EffectTimer.FREEZE).sendMessage(Color.RED.wrap("You have been frozen!"));
                 }
-                player.stopActions(true);
-                enemy.putAttrib(AttributeKey.FROZEN_BY, player);
-                enemy.getTimers().extendOrRegister(TimerKey.FROZEN, time);
-                enemy.getPacketSender().sendEffectTimer((int) Math.round(time * 0.6), EffectTimer.FREEZE).sendMessage(Color.RED.wrap("You have been frozen!"));
             } else if (target instanceof NPC npc) {
                 if (ArrayUtils.contains(npcs_immune_to_freeze, npc.id())) {
                     return;
@@ -1856,7 +1869,6 @@ public abstract class Entity {
                 npc.getTimers().extendOrRegister(TimerKey.FREEZE_IMMUNITY, time + 5);
             }
         }
-
     }
 
     public void stopActions(boolean cancelMoving) {

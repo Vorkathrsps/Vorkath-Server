@@ -137,6 +137,6 @@ public class HydraCombatScript extends CommonCombatMethod {
 
     @Override
     public int moveCloseToTargetTileRange(Entity entity) {
-        return 6;
+        return 1;
     }
 }

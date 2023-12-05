@@ -55,10 +55,12 @@ public class Pickpocketing extends PacketInteraction {
     private void pickpocket(Player player, NPC npc, PickPocket pickpocket) {
         if (!player.getSkills().check(Skills.THIEVING, pickpocket.levelReq, "pickpocket the " + pickpocket.name + "."))
             return;
+
         if (player.inventory().isFull()) {
             player.message("Your inventory is too full to hold any more loot.");
             return;
         }
+
         if (player.stunned()) {
             player.message("You're stunned!");
             return;

@@ -2,10 +2,7 @@ package com.cryptic.model.entity.combat.method.impl.specials.melee;
 
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatSpecial;
-import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
@@ -19,7 +16,7 @@ public class SaradominGodsword extends CommonCombatMethod {
         player.animate(player.getEquipment().contains(ItemIdentifiers.SARADOMIN_GODSWORD_OR) ? 7641 : 7640);
         boolean gfx_gold = player.getAttribOr(AttributeKey.SGS_GFX_GOLD, false);
         player.graphic(gfx_gold ? 1745 : 1209);
-        new Hit(entity, target, 1, this).checkAccuracy(true).submit().postDamage(hit -> {
+        entity.submitHit(target, 1, this).postDamage(hit -> {
             if (!hit.isAccurate()) {
                 hit.block();
                 return;

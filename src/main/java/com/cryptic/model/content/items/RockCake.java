@@ -19,7 +19,7 @@ public class RockCake {
         if(item.getId() == ROCKCAKE) {
             if (player.hp() > 1 && !player.getTimers().has(TimerKey.EAT_ROCKCAKE)) {
 
-                player.hit(player,1);
+                player.hit(null,1);
                 player.getTimers().extendOrRegister(TimerKey.EAT_ROCKCAKE, 1);
             }
             return true;
@@ -31,7 +31,7 @@ public class RockCake {
         if(item.getId() == ROCKCAKE) {
             if (player.hp() > 1 && !player.getTimers().has(TimerKey.EAT_ROCKCAKE)) {
                 int dmg = (player.hp() + 10) / 10;
-                player.hit(player, dmg);
+                player.hit(null, dmg);
                 player.getTimers().extendOrRegister(TimerKey.EAT_ROCKCAKE, 1);
             }
             return true;

@@ -161,12 +161,12 @@ public class RangedCombatMethod extends CommonCombatMethod {
                 Projectile p2 = new Projectile(attacker, target, graphic, 41, duration2, 40, 36, 25, 1, 10);
                 final int d1 = attacker.executeProjectile(p1);
                 final int d2 = attacker.executeProjectile(p2);
-                new Hit(player, target, d1, this).checkAccuracy(true).submit();
-                new Hit(player, target, d2, this).checkAccuracy(true).submit();
+                player.submitHit(target, d1, this);
+                player.submitHit(target, d2, this);
             } else {
                 Projectile projectile = new Projectile(attacker, target, graphic, startSpeed, duration, startHeight, endHeight, curve, 1, stepMultiplier);
                 final int hitDelay = attacker.executeProjectile(projectile);
-                Hit hit = new Hit(attacker, target, hitDelay, this).checkAccuracy(true).submit();
+                Hit hit = player.submitHit(target, hitDelay, this);
                 if (graphic != -1) {
                     if (weaponType == WeaponType.CHINCHOMPA) {
                         if (chinChompaDrawBack != null) {

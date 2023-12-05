@@ -2,13 +2,9 @@ package com.cryptic.model.entity.combat.method.impl.specials.melee;
 
 
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatSpecial;
-import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
-import com.cryptic.model.entity.npc.NPC;
 
 public class DragonDagger extends CommonCombatMethod {
 
@@ -16,7 +12,7 @@ public class DragonDagger extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1062);
         entity.graphic(252, GraphicHeight.HIGH, 0);
-        for (int index = 0; index < 2; index++) new Hit(entity, target, 0, this).checkAccuracy(true).submit();
+        for (int index = 0; index < 2; index++)  entity.submitHit(target, 0, this);
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_DAGGER.getDrainAmount());
         return true;
     }

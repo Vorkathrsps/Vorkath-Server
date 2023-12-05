@@ -15,24 +15,21 @@ public class ZamorakianSpear extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity attacker, Entity victim) {
         //The special attack can only be used on targets that take up one square.
-        if(attacker.isPlayer() && victim.isNpc()) {
+        if (attacker.isPlayer() && victim.isNpc()) {
             var playerAttacker = (Player) attacker;
-            if(victim.getSize() > 1) {
+            if (victim.getSize() > 1) {
                 playerAttacker.message("You can't spear this monster.");
                 return false;
             }
         }
-        if(attacker.isPlayer() && victim.isPlayer()) {
+        if (attacker.isPlayer() && victim.isPlayer()) {
             var player = (Player) attacker;
-
-            //Start with checks first
 
             if (player.getDueling().inDuel() && player.getDueling().getRules()[DuelRule.NO_MOVEMENT.ordinal()]) {
                 player.message("This weapon's special attack cannot be used in this duel.");
                 return false;
             }
 
-            //The effects of this special are non-stackable, meaning that players cannot use the spear's special attack on a target who is already stunned.
             if (victim.stunned()) {
                 player.message("They're already stunned!");
                 return false;
@@ -47,7 +44,7 @@ public class ZamorakianSpear extends CommonCombatMethod {
 
 
         //Player vs Player
-        if(attacker.isPlayer() && victim.isPlayer()) {
+        if (attacker.isPlayer() && victim.isPlayer()) {
 
             // Since this weapon doesn't deal damage, manually extend the in-combat timer.
             victim.getTimers().extendOrRegister(TimerKey.COMBAT_LOGOUT, 16);
@@ -62,8 +59,7 @@ public class ZamorakianSpear extends CommonCombatMethod {
             }
 
             victim.stun(5);
-            if (legal)
-                victim.getMovementQueue().interpolate(targTile, MovementQueue.StepType.FORCED_WALK);
+            if (legal) victim.getMovementQueue().interpolate(targTile, MovementQueue.StepType.FORCED_WALK);
         }
         CombatSpecial.drain(attacker, CombatSpecial.ZAMORAKIAN_SPEAR.getDrainAmount());
         return true;

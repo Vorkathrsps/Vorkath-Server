@@ -21,6 +21,6 @@ public class DailyTaskUtility {
     public static final int LEFT_SIDE_REWARD_CONTAINER = 41518;
     public static final int RIGHT_SIDE_REWARD_CONTAINER = 41519;
     public static final int START_LIST_ID = 41519;
-    public static final int CLOSE_BUTTON = 41502;
+    public static final int CLOSE_BUTTON = 80755;
 
 }

@@ -2,10 +2,7 @@ package com.cryptic.model.entity.combat.method.impl.specials.melee;
 
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatSpecial;
-import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.ItemIdentifiers;
@@ -18,13 +15,13 @@ public class ZamorakGodsword extends CommonCombatMethod {
         player.animate(player.getEquipment().contains(ItemIdentifiers.SARADOMIN_GODSWORD_OR) ? 7639 : 7638);
         boolean gfx_gold = player.getAttribOr(AttributeKey.ZGS_GFX_GOLD, false);
         player.graphic(gfx_gold ? 1746 : 1210);
-        new Hit(entity, target, 1, this).checkAccuracy(true).submit().postDamage(hit -> {
+        entity.submitHit(target, 1, this).postDamage(hit -> {
             if (!hit.isAccurate()) {
                 hit.block();
                 return;
             }
             target.graphic(369);
-            target.freeze(33, entity, true);
+            target.freeze(33, entity, false);
         });
         CombatSpecial.drain(entity, CombatSpecial.ZAMORAK_GODSWORD.getDrainAmount());
         return true;

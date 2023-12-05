@@ -84,7 +84,7 @@ public class ThievableChests extends PacketInteraction {
                     player.lockDamageOk();
                     player.message("You begin to open the chest...");
                     Chain.bound(player).runFn(1, () -> player.message("You trigger a trap!")).then(1, () -> {
-                        player.hit(player,Utils.random(2, 3));
+                        player.hit(null,Utils.random(2, 3));
                         player.unlock();
                     });
                 } else if (op == 2) {
@@ -111,7 +111,7 @@ public class ThievableChests extends PacketInteraction {
                         } else {
                             player.message("You trigger a trap!");
                             Chain.bound(player).runFn(1, () -> {
-                                player.hit(player,Utils.random(2, 3));
+                                player.hit(null,Utils.random(2, 3));
                                 if (Utils.rollDie(100, 15)) {
                                     player.poison(2);
                                 }

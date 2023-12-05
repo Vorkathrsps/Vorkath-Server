@@ -32,9 +32,7 @@ public class MorrigansJavelin extends CommonCombatMethod {
         int duration = (40 + 11 + (3 * tileDist));
         Projectile p1 = new Projectile(entity, target, 1622, 40, duration, 40, 30, 0, target.getSize(), 5);
         final int delay = entity.executeProjectile(p1);
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED),delay, CombatType.RANGED).checkAccuracy(true);
-        hit.submit();
-
+        var hit = entity.submitHit(target, delay, this);
         if(target instanceof Player playerTarget) {
             playerTarget.message("You start to bleed as a result of the javelin strike.");
             playerTarget.hit(target, 5, CombatType.RANGED).submit();

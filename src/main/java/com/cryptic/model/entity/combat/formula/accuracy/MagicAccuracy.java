@@ -26,8 +26,8 @@ public final class MagicAccuracy {
     @Getter private final Entity defender;
     private final CombatType combatType;
     private final PreDamageEffectHandler handler = new PreDamageEffectHandler(new EquipmentDamageEffect());
-    @Getter public double attackRoll = 0;
-    @Getter public double defenceRoll = 0;
+    public double attackRoll = 0;
+    public double defenceRoll = 0;
     @Getter public double chance = 0;
 
     public MagicAccuracy(Entity attacker, Entity defender, CombatType combatType) {
@@ -57,20 +57,20 @@ public final class MagicAccuracy {
     }
 
     private double getPrayerBonus() {
-        double prayerBonus = 1F;
+        double prayerBonus = 1D;
         if (this.attacker instanceof Player) {
-            if (Prayers.usingPrayer(this.attacker, MYSTIC_WILL)) prayerBonus *= 1.05F; // 5% magic level boost
-            else if (Prayers.usingPrayer(this.attacker, MYSTIC_LORE)) prayerBonus *= 1.10F; // 10% magic level boost
-            else if (Prayers.usingPrayer(this.attacker, MYSTIC_MIGHT)) prayerBonus *= 1.15F; // 15% magic level boost
-            else if (Prayers.usingPrayer(this.attacker, AUGURY)) prayerBonus *= 1.25F; // 25% magic level boost
+            if (Prayers.usingPrayer(this.attacker, MYSTIC_WILL)) prayerBonus *= 1.05D; // 5% magic level boost
+            else if (Prayers.usingPrayer(this.attacker, MYSTIC_LORE)) prayerBonus *= 1.10D; // 10% magic level boost
+            else if (Prayers.usingPrayer(this.attacker, MYSTIC_MIGHT)) prayerBonus *= 1.15D; // 15% magic level boost
+            else if (Prayers.usingPrayer(this.attacker, AUGURY)) prayerBonus *= 1.25D; // 25% magic level boost
         }
         return prayerBonus;
     }
 
     private double getPrayerBonusDefender() {
-        double prayerBonus = 1F;
+        double prayerBonus = 1D;
         if (this.defender instanceof Player) {
-            if (Prayers.usingPrayer(this.defender, AUGURY)) prayerBonus *= 1.25F;
+            if (Prayers.usingPrayer(this.defender, AUGURY)) prayerBonus *= 1.25D;
         }
         return prayerBonus;
     }

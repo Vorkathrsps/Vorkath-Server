@@ -132,24 +132,24 @@ public class KaruulmSlayerDungeon extends PacketInteraction {
             if (obj.getId() == alchemicalDoor) {
                 boolean inside = player.getAbsX() >= 1356;
                 player.lockMovement();
-            Chain.bound(null).runFn(1, () -> { // and running a tick later bad .. if delaying tick have to lock
-                player.unlock();
+                Chain.bound(null).runFn(1, () -> { // and running a tick later bad .. if delaying tick have to lock
+                    player.unlock();
                     if (!inside) {
-                player.getCombat().clearDamagers();
-                var instance = InstancedAreaManager.getSingleton().createInstancedArea(ALCHEMICAL_HYDRA_AREA);
-                player.setInstancedArea(instance);
-                player.teleport(ENTRANCE_POINT.transform(0, 0, instance.getzLevel()));
-                var hydra = new AlchemicalHydra(HYDRA_SPAWN_TILE.transform(0, 0, instance.getzLevel()), player);
-                        hydra.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE,25);
+                        player.getCombat().clearDamagers();
+                        var instance = InstancedAreaManager.getSingleton().createInstancedArea(ALCHEMICAL_HYDRA_AREA);
+                        player.setInstancedArea(instance);
+                        player.teleport(ENTRANCE_POINT.transform(0, 0, instance.getzLevel()));
+                        var hydra = new AlchemicalHydra(HYDRA_SPAWN_TILE.transform(0, 0, instance.getzLevel()), player);
+                        hydra.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 25);
                         Arrays.stream(hydra.closePlayers()).forEach(p -> {
-                            HealthHud.open(p, HealthHud.Type.REGULAR,"Alchemical Hydra", 1100);
-                });
-                World.getWorld().registerNpc(hydra);
-                instance.addNpc(hydra);
+                            HealthHud.open(p, HealthHud.Type.REGULAR, "Alchemical Hydra", 1100);
+                        });
+                        World.getWorld().registerNpc(hydra);
+                        instance.addNpc(hydra);
                     } else {
                         player.teleport(1355, 10259);
                     }
-            });
+                });
                 return true;
             }
         }

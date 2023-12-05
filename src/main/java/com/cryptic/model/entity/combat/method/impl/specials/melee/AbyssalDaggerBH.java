@@ -1,10 +1,7 @@
 package com.cryptic.model.entity.combat.method.impl.specials.melee;
 
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatSpecial;
-import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 
@@ -13,7 +10,7 @@ public class AbyssalDaggerBH extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(3300);
         entity.graphic(1283, GraphicHeight.LOW, 0);
-        for (int index = 0; index < 2; index++) new Hit(entity, target, 0, this).checkAccuracy(true).submit();
+        for (int index = 0; index < 2; index++)  entity.submitHit(target, 0, this);
         CombatSpecial.drain(entity, CombatSpecial.ABYSSAL_DAGGER_BH.getDrainAmount());
         return true;
     }

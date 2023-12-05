@@ -47,7 +47,7 @@ public class RubyBolts implements AmmunitionDamageEffectListener {
                         damage = cap;
 
                     if (!target.getAsNpc().isCombatDummy()) {
-                        player.hit(player, selfDamage, 0, null).setIsReflected().submit();
+                        player.hit(null, selfDamage, 0, null).setIsReflected().submit();
                     }
                     return damage;
                 }

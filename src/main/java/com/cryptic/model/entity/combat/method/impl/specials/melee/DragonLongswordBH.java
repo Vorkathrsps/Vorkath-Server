@@ -1,10 +1,7 @@
 package com.cryptic.model.entity.combat.method.impl.specials.melee;
 
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatSpecial;
-import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 
@@ -13,7 +10,7 @@ public class DragonLongswordBH extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1058);
         entity.graphic(248, GraphicHeight.HIGH, 0);
-        new Hit(entity, target, 1, this).checkAccuracy(true).submit();
+        entity.submitHit(target, 1, this);
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_LONGSWORD.getDrainAmount());
         return true;
     }

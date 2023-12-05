@@ -19,7 +19,6 @@ import static com.cryptic.model.entity.attributes.AttributeKey.PERSONAL_POINTS;
  */
 public class COXArea extends Controller {
     public static final int POINTS_WIDGET = 12000;
-    TimeClock timeClock = new TimeClock();
 
     public COXArea() {
         super(Collections.emptyList());
@@ -36,6 +35,7 @@ public class COXArea extends Controller {
     @Override
     public void process(Player player) {
         var party = player.raidsParty;
+        TimeClock timeClock = new TimeClock();
         if (party != null) {
             player.getPacketSender().sendString(TOTAL_POINTS, Color.WHITE.wrap("Total: " + Utils.formatNumber(party.totalPoints())));
             player.getPacketSender().sendString(POINTS, Color.WHITE.wrap(player.getUsername() + ": " + Utils.formatNumber(player.<Integer>getAttribOr(PERSONAL_POINTS, 0))));

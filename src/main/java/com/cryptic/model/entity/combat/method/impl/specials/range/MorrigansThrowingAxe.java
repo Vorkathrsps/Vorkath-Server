@@ -30,9 +30,7 @@ public class MorrigansThrowingAxe extends CommonCombatMethod {
         int duration = (41 + 11 + (5 * tileDist));
         Projectile p = new Projectile(entity, target, 1625, 41, duration, 43, 31, 0, target.getSize(), 5);
         final int delay = entity.executeProjectile(p);
-        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true);
-        hit.submit();
-        hit.postDamage(this::handleAfterHit);
+        entity.submitHit(target, delay, this).postDamage(this::handleAfterHit);
         CombatSpecial.drain(entity, CombatSpecial.MORRIGANS_THROWING_AXE.getDrainAmount());
         return true;
     }

@@ -11,7 +11,6 @@ import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.map.position.Tile;
-import com.cryptic.model.map.route.routes.DumbRoute;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 import com.cryptic.utility.timers.TimerKey;
@@ -96,7 +95,7 @@ public class LizardShaman extends CommonCombatMethod {
             npc.unlock();
             npc.getCombat().setTarget(target);
             if (target.tile().inSqRadius(jump_destination, 1))
-                new Hit(entity, target, 1, this)
+                 entity.submitHit(target, 1, this)
                     .checkAccuracy(false)
                     .setDamage(Utils.random(1, 25))
                     .submit();
@@ -116,7 +115,7 @@ public class LizardShaman extends CommonCombatMethod {
         final int delay = entity.executeProjectile(projectile);
         Chain.noCtx().runFn(delay, () -> {
             if (!target.tile().equals(copiedTile)) return;
-            new Hit(entity, target, 0, this)
+            entity.submitHit(target, 0, this)
                 .checkAccuracy(false)
                 .setDamage(Utils.random(1, 30))
                 .submit()

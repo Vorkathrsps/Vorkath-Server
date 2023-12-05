@@ -51,10 +51,9 @@ public final class LoginDecoder extends ByteToMessageDecoder {
      * @param response The response code to send.
      */
     public static void sendLoginResponse(ChannelHandlerContext ctx, int response) {
-            ByteBuf channelBuffer = ctx.alloc().buffer(Byte.BYTES); //create the allocator
-            channelBuffer.writeByte(response); //write the response to the buffer
-            ctx.channel().writeAndFlush(channelBuffer).addListener(ChannelFutureListener.CLOSE); //read the response and flush
-            channelBuffer.release(); //release the buffer to recycle back into pool
+        ByteBuf buffer = ctx.alloc().buffer(Byte.BYTES);
+        buffer.writeByte(response);
+        ctx.writeAndFlush(buffer).addListener(ChannelFutureListener.CLOSE);
     }
 
     @Override

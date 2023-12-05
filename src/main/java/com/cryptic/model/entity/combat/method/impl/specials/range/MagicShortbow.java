@@ -31,8 +31,7 @@ public class MagicShortbow extends CommonCombatMethod {
         CombatFactory.decrementAmmo(player);
 
         for (int i = 0; i < 2; i++) {
-            Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), i == 1 ? delay1 : delay2, CombatType.RANGED).checkAccuracy(true);
-            hit.submit();
+            entity.submitHit(target, i == 1 ? delay1 : delay2, this);
         }
 
         CombatSpecial.drain(entity, CombatSpecial.MAGIC_SHORTBOW.getDrainAmount());

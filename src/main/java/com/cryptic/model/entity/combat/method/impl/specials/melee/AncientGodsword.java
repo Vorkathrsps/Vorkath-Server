@@ -1,12 +1,8 @@
 package com.cryptic.model.entity.combat.method.impl.specials.melee;
 
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatSpecial;
-import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.masks.impl.tinting.Tinting;
 import com.cryptic.model.entity.player.Player;
@@ -28,9 +24,7 @@ public class AncientGodsword extends CommonCombatMethod {
         player.animate(9171);
         player.graphic(1996);
 
-        new Hit(entity, target, 0, this)
-            .checkAccuracy(true)
-            .submit()
+        entity.submitHit(target, 0, this)
             .postDamage(hit -> {
                 if (entity.dead() || target.dead() || target.isNullifyDamageLock()) {
                     hit.invalidate();
@@ -43,10 +37,7 @@ public class AncientGodsword extends CommonCombatMethod {
                 BooleanSupplier distance = () -> !entity.tile().isWithinDistance(target.tile(), 5);
                 target.setTinting(new Tinting(delay, duration, hue, sat, lum, opac));
                 Chain.bound(null).cancelWhen(distance).runFn(8, () -> {
-                    new Hit(entity, target, 0, this)
-                        .checkAccuracy(false)
-                        .setDamage(25)
-                        .submit()
+                    entity.submitAccurateHit(target, 0, 25, this)
                         .postDamage(h2 -> {
                             entity.heal(25);
                             target.graphic(2001, GraphicHeight.HIGH, 0);

@@ -1,10 +1,7 @@
 package com.cryptic.model.entity.combat.method.impl.specials.melee;
 
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatSpecial;
-import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 
 /**
@@ -18,7 +15,7 @@ public class VestaSpear extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(8184);
         entity.graphic(1627);
-        new Hit(entity, target, 1, this).checkAccuracy(true).submit();
+        entity.submitHit(target, 1, this);
         CombatSpecial.drain(entity, CombatSpecial.VESTA_SPEAR.getDrainAmount());
         return true;
     }

@@ -59,7 +59,7 @@ public class WallSafe extends PacketInteraction {
             if (Utils.get() > Math.min(chance, 0.85)) {
                 player.lock();
                 player.message("You slip and trigger a trap!");
-                player.hit(player, World.getWorld().random(1, 6));
+                player.hit(null, World.getWorld().random(1, 6));
                 player.animate(1113);
                 Chain.bound(player).runFn(2, () -> {
                     player.resetAnimation();

@@ -1,7 +1,6 @@
 package com.cryptic.model.entity.combat.method.impl.specials.melee;
 
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatSpecial;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
@@ -18,7 +17,7 @@ public class UrsineMace extends CommonCombatMethod {
         entity.performGraphic(new Graphic(2341, GraphicHeight.HIGH, 0));
         entity.performGraphic(new Graphic(2342, GraphicHeight.HIGH, 0));
 
-        Hit hit = new Hit(entity, target, 1, this).checkAccuracy(true).submit();
+        Hit hit =  entity.submitHit(target, 1, this);
 
         if (hit.isAccurate()) {
             if (target.isPlayer()) {

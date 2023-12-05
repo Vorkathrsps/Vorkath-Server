@@ -31,8 +31,7 @@ public class ToxicBlowpipeSpecialAttack extends CommonCombatMethod {
 
         CombatFactory.decrementAmmo(player);
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), hitDelay, CombatType.RANGED).checkAccuracy(true);
-        hit.submit();
+        var hit = entity.submitHit(target, hitDelay, this);
 
         if (hit.getDamage() > 0) {
             player.heal(hit.getDamage() / 2);
@@ -40,6 +39,7 @@ public class ToxicBlowpipeSpecialAttack extends CommonCombatMethod {
             if (venom)
                 target.venom(player);
         }
+
         CombatSpecial.drain(entity, CombatSpecial.TOXIC_BLOWPIPE.getDrainAmount());
         return true;
     }

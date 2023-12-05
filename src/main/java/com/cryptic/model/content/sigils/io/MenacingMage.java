@@ -7,7 +7,6 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
-import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.Utils;
@@ -37,10 +36,10 @@ public class MenacingMage extends AbstractSigilHandler {
                 player.graphic(1977);
                 player.putAttrib(AttributeKey.MENACING_CURSE, true);
                 AtomicInteger count = new AtomicInteger(6);
-                int finalDamage = damage;
+                int d = damage;
                 Chain.noCtx().repeatingTask(1, curse -> {
                     count.getAndDecrement();
-                    new Hit(player, target, null, false, 0, finalDamage, HitMark.CORRUPTION).submit();
+                    player.submitHit(target, 0, d, HitMark.CORRUPTION);
                     if (count.get() == 0) {
                         player.clearAttrib(AttributeKey.MENACING_CURSE);
                         curse.stop();

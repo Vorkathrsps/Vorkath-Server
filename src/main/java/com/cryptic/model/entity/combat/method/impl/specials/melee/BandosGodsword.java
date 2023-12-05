@@ -21,18 +21,7 @@ public class BandosGodsword extends CommonCombatMethod {
         boolean gfx_gold = player.getAttribOr(AttributeKey.BGS_GFX_GOLD, false);
         player.graphic(gfx_gold ? 1748 : 1212);
 
-        new Hit(entity, target, 0, this)
-            .checkAccuracy(true)
-            .submit()
-            .postDamage(hit -> {
-                if (!hit.isAccurate()) {
-                    hit.block();
-                    return;
-                }
-            });
-
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE),1, CombatType.MELEE).checkAccuracy(true);
-        hit.submit();
+        var hit = entity.submitHit(target, 0, this);
 
         if(hit.getDamage() > 0) {
             var skills = new int[]{Skills.DEFENCE, Skills.STRENGTH, Skills.PRAYER, Skills.ATTACK, Skills.MAGIC, Skills.RANGED};

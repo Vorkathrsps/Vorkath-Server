@@ -19,26 +19,25 @@ public class InputFieldPacketListener implements PacketListener {
         }
 
         player.debugMessage("[InputField] - Text: " + context + " Component: " + component);
-        
+
         switch (component) {
             /* Clan Chat */
-            case 47828:
-                ClanManager.kickMember(player, context);
-                break;
-            case 47830:
+            case 73155 -> {
+
+            }
+            case 47828 -> ClanManager.kickMember(player, context);
+            case 47830 -> {
                 if (World.getWorld().getPlayerByName(context).isPresent()) {
                     Player other = World.getWorld().getPlayerByName(context).get();
                     player.setClanPromote(other.getUsername());
-                    player.message("You are now promoting "+ Color.RED.wrap(other.getUsername())+"</col>.");
+                    player.message("You are now promoting " + Color.RED.wrap(other.getUsername()) + "</col>.");
                 }
-                break;
-            case 47843:
-                ClanManager.changeSlogan(player, context);
-                break;
-            case 47845:
+            }
+            case 47843 -> ClanManager.changeSlogan(player, context);
+            case 47845 -> {
                 int amount = context.length() == 0 ? 0 : Integer.parseInt(context);
                 ClanManager.setMemberLimit(player, amount);
-                break;
+            }
         }
     }
 

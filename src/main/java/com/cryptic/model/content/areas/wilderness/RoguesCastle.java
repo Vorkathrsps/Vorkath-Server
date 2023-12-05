@@ -111,27 +111,27 @@ public class RoguesCastle extends PacketInteraction {
 
         //Generate the hit, and apply it to the player.
         if (current_hp >= 90) {
-            player.hit(player,17);
+            player.hit(null,17);
         } else if (current_hp >= 80) {
-            player.hit(player,15);
+            player.hit(null,15);
         } else if (current_hp >= 70) {
-            player.hit(player,14);
+            player.hit(null,14);
         } else if (current_hp >= 60) {
-            player.hit(player,12);
+            player.hit(null,12);
         } else if (current_hp >= 50) {
-            player.hit(player,11);
+            player.hit(null,11);
         } else if (current_hp >= 40) {
-            player.hit(player,9);
+            player.hit(null,9);
         } else if (current_hp >= 30) {
-            player.hit(player,7);
+            player.hit(null,7);
         } else if (current_hp >= 20) {
-            player.hit(player,6);
+            player.hit(null,6);
         } else if (current_hp >= 10) {
-            player.hit(player,5);
+            player.hit(null,5);
         } else if (current_hp >= 7) {
-            player.hit(player,4);
+            player.hit(null,4);
         } else if (current_hp >= 3) {
-            player.hit(player,3);
-        } else player.hit(player,1);
+            player.hit(null,3);
+        } else player.hit(null,1);
     }
 }

@@ -295,7 +295,7 @@ public class Potions {
             player.getSkills().alterSkill(Skills.STRENGTH, (int) strengthIncrease);
             player.getSkills().replenishSkill(Skills.PRAYER, (int) prayerIncrease);
             player.getSkills().alterSkill(Skills.DEFENCE, (int) -defenceDecrease);
-            player.hit(player,(int) hpDecrease);
+            player.hit(null,(int) hpDecrease);
 
         } else if (potion == Potion.SUPER_RESTORE) {
             for (int i = 0; i < Skills.SKILL_COUNT; i++) {
@@ -557,7 +557,7 @@ public class Potions {
                         player.animate(3170);
                         player.graphic(560);
                         if(!player.getMemberRights().isEliteMemberOrGreater(player)) {
-                            player.hit(player,10);
+                            player.hit(null,10);
                         }
                     });
                 }
@@ -605,7 +605,7 @@ public class Potions {
      * @param divinePotion the potion in question.
      */
     public static void onDivinePotionEffect(Player player, DivinePotion divinePotion) {
-        player.hit(player,10);
+        player.hit(null,10);
         player.graphic(560);
         switch (divinePotion) {
             case DIVINE_BASTION_POTION -> {

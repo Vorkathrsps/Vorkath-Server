@@ -51,26 +51,28 @@ public class DarkBowBH extends CommonCombatMethod {
         CombatFactory.decrementAmmo(player);
 
 
-
         Hit hit1 = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay1, CombatType.RANGED).checkAccuracy(true);
 
-        hit1.submit();
         target.graphic(endgfx, GraphicHeight.MIDDLE, p1.getSpeed());
 
         // Minimum damages depending on arrow type
         if (hit1.getDamage() < min) {
+            hit1.setAccurate(true);
             hit1.setDamage(min);
         }
 
+        hit1.submit();
+
         // The second hit is pid adjusted.
-        Hit hit2 = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED),delay2, CombatType.RANGED).checkAccuracy(true);
+        Hit hit2 = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay2, CombatType.RANGED).checkAccuracy(true);
         if (hit2.getDamage() < min) {
+            hit2.setAccurate(true);
             hit2.setDamage(min);
         }
+
         hit2.submit();
 
         target.graphic(endgfx, GraphicHeight.MIDDLE, p2.getSpeed());
-
         CombatSpecial.drain(entity, CombatSpecial.DARK_BOW_BH.getDrainAmount());
         return true;
     }

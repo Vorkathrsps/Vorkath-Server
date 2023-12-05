@@ -1,12 +1,8 @@
 package com.cryptic.model.entity.combat.method.impl.specials.melee;
 
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatSpecial;
-import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
-import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 
@@ -16,7 +12,7 @@ public class StatiusWarhammer extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1378);
         entity.graphic(844);
-        new Hit(entity, target, 1, this).checkAccuracy(true).submit().postDamage(hit -> {
+        entity.submitHit(target, 1, this).postDamage(hit -> {
             if (!hit.isAccurate()) {
                 if (target instanceof Player player)
                     player.getSkills().alterSkill(Skills.DEFENCE, (int) -(player.getSkills().level(Skills.DEFENCE) * 0.05));

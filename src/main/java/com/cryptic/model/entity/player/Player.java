@@ -1193,10 +1193,6 @@ public class Player extends Entity {
             attackSpeed--;
         }
 
-        if (getCombat().getTarget() instanceof NPC && (getEquipment().contains(ItemIdentifiers.TOXIC_BLOWPIPE))) {
-            attackSpeed--;
-        }
-
         if (getCombat().getFightType().toString().toLowerCase().contains("rapid")) {
             attackSpeed--;
         }

@@ -2,10 +2,7 @@ package com.cryptic.model.entity.combat.method.impl.specials.melee;
 
 
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatSpecial;
-import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.player.Skills;
@@ -15,7 +12,7 @@ public class AbyssalBludgeon extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(3299);
-        new Hit(entity, target, 0, this)
+        entity.submitHit(target, 0, this)
             .checkAccuracy(true)
             .submit()
             .postDamage(hit -> {

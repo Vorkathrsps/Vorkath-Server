@@ -31,12 +31,8 @@ public class Ballista extends CommonCombatMethod {
 
         CombatFactory.decrementAmmo(player);
 
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true);
-
-        hit.submit();
-
+        entity.submitHit(target, delay, this);
         target.graphic(344, GraphicHeight.HIGH, p1.getSpeed());
-
         CombatSpecial.drain(entity, CombatSpecial.BALLISTA.getDrainAmount());
         return true;
     }

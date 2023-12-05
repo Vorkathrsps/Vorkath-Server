@@ -481,11 +481,9 @@ public class CommandManager {
         });
         dev("hit3", (p, c, s) -> {
             p.hit(p, 1, HitMark.POISON.ordinal());
-            ;
         });
         dev("hit4", (p, c, s) -> {
             p.hit(p, 1, HitMark.DEFAULT.getMax_hit());
-            ;
         });
         dev("hit5", (p, c, s) -> {
             var i = 1;
@@ -679,9 +677,7 @@ public class CommandManager {
 
         });
         dev("c", (p, c, s) -> {
-            p.getInterfaceManager().sendOverlay(POINTS_WIDGET);
-            p.getPacketSender().sendString(TOTAL_POINTS, p.getUsername() + ": " + Color.WHITE.wrap(Utils.formatNumber(0)));
-            p.getPacketSender().sendString(POINTS, p.getUsername() + ": " + Color.WHITE.wrap(Utils.formatNumber(p.<Integer>getAttribOr(PERSONAL_POINTS, 0))));
+           p.getPacketSender().sendInterface(80750);
         });
 
         dev("ioi", (p, c, s) -> {

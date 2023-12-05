@@ -11,7 +11,7 @@ public class VestasBlightedLongsword {
         if(item.getId() == ItemIdentifiers.VESTAS_LONGSWORD_INACTIVE) {
             if (player.hp() > 1 && !player.getTimers().has(TimerKey.EAT_ROCKCAKE)) {
 
-                player.hit(player,1);
+                player.hit(null,1);
                 player.getTimers().extendOrRegister(TimerKey.EAT_ROCKCAKE, 1);
             }
             return true;

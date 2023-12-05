@@ -1,10 +1,7 @@
 package com.cryptic.model.entity.combat.method.impl.specials.melee;
 
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatSpecial;
-import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 
@@ -14,7 +11,7 @@ public class SaradominBlessedSword extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1133);
         entity.graphic(1213, GraphicHeight.HIGH, 0);
-        new Hit(entity, target, 1, this).checkAccuracy(true).submit();
+        entity.submitHit(target, 1, this);
         target.graphic(1196, GraphicHeight.MIDDLE, 0);
         CombatSpecial.drain(entity, CombatSpecial.BLESSED_SARADOMIN_SWORD.getDrainAmount());
         return true;

@@ -141,5 +141,69 @@
   "22608": {
     "cast_sound": 4032,
     "hit_sound": 4031
+  },
+  "12939": {
+    "cast_sound": 184,
+    "hit_sound": 185
+  },
+  "12987": {
+    "cast_sound": 178,
+    "hit_sound": 179
+  },
+  "12901": {
+    "cast_sound": 108,
+    "hit_sound": 110
+  },
+  "12861": {
+    "cast_sound": 171,
+    "hit_sound": 173
+  },
+  "12963": {
+    "cast_sound": 184,
+    "hit_sound": 182
+  },
+  "13011": {
+    "cast_sound": 178,
+    "hit_sound": 177
+  },
+  "12919": {
+    "cast_sound": 106,
+    "hit_sound": 105
+  },
+  "12881": {
+    "cast_sound": 171,
+    "hit_sound": 170
+  },
+  "12951": {
+    "cast_sound": 183,
+    "hit_sound": 181
+  },
+  "12999": {
+    "cast_sound": 178,
+    "hit_sound": 176
+  },
+  "12911": {
+    "cast_sound": 106,
+    "hit_sound": 104
+  },
+  "12871": {
+    "cast_sound": 171,
+    "hit_sound": 169
+  },
+  "12975": {
+    "cast_sound": 184,
+    "hit_sound": 180
+  },
+  "13023": {
+    "cast_sound": 178,
+    "hit_sound": 175
+  },
+  "12929": {
+    "cast_sound": 106,
+    "hit_sound": 102
+  },
+  "12891": {
+    "cast_sound": 171,
+    "hit_sound": 168
   }
 }

@@ -12,7 +12,7 @@ public class AbyssalTentacle extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(@NotNull Entity entity, Entity target) {
         entity.animate(1658);
-        entity.submitHit(target, 0, this)
+        var hit = entity.submitHit(target, 0, this)
             .postDamage(h -> {
                 if (!h.isAccurate()) {
                     h.block();
@@ -22,6 +22,7 @@ public class AbyssalTentacle extends CommonCombatMethod {
                 target.freeze(8, entity, true);
                 if (Utils.rollDice(25)) target.poison(4);
             });
+        entity.sendSound(2713, hit.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.ABYSSAL_TENTACLE.getDrainAmount());
         return true;
     }

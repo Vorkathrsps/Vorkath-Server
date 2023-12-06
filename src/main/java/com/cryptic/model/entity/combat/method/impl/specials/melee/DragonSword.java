@@ -11,7 +11,8 @@ public class DragonSword extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(7515);
         entity.graphic(1369, GraphicHeight.HIGH, 0);
-        entity.submitHit(target, 1, this);
+        var hit = entity.submitHit(target, 1, this);
+        entity.sendSound(3552, hit.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_SWORD.getDrainAmount());
         //TODO If the target is using Protect from Melee, the special attack will ignore the prayer for one attack.
         return true;

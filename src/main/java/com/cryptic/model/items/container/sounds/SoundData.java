@@ -8,7 +8,7 @@ import java.util.Map;
 @Data
 public class SoundData {
     private Map<FightType, Integer> styles;
-
+    private int area_sound;
     @Override
     public String toString() {
         return "SoundData{" +
@@ -19,4 +19,5 @@ public class SoundData {
     public int forFightType(FightType fightType) {
         return styles.getOrDefault(fightType, -1);
     }
+
 }

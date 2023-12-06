@@ -14,10 +14,11 @@ public class AbyssalDagger extends CommonCombatMethod {
         entity.animate(3300);
         entity.graphic(1283, GraphicHeight.LOW, 0);
         Hit h1 =  entity.submitHit(target, 0, this);
-        entity.submitHit(target, 0, this)
+        var h2 = entity.submitHit(target, 0, this)
             .postDamage(hit -> {
                 if (!h1.isAccurate()) hit.block();
             });
+        entity.sendSound(2537, h1.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.ABYSSAL_DAGGER.getDrainAmount());
         return true;
     }

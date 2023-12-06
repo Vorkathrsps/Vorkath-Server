@@ -12,17 +12,16 @@ public class AbyssalBludgeon extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(3299);
-        entity.submitHit(target, 0, this)
-            .checkAccuracy(true)
-            .submit()
-            .postDamage(hit -> {
-                if (!hit.isAccurate()) {
-                    hit.block();
-                    return;
-                }
-                hit.setDamage((int) (hit.getDamage() * (1 + (((entity.getSkills().xpLevel(Skills.PRAYER) - entity.getSkills().level(Skills.PRAYER)) * 0.5)) / 100)));
-                target.graphic(1284, GraphicHeight.LOW, 0);
-            });
+        var hit = entity.submitHit(target, 0, this).postDamage(h -> {
+            if (!h.isAccurate()) {
+                h.block();
+                return;
+            }
+            h.setDamage((int) (h.getDamage() * (1 + (((entity.getSkills().xpLevel(Skills.PRAYER) - entity.getSkills().level(Skills.PRAYER)) * 0.5)) / 100)));
+            target.graphic(1284, GraphicHeight.LOW, 0);
+        });
+        entity.sendSound(2715, hit.getDelay());
+        entity.sendSound(1930, hit.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.ABYSSAL_BLUDGEON.getDrainAmount());
         return true;
     }

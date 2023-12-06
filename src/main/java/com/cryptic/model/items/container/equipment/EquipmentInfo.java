@@ -332,8 +332,6 @@ public class EquipmentInfo {
                     return style == 2 ? 1067 : 393;
                 case 15241:
                     return 12175;
-                case 18349:
-                    return 386;
                 case 18353:
                     return 13055;
                 case SCYTHE:
@@ -398,6 +396,8 @@ public class EquipmentInfo {
                 case 28220:
                 case 28226:
                     return style == 2 || style == 1 ? 10078 : 10079;
+                case 1277, 1279, 1281, 1283, 1285, 1287, 1289, 21009, 21206, 28029, 6605, 6818, 9703, 10858, 13108, 13109, 13110, 13111:
+                    return style == 2 ? 390 : 386;
                 case 20593:
                 case 14487:
                 case 30003: // gs
@@ -600,7 +600,7 @@ public class EquipmentInfo {
             case HAMMER -> 401;
             case BOW -> 426;
             case CROSSBOW -> 4230;
-            case LONGSWORD, STABSWORD -> style == 2 ? 386 : 390;
+            case LONGSWORD -> style == 2 ? 386 : 390;
             case TWOHANDED -> style == 2 ? 406 : 407;
             case PICKAXE, MACE -> style == 2 ? 400 : 401;
             case DAGGER -> style == 2 ? 377 : 376;

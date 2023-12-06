@@ -34,7 +34,6 @@ public class SoundLoader implements Runnable {
     @Override
     public void run() {
         try {
-            long start = System.currentTimeMillis();
             loadSounds(new File("data/list/sounds.json"));
         } catch (Throwable e) {
             e.printStackTrace();

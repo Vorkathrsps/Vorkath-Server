@@ -12,11 +12,13 @@ public class AbyssalWhip extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity mob, Entity target) {
         entity.animate(1658);
-        entity.submitHit(target, 0, this).postDamage(h -> {
+        var hit = entity.submitHit(target, 0, this).postDamage(h -> {
             if (!h.isAccurate()) {
                 h.block();
                 return;
             }
+            target.graphic(341, GraphicHeight.HIGH, 0);
+            target.freeze(8, entity, true);
             if (target instanceof Player player) {
                 if (player.dead()) return;
                 var attacker = (Player) entity;
@@ -24,6 +26,7 @@ public class AbyssalWhip extends CommonCombatMethod {
                 drainEnergy(target, player, attacker);
             }
         });
+        entity.sendSound(2713, hit.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.ABYSSAL_WHIP.getDrainAmount());
         return true;
     }

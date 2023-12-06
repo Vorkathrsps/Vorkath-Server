@@ -13,11 +13,12 @@ public class DragonHalberd extends CommonCombatMethod {
         entity.animate(1203);
         entity.graphic(1231, GraphicHeight.HIGH, 0);
         if (target.getSize() == 1) {
-             entity.submitHit(target, 1, this);
+            var hit = entity.submitHit(target, 1, this);
+            entity.sendSound(2533, hit.getDelay());
         } else {
-            for (int index = 0; index < 2; index++) {
-                 entity.submitHit(target, 1, this);
-            }
+            var hit = entity.submitHit(target, 1, this);
+            entity.submitHit(target, 1, this);
+            entity.sendSound(2533, hit.getDelay());
         }
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_HALBERD.getDrainAmount());
         return true;

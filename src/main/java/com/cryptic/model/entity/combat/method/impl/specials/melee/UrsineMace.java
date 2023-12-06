@@ -19,6 +19,7 @@ public class UrsineMace extends CommonCombatMethod {
 
         Hit hit =  entity.submitHit(target, 1, this);
 
+        entity.sendSound(3869, hit.getDelay());
         if (hit.isAccurate()) {
             if (target.isPlayer()) {
                 target.freeze(6, target, true);
@@ -28,6 +29,7 @@ public class UrsineMace extends CommonCombatMethod {
                         Chain.bound(null).name("ursinebleed").runFn(index * 2, () -> {
                             Hit bleed = target.hit(entity, 4, 1, CombatType.MELEE).checkAccuracy(true);
                             bleed.submit();
+                            entity.sendSound(2708, bleed.getDelay());
                         });
                     }
                 });
@@ -38,6 +40,7 @@ public class UrsineMace extends CommonCombatMethod {
                             Chain.bound(null).name("ursinebleed").runFn(index * 2, () -> {
                                 Hit bleed = target.hit(entity, 4, 1, CombatType.MELEE).checkAccuracy(true);
                                 bleed.submit();
+                                entity.sendSound(2708, bleed.getDelay());
                             });
                         }
                     });

@@ -25,13 +25,13 @@ public class DragonThrownaxe extends CommonCombatMethod {
 
         player.animate(ANIMATION);
         player.performGraphic(GRAPHIC);
-
         int tileDist = entity.tile().transform(1, 1).getChevDistance(target.tile());
         int duration = (32 + (7 * tileDist));
         Projectile p1 = new Projectile(entity, target, 1318, 32, duration, 40, 30, 6, 1, 7);
         final int delay = entity.executeProjectile(p1);
         CombatFactory.decrementAmmo(player);
-        entity.submitHit(target, delay, this);
+        var hit = entity.submitHit(target, delay, this);
+        player.sendSound(2528, hit.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_THROWNAXE.getDrainAmount());
         player.getTimers().register(TimerKey.THROWING_AXE_DELAY,1);
         player.getTimers().register(TimerKey.COMBAT_ATTACK,1); // 1 tick delay before another normal melee

@@ -13,15 +13,16 @@ public class DragonScimitar extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1872);
         entity.graphic(347, GraphicHeight.HIGH, 0);
-        entity.submitHit(target, 1, this).postDamage(hit -> {
-            if (!hit.isAccurate()) {
-                hit.block();
+        var hit = entity.submitHit(target, 1, this).postDamage(h -> {
+            if (!h.isAccurate()) {
+                h.block();
                 return;
             }
             if (!(target instanceof Player player)) return;
             CombatFactory.disableProtectionPrayers(player);
             player.message("Your target can no longer use protection prayers.");
         });
+        entity.sendSound(2540, hit.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_SCIMITAR.getDrainAmount());
         return true;
     }

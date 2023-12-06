@@ -50,11 +50,6 @@ public enum FightType {
     RAPIER_SLASH(43, 2, FightStyle.AGGRESSIVE, AttackType.SLASH),
     RAPIER_BLOCK(43, 3, FightStyle.DEFENSIVE, AttackType.SLASH),
 
-    SCIMITAR_CHOP(43, 0, FightStyle.ACCURATE, AttackType.SLASH),
-    SCIMITAR_SLASH(43, 1, FightStyle.AGGRESSIVE, AttackType.SLASH),
-    SCIMITAR_LUNGE(43, 2, FightStyle.CONTROLLED, AttackType.SLASH),
-    SCIMITAR_BLOCK(43, 3, FightStyle.DEFENSIVE, AttackType.SLASH),
-
     LONGSWORD_CHOP(43, 0, FightStyle.ACCURATE, AttackType.SLASH),
     LONGSWORD_SLASH(43, 1, FightStyle.AGGRESSIVE, AttackType.SLASH),
     LONGSWORD_LUNGE(43, 2, FightStyle.CONTROLLED, AttackType.STAB),

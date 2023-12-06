@@ -40,7 +40,8 @@ public class GraniteMaul extends CommonCombatMethod {
             delay = renderIndexOf > renderIndexOf2 ? 1 : 0;
         }
 
-        entity.submitHit(target, delay, this);
+        var hit = entity.submitHit(target, delay, this);
+        entity.sendSound(2715, hit.getDelay());
         CombatSpecial.drain(entity, entity.getAsPlayer().getCombatSpecial().getDrainAmount());
         return true;
     }

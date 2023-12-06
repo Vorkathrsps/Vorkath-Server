@@ -6,6 +6,20 @@
       "WHIP_DEFLECT": 2720
     }
   },
+  "12006": {
+    "styles": {
+      "WHIP_FLICK": 2720,
+      "WHIP_LASH": 2720,
+      "WHIP_DEFLECT": 2720
+    }
+  },
+  "26484": {
+    "styles": {
+      "WHIP_FLICK": 2720,
+      "WHIP_LASH": 2720,
+      "WHIP_DEFLECT": 2720
+    }
+  },
   "12773": {
     "styles": {
       "WHIP_FLICK": 2720,
@@ -43,7 +57,63 @@
       "TWOHANDEDSWORD_BLOCK": 3847
     }
   },
+  "20368": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 3847,
+      "TWOHANDEDSWORD_SLASH": 3847,
+      "TWOHANDEDSWORD_SMASH": 3846,
+      "TWOHANDEDSWORD_BLOCK": 3847
+    }
+  },
+  "20593": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 3847,
+      "TWOHANDEDSWORD_SLASH": 3847,
+      "TWOHANDEDSWORD_SMASH": 3846,
+      "TWOHANDEDSWORD_BLOCK": 3847
+    }
+  },
+  "28537": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 3847,
+      "TWOHANDEDSWORD_SLASH": 3847,
+      "TWOHANDEDSWORD_SMASH": 3846,
+      "TWOHANDEDSWORD_BLOCK": 3847
+    }
+  },
+  "22665": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 3847,
+      "TWOHANDEDSWORD_SLASH": 3847,
+      "TWOHANDEDSWORD_SMASH": 3846,
+      "TWOHANDEDSWORD_BLOCK": 3847
+    }
+  },
   "11804": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 3847,
+      "TWOHANDEDSWORD_SLASH": 3847,
+      "TWOHANDEDSWORD_SMASH": 3846,
+      "TWOHANDEDSWORD_BLOCK": 3847
+    }
+  },
+  "20370": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 3847,
+      "TWOHANDEDSWORD_SLASH": 3847,
+      "TWOHANDEDSWORD_SMASH": 3846,
+      "TWOHANDEDSWORD_BLOCK": 3847
+    }
+  },
+  "20372": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 3847,
+      "TWOHANDEDSWORD_SLASH": 3847,
+      "TWOHANDEDSWORD_SMASH": 3846,
+      "TWOHANDEDSWORD_BLOCK": 3847
+    }
+  },
+  "20374": {
     "styles": {
       "TWOHANDEDSWORD_CHOP": 3847,
       "TWOHANDEDSWORD_SLASH": 3847,
@@ -762,6 +832,1070 @@
       "BATTLEAXE_HACK": 2498,
       "BATTLEAXE_SMASH": 2497,
       "BATTLEAXE_BLOCK": 2498
+    }
+  },
+  "4587": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
+  "20000": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
+  "20406": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
+  "28031": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
+  "1321": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
+  "1323": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
+  "1325": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
+  "1327": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
+  "1329": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
+  "1331": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
+  "1333": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
+  "6611": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
+  "6721": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
+  "12389": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
+  "20402": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
+  "23321": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
+  "23324": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
+  "23327": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
+  "23330": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
+  "23332": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
+  "23334": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
+  "26262": {
+    "styles": {
+      "LONGSWORD_CHOP": 2500,
+      "LONGSWORD_SLASH": 2500,
+      "LONGSWORD_LUNGE": 2501,
+      "LONGSWORD_BLOCK": 2500
+    }
+  },
+  "746": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "747": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1203": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1205": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1207": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1209": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1211": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1213": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1217": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1219": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1221": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1223": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1225": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1227": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1229": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1233": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1235": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1813": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1814": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "2387": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "5668": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "5670": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "5672": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "5674": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "5678": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "5682": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "5686": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "5688": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "5690": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "5692": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "5694": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "5696": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "5700": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "5702": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "6591": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "6593": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "6595": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "6597": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "13265": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "13267": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "13269": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "13271": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "27861": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "27863": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "27865": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "27867": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "841": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "843": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "849": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "853": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "857": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "861": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "12788": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "20401": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "20403": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "800": {
+    "styles": {
+      "THROWING_ACCURATE": 2706,
+      "THROWING_RAPID": 2706,
+      "THROWING_LONGRANGE": 2706
+    }
+  },
+  "801": {
+    "styles": {
+      "THROWING_ACCURATE": 2706,
+      "THROWING_RAPID": 2706,
+      "THROWING_LONGRANGE": 2706
+    }
+  },
+  "802": {
+    "styles": {
+      "THROWING_ACCURATE": 2706,
+      "THROWING_RAPID": 2706,
+      "THROWING_LONGRANGE": 2706
+    }
+  },
+  "803": {
+    "styles": {
+      "THROWING_ACCURATE": 2706,
+      "THROWING_RAPID": 2706,
+      "THROWING_LONGRANGE": 2706
+    }
+  },
+  "804": {
+    "styles": {
+      "THROWING_ACCURATE": 2706,
+      "THROWING_RAPID": 2702,
+      "THROWING_LONGRANGE": 2706
+    }
+  },
+  "805": {
+    "styles": {
+      "THROWING_ACCURATE": 2706,
+      "THROWING_RAPID": 2706,
+      "THROWING_LONGRANGE": 2706
+    }
+  },
+  "20849": {
+    "styles": {
+      "THROWING_ACCURATE": 2706,
+      "THROWING_RAPID": 2706,
+      "THROWING_LONGRANGE": 2706
+    }
+  },
+  "21207": {
+    "styles": {
+      "THROWING_ACCURATE": 2706,
+      "THROWING_RAPID": 2706,
+      "THROWING_LONGRANGE": 2706
+    }
+  },
+  "12926": {
+    "styles": {
+      "THROWING_ACCURATE": 2696,
+      "THROWING_RAPID": 2696,
+      "THROWING_LONGRANGE": 2696
+    }
+  },
+  "1420": {
+    "styles": {
+      "MACE_POUND": 2508,
+      "MACE_PUMMEL": 2508,
+      "MACE_SPIKE": 2509,
+      "MACE_BLOCK": 2508
+    }
+  },
+  "1422": {
+    "styles": {
+      "MACE_POUND": 2508,
+      "MACE_PUMMEL": 2508,
+      "MACE_SPIKE": 2509,
+      "MACE_BLOCK": 2508
+    }
+  },
+  "1424": {
+    "styles": {
+      "MACE_POUND": 2508,
+      "MACE_PUMMEL": 2508,
+      "MACE_SPIKE": 2509,
+      "MACE_BLOCK": 2508
+    }
+  },
+  "1426": {
+    "styles": {
+      "MACE_POUND": 2508,
+      "MACE_PUMMEL": 2508,
+      "MACE_SPIKE": 2509,
+      "MACE_BLOCK": 2508
+    }
+  },
+  "1428": {
+    "styles": {
+      "MACE_POUND": 2508,
+      "MACE_PUMMEL": 2508,
+      "MACE_SPIKE": 2509,
+      "MACE_BLOCK": 2508
+    }
+  },
+  "1430": {
+    "styles": {
+      "MACE_POUND": 2508,
+      "MACE_PUMMEL": 2508,
+      "MACE_SPIKE": 2509,
+      "MACE_BLOCK": 2508
+    }
+  },
+  "1432": {
+    "styles": {
+      "MACE_POUND": 2508,
+      "MACE_PUMMEL": 2508,
+      "MACE_SPIKE": 2509,
+      "MACE_BLOCK": 2508
+    }
+  },
+  "1434": {
+    "styles": {
+      "MACE_POUND": 2508,
+      "MACE_PUMMEL": 2508,
+      "MACE_SPIKE": 2509,
+      "MACE_BLOCK": 2508
+    }
+  },
+  "6601": {
+    "styles": {
+      "MACE_POUND": 2508,
+      "MACE_PUMMEL": 2508,
+      "MACE_SPIKE": 2509,
+      "MACE_BLOCK": 2508
+    }
+  },
+  "7808": {
+    "styles": {
+      "MACE_POUND": 2508,
+      "MACE_PUMMEL": 2508,
+      "MACE_SPIKE": 2509,
+      "MACE_BLOCK": 2508
+    }
+  },
+  "8841": {
+    "styles": {
+      "MACE_POUND": 2508,
+      "MACE_PUMMEL": 2508,
+      "MACE_SPIKE": 2509,
+      "MACE_BLOCK": 2508
+    }
+  },
+  "11061": {
+    "styles": {
+      "MACE_POUND": 2508,
+      "MACE_PUMMEL": 2508,
+      "MACE_SPIKE": 2509,
+      "MACE_BLOCK": 2508
+    }
+  },
+  "22542": {
+    "styles": {
+      "MACE_POUND": 2566,
+      "MACE_PUMMEL": 2566,
+      "MACE_SPIKE": 1979,
+      "MACE_BLOCK": 2566
+    }
+  },
+  "22545": {
+    "styles": {
+      "MACE_POUND": 2566,
+      "MACE_PUMMEL": 2566,
+      "MACE_SPIKE": 1979,
+      "MACE_BLOCK": 2566
+    }
+  },
+  "27657": {
+    "styles": {
+      "MACE_POUND": 2566,
+      "MACE_PUMMEL": 2566,
+      "MACE_SPIKE": 1979,
+      "MACE_BLOCK": 2566
+    }
+  },
+  "27660": {
+    "styles": {
+      "MACE_POUND": 2566,
+      "MACE_PUMMEL": 2566,
+      "MACE_SPIKE": 1979,
+      "MACE_BLOCK": 2566
+    }
+  },
+  "21009": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "13108": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "13109": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "13110": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "13111": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "21206": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "28029": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "4153": {
+    "styles": {
+      "HAMMER_POUND": 2714,
+      "HAMMER_PUMMEL": 2714,
+      "HAMMER_BLOCK": 2714
+    }
+  },
+  "12848": {
+    "styles": {
+      "HAMMER_POUND": 2714,
+      "HAMMER_PUMMEL": 2714,
+      "HAMMER_BLOCK": 2714
+    }
+  },
+  "20557": {
+    "styles": {
+      "HAMMER_POUND": 2714,
+      "HAMMER_PUMMEL": 2714,
+      "HAMMER_BLOCK": 2714
+    }
+  },
+  "24225": {
+    "styles": {
+      "HAMMER_POUND": 2714,
+      "HAMMER_PUMMEL": 2714,
+      "HAMMER_BLOCK": 2714
+    }
+  },
+  "24227": {
+    "styles": {
+      "HAMMER_POUND": 2714,
+      "HAMMER_PUMMEL": 2714,
+      "HAMMER_BLOCK": 2714
+    }
+  },
+  "13263": {
+    "styles": {
+      "HAMMER_POUND": 2714,
+      "HAMMER_PUMMEL": 2714,
+      "HAMMER_BLOCK": 2714
+    }
+  },
+  "1277": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1279": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1281": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1283": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1285": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1287": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1289": {
+    "styles": {
+      "DAGGER_STAB": 2549,
+      "DAGGER_LUNGE": 2549,
+      "DAGGER_SLASH": 2548,
+      "DAGGER_BLOCK": 2549
+    }
+  },
+  "1307": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 2503,
+      "TWOHANDEDSWORD_SLASH": 2503,
+      "TWOHANDEDSWORD_SMASH": 2502,
+      "TWOHANDEDSWORD_BLOCK": 2503
+    }
+  },
+  "1309": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 2503,
+      "TWOHANDEDSWORD_SLASH": 2503,
+      "TWOHANDEDSWORD_SMASH": 2502,
+      "TWOHANDEDSWORD_BLOCK": 2503
+    }
+  },
+  "1311": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 2503,
+      "TWOHANDEDSWORD_SLASH": 2503,
+      "TWOHANDEDSWORD_SMASH": 2502,
+      "TWOHANDEDSWORD_BLOCK": 2503
+    }
+  },
+  "1313": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 2503,
+      "TWOHANDEDSWORD_SLASH": 2503,
+      "TWOHANDEDSWORD_SMASH": 2502,
+      "TWOHANDEDSWORD_BLOCK": 2503
+    }
+  },
+  "1315": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 2503,
+      "TWOHANDEDSWORD_SLASH": 2503,
+      "TWOHANDEDSWORD_SMASH": 2502,
+      "TWOHANDEDSWORD_BLOCK": 2503
+    }
+  },
+  "1319": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 2503,
+      "TWOHANDEDSWORD_SLASH": 2503,
+      "TWOHANDEDSWORD_SMASH": 2502,
+      "TWOHANDEDSWORD_BLOCK": 2503
+    }
+  },
+  "6609": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 2503,
+      "TWOHANDEDSWORD_SLASH": 2503,
+      "TWOHANDEDSWORD_SMASH": 2502,
+      "TWOHANDEDSWORD_BLOCK": 2503
+    }
+  },
+  "7158": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 2503,
+      "TWOHANDEDSWORD_SLASH": 2503,
+      "TWOHANDEDSWORD_SMASH": 2502,
+      "TWOHANDEDSWORD_BLOCK": 2503
+    }
+  },
+  "20155": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 2503,
+      "TWOHANDEDSWORD_SLASH": 2503,
+      "TWOHANDEDSWORD_SMASH": 2502,
+      "TWOHANDEDSWORD_BLOCK": 2503
+    }
+  },
+  "20555": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 2503,
+      "TWOHANDEDSWORD_SLASH": 2503,
+      "TWOHANDEDSWORD_SMASH": 2502,
+      "TWOHANDEDSWORD_BLOCK": 2503
+    }
+  },
+  "28051": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 2503,
+      "TWOHANDEDSWORD_SLASH": 2503,
+      "TWOHANDEDSWORD_SMASH": 2502,
+      "TWOHANDEDSWORD_BLOCK": 2503
+    }
+  },
+  "11838": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 3847,
+      "TWOHANDEDSWORD_SLASH": 3847,
+      "TWOHANDEDSWORD_SMASH": 3846,
+      "TWOHANDEDSWORD_BLOCK": 3847
+    }
+  },
+  "12808": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 3847,
+      "TWOHANDEDSWORD_SLASH": 3847,
+      "TWOHANDEDSWORD_SMASH": 3846,
+      "TWOHANDEDSWORD_BLOCK": 3847
+    }
+  },
+  "12809": {
+    "styles": {
+      "TWOHANDEDSWORD_CHOP": 3847,
+      "TWOHANDEDSWORD_SLASH": 3847,
+      "TWOHANDEDSWORD_SMASH": 3846,
+      "TWOHANDEDSWORD_BLOCK": 3847
     }
   }
 }

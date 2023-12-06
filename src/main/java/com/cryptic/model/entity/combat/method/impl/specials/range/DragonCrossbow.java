@@ -54,7 +54,8 @@ public class DragonCrossbow extends CommonCombatMethod {
 
         //Decrement ammo by 1
         CombatFactory.decrementAmmo(player);
-        entity.submitHit(target, hitDelay, this);
+        var hit = entity.submitHit(target, hitDelay, this);
+        entity.sendSound(1080, hit.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_CROSSBOW.getDrainAmount());
         return true;
     }

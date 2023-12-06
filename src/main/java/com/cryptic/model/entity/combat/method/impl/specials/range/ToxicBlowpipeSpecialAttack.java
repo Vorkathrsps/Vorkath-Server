@@ -33,6 +33,8 @@ public class ToxicBlowpipeSpecialAttack extends CommonCombatMethod {
 
         var hit = entity.submitHit(target, hitDelay, this);
 
+        player.sendSound(800, hit.getDelay());
+
         if (hit.getDamage() > 0) {
             player.heal(hit.getDamage() / 2);
             boolean venom = Venom.attempt(player, target, CombatType.RANGED, true);

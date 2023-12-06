@@ -12,7 +12,7 @@ public class StatiusWarhammer extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(1378);
         entity.graphic(844);
-        entity.submitHit(target, 1, this).postDamage(hit -> {
+        var hit1 = entity.submitHit(target, 1, this).postDamage(hit -> {
             if (!hit.isAccurate()) {
                 if (target instanceof Player player)
                     player.getSkills().alterSkill(Skills.DEFENCE, (int) -(player.getSkills().level(Skills.DEFENCE) * 0.05));
@@ -26,6 +26,7 @@ public class StatiusWarhammer extends CommonCombatMethod {
             else
                 target.getAsNpc().getCombatInfo().stats.defence = (int) Math.max(0, target.getAsNpc().getCombatInfo().stats.defence - (target.getAsNpc().getCombatInfo().stats.defence * 0.3));
         });
+        entity.sendSound(2520, hit1.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.STATIUS_WARHAMMER.getDrainAmount());
         return true;
     }

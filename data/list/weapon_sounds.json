@@ -377,6 +377,20 @@
       "ARROW_LONGRANGE": 2702
     }
   },
+  "27652": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
+  "27655": {
+    "styles": {
+      "ARROW_ACCURATE": 2702,
+      "ARROW_RAPID": 2702,
+      "ARROW_LONGRANGE": 2702
+    }
+  },
   "26237": {
     "styles": {
       "BOLT_ACCURATE": 2695,

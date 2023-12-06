@@ -153,6 +153,7 @@ public class MagicOnItemPacketListener implements PacketListener {
                             coinAmountToGive = 0;
                         }
 
+                        player.sendPrivateSound(98, 0);
                         spell.cast(player, null);
 
                         item = new Item(item.getId(), 1);
@@ -184,6 +185,7 @@ public class MagicOnItemPacketListener implements PacketListener {
                             coinAmountToGive = 0;
                         }
 
+                        player.sendPrivateSound(97, 0);
                         spell.cast(player, null);
 
                         item = new Item(item.getId(), 1);
@@ -216,6 +218,7 @@ public class MagicOnItemPacketListener implements PacketListener {
 
                 switch (spell.get()) {
                     case TELEKINETIC_GRAB:
+                        player.sendPrivateSound(3006, 0);
                         break;
                 }
             }

@@ -341,6 +341,38 @@ public final class Equipment extends ItemContainer {
         return equip(index);
     }
 
+    private static final Object[][] SOUNDS = {
+        {2247, "staff", "wand", "mej-tal", "void knight mace", "trident", "tumeken", "halberd"},
+        {2232, "axe"},
+        {2239, "torso", "platebody", "chainbody"}, //metal_body
+        {3284, "ava's"}, //backpack
+        {2233, "warhammer", "maul"},
+        {2234, "plate", "platebody ", "chain", "chainbody", "chest", "crystal body"},
+        {2236, "glove",},
+        {2237, "boot", "boots"},
+        {2238, "robe", "hat", "ancient staff", "ring", "book"},
+        {2240, "helm", "proselyte", "initiate"},
+        {2241, "hide", "leather", "brassard", "vamb", "age range", "lunar torso"},
+        {2242, "karil's leatherskirt", "legs"}, //legs
+        {2243, "chainskirt", "plateskirt", "platelegs", "tasset"}, //metal_legs
+        {2244, "bow"},
+        {2246, "mace", "flail", "anchor"},
+        {2248, "sword", "scimitar"},
+        {2249, "whip", "tentacle"},
+    };
+
+    public static int getAudioId(String name) {
+        name = name.toLowerCase();
+        for (int i = 0; i < SOUNDS.length; i++) {
+            for (int y = 0; y < SOUNDS[i].length; y++) {
+                if (name.contains(SOUNDS[i][y].toString()) || name.equals(SOUNDS[i][y].toString())) {
+                    return (int) SOUNDS[i][0];
+                }
+            }
+        }
+        return 2238;
+    }
+
     public boolean equip(int inventoryIndex) {
         if (inventoryIndex == -1)
             return false;
@@ -557,6 +589,7 @@ public final class Equipment extends ItemContainer {
             player.getCombat().setPoweredStaffSpell(null);
         }
 
+        player.sendPrivateSound(getAudioId(equip.name()), 0);
         player.getCombat().setTarget(null);
         player.setEntityInteraction(null);
         return true;

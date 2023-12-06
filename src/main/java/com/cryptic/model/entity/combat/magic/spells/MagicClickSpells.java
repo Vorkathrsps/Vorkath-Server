@@ -1798,6 +1798,7 @@ public class MagicClickSpells {
                 if (!spell.canCast(player, null, spell.deleteRunes())) {
                     return false;
                 }
+                player.sendPrivateSound(1651, 0);
                 spell.cast(player, null);
                 return true;
             }

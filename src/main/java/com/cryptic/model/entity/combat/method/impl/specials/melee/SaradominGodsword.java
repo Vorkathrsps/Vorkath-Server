@@ -16,7 +16,7 @@ public class SaradominGodsword extends CommonCombatMethod {
         player.animate(player.getEquipment().contains(ItemIdentifiers.SARADOMIN_GODSWORD_OR) ? 7641 : 7640);
         boolean gfx_gold = player.getAttribOr(AttributeKey.SGS_GFX_GOLD, false);
         player.graphic(gfx_gold ? 1745 : 1209);
-        entity.submitHit(target, 1, this).postDamage(hit -> {
+        var hit1 = entity.submitHit(target, 1, this).postDamage(hit -> {
             if (!hit.isAccurate()) {
                 hit.block();
                 return;
@@ -24,6 +24,7 @@ public class SaradominGodsword extends CommonCombatMethod {
             player.heal(Math.max(10, hit.getDamage() / 2));
             player.getSkills().alterSkill(Skills.PRAYER, Math.max(5, hit.getDamage() / 4));
         });
+        entity.sendPublicSound(3869, hit1.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.SARADOMIN_GODSWORD.getDrainAmount());
         return true;
     }

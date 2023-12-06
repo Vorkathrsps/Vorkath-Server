@@ -1,0 +1,145 @@
+{
+  "1152": {
+    "cast_sound": 220,
+    "hit_sound": 221
+  },
+  "1153": {
+    "cast_sound": 119,
+    "hit_sound": 121
+  },
+  "1154": {
+    "cast_sound": 211,
+    "hit_sound": 212
+  },
+  "1156": {
+    "cast_sound": 132,
+    "hit_sound": 133
+  },
+  "1157": {
+    "cast_sound": 3011,
+    "hit_sound": 3010
+  },
+  "1158": {
+    "cast_sound": 160,
+    "hit_sound": 161
+  },
+  "1160": {
+    "cast_sound": 218,
+    "hit_sound": 219
+  },
+  "1161": {
+    "cast_sound": 127,
+    "hit_sound": 126
+  },
+  "1572": {
+    "cast_sound": 101,
+    "hit_sound": 99
+  },
+  "1163": {
+    "cast_sound": 209,
+    "hit_sound": 210
+  },
+  "1166": {
+    "cast_sound": 130,
+    "hit_sound": 131
+  },
+  "1169": {
+    "cast_sound": 157,
+    "hit_sound": 158
+  },
+  "1171": {
+    "cast_sound": 122,
+    "hit_sound": 124
+  },
+  "1172": {
+    "cast_sound": 216,
+    "hit_sound": 217
+  },
+  "1175": {
+    "cast_sound": 207,
+    "hit_sound": 208
+  },
+  "1539": {
+    "cast_sound": 162
+  },
+  "1582": {
+    "cast_sound": 3003,
+    "hit_sound": 3002
+  },
+  "12037": {
+    "cast_sound": 1718,
+    "hit_sound": 174
+  },
+  "1177": {
+    "cast_sound": 128,
+    "hit_sound": 129
+  },
+  "1181": {
+    "cast_sound": 155,
+    "hit_sound": 156
+  },
+  "1190": {
+    "cast_sound": 1659,
+    "fail_sound": 1656
+  },
+  "1191": {
+    "cast_sound": 1653,
+    "fail_sound": 1652
+  },
+  "1192": {
+    "cast_sound": 1655,
+    "fail_sound": 1654
+  },
+  "1183": {
+    "cast_sound": 222,
+    "hit_sound": 223
+  },
+  "1185": {
+    "cast_sound": 213,
+    "hit_sound": 214
+  },
+  "1542": {
+    "cast_sound": 3009,
+    "hit_sound": 3008
+  },
+  "1188": {
+    "cast_sound": 134,
+    "hit_sound": 135
+  },
+  "1543": {
+    "cast_sound": 148,
+    "hit_sound": 150
+  },
+  "1189": {
+    "cast_sound": 162,
+    "hit_sound": 163
+  },
+  "1592": {
+    "cast_sound": 151,
+    "hit_sound": 153
+  },
+  "1562": {
+    "cast_sound": 3004,
+    "hit_sound": 3005
+  },
+  "12445": {
+    "cast_sound": 202,
+    "hit_sound": 203
+  },
+  "22708": {
+    "cast_sound": 4028,
+    "hit_sound": 4029
+  },
+  "22658": {
+    "cast_sound": 4030,
+    "hit_sound": 4031
+  },
+  "22628": {
+    "cast_sound": 4025,
+    "hit_sound": 4026
+  },
+  "22608": {
+    "cast_sound": 4032,
+    "hit_sound": 4031
+  }
+}

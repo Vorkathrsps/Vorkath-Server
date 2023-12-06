@@ -6,6 +6,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
+import com.cryptic.model.entity.combat.weapon.FightType;
 import com.cryptic.model.entity.combat.weapon.WeaponType;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
@@ -98,6 +99,13 @@ public class MeleeCombatMethod extends CommonCombatMethod {
         var hit = entity.submitHit(target, 0, this);
         if (entity instanceof Player player) {
             var weapon = player.getEquipment().getWeapon();
+            var fightType = player.getCombat().getFightType();
+            if (fightType != null) {
+                switch (fightType) {
+                    case UNARMED_PUNCH, UNARMED_BLOCK -> player.sendPublicSound(2566, 0);
+                    case UNARMED_KICK -> player.sendPublicSound(2565, 0);
+                }
+            }
             if (weapon != null) {
                 var sound = World.getWorld().getSoundLoader().getInfo(player.getEquipment().getWeapon().getId());
                 if (sound != null) {

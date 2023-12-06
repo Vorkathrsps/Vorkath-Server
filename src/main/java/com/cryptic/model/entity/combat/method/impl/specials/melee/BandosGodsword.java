@@ -22,7 +22,7 @@ public class BandosGodsword extends CommonCombatMethod {
         player.graphic(gfx_gold ? 1748 : 1212);
 
         var hit = entity.submitHit(target, 0, this);
-
+        entity.sendPublicSound(3869, hit.getDelay());
         if(hit.getDamage() > 0) {
             var skills = new int[]{Skills.DEFENCE, Skills.STRENGTH, Skills.PRAYER, Skills.ATTACK, Skills.MAGIC, Skills.RANGED};
             var deductionTotal = hit.getDamage();

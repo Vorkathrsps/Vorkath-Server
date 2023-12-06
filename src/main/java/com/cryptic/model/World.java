@@ -1,7 +1,6 @@
 package com.cryptic.model;
 
 import com.cryptic.GameConstants;
-import com.cryptic.GameEngine;
 import com.cryptic.GameServer;
 import com.cryptic.cache.definitions.DefinitionRepository;
 import com.cryptic.cache.definitions.NpcDefinition;
@@ -17,7 +16,6 @@ import com.cryptic.model.entity.EntityList;
 import com.cryptic.model.entity.NodeType;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss;
-import com.cryptic.model.entity.combat.skull.Skulling;
 import com.cryptic.model.entity.events.star.StarEventTask;
 import com.cryptic.model.entity.masks.impl.updating.NPCUpdating;
 import com.cryptic.model.entity.masks.impl.updating.PlayerUpdating;
@@ -33,7 +31,6 @@ import com.cryptic.model.items.container.shop.Shop;
 import com.cryptic.model.items.container.sounds.SoundLoader;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
-import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.object.OwnedObject;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.Flags;
@@ -753,7 +750,13 @@ public class World {
         }
 
         try {
-            soundLoader.loadSounds(new File("data/list/sounds.json"));
+            soundLoader.loadWeaponSounds(new File("data/list/weapon_sounds.json"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            soundLoader.loadSpellSounds(new File("data/list/spell_sounds.json"));
         } catch (IOException e) {
             e.printStackTrace();
         }

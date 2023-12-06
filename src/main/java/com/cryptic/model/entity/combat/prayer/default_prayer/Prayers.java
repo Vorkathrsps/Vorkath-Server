@@ -513,6 +513,7 @@ public class Prayers {
 
                 if (player.getSkills().level(Skills.PRAYER) < 1) {
                     closeAllPrayers(player);
+                    player.sendPrivateSound(2672, 0);
                     player.message("You have run out of prayer points, you must recharge at an altar.");
                 }
             }

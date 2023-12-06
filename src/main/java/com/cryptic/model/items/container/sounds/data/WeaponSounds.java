@@ -1,4 +1,4 @@
-package com.cryptic.model.items.container.sounds;
+package com.cryptic.model.items.container.sounds.data;
 
 import com.cryptic.model.entity.combat.weapon.FightType;
 import lombok.Data;
@@ -6,12 +6,12 @@ import lombok.Data;
 import java.util.Map;
 
 @Data
-public class SoundData {
+public class WeaponSounds {
     private Map<FightType, Integer> styles;
     private int area_sound;
     @Override
     public String toString() {
-        return "SoundData{" +
+        return "WeaponSounds {" +
             "styles=" + styles +
             '}';
     }

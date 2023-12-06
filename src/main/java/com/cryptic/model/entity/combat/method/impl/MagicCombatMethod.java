@@ -1,5 +1,6 @@
 package com.cryptic.model.entity.combat.method.impl;
 
+import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.magic.CombatSpell;
@@ -47,7 +48,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
             return false;
         }
 
-        int spellID = spell.spellId();
+        int spellId = spell.spellId();
 
         boolean modernSpells = player.getSpellbook() == MagicSpellbook.NORMAL;
         boolean ancientSpells = player.getSpellbook() == MagicSpellbook.ANCIENTS;
@@ -74,9 +75,9 @@ public class MagicCombatMethod extends CommonCombatMethod {
 
         GraphicHeight startGraphicHeight = (hasTumeken && spell.spellId() == 6) ? GraphicHeight.LOW : GraphicHeight.HIGH;
         GraphicHeight endGraphicHeight = GraphicHeight.HIGH;
-        ModernSpells findProjectileDataModern = ModernSpells.findSpellProjectileData(spellID, endGraphicHeight);
-        AncientSpells findProjectileDataAncients = AncientSpells.findSpellProjectileData(spellID, startGraphicHeight, endGraphicHeight);
-        AutoCastWeaponSpells findAutoCastWeaponsData = AutoCastWeaponSpells.findSpellProjectileData(spellID, endGraphicHeight);
+        ModernSpells findProjectileDataModern = ModernSpells.findSpellProjectileData(spellId, endGraphicHeight);
+        AncientSpells findProjectileDataAncients = AncientSpells.findSpellProjectileData(spellId, startGraphicHeight, endGraphicHeight);
+        AutoCastWeaponSpells findAutoCastWeaponsData = AutoCastWeaponSpells.findSpellProjectileData(spellId, endGraphicHeight);
 
         if (findProjectileDataModern != null && modernSpells && spell.spellId() == findProjectileDataModern.spellID) {
             projectile = findProjectileDataModern.projectile;
@@ -113,6 +114,13 @@ public class MagicCombatMethod extends CommonCombatMethod {
             endGraphicHeight = findAutoCastWeaponsData.endGraphicHeight;
         }
 
+        var sound = World.getWorld().getSoundLoader();
+        if (sound != null) {
+            var soundInfo = sound.getSpellInfo(spellId);
+            if (soundInfo != null) {
+                player.sendPublicSound(soundInfo.getCastSound(), 0);
+            }
+        }
         player.animate(new Animation(castAnimation, Priority.HIGH));
         player.performGraphic(new Graphic(startgraphic, startGraphicHeight, 0, com.cryptic.model.entity.masks.impl.graphics.Priority.LOW));
 
@@ -130,6 +138,13 @@ public class MagicCombatMethod extends CommonCombatMethod {
         final int delay = player.executeProjectile(p);
 
         Hit hit = player.submitHit(target, delay, this);
+
+        if (sound != null) {
+            var soundInfo = sound.getSpellInfo(spellId);
+            if (soundInfo != null) {
+                player.sendPublicSound(soundInfo.getHitSound(), (int) (hit.getDelay() * 30D));
+            }
+        }
 
         if (hit != null) {
             if (hit.isAccurate()) {

@@ -11,6 +11,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.inter.impl.BonusesInterface;
 import com.cryptic.model.items.Item;
+import com.cryptic.model.items.container.equipment.Equipment;
 import com.cryptic.model.items.container.equipment.EquipmentInfo;
 import com.cryptic.model.items.container.looting_bag.LootingBag;
 import com.cryptic.network.packet.Packet;
@@ -71,6 +72,8 @@ public class EquipPacketListener implements PacketListener {
                 player.getLootingBag().open();
                 return;
             }
+
+            player.sendPrivateSound(Equipment.getAudioId(item.name()), 0);
 
             player.getUpdateFlag().flag(Flag.APPEARANCE);
 

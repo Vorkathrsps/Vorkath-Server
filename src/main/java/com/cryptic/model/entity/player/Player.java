@@ -1189,8 +1189,10 @@ public class Player extends Entity {
                 .getAspeed();
         }
 
-        if (player().hasAttrib(FERAL_FIGHTER_ATTACKS_SPEED) && this.getCombat().getCombatType().isMelee()) {
-            attackSpeed--;
+        if (this.getCombat().getCombatType() != null) {
+            if (player().hasAttrib(FERAL_FIGHTER_ATTACKS_SPEED) && this.getCombat().getCombatType().isMelee()) {
+                attackSpeed--;
+            }
         }
 
         if (getCombat().getFightType().toString().toLowerCase().contains("rapid")) {

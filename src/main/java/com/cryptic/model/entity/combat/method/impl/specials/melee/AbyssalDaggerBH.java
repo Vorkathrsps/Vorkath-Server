@@ -12,7 +12,7 @@ public class AbyssalDaggerBH extends CommonCombatMethod {
         entity.graphic(1283, GraphicHeight.LOW, 0);
         var hit = entity.submitHit(target, 0, this);
         entity.submitHit(target, 0, this);
-        entity.sendSound(2537, hit.getDelay());
+        entity.sendPublicSound(2537, hit.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.ABYSSAL_DAGGER_BH.getDrainAmount());
         return true;
     }

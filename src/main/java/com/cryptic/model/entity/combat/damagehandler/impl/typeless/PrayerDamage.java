@@ -52,8 +52,11 @@ public class PrayerDamage implements DamageEffectListener {
                         if (ArrayUtils.contains(ignoreFullNegatedDamage, npc.id())) {
                             damage = (int) (1 + (damage * 0.66D));
                             hit.setDamage(damage);
-                            return true;
+                        } else {
+                            damage = 0;
+                            hit.setDamage(damage);
                         }
+                        return true;
                     }
                     damage = (int) (1 + (damage * 0.4));
                     hit.setDamage(damage);

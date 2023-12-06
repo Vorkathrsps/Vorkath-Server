@@ -226,6 +226,7 @@ public class FoodConsumable {
         else
             eatAnim = 829;
 
+        player.sendPrivateSound(2393, 0);
         player.animate(new Animation(eatAnim, Priority.HIGH));
 
         if (!food.effect) {

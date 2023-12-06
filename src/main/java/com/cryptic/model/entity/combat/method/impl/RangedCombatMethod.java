@@ -169,7 +169,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                 Hit hit = player.submitHit(target, hitDelay, this);
                 var sound = World.getWorld().getSoundLoader().getInfo(player.getEquipment().getWeapon().getId());
                 if (sound != null) {
-                    player.sendSound(sound.forFightType(player.getCombat().getFightType()), hit.getDelay());
+                    player.sendPublicSound(sound.forFightType(player.getCombat().getFightType()), hit.getDelay());
                 }
                 if (graphic != -1) {
                     if (weaponType == WeaponType.CHINCHOMPA) {

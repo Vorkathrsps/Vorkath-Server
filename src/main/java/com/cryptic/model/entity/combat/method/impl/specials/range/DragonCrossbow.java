@@ -3,8 +3,6 @@ package com.cryptic.model.entity.combat.method.impl.specials.range;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatSpecial;
-import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.ranged.drawback.BoltDrawBack;
 import com.cryptic.model.entity.masks.Projectile;
@@ -55,7 +53,7 @@ public class DragonCrossbow extends CommonCombatMethod {
         //Decrement ammo by 1
         CombatFactory.decrementAmmo(player);
         var hit = entity.submitHit(target, hitDelay, this);
-        entity.sendSound(1080, hit.getDelay());
+        entity.sendPublicSound(1080, hit.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_CROSSBOW.getDrainAmount());
         return true;
     }

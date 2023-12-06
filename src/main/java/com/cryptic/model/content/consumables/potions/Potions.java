@@ -213,12 +213,14 @@ public class Potions {
             eatAnim = 1469;
         else
             eatAnim = 829;
+
         player.animate(eatAnim);
 
         if (potion != Potion.ANTIVENOM && potion != Potion.ANTIVENOM_PLUS && potion != Potion.GUTHIX_REST) {
             player.message("You drink some of your " + potion.message + ".");
         }
 
+        player.sendPrivateSound(2401, 0);
         deductDose(player, potion, id);
     }
 

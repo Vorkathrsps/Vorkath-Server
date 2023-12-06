@@ -15,7 +15,7 @@ public class GraniteHammer extends CommonCombatMethod {
         entity.animate(1378);
         entity.graphic(1450);
         var hit = entity.submitHit(target, 1, this);
-        entity.sendSound(2520, hit.getDelay());
+        entity.sendPublicSound(2520, hit.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.GRANITE_HAMMER.getDrainAmount());
         return true;
     }

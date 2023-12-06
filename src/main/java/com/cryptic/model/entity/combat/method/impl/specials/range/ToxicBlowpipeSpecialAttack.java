@@ -5,7 +5,6 @@ import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatSpecial;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.Venom;
-import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.player.EquipSlot;
@@ -33,7 +32,7 @@ public class ToxicBlowpipeSpecialAttack extends CommonCombatMethod {
 
         var hit = entity.submitHit(target, hitDelay, this);
 
-        player.sendSound(800, hit.getDelay());
+        player.sendPublicSound(800, hit.getDelay());
 
         if (hit.getDamage() > 0) {
             player.heal(hit.getDamage() / 2);

@@ -14,7 +14,7 @@ public class DragonDagger extends CommonCombatMethod {
         entity.graphic(252, GraphicHeight.HIGH, 0);
         var hit = entity.submitHit(target, 0, this);
         entity.submitHit(target, 0, this);
-        entity.sendSound(2537, hit.getDelay());
+        entity.sendPublicSound(2537, hit.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_DAGGER.getDrainAmount());
         return true;
     }

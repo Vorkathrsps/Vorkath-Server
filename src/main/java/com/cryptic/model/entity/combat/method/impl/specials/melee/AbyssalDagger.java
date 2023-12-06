@@ -18,7 +18,7 @@ public class AbyssalDagger extends CommonCombatMethod {
             .postDamage(hit -> {
                 if (!h1.isAccurate()) hit.block();
             });
-        entity.sendSound(2537, h1.getDelay());
+        entity.sendPublicSound(2537, h1.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.ABYSSAL_DAGGER.getDrainAmount());
         return true;
     }

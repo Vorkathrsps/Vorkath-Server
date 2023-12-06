@@ -371,6 +371,7 @@ public final class PacketSender {
         player.getSession().write(out);
         return this;
     }
+
     public PacketSender sendAutocastId(int id) {
         PacketBuilder out = new PacketBuilder(38);
         out.putShort(id);
@@ -1056,6 +1057,17 @@ public final class PacketSender {
         out.putShort(id);
         out.put(height);
         out.putShort(delay);
+        player.getSession().write(out);
+        return this;
+    }
+
+    public PacketSender sendAreaSound(int id, int loop, int delay, int x, int y, int distance) {
+        PacketBuilder out = new PacketBuilder(45);
+        sendMapPacket(x, y, player.getZ());
+        out.putShort(id, ByteOrder.LITTLE);
+        out.put(delay, ValueType.A);
+        out.put(distance << 4 | loop, ValueType.A);
+        out.put(0, ValueType.A);
         player.getSession().write(out);
         return this;
     }

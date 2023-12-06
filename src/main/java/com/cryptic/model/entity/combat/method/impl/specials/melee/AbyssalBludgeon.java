@@ -20,8 +20,8 @@ public class AbyssalBludgeon extends CommonCombatMethod {
             h.setDamage((int) (h.getDamage() * (1 + (((entity.getSkills().xpLevel(Skills.PRAYER) - entity.getSkills().level(Skills.PRAYER)) * 0.5)) / 100)));
             target.graphic(1284, GraphicHeight.LOW, 0);
         });
-        entity.sendSound(2715, hit.getDelay());
-        entity.sendSound(1930, hit.getDelay());
+        entity.sendPublicSound(2715, hit.getDelay());
+        entity.sendPublicSound(1930, hit.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.ABYSSAL_BLUDGEON.getDrainAmount());
         return true;
     }

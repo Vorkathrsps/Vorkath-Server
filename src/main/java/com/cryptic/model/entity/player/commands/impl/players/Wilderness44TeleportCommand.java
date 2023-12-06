@@ -70,7 +70,7 @@ public class Wilderness44TeleportCommand implements Command {
         public void execute(Player player, String command, String[] parts) {
             try {
                 int sound = Integer.parseInt(parts[1]);
-                player.sendSound(sound, 0);
+                player.sendPublicSound(sound, 0);
                 player.getPacketSender().sendMessage("Sending soundId="+sound);
 
             } catch (Exception e) {

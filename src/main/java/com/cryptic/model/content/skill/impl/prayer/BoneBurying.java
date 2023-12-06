@@ -57,6 +57,7 @@ public class BoneBurying extends PacketInteraction {
         player.getInventory().remove(bone.itemId);
         player.animate(827);
         player.message("You dig a hole in the ground...");
+        player.sendPrivateSound(2738, 0);
         var xp = (bone.xp * multiplier) / 2;
         if (bone.itemId == 11943 && player.tile().inArea(3172, 3799, 3232, 3857)) xp *= 4;
         player.getSkills().addXp(Skills.PRAYER, xp);
@@ -103,7 +104,6 @@ public class BoneBurying extends PacketInteraction {
         AtomicInteger count = new AtomicInteger(0);
         var gameModeMultiplier = player.getGameMode().equals(GameMode.REALISM) ? 10.0 : 50.0;
 
-
         if (amt == 1) {
             boneOnAltar(player, bones, obj, gameModeMultiplier);
             return;
@@ -131,7 +131,7 @@ public class BoneBurying extends PacketInteraction {
     }
 
     public void boneOnAltar(Player player, Bone bones, GameObject object, double multiplier) {
-        player.animate(896);
+        player.animate(3705);
         World.getWorld().tileGraphic(624, object.tile(), 0, 0);
 
         var removeBone = true;
@@ -145,6 +145,8 @@ public class BoneBurying extends PacketInteraction {
         if (removeBone) {
             player.inventory().remove(new Item(bones.itemId), true);
         }
+
+        player.sendPrivateSound(958, 0);
 
         if (ObjectManager.objById(13213, new Tile(3095, 3506)) != null &&
             ObjectManager.objById(13213, new Tile(3098, 3506)) != null) {

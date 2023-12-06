@@ -13,7 +13,7 @@ public class DragonMace extends CommonCombatMethod {
         entity.animate(1060);
         entity.graphic(251, GraphicHeight.MIDDLE, 0);
         var hit = entity.submitHit(target, 1, this);
-        entity.sendSound(2541, hit.getDelay());
+        entity.sendPublicSound(2541, hit.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_MACE.getDrainAmount());
         return true;
     }

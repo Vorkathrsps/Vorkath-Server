@@ -358,8 +358,8 @@ public abstract class Entity {
         for (int idx = 0; idx < 2048; idx++) {
             Player p = World.getWorld().getPlayers().get(idx);
             if (p == null || p == this || p.tile() == null || p.tile().level != tile().level || p.looks().hidden() || p.finished()) {
-                        continue;
-                }
+                continue;
+            }
             if (tile().distance(p.tile()) > span)
                 continue;
             if (p.tile().inSqRadius(tile, span)) {
@@ -367,7 +367,7 @@ public abstract class Entity {
             }
             if (caret >= targs.length) {
                 break;
-        }
+            }
         }
         Player[] set = new Player[caret];
         System.arraycopy(targs, 0, set, 0, caret);
@@ -558,8 +558,25 @@ public abstract class Entity {
         return this;
     }
 
-    public void sendSound(int id, int delay) {
+    public void sendPrivateSound(int id, int delay) {
         this.getAsPlayer().getPacketSender().sendSoundEffect(id, 1, delay);
+    }
+
+    public void sendPublicSound(int id, int delay) {
+        sendPublicSound(id, 1, delay);
+    }
+
+    public void sendPublicSound(int id, int loops, int delay) {
+        int x = getAbsX();
+        int y = getAbsY();
+        int distance = 15;
+        for (var region : this.getAsPlayer().getRegions()) {
+            for (var p : region.getPlayers()) {
+                if (p != null) {
+                    p.getPacketSender().sendAreaSound(id, loops, delay, x, y, distance);
+                }
+            }
+        }
     }
 
     public void decrementHealth(Hit hit) {
@@ -1472,9 +1489,11 @@ public abstract class Entity {
 
     private final List<Player> localPlayers = new LinkedList<>();
     private final List<NPC> localNpcs = new LinkedList<>();
+
     public List<Player> getLocalPlayers() {
         return localPlayers;
     }
+
     public List<NPC> getLocalNpcs() {
         return localNpcs;
     }

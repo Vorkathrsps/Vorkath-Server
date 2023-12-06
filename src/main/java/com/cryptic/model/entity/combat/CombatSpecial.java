@@ -72,7 +72,7 @@ public enum CombatSpecial {
     BANDOS_GODSWORD(new int[]{ItemIdentifiers.BANDOS_GODSWORD, ItemIdentifiers.BANDOS_GODSWORD_OR}, 50, 1.20D, 1.0, new BandosGodsword(), WeaponType.TWOHANDED),
     SARADOMIN_GODSWORD(new int[]{ItemIdentifiers.SARADOMIN_GODSWORD, ItemIdentifiers.SARADOMIN_GODSWORD_OR}, 50, 1.10D, 1.1, new SaradominGodsword(), WeaponType.TWOHANDED),
     ZAMORAK_GODSWORD(new int[]{ItemIdentifiers.ZAMORAK_GODSWORD, ItemIdentifiers.ZAMORAK_GODSWORD_OR}, 50, 1.10D, 1.1, new ZamorakGodsword(), WeaponType.TWOHANDED),
-    DRAGON_SCIMITAR(new int[]{ItemIdentifiers.DRAGON_SCIMITAR, ItemIdentifiers.DRAGON_SCIMITAR_OR, ItemIdentifiers.DRAGON_SCIMITAR_20406}, 55, 1.0, 1.25F, new DragonScimitar(), WeaponType.SWORD),
+    DRAGON_SCIMITAR(new int[]{ItemIdentifiers.DRAGON_SCIMITAR, ItemIdentifiers.DRAGON_SCIMITAR_OR, ItemIdentifiers.DRAGON_SCIMITAR_20406}, 55, 1.0, 1.25F, new DragonScimitar(), WeaponType.LONGSWORD),
 
     DRAGON_SPEAR(new int[]{ItemIdentifiers.DRAGON_SPEAR, ItemIdentifiers.DRAGON_SPEARP, ItemIdentifiers.DRAGON_SPEARP_5716, ItemIdentifiers.DRAGON_SPEARP_5730}, 25, 1.0, 1.0, new DragonSpear(), WeaponType.SPEAR),
     ZAMORAKIAN_SPEAR(new int[]{ItemIdentifiers.ZAMORAKIAN_SPEAR}, 25, 1.0, 1.0, new ZamorakianSpear(), WeaponType.SPEAR),
@@ -94,7 +94,7 @@ public enum CombatSpecial {
     DRAGON_HALBERD(new int[]{ItemIdentifiers.DRAGON_HALBERD}, 30, 1.10, 1.35, new DragonHalberd(), WeaponType.HALBERD),
     CRYSTAL_HALBERD(new int[]{13080, 13081, 13082, 13083, 13084, 13085, 13086, 13087, 13088, 13089, 13090, 13091, 13092, 13093, 13094, 13095, 13096, 13097, 13098, 13099, 13100, 13101}, 30, 1.10, 1.35, new CrystalHalberd(), WeaponType.HALBERD),
     ABYSSAL_BLUDGEON(new int[]{ItemIdentifiers.ABYSSAL_BLUDGEON}, 50, 1.0, 1.0, new AbyssalBludgeon(), WeaponType.HAMMER),
-    DRAGON_SWORD(new int[]{ItemIdentifiers.DRAGON_SWORD}, 40, 1.25D, 1.25F, new DragonSword(), WeaponType.SWORD),
+    DRAGON_SWORD(new int[]{ItemIdentifiers.DRAGON_SWORD}, 40, 1.25D, 1.25F, new DragonSword(), WeaponType.DAGGER),
     DINHS_BULWARK(new int[]{ItemIdentifiers.DINHS_BULWARK}, 50, 1.0, 2.0F, new DinhsBulwark(), WeaponType.DINHS_BULWARK),
     GRANITE_HAMMER(new int[]{ItemIdentifiers.GRANITE_HAMMER}, 60, 1.0, 1.50F, new GraniteHammer(), WeaponType.HAMMER),
     VESTAS_BLIGHTED_LONGSWORD(new int[]{ItemIdentifiers.VESTAS_BLIGHTED_LONGSWORD}, 25, 1.20D, 2.50F, new VestaLongsword(), WeaponType.LONGSWORD),

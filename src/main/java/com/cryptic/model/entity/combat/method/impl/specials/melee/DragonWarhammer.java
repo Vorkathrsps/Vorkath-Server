@@ -27,7 +27,7 @@ public class DragonWarhammer extends CommonCombatMethod {
             else
                 target.getAsNpc().getCombatInfo().stats.defence = (int) Math.max(0, target.getAsNpc().getCombatInfo().stats.defence - (target.getAsNpc().getCombatInfo().stats.defence * 0.3));
         });
-        entity.sendSound(2520, hit1.getDelay());
+        entity.sendPublicSound(2520, hit1.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_WARHAMMER.getDrainAmount());
         return true;
     }

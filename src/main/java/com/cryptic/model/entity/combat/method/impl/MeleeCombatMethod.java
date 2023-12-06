@@ -101,7 +101,7 @@ public class MeleeCombatMethod extends CommonCombatMethod {
             if (weapon != null) {
                 var sound = World.getWorld().getSoundLoader().getInfo(player.getEquipment().getWeapon().getId());
                 if (sound != null) {
-                    player.sendSound(sound.forFightType(player.getCombat().getFightType()), hit.getDelay());
+                    player.sendPublicSound(sound.forFightType(player.getCombat().getFightType()), hit.getDelay());
                 }
             }
         }

@@ -22,7 +22,7 @@ public class DragonScimitar extends CommonCombatMethod {
             CombatFactory.disableProtectionPrayers(player);
             player.message("Your target can no longer use protection prayers.");
         });
-        entity.sendSound(2540, hit.getDelay());
+        entity.sendPublicSound(2540, hit.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_SCIMITAR.getDrainAmount());
         return true;
     }

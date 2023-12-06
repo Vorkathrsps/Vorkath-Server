@@ -26,7 +26,7 @@ public class AbyssalWhip extends CommonCombatMethod {
                 drainEnergy(target, player, attacker);
             }
         });
-        entity.sendSound(2713, hit.getDelay());
+        entity.sendPublicSound(2713, hit.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.ABYSSAL_WHIP.getDrainAmount());
         return true;
     }

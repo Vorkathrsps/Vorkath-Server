@@ -129,9 +129,35 @@ public class Prayers {
             if (!canUse(player, pd, true)) {
                 return;
             }
-            if (pd.soundId != -1) {
+        }
 
-            }
+        switch (prayerId) {
+            case THICK_SKIN -> entity.sendPrivateSound(2690, 0);
+            case BURST_OF_STRENGTH -> entity.sendPrivateSound(2688, 0);
+            case CLARITY_OF_THOUGHT -> entity.sendPrivateSound(2664, 0);
+            case SHARP_EYE, RIGOUR -> entity.sendPrivateSound(2685, 0);
+            case MYSTIC_WILL, AUGURY -> entity.sendPrivateSound(2670, 0);
+            case ROCK_SKIN -> entity.sendPrivateSound(2684, 0);
+            case SUPERHUMAN_STRENGTH -> entity.sendPrivateSound(2689, 0);
+            case IMPROVED_REFLEXES -> entity.sendPrivateSound(2662, 0);
+            case RAPID_RESTORE, PRESERVE -> entity.sendPrivateSound(2679, 0);
+            case RAPID_HEAL -> entity.sendPrivateSound(2678, 0);
+            case PROTECT_ITEM -> entity.sendPrivateSound(1982, 0);
+            case HAWK_EYE -> entity.sendPrivateSound(2666, 0);
+            case MYSTIC_LORE -> entity.sendPrivateSound(2668, 0);
+            case STEEL_SKIN -> entity.sendPrivateSound(2687, 0);
+            case ULTIMATE_STRENGTH -> entity.sendPrivateSound(2691, 0);
+            case INCREDIBLE_REFLEXES -> entity.sendPrivateSound(2667, 0);
+            case PROTECT_FROM_MAGIC -> entity.sendPrivateSound(2675, 0);
+            case PROTECT_FROM_MISSILES -> entity.sendPrivateSound(2677, 0);
+            case PROTECT_FROM_MELEE -> entity.sendPrivateSound(2676, 0);
+            case EAGLE_EYE -> entity.sendPrivateSound(2665, 0);
+            case MYSTIC_MIGHT -> entity.sendPrivateSound(2669, 0);
+            case RETRIBUTION -> entity.sendPrivateSound(2682, 0);
+            case REDEMPTION -> entity.sendPrivateSound(2680, 0);
+            case SMITE -> entity.sendPrivateSound(2686, 0);
+            case CHIVALRY -> entity.sendPrivateSound(3826, 0);
+            case PIETY -> entity.sendPrivateSound(3825, 0);
         }
 
         switch (prayerId) {
@@ -279,6 +305,7 @@ public class Prayers {
 
         if (locked) {
             if (msg) {
+                player.sendPrivateSound(2673, 0);
                 player.message("You have not unlocked that Prayer yet.");
                 player.getPacketSender().sendConfig(prayer.getConfigId(), 0);
             }
@@ -318,6 +345,7 @@ public class Prayers {
             }
 
             p.getQuickPrayers().checkActive();
+            p.sendPrivateSound(2663, 0);
         }
     }
 

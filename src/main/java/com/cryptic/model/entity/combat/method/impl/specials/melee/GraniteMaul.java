@@ -2,15 +2,9 @@ package com.cryptic.model.entity.combat.method.impl.specials.melee;
 
 import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatSpecial;
-import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
-import com.cryptic.model.entity.player.EquipSlot;
-
-import static com.cryptic.utility.ItemIdentifiers.GRANITE_MAUL_12848;
 
 /**
  * Granite maul
@@ -41,7 +35,7 @@ public class GraniteMaul extends CommonCombatMethod {
         }
 
         var hit = entity.submitHit(target, delay, this);
-        entity.sendSound(2715, hit.getDelay());
+        entity.sendPublicSound(2715, hit.getDelay());
         CombatSpecial.drain(entity, entity.getAsPlayer().getCombatSpecial().getDrainAmount());
         return true;
     }

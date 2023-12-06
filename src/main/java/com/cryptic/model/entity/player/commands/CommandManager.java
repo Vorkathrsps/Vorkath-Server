@@ -677,7 +677,7 @@ public class CommandManager {
 
         });
         dev("c", (p, c, s) -> {
-            p.getPacketSender().sendSoundEffect(2523, 1, 0);
+            p.getPacketSender().sendAreaSound(5, 1, 0, p.tile().getX(), p.tile().getY(), 15);
         });
 
         dev("ioi", (p, c, s) -> {

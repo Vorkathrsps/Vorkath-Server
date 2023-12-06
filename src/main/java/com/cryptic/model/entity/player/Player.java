@@ -2391,10 +2391,6 @@ public class Player extends Entity {
         return packetSender;
     }
 
-    public void sendSound(int id, int delay) {
-        this.getPacketSender().sendSoundEffect(id, 1, delay);
-    }
-
     public SecondsTimer getForcedLogoutTimer() {
         return forcedLogoutTimer;
     }

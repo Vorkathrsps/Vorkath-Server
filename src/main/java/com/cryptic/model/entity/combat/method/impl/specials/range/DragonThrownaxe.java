@@ -3,8 +3,6 @@ package com.cryptic.model.entity.combat.method.impl.specials.range;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatSpecial;
-import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
@@ -31,7 +29,7 @@ public class DragonThrownaxe extends CommonCombatMethod {
         final int delay = entity.executeProjectile(p1);
         CombatFactory.decrementAmmo(player);
         var hit = entity.submitHit(target, delay, this);
-        player.sendSound(2528, hit.getDelay());
+        player.sendPublicSound(2528, hit.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_THROWNAXE.getDrainAmount());
         player.getTimers().register(TimerKey.THROWING_AXE_DELAY,1);
         player.getTimers().register(TimerKey.COMBAT_ATTACK,1); // 1 tick delay before another normal melee

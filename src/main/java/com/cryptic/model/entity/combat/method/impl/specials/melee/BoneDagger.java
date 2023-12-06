@@ -14,7 +14,7 @@ public class BoneDagger extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(4198);
         entity.graphic(704);
-         entity.submitHit(target, 1, this);
+        entity.submitHit(target, 1, this);
         return true;
     }
 

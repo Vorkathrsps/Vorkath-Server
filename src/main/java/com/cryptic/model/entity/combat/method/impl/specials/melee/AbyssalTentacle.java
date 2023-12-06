@@ -22,7 +22,7 @@ public class AbyssalTentacle extends CommonCombatMethod {
                 target.freeze(8, entity, true);
                 if (Utils.rollDice(25)) target.poison(4);
             });
-        entity.sendSound(2713, hit.getDelay());
+        entity.sendPublicSound(2713, hit.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.ABYSSAL_TENTACLE.getDrainAmount());
         return true;
     }

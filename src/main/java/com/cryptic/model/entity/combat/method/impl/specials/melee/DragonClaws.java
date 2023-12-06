@@ -21,7 +21,7 @@ public class DragonClaws extends CommonCombatMethod {
         Hit hit3;
         Hit hit4;
 
-        entity.sendSound(2537, hit1.getDelay());
+        entity.sendPublicSound(2537, hit1.getDelay());
 
         final int maxHit = entity.getCombat().getMaximumMeleeDamage();
 

@@ -15,7 +15,7 @@ public class Dragon2HSword extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.animate(3157);
         var hit = entity.submitHit(target, 1, this);
-        entity.sendSound(2530, hit.getDelay());
+        entity.sendPublicSound(2530, hit.getDelay());
         CombatSpecial.drain(entity, CombatSpecial.DRAGON_2H_SWORD.getDrainAmount());
         return true;
     }

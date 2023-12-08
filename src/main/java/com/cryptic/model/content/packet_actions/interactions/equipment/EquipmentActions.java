@@ -4,6 +4,7 @@ import com.cryptic.model.content.items.teleport.ArdyCape;
 import com.cryptic.model.content.skill.impl.slayer.content.SlayerRing;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
+import com.cryptic.model.items.container.equipment.Equipment;
 import com.cryptic.network.packet.incoming.interaction.PacketInteractionManager;
 
 public class EquipmentActions {
@@ -18,6 +19,7 @@ public class EquipmentActions {
         if (SlayerRing.onEquipmentOption(player, item, slot)) {
             return true;
         }
+
         return false;
     }
 }

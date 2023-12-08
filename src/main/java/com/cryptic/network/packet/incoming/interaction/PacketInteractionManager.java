@@ -3,6 +3,7 @@ package com.cryptic.network.packet.incoming.interaction;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
+import com.cryptic.model.items.container.equipment.Equipment;
 import com.cryptic.model.map.object.GameObject;
 import com.google.common.reflect.ClassPath;
 import org.slf4j.Logger;

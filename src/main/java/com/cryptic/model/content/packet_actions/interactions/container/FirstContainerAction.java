@@ -4,6 +4,7 @@ import com.cryptic.model.content.duel.Dueling;
 import com.cryptic.model.inter.impl.BonusesInterface;
 import com.cryptic.model.content.skill.impl.crafting.impl.Jewellery;
 import com.cryptic.model.content.skill.impl.smithing.EquipmentMaking;
+import com.cryptic.model.items.container.equipment.Equipment;
 import com.cryptic.model.items.trade.Trading;
 import com.cryptic.model.items.tradingpost.TradingPost;
 import com.cryptic.model.World;

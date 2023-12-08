@@ -17,7 +17,6 @@ public class HealthHud {
      * The widget id.
      */
     public static final int WIDGET_ID = 19_000;
-
     public static boolean needsUpdate;
     public static boolean updated;
 

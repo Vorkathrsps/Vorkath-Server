@@ -14,6 +14,7 @@ public class Barrelchest extends CommonCombatMethod {
     }
 
     private void meleeAttack(Entity entity, Entity target) {
+        if (!withinDistance(1)) return;
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), CombatType.MELEE).checkAccuracy(true).submit();
         entity.animate(entity.attackAnimation());
     }
@@ -26,5 +27,10 @@ public class Barrelchest extends CommonCombatMethod {
     @Override
     public int moveCloseToTargetTileRange(Entity entity) {
         return 1;
+    }
+
+    @Override
+    public void doFollowLogic() {
+        follow(1);
     }
 }

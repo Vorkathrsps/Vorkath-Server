@@ -685,8 +685,7 @@ public class World {
                     NpcSpawn[] s = gson.fromJson(new FileReader(spawn), NpcSpawn[].class);
 
                     for (NpcSpawn sp : s) {
-                        if (sp == null)
-                            continue;
+                        if (sp == null) continue;
 
                         Tile spawnTile = new Tile(sp.x, sp.y, sp.z);
                         NPC npc = NPC.of(sp.id, spawnTile);

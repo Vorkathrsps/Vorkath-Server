@@ -73,7 +73,7 @@ public class NPCUpdating {
                 }
             }
             if (update.buffer().writerIndex() > 0) {
-                packet.putBits(14, 16383);
+                packet.putBits(16, 65535);
                 packet.initializeAccess(AccessType.BYTE);
                 packet.writeBuffer(update.buffer());
             } else {
@@ -84,7 +84,6 @@ public class NPCUpdating {
             Exception e) {
             e.printStackTrace();
         }
-
     }
 
     private static boolean sendNewNpcUpdates(NPC npc) {
@@ -102,7 +101,7 @@ public class NPCUpdating {
     private static void addNPC(Player player, NPC npc, PacketBuilder builder, boolean legacyTeleport) {
         int yOffset = npc.tile().getY() - player.tile().getY();
         int xOffset = npc.tile().getX() - player.tile().getX();
-        builder.putBits(14, npc.getIndex());
+        builder.putBits(16, npc.getIndex());
         builder.putBits(5, yOffset);
         builder.putBits(5, xOffset);
         builder.putBits(1, legacyTeleport ? 0 : 1);

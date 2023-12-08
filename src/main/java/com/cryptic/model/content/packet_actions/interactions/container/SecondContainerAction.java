@@ -4,6 +4,7 @@ import com.cryptic.model.content.duel.Dueling;
 import com.cryptic.model.content.packet_actions.interactions.equipment.EquipmentActions;
 import com.cryptic.model.content.skill.impl.crafting.impl.Jewellery;
 import com.cryptic.model.content.skill.impl.smithing.EquipmentMaking;
+import com.cryptic.model.items.container.equipment.Equipment;
 import com.cryptic.model.items.trade.Trading;
 import com.cryptic.model.items.tradingpost.TradingPost;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -51,7 +52,9 @@ public class SecondContainerAction {
             if (item == null || item.getId() != id) {
                 return;
             }
+
             if (EquipmentActions.operate(player, slot, item)) {
+                player.sendPrivateSound(Equipment.getAudioId(item.name()), 0);
                 return;
             }
         }

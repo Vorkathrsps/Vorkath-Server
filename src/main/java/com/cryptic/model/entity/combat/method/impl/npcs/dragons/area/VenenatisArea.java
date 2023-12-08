@@ -40,10 +40,9 @@ public class VenenatisArea extends Controller {
             for (var npc : regions.getNpcs()) {
                 if (npc.id() == 6610) {
                     if (npc.dead()) {
-                        player.getPacketSender().darkenScreen(0);
                         HealthHud.close(player);
                     } else {
-                        if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
+                        if (npc.hp() != npc.maxHp()) HealthHud.update(player, HealthHud.Type.REGULAR, npc.hp(), npc.maxHp());
                         else if (!HealthHud.updated && HealthHud.needsUpdate) {
                             HealthHud.open(player, HealthHud.Type.REGULAR, "Venenatis", npc.hp());
                         }

@@ -357,7 +357,7 @@ public final class Equipment extends ItemContainer {
         {2243, "chainskirt", "plateskirt", "platelegs", "tasset"}, //metal_legs
         {2244, "bow"},
         {2246, "mace", "flail", "anchor"},
-        {2248, "sword", "scimitar"},
+        {2248, "sword", "scimitar", "voidwaker"},
         {2249, "whip", "tentacle"},
     };
 
@@ -589,7 +589,6 @@ public final class Equipment extends ItemContainer {
             player.getCombat().setPoweredStaffSpell(null);
         }
 
-        player.sendPrivateSound(getAudioId(equip.name()), 0);
         player.getCombat().setTarget(null);
         player.setEntityInteraction(null);
         return true;

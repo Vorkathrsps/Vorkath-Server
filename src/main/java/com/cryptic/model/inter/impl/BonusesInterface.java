@@ -7,6 +7,7 @@ import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ItemWeight;
+import com.cryptic.model.items.container.equipment.Equipment;
 import com.cryptic.model.items.container.equipment.EquipmentInfo;
 import com.cryptic.utility.Color;
 
@@ -114,7 +115,7 @@ public class BonusesInterface {
     }
 
     public static boolean onContainerAction(Player player, int id, int slot) {
-        if (id == InterfaceConstants.EQUIPMENT_DISPLAY_ID) {
+        if (id == InterfaceConstants.EQUIPMENT_DISPLAY_ID) { //do sounds here for equipping
             if (slot == 0) {
                 player.getEquipment().unequip(EquipSlot.HEAD);
                 sendBonuses(player);

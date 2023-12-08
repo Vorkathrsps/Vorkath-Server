@@ -1,8 +1,5 @@
 package com.cryptic.utility;
 
-/**
- * Created by Bart on 8/25/2015.
- */
 public class NpcSpawn {
 
     public int id;

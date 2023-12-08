@@ -176,8 +176,7 @@ public class GameConstants {
             WRENCH_TAB = 11, EMOTE_TAB = 12, MUSIC_TAB = 13;
 
     public static final int PLAYERS_LIMIT = 2047; //This must be capped to 2047 because 11 bits - 1
-    public static final int NPCS_LIMIT = 16383; //This must be capped to 16384 because 14 bits - 1
-
+    public static final int NPCS_LIMIT = 65535;
     /**
      * Strings that are classified as bad
      */

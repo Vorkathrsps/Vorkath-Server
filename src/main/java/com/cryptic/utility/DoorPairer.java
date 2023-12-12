@@ -3,6 +3,7 @@ package com.cryptic.utility;
 import com.cryptic.cache.definitions.DefinitionRepository;
 import com.cryptic.cache.definitions.ObjectDefinition;
 import com.cryptic.cache.DataStore;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -26,8 +27,7 @@ public class DoorPairer {
 
 			System.out.println(id +", "+toid +", "+closed+", "+open);
 		}
-		if (true)
-			return;
+
         DataStore ds = new DataStore("data/cache");
         DefinitionRepository repo = new DefinitionRepository(ds, true);
 
@@ -40,11 +40,11 @@ public class DoorPairer {
             ObjectDefinition def = repo.get(ObjectDefinition.class, i);
             if (def == null) continue; // skip
 
-            if (def.name.equals("Door") || def.name.equals("Large door")) { // NOTE: there are plenty of other types of stuff which you might need to redump
+            if (def.name.equals("Door") || def.name.equals("Large door") || def.name.equals("Doors") || def.name.equals("Large Doors")) { // NOTE: there are plenty of other types of stuff which you might need to redump
                 // when they become required.
 
-                boolean isClosed = Stream.of(def.options).anyMatch("Open"::equals);
-                boolean isOpen = Stream.of(def.options).anyMatch("Close"::equals);
+                boolean isClosed = Arrays.asList(def.options).contains("Open");
+                boolean isOpen = Arrays.asList(def.options).contains("Close");
                 int other = findOtherDoor(def, repo);
 
                 if (i == 1550 && other == 23555) {
@@ -66,9 +66,9 @@ public class DoorPairer {
         System.out.println("complete!");
     }
 
-    private static int findOtherDoor(ObjectDefinition door, DefinitionRepository repo) {
+    private static int findOtherDoor(@NotNull ObjectDefinition door, DefinitionRepository repo) {
         int newId = -1;
-        boolean weHaveOpen = Stream.of(door.options).anyMatch("Open"::equals);
+        boolean weHaveOpen = Arrays.asList(door.options).contains("Open");
         search:
         for (int i = 0; i < repo.total(ObjectDefinition.class); i++) {
             ObjectDefinition def = repo.get(ObjectDefinition.class, i);
@@ -78,18 +78,11 @@ public class DoorPairer {
                 continue;
             }
 
-            // Fuck this, can't be identical
-            boolean hasOpen = Stream.of(def.options).anyMatch("Open"::equals);
-            boolean hasClose = Stream.of(def.options).anyMatch("Close"::equals);
-            if ((hasOpen && weHaveOpen) || (!hasOpen && !weHaveOpen)) {
-                continue; // Fuck your standards
+            boolean hasOpen = Arrays.asList(def.options).contains("Open");
+            boolean hasClose = Arrays.asList(def.options).contains("Close");
+            if ((hasOpen && weHaveOpen) || (!hasOpen && !weHaveOpen) || (weHaveOpen && !hasClose) || (!weHaveOpen && hasClose)) {
+                continue;
             }
-
-            // We must find one who has close if we are open and vice versa
-            if (weHaveOpen && !hasClose)
-                continue;
-            if (!weHaveOpen && !hasOpen) // Idea r u dumb
-                continue;
 
             //The models should also be the same...
             if (!Arrays.equals(door.models, def.models) || !Arrays.equals(door.modeltypes, def.modeltypes))
@@ -120,8 +113,8 @@ public class DoorPairer {
             //But have different options
             if (Arrays.equals(door.options, def.options))
                 continue;
-            boolean other1 = Stream.of(door.options).anyMatch("Pick-lock"::equals);
-            boolean other2 = Stream.of(def.options).anyMatch("Pick-lock"::equals);
+            boolean other1 = Arrays.asList(door.options).contains("Pick-lock");
+            boolean other2 = Arrays.asList(def.options).contains("Pick-lock");
             if ((other1 && !other2) || (!other1 && other2)) { // Almost the right door .. but mismatch on other options. Specifically theiving ones
                 continue;
             }

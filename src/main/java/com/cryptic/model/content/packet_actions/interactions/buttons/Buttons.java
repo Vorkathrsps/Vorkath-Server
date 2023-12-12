@@ -50,7 +50,7 @@ import static com.cryptic.utility.ItemIdentifiers.*;
  */
 public class Buttons {
 
-    private static final int OPEN_COLLECTION_LOG = 78901;
+    private static final int OPEN_COLLECTION_LOG = 80026;
     public static final int OPEN_NPC_DROPS = 78903;
     //combat tasks button
     private static final int OPEN_COMBAT_TASKS = 78902;

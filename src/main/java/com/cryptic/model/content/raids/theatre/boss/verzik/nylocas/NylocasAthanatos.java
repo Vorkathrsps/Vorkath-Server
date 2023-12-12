@@ -7,6 +7,7 @@ import com.cryptic.utility.chainedwork.Chain;
 
 public class NylocasAthanatos extends NPC {
     TheatreInstance theatreInstance;
+
     public NylocasAthanatos(int id, Tile tile, TheatreInstance theatreInstance) {
         super(id, tile);
         this.theatreInstance = theatreInstance;
@@ -20,9 +21,6 @@ public class NylocasAthanatos extends NPC {
     @Override
     public void die() {
         this.animate(8078);
-        if (theatreInstance.getVerzikNylocasList() != null) {
-            theatreInstance.getVerzikNylocasList().remove(this);
-        }
         Chain.noCtx().runFn(2, this::remove);
     }
 }

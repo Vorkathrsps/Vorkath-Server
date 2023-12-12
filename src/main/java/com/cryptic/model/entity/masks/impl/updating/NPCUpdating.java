@@ -43,16 +43,16 @@ public class NPCUpdating {
                 List<NPC> updatedNpcs = new ArrayList<>();
                 for (NPC npc : localNpcs) {
                     if (npc == null) continue;
-                    if (npc.getIndex() == -1 || !World.getWorld().getNpcs().contains(npc) || npc.hidden() || npc.isTeleportJump() || !playerTile.isViewableFrom(npc.tile())) {
-                        updatedNpcs.add(npc);
-                        packet.putBits(1, 1);
-                        packet.putBits(2, 3);
-                    } else {
+                    if (npc.getIndex() != -1 && World.getWorld().getNpcs().contains(npc) && !npc.hidden() && !npc.isTeleportJump() && playerTile.isViewableFrom(npc.tile())) {
                         updateMovement(npc, packet);
                         npc.inViewport(true);
                         if (npc.getUpdateFlag().isUpdateRequired()) {
                             appendUpdates(npc, player, update, false);
                         }
+                    } else {
+                        updatedNpcs.add(npc);
+                        packet.putBits(1, 1);
+                        packet.putBits(2, 3);
                     }
                 }
                 localNpcs.removeAll(updatedNpcs);
@@ -80,8 +80,7 @@ public class NPCUpdating {
                 packet.initializeAccess(AccessType.BYTE);
             }
             player.getSession().write(packet);
-        } catch (
-            Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

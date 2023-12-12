@@ -24,11 +24,6 @@ public class NylocasMatomenos extends NPC {
     @Override
     public void die() {
         this.animate(8097);
-        Chain.noCtx().runFn(2, () -> {
-        if (theatreInstance.getVerzikNylocasList() != null) {
-            theatreInstance.getVerzikNylocasList().remove(this);
-        }
-        this.remove();
-        });
+        Chain.noCtx().runFn(2, this::remove);
     }
 }

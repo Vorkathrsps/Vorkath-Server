@@ -3,6 +3,7 @@
     "ids": [
       8369, 8371
     ],
+    "aggressive": false,
     "deathlen": 2,
     "stats": {
       "hitpoints": 3250
@@ -14,7 +15,7 @@
     ],
     "maxhit": 47,
     "deathlen": 2,
-    "aggressive": true,
+    "aggressive": false,
     "aggroradius": 30,
     "stats": {
       "attack": 400,

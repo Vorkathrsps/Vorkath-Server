@@ -1704,7 +1704,6 @@ public abstract class Entity {
     }
 
     @Getter
-    @Setter
     public boolean teleportJump;
 
     public void setTeleportJump(boolean teleportJump) {

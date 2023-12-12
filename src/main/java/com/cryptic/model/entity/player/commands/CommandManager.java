@@ -677,7 +677,8 @@ public class CommandManager {
 
         });
         dev("c", (p, c, s) -> {
-            p.getPacketSender().sendAreaSound(5, 1, 0, p.tile().getX(), p.tile().getY(), 15);
+            TheatreInstance theatreInstance = new TheatreInstance(p, new ArrayList<>());
+
         });
 
         dev("ioi", (p, c, s) -> {

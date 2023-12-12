@@ -132,8 +132,11 @@ public class SpawnParser {
                         jsonObject.put("x", xValue);
                         jsonObject.put("y", yValue);
                         jsonObject.put("z", zValue);
-                        if (!ArrayUtils.contains(unwalkable_npcs, idValue))
+                        if (!ArrayUtils.contains(unwalkable_npcs, idValue)) {
                             jsonObject.put("walkRange", Utils.random(2, 5));
+                        } else {
+                            jsonObject.put("walkRange", 0);
+                        }
                         jsonObject.put("direction", directions[randomDirection]);
 
                         outputContent.append(jsonObject).append(System.lineSeparator());

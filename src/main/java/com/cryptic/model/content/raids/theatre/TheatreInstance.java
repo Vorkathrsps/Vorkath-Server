@@ -33,35 +33,22 @@ import static com.cryptic.model.content.mechanics.DeathProcess.SOTETSEG_AREA;
  * @Author: Origin
  * @Date: 10/5/2023
  */
-public class TheatreInstance extends TheatreArea { //TODO make sure we're cleaning up all garbage collections & verzik
-
+public class TheatreInstance extends TheatreArea {
     @Getter
     public Player owner;
     @Getter
-    public List<Player> players;
+    public List<Player> players, occupiedCageSpawnPointsList;
+    @Getter
+    public List<NPC> verzikPillarNpcs, verzikNylocasList, tornadoList, nylocas, pillarList;
+    @Getter
+    public List<GameObject> verzikPillarObjects, pillarObject;
     public AtomicInteger wave = new AtomicInteger();
     @Getter
-    public List<Player> occupiedCageSpawnPointsList = new ArrayList<>();
+    List<TheatreHandler> bosses;
     @Getter
-    List<TheatreHandler> bosses = new ArrayList<>();
+    public TheatreController theatreController;
     @Getter
-    public List<NPC> pillarList = new ArrayList<>();
-    @Getter
-    public List<NPC> nylocas = new ArrayList<>();
-    @Getter
-    ArrayList<NPC> verzikNylocasList = new ArrayList<>();
-    @Getter
-    public List<NPC> verzikPillarNpcs = new ArrayList<>();
-    @Getter
-    public List<GameObject> pillarObject = new ArrayList<>();
-    @Getter
-    public List<GameObject> verzikPillarObjects = new ArrayList<>();
-    @Getter
-    public TheatreController theatreController = new TheatreController(bosses);
-    @Getter
-    public TheatrePhase theatrePhase = new TheatrePhase(TheatreStage.ONE);
-    @Getter
-    public List<NPC> tornados = new ArrayList<>();
+    public TheatrePhase theatrePhase;
     @Getter
     public Tile entrance = new Tile(3168, 4304);
     @Getter
@@ -88,6 +75,17 @@ public class TheatreInstance extends TheatreArea { //TODO make sure we're cleani
         super(InstanceConfiguration.CLOSE_ON_EMPTY_NO_RESPAWN, rooms());
         this.owner = owner;
         this.players = players;
+        this.bosses = new ArrayList<>();
+        this.theatreController = new TheatreController(bosses);
+        this.theatrePhase = new TheatrePhase(TheatreStage.ONE);
+        this.verzikNylocasList = new ArrayList<>();
+        this.verzikPillarNpcs = new ArrayList<>();
+        this.verzikPillarObjects = new ArrayList<>();
+        this.pillarObject = new ArrayList<>();
+        this.pillarList = new ArrayList<>();
+        this.nylocas = new ArrayList<>();
+        this.occupiedCageSpawnPointsList = new ArrayList<>();
+        this.tornadoList = new ArrayList<>();
     }
 
     public TheatreInstance buildParty() {

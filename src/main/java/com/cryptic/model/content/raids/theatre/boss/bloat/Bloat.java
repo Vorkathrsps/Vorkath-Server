@@ -24,11 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BooleanSupplier;
 
-/**
- * @Author: Origin
- * @Date: 7/18/2023
- */
-public class Bloat extends NPC { //TODO make him reverse interpolate walk
+public class Bloat extends NPC {
     Player player;
     BloatUtils bloatUtils = new BloatUtils();
     int interpolateTiles = 0;

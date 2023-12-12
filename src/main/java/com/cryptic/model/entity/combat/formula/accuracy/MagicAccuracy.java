@@ -16,9 +16,6 @@ import lombok.Setter;
 
 import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.*;
 
-/**
- * @Author Origin
- */
 public final class MagicAccuracy {
 
     @Getter @Setter public float modifier;

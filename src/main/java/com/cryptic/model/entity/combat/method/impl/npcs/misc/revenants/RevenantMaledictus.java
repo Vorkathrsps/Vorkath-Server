@@ -96,7 +96,6 @@ public class RevenantMaledictus extends CommonCombatMethod {
 
         cornerTiles.clear();
         outlineTiles.clear();
-
     }
 
     void iceOrBlood(Entity npc, Entity target) {

@@ -260,10 +260,7 @@ public class NPCInteractionHandler implements PacketListener {
         if (option == 3) {
 
             switch (npc.id()) {
-                case BOB_BARTER_HERBS -> {
-                    player.getDialogueManager().start(new BobBarter());
-                    return;
-                }
+                case BOB_BARTER_HERBS -> player.getDialogueManager().start(new BobBarter());
                 case TWIGGY_OKORN -> {
                     if (AchievementsManager.isCompleted(player, Achievements.COMPLETIONIST)) {
                         if (player.inventory().getFreeSlots() < 2) {
@@ -275,12 +272,8 @@ public class NPCInteractionHandler implements PacketListener {
                     } else {
                         player.message("You haven't completed all of the achievements yet.");
                     }
-                    return;
                 }
-                case GUNDAI -> {
-                    TradingPost.open(player);
-                    return;
-                }
+                case GUNDAI -> TradingPost.open(player);
             }
         }
     }
@@ -307,9 +300,11 @@ public class NPCInteractionHandler implements PacketListener {
             return;
         }
 
-        if (npc.def().name.equalsIgnoreCase("banker")) {
-            player.getDialogueManager().start(new BankTellerDialogue(), npc);
-            return;
+        if (npc.def().name != null) {
+            if (npc.def().name.equalsIgnoreCase("banker")) {
+                player.getDialogueManager().start(new BankTellerDialogue(), npc);
+                return;
+            }
         }
 
         switch (npc.id()) {

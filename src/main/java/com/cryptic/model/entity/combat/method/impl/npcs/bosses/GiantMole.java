@@ -30,6 +30,7 @@ public class GiantMole extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
+        if (!withinDistance(1)) return false;
         entity.animate(entity.attackAnimation());
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 0, CombatType.MELEE).checkAccuracy(true).submit();
         return true;
@@ -38,6 +39,11 @@ public class GiantMole extends CommonCombatMethod {
     @Override
     public int getAttackSpeed(Entity entity) {
         return entity.getBaseAttackSpeed();
+    }
+
+    @Override
+    public void doFollowLogic() {
+        follow(1);
     }
 
     @Override

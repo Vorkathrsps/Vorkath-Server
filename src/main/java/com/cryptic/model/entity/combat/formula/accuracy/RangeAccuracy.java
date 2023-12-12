@@ -32,9 +32,6 @@ import static com.cryptic.model.entity.attributes.AttributeKey.SLAYER_TASK_ID;
 import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.*;
 import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.EAGLE_EYE;
 
-/**
- * @Author Origin
- */
 public class RangeAccuracy {
 
     @Getter

@@ -1,12 +1,13 @@
 package com.cryptic.model.content.raids.theatre.boss.maiden.blood;
 
 import com.cryptic.model.World;
+import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.area.TheatreArea;
 import com.cryptic.model.content.raids.theatre.boss.maiden.Maiden;
-import com.cryptic.model.content.raids.theatre.boss.maiden.objects.BloodSplat;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.object.ObjectManager;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.Utils;
@@ -20,17 +21,18 @@ import static com.cryptic.model.content.raids.theatre.boss.maiden.utils.MaidenUt
 public class BloodSpawn extends NPC {
     Player player;
     Maiden maiden;
-    public List<BloodSpawn> orbList = new ArrayList<>();
-    public List<BloodSplat> bloodObjectList = new ArrayList<>();
-    public List<Integer> damage = new ArrayList<>();
-    BloodSplat bloodSplat;
-    TheatreArea theatreArea;
+    List<BloodSpawn> orbList;
+    List<GameObject> bloodObjectList;
+    List<Integer> damage = new ArrayList<>();
+    TheatreArea theatreInstance;
 
-    public BloodSpawn(int id, Tile tile, Player player, Maiden maiden, TheatreArea theatreArea) {
+    public BloodSpawn(int id, Tile tile, Player player, Maiden maiden, TheatreInstance theatreInstance) {
         super(id, tile);
         this.player = player;
         this.maiden = maiden;
-        this.theatreArea = theatreArea;
+        this.theatreInstance = theatreInstance;
+        this.bloodObjectList = new ArrayList<>();
+        this.orbList = new ArrayList<>();
         orbList.add(this);
         this.walkRadius(10);
         this.noRetaliation(true);
@@ -39,7 +41,6 @@ public class BloodSpawn extends NPC {
 
     protected boolean verifyDamage() {
         Hit hit = player.hit(this, Utils.random(4, 8), 0, null);
-
         for (var o : bloodObjectList) {
             if (o.tile().equals(player.tile())) {
                 hit.submit();
@@ -58,6 +59,7 @@ public class BloodSpawn extends NPC {
             iterator.remove();
         }
     }
+
     public void clearOrbAndObjects() {
         for (var o : bloodObjectList) {
             o.remove();
@@ -74,11 +76,11 @@ public class BloodSpawn extends NPC {
 
     @Override
     public void postSequence() {
-        if (maiden.dead()) {
-            for (var o : bloodObjectList) {
+        if (this.maiden.dead()) {
+            for (var o : this.bloodObjectList) {
                 o.remove();
             }
-            for (var n : orbList) {
+            for (var n : this.orbList) {
                 n.remove();
             }
             this.damage.clear();
@@ -87,14 +89,17 @@ public class BloodSpawn extends NPC {
             return;
         }
 
-        if (!orbList.isEmpty()) {
-            bloodSplat = new BloodSplat(32984, new Tile(this.tile().getX(), this.tile().getY()).transform(0, 0, theatreArea.getzLevel()), 10, 0);
-            if (!bloodObjectList.contains(bloodSplat)) {
-                bloodObjectList.add(bloodSplat);
+        if (!this.orbList.isEmpty()) {
+            GameObject bloodSplat = new GameObject(32984, new Tile(this.tile().getX(), this.tile().getY(), theatreInstance.getzLevel()), 10, 0);
+            if (!ObjectManager.objWithTypeExists(10, new Tile(bloodSplat.getX(), bloodSplat.getY(), theatreInstance.getzLevel()))) {
+                this.bloodObjectList.add(bloodSplat);
             }
-            for (var o : bloodObjectList) {
-                if (!ObjectManager.objWithTypeExists(10, new Tile(o.getX(), o.getY()).transform(0, 0, theatreArea.getzLevel()))) {
-                    bloodSplat.spawn();
+            System.out.println("size: " + bloodObjectList.size());
+            for (var o : this.bloodObjectList) {
+                if (!ObjectManager.objWithTypeExists(10, new Tile(o.getX(), o.getY(), theatreInstance.getzLevel()))) {
+                    if (this.bloodObjectList.contains(bloodSplat)) {
+                        bloodSplat.spawn();
+                    }
                 }
             }
             verifyDamage();

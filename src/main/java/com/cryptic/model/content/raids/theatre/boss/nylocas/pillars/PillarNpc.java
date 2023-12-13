@@ -9,10 +9,9 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.chainedwork.Chain;
 
 public class PillarNpc extends NPC {
-    PillarObject pillarObject;
+    GameObject pillarObject;
     TheatreInstance theatreInstance;
-
-    public PillarNpc(int id, Tile tile, PillarObject pillarObject, TheatreInstance theatreInstance) {
+    public PillarNpc(int id, Tile tile, GameObject pillarObject, TheatreInstance theatreInstance) {
         super(id, tile);
         this.pillarObject = pillarObject;
         this.theatreInstance = theatreInstance;
@@ -22,8 +21,9 @@ public class PillarNpc extends NPC {
         theatreInstance.getPillarList().add(this);
     }
 
-    public GameObject spawnPillarObject() {
-        return pillarObject.spawn();
+    public void spawnPillarObject() {
+        this.pillarObject.spawn();
+        this.theatreInstance.getPillarObject().add(this.pillarObject);
     }
 
     @Override
@@ -33,21 +33,18 @@ public class PillarNpc extends NPC {
         var healthAmount = hp() * 1.0 / (maxHp() * 1.0);
 
         if (healthAmount <= 0.5D && healthAmount > 0) {
-            pillarObject.setId(32863);
+            this.pillarObject.setId(32863);
         }
     }
 
     @Override
     public void die() {
-        MapObjects.get(pillarObject.getId(), pillarObject.tile()).ifPresent(o -> {
-            o.animate(8074);
-            Chain.noCtx().delay(4, () -> {
-                this.die();
-                World.getWorld().unregisterNpc(this);
-                theatreInstance.pillarList.remove(this);
-                o.setId(32864);
-                theatreInstance.getPillarObject().remove(o);
-            });
+        this.remove();
+        this.pillarObject.animate(8074);
+        Chain.noCtx().delay(4, () -> {
+            this.theatreInstance.getPillarList().remove(this);
+            this.pillarObject.setId(32864);
+            this.theatreInstance.getPillarObject().remove(pillarObject);
         });
     }
 

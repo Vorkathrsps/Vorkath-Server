@@ -54,7 +54,7 @@ public class NylocasAreaController extends Controller {
     public void enter(Player player) {
         var theatreInstance = player.getTheatreInstance();
 
-        if (theatreInstance.hasInitiatedNylocasVasilias || player.getTheatreStage() == TheatreStage.THREE) {
+        if (theatreInstance.isHasInitiatedNylocasVasilias() || player.getTheatreStage() == TheatreStage.THREE) {
             return;
         }
 
@@ -65,7 +65,7 @@ public class NylocasAreaController extends Controller {
                 work.stop();
                 return;
             }
-            int wave = theatreInstance.wave.get();
+            int wave = theatreInstance.getWave().get();
 
             if (wave == 50) {
                 spawnNylocasVasilias(player);
@@ -74,7 +74,7 @@ public class NylocasAreaController extends Controller {
                 return;
             }
 
-            theatreInstance.wave.getAndIncrement();
+            theatreInstance.getWave().getAndIncrement();
             spawnNylocasMinions(player);
         });
     }
@@ -84,7 +84,7 @@ public class NylocasAreaController extends Controller {
         NylocasVasilias nylocasVasilias = new NylocasVasilias(8355, new Tile(3294, 4247, theatreInstance.getzLevel()), theatreInstance);
         nylocasVasilias.setInstancedArea(theatreInstance);
         nylocasVasilias.spawn(false);
-        theatreInstance.wave.getAndSet(0);
+        theatreInstance.getWave().getAndSet(0);
     }
 
     private void spawnNylocasMinions(Player player) {

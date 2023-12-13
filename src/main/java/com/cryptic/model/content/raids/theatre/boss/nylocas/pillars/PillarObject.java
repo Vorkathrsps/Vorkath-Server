@@ -9,11 +9,8 @@ import com.cryptic.model.map.position.Tile;
  * @Date: 7/16/2023
  */
 public class PillarObject extends GameObject {
-    TheatreInstance theatreInstance;
-    public PillarObject(int id, Tile tile, int type, int rotation, TheatreInstance theatreInstance) {
+    public PillarObject(int id, Tile tile, int type, int rotation) {
         super(id, tile, type, rotation);
-        this.theatreInstance = theatreInstance;
-        theatreInstance.getPillarObject().add(this);
     }
 
 }

@@ -50,8 +50,12 @@ public class HitQueue {
         for (Hit hit : new ArrayList<>(hits)) {
             try {
                 if (hit != null) {
-                    // hit with null attacker allowed, just remember to NPE check everywhere
                     if (hit.getTarget() == null || hit.getTarget().isNullifyDamageLock()) {
+                        hit.toremove = true;
+                        continue;
+                    }
+
+                    if (hit.getTarget().dead() && !hit.reflected) { //noting here just incase something fks up
                         hit.toremove = true;
                         continue;
                     }

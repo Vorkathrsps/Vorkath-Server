@@ -6,6 +6,7 @@ import com.cryptic.model.content.raids.theatre.boss.nylocas.pillars.PillarNpc;
 import com.cryptic.model.content.raids.theatre.boss.nylocas.pillars.PillarObject;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
 
 /**
@@ -15,10 +16,11 @@ import com.cryptic.model.map.position.Tile;
 public class VasiliasHandler implements TheatreHandler {
     @Override
     public void build(Player player, TheatreInstance theatreInstance) {
-        PillarNpc pillarNpc1 = new PillarNpc(8358, new Tile(3290, 4252, theatreInstance.getzLevel()), new PillarObject(32862, new Tile(3289, 4253, theatreInstance.getzLevel()), 10, 1, theatreInstance), theatreInstance);
-        PillarNpc pillarNpc2 = new PillarNpc(8358, new Tile(3299, 4252, theatreInstance.getzLevel()), new PillarObject(32862, new Tile(3300, 4253, theatreInstance.getzLevel()), 10, 2, theatreInstance), theatreInstance);
-        PillarNpc pillarNpc3 = new PillarNpc(8358, new Tile(3299, 4243, theatreInstance.getzLevel()), new PillarObject(32862, new Tile(3300, 4242, theatreInstance.getzLevel()), 10, 3, theatreInstance), theatreInstance);
-        PillarNpc pillarNpc4 = new PillarNpc(8358, new Tile(3290, 4243, theatreInstance.getzLevel()), new PillarObject(32862, new Tile(3289, 4242, theatreInstance.getzLevel()), 10, 0, theatreInstance), theatreInstance);
+        var z = theatreInstance.getzLevel();
+        PillarNpc pillarNpc1 = new PillarNpc(8358, new Tile(3290, 4252, z), new GameObject(32862, new Tile(3289, 4253, z), 10, 1), theatreInstance);
+        PillarNpc pillarNpc2 = new PillarNpc(8358, new Tile(3299, 4252, z), new GameObject(32862, new Tile(3300, 4253, z), 10, 2), theatreInstance);
+        PillarNpc pillarNpc3 = new PillarNpc(8358, new Tile(3299, 4243, z), new GameObject(32862, new Tile(3300, 4242, z), 10, 3), theatreInstance);
+        PillarNpc pillarNpc4 = new PillarNpc(8358, new Tile(3290, 4243, z), new GameObject(32862, new Tile(3289, 4242, z), 10, 0), theatreInstance);
         pillarNpc1.setInstancedArea(theatreInstance);
         pillarNpc2.setInstancedArea(theatreInstance);
         pillarNpc3.setInstancedArea(theatreInstance);

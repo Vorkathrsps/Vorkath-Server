@@ -355,7 +355,7 @@ public class DeathProcess implements TheatreDeath {
         player.getUpdateFlag().flag(Flag.APPEARANCE);
         var party = player.getTheatreInstance();
         if (party != null) {
-            boolean wholeTeamDead = party.occupiedCageSpawnPointsList.size() == player.getTheatreInstance().getPlayers().size(); //so wouldnt you do player.gettheatreparty().getleader().gettheatreparty().getparty().getsize?
+            boolean wholeTeamDead = party.getOccupiedCageSpawnPointsList().size() == player.getTheatreInstance().getPlayers().size(); //so wouldnt you do player.gettheatreparty().getleader().gettheatreparty().getparty().getsize?
             if (wholeTeamDead) {
                 for (Player p2 : party.getPlayers()) {
                     if (p2.getIronManStatus().isHardcoreIronman()) {
@@ -365,7 +365,7 @@ public class DeathProcess implements TheatreDeath {
                         World.getWorld().sendBroadcast("<img=504>" + p2.getDisplayName() + " has lost their hardcore ironman status! Total Level: " + p2.getSkills().totalLevel());
                     }
                 }
-                party.occupiedCageSpawnPointsList.clear();
+                party.getOccupiedCageSpawnPointsList().clear();
                 player.getTheatreInstance().dispose(); // will dispose for all and TPs out
             }
         }
@@ -382,7 +382,7 @@ public class DeathProcess implements TheatreDeath {
 
         player.action.reset();
 
-        var occupiedCageSpawnPointsList = party.occupiedCageSpawnPointsList;
+        var occupiedCageSpawnPointsList = party.getOccupiedCageSpawnPointsList();
         if (player.tile().inArea(VERZIK_AREA)) {
             occupiedCageSpawnPointsList.add(player);
 

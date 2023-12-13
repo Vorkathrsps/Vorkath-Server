@@ -677,8 +677,7 @@ public class CommandManager {
 
         });
         dev("c", (p, c, s) -> {
-            TheatreInstance theatreInstance = new TheatreInstance(p, new ArrayList<>());
-
+            System.out.println("player party size: " + p.getTheatreInstance().getPlayers().size());
         });
 
         dev("ioi", (p, c, s) -> {

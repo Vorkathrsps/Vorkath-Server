@@ -82,6 +82,7 @@ public class Maiden extends NPC {
         World.getWorld().tileGraphic(1579, tile, 0, p.getSpeed());
         this.orb = new BloodSpawn(10821, new Tile(p.getEnd().getX(), p.getEnd().getY()).transform(0, 0, theatreInstance.getzLevel()), player, this, theatreInstance);
         Chain.noCtx().runFn(16, () -> {
+            this.orb.setInstancedArea(theatreInstance);
             this.orb.spawn(false);
         });
     }
@@ -99,7 +100,9 @@ public class Maiden extends NPC {
                 Tile tile = availableTiles.get(i);
                 var finalTile = Utils.randomElement(availableTiles);
                 if (!selectedTiles.contains(tile)) {
-                    nylo = (MaidenNylo) new MaidenNylo(NpcIdentifiers.NYLOCAS_MATOMENOS, finalTile.transform(0, 0, zLevel), this).spawn(false);
+                    nylo = new MaidenNylo(NpcIdentifiers.NYLOCAS_MATOMENOS, finalTile.transform(0, 0, zLevel), this);
+                    nylo.setInstancedArea(theatreInstance);
+                    nylo.spawn(false);
                     selectedTiles.add(tile);
                 }
             }
@@ -109,7 +112,9 @@ public class Maiden extends NPC {
                 Tile tile = MaidenNylo.spawn_tiles[i];
                 var finalTile = Utils.randomElement(availableTiles);
                 if (!selectedTiles.contains(tile)) {
-                    nylo = (MaidenNylo) new MaidenNylo(NpcIdentifiers.NYLOCAS_MATOMENOS, finalTile.transform(0, 0, zLevel), this).spawn(false);
+                    nylo = new MaidenNylo(NpcIdentifiers.NYLOCAS_MATOMENOS, finalTile.transform(0, 0, zLevel), this);
+                    nylo.setInstancedArea(theatreInstance);
+                    nylo.spawn(false);
                     selectedTiles.add(tile);
                 }
             }
@@ -159,7 +164,7 @@ public class Maiden extends NPC {
     @Override
     public void die() {
         var player = theatreInstance.getOwner();
-        theatreInstance.theatrePhase.setStage(TheatreStage.TWO);
+        theatreInstance.getTheatrePhase().setStage(TheatreStage.TWO);
         player.setRoomState(RoomState.COMPLETE);
         player.getTheatreInstance().onRoomStateChanged(player.getRoomState());
         if (nylo != null) {

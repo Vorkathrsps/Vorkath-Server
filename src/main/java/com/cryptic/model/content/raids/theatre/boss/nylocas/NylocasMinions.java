@@ -70,8 +70,8 @@ public class NylocasMinions extends NPC {
 
                 setTransmogIdx(randomIndex);
             }
-            this.transmog(getRandomNPC(), false);
             transmogIdx = (transmogIdx + 1) % npcs.length;// we dont need that. i just realized, but test now ye
+            this.transmog(npcs[transmogIdx], false);
             setTimer(3);
         }
 
@@ -107,7 +107,7 @@ public class NylocasMinions extends NPC {
         if (!isPathingToTile() && getCombat().getTarget() == null) {
             attackClosestAlivePillar();
         }
-        if (!isPathingToTile() && theatreInstance.pillarList.isEmpty() && getCombat().getTarget() == null) {
+        if (!isPathingToTile() && theatreInstance.getPillarList().isEmpty() && getCombat().getTarget() == null) {
             this.getCombat().setTarget(theatreInstance.getOwner()); //TODO change to pick random target
         }
     }
@@ -122,7 +122,9 @@ public class NylocasMinions extends NPC {
                     return;
                 }
                 if (this.tile().nextTo(target.tile())) {
-                    target.hit(this, Utils.random(getCombatInfo().maxhit));
+                    if (this.getCombatInfo() != null) {
+                        target.hit(this, Utils.random(getCombatInfo().maxhit));
+                    }
                 }
             }
         }).then(3, () -> {
@@ -132,7 +134,7 @@ public class NylocasMinions extends NPC {
     }
 
     private void attackClosestAlivePillar() {
-        List<NPC> availablePillars = theatreInstance.pillarList.stream().filter(p -> !p.dead() && p.isRegistered()).toList();
+        List<NPC> availablePillars = theatreInstance.getPillarList().stream().filter(p -> !p.dead() && p.isRegistered()).toList();
         if (!availablePillars.isEmpty()) {
             List<NPC> closestPillars = new ArrayList<>(availablePillars);
             closestPillars.sort(Comparator.comparingDouble(pillar -> this.tile().distance(pillar.tile())));

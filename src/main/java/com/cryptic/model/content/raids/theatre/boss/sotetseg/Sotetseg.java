@@ -136,11 +136,7 @@ public class Sotetseg extends NPC {
         players.clear();
         player.setRoomState(RoomState.COMPLETE);
         player.getTheatreInstance().onRoomStateChanged(player.getRoomState());
-        Chain.noCtx().runFn(1, () -> {
-            this.animate(8139);
-        }).then(3, () -> {
-            World.getWorld().unregisterNpc(this);
-        });
+        Chain.noCtx().runFn(1, () -> this.animate(8139)).then(3, this::remove);
     }
 
     protected boolean insideBounds() {

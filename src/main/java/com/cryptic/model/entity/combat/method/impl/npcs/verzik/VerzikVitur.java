@@ -20,9 +20,6 @@ import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.items.Item;
-import com.cryptic.model.items.ground.GroundItemHandler;
-import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.object.MapObjects;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
@@ -30,14 +27,10 @@ import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
-import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
 import static com.cryptic.model.entity.attributes.AttributeKey.MINION_LIST;
-import static com.cryptic.model.entity.combat.method.impl.npcs.verzik.VerzikPhase.INIT_PHASE_2;
-import static com.cryptic.utility.ItemIdentifiers.DAWNBRINGER;
 
 /**
  * @author Origin <<a href="https://github.com/PVE95">...</a>>
@@ -291,14 +284,6 @@ public class VerzikVitur extends CommonCombatMethod {
     }
 
     @Override
-    public boolean customOnDeath(Hit hit) {
-        if (hit.getTarget().isNpc()) {
-            return transform(hit.getTarget());
-        }
-        return true;
-    }
-
-    @Override
     public boolean canMultiAttackInSingleZones() {
         return true;
     }
@@ -306,89 +291,6 @@ public class VerzikVitur extends CommonCombatMethod {
     private void meleeAttack(Entity mob, Entity target) {
         mob.animate(8123);
         target.hit(mob, World.getWorld().random(1, 40), 0, CombatType.MELEE).submit();
-    }
-
-    private boolean transform(Entity mob) {
-        GameObject throne = new GameObject(VERZIKS_THRONE_32737, new Tile(3167, 4324, mob.getZ()), 10, 0);
-        var area = mob.getInstancedArea();
-        if (mob.npc().id() == VERZIK_VITUR_8370) {
-            mob.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, false);
-            mob.npc().canAttack(false);
-            mob.animate(OUT_OF_CHAIR);
-            mob.faceEntity(null);
-            for (Player p : mob.closePlayers()) {
-                p.removeAll(new Item(DAWNBRINGER));
-                p.getCombat().reset();
-            }
-            var gitems = GroundItemHandler.getGroundItems().stream().filter(e -> e.getTile().getZ() == mob.getZ()).toList();
-            gitems.forEach(e -> {
-                if (e.getItem().getId() == DAWNBRINGER)
-                    GroundItemHandler.sendRemoveGroundItem(e);
-            });
-            for (Tile pillarTile : ViturRoom.pillarTiles) {
-                var ids = new int[] {32687, 32688, 32689};
-                for (int id : ids) {
-                    MapObjects.get(id, pillarTile.withHeight(mob.getZ())).ifPresent(pillar -> {
-                        Chain.noCtx().delay(2, () -> {
-                            pillar.remove();
-                        });
-                    });
-                }
-            }
-            Chain.bound(null).runFn(4, () -> {
-                phase = INIT_PHASE_2;
-                mob.getCombat().reset();
-                mob.npc().transmog(VERZIK_VITUR_8371, true);
-                mob.npc().def(World.getWorld().definitions().get(NpcDefinition.class, VERZIK_VITUR_8371));
-                mob.npc().animate(-1);
-                mob.npc().canAttack(true);
-            }).waitUntil(1, () -> {
-                mob.resetFreeze();
-                throne.spawn();
-                mob.smartPathTo(new Tile(3167, 4311, mob.tile().level));
-                return mob.tile().equals(3167, 4311, mob.getZ());
-            }, () -> {
-                phase = VerzikPhase.PHASE_2;
-                mob.npc().transmog(VERZIK_VITUR_8372, true);
-                mob.npc().def(World.getWorld().definitions().get(NpcDefinition.class, VERZIK_VITUR_8372));
-            });
-            return true;
-        } else if (mob.npc().id() == VERZIK_VITUR_8372) {
-            mob.getCombat().reset();
-            mob.npc().canAttack(false);
-            mob.animate(8119);
-            mob.npc().transmog(VERZIK_VITUR_8374, true);
-            mob.npc().def(World.getWorld().definitions().get(NpcDefinition.class, VERZIK_VITUR_8374));
-            mob.heal(mob.maxHp());
-            phase = VerzikPhase.PHASE_3;
-            Chain.bound(null).runFn(3, () -> {
-                mob.animate(-1);
-                mob.forceChat("Behold my true nature!");
-                mob.npc().canAttack(true);
-            });
-            return true;
-        } else if (mob.npc().id() == VERZIK_VITUR_8374) {
-            mob.animate(8128);
-            GameObject treasure = new GameObject(TREASURE_ROOM, new Tile(3167, 4324, mob.getZ()), 10, 0);
-            Chain.noCtx().runFn(2, () -> {
-                mob.animate(-1);
-                mob.npc().transmog(VERZIK_VITUR_8375, true);
-            }).then(6, () -> {
-                List<NPC> npcsToRemove = new ArrayList<>();
-                for (NPC npc : mob.getInstancedArea().getNpcs()) {
-                    if (npc != null) {
-                        npcsToRemove.add(npc);
-                    }
-                }
-                for (NPC npc : npcsToRemove) {
-                    npc.remove();
-                }
-                mob.npc().remove();
-                throne.animate(8108);
-            }).then(4, treasure::spawn);
-            return true;
-        }
-        return false;
     }
 
 }

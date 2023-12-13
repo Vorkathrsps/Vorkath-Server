@@ -601,7 +601,7 @@ public class Verzik extends NPC {
     public void transitionPhaseThree() {
         this.setPhase(VerzikPhase.TRANSITIONING);
         this.animate(8128);
-        this.getTheatreInstance().spawnTreasure(true);
+        //this.getTheatreInstance().spawnTreasure(true);
         this.setAdjustAttackSpeed(false);
         for (var n : this.getTheatreInstance().getTornadoList()) {
             n.remove();
@@ -633,7 +633,7 @@ public class Verzik extends NPC {
 
     private void openTreasureRoom() {
         GameObject throne_two = new GameObject(TREASURE_ROOM, new Tile(throne.getX(), throne.getY(), this.getTheatreInstance().getzLevel()), 10, 0);
-        throne.replaceWith(throne_two, false);
+        throne.setId(throne_two.getId());
         this.setPhase(VerzikPhase.DEAD);
     }
 

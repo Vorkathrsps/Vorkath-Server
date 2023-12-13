@@ -34,33 +34,25 @@ import static com.cryptic.model.content.mechanics.DeathProcess.SOTETSEG_AREA;
  * @Date: 10/5/2023
  */
 public class TheatreInstance extends TheatreArea {
-    @Getter
-    public Player owner;
-    @Getter
-    public List<Player> players, occupiedCageSpawnPointsList;
-    @Getter
-    public List<NPC> verzikPillarNpcs, verzikNylocasList, tornadoList, nylocas, pillarList;
-    @Getter
-    public List<GameObject> verzikPillarObjects, pillarObject;
-    public AtomicInteger wave = new AtomicInteger();
-    @Getter
-    List<TheatreHandler> bosses;
-    @Getter
-    public TheatreController theatreController;
-    @Getter
-    public TheatrePhase theatrePhase;
-    @Getter
-    public Tile entrance = new Tile(3168, 4304);
-    @Getter
-    public final List<Tile> verzikPillarTiles = List.of(new Tile(3161, 4318, 0),
-        new Tile(3161, 4312, 0),
-        new Tile(3161, 4306, 0),
-        new Tile(3173, 4318, 0),
-        new Tile(3173, 4312, 0),
-        new Tile(3173, 4306, 0));
-    @Getter
-    @Setter
-    public boolean hasInitiatedNylocasVasilias = false;
+    @Getter Player owner;
+    @Getter List<Player> players, occupiedCageSpawnPointsList;
+    @Getter List<NPC> verzikPillarNpcs, verzikNylocasList, tornadoList, nylocas, pillarList;
+    @Getter List<GameObject> verzikPillarObjects, pillarObject;
+    @Getter AtomicInteger wave = new AtomicInteger();
+    @Getter List<TheatreHandler> bosses;
+    @Getter TheatreController theatreController;
+    @Getter TheatrePhase theatrePhase;
+    @Getter Tile entrance = new Tile(3209, 4446);
+    @Getter Tile[] verzikPillarTiles = new Tile[]
+        {
+            new Tile(3161, 4318, 0),
+            new Tile(3161, 4312, 0),
+            new Tile(3161, 4306, 0),
+            new Tile(3173, 4318, 0),
+            new Tile(3173, 4312, 0),
+            new Tile(3173, 4306, 0)
+        };
+    @Getter @Setter boolean hasInitiatedNylocasVasilias = false;
 
     public static Area[] rooms() {
         int[] regions = {12613, 12869, 13125, 12612, 12611, 12687, 13123, 13122, 12867};
@@ -128,7 +120,7 @@ public class TheatreInstance extends TheatreArea {
                 } else if (p.tile().inArea(MAIDEN_AREA)) {
                     p.teleport(3180, 4447, p.getTheatreInstance().getzLevel());
                 } else if (p.tile().inArea(XARPUS_AREA)) {
-                    p.teleport(3170, 4389, p.getTheatreInstance().getzLevel());
+                    p.teleport(3170, 4389, p.getTheatreInstance().getzLevel() + 1);
                 } else if (p.tile().inArea(VASILIAS_AREA)) {
                     p.teleport(3295, 4248, p.getTheatreInstance().getzLevel());
                 } else if (p.tile().inArea(SOTETSEG_AREA)) {
@@ -166,17 +158,27 @@ public class TheatreInstance extends TheatreArea {
 
     Tile[] treasure_spawns = new Tile[]
         {
-            new Tile(3233, 4330),
             new Tile(3227, 4324),
-            new Tile(3241, 4327)
+            new Tile(3232, 4331),
+            new Tile(3241, 4328)
         };
 
     public void spawnTreasure(boolean isRare) {
         int numPlayers = players.size();
         int numTreasureSpawns = treasure_spawns.length;
+        int rotation;
 
         for (int i = 0; i < numPlayers; i++) {
             Player p = players.get(i);
+            int index = players.indexOf(p);
+
+            if (index == -1) {
+                rotation = 0;
+            } else if (index == 0 || index == 1) {
+                rotation = 1;
+            } else {
+                rotation = 3;
+            }
 
             if (p == null) continue;
 
@@ -185,15 +187,9 @@ public class TheatreInstance extends TheatreArea {
 
             int treasureId = isRare ? 32993 : 32992;
 
-            int rotation = switch (i % numTreasureSpawns) {
-                case 0 -> 0;
-                case 1 -> 1;
-                case 2 -> 3;
-                default -> 0;
-            };
-
             GameObject treasure = new GameObject(Optional.of(p), treasureId, finalTile);
             treasure.setRotation(rotation);
+            treasure.setTile(finalTile);
             treasure.spawn();
             treasure.animate(8106);
         }

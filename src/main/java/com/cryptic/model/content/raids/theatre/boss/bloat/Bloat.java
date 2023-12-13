@@ -208,7 +208,7 @@ public class Bloat extends NPC {
                 this.unlock();
             }
             players.clear();
-            theatreInstance.theatrePhase.setStage(TheatreStage.THREE);
+            theatreInstance.getTheatrePhase().setStage(TheatreStage.THREE);
             World.getWorld().unregisterNpc(this);
         });
     }

@@ -677,7 +677,16 @@ public class CommandManager {
 
         });
         dev("c", (p, c, s) -> {
-            System.out.println("player party size: " + p.getTheatreInstance().getPlayers().size());
+            var result = DeathResult.create(p, p, false, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+            result
+                .addBones()
+                .processItems(p.getInventory().getItems())
+                .processItems(p.getEquipment().getItems())
+                .clearItems()
+                .sortValue()
+                .calculateItemsKept()
+                .checkIronManStatus()
+                .process();
         });
 
         dev("ioi", (p, c, s) -> {

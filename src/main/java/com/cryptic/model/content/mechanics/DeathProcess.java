@@ -162,7 +162,7 @@ public class DeathProcess implements TheatreDeath {
 
             try {
                 var isSkulled = Skulling.skulled(player);
-                var result = DeathResult.create(player, killer, isSkulled, new ArrayList<>(), new ArrayList<>());
+                var result = DeathResult.create(player, killer, isSkulled, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
                 var lootingBag = player.getLootingBag().getItems();
                 var runePouch = player.getRunePouch().getItems();
                 var inventory = player.getInventory().getItems().clone();

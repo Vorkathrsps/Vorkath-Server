@@ -13,6 +13,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,26 +22,38 @@ import java.util.*;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 public class DeathResult {
+
     public static final Logger logger = LogManager.getLogger(DeathResult.class);
     public final Player player;
     public final Entity killer;
     public final List<Item> itemList;
     public final List<Item> untradeables;
+    public final List<Item> alwaysLost;
     public List<Item> itemsKeptOnDeath;
     public Item[] lootingBag;
     public Item[] runePouch;
     public boolean skulled;
+    int[] always_lost = new int[]
+        {
+            LARRANS_KEY,
+            MYSTERIOUS_EMBLEM_TIER_1,
+            MYSTERIOUS_EMBLEM_TIER_2,
+            MYSTERIOUS_EMBLEM_TIER_3,
+            MYSTERIOUS_EMBLEM_TIER_4,
+            MYSTERIOUS_EMBLEM_TIER_5
+        };
 
-    public DeathResult(Player player, Entity killer, boolean skulled, List<Item> itemList, List<Item> untradeables) {
+    public DeathResult(Player player, Entity killer, boolean skulled, List<Item> itemList, List<Item> untradeables, List<Item> alwaysLost) {
         this.player = player;
         this.killer = killer;
         this.skulled = skulled;
         this.itemList = itemList;
         this.untradeables = untradeables;
+        this.alwaysLost = alwaysLost;
     }
 
-    public static DeathResult create(Player player, Entity killer, boolean skulled, List<Item> items, List<Item> untradeables) {
-        return new DeathResult(player, killer, skulled, items, untradeables);
+    public static DeathResult create(Player player, Entity killer, boolean skulled, List<Item> items, List<Item> untradeables, List<Item> alwaysLost) {
+        return new DeathResult(player, killer, skulled, items, untradeables, alwaysLost);
     }
 
     public DeathResult withLootingBag(Item[] lootingBag) {
@@ -61,7 +74,7 @@ public class DeathResult {
     }
 
     public DeathResult addBones() {
-        itemList.add(new Item(BONES));
+        alwaysLost.add(new Item(BONES));
         return this;
     }
 
@@ -75,10 +88,17 @@ public class DeathResult {
     public DeathResult processItems(Item[] items) {
         for (var item : items) {
             if (item != null) {
-                if (!item.untradable()) {
+
+                if (ArrayUtils.contains(always_lost, item.getId())) {
+                    alwaysLost.add(item);
+                    continue;
+                }
+
+                if (!item.untradable() && !alwaysLost.contains(item)) {
                     itemList.add(item);
                     continue;
                 }
+
                 for (var breakable : Breakable.values()) {
                     if (breakable.brokenId == item.getId()) {
                         untradeables.add(new Item(breakable.brokenId));
@@ -95,6 +115,7 @@ public class DeathResult {
                         break;
                     }
                 }
+
                 for (var kitItem : OrnamentKits.values()) {
                     if (kitItem.id == item.getId()) {
                         for (var replacement : kitItem.conversion) {
@@ -103,6 +124,7 @@ public class DeathResult {
                         break;
                     }
                 }
+
             }
         }
         return this;
@@ -133,7 +155,7 @@ public class DeathResult {
         return this;
     }
 
-    public DeathResult calculateItemsKept() {
+    public DeathResult calculateItemsKept() { //need to calculate amount of this item kept aswell
         if (player.getIronManStatus().isUltimateIronman()) return this;
         int itemsToRemove = 0;
         if (skulled && Prayers.usingPrayer(player, Prayers.PROTECT_ITEM)) {
@@ -169,6 +191,7 @@ public class DeathResult {
         itemsKeptOnDeath.forEach(i -> player.getInventory().add(i));
         if (killer instanceof Player attacker) {
             itemList.forEach(i -> GroundItemHandler.createGroundItem(new GroundItem(i, player.tile(), attacker)));
+            alwaysLost.forEach(i -> GroundItemHandler.createGroundItem(new GroundItem(i, player.tile(), attacker)));
             return;
         }
         itemList.forEach(i -> GroundItemHandler.createGroundItem(new GroundItem(i, player.tile(), player)));

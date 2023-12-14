@@ -714,20 +714,21 @@ public class Verzik extends NPC {
     }
 
     private void cycleHealTask(@NotNull MutableObject<NylocasAthanatos> nylocasMutableObject, Task heal) {
-        int distance = (int) nylocasMutableObject.getValue().tile().distanceTo(this.tile);
+        var nylocas = nylocasMutableObject.getValue();
+        int distance = (int) nylocas.tile().distanceTo(this.tile);
         int duration = 3 + 21 + distance;
 
         if (stopHealingTask(nylocasMutableObject, heal, duration)) return;
 
-        Projectile nyloProjectile = new Projectile(nylocasMutableObject.getValue(), this, 1587, 3, duration, 5, 70, 2, this.getSize(), 0, 0);
-        int nyloDelay = nylocasMutableObject.getValue().executeProjectile(nyloProjectile);
-        this.healHit(nylocasMutableObject.getValue(), Utils.random(9, 10), nyloDelay);
+        Projectile nyloProjectile = new Projectile(nylocas, this, 1587, 3, duration, 5, 70, 2, this.getSize(), 0, 0);
+        int nyloDelay = nylocas.executeProjectile(nyloProjectile);
+        this.healHit(nylocas, Utils.random(9, 10), nyloDelay);
     }
 
     private boolean stopHealingTask(MutableObject<NylocasAthanatos> nylocasMutableObject, Task heal, int dur) {
         var nylocas = nylocasMutableObject.getValue();
         if (this.getTheatreInstance() == null) {
-            nylocasMutableObject.getValue().remove();
+            nylocas.remove();
             heal.stop();
             return true;
         }

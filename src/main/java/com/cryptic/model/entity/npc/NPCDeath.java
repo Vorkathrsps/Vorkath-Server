@@ -679,9 +679,6 @@ public class NPCDeath {
                     killer.getPacketSender().sendEffectTimer((int) Utils.ticksToSeconds(finalRespawnTimer), EffectTimer.MONSTER_RESPAWN);
             }
 
-            Slayer.reward(killer, npc);
-            SlayerPartner.reward(killer, npc);
-
             deathReset(npc);
             if (npc.respawns()) {
                 npc.teleport(npc.spawnTile());
@@ -695,6 +692,10 @@ public class NPCDeath {
                 World.getWorld().unregisterNpc(npc);
             }
         });
+
+        Slayer.reward(killer, npc);
+        SlayerPartner.reward(killer, npc);
+
     }
 
     private static boolean unregisterOnDeath(int npcId) {

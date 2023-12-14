@@ -180,6 +180,7 @@ public class DeathProcess implements TheatreDeath {
                         .clearItems()
                         .sortValue()
                         .calculateItemsKept()
+                        .sortValue()
                         .checkIronManStatus()
                         .process();
 

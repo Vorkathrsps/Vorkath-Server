@@ -287,9 +287,6 @@ public class NPCDeath {
                 DailyTaskManager.increase(DailyTasks.WILDERNESS_BOSS, killer);
             }
 
-            Slayer.reward(killer, npc);
-            SlayerPartner.reward(killer, npc);
-
             if (killer.getMinigame() != null) {
                 killer.getMinigame().killed(killer, npc);
             }
@@ -681,6 +678,9 @@ public class NPCDeath {
                 if (npc.respawns() && !npc.isBot())
                     killer.getPacketSender().sendEffectTimer((int) Utils.ticksToSeconds(finalRespawnTimer), EffectTimer.MONSTER_RESPAWN);
             }
+
+            Slayer.reward(killer, npc);
+            SlayerPartner.reward(killer, npc);
 
             deathReset(npc);
             if (npc.respawns()) {

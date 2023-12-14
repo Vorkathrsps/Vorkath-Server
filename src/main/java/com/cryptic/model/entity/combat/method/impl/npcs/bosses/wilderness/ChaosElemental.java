@@ -20,6 +20,7 @@ public class ChaosElemental extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
+        if (!withinDistance(8)) return false;
         NPC npc = (NPC) entity;
         int random = Utils.random(7);
         npc.animate(npc.attackAnimation());

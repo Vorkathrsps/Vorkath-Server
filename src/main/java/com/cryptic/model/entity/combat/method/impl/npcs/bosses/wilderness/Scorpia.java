@@ -5,12 +5,17 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Scorpia extends CommonCombatMethod {
+    List<NPC> guardians = new ArrayList<>();
 
     @Override
     public void init(NPC npc) {
@@ -19,7 +24,7 @@ public class Scorpia extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        //If Scorpia is below 50% HP & hasn't summoned offspring that heal we..
+        if (!withinDistance(1)) return false;
         var summoned_guardians = entity.<Boolean>getAttribOr(AttributeKey.SCORPIA_GUARDIANS_SPAWNED, false);
         if (entity.hp() < 100 && !summoned_guardians) {
             summon_guardian((NPC) entity);
@@ -39,14 +44,22 @@ public class Scorpia extends CommonCombatMethod {
     }
 
     private void summon_guardian(NPC scorpia) {
-        var guardian = new NPC(NpcIdentifiers.SCORPIAS_GUARDIAN, new Tile(scorpia.tile().x + World.getWorld().random(2), scorpia.tile().y + World.getWorld().random(2)));
-        guardian.respawns(false);
-        guardian.noRetaliation(true);
-        World.getWorld().registerNpc(guardian);
-        guardian.setEntityInteraction(scorpia);
+        NPC npc = new NPC(NpcIdentifiers.SCORPIAS_GUARDIAN, new Tile(scorpia.tile().x + World.getWorld().random(2), scorpia.tile().y + World.getWorld().random(2)));
+        guardians.add(npc);
+        npc.respawns(false);
+        npc.noRetaliation(true);
+        World.getWorld().registerNpc(npc);
+        npc.setEntityInteraction(scorpia);
+        ScorpiaGuardian.heal(scorpia, npc);
+    }
 
-        // Execute script
-        ScorpiaGuardian.heal(scorpia, guardian);
+    @Override
+    public boolean customOnDeath(Hit hit) {
+        for (var n : guardians) {
+            n.die();
+        }
+        guardians.clear();
+        return super.customOnDeath(hit);
     }
 
     @Override

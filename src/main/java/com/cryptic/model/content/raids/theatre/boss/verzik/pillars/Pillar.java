@@ -8,6 +8,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.chainedwork.Chain;
 import lombok.Getter;
+import org.apache.commons.compress.utils.Lists;
 
 public class Pillar extends NPC {
     @Getter TheatreInstance theatreInstance;
@@ -19,7 +20,7 @@ public class Pillar extends NPC {
     public void die() {
         this.getTheatreInstance().getVerzikPillarNpcs().remove(this);
         var players = this.getTheatreInstance().getPlayers();
-        var objects = this.getTheatreInstance().getVerzikPillarObjects();
+        var objects = Lists.newArrayList(this.getTheatreInstance().getVerzikPillarObjects().iterator());
         for (var o : objects) {
             if (o == null) continue;
             if (!o.tile().isWithinDistance(this.tile(), 1)) continue;

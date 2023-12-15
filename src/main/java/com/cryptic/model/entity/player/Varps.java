@@ -56,8 +56,6 @@ public class Varps {
         if (def != null) {
             int area = BIT_SIZES[def.endbit - def.startbit] << def.startbit;
             varps[def.varp] = (varps[def.varp] & (~area)) | v << def.startbit & area;
-
-
             sync(def.varp);
         } //what is the index in syncnonzero?
     }

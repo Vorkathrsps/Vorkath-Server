@@ -8,6 +8,7 @@ import com.cryptic.model.map.region.Region;
 import com.cryptic.utility.chainedwork.Chain;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -18,21 +19,6 @@ import java.util.Objects;
 public class ObjectManager {
 
     private static final Logger logger = LogManager.getLogger(ObjectManager.class);
-
-    /**
-     * Handles what happens when a player enters a new region.
-     * We need to send all the objects related to that region.
-     *
-     * @param player The player whose changing region.
-     */
-    public static void onRegionChange(Player player) {
-        for (Region surroundingRegion : player.getSurroundingRegions()) {
-            for (Tile activeTile : surroundingRegion.activeTiles) {
-                if (activeTile.getZ() == player.getZ())
-                    activeTile.update(player);
-            }
-        }
-    }
 
     /**
      * Registers a {@link GameObject} to the world.

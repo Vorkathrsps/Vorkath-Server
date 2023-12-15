@@ -596,8 +596,6 @@ public class RegionManager {
             tile.removeObject(obj);
         } else {
             tile.addObject(obj);
-            // if (objectId == 29102)
-            //     logger.info(marker, "found {}", tile);
         }
     };
 

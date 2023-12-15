@@ -94,7 +94,6 @@ public class BloodSpawn extends NPC {
             if (!ObjectManager.objWithTypeExists(10, new Tile(bloodSplat.getX(), bloodSplat.getY(), theatreInstance.getzLevel()))) {
                 this.bloodObjectList.add(bloodSplat);
             }
-            System.out.println("size: " + bloodObjectList.size());
             for (var o : this.bloodObjectList) {
                 if (!ObjectManager.objWithTypeExists(10, new Tile(o.getX(), o.getY(), theatreInstance.getzLevel()))) {
                     if (this.bloodObjectList.contains(bloodSplat)) {

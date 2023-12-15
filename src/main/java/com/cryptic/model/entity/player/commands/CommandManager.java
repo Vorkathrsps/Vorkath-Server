@@ -4,13 +4,13 @@ import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
-import com.cryptic.model.content.areas.theatre.ViturRoom;
 import com.cryptic.model.content.instance.InstancedAreaManager;
 import com.cryptic.model.content.mechanics.death.DeathResult;
 import com.cryptic.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.Xarpus;
 import com.cryptic.model.content.raids.theatre.interactions.TheatreInterface;
+import com.cryptic.model.content.raids.theatre.party.TheatreParty;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.cryptic.model.content.tournaments.Tournament;
 import com.cryptic.model.content.tournaments.TournamentManager;
@@ -61,6 +61,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.GREAT_OLM_7554;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
@@ -513,7 +514,6 @@ public class CommandManager {
         dev("verzik", (p, c, s) -> {
             p.unlock();
             p.getCombat().clearDamagers();
-            new ViturRoom().handleObjectInteraction(p, new GameObject(32653, p.tile()), 1);
         });
         dev("vz1", (p, c, s) -> {
             GameObject throne = GameObject.spawn(VERZIKS_THRONE_32737, 3167, 4324, p.getZ(), 10, 0);
@@ -614,42 +614,11 @@ public class CommandManager {
             cal.lock();
         }); // just cos we dont want him to move while testing
         dev("vet2", (p, c, s) -> {
-            var dist = 100;
-            NPC n = null;
-            for (NPC npc : p.getLocalNpcs()) { // apparently cant see any close npcs ?
-                var delta = npc.tile().distance(p.tile());
-                if (delta < dist) {
-                    dist = delta;
-                    n = npc;
-                }
-            }
-            // ok assume npc size 3x3
 
-            if (n == null)
-                return;
-
-            var dir = Direction.resolveForLargeNpc(p.tile(), n);
-            n.forceChat("assessed as " + dir);
-            // Vetion.spawnShieldInDir(ent, n.tile(), dir);
         });
 
         dev("vet3", (p, c, s) -> {
-            var n = p.getLocalNpcs().get(0);
-            var base = n.tile().transform(-2, -2);
-            System.out.println("size " + n.getSize());
-            for (int x = 0; x < n.getSize() + 4; x++) {
-                for (int y = 0; y < n.getSize() + 4; y++) {
 
-                    var t = base.transform(x, y);
-                    if (n.getBounds().inside(t))
-                        continue;
-
-                    var dir = Direction.resolveForLargeNpc(t, n);
-                    var g = new GroundItem(new Item(554 + dir.ordinal()), t, null);
-                    g.spawn();
-                    g.setTimer(50);
-                }
-            }
         });
         dev("dcb", (p, c, s) -> {
             Debugs.CMB.toggle();
@@ -677,16 +646,9 @@ public class CommandManager {
 
         });
         dev("c", (p, c, s) -> {
-            var result = DeathResult.create(p, p, false, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-            result
-                .addBones()
-                .processItems(p.getInventory().getItems())
-                .processItems(p.getEquipment().getItems())
-                .clearItems()
-                .sortValue()
-                .calculateItemsKept()
-                .checkIronManStatus()
-                .process();
+            TheatreInstance instance = new TheatreInstance(p, new ArrayList<>());
+            p.setTheatreInstance(instance);
+            p.getTheatreInstance().buildParty().startRaid();
         });
 
         dev("ioi", (p, c, s) -> {
@@ -828,12 +790,8 @@ public class CommandManager {
             p.getPacketSender().sendBanktabs();
         });
 
-        dev("test12", (p, c, s) ->
+        dev("test12", (p, c, s) -> {
 
-        {
-            for (NPC n : p.getLocalNpcs()) {
-                logger.info("{} face {}", n.getMobName(), n.getInteractingEntity());
-            }
         });
 
         dev("fn", (p, c, s) ->
@@ -863,7 +821,7 @@ public class CommandManager {
         dev("vk1", (p, c, s) ->
 
         {
-            p.getLocalNpcs().get(0).putAttrib(AttributeKey.VORKATH_CB_COOLDOWN, 0);
+
         });
 
         dev("odef", (p, c, s) ->
@@ -1007,9 +965,7 @@ public class CommandManager {
             player.getTheatreInstance().buildParty().startRaid();
         });
         dev("test14", (player, c, s) -> {
-            for (NPC localNpc : player.getLocalNpcs()) {
-                localNpc.setIgnoreOccupiedTiles(!localNpc.ignoreOccupiedTiles);
-            }
+
         });
         dev("teles", (player, c, s) -> {
             player.setCurrentTabIndex(3);

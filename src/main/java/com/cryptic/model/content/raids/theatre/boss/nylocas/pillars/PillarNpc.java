@@ -4,9 +4,8 @@ import com.cryptic.model.World;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.map.object.GameObject;
-import com.cryptic.model.map.object.MapObjects;
 import com.cryptic.model.map.position.Tile;
-import com.cryptic.utility.chainedwork.Chain;
+import org.apache.commons.compress.utils.Lists;
 
 public class PillarNpc extends NPC {
     GameObject pillarObject;
@@ -40,12 +39,15 @@ public class PillarNpc extends NPC {
     @Override
     public void die() {
         this.remove();
-        this.pillarObject.animate(8074);
-        Chain.noCtx().delay(4, () -> {
-            this.theatreInstance.getPillarList().remove(this);
-            this.pillarObject.setId(32864);
-            this.theatreInstance.getPillarObject().remove(pillarObject);
-        });
+        pillarObject.animate(8074);
+        for (var o : Lists.newArrayList(theatreInstance.getPillarObject().iterator())) {
+            if (o == null) continue;
+            if (o == pillarObject) {
+                theatreInstance.getPillarObject().remove(o);
+                o.setId(32864);
+                theatreInstance.getPillarObject().add(o);
+            }
+        }
     }
 
 }

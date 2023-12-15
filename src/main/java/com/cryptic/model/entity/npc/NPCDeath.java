@@ -693,8 +693,10 @@ public class NPCDeath {
             }
         });
 
-        Slayer.reward(killer, npc);
-        SlayerPartner.reward(killer, npc);
+        if (killer != null) {
+            Slayer.reward(killer, npc);
+            SlayerPartner.reward(killer, npc);
+        }
 
     }
 

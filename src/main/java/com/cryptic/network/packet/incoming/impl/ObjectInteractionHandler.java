@@ -178,7 +178,7 @@ public class ObjectInteractionHandler implements PacketListener {
                     return;
                 }
 
-                if (object.getId() == 31858) {
+                if (object.getId() == 31923) {
                     player.animate(new Animation(645));
                     MagicSpellbook.changeSpellbook(player, MagicSpellbook.NORMAL, true);
                     return;
@@ -199,7 +199,7 @@ public class ObjectInteractionHandler implements PacketListener {
                     return;
                 }
 
-                if (object.getId() == 31858) {
+                   if (object.getId() == 31923) {
                     player.animate(new Animation(645));
                     MagicSpellbook.changeSpellbook(player, MagicSpellbook.ANCIENTS, true);
                     return;
@@ -220,7 +220,7 @@ public class ObjectInteractionHandler implements PacketListener {
                     return;
                 }
 
-                if (object.getId() == 31858) {
+                if (object.getId() == 31923) {
                     player.animate(new Animation(645));
                     MagicSpellbook.changeSpellbook(player, MagicSpellbook.LUNAR, true);
                     return;
@@ -229,6 +229,11 @@ public class ObjectInteractionHandler implements PacketListener {
                 player.getPacketSender().sendMessage("Nothing interesting happens.");
             }
             case 4 -> {
+                if (object.getId() == 31923) {
+                    player.animate(new Animation(645));
+                    MagicSpellbook.changeSpellbook(player, MagicSpellbook.ARCEUUS, true);
+                    return;
+                }
                 player.getPacketSender().sendMessage("Nothing interesting happens.");
             }
         }

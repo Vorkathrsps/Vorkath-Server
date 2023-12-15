@@ -33,12 +33,7 @@ public class GameObject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GameObject that = (GameObject) o;
-        return id == that.id && originalId == that.originalId && type == that.type && rotation == that.rotation && interactAble == that.interactAble && custom == that.custom && x == that.x && y == that.y && z == that.z && lastAnimationTick == that.lastAnimationTick && skipClipping == that.skipClipping && tile.equals(that.tile) && spawnedFor.equals(that.spawnedFor) && timer.equals(that.timer) && changedTimestamps.equals(that.changedTimestamps) && attribs.equals(that.attribs) && walkTo.equals(that.walkTo) && skipReachCheck.equals(that.skipReachCheck) && crystals == that.crystals;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, originalId, type, rotation, interactAble, custom, tile, x, y, z, spawnedFor, timer, lastAnimationTick, changedTimestamps, attribs, walkTo, skipReachCheck, skipClipping, crystals);
+        return id == that.id && originalId == that.originalId && type == that.type && rotation == that.rotation && interactAble == that.interactAble && custom == that.custom && x == that.x && y == that.y && z == that.z && lastAnimationTick == that.lastAnimationTick && skipClipping == that.skipClipping && Objects.equals(tile, that.tile) && Objects.equals(spawnedFor, that.spawnedFor) && Objects.equals(timer, that.timer) && Objects.equals(changedTimestamps, that.changedTimestamps) && Objects.equals(attribs, that.attribs) && Objects.equals(walkTo, that.walkTo) && Objects.equals(skipReachCheck, that.skipReachCheck) && crystals == that.crystals;
     }
 
     /**
@@ -467,9 +462,6 @@ public class GameObject {
             World.getWorld().getPlayers().forEachFiltered(p -> tile().area(64).contains(p, true), player ->
                 sendRemove(player));
         } else {
-            // there is no tile.remove because we keep the object, but change ID to a new one.
-            // replacing, unclip old and reclip new
-            // System.out.println("replace "+this);
             clip(true);
             id = newId;
             Tile.get(x, y, z, true).checkActive();

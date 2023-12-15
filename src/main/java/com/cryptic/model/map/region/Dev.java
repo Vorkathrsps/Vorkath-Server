@@ -44,7 +44,6 @@ public class Dev {
                     objectList.add(object);
                     var customZTile = region.getTile(object.x, object.y, object.z, true);
                     assert customZTile != null;
-                    customZTile.addObject(object);
                     object.setTile(customZTile);
                 }, (x, y, z, r1) -> r1.addClip(x, y, customZ + z, 0x200000));
                 logger.info("Region Data Loaded: [Objects Loaded: {}] [Region BaseX: {}] [Region BaseY: {}] [Region ID: {}] in [Time: {} MS]", objectList.size(), region.baseX, region.baseY, regionId, System.currentTimeMillis() - start);

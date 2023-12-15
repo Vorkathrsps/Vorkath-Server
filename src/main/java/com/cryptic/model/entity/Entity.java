@@ -55,6 +55,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -1487,16 +1488,8 @@ public abstract class Entity {
         }
     }
 
-    private final List<Player> localPlayers = new LinkedList<>();
-    private final List<NPC> localNpcs = new LinkedList<>();
-
-    public List<Player> getLocalPlayers() {
-        return localPlayers;
-    }
-
-    public List<NPC> getLocalNpcs() {
-        return localNpcs;
-    }
+    @Getter private final List<Player> localPlayers = new LinkedList<>();
+    @Getter private final List<NPC> localNpcs = new ArrayList<>();
 
     /**
      * shortcut for {@link Chain#bound(Object)}.{@link Chain#runFn(int, Runnable)}
@@ -2171,14 +2164,13 @@ public abstract class Entity {
     public void setInstancedArea(InstancedArea instancedArea) {
         var prev = this.instancedArea;
         this.instancedArea = instancedArea;
-        if (prev == instancedArea)
-            return;
-        if (prev != null && instancedArea == null) { // setting null probably removing
+        if (prev == instancedArea) return;
+        if (prev != null && instancedArea == null) {
             if (isPlayer())
                 prev.removePlayer(getAsPlayer());
             else
                 prev.removeNpc(npc());
-        } else if (instancedArea != null) { // add
+        } else if (instancedArea != null) {
             if (isPlayer())
                 instancedArea.addPlayer(getAsPlayer());
             else

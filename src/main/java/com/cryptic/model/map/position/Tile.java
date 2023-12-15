@@ -35,14 +35,16 @@ public class Tile implements Cloneable {
     private static final Logger log = LogManager.getLogger(Tile.class);
     public int playerCount;
     public int npcCount;
-    public ObjectArrayList<GameObject> gameObjects;
+    public ArrayList<GameObject> gameObjects;
+
     public GameObject object(int objectID) {
         return new GameObject(objectID, this, 10, 0);
     }
 
     public void addObject(GameObject gameObject) {
+        System.out.println("called for: " + gameObject.getId());
         if (gameObjects == null) {
-            gameObjects = new ObjectArrayList<>(4);
+            gameObjects = new ArrayList<>(4);
         } else {
             // is gonna replace whatever was there previously visually on client so lets remove too
             for (GameObject object : Lists.newArrayList(gameObjects)) {
@@ -62,7 +64,6 @@ public class Tile implements Cloneable {
 
     public void removeObject(GameObject gameObject) {
         if (gameObjects == null) {
-            /* this tile has been destroyed */
             return;
         }
         gameObject.clip(true);
@@ -91,7 +92,6 @@ public class Tile implements Cloneable {
     }
 
     private boolean isAnyCustomGameObjectNearby() {
-        var gameObjects = MapObjects.getAll(this);
         return gameObjects.stream().anyMatch(GameObject::isCustom);
     }
 
@@ -102,13 +102,13 @@ public class Tile implements Cloneable {
     }
 
     public void update(Player player) {
-        var gameObjects = MapObjects.getAll(this);
         if (gameObjects.isEmpty()) return;
-        for (GameObject gameObject : gameObjects) {
-            if (gameObject == null) continue;
-            if (gameObject.isCustom()) gameObject.send(player);
+        for (GameObject object : gameObjects) {
+            if (object.isCustom()) {
+                object.send(player);
+            }
         }
-        // log.info("sync {} has {}", this, gameObjects.size());
+        log.info("sync {} has {}", this, gameObjects.size());
     }
 
     public boolean homeRegion() {

@@ -26,17 +26,6 @@ import java.util.List;
 public class PlayerUpdating {
 
     /**
-     * The maximum amount of local players.
-     */
-    private static final int MAXIMUM_LOCAL_PLAYERS = 255;
-
-    /**
-     * The maximum number of players to load per cycle. This prevents the update packet from becoming too large (the
-     * client uses a 5000 byte buffer) and also stops old spec PCs from crashing when they login or teleport.
-     */
-    private static final int NEW_PLAYERS_PER_CYCLE = 20;
-
-    /**
      * Loops through the associated player's {@code localPlayer} list and updates them.
      *
      * @return The PlayerUpdating instance.

@@ -11,6 +11,7 @@ import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.utility.chainedwork.Chain;
+import org.apache.commons.compress.utils.Lists;
 
 import java.util.Collections;
 import java.util.Random;
@@ -103,12 +104,15 @@ public class NylocasAreaController extends Controller {
                 n.die();
             }
         });
+        for (var n : Lists.newArrayList(theatreInstance.getNylocas().iterator())) {
+            if (n == null) continue;
+            n.die();
+        }
 
-        theatreInstance.getPillarList().forEach(p -> {
-            if (p != null) {
-                p.die();
-            }
-        });
+        for (var p : Lists.newArrayList(theatreInstance.getPillarList().iterator())) {
+            if (p == null) continue;
+            p.die();
+        }
 
         theatreInstance.getNylocas().clear();
         theatreInstance.getPillarList().clear();

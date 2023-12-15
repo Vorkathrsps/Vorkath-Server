@@ -8,6 +8,8 @@ import com.cryptic.model.entity.masks.UpdateFlag;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.region.Region;
+import com.cryptic.network.Session;
 import com.cryptic.network.packet.ByteOrder;
 import com.cryptic.network.packet.PacketBuilder;
 import com.cryptic.network.packet.PacketBuilder.AccessType;
@@ -35,35 +37,30 @@ public class NPCUpdating {
     public static void update(Player player) {
         final PacketBuilder packet = new PacketBuilder(65, PacketType.VARIABLE_SHORT);
         try (final PacketBuilder update = new PacketBuilder()) {
-            packet.initializeAccess(AccessType.BIT);
-            List<NPC> localNpcs = player.getLocalNpcs();
-            Tile playerTile = player.tile();
-            packet.putBits(8, localNpcs.size());
-            if (localNpcs.size() > 0) {
-                List<NPC> updatedNpcs = new ArrayList<>();
-                for (NPC npc : localNpcs) {
-                    if (npc == null) continue;
-                    if (npc.getIndex() != -1 && World.getWorld().getNpcs().contains(npc) && !npc.hidden() && !npc.isTeleportJump() && playerTile.isViewableFrom(npc.tile())) {
-                        updateMovement(npc, packet);
-                        npc.inViewport(true);
-                        if (npc.getUpdateFlag().isUpdateRequired()) {
-                            appendUpdates(npc, player, update, false);
-                        }
-                    } else {
-                        updatedNpcs.add(npc);
-                        packet.putBits(1, 1);
-                        packet.putBits(2, 3);
-                    }
+            Tile tile = player.tile();
+            Session session = player.getSession();
+            List<NPC> npcs = player.getLocalNpcs();
+            ArrayList<Region> regions = player.getRegions();
+            packet.initializeAccess(AccessType.BIT).putBits(8, npcs.size());
+            Iterator<NPC> iterator = npcs.iterator();
+            var list = Lists.newArrayList(iterator);
+            for (NPC npc : list) {
+                if (npc == null) continue;
+                if (npc.getIndex() != -1 && !npc.hidden() && !npc.isTeleportJump() && tile.isViewableFrom(npc.tile())) {
+                    updateMovement(npc, packet);
+                    npc.inViewport(true);
+                    if (npc.getUpdateFlag().isUpdateRequired()) appendUpdates(npc, player, update, false);
+                    continue;
                 }
-                localNpcs.removeAll(updatedNpcs);
-                updatedNpcs.clear();
+                npcs.remove(npc);
+                packet.putBits(1, 1).putBits(2, 3);
             }
-            for (var region : player.getRegions()) {
+            for (var region : regions) {
                 for (var npc : region.getNpcs()) {
                     if (npc == null || npc.hidden()) continue;
-                    if (localNpcs.contains(npc)) continue;
-                    if (player.tile().isViewableFrom(npc.tile())) {
-                        localNpcs.add(npc);
+                    if (npcs.contains(npc)) continue;
+                    if (tile.isViewableFrom(npc.tile())) {
+                        npcs.add(npc);
                         addNPC(player, npc, packet, npc.isTeleportJump());
                         npc.inViewport(true);
                         if ((npc.getUpdateFlag().isUpdateRequired() || sendNewNpcUpdates(npc))) {
@@ -72,14 +69,14 @@ public class NPCUpdating {
                     }
                 }
             }
-            if (update.buffer().writerIndex() > 0) {
-                packet.putBits(16, 65535);
-                packet.initializeAccess(AccessType.BYTE);
-                packet.writeBuffer(update.buffer());
-            } else {
-                packet.initializeAccess(AccessType.BYTE);
+            int writerIndex = update.buffer().writerIndex();
+            if (writerIndex > 0) {
+                packet.putBits(16, 65535).initializeAccess(AccessType.BYTE).writeBuffer(update.buffer());
+                session.write(packet);
+                return;
             }
-            player.getSession().write(packet);
+            packet.initializeAccess(AccessType.BYTE);
+            session.write(packet);
         } catch (Exception e) {
             e.printStackTrace();
         }

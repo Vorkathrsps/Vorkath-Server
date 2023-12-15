@@ -5,6 +5,7 @@ import com.cryptic.model.map.region.RegionManager;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 import javax.annotation.Nonnull;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -27,14 +28,12 @@ public class MapObjects {
     }
 
     public static Optional<GameObject> get(Predicate<GameObject> predicate, Tile tile) {
-
-        // don't create, no need to make it.
         var t = Tile.get(tile.x, tile.y, tile.level);
-        if (t == null)
-            return Optional.empty();
 
-        //Go through the objects in the list..
-        ObjectArrayList<GameObject> list = t.gameObjects;
+        if (t == null) return Optional.empty();
+
+        ArrayList<GameObject> list = t.gameObjects;
+
         if (list != null) {
             Iterator<GameObject> it = list.iterator();
             for (; it.hasNext(); ) {

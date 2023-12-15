@@ -42,7 +42,7 @@ public class TheatreInstance extends TheatreArea {
     @Getter List<TheatreHandler> bosses;
     @Getter TheatreController theatreController;
     @Getter TheatrePhase theatrePhase;
-    @Getter Tile entrance = new Tile(3209, 4446);
+    @Getter Tile entrance = new Tile(3168, 4314);
     @Getter Tile[] verzikPillarTiles = new Tile[]
         {
             new Tile(3161, 4318, 0),

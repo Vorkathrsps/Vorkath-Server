@@ -167,14 +167,12 @@ public class InstancedArea {
             InstanceHeight.free(zLevel);
         }
 
-        //all this works problem is list is empty for bot player and npc
         logger.trace("dispose {} npcs ", npcs.size());
         Lists.newArrayList(getNpcs()).forEach(npc -> {
             World.getWorld().unregisterNpc(npc);
             removeNpc(npc);
         });
 
-        //System.out.println("dispose players "+getPlayers());
         Lists.newArrayList(getPlayers()).forEach(player -> {
             player.getPacketSender().sendEffectTimer(0, EffectTimer.MONSTER_RESPAWN);
             this.removePlayer(player);

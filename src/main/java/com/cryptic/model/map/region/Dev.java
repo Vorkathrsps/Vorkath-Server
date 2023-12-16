@@ -5,12 +5,14 @@ import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import org.apache.commons.compress.utils.Lists;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Dev {
     private static final Logger logger = LogManager.getLogger("RegionManager");
@@ -34,21 +36,31 @@ public class Dev {
             return regions;
         };
         RegionManager.loadGroupMapFiles = (regions, customZ) -> {
-            var objects = new Int2ObjectOpenHashMap<ArrayList<GameObject>>();
-            for (int regionId : regions) {
+            var objects = new HashMap<Integer, ArrayList<GameObject>>();
+            for (int regionId : Lists.newArrayList(regions.iterator())) {
                 var region = RegionManager.getRegion(regionId);
-                var objectList = objects.computeIfAbsent(regionId, k -> new ArrayList<>());
+                List<GameObject> objectList = objects.computeIfAbsent(regionId, k -> new ArrayList<>());
                 long start = System.currentTimeMillis();
                 RegionManager.loadMapFiles(region.baseX, region.baseY, true, (objectId, x, y, z, type, direction, r1) -> {
-                    var object = new GameObject(objectId, new Tile(x, y, customZ + z), type, direction);
-                    objectList.add(object);
+                    GameObject object = new GameObject(objectId, new Tile(x, y, customZ + z), type, direction);
+                    var it = objectList.iterator();
+                    while (it.hasNext()) {
+                        var o = it.next();
+                        if (o == null) {
+                            it.remove();
+                            continue;
+                        }
+                        objectList.add(o);
+                    }
                     var customZTile = region.getTile(object.x, object.y, object.z, true);
-                    assert customZTile != null;
-                    object.setTile(customZTile);
+                    if (customZTile != null) {
+                        customZTile.addObject(object);
+                        object.setTile(customZTile);
+                    }
                 }, (x, y, z, r1) -> r1.addClip(x, y, customZ + z, 0x200000));
                 logger.info("Region Data Loaded: [Objects Loaded: {}] [Region BaseX: {}] [Region BaseY: {}] [Region ID: {}] in [Time: {} MS]", objectList.size(), region.baseX, region.baseY, regionId, System.currentTimeMillis() - start);
             }
-            return objects.int2ObjectEntrySet().fastIterator().next().getValue().stream().collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+            return objects.values().stream().flatMap(Collection::stream).collect(Collectors.toList());
         };
         Region.provider = new Region.RegionProvider() {
             @Override
@@ -62,7 +74,7 @@ public class Dev {
                     if (r.customZObjectTiles == null) {
                         if (!create)
                             return null;
-                        r.customZObjectTiles = new Int2ObjectOpenHashMap<>();
+                        r.customZObjectTiles = new HashMap<>();
                     }
                     var realLvl = z % 4;
                     var baseZ = z;
@@ -190,7 +202,7 @@ public class Dev {
                     height = 0;
                 if (height > 3) {
                     if (r.customZObjectTiles == null) {
-                        r.customZObjectTiles = new Int2ObjectOpenHashMap<>();
+                        r.customZObjectTiles = new HashMap<>();
                         // logger.trace("region {} z {} created hashmap for clip+object storage. ", r.regionId, height, new Exception("how did you get herre?"));
                     }
                     var realLvl = height % 4;
@@ -226,7 +238,7 @@ public class Dev {
                     height = 0;
                 if (height > 3) {
                     if (r.customZObjectTiles == null) {
-                        r.customZObjectTiles = new Int2ObjectOpenHashMap<>();
+                        r.customZObjectTiles = new HashMap<>();
                         logger.trace("region {} z {} created hashmap for clip+object storage. ", r.regionId, height, new Exception("how did you get herre?"));
                     }
                     var realLvl = height % 4;

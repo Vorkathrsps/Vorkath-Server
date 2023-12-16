@@ -2,7 +2,6 @@ package com.cryptic.model.content.raids.theatre.boss.maiden.blood;
 
 import com.cryptic.model.World;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
-import com.cryptic.model.content.raids.theatre.area.TheatreArea;
 import com.cryptic.model.content.raids.theatre.boss.maiden.Maiden;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.npc.NPC;
@@ -24,7 +23,7 @@ public class BloodSpawn extends NPC {
     List<BloodSpawn> orbList;
     List<GameObject> bloodObjectList;
     List<Integer> damage = new ArrayList<>();
-    TheatreArea theatreInstance;
+    TheatreInstance theatreInstance;
 
     public BloodSpawn(int id, Tile tile, Player player, Maiden maiden, TheatreInstance theatreInstance) {
         super(id, tile);

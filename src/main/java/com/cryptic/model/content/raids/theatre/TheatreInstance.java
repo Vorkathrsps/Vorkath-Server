@@ -1,7 +1,7 @@
 package com.cryptic.model.content.raids.theatre;
 
 import com.cryptic.model.content.instance.InstanceConfiguration;
-import com.cryptic.model.content.raids.theatre.area.TheatreArea;
+import com.cryptic.model.content.instance.InstancedArea;
 import com.cryptic.model.content.raids.theatre.boss.bloat.handler.BloatHandler;
 import com.cryptic.model.content.raids.theatre.boss.maiden.handler.MaidenHandler;
 import com.cryptic.model.content.raids.theatre.boss.nylocas.handler.VasiliasHandler;
@@ -33,7 +33,7 @@ import static com.cryptic.model.content.mechanics.DeathProcess.SOTETSEG_AREA;
  * @Author: Origin
  * @Date: 10/5/2023
  */
-public class TheatreInstance extends TheatreArea {
+public class TheatreInstance extends InstancedArea {
     @Getter Player owner;
     @Getter List<Player> players, occupiedCageSpawnPointsList;
     @Getter List<NPC> verzikPillarNpcs, verzikNylocasList, tornadoList, nylocas, pillarList;

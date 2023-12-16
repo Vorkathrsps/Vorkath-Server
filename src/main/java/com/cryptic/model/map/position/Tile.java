@@ -42,10 +42,8 @@ public class Tile implements Cloneable {
     }
 
     public void addObject(GameObject gameObject) {
-        // is gonna replace whatever was there previously visually on client so lets remove too
         for (GameObject object : Lists.newArrayList(gameObjects)) {
-            if ((object.getType() == 10 && gameObject.getType() == 10) ||
-                (object.getType() == 4 && gameObject.getType() == 4 && object.getRotation() == gameObject.getRotation())) {
+            if ((object.getType() == 10 && gameObject.getType() == 10) || (object.getType() == 4 && gameObject.getType() == 4 && object.getRotation() == gameObject.getRotation())) {
                 removeObject(object);
             }
         }

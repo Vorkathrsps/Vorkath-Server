@@ -93,7 +93,8 @@ public class Vetion extends CommonCombatMethod {
         NPC vetion = (NPC) entity;
         vetion.face(null);
         if (hasAttacked) {
-            vetion.stepAbs(target.getX(), target.getY(), MovementQueue.StepType.REGULAR);
+            var t = new Tile(target.tile().getX(), target.tile().getY()).transform(1, 1);
+            vetion.stepAbs(t.getX(), t.getY(), MovementQueue.StepType.REGULAR);
         }
     }
 

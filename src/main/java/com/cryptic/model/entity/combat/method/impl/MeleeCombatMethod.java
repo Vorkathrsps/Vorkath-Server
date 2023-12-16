@@ -78,7 +78,7 @@ public class MeleeCombatMethod extends CommonCombatMethod {
         }
     }
 
-    int[] cannot_attack = new int[]{10865, 10814, 8340, 8250, 8372, 8373, 8375, 8369, 8370, 8386};
+    int[] cannot_attack = new int[]{10865, 10814, 8340, 8250, 8372, 8373, 8374, 8375, 8369, 8370, 8386};
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
@@ -89,6 +89,7 @@ public class MeleeCombatMethod extends CommonCombatMethod {
             if (!withinDistance(1)) return false;
         }
 
+        if (!withinDistance(1)) return false;
 
         if (target.isNpc() && entity instanceof Player player) {
             if (player.getEquipment().containsAny(HOLY_SCYTHE_OF_VITUR, SANGUINE_SCYTHE_OF_VITUR, SCYTHE_OF_VITUR, CORRUPTED_SCYTHE_OF_VITUR)) {

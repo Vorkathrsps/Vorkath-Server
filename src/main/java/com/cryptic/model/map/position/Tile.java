@@ -77,6 +77,7 @@ public class Tile implements Cloneable {
     public static void update(Player player) {
         for (Region region : player.getRegions()) {
             for (Tile tile : region.activeTiles) {
+                if (player.getZ() != tile.getZ()) continue;
                 if (tile.isViewableFrom(player.tile())) {
                     tile.updateGameObjects(player);
                 }

@@ -31,11 +31,13 @@
       "strength": 0,
       "ranged": 80,
       "magic": 80,
+      "rangestrength": 80,
+      "magicstrength": 80,
       "stabdefence": 100,
       "slashdefence": 60,
       "crushdefence": 100,
-      "rangeddefence": 70,
-      "magicdefence": 250
+      "rangeddefence": 250,
+      "magicdefence": 70
     }
   },
   {
@@ -59,6 +61,7 @@
       "strength": 0,
       "ranged": 80,
       "magic": 80,
+      "magicstrength": 150,
       "stabdefence": 20,
       "slashdefence": 20,
       "crushdefence": 20,
@@ -87,6 +90,8 @@
       "strength": 30,
       "ranged": 80,
       "magic": 80,
+      "magicstrength": 5,
+      "rangestrength": 5,
       "stabdefence": 70,
       "slashdefence": 30,
       "crushdefence": 70,

@@ -89,8 +89,6 @@ public class MeleeCombatMethod extends CommonCombatMethod {
             if (!withinDistance(1)) return false;
         }
 
-        if (!withinDistance(1)) return false;
-
         if (target.isNpc() && entity instanceof Player player) {
             if (player.getEquipment().containsAny(HOLY_SCYTHE_OF_VITUR, SANGUINE_SCYTHE_OF_VITUR, SCYTHE_OF_VITUR, CORRUPTED_SCYTHE_OF_VITUR)) {
                 attackWithScythe(target);

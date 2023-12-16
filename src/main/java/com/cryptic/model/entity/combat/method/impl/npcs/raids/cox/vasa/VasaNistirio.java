@@ -84,14 +84,6 @@ public class VasaNistirio extends CommonCombatMethod {
     /**
      * Crystal vulernability
      */
-    private void setCrystalState(Player player, boolean vulnerable) {
-        if (!vulnerable) {
-            player.getPacketSender().sendObject(new GameObject(getCrystalState(false).size(), new Tile(x, y, z)));
-            player.message("The crystals are currently invulnerable to damage!");
-        } else {
-            player.getPacketSender().sendObject(new GameObject(getCrystalState(true).size(), new Tile(x, y, z)));
-        }
-    }
 
     /**
      * vasa vulernability state

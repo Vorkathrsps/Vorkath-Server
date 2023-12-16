@@ -568,8 +568,8 @@ public class RegionManager {
         }
     }
 
-    public static BiFunction<IntOpenHashSet, Integer, ArrayList<GameObject>> loadGroupMapFiles = (i, i2) -> new ArrayList<>();
-    public static Function<Area[], IntSet> areasToRegions = areas -> IntSet.of();
+    public static BiFunction<Set<Integer>, Integer, List<GameObject>> loadGroupMapFiles = (i, i2) -> List.of();
+    public static Function<Area[], Set<Integer>> areasToRegions = areas -> Set.of();
 
     public static final class MapDecodeEx extends RuntimeException {
         public MapDecodeEx(String mapDecode, Exception e) {

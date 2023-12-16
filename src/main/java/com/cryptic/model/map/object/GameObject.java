@@ -65,7 +65,7 @@ public class GameObject {
 
     public GameObject setTile(Tile tile) {
         if (tile != null && this.tile != null && !this.tile.equals(tile))
-            throw new RuntimeException("You can't change the tile of a GameObject. Create a new one. "+this.tile+" -> "+tile);
+            throw new RuntimeException("You can't change the tile of a GameObject. Create a new one. " + this.tile + " -> " + tile);
         this.tile = tile; // ugly way of setting 'removed' state
         return this;
     }
@@ -75,7 +75,7 @@ public class GameObject {
     }
 
     public static GameObject spawn(int i, int x, int y, int z, int i1, int i2) {
-        return new GameObject(i, new Tile(x,y,z), i1, i2).spawn();
+        return new GameObject(i, new Tile(x, y, z), i1, i2).spawn();
     }
 
     public static GameObject spawn(int i, Tile pos, int i1, int i2) {
@@ -98,7 +98,7 @@ public class GameObject {
     }
 
     public void sendCreate(Player player) {
-        player.getPacketSender().sendObject(this);
+        player.getPacketSender().sendObject(this.id, this.x, this.y, this.z, this.type, this.rotation);
     }
 
     public void sendRemove(Player player) {
@@ -337,7 +337,7 @@ public class GameObject {
         if (lastAnimationTick != currentTick) {
             lastAnimationTick = currentTick;
             World.getWorld().getPlayers().forEach(p -> {
-                if (p != null && p.tile().inSqRadius(this.tile(),64)) {
+                if (p != null && p.tile().inSqRadius(this.tile(), 64)) {
                     p.getPacketSender().sendObjectAnimation(this, id);
                 }
             });
@@ -363,8 +363,8 @@ public class GameObject {
             ", name=" + (definition() != null ? definition().name : "unknown") +
             ", type=" + getType() +
             ", face=" + getRotation() +
-                ", " +(custom ? "custom":"cache") +
-                ", linktile=" + tile +
+            ", " + (custom ? "custom" : "cache") +
+            ", linktile=" + tile +
             '}';
     }
 
@@ -464,6 +464,7 @@ public class GameObject {
         } else {
             clip(true);
             id = newId;
+            var r = this.tile.getRegion();
             Tile.get(x, y, z, true).checkActive();
             clip(false);
             World.getWorld().getPlayers().forEachFiltered(p -> tile().area(64).contains(p, true), player ->

@@ -43,7 +43,7 @@ public class GameBuilder {
      */
     public void initialize() throws Exception {
         try {
-            Class.forName("com.cryptic.model.map.region.Dev").getDeclaredConstructor().newInstance();
+            Class.forName("com.dev.Dev").getDeclaredConstructor().newInstance();
         } catch (Exception e) { /*ignored on purpose*/}
 
         RegionManager.init();

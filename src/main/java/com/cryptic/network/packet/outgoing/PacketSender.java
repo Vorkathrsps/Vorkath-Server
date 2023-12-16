@@ -1072,19 +1072,18 @@ public final class PacketSender {
         return this;
     }
 
-    public PacketSender sendObject(GameObject object) {
-        sendMapPacket(object.tile().x, object.tile().y, object.tile().level);
+    public PacketSender sendObject(int id, int x, int y, int z, int type, int rotation) {
+        sendMapPacket(x, y, z);
         PacketBuilder out = new PacketBuilder(151);
-        out.put(0, ValueType.A); //Don't send offset, we don't actually use it client-side cause we sendPosition first.
-        out.putShort(object.getId(), ByteOrder.LITTLE);
-        out.put((byte) ((object.getType() << 2) + (object.getRotation() & 3)), ValueType.S);
+        out.put(0, ValueType.A);
+        out.putShort(id, ByteOrder.LITTLE);
+        out.put((byte) ((type << 2) + (rotation & 3)), ValueType.S);
         player.getSession().write(out);
-        //System.out.println("Sending object packet. For object: "+object.toString());
         return this;
     }
 
     public PacketSender sendObjectRemoval(GameObject object) {
-        sendMapPacket(object.tile().x, object.tile().y, object.tile().level);
+        sendMapPacket(object.getX(), object.getY(), object.getZ());
         PacketBuilder out = new PacketBuilder(101);
         out.put((object.getType() << 2) + (object.getRotation() & 3), ValueType.C);
         //System.out.println("Sending value" + (((object.getX() & 0x7) << 4) | (object.getY() & 0x7)));
@@ -1095,7 +1094,7 @@ public final class PacketSender {
     }
 
     public PacketSender sendObjectAnimation(GameObject object, int anim) {
-        sendMapPacket(object.tile().x, object.tile().y, object.tile().level);
+        sendMapPacket(object.x, object.y, object.z);
         PacketBuilder out = new PacketBuilder(160);
         out.put(0, ValueType.S);
         out.put((object.getType() << 2) + (object.getRotation() & 3), ValueType.S);

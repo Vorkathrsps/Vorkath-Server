@@ -35,22 +35,18 @@ public class Tile implements Cloneable {
     private static final Logger log = LogManager.getLogger(Tile.class);
     public int playerCount;
     public int npcCount;
-    public ArrayList<GameObject> gameObjects;
+    public ArrayList<GameObject> gameObjects = new ArrayList<>();
 
     public GameObject object(int objectID) {
         return new GameObject(objectID, this, 10, 0);
     }
 
     public void addObject(GameObject gameObject) {
-        if (gameObjects == null) {
-            gameObjects = new ArrayList<>(4);
-        } else {
-            // is gonna replace whatever was there previously visually on client so lets remove too
-            for (GameObject object : Lists.newArrayList(gameObjects)) {
-                if ((object.getType() == 10 && gameObject.getType() == 10) ||
-                    (object.getType() == 4 && gameObject.getType() == 4 && object.getRotation() == gameObject.getRotation())) {
-                    removeObject(object);
-                }
+        // is gonna replace whatever was there previously visually on client so lets remove too
+        for (GameObject object : Lists.newArrayList(gameObjects)) {
+            if ((object.getType() == 10 && gameObject.getType() == 10) ||
+                (object.getType() == 4 && gameObject.getType() == 4 && object.getRotation() == gameObject.getRotation())) {
+                removeObject(object);
             }
         }
 
@@ -82,13 +78,13 @@ public class Tile implements Cloneable {
 
     public static void update(Player player) {
         for (Region region : player.getRegions()) {
-            if (player.tile().region == region) {
-                for (Tile tile : region.activeTiles) tile.updateGameObjects(player);
-                break;
+            for (Tile tile : region.activeTiles) {
+                if (tile.isViewableFrom(player.tile())) {
+                    tile.updateGameObjects(player);
+                }
             }
         }
     }
-
 
     public void checkActive() {
         boolean newActive = isAnyCustomGameObjectNearby();
@@ -106,10 +102,8 @@ public class Tile implements Cloneable {
     private void updateRegionActiveTiles() {
         Region region = this.getRegion();
         if (this.active) {
-            System.out.println("adding to active tiles");
             region.activeTiles.add(this);
         } else {
-            System.out.println("removing from active tiles");
             region.activeTiles.remove(this);
         }
     }

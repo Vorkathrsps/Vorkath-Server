@@ -9,7 +9,8 @@ public class ObjTypeCommand implements Command {
     @Override
     public void execute(Player player, String command, String[] parts) {
         int type = Integer.parseInt(parts[1]);
-        player.getPacketSender().sendObject(new GameObject(Integer.parseInt(parts[1]), player.tile().copy(), type));
+        var obj = new GameObject(Integer.parseInt(parts[1]), player.tile().copy(), type);
+        player.getPacketSender().sendObject(obj.getId(), obj.x, obj.y, obj.z, obj.getType(), obj.getRotation());
     }
 
     @Override

@@ -646,6 +646,8 @@ public class CommandManager {
 
         });
         dev("c", (p, c, s) -> {
+            var t = p.tile().getRegion().activeTiles.size();
+            System.out.println("active tiles size: " + t);
             TheatreInstance instance = new TheatreInstance(p, new ArrayList<>());
             p.setTheatreInstance(instance);
             p.getTheatreInstance().buildParty().startRaid();

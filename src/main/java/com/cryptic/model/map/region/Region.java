@@ -15,6 +15,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Objects;
 
 /**
@@ -239,7 +240,7 @@ public class Region {
         }
     };
 
-    public Int2ObjectOpenHashMap<RegionZData> customZObjectTiles;
+    public HashMap<Integer, RegionZData> customZObjectTiles;
     public RegionZData baseZData = new RegionZData();
     public int recentCachedBaseZLevel;
     public RegionZData recentCachedBaseZData;

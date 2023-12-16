@@ -1118,7 +1118,7 @@ public final class PacketSender {
     public PacketSender deleteGroundItem(GroundItem groundItem) {
         sendMapPacket(groundItem.getTile().getX(), groundItem.getTile().getY(), groundItem.getTile().getZ());
         PacketBuilder out = new PacketBuilder(156);
-        out.put(0, ValueType.S);
+        out.put(0, ValueType.A);
         out.putShort(groundItem.getItem().getId());
         player.getSession().write(out);
         return this;

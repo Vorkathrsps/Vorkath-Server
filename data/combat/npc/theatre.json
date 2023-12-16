@@ -4,6 +4,7 @@
       8369, 8371
     ],
     "aggressive": false,
+    "aggroradius": 30,
     "deathlen": 2,
     "stats": {
       "hitpoints": 3250
@@ -139,7 +140,7 @@
       "magic": 400,
       "ranged": 400,
       "defence": 200,
-      "hitpoints": 1
+      "hitpoints": 2000
     },
     "bonuses": {
       "attack": 0,

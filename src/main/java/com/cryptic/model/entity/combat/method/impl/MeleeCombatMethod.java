@@ -14,6 +14,7 @@ import com.cryptic.model.entity.masks.impl.animations.Priority;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
+import org.apache.commons.lang.ArrayUtils;
 
 import static com.cryptic.utility.ItemIdentifiers.*;
 
@@ -77,16 +78,17 @@ public class MeleeCombatMethod extends CommonCombatMethod {
         }
     }
 
+    int[] cannot_attack = new int[]{10865, 10814, 8340, 8250, 8372, 8373, 8375, 8369, 8370, 8386};
+
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         if (entity instanceof NPC npc) {
-            if (npc.getId() == 10865 || npc.getId() == 10814 || npc.getId() == 8340 || npc.getId() == NpcIdentifiers.VERZIK_VITUR || npc.getId() == NpcIdentifiers.VERZIK_VITUR_8372 || npc.getId() == NpcIdentifiers.VERZIK_VITUR_8373 || npc.getId() == NpcIdentifiers.VERZIK_VITUR_8374 || npc.getId() == NpcIdentifiers.VERZIK_VITUR_8375 || npc.getId() == 8386) {
-                return false;
+            if (npc.getCombat().getCombatType() == null) {
+                if (ArrayUtils.contains(cannot_attack, npc.id())) return false;
             }
-            if (!withinDistance(1)) {
-                return false;
-            }
+            if (!withinDistance(1)) return false;
         }
+
 
         if (target.isNpc() && entity instanceof Player player) {
             if (player.getEquipment().containsAny(HOLY_SCYTHE_OF_VITUR, SANGUINE_SCYTHE_OF_VITUR, SCYTHE_OF_VITUR, CORRUPTED_SCYTHE_OF_VITUR)) {
@@ -96,6 +98,7 @@ public class MeleeCombatMethod extends CommonCombatMethod {
         }
 
         entity.animate(new Animation(entity.attackAnimation(), Priority.HIGH));
+
         var hit = entity.submitHit(target, 0, this);
         if (entity instanceof Player player) {
             var weapon = player.getEquipment().getWeapon();

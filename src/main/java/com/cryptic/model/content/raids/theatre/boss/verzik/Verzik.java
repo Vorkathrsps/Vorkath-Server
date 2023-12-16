@@ -793,12 +793,12 @@ public class Verzik extends NPC {
     }
 
     private void finalizePhaseTwo() {
-        this.canAttack(true);
-        animateAndTransmog(-1, 8374);
+        this.animateAndTransmog(-1, 8374);
         this.heal(this.maxHp());
         this.setIgnoreOccupiedTiles(true);
         this.forceChat("Behold my true nature!");
         this.queueTeleportJump(this.getDestination().transform(-1, -1, this.getTheatreInstance().getzLevel()));
+        this.canAttack(true);
         this.setPhase(VerzikPhase.THREE);
     }
 

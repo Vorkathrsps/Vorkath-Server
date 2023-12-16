@@ -42,7 +42,6 @@ public class Tile implements Cloneable {
     }
 
     public void addObject(GameObject gameObject) {
-        System.out.println("called for: " + gameObject.getId());
         if (gameObjects == null) {
             gameObjects = new ArrayList<>(4);
         } else {
@@ -50,7 +49,6 @@ public class Tile implements Cloneable {
             for (GameObject object : Lists.newArrayList(gameObjects)) {
                 if ((object.getType() == 10 && gameObject.getType() == 10) ||
                     (object.getType() == 4 && gameObject.getType() == 4 && object.getRotation() == gameObject.getRotation())) {
-                    //log.trace("replacing a matching object-type {} with {}", object, gameObject);
                     removeObject(object);
                 }
             }
@@ -82,6 +80,16 @@ public class Tile implements Cloneable {
         return region = Region.get(x, y);
     }
 
+    public static void update(Player player) {
+        for (Region region : player.getRegions()) {
+            if (player.tile().region == region) {
+                for (Tile tile : region.activeTiles) tile.updateGameObjects(player);
+                break;
+            }
+        }
+    }
+
+
     public void checkActive() {
         boolean newActive = isAnyCustomGameObjectNearby();
 
@@ -96,12 +104,17 @@ public class Tile implements Cloneable {
     }
 
     private void updateRegionActiveTiles() {
-        Region region = getRegion();
-        if (this.active) region.activeTiles.add(this);
-        else region.activeTiles.remove(this);
+        Region region = this.getRegion();
+        if (this.active) {
+            System.out.println("adding to active tiles");
+            region.activeTiles.add(this);
+        } else {
+            System.out.println("removing from active tiles");
+            region.activeTiles.remove(this);
+        }
     }
 
-    public void update(Player player) {
+    public void updateGameObjects(Player player) {
         if (gameObjects.isEmpty()) return;
         for (GameObject object : gameObjects) {
             if (object.isCustom()) {

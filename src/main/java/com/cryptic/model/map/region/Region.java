@@ -181,14 +181,6 @@ public class Region {
 
     public final ArrayList<Tile> activeTiles;
 
-    public static void update(Player player) {
-        for(Region region : player.getRegions()) {
-            for(Tile tile : region.activeTiles) {
-                tile.update(player);
-            }
-        }
-    }
-
     public static @Nonnull Region get(int absX, int absY) {
         return RegionManager.getRegion(absX, absY);
     }

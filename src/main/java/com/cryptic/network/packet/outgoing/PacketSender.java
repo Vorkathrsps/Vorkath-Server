@@ -1180,10 +1180,6 @@ public final class PacketSender {
     private PacketSender sendMapPacket(int x, int y, int z) {
         if (player.getZ() != z) return null;
         final Tile other = player.getLastKnownRegion();
-        int chunkAbsX = (x >> 3) << 3;
-        int chunkAbsY = (y >> 3) << 3;
-        int targetLocalX = x - chunkAbsX;
-        int targetLocalY = y - chunkAbsY;
         int playerLocalX = x - 8 * other.getRegionX();
         int playerLocalY = y - 8 * other.getRegionY();
         if (playerLocalX >= 0 && playerLocalX < 104 && playerLocalY >= 0 && playerLocalY < 104)

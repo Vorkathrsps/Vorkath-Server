@@ -3,6 +3,7 @@ package com.cryptic.network.packet.incoming.impl;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.object.ObjectManager;
+import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.network.packet.Packet;
@@ -20,7 +21,7 @@ public class RegionChangePacketListener implements PacketListener {
                 RegionManager.loadMapFiles(player.tile().getX(), player.tile().getY());
                 player.getPacketSender().deleteRegionalSpawns();
                 GroundItemHandler.updateRegionItems(player);
-                Region.update(player);
+                Tile.update(player);
                 player.getFarming().regionChanged();
                 PacketInteractionManager.onRegionChange(player);
                 player.setAllowRegionChangePacket(false);

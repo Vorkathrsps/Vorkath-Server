@@ -79,6 +79,7 @@ public class NPCCombatInfo {
         public int magic;
         public int ranged;
         public int strength;
+        public int magicstrength;
         public int stabdefence;
         public int slashdefence;
         public int crushdefence;

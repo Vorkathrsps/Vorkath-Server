@@ -107,6 +107,7 @@ public class EquipmentInfo {
                 bonuses.stab = i.attack;
                 bonuses.slash = i.attack;
                 bonuses.rangestr = i.rangestrength;
+                bonuses.magestr = i.magicstrength;
             }
         }
 

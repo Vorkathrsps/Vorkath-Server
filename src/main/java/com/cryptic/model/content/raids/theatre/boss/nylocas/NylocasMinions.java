@@ -4,6 +4,7 @@ import com.cryptic.model.World;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.Utils;
@@ -123,7 +124,7 @@ public class NylocasMinions extends NPC {
                 }
                 if (this.tile().nextTo(target.tile())) {
                     if (this.getCombatInfo() != null) {
-                        target.hit(this, Utils.random(getCombatInfo().maxhit));
+                        target.hit(this, Utils.random(1, getCombatInfo().maxhit));
                     }
                 }
             }

@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.utils.Lists;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Represents a player's npc updating task, which loops through all local
@@ -201,7 +202,7 @@ public class NPCUpdating {
         if (flag.flagged(Flag.ANIMATION) && npc.getAnimation() != null) {
             updateAnimation(block, npc);
         }
-        if (flag.flagged(Flag.GRAPHIC) && npc.graphic() != null) {
+        if (flag.flagged(Flag.GRAPHIC) && !npc.getGraphics().isEmpty()) {
             updateGraphics(block, npc);
         }
         if (flag.flagged(Flag.FIRST_SPLAT)) {
@@ -250,8 +251,14 @@ public class NPCUpdating {
      */
 
     private static void updateGraphics(PacketBuilder builder, NPC npc) {
-        builder.putShort(npc.graphic().id());
-        builder.putInt((npc.graphic().getHeight().ordinal() * 50 << 16) | (npc.graphic().delay() & 0xFFFF));
+        builder.put(npc.getGraphics().size());
+        AtomicInteger index = new AtomicInteger();
+        for (var graphic : npc.getGraphics()) {
+            if (graphic == null) continue;
+            builder.put(index.get());
+            builder.putShort(graphic.id(), ByteOrder.LITTLE);
+            builder.putInt(((graphic.getHeight().ordinal() * 50) << 16) + (graphic.getDelay() & 0xffff));
+        }
     }
 
     /*

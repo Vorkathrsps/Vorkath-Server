@@ -646,11 +646,32 @@ public class CommandManager {
 
         });
         dev("c", (p, c, s) -> {
-            var t = p.tile().getRegion().activeTiles.size();
-            System.out.println("active tiles size: " + t);
-            TheatreInstance instance = new TheatreInstance(p, new ArrayList<>());
-            p.setTheatreInstance(instance);
-            p.getTheatreInstance().buildParty().startRaid();
+            List<GameObject> despawns = new ArrayList<>();
+            Tile[] treasure_spawns = new Tile[]
+                {
+                    new Tile(3226, 4325),
+                    new Tile(3233, 4330),
+                    new Tile(3241, 4326)
+                };
+            boolean isRare = true;
+            int treasureId = isRare ? 32993 : 32992;
+            for (int index = 0; index < 4; index++) {
+                int rotation = 2;
+                if (index == 0) {
+                    rotation = 3;
+                } else if (index == 1) {
+                    rotation = 4;
+                } else if (index == 2) {
+                    rotation = 1;
+                }
+                Tile t = treasure_spawns[index];
+                Tile finalTile = t.transform(0, 0, p.getTheatreInstance().getzLevel());
+                GameObject treasure = new GameObject(Optional.of(p), treasureId, finalTile);
+                treasure.setRotation(rotation);
+                treasure.setTile(finalTile);
+                treasure.spawn();
+                //     o.animate(8106);
+            }
         });
 
         dev("ioi", (p, c, s) -> {

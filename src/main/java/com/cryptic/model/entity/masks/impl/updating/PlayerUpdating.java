@@ -16,6 +16,7 @@ import com.cryptic.network.packet.ValueType;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Represents the associated player's player updating.
@@ -385,7 +386,7 @@ public class PlayerUpdating {
         if (flag.flagged(Flag.FORCED_MOVEMENT) && otherPlayer.getForceMovement() != null) {
             updateForcedMovement(player, builder, otherPlayer);
         }
-        if (flag.flagged(Flag.GRAPHIC) && otherPlayer.graphic() != null) {
+        if (flag.flagged(Flag.GRAPHIC) && !player.getGraphics().isEmpty()) {
             updateGraphics(builder, otherPlayer);
         }
         if (flag.flagged(Flag.ANIMATION) && otherPlayer.getAnimation() != null) {
@@ -491,17 +492,16 @@ public class PlayerUpdating {
      * @return The PlayerUpdating instance.
      */
     private static void updateGraphics(PacketBuilder builder, Player target) {
-        builder.putShort(target.graphic().id(), ByteOrder.LITTLE);
-        builder.putInt(((target.graphic().getHeight().ordinal() * 50) << 16) | (target.graphic().delay() & 0xffff));
+        builder.put(target.getGraphics().size());
+        AtomicInteger index = new AtomicInteger();
+        for (var graphic : target.getGraphics()) {
+            if (graphic == null) continue;
+            builder.put(index.get());
+            builder.putShort(graphic.id(), ByteOrder.LITTLE);
+            builder.putInt(((graphic.getHeight().ordinal() * 50) << 16) + (graphic.getDelay() & 0xffff));
+        }
     }
 
-    /**
-     * This update block is used to update a player's single hit.
-     *
-     * @param builder The packet builder used to write information on.
-     * @param target  The player to update the single hit for.
-     * @return The PlayerUpdating instance.
-     */
     private static void writehit1(PacketBuilder builder, Player player, Player otherPlayer, Player observer) {
         int count = Math.min(player.nextHits.size(), 4); // count
         builder.put(count);

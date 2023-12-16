@@ -443,7 +443,30 @@ public abstract class Entity {
     private boolean registered;
 
     public Graphic graphic() {
-        return graphic;
+        return graphics.stream().findFirst().orElseGet(null);
+    }
+
+    public List<Graphic> getGraphics() {
+        return graphics;
+    }
+
+    public void performGraphic(Graphic graphic) {
+        setGraphic(graphic);
+    }
+
+
+    public Entity setGraphic(Graphic newGraphic) {
+        graphics.clear();
+        this.graphics.add(newGraphic);
+        getUpdateFlag().flag(Flag.GRAPHIC);
+        return this;
+    }
+
+    public Entity setGraphics(List<Graphic> graphics) {
+        this.graphics.clear();
+        this.graphics.addAll(graphics);
+        getUpdateFlag().flag(Flag.GRAPHIC);
+        return this;
     }
 
     public Tinting tinting() {
@@ -2011,7 +2034,7 @@ public abstract class Entity {
         forcedChat = null;
         interactingEntity = null;
         animation = null;
-        graphic = null;
+        graphics.clear();
         nextHits.clear();
     }
 
@@ -2064,10 +2087,6 @@ public abstract class Entity {
         getUpdateFlag().flag(Flag.LUMINANCE);
     }
 
-    public void performGraphic(Graphic graphic) {
-        this.graphic = graphic;
-        getUpdateFlag().flag(Flag.GRAPHIC);
-    }
 
     /**
      * The {@link TimerRepository} which manages all of the
@@ -2090,7 +2109,8 @@ public abstract class Entity {
     private final UpdateFlag updateFlag = new UpdateFlag();
     private Animation animation;
     public Animation recentAnim;
-    private Graphic graphic;
+
+    private ArrayList<Graphic> graphics = new ArrayList<>();
     private Tinting tinting;
     private Entity interactingEntity;
     private boolean resetMovementQueue;

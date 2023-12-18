@@ -10,12 +10,10 @@ import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
 import org.apache.commons.lang.ArrayUtils;
 
-import java.util.Arrays;
-
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.TREASURE_ROOM;
 
 public class TreasureRoom extends PacketInteraction {
-    int[] treasure_loot = new int[]{33086, 33087, 33088, 33089, 33090};
+    int[] monumental_chests = new int[]{33086, 33087, 33088, 33089, 33090};
     @Override
     public boolean handleObjectInteraction(Player player, GameObject object, int option) {
         if (object.getId() == TREASURE_ROOM) {
@@ -23,7 +21,7 @@ public class TreasureRoom extends PacketInteraction {
             player.teleport(3237, 4307, player.getTheatreInstance().getzLevel());
             return true;
         }
-        if (ArrayUtils.contains(treasure_loot, object.getId())) {
+        if (ArrayUtils.contains(monumental_chests, object.getId())) {
             if (player.<Integer>getAttribOr(AttributeKey.TOB_LOOT_CHEST, 0) != object.getId()) {
                 player.message(Color.RED.wrap("This chest was not meant for you to open."));
                 return true;
@@ -41,7 +39,9 @@ public class TreasureRoom extends PacketInteraction {
     private void giveRewards(Player player, int[] rare_loot, Player key, Item[] value) {
         if (player == key) {
             for (var i : value) {
-                broadcastWorldMessage(rare_loot, key, i);
+                if (i != null) {
+                    broadcastWorldMessage(rare_loot, key, i);
+                }
             }
             player.getInventory().addOrBank(value);
         }

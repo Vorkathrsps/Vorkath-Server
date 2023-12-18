@@ -177,7 +177,7 @@ public class NPCUpdating {
         if (flag.flagged(Flag.ANIMATION) && npc.getAnimation() != null) {
             mask |= 0x10;
         }
-        if (flag.flagged(Flag.GRAPHIC) && npc.graphic() != null) {
+        if (flag.flagged(Flag.GRAPHIC) && !npc.getGraphics().isEmpty()) {
             mask |= 0x80;
         }
         if (flag.flagged(Flag.FIRST_SPLAT)) {
@@ -202,7 +202,7 @@ public class NPCUpdating {
         if (flag.flagged(Flag.ANIMATION) && npc.getAnimation() != null) {
             updateAnimation(block, npc);
         }
-        if (flag.flagged(Flag.GRAPHIC) && !npc.getGraphics().isEmpty()) {
+        if (flag.flagged(Flag.GRAPHIC) && npc.getGraphics() != null) {
             updateGraphics(block, npc);
         }
         if (flag.flagged(Flag.FIRST_SPLAT)) {
@@ -251,11 +251,10 @@ public class NPCUpdating {
      */
 
     private static void updateGraphics(PacketBuilder builder, NPC npc) {
-        builder.put(npc.getGraphics().size());
-        AtomicInteger index = new AtomicInteger();
-        for (var graphic : npc.getGraphics()) {
-            if (graphic == null) continue;
-            builder.put(index.get());
+        builder.put(npc.getGraphics().size(), ValueType.C);
+        for (int i = 0; i < npc.getGraphics().size(); i++) {
+            var graphic = npc.getGraphics().get(i);
+            builder.put(i, ValueType.C);
             builder.putShort(graphic.id(), ByteOrder.LITTLE);
             builder.putInt(((graphic.getHeight().ordinal() * 50) << 16) + (graphic.getDelay() & 0xffff));
         }

@@ -646,31 +646,29 @@ public class CommandManager {
 
         });
         dev("c", (p, c, s) -> {
-            List<GameObject> despawns = new ArrayList<>();
             Tile[] treasure_spawns = new Tile[]
                 {
-                    new Tile(3226, 4325),
+                    new Tile(3226, 4327),
+                    new Tile(3226, 4323),
                     new Tile(3233, 4330),
-                    new Tile(3241, 4326)
+                    new Tile(3241, 4327),
+                    new Tile(3241, 4323)
                 };
-            boolean isRare = true;
-            int treasureId = isRare ? 32993 : 32992;
-            for (int index = 0; index < 4; index++) {
+            int treasureId = 33086;
+            for (int index = 0; index < treasure_spawns.length; index++) {
                 int rotation = 2;
-                if (index == 0) {
-                    rotation = 3;
-                } else if (index == 1) {
-                    rotation = 4;
-                } else if (index == 2) {
-                    rotation = 1;
+                switch (index) {
+                    case 0,1 -> rotation = 3;
+                    case 2 -> rotation = 4;
+                    case 3,4 -> rotation = 1;
                 }
                 Tile t = treasure_spawns[index];
                 Tile finalTile = t.transform(0, 0, p.getTheatreInstance().getzLevel());
-                GameObject treasure = new GameObject(Optional.of(p), treasureId, finalTile);
-                treasure.setRotation(rotation);
-                treasure.setTile(finalTile);
+                GameObject treasure = new GameObject(treasureId + index, finalTile, 10, rotation);
                 treasure.spawn();
-                //     o.animate(8106);
+                for (var chestOwner : p.getTheatreInstance().getPlayers()) {
+                    chestOwner.varps().varbit(6450 + index, 2);
+                }
             }
         });
 

@@ -318,7 +318,7 @@ public class Verzik extends NPC {
         target.graphic(1582, GraphicHeight.LOW, projectile.getSpeed());
     }
 
-    public void handleElectricShock() {
+    public void handleElectricShock() { //TODO get rid of throne on cleanup
         if (!this.getPhase().equals(VerzikPhase.TWO)) return;
         this.setAttackCount(0);
         var target = Utils.randomElement(this.getTheatreInstance().getPlayers());
@@ -635,6 +635,7 @@ public class Verzik extends NPC {
         GameObject throne_two = new GameObject(TREASURE_ROOM, new Tile(throne.getX(), throne.getY(), this.getTheatreInstance().getzLevel()), 10, 0);
         throne.setId(throne_two.getId());
         this.setPhase(VerzikPhase.DEAD);
+        this.getTheatreInstance().spawnTreasure();
     }
 
     private void animateAndTransmog(int animation, int id) {

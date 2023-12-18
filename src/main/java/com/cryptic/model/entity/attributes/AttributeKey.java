@@ -748,6 +748,8 @@ public enum AttributeKey {
 
     PICKING_PVM_STARTER_WEAPON,
 
+    RARE_TOB_REWARD,
+
     PICKING_PVP_STARTER_WEAPON,
 
     STARTER_WEAPON_DAMAGE("starter_weapon_damage", AttribType.INTEGER),

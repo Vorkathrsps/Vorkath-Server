@@ -1,6 +1,7 @@
 package com.cryptic.network.packet.outgoing;
 
 import com.cryptic.GameConstants;
+import com.cryptic.cache.definitions.ObjectDefinition;
 import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportData;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -1074,11 +1075,13 @@ public final class PacketSender {
 
     public PacketSender sendObject(int id, int x, int y, int z, int type, int rotation) {
         sendMapPacket(x, y, z);
+        //sendPosition(new Tile(x, y, z));
         PacketBuilder out = new PacketBuilder(151);
         out.put(0, ValueType.A);
         out.putShort(id, ByteOrder.LITTLE);
         out.put((byte) ((type << 2) + (rotation & 3)), ValueType.S);
         player.getSession().write(out);
+        //System.out.println("create %s %s %s %s".formatted(ObjectDefinition.get(id).name, x, y, z));
         return this;
     }
 
@@ -1181,8 +1184,10 @@ public final class PacketSender {
         final Tile other = player.getLastKnownRegion();
         int playerLocalX = x - 8 * other.getRegionX();
         int playerLocalY = y - 8 * other.getRegionY();
-        if (playerLocalX >= 0 && playerLocalX < 104 && playerLocalY >= 0 && playerLocalY < 104)
+     //   if (playerLocalX >= 0 && playerLocalX < 104 && playerLocalY >= 0 && playerLocalY < 104)
             player.getSession().write(new PacketBuilder(85).put(playerLocalY, ValueType.C).put(playerLocalX, ValueType.C));
+        /*else
+            System.out.println("fuck the real sys bro it aint gn work");*/
         return this;
     }
 

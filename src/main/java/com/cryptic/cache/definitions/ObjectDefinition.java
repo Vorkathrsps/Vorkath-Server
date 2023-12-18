@@ -1,6 +1,7 @@
 package com.cryptic.cache.definitions;
 
 import com.cryptic.GameConstants;
+import com.cryptic.model.World;
 import com.cryptic.network.codec.RSBuffer;
 import io.netty.buffer.Unpooled;
 
@@ -12,6 +13,10 @@ import java.util.Map;
  * Created by Bart Pelle on 10/4/2014.
  */
 public class ObjectDefinition implements Definition {
+
+    public static ObjectDefinition get(int id) {
+        return World.getWorld().definitions().get(ObjectDefinition.class, id);
+    }
 
     public String name = "null";
     public String description;

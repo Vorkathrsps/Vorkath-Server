@@ -350,7 +350,7 @@ public class PlayerUpdating {
         if (flag.flagged(Flag.FORCED_MOVEMENT) && otherPlayer.getForceMovement() != null) {
             mask |= 0x400;
         }
-        if (flag.flagged(Flag.GRAPHIC) && otherPlayer.graphic() != null) {
+        if (flag.flagged(Flag.GRAPHIC) && !otherPlayer.getGraphics().isEmpty()) {
             mask |= 0x100;
         }
         if (flag.flagged(Flag.ANIMATION) && otherPlayer.getAnimation() != null) {
@@ -386,7 +386,7 @@ public class PlayerUpdating {
         if (flag.flagged(Flag.FORCED_MOVEMENT) && otherPlayer.getForceMovement() != null) {
             updateForcedMovement(player, builder, otherPlayer);
         }
-        if (flag.flagged(Flag.GRAPHIC) && !player.getGraphics().isEmpty()) {
+        if (flag.flagged(Flag.GRAPHIC) && otherPlayer.getGraphics() != null) {
             updateGraphics(builder, otherPlayer);
         }
         if (flag.flagged(Flag.ANIMATION) && otherPlayer.getAnimation() != null) {
@@ -492,11 +492,11 @@ public class PlayerUpdating {
      * @return The PlayerUpdating instance.
      */
     private static void updateGraphics(PacketBuilder builder, Player target) {
-        builder.put(target.getGraphics().size());
-        AtomicInteger index = new AtomicInteger();
-        for (var graphic : target.getGraphics()) {
-            if (graphic == null) continue;
-            builder.put(index.get());
+
+        builder.put(target.getGraphics().size(), ValueType.C);
+        for (int i = 0; i < target.getGraphics().size(); i++) {
+            var graphic = target.getGraphics().get(i);
+            builder.put(i, ValueType.C);
             builder.putShort(graphic.id(), ByteOrder.LITTLE);
             builder.putInt(((graphic.getHeight().ordinal() * 50) << 16) + (graphic.getDelay() & 0xffff));
         }

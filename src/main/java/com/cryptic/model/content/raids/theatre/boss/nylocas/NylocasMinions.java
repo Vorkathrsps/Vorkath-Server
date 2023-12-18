@@ -2,9 +2,11 @@ package com.cryptic.model.content.raids.theatre.boss.nylocas;
 
 import com.cryptic.model.World;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
+import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.method.CombatMethod;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.Utils;
@@ -16,6 +18,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
+import static com.cryptic.model.map.route.routes.DumbRoute.withinDistance;
 
 /**
  * @Author: Origin
@@ -50,6 +53,25 @@ public class NylocasMinions extends NPC {
         this.theatreInstance = theatreInstance;
         this.setIgnoreOccupiedTiles(true);
         this.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
+        this.setCombatMethod(new CombatMethod() {
+            @Override
+            public boolean prepareAttack(Entity entity, Entity target) {
+                if (!withinDistance(entity, target, 1)) return false;
+                entity.animate(entity.attackAnimation());
+                entity.submitAccurateHit(target, 0, Utils.random(1, entity.getAsNpc().getCombatInfo().maxhit), this);
+                return true;
+            }
+
+            @Override
+            public int getAttackSpeed(Entity entity) {
+                return 3;
+            }
+
+            @Override
+            public int moveCloseToTargetTileRange(Entity entity) {
+                return 1;
+            }
+        });
     }
     public int getRandomNPC() {
         Random random = new Random();
@@ -124,7 +146,7 @@ public class NylocasMinions extends NPC {
                 }
                 if (this.tile().nextTo(target.tile())) {
                     if (this.getCombatInfo() != null) {
-                        target.hit(this, Utils.random(1, getCombatInfo().maxhit));
+                        this.submitAccurateHit(target, 0, Utils.random(1, this.getCombatInfo().maxhit), null);
                     }
                 }
             }

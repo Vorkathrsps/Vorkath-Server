@@ -1,5 +1,6 @@
 package com.cryptic.model.entity.masks;
 
+import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.EquipSlot;
@@ -36,7 +37,12 @@ public class Appearance {
 
     public void transmog(int id) {
         transmog = id;
+        player.getUpdateFlag().flag(Flag.ANIMATION);
         player.getUpdateFlag().flag(Flag.APPEARANCE);
+        if (id != -1) {
+            var def = World.getWorld().definitions().get(NpcDefinition.class, id);
+            renderpairOverride = new int[]{def.standingAnimation, def.walkingAnimation, def.walkingAnimation, def.rotate180Animation, def.rotate90LeftAnimation, def.rotate90RightAnimation, def.runAnimation};
+        }
     }
 
     public void colors(short[] c) {

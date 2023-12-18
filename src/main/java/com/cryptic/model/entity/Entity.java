@@ -454,6 +454,9 @@ public abstract class Entity {
         setGraphic(graphic);
     }
 
+    public void performGraphic(Graphic... graphic) {
+        setGraphics(List.of(graphic));
+    }
 
     public Entity setGraphic(Graphic newGraphic) {
         graphics.clear();

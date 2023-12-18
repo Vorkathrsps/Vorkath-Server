@@ -78,9 +78,7 @@ public class Tile implements Cloneable {
         for (Region region : player.getRegions()) {
             for (Tile tile : region.activeTiles) {
                 if (player.getZ() != tile.getZ()) continue;
-                if (tile.isViewableFrom(player.tile())) {
-                    tile.updateGameObjects(player);
-                }
+                tile.updateGameObjects(player);
             }
         }
     }
@@ -114,7 +112,7 @@ public class Tile implements Cloneable {
                 object.send(player);
             }
         }
-        log.info("sync {} has {}", this, gameObjects.size());
+        //  log.info("sync {} has {}", this, gameObjects.size());
     }
 
     public boolean homeRegion() {

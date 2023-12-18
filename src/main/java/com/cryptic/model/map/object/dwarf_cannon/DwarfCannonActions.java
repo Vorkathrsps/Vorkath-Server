@@ -14,7 +14,6 @@ import com.cryptic.utility.chainedwork.Chain;
 
 /**
  * @author Origin | April, 18, 2021, 18:34
- * 
  */
 public class DwarfCannonActions extends PacketInteraction {
     @Override
@@ -25,7 +24,7 @@ public class DwarfCannonActions extends PacketInteraction {
                 var reclaim = player.<Boolean>getAttribOr(AttributeKey.LOST_CANNON, false);
                 if (reclaim && !player.getPlayerRights().isAdministrator(player)) {
                     player.message(
-                            "You can't deploy this cannon, you have one you need to reclaim.");
+                        "You can't deploy this cannon, you have one you need to reclaim.");
                 } else {
 
                     DwarfCannon cannon = new DwarfCannon(player, CANNON_OBJECTS[0]);
@@ -49,72 +48,72 @@ public class DwarfCannonActions extends PacketInteraction {
                     }
 
                     Chain.bound(player)
-                            .cancelWhen(
-                                    () ->
-                                            cannon.getOwnerOpt().isEmpty()
-                                                    || cannon.getOwner().dead())
-                            .runFn(
-                                    1,
-                                    () -> {
+                        .cancelWhen(
+                            () ->
+                                cannon.getOwnerOpt().isEmpty()
+                                    || cannon.getOwner().dead())
+                        .runFn(
+                            1,
+                            () -> {
 
-                                        // wheres spawn obj
-                                        World.getWorld().registerOwnedObject(cannon);
+                                // wheres spawn obj
+                                World.getWorld().registerOwnedObject(cannon);
 
-                                        cannon.getDecayTimer().start();
+                                cannon.getDecayTimer().start();
 
-                                        cannon.add();
-                                        player.animate(SETUP_ANIM);
-                                        player.inventory()
-                                                .remove(
-                                                        CANNON_PARTS[cannon.getStage().ordinal()],
+                                cannon.add();
+                                player.animate(SETUP_ANIM);
+                                player.inventory()
+                                    .remove(
+                                        CANNON_PARTS[cannon.getStage().ordinal()],
+                                        1);
+                                player.message("You place down the base.");
+                                player.lock();
+                            })
+                        .then(
+                            2,
+                            () -> {
+                                for (int index = 1; index < 4; index++) {
+                                    // add new Tasks @ instantly (0*2=0), 2 4, 6
+                                    Chain.bound(player)
+                                        .runFn(
+                                            index * 2,
+                                            () -> {
+                                                player.animate(SETUP_ANIM);
+                                                cannon.incrementSetupStage();
+                                                Item cannonPart =
+                                                    new Item(
+                                                        CANNON_PARTS[
+                                                            cannon.getStage()
+                                                                .ordinal()],
                                                         1);
-                                        player.message("You place down the base.");
-                                        player.lock();
-                                    })
-                            .then(
-                                    2,
-                                    () -> {
-                                        for (int index = 1; index < 4; index++) {
-                                            // add new Tasks @ instantly (0*2=0), 2 4, 6
-                                            Chain.bound(player)
-                                                    .runFn(
-                                                            index * 2,
-                                                            () -> {
-                                                                player.animate(SETUP_ANIM);
-                                                                cannon.incrementSetupStage();
-                                                                Item cannonPart =
-                                                                        new Item(
-                                                                                CANNON_PARTS[
-                                                                                        cannon.getStage()
-                                                                                                .ordinal()],
-                                                                                1);
-                                                                String name =
-                                                                        cannonPart
-                                                                                .name()
-                                                                                .toLowerCase()
-                                                                                .replace(
-                                                                                        "cannon",
-                                                                                        "")
-                                                                                .trim();
-                                                                player.inventory()
-                                                                        .remove(
-                                                                                CANNON_PARTS[
-                                                                                        cannon.getStage()
-                                                                                                .ordinal()],
-                                                                                1);
-                                                                player.message(
-                                                                        "You add the "
-                                                                                + name
-                                                                                + ".");
-                                                            });
-                                        }
-                                    })
-                            .then(
-                                    6,
-                                    () -> {
-                                        cannon.fill();
-                                        player.unlock();
-                                    });
+                                                String name =
+                                                    cannonPart
+                                                        .name()
+                                                        .toLowerCase()
+                                                        .replace(
+                                                            "cannon",
+                                                            "")
+                                                        .trim();
+                                                player.inventory()
+                                                    .remove(
+                                                        CANNON_PARTS[
+                                                            cannon.getStage()
+                                                                .ordinal()],
+                                                        1);
+                                                player.message(
+                                                    "You add the "
+                                                        + name
+                                                        + ".");
+                                            });
+                                }
+                            })
+                        .then(
+                            6,
+                            () -> {
+                                cannon.fill();
+                                player.unlock();
+                            });
                     return true;
                 }
             }
@@ -130,13 +129,13 @@ public class DwarfCannonActions extends PacketInteraction {
                 if (object.isOwnedObject() && object.asOwnedObject().isOwner(player)) {
                     DwarfCannon cannon = ((DwarfCannon) object);
                     player.runFn(
-                                    1,
-                                    () -> {
-                                        cannon.getDecayTimer().reset();
-                                        cannon.getDecayTimer().start();
-                                        player.animate(3684);
-                                    })
-                            .then(2, () -> cannon.setStage(CannonStage.FIRING, true));
+                            1,
+                            () -> {
+                                cannon.getDecayTimer().reset();
+                                cannon.getDecayTimer().start();
+                                player.animate(3684);
+                            })
+                        .then(2, () -> cannon.setStage(CannonStage.FIRING, true));
                 } else {
                     player.message("Your not the owner of this cannon.");
                 }
@@ -151,8 +150,8 @@ public class DwarfCannonActions extends PacketInteraction {
                 return true;
             }
             if (object.getId() == ObjectIdentifiers.CANNON_BASE
-                    || object.getId() == ObjectIdentifiers.CANNON_STAND
-                    || object.getId() == ObjectIdentifiers.CANNON_BARRELS) {
+                || object.getId() == ObjectIdentifiers.CANNON_STAND
+                || object.getId() == ObjectIdentifiers.CANNON_BARRELS) {
                 if (object.isOwnedObject() && object.asOwnedObject().isOwner(player)) {
                     ((DwarfCannon) object).pickup();
                 } else {
@@ -176,23 +175,25 @@ public class DwarfCannonActions extends PacketInteraction {
                 if (!object.isOwnedObject()) {
                     return true;
                 }
-                if (object.asOwnedObject().isOwner(player)) {
-                    DwarfCannon cannon = ((DwarfCannon) object);
-                    if (player.inventory().hasFreeSlots(1)
-                            || player.inventory().hasCapacity(new Item(CANNON_BALL))) {
-                        if (cannon.getAmmo() > 0) {
-                            player.inventory().add(CANNON_BALL, cannon.getAmmo());
-                            player.message(
+                DwarfCannon cannon = ((DwarfCannon) object);
+                for (var balls : cannon_balls) {
+                    if (object.asOwnedObject().isOwner(player)) {
+                        if (player.inventory().hasFreeSlots(1) || player.inventory().hasCapacity(new Item(balls))) {
+                            if (cannon.getAmmo() > 0) {
+                                player.inventory().add(balls, cannon.getAmmo());
+                                player.message(
                                     "You unload your cannon and receive Cannonball x "
-                                            + cannon.getAmmo());
-                            cannon.setAmmo(0);
-                            cannon.setStage(CannonStage.FURNACE, false);
+                                        + cannon.getAmmo());
+                                cannon.setAmmo(0);
+                                cannon.setStage(CannonStage.FURNACE, false);
+                            }
+                        } else {
+                            player.message("You don't have enough inventory space to do that.");
                         }
                     } else {
-                        player.message("You don't have enough inventory space to do that.");
+                        player.message("Your not the owner of this cannon.");
                     }
-                } else {
-                    player.message("Your not the owner of this cannon.");
+                    break;
                 }
                 return true;
             }
@@ -202,13 +203,16 @@ public class DwarfCannonActions extends PacketInteraction {
 
     @Override
     public boolean handleItemOnObject(Player player, Item item, GameObject object) {
-        if (item.getId() == CANNON_BALL && object.getId() == BASE) {
-            if (object.isOwnedObject() && object.asOwnedObject().isOwner(player)) {
-                ((DwarfCannon) object).fill();
-            } else {
-                player.message("Your not the owner of this cannon.");
+        for (var balls : cannon_balls) {
+            if (item.getId() == balls && object.getId() == BASE) {
+                if (object.isOwnedObject() && object.asOwnedObject().isOwner(player)) {
+                    ((DwarfCannon) object).fill();
+                } else {
+                    player.message("Your not the owner of this cannon.");
+                }
+                return true;
             }
-            return true;
+            break;
         }
         return false;
     }

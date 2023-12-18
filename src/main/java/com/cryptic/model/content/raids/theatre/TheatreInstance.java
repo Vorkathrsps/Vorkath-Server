@@ -57,7 +57,7 @@ public class TheatreInstance extends InstancedArea {
     List<GameObject> treasureSpawns = new ArrayList<>();
 
     //new Tile(3206, 4446); normal start room
-    Tile entrance = new Tile(3168, 4316);
+    Tile entrance = new Tile(3206, 4446);
     @Getter TheatreLoot theatreLoot = new TheatreLoot();
     @Getter
     Tile[] verzikPillarTiles = new Tile[]{new Tile(3161, 4318, 0), new Tile(3161, 4312, 0), new Tile(3161, 4306, 0), new Tile(3173, 4318, 0), new Tile(3173, 4312, 0), new Tile(3173, 4306, 0)};

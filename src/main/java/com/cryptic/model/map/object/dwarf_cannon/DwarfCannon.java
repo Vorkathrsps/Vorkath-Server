@@ -20,6 +20,7 @@ import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.route.routes.ProjectileRoute;
 import com.cryptic.utility.Color;
+import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import com.google.common.base.Stopwatch;
 
@@ -36,7 +37,7 @@ import java.util.stream.Stream;
 public class DwarfCannon extends OwnedObject {
 
     public static final String IDENTIFIER = "dwarfCannon";
-    public static final int CANNON_BALL = 2;
+    public static final int[] cannon_balls = new int[]{2, ItemIdentifiers.GRANITE_CANNONBALL};
     public static final int BASE = 6, STAND = 8, BARRELS = 10, FURNACE = 12;
     public static final int[] CANNON_PARTS = {BASE, STAND, BARRELS, FURNACE};
     public static final int[] CANNON_OBJECTS = {7, 8, 9, 6};
@@ -131,37 +132,48 @@ public class DwarfCannon extends OwnedObject {
             Player player = getOwner().getAsPlayer();
             MAX_AMMO = player.getMemberRights().isExtremeMemberOrGreater(player) ? 50 : MAX_AMMO;
         }
-        if (getAmmo() < MAX_AMMO && getOwner().inventory().count(CANNON_BALL) > 0) {
-            int needed = MAX_AMMO - getAmmo();
-            int available = getOwner().inventory().count(CANNON_BALL);
+        for (var balls : cannon_balls) {
+            if (getAmmo() < MAX_AMMO && getOwner().inventory().count(balls) > 0) {
+                int needed = MAX_AMMO - getAmmo();
+                int available = getOwner().inventory().count(balls);
 
-            if (needed > available) needed = available;
+                if (needed > available) needed = available;
 
-            if (needed > 0) {
-                getOwner().inventory().remove(CANNON_BALL, needed);
-                getOwner()
-                    .message(
-                        "You load the cannon with "
-                            + (needed == 1 ? "one" : needed)
-                            + " cannonball"
-                            + ((needed > 1) ? "s." : "."));
-                setAmmo(getAmmo() + needed);
+                if (needed > 0) {
+                    getOwner().inventory().remove(balls, needed);
+                    getOwner()
+                        .message(
+                            "You load the cannon with "
+                                + (needed == 1 ? "one" : needed)
+                                + " cannonball"
+                                + ((needed > 1) ? "s." : "."));
+                    setAmmo(getAmmo() + needed);
+                }
+
+                setStage(CannonStage.FIRING, false);
             }
-
-            setStage(CannonStage.FIRING, false);
+            break;
         }
     }
 
     public void pickup() {
         int spaces = 4;
         if (getAmmo() > 0) {
-            spaces += getOwner().inventory().count(CANNON_BALL) > 0 ? 0 : 1;
+            for (var balls : cannon_balls) {
+                spaces += getOwner().inventory().count(balls) > 0 ? 0 : 1;
+                break;
+            }
         }
         if (getOwner().inventory().getFreeSlots() > spaces) {
             IntStream.of(getStage().getParts())
                 .mapToObj(Item::new)
                 .forEach(getOwner().inventory()::add);
-            if (getAmmo() > 0) getOwner().inventory().add(CANNON_BALL, getAmmo());
+            if (getAmmo() > 0) {
+                for (var balls : cannon_balls) {
+                    getOwner().inventory().add(balls, getAmmo());
+                    break;
+                }
+            }
             getOwner().animate(SETUP_ANIM);
             destroy();
             getOwner().message("You pick up the cannon.");
@@ -255,11 +267,14 @@ public class DwarfCannon extends OwnedObject {
                             "<col=ff0000>Your cannon has decayed. Speak to Drunken"
                                 + " dwarf to get a new one!</col>");
                         player.putAttrib(AttributeKey.LOST_CANNON, true);
-                        GroundItemHandler.createGroundItem(
-                            new GroundItem(
-                                new Item(CANNON_BALL, getAmmo()),
-                                player.tile(),
-                                player));
+                        for (var balls : cannon_balls) {
+                            GroundItemHandler.createGroundItem(
+                                new GroundItem(
+                                    new Item(balls, getAmmo()),
+                                    player.tile(),
+                                    player));
+                            break;
+                        }
                         setAmmo(0);
                         destroy();
                     });

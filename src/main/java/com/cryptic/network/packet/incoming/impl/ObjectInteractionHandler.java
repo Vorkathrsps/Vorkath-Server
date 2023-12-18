@@ -30,6 +30,9 @@ public class ObjectInteractionHandler implements PacketListener {
 
     @Override
     public void handleMessage(Player player, Packet packet) throws Exception {
+        if (!player.getClickDelay().elapsed(600)) {
+            return;
+        }
 
         int opcode = packet.getOpcode();
 
@@ -129,7 +132,7 @@ public class ObjectInteractionHandler implements PacketListener {
     }
 
     private void handleAction(Player player, GameObject object, int option) {
-
+        player.getClickDelay().reset();
         if (object == null || object.definition() == null) {
             logger.error("ObjectDefinition for object {} is null for player " + player.toString() + ".", box(Objects.requireNonNull(object).getId()));
             return;

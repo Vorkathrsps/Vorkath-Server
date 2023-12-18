@@ -758,7 +758,7 @@ public class Utils {
         if (list == null || list.size() == 0) {
             return null;
         }
-        return list.get((int) (RANDOM_GEN.nextDouble() * list.size()));
+        return list.get((int) (THREAD_LOCAL_RANDOM.get().nextDouble() * list.size()));
     }
 
     /**

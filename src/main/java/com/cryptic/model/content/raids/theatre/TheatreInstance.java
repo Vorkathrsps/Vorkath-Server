@@ -11,9 +11,12 @@ import com.cryptic.model.content.raids.theatre.boss.xarpus.handler.XarpusHandler
 import com.cryptic.model.content.raids.theatre.controller.TheatreHandler;
 import com.cryptic.model.content.raids.theatre.controller.TheatreController;
 import com.cryptic.model.content.raids.theatre.loot.ChestType;
+import com.cryptic.model.content.raids.theatre.loot.TheatreLoot;
 import com.cryptic.model.content.raids.theatre.stage.*;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.items.Item;
+import com.cryptic.model.items.container.ItemContainer;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
@@ -21,42 +24,46 @@ import com.cryptic.utility.ItemIdentifiers;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.cryptic.model.content.mechanics.DeathProcess.*;
 import static com.cryptic.model.content.mechanics.DeathProcess.SOTETSEG_AREA;
 import static com.cryptic.model.entity.attributes.AttributeKey.RARE_TOB_REWARD;
+import static com.cryptic.model.entity.attributes.AttributeKey.TOB_LOOT_CHEST;
 
 /**
  * @Author: Origin
  * @Date: 10/5/2023
  */
 public class TheatreInstance extends InstancedArea {
-    @Getter Player owner;
-    @Getter List<Player> players, occupiedCageSpawnPointsList;
-    @Getter List<NPC> verzikPillarNpcs, verzikNylocasList, tornadoList, nylocas, pillarList;
-    @Getter List<GameObject> verzikPillarObjects, pillarObject;
-    @Getter AtomicInteger wave = new AtomicInteger();
-    @Getter List<TheatreHandler> bosses;
-    @Getter TheatreController theatreController;
-    @Getter TheatrePhase theatrePhase;
+    @Getter
+    Player owner;
+    @Getter
+    List<Player> players, occupiedCageSpawnPointsList;
+    @Getter
+    List<NPC> verzikPillarNpcs, verzikNylocasList, tornadoList, nylocas, pillarList;
+    @Getter
+    List<GameObject> verzikPillarObjects, pillarObject;
+    @Getter
+    AtomicInteger wave = new AtomicInteger();
+    @Getter
+    List<TheatreHandler> bosses;
+    @Getter
+    TheatreController theatreController;
+    @Getter
+    TheatrePhase theatrePhase;
+    @Getter
+    List<GameObject> treasureSpawns = new ArrayList<>();
 
     //new Tile(3206, 4446); normal start room
     Tile entrance = new Tile(3168, 4316);
-    @Getter Tile[] verzikPillarTiles = new Tile[]
-        {
-            new Tile(3161, 4318, 0),
-            new Tile(3161, 4312, 0),
-            new Tile(3161, 4306, 0),
-            new Tile(3173, 4318, 0),
-            new Tile(3173, 4312, 0),
-            new Tile(3173, 4306, 0)
-        };
+    @Getter TheatreLoot theatreLoot = new TheatreLoot();
+    @Getter
+    Tile[] verzikPillarTiles = new Tile[]{new Tile(3161, 4318, 0), new Tile(3161, 4312, 0), new Tile(3161, 4306, 0), new Tile(3173, 4318, 0), new Tile(3173, 4312, 0), new Tile(3173, 4306, 0)};
+    Tile[] treasure_spawns = new Tile[]{new Tile(3226, 4323), new Tile(3226, 4327), new Tile(3233, 4330), new Tile(3241, 4323), new Tile(3241, 4327)};
     @Getter @Setter boolean hasInitiatedNylocasVasilias = false;
+    @Getter Map<Player, Item[]> lootMap = new HashMap<>();
 
     public static Area[] rooms() {
         int[] regions = {12613, 12869, 13125, 12612, 12611, 12687, 13123, 13122, 12867};
@@ -147,52 +154,75 @@ public class TheatreInstance extends InstancedArea {
                 .findFirst()
                 .filter(p -> p.contains(member.tile()))
                 .ifPresent(p -> member.teleport(new Tile(3670, 3219, 0)));
+            member.clearAttrib(TOB_LOOT_CHEST);
+            member.clearAttrib(RARE_TOB_REWARD);
             member.setTheatreParty(null);
+        }
+        for (var o : treasureSpawns) {
+            if (o != null) {
+                o.remove();
+            }
         }
         for (var n : verzikNylocasList) {
             if (n != null) {
                 n.remove();
             }
         }
-        this.getVerzikNylocasList().clear();
-        this.getPillarObject().clear();
-        this.getPillarList().clear();
-        this.getBosses().clear();
-        this.getPlayers().clear();
+        this.lootMap.clear();
+        this.verzikNylocasList.clear();
+        this.pillarObject.clear();
+        this.pillarList.clear();
+        this.bosses.clear();
+        this.players.clear();
         this.setHasInitiatedNylocasVasilias(false);
     }
 
     public void spawnTreasure() {
-        Tile[] treasure_spawns = new Tile[]
-            {
-                new Tile(3226, 4323),
-                new Tile(3226, 4327),
-                new Tile(3233, 4330),
-                new Tile(3241, 4323),
-                new Tile(3241, 4327)
-            };
-        int treasureId = 33086;
         for (int index = 0; index < this.getPlayers().size(); index++) {
-            var player = this.getPlayers().get(index);
+            Player player = this.getPlayers().get(index);
+            if (player == null) continue;
             int rotation = 2;
-            switch (index) {
-                case 0,1 -> rotation = 3;
-                case 2 -> rotation = 4;
-                case 3,4 -> rotation = 1;
+            rotation = findRotation(index, rotation);
+            Tile finalTile = determineTile(treasure_spawns[index]);
+            GameObject treasure = new GameObject(33086 + index, finalTile, 10, rotation).spawn();
+            this.treasureSpawns.add(treasure);
+            generateReward(player);
+            monumentalChest(index, player);
+            player.putAttrib(TOB_LOOT_CHEST, treasure.getId());
+        }
+    }
+    private void generateReward(Player player) {
+        ItemContainer container = new ItemContainer(3, ItemContainer.StackPolicy.ALWAYS);
+        for (int index = 0; index < 3; index++) {
+            Item reward = theatreLoot.reward(player);
+            container.add(reward);
+            lootMap.put(player, container.getItems());
+            player.getPacketSender().sendItemOnInterfaceSlot(12222 + index, reward, 0);
+        }
+    }
+
+    private Tile determineTile(Tile treasure_spawns) {
+        return treasure_spawns.transform(0, 0, this.getzLevel());
+    }
+
+    private int findRotation(int index, int rotation) {
+        switch (index) {
+            case 0, 1 -> rotation = 3;
+            case 2 -> rotation = 4;
+            case 3, 4 -> rotation = 1;
+        }
+        return rotation;
+    }
+
+    private void monumentalChest(int index, Player player) {
+        for (Player owner : this.getPlayers()) {
+            ChestType type = ChestType.DEFAULT;
+            if (owner == player) {
+                type = player.hasAttrib(RARE_TOB_REWARD) ? ChestType.RARE_REWARD_ARROW : ChestType.DEFAULT_ARROW;
+            } else if (player.hasAttrib(RARE_TOB_REWARD)) {
+                type = ChestType.RARE_REWARD;
             }
-            Tile t = treasure_spawns[index];
-            Tile finalTile = t.transform(0, 0, this.getzLevel());
-            GameObject treasure = new GameObject(treasureId + index, finalTile, 10, rotation);
-            treasure.spawn();
-            for (Player chestOwner : this.getPlayers()) {
-                ChestType type = ChestType.DEFAULT;
-                if (player == chestOwner) {
-                    type = player.hasAttrib(RARE_TOB_REWARD) ? ChestType.RARE_REWARD_ARROW : ChestType.DEFAULT_ARROW;
-                } else if (player.hasAttrib(RARE_TOB_REWARD)) {
-                    type = ChestType.RARE_REWARD;
-                }
-                chestOwner.varps().varbit(6450 + index, type.ordinal());
-            }
+            owner.varps().varbit(6450 + index, type.ordinal());
         }
     }
 

@@ -5,12 +5,11 @@ import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.content.instance.InstancedAreaManager;
-import com.cryptic.model.content.mechanics.death.DeathResult;
 import com.cryptic.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.Xarpus;
 import com.cryptic.model.content.raids.theatre.interactions.TheatreInterface;
-import com.cryptic.model.content.raids.theatre.party.TheatreParty;
+import com.cryptic.model.content.raids.theatre.loot.ChestType;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.cryptic.model.content.tournaments.Tournament;
 import com.cryptic.model.content.tournaments.TournamentManager;
@@ -23,8 +22,6 @@ import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
-import com.cryptic.model.entity.combat.skull.Skulling;
-import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.ScalarLootTable;
 import com.cryptic.model.entity.player.InputScript;
@@ -50,7 +47,6 @@ import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.region.RegionManager;
-import com.cryptic.utility.Color;
 import com.cryptic.utility.Debugs;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.Varbit;
@@ -61,15 +57,12 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.GREAT_OLM_7554;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
-import static com.cryptic.model.content.raids.party.Party.*;
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.model.entity.masks.Direction.NORTH;
 import static com.cryptic.model.inter.InterfaceConstants.*;
-import static com.cryptic.model.map.position.areas.impl.COXArea.POINTS_WIDGET;
 import static com.cryptic.utility.Debugs.CLIP;
 import static java.lang.String.format;
 
@@ -646,30 +639,8 @@ public class CommandManager {
 
         });
         dev("c", (p, c, s) -> {
-            Tile[] treasure_spawns = new Tile[]
-                {
-                    new Tile(3226, 4327),
-                    new Tile(3226, 4323),
-                    new Tile(3233, 4330),
-                    new Tile(3241, 4327),
-                    new Tile(3241, 4323)
-                };
-            int treasureId = 33086;
-            for (int index = 0; index < treasure_spawns.length; index++) {
-                int rotation = 2;
-                switch (index) {
-                    case 0,1 -> rotation = 3;
-                    case 2 -> rotation = 4;
-                    case 3,4 -> rotation = 1;
-                }
-                Tile t = treasure_spawns[index];
-                Tile finalTile = t.transform(0, 0, p.getTheatreInstance().getzLevel());
-                GameObject treasure = new GameObject(treasureId + index, finalTile, 10, rotation);
-                treasure.spawn();
-                for (var chestOwner : p.getTheatreInstance().getPlayers()) {
-                    chestOwner.varps().varbit(6450 + index, 2);
-                }
-            }
+            p.getTheatreInstance().getLootMap().clear();
+            p.getTheatreInstance().spawnTreasure();
         });
 
         dev("ioi", (p, c, s) -> {

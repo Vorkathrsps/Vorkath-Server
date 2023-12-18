@@ -809,8 +809,9 @@ public class Verzik extends NPC {
     }
 
     private void transitionAndReplace(Direction direction) {
-        throne = new GameObject(VERZIKS_THRONE_32737, new Tile(3167, 4324, this.getTheatreInstance().getzLevel()), 10, 0);
-        throne.spawn();
+        this.throne = new GameObject(VERZIKS_THRONE_32737, new Tile(3167, 4324, this.getTheatreInstance().getzLevel()), 10, 0);
+        this.throne.spawn();
+        this.getTheatreInstance().getTreasureSpawns().add(this.throne);
         animateAndTransmog(8112, 8371);
         this.setPositionToFace(this.getDestination().center(5).tileToDir(direction));
     }

@@ -749,6 +749,8 @@ public enum AttributeKey {
     PICKING_PVM_STARTER_WEAPON,
 
     RARE_TOB_REWARD,
+    PLAYER_TOB_LOOT,
+    TOB_LOOT_CHEST("tob_loot_varbit", AttribType.INTEGER),
 
     PICKING_PVP_STARTER_WEAPON,
 

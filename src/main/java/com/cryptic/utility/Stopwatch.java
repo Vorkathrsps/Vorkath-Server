@@ -30,7 +30,7 @@ public class Stopwatch {
     }
     public boolean elapsed(long time, TimeUnit unit) {
         long elapsedToUnit = unit.convert(elapsed(), TimeUnit.MILLISECONDS);
-        return elapsedToUnit>= time;
+        return elapsedToUnit >= time;
     }
     public long getTime() {
         return time;

@@ -5,12 +5,10 @@ import com.cryptic.model.content.mechanics.MultiwayCombat;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
-import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.magic.CombatSpell;
 import com.cryptic.model.entity.combat.magic.data.AncientSpells;
 import com.cryptic.model.entity.combat.magic.data.AutoCastWeaponSpells;
-import com.cryptic.model.entity.combat.magic.data.ModernSpells;
 import com.cryptic.model.entity.combat.method.impl.MagicCombatMethod;
 import com.cryptic.model.entity.combat.skull.SkullType;
 import com.cryptic.model.entity.combat.skull.Skulling;
@@ -117,7 +115,7 @@ public abstract class CombatEffectSpell extends CombatSpell {
             Hit hit = new Hit(cast, castOn, delay, cast.getCombat().getCombatType());
             if (cast.isPlayer() && target.isPlayer() && WildernessArea.inWilderness(target.tile()))
                 Skulling.skull(cast.getAsPlayer(), target.getAsPlayer(), SkullType.WHITE_SKULL);
-            if (isBlocked(target, hit)) return;
+            if (isImmune(target, hit)) return;
             else hit.checkAccuracy(true).submit();
             if (hit.isAccurate()) spellEffect(cast, target, hit);
             boolean ancientSpells = cast.isPlayer() && cast.player().getSpellbook() == MagicSpellbook.ANCIENTS;
@@ -156,7 +154,7 @@ public abstract class CombatEffectSpell extends CombatSpell {
         }
     }
 
-    private boolean isBlocked(Entity target, Hit hit) {
+    private boolean isImmune(Entity target, Hit hit) {
         if (target instanceof NPC npc) {
             if (ArrayUtils.contains(MagicCombatMethod.immune_to_magic, npc.id())) {
                 hit.checkAccuracy(false).block().submit();

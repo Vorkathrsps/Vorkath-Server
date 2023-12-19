@@ -152,7 +152,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
             }
         }
 
-        if (isBlocked(target, hit)) {
+        if (isImmune(target, hit)) {
             if (spell instanceof CombatEffectSpell combatEffectSpell) combatEffectSpell.whenSpellCast(player, target);
             spell.finishCast(player, target, hit.isAccurate(), hit.getDamage());
             return true;
@@ -174,7 +174,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
         return true;
     }
 
-    private boolean isBlocked(Entity target, Hit hit) {
+    private boolean isImmune(Entity target, Hit hit) {
         if (target instanceof NPC npc) {
             if (ArrayUtils.contains(immune_to_magic, npc.id())) {
                 hit.checkAccuracy(false).block().submit();

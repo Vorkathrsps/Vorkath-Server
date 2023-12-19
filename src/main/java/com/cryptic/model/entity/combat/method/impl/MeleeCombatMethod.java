@@ -6,7 +6,6 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
-import com.cryptic.model.entity.combat.weapon.FightType;
 import com.cryptic.model.entity.combat.weapon.WeaponType;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.masks.impl.animations.Animation;
@@ -117,12 +116,12 @@ public class MeleeCombatMethod extends CommonCombatMethod {
             }
         }
 
-        if (isBlocked(target, hit)) return true;
-        hit.checkAccuracy(true).submit();
+        if (isImmune(target, hit)) return true;
+        else hit.checkAccuracy(true).submit();
         return true;
     }
 
-    private boolean isBlocked(Entity target, Hit hit) {
+    private boolean isImmune(Entity target, Hit hit) {
         if (target instanceof NPC npc) {
             if (ArrayUtils.contains(immune_to_melee, npc.id())) {
                 hit.checkAccuracy(false).block().submit();

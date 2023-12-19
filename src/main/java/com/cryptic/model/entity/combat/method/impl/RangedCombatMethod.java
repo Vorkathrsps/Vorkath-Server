@@ -168,9 +168,9 @@ public class RangedCombatMethod extends CommonCombatMethod {
                 final int d2 = attacker.executeProjectile(p2);
                 Hit hit1 = new Hit(attacker, target, d1, this);
                 Hit hit2 = new Hit(attacker, target, d2, this);
-                if (isBlocked(target, hit1)) return true;
+                if (isImmune(target, hit1)) return true;
                 else hit1.checkAccuracy(true).submit();
-                if (isBlocked(target, hit2)) return true;
+                if (isImmune(target, hit2)) return true;
                 else hit2.checkAccuracy(true).submit();
             } else {
                 Projectile projectile = new Projectile(attacker, target, graphic, startSpeed, duration, startHeight, endHeight, curve, 1, stepMultiplier);
@@ -178,7 +178,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                 Hit hit = new Hit(attacker, target, hitDelay, this);
                 var sound = World.getWorld().getSoundLoader().getInfo(player.getEquipment().getWeapon().getId());
                 if (sound != null) player.sendPublicSound(sound.forFightType(player.getCombat().getFightType()), hit.getDelay());
-                if (isBlocked(target, hit)) return true;
+                if (isImmune(target, hit)) return true;
                 else hit.checkAccuracy(true).submit();
                 if (graphic != -1) {
                     if (weaponType == WeaponType.CHINCHOMPA) {
@@ -200,7 +200,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
         return true;
     }
 
-    private boolean isBlocked(Entity target, Hit hit) {
+    private boolean isImmune(Entity target, Hit hit) {
         if (target instanceof NPC npc) {
             if (ArrayUtils.contains(immune_to_range, npc.id())) {
                 hit.checkAccuracy(false).block().submit();

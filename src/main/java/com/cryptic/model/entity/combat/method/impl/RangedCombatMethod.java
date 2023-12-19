@@ -16,13 +16,18 @@ import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.masks.impl.animations.Priority;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
+import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.ItemIdentifiers;
+import org.apache.commons.lang.ArrayUtils;
 
 import java.util.ArrayList;
 
+import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
+
 public class RangedCombatMethod extends CommonCombatMethod {
+    int[] immune_to_range = new int[]{NpcIdentifiers.NYLOCAS_HAGIOS, NpcIdentifiers.NYLOCAS_HAGIOS_8347, NpcIdentifiers.NYLOCAS_VASILIAS_8357, NYLOCAS_VASILIAS_8356, NYLOCAS_ISCHYROS_8342, NYLOCAS_ISCHYROS_8345, NYLOCAS_VASILIAS_8355};
 
     @Override
     public boolean prepareAttack(Entity attacker, Entity target) {
@@ -64,7 +69,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
             var boltDrawBack = BoltDrawBack.find(weaponId, graphic);
             var chinChompaDrawBack = ChinchompaDrawBack.find(weaponId, graphic);
 
-            switch (weaponType) { //TODO convert these to store the data inside of a readable object like toml or json
+            switch (weaponType) { 
                 case BOW -> {
                     if (drawbackBow != null) {
                         attacker.performGraphic(new Graphic(drawbackBow.gfx, player.getEquipment().contains(ItemIdentifiers.VENATOR_BOW) ? GraphicHeight.LOW : GraphicHeight.HIGH, 0));
@@ -161,16 +166,20 @@ public class RangedCombatMethod extends CommonCombatMethod {
                 Projectile p2 = new Projectile(attacker, target, graphic, 41, duration2, 40, 36, 25, 1, 10);
                 final int d1 = attacker.executeProjectile(p1);
                 final int d2 = attacker.executeProjectile(p2);
-                player.submitHit(target, d1, this);
-                player.submitHit(target, d2, this);
+                Hit hit1 = new Hit(attacker, target, d1, this);
+                Hit hit2 = new Hit(attacker, target, d2, this);
+                if (isBlocked(target, hit1)) return true;
+                else hit1.checkAccuracy(true).submit();
+                if (isBlocked(target, hit2)) return true;
+                else hit2.checkAccuracy(true).submit();
             } else {
                 Projectile projectile = new Projectile(attacker, target, graphic, startSpeed, duration, startHeight, endHeight, curve, 1, stepMultiplier);
                 final int hitDelay = attacker.executeProjectile(projectile);
-                Hit hit = player.submitHit(target, hitDelay, this);
+                Hit hit = new Hit(attacker, target, hitDelay, this);
                 var sound = World.getWorld().getSoundLoader().getInfo(player.getEquipment().getWeapon().getId());
-                if (sound != null) {
-                    player.sendPublicSound(sound.forFightType(player.getCombat().getFightType()), hit.getDelay());
-                }
+                if (sound != null) player.sendPublicSound(sound.forFightType(player.getCombat().getFightType()), hit.getDelay());
+                if (isBlocked(target, hit)) return true;
+                else hit.checkAccuracy(true).submit();
                 if (graphic != -1) {
                     if (weaponType == WeaponType.CHINCHOMPA) {
                         if (chinChompaDrawBack != null) {
@@ -180,9 +189,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                     }
 
                     if (weaponTypeSpecial == RangedData.RangedWeaponType.BALLISTA) {
-                        if (drawbackBow != null) {
-                            target.performGraphic(new Graphic(drawbackBow.gfx, GraphicHeight.HIGH, projectile.getSpeed()));
-                        }
+                        if (drawbackBow != null) target.performGraphic(new Graphic(drawbackBow.gfx, GraphicHeight.HIGH, projectile.getSpeed()));
                     }
                 }
             }
@@ -191,6 +198,16 @@ public class RangedCombatMethod extends CommonCombatMethod {
 
         }
         return true;
+    }
+
+    private boolean isBlocked(Entity target, Hit hit) {
+        if (target instanceof NPC npc) {
+            if (ArrayUtils.contains(immune_to_range, npc.id())) {
+                hit.checkAccuracy(false).block().submit();
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

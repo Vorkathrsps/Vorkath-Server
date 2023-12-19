@@ -208,7 +208,8 @@ public class Hit {
         MagicAccuracy magicAccuracy = new MagicAccuracy(this.attacker, this.target, this.combatType);
         RangeAccuracy rangeAccuracy = new RangeAccuracy(this.attacker, this.target, this.combatType);
         MeleeAccuracy meleeAccuracy = new MeleeAccuracy(this.attacker, this.target, this.combatType);
-        if (this.attacker instanceof Player player) CombatFactory.sigils.sigilAccuracyBonus(player, this.target, rangeAccuracy, magicAccuracy, meleeAccuracy);
+        if (this.attacker instanceof Player player)
+            CombatFactory.sigils.sigilAccuracyBonus(player, this.target, rangeAccuracy, magicAccuracy, meleeAccuracy);
         if (target instanceof NPC npc) {
             if (npc.getCombatInfo() == null) {
                 logger.warn("Missing combat information for {} {} {}", npc, npc.getMobName(), npc.id());
@@ -331,15 +332,15 @@ public class Hit {
     }
 
     private double calculateRangedOrMeleeXP(int damage) {
-    return (damage * (damage - 1D) / 2D) * 4.0D;
+        return (damage * (damage - 1D) / 2D) * 4.0D;
     }
 
     private double calculateHitpointsExperience(int damage) {
-    return (damage * (damage - 1D) / 2D) * 1.33D;
+        return (damage * (damage - 1D) / 2D) * 1.33D;
     }
 
     public Hit submit() {
-        if (this.target == null && isLocked() || isInvalidated() || target.isNullifyDamageLock() || target.isNeedsPlacement())
+        if (((this.target == null && isLocked()) || isInvalidated() || target.isNullifyDamageLock() || target.isNeedsPlacement()))
             return null;
         if (this.target.dead()) return null;
         if (this.attacker instanceof Player && this.target instanceof NPC npc) {
@@ -355,7 +356,8 @@ public class Hit {
             }
         }
         if (this.damage >= this.getMaximumHit()) this.setMaxHit(true);
-        if (this.attacker instanceof Player player) this.addCombatXp(player, this.combatType, player.getCombat().getFightType().getStyle(), this.accurate, this.damage);
+        if (this.attacker instanceof Player player)
+            this.addCombatXp(player, this.combatType, player.getCombat().getFightType().getStyle(), this.accurate, this.damage);
         target.getCombat().getHitQueue().add(this);
         return this;
     }
@@ -386,13 +388,13 @@ public class Hit {
     }
 
     public Hit block() {
-        accurate = false;
-        damage = 0;
+        this.accurate = false;
+        this.damage = 0;
         return this;
     }
 
     public Hit ignorePrayer() {
-        prayerIgnored = true;
+        this.prayerIgnored = true;
         return this;
     }
 

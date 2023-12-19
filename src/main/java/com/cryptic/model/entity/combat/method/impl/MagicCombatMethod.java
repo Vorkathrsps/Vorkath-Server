@@ -1,5 +1,6 @@
 package com.cryptic.model.entity.combat.method.impl;
 
+import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.hit.Hit;
@@ -14,16 +15,21 @@ import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.masks.impl.animations.Priority;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
+import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.MagicSpellbook;
 import com.cryptic.model.entity.player.Player;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 
+import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
  * @author Origin
  */
 public class MagicCombatMethod extends CommonCombatMethod {
+    int[] immune_to_magic = new int[]{NpcIdentifiers.NYLOCAS_TOXOBOLOS_8343, NpcIdentifiers.NYLOCAS_TOXOBOLOS_8346, NpcIdentifiers.NYLOCAS_VASILIAS_8357, NYLOCAS_ISCHYROS_8342, NYLOCAS_ISCHYROS_8345, NYLOCAS_VASILIAS_8355};
+
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         Player player = (Player) entity;
@@ -137,7 +143,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
 
         final int delay = player.executeProjectile(p);
 
-        Hit hit = player.submitHit(target, delay, this);
+        Hit hit = new Hit(entity, target, delay, this);
 
         if (sound != null) {
             var soundInfo = sound.getSpellInfo(spellId);
@@ -146,20 +152,36 @@ public class MagicCombatMethod extends CommonCombatMethod {
             }
         }
 
-        if (hit != null) {
-            if (hit.isAccurate()) {
-                target.performGraphic(new Graphic(endGraphic, endGraphicHeight, p.getSpeed()));
-                if (spell instanceof CombatEffectSpell combatEffectSpell) {
-                    combatEffectSpell.whenSpellCast(player, target);
-                    combatEffectSpell.spellEffect(player, target, hit);
-                }
-            } else {
-                target.performGraphic(new Graphic(85, GraphicHeight.HIGH, p.getSpeed()));
-            }
-
+        if (isBlocked(target, hit)) {
+            target.performGraphic(new Graphic(85, GraphicHeight.HIGH, p.getSpeed()));
             spell.finishCast(player, target, hit.isAccurate(), hit.getDamage());
+            return true;
         }
+
+        hit.checkAccuracy(true).submit();
+
+        if (hit.isAccurate()) {
+            target.performGraphic(new Graphic(endGraphic, endGraphicHeight, p.getSpeed()));
+            if (spell instanceof CombatEffectSpell combatEffectSpell) {
+                combatEffectSpell.whenSpellCast(player, target);
+                combatEffectSpell.spellEffect(player, target, hit);
+            }
+        } else {
+            target.performGraphic(new Graphic(85, GraphicHeight.HIGH, p.getSpeed()));
+        }
+
+        spell.finishCast(player, target, hit.isAccurate(), hit.getDamage());
         return true;
+    }
+
+    private boolean isBlocked(Entity target, Hit hit) {
+        if (target instanceof NPC npc) {
+            if (ArrayUtils.contains(immune_to_magic, npc.id())) {
+                hit.checkAccuracy(false).block().submit();
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

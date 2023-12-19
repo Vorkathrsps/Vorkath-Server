@@ -227,7 +227,7 @@
     "animations": {
       "attack": 8001,
       "block": -1,
-      "death": 7991
+      "death": 8000
     }
   },
   {

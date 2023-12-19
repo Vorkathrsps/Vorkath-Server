@@ -16,6 +16,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
 import org.apache.commons.lang.ArrayUtils;
 
+import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.NYLOCAS_VASILIAS_8356;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
@@ -24,6 +25,8 @@ import static com.cryptic.utility.ItemIdentifiers.*;
  * @author Professor Oak
  */
 public class MeleeCombatMethod extends CommonCombatMethod {
+    int[] immune_to_melee = new int[]{NpcIdentifiers.NYLOCAS_HAGIOS, NpcIdentifiers.NYLOCAS_TOXOBOLOS_8343, NpcIdentifiers.NYLOCAS_VASILIAS_8357, NYLOCAS_VASILIAS_8356};
+    int[] cannot_attack = new int[]{10865, 10814, 8340, 8250, 8372, 8373, 8374, 8375, 8369, 8370, 8386};
 
     private void attackWithScythe(Entity target) {
         entity.animate(entity.attackAnimation());
@@ -78,8 +81,6 @@ public class MeleeCombatMethod extends CommonCombatMethod {
         }
     }
 
-    int[] cannot_attack = new int[]{10865, 10814, 8340, 8250, 8372, 8373, 8374, 8375, 8369, 8370, 8386};
-
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         if (entity instanceof NPC npc) {
@@ -97,8 +98,8 @@ public class MeleeCombatMethod extends CommonCombatMethod {
         }
 
         entity.animate(new Animation(entity.attackAnimation(), Priority.HIGH));
+        Hit hit = new Hit(entity, target, 0, this);
 
-        var hit = entity.submitHit(target, 0, this);
         if (entity instanceof Player player) {
             var weapon = player.getEquipment().getWeapon();
             var fightType = player.getCombat().getFightType();
@@ -115,7 +116,20 @@ public class MeleeCombatMethod extends CommonCombatMethod {
                 }
             }
         }
+
+        if (isBlocked(target, hit)) return true;
+        hit.checkAccuracy(true).submit();
         return true;
+    }
+
+    private boolean isBlocked(Entity target, Hit hit) {
+        if (target instanceof NPC npc) {
+            if (ArrayUtils.contains(immune_to_melee, npc.id())) {
+                hit.checkAccuracy(false).block().submit();
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

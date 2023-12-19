@@ -185,6 +185,7 @@ public class Hit {
     public void invalidate() {
         this.accurate = false;
         this.invalidated = true;
+        this.toremove = true;
     }
 
     public int getMaximumHit() {

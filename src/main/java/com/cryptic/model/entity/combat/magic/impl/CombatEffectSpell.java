@@ -11,6 +11,7 @@ import com.cryptic.model.entity.combat.magic.CombatSpell;
 import com.cryptic.model.entity.combat.magic.data.AncientSpells;
 import com.cryptic.model.entity.combat.magic.data.AutoCastWeaponSpells;
 import com.cryptic.model.entity.combat.magic.data.ModernSpells;
+import com.cryptic.model.entity.combat.method.impl.MagicCombatMethod;
 import com.cryptic.model.entity.combat.skull.SkullType;
 import com.cryptic.model.entity.combat.skull.Skulling;
 import com.cryptic.model.entity.masks.Projectile;
@@ -22,6 +23,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.timers.TimerKey;
+import org.apache.commons.lang.ArrayUtils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -37,10 +39,10 @@ import static com.cryptic.utility.ItemIdentifiers.*;
  */
 public abstract class CombatEffectSpell extends CombatSpell {
 
+    int[] ignored_npcs = new int[]{7710, 7709, 8358, 8379};
+
     public void whenSpellCast(Entity cast, Entity castOn) {
-        if (spellRadius() == 0) {
-            return;
-        }
+        if (spellRadius() == 0) return;
 
         int delay = (int) (2 + Math.floor((1 + cast.tile().getManHattanDist(cast.tile(), castOn.tile())) / 3D));
 
@@ -78,22 +80,11 @@ public abstract class CombatEffectSpell extends CombatSpell {
 
                 if (next.isNpc()) {
                     NPC n = (NPC) next;
-                    if (castOn == n) {
-                        continue;
-                    }
 
-                    if (n.getCombatInfo() != null && n.getCombatInfo().unattackable) {
-                        continue;
-                    }
-
-                    if (!MultiwayCombat.includes(n)) {
-                        continue;
-                    }
-
-                    if (n.id() == 7710 || n.id() == 7709) {
-                        continue;
-                    }
-
+                    if (castOn == n) continue;
+                    if (n.getCombatInfo() != null && n.getCombatInfo().unattackable) continue;
+                    if (!MultiwayCombat.includes(n)) continue;
+                    if (ArrayUtils.contains(ignored_npcs, n.id())) continue;
                     if (!CombatFactory.canAttack(cast, CombatFactory.MAGIC_COMBAT, n)) {
                         cast.getCombat().reset();
                         continue;
@@ -110,7 +101,7 @@ public abstract class CombatEffectSpell extends CombatSpell {
                     }
                     if (!WildernessArea.inAttackableArea(p))
                         continue;
-                    if ( !MultiwayCombat.includes(p))
+                    if (!MultiwayCombat.includes(p))
                         continue;
 
                     if (!CombatFactory.canAttack(cast, CombatFactory.MAGIC_COMBAT, p)) {
@@ -123,38 +114,22 @@ public abstract class CombatEffectSpell extends CombatSpell {
         }
 
         for (Entity target : targets) {
-            Hit hit = target.hit(cast, CombatFactory.calcDamageFromType(cast, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
-            if (cast.isPlayer() && target.isPlayer() && WildernessArea.inWilderness(target.tile())) {
+            Hit hit = new Hit(cast, castOn, delay, cast.getCombat().getCombatType());
+            if (cast.isPlayer() && target.isPlayer() && WildernessArea.inWilderness(target.tile()))
                 Skulling.skull(cast.getAsPlayer(), target.getAsPlayer(), SkullType.WHITE_SKULL);
-            }
-            hit.submit();
-            if (hit.isAccurate()) {
-                spellEffect(cast, target, hit);
-            }
-            boolean modernSpells = cast.isPlayer() && cast.player().getSpellbook() == MagicSpellbook.NORMAL;
+            if (isBlocked(target, hit)) return;
+            else hit.checkAccuracy(true).submit();
+            if (hit.isAccurate()) spellEffect(cast, target, hit);
             boolean ancientSpells = cast.isPlayer() && cast.player().getSpellbook() == MagicSpellbook.ANCIENTS;
             boolean isWearingPoweredStaff = cast.isPlayer() && cast.player().getEquipment().containsAny(TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, SANGUINESTI_STAFF, TUMEKENS_SHADOW, DAWNBRINGER, ACCURSED_SCEPTRE_A);
-            AutoCastWeaponSpells data = AutoCastWeaponSpells.findSpellProjectileData(spellId(), GraphicHeight.HIGH);
-            int projectile = -1;
-            int startgraphic = -1;
-            int castAnimation = -1;
-            int startSpeed = -1;
-            int startHeight = -1;
-            int endHeight = -1;
-            int endGraphic = -1;
-            int stepMultiplier = -1;
-            int duration = -1;
+            int projectile = -1, startSpeed = -1, startHeight = -1, endHeight = -1, endGraphic = -1, stepMultiplier = -1, duration = -1;
             GraphicHeight startGraphicHeight = GraphicHeight.HIGH;
             GraphicHeight endGraphicHeight = GraphicHeight.HIGH;
-            ModernSpells findProjectileDataModern = ModernSpells.findSpellProjectileData(spellId(), endGraphicHeight);
             AncientSpells findProjectileDataAncients = AncientSpells.findSpellProjectileData(spellId(), startGraphicHeight, endGraphicHeight);
             AutoCastWeaponSpells findAutoCastWeaponsData = AutoCastWeaponSpells.findSpellProjectileData(spellId(), endGraphicHeight);
             int distance = cast.tile().getChevDistance(target.tile());
-
             if (findProjectileDataAncients != null && ancientSpells && cast.getCombat().getCastSpell() != null && cast.getCombat().getCastSpell().spellId() == findProjectileDataAncients.spellID) {
                 projectile = findProjectileDataAncients.projectile;
-                startgraphic = findProjectileDataAncients.startGraphic;
-                castAnimation = findProjectileDataAncients.castAnimation;
                 startSpeed = findProjectileDataAncients.startSpeed;
                 startHeight = findProjectileDataAncients.startHeight;
                 endHeight = findProjectileDataAncients.endHeight;
@@ -164,8 +139,6 @@ public abstract class CombatEffectSpell extends CombatSpell {
                 endGraphicHeight = findProjectileDataAncients.endGraphicHeight;
             } else if (isWearingPoweredStaff && findAutoCastWeaponsData != null && cast.getCombat().getPoweredStaffSpell() != null && cast.getCombat().getPoweredStaffSpell().spellId() == findAutoCastWeaponsData.spellID) {
                 projectile = findAutoCastWeaponsData.projectile;
-                startgraphic = findAutoCastWeaponsData.startGraphic;
-                castAnimation = findAutoCastWeaponsData.castAnimation;
                 startSpeed = findAutoCastWeaponsData.startSpeed;
                 startHeight = findAutoCastWeaponsData.startHeight;
                 endHeight = findAutoCastWeaponsData.endHeight;
@@ -181,6 +154,16 @@ public abstract class CombatEffectSpell extends CombatSpell {
                 target.performGraphic(new Graphic(85, GraphicHeight.LOW, p.getSpeed()));
             }
         }
+    }
+
+    private boolean isBlocked(Entity target, Hit hit) {
+        if (target instanceof NPC npc) {
+            if (ArrayUtils.contains(MagicCombatMethod.immune_to_magic, npc.id())) {
+                hit.checkAccuracy(false).block().submit();
+                return true;
+            }
+        }
+        return false;
     }
 
 

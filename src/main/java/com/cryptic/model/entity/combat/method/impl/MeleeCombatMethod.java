@@ -25,7 +25,7 @@ import static com.cryptic.utility.ItemIdentifiers.*;
  * @author Professor Oak
  */
 public class MeleeCombatMethod extends CommonCombatMethod {
-    int[] immune_to_melee = new int[]{NpcIdentifiers.NYLOCAS_HAGIOS, NpcIdentifiers.NYLOCAS_TOXOBOLOS_8343, NpcIdentifiers.NYLOCAS_VASILIAS_8357, NYLOCAS_VASILIAS_8356};
+    public static final int[] immune_to_melee = new int[]{NpcIdentifiers.NYLOCAS_HAGIOS, NpcIdentifiers.NYLOCAS_TOXOBOLOS_8343, NpcIdentifiers.NYLOCAS_VASILIAS_8357, NYLOCAS_VASILIAS_8356};
     int[] cannot_attack = new int[]{10865, 10814, 8340, 8250, 8372, 8373, 8374, 8375, 8369, 8370, 8386};
 
     private void attackWithScythe(Entity target) {

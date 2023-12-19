@@ -56,7 +56,7 @@ public class HitQueue {
                     }
 
                     if (hit.getTarget().dead() && !hit.reflected) { //noting here just incase something fks up
-                        hit.toremove = true;
+                        hit.invalidate();
                         continue;
                     }
 

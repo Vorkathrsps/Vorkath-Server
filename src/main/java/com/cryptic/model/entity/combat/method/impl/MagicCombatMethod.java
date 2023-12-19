@@ -28,7 +28,7 @@ import static com.cryptic.utility.ItemIdentifiers.*;
  * @author Origin
  */
 public class MagicCombatMethod extends CommonCombatMethod {
-    int[] immune_to_magic = new int[]{NpcIdentifiers.NYLOCAS_TOXOBOLOS_8343, NpcIdentifiers.NYLOCAS_TOXOBOLOS_8346, NpcIdentifiers.NYLOCAS_VASILIAS_8357, NYLOCAS_ISCHYROS_8342, NYLOCAS_ISCHYROS_8345, NYLOCAS_VASILIAS_8355};
+    public static final int[] immune_to_magic = new int[]{NpcIdentifiers.NYLOCAS_TOXOBOLOS_8343, NpcIdentifiers.NYLOCAS_TOXOBOLOS_8346, NpcIdentifiers.NYLOCAS_VASILIAS_8357, NYLOCAS_ISCHYROS_8342, NYLOCAS_ISCHYROS_8345, NYLOCAS_VASILIAS_8355};
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
@@ -153,7 +153,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
         }
 
         if (isBlocked(target, hit)) {
-            target.performGraphic(new Graphic(85, GraphicHeight.HIGH, p.getSpeed()));
+            if (spell instanceof CombatEffectSpell combatEffectSpell) combatEffectSpell.whenSpellCast(player, target);
             spell.finishCast(player, target, hit.isAccurate(), hit.getDamage());
             return true;
         }

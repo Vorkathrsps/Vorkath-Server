@@ -1722,8 +1722,7 @@ public abstract class Entity {
         return this;
     }
 
-    @Getter
-    public boolean teleportJump;
+    @Getter public boolean teleportJump;
 
     public void setTeleportJump(boolean teleportJump) {
         this.teleportJump = teleportJump;

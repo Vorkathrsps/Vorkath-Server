@@ -96,7 +96,7 @@ public class MeleeCombatMethod extends CommonCombatMethod {
             }
         }
 
-        entity.animate(new Animation(entity.attackAnimation(), Priority.HIGH));
+        entity.animate(entity.attackAnimation());
         Hit hit = new Hit(entity, target, 0, this);
 
         if (entity instanceof Player player) {

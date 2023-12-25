@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public class StarEventTask extends Task {
     private static LocalDateTime lastDepletionTime;
-    private static StarEvent starEvent = StarEvent.getInstance();
+    private static final StarEvent starEvent = StarEvent.getInstance();
 
     public StarEventTask() {
         super("StarEventTask", StarEvent.STAR_EVENT_INTERVAL, true);

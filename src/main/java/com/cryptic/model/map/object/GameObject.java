@@ -464,7 +464,6 @@ public class GameObject {
         } else {
             clip(true);
             id = newId;
-            var r = this.tile.getRegion();
             Tile.get(x, y, z, true).checkActive();
             clip(false);
             World.getWorld().getPlayers().forEachFiltered(p -> tile().area(64).contains(p, true), player ->

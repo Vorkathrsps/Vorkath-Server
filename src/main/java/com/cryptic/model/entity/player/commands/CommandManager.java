@@ -909,7 +909,7 @@ public class CommandManager {
         });
         dev("t24", (player, c, parts) -> {
             var n = player.closeNpcs(5)[0];
-            // n.queueTeleportJump(n.tile().transform(Integer.parseInt(parts[1]), Integer.parseInt(parts[2])));
+            n.queueTeleportJump(n.tile().transform(Integer.parseInt(parts[1]), Integer.parseInt(parts[2])));
         });
         dev("t25", (p, c, s) -> {
             Xarpus xarpus = new Xarpus(10767, new Tile(3169, 4386, 1), null);

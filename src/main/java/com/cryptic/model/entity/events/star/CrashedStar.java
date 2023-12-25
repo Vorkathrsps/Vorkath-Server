@@ -22,7 +22,6 @@ public class CrashedStar extends GameObject {
     private static final List<Integer> miningLevels = Arrays.asList(10, 20, 30, 40, 50, 60, 70, 80, 90);
     private static final List<Integer> xpRates = Arrays.asList(3360, 6480, 4920, 5920, 8400, 7750, 11180, 15400, 16400);
     private static final List<Integer> additionalDustChance = Arrays.asList(2, 6, 12, 20, 30, 42, 56, 72, 90);
-
     @Getter @Setter private boolean stopActions = false;
     @Getter @Setter private StarStage starStage;
 

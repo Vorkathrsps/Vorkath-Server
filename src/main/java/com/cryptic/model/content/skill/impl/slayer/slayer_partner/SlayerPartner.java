@@ -51,6 +51,7 @@ public class SlayerPartner {
         }
 
         Optional<Player> partner = World.getWorld().getPlayerByName(partnerName);
+
         if(partner.isEmpty()) {
             return;
         }

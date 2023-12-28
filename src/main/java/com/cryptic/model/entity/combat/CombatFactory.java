@@ -545,9 +545,8 @@ public class CombatFactory {
         if (entity.isPlayer() && other.isNpc()) {
             var oppNpc = other.getAsNpc();
             if (oppNpc.getCombatInfo() != null) {
-                var noRequirementNeeded = entity.getAsPlayer().getSlayerRewards().getUnlocks().containsKey(SlayerConstants.NO_SLAYER_REQ);
                 var slayerReq = Math.max(SlayerCreature.slayerReq(oppNpc.id()), oppNpc.getCombatInfo().slayerlvl);
-                if (!noRequirementNeeded && slayerReq > (entity.getAsPlayer()).getSkills().level(Skills.SLAYER)) {
+                if (slayerReq > (entity.getAsPlayer()).getSkills().level(Skills.SLAYER)) {
                     entity.message("You need a slayer level of " + slayerReq + " to harm this NPC.");
                     Debugs.CMB.debug(entity, "slayreq", other, true);
                     return false;
@@ -836,7 +835,8 @@ public class CombatFactory {
 
                 //One in 175 chance of dealing the finishing blow. This does not count towards world bosses
                 boolean ignore = npc.isWorldBoss() || npc.id() == NpcIdentifiers.TZTOKJAD || npc.id() == NpcIdentifiers.NEX || npc.id() == NpcIdentifiers.NEX_11280 || npc.id() == NpcIdentifiers.NEX_11282 || npc.id() == NpcIdentifiers.NEX_11281 || npc.id() == NpcIdentifiers.NEX_11279 || npc.id() == NpcIdentifiers.CORPOREAL_BEAST || npc.isCombatDummy() || (player.getRaids() != null && player.getRaids().raiding(player)) || npc.id() == THE_NIGHTMARE_9430;
-                if (player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.KILL_BLOW) && World.getWorld().rollDie(350, 1) && !ignore && !npc.locked()) {
+
+                if (player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.DEATHS_TOUCH) && World.getWorld().rollDie(150, 1) && !ignore && !npc.locked()) {
                     hit.setDamage(npc.hp());
                 }
 

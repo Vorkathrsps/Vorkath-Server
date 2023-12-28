@@ -116,7 +116,7 @@ public class NPCDeath {
         Player killer = killer_id.orElse(null);
 
         if (killer != null) {
-            var biggest_and_baddest_perk = killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.BIGGEST_AND_BADDEST) && Slayer.creatureMatches(killer, npc.id());
+            var biggest_and_baddest_perk = killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.BIGGER_AND_BADDER) && Slayer.creatureMatches(killer, npc.id());
             var ancientRevSpawnRoll = 25;
             var superiorSpawnRoll = biggest_and_baddest_perk ? 4 : 6;
 
@@ -537,7 +537,7 @@ public class NPCDeath {
                                 if (tableItem.min > 0) {
                                     Item dropped = new Item(tableItem.id, Utils.random(tableItem.min, tableItem.max));
 
-                                    if ((dropped.getId() == ItemIdentifiers.DRAGON_BONES || dropped.getId() == ItemIdentifiers.LAVA_DRAGON_BONES && killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.NOTED_DRAGON_BONES)) && WildernessArea.inWilderness(killer.tile())) {
+                                    if ((dropped.getId() == ItemIdentifiers.DRAGON_BONES || dropped.getId() == ItemIdentifiers.LAVA_DRAGON_BONES && killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.BONE_HUNTER)) && WildernessArea.inWilderness(killer.tile())) {
                                         dropped = dropped.note();
                                     }
 
@@ -547,7 +547,7 @@ public class NPCDeath {
                                         GroundItemHandler.createGroundItem(new GroundItem(dropped, tile, killer));
                                     }
                                 } else {
-                                    if ((tableItem.convert().getId() == ItemIdentifiers.DRAGON_BONES || tableItem.convert().getId() == ItemIdentifiers.LAVA_DRAGON_BONES && killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.NOTED_DRAGON_BONES)) && WildernessArea.inWilderness(killer.tile())) {
+                                    if ((tableItem.convert().getId() == ItemIdentifiers.DRAGON_BONES || tableItem.convert().getId() == ItemIdentifiers.LAVA_DRAGON_BONES && killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.BONE_HUNTER)) && WildernessArea.inWilderness(killer.tile())) {
                                         tableItem.convert().setId(tableItem.convert().note().getId());
                                     }
 
@@ -562,11 +562,6 @@ public class NPCDeath {
                     }
 
                     int dropRolls = npc.getCombatInfo().droprolls;
-
-                    if (killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.DOUBLE_DROP_CHANCE) && World.getWorld().rollDie(100, 1)) {
-                        dropRolls += 1;
-                        killer.message("The Double drops perk grants you a second drop!");
-                    }
 
                     for (int i = 0; i < dropRolls; i++) {
                         Item reward = table.rollItem();
@@ -587,7 +582,7 @@ public class NPCDeath {
                             BOSSES.log(killer, RAIDS_KEY, reward);
                             OTHER.log(killer, npc.id(), reward);
 
-                            if ((reward.getId() == ItemIdentifiers.DRAGON_BONES || reward.getId() == ItemIdentifiers.LAVA_DRAGON_BONES && killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.NOTED_DRAGON_BONES)) && WildernessArea.inWilderness(killer.tile())) {
+                            if ((reward.getId() == ItemIdentifiers.DRAGON_BONES || reward.getId() == ItemIdentifiers.LAVA_DRAGON_BONES && killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.BONE_HUNTER)) && WildernessArea.inWilderness(killer.tile())) {
                                 reward = reward.note();
                             }
 
@@ -606,29 +601,6 @@ public class NPCDeath {
                             }
                         }
                     }
-
-                    //Only give BM when the npc is flagged as boss and we have the perk unlocked
-                    if (npc.getCombatInfo().boss && killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.BLOOD_MONEY_FROM_KILLING_BOSSES)) {
-                        int combat = Objects.requireNonNull(def).combatlevel;
-
-                        var amount = 0;
-                        if (combat > 200) {
-                            amount = Utils.random(350, 750);
-                        } else {
-                            amount = Utils.random(125, 350);
-                        }
-
-                        Item BM = new Item(BLOOD_MONEY, amount);
-
-                        if (killer.getEquipment().contains(RING_OF_WEALTH_I)) {
-                            killer.inventory().addOrDrop(new Item(BM, BM.getAmount()));
-                        } else {
-                            GroundItemHandler.createGroundItem(new GroundItem(BM, tile, killer));
-                        }
-
-                    }
-
-                    treasure(killer, npc, tile);
                 }
 
                 // Custom drop tables
@@ -708,9 +680,6 @@ public class NPCDeath {
     }
 
     private static void treasure(Player killer, NPC npc, Tile tile) {
-        if (!killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.TREASURE_HUNT)) {
-            return;
-        }
 
         if (!Slayer.creatureMatches(killer, npc.id())) {
             return;

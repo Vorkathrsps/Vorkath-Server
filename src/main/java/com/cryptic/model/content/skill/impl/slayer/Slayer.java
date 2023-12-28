@@ -198,6 +198,11 @@ public class Slayer {
             ZURIELS_STAFF_BH
         };
 
+    static int[] sigils = new int[]
+        {
+
+        };
+
     public static void reward(Player killer, NPC npc) {
         if (killer.slayerTaskAmount() > 0) {
 
@@ -210,10 +215,11 @@ public class Slayer {
                 if (taskdef != null && taskdef.matches(npc.id())) {
 
                     if (WildernessArea.inWilderness(killer.tile())) {
-                        rollPvpEquipment(killer, npc);
-                        rollLarrans(killer, npc);
-                        rollEmblem(killer, npc);
-                        dropBloodMoney(killer, npc);
+                        if (killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.SIGIL_DROPPER)) rollSigil(killer, npc);
+                        if (killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.PVP_ARMOURS)) rollPvpEquipment(killer, npc);
+                        if (killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.LARRANS_LUCK)) rollLarrans(killer, npc);
+                        if (killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.EMBLEM_HUNTER)) rollEmblem(killer, npc);
+                        if (killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.SLAYERS_GREED)) dropBloodMoney(killer, npc);
                     }
 
                     killer.getSkills().addXp(Skills.SLAYER, npc.getCombatInfo().slayerxp != 0 ? npc.getCombatInfo().slayerxp : npc.maxHp());
@@ -236,21 +242,10 @@ public class Slayer {
 
                         int base = 5;
 
-                        if (taskdef.bossTask) {
-                            base += 5;
-                        }
+                        if (taskdef.bossTask) base += 5;
+                        if (doublePointsUnlocked) base *= 2;
+                        if (trainedAccount) base += 5;
 
-                        //If you have the double perk unlocked base * 2
-                        if (doublePointsUnlocked) {
-                            base *= 2;
-                        }
-
-                        //Trained accounts get + 30 slayer points on the total points reward
-                        if (trainedAccount) {
-                            base += 5;
-                        }
-
-                        //Legendary account bonus
                         base += switch (killer.getMemberRights()) {
                             case NONE -> 0;
                             case RUBY_MEMBER -> 1;
@@ -262,10 +257,7 @@ public class Slayer {
                             case ZENYTE_MEMBER -> 7;
                         };
 
-                        //Weekend bonus
-                        if (weekendBonus) {
-                            base += 25;
-                        }
+                        if (weekendBonus) base += 25;
 
                         int spree = (int) killer.getAttribOr(AttributeKey.SLAYER_TASK_SPREE, 0) + 1;
 
@@ -365,6 +357,23 @@ public class Slayer {
         }
     }
 
+    public static void rollSigil(Player killer, NPC npc) {
+        int chance = calculateSigilChance(npc);
+        if (rollChance(chance)) {
+            int id = Utils.randomElement(sigils);
+            GroundItemHandler.createGroundItem(new GroundItem(new Item(id), npc.tile(), killer));
+        }
+    }
+
+    private static int calculateSigilChance(NPC npc) {
+        var combatLevel = npc.def().combatlevel;
+        int chance;
+        if (combatLevel <= 50) chance = 1000;
+        else if (combatLevel >= 150) chance = 500;
+        else chance = 1000;
+        return chance;
+    }
+
     private static int getAmount(Player killer, int amount) {
         switch (killer.getMemberRights()) {
             case RUBY_MEMBER -> amount += 1;
@@ -374,7 +383,7 @@ public class Slayer {
     }
 
     private static boolean rollChance(int chance) {
-        return Utils.rollDie(chance, 1);
+        return World.getWorld().rollDie(chance, 1);
     }
 
     public static int calculatePvpEquipment(int monsterLevel) {

@@ -166,9 +166,6 @@ public class SlayerRewards {
         if (!player.getSlayerRewards().unlocks.containsKey(SlayerConstants.LIKE_A_BOSS) && task.getCreatureUid() == 145) {
             return false;
         }
-        if (!player.getSlayerRewards().unlocks.containsKey(SlayerConstants.TZTOK_JAD) && task.getCreatureUid() == 97) {
-            return false;
-        }
         return true;
     }
 

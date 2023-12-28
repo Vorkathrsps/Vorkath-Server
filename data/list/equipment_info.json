@@ -7934,6 +7934,16 @@
     "type": 8,
     "showBeard": false
   },
+  "23073": {
+    "slot": 0,
+    "type": 8,
+    "showBeard": false
+  },
+  "25189": {
+    "slot": 0,
+    "type": 8,
+    "showBeard": false
+  },
   "3256": {
     "slot": 0,
     "type": 0,
@@ -7959,12 +7969,22 @@
     "type": 8,
     "showBeard": false
   },
+  "25181": {
+    "slot": 0,
+    "type": 8,
+    "showBeard": false
+  },
   "19647": {
     "slot": 0,
     "type": 8,
     "showBeard": false
   },
   "19649": {
+    "slot": 0,
+    "type": 8,
+    "showBeard": false
+  },
+  "25183": {
     "slot": 0,
     "type": 8,
     "showBeard": false
@@ -13155,6 +13175,26 @@
     "showBeard": false
   },
   "21266": {
+    "slot": 0,
+    "type": 8,
+    "showBeard": false
+  },
+  "24370": {
+    "slot": 0,
+    "type": 8,
+    "showBeard": false
+  },
+  "25191": {
+    "slot": 0,
+    "type": 8,
+    "showBeard": false
+  },
+  "25187": {
+    "slot": 0,
+    "type": 8,
+    "showBeard": false
+  },
+  "25185": {
     "slot": 0,
     "type": 8,
     "showBeard": false

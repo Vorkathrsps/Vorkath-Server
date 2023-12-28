@@ -37,7 +37,7 @@ public class RevsCommand implements Command {
                         player.message("You have been teleported to the revenants cave.");
                         stop();
                     } else if (option == 2) {
-                        Tile tile = player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.REVENANT_TELEPORT) ? new Tile(3244, 10145, 0) : new Tile(3130, 3828);;
+                        Tile tile = new Tile(3130, 3828);
                         if (!Teleports.canTeleport(player, true, TeleportType.GENERIC) || !Teleports.pkTeleportOk(player, tile)) {
                             stop();
                             return;

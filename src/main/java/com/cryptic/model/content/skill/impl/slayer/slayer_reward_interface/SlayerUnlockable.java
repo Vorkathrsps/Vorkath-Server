@@ -15,45 +15,39 @@ import static com.cryptic.utility.ItemIdentifiers.*;
  * @see <a href="https://www.rune-server.ee/members/Zerikoth/">Rune-Server profile</a>
  */
 public enum SlayerUnlockable {
+    DOUBLE_SLAYER_POINTS(63406, new Item(SLAYER_TOME), 750, "Double slayer points", "Automatically doubles your points when" + "<br>completing any slayer task. <br><col=ca0d0d>(750 points)</col>"),
+    SLAYERS_GREED(63407, new Item(BLOOD_MONEY, 10000), 500, "Slayers Greed", "Generate blood money whilst killing <br>monsters on a slayer task.<br><col=ca0d0d>(500 <col=ca0d0d>points)"),
+    DEATHS_TOUCH(63408, new Item(SKULL_OF_VETION), 2500, "Deaths Touch", "Have a chance at dealing a finishing blow" + "<br>on any monster.<br><col=ca0d0d>(2500 points)"),
+    EMBLEM_HUNTER(63409, new Item(MYSTERIOUS_EMBLEM_TIER_5), 500, "Emblem Hunter", "Monsters have a chance at dropping <br>emblems" + " whilst on a slayer task. <br><col=ca0d0d>(500 points)"),
+    SLAYERS_NODE(63410, new Item(CRYSTALLINE_PORTAL_NEXUS), 500, "Slayers Node", "Learn to teleport directly to your <br>slayer task." + "<br><col=ca0d0d>(500 points)"),
+    LARRANS_LUCK(63411, new Item(LARRANS_KEY, 10), 150, "Larrans Luck", "Chance to recieve larrans keys" + " during <br>your slayer task. " + "<br><col=ca0d0d>(150 points)"),
+    PVP_ARMOURS(63412, new Item(VESTAS_LONGSWORD_BH), 2500, "Ancient Blessing", "Chance to receive ancient warrior <br>equipment whilst on a slayer task. <br><col=ca0d0d>(2500 points)"),
+    BIGGER_AND_BADDER(63413, new Item(ABYSSAL_DEMON), 250, "Bigger And Badder", "Chance to encounter a superior foe whilst<br>on your slayer task. <br><col=ca0d0d>(250 points)"),
 
-    DOUBLE_SLAYER_POINTS(63406, new Item(SLAYER_TOME), 750, "Double slayer points", "Automatically doubles your points when" + "<br>completing any slayer task. <col=ca0d0d>(750 points)</col>"),
+    SIGIL_DROPPER(63414, new Item(SIGIL_OF_THE_GUARDIAN_ANGEL_26147), 1200, "Attuned Luck", "Chance at receiving sigils whilst on a <br>slayer task. <br><col=ca0d0d>(1200 points)"),
 
-    BLOOD_MONEY_FROM_KILLING_BOSSES(63407, new Item(BLOOD_MONEY, 500), 750, "BM from killing bosses", "Generate BM whilst killing bosses.<col=ca0d0d>(750 <br><col=ca0d0d>points)"),
-    KILL_BLOW(63409, new Item(ARMADYL_GODSWORD), 750, "Kill blow", "Have a chance at dealing a finishing blow" + "<br>on any monster.<col=ca0d0d>(750 points)"),
+    LIKE_A_BOSS(63415, new Item(3064), 250, "Like a boss", "Slayer master will be able to assign<br>wilderness boss monsters as your task. <br><col=ca0d0d>(250 <col=ca0d0d>points)"),
 
-    BIGGER_AND_BADDER(63410, new Item(1451), 75, "Bigger and Badder", "Increase the risk against certain slayer" + "<br>monsters with the chance of a superior " + "<br>version spawning whilst on a slayer task.<br><col=ca0d0d>(75 points)"),
+    BONE_HUNTER(63416, new Item(LAVA_DRAGON_BONES + 1), 250, "Bone Hunter", "Dragon bones will be dropped noted" + "<br>form while killed inside the wilderness." + "<br><col=ca0d0d>(250 points)"),
 
-    REVENANT_TELEPORT(63411, new Item(REVENANT_CAVE_TELEPORT), 300, "Revenants cave teleport", "Learn to teleport directly to the revenants." + "<br><col=ca0d0d>(300 points)"),
+    SLAYER_HELM(63417, new Item(SLAYER_HELMET_I), 500, "Malevolant Masquerade", "Learn how to combine the protective Slayer<br>headgear and Slayer gem into one<br>universal helmet, with level 55 Crafting.<br><col=ca0d0d>(500 points)"),
 
-    LARRANS_LUCK(63412, new Item(LARRANS_KEY, 10), 250, "Larrans luck", "Extra chance of receiving Larrans keys" + "<br>during your slayer tasks. Larrans key" + "<br>drop rate = 1/400 This perk gives you 12.5% <br>more chance. <col=ca0d0d>(250 points)"),
+    KING_BLACK_BONNET(63418, new Item(BLACK_SLAYER_HELMET), 1000, "King Black Bonnet", "Learn how to combine a KBD head with your<br>slayer helm to colour it black. <br><col=ca0d0d>(1000 points)"),
 
-    NO_SLAYER_REQ(63413, new Item(SLAYERS_RESPITE), 400, "No slayer requirement", "You can kill any monster without the slayer<br>level requirement. <col=ca0d0d>(400 points)"),
+    KALPHITE_KHAT(63419, new Item(GREEN_SLAYER_HELMET), 1000, "Kalphite Khat", "Learn how to combine a Kalphite Queen<br>head with your slayer helm to colour it<br>green. <col=ca0d0d>(1000 points)"),
 
-    MORE_BM_THIEVING(63414, new Item(BLOOD_MONEY, 5000), 350, "Thieving boost", "Gives 10% more blood money whilst<br>thieving. <col=ca0d0d>(350 points)"),
+    UNHOLY_HELMET(63420, new Item(RED_SLAYER_HELMET), 1000, "Unholy Helmet", "Learn how to combine an Abyssal Demon<br>head with your slayer helm to colour it red.<br><col=ca0d0d>(1000 points)"),
 
-    DROP_RATE_BOOST(63415, new Item(SPELL_SCROLL), 700, "Drop rate boost", "Boosts your drop rate by 3%. <br><col=ca0d0d>(700 points)"),
+    DARK_MANTLE(63421, new Item(PURPLE_SLAYER_HELMET), 1000, "Dark Mantle", "Learn how to combine a Dark Claw with<br>your slayer helm to colour it purple. <br><col=ca0d0d>(1000 <col=ca0d0d>points)"),
 
-    LIKE_A_BOSS(63418, new Item(3064), 100, "Like a boss", "Slayer master will be able to assign<br>World boss monsters as your task. <col=ca0d0d>(100 <br><col=ca0d0d>points)"),
+    UNDEAD_HEAD(63422, new Item(TURQUOISE_SLAYER_HELMET), 1000, "Undead Head", "Learn how to combine Vorkath's head with<br>your slayer helm to colour it turqouise. <br><col=ca0d0d>(1000 points)"),
 
-    NOTED_DRAGON_BONES(63420, new Item(LAVA_DRAGON_BONES + 1), 250, "Noted dragon bones", "Dragons drop dragon bones in banknote" + "<br>form while killed inside the wilderness." + "<br><col=ca0d0d>(250 points)"),
+    USE_MORE_HEAD(63423, new Item(HYDRA_SLAYER_HELMET), 1000, "Use more head", "Learn how to combine a Hydra head with<br>your slayer helm to theme it like the<br>Alchemical Hydra. <col=ca0d0d>(1000 points)"),
 
-    GODWARS_ENTRY(63421, new Item(KREEARRA), 50, "Godwars dungeon entry", "Learn how to access the godwars dungeon.<br><col=ca0d0d>(50 points)"),
+    WEAK_SPOT(63424, new Item(DRAGON_CLAWS), 150, "Weak spot", "10% Increased accuracy whilst fighting<br>against monsters on a Slayer task." + "<br><col=ca0d0d>(150 points)"),
 
-    WORLD_BOSS_TELEPORT(63422, new Item(SKOTOS), 250, "World Boss Teleport", "Ability to teleport directly to the world<br>boss. <col=ca0d0d>(250 points)"),
-
-    RUNAWAY(63423, new Item(BOOTS_OF_LIGHTNESS), 400, "Runaway", "Infinite run energy outside of the<br>wilderness. <col=ca0d0d>(400 points)"),
-
-    TREASURE_HUNT(63424, new Item(CASKET), 300, "Treasure hunt", "Learn how to find treasures whilst pvming.<br><col=ca0d0d>(300 points)"),
-
-    TZTOK_JAD(63425, new Item(TZREKJAD), 100, "TzTok-Jad", "You unlock the ability to kill TzTok-Jad. <col=ca0d0d>(100 <br><col=ca0d0d>points)"),
-
-    BIGGEST_AND_BADDEST(63426, new Item(SUPERIOR_DRAGON_BONES), 500, "Biggest and baddest", "Better chance to get a superior boss," + "<br>while on slayer task <col=ca0d0d>(500 points)"),
-
-    ELECTION_DAY(63427, new Item(VOTE_TICKET), 750, "Election day", "20% Chance for double vote points when" + "<br>voting <col=ca0d0d>(750 points)"),
-
-    WEAK_SPOT(63429, new Item(BANDOS_GODSWORD), 650, "Weak spot", "10% Increased damage to the task monster." + "<br><col=ca0d0d>(650 points)"),
-
-    DIGGING_FOR_TREASURE(63430, new Item(MASTER_CASKET), 200, "Digging for treasure", "One extra loot when" + "<br>opening master caskets.<br><col=ca0d0d>(200 points)");
+    STRONK(63425, new Item(STRENGTH_CAPET), 250, "Too Stronk", "1-5 Extra max hits whilst fighting against<br>monsters on a Slayer task.<br><col=ca0d0d>(250 points)"),
+    REVVED_UP(63426, new Item(REVENANT_ETHER, 5000), 150, "Revved Up!", "Learn the ability to recieve Revenants<br>as a Slayer task.<br><col=ca0d0d>(150 points)");
 
     private final int buttonId;
     private final Item item;

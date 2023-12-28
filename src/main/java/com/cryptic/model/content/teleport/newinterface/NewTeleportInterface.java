@@ -101,10 +101,6 @@ public class NewTeleportInterface {
     }
 
     public void gwdOptions() {
-        if (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.GODWARS_ENTRY)) {
-            player.message("You need to unlock this teleport first.");
-            return;
-        }
         player.getDialogueManager().start(new Dialogue() {
             @Override
             protected void start(Object... parameters) {
@@ -243,10 +239,6 @@ public class NewTeleportInterface {
     }
 
     public void wildernessEvent() {
-        if (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.WORLD_BOSS_TELEPORT)) {
-            player.message("You do not meet the requirements to use this teleport.");
-            return;
-        }
         if (WildernessBossEvent.getINSTANCE().getActiveNpc().isPresent() && WildernessBossEvent.currentSpawnPos != null) {
             Tile tile = WildernessBossEvent.currentSpawnPos;
             if(!Teleports.pkTeleportOk(player, tile)) {

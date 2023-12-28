@@ -406,10 +406,6 @@ public class Player extends Entity {
             case ZENYTE_MEMBER -> 1.15;
         };
 
-        if (getDropRatePerk()) {
-            percent += 1.03;
-        }
-
         if (getIronManStatus() == IronMode.REGULAR || getIronManStatus() == IronMode.HARDCORE) {
             percent += 1.05;
         }
@@ -427,10 +423,6 @@ public class Player extends Entity {
         }
 
         return percent;
-    }
-
-    public boolean getDropRatePerk() {
-        return getSlayerRewards().getUnlocks().containsKey(SlayerConstants.DROP_RATE_BOOST);
     }
 
     private int base() {

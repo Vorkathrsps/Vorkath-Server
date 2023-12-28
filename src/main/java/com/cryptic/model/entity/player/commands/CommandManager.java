@@ -10,6 +10,7 @@ import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.Xarpus;
 import com.cryptic.model.content.raids.theatre.interactions.TheatreInterface;
 import com.cryptic.model.content.raids.theatre.loot.ChestType;
+import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.cryptic.model.content.tournaments.Tournament;
 import com.cryptic.model.content.tournaments.TournamentManager;
@@ -58,7 +59,7 @@ import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.*;
 
-import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.GREAT_OLM_7554;
+import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.VERZIKS_THRONE_32737;
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.model.entity.masks.Direction.NORTH;
@@ -639,8 +640,7 @@ public class CommandManager {
 
         });
         dev("c", (p, c, s) -> {
-            p.getTheatreInstance().getLootMap().clear();
-            p.getTheatreInstance().spawnTreasure();
+
         });
 
         dev("ioi", (p, c, s) -> {

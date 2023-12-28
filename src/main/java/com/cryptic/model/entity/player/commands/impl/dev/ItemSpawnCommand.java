@@ -31,10 +31,10 @@ public class ItemSpawnCommand implements Command {
 
        Item item = new Item(id);
 
-        if(item.getId() > 34_000) {
-            player.message("Item id not supported, this item doesn't exist.");
-            return;
-        }
+        //if(item.getId() > 34_000) {
+        //    player.message("Item id not supported, this item doesn't exist.");
+       //     return;
+       // }
 
         if (!player.canSpawn() && !player.getPlayerRights().isAdministrator(player)) {
             player.message("You can't spawn items here.");

@@ -44,14 +44,6 @@ public class ZulrahDeath implements Droptable {
                     drop(npc, new Tile(2262, 3072, killer.tile().level), killer, reward);
                 }
             }
-
-            // Slayer unlock
-            if (killer.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.DOUBLE_DROP_CHANCE) && World.getWorld().rollDie(100, 1)) {
-                killer.message("The Double drops perk grants you a second drop!");
-                if (reward != null) {
-                    drop(npc, new Tile(2262, 3072, killer.tile().level), killer, reward);
-                }
-            }
         }
     }
 }

@@ -161,12 +161,6 @@ public class Stalls extends PacketInteraction {
                 AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
             }
 
-            var thievingBoostPerk = player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.MORE_BM_THIEVING);
-
-            if (thievingBoostPerk) {
-                coins *= 10.0 / 100;
-            }
-
             player.inventory().add(new Item(COINS_995, coins), true);
 
             if (Utils.percentageChance(5)) {

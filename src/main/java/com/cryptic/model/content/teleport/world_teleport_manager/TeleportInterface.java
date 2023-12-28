@@ -300,7 +300,7 @@ public class TeleportInterface {
                                 stop();
                                 return;
                             }
-                            beginTeleportAfterChecks(player, chosen, player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.REVENANT_TELEPORT) ? new Tile(3244, 10145, 0) : chosen.tile);
+                            beginTeleportAfterChecks(player, chosen, chosen.tile);
                         } else if (option == 2) {
                             stop();
                         }
@@ -311,10 +311,6 @@ public class TeleportInterface {
         }
 
         if (chosen == WORLD_BOSS) {
-            if (!player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.WORLD_BOSS_TELEPORT)) {
-                player.message("You do not meet the requirements to use this teleport.");
-                return true;
-            }
             if (WildernessBossEvent.getINSTANCE().getActiveNpc().isPresent() && WildernessBossEvent.currentSpawnPos != null) {
                 Tile tile = WildernessBossEvent.currentSpawnPos;
                 if (chosen.dangerous() && !Teleports.pkTeleportOk(player, tile)) {

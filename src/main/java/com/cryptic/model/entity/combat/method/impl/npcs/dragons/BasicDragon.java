@@ -18,44 +18,22 @@ import com.cryptic.utility.Utils;
 
 public class BasicDragon extends CommonCombatMethod {
 
-    boolean fire;
-
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        if (!withinDistance(1)) {
-
-            return false;
-        }
-
-        if (entity == null || target == null) {
-            return false;
-        }
-
-        if (withinDistance(1)) {
-            if (!fire && Utils.rollDie(6, 1)) {
-                breathFire(entity, target);
-            } else {
-                basicAttack(entity, target);
-            }
-            return true; //shouldnt even reach here if within distance oh just saw true rght
-        }
-
-        return false;
+        if (entity == null || target == null) return false;
+        if (!withinDistance(1)) return false;
+        if (Utils.rollDie(6, 1)) breathFire(entity, target);
+        else basicAttack(entity, target);
+        return true;
     }
 
     private void basicAttack(Entity entity, Entity target) {
-        if (!withinDistance(1)) {
-            return;
-        }
-
+        if (!withinDistance(1)) return;
         entity.animate(entity.attackAnimation());
-
-        fire = false;
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy(true).submit();
     }
 
     private void breathFire(Entity entity, Entity target) {
-        fire = true;
 
         if (World.getWorld().clipAt(entity.tile()) != 0) {
             return;
@@ -69,7 +47,7 @@ public class BasicDragon extends CommonCombatMethod {
 
 
             boolean memberEffect = player.getMemberRights().isExtremeMemberOrGreater(player) && !WildernessArea.isInWilderness(player);
-            if (max > 0 && player.<Boolean>getAttribOr(AttributeKey.SUPER_ANTIFIRE_POTION, false) || memberEffect) {
+            if (player.<Boolean>getAttribOr(AttributeKey.SUPER_ANTIFIRE_POTION, false) || memberEffect) {
                 player.message("Your super antifire potion protects you completely from the heat of the dragon's breath!");
                 max = 0.0;
             }

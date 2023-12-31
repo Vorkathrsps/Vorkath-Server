@@ -99,10 +99,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     }
 
     public static void open(Player player) {
-        if (player == null) {
-            return;
-        }
-
+        if (player == null) return;
         sendStrings(player);
         clearInterfaceAndContainers(player);
         player.getInterfaceManager().open(73230);
@@ -117,19 +114,13 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
         var isPreMadeKit = ArrayUtils.contains(preMadeKitButtons, button);
         var isCreatedKit = ArrayUtils.contains(createKitButtons, button);
 
-        if (isPreMadeKit) {
-            index = ArrayUtils.indexOf(preMadeKitButtons, button);
-        } else if (isCreatedKit) {
-            index = ArrayUtils.indexOf(createKitButtons, button);
-        }
+        if (isPreMadeKit) index = ArrayUtils.indexOf(preMadeKitButtons, button);
+        else if (isCreatedKit) index = ArrayUtils.indexOf(createKitButtons, button);
 
         PresetData[] data = null;
 
-        if (isPreMadeKit) {
-            data = defaultKits;
-        } else if (isCreatedKit) {
-            data = player.getPresetData();
-        }
+        if (isPreMadeKit) data = defaultKits;
+        else if (isCreatedKit) data = player.getPresetData();
 
         if (data != null) {
             PresetData kit = data[index];
@@ -292,10 +283,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     }
 
     void handleEquipmentContainer(Player player, ItemContainer equipmentContainer, PresetData kit) {
-        if (player == null || equipmentContainer == null || kit == null) {
-            return;
-        }
-
+        if (player == null) return;
         var size = EQUIPMENT_SIZE;
         for (int index = 0; index < EQUIPMENT_SIZE; index++) {
             Item item = equipmentContainer.get(index);
@@ -308,34 +296,23 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     }
 
     void populateEquipmentContainer(Player player, ItemContainer equipmentContainer, PresetData kits) {
-        if (player == null) {
-            return;
-        }
-
+        if (player == null) return;
         equipmentContainer.clear(true);
-
         Item[] itemList = kits.getEquipment();
-
         if (itemList == null) {
             itemList = player.getEquipment().toArray();
             kits.setEquipment(itemList);
         }
-
         Arrays.stream(itemList).filter(Objects::nonNull).map(item -> new Item(item.getId(), item.getAmount())).forEach(equipmentContainer::add0);
     }
 
     void handleInventoryContainer(Player player, ItemContainer inventoryContainer, PresetData kits) {
-        if (player == null) {
-            return;
-        }
-
+        if (player == null) return;
         Item[] itemList = kits.getInventory();
-
         if (itemList == null) {
             itemList = player.getInventory().toArray();
             kits.setInventory(itemList);
         }
-
         for (int index = 0; index < 28; index++) {
             Item item = itemList[index];
             if (item != null) {
@@ -349,10 +326,7 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     }
 
     void populateInventoryContainer(Player player, ItemContainer inventoryContainer, PresetData kits) {
-
-        if (player == null || kits == null) {
-            return;
-        }
+        if (player == null || kits == null) return;
 
         inventoryContainer.clear(true);
 
@@ -377,21 +351,13 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     }
 
     void load(Player player, PresetData kit, AttributeKey attributeKey, int button, int index) {
-        if (player == null || kit == null) {
-            return;
-        }
-
+        if (player == null || kit == null) return;
         var inventory = player.getPresetInventory();
         var equipment = player.getPresetEquipment();
-
         interruptDialogue(player);
-
         sendStrings(player);
         sendCreatedStrings(player);
-
-        if (kit.getButton() == button) {
-            validate(player, kit, attributeKey, button, index);
-        }
+        if (kit.getButton() == button) validate(player, kit, attributeKey, button, index);
     }
 
     void interruptDialogue(@NotNull Player player) {
@@ -403,27 +369,19 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     }
 
     void loadPreset(Player player) {
-        if (player == null) {
-            return;
-        }
-
+        if (player == null) return;
         Arrays.stream(defaultKits)
             .filter(k -> k.getButton() == player.<Integer>getAttrib(LAST_PRESET_BUTTON_CLICKED))
             .findFirst()
             .ifPresentOrElse(k -> purchase(player, k),
-                () -> {
-                    Arrays.stream(player.getPresetData())
-                        .filter(k -> k.getButton() == player.<Integer>getAttrib(LAST_PRESET_BUTTON_CLICKED))
-                        .findFirst()
-                        .ifPresent(k -> applyPreset(player, k));
-                });
+                () -> Arrays.stream(player.getPresetData())
+                    .filter(k -> k.getButton() == player.<Integer>getAttrib(LAST_PRESET_BUTTON_CLICKED))
+                    .findFirst()
+                    .ifPresent(k -> applyPreset(player, k)));
     }
 
     void applyPreset(Player player, PresetData kits) {
-        if (player == null || kits == null) {
-            return;
-        }
-
+        if (player == null || kits == null) return;
         sendCreatedStrings(player);
         applyEquipment(player, kits);
         applyInventory(player, kits);
@@ -432,32 +390,16 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     }
 
     void clearAttributesExcept(Player player, AttributeKey attributeKeyToKeep) {
-        if (player == null) {
-            return;
-        }
-
+        if (player == null) return;
         Arrays.stream(attributeKeys).filter(a -> player.hasAttrib(a) && !a.equals(attributeKeyToKeep)).forEach(player::clearAttrib);
     }
 
     static void clearInterfaceAndContainers(Player player) {
-        if (player == null) {
-            return;
-        }
-
-        if (player.presetEquipment != null) {
-            player.presetEquipment.clear(true);
-        }
-
-        if (player.presetInventory != null) {
-            player.presetInventory.clear(true);
-        }
-
-        for (int index = 0; index < 14; index++) {
-            player.getPacketSender().sendItemOnInterfaceSlot(EQUIPMENT_CONTAINER_ID + index, -1, 0, 0);
-        }
-        for (int index = 0; index < INVENTORY_SIZE; index++) {
-            player.getPacketSender().sendItemOnInterfaceSlot(INVENTORY_CONTAINER_ID, -1, 0, index);
-        }
+        if (player == null) return;
+        if (player.presetEquipment != null) player.presetEquipment.clear(true);
+        if (player.presetInventory != null) player.presetInventory.clear(true);
+        for (int index = 0; index < 14; index++) player.getPacketSender().sendItemOnInterfaceSlot(EQUIPMENT_CONTAINER_ID + index, -1, 0, 0);
+        for (int index = 0; index < INVENTORY_SIZE; index++) player.getPacketSender().sendItemOnInterfaceSlot(INVENTORY_CONTAINER_ID, -1, 0, index);
     }
 
     void sendCreatedStrings(Player player) {
@@ -471,27 +413,15 @@ public class PresetHandler extends PacketInteraction { //TODO add region array f
     }
 
     static void sendStrings(Player player) {
-        if (player == null) {
-            return;
-        }
-
-        for (int index = 0; index < presetNames.length; index++) {
-            player.getPacketSender().sendString(PRE_MADE_PRESET_NAME_STRINGS + index, presetNames[index]);
-        }
+        if (player == null) return;
+        for (int index = 0; index < presetNames.length; index++) player.getPacketSender().sendString(PRE_MADE_PRESET_NAME_STRINGS + index, presetNames[index]);
     }
 
     Item[] sendInventory(Player player, ItemContainer inventoryContainer, PresetData kits) {
-        if (player == null) {
-            return null;
-        }
-
+        if (player == null) return null;
         populateInventoryContainer(player, inventoryContainer, kits);
         handleInventoryContainer(player, inventoryContainer, kits);
-
-        if (kits.getInventory() != null) {
-            logger.info("inventory found: " + Arrays.toString(kits.getInventory()));
-        }
-
+        if (kits.getInventory() != null) logger.info("inventory found: " + Arrays.toString(kits.getInventory()));
         return kits.getInventory();
     }
 

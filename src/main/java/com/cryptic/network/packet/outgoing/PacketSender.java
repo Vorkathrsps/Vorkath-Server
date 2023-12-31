@@ -841,16 +841,14 @@ public final class PacketSender {
 
     public PacketSender sendItemOnInterfaceSlot(int interfaceId, Item item, int slot) {
         PacketBuilder out = new PacketBuilder(34, PacketType.VARIABLE_SHORT);
-        out.putInt(interfaceId);
-        out.put(slot);
+        out.putInt(interfaceId).put(slot);
         if (item == null) {
             out.putShort(0);
             out.put(0);
         } else {
             out.putShort(item.getId() + 1);
             if (item.getAmount() > 254) {
-                out.put(255);
-                out.putInt(item.getAmount());
+                out.put(255).putInt(item.getAmount());
             } else {
                 out.put(item.getAmount());
             }

@@ -79,6 +79,12 @@ public class RangedMaxHitFormula {
         return style.equals(FightStyle.ACCURATE) ? 3 : 0;
     }
 
+    public double getSlayerBonus(@NonNull final Player player) {
+        Entity target = player.getCombat().getTarget();
+        boolean isSlayerMatch = target instanceof NPC npc && Slayer.creatureMatches(player, npc.id()) || target instanceof NPC dummy && dummy.isCombatDummy();
+        return isSlayerMatch && FormulaUtils.hasSlayerHelmetImbued(player) ? 1.15 : 1;
+    }
+
     private double getEquipmentBonus(@NonNull final Player player) {
         double otherBonus = 1.0D;
         Entity target = player.getCombat().getTarget();
@@ -106,6 +112,11 @@ public class RangedMaxHitFormula {
         if (target instanceof NPC npc) {
             boolean isSlayerMatch = Slayer.creatureMatches(player, npc.id());
             boolean isUndead = FormulaUtils.isUndead(npc);
+
+            if (!player.getEquipment().contains(ItemIdentifiers.SALVE_AMULET)) {
+                otherBonus *= getSlayerBonus(player);
+                otherBonus = (int) Math.floor(otherBonus);
+            }
 
             if (isSlayerMatch && hasCrystalBody && hasCrystalLegs) {
                 otherBonus *= (1.15) * (1.075) * (1.05);

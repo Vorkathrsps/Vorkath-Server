@@ -105,7 +105,7 @@ public class MagicMaxHitFormula {
     public double getSlayerBonus(@NonNull final Player player) {
         Entity target = player.getCombat().getTarget();
         boolean isSlayerMatch = target instanceof NPC npc && Slayer.creatureMatches(player, npc.id()) || target instanceof NPC dummy && dummy.isCombatDummy();
-        return isSlayerMatch && FormulaUtils.hasSlayerHelmet(player) ? 1.15 : 1;
+        return isSlayerMatch && FormulaUtils.hasSlayerHelmetImbued(player) ? 1.15 : 1;
     }
 
     public int calculateMaxMagicHit(@NonNull final Player player) {

@@ -4,6 +4,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.player.Player;
+import com.google.common.collect.Lists;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -47,7 +48,7 @@ public class HitQueue {
             return;
         }
 
-        for (Hit hit : new ArrayList<>(hits)) {
+        for (Hit hit : Lists.newArrayList(hits)) {
             try {
                 if (hit != null) {
                     if (hit.getTarget() == null || hit.getTarget().isNullifyDamageLock()) {
@@ -86,9 +87,7 @@ public class HitQueue {
         List<Hit> toShow = hits.stream().filter(e -> e.showSplat).collect(Collectors.toList());
         hits.removeIf(o -> o.toremove);
         if (toShow.size() == 0) return;
-        for (Hit hit : toShow) {
-            hit.playerSync();
-        }
+        for (Hit hit : toShow) hit.update();
         toShow.clear();
     }
 

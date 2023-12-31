@@ -14,10 +14,8 @@ import com.cryptic.model.entity.combat.method.impl.npcs.bosses.vorkath.Vorkath;
 import com.cryptic.model.entity.combat.weapon.FightStyle;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.npc.NPC;
-import com.cryptic.model.entity.player.GameMode;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
-import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Utils;
 import lombok.Getter;
 import lombok.Setter;
@@ -191,15 +189,9 @@ public class Hit {
     public int getMaximumHit() {
         int maxHit = -1;
         if (attacker instanceof Player) {
-            if (this.getSource().getCombat().getCombatType() == CombatType.MELEE) {
-                maxHit = attacker.getCombat().getMaximumMeleeDamage();
-            }
-            if (this.getSource().getCombat().getCombatType() == CombatType.RANGED) {
-                maxHit = attacker.player().getCombat().getMaximumRangedDamage();
-            }
-            if (this.getSource().getCombat().getCombatType() == CombatType.MAGIC) {
-                maxHit = attacker.getCombat().getMaximumMagicDamage();
-            }
+            if (this.getSource().getCombat().getCombatType() == CombatType.MELEE) maxHit = attacker.getCombat().getMaximumMeleeDamage();
+            if (this.getSource().getCombat().getCombatType() == CombatType.RANGED) maxHit = attacker.player().getCombat().getMaximumRangedDamage();
+            if (this.getSource().getCombat().getCombatType() == CombatType.MAGIC) maxHit = attacker.getCombat().getMaximumMagicDamage();
         }
         return maxHit;
     }
@@ -381,7 +373,7 @@ public class Hit {
         return this;
     }
 
-    public void playerSync() {
+    public void update() {
         if (target == null) return;
         if (target.nextHits.size() >= 4) return;
         target.nextHits.add(this);

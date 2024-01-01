@@ -448,7 +448,7 @@ public final class Equipment extends ItemContainer {
         }
 
         //For dark lord accounts check if we unlocked this item
-        if (player.getGameMode().isDarklord()) {
+        if (player.getGameMode().isIronman()) {
             if (player.getCollectionLog().unlocked(equip.getId()) == 1) {
                 player.message(Color.RED.wrap("You have not unlocked this item yet."));
                 return false;

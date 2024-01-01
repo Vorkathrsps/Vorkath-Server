@@ -17,7 +17,8 @@ public enum Ore {
     LOVAKITE(new int[]{}, 13356,11390,65, 4, 25, 10.0, 10, 3200, 745,"lovakite ore"),
     ADAMANT_ROCK(new int[]{11375}, 11390,449, 70, 2, 25, 95.0, 10, 3000, 349,"adamant ore"),
     RUNE_ROCK(new int[]{11377, 11376}, 11390,451, 70, 1, 18, 125.0, 10, 2500, 229,"rune ore"),
-    AMETHYST_ROCK(new int[]{11389, 11388}, 11393,21347, 92, -18, 10, 240.0, 10, 2000, 241,"amethyst ore");
+    AMETHYST_ROCK(new int[]{11389, 11388}, 11393,21347, 92, -18, 10, 240.0, 10, 2000, 241,"amethyst ore"),
+    CRASHED_STAR(new int[]{41020, 41021, 41223, 41224, 41225, 41226, 41228, 41229}, -1, 436, 1, 128, 400, 17.5, 10, 5000, 3727, "copper ore");
 
     @Getter public final int[] id;
     @Getter public final int replacement_id;

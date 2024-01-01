@@ -1,7 +1,5 @@
 package com.cryptic.model.items.ground;
 
-import com.cryptic.GameEngine;
-
 import com.cryptic.model.content.duel.Dueling;
 import com.cryptic.core.task.Task;
 import com.cryptic.core.task.TaskManager;
@@ -296,7 +294,7 @@ public final class GroundItemHandler {
                     player.message("You're an Iron Man, so you can't take items that other players have dropped.");
                     return;
                 }
-            } else if (player.getGameMode().isDarklord()) {
+            } else if (player.getGameMode().isIronman()) {
                 if (different_owner && !groundItemPked) { // Owner different? It could be pked!
                     player.message("You're an Dark Lord, so you can't take items that other players have dropped.");
                     return;

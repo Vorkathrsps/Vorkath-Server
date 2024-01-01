@@ -67,6 +67,8 @@ public class Mining extends PacketInteraction {
         return false;
     }
 
+    static int[] star = new int[]{41020, 41021, 41223, 41224, 41225, 41226, 41228, 41229};
+
     private static void mine(Player player, Ore rockType, int replId) {
         GameObject obj = player.getAttribOr(AttributeKey.INTERACTION_OBJECT, null); //TODO add jail ore back
         Optional<Pickaxe> pick = Mining.findPickaxe(player);
@@ -153,7 +155,7 @@ public class Mining extends PacketInteraction {
                     player.getTaskMasterManager().increase(Tasks.MINE_RUNITE_ORE);
                 }
 
-                if (Utils.percentageChance(33)) {
+                if (Utils.rollDie(33, 1) && !ArrayUtils.contains(star, obj.getId())) {
                     player.animate(Animation.DEFAULT_RESET_ANIMATION);
                     GameObject original = new GameObject(obj.getId(), obj.tile(), obj.getType(), obj.getRotation());
                     GameObject spawned = new GameObject(replId, obj.tile(), obj.getType(), obj.getRotation());

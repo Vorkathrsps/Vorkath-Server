@@ -110,7 +110,7 @@ public class CrashedStar extends GameObject {
 
             int interpolatedChance = (int) (interpolateChance(skillLevel, lowerChance, upperChance) * 100);
 
-            if (Utils.rollDie(interpolatedChance)) {
+            if (Utils.rollDie(interpolatedChance, 1)) {
                 addRewardsToInventory(player);
             }
         }
@@ -126,7 +126,7 @@ public class CrashedStar extends GameObject {
 
             int dustToAdd = Utils.rollDie((int) additionalStarDustChance) ? 2 : 1;
 
-            if (Utils.rollDie(127)) {
+            if (Utils.rollDie(127, 1)) {
                 Item crystalShard = new Item(ItemIdentifiers.CRYSTAL_SHARD, 5);
                 String message = "";
 

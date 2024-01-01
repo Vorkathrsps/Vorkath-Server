@@ -45,7 +45,7 @@ public enum GameMode {
         return null;
     }
 
-    public boolean isDarklord() {
+    public boolean isIronman() {
         return name.equals("Ironman");
     }
 

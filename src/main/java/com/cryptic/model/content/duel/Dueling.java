@@ -235,7 +235,7 @@ public class Dueling {
             return;
         }
 
-        if (t_.getGameMode().isDarklord()) {
+        if (t_.getGameMode().isIronman()) {
             player.message("Your partner is an Dark Lord, and cannot stake.");
             return;
         }

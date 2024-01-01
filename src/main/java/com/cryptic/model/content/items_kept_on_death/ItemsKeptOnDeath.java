@@ -139,7 +139,7 @@ public class ItemsKeptOnDeath {
             itemsKept++;
         }
 
-        if (player.getSkullType().equals(SkullType.RED_SKULL) || player.getGameMode().isDarklord()) {
+        if (player.getSkullType().equals(SkullType.RED_SKULL)) {
             itemsKept = 0;
         }
 

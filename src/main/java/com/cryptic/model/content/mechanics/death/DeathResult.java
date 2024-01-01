@@ -7,6 +7,7 @@ import com.cryptic.model.content.mechanics.death.ornaments.OrnamentKits;
 import com.cryptic.model.content.mechanics.death.repair.Breakable;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.combat.skull.SkullType;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.player.IronMode;
 import com.cryptic.model.entity.player.Player;
@@ -153,7 +154,7 @@ public class DeathResult {
 
     public DeathResult calculateItemsKept() {
         if (player == null || itemList == null) throw new NullPointerException("Player or Item List is null.");
-        if (player.getIronManStatus().isUltimateIronman()) return this;
+        if (player.getIronManStatus().isUltimateIronman() || player.getSkullType().equals(SkullType.RED_SKULL)) return this;
         int itemsToRemove = 0;
         if (skulled && Prayers.usingPrayer(player, Prayers.PROTECT_ITEM)) {
             itemsToRemove = Math.min(itemList.size(), 1);

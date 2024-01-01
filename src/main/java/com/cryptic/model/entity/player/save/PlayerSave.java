@@ -2016,7 +2016,7 @@ public class PlayerSave {
             };
         }
 
-        public void parseDetails() throws Exception {
+        public void parseDetails() {
             final String fileName = username + ".json";
             final Path path = SAVE_DIR.resolve(fileName);
             Path parent = path.getParent();
@@ -2043,7 +2043,6 @@ public class PlayerSave {
                 }
                 Files.move(tempFile, path, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
-                // Handle the exception (e.g., log the error)
                 throw new RuntimeException("Error during file save: " + e.getMessage(), e);
             }
         }

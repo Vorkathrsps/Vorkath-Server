@@ -203,7 +203,7 @@ public class DropsDisplay {
         player.getPacketSender().sendString(55154, "<col=" + Color.LIGHTORANGE.getColorValue() + ">Viewing drop table for: " + tableName + "</col>");
 
         List<Integer[]> drops = new ArrayList<>();
-        double totalTablesWeight = dropTable.getTotalWeight();
+        double totalTablesWeight = dropTable.ptsTotal();
         int petId, petAverage;
 
         petId = dropTable.petItem == 0 ? -1 : dropTable.petItem;
@@ -212,17 +212,17 @@ public class DropsDisplay {
         var reduction = petAverage * player.getDropRateBonus() / 100;
         petAverage -= reduction;
 
-        if (petId != -1)
+        if(petId != -1)
             drops.add(0, new Integer[]{petId, 1, 1, petAverage}); //"pet" specifically identified by minAmount == -1
 
-        if (def.name.equalsIgnoreCase("Great Olm")) {
+        if(def.name.equalsIgnoreCase("Great Olm")) {
             drops.add(0, new Integer[]{ItemIdentifiers.OLMLET, 1, 1, 650});
         }
 
         var larransLuck = player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.LARRANS_LUCK);
         var combatLvl = def.combatlevel;
         var roll = combatLvl < 50 ? larransLuck ? 875 : 1000 : larransLuck ? 350 : 400;
-        if (WildernessArea.isInWilderness(player)) {
+        if(WildernessArea.isInWilderness(player)) {
             drops.add(petId != -1 ? 1 : 0, new Integer[]{ItemIdentifiers.LARRANS_KEY, 1, 1, roll});
         }
 
@@ -240,18 +240,15 @@ public class DropsDisplay {
         if (dropTable.tables != null) {
             for (ScalarLootTable table : dropTable.tables) {
                 if (table != null) {
-                    double tableChance = table.tableWeight / totalTablesWeight;
-                    // this check isnt in the code i ported we need to port it
+                    double tableChance = table.points / totalTablesWeight;
                     if (table.items.length == 0) {
-                        //Nothing!
-                        //nothingPercentage = tableChance * 100D;
                     } else {
                         for (ScalarLootTable.TableItem item : table.items) {
                             Integer[] drop = new Integer[4];
                             drop[0] = item.id;
                             drop[1] = item.min;
                             drop[2] = item.max;
-                            if (item.weight == 0)
+                            if (item.points == 0)
                                 drop[3] = (int) (1D / tableChance);
                             else
                                 drop[3] = (int) (1D / (item.computedFraction.doubleValue()));
@@ -262,7 +259,7 @@ public class DropsDisplay {
             }
         }
 
-        for (int index = 0; index < drops.size(); index++) {
+        for(int index = 0; index < drops.size(); index++) {
             Integer[] drop = drops.get(index);
 
             int itemId = drop[0];
@@ -292,7 +289,7 @@ public class DropsDisplay {
             Item item = new Item(drop[0]);
             String name = item.unnote().name().length() > 17 ? item.unnote().name().substring(0, 16) + "<br>" + item.unnote().name().substring(16) : item.unnote().name();
             player.getPacketSender().sendString(56700 + index, name);
-            String amount = maxAmount == minAmount ? "" + maxAmount : "" + minAmount + "/" + maxAmount;
+            String amount = maxAmount == minAmount ? ""+maxAmount : ""+ minAmount + "/"+maxAmount;
             player.getPacketSender().sendString(56850 + index, "<col=ffb83f>" + amount);
             player.getPacketSender().sendString(57000 + index, "<col=ffb83f>" + Utils.formatRunescapeStyle(item.getValue()));
             player.getPacketSender().sendString(57150 + index, "<col=ffb83f>" + (average == 1 ? "Always" : ("~ 1 / " + average)));

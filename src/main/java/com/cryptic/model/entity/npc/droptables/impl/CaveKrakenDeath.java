@@ -18,7 +18,7 @@ public class CaveKrakenDeath implements Droptable {
     public void reward(NPC killed, Player killer) {
         var table = ScalarLootTable.forNPC(493);
         if (table != null) {
-            var reward = table.rollItem();
+            Item reward = table.randomItem(World.getWorld().random(), killer.getDropRateBonus());
             if (reward != null) {
                 drop(killed, killer.tile(), killer, reward);
             }

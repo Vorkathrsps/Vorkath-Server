@@ -12,10 +12,12 @@ import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.cryptic.cache.DataStore;
 import lombok.Getter;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang3.math.Fraction;
 
 import java.io.File;
@@ -23,15 +25,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.security.SecureRandom;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
-/**
- * Created by Bart on 6/8/2015.
- */
 public class ScalarLootTable {
 
     public static class TableItem {
         public int id;
-        public int weight;
+        public int points = 1;
         public int from;
         public int amount = 1;
         public int min, max;
@@ -43,17 +43,15 @@ public class ScalarLootTable {
             return new Item(id, amount);
         }
 
-        public Item toItem() {
-            return new Item(id, min == max ? min : Utils.random(min, max));
-        }
-
         @Override
         public String toString() {
             return "TableItem{" +
                 "id=" + id +
+                ", points=" + points +
+                ", from=" + from +
+                ", amount=" + amount +
                 ", min=" + min +
                 ", max=" + max +
-                ", weight=" + weight +  // Corrected field name to "weight"
                 ", rare=" + rare +
                 ", name='" + name + '\'' +
                 ", computedFraction=" + computedFraction +
@@ -67,10 +65,14 @@ public class ScalarLootTable {
     public ScalarLootTable[] tables;
     public int[] npcs;
     public int rndcap;
+    private int tblrndcap;
     private boolean debug = false;
-    public int tableWeight = 1;
+    private final int rowmod = 1;
+    public int points = 1;
+    private int from;
+    private boolean rareaffected;
     public String name;
-    @Getter public int totalWeight;
+    private int tblpts;
     private transient ScalarLootTable root;
     public int petRarity;
     public int petItem;
@@ -102,16 +104,67 @@ public class ScalarLootTable {
     }
 
     private void process() {
+
         ArrayList<TableItem> temp = new ArrayList<>(getGuaranteedDrops());
         if (temp.contains(null)) {
             temp.removeIf(Objects::isNull);
             guaranteed = temp.toArray(TableItem[]::new);
         }
+
         if (items != null) {
             temp = new ArrayList<>(List.of(items));
             if (temp.contains(null)) {
                 temp.removeIf(Objects::isNull);
                 items = temp.toArray(TableItem[]::new);
+            }
+        }
+
+        int current = 0;
+        if (items != null) {
+            for (TableItem item : items) {
+                if (item.points == 0)
+                    continue;
+
+                item.from = current;
+                current += item.points;
+
+                if (item.rare)
+                    rareaffected = true;
+            }
+
+            rndcap = current;
+        }
+
+        if (tables != null) {
+            for (ScalarLootTable table : tables) {
+                table.from = current;
+                current += table.points;
+
+                table.process();
+            }
+
+            rndcap = current;
+        }
+
+        calcRare();
+    }
+
+    private void recursiveCalcChances(int num, int denom) {
+        int computed = ptsTotal();
+        // Items..
+        if (items != null) {
+            for (TableItem item : items) {
+                // double chance = (double) (item.points * num) / (double) (denom * computed);
+                double chance =  (item.points * num);
+                chance /= (denom * computed);
+                item.computedFraction = Fraction.getFraction(chance);
+            }
+        }
+
+        // Tables
+        if (tables != null) {
+            for (ScalarLootTable table : tables) {
+                table.recursiveCalcChances(num * table.points, denom * computed);
             }
         }
     }
@@ -125,47 +178,27 @@ public class ScalarLootTable {
         }
     }
 
-    public Item rollItem() {
-        List<Item> items = rollItems();
-        return items == null ? null : items.get(0);
-    }
-
-    public List<Item> rollItems() {
-        List<Item> items = new ArrayList<>();
-        if (tables != null) {
-            System.out.println("total weight: " + totalWeight);
-            var tableRandom = Utils.THREAD_LOCAL_RANDOM.get();
-            for (ScalarLootTable table : tables) {
-                var tableRoll = tableRandom.nextDouble();
-                tableRoll /= totalWeight;
-                if (tableRoll <= (double) table.tableWeight / totalWeight) {
-                    if (table.items != null) {
-                        var itemRandom = Utils.THREAD_LOCAL_RANDOM.get();
-                        for (TableItem item : table.items) {
-                            var itemRoll = itemRandom.nextDouble() / item.weight;
-                            if (itemRoll <= (double) item.weight / totalWeight) {
-                                items.add(item.toItem());
-                                break;
-                            }
-                        }
-                    }
-                }
+    public int ptsTotal() {
+        int a = 0;
+        if (items != null) {
+            for (TableItem item : items) {
+                a += item.points;
             }
         }
-        return items.isEmpty() ? null : items;
-    }
-
-    public void calculateWeight() {
         if (tables != null) {
             for (ScalarLootTable table : tables) {
-                table.totalWeight = 1;
-                table.totalWeight += table.tableWeight;
-                if (table.items != null) {
-                    for (TableItem item : table.items) {
-                        table.totalWeight += item.weight - 1;
-                        this.totalWeight += table.totalWeight;
-                        item.computedFraction = Fraction.getFraction(item.weight, table.totalWeight);
-                    }
+                a += table.points;
+            }
+        }
+        return a;
+    }
+
+    private void calcRare() {
+        if (tables != null) {
+            for (ScalarLootTable table : tables) {
+                if (table.rareaffected) {
+                    rareaffected = true;
+                    break;
                 }
             }
         }
@@ -175,16 +208,66 @@ public class ScalarLootTable {
         return registered.get(npc);
     }
 
+    public ScalarLootTable randomTable(Random random, boolean ringOfWealth) {
+        int drop = random.nextInt(tblrndcap - (ringOfWealth ? (rowmod == 0 ? 1 : rowmod) : 0));
+        for (ScalarLootTable table : tables) {
+            if (drop >= table.from && drop < table.from + table.points) {
+                return table;
+            }
+        }
+
+        return null;
+    }
+
+    public Item randomItem(Random random, double dropRateModifier) {
+        if (rndcap < 1) {
+            return null;
+        }
+
+        int drop = random.nextInt(rndcap);
+
+        if (dropRateModifier > 0) {
+            drop = (int) (drop / dropRateModifier);
+        }
+
+        // Check items
+        if (items != null) {
+            for (TableItem item : items) {
+                if (drop >= item.from && drop < item.from + item.points) {
+                    int amount = (item.min == 0) ? item.amount : random(random, item.min, item.max);
+                    return new Item(item.id, amount);
+                }
+            }
+        }
+
+        // Try a table now
+        if (tables != null && tables.length > 0) {
+            for (ScalarLootTable table : tables) {
+                if (drop >= table.from && drop < table.from + table.points) {
+                    return table.randomItem(random, drop);
+                }
+            }
+        }
+
+        return null;
+    }
+
+
+    static int random(Random random, int min, int max) {
+        final int n = Math.abs(max - min);
+        return Math.min(min, max) + (n == 0 ? 0 : random.nextInt(n + 1));
+    }
+
     public List<TableItem> getGuaranteedDrops() {
         return guaranteed == null ? Collections.emptyList() : Arrays.asList(guaranteed);
     }
 
-    public List<Item> simulate(Random r, int samples) {
+    public List<Item> simulate(Random r, int samples, double dropRateModifier) {
         List<Item> list = new LinkedList<>();
         Map<Integer, Integer> state = new HashMap<>();
 
         for (int i = 0; i < samples; i++) {
-            Item random = rollItem();
+            Item random = randomItem(r, dropRateModifier);
             if (random != null)
                 state.compute(random.getId(), (key, value) -> value == null ? random.getAmount() : (value + random.getAmount()));
         }
@@ -195,7 +278,13 @@ public class ScalarLootTable {
 
     public static ScalarLootTable load(File file) {
         try {
-            return load(new String(Files.readAllBytes(file.toPath())));
+            ScalarLootTable table = load(new String(Files.readAllBytes(file.toPath())));
+            table.process();
+            table.calcRare();
+            table.tblpts = table.ptsTotal();
+            table.setRoot(table);
+            table.recursiveCalcChances(1, 1);
+            return table;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -208,9 +297,10 @@ public class ScalarLootTable {
         builder.setLenient();
         Gson gson = builder.create();
         ScalarLootTable table = gson.fromJson(json, ScalarLootTable.class);
-        table.calculateWeight();
         table.process();
+        table.tblpts = table.ptsTotal();
         table.setRoot(table);
+        table.recursiveCalcChances(1, 1);
         return table;
     }
 
@@ -242,7 +332,7 @@ public class ScalarLootTable {
 
         ScalarLootTable root = load(new File("./data/combat/" + file));
 
-        List<Item> simulate = root.simulate(rand, kills);
+        List<Item> simulate = root.simulate(rand, kills, 5.0);
         simulate.sort((o1, o2) -> {
             int oo1 = kills / Math.max(1, o1.getAmount());
             int oo2 = kills / Math.max(1, o2.getAmount());
@@ -256,6 +346,7 @@ public class ScalarLootTable {
 
         System.out.println();
         System.out.println();
+        //}
     }
 
     @Override
@@ -266,9 +357,14 @@ public class ScalarLootTable {
             ", tables=" + Arrays.toString(tables) +
             ", npcs=" + Arrays.toString(npcs) +
             ", rndcap=" + rndcap +
+            ", tblrndcap=" + tblrndcap +
             ", debug=" + debug +
-            ", tablweight=" + tableWeight +
+            ", rowmod=" + rowmod +
+            ", points=" + points +
+            ", from=" + from +
+            ", rareaffected=" + rareaffected +
             ", name='" + name + '\'' +
+            ", tblpts=" + tblpts +
             ", root=" + root.name +
             ", petRarity=" + petRarity +
             ", petItem=" + petItem +

@@ -220,7 +220,8 @@
       ]
     },
     "scripts": {
-      //"death": "nl.bartpelle.veteres.content.npcs.misc.RockCrab.deathScript"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.crabs.RockCrab",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RockCrabsAggro"
     }
   },
   {
@@ -3499,6 +3500,8 @@
     // Sand crab
     "ids": [
       5935,
+      5936,
+      7207,
       7206
     ],
     "maxhit": 3,
@@ -3516,6 +3519,10 @@
       "attack": 1312,
       "death": 1314,
       "block": 1313
+    },
+    "scripts": {
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.crabs.RockCrab",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RockCrabsAggro"
     }
   },
   {

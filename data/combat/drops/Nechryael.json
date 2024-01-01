@@ -13,7 +13,6 @@
     },
     {
       "name": "Armour",
-      "tableweight": 1,
       "items": [
         { "id": 1199, "min": 1, "max": 1, "weight": 6 }, //Adamant kiteshield
         { "id": 1073, "min": 1, "max": 1, "weight": 3 }, //Adamant platelegs
@@ -23,7 +22,6 @@
     },
     {
       "name": "Runes",
-      "tableweight": 1,
       "items": [
         { "id": 563, "min": 25, "max": 35, "weight": 6 }, //Law rune
         { "id": 560, "min": 5, "max": 5, "weight": 6 } , //Death rune
@@ -36,7 +34,6 @@
     },
     {
       "name": "Seeds",
-      "tableweight": 1,
       "items": [
         { "id": 5281, "min": 1, "max": 2, "weight": 6 }, //Belladonna seed
         { "id": 5298, "min": 1, "max": 2, "weight": 6 }, //Avantoe seed
@@ -54,9 +51,7 @@
     },
     {
       "name": "Other",
-      "tableweight": 1,
       "items": [
-
         { "id": 361, "min": 1, "max": 1, "weight": 6 }, //Tuna
         { "id": 226, "min": 15, "max": 15, "weight": 3 }, //Limpwurt root (noted)
         { "id": 1762, "min": 25, "max": 25, "weight": 1 } //Soft clay (noted)

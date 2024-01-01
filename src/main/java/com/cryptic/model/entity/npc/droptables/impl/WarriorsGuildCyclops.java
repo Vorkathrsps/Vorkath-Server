@@ -42,7 +42,7 @@ public class WarriorsGuildCyclops implements Droptable {
             //Normal drop
             var table = ScalarLootTable.forNPC(NpcIdentifiers.CYCLOPS_2464);
             if (table != null) {
-                var reward = table.rollItem();
+                Item reward = table.randomItem(World.getWorld().random(), killer.getDropRateBonus());
                 drop(killed, killer.tile(), killer, reward);
             }
         } else if (killed.id() == NpcIdentifiers.CYCLOPS_2137) {//Dragon defender
@@ -57,7 +57,7 @@ public class WarriorsGuildCyclops implements Droptable {
             //Normal drop
             var table = ScalarLootTable.forNPC(NpcIdentifiers.CYCLOPS_2137);
             if (table != null) {
-                var reward = table.rollItem();
+                Item reward = table.randomItem(World.getWorld().random(), killer.getDropRateBonus());
                 drop(killed, killer.tile(), killer, reward);
             }
         }

@@ -38,7 +38,7 @@ public class GWDNex implements Droptable {//TODO redunant class remove this clas
                     //Random drop from the table
                     ScalarLootTable table = ScalarLootTable.forNPC(npc.id());
                     if (table != null) {
-                        Item reward = table.rollItem();
+                        Item reward = table.randomItem(World.getWorld().random(), player.getDropRateBonus());
                         if (reward != null) {
 
                             // bosses, find npc ID, find item ID

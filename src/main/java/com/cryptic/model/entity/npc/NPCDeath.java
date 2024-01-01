@@ -514,8 +514,6 @@ public class NPCDeath {
 
                     Tile tile = jad ? new Tile(2438, 5169, 0) : dropUnderPlayer ? killer.tile() : npc.tile();
 
-                    table.rollForLarransKey(npc, killer);
-
                     if (WildernessArea.inWilderness(killer.tile())) {
                         killer.getWildernessSlayerCasket().rollForCasket(npc);
                         killer.getWildernessSlayerCasket().rollForSupplys(npc);
@@ -564,7 +562,7 @@ public class NPCDeath {
                     int dropRolls = npc.getCombatInfo().droprolls;
 
                     for (int i = 0; i < dropRolls; i++) {
-                        Item reward = table.rollItem();
+                        Item reward = table.randomItem(World.getWorld().random(), killer.getDropRateBonus());
                         if (reward != null) {
                             if (doubleDropsLampActive) {
                                 if (rolledDoubleDrop) {
@@ -679,69 +677,6 @@ public class NPCDeath {
         return true;
     }
 
-    private static void treasure(Player killer, NPC npc, Tile tile) {
-
-        if (!Slayer.creatureMatches(killer, npc.id())) {
-            return;
-        }
-
-        int treasureCasketChance;
-        if (killer.getMemberRights().isSponsorOrGreater(killer))
-            treasureCasketChance = 95;
-        else if (killer.getMemberRights().isVIPOrGreater(killer))
-            treasureCasketChance = 100;
-        else if (killer.getMemberRights().isLegendaryMemberOrGreater(killer))
-            treasureCasketChance = 105;
-        else if (killer.getMemberRights().isExtremeMemberOrGreater(killer))
-            treasureCasketChance = 110;
-        else if (killer.getMemberRights().isEliteMemberOrGreater(killer))
-            treasureCasketChance = 115;
-        else if (killer.getMemberRights().isSuperMemberOrGreater(killer))
-            treasureCasketChance = 120;
-        else if (killer.getMemberRights().isRegularMemberOrGreater(killer))
-            treasureCasketChance = 125;
-        else
-            treasureCasketChance = 128;
-
-        var reduction = treasureCasketChance * killer.masterCasketMemberBonus() / 100;
-        treasureCasketChance -= reduction;
-
-        if (World.getWorld().rollDie(killer.getPlayerRights().isDeveloper(killer) && !GameServer.properties().production ? 1 : treasureCasketChance, 1)) {
-            Item clueItem = new Item(TreasureRewardCaskets.MASTER_CASKET);
-            GroundItem groundItem = new GroundItem(clueItem, tile, killer);
-            GroundItemHandler.createGroundItem(groundItem);
-            notification(killer, clueItem);
-            killer.message("<col=0B610B>You have received a treasure casket drop!");
-        }
-
-        boolean inWilderness = WildernessArea.inWilderness(killer.tile());
-        Item smallCasket = new Item(ItemIdentifiers.CASKET_7956);
-        int combat = killer.getSkills().combatLevel();
-        int mul;
-
-        if ((killer.getGameMode() == GameMode.TRAINED_ACCOUNT))
-            mul = 2;
-        else mul = 1;
-
-        int chance;
-
-        if (combat <= 10)
-            chance = 1;
-        else if (combat <= 20)
-            chance = 2;
-        else if (combat <= 80)
-            chance = 3;
-        else if (combat <= 120)
-            chance = 4;
-        else
-            chance = 5;
-
-        int regularOdds = 100;
-
-        chance *= mul;
-
-    }
-
     /**
      * If you're resetting an NPC as if it were by death but not, for example maybe kraken tentacles which go back down to
      * the depths when the boss is killed.
@@ -759,7 +694,6 @@ public class NPCDeath {
     }
 
     public static void respawn(NPC npc) {
-
         if (npc.id() == KrakenBoss.TENTACLE_WHIRLPOOL || npc.id() == NpcIdentifiers.ENORMOUS_TENTACLE) {
             NPC boss = npc.getAttrib(AttributeKey.BOSS_OWNER);
             if (boss != null && npc.dead()) {
@@ -815,82 +749,5 @@ public class NPCDeath {
                 killer.message("Valuable drop: " + loot.getAmount() + " x <col=cc0000>" + loot.name() + "</col> (" + loot.getValue() * loot.getAmount() + "coins).");
             }
         }
-    }
-
-    private static void serenDrops(Entity entity) {
-        entity.getCombat().getDamageMap().forEach((key, hits) -> {
-            Player player = (Player) key;
-            player.message(Color.RED.wrap("You've dealt " + hits.getDamage() + " damage to The Seren!"));
-            // Only people nearby are rewarded. This is to avoid people 'poking' the boss to do some damage
-            // without really risking being there.
-            if (entity.tile().isWithinDistance(player.tile(), 10) && hits.getDamage() >= 200) {
-                if (entity instanceof NPC) {
-                    player.message("You received a drop roll from the table for dealing at least 500 damage!");
-                    NPC npc = entity.getAsNpc();
-
-                    //Always log kill timers
-                    player.getBossTimers().submit(npc.def().name, (int) player.getCombat().getFightTimer().elapsed(TimeUnit.SECONDS), player);
-
-                    //Always increase kill counts
-                    player.getBossKillLog().addKill(npc);
-
-                    //Always drop random BM
-                    GroundItemHandler.createGroundItem(new GroundItem(new Item(BLOOD_MONEY, World.getWorld().random(500, 5_500)), npc.tile(), player));
-
-                    //Random drop from the table
-                    ScalarLootTable table = ScalarLootTable.forNPC(npc.id());
-                    if (table != null) {
-                        Item reward = table.rollItem();
-                        if (reward != null) {
-
-                            // bosses, find npc ID, find item ID
-                            BOSSES.log(player, npc.id(), reward);
-
-                            //Niffler doesn't loot world The Nightmare loot
-                            GroundItemHandler.createGroundItem(new GroundItem(reward, npc.tile(), player));
-
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    private static void nightmareDrops(Entity entity) {
-        entity.getCombat().getDamageMap().forEach((key, hits) -> {
-            Player player = (Player) key;
-            player.message(Color.RED.wrap("You've dealt " + hits.getDamage() + " damage to The Nightmare!"));
-            // Only people nearby are rewarded. This is to avoid people 'poking' the boss to do some damage
-            // without really risking being there.
-            if (entity.tile().isWithinDistance(player.tile(), 10) && hits.getDamage() >= 500) {
-                if (entity instanceof NPC) {
-                    player.message("You received a drop roll from the table for dealing at least 500 damage!");
-                    NPC npc = entity.getAsNpc();
-
-                    //Always log kill timers
-                    player.getBossTimers().submit(npc.def().name, (int) player.getCombat().getFightTimer().elapsed(TimeUnit.SECONDS), player);
-
-                    //Always increase kill counts
-                    player.getBossKillLog().addKill(npc);
-
-                    //Always drop random BM
-                    GroundItemHandler.createGroundItem(new GroundItem(new Item(BLOOD_MONEY, World.getWorld().random(500, 5_500)), npc.tile(), player));
-
-                    //Random drop from the table
-                    ScalarLootTable table = ScalarLootTable.forNPC(npc.id());
-                    if (table != null) {
-                        Item reward = table.rollItem();
-                        if (reward != null) {
-
-                            // bosses, find npc ID, find item ID
-                            BOSSES.log(player, npc.id(), reward);
-
-                            GroundItemHandler.createGroundItem(new GroundItem(reward, npc.tile(), player));
-
-                        }
-                    }
-                }
-            }
-        });
     }
 }

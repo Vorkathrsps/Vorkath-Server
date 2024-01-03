@@ -3,30 +3,50 @@
   "petItem": 13177,
   "petRarity": 1000,
   "guaranteed": [
-    { "id": 526, "min": 1, "max": 1, "weight": 1 }, //Bones
-    { "id": 995, "min": 200, "max": 250 } //coins
+    { "id": 526, "min": 1, "max": 1, "weight": 1 },
+    { "id": 995, "min": 14000, "max": 25000 }
     ],
   "tables": [
     {
       "name": "Unique",
-      "tableweight": 1,
       "items": [
-        { "id": 12914, "min": 5, "max": 10, "weight": 45 }, //Anti-venom+(4) (noted)
-        { "id": 21979, "min": 2, "max": 10, "weight": 45 }, //Super antifire potion(4) (noted)
-        { "id": 11840, "min": 1, "max": 1, "weight": 35 }, //Dragon boots
-        { "id": 6585, "min": 1, "max": 1, "weight": 35 }, //Amulet of fury
-        { "id": 12877, "min": 1, "max": 1, "weight": 30 }, //DH set
-        { "id": 12002, "min": 1, "max": 1, "weight": 30 }, //Occult
-        { "id": 11920, "min": 1, "max": 1, "weight": 25 }, //Dragon pickaxe
-        { "id": 12605, "min": 1, "max": 1, "weight": 27 }, //Treasonous ring
-        { "id": 12806, "min": 1, "max": 1, "weight": 27 }, //Malediction ward
-        { "id": 2944, "min": 1, "max": 1, "weight": 2 } //Key of drops
+        { "id": 1276, "min": 1, "max": 3, "weight": 120 },
+        { "id": 811, "min": 22, "max": 150, "weight": 120 },
+        { "id": 868, "min": 22, "max": 150, "weight": 120 },
+        { "id": 562, "min": 135, "max": 900, "weight": 120 },
+        { "id": 560, "min": 105, "max": 700, "weight": 120 },
+        { "id": 565, "min": 75, "max": 500, "weight": 120 },
+        { "id": 2, "min": 82, "max": 550, "weight": 120 },
+        { "id": 24592, "min": 5, "max": 6, "weight": 60 },
+        { "id": 24595, "min": 5, "max": 6, "weight": 60 },
+        { "id": 24598, "min": 3, "max": 4, "weight": 60 },
+        { "id": 24601, "min": 3, "max": 4, "weight": 60 },
+        { "id": 23555, "min": 2, "max": 3, "weight": 60 },
+        { "id": 23547, "min": 2, "max": 3, "weight": 60 },
+        { "id": 3025, "min": 1, "max": 10, "weight": 60 },
+        { "id": 10926, "min": 3, "max": 20, "weight": 60 },
+        { "id": 6035, "min": 33, "max": 225, "weight": 60 },
+        { "id": 24593, "min": 6, "max": 45, "weight": 60 },
+        { "id": 445, "min": 101, "max": 675, "weight": 60 },
+        { "id": 226, "min": 9, "max": 60, "weight": 60 },
+        { "id": 246, "min": 15, "max": 100, "weight": 60 },
+        { "id": 1514, "min": 33, "max": 225, "weight": 50 },
+        { "id": 8779, "min": 60, "max": 400, "weight": 50 },
+        { "id": 1620, "min": 11, "max": 75, "weight": 50 },
+        { "id": 1618, "min": 5, "max": 35, "weight": 50 },
+        { "id": 537, "min": 22, "max": 150, "weight": 50 },
+        { "id": 1632, "min": 1, "max": 5, "weight": 50 },
+        { "id": 2971, "min": 67, "max": 450, "weight": 50 },
+        { "id": 208, "min": 15, "max": 100, "weight": 50 },
+        { "id": 218, "min": 5, "max": 45, "weight": 50 },
+        { "id": 3052, "min": 6, "max": 45, "weight": 50 },
+        { "id": 3050, "min": 6, "max": 45, "weight": 50 },
+        { "id": 7158, "min": 1, "max": 1, "weight": 17 },
+        { "id": 11920, "min": 1, "max": 1, "weight": 17 },
+        {"id": 27670, "min": 1, "max": 1, "weight": 17},
+        { "id": 12605, "min": 1, "max": 1, "weight": 17 },
+        {"id": 27687, "min": 1, "max": 1, "weight": 13}
       ]
-    },
-    {
-      "name": "Other",
-      "tableweight": 4,
-      "items": []
     }
   ]
 }

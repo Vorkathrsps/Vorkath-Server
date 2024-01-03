@@ -9,7 +9,10 @@ import com.cryptic.network.codec.RSBuffer;
 import com.cryptic.utility.ItemIdentifiers;
 import com.google.common.collect.Maps;
 import io.netty.buffer.Unpooled;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
+import java.text.Normalizer;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -104,7 +107,8 @@ public class ItemDefinition implements Definition {
         custom();
     }
 
-    public static Map<Integer, ItemDefinition> cached = Maps.newConcurrentMap();
+    public static Int2ObjectOpenHashMap<ItemDefinition> cached = new Int2ObjectOpenHashMap<>();
+
     public static ItemDefinition getInstance(int id) {
         return cached.get(id);
     }
@@ -145,7 +149,7 @@ public class ItemDefinition implements Definition {
             ioptions = new String[]{null, null, null, null, "Destroy"};
         }
 
-        if(name.contains("slayer helmet") || name.contains("Slayer helmet")) {
+        if (name.contains("slayer helmet") || name.contains("Slayer helmet")) {
             ioptions = new String[]{null, "Wear", null, null, "Drop"};
         }
 
@@ -162,250 +166,145 @@ public class ItemDefinition implements Definition {
         }
     }
 
-    private void decodeValues(RSBuffer stream, int opcode)
-    {
-        if (opcode == 1)
-        {
+    private void decodeValues(RSBuffer stream, int opcode) {
+        if (opcode == 1) {
             inventoryModel = stream.readUShort();
-        }
-        else if (opcode == 2)
-        {
+        } else if (opcode == 2) {
             name = stream.readJagexString();
-        }
-        else if (opcode == 4)
-        {
+        } else if (opcode == 4) {
             zoom2d = stream.readUShort();
-        }
-        else if (opcode == 5)
-        {
+        } else if (opcode == 5) {
             xan2d = stream.readUShort();
-        }
-        else if (opcode == 6)
-        {
+        } else if (opcode == 6) {
             yan2d = stream.readUShort();
-        }
-        else if (opcode == 7)
-        {
+        } else if (opcode == 7) {
             xof2d = stream.readUShort();
-            if (xof2d > 32767)
-            {
+            if (xof2d > 32767) {
                 xof2d -= 65536;
             }
-        }
-        else if (opcode == 8)
-        {
+        } else if (opcode == 8) {
             yof2d = stream.readUShort();
-            if (yof2d > 32767)
-            {
+            if (yof2d > 32767) {
                 yof2d -= 65536;
             }
-        }
-        else if (opcode == 9)
-        {
+        } else if (opcode == 9) {
             unknown1 = stream.readString();
-        }
-        else if (opcode == 11)
-        {
+        } else if (opcode == 11) {
             stackable = 1;
-        }
-        else if (opcode == 12)
-        {
+        } else if (opcode == 12) {
             cost = stream.readInt();
-        }
-        else if (opcode == 13)
-        {
+        } else if (opcode == 13) {
             wearPos1 = stream.readByte();
-        }
-        else if (opcode == 14)
-        {
+        } else if (opcode == 14) {
             wearPos2 = stream.readByte();
-        }
-        else if (opcode == 16)
-        {
+        } else if (opcode == 16) {
             members = true;
-        }
-        else if (opcode == 23)
-        {
+        } else if (opcode == 23) {
             maleModel0 = stream.readUShort();
             maleOffset = stream.readUByte();
-        }
-        else if (opcode == 24)
-        {
+        } else if (opcode == 24) {
             maleModel1 = stream.readUShort();
-        }
-        else if (opcode == 25)
-        {
+        } else if (opcode == 25) {
             femaleModel0 = stream.readUShort();
             femaleOffset = stream.readUByte();
-        }
-        else if (opcode == 26)
-        {
+        } else if (opcode == 26) {
             femaleModel1 = stream.readUShort();
-        }
-        else if (opcode == 27)
-        {
+        } else if (opcode == 27) {
             wearPos3 = stream.readByte();
-        }
-        else if (opcode >= 30 && opcode < 35)
-        {
+        } else if (opcode >= 30 && opcode < 35) {
             options[opcode - 30] = stream.readString();
-            if (options[opcode - 30].equalsIgnoreCase("Hidden"))
-            {
+            if (options[opcode - 30].equalsIgnoreCase("Hidden")) {
                 options[opcode - 30] = null;
             }
-        }
-        else if (opcode >= 35 && opcode < 40)
-        {
+        } else if (opcode >= 35 && opcode < 40) {
             ioptions[opcode - 35] = stream.readString();
-        }
-        else if (opcode == 40)
-        {
+        } else if (opcode == 40) {
             int var5 = stream.readUByte();
             recol_s = new short[var5];
             recol_d = new short[var5];
 
-            for (int var4 = 0; var4 < var5; ++var4)
-            {
+            for (int var4 = 0; var4 < var5; ++var4) {
                 recol_s[var4] = (short) stream.readUShort();
                 recol_d[var4] = (short) stream.readUShort();
             }
 
-        }
-        else if (opcode == 41)
-        {
+        } else if (opcode == 41) {
             int var5 = stream.readUByte();
             retex_s = new short[var5];
             retex_d = new short[var5];
 
-            for (int var4 = 0; var4 < var5; ++var4)
-            {
+            for (int var4 = 0; var4 < var5; ++var4) {
                 retex_s[var4] = (short) stream.readUShort();
                 retex_d[var4] = (short) stream.readUShort();
             }
 
-        }
-        else if (opcode == 42)
-        {
+        } else if (opcode == 42) {
             shiftClickDropType = stream.readByte();
-        }
-        else if (opcode == 65)
-        {
+        } else if (opcode == 65) {
             grandexchange = true;
-        }
-        else if (opcode == 75)
-        {
+        } else if (opcode == 75) {
             weight = stream.readShort();
-        }
-        else if (opcode == 78)
-        {
+        } else if (opcode == 78) {
             maleModel2 = stream.readUShort();
-        }
-        else if (opcode == 79)
-        {
+        } else if (opcode == 79) {
             femaleModel2 = stream.readUShort();
-        }
-        else if (opcode == 90)
-        {
+        } else if (opcode == 90) {
             manhead = stream.readUShort();
-        }
-        else if (opcode == 91)
-        {
+        } else if (opcode == 91) {
             womanhead = stream.readUShort();
-        }
-        else if (opcode == 92)
-        {
+        } else if (opcode == 92) {
             manhead2 = stream.readUShort();
-        }
-        else if (opcode == 93)
-        {
+        } else if (opcode == 93) {
             womanhead2 = stream.readUShort();
-        }
-        else if (opcode == 94)
-        {
+        } else if (opcode == 94) {
             category = stream.readUShort();
-        }
-        else if (opcode == 95)
-        {
+        } else if (opcode == 95) {
             zan2d = stream.readUShort();
-        }
-        else if (opcode == 97)
-        {
+        } else if (opcode == 97) {
             notelink = stream.readUShort();
-        }
-        else if (opcode == 98)
-        {
+        } else if (opcode == 98) {
             noteModel = stream.readUShort();
-        }
-        else if (opcode >= 100 && opcode < 110)
-        {
-            if (countobj == null)
-            {
+        } else if (opcode >= 100 && opcode < 110) {
+            if (countobj == null) {
                 countobj = new int[10];
                 countco = new int[10];
             }
 
             countobj[opcode - 100] = stream.readUShort();
             countco[opcode - 100] = stream.readUShort();
-        }
-        else if (opcode == 110)
-        {
+        } else if (opcode == 110) {
             resizex = stream.readUShort();
-        }
-        else if (opcode == 111)
-        {
+        } else if (opcode == 111) {
             resizey = stream.readUShort();
-        }
-        else if (opcode == 112)
-        {
+        } else if (opcode == 112) {
             resizez = stream.readUShort();
-        }
-        else if (opcode == 113)
-        {
+        } else if (opcode == 113) {
             ambient = stream.readByte();
-        }
-        else if (opcode == 114)
-        {
+        } else if (opcode == 114) {
             contrast = stream.readByte();
-        }
-        else if (opcode == 115)
-        {
+        } else if (opcode == 115) {
             team = stream.readUByte();
-        }
-        else if (opcode == 139)
-        {
+        } else if (opcode == 139) {
             op139 = stream.readUShort();
-        }
-        else if (opcode == 140)
-        {
+        } else if (opcode == 140) {
             op140 = stream.readUShort();
-        }
-        else if (opcode == 148)
-        {
+        } else if (opcode == 148) {
             placeheld = stream.readUShort();
-        }
-        else if (opcode == 149)
-        {
+        } else if (opcode == 149) {
             pheld14401 = stream.readUShort();
-        }
-        else if (opcode == 249)
-        {
+        } else if (opcode == 249) {
             int length = stream.readUByte();
 
             params = new HashMap<>(length);
 
-            for (int i = 0; i < length; i++)
-            {
+            for (int i = 0; i < length; i++) {
                 boolean isString = stream.readUByte() == 1;
                 int key = stream.read24BitInt();
                 Object value;
 
-                if (isString)
-                {
+                if (isString) {
                     value = stream.readString();
-                }
-
-                else
-                {
+                } else {
                     value = stream.readInt();
                 }
 
@@ -416,6 +315,16 @@ public class ItemDefinition implements Definition {
 
     public void get(int id) {
         this.id = id;
+    }
+
+    public ItemDefinition getByName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public ItemDefinition getItem(int id) {
+        this.id = id;
+        return this;
     }
 
     public String getWeaponCategory(WeaponType weaponType) {
@@ -522,6 +431,15 @@ public class ItemDefinition implements Definition {
     }
 
     public Map<Integer, Object> clientScriptData;
+
+    public int findLinkedValue(String name) {
+        for (ItemDefinition item : cached.values()) {
+            if (item.name.contains(name) && !item.name.equals(name)) {
+                return item.bm.value();
+            }
+        }
+        return 0;
+    }
 
     public boolean stackable() {
         return stackable == 1 || noteModel > 0 || id == 13215 || id == 32236 || id == 30050 || id == 30235;

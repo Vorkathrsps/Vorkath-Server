@@ -114,6 +114,10 @@ public class Buttons {
     private static int POTION_SHOP;
     private static int MAGIC_SHOP_BUTTON_ID;
 
+    private static int GENERAL_SHOP_BUTTON_ID;
+    private static int PKP_SHOP;
+    private static int VOTE_SHOP;
+
     /**
      * Handles the button click for a player.
      *
@@ -387,9 +391,24 @@ public class Buttons {
                     World.getWorld().shop(AUBURYS_MAGIC_SHOP_ID).open(player);
                     return;
                 }
+                GENERAL_SHOP_BUTTON_ID = 73161;
+                if (button == GENERAL_SHOP_BUTTON_ID) {
+                    World.getWorld().shop(GENERAL_STORE_SHOP_ID).open(player);
+                    return;
+                }
                 RANGED_SHOP = 73158;
                 if (button == RANGED_SHOP) {
                     World.getWorld().shop(LOWES_ARCHERY_SHOP_ID).open(player);
+                    return;
+                }
+                PKP_SHOP = 73162;
+                if (button == PKP_SHOP) {
+                    World.getWorld().shop(PKP_SHOP_ID).open(player);
+                    return;
+                }
+                VOTE_SHOP = 73163;
+                if (button == VOTE_SHOP) {
+                    World.getWorld().shop(VOTE_SHOP_ID).open(player);
                     return;
                 }
                 POTION_SHOP = 73160;

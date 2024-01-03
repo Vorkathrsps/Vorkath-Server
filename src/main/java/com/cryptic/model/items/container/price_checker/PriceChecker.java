@@ -6,6 +6,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.ItemContainer;
 import com.cryptic.model.items.container.ItemContainerAdapter;
+import com.cryptic.utility.Color;
 import com.cryptic.utility.Utils;
 
 import java.text.NumberFormat;
@@ -56,8 +57,13 @@ public class PriceChecker extends ItemContainer {
         if (item == null)
             return;
 
-        if (!item.rawtradable()) {
+        if (!item.rawtradable() && item.getValue() <= 0) {
             player.message("This item isn't tradeble!");
+            return;
+        }
+
+        if (item.rawtradable() && item.getValue() <= 0) {
+            player.message(Color.RED.wrap("This item is tradeble, but has no value! [Please report this to a staff member]!"));
             return;
         }
 

@@ -175,9 +175,7 @@ public class Callisto extends CommonCombatMethod {
     }
 
     private void magicAttack(@NonNull final Entity entity, @NonNull final Entity target) {
-        if (!withinDistance(10) || performingAnimation) {
-            return;
-        }
+        if (!withinDistance(10) || performingAnimation) return;
         entity.animate(10014);
         int tileDist = entity.tile().distance(target.tile());
         int duration = (55 + 10 + (10 * tileDist));

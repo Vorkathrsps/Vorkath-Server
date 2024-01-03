@@ -59,6 +59,9 @@ public class ShopUtility extends ItemIdentifiers {
     public static int AUBURYS_MAGIC_SHOP_ID = 23;
     public static int HORVIKS_ARMOR_SHOP_ID = 32;
     public static int LOWES_ARCHERY_SHOP_ID = 35;
+    public static int PKP_SHOP_ID = 1600;
+    public static int VOTE_SHOP_ID = 6;
     public static int DONATOR_STORE_ID = 44;
     public static int KAQEMEEX_POTIONS_SHOP_ID = 36;
+    public static int GENERAL_STORE_SHOP_ID = 1;
 }

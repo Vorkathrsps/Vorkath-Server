@@ -4,10 +4,7 @@ import com.cryptic.cache.definitions.DefinitionRepository;
 import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.model.content.areas.wilderness.content.revenant_caves.AncientArtifacts;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.items.container.bank.Bank;
-import com.cryptic.model.items.tradingpost.TradingPost;
 import com.cryptic.model.World;
-import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.utility.loaders.BloodMoneyPrices;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.player.EquipSlot;
@@ -784,10 +781,13 @@ public class Item implements Cloneable {
      */
     public int getValue() {
         final ItemDefinition def = definition(World.getWorld());
-        if (def.noted()) {
-            return def.bm.value();
+        if (def.noted()) return unnote().getBloodMoneyPrice().value();
+        if (def.bm != null) {
+            if (rawtradable() && def.bm.value() <= 0) return def.findLinkedValue(def.name);
+            if (!rawtradable() && def.bm.value() <= 0) return def.findLinkedValue(def.name);
+            return getBloodMoneyPrice() == null ? 0 : def.bm.value();
         }
-        return TradingPost.TRADING_POST_VALUE_ENABLED ? TradingPost.getProtectionPrice(id) : getBloodMoneyPrice() == null ? 0 : def.bm.value();
+        return 0;
     }
 
     /**
@@ -851,6 +851,6 @@ public class Item implements Cloneable {
     }
 
     public int getSellValue() {
-        return (int) (getValue() * 0.35);
+        return (int) (getValue() * 0.75);
     }
 }

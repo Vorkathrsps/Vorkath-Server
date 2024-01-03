@@ -106,6 +106,10 @@ public class HomeArea extends PacketInteraction {
                 player.getPacketSender().sendConfig(ShopUtility.SHOP_CONFIG_FRAME_ID, 4);
                 return true;
             }
+            if (npc.id() == 2822) {
+                World.getWorld().shop(GENERAL_STORE_SHOP_ID).open(player);
+                player.getPacketSender().sendConfig(ShopUtility.SHOP_CONFIG_FRAME_ID, 5);
+            }
             if (npc.id() == WISE_OLD_MAN) {
                 World.getWorld().shop(DONATOR_STORE_ID).open(player);
                 player.getPacketSender().sendConfig(ShopUtility.SHOP_CONFIG_FRAME_ID, 8);

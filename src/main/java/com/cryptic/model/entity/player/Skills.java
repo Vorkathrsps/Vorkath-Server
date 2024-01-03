@@ -260,7 +260,6 @@ public class Skills {
     }
 
     public boolean addXp(int skill, double amt) {
-        var multiply = ((WildernessArea.inWilderness(player.tile()) || !WildernessArea.inWilderness(player.tile())) && player.getCombat().getTarget() instanceof NPC);
         for (GameMode mode : GameMode.values()) {
             if (player.getGameMode().equals(mode)) {
                 return addExperience(skill, amt, mode.multiplier, true);

@@ -29,7 +29,7 @@ public class KrakenBossDrops implements Droptable {
 
             var rolls = 1;
             for (int i = 0; i < rolls; i++) {
-                Item reward = table.randomItem(World.getWorld().random(), killer.getDropRateBonus());
+                Item reward = table.randomItem(World.getWorld().random());
                 if (reward != null) {
                     drop(killed, killer.tile(), killer, reward);
                     loots.add(lootname(reward, killer.getUsername()));

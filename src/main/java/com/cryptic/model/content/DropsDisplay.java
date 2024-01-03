@@ -219,13 +219,6 @@ public class DropsDisplay {
             drops.add(0, new Integer[]{ItemIdentifiers.OLMLET, 1, 1, 650});
         }
 
-        var larransLuck = player.getSlayerRewards().getUnlocks().containsKey(SlayerConstants.LARRANS_LUCK);
-        var combatLvl = def.combatlevel;
-        var roll = combatLvl < 50 ? larransLuck ? 875 : 1000 : larransLuck ? 350 : 400;
-        if(WildernessArea.isInWilderness(player)) {
-            drops.add(petId != -1 ? 1 : 0, new Integer[]{ItemIdentifiers.LARRANS_KEY, 1, 1, roll});
-        }
-
         if (dropTable.guaranteed != null) {
             for (ScalarLootTable.TableItem item : dropTable.guaranteed) {
                 Integer[] drop = new Integer[4];
@@ -236,11 +229,11 @@ public class DropsDisplay {
                 drops.add(drop);
             }
         }
-
+        
         if (dropTable.tables != null) {
             for (ScalarLootTable table : dropTable.tables) {
                 if (table != null) {
-                    double tableChance = table.points / totalTablesWeight;
+                    double tableChance = table.tableWeight / totalTablesWeight;
                     if (table.items.length == 0) {
                     } else {
                         for (ScalarLootTable.TableItem item : table.items) {
@@ -248,7 +241,7 @@ public class DropsDisplay {
                             drop[0] = item.id;
                             drop[1] = item.min;
                             drop[2] = item.max;
-                            if (item.points == 0)
+                            if (item.weight == 0)
                                 drop[3] = (int) (1D / tableChance);
                             else
                                 drop[3] = (int) (1D / (item.computedFraction.doubleValue()));
@@ -267,21 +260,29 @@ public class DropsDisplay {
             int maxAmount = drop[2];
             int average = drop[3];
 
-            reduction = average * player.getDropRateBonus() / 100;
-            average -= reduction;
-
             int colorIndex;
-            if (average == 1) {
-                colorIndex = 0;//Always
-            } else if (average >= 1 && average <= 40) {
-                colorIndex = 1;//Common
-            } else if (average >= 41 && average <= 89) {
-                colorIndex = 2;//Uncommon
-            } else if (average >= 90 && average <= 155) {
-                colorIndex = 4;//Rare
-            } else {
-                colorIndex = 5;//Very rare
+
+            if (dropTable.guaranteed != null) {
+                for (var i : dropTable.guaranteed) {
+                    if (i.id == itemId) {
+                        average = 1;
+                        break;
+                    }
+                }
             }
+
+            if (average == 1) {
+                colorIndex = 0;
+            } else if (average >= 1 && average <= 40) {
+                colorIndex = 1;
+            } else if (average >= 41 && average <= 89) {
+                colorIndex = 4;
+            } else if (average >= 90 && average <= 155) {
+                colorIndex = 5;
+            } else {
+                colorIndex = 5;
+            }
+
             player.getPacketSender().sendScrollbarHeight(55153, drops.size() * 39 + 2);
             player.getPacketSender().sendInterfaceSpriteChange(56400 + index, colorIDS[colorIndex]);
             player.getPacketSender().sendItemOnInterfaceSlot(56015, new Item(itemId, Math.min(minAmount, maxAmount)), index);
@@ -289,9 +290,10 @@ public class DropsDisplay {
             Item item = new Item(drop[0]);
             String name = item.unnote().name().length() > 17 ? item.unnote().name().substring(0, 16) + "<br>" + item.unnote().name().substring(16) : item.unnote().name();
             player.getPacketSender().sendString(56700 + index, name);
-            String amount = maxAmount == minAmount ? ""+maxAmount : ""+ minAmount + "/"+maxAmount;
+            String amount = maxAmount == minAmount ? ""+Utils.formatRunescapeStyle(maxAmount) : ""+ Utils.formatRunescapeStyle(minAmount) + "/" + Utils.formatRunescapeStyle(maxAmount);
             player.getPacketSender().sendString(56850 + index, "<col=ffb83f>" + amount);
-            player.getPacketSender().sendString(57000 + index, "<col=ffb83f>" + Utils.formatRunescapeStyle(item.getValue()));
+            var val = item.stackable() && item.getAmount() > 0 ? maxAmount * item.getValue() : item.getValue();
+            player.getPacketSender().sendString(57000 + index, "<col=ffb83f>" + Utils.formatRunescapeStyle(val));
             player.getPacketSender().sendString(57150 + index, "<col=ffb83f>" + (average == 1 ? "Always" : ("~ 1 / " + average)));
         }
         return true;

@@ -562,7 +562,7 @@ public class NPCDeath {
                     int dropRolls = npc.getCombatInfo().droprolls;
 
                     for (int i = 0; i < dropRolls; i++) {
-                        Item reward = table.randomItem(World.getWorld().random(), killer.getDropRateBonus());
+                        Item reward = table.randomItem(World.getWorld().random());
                         if (reward != null) {
                             if (doubleDropsLampActive) {
                                 if (rolledDoubleDrop) {

@@ -7,20 +7,17 @@ package com.cryptic.model.entity.player;
 
 public enum GameMode {
 
-    TRAINED_ACCOUNT("Normal account",1, 150, 50),
-    REALISM("realism", 2, 25, 10),
-    HARDCORE_REALISM("hardcore realism", 3, 20, 15);
+    TRAINED_ACCOUNT("Normal account",1, 25),
+    REALISM("realism", 2, 10),
+    HARDCORE_REALISM("hardcore realism", 3, 10);
 
     private final String name;
     private final int uid;
-    private final int combatExp;
     public final int multiplier;
-    private static GameMode[] cache;
 
-    GameMode(String name, int uid, int combatExp, int multiplier) {
+    GameMode(String name, int uid, int multiplier) {
         this.name = name;
         this.uid = uid;
-        this.combatExp = combatExp;
         this.multiplier = multiplier;
     }
 

@@ -31,17 +31,8 @@ public class RegionManager {
     public static final int UNLOADED_TILE = 0x1000000;
     public static final int OCEAN_TILE = 2097152;
 
-    /**
-     * The map with all of our regions.
-     */
     public static Int2ObjectOpenHashMap<Region> regions = new Int2ObjectOpenHashMap<>();
 
-    /**
-     * Loads the client's map_index file and constructs new regions based on the
-     * data it holds.
-     *
-     * @throws Exception
-     */
     public static final Path OSRS = Path.of("data", "cache");
     public static CacheLibrary cache = CacheLibrary.create(String.valueOf(OSRS));
     public static void init() throws Exception {

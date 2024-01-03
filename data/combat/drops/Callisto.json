@@ -1,186 +1,39 @@
 {
-  "npcs": [
-    6503,
-    6609
-  ],
+  "npcs": [6503, 6609],
   "petItem": 13178,
   "petRarity": 1500,
-  "guaranteed": [
-    {
-      "id": 532,
-      "amount": 1
-    }
-  ],
-  "items": [
-    {
-      "id": 1275,
-      "amount": 1,
-      "tableweight": 3
-    },
-    {
-      "id": 1319,
-      "amount": 1,
-      "tableweight": 1
-    },
-    {
-      "id": 566,
-      "amount": 250,
-      "tableweight": 1
-    },
-    {
-      "id": 560,
-      "amount": 300,
-      "tableweight": 1
-    },
-    {
-      "id": 562,
-      "amount": 400,
-      "tableweight": 1
-    },
-    {
-      "id": 565,
-      "amount": 200,
-      "tableweight": 1
-    },
-    {
-      "id": 5300,
-      "amount": 3,
-      "tableweight": 1
-    },
-    {
-      "id": 5295,
-      "amount": 5,
-      "tableweight": 1
-    },
-    {
-      "id": 995,
-      "min": 12000,
-      "max": 20000,
-      "tableweight": 5
-    },
-    {
-      "id": 11937,
-      "amount": 8,
-      "tableweight": 4
-    },
-    {
-      "id": 3025,
-      "amount": 3,
-      "tableweight": 4
-    },
-    {
-      "id": 1620,
-      "amount": 20,
-      "tableweight": 1
-    },
-    {
-      "id": 1618,
-      "amount": 10,
-      "tableweight": 1
-    },
-    {
-      "id": 5975,
-      "amount": 60,
-      "tableweight": 1
-    },
-    {
-      "id": 6035,
-      "amount": 100,
-      "tableweight": 1
-    },
-    {
-      "id": 1634,
-      "amount": 75,
-      "tableweight": 1
-    },
-    {
-      "id": 2,
-      "amount": 250,
-      "tableweight": 1
-    },
-    {
-      "id": 1514,
-      "amount": 100,
-      "tableweight": 1
-    },
-    {
-      "id": 12746,
-      "amount": 1,
-      "tableweight": 1
-    },
-    {
-      "id": 226,
-      "amount": 50,
-      "tableweight": 1
-    },
-    {
-      "id": 1750,
-      "amount": 75,
-      "tableweight": 1
-    },
-    {
-      "id": 6334,
-      "amount": 200,
-      "tableweight": 1
-    }
-  ],
+  "guaranteed": [{"id": 532, "min": 1, "max": 1}],
   "tables": [
     {
       "name": "Rares",
-      "tableweight": 2,
       "items": [
-        {
-          "id": 11920,
-          "amount": 1,
-          "weight": 2
-        },
-        {
-          "id": 7158,
-          "amount": 1,
-          "weight": 2
-        },
-        {
-          "id": 12603,
-          "amount": 1,
-          "weight": 1
-        },
-        {
-          "id": 5315,
-          "amount": 1,
-          "weight": 4
-        },
-        {
-          "id": 5316,
-          "amount": 1,
-          "weight": 4
-        },
-        {
-          "id": 5289,
-          "amount": 1,
-          "weight": 4
-        },
-        {
-          "id": 1631,
-          "amount": 1,
-          "weight": 4
-        },
-        {
-          "id": 3049,
-          "amount": 1,
-          "weight": 4
-        },
-        {
-          "id": 11940,
-          "amount": 375,
-          "weight": 4
-        },
-        {
-          "id": 12603,
-          "amount": 1,
-          "weight": 1
-        }
-      ],
-      "tables": []
+        {"id": 24592, "min": 5, "max": 6, "weight": 30},
+        {"id": 24595, "min": 5, "max": 6, "weight": 30},
+        {"id": 24598, "min": 5, "max": 6, "weight": 30},
+        {"id": 560, "min": 200, "max": 300, "weight": 30},
+        {"id": 562, "min": 200, "max": 400, "weight": 30},
+        {"id": 565, "min": 200, "max": 400, "weight": 30},
+        {"id": 3050, "min": 22, "max": 150, "weight": 20},
+        {"id": 218, "min": 6, "max": 45, "weight": 20},
+        {"id": 208, "min": 6, "max": 45, "weight": 20},
+        {"id": 3052, "min": 6, "max": 45, "weight": 20},
+        {"id": 3025, "min": 5, "max": 6, "weight": 15},
+        {"id": 1620,"min": 10, "max": 15, "weight": 15},
+        {"id": 1618, "min": 10, "max": 15, "weight": 15},
+        {"id": 5975,"min": 20, "max": 135,"weight": 15},
+        {"id": 6035, "min": 33, "max": 225, "weight": 15},
+        {"id": 2,"min": 90, "max": 600,"weight": 15},
+        {"id": 226, "min": 15, "max": 100, "weight": 15},
+        {"id": 1750,"min": 25, "max": 170, "weight": 15},
+        {"id": 24593, "min": 6, "max": 45, "weight": 15},
+        {"id": 6333,"min": 90, "max": 600,"weight": 15},
+        {"id": 537,"min": 11, "max": 75, "weight": 10},
+        {"id": 995,"min": 14500, "max": 65000,"weight": 10},
+        {"id": 7158, "min": 1, "max": 1, "weight": 5},
+        {"id": 11920, "min": 1, "max": 1, "weight": 5},
+        {"id": 27681, "min": 1, "max": 1, "weight": 3},
+        {"id": 27667, "min": 1, "max": 1, "weight": 3}
+      ]
     }
   ]
 }

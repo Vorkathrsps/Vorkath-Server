@@ -48,6 +48,7 @@ import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.region.RegionManager;
+import com.cryptic.utility.Color;
 import com.cryptic.utility.Debugs;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.Varbit;
@@ -763,18 +764,23 @@ public class CommandManager {
         {
             var t = ScalarLootTable.registered.get(Integer.parseInt(s[1]));
             var kills = Integer.parseInt(s[2]);
-            List<Item> simulate = t.simulate(Utils.RANDOM, kills, 1.0);
+            List<Item> simulate = t.simulate(Utils.RANDOM, kills);
+
             simulate.sort((o1, o2) -> {
                 int oo1 = kills / Math.max(1, o1.getAmount());
                 int oo2 = kills / Math.max(1, o2.getAmount());
                 return Integer.compare(oo1, oo2);
             });
 
+            int value = 0;
             for (Item item : simulate) {
+                value = value + item.getValue();
                 int indiv = kills / Math.max(1, item.getAmount());
                 System.out.println(item.getAmount() + " x " + World.getWorld().definitions().get(ItemDefinition.class,
                     new Item(item.getId()).unnote(World.getWorld().definitions()).getId()).name + " (1/" + indiv + ")");
             }
+
+            p.message(Color.PURPLE.wrap("Total Kills: " + kills + " - Total Loot Value: " + Utils.formatRunescapeStyle(value)));
 
             p.getPacketSender().sendInterface(BANK_WIDGET);
             p.getPacketSender().sendItemOnInterface(InterfaceConstants.WITHDRAW_BANK, simulate);

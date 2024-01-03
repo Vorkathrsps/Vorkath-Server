@@ -31,7 +31,7 @@ public class ZulrahDeath implements Droptable {
             }
 
             var rolls = 2;
-            Item reward = table.randomItem(World.getWorld().random(), killer.getDropRateBonus());
+            Item reward = table.randomItem(World.getWorld().random());
             for (int i = 0; i < rolls; i++) {
                 if (reward != null) {
                     boolean doubleDropsLampActive = (Integer) killer.getAttribOr(DOUBLE_DROP_LAMP_TICKS, 0) > 0;

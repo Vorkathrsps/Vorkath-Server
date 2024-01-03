@@ -294,6 +294,7 @@ public abstract class Shop {
             return;
         }
 
+        /*
         for (Item bankItem : GameConstants.BANK_ITEMS) {
             if (bankItem.note().getId() == item.getId()) {
                 player.message("You can't sell this item.");
@@ -304,6 +305,7 @@ public abstract class Shop {
                 return;
             }
         }
+        */
 
         if (Arrays.stream(GameConstants.DONATOR_ITEMS).anyMatch(id -> id == item.getId())) {
             player.message("You can't sell this item.");
@@ -367,7 +369,7 @@ public abstract class Shop {
         }
         StoreItem converted = new StoreItem(item.getId(), item.getAmount());
 
-        boolean dontAddToContainer = GameServer.properties().pvpMode && shopId != 16;
+        boolean dontAddToContainer = shopId != 1;
 
         if (!dontAddToContainer) {
             if (find.isPresent()) {
@@ -413,7 +415,7 @@ public abstract class Shop {
             return;
         }
 
-        for (Item bankItem : GameConstants.BANK_ITEMS) {
+        /*for (Item bankItem : GameConstants.BANK_ITEMS) {
             if (bankItem.note().getId() == item.getId()) {
                 player.message("You can't sell this item.");
                 return;
@@ -422,7 +424,7 @@ public abstract class Shop {
                 player.message("You can't sell this item.");
                 return;
             }
-        }
+        }*/
 
 /*        if (item.unnote().definition(World.getWorld()).pvpAllowed) {
             player.message("You can't trade spawnable items.");
@@ -479,9 +481,9 @@ public abstract class Shop {
 
         if (item instanceof StoreItem storeItem) {
             int value = storeItem.getShopValue();
-            String message = Color.RED.tag() + "The shop will sell this " + item.unnote().name() + " for " + (value <= 0 ? "free!" : Utils.formatValue(value) + storeItem.getShopCurrency(this).toString() + ".");
+            String message = Color.BLUE.tag() + "The shop will sell this " + item.unnote().name() + " for " + (value <= 0 ? "free!" : Utils.formatValue(value) + storeItem.getShopCurrency(this).toString() + ".");
             if (shopId == 47) {
-                message = Color.RED.tag() + "The shop will sell x" + item.getAmount() + " " + item.unnote().name() + " for " + (value <= 0 ? "free!" : Utils.formatValue(value) + storeItem.getShopCurrency(this).toString() + ".");//Override message
+                message = Color.BLUE.tag() + "The shop will sell x" + item.getAmount() + " " + item.unnote().name() + " for " + (value <= 0 ? "free!" : Utils.formatValue(value) + storeItem.getShopCurrency(this).toString() + ".");//Override message
             }
             player.message(message);
         }

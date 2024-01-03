@@ -1092,7 +1092,6 @@ public class Utils {
         String end;
         if (length == 4) {
             numberString = number.charAt(0) + "k";
-            //6400
             double doubleVersion;
             doubleVersion = num / 1000.0;
             if (doubleVersion != getDoubleRoundedUp(doubleVersion)) {

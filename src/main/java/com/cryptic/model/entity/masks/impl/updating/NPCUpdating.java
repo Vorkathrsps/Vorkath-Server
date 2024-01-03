@@ -47,7 +47,7 @@ public class NPCUpdating {
             var list = Lists.newArrayList(iterator);
             for (NPC npc : list) {
                 if (npc == null) continue;
-                if (npc.getIndex() != -1 && !npc.hidden() && !npc.isTeleportJump() && tile.isViewableFrom(npc.tile())) {
+                if (npc.getIndex() != -1 && !npc.hidden() && !npc.isTeleportJump() && !npc.isNeedsPlacement() && tile.isViewableFrom(npc.tile())) {
                     updateMovement(npc, packet);
                     npc.inViewport(true);
                     if (npc.getUpdateFlag().isUpdateRequired()) appendUpdates(npc, player, update, false);

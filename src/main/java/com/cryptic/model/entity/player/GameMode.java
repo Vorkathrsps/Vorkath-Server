@@ -28,23 +28,6 @@ public enum GameMode {
         return uid;
     }
 
-    public int combatXpRate() {
-        return combatExp;
-    }
-
-    public static GameMode forUid(int uid) {
-        if (cache == null) {
-            cache = values();
-        }
-
-        for (GameMode m : cache) {
-            if (m.uid == uid)
-                return m;
-        }
-
-        return null;
-    }
-
     public boolean isIronman() {
         return name.equals("Ironman");
     }

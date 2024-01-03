@@ -232,7 +232,7 @@ public class DropsDisplay {
                 drop[0] = item.id;
                 drop[1] = item.min;
                 drop[2] = item.max;
-                drop[3] = 1; //average 1/1 1/1 is 100%
+                drop[3] = 1;
                 drops.add(drop);
             }
         }

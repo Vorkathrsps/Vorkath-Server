@@ -18,15 +18,12 @@ import java.util.List;
 public class AbyssalDemon extends CommonCombatMethod {
 
     private void teleportAttack(Entity entity, Entity target) {
-        Entity e = Utils.rollDie(2, 1) ? entity : target;
-        List<Tile> tiles = target.tile().area(1, pos -> World.getWorld().clipAt(pos) == 0 && !pos.equals(entity.tile()) && !ProjectileRoute.hasLineOfSight(entity, pos));
+        List<Tile> tiles = target.tile().area(1, tile -> !tile.equals(target.tile()) && ProjectileRoute.hasLineOfSight(entity, tile));
         Tile destination = Utils.randomElement(tiles);
-        if(destination == null)
-            return;
-        e.teleport(destination);
-        e.graphic(409);
-        if (e == target)
-            target.getCombat().reset();
+        if(destination == null) return;
+        entity.graphic(409);
+        entity.teleport(destination);
+        entity.setFaceTile(target.tile());
     }
 
     private void basicAttack(Entity entity, Entity target) {
@@ -36,10 +33,9 @@ public class AbyssalDemon extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-      //  if (Utils.rollDie(4, 1))
-            teleportAttack(entity, target);
-       // else
-       //     basicAttack(entity, target);
+        if (!withinDistance(1)) return false;
+        if (Utils.rollDie(8, 1)) teleportAttack(entity, target);
+        else basicAttack(entity, target);
         return true;
     }
 
@@ -50,6 +46,6 @@ public class AbyssalDemon extends CommonCombatMethod {
 
     @Override
     public int moveCloseToTargetTileRange(Entity entity) {
-        return 2;
+        return 1;
     }
 }

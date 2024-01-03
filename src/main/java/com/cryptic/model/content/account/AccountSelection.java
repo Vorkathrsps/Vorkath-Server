@@ -16,12 +16,6 @@ import static com.cryptic.GameConstants.BANK_ITEMS;
 import static com.cryptic.GameConstants.TAB_AMOUNT;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
-/**
- * The class which represents functionality for selecting your account type.
- *
- * @author Origin | 24 sep. 2021 : 19:56:14
- * @see <a href="https://github.com/PVE95/">Github profile</a>
- */
 public class AccountSelection extends PacketInteraction {
 
     public static boolean hasCompletedSelection = false;

@@ -1973,7 +1973,6 @@ public abstract class Entity {
             if (player().getHits() != null) {
                 player().getHits().invalidate();
             }
-
         }
 
         setTile(teleportTarget);
@@ -1982,11 +1981,8 @@ public abstract class Entity {
         setNeedsPlacement(true);
         setResetMovementQueue(true);
         setEntityInteraction(null);
-        //getAsPlayer().isNullifyDamageLock(); //we nullfiy the damage taken when teleporting
 
-        if (this instanceof Player player) {
-            player.getMovementQueue().handleRegionChange();
-        }
+        if (this instanceof Player player) player.getMovementQueue().handleRegionChange();
 
         getMovementQueue().clear();
 

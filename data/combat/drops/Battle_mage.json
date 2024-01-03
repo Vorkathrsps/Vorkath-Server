@@ -2,20 +2,40 @@
   "npcs": [ 1610, 1611, 1612 ],
   "guaranteed": [
     { "id": 526, "min": 1, "max": 1 }, //Bones
-    { "id": 995, "min": 50, "max": 100 } //coins
+    { "id": 13307, "min": 5, "max": 35 } //coins
   ],
   "tables": [
     {
       "name": "Other",
-      "tableweight": 50,
-      "from": 1,
       "items": [
-        { "id": 6918, "min": 1, "max": 1, "weight": 50}, //Infinity hat
-        { "id": 6916, "min": 1, "max": 1, "weight": 50}, //Infinity top
-        { "id": 6924, "min": 1, "max": 1, "weight": 50}, //Infinity bottoms
-        { "id": 6920, "min": 1, "max": 1, "weight": 50}, //Infinity boots
-        { "id": 6922, "min": 1, "max": 1, "weight": 50} //Infinity gloves
+        { "id": 23047, "min": 1, "max": 1, "weight": 100},
+        { "id": 23050, "min": 1, "max": 1, "weight": 100},
+        { "id": 23053, "min": 1, "max": 1, "weight": 100},
+        { "id": 23056, "min": 1, "max": 1, "weight": 100},
+        { "id": 23059, "min": 1, "max": 1, "weight": 100},
+        { "id": 6918, "min": 1, "max": 1, "weight": 40},
+        { "id": 6916, "min": 1, "max": 1, "weight": 40},
+        { "id": 6924, "min": 1, "max": 1, "weight": 40},
+        { "id": 6920, "min": 1, "max": 1, "weight": 40},
+        { "id": 6922, "min": 1, "max": 1, "weight": 40},
+        { "id": 6914, "min": 1, "max": 1, "weight": 30},
+        { "id": 6889, "min": 1, "max": 1, "weight": 30},
+        { "id": 21791, "min": 1, "max": 1, "weight": 20},
+        { "id": 21793, "min": 1, "max": 1, "weight": 20},
+        { "id": 21795, "min": 1, "max": 1, "weight": 20}
       ]
+    },
+    {
+      "name": "Blank 1",
+      "items": []
+    },
+    {
+      "name": "Blank 2",
+      "items": []
+    },
+    {
+      "name": "Blank 3",
+      "items": []
     }
   ]
 }

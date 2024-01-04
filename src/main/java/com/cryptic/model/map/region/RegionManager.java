@@ -486,10 +486,8 @@ public class RegionManager {
             byte[] oFileData = null;
             byte[] gFileData = null;
 
-            if (r.getObjectFile() != -1)
-                gFileData = getMapData(r.baseX, r.baseY, cache);
-            if (r.getTerrainFile() != -1)
-                oFileData = getLandscapeData(r.baseX, r.baseY, cache);
+            if (r.getObjectFile() != -1) gFileData = getMapData(r.baseX, r.baseY, cache);
+            if (r.getTerrainFile() != -1) oFileData = getLandscapeData(r.baseX, r.baseY, cache);
 
             if (gFileData != null) {
                 Buffer groundStream = new Buffer(gFileData);

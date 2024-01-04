@@ -229,8 +229,6 @@ public class ClanManager {
     public static void changeSlogan(Player player, String input) {
         boolean allowed = true;
 
-
-
         for (String bad : GameConstants.BAD_STRINGS) {
             if (input.contains(bad)) {
                 allowed = false;

@@ -2,7 +2,9 @@ package com.cryptic.model.entity.npc.droptables;
 
 import com.cryptic.cache.definitions.DefinitionRepository;
 import com.cryptic.cache.definitions.ItemDefinition;
+import com.cryptic.model.World;
 import com.cryptic.model.items.Item;
+import com.cryptic.utility.Utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.cryptic.cache.DataStore;
@@ -104,8 +106,6 @@ public class ScalarLootTable {
         int current = 0;
         if (items != null) {
             for (TableItem item : items) {
-                if (item.weight == 0) continue;
-
                 item.from = current;
                 current += item.weight;
             }
@@ -123,6 +123,7 @@ public class ScalarLootTable {
 
             rndcap = current;
         }
+
     }
 
     private void recursiveCalcChances(int num, int denom) {
@@ -171,13 +172,12 @@ public class ScalarLootTable {
     }
 
     public Item randomItem(Random random) {
-        if (rndcap < 1) {
-            return null;
-        }
+        if (rndcap < 1) return null;
 
         int cap = rndcap;
 
         int drop = random.nextInt(cap);
+
         if (items != null) {
             for (TableItem item : items) {
                 if (drop >= item.from && drop < item.from + item.weight) {
@@ -190,7 +190,6 @@ public class ScalarLootTable {
             }
         }
 
-        // Try a table now
         if (tables != null) {
             for (ScalarLootTable table : tables) {
                 if (drop >= table.from && drop < table.from + table.tableWeight) {
@@ -255,9 +254,9 @@ public class ScalarLootTable {
     public static void main(String[] args) throws Exception {
         Scanner scanner;
         SecureRandom rand = new SecureRandom();
-        DefinitionRepository repo = new DefinitionRepository(new DataStore("data/filestore", true), true);
+        DefinitionRepository repo = new DefinitionRepository(new DataStore("data/cache", true), true);
 
-        //while (true) {
+        while (true) {
         for (int i = 0; i < 10; i++) System.out.println();
         while (System.in.available() > 0) System.in.read();
         System.out.print("Drop file: ./data/combat/");
@@ -268,7 +267,7 @@ public class ScalarLootTable {
 
         ScalarLootTable root = load(new File("./data/combat/" + file));
 
-        List<Item> simulate = root.simulate(rand, kills);
+        List<Item> simulate = root.simulate(Utils.THREAD_LOCAL_RANDOM.get(), kills);
         simulate.sort((o1, o2) -> {
             int oo1 = kills / Math.max(1, o1.getAmount());
             int oo2 = kills / Math.max(1, o2.getAmount());
@@ -282,7 +281,7 @@ public class ScalarLootTable {
 
         System.out.println();
         System.out.println();
-        //}
+        }
     }
 
     @Override

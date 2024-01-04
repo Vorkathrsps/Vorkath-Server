@@ -1,93 +1,88 @@
 {
   "npcs": [ 7939, 7940, 7938 ],
   "guaranteed": [
-    { "id": 995, "min": 15, "max": 150 },   //coins
-    { "id": 21820, "min": 5, "max": 25 }   //Revenant ether
+    { "id": 995, "min": 15, "max": 150 },
+    { "id": 21820, "min": 5, "max": 25 }
   ],
   "tables": [
     {
       "name": "Resources",
-      "tableweight": 10,
       "items": [
-        { "id": 5953, "min": 1, "max": 2, "weight": 1},//Antidote++(4) (noted)
-        { "id": 12626, "min": 1, "max": 2, "weight": 1},//Stamina potion(noted)
-        { "id": 24615, "min": 5, "max": 15, "weight": 1},//TELEPORT Sack
-        { "id": 24607, "min": 5, "max": 10, "weight": 1},//Ice Sack
-        { "id": 24590, "min": 2, "max": 5, "weight": 1 },//blighted manta ray
-        { "id": 24593, "min": 2, "max": 5, "weight": 1 },//BLIGHTED ANGLER
-        { "id": 24596, "min": 5, "max": 10, "weight": 1 },//BLIGHTED KARAM
-        { "id": 26705, "min": 5, "max": 15, "weight": 1 }, //Surge Sack
-        { "id": 1516, "min": 10, "max": 28, "weight": 1 },//yew logs
-        { "id": 24599, "min": 1, "max": 3, "weight": 1 }, //blighted super restore
-        { "id": 454, "min": 30, "max": 60, "weight": 1 },//coal
-        { "id": 2361, "min": 4, "max": 8, "weight": 1 },//adamant bar
-        { "id": 452, "min": 5, "max": 10, "weight": 1 },//runite ore
-        { "id": 1748, "min": 5, "max": 10, "weight": 1 },//black d hide
-        { "id": 2363, "min": 3, "max": 6, "weight": 1 },//rune bar
-        { "id": 1514, "min": 8, "max": 12, "weight": 1 },//magic logs
-        { "id": 1632, "min": 4, "max": 8, "weight": 1 },//uncut dragonstone
-        { "id": 5316, "min": 2, "max": 6, "weight": 1 } //magic seed
+        { "id": 5953,  "min": 1, "max": 2, "weight": 10},//Antidote++(4) (noted)
+        { "id": 12626, "min": 1, "max": 2, "weight": 10},//Stamina potion(noted)
+        { "id": 24615, "min": 5, "max": 15, "weight": 10},//TELEPORT Sack
+        { "id": 24607, "min": 5, "max": 10, "weight": 10},//Ice Sack
+        { "id": 24590, "min": 2, "max": 5, "weight": 10},//blighted manta ray
+        { "id": 24593, "min": 2, "max": 5, "weight": 10},//BLIGHTED ANGLER
+        { "id": 24596, "min": 5, "max": 10, "weight": 10},//BLIGHTED KARAM
+        { "id": 26705, "min": 5, "max": 15, "weight": 10}, //Surge Sack
+        { "id": 1516, "min": 10, "max": 28, "weight": 10},//yew logs
+        { "id": 24599, "min": 1, "max": 3, "weight": 10}, //blighted super restore
+        { "id": 454, "min": 30, "max": 60, "weight": 10},//coal
+        { "id": 2361, "min": 4, "max": 8, "weight": 10},//adamant bar
+        { "id": 452, "min": 5, "max": 10, "weight": 10},//runite ore
+        { "id": 1748, "min": 5, "max": 10, "weight": 10},//black d hide
+        { "id": 2363, "min": 3, "max": 6, "weight": 10},//rune bar
+        { "id": 1514, "min": 8, "max": 12, "weight": 10},//magic logs
+        { "id": 1632, "min": 4, "max": 8, "weight": 10},//uncut dragonstone
+        { "id": 5316, "min": 2, "max": 6, "weight": 10} //magic seed
       ]
     },
     {
       "name": "Random coins Items",
-      "tableweight": 30,
       "items": [
-        { "id": 21816, "min": 1, "max": 1, "weight": 1}, //Bracelet of ethereum
-        { "id": 1392, "min": 1, "max": 5, "weight": 1 },//battlestaff
-        { "id": 1163, "min": 1, "max": 1, "weight": 1 },//Rune helm
-        { "id": 1127, "min": 1, "max": 1, "weight": 1 },//Rune plate
-        { "id": 1079, "min": 1, "max": 1, "weight": 1 },//Rune legs
-        { "id": 1347, "min": 1, "max": 1, "weight": 1 },//Rune warhammer
-        { "id": 20849, "min": 1, "max": 10, "weight": 1},//Dragon thrownaxe
-        { "id": 1305, "min": 1, "max": 1, "weight": 1 },//dragon longsword
-        { "id": 1215, "min": 1, "max": 1, "weight": 1 },//dragon dagger
-        { "id": 4087, "min": 1, "max": 1, "weight": 1 },//dragon legs
-        { "id": 4585, "min": 1, "max": 1, "weight": 1 },//dragon skirt
-        { "id": 1149, "min": 1, "max": 1, "weight": 1 }//dragon med
+        { "id": 21816, "min": 1, "max": 1}, //Bracelet of ethereum
+        { "id": 1392, "min": 1, "max": 5 },//battlestaff
+        { "id": 1163, "min": 1, "max": 1 },//Rune helm
+        { "id": 1127, "min": 1, "max": 1 },//Rune plate
+        { "id": 1079, "min": 1, "max": 1 },//Rune legs
+        { "id": 1347, "min": 1, "max": 1 },//Rune warhammer
+        { "id": 20849, "min": 1, "max": 10},//Dragon thrownaxe
+        { "id": 1305, "min": 1, "max": 1 },//dragon longsword
+        { "id": 1215, "min": 1, "max": 1 },//dragon dagger
+        { "id": 4087, "min": 1, "max": 1 },//dragon legs
+        { "id": 4585, "min": 1, "max": 1 },//dragon skirt
+        { "id": 1149, "min": 1, "max": 1 }//dragon med
       ]
     },
     {
       "name": "Ancient Statuettes",
-      "tableweight": 650,
       "items": [
-        { "id": 21807, "min": 1, "max": 1, "weight": 1 },//Ancient emblem
-        { "id": 21810, "min": 1, "max": 1, "weight": 1 },//Ancient totem
-        { "id": 21813, "min": 1, "max": 1, "weight": 1 },//Ancient statuette
-        { "id": 22299, "min": 1, "max": 1, "weight": 1 },//Ancient medallion
-        { "id": 22302, "min": 1, "max": 1, "weight": 1 },//Ancient effigy
-        { "id": 22305, "min": 1, "max": 1, "weight": 1 } //Ancient relic
+        { "id": 21807, "min": 1, "max": 1 },//Ancient emblem
+        { "id": 21810, "min": 1, "max": 1 },//Ancient totem
+        { "id": 21813, "min": 1, "max": 1 },//Ancient statuette
+        { "id": 22299, "min": 1, "max": 1 },//Ancient medallion
+        { "id": 22302, "min": 1, "max": 1 },//Ancient effigy
+        { "id": 22305, "min": 1, "max": 1 } //Ancient relic
       ]
     },
     {
       "name": "Unique",
-      "tableweight": 1200,
       "items": [
-        { "id": 22557, "min": 1, "max": 1, "weight": 2 }, //Amulet of avarice
-        { "id": 22545, "min": 1, "max": 1, "weight": 1 },//Viggora's chainmace
-        { "id": 22550, "min": 1, "max": 1, "weight": 1 },//Craw's bow
-        { "id": 22555, "min": 1, "max": 1, "weight": 1 } //Thammaron's sceptre
+        { "id": 22557, "min": 1, "max": 1 }, //Amulet of avarice
+        { "id": 22545, "min": 1, "max": 1 },//Viggora's chainmace
+        { "id": 22550, "min": 1, "max": 1 },//Craw's bow
+        { "id": 22555, "min": 1, "max": 1 } //Thammaron's sceptre
       ]
     },
     {
       "name": "Pvp Armors",
-      "tableweight": 1700,
       "items": [
-        { "id": 22647, "min": 1, "max": 1, "weight": 1 }, //Zuriel's staff
-        { "id": 22650, "min": 1, "max": 1, "weight": 1 }, //Zuriel's hood
-        { "id": 22653, "min": 1, "max": 1, "weight": 1 }, //Zuriel's robe top
-        { "id": 22656, "min": 1, "max": 1, "weight": 1 }, //Zuriel's robe bottom
-        { "id": 22638, "min": 1, "max": 1, "weight": 1 }, //Morrigan's coif
-        { "id": 22641, "min": 1, "max": 1, "weight": 1 }, //Morrigan's leather body
-        { "id": 22644, "min": 1, "max": 1, "weight": 1 }, //Morrigan's leather chaps
-        { "id": 22622, "min": 1, "max": 1, "weight": 1 }, //SWH
-        { "id": 22625, "min": 1, "max": 1, "weight": 1 }, //Statius's Helm
-        { "id": 22628, "min": 1, "max": 1, "weight": 1 }, //Statius's platebody
-        { "id": 22631, "min": 1, "max": 1, "weight": 1 }, //Statius's platelegs
-        { "id": 22616, "min": 1, "max": 1, "weight": 1 }, //Vesta's Chainbody
-        { "id": 22619, "min": 1, "max": 1, "weight": 1 }, //ZVesta's Chainskirt
-        { "id": 22613, "min": 1, "max": 1, "weight": 1 }, //VLS
-        { "id": 22610, "min": 1, "max": 1, "weight": 1 } //Vesta Spear
+        { "id": 22647, "min": 1, "max": 1 }, //Zuriel's staff
+        { "id": 22650, "min": 1, "max": 1 }, //Zuriel's hood
+        { "id": 22653, "min": 1, "max": 1 }, //Zuriel's robe top
+        { "id": 22656, "min": 1, "max": 1 }, //Zuriel's robe bottom
+        { "id": 22638, "min": 1, "max": 1 }, //Morrigan's coif
+        { "id": 22641, "min": 1, "max": 1 }, //Morrigan's leather body
+        { "id": 22644, "min": 1, "max": 1 }, //Morrigan's leather chaps
+        { "id": 22622, "min": 1, "max": 1 }, //SWH
+        { "id": 22625, "min": 1, "max": 1 }, //Statius's Helm
+        { "id": 22628, "min": 1, "max": 1 }, //Statius's platebody
+        { "id": 22631, "min": 1, "max": 1 }, //Statius's platelegs
+        { "id": 22616, "min": 1, "max": 1 }, //Vesta's Chainbody
+        { "id": 22619, "min": 1, "max": 1 }, //ZVesta's Chainskirt
+        { "id": 22613, "min": 1, "max": 1 }, //VLS
+        { "id": 22610, "min": 1, "max": 1 } //Vesta Spear
       ]
     }
   ]

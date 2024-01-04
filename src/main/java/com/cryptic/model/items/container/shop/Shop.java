@@ -5,6 +5,7 @@ import com.cryptic.GameConstants;
 import com.cryptic.core.task.TaskManager;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.npc.pets.PetDefinitions;
 import com.cryptic.model.entity.player.InputScript;
 import com.cryptic.model.entity.player.Player;
@@ -117,6 +118,8 @@ public abstract class Shop {
         if (store == null) {
             return;
         }
+
+        player.getInventory().refresh();
 
         store.itemContainerAction(player, id, slot, action, purchase);
 

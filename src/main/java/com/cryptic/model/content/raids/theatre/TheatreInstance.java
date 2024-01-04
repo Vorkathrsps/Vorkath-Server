@@ -55,8 +55,6 @@ public class TheatreInstance extends InstancedArea {
     TheatrePhase theatrePhase;
     @Getter
     List<GameObject> treasureSpawns = new ArrayList<>();
-
-    //new Tile(3206, 4446); normal start room
     Tile entrance = new Tile(3206, 4446);
     @Getter TheatreLoot theatreLoot = new TheatreLoot();
     @Getter

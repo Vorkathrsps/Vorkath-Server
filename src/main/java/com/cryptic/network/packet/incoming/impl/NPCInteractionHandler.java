@@ -308,7 +308,7 @@ public class NPCInteractionHandler implements PacketListener {
         }
 
         switch (npc.id()) {
-            case 2822 -> World.getWorld().shop(1).open(player);
+            case 2822, 2821 -> World.getWorld().shop(1).open(player);
             case BOB_BARTER_HERBS -> player.getDialogueManager().start(new BobBarter());
             case MURFET -> player.getDialogueManager().start(new MurfetD());
             case GUILDMASTER_LARS -> player.getDialogueManager().start(new LarsD());

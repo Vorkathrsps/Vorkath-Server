@@ -19,22 +19,8 @@ import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.*;
 
 public class PrayerDamage implements DamageEffectListener {
-    private final int[] ignoreFullNegatedDamage = new int[]
-        {
-            CORPOREAL_BEAST,
-            KING_BLACK_DRAGON,
-            KING_BLACK_DRAGON_6502,
-            KING_BLACK_DRAGON_2642,
-            GENERAL_GRAARDOR,
-            GENERAL_GRAARDOR_6494,
-            KREEARRA,
-            KREEARRA_6492,
-            COMMANDER_ZILYANA,
-            COMMANDER_ZILYANA_6493,
-            KRIL_TSUTSAROTH,
-            KRIL_TSUTSAROTH_6495,
-            ENORMOUS_TENTACLE
-        };
+    private static final String[] ignoredNegatedDamage = new String[]{"corporeal_beast", "dragon", "king_black", "general_graardor", "kree", "zilyana", "vorkath", "maiden", "verzik", "xarpus", "bloat", "sotetseg", "enormous_tentacle", "kraken", "tsutsaroth", "olm", "alchemical_hydra", "nex"};
+    private final int[] ignoreFullNegatedDamage = new int[]{CORPOREAL_BEAST, KING_BLACK_DRAGON, KING_BLACK_DRAGON_6502, KING_BLACK_DRAGON_2642, GENERAL_GRAARDOR, GENERAL_GRAARDOR_6494, KREEARRA, KREEARRA_6492, COMMANDER_ZILYANA, COMMANDER_ZILYANA_6493, KRIL_TSUTSAROTH, KRIL_TSUTSAROTH_6495, ENORMOUS_TENTACLE, VORKATH, VORKATH_8058, VORKATH_8059, VORKATH_8060, VORKATH_8061, VORKATH_11959, VERZIK_VITUR, VERZIK_VITUR_8369, VERZIK_VITUR_8370, VERZIK_VITUR_8371, VERZIK_VITUR_8372, VERZIK_VITUR_8373, VERZIK_VITUR_8374, VERZIK_VITUR_8375, VERZIK_VITUR_10830, VERZIK_VITUR_10831, VERZIK_VITUR_10832, VERZIK_VITUR_10833, VERZIK_VITUR_10834, VERZIK_VITUR_10835, VERZIK_VITUR_10836, VERZIK_VITUR_10847, VERZIK_VITUR_10848, VERZIK_VITUR_10849, VERZIK_VITUR_10850, VERZIK_VITUR_10851, VERZIK_VITUR_10852, VERZIK_VITUR_10853};
 
     @Override
     public boolean prepareDamageEffectForAttacker(Entity entity, CombatType combatType, Hit hit) {
@@ -49,7 +35,7 @@ public class PrayerDamage implements DamageEffectListener {
                 if (damage <= 0) return false;
                 if (meleePrayer || rangedPrayer || magicPrayer) {
                     if (entity instanceof NPC npc) {
-                        if (ArrayUtils.contains(ignoreFullNegatedDamage, npc.id())) {
+                        if (ArrayUtils.contains(ignoredNegatedDamage, npc.getMobName().toLowerCase())) {
                             damage = (int) (1 + (damage * 0.66D));
                             hit.setDamage(damage);
                             return true;

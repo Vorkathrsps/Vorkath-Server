@@ -164,6 +164,7 @@ public class Hit {
 
     public Hit setDamage(int damage) {
         this.damage = damage;
+        if (this.damage > 0) this.setHitMark(HitMark.DEFAULT);
         return this;
     }
 
@@ -227,8 +228,8 @@ public class Hit {
         else this.damage = CombatFactory.calcDamageFromType(attacker, target, combatType);
         if (oneHitActive) this.damage = target.hp();
         if (alwaysHitActive) this.damage = alwaysHitDamage;
-        if (!this.accurate && this.damage == 0) this.hitMark = HitMark.MISSED;
-        else this.hitMark = HitMark.DEFAULT;
+        if (!this.accurate && this.damage <= 0) this.setHitMark(HitMark.MISSED);
+        else this.setHitMark(HitMark.DEFAULT);
         return this;
     }
 

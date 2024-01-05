@@ -25,6 +25,7 @@ import static com.cryptic.model.inter.InterfaceConstants.*;
 public class SecondContainerAction {
 
     public static void secondAction(Player player, int interfaceId, int slot, int id) {
+
         if(PacketInteractionManager.checkItemContainerActionInteraction(player, new Item(id), slot, interfaceId, 2)) {
             return;
         }
@@ -143,5 +144,7 @@ public class SecondContainerAction {
         if (interfaceId == PRICE_CHECKER_CONTAINER) {
             player.getPriceChecker().withdraw(id, 5);
         }
+
+        player.getInventory().refresh();
     }
 }

@@ -60,12 +60,13 @@ import static java.lang.String.format;
 public class TournamentManager extends PacketInteraction {
 
     public static void revertStats(Player player) {
-        for (var p : player.getParticipatingTournament().playerSkillMap.entrySet()) {
-            if (!p.getKey().equals(player)) continue;
-            for (var v : p.getValue().entrySet()) {
-                var xp = v.getKey();
-                var lvl = v.getValue();
-                var hashedPlayer = p.getKey();
+        var skillMap = player.getParticipatingTournament().playerSkillMap;
+        for (var hash : skillMap.entrySet()) {
+            if (!hash.getKey().equals(player)) continue;
+            for (var entry : hash.getValue().entrySet()) {
+                var xp = entry.getKey();
+                var lvl = entry.getValue();
+                var hashedPlayer = hash.getKey();
                 hashedPlayer.skills().restoreLevels(xp, lvl);
             }
         }
@@ -73,6 +74,7 @@ public class TournamentManager extends PacketInteraction {
         player.skills().recalculateCombat();
         player.setSavedTornamentXp(null);
         player.setSavedTornamentLevels(null);
+        skillMap.remove(player);
     }
 
     @Override

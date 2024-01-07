@@ -309,6 +309,7 @@ public class PlayerSave {
             player.putAttrib(LEGENDARY_MEMBER_UNLOCKED, details.legendaryMemberUnlocked);
             player.putAttrib(VIP_UNLOCKED, details.vipUnlocked);
             player.putAttrib(SPONSOR_UNLOCKED, details.sponsorMemberUnlocked);
+            if (details.saved_tornament_levels != null && details.saved_tornament_xp != null) player.skills().restoreLevels(details.saved_tornament_xp, details.saved_tornament_levels);
             player.getSkills().setAllLevels(details.dynamicLevels);
             player.getSkills().setAllXps(details.skillXP);
             player.putAttrib(ACTIVE_PET_ITEM_ID, details.activePetItemId);
@@ -944,6 +945,8 @@ public class PlayerSave {
         private final HashMap<Integer, Integer> varps;
 
         //Skills
+        private final double[] saved_tornament_xp;
+        private final int[] saved_tornament_levels;
         private final int[] dynamicLevels;
         private final double[] skillXP;
         private final int activePetItemId;
@@ -1554,6 +1557,8 @@ public class PlayerSave {
             legendaryMemberUnlocked = Player.getAttribBooleanOr(player, LEGENDARY_MEMBER_UNLOCKED, false);
             vipUnlocked = Player.getAttribBooleanOr(player, VIP_UNLOCKED, false);
             sponsorMemberUnlocked = Player.getAttribBooleanOr(player, SPONSOR_UNLOCKED, false);
+            saved_tornament_xp = player.getSavedTornamentXp();
+            saved_tornament_levels = player.getSavedTornamentLevels();
             dynamicLevels = player.getSkills().levels();
             skillXP = player.getSkills().xp();
             activePetItemId = Player.getAttribIntOr(player, ACTIVE_PET_ITEM_ID, 0);

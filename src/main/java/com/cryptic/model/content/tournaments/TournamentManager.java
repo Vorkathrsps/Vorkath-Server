@@ -59,6 +59,22 @@ import static java.lang.String.format;
 @SuppressWarnings("ALL")
 public class TournamentManager extends PacketInteraction {
 
+    public static void revertStats(Player player) {
+        for (var p : player.getParticipatingTournament().playerSkillMap.entrySet()) {
+            if (!p.getKey().equals(player)) continue;
+            for (var v : p.getValue().entrySet()) {
+                var xp = v.getKey();
+                var lvl = v.getValue();
+                var hashedPlayer = p.getKey();
+                hashedPlayer.skills().restoreLevels(xp, lvl);
+            }
+        }
+        player.skills().update();
+        player.skills().recalculateCombat();
+        player.setSavedTornamentXp(null);
+        player.setSavedTornamentLevels(null);
+    }
+
     @Override
     public boolean handleObjectInteraction(Player player, GameObject gameObject, int option) {
         if (option == 1) {
@@ -217,11 +233,10 @@ public class TournamentManager extends PacketInteraction {
 
     public static void leaveTourny(Player player, boolean logout, boolean teleport) {
         final Tournament torn = player.getParticipatingTournament();
-        if (torn == null)
-            return;
+        if (torn == null) return;
+        revertStats(player);
         if (player.isInTournamentLobby()) {
             wipeLoadout(player);
-            //logger.info("Player " + player.getUsername() + " is leaving tourny lobby");
             torn.inLobby.remove(player);
             player.setInTournamentLobby(false);
             player.getRunePouch().clear();
@@ -235,7 +250,6 @@ public class TournamentManager extends PacketInteraction {
         }
         if (player.inActiveTournament()) {
             wipeLoadout(player);
-
             if (torn.fighters.contains(player)) {
                 torn.fighters.remove(player);
                 if (torn.winner == player) {

@@ -200,6 +200,10 @@ public class Player extends Entity {
     @Getter
     @Setter
     private TheatreInstance theatreInstance;
+
+    @Getter @Setter private double[] savedTornamentXp;
+
+    @Getter @Setter private int[] savedTornamentLevels;
     public transient ShopReference shopReference = ShopReference.DEFAULT;
 
     private final WildernessSlayerCasket wildernessSlayerCasket = new WildernessSlayerCasket(this);
@@ -1463,6 +1467,10 @@ public class Player extends Entity {
             teleport(1353, 10258, 0);
         if (tile.region() == 9023 && getZ() > 3) // vorkath
             teleport(2272, 4050, 0);
+
+        if (this.getParticipatingTournament() != null) {
+            TournamentManager.leaveTourny(this, true);
+        }
 
         if (getInstancedArea() != null) {
             getInstancedArea().removePlayer(this);

@@ -19,25 +19,21 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
+import java.util.function.BooleanSupplier;
 
-import static com.cryptic.model.content.tournaments.TournamentUtils.LOBBY_TILE;
+import static com.cryptic.model.content.tournaments.TournamentUtils.*;
 import static com.cryptic.utility.CustomItemIdentifiers.LEGENDARY_MYSTERY_BOX;
 import static com.cryptic.utility.CustomItemIdentifiers.MYSTERY_TICKET;
 import static java.lang.String.format;
 
-/**
- * To read how it works see {@link TournamentManager}
- *
- * @author Shadowrs (tardisfan121@gmail.com)
- */
 public class Tournament {
-
+    public Map<Player, Map<double[], int[]>> playerSkillMap = new HashMap<>();
     private static final Logger logger = LogManager.getLogger(Tournament.class);
 
-    public int maxParticipants = GameServer.properties().tournamentMaxParticipants, minimumParticipants = (GameServer.properties().production ? GameServer.properties().tournamentMinProdParticipants : GameServer.properties().tournamentMinDevParticipants);
+    public int maxParticipants = GameServer.properties().tournamentMaxParticipants, minimumParticipants = 2;
 
     final List<Player> inLobby = new ArrayList<>(0);
-
+    final List<String> macAddressesInLobby = new ArrayList<>(0);
     private final TournamentManager.TornConfig config;
 
     public long lobbyOpenTimeMs;
@@ -55,7 +51,7 @@ public class Tournament {
     public Tournament(TournamentManager.TornConfig config) {
         this.config = config;
         reward = setRewards();
-        Utils.sendDiscordInfoLog("Tournament reward has been set to "+reward.toString()+" .", "tournaments");
+        Utils.sendDiscordInfoLog("Tournament reward has been set to " + reward.toString() + " .", "tournaments");
     }
 
     public Tournament(TournamentManager.TornConfig config, Item reward) {
@@ -80,53 +76,47 @@ public class Tournament {
     }
 
     void enterLobby(Player player) {
-        if (inLobby.size() >= maxParticipants) {
+        if (inLobby.size() >= maxParticipants) return;
+        if (fighters.size() > 0) return;
+        if (player.getParticipatingTournament() != null) return;
+        var MAC = player.<String>getAttribOr(AttributeKey.MAC_ADDRESS, "invalid");
+        if (macAddressesInLobby.contains(MAC)) {
+            player.message("You can not join the tournaments from two accounts!");
             return;
         }
-        if (fighters.size() > 0) { // game in progress
-            return;
-        }
-        if (player.getParticipatingTournament() != null)
-            return;
-
-        player.teleport(LOBBY_TILE);
+        if (!player.getInventory().isEmpty()) player.getBank().depositInventory();
+        if (!player.getEquipment().isEmpty()) player.getBank().depositeEquipment();
+        double[] cachedXp = Arrays.copyOf(player.skills().xp(), player.skills().xp().length);
+        int[] cachedLevels = Arrays.copyOf(player.skills().levels(), player.skills().levels().length);
+        player.setSavedTornamentXp(cachedXp);
+        player.setSavedTornamentLevels(cachedLevels);
+        Map<double[], int[]> skillCache = new HashMap<>();
+        skillCache.put(cachedXp, cachedLevels);
+        playerSkillMap.put(player, skillCache);
+        player.teleport(getRandomTile(LOBBY_AREA));
         player.setInTournamentLobby(true);
         player.setParticipatingTournament(this);
         inLobby.add(player);
-        // TODO store skills
+        macAddressesInLobby.add(player.getAttribOr(AttributeKey.MAC_ADDRESS, "invalid"));
         player.getRunePouch().clear();
-        resetAllVars(player);
         player.getInterfaceManager().close();
         Skulling.unskull(player);
         player.message(format("You've entered the %s tournament. Good luck %s.", config.key, player.getUsername()));
-        if (inLobby.size() < minimumParticipants) {
+        if (inLobby.size() < minimumParticipants)
             player.message("The tournament requires at least " + (minimumParticipants - inLobby.size()) + " more players to start.");
-        }
         player.getPacketSender().sendString(TournamentUtils.TOURNAMENT_WALK_TIMER, "Starting in 30...");
         setLoadoutOnPlayer(player);
     }
 
-    /**
-     * Resets various combat vars
-     */
     public void resetAllVars(Player player) {
         player.resetAttributes();
     }
 
-    /**
-     * Called from the primary tournament system timer every {@literal Tournament.settings.globalTimerSecs} seconds
-     */
     public void tick() {
-        // System.out.printf(this.config.key+" tick fighters:%s lobby:%s  spec:%s %s mins ago | lobby sec %s | %s %n",
-        //      fighters.size(), inLobby.size(), spectators.size(), (System.currentTimeMillis() - lobbyOpenTimeMs)/60_000, TournamentManager.getSettings().lobbyTime,
-        //     (disposeTournyAtTime - System.currentTimeMillis()) / 1000);
         if (tick++ == Integer.MAX_VALUE) {
             tick = 0;
         }
-        //System.out.println("Ticking");
-        // First, check the lobby. Minimum people required to start. Move players into main game and clear lobby.
         if (fighters.size() == 0 && inLobby.size() > 0) {
-            //Every 60 ticks, we print the message to the players, if necessary.
             if (tick % 60 == 0) {
                 if (inLobby.size() < minimumParticipants) {
                     for (Player player : inLobby) {
@@ -134,12 +124,7 @@ public class Tournament {
                     }
                 }
             }
-            /**
-             * lobby starting moved to {@link TournamentManager.TournamentLobbyTask}
-             */
         }
-
-        // Check if fights are ongoing. If everyone has finished fighting, progress to next stage.
         checkForNextRoundStart();
     }
 
@@ -150,13 +135,13 @@ public class Tournament {
             winner.putAttrib(AttributeKey.TOURNAMENT_WINS, wins);
             var points = winner.<Integer>getAttribOr(AttributeKey.TOURNAMENT_POINTS, 0) + 1;
             winner.putAttrib(AttributeKey.TOURNAMENT_POINTS, points);
-            winner.message("You have won the " + fullName() + " Tournament! You now have won "+ Color.BLUE.wrap(""+wins)+" tournaments.");
-            winner.message("You've received 1 tournament point! You now have won "+Color.BLUE.wrap(""+points)+" tournament points.");
+            winner.message("You have won the " + fullName() + " Tournament! You now have " + Color.BLUE.wrap("" + wins) + " tournaments.");
+            winner.message("You've received 4 tournament point! You now have " + Color.BLUE.wrap("" + points) + " tournament points.");
             World.getWorld().sendWorldMessage(format("<img=505>[<col=" + Color.MEDRED.getColorValue() + ">Tournament</col>]: %s has won the %s tournament!", winner.getUsername(), fullName()));
             logger.info(format("<img=505>[<col=" + Color.MEDRED.getColorValue() + ">Tournament</col>]: %s has won the %s tournament!", winner.getUsername(), fullName()));
             logger.info("PvP tournament rewards: " + reward.toString());
 
-            winner.getPacketSender().sendInteractionOption("null", 2, true); //Remove attack option
+            winner.getPacketSender().sendInteractionOption("null", 2, true);
             winner.getPacketSender().sendEntityHintRemoval(true);
             onTournyClosed();
         }
@@ -174,7 +159,6 @@ public class Tournament {
                 }
             }
 
-            // progress to next stage. assign opponents.
             if (!fightInProgress) {
                 startedAt = System.currentTimeMillis();
                 Player last = null;
@@ -183,38 +167,34 @@ public class Tournament {
                     final Player player = fighters.get(i);
                     if (i % 2 == 0) {
                         last = player;
-                        if (i == fighters.size() - 1) { // we're the last one.. no other opponent available
+                        if (i == fighters.size() - 1) {
                             player.message("There was no opponent available. You will fight the winner of next match.");
-                            player.getMovementQueue().setBlockMovement(false); // allow walk again
-                            player.setTournamentSpectating(true); // allow to watch other fights
-                            break; // should be the end of the list anyway
+                            player.getMovementQueue().setBlockMovement(false);
+                            player.setTournamentSpectating(true);
+                            break;
                         }
                     } else {
                         if (last != null) {
                             prepareMatch(player, last);
                             prepareMatch(last, player);
-                            //logger.trace(player.getUsername() + " vs " + last.getUsername());
                             last = null;
                         } else {
                             player.message("There was no opponent available, so you will fight the winner of next match.");
-                            player.getMovementQueue().setBlockMovement(false); // allow walk again
-                            player.setTournamentSpectating(true); // allow to watch other fights
-                            break; // should be the end of the list anyway
+                            player.getMovementQueue().setBlockMovement(false);
+                            player.setTournamentSpectating(true);
+                            break;
                         }
                     }
                 }
                 if (!firstRoundStarted) {
                     firstRoundStarted = true;
                 }
-
-                //logger.trace("the next round of fights have been decided!");
             }
         }
     }
 
     public void onTournyClosed() {
-        //logger.info("Closing tourny " + config.key + " by winner " + winner);
-        // they havent left manually yet
+        macAddressesInLobby.clear();
         List<Player> temp = new ArrayList<>(0);
         temp.addAll(inLobby);
         temp.addAll(spectators);
@@ -225,53 +205,52 @@ public class Tournament {
     }
 
     public void setLoadoutOnPlayer(Player player) {
-        resetAllVars(player);
-        TournamentManager.wipeLoadout(player); // clear the loadout and re-load below it we get new food. yes players will have to micro manage their inv setup every round.
-        player.setSpecialAttackPercentage(100);
-        CombatSpecial.updateBar(player);
+        BooleanSupplier empty = () -> player.getInventory().isEmpty() && player.getEquipment().isEmpty();
+        player.waitUntil(empty, () -> {
+            TournamentManager.wipeLoadout(player);
+            player.setSpecialAttackPercentage(100);
+            CombatSpecial.updateBar(player);
 
-        TournamentManager.Loadout loadout = TournamentManager.loadouts.stream().filter(l -> l.key.equalsIgnoreCase(config.key)).findFirst().orElse(null);
-        if (loadout == null) {
-            logger.error("no loadout exists for tournaments loadout key " + config.key + "!");
-            loadout = TournamentManager.loadouts.get(0);
-        }
-        // first set stats, for equipment requirements
-        for (TournamentManager.Tuple<Integer, Integer> stat : loadout.stats) {
-            int skill = stat.x;
-            int level = stat.y;
-            player.skills().setLevel(skill, level);
-            player.skills().setXp(skill, Skills.levelToXp(level));
-            player.skills().update(skill);
-        }
-        for (int i = 0; i < loadout.equip.capacity(); i++) {
-            if (loadout.equip.getItems()[i] == null)
-                continue;
-            player.inventory().set(i, loadout.equip.getItems()[i].clone(), false);
-        }
-        for (int i = 0; i < player.inventory().capacity(); i++) {
-            if (player.inventory().get(i) == null) continue;
-            //logger.trace("Trying to equip " + player.inventory().get(i));
-            player.getEquipment().equip(i);
-            BonusesInterface.sendBonuses(player);
-        }
-        for (int i = 0; i < loadout.inv.capacity(); i++) {
-            if (loadout.inv.getItems()[i] == null)
-                continue;
-            player.inventory().set(i, loadout.inv.getItems()[i].clone(), false);
-        }
-        for (int i = 0; i < loadout.runepouch.capacity(); i++) {
-            if (loadout.runepouch.getItems()[i] == null) continue;
-            player.getRunePouch().deposit(loadout.runepouch.getItems()[i].clone());
+            TournamentManager.Loadout loadout = TournamentManager.loadouts.stream().filter(l -> l.key.equalsIgnoreCase(config.key)).findFirst().orElse(null);
+            if (loadout == null) {
+                logger.error("no loadout exists for tournaments loadout key " + config.key + "!");
+                loadout = TournamentManager.loadouts.get(0);
+            }
+            for (TournamentManager.Tuple<Integer, Integer> stat : loadout.stats) {
+                int skill = stat.x;
+                int level = stat.y;
+                player.skills().setLevel(skill, level);
+                player.skills().setXp(skill, Skills.levelToXp(level));
+                player.skills().update(skill);
+            }
+            player.skills().recalculateCombat();
+            for (int i = 0; i < loadout.equip.capacity(); i++) {
+                if (loadout.equip.getItems()[i] == null)
+                    continue;
+                player.inventory().set(i, loadout.equip.getItems()[i].clone(), false);
+            }
+            for (int i = 0; i < player.inventory().capacity(); i++) {
+                if (player.inventory().get(i) == null) continue;
+                player.getEquipment().equip(i);
+                BonusesInterface.sendBonuses(player);
+            }
+            for (int i = 0; i < loadout.inv.capacity(); i++) {
+                if (loadout.inv.getItems()[i] == null)
+                    continue;
+                player.inventory().set(i, loadout.inv.getItems()[i].clone(), false);
+            }
+            for (int i = 0; i < loadout.runepouch.capacity(); i++) {
+                if (loadout.runepouch.getItems()[i] == null) continue;
+                player.getRunePouch().deposit(loadout.runepouch.getItems()[i].clone());
+                player.getRunePouch().refresh();
+            }
             player.getRunePouch().refresh();
-            //logger.trace("tournament: rune pouch: slot {} is {}", i, player.getRunePouch().get(i));
-        }
-        player.getRunePouch().refresh();
-        //logger.trace("Setting spellbook to: " + MagicSpellbook.forId(loadout.spellbook));
-        player.setPreviousSpellbook(player.getSpellbook());
-        MagicSpellbook.changeSpellbook(player, MagicSpellbook.forId(loadout.spellbook), false);
-        player.inventory().refresh();
-        player.getEquipment().refresh();
-        player.setQueuedAppearanceUpdate(true);
+            player.setPreviousSpellbook(player.getSpellbook());
+            MagicSpellbook.changeSpellbook(player, MagicSpellbook.forId(loadout.spellbook), false);
+            player.inventory().refresh();
+            player.getEquipment().refresh();
+            player.setQueuedAppearanceUpdate(true);
+        });
     }
 
     /**
@@ -295,7 +274,6 @@ public class Tournament {
         //Set new waiting timers
         player.getTimers().extendOrRegister(TimerKey.TOURNAMENT_FIGHT_IMMUNE, TournamentUtils.FIGHT_IMMUME_TIMER);
         player.getPacketSender().sendString(TournamentUtils.TOURNAMENT_WALK_TIMER, "00:30");
-        // TODO task uniquenness based on current round
         TaskManager.submit(new Task() {
             // does this repeat or is it a 1 time thing? Task one time thing
             @Override
@@ -313,7 +291,7 @@ public class Tournament {
                 }
 
                 int secs = (int) (player.getTimers().left(TimerKey.TOURNAMENT_FIGHT_IMMUNE) * 0.6); //times 0.6 makes it secs but interface / updates are every 0.6 so it needs to be a client side timer
-                player.getPacketSender().sendString(TournamentUtils.TOURNAMENT_WALK_TIMER, secs > 9 ? "00:"+secs : "00:0"+secs);
+                player.getPacketSender().sendString(TournamentUtils.TOURNAMENT_WALK_TIMER, secs > 9 ? "00:" + secs : "00:0" + secs);
 
                 if (secs == 0) {
                     player.forceChat("Fight!");
@@ -349,7 +327,8 @@ public class Tournament {
      * Translates the config.key ("nhpure") to a full name "Nh Pure Tournament"
      */
     public String fullName() {
-        return switch (config.key) {//done1
+        return switch (config.key) {
+            case "Hybrid" -> "Hybrid PK tournament";
             case "NH Pure" -> "Pure No Honor PK tournament";
             default -> config.key;
         };
@@ -359,7 +338,7 @@ public class Tournament {
      * The list of items rewarded from a tournament
      */
     private Item setRewards() {
-        var possible_rewards = new Item[] {new Item(LEGENDARY_MYSTERY_BOX, 1), new Item(MYSTERY_TICKET, 1)};
+        var possible_rewards = new Item[]{new Item(30223, 1)};
         return World.getWorld().random(possible_rewards);
     }
 

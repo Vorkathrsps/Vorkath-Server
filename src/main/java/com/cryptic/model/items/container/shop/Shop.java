@@ -115,9 +115,8 @@ public abstract class Shop {
 
         Shop store = World.getWorld().shop(shop);
 
-        if (store == null) {
-            return;
-        }
+        if (store == null) return;
+
 
         player.getInventory().refresh();
 

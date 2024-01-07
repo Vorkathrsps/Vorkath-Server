@@ -916,6 +916,39 @@
     ]
   },
   {
+    "shopId": 350,
+    "name": "Donator Store",
+    "currency": "COINS_995",
+    "noiron": true,
+    "restock": true,
+    "sellType": "NONE",
+    "scroll": 0,
+    "items": [
+    ]
+  },
+  {
+    "shopId": 351,
+    "name": "Skilling Shop",
+    "currency": "COINS_995",
+    "noiron": true,
+    "restock": true,
+    "sellType": "NONE",
+    "scroll": 0,
+    "items": [
+    ]
+  },
+  {
+    "shopId": 352,
+    "name": "Cosmetic Shop",
+    "currency": "COINS_995",
+    "noiron": true,
+    "restock": true,
+    "sellType": "NONE",
+    "scroll": 0,
+    "items": [
+    ]
+  },
+  {
     "shopId": 6,
     "name": "<col=09FF00>Vote Point Shop",
     "currency": "VOTE_POINTS",

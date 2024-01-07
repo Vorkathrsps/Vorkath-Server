@@ -59,6 +59,11 @@ public class Skills {
         levels[3] = 10;
     }
 
+    public void restoreLevels(double[] xp, int[] levels) {
+        this.xps = xp;
+        this.levels = levels;
+    }
+
     private double expModifiers(int skill) {
        /* switch(skill) {
             case PRAYER -> {

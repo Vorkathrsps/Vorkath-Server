@@ -9,6 +9,7 @@ import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.areas.Controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ public class TournamentArea extends Controller {
     public static final Area TOURNAMENT_AREA = new Area(1698, 4690, 1722, 4716);
 
     public TournamentArea() {
-        super(List.of(TOURNAMENT_AREA));
+        super(Arrays.asList(new Area(3321, 4940, 3325, 4979), new Area(3267, 4931, 3318, 4988)));
     }
 
     @Override
@@ -42,7 +43,9 @@ public class TournamentArea extends Controller {
     public void process(Player mob) {
         if (mob.isPlayer()) {
             Player player = mob.getAsPlayer();
-            //No interface for spectators
+            if (player.getParticipatingTournament().getFighters().size() == 1) {
+                player.getParticipatingTournament().checkForWinner();
+            }
             if(!player.isTournamentSpectating()) {
                 player.getInterfaceManager().sendOverlay(TournamentUtils.TOURNAMENT_WALK_INTERFACE);
             }

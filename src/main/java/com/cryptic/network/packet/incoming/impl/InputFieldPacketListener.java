@@ -21,10 +21,6 @@ public class InputFieldPacketListener implements PacketListener {
         player.debugMessage("[InputField] - Text: " + context + " Component: " + component);
 
         switch (component) {
-            /* Clan Chat */
-            case 73155 -> {
-
-            }
             case 47828 -> ClanManager.kickMember(player, context);
             case 47830 -> {
                 if (World.getWorld().getPlayerByName(context).isPresent()) {

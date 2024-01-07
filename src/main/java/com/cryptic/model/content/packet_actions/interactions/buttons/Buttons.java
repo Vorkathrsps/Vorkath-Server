@@ -421,6 +421,18 @@ public class Buttons {
                     Shop.closeShop(player);
                     return;
                 }
+                if (button == 73164) {
+                    World.getWorld().shop(350).open(player);
+                    return;
+                }
+                if (button == 73165) {
+                    World.getWorld().shop(351).open(player);
+                    return;
+                }
+                if (button == 73166) {
+                    World.getWorld().shop(352).open(player);
+                    return;
+                }
                 if (OrnateJewelleryBox.teleport(player, button)) {
                     return;
                 }

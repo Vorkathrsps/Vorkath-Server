@@ -153,31 +153,27 @@ public class DeathResult {
     }
 
     public DeathResult calculateItemsKept() {
+        int itemsToRemove = 0;
         if (player == null || itemList == null) throw new NullPointerException("Player or Item List is null.");
         if (player.getIronManStatus().isUltimateIronman() || player.getSkullType().equals(SkullType.RED_SKULL)) return this;
-        int itemsToRemove = 0;
-        if (skulled && Prayers.usingPrayer(player, Prayers.PROTECT_ITEM)) {
-            itemsToRemove = Math.min(itemList.size(), 1);
-        } else if (!skulled && Prayers.usingPrayer(player, Prayers.PROTECT_ITEM)) {
-            itemsToRemove = Math.min(itemList.size(), 4);
-        } else if (!skulled) {
-            itemsToRemove = Math.min(itemList.size(), 3);
-        }
-        List<Item> clone = new ArrayList<>();
-        List<Item> temp = new ArrayList<>();
+        if (skulled && Prayers.usingPrayer(player, Prayers.PROTECT_ITEM)) itemsToRemove = Math.min(itemList.size(), 1);
+        else if (!skulled && Prayers.usingPrayer(player, Prayers.PROTECT_ITEM)) itemsToRemove = Math.min(itemList.size(), 4);
+        else if (!skulled) itemsToRemove = Math.min(itemList.size(), 3);
+        List<Item> subList = new ArrayList<>();
+        List<Item> tempList = new ArrayList<>();
         for (Item item : itemList.subList(0, itemsToRemove)) {
             if (item == null) continue;
             if (item.stackable() && item.getAmount() > 1) {
                 item.setAmount(item.getAmount() - 1);
-                temp.add(item);
-                clone.add(new Item(item, 1));
+                tempList.add(item);
+                subList.add(new Item(item, 1));
             } else {
-                clone.add(item);
+                subList.add(item);
             }
         }
-        itemsKeptOnDeath = clone;
+        itemsKeptOnDeath = subList;
         itemList.subList(0, itemsToRemove).clear();
-        itemList.addAll(temp);
+        itemList.addAll(tempList);
         return this;
     }
 

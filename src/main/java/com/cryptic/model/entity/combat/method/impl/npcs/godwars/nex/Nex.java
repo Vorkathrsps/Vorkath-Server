@@ -18,12 +18,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.NEX_11280;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.NEX_11281;
 
-/**
- * The nex
- *
- * @Author Origin
- * @Since January 13, 2022
- */
 public class Nex extends NPC {
 
     public Nex(int id, Tile tile) {

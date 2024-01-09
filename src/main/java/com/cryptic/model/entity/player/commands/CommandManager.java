@@ -22,6 +22,7 @@ import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
+import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nexnew.NexStage;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.ScalarLootTable;
@@ -638,10 +639,12 @@ public class CommandManager {
             ((GreatOlm) olm.getCombatMethod()).crystalMark(olm);
         });
         dev("olm4", (p, c, s) -> {
-
+            p.clearAttrib(CHOKED);
+            System.out.println(p.hasAttrib(CHOKED));
         });
         dev("c", (p, c, s) -> {
-
+            com.cryptic.model.entity.combat.method.impl.npcs.godwars.nexnew.Nex nex = new com.cryptic.model.entity.combat.method.impl.npcs.godwars.nexnew.Nex(11279, p.tile(), NexStage.ONE);
+            nex.spawn(false);
         });
 
         dev("ioi", (p, c, s) -> {

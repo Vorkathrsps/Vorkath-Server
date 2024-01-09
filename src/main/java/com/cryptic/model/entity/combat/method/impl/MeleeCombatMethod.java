@@ -25,7 +25,7 @@ import static com.cryptic.utility.ItemIdentifiers.*;
  */
 public class MeleeCombatMethod extends CommonCombatMethod {
     public static final int[] immune_to_melee = new int[]{NpcIdentifiers.NYLOCAS_HAGIOS, NpcIdentifiers.NYLOCAS_TOXOBOLOS_8343, NpcIdentifiers.NYLOCAS_VASILIAS_8357, NYLOCAS_VASILIAS_8356};
-    int[] cannot_attack = new int[]{10865, 10814, 8340, 8250, 8372, 8373, 8374, 8375, 8369, 8370, 8386};
+    int[] cannot_attack = new int[]{10865, 10814, 8340, 8250, 8372, 8373, 8374, 8375, 8369, 8370, 8386, 11278};
 
     private void attackWithScythe(Entity target) {
         entity.animate(entity.attackAnimation());
@@ -84,7 +84,8 @@ public class MeleeCombatMethod extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         if (entity instanceof NPC npc) {
             if (npc.getCombat().getCombatType() == null) {
-                if (ArrayUtils.contains(cannot_attack, npc.id())) return false;
+                //if (ArrayUtils.contains(cannot_attack, npc.id())) return false;
+                return false;
             }
             if (!withinDistance(1)) return false;
         }

@@ -21,7 +21,7 @@ public class NexArea extends Controller {
     public void enter(Player player) {
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {
-                if (npc.id() == 11278) {
+                if (npc.id() == 11278 || npc.id() == 11279) {
                     if (!npc.dead()) {
                         HealthHud.open(player, HealthHud.Type.REGULAR, "Nex", npc.hp());
                         if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());

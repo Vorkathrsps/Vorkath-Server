@@ -76,6 +76,10 @@ public class Tournament {
     }
 
     void enterLobby(Player player) {
+        if (player.getIronManStatus().isUltimateIronman()) {
+            player.message(Color.RED.wrap("Ultimate Ironman cannot participate in this activity."));
+            return;
+        }
         if (inLobby.size() >= maxParticipants) return;
         if (fighters.size() > 0) return;
         if (player.getParticipatingTournament() != null) return;
@@ -86,6 +90,8 @@ public class Tournament {
         }
         if (!player.getInventory().isEmpty()) player.getBank().depositInventory();
         if (!player.getEquipment().isEmpty()) player.getBank().depositeEquipment();
+        if (!player.getLootingBag().isEmpty()) player.getLootingBag().depositLootingBag();
+        if (!player.getRunePouch().isEmpty()) player.getRunePouch().bankRunesFromNothing();
         double[] cachedXp = Arrays.copyOf(player.skills().xp(), player.skills().xp().length);
         int[] cachedLevels = Arrays.copyOf(player.skills().levels(), player.skills().levels().length);
         player.setSavedTornamentXp(cachedXp);
@@ -131,16 +137,17 @@ public class Tournament {
     public void checkForWinner() {
         if (fighters.size() == 1) {
             winner = fighters.get(0);
-            var wins = winner.<Integer>getAttribOr(AttributeKey.TOURNAMENT_WINS, 0) + 1;
+            var wins = winner.<Integer>getAttribOr(AttributeKey.TOURNAMENT_WINS, 0);
+            wins += 1;
             winner.putAttrib(AttributeKey.TOURNAMENT_WINS, wins);
-            var points = winner.<Integer>getAttribOr(AttributeKey.TOURNAMENT_POINTS, 0) + 1;
+            var points = winner.<Integer>getAttribOr(AttributeKey.TOURNAMENT_POINTS, 0);
+            points += 4;
             winner.putAttrib(AttributeKey.TOURNAMENT_POINTS, points);
             winner.message("You have won the " + fullName() + " Tournament! You now have " + Color.BLUE.wrap("" + wins) + " tournaments.");
             winner.message("You've received 4 tournament point! You now have " + Color.BLUE.wrap("" + points) + " tournament points.");
             World.getWorld().sendWorldMessage(format("<img=505>[<col=" + Color.MEDRED.getColorValue() + ">Tournament</col>]: %s has won the %s tournament!", winner.getUsername(), fullName()));
             logger.info(format("<img=505>[<col=" + Color.MEDRED.getColorValue() + ">Tournament</col>]: %s has won the %s tournament!", winner.getUsername(), fullName()));
             logger.info("PvP tournament rewards: " + reward.toString());
-
             winner.getPacketSender().sendInteractionOption("null", 2, true);
             winner.getPacketSender().sendEntityHintRemoval(true);
             onTournyClosed();

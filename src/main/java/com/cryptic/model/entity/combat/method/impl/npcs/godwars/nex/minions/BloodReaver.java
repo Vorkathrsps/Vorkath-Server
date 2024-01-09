@@ -8,10 +8,6 @@ import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 
-/**
- * @Author Origin
- * @Since January 16, 2022
- */
 public class BloodReaver extends CommonCombatMethod {
 
     @Override

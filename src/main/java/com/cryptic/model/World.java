@@ -249,10 +249,6 @@ public class World {
         }
     }
 
-    List<Integer> playerRenderOrder;
-
-    List<Integer> npcRenderOrder;
-
     public WorldPerfTracker benchmark = new WorldPerfTracker();
 
     protected boolean checkIndex(int index, NodeType type) {
@@ -374,7 +370,6 @@ public class World {
             if (player != null && checkIndex(player.getIndex(), NodeType.PLAYER)) {
                 try {
                     player.sequence();
-                    //player.syncContainers();
                     player.processed = true;
                 } catch (Exception e) {
                     logger.error("Error occurred while processing player: " + e.getMessage());

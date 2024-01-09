@@ -7,10 +7,7 @@ import com.cryptic.utility.chainedwork.Chain;
 
 import java.util.Optional;
 
-/**
- * @author Sharky
- * @Since January 18, 2023
- */
+
 public class Stalagmite extends PacketInteraction {
 
     @Override

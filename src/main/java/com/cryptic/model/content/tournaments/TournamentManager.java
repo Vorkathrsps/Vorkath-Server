@@ -8,11 +8,13 @@ import com.cryptic.model.World;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.combat.weapon.WeaponInterfaces;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.MagicSpellbook;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.ItemContainer;
 import com.cryptic.model.items.container.equipment.Equipment;
@@ -35,10 +37,7 @@ import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.LISA;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.EXIT_PORTAL_27096;
@@ -60,18 +59,20 @@ import static java.lang.String.format;
 public class TournamentManager extends PacketInteraction {
 
     public static void revertStats(Player player) {
-        var skillMap = player.getParticipatingTournament().playerSkillMap;
-        for (var hash : skillMap.entrySet()) {
-            if (!hash.getKey().equals(player)) continue;
-            for (var entry : hash.getValue().entrySet()) {
-                var xp = entry.getKey();
-                var lvl = entry.getValue();
-                var hashedPlayer = hash.getKey();
+        Map<Player, Map<double[], int[]>> skillMap = player.getParticipatingTournament().playerSkillMap;
+        for (Map.Entry<Player, Map<double[], int[]>> map : skillMap.entrySet()) {
+            Player hashedPlayer = map.getKey();
+            Map<double[], int[]> skillCache = map.getValue();
+            if (!hashedPlayer.equals(player)) continue;
+            for (Map.Entry<double[], int[]> entry : skillCache.entrySet()) {
+                double[] xp = entry.getKey();
+                int[] lvl = entry.getValue();
                 hashedPlayer.skills().restoreLevels(xp, lvl);
             }
         }
-        player.skills().update();
-        player.skills().recalculateCombat();
+        Skills skills = player.skills();
+        skills.update();
+        skills.recalculateCombat();
         player.setSavedTornamentXp(null);
         player.setSavedTornamentLevels(null);
         skillMap.remove(player);
@@ -329,24 +330,40 @@ public class TournamentManager extends PacketInteraction {
     public static boolean handleDeath(Player player) {
         if (!player.inActiveTournament())
             return false;
-        wipeLoadout(player);
         Player killer = player.getTournamentOpponent();
+        Tournament torn = player.getParticipatingTournament();
+        wipeLoadout(player);
+        torn.fighters.remove(player);
         player.setTournamentOpponent(null);
         player.getPacketSender().sendInteractionOption("null", 2, true);
         player.getPacketSender().sendEntityHintRemoval(true);
-        Tournament torn = player.getParticipatingTournament();
-        if (torn != null) {
-            torn.fighters.remove(player);
-            joinSpectating(player, torn);
+        joinSpectating(player, torn);
+        switch (torn.fighters.size()) {
+            case 1 -> {
+                var points = player.<Integer>getAttribOr(AttributeKey.TOURNAMENT_POINTS, 0);
+                points += 3;
+                player.putAttrib(AttributeKey.TOURNAMENT_POINTS, points);
+                player.message("You've received 3 tournament point! You now have " + Color.BLUE.wrap("" + points) + " tournament points.");
+            }
+            case 2 -> {
+                var points = player.<Integer>getAttribOr(AttributeKey.TOURNAMENT_POINTS, 0);
+                points += 2;
+                player.putAttrib(AttributeKey.TOURNAMENT_POINTS, points);
+                player.message("You've received 2 tournament point! You now have " + Color.BLUE.wrap("" + points) + " tournament points.");
+            }
+            default -> {
+                var points = player.<Integer>getAttribOr(AttributeKey.TOURNAMENT_POINTS, 0);
+                points += 1;
+                player.putAttrib(AttributeKey.TOURNAMENT_POINTS, points);
+                player.message("You've received 1 tournament point! You now have " + Color.BLUE.wrap("" + points) + " tournament points.");
+            }
         }
-        if (killer != null) {
+        if (killer != null && torn != null) {
             killer.setTournamentOpponent(null);
-            if (torn != null && torn.fighters.size() > 1)
-                killer.message("The next round of battles will start when the current round has finished.");
+            if (torn.fighters.size() > 1) killer.message("The next round of battles will start when the current round has finished.");
             killer.getParticipatingTournament().resetAllVars(killer);
             killer.getPacketSender().sendEntityHintRemoval(true);
-            if (torn != null)
-                torn.checkForWinner();
+            torn.checkForWinner();
         }
         return true;
     }

@@ -107,6 +107,14 @@ public class Hit {
         if (method instanceof CommonCombatMethod commonCombatMethod) this.combatType = commonCombatMethod.styleOf();
     }
 
+    public Hit(Entity attacker, Entity target, int damage, int delay, CombatType method) {
+        this.attacker = attacker;
+        this.target = target;
+        this.damage = damage;
+        this.delay = delay;
+        this.combatType = method;
+    }
+
     /**
      * (Method) Typeless
      *
@@ -335,8 +343,8 @@ public class Hit {
 
     public Hit submit() {
         if (((this.target == null && isLocked()) || isInvalidated() || target.isNullifyDamageLock() || target.isNeedsPlacement()))
-            return null;
-        if (this.target.dead()) return null;
+            return this;
+        if (this.target.dead()) return this;
         if (this.attacker instanceof Player && this.target instanceof NPC npc) {
             CombatMethod method = CombatFactory.getMethod(npc);
             if (method instanceof CommonCombatMethod commonCombatMethod) commonCombatMethod.preDefend(this);
@@ -349,9 +357,9 @@ public class Hit {
                 }
             }
         }
+        if (this.target.getAttribOr(AttributeKey.INVULNERABLE, false)) this.accurate = false;
         if (this.damage >= this.getMaximumHit()) this.setMaxHit(true);
-        if (this.attacker instanceof Player player)
-            this.addCombatXp(player, this.combatType, player.getCombat().getFightType().getStyle(), this.accurate, this.damage);
+        if (this.attacker instanceof Player player) this.addCombatXp(player, this.combatType, player.getCombat().getFightType().getStyle(), this.accurate, this.damage);
         target.getCombat().getHitQueue().add(this);
         return this;
     }
@@ -382,6 +390,7 @@ public class Hit {
     }
 
     public Hit block() {
+        this.isMaxHit = false;
         this.accurate = false;
         this.damage = 0;
         return this;

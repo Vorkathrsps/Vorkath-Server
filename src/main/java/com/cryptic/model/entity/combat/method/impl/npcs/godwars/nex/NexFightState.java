@@ -1,9 +1,5 @@
 package com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex;
 
-/**
- * @author Origin <<a href="https://github.com/PVE95">...</a>>
- * @Since October 20, 2022
- */
 public enum NexFightState {
 
     /**

@@ -920,6 +920,7 @@ public class CombatFactory {
         final CombatType combatType = hit.getCombatType();
         int damage = hit.getDamage();
 
+
         if (attacker instanceof Player player) {
             sigils.prepare(player, target);
             triggerDamageEffects.triggerEffectForAttacker(player, combatType, hit);
@@ -1248,9 +1249,6 @@ public class CombatFactory {
                 target.getAsPlayer().setLastActiveOverhead();
                 attacker.putAttrib(AttributeKey.LATEST_DAMAGE, hit.getDamage());
             }
-
-            //Send the hit sound
-            //attacker.takehitSound(hit);
         }
 
         if (attacker instanceof Player damageDealer) {

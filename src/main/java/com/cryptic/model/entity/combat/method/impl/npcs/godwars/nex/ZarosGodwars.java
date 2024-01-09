@@ -17,11 +17,6 @@ import java.util.*;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.NexCombat.NEX_AREA;
 
-/**
- * An utility class for the Zaros part of GWD
- * @Author Origin
- * @Since January 13, 2022
- */
 public class ZarosGodwars {
 
     public static Nex nex;
@@ -96,8 +91,8 @@ public class ZarosGodwars {
             nex.animate(9182);
         }).thenCancellable(3, () -> {
             NPC fumus = new NPC(FUMUS, new Tile(2913, 5215, 0)).spawn(false);
-            fumus.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT,true);
-            fumus.putAttrib(AttributeKey.BARRIER_BROKEN,false);
+            fumus.putAttrib(AttributeKey.LOCKED_FROM_MOVEMENT, true);
+            fumus.putAttrib(AttributeKey.BARRIER_BROKEN, false);
             minions.a = fumus;
             fumus.setPositionToFace(nex.tile());
             nex.setPositionToFace(fumus.tile());

@@ -11,6 +11,7 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
+import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nexnew.NexStage;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.FaceDirection;
 import com.cryptic.model.entity.masks.Projectile;
@@ -25,6 +26,7 @@ import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
+import com.cryptic.model.items.container.equipment.EquipmentInfo;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.object.GameObject;
@@ -51,10 +53,6 @@ import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars.nex;
 import static com.cryptic.utility.ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD;
 
-/**
- * @Author Origin
- * @Since January 12, 2022
- */
 public class NexCombat extends CommonCombatMethod {
     private int attackCount;
     private static final int TURMOIL_GFX = 2016;
@@ -73,7 +71,7 @@ public class NexCombat extends CommonCombatMethod {
     private static final int DRAG_ATTACK_MAX = 30;
     private static final int SMOKE_BULLET_ATTACK_MAX = 50;
     private static final int SHADOW_SMASH_ATTACK_MAX = 50;
-    private static final int BLOOD_SACRIFICE_ATTACK_MAX = 50;
+    public static final int BLOOD_SACRIFICE_ATTACK_MAX = 50;
     private static final int CONTAINMENT_SPECIAL_ATTACK_MAX = 60;
     private static final int ICE_PRISON_SPECIAL_ATTACK_MAX = 75;
 
@@ -150,7 +148,7 @@ public class NexCombat extends CommonCombatMethod {
                     if (World.getWorld().rollDie(10)) {
                         //smokeDash();
                     } else {
-                        choke(target);
+                        choke();
                     }
                 } else {
                     smokeRush();
@@ -240,7 +238,6 @@ public class NexCombat extends CommonCombatMethod {
     private void magic() {
         nex.animate(MAGIC_ATTACK_ANIM);
         for (Entity t : getPossibleTargets(nex)) {
-            //Ignore players outside the Nex fighting area
             if (!inNexArea(t.tile())) {
                 continue;
             }
@@ -596,45 +593,35 @@ public class NexCombat extends CommonCombatMethod {
         }
     }
 
-    /**
-     * Nex will shout Let the virus flow through you! The player the furthest away with the least amount of magic defence bonus will be targeted with the attack and become infected,
-     * drains two prayer points per every two ticks, and drains stats based on the player's highest attack bonus. The virus will also spread between adjacent players, infecting players
-     * without it, and resetting the duration on infected players. Infected players can be easily identified by the *Cough* above their heads. The virus can easily be prevented from
-     * spreading by having one player equip negative magic defence armour, such as Justiciar, and standing away from the other players, at the start of the fight to avoid spreading
-     * Choke to the rest of the players. A slayer helmet will reduce the duration of the choke, and the spectral spirit shield will reduce the prayer drain.
-     */
-    private void choke(Entity target) { // TODO finish the effect
-        nex.animate(VIRUS_ATTACK_ANIM);
-        nex.forceChat("Let the virus flow through you.");
-        virus(new ArrayList<>(), getPossibleTargets(nex), target);
+    private void choke() {
+        AtomicInteger count = new AtomicInteger(0);
+        var possibleTargets = getPossibleTargets(nex);
+        int furthestDistance = getFurthestDistanceToPoint(possibleTargets);
+        possibleTargets.stream().filter(p -> !p.hasAttrib(AttributeKey.CHOKED)).filter(p -> !p.getAsPlayer().getEquipment().wearingSlayerHelm()).filter(f -> furthestDistance != 0).filter(p -> p.tile().distanceTo(nex.tile()) == furthestDistance).forEach(p -> {
+            nex.forceChat("Let the virus flow through you!");
+            p.putAttrib(AttributeKey.CHOKED, true);
+            tickChoke(count, p);
+        });
     }
 
-    public void virus(ArrayList<Entity> hit, ArrayList<Entity> possibleTargets, Entity infected) {
-        for (Entity t : possibleTargets) {
-            //Ignore players outside the Nex fighting area
-            if (!inNexArea(t.tile())) {
-                continue;
+    private void tickChoke(AtomicInteger count, Entity p) {
+        Chain.noCtx().repeatingTask(5, choke -> {
+            if (count.get() >= 10 || p.dead() || !inNexArea(p.tile())) {
+                p.clearAttrib(AttributeKey.CHOKED);
+                choke.stop();
+                return;
             }
-            if (hit.contains(t)) continue;
-            if (Utils.getDistance(t.getX(), t.getY(), infected.getX(), infected.getY()) <= 1) {
-                t.forceChat("*Cough*");
-                t.hit(nex, World.getWorld().random(10));
-                t.skills().alterSkill(Skills.PRAYER, -2);
-                final int[] internalTick = {0};
-                Chain.bound(null).repeatingTask(2, event -> {
-                    internalTick[0]++;
-                    //6 cycles
-                    if (internalTick[0] == 12) {
-                        event.stop();
-                        return;
-                    }
-                    int drain = t.player().getEquipment().hasAt(EquipSlot.SHIELD, SPECTRAL_SPIRIT_SHIELD) ? 1 : 2;
-                    t.skills().alterSkill(Skills.PRAYER, -drain);
-                });
-                hit.add(t);
-                virus(hit, possibleTargets, infected);
-            }
-        }
+            count.getAndIncrement();
+            getPossibleTargets(p).stream().filter(f -> p.tile().nextTo(f.tile())).forEach(f -> tickChoke(new AtomicInteger(0), f));
+            p.forceChat("*Cough*");
+            p.hit(nex, 5, 1, null).setAccurate(true).submit();
+        });
+    }
+
+    private int getFurthestDistanceToPoint(ArrayList<Entity> possibleTargets) {
+        int furthestDistance = possibleTargets.stream().mapToInt(p -> nex.tile().distance(p.tile())).max().orElse(0);
+        possibleTargets.sort(Comparator.comparingInt(p -> EquipmentInfo.totalBonuses(p, World.getWorld().equipmentInfo()).magedef));
+        return furthestDistance;
     }
 
     private void smokeRush() {

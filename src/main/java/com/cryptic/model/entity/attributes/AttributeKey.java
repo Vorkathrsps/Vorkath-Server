@@ -7,6 +7,8 @@ public enum AttributeKey {
 
     RAKING,
 
+    RETREATING,
+
     MENACING_CURSE,
 
     SIGIL_OF_THE_FERAL_FIGHTER,

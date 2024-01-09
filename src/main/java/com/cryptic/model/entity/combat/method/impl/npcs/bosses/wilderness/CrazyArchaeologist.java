@@ -88,7 +88,7 @@ public class CrazyArchaeologist extends CommonCombatMethod {
         //Send the projectile and animate the NPC
         int tileDist = entity.tile().transform(1, 1).distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
-        Projectile p = new Projectile(entity, target, 1259, 41, duration, 43, 31, 0, target.getSize(), 5);
+        Projectile p = new Projectile(entity, target, 1259, 41, duration, 43, 31, 0, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);
         npc.animate(3353);
 

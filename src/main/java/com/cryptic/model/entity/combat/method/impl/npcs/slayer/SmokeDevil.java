@@ -16,7 +16,7 @@ public class SmokeDevil extends CommonCombatMethod {
         Player player = (Player) target;
         var tileDist = entity.tile().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
-        Projectile p = new Projectile(entity, target, 643, 41, duration, 43, 0, 0, target.getSize(), 5);
+        Projectile p = new Projectile(entity, target, 643, 41, duration, 43, 0, 0, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);
         if (player.getEquipment().getId(EquipSlot.HEAD) != 4164 && !player.getEquipment().wearingSlayerHelm()) {
             target.hit(entity, 18, delay, CombatType.MAGIC).submit();
@@ -31,7 +31,7 @@ public class SmokeDevil extends CommonCombatMethod {
         entity.animate(entity.attackAnimation());
         var tileDist = entity.tile().distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
-        Projectile p = new Projectile(entity, target, 643, 51, duration, 43, 0, 0, target.getSize(), 10);
+        Projectile p = new Projectile(entity, target, 643, 51, duration, 43, 0, 0, entity.getSize(), 10);
         final int delay = entity.executeProjectile(p);
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
         target.graphic(643, GraphicHeight.LOW, p.getSpeed());

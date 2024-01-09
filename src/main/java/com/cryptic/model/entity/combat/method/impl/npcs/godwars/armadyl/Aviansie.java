@@ -21,7 +21,7 @@ public class Aviansie extends CommonCombatMethod {
             entity.animate(get_animation(npc.id()));
             var tileDist = entity.tile().distance(target.tile());
             int duration = (41 + 11 + (5 * tileDist));
-            Projectile p = new Projectile(entity, target, projectile(npc.id()), 41, duration, 43, 31, 0, target.getSize(), 5);
+            Projectile p = new Projectile(entity, target, projectile(npc.id()), 41, duration, 43, 31, 0, entity.getSize(), 5);
             final int delay = entity.executeProjectile(p);
             target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
         }

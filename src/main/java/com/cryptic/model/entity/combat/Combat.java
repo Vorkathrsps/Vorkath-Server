@@ -1,6 +1,9 @@
 package com.cryptic.model.entity.combat;
 
+import com.cryptic.model.World;
+import com.cryptic.model.content.mechanics.MultiwayCombat;
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.formula.accuracy.test.HitListener;
 import com.cryptic.model.entity.combat.formula.maxhit.*;
@@ -24,8 +27,10 @@ import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
+import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.route.RouteMisc;
 import com.cryptic.model.map.route.routes.DumbRoute;
+import com.cryptic.model.map.route.routes.ProjectileRoute;
 import com.cryptic.model.map.route.routes.TargetRoute;
 import com.cryptic.utility.Debugs;
 import com.cryptic.utility.ItemIdentifiers;
@@ -39,6 +44,7 @@ import org.apache.logging.log4j.Logger;
 import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.function.BooleanSupplier;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.UNDEAD_COMBAT_DUMMY;
 import static com.cryptic.model.content.daily_tasks.DailyTaskUtility.DAILY_TASK_MANAGER_INTERFACE;
@@ -100,7 +106,10 @@ public class Combat {
     private CombatSpell castSpell;
     private ModernSpells spellID;
     private CombatSpell autoCastSpell;
-    @Getter @Setter private CombatSpell poweredStaffSpell;
+    @Getter
+    @Setter
+    private CombatSpell poweredStaffSpell;
+
     public Combat(Entity mob) {
         this.mob = mob;
         this.hitQueue = new HitQueue();
@@ -123,7 +132,8 @@ public class Combat {
     }
 
     MagicMaxHitFormula magicMaxHitFormula = new MagicMaxHitFormula();
-    public int getMaximumMagicDamage() {
+
+    public int getMaximumMagicDamage() { //TODO add support for monster magic strength
         if (mob instanceof NPC npc) {
             return npc.getCombatInfo() != null ? npc.getCombatInfo().maxhit : 0;
         }
@@ -248,7 +258,7 @@ public class Combat {
         hitQueue.process(mob);
         performNewAttack();
 
-         if (mob.isPlayer() && target == null) {
+        if (mob.isPlayer() && target == null) {
             //No target found reset fight time
             if (fightTimer.isRunning()) {
                 fightTimer.reset();
@@ -288,6 +298,9 @@ public class Combat {
          * Set the facing position
          */
         if (mob.getInteractingEntity() != target && !mob.isNpc(6611)) {
+//            if (mob.npc().hasAttrib(AttributeKey.RETREATING) && !mob.npc().getCombat().inCombat()) {
+//                return false;
+//            }
             mob.setEntityInteraction(target);
         }
         return true;
@@ -331,6 +344,7 @@ public class Combat {
         if (!beforePerformAttack()) {
             return;
         }
+
         updateLastTarget(target);
 
         final int attackSpeed = method.getAttackSpeed(mob);
@@ -721,7 +735,7 @@ public class Combat {
      * |------------------------|
      * |---PLAYER---------------|
      * |========================|
-     *
+     * <p>
      * vs
      * Safe spotable:
      * |========================|
@@ -740,19 +754,29 @@ public class Combat {
      * .........................
      */
     private void checkRetreat() {
-        if (target == null && !CombatFactory.wasRecentlyAttacked(mob)) {
-            //System.out.println("hi "+mob.getMobName());
-            return;
-        }
-        // rely on aggroradius of NpcCombatInfo by default
+        if (target == null && !CombatFactory.wasRecentlyAttacked(mob)) return;
         var hasAgroDistanceOverride = mob.hasAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE);
         var expand = hasAgroDistanceOverride ? mob.<Integer>getAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE) : 16;
-        //logger.info("zone {}", expand);
         var fightArea = mob.npc().spawnTile().area(expand);
-        if (target != null && !target.tile().inArea(fightArea)) {
-           // fightArea.forEachPos(t -> t.showTempItem(995));
-            DumbRoute.route(mob, mob.npc().spawnTile().getX(), mob.npc().spawnTile().getY());
-            Debugs.CMB.debug(mob, "retreat", target);
+        BooleanSupplier cancelIf = () -> mob.npc().getCombat().inCombat() || mob.npc().getCombat().getTarget() != null;
+        BooleanSupplier waitUntil = () -> mob.npc().tile().distanceTo(mob.npc().spawnTile()) == 0;
+        AttributeKey attribute = AttributeKey.RETREATING;
+        if (target != null) {
+            var lastRegion = mob.npc().getLastKnownRegion().getRegion();
+            boolean singleWayCombat = lastTargetTimeoutTicks == 0 && target instanceof Player player && player.getCombat().getTarget() != mob.npc() && !MultiwayCombat.includes(player.tile());
+            boolean clippedTile = World.getWorld().clipAt(target.tile()) != 0 && !ProjectileRoute.hasLineOfSight(mob.npc(), target);
+            boolean inBounds = mob.npc().tile().inArea(fightArea) && !target.tile().inArea(fightArea);
+            boolean inRegion = target instanceof Player player && !lastRegion.getPlayers().contains(player);
+            boolean viewableFrom = !target.tile().isViewableFrom(mob.npc().tile());
+            System.out.println("SingleWayCombat: " + singleWayCombat + " In Bounds: " + inBounds + " ClippedTile: " + clippedTile + " in Region:" + inRegion);
+            if ((singleWayCombat || clippedTile || inBounds || inRegion)) {
+                if (!mob.npc().hasAttrib(attribute)) mob.npc().putAttrib(attribute, true);
+                mob.npc().ignoreOccupiedTiles = true;
+                mob.npc().getCombat().reset();
+                if (method instanceof CommonCombatMethod ccm) ccm.onRetreat(mob.npc(), waitUntil, cancelIf, attribute);
+                DumbRoute.route(mob, mob.npc().spawnTile().getX(), mob.npc().spawnTile().getY());
+                Debugs.CMB.debug(mob, "retreating against non reachable target", target);
+            }
         }
     }
 

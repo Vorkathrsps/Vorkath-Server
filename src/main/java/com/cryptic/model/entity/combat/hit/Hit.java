@@ -206,7 +206,7 @@ public class Hit {
     }
 
     public Hit roll() {
-        if (attacker == null || target == null || hitMark == HitMark.HEALED) return null;
+        if (attacker == null || target == null || hitMark == HitMark.HEALED) return this;
         MagicAccuracy magicAccuracy = new MagicAccuracy(this.attacker, this.target, this.combatType);
         RangeAccuracy rangeAccuracy = new RangeAccuracy(this.attacker, this.target, this.combatType);
         MeleeAccuracy meleeAccuracy = new MeleeAccuracy(this.attacker, this.target, this.combatType);
@@ -377,7 +377,7 @@ public class Hit {
     public Consumer<Hit> postDamage;
 
     public Hit postDamage(Consumer<Hit> postDamage) {
-        if (attacker.dead() || target.dead()) return null;
+        if (attacker.dead() || target.dead()) return this;
         this.postDamage = postDamage;
         return this;
     }

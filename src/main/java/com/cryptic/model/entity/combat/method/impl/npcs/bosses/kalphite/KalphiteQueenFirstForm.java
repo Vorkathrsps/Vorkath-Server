@@ -61,7 +61,7 @@ public class KalphiteQueenFirstForm extends CommonCombatMethod {
                     if (player != null && player.tile().inArea(KalphiteQueen.getArea())) {
                         var tileDist = entity.tile().distance(target.tile());
                         int duration = (41 + 11 + (5 * tileDist));
-                        Projectile p = new Projectile(entity, target, 473, 41, duration, 43, 31, 16, target.getSize(), 5);
+                        Projectile p = new Projectile(entity, target, 473, 41, duration, 43, 31, 16, entity.getSize(), 5);
                         final int delay = entity.executeProjectile(p);
                         target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
                     }
@@ -73,7 +73,7 @@ public class KalphiteQueenFirstForm extends CommonCombatMethod {
                     if (player != null && player.tile().inArea(KalphiteQueen.getArea())) {
                         var tileDist = entity.tile().distance(target.tile());
                         int duration = (51 + -5 + (10 * tileDist));
-                        Projectile p = new Projectile(entity, target, 280, 51, duration, 43, 31, 16, target.getSize(), 10);
+                        Projectile p = new Projectile(entity, target, 280, 51, duration, 43, 31, 16, entity.getSize(), 10);
                         final int delay = entity.executeProjectile(p);
                         target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
                         target.performGraphic(new Graphic(281, GraphicHeight.LOW, p.getSpeed()));

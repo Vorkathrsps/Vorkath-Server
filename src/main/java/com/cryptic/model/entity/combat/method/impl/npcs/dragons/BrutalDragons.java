@@ -103,19 +103,19 @@ public class BrutalDragons extends CommonCombatMethod {
         int duration = (41 + 11 + (5 * tileDist));
         switch (npc.id()) {
             case NpcIdentifiers.BRUTAL_GREEN_DRAGON, NpcIdentifiers.BRUTAL_GREEN_DRAGON_8081 -> {
-                Projectile p1 = new Projectile(entity, target, 133, 51, duration, 43, 31, 0, target.getSize(), 5);
+                Projectile p1 = new Projectile(entity, target, 133, 51, duration, 43, 31, 0, entity.getSize(), 5);
                 final int delay = entity.executeProjectile(p1);
                 target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).submit();
 
             }
             case NpcIdentifiers.BRUTAL_BLUE_DRAGON, NpcIdentifiers.BRUTAL_RED_DRAGON -> {
-                Projectile p1 = new Projectile(entity, target, 136, 51, duration, 43, 31, 0, target.getSize(), 5);
+                Projectile p1 = new Projectile(entity, target, 136, 51, duration, 43, 31, 0, entity.getSize(), 5);
                 final int delay = entity.executeProjectile(p1);
                 target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).submit();
 
             }
             case NpcIdentifiers.BRUTAL_RED_DRAGON_8087, NpcIdentifiers.BRUTAL_BLACK_DRAGON, NpcIdentifiers.BRUTAL_BLACK_DRAGON_8092, NpcIdentifiers.BRUTAL_BLACK_DRAGON_8093 -> {
-                Projectile p1 = new Projectile(entity, target, 130, 51, duration, 43, 31, 0, target.getSize(), 5);
+                Projectile p1 = new Projectile(entity, target, 130, 51, duration, 43, 31, 0, entity.getSize(), 5);
                 final int delay = entity.executeProjectile(p1);
                 target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC), delay, CombatType.MAGIC).submit();
 

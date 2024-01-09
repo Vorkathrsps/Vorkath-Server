@@ -17,7 +17,7 @@ public class ThermonuclearSmokeDevil extends CommonCombatMethod {
         entity.animate(3847);
         var tileDist = entity.tile().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
-        Projectile p = new Projectile(entity, target, 644, 41, duration, 0, 0, 0, target.getSize(), 5);
+        Projectile p = new Projectile(entity, target, 644, 41, duration, 0, 0, 0, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
         target.graphic(643, GraphicHeight.LOW, p.getSpeed());

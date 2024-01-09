@@ -18,7 +18,7 @@ public class ChaoticDeathSpawnMagic extends CommonCombatMethod {
         entity.animate(entity.attackAnimation());
         int tileDist = entity.tile().transform(1, 1).distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
-        Projectile p = new Projectile(entity, target, 393, 51, duration, 43, 31, 0, target.getSize(), 10);
+        Projectile p = new Projectile(entity, target, 393, 51, duration, 43, 31, 0, entity.getSize(), 10);
         final int delay = entity.executeProjectile(p);
         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
         hit.submit();

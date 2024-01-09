@@ -257,7 +257,7 @@ public class Callisto extends CommonCombatMethod {
         int endX = target.getAbsX();
         int endY = target.getAbsY();
         for (int i = 0; i < 4; i++) {
-            if (DumbRoute.getDirection(endX, endY, entity.getZ(), target.getSize(), endX + vecX, endY + vecY) != null) {
+            if (DumbRoute.getDirection(endX, endY, entity.getZ(), entity.getSize(), endX + vecX, endY + vecY) != null) {
                 endX += vecX;
                 endY += vecY;
             } else

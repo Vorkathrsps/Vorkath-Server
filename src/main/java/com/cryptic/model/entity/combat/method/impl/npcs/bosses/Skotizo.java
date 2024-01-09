@@ -79,7 +79,7 @@ public class Skotizo extends CommonCombatMethod {
             if (tile.inSqRadius(player.tile(), 3)) {
                 int tileDist = npc.tile().transform(3, 3, 0).distance(player.tile());
                 int duration = (51 + -5 + (10 * tileDist));
-                Projectile p = new Projectile(entity, target, 165, 51, duration, 80, 30, 0, target.getSize(), 10);
+                Projectile p = new Projectile(entity, target, 165, 51, duration, 80, 30, 0, entity.getSize(), 10);
                 final int delay = entity.executeProjectile(p);
                 Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
                 hit.submit();

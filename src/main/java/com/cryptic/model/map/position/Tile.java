@@ -648,6 +648,10 @@ public class Tile implements Cloneable {
         return boundary.inBounds(x, y, level, 0);
     }
 
+    public boolean insideBounds(Boundary boundary, Tile tile) {
+        return boundary.inside(this);
+    }
+
     /**
      * Used for barrage/retribution 3x3 close targets.
      *

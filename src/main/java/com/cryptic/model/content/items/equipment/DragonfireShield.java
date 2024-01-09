@@ -80,7 +80,7 @@ public class DragonfireShield extends PacketInteraction {
 
         int tileDist = attacker.tile().transform(1, 1).getChevDistance(target.tile());
         int duration = (80 + 11 + (5 * tileDist));
-        Projectile p1 = new Projectile(attacker, target, 500, 80, duration, 40, 30, 0, target.getSize(), 5);
+        Projectile p1 = new Projectile(attacker, target, 500, 80, duration, 40, 30, 0, attacker.getSize(), 5);
         final int delay = attacker.executeProjectile(p1);
 
         if (dmg > 0) {
@@ -112,7 +112,7 @@ public class DragonfireShield extends PacketInteraction {
         attacker.graphic(1165);
         int tileDist = attacker.tile().transform(1, 1).getChevDistance(target.tile());
         int duration = (80 + 11 + (5 * tileDist));
-        Projectile p1 = new Projectile(attacker, target, 1166, 80, duration, 40, 30, 0, target.getSize(), 5);
+        Projectile p1 = new Projectile(attacker, target, 1166, 80, duration, 40, 30, 0, attacker.getSize(), 5);
         final int delay = attacker.executeProjectile(p1);
         Hit hit = target.hit(attacker, dmg, delay, null).checkAccuracy(true).postDamage(p -> {
             if (target.dead() || attacker.dead()) {

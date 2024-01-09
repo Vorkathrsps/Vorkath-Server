@@ -41,7 +41,7 @@ public class SkeletalWyvern extends CommonCombatMethod {
         entity.graphic(499);
         int tileDist = entity.tile().transform(1, 1).distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
-        Projectile p = new Projectile(entity, target, 500, 41, duration, 43, 31, 0, target.getSize(), 5);
+        Projectile p = new Projectile(entity, target, 500, 41, duration, 43, 31, 0, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
     }
@@ -50,7 +50,7 @@ public class SkeletalWyvern extends CommonCombatMethod {
         entity.animate(2985);
         int tileDist = entity.tile().transform(1, 1).distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
-        Projectile p = new Projectile(entity, target, 500, 41, duration, 43, 31, 0, target.getSize(), 5);
+        Projectile p = new Projectile(entity, target, 500, 41, duration, 43, 31, 0, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);
         target.performGraphic(new Graphic(502, GraphicHeight.LOW, delay));
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();

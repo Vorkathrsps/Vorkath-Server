@@ -2777,7 +2777,7 @@
   {
     // Dagannoths lv 92 in kourend caves (melee)
     "ids": [
-      7260
+      7260, 5943
     ],
     "maxhit": 8,
     "attackspeed": 4,

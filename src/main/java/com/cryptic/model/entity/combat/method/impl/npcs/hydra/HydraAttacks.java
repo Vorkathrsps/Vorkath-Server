@@ -28,13 +28,12 @@ public enum HydraAttacks {
         @Override
         public void executeAttack(AlchemicalHydra hydra, Entity target) {
             hydra.animate(hydra.getAttackAnim());
-           // fireProjectileToEntity(hydra, target, 1663, 50);
             int tileDist = hydra.tile().transform(3, 3, 0).distance(target.tile());
             int duration = (50 + 11 + (5 * tileDist));
-            Projectile p = new Projectile(hydra, target, 1663, 50, duration, 43, 31, 0, target.getSize(), 5);
-            final int delay = hydra.executeProjectile(p);
-            Hit hit = Hit.builder(hydra, target, CombatFactory.calcDamageFromType(hydra, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true);
-            hit.submit();
+            Projectile p = new Projectile(hydra, target, 1663, 50, duration, 43, 31, 0, hydra.getSize(), 5);
+            hydra.executeProjectile(p);
+            int delay = (int) (p.getSpeed() / 30D);
+            new Hit(hydra, target, CombatFactory.calcDamageFromType(hydra, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
         }
     },
 
@@ -48,9 +47,10 @@ public enum HydraAttacks {
             int tileDist = hydra.tile().transform(3, 3).getManhattanDistance(target.tile());
             int duration = (50 + 11 + (5 * tileDist));
             Projectile p = new Projectile(hydra, target, 1662, 50, duration, 43, 0, 0, 1, 5);
-            final int delay = hydra.executeProjectile(p);
-            Hit hit = Hit.builder(hydra, target, CombatFactory.calcDamageFromType(hydra, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
-            hit.submit();
+            hydra.executeProjectile(p);
+            int delay = (int) (p.getSpeed() / 30D);
+            new Hit(hydra, target, CombatFactory.calcDamageFromType(hydra, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
+
         }
     },
 
@@ -67,7 +67,7 @@ public enum HydraAttacks {
             for (Tile pool : pools) {
                 var tileDist = hydra.tile().distance(pool);
                 int duration = (50 + -5 + (10 * tileDist));
-                Projectile p = new Projectile(hydra, pool, 1644, 50, duration, 105, 0, 0, target.getSize(), 10);
+                Projectile p = new Projectile(hydra, pool, 1644, 50, duration, 105, 0, 0, hydra.getSize(), 10);
                 p.send(hydra, pool);
                 World.getWorld().tileGraphic(1645, pool, 0, p.getSpeed());
                 var graphicId = getPoolGraphic(hydra, pool);
@@ -102,7 +102,7 @@ public enum HydraAttacks {
 
             var tileDist = hydra.tile().distance(central);
             int duration = (50 + -5 + (10 * tileDist));
-            Projectile p = new Projectile(hydra, central, 1664, 50, duration, 0, 0, 0, target.getSize(), 10);
+            Projectile p = new Projectile(hydra, central, 1664, 50, duration, 0, 0, 0, hydra.getSize(), 10);
             p.send(hydra, central);
             World.getWorld().tileGraphic(1664, central, 0, p.getSpeed());
 
@@ -110,7 +110,7 @@ public enum HydraAttacks {
 
             Projectile p2 = null;
             for (var spot : spots) {
-                p2 = new Projectile(hydra, base.transform(spot.x, spot.y), 1665, 50, duration, 55, 0, 0, target.getSize(), 5);
+                p2 = new Projectile(hydra, base.transform(spot.x, spot.y), 1665, 50, duration, 55, 0, 0, hydra.getSize(), 5);
                 p2.send(hydra, base.transform(spot.x, spot.y));
             }
 

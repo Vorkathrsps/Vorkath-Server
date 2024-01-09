@@ -30,7 +30,7 @@ public class MorrigansJavelin extends CommonCombatMethod {
 
         int tileDist = entity.tile().transform(1, 1).getChevDistance(target.tile());
         int duration = (40 + 11 + (3 * tileDist));
-        Projectile p1 = new Projectile(entity, target, 1622, 40, duration, 40, 30, 0, target.getSize(), 5);
+        Projectile p1 = new Projectile(entity, target, 1622, 40, duration, 40, 30, 0, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p1);
         var hit = entity.submitHit(target, delay, this);
         if(target instanceof Player playerTarget) {

@@ -15,7 +15,7 @@ public class Growler extends CommonCombatMethod {
         entity.graphic(1182);
         var tileDist = entity.tile().distance(target.tile());
         int duration = (25 + -5 + (10 * tileDist));
-        Projectile p = new Projectile(entity, target, 1183, 25, duration, 0, 0, 0, target.getSize(), 10);
+        Projectile p = new Projectile(entity, target, 1183, 25, duration, 0, 0, 0, entity.getSize(), 10);
         final int delay = entity.executeProjectile(p);
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
         return true;

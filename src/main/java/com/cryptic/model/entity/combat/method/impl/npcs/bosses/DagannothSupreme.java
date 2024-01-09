@@ -18,7 +18,7 @@ public class DagannothSupreme extends CommonCombatMethod {
         int tileDist = entity.tile().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
         var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
-        Projectile p = new Projectile(tile, target, 475, 41, duration, 45, 31, 16, target.getSize(), 5);
+        Projectile p = new Projectile(tile, target, 475, 41, duration, 45, 31, 16, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);
         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true);
         hit.submit();

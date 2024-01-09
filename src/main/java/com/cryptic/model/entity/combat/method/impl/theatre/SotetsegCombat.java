@@ -47,7 +47,7 @@ public class SotetsegCombat extends CommonCombatMethod {
         entity.animate(8139);
         int tileDist = entity.tile().distance(target.tile());
         int duration = (70 + 30 + (20 * tileDist));
-        Projectile p = new Projectile(entity, target, randomProjectile, 70, duration, 43, 21, 25, target.getSize(), 10);
+        Projectile p = new Projectile(entity, target, randomProjectile, 70, duration, 43, 21, 25, entity.getSize(), 10);
         final int delay = entity.executeProjectile(p);
         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, randomProjectile == 1606 ? CombatType.MAGIC : CombatType.RANGED), delay, randomProjectile == 1606 ? CombatType.MAGIC : CombatType.RANGED).checkAccuracy(true).postDamage(d -> {
             if (randomProjectile == 1606) {
@@ -75,7 +75,7 @@ public class SotetsegCombat extends CommonCombatMethod {
         entity.animate(8139);
         int tileDist = entity.tile().distance(target.tile());
         int duration = (70 + 25 + (25 * tileDist));
-        Projectile p = new Projectile(entity, target, 1604, 70, duration, 50, 0, 50, target.getSize(), 10);
+        Projectile p = new Projectile(entity, target, 1604, 70, duration, 50, 0, 50, entity.getSize(), 10);
         final int delay = entity.executeProjectile(p);
         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).setAccurate(true);
         hit.setDamage(121);

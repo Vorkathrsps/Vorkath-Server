@@ -2,6 +2,7 @@ package com.cryptic.model.entity.npc;
 
 import com.cryptic.model.content.areas.wilderness.wildernesskeys.WildernessKeys;
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.corruptedhunleff.CorruptedHunleff;
 import com.cryptic.model.entity.combat.method.impl.npcs.karuulm.Wyrm;
@@ -635,16 +636,13 @@ public class NPC extends Entity {
     }
 
     public void findAgroTarget() {
-
         Stopwatch stopwatch1 = Stopwatch.createStarted();
         boolean wilderness = (WildernessArea.wildernessLevel(tile()) >= 1) && !WildernessArea.inside_rouges_castle(tile()) && !Chinchompas.hunterNpc(id);
         if (combatMethod instanceof CommonCombatMethod ccm) {
-            if (!ccm.isAggressive())
-                return;
+            if (!ccm.isAggressive()) return;
         }
 
-        if (dead() || !inViewport || locked() || combatInfo == null || !(combatInfo.aggressive || (wilderness && getBotHandler() == null)))
-            return;
+        if (dead() || !inViewport || locked() || combatInfo == null || !(combatInfo.aggressive || (wilderness && getBotHandler() == null))) return;
 
         //NPCs should only aggro if you can attack them.
         final int ceil = def.combatlevel * 2;
@@ -652,14 +650,17 @@ public class NPC extends Entity {
         var bounds = boundaryBounds(combatInfo != null ? combatInfo.aggroradius : 1);
 
         //Highly optimized code
-        Stream<Player> playerStream = World.getWorld().getPlayers()
-            .stream()
-            .filter(Objects::nonNull)
-            .filter(p -> !p.looks().hidden())
-            .filter(p -> {
-                var v = bounds.inside(p.tile());
-                //bounds.forEachPos(t -> t.showTempItem(995));
-                return v;
+        Region region = this.getLastKnownRegion().getRegion();
+        List<Player> players = region.getPlayers();
+        Stream<Player> playerStream =
+            players.stream()
+                .filter(Objects::nonNull)
+                .filter(p -> !p.looks().hidden())
+                .filter(p -> p.getZ() == this.getZ())
+                .filter(p -> bounds.inside(p.tile()))
+                .filter(p -> {
+                    //bounds.forEachPos(t -> t.showTempItem(995));
+                return bounds.inside(p.tile());
             });
         // apply overrides
         if (override) {

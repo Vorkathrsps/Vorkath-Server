@@ -62,7 +62,7 @@ public class HydraCombatScript extends CommonCombatMethod {
        // hydra.executeProjectile(new Projectile(hydra, target, hydra.currentAttack == HydraAttacks.MAGIC ? 1663 : 1662, 30, speed ,35 ,0,0, hydra.getSize()));
         var tileDist = entity.tile().transform(3, 3, 0).distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
-        Projectile p = new Projectile(entity, target, hydra.currentAttack == HydraAttacks.MAGIC ? 1663 : 1662, hydra.currentAttack == HydraAttacks.MAGIC ?  51 : 41, duration, hydra.currentAttack == HydraAttacks.RANGED ? 30 : 43, hydra.currentAttack == HydraAttacks.RANGED ? 0 : 31, 16, target.getSize(), hydra.currentAttack == HydraAttacks.MAGIC ? 10 : 5);
+        Projectile p = new Projectile(entity, target, hydra.currentAttack == HydraAttacks.MAGIC ? 1663 : 1662, hydra.currentAttack == HydraAttacks.MAGIC ?  51 : 41, duration, hydra.currentAttack == HydraAttacks.RANGED ? 30 : 43, hydra.currentAttack == HydraAttacks.RANGED ? 0 : 31, 16, entity.getSize(), hydra.currentAttack == HydraAttacks.MAGIC ? 10 : 5);
         final int delay = hydra.executeProjectile(p);
 
         Chain.bound(null).runFn(delay, () -> target.hit(hydra, CombatFactory.calcDamageFromType(
@@ -87,7 +87,7 @@ public class HydraCombatScript extends CommonCombatMethod {
        //     hydra.executeProjectile(new Projectile(hydra, target, 1, 1644, 54, 25, 35, 0, hydra.getSize()));
             var tileDist = entity.tile().distance(target.tile());
             int duration = (41 + 11 + (5 * tileDist));
-            Projectile p = new Projectile(entity, target, 1644, 41, duration, 43, 0, 16, target.getSize(), 5);
+            Projectile p = new Projectile(entity, target, 1644, 41, duration, 43, 0, 16, entity.getSize(), 5);
             final int delay = hydra.executeProjectile(p);
             Direction dir = Direction.getDirection(Utils.getClosestTile(hydra, pos), pos);
 

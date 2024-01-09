@@ -82,7 +82,7 @@ public class DerangedArchaeologist extends CommonCombatMethod {
         //Send the projectile and animate the NPC
         int tileDist = entity.tile().transform(1, 1).distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
-        Projectile p = new Projectile(entity, target, 1259, 41, duration, 43, 31, 0, target.getSize(), 5);
+        Projectile p = new Projectile(entity, target, 1259, 41, duration, 43, 31, 0, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);
         npc.animate(3353);
 
@@ -147,10 +147,10 @@ public class DerangedArchaeologist extends CommonCombatMethod {
                 target.getAsPlayer().getPacketSender().sendTileGraphic(157, ricochet_explosive_book_two, 1, p2.getSpeed());
             }).waitForTile(new Tile(ricochet_explosive_book_two.getX(), ricochet_explosive_book_two.getY(), ricochet_explosive_book_two.getZ()), () -> {
 
-                Projectile p4 = new Projectile(entity, explosive_book_two, 1260, 24, duration3, 50, 0, 0, target.getSize(), 10);
+                Projectile p4 = new Projectile(entity, explosive_book_two, 1260, 24, duration3, 50, 0, 0, entity.getSize(), 10);
                 p4.send(entity, explosive_book_two);
 
-                Projectile p5 = new Projectile(entity, explosive_book_three, 1260, 24, duration3, 50, 0, 0, target.getSize(), 10);
+                Projectile p5 = new Projectile(entity, explosive_book_three, 1260, 24, duration3, 50, 0, 0, entity.getSize(), 10);
                 p5.send(entity, explosive_book_three);
 
                 target.getAsPlayer().getPacketSender().sendTileGraphic(157, ricochet_explosive_book_one, 1, p4.getSpeed());

@@ -4,6 +4,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.GwdLogic;
 import com.cryptic.model.entity.masks.Projectile;
@@ -36,6 +37,13 @@ public class Graardor extends CommonCombatMethod {
         "All glory to Bandos!",
         "GRRRAAAAAR!",
         "FOR THE GLORY OF THE BIG HIGH WAR GOD!");
+
+    @Override
+    public void init(NPC npc) {
+        npc.ignoreOccupiedTiles = true;
+        npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
+
+    }
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {

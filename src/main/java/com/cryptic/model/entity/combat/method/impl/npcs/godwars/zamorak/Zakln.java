@@ -15,7 +15,7 @@ public class Zakln extends CommonCombatMethod {
         entity.graphic(1222);
         var tileDist = entity.tile().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
-        Projectile p = new Projectile(entity, target, 1223, 41, duration, 1, 5, 0, target.getSize(), 5);
+        Projectile p = new Projectile(entity, target, 1223, 41, duration, 1, 5, 0, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
         return true;

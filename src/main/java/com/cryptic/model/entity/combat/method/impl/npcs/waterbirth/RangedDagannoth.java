@@ -18,7 +18,7 @@ public class RangedDagannoth extends CommonCombatMethod {
         entity.animate(entity.attackAnimation());
         var tileDist = entity.tile().transform(1, 1, 0).distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
-        Projectile p = new Projectile(entity, target, 294, 41, duration, 43, 31, 0, target.getSize(), 5);
+        Projectile p = new Projectile(entity, target, 294, 41, duration, 43, 31, 0, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);
         int hit = CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED);
         target.hit(entity, hit, delay, CombatType.RANGED).checkAccuracy(true).submit();

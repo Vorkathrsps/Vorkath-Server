@@ -228,7 +228,7 @@ public class TheNightmare extends CommonCombatMethod {
         entity.animate(8595);
         var tileDist = entity.tile().getChevDistance(target.tile());
         int duration = (80 + -15 + (10 * tileDist));
-        Projectile p = new Projectile(entity, target, 1764, 80, duration, 90, 30, 0, target.getSize(), 10);
+        Projectile p = new Projectile(entity, target, 1764, 80, duration, 90, 30, 0, entity.getSize(), 10);
         int delay = entity.executeProjectile(p);
         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
         hit.submit();
@@ -239,7 +239,7 @@ public class TheNightmare extends CommonCombatMethod {
         entity.animate(8596);
         int tileDist = entity.tile().getChevDistance(target.tile());
         int duration = (90 + 15 + (5 * tileDist));
-        Projectile p = new Projectile(entity, target, 1766, 90, duration, 90, 30, 0, target.getSize(), 10);
+        Projectile p = new Projectile(entity, target, 1766, 90, duration, 90, 30, 0, entity.getSize(), 10);
         final int delay = entity.executeProjectile(p);
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC);
         hit.submit();
@@ -256,9 +256,9 @@ public class TheNightmare extends CommonCombatMethod {
         final Tile targetPos2 = new Tile(target.getX(), target.getY() - 1, target.getZ());
         var tileDist = entity.tile().distance(target.tile());
         int duration = (80 + 15 + (10 * tileDist));
-        Projectile p1 = new Projectile(entity, targetPos1, 1781, 80, duration, 90, 0, 0, target.getSize(), 10);
+        Projectile p1 = new Projectile(entity, targetPos1, 1781, 80, duration, 90, 0, 0, entity.getSize(), 10);
         p1.send(entity, targetPos1);
-        Projectile p2 = new Projectile(entity, targetPos2, 1781, 80, duration, 90, 0, 0, target.getSize(), 10);
+        Projectile p2 = new Projectile(entity, targetPos2, 1781, 80, duration, 90, 0, 0, entity.getSize(), 10);
         p2.send(entity, targetPos2);
 
         NPC husk1 = new NPC(9454, new Tile(target.getX(), target.getY() + 1, target.getZ()));

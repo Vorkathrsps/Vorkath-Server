@@ -16,7 +16,7 @@ public class Steelwill extends CommonCombatMethod {
         entity.graphic(1216);
         var tileDist = entity.tile().distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
-        Projectile p = new Projectile(entity, target, 1217, 51, duration, 43, 31, 0, target.getSize(), 10);
+        Projectile p = new Projectile(entity, target, 1217, 51, duration, 43, 31, 0, entity.getSize(), 10);
         final int delay = entity.executeProjectile(p);
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
         hit.submit();

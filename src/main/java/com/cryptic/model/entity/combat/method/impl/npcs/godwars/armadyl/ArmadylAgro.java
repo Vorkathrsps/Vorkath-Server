@@ -27,4 +27,5 @@ public class ArmadylAgro implements AggressionCheck {
         }
         return true;
     }
+
 }

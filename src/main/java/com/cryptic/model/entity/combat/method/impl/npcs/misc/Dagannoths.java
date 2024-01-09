@@ -14,7 +14,7 @@ public class Dagannoths extends CommonCombatMethod {
         entity.animate(entity.attackAnimation());
         int tileDist = entity.tile().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
-        Projectile p = new Projectile(entity, target, 294, 41, duration, 43, 31, 0, target.getSize(), 5);
+        Projectile p = new Projectile(entity, target, 294, 41, duration, 43, 31, 0, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);
         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true);
         hit.submit();

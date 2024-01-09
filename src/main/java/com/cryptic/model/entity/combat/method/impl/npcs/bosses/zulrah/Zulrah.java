@@ -268,7 +268,7 @@ public class Zulrah {
         var tileDist = npc.tile().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
         var tile = npc.tile().translateAndCenterNpcPosition(npc, target);
-        Projectile p = new Projectile(tile, target, 1044, 41, duration, 65, 31, 0, target.getSize(), 5);
+        Projectile p = new Projectile(tile, target, 1044, 41, duration, 65, 31, 0, npc.getSize(), 5);
         final int delay = npc.executeProjectile(p);
         int max = npc.getCombatInfo().maxhit;
         target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();

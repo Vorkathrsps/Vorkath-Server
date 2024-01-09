@@ -15,10 +15,14 @@ import com.cryptic.model.inter.dialogue.DialogueManager;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.route.routes.DumbRoute;
 import com.cryptic.utility.Debugs;
+import com.cryptic.utility.chainedwork.Chain;
 import org.jetbrains.annotations.Nullable;
 
+import javax.management.Attribute;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.VESPULA;
 
@@ -50,6 +54,26 @@ public abstract class CommonCombatMethod implements CombatMethod {
 
     public void process(Entity entity, @Nullable Entity target) {
 
+    }
+
+    public void onRetreat(Entity entity, BooleanSupplier waitUntil, BooleanSupplier cancel, AttributeKey key) {
+        var npc = (NPC) entity;
+        final int[] ticks = {4};
+        npc.setEntityInteraction(null);
+        npc.waitUntil(waitUntil, () ->
+            Chain.noCtx().repeatingTask(1, tick -> {
+                ticks[0]--;
+                if (ticks[0] <= 0) {
+                    npc.clearAttribs();
+                    tick.stop();
+                }
+            }).cancelWhen(() -> {
+                npc.clearAttrib(key);
+                return cancel.getAsBoolean();
+            })).cancelWhen(() -> {
+            npc.clearAttrib(key);
+            return cancel.getAsBoolean();
+        });
     }
 
     /**

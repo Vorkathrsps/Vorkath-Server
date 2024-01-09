@@ -87,7 +87,7 @@ public class CorporealBeast extends CommonCombatMethod {
             entity.animate(corporeal_beast_animation);
             entity.getAsNpc().getCombatInfo().maxhit = 55;
             int duration = (60 + -5 + (10 * tileDist));
-            Projectile p = new Projectile(entity, target, 314, 60, duration, 43, 31, 0, target.getSize(), 10);
+            Projectile p = new Projectile(entity, target, 314, 60, duration, 43, 31, 0, entity.getSize(), 10);
             final int delay = entity.executeProjectile(p);
             target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
             stat_draining_magic_attack(target);
@@ -100,7 +100,7 @@ public class CorporealBeast extends CommonCombatMethod {
             entity.animate(corporeal_beast_animation);
             entity.getAsNpc().getCombatInfo().maxhit = 65;
             int duration = (60 + -5 + (10 * tileDist));
-            Projectile p = new Projectile(entity, target, 316, 60, duration, 40, 25, 0, target.getSize(), 10);
+            Projectile p = new Projectile(entity, target, 316, 60, duration, 40, 25, 0, entity.getSize(), 10);
             final int delay = entity.executeProjectile(p);
             target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
         }
@@ -152,7 +152,7 @@ public class CorporealBeast extends CommonCombatMethod {
 
         var tileDist = entity.tile().transform(1, 1, 0).distance(target.tile());
         int duration = (60 + -5 + (10 * tileDist));
-        Projectile p = new Projectile(entity, target, 315, 60, duration, 40, 0, 0, target.getSize(), 10);
+        Projectile p = new Projectile(entity, target, 315, 60, duration, 40, 0, 0, npc.getSize(), 10);
 
         Tile initial_splash = new Tile(x, z, target.tile().level);
         int initial_splash_distance = npc.tile().distance(initial_splash) / 2;

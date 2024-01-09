@@ -113,23 +113,23 @@ public class KingBlackDragon extends CommonCombatMethod {
             }
             switch (fireType) {
                 case FIRE -> {
-                    Projectile p1 = new Projectile(entity, target, 393, 51, duration, 43, 31, 0, target.getSize(), 5);
+                    Projectile p1 = new Projectile(entity, target, 393, 51, duration, 43, 31, 0, entity.getSize(), 5);
                     final int delay = entity.executeProjectile(p1);
                     target.hit(entity, hit, delay, CombatType.MAGIC).submit();
                 }
 
                 case POISON -> {
-                    Projectile p2 = new Projectile(entity, target, 394, 51, duration, 43, 31, 0, target.getSize(), 5);
+                    Projectile p2 = new Projectile(entity, target, 394, 51, duration, 43, 31, 0, entity.getSize(), 5);
                     final int delay = entity.executeProjectile(p2);
                     target.hit(entity, hit, delay, CombatType.MAGIC).submit();
                 }
                 case SHOCK -> {
-                    Projectile p3 = new Projectile(entity, target, 395, 51, duration, 43, 31, 0, target.getSize(), 5);
+                    Projectile p3 = new Projectile(entity, target, 395, 51, duration, 43, 31, 0, entity.getSize(), 5);
                     final int delay = entity.executeProjectile(p3);
                     target.hit(entity, hit, delay, CombatType.MAGIC).submit();
                 }
                 case FREEZE -> {
-                    Projectile p4 = new Projectile(entity, target, 396, 51, duration, 43, 31, 0, target.getSize(), 5);
+                    Projectile p4 = new Projectile(entity, target, 396, 51, duration, 43, 31, 0, entity.getSize(), 5);
                     final int delay = entity.executeProjectile(p4);
                     target.hit(entity, hit, delay, CombatType.MAGIC).submit();
                 }

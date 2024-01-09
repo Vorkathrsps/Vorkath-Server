@@ -46,7 +46,7 @@ public class Cerberus extends CommonCombatMethod {
         int tileDist = (int) entity.tile().getDistance(target.tile());
         int duration = (80 + 11 + (10 * tileDist));
         var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
-        Projectile p = new Projectile(tile, target, 1245, 80, duration, 70, 31, 0, target.getSize(), 15);
+        Projectile p = new Projectile(tile, target, 1245, 80, duration, 70, 31, 0, entity.getSize(), 15);
         final int delay = entity.executeProjectile(p);
         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true);
         hit.submit();
@@ -60,7 +60,7 @@ public class Cerberus extends CommonCombatMethod {
         int tileDist = (int) entity.tile().getDistance(target.tile());
         int duration = (80 + 11 + (10 * tileDist));
         var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
-        Projectile p = new Projectile(tile, target, 1242, 80, duration, 70, 31, 0, target.getSize(), 15);
+        Projectile p = new Projectile(tile, target, 1242, 80, duration, 70, 31, 0, entity.getSize(), 15);
         final int delay = entity.executeProjectile(p);
         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
         hit.submit();
@@ -145,7 +145,7 @@ public class Cerberus extends CommonCombatMethod {
             melee.animate(8528); //TODO
         }, 2, () -> {
             World.getWorld().getPlayers().forEach(p -> {
-                projectile[0] = new Projectile(tile, target, 1248, 41, duration, 43, 0, 0, target.getSize(), 5);
+                projectile[0] = new Projectile(tile, target, 1248, 41, duration, 43, 0, 0, entity.getSize(), 5);
                 if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MELEE)) {
                     final int delay = melee.executeProjectile(projectile[0]);
                     p.hit(melee, 30, delay);

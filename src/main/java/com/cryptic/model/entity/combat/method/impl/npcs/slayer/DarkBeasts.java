@@ -14,7 +14,7 @@ public class DarkBeasts extends CommonCombatMethod {
         if (entity.tile().distance(target.tile()) <= 2) {
             int tileDist = entity.tile().transform(1, 1).distance(target.tile());
             int duration = (51 + -5 + (10 * tileDist));
-            Projectile p = new Projectile(entity, target, 130, 51, duration, 43, 31, 0, target.getSize(), 10);
+            Projectile p = new Projectile(entity, target, 130, 51, duration, 43, 31, 0, entity.getSize(), 10);
             final int delay = entity.executeProjectile(p);
             target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true).submit();
         }

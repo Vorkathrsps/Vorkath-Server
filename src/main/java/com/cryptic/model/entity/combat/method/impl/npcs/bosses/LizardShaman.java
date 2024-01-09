@@ -72,7 +72,7 @@ public class LizardShaman extends CommonCombatMethod {
         int tileDist = npc.tile().transform(1, 1, 0).distance(target.tile());
         int duration = (41 + -5 + (5 * tileDist));
         npc.animate(7193);
-        Projectile p1 = new Projectile(entity, target, 1291, 41, duration, 80, 36, 0, target.getSize(), 5);
+        Projectile p1 = new Projectile(entity, target, 1291, 41, duration, 80, 36, 0, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p1);
         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true);
         hit.submit();
@@ -111,7 +111,7 @@ public class LizardShaman extends CommonCombatMethod {
         var tileDist = npc.tile().distance(copiedTile);
         int duration = (51 + 11 + (10 * tileDist));
         npc.animate(7193);
-        Projectile projectile = new Projectile(entity, copiedTile, 1293, 51, duration, 43, 0, 0, target.getSize(), 10);
+        Projectile projectile = new Projectile(entity, copiedTile, 1293, 51, duration, 43, 0, 0, entity.getSize(), 10);
         final int delay = entity.executeProjectile(projectile);
         Chain.noCtx().runFn(delay, () -> {
             if (!target.tile().equals(copiedTile)) return;

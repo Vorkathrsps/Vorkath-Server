@@ -40,7 +40,7 @@ public class BrutalLavaDragon extends CommonCombatMethod {
         int endX = target.getAbsX();
         int endY = target.getAbsY();
         for (int i = 0; i < 4; i++) {
-            if (DumbRoute.getDirection(endX, endY, entity.getZ(), target.getSize(), endX + vecX, endY + vecY) != null) { // we can take this step!
+            if (DumbRoute.getDirection(endX, endY, entity.getZ(), entity.getSize(), endX + vecX, endY + vecY) != null) { // we can take this step!
                 endX += vecX;
                 endY += vecY;
             } else

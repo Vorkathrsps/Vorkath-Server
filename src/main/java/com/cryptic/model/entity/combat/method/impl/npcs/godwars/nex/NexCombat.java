@@ -241,7 +241,7 @@ public class NexCombat extends CommonCombatMethod {
             }
             var tileDist = entity.tile().distance(target.tile());
             int duration = (51 + -5 + (10 * tileDist));
-            Projectile p = new Projectile(nex, target, 2007, 51, duration, 43, 31, 0, target.getSize(), 10);
+            Projectile p = new Projectile(nex, target, 2007, 51, duration, 43, 31, 0, nex.getSize(), 10);
             final int delay = entity.executeProjectile(p);
             Hit hit = t.hit(nex, World.getWorld().random(MAGIC_ATTACK_MAX), delay, CombatType.MAGIC).checkAccuracy(true).postDamage(h -> {
                 if (h.isAccurate()) {
@@ -256,7 +256,7 @@ public class NexCombat extends CommonCombatMethod {
     private void leech(Entity target) {
         var tileDist = entity.tile().distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
-        Projectile p = new Projectile(nex, target, 2010, 51, duration, 43, 31, 0, target.getSize(), 10);
+        Projectile p = new Projectile(nex, target, 2010, 51, duration, 43, 31, 0, nex.getSize(), 10);
         entity.executeProjectile(p);
         for (int skill : DRAIN) {
             int take = 5;
@@ -342,7 +342,7 @@ public class NexCombat extends CommonCombatMethod {
     private void bloodBarrage() {
         var tileDist = entity.tile().distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
-        Projectile p = new Projectile(entity, target, 2002, 51, duration, 43, 0, 0, target.getSize(), 10);
+        Projectile p = new Projectile(entity, target, 2002, 51, duration, 43, 0, 0, nex.getSize(), 10);
         final int delay = entity.executeProjectile(p);
         nex.animate(MAGIC_ATTACK_ANIM);
         nex.graphic(2001, GraphicHeight.HIGH, 0);

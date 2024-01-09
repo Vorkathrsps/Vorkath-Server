@@ -65,7 +65,7 @@ public class Revenant extends CommonCombatMethod {
     private void rangedAttack(NPC npc, Entity target) {
         var tileDist = entity.tile().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
-        Projectile p = new Projectile(entity, target, 206, 41, duration, 43, 31, 16, target.getSize(), 5);
+        Projectile p = new Projectile(entity, target, 206, 41, duration, 43, 31, 16, npc.getSize(), 5);
         final int delay = entity.executeProjectile(p);
         npc.animate(npc.attackAnimation());
         Hit hit = target.hit(npc, CombatFactory.calcDamageFromType(npc, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true);
@@ -76,7 +76,7 @@ public class Revenant extends CommonCombatMethod {
         npc.animate(npc.attackAnimation());
         var tileDist = npc.tile().distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
-        Projectile p = new Projectile(npc, target, 1415, 51, duration, 43, 31, 16, target.getSize(), 10);
+        Projectile p = new Projectile(npc, target, 1415, 51, duration, 43, 31, 16, npc.getSize(), 10);
         final int delay = npc.executeProjectile(p);
         int damage = CombatFactory.calcDamageFromType(npc, target, CombatType.MAGIC);
         target.hit(npc, damage, delay, CombatType.MAGIC).checkAccuracy(true).submit();

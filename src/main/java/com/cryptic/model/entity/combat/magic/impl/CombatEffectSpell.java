@@ -145,7 +145,7 @@ public abstract class CombatEffectSpell extends CombatSpell {
                 duration = (startSpeed + -5 + (stepMultiplier * distance));
                 endGraphicHeight = findAutoCastWeaponsData.endGraphicHeight;
             }
-            Projectile p = new Projectile(cast, target, projectile, startSpeed, duration, startHeight, endHeight, 0, target.getSize(), stepMultiplier);
+            Projectile p = new Projectile(cast, target, projectile, startSpeed, duration, startHeight, endHeight, 0, cast.getSize(), stepMultiplier);
             if (hit.isAccurate()) {
                 target.performGraphic(new Graphic(endGraphic, endGraphicHeight, p.getSpeed()));
             } else {

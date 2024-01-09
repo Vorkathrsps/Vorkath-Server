@@ -26,7 +26,7 @@ public class Ballista extends CommonCombatMethod {
 
         int tileDist = entity.tile().transform(1, 1).getChevDistance(target.tile());
         int duration = (66 + 11 + (5 * tileDist));
-        Projectile p1 = new Projectile(entity, target, 1301, 66, duration, 40, 30, 0, target.getSize(), 5);
+        Projectile p1 = new Projectile(entity, target, 1301, 66, duration, 40, 30, 0, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p1);
 
         CombatFactory.decrementAmmo(player);

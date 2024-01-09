@@ -10,4 +10,5 @@ public class MemberCaveAgro implements AggressionCheck {
     public boolean shouldAgro(Entity entity, Entity victim) {
         return !entity.tile().memberCave();
     }
+
 }

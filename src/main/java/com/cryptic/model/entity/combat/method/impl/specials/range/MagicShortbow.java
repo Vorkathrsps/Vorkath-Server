@@ -21,8 +21,8 @@ public class MagicShortbow extends CommonCombatMethod {
         int tileDist = entity.tile().transform(1, 1).getChevDistance(target.tile());
         int duration1 = (20 + 11 + (5 * tileDist));
         int duration2 = (50 + 11 + (5 * tileDist));
-        Projectile p1 = new Projectile(entity, target, 249, 20, duration1, 40, 36, 15, target.getSize(), 5);
-        Projectile p2 = new Projectile(entity, target, 249, 50, duration2, 40, 36, 15, target.getSize(), 5);
+        Projectile p1 = new Projectile(entity, target, 249, 20, duration1, 40, 36, 15, entity.getSize(), 5);
+        Projectile p2 = new Projectile(entity, target, 249, 50, duration2, 40, 36, 15, entity.getSize(), 5);
 
         final int delay1 = entity.executeProjectile(p1);
         final int delay2 = entity.executeProjectile(p2);

@@ -14,7 +14,7 @@ public class Bree extends CommonCombatMethod {
         entity.animate(7026);
         var tileDist = entity.tile().distance(target.tile());
         int duration = (45 + 11 + (5 * tileDist));
-        Projectile p = new Projectile(entity, target, 1190, 41, duration, 55, 35, 0, target.getSize(), 5);
+        Projectile p = new Projectile(entity, target, 1190, 41, duration, 55, 35, 0, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
         return true;

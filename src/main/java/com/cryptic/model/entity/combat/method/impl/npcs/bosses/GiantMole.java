@@ -29,6 +29,11 @@ public class GiantMole extends CommonCombatMethod {
     };
 
     @Override
+    public void init(NPC npc) {
+        npc.ignoreOccupiedTiles = true;
+    }
+
+    @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         if (!withinDistance(1)) return false;
         entity.animate(entity.attackAnimation());

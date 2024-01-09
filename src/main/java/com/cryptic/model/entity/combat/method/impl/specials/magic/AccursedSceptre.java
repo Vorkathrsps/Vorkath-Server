@@ -16,7 +16,7 @@ public class AccursedSceptre extends CommonCombatMethod {
         int duration = (51 + -5 + (10 * tileDist));
         entity.animate(9961);
         entity.graphic(2338, GraphicHeight.HIGH, 0);
-        Projectile p = new Projectile(entity, target, 2339, 51, duration, 30, 0, 0, target.getSize(), 10);
+        Projectile p = new Projectile(entity, target, 2339, 51, duration, 30, 0, 0, entity.getSize(), 10);
         final int delay = entity.executeProjectile(p);
         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
         hit.submit();

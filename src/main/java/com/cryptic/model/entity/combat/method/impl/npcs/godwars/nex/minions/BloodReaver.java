@@ -15,7 +15,7 @@ public class BloodReaver extends CommonCombatMethod {
         entity.animate(entity.attackAnimation());
         var tileDist = entity.tile().distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
-        Projectile p = new Projectile(entity, target, 2000, 35, duration, 31, 0, 0, target.getSize(), 10);
+        Projectile p = new Projectile(entity, target, 2000, 35, duration, 31, 0, 0, entity.getSize(), 10);
         final int delay = entity.executeProjectile(p);
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC);
         hit.checkAccuracy(true).submit();

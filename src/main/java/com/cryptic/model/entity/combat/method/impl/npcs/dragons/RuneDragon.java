@@ -90,7 +90,7 @@ public class RuneDragon extends CommonCombatMethod {
         int damage = Utils.random(npc.getCombatInfo().maxhit);
         var tileDist = entity.tile().distance(target.tile());
         int duration = (41 + 11 + (5 * tileDist));
-        Projectile p = new Projectile(entity, target, 1486, 41, duration, 43, 31, 16, target.getSize(), 5);
+        Projectile p = new Projectile(entity, target, 1486, 41, duration, 43, 31, 16, entity.getSize(), 5);
         final int delay = entity.executeProjectile(p);
         if (Utils.rollDie(5, 2)) {
             target.hit(npc, damage, delay, CombatType.RANGED).submit();
@@ -104,7 +104,7 @@ public class RuneDragon extends CommonCombatMethod {
         npc.animate(81);
         var tileDist = entity.tile().distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
-        Projectile p = new Projectile(entity, target, 162, 51, duration, 43, 31, 16, target.getSize(), 10);
+        Projectile p = new Projectile(entity, target, 162, 51, duration, 43, 31, 16, entity.getSize(), 10);
         final int delay = entity.executeProjectile(p);
         target.hit(npc, Utils.random(npc.getCombatInfo().maxhit), delay, CombatType.MAGIC).checkAccuracy(true).submit();
     }
@@ -149,7 +149,7 @@ public class RuneDragon extends CommonCombatMethod {
             int hit = Utils.random((int) max);
             var tileDist = entity.tile().distance(target.tile());
             int duration = (41 + 11 + (5 * tileDist));
-            Projectile p1 = new Projectile(entity, target, 54, 51, duration, 43, 31, 0, target.getSize(), 5);
+            Projectile p1 = new Projectile(entity, target, 54, 51, duration, 43, 31, 0, entity.getSize(), 5);
             final int delay = entity.executeProjectile(p1);
             target.hit(entity, hit, delay, CombatType.MAGIC).submit();
             if (max == 65 && hit > 0) {

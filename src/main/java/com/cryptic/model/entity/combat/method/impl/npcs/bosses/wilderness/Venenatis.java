@@ -118,7 +118,7 @@ public class Venenatis extends CommonCombatMethod {
 
         int duration = (51 + -5 + (10 * tileDist));
 
-        Projectile p = new Projectile(entity, finalTile, 2360, 51, duration, 105, 0, 0, target.getSize(), 10);
+        Projectile p = new Projectile(entity, finalTile, 2360, 51, duration, 105, 0, 0, entity.getSize(), 10);
 
         p.send(entity, finalTile);
 

@@ -95,7 +95,7 @@ public class MithrilDragon extends CommonCombatMethod {
             int hit = Utils.random((int) max);
             var tileDist = entity.tile().distance(target.tile());
             int duration = (41 + 11 + (5 * tileDist));
-            Projectile p1 = new Projectile(entity, target, 54, 51, duration, 43, 31, 0, target.getSize(), 5);
+            Projectile p1 = new Projectile(entity, target, 54, 51, duration, 43, 31, 0, entity.getSize(), 5);
             final int delay = entity.executeProjectile(p1);
             target.hit(entity, hit, delay, CombatType.MAGIC).submit();
             if (max == 50 && hit > 0) {

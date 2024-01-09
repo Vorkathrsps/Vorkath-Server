@@ -3159,7 +3159,7 @@
     "scripts": {
       "hit": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.CaveKrakens.onhit",
       "droptable": "com.cryptic.model.entity.npc.droptables.impl.CaveKrakenDeath",
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.CaveKraken"
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.Kraken"
     }
   },
   {

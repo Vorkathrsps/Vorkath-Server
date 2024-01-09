@@ -7,7 +7,7 @@ import com.cryptic.model.entity.player.Player;
 import org.apache.commons.lang.ArrayUtils;
 
 public class RockCrabsAggro implements AggressionCheck {
-    int[] ids = new int[]{101, 103, 5936, 7207};
+    int[] ids = new int[]{101, 103, 5936, 7207, 7267};
     @Override
     public boolean shouldAgro(Entity entity, Entity victim) {
         NPC npc = (NPC) entity;

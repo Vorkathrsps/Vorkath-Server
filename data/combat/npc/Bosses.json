@@ -635,7 +635,7 @@
   {
     // Dagannoth spinolyp
     "ids": [
-      5947
+      5947, 5961
     ],
     "maxhit": 11,
     "attackspeed": 4,
@@ -1029,7 +1029,8 @@
     "ids": [
       7144,
       7145,
-      7146
+      7146,
+      7149
     ],
     "maxhit": 31,
     "slayerxp": 408.5,

@@ -3398,12 +3398,16 @@
       "attack": 2365,
       "block": 2366,
       "death": 2367
+    },
+    "scripts": {
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.crabs.RockCrab",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RockCrabsAggro"
     }
   },
   {
     // King Sand Crab
     "ids": [
-      7266
+      7266, 7267
     ],
     "maxhit": 6,
     "deathlen": 2,
@@ -3428,6 +3432,10 @@
       "attack": 1312,
       "block": 1313,
       "death": 1314
+    },
+    "scripts": {
+      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.misc.crabs.RockCrab",
+      "aggression": "com.cryptic.model.entity.combat.method.impl.npcs.aggression.RockCrabsAggro"
     }
   },
   {

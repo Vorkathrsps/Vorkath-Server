@@ -90,22 +90,21 @@ public class NexCombat extends CommonCombatMethod {
 
     @Override
     public void init(NPC npc) {
-        var nex = npc;
-        nex.clearAttrib(SMOKE_PHASE_INITIATED);
-        nex.clearAttrib(SHADOW_PHASE_INITIATED);
-        nex.clearAttrib(BLOOD_PHASE_INITIATED);
-        nex.clearAttrib(AttributeKey.ICE_PHASE_INITIATED);
-        nex.useSmartPath = true; // wont get stuck on corners
-        nex.def().ignoreOccupiedTiles = true; // walk through minions
-        nex.lockMoveDamageOk();
-        nex.getMovement().reset();
-        nex.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
+        npc.clearAttrib(SMOKE_PHASE_INITIATED);
+        npc.clearAttrib(SHADOW_PHASE_INITIATED);
+        npc.clearAttrib(BLOOD_PHASE_INITIATED);
+        npc.clearAttrib(AttributeKey.ICE_PHASE_INITIATED);
+        npc.useSmartPath = true; // wont get stuck on corners
+        npc.def().ignoreOccupiedTiles = true; // walk through minions
+        npc.lockMoveDamageOk();
+        npc.getMovement().reset();
+        npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
         Chain.noCtx().repeatingTask(1, t -> {
-            if (nex.dead()) {
+            if (npc.dead()) {
                 t.stop();
                 return;
             }
-            if (nex.locked()) { // still in setup phase. wait till all minions spawned
+            if (npc.locked()) { // still in setup phase. wait till all minions spawned
                 return;
             }
             if (World.getWorld().getPlayers().stream().filter(Objects::nonNull).filter(p -> NEX_AREA.contains(p)).count() == 0) {
@@ -113,11 +112,10 @@ public class NexCombat extends CommonCombatMethod {
                 t.stop();
             }
         });
-        nex.getCombatInfo().scripts.agro_ = (n, p) -> NEX_AREA.contains(p);
+        npc.getCombatInfo().scripts.agro_ = (n, p) -> NEX_AREA.contains(p);
     }
 
     public int lastAttack;
-    PhaseStage stage = PhaseStage.ONE;
 
     @Override
     public boolean prepareAttack(Entity mob, Entity target) {
@@ -375,20 +373,15 @@ public class NexCombat extends CommonCombatMethod {
         nex.darkenScreen.getAndSet(false);
 
         for (Entity t : getPossibleTargets(nex)) {
-            //Ignore players outside the Nex fighting area
-            if (!inNexArea(t.tile())) {
-                continue;
-            }
+            if (!inNexArea(t.tile())) continue;
             if (t instanceof Player player) {
-                //Ignore players outside the Nex fighting area
-                if (!inNexArea(player.tile())) {
-                    continue;
-                }
-                AtomicInteger tick = new AtomicInteger(); // Internal tick, this is how long the attack lasts for
+                if (!inNexArea(player.tile())) continue;
+
+                AtomicInteger tick = new AtomicInteger();
                 Chain.bound(null).repeatingTask(1, chain -> {
                     synchronized (tick) {
                         tick.getAndIncrement();
-                        if (tick.get() == 33) { // Attack lasts for 20s
+                        if (tick.get() == 33) {
                             player.getPacketSender().darkenScreen(0);
                             chain.stop();
                             nex.darkenScreen.getAndSet(false);
@@ -399,16 +392,12 @@ public class NexCombat extends CommonCombatMethod {
                         int opacity = 200 - (distance * 17);
                         if (opacity <= 30) opacity = 30;
                         player.getPacketSender().darkenScreen(opacity);
-
-                        if (distance <= 3) {
-                            player.hit(nex, 5);
-                        }
+                        if (distance <= 3) player.hit(nex, 5);
                     }
                 });
             }
         }
 
-        //Extra safety reset all players screen opactity
         Chain.bound(null).runFn(33, () -> {
             for (Entity targets : getPossibleTargets(nex)) {
                 if (targets instanceof Player player) {

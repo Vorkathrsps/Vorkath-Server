@@ -6,7 +6,7 @@ import com.cryptic.model.entity.npc.NPC;
 import org.apache.commons.lang.ArrayUtils;
 
 public class RockCrab extends CommonCombatMethod {
-    int[] ids = new int[]{100, 102, 5935, 7206};
+    int[] ids = new int[]{100, 102, 5935, 7206, 7266, 7267};
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         if (!withinDistance(1)) return false;

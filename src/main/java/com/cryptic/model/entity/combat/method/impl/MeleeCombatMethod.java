@@ -84,8 +84,7 @@ public class MeleeCombatMethod extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         if (entity instanceof NPC npc) {
             if (npc.getCombat().getCombatType() == null) {
-                //if (ArrayUtils.contains(cannot_attack, npc.id())) return false;
-                return false;
+                if (ArrayUtils.contains(cannot_attack, npc.id())) return false;
             }
             if (!withinDistance(1)) return false;
         }

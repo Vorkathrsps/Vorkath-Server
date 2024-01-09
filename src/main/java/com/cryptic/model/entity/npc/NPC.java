@@ -46,6 +46,7 @@ import com.cryptic.utility.SecondsTimer;
 import com.cryptic.utility.Utils;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -187,6 +188,8 @@ public class NPC extends Entity {
         return this;
     }
 
+    String[] ignored_tiles = new String[]{"crab", "magic_axe", "maniacle", "hydra", "monkey", "possessed"};
+
     public NPC(int id, Tile tile, int spawnDirection) {
         super(NodeType.NPC, tile);
         this.id = id;
@@ -235,10 +238,9 @@ public class NPC extends Entity {
         }
         if (tile().equals(3109, 3517))
             walkTo = tile.transform(1, 0);
-        if (this.getMobName().toLowerCase().contains("crab"))
+        if (ArrayUtils.contains(ignored_tiles, this.getMobName())) {
             ignoreOccupiedTiles = true;
-        if (this.getMobName().toLowerCase().contains("monkey"))
-            ignoreOccupiedTiles = true;
+        }
     }
 
     public NPC(int id, Tile tile) {
@@ -288,10 +290,9 @@ public class NPC extends Entity {
         }
         if (tile().equals(3109, 3517))
             walkTo = tile.transform(1, 0);
-        if (this.getMobName().toLowerCase().contains("crab"))
+        if (ArrayUtils.contains(ignored_tiles, this.getMobName())) {
             ignoreOccupiedTiles = true;
-        if (this.getMobName().toLowerCase().contains("monkey"))
-            ignoreOccupiedTiles = true;
+        }
     }
 
     public NPC(int id, Tile tile, boolean spawn) {

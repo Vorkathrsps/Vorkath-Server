@@ -466,8 +466,7 @@ public class GameObject {
             id = newId;
             Tile.get(x, y, z, true).checkActive();
             clip(false);
-            World.getWorld().getPlayers().forEachFiltered(p -> tile().area(64).contains(p, true), player ->
-                send(player));
+            World.getWorld().getPlayers().forEachFiltered(p -> tile().area(64).contains(p, true), player -> send(player));
         }
     }
 

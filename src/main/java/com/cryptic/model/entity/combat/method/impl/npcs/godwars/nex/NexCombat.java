@@ -98,7 +98,7 @@ public class NexCombat extends CommonCombatMethod {
         npc.def().ignoreOccupiedTiles = true; // walk through minions
         npc.lockMoveDamageOk();
         npc.getMovement().reset();
-        npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
+        npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 50);
         Chain.noCtx().repeatingTask(1, t -> {
             if (npc.dead()) {
                 t.stop();

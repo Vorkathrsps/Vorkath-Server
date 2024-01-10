@@ -243,30 +243,6 @@ public final class Projectile {
         this(source.getCentrePosition(), victim.getCentrePosition(), victim.getProjectileLockonIndex(), projectileId, speed, delay, startHeight, endHeight, angle, 16, 64, 0);
     }
 
-    public void sendProjectileTest() {
-        for (var p : this.getStart().getRegion().getPlayers()) {
-            if (p == null) continue;
-            if (!this.getStart().isViewableFrom(p.getCentrePosition())) continue;
-            if (this.getStart().getZ() != p.getZ()) continue;
-            p.getPacketSender().sendProjectile(
-                this.getStart().getX(),
-                this.getStart().getY(),
-                this.getOffset().getX(),
-                this.getOffset().getY(),
-                this.getAngle(),
-                this.getSpeed(),
-                this.getProjectileID(),
-                this.getStartHeight(),
-                this.getEndHeight(),
-                this.getLockon(),
-                this.getDelay(),
-                this.getSlope(),
-                this.getCreatorSize(),
-                this.getStartDistanceOffset());
-        }
-    }
-
-
     public void sendProjectile() {
         for (var p : this.getStart().getRegion().getPlayers()) {
             if (p == null || !start.isViewableFrom(p.tile())) continue;

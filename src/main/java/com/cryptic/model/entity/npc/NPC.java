@@ -656,11 +656,7 @@ public class NPC extends Entity {
                 .filter(Objects::nonNull)
                 .filter(p -> !p.looks().hidden())
                 .filter(p -> p.getZ() == this.getZ())
-                .filter(p -> bounds.inside(p.tile()))
-                .filter(p -> {
-                    //bounds.forEachPos(t -> t.showTempItem(995));
-                return bounds.inside(p.tile());
-            });
+                .filter(p -> bounds.inside(p.tile()));
         // apply overrides
         if (override) {
             playerStream = playerStream.filter(p -> combatInfo.scripts.agro_.shouldAgro(this, p));

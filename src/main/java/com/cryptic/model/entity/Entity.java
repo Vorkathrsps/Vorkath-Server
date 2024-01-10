@@ -7,7 +7,6 @@ import com.cryptic.core.task.Task;
 import com.cryptic.core.task.TaskManager;
 import com.cryptic.core.task.impl.TickAndStop;
 import com.cryptic.core.task.impl.TickableTask;
-import com.cryptic.model.World;
 import com.cryptic.model.action.ActionManager;
 import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.instance.InstancedArea;
@@ -55,11 +54,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.NO_MOVEMENT_NIGHTMARE;
 import static com.cryptic.model.entity.attributes.AttributeKey.VENOMED_BY;
@@ -376,7 +373,8 @@ public abstract class Entity {
         NPC[] targs = new NPC[maxCapacity];
         int caret = 0;
         for (var npc : this.tile.getRegion().getNpcs()) {
-            if (npc == null || npc == this || npc.tile() == null || npc.tile().level != tile().level || npc.finished()) continue;
+            if (npc == null || npc == this || npc.tile() == null || npc.tile().level != tile().level || npc.finished())
+                continue;
             if (tile().distance(npc.tile()) > span) continue;
             if (npc.tile().inSqRadius(tile, span)) targs[caret++] = npc;
             if (caret >= targs.length) break;
@@ -490,42 +488,39 @@ public abstract class Entity {
      * @return GAME TICKS UNTIL PROJECTILE REACHES END TILE
      */
     public int executeProjectile(Projectile projectile) {
-        if (projectile == null) {
-            return 0;
-        }
+        if (projectile == null) return 0;
 
         Tile source = projectile.getStart();
         Tile target = projectile.getTarget();
 
-        if (target == null) {
-            return 0;
-        }
+        if (target == null) return 0;
 
         int creatorSize = projectile.getCreatorSize() == -1 ? getSize() : projectile.getCreatorSize();
 
         Tile distance = source.getDistanceTo(target);
 
         if (distance.getX() <= 64 && distance.getY() <= 64) {
-            var players = this.tile.getRegion().getPlayers();
-            for (Player p : players) {
-                if (p == null) continue;
-                if (!source.isViewableFrom(p.getCentrePosition())) continue;
-                if (source.getZ() != p.getZ()) continue;
-                p.getPacketSender().sendProjectile(
-                    projectile.getStart().getX(),
-                    projectile.getStart().getY(),
-                    projectile.getOffset().getX(),
-                    projectile.getOffset().getY(),
-                    projectile.getAngle(),
-                    projectile.getSpeed(),
-                    projectile.getProjectileID(),
-                    projectile.getStartHeight(),
-                    projectile.getEndHeight(),
-                    projectile.getLockon(),
-                    projectile.getDelay(),
-                    projectile.getSlope(),
-                    creatorSize,
-                    projectile.getStartDistanceOffset());
+            for (var r : this.getSurroundingRegions()) {
+                for (var p : r.getPlayers()) {
+                    if (p == null) continue;
+                    if (!source.isViewableFrom(p.getCentrePosition())) continue;
+                    if (p.getZ() != source.getZ()) continue;
+                    p.getPacketSender().sendProjectile(
+                        projectile.getStart().getX(),
+                        projectile.getStart().getY(),
+                        projectile.getOffset().getX(),
+                        projectile.getOffset().getY(),
+                        projectile.getAngle(),
+                        projectile.getSpeed(),
+                        projectile.getProjectileID(),
+                        projectile.getStartHeight(),
+                        projectile.getEndHeight(),
+                        projectile.getLockon(),
+                        projectile.getDelay(),
+                        projectile.getSlope(),
+                        creatorSize,
+                        projectile.getStartDistanceOffset());
+                }
             }
         }
 
@@ -1968,7 +1963,9 @@ public abstract class Entity {
         setResetMovementQueue(true);
         setEntityInteraction(null);
 
-        if (this instanceof Player player) player.getMovementQueue().handleRegionChange();
+        if (this instanceof Player player) {
+            player.getMovementQueue().handleRegionChange();
+        }
 
         getMovementQueue().clear();
 
@@ -2187,6 +2184,26 @@ public abstract class Entity {
     }
 
     public Region[] surrounding;
+
+    @Getter
+    public Map<Integer, Integer> chunks = new HashMap<>();
+
+    public void addSurroundingChunks() {
+        int currentChunkX = this.tile.chunkX();
+        int currentChunkY = this.tile.chunkY();
+        int radius = 8;
+        chunks.clear();
+        chunks.put(currentChunkX, currentChunkY);
+        for (int xOffset = -radius; xOffset <= radius; xOffset++) {
+            for (int yOffset = -radius; yOffset <= radius; yOffset++) {
+                int neighborChunkX = currentChunkX + xOffset;
+                int neighborChunkY = currentChunkY + yOffset;
+                if (!chunks.containsKey(neighborChunkX) || !chunks.containsValue(neighborChunkY)) {
+                    chunks.put(neighborChunkX, neighborChunkY);
+                }
+            }
+        }
+    }
 
     /**
      * @author Shadowrs

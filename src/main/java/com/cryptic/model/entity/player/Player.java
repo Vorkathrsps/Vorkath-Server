@@ -1098,7 +1098,6 @@ public class Player extends Entity {
         packetSender.sendMapRegion().sendDetails().sendRights().sendTabs();
         Tile.occupy(this);
         onLogin();
-        System.out.println(this.tile.getRegion().getNpcs().size());
     }
 
     /**

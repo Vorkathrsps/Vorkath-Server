@@ -189,18 +189,6 @@ public class TournamentManager extends PacketInteraction {
             player.message("You can't bring any pets into the tournament.");
             return false;
         }
-        if (player.inventory().getFreeSlots() != Inventory.SIZE) {
-            player.message("You still have items in your inventory, you can't bring any items into the tournament.");
-            return false;
-        }
-        if (player.getEquipment().getFreeSlots() != Equipment.SIZE) {
-            player.message("You are still wearing armour, you can't bring any items into the tournament.");
-            return false;
-        }
-        if (player.skills().combatLevel() < 126) {
-            player.message("You can't participate in tournaments without having maxed out combat.");
-            return false;
-        }
         return true;
     }
 

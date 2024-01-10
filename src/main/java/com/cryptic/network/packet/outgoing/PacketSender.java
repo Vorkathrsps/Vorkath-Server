@@ -343,8 +343,7 @@ public final class PacketSender {
         PacketBuilder out = new PacketBuilder(73);
         out.putShort(player.tile().getRegionX() + 6, ValueType.A);
         out.putShort(player.tile().getRegionY() + 6);
-        if (!player.getRegions().contains(player.tile().getRegion()))
-            player.addRegion(player.tile().getRegion());
+        if (!player.getRegions().contains(player.tile().getRegion())) player.addRegion(player.tile().getRegion());
         player.getSession().write(out);
         return this;
     }
@@ -1182,10 +1181,7 @@ public final class PacketSender {
         final Tile other = player.getLastKnownRegion();
         int playerLocalX = x - 8 * other.getRegionX();
         int playerLocalY = y - 8 * other.getRegionY();
-     //   if (playerLocalX >= 0 && playerLocalX < 104 && playerLocalY >= 0 && playerLocalY < 104)
-            player.getSession().write(new PacketBuilder(85).put(playerLocalY, ValueType.C).put(playerLocalX, ValueType.C));
-        /*else
-            System.out.println("fuck the real sys bro it aint gn work");*/
+        player.getSession().write(new PacketBuilder(85).put(playerLocalY, ValueType.C).put(playerLocalX, ValueType.C));
         return this;
     }
 

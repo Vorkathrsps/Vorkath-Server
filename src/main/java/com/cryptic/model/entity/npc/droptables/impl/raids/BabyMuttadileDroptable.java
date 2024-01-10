@@ -4,7 +4,6 @@ import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.Muttadile;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.Droptable;
 import com.cryptic.model.entity.player.Player;
@@ -41,7 +40,6 @@ public class BabyMuttadileDroptable implements Droptable {
                 mommaMuttadile.transmog(MUTTADILE_7563, false);
                 mommaMuttadile.setCombatInfo(World.getWorld().combatInfo(MUTTADILE_7563));
                 mommaMuttadile.def(World.getWorld().definitions().get(NpcDefinition.class, MUTTADILE_7563));
-                mommaMuttadile.setCombatMethod(new Muttadile());
                 mommaMuttadile.animate(7423);
                 mommaMuttadile.getMovement().reset();
                 mommaMuttadile.getMovement().interpolate(new Tile(3311, 5329, mommaMuttadile.tile().level));

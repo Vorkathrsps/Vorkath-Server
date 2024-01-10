@@ -4,7 +4,6 @@ import com.cryptic.cache.definitions.ObjectDefinition;
 import com.cryptic.GameEngine;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.vasa.objects.Crystals;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
@@ -33,7 +32,7 @@ public class GameObject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GameObject that = (GameObject) o;
-        return id == that.id && originalId == that.originalId && type == that.type && rotation == that.rotation && interactAble == that.interactAble && custom == that.custom && x == that.x && y == that.y && z == that.z && lastAnimationTick == that.lastAnimationTick && skipClipping == that.skipClipping && Objects.equals(tile, that.tile) && Objects.equals(spawnedFor, that.spawnedFor) && Objects.equals(timer, that.timer) && Objects.equals(changedTimestamps, that.changedTimestamps) && Objects.equals(attribs, that.attribs) && Objects.equals(walkTo, that.walkTo) && Objects.equals(skipReachCheck, that.skipReachCheck) && crystals == that.crystals;
+        return id == that.id && originalId == that.originalId && type == that.type && rotation == that.rotation && interactAble == that.interactAble && custom == that.custom && x == that.x && y == that.y && z == that.z && lastAnimationTick == that.lastAnimationTick && skipClipping == that.skipClipping && Objects.equals(tile, that.tile) && Objects.equals(spawnedFor, that.spawnedFor) && Objects.equals(timer, that.timer) && Objects.equals(changedTimestamps, that.changedTimestamps) && Objects.equals(attribs, that.attribs) && Objects.equals(walkTo, that.walkTo) && Objects.equals(skipReachCheck, that.skipReachCheck);
     }
 
     /**
@@ -529,17 +528,6 @@ public class GameObject {
                 }
             }
         }
-        return this;
-    }
-
-    private Crystals crystals;
-
-    public Crystals getCrystalObjects() {
-        return crystals;
-    }
-
-    public GameObject setCrystals(Crystals crystals) {
-        this.crystals = crystals;
         return this;
     }
 

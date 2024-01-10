@@ -1,8 +1,6 @@
 package com.cryptic.model.entity.masks;
 
-import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
 import lombok.Getter;
 import lombok.val;
@@ -72,7 +70,8 @@ public final class Projectile {
      */
     public int radius;
 
-    @Getter public final int stepMultiplier;
+    @Getter
+    public final int stepMultiplier;
 
     public Projectile(Tile start, Tile end, int lockon,
                       int projectileId, int speed, int delay, int startHeight, int endHeight,
@@ -96,6 +95,7 @@ public final class Projectile {
 
     /**
      * Old method NOT USED
+     *
      * @param start
      * @param end
      * @param lockon
@@ -112,6 +112,7 @@ public final class Projectile {
 
     /**
      * Entity to Entity Lockon
+     *
      * @param source
      * @param victim
      * @param projectileId
@@ -165,6 +166,7 @@ public final class Projectile {
 
     /**
      * Entity TO Target Tile no-lockon
+     *
      * @param source
      * @param victim
      * @param projectileId
@@ -186,6 +188,7 @@ public final class Projectile {
 
     /**
      * Larger Entity Tile to Target Lockon
+     *
      * @param source
      * @param victim
      * @param projectileId
@@ -205,8 +208,8 @@ public final class Projectile {
     }
 
     /**
-     *
      * OLD NOT USED
+     *
      * @param source
      * @param victim
      * @param projectileId
@@ -225,6 +228,7 @@ public final class Projectile {
 
     /**
      * OLD NOT USED
+     *
      * @param source
      * @param victim
      * @param projectileId
@@ -239,36 +243,35 @@ public final class Projectile {
         this(source.getCentrePosition(), victim.getCentrePosition(), victim.getProjectileLockonIndex(), projectileId, speed, delay, startHeight, endHeight, angle, 16, 64, 0);
     }
 
+    public void sendProjectileTest() {
+        for (var p : this.getStart().getRegion().getPlayers()) {
+            if (p == null) continue;
+            if (!this.getStart().isViewableFrom(p.getCentrePosition())) continue;
+            if (this.getStart().getZ() != p.getZ()) continue;
+            p.getPacketSender().sendProjectile(
+                this.getStart().getX(),
+                this.getStart().getY(),
+                this.getOffset().getX(),
+                this.getOffset().getY(),
+                this.getAngle(),
+                this.getSpeed(),
+                this.getProjectileID(),
+                this.getStartHeight(),
+                this.getEndHeight(),
+                this.getLockon(),
+                this.getDelay(),
+                this.getSlope(),
+                this.getCreatorSize(),
+                this.getStartDistanceOffset());
+        }
+    }
+
 
     public void sendProjectile() {
-        for (Player player : World.getWorld().getPlayers()) {
-
-            if (player == null || !start.isViewableFrom(player.tile())) {
-                continue;
-            }
-
-            player.getPacketSender().sendProjectile(start.x, start.y, offset.x, offset.y, 0,
-                speed, projectileId, startHeight, endHeight, lockon, delay, slope,
-                creatorSize, startDistanceOffset);
-        }
-    }
-
-    public void sendProjectile(Tile x, Tile y, Tile x2, Tile y2) {
-        for (Player player : World.getWorld().getPlayers()) {
-
-            if (player == null || !start.isViewableFrom(player.tile())) {
-                continue;
-            }
-
-            player.getPacketSender().sendProjectile(start.x, start.y, offset.x, offset.y, 0,
-                speed, projectileId, startHeight, endHeight, lockon, delay, slope,
-                creatorSize, startDistanceOffset);
-        }
-    }
-
-    public void sendFor(Player player) {
-        if (start.isViewableFrom(player.tile())) {
-            player.getPacketSender().sendProjectile(start.x, start.y, offset.x, offset.y, 0,
+        for (var p : this.getStart().getRegion().getPlayers()) {
+            if (p == null || !start.isViewableFrom(p.tile())) continue;
+            if (start.getZ() != p.getZ()) continue;
+            p.getPacketSender().sendProjectile(start.x, start.y, offset.x, offset.y, 0,
                 speed, projectileId, startHeight, endHeight, lockon, delay, slope,
                 creatorSize, startDistanceOffset);
         }
@@ -382,6 +385,7 @@ public final class Projectile {
     public int getHitDelay(int distance) {
         return (int) Math.floor((getDuration(distance) / 30D));
     }
+
     public static final float TICK = 600F;
 
     public static final float CLIENT_CYCLE = 20F;
@@ -389,7 +393,6 @@ public final class Projectile {
     public static final float CYCLES_PER_TICK = TICK / CLIENT_CYCLE;
 
     /**
-     *
      * @return GAME TICKS UNTIL PROJECTILE REACHES END TILE
      */
     public int getTime(final Tile from, final Tile to) {
@@ -467,7 +470,6 @@ public final class Projectile {
     }
 
     /**
-     *
      * @return GAME TICKS UNTIL PROJECTILE REACHES END TILE
      */
     public int send(Entity mob, Tile pos) {
@@ -475,7 +477,6 @@ public final class Projectile {
     }
 
     /**
-     *
      * @return GAME TICKS UNTIL PROJECTILE REACHES END TILE
      */
     public int send(Entity mob, int targetX, int targetY) {

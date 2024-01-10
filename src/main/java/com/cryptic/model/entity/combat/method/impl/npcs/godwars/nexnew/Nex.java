@@ -112,7 +112,7 @@ public class Nex extends NPC {
             var tileDist = this.tile().distance(t.tile());
             int duration = (51 + -5 + (10 * tileDist));
             Projectile p = new Projectile(this, t, 2007, 51, duration, 41, 25, 8, 15, 10);
-            p.sendProjectile();
+//            p.sendProjectile((Player) target);
             final int delay = (int) (p.getSpeed() / 30D);
             new Hit(this, t, World.getWorld().random(0, 32), delay, CombatType.MAGIC).checkAccuracy(true).submit().postDamage(h -> {
                 if (h.isAccurate() && !Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MAGIC)) {
@@ -286,7 +286,9 @@ public class Nex extends NPC {
             var tileDist = this.tile().distance(t.tile());
             int duration = (51 + -5 + (10 * tileDist));
             Projectile p = new Projectile(this, t, 378, 51, duration, 43, 35, 0, t.getSize(), 10);
-            p.sendProjectile();
+           //// p.sendProjectile();
+
+
             final int delay = this.executeProjectile(p);
             int damage = 0;
             damage = getShadowDamage(t, damage);
@@ -311,7 +313,9 @@ public class Nex extends NPC {
             var tileDist = this.tile().distance(t.tile());
             int duration = (51 + -5 + (10 * tileDist));
             Projectile p = new Projectile(this, t, 2002, 51, duration, 43, 0, 0, t.getSize(), 10);
-            p.sendProjectile();
+           //// p.sendProjectile();
+
+
             final int delay = (int) (p.getSpeed() / 30D);
             this.animate(9189);
             this.graphic(2001, GraphicHeight.HIGH, 0);
@@ -395,7 +399,8 @@ public class Nex extends NPC {
             list.getValue().removeIf(t -> !MovementQueue.dumbReachable(t.getX(), t.getY(), this.tile()));
             for (Tile tile : list.getValue()) {
                 var projectile = new Projectile(this.getCentrePosition(), tile, 1, 2012, 100, 40, tile.getZ(), 0, 0);
-                projectile.sendProjectile();
+                // projectile.sendProjectile
+
                 World.getWorld().tileGraphic(2014, tile, 0, projectile.getSpeed());
             }
         }).then(3, () -> {
@@ -582,7 +587,8 @@ public class Nex extends NPC {
             int tileDist = fumus.getValue().tile().transform(3, 3).distance(this.tile().transform(3, 3, 0));
             int duration = (30 + 11 + (3 * tileDist));
             Projectile projectile = new Projectile(fumus.getValue(), this, 2010, 30, duration, 18, 18, 0, 1, 5);
-            projectile.sendProjectile();
+            // projectile.sendProjectile
+
         }).then(3, () -> {
             umbra.setValue(new NPC(11284, new Tile(2937, 5215, 0)).spawn(false));
             umbra.getValue().setPositionToFace(this.tile());
@@ -594,7 +600,8 @@ public class Nex extends NPC {
             int tileDist = umbra.getValue().tile().transform(3, 3).distance(this.tile().transform(3, 3, 0));
             int duration = (30 + 11 + (3 * tileDist));
             Projectile projectile = new Projectile(umbra.getValue(), this, 2010, 30, duration, 18, 18, 0, 1, 5);
-            projectile.sendProjectile();
+            // projectile.sendProjectile
+
         }).then(3, () -> {
             cruor.setValue(new NPC(11285, new Tile(2937, 5191, 0)).spawn(false));
             cruor.getValue().setPositionToFace(this.tile());
@@ -606,7 +613,8 @@ public class Nex extends NPC {
             int tileDist = cruor.getValue().tile().transform(3, 3).distance(this.tile().transform(3, 3, 0));
             int duration = (30 + 11 + (3 * tileDist));
             Projectile projectile = new Projectile(cruor.getValue(), this, 2010, 30, duration, 18, 18, 0, 1, 5);
-            projectile.sendProjectile();
+            // projectile.sendProjectile
+
         }).then(3, () -> {
             glacies.setValue(new NPC(11286, new Tile(2913, 5191, 0)).spawn(false));
             glacies.getValue().setPositionToFace(this.tile());
@@ -618,7 +626,8 @@ public class Nex extends NPC {
             int tileDist = glacies.getValue().tile().transform(3, 3).distance(this.tile().transform(3, 3, 0));
             int duration = (30 + 11 + (3 * tileDist));
             Projectile projectile = new Projectile(glacies.getValue(), this, 2010, 30, duration, 18, 18, 0, 1, 5);
-            projectile.sendProjectile();
+            // projectile.sendProjectile
+
         }).then(3, () -> {
             this.forceChat("Fill my soul with smoke!");
         }).then(1, () -> {

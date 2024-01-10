@@ -9,8 +9,6 @@ import com.cryptic.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.Xarpus;
 import com.cryptic.model.content.raids.theatre.interactions.TheatreInterface;
-import com.cryptic.model.content.raids.theatre.loot.ChestType;
-import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportInterface;
 import com.cryptic.model.content.tournaments.Tournament;
 import com.cryptic.model.content.tournaments.TournamentManager;
@@ -22,8 +20,8 @@ import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
-import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nexnew.NexStage;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.ScalarLootTable;
 import com.cryptic.model.entity.player.InputScript;
@@ -643,8 +641,10 @@ public class CommandManager {
             System.out.println(p.hasAttrib(CHOKED));
         });
         dev("c", (p, c, s) -> {
-            com.cryptic.model.entity.combat.method.impl.npcs.godwars.nexnew.Nex nex = new com.cryptic.model.entity.combat.method.impl.npcs.godwars.nexnew.Nex(11279, p.tile(), NexStage.ONE);
-            nex.spawn(false);
+            for (int index = 0; index < 100; index++) {
+                Projectile p1 = new Projectile(p.tile(), p.tile().transform(3, 3), 136, 51, 30, 43, 31, 8, 1, 64, 0);
+                p1.sendProjectileTest();
+            }
         });
 
         dev("ioi", (p, c, s) -> {

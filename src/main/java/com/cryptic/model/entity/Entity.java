@@ -522,27 +522,26 @@ public abstract class Entity {
         Tile distance = source.getDistanceTo(target);
 
         if (distance.getX() <= 64 && distance.getY() <= 64) {
-            for (Player player : World.getWorld().getPlayers()) {
-                if (player == null) continue;
-
-                if (source.isViewableFrom(player.getCentrePosition())) {
-                    player.getPacketSender()
-                        .sendProjectile(
-                            projectile.getStart().getX(),
-                            projectile.getStart().getY(),
-                            projectile.getOffset().getX(),
-                            projectile.getOffset().getY(),
-                            projectile.getAngle(),
-                            projectile.getSpeed(),
-                            projectile.getProjectileID(),
-                            projectile.getStartHeight(),
-                            projectile.getEndHeight(),
-                            projectile.getLockon(),
-                            projectile.getDelay(),
-                            projectile.getSlope(),
-                            creatorSize,
-                            projectile.getStartDistanceOffset());
-                }
+            var players = this.tile.getRegion().getPlayers();
+            for (Player p : players) {
+                if (p == null) continue;
+                if (!source.isViewableFrom(p.getCentrePosition())) continue;
+                if (source.getZ() != p.getZ()) continue;
+                p.getPacketSender().sendProjectile(
+                    projectile.getStart().getX(),
+                    projectile.getStart().getY(),
+                    projectile.getOffset().getX(),
+                    projectile.getOffset().getY(),
+                    projectile.getAngle(),
+                    projectile.getSpeed(),
+                    projectile.getProjectileID(),
+                    projectile.getStartHeight(),
+                    projectile.getEndHeight(),
+                    projectile.getLockon(),
+                    projectile.getDelay(),
+                    projectile.getSlope(),
+                    creatorSize,
+                    projectile.getStartDistanceOffset());
             }
         }
 
@@ -1514,8 +1513,10 @@ public abstract class Entity {
         }
     }
 
-    @Getter private final List<Player> localPlayers = new LinkedList<>();
-    @Getter private final List<NPC> localNpcs = new ArrayList<>();
+    @Getter
+    private final List<Player> localPlayers = new LinkedList<>();
+    @Getter
+    private final List<NPC> localNpcs = new ArrayList<>();
 
     /**
      * shortcut for {@link Chain#bound(Object)}.{@link Chain#runFn(int, Runnable)}
@@ -1722,7 +1723,8 @@ public abstract class Entity {
         return this;
     }
 
-    @Getter public boolean teleportJump;
+    @Getter
+    public boolean teleportJump;
 
     public void setTeleportJump(boolean teleportJump) {
         this.teleportJump = teleportJump;

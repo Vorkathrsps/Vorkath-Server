@@ -768,7 +768,7 @@ public class Combat {
             boolean inBounds = mob.npc().tile().inArea(fightArea) && !target.tile().inArea(fightArea);
             boolean inRegion = target instanceof Player player && !lastRegion.getPlayers().contains(player);
             boolean viewableFrom = !target.tile().isViewableFrom(mob.npc().tile());
-            System.out.println("SingleWayCombat: " + singleWayCombat + " In Bounds: " + inBounds + " ClippedTile: " + clippedTile + " in Region:" + inRegion);
+            //System.out.println("SingleWayCombat: " + singleWayCombat + " In Bounds: " + inBounds + " ClippedTile: " + clippedTile + " in Region:" + inRegion);
             if ((singleWayCombat || clippedTile || inBounds || inRegion)) {
                 if (!mob.npc().hasAttrib(attribute)) mob.npc().putAttrib(attribute, true);
                 mob.npc().ignoreOccupiedTiles = true;

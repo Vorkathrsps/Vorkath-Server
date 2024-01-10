@@ -72,7 +72,9 @@ public class Vetion extends CommonCombatMethod {
         } else if (Utils.percentageChance(50)) {
             magicSwordSlash();
         } else {
-            doShieldBash();
+            if (target.tile().inSqRadius(entity.tile(), 5)) {
+                doShieldBash();
+            }
         }
 
         return true;
@@ -149,7 +151,7 @@ public class Vetion extends CommonCombatMethod {
                         }
                         if (!player.dead() && player.isRegistered() && !vetion.dead() && player.tile().equals(tile)) {
                             player.hit(vetion, Utils.random(15, 30), 0);
-                        } else if (player.tile().inSqRadius(tile, 1)) {
+                        } else if (player.tile().nextTo(tile)) {
                             player.hit(vetion, Utils.random(15, 30) / 2, 0);
                         }
                     })
@@ -209,7 +211,7 @@ public class Vetion extends CommonCombatMethod {
                         }
                         if (!player.dead() && player.isRegistered() && !vetion.dead() && player.tile().equals(tile)) {
                             player.hit(vetion, Utils.random(15, 30), 0);
-                        } else if (player.tile().inSqRadius(tile, 1)) {
+                        } else if (player.tile().nextTo(tile)) {
                             player.hit(vetion, Utils.random(15, 30) / 2, 0);
                         }
                     })

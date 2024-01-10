@@ -14,6 +14,7 @@ import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
+import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.chainedwork.Chain;
@@ -96,14 +97,16 @@ public class CorruptedHunleffCombatStrategy extends CommonCombatMethod {
         return true;
     }
 
-    private void rangeAttack(Entity entity, Entity target) {
+    private void rangeAttack(Entity entity, Entity t) {
+        var target = (Player) t;
         var tileDist = entity.tile().transform(1, 1, 0).getChevDistance(target.tile());
         var delay = Math.max(1, (50 + (tileDist * 12)) / 30);
         new Projectile(entity, target,1705, 35,20 * tileDist,45, 30, 0, true).sendProjectile();
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
     }
 
-    private void magicAttack(Entity entity, Entity target) {
+    private void magicAttack(Entity entity, Entity t) {
+        var target = (Player) t;
         entity.animate(entity.attackAnimation());
         //25% chance to disable prayers
         if(World.getWorld().rollDie(4,1)) {
@@ -121,7 +124,8 @@ public class CorruptedHunleffCombatStrategy extends CommonCombatMethod {
      * When the Hunllef is attacking using magic-based attacks, it has a chance to use an attack which turns off prayers. These attacks use a different game
      * sound, hence it is recommended to use sounds during the fight.
      */
-    private void prayerDisableAttack(Entity entity, Entity target) {
+    private void prayerDisableAttack(Entity entity, Entity t) {
+        var target = (Player) t;
         var tileDist = entity.tile().transform(1, 1, 0).getChevDistance(target.tile());
         var delay = Math.max(1, (50 + (tileDist * 12)) / 30);
         new Projectile(entity, target,1708, 35,20 * tileDist,45, 30, 0, true).sendProjectile();

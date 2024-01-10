@@ -5,6 +5,7 @@ import com.cryptic.core.task.TaskManager;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.npc.NPC;
+import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.route.routes.DumbRoute;
 
 /**
@@ -31,7 +32,7 @@ public class ScorpiaGuardian {
                 }
                 if(minion.tile().isWithinDistance(scorpia.tile(), 2)) {
                     scorpia.heal(1);
-                    new Projectile(minion, scorpia,109,50,100,53,31,0).sendProjectile();
+                  //  new Projectile(minion, scorpia,109,50,100,53,31,0).sendProjectile((Player) target);
                 }
 
                 if(no_heal_ticks == 25) {

@@ -1,6 +1,5 @@
 package com.cryptic.model.entity.combat.method.impl.npcs.bosses.vorkath;
 
-import com.cryptic.core.task.Task;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;

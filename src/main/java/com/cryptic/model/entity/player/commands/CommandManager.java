@@ -641,10 +641,10 @@ public class CommandManager {
             System.out.println(p.hasAttrib(CHOKED));
         });
         dev("c", (p, c, s) -> {
-            for (int index = 0; index < 100; index++) {
-                Projectile p1 = new Projectile(p.tile(), p.tile().transform(3, 3), 136, 51, 30, 43, 31, 8, 1, 64, 0);
-                p1.sendProjectileTest();
-            }
+            long start = System.currentTimeMillis();
+            p.closeNpcs(64);
+            long end = System.currentTimeMillis();
+            System.out.println(end - start);
         });
 
         dev("ioi", (p, c, s) -> {

@@ -650,8 +650,7 @@ public class NPC extends Entity {
         var bounds = boundaryBounds(combatInfo != null ? combatInfo.aggroradius : 1);
 
         //Highly optimized code
-        Region region = this.getLastKnownRegion().getRegion();
-        List<Player> players = region.getPlayers();
+        List<Player> players = this.tile.getRegion().getPlayers();
         Stream<Player> playerStream =
             players.stream()
                 .filter(Objects::nonNull)

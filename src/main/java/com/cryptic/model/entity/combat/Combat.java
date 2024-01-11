@@ -766,10 +766,10 @@ public class Combat {
             boolean singleWayCombat = lastTargetTimeoutTicks == 0 && target instanceof Player player && player.getCombat().getTarget() != mob.npc() && !MultiwayCombat.includes(player.tile());
             boolean clippedTile = World.getWorld().clipAt(target.tile()) != 0 && !ProjectileRoute.hasLineOfSight(mob.npc(), target);
             boolean inBounds = mob.npc().tile().inArea(fightArea) && !target.tile().inArea(fightArea);
-            boolean inRegion = target instanceof Player player && !lastRegion.getPlayers().contains(player);
+            boolean inRegion = Arrays.stream(mob.closePlayers()).anyMatch(p -> mob.tile().getRegion().getPlayers().contains(target));
             boolean viewableFrom = !target.tile().isViewableFrom(mob.npc().tile());
-            //System.out.println("SingleWayCombat: " + singleWayCombat + " In Bounds: " + inBounds + " ClippedTile: " + clippedTile + " in Region:" + inRegion);
-            if ((singleWayCombat || clippedTile || inBounds || inRegion)) {
+            System.out.println("SingleWayCombat: " + singleWayCombat + " In Bounds: " + inBounds + " ClippedTile: " + clippedTile + " in Region:" + inRegion);
+            if ((singleWayCombat || clippedTile || inBounds)) {
                 if (!mob.npc().hasAttrib(attribute)) mob.npc().putAttrib(attribute, true);
                 mob.npc().ignoreOccupiedTiles = true;
                 mob.npc().getCombat().reset();

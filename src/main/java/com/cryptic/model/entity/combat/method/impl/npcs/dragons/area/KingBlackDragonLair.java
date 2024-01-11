@@ -42,7 +42,6 @@ public class KingBlackDragonLair extends Controller {
                     } else {
                         if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
                         else if (!HealthHud.updated && HealthHud.needsUpdate) {
-                            System.out.println("calling update doe");
                             HealthHud.open(player, HealthHud.Type.REGULAR, "King Black Dragon", npc.hp());
                         }
                     }

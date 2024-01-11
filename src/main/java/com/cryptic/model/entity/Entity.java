@@ -352,16 +352,18 @@ public abstract class Entity {
     }
 
     public Player[] closePlayers(int maxCapacity, int span) {
-        Player[] targs = new Player[maxCapacity];
-        int caret = 0;
-        for (var p : this.tile.getRegion().getPlayers()) {
-            if (p == null || p == this || p.tile() == null || p.tile().level != tile().level || p.looks().hidden() || p.finished()) continue;
-            if (tile().distance(p.tile()) > span) continue;
-            if (p.tile().inSqRadius(tile, span)) targs[caret++] = p;
-            if (caret >= targs.length) break;
+        Player[] entities = new Player[maxCapacity];
+        int count = 0;
+        for (var r : this.getSurroundingRegions()) {
+            for (var p : r.getPlayers()) {
+                if (p == null || p == this || p.tile() == null || p.tile().level != tile().level || p.looks().hidden() || p.finished()) continue;
+                if (tile().distance(p.tile()) > span) continue;
+                if (p.tile().inSqRadius(tile, span)) entities[count++] = p;
+                if (count >= entities.length) break;
+            }
         }
-        Player[] set = new Player[caret];
-        System.arraycopy(targs, 0, set, 0, caret);
+        Player[] set = new Player[count];
+        System.arraycopy(entities, 0, set, 0, count);
         return set;
     }
 
@@ -370,17 +372,18 @@ public abstract class Entity {
     }
 
     public NPC[] closeNpcs(int maxCapacity, int span) {
-        NPC[] targs = new NPC[maxCapacity];
-        int caret = 0;
-        for (var npc : this.tile.getRegion().getNpcs()) {
-            if (npc == null || npc == this || npc.tile() == null || npc.tile().level != tile().level || npc.finished())
-                continue;
-            if (tile().distance(npc.tile()) > span) continue;
-            if (npc.tile().inSqRadius(tile, span)) targs[caret++] = npc;
-            if (caret >= targs.length) break;
+        NPC[] entities = new NPC[maxCapacity];
+        int count = 0;
+        for (var r : this.getSurroundingRegions()) {
+            for (var npc : r.getNpcs()) {
+                if (npc == null || npc == this || npc.tile() == null || npc.tile().level != tile().level || npc.finished()) continue;
+                if (tile().distance(npc.tile()) > span) continue;
+                if (npc.tile().inSqRadius(tile, span)) entities[count++] = npc;
+                if (count >= entities.length) break;
+            }
         }
-        NPC[] set = new NPC[caret];
-        System.arraycopy(targs, 0, set, 0, caret);
+        NPC[] set = new NPC[count];
+        System.arraycopy(entities, 0, set, 0, count);
         return set;
     }
 

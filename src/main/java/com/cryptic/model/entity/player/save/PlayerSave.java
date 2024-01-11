@@ -133,7 +133,7 @@ public class PlayerSave {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 logger.info("Starting save process for player: {}", player.getUsername());
-                new SaveDetails(player).parseDetails();
+                player.synchronousSave();
                 player.getFarming().save();
                 logger.info("Save process completed for player: {}", player.getUsername());
                 return true;
@@ -144,9 +144,8 @@ public class PlayerSave {
         }, executor).handle((result, exception) -> {
             if (exception != null) {
                 if (exception instanceof RuntimeException && exception.getMessage().contains("The process cannot access the file")) {
-                    // Retry the save process after a delay
                     try {
-                        Thread.sleep(1000); // Wait for 1 second before retrying
+                        Thread.sleep(1000);
                     } catch (InterruptedException ignored) {
                     }
                     return saveAsync(player).join();

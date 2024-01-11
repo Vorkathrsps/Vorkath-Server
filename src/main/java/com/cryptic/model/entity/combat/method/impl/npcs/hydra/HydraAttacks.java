@@ -9,6 +9,7 @@ import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.route.routes.ProjectileRoute;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 
@@ -65,6 +66,7 @@ public enum HydraAttacks {
             hydra.animate(8234);
 
             for (Tile pool : pools) {
+                if (!ProjectileRoute.hasLineOfSight(hydra, pool)) continue;
                 var tileDist = hydra.tile().distance(pool);
                 int duration = (50 + -5 + (10 * tileDist));
                 Projectile p = new Projectile(hydra, pool, 1644, 50, duration, 105, 0, 0, hydra.getSize(), 10);

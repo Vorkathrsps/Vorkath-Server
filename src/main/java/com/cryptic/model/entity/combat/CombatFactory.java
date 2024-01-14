@@ -930,7 +930,6 @@ public class CombatFactory {
 
         if (target.isNpc()) {
             NPC npc = (NPC) target;
-
             if (npc.getCombatInfo() == null) {
                 Utils.sendDiscordInfoLog("Missing combat attributes for npc " + npc.id());
                 return;

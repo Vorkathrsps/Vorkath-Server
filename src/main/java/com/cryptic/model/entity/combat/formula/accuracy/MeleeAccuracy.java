@@ -41,7 +41,7 @@ public class MeleeAccuracy {
     public boolean successful(double selectedChance) {
         this.attackRoll = getAttackRoll();
         this.defenceRoll = getDefenceRoll();
-        if (this.attackRoll > this.defenceRoll) this.chance = 1D - ((this.defenceRoll + 2D) / (2D * (this.attackRoll + 1D)));
+        if (this.attackRoll > this.defenceRoll) this.chance = 1D - (this.defenceRoll + 2D) / (2D * (this.attackRoll + 1D));
         else this.chance = this.attackRoll / (2D * (this.defenceRoll + 1D));
         return this.chance > selectedChance;
     }

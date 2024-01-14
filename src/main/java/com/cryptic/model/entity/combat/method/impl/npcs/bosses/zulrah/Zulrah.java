@@ -574,7 +574,6 @@ public class Zulrah {
 
     private static void createSnakeling(NPC npc, Tile tile, int delay, Entity target) {
         new Projectile(npc.tile().transform(2, 2, 0), tile, 0, 1047, 12 + (16 * 6), 40, 92, 5, 0).sendProjectile();
-
         TaskManager.submit(new TickAndStop(delay) {
             @Override
             public void executeAndStop() {

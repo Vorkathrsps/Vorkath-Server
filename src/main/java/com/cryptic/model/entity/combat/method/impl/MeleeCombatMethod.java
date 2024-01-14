@@ -14,6 +14,7 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.math.Fraction;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.NYLOCAS_VASILIAS_8356;
 import static com.cryptic.utility.ItemIdentifiers.*;
@@ -71,11 +72,19 @@ public class MeleeCombatMethod extends CommonCombatMethod {
         if (target.getAsNpc().getSize() > 2 || target.getAsNpc().isCombatDummy()) {
             hit[1].checkAccuracy(true).submit();
             hit[2].checkAccuracy(true).submit();
-            if (hit[0].isAccurate() && hit[1].isAccurate()) {
-                hit[1].setDamage(hit[0].getDamage() / 2);
+            if (hit[1].isAccurate()) {
+                if (hit[1].getDamage() > 0) {
+                    var d1 = hit[1].getDamage();
+                    d1 /= 2;
+                    hit[1].setDamage(d1);
+                }
             }
-            if (hit[1].isAccurate() && hit[2].isAccurate()) {
-                hit[2].setDamage((int) (hit[1].getDamage() / 2.12));
+            if (hit[2].isAccurate()) {
+                if (hit[2].getDamage() > 0) {
+                    var d2 = hit[2].getDamage();
+                    d2 /= 4.25;
+                    hit[2].setDamage(d2);
+                }
             }
         }
     }

@@ -41,6 +41,7 @@ public class MeleeAccuracy {
     public boolean successful(double selectedChance) {
         this.attackRoll = getAttackRoll();
         this.defenceRoll = getDefenceRoll();
+        //this.attacker.message("attack roll: " + this.attackRoll + " defence roll: " + this.defenceRoll);
         if (this.attackRoll > this.defenceRoll) this.chance = 1D - (this.defenceRoll + 2D) / (2D * (this.attackRoll + 1D));
         else this.chance = this.attackRoll / (2D * (this.defenceRoll + 1D));
         return this.chance > selectedChance;
@@ -81,9 +82,7 @@ public class MeleeAccuracy {
                 case ACCURATE -> effectiveLevel += 3;
                 case CONTROLLED -> effectiveLevel += 1;
             }
-            if (modification > 0) {
-                effectiveLevel *= modification;
-            }
+            if (modification > 0) effectiveLevel *= modification;
             if (a.getCombatSpecial() != null) {
                 double specialMultiplier = a.getCombatSpecial().getAccuracyMultiplier();
                 if (a.isSpecialActivated()) {

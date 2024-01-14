@@ -11,10 +11,12 @@
       "attack": 100,
       "strength": 100,
       "defence": 100,
+      "ranged": 1,
+      "magic": 1,
       "hitpoints": 100
     },
     "bonuses": {
-      "attack": 68,
+      "strength": 72,
       "stabdefence": 227,
       "slashdefence": 230,
       "crushdefence": 221,
@@ -42,10 +44,12 @@
       "attack": 100,
       "strength": 100,
       "defence": 100,
+      "ranged": 1,
+      "magic": 1,
       "hitpoints": 100
     },
     "bonuses": {
-      "attack": 68,
+      "strength": 72,
       "stabdefence": 221,
       "slashdefence": 235,
       "crushdefence": 222,
@@ -70,10 +74,12 @@
       "attack": 100,
       "strength": 100,
       "defence": 100,
+      "ranged": 1,
+      "magic": 1,
       "hitpoints": 100
     },
     "bonuses": {
-      "attack": 75,
+      "strength": 75,
       "stabdefence": 259,
       "slashdefence": 257,
       "crushdefence": 241,
@@ -101,6 +107,8 @@
       "attack": 100,
       "strength": 100,
       "defence": 100,
+      "ranged": 1,
+      "magic": 1,
       "hitpoints": 100
     },
     "bonuses": {
@@ -131,6 +139,9 @@
     "stats": {
       "ranged": 100,
       "defence": 100,
+      "attack": 1,
+      "strength": 1,
+      "magic": 1,
       "hitpoints": 100
     },
     "bonuses": {
@@ -177,7 +188,7 @@
     },
     "animations": {
       "attack": 727,
-      "block": -1,
+      "block": 2079,
       // TODO find this lo
       "death": 4167
     },

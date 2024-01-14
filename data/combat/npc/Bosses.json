@@ -74,7 +74,7 @@
     },
     "scripts": {
       "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.kalphite.KalphiteQueenSecondForm"
-    //  "death": "nl.bartpelle.veteres.content.npcs.bosses.kalphite.KalphiteQueenSecondForm.death"
+      //  "death": "nl.bartpelle.veteres.content.npcs.bosses.kalphite.KalphiteQueenSecondForm.death"
     }
   },
   {
@@ -123,10 +123,10 @@
     "stats": {
       "attack": 242,
       "strength": 288,
-      "magic": 800,
+      "magic": 102,
       "ranged": 235,
       "defence": 102,
-      "hitpoints": 10000
+      "hitpoints": 1000
     },
     "bonuses": {
       "attack": 236,
@@ -167,7 +167,9 @@
       "hitpoints": 230
     },
     "bonuses": {
-      "ranged": 0,
+      "attack": 236,
+      "strength": 44,
+      "ranged": 224,
       "stabdefence": 160,
       "slashdefence": 165,
       "crushdefence": 160,
@@ -324,6 +326,7 @@
       "hitpoints": 142
     },
     "bonuses": {
+      "strength": 14,
       "stabdefence": 0,
       "slashdefence": 0,
       "crushdefence": 0,
@@ -475,7 +478,6 @@
     },
     "bonuses": {
       "attack": 50,
-      "strength": 31,
       "stabdefence": 25,
       "slashdefence": 200,
       "crushdefence": 100,
@@ -545,6 +547,7 @@
       "attack": 255,
       "strength": 255,
       "defence": 255,
+      "ranged": 255,
       "hitpoints": 255
     },
     "bonuses": {
@@ -680,11 +683,13 @@
       "attack": 280,
       "strength": 350,
       "ranged": 350,
-      "magic": 280,
+      "magic": 80,
       "defence": 250,
       "hitpoints": 255
     },
     "bonuses": {
+      "attack": 120,
+      "strength": 43,
       "stabdefence": 90,
       "slashdefence": 90,
       "crushdefence": 90,
@@ -1050,6 +1055,7 @@
       "ranged": 43,
       "strength": 29,
       "attack": 43,
+      "magic": 40,
       "stabdefence": 50,
       "slashdefence": 50,
       "crushdefence": 50,
@@ -1275,7 +1281,7 @@
       "hitpoints": 2400
     },
     "bonuses": {
-      "attack": 150,
+      "attack": 140,
       "strength": 128,
       "stabdefence": 120,
       "slashdefence": 180,

@@ -226,9 +226,16 @@
       "attack": 100,
       "strength": 100,
       "defence": 100,
-      "hitpoints": 100
+      "hitpoints": 100,
+      "magic": 1,
+      "ranged": 1
     },
     "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
     },
     "animations": {
       "attack": 401,
@@ -245,18 +252,26 @@
     "ids": [
       2244
     ],
-    "maxhit": 15,
+    "maxhit": 17,
     "slayerxp": 106,
     "slayerlvl": 83,
-    "attackspeed": 4,
+    "attackspeed": 5,
     "aggressive": true,
     "deathlen": 3,
     "stats": {
       "hitpoints": 106,
       "defence": 103,
+      "attack": 1,
+      "strength": 1,
+      "ranged": 1,
       "magic": 142
     },
     "bonuses": {
+      "stabdefence": 12,
+      "slashdefence": 14,
+      "crushdefence": 13,
+      "rangeddefence": 13,
+      "magicdefence": 35
     },
     "animations": {
       "attack": 4320,
@@ -281,9 +296,16 @@
       "attack": 116,
       "strength": 120,
       "defence": 100,
+      "magic": 1,
+      "ranged": 1,
       "hitpoints": 131
     },
     "bonuses": {
+      "stabdefence": 12,
+      "slashdefence": 14,
+      "crushdefence": 13,
+      "rangeddefence": 13,
+      "magicdefence": 5
     },
     "animations": {
       "attack": 4320,
@@ -301,16 +323,23 @@
       2235,
       2236
     ],
-    "maxhit": 8,
-    "attackspeed": 4,
+    "maxhit": 12,
+    "attackspeed": 6,
     "aggressive": true,
     "stats": {
-      "attack": 65,
-      "strength": 65,
-      "defence": 80,
+      "attack": 60,
+      "strength": 70,
+      "defence": 48,
+      "ranged": 1,
+      "magic": 1,
       "hitpoints": 110
     },
     "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
     },
     "animations": {
       "attack": 4652,
@@ -337,6 +366,8 @@
       "attack": 100,
       "strength": 100,
       "defence": 60,
+      "ranged": 1,
+      "magic": 1,
       "hitpoints": 110
     },
     "bonuses": {
@@ -344,8 +375,7 @@
       "slashdefence": 14,
       "crushdefence": 13,
       "magicdefence": 5,
-      "rangeddefence": 13,
-      "attack": 19
+      "rangeddefence": 13
     },
     "animations": {
       "attack": 4320,
@@ -362,22 +392,24 @@
     "ids": [
       2234
     ],
-    "maxhit": 8,
-    "attackspeed": 5,
+    "maxhit": 7,
+    "attackspeed": 6,
     "aggressive": true,
     "stats": {
-      "attack": 60,
-      "strength": 60,
-      "defence": 45,
-      "hitpoints": 60
+      "attack": 43,
+      "strength": 43,
+      "defence": 43,
+      "hitpoints": 60,
+      "ranged": 1,
+      "magic": 1
     },
     "bonuses": {
-      "stabdefence": 12,
-      "slashdefence": 14,
-      "crushdefence": 13,
-      "magicdefence": 5,
-      "rangeddefence": 13,
-      "attack": 19
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "magicdefence": 0,
+      "rangeddefence": 0,
+      "attack": 0
     },
     "animations": {
       "attack": 2930,
@@ -403,9 +435,17 @@
       "attack": 105,
       "strength": 104,
       "defence": 102,
+      "ranged": 1,
+      "magic": 1,
       "hitpoints": 116
     },
     "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "magicdefence": 0,
+      "rangeddefence": 0,
+      "attack": 0
     },
     "animations": {
       "attack": 6581,
@@ -426,12 +466,20 @@
     "attackspeed": 4,
     "aggressive": true,
     "stats": {
-      "attack": 133,
-      "strength": 126,
-      "defence": 135,
-      "hitpoints": 128
+      "attack": 130,
+      "strength": 130,
+      "defence": 131,
+      "ranged": 1,
+      "magic": 1,
+      "hitpoints": 112
     },
     "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "magicdefence": 0,
+      "rangeddefence": 0,
+      "attack": 0
     },
     "animations": {
       "attack": 4300,
@@ -461,9 +509,16 @@
       "attack": 80,
       "strength": 46,
       "defence": 30,
+      "ranged": 0,
+      "magic": 0,
       "hitpoints": 134
     },
     "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "magicdefence": 0,
+      "rangeddefence": 0
     },
     "animations": {
       "attack": 1552,
@@ -494,6 +549,11 @@
       "magic": 1
     },
     "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "magicdefence": 0,
+      "rangeddefence": 0
     },
     "animations": {
       "attack": 169,
@@ -522,19 +582,26 @@
       3135,
       3136
     ],
-    "maxhit": 18,
-    "slayerxp": 34.5,
+    "maxhit": 8,
+    "slayerxp": 100,
     "slayerlvl": 1,
     "attackspeed": 4,
     "aggressive": true,
     "deathlen": 3,
     "stats": {
       "hitpoints": 184,
-      "defence": 45,
-      "attack": 45,
-      "defence": 45
+      "defence": 70,
+      "attack": 70,
+      "magic": 1,
+      "ranged": 1,
+      "strength": 70
     },
     "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "magicdefence": 0,
+      "rangeddefence": 0
     },
     "animations": {
       "attack": 6536,
@@ -559,11 +626,19 @@
     "deathlen": 3,
     "stats": {
       "hitpoints": 40,
-      "defence": 15,
-      "attack": 20,
-      "defence": 20
+      "defence": 55,
+      "strength": 60,
+      "attack": 55,
+      "ranged": 1,
+      "magic": 40
+
     },
     "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "magicdefence": 0,
+      "rangeddefence": 0
     },
     "animations": {
       "attack": 1264,
@@ -591,12 +666,13 @@
       "attack": 10,
       "defence": 12,
       "strength": 10,
-      "magic": 1
+      "magic": 1,
+      "ranged": 1
     },
     "bonuses": {
       "stabdefence": 0,
       "slashdefence": 0,
-      "crushdefence": 10,
+      "crushdefence": 0,
       "magicdefence": 0,
       "rangeddefence": 0
     },
@@ -626,7 +702,8 @@
       "attack": 52,
       "defence": 22,
       "strength": 30,
-      "magic": 1
+      "magic": 1,
+      "ranged": 1
     },
     "bonuses": {
       "stabdefence": 10,
@@ -654,19 +731,19 @@
     "slayerxp": 17,
     "slayerlvl": 1,
     "stats": {
-      "attack": 1,
-      "strength": 1,
-      "defence": 1,
-      "hitpoints": 12,
+      "attack": 12,
+      "strength": 6,
+      "defence": 13,
+      "hitpoints": 15,
       "magic": 1,
       "ranged": 1
     },
     "bonuses": {
-      "stabdefence": -15,
-      "slashdefence": -15,
-      "crushdefence": -15,
-      "rangeddefence": -15,
-      "magicdefence": -15
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
     },
     "animations": {
       "attack": 6185,
@@ -689,19 +766,19 @@
     "slayerlvl": 1,
     "aggressive": true,
     "stats": {
-      "attack": 1,
-      "strength": 1,
-      "defence": 1,
-      "hitpoints": 12,
+      "attack": 11,
+      "strength": 6,
+      "defence": 20,
+      "hitpoints": 13,
       "magic": 1,
       "ranged": 1
     },
     "bonuses": {
-      "stabdefence": -15,
-      "slashdefence": -15,
-      "crushdefence": -15,
-      "rangeddefence": -15,
-      "magicdefence": -15
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
     },
     "animations": {
       "attack": 6185,
@@ -723,19 +800,19 @@
     "slayerlvl": 1,
     "aggressive": true,
     "stats": {
-      "attack": 1,
-      "strength": 1,
-      "defence": 1,
-      "hitpoints": 12,
+      "attack": 19,
+      "strength": 6,
+      "defence": 19,
+      "hitpoints": 16,
       "magic": 1,
       "ranged": 1
     },
     "bonuses": {
-      "stabdefence": -15,
-      "slashdefence": -15,
-      "crushdefence": -15,
-      "rangeddefence": -15,
-      "magicdefence": -15
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
     },
     "animations": {
       "attack": 6188,
@@ -791,17 +868,19 @@
     "slayerlvl": 1,
     "aggressive": true,
     "stats": {
-      "attack": 24,
+      "attack": 22,
       "strength": 24,
       "defence": 24,
-      "hitpoints": 35
+      "hitpoints": 29,
+      "ranged": 1,
+      "magic": 1
     },
     "bonuses": {
-      "stabdefence": -7,
-      "slashdefence": -7,
-      "crushdefence": -7,
-      "rangeddefence": -7,
-      "magicdefence": -7
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
     },
     "animations": {
       "attack": 164,
@@ -818,20 +897,20 @@
     "ids": [
       2241
     ],
-    "maxhit": 4,
+    "maxhit": 7,
     "aggressive": true,
     "stats": {
-      "attack": 24,
-      "strength": 24,
-      "defence": 24,
-      "hitpoints": 35
+      "attack": 43,
+      "strength": 43,
+      "defence": 43,
+      "hitpoints": 60
     },
     "bonuses": {
-      "stabdefence": -7,
-      "slashdefence": -7,
-      "crushdefence": -7,
-      "rangeddefence": -7,
-      "magicdefence": -7
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
     },
     "animations": {
       "attack": 164,
@@ -877,21 +956,21 @@
     }
   },
   {
-    // Bree
+    // Growler
     "ids": [
-      2208
+      2207
     ],
     "maxhit": 16,
     "aggressive": true,
     "retaliates": false,
     "aggroradius": 50,
     "stats": {
-      "attack": 162,
-      "strength": 80,
-      "defence": 130,
-      "ranged": 150,
-      "magic": 80,
-      "hitpoints": 162
+      "attack": 100,
+      "strength": 101,
+      "defence": 120,
+      "ranged": 1,
+      "magic": 150,
+      "hitpoints": 146
     },
     "bonuses": {
       "attack": 10,
@@ -914,19 +993,19 @@
   {
     // Growler
     "ids": [
-      2207
+      2208
     ],
     "maxhit": 16,
     "aggressive": true,
     "retaliates": false,
     "aggroradius": 50,
     "stats": {
-      "attack": 100,
-      "strength": 101,
-      "defence": 120,
-      "ranged": 1,
-      "magic": 150,
-      "hitpoints": 146
+      "attack": 110,
+      "strength": 80,
+      "defence": 130,
+      "ranged": 150,
+      "magic": 180,
+      "hitpoints": 162
     },
     "bonuses": {
       "attack": 10,
@@ -994,16 +1073,16 @@
     "attackspeed": 6,
     "stats": {
       "attack": 70,
-      "strength": 85,
-      "defence": 70,
+      "strength": 90,
+      "defence": 82,
       "magic": 60,
-      "hitpoints": 135
+      "hitpoints": 108
     },
     "bonuses": {
-      "attack": 8,
-      "stabdefence": 10,
-      "slashdefence": 10,
-      "crushdefence": 7,
+      "attack": 13,
+      "stabdefence": 12,
+      "slashdefence": 14,
+      "crushdefence": 13,
       "rangeddefence": 13,
       "magicdefence": 0
     },
@@ -1063,10 +1142,12 @@
       "strength": 106,
       "defence": 110,
       "magic": 1,
+      "ranged": 1,
       "hitpoints": 110
     },
     "bonuses": {
       "attack": 9,
+      "strength": 9,
       "stabdefence": 12,
       "slashdefence": 14,
       "crushdefence": 13,
@@ -1097,7 +1178,10 @@
     "stats": {
       "hitpoints": 85,
       "defence": 86,
-      "magic": 160
+      "magic": 160,
+      "attack": 1,
+      "ranged": 1,
+      "strength": 1
     },
     "bonuses": {
       "stabdefence": 8,
@@ -1165,9 +1249,14 @@
       "defence": 175,
       "ranged": 169,
       "magic": 50,
-      "hitpoints": 159
+      "hitpoints": 133
     },
     "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
     },
     "animations": {
       "attack": 6957,
@@ -1197,6 +1286,11 @@
       "hitpoints": 121
     },
     "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
     },
     "animations": {
       "attack": 6955,
@@ -1227,6 +1321,11 @@
       "hitpoints": 132
     },
     "bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "rangeddefence": 0,
+      "magicdefence": 0
     },
     "animations": {
       "attack": 6955,
@@ -1259,6 +1358,8 @@
     },
     "bonuses": {
       "attack": 136,
+      "ranged": 120,
+      "strength": 12,
       "stabdefence": 180,
       "slashdefence": 180,
       "crushdefence": 180,

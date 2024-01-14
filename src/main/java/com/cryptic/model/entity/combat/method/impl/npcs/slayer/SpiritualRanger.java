@@ -6,6 +6,7 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.Projectile;
+import com.cryptic.model.map.route.routes.ProjectileRoute;
 
 public class SpiritualRanger extends CommonCombatMethod {
 
@@ -19,15 +20,18 @@ public class SpiritualRanger extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
+        if (withinDistance(8)) return false;
         if (entity.isNpc()) {
-            entity.animate(entity.attackAnimation());
-            int tileDist = entity.tile().distance(target.tile());
-            int duration = (41 + -5 + (10 * tileDist));
-            var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
-            Projectile p = new Projectile(tile, target, 1192, 41, duration, 43, 31, 0, entity.getSize(), 10);
-            final int delay = entity.executeProjectile(p);
-            Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.MAGIC).checkAccuracy(true);
-            hit.submit();
+            if (ProjectileRoute.hasLineOfSight(entity, target)) {
+                entity.animate(entity.attackAnimation());
+                int tileDist = entity.tile().distance(target.tile());
+                int duration = (41 + -5 + (10 * tileDist));
+                var tile = entity.tile().translateAndCenterNpcPosition(entity, target);
+                Projectile p = new Projectile(tile, target, 1192, 41, duration, 43, 31, 0, entity.getSize(), 10);
+                final int delay = entity.executeProjectile(p);
+                Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.MAGIC).checkAccuracy(true);
+                hit.submit();
+            }
         }
         return true;
     }

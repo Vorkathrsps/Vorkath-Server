@@ -10,6 +10,7 @@ import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.map.route.routes.ProjectileRoute;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 
@@ -21,21 +22,23 @@ public class SpiritualMage extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
-        // Attack the player
+        if (!withinDistance(8)) return false;
+        if (ProjectileRoute.hasLineOfSight(entity, target)) {
         entity.animate(entity.attackAnimation());
         var tileDist = entity.tile().distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, 1193, 51, duration, 43, 31, 0, entity.getSize(), 10);
-        final int delay = entity.executeProjectile(p);
-        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true);
+            final int delay = entity.executeProjectile(p);
+            Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true);
 
-        // Does NOT splash when miss!
-        if(target instanceof Player playerTarget) {
-            NPC npc = (NPC) entity;
-            if (hit.getDamage() > 0) {
-                playerTarget.performGraphic(get_graphic(npc.id())); // Cannot protect from this.
-            } else {
-                playerTarget.performGraphic(new Graphic(85, GraphicHeight.LOW,p.getSpeed())); // Cannot protect from this.
+            // Does NOT splash when miss!
+            if (target instanceof Player playerTarget) {
+                NPC npc = (NPC) entity;
+                if (hit.getDamage() > 0) {
+                    playerTarget.performGraphic(get_graphic(npc.id())); // Cannot protect from this.
+                } else {
+                    playerTarget.performGraphic(new Graphic(85, GraphicHeight.LOW, p.getSpeed())); // Cannot protect from this.
+                }
             }
         }
         return true;

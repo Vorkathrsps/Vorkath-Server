@@ -7,6 +7,7 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.npc.NPC;
+import com.cryptic.model.map.route.routes.ProjectileRoute;
 
 public class Aviansie extends CommonCombatMethod {
 
@@ -17,13 +18,15 @@ public class Aviansie extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         if (entity.isNpc()) {
-            NPC npc = (NPC) entity;
-            entity.animate(get_animation(npc.id()));
-            var tileDist = entity.tile().distance(target.tile());
-            int duration = (41 + 11 + (5 * tileDist));
-            Projectile p = new Projectile(entity, target, projectile(npc.id()), 41, duration, 43, 31, 0, entity.getSize(), 5);
-            final int delay = entity.executeProjectile(p);
-            target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
+            if (ProjectileRoute.hasLineOfSight(entity, target)) {
+                NPC npc = (NPC) entity;
+                entity.animate(get_animation(npc.id()));
+                var tileDist = entity.tile().distance(target.tile());
+                int duration = (41 + 11 + (5 * tileDist));
+                Projectile p = new Projectile(entity, target, projectile(npc.id()), 41, duration, 43, 31, 0, entity.getSize(), 5);
+                final int delay = entity.executeProjectile(p);
+                target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED), delay, CombatType.RANGED).checkAccuracy(true).submit();
+            }
         }
         return true;
     }

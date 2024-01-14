@@ -273,7 +273,7 @@ public class Utils {
     }
 
     public static String getDiscordWebhookHeader() {
-        return "[" + Utils.getCurrentServerDateTime() + "][v" + GameServer.properties().gameVersion + "][" + (GameServer.properties().production ? "Live" : "Dev") + "]" + (World.getWorld().getPlayers().get(1) != null ? "[Player1=" + World.getWorld().getPlayers().get(1).getUsername() + "]" : "") + ": ";
+        return "[" + Utils.getCurrentServerDateTime() + "][GameVersion: " + GameServer.properties().gameVersion + "][" + (GameServer.properties().production ? "Live" : "Dev") + "]" + (World.getWorld().getPlayers().get(1) != null ? "[Username: " + World.getWorld().getPlayers().get(1).getUsername() + "]" : "") + ": ";
     }
 
     public static void sendDiscordInfoLog(String text, String type) {
@@ -316,6 +316,10 @@ public class Utils {
                         case "pickups" -> {
                             GameServer.getPickupsWebHook().setContent(getDiscordWebhookHeader() + text.replaceAll("\"", ""));
                             GameServer.getPickupsWebHook().execute();
+                        }
+                        case "dupe" -> {
+                            GameServer.getDupeDetectionWebHook().setContent(getDiscordWebhookHeader() + text.replaceAll("\"", ""));
+                            GameServer.getDupeDetectionWebHook().execute();
                         }
                         case "login" -> {
                             GameServer.getLoginWebHook().setContent(getDiscordWebhookHeader() + text.replaceAll("\"", ""));

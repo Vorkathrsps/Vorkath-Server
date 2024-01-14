@@ -123,6 +123,7 @@ public class Trading {
             return;
         }
 
+
         // Ironman? fuck off lol!!
         if (otherPlayer.getIronManStatus() != IronMode.NONE && !(player.getPlayerRights().isOwner(player) || player.getIronManStatus().isGroupIronman())) {
             player.message(otherPlayer.getUsername() + " is an Iron Man. They stand alone.");

@@ -21,7 +21,6 @@ import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
-import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.ScalarLootTable;
 import com.cryptic.model.entity.player.InputScript;
@@ -41,6 +40,8 @@ import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
+import com.cryptic.model.items.tradingpost.TradingPost;
+import com.cryptic.model.items.tradingpost.TradingPostListing;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.object.MapObjects;
 import com.cryptic.model.map.position.Area;
@@ -641,10 +642,13 @@ public class CommandManager {
             System.out.println(p.hasAttrib(CHOKED));
         });
         dev("c", (p, c, s) -> {
-            long start = System.currentTimeMillis();
-            p.closeNpcs(64);
-            long end = System.currentTimeMillis();
-            System.out.println(end - start);
+            p.getPacketSender().sendInterface(81400);
+            TradingPost.displayTradeHistory(p);
+        });
+
+        dev("listings", (p, c, s) -> {
+            p.getPacketSender().sendInterface(81600);
+            TradingPost.displayRecentListingResults(p, TradingPost.recentTransactions);
         });
 
         dev("ioi", (p, c, s) -> {

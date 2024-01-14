@@ -1,5 +1,6 @@
 package com.cryptic.model.entity.combat.hit;
 
+import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
@@ -30,7 +31,6 @@ import java.util.function.Consumer;
  * @author Professor Oak
  */
 public class Hit {
-
     public boolean toremove;
     public boolean showSplat;
     @Getter
@@ -219,7 +219,7 @@ public class Hit {
             }
             if (npc.isCombatDummy()) this.checkAccuracy = false;
         }
-        var chance = Utils.THREAD_LOCAL_RANDOM.get().nextDouble();
+        double chance = World.getWorld().random().nextDouble();
         if (this.checkAccuracy && this.combatType != null && !(target.isNpc() && target.npc().getCombatInfo() == null) && !(attacker.isNpc() && attacker.npc().getCombatInfo() == null)) {
             switch (combatType) {
                 case MAGIC -> accurate = magicAccuracy.successful(chance);

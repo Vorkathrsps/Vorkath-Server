@@ -23,14 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author relex lawl
  */
-
 public class PlayerUpdating {
-
-    /**
-     * Loops through the associated player's {@code localPlayer} list and updates them.
-     *
-     * @return The PlayerUpdating instance.
-     */
 
     public static void update(final Player player) {
         final PacketBuilder out = new PacketBuilder(81, PacketType.VARIABLE_SHORT);
@@ -486,7 +479,6 @@ public class PlayerUpdating {
 
     /**
      * This update block is used to update a player's graphics.
-     *
      * @param builder The packet builder to write information on.
      * @param target  The player to update graphics for.
      * @return The PlayerUpdating instance.
@@ -531,25 +523,11 @@ public class PlayerUpdating {
         builder.put(target.tinting().opacity());
     }
 
-    /**
-     * This update block is used to update a player's face position.
-     *
-     * @param builder The packet builder to write information on.
-     * @param target  The player to update face position for.
-     * @return The PlayerUpdating instance.
-     */
     private static void updateFacingPosition(PacketBuilder builder, int x, int y) {
         builder.putShort(x, ValueType.A, ByteOrder.LITTLE);
         builder.putShort(y, ByteOrder.LITTLE);
     }
 
-    /**
-     * This update block is used to update a player's entity interaction.
-     *
-     * @param builder The packet builder to write information on.
-     * @param target  The player to update entity interaction for.
-     * @return The PlayerUpdating instance.
-     */
     private static void updateEntityInteraction(PacketBuilder builder, Player target) {
         Entity entity = target.getInteractingEntity();
         if (entity != null) {

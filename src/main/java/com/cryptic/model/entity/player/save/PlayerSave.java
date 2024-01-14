@@ -72,7 +72,7 @@ public class PlayerSave {
 
     private static final Logger logger = LogManager.getLogger(PlayerSave.class);
 
-    static final Map<Type, InstanceCreator<?>> instanceCreators = Collections.<Type, InstanceCreator<?>>emptyMap();
+    static final Map<Type, InstanceCreator<?>> instanceCreators = Collections.emptyMap();
 
     public static final Gson SERIALIZE = new GsonBuilder()
         .setDateFormat("MMM d, yyyy, HH:mm:ss a")

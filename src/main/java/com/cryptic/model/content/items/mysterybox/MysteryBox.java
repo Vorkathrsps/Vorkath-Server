@@ -19,7 +19,6 @@ public abstract class MysteryBox {
      */
     public static void load() {
         MysteryBox MYSTERY_BOX = new DonatorMysteryBox();
-
         MYSTERY_BOXES.put(MYSTERY_BOX.mysteryBoxId(), MYSTERY_BOX);
     }
 

@@ -123,9 +123,6 @@ public class LoginWorker implements Runnable {
                             if (response != LoginResponses.LOGIN_SUCCESSFUL) {
                                 if (player.getSession().getChannel() != null) {
                                     sendCodeAndClose(player.getSession().getChannel(), response);
-                                    // logger.trace("Login response 2nd code for " +
-                                    // player.getUsername() + " is " + response);
-                                    // reply is sent either way above, no need here
                                     return;
                                 }
                             }
@@ -138,10 +135,7 @@ public class LoginWorker implements Runnable {
                                             + request.message.getHost()
                                             + "```",
                                     "login");
-                            loginLogs.log(
-                                    LOGIN,
-                                    "Login successful for player {}.",
-                                    request.player.getUsername());
+                            loginLogs.log(LOGIN, "Login successful for player {}.", request.player.getUsername());
                         });
     }
 }

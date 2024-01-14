@@ -3,7 +3,9 @@ package com.cryptic.model.items.tradingpost;
 import com.cryptic.model.entity.player.Player;
 import com.google.common.collect.Lists;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class PlayerListing {
@@ -12,6 +14,9 @@ public class PlayerListing {
      * items listed by a single player
      */
     private final List<TradingPostListing> listedItems = Lists.newLinkedList();
+    public static final Map<Map<String, String>, Map<Integer, Integer>> historyMap = new HashMap<>();
+    private final Map<String, String> historyTrade = new HashMap<>();
+    private final Map<Integer, Integer> historyItems = new HashMap<>();
     /**
      * items listed by a single player
      */
@@ -47,7 +52,10 @@ public class PlayerListing {
     public void removeListedItem(TradingPostListing sale) {
         //System.out.println("removeListedItem: "+sale);
         this.listedItems.remove(sale);
-    } // just theorizing a fix before removing incase i dont need to
+        this.historyTrade.put(sale.getLastBuyerName(), sale.getSellerName());
+        this.historyItems.put(sale.getSaleItem().getId(), sale.getSaleItem().getAmount());
+        historyMap.put(historyTrade, historyItems);
+    }
 
     public int getListingBySlot(TradingPostListing saleItem) {
         int index = -1;

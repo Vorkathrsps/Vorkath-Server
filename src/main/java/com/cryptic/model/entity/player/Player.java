@@ -1460,7 +1460,7 @@ public class Player extends Entity {
         // Notify us
         //logger.info("Deregistering player - [username, host] : [{}, {}]", getUsername(), getHostAddress());
         logoutLogs.log(LOGOUT, "[Logout] Deregistering player - {}", getUsername());
-        Utils.sendDiscordInfoLog("```Deregistering player - " + getUsername() + " with IP " + getHostAddress() + "```", "logout");
+        Utils.sendDiscordInfoLog("```[Logout]: [Player - " + getUsername() + " (IP " + getHostAddress() + ")```", "logout");
 
         if (tile.inArea(new Area(1356, 10254, 1380, 10280))) // hydra
             teleport(1353, 10258, 0);

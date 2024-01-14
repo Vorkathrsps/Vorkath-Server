@@ -32,6 +32,10 @@ public enum Color {
         return tag() + s + "</col>";
     }
 
+    public String embed(String s) {
+        return "#" + colorValue + s;
+    }
+
     public String tag() {
         return "<col=" + colorValue + ">";
     }

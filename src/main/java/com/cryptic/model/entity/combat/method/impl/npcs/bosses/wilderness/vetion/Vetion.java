@@ -1,6 +1,5 @@
 package com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion;
 
-import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -14,12 +13,12 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
-import com.cryptic.model.map.route.routes.ProjectileRoute;
 import com.cryptic.model.phase.Phase;
 import com.cryptic.model.phase.PhaseStage;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 import com.cryptic.utility.timers.TimerKey;
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,7 +32,7 @@ public class Vetion extends CommonCombatMethod {
     @Getter
     @Setter
     public Phase phase = new Phase(PhaseStage.ONE);
-    public static final Area vetionArea = new Area(1879, 11553, 1895, 11559, 1); //block this when tb'd
+    public static final Area vetionArea = new Area(3248, 10192, 3306, 10212, 1); //block this when tb'd
     Set<Tile> tiles = new HashSet<>(12);
     private final List<String> VETION_QUOTES = Arrays.asList("Dodge this!",
         "Sit still you rat!",
@@ -46,7 +45,7 @@ public class Vetion extends CommonCombatMethod {
         Player player = (Player) target;
         NPC vetion = (NPC) entity;
         if (player != null) {
-            if (VetionMinion.houndCount.size() == 0) {
+            if (houndList.size() == 0) {
                 vetion.message("My hounds! I'll make you pay for that!");
             }
             if (!hasAttacked) {
@@ -81,11 +80,6 @@ public class Vetion extends CommonCombatMethod {
     }
 
     @Override
-    public EntityCombatBuilder combatBuilder(Entity entity) {
-        return new EntityCombatBuilder(entity, target);
-    }
-
-    @Override
     public int getAttackSpeed(Entity entity) {
         return 4;
     }
@@ -107,122 +101,107 @@ public class Vetion extends CommonCombatMethod {
 
     void magicSwordRaise() {
         NPC vetion = (NPC) entity;
-        Player player = (Player) target;
-
-        //create list for tiles to store
-        List<Tile> tileList = new ArrayList<>();
-        var targetTile = player.tile();
-
-        //add the players tile
-        tileList.add(targetTile);
-
-        //add the player tile to the used tile
-        usedTiles.add(targetTile);
-
-        for (int tileIndex = 0; tileIndex < 4; tileIndex++) {
-            //create field to find tiles around
-            var tilesAround = World.getWorld().randomTileAround(targetTile, 4);
-
-            //add used tiles to not create duplicates
-            usedTiles.add(tilesAround);
-            tileList.add(tilesAround);
+        for (var player : getPossibleTargets(vetion)) {
+            if (player == null) continue;
+            List<Tile> tileList = new ArrayList<>();
+            var targetTile = player.tile();
+            tileList.add(targetTile);
+            usedTiles.add(targetTile);
+            for (int tileIndex = 0; tileIndex < 4; tileIndex++) {
+                var tilesAround = World.getWorld().randomTileAround(targetTile, 4);
+                if (tilesAround.getZ() != target.getZ()) continue;
+                if (usedTiles.contains(tilesAround)) continue;
+                usedTiles.add(tilesAround);
+                if (tileList.contains(tilesAround)) continue;
+                tileList.add(tilesAround);
+            }
+            tileList
+                .stream()
+                .filter(tile -> World.getWorld().clipAt(tile.x, tile.y, tile.level) == 0)
+                .filter(tile -> !tile.equals(vetion.tile()))
+                .forEach(tile ->
+                    Chain.noCtx()
+                        .runFn(1, () -> {
+                            vetion.forceChat(Utils.randomElement(VETION_QUOTES));
+                            vetion.lockMoveDamageOk();
+                            vetion.getMovementQueue().clear();
+                        })
+                        .then(1, () -> {
+                            vetion.animate(9969);
+                            vetion.graphic(vetion.id() == 6612 ? 2345 : 2344, GraphicHeight.MIDDLE, 0);
+                            World.getWorld().tileGraphic(vetion.id() == 6612 ? 2347 : 2346, tile, 0, 0);
+                        })
+                        .then(3, () -> {
+                            if (!player.tile().equals(tile) && !player.tile().inSqRadius(tile, 1)) {
+                                return;
+                            }
+                            if (!player.dead() && player.isRegistered() && !vetion.dead() && player.tile().equals(tile)) {
+                                vetion.submitAccurateHit(player, 0, Utils.random(15, 30), this);
+                            } else if (player.tile().nextTo(tile)) {
+                                vetion.submitAccurateHit(player, 0, (Utils.random(15, 30) / 2), this);
+                            }
+                        })
+                        .then(2, () -> {
+                            vetion.unlock();
+                            vetion.getCombat().setTarget(player);
+                            vetion.face(null);
+                            hasAttacked = true;
+                            usedTiles.clear();
+                            tiles.clear();
+                        }));
         }
-
-        //handle the list
-        tileList
-            .stream()
-            .filter(tile -> World.getWorld().clipAt(tile.x, tile.y, tile.level) == 0)
-            .filter(tile -> !tile.equals(vetion.tile()))
-            .forEach(tile ->
-                Chain.noCtx()
-                    .runFn(1, () -> {
-                        vetion.forceChat(Utils.randomElement(VETION_QUOTES));
-                        vetion.lockMoveDamageOk();
-                        vetion.getMovementQueue().clear();
-                    })
-                    .then(1, () -> {
-                        vetion.animate(9969);
-                        vetion.graphic(vetion.id() == 6612 ? 2345 : 2344, GraphicHeight.MIDDLE, 0);
-                        World.getWorld().tileGraphic(vetion.id() == 6612 ? 2347 : 2346, tile, 0, 0);
-                    })
-                    .then(3, () -> {
-                        if (!player.tile().equals(tile) && !player.tile().inSqRadius(tile, 1)) {
-                            return;
-                        }
-                        if (!player.dead() && player.isRegistered() && !vetion.dead() && player.tile().equals(tile)) {
-                            player.hit(vetion, Utils.random(15, 30), 0);
-                        } else if (player.tile().nextTo(tile)) {
-                            player.hit(vetion, Utils.random(15, 30) / 2, 0);
-                        }
-                    })
-                    .then(2, () -> {
-                        vetion.unlock();
-                        vetion.getCombat().setTarget(player);
-                        vetion.face(null);
-                        hasAttacked = true;
-                        usedTiles.clear();
-                        tiles.clear();
-                    }));
-
     }
 
     void magicSwordSlash() {
         NPC vetion = (NPC) entity;
-        Player player = (Player) target;
-
-        //create list for tiles to store
-        List<Tile> tileList = new ArrayList<>();
-        var targetTile = player.tile();
-
-        //add the players tile
-        tileList.add(targetTile);
-
-        //add the player tile to the used tile
-        usedTiles.add(targetTile);
-
-        for (int tileIndex = 0; tileIndex < 4; tileIndex++) {
-            //create field to find tiles around
-            var tilesAround = World.getWorld().randomTileAround(targetTile, 4);
-
-            //add used tiles to not create duplicates
-            usedTiles.add(tilesAround);
-            tileList.add(tilesAround);
+        for (var player : getPossibleTargets(vetion)) {
+            if (player == null) continue;
+            List<Tile> tileList = new ArrayList<>();
+            var targetTile = player.tile();
+            tileList.add(targetTile);
+            usedTiles.add(targetTile);
+            for (int tileIndex = 0; tileIndex < 4; tileIndex++) {
+                var tilesAround = World.getWorld().randomTileAround(targetTile, 4);
+                if (tilesAround.getZ() != target.getZ()) continue;
+                if (usedTiles.contains(tilesAround)) continue;
+                usedTiles.add(tilesAround);
+                if (tileList.contains(tilesAround)) continue;
+                tileList.add(tilesAround);
+            }
+            tileList
+                .stream()
+                .filter(tile -> World.getWorld().clipAt(tile.x, tile.y, tile.level) == 0)
+                .filter(tile -> !tile.equals(vetion.tile()))
+                .forEach(tile ->
+                    Chain.noCtx().runFn(1, () -> {
+                            vetion.forceChat(Utils.randomElement(VETION_QUOTES));
+                            vetion.lockMoveDamageOk();
+                            vetion.getMovementQueue().clear();
+                        })
+                        .then(1, () -> {
+                            vetion.animate(9972);
+                            vetion.graphic(2348);
+                            World.getWorld().tileGraphic(vetion.id() == 6612 ? 2347 : 2346, tile, 0, 0);
+                        })
+                        .then(3, () -> {
+                            if (!player.tile().equals(tile) && !player.tile().inSqRadius(tile, 1)) {
+                                return;
+                            }
+                            if (!player.dead() && player.isRegistered() && !vetion.dead() && player.tile().equals(tile)) {
+                                vetion.submitAccurateHit(player, 0, Utils.random(15, 30), this);
+                            } else if (player.tile().nextTo(tile)) {
+                                vetion.submitAccurateHit(player, 0, (Utils.random(15, 30) / 2), this);
+                            }
+                        })
+                        .then(2, () -> {
+                            vetion.unlock();
+                            vetion.getCombat().setTarget(player);
+                            vetion.face(null);
+                            hasAttacked = true;
+                            usedTiles.clear();
+                            tiles.clear();
+                        }));
         }
-
-        //handle the list
-        tileList
-            .stream()
-            .filter(tile -> World.getWorld().clipAt(tile.x, tile.y, tile.level) == 0)
-            .filter(tile -> !tile.equals(vetion.tile()))
-            .forEach(tile ->
-                Chain.noCtx().runFn(1, () -> {
-                        vetion.forceChat(Utils.randomElement(VETION_QUOTES));
-                        vetion.lockMoveDamageOk();
-                        vetion.getMovementQueue().clear();
-                    })
-                    .then(1, () -> {
-                        vetion.animate(9972);
-                        vetion.graphic(2348);
-                        World.getWorld().tileGraphic(vetion.id() == 6612 ? 2347 : 2346, tile, 0, 0);
-                    })
-                    .then(3, () -> {
-                        if (!player.tile().equals(tile) && !player.tile().inSqRadius(tile, 1)) {
-                            return;
-                        }
-                        if (!player.dead() && player.isRegistered() && !vetion.dead() && player.tile().equals(tile)) {
-                            player.hit(vetion, Utils.random(15, 30), 0);
-                        } else if (player.tile().nextTo(tile)) {
-                            player.hit(vetion, Utils.random(15, 30) / 2, 0);
-                        }
-                    })
-                    .then(2, () -> {
-                        vetion.unlock();
-                        vetion.getCombat().setTarget(player);
-                        vetion.face(null);
-                        hasAttacked = true;
-                        usedTiles.clear();
-                        tiles.clear();
-                    }));
     }
 
     private void doShieldBash() {
@@ -235,13 +214,11 @@ public class Vetion extends CommonCombatMethod {
             vetion.getMovementQueue().clear();
             var dir = Direction.resolveForLargeNpc(player.tile(), vetion.npc());
             spawnShieldInDir(this, vetion.tile(), dir);
-        }).then(2, () -> {
-            vetion.animate(9974);
-        }).then(1, () -> {
+        }).then(2, () -> vetion.animate(9974)).then(1, () -> {
             for (var t : tiles) {
                 if (t.equals(player.tile())) {
-                    if (!player.dead() && player.isRegistered() && !vetion.dead()) {
-                        player.hit(vetion, Utils.random(15, 30));
+                    if (!player.dead() && !vetion.dead()) {
+                        vetion.submitAccurateHit(player, 0, Utils.random(15, 30), this);
                     }
                 }
             }
@@ -254,12 +231,16 @@ public class Vetion extends CommonCombatMethod {
         });
     }
 
+    List<NPC> houndList = Lists.newArrayList();
+
     private void spawnHellhounds(NPC vetion, Entity target) {
-        List<NPC> minions = new ArrayList<>();
         for (int index = 0; index < 2; index++) {
-            VetionMinion minion = new VetionMinion(vetion, target);
-            minions.add(minion);
-            World.getWorld().registerNpc(minion);
+            var tilesAround = World.getWorld().randomTileAround(vetion.tile(), 4);
+            if (!MovementQueue.dumbReachable(tilesAround.x, tilesAround.y, vetion.tile())) continue;
+            VetionMinion minion = new VetionMinion(vetion, target, tilesAround);
+            houndList.add(minion);
+            minion.setIgnoreOccupiedTiles(true);
+            minion.spawn();
             minion.face(target);
             minion.getCombat().setTarget(target);
         }
@@ -268,7 +249,7 @@ public class Vetion extends CommonCombatMethod {
         vetion.forceChat(vetion.id() == 6611 ? "Gah! Hounds! get them!" : "HOUNDS! DISPOSE OF THESE TRESSPASSERS!");
 
         vetion.putAttrib(AttributeKey.VETION_HELLHOUND_SPAWNED, true);
-        vetion.putAttrib(AttributeKey.MINION_LIST, minions);
+        vetion.putAttrib(AttributeKey.MINION_LIST, houndList);
     }
 
     @Override
@@ -300,6 +281,12 @@ public class Vetion extends CommonCombatMethod {
                     npc.canAttack(true);
                 });
             } else if (npc.id() == 6612) {
+                for (var m : Lists.newArrayList(houndList)) {
+                    if (m == null) continue;
+                    houndList.remove(m);
+                    m.die();
+                }
+                houndList.clear();
                 npc.getTimers().cancel(TimerKey.VETION_REBORN_TIMER);
                 npc.putAttrib(AttributeKey.VETION_REBORN_ACTIVE, false);
                 npc.clearAttrib(AttributeKey.VETION_HELLHOUND_SPAWNED);
@@ -315,8 +302,8 @@ public class Vetion extends CommonCombatMethod {
     }
 
     @Override
-    public ArrayList<Entity> getPossibleTargets(Entity mob) {
-        return Arrays.stream(mob.closePlayers(64)).collect(Collectors.toCollection(ArrayList::new));
+    public ArrayList<Entity> getPossibleTargets(Entity entity) {
+        return Arrays.stream(entity.closePlayers(64)).filter(target -> vetionArea.contains(target.tile())).filter(target -> entity.getZ() == target.getZ()).collect(Collectors.toCollection(ArrayList::new));
     }
 
 
@@ -361,8 +348,7 @@ public class Vetion extends CommonCombatMethod {
                 new Area[]{new Area(-2, -2, -1, 1), new Area(-2, -2, 1, -1),},
             };
             Area[] pattern = PATTERNS2[dir.ordinal() - 4];
-            if (pattern.length == 0)
-                return;
+            if (pattern.length == 0) return;
             for (Area area : pattern) {
                 area.forEachPos(t -> {
                     var pos = origin.transform(t.x, t.y);

@@ -98,7 +98,9 @@ public final class MagicAccuracy {
     }
 
     private int getEquipmentBonusDefender() {
-        return this.defender instanceof NPC npc ? npc.getCombatInfo().getBonuses().getMagicdefence() : EquipmentInfo.totalBonuses(this.defender, World.getWorld().equipmentInfo()).getMagedef();
+        if (this.defender instanceof Player player) return EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo()).getMagedef();
+        else if (this.defender instanceof NPC npc) return npc.getCombatInfo().getBonuses().getMagicdefence();
+        return 0;
     }
 
     public double getDefenceRoll() {

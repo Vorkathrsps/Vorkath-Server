@@ -203,5 +203,4 @@ public class DeathResult {
         }
         itemList.forEach(i -> GroundItemHandler.createGroundItem(new GroundItem(i, player.tile(), player)));
     }
-
 }

@@ -887,7 +887,7 @@ public class World {
                     active = RegionManager.getRegion(activeId);
                 }
 
-                if (active != null && active.baseZData.clips[base.level % 4] != null)
+                if (active.baseZData.clips[base.level % 4] != null)
                     clipping[x - base.x][y - base.y] = active.baseZData.clips[base.level % 4][x & 63][y & 63];
             }
         }

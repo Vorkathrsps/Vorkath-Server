@@ -98,8 +98,7 @@ public class Session {
     }
 
     public ChannelFuture sendOkLogin(int response) {
-        if (channel == null)
-            return null;
+        if (channel == null) return null;
         ChannelFuture future = channel.writeAndFlush(new LoginResponsePacket(response, player.getPlayerRights()));
         if (response != LoginResponses.LOGIN_SUCCESSFUL) {
             future.addListener(ChannelFutureListener.CLOSE);

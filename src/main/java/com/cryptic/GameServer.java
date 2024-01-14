@@ -14,6 +14,7 @@ import com.cryptic.utility.flood.Flooder;
 import com.google.common.base.Preconditions;
 import io.netty.util.ResourceLeakDetector;
 import com.cryptic.cache.DataStore;
+import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -88,6 +89,7 @@ public class GameServer {
             npcDropsWebHook = new DiscordWebhook(properties().npcDropsWebHookUrl);
             playerDropsWebHook = new DiscordWebhook(properties().playerDropsWebHookUrl);
             pickupsWebHook = new DiscordWebhook(properties().pickupsWebHookUrl);
+            dupeDetectionWebHook = new DiscordWebhook(properties().dupeDetectionUrl);
             loginWebHook = new DiscordWebhook(properties().loginWebHookUrl);
             logoutWebHook = new DiscordWebhook(properties().logoutWebHookUrl);
             sanctionsWebHook = new DiscordWebhook(properties().sanctionsWebHookUrl);
@@ -141,6 +143,7 @@ public class GameServer {
     private static DiscordWebhook npcDropsWebHook;
     private static DiscordWebhook playerDropsWebHook;
     private static DiscordWebhook pickupsWebHook;
+    @Getter private static DiscordWebhook dupeDetectionWebHook;
     private static DiscordWebhook loginWebHook;
     private static DiscordWebhook logoutWebHook;
     private static DiscordWebhook sanctionsWebHook;

@@ -62,7 +62,7 @@ public class TradingPost {
     public static final boolean TESTING = false;
     public static final boolean BLOOD_MONEY_CURRENCY = true;
 
-    private static final int INTERFACE_ID = 66000, HISTORY_ID = 66300, BUY_ID = 66600;
+    private static final int INTERFACE_ID = 81050, HISTORY_ID = 81400, BUY_ID = 81250;
 
     public static Map<String, PlayerListing> sales;
 
@@ -609,8 +609,132 @@ public class TradingPost {
         });
     }
 
+    public static int length = 20;
+    public static int offset = 6;
+    public static int ITEM_NAME_CHILD = 81641;
+    public static int NAME_CHILD = 81643;
+    public static int AMOUNT_CHILD = 81645;
+    public static int ITEM_CONTAINER = 81640;
+    public static int TRADE_HISTORY_ITEM_CONTAINER = 81440;
+
+    public static void displayTradeHistory(Player player) {
+        sendTradeHistory(player, TRADE_HISTORY_ITEM_CONTAINER, length, offset);
+    }
+    public static void displayRecentListingResults(Player player, List<TradingPostListing> list) {
+        sendRecentListingItemContainer(player, list, ITEM_CONTAINER, length, offset);
+        sendRecentListingItemNames(player, list, ITEM_NAME_CHILD, length, offset);
+        sendRecentListingPlayerName(player, list, NAME_CHILD, length, offset);
+        sendRecentListingAmount(player, list, AMOUNT_CHILD, length, offset);
+    }
+
+    private static void sendRecentListingAmount(Player player, List<TradingPostListing> list, int child, int length, int offset) {
+        for (int index = 0; index < length; index++) {
+            if (index >= list.size()) continue;
+            TradingPostListing listings = list.get(index);
+            if (listings == null) continue;
+            var price = Utils.formatRunescapeStyle(listings.getPrice());
+            if (index == 0) {
+                player.getPacketSender().sendString(child, price);
+                continue;
+            }
+            child += offset;
+            player.getPacketSender().sendString(child, price);
+        }
+    }
+
+    private static void sendRecentListingPlayerName(Player player, List<TradingPostListing> list, int child, int length, int offset) {
+        for (int index = 0; index < length; index++) {
+            if (index >= list.size()) continue;
+            TradingPostListing listings = list.get(index);
+            if (listings == null) continue;
+            if (index == 0) {
+                player.getPacketSender().sendString(child, listings.getSellerName());
+                continue;
+            }
+            child += offset;
+            player.getPacketSender().sendString(child, listings.getSellerName());
+        }
+    }
+
+    private static void sendTradeHistory(Player player, int child, int length, int offset) {
+        int NAME_CHILD = 81441;
+        int BUYER_CHILD = 81443;
+        int SELLER_CHILD = 81442;
+        int COST_CHILD = 81445;
+        int nullBuyerChild = 0;
+        int count = 0;
+
+        for (var transaction : recentTransactions) {
+            if (count >= length) continue;
+            if (transaction == null) continue;
+            var item = transaction.getSaleItem();
+
+            if (transaction.buyersInfo == null || transaction.getLastBuyerName() == null) {
+                player.getPacketSender().sendItemOnInterfaceSlot(nullBuyerChild, null, 0);
+                player.getPacketSender().sendString(NAME_CHILD + nullBuyerChild, "");
+                player.getPacketSender().sendString(COST_CHILD + nullBuyerChild, "");
+                player.getPacketSender().sendString(BUYER_CHILD + nullBuyerChild, "");
+                player.getPacketSender().sendString(SELLER_CHILD + nullBuyerChild, "");
+                nullBuyerChild += offset;
+                continue;
+            }
+
+            player.getPacketSender().sendItemOnInterfaceSlot(child, item, 0);
+            player.getPacketSender().sendString(NAME_CHILD + child, item.unnote().name());
+            player.getPacketSender().sendString(COST_CHILD + child, Utils.formatRunescapeStyle(transaction.getPrice()));
+            player.getPacketSender().sendString(BUYER_CHILD + child, transaction.getLastBuyerName());
+            player.getPacketSender().sendString(SELLER_CHILD + child, transaction.getSellerName() + " sold to");
+
+            NAME_CHILD += offset;
+            BUYER_CHILD += offset;
+            SELLER_CHILD += offset;
+            COST_CHILD += offset;
+            child += offset;
+            count++;
+        }
+
+//        for (int i = nullBuyerChild; i < nullBuyerChild + length - count; i++) {
+//            player.getPacketSender().sendItemOnInterfaceSlot(i, null, 0);
+//            player.getPacketSender().sendString(NAME_CHILD + i, "");
+//            player.getPacketSender().sendString(COST_CHILD + i, "");
+//            player.getPacketSender().sendString(BUYER_CHILD + i, "");
+//            player.getPacketSender().sendString(SELLER_CHILD + i, "");
+//        }
+    }
+
+
+    private static void sendRecentListingItemContainer(Player player, List<TradingPostListing> list, int child, int length, int offset) {
+        for (int index = 0; index < length; index++) {
+            if (index >= list.size()) continue;
+            TradingPostListing listings = list.get(index);
+            if (listings == null) continue;
+            if (index == 0) {
+                player.getPacketSender().sendItemOnInterfaceSlot(child, new Item(listings.getSaleItem().unnote().getId(), (listings.getTotalAmount() - listings.getRemaining())), 0);
+                continue;
+            }
+            child += offset;
+            player.getPacketSender().sendItemOnInterfaceSlot(child, new Item(listings.getSaleItem().unnote().getId(), (listings.getTotalAmount() - listings.getRemaining())), 0);
+        }
+    }
+
+    private static void sendRecentListingItemNames(Player player, List<TradingPostListing> list, int child, int length, int offset) {
+        for (int index = 0; index < length; index++) {
+            if (index >= list.size()) continue;
+            TradingPostListing listings = list.get(index);
+            if (listings == null) continue;
+            String name = listings.getSaleItem().unnote().name().length() > 20 ? listings.getSaleItem().unnote().name().substring(0, 19) + "<br>" + listings.getSaleItem().unnote().name().substring(19) : listings.getSaleItem().unnote().name();
+            if (index == 0) {
+                player.getPacketSender().sendString(child, name);
+                continue;
+            }
+            child += offset;
+            player.getPacketSender().sendString(child, name);
+        }
+    }
+
     private static void displayResults(Player player, List<TradingPostListing> list) {
         try {
+
             /* Remove previous strings.. **/
             resetDisplayResults(player);
 
@@ -627,28 +751,26 @@ public class TradingPost {
 
             int count = 0;
 
-            for (int i = 66330; i < 66330 + CHILD_LENGTH; i += 7) {
-                if (count >= listSize)
-                    continue;
-                TradingPostListing listings = list.get(count);
-
-                if (listings == null)
-                    continue;
-
-                //Item display
-                player.getPacketSender().sendItemOnInterfaceSlot(i + 1, new Item(listings.getSaleItem().unnote().getId(), (listings.getTotalAmount() - listings.getRemaining())), 0);
-                //Item sold
-                String name = listings.getSaleItem().unnote().name().length() > 20 ? listings.getSaleItem().unnote().name().substring(0, 19) + "<br>" + listings.getSaleItem().unnote().name().substring(19) : listings.getSaleItem().unnote().name();
-                player.getPacketSender().sendString(i + 3, Utils.formatNumber(listings.getAmountSold()) + "x " + name);
-                //Price
-                player.getPacketSender().sendString(i + 4, Utils.formatRunescapeStyle(listings.getPrice() * listings.getAmountSold()));
-                //Player who purchased
-                player.getPacketSender().sendString(i + 5, listings.getLastBuyerName() != null ? listings.getLastBuyerName() : listings.getSellerName());
-                //Date bought
-                player.getPacketSender().sendString(i + 6, listings.getTransactionTime());
-                //System.out.println(listings.getTransactionTime());
-                count++;
-            }
+//            for (int i = RECENT_LISTING_NAME; i < RECENT_LISTING_NAME + itemNameOffset; i++) {
+//                if (count >= listSize) continue;
+//                TradingPostListing listings = list.get(count);
+//
+//                if (listings == null) continue;
+//
+//                //Item display
+//               // player.getPacketSender().sendItemOnInterfaceSlot(i + 1, new Item(listings.getSaleItem().unnote().getId(), (listings.getTotalAmount() - listings.getRemaining())), 0);
+//                //Item sold
+//                String name = listings.getSaleItem().unnote().name().length() > 20 ? listings.getSaleItem().unnote().name().substring(0, 19) + "<br>" + listings.getSaleItem().unnote().name().substring(19) : listings.getSaleItem().unnote().name();
+//                player.getPacketSender().sendString(i + 3, Utils.formatNumber(listings.getAmountSold()) + "x " + name);
+//                //Price
+//                player.getPacketSender().sendString(i + 4, Utils.formatRunescapeStyle(listings.getPrice() * listings.getAmountSold()));
+//                //Player who purchased
+//                player.getPacketSender().sendString(i + 5, listings.getLastBuyerName() != null ? listings.getLastBuyerName() : listings.getSellerName());
+//                //Date bought
+//                player.getPacketSender().sendString(i + 6, listings.getTransactionTime());
+//                //System.out.println(listings.getTransactionTime());
+//                count++;
+//            }
             player.getPacketSender().sendScrollbarHeight(66310, count * 40);
         } catch (Exception e) {
             e.printStackTrace();
@@ -987,13 +1109,9 @@ public class TradingPost {
 
     public static void handleXOptionInput(Player player, int id, int slot) {
         try {
-            player.setAmountScript("How many of this item would you like to sell?", new InputScript() {
-
-                @Override
-                public boolean handle(Object value) {
-                    TradingPost.handleSellX(player, id, (Integer) value);
-                    return true;
-                }
+            player.setAmountScript("How many of this item would you like to sell?", value -> {
+                TradingPost.handleSellX(player, id, (Integer) value);
+                return true;
             });
         } catch (Exception e) {
             e.printStackTrace();

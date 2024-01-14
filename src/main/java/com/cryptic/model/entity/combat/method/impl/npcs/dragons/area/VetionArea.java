@@ -13,8 +13,9 @@ import java.util.List;
 
 public class VetionArea extends Controller {
     public VetionArea() {
-        super(List.of(new Area(3248, 10192, 3306, 10212)));
+        super(List.of(new Area(3248, 10192, 3306, 10212, 1)));
     }
+
     @Override
     public void enter(Player player) {
         for (var regions : player.getRegions()) {

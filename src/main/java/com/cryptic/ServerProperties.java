@@ -77,6 +77,9 @@ public final class ServerProperties {
             throw new ExceptionInInitializerError(e);
         }
     }
+
+    public String dupeDetectionUrl;
+
     public static class LocalProperties {
         public final String db1, db2;
         public final boolean sqlOn, discordLoggingOn;

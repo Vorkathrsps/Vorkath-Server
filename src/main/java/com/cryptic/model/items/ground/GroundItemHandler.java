@@ -14,8 +14,10 @@ import com.cryptic.model.items.ground.GroundItem.State;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Color;
+import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -272,6 +274,13 @@ public final class GroundItemHandler {
         return true;
     }
 
+    public static String[] flagged_items = new String[]{
+        "elysian_spirit_shield", "torva", "zaryte", "virtus", "spectral_spirit_shield",
+        "arcane_spirit_shield", "tumeken", "masori", "bandos", "armadyl", "blowpipe", "webweaver",
+        "viggora", "craws_bow", "ursine", "toxic_staff", "ancestral", "twisted_bow", "dragon_claws",
+        "voidwaker", "ancient_godsword", "bow_of_faerdhinen", "anguish", "torture", "tormented",
+        "zenyte"};
+
     public static void pickup(Player player, int id, Tile tile) {
         Optional<GroundItem> optionalGroundItem = getGroundItem(id, tile, player);
         if (optionalGroundItem.isPresent()) {
@@ -350,8 +359,8 @@ public final class GroundItemHandler {
                                         player.inventory().add(item);
                                         sendRemoveGroundItem(groundItem);
                                         player.getRisk().update();
-                                        pickupLogs.log(PICKUPS, "Player " + player.getUsername() + " picked up item " + item.getAmount() + "x " + item.unnote().name() + " (id " + item.getId() + ")");
-                                        Utils.sendDiscordInfoLog("Player " + player.getUsername() + " picked up item " + item.getAmount() + "x " + item.unnote().name() + " (id " + item.getId() + ")", "pickups");
+                                        pickupLogs.log(PICKUPS, "[Player: " + player.getUsername() + "] [Looted Item: (" + item.getAmount() + "x) - (" + item.unnote().name() + ") - (id " + item.getId() + ")]");
+                                        Utils.sendDiscordInfoLog("[Looted Item: (" + item.getAmount() + "x) - (" + item.unnote().name() + ") - (id " + item.getId() + ")]", "pickups");
                                         player.inventory().refresh();
                                     });
                                 }
@@ -376,8 +385,33 @@ public final class GroundItemHandler {
                         // If we've made it here then it added to the inventory.
                         sendRemoveGroundItem(groundItem);
                         player.getRisk().update();
-                        pickupLogs.log(PICKUPS, "Player " + player.getUsername() + " picked up item " + item.getAmount() + "x " + item.unnote().name() + " (id " + item.getId() + ") at X: " + groundItem.getTile().x + " Y: " + groundItem.getTile().y);
-                        Utils.sendDiscordInfoLog("Player " + player.getUsername() + " picked up item " + item.getAmount() + "x " + item.unnote().name() + " (id " + item.getId() + ") at X: " + groundItem.getTile().x + " Y: " + groundItem.getTile().y, "pickups");
+                        //pickupLogs.log(PICKUPS, "Player " + player.getUsername() + " picked up item " + item.getAmount() + "x " + item.unnote().name() + " (id " + item.getId() + ") at X: " + groundItem.getTile().x + " Y: " + groundItem.getTile().y);
+                        Utils.sendDiscordInfoLog("[Player: " + player.getUsername() + "] - ```[Looted Item: (" + item.getAmount() + "x) - (" + item.unnote().name() + ") - (id " + item.getId() + ") - [Tile (X: " + groundItem.getTile().x + ", Y: " + groundItem.getTile().y + ")]```", "pickups");
+
+                        var val = item.getValue() * item.getAmount();
+                        String severity = val >= 1_000_000_000 || val <= -1 ? "High" : "Low";
+
+                        if (item.getAmount() >= 10) {
+                            for (String flaggedItem : flagged_items) {
+                                if (!item.unnote().name().toLowerCase().contains(flaggedItem)) continue;
+                                Utils.sendDiscordInfoLog(
+                                    "``` [Severity: "+ severity +"] " +
+                                        " - [Player: " + player.getUsername() + "]" +
+                                        " - [Item Name: " + item.unnote().name() + "]" +
+                                        " - [Item Amount: " + Utils.formatRunescapeStyle(item.getAmount()) + "]" +
+                                        " - [Item Value: " + Utils.formatRunescapeStyle(val) + "]" +
+                                        " - [Item Id: " + item.getId() + "]```", "dupe");
+                            }
+                        }
+
+                        Utils.sendDiscordInfoLog(
+                            "``` [Severity: "+ severity +"] " +
+                                " - [Player: " + player.getUsername() + "]" +
+                                " - [Item Name: " + item.unnote().name() + "]" +
+                                " - [Item Amount: " + Utils.formatRunescapeStyle(item.getAmount()) + "]" +
+                                " - [Item Value: " + Utils.formatRunescapeStyle(val) + "]" +
+                                " - [Item Id: " + item.getId() + "]```", "dupe");
+
                         player.getInventory().refresh();
                         stop();
 

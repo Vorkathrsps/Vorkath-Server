@@ -5,11 +5,13 @@ import com.cryptic.core.task.TaskManager;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.masks.Flag;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.InfectionType;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.utility.chainedwork.Chain;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.VENOMED_BY;
 import static com.cryptic.utility.ItemIdentifiers.*;
@@ -41,33 +43,23 @@ public class Venom {
     }
 
     public static void setTimer(Entity mob) {
-        if (mob.getAttribOr(AttributeKey.VENOM_TASK_RUNNING, false))
-            return;
+        if (mob.getAttribOr(AttributeKey.VENOM_TASK_RUNNING, false)) return;
         mob.putAttrib(AttributeKey.VENOM_TASK_RUNNING, true);
-        TaskManager.submit(new Task("VenomTask", 34, false) {//Every 20 seconds
-
-            @Override
-            protected void execute() {
-                int ticks = mob.getAttribOr(AttributeKey.VENOM_TICKS, 0);
-
-                if(!mob.isRegistered() || mob.dead()) {
-                    stop();
-                    mob.clearAttrib(AttributeKey.VENOM_TASK_RUNNING);
-                    return;
+        Chain.noCtx().repeatingTask(34, venomTick -> {
+            int ticks = mob.getAttribOr(AttributeKey.VENOM_TICKS, 0);
+            if(!mob.isRegistered() || mob.dead()) {
+                venomTick.stop();
+                mob.clearAttrib(AttributeKey.VENOM_TASK_RUNNING);
+                return;
+            }
+            if (ticks > 0) {
+                mob.putAttrib(AttributeKey.VENOM_TICKS, Math.max(1, ticks - 1));
+                Entity attacker = mob.getAttribOr(AttributeKey.VENOMED_BY,null);
+                if(attacker != null) {
+                    mob.hit(attacker, calcHit(ticks), HitMark.VENOM);
                 }
-
-                if (ticks > 0) {
-                    //I think I got it perhaps I need to set a extra param in this method to reference attacker
-                    mob.putAttrib(AttributeKey.VENOM_TICKS, Math.max(1, ticks - 1));
-                    Entity attacker = mob.getAttribOr(AttributeKey.VENOMED_BY,null);
-                    if(attacker != null) {
-                        mob.hit(attacker, calcHit(ticks), HitMark.VENOM);
-                    }
-                    //System.out.println("current tick: "+ticks);
-                } else if (ticks < 0) {
-                    // Negative value of ticks means we're immune. Increase up until 0 where the venom ends.
-                    mob.putAttrib(AttributeKey.VENOM_TICKS, ticks + 1);
-                }
+            } else if (ticks < 0) {
+                mob.putAttrib(AttributeKey.VENOM_TICKS, ticks + 1);
             }
         });
     }

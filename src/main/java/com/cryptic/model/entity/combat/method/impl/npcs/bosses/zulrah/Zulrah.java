@@ -21,6 +21,7 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.Tuple;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
+import org.apache.commons.lang3.mutable.MutableObject;
 
 import java.util.stream.Stream;
 
@@ -541,7 +542,9 @@ public class Zulrah {
         var tileDist = npc.tile().distance(obj.tile());
         int duration = (40 + (5 * tileDist));
         new Projectile(npc.tile().transform(2, 2, 0), tile.transform(1, 1), 1045, 40, duration, 92, 5, 10, 5, 5).sendProjectile();
-
+//        Chain.noCtx().runFn(delay, () -> {
+//            int internalCounter = 30;
+//        });
         TaskManager.submit(new TickAndStop(delay) {
             @Override
             public void executeAndStop() {
@@ -574,46 +577,26 @@ public class Zulrah {
 
     private static void createSnakeling(NPC npc, Tile tile, int delay, Entity target) {
         new Projectile(npc.tile().transform(2, 2, 0), tile, 0, 1047, 12 + (16 * 6), 40, 92, 5, 0).sendProjectile();
-        TaskManager.submit(new TickAndStop(delay) {
-            @Override
-            public void executeAndStop() {
-                //Target can only be a player
-                if (target instanceof Player) {
-                    Player player = (Player) target;
-
-                    NPC snakeling = new NPC(NpcIdentifiers.SNAKELING, tile.copy());
-
-                    //Add snakeling to the npc list of this instance
-                    player.getInstancedArea().addNpc(snakeling);
-
-                    World.getWorld().registerNpc(snakeling);
-                    snakeling.respawns(false);
-                    snakeling.animate(2413);
-                    snakeling.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
-                    snakeling.lockNoDamage();
-                    snakeling.setController(npc.getController());
-
-                    TaskManager.submit(new TickAndStop(3) {
-                        @Override
-                        public void executeAndStop() {
-                            snakeling.unlock();
-                            snakeling.getCombat().attack(target);
-                        }
-                    });
-                    TaskManager.submit(new Task() { // despawn when no longer valid
-                        @Override
-                        protected void execute() {
-                            if (instanceFinished(npc) || snakeling.dead() || !snakeling.isRegistered()) {
-                                World.getWorld().unregisterNpc(snakeling);
-                                stop();
-                            }
-                        }
-                    });
-                    snakeling.runUninterruptable(60, () -> {
-                        snakeling.hit(snakeling, snakeling.hp());
-                    });
-                }
-            }
+        MutableObject<NPC> snakeling = new MutableObject<>();
+        snakeling.setValue(new NPC(NpcIdentifiers.SNAKELING, tile.copy()));
+        Chain.noCtx().runFn(delay, () -> {
+            Player player = (Player) target;
+            player.getInstancedArea().addNpc(snakeling.getValue());
+            World.getWorld().registerNpc(snakeling.getValue());
+            snakeling.getValue().putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
+            snakeling.getValue().setIgnoreOccupiedTiles(true);
+            snakeling.getValue().respawns(false);
+            snakeling.getValue().animate(2413);
+            snakeling.getValue().putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
+            snakeling.getValue().lockNoDamage();
+            snakeling.getValue().setController(npc.getController());
+        }).then(3, () -> {
+            snakeling.getValue().unlock();
+            snakeling.getValue().getCombat().attack(target);
+        }).then(1, () -> {
+            snakeling.getValue().runUninterruptable(60, () -> {
+                snakeling.getValue().hit(snakeling.getValue(), snakeling.getValue().hp());
+            });
         });
     }
 

@@ -20,11 +20,13 @@ import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.route.routes.DumbRoute;
+import com.cryptic.model.map.route.routes.ProjectileRoute;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 import lombok.NonNull;
 
 import java.util.ArrayList;
+import java.util.function.BooleanSupplier;
 
 /**
  * @Author: Origin
@@ -75,31 +77,29 @@ public class Callisto extends CommonCombatMethod {
     public void process(Entity entity, Entity target) {
         var bear = NpcIdentifiers.CALLISTO;
         var npc = (NPC) entity;
-        if (npc.getId() == bear) {
-            return;
-        }
-        if (target != null) {
-            var currentX = target.tile().getX();
-            var currentY = target.tile().getY();
-            var previousX = target.getPreviousTile().getX();
-            var previousY = target.getPreviousTile().getY();
-
+        if (npc.getId() == bear) return;
+        for (var t : getPossibleTargets(npc)) {
+            if (t == null) continue;
+            var currentX = t.tile().getX();
+            var currentY = t.tile().getY();
+            var previousX = t.getPreviousTile().getX();
+            var previousY = t.getPreviousTile().getY();
             var middleX = (currentX + previousX) / 2;
             var middleY = (currentY + previousY) / 2;
             for (var o : allActiveTrapObjects) {
-                if (o.tile().equals(middleX, middleY) && !target.tile().equals(o.tile())) {
+                if (o.tile().equals(middleX, middleY) && !t.tile().equals(o.tile())) {
                     Chain.noCtx().runFn(1, () -> o.animate(9999)).then(1, () -> {
                         o.remove();
                         allActiveTrapObjects.remove(o);
                     });
                 }
             }
-            allActiveTrapObjects.stream().filter(o -> o.tile().equals(target.tile())).findFirst().ifPresent(o -> {
+            allActiveTrapObjects.stream().filter(o -> o.tile().equals(t.tile())).findFirst().ifPresent(o -> {
                 Chain.noCtx().runFn(1, () -> {
                     o.animate(9999);
                 }).then(1, () -> {
-                    target.hit(entity, Utils.random(1, 15), 1);
-                    target.stun(3);
+                    t.hit(entity, Utils.random(1, 15), 1);
+                    t.stun(3);
                     if (entity.frozen()) {
                         entity.removeFreeze();
                     }
@@ -112,15 +112,16 @@ public class Callisto extends CommonCombatMethod {
 
     @Override
     public boolean prepareAttack(@NonNull final Entity entity, @NonNull final Entity target) {
-        if (performingAnimation) {
-            return false;
-        }
+        if (performingAnimation) return false;
 
         if (Utils.percentageChance(50)) {
-            rangeAttack(entity, target);
+            if (!ProjectileRoute.hasLineOfSight(entity, target)) return false;
+            rangeAttack(entity);
         } else if (Utils.percentageChance(35)) {
-            magicAttack(entity, target);
+            if (!ProjectileRoute.hasLineOfSight(entity, target)) return false;
+            magicAttack(entity);
         } else {
+            if (!withinDistance(1)) return false;
             meleeAttack(entity, target);
         }
 
@@ -158,36 +159,38 @@ public class Callisto extends CommonCombatMethod {
         hit.submit();
     }
 
-    private void rangeAttack(@NonNull final Entity entity, @NonNull final Entity target) {
-        if (!withinDistance(10) || performingAnimation) {
-            return;
-        }
+    private void rangeAttack(@NonNull final Entity entity) {
+        if (!withinDistance(10) || performingAnimation) return;
         entity.animate(10013);
         entity.graphic(2349);
-        int tileDist = entity.tile().distance(target.tile());
-        int duration = (25 + 10 + (10 * tileDist));
-        Projectile p = new Projectile(entity, target, 2350, 25, duration, 20, 20, 0, 5, 10);
-        final int delay = entity.executeProjectile(p);
-        var dmg = CombatFactory.calcDamageFromType(entity, target, CombatType.RANGED);
-        Hit hit = Hit.builder(entity, target, dmg, delay, CombatType.RANGED).checkAccuracy(true);
-        hit.submit();
-        target.graphic(2351, GraphicHeight.LOW, p.getSpeed());
+        for (var t : getPossibleTargets(entity)) {
+            int tileDist = entity.tile().distance(t.tile());
+            int duration = (25 + 10 + (10 * tileDist));
+            Projectile p = new Projectile(entity, t, 2350, 25, duration, 20, 20, 0, 5, 10);
+            final int delay = entity.executeProjectile(p);
+            var dmg = CombatFactory.calcDamageFromType(entity, t, CombatType.RANGED);
+            Hit hit = Hit.builder(entity, t, dmg, delay, CombatType.RANGED).checkAccuracy(true);
+            hit.submit();
+            t.graphic(2351, GraphicHeight.LOW, p.getSpeed());
+        }
     }
 
-    private void magicAttack(@NonNull final Entity entity, @NonNull final Entity target) {
+    private void magicAttack(@NonNull final Entity entity) {
         if (!withinDistance(10) || performingAnimation) return;
         entity.animate(10014);
-        int tileDist = entity.tile().distance(target.tile());
-        int duration = (55 + 10 + (10 * tileDist));
-        Projectile p = new Projectile(entity, target, 133, 55, duration, 50, 31, 0, 5, 10);
-        final int delay = entity.executeProjectile(p);
-        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
-        hit.submit();
-        if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {
-            knockBack(entity, target);
-        }
-        if (hit.isAccurate()) {
-            target.graphic(134, GraphicHeight.MIDDLE, p.getSpeed());
+        for (var t : getPossibleTargets(entity)) {
+            int tileDist = entity.tile().distance(t.tile());
+            int duration = (55 + 10 + (10 * tileDist));
+            Projectile p = new Projectile(entity, t, 133, 55, duration, 50, 31, 0, 5, 10);
+            final int delay = entity.executeProjectile(p);
+            Hit hit = Hit.builder(entity, t, CombatFactory.calcDamageFromType(entity, t, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
+            hit.submit();
+            if (!Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MAGIC)) {
+                knockBack(entity, t, delay);
+            }
+            if (hit.isAccurate()) {
+                t.graphic(134, GraphicHeight.MIDDLE, p.getSpeed());
+            }
         }
     }
 
@@ -247,7 +250,7 @@ public class Callisto extends CommonCombatMethod {
         }
     }
 
-    private void knockBack(@NonNull final Entity entity, @NonNull final Entity target) {
+    private void knockBack(@NonNull final Entity entity, @NonNull final Entity target, int delay) {
         int vecX = (target.getAbsX() - Utils.getClosestX(this.entity, target.tile()));
         if (vecX != 0)
             vecX /= Math.abs(vecX);
@@ -273,11 +276,13 @@ public class Callisto extends CommonCombatMethod {
         else
             dir = Direction.SOUTH;
 
+        BooleanSupplier cancel = () -> !target.tile().isViewableFrom(entity.tile());
+
         if (endX != target.getAbsX() || endY != target.getAbsY()) {
             if (target.isPlayer()) {
                 int finalEndX = endX;
                 int finalEndY = endY;
-                Chain.bound(null).runFn(1, () -> {
+                Chain.bound(null).runFn(delay, () -> {
                     final Player p = target.getAsPlayer();
                     p.lock();
                     p.animate(1157);
@@ -288,7 +293,7 @@ public class Callisto extends CommonCombatMethod {
                     ForceMovement forceMovement = new ForceMovement(target.tile(), new Tile(diffX, diffY), 30, 60, 1157, dir.toInteger());
                     target.setForceMovement(forceMovement);
                     p.unlock();
-                });
+                }).cancelWhen(cancel);
             }
         }
     }

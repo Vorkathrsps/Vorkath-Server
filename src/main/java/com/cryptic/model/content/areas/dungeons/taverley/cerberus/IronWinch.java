@@ -39,19 +39,19 @@ public class IronWinch extends PacketInteraction {
             var task = SlayerCreature.lookup(task_id);
 
             if (option == 1) {
-                if (task == null) {
-                    player.message(Color.RED.wrap("You need a slayer task to enter cerberus's dungeon."));
-                    return false;
-                }
-                if (!Slayer.creatureMatches(player, 494)) {
-                    if (!task.matches(task_id)) {
-                        player.message(Color.RED.wrap("You need a slayer task to enter the cerberus's dungeon."));
-                        return false;
-                    }
-                } else {
+//                if (task == null) {
+//                    player.message(Color.RED.wrap("You need a slayer task to enter cerberus's dungeon."));
+//                    return false;
+//                }
+//                if (!Slayer.creatureMatches(player, 494)) {
+//                    if (!task.matches(task_id)) {
+//                        player.message(Color.RED.wrap("You need a slayer task to enter the cerberus's dungeon."));
+//                        return false;
+//                    }
+//                } else {
                     teleportPlayer(player, destination);
                     return true;
-                }
+//                }
             }
             if (option == 2) {
                 peek(player, region);

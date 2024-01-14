@@ -34,6 +34,6 @@ public class CopyCommand implements Command {
 
     @Override
     public boolean canUse(Player player) {
-        return (player.getPlayerRights().isDeveloper(player));
+        return true;
     }
 }

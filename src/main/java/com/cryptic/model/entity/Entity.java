@@ -481,9 +481,9 @@ public abstract class Entity {
     public Tile lastTileFaced;
 
     public Entity setPositionToFace(Tile tile) {
-        this.getUpdateFlag().flag(Flag.FACE_TILE);
         this.faceTile = tile;
         this.lastTileFaced = tile;
+        this.getUpdateFlag().flag(Flag.FACE_TILE);
         return this;
     }
 

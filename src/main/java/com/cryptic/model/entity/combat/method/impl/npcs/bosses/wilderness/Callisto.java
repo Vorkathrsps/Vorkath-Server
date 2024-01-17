@@ -113,7 +113,6 @@ public class Callisto extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(@NonNull final Entity entity, @NonNull final Entity target) {
         if (performingAnimation) return false;
-
         if (Utils.percentageChance(50)) {
             if (!ProjectileRoute.hasLineOfSight(entity, target)) return false;
             rangeAttack(entity);
@@ -124,36 +123,22 @@ public class Callisto extends CommonCombatMethod {
             if (!withinDistance(1)) return false;
             meleeAttack(entity, target);
         }
-
         trapState++;
-
         double hpPercentage = ((double) entity.hp() / entity.maxHp());
-        if (hpPercentage <= .66 && trapState == Utils.random(1, 2) || hpPercentage <= .66 && roarCount == 0) {
-            bearTraps(entity);
-        }
-        if (hpPercentage <= .33 && trapState == Utils.random(1, 2) || hpPercentage <= .33 && roarCount == 1) {
-            bearTraps(entity);
-        }
-
-        if (trapState == 2) {
-            trapState = 0;
-        }
-
+        if (hpPercentage <= .66 && trapState == Utils.random(1, 2) || hpPercentage <= .66 && roarCount == 0) bearTraps(entity);
+        if (hpPercentage <= .33 && trapState == Utils.random(1, 2) || hpPercentage <= .33 && roarCount == 1) bearTraps(entity);
+        if (trapState == 2) trapState = 0;
         return true;
     }
 
     @Override
     public void doFollowLogic() {
-        if (performingAnimation) {
-            return;
-        }
+        if (performingAnimation) return;
         follow(1);
     }
 
     private void meleeAttack(@NonNull final Entity entity, @NonNull final Entity target) {
-        if (!withinDistance(2) || performingAnimation) {
-            return;
-        }
+        if (!withinDistance(2) || performingAnimation) return;
         entity.animate(10012);
         Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 3, CombatType.MELEE).checkAccuracy(true);
         hit.submit();

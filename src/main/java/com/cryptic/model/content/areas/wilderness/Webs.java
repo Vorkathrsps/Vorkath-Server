@@ -18,7 +18,7 @@ public class Webs extends PacketInteraction {
             if(obj.getId() == WEB) {
                 int weapon = player.getEquipment().hasWeapon() ? player.getEquipment().getWeapon().getId() : -1;
                 String wepName = weapon == -1 ? "" : new Item(weapon).name().toLowerCase();
-                boolean hasSharpEdge = wepName.contains("scythe") || wepName.contains("sword") || wepName.contains("dagger") || wepName.contains("axe") || wepName.contains("whip") || wepName.contains("scimitar") || wepName.contains("of light") || wepName.contains("dead") || wepName.contains("tent") || wepName.contains("claw") || wepName.contains("blade of saeldor");
+                boolean hasSharpEdge = wepName.contains("scythe") || wepName.contains("sword") || wepName.contains("dagger") || wepName.contains("axe") || wepName.contains("whip") || wepName.contains("scimitar") || wepName.contains("of light") || wepName.contains("dead") || wepName.contains("tent") || wepName.contains("claw") || wepName.contains("blade of saeldor") || wepName.contains("rapier") || wepName.contains("staff_of_light") || wepName.contains("toxic_staff") || wepName.contains("voidwaker") || wepName.contains("longsword");
 
                 int KNIFE = 946;
                 if (player.inventory().contains(KNIFE)) {
@@ -40,13 +40,9 @@ public class Webs extends PacketInteraction {
         if (Utils.random(100) >= 50) {
             player.message("You slash the web apart.");
             player.lockDamageOk();
-            Chain.bound(null).name("SlashWebTask").runFn(1, () -> {
-                ObjectManager.removeObj(obj);
-                ObjectManager.addObj(new GameObject(734, obj.tile(), obj.getType(), obj.getRotation()));
-            }).then(100, () -> {
-                ObjectManager.removeObj(new GameObject(734, obj.tile(), obj.getType(), obj.getRotation()));
-                ObjectManager.addObj(obj);
-            });
+            var originalId = obj.getId();
+            int newId = 734;
+            Chain.noCtx().runFn(1, () -> obj.setId(newId)).then(30, () -> obj.setId(originalId));
             player.unlock();
         } else {
             player.message("You fail to cut through it.");

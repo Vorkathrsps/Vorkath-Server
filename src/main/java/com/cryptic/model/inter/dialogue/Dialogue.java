@@ -1,5 +1,6 @@
 package com.cryptic.model.inter.dialogue;
 
+import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -39,8 +40,7 @@ public abstract class Dialogue {
     /**
      * An overrideable method for inputing an integer value
      *
-     * @param value
-     *            The value to input
+     * @param value The value to input
      */
     protected void input(int value) {
     }
@@ -48,8 +48,7 @@ public abstract class Dialogue {
     /**
      * An overrideable method for inputing a string value
      *
-     * @param value
-     *            The value to input
+     * @param value The value to input
      */
     protected void input(String value) {
     }
@@ -65,8 +64,7 @@ public abstract class Dialogue {
     /**
      * An overrideable method for selecting an option on a choice dialogue
      *
-     * @param option
-     *            The index of the choice, can be between index 1 to 5
+     * @param option The index of the choice, can be between index 1 to 5
      */
     protected void select(int option) {
     }
@@ -74,10 +72,8 @@ public abstract class Dialogue {
     /**
      * Sends a dialogue to the player
      *
-     * @param type
-     *            The type of dialogue to send
-     * @param parameters
-     *            The parameters for the dialogue
+     * @param type       The type of dialogue to send
+     * @param parameters The parameters for the dialogue
      */
     protected void send(DialogueType type, Object... parameters) {
         if (type == DialogueType.OPTION) { //Re did option widget looked @ Jasons code for swords
@@ -104,39 +100,15 @@ public abstract class Dialogue {
 
             player.getPacketSender().sendChatboxInterface(frame - 1);
         } else if (type == DialogueType.ITEM_STATEMENT) {
-            if (parameters.length == 3) {
-                player.getPacketSender().sendString(4884, (String) parameters[1]);
-                player.getPacketSender().sendString(4885, (String) parameters[2]);
-                player.getPacketSender().sendInterfaceModel(4883, 150, (Item) parameters[0]);
-                player.getPacketSender().sendChatboxInterface(4882);
-            } else if (parameters.length == 4) {
-                player.getPacketSender().sendString(4884, (String) parameters[1]);
-                player.getPacketSender().sendString(4885, (String) parameters[2]);
-                //player.getPacketSender().sendString(4886, (String) parameters[3]);
-                player.getPacketSender().sendInterfaceModel(4883, 250, (Item) parameters[0]);
-                player.getPacketSender().sendChatboxInterface(4882); //4887
-            } else if (parameters.length == 5) {
-                player.getPacketSender().sendString(4895, (String) parameters[1]);
-                player.getPacketSender().sendString(4896, (String) parameters[2]);
-                player.getPacketSender().sendString(4897, (String) parameters[3]);
-                player.getPacketSender().sendString(4898, (String) parameters[4]);
-                player.getPacketSender().sendInterfaceModel(4894, 175, (Item) parameters[0]);
-                player.getPacketSender().sendChatboxInterface(4882); //4893
-            } else if (parameters.length == 6) {
-                player.getPacketSender().sendString(4902, (String) parameters[1]);
-                player.getPacketSender().sendString(4903, (String) parameters[2]);
-                player.getPacketSender().sendString(4904, (String) parameters[3]);
-                player.getPacketSender().sendString(4905, (String) parameters[4]);
-                player.getPacketSender().sendString(4906, (String) parameters[5]);
-                player.getPacketSender().sendInterfaceModel(4901, 175, (Item) parameters[0]);
-                player.getPacketSender().sendChatboxInterface(4900);
-            } else {
-                System.err.println("bad args");
-            }
+            var item = (Item) parameters[0];
+            player.getPacketSender().sendString(4902, (String) parameters[2]);
+            System.out.println("zoom: " + item.definition().xan2d);
+            player.getPacketSender().sendInterfaceModel(4901, ItemDefinition.cached.get(1).xan2d, (Item) parameters[0]);
+            player.getPacketSender().sendChatboxInterface(4900);
         } else if (type == DialogueType.DOUBLE_ITEM_STATEMENT) {
             if (parameters.length == 3) {
                 player.getPacketSender().sendString(6232, (String) parameters[2]);
-                player.getPacketSender().sendString(6233,"");
+                player.getPacketSender().sendString(6233, "");
                 Item firstItem = (Item) parameters[0];
                 Item secondItem = (Item) parameters[1];
                 player.getPacketSender().sendItemOnInterface(37850, firstItem);
@@ -248,8 +220,7 @@ public abstract class Dialogue {
     /**
      * Returns if this current phase is active
      *
-     * @param phase
-     *            The phase to check
+     * @param phase The phase to check
      * @return If the current phase matches the provided phase
      */
     public boolean isPhase(int phase) {
@@ -259,8 +230,7 @@ public abstract class Dialogue {
     /**
      * Starts the dialogue for the player
      *
-     * @param parameters
-     *            The parameters to pass on to the dialogue
+     * @param parameters The parameters to pass on to the dialogue
      */
     protected abstract void start(Object... parameters);
 
@@ -283,8 +253,7 @@ public abstract class Dialogue {
     /**
      * Sets the current phase of the dialogue
      *
-     * @param phase
-     *            The current phase of the dialogue
+     * @param phase The current phase of the dialogue
      * @return
      */
     public void setPhase(int phase) {
@@ -296,7 +265,7 @@ public abstract class Dialogue {
             System.err.println("No parameters sent!");
             return;
         }
-        System.err.println(parameters.length+" <-- size");
+        System.err.println(parameters.length + " <-- size");
         int startLine = 0;
 
         if (parameters.length > 3)
@@ -307,7 +276,7 @@ public abstract class Dialogue {
             startLine = 4889;
         else
             startLine = 4884;
-        System.err.println(startLine+" <-- start line..");
+        System.err.println(startLine + " <-- start line..");
         if (parameters.length > 4) {
             player.getPacketSender().sendInterfaceAnimation(4883, Animation.DEFAULT_RESET_ANIMATION);
             player.getPacketSender().sendNpcHeadOnInterface(npc.getId(), 4883);
@@ -328,7 +297,7 @@ public abstract class Dialogue {
         player.getPacketSender().sendString(startLine, npc.getMobName());
         int offset = startLine + 1;
         for (String line : parameters) {
-            System.err.println(offset+" <-- offset line..");
+            System.err.println(offset + " <-- offset line..");
             player.getPacketSender().sendString(offset++, line);
         }
     }

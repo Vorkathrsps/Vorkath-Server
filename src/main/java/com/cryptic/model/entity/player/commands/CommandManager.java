@@ -48,10 +48,7 @@ import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.region.RegionManager;
-import com.cryptic.utility.Color;
-import com.cryptic.utility.Debugs;
-import com.cryptic.utility.Utils;
-import com.cryptic.utility.Varbit;
+import com.cryptic.utility.*;
 import com.cryptic.utility.chainedwork.Chain;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -642,8 +639,12 @@ public class CommandManager {
             System.out.println(p.hasAttrib(CHOKED));
         });
         dev("c", (p, c, s) -> {
-            p.getPacketSender().sendInterface(81400);
-            TradingPost.displayTradeHistory(p);
+            var item = ItemDefinition.cached.get(ItemIdentifiers.TANZANITE_HELM);
+            System.out.println((int) (((item.xan2d * item.yan2d) / 2) * 0.25));
+            p.getPacketSender().sendInterfaceModel(4901, (int) (((item.xan2d * item.yan2d) / 2) * 0.25), new Item(item.id));
+            p.getPacketSender().sendChatboxInterface(4900);
+//            p.getPacketSender().sendInterface(81400);
+//            TradingPost.displayTradeHistory(p);
         });
 
         dev("listings", (p, c, s) -> {

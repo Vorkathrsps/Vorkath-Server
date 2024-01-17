@@ -5,6 +5,7 @@ import com.cryptic.model.content.items.combine.*;
 import com.cryptic.model.content.items.combine.crystal.CrystalAxe;
 import com.cryptic.model.content.items.combine.crystal.CrystalHarpoon;
 import com.cryptic.model.content.items.combine.crystal.CrystalPickaxe;
+import com.cryptic.model.content.items.combine.serpentinehelm.TanzaniteMutagenDialogue;
 import com.cryptic.model.content.skill.impl.firemaking.LogLighting;
 import com.cryptic.model.content.skill.impl.herblore.HerbTar;
 import com.cryptic.model.content.skill.impl.herblore.PestleAndMortar;
@@ -57,6 +58,11 @@ public class ItemOnItem {
 
         if (use.getId() == CRYSTAL_OF_IORWERTH || use.getId() == BOW_OF_FAERDHINEN) {
             player.getDialogueManager().start(new BowOfFaerdhenin());
+            return;
+        }
+
+        if (use.getId() == SERPENTINE_HELM || use.getId() == TANZANITE_MUTAGEN) {
+            player.getDialogueManager().start(new TanzaniteMutagenDialogue());
             return;
         }
 

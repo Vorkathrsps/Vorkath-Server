@@ -99,8 +99,7 @@ public class TargetRoute {
             int targetSize = target.getSize();
             if (!inTarget(absX, absY, size, targetX, targetY, targetSize))
                 if (inRange(absX, absY, size, targetX, targetY, targetSize, distance))
-                if ((skipClipCheck()
-                || ProjectileRoute.hasLineOfSight(
+                if ((skipClipCheck() || ProjectileRoute.hasLineOfSight(
                 absX,
                 absY,
                 entity.getZ(),
@@ -175,9 +174,7 @@ public class TargetRoute {
             reset();
         } else if (!withinDistance) {
             /** Combat */
-            if (entity.isPlayer()) {
-                entity.getAsPlayer().getMovement().outOfReach();
-            }
+            if (entity.isPlayer()) entity.getAsPlayer().getMovement().outOfReach();
             entity.getCombat().reset(); // Out of distance reset combat
             reset();
         }
@@ -187,8 +184,8 @@ public class TargetRoute {
      * Misc checks
      */
     protected static boolean inTarget(int absX, int absY, int size, int targetX, int targetY, int targetSize) {
-        if (absX > (targetX + (targetSize - 1)) || absY > (targetY + (targetSize - 1))) return false;
-        if (targetX > (absX + (size - 1)) || targetY > (absY + (size - 1))) return false;
+        if(absX > (targetX + (targetSize - 1)) || absY > (targetY + (targetSize - 1))) return false;
+        if(targetX > (absX + (size - 1)) || targetY > (absY + (size - 1))) return false;
         return true;
     }
 

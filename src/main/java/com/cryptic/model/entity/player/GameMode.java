@@ -5,20 +5,24 @@ package com.cryptic.model.entity.player;
  * juni 21, 2020
  */
 
-public enum GameMode {
+public enum GameMode { //77
 
-    TRAINED_ACCOUNT("Normal account",1, 25),
-    REALISM("realism", 2, 10),
-    HARDCORE_REALISM("hardcore realism", 3, 10);
+    TRAINED_ACCOUNT("Normal account",1, 20, 10, 1.0),
+    REALISM("realism", 2, 10, 2, 1.08),
+    HARDCORE_REALISM("hardcore realism", 3, 10, 2, 1.08);
 
     private final String name;
     private final int uid;
     public final int multiplier;
+    public final int combatXp;
+    public final double dropRate;
 
-    GameMode(String name, int uid, int multiplier) {
+    GameMode(String name, int uid, int multiplier, int combatXp, double dropRate) {
         this.name = name;
         this.uid = uid;
         this.multiplier = multiplier;
+        this.combatXp = combatXp;
+        this.dropRate = dropRate;
     }
 
     public int uid() {

@@ -265,8 +265,10 @@ public class Skills {
     }
 
     public boolean addXp(int skill, double amt) {
+        boolean isCombatExperience = skill == ATTACK || skill == STRENGTH || skill == DEFENCE || skill == HITPOINTS || skill == MAGIC || skill == RANGED;
         for (GameMode mode : GameMode.values()) {
             if (player.getGameMode().equals(mode)) {
+                if (isCombatExperience) return addExperience(skill, amt, mode.combatXp, true);
                 return addExperience(skill, amt, mode.multiplier, true);
             }
         }
@@ -308,7 +310,7 @@ public class Skills {
         }
 
         if (inWilderness && target instanceof NPC) {
-            amount *= 1.12;
+            amount *= 1.05;
         }
 
         Map<Integer, SkillingSets> sets = getSkillingSets();

@@ -303,7 +303,7 @@ public class Vorkath extends CommonCombatMethod {
                 .delay((int) (projectileMutableObject.getValue().getSpeed() / 30D + 1), () -> {
                     for (GameObject object : poisons) {
                         for (Player player : players) {
-                            player.getPacketSender().sendObject(object.getId(), object.getX(), object.getY(), object.getZ(), object.getType(), object.getRotation());
+                            player.getPacketSender().sendObject(object);
                         }
                     }
                 }).repeatingTask(1, t -> {

@@ -28,23 +28,22 @@ public class MageBankLever extends PacketInteraction {
                 }
 
                 player.lockNoDamage();
+                var originalId = obj.getId();
+                var newId = 5961;
                 Chain.bound(null).runFn(1, () -> {
                     player.animate(2140);
                     player.message("You pull the lever...");
-                    GameObject spawned = new GameObject(5961, obj.tile(), obj.getType(), obj.getRotation());
-                    ObjectManager.replace(obj, spawned, 5);
+                    obj.setId(newId);
                 }).then(2, () -> {
                     player.animate(714);
                     player.graphic(111, GraphicHeight.HIGH, 0);
                 }).then(4, () -> {
                     var targetTile = new Tile(2539, 4712);
-
+                    obj.setId(originalId);
                     player.teleport(targetTile);
                     player.animate(-1);
                     player.unlock();
                     player.message("...And teleport into the mage's cave.");
-
-                    // So we can tele straight away
                     player.clearAttrib(AttributeKey.LAST_WAS_ATTACKED_TIME);
                     if (player.getCombat().getFightTimer().isRunning()) {
                         player.getCombat().getFightTimer().reset();
@@ -55,6 +54,9 @@ public class MageBankLever extends PacketInteraction {
 
             //Inside magebank.. to outside
             if (obj.getId() == 5960) {
+                var originalId = obj.getId();
+                var newId = 5961;
+
                 if (!player.getPlayerRights().isAdministrator(player)) {
                     if (player.inventory().count(6685) > 18) {
                         player.message("" + player.inventory().count(6685) + " brews is a little excessive don't you think?");
@@ -71,13 +73,13 @@ public class MageBankLever extends PacketInteraction {
                     player.lockNoDamage();
                     player.animate(2140);
                     player.message("You pull the lever...");
-                    var spawned = new GameObject(5961, obj.tile(), obj.getType(), obj.getRotation());
-                    ObjectManager.replace(obj, spawned, 5);
+                    obj.setId(newId);
                 }).then(2, () -> {
                     player.animate(714);
                     player.graphic(111, GraphicHeight.HIGH, 0);
                 }).then(4, () -> {
                     var targetTile = new Tile(3090, 3956);
+                    obj.setId(originalId);
                     player.teleport(targetTile);
                     player.animate(-1);
                     player.unlock();

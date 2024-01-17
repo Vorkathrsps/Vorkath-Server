@@ -99,7 +99,7 @@ public class DumbRoute {
             int targetY = target.getAbsY();
             int targetSize = target.getSize();
             return !TargetRoute.inTarget(absX, absY, size, targetX, targetY, targetSize)
-                    && RouteMisc.getDistance(source, target.tile()) <= distance
+                    && RouteMisc.getDistance(source, target.tile().getX(), target.tile().getY()) <= distance
                     // && TargetRoute.inRange(absX, absY, size, targetX, targetY, targetSize,
                     // distance)
                     && ProjectileRoute.hasLineOfSight(

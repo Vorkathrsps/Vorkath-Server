@@ -342,7 +342,8 @@ public class EquipmentInfo {
                 case HOLY_SCYTHE_OF_VITUR:
                 case CORRUPTED_SCYTHE_OF_VITUR:
                     return 8056;
-                case GHRAZI_RAPIER: // Rapier
+                case GHRAZI_RAPIER:
+                case HOLY_GHRAZI_RAPIER:
                     return style == 2 ? 390 : 8145;
                 case LEAFBLADED_BATTLEAXE:
                     return style == 2 ? 3852 : 7004;

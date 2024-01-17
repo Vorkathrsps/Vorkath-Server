@@ -49,7 +49,6 @@ public class PlayerUpdating {
                 for (var p : region.getPlayers()) {
                     if (shouldAddNewPlayer(player, p)) {
                         localPlayers.add(p);
-
                         addPlayer(player, p, out);
                         appendUpdates(player, builder, p, true, false);
                     }

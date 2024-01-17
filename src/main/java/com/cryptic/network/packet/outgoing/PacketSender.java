@@ -1070,15 +1070,19 @@ public final class PacketSender {
         return this;
     }
 
-    public PacketSender sendObject(int id, int x, int y, int z, int type, int rotation) {
-        sendMapPacket(x, y, z);
+    public PacketSender sendObject(GameObject object) {
+        sendMapPacket(object.getX(), object.getY(), object.getZ());
         //sendPosition(new Tile(x, y, z));
         PacketBuilder out = new PacketBuilder(151);
         out.put(0, ValueType.A);
-        out.putShort(id, ByteOrder.LITTLE);
-        out.put((byte) ((type << 2) + (rotation & 3)), ValueType.S);
+        out.putShort(object.getId(), ByteOrder.LITTLE);
+        out.put((object.getType() << 2) + (object.getRotation() & 3), ValueType.S);
         player.getSession().write(out);
-        //System.out.println("create %s %s %s %s".formatted(ObjectDefinition.get(id).name, x, y, z));
+        if (object.isCustom()) {
+            System.out.println("create %s %s %s %s".formatted(ObjectDefinition.get(object.originalId).name, object.getX(), object.getY(), object.getZ()));
+        } else {
+            System.out.println("create %s %s %s %s".formatted(ObjectDefinition.get(object.getId()).name, object.getX(), object.getY(), object.getZ()));
+        }
         return this;
     }
 

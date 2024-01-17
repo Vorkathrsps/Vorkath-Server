@@ -78,9 +78,7 @@ public class PlayerSave {
         .setDateFormat("MMM d, yyyy, HH:mm:ss a")
         .setPrettyPrinting()
         .registerTypeAdapterFactory(
-            new MapTypeAdapterFactoryNulls(
-                new ConstructorConstructor(instanceCreators, false, new ArrayList<>()), false)
-        )
+            new MapTypeAdapterFactoryNulls(new ConstructorConstructor(instanceCreators, false, new ArrayList<>()), false))
         .disableHtmlEscaping()
         .create();
 

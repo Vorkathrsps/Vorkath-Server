@@ -17,6 +17,7 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
+import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Queue;
 import java.util.concurrent.*;
@@ -62,7 +63,7 @@ public final class GameEngine implements Runnable {
     /**
      * A queue of synchronization tasks.
      */
-    private final Queue<Runnable> syncTasks = new ConcurrentLinkedQueue<>();
+    private final Queue<Runnable> syncTasks = new ArrayDeque<>();
 
     /**
      * The game thread.
@@ -286,9 +287,7 @@ public final class GameEngine implements Runnable {
     private void runPendingTasks() {
         while (!syncTasks.isEmpty()) {
             Runnable pending = syncTasks.poll();
-            if (pending == null) {
-                break;
-            }
+            if (pending == null) break;
             try {
                 pending.run();
             } catch (Exception e) {

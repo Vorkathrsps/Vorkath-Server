@@ -49,7 +49,7 @@ public class Dev {
             while(var4.hasNext()) {
                 int regionId = (Integer)var4.next();
                 Region r = RegionManager.getRegion(regionId);
-                ArrayList<GameObject> objList = (ArrayList)objs.compute(regionId, (k, v) -> {
+                ArrayList<GameObject> objList = (ArrayList) objs.compute(regionId, (k, v) -> {
                     if (v == null) {
                         v = new ArrayList();
                     }

@@ -83,21 +83,30 @@ public class GameObject {
 
     public GameObject spawn() {
         custom = true;
-        Tile.get(x, y, z, true).addObject(this);
-        World.getWorld().getPlayers().forEachFiltered(p -> tile().area(64).contains(p, true), player ->
-            send(player));
+        var t = Tile.get(x, y, z, true);
+        t.addObject(this);
+        for (var p : t.getRegion().getPlayers()) {
+            if (p == null) continue;
+            if (p.getZ() != t.getZ()) continue;
+            if (!t.isViewableFrom(p.tile())) continue;
+            send(p);
+        }
         return this;
     }
 
     public void send(Player player) {
-        if (id != -1)
+        if (id != -1 || isCustom()) {
             sendCreate(player);
-        else
+        } else {
+            System.out.println("send remove?");
             sendRemove(player);
+        }
     }
 
     public void sendCreate(Player player) {
-        player.getPacketSender().sendObject(this.id, this.x, this.y, this.z, this.type, this.rotation);
+        var t = Tile.get(x, y, z);
+        player.getPacketSender().sendObject(this);
+        System.out.println(this);
     }
 
     public void sendRemove(Player player) {
@@ -333,13 +342,15 @@ public class GameObject {
 
     public void animate(int id) {
         long currentTick = World.getWorld().currentTick();
+        var t = Tile.get(x, y, z, true);
         if (lastAnimationTick != currentTick) {
             lastAnimationTick = currentTick;
-            World.getWorld().getPlayers().forEach(p -> {
-                if (p != null && p.tile().inSqRadius(this.tile(), 64)) {
-                    p.getPacketSender().sendObjectAnimation(this, id);
-                }
-            });
+            for (var p : t.getRegion().getPlayers()) {
+                if (p == null) continue;
+                if (p.getZ() != t.getZ()) continue;
+                if (!t.isViewableFrom(p.tile())) continue;
+                p.getPacketSender().sendObjectAnimation(this, id);
+            }
         }
     }
 
@@ -453,19 +464,27 @@ public class GameObject {
     }
 
     public void setId(int newId) {
+        var t = Tile.get(x, y, z, true);
         if (custom && newId == -1) {
-            // System.out.println("despawn custom "+this);
-            if (tile != null) {
-                tile.removeObject(this);
+            if (t != null) t.removeObject(this);
+            for (var p : t.getRegion().getPlayers()) {
+                if (p == null) continue;
+                if (p.getZ() != t.getZ()) continue;
+                if (!t.isViewableFrom(p.tile())) continue;
+                sendRemove(p);
             }
-            World.getWorld().getPlayers().forEachFiltered(p -> tile().area(64).contains(p, true), player ->
-                sendRemove(player));
         } else {
             clip(true);
-            id = newId;
-            Tile.get(x, y, z, true).checkActive();
+            this.id = newId;
+            System.out.println(this.id);
+            t.checkActive();
             clip(false);
-            World.getWorld().getPlayers().forEachFiltered(p -> tile().area(64).contains(p, true), player -> send(player));
+            for (var p : t.getRegion().getPlayers()) {
+                if (p == null) continue;
+                if (p.getZ() != t.getZ()) continue;
+                if (!t.isViewableFrom(p.tile())) continue;
+                send(p);
+            }
         }
     }
 
@@ -532,12 +551,9 @@ public class GameObject {
     }
 
     public GameObject replaceWith(GameObject obj, boolean attribTransfer) {
-        ObjectManager.removeObj(this);
-        GameObject newobj = ObjectManager.addObj(obj);
-        if (attribTransfer) { // Used for doors, getting stuck open.
-            newobj.cloneAttribs(this);
-        }
-        return newobj;
+        this.setId(obj.getId());
+        if (attribTransfer) cloneAttribs(this);
+        return obj;
     }
 
     public Area bounds() {

@@ -26,15 +26,11 @@ public class AchievementsManager {
 
     public static void activate(Player player, Achievements achievement, int increaseBy) {
 
-        //The user box test can't complete achievements.
-        if(player.getUsername().equalsIgnoreCase("Box test")) {
-            return;
-        }
+        if(player.getUsername().equalsIgnoreCase("Box test")) return;
 
         final int current = player.achievements().computeIfAbsent(achievement, a -> 0);
 
-        if (current >= achievement.getCompleteAmount())
-            return;
+        if (current >= achievement.getCompleteAmount()) return;
 
         player.achievements().put(achievement, current + increaseBy);
 

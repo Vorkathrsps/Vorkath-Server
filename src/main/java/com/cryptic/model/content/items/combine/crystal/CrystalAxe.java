@@ -17,7 +17,7 @@ public class CrystalAxe extends Dialogue {
                 player.inventory().remove(ItemIdentifiers.CRYSTAL_SHARD, 120);
                 player.inventory().add(new Item(ItemIdentifiers.CRYSTAL_AXE, 1));
             }).then(1, () -> {
-                send(DialogueType.ITEM_STATEMENT, new Item(ItemIdentifiers.CRYSTAL_HARPOON), "", "You create a crystal axe.");
+                send(DialogueType.ITEM_STATEMENT, new Item(ItemIdentifiers.CRYSTAL_AXE), "", "You create a crystal axe.");
             }).then(1, () -> player.unlock());
         }
     }

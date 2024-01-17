@@ -91,7 +91,6 @@ public class ObjectManager {
 
             @Override
             protected void execute() {
-                //System.out.println("closing door...");
                 addObj(closedoor);
                 stop();
             }

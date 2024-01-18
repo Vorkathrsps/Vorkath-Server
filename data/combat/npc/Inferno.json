@@ -84,6 +84,9 @@
 	  "hitpoints": 40
 	},
 	"bonuses": {
+      "strength": 45,
+      "magic": 45,
+      "ranged": 45,
 	  "stabdefence": 45,
 	  "slashdefence": 45,
 	  "crushdefence": 45,
@@ -117,6 +120,7 @@
 	  "hitpoints": 15
 	},
 	"bonuses": {
+      "ranged": 45,
 	  "stabdefence": 0,
 	  "slashdefence": 0,
 	  "crushdefence": 0,
@@ -150,10 +154,11 @@
 	  "hitpoints": 15
 	},
 	"bonuses": {
+      "magic": 25,
 	  "stabdefence": 0,
 	  "slashdefence": 0,
 	  "crushdefence": 0,
-	  "magicdefence": 0,
+	  "magicdefence": 25,
 	  "rangeddefence": 0
 	},
 	"animations": {
@@ -217,6 +222,7 @@
 	  "hitpoints": 15
 	},
 	"bonuses": {
+      "strength": 25,
 	  "stabdefence": 25,
 	  "slashdefence": 25,
 	  "crushdefence": 25,
@@ -250,6 +256,7 @@
 	  "hitpoints": 75
 	},
 	"bonuses": {
+      "strength": 40,
 	  "stabdefence": 65,
 	  "slashdefence": 65,
 	  "crushdefence": 65,
@@ -348,6 +355,8 @@
 	},
 	"bonuses": {
 	  "magic": 550,
+      "strength": 200,
+      "ranged": 550,
 	  "stabdefence": 0,
 	  "slashdefence": 0,
 	  "crushdefence": 0,
@@ -380,10 +389,10 @@
 	  "magic": 90,
 	  "ranged": 250,
 	  "defence": 60,
-	  "hitpoints": 130
+	  "hitpoints": 125
 	},
 	"bonuses": {
-	  "magic": 0,
+	  "ranged": 40,
 	  "stabdefence": 0,
 	  "slashdefence": 0,
 	  "crushdefence": 0,
@@ -420,6 +429,7 @@
 	},
 	"bonuses": {
 	  "magic": 100,
+      "ranged": 80,
 	  "stabdefence": 0,
 	  "slashdefence": 0,
 	  "crushdefence": 0,
@@ -455,6 +465,7 @@
 	  "hitpoints": 220
 	},
 	"bonuses": {
+      "magic": 80,
 	  "stabdefence": 0,
 	  "slashdefence": 0,
 	  "crushdefence": 0,
@@ -493,8 +504,8 @@
 	  "stabdefence": 0,
 	  "slashdefence": 0,
 	  "crushdefence": 0,
-	  "rangeddefence": 0,
-	  "magicdefence": 0
+	  "rangeddefence": 100,
+	  "magicdefence": 100
 	},
 	"animations": {
 	  "attack": 2637,

@@ -519,6 +519,7 @@
       "crushdefence": 0,
       "magicdefence": 0,
       "rangeddefence": 0
+
     },
     "animations": {
       "attack": 1552,
@@ -554,6 +555,7 @@
       "crushdefence": 0,
       "magicdefence": 0,
       "rangeddefence": 0
+
     },
     "animations": {
       "attack": 169,

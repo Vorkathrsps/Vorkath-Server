@@ -21,6 +21,8 @@
       "hitpoints": 2500
     },
     "bonuses": {
+      "magic": 600,
+      "strength": 60,
       "stabdefence": 0,
       "slashdefence": 0,
       "crushdefence": 0,
@@ -31,9 +33,6 @@
       "attack": -1,
       "block": -1,
       "death": 7991
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.vasilas.NylocasVasilias"
     }
   }
 ]

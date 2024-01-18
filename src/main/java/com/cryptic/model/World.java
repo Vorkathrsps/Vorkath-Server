@@ -21,6 +21,9 @@ import com.cryptic.model.entity.masks.impl.updating.NPCUpdating;
 import com.cryptic.model.entity.masks.impl.updating.PlayerUpdating;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.NPCCombatInfo;
+import com.cryptic.model.entity.npc.droptables.ItemRepository;
+import com.cryptic.model.entity.npc.droptables.NpcDropRepository;
+import com.cryptic.model.entity.npc.droptables.NpcDropTable;
 import com.cryptic.model.entity.npc.droptables.ScalarLootTable;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.PlayerPerformanceTracker;
@@ -666,8 +669,8 @@ public class World {
     }
 
     public void loadDrops() {
-        ScalarLootTable.loadAll(new File("data/combat/drops/"));
-        System.out.println(ScalarLootTable.registered.size() + " loaded drops");
+        ItemRepository.load();
+        NpcDropRepository.loadAll(new File("data/map/drops"));
     }
 
     public static void loadNpcSpawns(File dir) {

@@ -217,11 +217,11 @@
 	"aggressive": true,
 	"aggroradius": 8,
 	"stats": {
-	  "attack": 70,
-	  "strength": 70,
+	  "attack": 37,
+	  "strength": 82,
 	  "magic": 0,
 	  "ranged": 0,
-	  "defence": 70,
+	  "defence": 67,
 	  "hitpoints": 83
 	},
 	"bonuses": {

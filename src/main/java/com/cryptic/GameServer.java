@@ -59,7 +59,7 @@ public class GameServer {
         return ServerProperties.current;
     }
 
-    private static DefinitionRepository definitions;
+    public static DefinitionRepository definitions;
 
     public static DefinitionRepository definitions() {
         return definitions;
@@ -68,7 +68,7 @@ public class GameServer {
     /**
      * Filestore instance
      */
-    private static DataStore fileStore;
+    public static DataStore fileStore;
 
     public static DataStore store() {
         return fileStore;

@@ -25,13 +25,13 @@
     "ids": [
       2849
     ],
-    "maxhit": 3,
+    "maxhit": 2,
     "deathlen": 2,
     "stats": {
-      "hitpoints": 29,
-      "attack": 21,
-      "strength": 23,
-      "defence": 23,
+      "hitpoints": 19,
+      "attack": 11,
+      "strength": 13,
+      "defence": 13,
       "ranged": 1,
       "magic": 1
     },
@@ -3083,9 +3083,6 @@
       "attack": 80,
       "block": -1,
       "death": 92
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.custom.BrutalLavaDragon"
     }
   },
   {
@@ -3119,9 +3116,6 @@
       "attack": 80,
       "block": 89,
       "death": 92
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.custom.BrutalLavaDragon"
     }
   },
   {
@@ -3153,9 +3147,6 @@
       "attack": 5581,
       "block": 5574,
       "death": 5575
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.custom.ZombiesChampion"
     }
   },
   {

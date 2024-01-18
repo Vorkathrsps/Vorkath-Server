@@ -53,6 +53,11 @@
 	  "hitpoints": 75
 	},
 	"bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "magicdefence": 0,
+      "rangeddefence": 0
 	},
 	"animations": {
 	  "attack": 4652,
@@ -75,6 +80,11 @@
 	  "hitpoints": 100
 	},
 	"bonuses": {
+      "stabdefence": 0,
+      "slashdefence": 0,
+      "crushdefence": 0,
+      "magicdefence": 0,
+      "rangeddefence": 0
 	},
 	"animations": {
 	  "attack": 4652,
@@ -97,6 +107,11 @@
 			"hitpoints": 50
 		},
 		"bonuses": {
+          "stabdefence": 0,
+          "slashdefence": 0,
+          "crushdefence": 0,
+          "magicdefence": 0,
+          "rangeddefence": 0
 		},
 		"animations": {
 			"attack": 5489,
@@ -120,7 +135,8 @@
 	  "hitpoints": 60
 	},
 	"bonuses": {
-	  "attack": 33
+	  "attack": 33,
+      "strength": 31
 	},
 	"animations": {
 	  "attack": 4658,

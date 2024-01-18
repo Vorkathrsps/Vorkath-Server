@@ -32,11 +32,6 @@
       "attack": 7441,
       "block": -1,
       "death": 7432
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.Vanguard",
-      "droptable": "com.cryptic.model.entity.npc.droptables.impl.raids.VanguardDroptable",
-      "aggression": "com.cryptic.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -72,11 +67,6 @@
       "attack": 7441,
       "block": -1,
       "death": 7432
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.Vanguard",
-      "droptable": "com.cryptic.model.entity.npc.droptables.impl.raids.VanguardDroptable",
-      "aggression": "com.cryptic.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -112,11 +102,6 @@
       "attack": 7441,
       "block": -1,
       "death": 7432
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.Vanguard",
-      "droptable": "com.cryptic.model.entity.npc.droptables.impl.raids.VanguardDroptable",
-      "aggression": "com.cryptic.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -152,10 +137,6 @@
       "attack": 7410,
       "block": -1,
       "death": 7415
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.MuttadileInTheWater",
-      "aggression": "com.cryptic.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -191,11 +172,6 @@
       "attack": 7421,
       "block": -1,
       "death": 7426
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.Muttadile",
-      "droptable": "com.cryptic.model.entity.npc.droptables.impl.raids.BabyMuttadileDroptable",
-      "aggression": "com.cryptic.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -231,11 +207,6 @@
       "attack": 7421,
       "block": -1,
       "death": 7426
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.Muttadile",
-      "droptable": "com.cryptic.model.entity.npc.droptables.impl.raids.MommaMuttadileDroptable",
-      "aggression": "com.cryptic.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -271,11 +242,6 @@
       "attack": 7410,
       "block": -1,
       "death": 7415
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.vasa.VasaNistirio",
-      "droptable": "com.cryptic.model.entity.npc.droptables.impl.raids.VasaNistirioDroptable",
-      "aggression": "com.cryptic.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -311,11 +277,7 @@
       "attack": 7482,
       "block": -1,
       "death": 7495
-    },
-	"scripts": {
-	  "combat": "com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.Tekton",
-      "aggression": "com.cryptic.model.entity.npc.aggressive.RaidsAgro"
-	}
+    }
   },
   {
     // Tekton
@@ -350,11 +312,6 @@
       "attack": 7482,
       "block": -1,
       "death": 7495
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.Tekton",
-      "droptable": "com.cryptic.model.entity.npc.droptables.impl.raids.TektonDroptable",
-      "aggression": "com.cryptic.model.entity.npc.aggressive.RaidsAgro"
     }
   },
   {
@@ -392,7 +349,6 @@
       "death": 7459
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.Vespula",
       "droptable": "com.cryptic.model.entity.npc.droptables.impl.raids.VespulaDroptable",
       "aggression": "com.cryptic.model.entity.npc.aggressive.RaidsAgro"
     }
@@ -432,7 +388,6 @@
       "death": 7458
     },
     "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.raids.cox.Vespula",
       "droptable": "com.cryptic.model.entity.npc.droptables.impl.raids.VespulaDroptable",
       "aggression": "com.cryptic.model.entity.npc.aggressive.RaidsAgro"
     }

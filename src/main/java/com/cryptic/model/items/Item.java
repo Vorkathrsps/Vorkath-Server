@@ -385,10 +385,7 @@ public class Item implements Cloneable {
 
     public Item note() {
         ItemDefinition def = definition(World.getWorld());
-        if (def == null || def.noteModel > 0 || def.notelink < 1) {
-            return this;
-        }
-
+        if (def == null || def.noteModel > 0 || def.notelink < 1) return this;
         return new Item(def.notelink, amount);
     }
 
@@ -781,6 +778,7 @@ public class Item implements Cloneable {
      */
     public int getValue() {
         final ItemDefinition def = definition(World.getWorld());
+        if (def == null) return 0;
         if (def.noted()) return unnote().getBloodMoneyPrice().value();
         if (def.bm != null) {
             if (rawtradable() && def.bm.value() <= 0) return def.findLinkedValue(def.name);

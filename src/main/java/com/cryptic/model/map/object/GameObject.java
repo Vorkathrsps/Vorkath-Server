@@ -88,7 +88,7 @@ public class GameObject {
         for (var p : t.getRegion().getPlayers()) {
             if (p == null) continue;
             if (p.getZ() != t.getZ()) continue;
-            if (!t.isViewableFrom(p.tile())) continue;
+            if (p.tile().distanceTo(t) >= 64) continue;
             send(p);
         }
         return this;
@@ -348,7 +348,7 @@ public class GameObject {
             for (var p : t.getRegion().getPlayers()) {
                 if (p == null) continue;
                 if (p.getZ() != t.getZ()) continue;
-                if (!t.isViewableFrom(p.tile())) continue;
+                if (p.tile().distanceTo(t) >= 64) continue;
                 p.getPacketSender().sendObjectAnimation(this, id);
             }
         }
@@ -470,7 +470,7 @@ public class GameObject {
             for (var p : t.getRegion().getPlayers()) {
                 if (p == null) continue;
                 if (p.getZ() != t.getZ()) continue;
-                if (!t.isViewableFrom(p.tile())) continue;
+                if (p.tile().distanceTo(t) >= 64) continue;
                 sendRemove(p);
             }
         } else {
@@ -482,7 +482,7 @@ public class GameObject {
             for (var p : t.getRegion().getPlayers()) {
                 if (p == null) continue;
                 if (p.getZ() != t.getZ()) continue;
-                if (!t.isViewableFrom(p.tile())) continue;
+                if (p.tile().distanceTo(t) >= 64) continue;
                 send(p);
             }
         }

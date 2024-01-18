@@ -51,9 +51,6 @@
       "attack": 8056,
       "block": 435,
       "death": 836
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.content.seasonal_events.halloween.boss.GrimCombatScript"
     }
   }
 ]

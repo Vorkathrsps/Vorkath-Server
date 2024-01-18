@@ -102,10 +102,6 @@ public class MeleeAccuracy {
         return this.defender instanceof NPC npc && npc.getCombatInfo().stats != null ? npc.getCombatInfo().getStats().defence : this.defender.getSkills().level(Skills.DEFENCE);
     }
 
-    @Getter
-    @Setter
-    public double percentage = 1;
-
     private int getGearDefenceBonus() {
         int bonus = 0;
         AttackType type;
@@ -158,7 +154,7 @@ public class MeleeAccuracy {
         double effectiveLevel = getEffectiveAttack();
         double attackBonus = getGearAttackBonus();
         double roll = effectiveLevel * (attackBonus + 64);
-        return Math.floor(roll);
+        return effectiveLevel * (attackBonus + 64);
     }
 
     public double getDefenceRoll() {

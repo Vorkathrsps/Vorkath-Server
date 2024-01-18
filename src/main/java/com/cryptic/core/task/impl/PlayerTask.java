@@ -12,8 +12,6 @@ import java.util.Set;
  */
 public class PlayerTask extends Task {
 
-    //TODO: Various triggers
-
     protected final Player player;
 
     protected final Runnable action;

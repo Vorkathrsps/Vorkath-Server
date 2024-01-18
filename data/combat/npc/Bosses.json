@@ -74,7 +74,7 @@
     },
     "scripts": {
       "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.kalphite.KalphiteQueenSecondForm"
-      //  "death": "nl.bartpelle.veteres.content.npcs.bosses.kalphite.KalphiteQueenSecondForm.death"
+    //  "death": "nl.bartpelle.veteres.content.npcs.bosses.kalphite.KalphiteQueenSecondForm.death"
     }
   },
   {
@@ -141,9 +141,6 @@
       "attack": -1,
       "block": -1,
       "death": 8384
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.seren.FragmentOfSeren"
     }
   },
   {
@@ -299,9 +296,6 @@
       "attack": 4491,
       "block": 4489,
       "death": 4495
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.superiorbosses.Kerberos"
     }
   },
   //Zamorak God Wars
@@ -1293,9 +1287,6 @@
       "attack": -1,
       "block": -1,
       "death": 8581
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.Ashihama"
     }
   },
   {
@@ -1330,9 +1321,6 @@
       "attack": -1,
       "block": -1,
       "death": 8581
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.combat.Ashihama"
     }
   },
   {

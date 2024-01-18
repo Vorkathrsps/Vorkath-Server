@@ -331,8 +331,7 @@ public class MovementQueue {
     protected int[] stepsX, stepsY;
 
     protected boolean step(Entity entity) {
-        if(isAtDestination())
-            return false;
+        if(isAtDestination()) return false;
 
         int stepX = stepsX[readOffset];
         int stepY = stepsY[readOffset];
@@ -360,14 +359,15 @@ public class MovementQueue {
             return false;
         }
         var dirMoved = Direction.getDirection(diffX, diffY);
-        var nt = entity.tile().transform(dirMoved.x == 0 ? 0 : (dirMoved.x * 10), dirMoved.y == 0 ? 0 : (dirMoved.y * 10));
-        entity.lastTileFaced = entity.tile.transform(nt.x * 2 + 1, nt.y * 2 + 1);
+        if (dirMoved != null) {
+            var nt = entity.tile().transform(dirMoved.x == 0 ? 0 : (dirMoved.x * 10), dirMoved.y == 0 ? 0 : (dirMoved.y * 10));
+            entity.lastTileFaced = entity.tile.transform(nt.x * 2 + 1, nt.y * 2 + 1);
+        }
 
         entity.setTile(new Tile(newX, newY, entity.getZ()));
         if (entity.isPlayer())
             entity.getAsPlayer().getMovementQueue().handleRegionChange();
-        if(newX == stepX && newY == stepY)
-            readOffset++;
+        if(newX == stepX && newY == stepY) readOffset++;
         return true;
     }
 

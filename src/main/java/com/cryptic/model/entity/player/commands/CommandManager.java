@@ -21,7 +21,10 @@ import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
+import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
+import com.cryptic.model.entity.npc.droptables.NpcDropRepository;
+import com.cryptic.model.entity.npc.droptables.NpcDropTable;
 import com.cryptic.model.entity.npc.droptables.ScalarLootTable;
 import com.cryptic.model.entity.player.InputScript;
 import com.cryptic.model.entity.player.Player;
@@ -639,10 +642,11 @@ public class CommandManager {
             System.out.println(p.hasAttrib(CHOKED));
         });
         dev("c", (p, c, s) -> {
-            var item = ItemDefinition.cached.get(ItemIdentifiers.TANZANITE_HELM);
-            System.out.println((int) (((item.xan2d * item.yan2d) / 2) * 0.25));
-            p.getPacketSender().sendInterfaceModel(4901, (int) (((item.xan2d * item.yan2d) / 2) * 0.25), new Item(item.id));
-            p.getPacketSender().sendChatboxInterface(4900);
+            for (var i : NpcDropRepository.tables.int2ObjectEntrySet()) {
+                var key = i.getIntKey();
+                System.out.println("key: " + key);
+                System.out.println("data: " + i.getValue());
+            }
 //            p.getPacketSender().sendInterface(81400);
 //            TradingPost.displayTradeHistory(p);
         });
@@ -770,25 +774,14 @@ public class CommandManager {
 
         dev("sim", (p, c, s) ->
         {
-            var t = ScalarLootTable.registered.get(Integer.parseInt(s[1]));
-            var kills = Integer.parseInt(s[2]);
-            List<Item> simulate = t.simulate(Utils.RANDOM, kills);
-
+            var kills = Integer.parseInt(s[1]);
+            NpcDropTable table = NpcDropRepository.forNPC(2);
+            List<Item> simulate = table.getDrops(p, kills);
             simulate.sort((o1, o2) -> {
                 int oo1 = kills / Math.max(1, o1.getAmount());
                 int oo2 = kills / Math.max(1, o2.getAmount());
                 return Integer.compare(oo1, oo2);
             });
-
-            int value = 0;
-            for (Item item : simulate) {
-                value = value + item.getValue();
-                int indiv = kills / Math.max(1, item.getAmount());
-                System.out.println(item.getAmount() + " x " + World.getWorld().definitions().get(ItemDefinition.class,
-                    new Item(item.getId()).unnote(World.getWorld().definitions()).getId()).name + " (1/" + indiv + ")");
-            }
-
-            p.message(Color.PURPLE.wrap("Total Kills: " + kills + " - Total Loot Value: " + Utils.formatRunescapeStyle(value)));
 
             p.getPacketSender().sendInterface(BANK_WIDGET);
             p.getPacketSender().sendItemOnInterface(InterfaceConstants.WITHDRAW_BANK, simulate);

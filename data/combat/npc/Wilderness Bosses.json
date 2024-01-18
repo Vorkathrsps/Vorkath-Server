@@ -128,9 +128,6 @@
       "attack": 80,
       "block": -1,
       "death": 92
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.custom.BrutalLavaDragon"
     }
   },
   {
@@ -164,9 +161,6 @@
       "attack": 7678,
       "block": 7676,
       "death": 7679
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.LavaBeast"
     }
   },
   {
@@ -319,10 +313,6 @@
       "attack": 4925,
       "block": 4927,
       "death": 4929
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.superiorbosses.Artio",
-      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   },
   {
@@ -391,10 +381,6 @@
       "attack": 5319,
       "block": 5320,
       "death": 5321
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.superiorbosses.Arachne",
-      "aggression": "com.cryptic.model.content.members.MemberCaveAgro"
     }
   },
   {
@@ -610,9 +596,6 @@
       "attack": 6254,
       "block": 6255,
       "death": 6256
-    },
-    "scripts": {
-      "combat": "com.cryptic.model.entity.combat.method.impl.npcs.bosses.superiorbosses.Skorpios"
     }
   },
   {

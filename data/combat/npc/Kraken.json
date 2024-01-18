@@ -19,7 +19,7 @@
       "hitpoints": 255
     },
     "bonuses": {
-      "ranged": 0,
+      "magic": 50,
       "stabdefence": 0,
       "slashdefence": 0,
       "crushdefence": 0,

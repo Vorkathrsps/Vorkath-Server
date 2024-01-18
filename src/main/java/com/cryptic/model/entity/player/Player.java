@@ -2904,7 +2904,9 @@ public class Player extends Entity {
     public void stopActions(boolean cancelMoving) {
         super.stopActions(cancelMoving);
 
-        if (cancelMoving) getMovementQueue().clear();
+        if (cancelMoving) {
+            getMovementQueue().clear();
+        }
 
         if (interfaceManager.getMain() > 0) {
             interfaceManager.close();
@@ -3148,7 +3150,6 @@ public class Player extends Entity {
             actions.run();
             tasks.run();
             regions.run();
-            beforemove.run();
             movement.run();
             cbBountyFlush.run();
             prayers.run();
@@ -3246,10 +3247,9 @@ public class Player extends Entity {
         // Update last region and chunk ids
         this.putAttrib(AttributeKey.LAST_REGION, tile.region());
         this.putAttrib(AttributeKey.LAST_CHUNK, tile.chunk());
-    }, beforemove = () -> {
+    }, movement = () -> {
         this.getCombat().preAttack();
         TargetRoute.beforeMovement(this);
-    }, movement = () -> {
         this.getMovementQueue().process(); // must be between before+after movement
         TargetRoute.afterMovement(this); // must be afterMove
     }, cbBountyFlush = () -> {

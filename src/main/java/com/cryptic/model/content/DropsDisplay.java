@@ -7,7 +7,7 @@ import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.npc.NPC;
-import com.cryptic.model.entity.npc.droptables.ScalarLootTable;
+import com.cryptic.model.entity.npc.droptables.*;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.inter.dialogue.Dialogue;
 import com.cryptic.model.inter.dialogue.DialogueManager;
@@ -101,12 +101,11 @@ public class DropsDisplay {
             List<Integer> id = new ArrayList<>();
             String finalContext = context;
             //System.out.printf("%s drops%n", ScalarLootTable.registered.size());
-            ScalarLootTable.registered.forEach((k, v) -> {
+            NpcDropRepository.tables.forEach((k, v) -> {
                 NpcDefinition npcDefinition = World.getWorld().definitions().get(NpcDefinition.class, k);
                 if (v != null && npcDefinition != null) {
                     if (type == Type.ITEM) {
                         ArrayList<Integer> ids = new ArrayList<>();
-                        ids.add(v.petItem);
                         deepAdd(v, ids);
                         ids.forEach(i -> {
                             ItemDefinition idef = World.getWorld().definitions().get(ItemDefinition.class, i);
@@ -114,7 +113,7 @@ public class DropsDisplay {
                                 if (!npc.contains(npcDefinition.name)) {
                                     npc.add(npcDefinition.name);
                                     id.add(k);
-                                    System.out.printf("%s vs %s%n", npcDefinition.name, finalContext);
+                                    //System.out.printf("%s vs %s%n", npcDefinition.name, finalContext);
                                 }
                             }
                         });
@@ -136,9 +135,6 @@ public class DropsDisplay {
             //Clear any previous entries.
             for (int index = 0; index < 430; index++) {
                 player.getPacketSender().sendString(55510 + index, "");
-                //Probably redundant code
-                //if (index >= 55940)//Max 430 npcs
-                //    break;
             }
             Collections.sort(npc);
             id.sort(Comparator.comparing(a -> World.getWorld().definitions().get(NpcDefinition.class, a).name));
@@ -159,22 +155,12 @@ public class DropsDisplay {
         }
     }
 
-    private static void deepAdd(ScalarLootTable v, ArrayList<Integer> ids) {
-        if (v.items != null) {
-            ids.addAll(Arrays.stream(v.items)
-                .filter(Objects::nonNull)
-                .map(i -> i.id).toList());
+    private static void deepAdd(NpcDropTable v, ArrayList<Integer> ids) {
+        if (v.getDrops() != null) {
+            ids.addAll(v.getDrops().stream().filter(Objects::nonNull).map(it -> ItemRepository.getItemId(it.getItem())).toList());
         }
-        if (v.guaranteed != null) {
-            ids.addAll(
-                Arrays.stream(v.guaranteed)
-                    .filter(Objects::nonNull)
-                    .map(i -> i.id).toList());
-        }
-        if (v.tables != null) {
-            for (ScalarLootTable table : v.tables) {
-                deepAdd(table, ids);
-            }
+        if (v.getAlwaysDrops() != null) {
+            ids.addAll(v.getAlwaysDrops().stream().filter(Objects::nonNull).map(it -> ItemRepository.getItemId(it.getItem())).toList());
         }
     }
 
@@ -190,66 +176,28 @@ public class DropsDisplay {
             player.getPacketSender().sendString(57000 + i, "");
             player.getPacketSender().sendString(57150 + i, "");
         }
-
-        ScalarLootTable dropTable = ScalarLootTable.forNPC(npc);
-
+        NpcDropTable dropTable = NpcDropRepository.forNPC(npc);
         if (dropTable == null) {
             player.message(Color.DARK_GREEN.tag() + "Bestiary: " + Color.OLIVE.tag() + def.name + " has no drops.");
             return true;
         }
-
-        String tableName = def.name;
-
-        player.getPacketSender().sendString(55154, "<col=" + Color.LIGHTORANGE.getColorValue() + ">Viewing drop table for: " + tableName + "</col>");
-
         List<Integer[]> drops = new ArrayList<>();
-        double totalTablesWeight = dropTable.ptsTotal();
-        int petId, petAverage;
-
-        petId = dropTable.petItem == 0 ? -1 : dropTable.petItem;
-        petAverage = dropTable.petRarity;
-
-        var reduction = petAverage * player.getDropRateBonus() / 100;
-        petAverage -= reduction;
-
-        if(petId != -1)
-            drops.add(0, new Integer[]{petId, 1, 1, petAverage}); //"pet" specifically identified by minAmount == -1
-
-        if(def.name.equalsIgnoreCase("Great Olm")) {
-            drops.add(0, new Integer[]{ItemIdentifiers.OLMLET, 1, 1, 650});
+        for (ItemDrop item : dropTable.getAlwaysDrops()) {
+            Integer[] drop = new Integer[4];
+            drop[0] = ItemRepository.getItemId(item.getItem());
+            drop[1] = item.getMinimumAmount();
+            drop[2] = item.getMaximumAmount();
+            drop[3] = 1;
+            drops.add(drop);
         }
 
-        if (dropTable.guaranteed != null) {
-            for (ScalarLootTable.TableItem item : dropTable.guaranteed) {
-                Integer[] drop = new Integer[4];
-                drop[0] = item.id;
-                drop[1] = item.min;
-                drop[2] = item.max;
-                drop[3] = 1;
-                drops.add(drop);
-            }
-        }
-        
-        if (dropTable.tables != null) {
-            for (ScalarLootTable table : dropTable.tables) {
-                if (table != null) {
-                    double tableChance = table.tableWeight / totalTablesWeight;
-                    if (table.items.length == 0) {
-                    } else {
-                        for (ScalarLootTable.TableItem item : table.items) {
-                            Integer[] drop = new Integer[4];
-                            drop[0] = item.id;
-                            drop[1] = item.min;
-                            drop[2] = item.max;
-                            if (item.weight == 0)
-                                drop[3] = (int) (1D / tableChance);
-                            else
-                                drop[3] = (int) (1D / (item.computedFraction.doubleValue()));
-                            drops.add(drop);
-                        }
-                    }
-                }
-            }
+        for (ItemDrop item : dropTable.getDrops()) {
+            Integer[] drop = new Integer[4];
+            drop[0] = ItemRepository.getItemId(item.getItem());
+            drop[1] = item.getMinimumAmount();
+            drop[2] = item.getMaximumAmount();
+            drop[3] = item.getChance();
+            drops.add(drop);
         }
 
         for(int index = 0; index < drops.size(); index++) {
@@ -261,15 +209,6 @@ public class DropsDisplay {
             int average = drop[3];
 
             int colorIndex;
-
-            if (dropTable.guaranteed != null) {
-                for (var i : dropTable.guaranteed) {
-                    if (i.id == itemId) {
-                        average = 1;
-                        break;
-                    }
-                }
-            }
 
             if (average == 1) {
                 colorIndex = 0;
@@ -359,73 +298,6 @@ public class DropsDisplay {
             });
         }
         return false;
-    }
-
-
-    public static int howmanydrops(Player player, String context, Type type) {
-        try {
-            int amt = 0;
-            context = context.trim().toLowerCase();
-            List<String> npc = new ArrayList<>();
-            List<Integer> id = new ArrayList<>();
-            String finalContext = context;
-            //System.out.printf("%s drops%n", ScalarLootTable.registered.size());
-            ScalarLootTable.registered.forEach((k, v) -> {
-                NpcDefinition npcDefinition = World.getWorld().definitions().get(NpcDefinition.class, k);
-                if (v != null && npcDefinition != null) {
-                    if (type == Type.ITEM) {
-                        ArrayList<Integer> ids = new ArrayList<>();
-                        ids.add(v.petItem);
-                        deepAdd(v, ids);
-                        ids.forEach(i -> {
-                            ItemDefinition idef = World.getWorld().definitions().get(ItemDefinition.class, i);
-                            if (idef.name.toLowerCase().contains(finalContext)) {
-                                if (!npc.contains(npcDefinition.name)) {
-                                    npc.add(npcDefinition.name);
-                                    id.add(k);
-                                    System.out.printf("%s vs %s%n", npcDefinition.name, finalContext);
-                                }
-                            }
-                        });
-                    }
-                    if (type == Type.NPC) {
-                        String name = npcDefinition.name;
-                        if (name != null && name.toLowerCase().contains(finalContext)) {
-                            if (!npc.contains(name)) {
-                                if (Arrays.stream(NPCS_DROPS_EXCLUDED).noneMatch(n -> n == k)) {
-                                    npc.add(name);
-                                    id.add(k);
-                                    //System.out.printf("%s vs %d %s %n", npcDefinition.name, k, finalContext);
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-            //Clear any previous entries.
-//            for (int index = 0; index < 430; index++) {
-//                player.getPacketSender().sendString(55510 + index, "");
-//                //Probably redundant code
-//                //if (index >= 55940)//Max 430 npcs
-//                //    break;
-//            }
-            Collections.sort(npc);
-            id.sort(Comparator.comparing(a -> World.getWorld().definitions().get(NpcDefinition.class, a).name));
-            // it was flashing because of this
-//            for (int index = 0; index < npc.size(); index++) {
-//                player.getPacketSender().sendString(55510 + index, npc.get(index));
-//                if (index >= 55940)//Max 430 npcs
-//                    break;
-//            }
-            amt = npc.size();
-            //  player.debugMessage("There are " + npc.size() + " npcs with drops");
-            return amt;
-            // player.putAttrib(AttributeKey.DROP_DISPLAY_KEY, id);
-            //  display(player, id.get(0));
-        } catch (Exception e) {
-            logger.catching(e);
-        }
-        return 0;
     }
 
     public static void close(Player player) {

@@ -17,15 +17,6 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-/**
- * A utility class to chain code functions together which depend on delays like OSS's {@code delay(1)}.
- * The internal clock/delay system is built upon {@link TaskManager}
- *
- * <br>Has similiar fields to {@link Action} but doesnt have Mob as fixed parent generic type
- *
- * @author Jak | Shadowrs
- * @version 25/4/2020
- */
 @SuppressWarnings("ALL")
 public class Chain<T> {
 

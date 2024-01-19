@@ -201,9 +201,13 @@ public class Player extends Entity {
     @Setter
     private TheatreInstance theatreInstance;
 
-    @Getter @Setter private double[] savedTornamentXp;
+    @Getter
+    @Setter
+    private double[] savedTornamentXp;
 
-    @Getter @Setter private int[] savedTornamentLevels;
+    @Getter
+    @Setter
+    private int[] savedTornamentLevels;
     public transient ShopReference shopReference = ShopReference.DEFAULT;
 
     private final WildernessSlayerCasket wildernessSlayerCasket = new WildernessSlayerCasket(this);
@@ -410,13 +414,8 @@ public class Player extends Entity {
             case ZENYTE_MEMBER -> 1.15;
         };
 
-        if (getIronManStatus() == IronMode.REGULAR || getIronManStatus() == IronMode.HARDCORE) {
-            percent += 1.05;
-        }
+        percent += player().getGameMode().dropRate;
 
-        if (this.getGameMode().equals(GameMode.REALISM)) {
-            percent += 1.05;
-        }
 
         if (Skulling.skulled(player()) && player().tile.insideRevCave()) {
             percent += 1.05;
@@ -1596,7 +1595,8 @@ public class Player extends Entity {
         handleOnLogin(this);
         applyPoweredStaffSpells();
         boolean newAccount = this.getAttribOr(NEW_ACCOUNT, false);
-        if (!newAccount && getBankPin().hasPin() && !getBankPin().hasEnteredPin() && GameServer.properties().requireBankPinOnLogin) getBankPin().enterPin();
+        if (!newAccount && getBankPin().hasPin() && !getBankPin().hasEnteredPin() && GameServer.properties().requireBankPinOnLogin)
+            getBankPin().enterPin();
         if (newAccount) {
             ClanManager.join(this, "help");
             interfaceManager.open(3559);
@@ -1649,7 +1649,8 @@ public class Player extends Entity {
     private void applyAttributes() {
         long startTime = System.currentTimeMillis();
         putAttrib(AttributeKey.LOGGED_IN_AT_TIME, startTime);
-        if (this.<Integer>getAttribOr(MULTIWAY_AREA, -1) == 1 && !MultiwayCombat.includes(this.tile())) putAttrib(MULTIWAY_AREA, 0);
+        if (this.<Integer>getAttribOr(MULTIWAY_AREA, -1) == 1 && !MultiwayCombat.includes(this.tile()))
+            putAttrib(MULTIWAY_AREA, 0);
         if (this.<Boolean>getAttribOr(ASK_FOR_ACCOUNT_PIN, false)) askForAccountPin();
     }
 

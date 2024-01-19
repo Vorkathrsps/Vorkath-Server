@@ -92,9 +92,7 @@ public class TheNightmare extends CommonCombatMethod {
     }
 
     public void meleeClawAttack() {
-        if (!withinDistance(1)) {
-            return;
-        }
+        if (!withinDistance(1)) return;
         entity.animate(8594);
         Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 3, CombatType.MELEE);
         hit.submit();

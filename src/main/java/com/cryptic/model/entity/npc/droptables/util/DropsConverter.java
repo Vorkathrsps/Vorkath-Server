@@ -3,14 +3,12 @@ package com.cryptic.model.entity.npc.droptables.util;
 import com.cryptic.GameServer;
 import com.cryptic.cache.DataStore;
 import com.cryptic.cache.definitions.DefinitionRepository;
-import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.npc.droptables.ItemDrop;
 import com.cryptic.model.entity.npc.droptables.ItemRepository;
 import com.cryptic.model.entity.npc.droptables.NpcDropTable;
 import com.cryptic.model.entity.npc.droptables.ScalarLootTable;
-import com.cryptic.model.items.Item;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
@@ -83,7 +81,6 @@ public class DropsConverter {
                     int minAmount = drop[1] == 0 ? 1 : drop[1];
                     int maxAmount = drop[2] == 0 ? 1 : drop[2];
                     int average = drop[3];
-                    var def = ItemDefinition.cached.get(itemId);
                     String name = ItemRepository.getItemName(itemId);
                     ItemDrop itemDrop = new ItemDrop(name, minAmount, maxAmount, average, false, false);
                     rareDrops.add(itemDrop);
@@ -99,7 +96,7 @@ public class DropsConverter {
         tables.forEach((npc, table) -> {
             if (npc == null || table == null) return;
             String name = World.getWorld().definitions().get(NpcDefinition.class, npc).name;
-            Path file = Path.of("data/combat/npcdrops/" + name + ".yaml");
+            Path file = Path.of("data/map/drops/" + name + ".yaml");
             if(npcsWritten.contains(name)) return;
             try {
                 mapper.writeValue(file.toFile(), table);

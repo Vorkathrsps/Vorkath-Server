@@ -9,7 +9,6 @@
       "name": "Armour & Weapons",
       "tableweight": 1,
       "items": [
-
         { "id": 9194, "min": 10, "max": 10, "weight": 25 }, //Onyx bolt tips
         { "id": 1618, "min": 15, "max": 15, "weight": 25 }, //Uncut diamond (noted)
         { "id": 5522, "min": 25, "max": 25, "weight": 25 }, //Binding necklace (noted)

@@ -23,6 +23,7 @@ import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
+import com.cryptic.model.entity.npc.droptables.ItemDrops;
 import com.cryptic.model.entity.npc.droptables.NpcDropRepository;
 import com.cryptic.model.entity.npc.droptables.NpcDropTable;
 import com.cryptic.model.entity.npc.droptables.ScalarLootTable;
@@ -642,11 +643,6 @@ public class CommandManager {
             System.out.println(p.hasAttrib(CHOKED));
         });
         dev("c", (p, c, s) -> {
-            for (var i : NpcDropRepository.tables.int2ObjectEntrySet()) {
-                var key = i.getIntKey();
-                System.out.println("key: " + key);
-                System.out.println("data: " + i.getValue());
-            }
 //            p.getPacketSender().sendInterface(81400);
 //            TradingPost.displayTradeHistory(p);
         });
@@ -775,7 +771,7 @@ public class CommandManager {
         dev("sim", (p, c, s) ->
         {
             var kills = Integer.parseInt(s[1]);
-            NpcDropTable table = NpcDropRepository.forNPC(2);
+            NpcDropTable table = NpcDropRepository.forNPC(319);
             List<Item> simulate = table.getDrops(p, kills);
             simulate.sort((o1, o2) -> {
                 int oo1 = kills / Math.max(1, o1.getAmount());

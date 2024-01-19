@@ -93,7 +93,7 @@ public class NylocasMinions extends NPC {
 
                 setTransmogIdx(randomIndex);
             }
-            transmogIdx = (transmogIdx + 1) % npcs.length;// we dont need that. i just realized, but test now ye
+            transmogIdx = (transmogIdx + 1) % npcs.length;
             this.transmog(npcs[transmogIdx], false);
             setTimer(3);
         }
@@ -141,9 +141,7 @@ public class NylocasMinions extends NPC {
         Chain.noCtx().delay(1, () -> {
             animate(7991);
             if (this.tile() != null && this.getCombat().getTarget() != null && this.getCombat().getTarget().tile() != null) {
-                if (target == null) {
-                    return;
-                }
+                if (target == null) return;
                 if (this.tile().nextTo(target.tile())) {
                     if (this.getCombatInfo() != null) {
                         this.submitAccurateHit(target, 0, Utils.random(1, this.getCombatInfo().maxhit), null);
@@ -160,7 +158,7 @@ public class NylocasMinions extends NPC {
         List<NPC> availablePillars = theatreInstance.getPillarList().stream().filter(p -> !p.dead() && p.isRegistered()).toList();
         if (!availablePillars.isEmpty()) {
             List<NPC> closestPillars = new ArrayList<>(availablePillars);
-            closestPillars.sort(Comparator.comparingDouble(pillar -> this.tile().distance(pillar.tile())));
+            closestPillars.sort(Comparator.comparingDouble(pillar -> this.tile().distanceTo(pillar.tile())));
             Random random = new Random();
             int randomIndex = random.nextInt(Math.min(closestPillars.size(), 2));
             NPC randomPillar = closestPillars.get(randomIndex);

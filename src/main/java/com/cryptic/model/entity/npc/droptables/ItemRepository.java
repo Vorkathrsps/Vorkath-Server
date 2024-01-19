@@ -4,6 +4,7 @@ import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.model.entity.npc.droptables.util.DropsConverter;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.ItemIdentifiers;
+import org.apache.commons.lang.ArrayUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -23,7 +24,7 @@ public class ItemRepository {
         if (def != null && def.noted()) {
             var item = new Item(def.id);
             var notedID = item.note().getId();
-            itemName = "NOTED_" + item.unnote().name().replaceAll(" ", "_").toUpperCase();
+            itemName = "NOTED_" + item.unnote().name().replaceAll(" ", "_").replaceAll("[(]", "").replaceAll("[)]", "").replaceAll("[+(]", "_").toUpperCase();
             return itemNames.getOrDefault(notedID, itemName);
         } else return itemNames.getOrDefault(id, null);
     }
@@ -48,12 +49,6 @@ public class ItemRepository {
     }
 
     public static void load() {
-//        var cache = ItemDefinition.cached;
-//        for (var i : cache.int2ObjectEntrySet()) {
-//            var id = i.getIntKey();
-//            var def = cache.get(id);
-//            var name = def.name.replaceAll("", "_");
-//        }
         List<Field> item = Arrays.stream(ItemIdentifiers.class.getFields()).filter(field -> Modifier.isPublic(field.getModifiers())).toList();
         item.forEach(it -> {
             try {

@@ -152,8 +152,6 @@ public class IncomingHandler {
 
         PACKETS[153] = new AttackPlayerPacketListener();
         PACKETS[128] = new PlayerOptionOnePacketListener();
-        //PACKETS[37] = new PlayerOptionTwoPacketListener();
-        //PACKETS[227] = new PlayerOptionThreePacketListener();
 
 
         ObjectInteractionHandler objectHandler = new ObjectInteractionHandler();

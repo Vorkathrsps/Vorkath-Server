@@ -1,0 +1,13 @@
+npcId:
+- 2844
+- 7269
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: IRON_BATTLEAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops: []

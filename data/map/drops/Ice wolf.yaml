@@ -1,0 +1,20 @@
+npcId:
+- 645
+- 646
+- 647
+- 710
+- 711
+- 712
+- 713
+- 714
+- 715
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: WOLF_BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops: []

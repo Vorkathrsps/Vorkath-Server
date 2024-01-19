@@ -1,0 +1,119 @@
+npcId:
+- 5665
+- 5666
+- 5667
+- 5668
+- 5669
+- 5670
+- 5671
+- 5672
+- 5673
+- 5674
+- 5675
+- 5676
+- 5677
+- 5678
+- 5679
+- 5680
+- 5681
+- 5682
+- 5683
+- 5684
+- 5685
+- 5686
+- 5687
+- 5688
+petItem: "null"
+petRarity: 0
+alwaysDrops: []
+drops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: PLANK
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: LUMBERJACK_BOOTS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: LUMBERJACK_HAT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: LUMBERJACK_LEGS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: LUMBERJACK_TOP
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: GUTHIX_BALANCE1
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: THIN_SNAIL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 28
+  rareDrop: false
+  sendToBank: false
+- item: LEAN_SNAIL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 28
+  rareDrop: false
+  sendToBank: false
+- item: FAT_SNAIL
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 28
+  rareDrop: false
+  sendToBank: false
+- item: IRON_ARROW
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 28
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_ARROW
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 28
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_MED_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 28
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_LONGSWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 28
+  rareDrop: false
+  sendToBank: false
+- item: MIND_RUNE
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 84
+  rareDrop: false
+  sendToBank: false

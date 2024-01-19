@@ -1,0 +1,24 @@
+npcId:
+- 1558
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: ASHES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: EARTH_RUNE
+  minimumAmount: 4
+  maximumAmount: 10
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: EARTH_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false

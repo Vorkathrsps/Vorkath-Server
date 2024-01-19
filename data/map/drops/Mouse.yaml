@@ -1,0 +1,13 @@
+npcId:
+- 5127
+- 5128
+petItem: "null"
+petRarity: 0
+alwaysDrops: []
+drops:
+- item: CHEESE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false

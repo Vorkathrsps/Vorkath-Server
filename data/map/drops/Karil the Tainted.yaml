@@ -1,0 +1,42 @@
+npcId:
+- 1675
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: ASHES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 1000
+  maximumAmount: 25000
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: KARILS_COIF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: KARILS_LEATHERTOP
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: KARILS_LEATHERSKIRT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: KARILS_CROSSBOW
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false

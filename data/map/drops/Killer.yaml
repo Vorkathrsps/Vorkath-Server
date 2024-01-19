@@ -1,0 +1,12 @@
+npcId:
+- 7632
+petItem: null
+petRarity: 2000
+alwaysDrops: []
+drops:
+- item: null
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2000
+  rareDrop: false
+  sendToBank: false

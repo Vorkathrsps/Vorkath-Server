@@ -1,0 +1,89 @@
+npcId:
+- 437
+- 438
+- 439
+- 440
+- 441
+- 442
+petItem: "null"
+petRarity: 0
+alwaysDrops: []
+drops:
+- item: STEEL_AXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_2H_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_BATTLEAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 23
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_KITESHIELD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 23
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_BOOTS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 23
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_PLATEBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 69
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_FULL_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 69
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_RUNE
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: DEATH_RUNE
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 13
+  rareDrop: false
+  sendToBank: false
+- item: WATER_RUNE
+  minimumAmount: 5
+  maximumAmount: 21
+  chance: 13
+  rareDrop: false
+  sendToBank: false
+- item: BLOOD_RUNE
+  minimumAmount: 7
+  maximumAmount: 7
+  chance: 39
+  rareDrop: false
+  sendToBank: false
+- item: GOLD_BAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: THREAD
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 6
+  rareDrop: false
+  sendToBank: false

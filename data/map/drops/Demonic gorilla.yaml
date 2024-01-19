@@ -1,0 +1,84 @@
+npcId:
+- 7144
+- 7145
+- 7146
+- 7147
+- 7148
+- 7149
+- 7152
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: ASHES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 250
+  maximumAmount: 15300
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: COINS_995
+  minimumAmount: 300
+  maximumAmount: 650
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_ANTI-VENOM+4
+  minimumAmount: 2
+  maximumAmount: 10
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_DIVINE_SUPER_COMBAT_POTION4
+  minimumAmount: 5
+  maximumAmount: 10
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_JAVELIN
+  minimumAmount: 5
+  maximumAmount: 10
+  chance: 22
+  rareDrop: false
+  sendToBank: false
+- item: LIGHT_BALLISTA
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 66
+  rareDrop: false
+  sendToBank: false
+- item: HEAVY_BALLISTA
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 66
+  rareDrop: false
+  sendToBank: false
+- item: NECKLACE_OF_ANGUISH
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 66
+  rareDrop: false
+  sendToBank: false
+- item: TORMENTED_BRACELET
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 66
+  rareDrop: false
+  sendToBank: false
+- item: RING_OF_SUFFERING
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 66
+  rareDrop: false
+  sendToBank: false
+- item: AMULET_OF_TORTURE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 66
+  rareDrop: false
+  sendToBank: false

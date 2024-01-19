@@ -1,0 +1,19 @@
+npcId:
+- 4820
+- 4821
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: MUDSKIPPER_HIDE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: OYSTER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false

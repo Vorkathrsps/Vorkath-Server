@@ -1,0 +1,79 @@
+npcId:
+- 8059
+- 8061
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: SUPERIOR_DRAGON_BONES
+  minimumAmount: 3
+  maximumAmount: 10
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 250
+  maximumAmount: 25300
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: COINS_995
+  minimumAmount: 250
+  maximumAmount: 500
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: OPAL_DRAGON_BOLTS_E
+  minimumAmount: 100
+  maximumAmount: 250
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: DRAGONSTONE_DRAGON_BOLTS_E
+  minimumAmount: 100
+  maximumAmount: 250
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_CROSSBOW
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 18
+  rareDrop: false
+  sendToBank: false
+- item: DRAGONFIRE_SHIELD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 37
+  rareDrop: false
+  sendToBank: false
+- item: DRAGONFIRE_WARD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 37
+  rareDrop: false
+  sendToBank: false
+- item: VORKATHS_HEAD_21907
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 41
+  rareDrop: false
+  sendToBank: false
+- item: ARMADYL_CROSSBOW
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 41
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_HUNTER_CROSSBOW
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 74
+  rareDrop: false
+  sendToBank: false
+- item: GOLDEN_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 124
+  rareDrop: false
+  sendToBank: false

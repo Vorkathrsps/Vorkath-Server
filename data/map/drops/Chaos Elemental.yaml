@@ -1,0 +1,79 @@
+npcId:
+- 2054
+- 6505
+petItem: PET_CHAOS_ELEMENTAL
+petRarity: 1000
+alwaysDrops:
+- item: COINS_995
+  minimumAmount: 250
+  maximumAmount: 35300
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: PET_CHAOS_ELEMENTAL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1000
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_DIVINE_SUPER_COMBAT_POTION4
+  minimumAmount: 2
+  maximumAmount: 10
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_ANTI-VENOM+4
+  minimumAmount: 5
+  maximumAmount: 10
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_SUPER_ANTIFIRE_POTION4
+  minimumAmount: 2
+  maximumAmount: 10
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_BOOTS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: AMULET_OF_FURY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: DHAROKS_ARMOUR_SET
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_2H_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 166
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_PICKAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 166
+  rareDrop: false
+  sendToBank: false
+- item: GOLDEN_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 249
+  rareDrop: false
+  sendToBank: false
+- item: CLUE_SCROLL_ELITE_12081
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 498
+  rareDrop: false
+  sendToBank: false

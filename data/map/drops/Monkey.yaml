@@ -1,0 +1,21 @@
+npcId:
+- 2848
+- 3200
+- 5279
+- 5280
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: MONKEY_BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: ENSOULED_MONKEY_HEAD_13451
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false

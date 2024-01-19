@@ -1,0 +1,72 @@
+npcId:
+- 4405
+petItem: "null"
+petRarity: 0
+alwaysDrops: []
+drops:
+- item: AIR_RUNE
+  minimumAmount: 8
+  maximumAmount: 8
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: BLOOD_RUNE
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_RUNE
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 19
+  rareDrop: false
+  sendToBank: false
+- item: EARTH_RUNE
+  minimumAmount: 4
+  maximumAmount: 4
+  chance: 19
+  rareDrop: false
+  sendToBank: false
+- item: FIRE_RUNE
+  minimumAmount: 6
+  maximumAmount: 6
+  chance: 57
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_ARROW
+  minimumAmount: 4
+  maximumAmount: 4
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_ARROW
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 13
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_LONGSWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 13
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_MED_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 39
+  rareDrop: false
+  sendToBank: false
+- item: IRON_ORE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: MIND_TALISMAN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false

@@ -1,0 +1,60 @@
+npcId:
+- 3603
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: FEATHER
+  minimumAmount: 10
+  maximumAmount: 40
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: FEATHER
+  minimumAmount: 100
+  maximumAmount: 100
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: TEA_FLASK
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: BLACK_SATCHEL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: RAW_CHICKEN
+  minimumAmount: 4
+  maximumAmount: 4
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: RAW_CHICKEN
+  minimumAmount: 8
+  maximumAmount: 8
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: RAW_CHICKEN
+  minimumAmount: 12
+  maximumAmount: 12
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: RAW_CHICKEN
+  minimumAmount: 16
+  maximumAmount: 16
+  chance: 6
+  rareDrop: false
+  sendToBank: false

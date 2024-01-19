@@ -1,0 +1,29 @@
+npcId:
+- 2790
+- 2791
+- 2793
+- 2795
+- 5842
+- 6401
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: COWHIDE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: RAW_BEEF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops: []

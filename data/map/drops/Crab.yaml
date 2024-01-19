@@ -1,0 +1,31 @@
+npcId:
+- 4822
+- 4819
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: CRAB_MEAT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: FRESH_CRAB_CLAW
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: FRESH_CRAB_SHELL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: OYSTER
+  minimumAmount: 1
+  maximumAmount: 2
+  chance: 25
+  rareDrop: false
+  sendToBank: false

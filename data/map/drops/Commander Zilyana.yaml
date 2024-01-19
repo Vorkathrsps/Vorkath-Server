@@ -1,0 +1,37 @@
+npcId:
+- 2205
+- 6493
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: COINS_995
+  minimumAmount: 250
+  maximumAmount: 55300
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: COINS_995
+  minimumAmount: 150
+  maximumAmount: 300
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: SARADOMIN_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: SARADOMIN_GODSWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: ARMADYL_CROSSBOW
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 18
+  rareDrop: false
+  sendToBank: false

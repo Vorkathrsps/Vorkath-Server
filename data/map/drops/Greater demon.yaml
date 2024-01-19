@@ -1,0 +1,109 @@
+npcId:
+- 2025
+- 2026
+- 2027
+- 2028
+- 2029
+- 2030
+- 2031
+- 2032
+- 7245
+- 7244
+- 7246
+- 7871
+- 7872
+- 7873
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: ASHES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: STEEL_AXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_BATTLEAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_2H_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_PLATELEGS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 25
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_FULL_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 25
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_KITESHIELD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 75
+  rareDrop: false
+  sendToBank: false
+- item: FIRE_RUNE
+  minimumAmount: 37
+  maximumAmount: 37
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: FIRE_RUNE
+  minimumAmount: 75
+  maximumAmount: 75
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_RUNE
+  minimumAmount: 12
+  maximumAmount: 12
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_RUNE
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 33
+  rareDrop: false
+  sendToBank: false
+- item: DEATH_RUNE
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 33
+  rareDrop: false
+  sendToBank: false
+- item: GOLD_BAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: TUNA
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: THREAD
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 39
+  rareDrop: false
+  sendToBank: false

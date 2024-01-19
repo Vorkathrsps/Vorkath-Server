@@ -1,0 +1,148 @@
+npcId:
+- 252
+- 253
+- 254
+- 255
+- 256
+- 257
+- 258
+- 259
+- 7861
+- 7862
+- 7863
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: DRAGON_BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: BLACK_DRAGONHIDE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: MITHRIL_AXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_BATTLEAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_KITESHIELD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_2H_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 25
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_PLATEBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 25
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_LONGSWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 75
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_DARTP
+  minimumAmount: 16
+  maximumAmount: 16
+  chance: 19
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_JAVELIN
+  minimumAmount: 30
+  maximumAmount: 30
+  chance: 19
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_JAVELIN
+  minimumAmount: 60
+  maximumAmount: 60
+  chance: 19
+  rareDrop: false
+  sendToBank: false
+- item: FIRE_RUNE
+  minimumAmount: 50
+  maximumAmount: 50
+  chance: 19
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_KNIFE
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 19
+  rareDrop: false
+  sendToBank: false
+- item: AIR_RUNE
+  minimumAmount: 75
+  maximumAmount: 75
+  chance: 38
+  rareDrop: false
+  sendToBank: false
+- item: LAW_RUNE
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 38
+  rareDrop: false
+  sendToBank: false
+- item: BLOOD_RUNE
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 114
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_JAVELIN_HEADS
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 114
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANTITE_BAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANTITE_BAR
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: CHOCOLATE_CAKE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 54
+  rareDrop: false
+  sendToBank: false
+- item: ENSOULED_DRAGON_HEAD_13511
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 109
+  rareDrop: false
+  sendToBank: false
+- item: DRACONIC_VISAGE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 657
+  rareDrop: false
+  sendToBank: false

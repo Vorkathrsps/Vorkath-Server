@@ -1,0 +1,74 @@
+npcId:
+- 1461
+- 2871
+- 6996
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: MIND_RUNE
+  minimumAmount: 9
+  maximumAmount: 9
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: EARTH_RUNE
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: WATER_RUNE
+  minimumAmount: 6
+  maximumAmount: 6
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_BOLTS
+  minimumAmount: 3
+  maximumAmount: 11
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_MED_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_GUAM_LEAF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_MARRENTILL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_TARROMIN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 19
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_HARRALANDER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 19
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_AVANTOE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 57
+  rareDrop: false
+  sendToBank: false

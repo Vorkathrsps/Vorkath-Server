@@ -1,0 +1,12 @@
+npcId:
+- 3026
+petItem: "null"
+petRarity: 0
+alwaysDrops: []
+drops:
+- item: ENSOULED_SCORPION_HEAD_13460
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false

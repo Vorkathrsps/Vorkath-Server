@@ -1,0 +1,80 @@
+npcId:
+- 5862
+- 5863
+- 5866
+petItem: HELLPUPPY
+petRarity: 500
+alwaysDrops:
+- item: ASHES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 250
+  maximumAmount: 55300
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: HELLPUPPY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 500
+  rareDrop: false
+  sendToBank: false
+- item: GRANITE_MAUL_24225
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: BLIGHTED_TELEPORT_SPELL_SACK
+  minimumAmount: 10
+  maximumAmount: 25
+  chance: 13
+  rareDrop: false
+  sendToBank: false
+- item: BLIGHTED_ENTANGLE_SACK
+  minimumAmount: 10
+  maximumAmount: 25
+  chance: 13
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 1000
+  maximumAmount: 5000
+  chance: 18
+  rareDrop: false
+  sendToBank: false
+- item: SMOULDERING_STONE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: JAR_OF_SOULS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: PRIMORDIAL_CRYSTAL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 25
+  rareDrop: false
+  sendToBank: false
+- item: PEGASIAN_CRYSTAL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 25
+  rareDrop: false
+  sendToBank: false
+- item: ETERNAL_CRYSTAL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 25
+  rareDrop: false
+  sendToBank: false

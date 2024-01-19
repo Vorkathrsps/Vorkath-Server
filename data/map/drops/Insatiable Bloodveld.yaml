@@ -1,0 +1,80 @@
+npcId:
+- 7388
+- 7389
+- 7392
+- 7394
+- 7397
+- 7399
+- 7401
+- 7402
+- 7404
+- 7406
+- 7407
+- 7408
+- 7409
+- 7410
+- 7411
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: ASHES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: AIR_RUNE
+  minimumAmount: 1
+  maximumAmount: 150
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: BLOOD_RUNE
+  minimumAmount: 1
+  maximumAmount: 150
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_RANARR_WEED
+  minimumAmount: 1
+  maximumAmount: 10
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GRIMY_KWUARM
+  minimumAmount: 1
+  maximumAmount: 5
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GRIMY_CADANTINE
+  minimumAmount: 1
+  maximumAmount: 3
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 25000
+  maximumAmount: 15000
+  chance: 13
+  rareDrop: false
+  sendToBank: false
+- item: CRYSTAL_KEY
+  minimumAmount: 1
+  maximumAmount: 2
+  chance: 13
+  rareDrop: false
+  sendToBank: false
+- item: LARRANS_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 13
+  rareDrop: false
+  sendToBank: false
+- item: IMBUED_HEART
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 66
+  rareDrop: false
+  sendToBank: false

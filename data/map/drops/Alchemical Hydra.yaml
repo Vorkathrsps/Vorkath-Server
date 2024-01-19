@@ -1,0 +1,79 @@
+npcId:
+- 8615
+- 8616
+- 8617
+- 8618
+- 8619
+- 8620
+- 8621
+- 8622
+petItem: IKKLE_HYDRA
+petRarity: 1000
+alwaysDrops:
+- item: COINS_995
+  minimumAmount: 5000
+  maximumAmount: 50000
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: IKKLE_HYDRA
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1000
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 100
+  maximumAmount: 250
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_KNIFE
+  minimumAmount: 100
+  maximumAmount: 250
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_THROWNAXE
+  minimumAmount: 75
+  maximumAmount: 125
+  chance: 9
+  rareDrop: false
+  sendToBank: false
+- item: JAR_OF_CHEMICALS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 24
+  rareDrop: false
+  sendToBank: false
+- item: ALCHEMICAL_HYDRA_HEADS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 24
+  rareDrop: false
+  sendToBank: false
+- item: BRIMSTONE_RING
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 33
+  rareDrop: false
+  sendToBank: false
+- item: HYDRA_TAIL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 33
+  rareDrop: false
+  sendToBank: false
+- item: HYDRAS_CLAW
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 33
+  rareDrop: false
+  sendToBank: false
+- item: FEROCIOUS_GLOVES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 39
+  rareDrop: false
+  sendToBank: false

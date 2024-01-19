@@ -1,0 +1,32 @@
+npcId:
+- 2856
+- 2857
+- 2858
+- 2859
+- 2860
+- 2861
+- 3313
+- 3314
+- 3315
+- 2862
+- 2863
+- 2864
+- 2510
+- 2511
+- 2512
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: RAW_RAT_MEAT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops: []

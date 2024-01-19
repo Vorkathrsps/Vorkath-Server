@@ -1,0 +1,25 @@
+npcId:
+- 4813
+- 3140
+petItem: "null"
+petRarity: 0
+alwaysDrops: []
+drops:
+- item: IRON_PLATEBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: AIR_RUNE
+  minimumAmount: 1
+  maximumAmount: 5
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: WATER_RUNE
+  minimumAmount: 1
+  maximumAmount: 6
+  chance: 18
+  rareDrop: false
+  sendToBank: false

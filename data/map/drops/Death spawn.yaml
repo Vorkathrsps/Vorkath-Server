@@ -1,0 +1,12 @@
+npcId:
+- 10
+petItem: "null"
+petRarity: 0
+alwaysDrops: []
+drops:
+- item: ASHES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false

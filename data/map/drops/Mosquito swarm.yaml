@@ -1,0 +1,25 @@
+npcId:
+- 6273
+- 6402
+petItem: "null"
+petRarity: 0
+alwaysDrops: []
+drops:
+- item: PROBOSCIS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: PROBOSCIS
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: PROBOSCIS
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 3
+  rareDrop: false
+  sendToBank: false

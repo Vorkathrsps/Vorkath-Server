@@ -1,0 +1,12 @@
+npcId:
+- 1282
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: RIYL_REMAINS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops: []

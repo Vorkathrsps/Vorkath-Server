@@ -1,0 +1,18 @@
+npcId:
+- 4927
+petItem: "null"
+petRarity: 0
+alwaysDrops: []
+drops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: FIRE_FEATHER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false

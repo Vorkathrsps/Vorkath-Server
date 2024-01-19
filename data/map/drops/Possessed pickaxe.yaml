@@ -1,0 +1,44 @@
+npcId:
+- 3612
+- 6469
+- 7268
+petItem: "null"
+petRarity: 0
+alwaysDrops: []
+drops:
+- item: IRON_PICKAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: IRON_PICKAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_PICKAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_PICKAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_PICKAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 20
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_PICKAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 62
+  rareDrop: false
+  sendToBank: false

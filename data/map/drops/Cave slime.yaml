@@ -1,0 +1,72 @@
+npcId:
+- 480
+petItem: "null"
+petRarity: 0
+alwaysDrops: []
+drops:
+- item: SWAMP_TAR
+  minimumAmount: 1
+  maximumAmount: 6
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_AXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: IRON_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_FULL_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 14
+  rareDrop: false
+  sendToBank: false
+- item: IRON_KITESHIELD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 44
+  rareDrop: false
+  sendToBank: false
+- item: IRON_BOOTS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 44
+  rareDrop: false
+  sendToBank: false
+- item: WATER_RUNE
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: EARTH_RUNE
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: UNLIT_TORCH
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: OIL_LANTERN_FRAME
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: GOLD_BAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false

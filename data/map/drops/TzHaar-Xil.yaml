@@ -1,0 +1,65 @@
+npcId:
+- 2167
+- 2168
+- 2169
+- 2170
+- 2171
+- 2172
+petItem: "null"
+petRarity: 0
+alwaysDrops: []
+drops:
+- item: TOKTZXILUL
+  minimumAmount: 9
+  maximumAmount: 29
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: TOKTZXILAK
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: TOKTZXILEK
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: OBSIDIAN_CAPE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: TOKKUL
+  minimumAmount: 1
+  maximumAmount: 57
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_SAPPHIRE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_EMERALD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_RUBY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: UNCUT_DIAMOND
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 32
+  rareDrop: false
+  sendToBank: false

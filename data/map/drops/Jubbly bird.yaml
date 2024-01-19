@@ -1,0 +1,24 @@
+npcId:
+- 4863
+petItem: "null"
+petRarity: 0
+alwaysDrops: []
+drops:
+- item: BIG_BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: RAW_JUBBLY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: FEATHER
+  minimumAmount: 25
+  maximumAmount: 32
+  chance: 3
+  rareDrop: false
+  sendToBank: false

@@ -1,0 +1,54 @@
+npcId:
+- 3615
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: IRON_AXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: IRON_MED_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: IRON_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 30
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_RUNE
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: WATER_RUNE
+  minimumAmount: 9
+  maximumAmount: 9
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: AIR_RUNE
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: BRONZE_BAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 3
+  rareDrop: false
+  sendToBank: false

@@ -1,0 +1,20 @@
+npcId:
+- 2946
+- 2947
+- 2948
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: BIG_BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: NAIL_BEAST_NAILS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops: []

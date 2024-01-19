@@ -1,0 +1,42 @@
+npcId:
+- 6619
+petItem: PET_CHAOS_ELEMENTAL
+petRarity: 1000
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 250
+  maximumAmount: 30000
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: PET_CHAOS_ELEMENTAL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1000
+  rareDrop: false
+  sendToBank: false
+- item: BLESSED_SPIRIT_SHIELD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 7
+  rareDrop: false
+  sendToBank: false
+- item: ODIUM_WARD_12807
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: MALEDICTION_WARD_12806
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 5
+  rareDrop: false
+  sendToBank: false

@@ -1,0 +1,49 @@
+npcId:
+- 5330
+- 5331
+- 5332
+- 5333
+- 5336
+- 5337
+- 5338
+- 5339
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: MINING_HELMET
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 2
+  rareDrop: false
+  sendToBank: false
+- item: TINDERBOX
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 4
+  rareDrop: false
+  sendToBank: false
+- item: IRON_ORE
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: IRON_ORE
+  minimumAmount: 7
+  maximumAmount: 7
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: SILVER_ORE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 38
+  rareDrop: false
+  sendToBank: false

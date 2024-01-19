@@ -1,0 +1,18 @@
+npcId:
+- 2648
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: BLAMISH_BARK_SHELL
+  minimumAmount: 1
+  maximumAmount: 10
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: LEAN_SNAIL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops: []

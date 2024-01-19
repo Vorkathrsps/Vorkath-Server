@@ -1,0 +1,43 @@
+npcId:
+- 3129
+- 6495
+petItem: PET_KRIL_TSUTSAROTH
+petRarity: 1000
+alwaysDrops:
+- item: COINS_995
+  minimumAmount: 250
+  maximumAmount: 25300
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: PET_KRIL_TSUTSAROTH
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1000
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 150
+  maximumAmount: 300
+  chance: 3
+  rareDrop: false
+  sendToBank: false
+- item: ZAMORAKIAN_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: ZAMORAK_GODSWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: STAFF_OF_THE_DEAD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 11
+  rareDrop: false
+  sendToBank: false

@@ -1,0 +1,72 @@
+npcId:
+- 6593
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: LAVA_DRAGON_BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: BLACK_DRAGONHIDE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: LAVA_SCALE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: NOTED_ANGLERFISH
+  minimumAmount: 10
+  maximumAmount: 30
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_DIVINE_SUPER_COMBAT_POTION4
+  minimumAmount: 2
+  maximumAmount: 10
+  chance: 11
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_ANTI-VENOM+4
+  minimumAmount: 5
+  maximumAmount: 10
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_SUPER_ANTIFIRE_POTION4
+  minimumAmount: 2
+  maximumAmount: 10
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_BOOTS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: AMULET_OF_FURY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: DRAGONFIRE_SHIELD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 37
+  rareDrop: false
+  sendToBank: false
+- item: GOLDEN_KEY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 562
+  rareDrop: false
+  sendToBank: false

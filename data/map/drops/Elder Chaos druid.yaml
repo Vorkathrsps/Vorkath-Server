@@ -1,0 +1,66 @@
+npcId:
+- 6607
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: NOTED_DARK_CRAB
+  minimumAmount: 5
+  maximumAmount: 10
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_SANFEW_SERUM4
+  minimumAmount: 2
+  maximumAmount: 10
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_ANTIDOTE++4
+  minimumAmount: 2
+  maximumAmount: 10
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_SUPER_COMBAT_POTION4
+  minimumAmount: 2
+  maximumAmount: 10
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: ZAMORAK_MONK_TOP
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: ZAMORAK_MONK_BOTTOM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: ELDER_CHAOS_HOOD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 50
+  rareDrop: false
+  sendToBank: false
+- item: ELDER_CHAOS_TOP
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 50
+  rareDrop: false
+  sendToBank: false
+- item: ELDER_CHAOS_ROBE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 50
+  rareDrop: false
+  sendToBank: false

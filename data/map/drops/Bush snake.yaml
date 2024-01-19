@@ -1,0 +1,13 @@
+npcId:
+- 6102
+- 6103
+petItem: "null"
+petRarity: 0
+alwaysDrops: []
+drops:
+- item: SNAKE_HIDE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false

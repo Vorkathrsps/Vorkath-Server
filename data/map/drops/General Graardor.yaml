@@ -1,0 +1,115 @@
+npcId:
+  - 2215
+  - 6494
+petItem: PET_GENERAL_GRAARDOR
+petRarity: 1000
+alwaysDrops:
+- item: BIG_BONES
+  minimumAmount: 5000
+  maximumAmount: 15000
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+- item: COINS_995
+  minimumAmount: 5000
+  maximumAmount: 15000
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+  - item: PET_GENERAL_GRAARDOR
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 1000
+    rareDrop: false
+    sendToBank: false
+  - item: COINS_995
+    minimumAmount: 25000
+    maximumAmount: 50000
+    chance: 26
+    rareDrop: true
+    sendToBank: false
+  - item: YEW_LOGS
+    minimumAmount: 10
+    maximumAmount: 28
+    chance: 33
+    rareDrop: false
+    sendToBank: false
+  - item: RUNITE_BAR
+    minimumAmount: 3
+    maximumAmount: 6
+    chance: 33
+    rareDrop: false
+    sendToBank: false
+  - item: NOTED_BATTLESTAFF
+    minimumAmount: 1
+    maximumAmount: 5
+    chance: 33
+    rareDrop: false
+    sendToBank: false
+  - item: NOTED_COAL
+    minimumAmount: 30
+    maximumAmount: 60
+    chance: 33
+    rareDrop: false
+    sendToBank: false
+  - item: AMULET_OF_GLORY4
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 33
+    rareDrop: false
+    sendToBank: false
+  - item: NOTED_BLACK_DRAGONHIDE
+    minimumAmount: 5
+    maximumAmount: 10
+    chance: 33
+    rareDrop: false
+    sendToBank: false
+  - item: NOTED_UNCUT_RUBY
+    minimumAmount: 5
+    maximumAmount: 15
+    chance: 33
+    rareDrop: false
+    sendToBank: false
+  - item: NOTED_GRIMY_RANARR_WEED
+    minimumAmount: 2
+    maximumAmount: 6
+    chance: 33
+    rareDrop: false
+    sendToBank: false
+  - item: NOTED_GRIMY_AVANTOE
+    minimumAmount: 2
+    maximumAmount: 6
+    chance: 33
+    rareDrop: false
+    sendToBank: false
+  - item: NOTED_GRIMY_TORSTOL
+    minimumAmount: 2
+    maximumAmount: 6
+    chance: 33
+    rareDrop: false
+    sendToBank: false
+  - item: BANDOS_BOOTS
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 150
+    rareDrop: true
+    sendToBank: false
+  - item: BANDOS_GODSWORD
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 150
+    rareDrop: true
+    sendToBank: false
+  - item: BANDOS_CHESTPLATE
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 150
+    rareDrop: true
+    sendToBank: false
+  - item: BANDOS_TASSETS
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 150
+    rareDrop: true
+    sendToBank: false

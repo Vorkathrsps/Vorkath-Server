@@ -1,0 +1,192 @@
+npcId:
+- 2005
+- 2006
+- 2007
+- 2008
+- 2018
+- 3982
+- 7656
+- 7657
+- 7664
+- 7247
+- 7865
+- 7866
+- 7867
+petItem: "null"
+petRarity: 0
+alwaysDrops:
+- item: ASHES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
+drops:
+- item: STEEL_AXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 17
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_SCIMITAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 23
+  rareDrop: false
+  sendToBank: false
+- item: STEEL_FULL_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 23
+  rareDrop: false
+  sendToBank: false
+- item: BLACK_2H_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 23
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_SQ_SHIELD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 35
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_CHAINBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 70
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_MED_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 212
+  rareDrop: false
+  sendToBank: false
+- item: BLACK_KITESHIELD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 212
+  rareDrop: false
+  sendToBank: false
+- item: BLUE_DHIDE_BODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 212
+  rareDrop: false
+  sendToBank: false
+- item: BLUE_DHIDE_CHAPS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 212
+  rareDrop: false
+  sendToBank: false
+- item: BLUE_DHIDE_VAMBRACES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 212
+  rareDrop: false
+  sendToBank: false
+- item: FIRE_RUNE
+  minimumAmount: 30
+  maximumAmount: 120
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_RUNE
+  minimumAmount: 12
+  maximumAmount: 12
+  chance: 13
+  rareDrop: false
+  sendToBank: false
+- item: DEATH_RUNE
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 40
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_GUAM_LEAF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_TARROMIN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 21
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_MARRENTILL
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 32
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_HARRALANDER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 32
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_RANARR_WEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 32
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_IRIT_LEAF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 64
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_AVANTOE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 64
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_KWUARM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 64
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_CADANTINE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 192
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_LANTADYME
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 192
+  rareDrop: false
+  sendToBank: false
+- item: GRIMY_DWARF_WEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 192
+  rareDrop: false
+  sendToBank: false
+- item: GOLD_ORE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 6
+  rareDrop: false
+  sendToBank: false
+- item: JUG_OF_WINE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 20
+  rareDrop: false
+  sendToBank: false
+- item: ENSOULED_DEMON_HEAD_13502
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 20
+  rareDrop: false
+  sendToBank: false

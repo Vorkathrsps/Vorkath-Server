@@ -7,6 +7,7 @@ import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.object.ObjectManager;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
+import com.cryptic.utility.chainedwork.Chain;
 
 public class IronGates extends PacketInteraction {
 
@@ -200,8 +201,8 @@ public class IronGates extends PacketInteraction {
         GameObject replacement2 = new GameObject(1572, new Tile(3104, 9909), 0, 3);
 
         // Remove objects first
-        ObjectManager.removeObj(gate1);
-        ObjectManager.removeObj(gate2);
+        gate1.setId(-1);
+        gate2.setId(-1);
 
         // Add new objects
         ObjectManager.addObj(replacement1);
@@ -217,9 +218,8 @@ public class IronGates extends PacketInteraction {
         GameObject replacement2 = new GameObject(1569, new Tile(3103, 9909), 0, 2);
 
         // Remove objects first
-        ObjectManager.removeObj(gate1);
-        ObjectManager.removeObj(gate2);
-
+        gate1.setId(-1);
+        gate2.setId(-1);
         // Add new objects
         ObjectManager.addObj(replacement1);
         ObjectManager.addObj(replacement2);
@@ -252,17 +252,9 @@ public class IronGates extends PacketInteraction {
         GameObject openDoor2 = new GameObject(2144, new Tile(2889, 9830, 0), 0, 0);
         GameObject rotateDoor2 = new GameObject(2144, new Tile(2889, 9830, 0), 0, 3);
         ObjectManager.replace(openDoor2, rotateDoor2, 3);
-
-        TaskManager.submit(
-                new TickAndStop(1) {
-
-                    @Override
-                    public void executeAndStop() {
-                        // Walk trough
-                        player.getMovementQueue()
-                                .walkTo(new Tile(player.tile().x == 2888 ? 2889 : 2888, 9830, 0));
-                    }
-                });
+        Chain.noCtx().runFn(1, () -> {
+            player.getMovementQueue().walkTo(new Tile(player.tile().x == 2888 ? 2889 : 2888, 9830, 0));
+        });
     }
 
     private static void openEdgevilleDungeonGate(Player player) {
@@ -335,27 +327,16 @@ public class IronGates extends PacketInteraction {
     private static void openKbdCageGate(Player player, GameObject gate) {
         boolean primary = gate.getId() == 1728; // closed -> 1st door
         // now get the 2nd door next to it, also closed
-        GameObject gate2 =
-                new GameObject(primary ? 1727 : 1728, new Tile(3008, primary ? 3849 : 3850, 0));
+        GameObject gate2 = new GameObject(primary ? 1727 : 1728, new Tile(3008, primary ? 3849 : 3850, 0));
 
         GameObject replacement1 = new GameObject(1571, new Tile(3008, 3849), 0, 3);
         GameObject replacement2 = new GameObject(1572, new Tile(3008, 3850), 0, 1);
 
-        // Shouldn't happen, but you never know!
-        if (gate2 == null) {
-            player.message("This door is stuck...");
-            return;
-        }
+        gate.setId(-1);
+        gate2.setId(-1);
 
-        // Remove old gates
-        ObjectManager.removeObj(gate);
-        ObjectManager.removeObj(gate2);
-
-        // Send new gates
         ObjectManager.addObj(replacement1);
         ObjectManager.addObj(replacement2);
-
-        // TODO we need a cooldown which auto closes gates if no interaction
     }
 
     private static void closeKbdCageGate(Player player, GameObject gate) {
@@ -366,14 +347,9 @@ public class IronGates extends PacketInteraction {
         GameObject replacement1 = new GameObject(1727, new Tile(3008, 3849), 0, 0);
         GameObject replacement2 = new GameObject(1728, new Tile(3008, 3850), 0, 0);
 
-        // Shouldn't happen, but you never know!
-        if (gate2 == null) return;
+        gate.setId(-1);
+        gate2.setId(-1);
 
-        // Remove old objects
-        ObjectManager.removeObj(gate);
-        ObjectManager.removeObj(gate2);
-
-        // Replace
         ObjectManager.addObj(replacement1);
         ObjectManager.addObj(replacement2);
     }

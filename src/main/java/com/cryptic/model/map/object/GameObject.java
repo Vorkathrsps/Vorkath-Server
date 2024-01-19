@@ -476,7 +476,6 @@ public class GameObject {
         } else {
             clip(true);
             this.id = newId;
-            System.out.println(this.id);
             t.checkActive();
             clip(false);
             for (var p : t.getRegion().getPlayers()) {

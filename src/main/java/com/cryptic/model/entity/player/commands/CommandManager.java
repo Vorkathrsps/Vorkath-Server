@@ -4,6 +4,7 @@ import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
+import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.instance.InstancedAreaManager;
 import com.cryptic.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
@@ -643,8 +644,16 @@ public class CommandManager {
             System.out.println(p.hasAttrib(CHOKED));
         });
         dev("c", (p, c, s) -> {
-//            p.getPacketSender().sendInterface(81400);
-//            TradingPost.displayTradeHistory(p);
+            p.getPacketSender().sendEffectTimer(12, EffectTimer.DIVINE_BASTION_POTION);
+            p.getPacketSender().sendEffectTimer(12, EffectTimer.VENGEANCE);
+            p.getPacketSender().sendEffectTimer(12, EffectTimer.MONSTER_RESPAWN);
+            p.getPacketSender().sendEffectTimer(12, EffectTimer.ANTIFIRE);
+            p.getPacketSender().sendEffectTimer(12, EffectTimer.FREEZE);
+            p.getPacketSender().sendEffectTimer(12, EffectTimer.TELEBLOCK);
+        });
+
+        dev("b", (p, c, s) -> {
+            World.getWorld().sendBroadcast("test broadcast");
         });
 
         dev("listings", (p, c, s) -> {

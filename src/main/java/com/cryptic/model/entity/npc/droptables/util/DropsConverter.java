@@ -58,6 +58,7 @@ public class DropsConverter {
                         if (table != null) {
                             double tableChance = table.tableWeight / totalTablesWeight;
                             if (table.items.length == 0) {
+
                             } else {
                                 for (ScalarLootTable.TableItem item : table.items) {
                                     Integer[] drop = new Integer[5];

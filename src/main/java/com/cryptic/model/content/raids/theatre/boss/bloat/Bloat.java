@@ -137,7 +137,8 @@ public class Bloat extends NPC {
                     interpolateTiles = 0;
                 }
                 return;
-            }
+            }//nice man, d,oes it work in-game 1:1? i n yeah wanna try?
+            //imma bout to head out for the night, just ::onehit
 
             int nextX = currentTile.getX() + nextStepDeltaX;
             int nextY = currentTile.getY() + nextStepDeltaY;

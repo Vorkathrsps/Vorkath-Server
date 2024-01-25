@@ -7,6 +7,7 @@ import com.cryptic.model.content.bank_pin.BankPinInterface;
 import com.cryptic.model.content.bank_pin.dialogue.IncorrectBankPinDialogue;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.entity.player.save.PlayerSaves;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
@@ -69,7 +70,7 @@ public final class ConfirmBankPinInterface extends BankPinInterface {
                         player.getBankPin().changePin(hashedPin, pinLength);
                     }
                     player.getInterfaceManager().close();
-                    World.getWorld().ls.savePlayerAsync(player);
+                    PlayerSaves.requestSave(player);
                 });
             });
             return false;

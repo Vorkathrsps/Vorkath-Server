@@ -29,7 +29,7 @@ public class Appearance {
     private int transmog = -1;
     private boolean hide;
     private int[] looks = {0, 10, 18, 26, 33, 36, 42};
-    private short[] colors = new short[6];
+    private short[] colors = new short[5];
 
     public Appearance(Player player) {
         this.player = player;

@@ -4,6 +4,7 @@ import com.cryptic.GameServer;
 import com.cryptic.core.task.Task;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.entity.player.save.PlayerSaves;
 
 /**
  * @author Ynneh
@@ -23,6 +24,6 @@ public class SaveTask extends Task {
             stop();
             return;
         }
-        World.getWorld().ls.savePlayerAsync(player);
+        PlayerSaves.requestSave(player);
     }
 }

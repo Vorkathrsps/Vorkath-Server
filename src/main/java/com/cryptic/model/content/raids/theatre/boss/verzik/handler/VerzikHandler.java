@@ -28,7 +28,7 @@ public class VerzikHandler implements TheatreHandler {
             theatreInstance.getVerzikPillarNpcs().add(npc);
             theatreInstance.getVerzikPillarObjects().add(object);
         }
-    }
+    } //its not fully done yet but peep
 
     @Override
     public int scale(NPC npc, Player player, boolean hardMode) {

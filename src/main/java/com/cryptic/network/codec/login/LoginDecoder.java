@@ -2,14 +2,15 @@ package com.cryptic.network.codec.login;
 
 import com.cryptic.network.NetworkUtils;
 import com.cryptic.network.codec.ByteBufUtils;
-import com.cryptic.network.security.HostBlacklist;
-import com.cryptic.network.security.IsaacRandom;
+import com.cryptic.network.security.*;
 import com.cryptic.utility.Utils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
+import it.unimi.dsi.fastutil.ints.Int2IntMap;
+import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,6 +19,8 @@ import java.net.InetSocketAddress;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Attempts to decode a player's login request.
@@ -26,13 +29,32 @@ import java.util.Random;
  */
 public final class LoginDecoder extends ByteToMessageDecoder {
 
+    private static final int INITIAL_POW_DIFFICULTY = 15;
+
+    private static final Int2IntMap ipToDifficulty = new Int2IntOpenHashMap();
+
+    static {
+        Executors.newSingleThreadScheduledExecutor()
+            .scheduleAtFixedRate(() -> {
+                synchronized (ipToDifficulty) {
+                    for (Int2IntMap.Entry entry : ipToDifficulty.int2IntEntrySet()) {
+                        int ip = entry.getIntKey();
+
+                        int oldDifficulty = entry.getIntValue();
+                        int newDifficulty = oldDifficulty - 1;
+                        if (newDifficulty <= INITIAL_POW_DIFFICULTY) {
+                            ipToDifficulty.remove(ip);
+                        } else {
+                            ipToDifficulty.put(ip, newDifficulty);
+                        }
+                    }
+                }
+            }, 1, 1, TimeUnit.MINUTES);
+    }
+
     private static final Logger logger = LogManager.getLogger(LoginDecoder.class);
 
-    /**
-     * Generates random numbers via secure cryptography. Generates the session key
-     * for packet encryption.
-     */
-    private static final ThreadLocal<Random> secureRandom = ThreadLocal.withInitial(SecureRandom::new);
+    private int proofOfWorkBlockSize;
 
     /**
      * The size of the encrypted data.
@@ -60,10 +82,13 @@ public final class LoginDecoder extends ByteToMessageDecoder {
     protected void decode(ChannelHandlerContext ctx, ByteBuf buffer, List<Object> out) throws Exception {
         switch (state) {
             case LOGIN_REQUEST -> decodeRequest(ctx, buffer);
+            case PROOF_OF_WORK -> decodeProofOfWorkResponse(ctx, buffer);
             case LOGIN_TYPE_AND_SIZE -> decodeTypeAndSize(ctx, buffer);
             case LOGIN -> decodeLogin(ctx, buffer, out);
         }
     }
+
+    private ProofOfWork proofOfWork;
 
     private void decodeRequest(ChannelHandlerContext ctx, ByteBuf buffer) {
         if (!buffer.isReadable()) {
@@ -76,12 +101,54 @@ public final class LoginDecoder extends ByteToMessageDecoder {
             return;
         }
 
-        ByteBuf buf = ctx.alloc().buffer(Byte.BYTES + Long.BYTES);
-        buf.writeByte(0);
-        buf.writeLong(secureRandom.get().nextLong());
+        long serverSeed = ThreadLocalSecureRandom.get().nextLong();
+
+        int ip = IPv4AddressExtensionsKt.ipv4Address(ctx).hashCode();
+        int difficulty;
+        synchronized (ipToDifficulty) {
+            difficulty = ipToDifficulty.get(ip);
+        }
+        if (difficulty == 0) {
+            difficulty = INITIAL_POW_DIFFICULTY;
+        }
+        synchronized (ipToDifficulty) {
+            ipToDifficulty.put(ip, difficulty + 1);
+        }
+        difficulty = 1; //account message seems to be missing somehow now lmfao , the login message where account is still loggged in
+
+        proofOfWork = ProofOfWork.generate(difficulty);
+        byte[] stringBuffer = proofOfWork.getText().getBytes();
+        int stringBufferSize = stringBuffer.length;
+
+        int bufSize = Byte.BYTES + Long.BYTES + (/*1 + */2 + 1 + 1 + 1 + stringBufferSize + 1);
+
+        ByteBuf buf = ctx.alloc().buffer(bufSize, bufSize)
+            .writeByte(0)
+            .writeLong(serverSeed)
+            .writeShort(4 + stringBufferSize) // 4 + 45 = 49
+            .writeByte(0)
+            .writeByte(1)
+            .writeByte(difficulty)
+            .writeBytes(stringBuffer)
+            .writeByte(0);
+
         ctx.writeAndFlush(buf, ctx.voidPromise());
 
-        state = LoginDecoderState.LOGIN_TYPE_AND_SIZE;
+        state = LoginDecoderState.PROOF_OF_WORK;
+    }
+
+    private void decodeProofOfWorkResponse(ChannelHandlerContext ctx, ByteBuf buffer) {
+        if (!buffer.isReadable(2 + 8)) {
+            return;
+        }
+
+        int size = buffer.readUnsignedShort();
+        long nonce = buffer.readLong();
+        if (proofOfWork.validate(nonce)) {
+            state = LoginDecoderState.LOGIN_TYPE_AND_SIZE;
+        } else {
+            sendLoginResponse(ctx, LoginResponses.LOGIN_REJECT_SESSION);
+        }
     }
 
     private void decodeTypeAndSize(ChannelHandlerContext ctx, ByteBuf buffer) {
@@ -122,11 +189,10 @@ public final class LoginDecoder extends ByteToMessageDecoder {
             return;
         }
 
-        int length = buffer.readUnsignedByte();
-        byte[] rsaBytes = new byte[length];
-        buffer.readBytes(rsaBytes);
+        // it's all good, anything in logout?
 
-        ByteBuf rsaBuffer = Unpooled.wrappedBuffer(new BigInteger(rsaBytes).modPow(NetworkUtils.RSA_EXPONENT, NetworkUtils.RSA_MODULUS).toByteArray());
+        int length = buffer.readUnsignedByte();
+        ByteBuf rsaBuffer = Rsa.rsa(buffer.readSlice(length));
 
         int securityId = rsaBuffer.readByte();
 
@@ -135,13 +201,15 @@ public final class LoginDecoder extends ByteToMessageDecoder {
             return;
         }
 
-        int[] clientseed = {rsaBuffer.readInt(), rsaBuffer.readInt(), rsaBuffer.readInt(), (int) rsaBuffer.readInt()};
+        int[] clientseed = {rsaBuffer.readInt(), rsaBuffer.readInt(), rsaBuffer.readInt(), rsaBuffer.readInt()};
         int[] serverKeys = new int[4];
         rsaBuffer.readLong(); //read server seed
+
         IsaacRandom cipher = new IsaacRandom(clientseed);
         for (int i = 0; i < serverKeys.length; i++) {
             serverKeys[i] += 50 + clientseed[i];
         }
+
         IsaacRandom encryption = new IsaacRandom(serverKeys);
         String uid = ByteBufUtils.readString(rsaBuffer);
         String username = Utils.formatText(ByteBufUtils.readString(rsaBuffer));
@@ -164,6 +232,6 @@ public final class LoginDecoder extends ByteToMessageDecoder {
     }
 
     private enum LoginDecoderState {
-        LOGIN_REQUEST, LOGIN_TYPE_AND_SIZE, LOGIN;
+        LOGIN_REQUEST, PROOF_OF_WORK, LOGIN_TYPE_AND_SIZE, LOGIN
     }
 }

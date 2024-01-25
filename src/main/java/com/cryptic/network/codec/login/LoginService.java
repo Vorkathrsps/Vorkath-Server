@@ -4,6 +4,7 @@ import com.cryptic.GameEngine;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.save.PlayerSave;
+import com.cryptic.model.entity.player.save.PlayerSaves;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Sets;
 import java.util.Set;
@@ -69,39 +70,10 @@ public class LoginService implements Service {
         return false;
     }
 
-    /**
-     * blocking operation, runs on current thread
-     *
-     * @param request
-     * @return
-     */
-    public CompletableFuture<Boolean> savePlayerFile(Player request) throws Throwable {
-        final Stopwatch stopwatch = Stopwatch.createUnstarted();
-        stopwatch.start();
-        return PlayerSave.saveAsync(request);
-    }
-
-
-    /**
-     * runs on lowPrio executor
-     *
-     * @param player
-     * @return
-     */
-    public void savePlayerAsync(Player player) {
-        GameEngine.getInstance().submitLowPriority(() -> {
-            try {
-                return savePlayerFile(player);
-            } catch (Throwable e) {
-                throw new RuntimeException(e);
-            }
-        });
-    }
-
     public void saveAllAsync() {
         for (Player player : World.getWorld().getPlayers()) {
             if (player == null) continue;
-            savePlayerAsync(player);
+            PlayerSaves.requestSave(player);
         }
     }
 }

@@ -99,6 +99,7 @@ import com.cryptic.model.entity.player.relations.PlayerRelations;
 import com.cryptic.model.entity.player.rights.MemberRights;
 import com.cryptic.model.entity.player.rights.PlayerRights;
 import com.cryptic.model.entity.player.save.PlayerSave;
+import com.cryptic.model.entity.player.save.PlayerSaves;
 import com.cryptic.model.inter.clan.Clan;
 import com.cryptic.model.inter.clan.ClanManager;
 import com.cryptic.model.inter.dialogue.ChatBoxItemDialogue;
@@ -145,6 +146,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -702,7 +704,7 @@ public class Player extends Entity {
         this.currentTabIndex = index;
     }
 
-    private static final Logger logger = LogManager.getLogger(Player.class);
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(Player.class);
 
     private final PaymentPromo paymentPromo = new PaymentPromo(this);
 
@@ -1339,93 +1341,44 @@ public class Player extends Entity {
         }
         // remove from minigames etc, dont care about sending info to client since it'll logout anyway
 
-        GameEngine.getInstance().addSyncTask(() -> {
-            try {
-                logger.info("Starting save and cleanup task for player: {}", this.getMobName());
+        try {
+            logger.info("Starting save and cleanup task for player: {}", this.getMobName());
 
-                // Perform the save operation asynchronously
-                try {
-                    submitSave(new SaveAttempt());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                // Wait for the save operation to complete
-                try {
-                    if (saveFuture != null) {
-                        saveFuture.get();
-                    }
-                } catch (InterruptedException e) {
-                    logger.error("Error during save operation for player: {}", this.getMobName(), e);
-                }
-
-                // Perform player removal and cleanup
-                try {
-                    logger.info("Removing player: {}", this.getMobName());
-                    onLogout();
-                    World.getWorld().getPlayers().remove(this);
-                    this.onRemove();
-                    logger.info("Player removed successfully: {}", this.getMobName());
-                } catch (Exception e) {
-                    logger.error("Error during player removal and cleanup for player: {}", this.getMobName(), e);
-                }
+            // Perform the save operation asynchronously
+            try {// it's being called, just that logger isn't some reason :P
+                submitSave(() -> {
+                    GameEngine.getInstance().addSyncTask(() -> { //oh ye this isnt even being called
+                        // Perform player removal and cleanup
+                        try {
+                            logger.info("Removing player: {}", this.getMobName());
+                            onLogout();
+                            World.getWorld().getPlayers().remove(this);
+                            this.onRemove();
+                            logger.info("Player removed successfully: {}", this.getMobName());
+                        } catch (Exception e) {
+                            logger.error("Error during player removal and cleanup for player: {}", this.getMobName(), e);
+                        }
+                    });
+                });
             } catch (Exception e) {
-                logger.error("Error in save and cleanup task for player: {}", this.getMobName(), e);
+                e.printStackTrace();
             }
-        });
-
-
-    }
-
-    public static class SaveAttempt {
-        int attempts;
+        } catch (Exception e) {
+            logger.error("Error in save and cleanup task for player: {}", this.getMobName(), e);
+        }
     }
 
     CompletableFuture<Boolean> saveFuture;
 
-    private void submitSave(SaveAttempt saveAttempt) {
-        GameEngine.getInstance().submitLowPriority(() -> {
-            if (!World.getWorld().ls.ONLINE.contains(getMobName().toUpperCase())) {
-                return;
-            }
-
-            try {
-                saveFuture = World.getWorld().ls.savePlayerFile(this);
-            } catch (Throwable e) {
-                throw new RuntimeException(e);
-            }
-
-            try {
-                saveFuture.whenComplete((success, throwable) -> {
-                    if (throwable != null) {
-                        logger.error("Error during save attempt", throwable);
-                        retrySave(saveAttempt);
-                    } else if (!success) {
-                        retrySave(saveAttempt);
-                    } else {
-                        World.getWorld().ls.ONLINE.remove(getMobName().toUpperCase());
-                    }
-                });
-            } catch (Throwable t) {
-                logger.error("Error submitting save task", t);
-                retrySave(saveAttempt);
-            }
-        });
-    }
-
-    private void retrySave(SaveAttempt saveAttempt) {
-        if (saveAttempt.attempts < 5) {
-            try {
-                Thread.sleep(calculateExponentialBackoffTime(saveAttempt.attempts));
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-
-            saveAttempt.attempts++;
-            submitSave(saveAttempt);
-        } else {
-            logger.error("Max retry attempts reached for save");
+    private void submitSave(Runnable whenComplete) {
+        if (!World.getWorld().ls.ONLINE.contains(getMobName().toUpperCase())) {
+            return;
         }
+
+        PlayerSaves.requestSave(this, () -> {
+            World.getWorld().ls.ONLINE.remove(getMobName().toUpperCase());
+            whenComplete.run();
+        });
     }
 
     private long calculateExponentialBackoffTime(int attempts) {
@@ -1604,7 +1557,7 @@ public class Player extends Entity {
             setRunningEnergy(100.0, true);
         }
         updatePlayerPanel(this);
-        message("Welcome " + (newAccount ? "" : "back") + " to " + GameConstants.SERVER_NAME + "!");
+        message("Welcome " + (newAccount ? "" : "back ") + "to " + GameConstants.SERVER_NAME + "!");
         TaskManager.submit(new SaveTask(this));
         this.getEquipment().login();
         if (clanChat != null && !clanChat.isEmpty()) ClanManager.join(this, clanChat);
@@ -1612,6 +1565,8 @@ public class Player extends Entity {
         TopPkers.SINGLETON.checkForReward(this);
         restartTasks();
         auditTabs();
+        getUpdateFlag().flag(Flag.ANIMATION);
+        getUpdateFlag().flag(Flag.APPEARANCE);
     }
 
     private static void handleOnLogin(Player player) {

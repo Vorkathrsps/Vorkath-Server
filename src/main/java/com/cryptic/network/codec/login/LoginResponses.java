@@ -2,6 +2,7 @@ package com.cryptic.network.codec.login;
 
 
 import com.cryptic.GameServer;
+import com.cryptic.model.entity.player.save.PlayerSaves;
 import com.cryptic.services.database.transactions.GetBanStatusDatabaseTransaction;
 import com.cryptic.services.database.transactions.verifyOrInsertUserDatabaseTransaction;
 import com.cryptic.model.World;
@@ -193,7 +194,7 @@ public final class LoginResponses {
 
         if (player.getAttribOr(AttributeKey.NEW_ACCOUNT, false)) {
             // save the profile immediately
-            PlayerSave.saveAsync(player);
+            PlayerSaves.requestSave(player);
         }
         return LOGIN_SUCCESSFUL;
     }

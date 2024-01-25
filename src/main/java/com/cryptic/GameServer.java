@@ -1,5 +1,6 @@
 package com.cryptic;
 
+import com.cryptic.model.entity.player.save.PlayerSaves;
 import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.network.pipeline.Bootstrap;
 import com.cryptic.services.database.DatabaseService;
@@ -194,9 +195,11 @@ public class GameServer {
                 // you CANNOT USE old threads (like ExecutorServices) or the TaskManager system.
                 // here you should directly run code that runs on this single thread. Emergencies only.
                 // P.S log4j wont print to console from here on out.
+                PlayerSaves.processSaves();
+
                 for (Player player : World.getWorld().getPlayers()) {
-                    if (player == null || !player.isRegistered())
-                        continue;
+
+                    if (player == null || !player.isRegistered()) continue;
                     // program quit but there are still active players.
                     // A save request never got triggered or program got terminated ungraciously.
 
@@ -212,6 +215,7 @@ public class GameServer {
                     }
                 }
             }));
+            PlayerSaves.start();
             boundTime = System.currentTimeMillis();
             logger.info("Loaded "+GameConstants.SERVER_NAME+ " " + ((GameServer.properties().pvpMode) ? "in PVP mode " : "in economy mode ") + "on port " + GameServer.properties().gamePort + " version v" + GameServer.properties().gameVersion + ".");
             logger.info("The Bootstrap has been bound, "+GameConstants.SERVER_NAME+ " is now online (it took {}ms).", boundTime - startTime);

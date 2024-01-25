@@ -4,6 +4,7 @@ import com.cryptic.GameServer;
 import com.cryptic.model.content.bank_pin.inter.EnterBankPinInterface;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.entity.player.save.PlayerSaves;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -170,7 +171,7 @@ public final class BankPin {
             pinLength = pendingMod.getPinLength();
             recoveryDays = pendingMod.getRecoveryDays();
             pendingMod = null;
-            World.getWorld().ls.savePlayerAsync(player);
+            PlayerSaves.requestSave(player);
             player.message("Your bank pin settings were successfully changed.");
         }
     }

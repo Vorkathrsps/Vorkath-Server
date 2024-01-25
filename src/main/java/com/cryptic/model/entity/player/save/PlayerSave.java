@@ -127,35 +127,6 @@ public class PlayerSave {
 
     private static final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
-    public static CompletableFuture<Boolean> saveAsync(Player player) {
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                logger.info("Starting save process for player: {}", player.getUsername());
-                player.synchronousSave();
-                player.getFarming().save();
-                logger.info("Save process completed for player: {}", player.getUsername());
-                return true;
-            } catch (final Exception e) {
-                logger.error("Error during save process for player: " + player.getUsername(), e);
-                return false;
-            }
-        }, executor).handle((result, exception) -> {
-            if (exception != null) {
-                if (exception instanceof RuntimeException && exception.getMessage().contains("The process cannot access the file")) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ignored) {
-                    }
-                    return saveAsync(player).join();
-                } else {
-                    throw new RuntimeException("Error during file save: " + exception.getMessage(), exception);
-                }
-            }
-            return result;
-        });
-    }
-
-
     /**
      * Handles saving and loading player's details.
      */
@@ -2019,30 +1990,27 @@ public class PlayerSave {
         }
 
         public void parseDetails() {
-            final String fileName = username + ".json";
-            final Path path = SAVE_DIR.resolve(fileName);
-            Path parent = path.getParent();
-            if (parent == null) {
-                throw new UnsupportedOperationException("Path must have a parent: " + path);
-            }
-
             try {
-                if (!Files.exists(parent)) {
-                    Files.createDirectories(parent);
-                }
-
                 final String json = PlayerSave.SERIALIZE.toJson(this);
 
-                final Path tempFile = Files.createTempFile(parent, fileName, ".tmp");
+                final String fileName = username + ".json";
+                final Path path = SAVE_DIR.resolve(fileName);
 
-                try {
-                    Files.writeString(tempFile, json, StandardCharsets.UTF_8);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                Path parent = path.getParent();
+                if (parent == null) {
+                    throw new UnsupportedOperationException("Path must have a parent: " + path);
                 }
-                if (Files.exists(path)) {
-                    Files.delete(path);
+
+                if (!Files.exists(parent)) {
+                    parent = Files.createDirectories(parent);
                 }
+
+                // all that async shit don't make sense, needs to not be async, just submit save request of username to a queue
+                //can you convert
+
+                final Path tempFile = Files.createTempFile(parent, fileName, ".tmp");
+                Files.writeString(tempFile, json, StandardCharsets.UTF_8);
+
                 Files.move(tempFile, path, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
                 throw new RuntimeException("Error during file save: " + e.getMessage(), e);

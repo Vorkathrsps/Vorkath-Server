@@ -579,7 +579,7 @@ public final class Equipment extends ItemContainer {
             player.getCombat().setPoweredStaffSpell(CombatSpells.TRIDENT_OF_THE_SWAMP.getSpell());
         } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, SANGUINESTI_STAFF)) {
             player.getCombat().setPoweredStaffSpell(CombatSpells.SANGUINESTI_STAFF.getSpell());
-        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
+        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW) || player.getEquipment().hasAt(EquipSlot.WEAPON, CORRUPTED_TUMEKENS_SHADOW)) {
             player.getCombat().setPoweredStaffSpell(CombatSpells.TUMEKENS_SHADOW.getSpell());
         } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, DAWNBRINGER)) {
             player.getCombat().setPoweredStaffSpell(CombatSpells.DAWNBRINGER.getSpell());

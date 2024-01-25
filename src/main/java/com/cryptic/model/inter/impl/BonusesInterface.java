@@ -1,5 +1,6 @@
 package com.cryptic.model.inter.impl;
 
+import com.cryptic.model.entity.combat.formula.FormulaUtils;
 import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.masks.Flag;
@@ -19,6 +20,7 @@ import com.cryptic.utility.Color;
 public class BonusesInterface {
 
     static int bloodMoneyDrop = 0;
+
     public static void showEquipmentInfo(Player player) {
         if (player.locked())
             return;
@@ -27,7 +29,7 @@ public class BonusesInterface {
         sendBonuses(player);
         var target = player.getCombat().getTarget();
 
-        if(target != null && target.isPlayer()) {
+        if (target != null && target.isPlayer()) {
             bloodMoneyDrop = player.bloodMoneyAmount(target.getAsPlayer());
         } else {
             bloodMoneyDrop = player.bloodMoneyAmount(null);
@@ -45,42 +47,38 @@ public class BonusesInterface {
         EquipmentInfo.Bonuses b = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo());
         var dropRateBonus = player.getDropRateBonus();
 
-        player.getPacketSender().sendString(1675, "Stab: " + plusify(b.stab));
-        player.getPacketSender().sendString(1676, "Slash: " + plusify(b.slash));
-        player.getPacketSender().sendString(1677, "Crush: " + plusify(b.crush));
-        player.getPacketSender().sendString(1678, "Magic: " + plusify(b.mage));
-        player.getPacketSender().sendString(1679, "Range: " + plusify(b.range));
+        player.getPacketSender().sendString(1675, "Stab: " + plusify(b.getStab()));
+        player.getPacketSender().sendString(1676, "Slash: " + plusify(b.getSlash()));
+        player.getPacketSender().sendString(1677, "Crush: " + plusify(b.getCrush()));
+        player.getPacketSender().sendString(1678, "Magic: " + plusify(b.getMage()));
+        player.getPacketSender().sendString(1679, "Range: " + plusify(b.getRange()));
 
-        player.getPacketSender().sendString(1680, "Stab: " + plusify(b.stabdef));
-        player.getPacketSender().sendString(1681, "Slash: " + plusify(b.slashdef));
-        player.getPacketSender().sendString(1682, "Crush: " + plusify(b.crushdef));
-        player.getPacketSender().sendString(1683, "Range: " + plusify(b.rangedef));
-        player.getPacketSender().sendString(1684, "Magic: " + plusify(b.magedef));
+        player.getPacketSender().sendString(1680, "Stab: " + plusify(b.getStabdef()));
+        player.getPacketSender().sendString(1681, "Slash: " + plusify(b.getSlashdef()));
+        player.getPacketSender().sendString(1682, "Crush: " + plusify(b.getCrushdef()));
+        player.getPacketSender().sendString(1683, "Range: " + plusify(b.getRangedef()));
+        player.getPacketSender().sendString(1684, "Magic: " + plusify(b.getMagedef()));
 
-        player.getPacketSender().sendString(1686, "Melee strength: " + plusify(b.str));
-        player.getPacketSender().sendString(24751,"Ranged strength: " + plusify(b.rangestr));
-        player.getPacketSender().sendString(24752,"Magic damage: " + plusify(b.magestr) + "%");
+        player.getPacketSender().sendString(1686, "Melee strength: " + plusify(b.getStr()));
+        player.getPacketSender().sendString(24751, "Ranged strength: " + plusify(b.getRangestr()));
+        player.getPacketSender().sendString(24752, "Magic damage: " + plusify(b.getMagestr()) + "%");
 
-        player.getPacketSender().sendString(1687, "Prayer: " + plusify(b.pray));
-        player.getPacketSender().sendString(24754,"Undead: " + plusify(getUndead(player)) + "%");
-        player.getPacketSender().sendString(24755,"Slayer: " + plusify(getSlay(player)) + "%");
-        player.getPacketSender().sendString(24757,"Base: " + plusify(player.getBaseAttackSpeed()) + "s");
+        player.getPacketSender().sendString(1687, "Prayer: " + plusify(b.getPray()));
+        player.getPacketSender().sendString(24754, "Undead: " + plusify(getUndead(player)) + "%");
+        player.getPacketSender().sendString(24755, "Slayer: " + plusify(getSlay(player)) + "%");
+        player.getPacketSender().sendString(24757, "Base: " + plusify(player.getBaseAttackSpeed()) + "s");
         player.getPacketSender().sendString(24774, "BM: " + (bloodMoneyDrop > 0 ? Color.GREEN.wrap(plusify(bloodMoneyDrop)) : plusify(bloodMoneyDrop)));
-        player.getPacketSender().sendString(24775, "DR: " + (dropRateBonus > 0 ? Color.GREEN.wrap(dropRateBonus + "%") : dropRateBonus + "%"));
+        player.getPacketSender().sendString(24775, "Drop Rate: " + (dropRateBonus > 0 ? Color.GREEN.wrap(dropRateBonus + "%") : dropRateBonus + "%"));
     }
 
     public static int getSlay(Player player) {
         int slay = 0;
         Item helmItem = player.getEquipment().get(EquipSlot.HEAD);
         if (helmItem != null) {
-            int helmId = helmItem.getId();
-            String helmName = helmItem.definition(World.getWorld()).name;
-            if (helmId == 11864 || helmId == 19647 || helmId == 19643 || helmId == 19639) { // Normal slayer helm
-                slay += 15;
-            } else if (helmName.startsWith("Black mask")) {
-                slay += 15;
-            } else if (helmName.toLowerCase().contains("slayer helmet (i)")) { // 15% from normal and 15% from imbue
-                slay += 30;
+            if (FormulaUtils.hasSlayerHelmet(player) || FormulaUtils.wearingBlackMask(player)) {
+                slay += 16;
+            } else if (FormulaUtils.hasSlayerHelmetImbued(player)) { // 15% from normal and 15% from imbue
+                slay += 29;
             }
         }
         return slay;
@@ -89,7 +87,7 @@ public class BonusesInterface {
     public static int getUndead(Player player) {
         int undead = 0;
         Item amuletItem = player.getEquipment().get(EquipSlot.AMULET);
-       // System.out.println((amuletItem == null ? "no amulet found" : "amulet found"));
+        // System.out.println((amuletItem == null ? "no amulet found" : "amulet found"));
         if (amuletItem != null) {
             String amuletName = amuletItem.definition(World.getWorld()).name.toLowerCase();
             if (amuletName.equalsIgnoreCase("salve amulet")) {

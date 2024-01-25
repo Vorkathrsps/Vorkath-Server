@@ -18439,6 +18439,12 @@
     "type": 5,
     "showBeard": false
   },
+  "28547": {
+    //tumekkens shadow
+    "slot": 3,
+    "type": 5,
+    "showBeard": false
+  },
   "22516": {
     //Dawnbringer
     "slot": 3,

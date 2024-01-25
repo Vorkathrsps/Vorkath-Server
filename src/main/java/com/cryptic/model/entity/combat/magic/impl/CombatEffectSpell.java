@@ -119,7 +119,7 @@ public abstract class CombatEffectSpell extends CombatSpell {
             else hit.checkAccuracy(true).submit();
             if (hit.isAccurate()) spellEffect(cast, target, hit);
             boolean ancientSpells = cast.isPlayer() && cast.player().getSpellbook() == MagicSpellbook.ANCIENTS;
-            boolean isWearingPoweredStaff = cast.isPlayer() && cast.player().getEquipment().containsAny(TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, SANGUINESTI_STAFF, TUMEKENS_SHADOW, DAWNBRINGER, ACCURSED_SCEPTRE_A);
+            boolean isWearingPoweredStaff = cast.isPlayer() && cast.player().getEquipment().containsAny(TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, SANGUINESTI_STAFF, TUMEKENS_SHADOW, DAWNBRINGER, ACCURSED_SCEPTRE_A, CORRUPTED_TUMEKENS_SHADOW);
             int projectile = -1, startSpeed = -1, startHeight = -1, endHeight = -1, endGraphic = -1, stepMultiplier = -1, duration = -1;
             GraphicHeight startGraphicHeight = GraphicHeight.HIGH;
             GraphicHeight endGraphicHeight = GraphicHeight.HIGH;

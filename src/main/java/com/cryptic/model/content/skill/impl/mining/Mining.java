@@ -26,7 +26,6 @@ import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.ROCKS_
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.ROCKS_11391;
 
 public class Mining extends PacketInteraction {
-    private static final int experience_multiplier = 15;
     private static final int geode_multiplier = 50;
     private static final Set<Integer> GEMS = new HashSet<>(Arrays.asList(
         ItemIdentifiers.UNCUT_SAPPHIRE,

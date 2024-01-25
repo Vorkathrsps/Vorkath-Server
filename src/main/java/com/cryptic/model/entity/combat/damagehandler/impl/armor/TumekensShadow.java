@@ -13,6 +13,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.container.equipment.EquipmentInfo;
 import com.cryptic.utility.ItemIdentifiers;
 
+import static com.cryptic.utility.ItemIdentifiers.CORRUPTED_TUMEKENS_SHADOW;
 import static com.cryptic.utility.ItemIdentifiers.TUMEKENS_SHADOW;
 
 public class TumekensShadow implements DamageEffectListener {
@@ -30,7 +31,7 @@ public class TumekensShadow implements DamageEffectListener {
             EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo());
             if (target instanceof NPC) {
                 if (combatType == CombatType.MAGIC) {
-                    if (equipment.contains(TUMEKENS_SHADOW)) {
+                    if (equipment.containsAny(TUMEKENS_SHADOW, CORRUPTED_TUMEKENS_SHADOW)) {
                         bonus = attackerBonus.mage += Math.min(attackerBonus.mage * 3, attackerBonus.mage * attackerBonus.mage);
                         magicAccuracy.modifier += bonus;
                         return true;

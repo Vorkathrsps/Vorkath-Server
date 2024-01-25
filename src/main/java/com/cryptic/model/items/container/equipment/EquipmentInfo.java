@@ -64,13 +64,10 @@ public class EquipmentInfo {
             int wepid = wep != null ? wep.getId() : -1;
 
             for (int i = 0; i < 14; i++) {
-                if (i == EquipSlot.AMMO && ignoreAmmo) {
-                    continue;
-                }
-
+                if (i == EquipSlot.AMMO && ignoreAmmo) continue;
                 Item equipped = player.getEquipment().get(i);
                 if (equipped != null) {
-                    if (i == EquipSlot.AMMO && ((wepid >= 4212 && wepid <= 4223) || wepid == TOXIC_BLOWPIPE || wepid == 28688)) { // crystal bow /blowpipe ignore ammo
+                    if (i == EquipSlot.AMMO && ((wepid >= 4212 && wepid <= 4223) || wepid == TOXIC_BLOWPIPE || wepid == 28688)) {
                         continue;
                     }
 
@@ -360,6 +357,7 @@ public class EquipmentInfo {
                 case 11706: // Boxing gloves
                     return 3678;
                 case TUMEKENS_SHADOW:
+                case CORRUPTED_TUMEKENS_SHADOW:
                     return 9493;
                 case 12924: // Toxic blowpipe
                 case TOXIC_BLOWPIPE: // Toxic blowpipe
@@ -691,7 +689,7 @@ public class EquipmentInfo {
             case LIGHT_BALLISTA, HEAVY_BALLISTA, HEAVY_BALLISTA_OR -> {
                 return 7219;
             }
-            case 11824, TUMEKENS_SHADOW -> {
+            case 11824, TUMEKENS_SHADOW, CORRUPTED_TUMEKENS_SHADOW -> {
                 return 1709;
             }
             case 20779 -> {

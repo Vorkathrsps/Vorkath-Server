@@ -13,6 +13,8 @@ import com.cryptic.utility.ItemIdentifiers;
 
 import java.lang.ref.WeakReference;
 
+import static com.cryptic.utility.ItemIdentifiers.CORRUPTED_TUMEKENS_SHADOW;
+
 /**
  * @author PVE
  * @Since augustus 26, 2020
@@ -54,7 +56,7 @@ public class AttackPlayerPacketListener implements PacketListener {
             return;
         }
 
-        if (player.getEquipment().containsAny(ItemIdentifiers.TUMEKENS_SHADOW, ItemIdentifiers.TRIDENT_OF_THE_SEAS, ItemIdentifiers.TRIDENT_OF_THE_SEAS_E,
+        if (player.getEquipment().containsAny(CORRUPTED_TUMEKENS_SHADOW,ItemIdentifiers.TUMEKENS_SHADOW, ItemIdentifiers.TRIDENT_OF_THE_SEAS, ItemIdentifiers.TRIDENT_OF_THE_SEAS_E,
             ItemIdentifiers.TRIDENT_OF_THE_SEAS_FULL, ItemIdentifiers.TRIDENT_OF_THE_SWAMP, ItemIdentifiers.TRIDENT_OF_THE_SWAMP_E, ItemIdentifiers.SANGUINESTI_STAFF, ItemIdentifiers.HOLY_SANGUINESTI_STAFF)) {
             player.message(Color.RED.wrap("You cannot attack players with a " + player.getEquipment().getWeapon().name() + "."));
             return;

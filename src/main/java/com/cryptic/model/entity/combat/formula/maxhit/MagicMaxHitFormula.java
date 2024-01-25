@@ -40,7 +40,7 @@ public class MagicMaxHitFormula {
             baseMaxHit += Math.min(baseMaxHit, (magicLevel - 78) / 3);
         } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, ItemIdentifiers.SANGUINESTI_STAFF)) {
             baseMaxHit += Math.min(baseMaxHit, (magicLevel - 81) / 3);
-        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, ItemIdentifiers.TUMEKENS_SHADOW)) {
+        } else if (player.getEquipment().hasAt(EquipSlot.WEAPON, ItemIdentifiers.TUMEKENS_SHADOW) || player.getEquipment().hasAt(EquipSlot.WEAPON, ItemIdentifiers.CORRUPTED_TUMEKENS_SHADOW)) {
             baseMaxHit += Math.min(baseMaxHit, (magicLevel - 84) / 3);
         }
         return baseMaxHit;
@@ -53,7 +53,7 @@ public class MagicMaxHitFormula {
         CombatSpell autoCastSpell = player.getCombat().getAutoCastSpell();
 
         if (player.getCombat().getPoweredStaffSpell() != null && player.getCombat().getCastSpell() == null) {
-            if (player.getEquipment().hasAt(EquipSlot.WEAPON, ItemIdentifiers.TUMEKENS_SHADOW)) {
+            if (player.getEquipment().hasAt(EquipSlot.WEAPON, ItemIdentifiers.TUMEKENS_SHADOW) || player.getEquipment().hasAt(EquipSlot.WEAPON, ItemIdentifiers.CORRUPTED_TUMEKENS_SHADOW)) {
                 mageStrength += Math.floor((double) (player.getSkills().level(Skills.MAGIC) - 1) / 3);
             }
         }

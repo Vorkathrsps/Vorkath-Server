@@ -9,6 +9,7 @@ import com.cryptic.model.entity.combat.magic.spells.CombatSpells;
 import com.cryptic.model.entity.combat.magic.spells.MagicClickSpells;
 import com.cryptic.model.entity.combat.magic.spells.Spell;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.network.packet.Packet;
 import com.cryptic.network.packet.PacketListener;
 import com.cryptic.utility.Color;
@@ -44,6 +45,12 @@ public class MagicOnPlayerPacketListener implements PacketListener {
             //player.stopActions(false);
             if (!player.locked() && !player.dead()) {
                 if (!other.dead()) {
+
+                    if (WildernessArea.inWilderness(other.tile()) && !WildernessArea.inWilderness(player.tile()) || !WildernessArea.inWilderness(other.tile()) && WildernessArea.inWilderness(player.tile())) {
+                        player.stopActions(true);
+                        return;
+                    }
+
                     player.putAttrib(AttributeKey.TARGET, new WeakReference<Entity>(other));
                     player.putAttrib(AttributeKey.INTERACTION_OPTION, 1);
 

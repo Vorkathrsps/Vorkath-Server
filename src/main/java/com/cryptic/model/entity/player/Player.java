@@ -1661,7 +1661,7 @@ public class Player extends Entity {
             this.getCombat().setPoweredStaffSpell(CombatSpells.TRIDENT_OF_THE_SWAMP.getSpell());
         } else if (getEquipment().hasAt(EquipSlot.WEAPON, SANGUINESTI_STAFF)) {
             this.getCombat().setPoweredStaffSpell(CombatSpells.SANGUINESTI_STAFF.getSpell());
-        } else if (getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW)) {
+        } else if (getEquipment().hasAt(EquipSlot.WEAPON, TUMEKENS_SHADOW) || getEquipment().hasAt(EquipSlot.WEAPON, CORRUPTED_TUMEKENS_SHADOW)) {
             this.getCombat().setPoweredStaffSpell(CombatSpells.TUMEKENS_SHADOW.getSpell());
         } else if (getEquipment().hasAt(EquipSlot.WEAPON, DAWNBRINGER)) {
             this.getCombat().setPoweredStaffSpell(CombatSpells.DAWNBRINGER.getSpell());

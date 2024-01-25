@@ -586,7 +586,11 @@ public class NexCombat extends CommonCombatMethod {
         AtomicInteger count = new AtomicInteger(0);
         var possibleTargets = getPossibleTargets(nex);
         int furthestDistance = getFurthestDistanceToPoint(possibleTargets);
-        possibleTargets.stream().filter(p -> !p.hasAttrib(AttributeKey.CHOKED)).filter(p -> !p.getAsPlayer().getEquipment().wearingSlayerHelm()).filter(f -> furthestDistance != 0).filter(p -> p.tile().distanceTo(nex.tile()) == furthestDistance).forEach(p -> {
+        possibleTargets
+            .stream()
+            .filter(p -> !p.hasAttrib(AttributeKey.CHOKED))
+            .filter(p -> !p.getAsPlayer().getEquipment().wearingSlayerHelm())
+            .filter(f -> furthestDistance != 0).filter(p -> p.tile().distanceTo(nex.tile()) == furthestDistance).forEach(p -> {
             nex.forceChat("Let the virus flow through you!");
             p.putAttrib(AttributeKey.CHOKED, true);
             tickChoke(count, p);

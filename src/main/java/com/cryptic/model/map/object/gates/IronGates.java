@@ -24,7 +24,7 @@ public class IronGates extends PacketInteraction {
                 return true;
             } else if (obj.tile().x == 3008
                     && (obj.tile().y == 3849 || obj.tile().y == 3850)) { // open kbd cage gate
-                openKbdCageGate(player, obj);
+                openKbdCageGate(obj);
                 return true;
             } else if (obj.tile().y == 3904
                     && (obj.tile().x == 3225 || obj.tile().x == 3224)) { // open midgate
@@ -104,7 +104,7 @@ public class IronGates extends PacketInteraction {
                 return true;
             } else if (obj.tile().x == 3008
                     && (obj.tile().y == 3849 || obj.tile().y == 3850)) { // close kbd cage gate
-                closeKbdCageGate(player, obj);
+                closeKbdCageGate(obj);
                 return true;
             } else if (obj.tile().y == 3904
                     && (obj.tile().x == 3225 || obj.tile().x == 3224)) { // close midgate
@@ -324,7 +324,7 @@ public class IronGates extends PacketInteraction {
         ObjectManager.addObj(new GameObject(1569, new Tile(3076, 3867), 0, 1));
     }
 
-    private static void openKbdCageGate(Player player, GameObject gate) {
+    private static void openKbdCageGate(GameObject gate) {
         boolean primary = gate.getId() == 1728; // closed -> 1st door
         // now get the 2nd door next to it, also closed
         GameObject gate2 = new GameObject(primary ? 1727 : 1728, new Tile(3008, primary ? 3849 : 3850, 0));
@@ -332,22 +332,19 @@ public class IronGates extends PacketInteraction {
         GameObject replacement1 = new GameObject(1571, new Tile(3008, 3849), 0, 3);
         GameObject replacement2 = new GameObject(1572, new Tile(3008, 3850), 0, 1);
 
-        gate.setId(-1);
         gate2.setId(-1);
 
         ObjectManager.addObj(replacement1);
         ObjectManager.addObj(replacement2);
     }
 
-    private static void closeKbdCageGate(Player player, GameObject gate) {
+    private static void closeKbdCageGate(GameObject gate) {
         boolean primary = gate.getId() == 1572;
-        GameObject gate2 =
-                new GameObject(primary ? 1571 : 1572, new Tile(3008, primary ? 3849 : 3850, 0));
+        GameObject gate2 = new GameObject(primary ? 1571 : 1572, new Tile(3008, primary ? 3849 : 3850, 0));
 
         GameObject replacement1 = new GameObject(1727, new Tile(3008, 3849), 0, 0);
         GameObject replacement2 = new GameObject(1728, new Tile(3008, 3850), 0, 0);
 
-        gate.setId(-1);
         gate2.setId(-1);
 
         ObjectManager.addObj(replacement1);

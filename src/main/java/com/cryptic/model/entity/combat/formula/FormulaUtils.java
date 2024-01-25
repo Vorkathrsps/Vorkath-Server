@@ -11,6 +11,7 @@ import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.ItemIdentifiers;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import static com.cryptic.utility.ItemIdentifiers.*;
 
@@ -300,7 +301,7 @@ public class FormulaUtils {
     private static final int[] BLACK_MASK_IMBUED = new int[]{BLACK_MASK_1_I, BLACK_MASK_2_I, BLACK_MASK_3_I, BLACK_MASK_4_I, BLACK_MASK_5_I, BLACK_MASK_6_I, BLACK_MASK_7_I, BLACK_MASK_8_I, BLACK_MASK_9_I, BLACK_MASK_10_I};
 
     public static boolean wearingBlackMask(Player player) {
-        return Arrays.stream(BLACK_MASK).anyMatch(mask -> player.getEquipment().hasAt(EquipSlot.HEAD, mask));
+        return Arrays.stream(BLACK_MASK).filter(Objects::nonNull).anyMatch(mask -> player.getEquipment().hasAt(EquipSlot.HEAD, mask));
     }
 
     public static boolean hasInfernalAxe(Player player) {
@@ -316,6 +317,6 @@ public class FormulaUtils {
     }
 
     public static boolean wearingBlackMaskImbued(Player player) {
-        return Arrays.stream(BLACK_MASK_IMBUED).anyMatch(mask -> player.getEquipment().hasAt(EquipSlot.HEAD, mask));
+        return Arrays.stream(BLACK_MASK_IMBUED).filter(Objects::nonNull).anyMatch(mask -> player.getEquipment().hasAt(EquipSlot.HEAD, mask));
     }
 }

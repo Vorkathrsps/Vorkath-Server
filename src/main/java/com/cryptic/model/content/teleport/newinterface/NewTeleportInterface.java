@@ -12,7 +12,8 @@ import com.cryptic.model.map.position.Tile;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class NewTeleportInterface {
+public class
+NewTeleportInterface {
 
 
     private final Player player;

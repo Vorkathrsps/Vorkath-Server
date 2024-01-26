@@ -22,8 +22,7 @@ public class IronGates extends PacketInteraction {
             } else if (obj.tile().equals(3071, 3856) || obj.tile().equals(3071, 3857)) {
                 openLavaDragonsGate2();
                 return true;
-            } else if (obj.tile().x == 3008
-                    && (obj.tile().y == 3849 || obj.tile().y == 3850)) { // open kbd cage gate
+            } else if (obj.tile().x == 3008 && (obj.tile().y == 3849 || obj.tile().y == 3850)) { // open kbd cage gate
                 openKbdCageGate(obj);
                 return true;
             } else if (obj.tile().y == 3904

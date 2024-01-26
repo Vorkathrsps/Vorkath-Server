@@ -25,7 +25,7 @@ public class StaffCommand implements Command {
         StringBuilder staffOnline = new StringBuilder("<col=800000>Administrators:");
 
         for (Player staffmember : staff) {
-            if (staffmember.getPlayerRights() == PlayerRights.ADMINISTRATOR || staffmember.getPlayerRights() == PlayerRights.DEVELOPER) {
+            if (staffmember.getPlayerRights() == PlayerRights.ADMINISTRATOR || staffmember.getPlayerRights() == PlayerRights.COMMUNITY_MANAGER) {
                 if (staffmember.getRelations().getStatus() == PlayerRelations.PrivateChatStatus.OFF) // Pm OFF
                     continue;
 

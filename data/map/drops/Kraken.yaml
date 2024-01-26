@@ -1,82 +1,76 @@
 npcId:
 - 494
 petItem: PET_KRAKEN
-petRarity: 1000
+petRarity: 2000
 alwaysDrops:
 - item: COINS_995
   minimumAmount: 200
-  maximumAmount: 250
+  maximumAmount: 2500
   chance: 1
   rareDrop: false
   sendToBank: false
 drops:
-- item: PET_KRAKEN
+- item: TOME_OF_WATER
   minimumAmount: 1
   maximumAmount: 1
-  chance: 1000
+  chance: 130
   rareDrop: false
   sendToBank: false
-- item: NOTED_ANGLERFISH
-  minimumAmount: 10
-  maximumAmount: 30
-  chance: 13
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_DIVINE_SUPER_COMBAT_POTION4
+- item: NOTED_SANFEW_SERUM(4)
   minimumAmount: 2
   maximumAmount: 10
-  chance: 14
+  chance: 12
   rareDrop: false
   sendToBank: false
-- item: NOTED_ANTI-VENOM+4
-  minimumAmount: 5
-  maximumAmount: 10
-  chance: 16
+- item: NOTED_ANTI-VENOM+(4)
+  minimumAmount: 2
+  maximumAmount: 5
+  chance: 12
   rareDrop: false
   sendToBank: false
 - item: NOTED_SUPER_ANTIFIRE_POTION4
   minimumAmount: 2
-  maximumAmount: 10
-  chance: 16
+  maximumAmount: 5
+  chance: 12
   rareDrop: false
   sendToBank: false
-- item: DRAGON_BOOTS
+- item: SHARK
   minimumAmount: 1
-  maximumAmount: 1
-  chance: 21
+  maximumAmount: 2
+  chance: 12
   rareDrop: false
   sendToBank: false
-- item: AMULET_OF_FURY
+- item: RAW_MONKFISH
   minimumAmount: 1
-  maximumAmount: 1
-  chance: 21
+  maximumAmount: 5
+  chance: 12
   rareDrop: false
   sendToBank: false
-- item: AHRIMS_ARMOUR_SET
-  minimumAmount: 1
-  maximumAmount: 1
+- item: RAW_ANGLERFISH
+  minimumAmount: 5
+  maximumAmount: 15
   chance: 24
   rareDrop: false
   sendToBank: false
-- item: ABYSSAL_TENTACLE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 29
-  rareDrop: false
-  sendToBank: false
-- item: STAFF_OF_LIGHT
+- item: WATER_BATTLESTAFF
   minimumAmount: 1
   maximumAmount: 1
   chance: 36
   rareDrop: false
   sendToBank: false
-- item: DRAGONFIRE_WARD
+- item: MYSTIC_WATER_STAFF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 36
+  rareDrop: false
+  sendToBank: false
+- item: MYSTIC_ROBE_TOP
   minimumAmount: 1
   maximumAmount: 1
   chance: 92
   rareDrop: false
   sendToBank: false
-- item: ANCIENT_WYVERN_SHIELD
+- item: MYSTIC_ROBE_BOTTOM
   minimumAmount: 1
   maximumAmount: 1
   chance: 92
@@ -88,15 +82,15 @@ drops:
   chance: 147
   rareDrop: false
   sendToBank: false
-- item: TRIDENT_OF_THE_SEAS
+- item: TRIDENT_OF_THE_SEAS_FULL
   minimumAmount: 1
   maximumAmount: 1
-  chance: 184
+  chance: 400
   rareDrop: false
   sendToBank: false
-- item: TRIDENT_OF_THE_SWAMP
+- item: KRAKEN_TENTACLE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 245
+  chance: 400
   rareDrop: false
   sendToBank: false

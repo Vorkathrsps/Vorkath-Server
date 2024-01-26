@@ -169,7 +169,7 @@ public class DamageSimulators {
             player.putAttrib(AttributeKey.MAC_ADDRESS, "OMEGALUL");
             player.onLogin();
             player.setIndex(1); // presets need to be fuckin registered user
-            player.setPlayerRights(PlayerRights.DEVELOPER);
+            player.setPlayerRights(PlayerRights.COMMUNITY_MANAGER);
             return player;
         }
 

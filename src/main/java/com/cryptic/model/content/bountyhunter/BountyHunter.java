@@ -54,7 +54,7 @@ public class BountyHunter {
 
 
         target.ifPresent(value -> player.getPacketSender().sendString(53723, "Target: <col=65280>" + value.getUsername()));
-        target.ifPresent(value -> player.getPacketSender().sendString(53724, "Level: <col=65280>" + WildernessArea.wildernessLevel(value.tile())));
+        target.ifPresent(value -> player.getPacketSender().sendString(53724, "Level: <col=65280>" + WildernessArea.getWildernessLevel(value.tile())));
         target.ifPresent(value -> {
             Optional<BountyHunterEmblem> emblem = Arrays.stream(BountyHunterEmblem.values())
                 .filter(bountyHunterEmblem -> player.getInventory().contains(bountyHunterEmblem.getItemId()))
@@ -256,7 +256,7 @@ public class BountyHunter {
 
         Optional<Player> target = getTargetfor(killer);
 
-        if (killer.getPlayerRights().isDeveloper(killer)) {
+        if (killer.getPlayerRights().isCommunityManager(killer)) {
             rewardPlayer = true;
         }
 
@@ -374,7 +374,7 @@ public class BountyHunter {
             return false;
         }
 
-        return !(!p.isRegistered() || !(WildernessArea.inWilderness(p.tile())) || WildernessArea.wildernessLevel(p.tile()) <= 0 || p.isNullifyDamageLock() || p.dead() || p.isNeedsPlacement() || getPairFor(p).isPresent());
+        return !(!p.isRegistered() || !(WildernessArea.inWilderness(p.tile())) || WildernessArea.getWildernessLevel(p.tile()) <= 0 || p.isNullifyDamageLock() || p.dead() || p.isNeedsPlacement() || getPairFor(p).isPresent());
     }
 
     /**

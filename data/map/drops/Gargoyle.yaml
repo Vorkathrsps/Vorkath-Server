@@ -4,64 +4,64 @@ npcId:
 - 1543
 petItem: "null"
 petRarity: 0
-alwaysDrops: []
+alwaysDrops:
+  - item: COINS_995
+    minimumAmount: 1000
+    maximumAmount: 1500
+    chance: 1
+    rareDrop: false
+    sendToBank: false
 drops:
 - item: ADAMANT_PLATELEGS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 8
+  chance: 30
   rareDrop: false
   sendToBank: false
 - item: RUNE_FULL_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 8
+  chance: 30
   rareDrop: false
   sendToBank: false
 - item: ADAMANT_BOOTS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 23
+  chance: 60
   rareDrop: false
   sendToBank: false
 - item: RUNE_2H_SWORD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 35
+  chance: 60
   rareDrop: false
   sendToBank: false
 - item: RUNE_BATTLEAXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 35
+  chance: 100
   rareDrop: false
   sendToBank: false
 - item: RUNE_PLATELEGS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 354
+  chance: 100
   rareDrop: false
   sendToBank: false
 - item: GRANITE_MAUL_24225
   minimumAmount: 1
   maximumAmount: 1
-  chance: 354
+  chance: 200
   rareDrop: false
   sendToBank: false
 - item: MYSTIC_ROBE_TOP_DARK
   minimumAmount: 1
   maximumAmount: 1
-  chance: 354
+  chance: 200
   rareDrop: false
   sendToBank: false
 - item: FIRE_RUNE
   minimumAmount: 75
-  maximumAmount: 75
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: FIRE_RUNE
-  minimumAmount: 150
   maximumAmount: 150
   chance: 12
   rareDrop: false
@@ -81,36 +81,36 @@ drops:
 - item: NOTED_PURE_ESSENCE
   minimumAmount: 150
   maximumAmount: 150
-  chance: 8
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: NOTED_GOLD_ORE
   minimumAmount: 10
   maximumAmount: 20
-  chance: 17
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: NOTED_STEEL_BAR
   minimumAmount: 15
   maximumAmount: 15
-  chance: 17
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: NOTED_GOLD_BAR
   minimumAmount: 10
   maximumAmount: 15
-  chance: 17
+  chance: 25
   rareDrop: false
   sendToBank: false
 - item: NOTED_MITHRIL_BAR
   minimumAmount: 15
   maximumAmount: 15
-  chance: 51
+  chance: 50
   rareDrop: false
   sendToBank: false
 - item: RUNITE_ORE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 51
+  chance: 50
   rareDrop: false
   sendToBank: false

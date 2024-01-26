@@ -248,7 +248,7 @@ public class DeathProcess implements TheatreDeath {
         player.getTimers().cancel(TimerKey.TELEBLOCK_IMMUNITY); //Remove the teleblock immunity timer key
         player.getTimers().cancel(TimerKey.FREEZE_IMMUNITY);
         player.clearAttrib(VETION_ENTRY_FEE);
-        if (!(WildernessArea.wildernessLevel(player.tile()) <= 7) && !player.getTimers().has(TimerKey.RECHARGE_SPECIAL_ATTACK)) {
+        if (!(WildernessArea.getWildernessLevel(player.tile()) <= 7) && !player.getTimers().has(TimerKey.RECHARGE_SPECIAL_ATTACK)) {
             player.restoreSpecialAttack(100); //Set energy to 100%
             player.getTimers().register(TimerKey.RECHARGE_SPECIAL_ATTACK, 150); //Set the value of the timer. Currently 1:30m
         }

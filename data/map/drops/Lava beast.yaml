@@ -10,7 +10,7 @@ drops:
   chance: 1500
   rareDrop: false
   sendToBank: false
-- item: NOTED_ANTI-VENOM+4
+- item: NOTED_ANTI-VENOM+(4)
   minimumAmount: 5
   maximumAmount: 10
   chance: 2

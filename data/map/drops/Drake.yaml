@@ -182,13 +182,13 @@ drops:
 - item: DRAKES_TOOTH
   minimumAmount: 1
   maximumAmount: 1
-  chance: 36
+  chance: 200
   rareDrop: false
   sendToBank: false
 - item: DRAKES_CLAW
   minimumAmount: 1
   maximumAmount: 1
-  chance: 36
+  chance: 200
   rareDrop: false
   sendToBank: false
 - item: DRAGON_THROWNAXE

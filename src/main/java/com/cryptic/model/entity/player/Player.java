@@ -483,7 +483,7 @@ public class Player extends Entity {
         // Apply target's killstreak on our reward. Oh, and our streak.
         bm += shutdownValueOf(target_killstreak); //Add the shutdown value bonus to the BM reward
         bm += killstreakValueOf(killstreak); //Add the killstreak value bonus to the BM reward
-        bm += WildernessArea.wildernessLevel(tile()) * 2; //Add the wilderness level bonus to the reward
+        bm += WildernessArea.getWildernessLevel(tile()) * 2; //Add the wilderness level bonus to the reward
 
         bm += firstKillOfTheDay();
 

@@ -3,46 +3,82 @@ npcId:
 petItem: "null"
 petRarity: 0
 alwaysDrops:
-- item: ASHES
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 1
-  rareDrop: false
-  sendToBank: false
-- item: COINS_995
-  minimumAmount: 1000
-  maximumAmount: 25000
-  chance: 1
-  rareDrop: false
-  sendToBank: false
+  - item: ASHES
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 1
+    rareDrop: false
+    sendToBank: false
+  - item: COINS_995
+    minimumAmount: 1000
+    maximumAmount: 2500
+    chance: 1
+    rareDrop: false
+    sendToBank: false
 drops:
-- item: GUTHANS_HELM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 8
-  rareDrop: false
-  sendToBank: false
-- item: GUTHANS_PLATEBODY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 8
-  rareDrop: false
-  sendToBank: false
-- item: DHAROKS_PLATELEGS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 8
-  rareDrop: false
-  sendToBank: false
-- item: GUTHANS_WARSPEAR
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 8
-  rareDrop: false
-  sendToBank: false
-- item: AMULET_OF_THE_DAMNED_FULL
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 42
-  rareDrop: false
-  sendToBank: false
+  - item: GUTHAN'S_HELM
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 50
+    rareDrop: false
+    sendToBank: false
+  - item: GUTHAN'S_PLATEBODY
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 50
+    rareDrop: false
+    sendToBank: false
+  - item: GUTHAN'S_CHAINSKIRT
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 50
+    rareDrop: false
+    sendToBank: false
+  - item: GUTHAN'S_WARSPEAR
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 50
+    rareDrop: false
+    sendToBank: false
+  - item: AMULET_OF_THE_DAMNED_FULL
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 100
+    rareDrop: false
+    sendToBank: false
+  - item: DEATH_RUNE
+    minimumAmount: 10
+    maximumAmount: 50
+    chance: 10
+    rareDrop: false
+    sendToBank: false
+  - item: BLOOD_RUNE
+    minimumAmount: 10
+    maximumAmount: 50
+    chance: 10
+    rareDrop: false
+    sendToBank: false
+  - item: CHAOS_RUNE
+    minimumAmount: 10
+    maximumAmount: 50
+    chance: 10
+    rareDrop: false
+    sendToBank: false
+  - item: NOTED_SNAPE_GRASS
+    minimumAmount: 1
+    maximumAmount: 5
+    chance: 10
+    rareDrop: false
+    sendToBank: false
+  - item: NOTED_LIMPWURT_ROOT
+    minimumAmount: 1
+    maximumAmount: 5
+    chance: 10
+    rareDrop: false
+    sendToBank: false
+  - item: NOTED_WHITE_BERRIES
+    minimumAmount: 1
+    maximumAmount: 5
+    chance: 10
+    rareDrop: false
+    sendToBank: false

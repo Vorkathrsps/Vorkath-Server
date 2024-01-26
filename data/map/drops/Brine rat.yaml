@@ -58,7 +58,7 @@ drops:
   chance: 96
   rareDrop: false
   sendToBank: false
-- item: RAW_SHARK
+- item: SHARK
   minimumAmount: 1
   maximumAmount: 1
   chance: 96
@@ -66,49 +66,49 @@ drops:
   sendToBank: false
 - item: DEATH_RUNE
   minimumAmount: 7
-  maximumAmount: 7
+  maximumAmount: 70
   chance: 16
   rareDrop: false
   sendToBank: false
 - item: AIR_RUNE
   minimumAmount: 18
-  maximumAmount: 18
+  maximumAmount: 180
   chance: 16
   rareDrop: false
   sendToBank: false
 - item: EARTH_RUNE
   minimumAmount: 10
-  maximumAmount: 10
+  maximumAmount: 100
   chance: 16
   rareDrop: false
   sendToBank: false
 - item: EARTH_RUNE
   minimumAmount: 18
-  maximumAmount: 18
+  maximumAmount: 180
   chance: 16
   rareDrop: false
   sendToBank: false
 - item: EARTH_RUNE
   minimumAmount: 36
-  maximumAmount: 36
+  maximumAmount: 360
   chance: 32
   rareDrop: false
   sendToBank: false
 - item: WATER_RUNE
-  minimumAmount: 10
+  minimumAmount: 100
   maximumAmount: 10
   chance: 32
   rareDrop: false
   sendToBank: false
 - item: WATER_RUNE
   minimumAmount: 18
-  maximumAmount: 18
+  maximumAmount: 180
   chance: 96
   rareDrop: false
   sendToBank: false
 - item: BLOOD_RUNE
   minimumAmount: 4
-  maximumAmount: 4
+  maximumAmount: 40
   chance: 96
   rareDrop: false
   sendToBank: false
@@ -121,6 +121,6 @@ drops:
 - item: BRINE_SABRE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 6
+  chance: 60
   rareDrop: false
   sendToBank: false

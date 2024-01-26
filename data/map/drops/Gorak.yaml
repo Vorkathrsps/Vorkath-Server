@@ -35,15 +35,15 @@ drops:
   chance: 32
   rareDrop: false
   sendToBank: false
-- item: GORAK_CLAWS
+- item: DRAGON_SPEAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 4
+  chance: 64
   rareDrop: false
   sendToBank: false
-- item: NATURE_TALISMAN
+- item: DRAGON_SQ_SHIELD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 4
+  chance: 64
   rareDrop: false
   sendToBank: false

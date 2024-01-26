@@ -15,7 +15,7 @@ public class FillBankCommand implements Command {
 
     @Override
     public void execute(Player player, String command, String[] parts) {
-        if (!GameServer.properties().pvpMode && !player.getPlayerRights().isDeveloper(player)) {
+        if (!GameServer.properties().pvpMode && !player.getPlayerRights().isCommunityManager(player)) {
             return;
         }
         //if (player.ironMode() != IronMode.NONE) {

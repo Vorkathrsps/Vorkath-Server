@@ -11,12 +11,12 @@ public class BankCommandCommand implements Command {
 
     @Override
     public void execute(Player player, String command, String[] parts) {
-        if(!player.getMemberRights().isLegendaryMemberOrGreater(player) && (!player.getPlayerRights().isDeveloper(player) && !GameServer.properties().test)) {
+        if(!player.getMemberRights().isLegendaryMemberOrGreater(player) && (!player.getPlayerRights().isCommunityManager(player) && !GameServer.properties().test)) {
             player.message("You need to be at least a Dragonstone Member to use this command.");
             return;
         }
 
-        if(!player.getPlayerRights().isDeveloper(player) && WildernessArea.isInWilderness(player)) {
+        if(!player.getPlayerRights().isCommunityManager(player) && WildernessArea.isInWilderness(player)) {
             player.message("<col="+ Color.RED.getColorValue()+">You can't use this command here.");
             return;
         }
@@ -26,7 +26,7 @@ public class BankCommandCommand implements Command {
             return;
         }
 
-        if (!player.getPlayerRights().isDeveloper(player) && CombatFactory.inCombat(player)) {
+        if (!player.getPlayerRights().isCommunityManager(player) && CombatFactory.inCombat(player)) {
             player.message("You cannot use this command during combat.");
             return;
         }

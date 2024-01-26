@@ -19,19 +19,19 @@ drops:
 - item: RUNE_BATTLEAXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 13
+  chance: 25
   rareDrop: false
   sendToBank: false
 - item: RUNE_LONGSWORD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 13
+  chance: 25
   rareDrop: false
   sendToBank: false
 - item: RUNE_2H_SWORD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 13
+  chance: 25
   rareDrop: false
   sendToBank: false
 - item: HILL_GIANT_CLUB

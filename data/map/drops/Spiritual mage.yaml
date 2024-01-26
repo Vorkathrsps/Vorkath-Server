@@ -157,7 +157,7 @@ drops:
   chance: 9
   rareDrop: false
   sendToBank: false
-- item: NOTED_ANTIPOISON3
+- item: NOTED_ANTIPOISON(3)
   minimumAmount: 5
   maximumAmount: 5
   chance: 4

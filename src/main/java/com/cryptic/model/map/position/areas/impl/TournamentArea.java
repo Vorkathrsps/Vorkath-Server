@@ -10,7 +10,6 @@ import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.areas.Controller;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author Origin | Zerikoth | PVE
@@ -59,7 +58,7 @@ public class TournamentArea extends Controller {
 
     @Override
     public boolean canTeleport(Player player) {
-        return player.getPlayerRights().isDeveloper(player);
+        return player.getPlayerRights().isCommunityManager(player);
     }
 
     @Override

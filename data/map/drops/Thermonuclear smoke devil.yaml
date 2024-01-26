@@ -1,108 +1,156 @@
 npcId:
 - 499
 petItem: PET_SMOKE_DEVIL
-petRarity: 1000
+petRarity: 2000
 alwaysDrops:
 - item: ASHES
   minimumAmount: 1
   maximumAmount: 1
   chance: 1
+  rareDrop: true
+  sendToBank: false
+drops:
+- item: OCCULT_NECKLACE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 300
+  rareDrop: true
+  sendToBank: false
+- item: SMOKE_BATTLESTAFF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 400
+  rareDrop: true
+  sendToBank: false
+- item: DRAGON_CHAINBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 300
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_ASHES
+  minimumAmount: 200
+  maximumAmount: 1000
+  chance: 15
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_PURE_ESSENCE
+  minimumAmount: 100
+  maximumAmount: 1000
+  chance: 25
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_MOLTEN_GLASS
+  minimumAmount: 100
+  maximumAmount: 200
+  chance: 25
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_MITHRIL_BAR
+  minimumAmount: 10
+  maximumAmount: 30
+  chance: 25
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_COAL
+  minimumAmount: 100
+  maximumAmount: 199
+  chance: 25
+  rareDrop: false
+  sendToBank: false
+- item: TOME_OF_FIRE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 250
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_CHAINBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 32
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_BATTLEAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 32
+  rareDrop: false
+  sendToBank: false
+- item: MYSTIC_AIR_STAFF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 32
+  rareDrop: false
+  sendToBank: false
+- item: MYSTIC_FIRE_STAFF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 32
+  rareDrop: false
+  sendToBank: false
+- item: ANCIENT_STAFF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_SCIMITAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 32
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_SCIMITAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+- item: SMOKE_RUNE
+  minimumAmount: 100
+  maximumAmount: 150
+  chance: 15
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_DAGGER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 15
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_MAGIC_LOGS
+  minimumAmount: 10
+  maximumAmount: 30
+  chance: 32
   rareDrop: false
   sendToBank: false
 - item: COINS_995
-  minimumAmount: 250
-  maximumAmount: 25300
-  chance: 1
+  minimumAmount: 15000
+  maximumAmount: 25000
+  chance: 10
   rareDrop: false
   sendToBank: false
-drops:
-- item: PET_SMOKE_DEVIL
+- item: RUNE_ARROW
+  minimumAmount: 45
+  maximumAmount: 100
+  chance: 32
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_DIAMOND
   minimumAmount: 1
-  maximumAmount: 1
-  chance: 1000
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_ANGLERFISH
-  minimumAmount: 10
-  maximumAmount: 30
-  chance: 17
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_DIVINE_SUPER_COMBAT_POTION4
-  minimumAmount: 2
   maximumAmount: 10
-  chance: 19
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_ANTI-VENOM+4
-  minimumAmount: 5
-  maximumAmount: 10
-  chance: 21
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_SUPER_ANTIFIRE_POTION4
-  minimumAmount: 2
-  maximumAmount: 10
-  chance: 21
-  rareDrop: false
-  sendToBank: false
-- item: INFINITY_BOOTS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: MASTER_WAND
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: AMULET_OF_FURY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 27
-  rareDrop: false
-  sendToBank: false
-- item: GUTHANS_ARMOUR_SET
-  minimumAmount: 1
-  maximumAmount: 1
   chance: 32
   rareDrop: false
   sendToBank: false
-- item: VERACS_ARMOUR_SET
+- item: PRAYER_POTION4
   minimumAmount: 1
-  maximumAmount: 1
+  maximumAmount: 2
   chance: 32
   rareDrop: false
   sendToBank: false
-- item: DHAROKS_ARMOUR_SET
+- item: SUMMER_PIE
   minimumAmount: 1
-  maximumAmount: 1
+  maximumAmount: 3
   chance: 32
-  rareDrop: false
-  sendToBank: false
-- item: TORAGS_ARMOUR_SET
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 32
-  rareDrop: false
-  sendToBank: false
-- item: AHRIMS_ARMOUR_SET
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 32
-  rareDrop: false
-  sendToBank: false
-- item: KARILS_ARMOUR_SET
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 32
-  rareDrop: false
-  sendToBank: false
-- item: MYSTERY_BOX
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 242
   rareDrop: false
   sendToBank: false

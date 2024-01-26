@@ -13,55 +13,55 @@ drops:
 - item: RUNE_AXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 13
+  chance: 15
   rareDrop: false
   sendToBank: false
 - item: ADAMANT_BATTLEAXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 13
+  chance: 15
   rareDrop: false
   sendToBank: false
 - item: MYSTIC_AIR_STAFF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 78
+  chance: 64
   rareDrop: false
   sendToBank: false
 - item: ADAMANT_KITESHIELD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 25
+  chance: 15
   rareDrop: false
   sendToBank: false
 - item: RUNE_SQ_SHIELD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 25
+  chance: 64
   rareDrop: false
   sendToBank: false
 - item: RUNE_CHAINBODY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 25
+  chance: 64
   rareDrop: false
   sendToBank: false
 - item: RUNE_MED_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 50
+  chance: 25
   rareDrop: false
   sendToBank: false
 - item: RUNE_FULL_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 50
+  chance: 25
   rareDrop: false
   sendToBank: false
 - item: RUNE_BOOTS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 150
+  chance: 100
   rareDrop: false
   sendToBank: false
 - item: AIR_RUNE
@@ -145,25 +145,19 @@ drops:
 - item: GRIMY_CADANTINE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 270
+  chance: 90
   rareDrop: false
   sendToBank: false
 - item: GRIMY_LANTADYME
   minimumAmount: 1
   maximumAmount: 1
-  chance: 270
+  chance: 90
   rareDrop: false
   sendToBank: false
 - item: GRIMY_DWARF_WEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 270
-  rareDrop: false
-  sendToBank: false
-- item: BELLADONNA_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 41
+  chance: 90
   rareDrop: false
   sendToBank: false
 - item: AVANTOE_SEED
@@ -181,55 +175,49 @@ drops:
 - item: TOADFLAX_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 62
+  chance: 41
   rareDrop: false
   sendToBank: false
 - item: CADANTINE_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 62
+  chance: 41
   rareDrop: false
   sendToBank: false
 - item: IRIT_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 62
+  chance: 41
   rareDrop: false
   sendToBank: false
 - item: CACTUS_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 62
-  rareDrop: false
-  sendToBank: false
-- item: POISON_IVY_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 124
+  chance: 41
   rareDrop: false
   sendToBank: false
 - item: DWARF_WEED_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 124
+  chance: 64
   rareDrop: false
   sendToBank: false
 - item: LANTADYME_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 124
+  chance: 64
   rareDrop: false
   sendToBank: false
 - item: SNAPDRAGON_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 371
+  chance: 64
   rareDrop: false
   sendToBank: false
 - item: TORSTOL_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 371
+  chance: 128
   rareDrop: false
   sendToBank: false
 - item: TUNA

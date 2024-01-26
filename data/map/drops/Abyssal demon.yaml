@@ -12,14 +12,14 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: AIR_RUNE
-  minimumAmount: 50
+- item: DEATH_RUNE
+  minimumAmount: 25
   maximumAmount: 50
   chance: 27
   rareDrop: false
   sendToBank: false
 - item: BLOOD_RUNE
-  minimumAmount: 1
+  minimumAmount: 20
   maximumAmount: 75
   chance: 27
   rareDrop: false
@@ -97,8 +97,8 @@ drops:
   rareDrop: false
   sendToBank: false
 - item: LAW_RUNE
-  minimumAmount: 3
-  maximumAmount: 35
+  minimumAmount: 10
+  maximumAmount: 45
   chance: 30
   rareDrop: false
   sendToBank: false
@@ -108,61 +108,49 @@ drops:
   chance: 30
   rareDrop: false
   sendToBank: false
-- item: LOBSTER
+- item: PRAYER_POTION1
   minimumAmount: 1
-  maximumAmount: 14
+  maximumAmount: 3
   chance: 30
   rareDrop: false
   sendToBank: false
 - item: NOTED_PURE_ESSENCE
-  minimumAmount: 60
-  maximumAmount: 180
+  minimumAmount: 300
+  maximumAmount: 1000
   chance: 30
   rareDrop: false
   sendToBank: false
-- item: COSMIC_TALISMAN
+- item: DRAGON_MED_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 30
+  chance: 80
   rareDrop: false
   sendToBank: false
-- item: CHAOS_TALISMAN
+- item: ADAMANT_AXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 30
+  chance: 40
   rareDrop: false
   sendToBank: false
-- item: BLACK_SWORD
+- item: ADAMANT_BATTLEAXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 30
+  chance: 40
   rareDrop: false
   sendToBank: false
-- item: BLACK_AXE
+- item: ADAMANT_KITESHIELD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 30
-  rareDrop: false
-  sendToBank: false
-- item: STEEL_BATTLEAXE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 30
-  rareDrop: false
-  sendToBank: false
-- item: MITHRIL_KITESHIELD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 30
+  chance: 40
   rareDrop: false
   sendToBank: false
 - item: ADAMANTITE_BAR
   minimumAmount: 1
-  maximumAmount: 25
+  maximumAmount: 3
   chance: 33
   rareDrop: false
   sendToBank: false
-- item: DEFENCE_POTION3
+- item: SUPER_DEFENCE_POTION3
   minimumAmount: 1
   maximumAmount: 1
   chance: 33
@@ -201,12 +189,12 @@ drops:
 - item: ABYSSAL_WHIP
   minimumAmount: 1
   maximumAmount: 1
-  chance: 271
+  chance: 255
   rareDrop: false
   sendToBank: false
 - item: ABYSSAL_DAGGER
   minimumAmount: 1
   maximumAmount: 1
-  chance: 2716
+  chance: 1000
   rareDrop: false
   sendToBank: false

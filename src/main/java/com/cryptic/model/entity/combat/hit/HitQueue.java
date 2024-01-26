@@ -56,6 +56,13 @@ public class HitQueue {
                         continue;
                     }
 
+                    if (hit.getAttacker() != null) {
+                        if (hit.getAttacker().dead() && !hit.reflected) {
+                            hit.invalidate();
+                            continue;
+                        }
+                    }
+
                     if (hit.getTarget().dead() && !hit.reflected) { //noting here just incase something fks up
                         hit.invalidate();
                         continue;

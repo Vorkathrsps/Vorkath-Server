@@ -152,24 +152,24 @@ drops:
 - item: WRATH_TALISMAN
   minimumAmount: 1
   maximumAmount: 1
-  chance: 6
+  chance: 25
   rareDrop: false
   sendToBank: false
 - item: DRAGON_LIMBS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 48
+  chance: 250
   rareDrop: false
   sendToBank: false
 - item: DRAGON_METAL_LUMP
   minimumAmount: 1
   maximumAmount: 1
-  chance: 48
+  chance: 250
   rareDrop: false
   sendToBank: false
 - item: DRACONIC_VISAGE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 195
+  chance: 1000
   rareDrop: false
   sendToBank: false

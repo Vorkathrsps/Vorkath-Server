@@ -7,20 +7,20 @@ drops:
 - item: ARMADYL_HELMET
   minimumAmount: 1
   maximumAmount: 1
-  chance: 15
-  rareDrop: false
+  chance: 1500
+  rareDrop: true
   sendToBank: false
 - item: ARMADYL_CHESTPLATE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 15
-  rareDrop: false
+  chance: 1500
+  rareDrop: true
   sendToBank: false
 - item: ARMADYL_CHAINSKIRT
   minimumAmount: 1
   maximumAmount: 1
-  chance: 15
-  rareDrop: false
+  chance: 1500
+  rareDrop: true
   sendToBank: false
 - item: MANTA_RAY
   minimumAmount: 2
@@ -55,19 +55,19 @@ drops:
 - item: GODSWORD_SHARD_1
   minimumAmount: 1
   maximumAmount: 1
-  chance: 15
+  chance: 150
   rareDrop: false
   sendToBank: false
 - item: GODSWORD_SHARD_2
   minimumAmount: 1
   maximumAmount: 1
-  chance: 15
+  chance: 150
   rareDrop: false
   sendToBank: false
 - item: GODSWORD_SHARD_3
   minimumAmount: 1
   maximumAmount: 1
-  chance: 15
+  chance: 150
   rareDrop: false
   sendToBank: false
 - item: GRIMY_KWUARM

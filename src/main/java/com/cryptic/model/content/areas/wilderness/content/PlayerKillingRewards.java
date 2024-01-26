@@ -202,7 +202,7 @@ public class PlayerKillingRewards {
         int defenceLevel = killer.getSkills().level(Skills.DEFENCE);
         boolean edgevile = killer.tile().region() == 12343 || killer.tile().region() == 12087;
         boolean revCave = killer.tile().region() == 12701 || killer.tile().region() == 12702 || killer.tile().region() == 12703 || killer.tile().region() == 12957 || killer.tile().region() == 12958 || killer.tile().region() == 12959;
-        boolean above30Wild = WildernessArea.wildernessLevel(killer.tile()) > 30;
+        boolean above30Wild = WildernessArea.getWildernessLevel(killer.tile()) > 30;
         boolean isPure = defenceLevel == 1 && combatLevel >= 80;
         boolean isZerker = defenceLevel == 45 && combatLevel >= 95;
         boolean wearing_body = killer.getEquipment().hasChest();
@@ -246,13 +246,13 @@ public class PlayerKillingRewards {
 
     private static void updateAchievement(Player killer, Player target) {
         // Starter trade prevention
-        if (killer.<Long>getAttribOr(AttributeKey.GAME_TIME, 0L) < 3000L && !killer.getPlayerRights().isDeveloper(killer) && !target.getPlayerRights().isDeveloper(target)) {
+        if (killer.<Long>getAttribOr(AttributeKey.GAME_TIME, 0L) < 3000L && !killer.getPlayerRights().isCommunityManager(killer) && !target.getPlayerRights().isCommunityManager(target)) {
             killer.message("You are restricted from completing achievements until 30 minutes of play time.");
             killer.message("Only " + Math.ceil((int) (3000.0 - killer.<Long>getAttribOr(AttributeKey.GAME_TIME, 0L)) / 100.0) + "minutes left.");
             return;
         }
 
-        if (target.<Long>getAttribOr(AttributeKey.GAME_TIME, 0L) < 3000L && !target.getPlayerRights().isDeveloper(target) && !killer.getPlayerRights().isDeveloper(killer)) {
+        if (target.<Long>getAttribOr(AttributeKey.GAME_TIME, 0L) < 3000L && !target.getPlayerRights().isCommunityManager(target) && !killer.getPlayerRights().isCommunityManager(killer)) {
             killer.message("Your partner is restricted from completing achievements until 30 minutes of play time.");
             killer.message("Only " + Math.ceil((int) (3000.0 - killer.<Long>getAttribOr(AttributeKey.GAME_TIME, 0L)) / 100.0) + "minutes left.");
             return;
@@ -312,13 +312,13 @@ public class PlayerKillingRewards {
             AchievementsManager.activate(killer, Achievements.SURVIVOR_II, 1);
         }
 
-        if (WildernessArea.wildernessLevel(killer.tile()) >= 30) {
+        if (WildernessArea.getWildernessLevel(killer.tile()) >= 30) {
             AchievementsManager.activate(killer, Achievements.DEEP_WILD_I, 1);
             AchievementsManager.activate(killer, Achievements.DEEP_WILD_II, 1);
             AchievementsManager.activate(killer, Achievements.DEEP_WILD_III, 1);
         }
 
-        if (WildernessArea.wildernessLevel(killer.tile()) >= 50) {
+        if (WildernessArea.getWildernessLevel(killer.tile()) >= 50) {
             AchievementsManager.activate(killer, Achievements.EXTREME_DEEP_WILD_I, 1);
             AchievementsManager.activate(killer, Achievements.EXTREME_DEEP_WILD_II, 1);
             AchievementsManager.activate(killer, Achievements.EXTREME_DEEP_WILD_III, 1);

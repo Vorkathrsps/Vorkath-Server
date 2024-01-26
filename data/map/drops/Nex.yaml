@@ -62,7 +62,7 @@ drops:
   chance: 33
   rareDrop: false
   sendToBank: false
-- item: NOTED_ANTIDOTE++4
+- item: NOTED_ANTIDOTE++(4)
   minimumAmount: 2
   maximumAmount: 20
   chance: 33

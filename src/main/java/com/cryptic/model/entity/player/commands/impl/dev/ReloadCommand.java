@@ -7,7 +7,6 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.items.container.sounds.SoundLoader;
 import com.cryptic.utility.loaders.loader.impl.ObjectSpawnDefinitionLoader;
 import com.cryptic.utility.loaders.loader.impl.BloodMoneyPriceLoader;
-import com.cryptic.utility.loaders.loader.impl.PresetLoader;
 import com.cryptic.utility.loaders.loader.impl.ShopLoader;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.commands.Command;
@@ -95,7 +94,7 @@ public class ReloadCommand implements Command {
 
     @Override
     public boolean canUse(Player player) {
-        return (player.getPlayerRights().isDeveloper(player) || player.getUsername().equalsIgnoreCase("Chaotic jr"));
+        return (player.getPlayerRights().isCommunityManager(player));
     }
 
 }

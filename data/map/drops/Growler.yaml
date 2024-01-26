@@ -19,7 +19,7 @@ drops:
 - item: SARADOMIN_SWORD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 55
+  chance: 1000
   rareDrop: false
   sendToBank: false
 - item: STEEL_ARROW
@@ -37,19 +37,19 @@ drops:
 - item: GODSWORD_SHARD_1
   minimumAmount: 1
   maximumAmount: 1
-  chance: 15
+  chance: 150
   rareDrop: false
   sendToBank: false
 - item: GODSWORD_SHARD_2
   minimumAmount: 1
   maximumAmount: 1
-  chance: 15
+  chance: 150
   rareDrop: false
   sendToBank: false
 - item: GODSWORD_SHARD_3
   minimumAmount: 1
   maximumAmount: 1
-  chance: 15
+  chance: 150
   rareDrop: false
   sendToBank: false
 - item: NOTED_SNAPE_GRASS

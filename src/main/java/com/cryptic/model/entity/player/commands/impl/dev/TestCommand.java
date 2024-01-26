@@ -25,7 +25,7 @@ public class TestCommand implements Command {
 
     @Override
     public boolean canUse(Player player) { //kkl
-        return (player.getPlayerRights().isDeveloper(player));
+        return (player.getPlayerRights().isCommunityManager(player));
     }
 
 }

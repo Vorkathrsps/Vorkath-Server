@@ -10,7 +10,7 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: STEEL_DART
+- item: MITHRIL_DART
   minimumAmount: 98
   maximumAmount: 98
   chance: 3
@@ -19,30 +19,30 @@ drops:
 - item: ZAMORAKIAN_SPEAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 18
-  rareDrop: false
+  chance: 1024
+  rareDrop: true
   sendToBank: false
 - item: GODSWORD_SHARD_1
   minimumAmount: 1
   maximumAmount: 1
-  chance: 9
+  chance: 250
   rareDrop: false
   sendToBank: false
 - item: GODSWORD_SHARD_2
   minimumAmount: 1
   maximumAmount: 1
-  chance: 9
+  chance: 250
   rareDrop: false
   sendToBank: false
 - item: GODSWORD_SHARD_3
   minimumAmount: 1
   maximumAmount: 1
-  chance: 9
+  chance: 250
   rareDrop: false
   sendToBank: false
-- item: WINE_OF_ZAMORAK
+- item: NOTED_WINE_OF_ZAMORAK
   minimumAmount: 3
-  maximumAmount: 3
+  maximumAmount: 15
   chance: 16
   rareDrop: false
   sendToBank: false
@@ -58,7 +58,7 @@ drops:
   chance: 16
   rareDrop: false
   sendToBank: false
-- item: STEEL_ARROW
+- item: MITHRIL_ARROW
   minimumAmount: 98
   maximumAmount: 98
   chance: 16
@@ -73,6 +73,6 @@ drops:
 - item: SUPER_ATTACK3
   minimumAmount: 1
   maximumAmount: 1
-  chance: 48
+  chance: 16
   rareDrop: false
   sendToBank: false

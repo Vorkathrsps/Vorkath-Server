@@ -17,19 +17,19 @@ public class TeleToMePlayerCommand implements Command {
             return;
         Optional<Player> plr = World.getWorld().getPlayerByName(command.substring(parts[0].length() + 1));
         if (plr.isPresent()) {
-            if(plr.get().getStatus() == PlayerStatus.TRADING && !player.getPlayerRights().isDeveloper(player)) {
+            if(plr.get().getStatus() == PlayerStatus.TRADING && !player.getPlayerRights().isCommunityManager(player)) {
                 player.message(plr.get().getUsername()+" is in a active trade, you cannot teleport to "+plr.get().getUsername()+".");
                 return;
             }
-            if(plr.get().getStatus() == PlayerStatus.DUELING && !player.getPlayerRights().isDeveloper(player)) {
+            if(plr.get().getStatus() == PlayerStatus.DUELING && !player.getPlayerRights().isCommunityManager(player)) {
                 player.message(plr.get().getUsername()+" is in a active duel, you cannot teleport to "+plr.get().getUsername()+".");
                 return;
             }
-            if(plr.get().getStatus() == PlayerStatus.GAMBLING && !player.getPlayerRights().isDeveloper(player)) {
+            if(plr.get().getStatus() == PlayerStatus.GAMBLING && !player.getPlayerRights().isCommunityManager(player)) {
                 player.message(plr.get().getUsername()+" is in a active gamble, you cannot teleport to "+plr.get().getUsername()+".");
                 return;
             }
-            if(WildernessArea.inWilderness(plr.get().tile()) && CombatFactory.inCombat(plr.get()) && !player.getPlayerRights().isDeveloper(player)) {
+            if(WildernessArea.inWilderness(plr.get().tile()) && CombatFactory.inCombat(plr.get()) && !player.getPlayerRights().isCommunityManager(player)) {
                 player.message(plr.get().getUsername()+" is in the wilderness and in combat, you cannot teleport to "+plr.get().getUsername()+".");
                 return;
             }

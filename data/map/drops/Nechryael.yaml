@@ -14,25 +14,25 @@ drops:
 - item: RUNE_2H_SWORD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 5
+  chance: 25
   rareDrop: false
   sendToBank: false
 - item: ADAMANT_KITESHIELD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 10
+  chance: 25
   rareDrop: false
   sendToBank: false
 - item: ADAMANT_PLATELEGS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 21
+  chance: 25
   rareDrop: false
   sendToBank: false
 - item: RUNE_FULL_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 21
+  chance: 25
   rareDrop: false
   sendToBank: false
 - item: RUNE_BOOTS

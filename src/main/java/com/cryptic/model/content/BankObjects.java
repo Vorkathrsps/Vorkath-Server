@@ -81,10 +81,10 @@ public class BankObjects extends PacketInteraction {
             // Plat tokens, Blood tokens
         } else if (def.id == PLATINUM_TOKEN || def.id == BLOODY_TOKEN) {
             var tokens = def.id;
-            var coins = tokens == BLOODY_TOKEN ? BLOOD_MONEY : COINS_995;
+            var coins = COINS_995;
 
-            var name = coins == COINS_995 ? "coins" : "blood money";
-            var tokensName = tokens == PLATINUM_TOKEN ? "platinum" : "blood";
+            var name = "coins";
+            var tokensName = "platinum";
 
             player.optionsTitled("Exchange your " + tokensName + " tokens for " + name + "?", "Yes", "No", () -> {
                 var amount = player.inventory().count(tokens);

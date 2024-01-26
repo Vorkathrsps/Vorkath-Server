@@ -21,7 +21,7 @@ public class InvulnerableCommand implements Command {
 
     @Override
     public boolean canUse(Player player) {
-        return (player.getPlayerRights().isDeveloper(player));
+        return (player.getPlayerRights().isCommunityManager(player));
     }
 
     /**

@@ -48,7 +48,6 @@ import com.cryptic.model.entity.combat.ranged.RangedData.RangedWeaponType;
 import com.cryptic.model.entity.combat.ranged.requirements.BowReqs;
 import com.cryptic.model.entity.combat.ranged.requirements.CbowReqs;
 import com.cryptic.model.entity.combat.weapon.AttackType;
-import com.cryptic.model.entity.combat.weapon.FightStyle;
 import com.cryptic.model.entity.combat.weapon.WeaponType;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.masks.Flag;
@@ -56,7 +55,6 @@ import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.EquipSlot;
-import com.cryptic.model.entity.player.GameMode;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
@@ -117,7 +115,7 @@ public class CombatFactory {
      */
     public static void check_spec_and_tele(Player player, Entity target) {
         if (target.isPlayer()) {
-            if (WildernessArea.wildernessLevel(target.tile()) >= 1) {
+            if (WildernessArea.getWildernessLevel(target.tile()) >= 1) {
                 Map<Integer, Integer> historyMap = player.getAttribOr(AttributeKey.PVP_WILDY_AGGRESSION_TRACKER, new HashMap<Integer, Integer>());
                 var agroTick = historyMap.getOrDefault(target.getIndex(), World.getWorld().cycleCount());
                 var dif = World.getWorld().cycleCount() - agroTick;
@@ -763,7 +761,7 @@ public class CombatFactory {
      */
     public static void debug(Entity attacker, String s, @Nullable Entity victim, boolean debugMessage) {
         debugMessage = true;
-        boolean print = !GameServer.properties().production && (attacker != null && attacker.isPlayer() && attacker.getAsPlayer().getPlayerRights().isDeveloper(attacker.getAsPlayer())) || (victim != null && victim.isPlayer() && victim.getAsPlayer().getPlayerRights().isDeveloper(victim.getAsPlayer()));
+        boolean print = !GameServer.properties().production && (attacker != null && attacker.isPlayer() && attacker.getAsPlayer().getPlayerRights().isCommunityManager(attacker.getAsPlayer())) || (victim != null && victim.isPlayer() && victim.getAsPlayer().getPlayerRights().isCommunityManager(victim.getAsPlayer()));
         boolean debug = false;
         Player player = null;
         if (attacker != null && attacker.isPlayer()) {
@@ -1691,7 +1689,7 @@ public class CombatFactory {
 
     public static int getLowestLevel(Entity entity, Entity target) {
         var combat = entity.isNpc() ? entity.getAsNpc().def().combatlevel : entity.getSkills().combatLevel();
-        var wilderness = WildernessArea.wildernessLevel(entity.tile());
+        var wilderness = WildernessArea.getWildernessLevel(entity.tile());
         var min = combat - wilderness;
         if (min < 3) {
             min = 3;
@@ -1701,7 +1699,7 @@ public class CombatFactory {
 
     public static int getHighestLevel(Entity entity, Entity target) {
         var combat = entity.isNpc() ? entity.getAsNpc().def().combatlevel : entity.getSkills().combatLevel();
-        var wilderness = WildernessArea.wildernessLevel(entity.tile());
+        var wilderness = WildernessArea.getWildernessLevel(entity.tile());
         var max = combat + wilderness;
         if (max > 126) {
             max = 126;

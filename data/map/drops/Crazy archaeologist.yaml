@@ -11,7 +11,7 @@ alwaysDrops:
   sendToBank: false
 - item: COINS_995
   minimumAmount: 250
-  maximumAmount: 25300
+  maximumAmount: 12000
   chance: 1
   rareDrop: false
   sendToBank: false
@@ -19,18 +19,72 @@ drops:
 - item: ODIUM_SHARD_2
   minimumAmount: 1
   maximumAmount: 1
-  chance: 6
+  chance: 200
   rareDrop: false
   sendToBank: false
 - item: MALEDICTION_SHARD_2
   minimumAmount: 1
   maximumAmount: 1
-  chance: 6
+  chance: 200
   rareDrop: false
   sendToBank: false
 - item: FEDORA
   minimumAmount: 1
   maximumAmount: 1
-  chance: 6
+  chance: 50
+  rareDrop: false
+  sendToBank: false
+- item: PRAYER_POTION3
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: SHARK
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: CANNONBALL
+  minimumAmount: 200
+  maximumAmount: 250
+  chance: 25
+  rareDrop: false
+  sendToBank: false
+- item: AMULET_OF_POWER
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 25
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_CROSSBOW
+  minimumAmount: 2
+  maximumAmount: 2
+  chance: 25
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GRIMY_DWARF_WEED
+  minimumAmount: 4
+  maximumAmount: 5
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GRIMY_CADANTINE
+  minimumAmount: 4
+  maximumAmount: 5
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GRIMY_LANTADYME
+  minimumAmount: 4
+  maximumAmount: 5
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: ONYX_BOLT_TIPS
+  minimumAmount: 12
+  maximumAmount: 15
+  chance: 25
   rareDrop: false
   sendToBank: false

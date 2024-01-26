@@ -304,7 +304,7 @@ public class SlayerRewards {
                 return true;
 
             case BUY_INTERFACE:
-                if (GameServer.properties().debugMode && player.getPlayerRights().isDeveloper(player)) {
+                if (GameServer.properties().debugMode && player.getPlayerRights().isCommunityManager(player)) {
                     player.message("Opening buy interface");
                 }
                 World.getWorld().shop(7).open(player);
@@ -361,7 +361,7 @@ public class SlayerRewards {
                 return true;
 
             case EXTEND_BUTTON:
-                if (GameServer.properties().debugMode && player.getPlayerRights().isDeveloper(player)) {
+                if (GameServer.properties().debugMode && player.getPlayerRights().isCommunityManager(player)) {
                     player.message("Opening extend button");
                 }
 

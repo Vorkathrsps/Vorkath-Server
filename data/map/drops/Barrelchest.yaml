@@ -16,19 +16,13 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: EXPLOSIVE_POTION_23818
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 1000
-  rareDrop: false
-  sendToBank: false
 - item: NOTED_DIVINE_SUPER_COMBAT_POTION4
   minimumAmount: 2
   maximumAmount: 10
   chance: 14
   rareDrop: false
   sendToBank: false
-- item: NOTED_ANTI-VENOM+4
+- item: NOTED_ANTI-VENOM+(4)
   minimumAmount: 5
   maximumAmount: 10
   chance: 16
@@ -80,29 +74,5 @@ drops:
   minimumAmount: 1
   maximumAmount: 1
   chance: 24
-  rareDrop: false
-  sendToBank: false
-- item: ANGER_SWORD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 373
-  rareDrop: false
-  sendToBank: false
-- item: ANGER_BATTLEAXE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 373
-  rareDrop: false
-  sendToBank: false
-- item: ANGER_MACE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 373
-  rareDrop: false
-  sendToBank: false
-- item: GOLDEN_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 373
   rareDrop: false
   sendToBank: false

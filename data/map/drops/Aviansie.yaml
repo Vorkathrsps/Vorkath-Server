@@ -24,19 +24,19 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 - item: FEATHER
-  minimumAmount: 1
-  maximumAmount: 7
+  minimumAmount: 10
+  maximumAmount: 70
   chance: 1
   rareDrop: false
   sendToBank: false
 drops:
 - item: AIR_RUNE
-  minimumAmount: 15
-  maximumAmount: 15
+  minimumAmount: 150
+  maximumAmount: 150
   chance: 15
   rareDrop: false
   sendToBank: false
-- item: AIR_RUNE
+- item: DEATH_RUNE
   minimumAmount: 30
   maximumAmount: 30
   chance: 15
@@ -49,56 +49,56 @@ drops:
   rareDrop: false
   sendToBank: false
 - item: LAW_RUNE
-  minimumAmount: 2
-  maximumAmount: 2
+  minimumAmount: 20
+  maximumAmount: 75
   chance: 31
   rareDrop: false
   sendToBank: false
 - item: NATURE_RUNE
-  minimumAmount: 9
-  maximumAmount: 9
+  minimumAmount: 50
+  maximumAmount: 90
   chance: 31
   rareDrop: false
   sendToBank: false
 - item: MIND_RUNE
-  minimumAmount: 5
-  maximumAmount: 5
+  minimumAmount: 500
+  maximumAmount: 500
   chance: 31
   rareDrop: false
   sendToBank: false
 - item: BLOOD_RUNE
   minimumAmount: 11
-  maximumAmount: 11
+  maximumAmount: 110
   chance: 92
   rareDrop: false
   sendToBank: false
 - item: CHAOS_RUNE
+  minimumAmount: 300
+  maximumAmount: 300
+  chance: 92
+  rareDrop: false
+  sendToBank: false
+- item: ASTRAL_RUNE
+  minimumAmount: 160
+  maximumAmount: 160
+  chance: 92
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_ADAMANTITE_BAR
   minimumAmount: 3
-  maximumAmount: 3
-  chance: 92
-  rareDrop: false
-  sendToBank: false
-- item: CHAOS_RUNE
-  minimumAmount: 16
-  maximumAmount: 16
-  chance: 92
-  rareDrop: false
-  sendToBank: false
-- item: BODY_RUNE
-  minimumAmount: 12
   maximumAmount: 12
-  chance: 92
+  chance: 75
   rareDrop: false
   sendToBank: false
-- item: GRIMY_GUAM_LEAF
-  minimumAmount: 1
-  maximumAmount: 1
+- item: ARROW_SHAFTS
+  minimumAmount: 100
+  maximumAmount: 1000
   chance: 25
   rareDrop: false
   sendToBank: false
-- item: GRIMY_MARRENTILL
-  minimumAmount: 1
-  maximumAmount: 1
+- item: JAVELIN_SHAFTS
+  minimumAmount: 100
+  maximumAmount: 1000
   chance: 25
   rareDrop: false
   sendToBank: false
@@ -194,7 +194,7 @@ drops:
   sendToBank: false
 - item: RUNITE_LIMBS
   minimumAmount: 1
-  maximumAmount: 1
+  maximumAmount: 2
   chance: 54
   rareDrop: false
   sendToBank: false

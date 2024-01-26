@@ -148,15 +148,9 @@ drops:
   chance: 288
   rareDrop: false
   sendToBank: false
-- item: ANCIENT_PAGE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 288
-  rareDrop: false
-  sendToBank: false
 - item: DRACONIC_VISAGE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 2884
+  chance: 1000
   rareDrop: false
   sendToBank: false

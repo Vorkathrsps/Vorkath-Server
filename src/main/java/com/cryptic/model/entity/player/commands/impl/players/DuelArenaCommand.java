@@ -15,7 +15,7 @@ public class DuelArenaCommand implements Command {
 
     @Override
     public void execute(Player player, String command, String[] parts) {
-        if (!GameServer.properties().enableDueling && player.getPlayerRights().isDeveloper(player)) {
+        if (!GameServer.properties().enableDueling && player.getPlayerRights().isCommunityManager(player)) {
             return;
         }
 

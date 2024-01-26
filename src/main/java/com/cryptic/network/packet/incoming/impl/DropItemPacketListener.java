@@ -52,7 +52,7 @@ public class DropItemPacketListener implements PacketListener {
         int interfaceId = packet.readUnsignedShort();
         int slot = packet.readUnsignedShortA();
 
-        if (GameServer.properties().debugMode && player.getPlayerRights().isDeveloper(player)) {
+        if (GameServer.properties().debugMode && player.getPlayerRights().isCommunityManager(player)) {
             player.debugMessage(String.format("drop item / item option 4 - Item: %d Interface: %o Slot: %o", id, interfaceId, slot));
         }
 

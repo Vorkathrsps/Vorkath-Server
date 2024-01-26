@@ -35,7 +35,7 @@ public class FourthItemContainerActionPacketListener implements PacketListener {
             return;
         }
 
-        if (GameServer.properties().debugMode && player.getPlayerRights().isDeveloper(player)) {
+        if (GameServer.properties().debugMode && player.getPlayerRights().isCommunityManager(player)) {
             player.debugMessage(String.format("fourth action, container: %d slot: %d id %d", interfaceId, slot, id));
         }
 

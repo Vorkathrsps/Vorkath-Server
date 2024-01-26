@@ -337,7 +337,7 @@ public class Bank extends ItemContainer {
             return;
         }
 
-        if((player.inActiveTournament() || player.isInTournamentLobby()) && !player.getPlayerRights().isDeveloper(player)) {
+        if((player.inActiveTournament() || player.isInTournamentLobby()) && !player.getPlayerRights().isCommunityManager(player)) {
             player.message(Color.RED.wrap("You can't bank here."));
             return;
         }

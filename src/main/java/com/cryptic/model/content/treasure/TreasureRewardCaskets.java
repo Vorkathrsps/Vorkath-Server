@@ -25,8 +25,6 @@ public class TreasureRewardCaskets {
     private static void reward(Player player, Item casket) {
         if (player.inventory().remove(casket, true)) {
             Rewards.generateReward(player);
-
-            //Add the reward to the players inventory, or bank if no space
             player.clueScrollReward().forEach(item -> {
                 if (item != null) {
                     player.inventory().addOrBank(new Item(item.getId(), item.getAmount()));
@@ -34,13 +32,8 @@ public class TreasureRewardCaskets {
             });
 
             player.message("<col=3300ff>Your treasure is worth around " + NumberFormat.getInstance().format(value(player)) + " BM!</col>");
-
-            //Display the interface
-            //System.out.println(Arrays.toString(player.clueScrollReward().toArray()));
             player.getPacketSender().sendItemOnInterface(6963, player.clueScrollReward().toArray());
             player.getInterfaceManager().open(6960);
-
-            //Clear the clue scroll reward and unlock the player
             player.clearAttrib(AttributeKey.CLUE_SCROLL_REWARD);
         }
     }

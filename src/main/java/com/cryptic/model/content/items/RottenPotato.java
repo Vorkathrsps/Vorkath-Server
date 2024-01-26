@@ -38,7 +38,7 @@ public class RottenPotato extends PacketInteraction {
 
     public static boolean onItemOnMob(Player player, Entity target) {
         // Give you the name and distance to a target
-        if (player.getPlayerRights().isDeveloper(player)) {
+        if (player.getPlayerRights().isCommunityManager(player)) {
 
             logger.info("target {}", target);
             //Debugs.CMB.toggle();
@@ -129,7 +129,7 @@ public class RottenPotato extends PacketInteraction {
     }
 
     public static void onItemOption1(Player player) {
-        if (player.getPlayerRights().isDeveloper(player)) {
+        if (player.getPlayerRights().isCommunityManager(player)) {
             CommandManager.attempt(player, "infhp");
             if (GameServer.properties().production) {
                 potatoChat(player);
@@ -215,7 +215,7 @@ public class RottenPotato extends PacketInteraction {
     }
 
     public static void onItemOption3(Player player) {
-        if (player.getPlayerRights().isDeveloper(player)) {
+        if (player.getPlayerRights().isCommunityManager(player)) {
             //potatoOp3(player);
             if (!GameServer.properties().production) {
                 //CommandManager.attempt(player, "addbotsvorkath 400");
@@ -280,7 +280,7 @@ public class RottenPotato extends PacketInteraction {
     }
 
     public static void onItemOption2(Player player) {
-        if (player.getPlayerRights().isDeveloper(player)) {
+        if (player.getPlayerRights().isCommunityManager(player)) {
             potatoOp2(player);
         }
     }

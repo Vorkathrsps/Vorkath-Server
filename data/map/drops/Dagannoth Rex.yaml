@@ -1,7 +1,7 @@
 npcId:
 - 2267
 petItem: PET_DAGANNOTH_REX
-petRarity: 2000
+petRarity: 1500
 alwaysDrops:
 - item: DAGANNOTH_BONES
   minimumAmount: 1
@@ -16,12 +16,6 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: PET_DAGANNOTH_REX
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 2000
-  rareDrop: false
-  sendToBank: false
 - item: FREMENNIK_BLADE
   minimumAmount: 1
   maximumAmount: 1
@@ -121,19 +115,19 @@ drops:
 - item: BERSERKER_RING
   minimumAmount: 1
   maximumAmount: 1
-  chance: 166
+  chance: 200
   rareDrop: false
   sendToBank: false
 - item: WARRIOR_RING
   minimumAmount: 1
   maximumAmount: 1
-  chance: 166
+  chance: 100
   rareDrop: false
   sendToBank: false
-- item: ADAMANTITE_BAR
+- item: DRAGON_AXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 25
+  chance: 100
   rareDrop: false
   sendToBank: false
 - item: NOTED_MITHRIL_ORE

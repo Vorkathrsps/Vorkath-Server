@@ -66,7 +66,7 @@ public class RiskManagement {
         int roll = Utils.random(REWARD_ROLL);
         //System.out.println("Current roll: "+roll);
 
-        int wild_level = WildernessArea.wildernessLevel(player.tile());
+        int wild_level = WildernessArea.getWildernessLevel(player.tile());
 
         // When we're above level 40 wilderness add 5 on the roll. Thus a better chance to get better rewards.
         if (wild_level > 40) {

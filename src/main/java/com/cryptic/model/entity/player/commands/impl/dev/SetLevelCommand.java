@@ -24,7 +24,7 @@ public class SetLevelCommand implements Command {
                 return;
             }
             // Any equip?
-            if (!player.getPlayerRights().isDeveloper(player)) {
+            if (!player.getPlayerRights().isCommunityManager(player)) {
                 if (skill == Skills.HITPOINTS && lvl < 10) {
                     player.message("Hitpoints cannot go under <col=FF0000>10</col>.");
                     lvl = 10;
@@ -49,6 +49,6 @@ public class SetLevelCommand implements Command {
 
     @Override
     public boolean canUse(Player player) {
-        return player.getPlayerRights().isDeveloper(player);
+        return player.getPlayerRights().isCommunityManager(player);
     }
 }

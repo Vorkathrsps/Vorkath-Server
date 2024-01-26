@@ -52,19 +52,19 @@ drops:
 - item: DRAGON_PLATESKIRT
   minimumAmount: 1
   maximumAmount: 1
-  chance: 1526
+  chance: 100
   rareDrop: false
   sendToBank: false
 - item: DRAGON_PLATELEGS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 1526
+  chance: 100
   rareDrop: false
   sendToBank: false
 - item: GRANITE_LEGS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 1526
+  chance: 100
   rareDrop: false
   sendToBank: false
 - item: AIR_RUNE
@@ -280,6 +280,6 @@ drops:
 - item: DRACONIC_VISAGE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 4557
+  chance: 1000
   rareDrop: false
   sendToBank: false

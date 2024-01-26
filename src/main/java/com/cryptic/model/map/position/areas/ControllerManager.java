@@ -59,7 +59,7 @@ public class ControllerManager {
                 }
             }
             if (controller != null) {
-                //System.out.println(mob.getMobName() + " entering " + controller + " located at " + mob.tile());
+                System.out.println(player.getMobName() + " entering " + controller + " located at " + player.tile());
                 controller.enter(player);
             }
         }

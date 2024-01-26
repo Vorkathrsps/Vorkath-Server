@@ -68,7 +68,7 @@ public class Teleports {
         }
 
         var capLvl = teletype == TeleportType.ABOVE_20_WILD ? 30 : 20;
-        if (WildernessArea.wildernessLevel(player.tile()) > capLvl && (!player.getPlayerRights().isDeveloper(player))) {
+        if (WildernessArea.getWildernessLevel(player.tile()) > capLvl && (!player.getPlayerRights().isCommunityManager(player))) {
 
             if (inform) {
                 player.message("A mysterious force blocks your teleport spell!");
@@ -143,7 +143,7 @@ public class Teleports {
             // Stops players doing ::mb while jumping over, for example, the wildy ditch. This would fly them off into random places.
             return false;
         }
-        if (!player.getPlayerRights().isDeveloper(player)) {
+        if (!player.getPlayerRights().isCommunityManager(player)) {
             if (player.jailed()) {
                 player.message("You can't use commands when Jailed.");
                 return false;

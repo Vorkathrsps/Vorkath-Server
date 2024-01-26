@@ -59,76 +59,70 @@ drops:
 - item: RUNE_LONGSWORD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 75
+  chance: 30
   rareDrop: false
   sendToBank: false
-- item: ADAMANT_DARTP
-  minimumAmount: 16
-  maximumAmount: 16
-  chance: 19
+- item: ADAMANT_DART
+  minimumAmount: 30
+  maximumAmount: 50
+  chance: 15
   rareDrop: false
   sendToBank: false
 - item: ADAMANT_JAVELIN
   minimumAmount: 30
   maximumAmount: 30
-  chance: 19
+  chance: 15
   rareDrop: false
   sendToBank: false
-- item: ADAMANT_JAVELIN
+- item: ADAMANT_DART
   minimumAmount: 60
-  maximumAmount: 60
-  chance: 19
+  maximumAmount: 100
+  chance: 20
   rareDrop: false
   sendToBank: false
 - item: FIRE_RUNE
   minimumAmount: 50
-  maximumAmount: 50
+  maximumAmount: 500
   chance: 19
   rareDrop: false
   sendToBank: false
 - item: RUNE_KNIFE
   minimumAmount: 2
-  maximumAmount: 2
+  maximumAmount: 20
   chance: 19
   rareDrop: false
   sendToBank: false
 - item: AIR_RUNE
   minimumAmount: 75
-  maximumAmount: 75
+  maximumAmount: 750
   chance: 38
   rareDrop: false
   sendToBank: false
 - item: LAW_RUNE
   minimumAmount: 10
-  maximumAmount: 10
+  maximumAmount: 100
   chance: 38
   rareDrop: false
   sendToBank: false
 - item: BLOOD_RUNE
   minimumAmount: 15
-  maximumAmount: 15
-  chance: 114
+  maximumAmount: 150
+  chance: 40
   rareDrop: false
   sendToBank: false
 - item: DRAGON_JAVELIN_HEADS
   minimumAmount: 10
-  maximumAmount: 10
-  chance: 114
+  maximumAmount: 100
+  chance: 50
   rareDrop: false
   sendToBank: false
-- item: ADAMANTITE_BAR
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 6
-  rareDrop: false
-  sendToBank: false
-- item: ADAMANTITE_BAR
+- item: NOTED_ADAMANTITE_BAR
   minimumAmount: 2
-  maximumAmount: 2
+  maximumAmount: 4
   chance: 6
   rareDrop: false
   sendToBank: false
-- item: CHOCOLATE_CAKE
+- item: DRAGONFRUIT_TREE_SEED
   minimumAmount: 1
   maximumAmount: 1
   chance: 54
@@ -137,12 +131,12 @@ drops:
 - item: ENSOULED_DRAGON_HEAD_13511
   minimumAmount: 1
   maximumAmount: 1
-  chance: 109
+  chance: 100
   rareDrop: false
   sendToBank: false
 - item: DRACONIC_VISAGE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 657
+  chance: 1000
   rareDrop: false
   sendToBank: false

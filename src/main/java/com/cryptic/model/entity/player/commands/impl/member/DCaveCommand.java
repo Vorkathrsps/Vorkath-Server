@@ -13,7 +13,7 @@ public class DCaveCommand implements Command {
 
     @Override
     public void execute(Player player, String command, String[] parts) {
-        if (WildernessArea.isInWilderness(player) && !player.getPlayerRights().isDeveloper(player)) {
+        if (WildernessArea.isInWilderness(player) && !player.getPlayerRights().isCommunityManager(player)) {
             player.message("You can't use this command in the wilderness.");
             return;
         }

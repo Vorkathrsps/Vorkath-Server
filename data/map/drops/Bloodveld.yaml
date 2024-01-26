@@ -7,7 +7,7 @@ npcId:
 petItem: "null"
 petRarity: 0
 alwaysDrops:
-- item: BONES
+- item: ASHES
   minimumAmount: 1
   maximumAmount: 1
   chance: 1
@@ -41,42 +41,42 @@ drops:
 - item: MITHRIL_CHAINBODY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 38
+  chance: 19
   rareDrop: false
   sendToBank: false
 - item: BLACK_BOOTS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 116
+  chance: 25
   rareDrop: false
   sendToBank: false
 - item: RUNE_MED_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 116
+  chance: 50
   rareDrop: false
   sendToBank: false
 - item: FIRE_RUNE
   minimumAmount: 60
-  maximumAmount: 60
+  maximumAmount: 600
   chance: 7
   rareDrop: false
   sendToBank: false
 - item: BLOOD_RUNE
   minimumAmount: 3
-  maximumAmount: 3
+  maximumAmount: 30
   chance: 14
   rareDrop: false
   sendToBank: false
 - item: BLOOD_RUNE
   minimumAmount: 10
-  maximumAmount: 10
+  maximumAmount: 50
   chance: 44
   rareDrop: false
   sendToBank: false
 - item: BLOOD_RUNE
   minimumAmount: 30
-  maximumAmount: 30
+  maximumAmount: 300
   chance: 44
   rareDrop: false
   sendToBank: false
@@ -125,72 +125,54 @@ drops:
 - item: GRIMY_KWUARM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 100
+  chance: 50
   rareDrop: false
   sendToBank: false
 - item: GRIMY_CADANTINE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 100
+  chance: 50
   rareDrop: false
   sendToBank: false
 - item: GRIMY_LANTADYME
   minimumAmount: 1
   maximumAmount: 1
-  chance: 100
+  chance: 50
   rareDrop: false
   sendToBank: false
 - item: GRIMY_DWARF_WEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 100
+  chance: 50
   rareDrop: false
   sendToBank: false
-- item: BONES
-  minimumAmount: 1
-  maximumAmount: 3
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: BIG_BONES
+- item: GRIMY_TORSTOL_WEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: BIG_BONES
-  minimumAmount: 3
-  maximumAmount: 3
-  chance: 25
-  rareDrop: false
-  sendToBank: false
-- item: BIG_BONES
-  minimumAmount: 4
-  maximumAmount: 4
-  chance: 25
+  chance: 50
   rareDrop: false
   sendToBank: false
 - item: BIG_BONES
   minimumAmount: 5
   maximumAmount: 5
+  chance: 25
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GOLD_ORE
+  minimumAmount: 1
+  maximumAmount: 10
   chance: 50
   rareDrop: false
   sendToBank: false
-- item: GOLD_ORE
+- item: SALMON
   minimumAmount: 1
-  maximumAmount: 1
+  maximumAmount: 3
   chance: 50
-  rareDrop: false
-  sendToBank: false
-- item: MEAT_PIZZA
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 152
   rareDrop: false
   sendToBank: false
 - item: ENSOULED_BLOODVELD_HEAD_13496
   minimumAmount: 1
   maximumAmount: 1
-  chance: 152
+  chance: 75
   rareDrop: false
   sendToBank: false

@@ -826,7 +826,7 @@ public class TradingPost {
             }
 
             //Developers can hold 25 sales by default.
-            if (player.getPlayerRights().isDeveloper(player))
+            if (player.getPlayerRights().isCommunityManager(player))
                 totalSalesAllowed = 25;
 
             if (list.getListedItems().size() >= totalSalesAllowed) {

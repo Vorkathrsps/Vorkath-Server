@@ -35,127 +35,115 @@ drops:
 - item: ADAMANT_FULL_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 90
+  chance: 27
   rareDrop: false
   sendToBank: false
 - item: BLACK_MASK_10
   minimumAmount: 1
   maximumAmount: 1
-  chance: 270
+  chance: 100
   rareDrop: false
   sendToBank: false
-- item: BELLADONNA_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 52
+- item: WATERMELON_SEED
+  minimumAmount: 3
+  maximumAmount: 9
+  chance: 50
   rareDrop: false
   sendToBank: false
-- item: CABBAGE_SEED
+- item: SNAPE_GRASS_SEED
   minimumAmount: 1
   maximumAmount: 3
-  chance: 52
+  chance: 75
   rareDrop: false
   sendToBank: false
 - item: TOADFLAX_SEED
   minimumAmount: 1
-  maximumAmount: 1
-  chance: 52
+  maximumAmount: 3
+  chance: 50
   rareDrop: false
   sendToBank: false
-- item: POTATO_SEED
-  minimumAmount: 1
-  maximumAmount: 4
-  chance: 79
+- item: CABBAGE_SEED
+  minimumAmount: 9
+  maximumAmount: 9
+  chance: 35
   rareDrop: false
   sendToBank: false
 - item: IRIT_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 79
-  rareDrop: false
-  sendToBank: false
-- item: ONION_SEED
-  minimumAmount: 1
-  maximumAmount: 3
-  chance: 79
+  chance: 33
   rareDrop: false
   sendToBank: false
 - item: KWUARM_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 79
+  chance: 33
   rareDrop: false
   sendToBank: false
 - item: POISON_IVY_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 79
+  chance: 33
   rareDrop: false
   sendToBank: false
 - item: CACTUS_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 79
+  chance: 33
   rareDrop: false
   sendToBank: false
 - item: CADANTINE_SEED
   minimumAmount: 1
   maximumAmount: 2
-  chance: 79
+  chance: 33
   rareDrop: false
   sendToBank: false
 - item: STRAWBERRY_SEED
   minimumAmount: 1
-  maximumAmount: 1
-  chance: 79
+  maximumAmount: 12
+  chance: 33
   rareDrop: false
   sendToBank: false
 - item: SWEETCORN_SEED
   minimumAmount: 1
-  maximumAmount: 2
-  chance: 158
+  maximumAmount: 12
+  chance: 33
   rareDrop: false
   sendToBank: false
 - item: AVANTOE_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 158
+  chance: 33
   rareDrop: false
   sendToBank: false
 - item: TOMATO_SEED
   minimumAmount: 1
-  maximumAmount: 2
-  chance: 158
-  rareDrop: false
-  sendToBank: false
-- item: WATERMELON_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 158
+  maximumAmount: 12
+  chance: 33
   rareDrop: false
   sendToBank: false
 - item: SNAPDRAGON_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 158
+  chance: 50
   rareDrop: false
   sendToBank: false
 - item: DWARF_WEED_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 158
+  chance: 50
   rareDrop: false
   sendToBank: false
 - item: LANTADYME_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 475
+  chance: 50
   rareDrop: false
   sendToBank: false
 - item: TORSTOL_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 475
+  chance: 75
   rareDrop: false
   sendToBank: false
 - item: GRIMY_GUAM_LEAF
@@ -185,25 +173,25 @@ drops:
 - item: GRIMY_RANARR_WEED
   minimumAmount: 1
   maximumAmount: 2
-  chance: 68
+  chance: 34
   rareDrop: false
   sendToBank: false
 - item: GRIMY_IRIT_LEAF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 68
+  chance: 34
   rareDrop: false
   sendToBank: false
 - item: GRIMY_AVANTOE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 68
+  chance: 34
   rareDrop: false
   sendToBank: false
 - item: GRIMY_KWUARM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 68
+  chance: 34
   rareDrop: false
   sendToBank: false
 - item: GRIMY_CADANTINE
@@ -215,13 +203,13 @@ drops:
 - item: GRIMY_LANTADYME
   minimumAmount: 1
   maximumAmount: 1
-  chance: 205
+  chance: 68
   rareDrop: false
   sendToBank: false
 - item: GRIMY_DWARF_WEED
   minimumAmount: 1
   maximumAmount: 2
-  chance: 205
+  chance: 68
   rareDrop: false
   sendToBank: false
 - item: NATURE_RUNE
@@ -232,7 +220,7 @@ drops:
   sendToBank: false
 - item: LIMPWURT_ROOT
   minimumAmount: 1
-  maximumAmount: 1
+  maximumAmount: 3
   chance: 17
   rareDrop: false
   sendToBank: false

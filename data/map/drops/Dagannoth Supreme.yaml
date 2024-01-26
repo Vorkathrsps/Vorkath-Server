@@ -17,15 +17,9 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: PET_DAGANNOTH_SUPREME
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 1000
-  rareDrop: false
-  sendToBank: false
 - item: COINS_995
-  minimumAmount: 503
-  maximumAmount: 632
+  minimumAmount: 5030
+  maximumAmount: 6320
   chance: 98
   rareDrop: false
   sendToBank: false
@@ -254,12 +248,12 @@ drops:
 - item: DRAGON_AXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 274
+  chance: 100
   rareDrop: false
   sendToBank: false
 - item: ARCHERS_RING
   minimumAmount: 1
   maximumAmount: 1
-  chance: 305
+  chance: 200
   rareDrop: false
   sendToBank: false

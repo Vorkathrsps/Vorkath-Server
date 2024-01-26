@@ -29,6 +29,6 @@ public class GetIpCommand implements Command {
 
     @Override
     public boolean canUse(Player player) {
-        return (player.getUsername().equalsIgnoreCase("zoo"));
+        return (player.getUsername().equalsIgnoreCase("Origin"));
     }
 }

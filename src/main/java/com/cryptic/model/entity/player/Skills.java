@@ -666,7 +666,7 @@ public class Skills {
                 return false;
             }
 
-            if (GameServer.properties().debugMode && player.getPlayerRights().isDeveloper(player)) {
+            if (GameServer.properties().debugMode && player.getPlayerRights().isCommunityManager(player)) {
                 player.message("Clicked skill: " + skill.toString());
             }
 

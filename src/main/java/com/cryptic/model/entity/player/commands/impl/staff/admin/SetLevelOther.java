@@ -25,7 +25,7 @@ public class SetLevelOther implements Command {
             Optional<Player> plr = World.getWorld().getPlayerByName(username);
             if (plr.isPresent()) {
                 if (player.getHostAddress().equalsIgnoreCase(plr.get().getHostAddress()) &&
-                    !player.getPlayerRights().isDeveloper(player)) {
+                    !player.getPlayerRights().isCommunityManager(player)) {
                     player.message("You can't set levels for yourself or for players on the same IP.");
                     return;
                 }

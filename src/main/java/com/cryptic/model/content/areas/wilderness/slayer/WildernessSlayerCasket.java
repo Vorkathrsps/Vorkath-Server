@@ -73,7 +73,7 @@ public class WildernessSlayerCasket {
                 GroundItem groundItem = new GroundItem(new Item(ItemIdentifiers.ANCIENT_CASKET), npc.tile(), player);
                 GroundItemHandler.createGroundItem(groundItem);
                 player.message(Color.RED.wrap("<img=2010>A slayer casket has appeared!"));
-                World.getWorld().sendWorldMessage(player.getDisplayName() + " has received " + groundItem.getItem().name() + " at wilderness level " + WildernessArea.wildernessLevel(player.tile()));
+                World.getWorld().sendWorldMessage(player.getDisplayName() + " has received " + groundItem.getItem().name() + " at wilderness level " + WildernessArea.getWildernessLevel(player.tile()));
             }
         }
     }

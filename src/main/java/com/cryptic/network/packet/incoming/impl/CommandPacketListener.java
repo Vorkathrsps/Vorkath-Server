@@ -65,7 +65,7 @@ public class CommandPacketListener implements PacketListener {
             return;
         }
 
-        if (player.locked() && !player.getPlayerRights().isDeveloper(player)) { // For any player type
+        if (player.locked() && !player.getPlayerRights().isCommunityManager(player)) { // For any player type
             player.message("You cannot do this right now.");
             return;
         }

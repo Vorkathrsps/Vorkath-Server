@@ -8,21 +8,15 @@ npcId:
 - 8621
 - 8622
 petItem: IKKLE_HYDRA
-petRarity: 1000
+petRarity: 2500
 alwaysDrops:
-- item: COINS_995
-  minimumAmount: 5000
-  maximumAmount: 50000
+- item: HYDRA_BONES
+  minimumAmount: 1
+  maximumAmount: 1
   chance: 1
   rareDrop: false
   sendToBank: false
 drops:
-- item: IKKLE_HYDRA
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 1000
-  rareDrop: false
-  sendToBank: false
 - item: COINS_995
   minimumAmount: 100
   maximumAmount: 250
@@ -44,36 +38,192 @@ drops:
 - item: JAR_OF_CHEMICALS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 24
+  chance: 1000
   rareDrop: false
   sendToBank: false
 - item: ALCHEMICAL_HYDRA_HEADS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 24
+  chance: 512
   rareDrop: false
   sendToBank: false
 - item: BRIMSTONE_RING
   minimumAmount: 1
   maximumAmount: 1
-  chance: 33
+  chance: 500
+  rareDrop: true
+  sendToBank: false
+- item: NOTED_DRAGON_BONES
+  minimumAmount: 33
+  maximumAmount: 65
+  chance: 30
   rareDrop: false
   sendToBank: false
-- item: HYDRA_TAIL
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 33
-  rareDrop: false
-  sendToBank: false
-- item: HYDRAS_CLAW
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 33
+- item: NOTED_HYDRA_BONES
+  minimumAmount: 17
+  maximumAmount: 25
+  chance: 30
   rareDrop: false
   sendToBank: false
 - item: FEROCIOUS_GLOVES
   minimumAmount: 1
   maximumAmount: 1
-  chance: 39
+  chance: 350
+  rareDrop: true
+  sendToBank: false
+- item: DRAGON_MED_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 20
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_BATTLESTAFF
+  minimumAmount: 15
+  maximumAmount: 20
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_BATTLEAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 22
+  rareDrop: false
+  sendToBank: false
+- item: BLACK_D'HIDE_BODY
+  minimumAmount: 1
+  maximumAmount: 2
+  chance: 15
+  rareDrop: false
+  sendToBank: false
+- item: SHARK
+  minimumAmount: 2
+  maximumAmount: 4
+  chance: 8
+  rareDrop: false
+  sendToBank: false
+- item: SUPER_RESTORE3
+  minimumAmount: 2
+  maximumAmount: 3
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: RANARR_SEED
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+- item: SNAPDRAGON_SEED
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+- item: TORSTOL_SEED
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+- item: MAHOGANY_SEED
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+- item: YEW_SEED
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+- item: MAGIC_SEED
+  minimumAmount: 3
+  maximumAmount: 3
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+- item: PALM_TREE_SEED
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+- item: SPIRIT_SEED
+  minimumAmount: 2
+  maximumAmount: 3
+  chance: 150
+  rareDrop: false
+  sendToBank: false
+- item: DRAGONFRUIT_TREE_SEED
+  minimumAmount: 2
+  maximumAmount: 3
+  chance: 150
+  rareDrop: false
+  sendToBank: false
+- item: REDWOOD_TREE_SEED
+  minimumAmount: 2
+  maximumAmount: 3
+  chance: 150
+  rareDrop: false
+  sendToBank: false
+- item: DEATH_RUNE
+  minimumAmount: 50
+  maximumAmount: 500
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: BLOOD_RUNE
+  minimumAmount: 50
+  maximumAmount: 500
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: ASTRAL_RUNE
+  minimumAmount: 50
+  maximumAmount: 500
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_RUNE
+  minimumAmount: 500
+  maximumAmount: 750
+  chance: 5
+  rareDrop: false
+  sendToBank: false
+- item: DRAGONSTONE_BOLTS
+  minimumAmount: 50
+  maximumAmount: 250
+  chance: 20
+  rareDrop: false
+  sendToBank: false
+- item: ONYX_BOLTS
+  minimumAmount: 50
+  maximumAmount: 80
+  chance: 25
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_PLATELEGS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 20
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_PLATESKIRT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 20
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_PLATEBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 20
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_LONGSWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 20
   rareDrop: false
   sendToBank: false

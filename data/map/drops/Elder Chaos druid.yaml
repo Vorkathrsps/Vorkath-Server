@@ -16,13 +16,13 @@ drops:
   chance: 12
   rareDrop: false
   sendToBank: false
-- item: NOTED_SANFEW_SERUM4
+- item: NOTED_SANFEW_SERUM(4)
   minimumAmount: 2
   maximumAmount: 10
   chance: 12
   rareDrop: false
   sendToBank: false
-- item: NOTED_ANTIDOTE++4
+- item: NOTED_ANTIDOTE++(4)
   minimumAmount: 2
   maximumAmount: 10
   chance: 12

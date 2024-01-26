@@ -2,7 +2,7 @@ npcId:
 - 239
 - 6502
 petItem: PRINCE_BLACK_DRAGON
-petRarity: 1000
+petRarity: 1500
 alwaysDrops:
 - item: DRAGON_BONES
   minimumAmount: 1
@@ -17,64 +17,58 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: PRINCE_BLACK_DRAGON
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 1000
-  rareDrop: false
-  sendToBank: false
-- item: NOTED_ANGLERFISH
+- item: NOTED_MANTA_RAY
   minimumAmount: 10
-  maximumAmount: 30
+  maximumAmount: 15
   chance: 12
   rareDrop: false
   sendToBank: false
-- item: NOTED_DIVINE_SUPER_COMBAT_POTION4
+- item: NOTED_RANGING_POTION4
   minimumAmount: 2
   maximumAmount: 10
-  chance: 14
+  chance: 12
   rareDrop: false
   sendToBank: false
-- item: NOTED_ANTI-VENOM+4
-  minimumAmount: 5
+- item: NOTED_ANTI-VENOM+(4)
+  minimumAmount: 2
   maximumAmount: 10
-  chance: 15
+  chance: 12
   rareDrop: false
   sendToBank: false
 - item: NOTED_SUPER_ANTIFIRE_POTION4
   minimumAmount: 2
   maximumAmount: 10
-  chance: 15
+  chance: 12
   rareDrop: false
   sendToBank: false
 - item: DRAGON_BOOTS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 20
+  chance: 125
   rareDrop: false
   sendToBank: false
-- item: AMULET_OF_FURY
+- item: DRAGON_LIMBS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 20
+  chance: 125
   rareDrop: false
   sendToBank: false
-- item: DHAROKS_ARMOUR_SET
+- item: DRAGON_2H_SWORD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 23
+  chance: 100
   rareDrop: false
   sendToBank: false
 - item: DRAGON_PICKAXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 53
+  chance: 125
   rareDrop: false
   sendToBank: false
-- item: DRAGONFIRE_SHIELD
+- item: DRACONIC_VISAGE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 70
+  chance: 1000
   rareDrop: false
   sendToBank: false
 - item: KBD_HEADS
@@ -86,36 +80,84 @@ drops:
 - item: DRAGON_CLAWS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 350
+  chance: 1000
   rareDrop: false
   sendToBank: false
-- item: ARMADYL_GODSWORD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 350
+- item: NOTED_GOLD_BAR
+  minimumAmount: 80
+  maximumAmount: 150
+  chance: 30
   rareDrop: false
   sendToBank: false
-- item: BANDOS_GODSWORD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 100
+- item: COINS_995
+  minimumAmount: 10000
+  maximumAmount: 30000
+  chance: 30
   rareDrop: false
   sendToBank: false
-- item: SARADOMIN_GODSWORD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 100
-  rareDrop: false
-  sendToBank: false
-- item: ZAMORAK_GODSWORD
+- item: DRAGON_CHAINBODY
   minimumAmount: 1
   maximumAmount: 1
   chance: 100
   rareDrop: false
   sendToBank: false
-- item: GOLDEN_KEY
+- item: DRAGON_MED_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 350
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_SQ_SHIELD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_DRAGON_BONES
+  minimumAmount: 3
+  maximumAmount: 10
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANTITE_BOLTS
+  minimumAmount: 10
+  maximumAmount: 40
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: BLACK_D'HIDE_BODY
+  minimumAmount: 1
+  maximumAmount: 2
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_SPEAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_DIAMOND
+  minimumAmount: 12
+  maximumAmount: 19
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_DRAGONSTONE
+  minimumAmount: 1
+  maximumAmount: 2
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_UNCUT_DIAMOND
+  minimumAmount: 4
+  maximumAmount: 8
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_UNCUT_DRAGONSTONE
+  minimumAmount: 1
+  maximumAmount: 2
+  chance: 12
   rareDrop: false
   sendToBank: false

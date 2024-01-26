@@ -11,7 +11,7 @@ alwaysDrops:
   sendToBank: false
 - item: COINS_995
   minimumAmount: 1000
-  maximumAmount: 25000
+  maximumAmount: 2500
   chance: 1
   rareDrop: false
   sendToBank: false
@@ -19,30 +19,66 @@ drops:
 - item: AHRIMS_HOOD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 8
+  chance: 50
   rareDrop: false
   sendToBank: false
 - item: AHRIMS_ROBETOP
   minimumAmount: 1
   maximumAmount: 1
-  chance: 8
+  chance: 50
   rareDrop: false
   sendToBank: false
 - item: AHRIMS_ROBESKIRT
   minimumAmount: 1
   maximumAmount: 1
-  chance: 8
+  chance: 50
   rareDrop: false
   sendToBank: false
 - item: AHRIMS_STAFF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 8
+  chance: 50
   rareDrop: false
   sendToBank: false
 - item: AMULET_OF_THE_DAMNED_FULL
   minimumAmount: 1
   maximumAmount: 1
-  chance: 42
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+- item: DEATH_RUNE
+  minimumAmount: 10
+  maximumAmount: 50
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: BLOOD_RUNE
+  minimumAmount: 10
+  maximumAmount: 50
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: CHAOS_RUNE
+  minimumAmount: 10
+  maximumAmount: 50
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_SNAPE_GRASS
+  minimumAmount: 1
+  maximumAmount: 5
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_LIMPWURT_ROOT
+  minimumAmount: 1
+  maximumAmount: 5
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_WHITE_BERRIES
+  minimumAmount: 1
+  maximumAmount: 5
+  chance: 10
   rareDrop: false
   sendToBank: false

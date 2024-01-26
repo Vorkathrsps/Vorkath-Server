@@ -5,48 +5,6 @@ petItem: "null"
 petRarity: 0
 alwaysDrops: []
 drops:
-- item: OYSTER
-  minimumAmount: 1
-  maximumAmount: 2
-  chance: 10
-  rareDrop: false
-  sendToBank: false
-- item: SEAWEED
-  minimumAmount: 1
-  maximumAmount: 5
-  chance: 10
-  rareDrop: false
-  sendToBank: false
-- item: OYSTER_PEARL
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 15
-  rareDrop: false
-  sendToBank: false
-- item: TIN_ORE
-  minimumAmount: 3
-  maximumAmount: 3
-  chance: 15
-  rareDrop: false
-  sendToBank: false
-- item: IRON_ORE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 15
-  rareDrop: false
-  sendToBank: false
-- item: EMPTY_OYSTER
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 15
-  rareDrop: false
-  sendToBank: false
-- item: BRONZE_PICKAXE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 15
-  rareDrop: false
-  sendToBank: false
 - item: BUCKET_OF_SAND
   minimumAmount: 1
   maximumAmount: 1
@@ -65,63 +23,9 @@ drops:
   chance: 15
   rareDrop: false
   sendToBank: false
-- item: OPAL_BOLT_TIPS
-  minimumAmount: 5
-  maximumAmount: 5
-  chance: 15
-  rareDrop: false
-  sendToBank: false
-- item: FISHING_BAIT
-  minimumAmount: 10
-  maximumAmount: 10
-  chance: 15
-  rareDrop: false
-  sendToBank: false
 - item: COAL
   minimumAmount: 2
   maximumAmount: 2
   chance: 31
-  rareDrop: false
-  sendToBank: false
-- item: ASHES
-  minimumAmount: 2
-  maximumAmount: 2
-  chance: 31
-  rareDrop: false
-  sendToBank: false
-- item: IRON_PICKAXE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 31
-  rareDrop: false
-  sendToBank: false
-- item: SPINACH_ROLL
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 31
-  rareDrop: false
-  sendToBank: false
-- item: CASKET
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 94
-  rareDrop: false
-  sendToBank: false
-- item: UNHOLY_BOOK
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 94
-  rareDrop: false
-  sendToBank: false
-- item: BOOK_OF_DARKNESS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 94
-  rareDrop: false
-  sendToBank: false
-- item: BOOK_OF_BALANCE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 94
   rareDrop: false
   sendToBank: false

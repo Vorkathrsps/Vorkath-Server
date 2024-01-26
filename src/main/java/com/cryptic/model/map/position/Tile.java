@@ -666,6 +666,10 @@ public class Tile implements Cloneable {
         return ((x >> 6) << 8) | (y >> 6);
     }
 
+    public int getRegionId() {
+        return (((getX() >> 6) << 8) + (getY() >> 6));
+    }
+
     public Tile regionCorner() {
         return new Tile((region() >> 8) << 6, (region() & 0xFF) << 6);
     }

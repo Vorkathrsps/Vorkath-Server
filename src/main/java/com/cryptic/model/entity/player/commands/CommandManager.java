@@ -1,6 +1,5 @@
 package com.cryptic.model.entity.player.commands;
 
-import com.cryptic.cache.definitions.ItemDefinition;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
@@ -22,12 +21,9 @@ import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
-import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
-import com.cryptic.model.entity.npc.droptables.ItemDrops;
 import com.cryptic.model.entity.npc.droptables.NpcDropRepository;
 import com.cryptic.model.entity.npc.droptables.NpcDropTable;
-import com.cryptic.model.entity.npc.droptables.ScalarLootTable;
 import com.cryptic.model.entity.player.InputScript;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.commands.impl.dev.*;
@@ -46,7 +42,6 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.items.tradingpost.TradingPost;
-import com.cryptic.model.items.tradingpost.TradingPostListing;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.object.MapObjects;
 import com.cryptic.model.map.position.Area;
@@ -379,7 +374,6 @@ public class CommandManager {
         commands.put("csw", new CheckServerWealthCommand());
         commands.put("setstaffonlylogin", new SetStaffOnlyLoginCommand());
         commands.put("reset", new EcoResetCommand());
-        commands.put("tint", new TintingTest());
         commands.put("tradepost", new TradingPostCommand());
         commands.put("savepost", new SaveTradingPostCommand());
         commands.put("vp1", new Command() {
@@ -1031,7 +1025,7 @@ public class CommandManager {
 
             @Override
             public boolean canUse(Player player) {
-                return player.getPlayerRights().isDeveloper(player);
+                return player.getPlayerRights().isCommunityManager(player);
             }
         });
     }

@@ -3,7 +3,7 @@ npcId:
 - 5863
 - 5866
 petItem: HELLPUPPY
-petRarity: 500
+petRarity: 1500
 alwaysDrops:
 - item: ASHES
   minimumAmount: 1
@@ -13,36 +13,30 @@ alwaysDrops:
   sendToBank: false
 - item: COINS_995
   minimumAmount: 250
-  maximumAmount: 55300
+  maximumAmount: 10000
   chance: 1
   rareDrop: false
   sendToBank: false
 drops:
-- item: HELLPUPPY
+- item: LAVA_BATTLESTAFF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 500
+  chance: 32
   rareDrop: false
   sendToBank: false
-- item: GRANITE_MAUL_24225
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 11
+- item: NOTED_COAL
+  minimumAmount: 100
+  maximumAmount: 250
+  chance: 13
   rareDrop: false
   sendToBank: false
-- item: BLIGHTED_TELEPORT_SPELL_SACK
+- item: NOTED_DRAGON_BONES
   minimumAmount: 10
   maximumAmount: 25
   chance: 13
   rareDrop: false
   sendToBank: false
-- item: BLIGHTED_ENTANGLE_SACK
-  minimumAmount: 10
-  maximumAmount: 25
-  chance: 13
-  rareDrop: false
-  sendToBank: false
-- item: COINS_995
+- item: NOTED_PURE_ESSENCE
   minimumAmount: 1000
   maximumAmount: 5000
   chance: 18
@@ -51,30 +45,85 @@ drops:
 - item: SMOULDERING_STONE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 21
+  chance: 100
   rareDrop: false
   sendToBank: false
 - item: JAR_OF_SOULS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 21
+  chance: 250
   rareDrop: false
   sendToBank: false
 - item: PRIMORDIAL_CRYSTAL
   minimumAmount: 1
   maximumAmount: 1
-  chance: 25
+  chance: 400
   rareDrop: false
   sendToBank: false
 - item: PEGASIAN_CRYSTAL
   minimumAmount: 1
   maximumAmount: 1
-  chance: 25
+  chance: 400
   rareDrop: false
   sendToBank: false
 - item: ETERNAL_CRYSTAL
   minimumAmount: 1
   maximumAmount: 1
-  chance: 25
+  chance: 400
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_PLATEBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 32
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_2H_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 32
+  rareDrop: false
+  sendToBank: false
+- item: BLACK_D'HIDE_BODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 32
+  rareDrop: false
+  sendToBank: false
+- item: LAVA_BATTLESTAFF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 32
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_AXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 32
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_PICKAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 32
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_FULL_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 32
+  rareDrop: false
+  sendToBank: false
+  sendToBank: false
+- item: CANNONBALL
+  minimumAmount: 50
+  maximumAmount: 100
+  chance: 32
+  rareDrop: false
+  sendToBank: false
+- item: RUNITE_BOLTS
+  minimumAmount: 30
+  maximumAmount: 60
+  chance: 32
   rareDrop: false
   sendToBank: false

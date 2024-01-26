@@ -5,79 +5,115 @@ npcId:
 - 4304
 - 6500
 - 6501
-petItem: "null"
-petRarity: 0
+petItem: KALPHITE_PRINCESS
+petRarity: 1500
 alwaysDrops: []
 drops:
-- item: NOTED_ANGLERFISH
-  minimumAmount: 10
-  maximumAmount: 30
-  chance: 17
+- item: NOTED_WINE_OF_ZAMORAK
+  minimumAmount: 50
+  maximumAmount: 75
+  chance: 15
   rareDrop: false
   sendToBank: false
-- item: NOTED_DIVINE_SUPER_COMBAT_POTION4
-  minimumAmount: 2
-  maximumAmount: 10
-  chance: 19
+- item: NOTED_CRUSHED_NEST
+  minimumAmount: 20
+  maximumAmount: 20
+  chance: 15
   rareDrop: false
   sendToBank: false
-- item: NOTED_ANTI-VENOM+4
+- item: NOTED_ANTI-VENOM+(4)
   minimumAmount: 5
   maximumAmount: 10
-  chance: 21
+  chance: 15
   rareDrop: false
   sendToBank: false
-- item: NOTED_SUPER_ANTIFIRE_POTION4
+- item: NOTED_POTATO_CACTUS
+  minimumAmount: 75
+  maximumAmount: 140
+  chance: 15
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_MED_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 50
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_2H_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 75
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_PICKAXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_CHAINBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 27
+  rareDrop: false
+  sendToBank: false
+- item: LAVA_BATTLESTAFF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 50
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_RUNITE_BAR
   minimumAmount: 2
-  maximumAmount: 10
-  chance: 21
-  rareDrop: false
-  sendToBank: false
-- item: DRAGON_BOOTS
-  minimumAmount: 1
-  maximumAmount: 1
+  maximumAmount: 5
   chance: 27
   rareDrop: false
   sendToBank: false
-- item: AMULET_OF_FURY
-  minimumAmount: 1
-  maximumAmount: 1
+- item: NOTED_MAGIC_LOGS
+  minimumAmount: 40
+  maximumAmount: 100
   chance: 27
   rareDrop: false
   sendToBank: false
-- item: GUTHANS_ARMOUR_SET
-  minimumAmount: 1
-  maximumAmount: 1
+- item: NOTED_UNCUT_DIAMOND
+  minimumAmount: 20
+  maximumAmount: 30
   chance: 27
   rareDrop: false
   sendToBank: false
-- item: VERACS_ARMOUR_SET
-  minimumAmount: 1
-  maximumAmount: 1
+- item: NOTED_GRAPES
+  minimumAmount: 100
+  maximumAmount: 150
   chance: 27
   rareDrop: false
   sendToBank: false
-- item: DHAROKS_ARMOUR_SET
-  minimumAmount: 1
-  maximumAmount: 1
+- item: NOTED_MAGIC_LOGS
+  minimumAmount: 40
+  maximumAmount: 100
   chance: 27
   rareDrop: false
   sendToBank: false
-- item: TORAGS_ARMOUR_SET
-  minimumAmount: 1
-  maximumAmount: 1
+- item: NOTED_UNCUT_DRAGONSTONE
+  minimumAmount: 2
+  maximumAmount: 3
   chance: 27
   rareDrop: false
   sendToBank: false
-- item: AHRIMS_ARMOUR_SET
-  minimumAmount: 1
-  maximumAmount: 1
+- item: NOTED_JUG_OF_WATER
+  minimumAmount: 200
+  maximumAmount: 500
   chance: 27
   rareDrop: false
   sendToBank: false
-- item: KARILS_ARMOUR_SET
-  minimumAmount: 1
-  maximumAmount: 1
+- item: WATERMELON_SEED
+  minimumAmount: 20
+  maximumAmount: 30
+  chance: 27
+  rareDrop: false
+  sendToBank: false
+- item: TORSTOL_SEED
+  minimumAmount: 2
+  maximumAmount: 3
   chance: 27
   rareDrop: false
   sendToBank: false

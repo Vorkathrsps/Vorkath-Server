@@ -60,44 +60,44 @@ drops:
   rareDrop: false
   sendToBank: false
 - item: CHAOS_RUNE
-  minimumAmount: 62
-  maximumAmount: 130
+  minimumAmount: 135
+  maximumAmount: 180
   chance: 15
   rareDrop: false
   sendToBank: false
 - item: DEATH_RUNE
-  minimumAmount: 23
-  maximumAmount: 90
+  minimumAmount: 60
+  maximumAmount: 125
   chance: 15
   rareDrop: false
   sendToBank: false
 - item: NOTED_GRIMY_AVANTOE
   minimumAmount: 1
-  maximumAmount: 1
+  maximumAmount: 2
   chance: 20
   rareDrop: false
   sendToBank: false
 - item: NOTED_GRIMY_SNAPDRAGON
   minimumAmount: 1
-  maximumAmount: 1
+  maximumAmount: 2
   chance: 20
   rareDrop: false
   sendToBank: false
 - item: NOTED_GRIMY_TORSTOL
   minimumAmount: 1
-  maximumAmount: 1
+  maximumAmount: 2
   chance: 20
   rareDrop: false
   sendToBank: false
 - item: NOTED_GRIMY_RANARR_WEED
   minimumAmount: 1
-  maximumAmount: 1
+  maximumAmount: 2
   chance: 20
   rareDrop: false
   sendToBank: false
 - item: ADAMANT_BOLTSUNF
-  minimumAmount: 22
-  maximumAmount: 40
+  minimumAmount: 40
+  maximumAmount: 66
   chance: 40
   rareDrop: false
   sendToBank: false
@@ -108,7 +108,7 @@ drops:
   rareDrop: false
   sendToBank: false
 - item: NOTED_ADAMANTITE_ORE
-  minimumAmount: 2
+  minimumAmount: 5
   maximumAmount: 30
   chance: 40
   rareDrop: false
@@ -126,8 +126,8 @@ drops:
   rareDrop: false
   sendToBank: false
 - item: RUNITE_BAR
-  minimumAmount: 1
-  maximumAmount: 1
+  minimumAmount: 2
+  maximumAmount: 5
   chance: 40
   rareDrop: false
   sendToBank: false
@@ -143,27 +143,27 @@ drops:
   chance: 40
   rareDrop: false
   sendToBank: false
-- item: WRATH_TALISMAN
-  minimumAmount: 1
-  maximumAmount: 1
+- item: WRATH_RUNE
+  minimumAmount: 25
+  maximumAmount: 55
   chance: 6
   rareDrop: false
   sendToBank: false
 - item: DRAGON_LIMBS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 36
+  chance: 50
   rareDrop: false
   sendToBank: false
 - item: DRAGON_METAL_SLICE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 55
+  chance: 112
   rareDrop: false
   sendToBank: false
 - item: DRACONIC_VISAGE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 110
+  chance: 300
   rareDrop: false
   sendToBank: false

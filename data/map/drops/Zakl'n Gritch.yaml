@@ -19,25 +19,25 @@ drops:
 - item: ZAMORAKIAN_SPEAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 6003
-  rareDrop: false
+  chance: 1500
+  rareDrop: true
   sendToBank: false
 - item: GODSWORD_SHARD_1
   minimumAmount: 1
   maximumAmount: 1
-  chance: 9
+  chance: 150
   rareDrop: false
   sendToBank: false
 - item: GODSWORD_SHARD_2
   minimumAmount: 1
   maximumAmount: 1
-  chance: 9
+  chance: 150
   rareDrop: false
   sendToBank: false
 - item: GODSWORD_SHARD_3
   minimumAmount: 1
   maximumAmount: 1
-  chance: 9
+  chance: 150
   rareDrop: false
   sendToBank: false
 - item: STEEL_ARROW

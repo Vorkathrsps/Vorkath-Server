@@ -21,7 +21,7 @@ public class WarriorsGuildCyclops implements Droptable {
     public void reward(NPC killed, Player killer) {
 
         int defender = killer.getAttribOr(AttributeKey.WARRIORS_GUILD_CYCLOPS_ROOM_DEFENDER, 0);
-        int chance = killer.getPlayerRights().isDeveloper(killer) ? 2 : 30;
+        int chance = killer.getPlayerRights().isCommunityManager(killer) ? 2 : 30;
 
         //All the way up to rune
         if(killed.id() == NpcIdentifiers.CYCLOPS_2464 || killed.id() == NpcIdentifiers.CYCLOPS_2465) {
@@ -46,7 +46,7 @@ public class WarriorsGuildCyclops implements Droptable {
                 drop(killed, killer.tile(), killer, reward);
             }
         } else if (killed.id() == NpcIdentifiers.CYCLOPS_2137) {//Dragon defender
-            chance = killer.getPlayerRights().isDeveloper(killer) ? 2 : 70;
+            chance = killer.getPlayerRights().isCommunityManager(killer) ? 2 : 70;
             if (Utils.rollDie(chance, 1)) {
                 //Defender drop
                 drop(killed, killer, new Item(defender));

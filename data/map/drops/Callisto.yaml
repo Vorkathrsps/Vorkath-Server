@@ -11,18 +11,12 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 - item: COINS_995
-  minimumAmount: 14000
-  maximumAmount: 25000
+  minimumAmount: 1400
+  maximumAmount: 2500
   chance: 1
   rareDrop: false
   sendToBank: false
 drops:
-- item: CALLISTO_CUB
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 1500
-  rareDrop: false
-  sendToBank: false
 - item: NOTED_RUNE_PICKAXE
   minimumAmount: 1
   maximumAmount: 3
@@ -101,13 +95,13 @@ drops:
   chance: 37
   rareDrop: false
   sendToBank: false
-- item: NOTED_SUPER_RESTORE4
+- item: NOTED_SUPER_RESTORE(4)
   minimumAmount: 1
   maximumAmount: 10
   chance: 37
   rareDrop: false
   sendToBank: false
-- item: NOTED_SANFEW_SERUM4
+- item: NOTED_SANFEW_SERUM(4)
   minimumAmount: 3
   maximumAmount: 20
   chance: 37

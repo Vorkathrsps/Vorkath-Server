@@ -3,28 +3,106 @@ npcId:
 petItem: null
 petRarity: 2200
 alwaysDrops:
-- item: null
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 1
-  rareDrop: false
-  sendToBank: false
-- item: null
+- item: BONES
   minimumAmount: 1
   maximumAmount: 1
   chance: 1
   rareDrop: false
   sendToBank: false
 drops:
-- item: null
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 2200
+- item: DRAGON_ARROW
+  minimumAmount: 50
+  maximumAmount: 75
+  chance: 100
   rareDrop: false
   sendToBank: false
-- item: null
+- item: CANNONBALL
+  minimumAmount: 80
+  maximumAmount: 100
+  chance: 20
+  rareDrop: false
+  sendToBank: false
+- item: MUD_RUNE
+  minimumAmount: 50
+  maximumAmount: 100
+  chance: 20
+  rareDrop: false
+  sendToBank: false
+- item: BLACK_D'HIDE_BODY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 2
+  chance: 20
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_LONGSWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 20
+  rareDrop: false
+  sendToBank: false
+- item: WATERMELON_SEED
+  minimumAmount: 15
+  maximumAmount: 15
+  chance: 20
+  rareDrop: false
+  sendToBank: false
+- item: FEDORA
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+- item: REDWOOD_TREE_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+- item: MAGIC_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+- item: PALM_TREE_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+- item: SPIRIT_SEED
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GOLD_ORE
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: SHARK
+  minimumAmount: 1
+  maximumAmount: 2
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: PRAYER_POTION3
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: ONYX_BOLT_TIPS
+  minimumAmount: 1
+  maximumAmount: 10
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_WHITE_BERRIES
+  minimumAmount: 10
+  maximumAmount: 10
+  chance: 10
   rareDrop: false
   sendToBank: false

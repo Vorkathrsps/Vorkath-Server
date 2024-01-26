@@ -4,9 +4,9 @@ npcId:
 petItem: "null"
 petRarity: 0
 alwaysDrops:
-- item: COINS_995
-  minimumAmount: 250
-  maximumAmount: 55300
+- item: BONES
+  minimumAmount: 1
+  maximumAmount: 1
   chance: 1
   rareDrop: false
   sendToBank: false
@@ -20,18 +20,96 @@ drops:
 - item: SARADOMIN_SWORD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 5
+  chance: 100
   rareDrop: false
   sendToBank: false
-- item: SARADOMIN_GODSWORD
+- item: SARADOMIN_HILT
   minimumAmount: 1
   maximumAmount: 1
-  chance: 12
-  rareDrop: false
+  chance: 400
+  rareDrop: true
   sendToBank: false
 - item: ARMADYL_CROSSBOW
   minimumAmount: 1
   maximumAmount: 1
-  chance: 18
+  chance: 400
+  rareDrop: true
+  sendToBank: false
+- item: SARADOMIN'S_LIGHT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_PLATEBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_KITESHIELD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_PLATESKIRT
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: GODSWORD_SHARD_1
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 128
+  rareDrop: false
+  sendToBank: false
+- item: GODSWORD_SHARD_2
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 128
+  rareDrop: false
+  sendToBank: false
+- item: GODSWORD_SHARD_3
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 128
+  rareDrop: false
+  sendToBank: false
+- item: PRAYER_POTION3
+  minimumAmount: 2
+  maximumAmount: 4
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: STAMINA_POTION3
+  minimumAmount: 2
+  maximumAmount: 4
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: SARADOMIN_BREW3
+  minimumAmount: 2
+  maximumAmount: 4
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: RANARR_SEED
+  minimumAmount: 2
+  maximumAmount: 4
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: MAGIC_SEED
+  minimumAmount: 2
+  maximumAmount: 4
+  chance: 25
+  rareDrop: false
+  sendToBank: false
+- item: SPIRIT_SEED
+  minimumAmount: 2
+  maximumAmount: 4
+  chance: 50
   rareDrop: false
   sendToBank: false

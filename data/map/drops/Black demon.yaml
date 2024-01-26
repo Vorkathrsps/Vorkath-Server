@@ -27,19 +27,19 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: STEEL_BATTLEAXE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 13
-  rareDrop: false
-  sendToBank: false
-- item: BLACK_AXE
+- item: MITHRIL_BATTLEAXE
   minimumAmount: 1
   maximumAmount: 1
   chance: 20
   rareDrop: false
   sendToBank: false
-- item: BLACK_SWORD
+- item: MITHRIL_AXE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 20
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_SWORD
   minimumAmount: 1
   maximumAmount: 1
   chance: 20
@@ -54,13 +54,13 @@ drops:
 - item: RUNE_MED_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 41
+  chance: 25
   rareDrop: false
   sendToBank: false
 - item: RUNE_CHAINBODY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 124
+  chance: 50
   rareDrop: false
   sendToBank: false
 - item: GRIMY_GUAM_LEAF
@@ -114,60 +114,48 @@ drops:
 - item: GRIMY_CADANTINE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 156
+  chance: 52
   rareDrop: false
   sendToBank: false
 - item: GRIMY_LANTADYME
   minimumAmount: 1
   maximumAmount: 1
-  chance: 156
+  chance: 52
   rareDrop: false
   sendToBank: false
 - item: GRIMY_DWARF_WEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 156
+  chance: 52
   rareDrop: false
   sendToBank: false
 - item: AIR_RUNE
   minimumAmount: 50
-  maximumAmount: 50
+  maximumAmount: 500
   chance: 20
   rareDrop: false
   sendToBank: false
 - item: FIRE_RUNE
   minimumAmount: 37
-  maximumAmount: 37
+  maximumAmount: 370
   chance: 16
   rareDrop: false
   sendToBank: false
 - item: CHAOS_RUNE
   minimumAmount: 5
-  maximumAmount: 5
+  maximumAmount: 500
   chance: 16
-  rareDrop: false
-  sendToBank: false
-- item: CHAOS_RUNE
-  minimumAmount: 10
-  maximumAmount: 10
-  chance: 33
-  rareDrop: false
-  sendToBank: false
-- item: CHAOS_RUNE
-  minimumAmount: 12
-  maximumAmount: 12
-  chance: 33
   rareDrop: false
   sendToBank: false
 - item: BLOOD_RUNE
   minimumAmount: 7
-  maximumAmount: 7
+  maximumAmount: 70
   chance: 100
   rareDrop: false
   sendToBank: false
 - item: LAW_RUNE
   minimumAmount: 3
-  maximumAmount: 4
+  maximumAmount: 40
   chance: 100
   rareDrop: false
   sendToBank: false
@@ -189,7 +177,7 @@ drops:
   chance: 32
   rareDrop: false
   sendToBank: false
-- item: DEFENCE_POTION3
+- item: SUPER_DEFENCE_POTION3
   minimumAmount: 1
   maximumAmount: 1
   chance: 32

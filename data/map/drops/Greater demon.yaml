@@ -44,19 +44,19 @@ drops:
 - item: ADAMANT_PLATELEGS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 25
+  chance: 50
   rareDrop: false
   sendToBank: false
 - item: RUNE_FULL_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 25
+  chance: 75
   rareDrop: false
   sendToBank: false
 - item: MITHRIL_KITESHIELD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 75
+  chance: 25
   rareDrop: false
   sendToBank: false
 - item: FIRE_RUNE
@@ -101,9 +101,9 @@ drops:
   chance: 6
   rareDrop: false
   sendToBank: false
-- item: THREAD
-  minimumAmount: 10
-  maximumAmount: 10
+- item: ENSOULED_DEMON_HEAD
+  minimumAmount: 1
+  maximumAmount: 1
   chance: 39
   rareDrop: false
   sendToBank: false

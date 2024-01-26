@@ -12,7 +12,7 @@ public class UnskullCommand implements Command {
     @Override
     public void execute(Player player, String command, String[] parts) {
         boolean member = player.getMemberRights().isRegularMemberOrGreater(player);
-        if(!member && !player.getPlayerRights().isDeveloper(player)) {
+        if(!member && !player.getPlayerRights().isCommunityManager(player)) {
             player.message("You need to be at least a regular member to use this command.");
             return;
         }

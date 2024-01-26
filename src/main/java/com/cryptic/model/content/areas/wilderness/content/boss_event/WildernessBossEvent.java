@@ -207,11 +207,11 @@ public class WildernessBossEvent {
             //Assign the npc reference.
             this.activeNpc = Optional.of(boss);
 
-            World.getWorld().sendWorldMessage("<col=6a1a18><img=2012> " + activeEvent.description + " has been spotted " + activeEvent.spawnLocation(boss.tile()) + " in level " + WildernessArea.wildernessLevel(boss.tile()) + " Wild!");
+            World.getWorld().sendWorldMessage("<col=6a1a18><img=2012> " + activeEvent.description + " has been spotted " + activeEvent.spawnLocation(boss.tile()) + " in level " + WildernessArea.getWildernessLevel(boss.tile()) + " Wild!");
             World.getWorld().sendWorldMessage("<col=6a1a18>It despawns in 60 minutes. Hurry!");
 
             // Broadcast it
-            World.getWorld().sendBroadcast("<img=2012>" + activeEvent.description + " has been spotted " + activeEvent.spawnLocation(boss.tile()) + " in level " + WildernessArea.wildernessLevel(boss.tile()) + " Wild!");
+            World.getWorld().sendBroadcast("<img=2012>" + activeEvent.description + " has been spotted " + activeEvent.spawnLocation(boss.tile()) + " in level " + WildernessArea.getWildernessLevel(boss.tile()) + " Wild!");
         }
     }
 

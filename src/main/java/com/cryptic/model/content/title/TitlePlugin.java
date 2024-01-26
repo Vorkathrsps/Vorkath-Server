@@ -65,26 +65,21 @@ public class TitlePlugin extends PacketInteraction {
     @Override
     public boolean handleItemInteraction(Player player, Item item, int option) {
         if (item.getId() == CustomItemIdentifiers.TITLE_VOUCHER) {
-            player.setNameScript("Set title name:", new InputScript() {
-
-
-                @Override
-                public boolean handle(Object value) {
-                    String response = (String) value;
-                    if (Utils.containsMessageFormattingTag(response) || Utils.hasInvalidChars(response)) {
-                        player.message("This title has invalid characters, please try again.");
-                        return false;
-                    }
-                    if (response.length() > 10) {
-                        player.message("This title is too long! Maximum amount is 10 characters.");
-                        return false;
-                    }
-                    player.putAttrib(AttributeKey.TITLE, response);
-                    player.putAttrib(AttributeKey.TITLE_COLOR, "<col=ff7000>");
-                    player.message("You have updated your title to: " + response);
-                    player.inventory().remove(new Item(CustomItemIdentifiers.TITLE_VOUCHER));
-                    return true;
+            player.setNameScript("Set title name:", value -> {
+                String response = (String) value;
+                if (Utils.containsMessageFormattingTag(response) || Utils.hasInvalidChars(response)) {
+                    player.message("This title has invalid characters, please try again.");
+                    return false;
                 }
+                if (response.length() > 10) {
+                    player.message("This title is too long! Maximum amount is 10 characters.");
+                    return false;
+                }
+                player.putAttrib(AttributeKey.TITLE, response);
+                player.putAttrib(AttributeKey.TITLE_COLOR, "<col=ff7000>");
+                player.message("You have updated your title to: " + response);
+                player.inventory().remove(new Item(CustomItemIdentifiers.TITLE_VOUCHER));
+                return true;
             });
             return true;
         }

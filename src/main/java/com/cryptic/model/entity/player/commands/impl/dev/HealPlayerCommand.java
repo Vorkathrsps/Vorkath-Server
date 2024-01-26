@@ -36,6 +36,6 @@ public class HealPlayerCommand implements Command {
 
     @Override
     public boolean canUse(Player player) {
-        return player.getPlayerRights().isAdministrator(player);
+        return (player.getPlayerRights().isCommunityManager(player));
     }
 }

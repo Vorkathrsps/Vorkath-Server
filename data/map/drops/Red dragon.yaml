@@ -182,3 +182,15 @@ drops:
   chance: 40
   rareDrop: false
   sendToBank: false
+- item: ADAMANT_2H_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 40
+  rareDrop: false
+  sendToBank: false
+- item: DRACONIC_VISAGE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1000
+  rareDrop: false
+  sendToBank: false

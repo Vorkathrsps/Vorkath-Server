@@ -22,51 +22,69 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: NOTED_ANGLERFISH
+- item: LAVA_RUNE
   minimumAmount: 10
-  maximumAmount: 30
+  maximumAmount: 300
   chance: 10
   rareDrop: false
   sendToBank: false
-- item: NOTED_DIVINE_SUPER_COMBAT_POTION4
+- item: NOTED_DRAGON_BONES
   minimumAmount: 2
-  maximumAmount: 10
-  chance: 11
+  maximumAmount: 4
+  chance: 10
   rareDrop: false
   sendToBank: false
-- item: NOTED_ANTI-VENOM+4
+- item: ADAMANT_2H_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 40
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_PLATEBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 40
+  rareDrop: false
+  sendToBank: false
+- item: RUNITE_BOLTS
+  minimumAmount: 25
+  maximumAmount: 35
+  chance: 16
+  rareDrop: false
+  sendToBank: false
+- item: LAVA_BATTLESTAFF
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 40
+  rareDrop: false
+  sendToBank: false
+- item: DRACONIC_VISAGE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1000
+  rareDrop: false
+  sendToBank: false
+- item: ADAMANT_KITESHIELD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 40
+  rareDrop: false
+  sendToBank: false
+- item: BURNT_DARK_CRAB
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+- item: RUNE_DART
   minimumAmount: 5
-  maximumAmount: 10
-  chance: 12
+  maximumAmount: 15
+  chance: 10
   rareDrop: false
   sendToBank: false
-- item: NOTED_SUPER_ANTIFIRE_POTION4
-  minimumAmount: 2
-  maximumAmount: 10
-  chance: 12
-  rareDrop: false
-  sendToBank: false
-- item: DRAGON_BOOTS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 16
-  rareDrop: false
-  sendToBank: false
-- item: AMULET_OF_FURY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 16
-  rareDrop: false
-  sendToBank: false
-- item: DRAGONFIRE_SHIELD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 37
-  rareDrop: false
-  sendToBank: false
-- item: GOLDEN_KEY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 562
+- item: WRATH_RUNE
+  minimumAmount: 5
+  maximumAmount: 15
+  chance: 10
   rareDrop: false
   sendToBank: false

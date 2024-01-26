@@ -272,7 +272,7 @@ public enum SlayerCreature {
                 var isWilderness = WildernessArea.inWilderness(tile);//Check if the tile is in the wilderness
                 if(isWilderness) {
                     Tile tileToTeleportTo = tile;
-                    var wildernessLevel = WildernessArea.wildernessLevel(tileToTeleportTo);
+                    var wildernessLevel = WildernessArea.getWildernessLevel(tileToTeleportTo);
                     player.optionsTitled(""+ Color.RED.wrap("Wilderness ("+wildernessLevel+")!")+" would you like to proceed?", "Yes.","No.", () -> {
                         Teleports.basicTeleport(player, tileToTeleportTo);
                         player.message("You have teleported to your slayer task.");

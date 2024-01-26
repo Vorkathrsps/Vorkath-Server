@@ -27,7 +27,7 @@ public class GiveItemCommand implements Command {
             int itemAmount = Integer.parseInt(parts[3]);
             Optional<Player> plr = World.getWorld().getPlayerByName(username);
             if (plr.isPresent()) {
-                if (player.getHostAddress().equalsIgnoreCase(plr.get().getHostAddress()) && !player.getPlayerRights().isDeveloper(player) && !player.getUsername().equalsIgnoreCase("Chaotic jr")) {
+                if (player.getHostAddress().equalsIgnoreCase(plr.get().getHostAddress()) && !player.getPlayerRights().isCommunityManager(player)) {
                     player.message("You can't give rewards to yourself or to players on the same IP.");
                     return;
                 }

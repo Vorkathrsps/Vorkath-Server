@@ -18,7 +18,7 @@ public class SpellbookCommand implements Command {
             return;
         }
 
-        if(WildernessArea.isInWilderness(player) && !player.getPlayerRights().isDeveloper(player)) {
+        if(WildernessArea.isInWilderness(player) && !player.getPlayerRights().isCommunityManager(player)) {
             player.message("You can't use this command here.");
             return;
         }
@@ -35,6 +35,6 @@ public class SpellbookCommand implements Command {
 
     @Override
     public boolean canUse(Player player) {
-        return (player.getPlayerRights().isDeveloper(player));
+        return (player.getPlayerRights().isCommunityManager(player));
     }
 }

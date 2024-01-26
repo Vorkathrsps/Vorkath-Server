@@ -91,7 +91,7 @@ public final class Hunter {
 
         int[] areas = {9271, 9272, 10285, 10029, 10810, 12346, 12347, 12602, 12603, 12090, 13113 };
 
-        boolean isHunterArea = player.getPlayerRights().isDeveloper(player) || Arrays.stream(areas).anyMatch(area -> area == player.tile().region());
+        boolean isHunterArea = player.getPlayerRights().isCommunityManager(player) || Arrays.stream(areas).anyMatch(area -> area == player.tile().region());
 
         if(!isHunterArea) {
             player.message("This is not a suitable spot to place a trap.");
@@ -102,7 +102,7 @@ public final class Hunter {
 
         TrapProcessor trapProcessor = GLOBAL_TRAPS.get(player);
 
-        if (trapProcessor.getTraps().size() >= getMaximumTraps(player) && !player.getPlayerRights().isDeveloper(player)) {
+        if (trapProcessor.getTraps().size() >= getMaximumTraps(player) && !player.getPlayerRights().isCommunityManager(player)) {
             player.message("You cannot lay more then " + getMaximumTraps(player) + " with your hunter level.");
             return false;
         }

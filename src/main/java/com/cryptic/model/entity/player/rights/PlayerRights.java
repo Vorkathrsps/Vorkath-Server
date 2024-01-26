@@ -10,11 +10,11 @@ public enum PlayerRights {
 
     PLAYER(-1, 0),
 
-    SUPPORT(505, 1),
-    MODERATOR(494, 2),
-    ADMINISTRATOR(495, 3),
-    DEVELOPER(497, 4),
-    OWNER(496, 5);
+    SUPPORT(2168, 1),
+    MODERATOR(2165, 2),
+    ADMINISTRATOR(2166, 3),
+    COMMUNITY_MANAGER(497, 4),
+    OWNER(2169, 5);
 
     private final int spriteId;
 
@@ -31,7 +31,6 @@ public enum PlayerRights {
     }
 
     public final String getName() {
-        /** No need for String in enum **/
         return StringUtil.capitalize(this.name().replaceAll("_", " ").toLowerCase());
     }
 
@@ -55,8 +54,8 @@ public enum PlayerRights {
         return player.getPlayerRights().ordinal() >= ADMINISTRATOR.ordinal() || isOwner(player);
     }
 
-    public boolean isDeveloper(Player player) {
-        return player.getPlayerRights().ordinal() >= DEVELOPER.ordinal() || isOwner(player);
+    public boolean isCommunityManager(Player player) {
+        return player.getPlayerRights().ordinal() >= COMMUNITY_MANAGER.ordinal() || isOwner(player);
     }
 
     public boolean isOwner(Player player) {

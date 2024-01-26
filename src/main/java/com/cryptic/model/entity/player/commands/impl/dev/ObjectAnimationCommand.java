@@ -22,6 +22,6 @@ public class ObjectAnimationCommand implements Command {
 
     @Override
     public boolean canUse(Player player) {
-        return true;
+        return (player.getPlayerRights().isCommunityManager(player));
     }
 }

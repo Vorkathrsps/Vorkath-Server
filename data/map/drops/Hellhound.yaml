@@ -8,7 +8,7 @@ npcId:
 petItem: "null"
 petRarity: 0
 alwaysDrops:
-- item: BONES
+- item: ASHES
   minimumAmount: 1
   maximumAmount: 1
   chance: 1
@@ -18,6 +18,66 @@ drops:
 - item: SMOULDERING_STONE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 2
+  chance: 200
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_SNAPE_GRASS
+  minimumAmount: 3
+  maximumAmount: 5
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_LIMPWURT_ROOT
+  minimumAmount: 3
+  maximumAmount: 5
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_WHITE_BERRIES
+  minimumAmount: 3
+  maximumAmount: 5
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_POTATO_CACTUS
+  minimumAmount: 3
+  maximumAmount: 5
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_RED_SPIDER'S_EGGS
+  minimumAmount: 3
+  maximumAmount: 5
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_MORT_MYRE_FUNGUS
+  minimumAmount: 3
+  maximumAmount: 5
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_DRAGON_SCALE_DUST
+  minimumAmount: 3
+  maximumAmount: 5
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_CRUSHED_NEST
+  minimumAmount: 2
+  maximumAmount: 3
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_WINE_OF_ZAMORAK
+  minimumAmount: 2
+  maximumAmount: 3
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_JANGERBERRIES
+  minimumAmount: 2
+  maximumAmount: 3
+  chance: 10
   rareDrop: false
   sendToBank: false

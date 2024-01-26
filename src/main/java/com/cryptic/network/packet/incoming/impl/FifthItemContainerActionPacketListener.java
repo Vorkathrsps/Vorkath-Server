@@ -32,7 +32,7 @@ public class FifthItemContainerActionPacketListener implements PacketListener {
         int interfaceId = packet.readInt();
         int slot = packet.readLEShort();
         int id = packet.readLEShort();
-        if (GameServer.properties().debugMode && player.getPlayerRights().isDeveloper(player)) {
+        if (GameServer.properties().debugMode && player.getPlayerRights().isCommunityManager(player)) {
             player.debugMessage(String.format("fifth action, container: %d slot: %d id %d", interfaceId, slot, id));
         }
 

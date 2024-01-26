@@ -12,7 +12,7 @@ public class GambleCommand implements Command {
     public void execute(Player player, String command, String[] parts) {
         Tile tile = new Tile(3091, 3479);
 
-        if(WildernessArea.isInWilderness(player)&& !player.getPlayerRights().isDeveloper(player)) {
+        if(WildernessArea.isInWilderness(player)&& !player.getPlayerRights().isCommunityManager(player)) {
             player.message("You can't use this command here.");
             return;
         }

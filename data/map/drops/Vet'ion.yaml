@@ -101,13 +101,13 @@ drops:
   chance: 37
   rareDrop: false
   sendToBank: false
-- item: NOTED_SUPER_RESTORE4
+- item: NOTED_SUPER_RESTORE(4)
   minimumAmount: 1
   maximumAmount: 10
   chance: 37
   rareDrop: false
   sendToBank: false
-- item: NOTED_SANFEW_SERUM4
+- item: NOTED_SANFEW_SERUM(4)
   minimumAmount: 3
   maximumAmount: 20
   chance: 37

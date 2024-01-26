@@ -60,29 +60,26 @@ public class WildernessArea extends Controller {
     private static final Area ESCAPE_CAVES = new Area(3328, 10240, 3391, 10303);
     private static final Area WILDERNESS_SLAYER_CAVES = new Area(3328, 10048, 3455, 10175);
     private static final Area REVENANT_CAVES = new Area(3136, 10047, 3263, 10303);
+
     public static int getWildernessLevel(Tile tile) {
         final int region = tile.region();
         final int y = tile.getY();
         final int x = tile.getX();
         int level = 0;
+        CustomWildernessRegions customWildernessRegions = CustomWildernessRegions.byRegion(tile.region());
+        if (customWildernessRegions != null && customWildernessRegions.region == tile.region()) {
+            return customWildernessRegions.level;
+        }
         if (!(tile.x > 2941 && tile.x < 3392 && tile.y > 3524 && tile.y < 3968) && !inUndergroundWilderness(tile))
             return 0;
-        if (x >= 2944 && x <= 3391 && y >= 3520 && y <= 4351) {
+        if (ESCAPE_CAVES.containsClosed(tile)) {
+            level = 35;
+        } else if (x >= 2944 && x <= 3391 && y >= 3520 && y <= 4351) {
             level = ((y - 3520) >> 3) + 1;
         } else if (x >= 3008 && x <= 3071 && y >= 10112 && y <= 10175) {
             level = ((y - 9920) >> 3) - 1;
         } else if (x >= 2944 && x <= 3391 && y >= 9920 && y <= 10879) {
             level = ((y - 9920) >> 3) + 1;
-        } else if (ESCAPE_CAVES.containsClosed(tile)) {
-            level = 35;
-        } else if (region == 13473) {
-            level = 40;
-        } else if (region == 13727 || region == 13215) {
-            level = 35;
-        } else if (region == 7604 || region == 7092) {
-            level = 21;
-        } else if (region == 6580) {
-            level = 29;
         }
         return level;
     }

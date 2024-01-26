@@ -3,7 +3,7 @@ npcId:
 - 2043
 - 2044
 petItem: PET_SNAKELING
-petRarity: 1500
+petRarity: 2000
 alwaysDrops:
 - item: ZULRAHS_SCALES
   minimumAmount: 100
@@ -18,40 +18,34 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: PET_SNAKELING
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 1500
-  rareDrop: false
-  sendToBank: false
 - item: TANZANITE_FANG
   minimumAmount: 1
   maximumAmount: 1
-  chance: 28
+  chance: 350
   rareDrop: false
   sendToBank: false
 - item: MAGIC_FANG
   minimumAmount: 1
   maximumAmount: 1
-  chance: 28
+  chance: 350
   rareDrop: false
   sendToBank: false
 - item: SERPENTINE_VISAGE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 28
+  chance: 350
   rareDrop: false
   sendToBank: false
 - item: UNCUT_ONYX
   minimumAmount: 1
   maximumAmount: 1
-  chance: 28
+  chance: 350
   rareDrop: false
   sendToBank: false
 - item: DRAGON_MED_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 14
+  chance: 150
   rareDrop: false
   sendToBank: false
 - item: DRAGON_HALBERD
@@ -108,16 +102,16 @@ drops:
   chance: 28
   rareDrop: false
   sendToBank: false
-- item: NOTED_FLAX
-  minimumAmount: 1000
-  maximumAmount: 1000
-  chance: 32
-  rareDrop: false
+- item: TANZANITE_MUTAGEN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 512
+  rareDrop: true
   sendToBank: false
-- item: NOTED_SNAKESKIN
-  minimumAmount: 35
-  maximumAmount: 35
-  chance: 32
+- item: MAGMA_MUTAGEN
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 512
   rareDrop: false
   sendToBank: false
 - item: DRAGONSTONE_BOLT_TIPS
@@ -198,9 +192,9 @@ drops:
   chance: 189
   rareDrop: false
   sendToBank: false
-- item: CRYSTAL_WEAPON_SEED
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 189
+- item: CRYSTAL_DUST
+  minimumAmount: 10
+  maximumAmount: 15
+  chance: 15
   rareDrop: false
   sendToBank: false

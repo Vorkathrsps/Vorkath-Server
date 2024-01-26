@@ -2,7 +2,7 @@ npcId:
 - 2266
 - 6497
 petItem: PET_DAGANNOTH_PRIME
-petRarity: 1000
+petRarity: 1500
 alwaysDrops:
 - item: DAGANNOTH_BONES
   minimumAmount: 1
@@ -17,15 +17,9 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: PET_DAGANNOTH_PRIME
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 1000
-  rareDrop: false
-  sendToBank: false
 - item: COINS_995
-  minimumAmount: 503
-  maximumAmount: 632
+  minimumAmount: 5030
+  maximumAmount: 6320
   chance: 77
   rareDrop: false
   sendToBank: false
@@ -230,12 +224,12 @@ drops:
 - item: DRAGON_AXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 217
+  chance: 100
   rareDrop: false
   sendToBank: false
 - item: SEERS_RING
   minimumAmount: 1
   maximumAmount: 1
-  chance: 241
+  chance: 200
   rareDrop: false
   sendToBank: false

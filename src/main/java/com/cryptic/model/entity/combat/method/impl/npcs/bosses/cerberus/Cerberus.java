@@ -21,10 +21,12 @@ import com.cryptic.utility.TickDelay;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 import com.cryptic.utility.timers.TimerKey;
+import com.google.common.collect.Lists;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: Origin
@@ -38,10 +40,9 @@ public class Cerberus extends CommonCombatMethod {
     private final TickDelay spawnSoulCooldown = new TickDelay();
     private static final Area area = new Area(1358, 1257, 1378, 1257);
 
-
     private void rangedAttack(Entity entity, Entity target) {
-        if (entity.dead() || target.dead()) return; // because in combo attack, its called with a delay in which target can die.
-        if (comboAttackCooldown.remaining() < 60) // combo attack anim in progress!
+        if (entity.dead() || target.dead()) return;
+        if (comboAttackCooldown.remaining() < 60)
             entity.animate(4492);
         int tileDist = (int) entity.tile().getDistance(target.tile());
         int duration = (80 + 11 + (10 * tileDist));
@@ -54,7 +55,8 @@ public class Cerberus extends CommonCombatMethod {
     }
 
     private void magicAttack(Entity entity, Entity target) {
-        if (entity.dead() || target.dead()) return; // because in combo attack, its called with a delay in which target can die.
+        if (entity.dead() || target.dead())
+            return; // because in combo attack, its called with a delay in which target can die.
         if (comboAttackCooldown.remaining() < 60) // combo attack anim in progress!
             entity.animate(4492);
         int tileDist = (int) entity.tile().getDistance(target.tile());
@@ -70,7 +72,8 @@ public class Cerberus extends CommonCombatMethod {
     }
 
     private void meleeAttack() {
-        if (entity.dead() || target.dead()) return; // because in combo attack, its called with a delay in which target can die.
+        if (entity.dead() || target.dead())
+            return; // because in combo attack, its called with a delay in which target can die.
         if (comboAttackCooldown.remaining() < 60) // combo attack anim in progress!
             entity.animate(entity.attackAnimation());
         target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MELEE), 1, CombatType.MELEE).checkAccuracy(true).submit();
@@ -99,9 +102,10 @@ public class Cerberus extends CommonCombatMethod {
             entity.getTimers().extendOrRegister(TimerKey.COMBAT_ATTACK, 9); // account for combo attack 3 in 1
     }
 
-    ArrayList<NPC> souls = new ArrayList<>();
+    boolean spawned = false;
 
     private void spawnSouls(Entity target) {
+        if (spawned) return;
 
         if (target == null) {
             return;
@@ -111,96 +115,61 @@ public class Cerberus extends CommonCombatMethod {
             return;
         }
 
-        NPC melee = new NPC(5869, new Tile(1239, 1256, 0));
-        NPC archer = new NPC(5867, new Tile(1240, 1256, 0));
-        NPC magician = new NPC(5868, new Tile(1241, 1256, 0));
+        NPC[] npcs = new NPC[]{new NPC(5869, new Tile(1239, 1256, 0)), new NPC(5867, new Tile(1240, 1256, 0)), new NPC(5868, new Tile(1241, 1256, 0))};
 
-        souls.add(melee);
-        souls.add(archer);
-        souls.add(magician);
+        for (var npc : npcs) {
+            npc.spawn(false);
+            npc.face(target);
+        }
 
-        melee.respawns(false);
-        archer.respawns(false);
-        magician.respawns(false);
-        World.getWorld().definitions().get(NpcDefinition.class, melee.getId());
-        World.getWorld().definitions().get(NpcDefinition.class, archer.getId());
-        World.getWorld().definitions().get(NpcDefinition.class, magician.getId());
-        melee.face(entity);
-        archer.face(entity);
-        magician.face(entity);
-        World.getWorld().registerNpc(melee);
-        World.getWorld().registerNpc(archer);
-        World.getWorld().registerNpc(magician);
+        NPC melee = npcs[0];
+        NPC archer = npcs[1];
+        NPC magician = npcs[2];
 
-
-        int tileDist = melee.tile().getChevDistance(target.tile());
-        var tile = melee.tile().transform(1, 1, 0);
-        int duration = (41 + 11 + (5 * tileDist));
-        final Projectile[] projectile = {null};
-
-        melee.startEvent(1, () -> {
-            melee.stopActions(true);
-            melee.lock();
+        Chain.noCtx().runFn(2, () -> {
             melee.setPositionToFace(target.tile());
-            melee.animate(8528); //TODO
-        }, 2, () -> {
-            World.getWorld().getPlayers().forEach(p -> {
-                projectile[0] = new Projectile(tile, target, 1248, 41, duration, 43, 0, 0, entity.getSize(), 5);
-                if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MELEE)) {
-                    final int delay = melee.executeProjectile(projectile[0]);
-                    p.hit(melee, 30, delay);
-                } else {
-                    melee.executeProjectile(projectile[0]);
-                    p.hits.block();
-                }
-                if (!target.getAsPlayer().getEquipment().contains(ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD)) {
-                    p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 30));
-                } else {
-                    p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 15));
-                }
-            });
+            melee.animate(8528);
+        }).then(1, () -> {
+            if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MELEE)) {
+                target.hit(melee, 30);
+            } else {
+                target.hits.block();
+            }
+            if (!target.getAsPlayer().getEquipment().contains(ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD)) {
+                target.getSkills().setLevel(Skills.PRAYER, Math.max(0, target.getSkills().level(Skills.PRAYER) - 30));
+            } else {
+                target.getSkills().setLevel(Skills.PRAYER, Math.max(0, target.getSkills().level(Skills.PRAYER) - 15));
+            }
         });
-        archer.startEvent(3, () -> {
-            archer.stopActions(true);
-            archer.lock();
+        Chain.noCtx().runFn(3, () -> {
             archer.setPositionToFace(target.tile());
             archer.animate(8528); //TODO
-        }, 2, () -> {
-            World.getWorld().getPlayers().forEach(p -> {
-                if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MISSILES)) {
-                    p.hit(archer, 30);
-                }
+        }).then(1, () -> {
+            if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MISSILES)) {
+                target.hit(archer, 30);
                 if (!target.getAsPlayer().getEquipment().contains(ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD)) {
-                    p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 30));
+                    target.getSkills().setLevel(Skills.PRAYER, Math.max(0, target.getSkills().level(Skills.PRAYER) - 30));
                 } else {
-                    p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 15));
+                    target.getSkills().setLevel(Skills.PRAYER, Math.max(0, target.getSkills().level(Skills.PRAYER) - 15));
                 }
-            });
+            }
         });
-
-        magician.startEvent(5, () -> {
-            magician.stopActions(true);
-            magician.lock();
+        Chain.noCtx().runFn(4, () -> {
             magician.setPositionToFace(target.tile());
-            magician.animate(8528); //TODO
-        }, 2, () -> {
-            World.getWorld().getPlayers().forEach(p -> {
-                if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {
-                    p.hit(magician, 30);
-                }
-                if (!target.getAsPlayer().getEquipment().contains(ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD)) {
-                    p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 30));
-                } else {
-                    p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 15));
-                }
-            });
-        });
-
-        Chain.runGlobal(10, () -> {
-            World.getWorld().unregisterNpc(melee);
-            World.getWorld().unregisterNpc(archer);
-            World.getWorld().unregisterNpc(magician);
-            souls.clear();
+            magician.animate(8528);
+        }).then(1, () -> {
+            if (!Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {
+                target.hit(magician, 30);
+            }
+            if (!target.getAsPlayer().getEquipment().contains(ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD)) {
+                target.getSkills().setLevel(Skills.PRAYER, Math.max(0, target.getSkills().level(Skills.PRAYER) - 30));
+            } else {
+                target.getSkills().setLevel(Skills.PRAYER, Math.max(0, target.getSkills().level(Skills.PRAYER) - 15));
+            }
+        }).then(1, () -> {
+            melee.remove();
+            archer.remove();
+            magician.remove();
         });
 
     }
@@ -246,7 +215,6 @@ public class Cerberus extends CommonCombatMethod {
         comboAttackCooldown.reset();
         spreadLavaCooldown.reset();
         spawnSoulCooldown.reset();
-        souls.clear();
     }
 
     @Override
@@ -272,7 +240,7 @@ public class Cerberus extends CommonCombatMethod {
             magicAttack(entity, target);
         } else {
             entity.forceChat("Arrrrroooooooooo!");
-            spawnSouls(target);
+        spawnSouls(target);
         }
 
         return true;

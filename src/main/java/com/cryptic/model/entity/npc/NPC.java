@@ -1030,8 +1030,7 @@ public class NPC extends Entity {
 
     public void remove() {
         //Only remove if this npc is registered
-        if (isRegistered())
-            World.getWorld().unregisterNpc(this);
+        if (isRegistered()) World.getWorld().unregisterNpc(this);
     }
 
     private boolean canAttack = true;

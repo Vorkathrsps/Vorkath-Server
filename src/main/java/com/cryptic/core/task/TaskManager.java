@@ -8,6 +8,7 @@ import com.cryptic.GameEngine;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.utility.NpcPerformance;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -81,15 +82,21 @@ public final class TaskManager {
         // Shadowrs: entity tasks are uniquely executed after packets on each player sequence.
     }
 
+    private static final List<Task> sequenceTasks = new ObjectArrayList<>();
+
     private static void sequenceNormalMode(Entity entity) {
         List<Task> tasks = entity.activeTasks;
         long lol = 0L;
-        for (Task task : new ArrayList<>(tasks)) {
+        sequenceTasks.addAll(tasks); //whts difference between using local temp var to field ?
+        // before it does new ArrayList(tasks) which creates new arraylist each time and new entry for all
+        // which allocates hella memory, oh shit LOL
+        for (Task task : sequenceTasks) { //fix plox
             if (task.isRunning()) {
                 task.onTick();
             }
             task.sequence();
         }
+        sequenceTasks.clear();
         entity.activeTasks.removeIf(t -> !t.isRunning());
     }
 

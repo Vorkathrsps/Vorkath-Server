@@ -19,7 +19,6 @@ public class BloatHandler implements TheatreHandler {
     @Override
     public int scale(NPC npc, Player player, boolean hardMode) {
         int scaledHitpoints;
-
         if (player.getTheatreInstance().getPlayers().size() <= 3) {
             scaledHitpoints = (int) (npc.hp() * 0.75);
         } else if (player.getTheatreInstance().getPlayers().size() == 4) {

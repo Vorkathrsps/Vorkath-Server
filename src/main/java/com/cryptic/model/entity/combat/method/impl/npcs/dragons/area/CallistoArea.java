@@ -116,6 +116,6 @@ public class CallistoArea extends Controller {
 
     @Override
     public boolean inside(Entity entity) {
-        return entity instanceof Player player && player.tile().inArea(ROOM);
+        return entity instanceof Player player && player.tile().inArea( ROOM);
     }
 }

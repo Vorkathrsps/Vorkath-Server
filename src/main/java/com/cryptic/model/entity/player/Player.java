@@ -418,7 +418,6 @@ public class Player extends Entity {
 
         percent += player().getGameMode().dropRate;
 
-
         if (Skulling.skulled(player()) && player().tile.insideRevCave()) {
             percent += 1.05;
         }

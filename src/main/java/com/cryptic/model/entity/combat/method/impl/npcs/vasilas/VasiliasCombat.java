@@ -60,6 +60,7 @@ public class VasiliasCombat extends CommonCombatMethod {
         if (isTransforming) {
             return false;
         }
+        if (form == null) return false;
         switch (form.getCombatType()) {
             case MAGIC -> {
                 if (player.isPlayer()) {

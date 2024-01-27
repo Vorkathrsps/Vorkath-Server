@@ -115,9 +115,9 @@ public class NpcPerformance {
         if (targetVerifMsg != null) {
             sb.append(targetVerifMsg);
         }
-        if (aggression != null && aggression.elapsed().toMillis() > 0 && GameServer.properties().displayCycleLag) {
+        /*if (aggression != null && aggression.elapsed().toMillis() > 0 && GameServer.properties().displayCycleLag) {
             sb.append("agro in "+aggression.elapsed().toNanos()+" ns. ");
-        }
+        }*/
         final String res = sb.toString();
         if (res.length() > 0) {
             logger.error("Mob {} performance: {}", entity, res);

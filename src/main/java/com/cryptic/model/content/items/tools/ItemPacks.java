@@ -16,7 +16,6 @@ import java.util.Optional;
 public class ItemPacks {
 
     public enum ItemSets {
-        //Armour sets
         GUTHANS_SET(ItemIdentifiers.GUTHANS_ARMOUR_SET, new Item(ItemIdentifiers.GUTHANS_HELM), new Item(ItemIdentifiers.GUTHANS_PLATEBODY), new Item(ItemIdentifiers.GUTHANS_CHAINSKIRT), new Item(ItemIdentifiers.GUTHANS_WARSPEAR)),
         VERACS_SET(ItemIdentifiers.VERACS_ARMOUR_SET, new Item(ItemIdentifiers.VERACS_BRASSARD), new Item(ItemIdentifiers.VERACS_FLAIL), new Item(ItemIdentifiers.VERACS_HELM), new Item(ItemIdentifiers.VERACS_PLATESKIRT)),
         TORAGS_SET(ItemIdentifiers.TORAGS_ARMOUR_SET, new Item(ItemIdentifiers.TORAGS_HAMMERS), new Item(ItemIdentifiers.TORAGS_HELM), new Item(ItemIdentifiers.TORAGS_PLATEBODY), new Item(ItemIdentifiers.TORAGS_PLATELEGS)),

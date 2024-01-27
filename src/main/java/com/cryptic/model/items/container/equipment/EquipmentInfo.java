@@ -327,6 +327,7 @@ public class EquipmentInfo {
                 case BLISTERWOOD_FLAIL:
                     return 8010;
                 case DRAGON_CLAWS:
+                case CORRUPTED_DRAGON_CLAWS:
                     return style == 2 ? 1067 : 393;
                 case 15241:
                     return 12175;
@@ -409,6 +410,7 @@ public class EquipmentInfo {
                 case 20370: // gs
                 case 20372: // gs
                 case 20374: // gs
+                case CORRUPTED_ARMADYL_GODSWORD:
                 case 11838: // sara sword
                 case 12808: // blessed ss (full)
                 case 12809: // blessed ss
@@ -705,7 +707,7 @@ public class EquipmentInfo {
             case DRAGON_HASTA, TOXIC_BLOWPIPE, 28688, 4910, 4911, 4912, 4913, 4914 -> {
                 return 430;
             }
-            case DRAGON_CLAWS, BRONZE_CROSSBOW, IRON_CROSSBOW, STEEL_CROSSBOW, ADAMANT_CROSSBOW, RUNE_CROSSBOW, DRAGON_CROSSBOW, DRAGON_HUNTER_CROSSBOW, KARILS_CROSSBOW, ZARYTE_CROSSBOW, 4747, 4958, 4959, 4960, 4961, 4718, 4886, 4887, 4888, 4889 -> { // Dharok's greataxe
+            case DRAGON_CLAWS, CORRUPTED_DRAGON_CLAWS, BRONZE_CROSSBOW, IRON_CROSSBOW, STEEL_CROSSBOW, ADAMANT_CROSSBOW, RUNE_CROSSBOW, DRAGON_CROSSBOW, DRAGON_HUNTER_CROSSBOW, KARILS_CROSSBOW, ZARYTE_CROSSBOW, 4747, 4958, 4959, 4960, 4961, 4718, 4886, 4887, 4888, 4889 -> { // Dharok's greataxe
                 return 424;
             }
             case LEAFBLADED_BATTLEAXE -> {

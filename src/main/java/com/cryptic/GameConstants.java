@@ -22,6 +22,14 @@ public class GameConstants {
     /**
      * Starter items for game mode.
      */
+    public static final Item[] STARTER_ITEMS_NEW = {
+        new Item(COINS_995, 50_000), new Item(IRON_SET_LG), new Item(IRON_SCIMITAR),new Item(CLIMBING_BOOTS),
+        new Item(COIF), new Item(LEATHER_BODY), new Item(LEATHER_CHAPS), new Item(SHORTBOW),
+        new Item(BLUE_HAT), new Item(BLUE_ROBE_TOP), new Item(BLUE_ROBE_BOTTOMS), new Item(STAFF_OF_AIR),
+        new Item(AMULET_OF_STRENGTH),
+        new Item(BRONZE_ARROW, 500), new Item(FIRE_RUNE, 1000), new Item(WATER_RUNE, 1000), new Item(AIR_RUNE, 1000), new Item(EARTH_RUNE, 1000), new Item(MIND_RUNE, 1000),
+        new Item(COMBAT_POTION4 + 1, 25), new Item(LOBSTER + 1, 50)
+    };
     public static final Item[] STARTER_ITEMS = {
         //Iron armour
         new Item(IRON_FULL_HELM), new Item(IRON_PLATEBODY), new Item(IRON_PLATELEGS), new Item(IRON_KITESHIELD),
@@ -34,9 +42,9 @@ public class GameConstants {
         //Standard runes
         new Item(FIRE_RUNE, 1000), new Item(WATER_RUNE, 1000), new Item(AIR_RUNE, 1000), new Item(EARTH_RUNE, 1000), new Item(MIND_RUNE, 1000),
         //Food (Lobsters, noted)
-        new Item(LOBSTER+1, 50),
+        new Item(LOBSTER + 1, 50),
         //Potion
-        new Item(COMBAT_POTION4+1, 25),
+        new Item(COMBAT_POTION4 + 1, 25),
         new Item(BLOOD_MONEY, 2500),
 
 
@@ -162,25 +170,25 @@ public class GameConstants {
      * corresponding itemcontainer identification.
      */
     public static final int[][] SIDEBAR_INTERFACE =
-    {
-        {GameConstants.ATTACK_TAB, 2423}, {GameConstants.SKILL_TAB, 10000}, {GameConstants.QUEST_TAB, 80000}, {GameConstants.INVENTORY_TAB, 3213}, {GameConstants.EQUIPMENT_TAB, 1644}, {GameConstants.PRAYER_TAB, 5608}, {GameConstants.MAGIC_TAB, 938}, //Row 1
+        {
+            {GameConstants.ATTACK_TAB, 2423}, {GameConstants.SKILL_TAB, 10000}, {GameConstants.QUEST_TAB, 80000}, {GameConstants.INVENTORY_TAB, 3213}, {GameConstants.EQUIPMENT_TAB, 1644}, {GameConstants.PRAYER_TAB, 5608}, {GameConstants.MAGIC_TAB, 938}, //Row 1
 
-        {GameConstants.CLAN_TAB, InterfaceConstants.CLAN_CHAT}, {GameConstants.FRIENDS_TAB, 5065}, {GameConstants.IGNORE_TAB, 73000}, {GameConstants.LOGOUT_TAB, 2449}, {GameConstants.WRENCH_TAB, 42500}, {GameConstants.EMOTE_TAB, 147}, {GameConstants.MUSIC_TAB, 72000} //Row 2
-    };
-    
+            {GameConstants.CLAN_TAB, InterfaceConstants.CLAN_CHAT}, {GameConstants.FRIENDS_TAB, 5065}, {GameConstants.IGNORE_TAB, 73000}, {GameConstants.LOGOUT_TAB, 2449}, {GameConstants.WRENCH_TAB, 42500}, {GameConstants.EMOTE_TAB, 147}, {GameConstants.MUSIC_TAB, 72000} //Row 2
+        };
+
     /**
      * All the tab identifications
      */
     public static final int ATTACK_TAB = 0, SKILL_TAB = 1, QUEST_TAB = 2, INVENTORY_TAB = 3, EQUIPMENT_TAB = 4,
-            PRAYER_TAB = 5, MAGIC_TAB = 6, CLAN_TAB = 7, FRIENDS_TAB = 8, IGNORE_TAB = 9, LOGOUT_TAB = 10,
-            WRENCH_TAB = 11, EMOTE_TAB = 12, MUSIC_TAB = 13;
+        PRAYER_TAB = 5, MAGIC_TAB = 6, CLAN_TAB = 7, FRIENDS_TAB = 8, IGNORE_TAB = 9, LOGOUT_TAB = 10,
+        WRENCH_TAB = 11, EMOTE_TAB = 12, MUSIC_TAB = 13;
 
     public static final int PLAYERS_LIMIT = 2047; //This must be capped to 2047 because 11 bits - 1
     public static final int NPCS_LIMIT = 65535;
     /**
      * Strings that are classified as bad
      */
-    public static final String[] BAD_STRINGS = { };
+    public static final String[] BAD_STRINGS = {};
 
     public final static int[] TAB_AMOUNT = {48, 26, 36, 66, 0, 0, 0, 0, 0, 0}; //170
     public final static Item[] BANK_ITEMS = {

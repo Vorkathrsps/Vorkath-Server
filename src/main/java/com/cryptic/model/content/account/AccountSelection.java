@@ -121,14 +121,14 @@ public class AccountSelection extends PacketInteraction {
         switch (type) {
             case 0 -> {
                 player.resetSkills();
-                player.getInventory().addAll(GameConstants.STARTER_ITEMS);
+                player.getInventory().addAll(GameConstants.STARTER_ITEMS_NEW);
             }
             case 1 -> {
                 player.resetSkills();
                 player.getInventory().add(new Item(IRONMAN_HELM, 1), true);
                 player.getInventory().add(new Item(IRONMAN_PLATEBODY, 1), true);
                 player.getInventory().add(new Item(IRONMAN_PLATELEGS, 1), true);
-                player.getInventory().addAll(GameConstants.STARTER_ITEMS);
+                player.getInventory().addAll(GameConstants.STARTER_ITEMS_NEW);
                 player.setIronmanStatus(IronMode.REGULAR);
                 player.message("You have been given some training equipment.");
             }
@@ -137,7 +137,7 @@ public class AccountSelection extends PacketInteraction {
                 player.getInventory().add(new Item(HARDCORE_IRONMAN_HELM, 1), true);
                 player.getInventory().add(new Item(HARDCORE_IRONMAN_PLATEBODY, 1), true);
                 player.getInventory().add(new Item(HARDCORE_IRONMAN_PLATELEGS, 1), true);
-                player.getInventory().addAll(GameConstants.STARTER_ITEMS);
+                player.getInventory().addAll(GameConstants.STARTER_ITEMS_NEW);
                 player.setIronmanStatus(IronMode.HARDCORE);
                 player.message("You have been given some training equipment.");
             }
@@ -145,14 +145,14 @@ public class AccountSelection extends PacketInteraction {
                 player.getInventory().add(new Item(SHATTERED_HOOD_T3, 1), true);
                 player.getInventory().add(new Item(SHATTERED_TOP_T3, 1), true);
                 player.getInventory().add(new Item(SHATTERED_TROUSERS_T3, 1), true);
-                player.getInventory().addAll(GameConstants.STARTER_ITEMS);
+                player.getInventory().addAll(GameConstants.STARTER_ITEMS_NEW);
                 player.message("You have been given some training equipment.");
             }
             case 4 -> {
                 player.getInventory().add(new Item(SHATTERED_HOOD_T1, 1), true);
                 player.getInventory().add(new Item(SHATTERED_TOP_T1, 1), true);
                 player.getInventory().add(new Item(SHATTERED_TROUSERS_T1, 1), true);
-                player.getInventory().addAll(GameConstants.STARTER_ITEMS);
+                player.getInventory().addAll(GameConstants.STARTER_ITEMS_NEW);
                 player.message("You have been given some training equipment.");
             }
         }

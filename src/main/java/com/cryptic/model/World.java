@@ -413,7 +413,8 @@ public class World {
      * Flushes all NPCs that need to be updated.
      */
     private void flushNpcs() {
-        for (NPC npc : npcs) {
+        for (NPC npc : npcs) { // nah so all it means is if u wanna improve performance u have to improve performance of this method
+            //would proibably be either checkindex which looops the entity list or resetting updating, no?
             if (npc != null && checkIndex(npc.getIndex(), NodeType.NPC)) {
                 try {
                     npc.resetUpdating();

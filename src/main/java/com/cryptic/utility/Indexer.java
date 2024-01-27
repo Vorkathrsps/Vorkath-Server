@@ -7,6 +7,15 @@ import java.util.stream.StreamSupport;
 
 /**
  * Created by Jonathan on 3/24/2017.
+ *
+ * lmfao is this from os-scape? this is my code l0l, yeah funny because i have alot of os-scape / runite stuff impl'd in here
+ * pathing etc,
+ *
+ * htis my friend Jonathan Beaudoin, guess he didnt give me credit l0l, sadge af, this is bottlenecking?
+ * nah just this is as fast as it gets so nothing else can do about it, strange, is there anythign else on the gamethread tha
+ * flags? how do you identify problems on there
+ *
+ * nothing else but login a player and u can see
  */
 public final class Indexer<E> implements Iterable<E> {
 

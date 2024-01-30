@@ -18,8 +18,6 @@ public class MenacingMage extends AbstractSigilHandler {
     @Override
     protected void process(Player player, Entity target) {
         if (!attuned(player)) return;
-        if (player.getCombat().getTarget() instanceof Player) return;
-        if (player.getCombat().getCombatType() != CombatType.MAGIC) return;
         var damage = 2;
         switch (player.getMemberRights()) {
             case RUBY_MEMBER -> damage = 3;
@@ -61,6 +59,11 @@ public class MenacingMage extends AbstractSigilHandler {
     @Override
     protected boolean activated(Player player) {
         return player.hasAttrib(AttributeKey.MENACING_CURSE);
+    }
+
+    @Override
+    protected boolean validateCombatType(Player player) {
+        return player.getCombat().getCombatType().equals(CombatType.MAGIC);
     }
 
 }

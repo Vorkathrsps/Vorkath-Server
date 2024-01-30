@@ -3,6 +3,7 @@ package com.cryptic.model.content.sigils.io;
 import com.cryptic.model.content.sigils.AbstractSigilHandler;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
+import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
@@ -18,8 +19,6 @@ public class DeftStrikes extends AbstractSigilHandler {
     @Override
     protected void applyBoost(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy) {
         if (!attuned(player)) return;
-        if (player.getCombat().getCombatType() == null) return;
-        if (!(target instanceof NPC)) return;
         var boost = 1.20;
         switch (player.getMemberRights()) {
             case RUBY_MEMBER -> boost = 1.21;
@@ -43,5 +42,10 @@ public class DeftStrikes extends AbstractSigilHandler {
     @Override
     protected boolean activated(Player player) {
         return false;
+    }
+
+    @Override
+    protected boolean validateCombatType(Player player) {
+        return player.getCombat().getCombatType().equals(CombatType.RANGED) || player.getCombat().getCombatType().equals(CombatType.MELEE) || player.getCombat().getCombatType().equals(CombatType.MAGIC);
     }
 }

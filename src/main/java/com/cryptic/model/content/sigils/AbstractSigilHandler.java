@@ -11,4 +11,5 @@ public abstract class AbstractSigilHandler {
     protected abstract void applyBoost(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy);
     protected abstract boolean attuned(Player player);
     protected abstract boolean activated(Player player);
+    protected abstract boolean validateCombatType(Player player);
 }

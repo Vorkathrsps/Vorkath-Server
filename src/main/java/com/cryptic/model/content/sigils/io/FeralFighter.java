@@ -15,8 +15,6 @@ public class FeralFighter extends AbstractSigilHandler {
     @Override
     protected void process(Player player, Entity target) {
         if (!attuned(player)) return;
-        if (player.getCombat().getTarget() instanceof Player) return;
-        if (player.getCombat().getCombatType() != CombatType.MELEE) return;
         var delay = 12;
         switch (player.getMemberRights()) {
             case RUBY_MEMBER -> delay = 13;
@@ -50,6 +48,11 @@ public class FeralFighter extends AbstractSigilHandler {
     @Override
     protected boolean activated(Player player) {
         return player.hasAttrib(AttributeKey.FERAL_FIGHTER_ATTACKS_SPEED);
+    }
+
+    @Override
+    protected boolean validateCombatType(Player player) {
+        return player.getCombat().getCombatType().equals(CombatType.MELEE);
     }
 
 }

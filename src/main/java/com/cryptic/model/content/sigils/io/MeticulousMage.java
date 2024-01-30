@@ -19,9 +19,6 @@ public class MeticulousMage extends AbstractSigilHandler {
     @Override
     protected void applyBoost(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy) {
         if (!attuned(player)) return;
-        if (player.getCombat().getCombatType() == null) return;
-        if (!(target instanceof NPC)) return;
-        if (player.getCombat().getCombatType() != CombatType.MAGIC) return;
         var boost = 1.20;
         switch (player.getMemberRights()) {
             case RUBY_MEMBER -> boost = 1.21;
@@ -43,5 +40,10 @@ public class MeticulousMage extends AbstractSigilHandler {
     @Override
     protected boolean activated(Player player) {
         return false;
+    }
+
+    @Override
+    protected boolean validateCombatType(Player player) {
+        return player.getCombat().getCombatType().equals(CombatType.MAGIC);
     }
 }

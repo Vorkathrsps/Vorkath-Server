@@ -18,8 +18,6 @@ public class RuthlessRanger extends AbstractSigilHandler {
     @Override
     protected void process(Player player, Entity target) {
         if (!attuned(player)) return;
-        if (player.getCombat().getTarget() instanceof Player) return;
-        if (player.getCombat().getCombatType() != CombatType.RANGED) return;
         var damage = 1;
         switch (player.getMemberRights()) {
             case RUBY_MEMBER -> damage = 2;
@@ -63,6 +61,11 @@ public class RuthlessRanger extends AbstractSigilHandler {
     @Override
     protected boolean activated(Player player) {
         return player.hasAttrib(AttributeKey.RUTHLESS_CRIPPLE);
+    }
+
+    @Override
+    protected boolean validateCombatType(Player player) {
+        return player.getCombat().getCombatType().equals(CombatType.RANGED);
     }
 
 }

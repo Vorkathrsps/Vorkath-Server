@@ -1,5 +1,6 @@
 package com.cryptic.model.content.bankersnote;
 
+import com.cryptic.model.content.duel.Dueling;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
@@ -15,6 +16,10 @@ public class BankersNote extends PacketInteraction {
                 player.message(Color.RED.wrap("You cannot use the " + item.name() + " inside of the wilderness."));
                 return true;
             }
+            if (Dueling.in_duel(player)) {
+                player.message(Color.RED.wrap("You cannot use the " + item.name() + " inside of the duel arena."));
+                return true;
+            }
             player.getBank().open();
             return true;
         }
@@ -27,14 +32,21 @@ public class BankersNote extends PacketInteraction {
                 player.message(Color.RED.wrap("You cannot use the " + use.name() + " inside of the wilderness."));
                 return true;
             }
+            if (Dueling.in_duel(player)) {
+                player.message(Color.RED.wrap("You cannot use the " + use.name() + " inside of the duel arena."));
+                return true;
+            }
             player.setAmountScript("How many would you like to note?", script -> {
                 int amount = (int) script;
                 if (amount <= 0) return false;
                 if (player.getInventory().count(usedWith.getId()) < amount) {
-                    player.message(Color.RED.wrap("The quantity you've entered exceeds what's currently available in your inventory."));
-                    return false;
+                    amount = player.getInventory().count(usedWith.getId());
                 }
                 for (int index = 0; index < amount; index++) {
+                    if (!player.inventory().contains(usedWith.note().getId()) && player.getInventory().isFull()) {
+                        player.message("You do not have enough space in your inventory.");
+                        break;
+                    }
                     player.getInventory().remove(usedWith.getId());
                     player.getInventory().add(usedWith.note());
                 }
@@ -50,12 +62,15 @@ public class BankersNote extends PacketInteraction {
                 int amount = (int) script;
                 if (amount <= 0) return false;
                 if (player.getInventory().count(usedWith.getId()) < amount) {
-                    player.message(Color.RED.wrap("The quantity you've entered exceeds what's currently available in your inventory."));
-                    return false;
+                    amount = player.getInventory().count(usedWith.getId());
                 }
                 int noted = usedWith.getId();
                 int unnoted = usedWith.unnote().getId();
                 for (int index = 0; index < amount; index++) {
+                    if (player.getInventory().isFull()) {
+                        player.message("You do not have enough space in your inventory.");
+                        break;
+                    }
                     player.getInventory().remove(noted);
                     player.getInventory().add(unnoted);
                 }

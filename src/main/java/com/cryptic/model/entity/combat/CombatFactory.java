@@ -920,7 +920,7 @@ public class CombatFactory {
 
 
         if (attacker instanceof Player player) {
-            sigils.prepare(player, target);
+            sigils.process(player, target);
             triggerDamageEffects.triggerEffectForAttacker(player, combatType, hit);
         } else if (attacker instanceof NPC npc) {
             triggerDamageEffects.triggerEffectForAttacker(npc, combatType, hit);
@@ -1019,6 +1019,8 @@ public class CombatFactory {
                 handlePrayerEffects(attacker, target, damage, hit.getCombatType());
             }
         }
+
+        if (attacker instanceof Player player) CombatFactory.sigils.processDamage(player, hit);
 
         if (hit.postDamage != null)
             hit.postDamage.accept(hit);

@@ -9,6 +9,7 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
@@ -33,11 +34,30 @@ public class Sigil extends PacketInteraction implements SigilListener {
         sigils.add(new RuthlessRanger());
         sigils.add(new DeftStrikes());
         sigils.add(new MeticulousMage());
+        sigils.add(new SigilOfConsistency());
         return sigils;
     }
 
     @Override
-    public void prepare(Player player, Entity target) {
+    public void processDamage(Player player, Hit hit) {
+        if (WildernessArea.inWilderness(player.tile())) return;
+        Combat combat = player.getCombat();
+        if (combat == null) return;
+        CombatType combatType = combat.getCombatType();
+        if (combatType == null) return;
+        Entity combatTarget = combat.getTarget();
+        if (combatTarget instanceof Player) return;
+        for (AbstractSigilHandler sigil : handler) {
+            if (sigil.attuned(player)) {
+                if (sigil.validateCombatType(player)) {
+                    sigil.handleDamageModification(player, hit);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void process(Player player, Entity target) {
         if (WildernessArea.inWilderness(player.tile())) return;
         Combat combat = player.getCombat();
         if (combat == null) return;
@@ -65,8 +85,7 @@ public class Sigil extends PacketInteraction implements SigilListener {
         if (combatTarget instanceof Player) return;
         for (AbstractSigilHandler sigil : handler) {
             if (sigil.attuned(player)) {
-                if (sigil.validateCombatType(player))
-                    sigil.applyBoost(player, target, rangeAccuracy, magicAccuracy, meleeAccuracy);
+                if (sigil.validateCombatType(player)) sigil.applyBoost(player, target, rangeAccuracy, magicAccuracy, meleeAccuracy);
             }
         }
     }

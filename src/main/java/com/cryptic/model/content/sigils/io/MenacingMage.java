@@ -7,6 +7,7 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.Utils;
@@ -45,6 +46,11 @@ public class MenacingMage extends AbstractSigilHandler {
                 });
             }
         }
+    }
+
+    @Override
+    protected void handleDamageModification(Player player, Hit hit) {
+
     }
 
     @Override

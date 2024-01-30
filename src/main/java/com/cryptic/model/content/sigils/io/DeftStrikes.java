@@ -7,12 +7,18 @@ import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 
 public class DeftStrikes extends AbstractSigilHandler {
     @Override
     protected void process(Player player, Entity target) {
+
+    }
+
+    @Override
+    protected void handleDamageModification(Player player, Hit hit) {
 
     }
 

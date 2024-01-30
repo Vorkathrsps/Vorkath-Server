@@ -297,8 +297,7 @@
     "restock": true,
     "sellType": "NONE",
     "scroll": 350,
-    "items":
-    [
+    "items": [
       {
         "id": 11802,
         "amount": 100,
@@ -374,7 +373,6 @@
         "amount": 100,
         "value": 2
       },
-
       {
         "id": 6570,
         "amount": 100,
@@ -1155,7 +1153,6 @@
         "amount": 100,
         "value": 10
       },
-
       {
         "id": 12637,
         "amount": 100,
@@ -5769,193 +5766,213 @@
     ]
   },
   {
-    "shopId": 36,
-    "name": "Supplies Shop",
-    "currency": "COINS",
-    "restock": true,
+    "shopId": 350,
+    "name": "Donator Store",
+    "currency": "DONATOR_TICKETS",
     "noiron": false,
+    "restock": true,
     "sellType": "NONE",
     "scroll": 0,
     "items": [
       {
-        "id": 23685,
-        "amount": 10000
+        "id": 28531
+        "amount": 100,
+        "value": 150
       },
       {
-        "id": 24635,
-        "amount": 10000
+        "id": 28540
+        "amount": 100,
+        "value": 125
       },
       {
-        "id": 24623,
-        "amount": 10000
+        "id": 28547,
+        "amount": 100,
+        "value": 125
       },
       {
-        "id": 23709,
-        "amount": 10000
+        "id": 28543,
+        "amount": 100,
+        "value": 80
       },
       {
-        "id": 23697,
-        "amount": 10000
+        "id": 12825,
+        "amount": 100,
+        "value": 35
       },
       {
-        "id": 23721,
-        "amount": 10000
+        "id": 24271,
+        "amount": 100,
+        "value": 30
       },
       {
-        "id": 23733,
-        "amount": 10000
+        "id": 22616,
+        "amount": 100,
+        "value": 25
       },
       {
-        "id": 23745,
-        "amount": 10000
+        "id": 22619,
+        "amount": 100,
+        "value": 25
       },
       {
-        "id": 6685,
-        "amount": 10000
+        "id": 21034,
+        "amount": 100,
+        "value": 20
       },
       {
-        "id": 10925,
-        "amount": 10000
+        "id": 21079,
+        "amount": 100,
+        "value": 20
       },
       {
-        "id": 12695,
-        "amount": 10000
+        "id": 25518,
+        "amount": 100,
+        "value": 30
       },
       {
-        "id": 22461,
-        "amount": 10000
+        "id": 27193,
+        "amount": 100,
+        "value": 35
       },
       {
-        "id": 22449,
-        "amount": 10000
+        "id": 27194,
+        "amount": 100,
+        "value": 35
       },
       {
-        "id": 2440,
-        "amount": 10000
+        "id": 24511,
+        "amount": 100,
+        "value": 25
       },
       {
-        "id": 2436,
-        "amount": 10000
+        "id": 24514,
+        "amount": 100,
+        "value": 25
       },
       {
-        "id": 2442,
-        "amount": 10000
+        "id": 28537,
+        "amount": 100,
+        "value": 40
       },
       {
-        "id": 2444,
-        "amount": 10000
+        "id": 28534,
+        "amount": 100,
+        "value": 40
       },
       {
-        "id": 3040,
-        "amount": 10000
+        "id": 21015,
+        "amount": 100,
+        "value": 10
       },
       {
-        "id": 3024,
-        "amount": 10000
+        "id": 13576,
+        "amount": 100,
+        "value": 10
       },
       {
-        "id": 2434,
-        "amount": 10000
+        "id": 24422,
+        "amount": 100,
+        "value": 15
       },
       {
-        "id": 12625,
-        "amount": 10000
+        "id": 25742,
+        "amount": 100,
+        "value": 25
       },
       {
-        "id": 12913,
-        "amount": 10000
+        "id": 25744,
+        "amount": 100,
+        "value": 25
       },
       {
-        "id": 12905,
-        "amount": 10000
+        "id": 21295,
+        "amount": 100,
+        "value": 30
       },
       {
-        "id": 4417,
-        "amount": 10000
+        "id": 22322,
+        "amount": 100,
+        "value": 25
       },
       {
-        "id": 8013,
-        "amount": 10000
+        "id": 22981,
+        "amount": 100,
+        "value": 25
       },
       {
-        "id": 13441,
-        "amount": 10000
+        "id": 11862,
+        "amount": 100,
+        "value": 20
       },
       {
-        "id": 3144,
-        "amount": 10000
+        "id": 11863,
+        "amount": 100,
+        "value": 20
       },
       {
-        "id": 11936,
-        "amount": 10000
+        "id": 27828,
+        "amount": 100,
+        "value": 20
       },
       {
-        "id": 391,
-        "amount": 10000
+        "id": 1042,
+        "amount": 100,
+        "value": 15
       },
       {
-        "id": 7060,
-        "amount": 10000
+        "id": 1048,
+        "amount": 100,
+        "value": 15
       },
       {
-        "id": 385,
-        "amount": 10000
+        "id": 1038,
+        "amount": 100,
+        "value": 15
       },
       {
-        "id": 7946,
-        "amount": 10000
+        "id": 1046,
+        "amount": 100,
+        "value": 15
       },
       {
-        "id": 373,
-        "amount": 10000
+        "id": 1044,
+        "amount": 100,
+        "value": 15
       },
       {
-        "id": 379,
-        "amount": 10000
+        "id": 1040,
+        "amount": 100,
+        "value": 15
       },
       {
-        "id": 1891,
-        "amount": 10000
+        "id": 13343,
+        "amount": 100,
+        "value": 20
       },
       {
-        "id": 21932,
-        "amount": 10000
+        "id": 11847,
+        "amount": 100,
+        "value": 20
       },
       {
-        "id": 21944,
-        "amount": 10000
+        "id": 1055,
+        "amount": 100,
+        "value": 10
       },
       {
-        "id": 21946,
-        "amount": 10000
+        "id": 1057,
+        "amount": 100,
+        "value": 10
       },
       {
-        "id": 21950,
-        "amount": 10000
+        "id": 1053,
+        "amount": 100,
+        "value": 10
       },
       {
-        "id": 21948,
-        "amount": 10000
-      },
-      {
-        "id": 26705,
-        "amount": 10000
-      },
-      {
-        "id": 24607,
-        "amount": 10000
-      },
-      {
-        "id": 24615,
-        "amount": 10000
-      },
-      {
-        "id": 24621,
-        "amount": 10000
-      },
-      {
-        "id": 24613,
-        "amount": 10000
+        "id": 1050,
+        "amount": 100,
+        "value": 10
       }
     ]
   },

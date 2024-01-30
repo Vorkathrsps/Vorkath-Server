@@ -169,20 +169,16 @@ public class SlayerPartner {
                 if (isPhase(0)) {
                     if (option == 1) {
                         stop();
-                        player.setAmountScript("Who would you like to be your slayer partner?", new InputScript() {
-
-                            @Override
-                            public boolean handle(Object value) {
-                                String input = (String) value;
-                                Optional<Player> partner = World.getWorld().getPlayerByName(input);
-                                //Check if player is online
-                                if (partner.isPresent()) {
-                                    invite(player, partner.get(), true);
-                                } else {
-                                    DialogueManager.sendStatement(player, input + " is not online.");
-                                }
-                                return true;
+                        player.setAmountScript("Who would you like to be your slayer partner?", value -> {
+                            String input = (String) value;
+                            Optional<Player> partner = World.getWorld().getPlayerByName(input);
+                            //Check if player is online
+                            if (partner.isPresent()) {
+                                invite(player, partner.get(), true);
+                            } else {
+                                DialogueManager.sendStatement(player, input + " is not online.");
                             }
+                            return true;
                         });
                     } else if (option == 2) {
                         String slayerPartner = player.getAttribOr(AttributeKey.SLAYER_PARTNER, "None");

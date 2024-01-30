@@ -124,7 +124,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
         if (sound != null) {
             var soundInfo = sound.getSpellInfo(spellId);
             if (soundInfo != null) {
-                player.sendPublicSound(soundInfo.getCastSound(), 0);
+                player.sendPrivateSound(soundInfo.getCastSound(), 0);
             }
         }
         player.animate(new Animation(castAnimation, Priority.HIGH));

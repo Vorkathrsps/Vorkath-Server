@@ -177,7 +177,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
                 final int hitDelay = attacker.executeProjectile(projectile);
                 Hit hit = new Hit(attacker, target, hitDelay, this);
                 var sound = World.getWorld().getSoundLoader().getInfo(player.getEquipment().getWeapon().getId());
-                if (sound != null) player.sendPublicSound(sound.forFightType(player.getCombat().getFightType()), hit.getDelay());
+                if (sound != null) player.sendPrivateSound(sound.forFightType(player.getCombat().getFightType()), hit.getDelay());
                 if (isImmune(target, hit)) return true;
                 else hit.checkAccuracy(true).submit();
                 if (graphic != -1) {

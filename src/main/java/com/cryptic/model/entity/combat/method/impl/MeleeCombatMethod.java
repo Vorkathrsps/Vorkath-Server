@@ -113,14 +113,14 @@ public class MeleeCombatMethod extends CommonCombatMethod {
             var fightType = player.getCombat().getFightType();
             if (fightType != null) {
                 switch (fightType) {
-                    case UNARMED_PUNCH, UNARMED_BLOCK -> player.sendPublicSound(2566, 0);
-                    case UNARMED_KICK -> player.sendPublicSound(2565, 0);
+                    case UNARMED_PUNCH, UNARMED_BLOCK -> player.sendPrivateSound(2566, 0);
+                    case UNARMED_KICK -> player.sendPrivateSound(2565, 0);
                 }
             }
             if (weapon != null) {
                 var sound = World.getWorld().getSoundLoader().getInfo(player.getEquipment().getWeapon().getId());
                 if (sound != null) {
-                    player.sendPublicSound(sound.forFightType(player.getCombat().getFightType()), hit.getDelay());
+                    player.sendPrivateSound(sound.forFightType(player.getCombat().getFightType()), hit.getDelay());
                 }
             }
         }

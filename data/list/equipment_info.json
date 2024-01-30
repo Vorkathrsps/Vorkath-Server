@@ -18916,62 +18916,74 @@
     "type": 0,
     "showBeard": false
   },
-  "26850": { //helmet
+  "26850": {
+    //helmet
     "slot": 0,
     "type": 8,
     "showBeard": false
   },
-  "26852": { //top
+  "26852": {
+    //top
     "slot": 4,
     "type": 6,
     "showBeard": false
   },
-  "26854": { //legs
+  "26854": {
+    //legs
     "slot": 7,
     "type": 0,
     "showBeard": false
   },
-  "26856": { //boots
+  "26856": {
+    //boots
     "slot": 10,
     "type": 0,
     "showBeard": false
   },
-  "25438": { //helmet
+  "25438": {
+    //helmet
     "slot": 0,
     "type": 8,
     "showBeard": true
   },
-  "25434": { //top
+  "25434": {
+    //top
     "slot": 4,
     "type": 6,
     "showBeard": false
   },
-  "25436": { //legs
+  "25436": {
+    //legs
     "slot": 7,
     "type": 0,
     "showBeard": false
   },
-  "25440": { //boots
+  "25440": {
+    //boots
     "slot": 10,
     "type": 0,
     "showBeard": false
   },
-  "13646": { //helmet
+  "13646": {
+    //helmet
     "slot": 0,
     "type": 8,
     "showBeard": true
   },
-  "13643": { //top
+  "13643": {
+    //top
     "slot": 4,
     "type": 6,
     "showBeard": false
   },
-  "13640": { //legs
+  "13640": {
+    //legs
     "slot": 7,
     "type": 0,
     "showBeard": false
   },
-  "13644": { //boots
+  "13644": {
+    //boots
     "slot": 10,
     "type": 0,
     "showBeard": false
@@ -19031,17 +19043,20 @@
     "type": 5,
     "showBeard": false
   },
-  "26715": { //chest
+  "26715": {
+    //chest
     "slot": 4,
     "type": 6,
     "showBeard": false
   },
-  "26716": { //skirt
+  "26716": {
+    //skirt
     "slot": 7,
     "type": 0,
     "showBeard": false
   },
-  "26714": { //helmet
+  "26714": {
+    //helmet
     "slot": 0,
     "type": 8,
     "showBeard": true
@@ -19088,6 +19103,21 @@
   },
   "25034": {
     "slot": 7,
+    "type": 0,
+    "showBeard": false
+  },
+  "32001": {
+    "slot": 3,
+    "type": 5,
+    "showBeard": false
+  },
+  "32000": {
+    "slot": 3,
+    "type": 0,
+    "showBeard": false
+  },
+  "32002": {
+    "slot": 3,
     "type": 0,
     "showBeard": false
   }

@@ -11,6 +11,7 @@ import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
+import com.cryptic.utility.Tuple;
 import com.cryptic.utility.Utils;
 import lombok.Getter;
 import lombok.Setter;
@@ -73,13 +74,14 @@ public class WildernessKeys {
             if (clickDelay) {
                 player.waitForTile(digTile, () -> {
                     if (player.tile().equals(3028, 3915, 0) && player.getInventory().contains(ItemIdentifiers.KEY_298)) {
+                        player.getInventory().remove(ItemIdentifiers.KEY_298);
                         player.getClickDelay().reset();
                         player.getPacketSender().sendEntityHintRemoval(true);
                         this.setNpc(new NPC(NpcIdentifiers.JUDGE_OF_YAMA_10938, new Tile(player.tile().getX(), player.tile().getY(), player.tile().getZ())));
                         this.setPlayer(this.player);
                         targetList.add(player);
-                        player.getInventory().remove(ItemIdentifiers.KEY_298);
-                        player.putAttrib(AttributeKey.SPAWNED_LINKED_NPC, true);
+                        npc.putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
+                        npc.getCombatInfo().aggressive = true;
                         player.getCombat().setTarget(npc);
                         player.getPacketSender().sendEntityHint(npc);
                         World.getWorld().registerNpc(npc);
@@ -105,10 +107,6 @@ public class WildernessKeys {
 
     public boolean hasSpawnedNpc() {
         return player.hasAttrib(AttributeKey.SPAWNED_LINKED_NPC);
-    }
-
-    public boolean isNpcLinked() {
-        return npc.hasAttrib(AttributeKey.SPAWNED_LINKED_NPC);
     }
 }
 

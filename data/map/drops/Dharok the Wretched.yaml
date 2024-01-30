@@ -16,25 +16,25 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: DHAROK'S_HELM
+- item: DHAROKS_HELM
   minimumAmount: 1
   maximumAmount: 1
   chance: 50
   rareDrop: false
   sendToBank: false
-- item: DHAROK'S_PLATEBODY
+- item: DHAROKS_PLATEBODY
   minimumAmount: 1
   maximumAmount: 1
   chance: 50
   rareDrop: false
   sendToBank: false
-- item: DHAROK'S_PLATELEGS
+- item: DHAROKS_PLATELEGS
   minimumAmount: 1
   maximumAmount: 1
   chance: 50
   rareDrop: false
   sendToBank: false
-- item: DHAROK'S_AXE
+- item: DHAROKS_AXE
   minimumAmount: 1
   maximumAmount: 1
   chance: 50

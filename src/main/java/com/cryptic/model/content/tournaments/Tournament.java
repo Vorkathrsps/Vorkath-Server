@@ -29,9 +29,7 @@ import static java.lang.String.format;
 public class Tournament {
     public Map<Player, Map<double[], int[]>> playerSkillMap = new HashMap<>();
     private static final Logger logger = LogManager.getLogger(Tournament.class);
-
     public int maxParticipants = GameServer.properties().tournamentMaxParticipants, minimumParticipants = 2;
-
     final List<Player> inLobby = new ArrayList<>(0);
     final List<String> macAddressesInLobby = new ArrayList<>(0);
     private final TournamentManager.TornConfig config;

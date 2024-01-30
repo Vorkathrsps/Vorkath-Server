@@ -173,7 +173,7 @@ public class Fishing {
     }
 
     public static PlainTile randomFreeSpotTile(World world, List<PlainTile> tiles) {
-        return tiles.parallelStream().filter(t -> world.getNpcs().stream().filter(Objects::nonNull).noneMatch(n  -> n.tile().equals(t))).findAny().orElse(tiles.get(0));
+        return tiles.parallelStream().filter(t -> world.getNpcs().stream().filter(Objects::nonNull).noneMatch(n  -> n.tile() == t.tile())).findAny().orElse(tiles.get(0));
     }
 
     public static class FishSpotDef {

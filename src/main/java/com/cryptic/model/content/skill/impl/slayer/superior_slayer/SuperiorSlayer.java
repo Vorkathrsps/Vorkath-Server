@@ -31,11 +31,10 @@ public class SuperiorSlayer {
             return;
         }
 
-        int odds = 10;
+        int odds = 175;
 
         //Almost always spawn for developers (testing)
-        if (player.getPlayerRights().isAdministrator(player) && !GameServer.properties().production)
-            odds = 3;
+        if (player.getPlayerRights().isAdministrator(player) && !GameServer.properties().production) odds = 3;
 
         if (Utils.rollDie(odds, 1)) {
             NPC boss = new NPC(superior, npc.tile());

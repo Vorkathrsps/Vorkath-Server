@@ -12,6 +12,7 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.object.ObjectManager;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
+import com.cryptic.utility.Color;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 
@@ -110,58 +111,59 @@ public class Stalls extends PacketInteraction {
             return;
         }
 
+        if (player.inventory().contains(22521, 28) || player.inventory().contains(22522, 28) || player.inventory().contains(22523, 28) || player.inventory().contains(22524, 28) || player.inventory().contains(22525, 28) || player.inventory().contains(22526, 28) || player.inventory().contains(22527, 28) || player.inventory().contains(22528, 28) || player.inventory().contains(22529, 28) || player.inventory().contains(22530, 28)) {
+            player.message(Color.RED.wrap("You must claim all your coin pouches before performing this action."));
+            return;
+        }
+
         player.message("You attempt to steal from the " + stall.name + "...");
         player.lock();
         player.animate(832);
 
         Chain.bound(player).runFn(1, () -> player.animate(832)).then(1, () -> {
             replaceStall(stall, object, replacementID, player);
-            var coins = 0;
-
             if (stall == Stall.CRAFTING_STALL) {
-                coins = World.getWorld().random(25, 50);
                 AchievementsManager.activate(player, Achievements.THIEF_I, 1);
                 AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+                player.getInventory().add(new Item(22521, 1));
             } else if (stall == Stall.BAKERS_STALL) {
-                coins = World.getWorld().random(50, 75);
                 AchievementsManager.activate(player, Achievements.THIEF_II, 1);
                 AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+                player.getInventory().add(new Item(22522, 1));
             } else if (stall == Stall.SILK_STALL) {
-                coins = World.getWorld().random(50, 85);
                 AchievementsManager.activate(player, Achievements.THIEF_II, 1);
                 AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+                player.getInventory().add(new Item(22523, 1));
             } else if (stall == Stall.FUR_STALL) {
-                coins = World.getWorld().random(50, 95);
                 AchievementsManager.activate(player, Achievements.THIEF_II, 1);
                 AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+                player.getInventory().add(new Item(22524, 1));
             } else if (stall == Stall.SILVER_STALL) {
-                coins = World.getWorld().random(75, 100);
                 AchievementsManager.activate(player, Achievements.THIEF_II, 1);
                 AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+                player.getInventory().add(new Item(22525, 1));
             } else if (stall == Stall.MONKEY_GENERAL_STALL) {
-                coins = World.getWorld().random(75, 100);
                 AchievementsManager.activate(player, Achievements.THIEF_II, 1);
                 AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+                player.getInventory().add(new Item(22526, 1));
             } else if (stall == Stall.MAGIC_STALL) {
-                coins = World.getWorld().random(100, 125);
                 AchievementsManager.activate(player, Achievements.THIEF_III, 1);
                 AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+                player.getInventory().add(new Item(22527, 1));
             } else if (stall == Stall.SCIMITAR_STALL) {
-                coins = World.getWorld().random(125, 150);
                 AchievementsManager.activate(player, Achievements.THIEF_IV, 1);
                 AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
                 player.getTaskMasterManager().increase(Tasks.STEAL_FROM_SCIMITAR_STALL);
+                player.getInventory().add(new Item(22528, 1));
             } else if (stall == Stall.SPICE_STALL) {
-                coins = World.getWorld().random(150, 175);
                 AchievementsManager.activate(player, Achievements.THIEF_IV, 1);
                 AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+                player.getInventory().add(new Item(22529, 1));
             } else if (stall == Stall.GEM_STALL) {
-                coins = World.getWorld().random(175, 200);
                 AchievementsManager.activate(player, Achievements.THIEF_IV, 1);
                 AchievementsManager.activate(player, Achievements.MASTER_THIEF, 1);
+                player.getInventory().add(new Item(22530, 1));
             }
-
-            player.inventory().add(new Item(COINS_995, coins), true);
 
             if (Utils.percentageChance(5)) {
                 player.hit(null, Utils.random(3));

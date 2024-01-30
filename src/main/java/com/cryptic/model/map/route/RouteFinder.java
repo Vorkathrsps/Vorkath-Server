@@ -78,24 +78,10 @@ public class RouteFinder {
         int baseX = (position.getFirstChunkX() - 6) * 8;
         int baseY = (position.getFirstChunkY() - 6) * 8;
         ClipUtils clipUtils = customClipUtils != null ? customClipUtils : this.clipUtils;
-        clipUtils.update(
-            baseX,
-            baseY,
-            position.getZ()); // Warning, since all RouteFinder classes share 1 ClipUtils class,
-        // this function cannot be called concurrently. (Which is fine in
-        // our case anyways..)
+        clipUtils.update(baseX, baseY, position.getZ());
         MovementQueue movement = entity.getMovement();
         movement.readOffset = 0;
-        movement.writeOffset =
-            findRoute(
-                position.getBaseLocalX(),
-                position.getBaseLocalY(),
-                entity.getSize(),
-                route,
-                clipUtils,
-                true,
-                movement.getStepsX(),
-                movement.getStepsY());
+        movement.writeOffset = findRoute(position.getBaseLocalX(), position.getBaseLocalY(), entity.getSize(), route, clipUtils, true, movement.getStepsX(), movement.getStepsY());
         movement.stepType = MovementQueue.StepType.REGULAR;
         if (movement.writeOffset == -1) {
             route.finishX = -1;
@@ -162,14 +148,11 @@ public class RouteFinder {
                     int diffY = pos.getY() - groundItem.getTile().y;
                     int mask = getDirectionMask(diffX, diffY);
                     if (mask != 0) {
-                        Tile tile = new Tile(pos.getX(), pos.getY(), pos.getZ());
-                        if (tile.allowEntrance(mask)) {
+                       // Tile tile = new Tile(pos.getX(), pos.getY(), pos.getZ());
+                        Tile tile = Tile.get(pos.getX(), pos.getY(), pos.getZ());
+                        if (tile == null || tile.allowEntrance(mask)) {
                             entity.setPositionToFace(groundItem.getTile());
-                            entity.runFn(
-                                1,
-                                () -> {
-                                    successConsumer.accept(1);
-                                });
+                            entity.runFn(1, () -> successConsumer.accept(1));
                             t.stop();
                             return;
                         }
@@ -399,9 +382,6 @@ public class RouteFinder {
     public boolean allowStep(int stepX, int stepY) { //issue here for verzik pathing
         if (targetRoute != null && !targetRoute.allowStep(entity, stepX, stepY)) {
             entity.getMovement().reset();
-            if (entity.isNpc(8374)) {
-                System.out.println("aa "+Tile.isOccupied(entity, stepX, stepY));
-            }
             return false;
         }
         if (entity.getMovement().stepType == MovementQueue.StepType.REGULAR) {
@@ -410,18 +390,9 @@ public class RouteFinder {
             }
             if (entity.isNpc() && !entity.getAsNpc().ignoreOccupiedTiles && Tile.isOccupied(entity, stepX, stepY)) {
                 entity.getMovement().reset();
-                // let's reset the movement so the occupied check isn't spammed
-                // (Unless ofc it's combat, it will be spammed regardless)
-                if (entity.isNpc(8374)) {
-                    System.out.println("bb "+Tile.isOccupied(entity, stepX, stepY));
-                }
                 return false;
             }
             if (DumbRoute.getDirection(entity.getRouteFinder().getClipUtils(), entity.getAbsX(), entity.getAbsY(), entity.getZ(), entity.getSize(), stepX, stepY) == null) {
-                // movement stays "queued" as long as you stay still.
-                if (entity.isNpc(8374)) {
-                    System.out.println("cc "+Tile.isOccupied(entity, stepX, stepY));
-                }
                 return false;
             }
         }
@@ -998,8 +969,9 @@ public class RouteFinder {
                     /* exclude this tile! */
                     continue;
                 }
-                Tile tile = new Tile(x, y, fromZ);
-                if (!tile.allowStandardEntrance()) {
+                //Tile tile = new Tile(x, y, fromZ);
+                Tile tile = Tile.get(x, y, fromZ);
+                if (tile != null && !tile.allowStandardEntrance()) {
                     /* tile can't be entered! */
                     continue;
                 }

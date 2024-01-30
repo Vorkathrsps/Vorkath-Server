@@ -968,7 +968,9 @@ public class CombatFactory {
         // Do block animation
         if (!hit.reflected || hit.getCombatType() != null) {
             if (target instanceof Player player) {
-                target.animate(target.getBlockAnim());
+                if (hit.getDelay() <= 0 && hit.getCombatType() != CombatType.MAGIC) {
+                    target.animate(target.getBlockAnim());
+                }
             }
         }
 

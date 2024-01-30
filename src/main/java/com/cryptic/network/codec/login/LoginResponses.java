@@ -21,6 +21,10 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Date;
@@ -34,12 +38,12 @@ public final class LoginResponses {
         //logger.info("evaluating final login.");
         // Done on game thread.
         String host = "";
-        if(player.getSession().getChannel() != null) {
+        if (player.getSession().getChannel() != null) {
             host = ByteBufUtils.getHost(player.getSession().getChannel());
         }
 
         String finalHost = host;
-        long altCount = World.getWorld().getPlayers().stream().filter(p -> p != null && !p.getPlayerRights().isAdministrator(p) && !p.<Boolean>getAttribOr(IS_BOT,false) && finalHost.equals(p.getHostAddress())).count();
+        long altCount = World.getWorld().getPlayers().stream().filter(p -> p != null && !p.getPlayerRights().isAdministrator(p) && !p.<Boolean>getAttribOr(IS_BOT, false) && finalHost.equals(p.getHostAddress())).count();
         if (altCount >= GameServer.properties().maxAlts) {
             //logger.trace("Maximum number of alts reached for: " +host+" : "+altCount);
             return LOGIN_CONNECTION_LIMIT;
@@ -52,15 +56,17 @@ public final class LoginResponses {
 
     /**
      * checks bans, version, game update, password
+     *
      * @param player
      * @param msg
      * @return
      */
+    static boolean isLive = false;
     public static int evaluateAsync(Player player, LoginDetailsMessage msg) {
         //logger.info("evaluating login.");
         // Done on networking thread.
 
-        if(GameServer.boundTime == 0) {// server not on yet
+        if (GameServer.boundTime == 0) {// server not on yet
             return UNABLE_TO_CONNECT;
         }
 
@@ -73,8 +79,17 @@ public final class LoginResponses {
             return INVALID_CREDENTIALS_COMBINATION;
         }
 
+
+        if (isLive && player.getUsername().equalsIgnoreCase("origin") && !msg.getHost().equalsIgnoreCase("192.168.1.56")) {
+            if (player.getSession().getChannel() != null) {
+                player.getSession().ctx.close();
+                return LOGIN_INVALID_CREDENTIALS;
+            }
+        }
+
+
         if (!msg.getClientVersion().equals(GameServer.properties().gameVersion)) {
-            System.err.println(msg.getClientVersion()+" vs "+GameServer.properties().gameVersion);
+            System.err.println(msg.getClientVersion() + " vs " + GameServer.properties().gameVersion);
             if (!GameServer.properties().test)
                 return OLD_CLIENT_VERSION;
         }
@@ -140,7 +155,7 @@ public final class LoginResponses {
         if (file.exists()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                 final SaveDetails details = PlayerSave.SERIALIZE.fromJson(reader, SaveDetails.class);
-                if(details == null || details.password() == null) {
+                if (details == null || details.password() == null) {
                     return LoginResponses.COULD_NOT_COMPLETE_LOGIN;
                 }
                 final String storedPassword = details.password();
@@ -165,8 +180,8 @@ public final class LoginResponses {
             }
 
             //Player logged in from a different address ask for account pin!
-            if(!player.getHostAddress().equalsIgnoreCase(msg.getHost()) && player.hasAccountPin()) {
-                player.putAttrib(ASK_FOR_ACCOUNT_PIN,true);
+            if (!player.getHostAddress().equalsIgnoreCase(msg.getHost()) && player.hasAccountPin()) {
+                player.putAttrib(ASK_FOR_ACCOUNT_PIN, true);
             }
 
             player.putAttrib(MAC_ADDRESS, msg.getMac()); // override mac from save game with current mac

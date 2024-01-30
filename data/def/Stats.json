@@ -82372,5 +82372,41 @@
     "equipment": {
       "slot": 0
     }
+  },
+  "32001": {
+    "name": "Starter Bow",
+    "weight": 1.36,
+    "equipable": true,
+    "equipment": {
+      "slot": 3,
+      "is2h": true,
+      "arange": 69,
+      "aspeed": 4
+    },
+    "ge_limit": 18000
+  },
+  "32000": {
+    "name": "Starter Staff",
+    "weight": 1.36,
+    "equipable": true,
+    "equipment": {
+      "slot": 3,
+      "is2h": false,
+      "amagic": 6,
+      "aspeed": 4
+    },
+    "ge_limit": 18000
+  },
+  "32002": {
+    "name": "Starter Scimitar",
+    "weight": 1.36,
+    "equipable": true,
+    "equipment": {
+      "slot": 3,
+      "is2h": true,
+      "arange": 69,
+      "aspeed": 4
+    },
+    "ge_limit": 18000
   }
 }

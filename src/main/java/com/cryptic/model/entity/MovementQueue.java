@@ -11,7 +11,9 @@ import com.cryptic.model.map.route.routes.DumbRoute;
 import com.cryptic.utility.Debugs;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.cryptic.model.entity.attributes.AttributeKey.MOVEMENT_PACKET_STEPS;

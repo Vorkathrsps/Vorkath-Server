@@ -60,11 +60,11 @@ public class PlayerMovement extends MovementQueue {
                 }
 
                 if (destX == -1 || destY == -1) {
+                    player.getRouteFinder().routeEntity(following);
                     final Tile walkable = RouteFinder.findWalkable(following.getX(), following.getY(), following.getZ());
-                    following.getMovement().lastFollowX = following.getMovement().followX = destX = walkable.x;
+                 /*   following.getMovement().lastFollowX = following.getMovement().followX = destX = walkable.x;
                     following.getMovement().lastFollowY = following.getMovement().followY = destY = walkable.y;
-                }
-                player.smartPathTo(new Tile(destX, destY)); // supports running
+                */} else if (player.getAbsX() != destX || player.getAbsY() != destY) player.smartPathTo(new Tile(destX, destY)); // supports running
             }
         }
         //System.out.println(Arrays.toString(stepsX).substring(0, 30)+", "+Arrays.toString(stepsY).substring(0, 30));
@@ -102,7 +102,7 @@ public class PlayerMovement extends MovementQueue {
             followX--;
         if (diffY >= 2)
             followY++;
-        else if (diffY <= -2)
+        else if (diffY <=-2)
             followY--;
 
         handleRegionChange();

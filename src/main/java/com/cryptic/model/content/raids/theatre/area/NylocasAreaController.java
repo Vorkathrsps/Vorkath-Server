@@ -1,5 +1,6 @@
 package com.cryptic.model.content.raids.theatre.area;
 
+import com.cryptic.model.World;
 import com.cryptic.model.content.raids.theatre.boss.nylocas.NylocasMinions;
 import com.cryptic.model.content.raids.theatre.boss.nylocas.NylocasVasilias;
 import com.cryptic.model.content.raids.theatre.stage.TheatreStage;
@@ -37,17 +38,13 @@ public class NylocasAreaController extends Controller {
 
     public Tile getRandomTile() {
         Tile[] tileArray = fromTile;
-        if (tileArray.length == 0) {
-            return null;
-        }
-        Random random = new Random();
-        int randomIndex = random.nextInt(tileArray.length);
+        if (tileArray.length == 0) return null;
+        int randomIndex = World.getWorld().random().nextInt(tileArray.length);
         return tileArray[randomIndex];
     }
 
     public int getRandomNPC() {
-        Random random = new Random();
-        finalIndex = random.nextInt(npcs.length);
+        finalIndex = World.getWorld().random().nextInt(npcs.length);
         return npcs[finalIndex];
     }
 
@@ -99,11 +96,6 @@ public class NylocasAreaController extends Controller {
     private void clearNylocasAndPillars(Player player) {
         var theatreInstance = player.getTheatreInstance();
 
-        theatreInstance.getNylocas().forEach(n -> {
-            if (n != null) {
-                n.die();
-            }
-        });
         for (var n : Lists.newArrayList(theatreInstance.getNylocas().iterator())) {
             if (n == null) continue;
             n.die();

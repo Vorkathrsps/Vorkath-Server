@@ -139,9 +139,7 @@ public class MovementPacketListener implements PacketListener {
         }
 
         int steps = (size - 5) / 2;
-        if (steps < 0) {
-            return;
-        }
+        if (steps < 0) return;
         var plane = packet.readByte();
         final int firstStepX = packet.readLEShortA();
         final int[][] path = new int[steps][2];
@@ -172,9 +170,7 @@ public class MovementPacketListener implements PacketListener {
                 GroundItemHandler.createGroundItem(marker);
                 markers.add(marker);
             }
-            Task.runOnceTask(10, c -> {
-                markers.forEach(GroundItemHandler::sendRemoveGroundItem);
-            });
+            Task.runOnceTask(10, c -> markers.forEach(GroundItemHandler::sendRemoveGroundItem));
         }
 
         if (player.tile().distance(end) >= 64) {

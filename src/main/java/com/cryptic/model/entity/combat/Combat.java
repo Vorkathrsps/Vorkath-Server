@@ -44,6 +44,7 @@ import org.apache.logging.log4j.Logger;
 import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BooleanSupplier;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.UNDEAD_COMBAT_DUMMY;
@@ -72,8 +73,7 @@ public class Combat {
     private Map<Entity, HitDamageCache> damageMap;
 
     public Map<Entity, HitDamageCache> getDamageMap() {
-        if (damageMap == null)
-            damageMap = new HashMap<>(); // only create when code needs it!
+        if (damageMap == null) damageMap = new HashMap<>(); // only create when code needs it!
         return damageMap;
     }
 
@@ -766,8 +766,8 @@ public class Combat {
             boolean singleWayCombat = lastTargetTimeoutTicks == 0 && target instanceof Player player && player.getCombat().getTarget() != mob.npc() && !MultiwayCombat.includes(player.tile());
             boolean clippedTile = World.getWorld().clipAt(target.tile()) != 0 && !ProjectileRoute.hasLineOfSight(mob.npc(), target);
             boolean inBounds = mob.npc().tile().inArea(fightArea) && !target.tile().inArea(fightArea);
-            boolean inRegion = Arrays.stream(mob.closePlayers()).anyMatch(p -> mob.tile().getRegion().getPlayers().contains(target));
-            boolean viewableFrom = !target.tile().isViewableFrom(mob.npc().tile());
+     /*       boolean inRegion = Arrays.stream(mob.closePlayers()).anyMatch(p -> mob.tile().getRegion().getPlayers().contains(target));
+            boolean viewableFrom = !target.tile().isViewableFrom(mob.npc().tile());*/
             if ((singleWayCombat || clippedTile || inBounds)) {
                 if (!mob.npc().hasAttrib(attribute)) mob.npc().putAttrib(attribute, true);
                 mob.npc().ignoreOccupiedTiles = true;

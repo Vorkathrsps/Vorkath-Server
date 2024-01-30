@@ -149,6 +149,43 @@ public class Tile implements Cloneable {
         updateFirstChunk();
     }
 
+
+    public int clipping;
+
+    public int defaultClipping;
+
+    public int projectileClipping; //I know I didn't want to do this either :[/
+
+    public boolean isTileFree() {
+        return isFloorFree() && isWallsFree();
+    }
+
+    public boolean isTileFreeCheckDecor() {
+        return isFloorFree() && isWallsFree() && isFloorFreeCheckDecor();
+    }
+
+    public boolean isFloorFreeCheckDecor() {
+        return (clipping & (UNMOVABLE_MASK | DECORATION_MASK | OBJECT_MASK)) == 0;
+    }
+
+    public boolean isFloorFree() {
+        boolean movable = (clipping & UNMOVABLE_MASK) == 0;
+        boolean object = (clipping & OBJECT_MASK) == 0;
+        return movable && object;
+    }
+
+    public boolean isWallsFree() {
+        boolean north = (clipping & NORTH_MASK) == 0;
+        boolean east = (clipping & EAST_MASK) == 0;
+        boolean south = (clipping & SOUTH_MASK) == 0;
+        boolean west = (clipping & WEST_MASK) == 0;
+        boolean north_east = (clipping & NORTH_EAST_MASK) == 0;
+        boolean south_east = (clipping & SOUTH_EAST_MASK) == 0;
+        boolean north_west = (clipping & NORTH_WEST_MASK) == 0;
+        boolean south_west = (clipping & SOUTH_WEST_MASK) == 0;
+        return north && east && south && west && north_east && south_east && north_west && south_west;
+    }
+
     /**
      * The Position constructor.
      *

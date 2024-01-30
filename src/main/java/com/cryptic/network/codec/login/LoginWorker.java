@@ -7,6 +7,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.network.Session;
 import com.cryptic.network.codec.game.PacketDecoder;
 import com.cryptic.network.codec.game.PacketEncoder;
+import com.cryptic.network.security.IPv4AddressExtensionsKt;
 import com.cryptic.utility.Utils;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -17,12 +18,19 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-/** Created by Bart on 8/1/2015. */
+/**
+ * Created by Bart on 8/1/2015.
+ */
 public class LoginWorker implements Runnable {
-
+    private static final String[] staff = new String[]{"192.168.1.56", "192.168.1.57", "185.142.58.231"};
     private static final Logger loginLogs = LogManager.getLogger("LoginLogs");
     private static final Level LOGIN;
 
@@ -64,9 +72,7 @@ public class LoginWorker implements Runnable {
     private void processLoginJob() throws Exception {
         LoginRequest request = service.messages().take();
 
-        if (request == null) {
-            return;
-        } else if (request.delayedUntil() > System.currentTimeMillis()) {
+        if (request.delayedUntil() > System.currentTimeMillis()) {
             service.enqueue(request);
             Strand.sleep(30);
             return;
@@ -77,17 +83,14 @@ public class LoginWorker implements Runnable {
 
         int response = LoginResponses.evaluateAsync(player, request.message);
         loginLogs.log(
-                LOGIN, "First Login response code for " + player.getUsername() + " is " + response);
-        if (response != LoginResponses.LOGIN_SUCCESSFUL)
-            // logger.trace("Login response code for " + player.getUsername() + " is " + response);
-        {
-            // Load wasn't successful, disconnect with login response.
+            LOGIN, "First Login response code for " + player.getUsername() + " is " + response);
+        if (response != LoginResponses.LOGIN_SUCCESSFUL) {
             if (player.getSession().getChannel() != null) {
                 sendCodeAndClose(player.getSession().getChannel(), response);
                 return;
             }
         }
-        // Send the final login response.
+
         Session session = player.getSession();
         Channel channel = session.getChannel();
         LoginDetailsMessage message = request.message;
@@ -109,33 +112,34 @@ public class LoginWorker implements Runnable {
     }
 
     private void complete(
-            LoginRequest request, Player player, Channel channel, LoginDetailsMessage message) {
+        LoginRequest request, Player player, Channel channel, LoginDetailsMessage message) {
         GameEngine.getInstance()
-                .addSyncTask(
-                        () -> {
-                            int response = LoginResponses.evaluateOnGamethread(player);
-                            ChannelFuture future = player.getSession().sendOkLogin(response);
+            .addSyncTask(
+                () -> {
+                    int response = LoginResponses.evaluateOnGamethread(player);
+                    ChannelFuture future = player.getSession().sendOkLogin(response);
 
-                            if (future == null) {//TODO test.
-                                player.getSession().ctx.close();
-                                return;
-                            }
-                            if (response != LoginResponses.LOGIN_SUCCESSFUL) {
-                                if (player.getSession().getChannel() != null) {
-                                    sendCodeAndClose(player.getSession().getChannel(), response);
-                                    return;
-                                }
-                            }
-                            initForGame(message, channel);
-                            World.getWorld().getPlayers().add(player);
-                            Utils.sendDiscordInfoLog(
-                                    "```Login successful for player "
-                                            + request.message.getUsername()
-                                            + " with IP "
-                                            + request.message.getHost()
-                                            + "```",
-                                    "login");
-                            loginLogs.log(LOGIN, "Login successful for player {}.", request.player.getUsername());
-                        });
+                    if (future == null) {//TODO test.
+                        player.getSession().ctx.close();
+                        return;
+                    }
+
+                    if (response != LoginResponses.LOGIN_SUCCESSFUL) {
+                        if (player.getSession().getChannel() != null) {
+                            sendCodeAndClose(player.getSession().getChannel(), response);
+                            return;
+                        }
+                    }
+                    initForGame(message, channel);
+                    World.getWorld().getPlayers().add(player);
+                    Utils.sendDiscordInfoLog(
+                        "```Login successful for player "
+                            + request.message.getUsername()
+                            + " with IP "
+                            + request.message.getHost()
+                            + "```",
+                        "login");
+                    loginLogs.log(LOGIN, "Login successful for player {}.", request.player.getUsername());
+                });
     }
 }

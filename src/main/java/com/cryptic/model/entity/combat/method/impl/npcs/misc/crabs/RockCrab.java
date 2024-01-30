@@ -44,7 +44,6 @@ public class RockCrab extends CommonCombatMethod {
         if (ArrayUtils.contains(ids, npc.id())) {
             int offset = npc.id() + 1;
             npc.setEntityInteraction(null);
-            System.out.println("player not found, retreating");
             npc.waitUntil(waitUntil, () ->
                 Chain.noCtx().repeatingTask(1, tick -> {
                         ticks[0]--;

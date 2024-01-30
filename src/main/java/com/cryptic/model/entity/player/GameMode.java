@@ -5,7 +5,7 @@ package com.cryptic.model.entity.player;
  * juni 21, 2020
  */
 
-public enum GameMode { //77
+public enum GameMode {
 
     TRAINED_ACCOUNT("Normal account",1, 20, 10, 1.0),
     REALISM("realism", 2, 10, 2, 1.08),

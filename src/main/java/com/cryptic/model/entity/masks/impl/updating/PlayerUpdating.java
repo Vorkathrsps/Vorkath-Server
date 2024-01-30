@@ -483,7 +483,6 @@ public class PlayerUpdating {
      * @return The PlayerUpdating instance.
      */
     private static void updateGraphics(PacketBuilder builder, Player target) {
-
         builder.put(target.getGraphics().size(), ValueType.C);
         for (int i = 0; i < target.getGraphics().size(); i++) {
             var graphic = target.getGraphics().get(i);

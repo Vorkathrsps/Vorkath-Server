@@ -47,7 +47,9 @@ public class Sigil extends PacketInteraction implements SigilListener {
         if (combatTarget instanceof Player) return;
         for (AbstractSigilHandler sigil : handler) {
             if (sigil.attuned(player)) {
-                if (sigil.validateCombatType(player)) sigil.process(player, target);
+                if (sigil.validateCombatType(player)) {
+                    sigil.process(player, target);
+                }
             }
         }
     }

@@ -428,7 +428,11 @@ public abstract class Entity {
     private boolean registered;
 
     public Graphic graphic() {
-        return graphics.stream().findFirst().orElseGet(null);
+        for (var graphic : graphics) {
+            if (graphic == null) continue;
+            return graphic;
+        }
+        return null;
     }
 
     public List<Graphic> getGraphics() {

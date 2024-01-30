@@ -34,6 +34,10 @@ public class AncientGodsword extends CommonCombatMethod {
                     hit.block();
                     return;
                 }
+                if (hit.isAccurate() && hit.getDamage() <= 0) {
+                    hit.block();
+                    return;
+                }
                 BooleanSupplier distance = () -> !entity.tile().isWithinDistance(target.tile(), 5);
                 target.setTinting(new Tinting(delay, duration, hue, sat, lum, opac));
                 Chain.bound(null).cancelWhen(distance).runFn(8, () -> {

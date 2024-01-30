@@ -30,8 +30,8 @@ public class DeftStrikes extends AbstractSigilHandler {
             case ZENYTE_MEMBER -> boost = 1.27;
         }
         if (player.getCombat().getCombatType().isRanged()) rangeAccuracy.modifier += boost;
-        if (player.getCombat().getCombatType().isMagic()) magicAccuracy.modifier += boost;
-        if (player.getCombat().getCombatType().isMelee()) meleeAccuracy.modifier += boost;
+        else if (player.getCombat().getCombatType().isMagic()) magicAccuracy.modifier += boost;
+        else if (player.getCombat().getCombatType().isMelee()) meleeAccuracy.modifier += boost;
     }
 
     @Override

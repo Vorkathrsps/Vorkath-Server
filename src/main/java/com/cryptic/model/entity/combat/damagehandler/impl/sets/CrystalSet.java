@@ -44,6 +44,8 @@ public class CrystalSet implements DamageEffectListener {
                     if (player.getEquipment().contains(ItemIdentifiers.CRYSTAL_LEGS) || player.getEquipment().contains(CRYSTAL_LEGS_27701) || player.getEquipment().contains(CRYSTAL_LEGS_27713) || player.getEquipment().contains(CRYSTAL_LEGS_27725) || player.getEquipment().contains(CRYSTAL_LEGS_27737) || player.getEquipment().contains(CRYSTAL_LEGS_27749) || player.getEquipment().contains(CRYSTAL_LEGS_27761) || player.getEquipment().contains(CRYSTAL_LEGS_27773)) {
                         modifier += 1.10F;
                     }
+                    modifier = (float) Math.floor(modifier);
+                    System.out.println(modifier);
                     rangeAccuracy.modifier += modifier;
                     return true;
                 }

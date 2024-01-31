@@ -45,8 +45,6 @@ public final class MagicAccuracy {
         if (this.attackRoll > this.defenceRoll)
             this.chance = 1D - (this.defenceRoll + 2D) / (2D * (this.attackRoll + 1D));
         else this.chance = this.attackRoll / (2D * (this.defenceRoll + 1D));
-        System.out.println(this.attackRoll);
-        System.out.println(this.defenceRoll);
         if (Hit.isDebugAccuracy()) this.attacker.message("[Magic] Chance To Hit: [" + String.format("%.2f%%", this.chance * 100) + "]");
         return this.chance > selectedChance;
     }

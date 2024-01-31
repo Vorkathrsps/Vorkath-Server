@@ -24,7 +24,7 @@ public class TumekensShadow implements DamageEffectListener {
 
     @Override
     public boolean prepareMagicAccuracyModification(Entity entity, CombatType combatType, MagicAccuracy magicAccuracy) {
-        int bonus;
+        int bonus = 0;
         if (entity instanceof Player player) {
             var target = player.getCombat().getTarget();
             var equipment = player.getEquipment();
@@ -32,11 +32,13 @@ public class TumekensShadow implements DamageEffectListener {
             if (target instanceof NPC) {
                 if (combatType == CombatType.MAGIC) {
                     if (equipment.containsAny(TUMEKENS_SHADOW, CORRUPTED_TUMEKENS_SHADOW)) {
-                        bonus = attackerBonus.mage += Math.min(attackerBonus.mage * 3, attackerBonus.mage * attackerBonus.mage);
+                        if (player.getCombat().getCastSpell() != null && player.getCombat().getCastSpell().spellId() != 6) return false;
+                        bonus = attackerBonus.mage * 3;
+                        bonus = Math.min(bonus, 100);
                         magicAccuracy.modifier += bonus;
-                        System.out.println(magicAccuracy.modifier);
                         return true;
                     }
+
                 }
             }
         }

@@ -1120,13 +1120,14 @@
     },
     "bonuses": {
       "ranged": 78,
-      "strength": 1,
+      "strength": 0,
       "attack": 16,
       "magic": 150,
+      "magicstrength": 56,
       "stabdefence": 62,
       "slashdefence": 108,
       "crushdefence": 108,
-      "rangeddefence": 72,
+      "rangeddefence": 26,
       "magicdefence": 240
     },
     "animations": {

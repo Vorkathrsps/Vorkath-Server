@@ -79,30 +79,30 @@ public class RangeAccuracy {
 
     private int getEffectiveDefence() {
         FightStyle fightStyle = this.defender.getCombat().getFightType().getStyle();
-        int effectiveLevel = (int) Math.floor(getRangeLevel() * getPrayerDefenseBonus(this.defender));
+        int effectiveLevel = (int) (getRangeLevel() * getPrayerDefenseBonus(this.defender));
         switch (fightStyle) {
-            case DEFENSIVE -> effectiveLevel = (int) Math.floor(effectiveLevel + 3);
-            case CONTROLLED -> effectiveLevel = (int) Math.floor(effectiveLevel + 1);
+            case DEFENSIVE -> effectiveLevel = effectiveLevel + 3;
+            case CONTROLLED -> effectiveLevel = effectiveLevel + 1;
         }
-        effectiveLevel = (int) Math.floor(effectiveLevel + 8);
+        effectiveLevel = this.defender instanceof NPC ? effectiveLevel + 9 : effectiveLevel + 8;
         return effectiveLevel;
     }
 
     private int getEffectiveRanged() {
         FightStyle fightStyle = this.attacker.getCombat().getFightType().getStyle();
-        double effectiveLevel = (int) Math.floor(getRangeLevel() * getPrayerAttackBonus());
+        int effectiveLevel = (int) (getRangeLevel() * getPrayerAttackBonus());
         double specialMultiplier;
         if (this.attacker instanceof Player player) {
             this.handler.triggerRangeAccuracyModificationAttacker(player, this.combatType, this);
-            if (fightStyle == FightStyle.ACCURATE) effectiveLevel = (int) Math.floor(effectiveLevel + 3);
+            if (fightStyle == FightStyle.ACCURATE) effectiveLevel += 3;
 
             if (player.getCombatSpecial() != null && player.isSpecialActivated()) {
                 specialMultiplier = player.getCombatSpecial().getAccuracyMultiplier();
                 effectiveLevel *= specialMultiplier;
             }
         }
-        effectiveLevel = (int) Math.floor(effectiveLevel + 8);
-        return (int) Math.floor(effectiveLevel);
+        effectiveLevel = effectiveLevel + 8;
+        return effectiveLevel;
     }
 
     private int getRangeLevel() {

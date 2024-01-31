@@ -184,8 +184,9 @@ public class Bloat extends NPC {
 
         for (var t : graphicTiles) {
             if (player.tile().equals(t)) {
-                Hit hit = Hit.builder(this, player, Utils.random(30, 50), 5, null).setAccurate(true).postDamage(d -> player.stun(3));
+                Hit hit = Hit.builder(this, player, Utils.random(30, 50), 5, null).setAccurate(true);
                 hit.submit();
+                player.stun(3);
             }
         }
 
@@ -211,5 +212,4 @@ public class Bloat extends NPC {
             World.getWorld().unregisterNpc(this);
         });
     }
-
 }

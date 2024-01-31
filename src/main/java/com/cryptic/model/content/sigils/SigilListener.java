@@ -11,5 +11,5 @@ public interface SigilListener {
     void processResistance(Entity attacker, Entity target, Hit hit);
     void processDamage(Player player, Hit hit);
     void process(Player player, Entity target);
-    void sigilAccuracyBonus(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy);
+    void processAccuracy(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy);
 }

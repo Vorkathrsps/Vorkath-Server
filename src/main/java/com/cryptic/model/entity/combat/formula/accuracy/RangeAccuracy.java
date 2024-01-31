@@ -10,6 +10,7 @@ import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.damagehandler.PreDamageEffectHandler;
 import com.cryptic.model.entity.combat.damagehandler.impl.EquipmentDamageEffect;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.combat.weapon.FightStyle;
 import com.cryptic.model.entity.npc.NPC;
@@ -37,9 +38,7 @@ public class RangeAccuracy {
     @Getter
     @Setter
     public float modifier;
-    @Getter
-    @Setter
-    Entity attacker, defender;
+    @Getter @Setter Entity attacker, defender;
     CombatType combatType;
     public double attackRoll = 0;
     public double defenceRoll = 0;
@@ -57,6 +56,7 @@ public class RangeAccuracy {
         this.defenceRoll = getDefenceRoll();
         if (this.attackRoll > this.defenceRoll) this.chance = 1D - (this.defenceRoll + 2D) / (2D * (this.attackRoll + 1D));
         else this.chance = this.attackRoll / (2D * (this.defenceRoll + 1D));
+        if (Hit.isDebugAccuracy()) this.attacker.message("[Range] Chance To Hit: [" + String.format("%.2f%%", this.chance * 100) + "]");
         return this.chance > selectedChance;
     }
 
@@ -92,7 +92,6 @@ public class RangeAccuracy {
         FightStyle fightStyle = this.attacker.getCombat().getFightType().getStyle();
         double effectiveLevel = (int) Math.floor(getRangeLevel() * getPrayerAttackBonus());
         double specialMultiplier;
-        float modification = this.modifier;
         if (this.attacker instanceof Player player) {
             this.handler.triggerRangeAccuracyModificationAttacker(player, this.combatType, this);
             if (fightStyle == FightStyle.ACCURATE) effectiveLevel = (int) Math.floor(effectiveLevel + 3);
@@ -102,7 +101,6 @@ public class RangeAccuracy {
                 effectiveLevel *= specialMultiplier;
             }
         }
-        effectiveLevel = modification > 0 ? Math.floor(effectiveLevel * modification) : effectiveLevel;
         effectiveLevel = (int) Math.floor(effectiveLevel + 8);
         return (int) Math.floor(effectiveLevel);
     }
@@ -122,7 +120,10 @@ public class RangeAccuracy {
     private int getAttackRoll() {
         int effectiveRangeLevel = getEffectiveRanged();
         int equipmentRangeBonus = getGearAttackBonus();
-        return effectiveRangeLevel * (equipmentRangeBonus + 64);
+        float modification = this.modifier;
+        int roll = effectiveRangeLevel * (equipmentRangeBonus + 64);
+        if (modification > 0) roll *= modification;
+        return roll;
     }
 
     private int getDefenceRoll() {

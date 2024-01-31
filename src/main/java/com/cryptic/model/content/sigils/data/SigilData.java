@@ -12,7 +12,8 @@ public enum SigilData {
     CONSISTENCY(ItemIdentifiers.SIGIL_OF_CONSISTENCY_25994, ItemIdentifiers.SIGIL_OF_CONSISTENCY, AttributeKey.CONSISTENCY),
     FORMIDABLE_FIGHTER(ItemIdentifiers.SIGIL_OF_THE_FORMIDABLE_FIGHTER_25997, ItemIdentifiers.SIGIL_OF_THE_FORMIDABLE_FIGHTER, AttributeKey.FORMIDABLE_FIGHTER),
     RESISTANCE(ItemIdentifiers.SIGIL_OF_RESISTANCE_28490, ItemIdentifiers.SIGIL_OF_RESISTANCE, AttributeKey.RESISTANCE),
-    PRECISION(ItemIdentifiers.SIGIL_OF_PRECISION_28514, ItemIdentifiers.SIGIL_OF_PRECISION, AttributeKey.PRECISION);
+    PRECISION(ItemIdentifiers.SIGIL_OF_PRECISION_28514, ItemIdentifiers.SIGIL_OF_PRECISION, AttributeKey.PRECISION),
+    FORTIFICATION(ItemIdentifiers.SIGIL_OF_FORTIFICATION_26006, ItemIdentifiers.SIGIL_OF_FORTIFICATION, AttributeKey.SIGIL_OF_FORTIFICATION);
     public final int unattuned;
     public final int attuned;
     public final AttributeKey attributeKey;

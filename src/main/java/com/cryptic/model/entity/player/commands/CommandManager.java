@@ -15,6 +15,7 @@ import com.cryptic.model.content.tournaments.TournamentManager;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion;
@@ -641,7 +642,8 @@ public class CommandManager {
         });
 
         dev("c", (p, c, s) -> {
-            p.getTheatreInstance().spawnTreasure();
+            Hit.setDebugAccuracy(true);
+            p.message("Debug state: " + Hit.isDebugAccuracy());
         });
 
         dev("b", (p, c, s) -> {

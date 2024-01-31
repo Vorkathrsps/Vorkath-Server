@@ -208,6 +208,7 @@ public class Hit {
         return maxHit;
     }
 
+    @Getter @Setter public static boolean debugAccuracy = false;
     public Hit roll() {
         if (attacker == null || target == null || hitMark == HitMark.HEALED) return this;
         MagicAccuracy magicAccuracy = new MagicAccuracy(this.attacker, this.target, this.combatType);

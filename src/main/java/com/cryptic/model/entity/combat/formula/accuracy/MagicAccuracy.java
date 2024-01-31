@@ -5,6 +5,7 @@ import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.damagehandler.PreDamageEffectHandler;
 import com.cryptic.model.entity.combat.damagehandler.impl.EquipmentDamageEffect;
+import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
@@ -18,14 +19,19 @@ import static com.cryptic.model.entity.combat.prayer.default_prayer.Prayers.*;
 
 public final class MagicAccuracy {
 
-    @Getter @Setter public float modifier;
-    @Getter private final Entity attacker;
-    @Getter private final Entity defender;
-    private final CombatType combatType;
-    private final PreDamageEffectHandler handler = new PreDamageEffectHandler(new EquipmentDamageEffect());
+    @Getter
+    @Setter
+    public float modifier;
+    @Getter
+    Entity attacker;
+    @Getter
+    Entity defender;
+    CombatType combatType;
+    PreDamageEffectHandler handler = new PreDamageEffectHandler(new EquipmentDamageEffect());
     public double attackRoll = 0;
     public double defenceRoll = 0;
-    @Getter public double chance = 0;
+    @Getter
+    public double chance = 0;
 
     public MagicAccuracy(Entity attacker, Entity defender, CombatType combatType) {
         this.attacker = attacker;
@@ -36,13 +42,17 @@ public final class MagicAccuracy {
     public boolean successful(double selectedChance) {
         this.attackRoll = getAttackRoll();
         this.defenceRoll = getDefenceRoll();
-        if (this.attackRoll > this.defenceRoll) this.chance = 1D - (this.defenceRoll + 2D) / (2D * (this.attackRoll + 1D));
+        if (this.attackRoll > this.defenceRoll)
+            this.chance = 1D - (this.defenceRoll + 2D) / (2D * (this.attackRoll + 1D));
         else this.chance = this.attackRoll / (2D * (this.defenceRoll + 1D));
+        System.out.println(this.attackRoll);
+        System.out.println(this.defenceRoll);
+        if (Hit.isDebugAccuracy()) this.attacker.message("[Magic] Chance To Hit: [" + String.format("%.2f%%", this.chance * 100) + "]");
         return this.chance > selectedChance;
     }
 
     private int getEquipmentBonusAttacker() {
-        return this.attacker instanceof Player ? EquipmentInfo.totalBonuses(this.attacker, World.getWorld().equipmentInfo()).mage  : this.attacker.getAsNpc().getCombatInfo().getBonuses().getMagic();
+        return this.attacker instanceof Player ? EquipmentInfo.totalBonuses(this.attacker, World.getWorld().equipmentInfo()).mage : this.attacker.getAsNpc().getCombatInfo().getBonuses().getMagic();
     }
 
     private int getMagicLevelAttacker() {
@@ -72,21 +82,20 @@ public final class MagicAccuracy {
         return prayerBonus;
     }
 
-    public double getAttackRoll() {
-        double magicLevel = getMagicLevelAttacker();
-        double attackBonus = getEquipmentBonusAttacker();
-        double effectiveLevel;
-        effectiveLevel = getEffectiveLevel(magicLevel);
-        return effectiveLevel * (attackBonus + 64);
+    public int getAttackRoll() {
+        int magicLevel = getMagicLevelAttacker();
+        int effectiveLevel = getEffectiveLevel(magicLevel);
+        int attackBonus = getEquipmentBonusAttacker();
+        var roll = effectiveLevel * (attackBonus + 64);
+        float modification = this.modifier;
+        if (modification > 0) roll *= modification;
+        return roll;
     }
 
-    private double getEffectiveLevel(double magicLevel) {
-        double effectiveLevel;
+    private int getEffectiveLevel(int magicLevel) {
+        int effectiveLevel = (int) (magicLevel * getPrayerBonus() + 8);
         if (this.attacker instanceof Player a) {
-            effectiveLevel = magicLevel * getPrayerBonus() + 8;
             this.handler.triggerMagicAccuracyModificationAttacker(a, this.combatType, this);
-            float modification = this.modifier;
-            if (modification > 0) effectiveLevel *= modification;
             if (a.getCombatSpecial() != null && a.isSpecialActivated()) {
                 double specialMultiplier = a.getCombatSpecial().getAccuracyMultiplier();
                 effectiveLevel *= specialMultiplier;
@@ -98,24 +107,25 @@ public final class MagicAccuracy {
     }
 
     private int getEquipmentBonusDefender() {
-        if (this.defender instanceof Player player) return EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo()).getMagedef();
+        if (this.defender instanceof Player player)
+            return EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo()).getMagedef();
         else if (this.defender instanceof NPC npc) return npc.getCombatInfo().getBonuses().getMagicdefence();
         return 0;
     }
 
-    public double getDefenceRoll() {
-        double magicLevel = getMagicLevelDefender();
-        double defenceBonus = getEquipmentBonusDefender();
-        double effectiveLevel;
+    public int getDefenceRoll() {
+        int magicLevel = getMagicLevelDefender();
+        int defenceBonus = getEquipmentBonusDefender();
+        int effectiveLevel = 0;
         if (this.defender instanceof Player player) {
             magicLevel *= getPrayerBonusDefender();
-            double defenceLevel = player.getSkills().level(Skill.DEFENCE.getId());
+            int defenceLevel = player.getSkills().level(Skill.DEFENCE.getId());
             switch (player.getCombat().getFightType().getStyle()) {
                 case DEFENSIVE -> defenceLevel += 3;
                 case CONTROLLED -> defenceLevel += 1;
             }
-            effectiveLevel = magicLevel * 0.7 + defenceLevel * 0.3 + 8;
-        } else {
+            effectiveLevel = (int) (0.7D * magicLevel + 0.3D * defenceLevel + 8);
+        } else if (this.defender instanceof NPC) {
             effectiveLevel = magicLevel + 9;
         }
         return effectiveLevel * (defenceBonus + 64);

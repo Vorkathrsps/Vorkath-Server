@@ -39,6 +39,7 @@ public class Sigil extends PacketInteraction implements SigilListener {
         sigils.add(new FormidableFighter());
         sigils.add(new Resistance());
         sigils.add(new Precision());
+        sigils.add(new Fortification());
         return sigils;
     }
 
@@ -74,7 +75,7 @@ public class Sigil extends PacketInteraction implements SigilListener {
 
     @Override
     public void process(Player player, Entity target) {
-        if (WildernessArea.inWilderness(player.tile())) return;
+        if (WildernessArea.inWilderness(player.tile()) && target instanceof Player) return;
         Combat combat = player.getCombat();
         if (combat == null) return;
         CombatType combatType = combat.getCombatType();
@@ -92,7 +93,7 @@ public class Sigil extends PacketInteraction implements SigilListener {
 
     @Override
     public void processAccuracy(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy) {
-        if (WildernessArea.inWilderness(player.tile())) return;
+        if (WildernessArea.inWilderness(player.tile()) && target instanceof Player) return;
         Combat combat = player.getCombat();
         if (combat == null) return;
         CombatType combatType = combat.getCombatType();

@@ -18,12 +18,12 @@ public class DeftStrikes extends AbstractSigilHandler {
     }
 
     @Override
-    protected void handleDamageModification(Player player, Hit hit) {
+    protected void damageModification(Player player, Hit hit) {
 
     }
 
     @Override
-    protected void applyBoost(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy) {
+    protected void accuracyModification(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy) {
         if (!attuned(player)) return;
         var boost = 1.20;
         switch (player.getMemberRights()) {

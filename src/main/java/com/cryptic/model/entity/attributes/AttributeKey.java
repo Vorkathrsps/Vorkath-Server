@@ -50,6 +50,8 @@ public enum AttributeKey {
     SAVED_SIGILS,
     FERAL_FIGHTER,
 
+    FORMIDABLE_FIGHTER,
+
     HIT_COUNT_FERAL_FIGHTER,
 
     MAXHIT_OVERRIDE,

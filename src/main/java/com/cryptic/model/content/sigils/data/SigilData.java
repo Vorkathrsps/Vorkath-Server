@@ -9,7 +9,8 @@ public enum SigilData {
     RUTHLESS_RANGER(ItemIdentifiers.SIGIL_OF_THE_RUTHLESS_RANGER_26072, ItemIdentifiers.SIGIL_OF_THE_RUTHLESS_RANGER, AttributeKey.RUTHLESS_RANGER),
     DEFT_STRIKES(ItemIdentifiers.SIGIL_OF_DEFT_STRIKES_26012, ItemIdentifiers.SIGIL_OF_DEFT_STRIKES, AttributeKey.DEFT_STRIKES),
     METICULOUS_MAGE(ItemIdentifiers.SIGIL_OF_THE_METICULOUS_MAGE_26003, ItemIdentifiers.SIGIL_OF_THE_METICULOUS_MAGE, AttributeKey.METICULOUS_MAGE),
-    CONSISTENCY(ItemIdentifiers.SIGIL_OF_CONSISTENCY_25994, ItemIdentifiers.SIGIL_OF_CONSISTENCY, AttributeKey.CONSISTENCY);
+    CONSISTENCY(ItemIdentifiers.SIGIL_OF_CONSISTENCY_25994, ItemIdentifiers.SIGIL_OF_CONSISTENCY, AttributeKey.CONSISTENCY),
+    FORMIDABLE_FIGHTER(ItemIdentifiers.SIGIL_OF_THE_FORMIDABLE_FIGHTER_25997, ItemIdentifiers.SIGIL_OF_THE_FORMIDABLE_FIGHTER, AttributeKey.FORMIDABLE_FIGHTER);
     public final int unattuned;
     public final int attuned;
     public final AttributeKey attributeKey;

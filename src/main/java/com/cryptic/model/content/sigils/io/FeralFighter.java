@@ -37,12 +37,12 @@ public class FeralFighter extends AbstractSigilHandler {
     }
 
     @Override
-    protected void handleDamageModification(Player player, Hit hit) {
+    protected void damageModification(Player player, Hit hit) {
 
     }
 
     @Override
-    protected void applyBoost(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy) {
+    protected void accuracyModification(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy) {
 
     }
 

@@ -791,11 +791,7 @@ public class CommandManager {
             p.getPacketSender().sendConfig(Integer.parseInt(s[1]), Integer.parseInt(s[2]));
         });
 
-        dev("varbit", (p, c, s) ->
-
-        {
-            p.varps().varbit(Integer.parseInt(s[1]), Integer.parseInt(s[2]));
-        });
+        dev("varbit", (p, c, s) -> p.varps().varbit(Integer.parseInt(s[1]), Integer.parseInt(s[2])));
 
         dev("ht1", (p, c, s) ->
 

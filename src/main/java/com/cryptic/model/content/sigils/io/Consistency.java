@@ -10,14 +10,14 @@ import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.player.Player;
 
-public class SigilOfConsistency extends AbstractSigilHandler {
+public class Consistency extends AbstractSigilHandler {
     @Override
     protected void process(Player player, Entity target) {
 
     }
 
     @Override
-    protected void handleDamageModification(Player player, Hit hit) {
+    protected void damageModification(Player player, Hit hit) {
         if (!attuned(player)) return;
         hit.postDamage(h -> {
             int damage = h.getDamage() + 1;
@@ -27,7 +27,7 @@ public class SigilOfConsistency extends AbstractSigilHandler {
     }
 
     @Override
-    protected void applyBoost(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy) {
+    protected void accuracyModification(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy) {
 
     }
 

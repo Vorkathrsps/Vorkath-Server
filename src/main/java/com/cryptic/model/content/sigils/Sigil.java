@@ -34,7 +34,8 @@ public class Sigil extends PacketInteraction implements SigilListener {
         sigils.add(new RuthlessRanger());
         sigils.add(new DeftStrikes());
         sigils.add(new MeticulousMage());
-        sigils.add(new SigilOfConsistency());
+        sigils.add(new Consistency());
+        sigils.add(new FormidableFighter());
         return sigils;
     }
 
@@ -50,7 +51,7 @@ public class Sigil extends PacketInteraction implements SigilListener {
         for (AbstractSigilHandler sigil : handler) {
             if (sigil.attuned(player)) {
                 if (sigil.validateCombatType(player)) {
-                    sigil.handleDamageModification(player, hit);
+                    sigil.damageModification(player, hit);
                 }
             }
         }
@@ -85,7 +86,7 @@ public class Sigil extends PacketInteraction implements SigilListener {
         if (combatTarget instanceof Player) return;
         for (AbstractSigilHandler sigil : handler) {
             if (sigil.attuned(player)) {
-                if (sigil.validateCombatType(player)) sigil.applyBoost(player, target, rangeAccuracy, magicAccuracy, meleeAccuracy);
+                if (sigil.validateCombatType(player)) sigil.accuracyModification(player, target, rangeAccuracy, magicAccuracy, meleeAccuracy);
             }
         }
     }

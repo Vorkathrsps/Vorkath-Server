@@ -2,6 +2,7 @@ package com.cryptic.model.content.minigames.impl.fight_caves;
 
 import com.cryptic.model.content.instance.InstanceConfiguration;
 import com.cryptic.model.content.instance.InstancedArea;
+import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Area;
@@ -21,6 +22,9 @@ public class FightCavesInstance extends InstancedArea {
 
     public void build() {
         NPC npc = new NPC(3127, new Tile(2403, 5090, this.getzLevel()));
+        npc.ignoreOccupiedTiles = true;
+        npc.putAttrib(AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
+        npc.getCombatInfo().aggressive = true;
         npc.setInstancedArea(this);
         npc.respawns(false).spawn(false);
         owner.setInstancedArea(this);

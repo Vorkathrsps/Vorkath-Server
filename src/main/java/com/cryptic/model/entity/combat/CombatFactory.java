@@ -949,9 +949,7 @@ public class CombatFactory {
 
         // If target/attacker is dead, don't continue.
         // hits with no type and method are probably recoil, retribution, wrath, which can apply when the source is of course death
-        if (attacker != null && attacker.dead() && combatType != null) {
-            return;
-        }
+        if (attacker != null && attacker.dead() && combatType != null) return;
 
         if (target instanceof Player player) {
             if (!player.getInterfaceManager().isClear()) {

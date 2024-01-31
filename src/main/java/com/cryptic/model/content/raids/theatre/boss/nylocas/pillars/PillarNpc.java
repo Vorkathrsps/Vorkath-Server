@@ -27,10 +27,7 @@ public class PillarNpc extends NPC {
 
     @Override
     public void postSequence() {
-        super.postSequence();
-
-        var healthAmount = hp() * 1.0 / (maxHp() * 1.0);
-
+        var healthAmount = this.hp() * 1.0 / (this.maxHp() * 1.0);
         if (healthAmount <= 0.5D && healthAmount > 0) {
             this.pillarObject.setId(32863);
         }
@@ -46,6 +43,7 @@ public class PillarNpc extends NPC {
                 theatreInstance.getPillarObject().remove(o);
                 o.setId(32864);
                 theatreInstance.getPillarObject().add(o);
+                break;
             }
         }
     }

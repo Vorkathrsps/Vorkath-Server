@@ -29,7 +29,7 @@ public class Pillar extends NPC {
                 Chain.noCtx().delay(1, () -> {
                     for (Player player : players) {
                         if (player == null) continue;
-                        if (!player.tile().isWithinDistance(this.tile(), 1) && !o.tile().isWithinDistance(player.tile(), 1)) continue;
+                        if (!player.tile().isWithinDistance(o.tile(), 1)) continue;
                         player.hit(this, 10);
                         Direction direction = Direction.SOUTH;
                         ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(direction.x(), direction.y()), 30, 60, 1114, 0);

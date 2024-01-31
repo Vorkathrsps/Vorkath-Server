@@ -3,6 +3,7 @@ package com.cryptic.model.entity.combat.method.impl;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
@@ -134,6 +135,7 @@ public class MeleeCombatMethod extends CommonCombatMethod {
         if (target instanceof NPC npc) {
             if (ArrayUtils.contains(immune_to_melee, npc.id())) {
                 hit.checkAccuracy(false).block().submit();
+                hit.setImmune(true);
                 return true;
             }
         }

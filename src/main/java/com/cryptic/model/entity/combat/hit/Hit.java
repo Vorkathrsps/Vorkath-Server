@@ -38,6 +38,7 @@ public class Hit {
     public boolean reflected;
     public boolean forceShowSplashWhenMissMagic;
     public boolean prayerIgnored = false;
+    @Getter @Setter public boolean isImmune = false;
     private static final Logger logger = LogManager.getLogger(Hit.class);
     private Entity attacker;
     private Entity target;
@@ -172,7 +173,10 @@ public class Hit {
 
     public Hit setDamage(int damage) {
         this.damage = damage;
-        if (this.damage > 0) this.setHitMark(HitMark.DEFAULT);
+        if (this.damage > 0) {
+            if (this.hitMark.equals(HitMark.POISON)) this.setHitMark(HitMark.POISON);
+            else this.setHitMark(HitMark.DEFAULT);
+        }
         return this;
     }
 

@@ -204,6 +204,7 @@ public class RangedCombatMethod extends CommonCombatMethod {
         if (target instanceof NPC npc) {
             if (ArrayUtils.contains(immune_to_range, npc.id())) {
                 hit.checkAccuracy(false).block().submit();
+                hit.setImmune(true);
                 return true;
             }
         }

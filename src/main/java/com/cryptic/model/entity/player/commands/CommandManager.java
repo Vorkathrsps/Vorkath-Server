@@ -639,63 +639,9 @@ public class CommandManager {
             p.clearAttrib(CHOKED);
             System.out.println(p.hasAttrib(CHOKED));
         });
+
         dev("c", (p, c, s) -> {
-            NPC[] npcs = new NPC[]{new NPC(5869, new Tile(p.tile().x - 1, p.tile().y + 1, 0)), new NPC(5867, new Tile(p.tile().x, p.tile().y + 1, 0)), new NPC(5868, new Tile(p.tile().x + 1, p.tile().y + 1, 0))};
-
-            for (var npc : npcs) {
-                npc.spawn(false);
-                npc.face(p);
-            }
-
-            NPC melee = npcs[0];
-            NPC archer = npcs[1];
-            NPC magician = npcs[2];
-
-            Chain.noCtx().runFn(2, () -> {
-                melee.setPositionToFace(p.tile());
-                melee.animate(8528);
-            }).then(1, () -> {
-                if (!Prayers.usingPrayer(p, Prayers.PROTECT_FROM_MELEE)) {
-                    p.hit(melee, 30);
-                } else {
-                    p.hits.block();
-                }
-                if (!p.getAsPlayer().getEquipment().contains(ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD)) {
-                    p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 30));
-                } else {
-                    p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 15));
-                }
-            });
-            Chain.noCtx().runFn(3, () -> {
-                archer.setPositionToFace(p.tile());
-                archer.animate(8528); //TODO
-            }).then(1, () -> {
-                if (!Prayers.usingPrayer(p, Prayers.PROTECT_FROM_MISSILES)) {
-                    p.hit(archer, 30);
-                    if (!p.getAsPlayer().getEquipment().contains(ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD)) {
-                        p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 30));
-                    } else {
-                        p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 15));
-                    }
-                }
-            });
-            Chain.noCtx().runFn(4, () -> {
-                magician.setPositionToFace(p.tile());
-                magician.animate(8528);
-            }).then(1, () -> {
-                if (!Prayers.usingPrayer(p, Prayers.PROTECT_FROM_MAGIC)) {
-                    p.hit(magician, 30);
-                }
-                if (!p.getAsPlayer().getEquipment().contains(ItemIdentifiers.SPECTRAL_SPIRIT_SHIELD)) {
-                    p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 30));
-                } else {
-                    p.getSkills().setLevel(Skills.PRAYER, Math.max(0, p.getSkills().level(Skills.PRAYER) - 15));
-                }
-            }).then(1, () -> {
-                melee.remove();
-                archer.remove();
-                magician.remove();
-            });
+            p.getTheatreInstance().spawnTreasure();
         });
 
         dev("b", (p, c, s) -> {

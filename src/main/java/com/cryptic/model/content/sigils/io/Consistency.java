@@ -20,6 +20,7 @@ public class Consistency extends AbstractSigilHandler {
     protected void damageModification(Player player, Hit hit) {
         if (!attuned(player)) return;
         hit.postDamage(h -> {
+            if (h.isImmune()) return;
             int damage = h.getDamage() + 1;
             h.setAccurate(true);
             h.setDamage(damage);

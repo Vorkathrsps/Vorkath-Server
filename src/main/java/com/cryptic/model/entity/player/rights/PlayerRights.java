@@ -10,11 +10,11 @@ public enum PlayerRights {
 
     PLAYER(-1, 0),
 
-    SUPPORT(2168, 1),
-    MODERATOR(2165, 2),
-    ADMINISTRATOR(2166, 3),
-    COMMUNITY_MANAGER(497, 4),
-    OWNER(2169, 5);
+    SUPPORT(2170, 1),
+    MODERATOR(2171, 2),
+    ADMINISTRATOR(2172, 3),
+    COMMUNITY_MANAGER(2174, 4),
+    OWNER(2175, 5);
 
     private final int spriteId;
 

@@ -8,7 +8,6 @@ import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
-import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 
 public class MeticulousMage extends AbstractSigilHandler {
@@ -19,6 +18,16 @@ public class MeticulousMage extends AbstractSigilHandler {
 
     @Override
     protected void damageModification(Player player, Hit hit) {
+
+    }
+
+    @Override
+    protected void skillModification(Player player) {
+
+    }
+
+    @Override
+    protected void resistanceModification(Entity attacker, Entity target, Hit entity) {
 
     }
 

@@ -1031,6 +1031,8 @@ public class CombatFactory {
             o.postDamage(hit);
         }
 
+        if (attacker instanceof NPC npc && target instanceof Player player) CombatFactory.sigils.processResistance(npc, player, hit);
+
         if (attacker != null && attacker.isPlayer() && target.isPlayer()) {
             assert attacker instanceof Player;
             Player player = (Player) attacker;

@@ -11,6 +11,7 @@ import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
+import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
@@ -36,7 +37,20 @@ public class Sigil extends PacketInteraction implements SigilListener {
         sigils.add(new MeticulousMage());
         sigils.add(new Consistency());
         sigils.add(new FormidableFighter());
+        sigils.add(new Resistance());
         return sigils;
+    }
+
+    @Override
+    public void processResistance(Entity attacker, Entity target, Hit hit) {
+        if (!(attacker instanceof NPC)) return;
+        if (target instanceof Player player) {
+            for (AbstractSigilHandler sigil : handler) {
+                if (sigil.attuned(player)) {
+                    sigil.resistanceModification(attacker, player, hit);
+                }
+            }
+        }
     }
 
     @Override
@@ -86,7 +100,8 @@ public class Sigil extends PacketInteraction implements SigilListener {
         if (combatTarget instanceof Player) return;
         for (AbstractSigilHandler sigil : handler) {
             if (sigil.attuned(player)) {
-                if (sigil.validateCombatType(player)) sigil.accuracyModification(player, target, rangeAccuracy, magicAccuracy, meleeAccuracy);
+                if (sigil.validateCombatType(player))
+                    sigil.accuracyModification(player, target, rangeAccuracy, magicAccuracy, meleeAccuracy);
             }
         }
     }

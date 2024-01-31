@@ -55,6 +55,16 @@ public class RuthlessRanger extends AbstractSigilHandler {
     }
 
     @Override
+    protected void skillModification(Player player) {
+
+    }
+
+    @Override
+    protected void resistanceModification(Entity attacker, Entity target, Hit entity) {
+
+    }
+
+    @Override
     protected void accuracyModification(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy) {
 
     }

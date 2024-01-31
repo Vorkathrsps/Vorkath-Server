@@ -38,7 +38,7 @@ public class Sigil extends PacketInteraction implements SigilListener {
         sigils.add(new Consistency());
         sigils.add(new FormidableFighter());
         sigils.add(new Resistance());
-        sigils.add(new Fortification());
+        sigils.add(new Precision());
         return sigils;
     }
 

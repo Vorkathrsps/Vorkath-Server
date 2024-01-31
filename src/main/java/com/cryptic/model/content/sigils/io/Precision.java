@@ -1,6 +1,5 @@
 package com.cryptic.model.content.sigils.io;
 
-import com.cryptic.model.World;
 import com.cryptic.model.content.sigils.AbstractSigilHandler;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -11,7 +10,7 @@ import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.player.Player;
 
-public class Fortification extends AbstractSigilHandler {
+public class Precision extends AbstractSigilHandler {
     @Override
     protected void process(Player player, Entity target) {
 
@@ -42,7 +41,7 @@ public class Fortification extends AbstractSigilHandler {
 
     @Override
     protected boolean attuned(Player player) {
-        return player.hasAttrib(AttributeKey.SIGIL_OF_FORTIFICATION);
+        return player.hasAttrib(AttributeKey.PRECISION);
     }
 
     @Override

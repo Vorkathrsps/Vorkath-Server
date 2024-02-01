@@ -136,6 +136,7 @@ public class Maiden extends NPC {
 
         if (insideBounds()) {
 
+            System.out.println("dins");
 
             double healthAmount = hp() * 1.0 / (maxHp() * 1.0);
 

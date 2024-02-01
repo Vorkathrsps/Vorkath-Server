@@ -8,7 +8,6 @@ import com.cryptic.model.content.duel.Dueling;
 import com.cryptic.model.World;
 import com.cryptic.model.content.mechanics.death.DeathResult;
 import com.cryptic.model.content.raids.theatre.controller.TheatreDeath;
-import com.cryptic.model.content.raids.theatre.stage.TheatreState;
 import com.cryptic.model.content.tournaments.TournamentManager;
 import com.cryptic.model.entity.attributes.AttributeKey;
 
@@ -130,7 +129,7 @@ public class DeathProcess implements TheatreDeath {
 
         Chain.noCtx().delay(4, () -> {
 
-            if (player.getTheatreInstance() != null && this.inRaid(player)) {
+            if (player.getTheatreInstance() != null) {
                 this.handleRaidDeath(player);
                 return;
             }
@@ -435,11 +434,6 @@ public class DeathProcess implements TheatreDeath {
             player.teleport(3270, 4313, player.getTheatreInstance().getzLevel());
             resetPlayerInRaid(player);
         }
-    }
-
-    @Override
-    public boolean inRaid(Player player) {
-        return player.getTheatreState().equals(TheatreState.ACTIVE);
     }
 
 }

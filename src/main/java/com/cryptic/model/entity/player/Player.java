@@ -47,7 +47,6 @@ import com.cryptic.model.content.raids.theatre.interactions.TheatreInterface;
 import com.cryptic.model.content.raids.theatre.party.TheatreParty;
 import com.cryptic.model.content.raids.theatre.stage.RoomState;
 import com.cryptic.model.content.raids.theatre.stage.TheatreStage;
-import com.cryptic.model.content.raids.theatre.stage.TheatreState;
 import com.cryptic.model.content.security.AccountPin;
 import com.cryptic.model.content.skill.Skillable;
 import com.cryptic.model.content.skill.impl.farming.Farming;
@@ -186,10 +185,6 @@ public class Player extends Entity {
     @Getter
     @Setter
     public RoomState roomState;
-    @Getter
-    @Setter
-    public TheatreState theatreState;
-
     @Getter
     @Setter
     private NightmareInstance nightmareInstance;

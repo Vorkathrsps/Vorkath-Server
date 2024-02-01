@@ -93,7 +93,6 @@ public class TheatreInstance extends InstancedArea {
         owner.setInstancedArea(this);
         owner.setTheatreInstance(this);
         owner.teleport(entrance.transform(0, 0, this.getzLevel()));
-        owner.setTheatreState(TheatreState.ACTIVE);
         owner.setRoomState(RoomState.INCOMPLETE);
         for (var p : players) {
             if (p != owner) {
@@ -101,7 +100,6 @@ public class TheatreInstance extends InstancedArea {
                     p.setInstancedArea(owner.getTheatreInstance());
                     p.setTheatreInstance(owner.getTheatreInstance());
                     p.teleport(entrance.transform(0, 0, owner.getTheatreInstance().getzLevel()));
-                    p.setTheatreState(TheatreState.ACTIVE);
                     p.setRoomState(RoomState.INCOMPLETE);
                 }
             }
@@ -150,6 +148,8 @@ public class TheatreInstance extends InstancedArea {
             member.clearAttrib(TOB_LOOT_CHEST);
             member.clearAttrib(RARE_TOB_REWARD);
             member.setTheatreParty(null);
+            member.setTheatreInstance(null);
+            member.unlock();
         }
         for (var o : treasureSpawns) {
             if (o != null) {

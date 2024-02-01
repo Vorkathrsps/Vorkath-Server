@@ -39,7 +39,6 @@ public class CallistoArea extends Controller {
 
     @Override
     public void process(Player player) {
-        System.out.println("processing");
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {
                 if (npc.id() == 6609) {

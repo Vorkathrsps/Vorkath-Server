@@ -1531,6 +1531,9 @@ public class Player extends Entity {
      */
     public void onLogin() {
         logger.info("Registering player - [username, host] : [{}, {}]", getUsername(), getHostAddress());
+        if (dead()) {
+            die();
+        }
         handleForcedTeleports();
         applyAttributes();
         updatePlayer();

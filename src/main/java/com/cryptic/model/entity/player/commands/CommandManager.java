@@ -41,6 +41,7 @@ import com.cryptic.model.entity.player.commands.impl.staff.moderator.VanishComma
 import com.cryptic.model.entity.player.commands.impl.staff.server_support.StaffZoneCommand;
 import com.cryptic.model.entity.player.commands.impl.super_member.YellColourCommand;
 import com.cryptic.model.inter.InterfaceConstants;
+import com.cryptic.model.inter.dialogue.DialogueManager;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
@@ -53,6 +54,7 @@ import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.utility.*;
 import com.cryptic.utility.chainedwork.Chain;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -68,6 +70,7 @@ import static com.cryptic.model.inter.InterfaceConstants.*;
 import static com.cryptic.utility.Debugs.CLIP;
 import static java.lang.String.format;
 
+@Slf4j
 public class CommandManager {
 
     private static final Logger commandLogs = LogManager.getLogger("CommandLogs");
@@ -976,6 +979,63 @@ public class CommandManager {
                 if (t2.npcCount > 0)
                     t2.showTempItem(995);
             });
+        });
+        dev("raid1", (player, c, s) -> {
+            player.teleport(3678, 3216);
+            player.setTheatreInterface(new TheatreInterface(player, new ArrayList<>()).open(player));
+            if (player.getTheatreParty() == null) {
+                player.setTheatreParty(player.getTheatreInterface());
+                player.getTheatreParty().addOwner();
+            }
+
+                player.getTheatreParty().addOwner();
+                player.getPacketSender().sendString(76004, "Invite");
+                player.getPacketSender().sendString(76024, Color.ORANGE.wrap(player.getDisplayName()));
+                player.getTheatreInterface().refreshPartyUi(player.getTheatreParty());
+                player.getPacketSender().sendString(76033, "--");
+                player.getPacketSender().sendString(76042, "--");
+                player.getPacketSender().sendString(76051, "--");
+                player.getPacketSender().sendString(76060, "--");
+                World.getWorld().getPlayers().forEach(p2 -> {
+                    if (p2 != player) {
+                        var member = p2;
+                        p2.teleport(player.tile());
+                        if (player.getTheatreInterface().getOwner().getTheatreParty() != null) {
+                            player.getTheatreInterface().getPlayers().add(member);
+                            member.setTheatreParty(player.getTheatreInterface().getOwner().getTheatreParty());
+                            member.message("You've joined " + player.getTheatreInterface().getOwner().getUsername() + "'s raid party.");
+                            DialogueManager.sendStatement(player.getTheatreInterface().getOwner(), member.getUsername() + " has joined your raid party.");
+                            member.getPacketSender().sendString(73055, "Leave");
+                        }
+                    }
+                });
+                var theatreParty = player.getTheatreParty();
+                var players = theatreParty.getPlayers();
+
+                if (players == null) {
+                    return;
+                }
+
+                for (var p : players) {
+                    if (p.tile().region() != 14642) {
+                        p.getTheatreParty().getOwner().message(Color.RED.wrap(p.getUsername()) + " is not currently in the raiding area.");
+                        return;
+                    }
+                }
+
+                //TODO possible just recycle theatre party .getOwner() instead of using player, seems safer.
+
+                TheatreInstance theatreInstance = new TheatreInstance(player, players);
+                player.setTheatreInstance(theatreInstance);
+                player.getTheatreInstance().buildParty().startRaid();
+
+        });
+
+        dev("raid2", (player, c, s) -> {
+            log.info("{}", player.getTheatreParty().getPlayers().size());
+        });
+        dev("unlock", (player, c, s) -> {
+            player.unlock();
         });
     }
 

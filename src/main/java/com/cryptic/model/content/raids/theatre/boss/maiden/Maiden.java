@@ -32,7 +32,9 @@ public class Maiden extends NPC {
     BloodSpawn orb = null;
     MaidenNylo nylo = null;
     private final List<Player> players = new ArrayList<>();
-    @Getter @Setter private int randomBlood = 0;
+    @Getter
+    @Setter
+    private int randomBlood = 0;
     private int intervalCount = 0;
     private int attackInterval = 10;
     private boolean nyloSpawned70to50;
@@ -58,15 +60,19 @@ public class Maiden extends NPC {
             return;
         }
         randomBlood++;
-        this.face(player);
-        Chain.noCtx().runFn(1, () -> this.face(null));
-        this.animate(8092);
-        int tileDist = this.tile().distance(player.tile());
-        int duration = (80 + -5 + (8 * tileDist));
-        Projectile p = new Projectile(this, player, 1577, 80, duration, 0, 0, 0, 6, 8);
-        this.executeProjectile(p);
-        Hit hit = Hit.builder(this, player, CombatFactory.calcDamageFromType(this, player, CombatType.MAGIC), p.getSpeed() / 30, CombatType.MAGIC).checkAccuracy(true);
-        hit.submit();
+        for (Player p2 : this.theatreInstance.getPlayers()) {
+            if (!players.contains(p2))
+                continue;
+            this.face(p2);
+            Chain.noCtx().runFn(1, () -> this.face(null));
+            this.animate(8092);
+            int tileDist = this.tile().distance(p2.tile());
+            int duration = (80 + -5 + (8 * tileDist));
+            Projectile p = new Projectile(this, p2, 1577, 80, duration, 0, 0, 0, 6, 8);
+            this.executeProjectile(p);
+            Hit hit = Hit.builder(this, p2, CombatFactory.calcDamageFromType(this, p2, CombatType.MAGIC), p.getSpeed() / 30, CombatType.MAGIC).checkAccuracy(true);
+            hit.submit();
+        }
     }
 
     public void throwBlood() {
@@ -130,6 +136,7 @@ public class Maiden extends NPC {
 
         if (insideBounds()) {
 
+
             double healthAmount = hp() * 1.0 / (maxHp() * 1.0);
 
             if (healthAmount <= 0.70 && !nyloSpawned70to50) {
@@ -184,21 +191,20 @@ public class Maiden extends NPC {
     }
 
     protected boolean insideBounds() {
-        var player = theatreInstance.getOwner();
-        if (IGNORED.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(player.tile()) || (!MAIDEN_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(player.tile()) && IGNORED.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(player.tile()))) {
-            return false;
-        }
-
-        if (MAIDEN_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(player.tile()) && !IGNORED.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(player.tile())) {
-            if (!players.contains(player)) {
-                players.add(player);
-                return true;
+        for (var p2 : theatreInstance.getPlayers()) {
+            if (IGNORED.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(p2.tile()) || (!MAIDEN_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(p2.tile()) && IGNORED.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(p2.tile()))) {
+                continue;
             }
-        } else {
-            players.remove(player);
-            return false;
+
+            if (MAIDEN_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(p2.tile()) && !IGNORED.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(p2.tile())) {
+                if (!players.contains(p2)) {
+                    players.add(p2);
+                }
+            } else {
+                players.remove(p2);
+            }
         }
-        return true;
+        return !players.isEmpty();
     }
 
 }

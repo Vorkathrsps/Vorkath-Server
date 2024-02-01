@@ -94,7 +94,6 @@ public class TheatreInstance extends InstancedArea {
         owner.setTheatreInstance(this);
         owner.teleport(entrance.transform(0, 0, this.getzLevel()));
         owner.setTheatreState(TheatreState.ACTIVE);
-        owner.setRaidDeathState(RaidDeathState.ALIVE);
         owner.setRoomState(RoomState.INCOMPLETE);
         for (var p : players) {
             if (p != owner) {
@@ -103,7 +102,6 @@ public class TheatreInstance extends InstancedArea {
                     p.setTheatreInstance(owner.getTheatreInstance());
                     p.teleport(entrance.transform(0, 0, owner.getTheatreInstance().getzLevel()));
                     p.setTheatreState(TheatreState.ACTIVE);
-                    p.setRaidDeathState(RaidDeathState.ALIVE);
                     p.setRoomState(RoomState.INCOMPLETE);
                 }
             }
@@ -148,10 +146,7 @@ public class TheatreInstance extends InstancedArea {
             } else if (member.getInventory().contains(ItemIdentifiers.DAWNBRINGER)) {
                 member.getInventory().remove(ItemIdentifiers.DAWNBRINGER);
             }
-            Arrays.stream(rooms())
-                .findFirst()
-                .filter(p -> p.contains(member.tile()))
-                .ifPresent(p -> member.teleport(new Tile(3670, 3219, 0)));
+            member.teleport(new Tile(3670, 3219, 0));
             member.clearAttrib(TOB_LOOT_CHEST);
             member.clearAttrib(RARE_TOB_REWARD);
             member.setTheatreParty(null);

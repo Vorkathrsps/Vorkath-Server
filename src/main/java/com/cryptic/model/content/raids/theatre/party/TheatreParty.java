@@ -15,7 +15,8 @@ public class TheatreParty {
     }
 
     public void addOwner() {
-        players.add(owner);
+        if (!players.contains(owner))
+            players.add(owner);
     }
 
     public void clear() {

@@ -8,7 +8,6 @@ import com.cryptic.model.content.duel.Dueling;
 import com.cryptic.model.World;
 import com.cryptic.model.content.mechanics.death.DeathResult;
 import com.cryptic.model.content.raids.theatre.controller.TheatreDeath;
-import com.cryptic.model.content.raids.theatre.stage.RaidDeathState;
 import com.cryptic.model.content.raids.theatre.stage.TheatreState;
 import com.cryptic.model.content.tournaments.TournamentManager;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -104,10 +103,6 @@ public class DeathProcess implements TheatreDeath {
     }
 
     public void handleDeath(Player player) {
-        if (player.getTheatreInstance() != null && this.inRaid(player)) {
-            this.handleRaidDeath(player);
-            return;
-        }
 
         player.lock(); //Lock the player
 
@@ -134,6 +129,12 @@ public class DeathProcess implements TheatreDeath {
         player.animate(836); //Animate the player
 
         Chain.noCtx().delay(4, () -> {
+
+            if (player.getTheatreInstance() != null && this.inRaid(player)) {
+                this.handleRaidDeath(player);
+                return;
+            }
+
             player.stopActions(true);
 
             Entity lastAttacker = player.getAttrib(AttributeKey.LAST_DAMAGER);
@@ -375,7 +376,6 @@ public class DeathProcess implements TheatreDeath {
     @Override
     public void handleRaidDeath(Player player) { //check 2 handle the death state
         var party = player.getTheatreInstance();
-        player.setRaidDeathState(RaidDeathState.DEAD);
 
         player.lock();
 

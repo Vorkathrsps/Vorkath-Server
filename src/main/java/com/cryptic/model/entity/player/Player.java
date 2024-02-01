@@ -45,7 +45,6 @@ import com.cryptic.model.content.raids.party.RaidsParty;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.interactions.TheatreInterface;
 import com.cryptic.model.content.raids.theatre.party.TheatreParty;
-import com.cryptic.model.content.raids.theatre.stage.RaidDeathState;
 import com.cryptic.model.content.raids.theatre.stage.RoomState;
 import com.cryptic.model.content.raids.theatre.stage.TheatreStage;
 import com.cryptic.model.content.raids.theatre.stage.TheatreState;
@@ -190,10 +189,6 @@ public class Player extends Entity {
     @Getter
     @Setter
     public TheatreState theatreState;
-
-    @Getter
-    @Setter
-    public RaidDeathState raidDeathState;
 
     @Getter
     @Setter
@@ -1432,7 +1427,8 @@ public class Player extends Entity {
         if (party != null) {
             for (var p : party.getPlayers()) {
                 if (p.equals(this)) {
-                    p.getTheatreInterface().handleLogout(p);
+                    if (p.getTheatreInterface() != null)
+                        p.getTheatreInterface().handleLogout(p);
                 }
             }
         }

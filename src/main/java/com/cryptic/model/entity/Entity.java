@@ -1663,24 +1663,6 @@ public abstract class Entity {
         to.accept(stopwatch.elapsed());
     }
 
-    public static void time(Consumer<Duration> consumer, Runnable task) {
-        if (!TimesCycle.BENCHMARKING_ENABLED) {
-            try {
-                task.run();
-            } catch (Exception e) {
-                log.error("kys", e);
-            }
-            return;
-        }
-
-        long startTime = System.nanoTime();
-        task.run();
-        long endTime = System.nanoTime();
-        Duration elapsedDuration = Duration.ofNanos(endTime - startTime);
-        consumer.accept(elapsedDuration);
-    }
-
-
     private int graphicSwap;
 
     public int getGraphicSwap() {

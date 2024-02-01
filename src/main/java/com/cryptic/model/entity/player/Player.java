@@ -3098,167 +3098,90 @@ public class Player extends Entity {
 
     public final void sequence() {
         try {
-            Arrays.fill(section, false);
-            logR.run();
-            qtStuff.run();
-            controllers.run();
-            timers.run();
-            actions.run();
-            tasks.run();
-            regions.run();
-            movement.run();
-            cbBountyFlush.run();
-            prayers.run();
-            end.run();
+            fireLogout();
+            this.getTimers().cycle(this);
+            this.action.sequence();
+            PacketInteractionManager.onPlayerProcess(this);
+            TaskManager.sequenceForMob(this);
+            ControllerManager.process(this);
+            this.setPlayerQuestTabCycleCount(getPlayerQuestTabCycleCount() + 1);
+            updateServerInformation(this);
+            updateAccountStatus(this);
+            GlobalStrings.PLAYERS_ONLINE.send(this, World.getWorld().getPlayers().size());
+            var gametime = this.<Long>getAttribOr(GAME_TIME, 0L) + 1;
+            this.putAttrib(GAME_TIME, gametime);
+            if (interfaceManager.isInterfaceOpen(DAILY_TASK_MANAGER_INTERFACE)) {
+                var dailyTask = this.<DailyTasks>getAttribOr(DAILY_TASK_SELECTED, null);
+                if (dailyTask != null)
+                    this.getPacketSender().sendString(TIME_FRAME_TEXT_ID, DailyTaskManager.timeLeft(this, dailyTask));
+            }
+            LocalDateTime now = LocalDateTime.now();
+            long minutesTillWildyBoss = now.until(WildernessBossEvent.getINSTANCE().next, ChronoUnit.MINUTES);
+            if (GameServer.properties().autoRefreshQuestTab && getPlayerQuestTabCycleCount() == GameServer.properties().refreshQuestTabCycles) {
+                setPlayerQuestTabCycleCount(0);
+                updatePlayerPanel(this);
+                this.getPacketSender().sendString(WORLD_BOSS_SPAWN.childId, QuestTab.InfoTab.INFO_TAB.get(WORLD_BOSS_SPAWN.childId).fetchLineData(this));
 
+                if (minutesTillWildyBoss == 5) {
+                    if (!WildernessBossEvent.ANNOUNCE_5_MIN_TIMER) {
+                        WildernessBossEvent.ANNOUNCE_5_MIN_TIMER = true;
+                        World.getWorld().sendWorldMessage("<col=6a1a18><img=2012>The world boss will spawn in 5 minutes, gear up!");
+                    }
+                }
+            }
+            if (this.<Boolean>getAttribOr(AttributeKey.NEW_ACCOUNT, false) && System.currentTimeMillis() - this.<Long>getAttribOr(LOGGED_IN_AT_TIME, System.currentTimeMillis()) > 1000 * 60 * 4) {
+                this.requestLogout();
+            }
+            if (tile.region() == 14231) {
+                this.interfaceManager.sendOverlay(4535);
+                this.packetSender.sendString(4536, "Kill Count: " + getAttribOr(BARROWS_MONSTER_KC, 0));
+            }
+            this.getCombat().preAttack();
+            TargetRoute.beforeMovement(this);
+            this.getMovementQueue().process();
+            TargetRoute.afterMovement(this);
+            int lastregion = this.getAttribOr(AttributeKey.LAST_REGION, -1);
+            int lastChunk = this.getAttribOr(AttributeKey.LAST_CHUNK, -1);
+            if (lastregion != tile.region() || lastChunk != tile.chunk()) MultiwayCombat.refresh(this, lastregion, lastChunk);
+            this.putAttrib(AttributeKey.LAST_REGION, tile.region());
+            this.putAttrib(AttributeKey.LAST_CHUNK, tile.chunk());
+            if (queuedAppearanceUpdate()) {
+                getUpdateFlag().flag(Flag.APPEARANCE);
+                setQueuedAppearanceUpdate(false);
+            }
+            postcycle_dirty();
+            getCombat().process();
+            Prayers.drainPrayer(this);
+            if (hp() < 1 && System.currentTimeMillis() - lockTime > 30_000) {
+                logger.error("player has been locked for 30s while 0hp.. how tf did that happen");
+                this.die();
+            }
+            if ((!this.increaseStats.active() || (this.decreaseStats.secondsElapsed() >= (Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60))) && !this.divinePotionEffectActive()) {
+                this.skills.replenishStats();
+                if (!this.increaseStats.active()) this.increaseStats.start(60);
+                if (this.decreaseStats.secondsElapsed() >= (Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60)) this.decreaseStats.start((Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60));
+            }
+            var staminaTicks = this.<Integer>getAttribOr(STAMINA_POTION_TICKS, 0);
+            if (staminaTicks > 0) {
+                staminaTicks--;
+                this.putAttrib(STAMINA_POTION_TICKS, staminaTicks);
+                if (staminaTicks == 50) {
+                    message("<col=8f4808>Your stamina potion is about to expire.");
+                } else if (staminaTicks == 0) {
+                    message("<col=8f4808>Your stamina potion has expired.");
+                    this.packetSender.sendStamina(false).sendEffectTimer(0, EffectTimer.STAMINA);
+                }
+            }
+            if (!getChatMessageQueue().isEmpty()) {
+                setCurrentChatMessage(getChatMessageQueue().poll());
+                this.getUpdateFlag().flag(Flag.CHAT);
+            } else setCurrentChatMessage(null);
         } catch (Exception e) {
             System.err.println("Error processing logic for Player: " + this);
             System.err.println(captureState());
             e.printStackTrace();
         }
     }
-
-    Runnable logR = () -> {
-        fireLogout();
-    }, qtStuff = () -> {
-        this.setPlayerQuestTabCycleCount(getPlayerQuestTabCycleCount() + 1);
-        updateServerInformation(this);
-        updateAccountStatus(this);
-        //Update the players online regardless of the cycle count, this is the most important number, otherwise players might see "0" if they log in too soon. Can always remove this later.
-        GlobalStrings.PLAYERS_ONLINE.send(this, World.getWorld().getPlayers().size());
-
-        var gametime = this.<Long>getAttribOr(GAME_TIME, 0L) + 1;
-        this.putAttrib(GAME_TIME, gametime);// Increment ticks we've played for
-
-        if (interfaceManager.isInterfaceOpen(DAILY_TASK_MANAGER_INTERFACE)) {
-            var dailyTask = this.<DailyTasks>getAttribOr(DAILY_TASK_SELECTED, null);
-            if (dailyTask != null)
-                this.getPacketSender().sendString(TIME_FRAME_TEXT_ID, DailyTaskManager.timeLeft(this, dailyTask));
-        }
-
-        var staminaTicks = this.<Integer>getAttribOr(STAMINA_POTION_TICKS, 0);
-        if (staminaTicks > 0) {
-            staminaTicks--;
-            this.putAttrib(STAMINA_POTION_TICKS, staminaTicks);
-            if (staminaTicks == 50) {
-                message("<col=8f4808>Your stamina potion is about to expire.");
-            } else if (staminaTicks == 0) {
-                message("<col=8f4808>Your stamina potion has expired.");
-                this.packetSender.sendStamina(false).sendEffectTimer(0, EffectTimer.STAMINA);
-            }
-        }
-
-        LocalDateTime now = LocalDateTime.now();
-        long minutesTillWildyBoss = now.until(WildernessBossEvent.getINSTANCE().next, ChronoUnit.MINUTES);
-
-        // Refresh the quest tab every minute (every 100 ticks)
-        if (GameServer.properties().autoRefreshQuestTab && getPlayerQuestTabCycleCount() == GameServer.properties().refreshQuestTabCycles) {
-            setPlayerQuestTabCycleCount(0);
-            updatePlayerPanel(this);
-
-            //We only have to update the uptime here, every other line is automatically updated.
-            //this.getPacketSender().sendString(UPTIME.childId, QuestTab.InfoTab.INFO_TAB.get(UPTIME.childId).fetchLineData(this));
-
-
-            //Update the timer frames every minute.
-            this.getPacketSender().sendString(WORLD_BOSS_SPAWN.childId, QuestTab.InfoTab.INFO_TAB.get(WORLD_BOSS_SPAWN.childId).fetchLineData(this));
-
-            if (minutesTillWildyBoss == 5) {
-                if (!WildernessBossEvent.ANNOUNCE_5_MIN_TIMER) {
-                    WildernessBossEvent.ANNOUNCE_5_MIN_TIMER = true;
-                    World.getWorld().sendWorldMessage("<col=6a1a18><img=2012>The world boss will spawn in 5 minutes, gear up!");
-                }
-            }
-        }
-    }, controllers = () -> {
-        if (this.<Boolean>getAttribOr(AttributeKey.NEW_ACCOUNT, false) && System.currentTimeMillis() - this.<Long>getAttribOr(LOGGED_IN_AT_TIME, System.currentTimeMillis()) > 1000 * 60 * 4) {
-            this.requestLogout();
-        }
-
-        //Section 8 Process areas..
-        section[8] = true;
-        ControllerManager.process(this);
-
-        //We don't have to make a entire abstract area for just these 2 lines.
-        if (tile.region() == 14231) {
-            this.interfaceManager.sendOverlay(4535);
-            this.packetSender.sendString(4536, "Kill Count: " + getAttribOr(BARROWS_MONSTER_KC, 0));
-        }
-    }, timers = () -> {
-        this.getTimers().cycle(this);
-    }, actions = () -> {
-        this.action.sequence();
-        PacketInteractionManager.onPlayerProcess(this);
-    }, tasks = () -> {
-        TaskManager.sequenceForMob(this);
-    }, regions = () -> {
-
-        int lastregion = this.getAttribOr(AttributeKey.LAST_REGION, -1);
-        int lastChunk = this.getAttribOr(AttributeKey.LAST_CHUNK, -1);
-
-        if (lastregion != tile.region() || lastChunk != tile.chunk()) {
-            MultiwayCombat.refresh(this, lastregion, lastChunk);
-        }
-
-        // Update last region and chunk ids
-        this.putAttrib(AttributeKey.LAST_REGION, tile.region());
-        this.putAttrib(AttributeKey.LAST_CHUNK, tile.chunk());
-    }, movement = () -> {
-        this.getCombat().preAttack();
-        TargetRoute.beforeMovement(this);
-        this.getMovementQueue().process(); // must be between before+after movement
-        TargetRoute.afterMovement(this); // must be afterMove
-    }, cbBountyFlush = () -> {
-        getCombat().process();
-
-        //Section 8 Process Bounty Hunter
-        section[9] = true;
-        //BountyHunter.sequence(this);
-
-        //Section 10 Updates inventory if an update has been requested
-        section[10] = true;
-    }, prayers = () -> {
-        Prayers.drainPrayer(this);
-    }, end = () -> {
-
-        if (hp() < 1 && System.currentTimeMillis() - lockTime > 30_000) {
-            logger.error("player has been locked for 30s while 0hp.. how tf did that happen");
-            this.die();
-        }
-
-        if (queuedAppearanceUpdate()) {
-            getUpdateFlag().flag(Flag.APPEARANCE);
-            setQueuedAppearanceUpdate(false);
-        }
-
-        //Section 12 Sync containers, if dirty
-        section[12] = true;
-        //this.syncContainers();
-        postcycle_dirty();
-
-        //Section 13 Send queued chat messages
-        section[13] = true;
-        if (!getChatMessageQueue().isEmpty()) {
-            setCurrentChatMessage(getChatMessageQueue().poll());
-            this.getUpdateFlag().flag(Flag.CHAT);
-        } else {
-            setCurrentChatMessage(null);
-        }
-
-        //Section 14 Decrease boosted stats Increase lowered stats. Don't decrease stats whilst the divine potion effect is active.
-        section[14] = true;
-        if ((!this.increaseStats.active() || (this.decreaseStats.secondsElapsed() >= (Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60))) && !this.divinePotionEffectActive()) {
-            this.skills.replenishStats();
-
-            // Reset timers
-            if (!this.increaseStats.active()) {
-                this.increaseStats.start(60);
-            }
-            if (this.decreaseStats.secondsElapsed() >= (Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60)) {
-                this.decreaseStats.start((Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60));
-            }
-        }
-    };
 
     public int lastActiveOverhead;
 

@@ -72,11 +72,7 @@ public class TargetRoute {
     private void beforeMovement0(Entity entity) {
         if (target.isNpc() && target.getAsNpc().walkTo != null) {
             abs = true;
-            route =
-                entity.getRouteFinder()
-                    .routeAbsolute(
-                        target.getAsNpc().walkTo.getX(),
-                        target.getAsNpc().walkTo.getY());
+            route = entity.getRouteFinder().routeAbsolute(target.getAsNpc().walkTo.getX(), target.getAsNpc().walkTo.getY());
             return;
         }
         if (entity.getInteractingEntity() != target) {
@@ -85,8 +81,7 @@ public class TargetRoute {
         abs = false;
         route = entity.getRouteFinder().routeEntity(target);
         withinDistance = false;
-        if (entity.getZ() != target.getZ())
-            return;
+        if (entity.getZ() != target.getZ()) return;
         if (distance == 1) {
             if (route.reachable && route.finished(entity.tile()))
                 withinDistance = true;
@@ -162,6 +157,8 @@ public class TargetRoute {
             withinDistance = true;
         }
 
+        entity.face(null);
+
         if (finishAction != null) {
             /** Interactions */
             if (abs)
@@ -175,7 +172,7 @@ public class TargetRoute {
         } else if (!withinDistance) {
             /** Combat */
             if (entity.isPlayer()) entity.getAsPlayer().getMovement().outOfReach();
-            entity.getCombat().reset(); // Out of distance reset combat
+            entity.getCombat().reset();
             reset();
         }
     }

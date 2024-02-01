@@ -11,7 +11,6 @@ import com.cryptic.model.entity.combat.damagehandler.listener.DamageEffectListen
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.container.equipment.EquipmentInfo;
-import com.cryptic.utility.ItemIdentifiers;
 
 import static com.cryptic.utility.ItemIdentifiers.CORRUPTED_TUMEKENS_SHADOW;
 import static com.cryptic.utility.ItemIdentifiers.TUMEKENS_SHADOW;

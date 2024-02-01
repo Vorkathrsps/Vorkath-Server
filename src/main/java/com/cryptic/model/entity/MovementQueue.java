@@ -367,8 +367,7 @@ public class MovementQueue {
         }
 
         entity.setTile(new Tile(newX, newY, entity.getZ()));
-        if (entity.isPlayer())
-            entity.getAsPlayer().getMovementQueue().handleRegionChange();
+        if (entity.isPlayer()) entity.getAsPlayer().getMovementQueue().handleRegionChange();
         if(newX == stepX && newY == stepY) readOffset++;
         return true;
     }

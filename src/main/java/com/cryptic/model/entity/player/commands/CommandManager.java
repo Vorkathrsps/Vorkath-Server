@@ -4,6 +4,8 @@ import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.content.EffectTimer;
+import com.cryptic.model.content.daily_tasks.DailyTaskManager;
+import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.instance.InstancedAreaManager;
 import com.cryptic.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
@@ -1036,6 +1038,45 @@ public class CommandManager {
         });
         dev("unlock", (player, c, s) -> {
             player.unlock();
+        });
+        dev("dailys", (player, c, s) -> {
+            player.getInterfaceManager().open(80750);
+            var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
+            var challengeListText = 80778;
+            for (int i = 0; i < tasks.size(); i++) {
+                player.getPacketSender().sendString(challengeListText + (i * 2), tasks.get(i).taskName);
+            }
+            DailyTaskManager.displayTaskInfo(player, tasks.get(0));
+            player.getPacketSender().sendString(80756, "Reward points: "+player.getAttribOr(DAILY_TASKS_POINTS, 0));
+        });
+        dev("newdailys", (player, c, s) -> {
+            var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
+            player.putAttrib(DAILY_TASKS_LIST, tasks);
+            tasks.clear();
+            DailyTaskManager.onLogin(player);
+            player.getInterfaceManager().open(80750);
+            var challengeListText = 80778;
+            for (int i = 0; i < tasks.size(); i++) {
+                player.getPacketSender().sendString(challengeListText + (i * 2), tasks.get(i).taskName);
+            }
+        });
+        dev("dailys1", (player, c, s) -> {
+            var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
+            int inc = s.length > 1 ? Integer.parseInt(s[1]) : 1;
+            for (int i = 0; i < inc; i++) {
+                DailyTaskManager.increase(tasks.get(0), player);
+            }
+        });
+        dev("claimdailys", (player, c, s) -> {
+            var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
+            tasks.forEach(t -> {
+                if (t.completed.get(player))
+                    DailyTaskManager.claimReward(t, player);
+            });
+        });
+        dev("unclaim", (player, c, s) -> {
+            var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
+            player.putAttrib(tasks.get(0).rewardClaimed, false);
         });
     }
 

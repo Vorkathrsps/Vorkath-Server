@@ -3,14 +3,15 @@ package com.cryptic.model.content.daily_tasks;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
+import com.cryptic.model.items.container.ItemContainer;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.Utils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static com.cryptic.model.content.daily_tasks.DailyTaskUtility.*;
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
@@ -19,6 +20,7 @@ import static com.cryptic.model.entity.attributes.AttributeKey.*;
  * @author Origin | June, 15, 2021, 16:15
  * 
  */
+@Slf4j
 public class DailyTaskManager {
 
     public static String timeLeft(Player player, DailyTasks task) {
@@ -40,57 +42,40 @@ public class DailyTaskManager {
     }
 
     public static void displayTaskInfo(Player player, DailyTasks task) {
-        final var completed = player.<Integer>getAttribOr(task.key, 0);
-        final var progress = (int) (completed * 100 / (double) task.completionAmount);
+        var completed = player.<Integer>getAttribOr(task.key, 0);
+        var extensions = player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<DailyTasks, Integer>());
+        var completionAmt = task.completionAmount;
+        log.info("{}", player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<DailyTasks, Integer>()));
+        completionAmt += extensions.getOrDefault(task, 0);
+        final var progress = (int) (completed * 100 / (double) completionAmt);
         player.getPacketSender().sendString(START_LIST_ID, "<col=ff9040>" + Utils.formatEnum(task.taskName));
-        player.getPacketSender().sendString(PROGRESS_BAR_TEXT_ID, "Progress:</col><col=ffffff>" + " (" + progress + "%) " + Utils.format(completed) + " / " + Utils.format(task.completionAmount));
+        player.getPacketSender().sendString(PROGRESS_BAR_TEXT_ID, "Progress:</col><col=ffffff>" + " (" + progress + "%) " + Utils.format(completed) + " / " + Utils.format(completionAmt));
         player.getPacketSender().sendProgressBar(PROGRESS_BAR_ID, progress);
         player.getPacketSender().sendString(DESCRIPTION_TEXT_ID, task.taskDescription);
-        player.getPacketSender().sendString(TIME_FRAME_TEXT_ID, timeLeft(player, task));
 
         //Clear item frames
-        player.getPacketSender().sendItemOnInterface(LEFT_SIDE_REWARD_CONTAINER);
-        player.getPacketSender().sendItemOnInterface(RIGHT_SIDE_REWARD_CONTAINER);
-
-        player.getPacketSender().sendItemOnInterface(LEFT_SIDE_REWARD_CONTAINER, Arrays.stream(task.rewards).limit(2).toArray(Item[]::new));
-        player.getPacketSender().sendItemOnInterface(RIGHT_SIDE_REWARD_CONTAINER, Arrays.stream(task.rewards).skip(2).toArray(Item[]::new));
+        var rewards = new ItemContainer(3, ItemContainer.StackPolicy.ALWAYS, new Item[3]);
+        rewards.addAll(task.rewards);
+        for (int i = 0; i < Math.max(3, rewards.size()); i++) {
+            player.getPacketSender().sendItemOnInterface(80768 + i, rewards.get(i));
+        }
 
         player.putAttrib(DAILY_TASK_SELECTED, task);
-    }
-
-    public static void openCategory(Player player, TaskCategory category) {
-        final List<DailyTasks> list = DailyTasks.asList(category);
-
-        //Clear text and hide buttons
-        for (int i = 41521; i < 41521 + 20; i += 2) {
-            player.getPacketSender().sendInterfaceDisplayState(i, true);
-            player.getPacketSender().sendString(i + 1, "");
-        }
-
-        int base = 41522;
-        for (final DailyTasks tasks : list) {
-            int completed = player.getAttribOr(tasks.key, 0);
-            if (completed > tasks.completionAmount) {
-                completed = tasks.completionAmount;
-            }
-            int totalAmount = tasks.completionAmount;
-
-            player.getPacketSender().sendInterfaceDisplayState(base - 1, false);
-            player.getPacketSender().sendString(base, "" + color(completed, totalAmount) + tasks.taskName);
-            base += 2;
-        }
     }
 
     public static void increase(DailyTasks dailyTask, Player player) {
         //Can only increase when the task isn't already finished.
         if (dailyTask.canIncrease(player)) {
             var completionAmount = dailyTask.completionAmount;
-            var increase = player.<Integer>getAttribOr(dailyTask.key, 0) + 1;
-            player.putAttrib(dailyTask.key, increase);
-            player.message(Color.PURPLE.wrap("Daily task; " + dailyTask.taskName + " Completed: (" + increase + "/" + completionAmount + ")"));
+            var extensions = player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<DailyTasks, Integer>());
+            completionAmount += extensions.getOrDefault(dailyTask, 0);
+
+            var newCompletedAmt = player.<Integer>getAttribOr(dailyTask.key, 0) + 1;
+            player.putAttrib(dailyTask.key, newCompletedAmt);
+            player.message(Color.PURPLE.wrap("Daily task; " + dailyTask.taskName + " Completed: (" + newCompletedAmt + "/" + completionAmount + ")"));
 
             //We have completed the task
-            if (increase == dailyTask.completionAmount) {
+            if (newCompletedAmt == completionAmount) {
                 player.putAttrib(dailyTask.completed, true);
                 player.message(Color.PURPLE.wrap(dailyTask.taskName + " completed, you may now claim its rewards!"));
             }
@@ -98,7 +83,12 @@ public class DailyTaskManager {
     }
 
     public static void onLogin(Player player) {
-        if (player.<Integer>getAttribOr(LAST_DAILY_RESET, -1) != ZonedDateTime.now().getDayOfMonth()) {
+        var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
+        if (tasks == null) {
+            tasks = new ArrayList<DailyTasks>();
+        }
+        player.putAttrib(DAILY_TASKS_LIST, tasks);
+        if (player.<Integer>getAttribOr(LAST_DAILY_RESET, -1) != ZonedDateTime.now().getDayOfMonth() || tasks.isEmpty()) {
             player.putAttrib(LAST_DAILY_RESET, ZonedDateTime.now().getDayOfMonth());
             for (DailyTasks task : DailyTasks.values()) {
                 player.clearAttrib(task.key);
@@ -106,6 +96,11 @@ public class DailyTaskManager {
                 player.clearAttrib(task.rewardClaimed);
             }
             player.message(Color.PURPLE.wrap("Your daily tasks have been reset."));
+            tasks.clear();
+            var possibles = new ArrayList<>(Arrays.stream(DailyTasks.values()).toList());
+            Collections.shuffle(possibles);
+            var newtasks = possibles.subList(0, 6); // trim
+            tasks.addAll(newtasks);
         }
     }//what is the name about pvp mode?
 
@@ -131,36 +126,8 @@ public class DailyTaskManager {
         player.putAttrib(dailyTask.rewardClaimed, true);
         player.inventory().addOrBank(dailyTask.rewards);
         player.message("<col=ca0d0d>You have claimed the reward from task: " + dailyTask.taskName + ".");
+        player.putAttrib(DAILY_TASKS_POINTS, player.getOrT(DAILY_TASKS_POINTS, 0) + 1);
+        player.getPacketSender().sendString(80756, "Reward points: "+player.getAttribOr(DAILY_TASKS_POINTS, 0));
     }
 
-    public static void pvpTasks(Player player) {
-        openCategory(player, TaskCategory.PVP);
-        displayTaskInfo(player, DailyTasks.BOTS);
-        player.putAttrib(AttributeKey.DAILY_TASK_CATEGORY, TaskCategory.PVP);
-        player.getInterfaceManager().open(DAILY_TASK_MANAGER_INTERFACE);
-    }
-
-    public static void pvmTasks(Player player) {
-        openCategory(player, TaskCategory.PVM);
-        displayTaskInfo(player, DailyTasks.BATTLE_MAGE);
-        player.putAttrib(AttributeKey.DAILY_TASK_CATEGORY, TaskCategory.PVM);
-        player.getInterfaceManager().open(DAILY_TASK_MANAGER_INTERFACE);
-    }
-
-    public static void otherTasks(Player player) {
-        openCategory(player, TaskCategory.OTHER);
-        displayTaskInfo(player, DailyTasks.WILDY_AGLITY);
-        player.putAttrib(AttributeKey.DAILY_TASK_CATEGORY, TaskCategory.OTHER);
-        player.getInterfaceManager().open(DAILY_TASK_MANAGER_INTERFACE);
-    }
-
-    private static String color(int amount, int max) {
-        if (amount == 0) {
-            return "<col=" + Color.RED.getColorValue() + ">";
-        }
-        if (amount >= max) {
-            return "<col=" + Color.GREEN.getColorValue() + ">";
-        }
-        return "<col=" + Color.ORANGE.getColorValue() + ">";
-    }
 }

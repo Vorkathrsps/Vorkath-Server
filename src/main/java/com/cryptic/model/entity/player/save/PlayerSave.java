@@ -5,6 +5,7 @@ import com.cryptic.PlainTile;
 import com.cryptic.model.content.achievements.Achievements;
 import com.cryptic.model.content.bank_pin.BankPinModification;
 import com.cryptic.model.content.collection_logs.Collection;
+import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.presets.Presetable;
 import com.cryptic.model.content.sigils.data.SigilData;
 import com.cryptic.model.content.tasks.impl.Tasks;
@@ -816,6 +817,8 @@ public class PlayerSave {
                 });
                 player.setSessionVarps(varps);
             }
+            player.putAttrib(DAILY_TASKS_LIST, details.dailyTasksList == null ? new ArrayList<DailyTasks>() : details.dailyTasksList);
+            player.putAttrib(DAILY_TASKS_EXTENSION_LIST, details.dailyTasksExtensions == null ? new HashMap<DailyTasks, Integer>() : details.dailyTasksExtensions);
         }
 
         //Account
@@ -1417,6 +1420,10 @@ public class PlayerSave {
         // ^such garbage lol
         private final int snowMonsterTimer;
 
+        private final ArrayList<DailyTasks> dailyTasksList;
+
+        private final Map<DailyTasks, Integer> dailyTasksExtensions;
+
         public String password() {
             return password;
         }
@@ -1987,6 +1994,8 @@ public class PlayerSave {
                     }
                 }
             };
+            dailyTasksList = player.getOrT(AttributeKey.DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
+            dailyTasksExtensions = player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<DailyTasks, Integer>());
         }
 
         public void parseDetails() {

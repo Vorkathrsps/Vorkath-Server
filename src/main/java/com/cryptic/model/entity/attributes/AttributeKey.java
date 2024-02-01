@@ -1,5 +1,7 @@
 package com.cryptic.model.entity.attributes;
 
+import com.cryptic.model.entity.player.Player;
+
 /**
  * Created by Bart on 8/13/2015.
  */
@@ -324,6 +326,11 @@ public enum AttributeKey {
     DAILY_TASK_CATEGORY,
 
     DAILY_TASK_SELECTED,
+
+    DAILY_TASKS_LIST,
+
+    DAILY_TASKS_EXTENSION_LIST,
+    DAILY_TASKS_POINTS("daily_task_points", AttribType.INTEGER),
 
     VIEWING_RUNE_POUCH_I,
 
@@ -1553,4 +1560,7 @@ public enum AttributeKey {
         return type;
     }
 
+    public <T> T get(Player player) {
+        return (T) player.getAttrib(this);
+    }
 }

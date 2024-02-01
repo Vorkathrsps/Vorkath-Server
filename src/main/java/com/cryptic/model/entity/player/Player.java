@@ -159,7 +159,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 import static com.cryptic.model.content.areas.wilderness.content.EloRating.DEFAULT_ELO_RATING;
-import static com.cryptic.model.content.daily_tasks.DailyTaskUtility.DAILY_TASK_MANAGER_INTERFACE;
 import static com.cryptic.model.content.daily_tasks.DailyTaskUtility.TIME_FRAME_TEXT_ID;
 import static com.cryptic.model.content.presets.newpreset.PresetHandler.EQUIPMENT_SIZE;
 import static com.cryptic.model.content.presets.newpreset.PresetHandler.INVENTORY_SIZE;
@@ -3115,11 +3114,6 @@ public class Player extends Entity {
             GlobalStrings.PLAYERS_ONLINE.send(this, World.getWorld().getPlayers().size());
             var gametime = this.<Long>getAttribOr(GAME_TIME, 0L) + 1;
             this.putAttrib(GAME_TIME, gametime);
-            if (interfaceManager.isInterfaceOpen(DAILY_TASK_MANAGER_INTERFACE)) {
-                var dailyTask = this.<DailyTasks>getAttribOr(DAILY_TASK_SELECTED, null);
-                if (dailyTask != null)
-                    this.getPacketSender().sendString(TIME_FRAME_TEXT_ID, DailyTaskManager.timeLeft(this, dailyTask));
-            }
             LocalDateTime now = LocalDateTime.now();
             long minutesTillWildyBoss = now.until(WildernessBossEvent.getINSTANCE().next, ChronoUnit.MINUTES);
             if (GameServer.properties().autoRefreshQuestTab && getPlayerQuestTabCycleCount() == GameServer.properties().refreshQuestTabCycles) {

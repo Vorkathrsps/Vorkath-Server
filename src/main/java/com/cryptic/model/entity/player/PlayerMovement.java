@@ -60,11 +60,11 @@ public class PlayerMovement extends MovementQueue {
                 }
 
                 if (destX == -1 || destY == -1) {
-                    player.getRouteFinder().routeEntity(following);
                     final Tile walkable = RouteFinder.findWalkable(following.getX(), following.getY(), following.getZ());
-                 /*   following.getMovement().lastFollowX = following.getMovement().followX = destX = walkable.x;
+                    following.getMovement().lastFollowX = following.getMovement().followX = destX = walkable.x;
                     following.getMovement().lastFollowY = following.getMovement().followY = destY = walkable.y;
-                */} else if (player.getAbsX() != destX || player.getAbsY() != destY) player.smartPathTo(new Tile(destX, destY)); // supports running
+                }
+                player.smartPathTo(new Tile(destX, destY)); // supports running
             }
         }
         //System.out.println(Arrays.toString(stepsX).substring(0, 30)+", "+Arrays.toString(stepsY).substring(0, 30));
@@ -146,7 +146,7 @@ public class PlayerMovement extends MovementQueue {
         else if (diffY >= 88)
             regionChanged = true;
         if (regionChanged || player.getRegionHeight() != player.tile().getLevel()) {
-            //System.out.println("Region changed for " + player.toString());
+            System.out.println("Region changed for " + player.toString() + " region: " + player.tile().region());
             player.removeFromRegions();
             player.getPacketSender().sendMapRegion();
             player.setRegionHeight(player.tile().getLevel());

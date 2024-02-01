@@ -17,12 +17,11 @@ public class Dev {
 
     public Dev() {
         RegionManager.areasToRegions = (areas) -> {
-            Set<Integer> regions = new HashSet();
-            Area[] var2 = areas;
+            Set<Integer> regions = new HashSet<>();
             int var3 = areas.length;
 
             for(int var4 = 0; var4 < var3; ++var4) {
-                Area area = var2[var4];
+                Area area = areas[var4];
                 if (area.width() > 63 || area.length() > 63) {
                     for(int x = area.x1; x < area.x2; x += 8) {
                         for(int y = area.y1; y < area.y2; y += 8) {
@@ -39,18 +38,17 @@ public class Dev {
             return regions;
         };
         RegionManager.loadGroupMapFiles = (regions, customZ) -> {
-            HashMap<Integer, ArrayList<GameObject>> objs = new HashMap();
+            HashMap<Integer, ArrayList<GameObject>> objs = new HashMap<>();
             int[] objCount = new int[]{0};
-            Iterator var4 = regions.iterator();
+            Iterator<Integer> var4 = regions.iterator();
 
-            while(var4.hasNext()) {
-                int regionId = (Integer)var4.next();
+            while (var4.hasNext()) {
+                int regionId = var4.next();
                 Region r = RegionManager.getRegion(regionId);
-                ArrayList<GameObject> objList = (ArrayList) objs.compute(regionId, (k, v) -> {
+                List<GameObject> objList = objs.compute(regionId, (k, v) -> {
                     if (v == null) {
-                        v = new ArrayList();
+                        v = new ArrayList<>();
                     }
-
                     return v;
                 });
                 long start = System.currentTimeMillis();
@@ -85,7 +83,7 @@ public class Dev {
                             return null;
                         }
 
-                        r.customZObjectTiles = new HashMap();
+                        r.customZObjectTiles = new HashMap<>();
                     }
 
                     int realLvl = z % 4;
@@ -291,7 +289,7 @@ public class Dev {
                     var10000[y - regionAbsY] |= shift;
                 } else {
                     if (r.customZObjectTiles == null) {
-                        r.customZObjectTiles = new HashMap();
+                        r.customZObjectTiles = new HashMap<>();
                         // com.dev.Dev.logger.trace("region {} z {} created hashmap for clip+object storage. ", r.regionId, height, new Exception("how did you get herre?"));
                     }
 

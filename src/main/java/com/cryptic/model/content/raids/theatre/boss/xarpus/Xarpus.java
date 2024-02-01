@@ -137,7 +137,7 @@ public class Xarpus extends NPC {
     }
 
     @Override
-    public void postSequence() {
+    public void postCombatProcess() {
         var owner = theatreInstance.getOwner();
 
         if (!players.contains(owner) && owner.tile().withinArea(XARPUS_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()))) {

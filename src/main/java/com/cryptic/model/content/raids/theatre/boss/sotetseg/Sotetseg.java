@@ -1,6 +1,5 @@
 package com.cryptic.model.content.raids.theatre.boss.sotetseg;
 
-import com.cryptic.model.World;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.stage.RoomState;
 import com.cryptic.model.entity.combat.CombatFactory;
@@ -95,8 +94,8 @@ public class Sotetseg extends NPC {
     }
 
     @Override
-    public void postSequence() {
-        super.postSequence();
+    public void postCombatProcess() {
+        super.postCombatProcess();
 
         if (this.dead()) {
             return;

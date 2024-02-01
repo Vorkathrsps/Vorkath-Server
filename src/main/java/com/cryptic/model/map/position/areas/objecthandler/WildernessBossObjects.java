@@ -40,7 +40,7 @@ public class WildernessBossObjects extends PacketInteraction {
             return true;
         }// vet
         if (obj.getId() == 47140) { //calisto
-            player.teleport(new Tile(1759, 11550));
+            player.teleport(new Tile(1759, 11550, 0));
             return true;
         }
         if (obj.getId() == 40388) {

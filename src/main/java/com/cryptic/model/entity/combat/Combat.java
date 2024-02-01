@@ -3,7 +3,6 @@ package com.cryptic.model.entity.combat;
 import com.cryptic.model.World;
 import com.cryptic.model.content.mechanics.MultiwayCombat;
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.formula.accuracy.test.HitListener;
 import com.cryptic.model.entity.combat.formula.maxhit.*;
@@ -21,13 +20,11 @@ import com.cryptic.model.entity.combat.skull.Skulling;
 import com.cryptic.model.entity.combat.weapon.AttackType;
 import com.cryptic.model.entity.combat.weapon.FightType;
 import com.cryptic.model.entity.combat.weapon.WeaponType;
-import com.cryptic.model.entity.npc.HealthHud;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.EquipSlot;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
-import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.route.RouteMisc;
 import com.cryptic.model.map.route.routes.DumbRoute;
 import com.cryptic.model.map.route.routes.ProjectileRoute;
@@ -44,7 +41,6 @@ import org.apache.logging.log4j.Logger;
 import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BooleanSupplier;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.UNDEAD_COMBAT_DUMMY;
@@ -257,6 +253,9 @@ public class Combat {
     public void process() {
         hitQueue.process(mob);
         performNewAttack();
+        if (mob instanceof NPC npc) {
+            npc.postCombatProcess();
+        }
 
         if (mob.isPlayer() && target == null) {
             //No target found reset fight time

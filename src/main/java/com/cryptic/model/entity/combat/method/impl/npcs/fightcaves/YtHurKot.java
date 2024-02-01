@@ -23,7 +23,7 @@ public class YtHurKot extends NPC {
     }
 
     @Override
-    public void postSequence() {
+    public void postCombatProcess() {
 
         if (jad == null) {
             return;

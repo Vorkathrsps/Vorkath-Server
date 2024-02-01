@@ -1,33 +1,22 @@
-package com.cryptic.model.entity.combat.method.impl.npcs.dragons.area;
+package com.cryptic.model.map.position.areas.impl;
 
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.npc.HealthHud;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
-import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.areas.Controller;
 
-import java.util.List;
+import java.util.Collections;
 
-public class CallistoArea extends Controller {
-    final Area ROOM = new Area(3341, 10311, 3378, 10346);
-    public CallistoArea() {
-        super(List.of(new Area(3341, 10311, 3378, 10346)));
+public class KrakenArea extends Controller {
+    public KrakenArea() {
+        super(Collections.emptyList());
     }
 
     @Override
     public void enter(Player player) {
-        for (var regions : player.getRegions()) {
-            for (var npc : regions.getNpcs()) {
-                if (npc.id() == 6609) {
-                    if (!npc.dead()) {
-                        HealthHud.open(player, HealthHud.Type.REGULAR, "Callisto", npc.hp());
-                        if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
-                    }
-                }
-            }
-        }
+
     }
 
     @Override
@@ -39,14 +28,13 @@ public class CallistoArea extends Controller {
     public void process(Player player) {
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {
-                if (npc.id() == 6609) {
+                if (npc.id() == 494) {
                     if (npc.dead()) {
-                        player.getPacketSender().darkenScreen(0);
                         HealthHud.close(player);
                     } else {
                         if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
                         else if (!HealthHud.updated && HealthHud.needsUpdate) {
-                            HealthHud.open(player, HealthHud.Type.REGULAR, "Callisto", npc.hp());
+                            HealthHud.open(player, HealthHud.Type.REGULAR, "Kraken", npc.hp());
                         }
                     }
                 }
@@ -111,11 +99,11 @@ public class CallistoArea extends Controller {
 
     @Override
     public boolean useInsideCheck() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean inside(Entity entity) {
-        return entity instanceof Player player && player.tile().inArea( ROOM);
+        return entity.tile().region() == 9116;
     }
 }

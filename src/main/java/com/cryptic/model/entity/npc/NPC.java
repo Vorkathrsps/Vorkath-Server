@@ -2,13 +2,11 @@ package com.cryptic.model.entity.npc;
 
 import com.cryptic.model.content.areas.wilderness.wildernesskeys.WildernessKeys;
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.corruptedhunleff.CorruptedHunleff;
 import com.cryptic.model.entity.combat.method.impl.npcs.karuulm.Wyrm;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.utility.Debugs;
-import com.google.common.base.Stopwatch;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.model.content.areas.wilderness.content.boss_event.BossEvent;
 import com.cryptic.model.content.skill.impl.hunter.trap.impl.Chinchompas;
@@ -542,13 +540,12 @@ public class NPC extends Entity {
      */
     public final void sequence() {
         sequenceNormal();
-        postSequence();
     }
 
     /**
      * override me
      */
-    public void postSequence() {
+    public void postCombatProcess() {
 
     }
 

@@ -257,7 +257,7 @@ public class WildernessArea extends Controller {
 
     @Override
     public void process(Player player) {
-
+        refreshWildernessLevel(player);
         if (!inWilderness(player.tile())) {
             leave(player);
             return;

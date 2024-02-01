@@ -85,6 +85,27 @@ public class Region {
         return objectFile;
     }
 
+    @Override
+    public String toString() {
+        return "Region{" +
+            "regionId=" + regionId +
+            ", terrainFile=" + terrainFile +
+            ", objectFile=" + objectFile +
+            ", baseX=" + baseX +
+            ", baseY=" + baseY +
+            ", heightMap=" + Arrays.toString(heightMap) +
+            ", loaded=" + loaded +
+            ", npcs=" + npcs +
+            ", players=" + players +
+            ", bounds=" + bounds +
+            ", activeTiles=" + activeTiles +
+            ", customZObjectTiles=" + customZObjectTiles +
+            ", baseZData=" + baseZData +
+            ", recentCachedBaseZLevel=" + recentCachedBaseZLevel +
+            ", recentCachedBaseZData=" + recentCachedBaseZData +
+            '}';
+    }
+
     @Nullable
     public Tile getTile(int x, int y, final int z, boolean create) {
         return provider.getTile(x, y, z, create, this);

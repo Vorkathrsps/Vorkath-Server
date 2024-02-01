@@ -2,7 +2,6 @@ package com.cryptic.model.map.position.areas;
 
 import com.cryptic.model.content.raids.theatre.area.NylocasAreaController;
 import com.cryptic.model.entity.Entity;
-import com.cryptic.model.entity.combat.method.impl.npcs.dragons.area.*;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
@@ -14,6 +13,7 @@ import java.util.List;
 public class ControllerManager {
 
     private static final List<Controller> CONTROLLERS = new ArrayList<>();
+
 
     static {
         CONTROLLERS.add(new DuelArenaArea());
@@ -42,7 +42,7 @@ public class ControllerManager {
             //since wilderness does not have the correct coordinates in the constructor, and
             //wilderness also uses custom code for determining wilderness "level".
             if ((!controller.useInsideCheck() && !inside(tile, controller)) || (controller.useInsideCheck() && !controller.inside(player))) {
-                //System.out.println(mob.getMobName() + " leaving " + controller + " located at " + mob.tile());
+                System.out.println(player.getMobName() + " leaving " + controller + " located at " + player.tile());
                 controller.leave(player);
                 controller = null;
             }
@@ -53,6 +53,7 @@ public class ControllerManager {
             if (controller == null) {//fallback
                 for (Controller area : CONTROLLERS) {
                     if (area.useInsideCheck() && area.inside(player)) {
+                        System.out.println("using inside check");
                         controller = area;
                         break;
                     }

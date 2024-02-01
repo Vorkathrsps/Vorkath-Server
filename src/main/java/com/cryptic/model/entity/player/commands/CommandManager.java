@@ -642,8 +642,12 @@ public class CommandManager {
         });
 
         dev("c", (p, c, s) -> {
-            Hit.setDebugAccuracy(true);
-            p.message("Debug state: " + Hit.isDebugAccuracy());
+//            Hit.setDebugAccuracy(true);
+//            p.message("Debug state: " + Hit.isDebugAccuracy());
+
+            Area area = new Area(1750, 11532, 1770, 11554);
+            System.out.println(area.contains(p.tile()));
+            System.out.println(Arrays.toString(p.getRegions().toArray()));
         });
 
         dev("b", (p, c, s) -> {

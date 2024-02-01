@@ -1,45 +1,32 @@
-package com.cryptic.model.entity.combat.method.impl.npcs.dragons.area;
+package com.cryptic.model.map.position.areas.impl;
 
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.npc.HealthHud;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
-import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.areas.Controller;
-import com.cryptic.utility.chainedwork.Chain;
 
-import java.util.List;
+import java.util.Collections;
 
-public class VetionArea extends Controller {
-    public VetionArea() {
-        super(List.of(new Area(3248, 10192, 3306, 10212, 1)));
+public class KingBlackDragonLair extends Controller {
+    public KingBlackDragonLair() {
+        super(Collections.emptyList());
     }
-
     @Override
     public void enter(Player player) {
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {
-                if (npc.id() == 6611) {
-                    if (npc.hp() == npc.maxHp()) {
-                        Chain.noCtx().runFn(1, () -> {
-                            npc.npc().canAttack(false);
-                            npc.lockNoDamage();
-                            npc.animate(9977);
-                        }).then(2, () -> {
-                            npc.unlock();
-                            npc.npc().canAttack(true);
-                            npc.getCombat().setTarget(player);
-                        });
-                    }
+                if (npc.id() == 239) {
                     if (!npc.dead()) {
-                        HealthHud.open(player, HealthHud.Type.REGULAR, "Vet'ion", npc.hp());
+                        HealthHud.open(player, HealthHud.Type.REGULAR, "King Black Dragon", npc.hp());
                         if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
                     }
                 }
             }
         }
     }
+
     @Override
     public void leave(Player player) {
         HealthHud.close(player);
@@ -49,14 +36,13 @@ public class VetionArea extends Controller {
     public void process(Player player) {
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {
-                if (npc.id() == 6611) {
+                if (npc.id() == 239) {
                     if (npc.dead()) {
-                        player.getPacketSender().darkenScreen(0);
                         HealthHud.close(player);
                     } else {
                         if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
                         else if (!HealthHud.updated && HealthHud.needsUpdate) {
-                            HealthHud.open(player, HealthHud.Type.REGULAR, "Vet'ion", npc.hp());
+                            HealthHud.open(player, HealthHud.Type.REGULAR, "King Black Dragon", npc.hp());
                         }
                     }
                 }
@@ -121,11 +107,11 @@ public class VetionArea extends Controller {
 
     @Override
     public boolean useInsideCheck() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean inside(Entity entity) {
-        return false;
+        return entity.tile().region() == 9033;
     }
 }

@@ -37,7 +37,7 @@ public class Tempoross extends NPC {
         }
     }
     @Override
-    public void postSequence() {
+    public void postCombatProcess() {
         if (SpiritPoolsInteraciton.isInteracting() && this.getId() == NpcIdentifiers.TEMPOROSS_10574) {
             this.hit();
         }

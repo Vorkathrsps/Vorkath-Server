@@ -53,7 +53,6 @@ import com.cryptic.model.content.security.AccountPin;
 import com.cryptic.model.content.skill.Skillable;
 import com.cryptic.model.content.skill.impl.farming.Farming;
 import com.cryptic.model.content.skill.impl.hunter.Hunter;
-import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.content.skill.impl.slayer.SlayerRewards;
 import com.cryptic.model.content.skill.impl.slayer.slayer_partner.SlayerPartner;
 import com.cryptic.model.content.skill.perks.SkillingItems;
@@ -159,7 +158,6 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 import static com.cryptic.model.content.areas.wilderness.content.EloRating.DEFAULT_ELO_RATING;
@@ -1261,7 +1259,7 @@ public class Player extends Entity {
         return attribList.stream().anyMatch(key -> this.getAttribOr(key, false));
     }
 
-    private void postcycle_dirty() {
+    private void handleContainersDirty() {
         this.syncContainers();
     }
 
@@ -2159,6 +2157,22 @@ public class Player extends Entity {
             getLootingBag().dirty = false;
         }
         skills.syncDirty();
+        if ((!this.increaseStats.active() || (this.decreaseStats.secondsElapsed() >= (Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60))) && !this.divinePotionEffectActive()) {
+            this.skills.replenishStats();
+            if (!this.increaseStats.active()) this.increaseStats.start(60);
+            if (this.decreaseStats.secondsElapsed() >= (Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60)) this.decreaseStats.start((Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60));
+        }
+        var staminaTicks = this.<Integer>getAttribOr(STAMINA_POTION_TICKS, 0);
+        if (staminaTicks > 0) {
+            staminaTicks--;
+            this.putAttrib(STAMINA_POTION_TICKS, staminaTicks);
+            if (staminaTicks == 50) {
+                message("<col=8f4808>Your stamina potion is about to expire.");
+            } else if (staminaTicks == 0) {
+                message("<col=8f4808>Your stamina potion has expired.");
+                this.packetSender.sendStamina(false).sendEffectTimer(0, EffectTimer.STAMINA);
+            }
+        }
     }
 
     private final SecondsTimer aggressionTolerance = new SecondsTimer();
@@ -3094,16 +3108,13 @@ public class Player extends Entity {
         });
     }
 
-    public static int warnTimeMs = 20;
-
     public final void sequence() {
         try {
             fireLogout();
-            this.getTimers().cycle(this);
             this.action.sequence();
-            PacketInteractionManager.onPlayerProcess(this);
             TaskManager.sequenceForMob(this);
-            ControllerManager.process(this);
+            PacketInteractionManager.onPlayerProcess(this);
+            this.getTimers().cycle(this);
             this.setPlayerQuestTabCycleCount(getPlayerQuestTabCycleCount() + 1);
             updateServerInformation(this);
             updateAccountStatus(this);
@@ -3118,8 +3129,8 @@ public class Player extends Entity {
             LocalDateTime now = LocalDateTime.now();
             long minutesTillWildyBoss = now.until(WildernessBossEvent.getINSTANCE().next, ChronoUnit.MINUTES);
             if (GameServer.properties().autoRefreshQuestTab && getPlayerQuestTabCycleCount() == GameServer.properties().refreshQuestTabCycles) {
-                setPlayerQuestTabCycleCount(0);
-                updatePlayerPanel(this);
+                this.setPlayerQuestTabCycleCount(0);
+                this.updatePlayerPanel(this);
                 this.getPacketSender().sendString(WORLD_BOSS_SPAWN.childId, QuestTab.InfoTab.INFO_TAB.get(WORLD_BOSS_SPAWN.childId).fetchLineData(this));
 
                 if (minutesTillWildyBoss == 5) {
@@ -3132,48 +3143,21 @@ public class Player extends Entity {
             if (this.<Boolean>getAttribOr(AttributeKey.NEW_ACCOUNT, false) && System.currentTimeMillis() - this.<Long>getAttribOr(LOGGED_IN_AT_TIME, System.currentTimeMillis()) > 1000 * 60 * 4) {
                 this.requestLogout();
             }
-            if (tile.region() == 14231) {
-                this.interfaceManager.sendOverlay(4535);
-                this.packetSender.sendString(4536, "Kill Count: " + getAttribOr(BARROWS_MONSTER_KC, 0));
-            }
+            this.handleContainersDirty();
             this.getCombat().preAttack();
             TargetRoute.beforeMovement(this);
             this.getMovementQueue().process();
             TargetRoute.afterMovement(this);
-            int lastregion = this.getAttribOr(AttributeKey.LAST_REGION, -1);
-            int lastChunk = this.getAttribOr(AttributeKey.LAST_CHUNK, -1);
-            if (lastregion != tile.region() || lastChunk != tile.chunk()) MultiwayCombat.refresh(this, lastregion, lastChunk);
-            this.putAttrib(AttributeKey.LAST_REGION, tile.region());
-            this.putAttrib(AttributeKey.LAST_CHUNK, tile.chunk());
-            if (queuedAppearanceUpdate()) {
-                getUpdateFlag().flag(Flag.APPEARANCE);
-                setQueuedAppearanceUpdate(false);
-            }
-            postcycle_dirty();
-            getCombat().process();
+            ControllerManager.process(this);
+            this.handleLastRegion();
+            this.getCombat().process();
             Prayers.drainPrayer(this);
-            if (hp() < 1 && System.currentTimeMillis() - lockTime > 30_000) {
-                logger.error("player has been locked for 30s while 0hp.. how tf did that happen");
-                this.die();
-            }
-            if ((!this.increaseStats.active() || (this.decreaseStats.secondsElapsed() >= (Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60))) && !this.divinePotionEffectActive()) {
-                this.skills.replenishStats();
-                if (!this.increaseStats.active()) this.increaseStats.start(60);
-                if (this.decreaseStats.secondsElapsed() >= (Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60)) this.decreaseStats.start((Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60));
-            }
-            var staminaTicks = this.<Integer>getAttribOr(STAMINA_POTION_TICKS, 0);
-            if (staminaTicks > 0) {
-                staminaTicks--;
-                this.putAttrib(STAMINA_POTION_TICKS, staminaTicks);
-                if (staminaTicks == 50) {
-                    message("<col=8f4808>Your stamina potion is about to expire.");
-                } else if (staminaTicks == 0) {
-                    message("<col=8f4808>Your stamina potion has expired.");
-                    this.packetSender.sendStamina(false).sendEffectTimer(0, EffectTimer.STAMINA);
-                }
+            if (queuedAppearanceUpdate()) {
+                this.getUpdateFlag().flag(Flag.APPEARANCE);
+                this.setQueuedAppearanceUpdate(false);
             }
             if (!getChatMessageQueue().isEmpty()) {
-                setCurrentChatMessage(getChatMessageQueue().poll());
+                this.setCurrentChatMessage(getChatMessageQueue().poll());
                 this.getUpdateFlag().flag(Flag.CHAT);
             } else setCurrentChatMessage(null);
         } catch (Exception e) {
@@ -3181,6 +3165,14 @@ public class Player extends Entity {
             System.err.println(captureState());
             e.printStackTrace();
         }
+    }
+
+    private void handleLastRegion() {
+        int lastregion = this.getAttribOr(AttributeKey.LAST_REGION, -1);
+        int lastChunk = this.getAttribOr(AttributeKey.LAST_CHUNK, -1);
+        if (lastregion != tile.region() || lastChunk != tile.chunk()) MultiwayCombat.refresh(this, lastregion, lastChunk);
+        this.putAttrib(AttributeKey.LAST_REGION, tile.region());
+        this.putAttrib(AttributeKey.LAST_CHUNK, tile.chunk());
     }
 
     public int lastActiveOverhead;

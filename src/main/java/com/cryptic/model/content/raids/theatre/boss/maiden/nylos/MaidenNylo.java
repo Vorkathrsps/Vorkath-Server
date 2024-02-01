@@ -29,7 +29,7 @@ public class MaidenNylo extends NPC {
     }
 
     @Override
-    public void postSequence() {
+    public void postCombatProcess() {
         if (maiden.dead()) {
             this.die();
             return;

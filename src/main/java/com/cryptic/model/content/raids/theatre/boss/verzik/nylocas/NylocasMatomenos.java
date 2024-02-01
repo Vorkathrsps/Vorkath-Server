@@ -17,7 +17,7 @@ public class NylocasMatomenos extends NPC {
     }
 
     @Override
-    public void postSequence() {
+    public void postCombatProcess() {
 
     }
 

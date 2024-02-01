@@ -538,7 +538,7 @@ public class Verzik extends NPC {
     }
 
     @Override
-    public void postSequence() {
+    public void postCombatProcess() {
         if (this.id() == VERZIK_VITUR_8369) return;
         if (transitionBetweenPhase()) return;
         if (this.getTimers().left(TimerKey.COMBAT_ATTACK) != 0) {

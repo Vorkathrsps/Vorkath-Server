@@ -1,4 +1,4 @@
-package com.cryptic.model.entity.combat.method.impl.npcs.dragons.area;
+package com.cryptic.model.map.position.areas.impl;
 
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.npc.HealthHud;
@@ -7,33 +7,41 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.areas.Controller;
+import com.cryptic.utility.chainedwork.Chain;
 
-import java.util.Collections;
+import java.util.List;
 
-public class NexArea extends Controller {
-    public static final Area ROOM = new Area(2910, 5189, 2939, 5218);
-
-    public NexArea() {
-        super(Collections.emptyList());
+public class VetionArea extends Controller {
+    public VetionArea() {
+        super(List.of(new Area(3248, 10192, 3306, 10212, 1)));
     }
 
     @Override
     public void enter(Player player) {
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {
-                if (npc.id() == 11278 || npc.id() == 11279) {
+                if (npc.id() == 6611) {
+                    if (npc.hp() == npc.maxHp()) {
+                        Chain.noCtx().runFn(1, () -> {
+                            npc.npc().canAttack(false);
+                            npc.lockNoDamage();
+                            npc.animate(9977);
+                        }).then(2, () -> {
+                            npc.unlock();
+                            npc.npc().canAttack(true);
+                            npc.getCombat().setTarget(player);
+                        });
+                    }
                     if (!npc.dead()) {
-                        HealthHud.open(player, HealthHud.Type.REGULAR, "Nex", npc.hp());
+                        HealthHud.open(player, HealthHud.Type.REGULAR, "Vet'ion", npc.hp());
                         if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
                     }
                 }
             }
         }
     }
-
     @Override
     public void leave(Player player) {
-        player.getPacketSender().darkenScreen(0);
         HealthHud.close(player);
     }
 
@@ -41,14 +49,14 @@ public class NexArea extends Controller {
     public void process(Player player) {
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {
-                if (npc.id() == 11278) {
+                if (npc.id() == 6611) {
                     if (npc.dead()) {
                         player.getPacketSender().darkenScreen(0);
                         HealthHud.close(player);
                     } else {
                         if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
                         else if (!HealthHud.updated && HealthHud.needsUpdate) {
-                            HealthHud.open(player, HealthHud.Type.REGULAR, "Nex", npc.hp());
+                            HealthHud.open(player, HealthHud.Type.REGULAR, "Vet'ion", npc.hp());
                         }
                     }
                 }
@@ -113,11 +121,11 @@ public class NexArea extends Controller {
 
     @Override
     public boolean useInsideCheck() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean inside(Entity entity) {
-        return ROOM.contains(entity.tile());
+        return false;
     }
 }

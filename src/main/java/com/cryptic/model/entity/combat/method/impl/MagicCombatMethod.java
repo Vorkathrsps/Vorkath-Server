@@ -145,13 +145,6 @@ public class MagicCombatMethod extends CommonCombatMethod {
 
         Hit hit = new Hit(entity, target, delay, this);
 
-        if (sound != null) {
-            var soundInfo = sound.getSpellInfo(spellId);
-            if (soundInfo != null) {
-                player.sendPublicSound(soundInfo.getHitSound(), (int) (hit.getDelay() * 30D));
-            }
-        }
-
         if (isImmune(target, hit)) {
             if (spell instanceof CombatEffectSpell combatEffectSpell) combatEffectSpell.whenSpellCast(player, target);
             spell.finishCast(player, target, hit.isAccurate(), hit.getDamage());
@@ -159,6 +152,15 @@ public class MagicCombatMethod extends CommonCombatMethod {
         }
 
         hit.checkAccuracy(true).submit();
+
+        if (sound != null) {
+            var soundInfo = sound.getSpellInfo(spellId);
+            if (soundInfo != null) {
+                if (hit.isAccurate()) {
+                    player.sendPublicSound(soundInfo.getHitSound(), (int) (hit.getDelay() * 30D));
+                }
+            }
+        }
 
         if (hit.isAccurate()) {
             target.performGraphic(new Graphic(endGraphic, endGraphicHeight, p.getSpeed()));

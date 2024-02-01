@@ -1,4 +1,4 @@
-package com.cryptic.model.entity.combat.method.impl.npcs.dragons.area;
+package com.cryptic.model.map.position.areas.impl;
 
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.npc.HealthHud;

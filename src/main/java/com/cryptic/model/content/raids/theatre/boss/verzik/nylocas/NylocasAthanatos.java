@@ -14,7 +14,7 @@ public class NylocasAthanatos extends NPC {
     }
 
     @Override
-    public void postSequence() {
+    public void postCombatProcess() {
 
     }
 

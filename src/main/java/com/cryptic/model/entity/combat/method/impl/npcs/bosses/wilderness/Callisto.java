@@ -39,7 +39,7 @@ public class Callisto extends CommonCombatMethod {
     public boolean performingAnimation = false;
     private ArrayList<Tile> allActiveTraps = new ArrayList<>();
     private ArrayList<GameObject> allActiveTrapObjects = new ArrayList<>();
-    private final Area ARTIO_AREA = new Area(3349, 10316, 3369, 10338);
+    private final Area ARTIO_AREA = new Area(1750, 11532, 1770, 11554);
 
     @Override
     public int moveCloseToTargetTileRange(@NonNull final Entity entity) {
@@ -270,6 +270,7 @@ public class Callisto extends CommonCombatMethod {
                 Chain.bound(null).runFn(delay, () -> {
                     final Player p = target.getAsPlayer();
                     p.lock();
+
                     p.animate(1157);
                     p.hit(entity, World.getWorld().random(50));
                     p.stun(2, true);
@@ -277,6 +278,7 @@ public class Callisto extends CommonCombatMethod {
                     int diffY = finalEndY - p.getAbsY();
                     ForceMovement forceMovement = new ForceMovement(target.tile(), new Tile(diffX, diffY), 30, 60, 1157, dir.toInteger());
                     target.setForceMovement(forceMovement);
+                    p.getMovementQueue().clear();
                     p.unlock();
                 }).cancelWhen(cancel);
             }

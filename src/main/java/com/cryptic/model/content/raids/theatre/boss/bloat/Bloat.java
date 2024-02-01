@@ -165,7 +165,7 @@ public class Bloat extends NPC {
 
 
     @Override
-    public void postSequence() {
+    public void postCombatProcess() {
         if (!players.contains(player) && player.tile().withinArea(BLOAT_AREA.transformArea(0,0,0,0,theatreInstance.getzLevel()))) {
             players.add(player);
         } else if (players.contains(player) && !player.tile().withinArea(BLOAT_AREA.transformArea(0,0,0,0,theatreInstance.getzLevel()))) {

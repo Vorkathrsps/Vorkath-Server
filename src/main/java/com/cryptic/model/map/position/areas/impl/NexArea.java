@@ -1,25 +1,29 @@
-package com.cryptic.model.entity.combat.method.impl.npcs.dragons.area;
+package com.cryptic.model.map.position.areas.impl;
 
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.npc.HealthHud;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
+import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.areas.Controller;
 
 import java.util.Collections;
 
-public class KingBlackDragonLair extends Controller {
-    public KingBlackDragonLair() {
+public class NexArea extends Controller {
+    public static final Area ROOM = new Area(2910, 5189, 2939, 5218);
+
+    public NexArea() {
         super(Collections.emptyList());
     }
+
     @Override
     public void enter(Player player) {
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {
-                if (npc.id() == 239) {
+                if (npc.id() == 11278 || npc.id() == 11279) {
                     if (!npc.dead()) {
-                        HealthHud.open(player, HealthHud.Type.REGULAR, "King Black Dragon", npc.hp());
+                        HealthHud.open(player, HealthHud.Type.REGULAR, "Nex", npc.hp());
                         if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
                     }
                 }
@@ -29,6 +33,7 @@ public class KingBlackDragonLair extends Controller {
 
     @Override
     public void leave(Player player) {
+        player.getPacketSender().darkenScreen(0);
         HealthHud.close(player);
     }
 
@@ -36,13 +41,14 @@ public class KingBlackDragonLair extends Controller {
     public void process(Player player) {
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {
-                if (npc.id() == 239) {
+                if (npc.id() == 11278) {
                     if (npc.dead()) {
+                        player.getPacketSender().darkenScreen(0);
                         HealthHud.close(player);
                     } else {
                         if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
                         else if (!HealthHud.updated && HealthHud.needsUpdate) {
-                            HealthHud.open(player, HealthHud.Type.REGULAR, "King Black Dragon", npc.hp());
+                            HealthHud.open(player, HealthHud.Type.REGULAR, "Nex", npc.hp());
                         }
                     }
                 }
@@ -112,6 +118,6 @@ public class KingBlackDragonLair extends Controller {
 
     @Override
     public boolean inside(Entity entity) {
-        return entity.tile().region() == 9033;
+        return ROOM.contains(entity.tile());
     }
 }

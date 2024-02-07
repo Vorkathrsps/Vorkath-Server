@@ -472,7 +472,7 @@
             <artifactId>functions</artifactId>
             <version>1.90.0</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/functions/functions-1.90.0.jar</systemPath>
+            <systemPath>${user.home}/crypticdev/functions-1.90.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>

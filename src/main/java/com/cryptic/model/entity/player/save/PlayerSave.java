@@ -1994,8 +1994,8 @@ public class PlayerSave {
                     }
                 }
             };
-            dailyTasksList = player.getOrT(AttributeKey.DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
-            dailyTasksExtensions = player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<DailyTasks, Integer>());
+            dailyTasksList = player.getOrT(AttributeKey.DAILY_TASKS_LIST, new ArrayList<>());
+            dailyTasksExtensions = player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<>());
         }
 
         public void parseDetails() {

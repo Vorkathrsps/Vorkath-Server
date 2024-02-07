@@ -9,11 +9,12 @@ import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.utility.chainedwork.Chain;
 
+import java.util.Collections;
 import java.util.List;
 
 public class VetionArea extends Controller {
     public VetionArea() {
-        super(List.of(new Area(3248, 10192, 3306, 10212, 1)));
+        super(Collections.singletonList(new Area(1877, 11534, 1897, 11555, 1)));
     }
 
     @Override

@@ -75,7 +75,6 @@ public class MagicMaxHitFormula {
         }
 
         if ((castSpell != null && ArrayUtils.contains(ancientSpells, castSpell.spellId())) || (autoCastSpell != null && ArrayUtils.contains(ancientSpells, autoCastSpell.spellId()))) {
-
             if (player.getEquipment().hasAt(EquipSlot.HEAD, ItemIdentifiers.VIRTUS_MASK)
                 || player.getEquipment().hasAt(EquipSlot.BODY, ItemIdentifiers.VIRTUS_ROBE_TOP)
                 || player.getEquipment().hasAt(EquipSlot.LEGS, ItemIdentifiers.VIRTUS_ROBE_BOTTOM)) {

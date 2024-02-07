@@ -356,7 +356,8 @@ public abstract class Entity {
         int count = 0;
         for (var r : this.getSurroundingRegions()) {
             for (var p : r.getPlayers()) {
-                if (p == null || p == this || p.tile() == null || p.tile().level != tile().level || p.looks().hidden() || p.finished()) continue;
+                if (p == null || p == this || p.tile() == null || p.tile().level != tile().level || p.looks().hidden() || p.finished())
+                    continue;
                 if (tile().distance(p.tile()) > span) continue;
                 if (p.tile().inSqRadius(tile, span)) entities[count++] = p;
                 if (count >= entities.length) break;
@@ -376,7 +377,8 @@ public abstract class Entity {
         int count = 0;
         for (var r : this.getSurroundingRegions()) {
             for (var npc : r.getNpcs()) {
-                if (npc == null || npc == this || npc.tile() == null || npc.tile().level != tile().level || npc.finished()) continue;
+                if (npc == null || npc == this || npc.tile() == null || npc.tile().level != tile().level || npc.finished())
+                    continue;
                 if (tile().distance(npc.tile()) > span) continue;
                 if (npc.tile().inSqRadius(tile, span)) entities[count++] = npc;
                 if (count >= entities.length) break;

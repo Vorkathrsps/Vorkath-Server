@@ -48,7 +48,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
 
         }
 
-        LogManager.getLogger("dev").info("spell {}", spell);
+//        LogManager.getLogger("dev").info("spell {}", spell);
 
         if (spell == null) {
             return false;
@@ -146,7 +146,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
         Hit hit = new Hit(entity, target, delay, this);
 
         if (isImmune(target, hit)) {
-            if (spell instanceof CombatEffectSpell combatEffectSpell) combatEffectSpell.whenSpellCast(player, target);
+            if (spell instanceof CombatEffectSpell combatEffectSpell) combatEffectSpell.whenSpellCast(player, target, spellId);
             spell.finishCast(player, target, hit.isAccurate(), hit.getDamage());
             return true;
         }
@@ -165,7 +165,7 @@ public class MagicCombatMethod extends CommonCombatMethod {
         if (hit.isAccurate()) {
             target.performGraphic(new Graphic(endGraphic, endGraphicHeight, p.getSpeed()));
             if (spell instanceof CombatEffectSpell combatEffectSpell) {
-                combatEffectSpell.whenSpellCast(player, target);
+                combatEffectSpell.whenSpellCast(player, target, spellId);
                 combatEffectSpell.spellEffect(player, target, hit);
             }
         } else {

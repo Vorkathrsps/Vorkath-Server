@@ -488,7 +488,7 @@ public class PlayerUpdating {
             var graphic = target.getGraphics().get(i);
             builder.put(i, ValueType.C);
             builder.putShort(graphic.id(), ByteOrder.LITTLE);
-            builder.putInt(((graphic.getHeight().ordinal() * 50) << 16) + (graphic.getDelay() & 0xffff));
+            builder.putInt(((graphic.getHeight().ordinal() * 50) << 16) | graphic.getDelay());
         }
     }
 

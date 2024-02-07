@@ -25,6 +25,7 @@ import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.Projectile;
+import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.NpcDropRepository;
 import com.cryptic.model.entity.npc.droptables.NpcDropTable;
@@ -650,9 +651,11 @@ public class CommandManager {
 //            Hit.setDebugAccuracy(true);
 //            p.message("Debug state: " + Hit.isDebugAccuracy());
 
-            Area area = new Area(1750, 11532, 1770, 11554);
-            System.out.println(area.contains(p.tile()));
-            System.out.println(Arrays.toString(p.getRegions().toArray()));
+            p.animate(369);
+            Arrays.stream(p.closeNpcs(14)).filter(Objects::nonNull).forEach(n -> {
+                n.hit(p, 1);
+                n.performGraphic(new Graphic(500));
+            });
         });
 
         dev("b", (p, c, s) -> {

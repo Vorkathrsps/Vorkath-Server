@@ -32,7 +32,7 @@ public class Vetion extends CommonCombatMethod {
     @Getter
     @Setter
     public Phase phase = new Phase(PhaseStage.ONE);
-    public static final Area vetionArea = new Area(3248, 10192, 3306, 10212, 1); //block this when tb'd
+    public static final Area vetionArea = new Area(1877, 11534, 1897, 11555, 1); //block this when tb'd
     Set<Tile> tiles = new HashSet<>(12);
     private final List<String> VETION_QUOTES = Arrays.asList("Dodge this!",
         "Sit still you rat!",
@@ -58,8 +58,6 @@ public class Vetion extends CommonCombatMethod {
     public boolean prepareAttack(Entity entity, Entity target) {
         entity.face(null);
 
-        if (!withinDistance(8)) return false;
-
         if (entity.hp() <= 125 && !entity.hasAttrib(AttributeKey.VETION_HELLHOUND_SPAWNED)) {
             spawnHellhounds((NPC) entity, target);
         }
@@ -69,7 +67,7 @@ public class Vetion extends CommonCombatMethod {
         } else if (Utils.percentageChance(50)) {
             magicSwordSlash();
         } else {
-            if (target.tile().inSqRadius(entity.tile(), 5)) {
+            if (withinDistance(5)) {
                 doShieldBash();
             }
         }
@@ -301,7 +299,7 @@ public class Vetion extends CommonCombatMethod {
 
     @Override
     public ArrayList<Entity> getPossibleTargets(Entity entity) {
-        return Arrays.stream(entity.closePlayers(64)).filter(target -> vetionArea.contains(target.tile())).filter(target -> entity.getZ() == target.getZ()).collect(Collectors.toCollection(ArrayList::new));
+        return Arrays.stream(entity.closePlayers(64)).filter(t -> vetionArea.contains(t.tile())).collect(Collectors.toCollection(ArrayList::new));
     }
 
 
@@ -334,7 +332,7 @@ public class Vetion extends CommonCombatMethod {
                     break;
                 var pos = origin.transform(offset[0], offset[1]);
                 vetion.tiles.add(pos); // you were missing side ones
-                World.getWorld().tileGraphic(2236, pos, 0, 0);
+                World.getWorld().tileGraphic(1446, pos, 0, 0);
                 World.getWorld().tileGraphic(2184, pos, 0, 90);
                 //World.getWorld().tileGraphic(2349, pos, 0, 30);
             }

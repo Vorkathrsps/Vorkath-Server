@@ -60,7 +60,7 @@ public class GameObject {
     private Tile tile;
 
     @Getter
-    public final int x, y, z; // exact pos.
+    public final int x, y, z;
 
     public GameObject setTile(Tile tile) {
         if (tile != null && this.tile != null && !this.tile.equals(tile))

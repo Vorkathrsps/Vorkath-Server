@@ -191,10 +191,6 @@ public class GameServer {
             initializeDatabase();
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 System.out.println("Official Java Shutdownhook: triggered. Players in world: "+World.getWorld().getPlayers().size());
-                // This is the FINAL THREAD active when application shuts down.
-                // you CANNOT USE old threads (like ExecutorServices) or the TaskManager system.
-                // here you should directly run code that runs on this single thread. Emergencies only.
-                // P.S log4j wont print to console from here on out.
                 PlayerSaves.processSaves();
 
                 for (Player player : World.getWorld().getPlayers()) {

@@ -108,12 +108,7 @@ public class NPC extends Entity {
     }
 
     public boolean isRandomWalkAllowed() {
-        boolean canwalk = walkRadius > 0 &&
-            spawnArea != null && inViewport
-            && !hidden()
-            && getMovement().isAtDestination()
-            && !locked()
-            && !isMovementBlocked(false, false);
+        boolean canwalk = walkRadius > 0 && spawnArea != null && inViewport && !hidden() && getMovement().isAtDestination() && !locked() && !isMovementBlocked(false, false);
         if (canwalk) {
             for (Region surroundingRegion : this.getSurroundingRegions()) {
                 for (Player player : surroundingRegion.getPlayers()) {

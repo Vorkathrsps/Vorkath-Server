@@ -107,6 +107,11 @@ public abstract class Shop {
     }
 
     public static void exchange(Player player, int id, int slot, int action, boolean purchase) {
+        if (player.getParticipatingTournament() != null) {
+            player.message("You cannot use the shop inside of a tournament.");
+            return;
+        }
+
         if (!player.getInterfaceManager().isInterfaceOpen(ShopUtility.SHOP_INTERFACE) && !player.getInterfaceManager().isInterfaceOpen(ShopUtility.SLAYER_SHOP_INTERFACE)) {
             return;
         }
@@ -139,7 +144,11 @@ public abstract class Shop {
     public abstract void itemContainerAction(Player player, int id, int slot, int action, boolean purchase);
 
     public void purchase(Player player, Item item, int slot) {
-    System.out.println("Amount:" + item.getAmount());
+        if (player.getParticipatingTournament() != null) {
+            player.message("You cannot use the shop inside of a tournament.");
+            return;
+        }
+
         if (!Item.valid(item)) {
             return;
         }
@@ -242,6 +251,11 @@ public abstract class Shop {
     }
 
     public void onPurchase(Player player, Item item) {
+        if (player.getParticipatingTournament() != null) {
+            player.message("You cannot use the shop inside of a tournament.");
+            return;
+        }
+
         if (item.getId() == ItemIdentifiers.BABY_CHINCHOMPA_13326) {
             if (!player.isPetUnlocked(PetDefinitions.BABY_CHINCHOMPA_YELLOW.varbit)) {
                 player.addUnlockedPet(PetDefinitions.BABY_CHINCHOMPA_YELLOW.varbit);
@@ -268,6 +282,12 @@ public abstract class Shop {
     }
 
     protected final void sell(Player player, Item item, int slot) {
+        if (player.getParticipatingTournament() != null) {
+            player.message("You cannot use the shop inside of a tournament.");
+            return;
+        }
+
+
         if (!Item.valid(item)) {
             return;
         }

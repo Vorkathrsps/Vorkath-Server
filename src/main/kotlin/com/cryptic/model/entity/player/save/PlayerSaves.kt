@@ -33,8 +33,7 @@ object PlayerSaves {
     @JvmStatic
     @JvmOverloads
     fun requestSave(player: Player, whenComplete: Runnable? = null) = insertionQueue.offer(
-        PlayerSaveRequest(player, System.currentTimeMillis(), whenComplete)
-    )
+        PlayerSaveRequest(player, System.currentTimeMillis(), whenComplete))
 
     @JvmStatic
     fun processSaves() {

@@ -8,7 +8,6 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.ItemIdentifiers;
 
 public class ArmadylGodsword extends CommonCombatMethod {
-
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         final Player player = (Player) entity;

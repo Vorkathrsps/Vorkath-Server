@@ -49,7 +49,7 @@ public class DailyTaskManager {
         completionAmt += extensions.getOrDefault(task, 0);
         final var progress = (int) (completed * 100 / (double) completionAmt);
         player.getPacketSender().sendString(START_LIST_ID, "<col=ff9040>" + Utils.formatEnum(task.taskName));
-        player.getPacketSender().sendString(PROGRESS_BAR_TEXT_ID, "Progress:</col><col=ffffff>" + " (" + progress + "%) " + Utils.format(completed) + " / " + Utils.format(completionAmt));
+        player.getPacketSender().sendString(PROGRESS_BAR_TEXT_ID, "Progress:</col><col=ffffff>" + " (" + progress + "%)  " + Utils.format(completed) + "/" + Utils.format(completionAmt));
         player.getPacketSender().sendProgressBar(PROGRESS_BAR_ID, progress);
         player.getPacketSender().sendString(DESCRIPTION_TEXT_ID, task.taskDescription);
 

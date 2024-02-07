@@ -40,7 +40,7 @@ public class DoorPairer {
             ObjectDefinition def = repo.get(ObjectDefinition.class, i);
             if (def == null) continue; // skip
 
-            if (def.name.equals("Door") || def.name.equals("Large door") || def.name.equals("Doors") || def.name.equals("Large Doors")) { // NOTE: there are plenty of other types of stuff which you might need to redump
+            if (def.name.equals("Door") || def.name.equals("Large door") || def.name.equals("Doors") || def.name.equals("Large Doors") || def.name.equals("gate")) { // NOTE: there are plenty of other types of stuff which you might need to redump
                 // when they become required.
 
                 boolean isClosed = Arrays.asList(def.options).contains("Open");

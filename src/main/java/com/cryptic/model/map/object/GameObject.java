@@ -62,6 +62,14 @@ public class GameObject {
     @Getter
     public final int x, y, z; // exact pos.
 
+    /**
+     * runite fields
+     */
+    public int doorCloses;
+    public long doorJamEnd;
+    public GameObject doorReplaced;
+    public int conOwner = -1;
+
     public GameObject setTile(Tile tile) {
         if (tile != null && this.tile != null && !this.tile.equals(tile))
             throw new RuntimeException("You can't change the tile of a GameObject. Create a new one. " + this.tile + " -> " + tile);
@@ -455,6 +463,11 @@ public class GameObject {
 
     public GameObject remove() {
         setId(-1);
+        return this;
+    }
+
+    public GameObject restore() {
+        setId(originalId);
         return this;
     }
 

@@ -13,8 +13,6 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.chainedwork.Chain;
 
-import static com.cryptic.model.map.object.doors.Doors.CACHE;
-
 /**
  * @author Origin | April, 14, 2021, 19:20
  * 
@@ -84,13 +82,9 @@ public class CookingGuild extends PacketInteraction {
             if (obj.getId() == GUILD_DOOR) {
                 if (obj.tile().equals(3143, 3443)) {
                     CookingGuild.door(player, obj);
-                } else {
-                    Door door = CACHE.stream().filter(d -> d.id() == obj.getId()).findAny().orElse(null);
-                    if (door == null)
-                        return true;
-                    door.open(obj, player,true);
+                    return true;
                 }
-                return true;
+                return false;
             }
             //Staircase inside the cooking guild
             if (obj.getId() == FIRST_FLOOR_STAIRS) {

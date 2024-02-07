@@ -86,7 +86,6 @@ public class GameBuilder {
         tasks.add(new ShopLoader());
         tasks.add(new ObjectSpawnDefinitionLoader());
         tasks.add(TournamentManager::initalizeTournaments);
-        tasks.add(new DoorDefinitionLoader());
         tasks.add(World.getWorld()::postLoad);
         //tasks.add(DiscordBot::init);
         return tasks;

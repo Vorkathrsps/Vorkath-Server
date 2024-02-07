@@ -43,7 +43,7 @@ public class ObjectDefinition implements Definition {
     public short[] retex_s;
     public short[] retex_d;
     public int anInt2286 = -1;
-    public boolean vflip = false;
+    public boolean verticalFlip = false;
     public boolean aBool2284 = true;
     public int op65Render0x1 = -1;
     public int op66Render0x2 = -1;
@@ -69,6 +69,21 @@ public class ObjectDefinition implements Definition {
 
     public int id;
     private int anInt2167;
+
+    /**
+     * Door data, server side, non-cache from Runite team
+     */
+
+    public boolean gateType;
+
+    public boolean longGate;
+
+    public int doorOppositeId = -1;
+
+    public boolean doorReversed, doorClosed;
+
+    public int doorOpenSound = -1, doorCloseSound = -1;
+    public boolean reversedConstructionDoor;
 
     public ObjectDefinition(int id, byte[] data) {
         this.id = id;
@@ -324,7 +339,7 @@ public class ObjectDefinition implements Definition {
         }
         else if (opcode == 62)
         {
-            vflip = (true);
+            verticalFlip = (true);
         }
         else if (opcode == 64)
         {
@@ -513,6 +528,34 @@ public class ObjectDefinition implements Definition {
         return var0 + 1;
     }
 
+    public boolean hasOption(String... searchOptions) {
+        return getOption(searchOptions) != -1;
+    }
+
+    public int getOption(String... searchOptions) {
+        if (options != null) {
+            for (String s : searchOptions) {
+                for (int i = 0; i < options.length; i++) {
+                    String option = options[i];
+                    if (s.equalsIgnoreCase(option))
+                        return i + 1;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public int optionsCount() {
+        if (options != null) {
+            var opts = 0;
+            for (String option : options) {
+                if (option != null && !option.equals("null"))
+                    opts++;
+            }
+            return opts;
+        }
+        return 0;
+    }
     public boolean isClippedDecoration() {
         return anInt2292 != 0 || clipType == 1 || aBool2264;
     }
@@ -539,7 +582,7 @@ public class ObjectDefinition implements Definition {
             ", retex_s=" + Arrays.toString(retex_s) +
             ", retex_d=" + Arrays.toString(retex_d) +
             ", anInt2286=" + anInt2286 +
-            ", vflip=" + vflip +
+            ", vflip=" + verticalFlip +
             ", aBool2284=" + aBool2284 +
             ", op65Render0x1=" + op65Render0x1 +
             ", op66Render0x2=" + op66Render0x2 +

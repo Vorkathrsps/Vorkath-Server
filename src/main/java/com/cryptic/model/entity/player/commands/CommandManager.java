@@ -293,7 +293,6 @@ public class CommandManager {
         commands.put("fillbank", new FillBankCommand());
         commands.put("debugnpcs", new DebugNpcsCommand());
         commands.put("object", new ObjectCommand());
-        commands.put("door", new DoorCommand());
         commands.put("unlockprayers", new UnlockPrayersCommands());
         commands.put("saveall", new SaveAllCommand());
         commands.put("slayer", new SlayerActionCommand());

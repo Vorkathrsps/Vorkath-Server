@@ -1903,12 +1903,12 @@ public abstract class Entity {
 
     public void interruptChains() {
         chains.forEach(c -> { // interrupt chains
-            c.nextNode = null;
-            c.interrupted = true;
-            if (c.task != null)
-                c.task.stop();
+            c.setNextNode(null);
+            c.setInterrupted(true);
+            if (c.getTask() != null)
+                c.getTask().stop();
         });
-        chains.removeIf(c -> c.interrupted || (c.task != null && c.task.isStopped()));
+        chains.removeIf(c -> c.getInterrupted() || (c.getTask() != null && c.getTask().isStopped()));
     }
 
     public final ArrayList<Chain<?>> chains = new ArrayList<>();

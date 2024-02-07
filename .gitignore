@@ -40,3 +40,4 @@ functions/
 functions/*.jar
 dependency-reduced-pom.xml
 1 serv.bat
+.profileconfig.json

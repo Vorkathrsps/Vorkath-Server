@@ -1207,4 +1207,20 @@ public class Tile implements Cloneable {
     public PlainTile toPlain() {
         return new PlainTile(x, y, level);
     }
+
+    public Region[] getSurroundingRegions() {
+        final var region = this.region();
+        var surrounding = new Region[9];
+        surrounding[0] = RegionManager.getRegion(region);
+        surrounding[1] = RegionManager.getRegion(region - 1);
+        surrounding[2] = RegionManager.getRegion(region + 1);
+        surrounding[3] = RegionManager.getRegion(region - 256);
+        surrounding[4] = RegionManager.getRegion(region + 256);
+        surrounding[5] = RegionManager.getRegion(region + 257);
+        surrounding[6] = RegionManager.getRegion(region - 257);
+        surrounding[7] = RegionManager.getRegion(region - 255);
+        surrounding[8] = RegionManager.getRegion(region + 255);
+        // System.out.println("regions "+ Arrays.toString(Arrays.stream(surrounding).map(r -> r.getRegionId()).toArray()));
+        return surrounding;
+    }
 }

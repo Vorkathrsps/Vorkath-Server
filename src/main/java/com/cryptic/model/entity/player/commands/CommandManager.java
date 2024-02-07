@@ -294,7 +294,6 @@ public class CommandManager {
         commands.put("fillbank", new FillBankCommand());
         commands.put("debugnpcs", new DebugNpcsCommand());
         commands.put("object", new ObjectCommand());
-        commands.put("door", new DoorCommand());
         commands.put("unlockprayers", new UnlockPrayersCommands());
         commands.put("saveall", new SaveAllCommand());
         commands.put("slayer", new SlayerActionCommand());
@@ -605,6 +604,8 @@ public class CommandManager {
         });
         dev("lr", (p, c, s) -> {
             RegionManager.loadMapFiles(p.tile().x, p.tile().y, true);
+            p.tile().getRegion().activeTiles.forEach(t -> t.gameObjects.clear());
+            p.tile().getRegion().activeTiles.clear();
         });
         dev("gfx1", (p, c, s) -> {
             World.getWorld().tileGraphic(Integer.parseInt(s[1]), new Tile(p.tile().x + 1, p.tile().y, p.getZ()), 0, 0);

@@ -572,6 +572,10 @@ public abstract class Entity {
         return this;
     }
 
+    public void sendPrivateSound(int id) {
+        sendPrivateSound(id, 0);
+    }
+
     public void sendPrivateSound(int id, int delay) {
         this.getAsPlayer().getPacketSender().sendSoundEffect(id, 1, delay);
     }
@@ -2204,7 +2208,7 @@ public abstract class Entity {
         if (surrounding != null && surrounding[0] != null && surrounding[0].getRegionId() == region)
             return surrounding;
         surrounding = new Region[9];
-        surrounding[0] = RegionManager.getRegion(region); // cant tell if its chunk or abs X we'll see
+        surrounding[0] = RegionManager.getRegion(region);
         surrounding[1] = RegionManager.getRegion(region - 1);
         surrounding[2] = RegionManager.getRegion(region + 1);
         surrounding[3] = RegionManager.getRegion(region - 256);

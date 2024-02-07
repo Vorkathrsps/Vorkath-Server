@@ -2,6 +2,7 @@ package com.cryptic.utility;
 
 import com.cryptic.GameEngine;
 import com.cryptic.GameServer;
+import com.cryptic.annotate.Init;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -1569,6 +1570,15 @@ public class Utils {
         return builder.toString();
     }
 
+    @SuppressWarnings("unused")
+    @Init
+    public static void prebindings() {
+        try {
+            Class.forName("com.cryptic.other.Misc").getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            // silent
+        }
+    }
     /**
      * Formats the name by checking if it starts with a vowel.
      *

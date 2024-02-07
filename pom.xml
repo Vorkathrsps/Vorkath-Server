@@ -21,6 +21,11 @@
 
     <repositories>
         <repository>
+            <id>local</id>
+            <name>Local Repository</name>
+            <url>file://${env.MAVEN_REPOSITORY}</url>
+        </repository>
+        <repository>
             <id>central</id>
             <url>https://repo1.maven.org/maven2/</url>
         </repository>
@@ -468,11 +473,10 @@
         </dependency>
 
         <dependency>
-            <groupId>com.dev</groupId>
+            <groupId>com.dev.shadow</groupId>
             <artifactId>functions</artifactId>
-            <version>1.90.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/functions/functions-1.90.0.jar</systemPath>
+            <version>1.91.0</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>

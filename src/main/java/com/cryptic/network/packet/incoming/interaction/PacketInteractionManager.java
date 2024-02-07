@@ -238,6 +238,28 @@ public class PacketInteractionManager {
     }
 
     /**
+     * qoL from w.e this base was to Runite
+     * @author Jak Shadowrs tardisfan121@gmail.com
+     */
+    @FunctionalInterface
+    public
+    interface GameObjHandler {
+        boolean handleObjectInteraction(Player player, GameObject object, int option);
+    }
+
+    /**
+     * qoL from w.e this base was to Runite
+     * @author Jak Shadowrs tardisfan121@gmail.com
+     */
+    public static void addObjectInteraction(GameObjHandler i) {
+        interactions.add(new PacketInteraction() {
+            @Override
+            public boolean handleObjectInteraction(Player player, GameObject object, int option) {
+                return i.handleObjectInteraction(player, object, option);
+            }
+        });
+    }
+    /**
      * Checks item container interaction
      *
      * @param player

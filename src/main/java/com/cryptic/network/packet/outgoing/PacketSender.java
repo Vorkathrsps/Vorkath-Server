@@ -1079,9 +1079,11 @@ public final class PacketSender {
         out.put((object.getType() << 2) + (object.getRotation() & 3), ValueType.S);
         player.getSession().write(out);
         if (object.isCustom()) {
-            System.out.println("create %s %s %s %s".formatted(ObjectDefinition.get(object.originalId).name, object.getX(), object.getY(), object.getZ()));
-        } else {
-            System.out.println("create %s %s %s %s".formatted(ObjectDefinition.get(object.getId()).name, object.getX(), object.getY(), object.getZ()));
+            System.out.println("create %s %s %s %s og=%s".formatted(
+                    object.getId() == -1 ? "removed" : ObjectDefinition.get(object.getId()).name,
+                    object.getX(), object.getY(), object.getZ(),
+                    object.originalId)
+            );
         }
         return this;
     }

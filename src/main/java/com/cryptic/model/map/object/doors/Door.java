@@ -3,6 +3,7 @@ package com.cryptic.model.map.object.doors;
 import com.cryptic.GameServer;
 import com.cryptic.annotate.Init;
 import com.cryptic.cache.definitions.ObjectDefinition;
+import com.cryptic.cache.definitions.identifiers.ObjectIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -14,8 +15,11 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteractionManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
+
+import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.*;
 
 // ~~~ DIRECTIONS ~~~ \\
 // 0 = east, 1 = south \\
@@ -25,6 +29,11 @@ import java.util.function.Function;
  * @author Runite team
  */
 public class Door {
+
+    /**
+     * Ignore these gates and doors they are special.
+     */
+    private static final List<Integer> IGNORE = Arrays.asList(GUILD_DOOR_14910, DOOR_24309, DOOR_11726, DOOR_11727, GATE_28851, GATE_28852, 26502, 26503, 26504, 26505, DOOR_20925, ALCHEMICAL_DOOR, ALCHEMICAL_DOOR_34554);
 
     public static void handle(Player player, GameObject obj) {
         handle(player, obj, false);
@@ -491,10 +500,14 @@ public class Door {
          */
         for (int i = 0; i < World.getWorld().definitions().total(ObjectDefinition.class); i++) {
             ObjectDefinition def = World.getWorld().definitions().get(ObjectDefinition.class, i);
+            var ignore = IGNORE.stream().anyMatch(id -> def.id == id);
+            if(ignore) {
+                continue;
+            }
             if (def.id >= 26502 && def.id <= 26505) // gwd doors
-                return;
+                continue;
             if (def.id == 34553 || def.id == 34554) // alchemical hydra doors
-                return;
+                continue;
             String name = def.name.toLowerCase();
             if (name.contains("gate")) {
                 def.gateType = true;
@@ -505,7 +518,7 @@ public class Door {
                     setSound(def, 69, 68);
                 }
             } else if (!name.contains("door")) {
-                return;
+                continue;
             } else {
                 setSound(def, 62, 60);
             }

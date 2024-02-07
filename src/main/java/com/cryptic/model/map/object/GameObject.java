@@ -7,6 +7,7 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.route.ClipUtils;
 import com.cryptic.utility.SecondsTimer;
 import lombok.Getter;
@@ -16,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * This file manages a game object entity on the globe.
@@ -81,8 +83,8 @@ public class GameObject {
         return tile;
     }
 
-    public static GameObject spawn(int i, int x, int y, int z, int i1, int i2) {
-        return new GameObject(i, new Tile(x, y, z), i1, i2).spawn();
+    public static GameObject spawn(int i, int x, int y, int z, int type, int rot) {
+        return new GameObject(i, new Tile(x, y, z), type, rot).spawn();
     }
 
     public static GameObject spawn(int i, Tile pos, int i1, int i2) {
@@ -93,20 +95,19 @@ public class GameObject {
         custom = true;
         var t = Tile.get(x, y, z, true);
         t.addObject(this);
-        for (var p : t.getRegion().getPlayers()) {
-            if (p == null) continue;
-            if (p.getZ() != t.getZ()) continue;
-            if (p.tile().distanceTo(t) >= 64) continue;
+        Arrays.stream(t.getSurroundingRegions()).map(r -> r.getPlayers()).flatMap(list -> list.stream()).toList().forEach(p -> {
+            if (p == null) return;
+            if (p.getZ() != t.getZ()) return;
+            if (p.tile().distanceTo(t) >= 64) return;
             send(p);
-        }
+        });
         return this;
     }
 
     public void send(Player player) {
-        if (id != -1 || isCustom()) {
+        if (id != -1) {
             sendCreate(player);
         } else {
-            System.out.println("send remove?");
             sendRemove(player);
         }
     }
@@ -114,7 +115,6 @@ public class GameObject {
     public void sendCreate(Player player) {
         var t = Tile.get(x, y, z);
         player.getPacketSender().sendObject(this);
-        System.out.println(this);
     }
 
     public void sendRemove(Player player) {
@@ -480,23 +480,23 @@ public class GameObject {
         var t = Tile.get(x, y, z, true);
         if (custom && newId == -1) {
             if (t != null) t.removeObject(this);
-            for (var p : t.getRegion().getPlayers()) {
-                if (p == null) continue;
-                if (p.getZ() != t.getZ()) continue;
-                if (p.tile().distanceTo(t) >= 64) continue;
-                sendRemove(p);
-            }
+            Arrays.stream(t.getSurroundingRegions()).map(r -> r.getPlayers()).flatMap(list -> list.stream()).toList().forEach(p -> {
+                    if (p == null) return;
+                    if (p.getZ() != t.getZ()) return;
+                    if (p.tile().distanceTo(t) >= 64) return;
+                    sendRemove(p);
+                });
         } else {
             clip(true);
             this.id = newId;
             t.checkActive();
             clip(false);
-            for (var p : t.getRegion().getPlayers()) {
-                if (p == null) continue;
-                if (p.getZ() != t.getZ()) continue;
-                if (p.tile().distanceTo(t) >= 64) continue;
+            Arrays.stream(t.getSurroundingRegions()).map(r -> r.getPlayers()).flatMap(list -> list.stream()).toList().forEach(p -> {
+                if (p == null) return;
+                if (p.getZ() != t.getZ()) return;
+                if (p.tile().distanceTo(t) >= 64) return;
                 send(p);
-            }
+            });
         }
     }
 

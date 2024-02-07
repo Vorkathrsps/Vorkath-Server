@@ -476,7 +476,7 @@
             <groupId>com.dev.shadow</groupId>
             <artifactId>functions</artifactId>
             <version>1.93.0</version>
-            <scope>runtime</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>

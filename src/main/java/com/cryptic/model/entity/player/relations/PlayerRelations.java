@@ -6,6 +6,8 @@ import com.cryptic.model.entity.player.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -252,6 +254,8 @@ public class PlayerRelations {
      * @param username    The user name of the friend to delete.
      */
     public void deleteFriend(String username) {
+        if (delFriendParser != null)
+            delFriendParser.accept(player, username);
         if (username.equalsIgnoreCase(player.getUsername())) {
             return;
         }
@@ -268,6 +272,8 @@ public class PlayerRelations {
             player.message("This player is not on your friends list!");
         }
     }
+
+    public static BiConsumer<Player, String> delFriendParser;
 
     /**
      * Adds a player to the associated-player's ignore list.

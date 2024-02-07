@@ -1572,7 +1572,7 @@ public class Utils {
 
     @SuppressWarnings("unused")
     @Init
-    private static void prebindings() {
+    public static void prebindings() {
         try {
             Class.forName("com.cryptic.other.Misc").getDeclaredConstructor().newInstance();
         } catch (Exception e) {

@@ -45,7 +45,7 @@ public class MaidenNylo extends NPC {
 
         if (maiden != null) {
             this.face(maiden);
-            this.getMovement().walkTo(maiden.getX(), maiden.getY());
+            this.getMovement().walkTo(maiden.getCentrePosition());
         }
 
     }

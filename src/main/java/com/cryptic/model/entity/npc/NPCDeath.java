@@ -137,8 +137,10 @@ public class NPCDeath {
 
             // Increment kill.
             SlayerCreature creature = SlayerCreature.lookup(killer.slayerTaskId());
-            if (creature.matches(npc.id())) {
-                killer.getSlayerKillLog().addKill(npc);
+            if (creature != null) {
+                if (creature.matches(npc.id())) {
+                    killer.getSlayerKillLog().addKill(npc);
+                }
             }
             if (!npc.isWorldBoss() || npc.id() != THE_NIGHTMARE_9430 || npc.id() != KALPHITE_QUEEN_6500) {
                 killer.getBossKillLog().addKill(npc);

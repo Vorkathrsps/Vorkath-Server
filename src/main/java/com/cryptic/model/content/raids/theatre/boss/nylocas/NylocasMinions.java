@@ -133,7 +133,7 @@ public class NylocasMinions extends NPC {
             attackClosestAlivePillar();
         }
         if (!isPathingToTile() && theatreInstance.getPillarList().isEmpty() && getCombat().getTarget() == null) {
-            this.getCombat().setTarget(theatreInstance.getOwner()); //TODO change to pick random target
+            this.getCombat().setTarget(getRandomTarget());
         }
     }
 
@@ -165,7 +165,6 @@ public class NylocasMinions extends NPC {
 
     private void attackClosestAlivePillar() {
         List<NPC> availablePillars = theatreInstance.getPillarList().stream().filter(npc -> !npc.dead() && npc.isRegistered()).toList();
-        System.out.println(availablePillars);
         if (!availablePillars.isEmpty()) {
             List<NPC> closestPillars = new ArrayList<>(availablePillars);
             closestPillars.sort(Comparator.comparingDouble(pillar -> this.tile().distanceTo(pillar.tile())));
@@ -173,8 +172,6 @@ public class NylocasMinions extends NPC {
             int randomIndex = random.nextInt(Math.min(closestPillars.size(), 2));
             NPC randomPillar = closestPillars.get(randomIndex);
             this.getCombat().setTarget(randomPillar);
-        } else {
-            this.getCombat().setTarget(getRandomTarget());
         }
     }
 

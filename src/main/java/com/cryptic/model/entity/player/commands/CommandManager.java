@@ -9,6 +9,7 @@ import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.instance.InstancedAreaManager;
 import com.cryptic.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
+import com.cryptic.model.content.raids.theatre.boss.verzik.tornado.Tornado;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.Xarpus;
 import com.cryptic.model.content.raids.theatre.interactions.TheatreInterface;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportInterface;
@@ -649,13 +650,11 @@ public class CommandManager {
         });
 
         dev("c", (p, c, s) -> {
-//            Hit.setDebugAccuracy(true);
-//            p.message("Debug state: " + Hit.isDebugAccuracy());
-
-            p.animate(369);
-            Arrays.stream(p.closeNpcs(14)).filter(Objects::nonNull).forEach(n -> {
-                n.hit(p, 1);
-                n.performGraphic(new Graphic(500));
+            Tornado tornado = new Tornado(8386, p.tile().transform(-1, 0), new TheatreInstance(p, new ArrayList<>()));
+            tornado.spawn(false);
+            tornado.getCombat().setTarget(p);
+            Chain.noCtx().repeatingTask(2, task -> {
+               if (tornado.tile().isWithinDistance(p.tile(), 1)) new Hit(tornado, p).checkAccuracy(false).setDamage(p.hp() / 2).submit();
             });
         });
 

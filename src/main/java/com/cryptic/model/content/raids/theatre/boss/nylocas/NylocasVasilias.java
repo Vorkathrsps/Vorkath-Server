@@ -36,6 +36,7 @@ public class NylocasVasilias extends NPC { //TODO add death animation sequence
     public void die() {
         theatreInstance.getTheatrePhase().setStage(TheatreStage.THREE);
         for (var p : theatreInstance.getPlayers()) {
+            if (p == null) continue;
             p.setRoomState(RoomState.COMPLETE);
         }
         World.getWorld().unregisterNpc(this);

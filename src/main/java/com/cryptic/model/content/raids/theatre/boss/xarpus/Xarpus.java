@@ -127,10 +127,11 @@ public class Xarpus extends NPC {
 
     public void clear() {
         for (var o : objects) {
+            if (o == null) continue;
             o.remove();
+            this.poisonTile.clear();
         }
-        this.poisonTile.clear();
-        players.clear();
+        this.players.clear();
         this.splatInterval = 0;
         this.intervalCount = 0;
         this.setInitiated(false);
@@ -164,7 +165,9 @@ public class Xarpus extends NPC {
             }
 
             for (var p : theatreInstance.getPlayers()) {
+                if (p == null) continue;
                 for (var t : poisonTile) {
+                    if (t == null) continue;
                     var currentX = p.tile().getX();
                     var currentY = p.tile().getY();
                     var previousX = p.getPreviousTile().getX();
@@ -197,6 +200,7 @@ public class Xarpus extends NPC {
     public void die() {
         players.clear();
         for (var p : theatreInstance.getPlayers()) {
+            if (p == null) continue;
             p.setRoomState(RoomState.COMPLETE);
             p.getTheatreInstance().onRoomStateChanged(p.getRoomState());
         }

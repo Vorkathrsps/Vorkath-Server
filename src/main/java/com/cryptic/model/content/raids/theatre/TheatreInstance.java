@@ -166,6 +166,16 @@ public class TheatreInstance extends InstancedArea {
                 n.remove();
             }
         }
+        for (var o : bloodObjectList) {
+            if (o == null) continue;
+            o.remove();
+        }
+        for (var n : orbList) {
+            if (n == null) continue;
+            n.die();
+        }
+        this.bloodObjectList.clear();
+        this.orbList.clear();
         this.lootMap.clear();
         this.verzikNylocasList.clear();
         this.pillarObject.clear();

@@ -288,6 +288,7 @@ public class Verzik extends NPC {
         }
     }
 
+
     public void handlePhaseTwoMagicAttack() {
         var target = Utils.randomElement(this.getTheatreInstance().getPlayers());
         var tileDist = this.tile().distance(target.tile());
@@ -385,6 +386,7 @@ public class Verzik extends NPC {
         var target = Utils.randomElement(theatreInstance.getPlayers());
         this.getCombat().setTarget(target);
         for (var p : theatreInstance.getPlayers()) {
+            if (p == null) continue;
             var tileDist = this.tile().distance(p.tile());
             int duration = (53 + 45 + (7 * tileDist));
             Projectile projectile = new Projectile(this, p, 1594, 53, duration, 100, 25, 20, this.getSize(), 100, 7);
@@ -412,6 +414,7 @@ public class Verzik extends NPC {
         var target = Utils.randomElement(theatreInstance.getPlayers());
         this.getCombat().setTarget(target);
         for (var p : theatreInstance.getPlayers()) {
+            if (p == null) continue;
             var tileDist = this.tile().distance(p.tile());
             int duration = (62 + 45 + (7 * tileDist));
             Projectile projectile = new Projectile(this, p, 1593, 62, duration, 100, 25, 20, this.getSize(), 100, 7);
@@ -438,6 +441,7 @@ public class Verzik extends NPC {
         MutableObject<Tile> randomTile = new MutableObject<>();
         findValidTile(randomTile);
         for (var p : theatreInstance.getPlayers()) {
+            if (p == null) continue;
             var tileDist = this.tile().distance(p.tile());
             int duration = (261 + 144 + (tileDist));
             Projectile projectile = new Projectile(this, p, 1596, 261, duration, 250, 30, 50, this.getSize(), 0, 0);
@@ -469,6 +473,7 @@ public class Verzik extends NPC {
 
     private void sequenceTornado() {
         for (var p : theatreInstance.getPlayers()) {
+            if (p == null) continue;
             Tornado tornado = new Tornado(8386, p.tile().transform(-1, 0), this.getTheatreInstance());
             tornado.setInstancedArea(this.getTheatreInstance());
             tornado.spawn(false);
@@ -518,6 +523,7 @@ public class Verzik extends NPC {
             this.setHasSentChargedShot(true);
             return;
         } */
+
         if (random == 1) {
             sendMagicPhaseThree();
             return;
@@ -604,6 +610,7 @@ public class Verzik extends NPC {
         //this.getTheatreInstance().spawnTreasure(true);
         this.setAdjustAttackSpeed(false);
         for (var n : this.getTheatreInstance().getTornadoList()) {
+            if (n == null) continue;
             n.remove();
         }
         this.getTheatreInstance().getTornadoList().clear();
@@ -645,12 +652,12 @@ public class Verzik extends NPC {
     }
 
     private void checkForceMovement(GameObject o) {
-        theatreInstance
-            .getPlayers()
-            .stream()
-            .filter(Objects::nonNull)
-            .filter(player -> player.tile().isWithinDistance(this.tile(), 1) || o.tile().isWithinDistance(player.tile(), 1))
-            .forEach(this::forceMove);
+        for (Player player : this.theatreInstance.getPlayers()) {
+            if (player == null) continue;
+            if (player.tile().isWithinDistance(this.tile, 1) ||  o.tile().isWithinDistance(player.tile(), 1)) {
+                this.forceMove(player);
+            }
+        }
     }
 
     private void forceMove(@NotNull Player player) {
@@ -823,19 +830,17 @@ public class Verzik extends NPC {
     }
 
     private void replaceObjects() {
-        this
-            .getTheatreInstance()
-            .getVerzikPillarNpcs()
-            .forEach(n ->
-                MapObjects
-                    .get(32687, n.tile())
-                    .ifPresent(pillar -> {
-                        pillar.setId(32688);
-                        Chain.noCtx().delay(2, () -> {
-                            pillar.setId(32689);
-                            checkForceMovement(pillar);
-                        }).then(1, () -> pillar.animate(8104)).then(2, pillar::remove);
-                    }));
+        for (var o : this.theatreInstance.getVerzikPillarNpcs()) {
+            if (o == null) continue;
+            MapObjects.get(32687, o.tile())
+                .ifPresent(pillar -> {
+                    pillar.setId(32688);
+                    Chain.noCtx().delay(2, () -> {
+                        pillar.setId(32689);
+                        checkForceMovement(pillar);
+                    }).then(1, () -> pillar.animate(8104)).then(2, pillar::remove);
+                });
+        }
     }
 
     private void sendElectricShock() {

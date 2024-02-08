@@ -1947,14 +1947,14 @@ public class Utils {
     }
 
     public static int getClosestX(Entity src, Tile target) {
-        if (src.getSize() == 1)
-            return src.getX();
-        if (target.getX() < src.getX())
-            return src.getX();
-        else if (target.getX() >= src.getX() && target.getX() <= src.getX() + src.getSize() - 1)
-            return target.getX();
-        else
-            return src.getX() + src.getSize() - 1;
+        int srcCenterX = src.getX() + (src.getSize() / 2); // Calculate the center X coordinate of the entity
+
+        if (src.getSize() == 1 || target.getX() <= src.getX()) // If the size is 1 or the target is left or at the same X level as the left side of the entity
+            return src.getX(); // Return the left X coordinate of the entity
+        else if (target.getX() >= srcCenterX) // If the target is right or at the same X level as the center of the entity
+            return src.getX() + src.getSize() - 1; // Return the right X coordinate of the entity
+        else // If the target is between the left and center of the entity
+            return srcCenterX; // Return the center X coordinate of the entity
     }
 
     public static int getClosestY(Entity src, Entity target) {
@@ -1962,15 +1962,16 @@ public class Utils {
     }
 
     public static int getClosestY(Entity src, Tile target) {
-        if (src.getSize() == 1)
-            return src.getY();
-        if (target.getY() < src.getY())
-            return src.getY();
-        else if (target.getY() >= src.getY() && target.getY() <= src.getY() + src.getSize() - 1)
-            return target.getY();
-        else
-            return src.getY() + src.getSize() - 1;
+        int srcCenterY = src.getY() + (src.getSize() / 2); // Calculate the center Y coordinate of the entity
+
+        if (src.getSize() == 1 || target.getY() <= src.getY()) // If the size is 1 or the target is above or at the same Y level as the top of the entity
+            return src.getY(); // Return the top Y coordinate of the entity
+        else if (target.getY() >= srcCenterY) // If the target is below or at the same Y level as the center of the entity
+            return src.getY() + src.getSize() - 1; // Return the bottom Y coordinate of the entity
+        else // If the target is between the top and center of the entity
+            return srcCenterY; // Return the center Y coordinate of the entity
     }
+
 
     public static int getEffectiveDistance(Entity src, Entity target) {
         Tile pos = getClosestTile(src, target);

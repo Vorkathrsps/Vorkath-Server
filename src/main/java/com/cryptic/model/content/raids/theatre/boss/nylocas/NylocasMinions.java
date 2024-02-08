@@ -133,7 +133,7 @@ public class NylocasMinions extends NPC {
             attackClosestAlivePillar();
         }
         if (!isPathingToTile() && theatreInstance.getPillarList().isEmpty() && getCombat().getTarget() == null) {
-            this.getCombat().setTarget(getRandomTarget());
+            this.getCombat().setTarget(this.theatreInstance.getRandomTarget());
         }
     }
 
@@ -156,21 +156,17 @@ public class NylocasMinions extends NPC {
         });
     }
 
-    @Nonnull
-    public Player getRandomTarget() {
-        Collections.shuffle(this.theatreInstance.getPlayers());
-        return Objects.requireNonNull(Utils.randomElement(this.theatreInstance.getPlayers()));
-    }
-
-
     private void attackClosestAlivePillar() {
         List<NPC> availablePillars = theatreInstance.getPillarList().stream().filter(npc -> !npc.dead() && npc.isRegistered()).toList();
+        System.out.println("pillar list: "  + availablePillars.size());
         if (!availablePillars.isEmpty()) {
             List<NPC> closestPillars = new ArrayList<>(availablePillars);
-            closestPillars.sort(Comparator.comparingDouble(pillar -> this.tile().distanceTo(pillar.tile())));
-            Random random = new Random();
-            int randomIndex = random.nextInt(Math.min(closestPillars.size(), 2));
+            System.out.println("closest found: " + closestPillars);
+            closestPillars.sort(Comparator.comparingDouble(pillar -> this.tile().distanceToPoint(pillar.tile().getX(), pillar.tile().getY())));
+            int randomIndex = World.getWorld().random().nextInt(Math.min(closestPillars.size(), 2));
+            System.out.println("random index: " + randomIndex);
             NPC randomPillar = closestPillars.get(randomIndex);
+            System.out.println("random pillar: " + randomPillar);
             this.getCombat().setTarget(randomPillar);
         }
     }

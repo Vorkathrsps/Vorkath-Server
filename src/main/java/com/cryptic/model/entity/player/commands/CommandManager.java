@@ -650,12 +650,8 @@ public class CommandManager {
         });
 
         dev("c", (p, c, s) -> {
-            Tornado tornado = new Tornado(8386, p.tile().transform(-1, 0), new TheatreInstance(p, new ArrayList<>()));
-            tornado.spawn(false);
-            tornado.getCombat().setTarget(p);
-            Chain.noCtx().repeatingTask(2, task -> {
-               if (tornado.tile().isWithinDistance(p.tile(), 1)) new Hit(tornado, p).checkAccuracy(false).setDamage(p.hp() / 2).submit();
-            });
+            p.getPacketSender().sendInterface(81375);
+            p.getPacketSender().sendParallelInterfaceVisibility(81250, true);
         });
 
         dev("b", (p, c, s) -> {

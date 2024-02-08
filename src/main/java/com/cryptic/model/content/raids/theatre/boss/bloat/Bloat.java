@@ -109,9 +109,7 @@ public class Bloat extends NPC {
         }
 
         if (dropCounter >= this.getDropInterval()) {
-            if (!this.isSleeping()) {
-                cyclesSinceRandomStop++;
-            }
+            if (!this.isSleeping()) cyclesSinceRandomStop++;
             int numGraphics = Utils.random(12, 18);
             for (int i = 0; i < numGraphics; i++) {
                 Tile randomTile = bloatUtils.getRandomTile().transform(0, 0, theatreInstance.getzLevel());

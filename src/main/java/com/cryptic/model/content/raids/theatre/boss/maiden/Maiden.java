@@ -75,14 +75,8 @@ public class Maiden extends NPC {
         }
     }
 
-    @Nonnull
-    public Player getRandomTarget() {
-        Collections.shuffle(this.theatreInstance.getPlayers());
-        return Objects.requireNonNull(Utils.randomElement(this.theatreInstance.getPlayers()));
-    }
-
     public void throwBlood() {
-        var target = getRandomTarget();
+        var target = this.theatreInstance.getRandomTarget();
         var tile = target.tile().copy();
         this.face(target);
         this.animate(8091);

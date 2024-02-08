@@ -22,9 +22,11 @@ import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.ItemIdentifiers;
+import com.cryptic.utility.Utils;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -232,6 +234,12 @@ public class TheatreInstance extends InstancedArea {
             }
             owner.varps().varbit(6450 + index, type.ordinal());
         }
+    }
+
+    @Nonnull
+    public Player getRandomTarget() {
+        Collections.shuffle(this.getPlayers());
+        return Objects.requireNonNull(Utils.randomElement(this.getPlayers()));
     }
 
     @Override

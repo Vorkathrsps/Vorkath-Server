@@ -95,14 +95,8 @@ public class Sotetseg extends NPC {
         }
     }
 
-    @Nonnull
-    public Player getRandomTarget() {
-        Collections.shuffle(this.theatreInstance.getPlayers());
-        return Objects.requireNonNull(Utils.randomElement(this.theatreInstance.getPlayers()));
-    }
-
     public void sendMeleeAttack() {
-        Player player = getRandomTarget();
+        Player player = this.theatreInstance.getRandomTarget();
         if (!DumbRoute.withinDistance(this, player, 1)) return;
         this.animate(8138);
         player.hit(this, CombatFactory.calcDamageFromType(this, player, CombatType.MELEE), 1);
@@ -156,7 +150,7 @@ public class Sotetseg extends NPC {
             player.setRoomState(RoomState.COMPLETE);
             player.getTheatreInstance().onRoomStateChanged(player.getRoomState());
         }
-        Chain.noCtx().runFn(1, () -> this.animate(8139)).then(3, this::remove);
+        Chain.noCtx().runFn(1, () -> this.animate(8140)).then(3, this::remove);
     }
 
     protected boolean insideBounds() {

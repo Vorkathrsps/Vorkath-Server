@@ -23,7 +23,6 @@ public class ItemDrop {
 
     public ItemDrop(String item, int minimumAmount, int maximumAmount, int chance, boolean rareDrop, boolean sendToBank) {
         this.item = item;
-
         this.minimumAmount = minimumAmount;
         this.maximumAmount = maximumAmount;
         this.chance = chance;

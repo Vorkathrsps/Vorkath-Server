@@ -138,16 +138,10 @@ public class Xarpus extends NPC {
         this.setEntranceAnimationStarted(false);
     }
 
-    @Nonnull
-    public Player getRandomTarget() {
-        Collections.shuffle(this.theatreInstance.getPlayers());
-        return Objects.requireNonNull(Utils.randomElement(this.theatreInstance.getPlayers()));
-    }
-
     @Override
     public void postCombatProcess() {
         var owner = theatreInstance.getOwner();
-        if (owner == null) owner = getRandomTarget();
+        if (owner == null) owner = this.theatreInstance.getRandomTarget();
         if (!players.contains(owner) && owner.tile().withinArea(XARPUS_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()))) {
             players.add(owner);
         } else if (players.contains(owner) && !owner.tile().withinArea(XARPUS_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()))) {

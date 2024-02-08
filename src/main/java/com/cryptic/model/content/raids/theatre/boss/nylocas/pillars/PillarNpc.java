@@ -10,6 +10,7 @@ import org.apache.commons.compress.utils.Lists;
 public class PillarNpc extends NPC {
     GameObject pillarObject;
     TheatreInstance theatreInstance;
+    boolean transformed = false;
     public PillarNpc(int id, Tile tile, GameObject pillarObject, TheatreInstance theatreInstance) {
         super(id, tile);
         this.pillarObject = pillarObject;
@@ -28,7 +29,8 @@ public class PillarNpc extends NPC {
     @Override
     public void postCombatProcess() {
         var healthAmount = this.hp() * 1.0 / (this.maxHp() * 1.0);
-        if (healthAmount <= 0.5D && healthAmount > 0) {
+        if (healthAmount <= 0.50D && healthAmount > 0 && !transformed) {
+            this.transformed = true;
             this.pillarObject.setId(32863);
         }
     }

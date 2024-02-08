@@ -22,9 +22,9 @@ public class DarkWizard extends CommonCombatMethod {
         int tileDist = entity.tile().transform(1, 1).distance(target.tile());
         int duration = (51 + -5 + (10 * tileDist));
         Projectile p = new Projectile(entity, target, 97, 51, duration, 43, 31, 16, 1, 10);
-        final int delay = entity.executeProjectile(p);
-        Hit hit = Hit.builder(entity, target, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
-        hit.submit();
+        final int delay = (int) (p.getSpeed() / 20D);
+        entity.executeProjectile(p);
+        new Hit(entity, target, delay, this).checkAccuracy(true).submit();
         target.graphic(98, GraphicHeight.HIGH, p.getSpeed());
         return true;
     }

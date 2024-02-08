@@ -25,6 +25,7 @@ import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.mutable.MutableObject;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -67,6 +68,7 @@ public class TheatreInstance extends InstancedArea {
     Tile[] treasure_spawns = new Tile[]{new Tile(3226, 4323), new Tile(3226, 4327), new Tile(3233, 4330), new Tile(3241, 4323), new Tile(3241, 4327)};
     @Getter @Setter boolean hasInitiatedNylocasVasilias = false;
     @Getter Map<Player, Item[]> lootMap = new HashMap<>();
+    public MutableObject<GameObject> throne;
 
     public static Area[] rooms() {
         int[] regions = {12613, 12869, 13125, 12612, 12611, 12687, 13123, 13122, 12867};
@@ -94,6 +96,7 @@ public class TheatreInstance extends InstancedArea {
         this.tornadoList = new ArrayList<>();
         this.bloodObjectList = new ArrayList<>();
         this.orbList = new ArrayList<>();
+        this.throne = new MutableObject<>();
     }
 
     public TheatreInstance buildParty() {
@@ -185,11 +188,12 @@ public class TheatreInstance extends InstancedArea {
         this.bosses.clear();
         this.players.clear();
         this.setHasInitiatedNylocasVasilias(false);
+        this.throne.getValue().remove();
     }
 
     public void spawnTreasure() {
-        for (int index = 0; index < this.getPlayers().size(); index++) {
-            Player player = this.getPlayers().get(index);
+        for (int index = 0; index < this.players.size(); index++) {
+            Player player = this.players.get(index);
             if (player == null) continue;
             int rotation = 2;
             rotation = findRotation(index, rotation);
@@ -225,7 +229,7 @@ public class TheatreInstance extends InstancedArea {
     }
 
     private void monumentalChest(int index, Player player) {
-        for (Player owner : this.getPlayers()) {
+        for (Player owner : this.players) {
             ChestType type = ChestType.DEFAULT;
             if (owner == player) {
                 type = player.hasAttrib(RARE_TOB_REWARD) ? ChestType.RARE_REWARD_ARROW : ChestType.DEFAULT_ARROW;
@@ -238,8 +242,8 @@ public class TheatreInstance extends InstancedArea {
 
     @Nonnull
     public Player getRandomTarget() {
-        Collections.shuffle(this.getPlayers());
-        return Objects.requireNonNull(Utils.randomElement(this.getPlayers()));
+        Collections.shuffle(this.players);
+        return Objects.requireNonNull(Utils.randomElement(this.players));
     }
 
     @Override

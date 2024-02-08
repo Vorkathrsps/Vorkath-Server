@@ -3,6 +3,7 @@ package com.cryptic.model.content.raids.theatre;
 import com.cryptic.model.content.instance.InstanceConfiguration;
 import com.cryptic.model.content.instance.InstancedArea;
 import com.cryptic.model.content.raids.theatre.boss.bloat.handler.BloatHandler;
+import com.cryptic.model.content.raids.theatre.boss.maiden.blood.BloodSpawn;
 import com.cryptic.model.content.raids.theatre.boss.maiden.handler.MaidenHandler;
 import com.cryptic.model.content.raids.theatre.boss.nylocas.handler.VasiliasHandler;
 import com.cryptic.model.content.raids.theatre.boss.sotetseg.handler.SotetsegHandler;
@@ -47,6 +48,8 @@ public class TheatreInstance extends InstancedArea {
     List<GameObject> verzikPillarObjects, pillarObject;
     @Getter
     AtomicInteger wave = new AtomicInteger();
+    public List<GameObject> bloodObjectList;
+    public List<BloodSpawn> orbList;
     @Getter
     List<TheatreHandler> bosses;
     @Getter
@@ -87,6 +90,8 @@ public class TheatreInstance extends InstancedArea {
         this.nylocas = new ArrayList<>();
         this.occupiedCageSpawnPointsList = new ArrayList<>();
         this.tornadoList = new ArrayList<>();
+        this.bloodObjectList = new ArrayList<>();
+        this.orbList = new ArrayList<>();
     }
 
     public TheatreInstance buildParty() {

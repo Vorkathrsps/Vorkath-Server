@@ -14,6 +14,7 @@ import com.cryptic.model.content.skill.impl.prayer.Bone;
 import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.content.skill.impl.slayer.slayer_partner.SlayerPartner;
+import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.content.treasure.TreasureRewardCaskets;
 import com.cryptic.model.World;
@@ -135,7 +136,10 @@ public class NPCDeath {
             killer.getCombat().reset();
 
             // Increment kill.
-            killer.getSlayerKillLog().addKill(npc);
+            SlayerCreature creature = SlayerCreature.lookup(killer.slayerTaskId());
+            if (creature.matches(npc.id())) {
+                killer.getSlayerKillLog().addKill(npc);
+            }
             if (!npc.isWorldBoss() || npc.id() != THE_NIGHTMARE_9430 || npc.id() != KALPHITE_QUEEN_6500) {
                 killer.getBossKillLog().addKill(npc);
             }

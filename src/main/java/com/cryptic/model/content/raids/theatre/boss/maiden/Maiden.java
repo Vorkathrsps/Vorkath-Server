@@ -20,6 +20,7 @@ import com.cryptic.utility.chainedwork.Chain;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 
 import static com.cryptic.model.content.raids.theatre.boss.maiden.utils.MaidenUtils.*;
@@ -53,32 +54,37 @@ public class Maiden extends NPC {
     }
 
     public void sequenceTornadoAndBlood() {
-        var player = theatreInstance.getOwner();
         if (Utils.sequenceRandomInterval(randomBlood, 7, 14)) {
             throwBlood();
             this.setRandomBlood(0);
             return;
         }
         randomBlood++;
-        for (Player p2 : this.theatreInstance.getPlayers()) {
-            if (!players.contains(p2))
-                continue;
-            this.face(p2);
+        for (Player target : this.theatreInstance.getPlayers()) {
+            if (!players.contains(target)) continue;
+            if (target == null) continue;
+            this.face(target);
             Chain.noCtx().runFn(1, () -> this.face(null));
             this.animate(8092);
-            int tileDist = this.tile().distance(p2.tile());
+            int tileDist = this.tile().distance(target.tile());
             int duration = (80 + -5 + (8 * tileDist));
-            Projectile p = new Projectile(this, p2, 1577, 80, duration, 0, 0, 0, 6, 8);
+            Projectile p = new Projectile(this, target, 1577, 80, duration, 0, 0, 0, 6, 8);
             this.executeProjectile(p);
-            Hit hit = Hit.builder(this, p2, CombatFactory.calcDamageFromType(this, p2, CombatType.MAGIC), p.getSpeed() / 30, CombatType.MAGIC).checkAccuracy(true);
+            Hit hit = Hit.builder(this, target, CombatFactory.calcDamageFromType(this, target, CombatType.MAGIC), p.getSpeed() / 30, CombatType.MAGIC).checkAccuracy(true);
             hit.submit();
         }
     }
 
+    @Nonnull
+    public Player getRandomTarget() {
+        Collections.shuffle(this.theatreInstance.getPlayers());
+        return Objects.requireNonNull(Utils.randomElement(this.theatreInstance.getPlayers()));
+    }
+
     public void throwBlood() {
-        var player = theatreInstance.getOwner();
-        var tile = player.tile().copy();
-        this.face(player);
+        var target = getRandomTarget();
+        var tile = target.tile().copy();
+        this.face(target);
         this.animate(8091);
         Chain.noCtx().runFn(1, () -> this.face(null));
         var tileDist = this.tile().distance(tile);
@@ -86,7 +92,7 @@ public class Maiden extends NPC {
         Projectile p = new Projectile(this, tile, 2002, 68, duration, 95, 0, 20, 5, 10);
         p.send(this, tile);
         World.getWorld().tileGraphic(1579, tile, 0, p.getSpeed());
-        this.orb = new BloodSpawn(10821, new Tile(p.getEnd().getX(), p.getEnd().getY()).transform(0, 0, theatreInstance.getzLevel()), player, this, theatreInstance);
+        this.orb = new BloodSpawn(10821, new Tile(p.getEnd().getX(), p.getEnd().getY()).transform(0, 0, theatreInstance.getzLevel()), target, this, theatreInstance);
         Chain.noCtx().runFn(16, () -> {
             this.orb.setInstancedArea(theatreInstance);
             this.orb.spawn(false);
@@ -136,8 +142,6 @@ public class Maiden extends NPC {
 
         if (insideBounds()) {
 
-            System.out.println("dins");
-
             double healthAmount = hp() * 1.0 / (maxHp() * 1.0);
 
             if (healthAmount <= 0.70 && !nyloSpawned70to50) {
@@ -171,19 +175,24 @@ public class Maiden extends NPC {
 
     @Override
     public void die() {
-        var player = theatreInstance.getOwner();
-        theatreInstance.getTheatrePhase().setStage(TheatreStage.TWO);
-        player.setRoomState(RoomState.COMPLETE);
-        player.getTheatreInstance().onRoomStateChanged(player.getRoomState());
-        if (nylo != null) {
-            nylo.die();
+        for (Player player : this.theatreInstance.getPlayers()) {
+            theatreInstance.getTheatrePhase().setStage(TheatreStage.TWO);
+            player.setRoomState(RoomState.COMPLETE);
+            player.getTheatreInstance().onRoomStateChanged(player.getRoomState());
         }
+        if (nylo != null) nylo.die();
         players.clear();
-        Chain.noCtx().runFn(1, () -> {
-            this.animate(8094);
-        }).then(3, () -> {
-            World.getWorld().unregisterNpc(this);
-        });
+        for (var o : this.theatreInstance.bloodObjectList) {
+            if (o == null) continue;
+            o.remove();
+        }
+        this.theatreInstance.bloodObjectList.clear();
+        for (var n : this.theatreInstance.orbList) {
+            if (n == null) continue;
+            n.remove();
+        }
+        this.theatreInstance.orbList.clear();
+        Chain.noCtx().runFn(1, () -> this.animate(8094)).then(3, () -> World.getWorld().unregisterNpc(this));
     }
 
     public int partySize() {

@@ -8,12 +8,14 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.method.CombatMethod;
 import com.cryptic.model.entity.npc.NPC;
+import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -154,8 +156,16 @@ public class NylocasMinions extends NPC {
         });
     }
 
+    @Nonnull
+    public Player getRandomTarget() {
+        Collections.shuffle(this.theatreInstance.getPlayers());
+        return Objects.requireNonNull(Utils.randomElement(this.theatreInstance.getPlayers()));
+    }
+
+
     private void attackClosestAlivePillar() {
-        List<NPC> availablePillars = theatreInstance.getPillarList().stream().filter(p -> !p.dead() && p.isRegistered()).toList();
+        List<NPC> availablePillars = theatreInstance.getPillarList().stream().filter(npc -> !npc.dead() && npc.isRegistered()).toList();
+        System.out.println(availablePillars);
         if (!availablePillars.isEmpty()) {
             List<NPC> closestPillars = new ArrayList<>(availablePillars);
             closestPillars.sort(Comparator.comparingDouble(pillar -> this.tile().distanceTo(pillar.tile())));
@@ -163,6 +173,8 @@ public class NylocasMinions extends NPC {
             int randomIndex = random.nextInt(Math.min(closestPillars.size(), 2));
             NPC randomPillar = closestPillars.get(randomIndex);
             this.getCombat().setTarget(randomPillar);
+        } else {
+            this.getCombat().setTarget(getRandomTarget());
         }
     }
 

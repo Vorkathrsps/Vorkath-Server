@@ -10,7 +10,7 @@ import com.cryptic.model.map.position.Tile;
 public class BloatHandler implements TheatreHandler {
     @Override
     public void build(Player player, TheatreInstance theatreInstance) {
-        Bloat bloat = new Bloat(8359, new Tile(3299, 4440, theatreInstance.getzLevel()), player, theatreInstance);
+        Bloat bloat = new Bloat(8359, new Tile(3299, 4440, theatreInstance.getzLevel()), theatreInstance);
         bloat.setHitpoints(this.scale(bloat, player, false));
         bloat.setInstancedArea(theatreInstance);
         bloat.spawn(false);

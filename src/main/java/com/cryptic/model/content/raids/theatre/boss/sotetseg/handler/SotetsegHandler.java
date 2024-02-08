@@ -11,7 +11,7 @@ import com.cryptic.model.map.position.Tile;
 public class SotetsegHandler implements TheatreHandler {
     @Override
     public void build(Player player, TheatreInstance theatreInstance) {
-        Sotetseg sotetseg = new Sotetseg(NpcIdentifiers.SOTETSEG_10865, new Tile(3277, 4326, theatreInstance.getzLevel()), player, theatreInstance);
+        Sotetseg sotetseg = new Sotetseg(NpcIdentifiers.SOTETSEG_10865, new Tile(3277, 4326, theatreInstance.getzLevel()), theatreInstance);
         sotetseg.setHitpoints(this.scale(sotetseg, player, false));
         sotetseg.setInstancedArea(theatreInstance);
         sotetseg.spawn(false);

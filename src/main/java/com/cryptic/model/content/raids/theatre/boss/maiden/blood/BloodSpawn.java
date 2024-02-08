@@ -20,8 +20,6 @@ import static com.cryptic.model.content.raids.theatre.boss.maiden.utils.MaidenUt
 public class BloodSpawn extends NPC {
     Player player;
     Maiden maiden;
-    List<BloodSpawn> orbList;
-    List<GameObject> bloodObjectList;
     List<Integer> damage = new ArrayList<>();
     TheatreInstance theatreInstance;
 
@@ -30,9 +28,7 @@ public class BloodSpawn extends NPC {
         this.player = player;
         this.maiden = maiden;
         this.theatreInstance = theatreInstance;
-        this.bloodObjectList = new ArrayList<>();
-        this.orbList = new ArrayList<>();
-        orbList.add(this);
+        this.theatreInstance.orbList.add(this);
         this.walkRadius(10);
         this.noRetaliation(true);
         this.getCombat().setAutoRetaliate(false);
@@ -40,7 +36,8 @@ public class BloodSpawn extends NPC {
 
     protected boolean verifyDamage() {
         Hit hit = player.hit(this, Utils.random(4, 8), 0, null);
-        for (var o : bloodObjectList) {
+        for (var o : this.theatreInstance.bloodObjectList) {
+            if (o == null) continue;
             if (o.tile().equals(player.tile())) {
                 hit.submit();
                 addDamage(hit.getDamage());
@@ -60,11 +57,13 @@ public class BloodSpawn extends NPC {
     }
 
     public void clearOrbAndObjects() {
-        for (var o : bloodObjectList) {
+        for (var o : this.theatreInstance.bloodObjectList) {
+            if (o == null) continue;
             o.remove();
         }
-        bloodObjectList.clear();
-        for (var n : bloodOrbs) {
+        this.theatreInstance.bloodObjectList.clear();
+        for (var n : this.theatreInstance.orbList) {
+            if (n == null) continue;
             World.getWorld().unregisterNpc(n);
         }
     }
@@ -76,26 +75,28 @@ public class BloodSpawn extends NPC {
     @Override
     public void postCombatProcess() {
         if (this.maiden.dead()) {
-            for (var o : this.bloodObjectList) {
+            for (var o : this.theatreInstance.bloodObjectList) {
+                if (o == null) continue;
                 o.remove();
             }
-            for (var n : this.orbList) {
+            for (var n : this.theatreInstance.orbList) {
+                if (n == null) continue;
                 n.remove();
             }
             this.damage.clear();
-            this.orbList.clear();
-            this.bloodObjectList.clear();
+            this.theatreInstance.orbList.clear();
+            this.theatreInstance.bloodObjectList.clear();
             return;
         }
 
-        if (!this.orbList.isEmpty()) {
+        if (!this.theatreInstance.orbList.isEmpty()) {
             GameObject bloodSplat = new GameObject(32984, new Tile(this.tile().getX(), this.tile().getY(), theatreInstance.getzLevel()), 10, 0);
             if (!ObjectManager.objWithTypeExists(10, new Tile(bloodSplat.getX(), bloodSplat.getY(), theatreInstance.getzLevel()))) {
-                this.bloodObjectList.add(bloodSplat);
+                this.theatreInstance.bloodObjectList.add(bloodSplat);
             }
-            for (var o : this.bloodObjectList) {
+            for (var o : this.theatreInstance.bloodObjectList) {
                 if (!ObjectManager.objWithTypeExists(10, new Tile(o.getX(), o.getY(), theatreInstance.getzLevel()))) {
-                    if (this.bloodObjectList.contains(bloodSplat)) {
+                    if (this.theatreInstance.bloodObjectList.contains(bloodSplat)) {
                         bloodSplat.spawn();
                     }
                 }
@@ -109,7 +110,7 @@ public class BloodSpawn extends NPC {
 
     @Override
     public void die() {
-        orbList.remove(this);
+        this.theatreInstance.orbList.remove(this);
         World.getWorld().unregisterNpc(this);
     }
 }

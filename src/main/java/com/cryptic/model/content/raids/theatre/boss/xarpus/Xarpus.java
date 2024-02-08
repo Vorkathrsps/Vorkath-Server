@@ -19,8 +19,11 @@ import com.cryptic.utility.chainedwork.Chain;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @Author: Origin
@@ -92,9 +95,7 @@ public class Xarpus extends NPC {
 
     public void sendPoisonPool() {
         for (var t : theatreInstance.getPlayers()) {
-            if (t == null) {
-                continue;
-            }
+            if (t == null) continue;
             var tile = t.tile().copy();
             this.faceTarget(t);
             Chain.noCtx().runFn(1, () -> this.face(null));
@@ -127,8 +128,8 @@ public class Xarpus extends NPC {
     public void clear() {
         for (var o : objects) {
             o.remove();
-            poisonTile.clear();
         }
+        this.poisonTile.clear();
         players.clear();
         this.splatInterval = 0;
         this.intervalCount = 0;
@@ -136,10 +137,16 @@ public class Xarpus extends NPC {
         this.setEntranceAnimationStarted(false);
     }
 
+    @Nonnull
+    public Player getRandomTarget() {
+        Collections.shuffle(this.theatreInstance.getPlayers());
+        return Objects.requireNonNull(Utils.randomElement(this.theatreInstance.getPlayers()));
+    }
+
     @Override
     public void postCombatProcess() {
         var owner = theatreInstance.getOwner();
-
+        if (owner == null) owner = getRandomTarget();
         if (!players.contains(owner) && owner.tile().withinArea(XARPUS_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()))) {
             players.add(owner);
         } else if (players.contains(owner) && !owner.tile().withinArea(XARPUS_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()))) {
@@ -179,7 +186,6 @@ public class Xarpus extends NPC {
                 splatInterval--;
                 if (intervalCount >= 4 && splatInterval <= 0 && !this.dead()) {
                     sendPoisonPool();
-                    //interpolateQuadrants();
                     intervalCount = 0;
                     splatInterval = 4;
                 }

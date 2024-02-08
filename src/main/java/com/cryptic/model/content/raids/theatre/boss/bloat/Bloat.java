@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.function.BooleanSupplier;
 
 public class Bloat extends NPC {
-    Player player;
     BloatUtils bloatUtils = new BloatUtils();
     int interpolateTiles = 0;
     int WALK_SLEEP = 8082;
@@ -33,12 +32,21 @@ public class Bloat extends NPC {
     public static final Area BLOAT_AREA = new Area(3303, 4455, 3288, 4440);
     Area IGNORED_AREA = new Area(3298, 4445, 3293, 4450);
     public static final int[] LIMB_GRAPHICS = new int[]{1570, 1571, 1572, 1573};
-    @Getter @Setter public boolean sleeping;
-    @Getter @Setter public boolean running = false;
-    @Setter private int dropCounter = 0;
-    @Getter int dropInterval = 5;
-    @Getter @Setter int cyclesSinceRandomStop = 0;
-    @Getter boolean walkingCycleComplete = false;
+    @Getter
+    @Setter
+    public boolean sleeping;
+    @Getter
+    @Setter
+    public boolean running = false;
+    @Setter
+    private int dropCounter = 0;
+    @Getter
+    int dropInterval = 5;
+    @Getter
+    @Setter
+    int cyclesSinceRandomStop = 0;
+    @Getter
+    boolean walkingCycleComplete = false;
     BooleanSupplier walkingCycleFinished = () -> walkingCycleComplete;
     BooleanSupplier isDead = this::dead;
     List<Tile> graphicTiles = new ArrayList<>();
@@ -53,9 +61,8 @@ public class Bloat extends NPC {
         new Tile(3299, 4440, 0),
     };
 
-    public Bloat(int id, Tile tile, Player player, TheatreInstance theatreInstance) {
+    public Bloat(int id, Tile tile, TheatreInstance theatreInstance) {
         super(id, tile);
-        this.player = player;
         this.theatreInstance = theatreInstance;
         this.spawnDirection(0);
         this.setSize(5);
@@ -78,10 +85,10 @@ public class Bloat extends NPC {
     }
 
     protected void swarm() {
-        if (ProjectileRoute.hasLineOfSight(this, player.tile())) {
-            if (this.isSleeping()) {
-                return;
-            }
+        for (var player : this.theatreInstance.getPlayers()) {
+            if (player == null) continue;
+            if (!ProjectileRoute.hasLineOfSight(this, player.tile())) continue;
+            if (this.isSleeping()) return;
             int tileDist = this.tile().distance(player.tile());
             int duration = (51 + -5 + (10 * tileDist));
             Projectile p = new Projectile(this, player, 1569, 51, duration, 0, 0, 12, 5, 10);
@@ -107,9 +114,9 @@ public class Bloat extends NPC {
             }
             int numGraphics = Utils.random(12, 18);
             for (int i = 0; i < numGraphics; i++) {
-                Tile randomTile = bloatUtils.getRandomTile().transform(0,0, theatreInstance.getzLevel());
+                Tile randomTile = bloatUtils.getRandomTile().transform(0, 0, theatreInstance.getzLevel());
                 if (bloatUtils.isTileValid(tile, randomTile) && !RegionManager.blocked(randomTile)) {
-                    if (!IGNORED_AREA.transformArea(0,0,0,0,theatreInstance.getzLevel()).contains(randomTile)) {
+                    if (!IGNORED_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()).contains(randomTile)) {
                         World.getWorld().tileGraphic(bloatUtils.getRandomLimbGraphic(), randomTile, 0, 0);
                         graphicTiles.add(randomTile);
                     }
@@ -166,27 +173,30 @@ public class Bloat extends NPC {
 
     @Override
     public void postCombatProcess() {
-        if (!players.contains(player) && player.tile().withinArea(BLOAT_AREA.transformArea(0,0,0,0,theatreInstance.getzLevel()))) {
-            players.add(player);
-        } else if (players.contains(player) && !player.tile().withinArea(BLOAT_AREA.transformArea(0,0,0,0,theatreInstance.getzLevel()))) {
-            players.remove(player);
-        }
+        for (Player player : this.theatreInstance.getPlayers()) {
+            if (player == null) continue;
+            if (!players.contains(player) && player.tile().withinArea(BLOAT_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()))) {
+                players.add(player);
+            } else if (players.contains(player) && !player.tile().withinArea(BLOAT_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()))) {
+                players.remove(player);
+            }
 
-        if (!player.tile().withinArea(BLOAT_AREA.transformArea(0,0,0,0,theatreInstance.getzLevel()))) {
-            interpolateBloatWalk();
-        }
+            if (!player.tile().withinArea(BLOAT_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()))) {
+                interpolateBloatWalk();
+            }
 
-        if (!this.isSleeping() && player.tile().withinArea(BLOAT_AREA.transformArea(0,0,0,0,theatreInstance.getzLevel()))) {
-            interpolateBloatWalk();
-            fallingLimbs();
-            swarm();
-        }
+            if (!this.isSleeping() && player.tile().withinArea(BLOAT_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()))) {
+                interpolateBloatWalk();
+                fallingLimbs();
+                swarm();
+            }
 
-        for (var t : graphicTiles) {
-            if (player.tile().equals(t)) {
-                Hit hit = Hit.builder(this, player, Utils.random(30, 50), 5, null).setAccurate(true);
-                hit.submit();
-                player.stun(3);
+            for (var t : graphicTiles) {
+                if (player.tile().equals(t)) {
+                    Hit hit = Hit.builder(this, player, Utils.random(30, 50), 5, null).setAccurate(true);
+                    hit.submit();
+                    player.stun(3);
+                }
             }
         }
 
@@ -197,8 +207,10 @@ public class Bloat extends NPC {
 
     @Override
     public void die() {
-        player.setRoomState(RoomState.COMPLETE);
-        player.getTheatreInstance().onRoomStateChanged(player.getRoomState());
+        for (Player player : this.theatreInstance.getPlayers()) {
+            player.setRoomState(RoomState.COMPLETE);
+            player.getTheatreInstance().onRoomStateChanged(player.getRoomState());
+        }
         Chain.noCtx().runFn(1, () -> {
             this.animate(DEATH_ANIM);
         }).then(3, () -> {

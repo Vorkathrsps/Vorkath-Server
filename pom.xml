@@ -477,6 +477,7 @@
             <artifactId>functions</artifactId>
             <version>1.93.0</version>
             <scope>runtime</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>

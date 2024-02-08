@@ -8,6 +8,7 @@ import com.cryptic.model.map.region.RegionManager;
 
 public class ProjectileRoute {
 
+
     public static boolean hasLineOfSight(Entity entity, Entity target) {
         return hasLineOfSight(
             entity.getAbsX(),

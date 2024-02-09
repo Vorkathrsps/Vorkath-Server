@@ -483,7 +483,6 @@ public class TradingPost {
     }
 
     private static void displayHistory(Player player) {
-        try {
             player.setNameScript("Which item would you like to view the history of?", new InputScript() {
 
                 @Override
@@ -496,13 +495,9 @@ public class TradingPost {
                     return true;
                 }
             });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private static void handleQueryItemHistory(Player player, String itemName) {
-        try {
             List<TradingPostListing> stored = Lists.newArrayList();
 
             recentTransactions.stream().filter(Objects::nonNull).forEach(history -> {
@@ -520,9 +515,6 @@ public class TradingPost {
             }
 
             displayResults(player, stored);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private static void showRecentListedSales(Player player) {
@@ -733,7 +725,6 @@ public class TradingPost {
     }
 
     private static void displayResults(Player player, List<TradingPostListing> list) {
-        try {
 
             /* Remove previous strings.. **/
             resetDisplayResults(player);
@@ -772,9 +763,6 @@ public class TradingPost {
 //                count++;
 //            }
             player.getPacketSender().sendScrollbarHeight(66310, count * 40);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private static void resetDisplayResults(Player player) {
@@ -910,14 +898,10 @@ public class TradingPost {
                     return true;
                 }
             });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return true;
     }
 
     public static void handleSalePrice(Player player, long requestedPrice) {
-        try {
             //System.out.println("handling price setting..");
             int itemId = player.tradingPostListedItemId;
             int amount = player.tradingPostListedAmount;
@@ -943,13 +927,9 @@ public class TradingPost {
                 return;
             }
             player.getDialogueManager().start(new TradingPostConfirmDialogue(sale, requestedPrice));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public static void listSale(Player player, Item sale, long price) {
-        try {
             if (player == null || sale == null || !isValid(player) || price <= 0) {
                 logger.info("player: " + player.getUsername() + " sale: " + sale.getId() + " price: " + price);
                 return;
@@ -982,13 +962,9 @@ public class TradingPost {
                 }
             }
             open(player);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public static void searchByItemName(Player player, String itemName, boolean refresh) {
-        try {
             if (itemName == null)
                 return;
 
@@ -1016,9 +992,6 @@ public class TradingPost {
                 player.getPacketSender().sendString(66603, "Showing offers for item: " + itemName);
                 player.message("<col=ff0000>Found " + foundSize + " starting with the synx: '" + itemName + "'");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -1027,15 +1000,11 @@ public class TradingPost {
      * @param player
      * @param list
      */
-    public static void displayQuery(Player player, List<TradingPostListing> list) { // cos the list isnt being trimmed anywheres its the same list everytime so it'll alwaays do the first 25 did we trim the other list in recent? I dont recall
-        try {
+    public static void displayQuery(Player player, List<TradingPostListing> list) {
             //This list is populated but, it some how doesn't send properly when switching pages
             player.putAttrib(AttributeKey.BUY_LISTING_RESULTS, list);
             player.putAttrib(TRADING_POST_BUY_PAGE, 1);
             displayBuyPage(player, list);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private static void displayBuyPage(Player player, List<TradingPostListing> list) {
@@ -1076,7 +1045,6 @@ public class TradingPost {
     }
 
     public static void searchByUsername(Player player, String username, boolean refresh) {
-        try {
             if (username == null)
                 return;
 
@@ -1102,24 +1070,16 @@ public class TradingPost {
                 player.getPacketSender().sendString(66603, "Showing " + username + "'s Trade Post Listings");
                 player.message("<col=ff0000>Displaying " + username + "'s " + foundSize + " trade post listings..");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public static void handleXOptionInput(Player player, int id, int slot) {
-        try {
             player.setAmountScript("How many of this item would you like to sell?", value -> {
                 TradingPost.handleSellX(player, id, (Integer) value);
                 return true;
             });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public static boolean handleBuyButtons(Player player, int buttonId) {
-        try {
             //System.out.println("buttonId=" + buttonId);
 
             if (!player.<Boolean>getAttribOr(USING_TRADING_POST, false))
@@ -1200,14 +1160,10 @@ public class TradingPost {
                     return true;
                 }
             });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return true;
     }
 
     private static void handlePurchasing(Player player, TradingPostListing selected, int amount) {
-        try {
             if (selected == null) {
                 player.message(Color.RED.wrap("this offer no longer exists"));
                 return;
@@ -1228,13 +1184,9 @@ public class TradingPost {
 
             long price = selected.getPrice() * amount;
             player.getDialogueManager().start(new TradingPostConfirmSale(amount, price, selected));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public static void finishPurchase(Player player, TradingPostListing selected, long totalPrice, int amount, boolean noted) {
-        try {
             long currency = player.inventory().count(BLOOD_MONEY_CURRENCY ? BLOOD_MONEY : COINS_995);
 
             long tokens = player.inventory().count(BLOOD_MONEY_CURRENCY ? BLOODY_TOKEN : PLATINUM_TOKEN);
@@ -1337,9 +1289,6 @@ public class TradingPost {
             //Clear previously stored attributes
             player.clearAttrib(AttributeKey.TRADING_POST_ORIGINAL_AMOUNT);
             player.clearAttrib(AttributeKey.TRADING_POST_ORIGINAL_PRICE);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private static boolean offerExists(TradingPostListing selected) {

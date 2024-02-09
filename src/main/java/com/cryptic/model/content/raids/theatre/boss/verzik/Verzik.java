@@ -539,7 +539,7 @@ public class Verzik extends NPC {
     }
 
     Set<Tile> clippedTiles = new HashSet<>();
-    Set<GameObject> webObjects = new HashSet<>();
+    List<GameObject> webObjects = new ArrayList<>();
 
     public void setClippedTiles() {
         this.getCentrePosition().area(3).forEachPos(t -> {
@@ -586,34 +586,18 @@ public class Verzik extends NPC {
             MutableObject<Player> playerObject = new MutableObject<>();
             MutableObject<Tile> tileObject = new MutableObject<>();
             Player randomTarget = this.theatreInstance.getRandomTarget();
-            Chain.noCtx().repeatingTask(3, targeting -> {
+            Chain.noCtx().repeatingTask(1, targeting -> {
                 playerObject.setValue(randomTarget);
-                Direction direction = Direction.getDirection(this.getCentrePosition(), getTargetValue(playerObject).getCentrePosition());
+                Player target = getTargetValue(playerObject);
+                Direction direction = Direction.diagonal(this.getCentrePosition().getDeltaX(target.getCentrePosition()), this.getCentrePosition().getDeltaY(target.getCentrePosition()));
                 if (direction == null) return;
-                this.setPositionToFace(getTargetValue(playerObject).tile().transform(direction.x, direction.y));
-                if (count.get() <= 0 || this.dead()) {
+                this.setPositionToFace(target.tile().transform(direction.x, direction.y));
+                if (count.get() <= 0 || this.dead() || !this.isRegistered()) {
                     targeting.stop();
                 }
             });
-            Chain.noCtx().repeatingTask(2, tick -> {
-                Tile tile = getTileValue(tileObject);
-                if (tile == null) return;
-                double distance = centerPosition.distanceTo(tile);
-                int duration = (int) (150 + distance);
-                if (getTargetValue(playerObject) == null) return;
-                if (count.get() <= 0 || this.dead()) {
-                    tick.stop();
-                    return;
-                }
-                this.webTileSet.add(getTargetValue(playerObject).tile());
-                this.webTileSet.add(World.getWorld().randomTileAround(getTargetValue(playerObject).tile(), 2));
-                for (Tile t : webTileSet) {
-                    if (t == null) continue;
-                    Projectile projectile = new Projectile(centerPosition, t, 1601, 0, duration, 87, 0, 15, this.getSize(), 0, 1);
-                    projectile.send(centerPosition, t);
-                }
-            });
             Chain.noCtx().repeatingTask(2, projectiles -> {
+                this.webTileSet.clear();
                 count.getAndDecrement();
                 this.face(null);
                 Player target = getTargetValue(playerObject);
@@ -622,10 +606,11 @@ public class Verzik extends NPC {
                 tileObject.setValue(copy);
                 Tile tile = getTileValue(tileObject);
                 if (tile == null) return;
-                Tile randomTile = World.getWorld().randomTileAround(tile, 1);
                 double distance = centerPosition.distanceTo(tile);
                 int duration = (int) (150 + distance);
-                if (count.get() <= 0 || this.dead()) {
+                List<GameObject> temp = new ArrayList<>(this.webObjects);
+                if (count.get() <= 0 || this.dead() || !this.isRegistered()) {
+                    count.getAndSet(0);
                     this.webshot = false;
                     this.spewingWebs = false;
                     this.removeClippedTiles();
@@ -637,32 +622,32 @@ public class Verzik extends NPC {
                     return;
                 }
                 this.webTileSet.add(copy);
-                this.webTileSet.add(randomTile);
-                for (GameObject object : this.webObjects) {
+                for (int index = 0; index < World.getWorld().random(1, 3); index++) {
+                    Tile randomTile = World.getWorld().randomTileAround(tile, 2);
+                    if (randomTile == null) continue;
+                    this.webTileSet.add(randomTile);
+                }
+                Projectile projectile = new Projectile(centerPosition, copy, 1601, 0, duration, 87, 0, 15, this.getSize(), 0, 0);
+                for (GameObject object : temp) {
                     if (object == null) continue;
                     if (!object.tile().allowObjectPlacement()) continue;
                     object.spawn();
                 }
-                Projectile projectile = null;
                 for (Tile t : this.webTileSet) {
                     if (t == null) continue;
                     GameObject web = new GameObject(32734, t);
                     if (!web.tile().allowObjectPlacement()) continue;
                     this.addWebs(web);
-                    projectile = new Projectile(centerPosition, t, 1601, 0, duration, 87, 0, 15, this.getSize(), 0, 1);
                     projectile.send(centerPosition, t);
                 }
-                if (projectile != null) {
-                    Projectile finalProjectile = projectile;
-                    Chain.noCtx().runFn((int) (finalProjectile.getSpeed() / 30D), () -> {
-                        for (Player player : this.theatreInstance.getPlayers()) {
-                            if (player.tile().equals(finalProjectile.getEnd())) {
-                                //Todo damage
-                            }
-                        }
-                    });
-                }
                 this.webTileSet.clear();
+                Chain.noCtx().runFn((int) (projectile.getSpeed() / 30D), () -> {
+                    for (Player player : this.theatreInstance.getPlayers()) {
+                        if (player.tile().equals(projectile.getEnd())) {
+                            //Todo damage
+                        }
+                    }
+                });
             });
         }));
     }

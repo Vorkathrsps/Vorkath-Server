@@ -27,7 +27,7 @@ public class PillarNpc extends NPC {
     }
 
     @Override
-    public void postCombatProcess() {
+    public void combatSequence() {
         var healthAmount = this.hp() * 1.0 / (this.maxHp() * 1.0);
         if (healthAmount <= 0.50D && healthAmount > 0 && !transformed) {
             this.transformed = true;

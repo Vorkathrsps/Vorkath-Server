@@ -51,7 +51,6 @@ public class Bloat extends NPC {
     BooleanSupplier isDead = this::dead;
     List<Tile> graphicTiles = new ArrayList<>();
     List<Player> players = new ArrayList<>();
-
     TheatreInstance theatreInstance;
 
     private static final Tile[] WALK_TILES = {
@@ -170,7 +169,7 @@ public class Bloat extends NPC {
 
 
     @Override
-    public void postCombatProcess() {
+    public void combatSequence() {
         for (Player player : this.theatreInstance.getPlayers()) {
             if (player == null) continue;
             if (!players.contains(player) && player.tile().withinArea(BLOAT_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()))) {

@@ -11,6 +11,7 @@ import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Area;
+import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.Utils;
 
 import java.util.Arrays;
@@ -67,21 +68,23 @@ public class VasiliasCombat extends CommonCombatMethod {
                     Arrays.stream(mob.closePlayers(9)).forEach(p -> {
                         int animationId = form == null ? combatInfo.animations.attack : form.getAttackAnims()[0];
                         mob.animate(animationId);
-                        int delay = MAGIC_PROJECTILE.send(mob, player);
-                        Hit hit = p.hit(mob, World.getWorld().random(combatInfo.maxhit), CombatType.MAGIC).clientDelay(delay).checkAccuracy(true);
+                        double distance = entity.tile().distanceTo(p.tile());
+                        int duration = (int) (25 + 20 + distance);
+                        Tile nyloTile = entity.tile().center(entity.getSize());
+                        Projectile projectile = new Projectile(nyloTile, p, 1610, 25, duration, 12, 16, 24, entity.getSize(), 48, 0);
+                        projectile.send(entity, p);
+                        int delay = (int) (projectile.getSpeed() / 20D);
+                        Hit hit = p.hit(mob, World.getWorld().random(0, 70), CombatType.MAGIC).clientDelay(delay).checkAccuracy(true);
                         hit.submit();
                     });
                 }
             }
             case MELEE -> {
-                if (player.isPlayer()) { // wheres the new what? instance?n npc
-                    if (!withinDistance(2)) {
-                        follow(2);
-                        return false;
-                    }
+                if (player.isPlayer()) {
+                    if (!withinDistance(1)) return false;
                     int animationId = form == null ? combatInfo.animations.attack : form.getAttackAnims()[0];
                     mob.animate(animationId);
-                    Hit hit = player.hit(mob, World.getWorld().random(combatInfo.maxhit), 2, CombatType.MELEE).checkAccuracy(true);
+                    Hit hit = player.hit(mob, World.getWorld().random(0, 70), 2, CombatType.MELEE).checkAccuracy(true);
                     hit.submit();
                 }
             }
@@ -90,8 +93,13 @@ public class VasiliasCombat extends CommonCombatMethod {
                     Arrays.stream(mob.closePlayers(9)).forEach(p -> {
                         int animationId = form == null ? combatInfo.animations.attack : form.getAttackAnims()[0];
                         mob.animate(animationId);
-                        int delay = RANGED_PROJECTILE.send(mob, player);
-                        Hit hit = p.hit(mob, World.getWorld().random(combatInfo.maxhit), CombatType.RANGED).clientDelay(delay).checkAccuracy(true);
+                        double distance = entity.tile().distanceTo(p.tile());
+                        int duration = (int) (39 + 20 + distance);
+                        Tile nyloTile = entity.tile().center(entity.getSize());
+                        Projectile projectile = new Projectile(nyloTile, p, 1561, 39, duration, 8, 16, 16, entity.getSize(), 48, 0);
+                        projectile.send(entity, p);
+                        int delay = (int) (projectile.getSpeed() / 20D);
+                        Hit hit = p.hit(mob, World.getWorld().random(0, 70), CombatType.RANGED).clientDelay(delay).checkAccuracy(true);
                         hit.submit();
                     });
                 }

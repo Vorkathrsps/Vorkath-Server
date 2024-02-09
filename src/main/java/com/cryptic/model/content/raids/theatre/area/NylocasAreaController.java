@@ -15,6 +15,7 @@ import com.cryptic.utility.chainedwork.Chain;
 import org.apache.commons.compress.utils.Lists;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;

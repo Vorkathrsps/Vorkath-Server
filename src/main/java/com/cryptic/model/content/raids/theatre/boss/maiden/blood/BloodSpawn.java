@@ -73,7 +73,7 @@ public class BloodSpawn extends NPC {
     }
 
     @Override
-    public void postCombatProcess() {
+    public void combatSequence() {
         if (this.maiden.dead()) {
             for (var o : this.theatreInstance.bloodObjectList) {
                 if (o == null) continue;

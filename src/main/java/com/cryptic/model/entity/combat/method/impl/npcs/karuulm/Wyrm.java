@@ -19,7 +19,7 @@ public class Wyrm extends NPC {
     }
 
     @Override
-    public void postCombatProcess() {
+    public void combatSequence() {
 
         var target = getCombat().getTarget();
         if (id() == ACTIVE && !getTimers().has(TimerKey.COMBAT_LOGOUT) && target == null) {

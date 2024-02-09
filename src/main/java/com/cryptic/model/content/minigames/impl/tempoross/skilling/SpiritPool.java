@@ -14,7 +14,7 @@ public class SpiritPool extends NPC {
         this.getCombat().setAutoRetaliate(false);
     }
     @Override
-    public void postCombatProcess() {
+    public void combatSequence() {
         if (!Tempoross.isActivatePools()) {
             this.die();
         }

@@ -1,6 +1,7 @@
 package com.cryptic.cache.definitions;
 
 import com.cryptic.network.codec.RSBuffer;
+import com.google.common.collect.Maps;
 import io.netty.buffer.Unpooled;
 import lombok.Getter;
 

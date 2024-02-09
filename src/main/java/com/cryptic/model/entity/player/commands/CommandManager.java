@@ -1,5 +1,6 @@
 package com.cryptic.model.entity.player.commands;
 
+import com.cryptic.cache.definitions.AnimationDefinition;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
@@ -9,6 +10,8 @@ import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.instance.InstancedAreaManager;
 import com.cryptic.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
+import com.cryptic.model.content.raids.theatre.boss.verzik.Verzik;
+import com.cryptic.model.content.raids.theatre.boss.verzik.handler.VerzikHandler;
 import com.cryptic.model.content.raids.theatre.boss.verzik.tornado.Tornado;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.Xarpus;
 import com.cryptic.model.content.raids.theatre.interactions.TheatreInterface;
@@ -26,6 +29,7 @@ import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.Projectile;
+import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.NpcDropRepository;
@@ -56,6 +60,7 @@ import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.region.RegionManager;
+import com.cryptic.model.map.route.ClipUtils;
 import com.cryptic.utility.*;
 import com.cryptic.utility.chainedwork.Chain;
 import lombok.extern.slf4j.Slf4j;
@@ -652,6 +657,17 @@ public class CommandManager {
         dev("c", (p, c, s) -> {
             p.getPacketSender().sendInterface(81375);
             p.getPacketSender().sendParallelInterfaceVisibility(81250, true);
+        });
+
+        dev("cl", (p, c, s) -> {
+            var theatre = new TheatreInstance(p, new ArrayList<>());
+            p.teleport(new Tile(3162, 4307, theatre.getzLevel()));
+            p.setInstancedArea(theatre);
+            p.setTheatreInstance(theatre);
+            theatre.getPlayers().add(p);
+            Verzik verzik = new Verzik(NpcIdentifiers.VERZIK_VITUR_8369, new Tile(3166, 4323, theatre.getzLevel()), theatre);
+            verzik.setInstancedArea(p.getTheatreInstance());
+            verzik.spawn(false);
         });
 
         dev("b", (p, c, s) -> {

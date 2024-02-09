@@ -362,7 +362,7 @@ public class Nex extends NPC {
     }
 
     @Override
-    public void postCombatProcess() {
+    public void combatSequence() {
         Entity target = Utils.randomElement(this.getPossibleTargets(this));
         if (target == null) return;
         if (!inNexArea(target.tile())) return;

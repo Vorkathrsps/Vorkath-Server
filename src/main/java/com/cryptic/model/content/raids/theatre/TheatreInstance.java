@@ -1,5 +1,6 @@
 package com.cryptic.model.content.raids.theatre;
 
+import com.cryptic.model.World;
 import com.cryptic.model.content.instance.InstanceConfiguration;
 import com.cryptic.model.content.instance.InstancedArea;
 import com.cryptic.model.content.raids.theatre.boss.bloat.handler.BloatHandler;
@@ -19,6 +20,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.container.ItemContainer;
 import com.cryptic.model.map.object.GameObject;
+import com.cryptic.model.map.object.ObjectManager;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.utility.ItemIdentifiers;
@@ -188,7 +190,9 @@ public class TheatreInstance extends InstancedArea {
         this.bosses.clear();
         this.players.clear();
         this.setHasInitiatedNylocasVasilias(false);
-        this.throne.getValue().remove();
+        if (this.throne.getValue() != null) {
+            ObjectManager.removeObj(this.throne.getValue());
+        }
     }
 
     public void spawnTreasure() {

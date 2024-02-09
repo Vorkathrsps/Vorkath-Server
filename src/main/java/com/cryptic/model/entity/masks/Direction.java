@@ -262,6 +262,22 @@ public enum Direction {
         return null;
     }
 
+
+    public static Direction getLiteralDirection(Tile src, Tile dest) {
+        int deltaX = dest.getX() - src.getX();
+        int deltaY = dest.getY() - src.getY();
+        return getLiteralDirection(deltaX, deltaY);
+    }
+
+    public static Direction getLiteralDirection(int deltaX, int deltaY) {
+        if (deltaX != 0 && Math.abs(deltaX) >= Math.abs(deltaY)) {
+            return deltaX > 0 ? Direction.EAST : Direction.WEST;
+        } else if (deltaY != 0 && Math.abs(deltaY) >= Math.abs(deltaX)) {
+            return deltaY > 0 ? Direction.NORTH : Direction.SOUTH;
+        }
+        return null; // Handle case when deltaX and deltaY are both 0 or when they are both non-zero but equal.
+    }
+
     /**
      * Gets the closest direction for two offsets without bias towards diagonal or orthogonal
      */

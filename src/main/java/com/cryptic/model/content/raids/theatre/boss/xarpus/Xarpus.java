@@ -139,7 +139,7 @@ public class Xarpus extends NPC {
     }
 
     @Override
-    public void postCombatProcess() {
+    public void combatSequence() {
         var owner = theatreInstance.getOwner();
         if (owner == null) owner = this.theatreInstance.getRandomTarget();
         if (!players.contains(owner) && owner.tile().withinArea(XARPUS_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()))) {

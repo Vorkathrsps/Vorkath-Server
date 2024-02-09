@@ -135,7 +135,7 @@ public class Nex extends NPC {
     }
 
     @Override
-    public void postCombatProcess() {
+    public void combatSequence() {
         if (phase.getStage() == PhaseStage.FIVE) {
             if (World.getWorld().getTickCount() % 41 == 0) {
                 if (soulsplit) {

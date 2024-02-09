@@ -169,7 +169,7 @@ public class Bloat extends NPC {
 
 
     @Override
-    public void postCombatProcess() {
+    public void combatSequence() {
         for (Player player : this.theatreInstance.getPlayers()) {
             if (player == null) continue;
             if (!players.contains(player) && player.tile().withinArea(BLOAT_AREA.transformArea(0, 0, 0, 0, theatreInstance.getzLevel()))) {

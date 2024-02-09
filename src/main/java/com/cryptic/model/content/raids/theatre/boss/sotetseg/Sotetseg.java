@@ -19,11 +19,8 @@ import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 import com.cryptic.utility.timers.TimerKey;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public class Sotetseg extends NPC {
     private final List<Player> players = new ArrayList<>();
@@ -81,18 +78,37 @@ public class Sotetseg extends NPC {
     public void sendSpecialMagicAttack() {
         magicAttackCount = 0;
         this.animate(8139);
-        for (Player player : this.theatreInstance.getPlayers()) {
-            if (player == null) continue;
-            if (!ProjectileRoute.hasLineOfSight(this, player.tile())) continue;
-            int tileDist = this.tile().distance(player.tile());
-            int duration = (23 + 64 + (10 * tileDist));
-            Projectile p = new Projectile(this, player, 1604, 23, duration, 26, 31, 40, 5, 64, 10);
-            final int delay = this.executeProjectile(p);
-            Hit hit = Hit.builder(this, player, CombatFactory.calcDamageFromType(this, player, CombatType.MAGIC), delay, CombatType.MAGIC).setAccurate(true);
-            hit.setDamage(121);
-            hit.submit();
-            this.graphic(101, GraphicHeight.MIDDLE, p.getSpeed());
-        }
+        Player player = this.theatreInstance.getRandomTarget();
+        this.face(player);
+        int tileDist = this.tile().distance(player.tile());
+        int duration = (23 + 64 + (10 * tileDist));
+        Projectile p = new Projectile(this, player, 1604, 23, duration, 26, 31, 40, 5, 64, 10);
+        final int delay = this.executeProjectile(p);
+        Hit hit = Hit.builder(this, player, CombatFactory.calcDamageFromType(this, player, CombatType.MAGIC), delay, CombatType.MAGIC).setAccurate(true);
+        hit.setDamage(121);
+        hit.submit().postDamage(d -> {
+            int damage = d.getDamage();
+            List<Player> temp = new ArrayList<>();
+            for (Player surrounding : this.theatreInstance.getPlayers()) {
+                if (surrounding == null) continue;
+                if (surrounding == player) continue;
+                if (surrounding.tile().inSqRadius(player.tile(), 1)) {
+                    temp.add(surrounding);
+                }
+            }
+
+            if (temp.isEmpty()) return;
+            double deduction = temp.size();
+            deduction *= 0.10D;
+            deduction = damage * deduction;
+            int finalDamage = (int) Math.floor(deduction);
+            d.setDamage(finalDamage);
+            for (Player t : temp) {
+                if (t == null) continue;
+                t.hit(this, finalDamage, 0);
+            }
+        });
+        this.graphic(101, GraphicHeight.MIDDLE, p.getSpeed());
     }
 
     public void sendMeleeAttack() {
@@ -103,8 +119,8 @@ public class Sotetseg extends NPC {
     }
 
     @Override
-    public void postCombatProcess() {
-        super.postCombatProcess();
+    public void combatSequence() {
+        super.combatSequence();
 
         if (this.dead()) {
             return;
@@ -116,11 +132,11 @@ public class Sotetseg extends NPC {
             return;
         }
 
+        intervalCount++;
+        attackInterval--;
         for (Player player : this.theatreInstance.getPlayers()) {
             if (player == null) continue;
             if (insideBounds() && !player.dead()) {
-                intervalCount++;
-                attackInterval--;
                 if (intervalCount >= 5 && attackInterval <= 0 && !this.dead()) {
 
                     if (magicAttackCount == 10) {

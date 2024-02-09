@@ -141,6 +141,15 @@ public final class Projectile {
             startHeight, endHeight, curve, creatorSize, startDistanceOffset, stepMultiplier);
     }
 
+    public Projectile(Tile source, Entity victim, int projectileId,
+                      int delay, int speed, int startHeight, int endHeight, int curve, int creatorSize, int startDistanceOffset, int stepMultiplier) {
+        this(source,
+            victim.getCentrePosition(),
+            victim.getProjectileLockonIndex(),
+            projectileId, speed, delay,
+            startHeight, endHeight, curve, creatorSize, startDistanceOffset, stepMultiplier);
+    }
+
     public Projectile(Tile source, Tile victim, int projectileId,
                       int delay, int speed, int startHeight, int endHeight, int curve, int creatorSize, int startDistanceOffset, int stepMultiplier) {
         this(source,

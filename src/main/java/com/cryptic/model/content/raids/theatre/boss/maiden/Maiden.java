@@ -129,7 +129,7 @@ public class Maiden extends NPC {
     }
 
     @Override
-    public void postCombatProcess() {
+    public void combatSequence() {
         if (this.dead()) {
             return;
         }

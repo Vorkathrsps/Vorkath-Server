@@ -540,8 +540,12 @@ public class NPC extends Entity {
     /**
      * override me
      */
-    public void postCombatProcess() {
+    public void combatSequence() {
 
+    }
+
+    public boolean beforeAttack() {
+        return false;
     }
 
     /**

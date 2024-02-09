@@ -15,6 +15,7 @@ import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.masks.ForceMovement;
 import com.cryptic.model.entity.masks.Projectile;
+import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.EquipSlot;
@@ -23,6 +24,7 @@ import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.object.MapObjects;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.RegionManager;
+import com.cryptic.model.map.route.ClipUtils;
 import com.cryptic.model.map.route.RouteMisc;
 import com.cryptic.model.map.route.routes.DumbRoute;
 import com.cryptic.model.map.route.routes.ProjectileRoute;
@@ -36,9 +38,8 @@ import org.apache.commons.lang3.mutable.MutableObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.TREASURE_ROOM;
@@ -92,6 +93,9 @@ public class Verzik extends NPC {
     @Getter
     @Setter
     boolean adjustAttackSpeed = false;
+    boolean webshot = false;
+    boolean spewingWebs = false;
+    Set<Tile> webTileSet = new HashSet<>();
 
     public Verzik(int id, Tile tile, TheatreInstance theatreInstance) {
         super(id, tile);
@@ -424,14 +428,6 @@ public class Verzik extends NPC {
         }
     }
 
-    private void sendWebs() { //projectile 1601
-        if (!this.tile.equals(destination.getX(), destination.getY())) {
-            this.setPhase(VerzikPhase.TRANSITIONING);
-            this.setPathing(true);
-        }
-        this.animate(8127);
-    }
-
     private void sendChargedShot() {
         this.animate(8126);
         this.lockMovement();
@@ -444,7 +440,7 @@ public class Verzik extends NPC {
             Projectile projectile = new Projectile(this, p, 1596, 261, duration, 250, 30, 50, this.getSize(), 0, 0);
             int delay = this.executeProjectile(projectile);
             Chain.noCtx().runFn((int) (projectile.getSpeed() / 30D + 1), () -> {
-                if (!p.tile().equals(randomTile.getValue())) {
+                if (!p.tile().equals(getTileValue(randomTile))) {
                     int damage = Utils.random(1, 80);
                     Hit hit = Hit.builder(this, p, damage, delay, CombatType.MAGIC).setAccurate(true);
                     hit.submit();
@@ -463,8 +459,8 @@ public class Verzik extends NPC {
         for (int index = 0; index < this.theatreInstance.getPlayers().size(); index++) {
             Tile randomTileAround = World.getWorld().randomTileAround(this.tile, 10);
             randomTile.setValue(randomTileAround);
-            if (RegionManager.blocked(randomTile.getValue())) continue;
-            World.getWorld().tileGraphic(1595, randomTile.getValue(), 0, 0);
+            if (RegionManager.blocked(getTileValue(randomTile))) continue;
+            World.getWorld().tileGraphic(1595, getTileValue(randomTile), 0, 0);
         }
     }
 
@@ -491,6 +487,8 @@ public class Verzik extends NPC {
                 }
                 case THREE -> {
                     if (this.isSendingChargedShot()) return;
+                    if (this.spewingWebs) return;
+                    this.sendWebShot();
                     sequenceThirdPhase();
                 }
             }
@@ -501,7 +499,7 @@ public class Verzik extends NPC {
         return this.phase == VerzikPhase.ONE ? 12 : this.phase == VerzikPhase.TWO ? 4 : this.phase == VerzikPhase.THREE && !this.isAdjustAttackSpeed() ? 7 : 5;
     }
 
-    private void sequenceThirdPhase() { //TODO charged shot
+    private void sequenceThirdPhase() {
         meleeAttackCount++;
         if (meleeAttackCount >= 4) {
             meleeAttackCount = 0;
@@ -540,8 +538,175 @@ public class Verzik extends NPC {
         return target;
     }
 
+    Set<Tile> clippedTiles = new HashSet<>();
+    Set<GameObject> webObjects = new HashSet<>();
+
+    public void setClippedTiles() {
+        this.getCentrePosition().area(3).forEachPos(t -> {
+            ClipUtils.addClipping(t.getX(), t.getY(), t.getZ(), 1, 1, true, false);
+            this.clippedTiles.add(t);
+        });
+    }
+
+    public void removeClippedTiles() {
+        for (Tile tile : this.clippedTiles) {
+            if (tile == null) continue;
+            ClipUtils.removeClipping(tile.getX(), tile.getY(), tile.getZ(), 1, 1, true, false);
+        }
+        this.clippedTiles.clear();
+    }
+
+    public void addWebs(GameObject object) {
+        if (object == null) return;
+        webObjects.add(object);
+    }
+
+    public void removeWebs() {
+        for (GameObject web : this.webObjects) {
+            if (web == null) continue;
+            web.remove();
+        }
+        this.webObjects.clear();
+    }
+
+    private void sendWebShot() {
+        this.animateAndTransmog(-1, 8373);
+        this.setPhase(VerzikPhase.TRANSITIONING);
+        this.webshot = true;
+        this.waitForTile(destination.transform(-1, -2), () -> Chain.noCtx().runFn(2, () -> {
+            this.face(null);
+            this.setPhase(VerzikPhase.THREE);
+            this.animateAndTransmog(-1, 8374);
+            this.setClippedTiles();
+            this.animate(8127);
+            this.lockMoveDamageOk();
+            this.spewingWebs = true;
+            Tile centerPosition = this.tile.center(7);
+            AtomicInteger count = new AtomicInteger(15);
+            MutableObject<Player> playerObject = new MutableObject<>();
+            MutableObject<Tile> tileObject = new MutableObject<>();
+            Player randomTarget = this.theatreInstance.getRandomTarget();
+            Chain.noCtx().repeatingTask(3, targeting -> {
+                playerObject.setValue(randomTarget);
+                Direction direction = Direction.getDirection(this.getCentrePosition(), getTargetValue(playerObject).getCentrePosition());
+                if (direction == null) return;
+                this.setPositionToFace(getTargetValue(playerObject).tile().transform(direction.x, direction.y));
+                if (count.get() <= 0 || this.dead()) {
+                    targeting.stop();
+                }
+            });
+            Chain.noCtx().repeatingTask(2, tick -> {
+                Tile tile = getTileValue(tileObject);
+                if (tile == null) return;
+                double distance = centerPosition.distanceTo(tile);
+                int duration = (int) (150 + distance);
+                if (getTargetValue(playerObject) == null) return;
+                if (count.get() <= 0 || this.dead()) {
+                    tick.stop();
+                    return;
+                }
+                this.webTileSet.add(getTargetValue(playerObject).tile());
+                this.webTileSet.add(World.getWorld().randomTileAround(getTargetValue(playerObject).tile(), 2));
+                for (Tile t : webTileSet) {
+                    if (t == null) continue;
+                    Projectile projectile = new Projectile(centerPosition, t, 1601, 0, duration, 87, 0, 15, this.getSize(), 0, 1);
+                    projectile.send(centerPosition, t);
+                }
+            });
+            Chain.noCtx().repeatingTask(2, projectiles -> {
+                count.getAndDecrement();
+                this.face(null);
+                Player target = getTargetValue(playerObject);
+                if (target == null) return;
+                Tile copy = target.tile().copy();
+                tileObject.setValue(copy);
+                Tile tile = getTileValue(tileObject);
+                if (tile == null) return;
+                Tile randomTile = World.getWorld().randomTileAround(tile, 1);
+                double distance = centerPosition.distanceTo(tile);
+                int duration = (int) (150 + distance);
+                if (count.get() <= 0 || this.dead()) {
+                    this.webshot = false;
+                    this.spewingWebs = false;
+                    this.removeClippedTiles();
+                    this.removeWebs();
+                    this.unlock();
+                    this.animate(Animation.DEFAULT_RESET_ANIMATION);
+                    this.webTileSet.clear();
+                    projectiles.stop();
+                    return;
+                }
+                this.webTileSet.add(copy);
+                this.webTileSet.add(randomTile);
+                for (GameObject object : this.webObjects) {
+                    if (object == null) continue;
+                    if (!object.tile().allowObjectPlacement()) continue;
+                    object.spawn();
+                }
+                Projectile projectile = null;
+                for (Tile t : this.webTileSet) {
+                    if (t == null) continue;
+                    GameObject web = new GameObject(32734, t);
+                    if (!web.tile().allowObjectPlacement()) continue;
+                    this.addWebs(web);
+                    projectile = new Projectile(centerPosition, t, 1601, 0, duration, 87, 0, 15, this.getSize(), 0, 1);
+                    projectile.send(centerPosition, t);
+                }
+                if (projectile != null) {
+                    Projectile finalProjectile = projectile;
+                    Chain.noCtx().runFn((int) (finalProjectile.getSpeed() / 30D), () -> {
+                        for (Player player : this.theatreInstance.getPlayers()) {
+                            if (player.tile().equals(finalProjectile.getEnd())) {
+                                //Todo damage
+                            }
+                        }
+                    });
+                }
+                this.webTileSet.clear();
+            });
+        }));
+    }
+
+    private static Tile getTileValue(MutableObject<Tile> clonedTile) {
+        return clonedTile.getValue();
+    }
+
+    private static Player getTargetValue(MutableObject<Player> target) {
+        return target.getValue();
+    }
+
+    public void interpolateSteps() {
+        this.face(null);
+        if (!this.isPathing()) this.setPathing(true);
+        for (int index = 0; index < 2; index++) {
+            Tile currentTile = this.tile;
+            Tile dst = destination.transform(-1, -2);
+            int deltaX = dst.getX() - currentTile.getX();
+            int deltaY = dst.getY() - currentTile.getY();
+            int nextStepDeltaX = Integer.compare(deltaX, 0);
+            int nextStepDeltaY = Integer.compare(deltaY, 0);
+            int nextX = currentTile.getX() + nextStepDeltaX;
+            int nextY = currentTile.getY() + nextStepDeltaY;
+            this.queueTeleportJump(new Tile(nextX, nextY, this.theatreInstance.getzLevel()));
+            if (nextStepDeltaX == 0 && nextStepDeltaY == 0) {
+                this.setPathing(false);
+            }
+        }
+    }
+
+
     @Override
-    public void postCombatProcess() {
+    public boolean beforeAttack() {
+        if (this.transitionWebShot() || this.spewingWebs) {
+            this.intervalCount = 0;
+            this.intervals = value;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void combatSequence() {
         if (this.id() == VERZIK_VITUR_8369) return;
         if (transitionBetweenPhase()) return;
         if (this.getTimers().left(TimerKey.COMBAT_ATTACK) != 0) {
@@ -652,7 +817,7 @@ public class Verzik extends NPC {
     private void checkForceMovement(GameObject o) {
         for (Player player : this.theatreInstance.getPlayers()) {
             if (player == null) continue;
-            if (player.tile().isWithinDistance(this.tile, 1) ||  o.tile().isWithinDistance(player.tile(), 1)) {
+            if (player.tile().isWithinDistance(this.tile, 1) || o.tile().isWithinDistance(player.tile(), 1)) {
                 this.forceMove(player);
             }
         }
@@ -853,6 +1018,18 @@ public class Verzik extends NPC {
     private boolean isInMeleeRange(Player player) {
         if (RouteMisc.getEffectiveDistance(player, this) <= 1) {
             sendKnockBack(player);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean transitionWebShot() {
+        if (this.id() == VERZIK_VITUR_8373 && this.webshot && this.phase.equals(VerzikPhase.TRANSITIONING)) {
+            this.walkCount++;
+            if (this.getWalkCount() >= 1) {
+                this.setWalkCount(0);
+                interpolateSteps();
+            }
             return true;
         }
         return false;

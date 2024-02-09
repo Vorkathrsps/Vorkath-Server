@@ -81,7 +81,7 @@ public class NylocasMinions extends NPC {
         return npcs[finalInterpolatedTransmog];
     }
     @Override
-    public void postCombatProcess() {
+    public void combatSequence() {
         if (getTimer() > 0) {
             timer--;
 

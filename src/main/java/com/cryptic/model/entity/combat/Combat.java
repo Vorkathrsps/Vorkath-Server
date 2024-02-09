@@ -254,7 +254,7 @@ public class Combat {
         hitQueue.process(mob);
         performNewAttack();
         if (mob instanceof NPC npc) {
-            npc.postCombatProcess();
+            npc.combatSequence();
         }
 
         if (mob.isPlayer() && target == null) {
@@ -272,6 +272,7 @@ public class Combat {
         if (mob.isPlayer() && mob.getRouteFinder() != null && mob.getRouteFinder().targetRoute != null && !mob.getRouteFinder().targetRoute.withinDistance) {
             return false;
         }
+        if (mob instanceof NPC npc && npc.beforeAttack()) return false;
         /**
          * Pre-Combat Checks
          */
@@ -286,6 +287,7 @@ public class Combat {
         /**
          * Can WE attack with our current?
          */
+
         if (mob.isPlayer()) {
             if (method instanceof CommonCombatMethod commonCombatMethod) {
                 if (!commonCombatMethod.canAttackStyle(mob, target, commonCombatMethod.styleOf())) {
@@ -293,15 +295,7 @@ public class Combat {
                 }
             }
         }
-        /**
-         * Set the facing position
-         */
-        if (mob.getInteractingEntity() != target && !mob.isNpc(6611)) {
-//            if (mob.npc().hasAttrib(AttributeKey.RETREATING) && !mob.npc().getCombat().inCombat()) {
-//                return false;
-//            }
-            mob.setEntityInteraction(target);
-        }
+        if (mob.getInteractingEntity() != target && !mob.isNpc(6611)) mob.setEntityInteraction(target);
         return true;
     }
 

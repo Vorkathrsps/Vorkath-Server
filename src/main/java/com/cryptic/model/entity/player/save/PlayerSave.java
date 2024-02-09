@@ -47,9 +47,11 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.model.inter.lootkeys.LootKey.LOOT_KEY_CONTAINER_SIZE;
@@ -819,6 +821,7 @@ public class PlayerSave {
             }
             player.putAttrib(DAILY_TASKS_LIST, details.dailyTasksList == null ? new ArrayList<DailyTasks>() : details.dailyTasksList);
             player.putAttrib(DAILY_TASKS_EXTENSION_LIST, details.dailyTasksExtensions == null ? new HashMap<DailyTasks, Integer>() : details.dailyTasksExtensions);
+            ARGS_DESERIALIZER.accept(player, details.allAttribs);
         }
 
         //Account
@@ -1423,6 +1426,8 @@ public class PlayerSave {
         private final ArrayList<DailyTasks> dailyTasksList;
 
         private final Map<DailyTasks, Integer> dailyTasksExtensions;
+        @Expose
+        private final Map<String, String> allAttribs;
 
         public String password() {
             return password;
@@ -1996,6 +2001,7 @@ public class PlayerSave {
             };
             dailyTasksList = player.getOrT(AttributeKey.DAILY_TASKS_LIST, new ArrayList<>());
             dailyTasksExtensions = player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<>());
+            allAttribs = ARGS_SERIALIZER.apply(player);
         }
 
         public void parseDetails() {
@@ -2032,5 +2038,12 @@ public class PlayerSave {
         }
 
         public static final Path SAVE_DIR = Path.of("data", "saves", "characters");
+
+    public static BiConsumer<Player, Map<String,String>> ARGS_DESERIALIZER = (p, m) -> {
+
+    };
+    public static Function<Player, Map<String,String>> ARGS_SERIALIZER = m -> {
+        return null;
+    };
 
     }

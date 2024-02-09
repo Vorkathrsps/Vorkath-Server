@@ -16,9 +16,7 @@ import static com.cryptic.model.content.collection_logs.CollectionLogUtility.*;
  * @Since juli 15, 2020
  */
 public class CollectionLog {
-
     public static final int RAIDS_KEY = 100_000;
-
     private final Player player;
 
     public CollectionLog(Player player) {

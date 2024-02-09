@@ -51,7 +51,6 @@ public class Bloat extends NPC {
     BooleanSupplier isDead = this::dead;
     List<Tile> graphicTiles = new ArrayList<>();
     List<Player> players = new ArrayList<>();
-
     TheatreInstance theatreInstance;
 
     private static final Tile[] WALK_TILES = {

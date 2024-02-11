@@ -13,24 +13,6 @@ alwaysDrops:
   rareDrop: false
   sendToBank: false
 drops:
-- item: FREMENNIK_GLOVES
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 28
-  rareDrop: false
-  sendToBank: false
-- item: FREMENNIK_BROWN_SHIRT
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 28
-  rareDrop: false
-  sendToBank: false
-- item: FREMENNIK_BROWN_CLOAK
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 28
-  rareDrop: false
-  sendToBank: false
 - item: STEEL_AXE
   minimumAmount: 1
   maximumAmount: 1
@@ -295,39 +277,9 @@ drops:
   chance: 18
   rareDrop: false
   sendToBank: false
-- item: OYSTER_PEARL
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 18
-  rareDrop: false
-  sendToBank: false
-- item: FLATTENED_HIDE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 180
-  rareDrop: false
-  sendToBank: false
-- item: STRETCHED_HIDE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 180
-  rareDrop: false
-  sendToBank: false
-- item: CIRCULAR_HIDE
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 180
-  rareDrop: false
-  sendToBank: false
-- item: KEG_OF_BEER_3801
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 180
-  rareDrop: false
-  sendToBank: false
 - item: ENSOULED_DAGANNOTH_HEAD_13493
   minimumAmount: 1
   maximumAmount: 1
-  chance: 180
+  chance: 90
   rareDrop: false
   sendToBank: false

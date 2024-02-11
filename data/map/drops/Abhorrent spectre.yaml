@@ -1,19 +1,5 @@
 npcId:
-- 7388
-- 7389
-- 7392
-- 7394
-- 7397
-- 7399
-- 7401
 - 7402
-- 7404
-- 7406
-- 7407
-- 7408
-- 7409
-- 7410
-- 7411
 petItem: "null"
 petRarity: 0
 alwaysDrops:
@@ -70,5 +56,5 @@ drops:
   minimumAmount: 1
   maximumAmount: 1
   chance: 128
-  rareDrop: false
+  rareDrop: true
   sendToBank: false

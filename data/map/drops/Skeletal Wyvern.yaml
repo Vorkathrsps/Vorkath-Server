@@ -154,25 +154,25 @@ drops:
 - item: GRIMY_GUAM_LEAF
   minimumAmount: 1
   maximumAmount: 3
-  chance: 38
+  chance: 16
   rareDrop: false
   sendToBank: false
 - item: GRIMY_MARRENTILL
   minimumAmount: 1
   maximumAmount: 3
-  chance: 38
+  chance: 16
   rareDrop: false
   sendToBank: false
 - item: GRIMY_TARROMIN
   minimumAmount: 1
   maximumAmount: 3
-  chance: 58
+  chance: 16
   rareDrop: false
   sendToBank: false
 - item: GRIMY_HARRALANDER
   minimumAmount: 1
   maximumAmount: 3
-  chance: 58
+  chance: 35
   rareDrop: false
   sendToBank: false
 - item: GRIMY_RANARR_WEED
@@ -184,37 +184,37 @@ drops:
 - item: GRIMY_IRIT_LEAF
   minimumAmount: 1
   maximumAmount: 3
-  chance: 116
+  chance: 16
   rareDrop: false
   sendToBank: false
 - item: GRIMY_AVANTOE
   minimumAmount: 1
   maximumAmount: 3
-  chance: 116
+  chance: 16
   rareDrop: false
   sendToBank: false
 - item: GRIMY_KWUARM
   minimumAmount: 1
   maximumAmount: 3
-  chance: 116
+  chance: 16
   rareDrop: false
   sendToBank: false
 - item: GRIMY_CADANTINE
   minimumAmount: 1
   maximumAmount: 3
-  chance: 116
+  chance: 16
   rareDrop: false
   sendToBank: false
 - item: GRIMY_LANTADYME
   minimumAmount: 1
   maximumAmount: 3
-  chance: 350
+  chance: 35
   rareDrop: false
   sendToBank: false
 - item: GRIMY_DWARF_WEED
   minimumAmount: 1
   maximumAmount: 3
-  chance: 350
+  chance: 35
   rareDrop: false
   sendToBank: false
 - item: NOTED_MAGIC_LOGS
@@ -281,5 +281,5 @@ drops:
   minimumAmount: 1
   maximumAmount: 1
   chance: 1000
-  rareDrop: false
+  rareDrop: true
   sendToBank: false

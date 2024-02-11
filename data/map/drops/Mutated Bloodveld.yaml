@@ -61,31 +61,31 @@ drops:
 - item: ADAMANT_SCIMITAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 74
+  chance: 37
   rareDrop: false
   sendToBank: false
 - item: BLACK_BOOTS
   minimumAmount: 1
   maximumAmount: 1
-  chance: 74
+  chance: 24
   rareDrop: false
   sendToBank: false
 - item: RUNE_MED_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 74
+  chance: 56
   rareDrop: false
   sendToBank: false
 - item: RUNE_DAGGER
   minimumAmount: 1
   maximumAmount: 1
-  chance: 222
+  chance: 56
   rareDrop: false
   sendToBank: false
 - item: RUNE_BATTLEAXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 222
+  chance: 56
   rareDrop: false
   sendToBank: false
 - item: AIR_RUNE
@@ -152,5 +152,47 @@ drops:
   minimumAmount: 1
   maximumAmount: 1
   chance: 36
+  rareDrop: false
+  sendToBank: false
+- item: BIG_BONES
+  minimumAmount: 5
+  maximumAmount: 5
+  chance: 25
+  rareDrop: false
+  sendToBank: false
+- item: NOTED_GOLD_ORE
+  minimumAmount: 10
+  maximumAmount: 15
+  chance: 10
+  rareDrop: false
+  sendToBank: false
+- item: BLOODBARK_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 200
+  rareDrop: false
+  sendToBank: false
+- item: BLOODBARK_BODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 200
+  rareDrop: false
+  sendToBank: false
+- item: BLOODBARK_LEGS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 200
+  rareDrop: false
+  sendToBank: false
+- item: BLOODBARK_GAUNTLETS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 200
+  rareDrop: false
+  sendToBank: false
+- item: BLOODBARK_BOOTS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 200
   rareDrop: false
   sendToBank: false

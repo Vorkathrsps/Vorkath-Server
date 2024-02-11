@@ -164,6 +164,6 @@ drops:
 - item: DRACONIC_VISAGE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 300
+  chance: 1000
   rareDrop: false
   sendToBank: false

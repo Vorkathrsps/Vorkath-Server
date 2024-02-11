@@ -56,7 +56,7 @@ drops:
   sendToBank: false
 - item: COINS_995
   minimumAmount: 25000
-  maximumAmount: 15000
+  maximumAmount: 30000
   chance: 13
   rareDrop: false
   sendToBank: false

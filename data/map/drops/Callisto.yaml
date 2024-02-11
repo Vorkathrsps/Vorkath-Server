@@ -206,30 +206,30 @@ drops:
 - item: DRAGON_2H_SWORD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 132
+  chance: 100
   rareDrop: false
   sendToBank: false
 - item: DRAGON_PICKAXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 132
+  chance: 100
   rareDrop: false
   sendToBank: false
 - item: TYRANNICAL_RING
   minimumAmount: 1
   maximumAmount: 1
-  chance: 132
+  chance: 100
   rareDrop: false
   sendToBank: false
 - item: CLAWS_OF_CALLISTO
   minimumAmount: 1
   maximumAmount: 1
-  chance: 132
+  chance: 100
   rareDrop: false
   sendToBank: false
 - item: VOIDWAKER_HILT
   minimumAmount: 1
   maximumAmount: 1
-  chance: 173
+  chance: 125
   rareDrop: false
   sendToBank: false

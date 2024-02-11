@@ -161,3 +161,27 @@ drops:
   chance: 12
   rareDrop: false
   sendToBank: false
+- item: DRAGON_BOOTS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 200
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_LIMBS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 250
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_2H_SWORD
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 100
+  rareDrop: false
+  sendToBank: false
+- item: DRAGON_CHAINBODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1000
+  rareDrop: false
+  sendToBank: false

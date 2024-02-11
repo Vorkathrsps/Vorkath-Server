@@ -492,8 +492,7 @@ public class Verzik extends NPC {
                 case THREE -> {
                     if (this.isSendingChargedShot()) return;
                     if (this.spewingWebs) return;
-                    double healthPercentage = (double) hp() / maxHp();
-                    if (World.getWorld().rollDie(30, 1) && healthPercentage >= 30.0D) this.sendWebShot();
+                    if (World.getWorld().rollDie(30, 1)) this.sendWebShot();
                     sequenceThirdPhase();
                 }
             }

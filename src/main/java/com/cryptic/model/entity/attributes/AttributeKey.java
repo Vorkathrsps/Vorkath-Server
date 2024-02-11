@@ -14,6 +14,7 @@ public enum AttributeKey {
     MENACING_CURSE,
 
     SIGIL_OF_THE_FERAL_FIGHTER,
+    STUCK_ON_WEB,
 
     // Holds a list of max 40 items (fully stackable)
     LOOT_KEY_INFO,

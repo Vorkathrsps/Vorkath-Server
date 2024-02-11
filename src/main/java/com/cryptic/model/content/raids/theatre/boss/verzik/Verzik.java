@@ -8,6 +8,7 @@ import com.cryptic.model.content.raids.theatre.boss.verzik.nylocas.NylocasMatome
 import com.cryptic.model.content.raids.theatre.boss.verzik.phase.VerzikPhase;
 import com.cryptic.model.content.raids.theatre.boss.verzik.tornado.Tornado;
 import com.cryptic.model.entity.Entity;
+import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatType;
 import com.cryptic.model.entity.combat.hit.Hit;
@@ -244,9 +245,6 @@ public class Verzik extends NPC {
         for (Player player : this.theatreInstance.getPlayers()) {
             if (player == null) continue;
             if (isInMeleeRange(player)) break;
-            double healthPercentage = (double) hp() / maxHp();
-            sendInitialNylocas(healthPercentage);
-            if (sendSpawnNylocas()) return;
             if (this.getAttackCount() <= 4) {
                 sendToxicBlast(player);
                 return;
@@ -264,7 +262,8 @@ public class Verzik extends NPC {
         Tile verzikTile = this.tile.center(this.getSize());
         Tile playerTile = player.getCentrePosition();
         Projectile projectile = new Projectile(verzikTile, playerTile, 1583, 21, duration, 70, 0, 12, this.getSize(), 128, 0);
-        int delay = projectile.send(this, playerTile);
+        int delay = (int) (projectile.getSpeed() / 30D);
+        projectile.send(this, playerTile);
         runToxicBlastTask(player, projectile, delay);
         World.getWorld().tileGraphic(1584, player.tile(), 0, projectile.getSpeed());
     }
@@ -323,7 +322,7 @@ public class Verzik extends NPC {
         target.graphic(1582, GraphicHeight.LOW, projectile.getSpeed());
     }
 
-    public void handleElectricShock() { //TODO get rid of throne on cleanup
+    public void handleElectricShock() {
         if (!this.phase.equals(VerzikPhase.TWO)) return;
         this.setAttackCount(0);
         Player target = this.theatreInstance.getRandomTarget();
@@ -334,7 +333,8 @@ public class Verzik extends NPC {
         int tileDist = this.tile.distance(target.tile());
         int duration = (21 + 39 + (5 * tileDist));
         Projectile projectile = new Projectile(this, target, 1585, 21, duration, 70, 24, 12, this.getSize(), 128, 5);
-        int delay = projectile.send(this, target);
+        int delay = (int) (projectile.getSpeed() / 30D);
+        projectile.send(this, target);
         Hit hit = Hit.builder(this, target, CombatFactory.calcDamageFromType(this, target, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
         int damage = hit.getDamage();
         if (Prayers.usingPrayer(target, Prayers.PROTECT_FROM_MAGIC)) {
@@ -393,7 +393,8 @@ public class Verzik extends NPC {
             var tileDist = this.tile.distance(p.tile());
             int duration = (53 + 45 + (7 * tileDist));
             Projectile projectile = new Projectile(this, p, 1594, 53, duration, 100, 25, 20, this.getSize(), 100, 7);
-            int delay = projectile.send(this, p);
+            int delay = (int) (projectile.getSpeed() / 30D);
+            projectile.send(this, p);
             Hit hit = Hit.builder(this, target, Utils.random(0, 33), delay, CombatType.MAGIC).checkAccuracy(true);
             hit.submit();
             if (Prayers.usingPrayer(p, Prayers.PROTECT_FROM_MAGIC)) {
@@ -421,7 +422,8 @@ public class Verzik extends NPC {
             var tileDist = this.tile.distance(p.tile());
             int duration = (62 + 45 + (7 * tileDist));
             Projectile projectile = new Projectile(this, p, 1593, 62, duration, 100, 25, 20, this.getSize(), 100, 7);
-            int delay = projectile.send(this, p);
+            int delay = (int) (projectile.getSpeed() / 30D);
+            projectile.send(this, p);
             Hit hit = Hit.builder(this, p, Utils.random(0, 33), delay, CombatType.RANGED).checkAccuracy(true);
             hit.submit();
             if (Prayers.usingPrayer(p, Prayers.PROTECT_FROM_MISSILES)) {
@@ -490,7 +492,8 @@ public class Verzik extends NPC {
                 case THREE -> {
                     if (this.isSendingChargedShot()) return;
                     if (this.spewingWebs) return;
-                    this.sendWebShot();
+                    double healthPercentage = (double) hp() / maxHp();
+                    if (World.getWorld().rollDie(30, 1) && healthPercentage >= 30.0D) this.sendWebShot();
                     sequenceThirdPhase();
                 }
             }
@@ -611,6 +614,10 @@ public class Verzik extends NPC {
             });
             Chain.noCtx().repeatingTask(2, projectiles -> {
                 if (count.get() <= 0 || this.dead() || !this.isRegistered()) {
+                    for (Player player : this.theatreInstance.getPlayers()) {
+                        if (player == null) continue;
+                        player.clearAttrib(AttributeKey.STUCK_ON_WEB);
+                    }
                     count.getAndSet(0);
                     this.webshot = false;
                     this.spewingWebs = false;
@@ -669,14 +676,15 @@ public class Verzik extends NPC {
                     tileTask.stop();
                     return;
                 }
-                for (Player player : this.theatreInstance.getPlayers()) {
+                for (Player player : this.theatreInstance.getPlayers()) { //TODO
                     if (player == null) continue;
                     for (Tile tile : this.activeTiles) {
                         if (tile == null) continue;
-                        if (player.tile().equals(tile)) {
+                        /*if (player.tile().equals(tile) && !player.hasAttrib(AttributeKey.STUCK_ON_WEB)) {
+                            player.putAttrib(AttributeKey.STUCK_ON_WEB, true);
                             this.submitAccurateHit(player, 0, Utils.random(10, 20), null);
                             break;
-                        }
+                        }*/
                     }
                 }
             });
@@ -733,6 +741,11 @@ public class Verzik extends NPC {
             this.intervals = value;
             return true;
         }
+        if (this.phase.equals(VerzikPhase.TWO)) {
+            double healthPercentage = (double) hp() / maxHp();
+            sendInitialNylocas(healthPercentage);
+        }
+        if (this.sendSpawnNylocas()) return true;
         return false;
     }
 

@@ -21,6 +21,7 @@ public class NylocasAthanatos extends NPC {
     @Override
     public void die() {
         this.animate(8078);
+        this.theatreInstance.getVerzikNylocasList().clear();
         Chain.noCtx().runFn(2, this::remove);
     }
 }

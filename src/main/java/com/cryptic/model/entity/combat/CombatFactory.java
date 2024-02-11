@@ -48,6 +48,7 @@ import com.cryptic.model.entity.combat.ranged.RangedData.RangedWeaponType;
 import com.cryptic.model.entity.combat.ranged.requirements.BowReqs;
 import com.cryptic.model.entity.combat.ranged.requirements.CbowReqs;
 import com.cryptic.model.entity.combat.weapon.AttackType;
+import com.cryptic.model.entity.combat.weapon.WeaponInterfaces;
 import com.cryptic.model.entity.combat.weapon.WeaponType;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.entity.masks.Flag;
@@ -1029,7 +1030,8 @@ public class CombatFactory {
             o.postDamage(hit);
         }
 
-        if (attacker instanceof NPC npc && target instanceof Player player) CombatFactory.sigils.processResistance(npc, player, hit);
+        if (attacker instanceof NPC npc && target instanceof Player player)
+            CombatFactory.sigils.processResistance(npc, player, hit);
 
         if (attacker != null && attacker.isPlayer() && target.isPlayer()) {
             assert attacker instanceof Player;
@@ -1042,33 +1044,41 @@ public class CombatFactory {
             }
         }
 
+        if (attacker instanceof Player player) {
+            var charges = player.<Integer>getAttribOr(AttributeKey.STARTER_BOW_CHARGES, 0);
+            if (charges != -1) {
+                if (player.getEquipment().hasAt(EquipSlot.WEAPON, 22333)) {
+                    if (target instanceof NPC npc) {
+                        if (!npc.isCombatDummy()) {
+                            player.putAttrib(AttributeKey.STARTER_BOW_CHARGES, charges - 1);
+                        }
+                    }
+                    switch (charges) {
+                        case 2000 -> player.message(Color.BLUE.wrap("Your starter bow has 2000 remaining charges."));
+                        case 1500 -> player.message(Color.BLUE.wrap("Your starter bow has 1500 remaining charges."));
+                        case 1000 -> player.message(Color.BLUE.wrap("Your starter bow has 1000 remaining charges."));
+                        case 500 -> player.message(Color.BLUE.wrap("Your starter bow has 500 remaining charges."));
+                        case 250 -> player.message(Color.BLUE.wrap("Your starter bow has 250 remaining charges."));
+                        case 100 -> player.message(Color.BLUE.wrap("Your starter bow has 100 remaining charges."));
+                        case 0 -> {
+                            player.getEquipment().remove(22333);
+                            if (player.getCombat().getRangedWeapon() != null) {
+                                player.getCombat().setRangedWeapon(null);
+                            }
+                            player.getCombat().reset();
+                            CombatSpecial.updateBar(player);
+                            WeaponInterfaces.updateWeaponInterface(player);
+                            player.message(Color.RED.wrap("Your starter bow has ran out of charges, and crumbles to dust."));
+                        }
+                    }
+                }
+            }
+        }
+
         if (attacker != null && attacker.isPlayer()) {
 
 
             Player attackerAsPlayer = attacker.getAsPlayer();
-
-            if (attackerAsPlayer.getEquipment().wearingBeginnerWeapon()) { //TODO re-add
-                var hitsLeft = attackerAsPlayer.<Integer>getAttribOr(STARTER_WEAPON_DAMAGE, 500) - 1;
-                attackerAsPlayer.putAttrib(STARTER_WEAPON_DAMAGE, hitsLeft);
-
-                Item weapon = attackerAsPlayer.getEquipment().getWeapon();
-                if (weapon != null && hitsLeft == 100)
-                    attackerAsPlayer.message(Color.RED.wrap("You have 100 hits left on your " + weapon.name() + "."));
-                if (weapon != null && hitsLeft == 50)
-                    attackerAsPlayer.message(Color.RED.wrap("You have 50 hits left on your " + weapon.name() + "."));
-                if (weapon != null && hitsLeft == 25)
-                    attackerAsPlayer.message(Color.RED.wrap("You have 25 hits left on your " + weapon.name() + "."));
-
-                if (weapon != null && hitsLeft <= 0) {
-                    attackerAsPlayer.message(Color.RED.wrap("Your " + weapon.name() + " crumbles to dust."));
-                    attackerAsPlayer.getEquipment().remove(weapon, EquipSlot.WEAPON, true);
-
-                    //Always reset ranged weapon when unequipping weapon
-                    if (attackerAsPlayer.getCombat().getRangedWeapon() != null) {
-                        attackerAsPlayer.getCombat().setRangedWeapon(null);
-                    }
-                }
-            }
 
             if (target.isNpc()) {
                 NPC npc = target.getAsNpc();
@@ -1466,10 +1476,11 @@ public class CombatFactory {
         var crawsBow = weaponId == ItemIdentifiers.CRAWS_BOW;
         var webWeaver = weaponId == ItemIdentifiers.WEBWEAVER_BOW;
         var bowOfFaerdhinen = FormulaUtils.hasBowOfFaerdhenin(player);
+        var starterBow = player.getEquipment().contains(22333);
 
         WeaponType weaponType = player.getCombat().getWeaponType();
 
-        if (!bowOfFaerdhinen && !webWeaver && !crawsBow && !crystalBow && ((weaponType == WeaponType.BOW || weaponType == WeaponType.CROSSBOW) && ammoName.equals(""))) {
+        if (!starterBow && !bowOfFaerdhinen && !webWeaver && !crawsBow && !crystalBow && ((weaponType == WeaponType.BOW || weaponType == WeaponType.CROSSBOW) && ammoName.equals(""))) {
             player.message("There's no ammo left in your quiver.");
             return false;
         }
@@ -1487,12 +1498,12 @@ public class CombatFactory {
             }
         }
 
-        if (!bowOfFaerdhinen && !webWeaver && !crawsBow && !crystalBow && (weaponType == WeaponType.BOW && !ammoName.contains("arrow"))) {
+        if (!starterBow && !bowOfFaerdhinen && !webWeaver && !crawsBow && !crystalBow && (weaponType == WeaponType.BOW && !ammoName.contains("arrow"))) {
             player.message("You can't use that ammo with your bow.");
             return false;
         }
 
-        if (wepName.replace(" (i)", "").endsWith("bow") && !webWeaver && !bowOfFaerdhinen && !crawsBow && !crystalBow && !wepName.startsWith("kari") && !wepName.contains("cross")) {
+        if (wepName.replace(" (i)", "").endsWith("bow") && !webWeaver && !starterBow && !bowOfFaerdhinen && !crawsBow && !crystalBow && !wepName.startsWith("kari") && !wepName.contains("cross")) {
             // bolt ammo
             if (!correctArrows(weaponId, ammoId)) {
                 var lit = (ammoName.contains("rack") || ammoName.contains("arrow")) && !ammoName.contains("arrows") ? "s" : "";

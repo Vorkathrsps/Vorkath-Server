@@ -651,7 +651,7 @@ public class Verzik extends NPC {
                     if (!web.tile().allowObjectPlacement()) continue;
                     this.addWebs(web);
                 }
-                Chain.noCtx().cancelWhen(projectiles::isStopped).runFn(projectile.getSpeed() / 30 - 2, () -> {
+                Chain.noCtx().cancelWhen(projectiles::isStopped).runFn((int) (projectile.getSpeed() / 30D - 2), () -> {
                     for (GameObject o : temp) {
                         if (o == null) continue;
                         if (o.getZ() != this.theatreInstance.getzLevel()) continue;
@@ -852,6 +852,7 @@ public class Verzik extends NPC {
     }
 
     private void animateAndTransmog(int animation, int id) {
+        this.getMovementQueue().clear();
         this.animate(animation);
         this.transmog(id, true);
         this.setInstancedArea(this.theatreInstance);

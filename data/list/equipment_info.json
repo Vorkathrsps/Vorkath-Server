@@ -19120,5 +19120,10 @@
     "slot": 3,
     "type": 0,
     "showBeard": false
+  },
+  "22333": {
+    "slot": 3,
+    "type": 5,
+    "showBeard": false
   }
 }

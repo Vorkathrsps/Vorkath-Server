@@ -4,9 +4,11 @@ import com.cryptic.model.content.items.RockCake;
 import com.cryptic.model.content.items.teleport.ArdyCape;
 import com.cryptic.model.content.skill.impl.slayer.content.SlayerHelm;
 import com.cryptic.model.content.skill.impl.slayer.content.SlayerRing;
+import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.network.packet.incoming.interaction.PacketInteractionManager;
+import com.cryptic.utility.Color;
 
 import static com.cryptic.utility.ItemIdentifiers.*;
 
@@ -38,6 +40,11 @@ public class ItemActionThree {
         }
 
         if (SlayerHelm.onItemOption3(player, item)) {
+            return;
+        }
+
+        if (item.getId() == 22333) {
+            player.message(Color.BLUE.wrap("Your starter bow has " + player.<Integer>getAttribOr(AttributeKey.STARTER_BOW_CHARGES, 0) + " charges remaining."));
             return;
         }
 

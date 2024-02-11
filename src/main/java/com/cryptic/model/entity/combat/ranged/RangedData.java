@@ -107,6 +107,7 @@ public class RangedData {
         CRAWS_BOW(new int[]{ItemIdentifiers.CRAWS_BOW_U, ItemIdentifiers.CRAWS_BOW}, RangedWeaponType.CRAWS_BOW, false),
 
         BOW_OF_FAERDHINEN(new int[]{ItemIdentifiers.BOW_OF_FAERDHINEN, ItemIdentifiers.BOW_OF_FAERDHINEN_27187, ItemIdentifiers.BOW_OF_FAERDHINEN_C, ItemIdentifiers.BOW_OF_FAERDHINEN_C_25869,ItemIdentifiers.BOW_OF_FAERDHINEN_C_25884,ItemIdentifiers.BOW_OF_FAERDHINEN_C_25886,ItemIdentifiers.BOW_OF_FAERDHINEN_C_25888,ItemIdentifiers.BOW_OF_FAERDHINEN_C_25890,ItemIdentifiers.BOW_OF_FAERDHINEN_C_25892,ItemIdentifiers.BOW_OF_FAERDHINEN_C_25892,ItemIdentifiers.BOW_OF_FAERDHINEN_C_25896,ItemIdentifiers.BOW_OF_FAERDHINEN_C_25896}, RangedWeaponType.SHORTBOW, false),
+        STARTER_BOW(new int[]{22333}, RangedWeaponType.SHORTBOW, false),
 
         CRYSTAL_BOW(new int[]{ItemIdentifiers.NEW_CRYSTAL_BOW, ItemIdentifiers.NEW_CRYSTAL_BOW_4213, ItemIdentifiers.CRYSTAL_BOW_FULL, ItemIdentifiers.CRYSTAL_BOW_910, ItemIdentifiers.CRYSTAL_BOW_810, ItemIdentifiers.CRYSTAL_BOW_710, ItemIdentifiers.CRYSTAL_BOW_610, ItemIdentifiers.CRYSTAL_BOW_510, ItemIdentifiers.CRYSTAL_BOW_410, ItemIdentifiers.CRYSTAL_BOW_310, ItemIdentifiers.CRYSTAL_BOW_210, ItemIdentifiers.CRYSTAL_BOW_110, ItemIdentifiers.NEW_CRYSTAL_BOW_I, ItemIdentifiers.CRYSTAL_BOW_FULL_I, ItemIdentifiers.CRYSTAL_BOW_910_I, ItemIdentifiers.CRYSTAL_BOW_810_I, ItemIdentifiers.CRYSTAL_BOW_710_I, ItemIdentifiers.CRYSTAL_BOW_610_I, ItemIdentifiers.CRYSTAL_BOW_510_I, ItemIdentifiers.CRYSTAL_BOW_410_I, ItemIdentifiers.CRYSTAL_BOW_310_I, ItemIdentifiers.CRYSTAL_BOW_210_I, ItemIdentifiers.CRYSTAL_BOW_110_I, ItemIdentifiers.NEW_CRYSTAL_BOW_16888, ItemIdentifiers.NEW_CRYSTAL_BOW_I_16889}, RangedWeaponType.CRYSTAL_BOW, false),
 
@@ -176,6 +177,7 @@ public class RangedData {
         _3_AGE_BOW(9, 10, FightType.ARROW_LONGRANGE, false),
         CRAWS_BOW(9, 10, FightType.ARROW_LONGRANGE, false),
         BOW_OF_FAERDHINEN(10, 10, FightType.ARROW_LONGRANGE, false),
+        STARTER_BOW(10, 10, FightType.ARROW_LONGRANGE, false),
         LONGBOW(10, 10, FightType.ARROW_LONGRANGE, true),
         CRYSTAL_BOW(10, 10, FightType.ARROW_LONGRANGE, false),
         DARK_BOW(10, 10, FightType.ARROW_LONGRANGE, true),

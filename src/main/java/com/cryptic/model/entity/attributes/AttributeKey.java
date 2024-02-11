@@ -1544,7 +1544,7 @@ public enum AttributeKey {
 
     DOOR_ORIG_ID,
 
-    ;
+    STARTER_BOW_CHARGES;
 
     private String saveName;
     private AttribType type;

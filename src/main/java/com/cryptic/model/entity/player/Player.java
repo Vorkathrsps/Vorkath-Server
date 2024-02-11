@@ -1396,8 +1396,6 @@ public class Player extends Entity {
      * Handles the actual logging out from the game.
      */
     public void onLogout() {
-        // Notify us
-        //logger.info("Deregistering player - [username, host] : [{}, {}]", getUsername(), getHostAddress());
         logoutLogs.log(LOGOUT, "[Logout] Deregistering player - {}", getUsername());
         Utils.sendDiscordInfoLog("```[Logout]: [Player - " + getUsername() + " (IP " + getHostAddress() + ")```", "logout");
 
@@ -1405,6 +1403,10 @@ public class Player extends Entity {
             teleport(1353, 10258, 0);
         if (tile.region() == 9023 && getZ() > 3) // vorkath
             teleport(2272, 4050, 0);
+
+        if (this.getPetEntity().getPet() != null) {
+            this.getPetEntity().clearSpawnedPet();
+        }
 
         if (this.getParticipatingTournament() != null) {
             TournamentManager.leaveTourny(this, true);
@@ -1538,6 +1540,7 @@ public class Player extends Entity {
         updatePlayer();
         handleOnLogin(this);
         applyPoweredStaffSpells();
+        //this.getPetEntity().spawnOnLogin();
         boolean newAccount = this.getAttribOr(NEW_ACCOUNT, false);
         if (!newAccount && getBankPin().hasPin() && !getBankPin().hasEnteredPin() && GameServer.properties().requireBankPinOnLogin)
             getBankPin().enterPin();
@@ -1546,6 +1549,7 @@ public class Player extends Entity {
             interfaceManager.open(3559);
             setNewPassword("");
             setRunningEnergy(100.0, true);
+            this.putAttrib(STARTER_BOW_CHARGES, 2500);
         }
         updatePlayerPanel(this);
         message("Welcome " + (newAccount ? "" : "back ") + "to " + GameConstants.SERVER_NAME + "!");
@@ -2153,7 +2157,8 @@ public class Player extends Entity {
         if ((!this.increaseStats.active() || (this.decreaseStats.secondsElapsed() >= (Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60))) && !this.divinePotionEffectActive()) {
             this.skills.replenishStats();
             if (!this.increaseStats.active()) this.increaseStats.start(60);
-            if (this.decreaseStats.secondsElapsed() >= (Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60)) this.decreaseStats.start((Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60));
+            if (this.decreaseStats.secondsElapsed() >= (Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60))
+                this.decreaseStats.start((Prayers.usingPrayer(this, Prayers.PRESERVE) ? 90 : 60));
         }
         var staminaTicks = this.<Integer>getAttribOr(STAMINA_POTION_TICKS, 0);
         if (staminaTicks > 0) {
@@ -3158,7 +3163,8 @@ public class Player extends Entity {
     private void handleLastRegion() {
         int lastregion = this.getAttribOr(AttributeKey.LAST_REGION, -1);
         int lastChunk = this.getAttribOr(AttributeKey.LAST_CHUNK, -1);
-        if (lastregion != tile.region() || lastChunk != tile.chunk()) MultiwayCombat.refresh(this, lastregion, lastChunk);
+        if (lastregion != tile.region() || lastChunk != tile.chunk())
+            MultiwayCombat.refresh(this, lastregion, lastChunk);
         this.putAttrib(AttributeKey.LAST_REGION, tile.region());
         this.putAttrib(AttributeKey.LAST_CHUNK, tile.chunk());
     }

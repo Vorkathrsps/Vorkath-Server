@@ -655,8 +655,9 @@ public class CommandManager {
         });
 
         dev("c", (p, c, s) -> {
-            p.getPacketSender().sendInterface(81375);
-            p.getPacketSender().sendParallelInterfaceVisibility(81250, true);
+        /*    p.getPacketSender().sendInterface(81375);
+            p.getPacketSender().sendParallelInterfaceVisibility(81250, true);*/
+            System.out.println(p.getTheatreInstance().getVerzikNylocasList());
         });
 
         dev("cl", (p, c, s) -> {

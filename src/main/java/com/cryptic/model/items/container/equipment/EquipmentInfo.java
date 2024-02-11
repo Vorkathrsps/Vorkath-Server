@@ -574,6 +574,9 @@ public class EquipmentInfo {
                 case ACCURSED_SCEPTRE_A:
                     return 1058;
 
+                case STARTER_SWORD:
+                    return style == 2 ? 386 : 390;
+
                 case BRONZE_CROSSBOW:
                 case IRON_CROSSBOW:
                 case STEEL_CROSSBOW:

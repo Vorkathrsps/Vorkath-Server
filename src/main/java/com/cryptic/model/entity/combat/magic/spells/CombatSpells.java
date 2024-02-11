@@ -2967,6 +2967,47 @@ CombatSpells {
             return MagicSpellbook.NORMAL;
         }
     }),
+    STARTER_STAFF(new CombatNormalSpell() {
+        @Override
+        public String name() {
+            return "Starter Spell";
+        }
+
+        @Override
+        public int baseMaxHit() {
+            return 8;
+        }
+
+        @Override
+        public int baseExperience() {
+            return 11;
+        }
+
+        @Override
+        public List<Item> equipmentRequired(Player player) {
+            return List.of();
+        }
+
+        @Override
+        public List<Item> itemsRequired(Player player) {
+            return List.of();
+        }
+
+        @Override
+        public int levelRequired() {
+            return 1;
+        }
+
+        @Override
+        public int spellId() {
+            return 9353;
+        }
+
+        @Override
+        public MagicSpellbook spellbook() {
+            return MagicSpellbook.NORMAL;
+        }
+    }),
     DAWNBRINGER(new CombatNormalSpell() {
         @Override
         public String name() {

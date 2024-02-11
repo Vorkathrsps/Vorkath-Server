@@ -37,7 +37,10 @@ public class Pet extends PacketInteraction {
     public void clearSpawnedPet() {
         if (player.getPetEntity() != null && player.getPetEntity().getPet() != null) {
             Optional<PetDefinitions> petDefinitions = Optional.ofNullable(PetDefinitions.getItemByPet(player.getAttribOr(AttributeKey.LAST_PET_ID, -1)));
-            petDefinitions.ifPresent(definitions -> player.getInventory().add(definitions.getItem()));
+            petDefinitions.ifPresent(definitions -> {
+                System.out.println(definitions.getItem());
+                player.getInventory().addOrBank(new Item(definitions.getItem(), 1));
+            });
             World.getWorld().unregisterNpc(player.getPetEntity().getPet());
         }
     }
@@ -99,12 +102,6 @@ public class Pet extends PacketInteraction {
             if (player.<Integer>getAttribOr(AttributeKey.LAST_PET_ID, -1) == petDefinitions.get().getNpc()) {
                 dropPet(Item.of(petDefinitions.get().getItem()));
             }
-        }
-    }
-
-    public void removeOnLogout() {
-        if (player.getPetEntity().getPet() != null) {
-            clearSpawnedPet();
         }
     }
 

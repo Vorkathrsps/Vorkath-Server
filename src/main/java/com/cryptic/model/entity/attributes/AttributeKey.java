@@ -14,6 +14,7 @@ public enum AttributeKey {
     MENACING_CURSE,
 
     SIGIL_OF_THE_FERAL_FIGHTER,
+    STUCK_ON_WEB,
 
     // Holds a list of max 40 items (fully stackable)
     LOOT_KEY_INFO,
@@ -1543,7 +1544,9 @@ public enum AttributeKey {
 
     DOOR_ORIG_ID,
 
-    ;
+    STARTER_BOW_CHARGES,
+    STARTER_STAFF_CHARGES,
+    STARTER_SWORD_CHARGES;
 
     private String saveName;
     private AttribType type;

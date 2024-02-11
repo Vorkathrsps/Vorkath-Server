@@ -62,7 +62,8 @@ public class Combat {
         CombatSpells.SANGUINESTI_STAFF.getSpell(),
         CombatSpells.TUMEKENS_SHADOW.getSpell(),
         CombatSpells.DAWNBRINGER.getSpell(),
-        CombatSpells.ACCURSED_SCEPTRE.getSpell()
+        CombatSpells.ACCURSED_SCEPTRE.getSpell(),
+        CombatSpells.STARTER_STAFF.getSpell()
     };
 
     // The user's damage map

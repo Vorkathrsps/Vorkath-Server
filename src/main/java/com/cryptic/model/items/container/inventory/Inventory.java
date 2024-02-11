@@ -52,14 +52,14 @@ public final class Inventory extends ItemContainer {
             if (item == null)
                 continue;
             if (hasCapacity(item) && player.inventory().add(item)) {
-                //player.debug("ok %s %s", item, player);
+                player.debug("ok %s %s", item, player);
             } else {
                 action.accept(item);
                 overflow = true;
             }
         }
         if (overflow) {
-            message.ifPresent(m -> player.message(m));
+            message.ifPresent(player::message);
         }
     }
 

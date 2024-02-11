@@ -9,6 +9,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.network.packet.Packet;
 import com.cryptic.network.packet.PacketListener;
+import com.cryptic.utility.Color;
 
 /**
  * @author PVE
@@ -41,6 +42,22 @@ public class SecondItemContainerActionPacketListener implements PacketListener {
             if (SlayerHelm.onContainerAction2(player, slayer_helm)) {
                 return;
             }
+        }
+
+        if (id == 22333) {
+            player.message(Color.BLUE.wrap("Your starter bow has " + player.<Integer>getAttribOr(AttributeKey.STARTER_BOW_CHARGES, 0) + " charges remaining."));
+            return;
+        }
+
+
+        if (id == 22331) {
+            player.message(Color.BLUE.wrap("Your starter sword has " + player.<Integer>getAttribOr(AttributeKey.STARTER_SWORD_CHARGES, 0) + " charges remaining."));
+            return;
+        }
+
+        if (id == 22335) {
+            player.message(Color.BLUE.wrap("Your starter staff has " + player.<Integer>getAttribOr(AttributeKey.STARTER_STAFF_CHARGES, 0) + " charges remaining."));
+            return;
         }
 
         player.debugMessage(String.format("ItemContainerAction: second action, container: %d slot: %d id %d", interfaceId, slot, id));

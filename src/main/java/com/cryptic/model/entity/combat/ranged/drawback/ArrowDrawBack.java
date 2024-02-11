@@ -45,7 +45,8 @@ public enum ArrowDrawBack {
     BOW_OF_FAERDHENIN_AMLODD(-1, 25896, 1935, 1934, 40, 36, 41,5),
     CRAWS_BOW(-1, 22550, 1611, 1574, 41, 30, 41,5),
     WEB_WEAVER_BOW(-1, 27655, 2283, 2282, 41, 30, 41,5),
-    VENATOR_BOW(-1, 27610, 2289, 2291, 30, 30, 40,5);
+    VENATOR_BOW(-1, 27610, 2289, 2291, 30, 30, 40,5),
+    STARTER_BOW(-1, 22333, 1385, 1384, 41, 30, 41,5);
 
     public final int weaponID;
     public final int gfx;

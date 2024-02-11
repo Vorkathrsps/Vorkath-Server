@@ -17959,11 +17959,6 @@
     "type": 0,
     "showBeard": false
   },
-  "22331": {
-    "slot": 3,
-    "type": 0,
-    "showBeard": false
-  },
   "30181": {
     "slot": 3,
     "type": 0,
@@ -19124,6 +19119,11 @@
   "22333": {
     "slot": 3,
     "type": 5,
+    "showBeard": false
+  },
+  "22331": {
+    "slot": 3,
+    "type": 0,
     "showBeard": false
   }
 }

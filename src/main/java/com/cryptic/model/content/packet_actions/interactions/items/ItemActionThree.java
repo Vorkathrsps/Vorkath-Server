@@ -48,6 +48,18 @@ public class ItemActionThree {
             return;
         }
 
+
+        if (item.getId() == 22331) {
+            player.message(Color.BLUE.wrap("Your starter sword has " + player.<Integer>getAttribOr(AttributeKey.STARTER_SWORD_CHARGES, 0) + " charges remaining."));
+            return;
+        }
+
+        if (item.getId() == 22335) {
+            player.message(Color.BLUE.wrap("Your starter staff has " + player.<Integer>getAttribOr(AttributeKey.STARTER_STAFF_CHARGES, 0) + " charges remaining."));
+            return;
+        }
+
+
         switch (id) {
             case LOOTING_BAG, LOOTING_BAG_22586 -> player.getLootingBag().depositWidget();
         }

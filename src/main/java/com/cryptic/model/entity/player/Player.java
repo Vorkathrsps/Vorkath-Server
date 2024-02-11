@@ -1550,6 +1550,8 @@ public class Player extends Entity {
             setNewPassword("");
             setRunningEnergy(100.0, true);
             this.putAttrib(STARTER_BOW_CHARGES, 2500);
+            this.putAttrib(STARTER_STAFF_CHARGES, 2500);
+            this.putAttrib(STARTER_SWORD_CHARGES, 2500);
         }
         updatePlayerPanel(this);
         message("Welcome " + (newAccount ? "" : "back ") + "to " + GameConstants.SERVER_NAME + "!");
@@ -1617,6 +1619,8 @@ public class Player extends Entity {
             this.getCombat().setPoweredStaffSpell(CombatSpells.DAWNBRINGER.getSpell());
         } else if (getEquipment().hasAt(EquipSlot.WEAPON, ACCURSED_SCEPTRE_A)) {
             this.getCombat().setPoweredStaffSpell(CombatSpells.ACCURSED_SCEPTRE.getSpell());
+        } else if (getEquipment().hasAt(EquipSlot.WEAPON, STARTER_STAFF)) {
+            this.getCombat().setPoweredStaffSpell(CombatSpells.STARTER_STAFF.getSpell());
         }
     }
 

@@ -820,6 +820,9 @@ public class PlayerSave {
             player.putAttrib(DAILY_TASKS_LIST, details.dailyTasksList == null ? new ArrayList<DailyTasks>() : details.dailyTasksList);
             player.putAttrib(DAILY_TASKS_EXTENSION_LIST, details.dailyTasksExtensions == null ? new HashMap<DailyTasks, Integer>() : details.dailyTasksExtensions);
             player.putAttrib(STARTER_BOW_CHARGES, details.starterBowCharges);
+            player.putAttrib(STARTER_STAFF_CHARGES, details.starterStaffCharges);
+            player.putAttrib(STARTER_SWORD_CHARGES, details.starterSwordCharges);
+
         }
 
         //Account
@@ -1252,6 +1255,8 @@ public class PlayerSave {
 
         private final int noArmPvpDailyAmount;
         private final int starterBowCharges;
+        private final int starterStaffCharges;
+        private final int starterSwordCharges;
         private final boolean noArmPvpDailyCompleted;
         private final boolean noArmPvpDailyRewardClaimed;
 
@@ -1999,6 +2004,8 @@ public class PlayerSave {
             dailyTasksList = player.getOrT(AttributeKey.DAILY_TASKS_LIST, new ArrayList<>());
             dailyTasksExtensions = player.getOrT(DAILY_TASKS_EXTENSION_LIST, new HashMap<>());
             starterBowCharges = Player.getAttribIntOr(player, STARTER_BOW_CHARGES, 0);
+            starterStaffCharges = Player.getAttribIntOr(player, STARTER_STAFF_CHARGES, 0);
+            starterSwordCharges = Player.getAttribIntOr(player, STARTER_SWORD_CHARGES, 0);
         }
 
         public void parseDetails() {

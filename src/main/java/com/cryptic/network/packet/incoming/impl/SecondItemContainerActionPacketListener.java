@@ -49,6 +49,17 @@ public class SecondItemContainerActionPacketListener implements PacketListener {
             return;
         }
 
+
+        if (id == 22331) {
+            player.message(Color.BLUE.wrap("Your starter sword has " + player.<Integer>getAttribOr(AttributeKey.STARTER_SWORD_CHARGES, 0) + " charges remaining."));
+            return;
+        }
+
+        if (id == 22335) {
+            player.message(Color.BLUE.wrap("Your starter staff has " + player.<Integer>getAttribOr(AttributeKey.STARTER_STAFF_CHARGES, 0) + " charges remaining."));
+            return;
+        }
+
         player.debugMessage(String.format("ItemContainerAction: second action, container: %d slot: %d id %d", interfaceId, slot, id));
         player.putAttrib(AttributeKey.ITEM_SLOT, slot);
         player.putAttrib(AttributeKey.ITEM_ID, id);

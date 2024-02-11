@@ -1045,30 +1045,85 @@ public class CombatFactory {
         }
 
         if (attacker instanceof Player player) {
-            var charges = player.<Integer>getAttribOr(AttributeKey.STARTER_BOW_CHARGES, 0);
-            if (charges != -1) {
-                if (player.getEquipment().hasAt(EquipSlot.WEAPON, 22333)) {
+            int staff = 22335;
+            boolean isWearingStarterStaff = player.getEquipment().hasAt(EquipSlot.WEAPON, staff);
+            int bow = 22333;
+            boolean isWearingStarterBow = player.getEquipment().hasAt(EquipSlot.WEAPON, bow);
+            int sword = 22331;
+            boolean isWearingStarterSword = player.getEquipment().hasAt(EquipSlot.WEAPON, sword);
+            if (isWearingStarterSword) {
+                var starterSwordCharges = player.<Integer>getAttribOr(AttributeKey.STARTER_SWORD_CHARGES, 0);
+                if (starterSwordCharges != -1) {
                     if (target instanceof NPC npc) {
                         if (!npc.isCombatDummy()) {
-                            player.putAttrib(AttributeKey.STARTER_BOW_CHARGES, charges - 1);
+                            player.putAttrib(AttributeKey.STARTER_SWORD_CHARGES, starterSwordCharges - 1);
+                            switch (starterSwordCharges) {
+                                case 2000 -> player.message(Color.BLUE.wrap("Your starter sword has 2000 remaining charges."));
+                                case 1500 -> player.message(Color.BLUE.wrap("Your starter sword has 1500 remaining charges."));
+                                case 1000 -> player.message(Color.BLUE.wrap("Your starter sword has 1000 remaining charges."));
+                                case 500 -> player.message(Color.BLUE.wrap("Your starter sword has 500 remaining charges."));
+                                case 250 -> player.message(Color.BLUE.wrap("Your starter sword has 250 remaining charges."));
+                                case 100 -> player.message(Color.BLUE.wrap("Your starter sword has 100 remaining charges."));
+                                case 0 -> {
+                                    player.getEquipment().remove(sword);
+                                    player.getCombat().reset();
+                                    CombatSpecial.updateBar(player);
+                                    WeaponInterfaces.updateWeaponInterface(player);
+                                    player.message(Color.RED.wrap("Your starter sword has ran out of charges, and crumbles to dust."));
+                                }
+                            }
                         }
                     }
-                    switch (charges) {
-                        case 2000 -> player.message(Color.BLUE.wrap("Your starter bow has 2000 remaining charges."));
-                        case 1500 -> player.message(Color.BLUE.wrap("Your starter bow has 1500 remaining charges."));
-                        case 1000 -> player.message(Color.BLUE.wrap("Your starter bow has 1000 remaining charges."));
-                        case 500 -> player.message(Color.BLUE.wrap("Your starter bow has 500 remaining charges."));
-                        case 250 -> player.message(Color.BLUE.wrap("Your starter bow has 250 remaining charges."));
-                        case 100 -> player.message(Color.BLUE.wrap("Your starter bow has 100 remaining charges."));
-                        case 0 -> {
-                            player.getEquipment().remove(22333);
-                            if (player.getCombat().getRangedWeapon() != null) {
-                                player.getCombat().setRangedWeapon(null);
+                }
+            } else if (isWearingStarterStaff) {
+                var starterStaffCharges = player.<Integer>getAttribOr(AttributeKey.STARTER_STAFF_CHARGES, 0);
+                if (starterStaffCharges != -1) {
+                    if (target instanceof NPC npc) {
+                        if (!npc.isCombatDummy()) {
+                            player.putAttrib(AttributeKey.STARTER_STAFF_CHARGES, starterStaffCharges - 1);
+                            switch (starterStaffCharges) {
+                                case 2000 -> player.message(Color.BLUE.wrap("Your starter staff has 2000 remaining charges."));
+                                case 1500 -> player.message(Color.BLUE.wrap("Your starter staff has 1500 remaining charges."));
+                                case 1000 -> player.message(Color.BLUE.wrap("Your starter staff has 1000 remaining charges."));
+                                case 500 -> player.message(Color.BLUE.wrap("Your starter staff has 500 remaining charges."));
+                                case 250 -> player.message(Color.BLUE.wrap("Your starter staff has 250 remaining charges."));
+                                case 100 -> player.message(Color.BLUE.wrap("Your starter staff has 100 remaining charges."));
+                                case 0 -> {
+                                    player.getCombat().setPoweredStaffSpell(null);
+                                    player.getEquipment().remove(staff);
+                                    player.getCombat().reset();
+                                    CombatSpecial.updateBar(player);
+                                    WeaponInterfaces.updateWeaponInterface(player);
+                                    player.message(Color.RED.wrap("Your starter staff has ran out of charges, and crumbles to dust."));
+                                }
                             }
-                            player.getCombat().reset();
-                            CombatSpecial.updateBar(player);
-                            WeaponInterfaces.updateWeaponInterface(player);
-                            player.message(Color.RED.wrap("Your starter bow has ran out of charges, and crumbles to dust."));
+                        }
+                    }
+                }
+            } else if (isWearingStarterBow) {
+                var starterBowCharges = player.<Integer>getAttribOr(AttributeKey.STARTER_BOW_CHARGES, 0);
+                if (starterBowCharges != -1) {
+                    if (target instanceof NPC npc) {
+                        if (!npc.isCombatDummy()) {
+                            player.putAttrib(AttributeKey.STARTER_BOW_CHARGES, starterBowCharges - 1);
+                            switch (starterBowCharges) {
+                                case 2000 -> player.message(Color.BLUE.wrap("Your starter bow has 2000 remaining charges."));
+                                case 1500 -> player.message(Color.BLUE.wrap("Your starter bow has 1500 remaining charges."));
+                                case 1000 -> player.message(Color.BLUE.wrap("Your starter bow has 1000 remaining charges."));
+                                case 500 -> player.message(Color.BLUE.wrap("Your starter bow has 500 remaining charges."));
+                                case 250 -> player.message(Color.BLUE.wrap("Your starter bow has 250 remaining charges."));
+                                case 100 -> player.message(Color.BLUE.wrap("Your starter bow has 100 remaining charges."));
+                                case 0 -> {
+                                    player.getEquipment().remove(bow);
+                                    if (player.getCombat().getRangedWeapon() != null) {
+                                        player.getCombat().setRangedWeapon(null);
+                                    }
+                                    player.getCombat().reset();
+                                    CombatSpecial.updateBar(player);
+                                    WeaponInterfaces.updateWeaponInterface(player);
+                                    player.message(Color.RED.wrap("Your starter bow has ran out of charges, and crumbles to dust."));
+                                }
+                            }
                         }
                     }
                 }

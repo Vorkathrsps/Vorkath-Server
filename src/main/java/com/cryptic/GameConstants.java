@@ -23,12 +23,10 @@ public class GameConstants {
      * Starter items for game mode.
      */
     public static final Item[] STARTER_ITEMS_NEW = {
-        new Item(COINS_995, 50_000), new Item(IRON_SET_LG), new Item(IRON_SCIMITAR),new Item(CLIMBING_BOOTS),
-        new Item(COIF), new Item(LEATHER_BODY), new Item(LEATHER_CHAPS), new Item(SHORTBOW),
-        new Item(BLUE_HAT), new Item(BLUE_ROBE_TOP), new Item(BLUE_ROBE_BOTTOMS), new Item(STAFF_OF_AIR),
-        new Item(AMULET_OF_STRENGTH),
-        new Item(BRONZE_ARROW, 500), new Item(FIRE_RUNE, 1000), new Item(WATER_RUNE, 1000), new Item(AIR_RUNE, 1000), new Item(EARTH_RUNE, 1000), new Item(MIND_RUNE, 1000),
-        new Item(COMBAT_POTION4 + 1, 25), new Item(LOBSTER + 1, 50)
+        new Item(COINS_995, 50_000), new Item(IRON_SET_LG), new Item(CLIMBING_BOOTS),new Item(STARTER_SWORD),
+        new Item(COIF), new Item(LEATHER_BODY), new Item(LEATHER_CHAPS), new Item(STARTER_BOW),
+        new Item(BLUE_HAT), new Item(BLUE_ROBE_TOP), new Item(BLUE_ROBE_BOTTOMS), new Item(STARTER_STAFF),
+        new Item(AMULET_OF_STRENGTH), new Item(COMBAT_POTION4 + 1, 25), new Item(LOBSTER + 1, 50)
     };
     public static final Item[] STARTER_ITEMS = {
         //Iron armour

@@ -8,6 +8,7 @@ import com.cryptic.model.entity.player.GameMode;
 import com.cryptic.model.entity.player.IronMode;
 import com.cryptic.model.entity.player.MagicSpellbook;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.entity.player.rights.MemberRights;
 import com.cryptic.model.items.Item;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.timers.TimerKey;
@@ -19,6 +20,7 @@ import static com.cryptic.utility.ItemIdentifiers.*;
 public class AccountSelection extends PacketInteraction {
 
     public static boolean hasCompletedSelection = false;
+    public static boolean isDonatorPromo = true;
     public static void open(Player player) {
         player.lock();
         player.getInterfaceManager().open(42400);
@@ -122,38 +124,40 @@ public class AccountSelection extends PacketInteraction {
             case 0 -> {
                 player.resetSkills();
                 player.getInventory().addAll(GameConstants.STARTER_ITEMS_NEW);
+                if (isDonatorPromo) {
+                    player.setMemberRights(MemberRights.RUBY_MEMBER);
+                }
             }
             case 1 -> {
                 player.resetSkills();
+                player.getInventory().addAll(GameConstants.STARTER_ITEMS_NEW);
                 player.getInventory().add(new Item(IRONMAN_HELM, 1), true);
                 player.getInventory().add(new Item(IRONMAN_PLATEBODY, 1), true);
                 player.getInventory().add(new Item(IRONMAN_PLATELEGS, 1), true);
-                player.getInventory().addAll(GameConstants.STARTER_ITEMS_NEW);
                 player.setIronmanStatus(IronMode.REGULAR);
                 player.message("You have been given some training equipment.");
+                if (isDonatorPromo) {
+                    player.setMemberRights(MemberRights.RUBY_MEMBER);
+                }
             }
             case 2 -> {
                 player.resetSkills();
+                player.getInventory().addAll(GameConstants.STARTER_ITEMS_NEW);
                 player.getInventory().add(new Item(HARDCORE_IRONMAN_HELM, 1), true);
                 player.getInventory().add(new Item(HARDCORE_IRONMAN_PLATEBODY, 1), true);
                 player.getInventory().add(new Item(HARDCORE_IRONMAN_PLATELEGS, 1), true);
-                player.getInventory().addAll(GameConstants.STARTER_ITEMS_NEW);
                 player.setIronmanStatus(IronMode.HARDCORE);
                 player.message("You have been given some training equipment.");
+                if (isDonatorPromo) {
+                    player.setMemberRights(MemberRights.RUBY_MEMBER);
+                }
             }
-            case 3 -> {
-                player.getInventory().add(new Item(SHATTERED_HOOD_T3, 1), true);
-                player.getInventory().add(new Item(SHATTERED_TOP_T3, 1), true);
-                player.getInventory().add(new Item(SHATTERED_TROUSERS_T3, 1), true);
+            case 3, 4 -> {
                 player.getInventory().addAll(GameConstants.STARTER_ITEMS_NEW);
                 player.message("You have been given some training equipment.");
-            }
-            case 4 -> {
-                player.getInventory().add(new Item(SHATTERED_HOOD_T1, 1), true);
-                player.getInventory().add(new Item(SHATTERED_TOP_T1, 1), true);
-                player.getInventory().add(new Item(SHATTERED_TROUSERS_T1, 1), true);
-                player.getInventory().addAll(GameConstants.STARTER_ITEMS_NEW);
-                player.message("You have been given some training equipment.");
+                if (isDonatorPromo) {
+                    player.setMemberRights(MemberRights.RUBY_MEMBER);
+                }
             }
         }
 
@@ -164,11 +168,11 @@ public class AccountSelection extends PacketInteraction {
         player.getUpdateFlag().flag(Flag.APPEARANCE);
 
         //Setup bank
-        if (!player.getIronManStatus().isIronman() && !player.getIronManStatus().isHardcoreIronman()) {
+        /*if (!player.getIronManStatus().isIronman() && !player.getIronManStatus().isHardcoreIronman()) {
             player.getBank().addAll(BANK_ITEMS);
             System.arraycopy(TAB_AMOUNT, 0, player.getBank().tabAmounts, 0, TAB_AMOUNT.length);
             player.getBank().shift();
-        }
+        }*/
     }
 
     public boolean confirm(Player player) {

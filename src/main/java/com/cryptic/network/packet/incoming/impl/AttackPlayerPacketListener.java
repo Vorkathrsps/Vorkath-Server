@@ -57,13 +57,15 @@ public class AttackPlayerPacketListener implements PacketListener {
         }
 
         if (player.getEquipment().containsAny(CORRUPTED_TUMEKENS_SHADOW,ItemIdentifiers.TUMEKENS_SHADOW, ItemIdentifiers.TRIDENT_OF_THE_SEAS, ItemIdentifiers.TRIDENT_OF_THE_SEAS_E,
-            ItemIdentifiers.TRIDENT_OF_THE_SEAS_FULL, ItemIdentifiers.TRIDENT_OF_THE_SWAMP, ItemIdentifiers.TRIDENT_OF_THE_SWAMP_E, ItemIdentifiers.SANGUINESTI_STAFF, ItemIdentifiers.HOLY_SANGUINESTI_STAFF)) {
+            ItemIdentifiers.TRIDENT_OF_THE_SEAS_FULL, ItemIdentifiers.TRIDENT_OF_THE_SWAMP, ItemIdentifiers.TRIDENT_OF_THE_SWAMP_E, ItemIdentifiers.SANGUINESTI_STAFF, ItemIdentifiers.HOLY_SANGUINESTI_STAFF, ItemIdentifiers.STARTER_SWORD, ItemIdentifiers.STARTER_BOW, ItemIdentifiers.STARTER_STAFF)) {
             player.message(Color.RED.wrap("You cannot attack players with a " + player.getEquipment().getWeapon().name() + "."));
+            player.getCombat().reset();
             return;
         }
 
         if (player.getEquipment().contains(ItemIdentifiers.DINHS_BULWARK) && player.getCombat().getFightType().getStyle() == FightStyle.DEFENSIVE) {
             player.message(Color.RED.wrap("Your bulwark gets in the way."));
+            player.getCombat().reset();
             return;
         }
 

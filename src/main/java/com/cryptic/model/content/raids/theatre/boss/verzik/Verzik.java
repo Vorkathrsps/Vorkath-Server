@@ -40,6 +40,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BooleanSupplier;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
 import static com.cryptic.cache.definitions.identifiers.ObjectIdentifiers.TREASURE_ROOM;
@@ -96,6 +97,7 @@ public class Verzik extends NPC {
     boolean webshot = false;
     boolean spewingWebs = false;
     Set<Tile> webTileSet = new HashSet<>();
+    Set<Tile> activeTiles = new HashSet<>();
 
     public Verzik(int id, Tile tile, TheatreInstance theatreInstance) {
         super(id, tile);
@@ -546,6 +548,19 @@ public class Verzik extends NPC {
             ClipUtils.addClipping(t.getX(), t.getY(), t.getZ(), 1, 1, true, false);
             this.clippedTiles.add(t);
         });
+        for (Player player : this.theatreInstance.getPlayers()) {
+            if (player == null) continue;
+            for (Tile tile : this.clippedTiles) {
+                if (tile == null) continue;
+                if (player.tile().equals(tile)) {
+                    player.lock();
+                    Direction direction = Direction.SOUTH;
+                    ForceMovement forceMovement = new ForceMovement(player.tile(), new Tile(direction.x, direction.y - 5), 30, 60, 1114, 0);
+                    player.setForceMovement(forceMovement);
+                    Chain.noCtx().runFn(2, player::unlock);
+                }
+            }
+        }
     }
 
     public void removeClippedTiles() {
@@ -574,7 +589,6 @@ public class Verzik extends NPC {
         this.setPhase(VerzikPhase.TRANSITIONING);
         this.webshot = true;
         this.waitForTile(destination.transform(-1, -2), () -> Chain.noCtx().runFn(2, () -> {
-            this.face(null);
             this.setPhase(VerzikPhase.THREE);
             this.animateAndTransmog(-1, 8374);
             this.setClippedTiles();
@@ -582,9 +596,8 @@ public class Verzik extends NPC {
             this.lockMoveDamageOk();
             this.spewingWebs = true;
             Tile centerPosition = this.tile.center(7);
-            AtomicInteger count = new AtomicInteger(15);
+            AtomicInteger count = new AtomicInteger(14);
             MutableObject<Player> playerObject = new MutableObject<>();
-            MutableObject<Tile> tileObject = new MutableObject<>();
             Player randomTarget = this.theatreInstance.getRandomTarget();
             Chain.noCtx().repeatingTask(1, targeting -> {
                 playerObject.setValue(randomTarget);
@@ -597,18 +610,6 @@ public class Verzik extends NPC {
                 }
             });
             Chain.noCtx().repeatingTask(2, projectiles -> {
-                this.webTileSet.clear();
-                count.getAndDecrement();
-                this.face(null);
-                Player target = getTargetValue(playerObject);
-                if (target == null) return;
-                Tile copy = target.tile().copy();
-                tileObject.setValue(copy);
-                Tile tile = getTileValue(tileObject);
-                if (tile == null) return;
-                double distance = centerPosition.distanceTo(tile);
-                int duration = (int) (150 + distance);
-                List<GameObject> temp = new ArrayList<>(this.webObjects);
                 if (count.get() <= 0 || this.dead() || !this.isRegistered()) {
                     count.getAndSet(0);
                     this.webshot = false;
@@ -621,33 +622,63 @@ public class Verzik extends NPC {
                     projectiles.stop();
                     return;
                 }
+                this.webTileSet.clear();
+                this.face(null);
+                Player target = getTargetValue(playerObject);
+                if (target == null) return;
+                Tile copy = target.tile().copy();
+                double distance = centerPosition.distanceTo(copy);
+                int duration = (int) (8 + (82 + distance));
+                List<GameObject> temp = new ArrayList<>(this.webObjects);
                 this.webTileSet.add(copy);
-                for (int index = 0; index < World.getWorld().random(1, 3); index++) {
-                    Tile randomTile = World.getWorld().randomTileAround(tile, 2);
+                for (int index = 0; index < World.getWorld().random(1, 2); index++) {
+                    Tile randomTile = World.getWorld().randomTileAround(copy, 3);
                     if (randomTile == null) continue;
                     this.webTileSet.add(randomTile);
                 }
-                Projectile projectile = new Projectile(centerPosition, copy, 1601, 0, duration, 87, 0, 15, this.getSize(), 0, 0);
-                for (GameObject object : temp) {
-                    if (object == null) continue;
-                    if (!object.tile().allowObjectPlacement()) continue;
-                    object.spawn();
-                }
+                Projectile projectile = new Projectile(centerPosition, copy, 1601, 8, duration, 87, 0, 15, this.getSize(), 0, 0);
                 for (Tile t : this.webTileSet) {
                     if (t == null) continue;
+                    if (t.getZ() != this.theatreInstance.getzLevel()) continue;
+                    projectile.send(centerPosition, t);
                     GameObject web = new GameObject(32734, t);
                     if (!web.tile().allowObjectPlacement()) continue;
                     this.addWebs(web);
-                    projectile.send(centerPosition, t);
                 }
+                Chain.noCtx().cancelWhen(projectiles::isStopped).runFn(projectile.getSpeed() / 30 - 2, () -> {
+                    for (GameObject o : temp) {
+                        if (o == null) continue;
+                        if (o.getZ() != this.theatreInstance.getzLevel()) continue;
+                        if (!o.tile().allowObjectPlacement()) continue;
+                        o.spawn();
+                    }
+                    for (GameObject o : this.webObjects) {
+                        if (o == null) continue;
+                        if (o.getZ() != this.theatreInstance.getzLevel()) continue;
+                        if (!o.tile().allowObjectPlacement()) continue;
+                        this.activeTiles.add(o.tile());
+                    }
+                    temp.clear();
+                });
                 this.webTileSet.clear();
-                Chain.noCtx().runFn((int) (projectile.getSpeed() / 30D), () -> {
-                    for (Player player : this.theatreInstance.getPlayers()) {
-                        if (player.tile().equals(projectile.getEnd())) {
-                            //Todo damage
+                count.getAndDecrement();
+            });
+            Chain.noCtx().repeatingTask(2, tileTask -> {
+                if (count.get() <= 0 || this.dead() || !this.isRegistered()) {
+                    this.activeTiles.clear();
+                    tileTask.stop();
+                    return;
+                }
+                for (Player player : this.theatreInstance.getPlayers()) {
+                    if (player == null) continue;
+                    for (Tile tile : this.activeTiles) {
+                        if (tile == null) continue;
+                        if (player.tile().equals(tile)) {
+                            this.submitAccurateHit(player, 0, Utils.random(10, 20), null);
+                            break;
                         }
                     }
-                });
+                }
             });
         }));
     }
@@ -658,6 +689,19 @@ public class Verzik extends NPC {
 
     private static Player getTargetValue(MutableObject<Player> target) {
         return target.getValue();
+    }
+
+    private void updateFaceTile(Tile face) {
+        if (this.getFaceTile() != null) {
+            Tile faceTile = new Tile(face.getX(), face.getY());
+            this.setFaceTile(faceTile);
+
+            if (this.getSize() > 1) {
+                faceTile = this.tile().transform(this.getSize() / 2, this.getSize() / 2, 0);
+            }
+
+            this.setPositionToFace(faceTile);
+        }
     }
 
     public void interpolateSteps() {
@@ -675,6 +719,8 @@ public class Verzik extends NPC {
             this.queueTeleportJump(new Tile(nextX, nextY, this.theatreInstance.getzLevel()));
             if (nextStepDeltaX == 0 && nextStepDeltaY == 0) {
                 this.setPathing(false);
+                Tile faceTile = this.tile.center(7).transform(Direction.SOUTH.x, Direction.SOUTH.y);
+                this.updateFaceTile(faceTile);
             }
         }
     }

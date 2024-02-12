@@ -2,6 +2,7 @@ package com.cryptic.model.content.sigils.data;
 
 import com.cryptic.model.content.sigils.AbstractSigil;
 import com.cryptic.model.content.sigils.combat.*;
+import com.cryptic.model.content.sigils.misc.Alchemaniac;
 import com.cryptic.model.content.sigils.misc.Stamina;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.utility.ItemIdentifiers;
@@ -17,7 +18,8 @@ public enum SigilData {
     RESISTANCE(ItemIdentifiers.SIGIL_OF_RESISTANCE_28490, ItemIdentifiers.SIGIL_OF_RESISTANCE, AttributeKey.RESISTANCE, 1970, Resistance.class),
     PRECISION(ItemIdentifiers.SIGIL_OF_PRECISION_28514, ItemIdentifiers.SIGIL_OF_PRECISION, AttributeKey.PRECISION, 1970, Precision.class),
     FORTIFICATION(ItemIdentifiers.SIGIL_OF_FORTIFICATION_26006, ItemIdentifiers.SIGIL_OF_FORTIFICATION, AttributeKey.SIGIL_OF_FORTIFICATION, 1970, Fortification.class),
-    STAMINA(ItemIdentifiers.SIGIL_OF_STAMINA_26042, ItemIdentifiers.SIGIL_OF_STAMINA, AttributeKey.SIGIL_OF_STAMINA, 1971, Stamina.class);
+    STAMINA(ItemIdentifiers.SIGIL_OF_STAMINA_26042, ItemIdentifiers.SIGIL_OF_STAMINA, AttributeKey.SIGIL_OF_STAMINA, 1971, Stamina.class),
+    ALCHEMANIAC(ItemIdentifiers.SIGIL_OF_THE_ALCHEMANIAC_28484, ItemIdentifiers.SIGIL_OF_THE_ALCHEMANIAC, AttributeKey.SIGIL_OF_ALCHEMANIAC, 1971, Alchemaniac.class);
     public final int unattuned;
     public final int attuned;
     public final int graphic;

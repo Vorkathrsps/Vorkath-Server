@@ -180,6 +180,9 @@ public class MagicOnItemPacketListener implements PacketListener {
 
                         coinAmountToGive = (int) Math.floor(itemValue * 0.25);
 
+                        if (player.hasAttrib(AttributeKey.ALCHEMANIAC_BOOST)) {
+                            coinAmountToGive *= 1.30D;
+                        }
 
                         if (item.getValue() == 0) {
                             coinAmountToGive = 0;
@@ -192,8 +195,7 @@ public class MagicOnItemPacketListener implements PacketListener {
 
                         player.inventory().remove(item, slot);
 
-                        if (!GameServer.properties().pvpMode)
-                            player.inventory().add(COINS_995, coinAmountToGive);
+                        player.inventory().add(COINS_995, coinAmountToGive);
                         return;
                 }
             }

@@ -3,6 +3,7 @@ package com.cryptic.model.content.sigils.data;
 import com.cryptic.model.content.sigils.AbstractSigil;
 import com.cryptic.model.content.sigils.combat.*;
 import com.cryptic.model.content.sigils.misc.Alchemaniac;
+import com.cryptic.model.content.sigils.misc.Devotion;
 import com.cryptic.model.content.sigils.misc.Exaggeration;
 import com.cryptic.model.content.sigils.misc.Stamina;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -21,7 +22,8 @@ public enum SigilData {
     FORTIFICATION(ItemIdentifiers.SIGIL_OF_FORTIFICATION_26006, ItemIdentifiers.SIGIL_OF_FORTIFICATION, AttributeKey.SIGIL_OF_FORTIFICATION, 1970, Fortification.class),
     STAMINA(ItemIdentifiers.SIGIL_OF_STAMINA_26042, ItemIdentifiers.SIGIL_OF_STAMINA, AttributeKey.SIGIL_OF_STAMINA, 1971, Stamina.class),
     ALCHEMANIAC(ItemIdentifiers.SIGIL_OF_THE_ALCHEMANIAC_28484, ItemIdentifiers.SIGIL_OF_THE_ALCHEMANIAC, AttributeKey.SIGIL_OF_ALCHEMANIAC, 1971, Alchemaniac.class),
-    EXAGGERATION(ItemIdentifiers.SIGIL_OF_EXAGGERATION_26057, ItemIdentifiers.SIGIL_OF_EXAGGERATION, AttributeKey.SIGIL_OF_EXAGGERATION, 1972, Exaggeration.class);
+    EXAGGERATION(ItemIdentifiers.SIGIL_OF_EXAGGERATION_26057, ItemIdentifiers.SIGIL_OF_EXAGGERATION, AttributeKey.SIGIL_OF_EXAGGERATION, 1972, Exaggeration.class),
+    DEVOTION(ItemIdentifiers.SIGIL_OF_DEVOTION_26099, ItemIdentifiers.SIGIL_OF_DEVOTION, AttributeKey.SIGIL_OF_DEVOTION, 1972, Devotion.class);
     public final int unattuned;
     public final int attuned;
     public final int graphic;

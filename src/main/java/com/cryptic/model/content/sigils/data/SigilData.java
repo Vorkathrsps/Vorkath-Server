@@ -21,7 +21,9 @@ public enum SigilData {
     ALCHEMANIAC(ItemIdentifiers.SIGIL_OF_THE_ALCHEMANIAC_28484, ItemIdentifiers.SIGIL_OF_THE_ALCHEMANIAC, AttributeKey.SIGIL_OF_ALCHEMANIAC, 1971, Alchemaniac.class),
     EXAGGERATION(ItemIdentifiers.SIGIL_OF_EXAGGERATION_26057, ItemIdentifiers.SIGIL_OF_EXAGGERATION, AttributeKey.SIGIL_OF_EXAGGERATION, 1972, Exaggeration.class),
     DEVOTION(ItemIdentifiers.SIGIL_OF_DEVOTION_26099, ItemIdentifiers.SIGIL_OF_DEVOTION, AttributeKey.SIGIL_OF_DEVOTION, 1972, Devotion.class),
-    LAST_RECALL(ItemIdentifiers.SIGIL_OF_LAST_RECALL_26144, ItemIdentifiers.SIGIL_OF_LAST_RECALL, AttributeKey.SIGIL_OF_LAST_RECALL, 1971, LastRecall.class);
+    LAST_RECALL(ItemIdentifiers.SIGIL_OF_LAST_RECALL_26144, ItemIdentifiers.SIGIL_OF_LAST_RECALL, AttributeKey.SIGIL_OF_LAST_RECALL, 1971, LastRecall.class),
+    REMOTE_STORAGE(ItemIdentifiers.SIGIL_OF_REMOTE_STORAGE_26141, ItemIdentifiers.SIGIL_OF_REMOTE_STORAGE, AttributeKey.SIGIL_OF_REMOTE_STORAGE, 1972, RemoteStorage.class),
+    NINJA(ItemIdentifiers.SIGIL_OF_THE_NINJA_28526, ItemIdentifiers.SIGIL_OF_THE_NINJA, AttributeKey.SIGIL_OF_THE_NINJA, 1970, Ninja.class);
     public final int unattuned;
     public final int attuned;
     public final int graphic;

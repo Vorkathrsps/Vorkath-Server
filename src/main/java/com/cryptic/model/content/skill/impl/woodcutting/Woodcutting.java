@@ -159,6 +159,10 @@ public class Woodcutting extends PacketInteraction {
     }
 
     private static void addLog(Player player, Trees tree) {
+        if (player.hasAttrib(AttributeKey.REMOTE_STORAGE)) {
+            player.getBank().add(new Item(tree.item));
+            return;
+        }
         player.inventory().add(new Item(tree.item));
     }
 

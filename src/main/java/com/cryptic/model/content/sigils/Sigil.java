@@ -42,7 +42,9 @@ public class Sigil extends PacketInteraction implements SigilListener {
             new Alchemaniac(),
             new Exaggeration(),
             new Devotion(),
-            new LastRecall()
+            new LastRecall(),
+            new RemoteStorage(),
+            new Ninja()
         ));
         handler = Collections.unmodifiableList(sigilList);
     }

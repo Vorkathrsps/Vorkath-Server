@@ -144,7 +144,11 @@ public class Fishing {
                     // Rather have a pet than a slimy fishy thing, right?
                     var odds = (int) (weCatch.petChance * player.getMemberRights().petRateMultiplier());
 
-                    player.inventory().add(new Item(weCatch.item), true);
+                    if (player.hasAttrib(AttributeKey.REMOTE_STORAGE)) {
+                        player.getBank().add(new Item(weCatch.item));
+                    } else {
+                        player.inventory().add(new Item(weCatch.item), true);
+                    }
                     player.getSkills().addXp(Skills.FISHING, weCatch.xp);
 
                     switch (weCatch) {

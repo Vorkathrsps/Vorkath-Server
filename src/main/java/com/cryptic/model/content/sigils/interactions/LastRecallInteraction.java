@@ -7,7 +7,7 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.chainedwork.Chain;
 
-public class LastRecallInteraction extends PacketInteraction {
+public class LastRecallInteraction extends PacketInteraction { //TODO remember to make conditions if in gwd etc
     @Override
     public boolean handleItemInteraction(Player player, Item item, int option) {
         if (option == 1) {

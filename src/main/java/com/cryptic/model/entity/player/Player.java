@@ -74,6 +74,7 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatSpecial;
 import com.cryptic.model.entity.combat.Venom;
+import com.cryptic.model.entity.combat.formula.FormulaUtils;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.magic.spells.CombatSpells;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.instance.NightmareInstance;
@@ -1178,6 +1179,14 @@ public class Player extends Entity {
                 .getInfo(weapon.getId())
                 .getEquipment()
                 .getAspeed();
+        }
+
+        if (attackSpeed > 4) {
+            if (this.hasAttrib(NINJA)) {
+                if (!FormulaUtils.hasBowOfFaerdhenin(this) && !this.getEquipment().containsAny(CRYSTAL_BOW)) {
+                    attackSpeed--;
+                }
+            }
         }
 
         if (this.getCombat().getCombatType() != null) {

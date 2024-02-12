@@ -45,7 +45,6 @@ public class CrystalSet implements DamageEffectListener {
                         modifier += 1.10F;
                     }
                     modifier = (float) Math.floor(modifier);
-                    System.out.println(modifier);
                     rangeAccuracy.modifier += modifier;
                     return true;
                 }

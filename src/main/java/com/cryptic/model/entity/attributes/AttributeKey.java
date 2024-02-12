@@ -1546,7 +1546,7 @@ public enum AttributeKey {
 
     STARTER_BOW_CHARGES,
     STARTER_STAFF_CHARGES,
-    STARTER_SWORD_CHARGES;
+    STARTER_SWORD_CHARGES, SIGIL_OF_STAMINA;
 
     private String saveName;
     private AttribType type;

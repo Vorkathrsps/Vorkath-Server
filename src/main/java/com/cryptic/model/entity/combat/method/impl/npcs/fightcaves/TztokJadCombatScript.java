@@ -8,6 +8,7 @@ import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
+import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.utility.ItemIdentifiers;
@@ -15,12 +16,20 @@ import com.cryptic.utility.Utils;
 
 import javax.annotation.Nonnull;
 
+import static com.cryptic.model.entity.attributes.AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE;
+
 /**
  * @Author: Origin
  * @Date: 7/14/2023
  */
 public class TztokJadCombatScript extends CommonCombatMethod {
     private static final int MAX_DISTANCE = 10;
+
+    @Override
+    public void init(NPC npc) {
+        npc.getCombatInfo().setAggressive(true);
+        npc.putAttrib(ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
+    }
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {

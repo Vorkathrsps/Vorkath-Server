@@ -9,6 +9,7 @@ import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.masks.Projectile;
 import com.cryptic.model.entity.masks.impl.graphics.GraphicHeight;
+import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
@@ -20,12 +21,19 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.cryptic.model.entity.attributes.AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE;
+
 /**
  * Handles Venenatis' combat.
  *
  * @author Professor Oak
  */
 public class Venenatis extends CommonCombatMethod {
+
+    @Override
+    public void init(NPC npc) {
+        npc.putAttrib(ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
+    }
 
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {

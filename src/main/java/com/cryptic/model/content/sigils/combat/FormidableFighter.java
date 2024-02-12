@@ -1,7 +1,7 @@
-package com.cryptic.model.content.sigils.io;
+package com.cryptic.model.content.sigils.combat;
 
 import com.cryptic.model.World;
-import com.cryptic.model.content.sigils.AbstractSigilHandler;
+import com.cryptic.model.content.sigils.AbstractSigil;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
@@ -12,9 +12,19 @@ import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.container.equipment.EquipmentInfo;
 
-public class FormidableFighter extends AbstractSigilHandler {
+public class FormidableFighter extends AbstractSigil {
     @Override
-    protected void process(Player player, Entity target) {
+    protected void onRemove(Player player) {
+
+    }
+
+    @Override
+    protected void processMisc(Player player) {
+
+    }
+
+    @Override
+    protected void processCombat(Player player, Entity target) {
 
     }
 
@@ -55,7 +65,7 @@ public class FormidableFighter extends AbstractSigilHandler {
     }
 
     @Override
-    protected boolean activated(Player player) {
+    protected boolean activate(Player player) {
         return false;
     }
 

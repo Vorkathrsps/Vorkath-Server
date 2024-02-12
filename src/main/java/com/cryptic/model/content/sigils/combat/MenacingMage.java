@@ -1,6 +1,6 @@
-package com.cryptic.model.content.sigils.io;
+package com.cryptic.model.content.sigils.combat;
 
-import com.cryptic.model.content.sigils.AbstractSigilHandler;
+import com.cryptic.model.content.sigils.AbstractSigil;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
@@ -15,9 +15,19 @@ import com.cryptic.utility.chainedwork.Chain;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class MenacingMage extends AbstractSigilHandler {
+public class MenacingMage extends AbstractSigil {
     @Override
-    protected void process(Player player, Entity target) {
+    protected void onRemove(Player player) {
+
+    }
+
+    @Override
+    protected void processMisc(Player player) {
+
+    }
+
+    @Override
+    protected void processCombat(Player player, Entity target) {
         if (!attuned(player)) return;
         var damage = 2;
         switch (player.getMemberRights()) {
@@ -29,7 +39,7 @@ public class MenacingMage extends AbstractSigilHandler {
             case ONYX_MEMBER -> damage = 8;
             case ZENYTE_MEMBER -> damage = 9;
         }
-        if (!activated(player)) {
+        if (!activate(player)) {
             if (Utils.rollDie(20, 1)) {
                 player.animate(9158);
                 player.graphic(1977);
@@ -73,7 +83,7 @@ public class MenacingMage extends AbstractSigilHandler {
     }
 
     @Override
-    protected boolean activated(Player player) {
+    protected boolean activate(Player player) {
         return player.hasAttrib(AttributeKey.MENACING_CURSE);
     }
 

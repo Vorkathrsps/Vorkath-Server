@@ -4,6 +4,7 @@ import com.cryptic.model.entity.combat.method.CombatMethod;
 import com.cryptic.model.entity.npc.droptables.Droptable;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,6 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * Created by Bart on 10/6/2015.
  */
+@Data
 public class NPCCombatInfo {
     private static final Logger logger = LogManager.getLogger(NPCCombatInfo.class);
 

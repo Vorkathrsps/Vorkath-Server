@@ -10,6 +10,7 @@ import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 
+import static com.cryptic.model.entity.attributes.AttributeKey.ATTACKING_ZONE_RADIUS_OVERRIDE;
 import static com.cryptic.utility.Utils.random;
 
 /**
@@ -22,7 +23,9 @@ public class TzTokJad extends NPC {
 
     public TzTokJad(int id, Tile tile) {
         super(id, tile);
-        respawns(false);
+        this.getCombatInfo().setAggressive(true);
+        this.respawns(false);
+        this.putAttrib(ATTACKING_ZONE_RADIUS_OVERRIDE, 30);
     }
 
     /**

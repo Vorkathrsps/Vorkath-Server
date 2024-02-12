@@ -1,6 +1,6 @@
-package com.cryptic.model.content.sigils.io;
+package com.cryptic.model.content.sigils.combat;
 
-import com.cryptic.model.content.sigils.AbstractSigilHandler;
+import com.cryptic.model.content.sigils.AbstractSigil;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
@@ -12,9 +12,19 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
 
-public class FeralFighter extends AbstractSigilHandler {
+public class FeralFighter extends AbstractSigil {
     @Override
-    protected void process(Player player, Entity target) {
+    protected void onRemove(Player player) {
+
+    }
+
+    @Override
+    protected void processMisc(Player player) {
+
+    }
+
+    @Override
+    protected void processCombat(Player player, Entity target) {
         if (!attuned(player)) return;
         var delay = 12;
         switch (player.getMemberRights()) {
@@ -26,7 +36,7 @@ public class FeralFighter extends AbstractSigilHandler {
             case ONYX_MEMBER -> delay = 18;
             case ZENYTE_MEMBER -> delay = 19;
         }
-        if (!activated(player)) {
+        if (!activate(player)) {
             if (Utils.rollDie(20, 1)) {
                 player.animate(9158);
                 player.graphic(1980);
@@ -62,7 +72,7 @@ public class FeralFighter extends AbstractSigilHandler {
     }
 
     @Override
-    protected boolean activated(Player player) {
+    protected boolean activate(Player player) {
         return player.hasAttrib(AttributeKey.FERAL_FIGHTER_ATTACKS_SPEED);
     }
 

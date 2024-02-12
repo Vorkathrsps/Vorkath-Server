@@ -47,7 +47,6 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -822,7 +821,7 @@ public class PlayerSave {
             player.putAttrib(STARTER_BOW_CHARGES, details.starterBowCharges);
             player.putAttrib(STARTER_STAFF_CHARGES, details.starterStaffCharges);
             player.putAttrib(STARTER_SWORD_CHARGES, details.starterSwordCharges);
-
+            if (details.lastRecallSave != null) player.putAttrib(LAST_SAVED_TILE, details.lastRecallSave.tile());
         }
 
         //Account
@@ -1257,6 +1256,7 @@ public class PlayerSave {
         private final int starterBowCharges;
         private final int starterStaffCharges;
         private final int starterSwordCharges;
+        private final PlainTile lastRecallSave;
         private final boolean noArmPvpDailyCompleted;
         private final boolean noArmPvpDailyRewardClaimed;
 
@@ -2006,6 +2006,7 @@ public class PlayerSave {
             starterBowCharges = Player.getAttribIntOr(player, STARTER_BOW_CHARGES, 0);
             starterStaffCharges = Player.getAttribIntOr(player, STARTER_STAFF_CHARGES, 0);
             starterSwordCharges = Player.getAttribIntOr(player, STARTER_SWORD_CHARGES, 0);
+            lastRecallSave = player.getLastSavedTile() != null ? player.getLastSavedTile().toPlain() : null;
         }
 
         public void parseDetails() {
@@ -2023,9 +2024,6 @@ public class PlayerSave {
                 if (!Files.exists(parent)) {
                     parent = Files.createDirectories(parent);
                 }
-
-                // all that async shit don't make sense, needs to not be async, just submit save request of username to a queue
-                //can you convert
 
                 final Path tempFile = Files.createTempFile(parent, fileName, ".tmp");
                 Files.writeString(tempFile, json, StandardCharsets.UTF_8);

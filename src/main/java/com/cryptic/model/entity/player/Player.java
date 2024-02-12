@@ -197,6 +197,10 @@ public class Player extends Entity {
 
     @Getter
     @Setter
+    private Tile lastSavedTile;
+
+    @Getter
+    @Setter
     private int[] savedTornamentLevels;
     public transient ShopReference shopReference = ShopReference.DEFAULT;
 
@@ -1539,6 +1543,7 @@ public class Player extends Entity {
         applyAttributes();
         updatePlayer();
         handleOnLogin(this);
+        CombatFactory.sigils.HandleLogin(this);
         applyPoweredStaffSpells();
         //this.getPetEntity().spawnOnLogin();
         boolean newAccount = this.getAttribOr(NEW_ACCOUNT, false);

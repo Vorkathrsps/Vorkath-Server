@@ -201,6 +201,10 @@ public class Player extends Entity {
 
     @Getter
     @Setter
+    private boolean usingLastRecall = false;
+
+    @Getter
+    @Setter
     private int[] savedTornamentLevels;
     public transient ShopReference shopReference = ShopReference.DEFAULT;
 

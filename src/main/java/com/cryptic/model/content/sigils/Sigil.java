@@ -3,6 +3,7 @@ package com.cryptic.model.content.sigils;
 import com.cryptic.model.content.sigils.data.SigilData;
 import com.cryptic.model.content.sigils.combat.*;
 import com.cryptic.model.content.sigils.misc.Alchemaniac;
+import com.cryptic.model.content.sigils.misc.Exaggeration;
 import com.cryptic.model.content.sigils.misc.Stamina;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -44,6 +45,7 @@ public class Sigil extends PacketInteraction implements SigilListener {
         sigils.add(new Fortification());
         sigils.add(new Stamina());
         sigils.add(new Alchemaniac());
+        sigils.add(new Exaggeration());
         return sigils;
     }
 

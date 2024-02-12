@@ -1954,7 +1954,9 @@ public abstract class Entity {
 
         if (this instanceof Player player) {
             if (player.hasAttrib(AttributeKey.SAVE_LAST_TILE)) {
-                player.setLastSavedTile(this.tile);
+                if (player.getInstancedArea() == null) {
+                    player.setLastSavedTile(this.tile);
+                }
             }
         }
 

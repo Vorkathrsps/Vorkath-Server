@@ -51,10 +51,12 @@ public class Sigil extends PacketInteraction implements SigilListener {
     public void processResistance(Entity attacker, Entity target, Hit hit) {
         if (!(attacker instanceof NPC)) return;
         if (target instanceof Player player) {
-            for (AbstractSigil sigil : handler) {
-                if (sigil == null) continue;
-                if (sigil.attuned(player)) {
-                    sigil.resistanceModification(attacker, player, hit);
+            for (var data : SigilData.values()) {
+                for (AbstractSigil sigil : handler) {
+                    if (sigil == null) continue;
+                    if (data.handler.equals(sigil.getClass()) && sigil.attuned(player)) {
+                        sigil.resistanceModification(attacker, player, hit);
+                    }
                 }
             }
         }
@@ -69,11 +71,13 @@ public class Sigil extends PacketInteraction implements SigilListener {
         if (combatType == null) return;
         Entity combatTarget = combat.getTarget();
         if (combatTarget instanceof Player) return;
-        for (AbstractSigil sigil : handler) {
-            if (sigil == null) continue;
-            if (sigil.attuned(player)) {
-                if (sigil.validateCombatType(player)) {
-                    sigil.damageModification(player, hit);
+        for (var data : SigilData.values()) {
+            for (AbstractSigil sigil : handler) {
+                if (sigil == null) continue;
+                if (data.handler.equals(sigil.getClass()) && sigil.attuned(player)) {
+                    if (sigil.validateCombatType(player)) {
+                        sigil.damageModification(player, hit);
+                    }
                 }
             }
         }
@@ -88,11 +92,13 @@ public class Sigil extends PacketInteraction implements SigilListener {
         if (combatType == null) return;
         Entity combatTarget = combat.getTarget();
         if (combatTarget instanceof Player) return;
-        for (AbstractSigil sigil : handler) {
-            if (sigil == null) continue;
-            if (sigil.attuned(player)) {
-                if (sigil.validateCombatType(player)) {
-                    sigil.processCombat(player, target);
+        for (var data : SigilData.values()) {
+            for (AbstractSigil sigil : handler) {
+                if (sigil == null) continue;
+                if (data.handler.equals(sigil.getClass()) && sigil.attuned(player)) {
+                    if (sigil.validateCombatType(player)) {
+                        sigil.processCombat(player, target);
+                    }
                 }
             }
         }
@@ -107,11 +113,13 @@ public class Sigil extends PacketInteraction implements SigilListener {
         if (combatType == null) return;
         Entity combatTarget = combat.getTarget();
         if (combatTarget instanceof Player) return;
-        for (AbstractSigil sigil : handler) {
-            if (sigil == null) continue;
-            if (sigil.attuned(player)) {
-                if (sigil.validateCombatType(player))
-                    sigil.accuracyModification(player, target, rangeAccuracy, magicAccuracy, meleeAccuracy);
+        for (var data : SigilData.values()) {
+            for (AbstractSigil sigil : handler) {
+                if (sigil == null) continue;
+                if (data.handler.equals(sigil.getClass()) && sigil.attuned(player)) {
+                    if (sigil.validateCombatType(player))
+                        sigil.accuracyModification(player, target, rangeAccuracy, magicAccuracy, meleeAccuracy);
+                }
             }
         }
     }
@@ -143,8 +151,9 @@ public class Sigil extends PacketInteraction implements SigilListener {
                     player.getInventory().replace(sigil.unattuned, sigil.attuned, true);
                     for (AbstractSigil listener : handler) {
                         if (listener == null) throw new RuntimeException("Exception in AbstractSigil");
-                        if (sigil.handler != null && listener.attuned(player)) {
+                        if (sigil.handler.equals(listener.getClass()) && listener.attuned(player)) {
                             listener.processMisc(player);
+                            break;
                         }
                     }
                     return true;
@@ -155,8 +164,9 @@ public class Sigil extends PacketInteraction implements SigilListener {
                 if (item.getId() == sigil.attuned) {
                     for (AbstractSigil listener : handler) {
                         if (listener == null) throw new RuntimeException("Exception in AbstractSigil");
-                        if (sigil.handler != null && listener.attuned(player)) {
+                        if (sigil.handler.equals(listener.getClass()) && listener.attuned(player)) {
                             listener.onRemove(player);
+                            break;
                         }
                     }
                     total -= 1;

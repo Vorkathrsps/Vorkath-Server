@@ -676,8 +676,10 @@ public class CommandManager {
         });
 
         dev("listings", (p, c, s) -> {
-            p.getPacketSender().sendInterface(81600);
             TradingPost.displayRecentListingResults(p, TradingPost.recentTransactions);
+        });
+        dev("tpost1", (p, c, s) -> {
+            TradingPost.displayTradeHistory(p);
         });
 
         dev("ioi", (p, c, s) -> {

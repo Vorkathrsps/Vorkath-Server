@@ -63,7 +63,7 @@ public class TradingPost {
     public static final boolean TESTING = false;
     public static final boolean BLOOD_MONEY_CURRENCY = true;
 
-    private static final int INTERFACE_ID = 81050, HISTORY_ID = 81400, BUY_ID = 81250;
+    private static final int OVERVIEW = 81050, HISTORY_ID = 81400, BUY_ID = 81250, SELL_ID = 81800;
     /**
      * username: data
      */
@@ -264,7 +264,7 @@ public class TradingPost {
         //printRecentTransactions();
         player.getInterfaceManager().close();
         resetSearchVars(player);
-        player.getInterfaceManager().open(INTERFACE_ID);
+        player.getInterfaceManager().open(OVERVIEW);
         refreshInventory(player);
         player.putAttrib(AttributeKey.USING_TRADING_POST, true);
         if (!isValid(player)) { // first time, init a new listing
@@ -276,7 +276,7 @@ public class TradingPost {
     }
 
     private static void refreshInventory(Player player) {
-        player.getInterfaceManager().openInventory(INTERFACE_ID, InterfaceConstants.REMOVE_INVENTORY_ITEM - 1);
+        player.getInterfaceManager().openInventory(OVERVIEW, InterfaceConstants.REMOVE_INVENTORY_ITEM - 1);
         player.getPacketSender().sendItemOnInterface(InterfaceConstants.REMOVE_INVENTORY_ITEM, player.inventory().toArray());
     }
 
@@ -403,26 +403,34 @@ public class TradingPost {
         }
         if (buttonId == 81077 || buttonId == 81078) {
             // feature spot 1
+            return true;
         }
         if (buttonId == 81086 || buttonId == 81087) {
             // feature spot 2
+            return true;
         }
         if (buttonId == 810807 || buttonId == 81081) {
             // feature spot 3
+            return true;
         }
         if (buttonId == 81089 || buttonId == 81090) {
             // feature spot 4
+            return true;
         }
         if (buttonId == 81083 || buttonId == 81084) {
             // feature spot 5
+            return true;
+        }
+        if (buttonId == 81378) { // X buy specific item
+            p.getInterfaceManager().close();
+            return true;
         }
 
         // overview: remove listing red X button
         for (int i = 0; i < 10; i++) {
             var btn = 81127 + (i * 5);
             if (buttonId == btn) {
-                // cancel listing
-                TradingPost.modifyListing(p, i, 2);
+                TradingPost.modifyListing(p, i, 2);  // cancel listing
                 //logger.debug("cancel idx {}", i);
                 return true;
             }
@@ -430,14 +438,25 @@ public class TradingPost {
 
         if (buttonId == 81275) { // username wipe
             p.getPacketSender().sendString(81273, "");
+            return true;
         }
         if (buttonId == 81276) { // search itemname wipe
             p.getPacketSender().sendString(81274, "");
+            return true;
         }
         if (buttonId >= 81278 && buttonId <= 81278 + 20) {
             var index = buttonId - 81278;
             if (handleBuyButtons(p, index))
                 return true;
+        }
+        if (buttonId == 81379) { // TODO purchase confirm
+            return true;
+        }
+        if (buttonId == 81380) { // buy -1
+            return true;
+        }
+        if (buttonId == 81381) { // buy +1
+            return true;
         }
         return false;
     }
@@ -625,7 +644,7 @@ public class TradingPost {
                 return false;
             }
 
-            if (!player.getInterfaceManager().isInterfaceOpen(INTERFACE_ID)) {
+            if (!player.getInterfaceManager().isInterfaceOpen(OVERVIEW) && !player.getInterfaceManager().isInterfaceOpen(SELL_ID)) {
                 return false;
             }
 
@@ -895,8 +914,8 @@ public class TradingPost {
             if (!player.<Boolean>getAttribOr(USING_TRADING_POST, false))
                 return false;
 
-            if (!player.getInterfaceManager().isInterfaceOpen(BUY_ID)) {
-                //System.out.println("interface not open... " + player.getInterfaceManager().getMain());
+            if (!player.getInterfaceManager().isInterfaceOpen(BUY_ID) && !player.getInterfaceManager().isInterfaceOpen(OVERVIEW)) {
+                player.debug("interface not open... " + player.getInterfaceManager().getMain());
                 return false;
             }
 
@@ -929,7 +948,6 @@ public class TradingPost {
 
             int offerSize = offer.size();
 
-            //System.out.println("index: " +index+" "+page+" adding "+ ((25*page)-25));
             TradingPostListing selected = offer.get(index);
 
             if (selected.getRemaining() == 0) {
@@ -945,6 +963,10 @@ public class TradingPost {
                 return false;
             }
 
+            player.getPacketSender().sendItemOnInterfaceSlot(81383, selected.getSaleItem(), 0);
+            player.getPacketSender().sendString(81384, Utils.capitalizeFirst(selected.getSaleItem().name()));
+            player.getPacketSender().sendString(81385, "Price: "+selected.getPrice());
+            player.getPacketSender().sendString(81386, "Total Cost: "+((long) selected.getPrice() * selected.getRemaining()));
             player.setAmountScript("How many of this item would you like to purchase?", new InputScript() {
 
                 @Override
@@ -957,26 +979,31 @@ public class TradingPost {
     }
 
     private static void handlePurchasing(Player player, TradingPostListing selected, int amount) {
-            if (selected == null) {
-                player.message(Color.RED.wrap("this offer no longer exists"));
-                return;
-            }
+        if (selected == null) {
+            player.message(Color.RED.wrap("this offer no longer exists"));
+            return;
+        }
 
-            if (selected.getSellerName().equalsIgnoreCase(player.getUsername())) {
-                player.message(Color.RED.wrap("You can't buy your own items."));
-                return;
-            }
+        if (selected.getSellerName().equalsIgnoreCase(player.getUsername())) {
+            player.message(Color.RED.wrap("You can't buy your own items."));
+            return;
+        }
 
-            if (amount < 1)
-                amount = 1;
+        if (amount < 1)
+            amount = 1;
 
-            int amountRemaining = selected.getTotalAmount() - selected.getAmountSold();
+        int amountRemaining = selected.getTotalAmount() - selected.getAmountSold();
 
-            if (amount > amountRemaining)
-                amount = amountRemaining;
+        if (amount > amountRemaining)
+            amount = amountRemaining;
 
-            long price = selected.getPrice() * amount;
-            player.getDialogueManager().start(new TradingPostConfirmSale(amount, price, selected));
+        long price = selected.getPrice() * amount;
+        player.getDialogueManager().start(new TradingPostConfirmSale(amount, price, selected));
+
+        player.getPacketSender().sendItemOnInterfaceSlot(81383, selected.getSaleItem(), 0);
+        player.getPacketSender().sendString(81384, Utils.capitalizeFirst(selected.getSaleItem().name()));
+        player.getPacketSender().sendString(81385, "Price: "+selected.getPrice());
+        player.getPacketSender().sendString(81386, "Total Cost: "+((long) selected.getPrice() * amount));
     }
 
     public static void finishPurchase(Player player, TradingPostListing selected, long totalPrice, int amount, boolean noted) {

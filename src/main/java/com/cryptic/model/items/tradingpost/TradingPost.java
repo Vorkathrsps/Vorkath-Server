@@ -292,7 +292,7 @@ public class TradingPost {
                     item == null ? "" : item.getSaleItem().unnote().name(),
                     item == null ? "" : "%d/%d | %d (ea)"
                             .formatted(item.getAmountSold(), item.getTotalAmount(), item.getPrice()),
-                    item == null ? 0 :  (int) (item.amountSold * 100 / (double) item.getTotalAmount()),
+                    item == null ? -1 :  (int) (item.amountSold * 100 / (double) item.getTotalAmount()),
                     i,
                     player);
         }
@@ -307,8 +307,10 @@ public class TradingPost {
         player.getPacketSender().sendItemOnInterfaceSlot(base, item, 0);
         player.getPacketSender().sendString(base + 1, name); // Iron Full Helm
         player.getPacketSender().sendString(base + 2, priceper); // 5/6 | 2k (ea)
-        player.getPacketSender().sendInterfaceDisplayState(base + 3, item == null ? false : true); //Hide 'cancel listing' btn
-        player.getPacketSender().sendProgressBar(base + 2, progress);
+        if (progress > -1)
+            player.getPacketSender().sendProgressBar(base + 2, progress);
+        player.getPacketSender().sendInterfaceDisplayState(base + 2, progress == -1);
+        player.getPacketSender().sendInterfaceDisplayState(base + 4, item == null); //Hide 'cancel listing' btn
     }
 
     public static void showRecents(Player p, List<TradingPostListing> recentTransactions) {

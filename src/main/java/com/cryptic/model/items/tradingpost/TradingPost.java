@@ -30,6 +30,8 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.utility.CustomItemIdentifiers.BLOODY_TOKEN;
@@ -277,55 +279,23 @@ public class TradingPost {
         player.getPacketSender().sendItemOnInterface(InterfaceConstants.REMOVE_INVENTORY_ITEM, player.inventory().toArray());
     }
 
-    private static void sendOverviewTab(Player player) {
-        String user = player.getUsername().toLowerCase();
+    private static void sendOverviewTab(Player p) { // TODO merge send overview
+        String user = p.getUsername().toLowerCase();
         final var c = getListings(user);
-        int saleSize = c.getListedItems().size();
-
-        int start = 66_030, finish = (66_030 + saleSize * 8);
-
         List<TradingPostListing> list = c.getListedItems();
 
-        int count = 0;
-
-        for (int i = start; i < finish; i += 8) {
-            TradingPostListing listed = list.get(count);
-            var progress = (int) (listed.getAmountSold() * 100 / (double) listed.getTotalAmount());
-
-            String name = listed.getSaleItem().unnote().name().length() > 20 ? listed.getSaleItem().unnote().name().substring(0, 19) + "<br>" + listed.getSaleItem().unnote().name().substring(19) : listed.getSaleItem().unnote().name();
-            //Item name
-            player.getPacketSender().sendString(i + 1, name);
-            //Price
-            player.getPacketSender().sendString(i + 2, "" + Utils.formatRunescapeStyle(listed.getPrice()) + "");
-            //Amount sold
-            player.getPacketSender().sendString(i + 3, "" + Utils.formatNumber(listed.getAmountSold()) + "/" + Utils.formatNumber(listed.getTotalAmount()));
-            //Hide progress bar
-            player.getPacketSender().sendInterfaceDisplayState(i + 4, false);
-            //Progress bar
-            player.getPacketSender().sendProgressBar(i + 4, progress);
-            //Hide item
-            player.getPacketSender().sendInterfaceDisplayState(i + 5, false);
-            //Item
-            player.getPacketSender().sendItemOnInterfaceSlot(i + 5, listed.getSaleItem().unnote(), 0);
-            //Button
-            player.getPacketSender().sendInterfaceDisplayState(i + 6, false);
-            //Hide claim text
-            player.getPacketSender().sendInterfaceDisplayState(i + 7, false);
-            count++;
-        }
-        player.getPacketSender().sendScrollbarHeight(66026, count * 55);
-    }
-
-    private static void resetInterface(Player p) { // TODO merge send overview
         int start = 81124, finish = 81124 + (10 * 5);
 
-        for (int i = start; i < finish; i += 5) {
+        for (int i = start; i < finish; i += 5) { // 5 total entries on this screen
+            var idx = (i - start) == 0 ? 0 : (i - start) / 5;
+            var item = idx >= list.size() ? null : list.get(idx);
             //Item name
-            p.getPacketSender().sendString(i, "");
+            p.getPacketSender().sendString(i, item == null ? "" : item.getSaleItem().unnote().name()); // Iron Full Helm
             //amt sold/total, Price per - in one string
-            p.getPacketSender().sendString(i + 2, "");
+            p.getPacketSender().sendString(i + 2,  item == null ? "" : "%d/%d | %d (ea)"
+                    .formatted(item.getAmountSold(), item.getTotalAmount(), item.getPrice())); // 5/6 | 2k (ea)
             //Hide 'cancel listing' btn
-            p.getPacketSender().sendInterfaceDisplayState(i + 3, true);
+            p.getPacketSender().sendInterfaceDisplayState(i + 3, item == null ? false : true);
         }
         p.getPacketSender().sendString(81073, NumberUtils.formatNumber(123_000_000L)); // coffer
         p.getPacketSender().sendString(81074, "Active: "+NumberUtils.formatNumber(123)); // my trades
@@ -333,15 +303,58 @@ public class TradingPost {
 
     }
 
+    enum Kys {
+        EXIT(0, p -> {}),
+        OVERVIEW(1, p -> TradingPost.open(p)),
+        BUY(2, p -> {}),
+        SELL(3, p -> {}),
+        TRADE_HISTORY(4, p -> {}),
+        RECENT_LISTINGS(5, p -> {})
+        ;
+
+        private final Function<Integer, Boolean> o;
+        private final int i;
+        private final Consumer<Player> open;
+
+        Kys(Function<Integer, Boolean> o) {
+
+            this.o = o;
+            i = 69699;
+            open = null;
+        }
+        Kys(int i, Consumer<Player> open) {
+
+            this.i = i;
+            this.open = open;
+            o = null;
+        }
+
+        public void open(Player p) {
+            open.accept(p);
+        }
+    }
+
+    static final int[] BASE_TAB_BUTTONS = new int[] {81053, 81253, 81803, 81403, 81603};
+
     public static boolean handleButtons(Player p, int buttonId) {
         if (!p.<Boolean>getAttribOr(USING_TRADING_POST, false))
             return false;
 
-        if (buttonId == 81069) { // TODO add to coffer dialogue
-            return true;
+        for (int i = 0; i < BASE_TAB_BUTTONS.length; i++) {
+            var base = BASE_TAB_BUTTONS[i];
+            if (buttonId >= base && buttonId <= base + 6) {
+                for (Kys value : Kys.values()) {
+                    var delta = buttonId - base;
+                    logger.info("holy fuck found {} by {} on base {}", value.name(), buttonId, base);
+                    if (delta == value.i) {
+                        value.open(p);
+                        return true;
+                    }
+                }
+            }
         }
-        if (buttonId == 81054) { // overview tab
-
+        if (buttonId == 81069) { // TODO overview tab: add to coffer dialogue
+            return true;
         }
         if (buttonId == 81077 || buttonId == 81078) {
             // feature spot 1

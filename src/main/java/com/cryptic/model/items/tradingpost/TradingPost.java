@@ -280,7 +280,7 @@ public class TradingPost {
         player.getPacketSender().sendItemOnInterface(InterfaceConstants.REMOVE_INVENTORY_ITEM, player.inventory().toArray());
     }
 
-    private static void sendOverviewTab(Player p) { // TODO merge send overview
+    private static void sendOverviewTab(Player p) {
         String user = p.getUsername().toLowerCase();
         final var c = getListings(user);
         List<TradingPostListing> list = c.getListedItems();
@@ -318,11 +318,22 @@ public class TradingPost {
     enum Kys {
         EXIT(0, p -> p.getInterfaceManager().close()),
         OVERVIEW(1, p -> TradingPost.open(p)),
-        BUY(2, p -> {}),
-        SELL(3, p -> {}),
+        BUY(2, p -> openBuyUI(p)),
+        SELL(3, p -> openSellUI(p)),
         TRADE_HISTORY(4, p -> showTradeHistory(p)),
         RECENT_LISTINGS(5, p -> showRecents(p, recentTransactions))
         ;
+
+        public static void openSellUI(Player p) {
+            
+        }
+
+        public static void openBuyUI(Player p) {
+            p.getPacketSender().sendString(81271, "2344"); // open offers
+            p.getPacketSender().sendString(81272, "127k"); // item volume
+            p.getPacketSender().sendString(81273, ""); // username wipe
+            p.getPacketSender().sendString(81274, ""); // item wipe
+        }
 
         private final Function<Integer, Boolean> o;
         private final int i;
@@ -769,14 +780,14 @@ public class TradingPost {
 
             if (foundSize == 0) {
                 if (refresh) {
-                    showSellTabOffers(player, null);
+                    showBuyTabOffers(player, null);
                     return;
                 }
                 player.message("<col=ff0000>0 Items found.. with the synx '" + itemName + "'");
                 return;
             }
             player.lastTradingPostItemSearch = itemName;
-            showSellTabOffers(player, list);
+            showBuyTabOffers(player, list);
             if (!refresh) {
                 player.message("<col=ff0000>Found " + foundSize + " starting with the synx: '" + itemName + "'");
             }
@@ -799,30 +810,30 @@ public class TradingPost {
 
             if (foundSize == 0) {
                 if (refresh) {
-                    showSellTabOffers(player, null);
+                    showBuyTabOffers(player, null);
                     return;
                 }
                 player.message("<col=ff0000>" + username + " doesn't have any items listed.");
                 return;
             }
             player.lastTradingPostUserSearch = username;
-            showSellTabOffers(player, list);
+            showBuyTabOffers(player, list);
             if (!refresh) {
                 player.message("<col=ff0000>Displaying " + username + "'s " + foundSize + " trade post listings..");
             }
     }
 
-    public static void showSellTabOffers(Player player, List<TradingPostListing> saleMatches) {
+    public static void showBuyTabOffers(Player player, List<TradingPostListing> saleMatches) {
         for (int i = 0; i < 10; i++) {
             var item = saleMatches == null ? null : i >= saleMatches.size() ? null : saleMatches.get(i);
-            sendSellIndex(item == null ? null : item.getSaleItem(),
+            sendBuyIndex(item == null ? null : item.getSaleItem(),
                     item == null ? "" : item.getSellerName(),
                     item == null ? "" : Utils.formatNumber(item.getTotalAmount()),
                     i, player);
         }
     }
 
-    public static void sendSellIndex(Item itemname, String seller, String pricePer, int idx, Player player) {
+    public static void sendBuyIndex(Item itemname, String seller, String pricePer, int idx, Player player) {
         if (idx > 10)
             return;
         var base = 81288;

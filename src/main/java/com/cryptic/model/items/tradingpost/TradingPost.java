@@ -259,8 +259,7 @@ public class TradingPost {
 
         //printRecentTransactions();
         player.getInterfaceManager().close();
-        resetInterface(player);
-        resetVariables(player);
+        resetSearchVars(player);
         player.getInterfaceManager().open(INTERFACE_ID);
         refreshInventory(player);
         player.putAttrib(AttributeKey.USING_TRADING_POST, true);
@@ -269,7 +268,7 @@ public class TradingPost {
             sales.put(player.getUsername().toLowerCase(), listings);
             save(listings);
         }
-        displaySales(player);
+        sendOverviewTab(player);
     }
 
     private static void refreshInventory(Player player) {
@@ -277,7 +276,7 @@ public class TradingPost {
         player.getPacketSender().sendItemOnInterface(InterfaceConstants.REMOVE_INVENTORY_ITEM, player.inventory().toArray());
     }
 
-    private static void displaySales(Player player) {
+    private static void sendOverviewTab(Player player) {
         String user = player.getUsername().toLowerCase();
         final var c = getListings(user);
         int saleSize = c.getListedItems().size();
@@ -316,27 +315,6 @@ public class TradingPost {
         player.getPacketSender().sendScrollbarHeight(66026, count * 55);
     }
 
-    private static void resetInterface(Player p) {
-        int start = 66_030, finish = 66_228;
-
-        for (int i = start; i < finish; i += 8) {
-            //Item name
-            p.getPacketSender().sendString(i + 1, "");
-            //Price
-            p.getPacketSender().sendString(i + 2, "");
-            //Amount sold
-            p.getPacketSender().sendString(i + 3, "");
-            //Hide progress bar
-            p.getPacketSender().sendInterfaceDisplayState(i + 4, true);
-            //Hide item
-            p.getPacketSender().sendInterfaceDisplayState(i + 5, true);
-            //Hide button
-            p.getPacketSender().sendInterfaceDisplayState(i + 6, true);
-            //Hide claim text
-            p.getPacketSender().sendInterfaceDisplayState(i + 7, true);
-        }
-    }
-
     public static boolean handleButtons(Player p, int buttonId) {
         if (!p.<Boolean>getAttribOr(USING_TRADING_POST, false))
             return false;
@@ -355,6 +333,24 @@ public class TradingPost {
                 open(p);
             }
             return true;
+        }
+        if (buttonId == 81054) { // overview tab
+
+        }
+        if (buttonId == 81077 || buttonId == 81078) {
+            // feature spot 1
+        }
+        if (buttonId == 81086 || buttonId == 81087) {
+            // feature spot 2
+        }
+        if (buttonId == 810807 || buttonId == 81081) {
+            // feature spot 3
+        }
+        if (buttonId == 81089 || buttonId == 81090) {
+            // feature spot 4
+        }
+        if (buttonId == 81083 || buttonId == 81084) {
+            // feature spot 5
         }
 
         //Recent listed items next page button
@@ -480,6 +476,35 @@ public class TradingPost {
         if (handleBuyButtons(p, buttonId))
             return true;
         return false;
+    }
+
+    public static void featureSpotText(Player player, String a, String b, int index) {
+        int a1 = 81080;
+        int a2 = 81081;
+        switch (index) {
+            case 0 -> {
+                a1 = 81077;
+                a2 = 81078;
+            }
+            case 1 -> {
+                a1 = 81086;
+                a2 = 81087;
+            }
+            case 2 -> {
+                a1 = 81080;
+                a2 = 81081;
+            }
+            case 3 -> {
+                a1 = 81089;
+                a2 = 81090;
+            }
+            case 4 -> {
+                a1 = 81083;
+                a2 = 81084;
+            }
+        }
+        player.getPacketSender().sendString(a1, a);
+        player.getPacketSender().sendString(a2, b);
     }
 
     private static void displayHistory(Player player) {
@@ -1272,7 +1297,7 @@ public class TradingPost {
 
             if (sel.isPresent()) {
                 sel.get().message("One or more of your trading post offers have been updated.");
-                displaySales(sel.get());
+                sendOverviewTab(sel.get());
                 sel.get().tradePostHistory.add(selected);
             }
 
@@ -1563,7 +1588,7 @@ public class TradingPost {
         open(player);
     }
 
-    public static void resetVariables(Player player) {
+    public static void resetSearchVars(Player player) {
         player.lastTradingPostItemSearch = null;
         player.lastTradingPostUserSearch = null;
     }

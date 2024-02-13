@@ -396,62 +396,19 @@ public class TradingPost {
             }
         }
 
-        if (buttonId == 66854) {
-            refreshListing(p);
-            return true;
+        if (buttonId == 81275) { // username wipe
+            p.getPacketSender().sendString(81273, "Search by username");
+            searchByUsername(p, "", false);
         }
-
-        if (buttonId == 81053 || buttonId == 81253 || buttonId == 81803 || buttonId == 81403 || buttonId == 81603) {//X button
-            p.getInterfaceManager().close();
-            return true;
+        if (buttonId == 81276) { // search itemname wipe
+            p.getPacketSender().sendString(81274, "Search item name");
+            searchByItemName(p, "", true);
         }
-        if (buttonId == 66011) {//search item
-            p.setNameScript("Which item would you like to buy?", value -> {
-                TradingPost.searchByItemName(p, (String) value, false);
+        if (buttonId >= 81278 && buttonId <= 81278 + 20) {
+            var index = buttonId - 81278;
+            if (handleBuyButtons(p, index))
                 return true;
-            });
-            return true;
         }
-        if (buttonId == 66014) {//search user
-            p.setNameScript("Which persons shop would you like to view? (username)", value -> {
-                TradingPost.searchByUsername(p, (String) value, false);
-                return true;
-            });
-            return true;
-        }
-        if (buttonId == 66017) {//recent sales
-            p.getDialogueManager().start(new Dialogue() {
-                @Override
-                protected void start(Object... parameters) {
-                    send(DialogueType.OPTION, DEFAULT_OPTION_TITLE, "View recent items sold.", "View recent listed items.", "Nevermind.");
-                    setPhase(0);
-                }
-
-                @Override
-                protected void select(int option) {
-                    if (isPhase(0)) {
-                        if (option == 1) {
-                            //printRecentTransactions();
-                            // displayResults(p, recentTransactions); // TODO
-                            stop();
-                        } else if (option == 2) {
-                            showTradeHistory(p);
-                            stop();
-                        } else if (option == 3) {
-                            stop();
-                        }
-                    }
-                }
-            });
-            return true;
-        }
-        if (buttonId >= 66036 && buttonId <= 66228) {
-            handleListingEdits(p, buttonId);
-            return true;
-        }
-
-        if (handleBuyButtons(p, buttonId))
-            return true;
         return false;
     }
 
@@ -581,14 +538,6 @@ public class TradingPost {
             }
         });
     }
-
-    public static int length = 20;
-    public static int offset = 6;
-    public static int ITEM_NAME_CHILD = 81641;
-    public static int NAME_CHILD = 81643;
-    public static int AMOUNT_CHILD = 81645;
-    public static int ITEM_CONTAINER = 81640;
-    public static int TRADE_HISTORY_ITEM_CONTAINER = 81440;
 
     public static void sendTradeHistoryIndex(Item itemid, String itemname, String seller, String buyer, String price, int idx, Player player) {
         if (idx > 20)
@@ -924,7 +873,7 @@ public class TradingPost {
             });
     }
 
-    public static boolean handleBuyButtons(Player player, int buttonId) {
+    public static boolean handleBuyButtons(Player player, int index) {
             //System.out.println("buttonId=" + buttonId);
 
             if (!player.<Boolean>getAttribOr(USING_TRADING_POST, false))
@@ -964,23 +913,6 @@ public class TradingPost {
 
             int offerSize = offer.size();
 
-            buttonId -= 66635;
-
-            if (buttonId > 0)
-                buttonId /= 8;
-
-            //System.out.println("ButtonId=" + buttonId + " offerSize=" + offerSize);
-
-            if (buttonId < 0 || buttonId >= offerSize) {
-                player.message("<col=ff0000>sale doesn't exist.");
-                return false;
-            }
-
-            var page = player.<Integer>getAttribOr(TRADING_POST_BUY_PAGE, 1);
-            if (page > 1)
-                buttonId += (25 * page) - 25;
-
-            int index = buttonId;
             //System.out.println("index: " +index+" "+page+" adding "+ ((25*page)-25));
             TradingPostListing selected = offer.get(index);
 
@@ -1216,15 +1148,6 @@ public class TradingPost {
             save(listing);
         }
         open(p);
-    }
-
-    public static void handleListingEdits(Player player, int buttonId) {
-        buttonId -= 66036;
-
-        if (buttonId > 0)
-            buttonId /= 8;
-
-        player.getDialogueManager().start(new TradingPostOptions(buttonId));
     }
 
     public static void modifyListing(Player player, int listIndex, int optionId) {

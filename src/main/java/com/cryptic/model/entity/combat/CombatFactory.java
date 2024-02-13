@@ -788,7 +788,6 @@ public class CombatFactory {
         }
     }
 
-    public static Sigil sigils = new Sigil();
     static PreDamageEffectHandler triggerDamageEffects = new PreDamageEffectHandler(new EquipmentDamageEffect());
     static PreAmmunitionDamageEffectHandler ammunitionDamageListener = new PreAmmunitionDamageEffectHandler(new AmmunitionDamageEffect());
 
@@ -921,7 +920,7 @@ public class CombatFactory {
 
 
         if (attacker instanceof Player player) {
-            sigils.process(player, target);
+            player.sigil.process(player, target);
             triggerDamageEffects.triggerEffectForAttacker(player, combatType, hit);
         } else if (attacker instanceof NPC npc) {
             triggerDamageEffects.triggerEffectForAttacker(npc, combatType, hit);
@@ -1019,7 +1018,7 @@ public class CombatFactory {
             }
         }
 
-        if (attacker instanceof Player player) CombatFactory.sigils.processDamage(player, hit);
+        if (attacker instanceof Player player) player.sigil.processDamage(player, hit);
 
         if (hit.postDamage != null)
             hit.postDamage.accept(hit);
@@ -1030,8 +1029,7 @@ public class CombatFactory {
             o.postDamage(hit);
         }
 
-        if (attacker instanceof NPC npc && target instanceof Player player)
-            CombatFactory.sigils.processResistance(npc, player, hit);
+        if (attacker instanceof NPC npc && target instanceof Player player) player.sigil.processResistance(npc, player, hit);
 
         if (attacker != null && attacker.isPlayer() && target.isPlayer()) {
             assert attacker instanceof Player;

@@ -214,7 +214,7 @@ public class Hit {
         MagicAccuracy magicAccuracy = new MagicAccuracy(this.attacker, this.target, this.combatType);
         RangeAccuracy rangeAccuracy = new RangeAccuracy(this.attacker, this.target, this.combatType);
         MeleeAccuracy meleeAccuracy = new MeleeAccuracy(this.attacker, this.target, this.combatType);
-        if (this.attacker instanceof Player player) CombatFactory.sigils.processAccuracy(player, this.target, rangeAccuracy, magicAccuracy, meleeAccuracy);
+        if (this.attacker instanceof Player player) player.sigil.processAccuracy(player, this.target, rangeAccuracy, magicAccuracy, meleeAccuracy);
         if (target instanceof NPC npc) {
             if (npc.getCombatInfo() == null) {
                 logger.warn("Missing combat information for {} {} {}", npc, npc.getMobName(), npc.id());

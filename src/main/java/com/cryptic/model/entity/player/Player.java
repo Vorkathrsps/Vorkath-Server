@@ -48,6 +48,7 @@ import com.cryptic.model.content.raids.theatre.party.TheatreParty;
 import com.cryptic.model.content.raids.theatre.stage.RoomState;
 import com.cryptic.model.content.raids.theatre.stage.TheatreStage;
 import com.cryptic.model.content.security.AccountPin;
+import com.cryptic.model.content.sigils.Sigil;
 import com.cryptic.model.content.skill.Skillable;
 import com.cryptic.model.content.skill.impl.farming.Farming;
 import com.cryptic.model.content.skill.impl.hunter.Hunter;
@@ -1544,6 +1545,8 @@ public class Player extends Entity {
 
     }
 
+    public Sigil sigil = new Sigil();
+
     /**
      * Called by the world's login queue!
      */
@@ -1556,7 +1559,7 @@ public class Player extends Entity {
         applyAttributes();
         updatePlayer();
         handleOnLogin(this);
-        CombatFactory.sigils.HandleLogin(this);
+        sigil.HandleLogin(this);
         applyPoweredStaffSpells();
         //this.getPetEntity().spawnOnLogin();
         boolean newAccount = this.getAttribOr(NEW_ACCOUNT, false);

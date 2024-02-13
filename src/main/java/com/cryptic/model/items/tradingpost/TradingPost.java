@@ -967,6 +967,7 @@ public class TradingPost {
             player.getPacketSender().sendString(81384, Utils.capitalizeFirst(selected.getSaleItem().name()));
             player.getPacketSender().sendString(81385, "Price: "+selected.getPrice());
             player.getPacketSender().sendString(81386, "Total Cost: "+((long) selected.getPrice() * selected.getRemaining()));
+            player.getPacketSender().sendString(81382, ""+selected.getRemaining());
             player.setAmountScript("How many of this item would you like to purchase?", new InputScript() {
 
                 @Override
@@ -1004,6 +1005,7 @@ public class TradingPost {
         player.getPacketSender().sendString(81384, Utils.capitalizeFirst(selected.getSaleItem().name()));
         player.getPacketSender().sendString(81385, "Price: "+selected.getPrice());
         player.getPacketSender().sendString(81386, "Total Cost: "+((long) selected.getPrice() * amount));
+        player.getPacketSender().sendString(81382, ""+amount);
     }
 
     public static void finishPurchase(Player player, TradingPostListing selected, long totalPrice, int amount, boolean noted) {

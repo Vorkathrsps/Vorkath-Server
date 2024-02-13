@@ -280,28 +280,35 @@ public class TradingPost {
         player.getPacketSender().sendItemOnInterface(InterfaceConstants.REMOVE_INVENTORY_ITEM, player.inventory().toArray());
     }
 
-    private static void sendOverviewTab(Player p) {
-        String user = p.getUsername().toLowerCase();
+    private static void sendOverviewTab(Player player) {
+        String user = player.getUsername().toLowerCase();
         final var c = getListings(user);
         List<TradingPostListing> list = c.getListedItems();
 
-        int start = 81124, finish = 81124 + (10 * 5);
+        for (int i = 0; i < 10; i++) { // 10 total entries on this screen
+            var item = i >= list.size() ? null : list.get(i);
 
-        for (int i = start; i < finish; i += 5) { // 5 total entries on this screen
-            var idx = (i - start) == 0 ? 0 : (i - start) / 5;
-            var item = idx >= list.size() ? null : list.get(idx);
-            //Item name
-            p.getPacketSender().sendString(i, item == null ? "" : item.getSaleItem().unnote().name()); // Iron Full Helm
-            //amt sold/total, Price per - in one string
-            p.getPacketSender().sendString(i + 2,  item == null ? "" : "%d/%d | %d (ea)"
-                    .formatted(item.getAmountSold(), item.getTotalAmount(), item.getPrice())); // 5/6 | 2k (ea)
-            //Hide 'cancel listing' btn
-            p.getPacketSender().sendInterfaceDisplayState(i + 3, item == null ? false : true);
+            sendOverviewIndex(item == null ? null : item.getSaleItem(),
+                    item == null ? "" : item.getSaleItem().unnote().name(),
+                    item == null ? "" : "%d/%d | %d (ea)"
+                            .formatted(item.getAmountSold(), item.getTotalAmount(), item.getPrice()),
+                    item == null ? 0 :  (int) (item.amountSold * 100 / (double) item.getTotalAmount()),
+                    i,
+                    player);
         }
-        p.getPacketSender().sendString(81073, NumberUtils.formatNumber(123_000_000L)); // coffer
-        p.getPacketSender().sendString(81074, "Active: "+NumberUtils.formatNumber(123)); // my trades
-        p.getPacketSender().sendString(81075, NumberUtils.formatNumber(456)); // global trades #
+        player.getPacketSender().sendString(81073, NumberUtils.formatNumber(123_000_000L)); // coffer
+        player.getPacketSender().sendString(81074, "Active: "+NumberUtils.formatNumber(123)); // my trades
+        player.getPacketSender().sendString(81075, NumberUtils.formatNumber(456)); // global trades #
+    }
 
+    public static void sendOverviewIndex(Item item, String name, String priceper, int progress, int idx, Player player) {
+        int base = 81123;
+        base += (5 * idx);
+        player.getPacketSender().sendItemOnInterfaceSlot(base, item, 0);
+        player.getPacketSender().sendString(base + 1, name); // Iron Full Helm
+        player.getPacketSender().sendString(base + 2, priceper); // 5/6 | 2k (ea)
+        player.getPacketSender().sendInterfaceDisplayState(base + 3, item == null ? false : true); //Hide 'cancel listing' btn
+        player.getPacketSender().sendProgressBar(base + 2, progress);
     }
 
     public static void showRecents(Player p, List<TradingPostListing> recentTransactions) {
@@ -324,17 +331,6 @@ public class TradingPost {
         RECENT_LISTINGS(5, p -> showRecents(p, recentTransactions))
         ;
 
-        public static void openSellUI(Player p) {
-            
-        }
-
-        public static void openBuyUI(Player p) {
-            p.getPacketSender().sendString(81271, "2344"); // open offers
-            p.getPacketSender().sendString(81272, "127k"); // item volume
-            p.getPacketSender().sendString(81273, ""); // username wipe
-            p.getPacketSender().sendString(81274, ""); // item wipe
-        }
-
         private final Function<Integer, Boolean> o;
         private final int i;
         private final Consumer<Player> open;
@@ -355,6 +351,23 @@ public class TradingPost {
         public void open(Player p) {
             open.accept(p);
         }
+    }
+
+    public static void openSellUI(Player p) {
+        p.getPacketSender().sendItemOnInterfaceSlot(81819, null, 0);
+        p.getPacketSender().sendString(81820, "");
+        p.getPacketSender().sendString(81822, sales.size()+""); // current sales
+        p.getPacketSender().sendString(81824, ""); // TODO avg sell time
+        p.getPacketSender().sendString(81826, ""); // TODO market price
+        p.getPacketSender().sendString(81828, ""); // TODO quantity
+        p.getPacketSender().sendString(81830, ""); // TODO price per item green text
+    }
+
+    public static void openBuyUI(Player p) {
+        p.getPacketSender().sendString(81271, "2344"); // open offers
+        p.getPacketSender().sendString(81272, "127k"); // item volume
+        p.getPacketSender().sendString(81273, ""); // username wipe
+        p.getPacketSender().sendString(81274, ""); // item wipe
     }
 
     static final int[] BASE_TAB_BUTTONS = new int[] {81053, 81253, 81803, 81403, 81603};
@@ -400,6 +413,7 @@ public class TradingPost {
             var btn = 81127 + (i * 5);
             if (buttonId == btn) {
                 // cancel listing
+                TradingPost.modifyListing(p, i, 2);
                 logger.info("cancel idx {}", i);
                 return true;
             }
@@ -559,6 +573,19 @@ public class TradingPost {
         player.getPacketSender().sendString(base + 5, price); // TODO convert to k, m, b
     }
 
+    public static void sendSellItemIndex(Item itemid, String itemname, String seller, String price, int idx, Player player) {
+        if (idx > 20)
+            return;
+        var base = 81853;
+        base += (6 * idx);
+        player.getPacketSender().sendItemOnInterfaceSlot(base, itemid, 0);
+        player.getPacketSender().sendString(base + 1, Utils.capitalizeFirst(itemname));
+        player.getPacketSender().sendString(base + 2, itemid == null ? "" : "Seller");
+        player.getPacketSender().sendString(base + 3, itemid == null ? "" : Utils.capitalizeFirst(seller));
+        player.getPacketSender().sendString(base + 4, itemid == null ? "" : "Price");
+        player.getPacketSender().sendString(base + 5, price); // TODO convert to k, m, b
+    }
+
     /**
      *
      * @param itemname
@@ -625,7 +652,7 @@ public class TradingPost {
 
             List<TradingPostListing> currentListings = list.getSalesMatchingByItemId(new Item(itemId).unnote().getId());
 
-            Item offerItem = new Item(itemId, (int) amount);
+            Item offerItem = new Item(itemId, Math.min(player.inventory().count(itemId), (int) amount));
 
             if (!player.inventory().contains(offerItem)) {
                 return false;
@@ -762,7 +789,7 @@ public class TradingPost {
                     }
                 }
             }
-            open(player);
+            openSellUI(player);
     }
 
     public static void searchByItemName(Player player, String itemName, boolean refresh) {
@@ -1153,107 +1180,6 @@ public class TradingPost {
             return;
         }
 
-        /*if (optionId == 2) {
-            if (offer.getRemaining() == 0) {
-                player.message(Color.RED.wrap("Your " + offerItem.unnote().name() + " have already been sold."));
-                return;
-            }
-
-            if (!TradingPost.TRADING_POST_LISTING_ENABLED) {
-                player.message(Color.RED.wrap("The trading post is currently in maintenance mode, u can't modify items."));
-                return;
-            }
-
-            //Edit Quantity
-            player.setEnterSyntax(new EnterSyntax() {
-
-                @Override
-                public void handleSyntax(Player player, long newSellAmount) {
-                    if (newSellAmount == 0 || newSellAmount < 0)
-                        return;
-
-                    var oldSellAmount = offer.getRemaining(); // sold 5/10, 5 left
-                    var amtToRemove = newSellAmount - oldSellAmount; // try to sell 100. 100-5 = 95 to remove from inventory
-
-                    //Withdrawal...
-                    // 100 < 5, false, this code wont run
-                    if (newSellAmount < oldSellAmount) {
-                        // when you want to Reduce the amount of items your selling, example selling 100, reducing to 50 so youre keeping 50
-                        amtToRemove = oldSellAmount - newSellAmount;
-                        offer.setQuantity((int) newSellAmount); // its using the
-                        player.inventory().addOrBank(new Item(offerItem.getId(), (int) amtToRemove));
-                        refresh(player);
-                        return;
-                    }
-
-                    //Offering more...
-
-                    // count both types rather than either or
-
-                    var carrying = player.inventory().count(offerItem.unnote().getId()) + player.inventory().count(offerItem.note().getId());
-                    // only remove as many as are carried in inventory, dont consider those already in the offer yet
-                    if (carrying < amtToRemove)
-                        amtToRemove = carrying;
-
-                    // just thinking, here you need to only remove carried or amt carried
-                    // remove smallest: amt of unnoted you have with you or the request amt if you have more than the request
-                    var unnotedAmt = Math.min(amtToRemove, player.inventory().count(offerItem.unnote().getId()));
-                    player.inventory().remove(new Item(offerItem.unnote().getId(), (int) unnotedAmt), true);
-                    amtToRemove -= unnotedAmt; // remove amt removed, just tracking how many left
-
-                    //
-                    var notedAmt = Math.min(amtToRemove, player.inventory().count(offerItem.note().getId()));
-                    player.inventory().remove(new Item(offerItem.note().getId(), (int) notedAmt), true);
-
-                    // old 10, + noted taken + unnoted taken
-                    offer.setQuantity((int) (oldSellAmount + (notedAmt + unnotedAmt)));
-                    refresh(player);
-                    save(listing);
-                }
-            });
-            player.getPacketSender().sendEnterAmountPrompt("What quantity would you like to change your offer to?");
-            return;
-        }
-
-        if (optionId == 3) {
-            if (offer.getRemaining() == 0) {
-                player.message(Color.RED.wrap("Your " + offerItem.unnote().name() + " have already been sold."));
-                return;
-            }
-
-            if (!TradingPost.TRADING_POST_LISTING_ENABLED) {
-                player.message(Color.RED.wrap("The trading post is currently in maintenance mode, u can't modify items."));
-                return;
-            }
-
-            // Edit Price
-            player.setEnterSyntax(new EnterSyntax() {
-
-                @Override
-                public void handleSyntax(Player player, long newPrice) {
-                    if (newPrice == 0 || newPrice < 0)
-                        return;
-
-                    if (offer.getRemaining() < offer.getTotalAmount()) {
-                        player.getPacketSender().sendMessage("<col=ff0000>Your offer already has completed transactions. If you wish to edit the price, cancel it first.");
-                        return;
-                    }
-
-                    long oldPrice = offer.getPrice();
-
-                    if (newPrice == oldPrice) {
-                        player.message(Color.RED.wrap("You're already selling the " + offerItem.unnote().name() + " for " + Utils.formatRunescapeStyle(newPrice) + "."));
-                        return;
-                    }
-                    offer.setPrice(newPrice);
-                    refresh(player);
-                    save(listing);
-                }
-            });
-            player.getPacketSender().sendEnterAmountPrompt("What would you like to edit this sale price to?");
-            return;
-        }*/
-
         if (optionId == 2) {
             if (offer.getRemaining() == 0) {
                 player.message(Color.RED.wrap("Your " + offerItem.unnote().name() + " have already been sold."));
@@ -1292,7 +1218,7 @@ public class TradingPost {
                 tradingPostLogs.log(TRADING_POST, player.getUsername() + " After canceling the offer there was already some unclaimed profits for: " + refund.unnote().name() + " Received: " + item.getAmount() + " blood money!");
                 player.message("<col=ff0000>You also had " + Utils.formatNumber(unclaimedProfit) + " blood money unclaimed..");
             }
-            refresh(player);
+            sendOverviewTab(player);
             save(listing);
         }
     }
@@ -1306,10 +1232,6 @@ public class TradingPost {
             searchByItemName(player, player.lastTradingPostItemSearch, true);
         }
         //System.out.println("Searching by NUN... DEBUG");
-    }
-
-    public static void refresh(Player player) {
-        open(player);
     }
 
     public static void resetSearchVars(Player player) {

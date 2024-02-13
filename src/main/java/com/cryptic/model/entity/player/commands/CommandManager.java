@@ -716,6 +716,11 @@ public class CommandManager {
                 p.getPacketSender().sendString(i, ""+i);
             }
         });
+        dev("tpost7", (p, c, s) -> {
+            for (int i = 0; i < 10; i++) {
+                TradingPost.sendOverviewIndex(new Item(4151, 1), "test",  "10M | 10k (ea)", Utils.rand(100), i, p);
+            }
+        });
 
         dev("ioi", (p, c, s) -> {
             // Opening interface

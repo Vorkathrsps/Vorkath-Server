@@ -1,5 +1,6 @@
 package com.cryptic.model.entity.player.commands;
 
+import com.cryptic.GameConstants;
 import com.cryptic.cache.definitions.AnimationDefinition;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
@@ -54,6 +55,7 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.items.tradingpost.TradingPost;
+import com.cryptic.model.items.tradingpost.TradingPostListing;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.object.MapObjects;
 import com.cryptic.model.map.position.Area;
@@ -680,6 +682,43 @@ public class CommandManager {
         });
         dev("tpost1", (p, c, s) -> {
             TradingPost.displayTradeHistory(p);
+        });
+        dev("tpost2", (p, c, s) -> {
+            var a = new ArrayList<TradingPostListing>();
+            for (int i = 0; i < 20; i++) {
+                a.add(new TradingPostListing("Test", Utils.randomElement(GameConstants.STARTER_ITEMS).createWithAmount(1).unnote(), 1000L));
+            }
+            TradingPost.displayRecentListingResults(p, a);
+        });
+        dev("tpost3", (p, c, s) -> {
+            TradingPost.showTradeHistory(p);
+        });
+        dev("tpost4", (p, c, s) -> {
+            var a = new ArrayList<TradingPostListing>();
+            for (int i = 0; i < 20; i++) {
+                a.add(new TradingPostListing("Test", Utils.randomElement(GameConstants.STARTER_ITEMS).createWithAmount(1).unnote(), 1000L));
+            }
+            TradingPost.showTradeHistory(p, a);
+        });
+        dev("tpost5", (p, c, s) -> {
+            for (int i = 0; i < 20; i++) {
+                TradingPost.sendTradeHistoryIndex(new Item(4151, 1), "whip", "test", "test1", "1k", i, p);
+            }
+        });
+        dev("tpost6", (p, c, s) -> {
+            for (int i = 0; i < 20; i++) {
+                TradingPost.sendRecentListingIndex(new Item(4151, 1), "test",  "10M | 10k (ea)", i, p);
+            }
+        });
+        dev("ss1", (p, c, s) -> { // t history
+            for (int i = 81407; i < (81407 + 1000); i++) {
+                p.getPacketSender().sendString(i, ""+i);
+            }
+        });
+        dev("ss2", (p, c, s) -> { // recent listing
+            for (int i = 81641; i < (81641 + 1000); i++) {
+                p.getPacketSender().sendString(i, ""+i);
+            }
         });
 
         dev("ioi", (p, c, s) -> {

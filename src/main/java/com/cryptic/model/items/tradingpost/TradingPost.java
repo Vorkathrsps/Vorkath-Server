@@ -66,6 +66,9 @@ public class TradingPost {
     public static final boolean BLOOD_MONEY_CURRENCY = true;
 
     private static final int INTERFACE_ID = 81050, HISTORY_ID = 81400, BUY_ID = 81250;
+    /**
+     * username: data
+     */
 
     public static Map<String, PlayerListing> sales;
 
@@ -304,11 +307,11 @@ public class TradingPost {
     }
 
     enum Kys {
-        EXIT(0, p -> {}),
+        EXIT(0, p -> p.getInterfaceManager().close()),
         OVERVIEW(1, p -> TradingPost.open(p)),
         BUY(2, p -> {}),
         SELL(3, p -> {}),
-        TRADE_HISTORY(4, p -> {}),
+        TRADE_HISTORY(4, p -> {}/*showTradeHistory(p)*/),
         RECENT_LISTINGS(5, p -> {})
         ;
 
@@ -372,7 +375,7 @@ public class TradingPost {
             // feature spot 5
         }
 
-        //Recent listed items next page button
+        // overview: remove listing red X button
         for (int i = 0; i < 10; i++) {
             var btn = 81127 + (i * 5);
             if (buttonId == btn) {
@@ -405,14 +408,6 @@ public class TradingPost {
             });
             return true;
         }
-        if (buttonId == 81407 || buttonId == 81607) {
-            showTradeHistory(p);
-            return true;
-        }
-        if (buttonId == 81408 || buttonId == 81608) {
-            displayResults(p, recentTransactions);
-            return true;
-        }
         if (buttonId == 66017) {//recent sales
             p.getDialogueManager().start(new Dialogue() {
                 @Override
@@ -426,7 +421,7 @@ public class TradingPost {
                     if (isPhase(0)) {
                         if (option == 1) {
                             //printRecentTransactions();
-                            displayResults(p, recentTransactions);
+                            // displayResults(p, recentTransactions); // TODO
                             stop();
                         } else if (option == 2) {
                             showTradeHistory(p);
@@ -510,7 +505,7 @@ public class TradingPost {
                 return;
             }
 
-            displayResults(player, stored);
+            // displayResults(player, stored); // TODO
     }
 
     public static void showTradeHistory(Player player) {
@@ -522,25 +517,34 @@ public class TradingPost {
                 .filter(Objects::nonNull)
                 .filter(e -> e.getValue() != null)
                 .forEach(recent -> {
-            recent.getValue().getListedItems().forEach(item -> {
-                //System.out.println("Item: " + item.getSaleItem().unnote().name() + " seller: " + item.getSellerName() +" "+ item.getSellerName()+" listed at: "+item.getListedTime()+" "+item.getTimeListed());
-                Item i = item.getSaleItem().unnote();
-                if (i.name().toLowerCase().contains(i.name().toLowerCase())) {
-                    list.add(item);
-                }
-            });
-        });
+                    recent.getValue().getListedItems().forEach(item -> {
+                        //System.out.println("Item: " + item.getSaleItem().unnote().name() + " seller: " + item.getSellerName() +" "+ item.getSellerName()+" listed at: "+item.getListedTime()+" "+item.getTimeListed());
+                        Item i = item.getSaleItem().unnote();
+                        if (i.name().toLowerCase().contains(i.name().toLowerCase())) {
+                            list.add(item);
+                        }
+                    });
+                });
 
         list.sort(Comparator.comparingLong(TradingPostListing::getTimeListed));
         Collections.reverse(list);
-        //System.out.println("display "+Arrays.toString(list.stream().map(e -> e.getSaleItem().unnote().name()+"by "+e.getSellerName()+", ").toArray()));
+        showTradeHistory(player, list);
+    }
+
+    public static void showTradeHistory(Player player, List<TradingPostListing> list) {
         for (int i = 0; i < 20; i++) {
             if (i >= list.size()) {
-                sendTradeHistoryIndex(null, "", "", "", "", i, player); // blank
+                sendTradeHistoryIndex(null, "None", "", "", "", i, player); // blank
                 continue;
             }
             var trade = list.get(i);
-            sendTradeHistoryIndex(trade.getSaleItem(), trade.getSaleItem().name(), trade.getSellerName(), trade.buyersInfo.stream().findFirst().orElse("?"), NumberUtils.formatNumber(trade.getPrice()), i, player);
+            sendTradeHistoryIndex(trade.getSaleItem(),
+                    trade.getSaleItem().name(),
+                    trade.getSellerName(),
+                    trade.buyersInfo.stream().findFirst().orElse("?"),
+                    NumberUtils.formatNumber(trade.getPrice()),
+                    i,
+                    player);
         }
     }
 
@@ -691,74 +695,30 @@ public class TradingPost {
         }
     }
 
-    private static void displayResults(Player player, List<TradingPostListing> list) {
-
-            /* Remove previous strings.. **/
-            resetDisplayResults(player);
-
-            /* Newest at the top. **/
-            Collections.reverse(list);
-
-            player.getInterfaceManager().open(HISTORY_ID);
-
-            player.getPacketSender().sendString(66303, "Recent Marketplace Transactions").sendString(66306, "buyer");
-
-            final int CHILD_LENGTH = 15 * 7;
-
-            int listSize = list.size();
-
-            int count = 0;
-
-//            for (int i = RECENT_LISTING_NAME; i < RECENT_LISTING_NAME + itemNameOffset; i++) {
-//                if (count >= listSize) continue;
-//                TradingPostListing listings = list.get(count);
-//
-//                if (listings == null) continue;
-//
-//                //Item display
-//               // player.getPacketSender().sendItemOnInterfaceSlot(i + 1, new Item(listings.getSaleItem().unnote().getId(), (listings.getTotalAmount() - listings.getRemaining())), 0);
-//                //Item sold
-//                String name = listings.getSaleItem().unnote().name().length() > 20 ? listings.getSaleItem().unnote().name().substring(0, 19) + "<br>" + listings.getSaleItem().unnote().name().substring(19) : listings.getSaleItem().unnote().name();
-//                player.getPacketSender().sendString(i + 3, Utils.formatNumber(listings.getAmountSold()) + "x " + name);
-//                //Price
-//                player.getPacketSender().sendString(i + 4, Utils.formatRunescapeStyle(listings.getPrice() * listings.getAmountSold()));
-//                //Player who purchased
-//                player.getPacketSender().sendString(i + 5, listings.getLastBuyerName() != null ? listings.getLastBuyerName() : listings.getSellerName());
-//                //Date bought
-//                player.getPacketSender().sendString(i + 6, listings.getTransactionTime());
-//                //System.out.println(listings.getTransactionTime());
-//                count++;
-//            }
-            player.getPacketSender().sendScrollbarHeight(66310, count * 40);
-    }
-
-    private static void resetDisplayResults(Player player) {
-        final int CHILD_LENGTH = 15 * 7;
-
-        for (int i = 66330; i < 66330 + CHILD_LENGTH; i += 7) {
-            player.getPacketSender().sendItemOnInterfaceSlot(i + 1, null, 0);
-            player.getPacketSender().sendString(i + 2, "");//bought / sold
-            player.getPacketSender().sendString(i + 3, "");//X amount ITEM NAME
-            player.getPacketSender().sendString(i + 4, "");//Price
-            player.getPacketSender().sendString(i + 5, "");//seller/buyer
-            player.getPacketSender().sendString(i + 6, "");//date bought
-        }
-    }
-
     public static void sendTradeHistoryIndex(Item itemid, String itemname, String seller, String buyer, String price, int idx, Player player) {
+        if (idx > 20)
+            return;
         var base = 81440;
-        player.getPacketSender().sendItemOnInterfaceSlot(base + (idx * 1), itemid, 0);
-        player.getPacketSender().sendString(base + (idx * 2), itemname);
-        player.getPacketSender().sendString(base + (idx * 3), seller+" sold to");
-        player.getPacketSender().sendString(base + (idx * 4), buyer);
-        player.getPacketSender().sendString(base + (idx * 6), price); // TODO convert to k, m, b
+        base += (6 * idx);
+        player.getPacketSender().sendItemOnInterfaceSlot(base, itemid, 0);
+        player.getPacketSender().sendString(base + 1, Utils.capitalizeFirst(itemname));
+        player.getPacketSender().sendString(base + 2, Utils.capitalizeFirst(seller)+" sold to");
+        player.getPacketSender().sendString(base + 3, Utils.capitalizeFirst(buyer));
+        player.getPacketSender().sendString(base + 4, "Price");
+        player.getPacketSender().sendString(base + 5, price); // TODO convert to k, m, b
     }
 
-    public static void sendRecentListingIndex(String itemname, String seller, String pricePer, int idx, Player player) {
-        var base = 81641;
-        player.getPacketSender().sendString(base, itemname);
-        player.getPacketSender().sendString(base + (idx * 2), seller);
-        player.getPacketSender().sendString(base + (idx * 5), pricePer); // TODO convert to k, m, b
+    public static void sendRecentListingIndex(Item itemname, String seller, String pricePer, int idx, Player player) {
+        if (idx > 20)
+            return;
+        var base = 81640;
+        base += (6 * idx);
+        player.getPacketSender().sendItemOnInterfaceSlot(base, itemname.unnote(), 0);
+        player.getPacketSender().sendString(base + 1, Utils.capitalizeFirst(itemname.unnote().name()));
+        player.getPacketSender().sendString(base + 2, "Seller");
+        player.getPacketSender().sendString(base + 3, Utils.capitalizeFirst(seller));
+        player.getPacketSender().sendString(base + 4, "Price");
+        player.getPacketSender().sendString(base + 5, pricePer); // TODO convert to k, m, b
     }
 
     public static void handleSellX(Player player, int itemId, long amount) {

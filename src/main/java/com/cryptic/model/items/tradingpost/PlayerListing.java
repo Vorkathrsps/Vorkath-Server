@@ -50,9 +50,12 @@ public class PlayerListing {
     }
 
     public void removeListedItem(TradingPostListing sale) {
+        if (sale == null)
+            return;
         //System.out.println("removeListedItem: "+sale);
         this.listedItems.remove(sale);
-        this.historyTrade.put(sale.getLastBuyerName(), sale.getSellerName());
+        if (sale.getLastBuyerName() != null)
+            this.historyTrade.put(sale.getLastBuyerName(), sale.getSellerName());
         this.historyItems.put(sale.getSaleItem().getId(), sale.getSaleItem().getAmount());
         historyMap.put(historyTrade, historyItems);
     }

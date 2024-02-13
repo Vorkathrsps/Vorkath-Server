@@ -52,10 +52,11 @@ public final class Inventory extends ItemContainer {
             if (item == null)
                 continue;
             if (hasCapacity(item) && player.inventory().add(item)) {
-                player.debug("ok %s %s", item, player);
+                player.debug("added inv, not banking: %s", item);
             } else {
                 action.accept(item);
                 overflow = true;
+                player.debug("addOr fail, doing OR %s", item);
             }
         }
         if (overflow) {

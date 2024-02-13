@@ -8,8 +8,6 @@ import com.cryptic.model.inter.InterfaceConstants;
 import com.cryptic.model.World;
 import com.cryptic.utility.loaders.BloodMoneyPrices;
 import com.cryptic.model.entity.attributes.AttributeKey;
-import com.cryptic.model.inter.dialogue.Dialogue;
-import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.entity.player.IronMode;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
@@ -397,12 +395,10 @@ public class TradingPost {
         }
 
         if (buttonId == 81275) { // username wipe
-            p.getPacketSender().sendString(81273, "Search by username");
-            searchByUsername(p, "", false);
+            p.getPacketSender().sendString(81273, "");
         }
         if (buttonId == 81276) { // search itemname wipe
-            p.getPacketSender().sendString(81274, "Search item name");
-            searchByItemName(p, "", true);
+            p.getPacketSender().sendString(81274, "");
         }
         if (buttonId >= 81278 && buttonId <= 81278 + 20) {
             var index = buttonId - 81278;
@@ -773,69 +769,17 @@ public class TradingPost {
 
             if (foundSize == 0) {
                 if (refresh) {
-                    open(player);
+                    showSellTabOffers(player, null);
                     return;
                 }
                 player.message("<col=ff0000>0 Items found.. with the synx '" + itemName + "'");
                 return;
             }
             player.lastTradingPostItemSearch = itemName;
-            player.getInterfaceManager().open(BUY_ID);
-            displayQuery(player, list);
+            showSellTabOffers(player, list);
             if (!refresh) {
-                player.getPacketSender().sendString(66603, "Showing offers for item: " + itemName);
                 player.message("<col=ff0000>Found " + foundSize + " starting with the synx: '" + itemName + "'");
             }
-    }
-
-    /**
-     * Used to store the lists of the type search and to display the query
-     *
-     * @param player
-     * @param list
-     */
-    public static void displayQuery(Player player, List<TradingPostListing> list) {
-            //This list is populated but, it some how doesn't send properly when switching pages
-            player.putAttrib(AttributeKey.BUY_LISTING_RESULTS, list);
-            player.putAttrib(TRADING_POST_BUY_PAGE, 1);
-            displayBuyPage(player, list);
-    }
-
-    private static void displayBuyPage(Player player, List<TradingPostListing> list) {
-        /* To sort from highest to lowest. **/
-        list.sort(Comparator.comparingLong(TradingPostListing::getPrice));
-
-        player.tempList = list;
-
-        final int CHILD_LENGTH = 25 * 8;
-
-        for (int i = 66630; i < 66630 + CHILD_LENGTH; i += 8) {
-            player.getPacketSender().sendItemOnInterface(i + 1);
-            player.getPacketSender().sendString(i + 2, "");
-            player.getPacketSender().sendString(i + 3, "");
-            player.getPacketSender().sendString(i + 4, "");
-            player.getPacketSender().sendInterfaceDisplayState(i + 5, true);
-            player.getPacketSender().sendString(i + 7, "");
-        }
-
-        int count = 0, start = 66630;
-
-        int itemCount = 0;
-        for (TradingPostListing trade : list) {
-            itemCount++;
-            if (trade == null || trade.getAmountSold() >= trade.getTotalAmount() || itemCount > 25)
-                continue;
-
-            player.getPacketSender().sendItemOnInterfaceSlot(start + 1 + (8 * count), new Item(trade.getSaleItem().unnote().getId(), trade.getRemaining()), 0);
-            String name = trade.getSaleItem().unnote().name().length() > 20 ? trade.getSaleItem().unnote().name().substring(0, 19) + "<br>" + trade.getSaleItem().unnote().name().substring(19) : trade.getSaleItem().unnote().name();
-            player.getPacketSender().sendString(start + 2 + (8 * count), name);
-            player.getPacketSender().sendString(start + 3 + (8 * count), "" + Utils.formatRunescapeStyle(trade.getPrice()));
-            player.getPacketSender().sendString(start + 4 + (8 * count), trade.getSellerName());
-            player.getPacketSender().sendInterfaceDisplayState(start + 5 + (8 * count), false);
-            player.getPacketSender().sendString(start + 7 + (8 * count), "Buy");
-            count++;
-        }
-        player.getPacketSender().sendScrollbarHeight(66612, itemCount * 38);
     }
 
     public static void searchByUsername(Player player, String username, boolean refresh) {
@@ -854,16 +798,41 @@ public class TradingPost {
             int foundSize = list.size();
 
             if (foundSize == 0) {
+                if (refresh) {
+                    showSellTabOffers(player, null);
+                    return;
+                }
                 player.message("<col=ff0000>" + username + " doesn't have any items listed.");
                 return;
             }
             player.lastTradingPostUserSearch = username;
-            player.getInterfaceManager().open(BUY_ID);
-            displayQuery(player, list);
+            showSellTabOffers(player, list);
             if (!refresh) {
-                player.getPacketSender().sendString(66603, "Showing " + username + "'s Trade Post Listings");
                 player.message("<col=ff0000>Displaying " + username + "'s " + foundSize + " trade post listings..");
             }
+    }
+
+    public static void showSellTabOffers(Player player, List<TradingPostListing> saleMatches) {
+        for (int i = 0; i < 10; i++) {
+            var item = saleMatches == null ? null : i >= saleMatches.size() ? null : saleMatches.get(i);
+            sendSellIndex(item == null ? null : item.getSaleItem(),
+                    item == null ? "" : item.getSellerName(),
+                    item == null ? "" : Utils.formatNumber(item.getTotalAmount()),
+                    i, player);
+        }
+    }
+
+    public static void sendSellIndex(Item itemname, String seller, String pricePer, int idx, Player player) {
+        if (idx > 10)
+            return;
+        var base = 81288;
+        base += (6 * idx);
+        player.getPacketSender().sendItemOnInterfaceSlot(base, itemname == null ? null : itemname.unnote(), 0);
+        player.getPacketSender().sendString(base + 1, Utils.capitalizeFirst(itemname == null ? "None" : itemname.unnote().name()));
+        player.getPacketSender().sendString(base + 2, itemname == null ? "" : "Seller");
+        player.getPacketSender().sendString(base + 3, Utils.capitalizeFirst(seller));
+        player.getPacketSender().sendString(base + 4, itemname == null ? "" : "Price");
+        player.getPacketSender().sendString(base + 5, pricePer); // TODO convert to k, m, b
     }
 
     public static void handleXOptionInput(Player player, int id, int slot) {

@@ -783,7 +783,6 @@ public class TradingPost {
     }
 
     public static boolean handleSellingItem(Player player, int interfaceId, int itemId, long amount) {
-        try {
             if (!player.<Boolean>getAttribOr(USING_TRADING_POST, false) || interfaceId != 3322) {
                 return false;
             }

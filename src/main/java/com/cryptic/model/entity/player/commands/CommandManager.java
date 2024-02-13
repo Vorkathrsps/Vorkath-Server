@@ -678,17 +678,13 @@ public class CommandManager {
         });
 
         dev("listings", (p, c, s) -> {
-            TradingPost.displayRecentListingResults(p, TradingPost.recentTransactions);
+            TradingPost.showRecents(p, TradingPost.recentTransactions);
         });
         dev("tpost1", (p, c, s) -> {
-            TradingPost.displayTradeHistory(p);
+
         });
         dev("tpost2", (p, c, s) -> {
-            var a = new ArrayList<TradingPostListing>();
-            for (int i = 0; i < 20; i++) {
-                a.add(new TradingPostListing("Test", Utils.randomElement(GameConstants.STARTER_ITEMS).createWithAmount(1).unnote(), 1000L));
-            }
-            TradingPost.displayRecentListingResults(p, a);
+
         });
         dev("tpost3", (p, c, s) -> {
             TradingPost.showTradeHistory(p);

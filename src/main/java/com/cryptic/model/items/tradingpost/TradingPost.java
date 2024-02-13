@@ -306,10 +306,10 @@ public class TradingPost {
         base += (5 * idx);
         player.getPacketSender().sendItemOnInterfaceSlot(base, item, 0);
         player.getPacketSender().sendString(base + 1, name); // Iron Full Helm
-        player.getPacketSender().sendString(base + 2, priceper); // 5/6 | 2k (ea)
         if (progress > -1)
             player.getPacketSender().sendProgressBar(base + 2, progress);
         player.getPacketSender().sendInterfaceDisplayState(base + 2, progress == -1);
+        player.getPacketSender().sendString(base + 3, priceper); // 5/6 | 2k (ea)
         player.getPacketSender().sendInterfaceDisplayState(base + 4, item == null); //Hide 'cancel listing' btn
     }
 
@@ -363,6 +363,10 @@ public class TradingPost {
         p.getPacketSender().sendString(81826, ""); // TODO market price
         p.getPacketSender().sendString(81828, ""); // TODO quantity
         p.getPacketSender().sendString(81830, ""); // TODO price per item green text
+        // TODO what to show?
+        for (int i = 0; i < 5; i++) {
+            sendSellItemIndex(null, "", "", "", i, p);
+        }
     }
 
     public static void openBuyUI(Player p) {
@@ -370,6 +374,9 @@ public class TradingPost {
         p.getPacketSender().sendString(81272, "127k"); // item volume
         p.getPacketSender().sendString(81273, ""); // username wipe
         p.getPacketSender().sendString(81274, ""); // item wipe
+        for (int i = 0; i < 10; i++) { // TODO show what
+            sendBuyIndex(null, "", "", i, p);
+        }
     }
 
     static final int[] BASE_TAB_BUTTONS = new int[] {81053, 81253, 81803, 81403, 81603};
@@ -383,7 +390,7 @@ public class TradingPost {
             if (buttonId >= base && buttonId <= base + 6) {
                 for (Kys value : Kys.values()) {
                     var delta = buttonId - base;
-                    logger.info("holy fuck found {} by {} on base {}", value.name(), buttonId, base);
+                    //logger.debug("holy fuck found {} by {} on base {}", value.name(), buttonId, base);
                     if (delta == value.i) {
                         value.open(p);
                         return true;
@@ -416,7 +423,7 @@ public class TradingPost {
             if (buttonId == btn) {
                 // cancel listing
                 TradingPost.modifyListing(p, i, 2);
-                logger.info("cancel idx {}", i);
+                //logger.debug("cancel idx {}", i);
                 return true;
             }
         }
@@ -673,11 +680,11 @@ public class TradingPost {
 
             for (Item bankItem : GameConstants.BANK_ITEMS) {
                 if (bankItem.note().getId() == itemId) {
-                    player.message("You can't sell this item.");
+                    player.message("This free item cannot be sold.");
                     return false;
                 }
                 if (bankItem.getId() == itemId) {
-                    player.message("You can't sell this item.");
+                    player.message("This free item cannot be sold.");
                     return false;
                 }
             }

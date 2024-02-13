@@ -1,18 +1,30 @@
-package com.cryptic.model.content.sigils.io;
+package com.cryptic.model.content.sigils.misc;
 
-import com.cryptic.model.content.sigils.AbstractSigilHandler;
+import com.cryptic.model.content.sigils.AbstractSigil;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.formula.accuracy.MagicAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
-import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 
-public class Resistance extends AbstractSigilHandler {
+public class Stamina extends AbstractSigil {
     @Override
-    protected void process(Player player, Entity target) {
+    protected void onRemove(Player player) {
+        player.getPacketSender().sendStamina(false);
+        player.clearAttrib(AttributeKey.STAMINA_POTION_TICKS);
+    }
+
+    @Override
+    protected void processMisc(Player player) {
+        if (!attuned(player)) return;
+        player.getPacketSender().sendStamina(true);
+        player.putAttrib(AttributeKey.STAMINA_POTION_TICKS, Integer.MAX_VALUE);
+    }
+
+    @Override
+    protected void processCombat(Player player, Entity target) {
 
     }
 
@@ -27,15 +39,8 @@ public class Resistance extends AbstractSigilHandler {
     }
 
     @Override
-    protected void resistanceModification(Entity attacker, Entity target, Hit hit) {
-        if (!(attacker instanceof NPC)) return;
-        if (target instanceof Player player) {
-            if (!attuned(player)) return;
-            if (player.hasAttrib(AttributeKey.TITANIUM)) return;
-            int damage = hit.getDamage();
-            var reduced_value = damage - (damage * 0.25);
-            hit.setDamage((int) reduced_value);
-        }
+    protected void resistanceModification(Entity attacker, Entity target, Hit entity) {
+
     }
 
     @Override
@@ -45,11 +50,11 @@ public class Resistance extends AbstractSigilHandler {
 
     @Override
     protected boolean attuned(Player player) {
-        return player.hasAttrib(AttributeKey.RESISTANCE);
+        return player.hasAttrib(AttributeKey.SIGIL_OF_STAMINA);
     }
 
     @Override
-    protected boolean activated(Player player) {
+    protected boolean activate(Player player) {
         return false;
     }
 

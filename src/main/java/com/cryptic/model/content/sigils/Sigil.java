@@ -1,7 +1,8 @@
 package com.cryptic.model.content.sigils;
 
 import com.cryptic.model.content.sigils.data.SigilData;
-import com.cryptic.model.content.sigils.io.*;
+import com.cryptic.model.content.sigils.combat.*;
+import com.cryptic.model.content.sigils.misc.*;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.Combat;
@@ -19,37 +20,45 @@ import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.Color;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Sigil extends PacketInteraction implements SigilListener {
-    private static final List<AbstractSigilHandler> handler;
+    private static final List<AbstractSigil> handler;
 
     static {
-        handler = initialize();
-    }
-
-    private static List<AbstractSigilHandler> initialize() {
-        List<AbstractSigilHandler> sigils = new ArrayList<>();
-        sigils.add(new FeralFighter());
-        sigils.add(new MenacingMage());
-        sigils.add(new RuthlessRanger());
-        sigils.add(new DeftStrikes());
-        sigils.add(new MeticulousMage());
-        sigils.add(new Consistency());
-        sigils.add(new FormidableFighter());
-        sigils.add(new Resistance());
-        sigils.add(new Precision());
-        sigils.add(new Fortification());
-        return sigils;
+        List<AbstractSigil> sigilList = new ArrayList<>(List.of(
+            new FeralFighter(),
+            new MenacingMage(),
+            new RuthlessRanger(),
+            new DeftStrikes(),
+            new MeticulousMage(),
+            new Consistency(),
+            new FormidableFighter(),
+            new Resistance(),
+            new Precision(),
+            new Fortification(),
+            new Stamina(),
+            new Alchemaniac(),
+            new Exaggeration(),
+            new Devotion(),
+            new LastRecall(),
+            new RemoteStorage(),
+            new Ninja()
+        ));
+        handler = Collections.unmodifiableList(sigilList);
     }
 
     @Override
     public void processResistance(Entity attacker, Entity target, Hit hit) {
         if (!(attacker instanceof NPC)) return;
         if (target instanceof Player player) {
-            for (AbstractSigilHandler sigil : handler) {
-                if (sigil.attuned(player)) {
-                    sigil.resistanceModification(attacker, player, hit);
+            for (SigilData data : SigilData.values()) {
+                for (AbstractSigil sigil : handler) {
+                    if (sigil == null) continue;
+                    if (data.handler.equals(sigil.getClass()) && sigil.attuned(player)) {
+                        sigil.resistanceModification(attacker, player, hit);
+                    }
                 }
             }
         }
@@ -64,10 +73,13 @@ public class Sigil extends PacketInteraction implements SigilListener {
         if (combatType == null) return;
         Entity combatTarget = combat.getTarget();
         if (combatTarget instanceof Player) return;
-        for (AbstractSigilHandler sigil : handler) {
-            if (sigil.attuned(player)) {
-                if (sigil.validateCombatType(player)) {
-                    sigil.damageModification(player, hit);
+        for (SigilData data : SigilData.values()) {
+            for (AbstractSigil sigil : handler) {
+                if (sigil == null) continue;
+                if (data.handler.equals(sigil.getClass()) && sigil.attuned(player)) {
+                    if (sigil.validateCombatType(player)) {
+                        sigil.damageModification(player, hit);
+                    }
                 }
             }
         }
@@ -82,10 +94,13 @@ public class Sigil extends PacketInteraction implements SigilListener {
         if (combatType == null) return;
         Entity combatTarget = combat.getTarget();
         if (combatTarget instanceof Player) return;
-        for (AbstractSigilHandler sigil : handler) {
-            if (sigil.attuned(player)) {
-                if (sigil.validateCombatType(player)) {
-                    sigil.process(player, target);
+        for (SigilData data : SigilData.values()) {
+            for (AbstractSigil sigil : handler) {
+                if (sigil == null) continue;
+                if (data.handler.equals(sigil.getClass()) && sigil.attuned(player)) {
+                    if (sigil.validateCombatType(player)) {
+                        sigil.processCombat(player, target);
+                    }
                 }
             }
         }
@@ -100,10 +115,25 @@ public class Sigil extends PacketInteraction implements SigilListener {
         if (combatType == null) return;
         Entity combatTarget = combat.getTarget();
         if (combatTarget instanceof Player) return;
-        for (AbstractSigilHandler sigil : handler) {
-            if (sigil.attuned(player)) {
-                if (sigil.validateCombatType(player))
-                    sigil.accuracyModification(player, target, rangeAccuracy, magicAccuracy, meleeAccuracy);
+        for (SigilData data : SigilData.values()) {
+            for (AbstractSigil sigil : handler) {
+                if (sigil == null) continue;
+                if (data.handler.equals(sigil.getClass()) && sigil.attuned(player)) {
+                    if (sigil.validateCombatType(player))
+                        sigil.accuracyModification(player, target, rangeAccuracy, magicAccuracy, meleeAccuracy);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void HandleLogin(Player player) {
+        for (SigilData data : SigilData.values()) {
+            for (AbstractSigil listener : handler) {
+                if (listener == null) continue;
+                if (data.handler.equals(listener.getClass()) && listener.attuned(player)) {
+                    listener.processMisc(player);
+                }
             }
         }
     }
@@ -117,9 +147,9 @@ public class Sigil extends PacketInteraction implements SigilListener {
             case ONYX_MEMBER, ZENYTE_MEMBER -> activationCap = 5;
         }
         if (option == 1) {
-            for (var sigil : SigilData.values()) {
-                if (item.getId() == sigil.unattuned) {
-                    if (player.hasAttrib(sigil.attributeKey)) {
+            for (SigilData data : SigilData.values()) {
+                if (item.getId() == data.unattuned) {
+                    if (player.hasAttrib(data.attributeKey)) {
                         player.message(Color.RED.wrap("You cannot have more than one of the same sigil activated."));
                         return false;
                     }
@@ -128,21 +158,35 @@ public class Sigil extends PacketInteraction implements SigilListener {
                         return false;
                     }
                     total += 1;
-                    player.putAttrib(sigil.attributeKey, true);
+                    player.putAttrib(data.attributeKey, true);
                     player.putAttrib(AttributeKey.TOTAL_SIGILS_ACTIVATED, total);
                     player.animate(713);
-                    player.graphic(1970, GraphicHeight.HIGH, 20);
-                    player.getInventory().replace(sigil.unattuned, sigil.attuned, true);
+                    player.graphic(data.graphic, GraphicHeight.HIGH, 20);
+                    player.getInventory().replace(data.unattuned, data.attuned, true);
+                    for (AbstractSigil listener : handler) {
+                        if (listener == null) throw new RuntimeException("Exception in AbstractSigil");
+                        if (data.handler.equals(listener.getClass()) && listener.attuned(player)) {
+                            listener.processMisc(player);
+                            break;
+                        }
+                    }
                     return true;
                 }
             }
         } else if (option == 2) {
-            for (var sigil : SigilData.values()) {
-                if (item.getId() == sigil.attuned) {
+            for (SigilData data : SigilData.values()) {
+                if (item.getId() == data.attuned) {
+                    for (AbstractSigil listener : handler) {
+                        if (listener == null) throw new RuntimeException("Exception in AbstractSigil");
+                        if (data.handler.equals(listener.getClass()) && listener.attuned(player)) {
+                            listener.onRemove(player);
+                            break;
+                        }
+                    }
                     total -= 1;
                     player.putAttrib(AttributeKey.TOTAL_SIGILS_ACTIVATED, total);
-                    player.clearAttrib(sigil.attributeKey);
-                    player.getInventory().replace(sigil.attuned, sigil.unattuned, true);
+                    player.clearAttrib(data.attributeKey);
+                    player.getInventory().replace(data.attuned, data.unattuned, true);
                     return true;
                 }
             }

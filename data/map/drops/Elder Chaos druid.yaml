@@ -12,25 +12,25 @@ alwaysDrops:
 drops:
 - item: NOTED_DARK_CRAB
   minimumAmount: 5
-  maximumAmount: 10
+  maximumAmount: 8
   chance: 12
   rareDrop: false
   sendToBank: false
 - item: NOTED_SANFEW_SERUM(4)
   minimumAmount: 2
-  maximumAmount: 10
+  maximumAmount: 3
   chance: 12
   rareDrop: false
   sendToBank: false
 - item: NOTED_ANTIDOTE++(4)
   minimumAmount: 2
-  maximumAmount: 10
+  maximumAmount: 3
   chance: 12
   rareDrop: false
   sendToBank: false
-- item: NOTED_SUPER_COMBAT_POTION4
+- item: NOTED_SUPER_COMBAT_POTION(4)
   minimumAmount: 2
-  maximumAmount: 10
+  maximumAmount: 2
   chance: 12
   rareDrop: false
   sendToBank: false

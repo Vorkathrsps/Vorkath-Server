@@ -137,7 +137,11 @@ public class Mining extends PacketInteraction {
                     Utils.randomElement(GEMS);
                     player.message("You manage to find gems in the rock you were mining.");
                 } else {
-                    player.getInventory().add(new Item(rockType.item));
+                    if (player.hasAttrib(AttributeKey.REMOTE_STORAGE)) {
+                        player.getBank().add(new Item(rockType.item));
+                    } else {
+                        player.getInventory().add(new Item(rockType.item));
+                    }
                     player.message("You manage to mine some " + rockType.name + ".");
                 }
 

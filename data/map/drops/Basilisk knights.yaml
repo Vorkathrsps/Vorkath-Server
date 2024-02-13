@@ -88,3 +88,9 @@ drops:
     chance: 52
     rareDrop: false
     sendToBank: false
+  - item: BASILISK_JAW
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 750
+    rareDrop: true
+    sendToBank: false

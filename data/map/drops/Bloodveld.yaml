@@ -13,35 +13,39 @@ alwaysDrops:
   chance: 1
   rareDrop: false
   sendToBank: false
+- item: BLOOD_RUNE
+  minimumAmount: 1
+  maximumAmount: 5
+  chance: 1
 drops:
 - item: STEEL_AXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 19
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: STEEL_FULL_HELM
   minimumAmount: 1
   maximumAmount: 1
-  chance: 19
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: STEEL_SCIMITAR
   minimumAmount: 1
   maximumAmount: 1
-  chance: 19
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: MITHRIL_SQ_SHIELD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 19
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: MITHRIL_CHAINBODY
   minimumAmount: 1
   maximumAmount: 1
-  chance: 19
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: BLACK_BOOTS
@@ -159,9 +163,9 @@ drops:
   rareDrop: false
   sendToBank: false
 - item: NOTED_GOLD_ORE
-  minimumAmount: 1
-  maximumAmount: 10
-  chance: 50
+  minimumAmount: 10
+  maximumAmount: 15
+  chance: 10
   rareDrop: false
   sendToBank: false
 - item: SALMON
@@ -170,9 +174,75 @@ drops:
   chance: 50
   rareDrop: false
   sendToBank: false
+- item: SOUL_RUNE
+  minimumAmount: 4
+  maximumAmount: 4
+  chance: 48
+  rareDrop: false
+  sendToBank: false
+- item: BOW_STRING
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 12
+  rareDrop: false
+  sendToBank: false
+- item: GOLD_ORE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 18
+  rareDrop: false
+  sendToBank: false
+- item: MEAT_PIE
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 18
+  rareDrop: false
+  sendToBank: false
+- item: MITHRIL_BAR
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 18
+  rareDrop: false
+  sendToBank: false
+- item: RUBY_AMULET
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 18
+  rareDrop: false
+  sendToBank: false
 - item: ENSOULED_BLOODVELD_HEAD_13496
   minimumAmount: 1
   maximumAmount: 1
-  chance: 75
+  chance: 36
+  rareDrop: false
+  sendToBank: false
+- item: BLOODBARK_HELM
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 200
+  rareDrop: false
+  sendToBank: false
+- item: BLOODBARK_BODY
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 200
+  rareDrop: false
+  sendToBank: false
+- item: BLOODBARK_LEGS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 200
+  rareDrop: false
+  sendToBank: false
+- item: BLOODBARK_GAUNTLETS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 200
+  rareDrop: false
+  sendToBank: false
+- item: BLOODBARK_BOOTS
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 200
   rareDrop: false
   sendToBank: false

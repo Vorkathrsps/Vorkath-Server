@@ -6,7 +6,7 @@ petRarity: 0
 alwaysDrops:
 - item: WATER_RUNE
   minimumAmount: 1
-  maximumAmount: 1
+  maximumAmount: 100
   chance: 1
   rareDrop: false
   sendToBank: false

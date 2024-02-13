@@ -1,6 +1,7 @@
 package com.cryptic.model.entity;
 
 import com.cryptic.GameServer;
+import com.cryptic.PlainTile;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.core.TimesCycle;
 import com.cryptic.core.task.Task;
@@ -35,7 +36,6 @@ import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.region.RegionManager;
 import com.cryptic.model.map.route.RouteFinder;
-import com.cryptic.model.map.route.routes.ProjectileRoute;
 import com.cryptic.model.map.route.routes.TargetRoute;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.Debugs;
@@ -1949,6 +1949,14 @@ public abstract class Entity {
 
             if (player().getHits() != null) {
                 player().getHits().invalidate();
+            }
+        }
+
+        if (this instanceof Player player) {
+            if (player.hasAttrib(AttributeKey.SAVE_LAST_TILE) && !player.isUsingLastRecall()) {
+                if (player.getInstancedArea() == null) {
+                    player.setLastSavedTile(this.tile);
+                }
             }
         }
 

@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 /**
  * Created by Bart Pelle on 8/23/2014.
@@ -63,6 +64,7 @@ public class Skills {
         this.xps = xp;
         this.levels = levels;
     }
+
 
     private double expModifiers(int skill) {
        /* switch(skill) {
@@ -470,13 +472,26 @@ public class Skills {
         if (player.dead() || player.hp() < 1)
             return;
 
-        for (int i = 0; i < SKILL_COUNT; i++) {
-            if (levels[i] < xpLevel(i)) {
-                levels[i]++;
-                update(i);
-            } else if (levels[i] > xpLevel(i)) {
-                levels[i]--;
-                update(i);
+        if (!player.hasAttrib(AttributeKey.EXAGGERATION_BOOST)) {
+            for (int i = 0; i < SKILL_COUNT; i++) {
+                if (levels[i] < xpLevel(i)) {
+                    levels[i]++;
+                    update(i);
+                } else if (levels[i] > xpLevel(i)) {
+                    levels[i]--;
+                    update(i);
+                }
+            }
+        } else {
+            for (int i = 0; i < SKILL_COUNT; i++) {
+                if (i >= 6) break;
+                if (levels[i] < xpLevel(i)) {
+                    levels[i]++;
+                    update(i);
+                } else if (levels[i] > xpLevel(i)) {
+                    levels[i]--;
+                    update(i);
+                }
             }
         }
     }

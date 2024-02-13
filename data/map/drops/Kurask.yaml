@@ -56,31 +56,31 @@ drops:
 - item: CADANTINE_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 82
+  chance: 48
   rareDrop: false
   sendToBank: false
 - item: LANTADYME_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 82
+  chance: 48
   rareDrop: false
   sendToBank: false
 - item: DWARF_WEED_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 82
+  chance: 48
   rareDrop: false
   sendToBank: false
 - item: SNAPDRAGON_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 248
+  chance: 48
   rareDrop: false
   sendToBank: false
 - item: TORSTOL_SEED
   minimumAmount: 1
   maximumAmount: 1
-  chance: 248
+  chance: 48
   rareDrop: false
   sendToBank: false
 - item: MITHRIL_KITESHIELD
@@ -110,78 +110,78 @@ drops:
 - item: LEAFBLADED_SWORD
   minimumAmount: 1
   maximumAmount: 1
-  chance: 46
+  chance: 25
   rareDrop: false
   sendToBank: false
 - item: MYSTIC_ROBE_TOP_LIGHT
   minimumAmount: 1
   maximumAmount: 1
-  chance: 140
+  chance: 100
   rareDrop: false
   sendToBank: false
 - item: LEAFBLADED_BATTLEAXE
   minimumAmount: 1
   maximumAmount: 1
-  chance: 140
+  chance: 100
   rareDrop: false
   sendToBank: false
 - item: NATURE_RUNE
   minimumAmount: 5
-  maximumAmount: 5
+  maximumAmount: 55
   chance: 8
   rareDrop: false
   sendToBank: false
 - item: NATURE_RUNE
   minimumAmount: 10
-  maximumAmount: 10
+  maximumAmount: 100
   chance: 12
   rareDrop: false
   sendToBank: false
 - item: NATURE_RUNE
   minimumAmount: 15
-  maximumAmount: 15
+  maximumAmount: 150
   chance: 25
   rareDrop: false
   sendToBank: false
 - item: NATURE_RUNE
   minimumAmount: 30
-  maximumAmount: 30
+  maximumAmount: 300
   chance: 76
   rareDrop: false
   sendToBank: false
 - item: NOTED_LIMPWURT_ROOT
   minimumAmount: 10
-  maximumAmount: 20
+  maximumAmount: 200
   chance: 11
   rareDrop: false
   sendToBank: false
 - item: NOTED_FLAX
   minimumAmount: 100
-  maximumAmount: 100
+  maximumAmount: 1000
   chance: 22
   rareDrop: false
   sendToBank: false
 - item: NOTED_BIG_BONES
-  minimumAmount: 20
-  maximumAmount: 20
+  minimumAmount: 40
+  maximumAmount: 40
   chance: 22
   rareDrop: false
   sendToBank: false
 - item: NOTED_PAPAYA_FRUIT
   minimumAmount: 10
-  maximumAmount: 10
+  maximumAmount: 100
   chance: 45
   rareDrop: false
   sendToBank: false
 - item: NOTED_WHITE_BERRIES
   minimumAmount: 12
-  maximumAmount: 12
+  maximumAmount: 120
   chance: 45
   rareDrop: false
   sendToBank: false
 - item: NOTED_COCONUT
   minimumAmount: 10
-  maximumAmount: 10
+  maximumAmount: 100
   chance: 45
   rareDrop: false
   sendToBank: false

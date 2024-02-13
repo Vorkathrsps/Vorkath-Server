@@ -89,7 +89,7 @@ drops:
   chance: 22
   rareDrop: false
   sendToBank: false
-- item: BLACK_D'HIDE_BODY
+- item: BLACK_DHIDE_BODY
   minimumAmount: 1
   maximumAmount: 2
   chance: 15

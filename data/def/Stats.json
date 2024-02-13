@@ -82408,5 +82408,33 @@
       "aspeed": 4
     },
     "ge_limit": 18000
+  },
+  "30010": {
+    "name": "Seismic wand",
+    "weight": 0.198,
+    "equipable": true,
+    "equipment": {
+      "slot": 3,
+      "amagic": 33,
+      "dmagic": 30,
+      "mdmg": 17,
+      "aspeed": 4
+    },
+    "ge_limit": 70
+  },
+  "30011": {
+    "name": "Luck of the Dwarves",
+    "weight": 0.198,
+    "equipable": true,
+    "equipment": {
+      "slot": 12,
+      "dcrush": 4,
+      "str": 4,
+      "arange": 4,
+      "drange": 4,
+      "amagic": 6,
+      "dmagic": 6
+    },
+    "ge_limit": 70
   }
 }

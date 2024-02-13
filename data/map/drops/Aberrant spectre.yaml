@@ -7,7 +7,13 @@ npcId:
 - 7
 petItem: "null"
 petRarity: 0
-alwaysDrops: []
+alwaysDrops:
+- item: ASHES
+  minimumAmount: 1
+  maximumAmount: 1
+  chance: 1
+  rareDrop: false
+  sendToBank: false
 drops:
 - item: BELLADONNA_SEED
   minimumAmount: 1
@@ -156,7 +162,7 @@ drops:
 - item: LAVA_BATTLESTAFF
   minimumAmount: 1
   maximumAmount: 1
-  chance: 33
+  chance: 84
   rareDrop: false
   sendToBank: false
 - item: ADAMANT_PLATELEGS

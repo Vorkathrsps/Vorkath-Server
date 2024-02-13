@@ -3,8 +3,11 @@ package com.cryptic.model.entity.npc.droptables;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
 import com.cryptic.model.content.collection_logs.LogType;
+import com.cryptic.model.content.skill.impl.prayer.Bone;
+import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.entity.player.Skill;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
@@ -12,6 +15,7 @@ import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
+import org.apache.commons.lang.ArrayUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,6 +38,15 @@ public class ItemDrops {
                 LogType.BOSSES.log(player, npc.id(), item);
                 LogType.OTHER.log(player, npc.id(), item);
                 var drop = item.noted() ? item.unnote().note() : item;
+                if (player.hasAttrib(AttributeKey.DEVOTION) && ArrayUtils.contains(BONES.toArray(), drop.getId())) {
+                    for (Bone bone : Bone.values()) {
+                        if (bone.itemId == drop.getId()) {
+                            player.getSkills().addXp(Skill.PRAYER.getId(), bone.xp * 2.0D);
+                            break;
+                        }
+                    }
+                    continue;
+                }
                 for (var i : table.getDrops()) {
                     var parsedID = ItemRepository.getItemId(i.getItem());
                     if (i.isRareDrop() && drop.getId() == parsedID) {

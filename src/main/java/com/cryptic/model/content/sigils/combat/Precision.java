@@ -1,7 +1,6 @@
-package com.cryptic.model.content.sigils.io;
+package com.cryptic.model.content.sigils.combat;
 
-import com.cryptic.model.World;
-import com.cryptic.model.content.sigils.AbstractSigilHandler;
+import com.cryptic.model.content.sigils.AbstractSigil;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
@@ -10,11 +9,20 @@ import com.cryptic.model.entity.combat.formula.accuracy.MeleeAccuracy;
 import com.cryptic.model.entity.combat.formula.accuracy.RangeAccuracy;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.items.container.equipment.EquipmentInfo;
 
-public class Fortification extends AbstractSigilHandler {
+public class Precision extends AbstractSigil {
     @Override
-    protected void process(Player player, Entity target) {
+    protected void onRemove(Player player) {
+
+    }
+
+    @Override
+    protected void processMisc(Player player) {
+
+    }
+
+    @Override
+    protected void processCombat(Player player, Entity target) {
 
     }
 
@@ -36,24 +44,23 @@ public class Fortification extends AbstractSigilHandler {
     @Override
     protected void accuracyModification(Player player, Entity target, RangeAccuracy rangeAccuracy, MagicAccuracy magicAccuracy, MeleeAccuracy meleeAccuracy) {
         if (!attuned(player)) return;
-        EquipmentInfo.Bonuses attackerBonus = EquipmentInfo.totalBonuses(player, World.getWorld().equipmentInfo());
-        attackerBonus.stab += 30;
-        attackerBonus.slash += 30;
-        attackerBonus.crush += 30;
+        if (player.getCombat().getCombatType().isRanged()) rangeAccuracy.modifier += 1.50;
+        else if (player.getCombat().getCombatType().isMagic()) magicAccuracy.modifier += 1.50;
+        else if (player.getCombat().getCombatType().isMelee()) meleeAccuracy.modifier += 1.50;
     }
 
     @Override
     protected boolean attuned(Player player) {
-        return player.hasAttrib(AttributeKey.SIGIL_OF_FORTIFICATION);
+        return player.hasAttrib(AttributeKey.PRECISION);
     }
 
     @Override
-    protected boolean activated(Player player) {
+    protected boolean activate(Player player) {
         return false;
     }
 
     @Override
     protected boolean validateCombatType(Player player) {
-        return player.getCombat().getCombatType().equals(CombatType.MELEE);
+        return player.getCombat().getCombatType().equals(CombatType.MELEE) || player.getCombat().getCombatType().equals(CombatType.MAGIC) || player.getCombat().getCombatType().equals(CombatType.RANGED);
     }
 }

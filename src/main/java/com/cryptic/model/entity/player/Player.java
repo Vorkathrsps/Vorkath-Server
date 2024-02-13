@@ -74,6 +74,7 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatFactory;
 import com.cryptic.model.entity.combat.CombatSpecial;
 import com.cryptic.model.entity.combat.Venom;
+import com.cryptic.model.entity.combat.formula.FormulaUtils;
 import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.magic.spells.CombatSpells;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.nightmare.instance.NightmareInstance;
@@ -194,6 +195,14 @@ public class Player extends Entity {
     @Getter
     @Setter
     private double[] savedTornamentXp;
+
+    @Getter
+    @Setter
+    private Tile lastSavedTile;
+
+    @Getter
+    @Setter
+    private boolean usingLastRecall = false;
 
     @Getter
     @Setter
@@ -1172,6 +1181,14 @@ public class Player extends Entity {
                 .getAspeed();
         }
 
+        if (attackSpeed > 4) {
+            if (this.hasAttrib(NINJA)) {
+                if (!FormulaUtils.hasBowOfFaerdhenin(this) && !this.getEquipment().containsAny(CRYSTAL_BOW)) {
+                    attackSpeed--;
+                }
+            }
+        }
+
         if (this.getCombat().getCombatType() != null) {
             if (player().hasAttrib(FERAL_FIGHTER_ATTACKS_SPEED) && this.getCombat().getCombatType().isMelee()) {
                 attackSpeed--;
@@ -1539,6 +1556,7 @@ public class Player extends Entity {
         applyAttributes();
         updatePlayer();
         handleOnLogin(this);
+        CombatFactory.sigils.HandleLogin(this);
         applyPoweredStaffSpells();
         //this.getPetEntity().spawnOnLogin();
         boolean newAccount = this.getAttribOr(NEW_ACCOUNT, false);

@@ -2,6 +2,7 @@ package com.cryptic.model.inter.dialogue;
 
 import com.cryptic.model.entity.player.Player;
 import com.google.common.collect.Iterables;
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.Deque;
@@ -22,6 +23,7 @@ public class DialogueManager {
     /**
      * The current dialogue.
      */
+    @Getter
     private Dialogue dialogue = null;
 
     public DialogueManager(final Player player) {

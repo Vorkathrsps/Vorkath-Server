@@ -37,6 +37,7 @@ import java.util.stream.Collectors;
  *
  * @author relex lawl & Gabbe
  */
+@SuppressWarnings("UnusedReturnValue")
 public final class PacketSender {
     private static final Logger logger = LogManager.getLogger(PacketSender.class);
     private final ArrayList<Integer> walkableInterfaceList = new ArrayList<>();

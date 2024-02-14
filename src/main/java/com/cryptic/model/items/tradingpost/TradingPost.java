@@ -264,7 +264,7 @@ public class TradingPost {
         player.getInterfaceManager().close();
         resetSearchVars(player);
         player.getInterfaceManager().open(OVERVIEW);
-        refreshInventory(player);
+        sendOfferInventory(player, OVERVIEW); // TODO sell tab inventoy doesnt work without this-why
         player.putAttrib(AttributeKey.USING_TRADING_POST, true);
         if (!isValid(player)) { // first time, init a new listing
             PlayerListing listings = new PlayerListing();
@@ -274,8 +274,8 @@ public class TradingPost {
         sendOverviewTab(player);
     }
 
-    private static void refreshInventory(Player player) {
-        player.getInterfaceManager().openInventory(OVERVIEW, InterfaceConstants.REMOVE_INVENTORY_ITEM - 1);
+    private static void sendOfferInventory(Player player, int main) {
+        player.getInterfaceManager().openInventory(main, InterfaceConstants.REMOVE_INVENTORY_ITEM - 1);
         player.getPacketSender().sendItemOnInterface(InterfaceConstants.REMOVE_INVENTORY_ITEM, player.inventory().toArray());
     }
 
@@ -295,9 +295,12 @@ public class TradingPost {
                     i,
                     player);
         }
-        player.getPacketSender().sendString(81073, NumberUtils.formatNumber(123_000_000L)); // coffer
-        player.getPacketSender().sendString(81074, "Active: "+NumberUtils.formatNumber(123)); // my trades
-        player.getPacketSender().sendString(81075, NumberUtils.formatNumber(456)); // global trades #
+        player.getPacketSender().sendString(81073, NumberUtils.formatNumber(
+                1L * player.inventory().count(995)
+                        + (long) (1000L * player.inventory().count(13307))
+                        + (long) (1000L * player.inventory().count(PLATINUM_TOKEN)))); // TODO my coins- coffer
+        player.getPacketSender().sendString(81074, "Active: "+NumberUtils.formatNumber(list == null ? 0 : list.size())); // TODO my trades
+        player.getPacketSender().sendString(81075, NumberUtils.formatNumber(sales.size())); // global trades
     }
 
     public static void sendOverviewIndex(Item item, String name, String priceper, int progress, int idx, Player player) {
@@ -358,14 +361,15 @@ public class TradingPost {
         for (int i = 0; i < 5; i++) {
             sendSellItemIndex(null, "", "", "", i, p);
         }
+        sendOfferInventory(p, SELL_ID);
     }
 
     public static void openBuyUI(Player p) {
         p.getInterfaceManager().open(BUY_ID);
         p.getPacketSender().sendString(81271, "2344"); // open offers
         p.getPacketSender().sendString(81272, "127k"); // item volume
-        p.getPacketSender().sendString(81273, ""); // username wipe
-        p.getPacketSender().sendString(81274, ""); // item wipe
+        p.getPacketSender().sendString(81273, "Type username"); // username wipe
+        p.getPacketSender().sendString(81274, "Type itemname"); // item wipe
         for (int i = 0; i < 10; i++) { // TODO show what
             sendBuyIndex(null, "", "", i, p);
         }
@@ -394,22 +398,27 @@ public class TradingPost {
             return true;
         }
         if (buttonId == 81077 || buttonId == 81078) {
+            p.message("This feature is coming soon.");
             // feature spot 1
             return true;
         }
         if (buttonId == 81086 || buttonId == 81087) {
+            p.message("This feature is coming soon.");
             // feature spot 2
             return true;
         }
         if (buttonId == 810807 || buttonId == 81081) {
+            p.message("This feature is coming soon.");
             // feature spot 3
             return true;
         }
         if (buttonId == 81089 || buttonId == 81090) {
+            p.message("This feature is coming soon.");
             // feature spot 4
             return true;
         }
         if (buttonId == 81083 || buttonId == 81084) {
+            p.message("This feature is coming soon.");
             // feature spot 5
             return true;
         }
@@ -441,7 +450,42 @@ public class TradingPost {
             if (handleBuyButtons(p, index))
                 return true;
         }
+        if (buttonId == 81831) { // TODO sell tab- quantity minus 1
+            return true;
+        }
+        if (buttonId == 81832) { // TODO sell tab- quantity plus 1
+            return true;
+        }
+        if (buttonId == 81833) { // TODO sell tab- price minus 1
+            return true;
+        }
+        if (buttonId == 81834) { // TODO sell tab- price minus 1
+            return true;
+        }
+        if (buttonId == 81835) { // TODO sell tab- quantity +1 again
+            return true;
+        }
+        if (buttonId == 81836) { // TODO sell tab- quantity +10
+            return true;
+        }
+        if (buttonId == 81837) { // TODO sell tab- quantity +100
+            return true;
+        }
+        if (buttonId == 81838) { // TODO sell tab- quantity custom enter
+            return true;
+        }
+        if (buttonId == 81841) { // TODO sell tab- price custom
+            return true;
+        }
+        if (buttonId == 81843) { // TODO sell tab- sell confirm 1st screen
+            return true;
+        }
+
+
         if (buttonId == 81379) { // TODO purchase confirm
+            if (p.getDialogueManager().getDialogue() instanceof TradingPostConfirmSale tpcs) {
+                tpcs.select(1);
+            }
             return true;
         }
         if (buttonId == 81380) { // buy -1
@@ -891,6 +935,8 @@ public class TradingPost {
         player.getPacketSender().sendString(base + 3, Utils.capitalizeFirst(seller));
         player.getPacketSender().sendString(base + 4, itemname == null ? "" : "Price");
         player.getPacketSender().sendString(base + 5, pricePer); // TODO convert to k, m, b
+        player.getPacketSender().sendInterfaceDisplayState(81278 + idx, itemname == null); // TODO set not clickable instead of hiding entire widget, looks odd rn
+        player.getPacketSender().sendParallelInterfaceVisibility(81278 + idx, itemname != null);
     }
 
     public static void handleXOptionInput(Player player, int id, int slot) {
@@ -939,6 +985,11 @@ public class TradingPost {
             }
 
             int offerSize = offer.size();
+
+            if (index >= offerSize) {
+                player.message("<col=ff0000>No offer selected.");
+                return true;
+            }
 
             TradingPostListing selected = offer.get(index);
 
@@ -1103,6 +1154,7 @@ public class TradingPost {
             //Clear previously stored attributes
             player.clearAttrib(AttributeKey.TRADING_POST_ORIGINAL_AMOUNT);
             player.clearAttrib(AttributeKey.TRADING_POST_ORIGINAL_PRICE);
+            open(player);
     }
 
     private static boolean offerExists(TradingPostListing selected) {

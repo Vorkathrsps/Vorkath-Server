@@ -125,8 +125,10 @@ public class Callisto extends CommonCombatMethod {
         }
         trapState++;
         double hpPercentage = ((double) entity.hp() / entity.maxHp());
-        if (hpPercentage <= .66 && trapState == Utils.random(1, 2) || hpPercentage <= .66 && roarCount == 0) bearTraps(entity);
-        if (hpPercentage <= .33 && trapState == Utils.random(1, 2) || hpPercentage <= .33 && roarCount == 1) bearTraps(entity);
+        if (hpPercentage <= .66 && trapState == Utils.random(1, 2) || hpPercentage <= .66 && roarCount == 0)
+            bearTraps(entity);
+        if (hpPercentage <= .33 && trapState == Utils.random(1, 2) || hpPercentage <= .33 && roarCount == 1)
+            bearTraps(entity);
         if (trapState == 2) trapState = 0;
         return true;
     }
@@ -152,7 +154,8 @@ public class Callisto extends CommonCombatMethod {
             int tileDist = entity.tile().distance(t.tile());
             int duration = (25 + 10 + (10 * tileDist));
             Projectile p = new Projectile(entity, t, 2350, 25, duration, 20, 20, 0, 5, 10);
-            final int delay = entity.executeProjectile(p);
+            final int delay = (int) (p.getSpeed() / 30D);
+            entity.executeProjectile(p);
             var dmg = CombatFactory.calcDamageFromType(entity, t, CombatType.RANGED);
             Hit hit = Hit.builder(entity, t, dmg, delay, CombatType.RANGED).checkAccuracy(true);
             hit.submit();
@@ -167,7 +170,8 @@ public class Callisto extends CommonCombatMethod {
             int tileDist = entity.tile().distance(t.tile());
             int duration = (55 + 10 + (10 * tileDist));
             Projectile p = new Projectile(entity, t, 133, 55, duration, 50, 31, 0, 5, 10);
-            final int delay = entity.executeProjectile(p);
+            final int delay = (int) (p.getSpeed() / 30D);
+            entity.executeProjectile(p);
             Hit hit = Hit.builder(entity, t, CombatFactory.calcDamageFromType(entity, t, CombatType.MAGIC), delay, CombatType.MAGIC).checkAccuracy(true);
             hit.submit();
             if (!Prayers.usingPrayer(t, Prayers.PROTECT_FROM_MAGIC)) {

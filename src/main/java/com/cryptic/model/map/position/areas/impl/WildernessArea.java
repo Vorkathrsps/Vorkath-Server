@@ -214,6 +214,7 @@ public class WildernessArea extends Controller {
         player.getPacketSender().sendInteractionOption("Attack", 2, true);
         player.getInterfaceManager().sendOverlay(196);
         refreshWildernessLevel(player);
+        System.out.println("opened on enter");
         player.putAttrib(AttributeKey.INWILD, World.getWorld().cycleCount());
         if (!BountyHunter.PLAYERS_IN_WILD.contains(player)) {
             BountyHunter.PLAYERS_IN_WILD.add(player);
@@ -358,9 +359,8 @@ public class WildernessArea extends Controller {
 
     @Override
     public boolean inside(Entity entity) {
-        if (entity.getAsPlayer().insideFeroxEnclaveSafe()) {
-            return false;
-        }
+        if (entity instanceof Player player)
+            if (player.insideFeroxEnclaveSafe()) return false;
         return getWildernessLevel(entity.tile()) > 0;
     }
 

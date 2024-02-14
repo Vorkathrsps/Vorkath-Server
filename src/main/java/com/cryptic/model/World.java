@@ -23,8 +23,6 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.NPCCombatInfo;
 import com.cryptic.model.entity.npc.droptables.ItemRepository;
 import com.cryptic.model.entity.npc.droptables.NpcDropRepository;
-import com.cryptic.model.entity.npc.droptables.NpcDropTable;
-import com.cryptic.model.entity.npc.droptables.ScalarLootTable;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.PlayerPerformanceTracker;
 import com.cryptic.model.items.Item;
@@ -273,7 +271,7 @@ public class World {
         processObjects();
         readNpcs();
         readPlayers();
-        processGpi();
+        processEntityUpdating();
         flushEntities();
         incrementElapsedTicks();
     }
@@ -386,7 +384,7 @@ public class World {
     /**
      * Processes game packet updates for all players and NPCs.
      */
-    private void processGpi() {
+    private void processEntityUpdating() {
         for (Player player : players) {
             if (player != null && checkIndex(player.getIndex(), NodeType.PLAYER)) {
                 try {

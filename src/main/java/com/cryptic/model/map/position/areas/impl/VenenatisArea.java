@@ -19,6 +19,7 @@ public class VenenatisArea extends Controller {
     }
     @Override
     public void enter(Player player) {
+        System.out.println("on enter 2");
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {
                 if (npc.id() == 6610) {

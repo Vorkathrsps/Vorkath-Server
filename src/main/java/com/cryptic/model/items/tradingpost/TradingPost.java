@@ -411,7 +411,7 @@ public class TradingPost {
         p.getPacketSender().sendString(81272, "127k"); // item volume
         p.getPacketSender().sendString(81273, "Type username"); // username wipe
         p.getPacketSender().sendString(81274, "Type itemname"); // item wipe
-        for (int i = 0; i < 10; i++) { // TODO show what
+        for (int i = 0; i < 10; i++) { // TODO show what?
             sendBuyIndex(null, "", "", i, p);
         }
     }
@@ -436,6 +436,7 @@ public class TradingPost {
             }
         }
         if (buttonId == 81069) { // TODO overview tab: add to coffer dialogue
+            p.message("This feature is coming soon.");
             return true;
         }
         if (buttonId == 81077 || buttonId == 81078) {
@@ -472,7 +473,7 @@ public class TradingPost {
         for (int i = 0; i < 10; i++) {
             var btn = 81127 + (i * 5);
             if (buttonId == btn) {
-                TradingPost.modifyListing(p, i, 2);  // cancel listing
+                TradingPost.claimOrCancel(p, i, 2);  // cancel listing
                 //logger.debug("cancel idx {}", i);
                 return true;
             }
@@ -561,16 +562,27 @@ public class TradingPost {
         }
 
 
-        if (buttonId == 81379) {
+        if (buttonId == 81379) { // confirm buy on 2nd Buy Overlay UI
             if (p.getDialogueManager().getDialogue() instanceof TradingPostConfirmSale tpcs) {
                 tpcs.select(1);
+            } else {
+                p.<Integer>setAmountScript("How many of this item would you like to purchase?:::"+p.tradingPostListedAmount, i -> {
+                    handlePurchasing(p, p.tradingPostSelectedListing, i);
+                    return true;
+                });
             }
             return true;
         }
         if (buttonId == 81380) { // buy -1
+            p.tradingPostListedAmount = Math.min(p.tradingPostSelectedListing.getRemaining(), Math.max(1, p.tradingPostListedAmount - 1));
+            p.getPacketSender().sendString(81382, ""+p.tradingPostListedAmount);
             return true;
         }
         if (buttonId == 81381) { // buy +1
+            p.tradingPostListedAmount = Math.min(p.tradingPostSelectedListing.getRemaining(), (int) Math.min(Integer.MAX_VALUE, p.tradingPostListedAmount + 1L));
+            if (p.tradingPostListedAmount == p.tradingPostSelectedListing.getRemaining())
+                p.message("There are only %s remaining.", p.tradingPostSelectedListing.getRemaining());
+            p.getPacketSender().sendString(81382, ""+p.tradingPostListedAmount);
             return true;
         }
         return false;
@@ -1030,6 +1042,8 @@ public class TradingPost {
 
             player.putAttrib(AttributeKey.TRADING_POST_ORIGINAL_AMOUNT, selected.getRemaining());
             player.putAttrib(AttributeKey.TRADING_POST_ORIGINAL_PRICE, selected.getPrice());
+            player.tradingPostListedAmount = selected.getRemaining();
+            player.tradingPostSelectedListing = selected;
 
             if (selected.getRemaining() == 1) {
                 handlePurchasing(player, selected, 1);
@@ -1277,13 +1291,7 @@ public class TradingPost {
         open(p);
     }
 
-    public static void modifyListing(Player player, int listIndex, int optionId) {
-        if (optionId == 5) {
-            /*
-             * Never mind
-             */
-            return;
-        }
+    public static void claimOrCancel(Player player, int listIndex, int optionId) {
 
         PlayerListing listing = sales.getOrDefault(player.getUsername().toLowerCase(), getListings(player.getUsername().toLowerCase()));
 
@@ -1303,6 +1311,7 @@ public class TradingPost {
         if (optionId == 2) {
             if (offer.getRemaining() == 0) {
                 player.message(Color.RED.wrap("Your " + offerItem.unnote().name() + " have already been sold."));
+                handleClaimOffer(player, listIndex);
                 return;
             }
 

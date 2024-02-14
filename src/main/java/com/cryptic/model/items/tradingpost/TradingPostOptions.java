@@ -38,7 +38,7 @@ public class TradingPostOptions extends Dialogue {
                 return;
             }
             stop();//Close dialogue first before opening another.
-            TradingPost.modifyListing(player, index, option);
+            TradingPost.claimOrCancel(player, index, option);
         }
     }
 

@@ -575,6 +575,7 @@ public class Player extends Entity {
     public List<TradingPostListing> tradePostHistory = Lists.newArrayList();
 
     public int tradingPostListedItemId, tradingPostListedAmount, tpListingPrice;
+    public TradingPostListing tradingPostSelectedListing;
 
     public String lastTradingPostUserSearch, lastTradingPostItemSearch;
 

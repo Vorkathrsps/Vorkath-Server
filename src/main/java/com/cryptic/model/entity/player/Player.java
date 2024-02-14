@@ -1546,23 +1546,20 @@ public class Player extends Entity {
 
     }
 
-    public Sigil sigil = new Sigil();
+    @Getter public Sigil sigil = new Sigil();
 
     /**
      * Called by the world's login queue!
      */
     public void onLogin() {
         logger.info("Registering player - [username, host] : [{}, {}]", getUsername(), getHostAddress());
-        if (dead()) {
-            die();
-        }
+        if (dead()) die();
         handleForcedTeleports();
         applyAttributes();
         updatePlayer();
         handleOnLogin(this);
-        sigil.HandleLogin(this);
+        this.getSigil().HandleLogin(this);
         applyPoweredStaffSpells();
-        //this.getPetEntity().spawnOnLogin();
         boolean newAccount = this.getAttribOr(NEW_ACCOUNT, false);
         if (!newAccount && getBankPin().hasPin() && !getBankPin().hasEnteredPin() && GameServer.properties().requireBankPinOnLogin)
             getBankPin().enterPin();
@@ -1595,6 +1592,7 @@ public class Player extends Entity {
         Prayers.onLogin(player);
         SlayerPartner.onLogin(player);
         TitlePlugin.SINGLETON.onLogin(player);
+        ControllerManager.process(player);
     }
 
     private void updatePlayer() {

@@ -6,14 +6,15 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.*;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectList;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ControllerManager {
-
     private static final List<Controller> CONTROLLERS = new ArrayList<>();
-
 
     static {
         CONTROLLERS.add(new DuelArenaArea());
@@ -33,38 +34,28 @@ public class ControllerManager {
     /**
      * Processes areas for the given mob.
      */
-    public static void process(Player player) {
+    public static void process(@Nonnull Player player) {
         Tile tile = player.tile();
         List<Controller> activeControllers = player.getControllers();
-        List<Controller> newActiveControllers = new ArrayList<>();
-
+        ObjectList<Controller> newActiveControllers = new ObjectArrayList<>();
         if (activeControllers != null) {
             for (Controller controller : CONTROLLERS) {
-                boolean insideController = ((controller.useInsideCheck() && inside(tile, controller)) || (!controller.useInsideCheck() && inside(tile, controller)) || (controller.useInsideCheck() && controller.inside(player)));
-
-                if (activeControllers.contains(controller)) {
-                    if (!insideController) {
-                        controller.leave(player);
-                    } else {
-                        newActiveControllers.add(controller);
-                        controller.process(player);
-                    }
+                if (controller == null) continue;
+                boolean insideController = controller.useInsideCheck() && inside(tile, controller);
+                if (!insideController && !controller.inside(player)) {
+                    if (activeControllers.contains(controller)) controller.leave(player);
                 } else {
-                    if (insideController) {
-                        controller.enter(player);
-                        newActiveControllers.add(controller);
-                        controller.process(player);
-                    }
+                    if (!activeControllers.contains(controller)) controller.enter(player);
+                    newActiveControllers.add(controller);
+                    controller.process(player);
                 }
             }
-
             for (Controller controller : activeControllers) {
                 if (!newActiveControllers.contains(controller)) {
                     controller.leave(player);
                 }
             }
         }
-
         player.setControllers(newActiveControllers);
     }
 

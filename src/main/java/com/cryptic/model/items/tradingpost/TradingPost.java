@@ -69,6 +69,9 @@ public class TradingPost {
 
     public static Map<String, PlayerListing> sales;
 
+    /**
+     * helpful for guide-price averaging
+     */
     public static List<TradingPostListing> recentTransactions;
 
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -480,7 +483,7 @@ public class TradingPost {
         }
 
 
-        if (buttonId == 81379) { // TODO purchase confirm
+        if (buttonId == 81379) {
             if (p.getDialogueManager().getDialogue() instanceof TradingPostConfirmSale tpcs) {
                 tpcs.select(1);
             }
@@ -522,41 +525,6 @@ public class TradingPost {
         }
         player.getPacketSender().sendString(a1, a);
         player.getPacketSender().sendString(a2, b);
-    }
-
-    private static void displayHistory(Player player) {
-            player.setNameScript("Which item would you like to view the history of?", new InputScript() {
-
-                @Override
-                public boolean handle(Object value) {
-                    String itemName = (String) value;
-                    if (itemName.length() < 2)
-                        return false;
-
-                    TradingPost.handleQueryItemHistory(player, itemName);
-                    return true;
-                }
-            });
-    }
-
-    private static void handleQueryItemHistory(Player player, String itemName) {
-            List<TradingPostListing> stored = Lists.newArrayList();
-
-            recentTransactions.stream().filter(Objects::nonNull).forEach(history -> {
-
-                Item i = history.getSaleItem().unnote();
-
-                if (i.name().toLowerCase().contains(itemName.toLowerCase())) {
-                    stored.add(history);
-                }
-            });
-
-            if (stored.size() == 0) {
-                player.message("<col=ff0000>No results found for '" + itemName + "'");
-                return;
-            }
-
-            // displayResults(player, stored); // TODO
     }
 
     public static void showTradeHistory(Player player) {

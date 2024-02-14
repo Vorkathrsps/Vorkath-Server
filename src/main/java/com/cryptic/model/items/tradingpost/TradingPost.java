@@ -248,6 +248,7 @@ public class TradingPost {
     }
 
     public static void open(Player player) {
+        player.getPacketSender().sendParallelInterfaceVisibility(81375, false);
         if (!TRADING_POST_LISTING_ENABLED) {
             player.message(Color.RED.wrap("The trading post is currently disabled."));
             return;
@@ -299,7 +300,7 @@ public class TradingPost {
         }
         player.getPacketSender().sendString(81073, NumberUtils.formatNumber(
                 1L * player.inventory().count(995)
-                        + (long) (1000L * player.inventory().count(13307))
+                        + (long) (1000L * player.inventory().count(13307)) // TODO does bm = plat tok?
                         + (long) (1000L * player.inventory().count(PLATINUM_TOKEN)))); // TODO my coins- coffer
         player.getPacketSender().sendString(81074, "Active: "+NumberUtils.formatNumber(list == null ? 0 : list.size())); // TODO my trades
         player.getPacketSender().sendString(81075, NumberUtils.formatNumber(sales.size())); // global trades
@@ -362,7 +363,11 @@ public class TradingPost {
         OVERVIEW(1, p -> TradingPost.open(p)),
         BUY(2, p -> openBuyUI(p)),
         SELL(3, p -> openSellUI(p)),
-        TRADE_HISTORY(4, p -> showTradeHistory(p, recentTransactions)),
+        TRADE_HISTORY(4, p -> {
+            var l = new ArrayList<>(recentTransactions);
+            Collections.reverse(l);
+            showTradeHistory(p, l);
+        }),
         RECENT_LISTINGS(5, p -> showRecents(p))
         ;
 
@@ -458,8 +463,8 @@ public class TradingPost {
             // feature spot 5
             return true;
         }
-        if (buttonId == 81378) { // X buy specific item
-            p.getInterfaceManager().close();
+        if (buttonId == 81378) { // X button - buy specific item confirm overlay
+            open(p);
             return true;
         }
 
@@ -601,7 +606,9 @@ public class TradingPost {
     }
 
     public static void showTradeHistory(Player player) {
-        showTradeHistory(player, recentTransactions);
+        var l = new ArrayList<>(recentTransactions);
+        Collections.reverse(l);
+        showTradeHistory(player, l);
     }
 
     public static void showTradeHistory(Player player, List<TradingPostListing> list) {
@@ -1029,11 +1036,17 @@ public class TradingPost {
                 return true;
             }
 
+            player.getInterfaceManager().open(81375);
+            player.getInterfaceManager().removeOverlay(); // TODO this isnt working as an overlay
+            player.getPacketSender().resetParallelInterfaces();
+            player.getPacketSender().sendParallelInterfaceVisibility(81375, true);
             player.getPacketSender().sendItemOnInterfaceSlot(81383, selected.getSaleItem(), 0);
             player.getPacketSender().sendString(81384, Utils.capitalizeFirst(selected.getSaleItem().name()));
             player.getPacketSender().sendString(81385, "Price: "+selected.getPrice());
             player.getPacketSender().sendString(81386, "Total Cost: "+((long) selected.getPrice() * selected.getRemaining()));
             player.getPacketSender().sendString(81382, ""+selected.getRemaining());
+
+            // prompt specific amt
             player.setAmountScript("How many of this item would you like to purchase?", new InputScript() {
 
                 @Override

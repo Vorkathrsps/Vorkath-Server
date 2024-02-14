@@ -3,6 +3,7 @@ package com.cryptic.model.entity;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Boundary;
+import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.model.map.position.areas.impl.DuelArenaArea;
 import it.unimi.dsi.fastutil.ints.*;
 

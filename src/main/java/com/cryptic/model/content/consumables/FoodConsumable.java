@@ -8,6 +8,7 @@ import com.cryptic.model.entity.masks.impl.animations.Animation;
 import com.cryptic.model.entity.masks.impl.animations.Priority;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
+import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
@@ -177,10 +178,12 @@ public class FoodConsumable {
         boolean healed = player.hp() < player.maxHp();
         String name = foodItem.definition(World.getWorld()).name.toLowerCase();
 
-        if (player.getController() != null) {
-            if (!player.getController().canEat(player, foodItem.getId())) {
-                player.message("You cannot eat here.");
-                return;
+        if (!player.getController().isEmpty()) {
+            for (Controller controller : player.getController()) {
+                if (!controller.canEat(player, foodItem.getId())) {
+                    player.message("You cannot eat here.");
+                    return;
+                }
             }
         }
 

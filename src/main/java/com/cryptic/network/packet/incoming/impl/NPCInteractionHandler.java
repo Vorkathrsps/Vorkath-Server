@@ -30,6 +30,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.tradingpost.TradingPost;
+import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.model.map.route.routes.TargetRoute;
 import com.cryptic.network.packet.Packet;
 import com.cryptic.network.packet.PacketListener;
@@ -158,9 +159,12 @@ public class NPCInteractionHandler implements PacketListener {
         if (PacketInteractionManager.checkNpcInteraction(player, npc, option))
             return;
 
-        if (player.getController() != null && player.getController().handleNpcOption(player, npc, option))
-            return;
-
+        if (!player.getController().isEmpty()) {
+            for (Controller controller : player.getController()) {
+                controller.handleNpcOption(player, npc, option);
+                return;
+            }
+        }
         if (option == 1) {
             handleOptionOne(player, npc);
             return;
@@ -281,8 +285,11 @@ public class NPCInteractionHandler implements PacketListener {
     private void handleOptionOne(Player player, NPC npc) {
 
         /** Controllers **/
-        if (player.getController() != null && player.getController().handleNpcOption(player, npc, 1)) {
-            return;
+        if (!player.getController().isEmpty()) {
+            for (Controller controller : player.getController()) {
+                controller.handleNpcOption(player, npc, 1);
+                return;
+            }
         }
         if (Impling.onNpcOption1(player, npc)) {
             return;

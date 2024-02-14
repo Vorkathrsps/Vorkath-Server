@@ -24,6 +24,7 @@ import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.inter.lootkeys.LootKey;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.chainedwork.Chain;
@@ -154,8 +155,10 @@ public class DeathProcess implements TheatreDeath {
                 World.getWorld().unregisterNpc(barrowsBro);
             }
 
-            if (killer != null && player.getController() != null) {
-                player.getController().defeated(killer, player);
+            if (!player.getController().isEmpty()) {
+                for (Controller controller : player.getController()) {
+                    controller.defeated(killer, player);
+                }
             }
 
             player.clearAttrib(AttributeKey.LASTDEATH_VALUE);

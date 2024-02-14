@@ -1,5 +1,6 @@
 package com.cryptic.model.content.consumables.potions;
 
+import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.chainedwork.Chain;
@@ -159,15 +160,17 @@ public class Potions {
             return;
         }
 
-        if (player.getController() != null) {
-            if (!player.getController().canDrink(player, id)) {
-                player.message("You cannot use potions here.");
-                return;
-            }
-            if (potion == Potion.GUTHIX_REST || potion == Potion.SARADOMIN_BREW) {
-                if (!player.getController().canEat(player, id)) {
-                    player.message("You cannot eat here.");
+        if (!player.getController().isEmpty()) {
+            for (Controller controller : player.getController()) {
+                if (!controller.canDrink(player, id)) {
+                    player.message("You cannot use potions here.");
                     return;
+                }
+                if (potion == Potion.GUTHIX_REST || potion == Potion.SARADOMIN_BREW) {
+                    if (!controller.canEat(player, id)) {
+                        player.message("You cannot eat here.");
+                        return;
+                    }
                 }
             }
         }

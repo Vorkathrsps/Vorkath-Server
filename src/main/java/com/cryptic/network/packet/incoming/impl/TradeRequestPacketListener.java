@@ -6,6 +6,7 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.PlayerStatus;
+import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.model.map.route.routes.TargetRoute;
 import com.cryptic.network.packet.Packet;
 import com.cryptic.network.packet.PacketListener;
@@ -27,10 +28,10 @@ public class TradeRequestPacketListener implements PacketListener {
         Player other = World.getWorld().getPlayers().get(index);
 
         if (player == null
-                || player.dead()
-                || !player.isRegistered()
-                || other == null || other.dead()
-                || !other.isRegistered()) {
+            || player.dead()
+            || !player.isRegistered()
+            || other == null || other.dead()
+            || !other.isRegistered()) {
             return;
         }
 
@@ -40,12 +41,12 @@ public class TradeRequestPacketListener implements PacketListener {
             player.message("You have to select your game mode before you can continue.");
             return;
         }
-        
+
         if (!player.getBankPin().hasEnteredPin() && GameServer.properties().requireBankPinOnLogin) {
             player.getBankPin().openIfNot();
             return;
         }
-        if(player.askForAccountPin()) {
+        if (player.askForAccountPin()) {
             player.sendAccountPinMessage();
             return;
         }
@@ -83,20 +84,22 @@ public class TradeRequestPacketListener implements PacketListener {
                     return;
                 }
 
-                if (player.getController() != null) {
-                    if (!player.getController().canTrade(player, other)) {
-                        player.message("You cannot trade here.");
-                        return;
+                if (!player.getController().isEmpty()) {
+                    for (Controller controller : player.getController()) {
+                        if (!controller.canTrade(player, other)) {
+                            player.message("You cannot trade here.");
+                            return;
+                        }
                     }
                 }
 
-                if (player.getLocalPlayers().contains(other)) {
-                    if (player.tile().distance(other.tile()) < 3) {
-                        player.getTrading().requestTrade(other);
+                    if (player.getLocalPlayers().contains(other)) {
+                        if (player.tile().distance(other.tile()) < 3) {
+                            player.getTrading().requestTrade(other);
+                        }
                     }
-                }
-            });
+                });
 
+            }
         }
     }
-}

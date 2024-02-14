@@ -53,6 +53,7 @@ import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.naming.ldap.Control;
 import java.time.Duration;
 import java.util.*;
 import java.util.function.BooleanSupplier;
@@ -773,14 +774,6 @@ public abstract class Entity {
 
     public int distanceToPoint(int pointX, int pointY) {
         return (int) Math.sqrt(Math.pow(getX() - pointX, 2) + Math.pow(getY() - pointY, 2));
-    }
-
-    public Controller getController() {
-        return controller;
-    }
-
-    public void setController(Controller controller) {
-        this.controller = controller;
     }
 
     public boolean isFixingDiagonal() {
@@ -2103,7 +2096,7 @@ public abstract class Entity {
     private int specialAttackPercentage = 100;
     private boolean specialActivated;
     private boolean recoveringSpecialAttack;
-    protected Controller controller;
+    @Getter @Setter protected List<Controller> controller;
 
     /**
      * Listeners

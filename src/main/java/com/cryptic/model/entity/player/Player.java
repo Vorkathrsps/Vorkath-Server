@@ -122,6 +122,7 @@ import com.cryptic.model.map.object.OwnedObject;
 import com.cryptic.model.map.object.dwarf_cannon.DwarfCannon;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.model.map.position.areas.ControllerManager;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.model.map.region.Region;
@@ -1494,8 +1495,10 @@ public class Player extends Entity {
 
         {
             // Leave area
-            if (getController() != null) {
-                getController().leave(this);
+            if (!getController().isEmpty()) {
+                for (Controller controller : getController()) {
+                    controller.leave(this);
+                }
             }
         });
 

@@ -48,6 +48,7 @@ import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.*;
 import com.cryptic.utility.chainedwork.Chain;
@@ -433,9 +434,10 @@ public class NPCDeath {
                 });
             }
 
-            //Do custom area deaths
-            if (killer.getController() != null) {
-                killer.getController().defeated(killer, npc);
+            if (!killer.getController().isEmpty()) {
+                for (Controller controller : killer.getController()) {
+                    controller.defeated(killer, npc);
+                }
             }
 
             //Do bots death

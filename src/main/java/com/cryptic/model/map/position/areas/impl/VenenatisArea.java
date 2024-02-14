@@ -6,14 +6,16 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
+import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.Controller;
 
+import java.util.Collections;
 import java.util.List;
 
 public class VenenatisArea extends Controller {
-    final Area ROOM = new Area(3408, 10182, 3442, 10222);
+    public static final Area ROOM = new Area(1611, 11521, 1654, 11571);
     public VenenatisArea() {
-        super(List.of(new Area(3408, 10182, 3442, 10222)));
+        super(Collections.singletonList(new Area(Tile.regionToTile(6580).getX(), Tile.regionToTile(6580).getY(), Tile.regionToTile(6580).getX() + 63, Tile.regionToTile(6580).getY() + 63)));
     }
     @Override
     public void enter(Player player) {
@@ -114,6 +116,6 @@ public class VenenatisArea extends Controller {
 
     @Override
     public boolean inside(Entity entity) {
-        return entity instanceof Player player && player.tile().inArea(ROOM);
+        return ROOM.contains(entity.tile());
     }
 }

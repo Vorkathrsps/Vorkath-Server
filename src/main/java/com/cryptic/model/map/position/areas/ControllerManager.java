@@ -1,12 +1,15 @@
 package com.cryptic.model.map.position.areas;
 
+import com.cryptic.core.task.Task;
 import com.cryptic.model.content.raids.theatre.area.NylocasAreaController;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.*;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
+import javax.naming.ldap.Control;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,52 +38,49 @@ public class ControllerManager {
      */
     public static void process(Player player) {
         Tile tile = player.tile();
-        Controller controller = player.getController();
+        List<Controller> activeControllers = player.getController();
+        List<Controller> newActiveControllers = new ArrayList<>();
 
-        if (controller != null) {
-            //We only want to check using the abstract area or using the area manager, not both,
-            //since wilderness does not have the correct coordinates in the constructor, and
-            //wilderness also uses custom code for determining wilderness "level".
-            if ((!controller.useInsideCheck() && !inside(tile, controller)) || (controller.useInsideCheck() && !controller.inside(player))) {
-                System.out.println(player.getMobName() + " leaving " + controller + " located at " + player.tile());
-                controller.leave(player);
-                controller = null;
-            }
-        }
+        if (activeControllers != null) {
+            for (Controller controller : CONTROLLERS) {
+                boolean insideController = ((controller.useInsideCheck() && inside(tile, controller)) || (!controller.useInsideCheck() && inside(tile, controller)) || (controller.useInsideCheck() && controller.inside(player)));
 
-        if (controller == null) {
-            controller = get(tile);
-            if (controller == null) {//fallback
-                for (Controller area : CONTROLLERS) {
-                    if (area.useInsideCheck() && area.inside(player)) {
-                        System.out.println("using inside check");
-                        controller = area;
-                        break;
+                if (activeControllers.contains(controller)) {
+                    if (!insideController) {
+                        controller.leave(player);
+                    } else {
+                        newActiveControllers.add(controller);
+                        controller.process(player);
+                    }
+                } else {
+                    if (insideController) {
+                        controller.enter(player);
+                        newActiveControllers.add(controller);
+                        controller.process(player);
                     }
                 }
             }
-            if (controller != null) {
-                System.out.println(player.getMobName() + " entering " + controller + " located at " + player.tile());
-                controller.enter(player);
+
+            for (Controller controller : activeControllers) {
+                if (!newActiveControllers.contains(controller)) {
+                    controller.leave(player);
+                }
             }
         }
 
-        // Handle processing..
-        if (controller != null) {
-            controller.process(player);
-        }
-        // Update area..
-        player.setController(controller);
+        player.setController(newActiveControllers);
     }
+
 
     /**
      * Checks if a {@link Entity} can attack another one.
      */
     public static boolean canAttack(Player attacker, Entity target) {
-        if (attacker.getController() != null) {
-            return attacker.getController().canAttack(attacker, target);
+        if (!attacker.getController().isEmpty()) {
+            for (Controller controller : attacker.getController()) {
+                return controller.canAttack(attacker, target);
+            }
         }
-
         return true;
     }
 

@@ -6,6 +6,7 @@ import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.masks.Direction;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.route.RouteFinder;
 import lombok.Setter;
@@ -110,8 +111,11 @@ public class PlayerMovement extends MovementQueue {
         Tile.occupy(player);
         if (isMoving) {
             player.clearAttrib(MOVEMENT_PACKET_STEPS);
-            if (player.getController() != null)
-                player.getController().onMovement(player);
+            if (!player.getController().isEmpty()) {
+                for (Controller controller : player.getController()) {
+                    controller.onMovement(player);
+                }
+            }
         }
     }
 

@@ -11,6 +11,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.tradingpost.TradingPost;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.network.packet.Packet;
 import com.cryptic.network.packet.PacketListener;
 import com.cryptic.network.packet.incoming.interaction.PacketInteractionManager;
@@ -141,8 +142,12 @@ public class ObjectInteractionHandler implements PacketListener {
         if (PacketInteractionManager.checkObjectInteraction(player, object, option))
             return;
 
-        if (player.getController() != null && player.getController().handleObjectClick(player, object, option))
-            return;
+        if (!player.getController().isEmpty()) {
+            for (Controller controller : player.getController()) {
+                controller.handleObjectClick(player, object, option);
+                return;
+            }
+        }
 
         final String name = object.definition().name;
 

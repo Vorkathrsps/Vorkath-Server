@@ -14,6 +14,7 @@ import com.cryptic.model.entity.npc.HealthHud;
 import com.cryptic.model.entity.player.MagicSpellbook;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
@@ -37,11 +38,13 @@ public class Teleports {
      */
     public static boolean canTeleport(Player player, boolean inform, TeleportType teletype) {
 
-        if (player.getController() != null) {
-            if (!player.getController().canTeleport(player)) {
-                player.message("A magical force prevents you from teleporting.");
-                player.getInterfaceManager().closeDialogue();
-                return false;
+        if (!player.getController().isEmpty()) {
+            for (Controller controller : player.getController()) {
+                if (!controller.canTeleport(player)) {
+                    player.message("A magical force prevents you from teleporting.");
+                    player.getInterfaceManager().closeDialogue();
+                    return false;
+                }
             }
         }
 

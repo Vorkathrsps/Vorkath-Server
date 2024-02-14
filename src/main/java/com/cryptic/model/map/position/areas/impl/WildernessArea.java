@@ -233,6 +233,7 @@ public class WildernessArea extends Controller {
         if (!Skulling.skulled(player)) {
             player.clearAttrib(AttributeKey.SKULL_ENTRIES_TRACKER);
         }
+        System.out.println("leaving wild");
         player.getInterfaceManager().removeOverlay();
         player.getPacketSender().sendInteractionOption("null", 2, true);
         BountyHunter.PLAYERS_IN_WILD.remove(player);

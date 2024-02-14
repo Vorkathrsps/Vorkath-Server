@@ -589,7 +589,7 @@ public class Zulrah {
             snakeling.getValue().animate(2413);
             snakeling.getValue().putAttrib(AttributeKey.OWNING_PLAYER, new Tuple<>(player.getIndex(), player));
             snakeling.getValue().lockNoDamage();
-            snakeling.getValue().setController(npc.getController());
+         /*   snakeling.getValue().setController(npc.getController());*/
         }).then(3, () -> {
             snakeling.getValue().unlock();
             snakeling.getValue().getCombat().attack(target);

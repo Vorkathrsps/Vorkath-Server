@@ -4,6 +4,7 @@ import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.model.map.route.routes.TargetRoute;
 import com.cryptic.network.packet.Packet;
 import com.cryptic.network.packet.PacketListener;
@@ -45,8 +46,10 @@ public class PlayerOptionOnePacketListener implements PacketListener {
                     player.getMovementQueue().resetFollowing();
                     player.setEntityInteraction(null);
                 }
-                if (player.getController() != null) {
-                    player.getController().onPlayerRightClick(player, other, 1);
+                if (!player.getController().isEmpty()) {
+                    for (Controller controller : player.getController()) {
+                        controller.onPlayerRightClick(player, other, 1);
+                    }
                 }
             });
         }

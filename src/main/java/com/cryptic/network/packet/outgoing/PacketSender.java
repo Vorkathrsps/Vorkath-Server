@@ -564,6 +564,13 @@ public final class PacketSender {
         }
         return this;
     }
+    public PacketSender setInterClickable(int interfaceId, boolean clickable) {
+        PacketBuilder out = new PacketBuilder(2);
+        out.putInt(interfaceId);
+        out.put(clickable ? 1 : 0);
+        player.getSession().write(out);
+        return this;
+    }
 
     public PacketSender sendPlayerHeadOnInterface(int id) {
         PacketBuilder out = new PacketBuilder(185);

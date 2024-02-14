@@ -89,7 +89,7 @@ public final class PacketEncoder extends MessageToByteEncoder<Packet> {
     static {
         PACKET_SIZES[0] = 0;
         PACKET_SIZES[1] = 0;
-        PACKET_SIZES[2] = -3;
+        PACKET_SIZES[2] = 5;
         PACKET_SIZES[3] = 0;
         PACKET_SIZES[4] = 6;
         PACKET_SIZES[5] = -3;

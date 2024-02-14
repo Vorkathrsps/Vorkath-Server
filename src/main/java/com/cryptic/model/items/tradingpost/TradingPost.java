@@ -301,6 +301,7 @@ public class TradingPost {
                         + (long) (1000L * player.inventory().count(PLATINUM_TOKEN)))); // TODO my coins- coffer
         player.getPacketSender().sendString(81074, "Active: "+NumberUtils.formatNumber(list == null ? 0 : list.size())); // TODO my trades
         player.getPacketSender().sendString(81075, NumberUtils.formatNumber(sales.size())); // global trades
+        sendOfferInventory(player, OVERVIEW);
     }
 
     public static void sendOverviewIndex(Item item, String name, String priceper, int progress, int idx, Player player) {
@@ -935,8 +936,7 @@ public class TradingPost {
         player.getPacketSender().sendString(base + 3, Utils.capitalizeFirst(seller));
         player.getPacketSender().sendString(base + 4, itemname == null ? "" : "Price");
         player.getPacketSender().sendString(base + 5, pricePer); // TODO convert to k, m, b
-        player.getPacketSender().sendInterfaceDisplayState(81278 + idx, itemname == null); // TODO set not clickable instead of hiding entire widget, looks odd rn
-        player.getPacketSender().sendParallelInterfaceVisibility(81278 + idx, itemname != null);
+        player.getPacketSender().setInterClickable(81278 + idx, itemname != null);
     }
 
     public static void handleXOptionInput(Player player, int id, int slot) {
@@ -968,6 +968,10 @@ public class TradingPost {
             } else {
                 list2 = getSalesForItemName(player, player.lastTradingPostItemSearch);
             }
+            if (list2 == null) {
+                player.message("<col=ff0000>What are you searching for?");
+                return true;
+            }
 
             List<TradingPostListing> listDisplay = new ArrayList<>(list2);
             listDisplay.removeIf(o -> o.getRemaining() == 0);
@@ -981,7 +985,7 @@ public class TradingPost {
 
             if (offer == null) {
                 player.message("<col=ff0000>That offer no longer exists.");
-                return false;
+                return true;
             }
 
             int offerSize = offer.size();
@@ -995,7 +999,7 @@ public class TradingPost {
 
             if (selected.getRemaining() == 0) {
                 player.message("<col=ff0000>This offer has already been purchased by another player.");
-                return false;
+                return true;
             }
 
             player.putAttrib(AttributeKey.TRADING_POST_ORIGINAL_AMOUNT, selected.getRemaining());
@@ -1003,7 +1007,7 @@ public class TradingPost {
 
             if (selected.getRemaining() == 1) {
                 handlePurchasing(player, selected, 1);
-                return false;
+                return true;
             }
 
             player.getPacketSender().sendItemOnInterfaceSlot(81383, selected.getSaleItem(), 0);
@@ -1171,6 +1175,8 @@ public class TradingPost {
     }
 
     public static List<TradingPostListing> getSalesForItemName(Player player, String itemName) {
+        if (itemName == null)
+            return null;
         List<TradingPostListing> items = Lists.newArrayList();
         sales.values().stream().filter(Objects::nonNull).map(listing -> listing.getSalesMatchingByString(player, itemName)).forEach(items::addAll);
         return items;

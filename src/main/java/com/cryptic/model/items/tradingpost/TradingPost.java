@@ -263,8 +263,6 @@ public class TradingPost {
         //printRecentTransactions();
         player.getInterfaceManager().close();
         resetSearchVars(player);
-        player.getInterfaceManager().open(OVERVIEW);
-        sendOfferInventory(player, OVERVIEW); // TODO sell tab inventoy doesnt work without this-why
         player.putAttrib(AttributeKey.USING_TRADING_POST, true);
         if (!isValid(player)) { // first time, init a new listing
             PlayerListing listings = new PlayerListing();
@@ -280,6 +278,7 @@ public class TradingPost {
     }
 
     private static void sendOverviewTab(Player player) {
+        sendOfferInventory(player, OVERVIEW);
         String user = player.getUsername().toLowerCase();
         final var c = getListings(user);
         List<TradingPostListing> list = c.getListedItems();
@@ -301,7 +300,6 @@ public class TradingPost {
                         + (long) (1000L * player.inventory().count(PLATINUM_TOKEN)))); // TODO my coins- coffer
         player.getPacketSender().sendString(81074, "Active: "+NumberUtils.formatNumber(list == null ? 0 : list.size())); // TODO my trades
         player.getPacketSender().sendString(81075, NumberUtils.formatNumber(sales.size())); // global trades
-        sendOfferInventory(player, OVERVIEW);
     }
 
     public static void sendOverviewIndex(Item item, String name, String priceper, int progress, int idx, Player player) {
@@ -350,7 +348,7 @@ public class TradingPost {
     }
 
     public static void openSellUI(Player p) {
-        p.getInterfaceManager().open(SELL_ID);
+        sendOfferInventory(p, SELL_ID);
         p.getPacketSender().sendItemOnInterfaceSlot(81819, null, 0);
         p.getPacketSender().sendString(81820, "");
         p.getPacketSender().sendString(81822, sales.size()+""); // current sales
@@ -362,7 +360,6 @@ public class TradingPost {
         for (int i = 0; i < 5; i++) {
             sendSellItemIndex(null, "", "", "", i, p);
         }
-        sendOfferInventory(p, SELL_ID);
     }
 
     public static void openBuyUI(Player p) {

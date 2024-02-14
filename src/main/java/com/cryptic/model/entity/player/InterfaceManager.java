@@ -93,6 +93,7 @@ public class InterfaceManager {
      */
     public void openInventory(int identification, int overlay) {
         if (main == identification && this.overlay == overlay) {
+            player.debug("NOT OPENING INVENTORY-- MAIN AND OVERLAY ALREADY MATCH-- to solve just dont call setMain before this");
             return;
         }
 

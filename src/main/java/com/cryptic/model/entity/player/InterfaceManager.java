@@ -5,6 +5,7 @@ import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.npc.HealthHud;
 import com.cryptic.model.items.container.shop.Shop;
 import com.cryptic.utility.Utils;
+import lombok.extern.slf4j.Slf4j;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.PICKING_PVM_STARTER_WEAPON;
 import static com.cryptic.model.entity.attributes.AttributeKey.PICKING_PVP_STARTER_WEAPON;
@@ -12,6 +13,7 @@ import static com.cryptic.model.entity.attributes.AttributeKey.PICKING_PVP_START
 /**
  * Contains information about the state of interfaces enter in the client.
  */
+@Slf4j
 public class InterfaceManager {
 
     /**
@@ -94,6 +96,7 @@ public class InterfaceManager {
     public void openInventory(int identification, int overlay) {
         if (main == identification && this.overlay == overlay) {
             player.debug("NOT OPENING INVENTORY-- MAIN AND OVERLAY ALREADY MATCH-- to solve just dont call setMain before this");
+            log.debug("openInventory SKIP already match");
             return;
         }
 

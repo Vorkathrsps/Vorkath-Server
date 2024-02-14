@@ -248,6 +248,7 @@ public class TradingPost {
     }
 
     public static void open(Player player) {
+        player.getPacketSender().sendParallelInterfaceVisibility(81375, false);
         if (!TRADING_POST_LISTING_ENABLED) {
             player.message(Color.RED.wrap("The trading post is currently disabled."));
             return;
@@ -299,7 +300,7 @@ public class TradingPost {
         }
         player.getPacketSender().sendString(81073, NumberUtils.formatNumber(
                 1L * player.inventory().count(995)
-                        + (long) (1000L * player.inventory().count(13307))
+                        + (long) (1000L * player.inventory().count(13307)) // TODO does bm = plat tok?
                         + (long) (1000L * player.inventory().count(PLATINUM_TOKEN)))); // TODO my coins- coffer
         player.getPacketSender().sendString(81074, "Active: "+NumberUtils.formatNumber(list == null ? 0 : list.size())); // TODO my trades
         player.getPacketSender().sendString(81075, NumberUtils.formatNumber(sales.size())); // global trades
@@ -315,6 +316,35 @@ public class TradingPost {
         player.getPacketSender().sendInterfaceDisplayState(base + 2, progress == -1);
         player.getPacketSender().sendString(base + 3, priceper); // 5/6 | 2k (ea)
         player.getPacketSender().sendInterfaceDisplayState(base + 4, item == null); //Hide 'cancel listing' btn
+    }
+
+    public static void showRecents(Player p) {
+        p.getInterfaceManager().open(HISTORY_ID);
+
+        List<TradingPostListing> list = Lists.newArrayList();
+
+        sales.entrySet().stream()
+                .filter(Objects::nonNull)
+                .filter(e -> e.getValue() != null)
+                .forEach(recent -> {
+                    recent.getValue().getListedItems().forEach(item -> {
+                        logger.info("Item: %s seller: %s buyer:%s listed at: %s %d".formatted(
+                                item.getSaleItem().unnote().name(),
+                                item.getSellerName(),
+                                item.getLastBuyerName(),
+                                item.getListedTime(),
+                                item.getTimeListed()));
+                        Item i = item.getSaleItem().unnote();
+                        // what the fuck does this do?
+                        if (i.name().toLowerCase().contains(i.name().toLowerCase())) {
+                            list.add(item);
+                        }
+                    });
+                });
+
+        list.sort(Comparator.comparingLong(TradingPostListing::getTimeListed));
+        Collections.reverse(list);
+        showRecents(p, list);
     }
 
     public static void showRecents(Player p, List<TradingPostListing> recentTransactions) {
@@ -333,8 +363,12 @@ public class TradingPost {
         OVERVIEW(1, p -> TradingPost.open(p)),
         BUY(2, p -> openBuyUI(p)),
         SELL(3, p -> openSellUI(p)),
-        TRADE_HISTORY(4, p -> showTradeHistory(p)),
-        RECENT_LISTINGS(5, p -> showRecents(p, recentTransactions))
+        TRADE_HISTORY(4, p -> {
+            var l = new ArrayList<>(recentTransactions);
+            Collections.reverse(l);
+            showTradeHistory(p, l);
+        }),
+        RECENT_LISTINGS(5, p -> showRecents(p))
         ;
 
         private final int delta;
@@ -352,17 +386,23 @@ public class TradingPost {
 
     public static void openSellUI(Player p) {
         sendOfferInventory(p, SELL_ID);
-        p.getPacketSender().sendItemOnInterfaceSlot(81819, null, 0);
-        p.getPacketSender().sendString(81820, "");
-        p.getPacketSender().sendString(81822, sales.size()+""); // current sales
-        p.getPacketSender().sendString(81824, ""); // TODO avg sell time
-        p.getPacketSender().sendString(81826, ""); // TODO market price
-        p.getPacketSender().sendString(81828, ""); // TODO quantity
-        p.getPacketSender().sendString(81830, ""); // TODO price per item green text
+        setSellUIText(p, null, "", "", "", "", "", "");
         // TODO what to show?
         for (int i = 0; i < 5; i++) {
             sendSellItemIndex(null, "", "", "", i, p);
         }
+    }
+
+    public static void setSellUIText(Player p, Item item, String itemname,
+                                     String currentSales, String marketPrice, String avgSellTime,
+                                     String pricePer, String quantity) {
+        p.getPacketSender().sendItemOnInterfaceSlot(81819, item == null ? null : item, 0);
+        p.getPacketSender().sendString(81820, itemname); // item name
+        p.getPacketSender().sendString(81822, currentSales); // current sales
+        p.getPacketSender().sendString(81824, avgSellTime); // avg sell time
+        p.getPacketSender().sendString(81826, marketPrice); // market price
+        p.getPacketSender().sendString(81828, quantity); // quantity
+        p.getPacketSender().sendString(81830, pricePer); // price per item green text
     }
 
     public static void openBuyUI(Player p) {
@@ -371,7 +411,7 @@ public class TradingPost {
         p.getPacketSender().sendString(81272, "127k"); // item volume
         p.getPacketSender().sendString(81273, "Type username"); // username wipe
         p.getPacketSender().sendString(81274, "Type itemname"); // item wipe
-        for (int i = 0; i < 10; i++) { // TODO show what
+        for (int i = 0; i < 10; i++) { // TODO show what?
             sendBuyIndex(null, "", "", i, p);
         }
     }
@@ -396,6 +436,7 @@ public class TradingPost {
             }
         }
         if (buttonId == 81069) { // TODO overview tab: add to coffer dialogue
+            p.message("This feature is coming soon.");
             return true;
         }
         if (buttonId == 81077 || buttonId == 81078) {
@@ -423,8 +464,8 @@ public class TradingPost {
             // feature spot 5
             return true;
         }
-        if (buttonId == 81378) { // X buy specific item
-            p.getInterfaceManager().close();
+        if (buttonId == 81378) { // X button - buy specific item confirm overlay
+            open(p);
             return true;
         }
 
@@ -432,7 +473,7 @@ public class TradingPost {
         for (int i = 0; i < 10; i++) {
             var btn = 81127 + (i * 5);
             if (buttonId == btn) {
-                TradingPost.modifyListing(p, i, 2);  // cancel listing
+                TradingPost.claimOrCancel(p, i, 2);  // cancel listing
                 //logger.debug("cancel idx {}", i);
                 return true;
             }
@@ -451,48 +492,97 @@ public class TradingPost {
             if (handleBuyButtons(p, index))
                 return true;
         }
-        if (buttonId == 81831) { // TODO sell tab- quantity minus 1
+        if (buttonId == 81831) { // sell tab- quantity minus 1
+            p.tradingPostListedAmount = Math.min(p.inventory().count(p.tradingPostListedItemId),
+                    Math.max(1, p.tradingPostListedAmount - 1));
+            p.getPacketSender().sendString(81828, ""+p.tradingPostListedAmount); // quantity
             return true;
         }
-        if (buttonId == 81832) { // TODO sell tab- quantity plus 1
+        if (buttonId == 81832) { // sell tab- quantity plus 1
+            p.tradingPostListedAmount = Math.min(p.inventory().count(p.tradingPostListedItemId),
+                    Math.min(Integer.MAX_VALUE, 1 + p.tradingPostListedAmount));
+            p.getPacketSender().sendString(81828, ""+p.tradingPostListedAmount); // quantity
             return true;
         }
-        if (buttonId == 81833) { // TODO sell tab- price minus 1
+        if (buttonId == 81833) { //  sell tab- price minus 1
+            p.tpListingPrice = Math.max(1, p.tpListingPrice - 1);
+            p.getPacketSender().sendString(81830, ""+p.tpListingPrice); // price
             return true;
         }
-        if (buttonId == 81834) { // TODO sell tab- price minus 1
+        if (buttonId == 81834) { //  sell tab- price plus 1
+            p.tpListingPrice = Math.min(Integer.MAX_VALUE, p.tpListingPrice + 1);
+            p.getPacketSender().sendString(81830, ""+p.tpListingPrice); // price
             return true;
         }
-        if (buttonId == 81835) { // TODO sell tab- quantity +1 again
+        if (buttonId == 81835) { //  sell tab- quantity +1 again
+            p.tradingPostListedAmount = Math.min(p.inventory().count(p.tradingPostListedItemId),
+                    Math.min(Integer.MAX_VALUE, 1 + p.tradingPostListedAmount));
+            p.getPacketSender().sendString(81828, ""+p.tradingPostListedAmount); // quantity
             return true;
         }
-        if (buttonId == 81836) { // TODO sell tab- quantity +10
+        if (buttonId == 81836) { //  sell tab- quantity +10
+            p.tradingPostListedAmount = Math.min(p.inventory().count(p.tradingPostListedItemId),
+                    Math.min(Integer.MAX_VALUE, p.tradingPostListedAmount + 10));
+            p.getPacketSender().sendString(81828, ""+p.tradingPostListedAmount); // quantity
             return true;
         }
-        if (buttonId == 81837) { // TODO sell tab- quantity +100
+        if (buttonId == 81837) { //  sell tab- quantity +100
+            p.tradingPostListedAmount = Math.min(p.inventory().count(p.tradingPostListedItemId),
+                    Math.min(Integer.MAX_VALUE, p.tradingPostListedAmount + 100));
+            p.getPacketSender().sendString(81828, ""+p.tradingPostListedAmount); // quantity
             return true;
         }
-        if (buttonId == 81838) { // TODO sell tab- quantity custom enter
+        if (buttonId == 81838) { // sell tab- quantity custom enter
+            p.<Integer>setAmountScript("Enter amount to list:", (i) -> {
+                p.tradingPostListedAmount = Math.min(p.inventory().count(p.tradingPostListedItemId),
+                        Math.max(1, i));
+                p.getPacketSender().sendString(81828, ""+p.tradingPostListedAmount); // price per item green text
+                return true;
+            });
             return true;
         }
-        if (buttonId == 81841) { // TODO sell tab- price custom
+        if (buttonId == 81840) { // sell tab- guide price
+            p.tpListingPrice = new Item(p.tradingPostListedItemId).getBloodMoneyPrice().value();
+            p.getPacketSender().sendString(81830, ""+p.tpListingPrice); // price per item green text
             return true;
         }
-        if (buttonId == 81843) { // TODO sell tab- sell confirm 1st screen
+        if (buttonId == 81841) { // sell tab- price custom
+            p.<Integer>setAmountScript("Enter price to list the item for:", (i) -> {
+                p.tpListingPrice = Math.max(1, i);
+                p.getPacketSender().sendString(81830, ""+p.tpListingPrice); // price per item green text
+                return true;
+            });
+            return true;
+        }
+        if (buttonId == 81843) { // sell tab- sell confirm 1st screen
+            p.getDialogueManager().start(new TradingPostConfirmDialogue(new Item(
+                    p.tradingPostListedItemId,
+                    p.tradingPostListedAmount), p.tpListingPrice));
             return true;
         }
 
 
-        if (buttonId == 81379) {
+        if (buttonId == 81379) { // confirm buy on 2nd Buy Overlay UI
             if (p.getDialogueManager().getDialogue() instanceof TradingPostConfirmSale tpcs) {
                 tpcs.select(1);
+            } else {
+                p.<Integer>setAmountScript("How many of this item would you like to purchase?:::"+p.tradingPostListedAmount, i -> {
+                    handlePurchasing(p, p.tradingPostSelectedListing, i);
+                    return true;
+                });
             }
             return true;
         }
         if (buttonId == 81380) { // buy -1
+            p.tradingPostListedAmount = Math.min(p.tradingPostSelectedListing.getRemaining(), Math.max(1, p.tradingPostListedAmount - 1));
+            p.getPacketSender().sendString(81382, ""+p.tradingPostListedAmount);
             return true;
         }
         if (buttonId == 81381) { // buy +1
+            p.tradingPostListedAmount = Math.min(p.tradingPostSelectedListing.getRemaining(), (int) Math.min(Integer.MAX_VALUE, p.tradingPostListedAmount + 1L));
+            if (p.tradingPostListedAmount == p.tradingPostSelectedListing.getRemaining())
+                p.message("There are only %s remaining.", p.tradingPostSelectedListing.getRemaining());
+            p.getPacketSender().sendString(81382, ""+p.tradingPostListedAmount);
             return true;
         }
         return false;
@@ -528,26 +618,9 @@ public class TradingPost {
     }
 
     public static void showTradeHistory(Player player) {
-        player.getInterfaceManager().open(HISTORY_ID);
-
-        List<TradingPostListing> list = Lists.newArrayList();
-
-        sales.entrySet().stream()
-                .filter(Objects::nonNull)
-                .filter(e -> e.getValue() != null)
-                .forEach(recent -> {
-                    recent.getValue().getListedItems().forEach(item -> {
-                        //System.out.println("Item: " + item.getSaleItem().unnote().name() + " seller: " + item.getSellerName() +" "+ item.getSellerName()+" listed at: "+item.getListedTime()+" "+item.getTimeListed());
-                        Item i = item.getSaleItem().unnote();
-                        if (i.name().toLowerCase().contains(i.name().toLowerCase())) {
-                            list.add(item);
-                        }
-                    });
-                });
-
-        list.sort(Comparator.comparingLong(TradingPostListing::getTimeListed));
-        Collections.reverse(list);
-        showTradeHistory(player, list);
+        var l = new ArrayList<>(recentTransactions);
+        Collections.reverse(l);
+        showTradeHistory(player, l);
     }
 
     public static void showTradeHistory(Player player, List<TradingPostListing> list) {
@@ -748,14 +821,14 @@ public class TradingPost {
             player.tradingPostListedItemId = itemId;
             player.tradingPostListedAmount = (int) amount;//no longer needs to be a long due to it being item Amount
 
-            player.setAmountScript("Enter price to list the item for:", new InputScript() {
 
-                @Override
-                public boolean handle(Object value) {
-                    TradingPost.handleSalePrice(player, (Integer) value);
-                    return true;
-                }
-            });
+            setSellUIText(player, offerItem,
+                    offerItem.name(),
+                    "",
+                    "",
+                    "",
+                    offerItem.getBloodMoneyPrice().value()+"",
+                    amount+"");
         return true;
     }
 
@@ -969,17 +1042,25 @@ public class TradingPost {
 
             player.putAttrib(AttributeKey.TRADING_POST_ORIGINAL_AMOUNT, selected.getRemaining());
             player.putAttrib(AttributeKey.TRADING_POST_ORIGINAL_PRICE, selected.getPrice());
+            player.tradingPostListedAmount = selected.getRemaining();
+            player.tradingPostSelectedListing = selected;
 
             if (selected.getRemaining() == 1) {
                 handlePurchasing(player, selected, 1);
                 return true;
             }
 
+            player.getInterfaceManager().open(81375);
+            player.getInterfaceManager().removeOverlay(); // TODO this isnt working as an overlay
+            player.getPacketSender().resetParallelInterfaces();
+            player.getPacketSender().sendParallelInterfaceVisibility(81375, true);
             player.getPacketSender().sendItemOnInterfaceSlot(81383, selected.getSaleItem(), 0);
             player.getPacketSender().sendString(81384, Utils.capitalizeFirst(selected.getSaleItem().name()));
             player.getPacketSender().sendString(81385, "Price: "+selected.getPrice());
             player.getPacketSender().sendString(81386, "Total Cost: "+((long) selected.getPrice() * selected.getRemaining()));
             player.getPacketSender().sendString(81382, ""+selected.getRemaining());
+
+            // prompt specific amt
             player.setAmountScript("How many of this item would you like to purchase?", new InputScript() {
 
                 @Override
@@ -1210,13 +1291,7 @@ public class TradingPost {
         open(p);
     }
 
-    public static void modifyListing(Player player, int listIndex, int optionId) {
-        if (optionId == 5) {
-            /*
-             * Never mind
-             */
-            return;
-        }
+    public static void claimOrCancel(Player player, int listIndex, int optionId) {
 
         PlayerListing listing = sales.getOrDefault(player.getUsername().toLowerCase(), getListings(player.getUsername().toLowerCase()));
 
@@ -1236,6 +1311,7 @@ public class TradingPost {
         if (optionId == 2) {
             if (offer.getRemaining() == 0) {
                 player.message(Color.RED.wrap("Your " + offerItem.unnote().name() + " have already been sold."));
+                handleClaimOffer(player, listIndex);
                 return;
             }
 

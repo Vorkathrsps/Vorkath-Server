@@ -574,7 +574,8 @@ public class Player extends Entity {
 
     public List<TradingPostListing> tradePostHistory = Lists.newArrayList();
 
-    public int tradingPostListedItemId, tradingPostListedAmount;
+    public int tradingPostListedItemId, tradingPostListedAmount, tpListingPrice;
+    public TradingPostListing tradingPostSelectedListing;
 
     public String lastTradingPostUserSearch, lastTradingPostItemSearch;
 
@@ -3258,7 +3259,7 @@ public class Player extends Entity {
         inputScript = null;
     }
 
-    public void setAmountScript(String title, InputScript inputScript) {
+    public <T> void setAmountScript(String title, InputScript<T> inputScript) {
         this.getPacketSender().sendEnterAmountPrompt(title);
         this.inputScript = inputScript;
     }

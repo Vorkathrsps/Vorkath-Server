@@ -1136,6 +1136,10 @@ public class CommandManager {
             var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());
             player.putAttrib(tasks.get(0).rewardClaimed, false);
         });
+        dev("rp1", (player, c, s) -> {
+            player.getPacketSender().resetParallelInterfaces();
+            player.getInterfaceManager().close(true);
+        });
     }
 
     /**

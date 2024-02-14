@@ -54,12 +54,14 @@ public final class PacketSender {
         if (player != null) {
             if (visible) {
                 if (walkableInterfaceList.contains(interfaceId)) {
+                    player.debug("skip sending walkable, already open "+interfaceId);
                     return;
                 } else {
                     walkableInterfaceList.add(interfaceId);
                 }
             } else {
                 if (!walkableInterfaceList.contains(interfaceId)) {
+                    player.debug("skip sending walkable, not open "+interfaceId);
                     return;
                 }
             }

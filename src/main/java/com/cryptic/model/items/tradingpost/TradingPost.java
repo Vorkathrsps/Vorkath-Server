@@ -29,7 +29,6 @@ import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.utility.CustomItemIdentifiers.BLOODY_TOKEN;
@@ -333,21 +332,12 @@ public class TradingPost {
         RECENT_LISTINGS(5, p -> showRecents(p, recentTransactions))
         ;
 
-        private final Function<Integer, Boolean> o;
-        private final int i;
+        private final int delta;
         private final Consumer<Player> open;
 
-        Kys(Function<Integer, Boolean> o) {
-
-            this.o = o;
-            i = 69699;
-            open = null;
-        }
-        Kys(int i, Consumer<Player> open) {
-
-            this.i = i;
+        Kys(int delta, Consumer<Player> open) {
+            this.delta = delta;
             this.open = open;
-            o = null;
         }
 
         public void open(Player p) {
@@ -356,6 +346,7 @@ public class TradingPost {
     }
 
     public static void openSellUI(Player p) {
+        p.getInterfaceManager().open(SELL_ID);
         p.getPacketSender().sendItemOnInterfaceSlot(81819, null, 0);
         p.getPacketSender().sendString(81820, "");
         p.getPacketSender().sendString(81822, sales.size()+""); // current sales
@@ -370,6 +361,7 @@ public class TradingPost {
     }
 
     public static void openBuyUI(Player p) {
+        p.getInterfaceManager().open(BUY_ID);
         p.getPacketSender().sendString(81271, "2344"); // open offers
         p.getPacketSender().sendString(81272, "127k"); // item volume
         p.getPacketSender().sendString(81273, ""); // username wipe
@@ -390,8 +382,8 @@ public class TradingPost {
             if (buttonId >= base && buttonId <= base + 6) {
                 for (Kys value : Kys.values()) {
                     var delta = buttonId - base;
-                    //logger.debug("holy fuck found {} by {} on base {}", value.name(), buttonId, base);
-                    if (delta == value.i) {
+                    logger.debug("holy fuck found {} by {} on base {}", value.name(), buttonId, base);
+                    if (delta == value.delta) {
                         value.open(p);
                         return true;
                     }

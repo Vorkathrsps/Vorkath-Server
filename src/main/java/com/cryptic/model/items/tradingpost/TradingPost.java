@@ -29,7 +29,6 @@ import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.utility.CustomItemIdentifiers.BLOODY_TOKEN;
@@ -70,6 +69,9 @@ public class TradingPost {
 
     public static Map<String, PlayerListing> sales;
 
+    /**
+     * helpful for guide-price averaging
+     */
     public static List<TradingPostListing> recentTransactions;
 
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -264,8 +266,6 @@ public class TradingPost {
         //printRecentTransactions();
         player.getInterfaceManager().close();
         resetSearchVars(player);
-        player.getInterfaceManager().open(OVERVIEW);
-        refreshInventory(player);
         player.putAttrib(AttributeKey.USING_TRADING_POST, true);
         if (!isValid(player)) { // first time, init a new listing
             PlayerListing listings = new PlayerListing();
@@ -275,12 +275,13 @@ public class TradingPost {
         sendOverviewTab(player);
     }
 
-    private static void refreshInventory(Player player) {
-        player.getInterfaceManager().openInventory(OVERVIEW, InterfaceConstants.REMOVE_INVENTORY_ITEM - 1);
+    private static void sendOfferInventory(Player player, int main) {
+        player.getInterfaceManager().openInventory(main, InterfaceConstants.REMOVE_INVENTORY_ITEM - 1);
         player.getPacketSender().sendItemOnInterface(InterfaceConstants.REMOVE_INVENTORY_ITEM, player.inventory().toArray());
     }
 
     private static void sendOverviewTab(Player player) {
+        sendOfferInventory(player, OVERVIEW);
         String user = player.getUsername().toLowerCase();
         final var c = getListings(user);
         List<TradingPostListing> list = c.getListedItems();
@@ -296,9 +297,12 @@ public class TradingPost {
                     i,
                     player);
         }
-        player.getPacketSender().sendString(81073, NumberUtils.formatNumber(123_000_000L)); // coffer
-        player.getPacketSender().sendString(81074, "Active: "+NumberUtils.formatNumber(123)); // my trades
-        player.getPacketSender().sendString(81075, NumberUtils.formatNumber(456)); // global trades #
+        player.getPacketSender().sendString(81073, NumberUtils.formatNumber(
+                1L * player.inventory().count(995)
+                        + (long) (1000L * player.inventory().count(13307))
+                        + (long) (1000L * player.inventory().count(PLATINUM_TOKEN)))); // TODO my coins- coffer
+        player.getPacketSender().sendString(81074, "Active: "+NumberUtils.formatNumber(list == null ? 0 : list.size())); // TODO my trades
+        player.getPacketSender().sendString(81075, NumberUtils.formatNumber(sales.size())); // global trades
     }
 
     public static void sendOverviewIndex(Item item, String name, String priceper, int progress, int idx, Player player) {
@@ -333,21 +337,12 @@ public class TradingPost {
         RECENT_LISTINGS(5, p -> showRecents(p, recentTransactions))
         ;
 
-        private final Function<Integer, Boolean> o;
-        private final int i;
+        private final int delta;
         private final Consumer<Player> open;
 
-        Kys(Function<Integer, Boolean> o) {
-
-            this.o = o;
-            i = 69699;
-            open = null;
-        }
-        Kys(int i, Consumer<Player> open) {
-
-            this.i = i;
+        Kys(int delta, Consumer<Player> open) {
+            this.delta = delta;
             this.open = open;
-            o = null;
         }
 
         public void open(Player p) {
@@ -356,6 +351,7 @@ public class TradingPost {
     }
 
     public static void openSellUI(Player p) {
+        sendOfferInventory(p, SELL_ID);
         p.getPacketSender().sendItemOnInterfaceSlot(81819, null, 0);
         p.getPacketSender().sendString(81820, "");
         p.getPacketSender().sendString(81822, sales.size()+""); // current sales
@@ -370,10 +366,11 @@ public class TradingPost {
     }
 
     public static void openBuyUI(Player p) {
+        p.getInterfaceManager().open(BUY_ID);
         p.getPacketSender().sendString(81271, "2344"); // open offers
         p.getPacketSender().sendString(81272, "127k"); // item volume
-        p.getPacketSender().sendString(81273, ""); // username wipe
-        p.getPacketSender().sendString(81274, ""); // item wipe
+        p.getPacketSender().sendString(81273, "Type username"); // username wipe
+        p.getPacketSender().sendString(81274, "Type itemname"); // item wipe
         for (int i = 0; i < 10; i++) { // TODO show what
             sendBuyIndex(null, "", "", i, p);
         }
@@ -390,8 +387,8 @@ public class TradingPost {
             if (buttonId >= base && buttonId <= base + 6) {
                 for (Kys value : Kys.values()) {
                     var delta = buttonId - base;
-                    //logger.debug("holy fuck found {} by {} on base {}", value.name(), buttonId, base);
-                    if (delta == value.i) {
+                    logger.debug("holy fuck found {} by {} on base {}", value.name(), buttonId, base);
+                    if (delta == value.delta) {
                         value.open(p);
                         return true;
                     }
@@ -402,22 +399,27 @@ public class TradingPost {
             return true;
         }
         if (buttonId == 81077 || buttonId == 81078) {
+            p.message("This feature is coming soon.");
             // feature spot 1
             return true;
         }
         if (buttonId == 81086 || buttonId == 81087) {
+            p.message("This feature is coming soon.");
             // feature spot 2
             return true;
         }
         if (buttonId == 810807 || buttonId == 81081) {
+            p.message("This feature is coming soon.");
             // feature spot 3
             return true;
         }
         if (buttonId == 81089 || buttonId == 81090) {
+            p.message("This feature is coming soon.");
             // feature spot 4
             return true;
         }
         if (buttonId == 81083 || buttonId == 81084) {
+            p.message("This feature is coming soon.");
             // feature spot 5
             return true;
         }
@@ -449,7 +451,42 @@ public class TradingPost {
             if (handleBuyButtons(p, index))
                 return true;
         }
-        if (buttonId == 81379) { // TODO purchase confirm
+        if (buttonId == 81831) { // TODO sell tab- quantity minus 1
+            return true;
+        }
+        if (buttonId == 81832) { // TODO sell tab- quantity plus 1
+            return true;
+        }
+        if (buttonId == 81833) { // TODO sell tab- price minus 1
+            return true;
+        }
+        if (buttonId == 81834) { // TODO sell tab- price minus 1
+            return true;
+        }
+        if (buttonId == 81835) { // TODO sell tab- quantity +1 again
+            return true;
+        }
+        if (buttonId == 81836) { // TODO sell tab- quantity +10
+            return true;
+        }
+        if (buttonId == 81837) { // TODO sell tab- quantity +100
+            return true;
+        }
+        if (buttonId == 81838) { // TODO sell tab- quantity custom enter
+            return true;
+        }
+        if (buttonId == 81841) { // TODO sell tab- price custom
+            return true;
+        }
+        if (buttonId == 81843) { // TODO sell tab- sell confirm 1st screen
+            return true;
+        }
+
+
+        if (buttonId == 81379) {
+            if (p.getDialogueManager().getDialogue() instanceof TradingPostConfirmSale tpcs) {
+                tpcs.select(1);
+            }
             return true;
         }
         if (buttonId == 81380) { // buy -1
@@ -488,41 +525,6 @@ public class TradingPost {
         }
         player.getPacketSender().sendString(a1, a);
         player.getPacketSender().sendString(a2, b);
-    }
-
-    private static void displayHistory(Player player) {
-            player.setNameScript("Which item would you like to view the history of?", new InputScript() {
-
-                @Override
-                public boolean handle(Object value) {
-                    String itemName = (String) value;
-                    if (itemName.length() < 2)
-                        return false;
-
-                    TradingPost.handleQueryItemHistory(player, itemName);
-                    return true;
-                }
-            });
-    }
-
-    private static void handleQueryItemHistory(Player player, String itemName) {
-            List<TradingPostListing> stored = Lists.newArrayList();
-
-            recentTransactions.stream().filter(Objects::nonNull).forEach(history -> {
-
-                Item i = history.getSaleItem().unnote();
-
-                if (i.name().toLowerCase().contains(itemName.toLowerCase())) {
-                    stored.add(history);
-                }
-            });
-
-            if (stored.size() == 0) {
-                player.message("<col=ff0000>No results found for '" + itemName + "'");
-                return;
-            }
-
-            // displayResults(player, stored); // TODO
     }
 
     public static void showTradeHistory(Player player) {
@@ -899,6 +901,7 @@ public class TradingPost {
         player.getPacketSender().sendString(base + 3, Utils.capitalizeFirst(seller));
         player.getPacketSender().sendString(base + 4, itemname == null ? "" : "Price");
         player.getPacketSender().sendString(base + 5, pricePer); // TODO convert to k, m, b
+        player.getPacketSender().setInterClickable(81278 + idx, itemname != null);
     }
 
     public static void handleXOptionInput(Player player, int id, int slot) {
@@ -930,6 +933,10 @@ public class TradingPost {
             } else {
                 list2 = getSalesForItemName(player, player.lastTradingPostItemSearch);
             }
+            if (list2 == null) {
+                player.message("<col=ff0000>What are you searching for?");
+                return true;
+            }
 
             List<TradingPostListing> listDisplay = new ArrayList<>(list2);
             listDisplay.removeIf(o -> o.getRemaining() == 0);
@@ -943,16 +950,21 @@ public class TradingPost {
 
             if (offer == null) {
                 player.message("<col=ff0000>That offer no longer exists.");
-                return false;
+                return true;
             }
 
             int offerSize = offer.size();
+
+            if (index >= offerSize) {
+                player.message("<col=ff0000>No offer selected.");
+                return true;
+            }
 
             TradingPostListing selected = offer.get(index);
 
             if (selected.getRemaining() == 0) {
                 player.message("<col=ff0000>This offer has already been purchased by another player.");
-                return false;
+                return true;
             }
 
             player.putAttrib(AttributeKey.TRADING_POST_ORIGINAL_AMOUNT, selected.getRemaining());
@@ -960,7 +972,7 @@ public class TradingPost {
 
             if (selected.getRemaining() == 1) {
                 handlePurchasing(player, selected, 1);
-                return false;
+                return true;
             }
 
             player.getPacketSender().sendItemOnInterfaceSlot(81383, selected.getSaleItem(), 0);
@@ -1111,6 +1123,7 @@ public class TradingPost {
             //Clear previously stored attributes
             player.clearAttrib(AttributeKey.TRADING_POST_ORIGINAL_AMOUNT);
             player.clearAttrib(AttributeKey.TRADING_POST_ORIGINAL_PRICE);
+            open(player);
     }
 
     private static boolean offerExists(TradingPostListing selected) {
@@ -1127,6 +1140,8 @@ public class TradingPost {
     }
 
     public static List<TradingPostListing> getSalesForItemName(Player player, String itemName) {
+        if (itemName == null)
+            return null;
         List<TradingPostListing> items = Lists.newArrayList();
         sales.values().stream().filter(Objects::nonNull).map(listing -> listing.getSalesMatchingByString(player, itemName)).forEach(items::addAll);
         return items;

@@ -35,6 +35,8 @@ public class PlayerListing {
     }
 
     public List<TradingPostListing> getSalesMatchingByString(Player player, String itemName) {
+        if (itemName == null)
+            return null;
         //System.out.println("getSalesMatchingByString: "+itemName);
         return listedItems.stream().filter(listed -> listed.getRemaining() > 0 && listed.getSaleItem().unnote().name().toLowerCase().contains(itemName.toLowerCase()) && !listed.getSellerName().toLowerCase().equalsIgnoreCase(player.getUsername().toLowerCase())).collect(Collectors.toList());
     }

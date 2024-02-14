@@ -37,6 +37,7 @@ import java.util.stream.Collectors;
  *
  * @author relex lawl & Gabbe
  */
+@SuppressWarnings("UnusedReturnValue")
 public final class PacketSender {
     private static final Logger logger = LogManager.getLogger(PacketSender.class);
     private final ArrayList<Integer> walkableInterfaceList = new ArrayList<>();
@@ -561,6 +562,13 @@ public final class PacketSender {
             out.putInt(interfaceId);
             player.getSession().write(out);
         }
+        return this;
+    }
+    public PacketSender setInterClickable(int interfaceId, boolean clickable) {
+        PacketBuilder out = new PacketBuilder(2);
+        out.putInt(interfaceId);
+        out.put(clickable ? 1 : 0);
+        player.getSession().write(out);
         return this;
     }
 

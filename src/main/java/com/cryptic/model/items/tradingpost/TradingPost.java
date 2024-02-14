@@ -317,6 +317,35 @@ public class TradingPost {
         player.getPacketSender().sendInterfaceDisplayState(base + 4, item == null); //Hide 'cancel listing' btn
     }
 
+    public static void showRecents(Player p) {
+        p.getInterfaceManager().open(HISTORY_ID);
+
+        List<TradingPostListing> list = Lists.newArrayList();
+
+        sales.entrySet().stream()
+                .filter(Objects::nonNull)
+                .filter(e -> e.getValue() != null)
+                .forEach(recent -> {
+                    recent.getValue().getListedItems().forEach(item -> {
+                        logger.info("Item: %s seller: %s buyer:%s listed at: %s %d".formatted(
+                                item.getSaleItem().unnote().name(),
+                                item.getSellerName(),
+                                item.getLastBuyerName(),
+                                item.getListedTime(),
+                                item.getTimeListed()));
+                        Item i = item.getSaleItem().unnote();
+                        // what the fuck does this do?
+                        if (i.name().toLowerCase().contains(i.name().toLowerCase())) {
+                            list.add(item);
+                        }
+                    });
+                });
+
+        list.sort(Comparator.comparingLong(TradingPostListing::getTimeListed));
+        Collections.reverse(list);
+        showRecents(p, list);
+    }
+
     public static void showRecents(Player p, List<TradingPostListing> recentTransactions) {
         for (int i = 0; i < 20; i++) {
             var tpl = i >= recentTransactions.size() ? null : recentTransactions.get(i);
@@ -333,8 +362,8 @@ public class TradingPost {
         OVERVIEW(1, p -> TradingPost.open(p)),
         BUY(2, p -> openBuyUI(p)),
         SELL(3, p -> openSellUI(p)),
-        TRADE_HISTORY(4, p -> showTradeHistory(p)),
-        RECENT_LISTINGS(5, p -> showRecents(p, recentTransactions))
+        TRADE_HISTORY(4, p -> showTradeHistory(p, recentTransactions)),
+        RECENT_LISTINGS(5, p -> showRecents(p))
         ;
 
         private final int delta;
@@ -528,26 +557,7 @@ public class TradingPost {
     }
 
     public static void showTradeHistory(Player player) {
-        player.getInterfaceManager().open(HISTORY_ID);
-
-        List<TradingPostListing> list = Lists.newArrayList();
-
-        sales.entrySet().stream()
-                .filter(Objects::nonNull)
-                .filter(e -> e.getValue() != null)
-                .forEach(recent -> {
-                    recent.getValue().getListedItems().forEach(item -> {
-                        //System.out.println("Item: " + item.getSaleItem().unnote().name() + " seller: " + item.getSellerName() +" "+ item.getSellerName()+" listed at: "+item.getListedTime()+" "+item.getTimeListed());
-                        Item i = item.getSaleItem().unnote();
-                        if (i.name().toLowerCase().contains(i.name().toLowerCase())) {
-                            list.add(item);
-                        }
-                    });
-                });
-
-        list.sort(Comparator.comparingLong(TradingPostListing::getTimeListed));
-        Collections.reverse(list);
-        showTradeHistory(player, list);
+        showTradeHistory(player, recentTransactions);
     }
 
     public static void showTradeHistory(Player player, List<TradingPostListing> list) {

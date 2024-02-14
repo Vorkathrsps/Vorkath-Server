@@ -487,12 +487,14 @@ public class TradingPost {
                 return true;
         }
         if (buttonId == 81831) { // sell tab- quantity minus 1
-            p.tradingPostListedAmount = Math.max(1, p.tradingPostListedAmount - 1);
+            p.tradingPostListedAmount = Math.min(p.inventory().count(p.tradingPostListedItemId),
+                    Math.max(1, p.tradingPostListedAmount - 1));
             p.getPacketSender().sendString(81828, ""+p.tradingPostListedAmount); // quantity
             return true;
         }
         if (buttonId == 81832) { // sell tab- quantity plus 1
-            p.tradingPostListedAmount = Math.min(Integer.MAX_VALUE, 1 + p.tradingPostListedAmount);
+            p.tradingPostListedAmount = Math.min(p.inventory().count(p.tradingPostListedItemId),
+                    Math.min(Integer.MAX_VALUE, 1 + p.tradingPostListedAmount));
             p.getPacketSender().sendString(81828, ""+p.tradingPostListedAmount); // quantity
             return true;
         }
@@ -507,24 +509,28 @@ public class TradingPost {
             return true;
         }
         if (buttonId == 81835) { //  sell tab- quantity +1 again
-            p.tradingPostListedAmount = Math.min(Integer.MAX_VALUE, 1 + p.tradingPostListedAmount);
+            p.tradingPostListedAmount = Math.min(p.inventory().count(p.tradingPostListedItemId),
+                    Math.min(Integer.MAX_VALUE, 1 + p.tradingPostListedAmount));
             p.getPacketSender().sendString(81828, ""+p.tradingPostListedAmount); // quantity
             return true;
         }
         if (buttonId == 81836) { //  sell tab- quantity +10
-            p.tradingPostListedAmount = Math.min(Integer.MAX_VALUE, p.tradingPostListedAmount + 10);
+            p.tradingPostListedAmount = Math.min(p.inventory().count(p.tradingPostListedItemId),
+                    Math.min(Integer.MAX_VALUE, p.tradingPostListedAmount + 10));
             p.getPacketSender().sendString(81828, ""+p.tradingPostListedAmount); // quantity
             return true;
         }
         if (buttonId == 81837) { //  sell tab- quantity +100
-            p.tradingPostListedAmount = Math.min(Integer.MAX_VALUE, p.tradingPostListedAmount + 100);
+            p.tradingPostListedAmount = Math.min(p.inventory().count(p.tradingPostListedItemId),
+                    Math.min(Integer.MAX_VALUE, p.tradingPostListedAmount + 100));
             p.getPacketSender().sendString(81828, ""+p.tradingPostListedAmount); // quantity
             return true;
         }
         if (buttonId == 81838) { // sell tab- quantity custom enter
             p.<Integer>setAmountScript("Enter amount to list:", (i) -> {
-                p.tradingPostListedAmount = Math.max(1, i);
-                p.getPacketSender().sendString(81830, ""+p.tradingPostListedAmount); // price per item green text
+                p.tradingPostListedAmount = Math.min(p.inventory().count(p.tradingPostListedItemId),
+                        Math.max(1, i));
+                p.getPacketSender().sendString(81828, ""+p.tradingPostListedAmount); // price per item green text
                 return true;
             });
             return true;

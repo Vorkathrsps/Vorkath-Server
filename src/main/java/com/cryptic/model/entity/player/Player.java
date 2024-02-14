@@ -22,7 +22,6 @@ import com.cryptic.model.content.bountyhunter.BountyHunter;
 import com.cryptic.model.content.collection_logs.CollectionLog;
 import com.cryptic.model.content.consumables.potions.impl.*;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
-import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.duel.Dueling;
 import com.cryptic.model.content.items.mysterybox.MysteryBoxManager;
 import com.cryptic.model.content.items_kept_on_death.ItemsKeptOnDeath;
@@ -162,7 +161,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 import static com.cryptic.model.content.areas.wilderness.content.EloRating.DEFAULT_ELO_RATING;
-import static com.cryptic.model.content.daily_tasks.DailyTaskUtility.TIME_FRAME_TEXT_ID;
 import static com.cryptic.model.content.presets.newpreset.PresetHandler.EQUIPMENT_SIZE;
 import static com.cryptic.model.content.presets.newpreset.PresetHandler.INVENTORY_SIZE;
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
@@ -1495,8 +1493,8 @@ public class Player extends Entity {
 
         {
             // Leave area
-            if (!getController().isEmpty()) {
-                for (Controller controller : getController()) {
+            if (!getControllers().isEmpty()) {
+                for (Controller controller : getControllers()) {
                     controller.leave(this);
                 }
             }

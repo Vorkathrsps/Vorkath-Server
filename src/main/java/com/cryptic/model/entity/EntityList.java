@@ -3,7 +3,6 @@ package com.cryptic.model.entity;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Boundary;
-import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.model.map.position.areas.impl.DuelArenaArea;
 import it.unimi.dsi.fastutil.ints.*;
 
@@ -78,7 +77,7 @@ public final class EntityList<E extends Entity> implements Iterable<E> {
         for (int i = 0; i < renderOrder.size(); i++) {
             E e = get(renderOrder.getInt(i));
             if (e == null) continue;
-            if (e instanceof Player player && player.getController() instanceof DuelArenaArea) continue; //skip players inside duel arena shuffling
+            if (e instanceof Player player && player.getControllers() instanceof DuelArenaArea) continue; //skip players inside duel arena shuffling
             e.pidOrderIndex = i;
         }
     }

@@ -14,14 +14,12 @@ import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.Controller;
-import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Varbit;
 import com.cryptic.utility.chainedwork.Chain;
 import com.cryptic.utility.timers.TimerKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import static com.cryptic.model.entity.player.QuestTab.InfoTab.PLAYERS_PKING;
@@ -163,7 +161,7 @@ public class WildernessArea extends Controller {
      * Any area, such as Wilderness, dangerous Instances, FFA clan war arena which a Player can attack another Player
      */
     public static boolean inAttackableArea(Entity player) {
-        boolean inTourny = player.getController() instanceof TournamentArea;
+        boolean inTourny = player.getControllers() instanceof TournamentArea;
         return WildernessArea.isInWilderness((Player) player) || Dueling.in_duel(player) || inTourny;
     }
 

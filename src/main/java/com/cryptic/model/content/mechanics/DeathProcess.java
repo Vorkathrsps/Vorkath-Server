@@ -155,8 +155,8 @@ public class DeathProcess implements TheatreDeath {
                 World.getWorld().unregisterNpc(barrowsBro);
             }
 
-            if (!player.getController().isEmpty()) {
-                for (Controller controller : player.getController()) {
+            if (!player.getControllers().isEmpty()) {
+                for (Controller controller : player.getControllers()) {
                     controller.defeated(killer, player);
                 }
             }

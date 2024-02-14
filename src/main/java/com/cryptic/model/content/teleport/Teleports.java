@@ -38,8 +38,8 @@ public class Teleports {
      */
     public static boolean canTeleport(Player player, boolean inform, TeleportType teletype) {
 
-        if (!player.getController().isEmpty()) {
-            for (Controller controller : player.getController()) {
+        if (!player.getControllers().isEmpty()) {
+            for (Controller controller : player.getControllers()) {
                 if (!controller.canTeleport(player)) {
                     player.message("A magical force prevents you from teleporting.");
                     player.getInterfaceManager().closeDialogue();

@@ -1,7 +1,6 @@
 package com.cryptic.model.entity;
 
 import com.cryptic.GameServer;
-import com.cryptic.PlainTile;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.core.TimesCycle;
 import com.cryptic.core.task.Task;
@@ -53,7 +52,6 @@ import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.naming.ldap.Control;
 import java.time.Duration;
 import java.util.*;
 import java.util.function.BooleanSupplier;
@@ -2096,7 +2094,7 @@ public abstract class Entity {
     private int specialAttackPercentage = 100;
     private boolean specialActivated;
     private boolean recoveringSpecialAttack;
-    @Getter @Setter protected List<Controller> controller;
+    @Getter @Setter protected List<Controller> controllers;
 
     /**
      * Listeners

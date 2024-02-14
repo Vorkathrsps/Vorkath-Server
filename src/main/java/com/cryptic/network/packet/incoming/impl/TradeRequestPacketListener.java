@@ -84,8 +84,8 @@ public class TradeRequestPacketListener implements PacketListener {
                     return;
                 }
 
-                if (!player.getController().isEmpty()) {
-                    for (Controller controller : player.getController()) {
+                if (!player.getControllers().isEmpty()) {
+                    for (Controller controller : player.getControllers()) {
                         if (!controller.canTrade(player, other)) {
                             player.message("You cannot trade here.");
                             return;

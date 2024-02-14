@@ -46,8 +46,8 @@ public class PlayerOptionOnePacketListener implements PacketListener {
                     player.getMovementQueue().resetFollowing();
                     player.setEntityInteraction(null);
                 }
-                if (!player.getController().isEmpty()) {
-                    for (Controller controller : player.getController()) {
+                if (!player.getControllers().isEmpty()) {
+                    for (Controller controller : player.getControllers()) {
                         controller.onPlayerRightClick(player, other, 1);
                     }
                 }

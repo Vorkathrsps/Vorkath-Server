@@ -159,8 +159,8 @@ public class NPCInteractionHandler implements PacketListener {
         if (PacketInteractionManager.checkNpcInteraction(player, npc, option))
             return;
 
-        if (!player.getController().isEmpty()) {
-            for (Controller controller : player.getController()) {
+        if (!player.getControllers().isEmpty()) {
+            for (Controller controller : player.getControllers()) {
                 controller.handleNpcOption(player, npc, option);
                 return;
             }
@@ -285,8 +285,8 @@ public class NPCInteractionHandler implements PacketListener {
     private void handleOptionOne(Player player, NPC npc) {
 
         /** Controllers **/
-        if (!player.getController().isEmpty()) {
-            for (Controller controller : player.getController()) {
+        if (!player.getControllers().isEmpty()) {
+            for (Controller controller : player.getControllers()) {
                 controller.handleNpcOption(player, npc, 1);
                 return;
             }

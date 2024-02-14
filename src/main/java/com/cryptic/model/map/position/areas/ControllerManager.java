@@ -1,15 +1,12 @@
 package com.cryptic.model.map.position.areas;
 
-import com.cryptic.core.task.Task;
 import com.cryptic.model.content.raids.theatre.area.NylocasAreaController;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.impl.*;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
-import javax.naming.ldap.Control;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +35,7 @@ public class ControllerManager {
      */
     public static void process(Player player) {
         Tile tile = player.tile();
-        List<Controller> activeControllers = player.getController();
+        List<Controller> activeControllers = player.getControllers();
         List<Controller> newActiveControllers = new ArrayList<>();
 
         if (activeControllers != null) {
@@ -68,7 +65,7 @@ public class ControllerManager {
             }
         }
 
-        player.setController(newActiveControllers);
+        player.setControllers(newActiveControllers);
     }
 
 
@@ -76,8 +73,8 @@ public class ControllerManager {
      * Checks if a {@link Entity} can attack another one.
      */
     public static boolean canAttack(Player attacker, Entity target) {
-        if (!attacker.getController().isEmpty()) {
-            for (Controller controller : attacker.getController()) {
+        if (!attacker.getControllers().isEmpty()) {
+            for (Controller controller : attacker.getControllers()) {
                 return controller.canAttack(attacker, target);
             }
         }

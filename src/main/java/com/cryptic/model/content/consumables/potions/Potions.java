@@ -160,8 +160,8 @@ public class Potions {
             return;
         }
 
-        if (!player.getController().isEmpty()) {
-            for (Controller controller : player.getController()) {
+        if (!player.getControllers().isEmpty()) {
+            for (Controller controller : player.getControllers()) {
                 if (!controller.canDrink(player, id)) {
                     player.message("You cannot use potions here.");
                     return;

@@ -1,7 +1,6 @@
 package com.cryptic.network.packet.incoming.impl;
 
 import com.cryptic.GameServer;
-import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.smithing.Bar;
 import com.cryptic.model.content.skill.impl.smithing.EquipmentMaking;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -142,8 +141,8 @@ public class ObjectInteractionHandler implements PacketListener {
         if (PacketInteractionManager.checkObjectInteraction(player, object, option))
             return;
 
-        if (!player.getController().isEmpty()) {
-            for (Controller controller : player.getController()) {
+        if (!player.getControllers().isEmpty()) {
+            for (Controller controller : player.getControllers()) {
                 controller.handleObjectClick(player, object, option);
                 return;
             }

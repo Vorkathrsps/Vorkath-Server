@@ -1,6 +1,5 @@
 package com.cryptic.model.entity.npc;
 
-import com.cryptic.GameServer;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.content.EffectTimer;
@@ -10,22 +9,17 @@ import com.cryptic.model.content.areas.burthope.warriors_guild.MagicalAnimator;
 import com.cryptic.model.content.areas.wilderness.content.boss_event.WildernessBossEvent;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
-import com.cryptic.model.content.skill.impl.prayer.Bone;
 import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.content.skill.impl.slayer.slayer_partner.SlayerPartner;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.cryptic.model.content.tasks.impl.Tasks;
-import com.cryptic.model.content.treasure.TreasureRewardCaskets;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.Entity;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kalphite.KalphiteQueenFirstForm;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kalphite.KalphiteQueenSecondForm;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.Kraken;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.kraken.Tentacles;
-import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.VetionMinion;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.zulrah.Zulrah;
 import com.cryptic.model.entity.combat.method.impl.npcs.fightcaves.TzTokJad;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.GwdLogic;
@@ -36,18 +30,11 @@ import com.cryptic.model.entity.combat.method.impl.npcs.slayer.Gargoyle;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.Nechryael;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.kraken.KrakenBoss;
 import com.cryptic.model.entity.combat.method.impl.npcs.slayer.superiors.nechryarch.NechryarchDeathSpawn;
-import com.cryptic.model.entity.npc.droptables.ItemDrop;
 import com.cryptic.model.entity.npc.droptables.ItemDrops;
-import com.cryptic.model.entity.npc.droptables.ScalarLootTable;
 
-import com.cryptic.model.entity.player.GameMode;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.items.Item;
-import com.cryptic.model.items.ground.GroundItem;
-import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.position.Area;
-import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.*;
@@ -58,20 +45,15 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.CAVE_KRAKEN;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.NECHRYAEL;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.RUNE_DRAGON;
-import static com.cryptic.model.content.collection_logs.CollectionLog.RAIDS_KEY;
-import static com.cryptic.model.content.collection_logs.LogType.BOSSES;
-import static com.cryptic.model.content.collection_logs.LogType.OTHER;
 import static com.cryptic.model.entity.attributes.AttributeKey.*;
 import static com.cryptic.utility.CustomNpcIdentifiers.*;
 import static com.cryptic.cache.definitions.identifiers.NpcIdentifiers.*;
-import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
  * Represents an npc's death task, which handles everything
@@ -434,8 +416,8 @@ public class NPCDeath {
                 });
             }
 
-            if (!killer.getController().isEmpty()) {
-                for (Controller controller : killer.getController()) {
+            if (!killer.getControllers().isEmpty()) {
+                for (Controller controller : killer.getControllers()) {
                     controller.defeated(killer, npc);
                 }
             }

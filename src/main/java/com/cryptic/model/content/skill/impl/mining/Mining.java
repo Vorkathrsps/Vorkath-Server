@@ -137,7 +137,42 @@ public class Mining extends PacketInteraction {
                     Utils.randomElement(GEMS);
                     player.message("You manage to find gems in the rock you were mining.");
                 } else {
-                    if (player.hasAttrib(AttributeKey.REMOTE_STORAGE)) {
+                    if (player.hasAttrib(AttributeKey.INFERNAL_SMITH)) {
+                        switch (rockType) {
+                            case COPPER_ROCK, TIN_ROCK -> {
+                                player.getInventory().add(new Item(ItemIdentifiers.BRONZE_BAR));
+                                player.skills().addXp(Skills.SMITHING, 12.5);
+                            }
+                            case IRON_ROCK -> {
+                                player.getInventory().add(new Item(ItemIdentifiers.IRON_BAR));
+                                player.skills().addXp(Skills.SMITHING, 25);
+                            }
+                            case SILVER_ROCK -> {
+                                player.getInventory().add(new Item(ItemIdentifiers.SILVER_BAR));
+                                player.skills().addXp(Skills.SMITHING, 30);
+                            }
+                            case COAL_ROCK -> {
+                                player.getInventory().add(new Item(ItemIdentifiers.STEEL_BAR));
+                                player.skills().addXp(Skills.SMITHING, 37.5);
+                            }
+                            case GOLD_ROCK -> {
+                                player.getInventory().add(new Item(ItemIdentifiers.GOLD_BAR));
+                                player.skills().addXp(Skills.SMITHING, 39.5);
+                            }
+                            case MITHRIL -> {
+                                player.getInventory().add(new Item(ItemIdentifiers.MITHRIL_BAR));
+                                player.skills().addXp(Skills.SMITHING, 100);
+                            }
+                            case ADAMANT_ROCK -> {
+                                player.getInventory().add(new Item(ItemIdentifiers.ADAMANTITE_BAR));
+                                player.skills().addXp(Skills.SMITHING, 150);
+                            }
+                            case RUNE_ROCK -> {
+                                player.getInventory().add(new Item(ItemIdentifiers.RUNITE_BAR));
+                                player.skills().addXp(Skills.SMITHING, 200);
+                            }
+                        }
+                    } else if (player.hasAttrib(AttributeKey.REMOTE_STORAGE)) {
                         player.getBank().add(new Item(rockType.item));
                     } else {
                         player.getInventory().add(new Item(rockType.item));
@@ -145,7 +180,9 @@ public class Mining extends PacketInteraction {
                     player.message("You manage to mine some " + rockType.name + ".");
                 }
 
-                player.getSkills().addXp(Skills.MINING, rockType.experience);
+                if (!player.hasAttrib(AttributeKey.INFERNAL_SMITH)) {
+                    player.getSkills().addXp(Skills.MINING, rockType.experience);
+                }
 
                 switch (rockType) {
                     case COPPER_ROCK -> AchievementsManager.activate(player, Achievements.MINING_I, 1);

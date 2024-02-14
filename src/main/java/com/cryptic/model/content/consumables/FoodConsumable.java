@@ -178,8 +178,8 @@ public class FoodConsumable {
         boolean healed = player.hp() < player.maxHp();
         String name = foodItem.definition(World.getWorld()).name.toLowerCase();
 
-        if (!player.getController().isEmpty()) {
-            for (Controller controller : player.getController()) {
+        if (!player.getControllers().isEmpty()) {
+            for (Controller controller : player.getControllers()) {
                 if (!controller.canEat(player, foodItem.getId())) {
                     player.message("You cannot eat here.");
                     return;

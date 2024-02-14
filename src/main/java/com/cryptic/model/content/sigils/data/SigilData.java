@@ -23,7 +23,8 @@ public enum SigilData {
     DEVOTION(ItemIdentifiers.SIGIL_OF_DEVOTION_26099, ItemIdentifiers.SIGIL_OF_DEVOTION, AttributeKey.SIGIL_OF_DEVOTION, 1972, Devotion.class),
     LAST_RECALL(ItemIdentifiers.SIGIL_OF_LAST_RECALL_26144, ItemIdentifiers.SIGIL_OF_LAST_RECALL, AttributeKey.SIGIL_OF_LAST_RECALL, 1971, LastRecall.class),
     REMOTE_STORAGE(ItemIdentifiers.SIGIL_OF_REMOTE_STORAGE_26141, ItemIdentifiers.SIGIL_OF_REMOTE_STORAGE, AttributeKey.SIGIL_OF_REMOTE_STORAGE, 1972, RemoteStorage.class),
-    NINJA(ItemIdentifiers.SIGIL_OF_THE_NINJA_28526, ItemIdentifiers.SIGIL_OF_THE_NINJA, AttributeKey.SIGIL_OF_THE_NINJA, 1970, Ninja.class);
+    NINJA(ItemIdentifiers.SIGIL_OF_THE_NINJA_28526, ItemIdentifiers.SIGIL_OF_THE_NINJA, AttributeKey.SIGIL_OF_THE_NINJA, 1970, Ninja.class),
+    INFERNAL_SMITH(ItemIdentifiers.SIGIL_OF_THE_INFERNAL_SMITH_28505, ItemIdentifiers.SIGIL_OF_THE_INFERNAL_SMITH, AttributeKey.SIGIL_OF_INFERNAL_SMITH, 1972, InfernalSmith.class);
     public final int unattuned;
     public final int attuned;
     public final int graphic;

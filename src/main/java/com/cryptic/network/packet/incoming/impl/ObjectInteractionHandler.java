@@ -224,6 +224,7 @@ public class ObjectInteractionHandler implements PacketListener {
                 player.getFarming().handleObjectClick(object.tile().x, object.tile().y, 3);
                 if (name.equalsIgnoreCase("Grand Exchange booth")) {
                     TradingPost.open(player);
+                    player.getPacketSender().sendConfig(1406, 0);
                     return;
                 }
 

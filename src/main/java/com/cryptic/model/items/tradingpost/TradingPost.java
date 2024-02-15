@@ -89,10 +89,7 @@ public class TradingPost {
             recentTransactions = Lists.newArrayList();
             protection_prices = Maps.newHashMap();
             File folder = new File("./data/saves/tradingpost/listings/");
-
-            if (!folder.exists())
-                folder.mkdirs();
-
+            if (!folder.exists()) folder.mkdirs();
             for (File f : Objects.requireNonNull(folder.listFiles())) {
                 try {
                     String name = FilenameUtils.removeExtension(f.getName());
@@ -102,7 +99,7 @@ public class TradingPost {
                     sales.put(name.toLowerCase(), listings);
                 } catch (IOException e) {
                     e.printStackTrace();
-                } // looks fine idk you'd have to look into it
+                }
             }
             System.out.println("TradingPost " + sales.size() + " Sale Listings loaded");
             loadRecentSales();
@@ -982,11 +979,14 @@ public class TradingPost {
         var base = 81288;
         base += (6 * idx);
         player.getPacketSender().sendItemOnInterfaceSlot(base, itemname == null ? null : itemname.unnote(), 0);
-        player.getPacketSender().sendString(base + 1, Utils.capitalizeFirst(itemname == null ? "None" : itemname.unnote().name()));
-        player.getPacketSender().sendString(base + 2, itemname == null ? "" : "Seller");
-        player.getPacketSender().sendString(base + 3, Utils.capitalizeFirst(seller));
-        player.getPacketSender().sendString(base + 4, itemname == null ? "" : "Price");
-        player.getPacketSender().sendString(base + 5, pricePer); // TODO convert to k, m, b
+        ObjectList<Player.TextData> list = ObjectList.of(
+            new Player.TextData(Utils.capitalizeFirst(itemname == null ? "None" : itemname.unnote().name()), base + 1),
+            new Player.TextData(itemname == null ? "" : "Seller", base + 2),
+            new Player.TextData(Utils.capitalizeFirst(seller), base + 3),
+            new Player.TextData(itemname == null ? "" : "Price", base + 4),
+            new Player.TextData(pricePer, base + 5)
+        );
+        player.getPacketSender().sendMultipleStrings(list);
         player.getPacketSender().setInterClickable(81278 + idx, itemname != null);
     }
 
@@ -1068,10 +1068,13 @@ public class TradingPost {
         player.getPacketSender().resetParallelInterfaces();
         player.getPacketSender().sendParallelInterfaceVisibility(81375, true);
         player.getPacketSender().sendItemOnInterfaceSlot(81383, selected.getSaleItem(), 0);
-        player.getPacketSender().sendString(81384, Utils.capitalizeFirst(selected.getSaleItem().name()));
-        player.getPacketSender().sendString(81385, "Price: " + selected.getPrice());
-        player.getPacketSender().sendString(81386, "Total Cost: " + ((long) selected.getPrice() * selected.getRemaining()));
-        player.getPacketSender().sendString(81382, "" + selected.getRemaining());
+        ObjectList<Player.TextData> list = ObjectList.of(
+            new Player.TextData(Utils.capitalizeFirst(selected.getSaleItem().name()), 81384),
+            new Player.TextData("Price: " + selected.getPrice(), 81385),
+            new Player.TextData("Total Cost: " + ((long) selected.getPrice() * selected.getRemaining()), 81386),
+            new Player.TextData("" + selected.getRemaining(), 81382)
+        );
+        player.getPacketSender().sendMultipleStrings(list);
 
         // prompt specific amt
         player.setAmountScript("How many of this item would you like to purchase?", new InputScript() {
@@ -1106,12 +1109,14 @@ public class TradingPost {
 
         long price = selected.getPrice() * amount;
         player.getDialogueManager().start(new TradingPostConfirmSale(amount, price, selected));
-
+        ObjectList<Player.TextData> list = ObjectList.of(
+            new Player.TextData(Utils.capitalizeFirst(selected.getSaleItem().name()), 81384),
+            new Player.TextData("Price: " + selected.getPrice(), 81385),
+            new Player.TextData("Total Cost: " + ((long) selected.getPrice() * amount), 81386),
+            new Player.TextData("" + amount, 81382)
+        );
         player.getPacketSender().sendItemOnInterfaceSlot(81383, selected.getSaleItem(), 0);
-        player.getPacketSender().sendString(81384, Utils.capitalizeFirst(selected.getSaleItem().name()));
-        player.getPacketSender().sendString(81385, "Price: " + selected.getPrice());
-        player.getPacketSender().sendString(81386, "Total Cost: " + ((long) selected.getPrice() * amount));
-        player.getPacketSender().sendString(81382, "" + amount);
+        player.getPacketSender().sendMultipleStrings(list);
     }
 
     public static void finishPurchase(Player player, TradingPostListing selected, long totalPrice, int amount, boolean noted) {

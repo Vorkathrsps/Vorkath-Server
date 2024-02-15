@@ -29,6 +29,7 @@ public class ControllerManager {
         CONTROLLERS.add(new VenenatisArea());
         CONTROLLERS.add(new CallistoArea());
         CONTROLLERS.add(new VetionArea());
+        CONTROLLERS.add(new CorporealArea());
     }
 
     /**

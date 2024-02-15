@@ -50,10 +50,10 @@ public class BankersNote extends PacketInteraction {
                     amount = inventory.count(id);
                 }
                 for (int index = 0; index < amount; index++) {
-                    if (!inventory.contains(usedWith.note().getId()) && inventory.isFull()) {
+                    /*if (!inventory.contains(usedWith.note().getId()) && inventory.isFull()) {
                         player.message("You do not have enough space in your inventory.");
                         break;
-                    }
+                    }*/
                     inventory.remove(id);
                     inventory.add(usedWith.note());
                 }
@@ -75,7 +75,7 @@ public class BankersNote extends PacketInteraction {
                     }
                     int unnoted = usedWith.unnote().getId();
                     for (int index = 0; index < amount; index++) {
-                        if (inventory.isFull()) {
+                        if (inventory.count(id) > 1 && inventory.isFull()) {
                             player.message("You do not have enough space in your inventory.");
                             break;
                         }

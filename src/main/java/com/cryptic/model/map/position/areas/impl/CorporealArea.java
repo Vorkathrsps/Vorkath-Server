@@ -6,24 +6,24 @@ import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.model.map.position.Area;
-import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.position.areas.Controller;
 
 import java.util.Collections;
-import java.util.List;
 
-public class VenenatisArea extends Controller {
-    public static final Area ROOM = new Area(1611, 11521, 1654, 11571);
-    public VenenatisArea() {
-        super(Collections.singletonList(new Area(Tile.regionToTile(6580).getX(), Tile.regionToTile(6580).getY(), Tile.regionToTile(6580).getX() + 63, Tile.regionToTile(6580).getY() + 63)));
+public class CorporealArea extends Controller {
+
+    public static final Area ROOM = new Area(2973, 4369, 3003, 4399);
+    public CorporealArea() {
+        super(Collections.singletonList(new Area(2973, 4369, 3003, 4399)));
     }
+
     @Override
     public void enter(Player player) {
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {
-                if (npc.id() == 6610) {
+                if (npc.id() == 319) {
                     if (!npc.dead()) {
-                        HealthHud.open(player, HealthHud.Type.REGULAR, "Venenatis", npc.hp());
+                        HealthHud.open(player, HealthHud.Type.REGULAR, "Corporeal Beast", npc.hp());
                         if (npc.hp() != npc.maxHp()) HealthHud.update(player, npc.hp(), npc.maxHp());
                     }
                 }
@@ -40,13 +40,13 @@ public class VenenatisArea extends Controller {
     public void process(Player player) {
         for (var regions : player.getRegions()) {
             for (var npc : regions.getNpcs()) {
-                if (npc.id() == 6610) {
+                if (npc.id() == 319) {
                     if (npc.dead()) {
                         HealthHud.close(player);
                     } else {
                         if (npc.hp() != npc.maxHp()) HealthHud.update(player, HealthHud.Type.REGULAR, npc.hp(), npc.maxHp());
                         else if (!HealthHud.updated && HealthHud.needsUpdate) {
-                            HealthHud.open(player, HealthHud.Type.REGULAR, "Venenatis", npc.hp());
+                            HealthHud.open(player, HealthHud.Type.REGULAR, "Corporeal Beast", npc.hp());
                         }
                     }
                 }

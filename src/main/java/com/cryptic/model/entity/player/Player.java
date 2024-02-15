@@ -341,6 +341,14 @@ public class Player extends Entity {
             this.text = text;
             this.id = id;
         }
+
+        @Override
+        public String toString() {
+            return "TextData{" +
+                "text='" + text + '\'' +
+                ", id=" + id +
+                '}';
+        }
     }
 
     private final Map<Integer, TinterfaceText> interfaceText = new HashMap<>();

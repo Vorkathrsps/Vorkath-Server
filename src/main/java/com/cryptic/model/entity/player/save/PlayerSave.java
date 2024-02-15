@@ -612,7 +612,6 @@ public class PlayerSave {
         private final int starterStaffCharges;
         private final int starterSwordCharges;
         private final PlainTile lastRecallSave;
-
         private final boolean alchemicalHydraLogClaimed;
         private final boolean ancientBarrelchestLogClaimed;
         private final boolean ancientChaosElementalLogClaimed;

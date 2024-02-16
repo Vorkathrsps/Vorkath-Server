@@ -15,6 +15,7 @@ public class SlayerTaskDef {
     }
 
     private int weighing, min, max, creatureUid;
+    private SlayerCreature creature;
 
     public int getWeighing() {
         return weighing;
@@ -51,11 +52,11 @@ public class SlayerTaskDef {
     public int range(Player player) {
         var defaultMin = 0;
         var defaultMax = 0;
-        var task = player.<Integer>getAttribOr(AttributeKey.SLAYER_TASK_ID,0);
-        if(task > 0) {
+        var task = player.<Integer>getAttribOr(AttributeKey.SLAYER_TASK_ID, 0);
+        if (task > 0) {
             SlayerCreature taskdef = SlayerCreature.lookup(task);
-            if(taskdef != null) {
-                if(taskdef.bossTask) {
+            if (taskdef != null) {
+                if (taskdef.bossTask) {
                     defaultMin = 20;
                     defaultMax = 35;
                 } else {
@@ -73,7 +74,9 @@ public class SlayerTaskDef {
             "weighing=" + weighing +
             ", min=" + min +
             ", max=" + max +
-            ", creatureUid=" + creatureUid +", slayreq="+SlayerCreature.lookup(getCreatureUid()).req+", cbreq="+SlayerCreature.lookup(getCreatureUid()).cbreq+
+            ", creatureUid=" + creatureUid + ", slayreq=" + SlayerCreature.lookup(getCreatureUid()).req +
+            ", cbreq=" + SlayerCreature.lookup(getCreatureUid()).cbreq +
+            ", creature=" + creature +
             '}';
     }
 }

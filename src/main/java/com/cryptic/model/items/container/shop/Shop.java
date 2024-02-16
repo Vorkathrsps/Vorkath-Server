@@ -121,7 +121,7 @@ public abstract class Shop {
         Shop store = World.getWorld().shop(shop);
 
         if (store == null) return;
-        
+
         player.getInventory().refresh();
 
         store.itemContainerAction(player, id, slot, action, purchase);
@@ -225,7 +225,6 @@ public abstract class Shop {
             } else if (!itemCache.containsKey(giveNoted ? item.unnote().getId() : item.getId())) {
                 if (decrementStock()) {
                     container.remove(giveNoted ? item.unnote().getId() : item.getId(), item.getAmount());
-                    //container.remove(item);
                 }
             }
         } else {
@@ -284,7 +283,6 @@ public abstract class Shop {
             player.message("You cannot use the shop inside of a tournament.");
             return;
         }
-
 
         if (!Item.valid(item)) {
             return;

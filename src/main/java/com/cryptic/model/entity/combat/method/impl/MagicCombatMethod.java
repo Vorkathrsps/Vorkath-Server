@@ -33,35 +33,20 @@ public class MagicCombatMethod extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Entity target) {
         Player player = (Player) entity;
-
         CombatSpell spell = player.getCombat().getCastSpell();
-
         if (spell == null) {
-
             spell = player.getCombat().getAutoCastSpell();
-
             if (spell == null) {
-
                 spell = player.getCombat().getPoweredStaffSpell();
-
             }
-
         }
-
-//        LogManager.getLogger("dev").info("spell {}", spell);
-
-        if (spell == null) {
-            return false;
-        }
-
+        if (spell == null) return false;
         int spellId = spell.spellId();
-
         boolean modernSpells = player.getSpellbook() == MagicSpellbook.NORMAL;
         boolean ancientSpells = player.getSpellbook() == MagicSpellbook.ANCIENTS;
         boolean isWearingPoweredStaff = player.getEquipment().containsAny(TRIDENT_OF_THE_SEAS_FULL, TRIDENT_OF_THE_SEAS, TRIDENT_OF_THE_SWAMP, SANGUINESTI_STAFF, TUMEKENS_SHADOW, DAWNBRINGER, ACCURSED_SCEPTRE_A, CORRUPTED_TUMEKENS_SHADOW, STARTER_STAFF);
         boolean canCast = spell.canCast(player, target, true);
         boolean hasTumeken = player.getEquipment().containsAny(TUMEKENS_SHADOW, CORRUPTED_TUMEKENS_SHADOW);
-
         int projectile = -1;
         int startgraphic = -1;
         int castAnimation = -1;
@@ -72,19 +57,13 @@ public class MagicCombatMethod extends CommonCombatMethod {
         int stepMultiplier = -1;
         int duration = -1;
         int curve = 16;
-
         int distance = player.tile().getChevDistance(target.tile());
-
-        if (!canCast || target.dead() || player.dead()) {
-            return false;
-        }
-
+        if (!canCast || target.dead() || player.dead()) return false;
         GraphicHeight startGraphicHeight = (hasTumeken && spell.spellId() == 6) ? GraphicHeight.LOW : GraphicHeight.HIGH;
         GraphicHeight endGraphicHeight = GraphicHeight.HIGH;
         ModernSpells findProjectileDataModern = ModernSpells.findSpellProjectileData(spellId, endGraphicHeight);
         AncientSpells findProjectileDataAncients = AncientSpells.findSpellProjectileData(spellId, startGraphicHeight, endGraphicHeight);
         AutoCastWeaponSpells findAutoCastWeaponsData = AutoCastWeaponSpells.findSpellProjectileData(spellId, endGraphicHeight);
-
         if (findProjectileDataModern != null && modernSpells && spell.spellId() == findProjectileDataModern.spellID) {
             projectile = findProjectileDataModern.projectile;
             startgraphic = findProjectileDataModern.startGraphic;
@@ -119,7 +98,6 @@ public class MagicCombatMethod extends CommonCombatMethod {
             duration = (hasTumeken && spell.spellId() == 6) ? (startSpeed + 10 + (stepMultiplier * distance)) : (startSpeed + -5 + (stepMultiplier * distance));
             endGraphicHeight = findAutoCastWeaponsData.endGraphicHeight;
         }
-
         var sound = World.getWorld().getSoundLoader();
         if (sound != null) {
             var soundInfo = sound.getSpellInfo(spellId);
@@ -138,21 +116,15 @@ public class MagicCombatMethod extends CommonCombatMethod {
             startHeight = 0;
             endHeight = 0;
         }
-
         Projectile p = new Projectile(source, target, projectile, startSpeed, duration, startHeight, endHeight, curve, entity.getSize(), stepMultiplier);
-
         final int delay = player.executeProjectile(p);
-
         Hit hit = new Hit(entity, target, delay, this);
-
         if (isImmune(target, hit)) {
             if (spell instanceof CombatEffectSpell combatEffectSpell) combatEffectSpell.whenSpellCast(player, target, spellId);
             spell.finishCast(player, target, hit.isAccurate(), hit.getDamage());
             return true;
         }
-
         hit.checkAccuracy(true).submit();
-
         if (sound != null) {
             var soundInfo = sound.getSpellInfo(spellId);
             if (soundInfo != null) {
@@ -161,7 +133,6 @@ public class MagicCombatMethod extends CommonCombatMethod {
                 }
             }
         }
-
         if (hit.isAccurate()) {
             target.performGraphic(new Graphic(endGraphic, endGraphicHeight, p.getSpeed()));
             if (spell instanceof CombatEffectSpell combatEffectSpell) {
@@ -171,7 +142,6 @@ public class MagicCombatMethod extends CommonCombatMethod {
         } else {
             target.performGraphic(new Graphic(85, GraphicHeight.HIGH, p.getSpeed()));
         }
-
         spell.finishCast(player, target, hit.isAccurate(), hit.getDamage());
         return true;
     }

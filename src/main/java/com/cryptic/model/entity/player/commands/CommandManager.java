@@ -1,19 +1,15 @@
 package com.cryptic.model.entity.player.commands;
 
 import com.cryptic.GameConstants;
-import com.cryptic.cache.definitions.AnimationDefinition;
 import com.cryptic.cache.definitions.NpcDefinition;
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
 import com.cryptic.model.World;
-import com.cryptic.model.content.EffectTimer;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.instance.InstancedAreaManager;
 import com.cryptic.model.content.raids.chamber_of_xeric.great_olm.GreatOlm;
 import com.cryptic.model.content.raids.theatre.TheatreInstance;
 import com.cryptic.model.content.raids.theatre.boss.verzik.Verzik;
-import com.cryptic.model.content.raids.theatre.boss.verzik.handler.VerzikHandler;
-import com.cryptic.model.content.raids.theatre.boss.verzik.tornado.Tornado;
 import com.cryptic.model.content.raids.theatre.boss.xarpus.Xarpus;
 import com.cryptic.model.content.raids.theatre.interactions.TheatreInterface;
 import com.cryptic.model.content.teleport.world_teleport_manager.TeleportInterface;
@@ -22,22 +18,17 @@ import com.cryptic.model.content.tournaments.TournamentManager;
 import com.cryptic.model.entity.MovementQueue;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.combat.CombatType;
-import com.cryptic.model.entity.combat.hit.Hit;
 import com.cryptic.model.entity.combat.hit.HitMark;
 import com.cryptic.model.entity.combat.method.impl.CommonCombatMethod;
 import com.cryptic.model.entity.combat.method.impl.npcs.bosses.wilderness.vetion.Vetion;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.Nex;
 import com.cryptic.model.entity.combat.method.impl.npcs.godwars.nex.ZarosGodwars;
 import com.cryptic.model.entity.combat.prayer.default_prayer.Prayers;
-import com.cryptic.model.entity.masks.Projectile;
-import com.cryptic.model.entity.masks.impl.animations.Animation;
-import com.cryptic.model.entity.masks.impl.graphics.Graphic;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.npc.droptables.NpcDropRepository;
 import com.cryptic.model.entity.npc.droptables.NpcDropTable;
 import com.cryptic.model.entity.player.InputScript;
 import com.cryptic.model.entity.player.Player;
-import com.cryptic.model.entity.player.Skills;
 import com.cryptic.model.entity.player.commands.impl.dev.*;
 import com.cryptic.model.entity.player.commands.impl.member.*;
 import com.cryptic.model.entity.player.commands.impl.owner.*;
@@ -62,7 +53,6 @@ import com.cryptic.model.map.position.Area;
 import com.cryptic.model.map.position.Tile;
 import com.cryptic.model.map.region.Region;
 import com.cryptic.model.map.region.RegionManager;
-import com.cryptic.model.map.route.ClipUtils;
 import com.cryptic.utility.*;
 import com.cryptic.utility.chainedwork.Chain;
 import lombok.extern.slf4j.Slf4j;
@@ -659,7 +649,20 @@ public class CommandManager {
         dev("c", (p, c, s) -> {
         /*    p.getPacketSender().sendInterface(81375);
             p.getPacketSender().sendParallelInterfaceVisibility(81250, true);*/
-            System.out.println(p.getTheatreInstance().getVerzikNylocasList());
+            var task = World.getWorld().getSlayerTasks();
+            task.getRandomTask(p, 6797);
+        });
+
+        dev("c1", (p, c, s) -> {
+            var task = World.getWorld().getSlayerTasks();
+            int id = Integer.parseInt(s[1]);
+            var current = task.getCurrentAssignment(p);
+            p.message("isLinked: " + task.isLinkedById(p, id) + " is extendable: " + task.isExtendable(p));
+        });
+
+        dev("cleartask", (p, c, s) -> {
+            var task = World.getWorld().getSlayerTasks();
+            task.cancelSlayerTask(p);
         });
 
         dev("cl", (p, c, s) -> {
@@ -703,22 +706,22 @@ public class CommandManager {
         });
         dev("tpost6", (p, c, s) -> {
             for (int i = 0; i < 20; i++) {
-                TradingPost.sendRecentListingIndex(new Item(4151, 1), "test",  "10M | 10k (ea)", i, p);
+                TradingPost.sendRecentListingIndex(new Item(4151, 1), "test", "10M | 10k (ea)", i, p);
             }
         });
         dev("ss1", (p, c, s) -> { // t history
             for (int i = 81407; i < (81407 + 1000); i++) {
-                p.getPacketSender().sendString(i, ""+i);
+                p.getPacketSender().sendString(i, "" + i);
             }
         });
         dev("ss2", (p, c, s) -> { // recent listing
             for (int i = 81641; i < (81641 + 1000); i++) {
-                p.getPacketSender().sendString(i, ""+i);
+                p.getPacketSender().sendString(i, "" + i);
             }
         });
         dev("tpost7", (p, c, s) -> {
             for (int i = 0; i < 10; i++) {
-                TradingPost.sendOverviewIndex(new Item(4151, 1), "test",  "10M | 10k (ea)", Utils.rand(100), i, p);
+                TradingPost.sendOverviewIndex(new Item(4151, 1), "test", "10M | 10k (ea)", Utils.rand(100), i, p);
             }
         });
 
@@ -1048,46 +1051,46 @@ public class CommandManager {
                 player.getTheatreParty().addOwner();
             }
 
-                player.getTheatreParty().addOwner();
-                player.getPacketSender().sendString(76004, "Invite");
-                player.getPacketSender().sendString(76024, Color.ORANGE.wrap(player.getDisplayName()));
-                player.getTheatreInterface().refreshPartyUi(player.getTheatreParty());
-                player.getPacketSender().sendString(76033, "--");
-                player.getPacketSender().sendString(76042, "--");
-                player.getPacketSender().sendString(76051, "--");
-                player.getPacketSender().sendString(76060, "--");
-                World.getWorld().getPlayers().forEach(p2 -> {
-                    if (p2 != player) {
-                        var member = p2;
-                        p2.teleport(player.tile());
-                        if (player.getTheatreInterface().getOwner().getTheatreParty() != null) {
-                            player.getTheatreInterface().getPlayers().add(member);
-                            member.setTheatreParty(player.getTheatreInterface().getOwner().getTheatreParty());
-                            member.message("You've joined " + player.getTheatreInterface().getOwner().getUsername() + "'s raid party.");
-                            DialogueManager.sendStatement(player.getTheatreInterface().getOwner(), member.getUsername() + " has joined your raid party.");
-                            member.getPacketSender().sendString(73055, "Leave");
-                        }
+            player.getTheatreParty().addOwner();
+            player.getPacketSender().sendString(76004, "Invite");
+            player.getPacketSender().sendString(76024, Color.ORANGE.wrap(player.getDisplayName()));
+            player.getTheatreInterface().refreshPartyUi(player.getTheatreParty());
+            player.getPacketSender().sendString(76033, "--");
+            player.getPacketSender().sendString(76042, "--");
+            player.getPacketSender().sendString(76051, "--");
+            player.getPacketSender().sendString(76060, "--");
+            World.getWorld().getPlayers().forEach(p2 -> {
+                if (p2 != player) {
+                    var member = p2;
+                    p2.teleport(player.tile());
+                    if (player.getTheatreInterface().getOwner().getTheatreParty() != null) {
+                        player.getTheatreInterface().getPlayers().add(member);
+                        member.setTheatreParty(player.getTheatreInterface().getOwner().getTheatreParty());
+                        member.message("You've joined " + player.getTheatreInterface().getOwner().getUsername() + "'s raid party.");
+                        DialogueManager.sendStatement(player.getTheatreInterface().getOwner(), member.getUsername() + " has joined your raid party.");
+                        member.getPacketSender().sendString(73055, "Leave");
                     }
-                });
-                var theatreParty = player.getTheatreParty();
-                var players = theatreParty.getPlayers();
+                }
+            });
+            var theatreParty = player.getTheatreParty();
+            var players = theatreParty.getPlayers();
 
-                if (players == null) {
+            if (players == null) {
+                return;
+            }
+
+            for (var p : players) {
+                if (p.tile().region() != 14642) {
+                    p.getTheatreParty().getOwner().message(Color.RED.wrap(p.getUsername()) + " is not currently in the raiding area.");
                     return;
                 }
+            }
 
-                for (var p : players) {
-                    if (p.tile().region() != 14642) {
-                        p.getTheatreParty().getOwner().message(Color.RED.wrap(p.getUsername()) + " is not currently in the raiding area.");
-                        return;
-                    }
-                }
+            //TODO possible just recycle theatre party .getOwner() instead of using player, seems safer.
 
-                //TODO possible just recycle theatre party .getOwner() instead of using player, seems safer.
-
-                TheatreInstance theatreInstance = new TheatreInstance(player, players);
-                player.setTheatreInstance(theatreInstance);
-                player.getTheatreInstance().buildParty().startRaid();
+            TheatreInstance theatreInstance = new TheatreInstance(player, players);
+            player.setTheatreInstance(theatreInstance);
+            player.getTheatreInstance().buildParty().startRaid();
 
         });
 
@@ -1105,7 +1108,7 @@ public class CommandManager {
                 player.getPacketSender().sendString(challengeListText + (i * 2), tasks.get(i).taskName);
             }
             DailyTaskManager.displayTaskInfo(player, tasks.get(0));
-            player.getPacketSender().sendString(80756, "Reward points: "+player.getAttribOr(DAILY_TASKS_POINTS, 0));
+            player.getPacketSender().sendString(80756, "Reward points: " + player.getAttribOr(DAILY_TASKS_POINTS, 0));
         });
         dev("newdailys", (player, c, s) -> {
             var tasks = player.getOrT(DAILY_TASKS_LIST, new ArrayList<DailyTasks>());

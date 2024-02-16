@@ -117,7 +117,6 @@ public abstract class CombatEffectSpell extends CombatSpell {
             if (cast.isPlayer() && target.isPlayer() && WildernessArea.inWilderness(target.tile()))
                 Skulling.skull(cast.getAsPlayer(), target.getAsPlayer(), SkullType.WHITE_SKULL);
             if (isImmune(target, hit)) {
-                System.out.println("dafuq?");
                 return;
             }
             hit.checkAccuracy(true).submit();
@@ -151,7 +150,6 @@ public abstract class CombatEffectSpell extends CombatSpell {
             }
             Projectile p = new Projectile(cast, target, projectile, startSpeed, duration, startHeight, endHeight, 0, cast.getSize(), stepMultiplier);
             if (hit.isAccurate()) {
-                System.out.println(endGraphic);
                 target.performGraphic(new Graphic(endGraphic, endGraphicHeight, p.getSpeed()));
             } else {
                 target.performGraphic(new Graphic(85, GraphicHeight.LOW, p.getSpeed()));

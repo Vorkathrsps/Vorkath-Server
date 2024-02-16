@@ -13,6 +13,7 @@ import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.content.skill.impl.slayer.slayer_partner.SlayerPartner;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
+import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.content.tasks.impl.Tasks;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -76,7 +77,7 @@ public class NPCDeath {
     private static final List<Integer> customDrops = Arrays.asList(WHIRLPOOL_496, KRAKEN, CAVE_KRAKEN, WHIRLPOOL, ZULRAH, ZULRAH_2043, ZULRAH_2044);
 
     public static void execute(NPC npc) {
-        // Path reset instantly when hitsplat appears killing the npc.
+        SlayerTask slayerTask = World.getWorld().getSlayerTasks();
         var respawnTimer = Utils.secondsToTicks(45);// default 45 seconds
         NpcDefinition def = World.getWorld().definitions().get(NpcDefinition.class, npc.id());
         if (def != null) {
@@ -119,12 +120,8 @@ public class NPCDeath {
             killer.getCombat().reset();
 
             // Increment kill.
-            SlayerCreature creature = SlayerCreature.lookup(killer.slayerTaskId());
-            if (creature != null) {
-                if (creature.matches(npc.id())) {
-                    killer.getSlayerKillLog().addKill(npc);
-                }
-            }
+            slayerTask.handleSlayerDeath(killer, npc);
+
             if (!npc.isWorldBoss() || npc.id() != THE_NIGHTMARE_9430 || npc.id() != KALPHITE_QUEEN_6500) {
                 killer.getBossKillLog().addKill(npc);
             }

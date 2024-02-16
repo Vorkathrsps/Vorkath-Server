@@ -12,6 +12,7 @@ import com.cryptic.model.content.bountyhunter.BountyHunter;
 import com.cryptic.model.content.minigames.MinigameManager;
 import com.cryptic.model.content.presets.newpreset.PresetHandler;
 import com.cryptic.model.content.skill.impl.fishing.Fishing;
+import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.entity.EntityList;
 import com.cryptic.model.entity.NodeType;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -719,11 +720,12 @@ public class World {
             }
         }
         long elapsed = System.currentTimeMillis() - start;
-        logger.info("  Loaded definitions for ./data/map/npcs. It took {}ms.", elapsed);
+        logger.info("Loaded definitions for ./data/map/npcs. It took {}ms.", elapsed);
     }
 
     @Getter
     EquipmentLoader equipmentLoader = new EquipmentLoader();
+    @Getter SlayerTask slayerTasks = new SlayerTask();
     @Getter SoundLoader soundLoader = new SoundLoader();
 
     public void postLoad() {
@@ -741,6 +743,12 @@ public class World {
 
         try {
             equipmentLoader.loadEquipmentDefinitions(new File("data/def/Stats.json"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            slayerTasks.loadSlayerTasks(new File("data/slayer/SlayerTask.json"));
         } catch (IOException e) {
             e.printStackTrace();
         }

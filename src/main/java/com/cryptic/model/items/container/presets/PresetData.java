@@ -71,10 +71,7 @@ public class PresetData { //create data can be shared here
     public static List<PresetData> loadDefaultPresets(File file) throws IOException {
         try (FileReader fileReader = new FileReader(file)) {
             TypeToken<List<PresetData>> typeToken = new TypeToken<>() {};
-            List<PresetData> presets = gson.fromJson(fileReader, typeToken.getType());
-
-            logger.info("Parsed presets from JSON:");
-            return presets;
+            return gson.fromJson(fileReader, typeToken.getType());
         }
     }
 

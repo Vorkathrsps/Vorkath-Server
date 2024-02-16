@@ -482,6 +482,10 @@ public class PlayerSave {
             player.putAttrib(AttributeKey.STARTER_STAFF_CHARGES, details.starterStaffCharges);
             player.putAttrib(AttributeKey.STARTER_SWORD_CHARGES, details.starterSwordCharges);
             if (details.lastRecallSave != null) player.putAttrib(AttributeKey.LAST_SAVED_TILE, details.lastRecallSave.tile());
+            player.putAttrib(AttributeKey.PREVIOUS_SLAYER_TASK, details.previousSlayerTask);
+            player.putAttrib(AttributeKey.CURRENT_SLAYER_TASK, details.currentSlayerTask);
+            player.putAttrib(AttributeKey.SLAYER_TASK_UID, details.slayerTaskUid);
+            player.putAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING, details.remainingSlayerTaskAmount);
         }
 
         //Account
@@ -612,6 +616,10 @@ public class PlayerSave {
         private final int starterStaffCharges;
         private final int starterSwordCharges;
         private final PlainTile lastRecallSave;
+        private final String previousSlayerTask;
+        private final String currentSlayerTask;
+        private final int slayerTaskUid;
+        private final int remainingSlayerTaskAmount;
         private final boolean alchemicalHydraLogClaimed;
         private final boolean ancientBarrelchestLogClaimed;
         private final boolean ancientChaosElementalLogClaimed;
@@ -951,6 +959,10 @@ public class PlayerSave {
             starterStaffCharges = Player.getAttribIntOr(player, AttributeKey.STARTER_STAFF_CHARGES, 0);
             starterSwordCharges = Player.getAttribIntOr(player, AttributeKey.STARTER_SWORD_CHARGES, 0);
             lastRecallSave = player.getLastSavedTile() != null ? player.getLastSavedTile().toPlain() : null;
+            previousSlayerTask = Player.getAttribStringOr(player, AttributeKey.PREVIOUS_SLAYER_TASK, "");
+            currentSlayerTask = Player.getAttribStringOr(player, AttributeKey.CURRENT_SLAYER_TASK, "");
+            slayerTaskUid = Player.getAttribIntOr(player, AttributeKey.SLAYER_TASK_UID, 0);
+            remainingSlayerTaskAmount = Player.getAttribIntOr(player, AttributeKey.SLAYER_TASK_AMOUNT_REMAINING, 0);
         }
 
         public void parseDetails() {

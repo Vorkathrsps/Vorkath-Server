@@ -121,8 +121,7 @@ public abstract class Shop {
         Shop store = World.getWorld().shop(shop);
 
         if (store == null) return;
-
-
+        
         player.getInventory().refresh();
 
         store.itemContainerAction(player, id, slot, action, purchase);
@@ -207,10 +206,10 @@ public abstract class Shop {
             || player.getInventory().remaining() >= 1 && (item.stackable() || item.noteable())
             || player.getInventory().contains(item.getId()) && item.stackable()) {
             boolean canNote = item.noteable();
-            int giveNotedItemOrUnnoted = canNote && item.getAmount() > 1 ? item.note().getId() : item.getId();
+            boolean giveNoted = canNote && item.getAmount() > 1;
 
-            if (GameServer.properties().pvpMode) {
-                item = new Item(giveNotedItemOrUnnoted, item.getAmount());
+            if (giveNoted) {
+                item = new Item(item.note().getId(), item.getAmount());
             } else {
                 item = new Item(item.getId(), item.getAmount());
             }
@@ -219,15 +218,14 @@ public abstract class Shop {
                 return;
             }
 
-            boolean ignore_amount = (GameServer.properties().pvpMode || shopId == 2) && shopId != 16;
-
-            if (itemCache.containsKey(item.getId()) && container.retrieve(slot).isPresent() && !ignore_amount) {
+            if (itemCache.containsKey(giveNoted ? item.unnote().getId() : item.getId()) && container.retrieve(slot).isPresent()) {
                 if (decrementStock()) {
                     container.retrieve(slot).get().decrementAmountBy(item.getAmount());
                 }
-            } else if (!itemCache.containsKey(item.getId())) {
+            } else if (!itemCache.containsKey(giveNoted ? item.unnote().getId() : item.getId())) {
                 if (decrementStock()) {
-                    container.remove(item);
+                    container.remove(giveNoted ? item.unnote().getId() : item.getId(), item.getAmount());
+                    //container.remove(item);
                 }
             }
         } else {
@@ -376,7 +374,6 @@ public abstract class Shop {
             item.setAmount(inventoryItem.getAmount());
         }
 
-        //Safety
         if (player.inventory().count(item.getId()) < 1) {
             return;
         }
@@ -389,7 +386,8 @@ public abstract class Shop {
             shopLogs.log(SHOPS_LEVEL, player.getUsername() + " has sold " + item.unnote().name() + " for " + Utils.formatNumber((long) item.getAmount() * sellValue) + " " + currencyType.currency.toString() + ".");
             Utils.sendDiscordInfoLog(player.getUsername() + " has sold " + item.unnote().name() + " for " + Utils.formatNumber((long) item.getAmount() * sellValue) + " " + currencyType.currency.toString() + ".", "shops");
         }
-        StoreItem converted = new StoreItem(item.getId(), item.getAmount());
+
+        StoreItem converted = new StoreItem(item.noted() ? item.unnote().getId() : item.getId(), item.getAmount());
 
         boolean dontAddToContainer = shopId != 1;
 

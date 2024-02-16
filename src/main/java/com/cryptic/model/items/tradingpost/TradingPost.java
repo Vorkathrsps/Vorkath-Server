@@ -333,6 +333,7 @@ public class TradingPost {
                 if (item == null) continue;
                 logger.info("Item: %s seller: %s buyer:%s listed at: %s %d".formatted(item.getSaleItem().unnote().name(), item.getSellerName(), item.getLastBuyerName(), item.getListedTime(), item.getTimeListed()));
                 Item i = item.getSaleItem().unnote();
+                if (i == null) continue;
                 if (i.name().equalsIgnoreCase(i.name())) {
                     list.add(item);
                 }
@@ -355,15 +356,27 @@ public class TradingPost {
 
     enum Kys {
         EXIT(0, p -> p.getInterfaceManager().close()),
-        OVERVIEW(1, TradingPost::open),
-        BUY(2, TradingPost::openBuyUI),
-        SELL(3, TradingPost::openSellUI),
+        OVERVIEW(1, p -> {
+            TradingPost.open(p);
+            p.getPacketSender().sendConfig(1406, 0);
+        }),
+        BUY(2, p -> {
+            TradingPost.openBuyUI(p);
+            p.getPacketSender().sendConfig(1406, 1);
+        }),
+        SELL(3, p -> {
+            TradingPost.openSellUI(p);
+            p.getPacketSender().sendConfig(1406, 2);
+        }),
         TRADE_HISTORY(4, p -> {
             var l = new ArrayList<>(recentTransactions);
-            Collections.reverse(l);
             showTradeHistory(p, l);
+            p.getPacketSender().sendConfig(1406, 3);
         }),
-        RECENT_LISTINGS(5, TradingPost::showRecents);
+        RECENT_LISTINGS(5, p -> {
+            TradingPost.showRecents(p);
+            p.getPacketSender().sendConfig(1406, 4);
+        });
 
         private final int delta;
         private final Consumer<Player> open;
@@ -622,7 +635,6 @@ public class TradingPost {
     }
 
     public static void showTradeHistory(Player player, List<TradingPostListing> list) {
-        Collections.reverse(list);
         for (int i = 0; i < 20; i++) {
             if (i >= list.size()) {
                 sendTradeHistoryIndex(null, "None", "", "", "", i, player); // blank
@@ -715,6 +727,7 @@ public class TradingPost {
             new Player.TextData(itemname == null ? "" : "Price", base + 4),
             new Player.TextData(pricePer, base + 5)
         );
+        System.out.println("sending: " + itemname + " at base: " + base);
         player.getPacketSender().sendItemOnInterfaceSlot(base, itemname == null ? null : itemname.unnote(), 0);
         player.getPacketSender().sendMultipleStrings(list);
     }
@@ -1013,7 +1026,7 @@ public class TradingPost {
             return false;
         }
 
-        List<TradingPostListing> list2 = null;
+        List<TradingPostListing> list2;
         if (player.lastTradingPostUserSearch != null && player.lastTradingPostUserSearch.length() > 0) {
             list2 = getSalesByUsername(Utils.capitalizeFirst(player.lastTradingPostUserSearch).toLowerCase());
         } else {

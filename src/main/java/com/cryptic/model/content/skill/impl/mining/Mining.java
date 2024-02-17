@@ -117,10 +117,10 @@ public class Mining extends PacketInteraction {
             var success = SkillingSuccess.success(player.skills().level(Skills.MINING), rockType.level_req, rockType, pick.get());
 
             if (success) {
-                if (Utils.rollDie(20, 1)) {
+               /* if (Utils.rollDie(20, 1)) {
                     player.inventory().addOrDrop(new Item(7956, 1));
                     player.message("The rock broke, inside you find a casket!");
-                }
+                }*/
 
                 if (Utils.rollDie(rockType.geode_chance / geode_multiplier, 1)) {
                     player.getInventory().addOrDrop(new Item(Utils.randomElement(GEODES), 1));
@@ -170,6 +170,9 @@ public class Mining extends PacketInteraction {
                             case RUNE_ROCK -> {
                                 player.getInventory().add(new Item(ItemIdentifiers.RUNITE_BAR));
                                 player.skills().addXp(Skills.SMITHING, 200);
+                            }
+                            default -> {
+                                player.getInventory().add(new Item(rockType.item));
                             }
                         }
                     } else if (player.hasAttrib(AttributeKey.REMOTE_STORAGE)) {

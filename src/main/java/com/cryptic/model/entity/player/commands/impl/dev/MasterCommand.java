@@ -15,14 +15,13 @@ public class MasterCommand implements Command {
             player.getSkills().update();
             player.getSkills().recalculateCombat();
         }
-        // Turn off prayers
         Prayers.closeAllPrayers(player);
         player.getUpdateFlag().flag(Flag.APPEARANCE);
     }
 
     @Override
     public boolean canUse(Player player) {
-        return (player.getPlayerRights().isCommunityManager(player));
+        return (player.getPlayerRights().isOwner(player));
     }
 
 }

@@ -240,11 +240,9 @@ public class SlayerTask {
             if (inWilderness) {
                 this.upgradeEmblem(player);
             }
-            if (slayerPerks.containsKey(SlayerConstants.DOUBLE_SLAYER_POINTS)) {
-                increment *= 2;
-            }
-            increment += incrementMemberBonusSlayerPoints(player, increment);
             if (this.isRemoveSlayerTask(player)) {
+                if (slayerPerks.containsKey(SlayerConstants.DOUBLE_SLAYER_POINTS)) increment *= 2;
+                increment += incrementMemberBonusSlayerPoints(player, increment);
                 player.getSkills().addXp(Skill.SLAYER.getId(), experience);
                 player.message(Color.BLUE.wrap("You have completed your slayer task!"));
                 player.message(Color.PURPLE.wrap("You have been awarded " + increment + " Slayer points!"));

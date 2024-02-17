@@ -42,14 +42,16 @@ public class NpcDropTable {
                     int rate = drop.getChance();
                     var reduction = rate * player.getDropRateBonus() / 100;
                     rate -= reduction;
-                    if (World.getWorld().random(1, rate) == 1) {
+                    if (World.getWorld().rollDie(rate, 1)) {
                         int minimum = Math.max(drop.getMinimumAmount(), 1);
                         int maximum = Math.max(drop.getMaximumAmount(), 1);
                         list.add(new Item(ItemRepository.getItemId(drop.getItem()), World.getWorld().random(minimum, maximum)));
+                        break;
                     }
                 }
             }
         }
+        System.out.println(list.size());
         return list;
     }
 }

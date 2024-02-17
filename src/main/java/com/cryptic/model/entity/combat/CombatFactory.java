@@ -93,7 +93,6 @@ import static com.cryptic.utility.ItemIdentifiers.*;
  * @author Professor Oak
  */
 public class CombatFactory {
-
     private static final Logger logger = LogManager.getLogger(CombatFactory.class);
 
     /**

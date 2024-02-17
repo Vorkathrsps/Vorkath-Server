@@ -649,8 +649,7 @@ public class CommandManager {
         dev("c", (p, c, s) -> {
         /*    p.getPacketSender().sendInterface(81375);
             p.getPacketSender().sendParallelInterfaceVisibility(81250, true);*/
-            var task = World.getWorld().getSlayerTasks();
-            task.sendTaskInformation(p);
+            System.out.println(p.getSlayerRewards().getBlockedSlayerTask());
         });
 
         dev("c1", (p, c, s) -> {

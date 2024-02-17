@@ -477,6 +477,10 @@ public class PlayerSave {
             }
             player.putAttrib(AttributeKey.DAILY_TASKS_LIST, details.dailyTasksList == null ? new ArrayList<DailyTasks>() : details.dailyTasksList);
             player.putAttrib(AttributeKey.DAILY_TASKS_EXTENSION_LIST, details.dailyTasksExtensions == null ? new HashMap<DailyTasks, Integer>() : details.dailyTasksExtensions);
+            player.putAttrib(AttributeKey.PREVIOUS_SLAYER_TASK, details.previousSlayerTask);
+            player.putAttrib(AttributeKey.CURRENT_SLAYER_TASK, details.currentSlayerTask);
+            player.putAttrib(AttributeKey.SLAYER_TASK_UID, details.slayerTaskUid);
+            player.putAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING, details.remainingSlayerTaskAmount);
 
             ARGS_DESERIALIZER.accept(player, details.allAttribs);
 
@@ -484,10 +488,6 @@ public class PlayerSave {
             player.putAttrib(AttributeKey.STARTER_STAFF_CHARGES, details.starterStaffCharges);
             player.putAttrib(AttributeKey.STARTER_SWORD_CHARGES, details.starterSwordCharges);
             if (details.lastRecallSave != null) player.putAttrib(AttributeKey.LAST_SAVED_TILE, details.lastRecallSave.tile());
-            player.putAttrib(AttributeKey.PREVIOUS_SLAYER_TASK, details.previousSlayerTask);
-            player.putAttrib(AttributeKey.CURRENT_SLAYER_TASK, details.currentSlayerTask);
-            player.putAttrib(AttributeKey.SLAYER_TASK_UID, details.slayerTaskUid);
-            player.putAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING, details.remainingSlayerTaskAmount);
         }
 
         //Account
@@ -558,7 +558,7 @@ public class PlayerSave {
         private final ArrayList<Integer> unlockedPets;
         private final ArrayList<Integer> insuredPets;
 
-        private final ArrayList<Integer> blockedSlayerTasks;
+        private final List<Integer> blockedSlayerTasks;
         private final HashMap<Integer, String> slayerUnlocks;
         private final HashMap<Integer, String> slayerExtensionsList;
 
@@ -954,6 +954,10 @@ public class PlayerSave {
             };
             dailyTasksList = player.getOrT(AttributeKey.DAILY_TASKS_LIST, new ArrayList<>());
             dailyTasksExtensions = player.getOrT(AttributeKey.DAILY_TASKS_EXTENSION_LIST, new HashMap<>());
+            previousSlayerTask = Player.getAttribStringOr(player, AttributeKey.PREVIOUS_SLAYER_TASK, "");
+            currentSlayerTask = Player.getAttribStringOr(player, AttributeKey.CURRENT_SLAYER_TASK, "");
+            slayerTaskUid = Player.getAttribIntOr(player, AttributeKey.SLAYER_TASK_UID, -1);
+            remainingSlayerTaskAmount = Player.getAttribIntOr(player, AttributeKey.SLAYER_TASK_AMOUNT_REMAINING, -1);
 
             allAttribs = ARGS_SERIALIZER.apply(player);
 
@@ -961,10 +965,6 @@ public class PlayerSave {
             starterStaffCharges = Player.getAttribIntOr(player, AttributeKey.STARTER_STAFF_CHARGES, 0);
             starterSwordCharges = Player.getAttribIntOr(player, AttributeKey.STARTER_SWORD_CHARGES, 0);
             lastRecallSave = player.getLastSavedTile() != null ? player.getLastSavedTile().toPlain() : null;
-            previousSlayerTask = Player.getAttribStringOr(player, AttributeKey.PREVIOUS_SLAYER_TASK, "");
-            currentSlayerTask = Player.getAttribStringOr(player, AttributeKey.CURRENT_SLAYER_TASK, "");
-            slayerTaskUid = Player.getAttribIntOr(player, AttributeKey.SLAYER_TASK_UID, 0);
-            remainingSlayerTaskAmount = Player.getAttribIntOr(player, AttributeKey.SLAYER_TASK_AMOUNT_REMAINING, 0);
         }
 
         public void parseDetails() {

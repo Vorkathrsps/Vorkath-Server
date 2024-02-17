@@ -23,6 +23,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.cryptic.model.content.skill.impl.slayer.SlayerConstants.DRAKE;
@@ -47,7 +48,7 @@ public class SlayerRewards {
         this.player = player;
     }
     @Getter @Setter
-    ArrayList<Integer> blockedSlayerTask = new ArrayList<>();
+    List<Integer> blockedSlayerTask = new ArrayList<>();
 
 
     /**
@@ -336,7 +337,8 @@ public class SlayerRewards {
 
             case TASK_INTERFACE:
                 player.debugMessage("Opening task interface");
-                sendTaskInformation();
+                SlayerTask slayer = World.getWorld().getSlayerTasks();
+                slayer.sendTaskInformation(player);
                 setPreviousInterface(slayerRewardButtons.getInterface());
                 player.getInterfaceManager().open(slayerRewardButtons.getInterface());
                 return true;
@@ -477,8 +479,8 @@ public class SlayerRewards {
      * Unblocks the slayer task.
      */
     public void unblock(int button) {
+        SlayerTask slayerTask = World.getWorld().getSlayerTasks();
         if (blockedSlayerTask.isEmpty()) {
-            //System.out.println("Nothing to block");
             return;
         }
 
@@ -503,6 +505,6 @@ public class SlayerRewards {
             if (max >= 63231)
                 blockedSlayerTask.remove(5);
         }
-        sendTaskInformation();
+        slayerTask.sendTaskInformation(player);
     }
 }

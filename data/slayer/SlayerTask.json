@@ -16,7 +16,7 @@
     "max": 6,
     "extendedMin": 30,
     "extendedMax": 60,
-    "uid": 1
+    "uid": 0
   },
   {
     "taskName": "Adamant Dragons",
@@ -34,7 +34,8 @@
     "min": 3,
     "max": 7,
     "extendedMin": 20,
-    "extendedMax": 30
+    "extendedMax": 30,
+    "uid": 1
   },
   {
     "taskName": "Aviansies",
@@ -549,7 +550,7 @@
     "max": 185,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 11
+    "uid": 10
   },
   {
     "taskName": "Fire Giants",
@@ -579,7 +580,7 @@
     "max": 185,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 12
+    "uid": 11
   },
   {
     "taskName": "Red Dragons",
@@ -609,7 +610,7 @@
     "max": 80,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 13
+    "uid": 12
   },
   {
     "taskName": "Elves",
@@ -629,7 +630,7 @@
     "max": 90,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 14
+    "uid": 13
   },
   {
     "taskName": "Dagannoths",
@@ -669,7 +670,7 @@
     "max": 185,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 15
+    "uid": 14
   },
   {
     "taskName": "Greater Demons",
@@ -709,7 +710,7 @@
     "max": 185,
     "extendedMin": 200,
     "extendedMax": 250,
-    "uid": 16
+    "uid": 15
   },
   {
     "taskName": "Hellhounds",
@@ -746,7 +747,7 @@
     "max": 185,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 17
+    "uid": 16
   },
   {
     "taskName": "Black Demons",
@@ -792,7 +793,7 @@
     "max": 185,
     "extendedMin": 200,
     "extendedMax": 250,
-    "uid": 18
+    "uid": 17
   },
   {
     "taskName": "Black Dragons",
@@ -827,7 +828,7 @@
     "max": 20,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 19
+    "uid": 18
   },
   {
     "taskName": "Steel Dragons",
@@ -849,7 +850,7 @@
     "max": 20,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 20
+    "uid": 19
   },
   {
     "taskName": "Suqahs",
@@ -872,7 +873,7 @@
     "max": 185,
     "extendedMin": 186,
     "extendedMax": 250,
-    "uid": 21
+    "uid": 20
   },
   {
     "taskName": "Basilisks",
@@ -904,7 +905,7 @@
     "max": 185,
     "extendedMin": 200,
     "extendedMax": 250,
-    "uid": 22
+    "uid": 21
   },
   {
     "taskName": "Brine Rats",
@@ -922,7 +923,7 @@
     "max": 185,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 23
+    "uid": 22
   },
   {
     "taskName": "Bloodvelds",
@@ -954,7 +955,7 @@
     "max": 185,
     "extendedMin": 200,
     "extendedMax": 250,
-    "uid": 24
+    "uid": 23
   },
   {
     "taskName": "Turoths",
@@ -979,7 +980,7 @@
     "max": 185,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 25
+    "uid": 24
   },
   {
     "taskName": "Cave Horrors",
@@ -1000,7 +1001,7 @@
     "max": 180,
     "extendedMin": 200,
     "extendedMax": 250,
-    "uid": 26
+    "uid": 25
   },
   {
     "taskName": "Aberrant Spectres",
@@ -1024,7 +1025,7 @@
     "max": 185,
     "extendedMin": 200,
     "extendedMax": 250,
-    "uid": 27
+    "uid": 26
   },
   {
     "taskName": "Wyrms",
@@ -1047,7 +1048,7 @@
     "max": 145,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 28
+    "uid": 27
   },
   {
     "taskName": "Dust Devils",
@@ -1068,7 +1069,7 @@
     "max": 185,
     "extendedMin": 200,
     "extendedMax": 250,
-    "uid": 29
+    "uid": 28
   },
   {
     "taskName": "Wyverns",
@@ -1093,7 +1094,7 @@
     "max": 25,
     "extendedMin": 55,
     "extendedMax": 75,
-    "uid": 30
+    "uid": 29
   },
   {
     "taskName": "Kurasks",
@@ -1115,7 +1116,7 @@
     "max": 185,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 31
+    "uid": 30
   },
   {
     "taskName": "Gargoyles",
@@ -1139,7 +1140,7 @@
     "max": 185,
     "extendedMin": 200,
     "extendedMax": 250,
-    "uid": 32
+    "uid": 31
   },
   {
     "taskName": "Nechryael",
@@ -1161,7 +1162,7 @@
     "max": 170,
     "extendedMin": 200,
     "extendedMax": 250,
-    "uid": 33
+    "uid": 32
   },
   {
     "taskName": "Drakes",
@@ -1185,7 +1186,7 @@
     "max": 95,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 34
+    "uid": 33
   },
   {
     "taskName": "Abyssal Demons",
@@ -1219,7 +1220,7 @@
     "max": 185,
     "extendedMin": 200,
     "extendedMax": 250,
-    "uid": 35
+    "uid": 34
   },
   {
     "taskName": "Cave Krakens",
@@ -1240,7 +1241,7 @@
     "max": 120,
     "extendedMin": 150,
     "extendedMax": 200,
-    "uid": 36
+    "uid": 35
   },
   {
     "taskName": "Dark Beasts",
@@ -1260,7 +1261,7 @@
     "max": 20,
     "extendedMin": 110,
     "extendedMax": 135,
-    "uid": 37
+    "uid": 36
   },
   {
     "taskName": "Smoke Devils",
@@ -1285,7 +1286,7 @@
     "max": 185,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 38
+    "uid": 37
   },
   {
     "taskName": "Banshees",
@@ -1307,7 +1308,7 @@
     "max": 70,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 39
+    "uid": 38
   },
   {
     "taskName": "Bats",
@@ -1341,7 +1342,7 @@
     "max": 70,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 40
+    "uid": 39
   },
   {
     "taskName": "Bears",
@@ -1376,7 +1377,7 @@
     "max": 70,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 41
+    "uid": 40
   },
   {
     "taskName": "Crawling Hands",
@@ -1404,7 +1405,7 @@
     "max": 70,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 42
+    "uid": 41
   },
   {
     "taskName": "Hill Giants",
@@ -1434,7 +1435,7 @@
     "max": 70,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 43
+    "uid": 42
   },
   {
     "taskName": "Crabs",
@@ -1460,7 +1461,7 @@
     "max": 70,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 44
+    "uid": 43
   },
   {
     "taskName": "Skeletons",
@@ -1563,7 +1564,7 @@
     "max": 70,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 45
+    "uid": 44
   },
   {
     "taskName": "Spiders",
@@ -1626,7 +1627,7 @@
     "max": 70,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 46
+    "uid": 45
   },
   {
     "taskName": "Ghosts",
@@ -1699,7 +1700,7 @@
     "max": 70,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 47
+    "uid": 46
   },
   {
     "taskName": "Revenants",
@@ -1727,7 +1728,7 @@
     "max": 125,
     "extendedMin": 200,
     "extendedMax": 250,
-    "uid": 48
+    "uid": 47
   },
   {
     "taskName": "Scorpions",
@@ -1752,7 +1753,7 @@
     "max": 100,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 49
+    "uid": 48
   },
   {
     "taskName": "Lava Dragons",
@@ -1769,7 +1770,7 @@
     "max": 60,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 50
+    "uid": 49
   },
   {
     "taskName": "Green Dragons",
@@ -1797,7 +1798,7 @@
     "max": 100,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 51
+    "uid": 50
   },
   {
     "taskName": "Magic Axes",
@@ -1815,7 +1816,7 @@
     "max": 125,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 52
+    "uid": 51
   },
   {
     "taskName": "Pirates",
@@ -1890,7 +1891,7 @@
     "max": 75,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 53
+    "uid": 52
   },
   {
     "taskName": "Rogues",
@@ -1911,7 +1912,7 @@
     "max": 125,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 54
+    "uid": 53
   },
   {
     "taskName": "Black Knights",
@@ -1935,7 +1936,7 @@
     "max": 125,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 55
+    "uid": 54
   },
   {
     "taskName": "Waterfiends",
@@ -1954,7 +1955,7 @@
     "max": 170,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 56
+    "uid": 55
   },
   {
     "taskName": "Hydras",
@@ -1983,6 +1984,6 @@
     "max": 190,
     "extendedMin": -1,
     "extendedMax": -1,
-    "uid": 57
+    "uid": 56
   }
 ]

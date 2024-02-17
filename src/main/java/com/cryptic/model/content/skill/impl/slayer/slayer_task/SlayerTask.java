@@ -1,7 +1,6 @@
 package com.cryptic.model.content.skill.impl.slayer.slayer_task;
 
 import com.cryptic.cache.definitions.identifiers.NpcIdentifiers;
-import com.cryptic.core.task.Task;
 import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -59,8 +58,7 @@ public class SlayerTask {
 
     public void loadSlayerTasks(File file) throws IOException {
         try (FileReader reader = new FileReader(file)) {
-            Type linkedData = new TypeToken<ObjectArrayList<SlayerTask>>() {
-            }.getType();
+            Type linkedData = new TypeToken<ObjectArrayList<SlayerTask>>() {}.getType();
             cached = gson.fromJson(reader, linkedData);
             logger.info("Loaded {} Slayer Task Information", cached.size());
         }
@@ -73,17 +71,20 @@ public class SlayerTask {
             player.message(Color.BLUE.wrap("Your current Slayer assignment is: " + assignment.getTaskName() + " - Remaining Amount: " + assignment.getRemainingTaskAmount(player)));
             return;
         }
-        ObjectList<SlayerTask> eligibleTasks = new ObjectArrayList<>();
+        ObjectList<Integer> eligibleTasks = new ObjectArrayList<>();
         String previousTask = player.getAttribOr(AttributeKey.PREVIOUS_SLAYER_TASK, "");
         for (SlayerTask task : this.cached) {
             if (task != null && ArrayUtils.contains(task.slayerMasters, slayerMasterId) && hasTaskRequirements(player, task)) {
-                if (!Objects.equals(task.taskName, previousTask) && !this.isTaskBlocked(player, task)) {
-                    eligibleTasks.add(task);
+                if (!this.isTaskBlocked(player, task)) {
+                    if (!Objects.equals(task.taskName, previousTask)) {
+                        eligibleTasks.add(task.uid);
+                    }
                 }
             }
         }
         int randomIndex = World.getWorld().random().nextInt(eligibleTasks.size());
-        SlayerTask task = eligibleTasks.get(randomIndex);
+        int uid = eligibleTasks.get(randomIndex);
+        SlayerTask task = this.cached.get(uid);
         int amount = this.generateRandomTaskAmount(task);
         boolean isWildTask = slayerMasterId == NpcIdentifiers.KRYSTILIA;
         applyTaskAttributes(player, randomIndex, task, amount, isWildTask);
@@ -128,9 +129,9 @@ public class SlayerTask {
             player.getPacketSender().sendString(63232 + index, "<col=ffa500>Unblock Task </col>");
         }
         int count = 0;
-        for (var task : blockedTasks) {
+        for (int uid : blockedTasks) {
             if (blockedTasks.size() > 0 && count <= blockedTasks.size() && blockedTasks.size() > count) {
-                player.getPacketSender().sendString(63220 + count, this.cached.get(task).taskName);
+                player.getPacketSender().sendString(63220 + count, this.cached.get(uid).taskName);
             } else {
                 player.getPacketSender().sendString(63220 + count, "Empty");
             }

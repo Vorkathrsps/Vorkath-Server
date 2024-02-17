@@ -63,8 +63,7 @@ public class SlayerTask {
 
     public void loadSlayerTasks(File file) throws IOException {
         try (FileReader reader = new FileReader(file)) {
-            Type linkedData = new TypeToken<ObjectArrayList<SlayerTask>>() {
-            }.getType();
+            Type linkedData = new TypeToken<ObjectArrayList<SlayerTask>>() {}.getType();
             cached = gson.fromJson(reader, linkedData);
             logger.info("Loaded {} Slayer Task Information", cached.size());
         }
@@ -85,7 +84,6 @@ public class SlayerTask {
                     if (!this.isTaskBlocked(player, task)) {
                         if (!Objects.equals(task.taskName, previousTask)) {
                             eligibleTasks.add(task.uid);
-                            System.out.println("adding eligible task: " + task.getTaskName());
                         }
                     }
                 }
@@ -94,7 +92,6 @@ public class SlayerTask {
         int randomIndex = World.getWorld().random().nextInt(eligibleTasks.size());
         int uid = eligibleTasks.get(randomIndex);
         SlayerTask task = this.cached.get(uid);
-        System.out.println("task found: " + task.getTaskName());
         int amount = this.generateRandomTaskAmount(task);
         boolean isWildTask = slayerMasterId == NpcIdentifiers.KRYSTILIA;
         applyTaskAttributes(player, task.uid, task, amount, isWildTask);

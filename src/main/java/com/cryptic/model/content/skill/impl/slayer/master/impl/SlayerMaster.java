@@ -24,6 +24,8 @@ public class SlayerMaster extends PacketInteraction {
             }
         }
         if (option == 2) {
+            SlayerMasterDialogue dialogue = new SlayerMasterDialogue();
+            player.getDialogueManager().start(dialogue);
             npc.setPositionToFace(player.tile());
             return true;
         }

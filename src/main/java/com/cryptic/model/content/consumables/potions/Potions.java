@@ -78,6 +78,8 @@ public class Potions {
         DIVINE_SUPER_STRENGTH_POTION(-1, -1, -1, false, "divine super strength potion", 23709, 23712, 23715, 23718),
         //RECOVER_SPECIAL(-1, -1, -1, false, "recover special", 15300, 15301, 15302, 15303),
         OVERLOAD_POTION(-1, -1, -1, false, "overload potion", ItemIdentifiers.OVERLOAD_4, ItemIdentifiers.OVERLOAD_3, ItemIdentifiers.OVERLOAD_2, ItemIdentifiers.OVERLOAD_1),
+        BLIGHTED_SUPER_RESTORE(-1, -1, -1, false, "blighted restore potion", ItemIdentifiers.BLIGHTED_SUPER_RESTORE4, ItemIdentifiers.BLIGHTED_SUPER_RESTORE3, ItemIdentifiers.BLIGHTED_SUPER_RESTORE2, ItemIdentifiers.BLIGHTED_SUPER_RESTORE1)
+
         // ENUM END . Ids are (4) (3) (2) (1)
         ;
 
@@ -209,6 +211,11 @@ public class Potions {
             return;
         }
 
+        if (potion == Potion.BLIGHTED_SUPER_RESTORE && !WildernessArea.inWilderness(player.tile())) {
+            player.message(Color.RED.wrap("You cannot drink blighted potions outside of the Wilderness."));
+            return;
+        }
+
         player.getTimers().register(TimerKey.POTION, 3);
         player.getTimers().register(TimerKey.FOOD, 3);
         int eatAnim;
@@ -320,7 +327,25 @@ public class Potions {
                     player.getSkills().replenishSkill(i, (int) restorable);
                 }
             }
-        } else if (potion == Potion.RESTORE_POTION) {
+        } else if (potion == Potion.BLIGHTED_SUPER_RESTORE && WildernessArea.inWilderness(player.tile())) {
+            for (int i = 0; i < Skills.SKILL_COUNT; i++) {
+                if (i != Skills.HITPOINTS) {
+                    double current_flat = player.getSkills().xpLevel(i);
+                    double restorable = (int) (current_flat * 0.25 + 8);
+
+                    if (i == Skills.PRAYER) {
+                        if (player.inventory().contains(6714) && player.getEquipment().wearingMaxCape()) { // Max cape holy wrench effect
+                            if (current_flat > 25 && current_flat <= 85) {
+                                restorable += 1;
+                            } else if (current_flat > 85) {
+                                restorable += 2;
+                            }
+                        }
+                    }
+                    player.getSkills().replenishSkill(i, (int) restorable);
+                }
+            }
+        }else if (potion == Potion.RESTORE_POTION) {
             for (int i : new int[]{Skills.ATTACK, Skills.DEFENCE, Skills.STRENGTH, Skills.MAGIC, Skills.RANGED}) {
                 if (i != Skills.HITPOINTS && i != Skills.PRAYER) {
                     double current_flat = player.getSkills().xpLevel(i);

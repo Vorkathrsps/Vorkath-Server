@@ -1,5 +1,6 @@
 package com.cryptic.model.content.consumables;
 
+import com.cryptic.model.content.consumables.potions.Potions;
 import com.cryptic.model.content.duel.DuelRule;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -10,6 +11,7 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.position.areas.Controller;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
+import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Utils;
 import com.cryptic.utility.timers.TimerKey;
@@ -80,6 +82,9 @@ public class FoodConsumable {
         HALF_SUMMER_PIE(HALF_A_SUMMER_PIE, 11, PIE_DISH),
         KARAMBWAN(COOKED_KARAMBWAN, 18, -1, true),
         ANGLERFISH(ItemIdentifiers.ANGLERFISH, 22),
+        BLIGHTED_ANGLERFISH(ItemIdentifiers.BLIGHTED_ANGLERFISH, 22),
+        BLIGHTED_MANTA_RAY(ItemIdentifiers.BLIGHTED_MANTA_RAY, 22),
+        BLIGHTED_KARAMBWAN(ItemIdentifiers.BLIGHTED_KARAMBWAN, 18, -1, true),
         FRIED_MUSHROOMS(ItemIdentifiers.FRIED_MUSHROOMS, 5, BOWL),
         CHILLI_POTATO(ItemIdentifiers.CHILLI_POTATO, 14),
         MUSHROOM_POTATO(ItemIdentifiers.MUSHROOM_POTATO, 20),
@@ -145,7 +150,7 @@ public class FoodConsumable {
 
         //player.debugMessage("Eating food.");
         // Check timers and other things. Also karambwan.
-        if (food == Food.KARAMBWAN) {
+        if (food == Food.KARAMBWAN || food == Food.BLIGHTED_KARAMBWAN) {
             if (player.getTimers().has(TimerKey.KARAMBWAN) || player.dead() || player.hp() < 1) {
                 player.debugMessage("Your Karambwan timer is still active, " + player.getTimers().asSeconds(TimerKey.KARAMBWAN) + " remaining.");
                 return;
@@ -168,6 +173,11 @@ public class FoodConsumable {
 
         if (player.stunned()) {
             player.message("You're currently stunned!");
+            return;
+        }
+
+        if (((food == Food.BLIGHTED_ANGLERFISH || food == Food.BLIGHTED_MANTA_RAY || food == Food.BLIGHTED_KARAMBWAN) && !WildernessArea.inWilderness(player.tile()))) {
+            player.message(Color.RED.wrap("You cannot eat blighted food outside of the Wilderness."));
             return;
         }
 
@@ -211,7 +221,7 @@ public class FoodConsumable {
 
         int increase = player.getEquipment().hpIncrease();
         boolean inWilderness = WildernessArea.inWilderness(player.tile());
-        if (food == Food.ANGLERFISH) {
+        if (food == Food.ANGLERFISH || food == Food.BLIGHTED_ANGLERFISH) {
             if (inWilderness && CombatFactory.inCombat(player)) {
                 player.heal(food.heal, 0);
             } else {
@@ -262,7 +272,7 @@ public class FoodConsumable {
                     default -> player.forceChat("Yum!");
                 }
                 player.message("You eat the kebab.");
-            } else if (food == Food.KARAMBWAN) {
+            } else if (food == Food.KARAMBWAN || food == Food.BLIGHTED_KARAMBWAN) {
                 player.getTimers().register(TimerKey.KARAMBWAN, 3); // Register karambwan timer too
                 player.getTimers().register(TimerKey.POTION, 3); // Register the potion timer (karambwan blocks pots)
                 player.message("You eat the Karambwan.");

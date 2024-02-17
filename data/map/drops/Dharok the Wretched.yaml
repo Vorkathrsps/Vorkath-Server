@@ -34,7 +34,7 @@ drops:
   chance: 50
   rareDrop: false
   sendToBank: false
-- item: DHAROKS_AXE
+- item: DHAROKS_GREATAXE
   minimumAmount: 1
   maximumAmount: 1
   chance: 50

@@ -16,25 +16,25 @@ alwaysDrops:
     rareDrop: false
     sendToBank: false
 drops:
-  - item: TORAG'S_HELM
+  - item: TORAGS_HELM
     minimumAmount: 1
     maximumAmount: 1
     chance: 50
     rareDrop: false
     sendToBank: false
-  - item: TORAG'S_PLATEBODY
+  - item: TORAGS_PLATEBODY
     minimumAmount: 1
     maximumAmount: 1
     chance: 50
     rareDrop: false
     sendToBank: false
-  - item: TORAG'S_PLATELEGS
+  - item: TORAGS_PLATELEGS
     minimumAmount: 1
     maximumAmount: 1
     chance: 50
     rareDrop: false
     sendToBank: false
-  - item: TORAG'S_HAMMERS
+  - item: TORAGS_HAMMERS
     minimumAmount: 1
     maximumAmount: 1
     chance: 50

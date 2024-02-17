@@ -1567,6 +1567,7 @@ public class Player extends Entity {
         applyAttributes();
         updatePlayer();
         handleOnLogin(this);
+        //this.getPetEntity().spawnOnLogin();
         this.getSigil().HandleLogin(this);
         applyPoweredStaffSpells();
         boolean newAccount = this.getAttribOr(NEW_ACCOUNT, false);

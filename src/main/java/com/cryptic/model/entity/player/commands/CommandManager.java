@@ -593,7 +593,7 @@ public class CommandManager {
         dev("c", (p, c, s) -> {
         /*    p.getPacketSender().sendInterface(81375);
             p.getPacketSender().sendParallelInterfaceVisibility(81250, true);*/
-            System.out.println(p.getSlayerRewards().getBlockedSlayerTask());
+            System.out.println(p.getPetEntity().getPet());
         });
 
         dev("c1", (p, c, s) -> {

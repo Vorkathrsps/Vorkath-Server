@@ -8,9 +8,13 @@ import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.map.object.GameObject;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
+import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.cache.definitions.identifiers.ObjectIdentifiers;
 import com.cryptic.utility.chainedwork.Chain;
+import org.apache.commons.lang.ArrayUtils;
+
+import java.awt.*;
 
 /**
  * @author Origin | April, 18, 2021, 18:34
@@ -20,6 +24,19 @@ public class DwarfCannonActions extends PacketInteraction {
     public boolean handleItemInteraction(Player player, Item item, int option) {
         if (option == 1) {
             if (item.getId() == ItemIdentifiers.CANNON_BASE) {
+
+                var region = player.tile().region();
+                int[] blocked_regions = new int[]{14131, 9008, 9551};
+
+                if (player.getInstancedArea() != null || player.getTheatreInstance() != null) {
+                    player.message(Color.RED.wrap("You cannot use your cannon inside of an instance."));
+                    return true;
+                }
+
+                if (ArrayUtils.contains(blocked_regions, region)) {
+                    player.message(Color.RED.wrap("You cannot use your cannon in this area."));
+                    return true;
+                }
 
                 var reclaim = player.<Boolean>getAttribOr(AttributeKey.LOST_CANNON, false);
                 if (reclaim && !player.getPlayerRights().isAdministrator(player)) {

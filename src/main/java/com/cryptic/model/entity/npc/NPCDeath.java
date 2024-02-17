@@ -7,6 +7,7 @@ import com.cryptic.model.content.achievements.Achievements;
 import com.cryptic.model.content.achievements.AchievementsManager;
 import com.cryptic.model.content.areas.burthope.warriors_guild.MagicalAnimator;
 import com.cryptic.model.content.areas.wilderness.content.boss_event.WildernessBossEvent;
+import com.cryptic.model.content.areas.wilderness.wildernesskeys.WildernessKeys;
 import com.cryptic.model.content.daily_tasks.DailyTaskManager;
 import com.cryptic.model.content.daily_tasks.DailyTasks;
 import com.cryptic.model.content.skill.impl.slayer.Slayer;
@@ -468,8 +469,13 @@ public class NPCDeath {
             if (killer == null && npc.getCombatMethod() instanceof CommonCombatMethod commonCombatMethod) {
                 commonCombatMethod.onDeath(null, npc); // make sure this is always called
             }
+
             if (killer != null) {
                 //Do inferno minigame death here and fight caves
+
+                if (WildernessArea.isInWilderness(killer)) {
+                    WildernessKeys.rollWildernessKey(killer, npc);
+                }
 
                 if (npc.getCombatMethod() instanceof CommonCombatMethod commonCombatMethod) {
                     commonCombatMethod.set(npc, killer);

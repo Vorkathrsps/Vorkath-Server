@@ -323,9 +323,11 @@ public class SlayerRewards {
                 return true;
 
             case BLOCK:
-                int num = assignment.getRemainingTaskAmount(player);
-                if (num > 0) {
-                    blockWidget();
+                if (assignment != null) {
+                    int num = assignment.getRemainingTaskAmount(player);
+                    if (num > 0) {
+                        blockWidget();
+                    }
                 } else {
                     player.message("You do not have a slayer task at this time.");
                 }
@@ -446,7 +448,7 @@ public class SlayerRewards {
      * Blocks the current assigned slayer task.
      */
     public void block() {
-        int pts = player.getAttribOr(SLAYER_REWARD_POINTS, 0);
+        int pts = player.<Integer>getAttribOr(SLAYER_REWARD_POINTS, 0);
         int required = 100;
         SlayerTask slayer = World.getWorld().getSlayerTasks();
         SlayerTask assignment = slayer.getCurrentAssignment(player);

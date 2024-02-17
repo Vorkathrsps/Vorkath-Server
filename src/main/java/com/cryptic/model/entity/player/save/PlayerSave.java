@@ -466,7 +466,6 @@ public class PlayerSave {
             player.putAttrib(AttributeKey.EVENT_REWARD_42_CLAIMED, details.eventReward42Claimed);
             player.putAttrib(AttributeKey.EVENT_REWARD_43_CLAIMED, details.eventReward43Claimed);
             player.putAttrib(AttributeKey.EVENT_REWARD_44_CLAIMED, details.eventReward44Claimed);
-            player.putAttrib(AttributeKey.LAST_PET_ID, details.lastPet);
             player.setInvulnerable(details.infhp);
             if (details.varps != null) {
                 int[] varps = new int[4000];
@@ -543,7 +542,6 @@ public class PlayerSave {
         private final boolean vipUnlocked;
         private final boolean sponsorMemberUnlocked;
 
-        public int lastPet;
         public boolean infhp;
         private final HashMap<Integer, Integer> varps;
 

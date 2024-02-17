@@ -53,11 +53,8 @@ public class Judge extends CommonCombatMethod {
         entity.animate(69);
         double dist = entity.tile().distance(target.getCentrePosition());
         double delay = (int) (1 + Math.floor(3 + dist) / 6D);
-        World.getWorld().getPlayers().forEach(p -> {
-            //entity.executeProjectile(new Projectile(entity, target, 1223, (int) (dist * 5), (int) (dist + delay), 70, 35, 0, 10));
-            Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), (int) delay, CombatType.MAGIC).checkAccuracy(true);
-            hit.submit();
-        });
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), (int) delay, CombatType.MAGIC).checkAccuracy(true);
+        hit.submit();
     }
 
     public void magicAttack(Entity entity, Entity target) {
@@ -65,12 +62,9 @@ public class Judge extends CommonCombatMethod {
         entity.forceChat("FOR THE GODS OF ZARYTE!");
         double dist = entity.tile().distance(target.getCentrePosition());
         double delay = entity.getCombat().magicSpellDelay(target);
-        World.getWorld().getPlayers().forEach(p -> {
-            //entity.executeProjectile(new Projectile(entity, target, 1227, (int) dist * 5, (int) (dist + delay), 70, 40, 0, 10));
-            Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), (int) delay, CombatType.MAGIC).checkAccuracy(true);
-            target.performGraphic(new Graphic(156, GraphicHeight.HIGH, (int) (delay + 1)));
-            hit.submit();
-        });
+        Hit hit = target.hit(entity, CombatFactory.calcDamageFromType(entity, target, CombatType.MAGIC), (int) delay, CombatType.MAGIC).checkAccuracy(true);
+        target.performGraphic(new Graphic(156, GraphicHeight.HIGH, (int) (delay + 1)));
+        hit.submit();
     }
 
     public void corruptedVoid(Entity entity, Entity target) {

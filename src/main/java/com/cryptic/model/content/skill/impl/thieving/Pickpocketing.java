@@ -66,7 +66,7 @@ public class Pickpocketing extends PacketInteraction {
             return;
         }
 
-        Chain.noCtx().runFn(1, () -> {
+        player.runFn(1, () -> {
             player.lockDamageOk();
             player.message("You attempt to pick the " + pickpocket.identifier + " pocket.");
             if (successful(player, pickpocket)) {

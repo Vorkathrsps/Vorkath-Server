@@ -59,7 +59,6 @@ public class SlayerTask {
     final int[] emblems = new int[]{ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_1, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_2, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_3, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_4, ItemIdentifiers.MYSTERIOUS_EMBLEM_TIER_5};
     final int[] pvp_equipment = new int[]{VESTAS_LONGSWORD_BH, STATIUSS_WARHAMMER_BH, VESTAS_SPEAR_BH, ZURIELS_STAFF_BH};
     final int[] sigils = new int[]{};
-
     public void loadSlayerTasks(File file) throws IOException {
         try (FileReader reader = new FileReader(file)) {
             Type linkedData = new TypeToken<ObjectArrayList<SlayerTask>>() {}.getType();
@@ -249,6 +248,7 @@ public class SlayerTask {
                 player.getSkills().addXp(Skill.SLAYER.getId(), experience);
                 player.message(Color.BLUE.wrap("You have completed your slayer task!"));
                 player.message(Color.PURPLE.wrap("You have been awarded " + increment + " Slayer points!"));
+                player.putAttrib(SLAYER_REWARD_POINTS, +increment);
                 this.incrementTaskCompletionSpree(player);
                 this.cancelSlayerTask(player, false);
                 return;
@@ -256,7 +256,6 @@ public class SlayerTask {
             player.getSlayerKillLog().addKill(npc);
             player.getSkills().addXp(Skill.SLAYER.getId(), experience);
             player.putAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING, amount - 1);
-            player.putAttrib(SLAYER_REWARD_POINTS, slayerPoints + increment);
         }
     }
 

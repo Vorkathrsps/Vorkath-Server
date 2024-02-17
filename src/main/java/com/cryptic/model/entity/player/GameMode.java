@@ -7,9 +7,9 @@ package com.cryptic.model.entity.player;
 
 public enum GameMode {
 
-    TRAINED_ACCOUNT("Normal account",1, 20, 20, 1.0),
+    TRAINED_ACCOUNT("Normal account",1, 25, 40, 1.0),
     REALISM("realism", 2, 10, 2, 1.08),
-    HARDCORE_REALISM("hardcore realism", 3, 10, 2, 1.08);
+    HARDCORE_REALISM("hardcore realism", 3, 10, 2, 1.10);
 
     private final String name;
     private final int uid;

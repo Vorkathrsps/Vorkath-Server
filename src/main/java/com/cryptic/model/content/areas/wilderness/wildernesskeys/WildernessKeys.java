@@ -9,6 +9,7 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
 import com.cryptic.model.map.position.Tile;
+import com.cryptic.model.map.position.areas.impl.WildernessArea;
 import com.cryptic.utility.Color;
 import com.cryptic.utility.ItemIdentifiers;
 import com.cryptic.utility.Tuple;
@@ -19,6 +20,8 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static com.cryptic.utility.ItemIdentifiers.KEY_298;
 
 /**
  * @Author: Origin
@@ -103,6 +106,17 @@ public class WildernessKeys {
         World.getWorld().unregisterNpc(npc);
         player.getPacketSender().sendEntityHintRemoval(true);
         targetList.clear();
+    }
+
+    public static void rollWildernessKey(Player player, NPC npc) {
+        if (WildernessArea.inWilderness(npc.tile())) {
+            if (Utils.rollDie(85, 1)) {
+                Item item = new Item(KEY_298, 1);
+                GroundItem groundItem = new GroundItem(item, npc.tile(), player);
+                GroundItemHandler.createGroundItem(groundItem);
+                player.message(Color.PURPLE.wrap("<img=2010>You've received a Wilderness Key drop!"));
+            }
+        }
     }
 
     public boolean hasSpawnedNpc() {

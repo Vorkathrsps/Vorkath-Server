@@ -9,7 +9,9 @@ import com.cryptic.model.items.Item;
 import com.cryptic.model.map.route.routes.DumbRoute;
 import com.cryptic.network.packet.incoming.interaction.PacketInteraction;
 import com.cryptic.utility.chainedwork.Chain;
+import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
@@ -19,10 +21,11 @@ import java.util.Optional;
  * @Author: Origin
  * @Date: 7/7/2023
  */
-@Getter
-public class Pet extends PacketInteraction {
-    @Nonnull private final Player player;
-    @Nullable public NPC pet;
+@Data
+public class Pet {
+    @Nonnull
+    private final Player player;
+    @Nullable @Setter public NPC pet;
     Animation ANIMATION = new Animation(827);
 
     public Pet(@Nonnull final Player player) {
@@ -34,14 +37,30 @@ public class Pet extends PacketInteraction {
         return petDefinitions != null && player.inventory().contains(petDefinitions.getItem());
     }
 
+    public void pickup() {
+        if (player.getPetEntity() != null && player.getPetEntity().getPet() != null) {
+            player.animate(ANIMATION);
+            Optional<PetDefinitions> petDefinitions = Optional.ofNullable(PetDefinitions.getItemByPet(player.getAttribOr(AttributeKey.LAST_PET_ID, -1)));
+            petDefinitions.ifPresent(definitions -> player.getInventory().addOrBank(new Item(definitions.getItem(), 1)));
+            World.getWorld().unregisterNpc(player.getPetEntity().getPet());
+        }
+    }
+
     public void clearSpawnedPet() {
         if (player.getPetEntity() != null && player.getPetEntity().getPet() != null) {
-            Optional<PetDefinitions> petDefinitions = Optional.ofNullable(PetDefinitions.getItemByPet(player.getAttribOr(AttributeKey.LAST_PET_ID, -1)));
-            petDefinitions.ifPresent(definitions -> {
-                System.out.println(definitions.getItem());
-                player.getInventory().addOrBank(new Item(definitions.getItem(), 1));
-            });
+            player.animate(ANIMATION);
             World.getWorld().unregisterNpc(player.getPetEntity().getPet());
+        }
+    }
+
+    public void spawnOnLogin(@Nonnull final Item item) {
+        Optional<PetDefinitions> petDefinitions = Optional.ofNullable(PetDefinitions.getPetByItem(item.getId()));
+        if (petDefinitions.isPresent()) {
+            player.animate(ANIMATION);
+            pet = new NPC(petDefinitions.get().npc, player.tile()).walkRadius(-1);
+            player.putAttrib(AttributeKey.LAST_PET_ID, pet.id());
+            World.getWorld().registerNpc(pet);
+            follow();
         }
     }
 
@@ -100,7 +119,7 @@ public class Pet extends PacketInteraction {
         Optional<PetDefinitions> petDefinitions = Optional.ofNullable(PetDefinitions.getItemByPet(player.getAttribOr(AttributeKey.LAST_PET_ID, -1)));
         if (petDefinitions.isPresent()) {
             if (player.<Integer>getAttribOr(AttributeKey.LAST_PET_ID, -1) == petDefinitions.get().getNpc()) {
-                dropPet(Item.of(petDefinitions.get().getItem()));
+                spawnOnLogin(Item.of(petDefinitions.get().getItem()));
             }
         }
     }

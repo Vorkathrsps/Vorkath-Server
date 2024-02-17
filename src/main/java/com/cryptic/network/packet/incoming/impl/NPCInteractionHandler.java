@@ -154,7 +154,14 @@ public class NPCInteractionHandler implements PacketListener {
     }
 
     private void handleInteraction(Player player, NPC npc, int option) {
-
+        if (option == 3) {
+            if (player.getPetEntity().getPet() != null) {
+                if (npc.id() == player.getPetEntity().getPet().getId()) {
+                    player.getPetEntity().pickup();
+                    return;
+                }
+            }
+        }
         /** Controller overrides **/
         if (PacketInteractionManager.checkNpcInteraction(player, npc, option))
             return;
@@ -262,7 +269,6 @@ public class NPCInteractionHandler implements PacketListener {
         }
 
         if (option == 3) {
-
             switch (npc.id()) {
                 case BOB_BARTER_HERBS -> player.getDialogueManager().start(new BobBarter());
                 case TWIGGY_OKORN -> {

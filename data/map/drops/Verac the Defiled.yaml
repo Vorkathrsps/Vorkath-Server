@@ -16,25 +16,25 @@ alwaysDrops:
     rareDrop: false
     sendToBank: false
 drops:
-  - item: VERAC'S_HELM
+  - item: VERACS_HELM
     minimumAmount: 1
     maximumAmount: 1
     chance: 50
     rareDrop: false
     sendToBank: false
-  - item: VERAC'S_BRASSARD
+  - item: VERACS_BRASSARD
     minimumAmount: 1
     maximumAmount: 1
     chance: 50
     rareDrop: false
     sendToBank: false
-  - item: VERAC'S_PLATESKIRT
+  - item: VERACS_PLATESKIRT
     minimumAmount: 1
     maximumAmount: 1
     chance: 50
     rareDrop: false
     sendToBank: false
-  - item: VERAC'S_FLAIL
+  - item: VERACS_FLAIL
     minimumAmount: 1
     maximumAmount: 1
     chance: 50

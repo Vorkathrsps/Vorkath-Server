@@ -1,258 +1,318 @@
 npcId:
-- 10938
+  - 10938
 petItem: "null"
 petRarity: 0
 alwaysDrops:
-- item: COINS_995
-  minimumAmount: 50000
-  maximumAmount: 100000
-  chance: 1
-  rareDrop: false
-  sendToBank: false
-- item: ICY_CHEST
-  minimumAmount: 1
-  maximumAmount: 2
-  chance: 1
-  rareDrop: false
-  sendToBank: false
+  - item: COINS_995
+    minimumAmount: 100_000
+    maximumAmount: 1_000_000
+    chance: 1
+    rareDrop: false
+    sendToBank: false
+  - item: ICY_CHEST
+    minimumAmount: 1
+    maximumAmount: 2
+    chance: 1
+    rareDrop: false
+    sendToBank: false
 drops:
-- item: DHAROKS_ARMOUR_SET
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 19
-  rareDrop: false
-  sendToBank: false
-- item: AHRIMS_ARMOUR_SET
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 19
-  rareDrop: false
-  sendToBank: false
-- item: KARILS_ARMOUR_SET
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 19
-  rareDrop: false
-  sendToBank: false
-- item: GUTHANS_ARMOUR_SET
-  minimumAmount: 5
-  maximumAmount: 5
-  chance: 19
-  rareDrop: false
-  sendToBank: false
-- item: ABYSSAL_WHIP
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 19
-  rareDrop: false
-  sendToBank: false
-- item: AMULET_OF_FURY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 19
-  rareDrop: false
-  sendToBank: false
-- item: BERSERKER_RING
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 19
-  rareDrop: false
-  sendToBank: false
-- item: ARCHERS_RING
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 19
-  rareDrop: false
-  sendToBank: false
-- item: SEERS_RING
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 19
-  rareDrop: false
-  sendToBank: false
-- item: BERSERKER_RING_I_26770
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 19
-  rareDrop: false
-  sendToBank: false
-- item: ARCHERS_RING_I_26768
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 19
-  rareDrop: false
-  sendToBank: false
-- item: SEERS_RING_I_26767
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 19
-  rareDrop: false
-  sendToBank: false
-- item: ODIUM_WARD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 28
-  rareDrop: false
-  sendToBank: false
-- item: MALEDICTION_WARD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 28
-  rareDrop: false
-  sendToBank: false
-- item: STAFF_OF_LIGHT
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 28
-  rareDrop: false
-  sendToBank: false
-- item: STAFF_OF_THE_DEAD_23613
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 28
-  rareDrop: false
-  sendToBank: false
-- item: MAGES_BOOK
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 28
-  rareDrop: false
-  sendToBank: false
-- item: INFINITY_BOOTS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 28
-  rareDrop: false
-  sendToBank: false
-- item: DRAGON_CROSSBOW
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 28
-  rareDrop: false
-  sendToBank: false
-- item: ARMADYL_CROSSBOW
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 57
-  rareDrop: false
-  sendToBank: false
-- item: ETERNAL_BOOTS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 57
-  rareDrop: false
-  sendToBank: false
-- item: PEGASIAN_BOOTS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 57
-  rareDrop: false
-  sendToBank: false
-- item: PRIMORDIAL_BOOTS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 57
-  rareDrop: false
-  sendToBank: false
-- item: LIGHTBEARER
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 57
-  rareDrop: false
-  sendToBank: false
-- item: TORN_PRAYER_SCROLL
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 231
-  rareDrop: false
-  sendToBank: false
-- item: DEXTEROUS_PRAYER_SCROLL
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 231
-  rareDrop: false
-  sendToBank: false
-- item: ARCANE_PRAYER_SCROLL
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 231
-  rareDrop: false
-  sendToBank: false
-- item: DRAGON_CLAWS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 231
-  rareDrop: false
-  sendToBank: false
-- item: ARMADYL_GODSWORD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 231
-  rareDrop: false
-  sendToBank: false
-- item: STATIUSS_FULL_HELM
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 385
-  rareDrop: false
-  sendToBank: false
-- item: STATIUSS_PLATEBODY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 385
-  rareDrop: false
-  sendToBank: false
-- item: STATIUSS_PLATELEGS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 385
-  rareDrop: false
-  sendToBank: false
-- item: STATIUSS_WARHAMMER_23620
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 385
-  rareDrop: false
-  sendToBank: false
-- item: MORRIGANS_COIF
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 385
-  rareDrop: false
-  sendToBank: false
-- item: MORRIGANS_LEATHER_BODY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 385
-  rareDrop: false
-  sendToBank: false
-- item: MORRIGANS_LEATHER_CHAPS
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 385
-  rareDrop: false
-  sendToBank: false
-- item: VESTAS_CHAINBODY
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 385
-  rareDrop: false
-  sendToBank: false
-- item: VESTAS_PLATESKIRT
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 385
-  rareDrop: false
-  sendToBank: false
-- item: VESTAS_BLIGHTED_LONGSWORD
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 385
-  rareDrop: false
-  sendToBank: false
-- item: VOIDWAKER
-  minimumAmount: 1
-  maximumAmount: 1
-  chance: 1156
-  rareDrop: false
-  sendToBank: false
+  - item: DHAROKS_HELM
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: DHAROKS_PLATEBODY
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: DHAROKS_PLATELEGS
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: DHAROKS_GREATAXE
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: CRYSTAL_KEY
+    minimumAmount: 1
+    maximumAmount: 2
+    chance: 5
+    rareDrop: false
+    sendToBank: false
+  - item: NOTED_DRAGON_BONES
+    minimumAmount: 100
+    maximumAmount: 250
+    chance: 10
+    rareDrop: false
+    sendToBank: false
+  - item: WRATH_RUNE
+    minimumAmount: 250
+    maximumAmount: 500
+    chance: 2
+    rareDrop: false
+    sendToBank: false
+  - item: BLOOD_RUNE
+    minimumAmount: 300
+    maximumAmount: 500
+    chance: 2
+    rareDrop: false
+    sendToBank: false
+  - item: TORAGS_HELM
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: TORAGS_PLATEBODY
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: TORAGS_PLATELEGS
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: TORAGS_HAMMERS
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: VERACS_HELM
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: VERACS_BRASSARD
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: VERACS_PLATESKIRT
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: VERACS_FLAIL
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: GUTHANS_HELM
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: GUTHANS_PLATEBODY
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: GUTHANS_CHAINSKIRT
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: GUTHANS_WARSPEAR
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: AHRIMS_HOOD
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: AHRIMS_ROBETOP
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: AHRIMS_ROBESKIRT
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: AHRIMS_STAFF
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: KARILS_COIF
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: KARILS_LEATHERTOP
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: KARILS_LEATHERSKIRT
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: KARILS_CROSSBOW
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 25
+    rareDrop: false
+    sendToBank: false
+  - item: DEATH_RUNE
+    minimumAmount: 350
+    maximumAmount: 850
+    chance: 2
+    rareDrop: false
+    sendToBank: false
+  - item: NOTED_SUPER_COMBAT_POTION4
+    minimumAmount: 25
+    maximumAmount: 50
+    chance: 10
+    rareDrop: false
+    sendToBank: false
+  - item: CANNONBALL
+    minimumAmount: 1000
+    maximumAmount: 2000
+    chance: 5
+    rareDrop: false
+    sendToBank: false
+  - item: NOTED_SUPER_RESTORE4
+    minimumAmount: 25
+    maximumAmount: 50
+    chance: 10
+    rareDrop: false
+    sendToBank: false
+  - item: NOTED_SANFEW_SERUM4
+    minimumAmount: 15
+    maximumAmount: 25
+    chance: 10
+    rareDrop: false
+    sendToBank: false
+  - item: DRAGON_SCIMITAR
+    minimumAmount: 1
+    maximumAmount: 2
+    chance: 8
+    rareDrop: false
+    sendToBank: false
+  - item: NOTED_RUNE_FULL_HELM
+    minimumAmount: 20
+    maximumAmount: 60
+    chance: 15
+    rareDrop: false
+    sendToBank: false
+  - item: NOTED_ANGLERFISH
+    minimumAmount: 100
+    maximumAmount: 150
+    chance: 12
+    rareDrop: false
+    sendToBank: false
+  - item: NOTED_MANTA_RAY
+    minimumAmount: 150
+    maximumAmount: 200
+    chance: 12
+    rareDrop: false
+    sendToBank: false
+  - item: NOTED_RUNE_PLATEBODY
+    minimumAmount: 20
+    maximumAmount: 60
+    chance: 15
+    rareDrop: false
+    sendToBank: false
+  - item: NOTED_RUNE_PLATELEGS
+    minimumAmount: 20
+    maximumAmount: 60
+    chance: 15
+    rareDrop: false
+    sendToBank: false
+  - item: OLD_SCHOOL_BOND
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 800
+    rareDrop: true
+    sendToBank: false
+  - item: BLIGHTED_SURGE_SACK
+    minimumAmount: 50
+    maximumAmount: 100
+    chance: 8
+    rareDrop: false
+    sendToBank: false
+  - item: BLIGHTED_ANCIENT_ICE_SACK
+    minimumAmount: 150
+    maximumAmount: 250
+    chance: 8
+    rareDrop: false
+    sendToBank: false
+  - item: BLIGHTED_TELEPORT_SPELL_SACK
+    minimumAmount: 250
+    maximumAmount: 500
+    chance: 8
+    rareDrop: false
+    sendToBank: false
+  - item: BLIGHTED_ENTANGLE_SACK
+    minimumAmount: 100
+    maximumAmount: 200
+    chance: 8
+    rareDrop: false
+    sendToBank: false
+  - item: BLIGHTED_VENGEANCE_SACK
+    minimumAmount: 100
+    maximumAmount: 200
+    chance: 8
+    rareDrop: false
+    sendToBank: false
+  - item: ABYSSAL_WHIP
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 75
+    rareDrop: true
+    sendToBank: false
+  - item: AMULET_OF_FURY
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 50
+    rareDrop: true
+    sendToBank: false
+  - item: DRAGON_BOOTS
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 50
+    rareDrop: true
+    sendToBank: false
+  - item: DRAGON_2H_SWORD
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 1156
+    rareDrop: true
+    sendToBank: false
+  - item: VOIDWAKER
+    minimumAmount: 1
+    maximumAmount: 1
+    chance: 1156
+    rareDrop: true
+    sendToBank: false

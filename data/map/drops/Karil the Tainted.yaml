@@ -16,25 +16,25 @@ alwaysDrops:
     rareDrop: false
     sendToBank: false
 drops:
-  - item: KARIL'S_COIF
+  - item: KARILS_COIF
     minimumAmount: 1
     maximumAmount: 1
     chance: 50
     rareDrop: false
     sendToBank: false
-  - item: KARIL'S_LEATHERBODY
+  - item: KARILS_LEATHERTOP
     minimumAmount: 1
     maximumAmount: 1
     chance: 50
     rareDrop: false
     sendToBank: false
-  - item: KARIL'S_LEATHERSKIRT
+  - item: KARILS_LEATHERSKIRT
     minimumAmount: 1
     maximumAmount: 1
     chance: 50
     rareDrop: false
     sendToBank: false
-  - item: KARIL'S_CROSSBOW
+  - item: KARILS_CROSSBOW
     minimumAmount: 1
     maximumAmount: 1
     chance: 50

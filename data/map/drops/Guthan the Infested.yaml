@@ -16,25 +16,25 @@ alwaysDrops:
     rareDrop: false
     sendToBank: false
 drops:
-  - item: GUTHAN'S_HELM
+  - item: GUTHANS_HELM
     minimumAmount: 1
     maximumAmount: 1
     chance: 50
     rareDrop: false
     sendToBank: false
-  - item: GUTHAN'S_PLATEBODY
+  - item: GUTHANS_PLATEBODY
     minimumAmount: 1
     maximumAmount: 1
     chance: 50
     rareDrop: false
     sendToBank: false
-  - item: GUTHAN'S_CHAINSKIRT
+  - item: GUTHANS_CHAINSKIRT
     minimumAmount: 1
     maximumAmount: 1
     chance: 50
     rareDrop: false
     sendToBank: false
-  - item: GUTHAN'S_WARSPEAR
+  - item: GUTHANS_WARSPEAR
     minimumAmount: 1
     maximumAmount: 1
     chance: 50

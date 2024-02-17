@@ -76,9 +76,8 @@ public class SlayerTask {
         ObjectList<SlayerTask> eligibleTasks = new ObjectArrayList<>();
         String previousTask = player.getAttribOr(AttributeKey.PREVIOUS_SLAYER_TASK, "");
         for (SlayerTask task : this.cached) {
-            if (this.isTaskBlocked(player, task)) continue;
             if (task != null && ArrayUtils.contains(task.slayerMasters, slayerMasterId) && hasTaskRequirements(player, task)) {
-                if (!Objects.equals(task.taskName, previousTask)) {
+                if (!Objects.equals(task.taskName, previousTask) && !this.isTaskBlocked(player, task)) {
                     eligibleTasks.add(task);
                 }
             }

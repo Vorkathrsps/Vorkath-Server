@@ -296,6 +296,8 @@ public class SlayerRewards {
         var configId = player.<Integer>getAttribOr(SLAYER_WIDGET_CONFIG, 0);
         var type = player.<Integer>getAttribOr(SLAYER_WIDGET_TYPE, 0);
         var name = player.<String>getAttribOr(SLAYER_WIDGET_NAME, "");
+        SlayerTask task = World.getWorld().getSlayerTasks();
+        SlayerTask assignment = task.getCurrentAssignment(player);
 
         switch (slayerRewardButtons.getAction()) {
             case UNLOCK_INTERFACE:
@@ -317,12 +319,10 @@ public class SlayerRewards {
                 World.getWorld().shop(7).open(player);
                 return true;
             case CANCEL:
-                Slayer.cancelTask(player, false);
+                task.sendCancelTaskDialouge(player);
                 return true;
 
             case BLOCK:
-                SlayerTask task = World.getWorld().getSlayerTasks();
-                SlayerTask assignment = task.getCurrentAssignment(player);
                 int num = assignment.getRemainingTaskAmount(player);
                 if (num > 0) {
                     blockWidget();

@@ -6,7 +6,10 @@ import com.cryptic.model.content.skill.impl.slayer.SlayerConstants;
 import com.cryptic.model.entity.attributes.AttributeKey;
 import com.cryptic.model.entity.npc.NPC;
 import com.cryptic.model.entity.player.Player;
+import com.cryptic.model.entity.player.QuestTab;
 import com.cryptic.model.entity.player.Skill;
+import com.cryptic.model.inter.dialogue.Dialogue;
+import com.cryptic.model.inter.dialogue.DialogueType;
 import com.cryptic.model.items.Item;
 import com.cryptic.model.items.ground.GroundItem;
 import com.cryptic.model.items.ground.GroundItemHandler;
@@ -36,6 +39,8 @@ import java.util.Objects;
 import java.util.stream.IntStream;
 
 import static com.cryptic.model.entity.attributes.AttributeKey.SLAYER_REWARD_POINTS;
+import static com.cryptic.model.entity.player.QuestTab.InfoTab.*;
+import static com.cryptic.model.entity.player.QuestTab.InfoTab.SLAYER_POINTS;
 import static com.cryptic.utility.ItemIdentifiers.*;
 
 /**
@@ -58,7 +63,8 @@ public class SlayerTask {
 
     public void loadSlayerTasks(File file) throws IOException {
         try (FileReader reader = new FileReader(file)) {
-            Type linkedData = new TypeToken<ObjectArrayList<SlayerTask>>() {}.getType();
+            Type linkedData = new TypeToken<ObjectArrayList<SlayerTask>>() {
+            }.getType();
             cached = gson.fromJson(reader, linkedData);
             logger.info("Loaded {} Slayer Task Information", cached.size());
         }
@@ -74,10 +80,13 @@ public class SlayerTask {
         ObjectList<Integer> eligibleTasks = new ObjectArrayList<>();
         String previousTask = player.getAttribOr(AttributeKey.PREVIOUS_SLAYER_TASK, "");
         for (SlayerTask task : this.cached) {
-            if (task != null && ArrayUtils.contains(task.slayerMasters, slayerMasterId) && hasTaskRequirements(player, task)) {
-                if (!this.isTaskBlocked(player, task)) {
-                    if (!Objects.equals(task.taskName, previousTask)) {
-                        eligibleTasks.add(task.uid);
+            if (hasTaskRequirements(player, task)) {
+                if (task != null && ArrayUtils.contains(task.slayerMasters, slayerMasterId)) {
+                    if (!this.isTaskBlocked(player, task)) {
+                        if (!Objects.equals(task.taskName, previousTask)) {
+                            eligibleTasks.add(task.uid);
+                            System.out.println("adding eligible task: " + task.getTaskName());
+                        }
                     }
                 }
             }
@@ -85,16 +94,17 @@ public class SlayerTask {
         int randomIndex = World.getWorld().random().nextInt(eligibleTasks.size());
         int uid = eligibleTasks.get(randomIndex);
         SlayerTask task = this.cached.get(uid);
+        System.out.println("task found: " + task.getTaskName());
         int amount = this.generateRandomTaskAmount(task);
         boolean isWildTask = slayerMasterId == NpcIdentifiers.KRYSTILIA;
-        applyTaskAttributes(player, randomIndex, task, amount, isWildTask);
+        applyTaskAttributes(player, task.uid, task, amount, isWildTask);
         player.message(Color.BLUE.wrap("You have been assigned " + task.getTaskName() + " - Amount: " + task.getRemainingTaskAmount(player)));
     }
 
-    private void applyTaskAttributes(@NotNull Player player, int randomIndex, SlayerTask task, int amount, boolean isWildTask) {
+    private void applyTaskAttributes(@NotNull Player player, int uid, SlayerTask task, int amount, boolean isWildTask) {
         player.putAttrib(AttributeKey.PREVIOUS_SLAYER_TASK, task.taskName);
         player.putAttrib(AttributeKey.CURRENT_SLAYER_TASK, task.taskName);
-        player.putAttrib(AttributeKey.SLAYER_TASK_UID, randomIndex);
+        player.putAttrib(AttributeKey.SLAYER_TASK_UID, uid);
         player.putAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING, amount);
         player.putAttrib(AttributeKey.IS_WILDERNESS_TASK, isWildTask);
     }
@@ -123,14 +133,15 @@ public class SlayerTask {
         SlayerTask slayer = World.getWorld().getSlayerTasks();
         SlayerTask assignment = slayer.getCurrentAssignment(player);
         this.displayCurrentAssignment(player);
-        if (assignment != null) player.message(Color.BLUE.wrap("Your current Slayer assignment is: " + assignment.getTaskName() + " - Remaining Amount: " + assignment.getRemainingTaskAmount(player)));
-        List<Integer> blockedTasks = player.getSlayerRewards().getBlockedSlayerTask();
+        if (assignment != null)
+            player.message(Color.BLUE.wrap("Your current Slayer assignment is: " + assignment.getTaskName() + " - Remaining Amount: " + assignment.getRemainingTaskAmount(player)));
         for (int index = 0; index < 6; index++) {
             player.getPacketSender().sendString(63232 + index, "<col=ffa500>Unblock Task </col>");
+            player.getPacketSender().sendString(63220 + index, "Empty");
         }
         int count = 0;
-        for (int uid : blockedTasks) {
-            if (blockedTasks.size() > 0 && count <= blockedTasks.size() && blockedTasks.size() > count) {
+        for (int uid : player.getSlayerRewards().getBlockedSlayerTask()) {
+            if (player.getSlayerRewards().getBlockedSlayerTask().size() > 0 && count <= player.getSlayerRewards().getBlockedSlayerTask().size() && player.getSlayerRewards().getBlockedSlayerTask().size() > count) {
                 player.getPacketSender().sendString(63220 + count, this.cached.get(uid).taskName);
             } else {
                 player.getPacketSender().sendString(63220 + count, "Empty");
@@ -155,6 +166,67 @@ public class SlayerTask {
         player.clearAttrib(AttributeKey.SLAYER_TASK_AMOUNT_REMAINING);
         player.clearAttrib(AttributeKey.IS_WILDERNESS_TASK);
         player.putAttrib(SLAYER_REWARD_POINTS, slayerPoints - decrement);
+    }
+
+    public void sendCancelTaskDialouge(@Nonnull Player player) {
+        player.getDialogueManager().start(new Dialogue() {
+            @Override
+            protected void start(Object... parameters) {
+                send(DialogueType.OPTION, "Would you like to reset your task?", "Yes.", "No.");
+                setPhase(0);
+            }
+
+            @Override
+            protected void select(int option) {
+                SlayerTask slayer = World.getWorld().getSlayerTasks();
+                if (isPhase(0)) {
+                    if (option == 1) {
+                        send(DialogueType.OPTION, "Reset slayer task with BM or Slayer points?", "Coins (1 Million)", "Slayer Points. (30)");
+                        setPhase(1);
+                    } else {
+                        stop();
+                    }
+                } else if (isPhase(1)) {
+                    if (option == 1) {
+                        boolean canReset = false;
+                        int resetAmount = 1_000_000;
+                        int bmInInventory = player.inventory().count(COINS_995);
+                        if (bmInInventory > 0) {
+                            if (bmInInventory >= resetAmount) {
+                                canReset = true;
+                                player.inventory().remove(COINS_995, resetAmount);
+                            }
+                        }
+
+                        if (!canReset) {
+                            player.message("You do not have enough coins to do this.");
+                            stop();
+                            return;
+                        }
+                        slayer.cancelSlayerTask(player, false);
+                        slayer.displayCurrentAssignment(player);
+                        player.getPacketSender().sendString(SLAYER_TASK.childId, QuestTab.InfoTab.INFO_TAB.get(SLAYER_TASK.childId).fetchLineData(player));
+                        player.getPacketSender().sendString(TASK_STREAK.childId, QuestTab.InfoTab.INFO_TAB.get(TASK_STREAK.childId).fetchLineData(player));
+                        player.message("You have successfully cancelled your task.");
+                    } else {
+                        int pts = player.<Integer>getAttribOr(AttributeKey.SLAYER_REWARD_POINTS, 0);
+                        int required = 30;
+
+                        if (pts < 30) {
+                            player.message("You need " + required + " points to cancel your task.");
+                            return;
+                        }
+                        slayer.cancelSlayerTask(player, false);
+                        slayer.displayCurrentAssignment(player);
+                        player.getPacketSender().sendString(TASK_STREAK.childId, QuestTab.InfoTab.INFO_TAB.get(TASK_STREAK.childId).fetchLineData(player));
+                        player.getPacketSender().sendString(SLAYER_TASK.childId, QuestTab.InfoTab.INFO_TAB.get(SLAYER_TASK.childId).fetchLineData(player));
+                        player.getPacketSender().sendString(SLAYER_POINTS.childId, QuestTab.InfoTab.INFO_TAB.get(SLAYER_POINTS.childId).fetchLineData(player));
+                        player.message("You have successfully cancelled your task.");
+                    }
+                    stop();
+                }
+            }
+        });
     }
 
     public void handleSlayerDeath(Player player, NPC npc) {
@@ -244,14 +316,14 @@ public class SlayerTask {
     }
 
     public SlayerTask getCurrentAssignment(@Nonnull Player player) {
-        int id = player.getAttribOr(AttributeKey.SLAYER_TASK_UID, -1);
+        int id = player.<Integer>getAttribOr(AttributeKey.SLAYER_TASK_UID, -1);
         return id != -1 ? this.cached.get(id) : null;
     }
 
     public boolean hasTaskRequirements(@Nonnull Player player, SlayerTask task) {
-        if (task == null) return false;
-        int slayerLevel = player.getSkills().level(Skill.SLAYER.getId());
-        return player.getSkills().combatLevel() >= task.combatReq && slayerLevel >= task.slayerReq;
+        if (task == null || player.getSkills().combatLevel() < task.combatReq) return false;
+        if (player.getSkills().level(Skill.SLAYER.getId()) < task.slayerReq) return false;
+        return true;
     }
 
     public boolean isLinkedById(@Nonnull Player player, int npcId) {

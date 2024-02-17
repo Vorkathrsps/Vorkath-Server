@@ -107,7 +107,7 @@ public class SlayerPartner {
         Optional<Player> partner = World.getWorld().getPlayerByName(slayerPartner);
 
         //Partner is online so we can reward him to
-        partner.ifPresent(value -> Slayer.reward(value, npc));
+        //partner.ifPresent(value -> Slayer.reward(value, npc));
     }
 
     /**
@@ -264,7 +264,7 @@ public class SlayerPartner {
                         requestee.putAttrib(AttributeKey.SLAYER_TASK_ID, requester.getAttribOr(AttributeKey.SLAYER_TASK_ID, 0));
                         requestee.putAttrib(AttributeKey.SLAYER_TASK_AMT, requester.getAttribOr(AttributeKey.SLAYER_TASK_AMT, 0));
                         requestee.getPacketSender().sendString(SLAYER_TASK.childId, QuestTab.InfoTab.INFO_TAB.get(SLAYER_TASK.childId).fetchLineData(requestee));
-                        Slayer.displayCurrentAssignment(requestee);
+                        //Slayer.displayCurrentAssignment(requestee);
 
                         SlayerCreature task = SlayerCreature.lookup(requestee.slayerTaskId());
                         int num = requestee.slayerTaskAmount();

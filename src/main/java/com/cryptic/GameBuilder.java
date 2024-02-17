@@ -80,7 +80,6 @@ public class GameBuilder {
         tasks.add(new BloodMoneyPriceLoader());
         tasks.add(TradingPost::init);
         tasks.add(MysteryBox::load);
-        tasks.add(new Slayer()::loadMasters);
         tasks.add(Crafting::load);
         tasks.add(Fletching::load);
         tasks.add(new ShopLoader());

@@ -1,7 +1,6 @@
 package com.cryptic.model.content.skill.impl.slayer.master.impl;
 
 import com.cryptic.model.content.skill.impl.slayer.Slayer;
-import com.cryptic.model.content.skill.impl.slayer.master.SlayerMaster;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.cryptic.model.World;
 import com.cryptic.model.entity.attributes.AttributeKey;
@@ -79,11 +78,6 @@ public class Krystalia extends PacketInteraction {
             return;
         }
 
-        if(taskType.equalsIgnoreCase("boss")) {
-            SlayerMaster.assign(player, DURADEL);
-        } else {
-            SlayerMaster.assign(player, KRYSTILIA);
-        }
 
         SlayerCreature task = SlayerCreature.lookup(player.slayerTaskId());
         int num = player.slayerTaskAmount();

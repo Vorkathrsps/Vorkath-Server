@@ -2,6 +2,7 @@ package com.cryptic.model.entity.player.commands.impl.staff.admin;
 
 import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.World;
+import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.commands.Command;
 import com.cryptic.utility.Utils;
@@ -25,7 +26,8 @@ public class ResetSlayerTask implements Command {
         Optional<Player> plr = World.getWorld().getPlayerByName(player2);
         if (plr.isPresent()) {
 
-            Slayer.cancelTask(plr.get(), true);
+            SlayerTask slayer = World.getWorld().getSlayerTasks();
+            slayer.sendCancelTaskDialouge(player);
             player.message("You have reset the slayer task for player "+plr.get().getUsername()+".");
             plr.get().message("Your slayer task has been reset, talk to any slayer master for a new task.");
         }

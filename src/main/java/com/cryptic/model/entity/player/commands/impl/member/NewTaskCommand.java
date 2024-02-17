@@ -1,7 +1,9 @@
 package com.cryptic.model.entity.player.commands.impl.member;
 
+import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.slayer.Slayer;
 import com.cryptic.model.content.skill.impl.slayer.master.impl.SlayerMasterDialogue;
+import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.entity.player.Player;
 import com.cryptic.model.entity.player.commands.Command;
 import com.cryptic.model.map.position.areas.impl.WildernessArea;
@@ -24,7 +26,8 @@ public class NewTaskCommand implements Command {
             return;
         }
 
-        Slayer.cancelTask(player,true);
+        SlayerTask slayer = World.getWorld().getSlayerTasks();
+        slayer.sendCancelTaskDialouge(player);
         player.getDialogueManager().start(new SlayerMasterDialogue());
     }
 

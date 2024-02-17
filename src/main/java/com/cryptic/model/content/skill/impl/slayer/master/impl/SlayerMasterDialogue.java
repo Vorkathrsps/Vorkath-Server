@@ -1,8 +1,5 @@
 package com.cryptic.model.content.skill.impl.slayer.master.impl;
 
-import com.cryptic.model.content.skill.impl.slayer.Slayer;
-import com.cryptic.model.content.skill.impl.slayer.master.SlayerMaster;
-import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerCreature;
 import com.cryptic.model.World;
 import com.cryptic.model.content.skill.impl.slayer.slayer_task.SlayerTask;
 import com.cryptic.model.inter.dialogue.Dialogue;
